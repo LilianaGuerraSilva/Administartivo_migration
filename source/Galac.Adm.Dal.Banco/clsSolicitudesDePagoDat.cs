@@ -46,7 +46,7 @@ namespace Galac.Adm.Dal.Banco {
             vParams.AddInDateTime("FechaSolicitud", valRecord.FechaSolicitud);
             vParams.AddInEnum("Status", valRecord.StatusAsDB);
             vParams.AddInEnum("GeneradoPor", valRecord.GeneradoPorAsDB);
-            vParams.AddInString("Observaciones", valRecord.Observaciones, 40);
+            vParams.AddInString("Observaciones", valRecord.Observaciones, 60);
             vParams.AddInString("NombreOperador", ((CustomIdentity) Thread.CurrentPrincipal.Identity).Login, 10);
             vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
             if (valAction == eAccionSR.Modificar) {

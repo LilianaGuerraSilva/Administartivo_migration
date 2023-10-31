@@ -31,11 +31,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Propiedades
 
         public override string ModuleName {
-            get { return "Datos V-Pos"; }
-        }
-
-        [LibRequired(ErrorMessage = "El campo CedulaRif es requerido.")]
-            get { return "Cobro con Tajeta"; }
+            get { return "Cobros Medios Electrónicos"; }
         }
 
         public string CedulaRif {
@@ -50,7 +46,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        [LibRequired(ErrorMessage = "El campo Monto es requerido.")]
         [LibCustomValidation("MontoValidating")]
         public decimal Monto {
             get {
@@ -64,10 +59,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public RelayCommand ContinuarCommand {
-            get;
-            private set;
-        }
         public RelayCommand ContinuarCommand { get; private set; }
 
         #endregion //Propiedades
@@ -152,7 +143,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Métodos Programados
         #endregion
         #region Validaciones
-
         private ValidationResult MontoValidating() {
             ValidationResult vResult = ValidationResult.Success;
             if (Monto > 0 && Monto <= vMontoPorCobrar) {

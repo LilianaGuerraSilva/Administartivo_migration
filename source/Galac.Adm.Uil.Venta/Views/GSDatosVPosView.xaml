@@ -24,20 +24,19 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-
         </Grid.RowDefinitions>
         <Label
             Name="lblMonto"
             Grid.Row="0"
             Grid.Column="0"
-	    Width="Auto"
+            Width="Auto"
             Content="Monto"
             Visibility="Visible" />
         <nsWpfControls:GSNumericBoxWpf
             Name="txtMonto"
             Grid.Row="0"
             Grid.Column="1"
-	    Width="120"
+            Width="120"
             BorderThickness="1.5"
             DecimalDigits="2"
             Foreground="Black"

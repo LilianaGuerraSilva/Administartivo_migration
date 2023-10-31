@@ -20,6 +20,8 @@ namespace Galac.Adm.IntegracionMS.Venta {
         public string bancoTransaccion;
         public decimal montoTransaccion;
         public string numeroAutorizacion;
+        public string tipoTransaccion;
+        public string monedaTransaccion;
 
         public C2PMegasoftNav() {
             string vResult = LeerConfigKey("UrlVPOSLocal");
@@ -36,7 +38,7 @@ namespace Galac.Adm.IntegracionMS.Venta {
             var vExito = SendProcesar(request);
             return vExito.Item1;
         }
-        public bool EjecutaProcesarTarjeta(string valCedula, decimal valMonto) {
+        public bool EjecutarCobroMediosElectonicos(string valCedula, decimal valMonto) {
             request request = new request() {
                 accion = "tarjeta",
                 montoTransaccion = valMonto,
@@ -46,35 +48,6 @@ namespace Galac.Adm.IntegracionMS.Venta {
             return vExito.Item1;
         }
 
-        public bool EjecutaProcesarZelle(string valCedula, decimal valMonto) {
-                request request = new request() {
-                    accion = "tarjeta",
-                    montoTransaccion = valMonto,
-                    cedula = valCedula
-                };
-            var vExito = SendProcesar(request);
-            return vExito.Item1;
-        }
-
-        public bool EjecutaProcesarCompraP2C(string valCedula, decimal valMonto) {
-            request request = new request() {
-                accion = "tarjeta",
-                montoTransaccion = valMonto,
-                cedula = valCedula
-            };
-            var vExito = SendProcesar(request);
-            return vExito.Item1;
-        }
-
-        public bool EjecutaProcesarCompraBiopago(string valCedula, decimal valMonto) {
-            request request = new request() {
-                accion = "tarjeta",
-                montoTransaccion = valMonto,
-                cedula = valCedula
-            };
-            var vExito = SendProcesar(request);
-            return vExito.Item1;
-        }
         public bool EjecutaAnularTransaccion() {
             request  request = new request() {
                 accion = "anulacion"
@@ -131,10 +104,10 @@ namespace Galac.Adm.IntegracionMS.Venta {
                 if (vResponse.codRespuesta == Constantes.valido) {
                     infoAdicional = LibFile.FileNameOf(vResponse.nombreVoucher);
                     numeroReferencia = vResponse.numeroReferencia;
-                    montoTransaccion = LibImportData.ToDec(vResponse.montoTransaccion, 2);
-                    //bancoTransaccion = vResponse.bancoEmisorCheque;
                     numeroAutorizacion = vResponse.numeroAutorizacion;
                     montoTransaccion = LibImportData.ToDec(vResponse.montoTransaccion, 2) * 0.01m;
+                    tipoTransaccion = vResponse.tipoTransaccion;
+                    monedaTransaccion = vResponse.tipoMoneda;
                     vExito = true;
                 } else {
                     throw new LibGalac.Aos.Catching.GalacAlertException(vResponse.mensajeRespuesta);

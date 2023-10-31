@@ -324,24 +324,7 @@
         </GroupBox>
         <Label
             Grid.Row="3"
-            Grid.Column="0"
-            Height="34"
-            Margin="2"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            HorizontalContentAlignment="Center"
-            VerticalContentAlignment="Center"
-            Content="Forma de Pago"
-            FontFamily="Calibri"
-            FontSize="20"
-            FontStyle="Normal"
-            FontWeight="Bold"
-            Foreground="Black"
-            Style="{StaticResource LabelPrompt}" />
-        <Label
-            Grid.Row="3"
             Grid.Column="1"
-            Height="34"
             Margin="2"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
@@ -357,7 +340,6 @@
         <Label
             Grid.Row="3"
             Grid.Column="2"
-            Height="34"
             Margin="2"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
@@ -376,9 +358,9 @@
             Grid.ColumnSpan="3"
             Margin="2"
             FontFamily="Calibri"
-            FontSize="14"
+            FontSize="20"
             FontWeight="Bold"
-            Header="EFECTIVO"
+            Header="COBRO"
             Style="{StaticResource GroupBoxStyle}"
             Visibility="{Binding IsVisibleSeccionEfectivo}">
             <Grid Name="tbiSeccionEfectivo" Height="auto">
@@ -391,11 +373,15 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Label
                     Grid.Row="0"
                     Grid.Column="0"
-                    Height="27"
                     Margin="2"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Center"
@@ -406,6 +392,80 @@
                     FontWeight="Bold"
                     Foreground="Black"
                     Style="{StaticResource LabelPrompt}" />
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="2"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Top"
+                    Content="Tarjeta 1:"
+                    FontFamily="Calibri"
+                    FontSize="18"
+                    FontStyle="Normal"
+                    FontWeight="Bold"
+                    Foreground="Black"
+                    Style="{StaticResource LabelPrompt}" />
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="2"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Content="Tarjeta 2:"
+                    FontFamily="Calibri"
+                    FontSize="18"
+                    FontStyle="Normal"
+                    FontWeight="Bold"
+                    Foreground="Black"
+                    Style="{StaticResource LabelPrompt}" />
+                <Label
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Margin="2"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    Content="Transferencia:"
+                    FontFamily="Calibri"
+                    FontSize="18"
+                    FontStyle="Normal"
+                    FontWeight="Bold"
+                    Foreground="Black"
+                    Style="{StaticResource LabelPrompt}" />
+                <Label
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Margin="2"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Stretch"
+                    VerticalContentAlignment="Center"
+                    Content="Medios Electrónicos:"
+                    FontFamily="Calibri"
+                    FontSize="18"
+                    FontStyle="Normal"
+                    FontWeight="Bold"
+                    Foreground="Black"
+                    Style="{StaticResource LabelPrompt}"
+                    Visibility="{Binding Path=IsVisibleTotalMediosElectronicos, Converter={StaticResource booleanToVisibilityConverter}}" />
+                <Label
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Stretch"
+                    HorizontalContentAlignment="Right"
+                    VerticalContentAlignment="Center"
+                    Content="{Binding CantidadTarjetasProcesadas}"
+                    FontFamily="Calibri"
+                    FontSize="18"
+                    FontStyle="Normal"
+                    FontWeight="Normal"
+                    Foreground="Black"
+                    Style="{StaticResource LabelPrompt}"
+                    ToolTip="Tarjeta por Punto / Pago Móvil P2C / Transferencia / Zelle"
+                    Visibility="{Binding Path=IsVisibleCantidadTarjetasProcesadas, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtTotalEfectivoMonedaLocal"
                     Grid.Row="0"
@@ -421,6 +481,60 @@
                     Style="{StaticResource TextBoxInputStyle}"
                     Value="{Binding Path=EfectivoEnMonedaLocal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <nsWpfControls:GSNumericBoxWpf
+                    Name="txtTotalTarjeta1"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="8,2"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Right"
+                    DecimalDigits="2"
+                    FontSize="18"
+                    InputDataType="Decimal"
+                    MaxLength="28"
+                    Style="{StaticResource TextBoxInputStyle}"
+                    Value="{Binding Path=TarjetaUno, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                <nsWpfControls:GSNumericBoxWpf
+                    Name="txtTotalTarjeta2"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="8,2"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Right"
+                    DecimalDigits="{Binding Path=DecimalDigits}"
+                    FontSize="18"
+                    InputDataType="Decimal"
+                    MaxLength="28"
+                    Style="{StaticResource TextBoxInputStyle}"
+                    Value="{Binding Path=TarjetaDos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                <nsWpfControls:GSNumericBoxWpf
+                    Name="txtTransferenciaMonedaLocal"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Margin="8,2"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Right"
+                    DecimalDigits="{Binding Path=DecimalDigits}"
+                    FontSize="18"
+                    InputDataType="Decimal"
+                    MaxLength="28"
+                    Style="{StaticResource TextBoxInputStyle}"
+                    Value="{Binding Path=TransferenciaEnMonedaLocal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                <nsWpfControls:GSNumericBoxWpf
+                    Name="txtTotalMediosElectronicos"
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Margin="8,2"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Right"
+                    DecimalDigits="{Binding Path=DecimalDigits}"
+                    FontSize="18"
+                    InputDataType="Decimal"
+                    IsEnabled="False"
+                    MaxLength="28"
+                    Style="{StaticResource TextBoxInputStyle}"
+                    Visibility="{Binding Path=IsVisibleTotalMediosElectronicos, Converter={StaticResource booleanToVisibilityConverter}}"
+                    Value="{Binding Path=TotalMediosElectronicos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                <nsWpfControls:GSNumericBoxWpf
                     Name="txtTotalEfectivoDivisas"
                     Grid.Row="0"
                     Grid.Column="2"
@@ -435,214 +549,10 @@
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
                     Value="{Binding Path=EfectivoEnDivisas, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-            </Grid>
-        </GroupBox>
-        <GroupBox
-            Grid.Row="5"
-            Grid.Column="0"
-            Grid.ColumnSpan="3"
-            Margin="2"
-            FontFamily="Calibri"
-            FontSize="14"
-            FontWeight="Bold"
-            Header="TARJETAS"
-            Style="{StaticResource GroupBoxStyle}"
-            Visibility="{Binding IsVisibleSeccionTarjeta}">
-            <Grid Name="tbiSeccionTarjetas" Height="auto">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="47*" />
-                    <ColumnDefinition Width="159*" />
-                    <ColumnDefinition Width="205*" />
-                    <ColumnDefinition Width="89*" />
-                    <ColumnDefinition Width="116*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Label
-                    Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    Height="30"
-                    Margin="2,0,2,0"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Center"
-                    HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Top"
-                    Content="Tarjeta 1:"
-                    FontFamily="Calibri"
-                    FontSize="17"
-                    FontStyle="Normal"
-                    FontWeight="Bold"
-                    Foreground="Black"
-                    Style="{StaticResource LabelPrompt}" />
-                <Label
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    Margin="2,2,2,2"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    Content="Tarjeta 2:"
-                    FontFamily="Calibri"
-                    FontSize="17"
-                    FontStyle="Normal"
-                    FontWeight="Bold"
-                    Foreground="Black"
-                    Style="{StaticResource LabelPrompt}" />
-                <Label
-                    Grid.Row="2"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    Margin="2,2,2,2"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    Content="Medios Electrónicos:"
-                    FontFamily="Calibri"
-                    FontSize="17"
-                    FontStyle="Normal"
-                    FontWeight="Bold"
-                    Foreground="Black"
-                    Style="{StaticResource LabelPrompt}"
-                    Visibility="{Binding Path=IsVisibleTotalTarjetaVPos, Converter={StaticResource booleanToVisibilityConverter}}" />
-                <nsWpfControls:GSNumericBoxWpf
-                    Name="txtTotalTarjeta1"
-                    Grid.Row="0"
-                    Grid.Column="2"
-                    Margin="8,4,8,3"
-                    HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Right"
-                    DecimalDigits="2"
-                    FontSize="18"
-                    InputDataType="Decimal"
-                    MaxLength="28"
-                    Style="{StaticResource TextBoxInputStyle}"
-                    Value="{Binding Path=TarjetaUno, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                <nsWpfControls:GSNumericBoxWpf
-                    Name="txtTotalTarjeta2"
-                    Grid.Row="1"
-                    Grid.Column="2"
-                    Margin="8,6,8,6"
-                    HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Right"
-                    DecimalDigits="{Binding Path=DecimalDigits}"
-                    FontSize="18"
-                    InputDataType="Decimal"
-                    MaxLength="28"
-                    Style="{StaticResource TextBoxInputStyle}"
-                    Value="{Binding Path=TarjetaDos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                <nsWpfControls:GSNumericBoxWpf
-                    Name="txtTotalTarjetaVPos"
-                    Grid.Row="2"
-                    Grid.Column="2"
-                    Margin="8,7,8,7"
-                    HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Right"
-                    DecimalDigits="{Binding Path=DecimalDigits}"
-                    FontSize="18"
-                    InputDataType="Decimal"
-                    IsEnabled="False"
-                    MaxLength="28"
-                    Style="{StaticResource TextBoxInputStyle}"
-                    Visibility="{Binding Path=IsVisibleTotalTarjetaVPos, Converter={StaticResource booleanToVisibilityConverter}}"
-                    Value="{Binding Path=TotalCobrosConTddTdcVPos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                <Label
-                    Grid.Row="2"
-                    Grid.Column="3"
-                    Width="79"
-                    Margin="0,2,0,2"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Stretch"
-                    HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    Content="Cant. Op.:"
-                    FontFamily="Calibri"
-                    FontSize="17"
-                    FontStyle="Normal"
-                    FontWeight="Normal"
-                    Foreground="Black"
-                    Style="{StaticResource LabelPrompt}"
-                    Visibility="{Binding Path=IsVisibleCantidadTarjetasProcesadas, Converter={StaticResource booleanToVisibilityConverter}}" />
-                <Label
-                    Grid.Row="2"
-                    Grid.Column="4"
-                    Margin="0,0,79,3"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    HorizontalContentAlignment="Left"
-                    VerticalContentAlignment="Center"
-                    Content="{Binding CantidadTarjetasProcesadas}"
-                    FontFamily="Calibri"
-                    FontSize="17"
-                    FontStyle="Normal"
-                    FontWeight="Normal"
-                    Foreground="Black"
-                    Style="{StaticResource LabelPrompt}"
-                    Visibility="{Binding Path=IsVisibleCantidadTarjetasProcesadas, Converter={StaticResource booleanToVisibilityConverter}}" />
-            </Grid>
-        </GroupBox>
-        <GroupBox
-            Grid.Row="6"
-            Grid.Column="0"
-            Grid.ColumnSpan="3"
-            Margin="2"
-            FontFamily="Calibri"
-            FontSize="14"
-            FontWeight="Bold"
-            Header="TRANSFERENCIAS"
-            Style="{StaticResource GroupBoxStyle}"
-            Visibility="{Binding IsVisibleSeccionTransferencia}">
-            <Grid Name="tbiSeccionTransferencias" Height="auto">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Label
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Height="27"
-                    Margin="2"
-                    HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Center"
-                    Content="Transferencia:"
-                    FontFamily="Calibri"
-                    FontSize="18"
-                    FontStyle="Normal"
-                    FontWeight="Bold"
-                    Foreground="Black"
-                    Style="{StaticResource LabelPrompt}" />
-                <nsWpfControls:GSNumericBoxWpf
-                    Name="txtTransferenciaMonedaLocal"
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    Height="24"
-                    Margin="8,2"
-                    HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Right"
-                    DecimalDigits="{Binding Path=DecimalDigits}"
-                    FontSize="18"
-                    InputDataType="Decimal"
-                    MaxLength="28"
-                    Style="{StaticResource TextBoxInputStyle}"
-                    Value="{Binding Path=TransferenciaEnMonedaLocal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtTransferenciaDivisas"
-                    Grid.Row="0"
+                    Grid.Row="3"
                     Grid.Column="2"
-                    Height="24"
                     Margin="8,2"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Right"
@@ -652,6 +562,21 @@
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
                     Value="{Binding Path=TransferenciaEnDivisas, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                <nsWpfControls:GSNumericBoxWpf
+                    Name="txtTotalMediosElectronicosME"
+                    Grid.Row="4"
+                    Grid.Column="2"
+                    Margin="8,2"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Right"
+                    DecimalDigits="{Binding Path=DecimalDigits}"
+                    FontSize="18"
+                    InputDataType="Decimal"
+                    IsEnabled="False"
+                    MaxLength="28"
+                    Style="{StaticResource TextBoxInputStyle}"
+                    Visibility="{Binding Path=IsVisibleTotalMediosElectronicos, Converter={StaticResource booleanToVisibilityConverter}}"
+                    Value="{Binding Path=TotalMediosElectronicosME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
         </GroupBox>
         <GroupBox
@@ -660,7 +585,7 @@
             Grid.ColumnSpan="3"
             Margin="2"
             FontFamily="Calibri"
-            FontSize="14"
+            FontSize="20"
             FontWeight="Bold"
             Header="VUELTO"
             Style="{StaticResource GroupBoxStyle}"
@@ -735,7 +660,7 @@
                     FontWeight="Bold"
                     Foreground="Black"
                     Style="{StaticResource LabelPrompt}"
-		    Visibility="{Binding Path=IsVisibleMediosElectronicosDeCobro, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    Visibility="{Binding Path=IsVisibleMediosElectronicosDeCobro, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtVueltoPagoMovil"
                     Grid.Row="1"
@@ -750,7 +675,7 @@
                     IsEnabled="False"
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
-		    Visibility="{Binding Path=IsVisibleMediosElectronicosDeCobro, Converter={StaticResource booleanToVisibilityConverter}}"
+                    Visibility="{Binding Path=IsVisibleMediosElectronicosDeCobro, Converter={StaticResource booleanToVisibilityConverter}}"
                     Value="{Binding Path=VueltoC2p, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <Border
                     Grid.Row="2"

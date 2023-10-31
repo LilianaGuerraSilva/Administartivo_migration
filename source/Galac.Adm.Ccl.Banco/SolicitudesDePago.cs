@@ -83,7 +83,7 @@ namespace Galac.Adm.Ccl.Banco {
 
         public string Observaciones {
             get { return _Observaciones; }
-            set { _Observaciones = LibString.Mid(value, 0, 40); }
+            set { _Observaciones = LibString.Mid(value, 0, 60); }
         }
 
         public string NombreOperador {
