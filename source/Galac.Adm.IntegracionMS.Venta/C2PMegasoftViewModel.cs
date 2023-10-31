@@ -212,7 +212,7 @@ namespace Galac.Adm.IntegracionMS.Venta {
                 string vTelefono = LibEnumHelper.GetDescription(CodigoTelefono) + NumeroTelefono;
                 string vCodigoBanco = LibText.Mid(LibEnumHelper.GetDescription(Banco), 0, 4);
                 string vVuelto = LibConvert.NumberWithCommasAndDot(Vuelto, LibConvert.ToByte(Vuelto.ToString().Length+1) , 2, eAlignmentType.Right).Replace(",","");
-                string vNumeroControl = "";
+                //string vNumeroControl = "";
                 //LibResponse vResult = megasoftNav.EjecutaCambioPagoMovil(vCedula, vTelefono, vCodigoBanco, vVuelto, NroFactura, ref vNumeroControl);
                 //if (vResult != null) {
                 //    EstadoProceso = vResult.Success;

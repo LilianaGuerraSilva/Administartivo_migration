@@ -19,7 +19,17 @@ namespace Galac.Saw.Ccl.Tablas {
         [LibEnumDescription("Vuelto Efectivo")]
         VueltoEfectivo,
 		[LibEnumDescription("Vuelto C2P")]
-        VueltoC2P
+        VueltoC2P, 
+        [LibEnumDescription("Cobro con Tarjeta")]
+        CobroConTarjeta,
+        [LibEnumDescription("Cobro Zelle")]
+        CobroZelle,
+        [LibEnumDescription("Cobro P2C")]
+        CobroPagoMovil,
+        [LibEnumDescription("Cobro con Transferencia")]
+        CobroTransferencia,
+        [LibEnumDescription("Cobro C2P")]
+        CobroC2P
     }
 
 

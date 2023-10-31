@@ -10,9 +10,37 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 	class clsVersionTemporalNoOficial: clsVersionARestructurar {
 		public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
 		public override bool UpdateToVersion() {
-			StartConnectionNoTransaction();           
+			StartConnectionNoTransaction();
+			AmpliarCampoObservacionesSolicitudDePago();
+			AgregaNuevosRegistrosTipoFormaDelCobro();
 			DisposeConnectionNoTransaction();
 			return true;
-		}        		
+		}
+
+		private void AmpliarCampoObservacionesSolicitudDePago() {
+			string vSQL = "ALTER TABLE " + LibDbo.ToFullDboName("Saw.SolicitudesDePago") + " ALTER COLUMN Observaciones VARCHAR(60) NULL";
+			Execute(vSQL, 0);
+		}
+
+		private void AgregaNuevosRegistrosTipoFormaDelCobro() {
+			LibDatabase insDb = new LibDatabase();
+			string vNextCode = insDb.NextStrConsecutive("Saw.formaDelCobro", "Codigo", "", true, 5);
+			Execute(SqlInsertarFormaDeCobro(vNextCode, "CobroConTarjeta", eTipoDeFormaDePago.CobroConTarjeta));
+			vNextCode = insDb.NextStrConsecutive("Saw.formaDelCobro", "Codigo", "", true, 5);
+			Execute(SqlInsertarFormaDeCobro(vNextCode, "CobroZelle", eTipoDeFormaDePago.CobroZelle));
+			vNextCode = insDb.NextStrConsecutive("Saw.formaDelCobro", "Codigo", "", true, 5);
+			Execute(SqlInsertarFormaDeCobro(vNextCode, "CobroPagoMovil", eTipoDeFormaDePago.CobroPagoMovil));
+			vNextCode = insDb.NextStrConsecutive("Saw.formaDelCobro", "Codigo", "", true, 5);
+			Execute(SqlInsertarFormaDeCobro(vNextCode, "CobroTransferencia", eTipoDeFormaDePago.CobroTransferencia));
+			vNextCode = insDb.NextStrConsecutive("Saw.formaDelCobro", "Codigo", "", true, 5);
+			Execute(SqlInsertarFormaDeCobro(vNextCode, "CobroC2P", eTipoDeFormaDePago.CobroC2P));
+		}
+
+		string SqlInsertarFormaDeCobro(string valCodigo, string valNombre, eTipoDeFormaDePago valTipoDePago) {
+			StringBuilder vSql = new StringBuilder();
+			vSql.AppendLine("INSERT INTO Saw.FormaDelCobro (Codigo, Nombre, TipoDePago) VALUES (");
+			vSql.AppendLine(InsSql.ToSqlValue(valCodigo) + ", " + InsSql.ToSqlValue(valNombre) + ", " + InsSql.EnumToSqlValue((int)valTipoDePago) + ")");
+			return vSql.ToString();
+		}
 	}
 }   

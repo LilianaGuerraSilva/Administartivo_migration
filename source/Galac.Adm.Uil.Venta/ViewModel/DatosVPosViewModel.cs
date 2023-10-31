@@ -33,7 +33,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Propiedades
 
         public override string ModuleName {
-            get { return "Cobro con Tarjeta"; }
+            get { return "Cobros Medios Electrónicos"; }
         }
 
         public string CedulaRif {

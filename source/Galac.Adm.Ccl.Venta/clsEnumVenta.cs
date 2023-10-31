@@ -213,12 +213,30 @@ namespace Galac.Adm.Ccl.Venta {
         [LibEnumDescription("Anticipo", Index = 0)]
         [LibEnumDescription("00005", Index = 1)]
         Anticipo,
+        [LibEnumDescription("Transferencia", Index = 0)]
+        [LibEnumDescription("00006", Index = 1)]
+        Transferencia,
         [LibEnumDescription("Vuelto Efectivo", Index = 0)]
         [LibEnumDescription("00007", Index = 1)]
         VueltoEfectivo,
         [LibEnumDescription("Vuelto Pago Móvil", Index = 0)]
         [LibEnumDescription("00008", Index = 1)]
-        VueltoPM
+        VueltoPM,
+        [LibEnumDescription("Cobro Con Tarjeta")]
+        [LibEnumDescription("00009", Index = 1)]
+        CobroConTarjeta,
+        [LibEnumDescription("Cobro Zelle")]
+        [LibEnumDescription("00010", Index = 1)]
+        CobroZelle,
+        [LibEnumDescription("Cobro P2C")]
+        [LibEnumDescription("00011", Index = 1)]
+        CobroPagoMovil,
+        [LibEnumDescription("Cobro con Transferencia")]
+        [LibEnumDescription("00012", Index = 1)]
+        CobroTransferencia,
+        [LibEnumDescription("Cobro C2P")]
+        [LibEnumDescription("00013", Index = 1)]
+        CobroC2P
     }
 
     [TypeConverter(typeof(LibEnumTypeConverter))]
