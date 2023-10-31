@@ -792,7 +792,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                                     ImprimirComprobanteNoFiscalAdicional("Vuelto con Pago Móvil", infoAdicional);
                                     _EsVueltoPagoMovil = false;
                                 } else {
-                                    foreach (var vTarjeta in ListaCobrosConTddTdcVPos) {
+                                    foreach (var vTarjeta in ListaCobroCobroMediosElectonicosVPOS) {
                                         ImprimirComprobanteNoFiscalAdicional("Cobro con Medios Electrónicos", vTarjeta.InfoAdicional);
                                     }
                                 }
