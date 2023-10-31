@@ -27,7 +27,7 @@ namespace Galac.Adm.Dal.Banco {
             SQL.AppendLine("FechaSolicitud" + InsSql.DateTypeForDb() + " CONSTRAINT nnSolDePagFechaSolic NOT NULL, ");
             SQL.AppendLine("Status" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnSolDePagStatus NOT NULL, ");
             SQL.AppendLine("GeneradoPor" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnSolDePagGeneradoPo NOT NULL, ");
-            SQL.AppendLine("Observaciones" + InsSql.VarCharTypeForDb(40) + " CONSTRAINT d_SolDePagOb DEFAULT (''), ");
+            SQL.AppendLine("Observaciones" + InsSql.VarCharTypeForDb(60) + " CONSTRAINT d_SolDePagOb DEFAULT (''), ");
             SQL.AppendLine("NombreOperador" + InsSql.VarCharTypeForDb(20) + ", ");
             SQL.AppendLine("FechaUltimaModificacion" + InsSql.DateTypeForDb() + ", ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
@@ -62,7 +62,7 @@ namespace Galac.Adm.Dal.Banco {
             SQL.AppendLine("@FechaSolicitud" + InsSql.DateTypeForDb() + " = '01/01/1900',");
             SQL.AppendLine("@Status" + InsSql.CharTypeForDb(1) + " = '0',");
             SQL.AppendLine("@GeneradoPor" + InsSql.CharTypeForDb(1) + " = '0',");
-            SQL.AppendLine("@Observaciones" + InsSql.VarCharTypeForDb(40) + " = '',");
+            SQL.AppendLine("@Observaciones" + InsSql.VarCharTypeForDb(60) + " = '',");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(20) + " = '',");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + " = '01/01/1900'");
             return SQL.ToString();
@@ -116,7 +116,7 @@ namespace Galac.Adm.Dal.Banco {
             SQL.AppendLine("@FechaSolicitud" + InsSql.DateTypeForDb() + ",");
             SQL.AppendLine("@Status" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@GeneradoPor" + InsSql.CharTypeForDb(1) + ",");
-            SQL.AppendLine("@Observaciones" + InsSql.VarCharTypeForDb(40) + ",");
+            SQL.AppendLine("@Observaciones" + InsSql.VarCharTypeForDb(60) + ",");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(20) + ",");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + ",");
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());

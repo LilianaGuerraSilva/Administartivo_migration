@@ -31,7 +31,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Propiedades
 
         public override string ModuleName {
-            get { return "Cobro con Tajeta"; }
+            get { return "Cobros Medios Electrónicos"; }
         }
 
         public string CedulaRif {
