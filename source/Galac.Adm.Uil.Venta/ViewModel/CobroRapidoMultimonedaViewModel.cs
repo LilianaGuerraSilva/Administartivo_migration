@@ -112,7 +112,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private decimal _CantidadTarjetasProcesadas;
         private bool _ImprimirComprobante;
         private bool _EsVueltoPagoMovil;
-        private XElement _XmlListaVoucherMediosElectronicos;
+        private string _ListaVoucherMediosElectronicos;
         #endregion
 
         public enum eBorderBackMontoXPagarColor {
@@ -577,9 +577,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public XElement XmlListaVoucherMediosElectronicos {
+        public string ListaVoucherMediosElectronicos {
             get {
-                return _XmlListaVoucherMediosElectronicos;
+                return _ListaVoucherMediosElectronicos;
             }
         }
 
@@ -779,7 +779,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 if (_EsFacturaTradicional) {
                     _XmlDatosDelCobro = CrearXmlDatosDelCobro(vListaDecobro);
                     _XmlDatosIGTF = CrearXmlDatosIGTF();
-                    _XmlListaVoucherMediosElectronicos = CrearXmlListaVoucherMediosElectronicos();
+                    _ListaVoucherMediosElectronicos = CrearListaVoucherMediosElectronicos();
                     if (SeCobro != null) {
                         SeCobro.Invoke(true);
                     }
@@ -826,7 +826,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
                 if (insVueltoMegasoft.EjecutaProcesarCambioPagoMovil(CodigoCliente, LibMath.Abs(MontoRestantePorPagar))) {
                     VueltoC2p = (MontoRestantePorPagar - VueltoEfectivoMonedaLocal);
-                    infoAdicional = insVueltoMegasoft.infoAdicional;
+                    infoAdicional = "12.txt";//insVueltoMegasoft.infoAdicional;
                     numReferencia = insVueltoMegasoft.numeroReferencia;
                     if (MontoRestantePorPagar <= 0 || (MontoRestantePorPagar > 0 && MontoRestantePorPagarEnDivisas == 0)) {
                         _ImprimirComprobante = XmlDatosImprFiscal != null && LibMessages.MessageBox.YesNo(this, "¿Desea imprimir comprobante de Vuelto Pago Móvil?", ModuleName);
@@ -877,11 +877,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                             ListaCobroCobroMediosElectonicosVPOS.Add(new CobroCobroMediosElectonicosVPOS() {
                                 MontoTransaccion = insMegasoft.montoTransaccion,
                                 NumReferencia = insMegasoft.numeroAutorizacion,
-                                InfoAdicional = insMegasoft.infoAdicional,
+                                InfoAdicional = "18.txt",
                                 CodigoFormaDelCorbor = TipoDeTransaccionCobro(insMegasoft.tipoTransaccion),
                                 MonedaTransaccion = vMonedaTransaccion
                             });
-                            ;
                             CantidadTarjetasProcesadas += 1;
                         }
                     }
@@ -1300,23 +1299,21 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             return vXElementIGTF;
         }
 
-        private XElement CrearXmlListaVoucherMediosElectronicos() {
+        private string CrearListaVoucherMediosElectronicos() {
             string vPath = Path.Combine(new PagosElectronicosMngViewModel().RutaMegasoft, "vouchers");
-            XElement vXElementVoucher = new XElement("GpData", new XElement("GpResult"));
-            int vCountElement = 1;
+            string vResult = "";         
             if (_ImprimirComprobante) {
                 if (_EsVueltoPagoMovil) {
-                    vXElementVoucher.Add(new XElement("Voucher" + LibConvert.ToStr(vCountElement), Path.Combine(vPath, infoAdicional)));
+                    vResult = Path.Combine(vPath, infoAdicional) + ",";
                 } else {
                     foreach (var vVoucherName in ListaCobroCobroMediosElectonicosVPOS) {
-                        vXElementVoucher.Add(new XElement("Voucher" + LibConvert.ToStr(vCountElement), Path.Combine(vPath, vVoucherName.InfoAdicional)));
-                        vCountElement++;
+                        vResult = vResult + "," + Path.Combine(vPath, Path.Combine(vPath, vVoucherName.InfoAdicional));
                     }
                 }
             } else {
-                vXElementVoucher = null;
+                vResult = "";
             }
-            return vXElementVoucher;
+            return vResult;
         }
 
         private void DeshabilitarControlesSegunTipoDeDocumento(eTipoDocumentoFactura valTipoDeDocumento) {

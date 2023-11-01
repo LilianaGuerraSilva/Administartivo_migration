@@ -24,9 +24,8 @@ namespace Galac.Adm.Uil.Venta {
             LibMessages.EditViewModel.ShowEditor(vViewModel, true);
             string vResult = vViewModel.XmlDatosDelCobro != null ? vViewModel.XmlDatosDelCobro.ToString() : string.Empty;
             string vCobroIGTF = vViewModel.XmlDatosIGTF != null ? vViewModel.XmlDatosIGTF.ToString() : string.Empty;
-            string vListaVoucherMediosElectronicos = vViewModel.XmlListaVoucherMediosElectronicos != null ? vViewModel.XmlListaVoucherMediosElectronicos.ToString() : string.Empty;
-            refIGTFParameters = vCobroIGTF;
-            refListaVoucherMediosElectronicos = vListaVoucherMediosElectronicos;
+            refListaVoucherMediosElectronicos = vViewModel.ListaVoucherMediosElectronicos;
+            refIGTFParameters = vCobroIGTF;          
             return vResult;
         }
 

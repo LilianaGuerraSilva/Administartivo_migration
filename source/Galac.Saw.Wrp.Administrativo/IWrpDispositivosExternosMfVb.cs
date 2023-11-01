@@ -27,6 +27,6 @@ namespace Galac.Saw.Wrp.DispositivosExternos
         bool ImprimirVenta(string vfwXmlImpresoraFiscal, string vfwXmlDocumentoFiscal,ref string NumDocumento);
         bool ImprimirNotaDeCredito(string vfwXmlImpresoraFiscal, string vfwXmlDocumentoFiscal,ref string NumDocumento);
         bool AnularDocumentoFiscal(string vfwXmlImpresoraFiscal, bool vfwXmlAbrirConexion);
-        bool ImprimirDocumentoNoFiscal(string vfwXmlImpresoraFiscal, string valTextoNoFiscal, string valDescripcion);
+        bool ImprimirDocumentoNoFiscal(string vfwXmlImpresoraFiscal, string valListaVoucherDePago, string valDescripcion);
     }
 }

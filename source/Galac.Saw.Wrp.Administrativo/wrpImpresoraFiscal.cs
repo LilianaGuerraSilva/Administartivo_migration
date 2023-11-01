@@ -190,11 +190,11 @@ namespace Galac.Saw.Wrp.DispositivosExternos {
             return false;
         }
 
-        bool IWrpImpresoraFisaclVb.ImprimirDocumentoNoFiscal(string vfwXmlImpresoraFiscal, string valTextoNoFiscal, string valDescripcion) {
+        bool IWrpImpresoraFisaclVb.ImprimirDocumentoNoFiscal(string vfwXmlImpresoraFiscal, string valListaVoucherDePago, string valDescripcion) {
             try {
                 bool vReady = false;
                 clsImpresoraFiscalMenu insImpresoraFiscalMenu = new clsImpresoraFiscalMenu();
-                vReady = insImpresoraFiscalMenu.RealizarReporteZ(true, vfwXmlImpresoraFiscal);
+                vReady = insImpresoraFiscalMenu.ImprimirDocumentoNoFiscal(vfwXmlImpresoraFiscal, valListaVoucherDePago, valDescripcion);
                 return vReady;
             } catch (Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, "Impresora Fiscal");
