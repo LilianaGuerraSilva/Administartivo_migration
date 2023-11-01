@@ -181,13 +181,15 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
                 clsImpresoraFiscalCreator vCreatorMaquinaFiscal = new clsImpresoraFiscalCreator();
                 IImpresoraFiscalPdn insMaquinaFiscal = vCreatorMaquinaFiscal.Crear(xmlImpresoraFiscal);
                 string[] arrListaVoucher = LibString.Split(valListaVoucherDePago, ",");
-                if (arrListaVoucher != null && arrListaVoucher.Count() > 0) {
+                if (arrListaVoucher != null && arrListaVoucher.Count() > 0) {                    
                     foreach (string vVoucher in arrListaVoucher) {
-                        if (LibFile.FileExists(vVoucher)) {
-                            string vTexto = LibFile.ReadFile(vVoucher);
-                            vResult = insMaquinaFiscal.ImprimirDocumentoNoFiscal(vTexto, valDescripcion);
-                        } else {
-                            LibMessages.MessageBox.Information(this, $"el archivo de comprobante: {vVoucher} no fue encontrado", "Impresora Fiscal");
+                        if (!LibString.IsNullOrEmpty(vVoucher)) {
+                            if (LibFile.FileExists(vVoucher)) {
+                                string vTexto = LibFile.ReadFile(vVoucher);
+                                vResult = insMaquinaFiscal.ImprimirDocumentoNoFiscal(vTexto, valDescripcion);
+                            } else {
+                                LibMessages.MessageBox.Information(this, $"el archivo de comprobante: {vVoucher} no fue encontrado", "Impresora Fiscal");
+                            }
                         }
                     }
                 }
