@@ -719,6 +719,7 @@ Public Sub sImprimeComprobanteNoFiscal(ByRef refDatosImprFiscal As Object, ByRef
    Dim insfrmImpresionFiscal As frmImpresorasFiscales
    On Error GoTo h_Error
    Set insfrmImpresionFiscal = New frmImpresorasFiscales
+   refDatosImprFiscal.SetEstado Enum_EstadoImpresionFiscal.eEIF_IMPRIME_DOCUMENTO_NOFISCAL
    insfrmImpresionFiscal.sInitLookAndFeelAndSetValues refDatosImprFiscal, Ready
    Set insfrmImpresionFiscal = Nothing
 h_EXIT: On Error GoTo 0

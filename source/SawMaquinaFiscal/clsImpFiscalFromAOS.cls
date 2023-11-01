@@ -207,6 +207,7 @@ Public Sub ImprimeComprobanteNoFiscal(ByVal valDatosImprFiscal As clsDatosImprFi
    objWrapper.InitializeComponent gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword, gWorkPaths.fAppPath & gDefProg.GetConfigFileName
    objWrapper.InitializeDefProg gDefProg.GetSiglasDelPrograma, gDefProg.GetVersionDelPrograma, gDefProg.GetVersionBaseDeDatos, gConvert.dateToString(gDefProg.GetFechaDeLaVersion), gConvert.dateToString(gDefProg.GetFechaDeLaVersion), "", "", gConvert.fConvierteAString(1), False
    refReady = objWrapper.ImprimirDocumentoNoFiscal(insclsUtilImprFiscal.fGenerarXmlConDatosDeLaMaquinaFiscal(valDatosImprFiscal), valDatosImprFiscal.GetListaVouchersDePago, "Comprobante No Fiscal")
+   refReady = True
    Set objWrapper = Nothing
    Set insclsUtilImprFiscal = Nothing
 h_EXIT: On Error GoTo 0
