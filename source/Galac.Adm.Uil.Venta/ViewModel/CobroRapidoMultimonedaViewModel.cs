@@ -820,8 +820,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     infoAdicional = insVueltoMegasoft.infoAdicional;
                     numReferencia = insVueltoMegasoft.numeroReferencia;
                     if (MontoRestantePorPagar <= 0 || (MontoRestantePorPagar > 0 && MontoRestantePorPagarEnDivisas == 0)) {
-                        _ImprimirComprobante = LibMessages.MessageBox.YesNo(this, "¿Desea imprimir comprobante de Vuelto Pago Móvil?", ModuleName);
-                        _EsVueltoPagoMovil = true;
+                        _ImprimirComprobante = XmlDatosImprFiscal != null && LibMessages.MessageBox.YesNo(this, "¿Desea imprimir comprobante de Vuelto Pago Móvil?", ModuleName);
+                        _EsVueltoPagoMovil = XmlDatosImprFiscal != null;
                         ExecuteCobrarCommand();
                     }
                 }
@@ -853,8 +853,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     vDatosVpos.vResultCobroTDDTDC += (arg) => vResultCobroTDDTDC = arg;
                     vDatosVpos.InitializeViewModel(cedulaRif, vDatosVpos.Monto);
                     LibMessages.EditViewModel.ShowEditor(vDatosVpos, true);
-                    _ImprimirComprobante = vDatosVpos.ImprimirComprobanteDePago;
-                    C2PMegasoftNav insMegasoft = new C2PMegasoftNav();
+                    _ImprimirComprobante = XmlDatosImprFiscal != null && vDatosVpos.ImprimirComprobanteDePago;
+                    C2PMegasoftNav insMegasoft =  new C2PMegasoftNav();
                     if (insMegasoft.EjecutarCobroMediosElectonicos(vDatosVpos.CedulaRif, LibMath.Abs(vDatosVpos.Monto))) {
                         if (insMegasoft.montoTransaccion > 0) {
                             if (insMegasoft.monedaTransaccion == vMoneda.CodigoMonedaExtranjera) {
