@@ -826,11 +826,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
                 if (insVueltoMegasoft.EjecutaProcesarCambioPagoMovil(CodigoCliente, LibMath.Abs(MontoRestantePorPagar))) {
                     VueltoC2p = (MontoRestantePorPagar - VueltoEfectivoMonedaLocal);
-                    infoAdicional = "12.txt";//insVueltoMegasoft.infoAdicional;
+                    infoAdicional = insVueltoMegasoft.infoAdicional;
                     numReferencia = insVueltoMegasoft.numeroReferencia;
                     if (MontoRestantePorPagar <= 0 || (MontoRestantePorPagar > 0 && MontoRestantePorPagarEnDivisas == 0)) {
-                        _ImprimirComprobante = XmlDatosImprFiscal != null && LibMessages.MessageBox.YesNo(this, "¿Desea imprimir comprobante de Vuelto Pago Móvil?", ModuleName);
-                        _EsVueltoPagoMovil = XmlDatosImprFiscal != null;
+                        _ImprimirComprobante = (XmlDatosImprFiscal != null || _EsFacturaTradicional) && LibMessages.MessageBox.YesNo(this, "¿Desea imprimir comprobante de Vuelto Pago Móvil?", ModuleName);
+                        _EsVueltoPagoMovil = (XmlDatosImprFiscal != null || _EsFacturaTradicional);
                         ExecuteCobrarCommand();
                     }
                 }
@@ -862,7 +862,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     vDatosVpos.vResultCobroTDDTDC += (arg) => vResultCobroTDDTDC = arg;
                     vDatosVpos.InitializeViewModel(cedulaRif, vDatosVpos.Monto);
                     LibMessages.EditViewModel.ShowEditor(vDatosVpos, true);
-                    _ImprimirComprobante = XmlDatosImprFiscal != null && vDatosVpos.ImprimirComprobanteDePago;
+                    _ImprimirComprobante = (XmlDatosImprFiscal != null || _EsFacturaTradicional) && vDatosVpos.ImprimirComprobanteDePago;
                     C2PMegasoftNav insMegasoft = new C2PMegasoftNav();
                     if (insMegasoft.EjecutarCobroMediosElectonicos(vDatosVpos.CedulaRif, LibMath.Abs(vDatosVpos.Monto))) {
                         if (insMegasoft.montoTransaccion > 0) {
@@ -1301,7 +1301,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private string CrearListaVoucherMediosElectronicos() {
             string vPath = Path.Combine(new PagosElectronicosMngViewModel().RutaMegasoft, "vouchers");
-            string vResult = "";         
+            string vResult = "";
             if (_ImprimirComprobante) {
                 if (_EsVueltoPagoMovil) {
                     vResult = Path.Combine(vPath, infoAdicional) + ",";
