@@ -170,7 +170,22 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
             } catch(Exception) {                
                 throw;
             }            
-        }       
+        }
+
+        public bool ImprimirDocumentoNoFiscal(string vfwXmlImpresoraFiscal, string valTextoNoFiscal, string valDescripcion) {
+            try {
+                bool vResult = false;
+                vfwXmlImpresoraFiscal = LimpiarXmlAntesDeParsear(vfwXmlImpresoraFiscal);
+                XElement xmlImpresoraFiscal = LibXml.ToXElement(vfwXmlImpresoraFiscal);
+                clsImpresoraFiscalCreator vCreatorMaquinaFiscal = new clsImpresoraFiscalCreator();
+                IImpresoraFiscalPdn insIMaquinaFiscal = vCreatorMaquinaFiscal.Crear(xmlImpresoraFiscal);
+                vResult = insIMaquinaFiscal.ImprimirDocumentoNoFiscal(valTextoNoFiscal, valDescripcion);
+                insIMaquinaFiscal = null;
+                return vResult;
+            } catch (Exception) {
+                throw;
+            }
+        }
 
         public bool ReimprimirDocumentoFiscal(string valDesde,string valHasta,string valTipo) {
             throw new NotImplementedException();

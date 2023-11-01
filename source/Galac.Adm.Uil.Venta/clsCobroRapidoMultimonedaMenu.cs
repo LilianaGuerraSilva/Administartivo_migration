@@ -11,12 +11,11 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace Galac.Adm.Uil.Venta
-{
-    public class clsCobroRapidoMultimonedaMenu : ILibMenu {
+namespace Galac.Adm.Uil.Venta {
+    public class clsCobroRapidoMultimonedaMenu: ILibMenu {
 
         private bool cobro = false;
-        public string MostrarPantallaDeCobroRapidoEnMultimoneda(int valConsecutivoCompania, string valNumeroFactura, DateTime valFecha, decimal valTotalFactura, string valTipoDeDocumento, string valCodigoMonedaDelDocumento, string valCodigoMonedaDeCobro, string valFechaDocumento, string valTipoDeContribuyenteDelIva, ref string refIGTFParameters, string valCedulaRif) {
+        public string MostrarPantallaDeCobroRapidoEnMultimoneda(int valConsecutivoCompania, string valNumeroFactura, DateTime valFecha, decimal valTotalFactura, string valTipoDeDocumento, string valCodigoMonedaDelDocumento, string valCodigoMonedaDeCobro, string valFechaDocumento, string valTipoDeContribuyenteDelIva, string valCedulaRif, ref string refIGTFParameters, ref string refListaVoucherMediosElectronicos) {
             eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)LibConvert.DbValueToEnum(valTipoDeDocumento);
             eTipoDeContribuyenteDelIva vTipoDeContribuyenteDelIva = (eTipoDeContribuyenteDelIva)LibConvert.DbValueToEnum(valTipoDeContribuyenteDelIva);
             decimal vAlicuotaIGTF = new Brl.Venta.clsFacturaNav().BuscaAlicuotaImpTranscBancarias(valFecha, vTipoDeContribuyenteDelIva);
@@ -24,8 +23,10 @@ namespace Galac.Adm.Uil.Venta
             vViewModel.SeCobro += (arg) => cobro = arg;
             LibMessages.EditViewModel.ShowEditor(vViewModel, true);
             string vResult = vViewModel.XmlDatosDelCobro != null ? vViewModel.XmlDatosDelCobro.ToString() : string.Empty;
-            string vCobroIGTF= vViewModel.XmlDatosIGTF != null ? vViewModel.XmlDatosIGTF.ToString() : string.Empty;
+            string vCobroIGTF = vViewModel.XmlDatosIGTF != null ? vViewModel.XmlDatosIGTF.ToString() : string.Empty;
+            string vListaVoucherMediosElectronicos = vViewModel.XmlListaVoucherMediosElectronicos != null ? vViewModel.XmlListaVoucherMediosElectronicos.ToString() : string.Empty;
             refIGTFParameters = vCobroIGTF;
+            refListaVoucherMediosElectronicos = vListaVoucherMediosElectronicos;
             return vResult;
         }
 
