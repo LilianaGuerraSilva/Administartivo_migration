@@ -792,17 +792,30 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         insFactura.TotalAPagar = TotalAPagarML;
                         clsRenglonCobroDeFacturaNav vRenglonCobro = new clsRenglonCobroDeFacturaNav();
                         IRenglonCobroDeFacturaPdn vRenglonCobroDeFactura = new clsRenglonCobroDeFacturaNav();
+                        string vPath = Path.Combine(new PagosElectronicosMngViewModel().RutaMegasoft, "vouchers");
                         DialogResult = vRenglonCobro.InsertChildRenglonCobroDeFactura(ConsecutivoCompania, NumeroFactura, eTipoDocumentoFactura.ComprobanteFiscal, vListaDecobro).Success;
                         if (DialogResult) {
                             vListaDecobro.RemoveAll(x => x.CodigoFormaDelCobro == insRenglonCobroDeFacturaPdn.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoEfectivo) || x.CodigoFormaDelCobro == insRenglonCobroDeFacturaPdn.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoC2P));
                             SeImprimio = ImprimirFacturaFiscal(vListaDecobro);
                             if (_ImprimirComprobante) {
                                 if (_EsVueltoPagoMovil) {
-                                    ImprimirComprobanteNoFiscalAdicional("Vuelto con Pago Móvil", infoAdicional);
+                                    if (XmlDatosImprFiscal != null) {
+                                        ImprimirComprobanteNoFiscalAdicional("Vuelto con Pago Móvil", infoAdicional);
+                                    } else {
+                                        vPath = Path.Combine(vPath, infoAdicional);
+                                        System.Diagnostics.Process.Start(vPath);
+                                    }
                                     _EsVueltoPagoMovil = false;
                                 } else {
-                                    foreach (var vTarjeta in ListaCobroCobroMediosElectonicosVPOS) {
-                                        ImprimirComprobanteNoFiscalAdicional("Cobro con Medios Electrónicos", vTarjeta.InfoAdicional);
+                                    if (XmlDatosImprFiscal != null) {
+                                        foreach (var vTarjeta in ListaCobroCobroMediosElectonicosVPOS) {
+                                            ImprimirComprobanteNoFiscalAdicional("Cobro con Medios Electrónicos", vTarjeta.InfoAdicional);
+                                        }
+                                    } else {
+                                        foreach (var vTarjeta in ListaCobroCobroMediosElectonicosVPOS) {
+                                            vPath = Path.Combine(vPath, vTarjeta.InfoAdicional);
+                                            System.Diagnostics.Process.Start(vPath);
+                                        }
                                     }
                                 }
                                 _ImprimirComprobante = false;
@@ -829,8 +842,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     infoAdicional = insVueltoMegasoft.infoAdicional;
                     numReferencia = insVueltoMegasoft.numeroReferencia;
                     if (MontoRestantePorPagar <= 0 || (MontoRestantePorPagar > 0 && MontoRestantePorPagarEnDivisas == 0)) {
-                        _ImprimirComprobante = (XmlDatosImprFiscal != null || _EsFacturaTradicional) && LibMessages.MessageBox.YesNo(this, "¿Desea imprimir comprobante de Vuelto Pago Móvil?", ModuleName);
-                        _EsVueltoPagoMovil = (XmlDatosImprFiscal != null || _EsFacturaTradicional);
+                        if (LibMessages.MessageBox.YesNo(this, "¿Desea imprimir comprobante de Vuelto Pago Móvil?", ModuleName)) {
+                            _ImprimirComprobante = true;
+                            _EsVueltoPagoMovil = true;
+                        }
                         ExecuteCobrarCommand();
                     }
                 }
@@ -862,7 +877,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     vDatosVpos.vResultCobroTDDTDC += (arg) => vResultCobroTDDTDC = arg;
                     vDatosVpos.InitializeViewModel(cedulaRif, vDatosVpos.Monto);
                     LibMessages.EditViewModel.ShowEditor(vDatosVpos, true);
-                    _ImprimirComprobante = (XmlDatosImprFiscal != null || _EsFacturaTradicional) && vDatosVpos.ImprimirComprobanteDePago;
+                    _ImprimirComprobante = vDatosVpos.ImprimirComprobanteDePago;
                     C2PMegasoftNav insMegasoft = new C2PMegasoftNav();
                     if (insMegasoft.EjecutarCobroMediosElectonicos(vDatosVpos.CedulaRif, LibMath.Abs(vDatosVpos.Monto))) {
                         if (insMegasoft.montoTransaccion > 0) {
@@ -877,7 +892,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                             ListaCobroCobroMediosElectonicosVPOS.Add(new CobroCobroMediosElectonicosVPOS() {
                                 MontoTransaccion = insMegasoft.montoTransaccion,
                                 NumReferencia = insMegasoft.numeroAutorizacion,
-                                InfoAdicional = "18.txt",
+                                InfoAdicional = insMegasoft.infoAdicional,
                                 CodigoFormaDelCorbor = TipoDeTransaccionCobro(insMegasoft.tipoTransaccion),
                                 MonedaTransaccion = vMonedaTransaccion
                             });
