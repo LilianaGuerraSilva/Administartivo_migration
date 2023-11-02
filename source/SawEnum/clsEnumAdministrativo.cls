@@ -1343,6 +1343,7 @@ Public Enum Enum_EstadoImpresionFiscal
    eEIF_OBTENER_ULTIMO_REPORTE_Z
    eEIF_ASIGNAR_CONFIGURACION
    eEIF_CORTAR_PAPEL
+   eEIF_IMPRIME_DOCUMENTO_NOFISCAL
 End Enum
 
 Public Enum enum_TipoDocumentoIdentificacionPeru
@@ -11162,6 +11163,7 @@ Public Function enumEstadoImpresionFiscalToString(ByVal EstadoImpresionFiscal As
       Case eEIF_OBTENER_SERIAL: enumEstadoImpresionFiscalToString = "Obtener Serial"
       Case eEIF_IMPRIMIR_VENTA: enumEstadoImpresionFiscalToString = "Imprimir Venta"
       Case eEIF_OBTENER_ULTIMO_REPORTE_Z: enumEstadoImpresionFiscalToString = "Obtener Reporte Z"
+      Case eEIF_IMPRIME_DOCUMENTO_NOFISCAL: enumEstadoImpresionFiscalToString = "Imprime Documenton no Fiscal"
       Case Else: enumEstadoImpresionFiscalToString = enumEstadoImpresionFiscalToString(0)
    End Select
 End Function
@@ -11170,7 +11172,7 @@ Public Function strEstadoImpresionFiscalToNum(ByVal EstadoImpresionFiscal As Str
    Dim mEnum As Enum_EstadoImpresionFiscal
    Dim nCount As Integer
    nCount = 0
-   For mEnum = Enum_EstadoImpresionFiscal.eEIF_VERIFICANDO_CONEXION_CON_IMPRESORA To Enum_EstadoImpresionFiscal.eEIF_IMPRIMIR_VENTA
+   For mEnum = Enum_EstadoImpresionFiscal.eEIF_VERIFICANDO_CONEXION_CON_IMPRESORA To Enum_EstadoImpresionFiscal.eEIF_IMPRIME_DOCUMENTO_NOFISCAL
       If UCase(EstadoImpresionFiscal) = UCase(enumEstadoImpresionFiscalToString(mEnum)) Then
          strEstadoImpresionFiscalToNum = nCount
          GoTo h_EXIT
