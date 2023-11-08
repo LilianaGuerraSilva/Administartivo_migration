@@ -2645,7 +2645,11 @@ unBancoPM = (Bco_0102 "0102 Banco de Venezuela S.A. Banco Universal", Bco_0104 "
 	MontoCheque 		: Decimal;
    	MontoDeposito		: Decimal;
     MontoAnticipo		: Decimal;
-	MontoVuelto			: Decimal;
+	MontoVuelto			: Decimal;	
+	MontoTarjetaMS		: Decimal;
+	MontoC2P  			: Decimal;
+	MontoTransferenciaMS : Decimal;
+	MontoPagoMovil		:Decimal;	
 	Fecha			: date;//a
 	HoraApertura		: Str5;//a
     HoraCierre		    : Str5;//a
@@ -2661,6 +2665,7 @@ unBancoPM = (Bco_0102 "0102 Banco de Venezuela S.A. Banco Universal", Bco_0104 "
     MontoDepositoME		: Decimal;
     MontoAnticipoME		: Decimal;
 	MontoVueltoME		: Decimal;
+	MontoZelle  		: Decimal;
 	NombreOperador		: Str10;//a
 	FechaUltimaModificacion	: date;//a
 	@PrimaryKey=ConsecutivoCompania,Consecutivo,ConsecutivoCaja
