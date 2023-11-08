@@ -2646,6 +2646,7 @@ unBancoPM = (Bco_0102 "0102 Banco de Venezuela S.A. Banco Universal", Bco_0104 "
    	MontoDeposito		: Decimal;
     MontoAnticipo		: Decimal;
 	MontoVuelto			: Decimal;	
+	MontoVueltoPM		: Decimal;	
 	MontoTarjetaMS		: Decimal;
 	MontoC2P  			: Decimal;
 	MontoTransferenciaMS : Decimal;
