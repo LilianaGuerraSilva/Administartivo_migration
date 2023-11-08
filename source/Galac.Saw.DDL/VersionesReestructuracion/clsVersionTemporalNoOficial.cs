@@ -13,6 +13,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			StartConnectionNoTransaction();
 			AmpliarCampoObservacionesSolicitudDePago();
 			AgregaNuevosRegistrosTipoFormaDelCobro();
+			AgregarColumnasCajaAperturaoMS();
 			DisposeConnectionNoTransaction();
 			return true;
 		}
@@ -41,6 +42,24 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			vSql.AppendLine("INSERT INTO Saw.FormaDelCobro (Codigo, Nombre, TipoDePago) VALUES (");
 			vSql.AppendLine(InsSql.ToSqlValue(valCodigo) + ", " + InsSql.ToSqlValue(valNombre) + ", " + InsSql.EnumToSqlValue((int)valTipoDePago) + ")");
 			return vSql.ToString();
+		}
+
+		private void AgregarColumnasCajaAperturaoMS() {
+			if (AddColumnDecimal("Adm.CajaApertura", "MontoC2P", 25, 4, "", 0)) {
+				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoC2P", "0", "MontoC2P");
+			}
+			if (AddColumnDecimal("Adm.CajaApertura", "MontoTarjetaMS", 25, 4, "", 0)) {
+				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoTaMs", "0", "MontoTarjetaMS");
+			}
+			if (AddColumnDecimal("Adm.CajaApertura", "MontoTransferenciaMS", 25, 4, "", 0)) {
+				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoTran", "0", "MontoTransferenciaMS");
+			}
+			if (AddColumnDecimal("Adm.CajaApertura", "MontoPagoMovil", 25, 4, "", 0)) {
+				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoPaMo", "0", "MontoPagoMovil");
+			}
+			if (AddColumnDecimal("Adm.CajaApertura", "MontoZelle", 25, 4, "", 0)) {
+				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoZell", "0", "MontoZelle");
+			}
 		}
 	}
 }   

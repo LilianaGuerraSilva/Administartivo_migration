@@ -61,7 +61,11 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("MontoAnticipo" + InsSql.DecimalTypeForDb(25,4) + " CONSTRAINT d_CajApeMoAn DEFAULT (0), ");
             SQL.AppendLine("MontoVuelto" + InsSql.DecimalTypeForDb(25,4) + " CONSTRAINT d_CajApeMoVu DEFAULT (0), ");
             SQL.AppendLine("MontoVueltoPM" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CajApeMoVuPM DEFAULT (0), ");
-            SQL.AppendLine("Fecha" + InsSql.DateTypeForDb() + " CONSTRAINT d_CajApeFe DEFAULT (''), ");
+            SQL.AppendLine("MontoC2P" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CajApeMoC2P DEFAULT (0), ");
+            SQL.AppendLine("MontoTarjetaMS" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CajApeMoTaMs DEFAULT (0), ");
+            SQL.AppendLine("MontoTransferenciaMS" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CajApeMoTran DEFAULT (0), ");
+            SQL.AppendLine("MontoPagoMovil" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CajApeMoPaMo DEFAULT (0), ");
+            SQL.AppendLine("Fecha" + InsSql.DateTypeForDb() + " CONSTRAINT d_CajApeFe DEFAULT (''), ");           
             SQL.AppendLine("HoraApertura" + InsSql.VarCharTypeForDb(5) + " CONSTRAINT d_CajApeHoAp DEFAULT (''), ");
             SQL.AppendLine("HoraCierre" + InsSql.VarCharTypeForDb(5) + " CONSTRAINT d_CajApeHoCi DEFAULT (''), ");
             SQL.AppendLine("CajaCerrada" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnCajApeCajaCerrad NOT NULL, ");
@@ -75,6 +79,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("MontoDepositoME" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CajApeMoDeME DEFAULT (0), ");
             SQL.AppendLine("MontoAnticipoME" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CajApeMoAnME DEFAULT (0), ");
             SQL.AppendLine("MontoVueltoME" + InsSql.DecimalTypeForDb(25,4) + " CONSTRAINT d_CajApeMoVuME DEFAULT (0), ");
+            SQL.AppendLine("MontoZelle" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CajApeMoZell DEFAULT (0), ");
             SQL.AppendLine("NombreOperador" + InsSql.VarCharTypeForDb(10) + ", ");
             SQL.AppendLine("FechaUltimaModificacion" + InsSql.DateTypeForDb() + ", ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
