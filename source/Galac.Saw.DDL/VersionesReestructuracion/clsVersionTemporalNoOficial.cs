@@ -13,6 +13,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			StartConnectionNoTransaction();
 			AmpliarCampoObservacionesSolicitudDePago();
 			AgregaNuevosRegistrosTipoFormaDelCobro();
+			CrearCampoCompania_UsaInformesFinancieros();
 			DisposeConnectionNoTransaction();
 			return true;
 		}
@@ -41,6 +42,10 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			vSql.AppendLine("INSERT INTO Saw.FormaDelCobro (Codigo, Nombre, TipoDePago) VALUES (");
 			vSql.AppendLine(InsSql.ToSqlValue(valCodigo) + ", " + InsSql.ToSqlValue(valNombre) + ", " + InsSql.EnumToSqlValue((int)valTipoDePago) + ")");
 			return vSql.ToString();
+		}
+
+		private void CrearCampoCompania_UsaInformesFinancieros() {
+			AddColumnBoolean("dbo.Compania", "UsaInformesFinancieros", "CONSTRAINT UsaInfFinan NOT NULL", false);
 		}
 	}
 }   

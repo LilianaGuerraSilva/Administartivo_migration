@@ -1121,19 +1121,6 @@ Public Function fExisteCuentaEnDefinicionFlujoEfectivo(ByVal valConsecutivoCompa
    fExisteCuentaEnDefinicionFlujoEfectivo = False
 End Function
 
-Public Sub sEjecutaInformesConexionConAxi()
-   Dim insFrmInformesConexionConAxi As frmInformesConexionConAxi
-   On Error GoTo h_ERROR
-   If gProyCompaniaActual.fLaCompaniaYElPeriodoFueronEscogidos Then
-      Set insFrmInformesConexionConAxi = New frmInformesConexionConAxi
-      insFrmInformesConexionConAxi.sInitLookAndFeel
-      Set insFrmInformesConexionConAxi = Nothing
-   End If
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaInformesConexionConAxi", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-
 Private Function fEsComprobanteGeneradoPorInventario(ByVal valGeneradoPorChr As String) As Boolean
    On Error GoTo h_ERROR
    fEsComprobanteGeneradoPorInventario = False
