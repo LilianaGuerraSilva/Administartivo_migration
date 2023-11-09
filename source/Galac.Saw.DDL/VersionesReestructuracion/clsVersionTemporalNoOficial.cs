@@ -13,6 +13,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			StartConnectionNoTransaction();
 			AmpliarCampoObservacionesSolicitudDePago();
 			AgregaNuevosRegistrosTipoFormaDelCobro();
+			AgregarColumnasCajaAperturaoMS();
 			CrearCampoCompaniaUsaInformesFinancieros();
 			DisposeConnectionNoTransaction();
 			return true;
@@ -26,15 +27,15 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		private void AgregaNuevosRegistrosTipoFormaDelCobro() {
 			LibDatabase insDb = new LibDatabase();
 			string vNextCode = insDb.NextStrConsecutive("Saw.formaDelCobro", "Codigo", "", true, 5);
-			Execute(SqlInsertarFormaDeCobro(vNextCode, "COBROCONTARJETA", eTipoDeFormaDePago.CobroConTarjeta));
+			Execute(SqlInsertarFormaDeCobro(vNextCode, "TARJETAMS", eTipoDeFormaDePago.CobroConTarjeta));
 			vNextCode = insDb.NextStrConsecutive("Saw.formaDelCobro", "Codigo", "", true, 5);
-			Execute(SqlInsertarFormaDeCobro(vNextCode, "COBROZELLE", eTipoDeFormaDePago.CobroZelle));
+			Execute(SqlInsertarFormaDeCobro(vNextCode, "ZELLE", eTipoDeFormaDePago.CobroZelle));
 			vNextCode = insDb.NextStrConsecutive("Saw.formaDelCobro", "Codigo", "", true, 5);
-			Execute(SqlInsertarFormaDeCobro(vNextCode, "COBROPAGOMOVIL", eTipoDeFormaDePago.CobroPagoMovil));
+			Execute(SqlInsertarFormaDeCobro(vNextCode, "PAGOMOVIL", eTipoDeFormaDePago.CobroPagoMovil));
 			vNextCode = insDb.NextStrConsecutive("Saw.formaDelCobro", "Codigo", "", true, 5);
-			Execute(SqlInsertarFormaDeCobro(vNextCode, "COBROTRANSFERENCIA", eTipoDeFormaDePago.CobroTransferencia));
+			Execute(SqlInsertarFormaDeCobro(vNextCode, "TRANSFERENCIAMS", eTipoDeFormaDePago.CobroTransferencia));
 			vNextCode = insDb.NextStrConsecutive("Saw.formaDelCobro", "Codigo", "", true, 5);
-			Execute(SqlInsertarFormaDeCobro(vNextCode, "COBROC2P", eTipoDeFormaDePago.CobroC2P));
+			Execute(SqlInsertarFormaDeCobro(vNextCode, "C2P", eTipoDeFormaDePago.CobroC2P));
 		}
 
 		string SqlInsertarFormaDeCobro(string valCodigo, string valNombre, eTipoDeFormaDePago valTipoDePago) {
@@ -42,6 +43,25 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			vSql.AppendLine("INSERT INTO Saw.FormaDelCobro (Codigo, Nombre, TipoDePago) VALUES (");
 			vSql.AppendLine(InsSql.ToSqlValue(valCodigo) + ", " + InsSql.ToSqlValue(valNombre) + ", " + InsSql.EnumToSqlValue((int)valTipoDePago) + ")");
 			return vSql.ToString();
+		}
+
+		private void AgregarColumnasCajaAperturaoMS() {
+			if (AddColumnDecimal("Adm.CajaApertura", "MontoC2P", 25, 4, "", 0)) {
+				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoC2P", "0", "MontoC2P");
+			}
+			if (AddColumnDecimal("Adm.CajaApertura", "MontoTarjetaMS", 25, 4, "", 0)) {
+				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoTaMs", "0", "MontoTarjetaMS");
+			}
+			if (AddColumnDecimal("Adm.CajaApertura", "MontoTransferenciaMS", 25, 4, "", 0)) {
+				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoTran", "0", "MontoTransferenciaMS");
+			}
+			if (AddColumnDecimal("Adm.CajaApertura", "MontoPagoMovil", 25, 4, "", 0)) {
+				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoPaMo", "0", "MontoPagoMovil");
+			}
+			if (AddColumnDecimal("Adm.CajaApertura", "MontoZelle", 25, 4, "", 0)) {
+				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoZell", "0", "MontoZelle");
+			}
+
 		}
 
 		private void CrearCampoCompaniaUsaInformesFinancieros() {

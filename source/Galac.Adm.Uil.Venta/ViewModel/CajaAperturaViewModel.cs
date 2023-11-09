@@ -41,6 +41,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         const string MontoAnticipoPropertyName = "MontoAnticipo";
         const string MontoVueltoPropertyName = "MontoVuelto";
         const string MontoVueltoPMPropertyName = "MontoVueltoPM";
+		const string MontoTarjetaMSPropertyName = "MontoTarjetaMS";
+        const string MontoC2PPropertyName = "MontoC2P";
+        const string MontoTransferenciaMSPropertyName = "MontoTransferenciaMS";
+        const string MontoPagoMovilPropertyName = "MontoPagoMovil";
         const string FechaPropertyName = "Fecha";
         const string HoraAperturaPropertyName = "HoraApertura";
         const string HoraCierrePropertyName = "HoraCierre";
@@ -56,6 +60,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         const string MontoDepositoMEPropertyName = "MontoDepositoME";
         const string MontoAnticipoMEPropertyName = "MontoAnticipoME";
         const string MontoVueltoMEPropertyName = "MontoVueltoME";
+        const string MontoZellePropertyName = "MontoZelle";
         const string NombreOperadorPropertyName = "NombreOperador";
         const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
         private FkCajaViewModel _ConexionNombreCaja = null;
@@ -279,6 +284,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 }
             }
         }
+		
         public decimal MontoVueltoPM {
             get {
                 return Model.MontoVueltoPM;
@@ -287,6 +293,58 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 if (Model.MontoVueltoPM != value) {
                     Model.MontoVueltoPM = value;
                     RaisePropertyChanged(MontoVueltoPMPropertyName);
+                }
+            }
+        }
+		
+		 public decimal  MontoTarjetaMS {
+            get {
+                return Model.MontoTarjetaMS;
+            }
+            set {
+                if (Model.MontoTarjetaMS != value) {
+                    Model.MontoTarjetaMS = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(MontoTarjetaMSPropertyName);
+                }
+            }
+        }
+
+        public decimal  MontoC2P {
+            get {
+                return Model.MontoC2P;
+            }
+            set {
+                if (Model.MontoC2P != value) {
+                    Model.MontoC2P = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(MontoC2PPropertyName);
+                }
+            }
+        }
+
+        public decimal  MontoTransferenciaMS {
+            get {
+                return Model.MontoTransferenciaMS;
+            }
+            set {
+                if (Model.MontoTransferenciaMS != value) {
+                    Model.MontoTransferenciaMS = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(MontoTransferenciaMSPropertyName);
+                }
+            }
+        }
+
+        public decimal  MontoPagoMovil {
+            get {
+                return Model.MontoPagoMovil;
+            }
+            set {
+                if (Model.MontoPagoMovil != value) {
+                    Model.MontoPagoMovil = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(MontoPagoMovilPropertyName);
                 }
             }
         }
@@ -511,6 +569,18 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 }
             }
         }
+		
+		 public decimal  MontoZelle {
+            get {
+                return Model.MontoZelle;
+            }
+            set {
+                if (Model.MontoZelle != value) {
+                    Model.MontoZelle = value;                    
+                    RaisePropertyChanged(MontoZellePropertyName);
+                }
+            }
+        }
 
         public string NombreOperador {
             get {
@@ -519,6 +589,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             set {
                 if (Model.NombreOperador != value) {
                     Model.NombreOperador = value;
+                    IsDirty = true;
                     RaisePropertyChanged(NombreOperadorPropertyName);
                 }
             }
