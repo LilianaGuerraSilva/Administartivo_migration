@@ -1070,14 +1070,19 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 MontoAnticipo = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoAnticipo"));
                 MontoVuelto = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoVuelto"));
                 MontoVueltoPM = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoVueltoPM"));
-                MontoCierre = MontoApertura + MontoEfectivo + MontoTarjeta + MontoCheque + MontoDeposito + MontoAnticipo + MontoVuelto + MontoVueltoPM;
+                MontoC2P = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoC2P"));
+                MontoTarjetaMS = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoTarjetaMS"));
+                MontoTransferenciaMS = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoTransferenciaMS"));
+                MontoPagoMovil = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoPagoMovil"));
+                MontoCierre = MontoApertura + MontoEfectivo + MontoTarjeta + MontoCheque + MontoDeposito + MontoAnticipo + MontoVuelto + MontoVueltoPM + MontoC2P + MontoTarjetaMS + MontoTransferenciaMS + MontoPagoMovil;
                 MontoEfectivoME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoEfectivoME"));
                 MontoTarjetaME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoTarjetaME"));
                 MontoChequeME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoChequeME"));
                 MontoDepositoME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoDepositoME"));
                 MontoAnticipoME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoAnticipoME"));
                 MontoVueltoME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoVueltoME"));
-                MontoCierreME = MontoAperturaME + MontoEfectivoME + MontoTarjetaME + MontoChequeME + MontoDepositoME + MontoAnticipoME + MontoVueltoME;
+                MontoZelle = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoZelle"));
+                MontoCierreME = MontoAperturaME + MontoEfectivoME + MontoTarjetaME + MontoChequeME + MontoDepositoME + MontoAnticipoME + MontoVueltoME + MontoZelle;
             }
         }        
 
