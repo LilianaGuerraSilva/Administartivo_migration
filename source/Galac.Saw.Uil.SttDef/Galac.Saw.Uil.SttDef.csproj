@@ -269,6 +269,9 @@
     <Compile Include="Views\GSVerificadorDePreciosView.xaml.cs">
       <DependentUpon>GSVerificadorDePreciosView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\winInformacionGVentas.xaml.cs">
+      <DependentUpon>winInformacionGVentas.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -422,6 +425,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GSVerificadorDePreciosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\winInformacionGVentas.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -14,6 +14,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			AmpliarCampoObservacionesSolicitudDePago();
 			AgregaNuevosRegistrosTipoFormaDelCobro();
 			AgregarColumnasCajaAperturaoMS();
+			CrearCampoCompaniaUsaInformesFinancieros();
 			DisposeConnectionNoTransaction();
 			return true;
 		}
@@ -60,6 +61,11 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			if (AddColumnDecimal("Adm.CajaApertura", "MontoZelle", 25, 4, "", 0)) {
 				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoZell", "0", "MontoZelle");
 			}
+
+		}
+
+		private void CrearCampoCompaniaUsaInformesFinancieros() {
+			AddColumnBoolean("dbo.Compania", "UsaInformesFinancieros", "CONSTRAINT UsaInfFinan NOT NULL", false);
 		}
 	}
 }   
