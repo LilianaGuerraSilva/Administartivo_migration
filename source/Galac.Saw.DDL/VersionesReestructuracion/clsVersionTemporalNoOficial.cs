@@ -13,7 +13,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			StartConnectionNoTransaction();
 			AmpliarCampoObservacionesSolicitudDePago();
 			AgregaNuevosRegistrosTipoFormaDelCobro();
-			CrearCampoCompania_UsaInformesFinancieros();
+			CrearCampoCompaniaUsaInformesFinancieros();
 			DisposeConnectionNoTransaction();
 			return true;
 		}
@@ -44,7 +44,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			return vSql.ToString();
 		}
 
-		private void CrearCampoCompania_UsaInformesFinancieros() {
+		private void CrearCampoCompaniaUsaInformesFinancieros() {
 			AddColumnBoolean("dbo.Compania", "UsaInformesFinancieros", "CONSTRAINT UsaInfFinan NOT NULL", false);
 		}
 	}
