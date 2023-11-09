@@ -42,10 +42,6 @@
 	path = bin/binEsqNiif
 	url = https://github.com/GalacSoftware/BinEsqNiif.git
 	branch = release/SawV24.1.0.0
-[submodule "source/IvaVb"]
-	path = source/IvaVb
-	url = https://github.com/GalacSoftware/IvaVb.git
-	branch = release/SawV24.1.0.0
 [submodule "source/RetencionesVb"]
 	path = source/RetencionesVb
 	url = https://github.com/GalacSoftware/RetencionesVb.git
@@ -66,7 +62,11 @@
 	path = source/VbaComun
 	url = https://github.com/GalacSoftware/vbaComun.git
 	branch = release/SawV24.1.0.0
+[submodule "source/IvaVb"]
+	path = source/IvaVb
+	url = https://github.com/GalacSoftware/IvaVb.git
+	branch = release/IVA-35.0
 [submodule "source/ContabilidadVb"]
 	path = source/ContabilidadVb
 	url = https://github.com/GalacSoftware/ContabilidadVb.git
-	branch = release/SawV24.1.0.0
+	branch = release/WCO-20.4

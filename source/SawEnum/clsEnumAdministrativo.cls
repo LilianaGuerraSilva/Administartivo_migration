@@ -236,6 +236,7 @@ Public Enum enum_SystemModules
    eSM_OrdenDeProduccionDetalleMateriales
    eSM_TransferenciaEntreCuentasBancarias
    eSM_RutaDeComercializacion
+   eSM_GVentas
 End Enum
 
 Public Enum enum_DiaDeLaSemana
@@ -1895,6 +1896,7 @@ Public Function enum_SystemModulesToStr(module As enum_SystemModules) As String
       Case eSM_OrdenDeProduccionDetalleMateriales: enum_SystemModulesToStr = "Orden de Producción Detalle Materiales"
       Case eSM_TransferenciaEntreCuentasBancarias: enum_SystemModulesToStr = "Transferencia entre Cuentas Bancarias"
       Case eSM_RutaDeComercializacion: enum_SystemModulesToStr = "Ruta de Comercialización"
+      Case eSM_GVentas: enum_SystemModulesToStr = "G-Ventas"
    End Select
 End Function
 

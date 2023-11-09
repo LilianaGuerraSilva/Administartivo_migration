@@ -110,6 +110,7 @@ Public Function fCreateTable(ByVal valShowMessage As Boolean) As Boolean
    SQL = SQL & "StatusCompania" & gUtilSQL.getCharTypeForDB(1) & " CONSTRAINT nn" & GetTableName() & "StatusComp NOT NULL, "
    SQL = SQL & "StatusMonetaryReconversionProcess" & gUtilSQL.getVarCharTypeForDB(1) & " CONSTRAINT nn" & GetTableName() & "StatusMone NOT NULL, "
    SQL = SQL & "ConectadaConG360" & gUtilSQL.getCharTypeForDB(1) & " CONSTRAINT nn" & GetTableName() & "ConecConG360 NOT NULL, "
+   SQL = SQL & "UsaInformesFinancieros" & gUtilSQL.getCharTypeForDB(1) & " CONSTRAINT nn" & GetTableName() & "UsaInfFinan NOT NULL, "
    SQL = SQL & "NombreOperador " & gUtilSQL.getVarCharTypeForDB(10) & ", "
    SQL = SQL & "FechaUltimaModificacion " & gUtilSQL.getDateTypeForDB() & ", "
    SQL = SQL & gDefDatabase.getFN_TIMESTAMP() & " timestamp )"
