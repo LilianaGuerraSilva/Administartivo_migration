@@ -37,7 +37,7 @@
                 Name="lblCodigoMonedaLocal"
                 Grid.Row="0"
                 Grid.Column="0"
-                Content="Moneda Local............................................................................"
+                Content="Moneda Local..................................................................."
                 Style="{StaticResource LabelPrompt}"
                 Visibility="{Binding Path=IsVisibleMonedaLocal, Converter={StaticResource booleanToVisibilityConverter}}" />
             <nsWpfControls:GSTextBoxWpf
@@ -70,7 +70,7 @@
                 Name="lblUsaMonedaExtranjera"
                 Grid.Row="1"
                 Grid.Column="0"
-                Content="Usa Moneda Extranjera............................................................."
+                Content="Usa Moneda Extranjera...................................................."
                 Style="{StaticResource LabelPrompt}" />
             <CheckBox
                 Name="chkUsaMonedaExtranjera"
@@ -103,7 +103,7 @@
                 Name="lblCodigoMonedaExtranjera"
                 Grid.Row="3"
                 Grid.Column="0"
-                Content="Moneda Extranjera......................................................................."
+                Content="Moneda Extranjera............................................................"
                 IsEnabled="{Binding Path=IsEnabledDatosMonedaExtrangera}"
                 Style="{StaticResource LabelPrompt}"
                 Visibility="{Binding Path=IsVisibleDatosMonedaExtrangera, Converter={StaticResource booleanToVisibilityConverter}}" />
@@ -138,7 +138,7 @@
             <Label
                 Grid.Row="4"
                 Grid.Column="0"
-                Content="Usar Moneda Extranjera como Moneda Preferida de Operación........"
+                Content="Usar Moneda Extranjera como Moneda Preferida de Operación"
                 IsEnabled="{Binding Path=IsEnabledDatosMonedaExtrangera}"
                 Style="{StaticResource LabelPrompt}" />
             <CheckBox
@@ -151,7 +151,7 @@
             <Label
                 Grid.Row="5"
                 Grid.Column="0"
-                Content="Usar Límite Máximo Para Ingreso De Tasa De Cambio............."
+                Content="Usar Límite Máximo Para Ingreso De Tasa De Cambio...."
                 IsEnabled="{Binding Path=IsEnabled}"
                 Style="{StaticResource LabelPrompt}" />
             <CheckBox
@@ -164,7 +164,7 @@
             <Label
                 Grid.Row="6"
                 Grid.Column="0"
-                Content="Máximo Límite Permitido Para La Tasa De Cambio.................."
+                Content="Máximo Límite Permitido Para La Tasa De Cambio........."
                 IsEnabled="{Binding Path=IsEnabled}"
                 Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSNumericBoxWpf

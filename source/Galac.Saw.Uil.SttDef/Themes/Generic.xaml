@@ -105,4 +105,10 @@
     <DataTemplate DataType="{x:Type nsCSVM:BancosTransferenciaViewModel}">
         <nsCSV:GSBancosTransferenciaView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:ImprentaDigitalActivacionViewModel}">
+        <nsCSV:GSImprentaDigitalActivacion />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:ImprentaDigitalDatosDeConexionViewModel}">
+        <nsCSV:GSImprentaDigitalDatosDeConexion />
+    </DataTemplate>
 </ResourceDictionary>

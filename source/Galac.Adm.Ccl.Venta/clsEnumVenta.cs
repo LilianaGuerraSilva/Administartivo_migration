@@ -30,13 +30,13 @@ namespace Galac.Adm.Ccl.Venta {
         PorPorcentaje
     }
 
-    [TypeConverter(typeof(LibEnumTypeConverter))]
-    public enum eTalonario {
-        [LibEnumDescription("Talonario 1")]
-        Talonario1 = 0,
-        [LibEnumDescription("Talonario 2")]
-        Talonario2
-    }
+    //[TypeConverter(typeof(LibEnumTypeConverter))]
+    //public enum eTalonario {
+    //    [LibEnumDescription("Talonario 1")]
+    //    Talonario1 = 0,
+    //    [LibEnumDescription("Talonario 2")]
+    //    Talonario2
+    //}
 
     [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eTipoDeVenta {

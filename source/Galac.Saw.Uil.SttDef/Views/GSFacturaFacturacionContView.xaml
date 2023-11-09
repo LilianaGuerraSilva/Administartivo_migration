@@ -312,7 +312,7 @@
                     Name="lblUsaCobroDirectoMultimoneda"
                     Grid.Row="2"
                     Grid.Column="0"
-                    Content="Usa Cobro Directo en Multimoneda......"
+                    Content="Usa Cobro Directo en Multimoneda..."
                     Style="{StaticResource LabelPrompt}" />
                 <CheckBox
                     Name="chkUsaCobroDirectoMultimoneda"
@@ -328,7 +328,7 @@
                     Name="lblCuentaBancariaCobroDirecto"
                     Grid.Row="3"
                     Grid.Column="0"
-                    Content="Cuenta Bancaria Cobro Directo............"
+                    Content="Cuenta Bancaria Cobro Directo"
                     Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSSeekConnection
                     Name="txtCuentaBancariaCobroDirecto"

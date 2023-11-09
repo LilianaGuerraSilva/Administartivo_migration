@@ -43,7 +43,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             get { return "8.1-Notas de entrega"; }
         }
 
-        public eTipoDePrefijoFactura  TipoPrefijoNotaEntrega {
+        public eTipoDePrefijo  TipoPrefijoNotaEntrega {
             get {
                 return Model.TipoPrefijoNotaEntregaAsEnum;
             }
@@ -51,7 +51,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 if (Model.TipoPrefijoNotaEntregaAsEnum != value) {
                     Model.TipoPrefijoNotaEntregaAsEnum = value;
                     IsDirty = true;
-                    if (TipoPrefijoNotaEntrega == eTipoDePrefijoFactura.SinPrefijo) {
+                    if (TipoPrefijoNotaEntrega == eTipoDePrefijo.SinPrefijo) {
                         PrefijoNotaEntrega = "";
                     }
                     RaisePropertyChanged(TipoPrefijoNotaEntregaPropertyName);
@@ -82,7 +82,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     Model.NotaEntregaPreNumeradaAsBool = value;
                     IsDirty = true;
                     if (NotaEntregaPreNumerada) {
-                        TipoPrefijoNotaEntrega = eTipoDePrefijoFactura.SinPrefijo;
+                        TipoPrefijoNotaEntrega = eTipoDePrefijo.SinPrefijo;
                     }
                     RaisePropertyChanged(NotaEntregaPreNumeradaPropertyName);
                     RaisePropertyChanged(IsEnableDatosNumeroNotaEntregaPropertyName);
@@ -181,9 +181,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public eTipoDePrefijoFactura[] ArrayTipoDePrefijo {
+        public eTipoDePrefijo[] ArrayTipoDePrefijo {
             get {
-                return LibEnumHelper<eTipoDePrefijoFactura>.GetValuesInArray();
+                return LibEnumHelper<eTipoDePrefijo>.GetValuesInArray();
             }
         }
 
@@ -236,7 +236,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnabledPrefijoNotaEntrega {
             get {
-                return IsEnabled && IsEnableDatosNumeroNotaEntrega && TipoPrefijoNotaEntrega == eTipoDePrefijoFactura.Indicar;
+                return IsEnabled && IsEnableDatosNumeroNotaEntrega && TipoPrefijoNotaEntrega == eTipoDePrefijo.Indicar;
             }
         }
 

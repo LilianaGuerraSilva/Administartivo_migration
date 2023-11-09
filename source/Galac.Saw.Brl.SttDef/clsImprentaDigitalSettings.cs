@@ -78,10 +78,19 @@ namespace Galac.Saw.Brl.SttDef {
         }
         private string EncriptarClave() {
             string vClaveEncriptada = LibCryptography.SymEncryptDES(LibAppSettings.ReadAppSettingsKey("CLAVE"));
-            LibAppConfig vAppConfig = new LibAppConfig();
             ConfigHelper.AddKeyToAppSettings("CLAVE", string.Empty);
             ConfigHelper.AddKeyToAppSettings("CLAVE-E", vClaveEncriptada);
             return vClaveEncriptada;
+        }
+
+        public void ActualizarValores() {
+            string vClaveEncriptada = LibCryptography.SymEncryptDES(LibAppSettings.ReadAppSettingsKey("CLAVE"));
+            ConfigHelper.AddKeyToAppSettings("CAMPOUSUARIO", CampoUsuario);
+            ConfigHelper.AddKeyToAppSettings("USUARIO", Usuario);
+            ConfigHelper.AddKeyToAppSettings("CAMPOCLAVE", CampoClave);
+            ConfigHelper.AddKeyToAppSettings("CLAVE", string.Empty);
+            ConfigHelper.AddKeyToAppSettings("CLAVE-E", vClaveEncriptada);
+            ConfigHelper.AddKeyToAppSettings("SERIE", string.Empty);
         }
         #endregion //Metodos Generados
     }

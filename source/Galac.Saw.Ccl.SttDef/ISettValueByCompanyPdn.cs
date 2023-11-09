@@ -29,6 +29,12 @@ namespace Galac.Saw.Ccl.SttDef {
         string BuscaNombreMoneda(string valCodigoMoneda);
         int CopiarParametrosAdministrativos(int valConsecutivoCompaniaOrigen, int valConsecutivoCompaniaDestino);
         bool ExistenCxPGeneradasDesdeCompra(int valConsecutivoCompania);
+        string SiguienteNumeroDocumentoAntesDeImprentaDigital(eTipoDocumentoFactura valTipoDeDocumento, eTalonario valTalonarioEnum, eTipoDePrefijo valTipoPrefijo);
+        void ConfiguracionImprentaDigitalPorTipoDeDocumentoFactura(eTipoDocumentoFactura valTipoDeDocumento, string valPrimerNumeroTalonario1);
+        void MoverDocumentosDeTalonario(eTipoDocumentoFactura valTipoDeDocumento, eTalonario valTalonarioOrigen, eTalonario valTalonarioDestino);
+        void ConfigurarImprentaDigital(eProveedorImprentaDigital valProveedorImprentaDigital, DateTime valFechaDeInicioDeUsoDeImprentaDigital);
+        bool SonValidosLosSiguienteNumerosDeDocumentosParaImprentaDigital(string valPrimerNumeroFacturaT1, string valPrimerNumeroNotaDeCredito, string valPrimerNumeroNotaDeDebito, out StringBuilder outMessage);
+        void GuardarDatosImprentaDigitalAppSettings(eProveedorImprentaDigital valProveedor, string valUsuario, string valClave);
     }
 }
 

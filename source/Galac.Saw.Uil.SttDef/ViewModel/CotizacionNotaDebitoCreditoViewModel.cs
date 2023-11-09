@@ -67,7 +67,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 if (Model.NCPreNumeradaAsBool != value) {
                     Model.NCPreNumeradaAsBool = value;
                    if (value ) {
-                      TipoDePrefijoNC  = eTipoDePrefijoFactura.SinPrefijo;
+                      TipoDePrefijoNC  = eTipoDePrefijo.SinPrefijo;
                       }
                     IsDirty = true;
                     RaisePropertyChanged(NCPreNumeradaPropertyName);
@@ -84,7 +84,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 if (Model.NDPreNumeradaAsBool != value) {
                     Model.NDPreNumeradaAsBool = value;
                     if(value) {
-                       TipoDePrefijoND = eTipoDePrefijoFactura.SinPrefijo;
+                       TipoDePrefijoND = eTipoDePrefijo.SinPrefijo;
                     }
                     IsDirty = true;
                     RaisePropertyChanged(NDPreNumeradaPropertyName);
@@ -190,14 +190,14 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public eTipoDePrefijoFactura TipoDePrefijoNC {
+        public eTipoDePrefijo TipoDePrefijoNC {
             get {
                 return Model.TipoDePrefijoNCAsEnum;
             }
             set {
                 if (Model.TipoDePrefijoNCAsEnum != value) {
                     Model.TipoDePrefijoNCAsEnum = value;
-                    if(value != eTipoDePrefijoFactura.Indicar) {
+                    if(value != eTipoDePrefijo.Indicar) {
                        PrefijoNC = "";
                     }
                     IsDirty = true;
@@ -207,14 +207,14 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public eTipoDePrefijoFactura TipoDePrefijoND {
+        public eTipoDePrefijo TipoDePrefijoND {
             get {
                 return Model.TipoDePrefijoNDAsEnum;
             }
             set {
                 if(Model.TipoDePrefijoNDAsEnum != value) {
                     Model.TipoDePrefijoNDAsEnum = value;
-                    if(value != eTipoDePrefijoFactura.Indicar) {
+                    if(value != eTipoDePrefijo.Indicar) {
                        PrefijoND = "";
                     }
                     IsDirty = true;
@@ -224,9 +224,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public eTipoDePrefijoFactura[] ArrayTipoDePrefijo {
+        public eTipoDePrefijo[] ArrayTipoDePrefijo {
             get {
-                return LibEnumHelper<eTipoDePrefijoFactura>.GetValuesInArray();
+                return LibEnumHelper<eTipoDePrefijo>.GetValuesInArray();
             }
         }
 
@@ -259,13 +259,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         
         public bool IsEnabledPrefijoNC {
             get {
-                return IsEnabled && TipoDePrefijoNC == eTipoDePrefijoFactura.Indicar;
+                return IsEnabled && TipoDePrefijoNC == eTipoDePrefijo.Indicar;
             }
         }
 
         public bool IsEnabledPrefijoND {
             get {
-                return IsEnabled && TipoDePrefijoND == eTipoDePrefijoFactura.Indicar;
+                return IsEnabled && TipoDePrefijoND == eTipoDePrefijo.Indicar;
             }
         }
 
