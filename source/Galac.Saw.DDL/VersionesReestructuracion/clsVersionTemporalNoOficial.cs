@@ -12,7 +12,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		public override bool UpdateToVersion() {
 			StartConnectionNoTransaction();
 			AmpliarCampoObservacionesSolicitudDePago();
-			//AgregaNuevosRegistrosTipoFormaDelCobro();
+			AgregaNuevosRegistrosTipoFormaDelCobro();
 			AgregarColumnasCajaAperturaoMS();
 			CrearCampoCompaniaUsaInformesFinancieros();
 			DisposeConnectionNoTransaction();
