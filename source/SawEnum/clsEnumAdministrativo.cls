@@ -1125,7 +1125,6 @@ Public Enum enum_TipoDeFormaDePago
    eTDA_CHEQUE
    eTDA_DEPOSITO
    eTDA_ANTICIPO
-   eTDA_TRANSFERENCIA
    eTDA_VUELTO_EFECTIVO
    eTDA_VUELTO_C2P
    eTDA_TARJETA_MS
@@ -9204,7 +9203,6 @@ Public Function enumTipoDeFormaDePagoToString(tipoDeFormaDePago As enum_TipoDeFo
       Case eTDA_CHEQUE: enumTipoDeFormaDePagoToString = "Cheque"
       Case eTDA_DEPOSITO: enumTipoDeFormaDePagoToString = "Depósito"
       Case eTDA_ANTICIPO: enumTipoDeFormaDePagoToString = "Anticipo"
-      Case eTDA_TRANSFERENCIA: enumTipoDeFormaDePagoToString = "Transferencia"
       Case eTDA_VUELTO_EFECTIVO: enumTipoDeFormaDePagoToString = "Vuelto Efectivo"
       Case eTDA_VUELTO_C2P: enumTipoDeFormaDePagoToString = "Vuelto C2P"
       Case eTDA_TARJETA_MS: enumTipoDeFormaDePagoToString = "Tarjeta Medios Electrónicos"
@@ -9255,8 +9253,6 @@ Public Sub FillComboBoxWithTipoDeFormaDePago(ByRef varComboBox As Object, Option
    varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_DEPOSITO)
    nCount = nCount + 1
    varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_ANTICIPO)
-   nCount = nCount + 1
-   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_TRANSFERENCIA)
    nCount = nCount + 1
    varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_VUELTO_EFECTIVO)
    nCount = nCount + 1

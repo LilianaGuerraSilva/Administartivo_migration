@@ -15,9 +15,7 @@ namespace Galac.Saw.Ccl.Tablas {
         [LibEnumDescription("Depósito")]
         Deposito,
         [LibEnumDescription("Anticipo")]
-        Anticipo,
-        [LibEnumDescription("Transferencia")]
-        Transferencia,
+        Anticipo,     
         [LibEnumDescription("Vuelto Efectivo")]
         VueltoEfectivo,
         [LibEnumDescription("Vuelto C2P")]
