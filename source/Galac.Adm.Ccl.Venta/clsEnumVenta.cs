@@ -222,7 +222,7 @@ namespace Galac.Adm.Ccl.Venta {
         VueltoEfectivo,
         [LibEnumDescription("Vuelto Pago Móvil", Index = 0)]
         [LibEnumDescription("00008", Index = 1)]
-        VueltoC2P,
+        VueltoPM,
         [LibEnumDescription("Tarjeta Medios Electrónicos")]
         [LibEnumDescription("00009", Index = 1)]
         TarjetaMS,
