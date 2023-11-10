@@ -4,57 +4,48 @@ using LibGalac.Aos.Base;
 
 namespace Galac.Adm.Ccl.DispositivosExternos {
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum ePuerto {
-        [LibEnumDescription("COM1",Index =0)]
-        [LibEnumDescription("1",Index = 1)]
-        COM1 = 1,
-        [LibEnumDescription("COM2",Index = 0)]
-        [LibEnumDescription("2",Index = 1)]
-        COM2,         
-        [LibEnumDescription("COM3",Index = 0)]
-        [LibEnumDescription("3",Index = 1)]
-        COM3,
-        [LibEnumDescription("COM4",Index = 0)]
-        [LibEnumDescription("4",Index = 1)]
-        COM4,
-        [LibEnumDescription("COM5",Index = 0)]
-        [LibEnumDescription("5",Index = 1)]
-        COM5,
-        [LibEnumDescription("COM6",Index = 0)]
-        [LibEnumDescription("6",Index = 1)]
-        COM6,
-        [LibEnumDescription("COM7",Index = 0)]
-        [LibEnumDescription("7",Index = 1)]
-        COM7,
-        [LibEnumDescription("COM8",Index = 0)]
-        [LibEnumDescription("8",Index = 1)]
-        COM8,
-        [LibEnumDescription("COM9",Index = 0)]
-        [LibEnumDescription("9",Index = 1)]
-        COM9,
-        [LibEnumDescription("COM10",Index = 0)]
-        [LibEnumDescription("10",Index = 1)]
-        COM10,
-        [LibEnumDescription("COM11",Index = 0)]
-        [LibEnumDescription("11",Index = 1)]        
-        COM11,
-        [LibEnumDescription("COM12",Index = 0)]
-        [LibEnumDescription("12",Index = 1)]
-        COM12,
-        [LibEnumDescription("COM13",Index = 0)]
-        [LibEnumDescription("13",Index = 1)]
-        COM13,
-        [LibEnumDescription("COM14",Index = 0)]
-        [LibEnumDescription("14",Index = 1)]
-        COM14,
-        [LibEnumDescription("COM15",Index = 0)]
-        [LibEnumDescription("15",Index = 1)]
-        COM15,
-        [LibEnumDescription("COM16",Index = 0)]
-        [LibEnumDescription("16",Index = 1)]
-        COM16
-	}
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum ePuerto {
+        [LibEnumDescription("Efectivo", Index = 0)]
+        [LibEnumDescription("00001", Index = 1)]
+        Efectivo = 0,
+        [LibEnumDescription("Tarjeta", Index = 0)]
+        [LibEnumDescription("00002", Index = 1)]
+        Tarjeta,
+        [LibEnumDescription("Cheque", Index = 0)]
+        [LibEnumDescription("00003", Index = 1)]
+        Cheque,
+        [LibEnumDescription("Depósito", Index = 0)]
+        [LibEnumDescription("00004", Index = 1)]
+        Deposito,
+        [LibEnumDescription("Anticipo", Index = 0)]
+        [LibEnumDescription("00005", Index = 1)]
+        Anticipo,
+        [LibEnumDescription("Transferencia", Index = 0)]
+        [LibEnumDescription("00006", Index = 1)]
+        Transferencia,
+        [LibEnumDescription("Vuelto Efectivo", Index = 0)]
+        [LibEnumDescription("00007", Index = 1)]
+        VueltoEfectivo,
+        [LibEnumDescription("Vuelto Pago Móvil", Index = 0)]
+        [LibEnumDescription("00008", Index = 1)]
+        VueltoC2P,
+        [LibEnumDescription("Tarjeta Medios Electrónicos")]
+        [LibEnumDescription("00009", Index = 1)]
+        TarjetaMS,
+        [LibEnumDescription("Zelle")]
+        [LibEnumDescription("00010", Index = 1)]
+        Zelle,
+        [LibEnumDescription("P2C")]
+        [LibEnumDescription("00011", Index = 1)]
+        PagoMovil,
+        [LibEnumDescription("Transferencia Medios Electrónicos")]
+        [LibEnumDescription("00012", Index = 1)]
+        TransferenciaMS,
+        [LibEnumDescription("C2P")]
+        [LibEnumDescription("00013", Index = 1)]
+        C2P
+    }
 
 	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eBitsDeDatos {
@@ -270,39 +261,45 @@ namespace Galac.Adm.Ccl.DispositivosExternos {
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eFormaDeCobroImprFiscal {
-        [LibEnumDescription("Efectivo",Index = 0)]
-        [LibEnumDescription("00001",Index = 1)]
+        [LibEnumDescription("Efectivo", Index = 0)]
+        [LibEnumDescription("00001", Index = 1)]
         Efectivo = 0,
-        [LibEnumDescription("Cheque",Index = 0)]
-        [LibEnumDescription("00002",Index = 1)]
-        Cheque,
-        [LibEnumDescription("Tarjeta",Index = 0)]
-        [LibEnumDescription("00003",Index = 1)]
+        [LibEnumDescription("Tarjeta", Index = 0)]
+        [LibEnumDescription("00002", Index = 1)]
         Tarjeta,
-        [LibEnumDescription("Deposito",Index = 0)]
-        [LibEnumDescription("00004",Index = 1)]
+        [LibEnumDescription("Cheque", Index = 0)]
+        [LibEnumDescription("00003", Index = 1)]
+        Cheque,
+        [LibEnumDescription("Depósito", Index = 0)]
+        [LibEnumDescription("00004", Index = 1)]
         Deposito,
-        [LibEnumDescription("Anticipo",Index = 0)]
-        [LibEnumDescription("00005",Index = 1)]
+        [LibEnumDescription("Anticipo", Index = 0)]
+        [LibEnumDescription("00005", Index = 1)]
         Anticipo,
-        [LibEnumDescription("Transferencia",Index = 0)]
-        [LibEnumDescription("00006",Index = 1)]
+        [LibEnumDescription("Transferencia", Index = 0)]
+        [LibEnumDescription("00006", Index = 1)]
         Transferencia,
-        [LibEnumDescription("Cobro con Tarjeta")]
+        [LibEnumDescription("Vuelto Efectivo", Index = 0)]
+        [LibEnumDescription("00007", Index = 1)]
+        VueltoEfectivo,
+        [LibEnumDescription("Vuelto Pago Móvil", Index = 0)]
+        [LibEnumDescription("00008", Index = 1)]
+        VueltoC2P,
+        [LibEnumDescription("Tarjeta MS")]
         [LibEnumDescription("00009", Index = 1)]
-        CobroConTarjeta,
-        [LibEnumDescription("Cobro Zelle")]
+        TarjetaMS,
+        [LibEnumDescription("Zelle")]
         [LibEnumDescription("00010", Index = 1)]
-        CobroZelle,
-        [LibEnumDescription("Cobro P2C")]
+        Zelle,
+        [LibEnumDescription("P2C")]
         [LibEnumDescription("00011", Index = 1)]
-        CobroPagoMovil,
-        [LibEnumDescription("Cobro con Transferencia")]
+        PagoMovil,
+        [LibEnumDescription("Transferencia MS")]
         [LibEnumDescription("00012", Index = 1)]
-        CobroTransferencia,
-        [LibEnumDescription("Cobro C2P")]
+        TransferenciaMS,
+        [LibEnumDescription("C2P")]
         [LibEnumDescription("00013", Index = 1)]
-        CobroC2P
+        C2P
     }
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]

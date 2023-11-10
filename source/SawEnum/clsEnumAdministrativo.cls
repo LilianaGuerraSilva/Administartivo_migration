@@ -9207,10 +9207,10 @@ Public Function enumTipoDeFormaDePagoToString(tipoDeFormaDePago As enum_TipoDeFo
       Case eTDA_TRANSFERENCIA: enumTipoDeFormaDePagoToString = "Transferencia"
       Case eTDA_VUELTO_EFECTIVO: enumTipoDeFormaDePagoToString = "Vuelto Efectivo"
       Case eTDA_VUELTO_C2P: enumTipoDeFormaDePagoToString = "Vuelto C2P"
-      Case eTDA_TARJETA_MS: enumTipoDeFormaDePagoToString = "Tarjeta MS"
+      Case eTDA_TARJETA_MS: enumTipoDeFormaDePagoToString = "Tarjeta Medios Electrónicos"
       Case eTDA_ZELLE: enumTipoDeFormaDePagoToString = "Zelle"
       Case eTDA_PAGO_MOVIL: enumTipoDeFormaDePagoToString = "Pago Movil"
-      Case eTDA_TRANSFERENCIA_MS: enumTipoDeFormaDePagoToString = "Transferencia MS"
+      Case eTDA_TRANSFERENCIA_MS: enumTipoDeFormaDePagoToString = "Transferencia Medios Electrónicos"
       Case eTDA_C2P: enumTipoDeFormaDePagoToString = "C2P"
       Case Else: enumTipoDeFormaDePagoToString = enumTipoDeFormaDePagoToString(0)
    End Select
