@@ -17,7 +17,7 @@ using Galac.Saw.Ccl.SttDef;
 using System.Text;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
-    public class ImprentaDigitalActivacionViewModel : LibInputViewModel<ImprentaDigitalActivacion> {
+    public class ImprentaDigitalActivacionViewModel : LibGenericViewModel {
         #region Constantes
         public const string ProveedorPropertyName = "Proveedor";
         public const string UrlPropertyName = "Url";
@@ -39,7 +39,15 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             get { return "Activación de Imprenta Digital"; }
         }
 
+        public RelayCommand GuardarCommand {
+            get;
+            private set;
+        }
+
         eProveedorImprentaDigital _Proveedor;
+
+        public bool IsDirty { get; private set; }
+
         public eProveedorImprentaDigital Proveedor {
             get { return _Proveedor; }
             set {
@@ -177,37 +185,34 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             get { return _UsaFacturaPreNumeradaTalonario1; }
         }
         #endregion //Propiedades
-        #region Constructores
-        //public ImprentaDigitalActivacionViewModel()
-        //    : this(new ImprentaDigitalActivacion(), eAccionSR.Activar) {
-        //}
-        public ImprentaDigitalActivacionViewModel(ImprentaDigitalActivacion initModel, eAccionSR initAction)
-            : base(initModel, initAction) {
-            DefaultFocusedPropertyName = ProveedorPropertyName;
-        }
+        #region Constructores 
         #endregion //Constructores
         #region Metodos Generados
-        protected override void InitializeLookAndFeel(ImprentaDigitalActivacion valModel) {
-            base.InitializeLookAndFeel(valModel);
+
+        protected override void InitializeCommands() {
+            base.InitializeCommands();
             InicializaValores();
+            GuardarCommand = new RelayCommand(ExecuteGuardarCommand, CanExecuteGuardarCommand);
         }
 
-        protected override ImprentaDigitalActivacion FindCurrentRecord(ImprentaDigitalActivacion valModel) {
-            return null;
+        protected override void InitializeRibbon() {
+            base.InitializeRibbon();
+            LibRibbonControlData vRibbonControlSalir = RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0];
+            RibbonData.RemoveRibbonGroup("Acciones");
+            if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
+                RibbonData.TabDataCollection[0].AddTabGroupData(CreateAccionesRibbonGroup());
+                RibbonData.TabDataCollection[0].GroupDataCollection[0].AddRibbonControlData(vRibbonControlSalir);
+            }
         }
 
-        protected override ILibBusinessComponentWithSearch<IList<ImprentaDigitalActivacion>, IList<ImprentaDigitalActivacion>> GetBusinessComponent() {
-            return null;
+        private void ExecuteGuardarCommand() {
+            ExecuteActivacion();
         }
 
         private ValidationResult FechaDeInicioDeUsoValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
-                return ValidationResult.Success;
-            } else {
-                if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaDeInicioDeUso, false, Action)) {
-                    vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha De Inicio De Uso"));
-                }
+            if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaDeInicioDeUso, false, eAccionSR.Activar)) {
+                vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha De Inicio De Uso"));
             }
             return vResult;
         }
@@ -222,7 +227,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        protected override void ExecuteAction() {
+        protected void ExecuteActivacion() {
             StringBuilder vMessage = new StringBuilder();
             vMessage.AppendLine("Se ejecutará la activación del uso de Imprenta Digital.");
             vMessage.AppendLine();
@@ -231,10 +236,27 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             vMessage.AppendLine("¿Desea continuar?");
             if (LibMessages.MessageBox.YesNo(this, vMessage.ToString(), ModuleName)) {
                 if (SePuedeGrabar()) {
-                    base.ExecuteAction();
                     ConfigurarParametros();
                 }
             }
+        }
+
+
+        private bool CanExecuteGuardarCommand() {
+            return true;
+        }
+
+        private LibRibbonGroupData CreateAccionesRibbonGroup() {
+            LibRibbonGroupData vResult = new LibRibbonGroupData("Acciones");
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                Label = "Guardar",
+                Command = GuardarCommand,
+                LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/exec.png", UriKind.Relative),
+                ToolTipDescription = "Guardar",
+                ToolTipTitle = "Guardar",
+                KeyTip = "F6"
+            });
+            return vResult;
         }
 
         private bool SePuedeGrabar() {

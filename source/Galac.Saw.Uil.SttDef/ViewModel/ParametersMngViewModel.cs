@@ -144,8 +144,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 bool vPuedeEjecutar = !LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaImprentaDigital");
                 bool vClaveEspecialValida = vPuedeEjecutar && new LibGalac.Ssm.U.LibRequestAdvancedOperation().AuthorizeProcess("Activar Imprenta Digital", "VE");
                 if (vClaveEspecialValida) {
-                    ImprentaDigitalActivacionViewModel vViewModel = new ImprentaDigitalActivacionViewModel(new ImprentaDigitalActivacion(), eAccionSR.Activar);
-                    vViewModel.InitializeViewModel(eAccionSR.Activar);
+                    ImprentaDigitalActivacionViewModel vViewModel = new ImprentaDigitalActivacionViewModel();
                     LibMessages.EditViewModel.ShowEditor(vViewModel, true);
                 } else {
                     LibMessages.MessageBox.Information(this, "No se cumplen las condiciones para ejecutar la acción.", "Activar Imprenta Digital");
