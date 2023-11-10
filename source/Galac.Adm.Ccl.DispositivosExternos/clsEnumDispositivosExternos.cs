@@ -288,19 +288,13 @@ namespace Galac.Adm.Ccl.DispositivosExternos {
         [LibEnumDescription("Transferencia",Index = 0)]
         [LibEnumDescription("00006",Index = 1)]
         Transferencia,
-        [LibEnumDescription("Vuelto Efectivo", Index = 0)]
-        [LibEnumDescription("00007", Index = 1)]
-        VueltoEfectivo,
-        [LibEnumDescription("Vuelto Pago Móvil", Index = 0)]
-        [LibEnumDescription("00008", Index = 1)]
-        VueltoC2P,
         [LibEnumDescription("Tarjeta Medios Electrónicos")]
         [LibEnumDescription("00009", Index = 1)]
         TarjetaMS,
         [LibEnumDescription("Zelle")]
         [LibEnumDescription("00010", Index = 1)]
         Zelle,
-        [LibEnumDescription("P2C")]
+        [LibEnumDescription("Cobro P2C")]
         [LibEnumDescription("00011", Index = 1)]
         PagoMovil,
         [LibEnumDescription("Transferencia Medios Electrónicos")]
