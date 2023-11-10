@@ -27,15 +27,15 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		private void AgregaNuevosRegistrosTipoFormaDelCobro() {
 			LibDatabase insDb = new LibDatabase();
 			string vNextCode = insDb.NextStrConsecutive("Saw.formaDelCobro", "Codigo", "", true, 5);
-			Execute(SqlInsertarFormaDeCobro(vNextCode, "TARJETAMS", eTipoDeFormaDePago.CobroConTarjeta));
+			Execute(SqlInsertarFormaDeCobro(vNextCode, "TARJETAMS", eTipoDeFormaDePago.TarjetaMS));
 			vNextCode = insDb.NextStrConsecutive("Saw.formaDelCobro", "Codigo", "", true, 5);
-			Execute(SqlInsertarFormaDeCobro(vNextCode, "ZELLE", eTipoDeFormaDePago.CobroZelle));
+			Execute(SqlInsertarFormaDeCobro(vNextCode, "ZELLE", eTipoDeFormaDePago.Zelle));
 			vNextCode = insDb.NextStrConsecutive("Saw.formaDelCobro", "Codigo", "", true, 5);
-			Execute(SqlInsertarFormaDeCobro(vNextCode, "PAGOMOVIL", eTipoDeFormaDePago.CobroPagoMovil));
+			Execute(SqlInsertarFormaDeCobro(vNextCode, "PAGOMOVIL", eTipoDeFormaDePago.PagoMovil));
 			vNextCode = insDb.NextStrConsecutive("Saw.formaDelCobro", "Codigo", "", true, 5);
-			Execute(SqlInsertarFormaDeCobro(vNextCode, "TRANSFERENCIAMS", eTipoDeFormaDePago.CobroTransferencia));
+			Execute(SqlInsertarFormaDeCobro(vNextCode, "TRANSFERENCIAMS", eTipoDeFormaDePago.TransferenciaMS));
 			vNextCode = insDb.NextStrConsecutive("Saw.formaDelCobro", "Codigo", "", true, 5);
-			Execute(SqlInsertarFormaDeCobro(vNextCode, "C2P", eTipoDeFormaDePago.CobroC2P));
+			Execute(SqlInsertarFormaDeCobro(vNextCode, "C2P", eTipoDeFormaDePago.C2P));
 		}
 
 		string SqlInsertarFormaDeCobro(string valCodigo, string valNombre, eTipoDeFormaDePago valTipoDePago) {
