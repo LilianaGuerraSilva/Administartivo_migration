@@ -270,23 +270,23 @@ namespace Galac.Adm.Ccl.DispositivosExternos {
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eFormaDeCobroImprFiscal {
-        [LibEnumDescription("Efectivo", Index = 0)]
-        [LibEnumDescription("00001", Index = 1)]
+        [LibEnumDescription("Efectivo",Index = 0)]
+        [LibEnumDescription("00001",Index = 1)]
         Efectivo = 0,
-        [LibEnumDescription("Tarjeta", Index = 0)]
-        [LibEnumDescription("00002", Index = 1)]
-        Tarjeta,
-        [LibEnumDescription("Cheque", Index = 0)]
-        [LibEnumDescription("00003", Index = 1)]
+        [LibEnumDescription("Cheque",Index = 0)]
+        [LibEnumDescription("00002",Index = 1)]
         Cheque,
-        [LibEnumDescription("Depósito", Index = 0)]
-        [LibEnumDescription("00004", Index = 1)]
+        [LibEnumDescription("Tarjeta",Index = 0)]
+        [LibEnumDescription("00003",Index = 1)]
+        Tarjeta,
+        [LibEnumDescription("Deposito",Index = 0)]
+        [LibEnumDescription("00004",Index = 1)]
         Deposito,
-        [LibEnumDescription("Anticipo", Index = 0)]
-        [LibEnumDescription("00005", Index = 1)]
+        [LibEnumDescription("Anticipo",Index = 0)]
+        [LibEnumDescription("00005",Index = 1)]
         Anticipo,
-        [LibEnumDescription("Transferencia", Index = 0)]
-        [LibEnumDescription("00006", Index = 1)]
+        [LibEnumDescription("Transferencia",Index = 0)]
+        [LibEnumDescription("00006",Index = 1)]
         Transferencia,
         [LibEnumDescription("Vuelto Efectivo", Index = 0)]
         [LibEnumDescription("00007", Index = 1)]
