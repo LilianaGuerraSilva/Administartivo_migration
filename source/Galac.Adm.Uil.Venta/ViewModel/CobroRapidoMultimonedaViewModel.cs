@@ -33,7 +33,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         internal eBancoPM BancoTransaccion { get; set; }
         internal string NumReferencia { get; set; }
         internal int BancoTrans { get; set; }
-        internal string CodigoFormaDelCorbor { get; set; }
+        internal string CodigoFormaDelCobro { get; set; }
         internal string MonedaTransaccion { get; set; }
     }
     public class CobroRapidoMultimonedaViewModel: CobroRapidoVzlaViewModelBase {
@@ -893,7 +893,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                                 MontoTransaccion = insMegasoft.montoTransaccion,
                                 NumReferencia = insMegasoft.numeroAutorizacion,
                                 InfoAdicional = insMegasoft.infoAdicional,
-                                CodigoFormaDelCorbor = TipoDeTransaccionCobro(insMegasoft.tipoTransaccion),
+                                CodigoFormaDelCobro = TipoDeTransaccionCobro(insMegasoft.tipoTransaccion),
                                 MonedaTransaccion = vMonedaTransaccion
                             });
                             CantidadTarjetasProcesadas += 1;
@@ -912,24 +912,26 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             string vResult;
             switch (vTransaccion) {
                 case "137":
-                    vResult = "00011";
+                    vResult = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.PagoMovil);
                     break;
                 case "138":
-                    vResult = "00013";
+                    vResult = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.C2P);
                     break;
                 case "164":
-                    vResult = "00010";
+                    vResult = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.Zelle);
                     break;
                 case "191":
-                    vResult = "00009";
+                    vResult = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.TarjetaMS);
+                    break;
+                case "129":
+                    vResult = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.DepositoMS);
                     break;
                 default:
-                    vResult = "00012";
+                    vResult = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.PagoMovil);
                     break;
             }
             return vResult;
         }
-
 
         protected override void ExecuteCancel() {
             if (LibMessages.MessageBox.YesNo(this, "¿Está seguro que desea salir?", "Cobro Rápido en Multimoneda")) {
@@ -1272,7 +1274,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     NumeroFactura = NumeroFactura,
                     TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
                     ConsecutivoRenglon = vConsecutivoRenglon,
-                    CodigoFormaDelCobro = vItem.CodigoFormaDelCorbor,
+                    CodigoFormaDelCobro = vItem.CodigoFormaDelCobro,
                     CodigoBanco = valCodigoBancoParaMonedaLocal,
                     Monto = vItem.MontoTransaccion,
                     NumeroDocumentoAprobacion = vItem.NumReferencia,
@@ -1281,7 +1283,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     InfoAdicional = vItem.InfoAdicional
                 });
             }
-
             return vRenglonesDeCobro;
         }
 

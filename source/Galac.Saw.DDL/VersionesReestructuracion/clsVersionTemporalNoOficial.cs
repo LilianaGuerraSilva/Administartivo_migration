@@ -36,7 +36,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			Execute(SqlInsertarFormaDeCobro(vNextCode, "TRANSFERENCIAMS", eTipoDeFormaDePago.TransferenciaMS));
 			vNextCode = insDb.NextStrConsecutive("Saw.formaDelCobro", "Codigo", "", true, 5);
 			Execute(SqlInsertarFormaDeCobro(vNextCode, "C2P", eTipoDeFormaDePago.C2P));
-		}
+            vNextCode = insDb.NextStrConsecutive("Saw.formaDelCobro", "Codigo", "", true, 5);
+            Execute(SqlInsertarFormaDeCobro(vNextCode, "DEPOSITOMS", eTipoDeFormaDePago.DepositoMS));
+        }
 
 		string SqlInsertarFormaDeCobro(string valCodigo, string valNombre, eTipoDeFormaDePago valTipoDePago) {
 			StringBuilder vSql = new StringBuilder();
@@ -61,8 +63,11 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			if (AddColumnDecimal("Adm.CajaApertura", "MontoZelle", 25, 4, "", 0)) {
 				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoZell", "0", "MontoZelle");
 			}
+            if (AddColumnDecimal("Adm.CajaApertura", "MontoDepositoMS", 25, 4, "", 0)) {
+                AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoDeMS", "0", "MontoDepositoMS");
+            }
 
-		}
+        }
 
 		private void CrearCampoCompaniaUsaInformesFinancieros() {
 			AddColumnBoolean("dbo.Compania", "UsaInformesFinancieros", "CONSTRAINT UsaInfFinan NOT NULL", false);
