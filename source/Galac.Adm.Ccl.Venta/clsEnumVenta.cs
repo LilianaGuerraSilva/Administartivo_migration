@@ -196,6 +196,7 @@ namespace Galac.Adm.Ccl.Venta {
         CobranzaPorAplicacionDeRetencion
     }
 
+    
     [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eFormaDeCobro {
         [LibEnumDescription("Efectivo", Index = 0)]
@@ -222,22 +223,22 @@ namespace Galac.Adm.Ccl.Venta {
         [LibEnumDescription("Vuelto Pago Móvil", Index = 0)]
         [LibEnumDescription("00008", Index = 1)]
         VueltoPM,
-        [LibEnumDescription("Cobro con Tarjeta")]
+        [LibEnumDescription("Tarjeta Medios Electrónicos")]
         [LibEnumDescription("00009", Index = 1)]
-        CobroConTarjeta,
-        [LibEnumDescription("Cobro Zelle")]
+        TarjetaMS,
+        [LibEnumDescription("Zelle")]
         [LibEnumDescription("00010", Index = 1)]
-        CobroZelle,
-        [LibEnumDescription("Cobro P2C")]
+        Zelle,
+        [LibEnumDescription("P2C")]
         [LibEnumDescription("00011", Index = 1)]
-        CobroPagoMovil,
-        [LibEnumDescription("Cobro con Transferencia")]
+        PagoMovil,
+        [LibEnumDescription("Transferencia Medios Electrónicos")]
         [LibEnumDescription("00012", Index = 1)]
-        CobroTransferencia,
-        [LibEnumDescription("Cobro C2P")]
+        TransferenciaMS,
+        [LibEnumDescription("C2P")]
         [LibEnumDescription("00013", Index = 1)]
-        CobroC2P
-    }
+        C2P
+    }    
 
     [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eFiltrarCobranzasPor {
