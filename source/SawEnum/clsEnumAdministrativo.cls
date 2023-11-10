@@ -1125,13 +1125,14 @@ Public Enum enum_TipoDeFormaDePago
    eTDA_CHEQUE
    eTDA_DEPOSITO
    eTDA_ANTICIPO
+   eTDA_TRANSFERENCIA
    eTDA_VUELTO_EFECTIVO
    eTDA_VUELTO_C2P
-   eTDA_COBRO_CON_TARJETA
-   eTDA_COBRO_ZELLE
-   eTDA_COBRO_PAGO_MOVIL
-   eTDA_COBRO_TRANSFERENCIA
-   eTDA_COBRO_C2P
+   eTDA_TARJETA_MS
+   eTDA_ZELLE
+   eTDA_PAGO_MOVIL
+   eTDA_TRANSFERENCIA_MS
+   eTDA_C2P
 End Enum
 
 Public Enum enum_PuertoSerial
@@ -9203,13 +9204,14 @@ Public Function enumTipoDeFormaDePagoToString(tipoDeFormaDePago As enum_TipoDeFo
       Case eTDA_CHEQUE: enumTipoDeFormaDePagoToString = "Cheque"
       Case eTDA_DEPOSITO: enumTipoDeFormaDePagoToString = "Depósito"
       Case eTDA_ANTICIPO: enumTipoDeFormaDePagoToString = "Anticipo"
+      Case eTDA_TRANSFERENCIA: enumTipoDeFormaDePagoToString = "Transferencia"
       Case eTDA_VUELTO_EFECTIVO: enumTipoDeFormaDePagoToString = "Vuelto Efectivo"
       Case eTDA_VUELTO_C2P: enumTipoDeFormaDePagoToString = "Vuelto C2P"
-      Case eTDA_COBRO_CON_TARJETA: enumTipoDeFormaDePagoToString = "Cobro con Tarjeta"
-      Case eTDA_COBRO_ZELLE: enumTipoDeFormaDePagoToString = "Cobro Zelle"
-      Case eTDA_COBRO_PAGO_MOVIL: enumTipoDeFormaDePagoToString = "Cobro Pago Movil"
-      Case eTDA_COBRO_TRANSFERENCIA: enumTipoDeFormaDePagoToString = "Cobro Transferencia"
-      Case eTDA_COBRO_C2P: enumTipoDeFormaDePagoToString = "Cobro C2P"
+      Case eTDA_TARJETA_MS: enumTipoDeFormaDePagoToString = "Tarjeta MS"
+      Case eTDA_ZELLE: enumTipoDeFormaDePagoToString = "Zelle"
+      Case eTDA_PAGO_MOVIL: enumTipoDeFormaDePagoToString = "Pago Movil"
+      Case eTDA_TRANSFERENCIA_MS: enumTipoDeFormaDePagoToString = "Transferencia MS"
+      Case eTDA_C2P: enumTipoDeFormaDePagoToString = "C2P"
       Case Else: enumTipoDeFormaDePagoToString = enumTipoDeFormaDePagoToString(0)
    End Select
 End Function
@@ -9218,7 +9220,7 @@ Public Function strTipoDeFormaDePagoToNum(ByVal tipoDeFormaDePago As String, Opt
    Dim mEnum As enum_TipoDeFormaDePago
    Dim nCount As Integer
    nCount = 0
-   For mEnum = eTDA_EFECTIVO To eTDA_COBRO_C2P
+   For mEnum = eTDA_EFECTIVO To eTDA_C2P
       If UCase(tipoDeFormaDePago) = UCase(enumTipoDeFormaDePagoToString(mEnum)) Then
          strTipoDeFormaDePagoToNum = nCount
          GoTo h_EXIT
@@ -9254,19 +9256,21 @@ Public Sub FillComboBoxWithTipoDeFormaDePago(ByRef varComboBox As Object, Option
    nCount = nCount + 1
    varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_ANTICIPO)
    nCount = nCount + 1
+   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_TRANSFERENCIA)
+   nCount = nCount + 1
    varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_VUELTO_EFECTIVO)
    nCount = nCount + 1
    varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_VUELTO_C2P)
    nCount = nCount + 1
-   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_COBRO_CON_TARJETA)
+   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_TARJETA_MS)
    nCount = nCount + 1
-   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_COBRO_ZELLE)
+   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_ZELLE)
    nCount = nCount + 1
-   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_COBRO_PAGO_MOVIL)
+   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_PAGO_MOVIL)
    nCount = nCount + 1
-   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_COBRO_TRANSFERENCIA)
+   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_TRANSFERENCIA_MS)
    nCount = nCount + 1
-   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_COBRO_C2P)
+   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_C2P)
    varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
    varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
 End Sub
