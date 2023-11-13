@@ -62,10 +62,6 @@
 	path = source/IvaVb
 	url = https://github.com/GalacSoftware/IvaVb.git
 	branch = release/IVA-35.0
-[submodule "source/ContabilidadVb"]
-	path = source/ContabilidadVb
-	url = https://github.com/GalacSoftware/ContabilidadVb.git
-	branch = release/WCO-20.4
 [submodule "bin/binContabilidadAos"]
 	path = bin/binContabilidadAos
 	url = https://github.com/GalacSoftware/BinContabilidadAos.git
