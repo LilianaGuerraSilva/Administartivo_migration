@@ -196,7 +196,8 @@ namespace Galac.Adm.Ccl.Venta {
         CobranzaPorAplicacionDeRetencion
     }
 
-    
+    //Este Enumerativo eFormaDeCobro se debe revisar, en muchos casos no aplica. porfavor no usar.
+
     [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eFormaDeCobro {
         [LibEnumDescription("Efectivo", Index = 0)]
