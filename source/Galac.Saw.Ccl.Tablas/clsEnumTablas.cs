@@ -29,7 +29,9 @@ namespace Galac.Saw.Ccl.Tablas {
         [LibEnumDescription("Transferencia Medios Electrónicos")]
         TransferenciaMS,
         [LibEnumDescription("C2P")]
-        C2P
+        C2P,
+        [LibEnumDescription("Depósito Medios Electrónicos")]
+        DepositoMS
     }
 
 

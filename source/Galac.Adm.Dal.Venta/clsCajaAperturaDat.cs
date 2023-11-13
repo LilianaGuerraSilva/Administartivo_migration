@@ -60,6 +60,7 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInDecimal("MontoC2P", valRecord.MontoC2P, 4);
             vParams.AddInDecimal("MontoTransferenciaMS", valRecord.MontoTransferenciaMS, 4);
             vParams.AddInDecimal("MontoPagoMovil", valRecord.MontoPagoMovil, 4);
+            vParams.AddInDecimal("MontoDepositoMS", valRecord.MontoDepositoMS, 4);
             vParams.AddInDateTime("Fecha", valRecord.Fecha);
             vParams.AddInString("HoraApertura", valRecord.HoraApertura, 5);
             vParams.AddInString("HoraCierre", valRecord.HoraCierre, 5);

@@ -196,7 +196,8 @@ namespace Galac.Adm.Ccl.Venta {
         CobranzaPorAplicacionDeRetencion
     }
 
-    
+    //Este Enumerativo eFormaDeCobro se debe revisar, en muchos casos no aplica. porfavor no usar.
+
     [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eFormaDeCobro {
         [LibEnumDescription("Efectivo", Index = 0)]
@@ -237,8 +238,11 @@ namespace Galac.Adm.Ccl.Venta {
         TransferenciaMS,
         [LibEnumDescription("C2P")]
         [LibEnumDescription("00013", Index = 1)]
-        C2P
-    }    
+        C2P,
+        [LibEnumDescription("Depósito Medios Electrónicos", Index = 0)]
+        [LibEnumDescription("00014", Index = 1)]
+        DepositoMS
+    }      
 
     [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eFiltrarCobranzasPor {

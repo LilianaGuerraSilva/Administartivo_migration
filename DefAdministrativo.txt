@@ -3,7 +3,7 @@ Proyecto=SAW
 PatronPresentacion=MVVM
 
 $GENERATE$
-//#INCLUDE=ExternalLib,"C:\cvs\documentos\dotNet\Def\DefLibGalac.txt"
+#INCLUDE=ExternalLib,"C:\cvs\documentos\dotNet\Def\DefLibGalac.txt"
 #INCLUDE=ExternalTablasGen,"C:\cvs\documentos\productos\Migracion AOS\DefTablasGen.txt"
 //#INCLUDE=ExternalSttdef,"C:\Git\Administrativo\DefParametrosAdministrativos.txt"
 //#INCLUDE=ExternarWincont,"C:\cvs\documentos\vba\Def\DefContabilidad-V1.txt"
@@ -2650,7 +2650,8 @@ unBancoPM = (Bco_0102 "0102 Banco de Venezuela S.A. Banco Universal", Bco_0104 "
 	MontoTarjetaMS		: Decimal;
 	MontoC2P  			: Decimal;
 	MontoTransferenciaMS : Decimal;
-	MontoPagoMovil		:Decimal;	
+	MontoPagoMovil		:Decimal;
+    MontoDepositoMS		: Decimal;	
 	Fecha			: date;//a
 	HoraApertura		: Str5;//a
     HoraCierre		    : Str5;//a
@@ -2666,7 +2667,7 @@ unBancoPM = (Bco_0102 "0102 Banco de Venezuela S.A. Banco Universal", Bco_0104 "
     MontoDepositoME		: Decimal;
     MontoAnticipoME		: Decimal;
 	MontoVueltoME		: Decimal;
-	MontoZelle  		: Decimal;
+	MontoZelle  		: Decimal;	
 	NombreOperador		: Str10;//a
 	FechaUltimaModificacion	: date;//a
 	@PrimaryKey=ConsecutivoCompania,Consecutivo,ConsecutivoCaja
