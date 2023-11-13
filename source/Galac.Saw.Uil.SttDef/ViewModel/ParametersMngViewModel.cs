@@ -160,9 +160,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             try {
                 bool vPuedeEjecutar = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaImprentaDigital");
                 bool vClaveEspecialValida = vPuedeEjecutar && new LibGalac.Ssm.U.LibRequestAdvancedOperation().AuthorizeProcess("Actualizar Datos de Conexión de Imprenta Digital", "VE");
-                if (vPuedeEjecutar) {
+                if (vClaveEspecialValida) {
                     ImprentaDigitalDatosDeConexionViewModel vViewModel = new ImprentaDigitalDatosDeConexionViewModel();
-                    vViewModel.InitializeViewModel(eAccionSR.Activar);
                     LibMessages.EditViewModel.ShowEditor(vViewModel, true);
                 } else {
                     LibMessages.MessageBox.Information(this, "No se cumplen las condiciones para ejecutar la acción.", "Actualizar Datos de Conexión de Imprenta Digital");

@@ -17,7 +17,7 @@ using Galac.Saw.Ccl.SttDef;
 using System.Text;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
-    class ImprentaDigitalDatosDeConexionViewModel : LibInputViewModel<ImprentaDigitalDatosDeConexion> {
+    class ImprentaDigitalDatosDeConexionViewModel : LibGenericViewModel {
         #region Constantes
         public const string ProveedorPropertyName = "Proveedor";
         public const string UrlPropertyName = "Url";
@@ -26,6 +26,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         #endregion
         #region Propiedades
         eProveedorImprentaDigital _ProveedorImprentaDigital;
+
+        public bool IsDirty { get; private set; }
         public override string ModuleName {
             get { return "Actualización de Datos de Conexión"; }
         }
@@ -74,21 +76,33 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 }
             }
         }
+        public RelayCommand GuardarCommand {
+            get;
+            private set;
+        }
 
         #endregion //Propiedades
         #region Constructores
-        public ImprentaDigitalDatosDeConexionViewModel()
-            : this(new ImprentaDigitalDatosDeConexion(), eAccionSR.Activar) {
-        }
-        public ImprentaDigitalDatosDeConexionViewModel(ImprentaDigitalDatosDeConexion initModel, eAccionSR initAction)
-            : base(initModel, initAction) {
-            DefaultFocusedPropertyName = ProveedorPropertyName;
-        }
         #endregion //Constructores
         #region Metodos Generados
-        protected override void InitializeLookAndFeel(ImprentaDigitalDatosDeConexion valModel) {
-            base.InitializeLookAndFeel(valModel);
+        protected override void InitializeCommands() {
+            base.InitializeCommands();
             InicializaValores();
+            GuardarCommand = new RelayCommand(ExecuteGuardarCommand, CanExecuteGuardarCommand);
+        }
+
+        protected override void InitializeRibbon() {
+            base.InitializeRibbon();
+            LibRibbonControlData vRibbonControlSalir = RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0];
+            RibbonData.RemoveRibbonGroup("Acciones");
+            if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
+                RibbonData.TabDataCollection[0].AddTabGroupData(CreateAccionesRibbonGroup());
+                RibbonData.TabDataCollection[0].GroupDataCollection[0].AddRibbonControlData(vRibbonControlSalir);
+            }
+        }
+
+        private void ExecuteGuardarCommand() {
+            ExecuteActualizarConexion();
         }
 
         private void InicializaValores() {
@@ -98,22 +112,34 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             _Clave = string.Empty;
         }
 
-        protected override ImprentaDigitalDatosDeConexion FindCurrentRecord(ImprentaDigitalDatosDeConexion valModel) {
-            return null;
-        }
-
-        protected override ILibBusinessComponentWithSearch<IList<ImprentaDigitalDatosDeConexion>, IList<ImprentaDigitalDatosDeConexion>> GetBusinessComponent() {
-            return null;
-        }
+        //protected override ILibBusinessComponentWithSearch<IList<ImprentaDigitalDatosDeConexion>, IList<ImprentaDigitalDatosDeConexion>> GetBusinessComponent() {
+        //    return null;
+        //}
         #endregion //Metodos Generados
 
-        protected override void ExecuteAction() {
+        protected void ExecuteActualizarConexion() {
             if (LibString.IsNullOrEmpty(Usuario) || LibString.IsNullOrEmpty(Clave)) {
                 LibMessages.MessageBox.ValidationError(this, "Los campos Usuario y Clave son obligatorios.", ModuleName);
-            } else {
-                base.ExecuteAction();
+            } else {                
                 ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).GuardarDatosImprentaDigitalAppSettings(_ProveedorImprentaDigital, Usuario, Clave);
             }
+        }
+
+        private bool CanExecuteGuardarCommand() {
+            return true;
+        }
+
+        private LibRibbonGroupData CreateAccionesRibbonGroup() {
+            LibRibbonGroupData vResult = new LibRibbonGroupData("Acciones");
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                Label = "Guardar",
+                Command = GuardarCommand,
+                LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/exec.png", UriKind.Relative),
+                ToolTipDescription = "Guardar",
+                ToolTipTitle = "Guardar",
+                KeyTip = "F6"
+            });
+            return vResult;
         }
 
         #region Validanting
