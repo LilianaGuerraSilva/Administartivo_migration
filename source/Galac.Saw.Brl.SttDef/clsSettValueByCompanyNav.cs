@@ -2494,7 +2494,7 @@ namespace Galac.Saw.Brl.SttDef {
             QAdvSql insSql = new QAdvSql("");
             vSql.AppendLine("UPDATE factura");
             vSql.AppendLine("   SET Talonario = " + insSql.EnumToSqlValue((int)valTalonarioDestino));
-            vSql.AppendLine(" WHERE (ConsecutivoCompania = " + insSql.ToSqlValue(vConsecutivoCompania) + ") AND (Talonario = " + insSql.EnumToSqlValue((int)valTalonarioOrigen));
+            vSql.AppendLine(" WHERE (ConsecutivoCompania = " + insSql.ToSqlValue(vConsecutivoCompania) + ") AND (Talonario = " + insSql.EnumToSqlValue((int)valTalonarioOrigen) + ")");
             LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), (new LibGpParams()).Get(), string.Empty, 0);
         }
 

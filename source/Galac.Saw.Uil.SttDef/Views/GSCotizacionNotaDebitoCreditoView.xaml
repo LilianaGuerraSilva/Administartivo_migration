@@ -97,7 +97,7 @@
                     Grid.Column="1"
                     HorizontalAlignment="Left"
                     IsChecked="{Binding Path=NCPreNumerada}"
-                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
                     Style="{StaticResource CheckBoxStyle}" />
                 <Label
                     Name="lblPrimeraNotaDeCredito"
@@ -222,7 +222,7 @@
                     Grid.Column="1"
                     HorizontalAlignment="Left"
                     IsChecked="{Binding Path=NDPreNumerada}"
-                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
                     Style="{StaticResource CheckBoxStyle}" />
                 <Label
                     Name="lblPrimeraNotaDeDebito"

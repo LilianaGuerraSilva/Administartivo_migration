@@ -104,7 +104,7 @@
                     Grid.Column="1"
                     HorizontalAlignment="Left"
                     IsChecked="{Binding Path=NotaEntregaPreNumerada}"
-                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
                     Style="{StaticResource CheckBoxStyle}" />
                 <Label
                     Name="lblPrimeraNotaEntrega"
@@ -171,7 +171,7 @@
                     Grid.Row="6"
                     Grid.Column="1"
                     Width="200"
-                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
                     IsSynchronizedWithCurrentItem="True"
                     ItemsSource="{Binding Path=ArrayModeloNotaEntregaModoTexto}"
                     SelectedItem="{Binding Path=ModeloNotaEntregaModoTexto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"

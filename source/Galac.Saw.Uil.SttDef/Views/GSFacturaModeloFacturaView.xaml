@@ -270,7 +270,7 @@
                 Grid.Column="1"
                 HorizontalAlignment="Left"
                 IsChecked="{Binding Path=UsarDosTalonarios}"
-                IsEnabled="{Binding Path=IsEnabled}"
+                IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
                 Style="{StaticResource CheckBoxStyle}" />
         </Grid>
 

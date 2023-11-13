@@ -111,10 +111,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             _Usuario = string.Empty;
             _Clave = string.Empty;
         }
-
-        //protected override ILibBusinessComponentWithSearch<IList<ImprentaDigitalDatosDeConexion>, IList<ImprentaDigitalDatosDeConexion>> GetBusinessComponent() {
-        //    return null;
-        //}
+        
         #endregion //Metodos Generados
 
         protected void ExecuteActualizarConexion() {
@@ -122,6 +119,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 LibMessages.MessageBox.ValidationError(this, "Los campos Usuario y Clave son obligatorios.", ModuleName);
             } else {                
                 ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).GuardarDatosImprentaDigitalAppSettings(_ProveedorImprentaDigital, Usuario, Clave);
+                RaiseRequestCloseEvent();
             }
         }
 
@@ -134,7 +132,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
                 Label = "Guardar",
                 Command = GuardarCommand,
-                LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/exec.png", UriKind.Relative),
+                LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/saveAndClose.png", UriKind.Relative),
                 ToolTipDescription = "Guardar",
                 ToolTipTitle = "Guardar",
                 KeyTip = "F6"

@@ -237,10 +237,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             if (LibMessages.MessageBox.YesNo(this, vMessage.ToString(), ModuleName)) {
                 if (SePuedeGrabar()) {
                     ConfigurarParametros();
+                    RaiseRequestCloseEvent();
                 }
             }
         }
-
 
         private bool CanExecuteGuardarCommand() {
             return true;
@@ -251,7 +251,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
                 Label = "Guardar",
                 Command = GuardarCommand,
-                LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/exec.png", UriKind.Relative),
+                LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/saveAndClose.png", UriKind.Relative),
                 ToolTipDescription = "Guardar",
                 ToolTipTitle = "Guardar",
                 KeyTip = "F6"
@@ -302,7 +302,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private void ConfigurarFactura() {
             eTipoDePrefijo vTipoDePrefijoTalonario1 = (eTipoDePrefijo)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetEnum("Parametros", "TipoDePrefijoTalonario1");
-
             if ((_UsaFacturaPreNumeradaTalonario1 && ReajustarTalonariosDeFactura) || (vTipoDePrefijoTalonario1 != eTipoDePrefijo.SinPrefijo)) { 
                 MoverDocumentosFactura(eTipoDocumentoFactura.Factura, eTalonario.Talonario1, eTalonario.Talonario3);
             }
@@ -322,6 +321,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         bool PuedeEditarFechaDeInicioDeUso() {
             return false;
         }
+
         private void InicializaValores() {
             _UsaDosTalonarios = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios");
             _UsaFacturaPreNumeradaTalonario1 = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "FacturaPreNumeradaTalonario1");

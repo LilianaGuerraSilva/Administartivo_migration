@@ -224,19 +224,19 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnabledTipoPrefijo {
             get {
-                return Model.NotaEntregaPreNumeradaAsBool;
+                return Model.NotaEntregaPreNumeradaAsBool && IsNotEnabledUsaImprentaDigital;
             }
         }
 
         public bool IsEnableDatosNumeroNotaEntrega {
             get {
-                return IsEnabled && !NotaEntregaPreNumerada;
+                return IsEnabled && !NotaEntregaPreNumerada && IsNotEnabledUsaImprentaDigital;
             }
         }
 
         public bool IsEnabledPrefijoNotaEntrega {
             get {
-                return IsEnabled && IsEnableDatosNumeroNotaEntrega && TipoPrefijoNotaEntrega == eTipoDePrefijo.Indicar;
+                return IsEnabled && IsEnableDatosNumeroNotaEntrega && (TipoPrefijoNotaEntrega == eTipoDePrefijo.Indicar) && IsNotEnabledUsaImprentaDigital;
             }
         }
 

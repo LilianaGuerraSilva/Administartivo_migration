@@ -199,19 +199,19 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             LibRibbonGroupData vResult = new LibRibbonGroupData("Imprenta Digital");
             if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaImprentaDigital")) {
                 vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
-                    Label = "Actualizar Conexión",
+                    Label = "Actualizar datos de Conexión",
                     Command = ReadCommand,
                     LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/exec.png", UriKind.Relative),
                     ToolTipDescription = "Actualizar datos de conexión con el proveedor de Imprenta Digital.",
-                    ToolTipTitle = "Actualizar Conexión"
+                    ToolTipTitle = "Actualizar datos de Conexión"
                 });
             } else {
                 vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
-                    Label = "Activar",
+                    Label = "Activar Imprenta Digital",
                     Command = ReadCommand,
                     LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/exec.png", UriKind.Relative),
                     ToolTipDescription = "Activar y Configurar parámetros de Imprenta Digital.",
-                    ToolTipTitle = "Activar"
+                    ToolTipTitle = "Activar Imprenta Digital"
                 });
             }
             return vResult;

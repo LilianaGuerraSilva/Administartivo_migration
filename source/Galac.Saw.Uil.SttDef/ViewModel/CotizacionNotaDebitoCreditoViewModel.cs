@@ -247,25 +247,25 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnabledNCPreNumerada {
             get {
-                return IsEnabled && !NCPreNumerada;
+                return IsEnabled && !NCPreNumerada && IsNotEnabledUsaImprentaDigital;
             }
         }
 
         public bool IsEnabledNDPreNumerada {
             get {
-                return IsEnabled && !NDPreNumerada;
+                return IsEnabled && !NDPreNumerada && IsNotEnabledUsaImprentaDigital;
             }
         }
         
         public bool IsEnabledPrefijoNC {
             get {
-                return IsEnabled && TipoDePrefijoNC == eTipoDePrefijo.Indicar;
+                return IsEnabled && TipoDePrefijoNC == eTipoDePrefijo.Indicar && IsNotEnabledUsaImprentaDigital;
             }
         }
 
         public bool IsEnabledPrefijoND {
             get {
-                return IsEnabled && TipoDePrefijoND == eTipoDePrefijo.Indicar;
+                return IsEnabled && TipoDePrefijoND == eTipoDePrefijo.Indicar && IsNotEnabledUsaImprentaDigital;
             }
         }
 
