@@ -30,6 +30,7 @@ namespace Galac.Adm.Ccl.Venta {
         private decimal _MontoC2P;
         private decimal _MontoTransferenciaMS;
         private decimal _MontoPagoMovil;
+        private decimal _MontoDepositoMS;
         private DateTime _Fecha;
         private string _HoraApertura;
         private string _HoraCierre;
@@ -141,6 +142,11 @@ namespace Galac.Adm.Ccl.Venta {
         public decimal MontoPagoMovil {
             get { return _MontoPagoMovil; }
             set { _MontoPagoMovil = value; }
+        }
+		
+		public decimal MontoDepositoMS {
+            get { return _MontoDepositoMS; }
+            set { _MontoDepositoMS = value; }
         }
 
         public DateTime Fecha {
@@ -279,6 +285,7 @@ namespace Galac.Adm.Ccl.Venta {
             MontoC2P = 0;
             MontoTransferenciaMS = 0;
             MontoPagoMovil = 0;
+            MontoDepositoMS = 0;
             Fecha = LibDate.Today();
             HoraApertura = string.Empty;
             HoraCierre = string.Empty;
@@ -320,6 +327,7 @@ namespace Galac.Adm.Ccl.Venta {
             vResult.MontoC2P = _MontoC2P;
             vResult.MontoTransferenciaMS = _MontoTransferenciaMS;
             vResult.MontoPagoMovil = _MontoPagoMovil;
+            vResult.MontoDepositoMS = _MontoDepositoMS;
             vResult.Fecha = _Fecha;
             vResult.HoraApertura = _HoraApertura;
             vResult.HoraCierre = _HoraCierre;
@@ -360,6 +368,7 @@ namespace Galac.Adm.Ccl.Venta {
                "\nMonto C2P = " + _MontoC2P.ToString() +
                "\nMonto Transferencia MS = " + _MontoTransferenciaMS.ToString() +
                "\nMonto Pago Movil = " + _MontoPagoMovil.ToString() +
+               "\nMonto Deposito MS = " + _MontoDepositoMS.ToString() +
                "\nFecha = " + _Fecha.ToShortDateString() +
                "\nHora Apertura = " + _HoraApertura +
                "\nHora Cierre = " + _HoraCierre +

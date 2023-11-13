@@ -159,7 +159,7 @@ namespace Galac.Adm.Brl.Venta {
             IMonedaLocalActual insMonedaLocalActual = new clsMonedaLocalActual();
             string vCodigoMonedaLocal = insMonedaLocalActual.CodigoMoneda(LibDate.Today());
             StringBuilder vSql = new StringBuilder();
-            vSql.AppendLine(" ;WITH CTE_MontoCierre (MontoEfectivo,MontoTarjeta,MontoDeposito,MontoAnticipo,MontoCheque,MontoVuelto,MontoVueltoPM,MontoC2P,MontoTarjetaMS,MontoPagoMovil,MontoTransferenciaMS,MontoEfectivoME,MontoTarjetaME,MontoDepositoME,MontoAnticipoME,MontoChequeME,MontoVueltoME,MontoZelle) AS");
+            vSql.AppendLine(" ;WITH CTE_MontoCierre (MontoEfectivo,MontoTarjeta,MontoDeposito,MontoAnticipo,MontoCheque,MontoVuelto,MontoVueltoPM,MontoC2P,MontoTarjetaMS,MontoPagoMovil,MontoTransferenciaMS,MontoDepositoMS,MontoEfectivoME,MontoTarjetaME,MontoDepositoME,MontoAnticipoME,MontoChequeME,MontoVueltoME,MontoZelle) AS");
             vSql.AppendLine("  ( SELECT ");
             vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eTipoDeFormaDePago.Efectivo), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoEfectivo, ");
             vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eTipoDeFormaDePago.Tarjeta), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoTarjeta, ");
@@ -171,7 +171,8 @@ namespace Galac.Adm.Brl.Venta {
             vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eTipoDeFormaDePago.C2P), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoC2P, ");
             vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eTipoDeFormaDePago.TarjetaMS), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoTarjetaMS, ");
             vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eTipoDeFormaDePago.PagoMovil), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoPagoMovil, ");
-            vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eTipoDeFormaDePago.TransferenciaMS), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoTransferenciaMS ");
+            vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eTipoDeFormaDePago.TransferenciaMS), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoTransferenciaMS, ");
+            vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eTipoDeFormaDePago.DepositoMS), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoDepositoMS");
             vSql.AppendLine(" , 0 AS MontoEfectivoME, 0 AS MontoTarjetaME, 0 AS MontoDepositoME ,0 AS MontoAnticipoME, 0 AS MontoChequeME, 0 AS MontoVueltoME, 0 AS MontoZelle");
             vSql.AppendLine("  FROM renglonCobroDeFactura");
             vSql.AppendLine("  INNER JOIN  FormaDelCobro ON");
@@ -188,7 +189,7 @@ namespace Galac.Adm.Brl.Venta {
             if (!LibString.S1IsEqualToS2(valCodigoMonedaME, vCodigoMonedaLocal)) {
                 vSql.AppendLine(" UNION ");
                 vSql.AppendLine(" SELECT ");
-                vSql.AppendLine(" 0 AS MontoEfectivo, 0 AS MontoTarjeta, 0 AS MontoDeposito, 0 AS MontoAnticipo, 0 AS MontoCheque, 0 AS MontoVuelto, 0 AS MontoVueltoPM, 0 AS MontoC2P, 0 AS MontoTarjetaMS, 0 AS MontoPagoMovil, 0 AS MontoTransferenciaMS,");
+                vSql.AppendLine(" 0 AS MontoEfectivo, 0 AS MontoTarjeta, 0 AS MontoDeposito, 0 AS MontoAnticipo, 0 AS MontoCheque, 0 AS MontoVuelto, 0 AS MontoVueltoPM, 0 AS MontoC2P, 0 AS MontoTarjetaMS, 0 AS MontoPagoMovil, 0 AS MontoTransferenciaMS, 0 AS MontoDepositoMS,");
                 vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eTipoDeFormaDePago.Efectivo), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoEfectivoME, ");
                 vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eTipoDeFormaDePago.Tarjeta), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoTarjetaME, ");
                 vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eTipoDeFormaDePago.Deposito), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoDepositoME, ");
@@ -219,6 +220,7 @@ namespace Galac.Adm.Brl.Venta {
             vSql.AppendLine("ISNULL(SUM(MontoVueltoPM),0) AS MontoVueltoPM, ");
             vSql.AppendLine("ISNULL(SUM(MontoC2P),0) AS MontoC2P ,");
             vSql.AppendLine("ISNULL(SUM(MontoTarjetaMS) ,0) AS MontoTarjetaMS ,");
+            vSql.AppendLine("ISNULL(SUM(MontoDepositoMS),0) AS MontoDepositoMS ,");
             vSql.AppendLine("ISNULL(SUM(MontoPagoMovil),0) AS MontoPagoMovil ,");
             vSql.AppendLine("ISNULL(SUM(MontoTransferenciaMS),0) AS MontoTransferenciaMS ,");
             vSql.AppendLine("ISNULL(SUM(MontoEfectivoME),0) AS MontoEfectivoME ,");
