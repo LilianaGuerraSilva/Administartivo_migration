@@ -1148,7 +1148,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 MontoVueltoME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoVueltoME"));
                 MontoZelle = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoZelle"));
                 MontoCierreME = MontoAperturaME + MontoEfectivoME + MontoTarjetaME + MontoChequeME + MontoDepositoME + MontoAnticipoME + MontoVueltoME + MontoZelle;
-                TotalesMediosElectronicos = MontoPagoMovil + MontoC2P + MontoTarjetaMS + MontoTransferenciaMS;
+                TotalesMediosElectronicos = MontoPagoMovil + MontoC2P + MontoTarjetaMS + MontoTransferenciaMS + MontoDepositoMS;
                 TotalesMediosElectronicosME = MontoZelle;
             }
         }

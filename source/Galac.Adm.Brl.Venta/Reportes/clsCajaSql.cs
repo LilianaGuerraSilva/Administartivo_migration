@@ -792,7 +792,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("		AND " + insSql.SqlDateValueBetween("", "CA.Fecha", valFechaDesde, valFechaHasta));
             vSql.AppendLine("		AND CA.CajaCerrada = " + insSql.ToSqlValue(true) + ") BaseUnpivot");
             if (valEsPAraMonedaLocal) {
-                vSql.AppendLine("	UNPIVOT (MontoML FOR Movimiento IN ([01 - Efectivo], [02 - Tarjeta], [03 - Cheque], [04 - Depósito], [05 - Anticipo], [06 - Vuelto Efectivo], [07 - Vuelto Pago Móvil], [08 - Tarjeta Medios Electrónicos], [09 - C2P], [10 - Transferencia Medios Electrónicos], [11 - Pago Móvil]))AS CajaAperturaPorOperadorML, MontoDepositoMS [12 - Depósito Medios Electrónicos]");
+                vSql.AppendLine("	UNPIVOT (MontoML FOR Movimiento IN ([01 - Efectivo], [02 - Tarjeta], [03 - Cheque], [04 - Depósito], [05 - Anticipo], [06 - Vuelto Efectivo], [07 - Vuelto Pago Móvil], [08 - Tarjeta Medios Electrónicos], [09 - C2P], [10 - Transferencia Medios Electrónicos], [11 - Pago Móvil], [12 - Depósito Medios Electrónicos]))AS CajaAperturaPorOperadorML");
             } else {
                 vSql.AppendLine("	UNPIVOT (MontoME FOR Movimiento IN ([01 - Efectivo], [02 - Tarjeta], [03 - Cheque], [04 - Depósito], [05 - Anticipo], [06 - Vuelto Efectivo] ,[12 - Zelle]))AS CajaAperturaPorOperadorME");
             }

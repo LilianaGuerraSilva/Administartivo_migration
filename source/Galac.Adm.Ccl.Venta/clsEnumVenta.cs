@@ -237,8 +237,11 @@ namespace Galac.Adm.Ccl.Venta {
         TransferenciaMS,
         [LibEnumDescription("C2P")]
         [LibEnumDescription("00013", Index = 1)]
-        C2P
-    }    
+        C2P,
+        [LibEnumDescription("Depósito Medios Electrónicos", Index = 0)]
+        [LibEnumDescription("00014", Index = 1)]
+        DepositoMS
+    }      
 
     [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eFiltrarCobranzasPor {
