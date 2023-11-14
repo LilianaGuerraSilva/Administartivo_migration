@@ -24,6 +24,7 @@ using Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal;
 using Galac.Adm.Ccl.DispositivosExternos;
 using System.IO;
 using System.Windows;
+using System.Text.RegularExpressions;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
 
@@ -871,6 +872,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private void ExecuteCobroMediosElectonicosCommand() {
             try {
+                System.Text.RegularExpressions.Regex vListInvalidChars = new System.Text.RegularExpressions.Regex("[V|E|J|G|C|P|-]", System.Text.RegularExpressions.RegexOptions.Compiled);
+                cedulaRif = vListInvalidChars.Replace(cedulaRif, "");
                 if (MontoRestantePorPagar > 0) {
                     DatosVPosViewModel vDatosVpos = new DatosVPosViewModel(MontoRestantePorPagar);
                     MonedaStt vMoneda = new MonedaStt();
