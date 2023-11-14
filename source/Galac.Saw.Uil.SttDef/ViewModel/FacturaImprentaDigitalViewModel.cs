@@ -76,15 +76,12 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         public bool IsEnabledUsaImprentaDigital {
-            get { return IsEnabled && !LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaImprentaDigital"); }
+            get { return false; }
         }
 
         public bool IsEnabledDatosImprentaDigital {
             get {
-                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaImprentaDigital")) {
-                    return false;
-                }
-                return IsEnabled && UsaImprentaDigital;
+                return false;
             }
         }
 

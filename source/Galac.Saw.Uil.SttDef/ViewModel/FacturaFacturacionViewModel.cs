@@ -47,10 +47,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string IsVisibleRenglonVendedor3PropertyName = "IsVisibleRenglonVendedor3";
         public const string EnabledComisionRenglonesPropertyName = "EnabledComisionRenglones";     
         public const string FormaDeCalculoDePrecioRenglonFacturaPropertyName = "FormaDeCalculoDePrecioRenglonFactura";
-        private const string IsEnabledUsaImprentaDigitalPropertyName = "IsEnabledUsaImprentaDigital";
         #endregion
         #region Variables
-        private bool _IsEnabledUsaImprentaDigital;
         #endregion //Variables
         #region Propiedades
 
@@ -427,7 +425,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 if (LibString.IsNullOrEmpty(AppMemoryInfo.GlobalValuesGetString("Parametros", "SesionEspecialPrecioSinIva"))) {
                     return false;
                 } else {
-                    return (IsEnabled && InitFirstTime) || (IsEnabled && AppMemoryInfo.GlobalValuesGetBool("Parametros", "SesionEspecialPrecioSinIva"));
+                    return (IsEnabled && InitFirstTime) || (IsEnabled && AppMemoryInfo.GlobalValuesGetBool("Parametros", "SesionEspecialPrecioSinIva")) && !UsaImprentaDigital();
                 }
             }
         }
@@ -485,22 +483,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public bool IsEnabledUsaImprentaDigital {
-            get { return (_IsEnabledUsaImprentaDigital || UsaImprentaDigital()); }
-            set {
-                if (_IsEnabledUsaImprentaDigital != value) {
-                    _IsEnabledUsaImprentaDigital = value;
-                    RaisePropertyChanged(IsEnabledUsaImprentaDigitalPropertyName);
-                }
-            }
-        }
-
-        public bool IsNotEnabledUsaImprentaDigital {
-            get {
-                return IsEnabled && !IsEnabledUsaImprentaDigital;
-            }
-        }
-
         public string PromptIVA {
            get {
               return string.Format("Usa Precio Sin {0}.............................................", AppMemoryInfo.GlobalValuesGetString("Parametros", "PromptIVA"));
@@ -513,6 +495,18 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
            }
         }
 
+        public bool IsEnabledSugerirNumeroControlFactura {
+            get {
+                return !UsaImprentaDigital();
+            }
+        }
+
+        public bool IsEnabledUsarResumenDiarioDeVentas {
+            get {
+                return !UsaImprentaDigital();
+            }
+        }
+
         #endregion //Propiedades
         #region Constructores
         public FacturaFacturacionViewModel()
@@ -523,7 +517,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             InitFirstTime = firstTime;
             LibMessages.Notification.Register<bool>(this, OnBooleanParametrosComunesChanged);
             LibMessages.Notification.Register<eTipoDeNivelDePrecios>(this, OnTipoDeNivelDePreciosChanged);
-            LibMessages.Notification.Register<bool>(this, OnUsaImprentaDigitalChanged);
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -565,12 +558,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 throw;
             } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
-            }
-        }
-
-        private void OnUsaImprentaDigitalChanged(NotificationMessage<bool> valMessage) {
-            if (LibString.S1IsEqualToS2(valMessage.Notification, "UsaImprentaDigital")) {
-                IsEnabledUsaImprentaDigital = valMessage.Content || UsaImprentaDigital();
             }
         }
 

@@ -34,10 +34,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string IsEnabledNDPreNumeradaPropertyName = "IsEnabledNDPreNumerada";
         public const string IsEnabledPrefijoNCPropertyName = "IsEnabledPrefijoNC";
         public const string IsEnabledPrefijoNDPropertyName = "IsEnabledPrefijoND";
-        private const string IsEnabledUsaImprentaDigitalPropertyName = "IsEnabledUsaImprentaDigital";
         #endregion
         #region Variables
-        private bool _IsEnabledUsaImprentaDigital;
         #endregion //Variables
         #region Propiedades
       
@@ -67,7 +65,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 if (Model.NCPreNumeradaAsBool != value) {
                     Model.NCPreNumeradaAsBool = value;
                    if (value ) {
-                      TipoDePrefijoNC  = eTipoDePrefijoFactura.SinPrefijo;
+                      TipoDePrefijoNC  = eTipoDePrefijo.SinPrefijo;
                       }
                     IsDirty = true;
                     RaisePropertyChanged(NCPreNumeradaPropertyName);
@@ -84,7 +82,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 if (Model.NDPreNumeradaAsBool != value) {
                     Model.NDPreNumeradaAsBool = value;
                     if(value) {
-                       TipoDePrefijoND = eTipoDePrefijoFactura.SinPrefijo;
+                       TipoDePrefijoND = eTipoDePrefijo.SinPrefijo;
                     }
                     IsDirty = true;
                     RaisePropertyChanged(NDPreNumeradaPropertyName);
@@ -190,14 +188,14 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public eTipoDePrefijoFactura TipoDePrefijoNC {
+        public eTipoDePrefijo TipoDePrefijoNC {
             get {
                 return Model.TipoDePrefijoNCAsEnum;
             }
             set {
                 if (Model.TipoDePrefijoNCAsEnum != value) {
                     Model.TipoDePrefijoNCAsEnum = value;
-                    if(value != eTipoDePrefijoFactura.Indicar) {
+                    if(value != eTipoDePrefijo.Indicar) {
                        PrefijoNC = "";
                     }
                     IsDirty = true;
@@ -207,14 +205,14 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public eTipoDePrefijoFactura TipoDePrefijoND {
+        public eTipoDePrefijo TipoDePrefijoND {
             get {
                 return Model.TipoDePrefijoNDAsEnum;
             }
             set {
                 if(Model.TipoDePrefijoNDAsEnum != value) {
                     Model.TipoDePrefijoNDAsEnum = value;
-                    if(value != eTipoDePrefijoFactura.Indicar) {
+                    if(value != eTipoDePrefijo.Indicar) {
                        PrefijoND = "";
                     }
                     IsDirty = true;
@@ -224,9 +222,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public eTipoDePrefijoFactura[] ArrayTipoDePrefijo {
+        public eTipoDePrefijo[] ArrayTipoDePrefijo {
             get {
-                return LibEnumHelper<eTipoDePrefijoFactura>.GetValuesInArray();
+                return LibEnumHelper<eTipoDePrefijo>.GetValuesInArray();
             }
         }
 
@@ -247,43 +245,41 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnabledNCPreNumerada {
             get {
-                return IsEnabled && !NCPreNumerada;
+                return IsEnabled && !NCPreNumerada && !UsaImprentaDigital();
             }
         }
 
         public bool IsEnabledNDPreNumerada {
             get {
-                return IsEnabled && !NDPreNumerada;
+                return IsEnabled && !NDPreNumerada && !UsaImprentaDigital();
             }
         }
         
         public bool IsEnabledPrefijoNC {
             get {
-                return IsEnabled && TipoDePrefijoNC == eTipoDePrefijoFactura.Indicar;
+                return IsEnabled && TipoDePrefijoNC == eTipoDePrefijo.Indicar && !UsaImprentaDigital();
             }
         }
 
         public bool IsEnabledPrefijoND {
             get {
-                return IsEnabled && TipoDePrefijoND == eTipoDePrefijoFactura.Indicar;
+                return IsEnabled && TipoDePrefijoND == eTipoDePrefijo.Indicar && !UsaImprentaDigital();
             }
         }
 
-        public bool IsEnabledUsaImprentaDigital {
-            get { return (_IsEnabledUsaImprentaDigital || UsaImprentaDigital()); }
-            set {
-                if (_IsEnabledUsaImprentaDigital != value) {
-                    _IsEnabledUsaImprentaDigital = value;
-                    RaisePropertyChanged(IsEnabledUsaImprentaDigitalPropertyName);
-                }
-            }
-        }
-
-        public bool IsNotEnabledUsaImprentaDigital {
+        public bool IsEnabledNombrePlantillaNotaDeCredito {
             get {
-                return IsEnabled && !IsEnabledUsaImprentaDigital;
+                return !UsaImprentaDigital();
             }
         }
+
+        public bool IsEnabledNombrePlantillaNotaDeDebito {
+            get {
+                return !UsaImprentaDigital();
+            }
+        }
+
+
         #endregion //Propiedades
         #region Constructores
         public CotizacionNotaDebitoCreditoViewModel()
@@ -292,8 +288,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public CotizacionNotaDebitoCreditoViewModel(NotasDebitoCreditoEntregaStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = NombrePlantillaBoletaPropertyName;
-            LibMessages.Notification.Register<bool>(this, OnUsaImprentaDigitalChanged);
-            //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -469,12 +463,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
               }
            }
            return vResult;
-        }
-
-        private void OnUsaImprentaDigitalChanged(NotificationMessage<bool> valMessage) {
-            if (LibString.S1IsEqualToS2(valMessage.Notification, "UsaImprentaDigital")) {
-                IsEnabledUsaImprentaDigital = valMessage.Content || UsaImprentaDigital();
-            }
         }
 
         private bool UsaImprentaDigital() {

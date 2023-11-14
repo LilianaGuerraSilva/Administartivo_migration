@@ -18,6 +18,7 @@ using Galac.Comun.Ccl.TablasGen;
 using Galac.Comun.Brl.TablasGen;
 using LibGalac.Aos.DefGen;
 using Galac.Saw.Ccl.Inventario;
+using LibGalac.Aos.Dal;
 
 namespace Galac.Saw.Brl.SttDef {
     public partial class clsSettValueByCompanyNav : LibBaseNav<IList<SettValueByCompany>, IList<SettValueByCompany>>, ILibPdn, ISettValueByCompanyPdn {
@@ -719,7 +720,7 @@ namespace Galac.Saw.Brl.SttDef {
             valBusinessObject.Add(ConvierteValor(valRecord.FechaInicioImprentaDigital.ToString("yyyy-MM-dd HH:mm:ss"), "FechaInicioImprentaDigital", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(valRecord.ProveedorImprentaDigitalAsDB, "ProveedorImprentaDigital", valConsecutivoCompania));
         }
-        
+
         FacturaImprentaDigitalStt GetFacturaImprentaDigitalStt(List<SettValueByCompany> valListGetSettValueByCompany) {
             FacturaImprentaDigitalStt vResult = new FacturaImprentaDigitalStt();
             vResult.Module = GetModuleSegunColumna(valListGetSettValueByCompany, "UsaImprentaDigital");
@@ -796,14 +797,14 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.NombrePlantillaNotaDeCredito = ValorSegunColumna(valListGetSettValueByCompany, "NombrePlantillaNotaDeCredito");
             vResult.NCPreNumeradaAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "NCPreNumerada"));
             vResult.PrimeraNotaDeCredito = ValorSegunColumna(valListGetSettValueByCompany, "PrimeraNotaDeCredito");
-            vResult.TipoDePrefijoNCAsEnum = (eTipoDePrefijoFactura)LibConvert.DbValueToEnum(ValorSegunColumna(valListGetSettValueByCompany, "TipoDePrefijoNC"));
+            vResult.TipoDePrefijoNCAsEnum = (eTipoDePrefijo)LibConvert.DbValueToEnum(ValorSegunColumna(valListGetSettValueByCompany, "TipoDePrefijoNC"));
             vResult.PrefijoNC = ValorSegunColumna(valListGetSettValueByCompany, "PrefijoNC");
             vResult.PrimeraBoleta = ValorSegunColumna(valListGetSettValueByCompany, "PrimeraBoleta");
             vResult.NombrePlantillaBoleta = ValorSegunColumna(valListGetSettValueByCompany, "NombrePlantillaBoleta");
             vResult.NombrePlantillaNotaDeDebito = ValorSegunColumna(valListGetSettValueByCompany, "NombrePlantillaNotaDeDebito");
             vResult.NDPreNumeradaAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "NDPreNumerada"));
             vResult.PrimeraNotaDeDebito = ValorSegunColumna(valListGetSettValueByCompany, "PrimeraNotaDeDebito");
-            vResult.TipoDePrefijoNDAsEnum = (eTipoDePrefijoFactura)LibConvert.DbValueToEnum(ValorSegunColumna(valListGetSettValueByCompany, "TipoDePrefijoND"));
+            vResult.TipoDePrefijoNDAsEnum = (eTipoDePrefijo)LibConvert.DbValueToEnum(ValorSegunColumna(valListGetSettValueByCompany, "TipoDePrefijoND"));
             vResult.PrefijoND = ValorSegunColumna(valListGetSettValueByCompany, "PrefijoND");
             return vResult;
         }
@@ -1548,20 +1549,20 @@ namespace Galac.Saw.Brl.SttDef {
         #region  ProcesosStt
         ProcesosStt ProcesosSttPorDefecto(int valConsecutivoCompania) {
             ProcesosStt insEntidad = new ProcesosStt();
-            insEntidad.InsertandoPorPrimeraVezAsBool = true;            
+            insEntidad.InsertandoPorPrimeraVezAsBool = true;
             return insEntidad;
         }
 
         private void LlenaListado(ProcesosStt valRecord, ref List<SettValueByCompany> valBusinessObject, int valConsecutivoCompania) {
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.SeResincronizaronLosSupervisoresAsBool), "SeResincronizaronLosSupervisores", valConsecutivoCompania));
-            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.InsertandoPorPrimeraVezAsBool), "InsertandoPorPrimeraVez", valConsecutivoCompania));                       
+            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.InsertandoPorPrimeraVezAsBool), "InsertandoPorPrimeraVez", valConsecutivoCompania));
         }
         ProcesosStt GetProcesosStt(List<SettValueByCompany> valListGetSettValueByCompany) {
             ProcesosStt vResult = new ProcesosStt();
             vResult.Module = GetModuleSegunColumna(valListGetSettValueByCompany, "SeResincronizaronLosSupervisores");
             vResult.GroupName = GetGroupNameSegunColumna(valListGetSettValueByCompany, "SeResincronizaronLosSupervisores");
             vResult.SeResincronizaronLosSupervisoresAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "SeResincronizaronLosSupervisores"));
-            vResult.InsertandoPorPrimeraVezAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "InsertandoPorPrimeraVez"));                   
+            vResult.InsertandoPorPrimeraVezAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "InsertandoPorPrimeraVez"));
             return vResult;
         }
         #endregion //  ProcesosStt
@@ -1573,7 +1574,7 @@ namespace Galac.Saw.Brl.SttDef {
             insEntidad.ModeloNotaEntregaAsEnum = eModeloDeFactura.eMD_FORMALIBRE;
             insEntidad.NotaEntregaPreNumeradaAsBool = false;
             insEntidad.PrimeraNotaEntrega = "00000000001";
-            insEntidad.TipoPrefijoNotaEntregaAsEnum = eTipoDePrefijoFactura.SinPrefijo;
+            insEntidad.TipoPrefijoNotaEntregaAsEnum = eTipoDePrefijo.SinPrefijo;
             insEntidad.NombrePlantillaOrdenDeDespacho = "rpxOrdenDeDespachoFormatoLibre";
             insEntidad.ModeloNotaEntregaModoTexto = "Factura_PosEpsonTMU220FormatoLibre";
             return insEntidad;
@@ -1598,7 +1599,7 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.ModeloNotaEntregaAsEnum = (eModeloDeFactura)LibConvert.DbValueToEnum(ValorSegunColumna(valListGetSettValueByCompany, "ModeloNotaEntrega"));
             vResult.NotaEntregaPreNumeradaAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "NotaEntregaPreNumerada"));
             vResult.PrimeraNotaEntrega = ValorSegunColumna(valListGetSettValueByCompany, "PrimeraNotaEntrega");
-            vResult.TipoPrefijoNotaEntregaAsEnum = (eTipoDePrefijoFactura)LibConvert.DbValueToEnum(ValorSegunColumna(valListGetSettValueByCompany, "TipoPrefijoNotaEntrega"));
+            vResult.TipoPrefijoNotaEntregaAsEnum = (eTipoDePrefijo)LibConvert.DbValueToEnum(ValorSegunColumna(valListGetSettValueByCompany, "TipoPrefijoNotaEntrega"));
             vResult.PrefijoNotaEntrega = ValorSegunColumna(valListGetSettValueByCompany, "PrefijoNotaEntrega");
             vResult.NombrePlantillaNotaEntrega = ValorSegunColumna(valListGetSettValueByCompany, "NombrePlantillaNotaEntrega");
             vResult.NombrePlantillaOrdenDeDespacho = ValorSegunColumna(valListGetSettValueByCompany, "NombrePlantillaOrdenDeDespacho");
@@ -1769,7 +1770,7 @@ namespace Galac.Saw.Brl.SttDef {
             LlenaListado(VerificadorDePreciosSttPorDefecto(valConsecutivoCompania), ref vResult, valConsecutivoCompania);
             LlenaListado(ImagenesComprobantesRetencionSttPorDefecto(), ref vResult, valConsecutivoCompania);
             LlenaListado(ProduccionSttPorDefecto(valConsecutivoCompania), ref vResult, valConsecutivoCompania);
-			LlenaListado(TransferenciaBancariaSttPorDefecto(valConsecutivoCompania), ref vResult, valConsecutivoCompania);
+            LlenaListado(TransferenciaBancariaSttPorDefecto(valConsecutivoCompania), ref vResult, valConsecutivoCompania);
             return vResult;
         }
 
@@ -2290,6 +2291,300 @@ namespace Galac.Saw.Brl.SttDef {
                            Cantidad = LibConvert.ToInt(vRecord.Element("Cantidad"))
                        }).FirstOrDefault().Cantidad;
             return vResult;
+        }
+
+        string ISettValueByCompanyPdn.SiguienteNumeroDocumentoAntesDeImprentaDigital(eTipoDocumentoFactura valTipoDeDocumento, eTalonario valTalonarioEnum, eTipoDePrefijo valTipoPrefijo) {
+            string vResult;
+            string vMaximo = "1";
+            int vLastNumero = 1;
+            int vPosicionDeInicioDelConsecutivo = 0;
+            eTipoDePrefijo vTipoPrefijo = TipoDePrefijoSegunTalonarioAntesDeID(valTipoDeDocumento, valTalonarioEnum);
+            int vPrimeraFactura = LibConvert.ToInt(PrimeraFacturaSegunTalonarioAntesDeID(valTipoDeDocumento, valTalonarioEnum));
+            string vSql = SqlSiguienteNumeroDocumentoAntesDeImprentaDigital(valTipoDeDocumento, valTalonarioEnum, vTipoPrefijo);
+            XElement vElement = LibBusiness.ExecuteSelect(vSql, new StringBuilder(), string.Empty, 0);
+            if (vElement != null) {
+                vMaximo = LibConvert.ToStr(vElement.Descendants().Select(m => (string)m.Element("Maximo")).FirstOrDefault());
+                if (!LibString.IsNullOrEmpty(vMaximo)) {
+                    if ((valTipoDeDocumento == eTipoDocumentoFactura.Factura) && (vTipoPrefijo == eTipoDePrefijo.SinPrefijo)) {
+                    } else if (vTipoPrefijo == eTipoDePrefijo.Ano) {
+                        if (valTipoDeDocumento != eTipoDocumentoFactura.Factura) {
+                            vPosicionDeInicioDelConsecutivo = 4;//NC- ND- NE- +1
+                        }
+                        vPosicionDeInicioDelConsecutivo += 4;//yyyy
+                        vMaximo = LibString.Mid(vMaximo, vPosicionDeInicioDelConsecutivo, LibString.Len(vMaximo));
+                    } else {//(valTipoPrefijo == eTipoDePrefijo.Indicar)
+                        string vPrefijo = PrefijoAntesDeID(valTipoDeDocumento, valTalonarioEnum, valTipoPrefijo);
+                        vPosicionDeInicioDelConsecutivo = LibString.Len(vPrefijo) + 1;
+                        vMaximo = LibString.Mid(vMaximo, vPosicionDeInicioDelConsecutivo, LibString.Len(vMaximo));
+                    }
+                }
+                vLastNumero = LibConvert.ToInt(vMaximo) + 1;
+                if (vLastNumero < vPrimeraFactura) {
+                    vLastNumero = vPrimeraFactura;
+                }
+            } else if (vPrimeraFactura > 1) {
+                vLastNumero = vPrimeraFactura;
+            }
+            vResult = LibText.FillWithCharToLeft(LibConvert.ToStr(vLastNumero), "0", 10);
+            return vResult;
+        }
+
+        private string SqlSiguienteNumeroDocumentoAntesDeImprentaDigital(eTipoDocumentoFactura valTipoDeDocumento, eTalonario valTalonarioEnum, eTipoDePrefijo valTipoPrefijo) {
+            QAdvSql insSql = new QAdvSql("");
+            StringBuilder vSql = new StringBuilder();
+            int vConsecutivoCompania = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania");
+            if ((valTipoDeDocumento == eTipoDocumentoFactura.Factura) && (valTipoPrefijo == eTipoDePrefijo.SinPrefijo)) {
+                vSql.AppendLine("SELECT MAX(" + insSql.ToDbl("Numero") + ") AS Maximo ");
+                vSql.AppendLine("FROM Factura");
+                vSql.AppendLine("WHERE ConsecutivoCompania = " + insSql.ToSqlValue(vConsecutivoCompania));
+                vSql.AppendLine("AND TipoDeDocumento = " + insSql.EnumToSqlValue((int)valTipoDeDocumento));
+                vSql.AppendLine("AND StatusFactura IN ('0','1')");
+                vSql.AppendLine("AND " + insSql.Mid("Numero", 1, 1) + " = '0'");
+                vSql.AppendLine("AND Talonario = " + insSql.EnumToSqlValue((int)valTalonarioEnum));
+            } else {
+                string vPrefijo = PrefijoAntesDeID(valTipoDeDocumento, valTalonarioEnum, valTipoPrefijo);
+
+                vSql.AppendLine("SELECT MAX(Numero) AS Maximo ");
+                vSql.AppendLine("FROM Factura");
+                vSql.AppendLine("WHERE ConsecutivoCompania = " + insSql.ToSqlValue(vConsecutivoCompania));
+                vSql.AppendLine("AND TipoDeDocumento = " + insSql.EnumToSqlValue((int)valTipoDeDocumento));
+                vSql.AppendLine("AND StatusFactura IN ('0','1')");
+                vSql.AppendLine("AND Numero LIKE '" + vPrefijo + insSql.ComodinSymbol() + "'");
+                if (valTipoDeDocumento == eTipoDocumentoFactura.Factura) {
+                    vSql.AppendLine("AND Talonario = " + insSql.EnumToSqlValue((int)valTalonarioEnum));
+                }
+            }
+            return vSql.ToString();
+        }
+
+        private string PrefijoAntesDeID(eTipoDocumentoFactura valTipoDeDocumento, eTalonario valTalonarioEnum, eTipoDePrefijo valTipoDePrefijo) {
+            string vResult = string.Empty;
+            if (valTipoDeDocumento == eTipoDocumentoFactura.Factura) {
+                if (valTipoDePrefijo == eTipoDePrefijo.Ano) {
+                    vResult = LibConvert.ToStr(LibDate.Today().Year);
+                } else if (valTipoDePrefijo == eTipoDePrefijo.Indicar) {
+                    vResult = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "PrefijoTalonario1");
+                    if (valTalonarioEnum == eTalonario.Talonario2) {
+                        vResult = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "PrefijoTalonario2");
+                    }
+                }
+            } else {
+                if (valTipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito) {
+                    vResult = "ND-";
+                    bool vUsaPreNumerada = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "NDPreNumerada");
+                    if (!vUsaPreNumerada) {
+                        if (valTipoDePrefijo == eTipoDePrefijo.Ano) {
+                            vResult += LibConvert.ToStr(LibDate.Today().Year);
+                        } else if (valTipoDePrefijo == eTipoDePrefijo.Indicar) {
+                            vResult += LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "PrefijoND");
+                        }
+                    }
+                } else if (valTipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito) {
+                    vResult = "NC-";
+                    bool vUsaPreNumerada = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "NCPreNumerada");
+                    if (!vUsaPreNumerada) {
+                        if (valTipoDePrefijo == eTipoDePrefijo.Ano) {
+                            vResult += LibConvert.ToStr(LibDate.Today().Year);
+                        } else if (valTipoDePrefijo == eTipoDePrefijo.Indicar) {
+                            vResult += LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "PrefijoNC");
+                        }
+                    }
+                } else if (valTipoDeDocumento == eTipoDocumentoFactura.NotaEntrega) {
+                    vResult = "NE-";
+                    bool vUsaPreNumerada = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "NEPreNumerada");
+                    if (!vUsaPreNumerada) {
+                        if (valTipoDePrefijo == eTipoDePrefijo.Ano) {
+                            vResult += LibConvert.ToStr(LibDate.Today().Year);
+                        } else if (valTipoDePrefijo == eTipoDePrefijo.Indicar) {
+                            vResult += LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "PrefijoNE");
+                        }
+                    }
+                }
+            }
+            return vResult;
+        }
+
+        private eTipoDePrefijo TipoDePrefijoSegunTalonarioAntesDeID(eTipoDocumentoFactura valTipoDeDocumento, eTalonario valTalonarioEnum) {
+            eTipoDePrefijo vResult = eTipoDePrefijo.SinPrefijo;
+            if (valTipoDeDocumento == eTipoDocumentoFactura.Factura) {
+                vResult = (eTipoDePrefijo)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetEnum("Parametros", "TipoDePrefijoTalonario1");
+                if (valTalonarioEnum == eTalonario.Talonario2) {
+                    vResult = (eTipoDePrefijo)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetEnum("Parametros", "TipoDePrefijoTalonario2");
+                }
+            } else if (valTipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito) {
+                vResult = (eTipoDePrefijo)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetEnum("Parametros", "TipoDePrefijoND");
+            } else if (valTipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito) {
+                vResult = (eTipoDePrefijo)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetEnum("Parametros", "TipoDePrefijoNC");
+            } else if (valTipoDeDocumento == eTipoDocumentoFactura.NotaEntrega) {
+                vResult = (eTipoDePrefijo)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetEnum("Parametros", "TipoPrefijoNE");
+            }
+            return vResult;
+        }
+
+        private string PrimeraFacturaSegunTalonarioAntesDeID(eTipoDocumentoFactura valTipoDeDocumento, eTalonario valTalonarioEnum) {
+            string vResult = "1";
+            if (valTipoDeDocumento == eTipoDocumentoFactura.Factura) {
+                vResult = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "PrimeraFacturaTalonario1");
+                if (valTalonarioEnum == eTalonario.Talonario2) {
+                    vResult = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "PrimeraFacturaTalonario2");
+                }
+            } else if (valTipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito) {
+                vResult = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "PrimeraND");
+            } else if (valTipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito) {
+                vResult = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "PrimeraNC");
+            } else if (valTipoDeDocumento == eTipoDocumentoFactura.NotaEntrega) {
+                vResult = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "PrimeraNE");
+            }
+            return vResult;
+        }
+
+        void ISettValueByCompanyPdn.ConfiguracionImprentaDigitalPorTipoDeDocumentoFactura(eTipoDocumentoFactura valTipoDeDocumento, string valPrimerNumeroTalonario1) {
+            QAdvSql insSql = new QAdvSql("");
+            if (valTipoDeDocumento == eTipoDocumentoFactura.Factura) {
+                //talonario 1                
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("ModeloDeFactura", insSql.EnumToSqlValue((int)eModeloDeFactura.eMD_FORMALIBRE)), (new LibGpParams()).Get(), string.Empty, 0);//modelo de factura -> formalibre
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("NombrePlantillaFactura", insSql.ToSqlValue("rpxFacturaFormatoLibre")), (new LibGpParams()).Get(), string.Empty, 0); //plantilla -> ""
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("FacturaPreNumerada", insSql.ToSqlValue(false)), (new LibGpParams()).Get(), string.Empty, 0);//factura pre-numerada -> no
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("PrimeraFactura", insSql.ToSqlValue(valPrimerNumeroTalonario1)), (new LibGpParams()).Get(), string.Empty, 0);//primera factura -> valPrimerNumeroTalonario1
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("TipoDePrefijo", insSql.EnumToSqlValue((int)eTipoDePrefijo.SinPrefijo)), (new LibGpParams()).Get(), string.Empty, 0);//tipo de prefijo -> sin prefijo
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("Prefijo", insSql.ToSqlValue("")), (new LibGpParams()).Get(), string.Empty, 0);//prefijo -> ""
+
+                //talonario 2 -> se coloca como No usa dos talonarios
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("ModeloDeFactura2", insSql.EnumToSqlValue((int)eModeloDeFactura.eMD_FORMALIBRE)), (new LibGpParams()).Get(), string.Empty, 0);//modelo de factura -> formalibre
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("NombrePlantillaFactura2", insSql.ToSqlValue("rpxFacturaFormatoLibre")), (new LibGpParams()).Get(), string.Empty, 0);//plantilla -> ""
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("FacturaPreNumerada2", insSql.ToSqlValue(false)), (new LibGpParams()).Get(), string.Empty, 0);//factura pre-numerada -> no
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("PrimeraFactura2", insSql.ToSqlValue("")), (new LibGpParams()).Get(), string.Empty, 0);//primera factura -> ""
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("TipoDePrefijo2", insSql.EnumToSqlValue((int)eTipoDePrefijo.SinPrefijo)), (new LibGpParams()).Get(), string.Empty, 0);//tipo de prefijo -> sin prefijo
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("Prefijo2", insSql.ToSqlValue("")), (new LibGpParams()).Get(), string.Empty, 0);//prefijo -> ""
+            } else if (valTipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito) {
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("NombrePlantillaNotaDeCredito", insSql.ToSqlValue("rpxNotaDeCreditoFormatoLibre")), (new LibGpParams()).Get(), string.Empty, 0);//plantilla -> "rpxNotaDeCreditoFormatoLibre"
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("NCPreNumerada", insSql.ToSqlValue(false)), (new LibGpParams()).Get(), string.Empty, 0);//NC pre-numerada -> no
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("PrimeraNotaDeCredito", insSql.ToSqlValue(valPrimerNumeroTalonario1)), (new LibGpParams()).Get(), string.Empty, 0);//primera NC -> valPrimerNumeroTalonario1
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("TipoDePrefijoNC", insSql.EnumToSqlValue((int)eTipoDePrefijo.SinPrefijo)), (new LibGpParams()).Get(), string.Empty, 0);//tipo de prefijo -> sin prefijo
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("PrefijoNC", insSql.ToSqlValue("")), (new LibGpParams()).Get(), string.Empty, 0);//prefijo -> ""
+            } else if (valTipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito) {
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("NombrePlantillaNotaDeDebito", insSql.ToSqlValue("rpxNotaDeDebitoFormatoLibre")), (new LibGpParams()).Get(), string.Empty, 0);//plantilla -> "rpxNotaDeDebitoFormatoLibre"
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("NDPreNumerada", insSql.ToSqlValue(false)), (new LibGpParams()).Get(), string.Empty, 0);//NC pre-numerada -> no
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("PrimeraNotaDeDebito", insSql.ToSqlValue(valPrimerNumeroTalonario1)), (new LibGpParams()).Get(), string.Empty, 0);//primera ND -> valPrimerNumeroTalonario1
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("TipoDePrefijoND", insSql.ToSqlValue((int)eTipoDePrefijo.SinPrefijo)), (new LibGpParams()).Get(), string.Empty, 0);//tipo de prefijo -> sin prefijo
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("PrefijoND", insSql.ToSqlValue("")), (new LibGpParams()).Get(), string.Empty, 0);//prefijo -> ""
+            } else if (valTipoDeDocumento == eTipoDocumentoFactura.NotaEntrega) {
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("ModeloNotaEntrega", insSql.EnumToSqlValue((int)eModeloDeFactura.eMD_FORMALIBRE)), (new LibGpParams()).Get(), string.Empty, 0);//modelo de NE -> formalibre
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("NombrePlantillaNotaEntrega", insSql.ToSqlValue("")), (new LibGpParams()).Get(), string.Empty, 0);//plantilla -> ""
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("NotaEntregaPreNumerada", insSql.ToSqlValue(false)), (new LibGpParams()).Get(), string.Empty, 0);//NC pre-numerada -> no
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("PrimeraNotaEntrega", insSql.ToSqlValue(valPrimerNumeroTalonario1)), (new LibGpParams()).Get(), string.Empty, 0);//primera NE -> valPrimerNumeroTalonario1
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("TipoPrefijoNotaEntrega", insSql.ToSqlValue((int)eTipoDePrefijo.SinPrefijo)), (new LibGpParams()).Get(), string.Empty, 0);//tipo de prefijo -> sin prefijo
+                LibBusiness.ExecuteUpdateOrDelete(SqlUpdateComunSettValueByCompanyParaID("PrefijoNotaEntrega", insSql.ToSqlValue("")), (new LibGpParams()).Get(), string.Empty, 0);//prefijo -> ""
+            }
+        }
+
+        string SqlUpdateComunSettValueByCompanyParaID(string valNameSettDefinition, string valValue) {
+            int vConsecutivoCompania = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania");
+            QAdvSql insSql = new QAdvSql("");
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("UPDATE Comun.SettValueByCompany");
+            vSql.AppendLine("   SET Value = " + valValue);
+            vSql.AppendLine(" WHERE (ConsecutivoCompania = " + insSql.ToSqlValue(vConsecutivoCompania) + ") AND (NameSettDefinition = " + insSql.ToSqlValue(valNameSettDefinition) + " )");
+            return vSql.ToString();
+        }
+
+        void ISettValueByCompanyPdn.MoverDocumentosDeTalonario(eTipoDocumentoFactura valTipoDeDocumento, eTalonario valTalonarioOrigen, eTalonario valTalonarioDestino) {
+            int vConsecutivoCompania = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania");
+            StringBuilder vSql = new StringBuilder();
+            QAdvSql insSql = new QAdvSql("");
+            vSql.AppendLine("UPDATE factura");
+            vSql.AppendLine("   SET Talonario = " + insSql.EnumToSqlValue((int)valTalonarioDestino));
+            vSql.AppendLine(" WHERE (ConsecutivoCompania = " + insSql.ToSqlValue(vConsecutivoCompania) + ") AND (Talonario = " + insSql.EnumToSqlValue((int)valTalonarioOrigen) + ")");
+            LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), (new LibGpParams()).Get(), string.Empty, 0);
+        }
+
+        void ISettValueByCompanyPdn.ConfigurarImprentaDigital(eProveedorImprentaDigital valProveedorImprentaDigital, DateTime valFechaDeInicioDeUsoDeImprentaDigital) {
+            int vConsecutivoCompania = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania");
+            StringBuilder vSql = new StringBuilder();
+            QAdvSql insSql = new QAdvSql("");
+            vSql.AppendLine("UPDATE Comun.SettValueByCompany");
+            vSql.AppendLine("   SET Value = " + insSql.ToSqlValue(true));
+            vSql.AppendLine(" WHERE (ConsecutivoCompania = " + insSql.ToSqlValue(vConsecutivoCompania) + ") AND (NameSettDefinition = " + insSql.ToSqlValue("UsaImprentaDigital") + " )");
+            LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), (new LibGpParams()).Get(), string.Empty, 0);
+
+            vSql.AppendLine("UPDATE Comun.SettValueByCompany");
+            vSql.AppendLine("   SET Value = " + insSql.ToSqlValue(valFechaDeInicioDeUsoDeImprentaDigital));
+            vSql.AppendLine(" WHERE (ConsecutivoCompania = " + insSql.ToSqlValue(vConsecutivoCompania) + ") AND (NameSettDefinition = " + insSql.ToSqlValue("FechaInicioImprentaDigital") + " )");
+            LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), (new LibGpParams()).Get(), string.Empty, 0);
+
+            vSql.AppendLine("UPDATE Comun.SettValueByCompany");
+            vSql.AppendLine("   SET Value = " + insSql.EnumToSqlValue((int)valProveedorImprentaDigital));
+            vSql.AppendLine(" WHERE (ConsecutivoCompania = " + insSql.ToSqlValue(vConsecutivoCompania) + ") AND (NameSettDefinition = " + insSql.ToSqlValue("ProveedorImprentaDigital") + " )");
+            LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), (new LibGpParams()).Get(), string.Empty, 0);
+
+            string vNumeroDeDigitosEnFactura = "11";
+            if (valProveedorImprentaDigital == eProveedorImprentaDigital.TheFactoryHKA) {
+                vNumeroDeDigitosEnFactura = "8";
+            }
+            vSql.AppendLine("UPDATE Comun.SettValueByCompany");
+            vSql.AppendLine("   SET Value = " + insSql.ToSqlValue(vNumeroDeDigitosEnFactura));
+            vSql.AppendLine(" WHERE (ConsecutivoCompania = " + insSql.ToSqlValue(vConsecutivoCompania) + ") AND (NameSettDefinition = " + insSql.ToSqlValue("NumeroDeDigitosEnFactura") + " )");
+            LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), (new LibGpParams()).Get(), string.Empty, 0);
+
+            //hasta nuevo aviso
+            vSql.AppendLine("UPDATE Comun.SettValueByCompany");
+            vSql.AppendLine("   SET Value = " + insSql.ToSqlValue(false));
+            vSql.AppendLine(" WHERE (ConsecutivoCompania = " + insSql.ToSqlValue(vConsecutivoCompania) + ") AND (NameSettDefinition = " + insSql.ToSqlValue("UsarDosTalonarios") + " )");
+            LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), (new LibGpParams()).Get(), string.Empty, 0);
+
+            //hasta nuevo aviso
+            vSql.AppendLine("UPDATE Comun.SettValueByCompany");
+            vSql.AppendLine("   SET Value = " + insSql.ToSqlValue(false));
+            vSql.AppendLine(" WHERE (ConsecutivoCompania = " + insSql.ToSqlValue(vConsecutivoCompania) + ") AND (NameSettDefinition = " + insSql.ToSqlValue("UsaNotaEntrega") + " )");
+            LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), (new LibGpParams()).Get(), string.Empty, 0);
+        }
+
+        bool ISettValueByCompanyPdn.SonValidosLosSiguienteNumerosDeDocumentosParaImprentaDigital(string valPrimerNumeroFacturaT1, string valPrimerNumeroNotaDeCredito, string valPrimerNumeroNotaDeDebito, out StringBuilder outMessage) {
+            outMessage = new StringBuilder();
+            bool vResult = true;
+            int vConsecutivoCompania = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania");
+            string vSql;
+            LibDatabase insDb = new LibDatabase();
+            vSql = "SELECT Numero FROM factura WHERE ConsecutivoCompania = " + insDb.InsSql.ToSqlValue(vConsecutivoCompania) + " AND TipoDeDocumento = " + insDb.InsSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + " AND Numero = " + insDb.InsSql.ToSqlValue(valPrimerNumeroFacturaT1);
+            if (insDb.RecordCountOfSql(vSql) > 0) {
+                vResult = false;
+                outMessage.AppendLine("El Número de Factura: " + valPrimerNumeroFacturaT1 + " ya existe. No puede ser utilizado como primer Número de Factura para Imprenta Digital");
+            }
+
+            vSql = "SELECT Numero FROM factura WHERE ConsecutivoCompania = " + insDb.InsSql.ToSqlValue(vConsecutivoCompania) + " AND TipoDeDocumento = " + insDb.InsSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + " AND Numero = " + insDb.InsSql.ToSqlValue(valPrimerNumeroNotaDeCredito);
+            if (insDb.RecordCountOfSql(vSql) > 0) {
+                vResult = false;
+                outMessage.AppendLine("El Número de Nota de Crédito: " + valPrimerNumeroFacturaT1 + " ya existe. No puede ser utilizado como primer Número de Nota de Crédito para Imprenta Digital");
+            }
+
+            vSql = "SELECT Numero FROM factura WHERE ConsecutivoCompania = " + insDb.InsSql.ToSqlValue(vConsecutivoCompania) + " AND TipoDeDocumento = " + insDb.InsSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeDebito) + " AND Numero = " + insDb.InsSql.ToSqlValue(valPrimerNumeroNotaDeDebito);
+            if (insDb.RecordCountOfSql(vSql) > 0) {
+                vResult = false;
+                outMessage.AppendLine("El Número de Nota de Débito: " + valPrimerNumeroFacturaT1 + " ya existe. No puede ser utilizado como primer Número de Nota de Débito para Imprenta Digital");
+            }
+            return vResult;
+        }
+
+        void ISettValueByCompanyPdn.GuardarDatosImprentaDigitalAppSettings(eProveedorImprentaDigital valProveedor, string valUsuario, string valClave,  string valUrl) {
+            string vCampoUsuario = string.Empty;
+            string vCampoClave = string.Empty;
+            bool vContinuar = false;
+            if (valProveedor == eProveedorImprentaDigital.TheFactoryHKA) {
+                vCampoUsuario = "usuario";
+                vCampoClave = "clave";
+                vContinuar = true;
+            }
+            if (vContinuar) {
+                clsImprentaDigitalSettings insIDStt = new clsImprentaDigitalSettings {
+                    DireccionURL = valUrl,
+                    CampoUsuario = vCampoUsuario,
+                    CampoClave = vCampoClave,
+                    Usuario = valUsuario,
+                    Clave = valClave
+                };
+                insIDStt.ActualizarValores();
+            }
+
         }
     } //End of class clsSettValueByCompanyNav
 } //End of namespace Galac.Saw.Brl.PrdStt

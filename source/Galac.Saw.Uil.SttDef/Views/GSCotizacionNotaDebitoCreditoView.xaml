@@ -59,7 +59,7 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Content="Plantilla de Impresión........."
-                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
+                    IsEnabled="{Binding Path=IsEnabled}"
                     Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSTextBoxWpf
                     Name="txtNombrePlantillaNotaDeCredito"
@@ -68,7 +68,7 @@
                     Width="200"
                     BorderThickness="1"
                     InputDataType="Alfanumeric"
-                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
+                    IsEnabled="{Binding Path=IsEnabledNombrePlantillaNotaDeCredito}"
                     MaxLength="50"
                     Style="{StaticResource TextBoxInputStyle}"
                     Text="{Binding Path=NombrePlantillaNotaDeCredito, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -82,7 +82,7 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Command="{Binding Path=ChooseTemplateCommandNC}"
-                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}">
+                    IsEnabled="{Binding Path=IsEnabledNombrePlantillaNotaDeCredito}">
                     ...
                 </Button>
                 <Label
@@ -97,7 +97,7 @@
                     Grid.Column="1"
                     HorizontalAlignment="Left"
                     IsChecked="{Binding Path=NCPreNumerada}"
-                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsEnabled="{Binding Path=IsEnabledNCPreNumerada}"
                     Style="{StaticResource CheckBoxStyle}" />
                 <Label
                     Name="lblPrimeraNotaDeCredito"
@@ -184,7 +184,7 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Content="Plantilla de Impresión........."
-                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
+                    IsEnabled="{Binding Path=IsEnabled}"
                     Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSTextBoxWpf
                     Name="txtNombrePlantillaNotaDeDebito"
@@ -193,7 +193,7 @@
                     Width="200"
                     BorderThickness="1"
                     InputDataType="Alfanumeric"
-                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
+                    IsEnabled="{Binding Path=IsEnabledNombrePlantillaNotaDeDebito}"
                     MaxLength="50"
                     Style="{StaticResource TextBoxInputStyle}"
                     Text="{Binding Path=NombrePlantillaNotaDeDebito, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -207,7 +207,7 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Command="{Binding Path=ChooseTemplateCommandND}"
-                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}">
+                    IsEnabled="{Binding Path=IsEnabledNombrePlantillaNotaDeDebito}">
                     ...
                 </Button>
                 <Label
@@ -222,7 +222,7 @@
                     Grid.Column="1"
                     HorizontalAlignment="Left"
                     IsChecked="{Binding Path=NDPreNumerada}"
-                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsEnabled="{Binding Path=IsEnabledNDPreNumerada}"
                     Style="{StaticResource CheckBoxStyle}" />
                 <Label
                     Name="lblPrimeraNotaDeDebito"

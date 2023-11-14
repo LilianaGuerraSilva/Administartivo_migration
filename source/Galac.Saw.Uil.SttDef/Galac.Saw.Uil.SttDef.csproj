@@ -80,6 +80,9 @@
       <Name>LibGalac.Aos.Uil</Name>
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Uil.dll</HintPath>
     </Reference>
+    <Reference Include="LibGalac.Ssm.U">
+      <HintPath>..\packages\LibGalac.Ssm.U.18.2.3\lib\LibGalac.Ssm.U.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -124,6 +127,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="UIMefSettDefinition.cs" />
+    <Compile Include="ViewModel\ImprentaDigitalActivacionViewModel.cs" />
     <Compile Include="ViewModel\BancosAnticipoViewModel.cs" />
     <Compile Include="ViewModel\BancosMonedaViewModel.cs" />
     <Compile Include="ViewModel\BancosMovimientoBancarioViewModel.cs" />
@@ -139,6 +143,7 @@
     <Compile Include="ViewModel\FacturaBalanzaEtiquetasViewModel.cs" />
     <Compile Include="ViewModel\FacturaImprentaDigitalViewModel.cs" />
     <Compile Include="ViewModel\FacturaPuntoDeVentaViewModel.cs" />
+    <Compile Include="ViewModel\ImprentaDigitalDatosDeConexionViewModel.cs" />
     <Compile Include="ViewModel\InventarioMetodoCostoViewModel.cs" />
     <Compile Include="ViewModel\CotizacionNotaDebitoCreditoViewModel.cs" />
     <Compile Include="ViewModel\CotizacionVendedorViewModel.cs" />
@@ -248,6 +253,12 @@
     <Compile Include="Views\GSFacturaPuntoDeVentaView.xaml.cs">
       <DependentUpon>GSFacturaPuntoDeVentaView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\GSImprentaDigitalActivacion.xaml.cs">
+      <DependentUpon>GSImprentaDigitalActivacion.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSImprentaDigitalDatosDeConexion.xaml.cs">
+      <DependentUpon>GSImprentaDigitalDatosDeConexion.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GSInventarioMetodoCostoView.xaml.cs">
       <DependentUpon>GSInventarioMetodoCostoView.xaml</DependentUpon>
     </Compile>
@@ -277,6 +288,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -399,6 +411,14 @@
     <Page Include="Views\GSFacturaPuntoDeVentaView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSImprentaDigitalActivacion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GSImprentaDigitalDatosDeConexion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GSInventarioMetodoCostoView.xaml">
       <Generator>MSBuild:Compile</Generator>

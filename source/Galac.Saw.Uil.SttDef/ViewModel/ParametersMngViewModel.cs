@@ -13,15 +13,17 @@ using Galac.Saw.Brl.SttDef;
 using Galac.Comun.Ccl.TablasGen;
 using System.Xml.Linq;
 using LibGalac.Aos.DefGen;
+using LibGalac.Ssm.U;
 namespace Galac.Saw.Uil.SttDef.ViewModel {
 
     public class ParametersMngViewModel : LibGenericMngViewModel {
 
-        #region "Propiedades"
+        #region Propiedades
         public override string ModuleName {
             get { return "Parametros Administrativos"; }
         }
-       
+
+        #region Command
         public RelayCommand UpdateCommand {
             get;
             private set;
@@ -31,13 +33,31 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             get;
             private set;
         }
-        #endregion
 
-        #region "Constructores"
+        public RelayCommand ActivarImprentaDigitalCommand {
+            get;
+            private set;
+        }
+
+        public RelayCommand ActualizarDatosDeConexionImprentaDigitalCommand {
+            get;
+            private set;
+        }
+        #endregion Command
+        #endregion Propiedades
+
+        #region Constructores
         protected override void InitializeCommands() {
             base.InitializeCommands();
             UpdateCommand = new RelayCommand(ExecuteUpdateCommand, CanExecuteUpdateCommand);
             ReadCommand = new RelayCommand(ExecuteReadCommand, CanExecuteReadCommand);
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsModoAvanzado")) {
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaImprentaDigital")) {
+                    ReadCommand = new RelayCommand(ExecuteActualizarDatosDeConexionImprentaDigitalCommand, CanExecuteActualizarDatosDeConexionDigitalCommand);
+                } else {
+                    ReadCommand = new RelayCommand(ExecuteActivarImprentaDigitalCommand, CanExecuteActivarImprentaDigitalCommand);
+                }
+            }
         }
 
         protected override void InitializeRibbon() {
@@ -49,13 +69,16 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             LibRibbonTabData vResult = new LibRibbonTabData(ModuleName) {
                 KeyTip = "G"
             };
-
             vResult.GroupDataCollection.Add(CreateAccionesRibbonGroup());
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsModoAvanzado")) {
+                vResult.GroupDataCollection.Add(CreateImprentaDigitalRibbonGroup());
+            }
             return vResult;
         }
-        #endregion
+        #endregion Constructores
 
-        #region "Metodos"
+        #region Metodos
+        #region CanExecute--Command
         private bool CanExecuteUpdateCommand() {
             bool vResult = false;
             if (LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania") > 0) {
@@ -64,6 +87,28 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             return vResult;
         }
 
+        private bool CanExecuteReadCommand() {
+            bool vResult = false;
+            if (LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania") > 0) {
+                vResult = LibSecurityManager.CurrentUserHasAccessTo("Parámetros", "Consultar");
+            }
+            return vResult;
+        }
+
+        private bool CanExecuteActivarImprentaDigitalCommand() {
+            bool vUsaDosTalonarios = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios");
+            bool vUsaNotaDeEntrega = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaNotaEntrega");
+            return !vUsaDosTalonarios && !vUsaNotaDeEntrega;
+        }
+
+        private bool CanExecuteActualizarDatosDeConexionDigitalCommand() {
+            bool vUsaDosTalonarios = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios");
+            bool vUsaNotaDeEntrega = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaNotaEntrega");
+            return !vUsaDosTalonarios && !vUsaNotaDeEntrega;
+        }
+        #endregion CanExecute--Command
+
+        #region Execute--Command
         private void ExecuteUpdateCommand() {
             try {
                 SettValueByCompany vParametros = FindCurrentRecord(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
@@ -77,14 +122,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Error(this, vEx.Message, "Error");
             }
-        }
-
-        private bool CanExecuteReadCommand() {
-            bool vResult = false;
-            if (LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania") > 0) {
-                vResult = LibSecurityManager.CurrentUserHasAccessTo("Parámetros", "Consultar");
-            }
-            return vResult;
         }
 
         private void ExecuteReadCommand() {
@@ -102,6 +139,41 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
+        private void ExecuteActivarImprentaDigitalCommand() {
+            try {
+                bool vPuedeEjecutar = !LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaImprentaDigital");
+                bool vClaveEspecialValida = vPuedeEjecutar && new LibGalac.Ssm.U.LibRequestAdvancedOperation().AuthorizeProcess("Activar Imprenta Digital", "VE");
+                if (vClaveEspecialValida) {
+                    ImprentaDigitalActivacionViewModel vViewModel = new ImprentaDigitalActivacionViewModel();
+                    LibMessages.EditViewModel.ShowEditor(vViewModel, true);
+                } else {
+                    LibMessages.MessageBox.Information(this, "No se cumplen las condiciones para ejecutar la acción.", "Activar Imprenta Digital");
+                }
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
+            }
+        }
+
+        private void ExecuteActualizarDatosDeConexionImprentaDigitalCommand() {
+            try {
+                bool vPuedeEjecutar = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaImprentaDigital");
+                bool vClaveEspecialValida = vPuedeEjecutar && new LibGalac.Ssm.U.LibRequestAdvancedOperation().AuthorizeProcess("Actualizar Datos de Conexión de Imprenta Digital", "VE");
+                if (vClaveEspecialValida) {
+                    ImprentaDigitalDatosDeConexionViewModel vViewModel = new ImprentaDigitalDatosDeConexionViewModel();
+                    LibMessages.EditViewModel.ShowEditor(vViewModel, true);
+                } else {
+                    LibMessages.MessageBox.Information(this, "No se cumplen las condiciones para ejecutar la acción.", "Actualizar Datos de Conexión de Imprenta Digital");
+                }
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
+            }
+        }
+
+        #endregion Execute--Command
 
         private LibRibbonGroupData CreateAccionesRibbonGroup() {
             LibRibbonGroupData vResult = new LibRibbonGroupData("Acciones");
@@ -122,7 +194,29 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             });
             return vResult;
         }
-        
+
+        private LibRibbonGroupData CreateImprentaDigitalRibbonGroup() {
+            LibRibbonGroupData vResult = new LibRibbonGroupData("Imprenta Digital");
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaImprentaDigital")) {
+                vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                    Label = "Actualizar datos de Conexión",
+                    Command = ReadCommand,
+                    LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/exec.png", UriKind.Relative),
+                    ToolTipDescription = "Actualizar datos de conexión con el proveedor de Imprenta Digital.",
+                    ToolTipTitle = "Actualizar datos de Conexión"
+                });
+            } else {
+                vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                    Label = "Activar Imprenta Digital",
+                    Command = ReadCommand,
+                    LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/exec.png", UriKind.Relative),
+                    ToolTipDescription = "Activar y Configurar parámetros de Imprenta Digital.",
+                    ToolTipTitle = "Activar Imprenta Digital"
+                });
+            }
+            return vResult;
+        }
+
         private SettValueByCompany FindCurrentRecord(int valConsecutivoCompania) {
             SettValueByCompany vResult = null;
             ILibBusinessComponent<IList<SettValueByCompany>, IList<SettValueByCompany>> vBusinessComponent = new clsSettValueByCompanyNav() as ILibBusinessComponent<IList<SettValueByCompany>, IList<SettValueByCompany>>;
@@ -160,6 +254,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
             return vResult;
         }
-        #endregion
+        #endregion Metodos
     }
 }

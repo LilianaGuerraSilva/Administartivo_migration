@@ -29,13 +29,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string ModeloNotaEntregaModoTextoPropertyName = "ModeloNotaEntregaModoTexto";
         public const string IsEnabledPlantillaNotaEntregaPropertyName="IsEnabledPlantillaNotaEntrega";
         public const string IsEnableDatosNumeroNotaEntregaPropertyName = "IsEnableDatosNumeroNotaEntrega";
-
         public const string IsVisibleModeloNotaEntregaModoTextoPropertyName = "IsVisibleModeloNotaEntregaModoTexto";
         public const string IsEnabledPrefijoNotaEntregaPropertyName = "IsEnabledPrefijoNotaEntrega";
-        private const string IsEnabledUsaImprentaDigitalPropertyName = "IsEnabledUsaImprentaDigital";
         #endregion
         #region Variables
-        private bool _IsEnabledUsaImprentaDigital;
         #endregion //Variables
         #region Propiedades
 
@@ -43,7 +40,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             get { return "8.1-Notas de entrega"; }
         }
 
-        public eTipoDePrefijoFactura  TipoPrefijoNotaEntrega {
+        public eTipoDePrefijo  TipoPrefijoNotaEntrega {
             get {
                 return Model.TipoPrefijoNotaEntregaAsEnum;
             }
@@ -51,7 +48,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 if (Model.TipoPrefijoNotaEntregaAsEnum != value) {
                     Model.TipoPrefijoNotaEntregaAsEnum = value;
                     IsDirty = true;
-                    if (TipoPrefijoNotaEntrega == eTipoDePrefijoFactura.SinPrefijo) {
+                    if (TipoPrefijoNotaEntrega == eTipoDePrefijo.SinPrefijo) {
                         PrefijoNotaEntrega = "";
                     }
                     RaisePropertyChanged(TipoPrefijoNotaEntregaPropertyName);
@@ -82,7 +79,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     Model.NotaEntregaPreNumeradaAsBool = value;
                     IsDirty = true;
                     if (NotaEntregaPreNumerada) {
-                        TipoPrefijoNotaEntrega = eTipoDePrefijoFactura.SinPrefijo;
+                        TipoPrefijoNotaEntrega = eTipoDePrefijo.SinPrefijo;
                     }
                     RaisePropertyChanged(NotaEntregaPreNumeradaPropertyName);
                     RaisePropertyChanged(IsEnableDatosNumeroNotaEntregaPropertyName);
@@ -181,9 +178,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public eTipoDePrefijoFactura[] ArrayTipoDePrefijo {
+        public eTipoDePrefijo[] ArrayTipoDePrefijo {
             get {
-                return LibEnumHelper<eTipoDePrefijoFactura>.GetValuesInArray();
+                return LibEnumHelper<eTipoDePrefijo>.GetValuesInArray();
             }
         }
 
@@ -205,10 +202,15 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnabledPlantillaNotaEntrega {
             get {
-                return (ModeloNotaEntrega == eModeloDeFactura.eMD_OTRO) && IsNotEnabledUsaImprentaDigital;
+                return (ModeloNotaEntrega == eModeloDeFactura.eMD_OTRO) && UsaImprentaDigital();
             }
         }
-       
+
+        public bool IsEnabledModeloNotaEntrega {
+            get {
+                return !UsaImprentaDigital();
+            }
+        }
 
         public string[] ArrayModeloNotaEntregaModoTexto {
             get {
@@ -224,37 +226,40 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnabledTipoPrefijo {
             get {
-                return Model.NotaEntregaPreNumeradaAsBool;
+                return Model.NotaEntregaPreNumeradaAsBool && !UsaImprentaDigital();
             }
         }
 
         public bool IsEnableDatosNumeroNotaEntrega {
             get {
-                return IsEnabled && !NotaEntregaPreNumerada;
+                return IsEnabled && !NotaEntregaPreNumerada && !UsaImprentaDigital();
             }
         }
 
         public bool IsEnabledPrefijoNotaEntrega {
             get {
-                return IsEnabled && IsEnableDatosNumeroNotaEntrega && TipoPrefijoNotaEntrega == eTipoDePrefijoFactura.Indicar;
+                return IsEnabled && IsEnableDatosNumeroNotaEntrega && (TipoPrefijoNotaEntrega == eTipoDePrefijo.Indicar) && !UsaImprentaDigital();
             }
         }
 
-        public bool IsEnabledUsaImprentaDigital {
-            get { return (_IsEnabledUsaImprentaDigital || UsaImprentaDigital()); }
-            set {
-                if (_IsEnabledUsaImprentaDigital != value) {
-                    _IsEnabledUsaImprentaDigital = value;
-                    RaisePropertyChanged(IsEnabledUsaImprentaDigitalPropertyName);
-                }
-            }
-        }
-
-        public bool IsNotEnabledUsaImprentaDigital {
+        public bool IsEnabledNotaEntregaPreNumerada {
             get {
-                return IsEnabled && !IsEnabledUsaImprentaDigital;
+                return !UsaImprentaDigital();
             }
         }
+
+        public bool IsEnabledModeloNotaEntregaModoTexto {
+            get {
+                return !UsaImprentaDigital();
+            }
+        }
+
+        public bool IsEnabledOrdenDeDespacho {
+            get {
+                return !UsaImprentaDigital();
+            }
+        }
+
         #endregion //Propiedades
         #region Constructores
         public NotasDeEntregaViewModel()
@@ -263,8 +268,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public NotasDeEntregaViewModel(NotaEntregaStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = TipoPrefijoNotaEntregaPropertyName;
-            LibMessages.Notification.Register<bool>(this, OnUsaImprentaDigitalChanged);
-            //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -282,9 +285,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             if (valModel == null) {
                 return new NotaEntregaStt();
             }
-            //LibGpParams vParams = new LibGpParams();
-            //vParams.AddInEnum("TipoPrefijoNotaEntrega", LibConvert.EnumToDbValue((int)valModel.TipoPrefijoNotaEntregaAsEnum));
-            //return BusinessComponent.GetData(eProcessMessageType.SpName, "NotaEntregaSttGET", vParams.Get()).FirstOrDefault();
             return valModel;
         }
 
@@ -341,12 +341,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 
             }
             return vResult;
-        }
-
-        private void OnUsaImprentaDigitalChanged(NotificationMessage<bool> valMessage) {
-            if (LibString.S1IsEqualToS2(valMessage.Notification, "UsaImprentaDigital")) {
-                IsEnabledUsaImprentaDigital = valMessage.Content || UsaImprentaDigital();
-            }
         }
 
         private bool UsaImprentaDigital() {
