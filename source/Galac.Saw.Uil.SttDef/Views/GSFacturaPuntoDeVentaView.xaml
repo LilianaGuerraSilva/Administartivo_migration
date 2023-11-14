@@ -6,7 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:nsVm="clr-namespace:Galac.Saw.Uil.SttDef.ViewModel"
     xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
-    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+    IsEnabled="{Binding Path=IsEnabledPuntoDeVenta}">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -29,7 +30,7 @@
             Grid.Column="0"
             Margin="3"
             Header="Punto De Venta"
-            IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
+            IsEnabled="{Binding Path=IsEnabled}"
             Style="{StaticResource GroupBoxStyle}">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -84,7 +85,7 @@
                     Grid.Column="1"
                     HorizontalAlignment="Left"
                     IsChecked="{Binding Path=UsarBalanza}"
-                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsEnabled="{Binding Path=IsEnabledUsaBalanza}"
                     Style="{StaticResource CheckBoxStyle}" />
                 <Label
                     Name="lblUsaBusquedaDinamicaEnPuntoDeVenta"
@@ -98,7 +99,7 @@
                     Grid.Column="1"
                     HorizontalAlignment="Left"
                     IsChecked="{Binding Path=UsaBusquedaDinamicaEnPuntoDeVenta}"
-                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsEnabled="{Binding Path=IsEnabledUsaBusquedaDinamicaEnPuntoDeVenta}"
                     Style="{StaticResource CheckBoxStyle}" />
             </Grid>
         </GroupBox>
@@ -107,7 +108,7 @@
             Grid.Column="0"
             Margin="3"
             Header="Configuración Común de Factura"
-            IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
+            IsEnabled="{Binding Path=IsEnabledConfiguracionComunFactura}"
             Style="{StaticResource GroupBoxStyle}">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -150,7 +151,7 @@
                     Grid.Row="2"
                     Grid.Column="1"
                     Width="120"
-                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsEnabled="{Binding Path=IsEnabledTipoDeNivelDePrecios}"
                     IsSynchronizedWithCurrentItem="True"
                     ItemsSource="{Binding Path=ArrayTipoDeNivelDePrecios}"
                     SelectedItem="{Binding Path=TipoDeNivelDePrecios, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
@@ -205,7 +206,7 @@
                     Grid.Column="1"
                     HorizontalAlignment="Left"
                     IsChecked="{Binding Path=ImprimeDireccionAlFinalDelComprobanteFiscal}"
-                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsEnabled="{Binding Path=IsEnabledImprimeDireccionAlFinalDelComprobanteFiscal}"
                     Style="{StaticResource CheckBoxStyle}" />
                 <Border
                     Grid.Row="6"

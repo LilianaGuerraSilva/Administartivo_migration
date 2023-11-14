@@ -2565,7 +2565,7 @@ namespace Galac.Saw.Brl.SttDef {
             return vResult;
         }
 
-        void ISettValueByCompanyPdn.GuardarDatosImprentaDigitalAppSettings(eProveedorImprentaDigital valProveedor, string valUsuario, string valClave) {
+        void ISettValueByCompanyPdn.GuardarDatosImprentaDigitalAppSettings(eProveedorImprentaDigital valProveedor, string valUsuario, string valClave,  string valUrl) {
             string vCampoUsuario = string.Empty;
             string vCampoClave = string.Empty;
             bool vContinuar = false;
@@ -2576,7 +2576,7 @@ namespace Galac.Saw.Brl.SttDef {
             }
             if (vContinuar) {
                 clsImprentaDigitalSettings insIDStt = new clsImprentaDigitalSettings {
-                    DireccionURL = Url,
+                    DireccionURL = valUrl,
                     CampoUsuario = vCampoUsuario,
                     CampoClave = vCampoClave,
                     Usuario = valUsuario,

@@ -26,9 +26,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string ImprimirComprobanteDeCxPPropertyName = "ImprimirComprobanteDeCxP";
         public const string EsSistemaParaIGPropertyName = "EsSistemaParaIG";
         public const string UsaNotaEntregaPropertyName = "UsaNotaEntrega";
-
-        private const string IsEnabledUsaImprentaDigitalPropertyName = "IsEnabledUsaImprentaDigital";
-        private bool _IsEnabledUsaImprentaDigital;
         #endregion
         #region Propiedades
 
@@ -181,22 +178,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
            }
         }
 
-        public bool IsEnabledUsaImprentaDigital {
-            get { return (_IsEnabledUsaImprentaDigital || UsaImprentaDigital()); }
-            set {
-                if (_IsEnabledUsaImprentaDigital != value) {
-                    _IsEnabledUsaImprentaDigital = value;
-                    RaisePropertyChanged(IsEnabledUsaImprentaDigitalPropertyName);
-                }
-            }
+        public bool IsEnabledUsaNotaEntrega {
+            get { return !UsaImprentaDigital(); }
         }
-
-        public bool IsNotEnabledUsaImprentaDigital {
-            get {
-                return IsEnabled && !IsEnabledUsaImprentaDigital;
-            }
-        }
-
         #endregion //Propiedades
         #region Constructores
         public DatosGeneralesViewModel()

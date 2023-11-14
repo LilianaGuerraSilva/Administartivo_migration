@@ -256,9 +256,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = NombreCampoDefinible1PropertyName;
             _ProveedorServicioImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
-            LibMessages.Notification.Register<bool>(this, OnUsaImprentaDigitalChanged);
             LibMessages.Notification.Register<eProveedorImprentaDigital>(this, OnProveedorImprentaDigitalEsTheFactoryChanged);
-            //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -271,9 +269,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             if (valModel == null) {
                 return new CamposDefiniblesStt();
             }
-            //LibGpParams vParams = new LibGpParams();
-            //vParams.AddInString("NombreCampoDefinible1", valModel.NombreCampoDefinible1, 20);
-            //return BusinessComponent.GetData(eProcessMessageType.SpName, "FacturaCamposDefiniblesGET", vParams.Get()).FirstOrDefault();
             return valModel;
         }
 
@@ -291,12 +286,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 }
             }
             return vResult;
-        }
-
-        private void OnUsaImprentaDigitalChanged(NotificationMessage<bool> valMessage) {
-            if (LibString.S1IsEqualToS2(valMessage.Notification, "UsaImprentaDigital")) {
-                IsEnabledUsaImprentaDigital = valMessage.Content || UsaImprentaDigital();
-            }
         }
 
         private void OnProveedorImprentaDigitalEsTheFactoryChanged(NotificationMessage<eProveedorImprentaDigital> valMessage) {

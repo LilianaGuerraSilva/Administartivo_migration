@@ -293,7 +293,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private void ConfigurarImprentaDigital() {
             ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).ConfigurarImprentaDigital(Proveedor, FechaDeInicioDeUso);
-            ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).GuardarDatosImprentaDigitalAppSettings(Proveedor, Usuario, Clave);
+            ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).GuardarDatosImprentaDigitalAppSettings(Proveedor, Usuario, Clave, Url);
         }
 
         private void MoverDocumentosFactura(eTipoDocumentoFactura valTipoDocFactura, eTalonario valTalonarioOrigen, eTalonario valTalonarioDestino) {

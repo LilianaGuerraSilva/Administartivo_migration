@@ -38,11 +38,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string IsEnabledImprimirBorradorAlInsertarFacturaPropertyName = "IsEnabledImprimirBorradorAlInsertarFactura";
         public const string FormatoDeFechaTextoPropertyName = "FormatoDeFechaTexto";
         public const string ImprimirComprobanteFiscalEnContratoPropertyName = "ImprimirComprobanteFiscalEnContrato";
-        private const string IsNotEnabledUsaImprentaDigitalPropertyName = "IsNotEnabledUsaImprentaDigital";
         #endregion
         #region Atributos
         private bool _IsEnabledImprimirBorradorAlInsertarFactura = true;
-        private bool _IsNotEnabledUsaImprentaDigital = true;
         #endregion
         #region Propiedades
         public bool InitFirstTime { get; set; }
@@ -323,16 +321,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         }
 
-        public bool IsNotEnabledUsaImprentaDigital {
-            get { return IsEnabled && _IsNotEnabledUsaImprentaDigital && !UsaImprentaDigital(); }
-            set {
-                if (_IsNotEnabledUsaImprentaDigital != value) {
-                    _IsNotEnabledUsaImprentaDigital = value;
-                    RaisePropertyChanged(IsNotEnabledUsaImprentaDigitalPropertyName);
-                }
-            }
-        }
-
         public bool IsVisibleImprimirTipoCobroEnFactura {
             get {
                 return AppMemoryInfo.GlobalValuesGetBool("Parametros", "SesionEspecialImprimirTipoCobroFactura");
@@ -378,9 +366,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
            : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = DetalleProdCompFacturaPropertyName;
             InitFirstTime = FirstTime;
-            // Model.ConsecutivoCompania = Mfc.GetInt("Compania");
             LibMessages.Notification.Register<bool>(this, OnParametrosComunesChanged);
-            LibMessages.Notification.Register<bool>(this, OnUsaImprentaDigitalChanged);
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -442,12 +428,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 throw;
             } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
-            }
-        }
-
-        private void OnUsaImprentaDigitalChanged(NotificationMessage<bool> valMessage) {
-            if (LibString.S1IsEqualToS2(valMessage.Notification, "UsaImprentaDigital")) {
-                IsNotEnabledUsaImprentaDigital = !(valMessage.Content || UsaImprentaDigital());
             }
         }
 

@@ -49,14 +49,14 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Content="Modelo Nota de Entrega...................."
-                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
+                    IsEnabled="{Binding Path=IsEnabled}"
                     Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSComboBoxWpf
                     Name="cmbModeloNotaEntrega"
                     Grid.Row="0"
                     Grid.Column="1"
                     Width="200"
-                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
+                    IsEnabled="{Binding Path=IsEnabledModeloNotaEntrega}"
                     IsSynchronizedWithCurrentItem="True"
                     ItemsSource="{Binding Path=ArrayModeloDeFactura}"
                     SelectedItem="{Binding Path=ModeloNotaEntrega, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
@@ -104,7 +104,7 @@
                     Grid.Column="1"
                     HorizontalAlignment="Left"
                     IsChecked="{Binding Path=NotaEntregaPreNumerada}"
-                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
+                    IsEnabled="{Binding Path=IsEnabledNotaEntregaPreNumerada}"
                     Style="{StaticResource CheckBoxStyle}" />
                 <Label
                     Name="lblPrimeraNotaEntrega"
@@ -171,7 +171,7 @@
                     Grid.Row="6"
                     Grid.Column="1"
                     Width="200"
-                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
+                    IsEnabled="{Binding Path=IsEnabledModeloNotaEntregaModoTexto}"
                     IsSynchronizedWithCurrentItem="True"
                     ItemsSource="{Binding Path=ArrayModeloNotaEntregaModoTexto}"
                     SelectedItem="{Binding Path=ModeloNotaEntregaModoTexto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
@@ -185,7 +185,7 @@
             Grid.Column="0"
             Margin="3"
             Header="Ordenes de Despacho"
-            IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
+            IsEnabled="{Binding Path=IsEnabledOrdenDeDespacho}"
             Style="{StaticResource GroupBoxStyle}">
             <Grid>
                 <Grid.ColumnDefinitions>

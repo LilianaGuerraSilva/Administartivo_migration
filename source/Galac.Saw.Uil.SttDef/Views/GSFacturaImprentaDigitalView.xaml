@@ -59,7 +59,7 @@
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         IsChecked="{Binding Path=UsaImprentaDigital}"
-                        IsEnabled="{Binding Path=IsEnabledUsaImprentaDigital}"
+                        IsEnabled="False"
                         Style="{StaticResource CheckBoxStyle}" />
                     <Label
                         Name="lblFechaInicioImprentaDigital"
@@ -74,7 +74,7 @@
                         Grid.Column="1"
                         Width="120"
                         HorizontalAlignment="Right"
-                        IsEnabled="{Binding Path=IsEnabledDatosImprentaDigital}"
+                        IsEnabled="False"
                         SelectedDate="{Binding Path=FechaInicioImprentaDigital, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                         Style="{StaticResource DatePickerStyle}" />
                     <Label
@@ -90,7 +90,7 @@
                         Grid.Column="1"
                         Width="200"
                         HorizontalAlignment="Right"
-                        IsEnabled="{Binding Path=IsEnabledDatosImprentaDigital}"
+                        IsEnabled="False"
                         IsSynchronizedWithCurrentItem="True"
                         ItemsSource="{Binding Path=ArrayProveedorImprentaDigital}"
                         SelectedItem="{Binding Path=ProveedorServicioImprentaDigital, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"

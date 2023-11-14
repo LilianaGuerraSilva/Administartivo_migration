@@ -34,10 +34,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string IsEnabledNDPreNumeradaPropertyName = "IsEnabledNDPreNumerada";
         public const string IsEnabledPrefijoNCPropertyName = "IsEnabledPrefijoNC";
         public const string IsEnabledPrefijoNDPropertyName = "IsEnabledPrefijoND";
-        private const string IsEnabledUsaImprentaDigitalPropertyName = "IsEnabledUsaImprentaDigital";
         #endregion
         #region Variables
-        private bool _IsEnabledUsaImprentaDigital;
         #endregion //Variables
         #region Propiedades
       
@@ -247,43 +245,41 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnabledNCPreNumerada {
             get {
-                return IsEnabled && !NCPreNumerada && IsNotEnabledUsaImprentaDigital;
+                return IsEnabled && !NCPreNumerada && !UsaImprentaDigital();
             }
         }
 
         public bool IsEnabledNDPreNumerada {
             get {
-                return IsEnabled && !NDPreNumerada && IsNotEnabledUsaImprentaDigital;
+                return IsEnabled && !NDPreNumerada && !UsaImprentaDigital();
             }
         }
         
         public bool IsEnabledPrefijoNC {
             get {
-                return IsEnabled && TipoDePrefijoNC == eTipoDePrefijo.Indicar && IsNotEnabledUsaImprentaDigital;
+                return IsEnabled && TipoDePrefijoNC == eTipoDePrefijo.Indicar && !UsaImprentaDigital();
             }
         }
 
         public bool IsEnabledPrefijoND {
             get {
-                return IsEnabled && TipoDePrefijoND == eTipoDePrefijo.Indicar && IsNotEnabledUsaImprentaDigital;
+                return IsEnabled && TipoDePrefijoND == eTipoDePrefijo.Indicar && !UsaImprentaDigital();
             }
         }
 
-        public bool IsEnabledUsaImprentaDigital {
-            get { return (_IsEnabledUsaImprentaDigital || UsaImprentaDigital()); }
-            set {
-                if (_IsEnabledUsaImprentaDigital != value) {
-                    _IsEnabledUsaImprentaDigital = value;
-                    RaisePropertyChanged(IsEnabledUsaImprentaDigitalPropertyName);
-                }
-            }
-        }
-
-        public bool IsNotEnabledUsaImprentaDigital {
+        public bool IsEnabledNombrePlantillaNotaDeCredito {
             get {
-                return IsEnabled && !IsEnabledUsaImprentaDigital;
+                return !UsaImprentaDigital();
             }
         }
+
+        public bool IsEnabledNombrePlantillaNotaDeDebito {
+            get {
+                return !UsaImprentaDigital();
+            }
+        }
+
+
         #endregion //Propiedades
         #region Constructores
         public CotizacionNotaDebitoCreditoViewModel()
@@ -292,8 +288,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public CotizacionNotaDebitoCreditoViewModel(NotasDebitoCreditoEntregaStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = NombrePlantillaBoletaPropertyName;
-            LibMessages.Notification.Register<bool>(this, OnUsaImprentaDigitalChanged);
-            //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -469,12 +463,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
               }
            }
            return vResult;
-        }
-
-        private void OnUsaImprentaDigitalChanged(NotificationMessage<bool> valMessage) {
-            if (LibString.S1IsEqualToS2(valMessage.Notification, "UsaImprentaDigital")) {
-                IsEnabledUsaImprentaDigital = valMessage.Content || UsaImprentaDigital();
-            }
         }
 
         private bool UsaImprentaDigital() {

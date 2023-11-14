@@ -44,14 +44,12 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string CodigoEjemploPesoPropertyName = "CodigoEjemploPeso";
         public const string CodigoEjemploPrecioPropertyName = "CodigoEjemploPrecio";
         public const string CantidadDecimalesInventarioPropertyName = "CantidadDeDecimales";
-        private const string IsEnabledUsaImprentaDigitalPropertyName = "IsEnabledUsaImprentaDigital";
         public const int MaxCaracteresCodigo = 12;        
         #endregion
         #region Variables        
         private int _NumeroDeCaracteresRestantesCodPeso;
         private int _NumeroDeCaracteresRestantesCodPrecio;
         private eCantidadDeDecimales _CantidadDecimalesPrecioInventario;
-        private bool _IsEnabledUsaImprentaDigital;
         #endregion //Variables
         #region Propiedades
         public bool InitFirstTime { get; set; }
@@ -368,19 +366,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public bool IsEnabledUsaImprentaDigital {
-            get { return _IsEnabledUsaImprentaDigital && UsaImprentaDigital(); }
-            set {
-                if (_IsEnabledUsaImprentaDigital != value) {
-                    _IsEnabledUsaImprentaDigital = value;
-                    RaisePropertyChanged(IsEnabledUsaImprentaDigitalPropertyName);
-                }
-            }
+        public bool IsEnabledConfiguracionBalanza {
+            get { return !UsaImprentaDigital(); }
         }
 
-        public bool IsEnabledBalanzaEtiqueta {
-            get { return IsEnabled && !_IsEnabledUsaImprentaDigital; }
-        }
         public string CodigoEjemploPeso {get;set;}
         public string CodigoEjemploPrecio { get; set; }
         
@@ -397,7 +386,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             NumeroDeCaracteresRestantesCodPrecio = CalcularCaracteresRestantesPesoPrecio(false);
             CodigoEjemploPeso = ConstruirCodigoEjemploPeso();
             CodigoEjemploPrecio = ConstruirCodigoEjemploPrecio();
-            LibMessages.Notification.Register<bool>(this, OnUsaImprentaDigitalChanged);
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -580,12 +568,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 throw;
             } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
-            }
-        }
-
-        private void OnUsaImprentaDigitalChanged(NotificationMessage<bool> valMessage) {
-            if (LibString.S1IsEqualToS2(valMessage.Notification, "UsaImprentaDigital")) {
-                IsEnabledUsaImprentaDigital = valMessage.Content || UsaImprentaDigital();
             }
         }
 
