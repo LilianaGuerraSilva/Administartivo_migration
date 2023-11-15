@@ -309,10 +309,12 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     if (!Model.UsaCobroDirectoEnMultimonedaAsBool) {
                         CuentaBancariaCobroMultimoneda = string.Empty;
                         ConceptoBancarioCobroMultimoneda = string.Empty;
+                        UsaMediosElectronicosDeCobro = false;
                     }
                     RaisePropertyChanged(UsaCobroDirectoEnMultimonedaPropertyName);
                     RaisePropertyChanged(ConceptoBancarioCobroMultimonedaPropertyName);
                     RaisePropertyChanged(CuentaBancariaCobroMultimonedaPropertyName);
+                    RaisePropertyChanged(UsaMediosElectronicosDeCobroPropertyName);
                     RaisePropertyChanged(IsEnabledUsaCobroDirectoEnMultimonedaPropertyName);
                     RaisePropertyChanged(IsEnabledCuentaBancariaCobroMultimonedaPropertyName);
                     RaisePropertyChanged(IsEnabledConceptoBancarioCobroMultimonedaPropertyName);
