@@ -885,7 +885,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     if (insMegasoft.EjecutarCobroMediosElectonicos(vDatosVpos.CedulaRif, LibMath.Abs(vDatosVpos.Monto))) {
                         if (insMegasoft.montoTransaccion > 0) {
                             if (LibString.S1IsEqualToS2(insMegasoft.tipoTransaccion, "164")) {
-                                ValidacionZelleViewModel vValidacionZelleViewModel = new ValidacionZelleViewModel(LibConvert.ToDec(insMegasoft.montoTransaccion / 0.01m, 2));
+                                ValidacionZelleViewModel vValidacionZelleViewModel = new ValidacionZelleViewModel(LibConvert.ToDec(insMegasoft.montoTransaccion, 2));
                                 LibMessages.EditViewModel.ShowEditor(vValidacionZelleViewModel, true);
                                 insMegasoft.montoTransaccion = vValidacionZelleViewModel.MontoARegistrar;
                             }
