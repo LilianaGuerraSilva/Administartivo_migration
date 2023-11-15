@@ -4574,3 +4574,11 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	EfectivoMonedaLocal	: decimal;//"Bolívar"
 	EfectivoMonedaDivisa	: decimal;//"Divisa"
 }
+
+{@F}ValidacionZelle = record //"Validación de Transacción con Zelle",Esquema=Adm,Componente=Venta
+	TasaBCVFecha	: Str50;//"Tasa BCV dd/MM/yyyy"	
+	TasaDeCambio	: decimal;//"Tasa de Cambio"
+	MontoRecibidoML	: decimal;//"Monto Recibido en Bs."
+	MontoRecibidoME	: decimal;//"Monto Recibido en $."
+	MontoARegistrar	: decimal;//"Monto a Registrar en $."
+}

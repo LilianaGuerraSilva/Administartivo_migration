@@ -259,6 +259,7 @@
     <Compile Include="ViewModel\FacturaRapidaMngViewModel.cs" />
     <Compile Include="ViewModel\FacturaRapidaViewModel.cs" />
     <Compile Include="ViewModel\PagosElectronicosMngViewModel.cs" />
+    <Compile Include="ViewModel\ValidacionZelleViewModel.cs" />
     <Compile Include="ViewModel\VueltoEfectivoViewModel.cs" />
     <Compile Include="Views\GSBuscarPrecioDeArticuloView.xaml.cs">
       <DependentUpon>GSBuscarPrecioDeArticuloView.xaml</DependentUpon>
@@ -315,6 +316,9 @@
       <DependentUpon>GSFacturaRapidaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reportes\clsCobranzaInformesViewModel.cs" />
+    <Compile Include="Views\GSValidacionZelleView.xaml.cs">
+      <DependentUpon>GSValidacionZelleView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GSVueltoEfectivoView.xaml.cs">
       <DependentUpon>GSVueltoEfectivoView.xaml</DependentUpon>
     </Compile>
@@ -465,6 +469,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GSFacturaRapidaView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSValidacionZelleView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
