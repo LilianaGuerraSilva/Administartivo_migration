@@ -394,7 +394,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
         public bool IsEnabledUsaDosTalonarios {
             get {
-                return IsEnabled && UsarDosTalonarios && !UsaImprentaDigital();
+                return IsEnabled && !UsaImprentaDigital();
             }
         }
 		

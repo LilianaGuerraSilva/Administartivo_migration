@@ -358,7 +358,7 @@
                     Grid.Column="1"
                     HorizontalAlignment="Left"
                     IsChecked="{Binding Path=FacturaPreNumerada2}"
-                    IsEnabled="{Binding Path=IsEnabledTipoPrefijo2}"
+                    IsEnabled="{Binding Path=IsEnabledFacturaPreNumerada2}"
                     Style="{StaticResource CheckBoxStyle}" />
                 <Label
                     Name="lblPrimeraFactura2"
