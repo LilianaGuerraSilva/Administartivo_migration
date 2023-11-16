@@ -876,7 +876,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 cedulaRif = vListInvalidChars.Replace(cedulaRif, "");
                 if (MontoRestantePorPagar > 0) {
                     DatosVPosViewModel vDatosVpos = new DatosVPosViewModel(MontoRestantePorPagar);
-                    MonedaStt vMoneda = new MonedaStt();
                     vDatosVpos.vResultCobroTDDTDC += (arg) => vResultCobroTDDTDC = arg;
                     vDatosVpos.InitializeViewModel(cedulaRif, vDatosVpos.Monto);
                     LibMessages.EditViewModel.ShowEditor(vDatosVpos, true);
@@ -888,13 +887,16 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                                 ValidacionZelleViewModel vValidacionZelleViewModel = new ValidacionZelleViewModel(LibConvert.ToDec(insMegasoft.montoTransaccion, 2));
                                 LibMessages.EditViewModel.ShowEditor(vValidacionZelleViewModel, true);
                                 insMegasoft.montoTransaccion = vValidacionZelleViewModel.MontoARegistrar;
+                                insMegasoft.monedaTransaccion = "USD";
                             }
-                            if (insMegasoft.monedaTransaccion == vMoneda.CodigoMonedaExtranjera) {
+                            if (insMegasoft.monedaTransaccion == CodigoMonedaDivisa) {
                                 vMonedaTransaccion = insMegasoft.monedaTransaccion;
                                 TotalMediosElectronicosME += insMegasoft.montoTransaccion;
+                                
                             } else {
-                                vMonedaTransaccion = vMoneda.CodigoMonedaLocal;
+                                vMonedaTransaccion = _MonedaLocalNav.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
                                 TotalMediosElectronicos += insMegasoft.montoTransaccion;
+                                MoveFocusIfNecessary();
                             }
                             clsCobroDeFacturaNav insCobroNav = new clsCobroDeFacturaNav();
                             ListaCobroCobroMediosElectonicosVPOS.Add(new CobroCobroMediosElectonicosVPOS() {
@@ -906,7 +908,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                             });
                             CantidadTarjetasProcesadas += 1;
                         }
-                        
                     }
                 }
             } catch (System.AccessViolationException) {

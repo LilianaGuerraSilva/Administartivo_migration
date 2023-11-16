@@ -541,7 +541,7 @@
                     FontSize="12"
                     FontStyle="Italic"
                     FontWeight="Medium"
-                    Foreground="White"
+                    Foreground="Black"
                     Header="Detalle de Medios Electrónicos"
                     IsEnabled="{Binding Path=IsEnabledTotalesMediosElectronicos}"
                     IsExpanded="{Binding Path=IsExpandedTotalesMediosElectronicos}">
@@ -664,7 +664,7 @@
                             Grid.ColumnSpan="2"
                             Margin="3,0,0,0"
                             VerticalAlignment="Center"
-                            Content="Deposito"
+                            Content="Depósito"
                             Style="{StaticResource LabelPrompt}" />
                         <nsWpfControls:GSNumericBoxWpf
                             Grid.Row="4"
@@ -684,6 +684,7 @@
                         <Label
                             Grid.Row="5"
                             Grid.Column="0"
+                            Width="70"
                             Margin="3,0,0,0"
                             VerticalAlignment="Center"
                             Content="Zelle"
