@@ -74,8 +74,8 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigFieldDec(this, "txtMontoCierreME", string.Empty, "MontoCierreME");
                 LibReport.ConfigFieldStr(this, "txtHoraCierre", string.Empty, "HoraCierre");
                 LibReport.ConfigFieldInt(this, "txtConsecutivoCaja", "0", "ConsecutivoCaja");
-                LibReport.ConfigGroupHeader(this, "GHCajaApertura", "ConsecutivoConsecutivoCaja", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);
-
+                LibReport.ConfigFieldStr(this, "txtNombreUsuario", string.Empty, "NombreUsuario");
+                LibReport.ConfigGroupHeader(this, "GHCajaApertura", "ConsecutivoConsecutivoCaja", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);                
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 return true;
             }
@@ -100,7 +100,7 @@ namespace Galac.Adm.Rpt.Venta {
             StringBuilder vSql = new StringBuilder();
             QAdvSql insSql = new QAdvSql("");
             int vConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
-            int vConsecutivoCaja = LibConvert.ToInt(txtConsecutivoCaja.Value);
+            int vConsecutivoCaja = LibConvert.ToInt(txtConsecutivoCaja.Value);            
             vSql.AppendLine("SELECT");
             vSql.AppendLine("   SUM(MontoApertura) + SUM(MontoEfectivo) + (SUM(MontoVuelto) + SUM(MontoVueltoPM)) AS EfectivoEnCaja,");
             vSql.AppendLine("   SUM(MontoAperturaME) + SUM(MontoEfectivoME) + SUM(MontoVueltoME)  AS EfectivoEnCajaME");
@@ -110,6 +110,7 @@ namespace Galac.Adm.Rpt.Venta {
             vSql.AppendLine("   AND ConsecutivoCaja = " + insSql.ToSqlValue(vConsecutivoCaja));
             vSql.AppendLine("   AND " + insSql.SqlDateValueBetween("", "Fecha", _FechaDesde, _FechaHasta));
             vSql.AppendLine("   AND CajaCerrada = " + insSql.ToSqlValue(true));
+            vSql.AppendLine("   AND  NombreDelUsuario = " + insSql.ToSqlValue(txtNombreUsuario.Text));            
             return vSql.ToString();
         }
 
