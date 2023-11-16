@@ -33,6 +33,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string UsaCamposDefiniblesPropertyName = "UsaCamposDefinibles";
         private const string IsEnabledUsaImprentaDigitalPropertyName = "IsEnabledUsaImprentaDigital";
         private const string ProveedorImprentaDigitalEsTheFactoryPropertyName = "ProveedorImprentaDigitalEsTheFactory";
+        private const string IsEnabledUsaCamposDefiniblesPropertyName = "IsEnabledUsaCamposDefinibles";
         #endregion
         #region Variables
         private bool _IsEnabledUsaImprentaDigital;
@@ -211,6 +212,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     Model.UsaCamposDefiniblesAsBool = value;
                     IsDirty = true;
                     RaisePropertyChanged(UsaCamposDefiniblesPropertyName);
+                    RaisePropertyChanged(IsEnabledUsaCamposDefiniblesPropertyName);
                 }
             }
         }
