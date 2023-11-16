@@ -354,7 +354,7 @@
                     Grid.Column="1"
                     HorizontalAlignment="Left"
                     IsChecked="{Binding Path=UsaMediosElectronicosDeCobro}"
-                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsEnabled="{Binding Path=IsEnabledCuentaBancariaCobroMultimoneda}"
                     Style="{StaticResource CheckBoxStyle}" />
                 <Label
                     Name="lblConceptoBancarioCobroDirecto"

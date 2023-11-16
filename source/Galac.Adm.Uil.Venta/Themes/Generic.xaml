@@ -107,4 +107,7 @@
     <DataTemplate DataType="{x:Type nsCSVM:DatosVPosViewModel}">
         <nsCSV:GSDatosVPosView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:ValidacionZelleViewModel}">
+        <nsCSV:GSValidacionZelleView />
+    </DataTemplate>
 </ResourceDictionary>

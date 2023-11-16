@@ -872,7 +872,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private void ExecuteCobroMediosElectonicosCommand() {
             try {
-                System.Text.RegularExpressions.Regex vListInvalidChars = new System.Text.RegularExpressions.Regex("[V|E|J|G|C|P|-]", System.Text.RegularExpressions.RegexOptions.Compiled);
+                Regex vListInvalidChars = new Regex("[V|E|J|G|C|P|-]", RegexOptions.Compiled);
                 cedulaRif = vListInvalidChars.Replace(cedulaRif, "");
                 if (MontoRestantePorPagar > 0) {
                     DatosVPosViewModel vDatosVpos = new DatosVPosViewModel(MontoRestantePorPagar);
@@ -884,6 +884,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     C2PMegasoftNav insMegasoft = new C2PMegasoftNav();
                     if (insMegasoft.EjecutarCobroMediosElectonicos(vDatosVpos.CedulaRif, LibMath.Abs(vDatosVpos.Monto))) {
                         if (insMegasoft.montoTransaccion > 0) {
+                            if (LibString.S1IsEqualToS2(insMegasoft.tipoTransaccion, "164")) {
+                                ValidacionZelleViewModel vValidacionZelleViewModel = new ValidacionZelleViewModel(LibConvert.ToDec(insMegasoft.montoTransaccion, 2));
+                                LibMessages.EditViewModel.ShowEditor(vValidacionZelleViewModel, true);
+                                insMegasoft.montoTransaccion = vValidacionZelleViewModel.MontoARegistrar;
+                            }
                             if (insMegasoft.monedaTransaccion == vMoneda.CodigoMonedaExtranjera) {
                                 vMonedaTransaccion = insMegasoft.monedaTransaccion;
                                 TotalMediosElectronicosME += insMegasoft.montoTransaccion;
@@ -901,6 +906,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                             });
                             CantidadTarjetasProcesadas += 1;
                         }
+                        
                     }
                 }
             } catch (System.AccessViolationException) {
