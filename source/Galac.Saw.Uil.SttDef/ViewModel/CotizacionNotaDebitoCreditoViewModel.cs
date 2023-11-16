@@ -34,11 +34,15 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string IsEnabledNDPreNumeradaPropertyName = "IsEnabledNDPreNumerada";
         public const string IsEnabledPrefijoNCPropertyName = "IsEnabledPrefijoNC";
         public const string IsEnabledPrefijoNDPropertyName = "IsEnabledPrefijoND";
+        public const string IsEnabledPrimeraNCPropertyName = "IsEnabledPrimeraNC";
+        public const string IsEnabledPrimeraNDPropertyName = "IsEnabledPrimeraND";
+        public const string IsEnabledTipoDePrefijoNCPropertyName = "IsEnabledTipoPrefijoNC";
+        public const string IsEnabledTipoDePrefijoNDPropertyName = "IsEnabledTipoPrefijoND";
         #endregion
         #region Variables
         #endregion //Variables
         #region Propiedades
-      
+
         public override string ModuleName {
             get { return "3.2.- Nota de Débito / Crédito"; }
         }
@@ -70,6 +74,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     IsDirty = true;
                     RaisePropertyChanged(NCPreNumeradaPropertyName);
                     RaisePropertyChanged(IsEnabledNCPreNumeradaPropertyName);
+                    RaisePropertyChanged(IsEnabledTipoDePrefijoNCPropertyName);
+                    RaisePropertyChanged(IsEnabledPrimeraNCPropertyName);
                 }
             }
         }
@@ -87,6 +93,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     IsDirty = true;
                     RaisePropertyChanged(NDPreNumeradaPropertyName);
                     RaisePropertyChanged(IsEnabledNDPreNumeradaPropertyName);
+                    RaisePropertyChanged(IsEnabledTipoDePrefijoNDPropertyName);
+                    RaisePropertyChanged(IsEnabledPrimeraNDPropertyName);
                 }
             }
         }
@@ -245,25 +253,25 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnabledNCPreNumerada {
             get {
-                return IsEnabled && !NCPreNumerada && !UsaImprentaDigital();
+                return !UsaImprentaDigital();
             }
         }
 
         public bool IsEnabledNDPreNumerada {
             get {
-                return IsEnabled && !NDPreNumerada && !UsaImprentaDigital();
+                return !UsaImprentaDigital();
             }
         }
         
         public bool IsEnabledPrefijoNC {
             get {
-                return IsEnabled && TipoDePrefijoNC == eTipoDePrefijo.Indicar && !UsaImprentaDigital();
+                return IsEnabled && TipoDePrefijoNC == eTipoDePrefijo.Indicar && !UsaImprentaDigital() && !NCPreNumerada;
             }
         }
 
         public bool IsEnabledPrefijoND {
             get {
-                return IsEnabled && TipoDePrefijoND == eTipoDePrefijo.Indicar && !UsaImprentaDigital();
+                return IsEnabled && TipoDePrefijoND == eTipoDePrefijo.Indicar && !UsaImprentaDigital() && !NDPreNumerada;
             }
         }
 
@@ -279,6 +287,29 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
+        public bool IsEnabledPrimeraNC {
+            get {
+                return !UsaImprentaDigital() && !NCPreNumerada;
+            }
+        }
+
+        public bool IsEnabledPrimeraND {
+            get {
+                return !UsaImprentaDigital() && !NDPreNumerada;
+            }
+        }
+
+        public bool IsEnabledTipoPrefijoNC {
+            get {
+                return !UsaImprentaDigital() && !NCPreNumerada;
+            }
+        }
+
+        public bool IsEnabledTipoPrefijoND {
+            get {
+                return !UsaImprentaDigital() && !NDPreNumerada;
+            }
+        }
 
         #endregion //Propiedades
         #region Constructores
