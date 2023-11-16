@@ -84,16 +84,16 @@ namespace Galac.Adm.Rpt.Venta {
         #endregion //Metodos Generados
 
         private void GFCajaApertura_Format(object sender, EventArgs e) {
-            decimal vEfectivoEnCaja = 0;
-            decimal vEfectivoEnCajaME = 0;
-            string vSql = SqlEfectivoEnCajaCerrada();
-            XElement vData = LibGalac.Aos.Brl.LibBusiness.ExecuteSelect(vSql, null, "", 0);
-            if (vData != null && vData.HasElements) {
-                vEfectivoEnCaja = LibImportData.ToDec(LibXml.GetPropertyString(vData, "EfectivoEnCaja"), 2);
-                vEfectivoEnCajaME = LibImportData.ToDec(LibXml.GetPropertyString(vData, "EfectivoEnCajaME"), 2);
-            }
-            LibReport.ConfigFieldDec(this, "txtEfectivoEnCaja", LibConvert.ToStr(vEfectivoEnCaja), "");
-            LibReport.ConfigFieldDec(this, "txtEfectivoEnCajaME", LibConvert.ToStr(vEfectivoEnCajaME), "");
+            //decimal vEfectivoEnCaja = 0;
+            //decimal vEfectivoEnCajaME = 0;
+            //string vSql = SqlEfectivoEnCajaCerrada();
+            //XElement vData = LibGalac.Aos.Brl.LibBusiness.ExecuteSelect(vSql, null, "", 0);
+            //if (vData != null && vData.HasElements) {
+            //    vEfectivoEnCaja = LibImportData.ToDec(LibXml.GetPropertyString(vData, "EfectivoEnCaja"), 2);
+            //    vEfectivoEnCajaME = LibImportData.ToDec(LibXml.GetPropertyString(vData, "EfectivoEnCajaME"), 2);
+            //}
+            //LibReport.ConfigFieldDec(this, "txtEfectivoEnCaja", LibConvert.ToStr(vEfectivoEnCaja), "");
+            //LibReport.ConfigFieldDec(this, "txtEfectivoEnCajaME", LibConvert.ToStr(vEfectivoEnCajaME), "");
         }
 
         private string SqlEfectivoEnCajaCerrada() {
@@ -117,6 +117,18 @@ namespace Galac.Adm.Rpt.Venta {
             return vSql.ToString();
         }
 
+        private void GHCajaApertura_Format(object sender, EventArgs e) {
+            decimal vEfectivoEnCaja = 0;
+            decimal vEfectivoEnCajaME = 0;
+            string vSql = SqlEfectivoEnCajaCerrada();
+            XElement vData = LibGalac.Aos.Brl.LibBusiness.ExecuteSelect(vSql, null, "", 0);
+            if (vData != null && vData.HasElements) {
+                vEfectivoEnCaja = LibImportData.ToDec(LibXml.GetPropertyString(vData, "EfectivoEnCaja"), 2);
+                vEfectivoEnCajaME = LibImportData.ToDec(LibXml.GetPropertyString(vData, "EfectivoEnCajaME"), 2);
+            }
+            LibReport.ConfigFieldDec(this, "txtEfectivoEnCaja", LibConvert.ToStr(vEfectivoEnCaja), "");
+            LibReport.ConfigFieldDec(this, "txtEfectivoEnCajaME", LibConvert.ToStr(vEfectivoEnCajaME), "");
+        }
     } //End of class dsrCajaCerrada
 } //End of namespace Galac.Adm.Rpt.Venta
 
