@@ -61,7 +61,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtEfectivoEnCajaME = new DataDynamics.ActiveReports.TextBox();
             this.txtEfectivoEnDescripcion = new DataDynamics.ActiveReports.TextBox();
             this.txtConsecutivoCaja = new DataDynamics.ActiveReports.TextBox();
-            this.txtNombreUsuario = new DataDynamics.ActiveReports.TextBox();
+            this.txtNombreDelUsuario = new DataDynamics.ActiveReports.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoML)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoME)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMovimiento)).BeginInit();
@@ -93,7 +93,7 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtEfectivoEnCajaME)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtEfectivoEnDescripcion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtConsecutivoCaja)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNombreUsuario)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNombreDelUsuario)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
@@ -208,7 +208,6 @@ namespace Galac.Adm.Rpt.Venta
             // GHCajaApertura
             // 
             this.GHCajaApertura.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
-            this.txtNombreUsuario,
             this.lblOperador,
             this.lblFechaApertura,
             this.lblHoraApertura,
@@ -387,7 +386,8 @@ namespace Galac.Adm.Rpt.Venta
             this.txtEfectivoEnCaja,
             this.txtEfectivoEnCajaME,
             this.txtEfectivoEnDescripcion,
-            this.txtConsecutivoCaja});
+            this.txtConsecutivoCaja,
+            this.txtNombreDelUsuario});
             this.GFCajaApertura.Height = 0.7083333F;
             this.GFCajaApertura.Name = "GFCajaApertura";
             this.GFCajaApertura.Format += new System.EventHandler(this.GFCajaApertura_Format);
@@ -488,16 +488,16 @@ namespace Galac.Adm.Rpt.Venta
             this.txtConsecutivoCaja.Visible = false;
             this.txtConsecutivoCaja.Width = 0.90625F;
             // 
-            // txtNombreUsuario
+            // txtNombreDelUsuario
             // 
-            this.txtNombreUsuario.Height = 0.156F;
-            this.txtNombreUsuario.Left = 0F;
-            this.txtNombreUsuario.Name = "txtNombreUsuario";
-            this.txtNombreUsuario.Style = "color: White; font-size: 8.25pt";
-            this.txtNombreUsuario.Text = "txtNombreUsuario";
-            this.txtNombreUsuario.Top = 0F;
-            this.txtNombreUsuario.Visible = false;
-            this.txtNombreUsuario.Width = 0.90625F;
+            this.txtNombreDelUsuario.Height = 0.156F;
+            this.txtNombreDelUsuario.Left = 1F;
+            this.txtNombreDelUsuario.Name = "txtNombreDelUsuario";
+            this.txtNombreDelUsuario.Style = "color: White; font-size: 8.25pt";
+            this.txtNombreDelUsuario.Text = "txtNombreDelUsuario";
+            this.txtNombreDelUsuario.Top = 0.396F;
+            this.txtNombreDelUsuario.Visible = false;
+            this.txtNombreDelUsuario.Width = 0.90625F;
             // 
             // dsrCajaCerrada
             // 
@@ -547,7 +547,7 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtEfectivoEnCajaME)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtEfectivoEnDescripcion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtConsecutivoCaja)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNombreUsuario)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNombreDelUsuario)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -589,6 +589,6 @@ namespace Galac.Adm.Rpt.Venta
         private DataDynamics.ActiveReports.TextBox txtEfectivoEnCajaME;
         private DataDynamics.ActiveReports.TextBox txtEfectivoEnDescripcion;
         private DataDynamics.ActiveReports.TextBox txtConsecutivoCaja;
-        private DataDynamics.ActiveReports.TextBox txtNombreUsuario;
+        private DataDynamics.ActiveReports.TextBox txtNombreDelUsuario;
     }
 }

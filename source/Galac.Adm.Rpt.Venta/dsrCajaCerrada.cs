@@ -62,6 +62,7 @@ namespace Galac.Adm.Rpt.Venta {
 
                 LibReport.ConfigFieldStr(this, "txtNombreCaja", string.Empty, "NombreCaja");
                 LibReport.ConfigFieldStr(this, "txtOperador", string.Empty, "Operador");
+                LibReport.ConfigFieldStr(this, "txtNombreDelUsuario", string.Empty, "NombreDelUsuario");
                 LibReport.ConfigFieldDate(this, "txtFechaApertura", string.Empty, "Fecha", "dd/MM/yyyy");
                 LibReport.ConfigFieldStr(this, "txtHoraApertura", string.Empty, "HoraApertura");
                 LibReport.ConfigFieldStr(this, "txtMontoCodigoMoneda", string.Empty, "EtiquetaMontoME");
@@ -73,8 +74,7 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigFieldDec(this, "txtMontoCierreML", string.Empty, "MontoCierre");
                 LibReport.ConfigFieldDec(this, "txtMontoCierreME", string.Empty, "MontoCierreME");
                 LibReport.ConfigFieldStr(this, "txtHoraCierre", string.Empty, "HoraCierre");
-                LibReport.ConfigFieldInt(this, "txtConsecutivoCaja", "0", "ConsecutivoCaja");
-                LibReport.ConfigFieldStr(this, "txtNombreUsuario", string.Empty, "NombreUsuario");
+                LibReport.ConfigFieldInt(this, "txtConsecutivoCaja", "0", "ConsecutivoCaja");                
                 LibReport.ConfigGroupHeader(this, "GHCajaApertura", "ConsecutivoConsecutivoCaja", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);                
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 return true;
@@ -100,9 +100,11 @@ namespace Galac.Adm.Rpt.Venta {
             StringBuilder vSql = new StringBuilder();
             QAdvSql insSql = new QAdvSql("");
             int vConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
-            int vConsecutivoCaja = LibConvert.ToInt(txtConsecutivoCaja.Value);            
+            int vConsecutivoCaja = LibConvert.ToInt(txtConsecutivoCaja.Value);
+            string vNombreUsuario = LibConvert.ToStr(this.txtNombreDelUsuario.Value);
+            string vHoraApertura = LibConvert.ToStr(this.txtHoraApertura.Value);
             vSql.AppendLine("SELECT");
-            vSql.AppendLine("   SUM(MontoApertura) + SUM(MontoEfectivo) + (SUM(MontoVuelto) + SUM(MontoVueltoPM)) AS EfectivoEnCaja,");
+            vSql.AppendLine("   SUM(MontoApertura) + SUM(MontoEfectivo) + SUM(MontoVuelto) AS EfectivoEnCaja,");
             vSql.AppendLine("   SUM(MontoAperturaME) + SUM(MontoEfectivoME) + SUM(MontoVueltoME)  AS EfectivoEnCajaME");
             vSql.AppendLine("   FROM adm.cajaapertura");
             vSql.AppendLine("   WHERE ");
@@ -110,7 +112,8 @@ namespace Galac.Adm.Rpt.Venta {
             vSql.AppendLine("   AND ConsecutivoCaja = " + insSql.ToSqlValue(vConsecutivoCaja));
             vSql.AppendLine("   AND " + insSql.SqlDateValueBetween("", "Fecha", _FechaDesde, _FechaHasta));
             vSql.AppendLine("   AND CajaCerrada = " + insSql.ToSqlValue(true));
-            vSql.AppendLine("   AND  NombreDelUsuario = " + insSql.ToSqlValue(txtNombreUsuario.Text));            
+            vSql.AppendLine("   AND  NombreDelUsuario = " + insSql.ToSqlValue(vNombreUsuario));
+            vSql.AppendLine("   AND  HoraApertura = " + insSql.ToSqlValue(vHoraApertura));
             return vSql.ToString();
         }
 

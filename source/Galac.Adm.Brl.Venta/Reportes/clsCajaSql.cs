@@ -710,6 +710,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	HoraApertura, ");
             vSql.AppendLine("	HoraCierre, ");
             vSql.AppendLine("	Operador, ");
+            vSql.AppendLine("	NombreDelUsuario, ");            
             vSql.AppendLine("	Movimiento,");
             vSql.AppendLine("	MontoApertura, MontoAperturaME,");
             vSql.AppendLine("	MontoCierre, MontoCierreME,");
@@ -725,6 +726,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	HoraApertura, ");
             vSql.AppendLine("	HoraCierre, ");
             vSql.AppendLine("	Operador, ");
+            vSql.AppendLine("	NombreDelUsuario, ");
             vSql.AppendLine("	MontoApertura, MontoAperturaME,");
             vSql.AppendLine("	MontoCierre, MontoCierreME,");
             vSql.AppendLine("	Movimiento,");
@@ -757,9 +759,9 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	HoraApertura, ");
             vSql.AppendLine("	HoraCierre, ");
             vSql.AppendLine("	Operador,");
+            vSql.AppendLine("	NombreDelUsuario,");            
             vSql.AppendLine("	MontoApertura, MontoAperturaME,");
             vSql.AppendLine("	MontoCierre, MontoCierreME,");
-            vSql.AppendLine("	NombreUsuario,");            
             vSql.AppendLine("	Movimiento,");
             if (valEsPAraMonedaLocal) {
                 vSql.AppendLine("	MontoML,");
@@ -773,9 +775,9 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("		CA.ConsecutivoCaja, ");
             vSql.AppendLine("		C.NombreCaja, ");
             vSql.AppendLine("		'(' + NombreDelUsuario + ') ' + Usr.FirstAndLastName AS Operador,");
+            vSql.AppendLine("		CA.NombreDelUsuario,");           
             vSql.AppendLine("		MontoApertura, MontoAperturaME,");
             vSql.AppendLine("		MontoCierre, MontoCierreME,");
-            vSql.AppendLine("		CA.NombreDelUsuario AS NombreUsuario,");           
             if (valEsPAraMonedaLocal) {
                 vSql.AppendLine("		MontoEfectivo [01 - Efectivo], MontoTarjeta [02 - Tarjeta], MontoCheque [03 - Cheque], MontoDeposito [04 - Depósito], MontoAnticipo [05 - Anticipo], MontoVuelto [06 - Vuelto Efectivo], MontoVueltoPM [07 - Vuelto Pago Móvil], MontoTarjetaMS [08 - Tarjeta Medios Electrónicos],MontoC2P [09 - C2P],MontoTransferenciaMS [10 - Transferencia Medios Electrónicos],MontoPagoMovil [11 - Pago Móvil],MontoDepositoMS [12 - Depósito Medios Electrónicos], ");
             } else {
