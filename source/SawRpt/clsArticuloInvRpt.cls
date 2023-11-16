@@ -886,7 +886,7 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
      "fConfigurarDatosDelReporteExistenciaPorAlmacen", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fConfigurarDatosDelReporteCostoPorAlmacen(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valEnMonedaExtranjera As Boolean, ByVal valNombreCompaniaParaInformes As String, ByRef gGlobalization As Object) As Boolean
+Public Function fConfigurarDatosDelReporteCostoPorAlmacen(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valEnMonedaExtranjera As Boolean, ByVal valNombreCompaniaParaInformes As String) As Boolean
    Dim nombreDelFileXML As String
    Dim NombreDelReporte As String
    Dim exito As Boolean
@@ -907,15 +907,16 @@ Public Function fConfigurarDatosDelReporteCostoPorAlmacen(ByRef refRpt As DDActi
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCodigo", "", "CodigoArticulo"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtDescripcion", "", "Descripcion"
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtExistencia", "", "Cantidad", False, ddTXRight, formatoNDecimales
-            If valEnMonedaExtranjera Then
-               gUtilReports.sDefaultConfigurationForLabels refRpt, "lblMoneda", "Costo en Moneda Extranjera"
-               gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtCostoUnitario", "", "MeCostoUnitario", False, ddTXRight, formatoNDecimales
-               gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtCostoTotal", "", "CostoTotalME", False, ddTXRight, formatoNDecimales
-            Else
-               gUtilReports.sDefaultConfigurationForLabels refRpt, "lblMoneda", "Costo en Moneda Local"
-               gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtCostoUnitario", "", "CostoUnitario", False, ddTXRight, formatoNDecimales
-               gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtCostoTotal", "", "CostoTotal", False, ddTXRight, formatoNDecimales
-            End If
+         If valEnMonedaExtranjera Then
+            gUtilReports.sDefaultConfigurationForLabels refRpt, "lblMoneda", "Costo en Moneda Extranjera"
+            gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtCostoUnitario", "", "MeCostoUnitario", False, ddTXRight, formatoNDecimales
+            gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtCostoTotal", "", "CostoTotalME", False, ddTXRight, formatoNDecimales
+         Else
+            gUtilReports.sDefaultConfigurationForLabels refRpt, "lblMoneda", "Costo en Moneda Local"
+            gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtCostoUnitario", "", "CostoUnitario", False, ddTXRight, formatoNDecimales
+            gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtCostoTotal", "", "CostoTotal", False, ddTXRight, formatoNDecimales
+         End If
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalExistencia", "Cantidad", eSF_SUM, "GroupHeader1", eSR_ALL, eST_SUB_TOTAL, gUtilReports.getDefaultNumericFormatWithNDecimalPlaces(gConvert.ConvierteAInteger(gProyParametrosCompania.GetCantidadDeDecimalesStr))
          gUtilMargins.sAsignarMargenesGenerales refRpt, , NombreDelReporte
          Call refRpt.AddNamedItem("gUtilReports", gUtilReports)
          Call refRpt.AddNamedItem("gProyParametrosCompania", gProyParametrosCompania)
@@ -1458,7 +1459,7 @@ Public Function fConfigurarDatosDelReporteRegistroImpresionDeCodDeBarras(ByRef r
          gUtilReports.sDefaultConfigurationForBarcode refRpt, "bcCodigoArticulo", "", "CodigoArticulo"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCodigoArticulo", "", "CodigoArticulo"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtDescripcion", "", "Descripcion"
-         If (valPrecioSinIVA) Then
+         If (valPrecioSinIva) Then
             gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtPrecio", "", "PrecioSinIvaML" 'se deja para compatibilidad con la versión vieja de la plantilla
          Else
             gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtPrecio", "", "PrecioConIvaML" 'se deja para compatibilidad con la versión vieja de la plantilla
@@ -1472,11 +1473,11 @@ Public Function fConfigurarDatosDelReporteRegistroImpresionDeCodDeBarras(ByRef r
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtAlicuotaIva", "", "AlicuotaIvaValor"
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtUnidadDeVenta", "", "UnidadDeVenta"
          gUtilReports.sDefaultConfigurationForLabels refRpt, "lblFecha", valFechaHoy
-	 gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCampoDefinible1", "", "CampoDefinible1"
-	 gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCampoDefinible2", "", "CampoDefinible2"
-	 gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCampoDefinible3", "", "CampoDefinible3"
-	 gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCampoDefinible4", "", "CampoDefinible4"
-	 gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCampoDefinible5", "", "CampoDefinible5"
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCampoDefinible1", "", "CampoDefinible1"
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCampoDefinible2", "", "CampoDefinible2"
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCampoDefinible3", "", "CampoDefinible3"
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCampoDefinible4", "", "CampoDefinible4"
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCampoDefinible5", "", "CampoDefinible5"
          gUtilReports.sDefaultConfigurationForLabels refRpt, "lneSimboloML", valSimboloML
          gUtilReports.sDefaultConfigurationForLabels refRpt, "lneSimboloME", valSimboloME
          
