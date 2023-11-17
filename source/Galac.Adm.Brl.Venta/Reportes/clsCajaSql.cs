@@ -710,6 +710,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	HoraApertura, ");
             vSql.AppendLine("	HoraCierre, ");
             vSql.AppendLine("	Operador, ");
+            vSql.AppendLine("	NombreDelUsuario, ");            
             vSql.AppendLine("	Movimiento,");
             vSql.AppendLine("	MontoApertura, MontoAperturaME,");
             vSql.AppendLine("	MontoCierre, MontoCierreME,");
@@ -725,6 +726,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	HoraApertura, ");
             vSql.AppendLine("	HoraCierre, ");
             vSql.AppendLine("	Operador, ");
+            vSql.AppendLine("	NombreDelUsuario, ");
             vSql.AppendLine("	MontoApertura, MontoAperturaME,");
             vSql.AppendLine("	MontoCierre, MontoCierreME,");
             vSql.AppendLine("	Movimiento,");
@@ -757,6 +759,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	HoraApertura, ");
             vSql.AppendLine("	HoraCierre, ");
             vSql.AppendLine("	Operador,");
+            vSql.AppendLine("	NombreDelUsuario,");            
             vSql.AppendLine("	MontoApertura, MontoAperturaME,");
             vSql.AppendLine("	MontoCierre, MontoCierreME,");
             vSql.AppendLine("	Movimiento,");
@@ -772,6 +775,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("		CA.ConsecutivoCaja, ");
             vSql.AppendLine("		C.NombreCaja, ");
             vSql.AppendLine("		'(' + NombreDelUsuario + ') ' + Usr.FirstAndLastName AS Operador,");
+            vSql.AppendLine("		CA.NombreDelUsuario,");           
             vSql.AppendLine("		MontoApertura, MontoAperturaME,");
             vSql.AppendLine("		MontoCierre, MontoCierreME,");
             if (valEsPAraMonedaLocal) {
