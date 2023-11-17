@@ -53,9 +53,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             ReadCommand = new RelayCommand(ExecuteReadCommand, CanExecuteReadCommand);
             if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsModoAvanzado")) {
                 if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaImprentaDigital")) {
-                    ReadCommand = new RelayCommand(ExecuteActualizarDatosDeConexionImprentaDigitalCommand, CanExecuteActualizarDatosDeConexionDigitalCommand);
+                    ActivarImprentaDigitalCommand = new RelayCommand(ExecuteActualizarDatosDeConexionImprentaDigitalCommand, CanExecuteActualizarDatosDeConexionDigitalCommand);
                 } else {
-                    ReadCommand = new RelayCommand(ExecuteActivarImprentaDigitalCommand, CanExecuteActivarImprentaDigitalCommand);
+                    ActualizarDatosDeConexionImprentaDigitalCommand = new RelayCommand(ExecuteActivarImprentaDigitalCommand, CanExecuteActivarImprentaDigitalCommand);
                 }
             }
         }
@@ -200,7 +200,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaImprentaDigital")) {
                 vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
                     Label = "Actualizar datos de Conexión",
-                    Command = ReadCommand,
+                    Command = ActivarImprentaDigitalCommand,
                     LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/exec.png", UriKind.Relative),
                     ToolTipDescription = "Actualizar datos de conexión con el proveedor de Imprenta Digital.",
                     ToolTipTitle = "Actualizar datos de Conexión"
@@ -208,7 +208,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             } else {
                 vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
                     Label = "Activar Imprenta Digital",
-                    Command = ReadCommand,
+                    Command = ActualizarDatosDeConexionImprentaDigitalCommand,
                     LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/exec.png", UriKind.Relative),
                     ToolTipDescription = "Activar y Configurar parámetros de Imprenta Digital.",
                     ToolTipTitle = "Activar Imprenta Digital"
