@@ -37,9 +37,6 @@ namespace Galac.Adm.Rpt.Venta
             this.lblFechaInicialYFinal = new DataDynamics.ActiveReports.Label();
             this.PageFooter = new DataDynamics.ActiveReports.PageFooter();
             this.GHCajaApertura = new DataDynamics.ActiveReports.GroupHeader();
-            this.txtEfectivoEnCajaME = new DataDynamics.ActiveReports.TextBox();
-            this.txtEfectivoEnCaja = new DataDynamics.ActiveReports.TextBox();
-            this.txtEfectivoEnDescripcion = new DataDynamics.ActiveReports.TextBox();
             this.lblApertura = new DataDynamics.ActiveReports.Label();
             this.txtMontoAperturaME = new DataDynamics.ActiveReports.TextBox();
             this.txtMontoAperturaML = new DataDynamics.ActiveReports.TextBox();
@@ -58,12 +55,13 @@ namespace Galac.Adm.Rpt.Venta
             this.lblMovimiento = new DataDynamics.ActiveReports.Label();
             this.txtConsecutivoCaja = new DataDynamics.ActiveReports.TextBox();
             this.txtNombreDelUsuario = new DataDynamics.ActiveReports.TextBox();
+            this.txtEfectivoEnCajaME = new DataDynamics.ActiveReports.TextBox();
+            this.txtEfectivoEnCaja = new DataDynamics.ActiveReports.TextBox();
+            this.txtEfectivoDescripcion = new DataDynamics.ActiveReports.TextBox();
             this.GFCajaApertura = new DataDynamics.ActiveReports.GroupFooter();
             this.txtMontoCierreME = new DataDynamics.ActiveReports.TextBox();
             this.lblCierre = new DataDynamics.ActiveReports.Label();
             this.txtMontoCierreML = new DataDynamics.ActiveReports.TextBox();
-            this.label1 = new DataDynamics.ActiveReports.Label();
-            this.textBox1 = new DataDynamics.ActiveReports.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoML)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoME)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMovimiento)).BeginInit();
@@ -72,9 +70,6 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaYHoraDeEmision)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTituloInforme)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaInicialYFinal)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtEfectivoEnCajaME)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtEfectivoEnCaja)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtEfectivoEnDescripcion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblApertura)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoAperturaME)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoAperturaML)).BeginInit();
@@ -93,11 +88,12 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.lblMovimiento)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtConsecutivoCaja)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreDelUsuario)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtEfectivoEnCajaME)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtEfectivoEnCaja)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtEfectivoDescripcion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoCierreME)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCierre)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoCierreML)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.label1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
@@ -212,9 +208,6 @@ namespace Galac.Adm.Rpt.Venta
             // GHCajaApertura
             // 
             this.GHCajaApertura.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
-            this.txtEfectivoEnCajaME,
-            this.txtEfectivoEnCaja,
-            this.txtEfectivoEnDescripcion,
             this.lblApertura,
             this.txtMontoAperturaME,
             this.txtMontoAperturaML,
@@ -233,42 +226,9 @@ namespace Galac.Adm.Rpt.Venta
             this.lblMovimiento,
             this.txtConsecutivoCaja,
             this.txtNombreDelUsuario});
-            this.GHCajaApertura.Height = 0.9432501F;
+            this.GHCajaApertura.Height = 0.78725F;
             this.GHCajaApertura.Name = "GHCajaApertura";
             this.GHCajaApertura.Format += new System.EventHandler(this.GHCajaApertura_Format);
-            // 
-            // txtEfectivoEnCajaME
-            // 
-            this.txtEfectivoEnCajaME.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtEfectivoEnCajaME.Height = 0.15625F;
-            this.txtEfectivoEnCajaME.Left = 5.937F;
-            this.txtEfectivoEnCajaME.Name = "txtEfectivoEnCajaME";
-            this.txtEfectivoEnCajaME.Style = "font-size: 8pt; text-align: right; text-decoration: none; ddo-char-set: 1";
-            this.txtEfectivoEnCajaME.Text = "txtEfectivoEnCajaME";
-            this.txtEfectivoEnCajaME.Top = 0.631F;
-            this.txtEfectivoEnCajaME.Width = 1.437F;
-            // 
-            // txtEfectivoEnCaja
-            // 
-            this.txtEfectivoEnCaja.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtEfectivoEnCaja.Height = 0.15625F;
-            this.txtEfectivoEnCaja.Left = 4.5F;
-            this.txtEfectivoEnCaja.Name = "txtEfectivoEnCaja";
-            this.txtEfectivoEnCaja.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
-            this.txtEfectivoEnCaja.Text = "txtEfectivoEnCaja";
-            this.txtEfectivoEnCaja.Top = 0.631F;
-            this.txtEfectivoEnCaja.Width = 1.437F;
-            // 
-            // txtEfectivoEnDescripcion
-            // 
-            this.txtEfectivoEnDescripcion.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtEfectivoEnDescripcion.Height = 0.15625F;
-            this.txtEfectivoEnDescripcion.Left = 0F;
-            this.txtEfectivoEnDescripcion.Name = "txtEfectivoEnDescripcion";
-            this.txtEfectivoEnDescripcion.Style = "font-size: 8.25pt; font-weight: bold; text-align: right; ddo-char-set: 0";
-            this.txtEfectivoEnDescripcion.Text = "Efectivo en Caja = Apertura + Efectivo - Vuelto";
-            this.txtEfectivoEnDescripcion.Top = 0.631F;
-            this.txtEfectivoEnDescripcion.Width = 4.5F;
             // 
             // lblApertura
             // 
@@ -278,7 +238,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblApertura.Name = "lblApertura";
             this.lblApertura.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblApertura.Text = "Apertura";
-            this.lblApertura.Top = 0.7870001F;
+            this.lblApertura.Top = 0.631F;
             this.lblApertura.Width = 4.5F;
             // 
             // txtMontoAperturaME
@@ -288,7 +248,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMontoAperturaME.Name = "txtMontoAperturaME";
             this.txtMontoAperturaME.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtMontoAperturaME.Text = "txtMontoAperturaME";
-            this.txtMontoAperturaME.Top = 0.7870001F;
+            this.txtMontoAperturaME.Top = 0.631F;
             this.txtMontoAperturaME.Width = 1.437F;
             // 
             // txtMontoAperturaML
@@ -298,7 +258,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMontoAperturaML.Name = "txtMontoAperturaML";
             this.txtMontoAperturaML.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtMontoAperturaML.Text = "txtMontoAperturaML";
-            this.txtMontoAperturaML.Top = 0.7870001F;
+            this.txtMontoAperturaML.Top = 0.631F;
             this.txtMontoAperturaML.Width = 1.437F;
             // 
             // lblOperador
@@ -463,15 +423,48 @@ namespace Galac.Adm.Rpt.Venta
             this.txtNombreDelUsuario.Visible = false;
             this.txtNombreDelUsuario.Width = 1.437F;
             // 
+            // txtEfectivoEnCajaME
+            // 
+            this.txtEfectivoEnCajaME.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtEfectivoEnCajaME.Height = 0.15625F;
+            this.txtEfectivoEnCajaME.Left = 5.937F;
+            this.txtEfectivoEnCajaME.Name = "txtEfectivoEnCajaME";
+            this.txtEfectivoEnCajaME.Style = "font-size: 8pt; text-align: right; text-decoration: none; ddo-char-set: 1";
+            this.txtEfectivoEnCajaME.Text = "txtEfectivoEnCajaME";
+            this.txtEfectivoEnCajaME.Top = 0.312F;
+            this.txtEfectivoEnCajaME.Width = 1.437F;
+            // 
+            // txtEfectivoEnCaja
+            // 
+            this.txtEfectivoEnCaja.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtEfectivoEnCaja.Height = 0.15625F;
+            this.txtEfectivoEnCaja.Left = 4.5F;
+            this.txtEfectivoEnCaja.Name = "txtEfectivoEnCaja";
+            this.txtEfectivoEnCaja.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtEfectivoEnCaja.Text = "txtEfectivoEnCaja";
+            this.txtEfectivoEnCaja.Top = 0.312F;
+            this.txtEfectivoEnCaja.Width = 1.437F;
+            // 
+            // txtEfectivoDescripcion
+            // 
+            this.txtEfectivoDescripcion.Height = 0.15625F;
+            this.txtEfectivoDescripcion.Left = 0F;
+            this.txtEfectivoDescripcion.Name = "txtEfectivoDescripcion";
+            this.txtEfectivoDescripcion.Style = "font-size: 8.25pt; font-weight: bold; text-align: right; ddo-char-set: 0";
+            this.txtEfectivoDescripcion.Text = "Efectivo en Caja = Apertura + Efectivo - Vuelto";
+            this.txtEfectivoDescripcion.Top = 0.312F;
+            this.txtEfectivoDescripcion.Width = 4.5F;
+            // 
             // GFCajaApertura
             // 
             this.GFCajaApertura.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
             this.txtMontoCierreME,
             this.lblCierre,
             this.txtMontoCierreML,
-            this.label1,
-            this.textBox1});
-            this.GFCajaApertura.Height = 0.6349167F;
+            this.txtEfectivoDescripcion,
+            this.txtEfectivoEnCaja,
+            this.txtEfectivoEnCajaME});
+            this.GFCajaApertura.Height = 0.65575F;
             this.GFCajaApertura.Name = "GFCajaApertura";
             this.GFCajaApertura.Format += new System.EventHandler(this.GFCajaApertura_Format);
             // 
@@ -509,31 +502,6 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMontoCierreML.Top = 0F;
             this.txtMontoCierreML.Width = 1.437F;
             // 
-            // label1
-            // 
-            this.label1.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.label1.Height = 0.15625F;
-            this.label1.HyperLink = null;
-            this.label1.Left = 4.5F;
-            this.label1.Name = "label1";
-            this.label1.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
-            this.label1.Text = "Monto Bs.";
-            this.label1.Top = 0.156F;
-            this.label1.Visible = false;
-            this.label1.Width = 1.437F;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.textBox1.Height = 0.15625F;
-            this.textBox1.Left = 5.937F;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 0";
-            this.textBox1.Text = "Monto Divisas";
-            this.textBox1.Top = 0.156F;
-            this.textBox1.Visible = false;
-            this.textBox1.Width = 1.437F;
-            // 
             // dsrCajaCerrada
             // 
             this.MasterReport = false;
@@ -559,9 +527,6 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaYHoraDeEmision)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTituloInforme)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaInicialYFinal)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtEfectivoEnCajaME)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtEfectivoEnCaja)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtEfectivoEnDescripcion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblApertura)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoAperturaME)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoAperturaML)).EndInit();
@@ -580,11 +545,12 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.lblMovimiento)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtConsecutivoCaja)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreDelUsuario)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtEfectivoEnCajaME)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtEfectivoEnCaja)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtEfectivoDescripcion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoCierreME)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCierre)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoCierreML)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.label1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -624,10 +590,8 @@ namespace Galac.Adm.Rpt.Venta
         private DataDynamics.ActiveReports.TextBox txtMontoCodigoMoneda;
         private DataDynamics.ActiveReports.TextBox txtEfectivoEnCaja;
         private DataDynamics.ActiveReports.TextBox txtEfectivoEnCajaME;
-        private DataDynamics.ActiveReports.TextBox txtEfectivoEnDescripcion;
+        private DataDynamics.ActiveReports.TextBox txtEfectivoDescripcion;
         private DataDynamics.ActiveReports.TextBox txtConsecutivoCaja;
         private DataDynamics.ActiveReports.TextBox txtNombreDelUsuario;
-        private DataDynamics.ActiveReports.Label label1;
-        private DataDynamics.ActiveReports.TextBox textBox1;
     }
 }
