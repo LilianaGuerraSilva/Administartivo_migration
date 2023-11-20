@@ -715,12 +715,12 @@ h_EXIT: On Error GoTo 0
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fCadenaCaracteresValidos", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Sub sImprimeComprobanteNoFiscal(ByRef refDatosImprFiscal As Object, ByRef Ready As Boolean)
+Public Sub sImprimeComprobanteNoFiscal(ByRef refDatosImprFiscal As Object, ByRef refReady As Boolean)
    Dim insfrmImpresionFiscal As frmImpresorasFiscales
    On Error GoTo h_Error
    Set insfrmImpresionFiscal = New frmImpresorasFiscales
    refDatosImprFiscal.SetEstado Enum_EstadoImpresionFiscal.eEIF_IMPRIME_DOCUMENTO_NOFISCAL
-   insfrmImpresionFiscal.sInitLookAndFeelAndSetValues refDatosImprFiscal, Ready
+   insfrmImpresionFiscal.sInitLookAndFeelAndSetValues refDatosImprFiscal, refReady
    Set insfrmImpresionFiscal = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub

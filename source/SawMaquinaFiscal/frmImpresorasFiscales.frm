@@ -672,7 +672,7 @@ Public Sub sInitLookAndFeelAndSetValues(ByRef refDatosImprFiscal As clsDatosImpr
       Case Enum_EstadoImpresionFiscal.eEIF_OBTENER_ULTIMO_REPORTE_Z: sObtenerUltimoNumeroDeReporteZ insDatosImprFiscal.GetImpresoraFiscal, insDatosImprFiscal.GetPuertoImpresoraFiscal, insDatosImprFiscal.GetTipoConexion, insDatosImprFiscal.GetIp, insDatosImprFiscal.GetCajaNumero
       Case Enum_EstadoImpresionFiscal.eEIF_ASIGNAR_CONFIGURACION:  sAsignarConfiguracion insDatosImprFiscal.GetImpresoraFiscal, insDatosImprFiscal.GetPuertoImpresoraFiscal, insDatosImprFiscal.GetTipoConexion, insDatosImprFiscal.GetIp, insDatosImprFiscal.GetCajaNumero, insDatosImprFiscal.GetGateway, insDatosImprFiscal.GetMascaraSubRed
       Case Enum_EstadoImpresionFiscal.eEIF_CORTAR_PAPEL:   sCortarPapel insDatosImprFiscal.GetImpresoraFiscal, insDatosImprFiscal.GetPuertoImpresoraFiscal, insDatosImprFiscal.GetTipoConexion, insDatosImprFiscal.GetIp, insDatosImprFiscal.GetCajaNumero
-      Case Enum_EstadoImpresionFiscal.eEIF_IMPRIME_DOCUMENTO_NOFISCAL:   ImprimeComprobanteNoFiscal refReady
+      Case Enum_EstadoImpresionFiscal.eEIF_IMPRIME_DOCUMENTO_NOFISCAL: ImprimeComprobanteNoFiscal mReady
    End Select
    refReady = mReady
 h_EXIT: On Error GoTo 0
@@ -2800,12 +2800,12 @@ h_EXIT: On Error GoTo 0
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fValorDesdeArchivoINI", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Sub ImprimeComprobanteNoFiscal(ByVal mReady As Boolean)
+Public Sub ImprimeComprobanteNoFiscal(ByRef refReady As Boolean)
    Dim insImpFiscalFromAOS As clsImpFiscalFromAOS
    On Error GoTo h_Error
    Set insImpFiscalFromAOS = New clsImpFiscalFromAOS
    If insDatosImprFiscal.GetUsarModoDotNet Then
-      insImpFiscalFromAOS.ImprimeComprobanteNoFiscal insDatosImprFiscal, mReady
+      insImpFiscalFromAOS.ImprimeComprobanteNoFiscal insDatosImprFiscal, refReady
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
