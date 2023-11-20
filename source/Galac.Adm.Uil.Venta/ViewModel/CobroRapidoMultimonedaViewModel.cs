@@ -892,11 +892,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                             if (insMegasoft.monedaTransaccion == CodigoMonedaDivisa) {
                                 vMonedaTransaccion = insMegasoft.monedaTransaccion;
                                 TotalMediosElectronicosME += insMegasoft.montoTransaccion;
-                                
+                                CalcularTotales();
                             } else {
                                 vMonedaTransaccion = _MonedaLocalNav.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
                                 TotalMediosElectronicos += insMegasoft.montoTransaccion;
-                                MoveFocusIfNecessary();
+                                CalcularTotales();
                             }
                             clsCobroDeFacturaNav insCobroNav = new clsCobroDeFacturaNav();
                             ListaCobroCobroMediosElectonicosVPOS.Add(new CobroCobroMediosElectonicosVPOS() {
