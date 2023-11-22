@@ -47,7 +47,7 @@ namespace Galac.Adm.Uil.Venta {
                         vViewModel.BalanzaTomarPesoViewModel = vBalanzaTomarPesoViewModel;
                         vViewModel.UsaBalanzaEnPOS = vUsarBalanza;
                     }
-                    LibMessages.EditViewModel.ShowTopmostEditor(vViewModel);
+                    bool result = LibMessages.EditViewModel.ShowEditor(vViewModel, false, true, true);
                 } else {
                     return;
                 }
