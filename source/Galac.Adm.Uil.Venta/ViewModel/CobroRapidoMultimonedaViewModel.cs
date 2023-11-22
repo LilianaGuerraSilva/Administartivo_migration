@@ -1285,11 +1285,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
                     ConsecutivoRenglon = vConsecutivoRenglon,
                     CodigoFormaDelCobro = vItem.CodigoFormaDelCobro,
-                    CodigoBanco = valCodigoBancoParaMonedaLocal,
+                    CodigoBanco = LibString.S1IsEqualToS2(vCodigoMonedaLocal, vItem.MonedaTransaccion) ? valCodigoBancoParaMonedaLocal : valCodigoBancoParaDivisa,
                     Monto = vItem.MontoTransaccion,
-                    NumeroDocumentoAprobacion = vItem.NumReferencia,
-                    CodigoMoneda = vCodigoMonedaLocal,
-                    CambioAMonedaLocal = 1,
+                    NumeroDocumentoAprobacion = LibString.IsNullOrEmpty(vItem.NumReferencia) ? "" : vItem.NumReferencia,
+                    CodigoMoneda = vItem.MonedaTransaccion,
+                    CambioAMonedaLocal = LibString.S1IsEqualToS2(vCodigoMonedaLocal, vItem.MonedaTransaccion) ? 1 : CambioAMonedaLocal,
                     InfoAdicional = vItem.InfoAdicional
                 });
             }
