@@ -87,6 +87,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Metodos Generados
 
         internal void InitLookAndFeel(string cedulaRif, decimal valMonto) {
+            base.InitializeLookAndFeel();
             CedulaRif = cedulaRif;
             Monto = valMonto;
             vMontoPorCobrar = LibConvert.ToDec(valMonto, 2);           
