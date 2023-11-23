@@ -901,7 +901,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                             clsCobroDeFacturaNav insCobroNav = new clsCobroDeFacturaNav();
                             ListaCobroCobroMediosElectonicosVPOS.Add(new CobroCobroMediosElectonicosVPOS() {
                                 MontoTransaccion = insMegasoft.montoTransaccion,
-                                NumReferencia = insMegasoft.numeroAutorizacion,
+                                NumReferencia = LibString.IsNullOrEmpty(insMegasoft.numeroAutorizacion) ? insMegasoft.numeroReferencia : insMegasoft.numeroAutorizacion,
                                 InfoAdicional = insMegasoft.infoAdicional,
                                 CodigoFormaDelCobro = TipoDeTransaccionCobro(insMegasoft.tipoTransaccion),
                                 MonedaTransaccion = vMonedaTransaccion
