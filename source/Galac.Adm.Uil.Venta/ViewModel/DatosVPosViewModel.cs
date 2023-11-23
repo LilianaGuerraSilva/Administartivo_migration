@@ -116,10 +116,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             base.ExecuteCancel();
         }
 
-        public void InitializeViewModel(string cedulaRif, decimal valMonto) {
+        public void InitializeViewModel(string cedulaRif, decimal valMonto, decimal valAlicuotaIGTF) {
             CedulaRif = cedulaRif;
             Monto = valMonto;
-            vMontoPorCobrar = LibConvert.ToDec(valMonto,2);
+            vMontoPorCobrar = LibMath.RoundToNDecimals(valMonto * (1 + LibMath.RoundToNDecimals(valAlicuotaIGTF / 100, 2)), 2);
         }
 
         private LibRibbonButtonData CreateActionRibbonButton() {
