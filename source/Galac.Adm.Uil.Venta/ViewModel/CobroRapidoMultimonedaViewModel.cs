@@ -511,8 +511,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         public decimal BaseImponibleIGTF {
-            get {
-                decimal vTotalPagosME = LibMath.RoundToNDecimals((EfectivoEnDivisas + TransferenciaEnDivisas) * CambioAMonedaLocal, 2);
+            get {                
+                decimal vTotalPagosME = LibMath.RoundToNDecimals((EfectivoEnDivisas + TransferenciaEnDivisas + TotalMediosElectronicosME) * CambioAMonedaLocal, 2);
                 vTotalPagosME = IsVisibleSeccionIGTF ? vTotalPagosME : 0;
                 return (TipoDeDocumento == eTipoDocumentoFactura.Factura || TipoDeDocumento == eTipoDocumentoFactura.ComprobanteFiscal) ? LibMath.RoundToNDecimals(System.Math.Min(TotalFactura, vTotalPagosME), 2) : 0;
             }
@@ -877,7 +877,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 if (MontoRestantePorPagar > 0) {
                     DatosVPosViewModel vDatosVpos = new DatosVPosViewModel(MontoRestantePorPagar);
                     vDatosVpos.vResultCobroTDDTDC += (arg) => vResultCobroTDDTDC = arg;
-                    vDatosVpos.InitializeViewModel(cedulaRif, vDatosVpos.Monto);
+                    vDatosVpos.InitializeViewModel(cedulaRif, vDatosVpos.Monto, AlicuotaIGTF);
                     LibMessages.EditViewModel.ShowEditor(vDatosVpos, true);
                     _ImprimirComprobante = vDatosVpos.ImprimirComprobanteDePago;
                     C2PMegasoftNav insMegasoft = new C2PMegasoftNav();
