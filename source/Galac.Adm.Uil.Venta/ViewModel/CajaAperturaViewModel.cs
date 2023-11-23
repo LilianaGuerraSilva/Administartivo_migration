@@ -742,7 +742,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             if (insCajaApertura == null) {
                 insCajaApertura = new Brl.Venta.clsCajaAperturaNav() as ICajaAperturaPdn;
             }
-            IsExpandedTotalesMediosElectronicos = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMediosElectronicosDeCobro");
+            IsExpandedTotalesMediosElectronicos = false;
         }
 
         public override void InitializeViewModel(eAccionSR valAction) {
