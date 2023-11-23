@@ -910,6 +910,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         }
                     }
                 }
+            } catch (LibGalac.Aos.Catching.GalacAlertException vGx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vGx);
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
