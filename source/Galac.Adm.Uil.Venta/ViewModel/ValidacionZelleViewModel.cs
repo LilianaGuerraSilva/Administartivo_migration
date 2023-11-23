@@ -92,7 +92,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         #endregion //Propiedades
         #region Constructores
-        public ValidacionZelleViewModel(decimal valMontoRecibidoML) {
+        public ValidacionZelleViewModel(decimal valMontoRecibidoML)
+            : base() {
             MontoRecibidoML = valMontoRecibidoML;
             ObtenerTasaDeCambio();
         }

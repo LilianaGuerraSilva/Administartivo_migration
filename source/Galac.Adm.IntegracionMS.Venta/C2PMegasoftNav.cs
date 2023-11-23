@@ -10,6 +10,7 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.UI.Mvvm.Messaging;
 using Newtonsoft.Json;
 using LibGalac.Aos.Cnf;
+using System.Threading.Tasks;
 
 namespace Galac.Adm.IntegracionMS.Venta {
     public class C2PMegasoftNav {
@@ -38,14 +39,21 @@ namespace Galac.Adm.IntegracionMS.Venta {
             var vExito = SendProcesar(request);
             return vExito.Item1;
         }
+
         public bool EjecutarCobroMediosElectonicos(string valCedula, decimal valMonto) {
-            request request = new request() {
-                accion = "tarjeta",
-                montoTransaccion = valMonto,
-                cedula = valCedula
-            };
-            var vExito = SendProcesar(request);
-            return vExito.Item1;
+            try {
+                return Task.Factory.StartNew<bool>(() => {
+                    request request = new request() {
+                        accion = "tarjeta",
+                        montoTransaccion = valMonto,
+                        cedula = valCedula
+                    };
+                    var vExito = SendProcesar(request);
+                    return vExito.Item1;
+                }).Result;
+            } catch (System.AggregateException vEx) {
+                throw new LibGalac.Aos.Catching.GalacAlertException(vEx.InnerException.Message);
+            }
         }
 
         public bool EjecutaAnularTransaccion() {
