@@ -935,6 +935,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 case "191":
                     vResult = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.TarjetaMS);
                     break;
+                case "128":
+                    vResult = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.TransferenciaMS);
+                    break;
                 case "129":
                     vResult = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.DepositoMS);
                     break;
