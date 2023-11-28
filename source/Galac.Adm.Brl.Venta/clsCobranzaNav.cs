@@ -500,11 +500,11 @@ namespace Galac.Adm.Brl.Venta {
             }
             decimal vCobradoEfectivo = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == _CodigoEfectivo).Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
             decimal vCobradoTarjetas = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == _CodigoTarjeta || w.Element("CodigoFormaDelCobro").Value == _CodigoTarjetaMS).Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
-            decimal vCobradoTransferencia = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == _CodigoTransferenciaManual || w.Element("CodigoFormaDelCobro").Value == _CodigoTransferenciaMS).Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
+            decimal vCobradoTransferencia = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == _CodigoTransferenciaManual ).Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
             decimal vVuelto = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == _CodigoVueltoEfectivo || w.Element("CodigoFormaDelCobro").Value == _CodigoVueltoC2P).Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
             decimal vCobradoOtrosMedios = 0;
             if (LibString.S1IsEqualToS2(valCodigoMonedaCobranza, vCodigoMonedaLocal)) {
-                vCobradoOtrosMedios = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == _CodigoPagMovil || w.Element("CodigoFormaDelCobro").Value == _CodigoC2P || w.Element("CodigoFormaDelCobro").Value == _CodigoDepositoMS).Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
+                vCobradoOtrosMedios = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == _CodigoPagMovil || w.Element("CodigoFormaDelCobro").Value == _CodigoC2P || w.Element("CodigoFormaDelCobro").Value == _CodigoDepositoMS || w.Element("CodigoFormaDelCobro").Value == _CodigoTransferenciaMS).Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
             } else {
                 vCobradoOtrosMedios = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == _CodigoZelle).Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
             }
