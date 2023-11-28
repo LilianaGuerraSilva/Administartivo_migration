@@ -18,17 +18,18 @@ namespace Galac.Adm.Uil.Venta.Views {
     /// <summary>
     /// GSCobroRapidoMultimonedaView.xaml
     /// </summary>
-    public partial class GSCobroRapidoMultimonedaView: UserControl {
-
+    public partial class GSCobroRapidoMultimonedaView : UserControl {
+        
         #region Constructores
 
         public GSCobroRapidoMultimonedaView() {
             InitializeComponent();
             Loaded += (sender, args) => FocusFirst();
             txtTransferenciaDivisas.LostKeyboardFocus += (sender, args) => FocusFirst();
+            txtTotalEfectivoMonedaLocal.LostKeyboardFocus += (sender, args) => FocusSecond();
             var vFields = typeof(GSCobroRapidoMultimonedaView)
                 .GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                .Where(t => t.FieldType == typeof(GSNumericBoxWpf));
+                .Where(t=> t.FieldType == typeof(GSNumericBoxWpf));
             foreach (var vField in vFields) {
                 GSNumericBoxWpf vNumericBoxWpf = vField.GetValue(this) as GSNumericBoxWpf;
                 if (vNumericBoxWpf != null) {
@@ -43,9 +44,13 @@ namespace Galac.Adm.Uil.Venta.Views {
             txtTotalEfectivoMonedaLocal.Focus();
         }
 
+        private void FocusSecond() {
+            txtTotalEfectivoDivisas.Focus();
+        }
+
         private void RecalcularTotales() {
             var vViewModel = DataContext as Galac.Adm.Uil.Venta.ViewModel.CobroRapidoMultimonedaViewModel;
-            if (vViewModel != null) {
+            if(vViewModel != null) {
                 vViewModel.CalcularTotales();
             }
         }
