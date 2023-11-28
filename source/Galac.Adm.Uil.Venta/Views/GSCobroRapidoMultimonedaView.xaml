@@ -76,6 +76,7 @@
             Foreground="Green"
             InputDataType="igDec"
             IsReadOnly="True"
+            IsTabStop="False"
             Text="{Binding Mode=OneWay, Path=CambioAMonedaLocalParaMostrar}" />
         <Border
             Grid.Row="1"
@@ -119,6 +120,7 @@
             Foreground="White"
             InputDataType="igDec"
             IsReadOnly="True"
+            IsTabStop="False"
             Text="{Binding Mode=OneWay, Path=TotalFacturaParaMostrar}" />
         <nsWpfControls:GSNumericBoxWpfSch
             Grid.Row="1"
@@ -139,6 +141,7 @@
             Foreground="White"
             InputDataType="igDec"
             IsReadOnly="True"
+            IsTabStop="False"
             Text="{Binding Mode=OneWay, Path=TotalFacturaEnDivisasParaMostrar}" />
         <GroupBox
             Grid.Row="2"
@@ -194,7 +197,8 @@
                     FontWeight="Normal"
                     Foreground="Black"
                     IsReadOnly="True"
-                    Style="{StaticResource TextBoxInputStyle}"
+                    IsTabStop="False"
+                    Style="{StaticResource TextBoxInputStyle}"            
                     Text="{Binding Path=BaseImponibleIGTF, Mode=OneWay}" />
                 <Label
                     Grid.Row="0"
@@ -230,6 +234,7 @@
                     FontWeight="Normal"
                     Foreground="Black"
                     IsReadOnly="True"
+                    IsTabStop="False"
                     Style="{StaticResource TextBoxInputStyle}"
                     Text="{Binding Path=IGTFML, Mode=OneWay}" />
                 <nsWpfControls:GSNumericBoxWpfSch
@@ -251,7 +256,8 @@
                     Foreground="Black"
                     IsReadOnly="True"
                     Style="{StaticResource TextBoxInputStyle}"
-                    Text="{Binding Path=IGTFME, Mode=OneWay}" />
+                    Text="{Binding Path=IGTFME, Mode=OneWay}"
+                    IsTabStop="False" />
                 <Border
                     Grid.Row="1"
                     Grid.Column="0"
@@ -363,7 +369,10 @@
             Header="COBRO"
             Style="{StaticResource GroupBoxStyle}"
             Visibility="{Binding IsVisibleSeccionEfectivo}">
-            <Grid Name="tbiSeccionEfectivo" Height="auto">
+            <Grid
+                Name="tbiSeccionEfectivo"
+                Height="auto"
+                FocusManager.FocusedElement="{Binding ElementName=txtTotalEfectivoMonedaLocal}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -479,6 +488,7 @@
                     InputDataType="Decimal"
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
+                    TabIndex="0"
                     Value="{Binding Path=EfectivoEnMonedaLocal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtTotalTarjeta1"
@@ -492,6 +502,7 @@
                     InputDataType="Decimal"
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
+                    TabIndex="2"
                     Value="{Binding Path=TarjetaUno, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtTotalTarjeta2"
@@ -505,6 +516,7 @@
                     InputDataType="Decimal"
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
+                    TabIndex="3"
                     Value="{Binding Path=TarjetaDos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtTransferenciaMonedaLocal"
@@ -518,6 +530,7 @@
                     InputDataType="Decimal"
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
+                    TabIndex="4"
                     Value="{Binding Path=TransferenciaEnMonedaLocal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtTotalMediosElectronicos"
@@ -530,6 +543,7 @@
                     FontSize="18"
                     InputDataType="Decimal"
                     IsEnabled="False"
+                    IsTabStop="False"
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
                     Visibility="{Binding Path=IsVisibleTotalMediosElectronicos, Converter={StaticResource booleanToVisibilityConverter}}"
@@ -548,6 +562,7 @@
                     IsEnabled="{Binding Path=IsEnabledEfectivoDivisa}"
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
+                    TabIndex="1"
                     Value="{Binding Path=EfectivoEnDivisas, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtTransferenciaDivisas"
@@ -561,6 +576,7 @@
                     InputDataType="Decimal"
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
+                    TabIndex="5"
                     Value="{Binding Path=TransferenciaEnDivisas, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtTotalMediosElectronicosME"
@@ -573,6 +589,7 @@
                     FontSize="18"
                     InputDataType="Decimal"
                     IsEnabled="False"
+                    IsTabStop="False"
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
                     Visibility="{Binding Path=IsVisibleTotalMediosElectronicos, Converter={StaticResource booleanToVisibilityConverter}}"
@@ -628,6 +645,7 @@
                     FontSize="18"
                     InputDataType="Decimal"
                     IsEnabled="{Binding Path=IsEnableVuelto}"
+                    IsTabStop="False"
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
                     Value="{Binding Path=VueltoEnMonedaLocal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -643,6 +661,7 @@
                     FontSize="18"
                     InputDataType="Decimal"
                     IsEnabled="{Binding Path=IsEnableVuelto}"
+                    IsTabStop="False"
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
                     Value="{Binding Path=VueltoEnDivisas, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -673,6 +692,7 @@
                     FontSize="18"
                     InputDataType="Decimal"
                     IsEnabled="False"
+                    IsTabStop="False"
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
                     Visibility="{Binding Path=IsVisibleMediosElectronicosDeCobro, Converter={StaticResource booleanToVisibilityConverter}}"
