@@ -26,14 +26,14 @@ namespace Galac.Saw.Ccl.SttDef {
         #region Variables
         private string _NombrePlantillaNotaDeCredito;
         private string _PrimeraNotaDeCredito;
-        private eTipoDePrefijoFactura _TipoDePrefijoNC;
+        private eTipoDePrefijo _TipoDePrefijoNC;
         private string _PrefijoNC;
         private string _PrimeraBoleta;
         private string _NombrePlantillaBoleta;
         private string _NombrePlantillaNotaDeDebito;
         private bool _NDPreNumerada;
         private string _PrimeraNotaDeDebito;
-        private eTipoDePrefijoFactura _TipoDePrefijoND;
+        private eTipoDePrefijo _TipoDePrefijoND;
         private string _PrefijoND;
         private bool _NCPreNumerada;
         private long _fldTimeStamp;
@@ -51,13 +51,13 @@ namespace Galac.Saw.Ccl.SttDef {
             set { _PrimeraNotaDeCredito = LibString.Mid(value, 0, 11); }
         }
 
-        public eTipoDePrefijoFactura TipoDePrefijoNCAsEnum {
+        public eTipoDePrefijo TipoDePrefijoNCAsEnum {
             get { return _TipoDePrefijoNC; }
             set { _TipoDePrefijoNC = value; }
         }
 
         public string TipoDePrefijoNC {
-            set { _TipoDePrefijoNC = (eTipoDePrefijoFactura)LibConvert.DbValueToEnum(value); }
+            set { _TipoDePrefijoNC = (eTipoDePrefijo)LibConvert.DbValueToEnum(value); }
         }
 
         public string TipoDePrefijoNCAsDB {
@@ -103,13 +103,13 @@ namespace Galac.Saw.Ccl.SttDef {
             set { _PrimeraNotaDeDebito = LibString.Mid(value, 0, 11); }
         }
 
-        public eTipoDePrefijoFactura TipoDePrefijoNDAsEnum {
+        public eTipoDePrefijo TipoDePrefijoNDAsEnum {
             get { return _TipoDePrefijoND; }
             set { _TipoDePrefijoND = value; }
         }
 
         public string TipoDePrefijoND {
-            set { _TipoDePrefijoND = (eTipoDePrefijoFactura)LibConvert.DbValueToEnum(value); }
+            set { _TipoDePrefijoND = (eTipoDePrefijo)LibConvert.DbValueToEnum(value); }
         }
 
         public string TipoDePrefijoNDAsDB {
@@ -160,14 +160,14 @@ namespace Galac.Saw.Ccl.SttDef {
         public void Clear() {
             NombrePlantillaNotaDeCredito = "";
             PrimeraNotaDeCredito = "";
-            TipoDePrefijoNCAsEnum = eTipoDePrefijoFactura.SinPrefijo;
+            TipoDePrefijoNCAsEnum = eTipoDePrefijo.SinPrefijo;
             PrefijoNC = "";
             PrimeraBoleta = "";
             NombrePlantillaBoleta = "";
             NombrePlantillaNotaDeDebito = "";
             NDPreNumeradaAsBool = false;
             PrimeraNotaDeDebito = "";
-            TipoDePrefijoNDAsEnum = eTipoDePrefijoFactura.SinPrefijo;
+            TipoDePrefijoNDAsEnum = eTipoDePrefijo.SinPrefijo;
             PrefijoND = "";
             NCPreNumeradaAsBool = false;
             fldTimeStamp = 0;

@@ -6,7 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:nsVm="clr-namespace:Galac.Saw.Uil.SttDef.ViewModel"
     xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
-    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+    IsEnabled="{Binding Path=IsEnabledConfiguracionBalanza}">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -25,7 +26,7 @@
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Header="Configuración de Lectura Especial de Código de Barras con Peso/Precio"
-            IsEnabled="{Binding Path=IsEnabledBalanzaEtiqueta}"
+            IsEnabled="{Binding Path=IsEnabled}"            
             Style="{StaticResource GroupBoxStyle}">
             <Grid Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
@@ -84,7 +85,7 @@
                             Grid.Column="1"
                             HorizontalAlignment="Left"
                             IsChecked="{Binding Path=UsaPesoEnCodigo}"
-                            IsEnabled="{Binding Path=IsEnabled}"
+                            IsEnabled="{Binding Path=IsEnabledUsaPesoEnCodigo}"
                             Style="{StaticResource CheckBoxStyle}" />
                         <Label
                             Name="lblPrefijoCodigoPeso"

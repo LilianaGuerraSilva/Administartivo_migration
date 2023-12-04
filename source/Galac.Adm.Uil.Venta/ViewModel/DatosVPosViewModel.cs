@@ -18,6 +18,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Constantes
         public const string CedulaRifPropertyName = "CedulaRif";
         public const string MontoPropertyName = "Monto";
+        public const string ImprimirComprobanteDePagoPropertyName = "ImprimirComprobanteDePago";
         public Action<bool> vResultCobroTDDTDC;
         #endregion
 
@@ -25,13 +26,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         string _CedulaRif;
         decimal _Monto;
         decimal vMontoPorCobrar;
+        bool _ImprimirComprobanteDePago;
         bool vCancel = false;
         #endregion
 
         #region Propiedades
 
         public override string ModuleName {
-            get { return "Cobro con Tajeta"; }
+            get { return "Cobros Medios Electrónicos"; }
         }
 
         public string CedulaRif {
@@ -58,6 +60,18 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 }
             }
         }
+       
+        public bool ImprimirComprobanteDePago {
+            get {
+                return _ImprimirComprobanteDePago;
+            }
+            set {
+                if (_ImprimirComprobanteDePago != value) {
+                    _ImprimirComprobanteDePago = value;
+                    RaisePropertyChanged(ImprimirComprobanteDePagoPropertyName);
+                }
+            }        
+        }
 
         public RelayCommand ContinuarCommand { get; private set; }
 
@@ -66,16 +80,17 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Constructores
 
         public DatosVPosViewModel()
-            : base() {
+            : base() {           
         }
         #endregion //Constructores
 
         #region Metodos Generados
 
         internal void InitLookAndFeel(string cedulaRif, decimal valMonto) {
+            base.InitializeLookAndFeel();
             CedulaRif = cedulaRif;
             Monto = valMonto;
-            vMontoPorCobrar = LibConvert.ToDec(valMonto, 2);
+            vMontoPorCobrar = LibConvert.ToDec(valMonto, 2);           
         }
 
         protected override void InitializeCommands() {
@@ -101,10 +116,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             base.ExecuteCancel();
         }
 
-        public void InitializeViewModel(string cedulaRif, decimal valMonto) {
+        public void InitializeViewModel(string cedulaRif, decimal valMonto, decimal valAlicuotaIGTF) {
             CedulaRif = cedulaRif;
             Monto = valMonto;
-            vMontoPorCobrar = LibConvert.ToDec(valMonto,2);
+            vMontoPorCobrar = LibMath.RoundToNDecimals(valMonto * (1 + LibMath.RoundToNDecimals(valAlicuotaIGTF / 100, 2)), 2);
         }
 
         private LibRibbonButtonData CreateActionRibbonButton() {
@@ -136,6 +151,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public DatosVPosViewModel(decimal valMonto) {
             Monto = valMonto;
             CedulaRif = "";
+            ImprimirComprobanteDePago = true;
             ListaDatosVPOS = new List<DatosVPOS>();
         }
         #endregion //Metodos Generados

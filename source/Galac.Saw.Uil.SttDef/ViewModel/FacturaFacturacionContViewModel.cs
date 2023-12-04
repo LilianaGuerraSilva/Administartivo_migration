@@ -48,7 +48,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string UsaListaDePrecioEnMonedaExtranjeraPropertyName = "UsaListaDePrecioEnMonedaExtranjera";
         public const string UsaListaDePrecioEnMonedaExtranjeraCXCPropertyName = "UsaListaDePrecioEnMonedaExtranjeraCXC";
         public const string NroDiasMantenerTasaCambioPropertyName = "NroDiasMantenerTasaCambio";
-        private const string IsEnabledUsaImprentaDigitalPropertyName = "IsEnabledUsaImprentaDigital";
         private const string FechaInicioImprentaDigitalPropertyName = "FechaInicioImprentaDigital";
         public const string UsaMediosElectronicosDeCobroPropertyName = "UsaMediosElectronicosDeCobro";
 		#endregion
@@ -58,7 +57,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private FkCuentaBancariaViewModel _ConexionCuentaBancariaCobroDirecto = null;
         private FkConceptoBancarioViewModel _ConexionConceptoBancarioCobroMultimoneda = null;
         private FkCuentaBancariaViewModel _ConexionCuentaBancariaCobroMultimoneda = null;
-        private bool _IsEnabledUsaImprentaDigital;
         private DateTime _FechaInicioImprentaDigital;
         #endregion //Variables
 
@@ -311,10 +309,12 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     if (!Model.UsaCobroDirectoEnMultimonedaAsBool) {
                         CuentaBancariaCobroMultimoneda = string.Empty;
                         ConceptoBancarioCobroMultimoneda = string.Empty;
+                        UsaMediosElectronicosDeCobro = false;
                     }
                     RaisePropertyChanged(UsaCobroDirectoEnMultimonedaPropertyName);
                     RaisePropertyChanged(ConceptoBancarioCobroMultimonedaPropertyName);
                     RaisePropertyChanged(CuentaBancariaCobroMultimonedaPropertyName);
+                    RaisePropertyChanged(UsaMediosElectronicosDeCobroPropertyName);
                     RaisePropertyChanged(IsEnabledUsaCobroDirectoEnMultimonedaPropertyName);
                     RaisePropertyChanged(IsEnabledCuentaBancariaCobroMultimonedaPropertyName);
                     RaisePropertyChanged(IsEnabledConceptoBancarioCobroMultimonedaPropertyName);
@@ -544,7 +544,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnabledUltimaFechaDeFacturacionHistorica {
             get {
-                return IsEnabled && PermitirIncluirFacturacionHistorica && !IsEnabledUsaImprentaDigital;
+                return IsEnabled && PermitirIncluirFacturacionHistorica && !UsaImprentaDigital();
             }
         }
 
@@ -615,16 +615,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         }
 
-        public bool IsEnabledUsaImprentaDigital {
-            get { return IsEnabled && (_IsEnabledUsaImprentaDigital || UsaImprentaDigital()); }
-            set {
-                if (_IsEnabledUsaImprentaDigital != value) {
-                    _IsEnabledUsaImprentaDigital = value;
-                    RaisePropertyChanged(IsEnabledUsaImprentaDigitalPropertyName);
-                }
-            }
-        }
-
         public DateTime FechaInicioImprentaDigital {
             get { return UsaImprentaDigital() ? FechaInicioServicioImprentaDigital() : _FechaInicioImprentaDigital; }
             set {
@@ -644,9 +634,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = UsarOtrosCargoDeFacturaPropertyName;
             LibMessages.Notification.Register<string>(this, OnStringParametrosComunesChanged);
-            LibMessages.Notification.Register<bool>(this, OnUsaImprentaDigitalChanged);
-            LibMessages.Notification.Register<DateTime>(this, OnFechaInicioImprentaDigitalChanged);
-            //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
 
@@ -778,7 +765,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                         vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram(this.ModuleName + "-> Última Fecha de Facturación Histórica."));
                     } else if (LibDate.DateIsGreaterThanToday(UltimaFechaDeFacturacionHistorica, false, string.Empty)) {
                         vResult = new ValidationResult(this.ModuleName + "-> Última Fecha de Facturación Histórica debe ser menor a la fecha actual.");
-                    } else if (IsEnabledUsaImprentaDigital) {
+                    } else if (UsaImprentaDigital()) {
                         FechaInicioImprentaDigital = UsaImprentaDigital() ? FechaInicioServicioImprentaDigital() : FechaInicioImprentaDigital;
                         RaisePropertyChanged(FechaInicioImprentaDigitalPropertyName);
                         vResult = (UltimaFechaDeFacturacionHistorica >= FechaInicioImprentaDigital) ?
@@ -919,21 +906,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        private void OnUsaImprentaDigitalChanged(NotificationMessage<bool> valMessage) {
-            if (LibString.S1IsEqualToS2(valMessage.Notification, "UsaImprentaDigital")) {
-                IsEnabledUsaImprentaDigital = valMessage.Content || UsaImprentaDigital();
-            }
-        }
-
-        private void OnFechaInicioImprentaDigitalChanged(NotificationMessage<DateTime> valMessage) {
-            if (LibString.S1IsEqualToS2(valMessage.Notification, "FechaInicioImprentaDigital")) {
-                FechaInicioImprentaDigital = valMessage.Content;
-                if (valMessage.Content <= UltimaFechaDeFacturacionHistorica) {
-                    UltimaFechaDeFacturacionHistorica = LibDate.AddDays(valMessage.Content, -1);
-                    RaisePropertyChanged(UltimaFechaDeFacturacionHistoricaPropertyName);
-                }
-            }
-        }
         public bool IsVisibleIFFechaReconversion {
             get {
                 return true;

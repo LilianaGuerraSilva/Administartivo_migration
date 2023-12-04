@@ -26,7 +26,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string ImprimirComprobanteDeCxPPropertyName = "ImprimirComprobanteDeCxP";
         public const string EsSistemaParaIGPropertyName = "EsSistemaParaIG";
         public const string UsaNotaEntregaPropertyName = "UsaNotaEntrega";
-
         #endregion
         #region Propiedades
 
@@ -179,6 +178,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
            }
         }
 
+        public bool IsEnabledUsaNotaEntrega {
+            get { return !UsaImprentaDigital(); }
+        }
         #endregion //Propiedades
         #region Constructores
         public DatosGeneralesViewModel()
@@ -187,7 +189,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public DatosGeneralesViewModel(GeneralStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = UsaMultiplesAlicuotasPropertyName;
-            //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -200,14 +201,15 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             if (valModel == null) {
                 return new GeneralStt();
             }
-            //LibGpParams vParams = new LibGpParams();
-            //vParams.AddInString("UsaMultiplesAlicuotas", valModel.UsaMultiplesAlicuotas, 0);
-            //return BusinessComponent.GetData(eProcessMessageType.SpName, "DatosGeneralesGET", vParams.Get()).FirstOrDefault();
             return valModel;
         }
 
         protected override ILibBusinessComponentWithSearch<IList<GeneralStt>, IList<GeneralStt>> GetBusinessComponent() {
             return null;
+        }
+
+        private bool UsaImprentaDigital() {
+            return LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaImprentaDigital"));
         }
 
         #endregion //Metodos Generados

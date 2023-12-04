@@ -16,13 +16,32 @@ using Galac.Saw.Ccl.Tablas;
 namespace Galac.Adm.Brl.Venta {
     public class clsCobranzaNav: LibBaseNav<IList<Cobranza>, IList<Cobranza>>, ICobranzaPdn {
         IRenglonCobroDeFacturaPdn insRenglonCobroDeFactura;
+        string _CodigoEfectivo;
+        string _CodigoTarjeta;
+        string _CodigoTransferenciaManual;
+
         string _CodigoVueltoEfectivo;
         string _CodigoVueltoC2P;
+        string _CodigoC2P;
+        string _CodigoPagMovil;
+        string _CodigoTarjetaMS;
+        string _CodigoTransferenciaMS;
+        string _CodigoDepositoMS;
+        string _CodigoZelle;
 
         public clsCobranzaNav() {
             insRenglonCobroDeFactura = new clsRenglonCobroDeFacturaNav();
+            _CodigoEfectivo = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.Efectivo);
+            _CodigoTarjeta = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.Tarjeta);
+            _CodigoTransferenciaManual = "00006";
             _CodigoVueltoEfectivo = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoEfectivo);
             _CodigoVueltoC2P = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoC2P);
+            _CodigoC2P = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.C2P);
+            _CodigoPagMovil = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.PagoMovil);
+            _CodigoTarjetaMS = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.TarjetaMS);
+            _CodigoTransferenciaMS = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.TransferenciaMS);
+            _CodigoDepositoMS = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.DepositoMS);
+            _CodigoZelle = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.Zelle);
         }
 
         bool ICobranzaPdn.InsertarCobranzaDesdePuntoDeVenta(int valConsecutivoCompania, XElement valData, string valNumeroCobranza) {
@@ -418,7 +437,6 @@ namespace Galac.Adm.Brl.Venta {
             decimal vCambioAMonedaLocal = 1;
             decimal vTotalFactura = 0;
             decimal vTotalFacturaEnDivisas = 0;
-            bool vTienePagosEnDivisas = false;
             string vCodigoMonedaCobranza = string.Empty;
             decimal vTotalAbonadoMonedaLocal = 0;
 
@@ -453,16 +471,15 @@ namespace Galac.Adm.Brl.Venta {
             }
             if (vRenglonesEnDivisa != null) {
                 vCodigoMonedaCobranza = vRenglonesEnDivisa.Select(s => (string)s.Element("CodigoMoneda")).FirstOrDefault();
-                InsertarCobranza(CrearXmlDeDatosCobranza(valConsecutivoCompania, vFecha, vCodigoCliente, vConsecutivoCobrador, vCodigoCobrador, vTotalFacturaEnDivisas, vTotalFacturaEnDivisas, vRenglonesEnDivisa, false, ref refNumeroDeCobranza, out vTotalCobrado));
+                InsertarCobranza(CrearXmlDeDatosCobranza(valConsecutivoCompania, vFecha, vCodigoCliente, vConsecutivoCobrador, vCodigoCobrador, vCodigoMonedaCobranza, vRenglonesEnDivisa, ref refNumeroDeCobranza, out vTotalCobrado));
                 InsertarDocumentoCobrado(CrearXmlDeDatosDocumentoCobrado(valConsecutivoCompania, refNumeroDeCobranza, vNumeroFactura, vTotalFactura, vTotalFacturaEnDivisas, vCambioAMonedaLocal, vFecha, vTotalCobrado, valDataCxC, vCodigoMonedaCobranza, vTotalAbonadoMonedaLocal));
                 vNumeroDeCobranzas.Add(refNumeroDeCobranza);
                 vTotalPorCobrar = vTotalFactura - LibMath.RoundToNDecimals(vTotalCobrado * vCambioAMonedaLocal, 2);
             }
             if (vRenglonesEnMonedaLocal != null) {
-                vTienePagosEnDivisas = (vRenglonesEnDivisa != null);
                 vCambioAMonedaLocal = 1;
                 vCodigoMonedaCobranza = new clsNoComunSaw().InstanceMonedaLocalActual.GetHoyCodigoMoneda();
-                InsertarCobranza(CrearXmlDeDatosCobranza(valConsecutivoCompania, vFecha, vCodigoCliente, vConsecutivoCobrador, vCodigoCobrador, vTotalFactura, vTotalPorCobrar, vRenglonesEnMonedaLocal, vTienePagosEnDivisas, ref refNumeroDeCobranza, out vTotalCobrado));
+                InsertarCobranza(CrearXmlDeDatosCobranza(valConsecutivoCompania, vFecha, vCodigoCliente, vConsecutivoCobrador, vCodigoCobrador, vCodigoMonedaCobranza, vRenglonesEnMonedaLocal, ref refNumeroDeCobranza, out vTotalCobrado));
                 InsertarDocumentoCobrado(CrearXmlDeDatosDocumentoCobrado(valConsecutivoCompania, refNumeroDeCobranza, vNumeroFactura, vTotalFactura, vTotalFacturaEnDivisas, vCambioAMonedaLocal, vFecha, vTotalCobrado, valDataCxC, vCodigoMonedaCobranza));
                 vNumeroDeCobranzas.Add(refNumeroDeCobranza);
             }
@@ -474,23 +491,25 @@ namespace Galac.Adm.Brl.Venta {
             outNumerosDeCobranzas = vNumeroDeCobranzas;
         }
 
-        private XElement CrearXmlDeDatosCobranza(int valConsecutivoCompania, DateTime valFecha, string valCodigoCliente, int valConsecutivoCobrador, string valCodigoCobrador, decimal valTotalFactura, decimal valTotalPorCobrar, IEnumerable<XElement> valRenglonesDeCobro, bool valTienePagosEnDivisas, ref string refNumeroDeCobranza, out decimal outTotalCobrado) {
+        private XElement CrearXmlDeDatosCobranza(int valConsecutivoCompania, DateTime valFecha, string valCodigoCliente, int valConsecutivoCobrador, string valCodigoCobrador, string valCodigoMonedaCobranza, IEnumerable<XElement> valRenglonesDeCobro, ref string refNumeroDeCobranza, out decimal outTotalCobrado) {
             string vCodigoMonedaLocal = new Saw.Lib.clsNoComunSaw().InstanceMonedaLocalActual.GetHoyCodigoMoneda();
             if (refNumeroDeCobranza == string.Empty) {
                 refNumeroDeCobranza = ((ICobranzaPdn)new clsCobranzaNav()).GenerarProximoNumeroCobranza(valConsecutivoCompania);
             } else {
                 refNumeroDeCobranza = ((ICobranzaPdn)new clsCobranzaNav()).GenerarSiguienteNumeroDeCobranzaAPartirDe(refNumeroDeCobranza);
             }
-            decimal vDiferencia = 0;
-            decimal vCobradoTarjetas = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == "00003").Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
-            decimal vCobradoTransferencia = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == "00006").Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
-            decimal vCobradoEfectivo = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == "00001").Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
-            XElement vMaxCobro = valRenglonesDeCobro.Where(t => (decimal)t.Element("Monto") == valRenglonesDeCobro.Max(x => (decimal)x.Element("Monto"))).FirstOrDefault();
+            decimal vCobradoEfectivo = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == _CodigoEfectivo).Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
+            decimal vCobradoTarjetas = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == _CodigoTarjeta || w.Element("CodigoFormaDelCobro").Value == _CodigoTarjetaMS).Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
+            decimal vCobradoTransferencia = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == _CodigoTransferenciaManual ).Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
             decimal vVuelto = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == _CodigoVueltoEfectivo || w.Element("CodigoFormaDelCobro").Value == _CodigoVueltoC2P).Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
-            string VCodigo = LibXml.GetElementValueOrEmpty(vMaxCobro, "CodigoFormaDelCobro");
-            outTotalCobrado = (vCobradoEfectivo + vCobradoTarjetas + vCobradoTransferencia) - vVuelto;            
-            string vCodigoMoneda = valRenglonesDeCobro.Select(s => (string)s.Element("CodigoMoneda")).FirstOrDefault();
-            XElement vSimboloYNombreMoneda = ObtenerSimboloYNombreMonedaDesdeCodigo(vCodigoMoneda);
+            decimal vCobradoOtrosMedios = 0;
+            if (LibString.S1IsEqualToS2(valCodigoMonedaCobranza, vCodigoMonedaLocal)) {
+                vCobradoOtrosMedios = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == _CodigoPagMovil || w.Element("CodigoFormaDelCobro").Value == _CodigoC2P || w.Element("CodigoFormaDelCobro").Value == _CodigoDepositoMS || w.Element("CodigoFormaDelCobro").Value == _CodigoTransferenciaMS).Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
+            } else {
+                vCobradoOtrosMedios = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == _CodigoZelle).Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
+            }
+            outTotalCobrado = (vCobradoEfectivo + vCobradoTarjetas + vCobradoTransferencia + vCobradoOtrosMedios) - vVuelto;
+            XElement vSimboloYNombreMoneda = ObtenerSimboloYNombreMonedaDesdeCodigo(valCodigoMonedaCobranza);
             string vNombreMoneda = vSimboloYNombreMoneda.Descendants("GpResult").Select(s => s.Element("Nombre").Value).FirstOrDefault();
             decimal vCambioAMonedaLocal = valRenglonesDeCobro.Select(s => (decimal)s.Element("CambioAMonedaLocal")).FirstOrDefault();
             string vCodigoCuentaBancaria = "";
@@ -523,7 +542,7 @@ namespace Galac.Adm.Brl.Venta {
                 new XElement("CualTarjeta", string.Empty),
                 new XElement("NroDeLaTarjeta", string.Empty),
                 new XElement("Origen", (int)eOrigenFacturacionOManual.Factura),
-                new XElement("TotalOtros", 0),
+                new XElement("TotalOtros", vCobradoOtrosMedios),
                 new XElement("NombreBanco", string.Empty),
                 new XElement("CodigoCuentaBancaria", vCodigoCuentaBancaria),
                 new XElement("CodigoConcepto", vConceptoBancario),
@@ -539,7 +558,7 @@ namespace Galac.Adm.Brl.Venta {
                 new XElement("DescProntoPagoPorc", 0),
                 new XElement("ComisionVendedor", 0),
                 new XElement("AplicaCreditoBancario", true),
-                new XElement("CodigoMoneda", vCodigoMoneda),
+                new XElement("CodigoMoneda", valCodigoMonedaCobranza),
                 new XElement("NumeroDeComprobanteISLR", 0),
                 new XElement("TipoDeDocumento", (int)eTipoDeDocumentoCobranza.CobranzaDeFactura),
                 new XElement("NombreOperador", ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login)));

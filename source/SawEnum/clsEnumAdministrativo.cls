@@ -236,6 +236,7 @@ Public Enum enum_SystemModules
    eSM_OrdenDeProduccionDetalleMateriales
    eSM_TransferenciaEntreCuentasBancarias
    eSM_RutaDeComercializacion
+   eSM_GVentas
 End Enum
 
 Public Enum enum_DiaDeLaSemana
@@ -1126,6 +1127,12 @@ Public Enum enum_TipoDeFormaDePago
    eTDA_ANTICIPO
    eTDA_VUELTO_EFECTIVO
    eTDA_VUELTO_C2P
+   eTDA_TARJETA_MS
+   eTDA_ZELLE
+   eTDA_PAGO_MOVIL
+   eTDA_TRANSFERENCIA_MS
+   eTDA_C2P
+   eTDA_DEPOSITOMS
 End Enum
 
 Public Enum enum_PuertoSerial
@@ -1338,6 +1345,7 @@ Public Enum Enum_EstadoImpresionFiscal
    eEIF_OBTENER_ULTIMO_REPORTE_Z
    eEIF_ASIGNAR_CONFIGURACION
    eEIF_CORTAR_PAPEL
+   eEIF_IMPRIME_DOCUMENTO_NOFISCAL
 End Enum
 
 Public Enum enum_TipoDocumentoIdentificacionPeru
@@ -1889,6 +1897,7 @@ Public Function enum_SystemModulesToStr(module As enum_SystemModules) As String
       Case eSM_OrdenDeProduccionDetalleMateriales: enum_SystemModulesToStr = "Orden de Producción Detalle Materiales"
       Case eSM_TransferenciaEntreCuentasBancarias: enum_SystemModulesToStr = "Transferencia entre Cuentas Bancarias"
       Case eSM_RutaDeComercializacion: enum_SystemModulesToStr = "Ruta de Comercialización"
+      Case eSM_GVentas: enum_SystemModulesToStr = "G-Ventas"
    End Select
 End Function
 
@@ -9197,6 +9206,12 @@ Public Function enumTipoDeFormaDePagoToString(tipoDeFormaDePago As enum_TipoDeFo
       Case eTDA_ANTICIPO: enumTipoDeFormaDePagoToString = "Anticipo"
       Case eTDA_VUELTO_EFECTIVO: enumTipoDeFormaDePagoToString = "Vuelto Efectivo"
       Case eTDA_VUELTO_C2P: enumTipoDeFormaDePagoToString = "Vuelto C2P"
+      Case eTDA_TARJETA_MS: enumTipoDeFormaDePagoToString = "Tarjeta Medios Electrónicos"
+      Case eTDA_ZELLE: enumTipoDeFormaDePagoToString = "Zelle"
+      Case eTDA_PAGO_MOVIL: enumTipoDeFormaDePagoToString = "Pago Movil"
+      Case eTDA_TRANSFERENCIA_MS: enumTipoDeFormaDePagoToString = "Transferencia Medios Electrónicos"
+      Case eTDA_C2P: enumTipoDeFormaDePagoToString = "C2P"
+      Case eTDA_DEPOSITOMS: enumTipoDeFormaDePagoToString = "Depósito Medios Electrónicos"
       Case Else: enumTipoDeFormaDePagoToString = enumTipoDeFormaDePagoToString(0)
    End Select
 End Function
@@ -9205,7 +9220,7 @@ Public Function strTipoDeFormaDePagoToNum(ByVal tipoDeFormaDePago As String, Opt
    Dim mEnum As enum_TipoDeFormaDePago
    Dim nCount As Integer
    nCount = 0
-   For mEnum = eTDA_EFECTIVO To eTDA_VUELTO_C2P
+   For mEnum = eTDA_EFECTIVO To eTDA_DEPOSITOMS
       If UCase(tipoDeFormaDePago) = UCase(enumTipoDeFormaDePagoToString(mEnum)) Then
          strTipoDeFormaDePagoToNum = nCount
          GoTo h_EXIT
@@ -9244,6 +9259,18 @@ Public Sub FillComboBoxWithTipoDeFormaDePago(ByRef varComboBox As Object, Option
    varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_VUELTO_EFECTIVO)
    nCount = nCount + 1
    varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_VUELTO_C2P)
+   nCount = nCount + 1
+   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_TARJETA_MS)
+   nCount = nCount + 1
+   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_ZELLE)
+   nCount = nCount + 1
+   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_PAGO_MOVIL)
+   nCount = nCount + 1
+   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_TRANSFERENCIA_MS)
+   nCount = nCount + 1
+   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_C2P)
+   nCount = nCount + 1
+   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_DEPOSITOMS)
    varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
    varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
 End Sub
@@ -11142,6 +11169,7 @@ Public Function enumEstadoImpresionFiscalToString(ByVal EstadoImpresionFiscal As
       Case eEIF_OBTENER_SERIAL: enumEstadoImpresionFiscalToString = "Obtener Serial"
       Case eEIF_IMPRIMIR_VENTA: enumEstadoImpresionFiscalToString = "Imprimir Venta"
       Case eEIF_OBTENER_ULTIMO_REPORTE_Z: enumEstadoImpresionFiscalToString = "Obtener Reporte Z"
+      Case eEIF_IMPRIME_DOCUMENTO_NOFISCAL: enumEstadoImpresionFiscalToString = "Imprime Documenton no Fiscal"
       Case Else: enumEstadoImpresionFiscalToString = enumEstadoImpresionFiscalToString(0)
    End Select
 End Function
@@ -11150,7 +11178,7 @@ Public Function strEstadoImpresionFiscalToNum(ByVal EstadoImpresionFiscal As Str
    Dim mEnum As Enum_EstadoImpresionFiscal
    Dim nCount As Integer
    nCount = 0
-   For mEnum = Enum_EstadoImpresionFiscal.eEIF_VERIFICANDO_CONEXION_CON_IMPRESORA To Enum_EstadoImpresionFiscal.eEIF_IMPRIMIR_VENTA
+   For mEnum = Enum_EstadoImpresionFiscal.eEIF_VERIFICANDO_CONEXION_CON_IMPRESORA To Enum_EstadoImpresionFiscal.eEIF_IMPRIME_DOCUMENTO_NOFISCAL
       If UCase(EstadoImpresionFiscal) = UCase(enumEstadoImpresionFiscalToString(mEnum)) Then
          strEstadoImpresionFiscalToNum = nCount
          GoTo h_EXIT

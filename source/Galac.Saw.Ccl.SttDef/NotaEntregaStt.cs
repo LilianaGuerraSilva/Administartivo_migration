@@ -27,7 +27,7 @@ namespace Galac.Saw.Ccl.SttDef {
         private eModeloDeFactura _ModeloNotaEntrega;
         private bool _NotaEntregaPreNumerada;
         private string _PrimeraNotaEntrega;
-        private eTipoDePrefijoFactura _TipoPrefijoNotaEntrega;
+        private eTipoDePrefijo _TipoPrefijoNotaEntrega;
         private string _PrefijoNotaEntrega;
         private string _NombrePlantillaNotaEntrega;
         private string _NombrePlantillaOrdenDeDespacho;
@@ -70,13 +70,13 @@ namespace Galac.Saw.Ccl.SttDef {
             set { _PrimeraNotaEntrega = LibString.Mid(value, 0, 11); }
         }
 
-        public eTipoDePrefijoFactura TipoPrefijoNotaEntregaAsEnum {
+        public eTipoDePrefijo TipoPrefijoNotaEntregaAsEnum {
             get { return _TipoPrefijoNotaEntrega; }
             set { _TipoPrefijoNotaEntrega = value; }
         }
 
         public string TipoPrefijoNotaEntrega {
-            set { _TipoPrefijoNotaEntrega = (eTipoDePrefijoFactura)LibConvert.DbValueToEnum(value); }
+            set { _TipoPrefijoNotaEntrega = (eTipoDePrefijo)LibConvert.DbValueToEnum(value); }
         }
 
         public string TipoPrefijoNotaEntregaAsDB {
@@ -138,7 +138,7 @@ namespace Galac.Saw.Ccl.SttDef {
             ModeloNotaEntregaAsEnum = eModeloDeFactura.eMD_FORMALIBRE;
             NotaEntregaPreNumeradaAsBool = false;
             PrimeraNotaEntrega = "";
-            TipoPrefijoNotaEntregaAsEnum = eTipoDePrefijoFactura.SinPrefijo;
+            TipoPrefijoNotaEntregaAsEnum = eTipoDePrefijo.SinPrefijo;
             PrefijoNotaEntrega = "";
             NombrePlantillaNotaEntrega = "";
             NombrePlantillaOrdenDeDespacho = "";

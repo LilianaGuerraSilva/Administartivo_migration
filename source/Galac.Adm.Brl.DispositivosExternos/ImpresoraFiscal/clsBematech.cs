@@ -105,6 +105,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         [DllImport("BemaFi32.dll")]
         public static extern int Bematech_FI_AbreComprobanteNoFiscalVinculado(string FormaPago, string Valor, string NumeroCupon);
         [DllImport("BemaFi32.dll")]
+        public static extern int Bematech_FI_AbreComprobanteNoFiscalVinculadoMFD(string FormaPago, string Valor, string NumeroCupon, string CGC, string NombreCliente, string Direccion);
+        [DllImport("BemaFi32.dll")]
         public static extern int Bematech_FI_ImprimeComprobanteNoFiscalVinculado(string Texto);
         [DllImport("BemaFi32.dll")]
         public static extern int Bematech_FI_CierraComprobanteNoFiscalVinculado();
@@ -181,6 +183,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         public static extern int Bematech_FI_VersionFirmwareMFD([MarshalAs(UnmanagedType.VBByRefStr)] ref string FirmwareVersion);
         [DllImport("BemaFi32.dll")]
         public static extern int Bematech_FI_VersionDll([MarshalAs(UnmanagedType.VBByRefStr)] ref string FirmwareVersion);
+        [DllImport("BemaFi32.dll")]
+        public static extern int Bematech_FI_ImprimeConfiguracionesImpresora();
         #endregion
         #endregion
 
@@ -848,6 +852,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     if (vTotalPagosME > 0) {
                         vTotalPagosMEConFormato = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibImpresoraFiscalUtil.DecimalToStringFormat(vTotalPagosME, 2), _EnterosMontosLargos, _Decimales2Digitos, ",");
                         vResult = Bematech_FI_IniciaCierreCuponIGTF(vTotalPagosMEConFormato);
+                        vTotalPagosME = LibImpresoraFiscalUtil.TotalMediosDePago(valDocumentoFiscal.Descendants("GpResultDetailRenglonCobro"), vCodigoMoneda, true);
+                        vTotalPagosMEConFormato = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibImpresoraFiscalUtil.DecimalToStringFormat(vTotalPagosME, 2), _EnterosMontosLargos, _Decimales2Digitos, ",");
                         vResult = Bematech_FI_EfectuaFormaPagoDescripcionForma("Divisas", vTotalPagosMEConFormato, "");
                     } else {
                         vResult = Bematech_FI_IniciaCierreCuponIGTF("0");
@@ -1440,6 +1446,31 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
 
         public bool ConsultarConfiguracion(IFDiagnostico iFDiagnostico) {
             throw new NotImplementedException();
+        }
+
+        public bool ImprimirDocumentoNoFiscal(string valTextoNoFiscal, string valDescripcion) {
+            try {
+                bool vResult = true;
+                string vMensaje = string.Empty;
+                int vRetorno = 0;
+                if (AbrirConexion()) {
+                    string[] vTextBlock = LibString.Split(valTextoNoFiscal, "\r\n");                    
+                    if (vTextBlock != null && vTextBlock.Count() > 0) {
+                        vRetorno = Bematech_FI_InformeGerencial(valDescripcion + "\r\n");
+                        foreach (string vLines in vTextBlock) {
+                            vRetorno = Bematech_FI_InformeGerencial(vLines + "\r\n");
+                            vResult &= RevisarEstadoImpresora(ref vMensaje);
+                        }
+                        vRetorno = Bematech_FI_CierraInformeGerencial();
+                        vResult &= RevisarEstadoImpresora(ref vMensaje);
+                    }
+                    CerrarConexion();
+                }
+                return vResult;
+            } catch (Exception) {
+                CerrarConexion();
+                throw;
+            }
         }
     }
 }

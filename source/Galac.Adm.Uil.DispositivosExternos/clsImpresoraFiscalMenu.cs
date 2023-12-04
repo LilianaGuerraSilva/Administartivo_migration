@@ -4,6 +4,7 @@ using Galac.Adm.Ccl.DispositivosExternos;
 using System.Xml.Linq;
 using Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal;
 using LibGalac.Aos.UI.Mvvm.Messaging;
+using System.Linq;
 
 namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
 
@@ -170,7 +171,34 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
             } catch(Exception) {                
                 throw;
             }            
-        }       
+        }
+
+        public bool ImprimirDocumentoNoFiscal(string vfwXmlImpresoraFiscal, string valListaVoucherDePago, string valDescripcion) {
+            try {
+                bool vResult = false;
+                vfwXmlImpresoraFiscal = LimpiarXmlAntesDeParsear(vfwXmlImpresoraFiscal);
+                XElement xmlImpresoraFiscal = LibXml.ToXElement(vfwXmlImpresoraFiscal);
+                clsImpresoraFiscalCreator vCreatorMaquinaFiscal = new clsImpresoraFiscalCreator();
+                IImpresoraFiscalPdn insMaquinaFiscal = vCreatorMaquinaFiscal.Crear(xmlImpresoraFiscal);
+                string[] arrListaVoucher = LibString.Split(valListaVoucherDePago, ",");
+                if (arrListaVoucher != null && arrListaVoucher.Count() > 0) {                    
+                    foreach (string vVoucher in arrListaVoucher) {
+                        if (!LibString.IsNullOrEmpty(vVoucher)) {
+                            if (LibFile.FileExists(vVoucher)) {
+                                string vTexto = LibFile.ReadFile(vVoucher);
+                                vResult = insMaquinaFiscal.ImprimirDocumentoNoFiscal(vTexto, valDescripcion);
+                            } else {
+                                LibMessages.MessageBox.Information(this, $"el archivo de comprobante: {vVoucher} no fue encontrado", "Impresora Fiscal");
+                            }
+                        }
+                    }
+                }
+                insMaquinaFiscal = null;
+                return vResult;
+            } catch (Exception) {
+                throw;
+            }
+        }
 
         public bool ReimprimirDocumentoFiscal(string valDesde,string valHasta,string valTipo) {
             throw new NotImplementedException();

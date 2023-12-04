@@ -15,15 +15,15 @@ namespace Galac.Saw.Ccl.SttDef {
     }
 
 
-    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-    public enum eTipoDePrefijoFactura {
-        [LibEnumDescription("Sin Prefijo")]
-        SinPrefijo = 0,
-        [LibEnumDescription("Año")]
-        Ano,
-        [LibEnumDescription("Indicar")]
-        Indicar
-    }
+    //[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    //public enum eTipoDePrefijo {
+    //    [LibEnumDescription("Sin Prefijo")]
+    //    SinPrefijo = 0,
+    //    [LibEnumDescription("Año")]
+    //    Ano,
+    //    [LibEnumDescription("Indicar")]
+    //    Indicar
+    //}
 
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
@@ -389,7 +389,7 @@ namespace Galac.Saw.Ccl.SttDef {
         eCCADA_CampoDefinible4
     }
 
-        [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eFormaDeAsociarCentroDeCostos {
         [LibEnumDescription("No Asociar")]
         NoAsociar = 0,
@@ -490,7 +490,7 @@ namespace Galac.Saw.Ccl.SttDef {
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eFormaDeCalculoDePrecioRenglonFactura {
         [LibEnumDescription("A Partir del Precio Sin IVA")]
-        APartirDelPrecioSinIVA = 0, 
+        APartirDelPrecioSinIVA = 0,
         [LibEnumDescription("A Partir del Precio Con IVA")]
         APartirDelPrecioConIVA
     }
@@ -503,11 +503,18 @@ namespace Galac.Saw.Ccl.SttDef {
         APartirDeCostoEnMonedaExtranjera
     }
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eProveedorImprentaDigital {
-        [LibEnumDescription("No Aplica")]
-        NoAplica = 0,
-        [LibEnumDescription("The Factory HKA")]
-        TheFactoryHKA
-	}
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eProveedorImprentaDigital {
+        [LibEnumDescription("No Aplica")] NoAplica = 0,
+        [LibEnumDescription("The Factory HKA")] TheFactoryHKA
+    }
+
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTalonario {
+        [LibEnumDescription("Talonario 1")] Talonario1 = 0,
+        [LibEnumDescription("Talonario 2")] Talonario2,
+        [LibEnumDescription("Talonario 3")] Talonario3, //Esto no se escoge, es para uso interno, especialmente de Imprenta Digital 30/10/2023
+        [LibEnumDescription("Talonario 4")] Talonario4 //Esto no se escoge, es para uso interno, especialmente de Imprenta Digital 30/10/2023
+    }
+
 } //End of namespace namespace Galac.Saw.Ccl.SttDef

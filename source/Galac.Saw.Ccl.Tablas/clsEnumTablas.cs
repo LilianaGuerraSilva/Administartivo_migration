@@ -4,22 +4,34 @@ using LibGalac.Aos.Base;
 
 namespace Galac.Saw.Ccl.Tablas {
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eTipoDeFormaDePago {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipoDeFormaDePago {
         [LibEnumDescription("Efectivo")]
-        Efectivo = 0, 
+        Efectivo = 0,
         [LibEnumDescription("Tarjeta")]
-        Tarjeta, 
+        Tarjeta,
         [LibEnumDescription("Cheque")]
-        Cheque, 
+        Cheque,
         [LibEnumDescription("Depósito")]
         Deposito,
         [LibEnumDescription("Anticipo")]
-        Anticipo,
+        Anticipo,     
         [LibEnumDescription("Vuelto Efectivo")]
         VueltoEfectivo,
-		[LibEnumDescription("Vuelto C2P")]
-        VueltoC2P
+        [LibEnumDescription("Vuelto C2P")]
+        VueltoC2P,
+        [LibEnumDescription("Tarjeta Medios Electrónicos")]
+        TarjetaMS,
+        [LibEnumDescription("Zelle")]
+        Zelle,
+        [LibEnumDescription("P2C")]
+        PagoMovil,
+        [LibEnumDescription("Transferencia Medios Electrónicos")]
+        TransferenciaMS,
+        [LibEnumDescription("C2P")]
+        C2P,
+        [LibEnumDescription("Depósito Medios Electrónicos")]
+        DepositoMS
     }
 
 

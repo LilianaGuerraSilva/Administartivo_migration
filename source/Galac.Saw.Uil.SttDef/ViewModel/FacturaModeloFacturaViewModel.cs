@@ -46,10 +46,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string IsVisibleModeloOtorsCargosyDescuentosPropertyName = "IsVisibleUsarOtrosCargoDeFactura";
         public const string NombrePlantillaSubFacturaConOtrosCargosPropertyName = "NombrePlantillaSubFacturaConOtrosCargos";
         public const string IsEnabledPlantillaFacturaOyDPropertyName = "IsEnabledPlantillaFacturaOyD";
-        private const string IsEnabledUsaImprentaDigitalPropertyName = "IsEnabledUsaImprentaDigital";
         #endregion
         #region Variables
-        private bool _IsEnabledUsaImprentaDigital;
         
         #endregion //Variables
         #region Propiedades
@@ -320,30 +318,30 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnabledTalonario2 {
             get {
-                return (IsEnabled && UsarDosTalonarios);
+                return (IsEnabled && UsarDosTalonarios) && !UsaImprentaDigital();
             }
         }
 
         public bool IsEnabledPlantillaFactura {
             get {
-                return (ModeloDeFactura == eModeloDeFactura.eMD_OTRO && IsEnabled);
+                return (ModeloDeFactura == eModeloDeFactura.eMD_OTRO && IsEnabled) && !UsaImprentaDigital();
             }
         }
 
         public bool IsEnabledPlantillaFactura2 {
             get {
-                return (ModeloDeFactura2 == eModeloDeFactura.eMD_OTRO && IsEnabled);
+                return (ModeloDeFactura2 == eModeloDeFactura.eMD_OTRO && IsEnabled) && !UsaImprentaDigital();
             }
         }
 
         public bool IsEnabledPlantillaFacturaOyD {
             get {
-                return (Action != eAccionSR.Consultar);
+                return (Action != eAccionSR.Consultar) && !UsaImprentaDigital();
             }
         }
         public bool IsEnabledTipoPrefijo {
             get {
-                return IsEnabled && !FacturaPreNumerada && IsNotEnabledUsaImprentaDigital;
+                return IsEnabled && !FacturaPreNumerada && !UsaImprentaDigital();
             }
         }
 
@@ -367,51 +365,37 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnabledPrimeraFactura {
             get {
-                return IsEnabled && !FacturaPreNumerada && IsNotEnabledUsaImprentaDigital;
+                return IsEnabled && !FacturaPreNumerada && !UsaImprentaDigital();
             }
         }
 
         public bool IsEnabledPrimeraFactura2 {
             get {
-                return IsEnabled && !FacturaPreNumerada2 && UsarDosTalonarios && IsNotEnabledUsaImprentaDigital;
+                return IsEnabled && !FacturaPreNumerada2 && UsarDosTalonarios && !UsaImprentaDigital();
             }
         }
 
         public bool IsEnabledTipoPrefijo2 {
             get {
-                return IsEnabled && !FacturaPreNumerada2 && UsarDosTalonarios && IsNotEnabledUsaImprentaDigital;
+                return IsEnabled && !FacturaPreNumerada2 && UsarDosTalonarios && !UsaImprentaDigital();
             }
         }
 
         public bool IsEnabledPrefijo {
             get {
-                return IsEnabled && TipoDePrefijo == eTipoDePrefijo.Indicar && !FacturaPreNumerada && IsNotEnabledUsaImprentaDigital;
+                return IsEnabled && TipoDePrefijo == eTipoDePrefijo.Indicar && !FacturaPreNumerada && !UsaImprentaDigital();
             }
         }
 
         public bool IsEnabledPrefijo2 {
             get {
-                return IsEnabled && TipoDePrefijo2 == eTipoDePrefijo.Indicar && !FacturaPreNumerada2 && IsNotEnabledUsaImprentaDigital;
+                return IsEnabled && (TipoDePrefijo2 == eTipoDePrefijo.Indicar && !FacturaPreNumerada2) && !UsaImprentaDigital();
             }
         }
         public bool IsEnabledUsaDosTalonarios {
             get {
-                return IsEnabled && UsarDosTalonarios;
+                return IsEnabled && !UsaImprentaDigital();
             }
-        }
-
-        public bool IsEnabledUsaImprentaDigital {
-            get { return IsEnabled && (_IsEnabledUsaImprentaDigital || UsaImprentaDigital()); }
-            set {
-                if (_IsEnabledUsaImprentaDigital != value) {
-                    _IsEnabledUsaImprentaDigital = value;
-                    RaisePropertyChanged(IsEnabledUsaImprentaDigitalPropertyName);
-                }
-            }
-        }
-
-        public bool IsNotEnabledUsaImprentaDigital {
-            get { return !IsEnabledUsaImprentaDigital; }
         }
 		
         public bool IsVisibleUsarOtrosCargoDeFactura {
@@ -425,6 +409,48 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
+        public bool IsEnabledModeloDeFactura {
+            get {
+                return !UsaImprentaDigital();
+            }
+        }
+
+        public bool IsEnabledModeloDeFacturaModoTexto {
+            get {
+                return !UsaImprentaDigital();
+            }
+        }
+
+        public bool IsEnabledOtrosCargoDeFactura {
+            get {
+                return !UsaImprentaDigital();
+            }
+        }
+
+        public bool IsEnabledModeloDeFactura2 {
+            get {
+                return !UsaImprentaDigital();
+            }
+        }
+
+        public bool IsEnabledFacturaPreNumerada2 {
+            get {
+                return !UsaImprentaDigital();
+            }
+        }
+
+        public bool IsEnabledFacturaPreNumerada {
+            get {
+                return !UsaImprentaDigital();
+            }
+        }
+
+        public bool IsEnabledModeloDeFacturaModoTexto2 {
+            get {
+                return !UsaImprentaDigital();
+            }
+        }
+
         #endregion //Propiedades
         #region Constructores
         public FacturaModeloFacturaViewModel()
@@ -433,8 +459,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public FacturaModeloFacturaViewModel(ModeloDeFacturaStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = UsarDosTalonariosPropertyName;
-            LibMessages.Notification.Register<bool>(this, OnUsaImprentaDigitalChanged);
-            //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -453,16 +477,12 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             if (valModel == null) {
                 return new ModeloDeFacturaStt();
             }
-            //LibGpParams vParams = new LibGpParams();
-            //vParams.AddInString("UsarDosTalonarios", valModel.UsarDosTalonarios, 0);
-            //return BusinessComponent.GetData(eProcessMessageType.SpName, "FacturaModeloFacturaGET", vParams.Get()).FirstOrDefault();
             return valModel;
         }
 
         protected override ILibBusinessComponentWithSearch<IList<ModeloDeFacturaStt>, IList<ModeloDeFacturaStt>> GetBusinessComponent() {
             return null;
         }
-
 
         private void ExecuteBuscarPlantillaCommandTalonario1() {
             try {
@@ -550,18 +570,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 }
             }
             return vResult;
-        }
-
-        private void OnUsaImprentaDigitalChanged(NotificationMessage<bool> valMessage) {
-            if (LibString.S1IsEqualToS2(valMessage.Notification, "UsaImprentaDigital")) {
-                IsEnabledUsaImprentaDigital = valMessage.Content || UsaImprentaDigital();
-                if (IsEnabledUsaImprentaDigital) {
-                    ModeloDeFactura = eModeloDeFactura.eMD_OTRO;
-                    ModeloDeFactura2 = eModeloDeFactura.eMD_OTRO;
-                    RaisePropertyChanged(ModeloDeFacturaPropertyName);
-                    RaisePropertyChanged(ModeloDeFactura2PropertyName);
-                }
-            }
         }
 
         private bool UsaImprentaDigital() {

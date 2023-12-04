@@ -41,6 +41,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         const string MontoAnticipoPropertyName = "MontoAnticipo";
         const string MontoVueltoPropertyName = "MontoVuelto";
         const string MontoVueltoPMPropertyName = "MontoVueltoPM";
+        const string MontoTarjetaMSPropertyName = "MontoTarjetaMS";
+        const string MontoC2PPropertyName = "MontoC2P";
+        const string MontoTransferenciaMSPropertyName = "MontoTransferenciaMS";
+        const string MontoPagoMovilPropertyName = "MontoPagoMovil";
+        const string MontoDepositoMSPropertyName = "MontoDepositoMS";
         const string FechaPropertyName = "Fecha";
         const string HoraAperturaPropertyName = "HoraApertura";
         const string HoraCierrePropertyName = "HoraCierre";
@@ -56,8 +61,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         const string MontoDepositoMEPropertyName = "MontoDepositoME";
         const string MontoAnticipoMEPropertyName = "MontoAnticipoME";
         const string MontoVueltoMEPropertyName = "MontoVueltoME";
+        const string MontoZellePropertyName = "MontoZelle";
         const string NombreOperadorPropertyName = "NombreOperador";
         const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
+        const string TotalesMediosElectronicosPropertyName = "TotalesMediosElectronicos";
+        const string TotalesMediosElectronicosMEPropertyName = "TotalesMediosElectronicosME";
+        const string IsExpandedTotalesMediosElectronicosPropertyName = "IsExpandedTotalesMediosElectronicos";
+
         private FkCajaViewModel _ConexionNombreCaja = null;
         private FkGUserViewModel _ConexionNombreDelUsuario = null;
         private FkMonedaViewModel _ConexionMoneda = null;
@@ -67,6 +77,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private Saw.Lib.clsNoComunSaw vMonedaLocal = null;
         private bool _UsaCobroMultimoneda = false;
         private string _CodigoMEInicial;
+        decimal _TotalesMediosElectronicos;
+        decimal _TotalesMediosElectronicosME;
+        bool _IsExpandedTotalesMediosElectronicos;
         #endregion //Constantes y Variables
 
         #region Propiedades
@@ -268,7 +281,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public decimal  MontoVuelto {
+        public decimal MontoVuelto {
             get {
                 return Model.MontoVuelto;
             }
@@ -279,6 +292,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 }
             }
         }
+
         public decimal MontoVueltoPM {
             get {
                 return Model.MontoVueltoPM;
@@ -291,8 +305,73 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        public decimal MontoTarjetaMS {
+            get {
+                return Model.MontoTarjetaMS;
+            }
+            set {
+                if (Model.MontoTarjetaMS != value) {
+                    Model.MontoTarjetaMS = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(MontoTarjetaMSPropertyName);
+                }
+            }
+        }
+
+        public decimal MontoC2P {
+            get {
+                return Model.MontoC2P;
+            }
+            set {
+                if (Model.MontoC2P != value) {
+                    Model.MontoC2P = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(MontoC2PPropertyName);
+                }
+            }
+        }
+
+        public decimal MontoTransferenciaMS {
+            get {
+                return Model.MontoTransferenciaMS;
+            }
+            set {
+                if (Model.MontoTransferenciaMS != value) {
+                    Model.MontoTransferenciaMS = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(MontoTransferenciaMSPropertyName);
+                }
+            }
+        }
+
+        public decimal MontoPagoMovil {
+            get {
+                return Model.MontoPagoMovil;
+            }
+            set {
+                if (Model.MontoPagoMovil != value) {
+                    Model.MontoPagoMovil = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(MontoPagoMovilPropertyName);
+                }
+            }
+        }
+
+        public decimal MontoDepositoMS {
+            get {
+                return Model.MontoDepositoMS;
+            }
+            set {
+                if (Model.MontoDepositoMS != value) {
+                    Model.MontoDepositoMS = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(MontoDepositoMSPropertyName);
+                }
+            }
+        }
+
         [LibCustomValidation("FechaValidating")]
-        public DateTime  Fecha {
+        public DateTime Fecha {
             get {
                 return Model.Fecha;
             }
@@ -500,7 +579,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public decimal  MontoVueltoME {
+        public decimal MontoVueltoME {
             get {
                 return Model.MontoVueltoME;
             }
@@ -512,6 +591,35 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        public decimal MontoZelle {
+            get {
+                return Model.MontoZelle;
+            }
+            set {
+                if (Model.MontoZelle != value) {
+                    Model.MontoZelle = value;
+                    RaisePropertyChanged(MontoZellePropertyName);
+                }
+            }
+        }
+        public bool IsExpandedTotalesMediosElectronicos {
+            get {
+                return _IsExpandedTotalesMediosElectronicos;
+            }
+            set {
+                if (_IsExpandedTotalesMediosElectronicos != value) {
+                    _IsExpandedTotalesMediosElectronicos = value;
+                    RaisePropertyChanged(IsExpandedTotalesMediosElectronicosPropertyName);
+                }
+            }
+        }
+
+        public bool IsEnabledTotalesMediosElectronicos {
+            get {
+                return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMediosElectronicosDeCobro");
+            }
+        }
+
         public string NombreOperador {
             get {
                 return Model.NombreOperador;
@@ -519,6 +627,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             set {
                 if (Model.NombreOperador != value) {
                     Model.NombreOperador = value;
+                    IsDirty = true;
                     RaisePropertyChanged(NombreOperadorPropertyName);
                 }
             }
@@ -544,6 +653,31 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return ObtenerCajaAsignada();
             }
         }
+
+        public decimal TotalesMediosElectronicos {
+            get {
+                return _TotalesMediosElectronicos;
+            }
+            set {
+                if (_TotalesMediosElectronicos != value) {
+                    _TotalesMediosElectronicos = value;
+                    RaisePropertyChanged(TotalesMediosElectronicosPropertyName);
+                }
+            }
+        }
+
+        public decimal TotalesMediosElectronicosME {
+            get {
+                return _TotalesMediosElectronicosME;
+            }
+            set {
+                if (_TotalesMediosElectronicosME != value) {
+                    _TotalesMediosElectronicosME = value;
+                    RaisePropertyChanged(TotalesMediosElectronicosMEPropertyName);
+                }
+            }
+        }
+
 
         private string ObtenerCajaAsignada() {
             string vCajaLocal = "";
@@ -608,6 +742,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             if (insCajaApertura == null) {
                 insCajaApertura = new Brl.Venta.clsCajaAperturaNav() as ICajaAperturaPdn;
             }
+            IsExpandedTotalesMediosElectronicos = false;
         }
 
         public override void InitializeViewModel(eAccionSR valAction) {
@@ -629,7 +764,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 MontoEfectivoME = 0m;
                 MontoTarjetaME = 0m;
                 MontoAnticipoME = 0m;
-            } else if (Action == eAccionSR.Modificar) {              
+            } else if (Action == eAccionSR.Modificar) {
                 TotalesPorCierreDeCaja();
                 HoraCierre = insLibSaw.ConvertHourToLongFormat(LibDate.CurrentHourAsStr);
             }
@@ -815,7 +950,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     ConsecutivoCaja = ConexionNombreCaja.Consecutivo;
                     NombreCaja = ConexionNombreCaja.NombreCaja;
                     if (Action == eAccionSR.Modificar || Action == eAccionSR.Insertar) {
-                        _CajaCerrada = insCajaApertura.GetCajaCerrada(ConsecutivoCompania, ConsecutivoCaja, false);                        
+                        _CajaCerrada = insCajaApertura.GetCajaCerrada(ConsecutivoCompania, ConsecutivoCaja, false);
                     }
                 } else {
                     ConsecutivoCaja = 0;
@@ -999,16 +1134,24 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 MontoAnticipo = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoAnticipo"));
                 MontoVuelto = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoVuelto"));
                 MontoVueltoPM = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoVueltoPM"));
-                MontoCierre = MontoApertura + MontoEfectivo + MontoTarjeta + MontoCheque + MontoDeposito + MontoAnticipo + MontoVuelto + MontoVueltoPM;
+                MontoC2P = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoC2P"));
+                MontoTarjetaMS = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoTarjetaMS"));
+                MontoTransferenciaMS = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoTransferenciaMS"));
+                MontoPagoMovil = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoPagoMovil"));
+                MontoDepositoMS = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoDepositoMS"));
+                MontoCierre = MontoApertura + MontoEfectivo + MontoTarjeta + MontoCheque + MontoDeposito + MontoAnticipo + MontoVuelto + MontoVueltoPM + MontoC2P + MontoTarjetaMS + MontoTransferenciaMS + MontoPagoMovil + MontoDepositoMS;
                 MontoEfectivoME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoEfectivoME"));
                 MontoTarjetaME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoTarjetaME"));
                 MontoChequeME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoChequeME"));
                 MontoDepositoME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoDepositoME"));
                 MontoAnticipoME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoAnticipoME"));
                 MontoVueltoME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoVueltoME"));
-                MontoCierreME = MontoAperturaME + MontoEfectivoME + MontoTarjetaME + MontoChequeME + MontoDepositoME + MontoAnticipoME + MontoVueltoME;
+                MontoZelle = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoZelle"));
+                MontoCierreME = MontoAperturaME + MontoEfectivoME + MontoTarjetaME + MontoChequeME + MontoDepositoME + MontoAnticipoME + MontoVueltoME + MontoZelle;
+                TotalesMediosElectronicos = MontoPagoMovil + MontoC2P + MontoTarjetaMS + MontoTransferenciaMS + MontoDepositoMS;
+                TotalesMediosElectronicosME = MontoZelle;
             }
-        }        
+        }
 
         public bool IsEnabledForInsert {
             get {
@@ -1024,7 +1167,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         public bool AsignaTasaDelDia(string valCodigoMoneda) {
             vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
-            if (!vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(valCodigoMoneda)) {                
+            if (!vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(valCodigoMoneda)) {
                 ConexionMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigoMoneda));
                 CodigoMoneda = ConexionMoneda.Codigo;
                 Moneda = ConexionMoneda.Nombre;
@@ -1033,7 +1176,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 decimal vMaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros", "MaximoLimitePermitidoParaLaTasaDeCambio");
                 bool vObtenerAutomaticamenteTasaDeCambioDelBCV = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "ObtenerAutomaticamenteTasaDeCambioDelBCV");
                 Cambio = clsSawCambio.InsertaTasaDeCambioParaElDia(valCodigoMoneda, LibDate.Today(), vUsarLimiteMaximoParaIngresoDeTasaDeCambio, vMaximoLimitePermitidoParaLaTasaDeCambio, vElProgramaEstaEnModoAvanzado, vObtenerAutomaticamenteTasaDeCambioDelBCV);
-                return Cambio > 0;                
+                return Cambio > 0;
             } else {
                 CodigoMoneda = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(Fecha);
                 Moneda = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(Fecha);

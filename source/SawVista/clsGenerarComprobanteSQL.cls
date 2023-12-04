@@ -150,7 +150,7 @@ Public Function fSQLTransferenciaEntreCuentasEntreFechas(ByVal valConsecutivoCom
    '  ESTAS INSTRUCCIONES SON PARA LA COMISION DE EGRESO
    vSqlTasaDeCambioEgreso = "Adm.TransferenciaEntreCuentasBancarias.CambioABolivaresEgreso"
    vMontoAsientoComisionEgreso = "SUM( " & gUtilSQL.fRoundNDecimales("Adm.TransferenciaEntreCuentasBancarias.MontoComisionEgreso * " & vSqlTasaDeCambioEgreso) & ")"
-   vCuentaContableDebeComisionEgreso = gUtilSQL.getIIF("(cuenta.Codigo IS NULL  OR cuenta.Codigo = '')", gUtilSQL.fSimpleSqlValue(valCuentaTransfCtasGastoComOrigen), "cuenta.Codigo")
+   vCuentaContableDebeComisionEgreso = valCuentaTransfCtasGastoComOrigen
    vSql = vSql & " UNION SELECT Adm.TransferenciaEntreCuentasBancarias.CodigoConceptoComisionEgreso, "
    vSql = vSql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, vMontoAsientoComisionEgreso, vCuentaContableDebeComisionEgreso, False, "", valNoDocumentoOrigen, valDescripcionDelAsiento, "", False, "", -1)
    vSql = vSql & " FROM Adm.TransferenciaEntreCuentasBancarias INNER JOIN cuentaBancaria ON "
@@ -178,7 +178,7 @@ Public Function fSQLTransferenciaEntreCuentasEntreFechas(ByVal valConsecutivoCom
    vMontoAsientoIGTFComisionEgreso = gUtilSQL.fRoundNDecimales("Adm.TransferenciaEntreCuentasBancarias.MontoComisionEgreso * " & vSqlTasaDeCambioEgreso)
    vMontoAsientoIGTFComisionEgreso = gUtilSQL.fRoundNDecimales(vMontoAsientoIGTFComisionEgreso & " * " & valPorcentajeIGTF & " /100")
    vMontoAsientoIGTFComisionEgreso = "SUM(" & vMontoAsientoIGTFComisionEgreso & ")"
-   vCuentaContableDebeIGTFEgreso = gUtilSQL.getIIF("(cuenta.Codigo IS NULL  OR cuenta.Codigo = '')", gUtilSQL.fSimpleSqlValue(valCuentaDebitoBancarioGasto), "cuenta.Codigo")
+   vCuentaContableDebeIGTFEgreso = valCuentaDebitoBancarioGasto
    vCuentaContableHaberIGTFEgreso = gUtilSQL.getIIF(gUtilSQL.fFirst("cuentaBancaria.CuentaContable", "NONE") & " = ''", gUtilSQL.fSimpleSqlValue(valCuentaTransfCtasBancoOrigen), gUtilSQL.fFirst("cuentaBancaria.CuentaContable", "NONE"), True)
    vSql = vSql & " UNION SELECT Adm.TransferenciaEntreCuentasBancarias.CodigoConceptoComisionEgreso, "
    vSql = vSql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, vMontoAsientoIGTFComisionEgreso, vCuentaContableDebeIGTFEgreso, False, "", valNoDocumentoOrigen, valDescripcionDelAsiento, "", False, "", -1)
@@ -205,7 +205,7 @@ Public Function fSQLTransferenciaEntreCuentasEntreFechas(ByVal valConsecutivoCom
    '  ESTAS INSTRUCCIONES SON PARA LA COMISION DE INGRESO
    vSqlTasaDeCambioIngreso = "Adm.TransferenciaEntreCuentasBancarias.CambioABolivaresIngreso"
    vMontoAsientoComisionIngreso = "SUM( " & gUtilSQL.fRoundNDecimales("Adm.TransferenciaEntreCuentasBancarias.MontoComisionIngreso * " & vSqlTasaDeCambioIngreso) & ")"
-   vCuentaContableDebeComisionIngreso = gUtilSQL.getIIF("(cuenta.Codigo IS NULL  OR cuenta.Codigo = '')", gUtilSQL.fSimpleSqlValue(valCuentaTransfCtasGastoComDestino), "cuenta.Codigo")
+   vCuentaContableDebeComisionIngreso = valCuentaTransfCtasGastoComDestino
    vSql = vSql & " UNION SELECT Adm.TransferenciaEntreCuentasBancarias.CodigoConceptoComisionIngreso, "
    vSql = vSql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, vMontoAsientoComisionIngreso, vCuentaContableDebeComisionIngreso, False, "", valNoDocumentoOrigen, valDescripcionDelAsiento, "", False, "", -1)
    vSql = vSql & " FROM Adm.TransferenciaEntreCuentasBancarias INNER JOIN cuentaBancaria ON "
@@ -233,7 +233,7 @@ Public Function fSQLTransferenciaEntreCuentasEntreFechas(ByVal valConsecutivoCom
    vMontoAsientoIGTFComisionIngreso = gUtilSQL.fRoundNDecimales("Adm.TransferenciaEntreCuentasBancarias.MontoComisionIngreso * " & vSqlTasaDeCambioIngreso)
    vMontoAsientoIGTFComisionIngreso = gUtilSQL.fRoundNDecimales(vMontoAsientoIGTFComisionIngreso & " * " & valPorcentajeIGTF & " / 100")
    vMontoAsientoIGTFComisionIngreso = "SUM(" & vMontoAsientoIGTFComisionIngreso & ")"
-   vCuentaContableDebeIGTFIngreso = gUtilSQL.getIIF("(cuenta.Codigo IS NULL OR cuenta.Codigo = '')", gUtilSQL.fSimpleSqlValue(valCuentaCreditoBancarioGasto), "cuenta.Codigo")
+   vCuentaContableDebeIGTFIngreso = valCuentaCreditoBancarioGasto
    vSql = vSql & " UNION SELECT Adm.TransferenciaEntreCuentasBancarias.CodigoConceptoComisionIngreso, "
    vSql = vSql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, vMontoAsientoIGTFComisionIngreso, vCuentaContableDebeIGTFIngreso, False, "", valNoDocumentoOrigen, valDescripcionDelAsiento, "", False, "", -1)
    vSql = vSql & " FROM Adm.TransferenciaEntreCuentasBancarias INNER JOIN cuentaBancaria ON "

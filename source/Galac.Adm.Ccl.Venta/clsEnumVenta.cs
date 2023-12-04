@@ -30,13 +30,13 @@ namespace Galac.Adm.Ccl.Venta {
         PorPorcentaje
     }
 
-    [TypeConverter(typeof(LibEnumTypeConverter))]
-    public enum eTalonario {
-        [LibEnumDescription("Talonario 1")]
-        Talonario1 = 0,
-        [LibEnumDescription("Talonario 2")]
-        Talonario2
-    }
+    //[TypeConverter(typeof(LibEnumTypeConverter))]
+    //public enum eTalonario {
+    //    [LibEnumDescription("Talonario 1")]
+    //    Talonario1 = 0,
+    //    [LibEnumDescription("Talonario 2")]
+    //    Talonario2
+    //}
 
     [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eTipoDeVenta {
@@ -196,6 +196,8 @@ namespace Galac.Adm.Ccl.Venta {
         CobranzaPorAplicacionDeRetencion
     }
 
+    //Este Enumerativo eFormaDeCobro se debe revisar, en muchos casos no aplica. porfavor no usar.
+
     [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eFormaDeCobro {
         [LibEnumDescription("Efectivo", Index = 0)]
@@ -213,13 +215,34 @@ namespace Galac.Adm.Ccl.Venta {
         [LibEnumDescription("Anticipo", Index = 0)]
         [LibEnumDescription("00005", Index = 1)]
         Anticipo,
+        [LibEnumDescription("Transferencia", Index = 0)]
+        [LibEnumDescription("00006", Index = 1)]
+        Transferencia,
         [LibEnumDescription("Vuelto Efectivo", Index = 0)]
         [LibEnumDescription("00007", Index = 1)]
         VueltoEfectivo,
         [LibEnumDescription("Vuelto Pago Móvil", Index = 0)]
         [LibEnumDescription("00008", Index = 1)]
-        VueltoPM
-    }
+        VueltoPM,
+        [LibEnumDescription("Tarjeta Medios Electrónicos")]
+        [LibEnumDescription("00009", Index = 1)]
+        TarjetaMS,
+        [LibEnumDescription("Zelle")]
+        [LibEnumDescription("00010", Index = 1)]
+        Zelle,
+        [LibEnumDescription("P2C")]
+        [LibEnumDescription("00011", Index = 1)]
+        PagoMovil,
+        [LibEnumDescription("Transferencia Medios Electrónicos")]
+        [LibEnumDescription("00012", Index = 1)]
+        TransferenciaMS,
+        [LibEnumDescription("C2P")]
+        [LibEnumDescription("00013", Index = 1)]
+        C2P,
+        [LibEnumDescription("Depósito Medios Electrónicos", Index = 0)]
+        [LibEnumDescription("00014", Index = 1)]
+        DepositoMS
+    }      
 
     [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eFiltrarCobranzasPor {

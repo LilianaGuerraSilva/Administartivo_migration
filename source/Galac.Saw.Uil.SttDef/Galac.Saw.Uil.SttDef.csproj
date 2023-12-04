@@ -80,6 +80,9 @@
       <Name>LibGalac.Aos.Uil</Name>
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Uil.dll</HintPath>
     </Reference>
+    <Reference Include="LibGalac.Ssm.U">
+      <HintPath>..\packages\LibGalac.Ssm.U.18.2.3\lib\LibGalac.Ssm.U.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -124,6 +127,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="UIMefSettDefinition.cs" />
+    <Compile Include="ViewModel\ImprentaDigitalActivacionViewModel.cs" />
     <Compile Include="ViewModel\BancosAnticipoViewModel.cs" />
     <Compile Include="ViewModel\BancosMonedaViewModel.cs" />
     <Compile Include="ViewModel\BancosMovimientoBancarioViewModel.cs" />
@@ -139,6 +143,7 @@
     <Compile Include="ViewModel\FacturaBalanzaEtiquetasViewModel.cs" />
     <Compile Include="ViewModel\FacturaImprentaDigitalViewModel.cs" />
     <Compile Include="ViewModel\FacturaPuntoDeVentaViewModel.cs" />
+    <Compile Include="ViewModel\ImprentaDigitalDatosDeConexionViewModel.cs" />
     <Compile Include="ViewModel\InventarioMetodoCostoViewModel.cs" />
     <Compile Include="ViewModel\CotizacionNotaDebitoCreditoViewModel.cs" />
     <Compile Include="ViewModel\CotizacionVendedorViewModel.cs" />
@@ -248,6 +253,12 @@
     <Compile Include="Views\GSFacturaPuntoDeVentaView.xaml.cs">
       <DependentUpon>GSFacturaPuntoDeVentaView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\GSImprentaDigitalActivacion.xaml.cs">
+      <DependentUpon>GSImprentaDigitalActivacion.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSImprentaDigitalDatosDeConexion.xaml.cs">
+      <DependentUpon>GSImprentaDigitalDatosDeConexion.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GSInventarioMetodoCostoView.xaml.cs">
       <DependentUpon>GSInventarioMetodoCostoView.xaml</DependentUpon>
     </Compile>
@@ -269,11 +280,15 @@
     <Compile Include="Views\GSVerificadorDePreciosView.xaml.cs">
       <DependentUpon>GSVerificadorDePreciosView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\winInformacionGVentas.xaml.cs">
+      <DependentUpon>winInformacionGVentas.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -397,6 +412,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\GSImprentaDigitalActivacion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GSImprentaDigitalDatosDeConexion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\GSInventarioMetodoCostoView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -422,6 +445,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GSVerificadorDePreciosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\winInformacionGVentas.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -475,6 +502,9 @@
       <Project>{bf877c20-f113-46f1-b3f5-42cbbd123908}</Project>
       <Name>Galac.Saw.Reconv</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\gventas-logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

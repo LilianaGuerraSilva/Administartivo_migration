@@ -162,6 +162,7 @@
     <Compile Include="wrpCaja.cs" />
     <Compile Include="wrpCajaApertura.cs" />
     <Compile Include="wrpImprentaDigital.cs" />
+    <Compile Include="wrpInformacionGVentas.cs" />
     <Compile Include="wrpMenuBarCaja.cs" />
     <Compile Include="wrpRutaDeComercializacion.cs" />
     <Compile Include="wrpTransferenciaEntreCuentasBancarias.cs" />

@@ -22,51 +22,51 @@
 	path = source/Axi
 	url = https://github.com/Galac-Software/Axi.git
 	branch = master
-[submodule "bin/binAdministrativoAos"]
-	path = bin/binAdministrativoAos
-	url = https://github.com/GalacSoftware/BinAdministrativoAos.git
-	branch = release/V24.1.0.0
-[submodule "bin/binAdministrativoVb"]
-	path = bin/binAdministrativoVb
-	url = https://github.com/GalacSoftware/BinAdministrativoVB.git
-	branch = release/V2308
-[submodule "bin/binContabilidadAos"]
-	path = bin/binContabilidadAos
-	url = https://github.com/GalacSoftware/BinContabilidadAos.git
-	branch = release/SawV24.1.0.0
-[submodule "bin/binContabilidadVb"]
-	path = bin/binContabilidadVb
-	url = https://github.com/GalacSoftware/BinContabilidadVb.git
-	branch = release/SawV24.1.0.0
-[submodule "bin/binEsqNiif"]
-	path = bin/binEsqNiif
-	url = https://github.com/GalacSoftware/BinEsqNiif.git
-	branch = release/SawV24.1.0.0
-[submodule "source/IvaVb"]
-	path = source/IvaVb
-	url = https://github.com/GalacSoftware/IvaVb.git
-	branch = release/SawV24.1.0.0
-[submodule "source/RetencionesVb"]
-	path = source/RetencionesVb
-	url = https://github.com/GalacSoftware/RetencionesVb.git
-	branch = release/SawV24.1.0.0
 [submodule "source/Lib/VbaLib"]
 	path = source/Lib/VbaLib
 	url = https://github.com/GalacSoftware/vbaLib.git
 	branch = releaase/V2201
-[submodule "source/ContabIwrp"]
-	path = source/ContabIwrp
-	url = https://github.com/GalacSoftware/ContabiWrp.git
-	branch = release/SawV24.1.0.0
+[submodule "bin/binContabilidadVb"]
+	path = bin/binContabilidadVb
+	url = https://github.com/GalacSoftware/BinContabilidadVb.git
+	branch = release/SawV24.2.0.0
+[submodule "bin/binEsqNiif"]
+	path = bin/binEsqNiif
+	url = https://github.com/GalacSoftware/BinEsqNiif.git
+	branch = release/SawV24.2.0.0
+[submodule "bin/binContabilidadAos"]
+	path = bin/binContabilidadAos
+	url = https://github.com/GalacSoftware/BinContabilidadAos.git
+	branch = release/SawV24.2.0.0
 [submodule "bin/binComunAos"]
 	path = bin/binComunAos
 	url = https://github.com/GalacSoftware/BinComunAos.git
-	branch = release/V2.60.3.0
-[submodule "source/VbaComun"]
-	path = source/VbaComun
+	branch = release/SawV24.2.0.0
+[submodule "bin/binAdministrativoVb"]
+	path = bin/binAdministrativoVb
+	url = https://github.com/GalacSoftware/BinAdministrativoVB.git
+	branch = release/V2309
+[submodule "bin/binAdministrativoAos"]
+	path = bin/binAdministrativoAos
+	url = https://github.com/GalacSoftware/BinAdministrativoAos.git
+	branch = release/V24.2.0.0
+[submodule "source/vbaComun"]
+	path = source/vbaComun
 	url = https://github.com/GalacSoftware/vbaComun.git
-	branch = release/SawV24.1.0.0
+	branch = release/SawV24.2.0.0
+[submodule "source/RetencionesVb"]
+	path = source/RetencionesVb
+	url = https://github.com/GalacSoftware/RetencionesVb.git
+	branch = release/SawV24.2.0.0
+[submodule "source/IvaVb"]
+	path = source/IvaVb
+	url = https://github.com/GalacSoftware/IvaVb.git
+	branch = release/SawV24.2.0.0
+[submodule "source/ContabIwrp"]
+	path = source/ContabIwrp
+	url = https://github.com/GalacSoftware/ContabiWrp.git
+	branch = release/SawV24.2.0.0
 [submodule "source/ContabilidadVb"]
 	path = source/ContabilidadVb
 	url = https://github.com/GalacSoftware/ContabilidadVb.git
-	branch = release/SawV24.1.0.0
+	branch = release/SawV24.2.0.0

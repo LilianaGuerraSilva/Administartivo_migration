@@ -310,17 +310,10 @@ Private Const FIELD = 28
 Private gWorksPath As clsUtilWorkPaths
 Private MaxLenEpson As Integer
 
-Private Function CM_FILE_NAME() As String
-   CM_FILE_NAME = "frmImpresorasFiscales"
-End Function
-
-Private Function CM_MESSAGE_NAME() As String
-   CM_MESSAGE_NAME = "Impresoras Fiscales"
-End Function
-
-Private Function GetGender() As Enum_Gender
-   GetGender = eg_Female
-End Function
+Private Const CM_FILE_NAME As String = "frmImpresorasFiscales"
+Private Const CM_MESSAGE_NAME As String = "Impresoras Fiscales"
+Private Const GetGender = Enum_Gender.eg_Female
+   
 ' PNP, BEMATECH, THEFACTORY (SAMSUNG) ES CODIGO MUERTO, SE MANTIENE POR REFERENCIA DE COMPATIBILIDAD
 ' PNP_220 y PNP_220II LAS UNIFICARON COMO PNP_220A Cuando la gaceta 0141
 Private Function fAbrirComprobanteFiscal(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, valPuerto As String, ByVal valTipoConexion As enum_TipoConexion, ByVal valIp As String, ByVal valCajaNumero As String) As Boolean
@@ -365,7 +358,7 @@ h_EXIT: On Error GoTo 0
    fAbrirComprobanteFiscal = True
    Exit Function
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fAbrirComprobanteFiscal", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "fAbrirComprobanteFiscal", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub sAbreCFEpson(valPuerto As String, Optional ByVal Devolucion As Boolean)
@@ -465,7 +458,7 @@ Private Sub sAbreCFEpson(valPuerto As String, Optional ByVal Devolucion As Boole
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sAbreCFEpson", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "sAbreCFEpson", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Sub sEnviar(ByVal Salida As String, ByRef refEntrada As String, valPuerto As String)
@@ -625,7 +618,7 @@ Private Sub cmdSalir_Click()
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "cmdSalir_Click", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "cmdSalir_Click", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub Form_Load()
@@ -634,7 +627,7 @@ On Error GoTo h_Error
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "Form_Load", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "Form_Load", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sInitDefaultValues()
@@ -649,7 +642,7 @@ Private Sub sInitDefaultValues()
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sInitDefaultValues", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "sInitDefaultValues", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sInitLookAndFeel()
@@ -657,7 +650,7 @@ Private Sub sInitLookAndFeel()
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sInitLookAndFeel", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "sInitLookAndFeel", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Sub sInitLookAndFeelAndSetValues(ByRef refDatosImprFiscal As clsDatosImprFiscal, ByRef refReady As Boolean, Optional ByVal gAdmAlicuotaIvaActual As Object)
@@ -679,13 +672,14 @@ Public Sub sInitLookAndFeelAndSetValues(ByRef refDatosImprFiscal As clsDatosImpr
       Case Enum_EstadoImpresionFiscal.eEIF_OBTENER_ULTIMO_REPORTE_Z: sObtenerUltimoNumeroDeReporteZ insDatosImprFiscal.GetImpresoraFiscal, insDatosImprFiscal.GetPuertoImpresoraFiscal, insDatosImprFiscal.GetTipoConexion, insDatosImprFiscal.GetIp, insDatosImprFiscal.GetCajaNumero
       Case Enum_EstadoImpresionFiscal.eEIF_ASIGNAR_CONFIGURACION:  sAsignarConfiguracion insDatosImprFiscal.GetImpresoraFiscal, insDatosImprFiscal.GetPuertoImpresoraFiscal, insDatosImprFiscal.GetTipoConexion, insDatosImprFiscal.GetIp, insDatosImprFiscal.GetCajaNumero, insDatosImprFiscal.GetGateway, insDatosImprFiscal.GetMascaraSubRed
       Case Enum_EstadoImpresionFiscal.eEIF_CORTAR_PAPEL:   sCortarPapel insDatosImprFiscal.GetImpresoraFiscal, insDatosImprFiscal.GetPuertoImpresoraFiscal, insDatosImprFiscal.GetTipoConexion, insDatosImprFiscal.GetIp, insDatosImprFiscal.GetCajaNumero
+      Case Enum_EstadoImpresionFiscal.eEIF_IMPRIME_DOCUMENTO_NOFISCAL: ImprimeComprobanteNoFiscal mReady
    End Select
    refReady = mReady
 h_EXIT: On Error GoTo 0
    If cmmPuerto.PortOpen Then cmmPuerto.PortOpen = False
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sInitLookAndFeelAndSetValues", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "sInitLookAndFeelAndSetValues", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fEjecutaCierreZ(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, valPuerto As String, valTipoConexion As enum_TipoConexion, ByVal valIp As String, ByVal valCajaNumero As String) As Boolean
@@ -722,7 +716,7 @@ Private Function fEjecutaCierreZ(ByVal valImpresoraFiscal As Enum_ImpresorasFisc
 h_EXIT: On Error GoTo 0
    fEjecutaCierreZ = True
    Exit Function
-h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fEjecutaCierreZ", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fEjecutaCierreZ", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub sCierreZ_EPSON(valPuerto As String)
@@ -734,7 +728,7 @@ Private Sub sCierreZ_EPSON(valPuerto As String)
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sCierreZ_EPSON", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "sCierreZ_EPSON", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sCierreZ_BEMATECH()
@@ -746,7 +740,7 @@ Private Sub sCierreZ_BEMATECH()
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sCierreZ_EPSON", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "sCierreZ_EPSON", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sCierreZ_BMC()
@@ -758,7 +752,7 @@ Private Sub sCierreZ_BMC()
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sCierreZ_BMC", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "sCierreZ_BMC", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sCierreZ_QPrintMF(ByVal valPuerto As String, ByVal valTipoConexion As enum_TipoConexion, ByVal valIp As String, ByVal valCajaNumero As String)
@@ -770,7 +764,7 @@ Private Sub sCierreZ_QPrintMF(ByVal valPuerto As String, ByVal valTipoConexion A
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sCierreZ_QPrintMF", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "sCierreZ_QPrintMF", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fEjecutaCierreX(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, ByVal valPuerto As String, ByVal valTipoConexion As enum_TipoConexion, ByVal valIp As String, ByVal valCajaNumero As String) As Boolean
@@ -820,7 +814,7 @@ h_EXIT: On Error GoTo 0
    fEjecutaCierreX = True
    Exit Function
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fEjecutaCierreX", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "fEjecutaCierreX", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub sCierreX_EPSON(valPuerto As String)
@@ -832,7 +826,7 @@ Private Sub sCierreX_EPSON(valPuerto As String)
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sCierreX_EPSON", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "sCierreX_EPSON", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sCierreX_BEMATECH()
@@ -844,7 +838,7 @@ Private Sub sCierreX_BEMATECH()
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sCierreX_BEMATECH", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "sCierreX_BEMATECH", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sAbreCF_BEMATECH()
@@ -869,7 +863,7 @@ Private Sub sAbreCF_BEMATECH()
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sAbreCF_BEMATECH", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "sAbreCF_BEMATECH", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sImprimeVentaArticulo_BEMATECH()
@@ -910,7 +904,7 @@ Private Sub sImprimeVentaArticulo_BEMATECH()
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sImprimeVentaArticulo_BEMATECH", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "sImprimeVentaArticulo_BEMATECH", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sImprimeNotaDeCredito_BEMATECH()
@@ -950,7 +944,7 @@ Private Sub sImprimeNotaDeCredito_BEMATECH()
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sImprimeNotaDeCredito_BEMATECH", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "sImprimeNotaDeCredito_BEMATECH", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sImprimeVentaArticulo_Epson(valPuerto As String)
@@ -1023,7 +1017,7 @@ Private Sub sImprimeVentaArticulo_Epson(valPuerto As String)
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sImprimeVentaArticulo_Epson", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "sImprimeVentaArticulo_Epson", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sImprimeNotaDeCredito_EPSON(valPuerto As String)
@@ -1071,7 +1065,7 @@ Private Sub sImprimeNotaDeCredito_EPSON(valPuerto As String)
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sImprimeNotaDeCredito_EPSON", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "sImprimeNotaDeCredito_EPSON", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sFormaDePago_EPSON()
@@ -1113,7 +1107,7 @@ Private Sub sFormaDePago_EPSON()
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sFormaDePago_EPSON", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "sFormaDePago_EPSON", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sFormaDePagoCF_BEMATECH()
@@ -1154,7 +1148,7 @@ Private Sub sFormaDePagoCF_BEMATECH()
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sFormaDePagoCF_BEMATECH", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "sFormaDePagoCF_BEMATECH", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sFormaDePagoCF_EPSON()
@@ -1179,7 +1173,7 @@ Private Sub sFormaDePagoCF_EPSON()
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sFormaDePagoCF_EPSON", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "sFormaDePagoCF_EPSON", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sCierraCF_BEMATECH(ByVal vModeloImpresora As Enum_ImpresorasFiscales)
@@ -1223,7 +1217,7 @@ Private Sub sCierraCF_BEMATECH(ByVal vModeloImpresora As Enum_ImpresorasFiscales
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sCierraCF_BEMATECH", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "sCierraCF_BEMATECH", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sCierraCF_EPSON(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, valPuerto As String)
@@ -1276,7 +1270,7 @@ Private Sub sCierraCF_EPSON(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales,
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sCierraCF_EPSON", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "sCierraCF_EPSON", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Function fItem(Des As String, efecto As Integer, Cant As String, Monto As String, Tasa As String, valPuerto As String, Optional Tipo As Integer) As Boolean
@@ -1480,7 +1474,7 @@ Private Sub sObtenerSerialImpresoraFiscal(ByVal valImpresoraFiscal As Enum_Impre
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sObtenerSerialImpresoraFiscal", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "sObtenerSerialImpresoraFiscal", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fSerialMemoriaFiscal_BEMATECH() As String
@@ -1511,7 +1505,7 @@ h_EXIT: On Error GoTo 0
    Exit Function
 h_Error:
    mReady = False
-    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSerialMemoriaFiscal_BEMATECH", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSerialMemoriaFiscal_BEMATECH", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 Public Function fModificarArchivoPropiedadesBematech(valPropiedad As String, valNuevoValor As String) As Boolean
     Dim vPath As String
@@ -1530,7 +1524,7 @@ h_EXIT: On Error GoTo 0
 h_Error:
     fModificarArchivoPropiedadesBematech = False
     Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sModificarArchivoPropiedadesBematech", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "sModificarArchivoPropiedadesBematech", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 
 End Function
 
@@ -1589,7 +1583,7 @@ h_EXIT:
    Exit Function
 h_Error:
    fReemplazarLinea = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fReemplazarLinea", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fReemplazarLinea", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fSerialMemoriaFiscal_EPSON(valPuerto As String) As String
@@ -1616,7 +1610,7 @@ h_Error:
       If Err.Number = 8002 Then
          gMessage.Advertencia ("Verifique que la Impresora Fiscal este conectada al puerto que selecciono e intente de nuevo")
       Else
-         Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSerialMemoriaFiscal_EPSON", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSerialMemoriaFiscal_EPSON", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
       End If
    End If
 End Function
@@ -1639,7 +1633,7 @@ Public Function fStatusEPSON(valPuerto As String) As String
 h_EXIT: On Error GoTo 0
    fStatusEPSON = vCampo
    Exit Function
-h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fStatus", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fStatus", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function ValorCampo() As String
@@ -1709,7 +1703,7 @@ Private Sub sObtenerUltimoNumeroFiscal(ByVal valImpresoraFiscal As Enum_Impresor
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sObtenerUltimoNumeroFiscal", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "sObtenerUltimoNumeroFiscal", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fUltimoNumeroMemoriaFiscal_BEMATECH() As String
@@ -1751,7 +1745,7 @@ h_EXIT: On Error GoTo 0
    fUltimoNumeroMemoriaFiscal_BEMATECH = NumeroComprobante
    Exit Function
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fUltimoNumeroMemoriaFiscal_BEMATECH", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "fUltimoNumeroMemoriaFiscal_BEMATECH", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fUltimoNumeroMemoriaFiscal_EPSON(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, valPuerto As String) As String
@@ -1897,7 +1891,7 @@ Private Sub sEfectuaVenta(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, B
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sEfectuaVenta", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "sEfectuaVenta", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sEfectuaNotaDeCredito(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, ByVal valPuerto As String, ByVal valTipoConexion As enum_TipoConexion, ByVal valIp As String, ByVal valCajaNumero As String)
@@ -1961,7 +1955,7 @@ Private Sub sEfectuaNotaDeCredito(ByVal valImpresoraFiscal As Enum_ImpresorasFis
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sEfectuaNotaDeCredito", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "sEfectuaNotaDeCredito", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sCerrarVenta(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, valPuerto As String)
@@ -1987,7 +1981,7 @@ Private Sub sCerrarVenta(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, va
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sCerrarVenta", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "sCerrarVenta", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fConvierteAlicuotaBEMATECH(ByVal valAlicuota As String) As String
@@ -2012,7 +2006,7 @@ h_EXIT: On Error GoTo 0
    fConvierteAlicuotaBEMATECH = AlicuotaConvertida
    Exit Function
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fConvierteAlicuotaBEMATECH", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "fConvierteAlicuotaBEMATECH", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fConvierteCantidadBEMATECH(ByVal valCantidad As String, ByVal valEsParaDescuento As Boolean) As String
@@ -2041,7 +2035,7 @@ Private Function fConvierteCantidadBEMATECH(ByVal valCantidad As String, ByVal v
 h_EXIT: On Error GoTo 0
    fConvierteCantidadBEMATECH = CantidadConvertida
    Exit Function
-h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConvierteCantidadBEMATECH", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConvierteCantidadBEMATECH", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fCadenaValidaEpson(ByVal valTexto As String, Optional ByVal valVieneDeDireccion As Boolean = False)
@@ -2080,7 +2074,7 @@ Private Function fCadenaValidaEpson(ByVal valTexto As String, Optional ByVal val
 h_EXIT: On Error GoTo 0
    fCadenaValidaEpson = CadenaValida
    Exit Function
-h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fCadenaValidaEpson", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fCadenaValidaEpson", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub sVerRespuesta(ByVal FileName As String)
@@ -2142,7 +2136,7 @@ Private Sub sImprimeDireccionEpson(valDireccion As String, valPuerto As String)
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sImprimeDireccionEpson", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sImprimeDireccionEpson", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sCancelaCuponFiscal(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, ByRef Ready As Boolean, valPuerto As String, ByVal valTipoConexion As enum_TipoConexion)
@@ -2183,7 +2177,7 @@ Private Sub sCancelaCuponFiscal(ByVal valImpresoraFiscal As Enum_ImpresorasFisca
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sCancelaCuponFiscal", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sCancelaCuponFiscal", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sVerificaVigenciaDeLaAlicuota(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, ByRef Ready As Boolean, ByVal gAdmAlicuotaIvaActual As Object, valPuerto As String)
@@ -2217,7 +2211,7 @@ Private Sub sVerificaVigenciaDeLaAlicuota(ByVal valImpresoraFiscal As Enum_Impre
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sVerificaVigenciaDeLaAlicuota", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "sVerificaVigenciaDeLaAlicuota", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fCancelaCuponFiscal_BEMATECH() As String
@@ -2228,7 +2222,7 @@ Private Function fCancelaCuponFiscal_BEMATECH() As String
 h_EXIT: On Error GoTo 0
    Exit Function
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fCancelaCuponFiscal_BEMATECH", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "fCancelaCuponFiscal_BEMATECH", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fCancelaCuponFiscal_EPSON(valPuerto As String) As String
@@ -2241,7 +2235,7 @@ Private Function fCancelaCuponFiscal_EPSON(valPuerto As String) As String
 h_EXIT: On Error GoTo 0
    Exit Function
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fCancelaCuponFiscal_EPSON", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "fCancelaCuponFiscal_EPSON", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fObtenerVersion_Epson(valPuerto As String) As String
@@ -2265,7 +2259,7 @@ Public Function fObtenerVersion_Epson(valPuerto As String) As String
 h_EXIT: On Error GoTo 0
    fObtenerVersion_Epson = vCampo
    Exit Function
-h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fStatus", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fStatus", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fValidaAlicuotaIVA_BEMATECH(ByVal gAdmAlicuotaIvaActual As Object) As String
@@ -2295,7 +2289,7 @@ Private Function fValidaAlicuotaIVA_BEMATECH(ByVal gAdmAlicuotaIvaActual As Obje
 h_EXIT: On Error GoTo 0
    Exit Function
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fValidaAlicuotaIVA_BEMATECH", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "fValidaAlicuotaIVA_BEMATECH", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub sImprimeObservacionesEpson(valObservacion As String, valPuerto As String)
@@ -2327,7 +2321,7 @@ Private Sub sImprimeObservacionesEpson(valObservacion As String, valPuerto As St
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sImprimeDireccionEpson", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sImprimeDireccionEpson", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fFormaDeCobro(FormaDeCobro As String) As String
@@ -2342,7 +2336,7 @@ Private Function fFormaDeCobro(FormaDeCobro As String) As String
    fFormaDeCobro = Resultado
 h_EXIT: On Error GoTo 0
    Exit Function
-h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fFormaDeCobro", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fFormaDeCobro", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub sImprimeCamposDefiniblesEpson(ByVal valRSCamposDefinibles As ADODB.Recordset, ByVal valMax As Integer, valPuerto As String)
@@ -2358,7 +2352,7 @@ Private Sub sImprimeCamposDefiniblesEpson(ByVal valRSCamposDefinibles As ADODB.R
       Loop
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sImprimeCamposDefiniblesEpson", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sImprimeCamposDefiniblesEpson", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sImprimeDatosVehiculosEpson(ByVal valRSDatosVehiculos As ADODB.Recordset, valPuerto As String)
@@ -2374,7 +2368,7 @@ Private Sub sImprimeDatosVehiculosEpson(ByVal valRSDatosVehiculos As ADODB.Recor
       Loop
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sImprimeDireccionEpson", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sImprimeDireccionEpson", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 
@@ -2438,7 +2432,7 @@ Private Sub sVerStatusImpresoraFiscal(ByVal valImpresoraFiscal As Enum_Impresora
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sVerStatusImpresoraFiscal", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sVerStatusImpresoraFiscal", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fMensajeErrorEPSONSiExiste(ByVal vStatus As String) As String
@@ -2465,7 +2459,7 @@ Private Function fMensajeErrorEPSONSiExiste(ByVal vStatus As String) As String
 h_EXIT:    On Error GoTo 0
    fMensajeErrorEPSONSiExiste = vMessege
    Exit Function
-h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fMensajeErrorEPSONSiExiste", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fMensajeErrorEPSONSiExiste", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fPosicionDeCaracterInv(ByVal valCadena As String, ByVal valCaracter As String) As Long
@@ -2487,7 +2481,7 @@ Private Function fPosicionDeCaracterInv(ByVal valCadena As String, ByVal valCara
 h_EXIT:    On Error GoTo 0
    fPosicionDeCaracterInv = vPos
    Exit Function
-h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fPosicionDeCaracterInv", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fPosicionDeCaracterInv", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fConvierteCantidadEpson(ByVal valCantidad As String, ByVal valEsParaPrecio As Boolean) As String
@@ -2521,7 +2515,7 @@ Private Function fConvierteCantidadEpson(ByVal valCantidad As String, ByVal valE
 h_EXIT: On Error GoTo 0
    fConvierteCantidadEpson = CantidadConvertida
    Exit Function
-h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConvierteCantidadEpson", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConvierteCantidadEpson", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub sActivaRedondeo(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, ByRef refReady As Boolean)
@@ -2539,7 +2533,7 @@ Private Sub sActivaRedondeo(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales,
    End Select
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivaRedondeo", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivaRedondeo", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Sub sActivaRedondeoBematech(ByRef refReady As Boolean)
@@ -2549,7 +2543,7 @@ Public Sub sActivaRedondeoBematech(ByRef refReady As Boolean)
    insImprFiscal.fVerificaRetornoImpresora "", vRetorno, refReady
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivaRedondeoBematech", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivaRedondeoBematech", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fConvierteCantidadBEMATECHParaPagos(ByVal valCantidad As String) As String
@@ -2575,7 +2569,7 @@ Private Function fConvierteCantidadBEMATECHParaPagos(ByVal valCantidad As String
 h_EXIT: On Error GoTo 0
    fConvierteCantidadBEMATECHParaPagos = CantidadConvertida
    Exit Function
-h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConvierteCantidadBEMATECHParaPagos", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConvierteCantidadBEMATECHParaPagos", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fConvierteCantidadBEMATECHParaDescuentos(ByVal valCantidad As String) As String
@@ -2608,7 +2602,7 @@ Private Function fConvierteCantidadBEMATECHParaDescuentos(ByVal valCantidad As S
 h_EXIT: On Error GoTo 0
    fConvierteCantidadBEMATECHParaDescuentos = CantidadConvertida
    Exit Function
-h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConvierteCantidadBEMATECHParaDescuentos", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConvierteCantidadBEMATECHParaDescuentos", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub sImprimeCamposDefiniblesBEMATECH(ByVal valInsDatosImprFiscal As clsDatosImprFiscal, ByVal valSinObsevSinDireccion As Boolean, ByRef refCamposDefinibles As String)
@@ -2649,7 +2643,7 @@ Private Sub sImprimeCamposDefiniblesBEMATECH(ByVal valInsDatosImprFiscal As clsD
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sImprimeCamposDefiniblesBEMATECH", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sImprimeCamposDefiniblesBEMATECH", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fObtenerUltimoNumeroDeReporteZ_Familia_Bematech() As String
@@ -2663,7 +2657,7 @@ h_EXIT:    On Error GoTo 0
    Exit Function
 h_Error:
    fObtenerUltimoNumeroDeReporteZ_Familia_Bematech = ""
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fObtenerUltimoNumeroDeReporteZ_Familia_Bematech", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fObtenerUltimoNumeroDeReporteZ_Familia_Bematech", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fObtenerUltimoNumeroDeReporteZ_Familia_Epson(ByVal valPuerto As String) As String
@@ -2697,7 +2691,7 @@ h_EXIT: On Error GoTo 0
    Exit Function
 h_Error:
    fObtenerUltimoNumeroDeReporteZ_Familia_Epson = ""
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fObtenerUltimoNumeroDeReporteZ_Familia_Epson", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fObtenerUltimoNumeroDeReporteZ_Familia_Epson", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Sub sObtenerUltimoNumeroDeReporteZ(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, ByVal valPuerto As String, ByVal valTipoConexion As enum_TipoConexion, ByVal valIp As String, ByVal valCajaNumero As String)
@@ -2743,7 +2737,7 @@ Public Sub sObtenerUltimoNumeroDeReporteZ(ByVal valImpresoraFiscal As Enum_Impre
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error:
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sObtenerUltimoNumeroDeReporteZ", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sObtenerUltimoNumeroDeReporteZ", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Sub sAsignarConfiguracion(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, valPuerto As String, ByVal valTipoConexion As enum_TipoConexion, ByVal valIp As String, ByVal valCajaNumero As String, ByVal valGateway As String, ByVal valMascaraSubRed As String)
@@ -2764,7 +2758,7 @@ Public Sub sAsignarConfiguracion(ByVal valImpresoraFiscal As Enum_ImpresorasFisc
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error:
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAsignarConfiguracion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAsignarConfiguracion", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Sub sCortarPapel(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, valPuerto As String, ByVal valTipoConexion As enum_TipoConexion, ByVal valIp As String, ByVal valCajaNumero As String)
@@ -2779,7 +2773,7 @@ Public Sub sCortarPapel(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, val
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error:
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAsignarConfiguracion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAsignarConfiguracion", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sCierreZ_FamiliaFactory(ByVal valPuerto As String, ByVal valImpresoraFiscal As Enum_ImpresorasFiscales)
@@ -2790,7 +2784,7 @@ Private Sub sCierreZ_FamiliaFactory(ByVal valPuerto As String, ByVal valImpresor
    Set insImpFiscalFamFactory = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sCierreZ_FamiliaFactory", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sCierreZ_FamiliaFactory", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fValorDesdeArchivoINI(valRutaArchivoINI As String, valLlaveALeer As String, valValorPorDefectoSiNoExisteLlave As String) As String
@@ -2803,5 +2797,19 @@ Private Function fValorDesdeArchivoINI(valRutaArchivoINI As String, valLlaveALee
 h_EXIT: On Error GoTo 0
    fValorDesdeArchivoINI = vResult
    Exit Function
-h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fValorDesdeArchivoINI", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fValorDesdeArchivoINI", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
+
+Public Sub ImprimeComprobanteNoFiscal(ByRef refReady As Boolean)
+   Dim insImpFiscalFromAOS As clsImpFiscalFromAOS
+   On Error GoTo h_Error
+   Set insImpFiscalFromAOS = New clsImpFiscalFromAOS
+   If insDatosImprFiscal.GetUsarModoDotNet Then
+      insImpFiscalFromAOS.ImprimeComprobanteNoFiscal insDatosImprFiscal, refReady
+   End If
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_Error:
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "ImprimeComprobanteNoFiscal", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
+
