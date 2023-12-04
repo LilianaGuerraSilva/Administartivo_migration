@@ -32,7 +32,7 @@ namespace Galac.Adm.Brl.Venta {
         public clsCobranzaNav() {
             insRenglonCobroDeFactura = new clsRenglonCobroDeFacturaNav();
             _CodigoEfectivo = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.Efectivo);
-            _CodigoTarjeta= insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.Tarjeta);
+            _CodigoTarjeta = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.Tarjeta);
             _CodigoTransferenciaManual = "00006";
             _CodigoVueltoEfectivo = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoEfectivo);
             _CodigoVueltoC2P = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoC2P);
@@ -436,7 +436,7 @@ namespace Galac.Adm.Brl.Venta {
             decimal vTotalPorCobrar = 0;
             decimal vCambioAMonedaLocal = 1;
             decimal vTotalFactura = 0;
-            decimal vTotalFacturaEnDivisas = 0;          
+            decimal vTotalFacturaEnDivisas = 0;
             string vCodigoMonedaCobranza = string.Empty;
             decimal vTotalAbonadoMonedaLocal = 0;
 
@@ -476,7 +476,7 @@ namespace Galac.Adm.Brl.Venta {
                 vNumeroDeCobranzas.Add(refNumeroDeCobranza);
                 vTotalPorCobrar = vTotalFactura - LibMath.RoundToNDecimals(vTotalCobrado * vCambioAMonedaLocal, 2);
             }
-            if (vRenglonesEnMonedaLocal != null) {              
+            if (vRenglonesEnMonedaLocal != null) {
                 vCambioAMonedaLocal = 1;
                 vCodigoMonedaCobranza = new clsNoComunSaw().InstanceMonedaLocalActual.GetHoyCodigoMoneda();
                 InsertarCobranza(CrearXmlDeDatosCobranza(valConsecutivoCompania, vFecha, vCodigoCliente, vConsecutivoCobrador, vCodigoCobrador, vCodigoMonedaCobranza, vRenglonesEnMonedaLocal, ref refNumeroDeCobranza, out vTotalCobrado));
@@ -500,16 +500,15 @@ namespace Galac.Adm.Brl.Venta {
             }
             decimal vCobradoEfectivo = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == _CodigoEfectivo).Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
             decimal vCobradoTarjetas = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == _CodigoTarjeta || w.Element("CodigoFormaDelCobro").Value == _CodigoTarjetaMS).Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
-            decimal vCobradoDepositoMS = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == _CodigoDepositoMS).Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
-            decimal vCobradoTransferencia = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == _CodigoTransferenciaManual || w.Element("CodigoFormaDelCobro").Value == _CodigoTransferenciaMS).Sum(s => LibImportData.ToDec(s.Element("Monto").Value));           
+            decimal vCobradoTransferencia = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == _CodigoTransferenciaManual ).Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
             decimal vVuelto = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == _CodigoVueltoEfectivo || w.Element("CodigoFormaDelCobro").Value == _CodigoVueltoC2P).Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
             decimal vCobradoOtrosMedios = 0;
             if (LibString.S1IsEqualToS2(valCodigoMonedaCobranza, vCodigoMonedaLocal)) {
-                vCobradoOtrosMedios = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == _CodigoPagMovil || w.Element("CodigoFormaDelCobro").Value == _CodigoC2P).Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
+                vCobradoOtrosMedios = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == _CodigoPagMovil || w.Element("CodigoFormaDelCobro").Value == _CodigoC2P || w.Element("CodigoFormaDelCobro").Value == _CodigoDepositoMS || w.Element("CodigoFormaDelCobro").Value == _CodigoTransferenciaMS).Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
             } else {
                 vCobradoOtrosMedios = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == _CodigoZelle).Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
             }
-            outTotalCobrado = (vCobradoEfectivo + vCobradoTarjetas + vCobradoTransferencia + vCobradoOtrosMedios + vCobradoDepositoMS) - vVuelto;
+            outTotalCobrado = (vCobradoEfectivo + vCobradoTarjetas + vCobradoTransferencia + vCobradoOtrosMedios) - vVuelto;
             XElement vSimboloYNombreMoneda = ObtenerSimboloYNombreMonedaDesdeCodigo(valCodigoMonedaCobranza);
             string vNombreMoneda = vSimboloYNombreMoneda.Descendants("GpResult").Select(s => s.Element("Nombre").Value).FirstOrDefault();
             decimal vCambioAMonedaLocal = valRenglonesDeCobro.Select(s => (decimal)s.Element("CambioAMonedaLocal")).FirstOrDefault();
