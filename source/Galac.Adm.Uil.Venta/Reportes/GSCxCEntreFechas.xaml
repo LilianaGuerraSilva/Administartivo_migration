@@ -1,0 +1,180 @@
+﻿<UserControl x:Class="Galac.Adm.Uil.Venta.Reportes.GSCxCEntreFechas"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:nsARRpt="clr-namespace:LibGalac.Aos.ARRpt;assembly=LibGalac.Aos.ARRpt"
+             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Label
+            x:Name="lblFechaDesde"
+            Grid.Row="0"
+            Grid.Column="0"
+            Content="Fecha desde"
+            Style="{StaticResource LabelPrompt}" Margin="0"/>
+        <nsWpfControls:GSDatePickerWpf
+            x:Name="dtpFechaDesde"
+            Grid.Row="0"
+            SelectedDate="{Binding FechaDesde, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+            Style="{StaticResource DatePickerStyle}" Grid.Column="1" Margin="3" VerticalAlignment="Top" />
+        <Label
+            x:Name="lblFechaHasta"
+            Grid.Column="0"
+            Grid.Row="1" 
+            Content="Fecha hasta"
+            Style="{StaticResource LabelPrompt}" Margin="0" />
+        <nsWpfControls:GSDatePickerWpf
+            x:Name="dtpFechaHasta"
+            Grid.Row="1" 
+            SelectedDate="{Binding FechaHasta, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+            Style="{StaticResource DatePickerStyle}" Margin="3" Grid.Column="1" VerticalAlignment="Top" />
+        <Label
+            x:Name="lblStatusDocumentos"
+            Grid.Row="3"
+            Grid.Column="0"
+            Content="Status de las CxC"
+            Style="{StaticResource LabelPrompt}" Margin="0" HorizontalAlignment="Left"  />
+        <nsWpfControls:GSComboBoxWpf
+            x:Name="cmbStatusDocumentos"
+            Grid.Row="3"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding ListaStatusCxC}"
+            SelectedItem="{Binding StatusCxC, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+            Style="{StaticResource ComboBoxStyle}" Margin="3" Grid.Column="1" VerticalAlignment="Top" />
+        <Label
+            x:Name="lblAgruparPor"
+            Grid.Row="4"
+            Grid.Column="0"
+            Content="Agrupar por"            
+            Style="{StaticResource LabelPrompt}" Margin="0" />
+        <nsWpfControls:GSComboBoxWpf
+            x:Name="cmbAgruparPor"
+            Grid.Row="4"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding ListaAgruparPor}"
+            SelectedItem="{Binding AgruparPor, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+            Style="{StaticResource ComboBoxStyle}" Margin="3" Grid.Column="1" VerticalAlignment="Top" />
+        <nsWpfControls:GSComboBoxWpf
+            x:Name="cmbSectoresDeNegocio"
+            Grid.Row="5"
+            Grid.Column="1" 
+            IsSynchronizedWithCurrentItem="True"
+            Visibility="{Binding IsVisibleSectoresDeNegocio, Converter={StaticResource booleanToVisibilityConverter}}"
+            ItemsSource="{Binding ListaSectoresDeNegocio}"
+            SelectedItem="{Binding SectorDeNegocio, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+            Style="{StaticResource ComboBoxStyle}" Margin="3" VerticalAlignment="Top" />
+        <nsWpfControls:GSComboBoxWpf
+            x:Name="cmbZonasDeCobranza"
+            Grid.Row="5"
+            Grid.Column="1" 
+            IsSynchronizedWithCurrentItem="True"
+            Visibility="{Binding IsVisibleZonasDeCobranzas, Converter={StaticResource booleanToVisibilityConverter}}"
+            ItemsSource="{Binding ListaZonasDeCobranza}"
+            SelectedItem="{Binding ZonaDeCobranza, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+            Style="{StaticResource ComboBoxStyle}" Margin="3" VerticalAlignment="Top" />
+        <Label
+            x:Name="lblMonedaDelInforme"
+            Grid.Row="6"
+            Grid.Column="0"
+            Content="Moneda del informe"
+            Style="{StaticResource LabelPrompt}" Margin="0" />
+        <nsWpfControls:GSComboBoxWpf
+            x:Name="cmbMonedaDelInforme"
+            Grid.Row="6"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding ListaMonedaDelInforme}"
+            SelectedItem="{Binding MonedaDelInforme, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+            Style="{StaticResource ComboBoxStyle}" Margin="3" Grid.Column="1" VerticalAlignment="Top" />
+        <nsWpfControls:GSComboBoxWpf
+            x:Name="cmbMonedasActivas"
+            Grid.Row="6"
+            Grid.Column="2"
+            IsSynchronizedWithCurrentItem="True"
+            Visibility="{Binding IsVisibleMonedasActivas, Converter={StaticResource booleanToVisibilityConverter}}"
+            ItemsSource="{Binding ListaMonedasActivas}"
+            SelectedItem="{Binding Moneda, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+            Style="{StaticResource ComboBoxStyle}" Margin="3"  VerticalAlignment="Top" BorderThickness="1" />
+        <Label
+            x:Name="lblFechaDeLaTasaDeCambio"
+            Grid.Row="7"
+            Grid.Column="0"
+            Visibility="{Binding IsVisibleTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}"
+            Content="Tasa de Cambio a la Fecha"
+            Style="{StaticResource LabelPrompt}" Margin="0" Grid.RowSpan="2"  />
+        <nsWpfControls:GSComboBoxWpf
+            x:Name="cmbTasaDeCambio"
+            Grid.Row="7"
+            Grid.Column="1"
+            IsSynchronizedWithCurrentItem="True"
+            Visibility="{Binding IsVisibleTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}"
+            ItemsSource="{Binding ListaTasaDeCambio}"
+            SelectedItem="{Binding TasaDeCambio, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+            Style="{StaticResource ComboBoxStyle}" Margin="3"  VerticalAlignment="Top"/>
+        <Label
+            x:Name="lblContacto"
+            Grid.Row="9"
+            Grid.Column="1"
+            Content="Incluir Contacto"
+            Style="{StaticResource LabelPrompt}" Margin="0"  />
+        <CheckBox
+            x:Name="chkContacto"
+            Grid.Row="9"
+            Grid.Column="0"
+            IsChecked="{Binding IncluirContacto}"
+            Style="{StaticResource CheckBoxStyle}" Margin="0,5,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="16" />
+        <Label
+            x:Name="lblInfoAdicional"
+            Grid.Row="10"
+            Grid.Column="1"
+            Content="Incluir Información Adicional"
+            Style="{StaticResource LabelPrompt}" Margin="0"  />
+        <CheckBox
+            x:Name="chkInfoAdicional"
+            Grid.Row="10"
+            Grid.Column="0"
+            IsChecked="{Binding IncluirInfoAdicional}"
+            Style="{StaticResource CheckBoxStyle}" Margin="0,5,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="16" />
+        <Label
+            x:Name="lblNroComprobanteContable"
+            Grid.Row="11"
+            Grid.Column="1"
+            Visibility="{Binding IsVisibleIncluirNroCC, Converter={StaticResource booleanToVisibilityConverter}}"
+            Content="Incluir Nro. Comprobante Contable"
+            Style="{StaticResource LabelPrompt}" Margin="0"  />
+        <CheckBox
+            x:Name="chkNroComprobanteContable"
+            Grid.Row="11"
+            Grid.Column="0"
+            Visibility="{Binding IsVisibleIncluirNroCC, Converter={StaticResource booleanToVisibilityConverter}}"
+            IsChecked="{Binding IncluirNroComprobanteContable}"
+            Style="{StaticResource CheckBoxStyle}" Margin="0,5,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="16" />
+    </Grid>
+</UserControl>

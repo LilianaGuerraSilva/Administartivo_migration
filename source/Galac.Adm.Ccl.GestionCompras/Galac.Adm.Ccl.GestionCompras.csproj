@@ -59,6 +59,7 @@
     <Compile Include="CompraDetalleArticuloInventario.cs" />
     <Compile Include="CompraDetalleGasto.cs" />
     <Compile Include="CompraDetalleSerialRollo.cs" />
+    <Compile Include="ICxPInformes.cs" />
     <Compile Include="IOrdenDeCompraDatDetallePdn.cs" />
     <Compile Include="IOrdenDeCompraInformes.cs" />
     <Compile Include="CxP.cs" />

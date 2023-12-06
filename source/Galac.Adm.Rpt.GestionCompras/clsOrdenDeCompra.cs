@@ -10,15 +10,15 @@ using LibGalac.Aos.ARRpt;
 using Galac.Adm.Rpt.GestionCompras;
 using Galac.Adm.Ccl.GestionCompras;
 using Galac.Saw.Lib;
-namespace Galac.Adm.Rpt.GestionCompras
-{
 
-    public class clsOrdenDeCompra: LibRptBaseMfc {
+namespace Galac.Adm.Rpt.GestionCompras {
+
+    public class clsOrdenDeCompra : LibRptBaseMfc {
         #region Propiedades
 
         protected DataTable Data { get; set; }
 
-        public int ConsecutivoCompra{get; set;}
+        public int ConsecutivoCompra { get; set; }
         public eTipoCompra TipoCompra { get; set; }
         #region Codigo Ejemplo
         /* Codigo de Ejemplo
@@ -32,12 +32,12 @@ namespace Galac.Adm.Rpt.GestionCompras
         #region Constructores
         public clsOrdenDeCompra(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-            FechaDesde = initFechaDesde;
-            FechaHasta = initFechaHasta;
-        */
-        #endregion //Codigo Ejemplo
+            #region Codigo Ejemplo
+            /* Codigo de Ejemplo
+                FechaDesde = initFechaDesde;
+                FechaHasta = initFechaHasta;
+            */
+            #endregion //Codigo Ejemplo
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -54,14 +54,14 @@ namespace Galac.Adm.Rpt.GestionCompras
             Dictionary<string, string> vParams = new Dictionary<string, string>();
             vParams.Add("NombreCompania", AppMemoryInfo.GlobalValuesGetString("Compania", "Nombre"));
             vParams.Add("TituloInforme", vTitulo);
-         
 
 
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-            vParams.Add("FechaInicialYFinal", string.Format("{0} al {1}", LibConvert.ToStr(FechaDesde, "dd/MM/yyyy"), LibConvert.ToStr(FechaHasta, "dd/MM/yyyy")));
-        */
-        #endregion //Codigo Ejemplo
+
+            #region Codigo Ejemplo
+            /* Codigo de Ejemplo
+                vParams.Add("FechaInicialYFinal", string.Format("{0} al {1}", LibConvert.ToStr(FechaDesde, "dd/MM/yyyy"), LibConvert.ToStr(FechaHasta, "dd/MM/yyyy")));
+            */
+            #endregion //Codigo Ejemplo
             return vParams;
         }
 
@@ -77,14 +77,14 @@ namespace Galac.Adm.Rpt.GestionCompras
         public override void SendReportToDevice() {
             WorkerReportProgress(90, "Configurando Informe...");
             Dictionary<string, string> vParams = GetConfigReportParameters();
-            string vRpx = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros","NombrePlantillaOrdenDeCompra");
+            string vRpx = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "NombrePlantillaOrdenDeCompra");
             dsrOrdenDeCompra vRpt;
             if (LibText.IsNullOrEmpty(vRpx)) {
                 vRpt = new dsrOrdenDeCompra(false, "", (TipoCompra == eTipoCompra.Importacion));
             } else {
                 vRpt = new dsrOrdenDeCompra(true, vRpx, (TipoCompra == eTipoCompra.Importacion));
             }
-            
+
             if (vRpt.ConfigReport(Data, vParams)) {
                 LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsCompra.ReportName, true, ExportFileFormat, "", false);
             }
@@ -96,4 +96,3 @@ namespace Galac.Adm.Rpt.GestionCompras
     } //End of class clsOrdenDeCompra
 
 } //End of namespace Galac.Dbo.Rpt.ComponenteNoEspecificado
-
