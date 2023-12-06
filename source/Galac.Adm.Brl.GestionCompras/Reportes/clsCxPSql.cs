@@ -5,13 +5,22 @@ using System.Text;
 using LibGalac.Aos.Base.Dal;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Base.Report;
+using LibGalac.Aos.DefGen;
+using Galac.Saw.Lib;
 
 namespace Galac.Adm.Brl.GestionCompras.Reportes {
     public class clsCxPSql {
-        #region Metodos Generados
+		private QAdvSql insSql;
+
+		public clsCxPSql() {
+			insSql = new QAdvSql("");
+        }
+
+		#region Metodos Generados
 		public string SqlCuentasPorPagarEntreFechas(int valConsecutivoCompania){
             StringBuilder vSql = new StringBuilder();
 			string vSQLWhere = "";
+			vSQLWhere = "";
 			vSql.AppendLine("SELECT dbo.Gv_CxP_B1.Numero");
 			vSql.AppendLine(" FROM dbo.Gv_CxP_B1");
 			//if (LibString.Len(txtNumero.Text) > 0) {

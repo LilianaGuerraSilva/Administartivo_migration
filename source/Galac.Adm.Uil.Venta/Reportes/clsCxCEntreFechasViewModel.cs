@@ -32,8 +32,8 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         public override bool IsSSRS => false;
         public DateTime FechaDesde { get; set; }
         public DateTime FechaHasta { get; set; }
-        public eInformeStatusCXC StatusCxC { get; set; }
-        public ObservableCollection<eInformeStatusCXC> ListaStatusCxC { get; set; }
+        public eInformeStatusCXC_CXP StatusCxC { get; set; }
+        public ObservableCollection<eInformeStatusCXC_CXP> ListaStatusCxC { get; set; }
         public eInformeAgruparPor AgruparPor {
             get { return _AgruparPor; }
             set {
@@ -108,16 +108,16 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         #endregion //Metodos Generados
 
         void LlenarListaStatusCxC() {
-            ListaStatusCxC = new ObservableCollection<eInformeStatusCXC>();
+            ListaStatusCxC = new ObservableCollection<eInformeStatusCXC_CXP>();
             ListaStatusCxC.Clear();
-            ListaStatusCxC.Add(eInformeStatusCXC.Todos);
-            ListaStatusCxC.Add(eInformeStatusCXC.PorCancelar);
-            ListaStatusCxC.Add(eInformeStatusCXC.Cancelado);
-            ListaStatusCxC.Add(eInformeStatusCXC.ChequeDevuelto);
-            ListaStatusCxC.Add(eInformeStatusCXC.Abonado);
-            ListaStatusCxC.Add(eInformeStatusCXC.Anulado);
-            ListaStatusCxC.Add(eInformeStatusCXC.Refinanciado);
-            StatusCxC = eInformeStatusCXC.Todos;
+            ListaStatusCxC.Add(eInformeStatusCXC_CXP.Todos);
+            ListaStatusCxC.Add(eInformeStatusCXC_CXP.PorCancelar);
+            ListaStatusCxC.Add(eInformeStatusCXC_CXP.Cancelado);
+            ListaStatusCxC.Add(eInformeStatusCXC_CXP.ChequeDevuelto);
+            ListaStatusCxC.Add(eInformeStatusCXC_CXP.Abonado);
+            ListaStatusCxC.Add(eInformeStatusCXC_CXP.Anulado);
+            ListaStatusCxC.Add(eInformeStatusCXC_CXP.Refinanciado);
+            StatusCxC = eInformeStatusCXC_CXP.Todos;
         }
 
         void LlenarListaAgruparPor() {

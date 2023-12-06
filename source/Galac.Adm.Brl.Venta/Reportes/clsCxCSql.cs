@@ -169,12 +169,12 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			return vSql.ToString();
 		}
 
-		public string SqlCxCEntreFechas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, eInformeStatusCXC valStatusCxC, eInformeAgruparPor valAgruparPor, string valZonaDeCobranza, string valSectorDeNegocio, eMonedaDelInformeMM valMonedaDelInforme, string valMoneda, eTasaDeCambioParaImpresion valTasaDeCambio, bool valMostrarNroComprobanteContable) {
+		public string SqlCxCEntreFechas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, eInformeStatusCXC_CXP valStatusCxC, eInformeAgruparPor valAgruparPor, string valZonaDeCobranza, string valSectorDeNegocio, eMonedaDelInformeMM valMonedaDelInforme, string valMoneda, eTasaDeCambioParaImpresion valTasaDeCambio, bool valMostrarNroComprobanteContable) {
 			StringBuilder vSql = new StringBuilder();
 			string vSQLWhere = "";
 			vSQLWhere = insSql.SqlIntValueWithAnd(vSQLWhere, "CxC.ConsecutivoCompania", valConsecutivoCompania);
 			vSQLWhere = insSql.SqlDateValueBetween(vSQLWhere, "CxC.Fecha", valFechaDesde, valFechaHasta);
-			if (valStatusCxC != eInformeStatusCXC.Todos) {
+			if (valStatusCxC != eInformeStatusCXC_CXP.Todos) {
 				vSQLWhere = insSql.SqlEnumValueWithAnd(vSQLWhere, "CxC.Status", (int)valStatusCxC);
 			}
 			if (valAgruparPor == eInformeAgruparPor.SectorDeNegocio) {

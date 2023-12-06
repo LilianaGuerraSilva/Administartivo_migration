@@ -57,7 +57,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             return insCxCPorCliente.GetDt(vSql, 0);
         }
 
-        System.Data.DataTable ICxCInformes.BuildCxCEntreFechas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, eInformeStatusCXC valStatusCxC, eInformeAgruparPor valAgruparPor, string valZonaDeCobranza, string valSectorDeNegocio, eMonedaDelInformeMM valMonedaDelInforme, string valMoneda, eTasaDeCambioParaImpresion valTasaDeCambio, bool valMostrarNroComprobanteContable) {
+        System.Data.DataTable ICxCInformes.BuildCxCEntreFechas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, eInformeStatusCXC_CXP valStatusCxC, eInformeAgruparPor valAgruparPor, string valZonaDeCobranza, string valSectorDeNegocio, eMonedaDelInformeMM valMonedaDelInforme, string valMoneda, eTasaDeCambioParaImpresion valTasaDeCambio, bool valMostrarNroComprobanteContable) {
             string vSql = "";
             clsCxCSql insCxCSql = new clsCxCSql();
             ILibDataRpt insCxCEntreFechas = new Dal.Venta.clsCXCDat();

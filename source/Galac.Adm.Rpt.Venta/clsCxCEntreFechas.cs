@@ -18,7 +18,7 @@ namespace Galac.Adm.Rpt.Venta {
         protected DataTable Data { get; set; }
         DateTime FechaDesde { get; set; }
         DateTime FechaHasta { get; set; }
-        eInformeStatusCXC StatusCxC { get; set; }
+        eInformeStatusCXC_CXP StatusCxC { get; set; }
         eInformeAgruparPor AgruparPor { get; set; }
         string ZonaDeCobranza { get; set; }
         string SectorDeNegocio { get; set; }
@@ -31,7 +31,7 @@ namespace Galac.Adm.Rpt.Venta {
 
         #endregion //Propiedades
         #region Constructores
-        public clsCxCEntreFechas(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime initFechaDesde, DateTime initFechaHasta, eInformeStatusCXC initStatusCxC, eInformeAgruparPor initAgruparPor, string initZonaDeCobranza, string initSectorDeNegocio, eMonedaDelInformeMM initMonedaDelInforme, eTasaDeCambioParaImpresion initTasaDeCambio, string initMoneda, bool initMostrarInfoAdicional, bool initMostrarContacto, bool initMostrarNroComprobanteContable)
+        public clsCxCEntreFechas(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime initFechaDesde, DateTime initFechaHasta, eInformeStatusCXC_CXP initStatusCxC, eInformeAgruparPor initAgruparPor, string initZonaDeCobranza, string initSectorDeNegocio, eMonedaDelInformeMM initMonedaDelInforme, eTasaDeCambioParaImpresion initTasaDeCambio, string initMoneda, bool initMostrarInfoAdicional, bool initMostrarContacto, bool initMostrarNroComprobanteContable)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
             FechaDesde = initFechaDesde;
             FechaHasta = initFechaHasta;

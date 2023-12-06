@@ -422,7 +422,7 @@ namespace Galac.Saw.Lib {
     }
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-    public enum eInformeStatusCXC {
+    public enum eInformeStatusCXC_CXP {
         [LibEnumDescription("Por Cancelar")] PorCancelar = 0,
         [LibEnumDescription("Cancelado")] Cancelado,
         [LibEnumDescription("Cheque Devuelto")] ChequeDevuelto,
