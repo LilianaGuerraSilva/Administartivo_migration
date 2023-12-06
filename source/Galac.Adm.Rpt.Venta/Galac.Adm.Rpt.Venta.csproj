@@ -96,6 +96,7 @@
     <Compile Include="clsCuadreCajaPorUsuario.cs" />
     <Compile Include="clsCuadreCajaPorUsuarioResumido.cs" />
     <Compile Include="clsComisionDeVendedoresPorCobranzaMonto.cs" />
+    <Compile Include="clsCxCEntreFechas.cs" />
     <Compile Include="clsCxCPendientesEntreFechas.cs" />
     <Compile Include="clsCxCPorCliente.cs" />
     <Compile Include="clsFacturacionPorArticulo.cs" />
@@ -185,6 +186,12 @@
     </Compile>
     <Compile Include="dsrComisionDeVendedoresPorCobranzaMonto.Designer.cs">
       <DependentUpon>dsrComisionDeVendedoresPorCobranzaMonto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dsrCxCEntreFechas.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrCxCEntreFechas.Designer.cs">
+      <DependentUpon>dsrCxCEntreFechas.cs</DependentUpon>
     </Compile>
     <Compile Include="dsrCxCPendientesEntreFechas.cs">
       <SubType>Component</SubType>
@@ -284,6 +291,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="dsrComisionDeVendedoresPorCobranzaMonto.resx">
       <DependentUpon>dsrComisionDeVendedoresPorCobranzaMonto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dsrCxCEntreFechas.resx">
+      <DependentUpon>dsrCxCEntreFechas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="dsrCxCPendientesEntreFechas.resx">
       <DependentUpon>dsrCxCPendientesEntreFechas.cs</DependentUpon>

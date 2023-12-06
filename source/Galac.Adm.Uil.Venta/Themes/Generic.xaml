@@ -110,4 +110,7 @@
     <DataTemplate DataType="{x:Type nsCSVM:ValidacionZelleViewModel}">
         <nsCSV:GSValidacionZelleView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsCxCEntreFechasViewModel}">
+        <nsReportesView:GSCxCEntreFechas/>
+    </DataTemplate>
 </ResourceDictionary>
