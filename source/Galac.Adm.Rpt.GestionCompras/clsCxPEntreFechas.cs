@@ -32,7 +32,7 @@ namespace Galac.Adm.Rpt.GestionCompras {
         #endregion //Codigo Ejemplo
         #endregion //Propiedades
         #region Constructores
-        public clsCxPEntreFechas(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime initFechaDesde, DateTime initFechaHasta, eInformeStatusCXC_CXP initStatusCxP, eMonedaDelInformeMM initMonedaDelInforme, eTasaDeCambioParaImpresion initTasaDeCambio, string initMoneda, bool initMostrarInfoAdicional, bool initMostrarContacto, bool initMostrarNroComprobanteContable)
+        public clsCxPEntreFechas(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime initFechaDesde, DateTime initFechaHasta, eInformeStatusCXC_CXP initStatusCxP, eMonedaDelInformeMM initMonedaDelInforme, eTasaDeCambioParaImpresion initTasaDeCambio, string initMoneda, bool initMostrarInfoAdicional, bool initMostrarNroComprobanteContable)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
             FechaDesde = initFechaDesde;
             FechaHasta = initFechaHasta;
@@ -77,7 +77,7 @@ namespace Galac.Adm.Rpt.GestionCompras {
             WorkerReportProgress(90, "Configurando Informe...");
             Dictionary<string, string> vParams = GetConfigReportParameters();
             dsrCxPEntreFechas vRpt = new dsrCxPEntreFechas();
-            if (vRpt.ConfigReport(Data, vParams)) {
+            if (vRpt.ConfigReport(Data, vParams, MostrarInfoAdicional, MostrarNroComprobanteContable, MonedaDelInforme, Moneda, TasaDeCambio)) {
                 LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsCxPEntreFechas.ReportName, true, ExportFileFormat, "", false);
             }
             WorkerReportProgress(100, "Finalizando...");

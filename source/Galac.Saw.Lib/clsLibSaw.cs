@@ -397,7 +397,7 @@ namespace Galac.Saw.Lib {
             return vResult;
         }
 
-        public string NotaMonedaCambioParaInformes(eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio, string valMoneda) {
+        public string NotaMonedaCambioParaInformes(eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio, string valMoneda, string valAliasDocumento) {
             StringBuilder vNotaMonedaCambio = new StringBuilder();
             if (valMonedaDelInforme == eMonedaDelInformeMM.EnBolivares) {
                 vNotaMonedaCambio.Append("Los montos están expresados en ");
@@ -417,8 +417,9 @@ namespace Galac.Saw.Lib {
                     vNotaMonedaCambio.Append("Usando la tasa de cambio más cercana a la fecha del documento.");
                 }
             } else { //if (valMonedaDelInforme == eMonedaDelInformeMM.EnMonedaOriginal) {
-                vNotaMonedaCambio.AppendLine("Los montos están expresados en la moneda original de cada documento.");
-                vNotaMonedaCambio.Append("En los registros en moneda extranjera, se muestra la tasa de cambio a moneda local que fue registrada.");
+                string vDocumento = LibString.IsNullOrEmpty(valAliasDocumento) ? "documento" : valAliasDocumento;
+                vNotaMonedaCambio.AppendLine("Los montos están expresados en la moneda original de cada "+ vDocumento +".");
+                vNotaMonedaCambio.Append("En los registros en moneda extranjera, se muestra la tasa de cambio original que fue registrada.");
             }
             return vNotaMonedaCambio.ToString();
         }

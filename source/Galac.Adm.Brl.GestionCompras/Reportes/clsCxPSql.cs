@@ -27,7 +27,9 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
 			}
 
 			/* INICIO: Manejo para multimoneda: Moneda Local // Moneda Extranjera Original y Moneda Local en Moneda Extranjera // Moneda Original */
-			string vSqlMonto = insSql.IIF("CxP.Status = " + insSql.EnumToSqlValue(2), "0", "((CxP.MontoExento + CxP.MontoGravado + CxP.MontoIva) - CxP.MontoAbonado)", true);
+			string vSqlMontoToal = "(CxP.MontoExento + CxP.MontoGravado + CxP.MontoIva)";
+			string vSqlMontoOriginal = insSql.IIF("CxP.Status = " + insSql.EnumToSqlValue(2), "0", vSqlMontoToal, true);
+			string vSqlMontoRestante = insSql.IIF("CxP.Status = " + insSql.EnumToSqlValue(2), "0", "(" + vSqlMontoToal + " - CxP.MontoAbonado)", true);
 			string vSqlCambioOriginal = "CxP.CambioAbolivares";
 			string vSqlCambioDelDia = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + insSql.ToSqlValue(valMoneda) + " AND FechaDeVigencia <= " + insSql.ToSqlValue(LibDate.Today()) + " ORDER BY FechaDeVigencia DESC), 1)";
 			string vSqlCambioMasCercano = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + insSql.ToSqlValue(valMoneda) + " AND FechaDeVigencia <= CxP.Fecha ORDER BY FechaDeVigencia DESC), 1)";
@@ -40,7 +42,8 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
 				} else {
 					vSqlCambio = vSqlCambioOriginal;
 				}
-				vSqlMonto = insSql.RoundToNDecimals(vSqlMonto + " * " + vSqlCambio, 2);
+				vSqlMontoOriginal = insSql.RoundToNDecimals(vSqlMontoOriginal + " * " + vSqlCambio, 2);
+				vSqlMontoRestante = insSql.RoundToNDecimals(vSqlMontoRestante + " * " + vSqlCambio, 2);
 			} else if (valMonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa) {
 				if (valTasaDeCambio == eTasaDeCambioParaImpresion.DelDia) {
 					vSqlCambio = vSqlCambioDelDia;
@@ -48,7 +51,8 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
 					vSqlCambio = vSqlCambioMasCercano;
 				}
 				vSqlCambio = insSql.IIF("CxP.CodigoMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal), vSqlCambio, " 1 ", true);
-				vSqlMonto = insSql.RoundToNDecimals(vSqlMonto + " / " + vSqlCambio, 2);
+				vSqlMontoOriginal = insSql.RoundToNDecimals(vSqlMontoOriginal + " / " + vSqlCambio, 2);
+				vSqlMontoRestante = insSql.RoundToNDecimals(vSqlMontoRestante + " / " + vSqlCambio, 2);
 			} else if (valMonedaDelInforme == eMonedaDelInformeMM.EnMonedaOriginal) {
 			}
 			/* FIN */
@@ -64,7 +68,8 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
 			vSql.AppendLine("	CxP.Numero, ");
 			vSql.AppendLine("	CxP.CodigoProveedor, ");
 			vSql.AppendLine("	Adm.Proveedor.NombreProveedor, ");
-			vSql.AppendLine("	"+ vSqlMonto +" AS Monto, ");
+			vSql.AppendLine("	" + vSqlMontoOriginal + " AS MontoOriginal, ");
+			vSql.AppendLine("	" + vSqlMontoRestante + " AS MontoRestante, ");
 			vSql.AppendLine("	" + vSqlCambio + " AS Cambio, ");
 			vSql.AppendLine("	CxP.Observaciones ");
 			if (valMostrarNroComprobanteContable && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CaracteristicaDeContabilidadActiva")) {
@@ -72,7 +77,7 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
 				vSqlNroComprobanteContable.AppendLine(" (SELECT TOP 1 C.Numero ");
 				vSqlNroComprobanteContable.AppendLine("FROM COMPROBANTE C INNER JOIN PERIODO P ON C.ConsecutivoPeriodo = P.ConsecutivoPeriodo ");
 				vSqlNroComprobanteContable.AppendLine("WHERE P.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-				vSqlNroComprobanteContable.AppendLine(" AND C.NoDocumentoOrigen = CxP.TipoDeCxp " + insSql.CharConcat() + "'" + LibText.StandardSeparator() + "'" + insSql.CharConcat() + " CxP.Numero ");
+				vSqlNroComprobanteContable.AppendLine(" AND C.NoDocumentoOrigen = CxP.ConsecutivoCxp ");
 				vSqlNroComprobanteContable.AppendLine(" AND C.GeneradoPor = " + insSql.EnumToSqlValue((int)eComprobanteGeneradoPorVBSaw.eCG_CXP));
 				vSqlNroComprobanteContable.AppendLine(" AND " + insSql.SqlDateValueBetween("", "CxP.Fecha", valFechaDesde, valFechaHasta) + ")");
 				vSql.AppendLine("   , " + vSqlNroComprobanteContable.ToString() + " AS NroComprobanteContable");

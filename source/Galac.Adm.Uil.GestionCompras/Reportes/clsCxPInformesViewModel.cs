@@ -39,7 +39,7 @@ namespace Galac.Adm.Uil.GestionCompras.Reportes {
         private ILibRpt ConfigReportCuentasPorPagarEntreFechas(clsCxPEntreFechasViewModel valViewModel) {
             ILibRpt vResult = null;
             if (valViewModel != null) {
-                vResult = new Galac.Adm.Rpt.GestionCompras.clsCxPEntreFechas(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc) {
+                vResult = new Galac.Adm.Rpt.GestionCompras.clsCxPEntreFechas(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaDesde, valViewModel.FechaHasta, valViewModel.StatusCxP, valViewModel.MonedaDelInforme, valViewModel.TasaDeCambio, valViewModel.Moneda, valViewModel.IncluirInfoAdicional, valViewModel.IncluirNroComprobanteContable) {
                     Worker = Manager
                 };
             }

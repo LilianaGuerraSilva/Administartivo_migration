@@ -36,7 +36,7 @@ namespace Galac.Adm.Rpt.GestionCompras {
             return "Cuentas por Pagar entre Fechas";
         }
 
-        public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters, bool valMostrarInfoAdicional, bool valMostrarContacto, bool valMostrarNroComprobanteContable, eMonedaDelInformeMM valMonedaDelInforme, string valMoneda, eTasaDeCambioParaImpresion valTasaDeCambio) {
+        public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters, bool valMostrarInfoAdicional, bool valMostrarNroComprobanteContable, eMonedaDelInformeMM valMonedaDelInforme, string valMoneda, eTasaDeCambioParaImpresion valTasaDeCambio) {
             if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
                 if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
@@ -50,20 +50,39 @@ namespace Galac.Adm.Rpt.GestionCompras {
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
 
-                LibReport.ConfigFieldStr(this, "txtNumero", string.Empty, "Numero");
+                LibReport.ConfigFieldStr(this, "txtStatusCxP", string.Empty, "StatusStr");
+                LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "Moneda");
+                LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", "dd/MM/yy");
+                LibReport.ConfigFieldStr(this, "txtNroDocumento", string.Empty, "Numero");
+                LibReport.ConfigFieldStr(this, "txtCodigoProveedor", string.Empty, "CodigoCliente");
+                LibReport.ConfigFieldStr(this, "txtNombreProveedor", string.Empty, "NombreCliente");
+                LibReport.ConfigFieldDec(this, "txtMontoOriginal", string.Empty, "MontoOriginal");
+                LibReport.ConfigFieldDec(this, "txtMontoRestante", string.Empty, "MontoRestante");
 
+                LibReport.ConfigFieldDec(this, "txtCambio", string.Empty, "Cambio");
                 if (valMostrarNroComprobanteContable && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CaracteristicaDeContabilidadActiva")) {
                     LibReport.ConfigFieldStr(this, "txtNroComprobanteContable", string.Empty, "NroComprobanteContable");
                 } else {
                     LibReport.ChangeControlVisibility(this, "lblNroComprobanteContable", false);
                     LibReport.ChangeControlVisibility(this, "txtNroComprobanteContable", false);
-                    //float vWidth = lblMontoTotal.Width + lblNroComprobanteContable.Width; ;
-                    //lblMontoTotal.Width = vWidth;
-                    //txtMontoTotal.Width = vWidth;
-                    //txtTotalMontoTotalPorMoneda.Width = vWidth;
-                    //txtTotalMontoTotalPorStatus.Width = vWidth;
-                    //txtTotalMontoTotalPorZonaDeCobranza.Width = vWidth;
-                    //txtTotalMontoTotalSectorDeNegocio.Width = vWidth;
+                    float vWidth = lblNombreProveedor.Width + lblNroComprobanteContable.Width;
+                    lblNombreProveedor.Width = vWidth;
+                    txtNombreProveedor.Width = vWidth;
+                    lblCambio.Left = lblNombreProveedor.Left + lblNombreProveedor.Width;
+                    txtCambio.Left = txtNombreProveedor.Left + txtNombreProveedor.Width;
+                    lblMontoOriginal.Left = lblCambio.Left + lblCambio.Width;
+                    txtMontoOriginal.Left = txtCambio.Left + txtCambio.Width;
+                    lblMontoRestante.Left = lblMontoOriginal.Left + lblMontoOriginal.Width;
+                    txtMontoRestante.Left = txtMontoOriginal.Left + txtMontoOriginal.Width;
+
+                    txtTotalMontoOriginalPorMoneda.Left = lblMontoOriginal.Left;
+                    txtTotalMontoOriginalPorStatus.Left = lblMontoOriginal.Left;
+
+                    txtTotalMontoRestantePorMoneda.Left = lblMontoRestante.Left;
+                    txtTotalMontoRestantePorStatus.Left = lblMontoRestante.Left;
+
+                    lblTotalPorMoneda.Width = lblMontoOriginal.Left;
+                    lblTotalPorStatus.Width = lblMontoOriginal.Left;
                 }
                 if (valMostrarInfoAdicional) {
                     LibReport.ConfigFieldStr(this, "txtInformacionAdicional", string.Empty, "Descripcion");
@@ -72,7 +91,7 @@ namespace Galac.Adm.Rpt.GestionCompras {
                     LibReport.ChangeControlVisibility(this, "lblInformacionAdicional", false);
                 }
 
-                string vNotaMonedaCambio = new clsLibSaw().NotaMonedaCambioParaInformes(valMonedaDelInforme, valTasaDeCambio, valMoneda);
+                string vNotaMonedaCambio = new clsLibSaw().NotaMonedaCambioParaInformes(valMonedaDelInforme, valTasaDeCambio, valMoneda, "cuenta por pagar");
                 LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", vNotaMonedaCambio, "");
 
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);

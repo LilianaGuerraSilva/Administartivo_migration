@@ -59,20 +59,39 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigFieldStr(this, "txtNroDocumento", string.Empty, "Numero");
                 LibReport.ConfigFieldStr(this, "txtCodigoCliente", string.Empty, "CodigoCliente");
                 LibReport.ConfigFieldStr(this, "txtNombreCliente", string.Empty, "NombreCliente");
-                LibReport.ConfigFieldDec(this, "txtMontoTotal", string.Empty, "Monto");
+                LibReport.ConfigFieldDec(this, "txtMontoOriginal", string.Empty, "MontoOriginal");
+                LibReport.ConfigFieldDec(this, "txtMontoRestante", string.Empty, "MontoRestante");
+
                 LibReport.ConfigFieldDec(this, "txtCambio", string.Empty, "Cambio");
                 if (valMostrarNroComprobanteContable && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CaracteristicaDeContabilidadActiva")) {
                     LibReport.ConfigFieldStr(this, "txtNroComprobanteContable", string.Empty, "NroComprobanteContable");
                 } else {
                     LibReport.ChangeControlVisibility(this, "lblNroComprobanteContable", false);
                     LibReport.ChangeControlVisibility(this, "txtNroComprobanteContable", false);
-                    float vWidth = lblMontoTotal.Width + lblNroComprobanteContable.Width; ;
-                    lblMontoTotal.Width = vWidth;
-                    txtMontoTotal.Width = vWidth;
-                    txtTotalMontoTotalPorMoneda.Width = vWidth;
-                    txtTotalMontoTotalPorStatus.Width = vWidth;
-                    txtTotalMontoTotalPorZonaDeCobranza.Width = vWidth;
-                    txtTotalMontoTotalSectorDeNegocio.Width = vWidth;
+                    float vWidth = lblNombreCliente.Width + lblNroComprobanteContable.Width;
+                    lblNombreCliente.Width = vWidth;
+                    txtNombreCliente.Width = vWidth;
+                    lblCambio.Left = lblNombreCliente.Left + lblNombreCliente.Width;
+                    txtCambio.Left = txtNombreCliente.Left + txtNombreCliente.Width;
+                    lblMontoOriginal.Left = lblCambio.Left + lblCambio.Width;
+                    txtMontoOriginal.Left = txtCambio.Left + txtCambio.Width;
+                    lblMontoRestante.Left = lblMontoOriginal.Left + lblMontoOriginal.Width;
+                    txtMontoRestante.Left = txtMontoOriginal.Left + txtMontoOriginal.Width;
+                    
+                    txtTotalMontoOriginalPorMoneda.Left = lblMontoOriginal.Left;
+                    txtTotalMontoOriginalPorStatus.Left = lblMontoOriginal.Left;
+                    txtTotalMontoOriginalPorZonaDeCobranza.Left = lblMontoOriginal.Left;
+                    txtTotalMontoOriginalPorSectorDeNegocio.Left = lblMontoOriginal.Left;
+                    
+                    txtTotalMontoRestantePorMoneda.Left = lblMontoRestante.Left;
+                    txtTotalMontoRestantePorStatus.Left = lblMontoRestante.Left;
+                    txtTotalMontoRestantePorZonaDeCobranza.Left = lblMontoRestante.Left;
+                    txtTotalMontoRestantePorSectorDeNegocio.Left = lblMontoRestante.Left;
+
+                    lblTotalPorMoneda.Width = lblMontoOriginal.Left;
+                    lblTotalPorStatus.Width = lblMontoOriginal.Left;
+                    lblTotalPorZonaCobranza.Width = lblMontoOriginal.Left;
+                    lblTotalPorSectorDeNegocio.Width = lblMontoOriginal.Left;
                 }
                 if (valMostrarInfoAdicional) {
                     LibReport.ConfigFieldStr(this, "txtInformacionAdicional", string.Empty, "Descripcion");
@@ -89,12 +108,14 @@ namespace Galac.Adm.Rpt.Venta {
 
                 if (valAgruparPor == eInformeAgruparPor.SectorDeNegocio) {
                     LibReport.ConfigGroupHeader(this, "GHSectorDeNegocio", "SectorDeNegocio", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);
-                    LibReport.ConfigSummaryField(this, "txtTotalMontoTotalSectorDeNegocio", "Monto", SummaryFunc.Sum, "GHSectorDeNegocio", SummaryRunning.Group, SummaryType.SubTotal);
+                    LibReport.ConfigSummaryField(this, "txtTotalMontoOriginalPorSectorDeNegocio", "MontoOriginal", SummaryFunc.Sum, "GHSectorDeNegocio", SummaryRunning.Group, SummaryType.SubTotal);
+                    LibReport.ConfigSummaryField(this, "txtTotalMontoRestantePorSectorDeNegocio", "MontoRestante", SummaryFunc.Sum, "GHSectorDeNegocio", SummaryRunning.Group, SummaryType.SubTotal);
                     LibReport.ChangeSectionPropertiesVisibleAndHeight(this, "GHZonaDeCobranza", false, 0);
                     LibReport.ChangeSectionPropertiesVisibleAndHeight(this, "GFZonaDeCobranza", false, 0);
                 } else if (valAgruparPor == eInformeAgruparPor.ZonaDeCobranza) {
                     LibReport.ConfigGroupHeader(this, "GHZonaDeCobranza", "ZonaDeCobranza", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);
-                    LibReport.ConfigSummaryField(this, "txtTotalMontoTotalPorZonaDeCobranza", "Monto", SummaryFunc.Sum, "GHZonaDeCobranza", SummaryRunning.Group, SummaryType.SubTotal);
+                    LibReport.ConfigSummaryField(this, "txtTotalMontoOriginalPorZonaDeCobranza", "MontoOriginal", SummaryFunc.Sum, "GHZonaDeCobranza", SummaryRunning.Group, SummaryType.SubTotal);
+                    LibReport.ConfigSummaryField(this, "txtTotalMontoRestantePorZonaDeCobranza", "MontoRestante", SummaryFunc.Sum, "GHZonaDeCobranza", SummaryRunning.Group, SummaryType.SubTotal);
                     LibReport.ChangeSectionPropertiesVisibleAndHeight(this, "GHSectorDeNegocio", false, 0);
                     LibReport.ChangeSectionPropertiesVisibleAndHeight(this, "GFSectorDeNegocio", false, 0);
                 } else {
@@ -104,12 +125,14 @@ namespace Galac.Adm.Rpt.Venta {
                     LibReport.ChangeSectionPropertiesVisibleAndHeight(this, "GFZonaDeCobranza", false, 0);
                 }
                 LibReport.ConfigGroupHeader(this, "GHStatus", "Status", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);
-                LibReport.ConfigSummaryField(this, "txtTotalMontoTotalPorStatus", "Monto", SummaryFunc.Sum, "GHStatus", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txtTotalMontoOriginalPorStatus", "MontoOriginal", SummaryFunc.Sum, "GHStatus", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txtTotalMontoRestantePorStatus", "MontoRestante", SummaryFunc.Sum, "GHStatus", SummaryRunning.Group, SummaryType.SubTotal);
 
                 LibReport.ConfigGroupHeader(this, "GHMoneda", "Moneda", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);
-                LibReport.ConfigSummaryField(this, "txtTotalMontoTotalPorMoneda", "Monto", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txtTotalMontoOriginalPorMoneda", "MontoOriginal", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txtTotalMontoRestantePorMoneda", "MontoRestante", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
 
-                string vNotaMonedaCambio = new clsLibSaw().NotaMonedaCambioParaInformes(valMonedaDelInforme, valTasaDeCambio, valMoneda);
+                string vNotaMonedaCambio = new clsLibSaw().NotaMonedaCambioParaInformes(valMonedaDelInforme, valTasaDeCambio, valMoneda, "cuenta por cobrar");
                 LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", vNotaMonedaCambio, "");
 
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);

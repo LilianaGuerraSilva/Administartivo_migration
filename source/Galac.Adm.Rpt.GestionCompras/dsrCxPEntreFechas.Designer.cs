@@ -26,39 +26,197 @@ namespace Galac.Adm.Rpt.GestionCompras
         {
             System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(dsrCxPEntreFechas));
             this.Detail = new DataDynamics.ActiveReports.Detail();
+            this.txtFecha = new DataDynamics.ActiveReports.TextBox();
+            this.txtNroDocumento = new DataDynamics.ActiveReports.TextBox();
+            this.txtCodigoProveedor = new DataDynamics.ActiveReports.TextBox();
+            this.txtNombreProveedor = new DataDynamics.ActiveReports.TextBox();
+            this.txtMontoRestante = new DataDynamics.ActiveReports.TextBox();
+            this.txtCambio = new DataDynamics.ActiveReports.TextBox();
+            this.txtNroComprobanteContable = new DataDynamics.ActiveReports.TextBox();
+            this.txtInformacionAdicional = new DataDynamics.ActiveReports.TextBox();
+            this.lblInformacionAdicional = new DataDynamics.ActiveReports.Label();
+            this.txtMontoOriginal = new DataDynamics.ActiveReports.TextBox();
             this.PageHeader = new DataDynamics.ActiveReports.PageHeader();
-            this.PageFooter = new DataDynamics.ActiveReports.PageFooter();
             this.txtNombreCompania = new DataDynamics.ActiveReports.TextBox();
             this.txtNroDePagina = new DataDynamics.ActiveReports.TextBox();
             this.lblFechaYHoraDeEmision = new DataDynamics.ActiveReports.Label();
             this.lblTituloInforme = new DataDynamics.ActiveReports.Label();
             this.lblFechaInicialYFinal = new DataDynamics.ActiveReports.Label();
-            this.lblNumero = new DataDynamics.ActiveReports.Label();
-            this.txtNumero = new DataDynamics.ActiveReports.TextBox();
-            this.groupHeader1 = new DataDynamics.ActiveReports.GroupHeader();
-            this.groupFooter1 = new DataDynamics.ActiveReports.GroupFooter();
-            this.groupHeader2 = new DataDynamics.ActiveReports.GroupHeader();
-            this.groupFooter2 = new DataDynamics.ActiveReports.GroupFooter();
-            this.groupHeader3 = new DataDynamics.ActiveReports.GroupHeader();
-            this.groupFooter3 = new DataDynamics.ActiveReports.GroupFooter();
-            this.groupHeader4 = new DataDynamics.ActiveReports.GroupHeader();
-            this.groupFooter4 = new DataDynamics.ActiveReports.GroupFooter();
+            this.PageFooter = new DataDynamics.ActiveReports.PageFooter();
+            this.txtNotaMonedaCambio = new DataDynamics.ActiveReports.TextBox();
+            this.GHStatus = new DataDynamics.ActiveReports.GroupHeader();
+            this.lblStatusCxP = new DataDynamics.ActiveReports.Label();
+            this.txtStatusCxP = new DataDynamics.ActiveReports.TextBox();
+            this.GFStatus = new DataDynamics.ActiveReports.GroupFooter();
+            this.lblTotalPorStatus = new DataDynamics.ActiveReports.Label();
+            this.txtTotalMontoRestantePorStatus = new DataDynamics.ActiveReports.TextBox();
+            this.txtTotalMontoOriginalPorStatus = new DataDynamics.ActiveReports.TextBox();
+            this.GHMoneda = new DataDynamics.ActiveReports.GroupHeader();
+            this.lblMoneda = new DataDynamics.ActiveReports.Label();
+            this.txtMoneda = new DataDynamics.ActiveReports.TextBox();
+            this.lblFecha = new DataDynamics.ActiveReports.Label();
+            this.lblNroDocumento = new DataDynamics.ActiveReports.Label();
+            this.lblNombreProveedor = new DataDynamics.ActiveReports.Label();
+            this.lblMontoRestante = new DataDynamics.ActiveReports.Label();
+            this.lblCambio = new DataDynamics.ActiveReports.Label();
+            this.lblNroComprobanteContable = new DataDynamics.ActiveReports.Label();
+            this.lblMontoOriginal = new DataDynamics.ActiveReports.Label();
+            this.GFMoneda = new DataDynamics.ActiveReports.GroupFooter();
+            this.txtTotalMontoRestantePorMoneda = new DataDynamics.ActiveReports.TextBox();
+            this.lblTotalPorMoneda = new DataDynamics.ActiveReports.Label();
+            this.txtTotalMontoOriginalPorMoneda = new DataDynamics.ActiveReports.TextBox();
+            ((System.ComponentModel.ISupportInitialize)(this.txtFecha)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNroDocumento)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCodigoProveedor)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNombreProveedor)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMontoRestante)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCambio)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNroComprobanteContable)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtInformacionAdicional)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblInformacionAdicional)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMontoOriginal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreCompania)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNroDePagina)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaYHoraDeEmision)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTituloInforme)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaInicialYFinal)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblNumero)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNumero)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNotaMonedaCambio)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblStatusCxP)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtStatusCxP)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblTotalPorStatus)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoRestantePorStatus)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoOriginalPorStatus)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblMoneda)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMoneda)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblFecha)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblNroDocumento)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblNombreProveedor)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblMontoRestante)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblCambio)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblNroComprobanteContable)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblMontoOriginal)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoRestantePorMoneda)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblTotalPorMoneda)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoOriginalPorMoneda)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
             // 
             this.Detail.ColumnSpacing = 0F;
             this.Detail.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
-            this.txtNumero});
-            this.Detail.Height = 0.15625F;
+            this.txtFecha,
+            this.txtNroDocumento,
+            this.txtCodigoProveedor,
+            this.txtNombreProveedor,
+            this.txtMontoRestante,
+            this.txtCambio,
+            this.txtNroComprobanteContable,
+            this.txtInformacionAdicional,
+            this.lblInformacionAdicional,
+            this.txtMontoOriginal});
+            this.Detail.Height = 0.3125F;
             this.Detail.Name = "Detail";
+            // 
+            // txtFecha
+            // 
+            this.txtFecha.Height = 0.15625F;
+            this.txtFecha.Left = 0F;
+            this.txtFecha.Name = "txtFecha";
+            this.txtFecha.Style = "font-size: 8pt; ddo-char-set: 1";
+            this.txtFecha.Text = "txtFecha";
+            this.txtFecha.Top = 0F;
+            this.txtFecha.Width = 0.5F;
+            // 
+            // txtNroDocumento
+            // 
+            this.txtNroDocumento.Height = 0.15625F;
+            this.txtNroDocumento.Left = 0.5F;
+            this.txtNroDocumento.Name = "txtNroDocumento";
+            this.txtNroDocumento.Style = "font-size: 8pt; ddo-char-set: 1";
+            this.txtNroDocumento.Text = "txtNroDocumento";
+            this.txtNroDocumento.Top = 1.490116E-08F;
+            this.txtNroDocumento.Width = 1.187F;
+            // 
+            // txtCodigoProveedor
+            // 
+            this.txtCodigoProveedor.Height = 0.15625F;
+            this.txtCodigoProveedor.Left = 1.6875F;
+            this.txtCodigoProveedor.Name = "txtCodigoProveedor";
+            this.txtCodigoProveedor.Style = "font-size: 8pt; ddo-char-set: 1";
+            this.txtCodigoProveedor.Text = "txtCodigoProveedor";
+            this.txtCodigoProveedor.Top = 0F;
+            this.txtCodigoProveedor.Width = 0.6565002F;
+            // 
+            // txtNombreProveedor
+            // 
+            this.txtNombreProveedor.Height = 0.15625F;
+            this.txtNombreProveedor.Left = 2.344F;
+            this.txtNombreProveedor.Name = "txtNombreProveedor";
+            this.txtNombreProveedor.Style = "font-size: 8pt; ddo-char-set: 1";
+            this.txtNombreProveedor.Text = "txtNombreProveedor";
+            this.txtNombreProveedor.Top = 0F;
+            this.txtNombreProveedor.Width = 1.343F;
+            // 
+            // txtMontoRestante
+            // 
+            this.txtMontoRestante.Height = 0.15625F;
+            this.txtMontoRestante.Left = 5.437F;
+            this.txtMontoRestante.Name = "txtMontoRestante";
+            this.txtMontoRestante.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtMontoRestante.Text = "txtMontoRestante";
+            this.txtMontoRestante.Top = 8.881785E-16F;
+            this.txtMontoRestante.Width = 1.25F;
+            // 
+            // txtCambio
+            // 
+            this.txtCambio.Height = 0.15625F;
+            this.txtCambio.Left = 3.687F;
+            this.txtCambio.Name = "txtCambio";
+            this.txtCambio.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtCambio.Text = "txtCambio";
+            this.txtCambio.Top = 0F;
+            this.txtCambio.Width = 0.5F;
+            // 
+            // txtNroComprobanteContable
+            // 
+            this.txtNroComprobanteContable.Height = 0.15625F;
+            this.txtNroComprobanteContable.Left = 6.686999F;
+            this.txtNroComprobanteContable.Name = "txtNroComprobanteContable";
+            this.txtNroComprobanteContable.Style = "font-size: 7pt; text-align: right; ddo-char-set: 1";
+            this.txtNroComprobanteContable.Text = "txtNroComprobanteContable";
+            this.txtNroComprobanteContable.Top = 0F;
+            this.txtNroComprobanteContable.Width = 0.813F;
+            // 
+            // txtInformacionAdicional
+            // 
+            this.txtInformacionAdicional.Height = 0.15625F;
+            this.txtInformacionAdicional.Left = 1.687F;
+            this.txtInformacionAdicional.Name = "txtInformacionAdicional";
+            this.txtInformacionAdicional.Style = "font-size: 8pt; ddo-char-set: 1";
+            this.txtInformacionAdicional.Text = "txtInformacionAdicional";
+            this.txtInformacionAdicional.Top = 0.156F;
+            this.txtInformacionAdicional.Width = 5.8125F;
+            // 
+            // lblInformacionAdicional
+            // 
+            this.lblInformacionAdicional.Height = 0.15625F;
+            this.lblInformacionAdicional.HyperLink = null;
+            this.lblInformacionAdicional.Left = 0.4995F;
+            this.lblInformacionAdicional.Name = "lblInformacionAdicional";
+            this.lblInformacionAdicional.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
+            this.lblInformacionAdicional.Text = "Descripción";
+            this.lblInformacionAdicional.Top = 0.15625F;
+            this.lblInformacionAdicional.Width = 1.187F;
+            // 
+            // txtMontoOriginal
+            // 
+            this.txtMontoOriginal.Height = 0.15625F;
+            this.txtMontoOriginal.Left = 4.187F;
+            this.txtMontoOriginal.Name = "txtMontoOriginal";
+            this.txtMontoOriginal.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtMontoOriginal.Text = "txtMontoOriginal";
+            this.txtMontoOriginal.Top = 0F;
+            this.txtMontoOriginal.Width = 1.25F;
             // 
             // PageHeader
             // 
@@ -70,11 +228,6 @@ namespace Galac.Adm.Rpt.GestionCompras
             this.lblFechaInicialYFinal});
             this.PageHeader.Height = 1F;
             this.PageHeader.Name = "PageHeader";
-            // 
-            // PageFooter
-            // 
-            this.PageFooter.Height = 0F;
-            this.PageFooter.Name = "PageFooter";
             // 
             // txtNombreCompania
             // 
@@ -129,86 +282,268 @@ namespace Galac.Adm.Rpt.GestionCompras
             this.lblFechaInicialYFinal.Top = 0.46875F;
             this.lblFechaInicialYFinal.Width = 4.09375F;
             // 
-            // lblNumero
+            // PageFooter
             // 
-            this.lblNumero.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.lblNumero.Height = 0.15625F;
-            this.lblNumero.HyperLink = null;
-            this.lblNumero.Left = 0F;
-            this.lblNumero.Name = "lblNumero";
-            this.lblNumero.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
-            this.lblNumero.Text = "Número";
-            this.lblNumero.Top = 0F;
-            this.lblNumero.Width = 0.6875F;
+            this.PageFooter.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
+            this.txtNotaMonedaCambio});
+            this.PageFooter.Height = 0.15625F;
+            this.PageFooter.Name = "PageFooter";
             // 
-            // txtNumero
+            // txtNotaMonedaCambio
             // 
-            this.txtNumero.Height = 0.15625F;
-            this.txtNumero.Left = 0F;
-            this.txtNumero.Name = "txtNumero";
-            this.txtNumero.Style = "font-size: 8pt; ddo-char-set: 1";
-            this.txtNumero.Text = "txtNumero";
-            this.txtNumero.Top = 0F;
-            this.txtNumero.Width = 0.6875F;
+            this.txtNotaMonedaCambio.Height = 0.15625F;
+            this.txtNotaMonedaCambio.Left = 0F;
+            this.txtNotaMonedaCambio.Name = "txtNotaMonedaCambio";
+            this.txtNotaMonedaCambio.Style = "font-size: 8pt; ddo-char-set: 1";
+            this.txtNotaMonedaCambio.Text = "txtNotaMonedaCambio";
+            this.txtNotaMonedaCambio.Top = 0F;
+            this.txtNotaMonedaCambio.Width = 7.5F;
             // 
-            // groupHeader1
+            // GHStatus
             // 
-            this.groupHeader1.Height = 0.25F;
-            this.groupHeader1.Name = "groupHeader1";
+            this.GHStatus.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
+            this.lblStatusCxP,
+            this.txtStatusCxP});
+            this.GHStatus.Height = 0.15625F;
+            this.GHStatus.Name = "GHStatus";
             // 
-            // groupFooter1
+            // lblStatusCxP
             // 
-            this.groupFooter1.Height = 0.25F;
-            this.groupFooter1.Name = "groupFooter1";
+            this.lblStatusCxP.Height = 0.15625F;
+            this.lblStatusCxP.HyperLink = null;
+            this.lblStatusCxP.Left = 0F;
+            this.lblStatusCxP.Name = "lblStatusCxP";
+            this.lblStatusCxP.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
+            this.lblStatusCxP.Text = "Status";
+            this.lblStatusCxP.Top = 0F;
+            this.lblStatusCxP.Width = 1.687F;
             // 
-            // groupHeader2
+            // txtStatusCxP
             // 
-            this.groupHeader2.Height = 0.25F;
-            this.groupHeader2.Name = "groupHeader2";
+            this.txtStatusCxP.Height = 0.15625F;
+            this.txtStatusCxP.Left = 1.687F;
+            this.txtStatusCxP.Name = "txtStatusCxP";
+            this.txtStatusCxP.Style = "font-size: 8pt; ddo-char-set: 1";
+            this.txtStatusCxP.Text = "txtStatusCxP";
+            this.txtStatusCxP.Top = 0F;
+            this.txtStatusCxP.Width = 5.813001F;
             // 
-            // groupFooter2
+            // GFStatus
             // 
-            this.groupFooter2.Height = 0.25F;
-            this.groupFooter2.Name = "groupFooter2";
+            this.GFStatus.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
+            this.lblTotalPorStatus,
+            this.txtTotalMontoRestantePorStatus,
+            this.txtTotalMontoOriginalPorStatus});
+            this.GFStatus.Height = 0.344F;
+            this.GFStatus.Name = "GFStatus";
             // 
-            // groupHeader3
+            // lblTotalPorStatus
             // 
-            this.groupHeader3.Height = 0.25F;
-            this.groupHeader3.Name = "groupHeader3";
+            this.lblTotalPorStatus.Height = 0.15625F;
+            this.lblTotalPorStatus.HyperLink = null;
+            this.lblTotalPorStatus.Left = 0F;
+            this.lblTotalPorStatus.Name = "lblTotalPorStatus";
+            this.lblTotalPorStatus.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
+            this.lblTotalPorStatus.Text = "Total por Status";
+            this.lblTotalPorStatus.Top = 0F;
+            this.lblTotalPorStatus.Width = 4.187F;
             // 
-            // groupFooter3
+            // txtTotalMontoRestantePorStatus
             // 
-            this.groupFooter3.Height = 0.25F;
-            this.groupFooter3.Name = "groupFooter3";
+            this.txtTotalMontoRestantePorStatus.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtTotalMontoRestantePorStatus.Height = 0.15625F;
+            this.txtTotalMontoRestantePorStatus.Left = 5.437F;
+            this.txtTotalMontoRestantePorStatus.Name = "txtTotalMontoRestantePorStatus";
+            this.txtTotalMontoRestantePorStatus.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtTotalMontoRestantePorStatus.Text = "txtTotalMontoRestantePorStatus";
+            this.txtTotalMontoRestantePorStatus.Top = 0F;
+            this.txtTotalMontoRestantePorStatus.Width = 1.25F;
             // 
-            // groupHeader4
+            // txtTotalMontoOriginalPorStatus
             // 
-            this.groupHeader4.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
-            this.lblNumero});
-            this.groupHeader4.Height = 0.25F;
-            this.groupHeader4.Name = "groupHeader4";
+            this.txtTotalMontoOriginalPorStatus.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtTotalMontoOriginalPorStatus.Height = 0.15625F;
+            this.txtTotalMontoOriginalPorStatus.Left = 4.187F;
+            this.txtTotalMontoOriginalPorStatus.Name = "txtTotalMontoOriginalPorStatus";
+            this.txtTotalMontoOriginalPorStatus.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtTotalMontoOriginalPorStatus.Text = "txtTotalMontoOriginalPorStatus";
+            this.txtTotalMontoOriginalPorStatus.Top = 0F;
+            this.txtTotalMontoOriginalPorStatus.Width = 1.25F;
             // 
-            // groupFooter4
+            // GHMoneda
             // 
-            this.groupFooter4.Height = 0.25F;
-            this.groupFooter4.Name = "groupFooter4";
+            this.GHMoneda.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
+            this.lblMoneda,
+            this.txtMoneda,
+            this.lblFecha,
+            this.lblNroDocumento,
+            this.lblNombreProveedor,
+            this.lblMontoRestante,
+            this.lblCambio,
+            this.lblNroComprobanteContable,
+            this.lblMontoOriginal});
+            this.GHMoneda.Height = 0.31225F;
+            this.GHMoneda.Name = "GHMoneda";
             // 
-            // dsrCuentasPorPagarEntreFechas
+            // lblMoneda
+            // 
+            this.lblMoneda.Height = 0.15625F;
+            this.lblMoneda.HyperLink = null;
+            this.lblMoneda.Left = 0F;
+            this.lblMoneda.Name = "lblMoneda";
+            this.lblMoneda.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
+            this.lblMoneda.Text = "Moneda del Documento";
+            this.lblMoneda.Top = 0F;
+            this.lblMoneda.Width = 1.687F;
+            // 
+            // txtMoneda
+            // 
+            this.txtMoneda.Height = 0.15625F;
+            this.txtMoneda.Left = 1.687F;
+            this.txtMoneda.Name = "txtMoneda";
+            this.txtMoneda.Style = "font-size: 8pt; ddo-char-set: 1";
+            this.txtMoneda.Text = "txtMoneda";
+            this.txtMoneda.Top = 0F;
+            this.txtMoneda.Width = 5.813001F;
+            // 
+            // lblFecha
+            // 
+            this.lblFecha.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.lblFecha.Height = 0.15625F;
+            this.lblFecha.HyperLink = null;
+            this.lblFecha.Left = 0F;
+            this.lblFecha.Name = "lblFecha";
+            this.lblFecha.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
+            this.lblFecha.Text = "Fecha";
+            this.lblFecha.Top = 0.156F;
+            this.lblFecha.Width = 0.5F;
+            // 
+            // lblNroDocumento
+            // 
+            this.lblNroDocumento.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.lblNroDocumento.Height = 0.15625F;
+            this.lblNroDocumento.HyperLink = null;
+            this.lblNroDocumento.Left = 0.5F;
+            this.lblNroDocumento.Name = "lblNroDocumento";
+            this.lblNroDocumento.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
+            this.lblNroDocumento.Text = "Nro. Documento";
+            this.lblNroDocumento.Top = 0.156F;
+            this.lblNroDocumento.Width = 1.187F;
+            // 
+            // lblNombreProveedor
+            // 
+            this.lblNombreProveedor.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.lblNombreProveedor.Height = 0.15625F;
+            this.lblNombreProveedor.HyperLink = null;
+            this.lblNombreProveedor.Left = 1.687F;
+            this.lblNombreProveedor.Name = "lblNombreProveedor";
+            this.lblNombreProveedor.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
+            this.lblNombreProveedor.Text = "Código - Nombre Proveedor";
+            this.lblNombreProveedor.Top = 0.156F;
+            this.lblNombreProveedor.Width = 2F;
+            // 
+            // lblMontoRestante
+            // 
+            this.lblMontoRestante.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.lblMontoRestante.Height = 0.15625F;
+            this.lblMontoRestante.HyperLink = null;
+            this.lblMontoRestante.Left = 5.437F;
+            this.lblMontoRestante.Name = "lblMontoRestante";
+            this.lblMontoRestante.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
+            this.lblMontoRestante.Text = "Monto Restante";
+            this.lblMontoRestante.Top = 0.156F;
+            this.lblMontoRestante.Width = 1.25F;
+            // 
+            // lblCambio
+            // 
+            this.lblCambio.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.lblCambio.Height = 0.15625F;
+            this.lblCambio.HyperLink = null;
+            this.lblCambio.Left = 3.687F;
+            this.lblCambio.Name = "lblCambio";
+            this.lblCambio.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
+            this.lblCambio.Text = "Cambio";
+            this.lblCambio.Top = 0.156F;
+            this.lblCambio.Width = 0.5F;
+            // 
+            // lblNroComprobanteContable
+            // 
+            this.lblNroComprobanteContable.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.lblNroComprobanteContable.Height = 0.15625F;
+            this.lblNroComprobanteContable.HyperLink = null;
+            this.lblNroComprobanteContable.Left = 6.7F;
+            this.lblNroComprobanteContable.Name = "lblNroComprobanteContable";
+            this.lblNroComprobanteContable.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
+            this.lblNroComprobanteContable.Text = "Comprobante";
+            this.lblNroComprobanteContable.Top = 0.156F;
+            this.lblNroComprobanteContable.Width = 0.8F;
+            // 
+            // lblMontoOriginal
+            // 
+            this.lblMontoOriginal.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.lblMontoOriginal.Height = 0.15625F;
+            this.lblMontoOriginal.HyperLink = null;
+            this.lblMontoOriginal.Left = 4.187F;
+            this.lblMontoOriginal.Name = "lblMontoOriginal";
+            this.lblMontoOriginal.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
+            this.lblMontoOriginal.Text = "Monto Original";
+            this.lblMontoOriginal.Top = 0.156F;
+            this.lblMontoOriginal.Width = 1.25F;
+            // 
+            // GFMoneda
+            // 
+            this.GFMoneda.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
+            this.txtTotalMontoRestantePorMoneda,
+            this.lblTotalPorMoneda,
+            this.txtTotalMontoOriginalPorMoneda});
+            this.GFMoneda.Height = 0.344F;
+            this.GFMoneda.Name = "GFMoneda";
+            // 
+            // txtTotalMontoRestantePorMoneda
+            // 
+            this.txtTotalMontoRestantePorMoneda.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtTotalMontoRestantePorMoneda.Height = 0.15625F;
+            this.txtTotalMontoRestantePorMoneda.Left = 5.437F;
+            this.txtTotalMontoRestantePorMoneda.Name = "txtTotalMontoRestantePorMoneda";
+            this.txtTotalMontoRestantePorMoneda.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtTotalMontoRestantePorMoneda.Text = "txtTotalMontoRestantePorMoneda";
+            this.txtTotalMontoRestantePorMoneda.Top = 0F;
+            this.txtTotalMontoRestantePorMoneda.Width = 1.25F;
+            // 
+            // lblTotalPorMoneda
+            // 
+            this.lblTotalPorMoneda.Height = 0.15625F;
+            this.lblTotalPorMoneda.HyperLink = null;
+            this.lblTotalPorMoneda.Left = 0F;
+            this.lblTotalPorMoneda.Name = "lblTotalPorMoneda";
+            this.lblTotalPorMoneda.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
+            this.lblTotalPorMoneda.Text = "Total por Moneda";
+            this.lblTotalPorMoneda.Top = 0F;
+            this.lblTotalPorMoneda.Width = 4.187F;
+            // 
+            // txtTotalMontoOriginalPorMoneda
+            // 
+            this.txtTotalMontoOriginalPorMoneda.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtTotalMontoOriginalPorMoneda.Height = 0.15625F;
+            this.txtTotalMontoOriginalPorMoneda.Left = 4.187F;
+            this.txtTotalMontoOriginalPorMoneda.Name = "txtTotalMontoOriginalPorMoneda";
+            this.txtTotalMontoOriginalPorMoneda.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtTotalMontoOriginalPorMoneda.Text = "txtTotalMontoOriginalPorMoneda";
+            this.txtTotalMontoOriginalPorMoneda.Top = 0F;
+            this.txtTotalMontoOriginalPorMoneda.Width = 1.25F;
+            // 
+            // dsrCxPEntreFechas
             // 
             this.MasterReport = false;
             this.PageSettings.PaperHeight = 11F;
             this.PageSettings.PaperWidth = 8.5F;
             this.PrintWidth = 7.59375F;
             this.Sections.Add(this.PageHeader);
-            this.Sections.Add(this.groupHeader1);
-            this.Sections.Add(this.groupHeader2);
-            this.Sections.Add(this.groupHeader3);
-            this.Sections.Add(this.groupHeader4);
+            this.Sections.Add(this.GHStatus);
+            this.Sections.Add(this.GHMoneda);
             this.Sections.Add(this.Detail);
-            this.Sections.Add(this.groupFooter4);
-            this.Sections.Add(this.groupFooter3);
-            this.Sections.Add(this.groupFooter2);
-            this.Sections.Add(this.groupFooter1);
+            this.Sections.Add(this.GFMoneda);
+            this.Sections.Add(this.GFStatus);
             this.Sections.Add(this.PageFooter);
             this.StyleSheet.Add(new DDCssLib.StyleSheetRule("font-family: Arial; font-style: normal; text-decoration: none; font-weight: norma" +
             "l; font-size: 10pt; color: Black", "Normal"));
@@ -216,35 +551,83 @@ namespace Galac.Adm.Rpt.GestionCompras
             this.StyleSheet.Add(new DDCssLib.StyleSheetRule("font-family: Times New Roman; font-size: 14pt; font-weight: bold; font-style: ita" +
             "lic", "Heading2", "Normal"));
             this.StyleSheet.Add(new DDCssLib.StyleSheetRule("font-size: 13pt; font-weight: bold", "Heading3", "Normal"));
+            ((System.ComponentModel.ISupportInitialize)(this.txtFecha)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNroDocumento)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCodigoProveedor)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNombreProveedor)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMontoRestante)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCambio)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNroComprobanteContable)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtInformacionAdicional)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblInformacionAdicional)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMontoOriginal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreCompania)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNroDePagina)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaYHoraDeEmision)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTituloInforme)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaInicialYFinal)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblNumero)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNumero)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNotaMonedaCambio)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblStatusCxP)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtStatusCxP)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblTotalPorStatus)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoRestantePorStatus)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoOriginalPorStatus)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblMoneda)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMoneda)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblFecha)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblNroDocumento)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblNombreProveedor)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblMontoRestante)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblCambio)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblNroComprobanteContable)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblMontoOriginal)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoRestantePorMoneda)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblTotalPorMoneda)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoOriginalPorMoneda)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
         #endregion
 
         private DataDynamics.ActiveReports.Detail Detail;
-        private DataDynamics.ActiveReports.TextBox txtNumero;
         private DataDynamics.ActiveReports.PageHeader PageHeader;
         private DataDynamics.ActiveReports.TextBox txtNombreCompania;
         private DataDynamics.ActiveReports.TextBox txtNroDePagina;
         private DataDynamics.ActiveReports.Label lblFechaYHoraDeEmision;
         private DataDynamics.ActiveReports.Label lblTituloInforme;
         private DataDynamics.ActiveReports.Label lblFechaInicialYFinal;
-        private DataDynamics.ActiveReports.Label lblNumero;
         private DataDynamics.ActiveReports.PageFooter PageFooter;
-        private DataDynamics.ActiveReports.GroupHeader groupHeader1;
-        private DataDynamics.ActiveReports.GroupFooter groupFooter1;
-        private DataDynamics.ActiveReports.GroupHeader groupHeader2;
-        private DataDynamics.ActiveReports.GroupFooter groupFooter2;
-        private DataDynamics.ActiveReports.GroupHeader groupHeader3;
-        private DataDynamics.ActiveReports.GroupFooter groupFooter3;
-        private DataDynamics.ActiveReports.GroupHeader groupHeader4;
-        private DataDynamics.ActiveReports.GroupFooter groupFooter4;
+        private DataDynamics.ActiveReports.GroupHeader GHStatus;
+        private DataDynamics.ActiveReports.GroupFooter GFStatus;
+        private DataDynamics.ActiveReports.GroupHeader GHMoneda;
+        private DataDynamics.ActiveReports.GroupFooter GFMoneda;
+        private DataDynamics.ActiveReports.Label lblStatusCxP;
+        private DataDynamics.ActiveReports.TextBox txtStatusCxP;
+        private DataDynamics.ActiveReports.Label lblMoneda;
+        private DataDynamics.ActiveReports.TextBox txtMoneda;
+        private DataDynamics.ActiveReports.TextBox txtFecha;
+        private DataDynamics.ActiveReports.TextBox txtNroDocumento;
+        private DataDynamics.ActiveReports.TextBox txtCodigoProveedor;
+        private DataDynamics.ActiveReports.TextBox txtNombreProveedor;
+        private DataDynamics.ActiveReports.TextBox txtMontoRestante;
+        private DataDynamics.ActiveReports.TextBox txtCambio;
+        private DataDynamics.ActiveReports.TextBox txtNroComprobanteContable;
+        private DataDynamics.ActiveReports.TextBox txtInformacionAdicional;
+        private DataDynamics.ActiveReports.Label lblInformacionAdicional;
+        private DataDynamics.ActiveReports.TextBox txtMontoOriginal;
+        private DataDynamics.ActiveReports.TextBox txtTotalMontoRestantePorMoneda;
+        private DataDynamics.ActiveReports.Label lblTotalPorMoneda;
+        private DataDynamics.ActiveReports.TextBox txtTotalMontoOriginalPorMoneda;
+        private DataDynamics.ActiveReports.Label lblTotalPorStatus;
+        private DataDynamics.ActiveReports.TextBox txtTotalMontoRestantePorStatus;
+        private DataDynamics.ActiveReports.TextBox txtTotalMontoOriginalPorStatus;
+        private DataDynamics.ActiveReports.Label lblFecha;
+        private DataDynamics.ActiveReports.Label lblNroDocumento;
+        private DataDynamics.ActiveReports.Label lblNombreProveedor;
+        private DataDynamics.ActiveReports.Label lblMontoRestante;
+        private DataDynamics.ActiveReports.Label lblCambio;
+        private DataDynamics.ActiveReports.Label lblNroComprobanteContable;
+        private DataDynamics.ActiveReports.Label lblMontoOriginal;
+        private DataDynamics.ActiveReports.TextBox txtNotaMonedaCambio;
     }
 }
