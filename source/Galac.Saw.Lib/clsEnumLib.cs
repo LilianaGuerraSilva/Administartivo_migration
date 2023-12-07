@@ -436,7 +436,7 @@ namespace Galac.Saw.Lib {
     public enum eMonedaDelInformeMM {
         [LibEnumDescription("En Bolívares")] EnBolivares = 0,
         [LibEnumDescription("En Moneda Original")] EnMonedaOriginal,
-        [LibEnumDescription("Bolívares expreados en ...")] EnDivisasYBolivaresEnDivisas
+        [LibEnumDescription("Bolívares expreados en ...")] BolivaresExpresadosEnEnDivisa
     }
 
     public enum eComprobanteGeneradoPorVBSaw {

@@ -154,7 +154,7 @@
             x:Name="lblInfoAdicional"
             Grid.Row="10"
             Grid.Column="1"
-            Content="Incluir Información Adicional"
+            Content="Incluir Descripción"
             Style="{StaticResource LabelPrompt}" Margin="0"  />
         <CheckBox
             x:Name="chkInfoAdicional"

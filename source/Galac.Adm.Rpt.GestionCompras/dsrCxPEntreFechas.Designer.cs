@@ -3,7 +3,7 @@ namespace Galac.Adm.Rpt.GestionCompras
     /// <summary>
     /// Summary description for dsrCuentasPorPagarEntreFechas.
     /// </summary>
-    partial class dsrCuentasPorPagarEntreFechas
+    partial class dsrCxPEntreFechas
     {
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace Galac.Adm.Rpt.GestionCompras
         /// </summary>
         private void InitializeComponent()
         {
-            System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(dsrCuentasPorPagarEntreFechas));
+            System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(dsrCxPEntreFechas));
             this.Detail = new DataDynamics.ActiveReports.Detail();
             this.PageHeader = new DataDynamics.ActiveReports.PageHeader();
             this.PageFooter = new DataDynamics.ActiveReports.PageFooter();

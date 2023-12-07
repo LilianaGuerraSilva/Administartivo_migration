@@ -24,7 +24,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             AvailableReports.Add(new clsCxCPendientesEntreFechasViewModel());
             AvailableReports.Add(new clsCxCPorClienteViewModel());
             AvailableReports.Add(new clsCxCEntreFechasViewModel());
-            Title = "Informes de CxC";
+            Title = "Informes de Cuentas por Cobrar";
         }
         #endregion //Constructores
 

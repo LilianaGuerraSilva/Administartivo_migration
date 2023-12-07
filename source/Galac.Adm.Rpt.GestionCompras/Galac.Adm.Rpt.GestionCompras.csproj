@@ -73,7 +73,7 @@
     <Reference Include="System.ComponentModel.Composition" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="clsCuentasPorPagarEntreFechas.cs" />
+    <Compile Include="clsCxPEntreFechas.cs" />
     <Compile Include="clsImpresionDeEtiquetasPorCompras.cs" />
     <Compile Include="clsImprimirComprasEntreFechas.cs" />
     <Compile Include="clsImprimirCostoDeCompraEntreFechas.cs" />
@@ -83,11 +83,11 @@
     <Compile Include="clsImprimirHistoricoDeCompras.cs" />
     <Compile Include="clsImprimirMargenSobreCostoPromedioDeCompra.cs" />
     <Compile Include="clsImprimirOrdenesDeCompras.cs" />
-    <Compile Include="dsrCuentasPorPagarEntreFechas.cs">
+    <Compile Include="dsrCxPEntreFechas.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="dsrCuentasPorPagarEntreFechas.Designer.cs">
-      <DependentUpon>dsrCuentasPorPagarEntreFechas.cs</DependentUpon>
+    <Compile Include="dsrCxPEntreFechas.Designer.cs">
+      <DependentUpon>dsrCxPEntreFechas.cs</DependentUpon>
     </Compile>
     <Compile Include="dsrImpresionDeEtiquetasPorCompras.cs">
       <SubType>Component</SubType>
@@ -156,8 +156,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="dsrCuentasPorPagarEntreFechas.resx">
-      <DependentUpon>dsrCuentasPorPagarEntreFechas.cs</DependentUpon>
+    <EmbeddedResource Include="dsrCxPEntreFechas.resx">
+      <DependentUpon>dsrCxPEntreFechas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="dsrImpresionDeEtiquetasPorCompras.resx">
       <DependentUpon>dsrImpresionDeEtiquetasPorCompras.cs</DependentUpon>

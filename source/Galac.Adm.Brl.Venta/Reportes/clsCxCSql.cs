@@ -201,7 +201,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 					vSqlCambio = vSqlCambioOriginal;
 				}
 				vSqlMonto = insSql.RoundToNDecimals(vSqlMonto + " * " + vSqlCambio, 2);
-			} else if (valMonedaDelInforme == eMonedaDelInformeMM.EnDivisasYBolivaresEnDivisas) {
+			} else if (valMonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa) {
 				if (valTasaDeCambio == eTasaDeCambioParaImpresion.DelDia) {
 					vSqlCambio = vSqlCambioDelDia;
 				} else {
@@ -252,10 +252,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			} else if (valAgruparPor == eInformeAgruparPor.ZonaDeCobranza) {
 				vSql.AppendLine("	Cliente.ZonaDeCobranza,");
 			}
-			vSql.AppendLine("	CxC.Status, ");
-			vSql.AppendLine("	CxC.Moneda, ");
-			vSql.AppendLine("	CxC.Fecha, ");
-			vSql.AppendLine("	CxC.Numero ");
+			vSql.AppendLine("	CxC.Status, CxC.Moneda, CxC.Fecha, CxC.Numero ");
 
 			return vSql.ToString();
 		}

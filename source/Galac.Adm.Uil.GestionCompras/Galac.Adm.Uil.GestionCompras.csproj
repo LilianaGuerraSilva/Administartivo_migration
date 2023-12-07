@@ -133,14 +133,14 @@
     <Compile Include="clsCargaInicialMenu.cs" />
     <Compile Include="clsAjusteDePrecioPorCostoMenu.cs" />
     <Compile Include="clsProveedorMenu.cs" />
-    <Compile Include="Reportes\clsCuentasPorPagarEntreFechasViewModel.cs" />
+    <Compile Include="Reportes\clsCxPEntreFechasViewModel.cs" />
     <Compile Include="Reportes\clsCxPInformesViewModel.cs" />
     <Compile Include="Reportes\clsImprimirCostoDeCompraEntreFechasViewModel.cs" />
     <Compile Include="Reportes\clsImprimirComprasEntreFechasViewModel.cs" />
     <Compile Include="Reportes\clsImprimirCotizacionOrdenDeCompraViewModel.cs" />
     <Compile Include="Reportes\clsImprimirHistoricoDeComprasViewModel.cs" />
-    <Compile Include="Reportes\GSCuentasPorPagarEntreFechas.xaml.cs">
-      <DependentUpon>GSCuentasPorPagarEntreFechas.xaml</DependentUpon>
+    <Compile Include="Reportes\GSCxPEntreFechas.xaml.cs">
+      <DependentUpon>GSCxPEntreFechas.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reportes\GSImpresionDeEtiquetasPorComprasView.xaml.cs">
       <DependentUpon>GSImpresionDeEtiquetasPorComprasView.xaml</DependentUpon>
@@ -260,7 +260,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Reportes\GSCuentasPorPagarEntreFechas.xaml">
+    <Page Include="Reportes\GSCxPEntreFechas.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

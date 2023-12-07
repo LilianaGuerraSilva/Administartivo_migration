@@ -9,22 +9,21 @@ using System.Data;
 using LibGalac.Aos.ARRpt;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.DefGen;
+using Galac.Saw.Lib;
+using System.Text;
 
 namespace Galac.Adm.Rpt.GestionCompras {
-    /// <summary>
-    /// Summary description for dsrCuentasPorPagarEntreFechas.
-    /// </summary>
-    public partial class dsrCuentasPorPagarEntreFechas : DataDynamics.ActiveReports.ActiveReport {
+    public partial class dsrCxPEntreFechas : DataDynamics.ActiveReports.ActiveReport {
         #region Variables
         private bool _UseExternalRpx;
         private static string _RpxFileName;
         #endregion //Variables
         #region Constructores
-        public dsrCuentasPorPagarEntreFechas()
+        public dsrCxPEntreFechas()
             : this(false, string.Empty) {
         }
 
-        public dsrCuentasPorPagarEntreFechas(bool initUseExternalRpx, string initRpxFileName) {
+        public dsrCxPEntreFechas(bool initUseExternalRpx, string initRpxFileName) {
             InitializeComponent();
             _UseExternalRpx = initUseExternalRpx;
             if (_UseExternalRpx) {
@@ -33,12 +32,11 @@ namespace Galac.Adm.Rpt.GestionCompras {
         }
         #endregion //Constructores
         #region Metodos Generados
-
         public string ReportTitle() {
             return "Cuentas por Pagar entre Fechas";
         }
 
-        public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {
+        public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters, bool valMostrarInfoAdicional, bool valMostrarContacto, bool valMostrarNroComprobanteContable, eMonedaDelInformeMM valMonedaDelInforme, string valMoneda, eTasaDeCambioParaImpresion valTasaDeCambio) {
             if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
                 if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
@@ -52,9 +50,30 @@ namespace Galac.Adm.Rpt.GestionCompras {
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
 
-				LibReport.ConfigFieldStr(this, "txtNumero", string.Empty, "Numero");
+                LibReport.ConfigFieldStr(this, "txtNumero", string.Empty, "Numero");
 
+                if (valMostrarNroComprobanteContable && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CaracteristicaDeContabilidadActiva")) {
+                    LibReport.ConfigFieldStr(this, "txtNroComprobanteContable", string.Empty, "NroComprobanteContable");
+                } else {
+                    LibReport.ChangeControlVisibility(this, "lblNroComprobanteContable", false);
+                    LibReport.ChangeControlVisibility(this, "txtNroComprobanteContable", false);
+                    //float vWidth = lblMontoTotal.Width + lblNroComprobanteContable.Width; ;
+                    //lblMontoTotal.Width = vWidth;
+                    //txtMontoTotal.Width = vWidth;
+                    //txtTotalMontoTotalPorMoneda.Width = vWidth;
+                    //txtTotalMontoTotalPorStatus.Width = vWidth;
+                    //txtTotalMontoTotalPorZonaDeCobranza.Width = vWidth;
+                    //txtTotalMontoTotalSectorDeNegocio.Width = vWidth;
+                }
+                if (valMostrarInfoAdicional) {
+                    LibReport.ConfigFieldStr(this, "txtInformacionAdicional", string.Empty, "Descripcion");
+                } else {
+                    LibReport.ChangeControlVisibility(this, "txtInformacionAdicional", false);
+                    LibReport.ChangeControlVisibility(this, "lblInformacionAdicional", false);
+                }
 
+                string vNotaMonedaCambio = new clsLibSaw().NotaMonedaCambioParaInformes(valMonedaDelInforme, valTasaDeCambio, valMoneda);
+                LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", vNotaMonedaCambio, "");
 
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 return true;

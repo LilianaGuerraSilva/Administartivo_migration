@@ -22,7 +22,7 @@ namespace Galac.Adm.Uil.GestionCompras.Reportes {
         public clsCxPInformesViewModel(LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc) {
             AppMemoryInfo = initAppMemInfo;
             Mfc = initMfc;
-            AvailableReports.Add(new clsCuentasPorPagarEntreFechasViewModel());
+            AvailableReports.Add(new clsCxPEntreFechasViewModel());
             Title = "Informes de Cx P";
         }
         #endregion //Constructores
@@ -30,16 +30,16 @@ namespace Galac.Adm.Uil.GestionCompras.Reportes {
 
         protected override ILibRpt ConfigReport() {
             ILibRpt vResult = null;
-            if (SelectedReport is clsCuentasPorPagarEntreFechasViewModel) {
-                vResult = ConfigReportCuentasPorPagarEntreFechas(SelectedReport as clsCuentasPorPagarEntreFechasViewModel);
+            if (SelectedReport is clsCxPEntreFechasViewModel) {
+                vResult = ConfigReportCuentasPorPagarEntreFechas(SelectedReport as clsCxPEntreFechasViewModel);
             }
             return vResult;
         }
 
-        private ILibRpt ConfigReportCuentasPorPagarEntreFechas(clsCuentasPorPagarEntreFechasViewModel valViewModel) {
+        private ILibRpt ConfigReportCuentasPorPagarEntreFechas(clsCxPEntreFechasViewModel valViewModel) {
             ILibRpt vResult = null;
             if (valViewModel != null) {
-                vResult = new Galac.Adm.Rpt.GestionCompras.clsCuentasPorPagarEntreFechas(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc) {
+                vResult = new Galac.Adm.Rpt.GestionCompras.clsCxPEntreFechas(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc) {
                     Worker = Manager
                 };
             }

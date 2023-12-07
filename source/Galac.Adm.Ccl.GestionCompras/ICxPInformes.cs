@@ -1,12 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using System.Text;
+using Galac.Saw.Lib;
 using LibGalac.Aos.Base;
 
 namespace Galac.Adm.Ccl.GestionCompras {
 
     public interface ICxPInformes {
-        System.Data.DataTable BuildCuentasPorPagarEntreFechas(int valConsecutivoCompania);
+        DataTable BuildCxPEntreFechas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, eInformeStatusCXC_CXP valStatusCxP, eMonedaDelInformeMM valMonedaDelInforme, string valMoneda, eTasaDeCambioParaImpresion valTasaDeCambio, bool valMostrarNroComprobanteContable);
+        ObservableCollection<string> ListaDeMonedasActivasParaInformes();
     }
 } //End of namespace Galac..Ccl.ComponenteNoEspecificado

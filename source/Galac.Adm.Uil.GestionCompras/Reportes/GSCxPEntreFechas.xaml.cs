@@ -14,10 +14,10 @@ using System.Windows.Shapes;
 
 namespace Galac.Adm.Uil.GestionCompras.Reportes {
     /// <summary>
-    /// Interaction logic for GSCuentasPorPagarEntreFechas.xaml
+    /// Interaction logic for GSCxPEntreFechas.xaml
     /// </summary>
-    public partial class GSCuentasPorPagarEntreFechas : UserControl {
-        public GSCuentasPorPagarEntreFechas() {
+    public partial class GSCxPEntreFechas : UserControl {
+        public GSCxPEntreFechas() {
             InitializeComponent();
         }
     }

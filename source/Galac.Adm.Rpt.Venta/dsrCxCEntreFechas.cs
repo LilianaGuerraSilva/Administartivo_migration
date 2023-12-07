@@ -109,29 +109,8 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigGroupHeader(this, "GHMoneda", "Moneda", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);
                 LibReport.ConfigSummaryField(this, "txtTotalMontoTotalPorMoneda", "Monto", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
 
-                StringBuilder vNotaMonedaCambio = new StringBuilder();
-                if (valMonedaDelInforme == eMonedaDelInformeMM.EnBolivares) {
-                    vNotaMonedaCambio.Append("Los montos están expresados en ");
-                    vNotaMonedaCambio.AppendLine(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "NombreMonedaLocal") + ".");
-                    if (valTasaDeCambio == eTasaDeCambioParaImpresion.DelDia) {
-                        vNotaMonedaCambio.Append("Usando la tasa de cambio del día de hoy.");
-                    } else {
-                        vNotaMonedaCambio.Append("Usando la tasa de cambio original.");
-                    }
-                } else if (valMonedaDelInforme == eMonedaDelInformeMM.EnDivisasYBolivaresEnDivisas) {
-                    vNotaMonedaCambio.Append("Los montos en ");
-                    vNotaMonedaCambio.Append(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "NombreMonedaLocal"));
-                    vNotaMonedaCambio.AppendLine(" están expresados en " + valMoneda + ".");
-                    if (valTasaDeCambio == eTasaDeCambioParaImpresion.DelDia) {
-                        vNotaMonedaCambio.Append("Usando la tasa de cambio del día de hoy.");
-                    } else {
-                        vNotaMonedaCambio.Append("Usando la tasa de cambio más cercana a la fecha del documento.");
-                    }
-                } else { //if (valMonedaDelInforme == eMonedaDelInformeMM.EnMonedaOriginal) {
-                    vNotaMonedaCambio.AppendLine("Los montos están expresados en la moneda original de cada documento.");
-                    vNotaMonedaCambio.Append("En los registros en moneda extranjera, se muestra la tasa de cambio a moneda local que fue registrada.");
-                }
-                LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", vNotaMonedaCambio.ToString(), "");
+                string vNotaMonedaCambio = new clsLibSaw().NotaMonedaCambioParaInformes(valMonedaDelInforme, valTasaDeCambio, valMoneda);
+                LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", vNotaMonedaCambio, "");
 
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 return true;

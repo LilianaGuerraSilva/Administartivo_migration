@@ -4,6 +4,11 @@ using System.Linq;
 using System.Text;
 using LibGalac.Aos.Base.Report;
 using Galac.Adm.Ccl.GestionCompras;
+using Galac.Saw.Lib;
+using System.Collections.ObjectModel;
+using LibGalac.Aos.Brl;
+using System.Xml.Linq;
+using LibGalac.Aos.Base;
 
 namespace Galac.Adm.Brl.GestionCompras.Reportes {
 
@@ -32,14 +37,32 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
             return vResult;
         }
 
-        System.Data.DataTable ICxPInformes.BuildCuentasPorPagarEntreFechas(int valConsecutivoCompania) {
+        System.Data.DataTable ICxPInformes.BuildCxPEntreFechas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, eInformeStatusCXC_CXP valStatusCxP, eMonedaDelInformeMM valMonedaDelInforme, string valMoneda, eTasaDeCambioParaImpresion valTasaDeCambio, bool valMostrarNroComprobanteContable) {
             string vSql = "";
             clsCxPSql insCxPSql = new clsCxPSql();
             LibGalac.Aos.Base.ILibDataRpt insCuentasPorPagarEntreFechas = new Galac.Adm.Dal.GestionCompras.clsCxPDat();
-            vSql = insCxPSql.SqlCuentasPorPagarEntreFechas(valConsecutivoCompania);
+            vSql = insCxPSql.SqlCxPEntreFechas(valConsecutivoCompania, valFechaDesde, valFechaHasta, valStatusCxP, valMonedaDelInforme, valMoneda, valTasaDeCambio, valMostrarNroComprobanteContable);
             return insCuentasPorPagarEntreFechas.GetDt(vSql, 0);
         }
         #endregion //Metodos Generados
+
+        ObservableCollection<string> ICxPInformes.ListaDeMonedasActivasParaInformes() {
+            ObservableCollection<string> vResult = new ObservableCollection<string>();
+            string vSql = "SELECT Codigo, Nombre FROM Moneda WHERE Activa = 'S' AND Nombre NOT LIKE '%bolívar%' ORDER BY Codigo DESC";
+            XElement vResultSet = LibBusiness.ExecuteSelect(vSql, null, "", 0);
+            if (vResultSet != null) {
+                var vEntity = from vRecord in vResultSet.Descendants("GpResult") select vRecord;
+                string vNewItem;
+                foreach (XElement vItem in vEntity) {
+                    if (vItem != null) {
+                        vNewItem = "(" + LibConvert.ToStr(vItem.Element("Codigo").Value) + ") " + LibConvert.ToStr(vItem.Element("Nombre").Value);
+                        vResult.Add(vNewItem);
+                    }
+                }
+            }
+            return vResult;
+        }
+
 
 
     } //End of class clsCxPRpt

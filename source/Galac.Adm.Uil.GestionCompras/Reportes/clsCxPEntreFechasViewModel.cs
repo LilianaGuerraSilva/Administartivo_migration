@@ -4,48 +4,31 @@ using System.Linq;
 using System.Text;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Base.Report;
+using LibGalac.Aos.UI.Cib;
 using LibGalac.Aos.UI.Mvvm;
 using LibGalac.Aos.UI.Mvvm.Command;
 using LibGalac.Aos.UI.Mvvm.Helpers;
-using Galac.Adm.Ccl.Venta;
-using Galac.Adm.Brl.Venta;
-using Galac.Adm.Uil.Venta.ViewModel;
-using LibGalac.Aos.UI.Mvvm.Validation;
-using System.ComponentModel.DataAnnotations;
-using LibGalac.Aos.DefGen;
-using System.Collections.ObjectModel;
+using Galac.Adm.Ccl.GestionCompras;
+using Galac.Adm.Brl.GestionCompras;
+using Galac.Adm.Uil.GestionCompras.ViewModel;
 using Galac.Saw.Lib;
-using Galac.Adm.Brl.Venta.Reportes;
+using System.Collections.ObjectModel;
+using Galac.Adm.Brl.GestionCompras.Reportes;
 
-namespace Galac.Adm.Uil.Venta.Reportes {
-    public class clsCxCEntreFechasViewModel : LibInputRptViewModelBase<CxC> {
+namespace Galac.Adm.Uil.GestionCompras.Reportes {
+    public class clsCxPEntreFechasViewModel : LibInputRptViewModelBase<CxP> {
         #region Variables
-        eInformeAgruparPor _AgruparPor;
         eMonedaDelInformeMM _MonedaDelInforme;
         eTasaDeCambioParaImpresion _TasaDeCambio;
         #endregion //Variables
 
         #region Propiedades
-        public override string DisplayName { get { return "CxC entre fechas"; } }
-        public LibXmlMemInfo AppMemoryInfo { get; set; }
-        public LibXmlMFC Mfc { get; set; }
-        public override bool IsSSRS => false;
+        public override string DisplayName { get { return "CxP entre Fechas"; } }
+        public override bool IsSSRS { get { return false; } }
         public DateTime FechaDesde { get; set; }
         public DateTime FechaHasta { get; set; }
-        public eInformeStatusCXC_CXP StatusCxC { get; set; }
+        public eInformeStatusCXC_CXP StatusCxP { get; set; }
         public ObservableCollection<eInformeStatusCXC_CXP> ListaStatusCxC { get; set; }
-        public eInformeAgruparPor AgruparPor {
-            get { return _AgruparPor; }
-            set {
-                if (_AgruparPor != value) {
-                    _AgruparPor = value;
-                    RaisePropertyChanged(() => AgruparPor);
-                    RaisePropertyChanged(() => IsVisibleSectoresDeNegocio);
-                    RaisePropertyChanged(() => IsVisibleZonasDeCobranzas);
-                }
-            }
-        }
-        public ObservableCollection<eInformeAgruparPor> ListaAgruparPor { get; set; }
         public eMonedaDelInformeMM MonedaDelInforme {
             get { return _MonedaDelInforme; }
             set {
@@ -68,46 +51,34 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         }
         public ObservableCollection<eTasaDeCambioParaImpresion> ListaTasaDeCambio { get; set; }
         public ObservableCollection<eMonedaDelInformeMM> ListaMonedaDelInforme { get; set; }
-        public bool IncluirContacto { get; set; }
         public bool IncluirInfoAdicional { get; set; }
         public bool IncluirNroComprobanteContable { get; set; }
-        public string SectorDeNegocio { get; set; }
-        public ObservableCollection<string> ListaSectoresDeNegocio { get; set; }
-        public string ZonaDeCobranza { get; set; }
-        public ObservableCollection<string> ListaZonasDeCobranza { get; set; }
         public string Moneda { get; set; }
         public ObservableCollection<string> ListaMonedasActivas { get; set; }
-        public bool IsVisibleSectoresDeNegocio { get { return AgruparPor == eInformeAgruparPor.SectorDeNegocio; } }
-        public bool IsVisibleZonasDeCobranzas { get { return AgruparPor == eInformeAgruparPor.ZonaDeCobranza; } }
         public bool IsVisibleMonedasActivas { get { return MonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa; } }
         public bool IsVisibleIncluirNroCC { get { return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CaracteristicaDeContabilidadActiva"); } }
         public bool IsVisibleTasaDeCambio { get { return MonedaDelInforme == eMonedaDelInformeMM.EnBolivares || MonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa; } }
-        #endregion //Propiedades
+
+        #endregion Propiedades
 
         #region Constructores
-        public clsCxCEntreFechasViewModel() {
+        public clsCxPEntreFechasViewModel() {
             FechaDesde = LibDate.DateFromMonthAndYear(LibDate.Today().Month, LibDate.Today().Year, true);
             FechaHasta = LibDate.Today();
-            AgruparPor = eInformeAgruparPor.NoAgurpar;
-            LlenarListaStatusCxC();
-            LlenarListaAgruparPor();
-            LlenarListaZonasDeCobranza();
-            LlenarListaSectorDeNegocio();
+            LlenarListaStatusCxP();
             LlenarListaMonedaDelInforme();
             LlenarListaMonedasActivas();
             LlentarListaTasaDeCambio();
             RaisePropertyChanged(() => IsVisibleIncluirNroCC);
             RaisePropertyChanged(() => IsVisibleTasaDeCambio);
         }
+
         #endregion //Constructores
-
-        #region Metodos Generados
         protected override ILibBusinessSearch GetBusinessComponent() {
-            return new clsCXCNav();
+            return new clsCxPNav();
         }
-        #endregion //Metodos Generados
 
-        void LlenarListaStatusCxC() {
+        void LlenarListaStatusCxP() {
             ListaStatusCxC = new ObservableCollection<eInformeStatusCXC_CXP>();
             ListaStatusCxC.Clear();
             ListaStatusCxC.Add(eInformeStatusCXC_CXP.Todos);
@@ -117,26 +88,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             ListaStatusCxC.Add(eInformeStatusCXC_CXP.Abonado);
             ListaStatusCxC.Add(eInformeStatusCXC_CXP.Anulado);
             ListaStatusCxC.Add(eInformeStatusCXC_CXP.Refinanciado);
-            StatusCxC = eInformeStatusCXC_CXP.Todos;
-        }
-
-        void LlenarListaAgruparPor() {
-            ListaAgruparPor = new ObservableCollection<eInformeAgruparPor>();
-            ListaAgruparPor.Clear();
-            ListaAgruparPor.Add(eInformeAgruparPor.NoAgurpar);
-            ListaAgruparPor.Add(eInformeAgruparPor.SectorDeNegocio);
-            ListaAgruparPor.Add(eInformeAgruparPor.ZonaDeCobranza);
-            AgruparPor = eInformeAgruparPor.NoAgurpar;
-        }
-
-        void LlenarListaZonasDeCobranza() {
-            ListaZonasDeCobranza = ((ICxCInformes)new clsCxCRpt()).ListaDeZonasDeCobranzaParaInformes();
-            ZonaDeCobranza = "TODAS";
-        }
-
-        void LlenarListaSectorDeNegocio() {
-            ListaSectoresDeNegocio = ((ICxCInformes)new clsCxCRpt()).ListaDeSectoresDeNegocioParaInformes();
-            SectorDeNegocio = "TODOS";
+            StatusCxP = eInformeStatusCXC_CXP.Todos;
         }
 
         void LlenarListaMonedaDelInforme() {
@@ -149,7 +101,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         }
 
         void LlenarListaMonedasActivas() {
-            ListaMonedasActivas = ((ICxCInformes)new clsCxCRpt()).ListaDeMonedasActivasParaInformes();
+            ListaMonedasActivas = ((ICxPInformes)new clsCxPRpt()).ListaDeMonedasActivasParaInformes();
             if (ListaMonedasActivas.Count > 0) {
                 Moneda = ListaMonedasActivas[0];
             }
@@ -162,6 +114,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             ListaTasaDeCambio.Add(eTasaDeCambioParaImpresion.DelDia);
             TasaDeCambio = eTasaDeCambioParaImpresion.Original;
         }
-    } //End of class clsCxCEntreFechasViewModel
 
-} //End of namespace Galac.Adm.Uil.Venta
+    } //End of class clsCuentasPorPagarEntreFechasViewModel
+
+} //End of namespace Galac.Dbo.Uil.ComponenteNoEspecificado
