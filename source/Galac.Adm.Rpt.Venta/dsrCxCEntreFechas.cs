@@ -56,7 +56,7 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigFieldStr(this, "txtStatusCxC", string.Empty, "StatusStr");
                 LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "Moneda");
                 LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", "dd/MM/yy");
-                LibReport.ConfigFieldStr(this, "txtNroDocumento", string.Empty, "NroDocumento");
+                LibReport.ConfigFieldStr(this, "txtNroDocumento", string.Empty, "Numero");
                 LibReport.ConfigFieldStr(this, "txtCodigoCliente", string.Empty, "CodigoCliente");
                 LibReport.ConfigFieldStr(this, "txtNombreCliente", string.Empty, "NombreCliente");
                 LibReport.ConfigFieldDec(this, "txtMontoTotal", string.Empty, "Monto");
