@@ -65,15 +65,15 @@ namespace Galac.Adm.Rpt.GestionCompras {
                 } else {
                     LibReport.ChangeControlVisibility(this, "lblNroComprobanteContable", false);
                     LibReport.ChangeControlVisibility(this, "txtNroComprobanteContable", false);
-                    float vWidth = lblNombreProveedor.Width + lblNroComprobanteContable.Width;
-                    lblNombreProveedor.Width = vWidth;
-                    txtNombreProveedor.Width = vWidth;
-                    lblCambio.Left = lblNombreProveedor.Left + lblNombreProveedor.Width;
-                    txtCambio.Left = txtNombreProveedor.Left + txtNombreProveedor.Width;
-                    lblMontoOriginal.Left = lblCambio.Left + lblCambio.Width;
-                    txtMontoOriginal.Left = txtCambio.Left + txtCambio.Width;
-                    lblMontoRestante.Left = lblMontoOriginal.Left + lblMontoOriginal.Width;
-                    txtMontoRestante.Left = txtMontoOriginal.Left + txtMontoOriginal.Width;
+                    float vWidth = lblNroComprobanteContable.Width;
+                    lblNombreProveedor.Width += vWidth;
+                    txtNombreProveedor.Width += vWidth;
+                    lblCambio.Left += vWidth;
+                    txtCambio.Left += vWidth;
+                    lblMontoOriginal.Left += vWidth;
+                    txtMontoOriginal.Left += vWidth;
+                    lblMontoRestante.Left += vWidth;
+                    txtMontoRestante.Left += vWidth;
 
                     txtTotalMontoOriginalPorMoneda.Left = lblMontoOriginal.Left;
                     txtTotalMontoOriginalPorStatus.Left = lblMontoOriginal.Left;

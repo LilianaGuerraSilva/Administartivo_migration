@@ -59,24 +59,24 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigFieldStr(this, "txtNroDocumento", string.Empty, "Numero");
                 LibReport.ConfigFieldStr(this, "txtCodigoCliente", string.Empty, "CodigoCliente");
                 LibReport.ConfigFieldStr(this, "txtNombreCliente", string.Empty, "NombreCliente");
+                LibReport.ConfigFieldDec(this, "txtCambio", string.Empty, "Cambio");
                 LibReport.ConfigFieldDec(this, "txtMontoOriginal", string.Empty, "MontoOriginal");
                 LibReport.ConfigFieldDec(this, "txtMontoRestante", string.Empty, "MontoRestante");
 
-                LibReport.ConfigFieldDec(this, "txtCambio", string.Empty, "Cambio");
                 if (valMostrarNroComprobanteContable && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CaracteristicaDeContabilidadActiva")) {
                     LibReport.ConfigFieldStr(this, "txtNroComprobanteContable", string.Empty, "NroComprobanteContable");
                 } else {
                     LibReport.ChangeControlVisibility(this, "lblNroComprobanteContable", false);
                     LibReport.ChangeControlVisibility(this, "txtNroComprobanteContable", false);
-                    float vWidth = lblNombreCliente.Width + lblNroComprobanteContable.Width;
-                    lblNombreCliente.Width = vWidth;
-                    txtNombreCliente.Width = vWidth;
-                    lblCambio.Left = lblNombreCliente.Left + lblNombreCliente.Width;
-                    txtCambio.Left = txtNombreCliente.Left + txtNombreCliente.Width;
-                    lblMontoOriginal.Left = lblCambio.Left + lblCambio.Width;
-                    txtMontoOriginal.Left = txtCambio.Left + txtCambio.Width;
-                    lblMontoRestante.Left = lblMontoOriginal.Left + lblMontoOriginal.Width;
-                    txtMontoRestante.Left = txtMontoOriginal.Left + txtMontoOriginal.Width;
+                    float vWidth = lblNroComprobanteContable.Width;
+                    lblNombreCliente.Width += vWidth;
+                    txtNombreCliente.Width += vWidth;
+                    lblCambio.Left += vWidth;
+                    txtCambio.Left += vWidth;
+                    lblMontoOriginal.Left += vWidth;
+                    txtMontoOriginal.Left += vWidth;
+                    lblMontoRestante.Left += vWidth;
+                    txtMontoRestante.Left += vWidth;
                     
                     txtTotalMontoOriginalPorMoneda.Left = lblMontoOriginal.Left;
                     txtTotalMontoOriginalPorStatus.Left = lblMontoOriginal.Left;
