@@ -182,7 +182,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 					vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "Cliente.SectorDeNegocio", valSectorDeNegocio);
 				}
 			} else if (valAgruparPor == eInformeAgruparPor.ZonaDeCobranza) {
-				if (!LibString.S1IsEqualToS2(valZonaDeCobranza, "")) {
+				if (!LibString.S1IsEqualToS2(valZonaDeCobranza, "TODAS")) {
 					vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "Cliente.ZonaDeCobranza", valZonaDeCobranza);
 				}
 			}
