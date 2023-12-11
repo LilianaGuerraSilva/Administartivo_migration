@@ -54,8 +54,8 @@ namespace Galac.Adm.Rpt.GestionCompras {
                 LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "Moneda");
                 LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", "dd/MM/yy");
                 LibReport.ConfigFieldStr(this, "txtNroDocumento", string.Empty, "Numero");
-                LibReport.ConfigFieldStr(this, "txtCodigoProveedor", string.Empty, "CodigoCliente");
-                LibReport.ConfigFieldStr(this, "txtNombreProveedor", string.Empty, "NombreCliente");
+                LibReport.ConfigFieldStr(this, "txtCodigoProveedor", string.Empty, "CodigoProveedor");
+                LibReport.ConfigFieldStr(this, "txtNombreProveedor", string.Empty, "NombreProveedor");
                 LibReport.ConfigFieldDec(this, "txtMontoOriginal", string.Empty, "MontoOriginal");
                 LibReport.ConfigFieldDec(this, "txtMontoRestante", string.Empty, "MontoRestante");
 
@@ -90,6 +90,14 @@ namespace Galac.Adm.Rpt.GestionCompras {
                     LibReport.ChangeControlVisibility(this, "txtInformacionAdicional", false);
                     LibReport.ChangeControlVisibility(this, "lblInformacionAdicional", false);
                 }
+
+                LibReport.ConfigGroupHeader(this, "GHStatus", "Status", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);
+                LibReport.ConfigSummaryField(this, "txtTotalMontoOriginalPorStatus", "MontoOriginal", SummaryFunc.Sum, "GHStatus", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txtTotalMontoRestantePorStatus", "MontoRestante", SummaryFunc.Sum, "GHStatus", SummaryRunning.Group, SummaryType.SubTotal);
+
+                LibReport.ConfigGroupHeader(this, "GHMoneda", "Moneda", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);
+                LibReport.ConfigSummaryField(this, "txtTotalMontoOriginalPorMoneda", "MontoOriginal", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txtTotalMontoRestantePorMoneda", "MontoRestante", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
 
                 string vNotaMonedaCambio = new clsLibSaw().NotaMonedaCambioParaInformes(valMonedaDelInforme, valTasaDeCambio, valMoneda, "cuenta por pagar");
                 LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", vNotaMonedaCambio, "");

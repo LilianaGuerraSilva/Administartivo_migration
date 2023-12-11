@@ -102,6 +102,7 @@ namespace Galac.Adm.Rpt.GestionCompras
             // 
             // Detail
             // 
+            this.Detail.CanShrink = true;
             this.Detail.ColumnSpacing = 0F;
             this.Detail.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
             this.txtFecha,
@@ -189,6 +190,8 @@ namespace Galac.Adm.Rpt.GestionCompras
             // 
             // txtInformacionAdicional
             // 
+            this.txtInformacionAdicional.CanGrow = false;
+            this.txtInformacionAdicional.CanShrink = true;
             this.txtInformacionAdicional.Height = 0.15625F;
             this.txtInformacionAdicional.Left = 1.687F;
             this.txtInformacionAdicional.Name = "txtInformacionAdicional";
@@ -382,7 +385,7 @@ namespace Galac.Adm.Rpt.GestionCompras
             this.lblCambio,
             this.lblNroComprobanteContable,
             this.lblMontoOriginal});
-            this.GHMoneda.Height = 0.31225F;
+            this.GHMoneda.Height = 0.3539166F;
             this.GHMoneda.Name = "GHMoneda";
             // 
             // lblMoneda

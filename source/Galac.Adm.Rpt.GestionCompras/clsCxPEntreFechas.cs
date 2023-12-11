@@ -55,7 +55,7 @@ namespace Galac.Adm.Rpt.GestionCompras {
                 vTitulo += " - desde RPX externo.";
             }
             Dictionary<string, string> vParams = new Dictionary<string, string>();
-            vParams.Add("NombreCompania", AppMemoryInfo.GlobalValuesGetString("Compania", "Nombre"));
+            vParams.Add("NombreCompania", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre"));
             vParams.Add("TituloInforme", vTitulo);
             vParams.Add("FechaInicialYFinal", string.Format("{0} al {1}", LibConvert.ToStr(FechaDesde, "dd/MM/yyyy"), LibConvert.ToStr(FechaHasta, "dd/MM/yyyy")));
             return vParams;

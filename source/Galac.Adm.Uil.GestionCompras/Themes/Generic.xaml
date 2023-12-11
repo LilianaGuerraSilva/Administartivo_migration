@@ -64,4 +64,7 @@
     <DataTemplate DataType="{x:Type nsCSVM:OrdenDeCompraImportarViewModel}">
         <nsCSV:GSOrdenDeCompraImportarView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsCxPEntreFechasViewModel}">
+        <nsReportesView:GSCxPEntreFechas/>
+    </DataTemplate>
 </ResourceDictionary>

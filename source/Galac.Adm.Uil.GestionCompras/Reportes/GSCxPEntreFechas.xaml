@@ -64,8 +64,8 @@
             x:Name="cmbStatusDocumentos"
             Grid.Row="3"
             IsSynchronizedWithCurrentItem="True"
-            ItemsSource="{Binding ListaStatusCxC}"
-            SelectedItem="{Binding StatusCxC, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+            ItemsSource="{Binding ListaStatusCxP}"
+            SelectedItem="{Binding StatusCxP, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
             Style="{StaticResource ComboBoxStyle}" Margin="3" Grid.Column="1" VerticalAlignment="Top" />
         <Label
             x:Name="lblMonedaDelInforme"
