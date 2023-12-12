@@ -23,7 +23,7 @@ namespace Galac.Adm.Uil.GestionCompras.Reportes {
             AppMemoryInfo = initAppMemInfo;
             Mfc = initMfc;
             AvailableReports.Add(new clsCxPEntreFechasViewModel());
-            Title = "Informes de Cx P";
+            Title = "Informes de Cuentas por Pagar";
         }
         #endregion //Constructores
         #region Metodos Generados
