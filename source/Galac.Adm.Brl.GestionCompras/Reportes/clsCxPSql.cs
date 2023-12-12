@@ -7,6 +7,7 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Base.Report;
 using LibGalac.Aos.DefGen;
 using Galac.Saw.Lib;
+using Galac.Adm.Ccl.GestionCompras;
 
 namespace Galac.Adm.Brl.GestionCompras.Reportes {
     public class clsCxPSql {
@@ -27,9 +28,9 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
 			}
 
 			/* INICIO: Manejo para multimoneda: Moneda Local // Moneda Extranjera Original y Moneda Local en Moneda Extranjera // Moneda Original */
-			string vSqlMontoToal = "(CxP.MontoExento + CxP.MontoGravado + CxP.MontoIva)";
-			string vSqlMontoOriginal = insSql.IIF("CxP.Status = " + insSql.EnumToSqlValue(2), "0", vSqlMontoToal, true);
-			string vSqlMontoRestante = insSql.IIF("CxP.Status = " + insSql.EnumToSqlValue(2), "0", "(" + vSqlMontoToal + " - CxP.MontoAbonado)", true);
+			string vSqlMontoTotal = "(CxP.MontoExento + CxP.MontoGravado + CxP.MontoIva)";
+			string vSqlMontoOriginal = insSql.IIF("CxP.Status = " + insSql.EnumToSqlValue((int)eStatusDocumentoCxP.Anulado), "0", vSqlMontoTotal, true);
+			string vSqlMontoRestante = insSql.IIF("CxP.Status = " + insSql.EnumToSqlValue((int)eStatusDocumentoCxP.Anulado), "0", "(" + vSqlMontoTotal + " - CxP.MontoAbonado)", true);
 			string vSqlCambioOriginal = "CxP.CambioAbolivares";
 			string vSqlCambioDelDia = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + insSql.ToSqlValue(valMoneda) + " AND FechaDeVigencia <= " + insSql.ToSqlValue(LibDate.Today()) + " ORDER BY FechaDeVigencia DESC), 1)";
 			string vSqlCambioMasCercano = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + insSql.ToSqlValue(valMoneda) + " AND FechaDeVigencia <= CxP.Fecha ORDER BY FechaDeVigencia DESC), 1)";

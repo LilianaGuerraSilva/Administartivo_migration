@@ -20,6 +20,7 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -37,53 +38,61 @@
             Grid.Row="0"
             Grid.Column="0"
             Content="Fecha desde"
+            Grid.ColumnSpan="2"
             Style="{StaticResource LabelPrompt}" Margin="0"/>
         <nsWpfControls:GSDatePickerWpf
             x:Name="dtpFechaDesde"
             Grid.Row="0"
+            Grid.Column="2" 
             SelectedDate="{Binding FechaDesde, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-            Style="{StaticResource DatePickerStyle}" Grid.Column="1" Margin="3" VerticalAlignment="Top" />
+            Style="{StaticResource DatePickerStyle}" Margin="3" VerticalAlignment="Top" />
         <Label
             x:Name="lblFechaHasta"
             Grid.Column="0"
             Grid.Row="1" 
+            Grid.ColumnSpan="2"
             Content="Fecha hasta"
             Style="{StaticResource LabelPrompt}" Margin="0" />
         <nsWpfControls:GSDatePickerWpf
             x:Name="dtpFechaHasta"
             Grid.Row="1" 
+            Grid.Column="2" 
             SelectedDate="{Binding FechaHasta, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-            Style="{StaticResource DatePickerStyle}" Margin="3" Grid.Column="1" VerticalAlignment="Top" />
+            Style="{StaticResource DatePickerStyle}" Margin="3" VerticalAlignment="Top" />
         <Label
             x:Name="lblStatusDocumentos"
             Grid.Row="3"
             Grid.Column="0"
+            Grid.ColumnSpan="2"
             Content="Status de las CxP"
             Style="{StaticResource LabelPrompt}" Margin="0" HorizontalAlignment="Left"  />
         <nsWpfControls:GSComboBoxWpf
             x:Name="cmbStatusDocumentos"
             Grid.Row="3"
+            Grid.Column="2" 
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding ListaStatusCxP}"
             SelectedItem="{Binding StatusCxP, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-            Style="{StaticResource ComboBoxStyle}" Margin="3" Grid.Column="1" VerticalAlignment="Top" />
+            Style="{StaticResource ComboBoxStyle}" Margin="3" VerticalAlignment="Top" />
         <Label
             x:Name="lblMonedaDelInforme"
             Grid.Row="4"
             Grid.Column="0"
+            Grid.ColumnSpan="2"
             Content="Moneda del informe"
             Style="{StaticResource LabelPrompt}" Margin="0" />
         <nsWpfControls:GSComboBoxWpf
             x:Name="cmbMonedaDelInforme"
             Grid.Row="4"
+            Grid.Column="2" 
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding ListaMonedaDelInforme}"
             SelectedItem="{Binding MonedaDelInforme, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-            Style="{StaticResource ComboBoxStyle}" Margin="3" Grid.Column="1" VerticalAlignment="Top" />
+            Style="{StaticResource ComboBoxStyle}" Margin="3" VerticalAlignment="Top" />
         <nsWpfControls:GSComboBoxWpf
             x:Name="cmbMonedasActivas"
             Grid.Row="4"
-            Grid.Column="2"
+            Grid.Column="3"
             IsSynchronizedWithCurrentItem="True"
             Visibility="{Binding IsVisibleMonedasActivas, Converter={StaticResource booleanToVisibilityConverter}}"
             ItemsSource="{Binding ListaMonedasActivas}"
@@ -93,13 +102,14 @@
             x:Name="lblFechaDeLaTasaDeCambio"
             Grid.Row="5"
             Grid.Column="0"
+            Grid.ColumnSpan="2"
             Visibility="{Binding IsVisibleTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}"
             Content="Tasa de Cambio a la Fecha"
             Style="{StaticResource LabelPrompt}" Margin="0" Grid.RowSpan="2"  />
         <nsWpfControls:GSComboBoxWpf
             x:Name="cmbTasaDeCambio"
             Grid.Row="5"
-            Grid.Column="1"
+            Grid.Column="2"
             IsSynchronizedWithCurrentItem="True"
             Visibility="{Binding IsVisibleTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}"
             ItemsSource="{Binding ListaTasaDeCambio}"
@@ -116,11 +126,12 @@
             Grid.Row="7"
             Grid.Column="0"
             IsChecked="{Binding IncluirInfoAdicional}"
-            Style="{StaticResource CheckBoxStyle}" Margin="0,5,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="16" />
+            Style="{StaticResource CheckBoxStyle}" Margin="0,5,0,0" VerticalAlignment="Stretch" Width="16" />
         <Label
             x:Name="lblNroComprobanteContable"
             Grid.Row="8"
             Grid.Column="1"
+            Grid.ColumnSpan="3"
             Visibility="{Binding IsVisibleIncluirNroCC, Converter={StaticResource booleanToVisibilityConverter}}"
             Content="Incluir Nro. Comprobante Contable"
             Style="{StaticResource LabelPrompt}" Margin="0"  />
@@ -130,6 +141,6 @@
             Grid.Column="0"
             Visibility="{Binding IsVisibleIncluirNroCC, Converter={StaticResource booleanToVisibilityConverter}}"
             IsChecked="{Binding IncluirNroComprobanteContable}"
-            Style="{StaticResource CheckBoxStyle}" Margin="0,5,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="16" />
+            Style="{StaticResource CheckBoxStyle}" Margin="0,5,0,0" VerticalAlignment="Stretch" Width="16" />
     </Grid>
 </UserControl>
