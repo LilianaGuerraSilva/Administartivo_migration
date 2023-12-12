@@ -50,16 +50,16 @@ namespace Galac.Adm.Rpt.GestionCompras {
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
 
-                LibReport.ConfigFieldStr(this, "txtStatusCxP", string.Empty, "StatusStr");
                 LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "Moneda");
+                LibReport.ConfigFieldStr(this, "txtStatusCxP", string.Empty, "StatusStr");
                 LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", "dd/MM/yy");
                 LibReport.ConfigFieldStr(this, "txtNroDocumento", string.Empty, "Numero");
                 LibReport.ConfigFieldStr(this, "txtCodigoProveedor", string.Empty, "CodigoProveedor");
                 LibReport.ConfigFieldStr(this, "txtNombreProveedor", string.Empty, "NombreProveedor");
+                LibReport.ConfigFieldDec(this, "txtCambio", string.Empty, "Cambio", "#,###.0000", false, TextAlignment.Right);
                 LibReport.ConfigFieldDec(this, "txtMontoOriginal", string.Empty, "MontoOriginal");
                 LibReport.ConfigFieldDec(this, "txtMontoRestante", string.Empty, "MontoRestante");
 
-                LibReport.ConfigFieldDec(this, "txtCambio", string.Empty, "Cambio");
                 if (valMostrarNroComprobanteContable && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CaracteristicaDeContabilidadActiva")) {
                     LibReport.ConfigFieldStr(this, "txtNroComprobanteContable", string.Empty, "NroComprobanteContable");
                 } else {
@@ -81,8 +81,11 @@ namespace Galac.Adm.Rpt.GestionCompras {
                     txtTotalMontoRestantePorMoneda.Left = lblMontoRestante.Left;
                     txtTotalMontoRestantePorStatus.Left = lblMontoRestante.Left;
 
-                    lblTotalPorMoneda.Width = lblMontoOriginal.Left;
-                    lblTotalPorStatus.Width = lblMontoOriginal.Left;
+                    txtGFStatusCxP.Width += vWidth;
+                    txtGFMoneda.Width += vWidth;
+
+                    //lblTotalPorMoneda.Width = lblMontoOriginal.Left;
+                    //lblTotalPorStatus.Width = lblMontoOriginal.Left;
                 }
                 if (valMostrarInfoAdicional) {
                     LibReport.ConfigFieldStr(this, "txtInformacionAdicional", string.Empty, "Descripcion");
@@ -91,10 +94,13 @@ namespace Galac.Adm.Rpt.GestionCompras {
                     LibReport.ChangeControlVisibility(this, "lblInformacionAdicional", false);
                 }
 
+
+                LibReport.ConfigFieldStr(this, "txtGFStatusCxP", string.Empty, "StatusStr");
                 LibReport.ConfigGroupHeader(this, "GHStatus", "Status", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);
                 LibReport.ConfigSummaryField(this, "txtTotalMontoOriginalPorStatus", "MontoOriginal", SummaryFunc.Sum, "GHStatus", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtTotalMontoRestantePorStatus", "MontoRestante", SummaryFunc.Sum, "GHStatus", SummaryRunning.Group, SummaryType.SubTotal);
 
+                LibReport.ConfigFieldStr(this, "txtGFMoneda", string.Empty, "Moneda");
                 LibReport.ConfigGroupHeader(this, "GHMoneda", "Moneda", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);
                 LibReport.ConfigSummaryField(this, "txtTotalMontoOriginalPorMoneda", "MontoOriginal", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtTotalMontoRestantePorMoneda", "MontoRestante", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);

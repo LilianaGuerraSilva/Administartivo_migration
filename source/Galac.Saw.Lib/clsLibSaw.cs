@@ -418,8 +418,7 @@ namespace Galac.Saw.Lib {
                 }
             } else { //if (valMonedaDelInforme == eMonedaDelInformeMM.EnMonedaOriginal) {
                 string vDocumento = LibString.IsNullOrEmpty(valAliasDocumento) ? "documento" : valAliasDocumento;
-                vNotaMonedaCambio.AppendLine("Los montos están expresados en la moneda original de cada "+ vDocumento +".");
-                vNotaMonedaCambio.Append("En los registros en moneda extranjera, se muestra la tasa de cambio original que fue registrada.");
+                vNotaMonedaCambio.AppendLine("Los montos están expresados en la moneda origial y se muestra la tasa de cambio registrada en cada " + vDocumento + ".");
             }
             return vNotaMonedaCambio.ToString();
         }
