@@ -6,6 +6,10 @@ using LibGalac.Aos.Base.Report;
 using Galac.Adm.Ccl.Venta;
 using LibGalac.Aos.DefGen;
 using LibGalac.Aos.Base;
+using System.Xml.Linq;
+using LibGalac.Aos.Brl;
+using System.Collections.ObjectModel;
+using Galac.Saw.Lib;
 
 namespace Galac.Adm.Brl.Venta.Reportes {
 
@@ -52,9 +56,64 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql = insCxCSql.SqlCxCPorCliente(valConsecutivoCompania, valCodigoDelCliente, valZonaCobranza, valFechaDesde, valFechaHasta, valClientesOrdenadosPor, valMonedaDelReporte, valTipoTasaDeCambio);
             return insCxCPorCliente.GetDt(vSql, 0);
         }
+
+        System.Data.DataTable ICxCInformes.BuildCxCEntreFechas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, eInformeStatusCXC_CXP valStatusCxC, eInformeAgruparPor valAgruparPor, string valZonaDeCobranza, string valSectorDeNegocio, eMonedaDelInformeMM valMonedaDelInforme, string valMoneda, eTasaDeCambioParaImpresion valTasaDeCambio, bool valMostrarNroComprobanteContable) {
+            string vSql = "";
+            clsCxCSql insCxCSql = new clsCxCSql();
+            ILibDataRpt insCxCEntreFechas = new Dal.Venta.clsCXCDat();
+            vSql = insCxCSql.SqlCxCEntreFechas(valConsecutivoCompania, valFechaDesde, valFechaHasta, valStatusCxC, valAgruparPor, valZonaDeCobranza, valSectorDeNegocio, valMonedaDelInforme, valMoneda, valTasaDeCambio, valMostrarNroComprobanteContable);
+            return insCxCEntreFechas.GetDt(vSql, 0);
+        }
+
+        ObservableCollection<string> ICxCInformes.ListaDeSectoresDeNegocioParaInformes() {
+            ObservableCollection<string> vResult = new ObservableCollection<string>();
+            vResult.Add("TODOS");
+            string vSql = "SELECT Descripcion FROM Comun.SectorDeNegocio WHERE Descripcion <> '' ORDER BY Descripcion";
+            XElement vResultSet = LibBusiness.ExecuteSelect(vSql, null, "", 0);
+            if (vResultSet != null) {
+                var vEntity = from vRecord in vResultSet.Descendants("GpResult") select vRecord;
+                foreach (XElement vItem in vEntity) {
+                    if (vItem != null) {
+                        vResult.Add(LibConvert.ToStr(vItem.Element("Descripcion").Value));
+                    }
+                }
+            }
+            return vResult;
+        }
+
+        ObservableCollection<string> ICxCInformes.ListaDeZonasDeCobranzaParaInformes() {
+            ObservableCollection<string> vResult = new ObservableCollection<string>();
+            vResult.Add("TODAS");
+            string vSql = "SELECT Nombre FROM Saw.ZonaCobranza WHERE ConsecutivoCompania = " + LibConvert.ToStr(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania")) + " AND Nombre <> '' ORDER BY Nombre";
+            XElement vResultSet = LibBusiness.ExecuteSelect(vSql, null, "", 0);
+            if (vResultSet != null) {
+                var vEntity = from vRecord in vResultSet.Descendants("GpResult") select vRecord;
+                foreach (XElement vItem in vEntity) {
+                    if (vItem != null) {
+                        vResult.Add(LibConvert.ToStr(vItem.Element("Nombre").Value));
+                    }
+                }
+            }
+            return vResult;
+        }
+
+        ObservableCollection<string> ICxCInformes.ListaDeMonedasActivasParaInformes() {
+            ObservableCollection<string> vResult = new ObservableCollection<string>();
+            string vSql = "SELECT Codigo, Nombre FROM Moneda WHERE Activa = 'S' AND Nombre NOT LIKE '%bolívar%' ORDER BY Codigo DESC";
+            XElement vResultSet = LibBusiness.ExecuteSelect(vSql, null, "", 0);
+            if (vResultSet != null) {
+                var vEntity = from vRecord in vResultSet.Descendants("GpResult") select vRecord;
+                string vNewItem;
+                foreach (XElement vItem in vEntity) {
+                    if (vItem != null) {
+                        vNewItem = "(" + LibConvert.ToStr(vItem.Element("Codigo").Value) + ") " + LibConvert.ToStr(vItem.Element("Nombre").Value);
+                        vResult.Add(vNewItem);
+                    }
+                }
+            }
+            return vResult;
+        }
+
         #endregion //Metodos Generados
-
     } //End of class clsCxCRpt
-
 } //End of namespace Galac.Adm.Brl.Venta
-

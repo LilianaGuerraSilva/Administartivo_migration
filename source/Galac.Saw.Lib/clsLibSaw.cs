@@ -396,5 +396,31 @@ namespace Galac.Saw.Lib {
             vResult = string.Format("{0:HH:mm}", vTime);
             return vResult;
         }
+
+        public string NotaMonedaCambioParaInformes(eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio, string valMoneda, string valAliasDocumento) {
+            StringBuilder vNotaMonedaCambio = new StringBuilder();
+            if (valMonedaDelInforme == eMonedaDelInformeMM.EnBolivares) {
+                vNotaMonedaCambio.Append("Los montos están expresados en ");
+                vNotaMonedaCambio.AppendLine(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "NombreMonedaLocal") + ".");
+                if (valTasaDeCambio == eTasaDeCambioParaImpresion.DelDia) {
+                    vNotaMonedaCambio.Append("Usando la tasa de cambio del día de hoy.");
+                } else {
+                    vNotaMonedaCambio.Append("Usando la tasa de cambio original.");
+                }
+            } else if (valMonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa) {
+                vNotaMonedaCambio.Append("Los montos en ");
+                vNotaMonedaCambio.Append(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "NombreMonedaLocal"));
+                vNotaMonedaCambio.AppendLine(" están expresados en " + valMoneda + ".");
+                if (valTasaDeCambio == eTasaDeCambioParaImpresion.DelDia) {
+                    vNotaMonedaCambio.Append("Usando la tasa de cambio del día de hoy.");
+                } else {
+                    vNotaMonedaCambio.Append("Usando la tasa de cambio más cercana a la fecha del documento.");
+                }
+            } else { //if (valMonedaDelInforme == eMonedaDelInformeMM.EnMonedaOriginal) {
+                string vDocumento = LibString.IsNullOrEmpty(valAliasDocumento) ? "documento" : valAliasDocumento;
+                vNotaMonedaCambio.AppendLine("Los montos están expresados en la moneda origial y se muestra la tasa de cambio registrada en cada " + vDocumento + ".");
+            }
+            return vNotaMonedaCambio.ToString();
+        }
     }
 }

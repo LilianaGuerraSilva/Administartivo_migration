@@ -10,7 +10,7 @@ using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Brl.GestionCompras.Reportes {
 
-    public class clsCompraRpt: ILibReportInfo, ICompraInformes  {
+    public class clsCompraRpt : ILibReportInfo, ICompraInformes {
         #region Variables
         private Dictionary<string, Dictionary<string, string>> _PropertiesForReportList;
         #endregion //Variables
@@ -38,16 +38,14 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
 
 
 
-        System.Data.DataTable ICompraInformes.BuildCompra(int valConsecutivoCompania, int valConsecutivoCompra)
-        {
+        System.Data.DataTable ICompraInformes.BuildCompra(int valConsecutivoCompania, int valConsecutivoCompra) {
             string vSql = "";
             clsCompraSql insCompraSql = new clsCompraSql();
             LibGalac.Aos.Base.ILibDataRpt insCompras = new Galac.Adm.Dal.GestionCompras.clsCompraDat();
             vSql = insCompraSql.SqlCompra(valConsecutivoCompania, valConsecutivoCompra);
             return insCompras.GetDt(vSql, 0);
         }
-        System.Data.DataTable ICompraInformes.BuildCompraEntreFechas(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, bool valCambioOriginal, bool valMostrarComprasAnuladas, bool valMuestraDetalle, eMonedaParaImpresion MonedaParaImpresion)
-        {
+        System.Data.DataTable ICompraInformes.BuildCompraEntreFechas(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, bool valCambioOriginal, bool valMostrarComprasAnuladas, bool valMuestraDetalle, eMonedaParaImpresion MonedaParaImpresion) {
             string vSql = "";
             clsCompraSql insCompraSql = new clsCompraSql();
             LibGalac.Aos.Base.ILibDataRpt insCompras = new Galac.Adm.Dal.GestionCompras.clsCompraDat();
@@ -85,4 +83,3 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
     } //End of class clsCompraRpt
 
 } //End of namespace Galac.Adm.Brl.GestionCompras
-

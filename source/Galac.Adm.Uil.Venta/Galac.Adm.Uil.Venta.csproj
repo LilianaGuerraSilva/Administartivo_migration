@@ -138,8 +138,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Reportes\clsCajaCerradaViewModel.cs" />
+    <Compile Include="Reportes\clsCxCEntreFechasViewModel.cs" />
     <Compile Include="Reportes\GSCajaCerrada.xaml.cs">
       <DependentUpon>GSCajaCerrada.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSCxCEntreFechas.xaml.cs">
+      <DependentUpon>GSCxCEntreFechas.xaml</DependentUpon>
     </Compile>
     <Compile Include="UIMefVentaPagosElectronicos.cs" />
     <Compile Include="ViewModel\BuscarUbicacionDeArticuloViewModel.cs" />
@@ -365,6 +369,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Reportes\GSCuadreCajaPorUsuario.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSCxCEntreFechas.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

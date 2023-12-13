@@ -16,12 +16,9 @@ namespace Galac.Saw.Lib {
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eMonedaParaImpresion {
-        [LibEnumDescription("En Bolívares")]
-        EnBolivares = 0,
-        [LibEnumDescription("En Soles")]
-        EnSoles,
-        [LibEnumDescription("En Moneda Original")]
-        EnMonedaOriginal
+        [LibEnumDescription("En Bolívares")] EnBolivares = 0,
+        [LibEnumDescription("En Soles")] EnSoles,
+        [LibEnumDescription("En Moneda Original")] EnMonedaOriginal
     }
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
@@ -36,10 +33,8 @@ namespace Galac.Saw.Lib {
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eTasaDeCambioParaImpresion {
-        [LibEnumDescription("Original")]
-        Original=0,
-        [LibEnumDescription("Del Día")]
-        DelDia        
+        [LibEnumDescription("Original")] Original = 0,
+        [LibEnumDescription("Del Día")] DelDia
     }
 
 
@@ -409,17 +404,81 @@ namespace Galac.Saw.Lib {
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum ePrecioDeLosArticulos {
-        [LibEnumDescription("Precio Con Iva")]
-        PrecioConIva = 0,
-        [LibEnumDescription("Precio Sin Iva")]
-        PrecioSinIva
+        [LibEnumDescription("Precio Con Iva")] PrecioConIva = 0,
+        [LibEnumDescription("Precio Sin Iva")] PrecioSinIva
     }
 
 	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eTipoDeNivelDePrecio {
-        [LibEnumDescription("Por Usuario")]
-        PorUsuario = 0,
-        [LibEnumDescription("Por Cliente")]
-        PorCliente
+        [LibEnumDescription("Por Usuario")] PorUsuario = 0,
+        [LibEnumDescription("Por Cliente")] PorCliente
     }
+
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eInformeAgruparPor {
+        [LibEnumDescription("No agrupar")] NoAgurpar = 0,
+        [LibEnumDescription("Sector de Negocio")] SectorDeNegocio,
+        [LibEnumDescription("Zona de Cobranza")] ZonaDeCobranza
+    }
+
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eInformeStatusCXC_CXP {
+        [LibEnumDescription("Por Cancelar")] PorCancelar = 0,
+        [LibEnumDescription("Cancelado")] Cancelado,
+        [LibEnumDescription("Cheque Devuelto")] ChequeDevuelto,
+        [LibEnumDescription("Abonado")] Abonado,
+        [LibEnumDescription("Anulado")] Anulado,
+        [LibEnumDescription("Refinanciado")] Refinanciado,
+        [LibEnumDescription("Todos")] Todos
+    }
+
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eMonedaDelInformeMM {
+        [LibEnumDescription("En Bolívares")] EnBolivares = 0,
+        [LibEnumDescription("En Moneda Original")] EnMonedaOriginal,
+        [LibEnumDescription("Bolívares expreados en ...")] BolivaresExpresadosEnEnDivisa
+    }
+
+    public enum eComprobanteGeneradoPorVBSaw {
+        eCG_USUARIO = 0,
+        eCG_APERTURA,
+        eCG_DEPRECIACION,
+        eCG_CIERRE_CUENTAS_RESULTADO,
+        eCG_CIERRE_INVENTARIO,
+        eCG_ADMINISTRATIVO,
+        eCG_IMPORTADO,
+        eCG_ACTIVOFIJO,
+        eCG_RESERVA,
+        //'Contabilizacion Automática
+        eCG_CXC,
+        eCG_FACTURA,
+        eCG_CXP,
+        eCG_COBRANZA,
+        eCG_PAGOS,
+        eCG_MOVIMIENTO_BANCARIO,
+        eCG_RETIRO_ACTIVOFIJO,
+        eCG_CONCILIACION,
+        eCG_RESUMEN_DIARIO_VENTAS,
+        eCG_ANTICIPO,
+        //'Reconversion Monetaria
+        eCG_RECONVERSION,
+        //'Contabilizacion Automática
+        //'inventario'
+        eCG_INVENTARIO,
+        //'Contabilizacion Automática
+        eCG_ANULACION_COBRANZA,
+        eCG_ANULACION_PAGO,
+        eCG_PAGO_SUELDOS,
+        eCG_ANULACION_PAGO_SUELDOS,
+        eCG_REVALORIZACION_ACTIVO,
+        eCG_DEPRECIACION_REVALORIZACION,
+        eCG_ANULACION_MOVIMIENTO_BANCARIO,
+        eCG_RENDICION,
+        eCG_REPOSICION,
+        eCG_ANULACION_REPOSICION,
+        eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA,
+        eCG_ORDEN_DE_PRODUCCION,
+        eCG_GANANCIA_PERDIDA_CAMBIARIA = 80
+    }
+
 }

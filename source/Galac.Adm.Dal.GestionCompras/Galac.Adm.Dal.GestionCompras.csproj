@@ -70,6 +70,7 @@
     <Compile Include="clsCompraDetalleSerialRolloDat.cs" />
     <Compile Include="clsCompraDetalleSerialRolloED.cs" />
     <Compile Include="clsCompraED.cs" />
+    <Compile Include="clsCxPDat.cs" />
     <Compile Include="clsOrdenDeCompraDat.cs" />
     <Compile Include="clsOrdenDeCompraDetalleArticuloInventarioDat.cs" />
     <Compile Include="clsOrdenDeCompraDetalleArticuloInventarioED.cs" />
