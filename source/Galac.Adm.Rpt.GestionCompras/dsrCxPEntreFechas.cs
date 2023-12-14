@@ -88,10 +88,12 @@ namespace Galac.Adm.Rpt.GestionCompras {
                     //lblTotalPorStatus.Width = lblMontoOriginal.Left;
                 }
                 if (valMostrarInfoAdicional) {
-                    LibReport.ConfigFieldStr(this, "txtInformacionAdicional", string.Empty, "Descripcion");
+                    LibReport.ConfigFieldStr(this, "txtInformacionAdicional", string.Empty, "Observaciones");
                 } else {
                     LibReport.ChangeControlVisibility(this, "txtInformacionAdicional", false);
                     LibReport.ChangeControlVisibility(this, "lblInformacionAdicional", false);
+                    txtInformacionAdicional.Height = 0;
+                    lblInformacionAdicional.Height = 0;
                 }
 
 

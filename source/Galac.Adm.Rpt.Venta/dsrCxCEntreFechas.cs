@@ -102,12 +102,16 @@ namespace Galac.Adm.Rpt.Venta {
                 } else {
                     LibReport.ChangeControlVisibility(this, "txtInformacionAdicional", false);
                     LibReport.ChangeControlVisibility(this, "lblInformacionAdicional", false);
+                    txtInformacionAdicional.Height = 0;
+                    lblInformacionAdicional.Height = 0;
                 }
                 if (valMostrarContacto) {
                     LibReport.ConfigFieldStr(this, "txtContacto", string.Empty, "Contacto");
                 } else {
                     LibReport.ChangeControlVisibility(this, "txtContacto", false);
                     LibReport.ChangeControlVisibility(this, "lblContacto", false);
+                    txtContacto.Height = 0;
+                    lblContacto.Height = 0;
                 }
 
                 if (valAgruparPor == eInformeAgruparPor.SectorDeNegocio) {
