@@ -467,12 +467,13 @@ namespace Galac.Adm.Rpt.Venta
             // 
             // GFSectorDeNegocio
             // 
+            this.GFSectorDeNegocio.CanShrink = true;
             this.GFSectorDeNegocio.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
             this.lblTotalPorSectorDeNegocio,
             this.txtTotalMontoRestantePorSectorDeNegocio,
             this.txtTotalMontoOriginalPorSectorDeNegocio,
             this.txtGFSectorDeNegocio});
-            this.GFSectorDeNegocio.Height = 0.1793981F;
+            this.GFSectorDeNegocio.Height = 0.5F;
             this.GFSectorDeNegocio.Name = "GFSectorDeNegocio";
             // 
             // lblTotalPorSectorDeNegocio
@@ -528,12 +529,13 @@ namespace Galac.Adm.Rpt.Venta
             // 
             // GFZonaDeCobranza
             // 
+            this.GFZonaDeCobranza.CanShrink = true;
             this.GFZonaDeCobranza.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
             this.lblTotalPorZonaCobranza,
             this.txtTotalMontoRestantePorZonaDeCobranza,
             this.txtTotalMontoOriginalPorZonaDeCobranza,
             this.txtGFZonaDeCobranza});
-            this.GFZonaDeCobranza.Height = 0.1793981F;
+            this.GFZonaDeCobranza.Height = 0.5F;
             this.GFZonaDeCobranza.Name = "GFZonaDeCobranza";
             // 
             // lblTotalPorZonaCobranza
@@ -698,7 +700,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalMontoRestantePorStatus,
             this.txtTotalMontoOriginalPorStatus,
             this.txtGFStatusCxC});
-            this.GFStatus.Height = 0.1793981F;
+            this.GFStatus.Height = 0.25F;
             this.GFStatus.Name = "GFStatus";
             // 
             // lblTotalPorStatus
@@ -708,7 +710,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalPorStatus.Left = 0F;
             this.lblTotalPorStatus.Name = "lblTotalPorStatus";
             this.lblTotalPorStatus.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
-            this.lblTotalPorStatus.Text = "Total por Status";
+            this.lblTotalPorStatus.Text = "Total de cuentas por cobrar ";
             this.lblTotalPorStatus.Top = 0F;
             this.lblTotalPorStatus.Width = 2.375F;
             // 
@@ -759,7 +761,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalPorMoneda,
             this.txtTotalMontoOriginalPorMoneda,
             this.txtGFMoneda});
-            this.GFMoneda.Height = 0.1793981F;
+            this.GFMoneda.Height = 0.5F;
             this.GFMoneda.Name = "GFMoneda";
             // 
             // txtTotalMontoRestantePorMoneda
