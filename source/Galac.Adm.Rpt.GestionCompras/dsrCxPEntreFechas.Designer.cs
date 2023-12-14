@@ -457,12 +457,12 @@ namespace Galac.Adm.Rpt.GestionCompras
             // 
             this.lblTotalPorStatus.Height = 0.15625F;
             this.lblTotalPorStatus.HyperLink = null;
-            this.lblTotalPorStatus.Left = 0F;
+            this.lblTotalPorStatus.Left = 0.4995F;
             this.lblTotalPorStatus.Name = "lblTotalPorStatus";
-            this.lblTotalPorStatus.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
+            this.lblTotalPorStatus.Style = "font-size: 8pt; font-weight: bold; text-align: left; ddo-char-set: 1";
             this.lblTotalPorStatus.Text = "Total de cuentas por pagar ";
             this.lblTotalPorStatus.Top = 0F;
-            this.lblTotalPorStatus.Width = 2.367F;
+            this.lblTotalPorStatus.Width = 1.8755F;
             // 
             // txtTotalMontoRestantePorStatus
             // 
@@ -550,12 +550,12 @@ namespace Galac.Adm.Rpt.GestionCompras
             // 
             this.lblTotalPorMoneda.Height = 0.15625F;
             this.lblTotalPorMoneda.HyperLink = null;
-            this.lblTotalPorMoneda.Left = 0F;
+            this.lblTotalPorMoneda.Left = 0.4995F;
             this.lblTotalPorMoneda.Name = "lblTotalPorMoneda";
-            this.lblTotalPorMoneda.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
+            this.lblTotalPorMoneda.Style = "font-size: 8pt; font-weight: bold; text-align: left; ddo-char-set: 1";
             this.lblTotalPorMoneda.Text = "Total por Moneda";
             this.lblTotalPorMoneda.Top = 0F;
-            this.lblTotalPorMoneda.Width = 2.367F;
+            this.lblTotalPorMoneda.Width = 1.8755F;
             // 
             // txtTotalMontoOriginalPorMoneda
             // 

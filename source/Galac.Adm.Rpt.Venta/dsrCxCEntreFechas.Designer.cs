@@ -467,25 +467,24 @@ namespace Galac.Adm.Rpt.Venta
             // 
             // GFSectorDeNegocio
             // 
-            this.GFSectorDeNegocio.CanShrink = true;
             this.GFSectorDeNegocio.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
             this.lblTotalPorSectorDeNegocio,
             this.txtTotalMontoRestantePorSectorDeNegocio,
             this.txtTotalMontoOriginalPorSectorDeNegocio,
             this.txtGFSectorDeNegocio});
-            this.GFSectorDeNegocio.Height = 0.5F;
+            this.GFSectorDeNegocio.Height = 0.25F;
             this.GFSectorDeNegocio.Name = "GFSectorDeNegocio";
             // 
             // lblTotalPorSectorDeNegocio
             // 
             this.lblTotalPorSectorDeNegocio.Height = 0.15625F;
             this.lblTotalPorSectorDeNegocio.HyperLink = null;
-            this.lblTotalPorSectorDeNegocio.Left = 0F;
+            this.lblTotalPorSectorDeNegocio.Left = 0.499F;
             this.lblTotalPorSectorDeNegocio.Name = "lblTotalPorSectorDeNegocio";
-            this.lblTotalPorSectorDeNegocio.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
+            this.lblTotalPorSectorDeNegocio.Style = "font-size: 8pt; font-weight: bold; text-align: left; ddo-char-set: 1";
             this.lblTotalPorSectorDeNegocio.Text = "Total por Sector de Negocio";
             this.lblTotalPorSectorDeNegocio.Top = 0F;
-            this.lblTotalPorSectorDeNegocio.Width = 2.375F;
+            this.lblTotalPorSectorDeNegocio.Width = 1.876F;
             // 
             // txtTotalMontoRestantePorSectorDeNegocio
             // 
@@ -529,25 +528,24 @@ namespace Galac.Adm.Rpt.Venta
             // 
             // GFZonaDeCobranza
             // 
-            this.GFZonaDeCobranza.CanShrink = true;
             this.GFZonaDeCobranza.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
             this.lblTotalPorZonaCobranza,
             this.txtTotalMontoRestantePorZonaDeCobranza,
             this.txtTotalMontoOriginalPorZonaDeCobranza,
             this.txtGFZonaDeCobranza});
-            this.GFZonaDeCobranza.Height = 0.5F;
+            this.GFZonaDeCobranza.Height = 0.25F;
             this.GFZonaDeCobranza.Name = "GFZonaDeCobranza";
             // 
             // lblTotalPorZonaCobranza
             // 
             this.lblTotalPorZonaCobranza.Height = 0.15625F;
             this.lblTotalPorZonaCobranza.HyperLink = null;
-            this.lblTotalPorZonaCobranza.Left = 0F;
+            this.lblTotalPorZonaCobranza.Left = 0.499F;
             this.lblTotalPorZonaCobranza.Name = "lblTotalPorZonaCobranza";
-            this.lblTotalPorZonaCobranza.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
+            this.lblTotalPorZonaCobranza.Style = "font-size: 8pt; font-weight: bold; text-align: left; ddo-char-set: 1";
             this.lblTotalPorZonaCobranza.Text = "Total por Zona de Cobranza";
             this.lblTotalPorZonaCobranza.Top = 0F;
-            this.lblTotalPorZonaCobranza.Width = 2.375F;
+            this.lblTotalPorZonaCobranza.Width = 1.876F;
             // 
             // txtTotalMontoRestantePorZonaDeCobranza
             // 
@@ -707,12 +705,12 @@ namespace Galac.Adm.Rpt.Venta
             // 
             this.lblTotalPorStatus.Height = 0.15625F;
             this.lblTotalPorStatus.HyperLink = null;
-            this.lblTotalPorStatus.Left = 0F;
+            this.lblTotalPorStatus.Left = 0.499F;
             this.lblTotalPorStatus.Name = "lblTotalPorStatus";
-            this.lblTotalPorStatus.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
+            this.lblTotalPorStatus.Style = "font-size: 8pt; font-weight: bold; text-align: left; ddo-char-set: 1";
             this.lblTotalPorStatus.Text = "Total de cuentas por cobrar ";
             this.lblTotalPorStatus.Top = 0F;
-            this.lblTotalPorStatus.Width = 2.375F;
+            this.lblTotalPorStatus.Width = 1.876F;
             // 
             // txtTotalMontoRestantePorStatus
             // 
@@ -779,12 +777,12 @@ namespace Galac.Adm.Rpt.Venta
             // 
             this.lblTotalPorMoneda.Height = 0.15625F;
             this.lblTotalPorMoneda.HyperLink = null;
-            this.lblTotalPorMoneda.Left = 0F;
+            this.lblTotalPorMoneda.Left = 0.499F;
             this.lblTotalPorMoneda.Name = "lblTotalPorMoneda";
-            this.lblTotalPorMoneda.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
+            this.lblTotalPorMoneda.Style = "font-size: 8pt; font-weight: bold; text-align: left; ddo-char-set: 1";
             this.lblTotalPorMoneda.Text = "Total por Moneda";
             this.lblTotalPorMoneda.Top = 0F;
-            this.lblTotalPorMoneda.Width = 2.375F;
+            this.lblTotalPorMoneda.Width = 1.876F;
             // 
             // txtTotalMontoOriginalPorMoneda
             // 
@@ -814,15 +812,15 @@ namespace Galac.Adm.Rpt.Venta
             this.PageSettings.PaperWidth = 8.5F;
             this.PrintWidth = 8.532001F;
             this.Sections.Add(this.PageHeader);
+            this.Sections.Add(this.GHMoneda);
             this.Sections.Add(this.GHSectorDeNegocio);
             this.Sections.Add(this.GHZonaDeCobranza);
-            this.Sections.Add(this.GHMoneda);
             this.Sections.Add(this.GHStatus);
             this.Sections.Add(this.Detail);
             this.Sections.Add(this.GFStatus);
-            this.Sections.Add(this.GFMoneda);
             this.Sections.Add(this.GFZonaDeCobranza);
             this.Sections.Add(this.GFSectorDeNegocio);
+            this.Sections.Add(this.GFMoneda);
             this.Sections.Add(this.PageFooter);
             this.StyleSheet.Add(new DDCssLib.StyleSheetRule("font-family: Arial; font-style: normal; text-decoration: none; font-weight: norma" +
             "l; font-size: 10pt; color: Black", "Normal"));
