@@ -450,7 +450,7 @@ namespace Galac.Adm.Rpt.GestionCompras
             this.txtTotalMontoRestantePorStatus,
             this.txtTotalMontoOriginalPorStatus,
             this.txtGFStatusCxP});
-            this.GFStatus.Height = 0.1860119F;
+            this.GFStatus.Height = 0.25F;
             this.GFStatus.Name = "GFStatus";
             // 
             // lblTotalPorStatus
@@ -460,7 +460,7 @@ namespace Galac.Adm.Rpt.GestionCompras
             this.lblTotalPorStatus.Left = 0F;
             this.lblTotalPorStatus.Name = "lblTotalPorStatus";
             this.lblTotalPorStatus.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
-            this.lblTotalPorStatus.Text = "Total por Status";
+            this.lblTotalPorStatus.Text = "Total de cuentas por pagar ";
             this.lblTotalPorStatus.Top = 0F;
             this.lblTotalPorStatus.Width = 2.367F;
             // 
@@ -532,7 +532,7 @@ namespace Galac.Adm.Rpt.GestionCompras
             this.lblTotalPorMoneda,
             this.txtTotalMontoOriginalPorMoneda,
             this.txtGFMoneda});
-            this.GFMoneda.Height = 0.1860119F;
+            this.GFMoneda.Height = 0.5F;
             this.GFMoneda.Name = "GFMoneda";
             // 
             // txtTotalMontoRestantePorMoneda
