@@ -110,7 +110,7 @@ namespace Galac.Adm.Rpt.GestionCompras {
                 string vNotaMonedaCambio = new clsLibSaw().NotaMonedaCambioParaInformes(valMonedaDelInforme, valTasaDeCambio, valMoneda, "cuenta por pagar");
                 LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", vNotaMonedaCambio, "");
 
-                LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
+                LibGraphPrnMargins.SetGeneralMargins(this, PageOrientation.Portrait);
                 return true;
             }
             return false;

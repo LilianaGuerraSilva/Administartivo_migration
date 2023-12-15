@@ -235,7 +235,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			vSql.AppendLine("	" + vSqlMontoOriginal + " AS MontoOriginal,");
 			vSql.AppendLine("	" + vSqlMontoRestante + " AS MontoRestante,");
 			vSql.AppendLine("	" + vSqlCambio + " AS Cambio, ");
-			vSql.AppendLine("	CxC.Descripcion, ");
+			vSql.AppendLine("	CAST(CxC.Descripcion AS varchar(250)) AS Descripcion, ");
 			vSql.AppendLine("	Cliente.Contacto");
 			if (valMostrarNroComprobanteContable && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CaracteristicaDeContabilidadActiva")) {
 				StringBuilder vSqlNroComprobanteContable = new StringBuilder();

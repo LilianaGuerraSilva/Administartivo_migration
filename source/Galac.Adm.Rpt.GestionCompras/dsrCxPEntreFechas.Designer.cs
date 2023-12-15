@@ -34,8 +34,8 @@ namespace Galac.Adm.Rpt.GestionCompras
             this.txtCambio = new DataDynamics.ActiveReports.TextBox();
             this.txtNroComprobanteContable = new DataDynamics.ActiveReports.TextBox();
             this.txtInformacionAdicional = new DataDynamics.ActiveReports.TextBox();
-            this.lblInformacionAdicional = new DataDynamics.ActiveReports.Label();
             this.txtMontoOriginal = new DataDynamics.ActiveReports.TextBox();
+            this.lblInformacionAdicional = new DataDynamics.ActiveReports.Label();
             this.PageHeader = new DataDynamics.ActiveReports.PageHeader();
             this.txtNombreCompania = new DataDynamics.ActiveReports.TextBox();
             this.txtNroDePagina = new DataDynamics.ActiveReports.TextBox();
@@ -76,8 +76,8 @@ namespace Galac.Adm.Rpt.GestionCompras
             ((System.ComponentModel.ISupportInitialize)(this.txtCambio)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNroComprobanteContable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtInformacionAdicional)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblInformacionAdicional)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoOriginal)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblInformacionAdicional)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreCompania)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNroDePagina)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaYHoraDeEmision)).BeginInit();
@@ -119,9 +119,9 @@ namespace Galac.Adm.Rpt.GestionCompras
             this.txtCambio,
             this.txtNroComprobanteContable,
             this.txtInformacionAdicional,
-            this.lblInformacionAdicional,
-            this.txtMontoOriginal});
-            this.Detail.Height = 0.3125F;
+            this.txtMontoOriginal,
+            this.lblInformacionAdicional});
+            this.Detail.Height = 0.3539167F;
             this.Detail.Name = "Detail";
             // 
             // txtFecha
@@ -190,7 +190,7 @@ namespace Galac.Adm.Rpt.GestionCompras
             this.txtNroComprobanteContable.Height = 0.15625F;
             this.txtNroComprobanteContable.Left = 6.7F;
             this.txtNroComprobanteContable.Name = "txtNroComprobanteContable";
-            this.txtNroComprobanteContable.Style = "font-size: 7pt; text-align: right; ddo-char-set: 1";
+            this.txtNroComprobanteContable.Style = "font-size: 7pt; text-align: left; ddo-char-set: 1";
             this.txtNroComprobanteContable.Text = "txtNroComprobanteContable";
             this.txtNroComprobanteContable.Top = 0F;
             this.txtNroComprobanteContable.Width = 0.8F;
@@ -206,18 +206,7 @@ namespace Galac.Adm.Rpt.GestionCompras
             this.txtInformacionAdicional.Style = "font-size: 7pt; ddo-char-set: 1";
             this.txtInformacionAdicional.Text = "txtInformacionAdicional";
             this.txtInformacionAdicional.Top = 0.156F;
-            this.txtInformacionAdicional.Width = 5.8125F;
-            // 
-            // lblInformacionAdicional
-            // 
-            this.lblInformacionAdicional.Height = 0.15625F;
-            this.lblInformacionAdicional.HyperLink = null;
-            this.lblInformacionAdicional.Left = 0.4995F;
-            this.lblInformacionAdicional.Name = "lblInformacionAdicional";
-            this.lblInformacionAdicional.Style = "font-size: 7pt; font-weight: bold; ddo-char-set: 1";
-            this.lblInformacionAdicional.Text = "Observaciones";
-            this.lblInformacionAdicional.Top = 0.15625F;
-            this.lblInformacionAdicional.Width = 1.187F;
+            this.txtInformacionAdicional.Width = 5.813001F;
             // 
             // txtMontoOriginal
             // 
@@ -228,6 +217,17 @@ namespace Galac.Adm.Rpt.GestionCompras
             this.txtMontoOriginal.Text = "txtMontoOriginal";
             this.txtMontoOriginal.Top = 0F;
             this.txtMontoOriginal.Width = 1F;
+            // 
+            // lblInformacionAdicional
+            // 
+            this.lblInformacionAdicional.Height = 0.15625F;
+            this.lblInformacionAdicional.HyperLink = null;
+            this.lblInformacionAdicional.Left = 0.5F;
+            this.lblInformacionAdicional.Name = "lblInformacionAdicional";
+            this.lblInformacionAdicional.Style = "font-size: 8pt; font-weight: bold; text-align: left; ddo-char-set: 1";
+            this.lblInformacionAdicional.Text = "Observaciones";
+            this.lblInformacionAdicional.Top = 0.156F;
+            this.lblInformacionAdicional.Width = 1.187F;
             // 
             // PageHeader
             // 
@@ -323,7 +323,7 @@ namespace Galac.Adm.Rpt.GestionCompras
             this.lblNroComprobanteContable,
             this.lblMontoOriginal,
             this.lblCodigoProveedor});
-            this.GHStatus.Height = 0.3382917F;
+            this.GHStatus.Height = 0.3539167F;
             this.GHStatus.Name = "GHStatus";
             // 
             // lblStatusCxP
@@ -414,7 +414,7 @@ namespace Galac.Adm.Rpt.GestionCompras
             this.lblNroComprobanteContable.HyperLink = null;
             this.lblNroComprobanteContable.Left = 6.7F;
             this.lblNroComprobanteContable.Name = "lblNroComprobanteContable";
-            this.lblNroComprobanteContable.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
+            this.lblNroComprobanteContable.Style = "font-size: 8pt; font-weight: bold; text-align: left; ddo-char-set: 1";
             this.lblNroComprobanteContable.Text = "Comprobante";
             this.lblNroComprobanteContable.Top = 0.156F;
             this.lblNroComprobanteContable.Width = 0.8F;
@@ -583,7 +583,7 @@ namespace Galac.Adm.Rpt.GestionCompras
             this.MasterReport = false;
             this.PageSettings.PaperHeight = 11F;
             this.PageSettings.PaperWidth = 8.5F;
-            this.PrintWidth = 7.59375F;
+            this.PrintWidth = 7.500001F;
             this.Sections.Add(this.PageHeader);
             this.Sections.Add(this.GHMoneda);
             this.Sections.Add(this.GHStatus);
@@ -605,8 +605,8 @@ namespace Galac.Adm.Rpt.GestionCompras
             ((System.ComponentModel.ISupportInitialize)(this.txtCambio)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNroComprobanteContable)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtInformacionAdicional)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblInformacionAdicional)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoOriginal)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblInformacionAdicional)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreCompania)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNroDePagina)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaYHoraDeEmision)).EndInit();
@@ -662,7 +662,6 @@ namespace Galac.Adm.Rpt.GestionCompras
         private DataDynamics.ActiveReports.TextBox txtCambio;
         private DataDynamics.ActiveReports.TextBox txtNroComprobanteContable;
         private DataDynamics.ActiveReports.TextBox txtInformacionAdicional;
-        private DataDynamics.ActiveReports.Label lblInformacionAdicional;
         private DataDynamics.ActiveReports.TextBox txtMontoOriginal;
         private DataDynamics.ActiveReports.TextBox txtTotalMontoRestantePorMoneda;
         private DataDynamics.ActiveReports.Label lblTotalPorMoneda;
@@ -681,5 +680,6 @@ namespace Galac.Adm.Rpt.GestionCompras
         private DataDynamics.ActiveReports.Label lblCodigoProveedor;
         private DataDynamics.ActiveReports.TextBox txtGFStatusCxP;
         private DataDynamics.ActiveReports.TextBox txtGFMoneda;
+        private DataDynamics.ActiveReports.Label lblInformacionAdicional;
     }
 }

@@ -77,12 +77,12 @@ namespace Galac.Adm.Rpt.Venta {
                     txtMontoOriginal.Left += vWidth;
                     lblMontoRestante.Left += vWidth;
                     txtMontoRestante.Left += vWidth;
-                    
+
                     txtTotalMontoOriginalPorStatus.Left = lblMontoOriginal.Left;
                     txtTotalMontoOriginalPorMoneda.Left = lblMontoOriginal.Left;
                     txtTotalMontoOriginalPorZonaDeCobranza.Left = lblMontoOriginal.Left;
                     txtTotalMontoOriginalPorSectorDeNegocio.Left = lblMontoOriginal.Left;
-                    
+
                     txtTotalMontoRestantePorStatus.Left = lblMontoRestante.Left;
                     txtTotalMontoRestantePorMoneda.Left = lblMontoRestante.Left;
                     txtTotalMontoRestantePorZonaDeCobranza.Left = lblMontoRestante.Left;
