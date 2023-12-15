@@ -76,7 +76,7 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
 			vSql.AppendLine("	" + vSqlMontoOriginal + " AS MontoOriginal, ");
 			vSql.AppendLine("	" + vSqlMontoRestante + " AS MontoRestante, ");
 			vSql.AppendLine("	" + vSqlCambio + " AS Cambio, ");
-			vSql.AppendLine("	CxP.Observaciones ");
+			vSql.AppendLine("	CAST(CxP.Observaciones AS varchar(250)) AS Observaciones");
 			if (valMostrarNroComprobanteContable && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CaracteristicaDeContabilidadActiva")) {
 				StringBuilder vSqlNroComprobanteContable = new StringBuilder();
 				vSqlNroComprobanteContable.AppendLine(" (SELECT TOP 1 C.Numero ");

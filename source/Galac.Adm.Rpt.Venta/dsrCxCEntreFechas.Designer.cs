@@ -34,7 +34,6 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCambio = new DataDynamics.ActiveReports.TextBox();
             this.txtNroComprobanteContable = new DataDynamics.ActiveReports.TextBox();
             this.txtInformacionAdicional = new DataDynamics.ActiveReports.TextBox();
-            this.lblInformacionAdicional = new DataDynamics.ActiveReports.Label();
             this.txtContacto = new DataDynamics.ActiveReports.TextBox();
             this.lblContacto = new DataDynamics.ActiveReports.Label();
             this.txtMontoOriginal = new DataDynamics.ActiveReports.TextBox();
@@ -86,6 +85,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalPorMoneda = new DataDynamics.ActiveReports.Label();
             this.txtTotalMontoOriginalPorMoneda = new DataDynamics.ActiveReports.TextBox();
             this.txtGFMoneda = new DataDynamics.ActiveReports.TextBox();
+            this.lblInformacionAdicional = new DataDynamics.ActiveReports.Label();
             ((System.ComponentModel.ISupportInitialize)(this.txtFecha)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNroDocumento)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCodigoCliente)).BeginInit();
@@ -94,7 +94,6 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtCambio)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNroComprobanteContable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtInformacionAdicional)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblInformacionAdicional)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtContacto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblContacto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoOriginal)).BeginInit();
@@ -136,6 +135,7 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.lblTotalPorMoneda)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoOriginalPorMoneda)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtGFMoneda)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblInformacionAdicional)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
@@ -151,11 +151,11 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCambio,
             this.txtNroComprobanteContable,
             this.txtInformacionAdicional,
-            this.lblInformacionAdicional,
             this.txtContacto,
             this.lblContacto,
-            this.txtMontoOriginal});
-            this.Detail.Height = 0.46925F;
+            this.txtMontoOriginal,
+            this.lblInformacionAdicional});
+            this.Detail.Height = 0.46875F;
             this.Detail.Name = "Detail";
             this.Detail.Format += new System.EventHandler(this.Detail_Format);
             // 
@@ -225,7 +225,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtNroComprobanteContable.Height = 0.15625F;
             this.txtNroComprobanteContable.Left = 6.7F;
             this.txtNroComprobanteContable.Name = "txtNroComprobanteContable";
-            this.txtNroComprobanteContable.Style = "font-size: 7pt; text-align: right; ddo-char-set: 1";
+            this.txtNroComprobanteContable.Style = "font-size: 7pt; text-align: left; ddo-char-set: 1";
             this.txtNroComprobanteContable.Text = "txtNroComprobanteContable";
             this.txtNroComprobanteContable.Top = 0F;
             this.txtNroComprobanteContable.Width = 0.8000002F;
@@ -233,25 +233,14 @@ namespace Galac.Adm.Rpt.Venta
             // txtInformacionAdicional
             // 
             this.txtInformacionAdicional.CanGrow = false;
-            this.txtInformacionAdicional.CanShrink = true;
             this.txtInformacionAdicional.Height = 0.15625F;
             this.txtInformacionAdicional.Left = 1.687F;
+            this.txtInformacionAdicional.MultiLine = false;
             this.txtInformacionAdicional.Name = "txtInformacionAdicional";
             this.txtInformacionAdicional.Style = "font-size: 7pt; ddo-char-set: 1";
             this.txtInformacionAdicional.Text = "txtInformacionAdicional";
-            this.txtInformacionAdicional.Top = 0.156F;
+            this.txtInformacionAdicional.Top = 0.15625F;
             this.txtInformacionAdicional.Width = 5.8125F;
-            // 
-            // lblInformacionAdicional
-            // 
-            this.lblInformacionAdicional.Height = 0.15625F;
-            this.lblInformacionAdicional.HyperLink = null;
-            this.lblInformacionAdicional.Left = 0.4995F;
-            this.lblInformacionAdicional.Name = "lblInformacionAdicional";
-            this.lblInformacionAdicional.Style = "font-size: 7pt; font-weight: bold; ddo-char-set: 1";
-            this.lblInformacionAdicional.Text = "Descripción";
-            this.lblInformacionAdicional.Top = 0.15625F;
-            this.lblInformacionAdicional.Width = 1.187F;
             // 
             // txtContacto
             // 
@@ -263,7 +252,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtContacto.Name = "txtContacto";
             this.txtContacto.Style = "font-size: 7pt; ddo-char-set: 1";
             this.txtContacto.Text = "txtContacto";
-            this.txtContacto.Top = 0.3124999F;
+            this.txtContacto.Top = 0.3125F;
             this.txtContacto.Width = 5.8125F;
             // 
             // lblContacto
@@ -272,9 +261,9 @@ namespace Galac.Adm.Rpt.Venta
             this.lblContacto.HyperLink = null;
             this.lblContacto.Left = 0.499F;
             this.lblContacto.Name = "lblContacto";
-            this.lblContacto.Style = "font-size: 7pt; font-weight: bold; ddo-char-set: 1";
+            this.lblContacto.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
             this.lblContacto.Text = "Contacto";
-            this.lblContacto.Top = 0.313F;
+            this.lblContacto.Top = 0.3125F;
             this.lblContacto.Width = 1.187F;
             // 
             // txtMontoOriginal
@@ -662,7 +651,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblNroComprobanteContable.HyperLink = null;
             this.lblNroComprobanteContable.Left = 6.7F;
             this.lblNroComprobanteContable.Name = "lblNroComprobanteContable";
-            this.lblNroComprobanteContable.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
+            this.lblNroComprobanteContable.Style = "font-size: 8pt; font-weight: bold; text-align: left; ddo-char-set: 1";
             this.lblNroComprobanteContable.Text = "Comprobante";
             this.lblNroComprobanteContable.Top = 0.156F;
             this.lblNroComprobanteContable.Width = 0.8000002F;
@@ -805,12 +794,23 @@ namespace Galac.Adm.Rpt.Venta
             this.txtGFMoneda.Top = -3.72529E-09F;
             this.txtGFMoneda.Width = 2.312F;
             // 
+            // lblInformacionAdicional
+            // 
+            this.lblInformacionAdicional.Height = 0.15625F;
+            this.lblInformacionAdicional.HyperLink = null;
+            this.lblInformacionAdicional.Left = 0.5F;
+            this.lblInformacionAdicional.Name = "lblInformacionAdicional";
+            this.lblInformacionAdicional.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
+            this.lblInformacionAdicional.Text = "Descripción";
+            this.lblInformacionAdicional.Top = 0.15625F;
+            this.lblInformacionAdicional.Width = 1.187F;
+            // 
             // dsrCxCEntreFechas
             // 
             this.MasterReport = false;
             this.PageSettings.PaperHeight = 11F;
             this.PageSettings.PaperWidth = 8.5F;
-            this.PrintWidth = 8.532001F;
+            this.PrintWidth = 7.500001F;
             this.Sections.Add(this.PageHeader);
             this.Sections.Add(this.GHMoneda);
             this.Sections.Add(this.GHSectorDeNegocio);
@@ -836,7 +836,6 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtCambio)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNroComprobanteContable)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtInformacionAdicional)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblInformacionAdicional)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtContacto)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblContacto)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoOriginal)).EndInit();
@@ -878,6 +877,7 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.lblTotalPorMoneda)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoOriginalPorMoneda)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtGFMoneda)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblInformacionAdicional)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -908,7 +908,6 @@ namespace Galac.Adm.Rpt.Venta
         private DataDynamics.ActiveReports.Label lblZonaDeCobranza;
         private DataDynamics.ActiveReports.Label lblStatusCxC;
         private DataDynamics.ActiveReports.Label lblMoneda;
-        private DataDynamics.ActiveReports.Label lblInformacionAdicional;
         private DataDynamics.ActiveReports.Label lblContacto;
         private DataDynamics.ActiveReports.GroupHeader GHSectorDeNegocio;
         private DataDynamics.ActiveReports.GroupFooter GFSectorDeNegocio;
@@ -944,5 +943,6 @@ namespace Galac.Adm.Rpt.Venta
         private DataDynamics.ActiveReports.TextBox txtGFZonaDeCobranza;
         private DataDynamics.ActiveReports.TextBox txtGFStatusCxC;
         private DataDynamics.ActiveReports.TextBox txtGFMoneda;
+        private DataDynamics.ActiveReports.Label lblInformacionAdicional;
     }
 }
