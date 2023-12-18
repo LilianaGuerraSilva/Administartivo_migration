@@ -14,6 +14,7 @@ Attribute VB_Exposed = True
 Option Explicit
 
 Private Const CM_FILE_NAME As String = "clsCxCRpt"
+Private Const GetGender = Enum_Gender.eg_Male
 Private Const CM_MESSAGE_NAME As String = "Configurar Reporte CxC"
 
 Private Enum eCxCRpt
@@ -42,11 +43,7 @@ Private Enum eCxCRpt
    eCxCRpt_CUENTAS_X_COBRAR_ENTRE_FECHAS_POR_ZONA_DE_COBRANZA_MONEDA_ORIGINAL
    eCxCRpt_ANALISIS_DE_VENCIMIENTO_ENTRE_FECHAS_POR_ZONA_DE_COBRANZA
    eCxCRpt_ANALISIS_DE_VENCIMIENTO_ENTRE_FECHAS_POR_VENDEDOR_POR_ZONA_DE_COBRANZA
-  End Enum
-
-Private Function GetGender() As Enum_Gender
-   GetGender = eg_Male
-End Function
+End Enum
 
 Private Function fNombreFileDeImpresionDelReporteDeCxC(ByVal valReporte As eCxCRpt) As String
    Dim nombreFileXML As String
@@ -548,11 +545,7 @@ Public Function fConfigurarDatosDelReporteHistoricoDeCliente(ByRef refRpt As DDA
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtSaldoInicial", "", "SaldoInicial"
          gUtilReports.sDefaultConfigurationForDateFields refRpt, "txtFecha", "", "FechaDocumento", eFT_DATE
          gUtilReports.sDefaultConfigurationForDateFields refRpt, "txtFechaVencimiento", "", "FechaVencimiento", eFT_DATE
-'         If gGlobalization.fEsCodigoPeru Then
-'            gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtTipoDocumentoGH", "", "TipoDocumentoLey"
-'         Else
-            gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtTipoDocumentoGH", "", "TipoDeDocumento"
-'         End If
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtTipoDocumentoGH", "", "TipoDeDocumento"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNoDocumento", "", "NumeroDocumento"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNoDocumentoParaAgrupar", "", "NumeroDocumentoGrupo"
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtMontoOriginal", "", "MontoOriginal"

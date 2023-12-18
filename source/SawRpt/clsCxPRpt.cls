@@ -15,6 +15,8 @@ Option Explicit
 Private Const CM_FILE_NAME As String = "clsCxPRpt"
 Private Const CM_MESSAGE_NAME As String = "Configurar Reporte CxP"
 Private mNombrePlantillaRetencionImpuestoMunicipal As String
+Private Const GetGender = Enum_Gender.eg_Male
+
 Private Enum eCxPRpt
    eCxPRpt_LIBRO_DE_COMPRAS = 0
    eCxPRpt_ANALISIS_DE_VENCIMIENTO_CXP_DETALLADO
@@ -37,9 +39,6 @@ Private Enum eCxPRpt
    eCxPRpt_RESUMEN_RETENCION_DE_ACTIVIDADES_ECONOMICAS_POR_MUNICIPIO
    eCxPRpt_RESUMEN_RETENCION_DE_ACTIVIDADES_ECONOMICAS_CRISTOBAL_ROJAS
 End Enum
-Private Function GetGender() As Enum_Gender
-   GetGender = eg_Male
-End Function
 
 Private Function fNombreFileDeImpresionDelReporteDeCxP(ByVal valReporte As Integer) As String
    Dim nombreFileXML As String
@@ -1025,7 +1024,7 @@ Public Function fConfigurarDatosDelReporteCxPSinRetenciones(ByRef refRpt As DDAc
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fConfigurarDatosDelReporteCxPSinRetenciones = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteCxPSinRetenciones", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteCxPSinRetenciones", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function getSubReportComprobanteDeRetencionEnCxP(ByVal valSqlDelReporte As String, ByVal valNumeroComprobante As String) As DDActiveReports2.ActiveReport
@@ -1062,7 +1061,7 @@ Public Function getSubReportComprobanteDeRetencionEnCxP(ByVal valSqlDelReporte A
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "getSubReportComprobanteDeRetencionEnCxP", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "getSubReportComprobanteDeRetencionEnCxP", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fNombreDelRpxDeComprobanteDeRetencionDeActividadesEconomicas() As String
@@ -1076,7 +1075,7 @@ h_EXIT:
    fNombreDelRpxDeComprobanteDeRetencionDeActividadesEconomicas = nombreFile
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fNombreDelRpxDeComprobanteDeRetencionDeActividadesEconomicas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fNombreDelRpxDeComprobanteDeRetencionDeActividadesEconomicas", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfigurarDatosDelReporteComprobanteDeRetencionDeActividadesEconomicas(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valNombreCompaniaParaInformes As String, ByVal valNombrePlantillaNombrePlantillaRetencionImpuestoMunicipal, ByVal valRutaNombreExtencionArchivoImagenLogo As String, ByVal valRutaNombreExtencionArchivoImagenSello As String, ByVal valRutaNombreExtencionArchivoImagenFirma As String, ByVal valLibSaw As Object) As Boolean
@@ -1153,7 +1152,7 @@ Public Function fConfigurarDatosDelReporteComprobanteDeRetencionDeActividadesEco
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fConfigurarDatosDelReporteComprobanteDeRetencionDeActividadesEconomicas = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteComprobanteDeRetencionDeActividadesEconomicas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteComprobanteDeRetencionDeActividadesEconomicas", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfigurarDatosDelReporteResumenRetencionDeActividadesEconomicas(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valNombreCompaniaParaInformes As String, ByVal valEsPorMunicipio As Boolean, ByVal valEsMunicipioCristobalRojas As Boolean) As Boolean
@@ -1230,6 +1229,6 @@ Public Function fConfigurarDatosDelReporteResumenRetencionDeActividadesEconomica
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fConfigurarDatosDelReporteResumenRetencionDeActividadesEconomicas = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteResumenRetencionDeActividadesEconomicas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteResumenRetencionDeActividadesEconomicas", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
