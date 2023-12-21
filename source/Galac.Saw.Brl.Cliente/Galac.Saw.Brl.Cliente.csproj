@@ -46,14 +46,23 @@
       <Name>LibGalac.Aos.Catching</Name>
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Catching.dll</HintPath>
     </Reference>
+    <Reference Include="LibGalac.Aos.Cnf">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Administrativo240\bin\binLibAos\LibGalac.Aos.Cnf.dll</HintPath>
+    </Reference>
     <Reference Include="LibGalac.Aos.Dal">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Dal.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.DefGen">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Administrativo240\bin\binLibAos\LibGalac.Aos.DefGen.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -63,6 +72,7 @@
     <Compile Include="clsClienteNav.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reportes\clsClienteRpt.cs" />
+    <Compile Include="Reportes\clsClienteSql.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Galac.Saw.Ccl.Cliente\Galac.Saw.Ccl.Cliente.csproj">

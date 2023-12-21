@@ -21,7 +21,6 @@ namespace Galac.Adm.Uil.GestionCompras.Reportes {
         eMonedaDelInformeMM _MonedaDelInforme;
         eTasaDeCambioParaImpresion _TasaDeCambio;
         #endregion //Variables
-
         #region Propiedades
         public override string DisplayName { get { return "CxP entre Fechas"; } }
         public override bool IsSSRS { get { return false; } }
@@ -60,7 +59,6 @@ namespace Galac.Adm.Uil.GestionCompras.Reportes {
         public bool IsVisibleTasaDeCambio { get { return MonedaDelInforme == eMonedaDelInformeMM.EnBolivares || MonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa; } }
 
         #endregion Propiedades
-
         #region Constructores
         public clsCxPEntreFechasViewModel() {
             FechaDesde = LibDate.DateFromMonthAndYear(LibDate.Today().Month, LibDate.Today().Year, true);
@@ -101,7 +99,7 @@ namespace Galac.Adm.Uil.GestionCompras.Reportes {
         }
 
         void LlenarListaMonedasActivas() {
-            ListaMonedasActivas = ((ICxPInformes)new clsCxPRpt()).ListaDeMonedasActivasParaInformes();
+            ListaMonedasActivas = new Galac.Saw.Lib.clsLibSaw().ListaDeMonedasActivasParaInformes();
             if (ListaMonedasActivas.Count > 0) {
                 Moneda = ListaMonedasActivas[0];
             }

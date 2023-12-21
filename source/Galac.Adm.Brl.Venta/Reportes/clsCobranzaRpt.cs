@@ -44,7 +44,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql = insCobranzaSql.SqlCobranzasEntreFechas(valConsecutivoCompania,valMonedaReporte,valTipoTasaDeCambio,valTasaDeCambio,valFechaDesde,valFechaHasta,valNombreCobrador,valNombreCliente,valNombreCuentaBancaria,valFiltrarCobranzasPor,valAgrupado,valUsaVentasConIvaDiferidos);
             return insCobranzasEntreFechas.GetDt(vSql,0);
         }
-        System.Data.DataTable ICobranzaInformes.BuildComisionDeVendedoresPorCobranzaMonto(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eTipoDeInforme valTipoDeInforme, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, Saw.Lib.eTasaDeCambioParaImpresion valTasaDeCambioImpresion, Saw.Lib.eCantidadAImprimir valCantidadAImprimir, string valCodigoVendedor) {
+        System.Data.DataTable ICobranzaInformes.BuildComisionDeVendedoresPorCobranzaMonto(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eTipoDeInforme valTipoDeInforme, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, Saw.Lib.eTasaDeCambioParaImpresion valTasaDeCambioImpresion, eCantidadAImprimir valCantidadAImprimir, string valCodigoVendedor) {
             string vSql = "";
             clsCobranzaSql insCobranzaSql = new clsCobranzaSql();
             LibGalac.Aos.Base.ILibDataRpt insComisionDeVendedoresPorCobranzaMonto = new Galac.Adm.Dal.Venta.clsCobranzaDat();

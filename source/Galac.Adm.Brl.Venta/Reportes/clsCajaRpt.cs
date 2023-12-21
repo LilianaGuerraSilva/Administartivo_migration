@@ -34,7 +34,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             return vResult;
         }
 
-        System.Data.DataTable ICajaInformes.BuildCuadreCajaCobroMultimonedaDetallado(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eCantidadAImprimir valCantidadOperadorDeReporte, string valNombreDelOperador, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, bool valTotalesTipoCobro) {
+        System.Data.DataTable ICajaInformes.BuildCuadreCajaCobroMultimonedaDetallado(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, eCantidadAImprimir valCantidadOperadorDeReporte, string valNombreDelOperador, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, bool valTotalesTipoCobro) {
             string vSql = "";
             clsCajaSql insCajaSql = new clsCajaSql();
             LibGalac.Aos.Base.ILibDataRpt insCuadreCajaCobroMultimonedaDetallado = new Galac.Adm.Dal.Venta.clsCajaDat();
@@ -58,7 +58,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             return insCuadreCajaPorTipoCobro.GetDt(vSql, 0);
         }
 
-        System.Data.DataTable ICajaInformes.BuildCuadreCajaPorTipoCobroYUsuario(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eCantidadAImprimir valCantidadOperadorDeReporte, string valNombreDelOperador, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte) {
+        System.Data.DataTable ICajaInformes.BuildCuadreCajaPorTipoCobroYUsuario(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, eCantidadAImprimir valCantidadOperadorDeReporte, string valNombreDelOperador, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte) {
             string vSql = "";
             clsCajaSql insCajaSql = new clsCajaSql();
             LibGalac.Aos.Base.ILibDataRpt insCuadreCajaPorTipoCobroYUsuario = new Galac.Adm.Dal.Venta.clsCajaDat();
@@ -78,7 +78,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             return insCuadreCajaConDetalleFormaPago.GetDt(vSql, 0);
         }
 
-        System.Data.DataTable ICajaInformes.BuildCuadreCajaPorUsuario(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eTipoDeInforme valTipoDeInforme, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, Saw.Lib.eCantidadAImprimir valCantidadOperadorDeReporte, string valNombreDelOperador) {
+        System.Data.DataTable ICajaInformes.BuildCuadreCajaPorUsuario(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eTipoDeInforme valTipoDeInforme, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, eCantidadAImprimir valCantidadOperadorDeReporte, string valNombreDelOperador) {
             string vSql = "";
             clsCajaSql insCajaSql = new clsCajaSql();
             LibGalac.Aos.Base.ILibDataRpt insCuadreCajaPorUsuario = new Galac.Adm.Dal.Venta.clsCajaDat();

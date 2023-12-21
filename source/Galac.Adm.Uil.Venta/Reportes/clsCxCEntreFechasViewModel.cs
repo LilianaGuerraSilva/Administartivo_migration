@@ -24,7 +24,6 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         eMonedaDelInformeMM _MonedaDelInforme;
         eTasaDeCambioParaImpresion _TasaDeCambio;
         #endregion //Variables
-
         #region Propiedades
         public override string DisplayName { get { return "CxC entre fechas"; } }
         public LibXmlMemInfo AppMemoryInfo { get; set; }
@@ -83,7 +82,6 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         public bool IsVisibleIncluirNroCC { get { return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CaracteristicaDeContabilidadActiva"); } }
         public bool IsVisibleTasaDeCambio { get { return MonedaDelInforme == eMonedaDelInformeMM.EnBolivares || MonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa; } }
         #endregion //Propiedades
-
         #region Constructores
         public clsCxCEntreFechasViewModel() {
             FechaDesde = LibDate.DateFromMonthAndYear(LibDate.Today().Month, LibDate.Today().Year, true);
@@ -149,7 +147,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         }
 
         void LlenarListaMonedasActivas() {
-            ListaMonedasActivas = ((ICxCInformes)new clsCxCRpt()).ListaDeMonedasActivasParaInformes();
+            ListaMonedasActivas = new Galac.Saw.Lib.clsLibSaw().ListaDeMonedasActivasParaInformes();
             if (ListaMonedasActivas.Count > 0) {
                 Moneda = ListaMonedasActivas[0];
             }

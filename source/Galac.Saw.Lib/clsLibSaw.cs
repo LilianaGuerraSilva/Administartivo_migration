@@ -11,6 +11,7 @@ using LibGalac.Aos.Catching;
 using System.Text;
 using System.Threading;
 using Galac.Comun.Ccl.TablasGen;
+using System.Collections.ObjectModel;
 
 namespace Galac.Saw.Lib {
     public class clsLibSaw {
@@ -422,5 +423,23 @@ namespace Galac.Saw.Lib {
             }
             return vNotaMonedaCambio.ToString();
         }
+
+        public ObservableCollection<string> ListaDeMonedasActivasParaInformes() {
+            ObservableCollection<string> vResult = new ObservableCollection<string>();
+            string vSql = "SELECT Codigo, Nombre FROM Moneda WHERE Activa = 'S' AND Nombre NOT LIKE '%bolívar%' ORDER BY Codigo DESC";
+            XElement vResultSet = LibBusiness.ExecuteSelect(vSql, null, "", 0);
+            if (vResultSet != null) {
+                var vEntity = from vRecord in vResultSet.Descendants("GpResult") select vRecord;
+                string vNewItem;
+                foreach (XElement vItem in vEntity) {
+                    if (vItem != null) {
+                        vNewItem = "(" + LibConvert.ToStr(vItem.Element("Codigo").Value) + ") " + LibConvert.ToStr(vItem.Element("Nombre").Value);
+                        vResult.Add(vNewItem);
+                    }
+                }
+            }
+            return vResult;
+        }
+
     }
 }

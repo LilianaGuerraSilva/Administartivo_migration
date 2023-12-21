@@ -224,12 +224,12 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 
         #region Comisiones por Vendedor
         public string SqlComisionesPorCobranza(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, Saw.Lib.eTipoDeInforme valTipoDeInforme,
-                                        Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, Saw.Lib.eTasaDeCambioParaImpresion valTasaDeCambioImpresion, Saw.Lib.eCantidadAImprimir valCantidadAImprimir,
+                                        Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, Saw.Lib.eTasaDeCambioParaImpresion valTasaDeCambioImpresion, eCantidadAImprimir valCantidadAImprimir,
                                         string valCodigoVendedor, string valCodigoMonedaLocal) {
             bool vParametroAsignarComisionEnCobranza = LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "AsignarComisionDeVendedorEnCobranza"));
             QAdvSql insSql = new QAdvSql("");
             StringBuilder vSql = new StringBuilder();
-            if (valCantidadAImprimir == Saw.Lib.eCantidadAImprimir.Todos) {
+            if (valCantidadAImprimir == eCantidadAImprimir.All) {
                 valCodigoVendedor = String.Empty;
             }
             vSql.AppendLine(";WITH");

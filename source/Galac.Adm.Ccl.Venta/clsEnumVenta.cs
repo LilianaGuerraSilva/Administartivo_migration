@@ -273,14 +273,6 @@ namespace Galac.Adm.Ccl.Venta {
     }
 
     [TypeConverter(typeof(LibEnumTypeConverter))]
-    public enum eClientesOrdenadosPor {
-        [LibEnumDescription("Por Código")]
-        PorCodigo = 0,
-        [LibEnumDescription("Por Nombre")]
-        PorNombre
-    }
-
-    [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eStatusContrato {
         [LibEnumDescription("Vigente")]
         Vigente = 0,

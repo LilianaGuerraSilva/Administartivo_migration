@@ -8,30 +8,32 @@ using LibGalac.Aos.Uil;
 using Galac.Saw.Ccl.Cliente;
 using Galac.Saw.Uil.Cliente.ViewModel;
 using Galac.Saw.Brl.Cliente;
+using LibGalac.Aos.UI.Mvvm;
+using Galac.Saw.Uil.Cliente.Reportes;
+using LibGalac.Aos.UI.Mvvm.Messaging;
 
 namespace Galac.Saw.Uil.Cliente {
-    public class clsClienteMenu: ILibMenuMultiFile {
-        #region Variables
-        #endregion //Variables
-        #region Propiedades
-        #endregion //Propiedades
+    public class clsClienteMenu: ILibMenu {
         #region Constructores
-
         public clsClienteMenu() {
         }
         #endregion //Constructores
         #region Metodos Generados
 
         #region Miembros de ILibMenuMultiFile
-        void ILibMenuMultiFile.Ejecuta(eAccionSR valAction, int valUseInterop, IDictionary<string, XmlDocument> refGlobalValues) {
-            ClienteMngViewModel vViewModel = new ClienteMngViewModel();
-            vViewModel.ExecuteSearchAndInitLookAndFeel();
-            LibSearchView insFrmSearch = new LibSearchView(vViewModel);
-            if (valUseInterop == 0) {
-                insFrmSearch.Owner = System.Windows.Application.Current.MainWindow;
-                insFrmSearch.Show();
+        void ILibMenu.Ejecuta(eAccionSR valAction, int valUseInterop) {
+            if (valAction == eAccionSR.InformesPantalla) {
+                EjecutaInformesCliente();
             } else {
-                insFrmSearch.ShowDialog();
+                ClienteMngViewModel vViewModel = new ClienteMngViewModel();
+                vViewModel.ExecuteSearchAndInitLookAndFeel();
+                LibSearchView insFrmSearch = new LibSearchView(vViewModel);
+                if (valUseInterop == 0) {
+                    insFrmSearch.Owner = System.Windows.Application.Current.MainWindow;
+                    insFrmSearch.Show();
+                } else {
+                    insFrmSearch.ShowDialog();
+                }
             }
         }
 
@@ -40,6 +42,11 @@ namespace Galac.Saw.Uil.Cliente {
         }
         #endregion //Miembros de ILibMenu
         #endregion //Metodos Generados
+        private void EjecutaInformesCliente() {
+            LibReportsViewModel _LibReportsViewModel = new clsClienteInformesViewModel();
+            if (LibMessages.ReportsView.ShowReportsView(_LibReportsViewModel, false)) {
+            }
+        }
 
 
     } //End of class clsClienteMenu

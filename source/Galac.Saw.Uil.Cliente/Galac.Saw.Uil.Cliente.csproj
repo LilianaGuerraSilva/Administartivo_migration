@@ -94,6 +94,11 @@
       <SubType>Code</SubType>
     </Compile>
     <AppDesigner Include="Properties\" />
+    <Compile Include="Reportes\clsClienteInformesViewModel.cs" />
+    <Compile Include="Reportes\clsHistoricoDeClienteViewModel.cs" />
+    <Compile Include="Reportes\GSHistoricoDeCliente.xaml.cs">
+      <DependentUpon>GSHistoricoDeCliente.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\ClienteMngViewModel.cs" />
     <Compile Include="ViewModel\ClienteViewModel.cs" />
     <Compile Include="ViewModel\clsFKViewModel.cs" />
@@ -102,6 +107,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Reportes\GSHistoricoDeCliente.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -131,6 +140,10 @@
     <ProjectReference Include="..\Galac.Saw.Lib\Galac.Saw.Lib.csproj">
       <Project>{b04e6942-e0b8-4ba2-90e7-fbf8a95ddc86}</Project>
       <Name>Galac.Saw.Lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Rpt.Cliente\Galac.Saw.Rpt.Cliente.csproj">
+      <Project>{117a5b08-8156-4724-a03f-e9b5fefb7de7}</Project>
+      <Name>Galac.Saw.Rpt.Cliente</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

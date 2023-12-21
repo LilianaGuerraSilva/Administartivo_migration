@@ -19,7 +19,7 @@ namespace Galac.Adm.Rpt.Venta {
         protected DataTable Data { get; set; }
         public DateTime FechaInicial { get; set; }
         public DateTime FechaFinal { get; set; }
-        public Saw.Lib.eCantidadAImprimir CantidadOperadorDeReporte { get; set; }
+        public eCantidadAImprimir CantidadOperadorDeReporte { get; set; }
         public string NombreDelOperador { get; set; }
         public Saw.Lib.eMonedaParaImpresion MonedaDeReporte { get; set; }
         public bool TotalesTipoCobro { get; set; }
@@ -36,7 +36,7 @@ namespace Galac.Adm.Rpt.Venta {
         #endregion //Codigo Ejemplo
         #endregion //Propiedades
         #region Constructores
-        public clsCuadreCajaCobroMultimonedaDetallado(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eCantidadAImprimir valCantidadOperadorDeReporte, string valNombreDelOperador, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, bool valTotalesTipoCobro, string valCodigoMonedaExtranjera, string valSimboloMonedaExtranjera)
+        public clsCuadreCajaCobroMultimonedaDetallado(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime valFechaInicial, DateTime valFechaFinal, eCantidadAImprimir valCantidadOperadorDeReporte, string valNombreDelOperador, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, bool valTotalesTipoCobro, string valCodigoMonedaExtranjera, string valSimboloMonedaExtranjera)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
             FechaInicial = valFechaInicial;
             FechaFinal = valFechaFinal;
