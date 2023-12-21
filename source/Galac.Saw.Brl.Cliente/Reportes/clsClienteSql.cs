@@ -18,8 +18,6 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 		#region Metodos Generados
 		public string SqlHistoricoDeCliente(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, string valCodigoCliente, eMonedaDelInformeMM valMonedaDelInforme, string valCodigoMoneda, string valNombreMoneda, eTasaDeCambioParaImpresion valTasaDeCambio) {
 			StringBuilder vSql = new StringBuilder();
-			string vSQLWhere = "";
-			vSQLWhere = new QAdvSql("").SqlIntValueWithAnd(vSQLWhere, "Saw.Gv_Cliente_B1.ConsecutivoCompania", valConsecutivoCompania);
 
 			vSql.AppendLine(";WITH");
 			vSql.AppendLine(SqlCTEInfoCxCHistoricoCliente(valConsecutivoCompania));
@@ -40,14 +38,16 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			vSql.AppendLine();
 			vSql.AppendLine(" ORDER BY Nombre, TipoReporte, MonedaReporte, NumeroDocumentoGrupo, FechaDocumento, FechaCobranza, NumeroCobranza");
 
-			if (LibString.Len(vSQLWhere) > 0) {
-				vSql.AppendLine(" WHERE " + vSQLWhere);
-			}
 			return vSql.ToString();
 		}
 
 		private string SqlSelectInfoCxCHistoricoCliente(DateTime valFechaDesde, DateTime valFechaHasta, string valCodigoCliente) {
 			StringBuilder vSql = new StringBuilder();
+			string vSQLWhere = "";
+			vSQLWhere = insSql.SqlDateValueBetween(vSQLWhere, "FechaDocumento", valFechaDesde, valFechaHasta);
+			vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "Codigo", valCodigoCliente);
+
+
 			vSql.AppendLine("SELECT ");
 			vSql.AppendLine("	'0' AS TipoReporte, ");
 			vSql.AppendLine("	Codigo, ");
@@ -69,13 +69,18 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			vSql.AppendLine("	0 AS MontoCobrado, ");
 			vSql.AppendLine("	'' AS StatusCobranza");
 			vSql.AppendLine("FROM CTE_InfoCxCHistoricoCliente");
-			vSql.AppendLine("WHERE (FechaDocumento BETWEEN @FechaDesde AND @FechaHasta) AND (Codigo = @CodigoCliente)");
+			if (LibString.Len(vSQLWhere) > 0) {
+				vSql.AppendLine(" WHERE " + vSQLWhere);
+			}
 
 			return vSql.ToString();
 		}
 
 		private string SqlSelectCxCHistoricoClientes(DateTime valFechaDesde, DateTime valFechaHasta, string valCodigoCliente) {
 			StringBuilder vSql = new StringBuilder();
+			string vSQLWhere = "";
+			vSQLWhere = insSql.SqlDateValueBetween(vSQLWhere, "FechaDocumento", valFechaDesde, valFechaHasta);
+			vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "Codigo", valCodigoCliente);
 
 			vSql.AppendLine("SELECT");
 			vSql.AppendLine("	'0' AS TipoReporte, ");
@@ -98,12 +103,17 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			vSql.AppendLine("	MontoCobrado, ");
 			vSql.AppendLine("	StatusCobranza");
 			vSql.AppendLine("FROM CTE_CxCHistoricoClientes");
-			vSql.AppendLine("WHERE (FechaDocumento BETWEEN @FechaDesde AND @FechaHasta) AND (Codigo = @CodigoCliente)");
+			if (LibString.Len(vSQLWhere) > 0) {
+				vSql.AppendLine(" WHERE " + vSQLWhere);
+			}
 			return vSql.ToString();
 		}
 
 		private string SqlSelectAnticipoHistoricoCliente(DateTime valFechaDesde, DateTime valFechaHasta, string valCodigoCliente) {
 			StringBuilder vSql = new StringBuilder();
+			string vSQLWhere = "";
+			vSQLWhere = insSql.SqlDateValueBetween(vSQLWhere, "FechaDocumento", valFechaDesde, valFechaHasta);
+			vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "Codigo", valCodigoCliente);
 
 			vSql.AppendLine("SELECT");
 			vSql.AppendLine("	TipoReporte, ");
@@ -126,7 +136,9 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			vSql.AppendLine("	(CASE WHEN StatusCobranza = '1' THEN 0 ELSE (MontoCobrado / CambioCobrado) END) AS MontoCobrado, ");
 			vSql.AppendLine("	StatusCobranza");
 			vSql.AppendLine("FROM CTE_AnticipoHistoricoCliente");
-			vSql.AppendLine("WHERE (FechaDocumento BETWEEN @FechaDesde AND @FechaHasta) AND (Codigo = @CodigoCliente)");
+			if (LibString.Len(vSQLWhere) > 0) {
+				vSql.AppendLine(" WHERE " + vSQLWhere);
+			}
 
 
 			return vSql.ToString();
@@ -258,7 +270,6 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			vSql.AppendLine("WHERE (Status <> '1') AND (Tipo = '0') AND (Fecha < @FechaDesde) AND ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
 			vSql.AppendLine("GROUP BY CodigoCliente, CodigoMoneda");
 			vSql.AppendLine(")");
-
 
 			return vSql.ToString();
 		}
