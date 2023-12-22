@@ -18,13 +18,33 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using System.ComponentModel.DataAnnotations;
 
 namespace Galac.Saw.Uil.Cliente.Reportes {
-    public class clsHistoricoDeClienteViewModel : LibInputRptViewModelBase<Entity.Cliente> {
+    public class clsHistoricoDeClienteViewModel: LibInputRptViewModelBase<Entity.Cliente> {
+        #region Constantes
+        const string CantidadAImprimirPropertyName = "CantidadAImprimir";
+        const string NombreClientePropertyName = "NombreCliente";
+        const string SaltoDePaginaPorClientePropertyName = "SaltoDePaginaPorCliente";
+        const string FechaDesdePropertyName = "FechaDesde";
+        const string FechaHastaPropertyName = "FechaHasta";
+        const string MonedaDelInformePropertyName = "MonedaDelInforme";
+        const string MonedaPropertyName = "Moneda";
+        const string TasaDeCambioPropertyName = "TasaDeCambio";
+        const string OrdenarPorPropertyName = "OrdenarPor";
+        const string IsVisibleNombreDelClientePropertyName = "IsVisibleNombreDelCliente";
+        const string IsVisibleSaltoDePaginaPorClientePropertyName = "IsVisibleSaltoDePaginaPorCliente";
+        const string IsVisibleMonedasActivasPropertyName = "IsVisibleMonedasActivas";
+        const string IsVisibleTasaDeCambioPropertyName = "IsVisibleTasaDeCambio";
+        #endregion Constantes
         #region Variables
         string _NombreCliente;
         eMonedaDelInformeMM _MonedaDelInforme;
         eTasaDeCambioParaImpresion _TasaDeCambio;
         eCantidadAImprimir _CantidadAImprimir;
         FkClienteViewModel _ConexionNombreCliente = null;
+        bool _SaltoDePaginaPorCliente;
+        DateTime _FechaDesde;
+        DateTime _FechaHasta;
+        eClientesOrdenadosPor _OrdenarPor;
+        string _Moneda;
         #endregion //Variables
         #region Propiedades
         public override string DisplayName { get { return "Histórico de Cliente"; } }
@@ -34,8 +54,9 @@ namespace Galac.Saw.Uil.Cliente.Reportes {
             set {
                 if (_CantidadAImprimir != value) {
                     _CantidadAImprimir = value;
-                    RaisePropertyChanged(() => IsVisibleNombreDelCliente);
-                    RaisePropertyChanged(() => IsVisibleSaltoDePaginaPorCliente);
+                    RaisePropertyChanged(CantidadAImprimirPropertyName);
+                    RaisePropertyChanged(IsVisibleNombreDelClientePropertyName);
+                    RaisePropertyChanged(IsVisibleSaltoDePaginaPorClientePropertyName);
                 }
             }
         }
@@ -46,35 +67,83 @@ namespace Galac.Saw.Uil.Cliente.Reportes {
             set {
                 if (_NombreCliente != value) {
                     _NombreCliente = value;
-                    RaisePropertyChanged(() => NombreCliente);
+                    RaisePropertyChanged(NombreClientePropertyName);
                 }
             }
         }
-        public bool SaltoDePaginaPorCliente { get; set; }
-        public DateTime FechaDesde { get; set; }
-        public DateTime FechaHasta { get; set; }
-        public string Moneda { get; set; }
+
+        public bool SaltoDePaginaPorCliente {
+            get { return _SaltoDePaginaPorCliente; }
+            set {
+                if (_SaltoDePaginaPorCliente != value) {
+                    _SaltoDePaginaPorCliente = value;
+                    RaisePropertyChanged(SaltoDePaginaPorClientePropertyName);
+                }
+            }
+        }
+
+        public DateTime FechaDesde {
+            get { return _FechaDesde; }
+            set {
+                if (_FechaDesde != value) {
+                    _FechaDesde = value;
+                    RaisePropertyChanged(FechaDesdePropertyName);
+                }
+            }
+        }
+
+        public DateTime FechaHasta {
+            get { return _FechaHasta; }
+            set {
+                if (_FechaHasta != value) {
+                    _FechaHasta = value;
+                    RaisePropertyChanged(FechaHastaPropertyName);
+                }
+            }
+        }
+
         public eMonedaDelInformeMM MonedaDelInforme {
             get { return _MonedaDelInforme; }
             set {
                 if (_MonedaDelInforme != value) {
                     _MonedaDelInforme = value;
-                    RaisePropertyChanged(() => MonedaDelInforme);
-                    RaisePropertyChanged(() => IsVisibleMonedasActivas);
-                    RaisePropertyChanged(() => IsVisibleTasaDeCambio);
+                    RaisePropertyChanged(MonedaDelInformePropertyName);
+                    RaisePropertyChanged(IsVisibleMonedasActivasPropertyName);
+                    RaisePropertyChanged(IsVisibleTasaDeCambioPropertyName);
                 }
             }
         }
+
+        public string Moneda {
+            get { return _Moneda; }
+            set {
+                if (_Moneda != value) {
+                    _Moneda = value;
+                    RaisePropertyChanged(MonedaPropertyName);
+                }
+            }
+        }
+
         public eTasaDeCambioParaImpresion TasaDeCambio {
             get { return _TasaDeCambio; }
             set {
                 if (_TasaDeCambio != value) {
                     _TasaDeCambio = value;
-                    RaisePropertyChanged(() => TasaDeCambio);
+                    RaisePropertyChanged(TasaDeCambioPropertyName);
                 }
             }
         }
-        public eClientesOrdenadosPor OrdenarPor { get; set; }
+
+
+        public eClientesOrdenadosPor OrdenarPor {
+            get { return _OrdenarPor; }
+            set {
+                if (_OrdenarPor != value) {
+                    _OrdenarPor = value;
+                    RaisePropertyChanged(OrdenarPorPropertyName);
+                }
+            }
+        }
         public eTasaDeCambioParaImpresion[] ListaTasaDeCambio { get { return LibEnumHelper<eTasaDeCambioParaImpresion>.GetValuesInArray(); } }
         public eMonedaDelInformeMM[] ListaMonedaDelInforme { get { return LibEnumHelper<eMonedaDelInformeMM>.GetValuesInArray(); } }
         public ObservableCollection<string> ListaMonedasActivas { get; set; }
@@ -107,7 +176,7 @@ namespace Galac.Saw.Uil.Cliente.Reportes {
         #endregion Propiedades
         #region Constructores
         public clsHistoricoDeClienteViewModel() {
-            FechaDesde = LibDate.DateFromMonthAndYear(1, LibDate.Today().Year, true);
+            FechaDesde = LibDate.DateFromMonthAndYear(LibDate.Today().Month, LibDate.Today().Year, true);
             FechaHasta = LibDate.Today();
             LlenarListaMonedasActivas();
         }
@@ -130,7 +199,6 @@ namespace Galac.Saw.Uil.Cliente.Reportes {
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
                 ConexionNombreCliente = null;
                 ConexionNombreCliente = ChooseRecord<FkClienteViewModel>("Cliente", vDefaultCriteria, vFixedCriteria, string.Empty);
-
             } catch (AccessViolationException) {
                 throw;
             } catch (Exception vEx) {

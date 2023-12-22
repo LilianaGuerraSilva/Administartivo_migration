@@ -9,6 +9,8 @@ using LibGalac.Aos.Base.Report;
 using LibGalac.Aos.ARRpt;
 using Galac.Saw.Ccl.Cliente;
 using Galac.Saw.Lib;
+using LibGalac.Aos.Dal;
+using LibGalac.Aos.Catching;
 
 namespace Galac.Saw.Rpt.Cliente {
 
@@ -20,24 +22,20 @@ namespace Galac.Saw.Rpt.Cliente {
         private eMonedaDelInformeMM MonedaDelInforme;
         private string Moneda;
         private eTasaDeCambioParaImpresion TasaDeCambio;
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
+        private string CodigoCliente;
+        #region Codigo Ejemplo      
 
-        public DateTime FechaDesde { get; set; }
-
-        public DateTime FechaHasta { get; set; }
-        */
         #endregion //Codigo Ejemplo
         #endregion //Propiedades
         #region Constructores
         public clsHistoricoDeCliente(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime valFechaDesde, DateTime valFechaHasta, string valCodigoCliente, eMonedaDelInformeMM valMonedaDelInforme, string valMoneda, eTasaDeCambioParaImpresion valTasaDeCambio)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
-            //FechaDesde = valFechaDesde;
-            //FechaHasta = valFechaHasta;
-            //CodigoCliente = valCodigoCliente;
-            //MonedaDelInforme = valMonedaDelInforme;
-            //Moneda = valMoneda;
-            //TasaDeCambio = valTasaDeCambio;
+            FechaDesde = valFechaDesde;
+            FechaHasta = valFechaHasta;
+            CodigoCliente = valCodigoCliente;
+            MonedaDelInforme = valMonedaDelInforme;
+            Moneda = valMoneda;
+            TasaDeCambio = valTasaDeCambio;
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -49,13 +47,11 @@ namespace Galac.Saw.Rpt.Cliente {
                 vTitulo += " - desde RPX externo.";
             }
             Dictionary<string, string> vParams = new Dictionary<string, string>();
-            vParams.Add("NombreCompania", AppMemoryInfo.GlobalValuesGetString("Compania", "Nombre"));
-            vParams.Add("TituloInforme", vTitulo);
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
+            vParams.Add("NombreCompania", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre"));
             vParams.Add("FechaInicialYFinal", string.Format("{0} al {1}", LibConvert.ToStr(FechaDesde, "dd/MM/yyyy"), LibConvert.ToStr(FechaHasta, "dd/MM/yyyy")));
-        */
-        #endregion //Codigo Ejemplo
+            vParams.Add("TituloInforme", vTitulo);
+            #region Codigo Ejemplo          
+            #endregion //Codigo Ejemplo
             return vParams;
         }
 
@@ -69,20 +65,24 @@ namespace Galac.Saw.Rpt.Cliente {
             string vCodigoMoneda = LibString.Trim(LibString.Mid(Moneda, 1, LibString.InStr(Moneda, ")") - 1));
             vCodigoMoneda = LibString.IsNullOrEmpty(vCodigoMoneda, true) ? LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera") : vCodigoMoneda;
             string vNombreMoneda = LibString.Trim(LibString.Mid(Moneda, LibString.InStr(Moneda, ")")));
-            //Data = vRpt.BuildHistoricoDeCliente(vConsecutivoCompania, FechaDesde, FechaHasta, CodigoCliente, MonedaDelInforme, vCodigoMoneda, vNombreMoneda, TasaDeCambio);
+            Data = vRpt.BuildHistoricoDeCliente(vConsecutivoCompania, FechaDesde, FechaHasta, CodigoCliente, MonedaDelInforme, vCodigoMoneda, vNombreMoneda, TasaDeCambio);
         }
 
         public override void SendReportToDevice() {
             WorkerReportProgress(90, "Configurando Informe...");
             Dictionary<string, string> vParams = GetConfigReportParameters();
             dsrHistoricoDeCliente vRpt = new dsrHistoricoDeCliente();
-            if (vRpt.ConfigReport(Data, vParams)) {
-                LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsHistoricoDeCliente.ReportName, true, ExportFileFormat, "", false);
+            if (LibDataTable.DataTableHasRows(Data)) {
+                if (vRpt.ConfigReport(Data, vParams)) {
+                    LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsHistoricoDeCliente.ReportName, true, ExportFileFormat, "", false);
+                }
+                WorkerReportProgress(100, "Finalizando...");
+            } else {
+
+                throw new GalacException("No se encontró información para mostrar", eExceptionManagementType.Alert);
             }
-            WorkerReportProgress(100, "Finalizando...");
         }
         #endregion //Metodos Generados
-
 
     } //End of class clsHistoricoDeCliente
 

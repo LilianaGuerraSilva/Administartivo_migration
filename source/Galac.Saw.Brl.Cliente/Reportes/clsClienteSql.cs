@@ -18,7 +18,6 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 		#region Metodos Generados
 		public string SqlHistoricoDeCliente(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, string valCodigoCliente, eMonedaDelInformeMM valMonedaDelInforme, string valCodigoMoneda, string valNombreMoneda, eTasaDeCambioParaImpresion valTasaDeCambio) {
 			StringBuilder vSql = new StringBuilder();
-
 			vSql.AppendLine(";WITH");
 			vSql.AppendLine(SqlCTEInfoCxCHistoricoCliente(valConsecutivoCompania));
 			vSql.AppendLine(",");
@@ -26,10 +25,9 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			vSql.AppendLine(",");
 			vSql.AppendLine(SqlCTEAnticipoHistoricoCliente(valConsecutivoCompania));
 			vSql.AppendLine(",");
-			vSql.AppendLine(SqlCTESaldoInicialCxCHistoricoCliente(valConsecutivoCompania));
+			vSql.AppendLine(SqlCTESaldoInicialCxCHistoricoCliente(valConsecutivoCompania,valFechaDesde));
 			vSql.AppendLine(",");
-			vSql.AppendLine(SqlCTE_SaldoInicialAnticipoHistoricoCliente(valConsecutivoCompania));
-			vSql.AppendLine(" UNION ");
+			vSql.AppendLine(SqlCTE_SaldoInicialAnticipoHistoricoCliente(valConsecutivoCompania, valFechaDesde));	
 			vSql.AppendLine(SqlSelectInfoCxCHistoricoCliente(valFechaDesde, valFechaHasta, valCodigoCliente));
 			vSql.AppendLine(" UNION ");
 			vSql.AppendLine(SqlSelectCxCHistoricoClientes(valFechaDesde, valFechaHasta, valCodigoCliente));
@@ -37,7 +35,6 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			vSql.AppendLine(SqlSelectAnticipoHistoricoCliente(valFechaDesde, valFechaHasta, valCodigoCliente));
 			vSql.AppendLine();
 			vSql.AppendLine(" ORDER BY Nombre, TipoReporte, MonedaReporte, NumeroDocumentoGrupo, FechaDocumento, FechaCobranza, NumeroCobranza");
-
 			return vSql.ToString();
 		}
 
@@ -243,7 +240,7 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			return vSql.ToString();
 		}
 
-		private string SqlCTESaldoInicialCxCHistoricoCliente(int valConsecutivoCompania) {
+		private string SqlCTESaldoInicialCxCHistoricoCliente(int valConsecutivoCompania, DateTime valFechaDesde) {
 			StringBuilder vSql = new StringBuilder();
 			vSql.AppendLine("CTE_SaldoInicialCxCHistoricoCliente AS (");
 			vSql.AppendLine("SELECT ");
@@ -252,13 +249,13 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			vSql.AppendLine("	SUM((MontoExento + MontoGravado + MontoIva)) AS SaldoInicialOriginal,");
 			vSql.AppendLine("	SUM(ROUND(CambioAbolivares * (MontoExento + MontoGravado + MontoIva), 2)) AS SaldoInicialMonedaLocal");
 			vSql.AppendLine("FROM CxC");
-			vSql.AppendLine("WHERE (Status <> '4') AND (Fecha < @FechaDesde) AND ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
+			vSql.AppendLine("WHERE (Status <> '4') AND (Fecha < " + insSql.ToSqlValue(valFechaDesde) + ") AND ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
 			vSql.AppendLine("GROUP BY CodigoCliente, CodigoMoneda");
 			vSql.AppendLine(")");
 			return vSql.ToString();
 		}
 
-		private string SqlCTE_SaldoInicialAnticipoHistoricoCliente(int valConsecutivoCompania) {
+		private string SqlCTE_SaldoInicialAnticipoHistoricoCliente(int valConsecutivoCompania, DateTime valFechaDesde) {
 			StringBuilder vSql = new StringBuilder();
 			vSql.AppendLine("CTE_SaldoInicialAnticipoHistoricoCliente AS (");
 			vSql.AppendLine("SELECT ");
@@ -267,7 +264,7 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			vSql.AppendLine("	SUM(MontoTotal) AS SaldoInicialOriginal,");
 			vSql.AppendLine("	SUM(ROUND(Cambio * MontoTotal, 2)) AS SaldoInicial");
 			vSql.AppendLine("FROM anticipo");
-			vSql.AppendLine("WHERE (Status <> '1') AND (Tipo = '0') AND (Fecha < @FechaDesde) AND ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
+			vSql.AppendLine("WHERE (Status <> '1') AND (Tipo = '0') AND (Fecha < " + insSql.ToSqlValue(valFechaDesde) + ") AND ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
 			vSql.AppendLine("GROUP BY CodigoCliente, CodigoMoneda");
 			vSql.AppendLine(")");
 
