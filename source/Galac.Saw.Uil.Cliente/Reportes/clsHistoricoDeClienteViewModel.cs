@@ -54,6 +54,10 @@ namespace Galac.Saw.Uil.Cliente.Reportes {
             set {
                 if (_CantidadAImprimir != value) {
                     _CantidadAImprimir = value;
+                    if (_CantidadAImprimir == eCantidadAImprimir.All) {
+                        CodigoCliente = string.Empty;
+                        NombreCliente = string.Empty;
+                    }
                     RaisePropertyChanged(CantidadAImprimirPropertyName);
                     RaisePropertyChanged(IsVisibleNombreDelClientePropertyName);
                     RaisePropertyChanged(IsVisibleSaltoDePaginaPorClientePropertyName);
@@ -176,7 +180,7 @@ namespace Galac.Saw.Uil.Cliente.Reportes {
         #endregion Propiedades
         #region Constructores
         public clsHistoricoDeClienteViewModel() {
-            FechaDesde = LibDate.DateFromMonthAndYear(LibDate.Today().Month, LibDate.Today().Year, true);
+            FechaDesde = LibDate.DateFromMonthAndYear(1, LibDate.Today().Year, true);
             FechaHasta = LibDate.Today();
             LlenarListaMonedasActivas();
         }

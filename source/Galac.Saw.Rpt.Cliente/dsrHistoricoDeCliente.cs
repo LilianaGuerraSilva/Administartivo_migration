@@ -74,10 +74,9 @@ namespace Galac.Saw.Rpt.Cliente {
 				LibReport.ConfigFieldDec(this, "txtTotalMontoCobrado", string.Empty, "TotalMontoCobrado");
 				LibReport.ConfigFieldDec(this, "txtTotalSaldoActual", string.Empty, "TotalSaldoActual");
 				LibReport.ConfigFieldDec(this, "txtTotalMasSaldoInicial", string.Empty, "TotalMasSaldoInicial");
-
-
 				LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", string.Empty, "NotaMonedaCambio");
-
+                LibReport.ConfigGroupHeader(this, "GHCliente", "Codigo", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);
+                
 
 
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
@@ -88,7 +87,7 @@ namespace Galac.Saw.Rpt.Cliente {
         #endregion //Metodos Generados
 
         private void Detail_Format(object sender, EventArgs e) {
-            if (LibConvert.ToStr(this.txtStatusCobranza.Value) == "'0'") {
+            if (LibConvert.ToStr(this.txtStatusCobranza.Value) == "0") {
                 this.Detail.Visible = true;
             } else {
                 this.Detail.Visible = false;
