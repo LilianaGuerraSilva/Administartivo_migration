@@ -447,7 +447,7 @@ namespace Galac.Saw.Rpt.Cliente
             this.txtCodigo,
             this.txtNombre});
             this.GHCliente.Height = 0.15625F;
-            this.GHCliente.Name = "GHCliente";
+            this.GHCliente.Name = "GHCliente";            
             // 
             // lblCodigo
             // 
@@ -470,19 +470,19 @@ namespace Galac.Saw.Rpt.Cliente
             this.GHMoneda.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
             this.lblMoneda,
             this.txtMoneda});
-            this.GHMoneda.Height = 0.25F;
+            this.GHMoneda.Height = 0.1875F;
             this.GHMoneda.Name = "GHMoneda";
             // 
             // lblMoneda
             // 
             this.lblMoneda.Height = 0.15625F;
             this.lblMoneda.HyperLink = null;
-            this.lblMoneda.Left = 0.5F;
+            this.lblMoneda.Left = 0F;
             this.lblMoneda.Name = "lblMoneda";
             this.lblMoneda.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
             this.lblMoneda.Text = "Moneda";
             this.lblMoneda.Top = 0F;
-            this.lblMoneda.Width = 1.25F;
+            this.lblMoneda.Width = 1.75F;
             // 
             // GFMoneda
             // 

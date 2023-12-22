@@ -59,15 +59,15 @@ namespace Galac.Saw.Rpt.Cliente {
                 LibReport.ConfigFieldStr(this, "txtTituloTipoReporte", string.Empty, "TituloTipoReporte");
                 LibReport.ConfigFieldDec(this, "txtSaldoInicial", string.Empty, "SaldoInicial");
                 LibReport.ConfigFieldStr(this, "txtNoDocumentoParaAgrupar", string.Empty, "NoDocumentoParaAgrupar");
-                LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", "dd/MM/yy");
-				LibReport.ConfigFieldStr(this, "txtTipoDocumento", string.Empty, "TipoDocumento");
-				LibReport.ConfigFieldStr(this, "txtNoDocumento", string.Empty, "NoDocumento");
+                LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "FechaDocumento", "dd/MM/yy");
+				LibReport.ConfigFieldStr(this, "txtTipoDocumento", string.Empty, "TipoDeDocumento");
+				LibReport.ConfigFieldStr(this, "txtNoDocumento", string.Empty, "NumeroDocumento");
 				LibReport.ConfigFieldDate(this, "txtFechaVencimiento", string.Empty, "FechaVencimiento", "dd/MM/yy");
                 LibReport.ConfigFieldDec(this, "txtMontoOriginal", string.Empty, "MontoOriginal");
                 LibReport.ConfigFieldDec(this, "txtSaldoActual", string.Empty, "SaldoActual");
                 LibReport.ConfigFieldStr(this, "txtStatusCobranza", string.Empty, "StatusCobranza");
-                LibReport.ConfigFieldStr(this, "txtTipoDocumentoDetail", string.Empty, "TipoDocumentoDetail");
-                LibReport.ConfigFieldStr(this, "txtNoCobranza", string.Empty, "NoCobranza");
+                LibReport.ConfigFieldStr(this, "txtTipoDocumentoDetail", string.Empty, "TipoDocumentoDetalle");
+                LibReport.ConfigFieldStr(this, "txtNoCobranza", string.Empty, "NumeroCobranza");
 				LibReport.ConfigFieldDate(this, "txtFechaCobranza", string.Empty, "FechaCobranza", "dd/MM/yy");
 				LibReport.ConfigFieldDec(this, "txtMontoCobrado", string.Empty, "MontoCobrado");
 				LibReport.ConfigFieldDec(this, "txtTotalMontoOriginal", string.Empty, "TotalMontoOriginal");
@@ -88,8 +88,12 @@ namespace Galac.Saw.Rpt.Cliente {
         #endregion //Metodos Generados
 
         private void Detail_Format(object sender, EventArgs e) {
-
-            //if (LibString.S1IsEqualToS2(LibConvert.ToStr(txtStatusCobranza.Value),"0"))
+            if (LibConvert.ToStr(this.txtStatusCobranza.Value) == "'0'") {
+                this.Detail.Visible = true;
+            } else {
+                this.Detail.Visible = false;
+            }
         }
+      
     }
 }
