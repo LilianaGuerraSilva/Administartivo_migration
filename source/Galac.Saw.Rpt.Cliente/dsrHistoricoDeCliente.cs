@@ -82,7 +82,7 @@ namespace Galac.Saw.Rpt.Cliente {
                 } else {
                     LibReport.ConfigGroupHeader(this, "GHCliente", "Codigo", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);
                 }
-                LibReport.ConfigGroupHeader(this, "GHDetalle", "TipoDeDocumento", GroupKeepTogether.FirstDetail, RepeatStyle.All, false, NewPage.None);
+                LibReport.ConfigGroupHeader(this, "GHDetalle", "TipoDocumentoDetalle", GroupKeepTogether.All, RepeatStyle.All, true, NewPage.None);
                 LibReport.ConfigSummaryField(this, "txtTotalMontoOriginal", "MontoOriginal", SummaryFunc.Sum, "GHCliente", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtTotalMontoCobrado", "MontoCobrado", SummaryFunc.Sum, "GHCliente", SummaryRunning.Group, SummaryType.SubTotal);
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
@@ -94,8 +94,8 @@ namespace Galac.Saw.Rpt.Cliente {
 
         private void GHTipoReporte_Format(object sender, EventArgs e) {
             this.txtTotalMasSaldoInicial.Value = LibConvert.ToDec(txtSaldoInicial.Value, 2) + LibConvert.ToDec(txtTotalSaldoActual.Value, 2);
-        }
-
+        }   
+      
         private void Detail_Format(object sender, EventArgs e) {
             if (LibString.S1IsEqualToS2(LibConvert.ToStr(txtStatusCobranza.Value), "0")) {
                 this.Detail.Visible = true;
