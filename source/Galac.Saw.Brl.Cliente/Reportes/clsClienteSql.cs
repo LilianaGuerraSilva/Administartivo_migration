@@ -43,16 +43,15 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			string vSQLWhere = "";
 			vSQLWhere = insSql.SqlDateValueBetween(vSQLWhere, "FechaDocumento", valFechaDesde, valFechaHasta);
 			vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "Codigo", valCodigoCliente);
-
-
-			vSql.AppendLine("SELECT ");
+			vSQLWhere = insSql.SqlValueWithOperators(vSQLWhere, "MontoCobrado", "0", true, "AND", ">");
+            vSql.AppendLine("SELECT ");
 			vSql.AppendLine("	'0' AS TipoReporte, ");
 			vSql.AppendLine("	Codigo, ");
 			vSql.AppendLine("	NombreCliente AS Nombre, ");
 			vSql.AppendLine("	MonedaReporte, ");
 			vSql.AppendLine("	MonedaReporte AS Moneda, ");
 			vSql.AppendLine("	TituloTipoReporte,");
-			vSql.AppendLine("	(SELECT SaldoInicialOriginal FROM CTE_SaldoInicialCxCHistoricoCliente WHERE (CodigoCliente = CTE_InfoCxCHistoricoCliente.Codigo) AND CodigoMoneda = CTE_InfoCxCHistoricoCliente.CodMoneda) AS SaldoInicial,");
+			vSql.AppendLine("	ISNULL((SELECT SaldoInicialOriginal FROM CTE_SaldoInicialCxCHistoricoCliente WHERE (CodigoCliente = CTE_InfoCxCHistoricoCliente.Codigo) AND CodigoMoneda = CTE_InfoCxCHistoricoCliente.CodMoneda), 0) AS SaldoInicial,");
 			vSql.AppendLine("	FechaDocumento, ");
 			vSql.AppendLine("	FechaVencimiento, ");
 			vSql.AppendLine("	TipoDeDocumento, ");
@@ -78,15 +77,15 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			string vSQLWhere = "";
 			vSQLWhere = insSql.SqlDateValueBetween(vSQLWhere, "FechaDocumento", valFechaDesde, valFechaHasta);
 			vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "Codigo", valCodigoCliente);
-
-			vSql.AppendLine("SELECT");
+			vSQLWhere = insSql.SqlValueWithOperators(vSQLWhere, "MontoCobrado", "0", false, "AND", ">");
+            vSql.AppendLine("SELECT");
 			vSql.AppendLine("	'0' AS TipoReporte, ");
 			vSql.AppendLine("	Codigo, ");
 			vSql.AppendLine("	Nombre, ");
 			vSql.AppendLine("	MonedaReporte, ");
 			vSql.AppendLine("	Moneda, ");
 			vSql.AppendLine("	TituloTipoReporte,");
-			vSql.AppendLine("	(SELECT SaldoInicialOriginal FROM CTE_SaldoInicialCxCHistoricoCliente WHERE (CodigoCliente = CTE_CxCHistoricoClientes.Codigo AND CodigoMoneda = CTE_CxCHistoricoClientes.CodMoneda)) AS SaldoInicial,");
+			vSql.AppendLine("	ISNULL((SELECT SaldoInicialOriginal FROM CTE_SaldoInicialCxCHistoricoCliente WHERE (CodigoCliente = CTE_CxCHistoricoClientes.Codigo AND CodigoMoneda = CTE_CxCHistoricoClientes.CodMoneda)), 0) AS SaldoInicial,");
 			vSql.AppendLine("	FechaDocumento, ");
 			vSql.AppendLine("	FechaVencimiento, ");
 			vSql.AppendLine("	TipoDeDocumento, ");
@@ -111,15 +110,15 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			string vSQLWhere = "";
 			vSQLWhere = insSql.SqlDateValueBetween(vSQLWhere, "FechaDocumento", valFechaDesde, valFechaHasta);
 			vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "Codigo", valCodigoCliente);
-
-			vSql.AppendLine("SELECT");
+            vSQLWhere = insSql.SqlValueWithOperators(vSQLWhere, "MontoCobrado", "0", false, "AND", ">");
+            vSql.AppendLine("SELECT");
 			vSql.AppendLine("	TipoReporte, ");
 			vSql.AppendLine("	Codigo, ");
 			vSql.AppendLine("	Nombre, ");
 			vSql.AppendLine("	MonedaAnticipo AS MonedaReporte, ");
 			vSql.AppendLine("	MonedaReporte AS Moneda, ");
 			vSql.AppendLine("	TituloTipoReporte,");
-			vSql.AppendLine("	(SELECT SaldoInicialOriginal FROM CTE_SaldoInicialAnticipoHistoricoCliente WHERE (CodigoCliente = CTE_AnticipoHistoricoCliente.Codigo) AND (CodigoMoneda = CTE_AnticipoHistoricoCliente.CodigoMonedaAnticipo)) AS SaldoInicial,");
+			vSql.AppendLine("	ISNULL((SELECT SaldoInicialOriginal FROM CTE_SaldoInicialAnticipoHistoricoCliente WHERE (CodigoCliente = CTE_AnticipoHistoricoCliente.Codigo) AND (CodigoMoneda = CTE_AnticipoHistoricoCliente.CodigoMonedaAnticipo)), 0) AS SaldoInicial,");
 			vSql.AppendLine("	FechaDocumento, ");
 			vSql.AppendLine("	'' AS FechaVencimiento, ");
 			vSql.AppendLine("	TipoDeDocumento, ");
