@@ -507,7 +507,6 @@ namespace Galac.Saw.Rpt.Cliente
             this.lblMontoCobrado});
             this.GHTipoReporte.Height = 0.5F;
             this.GHTipoReporte.Name = "GHTipoReporte";
-            this.GHTipoReporte.Format += new System.EventHandler(this.GHTipoReporte_Format);
             // 
             // lblSaldoInicial
             // 
@@ -637,8 +636,9 @@ namespace Galac.Saw.Rpt.Cliente
             this.txtTotalMontoOriginal,
             this.txtTotalMontoCobrado,
             this.txtTotalSaldoActual});
-            this.GFTipoReporte.Height = 0.75F;
+            this.GFTipoReporte.Height = 0.53125F;
             this.GFTipoReporte.Name = "GFTipoReporte";
+            this.GFTipoReporte.BeforePrint += new System.EventHandler(this.GFTipoReporte_BeforePrint);
             // 
             // lblTotales
             // 
