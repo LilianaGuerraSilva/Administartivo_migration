@@ -447,7 +447,7 @@ namespace Galac.Saw.Rpt.Cliente
             this.txtCodigo,
             this.txtNombre});
             this.GHCliente.Height = 0.15625F;
-            this.GHCliente.Name = "GHCliente";            
+            this.GHCliente.Name = "GHCliente";
             // 
             // lblCodigo
             // 
@@ -507,6 +507,7 @@ namespace Galac.Saw.Rpt.Cliente
             this.lblMontoCobrado});
             this.GHTipoReporte.Height = 0.5F;
             this.GHTipoReporte.Name = "GHTipoReporte";
+            this.GHTipoReporte.Format += new System.EventHandler(this.GHTipoReporte_Format);
             // 
             // lblSaldoInicial
             // 

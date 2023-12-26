@@ -23,12 +23,13 @@ namespace Galac.Saw.Rpt.Cliente {
         private string Moneda;
         private eTasaDeCambioParaImpresion TasaDeCambio;
         private string CodigoCliente;
+        private bool SaltoDePaginaPorCliente;
         #region Codigo Ejemplo      
 
         #endregion //Codigo Ejemplo
         #endregion //Propiedades
         #region Constructores
-        public clsHistoricoDeCliente(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime valFechaDesde, DateTime valFechaHasta, string valCodigoCliente, eMonedaDelInformeMM valMonedaDelInforme, string valMoneda, eTasaDeCambioParaImpresion valTasaDeCambio)
+        public clsHistoricoDeCliente(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime valFechaDesde, DateTime valFechaHasta, string valCodigoCliente, eMonedaDelInformeMM valMonedaDelInforme, string valMoneda, eTasaDeCambioParaImpresion valTasaDeCambio, bool valSaltoDePaginaPorCliente)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
             FechaDesde = valFechaDesde;
             FechaHasta = valFechaHasta;
@@ -36,6 +37,7 @@ namespace Galac.Saw.Rpt.Cliente {
             MonedaDelInforme = valMonedaDelInforme;
             Moneda = valMoneda;
             TasaDeCambio = valTasaDeCambio;
+            SaltoDePaginaPorCliente = valSaltoDePaginaPorCliente;
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -50,6 +52,7 @@ namespace Galac.Saw.Rpt.Cliente {
             vParams.Add("NombreCompania", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre"));
             vParams.Add("FechaInicialYFinal", string.Format("{0} al {1}", LibConvert.ToStr(FechaDesde, "dd/MM/yyyy"), LibConvert.ToStr(FechaHasta, "dd/MM/yyyy")));
             vParams.Add("TituloInforme", vTitulo);
+            vParams.Add("SaltoDePaginaPorCliente", LibConvert.BoolToSN(SaltoDePaginaPorCliente));
             #region Codigo Ejemplo          
             #endregion //Codigo Ejemplo
             return vParams;

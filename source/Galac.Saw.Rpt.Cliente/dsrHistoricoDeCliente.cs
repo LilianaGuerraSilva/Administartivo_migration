@@ -14,7 +14,7 @@ namespace Galac.Saw.Rpt.Cliente {
     /// <summary>
     /// Summary description for dsrHistoricoDeCliente.
     /// </summary>
-    public partial class dsrHistoricoDeCliente : DataDynamics.ActiveReports.ActiveReport {
+    public partial class dsrHistoricoDeCliente: DataDynamics.ActiveReports.ActiveReport {
         #region Variables
         private bool _UseExternalRpx;
         private static string _RpxFileName;
@@ -45,6 +45,7 @@ namespace Galac.Saw.Rpt.Cliente {
                     LibReport.LoadLayout(this, vRpxPath);
                 }
             }
+            bool vSaltoDePaginaPorCliente = LibConvert.SNToBool(valParameters["SaltoDePaginaPorCliente"]);
             if (LibReport.ConfigDataSource(this, valDataSource)) {
                 LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["NombreCompania"], string.Empty);
                 LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());
@@ -52,47 +53,55 @@ namespace Galac.Saw.Rpt.Cliente {
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
 
-				LibReport.ConfigFieldStr(this, "txtCodigo", string.Empty, "Codigo");
-				LibReport.ConfigFieldStr(this, "txtNombre", string.Empty, "Nombre");
-				LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "Moneda");
-				LibReport.ConfigFieldStr(this, "txtTipoReporte", string.Empty, "TipoReporte");
+                LibReport.ConfigFieldStr(this, "txtCodigo", string.Empty, "Codigo");
+                LibReport.ConfigFieldStr(this, "txtNombre", string.Empty, "Nombre");
+                LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "Moneda");
+                LibReport.ConfigFieldStr(this, "txtTipoReporte", string.Empty, "TipoReporte");
                 LibReport.ConfigFieldStr(this, "txtTituloTipoReporte", string.Empty, "TituloTipoReporte");
                 LibReport.ConfigFieldDec(this, "txtSaldoInicial", string.Empty, "SaldoInicial");
                 LibReport.ConfigFieldStr(this, "txtNoDocumentoParaAgrupar", string.Empty, "NoDocumentoParaAgrupar");
                 LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "FechaDocumento", "dd/MM/yy");
-				LibReport.ConfigFieldStr(this, "txtTipoDocumento", string.Empty, "TipoDeDocumento");
-				LibReport.ConfigFieldStr(this, "txtNoDocumento", string.Empty, "NumeroDocumento");
-				LibReport.ConfigFieldDate(this, "txtFechaVencimiento", string.Empty, "FechaVencimiento", "dd/MM/yy");
+                LibReport.ConfigFieldStr(this, "txtTipoDocumento", string.Empty, "TipoDeDocumento");
+                LibReport.ConfigFieldStr(this, "txtNoDocumento", string.Empty, "NumeroDocumento");
+                LibReport.ConfigFieldDate(this, "txtFechaVencimiento", string.Empty, "FechaVencimiento", "dd/MM/yy");
                 LibReport.ConfigFieldDec(this, "txtMontoOriginal", string.Empty, "MontoOriginal");
                 LibReport.ConfigFieldDec(this, "txtSaldoActual", string.Empty, "SaldoActual");
                 LibReport.ConfigFieldStr(this, "txtStatusCobranza", string.Empty, "StatusCobranza");
                 LibReport.ConfigFieldStr(this, "txtTipoDocumentoDetail", string.Empty, "TipoDocumentoDetalle");
                 LibReport.ConfigFieldStr(this, "txtNoCobranza", string.Empty, "NumeroCobranza");
-				LibReport.ConfigFieldDate(this, "txtFechaCobranza", string.Empty, "FechaCobranza", "dd/MM/yy");
-				LibReport.ConfigFieldDec(this, "txtMontoCobrado", string.Empty, "MontoCobrado");
-				LibReport.ConfigFieldDec(this, "txtTotalMontoOriginal", string.Empty, "TotalMontoOriginal");
-				LibReport.ConfigFieldDec(this, "txtTotalMontoCobrado", string.Empty, "TotalMontoCobrado");
-				LibReport.ConfigFieldDec(this, "txtTotalSaldoActual", string.Empty, "TotalSaldoActual");
-				LibReport.ConfigFieldDec(this, "txtTotalMasSaldoInicial", string.Empty, "TotalMasSaldoInicial");
-				LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", string.Empty, "NotaMonedaCambio");
-                LibReport.ConfigGroupHeader(this, "GHCliente", "Codigo", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);
-                
+                LibReport.ConfigFieldDate(this, "txtFechaCobranza", string.Empty, "FechaCobranza", "dd/MM/yy");
+                LibReport.ConfigFieldDec(this, "txtMontoCobrado", string.Empty, "MontoCobrado");
+                LibReport.ConfigFieldDec(this, "txtTotalMontoOriginal", string.Empty, "TotalMontoOriginal");
+                LibReport.ConfigFieldDec(this, "txtTotalMontoCobrado", string.Empty, "TotalMontoCobrado");
+                LibReport.ConfigFieldDec(this, "txtTotalSaldoActual", string.Empty, "TotalSaldoActual");
+                LibReport.ConfigFieldDec(this, "txtTotalMasSaldoInicial", string.Empty, "TotalMasSaldoInicial");
+                LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", string.Empty, "NotaMonedaCambio");
 
-
+                if (vSaltoDePaginaPorCliente) {
+                    LibReport.ConfigGroupHeader(this, "GHCliente", "Codigo", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.After);
+                } else {
+                    LibReport.ConfigGroupHeader(this, "GHCliente", "Codigo", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);
+                }
+                LibReport.ConfigGroupHeader(this, "GHDetalle", "TipoDeDocumento", GroupKeepTogether.FirstDetail, RepeatStyle.All, false, NewPage.None);
+                LibReport.ConfigSummaryField(this, "txtTotalMontoOriginal", "MontoOriginal", SummaryFunc.Sum, "GHCliente", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txtTotalMontoCobrado", "MontoCobrado", SummaryFunc.Sum, "GHCliente", SummaryRunning.Group, SummaryType.SubTotal);
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 return true;
             }
             return false;
         }
-        #endregion //Metodos Generados
+        #endregion //Metodos Generados       
+
+        private void GHTipoReporte_Format(object sender, EventArgs e) {
+            this.txtTotalMasSaldoInicial.Value = LibConvert.ToDec(txtSaldoInicial.Value, 2) + LibConvert.ToDec(txtTotalSaldoActual.Value, 2);
+        }
 
         private void Detail_Format(object sender, EventArgs e) {
-            if (LibConvert.ToStr(this.txtStatusCobranza.Value) == "0") {
+            if (LibString.S1IsEqualToS2(LibConvert.ToStr(txtStatusCobranza.Value), "0")) {
                 this.Detail.Visible = true;
             } else {
                 this.Detail.Visible = false;
             }
         }
-      
     }
 }
