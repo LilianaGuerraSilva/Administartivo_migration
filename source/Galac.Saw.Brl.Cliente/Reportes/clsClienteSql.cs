@@ -75,8 +75,7 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			StringBuilder vSql = new StringBuilder();
 			string vSQLWhere = "";
 			vSQLWhere = insSql.SqlDateValueBetween(vSQLWhere, "FechaDocumento", valFechaDesde, valFechaHasta);
-			vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "Codigo", valCodigoCliente);
-			vSQLWhere = insSql.SqlValueWithOperators(vSQLWhere, "MontoCobrado", "0", false, "AND", "<>");
+			vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "Codigo", valCodigoCliente);			
             vSql.AppendLine("SELECT");
 			vSql.AppendLine("	'0' AS TipoReporte, ");
 			vSql.AppendLine("	Codigo, ");
@@ -108,8 +107,7 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			StringBuilder vSql = new StringBuilder();
 			string vSQLWhere = "";
 			vSQLWhere = insSql.SqlDateValueBetween(vSQLWhere, "FechaDocumento", valFechaDesde, valFechaHasta);
-			vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "Codigo", valCodigoCliente);
-            vSQLWhere = insSql.SqlValueWithOperators(vSQLWhere, "MontoCobrado", "0", false, "AND", "<>");
+			vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "Codigo", valCodigoCliente);            
             vSql.AppendLine("SELECT");
 			vSql.AppendLine("	TipoReporte, ");
 			vSql.AppendLine("	Codigo, ");
