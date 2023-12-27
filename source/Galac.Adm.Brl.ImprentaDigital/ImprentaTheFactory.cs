@@ -308,7 +308,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
             XElement vInfoAdicionalCliente = new XElement("root",               
                         new XElement("Ciudad", InfoAdicionalClienteImprentaDigital.Ciudad),
-                        new XElement("Direccion de Despacho", ClienteImprentaDigital.Direccion));
+                        new XElement("DireccionDeDespacho", InfoAdicionalClienteImprentaDigital.Direccion));
 
             XElement vCampoPdf = new XElement("Campo", "PDF");
 
@@ -323,6 +323,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vInfoAdicional.Add(new XElement("InfoAdicional", vCampoPdf, new XElement("Valor", vColetilla2)));
             vInfoAdicional.Add(new XElement("InfoAdicional", vCampoPdf, new XElement("Valor", vColetilla3)));
             vInfoAdicional.Add(new XElement("InfoAdicional", vCampoPdf, new XElement("Valor", vColetilla4)));
+            vInfoAdicional.Add(new XElement("InfoAdicional", vCampoPdf, new XElement("Valor", vColetilla5)));
 
             XElement vResult = new XElement("InfoAdicional", vInfoAdicional);
             return vResult;
