@@ -16,8 +16,10 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Base.Dal;
 using LibGalac.Aos.Brl;
 using LibGalac.Aos.Catching;
+using Galac.Adm.Ccl.ImprentaDigital;
 
 namespace Galac.Adm.Brl.ImprentaDigital {
+        
     public abstract class clsImprentaDigitalBase {
 
         #region Propiedades   
@@ -31,6 +33,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public string HoraAsignacion { get; set; }
         public DateTime FechaAsignacion { get; set; }
         public Cliente ClienteImprentaDigital { get; set; }
+        public InfoAdicionalCliente InfoAdicionalClienteImprentaDigital { get; set; }
         public Vendedor VendedorImprentaDigital { get; set; }
         public FacturaRapida FacturaImprentaDigital { get; set; }
         public List<FacturaRapidaDetalle> DetalleFacturaImprentaDigital { get; set; }
@@ -273,6 +276,24 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             return vSql.ToString();
         }
 
+        private string SqlDatosAdicionalesCliente(ref StringBuilder refParametros) {
+            StringBuilder vSql = new StringBuilder();
+            LibGpParams vParam = new LibGpParams();
+            vParam.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
+            vParam.AddInString("CodigoCliente", FacturaImprentaDigital.CodigoCliente, 10);
+            refParametros = vParam.Get();
+            vSql.AppendLine("SELECT ");
+            vSql.AppendLine(" CodigoCliente");
+            vSql.AppendLine(" ,PersonaContacto");
+            vSql.AppendLine(" ,Direccion");
+            vSql.AppendLine(" ,Ciudad");
+            vSql.AppendLine(" ,ZonaPostal");
+            vSql.AppendLine(" FROM DireccionDeDespacho ");
+            vSql.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania ");
+            vSql.AppendLine(" AND CodigoCliente = @CodigoCliente ");
+            return vSql.ToString();
+        }
+
         private void BuscarDatosDeCliente() {
             try {
                 StringBuilder vParam = new StringBuilder();
@@ -289,6 +310,27 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     ClienteImprentaDigital.Telefono = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "Telefono"));
                     ClienteImprentaDigital.Email = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "Email"));
                     ClienteImprentaDigital.Contacto = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "Contacto"));
+                    BuscarDatosAdicionalesCliente();
+                } else {
+                    throw new GalacException("No existen datos para el cliente del documento a enviar", eExceptionManagementType.Controlled);
+                }
+            } catch (GalacException) {
+                throw;
+            }
+        }
+
+        private void BuscarDatosAdicionalesCliente() {
+            try {
+                StringBuilder vParam = new StringBuilder();
+                string vSql = SqlDatosAdicionalesCliente(ref vParam);
+                XElement vResult = LibBusiness.ExecuteSelect(vSql, vParam, "", 0);
+                if (vResult != null && vResult.HasElements) {
+                    InfoAdicionalClienteImprentaDigital = new InfoAdicionalCliente();
+                    InfoAdicionalClienteImprentaDigital.Codigo= LibXml.GetPropertyString(vResult, "CodigoCliente");
+                    InfoAdicionalClienteImprentaDigital.PersonaContacto= LibXml.GetPropertyString(vResult, "PersonaContacto");
+                    InfoAdicionalClienteImprentaDigital.Direccion = LibXml.GetPropertyString(vResult, "Direccion");
+                    InfoAdicionalClienteImprentaDigital.Ciudad = LibXml.GetPropertyString(vResult, "Ciudad");
+                    InfoAdicionalClienteImprentaDigital.ZonaPostal = LibXml.GetPropertyString(vResult, "ZonaPostal");                   
                 } else {
                     throw new GalacException("No existen datos para el cliente del documento a enviar", eExceptionManagementType.Controlled);
                 }
