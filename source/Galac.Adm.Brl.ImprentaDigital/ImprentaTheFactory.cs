@@ -308,7 +308,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
             XElement vInfoAdicionalCliente = new XElement("root",               
                         new XElement("Ciudad", InfoAdicionalClienteImprentaDigital.Ciudad),
-                        new XElement("DireccionDeDespacho", InfoAdicionalClienteImprentaDigital.Direccion));
+                        new XElement("DireccionServicio", InfoAdicionalClienteImprentaDigital.Direccion));
 
             XElement vCampoPdf = new XElement("Campo", "PDF");
 
