@@ -19,6 +19,13 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         public string ZonaPostal {
             get; set;
         }
-    }
 
+        public InfoAdicionalCliente() {
+            Codigo = string.Empty;
+            PersonaContacto = string.Empty;
+            Direccion = string.Empty;
+            Ciudad = string.Empty;
+            ZonaPostal = string.Empty;
+        }
+    }
 }

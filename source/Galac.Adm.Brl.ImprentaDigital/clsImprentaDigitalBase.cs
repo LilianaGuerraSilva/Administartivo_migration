@@ -321,18 +321,16 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         private void BuscarDatosAdicionalesCliente() {
             try {
+                InfoAdicionalClienteImprentaDigital = new InfoAdicionalCliente();
                 StringBuilder vParam = new StringBuilder();
                 string vSql = SqlDatosAdicionalesCliente(ref vParam);
-                XElement vResult = LibBusiness.ExecuteSelect(vSql, vParam, "", 0);
-                if (vResult != null && vResult.HasElements) {
-                    InfoAdicionalClienteImprentaDigital = new InfoAdicionalCliente();
-                    InfoAdicionalClienteImprentaDigital.Codigo= LibXml.GetPropertyString(vResult, "CodigoCliente");
-                    InfoAdicionalClienteImprentaDigital.PersonaContacto= LibXml.GetPropertyString(vResult, "PersonaContacto");
+                XElement vResult = LibBusiness.ExecuteSelect(vSql, vParam, "", 0);                
+                if (vResult != null && vResult.HasElements) {                    
+                    InfoAdicionalClienteImprentaDigital.Codigo = LibXml.GetPropertyString(vResult, "CodigoCliente");
+                    InfoAdicionalClienteImprentaDigital.PersonaContacto = LibXml.GetPropertyString(vResult, "PersonaContacto");
                     InfoAdicionalClienteImprentaDigital.Direccion = LibXml.GetPropertyString(vResult, "Direccion");
                     InfoAdicionalClienteImprentaDigital.Ciudad = LibXml.GetPropertyString(vResult, "Ciudad");
-                    InfoAdicionalClienteImprentaDigital.ZonaPostal = LibXml.GetPropertyString(vResult, "ZonaPostal");                   
-                } else {
-                    throw new GalacException("No existen datos para el cliente del documento a enviar", eExceptionManagementType.Controlled);
+                    InfoAdicionalClienteImprentaDigital.ZonaPostal = LibXml.GetPropertyString(vResult, "ZonaPostal");
                 }
             } catch (GalacException) {
                 throw;
