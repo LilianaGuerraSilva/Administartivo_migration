@@ -264,8 +264,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }
 
         private string DarFormatoYObtenerPrefijoRif(Cliente valCliente, ref string refPrefijoRif) {
-            string vNumeroRif = "";
-            string vPrefijo = LibString.Left(valCliente.NumeroRIF, 1);
+            string vNumeroRif = "";            
+            string vPrefijo = LibString.Left(LibString.ToUpperWithoutAccents(valCliente.NumeroRIF), 1);
             if (LibString.S1IsInS2(vPrefijo, "VJEPG")) {
                 vNumeroRif = LibString.Right(valCliente.NumeroRIF, LibString.Len(valCliente.NumeroRIF) - 1);
                 vNumeroRif = LibString.Replace(vNumeroRif, "-", "");
