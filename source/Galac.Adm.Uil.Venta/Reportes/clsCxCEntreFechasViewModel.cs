@@ -147,7 +147,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         }
 
         void LlenarListaMonedasActivas() {
-            ListaMonedasActivas = new Galac.Saw.Lib.clsLibSaw().ListaDeMonedasActivasParaInformes();
+            ListaMonedasActivas = new Galac.Saw.Lib.clsLibSaw().ListaDeMonedasActivasParaInformes(false);
             if (ListaMonedasActivas.Count > 0) {
                 Moneda = ListaMonedasActivas[0];
             }
