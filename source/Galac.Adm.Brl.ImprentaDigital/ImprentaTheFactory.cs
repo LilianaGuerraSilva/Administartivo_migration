@@ -638,13 +638,13 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             string vResult = "";
             switch (valTipoDePago) {
                 case eFormadePago.Contado:
-                    vResult = "inmediato";
+                    vResult = "Contado";
                     break;
                 case eFormadePago.Credito:
-                    vResult = "crédito";
+                    vResult = "Crédito";
                     break;
                 default:
-                    vResult = "inmediato";
+                    vResult = "Contado";
                     break;
             }
             return vResult;
