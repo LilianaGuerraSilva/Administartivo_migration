@@ -50,7 +50,7 @@ namespace Galac.Saw.Rpt.Cliente {
             }
             Dictionary<string, string> vParams = new Dictionary<string, string>();
             vParams.Add("NombreCompania", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre"));
-            vParams.Add("FechaInicialYFinal", string.Format("{0} al {1}", LibConvert.ToStr(FechaDesde, "dd/MM/yyyy"), LibConvert.ToStr(FechaHasta, "dd/MM/yyyy")));
+            vParams.Add("FechaInicialYFinal", string.Format("desde {0} hasta {1}", LibConvert.ToStr(FechaDesde, "dd/MM/yyyy"), LibConvert.ToStr(FechaHasta, "dd/MM/yyyy")));
             vParams.Add("TituloInforme", vTitulo);
             vParams.Add("SaltoDePaginaPorCliente", LibConvert.BoolToSN(SaltoDePaginaPorCliente));
             #region Codigo Ejemplo          
@@ -67,7 +67,7 @@ namespace Galac.Saw.Rpt.Cliente {
             int vConsecutivoCompania = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania");
             string vCodigoMoneda = LibString.Trim(LibString.Mid(Moneda, 1, LibString.InStr(Moneda, ")") - 1));
             vCodigoMoneda = LibString.IsNullOrEmpty(vCodigoMoneda, true) ? LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera") : vCodigoMoneda;
-            string vNombreMoneda = LibString.Trim(LibString.Mid(Moneda, LibString.InStr(Moneda, ")")));
+            string vNombreMoneda = LibString.Trim(LibString.Mid(Moneda, LibString.InStr(Moneda, ")") + 1));
             Data = vRpt.BuildHistoricoDeCliente(vConsecutivoCompania, FechaDesde, FechaHasta, CodigoCliente, MonedaDelInforme, vCodigoMoneda, vNombreMoneda, TasaDeCambio);
         }
 
