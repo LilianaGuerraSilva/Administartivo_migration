@@ -153,9 +153,9 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 					vSqlTasaCxC = $"* (CASE WHEN CxC.CodigoMoneda ='VED' THEN 1 ELSE {vSqlCambio} END)";
 				}
 			} else if (valMonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa) {
-				if (valTasaDeCambio == eTasaDeCambioParaImpresion.Original) {					
-                    //
-                    vSqlTasaCxC = $" /(CASE WHEN CodigoMoneda ='VED' THEN {vSqlCambio} ELSE 1 END)";
+				if (valTasaDeCambio == eTasaDeCambioParaImpresion.Original) {
+					//
+					vSqlTasaCxC = $" /(CASE WHEN CodigoMoneda ='VED' THEN {vSqlCambio} ELSE 1 END)";
 				} else if (valTasaDeCambio == eTasaDeCambioParaImpresion.DelDia) {
 					insCambioMoneda.BuscarUltimoCambioDeMoneda(valCodigoMoneda, out vFechaVigencia, out vDecCambioMonedaLocal);
 					vSqlTasaCxC = $" /(CASE WHEN CxC.CodigoMoneda ='VED' THEN {insSql.ToSqlValue(vDecCambioMonedaLocal)} ELSE 1 END)";
@@ -300,7 +300,6 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 
 		private string SqlCTESaldoInicialCxCHistoricoCliente(int valConsecutivoCompania, DateTime valFechaDesde) {
 			StringBuilder vSql = new StringBuilder();
-			clsLibSaw _LibSaw = new clsLibSaw();
 			vSql.AppendLine("CTE_SaldoInicialCxCHistoricoCliente AS (");
 			vSql.AppendLine("SELECT ");
 			vSql.AppendLine("	CodigoCliente, ");
