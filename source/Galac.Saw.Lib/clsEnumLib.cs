@@ -298,4 +298,27 @@ namespace Galac.Saw.Lib {
         [LibEnumDescription("Por Nombre")] PorNombre
     }
 
+    [TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eStatusCXC {
+        [LibEnumDescription("Por Cancelar", Index = 0)]
+        [LibEnumDescription("P/C", Index = 1)]
+        PORCANCELAR = 0,
+        [LibEnumDescription("Cancelado", Index = 0)]
+        [LibEnumDescription("CAN", Index = 1)]
+        CANCELADO,
+        [LibEnumDescription("Cheque Devuelto", Index = 0)]
+        [LibEnumDescription("C/D", Index = 1)]
+        CHEQUEDEVUELTO,
+        [LibEnumDescription("Abonado", Index = 0)]
+        [LibEnumDescription("ABO", Index = 1)]
+        ABONADO,
+        [LibEnumDescription("Anulado", Index = 0)]
+        [LibEnumDescription("ANU", Index = 1)]
+        ANULADO,
+        [LibEnumDescription("Refinanciado", Index = 0)]
+        [LibEnumDescription("REF", Index = 1)]
+        REFINANCIADO
+    }
+
+
 }
