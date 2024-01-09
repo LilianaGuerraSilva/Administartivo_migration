@@ -125,6 +125,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" ,ROUND(factura.AlicuotaIGTF,2) AS AlicuotaIGTF");
             vSql.AppendLine(" ,ROUND(factura.IGTFML,2) AS IGTFML");
             vSql.AppendLine(" ,ROUND(factura.BaseImponibleIGTF,2) AS BaseImponibleIGTF");
+            vSql.AppendLine(" ,factura.UsarDireccionFiscal");
+            vSql.AppendLine(" ,factura.NoDirDespachoAimprimir");
             vSql.AppendLine(" FROM factura");
             vSql.AppendLine(" WHERE factura.ConsecutivoCompania = @ConsecutivoCompania ");
             vSql.AppendLine(" AND factura.Numero = @Numero ");
@@ -182,6 +184,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     FacturaImprentaDigital.IGTFML = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "IGTFML"));
                     FacturaImprentaDigital.BaseImponibleIGTF = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "BaseImponibleIGTF"));
                     FacturaImprentaDigital.GeneradoPor = LibXml.GetPropertyString(vResult, "GeneradoPor");
+                    FacturaImprentaDigital.UsarDireccionFiscalAsBool = LibImportData.SNToBool(LibXml.GetPropertyString(vResult, "UsarDireccionFiscal"));
+                    FacturaImprentaDigital.NoDirDespachoAimprimir = FacturaImprentaDigital.UsarDireccionFiscalAsBool ? 0 : LibImportData.ToInt(LibXml.GetPropertyString(vResult, "NoDirDespachoAimprimir"));
                 } else {
                     throw new GalacException($"No existe un documento para enviar con el número {NumeroFactura} ", eExceptionManagementType.Controlled);
                 }
@@ -281,6 +285,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             LibGpParams vParam = new LibGpParams();
             vParam.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
             vParam.AddInString("CodigoCliente", FacturaImprentaDigital.CodigoCliente, 10);
+            if (FacturaImprentaDigital.NoDirDespachoAimprimir > 0) {
+                vParam.AddInInteger("ConsecutivoDireccion", FacturaImprentaDigital.NoDirDespachoAimprimir);
+            }
             refParametros = vParam.Get();
             vSql.AppendLine("SELECT ");
             vSql.AppendLine(" CodigoCliente");
@@ -291,6 +298,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" FROM DireccionDeDespacho ");
             vSql.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania ");
             vSql.AppendLine(" AND CodigoCliente = @CodigoCliente ");
+            if (FacturaImprentaDigital.NoDirDespachoAimprimir > 0) {
+                vSql.AppendLine(" AND ConsecutivoDireccion = @ConsecutivoDireccion");
+            }
             return vSql.ToString();
         }
 
