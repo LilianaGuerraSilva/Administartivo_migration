@@ -124,14 +124,6 @@ namespace Galac.Adm.Ccl.Venta {
         OTROS,
         [LibEnumDescription("NOTA DE CREDITO DE COMPROBANTE FISCAL")]
         NOTADECREDITOCOMPROBANTEFISCAL
-    }
-
-    [TypeConverter(typeof(LibEnumTypeConverter))]
-    public enum eStatusCobranza {
-        [LibEnumDescription("Vigente")]
-        Vigente = 0,
-        [LibEnumDescription("Anulada")]
-        Anulada
     }   
 
     [TypeConverter(typeof(LibEnumTypeConverter))]
@@ -164,14 +156,6 @@ namespace Galac.Adm.Ccl.Venta {
         PendientePorDistribuir,
         [LibEnumDescription("Distribuido")]
         Distribuido
-    }
-
-    [TypeConverter(typeof(LibEnumTypeConverter))]
-    public enum eTipoDeDocumentoCobranza {
-        [LibEnumDescription("Cobranza De Factura")]
-        CobranzaDeFactura = 0,
-        [LibEnumDescription("Cobranza Por Aplicacion De Retencion")]
-        CobranzaPorAplicacionDeRetencion
     }
 
     //Este Enumerativo eFormaDeCobro se debe revisar, en muchos casos no aplica. porfavor no usar.

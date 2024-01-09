@@ -13,6 +13,7 @@ using LibGalac.Aos.Catching;
 using LibGalac.Aos.Dal;
 using LibGalac.Aos.DefGen;
 using Galac.Adm.Ccl.Venta;
+using Galac.Saw.Lib;
 
 namespace Galac.Adm.Dal.Venta {
     public class clsCobranzaDat: LibData, ILibDataComponentWithSearch<IList<Cobranza>, IList<Cobranza>>, ILibDataRpt {

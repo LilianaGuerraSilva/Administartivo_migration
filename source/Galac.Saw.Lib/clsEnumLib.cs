@@ -320,5 +320,20 @@ namespace Galac.Saw.Lib {
         REFINANCIADO
     }
 
+    [TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eStatusCobranza {
+        [LibEnumDescription("Vigente")]
+        Vigente = 0,
+        [LibEnumDescription("Anulada")]
+        Anulada
+    }
+
+    [TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipoDeDocumentoCobranza {
+        [LibEnumDescription("Cobranza De Factura")]
+        CobranzaDeFactura = 0,
+        [LibEnumDescription("Cobranza Por Aplicacion De Retencion")]
+        CobranzaPorAplicacionDeRetencion
+    }
 
 }

@@ -99,6 +99,7 @@
     <Compile Include="Reportes\GSHistoricoDeCliente.xaml.cs">
       <DependentUpon>GSHistoricoDeCliente.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UIMefCxCInformes.cs" />
     <Compile Include="ViewModel\ClienteMngViewModel.cs" />
     <Compile Include="ViewModel\ClienteViewModel.cs" />
     <Compile Include="ViewModel\clsFKViewModel.cs" />

@@ -8,6 +8,7 @@ using LibGalac.Aos.Base.Report;
 using Galac.Adm.Ccl.Venta;
 using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.DefGen;
+using Galac.Saw.Lib;
 
 namespace Galac.Adm.Brl.Venta.Reportes {
     public class clsCobranzaSql {

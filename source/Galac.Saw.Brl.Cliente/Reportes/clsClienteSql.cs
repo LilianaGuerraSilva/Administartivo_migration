@@ -7,7 +7,6 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Base.Report;
 using Galac.Saw.Lib;
 using LibGalac.Aos.DefGen;
-using Galac.Adm.Ccl.Venta;
 
 namespace Galac.Saw.Brl.Cliente.Reportes {
 	public class clsClienteSql {
@@ -29,9 +28,9 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			vSql.AppendLine(",");
 			vSql.AppendLine(SqlCTEAnticipoHistoricoCliente(valConsecutivoCompania, valCodigoMoneda, valMonedaDelInforme, valTasaDeCambio, valNombreMoneda));
 			vSql.AppendLine(",");
-			vSql.AppendLine(SqlCTESaldoInicialCxCHistoricoCliente(valConsecutivoCompania, valFechaDesde));
+			vSql.AppendLine(SqlCTESaldoInicialCxCHistoricoCliente(valConsecutivoCompania, valFechaDesde, valCodigoMoneda, valMonedaDelInforme, valTasaDeCambio, valNombreMoneda));
 			vSql.AppendLine(",");
-			vSql.AppendLine(SqlCTE_SaldoInicialAnticipoHistoricoCliente(valConsecutivoCompania, valFechaDesde));
+			vSql.AppendLine(SqlCTE_SaldoInicialAnticipoHistoricoCliente(valConsecutivoCompania, valFechaDesde, valCodigoMoneda, valMonedaDelInforme, valTasaDeCambio, valNombreMoneda));
 			vSql.AppendLine(SqlSelectInfoCxCHistoricoCliente(valFechaDesde, valFechaHasta, valCodigoCliente));
 			vSql.AppendLine(" UNION ");
 			vSql.AppendLine(SqlSelectCxCHistoricoClientes(valFechaDesde, valFechaHasta, valCodigoCliente));
@@ -336,29 +335,90 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 
 		private string SqlCTESaldoInicialCxCHistoricoCliente(int valConsecutivoCompania,DateTime valFechaDesde, string valCodigoMoneda, eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio, string valNombreMoneda) {
 			StringBuilder vSql = new StringBuilder();
+			/* INICIO: Manejo para multimoneda: Moneda Local // Moneda Extranjera Original y Moneda Local en Moneda Extranjera // Moneda Original */
+			string vSqlCambioDelDia;
+			string vSqlCambioMasCercano;
+			string vSqlCambioOriginal = "CxC.CambioAbolivares";
+			string vSqlMontoInicial = "SUM((MontoExento + MontoGravado + MontoIva))";
+			string vCodigoMonedaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaCompania");
+			string vSqlCambio = vSqlCambioOriginal;
+			string vSqlMonedaTotales = valNombreMoneda;
+
+			if (valMonedaDelInforme == eMonedaDelInformeMM.EnBolivares) {
+				if (valTasaDeCambio == eTasaDeCambioParaImpresion.DelDia) {
+					vSqlCambio = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = CxC.CodigoMoneda AND FechaDeVigencia <= " + insSql.ToSqlValue(LibDate.Today()) + " ORDER BY FechaDeVigencia DESC), 1)";
+				} else {
+					vSqlCambio = vSqlCambioOriginal;
+				}
+				vSqlMontoInicial = insSql.RoundToNDecimals(vSqlMontoInicial + " * " + vSqlCambio, 2);
+				vSqlMonedaTotales = "'Bolívares'";
+			} else if (valMonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa) {
+				vSqlCambioDelDia = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + insSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia <= " + insSql.ToSqlValue(LibDate.Today()) + " ORDER BY FechaDeVigencia DESC), 1)";
+				vSqlCambioMasCercano = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + insSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia <= CxC.Fecha ORDER BY FechaDeVigencia DESC), 1)";
+				if (valTasaDeCambio == eTasaDeCambioParaImpresion.DelDia) {
+					vSqlCambio = vSqlCambioDelDia;
+				} else {
+					vSqlCambio = vSqlCambioMasCercano;
+				}
+				vSqlCambio = insSql.IIF("CxC.CodigoMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal), vSqlCambio, " 1 ", true);
+				vSqlMontoInicial = insSql.RoundToNDecimals(vSqlMontoInicial + " / " + vSqlCambio, 2);
+				vSqlMonedaTotales = insSql.IIF("CxC.CodigoMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal), "'Bolívares expresados en " + valNombreMoneda + "'", "CxC.Moneda", true);
+			} else if (valMonedaDelInforme == eMonedaDelInformeMM.EnMonedaOriginal) {
+			}
+			/* FIN */
+
 			vSql.AppendLine("CTE_SaldoInicialCxCHistoricoCliente AS (");
 			vSql.AppendLine("SELECT ");
 			vSql.AppendLine("	CodigoCliente, ");
 			vSql.AppendLine("	CodigoMoneda, ");
-			vSql.AppendLine("	SUM((MontoExento + MontoGravado + MontoIva)) AS SaldoInicialOriginal,");
-			vSql.AppendLine("	SUM(ROUND(CambioAbolivares * (MontoExento + MontoGravado + MontoIva), 2)) AS SaldoInicialMonedaLocal");
+			vSql.AppendLine($"	{vSqlMontoInicial} AS SaldoInicialOriginal");
 			vSql.AppendLine("FROM CxC");
 			vSql.AppendLine("WHERE (Status <> '4') AND (Fecha < " + insSql.ToSqlValue(valFechaDesde) + ") AND ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-			vSql.AppendLine("GROUP BY CodigoCliente, CodigoMoneda)");
+			vSql.AppendLine("GROUP BY CodigoCliente, CodigoMoneda, CambioAbolivares, Fecha)");
 			return vSql.ToString();
 		}
 
-		private string SqlCTE_SaldoInicialAnticipoHistoricoCliente(int valConsecutivoCompania, DateTime valFechaDesde) {
+		private string SqlCTE_SaldoInicialAnticipoHistoricoCliente(int valConsecutivoCompania, DateTime valFechaDesde, string valCodigoMoneda, eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio, string valNombreMoneda) {
 			StringBuilder vSql = new StringBuilder();
+			/* INICIO: Manejo para multimoneda: Moneda Local // Moneda Extranjera Original y Moneda Local en Moneda Extranjera // Moneda Original */
+			string vSqlCambioDelDia;
+			string vSqlCambioMasCercano;
+			string vSqlCambioOriginal = "Anticipo.Cambio";
+			string vSqlMontoInicial = "SUM(MontoTotal)";
+			string vCodigoMonedaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaCompania");
+			string vSqlCambio = vSqlCambioOriginal;
+			string vSqlMonedaTotales = valNombreMoneda;
+
+			if (valMonedaDelInforme == eMonedaDelInformeMM.EnBolivares) {
+				if (valTasaDeCambio == eTasaDeCambioParaImpresion.DelDia) {
+					vSqlCambio = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = anticipo.CodigoMoneda AND FechaDeVigencia <= " + insSql.ToSqlValue(LibDate.Today()) + " ORDER BY FechaDeVigencia DESC), 1)";
+				} else {
+					vSqlCambio = vSqlCambioOriginal;
+				}
+				vSqlMontoInicial = insSql.RoundToNDecimals(vSqlMontoInicial + " * " + vSqlCambio, 2);
+				vSqlMonedaTotales = "'Bolívares'";
+			} else if (valMonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa) {
+				vSqlCambioDelDia = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + insSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia <= " + insSql.ToSqlValue(LibDate.Today()) + " ORDER BY FechaDeVigencia DESC), 1)";
+				vSqlCambioMasCercano = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + insSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia <= Anticipo.Fecha ORDER BY FechaDeVigencia DESC), 1)";
+				if (valTasaDeCambio == eTasaDeCambioParaImpresion.DelDia) {
+					vSqlCambio = vSqlCambioDelDia;
+				} else {
+					vSqlCambio = vSqlCambioMasCercano;
+				}
+				vSqlCambio = insSql.IIF("Anticipo.CodigoMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal), vSqlCambio, " 1 ", true);
+				vSqlMontoInicial = insSql.RoundToNDecimals(vSqlMontoInicial + " / " + vSqlCambio, 2);
+				vSqlMonedaTotales = insSql.IIF("Anticipo.CodigoMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal), "'Bolívares expresados en " + valNombreMoneda + "'", "Anticipo.Moneda", true);
+			} else if (valMonedaDelInforme == eMonedaDelInformeMM.EnMonedaOriginal) {
+			}
+			/* FIN */
 			vSql.AppendLine("CTE_SaldoInicialAnticipoHistoricoCliente AS (");
 			vSql.AppendLine("SELECT ");
 			vSql.AppendLine("	CodigoCliente, ");
 			vSql.AppendLine("	CodigoMoneda, ");
-			vSql.AppendLine("	SUM(MontoTotal) AS SaldoInicialOriginal,");
-			vSql.AppendLine("	SUM(ROUND(Cambio * MontoTotal, 2)) AS SaldoInicial");
+			vSql.AppendLine($"	{vSqlMontoInicial} AS SaldoInicialOriginal");
 			vSql.AppendLine("FROM anticipo");
 			vSql.AppendLine("WHERE (Status <> '1') AND (Tipo = '0') AND (Fecha < " + insSql.ToSqlValue(valFechaDesde) + ") AND ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-			vSql.AppendLine("GROUP BY CodigoCliente, CodigoMoneda)");
+			vSql.AppendLine("GROUP BY CodigoCliente, CodigoMoneda , Cambio, Fecha)");
 			return vSql.ToString();
 		}
 
