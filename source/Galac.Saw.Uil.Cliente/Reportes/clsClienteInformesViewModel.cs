@@ -38,7 +38,7 @@ namespace Galac.Saw.Uil.Cliente.Reportes {
         private ILibRpt ConfigReportHistoricoDeCliente(clsHistoricoDeClienteViewModel valViewModel) {
             ILibRpt vResult = null;
             if (valViewModel != null) {
-                vResult = new Galac.Saw.Rpt.Cliente.clsHistoricoDeCliente(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaDesde, valViewModel.FechaHasta, valViewModel.CodigoCliente, valViewModel.MonedaDelInforme, valViewModel.Moneda, valViewModel.TasaDeCambio,valViewModel.SaltoDePaginaPorCliente) {
+                vResult = new Galac.Saw.Rpt.Cliente.clsHistoricoDeCliente(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaDesde, valViewModel.FechaHasta, valViewModel.CodigoCliente, valViewModel.MonedaDelInforme, valViewModel.Moneda, valViewModel.TasaDeCambio,valViewModel.SaltoDePaginaPorCliente, valViewModel.OrdenarPor) {
                     Worker = Manager
                 };
             }

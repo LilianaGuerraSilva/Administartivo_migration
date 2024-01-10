@@ -19,8 +19,9 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 		}
 
 		#region Metodos Generados
-		public string SqlHistoricoDeCliente(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, string valCodigoCliente, eMonedaDelInformeMM valMonedaDelInforme, string valCodigoMoneda, string valNombreMoneda, eTasaDeCambioParaImpresion valTasaDeCambio) {
+		public string SqlHistoricoDeCliente(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, string valCodigoCliente, eMonedaDelInformeMM valMonedaDelInforme, string valCodigoMoneda, string valNombreMoneda, eTasaDeCambioParaImpresion valTasaDeCambio, eClientesOrdenadosPor valClienteOrdenarPor) {
 			StringBuilder vSql = new StringBuilder();
+			string vOrdenarPor = valClienteOrdenarPor == eClientesOrdenadosPor.PorCodigo ? "Codigo" : "Nombre";
 			vSql.AppendLine(";WITH");
 			vSql.AppendLine(SqlCTEInfoCxCHistoricoCliente(valConsecutivoCompania, valCodigoMoneda, valMonedaDelInforme, valTasaDeCambio, valNombreMoneda));
 			vSql.AppendLine(",");
@@ -36,7 +37,7 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			vSql.AppendLine(SqlSelectCxCHistoricoClientes(valFechaDesde, valFechaHasta, valCodigoCliente, valCodigoMoneda, valMonedaDelInforme, valTasaDeCambio));
 			vSql.AppendLine(" UNION ");
 			vSql.AppendLine(SqlSelectAnticipoHistoricoCliente(valFechaDesde, valFechaHasta, valCodigoCliente, valCodigoMoneda, valMonedaDelInforme, valTasaDeCambio));
-			vSql.AppendLine(" ORDER BY Nombre, TipoReporte, MonedaReporte, NumeroDocumentoGrupo, FechaDocumento, FechaCobranza, NumeroCobranza");
+			vSql.AppendLine($" ORDER BY {vOrdenarPor}, TipoReporte, MonedaReporte, NumeroDocumentoGrupo, FechaDocumento, FechaCobranza, NumeroCobranza");
 			return vSql.ToString();
 		}
 
@@ -115,7 +116,6 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "Codigo", valCodigoCliente);
 			string vSaldoInicial = "ISNULL((SELECT SaldoInicialOriginal FROM CTE_SaldoInicialAnticipoHistoricoCliente WHERE (CodigoCliente = CTE_AnticipoHistoricoCliente.Codigo) AND (CodigoMoneda = CTE_AnticipoHistoricoCliente.CodigoMonedaAnticipo)), 0)";
 			string vCalcularSaldoInicialAnticipo = sqlCalcularSaldoInicialAnticipo(valCodigoMoneda, valMonedaDelInforme, valTasaDeCambio, vSaldoInicial);
-
 			vSql.AppendLine("SELECT");
 			vSql.AppendLine("	TipoReporte, ");
 			vSql.AppendLine("	Codigo, ");

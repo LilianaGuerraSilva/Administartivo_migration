@@ -33,11 +33,11 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
             return vResult;
         }
 
-        System.Data.DataTable IClienteInformes.BuildHistoricoDeCliente(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, string valCodigoCliente, eMonedaDelInformeMM valMonedaDelInforme, string valCodigoMoneda, string valNombreMoneda, eTasaDeCambioParaImpresion valTasaDeCambio) {
+        System.Data.DataTable IClienteInformes.BuildHistoricoDeCliente(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, string valCodigoCliente, eMonedaDelInformeMM valMonedaDelInforme, string valCodigoMoneda, string valNombreMoneda, eTasaDeCambioParaImpresion valTasaDeCambio, eClientesOrdenadosPor valClienteOrdenarPor) {
             string vSql = "";
             clsClienteSql insClienteSql = new clsClienteSql();
             LibGalac.Aos.Base.ILibDataRpt insHistoricoDeCliente = new Galac.Saw.Dal.Cliente.clsClienteDat();
-            vSql = insClienteSql.SqlHistoricoDeCliente(valConsecutivoCompania, valFechaDesde, valFechaHasta, valCodigoCliente, valMonedaDelInforme, valCodigoMoneda, valNombreMoneda, valTasaDeCambio);
+            vSql = insClienteSql.SqlHistoricoDeCliente(valConsecutivoCompania, valFechaDesde, valFechaHasta, valCodigoCliente, valMonedaDelInforme, valCodigoMoneda, valNombreMoneda, valTasaDeCambio, valClienteOrdenarPor);
             return insHistoricoDeCliente.GetDt(vSql, 0);
         }
         #endregion //Metodos Generados

@@ -82,8 +82,8 @@ namespace Galac.Saw.Rpt.Cliente {
                 } else {
                     LibReport.ConfigGroupHeader(this, "GHCliente", "Codigo", GroupKeepTogether.All, RepeatStyle.All, true, NewPage.None);
                 }
-                LibReport.ConfigGroupHeader(this, "GHDetalle", "NumeroDocumento", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);
-                LibReport.ConfigGroupHeader(this, "GHTipoReporte", "TituloTipoReporte", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);
+                LibReport.ConfigGroupHeader(this, "GHDetalle", "NumeroDocumento", GroupKeepTogether.All, RepeatStyle.All, true, NewPage.None);
+                LibReport.ConfigGroupHeader(this, "GHTipoReporte", "TituloTipoReporte", GroupKeepTogether.All, RepeatStyle.All, true, NewPage.None);
                 LibReport.ConfigSummaryField(this, "txtTotalMontoOriginal", "MontoOriginal", SummaryFunc.Sum, "GHCliente", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtTotalMontoCobrado", "MontoCobrado", SummaryFunc.Sum, "GHCliente", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtTotalSaldoActual", "SaldoActual", SummaryFunc.Sum, "GHTipoReporte", SummaryRunning.Group, SummaryType.SubTotal);

@@ -24,12 +24,13 @@ namespace Galac.Saw.Rpt.Cliente {
         private eTasaDeCambioParaImpresion TasaDeCambio;
         private string CodigoCliente;
         private bool SaltoDePaginaPorCliente;
+        private eClientesOrdenadosPor OrdenarClientePor;
         #region Codigo Ejemplo      
 
         #endregion //Codigo Ejemplo
         #endregion //Propiedades
         #region Constructores
-        public clsHistoricoDeCliente(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime valFechaDesde, DateTime valFechaHasta, string valCodigoCliente, eMonedaDelInformeMM valMonedaDelInforme, string valMoneda, eTasaDeCambioParaImpresion valTasaDeCambio, bool valSaltoDePaginaPorCliente)
+        public clsHistoricoDeCliente(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime valFechaDesde, DateTime valFechaHasta, string valCodigoCliente, eMonedaDelInformeMM valMonedaDelInforme, string valMoneda, eTasaDeCambioParaImpresion valTasaDeCambio, bool valSaltoDePaginaPorCliente, eClientesOrdenadosPor valOrdenarClientePor)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
             FechaDesde = valFechaDesde;
             FechaHasta = valFechaHasta;
@@ -38,6 +39,7 @@ namespace Galac.Saw.Rpt.Cliente {
             Moneda = valMoneda;
             TasaDeCambio = valTasaDeCambio;
             SaltoDePaginaPorCliente = valSaltoDePaginaPorCliente;
+            OrdenarClientePor = valOrdenarClientePor;
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -68,7 +70,7 @@ namespace Galac.Saw.Rpt.Cliente {
             string vCodigoMoneda = LibString.Trim(LibString.Mid(Moneda, 1, LibString.InStr(Moneda, ")") - 1));
             vCodigoMoneda = LibString.IsNullOrEmpty(vCodigoMoneda, true) ? LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera") : vCodigoMoneda;
             string vNombreMoneda = LibString.Trim(LibString.Mid(Moneda, LibString.InStr(Moneda, ")") + 1));
-            Data = vRpt.BuildHistoricoDeCliente(vConsecutivoCompania, FechaDesde, FechaHasta, CodigoCliente, MonedaDelInforme, vCodigoMoneda, vNombreMoneda, TasaDeCambio);
+            Data = vRpt.BuildHistoricoDeCliente(vConsecutivoCompania, FechaDesde, FechaHasta, CodigoCliente, MonedaDelInforme, vCodigoMoneda, vNombreMoneda, TasaDeCambio, OrdenarClientePor);
         }
 
         public override void SendReportToDevice() {
