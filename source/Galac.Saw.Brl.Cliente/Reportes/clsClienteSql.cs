@@ -84,7 +84,7 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			vSql.AppendLine("	MonedaReporte, ");
 			vSql.AppendLine("	Moneda, ");
 			vSql.AppendLine("	TituloTipoReporte,");
-			vSql.AppendLine("	ISNULL((SELECT SaldoInicialOriginal FROM CTE_SaldoInicialCxCHistoricoCliente WHERE (CodigoCliente = CTE_CxCHistoricoClientes.Codigo AND CodigoMoneda = CTE_CxCHistoricoClientes.CodMoneda)), 0) AS SaldoInicial,");
+			vSql.AppendLine("	ISNULL(( SELECT SaldoInicialOriginal FROM CTE_SaldoInicialCxCHistoricoCliente WHERE (CodigoCliente = CTE_CxCHistoricoClientes.Codigo AND CodigoMoneda = CTE_CxCHistoricoClientes.CodMoneda)), 0) AS SaldoInicial,");
 			vSql.AppendLine("	FechaDocumento, ");
 			vSql.AppendLine("	FechaVencimiento, ");
 			vSql.AppendLine("	TipoDeDocumento, ");
@@ -339,7 +339,7 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			string vSqlCambioDelDia;
 			string vSqlCambioMasCercano;
 			string vSqlCambioOriginal = "CxC.CambioAbolivares";
-			string vSqlMontoInicial = "SUM((MontoExento + MontoGravado + MontoIva))";
+			string vSqlMontoInicial = "(MontoExento + MontoGravado + MontoIva)";
 			string vCodigoMonedaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaCompania");
 			string vSqlCambio = vSqlCambioOriginal;
 			string vSqlMonedaTotales = valNombreMoneda;
@@ -371,10 +371,10 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			vSql.AppendLine("SELECT ");
 			vSql.AppendLine("	CodigoCliente, ");
 			vSql.AppendLine("	CodigoMoneda, ");
-			vSql.AppendLine($"	{vSqlMontoInicial} AS SaldoInicialOriginal");
+			vSql.AppendLine($"	SUM({vSqlMontoInicial}) AS SaldoInicial");
 			vSql.AppendLine("FROM CxC");
 			vSql.AppendLine("WHERE (Status <> '4') AND (Fecha < " + insSql.ToSqlValue(valFechaDesde) + ") AND ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-			vSql.AppendLine("GROUP BY CodigoCliente, CodigoMoneda, CambioAbolivares, Fecha)");
+			vSql.AppendLine("GROUP BY CodigoCliente, CodigoMoneda)");
 			return vSql.ToString();
 		}
 
@@ -384,7 +384,7 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			string vSqlCambioDelDia;
 			string vSqlCambioMasCercano;
 			string vSqlCambioOriginal = "Anticipo.Cambio";
-			string vSqlMontoInicial = "SUM(MontoTotal)";
+			string vSqlMontoInicial = "MontoTotal";
 			string vCodigoMonedaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaCompania");
 			string vSqlCambio = vSqlCambioOriginal;
 			string vSqlMonedaTotales = valNombreMoneda;
@@ -415,10 +415,10 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			vSql.AppendLine("SELECT ");
 			vSql.AppendLine("	CodigoCliente, ");
 			vSql.AppendLine("	CodigoMoneda, ");
-			vSql.AppendLine($"	{vSqlMontoInicial} AS SaldoInicialOriginal");
+			vSql.AppendLine($"	SUM({vSqlMontoInicial}) AS SaldoInicial");
 			vSql.AppendLine("FROM anticipo");
 			vSql.AppendLine("WHERE (Status <> '1') AND (Tipo = '0') AND (Fecha < " + insSql.ToSqlValue(valFechaDesde) + ") AND ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-			vSql.AppendLine("GROUP BY CodigoCliente, CodigoMoneda , Cambio, Fecha)");
+			vSql.AppendLine("GROUP BY CodigoCliente, CodigoMoneda)");
 			return vSql.ToString();
 		}
 
