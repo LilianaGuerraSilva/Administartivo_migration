@@ -182,6 +182,7 @@ namespace Galac.Saw.Uil.Cliente.Reportes {
         public clsHistoricoDeClienteViewModel() {
             FechaDesde = LibDate.DateFromMonthAndYear(1, LibDate.Today().Year, true);
             FechaHasta = LibDate.Today();
+            CantidadAImprimir = eCantidadAImprimir.All;
             LlenarListaMonedasActivas();
         }
         #endregion //Constructores
