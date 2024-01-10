@@ -9,6 +9,7 @@ using System.Data;
 using LibGalac.Aos.ARRpt;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.DefGen;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Rpt.Cliente {
     /// <summary>
@@ -50,9 +51,10 @@ namespace Galac.Saw.Rpt.Cliente {
                 LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["NombreCompania"], string.Empty);
                 LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());
                 LibReport.ConfigLabel(this, "lblFechaInicialYFinal", valParameters["FechaInicialYFinal"]);
+                LibReport.ConfigFieldStr(this, "txtMonedaDelInforme", valParameters["MonedaDelInforme"], "");
+                LibReport.ConfigFieldStr(this, "txtTasaDeCambioParaElReporte", valParameters["TasaDeCambioParaElReporte"], "");
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
-
                 LibReport.ConfigFieldStr(this, "txtCodigo", string.Empty, "Codigo");
                 LibReport.ConfigFieldStr(this, "txtNombre", string.Empty, "Nombre");
                 LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "Moneda");
@@ -106,8 +108,12 @@ namespace Galac.Saw.Rpt.Cliente {
             this.txtTotalMasSaldoInicial.Value = LibConvert.ToDec(txtSaldoInicial.Value, 2) + LibConvert.ToDec(txtTotalSaldoActual.Value, 2);
         }
 
-        //private void GHCliente_Format(object sender, EventArgs e) {
-        //    this.txtTotalMasSaldoInicial.Value = LibConvert.ToDec(txtSaldoInicial.Value, 2) + LibConvert.ToDec(txtTotalSaldoActual.Value, 2);
-        //}
+        private void PageFooter_Format(object sender, EventArgs e) {
+            eMonedaDelInformeMM vMonedaDelInformeMM = (eMonedaDelInformeMM)LibConvert.DbValueToEnum(txtMonedaDelInforme.Text);
+            eTasaDeCambioParaImpresion vTasaDeCambioParaElReporte  = (eTasaDeCambioParaImpresion)LibConvert.DbValueToEnum(txtTasaDeCambioParaElReporte.Text);
+            if (vMonedaDelInformeMM != eMonedaDelInformeMM.EnBolivares) {
+                this.txtNotaMonedaCambio.Value = new Saw.Lib.clsLibSaw().NotaMonedaCambioParaInformes(vMonedaDelInformeMM, vTasaDeCambioParaElReporte, this.txtMoneda.Text, this.txtTituloTipoReporte.Text);
+            }            
+        }       
     }
 }

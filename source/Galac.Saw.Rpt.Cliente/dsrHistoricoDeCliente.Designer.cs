@@ -78,6 +78,8 @@ namespace Galac.Saw.Rpt.Cliente
             this.lblTotalMasSaldoInicial = new DataDynamics.ActiveReports.Label();
             this.GHDetalle = new DataDynamics.ActiveReports.GroupHeader();
             this.GFDetalle = new DataDynamics.ActiveReports.GroupFooter();
+            this.txtMonedaDelInforme = new DataDynamics.ActiveReports.TextBox();
+            this.txtTasaDeCambioParaElReporte = new DataDynamics.ActiveReports.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.txtNoCobranza)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFechaCobranza)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoCobrado)).BeginInit();
@@ -120,6 +122,8 @@ namespace Galac.Saw.Rpt.Cliente
             ((System.ComponentModel.ISupportInitialize)(this.lblMontoCobrado)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotales)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotalMasSaldoInicial)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMonedaDelInforme)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTasaDeCambioParaElReporte)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
@@ -332,16 +336,19 @@ namespace Galac.Saw.Rpt.Cliente
             // PageFooter
             // 
             this.PageFooter.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
-            this.txtNotaMonedaCambio});
-            this.PageFooter.Height = 0.15625F;
+            this.txtNotaMonedaCambio,
+            this.txtMonedaDelInforme,
+            this.txtTasaDeCambioParaElReporte});
+            this.PageFooter.Height = 0.3020833F;
             this.PageFooter.Name = "PageFooter";
+            this.PageFooter.Format += new System.EventHandler(this.PageFooter_Format);
             // 
             // txtNotaMonedaCambio
             // 
             this.txtNotaMonedaCambio.Height = 0.15625F;
             this.txtNotaMonedaCambio.Left = 0F;
             this.txtNotaMonedaCambio.Name = "txtNotaMonedaCambio";
-            this.txtNotaMonedaCambio.Style = "font-size: 8pt; ddo-char-set: 1";
+            this.txtNotaMonedaCambio.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.txtNotaMonedaCambio.Text = "txtNotaMonedaCambio";
             this.txtNotaMonedaCambio.Top = 0F;
             this.txtNotaMonedaCambio.Width = 7.5F;
@@ -682,12 +689,34 @@ namespace Galac.Saw.Rpt.Cliente
             this.GFDetalle.Height = 0F;
             this.GFDetalle.Name = "GFDetalle";
             // 
+            // txtMonedaDelInforme
+            // 
+            this.txtMonedaDelInforme.Height = 0.15625F;
+            this.txtMonedaDelInforme.Left = 7.5F;
+            this.txtMonedaDelInforme.Name = "txtMonedaDelInforme";
+            this.txtMonedaDelInforme.Style = "color: White; font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtMonedaDelInforme.Text = "txtMonedaDelInforme";
+            this.txtMonedaDelInforme.Top = 0F;
+            this.txtMonedaDelInforme.Visible = false;
+            this.txtMonedaDelInforme.Width = 0.3329992F;
+            // 
+            // txtTasaDeCambioParaElReporte
+            // 
+            this.txtTasaDeCambioParaElReporte.Height = 0.15625F;
+            this.txtTasaDeCambioParaElReporte.Left = 7.833F;
+            this.txtTasaDeCambioParaElReporte.Name = "txtTasaDeCambioParaElReporte";
+            this.txtTasaDeCambioParaElReporte.Style = "color: White; font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtTasaDeCambioParaElReporte.Text = "txtTasaDeCambioParaElReporte";
+            this.txtTasaDeCambioParaElReporte.Top = 0F;
+            this.txtTasaDeCambioParaElReporte.Visible = false;
+            this.txtTasaDeCambioParaElReporte.Width = 0.3329992F;
+            // 
             // dsrHistoricoDeCliente
             // 
             this.MasterReport = false;
             this.PageSettings.PaperHeight = 11F;
             this.PageSettings.PaperWidth = 8.5F;
-            this.PrintWidth = 8.375999F;
+            this.PrintWidth = 8.625F;
             this.Sections.Add(this.PageHeader);
             this.Sections.Add(this.GHCliente);
             this.Sections.Add(this.GHMoneda);
@@ -747,6 +776,8 @@ namespace Galac.Saw.Rpt.Cliente
             ((System.ComponentModel.ISupportInitialize)(this.lblMontoCobrado)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotales)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotalMasSaldoInicial)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMonedaDelInforme)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTasaDeCambioParaElReporte)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -805,5 +836,7 @@ namespace Galac.Saw.Rpt.Cliente
         private DataDynamics.ActiveReports.GroupHeader GHDetalle;
         private DataDynamics.ActiveReports.GroupFooter GFDetalle;
         private DataDynamics.ActiveReports.Label lblTotalMasSaldoInicial;
+        private DataDynamics.ActiveReports.TextBox txtMonedaDelInforme;
+        private DataDynamics.ActiveReports.TextBox txtTasaDeCambioParaElReporte;
     }
 }

@@ -55,6 +55,8 @@ namespace Galac.Saw.Rpt.Cliente {
             vParams.Add("FechaInicialYFinal", string.Format("desde {0} hasta {1}", LibConvert.ToStr(FechaDesde, "dd/MM/yyyy"), LibConvert.ToStr(FechaHasta, "dd/MM/yyyy")));
             vParams.Add("TituloInforme", vTitulo);
             vParams.Add("SaltoDePaginaPorCliente", LibConvert.BoolToSN(SaltoDePaginaPorCliente));
+            vParams.Add("MonedaDelInforme", LibConvert.EnumToDbValue((int)MonedaDelInforme));
+            vParams.Add("TasaDeCambioParaElReporte", LibConvert.EnumToDbValue((int)TasaDeCambio));
             #region Codigo Ejemplo          
             #endregion //Codigo Ejemplo
             return vParams;
