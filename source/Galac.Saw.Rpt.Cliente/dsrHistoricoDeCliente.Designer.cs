@@ -279,7 +279,7 @@ namespace Galac.Saw.Rpt.Cliente
             this.lblFechaYHoraDeEmision,
             this.lblTituloInforme,
             this.lblFechaInicialYFinal});
-            this.PageHeader.Height = 1F;
+            this.PageHeader.Height = 0.84375F;
             this.PageHeader.Name = "PageHeader";
             // 
             // txtNombreCompania
