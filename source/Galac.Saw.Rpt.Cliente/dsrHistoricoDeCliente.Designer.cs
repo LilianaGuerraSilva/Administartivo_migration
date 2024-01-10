@@ -446,6 +446,7 @@ namespace Galac.Saw.Rpt.Cliente
             this.lblCodigo,
             this.txtCodigo,
             this.txtNombre});
+            this.GHCliente.GroupKeepTogether = DataDynamics.ActiveReports.GroupKeepTogether.All;
             this.GHCliente.Height = 0.15625F;
             this.GHCliente.Name = "GHCliente";
             // 
@@ -470,7 +471,8 @@ namespace Galac.Saw.Rpt.Cliente
             this.GHMoneda.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
             this.lblMoneda,
             this.txtMoneda});
-            this.GHMoneda.Height = 0.1875F;
+            this.GHMoneda.GroupKeepTogether = DataDynamics.ActiveReports.GroupKeepTogether.All;
+            this.GHMoneda.Height = 0.1458333F;
             this.GHMoneda.Name = "GHMoneda";
             // 
             // lblMoneda
@@ -505,7 +507,8 @@ namespace Galac.Saw.Rpt.Cliente
             this.lblNoCobranza,
             this.lblFechaCobranza,
             this.lblMontoCobrado});
-            this.GHTipoReporte.Height = 0.5F;
+            this.GHTipoReporte.GroupKeepTogether = DataDynamics.ActiveReports.GroupKeepTogether.All;
+            this.GHTipoReporte.Height = 0.4583333F;
             this.GHTipoReporte.Name = "GHTipoReporte";
             // 
             // lblSaldoInicial
@@ -636,7 +639,7 @@ namespace Galac.Saw.Rpt.Cliente
             this.txtTotalMontoOriginal,
             this.txtTotalMontoCobrado,
             this.txtTotalSaldoActual});
-            this.GFTipoReporte.Height = 0.53125F;
+            this.GFTipoReporte.Height = 0.46875F;
             this.GFTipoReporte.Name = "GFTipoReporte";
             this.GFTipoReporte.BeforePrint += new System.EventHandler(this.GFTipoReporte_BeforePrint);
             // 
@@ -674,6 +677,7 @@ namespace Galac.Saw.Rpt.Cliente
             this.txtMontoOriginal,
             this.txtNoDocumentoParaAgrupar,
             this.txtSaldoActual});
+            this.GHDetalle.GroupKeepTogether = DataDynamics.ActiveReports.GroupKeepTogether.All;
             this.GHDetalle.Height = 0.15625F;
             this.GHDetalle.Name = "GHDetalle";
             // 
