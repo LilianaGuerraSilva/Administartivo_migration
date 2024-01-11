@@ -1,4 +1,4 @@
-<UserControl
+﻿<UserControl
     x:Class="Galac.Saw.Uil.Cliente.Reportes.GSHistoricoDeCliente"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -69,7 +69,7 @@
             x:Name="lblSaltoDePaginaPorCliente"
             Grid.Row="2"
             Grid.Column="0"
-            Content="Salto de pagina por Cliente"
+            Content="Salto de página por Cliente"
             Style="{StaticResource LabelPrompt}"
             Visibility="{Binding Path=IsVisibleSaltoDePaginaPorCliente, Converter={StaticResource booleanToVisibilityConverter}}" />
         <CheckBox
