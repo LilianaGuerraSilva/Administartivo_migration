@@ -183,6 +183,7 @@ namespace Galac.Saw.Uil.Cliente.Reportes {
             FechaDesde = LibDate.DateFromMonthAndYear(1, LibDate.Today().Year, true);
             FechaHasta = LibDate.Today();
             CantidadAImprimir = eCantidadAImprimir.All;
+            MonedaDelInforme = eMonedaDelInformeMM.EnMonedaOriginal;
             LlenarListaMonedasActivas();
         }
         #endregion //Constructores
