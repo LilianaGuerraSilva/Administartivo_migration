@@ -607,7 +607,7 @@ namespace Galac.Saw.Rpt.Cliente
             this.lblMontoOriginal.Left = 4.125F;
             this.lblMontoOriginal.Name = "lblMontoOriginal";
             this.lblMontoOriginal.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
-            this.lblMontoOriginal.Text = "MontoOriginal";
+            this.lblMontoOriginal.Text = "Monto Original";
             this.lblMontoOriginal.Top = 0.156F;
             this.lblMontoOriginal.Width = 1.125F;
             // 
@@ -619,7 +619,7 @@ namespace Galac.Saw.Rpt.Cliente
             this.lblSaldoActual.Left = 6.375F;
             this.lblSaldoActual.Name = "lblSaldoActual";
             this.lblSaldoActual.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
-            this.lblSaldoActual.Text = "SaldoActual";
+            this.lblSaldoActual.Text = "Saldo Actual";
             this.lblSaldoActual.Top = 0.156F;
             this.lblSaldoActual.Width = 1.125F;
             // 
@@ -655,7 +655,7 @@ namespace Galac.Saw.Rpt.Cliente
             this.lblMontoCobrado.Left = 5.25F;
             this.lblMontoCobrado.Name = "lblMontoCobrado";
             this.lblMontoCobrado.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
-            this.lblMontoCobrado.Text = "MontoCobrado";
+            this.lblMontoCobrado.Text = "Monto Cobrado";
             this.lblMontoCobrado.Top = 0.156F;
             this.lblMontoCobrado.Width = 1.125F;
             // 
