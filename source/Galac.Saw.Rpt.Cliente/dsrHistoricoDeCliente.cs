@@ -113,7 +113,7 @@ namespace Galac.Saw.Rpt.Cliente {
         private void PageFooter_Format(object sender, EventArgs e) {
             eMonedaDelInformeMM vMonedaDelInformeMM = (eMonedaDelInformeMM)LibConvert.DbValueToEnum(txtMonedaDelInforme.Text);
             eTasaDeCambioParaImpresion vTasaDeCambioParaElReporte = (eTasaDeCambioParaImpresion)LibConvert.DbValueToEnum(txtTasaDeCambioParaElReporte.Text);
-            this.txtNotaMonedaCambio.Value = new Saw.Lib.clsLibSaw().NotaMonedaCambioParaInformes(vMonedaDelInformeMM, vTasaDeCambioParaElReporte, txtMonedaExpresadaEn.Text, this.lblTituloInforme.Text);
+            this.txtNotaMonedaCambio.Value = new Saw.Lib.clsLibSaw().NotaMonedaCambioParaInformes(vMonedaDelInformeMM, vTasaDeCambioParaElReporte, txtMonedaExpresadaEn.Text, this.txtTituloTipoReporte.Text);
         }       
     }
 }
