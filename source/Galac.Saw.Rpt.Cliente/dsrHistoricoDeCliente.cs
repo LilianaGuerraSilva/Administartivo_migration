@@ -78,6 +78,8 @@ namespace Galac.Saw.Rpt.Cliente {
                 LibReport.ConfigFieldDec(this, "txtTotalSaldoActual", string.Empty, "TotalSaldoActual");
                 LibReport.ConfigFieldDec(this, "txtTotalMasSaldoInicial", string.Empty, "TotalMasSaldoInicial");
                 LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", string.Empty, "NotaMonedaCambio");
+                LibReport.ConfigFieldStr(this, "txtMonedaExpresadaEn", valParameters["MonedaExpresadaEn"], "");
+                
 
                 if (vSaltoDePaginaPorCliente) {
                     LibReport.ConfigGroupHeader(this, "GHCliente", "Codigo", GroupKeepTogether.All, RepeatStyle.All, true, NewPage.After);
@@ -110,10 +112,8 @@ namespace Galac.Saw.Rpt.Cliente {
 
         private void PageFooter_Format(object sender, EventArgs e) {
             eMonedaDelInformeMM vMonedaDelInformeMM = (eMonedaDelInformeMM)LibConvert.DbValueToEnum(txtMonedaDelInforme.Text);
-            eTasaDeCambioParaImpresion vTasaDeCambioParaElReporte  = (eTasaDeCambioParaImpresion)LibConvert.DbValueToEnum(txtTasaDeCambioParaElReporte.Text);
-            if (vMonedaDelInformeMM != eMonedaDelInformeMM.EnBolivares) {
-                this.txtNotaMonedaCambio.Value = new Saw.Lib.clsLibSaw().NotaMonedaCambioParaInformes(vMonedaDelInformeMM, vTasaDeCambioParaElReporte, this.txtMoneda.Text, this.txtTituloTipoReporte.Text);
-            }            
+            eTasaDeCambioParaImpresion vTasaDeCambioParaElReporte = (eTasaDeCambioParaImpresion)LibConvert.DbValueToEnum(txtTasaDeCambioParaElReporte.Text);
+            this.txtNotaMonedaCambio.Value = new Saw.Lib.clsLibSaw().NotaMonedaCambioParaInformes(vMonedaDelInformeMM, vTasaDeCambioParaElReporte, txtMonedaExpresadaEn.Text, this.lblTituloInforme.Text);
         }       
     }
 }

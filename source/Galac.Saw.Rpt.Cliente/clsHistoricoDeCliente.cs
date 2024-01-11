@@ -36,7 +36,7 @@ namespace Galac.Saw.Rpt.Cliente {
             FechaHasta = valFechaHasta;
             CodigoCliente = valCodigoCliente;
             MonedaDelInforme = valMonedaDelInforme;
-            Moneda = valMoneda;
+            Moneda = LibString.Trim(LibString.Mid(valMoneda, LibString.InStr(valMoneda, ")") + 1));           
             TasaDeCambio = valTasaDeCambio;
             SaltoDePaginaPorCliente = valSaltoDePaginaPorCliente;
             OrdenarClientePor = valOrdenarClientePor;
@@ -57,6 +57,7 @@ namespace Galac.Saw.Rpt.Cliente {
             vParams.Add("SaltoDePaginaPorCliente", LibConvert.BoolToSN(SaltoDePaginaPorCliente));
             vParams.Add("MonedaDelInforme", LibConvert.EnumToDbValue((int)MonedaDelInforme));
             vParams.Add("TasaDeCambioParaElReporte", LibConvert.EnumToDbValue((int)TasaDeCambio));
+            vParams.Add("MonedaExpresadaEn",Moneda);
             #region Codigo Ejemplo          
             #endregion //Codigo Ejemplo
             return vParams;
@@ -70,9 +71,8 @@ namespace Galac.Saw.Rpt.Cliente {
             IClienteInformes vRpt = new Galac.Saw.Brl.Cliente.Reportes.clsClienteRpt() as IClienteInformes;
             int vConsecutivoCompania = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania");
             string vCodigoMoneda = LibString.Trim(LibString.Mid(Moneda, 1, LibString.InStr(Moneda, ")") - 1));
-            vCodigoMoneda = LibString.IsNullOrEmpty(vCodigoMoneda, true) ? LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera") : vCodigoMoneda;
-            string vNombreMoneda = LibString.Trim(LibString.Mid(Moneda, LibString.InStr(Moneda, ")") + 1));
-            Data = vRpt.BuildHistoricoDeCliente(vConsecutivoCompania, FechaDesde, FechaHasta, CodigoCliente, MonedaDelInforme, vCodigoMoneda, vNombreMoneda, TasaDeCambio, OrdenarClientePor);
+            vCodigoMoneda = LibString.IsNullOrEmpty(vCodigoMoneda, true) ? LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera") : vCodigoMoneda;            
+            Data = vRpt.BuildHistoricoDeCliente(vConsecutivoCompania, FechaDesde, FechaHasta, CodigoCliente, MonedaDelInforme, vCodigoMoneda, Moneda, TasaDeCambio, OrdenarClientePor);
         }
 
         public override void SendReportToDevice() {
