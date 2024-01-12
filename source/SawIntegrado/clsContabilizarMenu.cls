@@ -289,7 +289,7 @@ Private Sub sEjecutaContabilizarFacturaDiaria()
       Set insFrmContabilizar = New frmListContabilizacion
       Set insFactura = New clsFacturaNavigator
       insFactura.setClaseDeTrabajo eCTFC_Factura
-      fixedAdditionalWhereClauses = insFactura.GetTableName & "." & insFactura.getFN_STATUS_FACTURA & " <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_BORRADOR) & " AND " & insFactura.GetTableName & "." & insFactura.getFN_TIPO_DE_DOCUMENTO & " <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
+      fixedAdditionalWhereClauses = "factura.StatusFactura <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_BORRADOR) & " AND factura.TipoDeDocumento NOT IN (" & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS) & ", " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTAENTREGA) & ")"
       insFrmContabilizar.sInitLookAndFeel Contabilizar, gEnumProyecto.enum_SystemModulesToStr(eSM_Factura), insFactura.GetTableName, insFactura, insFactura.getFN_NO_DOC_ORIGEN_CONTABILIZACION_PARA_INPUT(False), fixedAdditionalWhereClauses
    End If
 h_EXIT: On Error GoTo 0
