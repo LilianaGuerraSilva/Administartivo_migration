@@ -7,5 +7,6 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
         void InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath);
         void InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO, bool vfwUsePASOnLine);
         void InitializeContext(string vfwInfo);
+        bool ValidarEmail(string vfwEmmailAddress);
     }
 }

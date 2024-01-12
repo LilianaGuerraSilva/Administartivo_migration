@@ -10,6 +10,7 @@ using Galac.Saw.Ccl.SttDef;
 using System.Threading.Tasks;
 using Galac.Adm.Brl.ImprentaDigital;
 using LibGalac.Aos.UI.Mvvm.Messaging;
+using System.Text.RegularExpressions;
 
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.ImprentaDigital {
@@ -155,6 +156,18 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
                     throw;
                 }
                 throw new GalacWrapperException(Title + " - Inicialización", vEx);
+            }
+        }
+
+        bool IWrpImprentaDigitalVb.ValidarEmail(string vfwEmmailAddress) {
+            try {
+                if (LibString.IsNullOrEmpty(vfwEmmailAddress)) {
+                    return Regex.IsMatch(vfwEmmailAddress, @"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.IgnoreCase);
+                } else {
+                    return false;
+                }
+            } catch (GalacException vEx) {
+                throw new GalacWrapperException(Title, vEx);
             }
         }
         #endregion //Miembros de IWrpMfVb
