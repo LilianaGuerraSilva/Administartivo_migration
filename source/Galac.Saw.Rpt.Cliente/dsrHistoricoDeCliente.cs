@@ -78,9 +78,7 @@ namespace Galac.Saw.Rpt.Cliente {
                 LibReport.ConfigFieldDec(this, "txtTotalSaldoActual", string.Empty, "TotalSaldoActual");
                 LibReport.ConfigFieldDec(this, "txtTotalMasSaldoInicial", string.Empty, "TotalMasSaldoInicial");
                 LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", string.Empty, "NotaMonedaCambio");
-                LibReport.ConfigFieldStr(this, "txtMonedaExpresadaEn", valParameters["MonedaExpresadaEn"], "");
-                
-
+                LibReport.ConfigFieldStr(this, "txtMonedaExpresadaEn", valParameters["MonedaExpresadaEn"], "");              
                 if (vSaltoDePaginaPorCliente) {
                     LibReport.ConfigGroupHeader(this, "GHCliente", "Codigo", GroupKeepTogether.All, RepeatStyle.All, true, NewPage.After);
                 } else {
@@ -99,17 +97,12 @@ namespace Galac.Saw.Rpt.Cliente {
         #endregion //Metodos Generados                      
       
         private void Detail_Format(object sender, EventArgs e) {
-            if (LibString.S1IsEqualToS2(LibConvert.ToStr(txtStatusCobranza.Value), "0")) {
-                this.Detail.Visible = true;
-            } else {
-                this.Detail.Visible = false;
-            }
+            this.Detail.Visible = LibString.S1IsEqualToS2(LibConvert.ToStr(txtStatusCobranza.Value), "0");
         }
 
         private void GFTipoReporte_BeforePrint(object sender, EventArgs e) {
             this.txtTotalMasSaldoInicial.Value = LibConvert.ToDec(txtSaldoInicial.Value, 2) + LibConvert.ToDec(txtTotalSaldoActual.Value, 2);
         }
-
         private void PageFooter_Format(object sender, EventArgs e) {
             eMonedaDelInformeMM vMonedaDelInformeMM = (eMonedaDelInformeMM)LibConvert.DbValueToEnum(txtMonedaDelInforme.Text);
             eTasaDeCambioParaImpresion vTasaDeCambioParaElReporte = (eTasaDeCambioParaImpresion)LibConvert.DbValueToEnum(txtTasaDeCambioParaElReporte.Text);
