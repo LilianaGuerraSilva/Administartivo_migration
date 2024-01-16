@@ -336,4 +336,33 @@ namespace Galac.Saw.Lib {
         CobranzaPorAplicacionDeRetencion
     }
 
+    [TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipoDeTransaccion {
+        [LibEnumDescription("FACTURA")]
+        FACTURA = 0,
+        [LibEnumDescription("GIRO")]
+        GIRO,
+        [LibEnumDescription("CHEQUE DEVUELTO")]
+        CHEQUEDEVUELTO,
+        [LibEnumDescription("NOTA DE CREDITO")]
+        NOTADECREDITO,
+        [LibEnumDescription("NOTA DE DEBITO")]
+        NOTADEDEBITO,
+        [LibEnumDescription("NOTA DE ENTREGA")]
+        NOTAENTREGA,
+        [LibEnumDescription("NO ASIGNADO")]
+        NOASIGNADO,
+        [LibEnumDescription("BOLETA DE VENTA")]
+        BOLETADEVENTA,
+        [LibEnumDescription("TICKET MAQUINA REGISTRADORA")]
+        TICKETMAQUINAREGISTRADORA,
+        [LibEnumDescription("RECIBO POR HONORARIOS")]
+        RECIBOPORHONORARIOS,
+        [LibEnumDescription("LIQUIDACION DE COMPRA")]
+        LIQUIDACIONDECOMPRA,
+        [LibEnumDescription("OTROS")]
+        OTROS,
+        [LibEnumDescription("NOTA DE CREDITO DE COMPROBANTE FISCAL")]
+        NOTADECREDITOCOMPROBANTEFISCAL
+    }
 }
