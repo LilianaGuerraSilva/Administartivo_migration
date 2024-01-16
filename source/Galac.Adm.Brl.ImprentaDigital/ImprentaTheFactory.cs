@@ -264,8 +264,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }
 
         private string DarFormatoYObtenerPrefijoRif(Cliente valCliente, ref string refPrefijoRif) {
-            string vNumeroRif = "";
-            string vPrefijo = LibString.Left(valCliente.NumeroRIF, 1);
+            string vNumeroRif = "";            
+            string vPrefijo = LibString.Left(LibString.ToUpperWithoutAccents(valCliente.NumeroRIF), 1);
             if (LibString.S1IsInS2(vPrefijo, "VJEPG")) {
                 vNumeroRif = LibString.Right(valCliente.NumeroRIF, LibString.Len(valCliente.NumeroRIF) - 1);
                 vNumeroRif = LibString.Replace(vNumeroRif, "-", "");
@@ -304,18 +304,26 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                         new XElement("Ciudad", ClienteImprentaDigital.Ciudad),
                         new XElement("Envia", ((CustomIdentity)Thread.CurrentPrincipal.Identity).Name
                         ));
+
+
+            XElement vInfoAdicionalCliente = new XElement("root",               
+                        new XElement("Ciudad", InfoAdicionalClienteImprentaDigital.Ciudad),
+                        new XElement("DireccionServicio", InfoAdicionalClienteImprentaDigital.Direccion));
+
             XElement vCampoPdf = new XElement("Campo", "PDF");
 
             var vColetilla1 = XmlToJsonWithoutRoot(new XElement("root", new XElement("Coletilla", vTextoColetilla)).ToString());
             var vColetilla2 = XmlToJsonWithoutRoot(new XElement("root", new XElement("Coletilla2", vTextoColetilla2)).ToString());
             var vColetilla3 = XmlToJsonWithoutRoot(new XElement("root", new XElement("Coletilla3", LibString.Left(vObservaciones, 250))).ToString());
             var vColetilla4 = XmlToJsonWithoutRoot(vVarios.ToString());
+            var vColetilla5 = XmlToJsonWithoutRoot(vInfoAdicionalCliente.ToString());
 
             List<XElement> vInfoAdicional = new List<XElement>();
             vInfoAdicional.Add(new XElement("InfoAdicional", vCampoPdf, new XElement("Valor", vColetilla1)));
             vInfoAdicional.Add(new XElement("InfoAdicional", vCampoPdf, new XElement("Valor", vColetilla2)));
             vInfoAdicional.Add(new XElement("InfoAdicional", vCampoPdf, new XElement("Valor", vColetilla3)));
             vInfoAdicional.Add(new XElement("InfoAdicional", vCampoPdf, new XElement("Valor", vColetilla4)));
+            vInfoAdicional.Add(new XElement("InfoAdicional", vCampoPdf, new XElement("Valor", vColetilla5)));
 
             XElement vResult = new XElement("InfoAdicional", vInfoAdicional);
             return vResult;
@@ -630,13 +638,13 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             string vResult = "";
             switch (valTipoDePago) {
                 case eFormadePago.Contado:
-                    vResult = "inmediato";
+                    vResult = "Contado";
                     break;
                 case eFormadePago.Credito:
-                    vResult = "crédito";
+                    vResult = "Crédito";
                     break;
                 default:
-                    vResult = "inmediato";
+                    vResult = "Contado";
                     break;
             }
             return vResult;
