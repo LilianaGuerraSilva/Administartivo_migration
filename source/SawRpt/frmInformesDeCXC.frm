@@ -1992,40 +1992,6 @@ h_EXIT: On Error GoTo 0
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdExportar_KeyDown", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-'Private Sub sEjecutaCXCPendientesEntreFechas()
-'   Dim SqlDelReporte As String
-'   Dim insConfigurar As clsCxCRpt
-'   Dim reporte As DDActiveReports2.ActiveReport
-'   Dim monedaOriginal As Boolean
-'   Dim insCxcSQL As clsCxCSQL
-'   On Error GoTo h_ERROR
-'   If dtpFechaFinal.Value < dtpFechaInicial.Value Then
-'      dtpFechaFinal.Value = dtpFechaInicial.Value
-'   End If
-'   Set insConfigurar = New clsCxCRpt
-'   Set reporte = New DDActiveReports2.ActiveReport
-'   Set insCxcSQL = New clsCxCSQL
-'   SqlDelReporte = insCxcSQL.fSQLDelReporteCxCEntreFechas(mUsarCambioOriginal, insCamposDefFactura, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetConsecutivoCompania, mInformeSeleccionado, cmbCamposDefinibles, gProyParametrosCompania, cmbStatus.Text, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyCompaniaActual.GetUsaModuloDeContabilidad, gUltimaTasaDeCambio, gMonedaLocalActual, gListLibrary, "", "", gConvert.ConvertByteToBoolean(ChkContacto.Value))
-'       monedaOriginal = (cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnMonedaOriginal, gProyParametros.GetNombreMonedaLocal))
-'   If insConfigurar.fConfiguraLasSeccionesDelReporteDeCxCPendientesEntreFechas(reporte, SqlDelReporte, dtpFechaInicial.Value, dtpFechaFinal.Value, monedaOriginal, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gProyParametrosCompania.GetUsaCamposDefiniblesFactura, gProyCompaniaActual.GetUsaModuloDeContabilidad, gConvert.ConvertByteToBoolean(ChkContacto.Value)) Then
-'      gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Cuentas por Cobrar Pendientes entre Fechas"
-'   End If
-'   Set insCxcSQL = Nothing
-'h_EXIT: On Error GoTo 0
-'   Exit Sub
-'h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaCXCPendientesEntreFechas", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
-'End Sub
-
-'Private Sub sActivarCamposDeCXCPendientesEntreFechas()
-'   On Error GoTo h_ERROR
-'   lblDatosDelReporte.Caption = "Datos del Informe - CXC Pendientes entre Fechas"
-'   frameFechas.Visible = True
-'   frameContacto.Visible = True
-'h_EXIT: On Error GoTo 0
-'   Exit Sub
-'h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeCXCPendientesEntreFechas", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
-'End Sub
-
 Private Sub sActivarCamposDeCxCConDescripcion()
    On Error GoTo h_ERROR
    lblDatosDelReporte.Caption = "Datos del Informe - CxC con Descripción"
