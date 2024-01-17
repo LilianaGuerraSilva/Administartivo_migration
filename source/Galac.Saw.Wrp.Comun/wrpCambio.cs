@@ -114,29 +114,28 @@ namespace Galac.Saw.Wrp.TablasGen {
 
         #endregion //Miembros de IWrpCs
 
-        bool IWrpCambio.ExisteTasaDeCambioParaElDia(string valCodigoMoneda, DateTime valFechaDeVigencia, out string outTasa) {
+        [Obsolete("Este método no hace falta invocarlo internamente. Se deja declarado porque es una interface para acceso desde afuera.")]
+        bool IWrpCambio.ExisteTasaDeCambioParaElDia(string valCodigoMoneda, DateTime valFechaDeVigencia, out decimal outTasa) {
             ICambioPdn vCambio = new clsCambioNav();
-            decimal vTasaDecimal = 0;
-            bool vExiste = vCambio.ExisteTasaDeCambioParaElDia(valCodigoMoneda, valFechaDeVigencia, out vTasaDecimal);
-            outTasa = vTasaDecimal.ToString();
+            outTasa = 0;
+            bool vExiste = vCambio.ExisteTasaDeCambioParaElDia(valCodigoMoneda, valFechaDeVigencia, out outTasa);
             return vExiste;
         }
 
         string IWrpCambio.InsertaTasaDeCambioParaElDia(string valCodigoMoneda, DateTime valFechaDeVigencia, bool valUsarLimiteMaximoParaIngresoDeTasaDeCambio, decimal valMaximoLimitePermitidoParaLaTasaDeCambio, bool valEsModoAvanzado, bool valInsertarAutomaticamenteValorDeDolarDesdePortalBCV) {
-            clsCambioMenu vCambioMenu = new clsCambioMenu();
-            string vTasaDecimal = "0";
+            decimal vTasaDecimal;
             string vMonedaDolar = "USD";
 
-            if (((IWrpCambio)this).ExisteTasaDeCambioParaElDia(valCodigoMoneda, valFechaDeVigencia, out vTasaDecimal)) {
-                return vTasaDecimal;
+            if (((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(valCodigoMoneda, valFechaDeVigencia, out vTasaDecimal)) {
+                return LibConvert.ToStr(vTasaDecimal, 4);
             } else {
-                if (valCodigoMoneda == vMonedaDolar && valInsertarAutomaticamenteValorDeDolarDesdePortalBCV) {
+                if (LibDate.F1IsEqualToF2(valFechaDeVigencia, LibDate.Today()) && LibString.S1IsEqualToS2(valCodigoMoneda, vMonedaDolar) && valInsertarAutomaticamenteValorDeDolarDesdePortalBCV) {
                     vTasaDecimal = InsertaYDevuelveValorDolarDesdePortalBCV();
                 }
-                if (vTasaDecimal == "0") {
-                    return vCambioMenu.MostrarPantallaParaInsertarCambio(valCodigoMoneda, valFechaDeVigencia, valUsarLimiteMaximoParaIngresoDeTasaDeCambio, valMaximoLimitePermitidoParaLaTasaDeCambio, valEsModoAvanzado);
+                if (vTasaDecimal == 0) {
+                    return (new clsCambioMenu()).MostrarPantallaParaInsertarCambio(valCodigoMoneda, valFechaDeVigencia, valUsarLimiteMaximoParaIngresoDeTasaDeCambio, valMaximoLimitePermitidoParaLaTasaDeCambio, valEsModoAvanzado);
                 } else {
-                    return vTasaDecimal;
+                    return LibConvert.ToStr(vTasaDecimal, 4);
                 }
             }
         }
@@ -163,13 +162,11 @@ namespace Galac.Saw.Wrp.TablasGen {
             return vResult;
         }
 
-        string InsertaYDevuelveValorDolarDesdePortalBCV() {
-            ICambioPdn vCambio = new clsCambioNav();
-            bool vUsarUrlDePruebas = false;
-            vUsarUrlDePruebas = UsarUrlDePruebasApiBcv();
-            string vResult = vCambio.InsertaYDevuelveTasaDeCambioDolarBCVDesdeAPI(vUsarUrlDePruebas) ;
+        decimal InsertaYDevuelveValorDolarDesdePortalBCV() {
+            bool vUsarUrlDePruebas = UsarUrlDePruebasApiBcv();
+            string vResult = ((ICambioPdn)new clsCambioNav()).InsertaYDevuelveTasaDeCambioDolarBCVDesdeAPI(vUsarUrlDePruebas) ;
             decimal vResultDec = LibImportData.ToDec(vResult, 4);
-            return LibConvert.ToStr(vResultDec, 4);
+            return vResultDec;
         }
 
         private static bool UsarUrlDePruebasApiBcv() {
