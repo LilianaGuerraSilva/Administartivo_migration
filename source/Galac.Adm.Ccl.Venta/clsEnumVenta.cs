@@ -95,66 +95,7 @@ namespace Galac.Adm.Ccl.Venta {
         [LibEnumDescription("Ajuste")]
         Ajuste
     }
-
-    [TypeConverter(typeof(LibEnumTypeConverter))]
-    public enum eTipoDeTransaccion {
-        [LibEnumDescription("FACTURA")]
-        FACTURA = 0,
-        [LibEnumDescription("GIRO")]
-        GIRO,
-        [LibEnumDescription("CHEQUE DEVUELTO")]
-        CHEQUEDEVUELTO,
-        [LibEnumDescription("NOTA DE CREDITO")]
-        NOTADECREDITO,
-        [LibEnumDescription("NOTA DE DEBITO")]
-        NOTADEDEBITO,
-        [LibEnumDescription("NOTA DE ENTREGA")]
-        NOTAENTREGA,
-        [LibEnumDescription("NO ASIGNADO")]
-        NOASIGNADO,
-        [LibEnumDescription("BOLETA DE VENTA")]
-        BOLETADEVENTA,
-        [LibEnumDescription("TICKET MAQUINA REGISTRADORA")]
-        TICKETMAQUINAREGISTRADORA,
-        [LibEnumDescription("RECIBO POR HONORARIOS")]
-        RECIBOPORHONORARIOS,
-        [LibEnumDescription("LIQUIDACION DE COMPRA")]
-        LIQUIDACIONDECOMPRA,
-        [LibEnumDescription("OTROS")]
-        OTROS,
-        [LibEnumDescription("NOTA DE CREDITO DE COMPROBANTE FISCAL")]
-        NOTADECREDITOCOMPROBANTEFISCAL
-    }
-
-    [TypeConverter(typeof(LibEnumTypeConverter))]
-    public enum eStatusCobranza {
-        [LibEnumDescription("Vigente")]
-        Vigente = 0,
-        [LibEnumDescription("Anulada")]
-        Anulada
-    }
-
-    [TypeConverter(typeof(LibEnumTypeConverter))]
-    public enum eStatusCXC {
-        [LibEnumDescription("Por Cancelar", Index = 0)]
-        [LibEnumDescription("P/C", Index = 1)]
-        PORCANCELAR = 0,
-        [LibEnumDescription("Cancelado", Index = 0)]
-        [LibEnumDescription("CAN", Index = 1)]
-        CANCELADO,
-        [LibEnumDescription("Cheque Devuelto", Index = 0)]
-        [LibEnumDescription("C/D", Index = 1)]
-        CHEQUEDEVUELTO,
-        [LibEnumDescription("Abonado", Index = 0)]
-        [LibEnumDescription("ABO", Index = 1)]
-        ABONADO,
-        [LibEnumDescription("Anulado", Index = 0)]
-        [LibEnumDescription("ANU", Index = 1)]
-        ANULADO,
-        [LibEnumDescription("Refinanciado", Index = 0)]
-        [LibEnumDescription("REF", Index = 1)]
-        REFINANCIADO
-    }
+    
 
     [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eTipoDeTarjeta {
@@ -186,14 +127,6 @@ namespace Galac.Adm.Ccl.Venta {
         PendientePorDistribuir,
         [LibEnumDescription("Distribuido")]
         Distribuido
-    }
-
-    [TypeConverter(typeof(LibEnumTypeConverter))]
-    public enum eTipoDeDocumentoCobranza {
-        [LibEnumDescription("Cobranza De Factura")]
-        CobranzaDeFactura = 0,
-        [LibEnumDescription("Cobranza Por Aplicacion De Retencion")]
-        CobranzaPorAplicacionDeRetencion
     }
 
     //Este Enumerativo eFormaDeCobro se debe revisar, en muchos casos no aplica. porfavor no usar.
@@ -270,14 +203,6 @@ namespace Galac.Adm.Ccl.Venta {
         Resta,
         [LibEnumDescription("No Aplica - Es Informativo")]
         NoAplica_EsInformativo
-    }
-
-    [TypeConverter(typeof(LibEnumTypeConverter))]
-    public enum eClientesOrdenadosPor {
-        [LibEnumDescription("Por Código")]
-        PorCodigo = 0,
-        [LibEnumDescription("Por Nombre")]
-        PorNombre
     }
 
     [TypeConverter(typeof(LibEnumTypeConverter))]

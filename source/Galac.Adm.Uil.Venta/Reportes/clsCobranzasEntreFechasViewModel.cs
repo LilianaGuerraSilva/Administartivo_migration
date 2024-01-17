@@ -42,7 +42,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         DateTime _FechaDesde;
         DateTime _FechaHasta;
         eFiltrarCobranzasPor _FiltrarPorAsEnum;
-        Galac.Saw.Lib.eCantidadAImprimir _CantidadAImprimirAsEnum;
+        eCantidadAImprimir _CantidadAImprimirAsEnum;
         Galac.Saw.Lib.eMonedaParaImpresion _MonedaDelInformeAsEnum;
         Saw.Lib.eTasaDeCambioParaImpresion _TipoTasaDeCambioAsEnum;
         string _NombreCobrador;
@@ -270,7 +270,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             }
         }
 
-        public Saw.Lib.eCantidadAImprimir CantidadAImprimir {
+        public eCantidadAImprimir CantidadAImprimir {
             get {
                 return _CantidadAImprimirAsEnum;
             }
@@ -301,7 +301,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
                     RaisePropertyChanged(IsVisibleNombreCuentaBancariaPropertyName);
                 }
                 if(!_AgruparCampos) {
-                    CantidadAImprimir = Saw.Lib.eCantidadAImprimir.Todos;
+                    CantidadAImprimir = eCantidadAImprimir.All;
                     NombreCuentaBancaria = string.Empty;
                     NombreCobrador = string.Empty;
                     NombreCliente = string.Empty;
@@ -344,9 +344,9 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             }
         }
 
-        public Saw.Lib.eCantidadAImprimir[] ArrayCantidadAImprimir {
+        public eCantidadAImprimir[] ArrayCantidadAImprimir {
             get {
-                return LibEnumHelper<Saw.Lib.eCantidadAImprimir>.GetValuesInArray();
+                return LibEnumHelper<eCantidadAImprimir>.GetValuesInArray();
             }
         }
         
@@ -356,7 +356,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         public clsCobranzasEntreFechasViewModel() {
             FechaDesde = LibDate.Today();
             FechaHasta = LibDate.Today();
-            CantidadAImprimir = Saw.Lib.eCantidadAImprimir.Todos;
+            CantidadAImprimir = eCantidadAImprimir.All;
             FiltrarPor = eFiltrarCobranzasPor.Cobrador;
             TasaDeCambio = 1;
             TipoTasaDeCambio = Saw.Lib.eTasaDeCambioParaImpresion.DelDia;
@@ -459,7 +459,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 
         private ValidationResult NombreCobradorValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if(LibString.IsNullOrEmpty(NombreCobrador) && CantidadAImprimir==Saw.Lib.eCantidadAImprimir.Uno && FiltrarPor == eFiltrarCobranzasPor.Cobrador) {
+            if(LibString.IsNullOrEmpty(NombreCobrador) && CantidadAImprimir==eCantidadAImprimir.One && FiltrarPor == eFiltrarCobranzasPor.Cobrador) {
                 vResult = new ValidationResult("El nombre del cobrador no puede estar en blanco");
             }
             return vResult;
@@ -467,7 +467,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 
         private ValidationResult NombreClienteValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if(LibString.IsNullOrEmpty(NombreCliente) && CantidadAImprimir == Saw.Lib.eCantidadAImprimir.Uno && FiltrarPor == eFiltrarCobranzasPor.Cliente) {
+            if(LibString.IsNullOrEmpty(NombreCliente) && CantidadAImprimir == eCantidadAImprimir.One && FiltrarPor == eFiltrarCobranzasPor.Cliente) {
                 vResult = new ValidationResult("El nombre del cliente no puede estar en blanco");
             }
             return vResult;
@@ -475,7 +475,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 
         private ValidationResult NombreCuentaBancariaValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if(LibString.IsNullOrEmpty(NombreCuentaBancaria) && CantidadAImprimir == Saw.Lib.eCantidadAImprimir.Uno && FiltrarPor == eFiltrarCobranzasPor.CuentaBancaria) {
+            if(LibString.IsNullOrEmpty(NombreCuentaBancaria) && CantidadAImprimir == eCantidadAImprimir.One && FiltrarPor == eFiltrarCobranzasPor.CuentaBancaria) {
                 vResult = new ValidationResult("El nombre de la cuenta bancaria no puede estar en blanco");
             }
             return vResult;
@@ -486,15 +486,15 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         }
 
         public bool IsVisibleNombreDelCobrador {            
-            get { return AgruparCampos && FiltrarPor == eFiltrarCobranzasPor.Cobrador && CantidadAImprimir == Saw.Lib.eCantidadAImprimir.Uno; }           
+            get { return AgruparCampos && FiltrarPor == eFiltrarCobranzasPor.Cobrador && CantidadAImprimir == eCantidadAImprimir.One; }           
         }
 
         public bool IsVisibleNombreDelCliente {
-            get{ return AgruparCampos && FiltrarPor == eFiltrarCobranzasPor.Cliente && CantidadAImprimir == Saw.Lib.eCantidadAImprimir.Uno; }            
+            get{ return AgruparCampos && FiltrarPor == eFiltrarCobranzasPor.Cliente && CantidadAImprimir == eCantidadAImprimir.One; }            
         }
 
         public bool IsVisibleNombreCuentaBancaria {
-            get { return AgruparCampos &&  FiltrarPor == eFiltrarCobranzasPor.CuentaBancaria && CantidadAImprimir == Saw.Lib.eCantidadAImprimir.Uno; }
+            get { return AgruparCampos &&  FiltrarPor == eFiltrarCobranzasPor.CuentaBancaria && CantidadAImprimir == eCantidadAImprimir.One; }
         }
 
         public bool IsVisibleUsaVentasConIvaDiferidos {

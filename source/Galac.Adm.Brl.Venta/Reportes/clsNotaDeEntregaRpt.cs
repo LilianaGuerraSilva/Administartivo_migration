@@ -33,7 +33,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             return vResult;
         }
 
-        DataTable INotaDeEntregaInformes.BuildNotaDeEntregaEntreFechasPorCliente(int valConsecutivoCompania, DateTime valtFechaDesde, DateTime valFechaHasta, bool valIncluirNotasDeEntregasAnuladas, Saw.Lib.eCantidadAImprimir valCantidadAImprimir, Saw.Lib.eMonedaParaImpresion valMonedaDelReporte, string valCodigoCliente) {
+        DataTable INotaDeEntregaInformes.BuildNotaDeEntregaEntreFechasPorCliente(int valConsecutivoCompania, DateTime valtFechaDesde, DateTime valFechaHasta, bool valIncluirNotasDeEntregasAnuladas, eCantidadAImprimir valCantidadAImprimir, Saw.Lib.eMonedaParaImpresion valMonedaDelReporte, string valCodigoCliente) {
             string vSql = "";
             clsNotaDeEntregaSql insNotaDeEntregaSql = new clsNotaDeEntregaSql();
             LibGalac.Aos.Base.ILibDataRpt insNotaDeEntregaEntreFechasPorCliente = new Galac.Adm.Dal.Venta.clsFacturaRapidaDat();

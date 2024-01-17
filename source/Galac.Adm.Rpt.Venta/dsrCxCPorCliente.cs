@@ -10,6 +10,7 @@ using LibGalac.Aos.ARRpt;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.DefGen;
 using Galac.Adm.Ccl.Venta;
+using Galac.Saw.Lib;
 
 namespace Galac.Adm.Rpt.Venta {
 	/// <summary>

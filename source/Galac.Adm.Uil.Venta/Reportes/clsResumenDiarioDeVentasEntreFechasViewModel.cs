@@ -31,7 +31,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         private DateTime _FechaDesde;
         private DateTime _FechaHasta;
         bool _AgruparPorMaquinaFiscal;
-        private Saw.Lib.eCantidadAImprimir _CantidadAImprimirAsEnum;
+        private eCantidadAImprimir _CantidadAImprimirAsEnum;
         private string _ConsecutivoMaquinaFiscal;
 
         private FkMaquinaFiscalViewModel _ConexionConsecutivoMaquinaFiscal = null;
@@ -96,13 +96,13 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 			{
 				if (_AgruparPorMaquinaFiscal != value) {
 					_AgruparPorMaquinaFiscal = value;
-					CantidadAImprimir = Saw.Lib.eCantidadAImprimir.Todos;
+					CantidadAImprimir = eCantidadAImprimir.All;
 					RaisePropertyChanged(AgruparPorMaquinaFiscalPropertyName);
 				}
 			}
 		}
 
-		public Saw.Lib.eCantidadAImprimir CantidadAImprimir
+		public eCantidadAImprimir CantidadAImprimir
 		{
 			get
 			{
@@ -155,11 +155,11 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 			}
 		}
 
-		public Saw.Lib.eCantidadAImprimir[] ArrayCantidadAImprimir
+		public eCantidadAImprimir[] ArrayCantidadAImprimir
 		{
 			get
 			{
-				return LibEnumHelper<Saw.Lib.eCantidadAImprimir>.GetValuesInArray();
+				return LibEnumHelper<eCantidadAImprimir>.GetValuesInArray();
 			}
 		}
 		#endregion //Propiedades
@@ -169,7 +169,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 			FechaDesde = LibDate.Today();
 			FechaHasta = LibDate.Today();
 			AgruparPorMaquinaFiscal = false;
-			CantidadAImprimir = Saw.Lib.eCantidadAImprimir.Todos;
+			CantidadAImprimir = eCantidadAImprimir.All;
 			ConsecutivoMaquinaFiscal = string.Empty;
 		}
 
@@ -233,7 +233,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 		private ValidationResult ConsecutivoMaquinaFiscalValidating()
 		{
 			ValidationResult vResult = ValidationResult.Success;
-			if (LibString.IsNullOrEmpty(ConsecutivoMaquinaFiscal) && CantidadAImprimir == Saw.Lib.eCantidadAImprimir.Uno) {
+			if (LibString.IsNullOrEmpty(ConsecutivoMaquinaFiscal) && CantidadAImprimir == eCantidadAImprimir.One) {
 				vResult = new ValidationResult("El consecutivo de la Máquina Fiscal no puede estar en blanco");
 			}
 			return vResult;
@@ -241,7 +241,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 
 		public bool IsEnabledConsecutivoMaquinaFiscal
 		{
-			get { return CantidadAImprimir == Saw.Lib.eCantidadAImprimir.Uno; }
+			get { return CantidadAImprimir == eCantidadAImprimir.One; }
 		}
 		#endregion //Código Programador
 

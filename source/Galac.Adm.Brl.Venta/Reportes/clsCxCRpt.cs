@@ -57,11 +57,11 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             return insCxCPorCliente.GetDt(vSql, 0);
         }
 
-        System.Data.DataTable ICxCInformes.BuildCxCEntreFechas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, eInformeStatusCXC_CXP valStatusCxC, eInformeAgruparPor valAgruparPor, string valZonaDeCobranza, string valSectorDeNegocio, eMonedaDelInformeMM valMonedaDelInforme, string valMoneda, eTasaDeCambioParaImpresion valTasaDeCambio, bool valMostrarNroComprobanteContable) {
+        System.Data.DataTable ICxCInformes.BuildCxCEntreFechas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, eInformeStatusCXC_CXP valStatusCxC, eInformeAgruparPor valAgruparPor, string valZonaDeCobranza, string valSectorDeNegocio, eMonedaDelInformeMM valMonedaDelInforme, string valCodigoMoneda, string valNombreMoneda, eTasaDeCambioParaImpresion valTasaDeCambio, bool valMostrarNroComprobanteContable) {
             string vSql = "";
             clsCxCSql insCxCSql = new clsCxCSql();
             ILibDataRpt insCxCEntreFechas = new Dal.Venta.clsCXCDat();
-            vSql = insCxCSql.SqlCxCEntreFechas(valConsecutivoCompania, valFechaDesde, valFechaHasta, valStatusCxC, valAgruparPor, valZonaDeCobranza, valSectorDeNegocio, valMonedaDelInforme, valMoneda, valTasaDeCambio, valMostrarNroComprobanteContable);
+            vSql = insCxCSql.SqlCxCEntreFechas(valConsecutivoCompania, valFechaDesde, valFechaHasta, valStatusCxC, valAgruparPor, valZonaDeCobranza, valSectorDeNegocio, valMonedaDelInforme, valCodigoMoneda, valNombreMoneda, valTasaDeCambio, valMostrarNroComprobanteContable);
             return insCxCEntreFechas.GetDt(vSql, 0);
         }
 
@@ -96,24 +96,6 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             }
             return vResult;
         }
-
-        ObservableCollection<string> ICxCInformes.ListaDeMonedasActivasParaInformes() {
-            ObservableCollection<string> vResult = new ObservableCollection<string>();
-            string vSql = "SELECT Codigo, Nombre FROM Moneda WHERE Activa = 'S' AND Nombre NOT LIKE '%bolívar%' ORDER BY Codigo DESC";
-            XElement vResultSet = LibBusiness.ExecuteSelect(vSql, null, "", 0);
-            if (vResultSet != null) {
-                var vEntity = from vRecord in vResultSet.Descendants("GpResult") select vRecord;
-                string vNewItem;
-                foreach (XElement vItem in vEntity) {
-                    if (vItem != null) {
-                        vNewItem = "(" + LibConvert.ToStr(vItem.Element("Codigo").Value) + ") " + LibConvert.ToStr(vItem.Element("Nombre").Value);
-                        vResult.Add(vNewItem);
-                    }
-                }
-            }
-            return vResult;
-        }
-
         #endregion //Metodos Generados
     } //End of class clsCxCRpt
 } //End of namespace Galac.Adm.Brl.Venta

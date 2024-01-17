@@ -71,7 +71,8 @@ namespace Galac.Adm.Rpt.Venta {
             int vConsecutivoCompania = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania");
             string vCodigoMoneda = LibString.Trim(LibString.Mid(Moneda, 1, LibString.InStr(Moneda, ")") - 1));
             vCodigoMoneda = LibString.IsNullOrEmpty(vCodigoMoneda, true) ? LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera") : vCodigoMoneda;
-            Data = vRpt.BuildCxCEntreFechas(vConsecutivoCompania, FechaDesde, FechaHasta, StatusCxC, AgruparPor, ZonaDeCobranza, SectorDeNegocio, MonedaDelInforme, vCodigoMoneda, TasaDeCambio, MostrarNroComprobanteContable);
+            string vNombreMoneda = LibString.Trim(LibString.Mid(Moneda, LibString.InStr(Moneda, ")")));
+            Data = vRpt.BuildCxCEntreFechas(vConsecutivoCompania, FechaDesde, FechaHasta, StatusCxC, AgruparPor, ZonaDeCobranza, SectorDeNegocio, MonedaDelInforme, vCodigoMoneda, vNombreMoneda, TasaDeCambio, MostrarNroComprobanteContable);
         }
 
         public override void SendReportToDevice() {

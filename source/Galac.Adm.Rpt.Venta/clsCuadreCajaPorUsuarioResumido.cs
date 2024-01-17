@@ -20,11 +20,11 @@ namespace Galac.Adm.Rpt.Venta {
         public DateTime FechaFinal { get; set; }
         public Saw.Lib.eTipoDeInforme TipoDeInforme { get; set; }
         public Saw.Lib.eMonedaParaImpresion MonedaDeReporte { get; set; }
-        public Saw.Lib.eCantidadAImprimir CantidadOperadorDeReporte { get; set; }
+        public eCantidadAImprimir CantidadOperadorDeReporte { get; set; }
         public string NombreDelOperador { get; set; }
         #endregion //Propiedades
         #region Constructores
-        public clsCuadreCajaPorUsuarioResumido(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eTipoDeInforme valTipoDeInforme, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, Saw.Lib.eCantidadAImprimir valCantidadAImprimir, string valNombreDelOperador)
+        public clsCuadreCajaPorUsuarioResumido(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eTipoDeInforme valTipoDeInforme, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, eCantidadAImprimir valCantidadAImprimir, string valNombreDelOperador)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
             FechaInicial = valFechaInicial;
             FechaFinal = valFechaFinal;

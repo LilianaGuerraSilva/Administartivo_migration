@@ -16,6 +16,7 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Base.Dal;
 using LibGalac.Aos.Brl;
 using LibGalac.Aos.Catching;
+using Galac.Saw.Lib;
 using Galac.Adm.Ccl.ImprentaDigital;
 
 namespace Galac.Adm.Brl.ImprentaDigital {

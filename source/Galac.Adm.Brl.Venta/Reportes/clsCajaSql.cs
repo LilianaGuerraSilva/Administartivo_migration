@@ -21,7 +21,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
         }
         #region Metodos Generados
 
-        public string SqlCuadreCajaCobroMultimonedaDetallado(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eCantidadAImprimir valCantidadOperadorDeReporte, string valNombreDelOperador, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, bool valTotalesTipoCobro) {
+        public string SqlCuadreCajaCobroMultimonedaDetallado(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, eCantidadAImprimir valCantidadOperadorDeReporte, string valNombreDelOperador, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, bool valTotalesTipoCobro) {
             StringBuilder vSql = new StringBuilder();
             int vConsecutivoCajaGenerica = 0;
             string vSQLWhere = "";
@@ -30,8 +30,8 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSQLWhere = vSQLWhere + " AND factura.TipoDeDocumento IN ( " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) + ")";
             vSQLWhere = vSQLWhere + " AND (SAW.FormaDelCobro.TipoDePago  <> " + insSql.EnumToSqlValue((int)eTipoDeFormaDePago.VueltoEfectivo) + " AND SAW.FormaDelCobro.TipoDePago  <> " + insSql.EnumToSqlValue((int)eTipoDeFormaDePago.VueltoC2P) + ") ";
             vSQLWhere = insSql.SqlDateValueBetween(vSQLWhere, "factura.fecha", valFechaInicial, valFechaFinal);
-            vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.GeneraCobroDirecto", insSql.ToSqlValue("S"));
-            if (valCantidadOperadorDeReporte == Saw.Lib.eCantidadAImprimir.Uno) {
+            vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.GeneraCobroDirecto", insSql.ToSqlValue("S"));            
+            if (valCantidadOperadorDeReporte == eCantidadAImprimir.One) {
                 vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "factura.NombreOperador", valNombreDelOperador);
             }
             vSQLWhere = insSql.SqlIntValueWithAnd(vSQLWhere, "factura.ConsecutivoCompania", valConsecutivoCompania);
@@ -262,7 +262,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             return vSql.ToString();
         }
 
-        public string SqlCuadreCajaPorTipoCobroYUsuario(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eCantidadAImprimir valCantidadOperadorDeReporte, string valNombreDelOperador, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte) {
+        public string SqlCuadreCajaPorTipoCobroYUsuario(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, eCantidadAImprimir valCantidadOperadorDeReporte, string valNombreDelOperador, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte) {
             int vConsecutivoCajaGenerica = 0;
             string vSQLWhereFactura = string.Empty;
             string vSQLWhereAnticipo = string.Empty;
@@ -272,7 +272,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSQLWhereAnticipo = vSQLWhereAnticipo + " AND anticipo.Status IN ( " + insSql.EnumToSqlValue((int)eStatusAnticipo.Vigente) + "," + insSql.EnumToSqlValue((int)eStatusAnticipo.ParcialmenteUsado) + ")";
             vSQLWhereAnticipo = insSql.SqlDateValueBetween(vSQLWhereAnticipo, "anticipo.Fecha", valFechaInicial, valFechaFinal);
             vSQLWhereAnticipo = insSql.SqlExpressionValueWithAnd(vSQLWhereAnticipo, "anticipo.AsociarAnticipoACaja", insSql.ToSqlValue(LibConvert.BoolToSN(true)));
-            if (valCantidadOperadorDeReporte == Saw.Lib.eCantidadAImprimir.Uno && !LibString.IsNullOrEmpty(valNombreDelOperador)) {
+            if (valCantidadOperadorDeReporte == eCantidadAImprimir.One && !LibString.IsNullOrEmpty(valNombreDelOperador)) {
                 vSQLWhereAnticipo = insSql.SqlValueWithAnd(vSQLWhereAnticipo, "anticipo.NombreOperador", valNombreDelOperador);
             }
             vSQLWhereAnticipo = insSql.SqlIntValueWithAnd(vSQLWhereAnticipo, "anticipo.ConsecutivoCompania", valConsecutivoCompania);
@@ -283,7 +283,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSQLWhereFactura = vSQLWhereFactura + " AND (SAW.FormaDelCobro.TipoDePago  <> " + insSql.EnumToSqlValue((int)eTipoDeFormaDePago.VueltoEfectivo) + " AND SAW.FormaDelCobro.TipoDePago  <> " + insSql.EnumToSqlValue((int)eTipoDeFormaDePago.VueltoC2P) + ") ";
             vSQLWhereFactura = insSql.SqlDateValueBetween(vSQLWhereFactura, "factura.fecha", valFechaInicial, valFechaFinal);
             vSQLWhereFactura = insSql.SqlExpressionValueWithAnd(vSQLWhereFactura, "factura.GeneraCobroDirecto", insSql.ToSqlValue(LibConvert.BoolToSN(true)));
-            if (valCantidadOperadorDeReporte == Saw.Lib.eCantidadAImprimir.Uno && !LibString.IsNullOrEmpty(valNombreDelOperador)) {
+            if (valCantidadOperadorDeReporte == eCantidadAImprimir.One && !LibString.IsNullOrEmpty(valNombreDelOperador)) {
                 vSQLWhereFactura = insSql.SqlValueWithAnd(vSQLWhereFactura, "factura.NombreOperador", valNombreDelOperador);
             }
             vSQLWhereFactura = insSql.SqlIntValueWithAnd(vSQLWhereFactura, "factura.ConsecutivoCompania", valConsecutivoCompania);
@@ -607,7 +607,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             return vSql.ToString();
         }
 
-        public string SqlCuadreCajaPorUsuario(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eTipoDeInforme valTipoDeInforme, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, Saw.Lib.eCantidadAImprimir valCantidadOperadorDeReporte, string valNombreDelOperador) {
+        public string SqlCuadreCajaPorUsuario(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eTipoDeInforme valTipoDeInforme, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, eCantidadAImprimir valCantidadOperadorDeReporte, string valNombreDelOperador) {
             const int vConsecutivoCajaGenerica = 0;
             StringBuilder vSql = new StringBuilder();
             #region Filtro de consulta
@@ -623,7 +623,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             string fechaCierre = " AND Factura.Fecha <= " + insSql.IIF("CajaApertura.CajaCerrada = " + insSql.ToSqlValue(false), "CajaApertura.Fecha", "GetDate()", true);
             #endregion Manejo para Fechas de Apertura y Cierre de Caja
             vSQLWhere = vSQLWhere + fechaCierre + horaCierre;
-            if (valCantidadOperadorDeReporte == Saw.Lib.eCantidadAImprimir.Uno && !LibString.IsNullOrEmpty(valNombreDelOperador)) {
+            if (valCantidadOperadorDeReporte == eCantidadAImprimir.One && !LibString.IsNullOrEmpty(valNombreDelOperador)) {
                 vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "Factura.NombreOperador", valNombreDelOperador);
             }
             vSQLWhere = insSql.SqlIntValueWithAnd(vSQLWhere, "factura.ConsecutivoCompania", valConsecutivoCompania);

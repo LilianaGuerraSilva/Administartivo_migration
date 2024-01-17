@@ -23,12 +23,12 @@ namespace Galac.Adm.Rpt.Venta {
         private Saw.Lib.eTasaDeCambioParaImpresion TasaDeCambioImpresion { get; set; }
         private bool IncluirComisionEnMonedaExt { get; set; }
         private decimal TasaDeCambioComisionMonedaExt { get; set; }
-        private Saw.Lib.eCantidadAImprimir CantidadAImprimir { get; set; }
+        private eCantidadAImprimir CantidadAImprimir { get; set; }
         private string CodigoVendedor { get; set; }
         private string SimboloMonedaExtranjera { get; set; }
         #endregion //Propiedades
         #region Constructores
-        public clsComisionDeVendedoresPorCobranzaMonto(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eTipoDeInforme valTipoDeInforme,Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, Saw.Lib.eTasaDeCambioParaImpresion valTasaDeCambioImpresion, bool valIncluirComisionEnMonedaExt, decimal valTasaDeCambioComisionMonedaExt, Saw.Lib.eCantidadAImprimir valCantidadAImprimir, string valCodigoVendedor, string valSimboloMonedaExtranjera)
+        public clsComisionDeVendedoresPorCobranzaMonto(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eTipoDeInforme valTipoDeInforme,Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, Saw.Lib.eTasaDeCambioParaImpresion valTasaDeCambioImpresion, bool valIncluirComisionEnMonedaExt, decimal valTasaDeCambioComisionMonedaExt, eCantidadAImprimir valCantidadAImprimir, string valCodigoVendedor, string valSimboloMonedaExtranjera)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
             FechaInicial = valFechaInicial;
             FechaFinal = valFechaFinal;

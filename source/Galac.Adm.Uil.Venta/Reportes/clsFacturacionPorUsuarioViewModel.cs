@@ -2,6 +2,7 @@ using Galac.Adm.Brl.Venta;
 using Galac.Adm.Ccl.Venta;
 using Galac.Adm.Uil.Venta.ViewModel;
 using LibGalac.Aos.Base;
+using LibGalac.Aos.Base.Report;
 using LibGalac.Aos.Ccl.Usal;
 using LibGalac.Aos.DefGen;
 using LibGalac.Aos.UI.Mvvm;
@@ -30,7 +31,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 		#region Variables
 		private DateTime _FechaDesde;
 		private DateTime _FechaHasta;
-		private Saw.Lib.eCantidadAImprimir _CantidadAImprimirAsEnum;
+		private eCantidadAImprimir _CantidadAImprimirAsEnum;
 		private string _NombreOperador;
 		private Saw.Lib.eMonedaParaImpresion _MonedaDelInformeAsEnum;
 		private Saw.Lib.eTasaDeCambioParaImpresion _TipoTasaDeCambioAsEnum;
@@ -83,7 +84,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 			}
 		}
 
-		public Saw.Lib.eCantidadAImprimir CantidadAImprimir {
+		public eCantidadAImprimir CantidadAImprimir {
 			get {
 				return _CantidadAImprimirAsEnum;
 			}
@@ -187,9 +188,9 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 			}
 		}
 
-		public Saw.Lib.eCantidadAImprimir[] ArrayCantidadAImprimir {
+		public eCantidadAImprimir[] ArrayCantidadAImprimir {
 			get {
-				return LibEnumHelper<Saw.Lib.eCantidadAImprimir>.GetValuesInArray();
+				return LibEnumHelper<eCantidadAImprimir>.GetValuesInArray();
 			}
 		}
 
@@ -213,7 +214,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 		public clsFacturacionPorUsuarioViewModel() {
 			FechaDesde = LibDate.Today();
 			FechaHasta = LibDate.Today();
-			CantidadAImprimir = Saw.Lib.eCantidadAImprimir.Todos;
+			CantidadAImprimir = eCantidadAImprimir.All;
 			NombreOperador = string.Empty;
 			MonedaDelInforme = Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal;
 			TipoTasaDeCambio = Saw.Lib.eTasaDeCambioParaImpresion.DelDia;
@@ -277,14 +278,14 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 
 		private ValidationResult NombreOperadorValidating() {
 			ValidationResult vResult = ValidationResult.Success;
-			if (LibString.IsNullOrEmpty(NombreOperador) && CantidadAImprimir == Saw.Lib.eCantidadAImprimir.Uno) {
+			if (LibString.IsNullOrEmpty(NombreOperador) && CantidadAImprimir == eCantidadAImprimir.One) {
 				vResult = new ValidationResult("El nombre del operador no puede estar en blanco");
 			}
 			return vResult;
 		}
 
 		public bool IsEnabledNombreOperador {
-			get { return CantidadAImprimir == Saw.Lib.eCantidadAImprimir.Uno; }
+			get { return CantidadAImprimir == eCantidadAImprimir.One; }
 		}
 
 		public bool IsVisibleTipoTasaDeCambio {

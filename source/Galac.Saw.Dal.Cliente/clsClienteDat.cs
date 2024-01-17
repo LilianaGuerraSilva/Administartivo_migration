@@ -14,9 +14,10 @@ using LibGalac.Aos.Dal;
 using LibGalac.Aos.DefGen;
 using Entity = Galac.Saw.Ccl.Cliente;
 using Galac.Saw.Ccl.Cliente;
+using System.Data;
 
 namespace Galac.Saw.Dal.Cliente {
-    public class clsClienteDat : LibData, ILibDataComponentWithSearch<IList<Entity.Cliente>, IList<Entity.Cliente>> {
+    public class clsClienteDat : LibData, ILibDataComponentWithSearch<IList<Entity.Cliente>, IList<Entity.Cliente>>, ILibDataRpt {
         #region Variables
         Entity.Cliente _CurrentRecord;
         #endregion //Variables
@@ -449,6 +450,16 @@ namespace Galac.Saw.Dal.Cliente {
             return vResult;
         }
         #endregion //Miembros de ILibDataFKSearch
+
+        #region //Miembros de ILibDataRpt
+        DataTable ILibDataRpt.GetDt(string valSqlStringCommand, int valCmdTimeout) {
+            return new LibDataReport().GetDataTableForReport(valSqlStringCommand, valCmdTimeout);
+        }
+
+        DataTable ILibDataRpt.GetDt(string valSpName, StringBuilder valXmlParamsExpression, int valCmdTimeout) {
+            return new LibDataReport().GetDataTableForReport(valSpName, valXmlParamsExpression, valCmdTimeout);
+        }
+        #endregion ////Miembros de ILibDataRpt
         #endregion //Metodos Generados
 
 
