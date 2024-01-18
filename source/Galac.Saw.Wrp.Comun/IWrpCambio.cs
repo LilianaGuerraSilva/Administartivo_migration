@@ -10,9 +10,7 @@ namespace Galac.Saw.Wrp.TablasGen {
         string InsertaTasaDeCambioParaElDia(string valMoneda, DateTime valFechaVigencia,bool valUsarLimiteMaximoParaIngresoDeTasaDeCambio, decimal valMaximoLimitePermitidoParaLaTasaDeCambio, bool valEsModoAvanzado, bool valInsertarAutomaticamenteValorDeDolarDesdePortalBCV);
         bool InsertarTasaDeCambioDelDiaDesdeSunat(string valMoneda, DateTime valFechaVigencia, decimal valCambioAMonedaLocal, decimal valCambioAMonedaLocalVenta);
         bool InsertarCambioDeMonLocalAnteriorAMonLocalActVigente(string valCodigoMonedaLocalAnterior, decimal valCambioAMonedaLocal);
-        bool BuscarUltimoCambioDeMoneda(string valCodigoMoneda, out DateTime outFechaDeVigencia, out decimal outCambioAMonedaLOcal);
-
-        [Obsolete("Este método no hace falta invocarlo internamente. Se deja declarado porque es una interface para acceso desde afuera.")]
-        bool ExisteTasaDeCambioParaElDia(string valMoneda, DateTime valFecha, out decimal outTasa);
+        bool BuscarUltimoCambioDeMoneda(string valCodigoMoneda, out DateTime outFechaDeVigencia, out decimal outCambioAMonedaLOcal);        
+        bool ExisteTasaDeCambioParaElDia(string valMoneda, DateTime valFecha, out string outTasa);
     }
 }
