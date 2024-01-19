@@ -113,12 +113,11 @@ namespace Galac.Saw.Wrp.TablasGen {
         }
 
         #endregion //Miembros de IWrpCs
-
-        [Obsolete("Este método no hace falta invocarlo internamente. Se deja declarado porque es una interface para acceso desde afuera.")]
-        bool IWrpCambio.ExisteTasaDeCambioParaElDia(string valCodigoMoneda, DateTime valFechaDeVigencia, out decimal outTasa) {
+        bool IWrpCambio.ExisteTasaDeCambioParaElDia(string valCodigoMoneda, DateTime valFechaDeVigencia, out string outTasa) {
             ICambioPdn vCambio = new clsCambioNav();
-            outTasa = 0;
-            bool vExiste = vCambio.ExisteTasaDeCambioParaElDia(valCodigoMoneda, valFechaDeVigencia, out outTasa);
+            decimal vTasaDecimal = 0;
+            bool vExiste = vCambio.ExisteTasaDeCambioParaElDia(valCodigoMoneda, valFechaDeVigencia, out vTasaDecimal);
+            outTasa = LibConvert.NumToString(vTasaDecimal, 4);
             return vExiste;
         }
 
