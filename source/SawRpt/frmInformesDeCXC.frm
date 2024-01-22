@@ -16,7 +16,7 @@ Begin VB.Form frmInformesDeCXC
       Caption         =   "Frame1"
       Height          =   600
       Left            =   3360
-      TabIndex        =   88
+      TabIndex        =   87
       Top             =   4320
       Visible         =   0   'False
       Width           =   8000
@@ -24,7 +24,7 @@ Begin VB.Form frmInformesDeCXC
          Enabled         =   0   'False
          Height          =   315
          Left            =   2520
-         TabIndex        =   91
+         TabIndex        =   90
          Top             =   240
          Width           =   1935
       End
@@ -32,7 +32,7 @@ Begin VB.Form frmInformesDeCXC
          Caption         =   "Check1"
          Height          =   255
          Left            =   2160
-         TabIndex        =   89
+         TabIndex        =   88
          Top             =   240
          Width           =   255
       End
@@ -41,7 +41,7 @@ Begin VB.Form frmInformesDeCXC
          Caption         =   "Zona de Cobranza"
          Height          =   255
          Left            =   2520
-         TabIndex        =   92
+         TabIndex        =   91
          Top             =   0
          Width           =   1935
       End
@@ -51,7 +51,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   255
          Left            =   0
-         TabIndex        =   90
+         TabIndex        =   89
          Top             =   240
          Width           =   2055
       End
@@ -62,14 +62,14 @@ Begin VB.Form frmInformesDeCXC
       Caption         =   "Frame1"
       Height          =   375
       Left            =   3360
-      TabIndex        =   85
+      TabIndex        =   84
       Top             =   3720
       Width           =   1995
       Begin VB.CheckBox ChkContacto 
          Caption         =   "Check1"
          Height          =   255
          Left            =   1440
-         TabIndex        =   86
+         TabIndex        =   85
          Top             =   120
          Width           =   255
       End
@@ -79,7 +79,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   255
          Left            =   0
-         TabIndex        =   87
+         TabIndex        =   86
          Top             =   120
          Width           =   1335
       End
@@ -89,7 +89,7 @@ Begin VB.Form frmInformesDeCXC
       Caption         =   "Agrupado por"
       Height          =   1455
       Left            =   3240
-      TabIndex        =   75
+      TabIndex        =   74
       Top             =   960
       Width           =   5900
       Begin VB.Frame frameOptTipoAgrupar 
@@ -97,7 +97,7 @@ Begin VB.Form frmInformesDeCXC
          BorderStyle     =   0  'None
          Height          =   1100
          Left            =   1680
-         TabIndex        =   82
+         TabIndex        =   81
          Top             =   240
          Width           =   1700
          Begin VB.OptionButton optTipoAgrupar 
@@ -106,7 +106,7 @@ Begin VB.Form frmInformesDeCXC
             Height          =   255
             Index           =   0
             Left            =   0
-            TabIndex        =   84
+            TabIndex        =   83
             Top             =   240
             Width           =   1815
          End
@@ -116,7 +116,7 @@ Begin VB.Form frmInformesDeCXC
             Height          =   255
             Index           =   1
             Left            =   0
-            TabIndex        =   83
+            TabIndex        =   82
             Top             =   480
             Width           =   1815
          End
@@ -124,7 +124,7 @@ Begin VB.Form frmInformesDeCXC
       Begin VB.ComboBox cmbAgruparZona 
          Height          =   315
          Left            =   3600
-         TabIndex        =   81
+         TabIndex        =   80
          Top             =   600
          Visible         =   0   'False
          Width           =   1935
@@ -132,7 +132,7 @@ Begin VB.Form frmInformesDeCXC
       Begin VB.ComboBox cmbAgruparSectorDeNegocio 
          Height          =   315
          Left            =   3600
-         TabIndex        =   79
+         TabIndex        =   78
          Top             =   600
          Width           =   1935
       End
@@ -142,7 +142,7 @@ Begin VB.Form frmInformesDeCXC
          Height          =   255
          Index           =   1
          Left            =   240
-         TabIndex        =   77
+         TabIndex        =   76
          Top             =   840
          Width           =   1300
       End
@@ -152,7 +152,7 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   0
          Left            =   240
-         TabIndex        =   76
+         TabIndex        =   75
          Top             =   360
          Width           =   1200
       End
@@ -161,7 +161,7 @@ Begin VB.Form frmInformesDeCXC
          Caption         =   "Zona de Cobranza"
          Height          =   255
          Left            =   3600
-         TabIndex        =   80
+         TabIndex        =   79
          Top             =   360
          Visible         =   0   'False
          Width           =   1935
@@ -171,7 +171,7 @@ Begin VB.Form frmInformesDeCXC
          Caption         =   "Agrupar por..."
          Height          =   255
          Left            =   3600
-         TabIndex        =   78
+         TabIndex        =   77
          Top             =   360
          Width           =   1935
       End
@@ -189,7 +189,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   6120
-      TabIndex        =   74
+      TabIndex        =   73
       Top             =   3840
       Width           =   1935
    End
@@ -199,13 +199,13 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   4200
-      TabIndex        =   72
+      TabIndex        =   71
       Top             =   1920
       Width           =   6075
       Begin VB.ComboBox cmbTipodocumento 
          Height          =   315
          Left            =   1560
-         TabIndex        =   21
+         TabIndex        =   20
          Top             =   0
          Width           =   2055
       End
@@ -217,7 +217,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   60
-         TabIndex        =   73
+         TabIndex        =   72
          Top             =   60
          Width           =   1410
       End
@@ -229,7 +229,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   3240
-      TabIndex        =   19
+      TabIndex        =   18
       Top             =   1560
       Width           =   2775
    End
@@ -240,7 +240,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   3360
-      TabIndex        =   12
+      TabIndex        =   11
       Top             =   720
       Visible         =   0   'False
       Width           =   2415
@@ -252,7 +252,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   3300
-      TabIndex        =   32
+      TabIndex        =   31
       Top             =   3960
       Width           =   2115
    End
@@ -263,7 +263,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   3300
-      TabIndex        =   31
+      TabIndex        =   30
       Top             =   3720
       Width           =   2115
    End
@@ -273,13 +273,13 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   5400
-      TabIndex        =   70
+      TabIndex        =   69
       Top             =   3120
       Width           =   3435
       Begin VB.ComboBox cmbOrdenadoPor 
          Height          =   315
          Left            =   1560
-         TabIndex        =   28
+         TabIndex        =   27
          Top             =   0
          Width           =   1575
       End
@@ -291,7 +291,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   60
-         TabIndex        =   71
+         TabIndex        =   70
          Top             =   60
          Width           =   990
       End
@@ -303,7 +303,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   6000
-      TabIndex        =   33
+      TabIndex        =   32
       Top             =   3525
       Width           =   1935
    End
@@ -314,13 +314,13 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   3300
-      TabIndex        =   41
+      TabIndex        =   40
       Top             =   660
       Width           =   4395
       Begin VB.ComboBox CmbCantidadAImprimir 
          Height          =   315
          Left            =   1455
-         TabIndex        =   13
+         TabIndex        =   12
          Top             =   0
          Width           =   975
       End
@@ -332,7 +332,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   0
-         TabIndex        =   48
+         TabIndex        =   47
          Top             =   60
          Width           =   1335
       End
@@ -344,14 +344,14 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   3300
-      TabIndex        =   55
+      TabIndex        =   54
       Top             =   660
       Width           =   4395
       Begin VB.ComboBox cmbStatus 
          Height          =   315
          HelpContextID   =   1
          Left            =   2295
-         TabIndex        =   16
+         TabIndex        =   15
          Top             =   0
          Width           =   1815
       End
@@ -363,7 +363,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   0
-         TabIndex        =   56
+         TabIndex        =   55
          Top             =   60
          Width           =   2175
       End
@@ -371,9 +371,9 @@ Begin VB.Form frmInformesDeCXC
    Begin VB.Frame frameInformes 
       BackColor       =   &H00F3F3F3&
       ForeColor       =   &H80000010&
-      Height          =   5775
+      Height          =   4935
       Left            =   120
-      TabIndex        =   62
+      TabIndex        =   61
       Top             =   0
       Width           =   3075
       Begin VB.OptionButton optInformeDeCxC 
@@ -385,8 +385,8 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   12
          Left            =   120
-         TabIndex        =   11
-         Top             =   4845
+         TabIndex        =   10
+         Top             =   4485
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -411,8 +411,8 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   10
          Left            =   120
-         TabIndex        =   7
-         Top             =   3210
+         TabIndex        =   6
+         Top             =   2850
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -424,8 +424,8 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   9
          Left            =   120
-         TabIndex        =   10
-         Top             =   4530
+         TabIndex        =   9
+         Top             =   4170
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -470,27 +470,14 @@ Begin VB.Form frmInformesDeCXC
       Begin VB.OptionButton optInformeDeCxC 
          Alignment       =   1  'Right Justify
          BackColor       =   &H00F3F3F3&
-         Caption         =   "Histórico de cliente ......................."
-         CausesValidation=   0   'False
-         ForeColor       =   &H00A84439&
-         Height          =   195
-         Index           =   3
-         Left            =   120
-         TabIndex        =   6
-         Top             =   2895
-         Width           =   2775
-      End
-      Begin VB.OptionButton optInformeDeCxC 
-         Alignment       =   1  'Right Justify
-         BackColor       =   &H00F3F3F3&
          Caption         =   "Estadístico de Vendedores .........."
          CausesValidation=   0   'False
          ForeColor       =   &H00A84439&
          Height          =   195
          Index           =   5
          Left            =   120
-         TabIndex        =   8
-         Top             =   3900
+         TabIndex        =   7
+         Top             =   3540
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -503,8 +490,8 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   6
          Left            =   120
-         TabIndex        =   9
-         Top             =   4215
+         TabIndex        =   8
+         Top             =   3855
          Visible         =   0   'False
          Width           =   2775
       End
@@ -549,8 +536,8 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00FFFFFF&
          Height          =   255
          Left            =   120
-         TabIndex        =   65
-         Top             =   3525
+         TabIndex        =   64
+         Top             =   3165
          Width           =   2775
       End
       Begin VB.Label lblInformesDeCxC 
@@ -568,7 +555,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00FFFFFF&
          Height          =   255
          Left            =   120
-         TabIndex        =   64
+         TabIndex        =   63
          Top             =   250
          Width           =   2775
       End
@@ -587,7 +574,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00FFFFFF&
          Height          =   255
          Left            =   120
-         TabIndex        =   63
+         TabIndex        =   62
          Top             =   1575
          Width           =   2775
       End
@@ -599,13 +586,13 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   7200
-      TabIndex        =   46
+      TabIndex        =   45
       Top             =   2460
       Width           =   3615
       Begin VB.ComboBox cmbMonedaDeLosReportes 
          Height          =   315
          Left            =   1665
-         TabIndex        =   27
+         TabIndex        =   26
          Text            =   "En Moneda Original"
          Top             =   0
          Width           =   1935
@@ -618,7 +605,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   0
-         TabIndex        =   47
+         TabIndex        =   46
          Top             =   60
          Width           =   1545
       End
@@ -629,13 +616,13 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   675
       Left            =   4335
-      TabIndex        =   43
+      TabIndex        =   42
       Top             =   5700
       Width           =   4935
       Begin VB.TextBox txtNombreArchivo 
          Height          =   285
          Left            =   1275
-         TabIndex        =   36
+         TabIndex        =   35
          Top             =   285
          Width           =   3495
       End
@@ -643,7 +630,7 @@ Begin VB.Form frmInformesDeCXC
          Caption         =   "&Exportar"
          Height          =   375
          Left            =   120
-         TabIndex        =   40
+         TabIndex        =   39
          Top             =   240
          Width           =   1035
       End
@@ -652,7 +639,7 @@ Begin VB.Form frmInformesDeCXC
       Caption         =   "&Impresora"
       Height          =   375
       Left            =   120
-      TabIndex        =   37
+      TabIndex        =   36
       Top             =   5940
       Width           =   1215
    End
@@ -660,7 +647,7 @@ Begin VB.Form frmInformesDeCXC
       Caption         =   "&Pantalla"
       Height          =   375
       Left            =   1560
-      TabIndex        =   38
+      TabIndex        =   37
       Top             =   5940
       Width           =   1215
    End
@@ -669,7 +656,7 @@ Begin VB.Form frmInformesDeCXC
       CausesValidation=   0   'False
       Height          =   375
       Left            =   3000
-      TabIndex        =   39
+      TabIndex        =   38
       Top             =   5940
       Width           =   1215
    End
@@ -679,33 +666,33 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   1035
       Left            =   3300
-      TabIndex        =   42
+      TabIndex        =   41
       Top             =   2430
       Width           =   2055
       Begin MSComCtl2.DTPicker dtpFechaFinal 
          Height          =   315
          Left            =   720
-         TabIndex        =   23
+         TabIndex        =   22
          Top             =   615
          Width           =   1275
          _ExtentX        =   2249
          _ExtentY        =   556
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   88801283
+         Format          =   97779715
          CurrentDate     =   36978
       End
       Begin MSComCtl2.DTPicker dtpFechaInicial 
          Height          =   315
          Left            =   720
-         TabIndex        =   22
+         TabIndex        =   21
          Top             =   240
          Width           =   1275
          _ExtentX        =   2249
          _ExtentY        =   556
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   88801283
+         Format          =   97779715
          CurrentDate     =   36978
       End
       Begin VB.Label lblFechaFinal 
@@ -716,7 +703,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   180
-         TabIndex        =   45
+         TabIndex        =   44
          Top             =   675
          Width           =   330
       End
@@ -728,7 +715,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   180
-         TabIndex        =   44
+         TabIndex        =   43
          Top             =   300
          Width           =   405
       End
@@ -740,7 +727,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   3300
-      TabIndex        =   29
+      TabIndex        =   28
       Top             =   3525
       Width           =   1575
    End
@@ -750,13 +737,13 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   615
       Left            =   3300
-      TabIndex        =   53
+      TabIndex        =   52
       Top             =   1740
       Width           =   6675
       Begin VB.ComboBox CmbZonaCobranza 
          Height          =   315
          Left            =   675
-         TabIndex        =   20
+         TabIndex        =   19
          Top             =   240
          Width           =   2295
       End
@@ -768,7 +755,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   180
-         TabIndex        =   54
+         TabIndex        =   53
          Top             =   300
          Width           =   375
       End
@@ -780,7 +767,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   3300
-      TabIndex        =   30
+      TabIndex        =   29
       Top             =   3525
       Width           =   2115
    End
@@ -791,13 +778,13 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   3300
-      TabIndex        =   60
+      TabIndex        =   59
       Top             =   4980
       Width           =   6855
       Begin VB.ComboBox cmbCamposDefinibles 
          Height          =   315
          Left            =   2940
-         TabIndex        =   35
+         TabIndex        =   34
          Text            =   "Ninguno"
          Top             =   0
          Width           =   2055
@@ -810,7 +797,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   0
-         TabIndex        =   61
+         TabIndex        =   60
          Top             =   60
          Width           =   2820
       End
@@ -821,20 +808,20 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   555
       Left            =   3300
-      TabIndex        =   51
+      TabIndex        =   50
       Top             =   1035
       Width           =   6135
       Begin VB.TextBox txtNombreVendedor 
          Height          =   285
          Left            =   1890
-         TabIndex        =   18
+         TabIndex        =   17
          Top             =   195
          Width           =   4155
       End
       Begin VB.TextBox txtCodigoVendedor 
          Height          =   285
          Left            =   735
-         TabIndex        =   17
+         TabIndex        =   16
          Top             =   195
          Width           =   1095
       End
@@ -846,7 +833,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   120
-         TabIndex        =   52
+         TabIndex        =   51
          Top             =   240
          Width           =   555
       End
@@ -857,20 +844,20 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   555
       Left            =   3300
-      TabIndex        =   49
+      TabIndex        =   48
       Top             =   1035
       Width           =   6135
       Begin VB.TextBox txtCodigoDeCliente 
          Height          =   285
          Left            =   735
-         TabIndex        =   14
+         TabIndex        =   13
          Top             =   195
          Width           =   1095
       End
       Begin VB.TextBox txtNombreDeCliente 
          Height          =   285
          Left            =   1890
-         TabIndex        =   15
+         TabIndex        =   14
          Top             =   195
          Width           =   4215
       End
@@ -882,7 +869,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   120
-         TabIndex        =   50
+         TabIndex        =   49
          Top             =   240
          Width           =   555
       End
@@ -894,13 +881,13 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   3300
-      TabIndex        =   57
+      TabIndex        =   56
       Top             =   4980
       Width           =   6315
       Begin VB.ComboBox cmbAnalisisDeVencimientoPor 
          Height          =   315
          Left            =   2565
-         TabIndex        =   34
+         TabIndex        =   33
          Top             =   0
          Width           =   1815
       End
@@ -913,7 +900,7 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   1
          Left            =   5100
-         TabIndex        =   69
+         TabIndex        =   68
          Top             =   60
          Width           =   690
       End
@@ -926,7 +913,7 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   0
          Left            =   0
-         TabIndex        =   58
+         TabIndex        =   57
          Top             =   60
          Width           =   2445
       End
@@ -937,7 +924,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   915
       Left            =   5460
-      TabIndex        =   66
+      TabIndex        =   65
       Top             =   2430
       Width           =   1635
       Begin VB.OptionButton optTasaDeCambio 
@@ -948,7 +935,7 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   1
          Left            =   180
-         TabIndex        =   67
+         TabIndex        =   66
          Top             =   615
          Width           =   1275
       End
@@ -960,7 +947,7 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   0
          Left            =   180
-         TabIndex        =   24
+         TabIndex        =   23
          Top             =   300
          Width           =   1275
       End
@@ -971,7 +958,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   915
       Left            =   5460
-      TabIndex        =   68
+      TabIndex        =   67
       Top             =   2430
       Width           =   1635
       Begin VB.OptionButton optDetallado 
@@ -981,7 +968,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   180
-         TabIndex        =   25
+         TabIndex        =   24
          Top             =   300
          Width           =   1275
       End
@@ -992,7 +979,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   180
-         TabIndex        =   26
+         TabIndex        =   25
          Top             =   615
          Width           =   1275
       End
@@ -1014,7 +1001,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H000040C0&
       Height          =   300
       Left            =   3360
-      TabIndex        =   59
+      TabIndex        =   58
       Top             =   180
       Width           =   2385
    End
@@ -1046,7 +1033,6 @@ Private Const CM_MESSAGE_NAME As String = "Informes De CXC"
 Private Const OPT_ANALISIS_DE_VENCIMIENTO As Integer = 0
 Private Const OPT_CXC_POR_VENDEDOR As Integer = 1
 Private Const OPT_ANALISIS_CxC_HISTORICO As Integer = 2
-Private Const OPT_HISTORICO_DE_CLIENTE As Integer = 3
 Private Const OPT_ESTADISTICO_DE_VENDEDORES As Integer = 5
 Private Const OPT_CXC_CON_DESCRIPCION As Integer = 8
 Private Const OPT_FACTURAS_ANULADAS_VS_CXC_VIGENTES As Integer = 9
@@ -1353,7 +1339,6 @@ Private Sub optInformeDeCxC_Click(Index As Integer)
       Case OPT_CXC_CON_DESCRIPCION:          sActivarCamposDeCxCConDescripcion
       Case OPT_ANALISIS_DE_VENCIMIENTO:      sActivarCamposDeAnalisisDeVencimiento
       Case OPT_ANALISIS_CxC_HISTORICO:       sActivarCamposDeAnalisisCXCHistorico
-      Case OPT_HISTORICO_DE_CLIENTE:         sActivarCamposDeHisoricodeCliente
       Case OPT_ESTADISTICO_DE_VENDEDORES:    sActivarCamposDeEstadisticoDeVendedores
       Case OPT_FACTURAS_ANULADAS_VS_CXC_VIGENTES: sActivarCamposDeFacturasAnuladasVsCxCVigentes
       Case OPT_ANALISIS_DE_VENCIMIENTO_A_UNA_FECHA: sActivarCamposDeAnalisisDeVencimientoAUnaFecha
@@ -1440,7 +1425,6 @@ Private Sub sEjecutaElInformeSeleccionado()
       Case OPT_CXC_POR_VENDEDOR:                      sEjecutaCXCPorVendedor
       Case OPT_ANALISIS_DE_VENCIMIENTO:               sEjecutaAnalisisDeVencimiento
       Case OPT_ANALISIS_CxC_HISTORICO:                sEjecutaAnalisisCxCHistorico
-      Case OPT_HISTORICO_DE_CLIENTE:                  sEjecutaHistoricoDeCliente
       Case OPT_ESTADISTICO_DE_VENDEDORES:             sEjecutaEstadisticoDeVendedores
       Case OPT_CXC_CON_DESCRIPCION:                   sEjecutaCxCconDescripcion
       Case OPT_FACTURAS_ANULADAS_VS_CXC_VIGENTES:     sEjecutaFacturasAnuladasVsCxCVigentes
@@ -1481,7 +1465,7 @@ Private Sub cmbCantidadAImprimir_Click()
          Else
             frameVendedor.Visible = False
          End If
-      Case OPT_HISTORICO_DE_CLIENTE, OPT_ANALISIS_CxC_HISTORICO
+      Case OPT_ANALISIS_CxC_HISTORICO
          txtNombreDeCliente.Text = ""
          txtCodigoDeCliente.Text = ""
          If CmbCantidadAImprimir.Text = gEnumReport.enumCantidadAImprimirToString(eCI_TODOS) Then
@@ -1853,47 +1837,6 @@ Private Sub sActivarCamposDeHisoricodeCliente()
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeHisoricodeCliente", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-
-Private Sub sEjecutaHistoricoDeCliente()
-   Dim SqlDelReporte As String
-   Dim reporte As DDActiveReports2.ActiveReport
-   Dim insConfigurar As clsCxCRpt
-   Dim usarCambioBs As Boolean
-   Dim OrdenaXCodigo As Boolean
-   Dim codigoCliente As String
-   Dim vUsarCambioOriginal As Boolean
-   Dim insCxC As clsCxCSQL
-   On Error GoTo h_ERROR
-   OrdenaXCodigo = False
-   If dtpFechaFinal.Value < dtpFechaInicial.Value Then
-      dtpFechaFinal.Value = dtpFechaInicial.Value
-   End If
-   If gAPI.SelectedElementInComboBoxToString(CmbCantidadAImprimir) = gEnumReport.enumCantidadAImprimirToString(eCI_uno) And LenB(txtNombreDeCliente.Text) = 0 Then
-      sShowMessageForRequiredFields "Nombre del Cliente", txtNombreDeCliente
-   Else
-      Set reporte = New DDActiveReports2.ActiveReport
-      Set insConfigurar = New clsCxCRpt
-      Set insCxC = New clsCxCSQL
-      usarCambioBs = (gAPI.SelectedElementInComboBoxToString(cmbMonedaDeLosReportes) = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, gProyParametros.GetNombreMonedaLocal))
-      codigoCliente = ""
-      If gAPI.SelectedElementInComboBoxToString(CmbCantidadAImprimir) = gEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
-         codigoCliente = Trim(txtCodigoDeCliente.Text)
-      End If
-      If cmbOrdenadoPor.ListIndex <> enum_ReporteOrdenadoPor.eRO_Codigo Then
-         OrdenaXCodigo = True
-      End If
-      SqlDelReporte = insCxC.fSQLHistoricoDeCliente(dtpFechaInicial.Value, dtpFechaFinal.Value, codigoCliente, usarCambioBs, OrdenaXCodigo, gProyParametrosCompania.GetConsecutivoCompania, vUsarCambioOriginal, gMonedaLocalActual, gUltimaTasaDeCambio)
-      If insConfigurar.fConfigurarDatosDelReporteHistoricoDeCliente(reporte, SqlDelReporte, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gEnumReport.getMensajesDeMonedaParaInformes(eMM_CambioDelDia), usarCambioBs, ChkCambiandodePagina) Then
-         gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Histórico de Cliente"
-      End If
-      Set reporte = Nothing
-      Set insConfigurar = Nothing
-      Set insCxC = Nothing
-  End If
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaHistoricoDeCliente", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sOcultaTodosLosCampos()
