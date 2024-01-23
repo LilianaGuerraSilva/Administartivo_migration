@@ -111,4 +111,7 @@
     <DataTemplate DataType="{x:Type nsCSVM:ImprentaDigitalDatosDeConexionViewModel}">
         <nsCSV:GSImprentaDigitalDatosDeConexion />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:ConexionGVentasViewModel}">
+        <nsCSV:GSConexionGVentasView />
+    </DataTemplate>
 </ResourceDictionary>

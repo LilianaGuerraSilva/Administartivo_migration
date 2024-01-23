@@ -127,6 +127,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="UIMefSettDefinition.cs" />
+    <Compile Include="ViewModel\ConexionGVentasViewModel.cs" />
     <Compile Include="ViewModel\ImprentaDigitalActivacionViewModel.cs" />
     <Compile Include="ViewModel\BancosAnticipoViewModel.cs" />
     <Compile Include="ViewModel\BancosMonedaViewModel.cs" />
@@ -185,6 +186,9 @@
     </Compile>
     <Compile Include="Views\GSBancosView.xaml.cs">
       <DependentUpon>GSBancosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSConexionGVentasView.xaml.cs">
+      <DependentUpon>GSConexionGVentasView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GSCotizacionNotaDebitoCreditoView.xaml.cs">
       <DependentUpon>GSCotizacionNotaDebitoCreditoView.xaml</DependentUpon>
@@ -321,6 +325,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GSBancosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSConexionGVentasView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -493,6 +501,10 @@
     <ProjectReference Include="..\Galac.Saw.Ccl.SttDef\Galac.Saw.Ccl.SttDef.csproj">
       <Project>{82c458b1-c93b-46a9-b58c-63ecd3633861}</Project>
       <Name>Galac.Saw.Ccl.SttDef</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.LibWebConector\Galac.Saw.LibWebConnector.csproj">
+      <Project>{08f52bb0-7708-4326-b74c-ac49629c8647}</Project>
+      <Name>Galac.Saw.LibWebConnector</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Lib\Galac.Saw.Lib.csproj">
       <Project>{b04e6942-e0b8-4ba2-90e7-fbf8a95ddc86}</Project>

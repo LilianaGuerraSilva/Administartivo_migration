@@ -19,6 +19,7 @@ using Galac.Comun.Brl.TablasGen;
 using LibGalac.Aos.DefGen;
 using Galac.Saw.Ccl.Inventario;
 using LibGalac.Aos.Dal;
+using System.Collections.ObjectModel;
 
 namespace Galac.Saw.Brl.SttDef {
     public partial class clsSettValueByCompanyNav : LibBaseNav<IList<SettValueByCompany>, IList<SettValueByCompany>>, ILibPdn, ISettValueByCompanyPdn {
@@ -2582,6 +2583,22 @@ namespace Galac.Saw.Brl.SttDef {
                 };
                 insIDStt.ActualizarValores();
             }
+
+        }
+
+        ObservableCollection<string> ISettValueByCompanyPdn.ListaDeUsuariosSupervisoresActivos() {
+            ObservableCollection<string> vResult = new ObservableCollection<string>();
+            string vSql = "SELECT UserName FROM Lib.GUser WHERE Status = '0' AND IsSuperviser = 'S' ORDER BY UserName";
+            XElement vResultSet = LibBusiness.ExecuteSelect(vSql, null, "", 0);
+            if (vResultSet != null) {
+                var vEntity = from vRecord in vResultSet.Descendants("GpResult") select vRecord;
+                foreach (XElement vItem in vEntity) {
+                    if (vItem != null) {
+                        vResult.Add(LibConvert.ToStr(vItem.Element("SELECT").Value));
+                    }
+                }
+            }
+            return vResult;
 
         }
     } //End of class clsSettValueByCompanyNav

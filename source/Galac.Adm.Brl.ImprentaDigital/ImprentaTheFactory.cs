@@ -58,7 +58,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 bool vResult = false;
                 string vMensaje = string.Empty;
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
-                bool vRepuestaConector = vConectorJson.CheckConnection(ref vMensaje);
+                bool vRepuestaConector = vConectorJson.CheckConnection(ref vMensaje, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion));
                 if (vRepuestaConector) {
                     string vDocumentoJSON = clsConectorJson.SerializeJSON(""); //Construir XML o JSON Con datos 
                     var vReq = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoLote), vConectorJson.Token);
@@ -80,7 +80,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 string vSerie = LibAppSettings.ReadAppSettingsKey("SERIE");
                 if (LibString.IsNullOrEmpty(_ConectorJson.Token)) {
                     ObtenerDatosDocumentoEmitido();
-                    vChekConeccion = _ConectorJson.CheckConnection(ref vMensaje);
+                    vChekConeccion = _ConectorJson.CheckConnection(ref vMensaje, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion));
                 } else {
                     vChekConeccion = true;
                 }
@@ -156,7 +156,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 stPostResq vRespuestaConector;
                 bool vChekConeccion;
                 if (LibString.IsNullOrEmpty(_ConectorJson.Token)) {
-                    vChekConeccion = _ConectorJson.CheckConnection(ref vMensaje);
+                    vChekConeccion = _ConectorJson.CheckConnection(ref vMensaje, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion));
                 } else {
                     vChekConeccion = true;
                 }

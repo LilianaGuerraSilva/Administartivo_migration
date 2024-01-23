@@ -1,0 +1,109 @@
+﻿<UserControl x:Class="Galac.Saw.Uil.SttDef.Views.GSConexionGVentasView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+             xmlns:nsVm="clr-namespace:Galac.Saw.Uil.SttDef.ViewModel">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid FocusManager.FocusedElement="{Binding ElementName=txtCompaniaActualNombre}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Image Grid.Column="0" 
+               Grid.Row="0"
+               Grid.ColumnSpan="2"
+               Width="150"
+                        Margin="0,10,0,20"
+                        Source="/Galac.Saw.Uil.SttDef;component/Images/gventas-logo.png"/>
+        <Label 
+            Grid.Row="1" 
+            Grid.Column="0" 
+            Grid.ColumnSpan="2"
+            Content="{Binding Path=CompaniaActualNombre, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            Name="lblCompaniaActualNombre" 
+            FontFamily="Arial Rounded MT Bold" FontSize="16" HorizontalAlignment="Center"
+            />
+        <Label 
+            Grid.Row="2" 
+            Grid.Column="0" 
+            Grid.ColumnSpan="2"
+            Name="lblCompaniaActualRIF" 
+            Content="{Binding Path=CompaniaActualRIF, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
+            Style="{StaticResource LabelPrompt}" FontSize="12" HorizontalAlignment="Center" 
+             />
+        <Label 
+            Grid.Row="3" 
+            Grid.Column="0" 
+            Grid.ColumnSpan="2"
+            Name="lblInquilinoNombre" 
+            Content="{Binding Path=InquilinoNombre, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
+            Style="{StaticResource LabelPrompt}" FontFamily="Arial Rounded MT Bold" FontSize="14" HorizontalAlignment="Center" />
+        <Label 
+            Grid.Row="4" 
+            Grid.Column="0" 
+            Name="lblCompaniaGVentasNombres" 
+            Content="Compañías G-Ventas" 
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf 
+            Grid.Row="4" 
+            Grid.Column="1" 
+            Name="cmbCompaniaGVentasNombres" 
+            Style="{StaticResource ComboBoxStyle}" 
+            Width="300" 
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding ListaCompaniaGeVentasNombres}"
+            SelectedItem="{Binding CompaniaGVentasNombres, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+            />
+        <Label 
+            Grid.Row="5" 
+            Grid.Column="0" 
+            Name="lblSerialConector" 
+            Content="Serial del Conector" 
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSTextBoxWpf 
+            Grid.Row="5" 
+            Grid.Column="1" 
+            Name="txtSerialConector" 
+            Style="{StaticResource TextBoxInputStyle}" 
+            InputDataType="Alfanumeric" 
+            MaxLength="100" 
+            Width="300" 
+            VerticalScrollBarVisibility="Auto"
+            Text="{Binding Path=SerialConector, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+        <Label 
+            Grid.Row="6" 
+            Grid.Column="0" 
+            Name="lblUsuarioDeOperaciones" 
+            Content="Usuario de Operaciones" 
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf 
+            Grid.Row="6" 
+            Grid.Column="1" 
+            Name="cmbUsuarioDeOperaciones" 
+            Style="{StaticResource ComboBoxStyle}" 
+            Width="300" 
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding Path=ListaUsuariosDeOperaciones}"
+            SelectedItem="{Binding UsuarioDeOperaciones, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+            />
+    </Grid>
+</UserControl>

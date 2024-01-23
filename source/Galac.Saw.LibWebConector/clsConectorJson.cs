@@ -3,7 +3,6 @@ using System.Text;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
-using Galac.Adm.Ccl.ImprentaDigital;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.DefGen;
@@ -66,12 +65,12 @@ namespace Galac.Saw.LibWebConnector {
             return vResult;
         }
 
-        public bool CheckConnection(ref string refMensaje) {
+        public bool CheckConnection(ref string refMensaje, string valComandoApi) {
             stPostResq vRequest = new stPostResq();
             try {
                 bool vResult = false;
                 string vJsonStr = FormatingJSON(_LoginUser);
-                vRequest = SendPostJson(vJsonStr, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion), "");
+                vRequest = SendPostJson(vJsonStr, valComandoApi, "");
                 refMensaje = vRequest.mensaje;
                 if (vRequest.Aprobado) {
                     _Token = vRequest.token;
