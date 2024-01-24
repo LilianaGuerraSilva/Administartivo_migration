@@ -38,10 +38,6 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			vSql.AppendLine(" UNION ");
 			vSql.AppendLine(SqlSelectAnticipoHistoricoCliente(valFechaDesde, valFechaHasta, valCodigoCliente, valCodigoMoneda, valMonedaDelInforme, valTasaDeCambio));
 			vSql.AppendLine($" ORDER BY {vOrdenarPor}, TipoReporte, MonedaReporte, NumeroDocumentoGrupo, FechaDocumento, FechaCobranza, NumeroCobranza");
-
-			string vPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Hcli.slq";
-			LibFile.WriteLineInFile(vPath, vSql.ToString(), false);
-
 			return vSql.ToString();
 		}
 
@@ -298,24 +294,38 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			/* INICIO: Manejo para multimoneda: Moneda Local // Moneda Extranjera Original y Moneda Local en Moneda Extranjera // Moneda Original */
 			string vSqlCambioDelDia;
 			string vSqlCambioMasCercano;
-			string vSqlCambioOriginal = "Anticipo.Cambio";
-			string vSqlMontoOriginal = "CASE WHEN AnticipoCobrado.MontoRestanteAlDia <= Anticipo.MontoTotal THEN 0 ELSE Anticipo.MontoTotal END";
-			string vSqlSaldoActual = "CASE WHEN AnticipoCobrado.MontoRestanteAlDia <= Anticipo.MontoTotal THEN 0 ELSE (Anticipo.MontoTotal - (Anticipo.MontoUsado + Anticipo.MontoDevuelto + Anticipo.MontoDiferenciaEnDevolucion)) END";
+			string vSqlCambioOriginal = "anticipo.Cambio";
+			//string vSqlMontoOriginal = "CASE WHEN AnticipoCobrado.MontoRestanteAlDia >= Anticipo.MontoTotal THEN 0 ELSE Anticipo.MontoTotal END";
+			string vSqlMontoOriginal = " Anticipo.MontoTotal";
+			//string vSqlSaldoActual = "CASE WHEN AnticipoCobrado.MontoRestanteAlDia >= Anticipo.MontoTotal THEN 0 ELSE (Anticipo.MontoTotal - (Anticipo.MontoUsado + Anticipo.MontoDevuelto + Anticipo.MontoDiferenciaEnDevolucion)) END";
+			string vSqlSaldoActual = insSql.RoundToNDecimals( "Anticipo.MontoTotal - (Anticipo.MontoUsado + Anticipo.MontoDevuelto + Anticipo.MontoDiferenciaEnDevolucion)", 2);
 			string vSqlMontoCobrado = insSql.IsNull("AnticipoCobrado.MontoAplicadoMonedaOriginal", "0");
 			string vCodigoMonedaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaCompania");
 			string vSqlCambio = vSqlCambioOriginal;
 			string vSqlMonedaTotales = valNombreMoneda;
+			string vSqlCobranzaCodigoMoneda = "Cobranza.CodigoMoneda";
+			string vSqlAntCobradCodigoMonedaAnticipo = "AnticipoCobrado.CodigoMoneda";
+			string vSqlCobCodMonedaIgualML = vSqlCobranzaCodigoMoneda + " = " + insSql.ToSqlValue(vCodigoMonedaLocal);
+			string vSqlCobCodMonedaDifML = vSqlCobranzaCodigoMoneda + " <> " + insSql.ToSqlValue(vCodigoMonedaLocal);
+			string vSqlAntCobCodMonedaIgualML = vSqlAntCobradCodigoMonedaAnticipo + " = " + insSql.ToSqlValue(vCodigoMonedaLocal);
+			string vSqlAntCobCodMonedaDifML = vSqlAntCobradCodigoMonedaAnticipo + " <> " + insSql.ToSqlValue(vCodigoMonedaLocal);
+			string vCambioCobranzaAnticipo = vSqlCambioOriginal;
 
 			if (valMonedaDelInforme == eMonedaDelInformeMM.EnBolivares) {
 				if (valTasaDeCambio == eTasaDeCambioParaImpresion.DelDia) {
 					vSqlCambio = insSql.IsNull("(SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = anticipo.CodigoMoneda AND FechaDeVigencia <= " + insSql.ToSqlValue(LibDate.Today()) + " ORDER BY FechaDeVigencia DESC)", "1");
+					vCambioCobranzaAnticipo  = insSql.IsNull("(SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = Cobranza.CodigoMoneda AND FechaDeVigencia <= " + insSql.ToSqlValue(LibDate.Today()) + " ORDER BY FechaDeVigencia DESC)", "1");
 				} else {
 					vSqlCambio = vSqlCambioOriginal;
+					vCambioCobranzaAnticipo = "AnticipoCobrado.Cambio";
 				}
 				vSqlMontoOriginal = insSql.RoundToNDecimals(vSqlMontoOriginal + " * " + vSqlCambio, 2);
-				vSqlMontoCobrado = insSql.RoundToNDecimals(" AnticipoCobrado.MontoAplicado * " + vSqlCambio, 2);
+				StringBuilder vCambioCobranza = new StringBuilder();
+				vCambioCobranza.AppendLine($"(CASE WHEN {vSqlAntCobradCodigoMonedaAnticipo} <> {vSqlCobranzaCodigoMoneda} THEN {vCambioCobranzaAnticipo} ");
+				vCambioCobranza.AppendLine($" ELSE {vSqlCambio} ");
+				vCambioCobranza.AppendLine($" END)");
+				vSqlMontoCobrado = insSql.RoundToNDecimals(" AnticipoCobrado.MontoAplicado * " + vCambioCobranza, 2);
 				vSqlSaldoActual = insSql.RoundToNDecimals(vSqlSaldoActual + " * " + vSqlCambio, 2);
-				//vSqlMonedaTotales = "'Bolívares'";
 			} else if (valMonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa) {
 				vSqlCambioDelDia = insSql.IsNull("(SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + insSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia <= " + insSql.ToSqlValue(LibDate.Today()) + " ORDER BY FechaDeVigencia DESC)", "1");
 				vSqlCambioMasCercano = insSql.IsNull("(SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + insSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia <= Anticipo.Fecha ORDER BY FechaDeVigencia DESC)", "1");
@@ -325,16 +335,7 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 					vSqlCambio = vSqlCambioMasCercano;
 				}
 				StringBuilder vMontoDetalleCase = new StringBuilder();
-
-				string vSqlCobranzaCodigoMoneda = "Cobranza.CodigoMoneda";
-				string vSqlAntCobradCodigoMonedaCxC = "AnticipoCobrado.CodigoMoneda";
-				string vSqlCobCodMonedaIgualML = vSqlCobranzaCodigoMoneda + " = " + insSql.ToSqlValue(vCodigoMonedaLocal);
-				string vSqlCobCodMonedaDifML = vSqlCobranzaCodigoMoneda + " <> " + insSql.ToSqlValue(vCodigoMonedaLocal);
-				string vSqlAntCobCodMonedaIgualML = vSqlAntCobradCodigoMonedaCxC + " = " + insSql.ToSqlValue(vCodigoMonedaLocal);
-				string vSqlAntCobCodMonedaDifML = vSqlAntCobradCodigoMonedaCxC + " <> " + insSql.ToSqlValue(vCodigoMonedaLocal);
-
 				vSqlCambio = insSql.IIF("anticipo.CodigoMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal), vSqlCambio, " 1 ", true);
-
 				vMontoDetalleCase.AppendLine($"(CASE WHEN {vSqlCobCodMonedaIgualML} AND {vSqlAntCobCodMonedaIgualML} THEN {insSql.RoundToNDecimals(vSqlMontoCobrado + " / " + vSqlCambio, 2)} ");
 				vMontoDetalleCase.AppendLine($" WHEN {vSqlCobCodMonedaIgualML} AND {vSqlAntCobCodMonedaDifML} THEN AnticipoCobrado.MontoAplicado ");
 				vMontoDetalleCase.AppendLine($" WHEN {vSqlCobCodMonedaDifML} AND {vSqlAntCobCodMonedaIgualML} THEN AnticipoCobrado.MontoAplicado ");
@@ -357,16 +358,7 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 				vMontoDetalleCase.AppendLine($" ELSE {vSqlSaldoActual} ");
 				vMontoDetalleCase.AppendLine($" END)");
 				vSqlSaldoActual = vMontoDetalleCase.ToString();//insSql.IIF("anticipo.CodigoMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal), insSql.RoundToNDecimals(vSqlSaldoActual + " / " + vSqlCambio, 2), vSqlSaldoActual, true);
-
-				//vSqlMonedaTotales = insSql.IIF("anticipo.CodigoMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal), "'Bolívares expresados en " + valNombreMoneda + "'", "Anticipo.Moneda", true);
 			} else if (valMonedaDelInforme == eMonedaDelInformeMM.EnMonedaOriginal) {
-				string vSqlCobranzaCodigoMoneda = "Cobranza.CodigoMoneda";
-				string vSqlAntCobradCodigoMonedaAnticipo = "AnticipoCobrado.CodigoMoneda";
-				string vSqlCobCodMonedaIgualML = vSqlCobranzaCodigoMoneda + " = " + insSql.ToSqlValue(vCodigoMonedaLocal);
-				string vSqlCobCodMonedaDifML = vSqlCobranzaCodigoMoneda + " <> " + insSql.ToSqlValue(vCodigoMonedaLocal);
-				string vSqlAntCobCodMonedaIgualML = vSqlAntCobradCodigoMonedaAnticipo + " = " + insSql.ToSqlValue(vCodigoMonedaLocal);
-				string vSqlAntCobCodMonedaDifML = vSqlAntCobradCodigoMonedaAnticipo + " <> " + insSql.ToSqlValue(vCodigoMonedaLocal);
-
 				StringBuilder vMontoDetalleCase = new StringBuilder();
 				vMontoDetalleCase.AppendLine($"(CASE WHEN {vSqlAntCobradCodigoMonedaAnticipo} = {vSqlCobranzaCodigoMoneda} AND {vSqlAntCobCodMonedaIgualML} THEN AnticipoCobrado.MontoAplicadoMonedaOriginal ");
 				vMontoDetalleCase.AppendLine($" WHEN {vSqlAntCobradCodigoMonedaAnticipo} = {vSqlCobranzaCodigoMoneda}  AND {vSqlAntCobCodMonedaDifML} THEN AnticipoCobrado.MontoAplicado ");
@@ -375,7 +367,6 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 				vMontoDetalleCase.AppendLine($" ELSE 0 ");
 				vMontoDetalleCase.AppendLine($" END)");
 				vSqlMontoCobrado = vMontoDetalleCase.ToString();
-				//vSqlMonedaTotales = insSql.IIF("DocumentoCobrado.CodigoMonedaDeCxC = " + insSql.ToSqlValue(vCodigoMonedaLocal), "'Bolívares expresados en " + valNombreMoneda + "'", "CxC.Moneda", true);
 			}
 			/* FIN */
 			vSql.AppendLine("CTE_AnticipoHistoricoCliente AS (");
