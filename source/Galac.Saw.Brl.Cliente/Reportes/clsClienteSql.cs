@@ -38,10 +38,6 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			vSql.AppendLine(" UNION ");
 			vSql.AppendLine(SqlSelectAnticipoHistoricoCliente(valFechaDesde, valFechaHasta, valCodigoCliente, valCodigoMoneda, valMonedaDelInforme, valTasaDeCambio));
 			vSql.AppendLine($" ORDER BY {vOrdenarPor}, TipoReporte, MonedaReporte, NumeroDocumentoGrupo, FechaDocumento, FechaCobranza, NumeroCobranza");
-
-			string vPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Hcli.slq";
-			LibFile.WriteLineInFile(vPath, vSql.ToString(), false);
-
 			return vSql.ToString();
 		}
 
