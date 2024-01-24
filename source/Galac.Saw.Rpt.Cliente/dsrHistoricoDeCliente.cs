@@ -57,7 +57,7 @@ namespace Galac.Saw.Rpt.Cliente {
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
                 LibReport.ConfigFieldStr(this, "txtCodigo", string.Empty, "Codigo");
                 LibReport.ConfigFieldStr(this, "txtNombre", string.Empty, "Nombre");
-                LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "Moneda");
+                LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "MonedaReporte");
                 LibReport.ConfigFieldStr(this, "txtTipoReporte", string.Empty, "TipoReporte");
                 LibReport.ConfigFieldStr(this, "txtTituloTipoReporte", string.Empty, "TituloTipoReporte");
                 LibReport.ConfigFieldDec(this, "txtSaldoInicial", string.Empty, "SaldoInicial");
@@ -79,17 +79,17 @@ namespace Galac.Saw.Rpt.Cliente {
                 LibReport.ConfigFieldDec(this, "txtTotalMasSaldoInicial", string.Empty, "TotalMasSaldoInicial");
                 LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", string.Empty, "NotaMonedaCambio");
                 LibReport.ConfigFieldStr(this, "txtMonedaExpresadaEn", valParameters["MonedaExpresadaEn"], "");              
-                if (vSaltoDePaginaPorCliente) {
-                    LibReport.ConfigGroupHeader(this, "GHCliente", "Codigo", GroupKeepTogether.All, RepeatStyle.All, true, NewPage.After);
-                } else {
-                    LibReport.ConfigGroupHeader(this, "GHCliente", "Codigo", GroupKeepTogether.All, RepeatStyle.All, true, NewPage.None);
-                }
-                LibReport.ConfigGroupHeader(this, "GHDetalle", "NumeroDocumento", GroupKeepTogether.All, RepeatStyle.All, true, NewPage.None);
+
+
+                LibReport.ConfigGroupHeader(this, "GHCliente", "Codigo", GroupKeepTogether.All, RepeatStyle.All, true, vSaltoDePaginaPorCliente ? NewPage.After : NewPage.None);
+                LibReport.ConfigGroupHeader(this, "GHMoneda", "MonedaReporte", GroupKeepTogether.All, RepeatStyle.All, true, NewPage.None);
                 LibReport.ConfigGroupHeader(this, "GHTipoReporte", "TituloTipoReporte", GroupKeepTogether.All, RepeatStyle.All, true, NewPage.None);
-                LibReport.ConfigSummaryField(this, "txtTotalMontoOriginal", "MontoOriginal", SummaryFunc.Sum, "GHCliente", SummaryRunning.Group, SummaryType.SubTotal);
-                LibReport.ConfigSummaryField(this, "txtTotalMontoCobrado", "MontoCobrado", SummaryFunc.Sum, "GHCliente", SummaryRunning.Group, SummaryType.SubTotal);
-                LibReport.ConfigSummaryField(this, "txtTotalSaldoActual", "SaldoActual", SummaryFunc.Sum, "GHTipoReporte", SummaryRunning.Group, SummaryType.SubTotal);
-                LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
+                LibReport.ConfigGroupHeader(this, "GHDetalle", "NumeroDocumento", GroupKeepTogether.All, RepeatStyle.All, true, NewPage.None);
+
+                LibReport.ConfigSummaryField(this, "txtTotalMontoOriginal", "MontoOriginal", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txtTotalMontoCobrado", "MontoCobrado", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txtTotalSaldoActual", "SaldoActual", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
+                LibGraphPrnMargins.SetGeneralMargins(this, PageOrientation.Portrait);
                 return true;
             }
             return false;
