@@ -154,8 +154,7 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			string vSqlMontoRestante = insSql.IIF("CxC.Status = " + insSql.EnumToSqlValue((int)eStatusCXC.ANULADO), "0", "(" + vSqlMontoTotal + " - CxC.MontoAbonado)", true);
 			string vCodigoMonedaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaCompania");
 			string vSqlCambio = vSqlCambioOriginal;
-			string vSqlMonedaTotales = "CxC.Moneda";
-
+			string vSqlMonedaTotales = "CxC.Moneda";	
 			if (valMonedaDelInforme == eMonedaDelInformeMM.EnBolivares) {
 				if (valTasaDeCambio == eTasaDeCambioParaImpresion.DelDia) {
 					vSqlCambio = insSql.IsNull("(SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = CxC.CodigoMoneda AND FechaDeVigencia <= " + insSql.ToSqlValue(LibDate.Today()) + " ORDER BY FechaDeVigencia DESC)", "1");
@@ -172,10 +171,10 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 					vSqlCambio = vSqlCambioDelDia;
 				} else {
 					vSqlCambio = vSqlCambioMasCercano;
-				}
-				vSqlCambio = insSql.IIF("CxC.CodigoMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal), vSqlCambio, " 1 ", true);
-				vSqlMontoOriginal = insSql.RoundToNDecimals(vSqlMontoOriginal + " / " + vSqlCambio, 2);
-				vSqlMontoRestante = insSql.RoundToNDecimals(vSqlMontoRestante + " / " + vSqlCambio, 2);
+				}				
+                vSqlCambio = insSql.IIF("CxC.CodigoMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal), vSqlCambio, " 1 ", true);			
+                vSqlMontoOriginal = insSql.IIF("CxC.CodigoMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal), insSql.RoundToNDecimals(vSqlMontoOriginal + " / " + vSqlCambio, 2),vSqlMontoOriginal,true);
+				vSqlMontoRestante = insSql.IIF("CxC.CodigoMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal), insSql.RoundToNDecimals(vSqlMontoRestante + " / " + vSqlCambio, 2),vSqlMontoRestante,true);                
 				vSqlMonedaTotales = insSql.IIF("CxC.CodigoMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal), "'Bolívares expresados en " + valNombreMoneda + "'", "CxC.Moneda", true);
 			} else if (valMonedaDelInforme == eMonedaDelInformeMM.EnMonedaOriginal) {
 			}
@@ -191,7 +190,7 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			vSql.AppendLine("	CxC.CodigoMoneda AS CodMoneda, ");
 			vSql.AppendLine($"	{vSqlCambio} AS CambioABolivares, ");
 			vSql.AppendLine($"	(CASE CxC.TipoCxC WHEN {insSql.EnumToSqlValue((int)eTipoDeTransaccion.FACTURA)} THEN 'FAC' WHEN {insSql.EnumToSqlValue((int)eTipoDeTransaccion.GIRO)} THEN 'GRO' WHEN {insSql.EnumToSqlValue((int)eTipoDeTransaccion.CHEQUEDEVUELTO)} THEN 'C/D' WHEN {insSql.EnumToSqlValue((int)eTipoDeTransaccion.NOTADECREDITO)} THEN 'N/C' WHEN {insSql.EnumToSqlValue((int)eTipoDeTransaccion.NOTADEDEBITO)} THEN 'N/D' WHEN {insSql.EnumToSqlValue((int)eTipoDeTransaccion.NOTAENTREGA)} THEN 'N/E' WHEN {insSql.EnumToSqlValue((int)eTipoDeTransaccion.NOASIGNADO)} THEN 'N/A' WHEN {insSql.EnumToSqlValue((int)eTipoDeTransaccion.BOLETADEVENTA)} THEN 'BOL' WHEN {insSql.EnumToSqlValue((int)eTipoDeTransaccion.TICKETMAQUINAREGISTRADORA)} THEN 'TIC' WHEN {insSql.EnumToSqlValue((int)eTipoDeTransaccion.RECIBOPORHONORARIOS)} THEN 'R/H' WHEN {insSql.EnumToSqlValue((int)eTipoDeTransaccion.LIQUIDACIONDECOMPRA)} THEN 'L/C' WHEN {insSql.EnumToSqlValue((int)eTipoDeTransaccion.OTROS)} THEN 'OTR' WHEN {insSql.EnumToSqlValue((int)eTipoDeTransaccion.NOTADECREDITOCOMPROBANTEFISCAL)} THEN 'N/C-CF' END) AS TipoDeDocumento, ");
-            vSql.AppendLine("	'Cuentas por Cobrar' AS TituloTipoReporte, ");
+			vSql.AppendLine("	'Cuentas por Cobrar' AS TituloTipoReporte, ");
 			vSql.AppendLine("	'Cobro' AS TipoDocumentoDetalle, ");
 			vSql.AppendLine("	CAST(CxC.CodigoCliente AS VARCHAR) + CHAR(9) + CAST(CxC.Numero AS VARCHAR) AS NumeroDocumentoGrupo, ");
 			vSql.AppendLine($"	 {vSqlMontoOriginal} AS MontoOriginal, ");
@@ -207,15 +206,15 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			string vSqlCambioDelDia;
 			string vSqlCambioMasCercano;
 			string vSqlCambioOriginal = "DocumentoCobrado.CambioAMonedaDeCobranza";
-			string vSqlMontoTotal = "DocumentoCobrado.MontoAbonadoEnMonedaOriginal";
+			string vSqlMontoTotal = "DocumentoCobrado.MontoAbonado";
 			string vSqlMontoCobrado = insSql.IIF("cobranza.StatusCobranza = " + insSql.EnumToSqlValue((int)eStatusCobranza.Anulada) + " OR cobranza.TipoDeDocumento =  " + insSql.EnumToSqlValue((int)eTipoDeDocumentoCobranza.CobranzaPorAplicacionDeRetencion), "0", vSqlMontoTotal, true);
 			string vCodigoMonedaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaCompania");
 			string vSqlCambio = vSqlCambioOriginal;
 			string vSqlMonedaTotales = valNombreMoneda;
-
+			StringBuilder vMontoCobradoCase = new StringBuilder();
 			if (valMonedaDelInforme == eMonedaDelInformeMM.EnBolivares) {
 				if (valTasaDeCambio == eTasaDeCambioParaImpresion.DelDia) {
-					vSqlCambio = insSql.IsNull("(SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = DocumentoCobrado.CodigoMonedaDeCxC AND FechaDeVigencia <= " + insSql.ToSqlValue(LibDate.Today()) + " ORDER BY FechaDeVigencia DESC)", "0");
+					vSqlCambio = insSql.IsNull("(SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = cobranza.CodigoMoneda AND FechaDeVigencia <= " + insSql.ToSqlValue(LibDate.Today()) + " ORDER BY FechaDeVigencia DESC)", "1");
 				} else {
 					vSqlCambio = vSqlCambioOriginal;
 				}
@@ -229,11 +228,35 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 				} else {
 					vSqlCambio = vSqlCambioMasCercano;
 				}
-				vSqlCambio = insSql.IIF("DocumentoCobrado.CodigoMonedaDeCxC = " + insSql.ToSqlValue(vCodigoMonedaLocal), vSqlCambio, " 1 ", true);
-				vSqlMontoCobrado = insSql.RoundToNDecimals(vSqlMontoCobrado + " / " + vSqlCambio, 2);
-				vSqlMonedaTotales = insSql.IIF("DocumentoCobrado.CodigoMonedaDeCxC = " + insSql.ToSqlValue(vCodigoMonedaLocal), "'Bolívares expresados en " + valNombreMoneda + "'", "CxC.Moneda", true);
-			} else if (valMonedaDelInforme == eMonedaDelInformeMM.EnMonedaOriginal) {
-			}
+				string vSqlCobranzaCodigoMoneda = "Cobranza.CodigoMoneda";
+				string vSqlDocCobradCodigoMonedaCxC = "DocumentoCobrado.CodigoMonedaDeCxC";
+				string vSqlCobCodMonedaIgualML = vSqlCobranzaCodigoMoneda + " = " + insSql.ToSqlValue(vCodigoMonedaLocal);
+				string vSqlCobCodMonedaDifML = vSqlCobranzaCodigoMoneda + " <> " + insSql.ToSqlValue(vCodigoMonedaLocal);
+				string vSqlDocCobCodMonedaIgualML = vSqlDocCobradCodigoMonedaCxC + " = " + insSql.ToSqlValue(vCodigoMonedaLocal);
+				string vSqlDocCobCodMonedaDifML = vSqlDocCobradCodigoMonedaCxC + " <> " + insSql.ToSqlValue(vCodigoMonedaLocal);
+                vSqlCambio = insSql.IIF("DocumentoCobrado.CodigoMonedaDeCxC = " + insSql.ToSqlValue(vCodigoMonedaLocal), vSqlCambio, " 1 ", true);		
+				vMontoCobradoCase.AppendLine($"(CASE WHEN {vSqlCobCodMonedaIgualML} AND {vSqlDocCobCodMonedaIgualML} THEN {insSql.RoundToNDecimals(vSqlMontoCobrado + " / " + vSqlCambio, 2)} ");				
+				vMontoCobradoCase.AppendLine($" WHEN {vSqlCobCodMonedaIgualML} AND {vSqlDocCobCodMonedaDifML} THEN DocumentoCobrado.MontoAbonadoEnMonedaOriginal ");
+                vMontoCobradoCase.AppendLine($" WHEN {vSqlCobCodMonedaDifML} AND {vSqlDocCobCodMonedaIgualML} THEN DocumentoCobrado.MontoAbonado ");
+                vMontoCobradoCase.AppendLine($" ELSE DocumentoCobrado.MontoAbonado ");
+                vMontoCobradoCase.AppendLine($" END)");
+				vSqlMontoCobrado = vMontoCobradoCase.ToString();
+                vSqlMonedaTotales = insSql.IIF("DocumentoCobrado.CodigoMonedaDeCxC = " + insSql.ToSqlValue(vCodigoMonedaLocal), "'Bolívares expresados en " + valNombreMoneda + "'", "CxC.Moneda", true);
+			} else if (valMonedaDelInforme == eMonedaDelInformeMM.EnMonedaOriginal) {                               
+                string vSqlCobranzaCodigoMoneda = "Cobranza.CodigoMoneda";
+                string vSqlDocCobradCodigoMonedaCxC = "DocumentoCobrado.CodigoMonedaDeCxC";
+                string vSqlCobCodMonedaIgualML = vSqlCobranzaCodigoMoneda + " = " + insSql.ToSqlValue(vCodigoMonedaLocal);
+                string vSqlCobCodMonedaDifML = vSqlCobranzaCodigoMoneda + " <> " + insSql.ToSqlValue(vCodigoMonedaLocal);
+                string vSqlDocCobCodMonedaIgualML = vSqlDocCobradCodigoMonedaCxC + " = " + insSql.ToSqlValue(vCodigoMonedaLocal);
+                string vSqlDocCobCodMonedaDifML = vSqlDocCobradCodigoMonedaCxC + " <> " + insSql.ToSqlValue(vCodigoMonedaLocal);
+				vMontoCobradoCase.AppendLine($"(CASE WHEN {vSqlDocCobradCodigoMonedaCxC} = {vSqlCobranzaCodigoMoneda} THEN {vSqlMontoCobrado} ");
+                vMontoCobradoCase.AppendLine($" WHEN  {vSqlDocCobradCodigoMonedaCxC} <> {vSqlCobranzaCodigoMoneda} AND {vSqlDocCobCodMonedaIgualML} THEN DocumentoCobrado.MontoAbonadoEnMonedaOriginal ");
+				vMontoCobradoCase.AppendLine($" WHEN {vSqlDocCobradCodigoMonedaCxC} <> {vSqlCobranzaCodigoMoneda} AND {vSqlDocCobCodMonedaDifML} THEN DocumentoCobrado.MontoAbonado ");
+                vMontoCobradoCase.AppendLine($" ELSE 0 ");
+                vMontoCobradoCase.AppendLine($" END)");
+                vSqlMontoCobrado = vMontoCobradoCase.ToString();
+                vSqlMonedaTotales = insSql.IIF("DocumentoCobrado.CodigoMonedaDeCxC = " + insSql.ToSqlValue(vCodigoMonedaLocal), "'Bolívares expresados en " + valNombreMoneda + "'", "CxC.Moneda", true);
+            }
 			/* FIN */
 			vSql.AppendLine("CTE_CxCHistoricoClientes AS (");
 			vSql.AppendLine("SELECT ");
@@ -245,7 +268,7 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			vSql.AppendLine("	Cobranza.CambioAbolivares, ");
 			vSql.AppendLine("	CxC.FechaVencimiento, ");
 			vSql.AppendLine($"	(CASE CxC.TipoCxC WHEN {insSql.EnumToSqlValue((int)eTipoDeTransaccion.FACTURA)} THEN 'Factura' WHEN {insSql.EnumToSqlValue((int)eTipoDeTransaccion.GIRO)} THEN 'Giro' WHEN {insSql.EnumToSqlValue((int)eTipoDeTransaccion.CHEQUEDEVUELTO)} THEN 'Cheque Devuelto' WHEN {insSql.EnumToSqlValue((int)eTipoDeTransaccion.NOTADECREDITO)} THEN 'Nota de Crédito' WHEN {insSql.EnumToSqlValue((int)eTipoDeTransaccion.NOTADEDEBITO)} THEN 'Nota de Débito' WHEN {insSql.EnumToSqlValue((int)eTipoDeTransaccion.NOTAENTREGA)} THEN 'Nota de Entrega' WHEN {insSql.EnumToSqlValue((int)eTipoDeTransaccion.NOASIGNADO)} THEN 'No Asignado' WHEN {insSql.EnumToSqlValue((int)eTipoDeTransaccion.BOLETADEVENTA)} THEN 'Boleta de Venta' WHEN {insSql.EnumToSqlValue((int)eTipoDeTransaccion.TICKETMAQUINAREGISTRADORA)} THEN 'Ticket Máquina Registradora' WHEN {insSql.EnumToSqlValue((int)eTipoDeTransaccion.RECIBOPORHONORARIOS)} THEN 'Recibo por Honorarios' WHEN {insSql.EnumToSqlValue((int)eTipoDeTransaccion.LIQUIDACIONDECOMPRA)} THEN 'Liquidación de Compra' WHEN {insSql.EnumToSqlValue((int)eTipoDeTransaccion.OTROS)} THEN 'Otros' WHEN {insSql.EnumToSqlValue((int)eTipoDeTransaccion.NOTADECREDITOCOMPROBANTEFISCAL)} THEN 'Nota de Crédito Comprobante Fiscal' END) AS TipoDeDocumento, ");
-            vSql.AppendLine("	CxC.Numero AS NumeroDocumento, ");
+			vSql.AppendLine("	CxC.Numero AS NumeroDocumento, ");
 			vSql.AppendLine("	CAST(CxC.CodigoCliente AS VARCHAR) + CHAR(9) + CAST(CxC.Numero AS VARCHAR) AS NumeroDocumentoGrupo, ");
 			vSql.AppendLine("	Cobranza.Numero AS NumeroCobranza, ");
 			vSql.AppendLine("	Cobranza.Fecha AS FechaCobranza, ");
@@ -295,11 +318,11 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 				} else {
 					vSqlCambio = vSqlCambioMasCercano;
 				}
-				vSqlCambio = insSql.IIF("anticipo.CodigoMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal), vSqlCambio, " 1 ", true);
-				vSqlMontoOriginal = insSql.RoundToNDecimals(vSqlMontoOriginal + " / " + vSqlCambio, 2);
-				vSqlMontoCobrado = insSql.RoundToNDecimals(vSqlMontoCobrado + " / " + vSqlCambio, 2);
-				vSqlSaldoActual = insSql.RoundToNDecimals(vSqlSaldoActual + " / " + vSqlCambio, 2);
-				vSqlMonedaTotales = insSql.IIF("anticipo.CodigoMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal), "'Bolívares expresados en " + valNombreMoneda + "'", "Anticipo.Moneda", true);
+				vSqlCambio = insSql.IIF("anticipo.CodigoMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal), vSqlCambio, " 1 ", true);				
+                vSqlMontoOriginal = insSql.IIF("anticipo.CodigoMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal), insSql.RoundToNDecimals(vSqlMontoOriginal + " / " + vSqlCambio, 2), vSqlMontoOriginal, true);                
+                vSqlMontoCobrado = insSql.IIF("anticipo.CodigoMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal), insSql.RoundToNDecimals(vSqlMontoCobrado + " / " + vSqlCambio, 2), vSqlMontoCobrado, true);
+                vSqlSaldoActual = insSql.IIF("anticipo.CodigoMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal), insSql.RoundToNDecimals(vSqlSaldoActual + " / " + vSqlCambio, 2), vSqlSaldoActual, true);
+                vSqlMonedaTotales = insSql.IIF("anticipo.CodigoMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal), "'Bolívares expresados en " + valNombreMoneda + "'", "Anticipo.Moneda", true);
 			} else if (valMonedaDelInforme == eMonedaDelInformeMM.EnMonedaOriginal) {
 			}
 			/* FIN */
@@ -393,9 +416,9 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 				} else {
 					vSqlCambio = vSqlCambioMasCercano;
 				}
-				vSqlCambio = insSql.IIF("CodigoMonedaAnticipo = " + insSql.ToSqlValue(vCodigoMonedaLocal), vSqlCambio, " 1 ", true);
-				vSqlMontoInicial = insSql.RoundToNDecimals(vSqlMontoInicial + " / " + vSqlCambio, 2);
-			} else if (valMonedaDelInforme == eMonedaDelInformeMM.EnMonedaOriginal) {
+				vSqlCambio = insSql.IIF("CodigoMonedaAnticipo = " + insSql.ToSqlValue(vCodigoMonedaLocal), vSqlCambio, " 1 ", true);				
+                vSqlMontoInicial = insSql.IIF("CodigoMonedaAnticipo = " + insSql.ToSqlValue(vCodigoMonedaLocal), insSql.RoundToNDecimals(vSqlMontoInicial + " / " + vSqlCambio, 2), vSqlMontoInicial, true);
+            } else if (valMonedaDelInforme == eMonedaDelInformeMM.EnMonedaOriginal) {
 			}
 			/* FIN */
 			vCalculaSaldoInicialAnticipo = vSqlMontoInicial;
@@ -427,9 +450,9 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 				} else {
 					vSqlCambio = vSqlCambioMasCercano;
 				}
-				vSqlCambio = insSql.IIF("CodMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal), vSqlCambio, " 1 ", true);
-				vSqlMontoInicial = insSql.RoundToNDecimals(vSqlMontoInicial + " / " + vSqlCambio, 2);
-			} else if (valMonedaDelInforme == eMonedaDelInformeMM.EnMonedaOriginal) {
+				vSqlCambio = insSql.IIF("CodMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal), vSqlCambio, " 1 ", true);				
+                vSqlMontoInicial = insSql.IIF("CodMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal), insSql.RoundToNDecimals(vSqlMontoInicial + " / " + vSqlCambio, 2), vSqlMontoInicial, true);
+            } else if (valMonedaDelInforme == eMonedaDelInformeMM.EnMonedaOriginal) {
 			}
 			/* FIN */
 			vCalculaSaldoInicialCxC = vSqlMontoInicial;

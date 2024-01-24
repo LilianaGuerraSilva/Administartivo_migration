@@ -57,7 +57,7 @@ namespace Galac.Saw.Rpt.Cliente {
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
                 LibReport.ConfigFieldStr(this, "txtCodigo", string.Empty, "Codigo");
                 LibReport.ConfigFieldStr(this, "txtNombre", string.Empty, "Nombre");
-                LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "Moneda");
+                LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "MonedaReporte");
                 LibReport.ConfigFieldStr(this, "txtTipoReporte", string.Empty, "TipoReporte");
                 LibReport.ConfigFieldStr(this, "txtTituloTipoReporte", string.Empty, "TituloTipoReporte");
                 LibReport.ConfigFieldDec(this, "txtSaldoInicial", string.Empty, "SaldoInicial");
