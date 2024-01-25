@@ -8,11 +8,13 @@ using Newtonsoft.Json;
 using LibGalac.Aos.Base;
 using Newtonsoft.Json.Converters;
 using LibGalac.Aos.Cnf;
+using LibGalac.Aos.Ccl.Settings;
+using LibGalac.Aos.Brl.Settings;
 using System.Collections.ObjectModel;
 
 namespace Galac.Saw.LibWebConnector {
     public class clsSuscripcion {
-        public bool RifInfotax {
+        bool RifInfotax {
             get { return LibString.S1IsEqualToS2(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "NumeroDeRIF"), "J305125430"); }
         }
 
@@ -35,75 +37,13 @@ namespace Galac.Saw.LibWebConnector {
             public string Descripcion { get; set; }
         }
 
-        public clsSuscripcion() {
-        }
-
-        public DatosSuscripcion GetCaracteristicaGVentas(string valNumeroDeIdentificacion) {
-            try {
-                Uri vBaseUri = new Uri(GetEndPointGVentas());
-                string vUrl = AddParametroNumeroDeIdentificacionFiscal(@"/api/saas/datos-suscripcion-por-numero-de-identificacion?", valNumeroDeIdentificacion);
-                var vRequest = (HttpWebRequest)WebRequest.Create(new Uri(vBaseUri, vUrl));
-                vRequest.ContentType = "application/json";
-                vRequest.Method = "GET";
-                HttpWebResponse vResponse = (HttpWebResponse)vRequest.GetResponse();
-                if (vResponse.StatusCode == HttpStatusCode.OK) {
-                    Stream vResponseStream = vResponse.GetResponseStream();
-                    string vResponseStr = new StreamReader(vResponseStream).ReadToEnd();
-                    return JsonConvert.DeserializeObject<DatosSuscripcion>(vResponseStr, new IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd" });
-                }
-
-            } catch (Exception) {
-                throw;
-            }
-            return null;
-        }
-
-        public int GetCantidadDeUsuariosActivos(string valNumeroDeIdentificacion) {
-            int vResult = -1;
-            try {
-                Uri vBaseUri = new Uri(GetEndPointGVentas());
-                string vUrl = AddParametroNumeroDeIdentificacionFiscal(@"/api/saas/usuarios-disponibles?", valNumeroDeIdentificacion);
-                var vRequest = (HttpWebRequest)WebRequest.Create(new Uri(vBaseUri, vUrl));
-                vRequest.ContentType = "application/json";
-                vRequest.Method = "GET";
-                HttpWebResponse response;
-                response = (HttpWebResponse)vRequest.GetResponse();
-                if (response.StatusCode == HttpStatusCode.OK) {
-                    Stream vResponseStream = response.GetResponseStream();
-                    string vResponseStr = new StreamReader(vResponseStream).ReadToEnd();
-                    vResult = LibConvert.ToInt(vResponseStr);
-                    return vResult;
-                }
-            } catch (Exception) {
-                throw;
-            }
-            return vResult;
-        }
-
-        public ObservableCollection<string> GetCompaniaGVentas(string valNumeroDeIdentificacion) {
-            ObservableCollection<string> vResult = new ObservableCollection<string>();
-            try {
-                /*
-                Uri vBaseUri = new Uri(GetEndPointGVentas());
-
-                //TODO:Falta Url real
-                string vUrl = AddParametroNumeroDeIdentificacionFiscal(@"/api/saas/datos-suscripcion-por-numero-de-identificacion?", valNumeroDeIdentificacion);
-                var vRequest = (HttpWebRequest)WebRequest.Create(new Uri(vBaseUri, vUrl));
-                vRequest.ContentType = "application/json";
-                vRequest.Method = "GET";
-                HttpWebResponse response;
-                response = (HttpWebResponse)vRequest.GetResponse();
-                if (response.StatusCode == HttpStatusCode.OK) {
-                    Stream vResponseStream = response.GetResponseStream();
-                    string vResponseStr = new StreamReader(vResponseStream).ReadToEnd();
-                */
-                    //TODO:Resultado real
-                    vResult = new ObservableCollection<string>();
-                    return vResult;
-                //}
-            } catch (Exception) {
-                throw;
-            }
+        HttpWebResponse GetResponseGET(string valUrl) {
+            HttpWebResponse vResult;
+            Uri vBaseUri = new Uri(GetEndPointGVentas());
+            var vRequest = (HttpWebRequest)WebRequest.Create(new Uri(vBaseUri, valUrl));
+            vRequest.ContentType = "application/json";
+            vRequest.Method = "GET";
+            vResult = (HttpWebResponse)vRequest.GetResponse();
             return vResult;
         }
 
@@ -114,6 +54,64 @@ namespace Galac.Saw.LibWebConnector {
                 vResult += "=";
                 vResult += System.Uri.EscapeDataString(valNumeroDeIDentificacionFiscal);
             }
+            return vResult;
+        }
+
+        string GetResultFromResponse(HttpWebResponse valResponse) {
+            string vResult = string.Empty;
+            if (valResponse != null && (valResponse.StatusCode== HttpStatusCode.OK)) {
+                vResult = new StreamReader(valResponse.GetResponseStream()).ReadToEnd();
+            }
+            return vResult;
+        }
+
+        public DatosSuscripcion GetCaracteristicaGVentas(string valNumeroDeIdentificacion) {
+            DatosSuscripcion vResult = new DatosSuscripcion();
+            //try {
+            //    //TODO:Falta Url real
+            //    HttpWebResponse vResponse = GetResponseGET(AddParametroNumeroDeIdentificacionFiscal(@"/api/saas/datos-suscripcion-por-numero-de-identificacion?", valNumeroDeIdentificacion));
+            //    if (vResponse.StatusCode == HttpStatusCode.OK) {
+            //        vResult = JsonConvert.DeserializeObject<DatosSuscripcion>(GetResultFromResponse(vResponse), new IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd" });
+            //        return vResult;
+            //    }
+            //} catch (Exception) {
+            //    throw;
+            //}
+            return vResult;
+        }
+
+        public DatosSuscripcion GetCaracteristicaGVentas() {
+            return GetCaracteristicaGVentas(GetNroDeIdentificacionFiscal());
+        }
+
+        public int GetCantidadDeUsuariosActivos(string valNumeroDeIdentificacion) {
+            int vResult = -1;
+            //try {
+            //    //TODO:Falta Url real              
+            //    HttpWebResponse vResponse = GetResponseGET(AddParametroNumeroDeIdentificacionFiscal(@"/api/saas/usuarios-disponibles?", valNumeroDeIdentificacion));
+            //    if (vResponse.StatusCode == HttpStatusCode.OK) {
+            //        vResult = LibConvert.ToInt(new StreamReader(GetResultFromResponse(vResponse)).ReadToEnd());
+            //        return vResult;
+            //    }
+            //} catch (Exception) {
+            //    throw;
+            //}
+            return vResult;
+        }
+
+        public ObservableCollection<string> GetCompaniaGVentas(string valNumeroDeIdentificacion) {
+            ObservableCollection<string> vResult = new ObservableCollection<string>();
+            //try {
+            //    //TODO:Falta Url real
+            //    HttpWebResponse vResponse = GetResponseGET(AddParametroNumeroDeIdentificacionFiscal(@"/api/saas/datos-suscripcion-por-numero-de-identificacion?", valNumeroDeIdentificacion));
+            //    if (vResponse.StatusCode == HttpStatusCode.OK) {
+            //        string vResponseStr = GetResultFromResponse(vResponse);
+            //        //TODO:Resultado real
+            //        return vResult;
+            //    }
+            //} catch (Exception) {
+            //    throw;
+            //}
             return vResult;
         }
 
@@ -128,6 +126,19 @@ namespace Galac.Saw.LibWebConnector {
             } else {
                 return vEndpoint;
             }
+        }
+
+        static string GetNroDeIdentificacionFiscal() {
+            string vNroRif = LibAppSettings.ReadAppSettingsKey("NRORIFQA");
+            if (!LibString.IsNullOrEmpty(vNroRif)) { //Si el setting existe sabemos que vamos a utilizar el rif del setting y no la licencia
+                return vNroRif;
+            } else {
+                return IDFiscal();
+            }
+        }
+
+        private static string IDFiscal() {
+            return ((IParametersLibPdn)new LibParametersLibNav()).GetIdFiscal();
         }
     }
 }

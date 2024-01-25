@@ -15,6 +15,7 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
 using Galac.Saw.Lib;
+using Galac.Saw.LibWebConnector;
 using System.Threading;
 using System.Collections.ObjectModel;
 
@@ -29,6 +30,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string UsuarioDeOperacionesPropertyName = "UsuarioDeOperaciones";
         #endregion
         #region Variables
+        clsSuscripcion.DatosSuscripcion SuscripcionGVentas;
         #endregion //Variables
         #region Propiedades
         public override string ModuleName {
@@ -58,6 +60,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
                 
         string _SerialConector;
+        [LibCustomValidation("SerialConectorValidating")]
         public string  SerialConector {
             get {
                 return _SerialConector;
@@ -86,19 +89,64 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
+        public RelayCommand GuardarCommand {
+            get;
+            private set;
+        }
         #endregion //Propiedades
         #region Constructores
         public ConexionGVentasViewModel(eAccionSR valAction) {
             mAction = valAction;
             CompaniaActualNombre = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre");
             CompaniaActualRIF = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "NumeroDeRIF");
-            UsuarioDeOperaciones = ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login;
-            InquilinoNombre = "Nombre-del-inquilino";// BuscaNombreInquilinoSobreSuscripcion();
+
+            SuscripcionGVentas = (new clsSuscripcion()).GetCaracteristicaGVentas();
+
+            InquilinoNombre = LibString.IsNullOrEmpty(SuscripcionGVentas.TenantNombre) ? "No se encontró información del tenant.": SuscripcionGVentas.TenantNombre;
             LlenaListaCompaniaGVentas();
-            LlentaListaUsuariosSupervisoresActivos();
+            LlenaListaUsuariosSupervisoresActivos();
         }
         #endregion //Constructores
         #region Metodos Generados
+        protected override void InitializeCommands() {
+            base.InitializeCommands();
+            GuardarCommand = new RelayCommand(ExecuteGuardarCommand, CanExecuteGuardarCommand);
+        }
+
+        protected override void InitializeRibbon() {
+            base.InitializeRibbon();
+            LibRibbonControlData vRibbonControlSalir = RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0];
+            RibbonData.RemoveRibbonGroup("Acciones");
+            if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
+                RibbonData.TabDataCollection[0].AddTabGroupData(CreateAccionesRibbonGroup());
+                RibbonData.TabDataCollection[0].GroupDataCollection[0].AddRibbonControlData(vRibbonControlSalir);
+            }
+        }
+
+        private LibRibbonGroupData CreateAccionesRibbonGroup() {
+            LibRibbonGroupData vResult = new LibRibbonGroupData("Acciones");
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                Label = "Guardar",
+                Command = GuardarCommand,
+                LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/saveAndClose.png", UriKind.Relative),
+                ToolTipDescription = "Guardar",
+                ToolTipTitle = "Guardar",
+                KeyTip = "F6"
+            });
+            return vResult;
+        }
+
+        private bool CanExecuteGuardarCommand() {
+            return true;
+        }
+
+        private void ExecuteGuardarCommand() {
+            ExecuteEstablecerConexionConGVentas();
+        }
+
+        private void ExecuteEstablecerConexionConGVentas() {
+            //
+        }
         #endregion //Metodos Generados
 
         private string BuscaNombreInquilinoSobreSuscripcion() {
@@ -106,13 +154,29 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         private void LlenaListaCompaniaGVentas() {
-            ListaCompaniaGeVentasNombres = new ObservableCollection<string>();// new LibWebConnector.clsSuscripcion().GetCompaniaGVentas("");
+            if (LibString.IsNullOrEmpty(SuscripcionGVentas.TenantNombre, true)) {
+                ListaCompaniaGeVentasNombres = new ObservableCollection<string>();
+            } else {
+                ListaCompaniaGeVentasNombres = new LibWebConnector.clsSuscripcion().GetCompaniaGVentas("");
+            }            
         }
 
-        private void LlentaListaUsuariosSupervisoresActivos() {
+        private void LlenaListaUsuariosSupervisoresActivos() {
             ListaUsuariosDeOperaciones = new ObservableCollection<string>();// ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).ListaDeUsuariosSupervisoresActivos();
-            //UsuarioDeOperaciones = ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login;
+            UsuarioDeOperaciones = ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login;
         }
+
+
+        private ValidationResult SerialConectorValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if (LibString.IsNullOrEmpty(SerialConector)) {
+                vResult = new ValidationResult("El valor del Serial del Conector Web es obligatorio.");
+            }else if (LibString.Len(SerialConector) != 36) {
+                vResult = new ValidationResult("La longitud del valor proporcionado para Serial del Conector Web no es válida.");
+            }
+            return vResult;
+        }
+
 
     } //End of class ConexionGVentasViewModel
 

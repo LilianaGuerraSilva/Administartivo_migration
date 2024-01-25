@@ -28,7 +28,6 @@ namespace Galac.Saw.Brl.SttDef {
         #region Propiedades
         #endregion //Propiedades
         #region Constructores
-
         public clsSettValueByCompanyNav() { }
 
         #endregion //Constructores
@@ -123,7 +122,7 @@ namespace Galac.Saw.Brl.SttDef {
                 } else {
                     insSettValueByCompany.Value = LibConvert.ToStr(vItem.Element("value").Value);
                 }
-                vXElement = new XElement(LibGalac.Aos.Base.LibString.LCase(insSettValueByCompany.NameSettDefinition), insSettValueByCompany.Value);
+                vXElement = new XElement(LibString.LCase(insSettValueByCompany.NameSettDefinition), insSettValueByCompany.Value);
                 vGpResult.Add(vXElement);
             }
             vResult.Add(vGpResult);
@@ -256,6 +255,7 @@ namespace Galac.Saw.Brl.SttDef {
             insEntidad.UsaMultiplesAlicuotasAsBool = false;
             insEntidad.EsSistemaParaIGAsBool = false;
             insEntidad.UsaNotaEntregaAsBool = false;
+            insEntidad.SuscripcionGVentas = "1000";
             return insEntidad;
         }
         private void LlenaListado(GeneralStt valRecord, ref List<SettValueByCompany> valBusinessObject, int valConsecutivoCompania) {
@@ -267,6 +267,7 @@ namespace Galac.Saw.Brl.SttDef {
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.EsSistemaParaIGAsBool), "EsSistemaParaIG", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.ValidarRifEnLaWebAsBool), "ValidarRifEnLaWeb", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaNotaEntregaAsBool), "UsaNotaEntrega", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(valRecord.SuscripcionGVentas, "SuscripcionGVentas", valConsecutivoCompania));
         }
 
         GeneralStt GetGeneralStt(List<SettValueByCompany> valListGetSettValueByCompany) {
@@ -281,6 +282,7 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.ValidarRifEnLaWebAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "ValidarRifEnLaWeb"));
             vResult.EsSistemaParaIGAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "EsSistemaParaIG"));
             vResult.UsaNotaEntregaAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaNotaEntrega"));
+            vResult.SuscripcionGVentas = ValorSegunColumna(valListGetSettValueByCompany, "SuscripcionGVentas");
             return vResult;
         }
         #endregion // GeneralStt
