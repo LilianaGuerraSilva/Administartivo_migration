@@ -526,7 +526,7 @@ namespace Galac.Saw.Rpt.Cliente
             this.lblMoneda.Left = 0F;
             this.lblMoneda.Name = "lblMoneda";
             this.lblMoneda.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
-            this.lblMoneda.Text = "Moneda del Reporte";
+            this.lblMoneda.Text = "Moneda del Documento";
             this.lblMoneda.Top = 0F;
             this.lblMoneda.Width = 2.125F;
             // 
