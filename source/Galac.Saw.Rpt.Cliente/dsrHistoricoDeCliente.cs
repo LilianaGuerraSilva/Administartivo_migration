@@ -107,6 +107,22 @@ namespace Galac.Saw.Rpt.Cliente {
             eMonedaDelInformeMM vMonedaDelInformeMM = (eMonedaDelInformeMM)LibConvert.DbValueToEnum(txtMonedaDelInforme.Text);
             eTasaDeCambioParaImpresion vTasaDeCambioParaElReporte = (eTasaDeCambioParaImpresion)LibConvert.DbValueToEnum(txtTasaDeCambioParaElReporte.Text);
             this.txtNotaMonedaCambio.Value = new Saw.Lib.clsLibSaw().NotaMonedaCambioParaInformes(vMonedaDelInformeMM, vTasaDeCambioParaElReporte, txtMonedaExpresadaEn.Text, this.txtTituloTipoReporte.Text);
-        }       
+        }
+
+        private void GHTipoReporte_Format(object sender, EventArgs e) {
+            try {
+                lblFechaVencimiento.Text = LibString.S1IsEqualToS2(LibConvert.ToStr(txtTipoReporte.Value), "1") ? "" : "F. Venc.";
+            } catch (Exception) {
+                throw;
+            }
+        }
+
+        private void GHDetalle_Format(object sender, EventArgs e) {
+            try {
+                txtFechaVencimiento.Visible = !LibString.S1IsEqualToS2(LibConvert.ToStr(txtTipoReporte.Value), "1");
+            } catch (Exception) {
+                throw;
+            }
+        }
     }
 }

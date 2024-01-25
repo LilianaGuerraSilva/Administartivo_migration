@@ -23,29 +23,30 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			StringBuilder vSql = new StringBuilder();
 			string vOrdenarPor = valClienteOrdenarPor == eClientesOrdenadosPor.PorCodigo ? "Codigo" : "Nombre";
 			vSql.AppendLine(";WITH");
-			vSql.AppendLine(SqlCTEInfoCxCHistoricoCliente(valConsecutivoCompania, valCodigoMoneda, valMonedaDelInforme, valTasaDeCambio, valNombreMoneda));
+			vSql.AppendLine(SqlCTEInfoCxCHistoricoCliente(valConsecutivoCompania, valCodigoMoneda, valMonedaDelInforme, valTasaDeCambio, valNombreMoneda, valFechaDesde, valFechaHasta));
 			vSql.AppendLine(",");
-			vSql.AppendLine(SqlCTECxCHistoricoClientes(valConsecutivoCompania, valCodigoMoneda, valMonedaDelInforme, valTasaDeCambio, valNombreMoneda));
+			vSql.AppendLine(SqlCTECxCHistoricoClientes(valConsecutivoCompania, valCodigoMoneda, valMonedaDelInforme, valTasaDeCambio, valNombreMoneda, valFechaDesde, valFechaHasta));
 			vSql.AppendLine(",");
-			vSql.AppendLine(SqlCTEAnticipoHistoricoCliente(valConsecutivoCompania, valCodigoMoneda, valMonedaDelInforme, valTasaDeCambio, valNombreMoneda));
+			vSql.AppendLine(SqlCTEAnticipoHistoricoCliente(valConsecutivoCompania, valCodigoMoneda, valMonedaDelInforme, valTasaDeCambio, valNombreMoneda, valFechaDesde, valFechaHasta));
 			vSql.AppendLine(",");
 			vSql.AppendLine(SqlCTESaldoInicialCxCHistoricoCliente(valConsecutivoCompania, valFechaDesde, valCodigoMoneda, valMonedaDelInforme, valTasaDeCambio, valNombreMoneda));
 			vSql.AppendLine(",");
 			vSql.AppendLine(SqlCTESaldoInicialAnticipoHistoricoCliente(valConsecutivoCompania, valFechaDesde, valCodigoMoneda, valMonedaDelInforme, valTasaDeCambio, valNombreMoneda));
-			vSql.AppendLine(SqlSelectInfoCxCHistoricoCliente(valFechaDesde, valFechaHasta, valCodigoCliente, valCodigoMoneda, valMonedaDelInforme, valTasaDeCambio));
+			vSql.AppendLine(SqlSelectInfoCxCHistoricoCliente( valCodigoCliente, valCodigoMoneda, valMonedaDelInforme, valTasaDeCambio));
 			vSql.AppendLine(" UNION ");
-			vSql.AppendLine(SqlSelectCxCHistoricoClientes(valFechaDesde, valFechaHasta, valCodigoCliente, valCodigoMoneda, valMonedaDelInforme, valTasaDeCambio));
+			vSql.AppendLine(SqlSelectCxCHistoricoClientes(valCodigoCliente, valCodigoMoneda, valMonedaDelInforme, valTasaDeCambio));
 			vSql.AppendLine(" UNION ");
-			vSql.AppendLine(SqlSelectAnticipoHistoricoCliente(valFechaDesde, valFechaHasta, valCodigoCliente, valCodigoMoneda, valMonedaDelInforme, valTasaDeCambio));
+			vSql.AppendLine(SqlSelectAnticipoHistoricoCliente(valCodigoCliente, valCodigoMoneda, valMonedaDelInforme, valTasaDeCambio));
 			vSql.AppendLine($" ORDER BY {vOrdenarPor}, TipoReporte, MonedaReporte, NumeroDocumentoGrupo, FechaDocumento, FechaCobranza, NumeroCobranza");
 			return vSql.ToString();
 		}
 
-		private string SqlSelectInfoCxCHistoricoCliente(DateTime valFechaDesde, DateTime valFechaHasta, string valCodigoCliente, string valCodigoMoneda, eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio) {
+		private string SqlSelectInfoCxCHistoricoCliente(string valCodigoCliente, string valCodigoMoneda, eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio) {
 			StringBuilder vSql = new StringBuilder();
 			string vSQLWhere = "";
-			vSQLWhere = insSql.SqlDateValueBetween(vSQLWhere, "FechaDocumento", valFechaDesde, valFechaHasta);
-			vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "Codigo", valCodigoCliente);
+			if (!LibString.IsNullOrEmpty(valCodigoMoneda)) {
+				vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "Codigo", valCodigoCliente);
+			}
 			string vSaldoInicial = insSql.IsNull("(SELECT SaldoInicialOriginal FROM CTE_SaldoInicialCxCHistoricoCliente WHERE (CodigoCliente = CTE_InfoCxCHistoricoCliente.Codigo AND CodigoMoneda = CTE_InfoCxCHistoricoCliente.CodMoneda))", "0");
 			string vCalcularSaldoInicialCxC = sqlCalcularSaldoInicialCxC(valCodigoMoneda, valMonedaDelInforme, valTasaDeCambio, vSaldoInicial);
 			vSql.AppendLine("SELECT ");
@@ -75,11 +76,12 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			return vSql.ToString();
 		}
 
-		private string SqlSelectCxCHistoricoClientes(DateTime valFechaDesde, DateTime valFechaHasta, string valCodigoCliente, string valCodigoMoneda, eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio) {
+		private string SqlSelectCxCHistoricoClientes(string valCodigoCliente, string valCodigoMoneda, eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio) {
 			StringBuilder vSql = new StringBuilder();
 			string vSQLWhere = "";
-			vSQLWhere = insSql.SqlDateValueBetween(vSQLWhere, "FechaDocumento", valFechaDesde, valFechaHasta);
-			vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "Codigo", valCodigoCliente);
+			if (!LibString.IsNullOrEmpty(valCodigoCliente)) {
+				vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "Codigo", valCodigoCliente);
+			}
 			string vSaldoInicial = insSql.IsNull("( SELECT SaldoInicialOriginal FROM CTE_SaldoInicialCxCHistoricoCliente WHERE (CodigoCliente = CTE_CxCHistoricoClientes.Codigo AND CodigoMoneda = CTE_CxCHistoricoClientes.CodMoneda))", "0");
 			string vCalcularSaldoInicialCxC = sqlCalcularSaldoInicialCxC(valCodigoMoneda, valMonedaDelInforme, valTasaDeCambio, vSaldoInicial);
 			vSql.AppendLine("SELECT");
@@ -109,11 +111,12 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			return vSql.ToString();
 		}
 
-		private string SqlSelectAnticipoHistoricoCliente(DateTime valFechaDesde, DateTime valFechaHasta, string valCodigoCliente, string valCodigoMoneda, eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio) {
+		private string SqlSelectAnticipoHistoricoCliente(string valCodigoCliente, string valCodigoMoneda, eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio) {
 			StringBuilder vSql = new StringBuilder();
 			string vSQLWhere = "";
-			vSQLWhere = insSql.SqlDateValueBetween(vSQLWhere, "FechaDocumento", valFechaDesde, valFechaHasta);
-			vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "Codigo", valCodigoCliente);
+			if (!LibString.IsNullOrEmpty(valCodigoCliente)) {
+				vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "Codigo", valCodigoCliente);
+			}
 			string vSaldoInicial = insSql.IsNull("(SELECT SaldoInicialOriginal FROM CTE_SaldoInicialAnticipoHistoricoCliente WHERE (CodigoCliente = CTE_AnticipoHistoricoCliente.Codigo) AND (CodigoMoneda = CTE_AnticipoHistoricoCliente.CodigoMonedaAnticipo))", "0");
 			string vCalcularSaldoInicialAnticipo = sqlCalcularSaldoInicialAnticipo(valCodigoMoneda, valMonedaDelInforme, valTasaDeCambio, vSaldoInicial);
 			vSql.AppendLine("SELECT");
@@ -143,7 +146,7 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			return vSql.ToString();
 		}
 		#endregion //Metodos Generados      
-		private string SqlCTEInfoCxCHistoricoCliente(int valConsecutivoCompania, string valCodigoMoneda, eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio, string valNombreMoneda) {
+		private string SqlCTEInfoCxCHistoricoCliente(int valConsecutivoCompania, string valCodigoMoneda, eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio, string valNombreMoneda, DateTime valFechaDesde, DateTime valFechaHasta) {
 			StringBuilder vSql = new StringBuilder();
 			/* INICIO: Manejo para multimoneda: Moneda Local // Moneda Extranjera Original y Moneda Local en Moneda Extranjera // Moneda Original */
 			string vSqlCambioDelDia;
@@ -196,11 +199,13 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			vSql.AppendLine($"	 {vSqlMontoOriginal} AS MontoOriginal, ");
 			vSql.AppendLine($"	{vSqlMontoRestante} AS SaldoActual");
 			vSql.AppendLine("FROM Cliente INNER JOIN CxC ON Cliente.Codigo = CxC.CodigoCliente AND Cliente.ConsecutivoCompania = CxC.ConsecutivoCompania");
-			vSql.AppendLine($"WHERE (CxC.Status <> '4') AND CxC.ConsecutivoCompania = {LibConvert.ToStr(valConsecutivoCompania)})");
+			vSql.AppendLine($"WHERE (CxC.Status <> '4') AND CxC.ConsecutivoCompania = {LibConvert.ToStr(valConsecutivoCompania)} AND ");
+			vSql.AppendLine(insSql.SqlDateValueBetween("", "CxC.Fecha", valFechaDesde, valFechaHasta));
+			vSql.AppendLine(")");
 			return vSql.ToString();
 		}
 
-		private string SqlCTECxCHistoricoClientes(int valConsecutivoCompania, string valCodigoMoneda, eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio, string valNombreMoneda) {
+		private string SqlCTECxCHistoricoClientes(int valConsecutivoCompania, string valCodigoMoneda, eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio, string valNombreMoneda, DateTime valFechaDesde, DateTime valFechaHasta) {
 			StringBuilder vSql = new StringBuilder();
 			/* INICIO: Manejo para multimoneda: Moneda Local // Moneda Extranjera Original y Moneda Local en Moneda Extranjera // Moneda Original */
 			string vSqlCambioDelDia;
@@ -286,11 +291,13 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			vSql.AppendLine("   Cobranza LEFT JOIN");
 			vSql.AppendLine("   DocumentoCobrado ON Cobranza.Numero = DocumentoCobrado.NumeroCobranza AND Cobranza.ConsecutivoCompania = DocumentoCobrado.ConsecutivoCompania ON ");
 			vSql.AppendLine("   CxC.Numero = DocumentoCobrado.NumeroDelDocumentoCobrado AND CxC.TipoCxc = DocumentoCobrado.TipoDeDocumentoCobrado AND CxC.ConsecutivoCompania = DocumentoCobrado.ConsecutivoCompania");
-			vSql.AppendLine($"WHERE (CxC.Status <> '4') AND CxC.ConsecutivoCompania = {LibConvert.ToStr(valConsecutivoCompania)})");
+			vSql.AppendLine($"WHERE (CxC.Status <> '4') AND CxC.ConsecutivoCompania = {LibConvert.ToStr(valConsecutivoCompania)} AND ");
+			vSql.AppendLine(insSql.SqlDateValueBetween("", "CxC.Fecha", valFechaDesde, valFechaHasta) + " AND " + insSql.SqlDateValueBetween("", "Cobranza.Fecha", valFechaDesde, valFechaHasta));
+			vSql.AppendLine(")");
 			return vSql.ToString();
 		}
 
-		private string SqlCTEAnticipoHistoricoCliente(int valConsecutivoCompania, string valCodigoMoneda, eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio, string valNombreMoneda) {
+		private string SqlCTEAnticipoHistoricoCliente(int valConsecutivoCompania, string valCodigoMoneda, eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio, string valNombreMoneda, DateTime valFechaDesde, DateTime valFechaHasta) {
 			StringBuilder vSql = new StringBuilder();
 			/* INICIO: Manejo para multimoneda: Moneda Local // Moneda Extranjera Original y Moneda Local en Moneda Extranjera // Moneda Original */
 			string vSqlCambioDelDia;
@@ -401,7 +408,9 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			vSql.AppendLine("	INNER JOIN Cliente ");
 			vSql.AppendLine("	ON anticipo.CodigoCliente = Cliente.Codigo ");
 			vSql.AppendLine("	AND anticipo.ConsecutivoCompania = Cliente.ConsecutivoCompania");
-			vSql.AppendLine($"WHERE (anticipo.Status <> '1') AND (anticipo.EsUnaDevolucion = 'N') AND (anticipo.Tipo = '0') AND (Cobranza.StatusCobranza <> '1') AND anticipo.ConsecutivoCompania = {insSql.ToSqlValue(valConsecutivoCompania)})");
+			vSql.AppendLine($"WHERE (anticipo.Status <> '1') AND (anticipo.EsUnaDevolucion = 'N') AND (anticipo.Tipo = '0') AND (Cobranza.StatusCobranza <> '1') AND anticipo.ConsecutivoCompania = {insSql.ToSqlValue(valConsecutivoCompania)} AND ");
+			vSql.AppendLine(insSql.SqlDateValueBetween("", "anticipo.Fecha", valFechaDesde, valFechaHasta) + " AND " + insSql.SqlDateValueBetween("", "Cobranza.Fecha", valFechaDesde, valFechaHasta));
+			vSql.AppendLine(")");
 			return vSql.ToString();
 		}
 
@@ -452,7 +461,7 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 				vSqlMontoInicial = insSql.RoundToNDecimals(vSqlMontoInicial + " * " + vSqlCambio, 2);
 			} else if (valMonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa) {
 				vSqlCambioDelDia = insSql.IsNull("(SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + insSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia <= " + insSql.ToSqlValue(LibDate.Today()) + " ORDER BY FechaDeVigencia DESC)", "1");
-				vSqlCambioMasCercano = insSql.IsNull("(SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + insSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia <= FechaDocumento ORDER BY FechaDeVigencia DESC)", "1");
+				vSqlCambioMasCercano = insSql.IsNull("(SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + insSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia < FechaDocumento ORDER BY FechaDeVigencia DESC)", "1");
 				if (valTasaDeCambio == eTasaDeCambioParaImpresion.DelDia) {
 					vSqlCambio = vSqlCambioDelDia;
 				} else {
@@ -486,7 +495,7 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 				vSqlMontoInicial = insSql.RoundToNDecimals(vSqlMontoInicial + " * " + vSqlCambio, 2);
 			} else if (valMonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa) {
 				vSqlCambioDelDia = insSql.IsNull("(SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + insSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia <= " + insSql.ToSqlValue(LibDate.Today()) + " ORDER BY FechaDeVigencia DESC)", "1");
-				vSqlCambioMasCercano = insSql.IsNull("(SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + insSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia <= FechaDocumento ORDER BY FechaDeVigencia DESC)", "1");
+				vSqlCambioMasCercano = insSql.IsNull("(SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + insSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia < FechaDocumento ORDER BY FechaDeVigencia DESC)", "1");
 				if (valTasaDeCambio == eTasaDeCambioParaImpresion.DelDia) {
 					vSqlCambio = vSqlCambioDelDia;
 				} else {
