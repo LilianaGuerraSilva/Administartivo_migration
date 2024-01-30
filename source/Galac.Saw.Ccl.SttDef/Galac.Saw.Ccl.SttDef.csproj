@@ -68,7 +68,6 @@
     <Compile Include="CobranzasStt.cs" />
     <Compile Include="ComisionesStt.cs" />
     <Compile Include="CompaniaStt.cs" />
-    <Compile Include="ConexionGVentas.cs" />
     <Compile Include="FacturaImprentaDigitalStt.cs" />
     <Compile Include="ImagenesComprobantesRetencionStt.cs" />
     <Compile Include="ComprasStt.cs" />
