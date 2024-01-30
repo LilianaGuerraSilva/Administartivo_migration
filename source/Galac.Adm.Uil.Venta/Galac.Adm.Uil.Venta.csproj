@@ -326,6 +326,12 @@
     <Compile Include="Views\GSVueltoEfectivoView.xaml.cs">
       <DependentUpon>GSVueltoEfectivoView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\winMesesGenerados.xaml.cs">
+      <DependentUpon>winMesesGenerados.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\winTextosDinamicos.xaml.cs">
+      <DependentUpon>winTextosDinamicos.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Reportes\GSCajaCerrada.xaml">
@@ -485,6 +491,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GSVueltoEfectivoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\winMesesGenerados.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\winTextosDinamicos.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -4,15 +4,21 @@ using Galac.Saw.Ccl.Tablas;
 using Galac.Saw.Brl.Tablas;
 using System.ComponentModel.DataAnnotations;
 using Galac.Saw.Ccl.SttDef;
+using LibGalac.Aos.Base;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
 
 	class clsVersionTemporalNoOficial: clsVersionARestructurar {
 		public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
 		public override bool UpdateToVersion() {
-			StartConnectionNoTransaction();	
-			DisposeConnectionNoTransaction();
+			StartConnectionNoTransaction();
+			AgregaParametroGeneral();
+            DisposeConnectionNoTransaction();
 			return true;
+		}
+
+		private void AgregaParametroGeneral() {
+			AgregarNuevoParametro("SuscripcionGVentas", "DatosGenerales", 1, "1.2.-General", 2, "", '2', "", 'S', "0");
 		}
 	}
 }   
