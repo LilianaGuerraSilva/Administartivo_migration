@@ -149,6 +149,7 @@
     <Compile Include="IWrpCaja.cs" />
     <Compile Include="IWrpCajaApertura.cs" />
     <Compile Include="IWrpClienteInsercionRapida.cs" />
+    <Compile Include="IWrpClienteVb.cs" />
     <Compile Include="IWrpCobroRapidoMultimoneda.cs" />
     <Compile Include="IWrpInformesVb.cs" />
     <Compile Include="IWrpImpuestoBancarioVb.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="IWrpVerificadorDePrecios.cs" />
     <Compile Include="wrpCaja.cs" />
     <Compile Include="wrpCajaApertura.cs" />
+    <Compile Include="wrpCliente.cs" />
     <Compile Include="wrpImprentaDigital.cs" />
     <Compile Include="wrpInformacionGVentas.cs" />
     <Compile Include="wrpMenuBarCaja.cs" />
@@ -319,6 +321,10 @@
       <Project>{893120cf-ed36-4227-bbfc-ef9e534b7f50}</Project>
       <Name>Galac.Saw.Brl.Tablas</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Cliente\Galac.Saw.Ccl.Cliente.csproj">
+      <Project>{186abef1-b1c6-4b23-a072-1b6d9bc633e8}</Project>
+      <Name>Galac.Saw.Ccl.Cliente</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Ccl.Contabilizacion\Galac.Saw.Ccl.Contabilizacion.csproj">
       <Project>{8e983401-52bc-4828-838c-01585fe3a8e7}</Project>
       <Name>Galac.Saw.Ccl.Contabilizacion</Name>
@@ -350,6 +356,10 @@
     <ProjectReference Include="..\Galac.Saw.SLev\Galac.Saw.SLev.csproj">
       <Project>{a84d308c-d997-4550-800b-7c46e8cb02e3}</Project>
       <Name>Galac.Saw.SLev</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Uil.Cliente\Galac.Saw.Uil.Cliente.csproj">
+      <Project>{6adab614-4a1c-45df-9fd2-174416742b76}</Project>
+      <Name>Galac.Saw.Uil.Cliente</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Uil.Contabilizacion\Galac.Saw.Uil.Contabilizacion.csproj">
       <Project>{3361eca9-4ad8-4c3b-aa47-4703b4bdf1c2}</Project>

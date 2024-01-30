@@ -14,6 +14,7 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.ObjectModel;
 using LibGalac.Aos.DefGen;
+using Galac.Saw.Lib;
 
 namespace Galac.Adm.Uil.Venta.Reportes {
 
@@ -36,10 +37,10 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 		#endregion //Constantes
 
 		#region Variables
-		private Saw.Lib.eCantidadAImprimir _CantidadAImprimirAsEnum;
+		private eCantidadAImprimir _CantidadAImprimirAsEnum;
 		private string _NombreDelCliente;
 		private string _CodigoDelCliente;
-		private Saw.Lib.eCantidadAImprimir _ZonasAImprimirAsEnum;
+		private eCantidadAImprimir _ZonasAImprimirAsEnum;
 		private string _ZonaCobranza;
 		private DateTime _FechaDesde;
 		private DateTime _FechaHasta;
@@ -75,7 +76,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 			private set;
 		}
 
-		public Saw.Lib.eCantidadAImprimir CantidadAImprimir {
+		public eCantidadAImprimir CantidadAImprimir {
 			get {
 				return _CantidadAImprimirAsEnum;
 			}
@@ -115,7 +116,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 			}
 		}
 
-		public Saw.Lib.eCantidadAImprimir ZonasAImprimir {
+		public eCantidadAImprimir ZonasAImprimir {
 			get {
 				return _ZonasAImprimirAsEnum;
 			}
@@ -254,15 +255,15 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 			}
 		}
 
-		public Saw.Lib.eCantidadAImprimir[] ArrayCantidadAImprimir {
+		public eCantidadAImprimir[] ArrayCantidadAImprimir {
 			get {
-				return LibEnumHelper<Saw.Lib.eCantidadAImprimir>.GetValuesInArray();
+				return LibEnumHelper<eCantidadAImprimir>.GetValuesInArray();
 			}
 		}
 
-		public Saw.Lib.eCantidadAImprimir[] ArrayZonasAImprimir {
+		public eCantidadAImprimir[] ArrayZonasAImprimir {
 			get {
-				return LibEnumHelper<Saw.Lib.eCantidadAImprimir>.GetValuesInArray();
+				return LibEnumHelper<eCantidadAImprimir>.GetValuesInArray();
 			}
 		}
 
@@ -290,9 +291,9 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 
 		#region Constructores
 		public clsCxCPorClienteViewModel() {
-			CantidadAImprimir = Saw.Lib.eCantidadAImprimir.Todos;
+			CantidadAImprimir = eCantidadAImprimir.All;
 			NombreDelCliente = string.Empty;
-			ZonasAImprimir = Saw.Lib.eCantidadAImprimir.Todos;
+			ZonasAImprimir = eCantidadAImprimir.All;
 			ZonaCobranza = string.Empty;
 			FechaDesde = LibDate.Today();
 			FechaHasta = LibDate.Today();
@@ -375,7 +376,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 
 		private ValidationResult NombreDelClienteValidating() {
 			ValidationResult vResult = ValidationResult.Success;
-			if (LibString.IsNullOrEmpty(NombreDelCliente) && CantidadAImprimir == Saw.Lib.eCantidadAImprimir.Uno) {
+			if (LibString.IsNullOrEmpty(NombreDelCliente) && CantidadAImprimir == eCantidadAImprimir.One) {
 				vResult = new ValidationResult("El nombre del cliente no puede estar en blanco");
 			}
 			return vResult;
@@ -383,18 +384,18 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 
 		private ValidationResult ZonaCobranzaValidating() {
 			ValidationResult vResult = ValidationResult.Success;
-			if (LibString.IsNullOrEmpty(ZonaCobranza) && ZonasAImprimir == Saw.Lib.eCantidadAImprimir.Uno) {
+			if (LibString.IsNullOrEmpty(ZonaCobranza) && ZonasAImprimir == eCantidadAImprimir.One) {
 				vResult = new ValidationResult("La zona de cobranza no puede estar en blanco");
 			}
 			return vResult;
 		}
 
 		public bool IsEnabledNombreDelCliente {
-			get { return CantidadAImprimir == Saw.Lib.eCantidadAImprimir.Uno; }
+			get { return CantidadAImprimir == eCantidadAImprimir.One; }
 		}
 
 		public bool IsEnabledZonaCobranza {
-			get { return ZonasAImprimir == Saw.Lib.eCantidadAImprimir.Uno; }
+			get { return ZonasAImprimir == eCantidadAImprimir.One; }
 		}
 
 		public bool IsVisibleTipoTasaDeCambio {

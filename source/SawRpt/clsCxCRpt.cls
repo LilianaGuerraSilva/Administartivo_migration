@@ -14,6 +14,7 @@ Attribute VB_Exposed = True
 Option Explicit
 
 Private Const CM_FILE_NAME As String = "clsCxCRpt"
+Private Const GetGender = Enum_Gender.eg_Male
 Private Const CM_MESSAGE_NAME As String = "Configurar Reporte CxC"
 
 Private Enum eCxCRpt
@@ -42,11 +43,7 @@ Private Enum eCxCRpt
    eCxCRpt_CUENTAS_X_COBRAR_ENTRE_FECHAS_POR_ZONA_DE_COBRANZA_MONEDA_ORIGINAL
    eCxCRpt_ANALISIS_DE_VENCIMIENTO_ENTRE_FECHAS_POR_ZONA_DE_COBRANZA
    eCxCRpt_ANALISIS_DE_VENCIMIENTO_ENTRE_FECHAS_POR_VENDEDOR_POR_ZONA_DE_COBRANZA
-  End Enum
-
-Private Function GetGender() As Enum_Gender
-   GetGender = eg_Male
-End Function
+End Enum
 
 Private Function fNombreFileDeImpresionDelReporteDeCxC(ByVal valReporte As eCxCRpt) As String
    Dim nombreFileXML As String
@@ -519,76 +516,6 @@ h_EXIT: On Error GoTo 0
    fConfigurarDatosDelReporteAnalisisDeCxCHistorico = exito
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteAnalisisDeCxCHistorico", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Function
-
-Public Function fConfigurarDatosDelReporteHistoricoDeCliente(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valNombreCompaniaParaInformes As String, ByVal valMensajesDeMonedaParaInformes As String, ByVal valCambioABs As Boolean, ByVal valUnaPaginaPorCliente As Boolean) As Boolean
-   Dim nombreDelFileXML As String
-   Dim exito As Boolean
-   On Error GoTo h_ERROR
-   exito = False
-   nombreDelFileXML = fNombreFileDeImpresionDelReporteDeCxC(eCxCRpt_HISTORICO_DE_CLIENTE)
-   If gUtilReports.fLoadLayout(refRpt, nombreDelFileXML) Then
-      If gUtilReports.fDefaultConfigurationForDataControl(refRpt, "dcOrigenData", valSqlDelReporte) Then
-         gUtilReports.sDefaultConfigurationForLabels refRpt, "lblCompania", valNombreCompaniaParaInformes
-         gUtilReports.sDefaultConfigurationForLabels refRpt, "lblNotaCobroRetencion", "Nota: (*) Aplicación de retención realizada en cobranza"
-         gUtilReports.sDefaultConfigurationForLabels refRpt, "lblFechaInicialYFinal", "Del " & gConvert.dateToString(valFechaInicial) & " al " & gConvert.dateToString(valFechaFinal)
-         gUtilReports.sDefaultValueForLabelHoraYFechaDeEmision refRpt, "lblFechaYHoraDeEmision"
-         gUtilReports.sConfiguraEncabezado refRpt, "lblCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "lblNumeroDePagina", "lblFechaInicialYFinal", gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
-         gUtilReports.sDefaultConfigurationForLabels refRpt, "lblNotaDeCambio", valMensajesDeMonedaParaInformes
-         If valCambioABs Then
-            gUtilReports.sDefaultConfigurationForLabels refRpt, "lblNotaDeCambio", valMensajesDeMonedaParaInformes
-         Else
-            gUtilReports.sDefaultConfigurationForLabels refRpt, "lblNotaDeCambio", ""
-         End If
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCodigo", "", "Codigo"
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNombre", "", "Nombre"
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtMoneda", "", "MonedaReporte"
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtTipoReporte", "", "TipoReporte"
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtTituloTipoReporte", "", "TituloTipoReporte"
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtSaldoInicial", "", "SaldoInicial"
-         gUtilReports.sDefaultConfigurationForDateFields refRpt, "txtFecha", "", "FechaDocumento", eFT_DATE
-         gUtilReports.sDefaultConfigurationForDateFields refRpt, "txtFechaVencimiento", "", "FechaVencimiento", eFT_DATE
-'         If gGlobalization.fEsCodigoPeru Then
-'            gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtTipoDocumentoGH", "", "TipoDocumentoLey"
-'         Else
-            gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtTipoDocumentoGH", "", "TipoDeDocumento"
-'         End If
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNoDocumento", "", "NumeroDocumento"
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNoDocumentoParaAgrupar", "", "NumeroDocumentoGrupo"
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtMontoOriginal", "", "MontoOriginal"
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtSaldoActual", "", "SaldoActual"
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtStatusCobranza", "", "StatusCobranza"
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtTipoDocumentoDetail", "", "TipoDocumentoDetalle"
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNoCobranza", "", "NumeroCobranza"
-         gUtilReports.sDefaultConfigurationForDateFields refRpt, "txtFechaCobranza", "", "FechaCobranza", eFT_DATE
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtMontoCobrado", "", "MontoCobrado"
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalMontoOriginal", "", ""
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalMontoCobrado", "", ""
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalSaldoActual", "", ""
-         gUtilReports.sDefaultConfigurationForDateFields refRpt, "txtFechaVencimiento", "", "FechaVencimiento", eFT_DATE
-         
-         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalMontoOriginal", "MontoOriginal", eSF_SUM, "GHTipoReporte", eSR_GROUP, eST_SUB_TOTAL
-         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalSaldoActual", "SaldoActual", eSF_SUM, "GHTipoReporte", eSR_GROUP, eST_SUB_TOTAL
-         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalMontoCobrado", "MontoCobrado", eSF_SUM, "GHTipoReporte", eSR_GROUP, eST_SUB_TOTAL
-
-         If valUnaPaginaPorCliente Then
-            gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHCliente", "Codigo", ddGrpAll, ddRepeatOnPage, True, ddNPAfter
-         Else
-            gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHCliente", "Codigo", ddGrpAll, ddRepeatAll, True, ddNPNone
-         End If
-         gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHMoneda", "MonedaReporte", ddGrpAll, ddRepeatAll, True, ddNPNone
-         gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHTipoReporte", "TipoReporte", ddGrpAll, ddRepeatAll, True, ddNPNone
-         gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHDetalle", "NumeroDocumentoGrupo", ddGrpAll, ddRepeatAll, True, ddNPNone
-
-         gUtilMargins.sAsignarMargenesGenerales refRpt
-         Call refRpt.AddNamedItem("gUtilReports", gUtilReports)
-         exito = True
-      End If
-   End If
-h_EXIT: On Error GoTo 0
-   fConfigurarDatosDelReporteHistoricoDeCliente = exito
-   Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteHistoricoDeCliente", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfigurarDatosDelReporteAnalisisDeVencimientoEntreFechas(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valTotalizaPorMes As Boolean, ByVal valAgruparPorVendedor As Boolean, ByVal valNombreCompaniaParaInformes As String, ByVal valPrimerVencimiento As Long, ByVal valSegundoVencimiento As Long, ByVal valTercerVencimiento As Long, ByVal valMensajesDeMonedaParaInformes As String, ByVal valMonedaOriginal As Boolean, ByVal usarFiltroZonaCobranza As Boolean) As Boolean

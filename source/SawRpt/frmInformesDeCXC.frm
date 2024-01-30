@@ -16,7 +16,7 @@ Begin VB.Form frmInformesDeCXC
       Caption         =   "Frame1"
       Height          =   600
       Left            =   3360
-      TabIndex        =   89
+      TabIndex        =   87
       Top             =   4320
       Visible         =   0   'False
       Width           =   8000
@@ -24,7 +24,7 @@ Begin VB.Form frmInformesDeCXC
          Enabled         =   0   'False
          Height          =   315
          Left            =   2520
-         TabIndex        =   92
+         TabIndex        =   90
          Top             =   240
          Width           =   1935
       End
@@ -32,7 +32,7 @@ Begin VB.Form frmInformesDeCXC
          Caption         =   "Check1"
          Height          =   255
          Left            =   2160
-         TabIndex        =   90
+         TabIndex        =   88
          Top             =   240
          Width           =   255
       End
@@ -41,7 +41,7 @@ Begin VB.Form frmInformesDeCXC
          Caption         =   "Zona de Cobranza"
          Height          =   255
          Left            =   2520
-         TabIndex        =   93
+         TabIndex        =   91
          Top             =   0
          Width           =   1935
       End
@@ -51,7 +51,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   255
          Left            =   0
-         TabIndex        =   91
+         TabIndex        =   89
          Top             =   240
          Width           =   2055
       End
@@ -62,14 +62,14 @@ Begin VB.Form frmInformesDeCXC
       Caption         =   "Frame1"
       Height          =   375
       Left            =   3360
-      TabIndex        =   86
+      TabIndex        =   84
       Top             =   3720
       Width           =   1995
       Begin VB.CheckBox ChkContacto 
          Caption         =   "Check1"
          Height          =   255
          Left            =   1440
-         TabIndex        =   87
+         TabIndex        =   85
          Top             =   120
          Width           =   255
       End
@@ -79,7 +79,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   255
          Left            =   0
-         TabIndex        =   88
+         TabIndex        =   86
          Top             =   120
          Width           =   1335
       End
@@ -89,7 +89,7 @@ Begin VB.Form frmInformesDeCXC
       Caption         =   "Agrupado por"
       Height          =   1455
       Left            =   3240
-      TabIndex        =   76
+      TabIndex        =   74
       Top             =   960
       Width           =   5900
       Begin VB.Frame frameOptTipoAgrupar 
@@ -97,7 +97,7 @@ Begin VB.Form frmInformesDeCXC
          BorderStyle     =   0  'None
          Height          =   1100
          Left            =   1680
-         TabIndex        =   83
+         TabIndex        =   81
          Top             =   240
          Width           =   1700
          Begin VB.OptionButton optTipoAgrupar 
@@ -106,7 +106,7 @@ Begin VB.Form frmInformesDeCXC
             Height          =   255
             Index           =   0
             Left            =   0
-            TabIndex        =   85
+            TabIndex        =   83
             Top             =   240
             Width           =   1815
          End
@@ -116,7 +116,7 @@ Begin VB.Form frmInformesDeCXC
             Height          =   255
             Index           =   1
             Left            =   0
-            TabIndex        =   84
+            TabIndex        =   82
             Top             =   480
             Width           =   1815
          End
@@ -124,7 +124,7 @@ Begin VB.Form frmInformesDeCXC
       Begin VB.ComboBox cmbAgruparZona 
          Height          =   315
          Left            =   3600
-         TabIndex        =   82
+         TabIndex        =   80
          Top             =   600
          Visible         =   0   'False
          Width           =   1935
@@ -132,7 +132,7 @@ Begin VB.Form frmInformesDeCXC
       Begin VB.ComboBox cmbAgruparSectorDeNegocio 
          Height          =   315
          Left            =   3600
-         TabIndex        =   80
+         TabIndex        =   78
          Top             =   600
          Width           =   1935
       End
@@ -142,7 +142,7 @@ Begin VB.Form frmInformesDeCXC
          Height          =   255
          Index           =   1
          Left            =   240
-         TabIndex        =   78
+         TabIndex        =   76
          Top             =   840
          Width           =   1300
       End
@@ -152,7 +152,7 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   0
          Left            =   240
-         TabIndex        =   77
+         TabIndex        =   75
          Top             =   360
          Width           =   1200
       End
@@ -161,7 +161,7 @@ Begin VB.Form frmInformesDeCXC
          Caption         =   "Zona de Cobranza"
          Height          =   255
          Left            =   3600
-         TabIndex        =   81
+         TabIndex        =   79
          Top             =   360
          Visible         =   0   'False
          Width           =   1935
@@ -171,7 +171,7 @@ Begin VB.Form frmInformesDeCXC
          Caption         =   "Agrupar por..."
          Height          =   255
          Left            =   3600
-         TabIndex        =   79
+         TabIndex        =   77
          Top             =   360
          Width           =   1935
       End
@@ -189,7 +189,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   6120
-      TabIndex        =   75
+      TabIndex        =   73
       Top             =   3840
       Width           =   1935
    End
@@ -199,13 +199,13 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   4200
-      TabIndex        =   73
+      TabIndex        =   71
       Top             =   1920
       Width           =   6075
       Begin VB.ComboBox cmbTipodocumento 
          Height          =   315
          Left            =   1560
-         TabIndex        =   22
+         TabIndex        =   20
          Top             =   0
          Width           =   2055
       End
@@ -217,7 +217,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   60
-         TabIndex        =   74
+         TabIndex        =   72
          Top             =   60
          Width           =   1410
       End
@@ -229,7 +229,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   3240
-      TabIndex        =   20
+      TabIndex        =   18
       Top             =   1560
       Width           =   2775
    End
@@ -240,7 +240,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   3360
-      TabIndex        =   13
+      TabIndex        =   11
       Top             =   720
       Visible         =   0   'False
       Width           =   2415
@@ -252,7 +252,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   3300
-      TabIndex        =   33
+      TabIndex        =   31
       Top             =   3960
       Width           =   2115
    End
@@ -263,7 +263,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   3300
-      TabIndex        =   32
+      TabIndex        =   30
       Top             =   3720
       Width           =   2115
    End
@@ -273,13 +273,13 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   5400
-      TabIndex        =   71
+      TabIndex        =   69
       Top             =   3120
       Width           =   3435
       Begin VB.ComboBox cmbOrdenadoPor 
          Height          =   315
          Left            =   1560
-         TabIndex        =   29
+         TabIndex        =   27
          Top             =   0
          Width           =   1575
       End
@@ -291,7 +291,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   60
-         TabIndex        =   72
+         TabIndex        =   70
          Top             =   60
          Width           =   990
       End
@@ -303,7 +303,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   6000
-      TabIndex        =   34
+      TabIndex        =   32
       Top             =   3525
       Width           =   1935
    End
@@ -314,13 +314,13 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   3300
-      TabIndex        =   42
+      TabIndex        =   40
       Top             =   660
       Width           =   4395
       Begin VB.ComboBox CmbCantidadAImprimir 
          Height          =   315
          Left            =   1455
-         TabIndex        =   14
+         TabIndex        =   12
          Top             =   0
          Width           =   975
       End
@@ -332,7 +332,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   0
-         TabIndex        =   49
+         TabIndex        =   47
          Top             =   60
          Width           =   1335
       End
@@ -344,14 +344,14 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   3300
-      TabIndex        =   56
+      TabIndex        =   54
       Top             =   660
       Width           =   4395
       Begin VB.ComboBox cmbStatus 
          Height          =   315
          HelpContextID   =   1
          Left            =   2295
-         TabIndex        =   17
+         TabIndex        =   15
          Top             =   0
          Width           =   1815
       End
@@ -363,7 +363,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   0
-         TabIndex        =   57
+         TabIndex        =   55
          Top             =   60
          Width           =   2175
       End
@@ -371,9 +371,9 @@ Begin VB.Form frmInformesDeCXC
    Begin VB.Frame frameInformes 
       BackColor       =   &H00F3F3F3&
       ForeColor       =   &H80000010&
-      Height          =   5775
+      Height          =   4935
       Left            =   120
-      TabIndex        =   63
+      TabIndex        =   61
       Top             =   0
       Width           =   3075
       Begin VB.OptionButton optInformeDeCxC 
@@ -385,8 +385,8 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   12
          Left            =   120
-         TabIndex        =   12
-         Top             =   5370
+         TabIndex        =   10
+         Top             =   4485
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -398,8 +398,8 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   11
          Left            =   120
-         TabIndex        =   5
-         Top             =   2673
+         TabIndex        =   4
+         Top             =   2265
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -411,8 +411,8 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   10
          Left            =   120
-         TabIndex        =   8
-         Top             =   3660
+         TabIndex        =   6
+         Top             =   2850
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -424,8 +424,8 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   9
          Left            =   120
-         TabIndex        =   11
-         Top             =   5036
+         TabIndex        =   9
+         Top             =   4170
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -437,8 +437,8 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   0
          Left            =   120
-         TabIndex        =   4
-         Top             =   2344
+         TabIndex        =   3
+         Top             =   1950
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -451,7 +451,7 @@ Begin VB.Form frmInformesDeCXC
          Index           =   1
          Left            =   120
          TabIndex        =   0
-         Top             =   639
+         Top             =   630
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -463,34 +463,8 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   2
          Left            =   120
-         TabIndex        =   6
-         Top             =   3002
-         Width           =   2775
-      End
-      Begin VB.OptionButton optInformeDeCxC 
-         Alignment       =   1  'Right Justify
-         BackColor       =   &H00F3F3F3&
-         Caption         =   "Histórico de cliente ......................."
-         CausesValidation=   0   'False
-         ForeColor       =   &H00A84439&
-         Height          =   195
-         Index           =   3
-         Left            =   120
-         TabIndex        =   7
-         Top             =   3331
-         Width           =   2775
-      End
-      Begin VB.OptionButton optInformeDeCxC 
-         Alignment       =   1  'Right Justify
-         BackColor       =   &H00F3F3F3&
-         Caption         =   "CxC entre Fechas ........................."
-         CausesValidation=   0   'False
-         ForeColor       =   &H00A84439&
-         Height          =   195
-         Index           =   4
-         Left            =   120
-         TabIndex        =   1
-         Top             =   968
+         TabIndex        =   5
+         Top             =   2580
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -502,8 +476,8 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   5
          Left            =   120
-         TabIndex        =   9
-         Top             =   4378
+         TabIndex        =   7
+         Top             =   3540
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -516,8 +490,8 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   6
          Left            =   120
-         TabIndex        =   10
-         Top             =   4707
+         TabIndex        =   8
+         Top             =   3855
          Visible         =   0   'False
          Width           =   2775
       End
@@ -530,8 +504,8 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   8
          Left            =   120
-         TabIndex        =   2
-         Top             =   1297
+         TabIndex        =   1
+         Top             =   945
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -543,8 +517,8 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   13
          Left            =   120
-         TabIndex        =   3
-         Top             =   1626
+         TabIndex        =   2
+         Top             =   1260
          Width           =   2775
       End
       Begin VB.Label lblINformesEstadisticos 
@@ -562,8 +536,8 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00FFFFFF&
          Height          =   255
          Left            =   120
-         TabIndex        =   66
-         Top             =   3989
+         TabIndex        =   64
+         Top             =   3165
          Width           =   2775
       End
       Begin VB.Label lblInformesDeCxC 
@@ -581,7 +555,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00FFFFFF&
          Height          =   255
          Left            =   120
-         TabIndex        =   65
+         TabIndex        =   63
          Top             =   250
          Width           =   2775
       End
@@ -600,8 +574,8 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00FFFFFF&
          Height          =   255
          Left            =   120
-         TabIndex        =   64
-         Top             =   1955
+         TabIndex        =   62
+         Top             =   1575
          Width           =   2775
       End
    End
@@ -612,13 +586,13 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   7200
-      TabIndex        =   47
+      TabIndex        =   45
       Top             =   2460
       Width           =   3615
       Begin VB.ComboBox cmbMonedaDeLosReportes 
          Height          =   315
          Left            =   1665
-         TabIndex        =   28
+         TabIndex        =   26
          Text            =   "En Moneda Original"
          Top             =   0
          Width           =   1935
@@ -631,7 +605,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   0
-         TabIndex        =   48
+         TabIndex        =   46
          Top             =   60
          Width           =   1545
       End
@@ -642,13 +616,13 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   675
       Left            =   4335
-      TabIndex        =   44
+      TabIndex        =   42
       Top             =   5700
       Width           =   4935
       Begin VB.TextBox txtNombreArchivo 
          Height          =   285
          Left            =   1275
-         TabIndex        =   37
+         TabIndex        =   35
          Top             =   285
          Width           =   3495
       End
@@ -656,7 +630,7 @@ Begin VB.Form frmInformesDeCXC
          Caption         =   "&Exportar"
          Height          =   375
          Left            =   120
-         TabIndex        =   41
+         TabIndex        =   39
          Top             =   240
          Width           =   1035
       End
@@ -665,7 +639,7 @@ Begin VB.Form frmInformesDeCXC
       Caption         =   "&Impresora"
       Height          =   375
       Left            =   120
-      TabIndex        =   38
+      TabIndex        =   36
       Top             =   5940
       Width           =   1215
    End
@@ -673,7 +647,7 @@ Begin VB.Form frmInformesDeCXC
       Caption         =   "&Pantalla"
       Height          =   375
       Left            =   1560
-      TabIndex        =   39
+      TabIndex        =   37
       Top             =   5940
       Width           =   1215
    End
@@ -682,7 +656,7 @@ Begin VB.Form frmInformesDeCXC
       CausesValidation=   0   'False
       Height          =   375
       Left            =   3000
-      TabIndex        =   40
+      TabIndex        =   38
       Top             =   5940
       Width           =   1215
    End
@@ -692,33 +666,33 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   1035
       Left            =   3300
-      TabIndex        =   43
+      TabIndex        =   41
       Top             =   2430
       Width           =   2055
       Begin MSComCtl2.DTPicker dtpFechaFinal 
          Height          =   315
          Left            =   720
-         TabIndex        =   24
+         TabIndex        =   22
          Top             =   615
          Width           =   1275
          _ExtentX        =   2249
          _ExtentY        =   556
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   76480515
+         Format          =   97779715
          CurrentDate     =   36978
       End
       Begin MSComCtl2.DTPicker dtpFechaInicial 
          Height          =   315
          Left            =   720
-         TabIndex        =   23
+         TabIndex        =   21
          Top             =   240
          Width           =   1275
          _ExtentX        =   2249
          _ExtentY        =   556
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   76480515
+         Format          =   97779715
          CurrentDate     =   36978
       End
       Begin VB.Label lblFechaFinal 
@@ -729,7 +703,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   180
-         TabIndex        =   46
+         TabIndex        =   44
          Top             =   675
          Width           =   330
       End
@@ -741,7 +715,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   180
-         TabIndex        =   45
+         TabIndex        =   43
          Top             =   300
          Width           =   405
       End
@@ -753,7 +727,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   3300
-      TabIndex        =   30
+      TabIndex        =   28
       Top             =   3525
       Width           =   1575
    End
@@ -763,13 +737,13 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   615
       Left            =   3300
-      TabIndex        =   54
+      TabIndex        =   52
       Top             =   1740
       Width           =   6675
       Begin VB.ComboBox CmbZonaCobranza 
          Height          =   315
          Left            =   675
-         TabIndex        =   21
+         TabIndex        =   19
          Top             =   240
          Width           =   2295
       End
@@ -781,7 +755,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   180
-         TabIndex        =   55
+         TabIndex        =   53
          Top             =   300
          Width           =   375
       End
@@ -793,7 +767,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   3300
-      TabIndex        =   31
+      TabIndex        =   29
       Top             =   3525
       Width           =   2115
    End
@@ -804,13 +778,13 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   3300
-      TabIndex        =   61
+      TabIndex        =   59
       Top             =   4980
       Width           =   6855
       Begin VB.ComboBox cmbCamposDefinibles 
          Height          =   315
          Left            =   2940
-         TabIndex        =   36
+         TabIndex        =   34
          Text            =   "Ninguno"
          Top             =   0
          Width           =   2055
@@ -823,7 +797,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   0
-         TabIndex        =   62
+         TabIndex        =   60
          Top             =   60
          Width           =   2820
       End
@@ -834,20 +808,20 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   555
       Left            =   3300
-      TabIndex        =   52
+      TabIndex        =   50
       Top             =   1035
       Width           =   6135
       Begin VB.TextBox txtNombreVendedor 
          Height          =   285
          Left            =   1890
-         TabIndex        =   19
+         TabIndex        =   17
          Top             =   195
          Width           =   4155
       End
       Begin VB.TextBox txtCodigoVendedor 
          Height          =   285
          Left            =   735
-         TabIndex        =   18
+         TabIndex        =   16
          Top             =   195
          Width           =   1095
       End
@@ -859,7 +833,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   120
-         TabIndex        =   53
+         TabIndex        =   51
          Top             =   240
          Width           =   555
       End
@@ -870,20 +844,20 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   555
       Left            =   3300
-      TabIndex        =   50
+      TabIndex        =   48
       Top             =   1035
       Width           =   6135
       Begin VB.TextBox txtCodigoDeCliente 
          Height          =   285
          Left            =   735
-         TabIndex        =   15
+         TabIndex        =   13
          Top             =   195
          Width           =   1095
       End
       Begin VB.TextBox txtNombreDeCliente 
          Height          =   285
          Left            =   1890
-         TabIndex        =   16
+         TabIndex        =   14
          Top             =   195
          Width           =   4215
       End
@@ -895,7 +869,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   120
-         TabIndex        =   51
+         TabIndex        =   49
          Top             =   240
          Width           =   555
       End
@@ -907,13 +881,13 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   3300
-      TabIndex        =   58
+      TabIndex        =   56
       Top             =   4980
       Width           =   6315
       Begin VB.ComboBox cmbAnalisisDeVencimientoPor 
          Height          =   315
          Left            =   2565
-         TabIndex        =   35
+         TabIndex        =   33
          Top             =   0
          Width           =   1815
       End
@@ -926,7 +900,7 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   1
          Left            =   5100
-         TabIndex        =   70
+         TabIndex        =   68
          Top             =   60
          Width           =   690
       End
@@ -939,7 +913,7 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   0
          Left            =   0
-         TabIndex        =   59
+         TabIndex        =   57
          Top             =   60
          Width           =   2445
       End
@@ -950,7 +924,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   915
       Left            =   5460
-      TabIndex        =   67
+      TabIndex        =   65
       Top             =   2430
       Width           =   1635
       Begin VB.OptionButton optTasaDeCambio 
@@ -961,7 +935,7 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   1
          Left            =   180
-         TabIndex        =   68
+         TabIndex        =   66
          Top             =   615
          Width           =   1275
       End
@@ -973,7 +947,7 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   0
          Left            =   180
-         TabIndex        =   25
+         TabIndex        =   23
          Top             =   300
          Width           =   1275
       End
@@ -984,7 +958,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   915
       Left            =   5460
-      TabIndex        =   69
+      TabIndex        =   67
       Top             =   2430
       Width           =   1635
       Begin VB.OptionButton optDetallado 
@@ -994,7 +968,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   180
-         TabIndex        =   26
+         TabIndex        =   24
          Top             =   300
          Width           =   1275
       End
@@ -1005,7 +979,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   180
-         TabIndex        =   27
+         TabIndex        =   25
          Top             =   615
          Width           =   1275
       End
@@ -1027,7 +1001,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H000040C0&
       Height          =   300
       Left            =   3360
-      TabIndex        =   60
+      TabIndex        =   58
       Top             =   180
       Width           =   2385
    End
@@ -1053,84 +1027,26 @@ Dim insFactura As Object
 Dim insConfigurar  As Object
 Private insCnxAos As Object
 
-Private Function GetGender() As Enum_Gender
-   GetGender = eg_Male
-End Function
+Private Const GetGender = Enum_Gender.eg_Male
+Private Const CM_FILE_NAME As String = "frmInformesDeCXC"
+Private Const CM_MESSAGE_NAME As String = "Informes De CXC"
+Private Const OPT_ANALISIS_DE_VENCIMIENTO As Integer = 0
+Private Const OPT_CXC_POR_VENDEDOR As Integer = 1
+Private Const OPT_ANALISIS_CxC_HISTORICO As Integer = 2
+Private Const OPT_ESTADISTICO_DE_VENDEDORES As Integer = 5
+Private Const OPT_CXC_CON_DESCRIPCION As Integer = 8
+Private Const OPT_FACTURAS_ANULADAS_VS_CXC_VIGENTES As Integer = 9
+Private Const OPT_ANALISIS_DE_VENCIMIENTO_A_UNA_FECHA As Integer = 10
+Private Const OPT_ANALISIS_DE_VENCIMIENTO_ENTRE_FECHAS As Integer = 11
+Private Const OPT_FACTURAS_SIN_CXC As Integer = 12
+Private Const OPT_CHEQUES_DEVUELTOS As Integer = 13
+Private Const OPT_NOAGRUPAR_INFORME As Integer = 0
+Private Const OPT_AGRUPARPOR_INFORME As Integer = 1
+Private Const OPT_TIPOAGRUPAR_SECTORDENEGOCIO As Integer = 0
+Private Const OPT_TIPOAGRUPAR_ZONACOBRANZA As Integer = 1
+Private Const OPT_TIPOAGRUPAR_SECTORYZONA As Integer = 2
+Private Const OPT_TIPOAGRUPAR_ZONAYSECTOR As Integer = 3
 
-Private Function CM_FILE_NAME() As String
-   CM_FILE_NAME = "frmInformesDeCXC"
-End Function
-
-Private Function CM_MESSAGE_NAME() As String
-   CM_MESSAGE_NAME = "Informes De CXC"
-End Function
-
-Private Function OPT_ANALISIS_DE_VENCIMIENTO() As Integer
-   OPT_ANALISIS_DE_VENCIMIENTO = 0
-End Function
-
-Private Function OPT_CXC_POR_VENDEDOR() As Integer
-   OPT_CXC_POR_VENDEDOR = 1
-End Function
-
-Private Function OPT_ANALISIS_CxC_HISTORICO() As Integer
-   OPT_ANALISIS_CxC_HISTORICO = 2
-End Function
-
-Private Function OPT_HISTORICO_DE_CLIENTE() As Integer
-   OPT_HISTORICO_DE_CLIENTE = 3
-End Function
-
-Private Function OPT_CXC_ENTRE_FECHAS() As Integer
-   OPT_CXC_ENTRE_FECHAS = 4
-End Function
-
-Private Function OPT_ESTADISTICO_DE_VENDEDORES() As Integer
-   OPT_ESTADISTICO_DE_VENDEDORES = 5
-End Function
-
-Private Function OPT_CXC_CON_DESCRIPCION() As Integer
-   OPT_CXC_CON_DESCRIPCION = 8
-End Function
-
-Private Function OPT_FACTURAS_ANULADAS_VS_CXC_VIGENTES() As Integer
-   OPT_FACTURAS_ANULADAS_VS_CXC_VIGENTES = 9
-End Function
-
-Private Function OPT_ANALISIS_DE_VENCIMIENTO_A_UNA_FECHA() As Integer
-   OPT_ANALISIS_DE_VENCIMIENTO_A_UNA_FECHA = 10
-End Function
-
-Private Function OPT_ANALISIS_DE_VENCIMIENTO_ENTRE_FECHAS() As Integer
-   OPT_ANALISIS_DE_VENCIMIENTO_ENTRE_FECHAS = 11
-End Function
-
-Private Function OPT_FACTURAS_SIN_CXC() As Integer
-   OPT_FACTURAS_SIN_CXC = 12
-End Function
-
-Private Function OPT_CHEQUES_DEVUELTOS() As Integer
-   OPT_CHEQUES_DEVUELTOS = 13
-End Function
-
-Private Function OPT_NOAGRUPAR_INFORME() As Integer
-   OPT_NOAGRUPAR_INFORME = 0
-End Function
-Private Function OPT_AGRUPARPOR_INFORME() As Integer
-   OPT_AGRUPARPOR_INFORME = 1
-End Function
-Private Function OPT_TIPOAGRUPAR_SECTORDENEGOCIO() As Integer
-   OPT_TIPOAGRUPAR_SECTORDENEGOCIO = 0
-End Function
-Private Function OPT_TIPOAGRUPAR_ZONACOBRANZA() As Integer
-   OPT_TIPOAGRUPAR_ZONACOBRANZA = 1
-End Function
-Private Function OPT_TIPOAGRUPAR_SECTORYZONA() As Integer
-   OPT_TIPOAGRUPAR_SECTORYZONA = 2
-End Function
-Private Function OPT_TIPOAGRUPAR_ZONAYSECTOR() As Integer
-   OPT_TIPOAGRUPAR_ZONAYSECTOR = 3
-End Function
 
 Private Sub sCheckForSpecialKeys(ByVal valKeyCode As Integer, ByVal valShift As Integer)
    On Error GoTo h_ERROR
@@ -1148,7 +1064,7 @@ Private Sub sCheckForSpecialKeys(ByVal valKeyCode As Integer, ByVal valShift As 
    End Select
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sCheckForSpecialKeys", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sCheckForSpecialKeys", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub ChkAgruparPorTipo_Click()
@@ -1160,7 +1076,7 @@ Private Sub ChkAgruparPorTipo_Click()
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "ChkAgruparPorTipo_Click", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "ChkAgruparPorTipo_Click", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub chkFiltroZona_Click()
@@ -1168,7 +1084,7 @@ Private Sub chkFiltroZona_Click()
    cmbFiltroZona.Enabled = Not cmbFiltroZona.Enabled
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "chkFiltroZona_Click", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "chkFiltroZona_Click", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub cmbMonedaDeLosReportes_KeyDown(KeyCode As Integer, Shift As Integer)
@@ -1176,7 +1092,7 @@ Private Sub cmbMonedaDeLosReportes_KeyDown(KeyCode As Integer, Shift As Integer)
    sCheckForSpecialKeys KeyCode, Shift
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmbMonedaDeLosReportes_KeyDown", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmbMonedaDeLosReportes_KeyDown", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub cmdPantalla_Click()
@@ -1185,7 +1101,7 @@ Private Sub cmdPantalla_Click()
    sEjecutaElInformeSeleccionado
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdPantalla_Click", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdPantalla_Click", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub cmdImpresora_KeyDown(KeyCode As Integer, Shift As Integer)
@@ -1193,7 +1109,7 @@ Private Sub cmdImpresora_KeyDown(KeyCode As Integer, Shift As Integer)
    sCheckForSpecialKeys KeyCode, Shift
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdImpresora_KeyDown", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdImpresora_KeyDown", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub cmdSalir_Click()
@@ -1201,7 +1117,7 @@ Private Sub cmdSalir_Click()
    Unload Me
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdSalir_Click", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdSalir_Click", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub cmdPantalla_KeyDown(KeyCode As Integer, Shift As Integer)
@@ -1209,7 +1125,7 @@ Private Sub cmdPantalla_KeyDown(KeyCode As Integer, Shift As Integer)
    sCheckForSpecialKeys KeyCode, Shift
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdPantalla_KeyDown", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdPantalla_KeyDown", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub cmdSalir_KeyDown(KeyCode As Integer, Shift As Integer)
@@ -1217,7 +1133,7 @@ Private Sub cmdSalir_KeyDown(KeyCode As Integer, Shift As Integer)
   sCheckForSpecialKeys KeyCode, Shift
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdSalir_KeyDown", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdSalir_KeyDown", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub cmdImpresora_Click()
@@ -1226,7 +1142,7 @@ Private Sub cmdImpresora_Click()
    sEjecutaElInformeSeleccionado
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdImpresora_Click", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdImpresora_Click", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Sub sInitLookAndFeel()
@@ -1239,7 +1155,7 @@ Public Sub sInitLookAndFeel()
 
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInitLookAndFeel", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInitLookAndFeel", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub Form_Load()
@@ -1259,7 +1175,7 @@ Private Sub Form_Load()
  
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "Form_Load", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "Form_Load", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -1272,7 +1188,7 @@ Private Sub Form_Unload(Cancel As Integer)
    Set gFechasDeLosInformes = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "Form_Unload", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "Form_Unload", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub OptAgruparInforme_Click(Index As Integer)
@@ -1283,7 +1199,7 @@ On Error GoTo h_ERROR
     End Select
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "OptAgruparInforme_Click", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "OptAgruparInforme_Click", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub optTipoAgrupar_Click(Index As Integer)
@@ -1294,7 +1210,7 @@ Private Sub optTipoAgrupar_Click(Index As Integer)
    End Select
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "optTipoAgrupar_Click", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "optTipoAgrupar_Click", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub txtCodigoDeCliente_GotFocus()
@@ -1302,7 +1218,7 @@ Private Sub txtCodigoDeCliente_GotFocus()
    gAPI.SelectAllText txtCodigoDeCliente
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigoDeCliente_GotFocus", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigoDeCliente_GotFocus", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub txtCodigoDeCliente_KeyDown(KeyCode As Integer, Shift As Integer)
@@ -1310,7 +1226,7 @@ Private Sub txtCodigoDeCliente_KeyDown(KeyCode As Integer, Shift As Integer)
    sCheckForSpecialKeys KeyCode, Shift
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigoDeCliente_KeyDown", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigoDeCliente_KeyDown", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub txtCodigoDeCliente_Validate(Cancel As Boolean)
@@ -1329,7 +1245,7 @@ Private Sub txtCodigoDeCliente_Validate(Cancel As Boolean)
    Cancel = False
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigoDeCliente_Validate", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigoDeCliente_Validate", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub txtCodigoVendedor_Validate(Cancel As Boolean)
@@ -1348,7 +1264,7 @@ On Error GoTo h_ERROR
    Cancel = False
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigoVendedor_Validate", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigoVendedor_Validate", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub txtNombreDeCliente_GotFocus()
@@ -1356,7 +1272,7 @@ Private Sub txtNombreDeCliente_GotFocus()
    gAPI.SelectAllText txtNombreDeCliente
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtNombreDeCliente_GotFocus", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtNombreDeCliente_GotFocus", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub txtNombreDeCliente_KeyDown(KeyCode As Integer, Shift As Integer)
@@ -1364,7 +1280,7 @@ Private Sub txtNombreDeCliente_KeyDown(KeyCode As Integer, Shift As Integer)
    sCheckForSpecialKeys KeyCode, Shift
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtNombreDeCliente_KeyDown", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtNombreDeCliente_KeyDown", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub txtNombreDeCliente_Validate(Cancel As Boolean)
@@ -1383,7 +1299,7 @@ Private Sub txtNombreDeCliente_Validate(Cancel As Boolean)
    Cancel = False
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtNombreDeCliente_Validate", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtNombreDeCliente_Validate", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sSelectAndSetValuesOfCliente()
@@ -1400,7 +1316,7 @@ Private Sub sSelectAndSetValuesOfCliente()
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sSelectAndSetValuesOfCliente", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sSelectAndSetValuesOfCliente", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sAssignFieldsFromConnectionCliente()
@@ -1410,7 +1326,7 @@ Private Sub sAssignFieldsFromConnectionCliente()
     mCodigoCliente = insCliente.GetCodigo
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAssignFieldsFromConnectionCliente", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAssignFieldsFromConnectionCliente", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub optInformeDeCxC_Click(Index As Integer)
@@ -1420,11 +1336,9 @@ Private Sub optInformeDeCxC_Click(Index As Integer)
    sInitCXCEntreFechas
    Select Case mInformeSeleccionado
       Case OPT_CXC_POR_VENDEDOR:             sActivarCamposDeCXCPorVendedor
-      Case OPT_CXC_ENTRE_FECHAS:             sActivarCamposDeCXCEntreFechas
       Case OPT_CXC_CON_DESCRIPCION:          sActivarCamposDeCxCConDescripcion
       Case OPT_ANALISIS_DE_VENCIMIENTO:      sActivarCamposDeAnalisisDeVencimiento
       Case OPT_ANALISIS_CxC_HISTORICO:       sActivarCamposDeAnalisisCXCHistorico
-      Case OPT_HISTORICO_DE_CLIENTE:         sActivarCamposDeHisoricodeCliente
       Case OPT_ESTADISTICO_DE_VENDEDORES:    sActivarCamposDeEstadisticoDeVendedores
       Case OPT_FACTURAS_ANULADAS_VS_CXC_VIGENTES: sActivarCamposDeFacturasAnuladasVsCxCVigentes
       Case OPT_ANALISIS_DE_VENCIMIENTO_A_UNA_FECHA: sActivarCamposDeAnalisisDeVencimientoAUnaFecha
@@ -1434,7 +1348,7 @@ Private Sub optInformeDeCxC_Click(Index As Integer)
    End Select
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "optInformeDeCxC_Click", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "optInformeDeCxC_Click", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub optInformeDeCxC_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
@@ -1442,7 +1356,7 @@ Private Sub optInformeDeCxC_KeyDown(Index As Integer, KeyCode As Integer, Shift 
    sCheckForSpecialKeys KeyCode, Shift
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "optInformeDeCxC_KeyDown", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "optInformeDeCxC_KeyDown", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub optTasaDeCambio_Click(Index As Integer)
@@ -1454,7 +1368,7 @@ Private Sub optTasaDeCambio_Click(Index As Integer)
     End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "optTasaDeCambio_Click()", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "optTasaDeCambio_Click()", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub optTasaDeCambio_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
@@ -1462,7 +1376,7 @@ Private Sub optTasaDeCambio_KeyDown(Index As Integer, KeyCode As Integer, Shift 
    sCheckForSpecialKeys KeyCode, Shift
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "optTasaDeCambio_KeyDown", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "optTasaDeCambio_KeyDown", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub dtpFechaInicial_KeyDown(KeyCode As Integer, Shift As Integer)
@@ -1470,7 +1384,7 @@ Private Sub dtpFechaInicial_KeyDown(KeyCode As Integer, Shift As Integer)
    sCheckForSpecialKeys KeyCode, Shift
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "dtpFechaInicial_KeyDown()", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "dtpFechaInicial_KeyDown()", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub dtpFechaFinal_KeyDown(KeyCode As Integer, Shift As Integer)
@@ -1478,7 +1392,7 @@ Private Sub dtpFechaFinal_KeyDown(KeyCode As Integer, Shift As Integer)
    sCheckForSpecialKeys KeyCode, Shift
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "dtpFechaFinal_KeyDown()", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "dtpFechaFinal_KeyDown()", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub CmbZonaCobranza_KeyDown(KeyCode As Integer, Shift As Integer)
@@ -1486,7 +1400,7 @@ Private Sub CmbZonaCobranza_KeyDown(KeyCode As Integer, Shift As Integer)
    sCheckForSpecialKeys KeyCode, Shift
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmbZonaCobranza_KeyDown", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmbZonaCobranza_KeyDown", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub optDetallado_KeyDown(KeyCode As Integer, Shift As Integer)
@@ -1494,7 +1408,7 @@ Private Sub optDetallado_KeyDown(KeyCode As Integer, Shift As Integer)
    sCheckForSpecialKeys KeyCode, Shift
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "optDetallado_KeyDown", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "optDetallado_KeyDown", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub optResumido_KeyDown(KeyCode As Integer, Shift As Integer)
@@ -1502,17 +1416,15 @@ Private Sub optResumido_KeyDown(KeyCode As Integer, Shift As Integer)
    sCheckForSpecialKeys KeyCode, Shift
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "optResumido_KeyDown", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "optResumido_KeyDown", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sEjecutaElInformeSeleccionado()
    On Error GoTo h_ERROR
    Select Case mInformeSeleccionado
       Case OPT_CXC_POR_VENDEDOR:                      sEjecutaCXCPorVendedor
-      Case OPT_CXC_ENTRE_FECHAS:                      sEjecutaCXCEntreFechas
       Case OPT_ANALISIS_DE_VENCIMIENTO:               sEjecutaAnalisisDeVencimiento
       Case OPT_ANALISIS_CxC_HISTORICO:                sEjecutaAnalisisCxCHistorico
-      Case OPT_HISTORICO_DE_CLIENTE:                  sEjecutaHistoricoDeCliente
       Case OPT_ESTADISTICO_DE_VENDEDORES:             sEjecutaEstadisticoDeVendedores
       Case OPT_CXC_CON_DESCRIPCION:                   sEjecutaCxCconDescripcion
       Case OPT_FACTURAS_ANULADAS_VS_CXC_VIGENTES:     sEjecutaFacturasAnuladasVsCxCVigentes
@@ -1523,7 +1435,7 @@ Private Sub sEjecutaElInformeSeleccionado()
    End Select
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaElInformeSeleccionado", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaElInformeSeleccionado", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub cmbAnalisisDeVencimientoPor_KeyDown(KeyCode As Integer, Shift As Integer)
@@ -1531,7 +1443,7 @@ Private Sub cmbAnalisisDeVencimientoPor_KeyDown(KeyCode As Integer, Shift As Int
    sCheckForSpecialKeys KeyCode, Shift
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmbAnalisisDeVencimientoPor_KeyDown", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmbAnalisisDeVencimientoPor_KeyDown", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fSQLDeZonasDeCobranza() As String
@@ -1539,7 +1451,7 @@ Private Function fSQLDeZonasDeCobranza() As String
    fSQLDeZonasDeCobranza = "SELECT Nombre FROM ZonaCobranza  WHERE ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLDeZonasDeCobranza", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLDeZonasDeCobranza", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub cmbCantidadAImprimir_Click()
@@ -1553,7 +1465,7 @@ Private Sub cmbCantidadAImprimir_Click()
          Else
             frameVendedor.Visible = False
          End If
-      Case OPT_HISTORICO_DE_CLIENTE, OPT_ANALISIS_CxC_HISTORICO
+      Case OPT_ANALISIS_CxC_HISTORICO
          txtNombreDeCliente.Text = ""
          txtCodigoDeCliente.Text = ""
          If CmbCantidadAImprimir.Text = gEnumReport.enumCantidadAImprimirToString(eCI_TODOS) Then
@@ -1567,7 +1479,7 @@ Private Sub cmbCantidadAImprimir_Click()
    sInitDefaultValuesCasoSistemaInternoParaNivelPorUsuario
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmbCantidadAImprimir_Click", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmbCantidadAImprimir_Click", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub cmbCantidadAImprimir_KeyDown(KeyCode As Integer, Shift As Integer)
@@ -1575,7 +1487,7 @@ Private Sub cmbCantidadAImprimir_KeyDown(KeyCode As Integer, Shift As Integer)
    sCheckForSpecialKeys KeyCode, Shift
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmbCantidadAImprimir_KeyDown", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmbCantidadAImprimir_KeyDown", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub txtCodigoVendedor_GotFocus()
@@ -1583,7 +1495,7 @@ Private Sub txtCodigoVendedor_GotFocus()
    gAPI.SelectAllText txtCodigoVendedor
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigoVendedor_GotFocus()", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigoVendedor_GotFocus()", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub txtCodigoVendedor_KeyDown(KeyCode As Integer, Shift As Integer)
@@ -1591,7 +1503,7 @@ Private Sub txtCodigoVendedor_KeyDown(KeyCode As Integer, Shift As Integer)
    sCheckForSpecialKeys KeyCode, Shift
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigoVendedor_KeyDown()", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigoVendedor_KeyDown()", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub txtNombreVendedor_GotFocus()
@@ -1599,7 +1511,7 @@ Private Sub txtNombreVendedor_GotFocus()
    gAPI.SelectAllText txtNombreVendedor
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtNombreVendedor_GotFocus()", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtNombreVendedor_GotFocus()", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub txtNombreVendedor_KeyDown(KeyCode As Integer, Shift As Integer)
@@ -1607,7 +1519,7 @@ Private Sub txtNombreVendedor_KeyDown(KeyCode As Integer, Shift As Integer)
    sCheckForSpecialKeys KeyCode, Shift
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtNombreVendedor_KeyDown()", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtNombreVendedor_KeyDown()", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub txtNombreVendedor_Validate(Cancel As Boolean)
@@ -1624,7 +1536,7 @@ Private Sub txtNombreVendedor_Validate(Cancel As Boolean)
    Cancel = False
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtNombreVendedor_Validate", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtNombreVendedor_Validate", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 Private Sub sSelectAndSetValuesOfVendedor()
    On Error GoTo h_ERROR
@@ -1640,7 +1552,7 @@ Private Sub sSelectAndSetValuesOfVendedor()
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sSelectAndSetValuesOfVendedor", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sSelectAndSetValuesOfVendedor", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sAssignFieldsFromConnectionVendedor()
@@ -1649,7 +1561,7 @@ Private Sub sAssignFieldsFromConnectionVendedor()
    txtNombreVendedor.Text = insVendedor.GetNombre
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAssignFieldsFromConnectionVendedor", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAssignFieldsFromConnectionVendedor", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sInitDefaultValues()
@@ -1717,7 +1629,7 @@ Private Sub sInitDefaultValues()
   
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInitDefaltValues", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInitDefaltValues", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sShowMessageForRequiredFields(ByVal valCampo As String, ByRef refCampo As TextBox)
@@ -1726,7 +1638,7 @@ Private Sub sShowMessageForRequiredFields(ByVal valCampo As String, ByRef refCam
    gAPI.ssSetFocus refCampo
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sShowMessageForRequiredFields", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sShowMessageForRequiredFields", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sActivarCamposDeAnalisisDeVencimiento()
@@ -1741,7 +1653,7 @@ Private Sub sActivarCamposDeAnalisisDeVencimiento()
    frameVendedor.Visible = True
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeAnalisisDeVencimiento", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeAnalisisDeVencimiento", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sEjecutaAnalisisDeVencimiento()
@@ -1787,7 +1699,7 @@ Private Sub sEjecutaAnalisisDeVencimiento()
    Set insCxcSQL = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaAnalisisDeVencimiento", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaAnalisisDeVencimiento", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sActivarCamposDeCXCPorVendedor()
@@ -1807,7 +1719,7 @@ Private Sub sActivarCamposDeCXCPorVendedor()
    frameContacto.Visible = True
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeCXCPorVendedor", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeCXCPorVendedor", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sEjecutaCXCPorVendedor()
@@ -1848,7 +1760,7 @@ Private Sub sEjecutaCXCPorVendedor()
   End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaCXCPorVendedor", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaCXCPorVendedor", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sActivarCamposDeAnalisisCXCHistorico()
@@ -1859,7 +1771,7 @@ Private Sub sActivarCamposDeAnalisisCXCHistorico()
    frameMoneda.Visible = True
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeAnalisisCXCHistorico", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeAnalisisCXCHistorico", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sActivarCamposDeEstadisticoDeVendedores()
@@ -1871,7 +1783,7 @@ Private Sub sActivarCamposDeEstadisticoDeVendedores()
    frameMoneda.Visible = True
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeEstadisticoDeVendedores", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeEstadisticoDeVendedores", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sActivarCamposDeFacturasAnuladasVsCxCVigentes()
@@ -1879,7 +1791,7 @@ Private Sub sActivarCamposDeFacturasAnuladasVsCxCVigentes()
    lblDatosDelReporte.Caption = "Datos del Informe - Facturas Anuladas con CxC aún Vigentes"
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeFacturasAnuladasVsCxCVigentes", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeFacturasAnuladasVsCxCVigentes", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sEjecutaAnalisisCxCHistorico()
@@ -1909,66 +1821,7 @@ Private Sub sEjecutaAnalisisCxCHistorico()
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaAnalisisCxCHistorico", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-
-Private Sub sActivarCamposDeCXCEntreFechas()
-   On Error GoTo h_ERROR
-   lblDatosDelReporte.Caption = "Datos del Informe - CXC entre fechas"
-   frameFechas.Visible = True
-'   If gProyParametrosCompania.GetUsaMonedaExtranjera Then
-'      frameTasaDeCambio.Visible = True
-'      frameMoneda.Visible = True
-'   End If
-   frameCamposDefinibles.Visible = gProyParametrosCompania.GetUsaCamposDefiniblesFactura
-   frameStatus.Top = 660
-   frameStatus.Visible = True
-   frameAgruparInformeCXC.Visible = True
-   frameContacto.Visible = True
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeCXCEntreFechas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-
-Private Sub sEjecutaCXCEntreFechas()
-   Dim SqlDelReporte As String
-   Dim insConfigurar As clsCxCRpt
-   Dim reporte As DDActiveReports2.ActiveReport
-   Dim monedaOriginal As Boolean
-   Dim insCxcSQL As clsCxCSQL
-   On Error GoTo h_ERROR
-   If dtpFechaFinal.Value < dtpFechaInicial.Value Then
-      dtpFechaFinal.Value = dtpFechaInicial.Value
-   End If
-   Set insConfigurar = New clsCxCRpt
-   Set reporte = New DDActiveReports2.ActiveReport
-   Set insCxcSQL = New clsCxCSQL
-   If mTipoAgrupar = "SectorDeNegocio" Then
-      SqlDelReporte = insCxcSQL.fSQLDelReporteCxCEntreFechas(mUsarCambioOriginal, insCamposDefFactura, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetConsecutivoCompania, cmbCamposDefinibles, gProyParametrosCompania, cmbStatus.Text, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyCompaniaActual.GetUsaModuloDeContabilidad, gUltimaTasaDeCambio, gMonedaLocalActual, gListLibrary, mTipoAgrupar, cmbAgruparSectorDeNegocio.Text, gConvert.ConvertByteToBoolean(ChkContacto.Value))
-   ElseIf mTipoAgrupar = "ZonaDeCobranza" Then
-      SqlDelReporte = insCxcSQL.fSQLDelReporteCxCEntreFechas(mUsarCambioOriginal, insCamposDefFactura, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetConsecutivoCompania, cmbCamposDefinibles, gProyParametrosCompania, cmbStatus.Text, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyCompaniaActual.GetUsaModuloDeContabilidad, gUltimaTasaDeCambio, gMonedaLocalActual, gListLibrary, mTipoAgrupar, cmbAgruparZona.Text, gConvert.ConvertByteToBoolean(ChkContacto.Value))
-   Else
-      SqlDelReporte = insCxcSQL.fSQLDelReporteCxCEntreFechas(mUsarCambioOriginal, insCamposDefFactura, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetConsecutivoCompania, cmbCamposDefinibles, gProyParametrosCompania, cmbStatus.Text, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyCompaniaActual.GetUsaModuloDeContabilidad, gUltimaTasaDeCambio, gMonedaLocalActual, gListLibrary, mTipoAgrupar, "", gConvert.ConvertByteToBoolean(ChkContacto.Value))
-   End If
-      monedaOriginal = (cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnMonedaOriginal, gProyParametros.GetNombreMonedaLocal))
-
-   If mTipoAgrupar = "SectorDeNegocio" Then
-      If insConfigurar.fConfiguraLasSeccionesDelReporteDeCxCEntreFechasPorSectorDeNegocio(reporte, SqlDelReporte, dtpFechaInicial.Value, dtpFechaFinal.Value, monedaOriginal, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gProyParametrosCompania.GetUsaCamposDefiniblesFactura, gProyCompaniaActual.GetUsaModuloDeContabilidad, gConvert.ConvertByteToBoolean(ChkContacto.Value)) Then
-         gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Cuentas por Cobras entre Fechas"
-      End If
-   ElseIf mTipoAgrupar = "ZonaDeCobranza" Then
-      If insConfigurar.fConfiguraLasSeccionesDelReporteDeCxCEntreFechasPorZonaDeCobranza(reporte, SqlDelReporte, dtpFechaInicial.Value, dtpFechaFinal.Value, monedaOriginal, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gProyParametrosCompania.GetUsaCamposDefiniblesFactura, gProyCompaniaActual.GetUsaModuloDeContabilidad, gConvert.ConvertByteToBoolean(ChkContacto.Value)) Then
-         gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Cuentas por Cobras entre Fechas"
-      End If
-   Else
-      If insConfigurar.fConfiguraLasSeccionesDelReporteDeCxCEntreFechas(reporte, SqlDelReporte, dtpFechaInicial.Value, dtpFechaFinal.Value, monedaOriginal, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gProyParametrosCompania.GetUsaCamposDefiniblesFactura, gProyCompaniaActual.GetUsaModuloDeContabilidad, gConvert.ConvertByteToBoolean(ChkContacto.Value)) Then
-        gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Cuentas por Cobras entre Fechas"
-      End If
-   End If
-   Set insCxcSQL = New clsCxCSQL
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaCXCEntreFechas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaAnalisisCxCHistorico", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sActivarCamposDeHisoricodeCliente()
@@ -1983,48 +1836,7 @@ Private Sub sActivarCamposDeHisoricodeCliente()
    frameMoneda.Visible = True
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeHisoricodeCliente", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-
-Private Sub sEjecutaHistoricoDeCliente()
-   Dim SqlDelReporte As String
-   Dim reporte As DDActiveReports2.ActiveReport
-   Dim insConfigurar As clsCxCRpt
-   Dim usarCambioBs As Boolean
-   Dim OrdenaXCodigo As Boolean
-   Dim codigoCliente As String
-   Dim vUsarCambioOriginal As Boolean
-   Dim insCxC As clsCxCSQL
-   On Error GoTo h_ERROR
-   OrdenaXCodigo = False
-   If dtpFechaFinal.Value < dtpFechaInicial.Value Then
-      dtpFechaFinal.Value = dtpFechaInicial.Value
-   End If
-   If gAPI.SelectedElementInComboBoxToString(CmbCantidadAImprimir) = gEnumReport.enumCantidadAImprimirToString(eCI_uno) And LenB(txtNombreDeCliente.Text) = 0 Then
-      sShowMessageForRequiredFields "Nombre del Cliente", txtNombreDeCliente
-   Else
-      Set reporte = New DDActiveReports2.ActiveReport
-      Set insConfigurar = New clsCxCRpt
-      Set insCxC = New clsCxCSQL
-      usarCambioBs = (gAPI.SelectedElementInComboBoxToString(cmbMonedaDeLosReportes) = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, gProyParametros.GetNombreMonedaLocal))
-      codigoCliente = ""
-      If gAPI.SelectedElementInComboBoxToString(CmbCantidadAImprimir) = gEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
-         codigoCliente = Trim(txtCodigoDeCliente.Text)
-      End If
-      If cmbOrdenadoPor.ListIndex <> enum_ReporteOrdenadoPor.eRO_Codigo Then
-         OrdenaXCodigo = True
-      End If
-      SqlDelReporte = insCxC.fSQLHistoricoDeCliente(dtpFechaInicial.Value, dtpFechaFinal.Value, codigoCliente, usarCambioBs, OrdenaXCodigo, gProyParametrosCompania.GetConsecutivoCompania, vUsarCambioOriginal, gMonedaLocalActual, gUltimaTasaDeCambio)
-      If insConfigurar.fConfigurarDatosDelReporteHistoricoDeCliente(reporte, SqlDelReporte, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gEnumReport.getMensajesDeMonedaParaInformes(eMM_CambioDelDia), usarCambioBs, ChkCambiandodePagina) Then
-         gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Histórico de Cliente"
-      End If
-      Set reporte = Nothing
-      Set insConfigurar = Nothing
-      Set insCxC = Nothing
-  End If
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaHistoricoDeCliente", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeHisoricodeCliente", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sOcultaTodosLosCampos()
@@ -2062,7 +1874,7 @@ Private Sub sOcultaTodosLosCampos()
    frameFiltroZona.Visible = False
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sOcultaTodosLosCampos", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sOcultaTodosLosCampos", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sEjecutaEstadisticoDeVendedores()
@@ -2086,7 +1898,7 @@ Private Sub sEjecutaEstadisticoDeVendedores()
    Set insCxcSQL = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaEstadisticoDeVendedores", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaEstadisticoDeVendedores", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub cmdExportar_Click()
@@ -2112,7 +1924,7 @@ Private Sub cmdExportar_Click()
    Set insCxcSQL = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdExportar_Click", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdExportar_Click", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub cmdExportar_KeyDown(KeyCode As Integer, Shift As Integer)
@@ -2120,42 +1932,8 @@ Private Sub cmdExportar_KeyDown(KeyCode As Integer, Shift As Integer)
    sCheckForSpecialKeys KeyCode, Shift
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdExportar_KeyDown", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdExportar_KeyDown", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
-
-'Private Sub sEjecutaCXCPendientesEntreFechas()
-'   Dim SqlDelReporte As String
-'   Dim insConfigurar As clsCxCRpt
-'   Dim reporte As DDActiveReports2.ActiveReport
-'   Dim monedaOriginal As Boolean
-'   Dim insCxcSQL As clsCxCSQL
-'   On Error GoTo h_ERROR
-'   If dtpFechaFinal.Value < dtpFechaInicial.Value Then
-'      dtpFechaFinal.Value = dtpFechaInicial.Value
-'   End If
-'   Set insConfigurar = New clsCxCRpt
-'   Set reporte = New DDActiveReports2.ActiveReport
-'   Set insCxcSQL = New clsCxCSQL
-'   SqlDelReporte = insCxcSQL.fSQLDelReporteCxCEntreFechas(mUsarCambioOriginal, insCamposDefFactura, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetConsecutivoCompania, mInformeSeleccionado, cmbCamposDefinibles, gProyParametrosCompania, cmbStatus.Text, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyCompaniaActual.GetUsaModuloDeContabilidad, gUltimaTasaDeCambio, gMonedaLocalActual, gListLibrary, "", "", gConvert.ConvertByteToBoolean(ChkContacto.Value))
-'       monedaOriginal = (cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnMonedaOriginal, gProyParametros.GetNombreMonedaLocal))
-'   If insConfigurar.fConfiguraLasSeccionesDelReporteDeCxCPendientesEntreFechas(reporte, SqlDelReporte, dtpFechaInicial.Value, dtpFechaFinal.Value, monedaOriginal, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gProyParametrosCompania.GetUsaCamposDefiniblesFactura, gProyCompaniaActual.GetUsaModuloDeContabilidad, gConvert.ConvertByteToBoolean(ChkContacto.Value)) Then
-'      gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Cuentas por Cobrar Pendientes entre Fechas"
-'   End If
-'   Set insCxcSQL = Nothing
-'h_EXIT: On Error GoTo 0
-'   Exit Sub
-'h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaCXCPendientesEntreFechas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-'End Sub
-
-'Private Sub sActivarCamposDeCXCPendientesEntreFechas()
-'   On Error GoTo h_ERROR
-'   lblDatosDelReporte.Caption = "Datos del Informe - CXC Pendientes entre Fechas"
-'   frameFechas.Visible = True
-'   frameContacto.Visible = True
-'h_EXIT: On Error GoTo 0
-'   Exit Sub
-'h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeCXCPendientesEntreFechas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-'End Sub
 
 Private Sub sActivarCamposDeCxCConDescripcion()
    On Error GoTo h_ERROR
@@ -2168,7 +1946,7 @@ Private Sub sActivarCamposDeCxCConDescripcion()
    
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeCxCConDescripcion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeCxCConDescripcion", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sEjecutaCxCconDescripcion()
@@ -2194,7 +1972,7 @@ Private Sub sEjecutaCxCconDescripcion()
    Set insConfigurar = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaCxCconDescripcion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaCxCconDescripcion", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sEjecutaFacturasAnuladasVsCxCVigentes()
@@ -2215,7 +1993,7 @@ Private Sub sEjecutaFacturasAnuladasVsCxCVigentes()
    Set insCxcSQL = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaFacturasAnuladasVsCxCVigentes", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaFacturasAnuladasVsCxCVigentes", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sActivarCamposDeAnalisisDeVencimientoAUnaFecha()
@@ -2232,7 +2010,7 @@ Private Sub sActivarCamposDeAnalisisDeVencimientoAUnaFecha()
    ChkAgruparPorTipo.Visible = True
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeAnalisisDeVencimientoAUnaFecha", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeAnalisisDeVencimientoAUnaFecha", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sEjecutaAnalisisDeVencimientoAUnaFecha()
@@ -2268,7 +2046,7 @@ Private Sub sEjecutaAnalisisDeVencimientoAUnaFecha()
    Set reporte = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaAnalisisDeVencimientoAUnaFecha", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaAnalisisDeVencimientoAUnaFecha", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sActivarCamposDeAnalisisDeVencimientoEntreFechas()
@@ -2284,7 +2062,7 @@ Private Sub sActivarCamposDeAnalisisDeVencimientoEntreFechas()
    frameFiltroZona.Visible = True
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeAnalisisDeVencimientoEntreFechas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeAnalisisDeVencimientoEntreFechas", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sEjecutaAnalisisDeVencimientoEntreFechas()
@@ -2315,7 +2093,7 @@ Private Sub sEjecutaAnalisisDeVencimientoEntreFechas()
    Set insCxcSQL = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaAnalisisDeVencimientoEntreFechas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaAnalisisDeVencimientoEntreFechas", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sActivarCamposDeFacturasSinCxC()
@@ -2324,7 +2102,7 @@ Private Sub sActivarCamposDeFacturasSinCxC()
    chkIncluirFacturasHistoricas.Visible = True
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeFacturasSinCxC", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeFacturasSinCxC", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sEjecutaFacturasSinCxC()
@@ -2345,7 +2123,7 @@ Private Sub sEjecutaFacturasSinCxC()
    Set reporte = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaFacturasSinCxC", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaFacturasSinCxC", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sActivarCamposDeChequesDevueltos()
@@ -2360,7 +2138,7 @@ Private Sub sActivarCamposDeChequesDevueltos()
    frameVendedor.Visible = True
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeChequesDevueltos", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeChequesDevueltos", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 Private Sub sEjecutaInformeDeChequesDevueltos()
    Dim SqlDelReporte As String
@@ -2396,7 +2174,7 @@ Private Sub sEjecutaInformeDeChequesDevueltos()
    Set reporte = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaInformeDeChequesDevueltos", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaInformeDeChequesDevueltos", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sInitDefaultValuesCasoSistemaInternoParaNivelPorUsuario()
@@ -2420,7 +2198,7 @@ Private Sub sAsignaCodigoVendedorFromConexionUsuario()
    frameInformes.Enabled = False
 h_EXIT:    On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAsignaCodigoVendedorFromConexionUsuario", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAsignaCodigoVendedorFromConexionUsuario", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 
@@ -2439,7 +2217,7 @@ Private Sub sActivarOptParaAgrupar()
    cmbAgruparSectorDeNegocio.Visible = True
 h_EXIT:    On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarOptParaAgrupar", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarOptParaAgrupar", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sDesactivarOptParaAgrupar()
@@ -2457,7 +2235,7 @@ On Error GoTo h_ERROR
   cmbAgruparZona.Visible = False
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sDesactivarOptParaAgrupar", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sDesactivarOptParaAgrupar", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sActivarCamposAgruparSectorDeNegocio()
@@ -2472,7 +2250,7 @@ On Error GoTo h_ERROR
   cmbAgruparSectorDeNegocio.Enabled = True
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposAgruparSectorDeNegocio", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposAgruparSectorDeNegocio", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sActivarCamposAgruparZonaCobranza()
@@ -2484,7 +2262,7 @@ On Error GoTo h_ERROR
   cmbAgruparZona.Visible = True
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposAgruparZonaCobranza", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposAgruparZonaCobranza", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sOcultarCamposParaAgrupar()
@@ -2497,7 +2275,7 @@ On Error GoTo h_ERROR
   cmbAgruparZona.Visible = False
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sOcultarCamposParaAgrupar", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sOcultarCamposParaAgrupar", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sFillComboBoxSectorDeNegocio()
@@ -2519,7 +2297,7 @@ Private Sub sFillComboBoxSectorDeNegocio()
      cmbAgruparSectorDeNegocio.Text = "TODOS"
 h_EXIT:   On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sFillComboBoxSectorDeNegocio", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sFillComboBoxSectorDeNegocio", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sFillComboBoxZonaDeCobranza()
@@ -2547,7 +2325,7 @@ Private Sub sFillComboBoxZonaDeCobranza()
      cmbFiltroZona.Text = "TODAS"
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sFillComboBoxZonaDeCobranza", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sFillComboBoxZonaDeCobranza", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sInitCXCEntreFechas()
@@ -2559,7 +2337,7 @@ On Error GoTo h_ERROR
   cmbAgruparZona.Text = "TODAS"
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInitCXCEntreFechas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInitCXCEntreFechas", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sOcultarOtrasOpciones()
@@ -2572,7 +2350,7 @@ Private Sub sOcultarOtrasOpciones()
    lblINformesEstadisticos.Visible = False
 h_EXIT:    On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAsignaCodigoVendedorFromConexionUsuario", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAsignaCodigoVendedorFromConexionUsuario", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Sub sLoadObjectValues(ByVal valCompaniaActual As Object, _
@@ -2598,7 +2376,7 @@ On Error GoTo h_ERROR
    Set insCnxAos = valConexionesSawAOS
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sLoadObjectValues", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sLoadObjectValues", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 

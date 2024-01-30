@@ -17,6 +17,7 @@ using Galac.Adm.Ccl.Venta;
 using Galac.Saw.Lib;
 using System.Collections.ObjectModel;
 using Galac.Adm.Uil.Venta.ViewModel;
+using LibGalac.Aos.Base.Report;
 
 namespace Galac.Adm.Uil.Venta.Reportes {
 
@@ -101,7 +102,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
                 if (_CantidadAImprimirAsEnum != value) {
                     _CantidadAImprimirAsEnum = value;
                     RaisePropertyChanged(CantidadAImprimirPropertyName);
-                    if (_CantidadAImprimirAsEnum == eCantidadAImprimir.Todos) {
+                    if (_CantidadAImprimirAsEnum == eCantidadAImprimir.All) {
                         ConexionCliente = null;
                         CodigoCliente = string.Empty;
                         NombreCliente = string.Empty;
@@ -245,7 +246,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 
         private ValidationResult ClienteValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if (LibString.IsNullOrEmpty(CodigoCliente) && CantidadAImprimir == Saw.Lib.eCantidadAImprimir.Uno) {
+            if (LibString.IsNullOrEmpty(CodigoCliente) && CantidadAImprimir == eCantidadAImprimir.One) {
                 vResult = new ValidationResult("El cliente debe ser especificado");
             }
             return vResult;

@@ -14,22 +14,22 @@ using Galac.Comun.Ccl.TablasLey;
 using Galac.Comun.Brl.TablasLey;
 
 namespace Galac.Adm.Brl.GestionCompras {
-    public partial class clsCxPNav :LibBaseNavMaster<IList<CxP>,IList<CxP>>, ILibPdn {
+    public partial class clsCxPNav : LibBaseNavMaster<IList<CxP>, IList<CxP>>, ILibPdn {
         #region Variables
         #endregion //Variables
+
         #region Propiedades
         #endregion //Propiedades
-        #region Constructores
 
+        #region Constructores
         public clsCxPNav() {
         }
         #endregion //Constructores
+
         #region Metodos Generados
-
-
         #region Miembros de ILibPdn
 
-        bool ILibPdn.CanBeChoosen(string valCallingModule,eAccionSR valAction,string valExtendedAction,XmlDocument valXmlRow) {
+        bool ILibPdn.CanBeChoosen(string valCallingModule, eAccionSR valAction, string valExtendedAction, XmlDocument valXmlRow) {
             bool vResult = false;
             //ILibDataFKSearch instanciaDal = new Galac.dbo.Dal.ComponenteNoEspecificado.clsCxPDat();
             switch (valCallingModule) {
@@ -40,10 +40,10 @@ namespace Galac.Adm.Brl.GestionCompras {
             return vResult;
         }
 
-        bool ILibPdn.GetDataForList(string valCallingModule,ref XmlDocument refXmlDocument,StringBuilder valXmlParamsExpression) {
+        bool ILibPdn.GetDataForList(string valCallingModule, ref XmlDocument refXmlDocument, StringBuilder valXmlParamsExpression) {
             switch (valCallingModule) {
                 case "Compra":
-                    return GetDataForListInCompra(valXmlParamsExpression,ref refXmlDocument);
+                    return GetDataForListInCompra(valXmlParamsExpression, ref refXmlDocument);
 
                 default: throw new NotImplementedException();
             }
@@ -51,19 +51,18 @@ namespace Galac.Adm.Brl.GestionCompras {
 
 
 
-        System.Xml.Linq.XElement ILibPdn.GetFk(string valCallingModule,StringBuilder valParameters) {
+        System.Xml.Linq.XElement ILibPdn.GetFk(string valCallingModule, StringBuilder valParameters) {
             return null;
         }
         #endregion //Miembros de ILibPdn
 
-        protected override bool RetrieveListInfo(string valModule,ref XmlDocument refXmlDocument,StringBuilder valXmlParamsExpression) {
+        protected override bool RetrieveListInfo(string valModule, ref XmlDocument refXmlDocument, StringBuilder valXmlParamsExpression) {
             bool vResult = false;
 
             return vResult;
         }
-
-
         #endregion //Metodos Generados
+
         #region Codigo Ejemplo
         /* Codigo de Ejemplo
 
@@ -402,12 +401,12 @@ namespace Galac.Adm.Brl.GestionCompras {
         */
         #endregion //Codigo Ejemplo
 
-        private bool GetDataForListInCompra(StringBuilder valXmlParamsExpression,ref XmlDocument refXmlDocument) {
+        private bool GetDataForListInCompra(StringBuilder valXmlParamsExpression, ref XmlDocument refXmlDocument) {
             bool vResult = false;
             XElement vParams = LibXml.ToXElement(valXmlParamsExpression.ToString());
             StringBuilder vSQL = new StringBuilder();
-            string vSqlUseTop = ExtraerValorDeParametro(vParams,"@UseTopClausule");
-            if (!LibString.IsNullOrEmpty(vSqlUseTop) && LibString.S1IsEqualToS2(vSqlUseTop,"S")) {
+            string vSqlUseTop = ExtraerValorDeParametro(vParams, "@UseTopClausule");
+            if (!LibString.IsNullOrEmpty(vSqlUseTop) && LibString.S1IsEqualToS2(vSqlUseTop, "S")) {
                 vSQL.AppendLine("SELECT TOP 500 ");
             } else {
                 vSQL.AppendLine("SELECT ");
@@ -415,16 +414,16 @@ namespace Galac.Adm.Brl.GestionCompras {
             vSQL.AppendLine(" dbo.Cxp.ConsecutivoCompania , dbo.Cxp.ConsecutivoCxP, cxP.Numero, Status, dbo.Cxp.CodigoProveedor , NombreProveedor, cxP.Fecha, (MontoExento + MontoGravado + MontoIva) AS Monto, CxP.CodigoMoneda");
             vSQL.AppendLine(" FROM cxP ");
             vSQL.AppendLine("   INNER JOIN  Adm.Proveedor ON cxP.ConsecutivoCompania = Adm.Proveedor.ConsecutivoCompania AND cxP.CodigoProveedor = Adm.Proveedor.CodigoProveedor");
-            string vSqlWhere = ExtraerValorDeParametro(vParams,"@SQLWhere");
+            string vSqlWhere = ExtraerValorDeParametro(vParams, "@SQLWhere");
             if (!LibString.IsNullOrEmpty(vSqlWhere)) {
                 vSQL.AppendLine("WHERE ");
                 vSQL.AppendLine(vSqlWhere);
             }
-            string vSqlOrderBy = ExtraerValorDeParametro(vParams,"@SQLOrderBy");
+            string vSqlOrderBy = ExtraerValorDeParametro(vParams, "@SQLOrderBy");
             if (!LibString.IsNullOrEmpty(vSqlOrderBy)) {
                 vSQL.AppendLine("ORDER By " + vSqlOrderBy);
             }
-            XElement vData = LibBusiness.ExecuteSelect(vSQL.ToString(),null,"",0);
+            XElement vData = LibBusiness.ExecuteSelect(vSQL.ToString(), null, "", 0);
 
 
             if (vData != null && vData.HasElements) {
@@ -434,7 +433,7 @@ namespace Galac.Adm.Brl.GestionCompras {
             return vResult;
         }
 
-        private string ExtraerValorDeParametro(XElement vParams,string valNameAtributte) {
+        private string ExtraerValorDeParametro(XElement vParams, string valNameAtributte) {
             var vParamStr = vParams.Descendants("param");
             foreach (var vItem in vParamStr) {
                 bool vContinue = false;
@@ -445,32 +444,31 @@ namespace Galac.Adm.Brl.GestionCompras {
                     if (vContinue && vAtributte.Name.LocalName == "valor") {
                         return vAtributte.Value;
                     }
-
                 }
             }
             return "";
         }
 
-        internal bool GenerarDesdeCompra(int valConsecutivoCompania,string valNumero,string valNumeroControl,DateTime valFecha,string valMoneda,decimal valCambioAbolivares,string valCodigoMoneda,string valNumeroSerie,eTipoCompra valTipoDeCompra,decimal valMontoExento,decimal valMontoGravableIVAGeneral,decimal valGravableMontoIVA2,decimal valMontoGravableIVA3,Proveedor valProveedor,decimal valMontoServicios, string valSimboloMoneda) {
+        internal bool GenerarDesdeCompra(int valConsecutivoCompania, string valNumero, string valNumeroControl, DateTime valFecha, string valMoneda, decimal valCambioAbolivares, string valCodigoMoneda, string valNumeroSerie, eTipoCompra valTipoDeCompra, decimal valMontoExento, decimal valMontoGravableIVAGeneral, decimal valGravableMontoIVA2, decimal valMontoGravableIVA3, Proveedor valProveedor, decimal valMontoServicios, string valSimboloMoneda) {
             LibDatabase insDb = new LibDatabase();
-            decimal vAlicuotaIVAdiv100 = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros","AlicuotaIVAdiv100");
-            decimal vAlicuotaIVA2div100 = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros","AlicuotaIVA2div100");
-            decimal vAlicuotaIVA3div100 = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros","AlicuotaIVA3div100");
+            decimal vAlicuotaIVAdiv100 = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros", "AlicuotaIVAdiv100");
+            decimal vAlicuotaIVA2div100 = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros", "AlicuotaIVA2div100");
+            decimal vAlicuotaIVA3div100 = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros", "AlicuotaIVA3div100");
             decimal vMontoGravado = valMontoGravableIVAGeneral + valGravableMontoIVA2 + valMontoGravableIVA3;
-            decimal vMontoIVAGeneral = LibMath.RoundToNDecimals(valMontoGravableIVAGeneral * vAlicuotaIVAdiv100,2);
-            decimal vMontoIVA2 = LibMath.RoundToNDecimals(valGravableMontoIVA2 * vAlicuotaIVA2div100,2);
-            decimal vMontoIVA3 = LibMath.RoundToNDecimals(valMontoGravableIVA3 * vAlicuotaIVA3div100,2);
+            decimal vMontoIVAGeneral = LibMath.RoundToNDecimals(valMontoGravableIVAGeneral * vAlicuotaIVAdiv100, 2);
+            decimal vMontoIVA2 = LibMath.RoundToNDecimals(valGravableMontoIVA2 * vAlicuotaIVA2div100, 2);
+            decimal vMontoIVA3 = LibMath.RoundToNDecimals(valMontoGravableIVA3 * vAlicuotaIVA3div100, 2);
             decimal vMontoIVA = vMontoIVAGeneral + vMontoIVA2 + vMontoIVA3;
             bool vSeHizoLaRetencion = false;
-            bool vSeHizoLaRetencionIva = false; 
-            string vNumeroComprobanteRetencion = "0"; 
-            decimal vPorcentajeRetencionAplicado = 0; 
-            decimal vMontoRetenidoIVACxP = 0; 
-            string vOrigenDeLaRetencion = "0"; 
-            int vDondeContabilRetIva = 0; 
-            int vOrigenDeLaRetencionISLR = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros","OrigenDeLaRetencionISLR"); // DONDE RETIENE ISLR
-            int vDondeContabilISLR = 0; 
-            int vOrigenInformacionRetencion = 0; 
+            bool vSeHizoLaRetencionIva = false;
+            string vNumeroComprobanteRetencion = "0";
+            decimal vPorcentajeRetencionAplicado = 0;
+            decimal vMontoRetenidoIVACxP = 0;
+            string vOrigenDeLaRetencion = "0";
+            int vDondeContabilRetIva = 0;
+            int vOrigenDeLaRetencionISLR = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "OrigenDeLaRetencionISLR"); // DONDE RETIENE ISLR
+            int vDondeContabilISLR = 0;
+            int vOrigenInformacionRetencion = 0;
             decimal vMontoRetencionISLR = 0;
             decimal vMontoAbonado = 0;
             decimal vPorcentajeRetencionISLR = 0;
@@ -478,26 +476,26 @@ namespace Galac.Adm.Brl.GestionCompras {
             if (valCambioAbolivares == 0) {
                 valCambioAbolivares = (decimal)0.9999;
             }
-            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","PuedoUsarOpcionesDeContribuyenteEspecial") 
-                && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros","EnDondeRetenerIVA") == 1) {
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PuedoUsarOpcionesDeContribuyenteEspecial")
+                && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "EnDondeRetenerIVA") == 1) {
                 vSeHizoLaRetencionIva = true;
                 vOrigenDeLaRetencion = "1";
                 vPorcentajeRetencionAplicado = valProveedor.PorcentajeRetencionIVA;
-                vMontoRetenidoIVACxP = vMontoIVA * (vPorcentajeRetencionAplicado / 100) ;
-                vMontoRetenidoIVACxP = LibMath.RoundToNDecimals(vMontoRetenidoIVACxP * valCambioAbolivares,2);
+                vMontoRetenidoIVACxP = vMontoIVA * (vPorcentajeRetencionAplicado / 100);
+                vMontoRetenidoIVACxP = LibMath.RoundToNDecimals(vMontoRetenidoIVACxP * valCambioAbolivares, 2);
                 if (vMontoRetenidoIVACxP == 0) {
-                    if( !LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","GenerarNumCompDeRetIvasoloSiPorcentajeEsMayorAcero")){
-                        vNumeroComprobanteRetencion = GenerateNextNumeroCompRetIVA(valConsecutivoCompania,LibDate.Today());
+                    if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "GenerarNumCompDeRetIvasoloSiPorcentajeEsMayorAcero")) {
+                        vNumeroComprobanteRetencion = GenerateNextNumeroCompRetIVA(valConsecutivoCompania, LibDate.Today());
                     }
                 } else {
-                    vNumeroComprobanteRetencion = GenerateNextNumeroCompRetIVA(valConsecutivoCompania,LibDate.Today());
+                    vNumeroComprobanteRetencion = GenerateNextNumeroCompRetIVA(valConsecutivoCompania, LibDate.Today());
                 }
                 vOrigenInformacionRetencion = 2;
                 vDondeContabilRetIva = 1;
                 vMontoRetenidoIVAPago = vMontoRetenidoIVACxP;
             }
-            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","PuedoUsarOpcionesDeContribuyenteEspecial")
-                && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros","EnDondeRetenerIVA") == 2) {
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PuedoUsarOpcionesDeContribuyenteEspecial")
+                && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "EnDondeRetenerIVA") == 2) {
                 vOrigenDeLaRetencion = "2";
                 vPorcentajeRetencionAplicado = valProveedor.PorcentajeRetencionIVA;
                 vMontoRetenidoIVACxP = vMontoIVA * (vPorcentajeRetencionAplicado / 100);
@@ -505,21 +503,21 @@ namespace Galac.Adm.Brl.GestionCompras {
                 vDondeContabilRetIva = 2;
             }
             int vNumeroConsecutivoComprobanteRetISLR = 0;
-            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros","OrigenDeLaRetencionISLR") == 1) {
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "OrigenDeLaRetencionISLR") == 1) {
                 vNumeroConsecutivoComprobanteRetISLR = GenerateNextNumeroCompRetISLR(valConsecutivoCompania) + 1;
                 vSeHizoLaRetencion = true;
                 vOrigenInformacionRetencion = 1;
                 vDondeContabilISLR = 1;
-                vMontoRetencionISLR = CalculaMontoRetencionISLR(valProveedor,valMontoServicios,ref vPorcentajeRetencionISLR, valCambioAbolivares);
-                vMontoAbonado += LibMath.RoundToNDecimals(vMontoRetenidoIVAPago,2);
-                vMontoAbonado += LibMath.RoundToNDecimals(vMontoRetencionISLR/ valCambioAbolivares,2);
-                vMontoRetencionISLR = LibMath.RoundToNDecimals(vMontoRetencionISLR,2);
+                vMontoRetencionISLR = CalculaMontoRetencionISLR(valProveedor, valMontoServicios, ref vPorcentajeRetencionISLR, valCambioAbolivares);
+                vMontoAbonado += LibMath.RoundToNDecimals(vMontoRetenidoIVAPago, 2);
+                vMontoAbonado += LibMath.RoundToNDecimals(vMontoRetencionISLR / valCambioAbolivares, 2);
+                vMontoRetencionISLR = LibMath.RoundToNDecimals(vMontoRetencionISLR, 2);
             }
-            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros","OrigenDeLaRetencionISLR") == 2) {
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "OrigenDeLaRetencionISLR") == 2) {
                 vDondeContabilISLR = 2;
             }
             LibGpParams vParamsDePago = new LibGpParams();
-            vParamsDePago.AddInInteger("ConsecutivoCompania",valConsecutivoCompania);
+            vParamsDePago.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             string vNumeroCxP = valNumero;
             if (LibDefGen.ProgramInfo.IsCountryPeru()) {
                 vNumeroCxP = valNumeroSerie + "-" + valNumero;
@@ -529,77 +527,77 @@ namespace Galac.Adm.Brl.GestionCompras {
                 vTipoDeCompra = "2";
             };
             LibGpParams vParamsNextConsecutive = new LibGpParams();
-            vParamsNextConsecutive.AddInInteger("ConsecutivoCompania",valConsecutivoCompania);
-            int vConsecutivoCxP = insDb.NextLngConsecutive("dbo.Cxp","ConsecutivoCXP",vParamsNextConsecutive.Get());
-            LibGpParams vParamsCxP = ParamsInsertarCxP(valConsecutivoCompania,valNumero,valNumeroControl,valFecha,valMoneda,valCambioAbolivares,valCodigoMoneda,valNumeroSerie,valMontoExento,valMontoGravableIVAGeneral,valGravableMontoIVA2,valProveedor,vMontoGravado,vMontoIVAGeneral,vMontoIVA2,vMontoIVA3,vMontoIVA,vConsecutivoCxP,vSeHizoLaRetencion,vSeHizoLaRetencionIva,vNumeroComprobanteRetencion,vPorcentajeRetencionAplicado,vMontoRetenidoIVACxP,vOrigenDeLaRetencion,vDondeContabilRetIva,vOrigenDeLaRetencionISLR,vDondeContabilISLR,vOrigenInformacionRetencion,vMontoRetencionISLR,vMontoAbonado,vNumeroCxP,vTipoDeCompra);
+            vParamsNextConsecutive.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            int vConsecutivoCxP = insDb.NextLngConsecutive("dbo.Cxp", "ConsecutivoCXP", vParamsNextConsecutive.Get());
+            LibGpParams vParamsCxP = ParamsInsertarCxP(valConsecutivoCompania, valNumero, valNumeroControl, valFecha, valMoneda, valCambioAbolivares, valCodigoMoneda, valNumeroSerie, valMontoExento, valMontoGravableIVAGeneral, valGravableMontoIVA2, valProveedor, vMontoGravado, vMontoIVAGeneral, vMontoIVA2, vMontoIVA3, vMontoIVA, vConsecutivoCxP, vSeHizoLaRetencion, vSeHizoLaRetencionIva, vNumeroComprobanteRetencion, vPorcentajeRetencionAplicado, vMontoRetenidoIVACxP, vOrigenDeLaRetencion, vDondeContabilRetIva, vOrigenDeLaRetencionISLR, vDondeContabilISLR, vOrigenInformacionRetencion, vMontoRetencionISLR, vMontoAbonado, vNumeroCxP, vTipoDeCompra);
             try {
-                int vResult = LibBusiness.ExecuteUpdateOrDelete(SQLInsertarCxP(),vParamsCxP.Get(),"",0);
-                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros","OrigenDeLaRetencionISLR") == 1) {
+                int vResult = LibBusiness.ExecuteUpdateOrDelete(SQLInsertarCxP(), vParamsCxP.Get(), "", 0);
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "OrigenDeLaRetencionISLR") == 1) {
                     if (vMontoAbonado > 0) {
-                        InsertarPagoDeImpuestos(valConsecutivoCompania,vNumeroConsecutivoComprobanteRetISLR,valProveedor.CodigoProveedor,vMontoRetencionISLR,0,vNumeroCxP,valCodigoMoneda,valMoneda,valCambioAbolivares,vConsecutivoCxP,vNumeroCxP,vMontoGravado + vMontoIVA + valMontoExento,valProveedor.NombreProveedor,vMontoRetenidoIVAPago,valSimboloMoneda);
+                        InsertarPagoDeImpuestos(valConsecutivoCompania, vNumeroConsecutivoComprobanteRetISLR, valProveedor.CodigoProveedor, vMontoRetencionISLR, 0, vNumeroCxP, valCodigoMoneda, valMoneda, valCambioAbolivares, vConsecutivoCxP, vNumeroCxP, vMontoGravado + vMontoIVA + valMontoExento, valProveedor.NombreProveedor, vMontoRetenidoIVAPago, valSimboloMoneda);
                     }
-                    LibGpParams vParamRetPago = GetPAramsParaRetPago(valConsecutivoCompania,vNumeroConsecutivoComprobanteRetISLR,valNumero,LibDate.Today(),LibDate.Today().Month,LibDate.Today().Year,valProveedor.CodigoProveedor,vNumeroConsecutivoComprobanteRetISLR);
-                    LibBusiness.ExecuteUpdateOrDelete(SQLInsertRetPago().ToString(),vParamRetPago.Get(),"",-1);
+                    LibGpParams vParamRetPago = GetPAramsParaRetPago(valConsecutivoCompania, vNumeroConsecutivoComprobanteRetISLR, valNumero, LibDate.Today(), LibDate.Today().Month, LibDate.Today().Year, valProveedor.CodigoProveedor, vNumeroConsecutivoComprobanteRetISLR);
+                    LibBusiness.ExecuteUpdateOrDelete(SQLInsertRetPago().ToString(), vParamRetPago.Get(), "", -1);
                     string vCodigoRetencionUsual = "NORET";
                     if (vMontoRetencionISLR > 0) {
                         vCodigoRetencionUsual = valProveedor.CodigoRetencionUsual;
                     }
-                    LibGpParams vParamRetDocumentoPagado = GetPAramsParaRetDocumentoPagado(valConsecutivoCompania,vNumeroConsecutivoComprobanteRetISLR,vNumeroCxP,valNumeroControl,vCodigoRetencionUsual,LibMath.RoundToNDecimals( (vMontoGravado+valMontoExento) * valCambioAbolivares, 2),LibMath.RoundToNDecimals(valMontoServicios * valCambioAbolivares,2),vMontoRetencionISLR,vPorcentajeRetencionISLR);
-                    LibBusiness.ExecuteUpdateOrDelete(SQLInsertRetDocumentoPagado().ToString(),vParamRetDocumentoPagado.Get(),"",-1);
+                    LibGpParams vParamRetDocumentoPagado = GetPAramsParaRetDocumentoPagado(valConsecutivoCompania, vNumeroConsecutivoComprobanteRetISLR, vNumeroCxP, valNumeroControl, vCodigoRetencionUsual, LibMath.RoundToNDecimals((vMontoGravado + valMontoExento) * valCambioAbolivares, 2), LibMath.RoundToNDecimals(valMontoServicios * valCambioAbolivares, 2), vMontoRetencionISLR, vPorcentajeRetencionISLR);
+                    LibBusiness.ExecuteUpdateOrDelete(SQLInsertRetDocumentoPagado().ToString(), vParamRetDocumentoPagado.Get(), "", -1);
                 }
                 return vResult > 0;
             } catch (LibGalac.Aos.Catching.GalacAlertException vEx) {
-                if (LibString.IndexOf (vEx.Message,"Ya existe")>0) {
-                    throw new LibGalac.Aos.Catching.GalacException("No se pueden generar la CxP porque ya existe el Número de Compra para este Proveedor",LibGalac.Aos.Catching.eExceptionManagementType.Controlled,vEx);
+                if (LibString.IndexOf(vEx.Message, "Ya existe") > 0) {
+                    throw new LibGalac.Aos.Catching.GalacException("No se pueden generar la CxP porque ya existe el Número de Compra para este Proveedor", LibGalac.Aos.Catching.eExceptionManagementType.Controlled, vEx);
                 }
-                throw vEx;    
-            } catch (Exception ) {
-                throw ;
+                throw vEx;
+            } catch (Exception) {
+                throw;
             }
         }
 
-        private LibGpParams ParamsInsertarCxP(int valConsecutivoCompania,string valNumero,string valNumeroControl,DateTime valFecha,string valMoneda,decimal valCambioAbolivares,string valCodigoMoneda,string valNumeroSerie,decimal valMontoExento,decimal valMontoGravableIVAGeneral,decimal valGravableMontoIVA2,Proveedor valProveedor,decimal valMontoGravado,decimal valMontoIVAGeneral,decimal valMontoIVA2,decimal valMontoIVA3,decimal vMontoIVA,int vConsecutivo,bool vSeHizoLaRetencion,bool valSeHizoLaRetencionIva,string valNumeroComprobanteRetencion,decimal valPorcentajeRetencionAplicado,decimal vMontoRetenido,string vOrigenDeLaRetencion,int vDondeContabilRetIva,int vOrigenDeLaRetencionISLR,int vDondeContabilISLR,int valOrigenInformacionRetencion,decimal valMontoRetencionISLR, decimal valMontoAbonado,string valNumeroCxP,string valTipoDeCompra) {
+        private LibGpParams ParamsInsertarCxP(int valConsecutivoCompania, string valNumero, string valNumeroControl, DateTime valFecha, string valMoneda, decimal valCambioAbolivares, string valCodigoMoneda, string valNumeroSerie, decimal valMontoExento, decimal valMontoGravableIVAGeneral, decimal valGravableMontoIVA2, Proveedor valProveedor, decimal valMontoGravado, decimal valMontoIVAGeneral, decimal valMontoIVA2, decimal valMontoIVA3, decimal vMontoIVA, int vConsecutivo, bool vSeHizoLaRetencion, bool valSeHizoLaRetencionIva, string valNumeroComprobanteRetencion, decimal valPorcentajeRetencionAplicado, decimal vMontoRetenido, string vOrigenDeLaRetencion, int vDondeContabilRetIva, int vOrigenDeLaRetencionISLR, int vDondeContabilISLR, int valOrigenInformacionRetencion, decimal valMontoRetencionISLR, decimal valMontoAbonado, string valNumeroCxP, string valTipoDeCompra) {
             LibGpParams vParams = new LibGpParams();
-            vParams.AddInInteger("Consecutivo",vConsecutivo);
-            vParams.AddInInteger("ConsecutivoCompania",valConsecutivoCompania);
-            vParams.AddInString("Numero",valNumeroCxP,25);
-            vParams.AddInString("CodigoProveedor",valProveedor.CodigoProveedor,10);
-            vParams.AddInDateTime("Fecha",valFecha);
-            vParams.AddInString("Moneda",valMoneda,80);
-            vParams.AddInDecimal("CambioAbolivares",valCambioAbolivares,4);
-            vParams.AddInDecimal("MontoGravado",valMontoGravado,4);
-            vParams.AddInDecimal("MontoIva",vMontoIVA,4);
-            vParams.AddInInteger("DiaDeAplicacion",LibDate.Today().Day);
-            vParams.AddInInteger("MesDeAplicacion",LibDate.Today().Month);
-            vParams.AddInInteger("AnoDeAplicacion",LibDate.Today().Year);
-            vParams.AddInDecimal("MontoGravableAlicuotaGeneral",valMontoGravableIVAGeneral,4);
-            vParams.AddInDecimal("MontoIvaalicuotaGeneral",valMontoIVAGeneral,4);
-            vParams.AddInString("NumeroControl",valNumeroControl,20);
-            vParams.AddInString("CodigoMoneda",valCodigoMoneda,4);
-            vParams.AddInString("NombreOperador",((CustomIdentity)Thread.CurrentPrincipal.Identity).Login,10);
-            vParams.AddInString("NumeroSerie",valNumeroSerie,10);
-            vParams.AddInString("NumeroDeDocumento",valNumero,20);
-            vParams.AddInString("TipoDeCompra",valTipoDeCompra,1);
-            vParams.AddInDecimal("MontoExento",valMontoExento,4);
-            vParams.AddInBoolean("SeHizoLaRetencion",vSeHizoLaRetencion);
-            vParams.AddInDecimal("MontoGravableAlicuota2",valGravableMontoIVA2,4);
-            vParams.AddInDecimal("MontoGravableAlicuota3",valGravableMontoIVA2,4);
-            vParams.AddInDecimal("MontoIvaAlicuota2",valMontoIVA2,4);
-            vParams.AddInDecimal("MontoIvaAlicuota3",valMontoIVA3,4);
-            vParams.AddInBoolean("SeHizoLaRetencionIva",valSeHizoLaRetencionIva);
-            vParams.AddInString("NumeroComprobanteRetencion",valNumeroComprobanteRetencion,8);
-            vParams.AddInDateTime("FechaAplicacionRetIva",LibDate.Today());
-            vParams.AddInDecimal("PorcentajeRetencionAplicado",valPorcentajeRetencionAplicado,4);
-            vParams.AddInDecimal("MontoRetenido",vMontoRetenido,4);
-            vParams.AddInString("OrigenDeLaRetencion",vOrigenDeLaRetencion,1);
-            vParams.AddInEnum("DondeContabilRetIva",vDondeContabilRetIva);
-            vParams.AddInEnum("OrigenDeLaRetencionISLR",vOrigenDeLaRetencionISLR);
-            vParams.AddInEnum("DondeContabilISLR",vDondeContabilISLR);
-            vParams.AddInDecimal("MontoRetenidoISLR",valMontoRetencionISLR,2);
-            vParams.AddInDateTime("FechaAplicacionImpuestoMunicipal",LibDate.Today());
-            vParams.AddInDateTime("FechaUltimaModificacion",LibDate.Today());
-            vParams.AddInEnum("OrigenInformacionRetencion",valOrigenInformacionRetencion);
-            vParams.AddInDecimal("MontoAbonado",valMontoAbonado,2);
+            vParams.AddInInteger("Consecutivo", vConsecutivo);
+            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            vParams.AddInString("Numero", valNumeroCxP, 25);
+            vParams.AddInString("CodigoProveedor", valProveedor.CodigoProveedor, 10);
+            vParams.AddInDateTime("Fecha", valFecha);
+            vParams.AddInString("Moneda", valMoneda, 80);
+            vParams.AddInDecimal("CambioAbolivares", valCambioAbolivares, 4);
+            vParams.AddInDecimal("MontoGravado", valMontoGravado, 4);
+            vParams.AddInDecimal("MontoIva", vMontoIVA, 4);
+            vParams.AddInInteger("DiaDeAplicacion", LibDate.Today().Day);
+            vParams.AddInInteger("MesDeAplicacion", LibDate.Today().Month);
+            vParams.AddInInteger("AnoDeAplicacion", LibDate.Today().Year);
+            vParams.AddInDecimal("MontoGravableAlicuotaGeneral", valMontoGravableIVAGeneral, 4);
+            vParams.AddInDecimal("MontoIvaalicuotaGeneral", valMontoIVAGeneral, 4);
+            vParams.AddInString("NumeroControl", valNumeroControl, 20);
+            vParams.AddInString("CodigoMoneda", valCodigoMoneda, 4);
+            vParams.AddInString("NombreOperador", ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login, 10);
+            vParams.AddInString("NumeroSerie", valNumeroSerie, 10);
+            vParams.AddInString("NumeroDeDocumento", valNumero, 20);
+            vParams.AddInString("TipoDeCompra", valTipoDeCompra, 1);
+            vParams.AddInDecimal("MontoExento", valMontoExento, 4);
+            vParams.AddInBoolean("SeHizoLaRetencion", vSeHizoLaRetencion);
+            vParams.AddInDecimal("MontoGravableAlicuota2", valGravableMontoIVA2, 4);
+            vParams.AddInDecimal("MontoGravableAlicuota3", valGravableMontoIVA2, 4);
+            vParams.AddInDecimal("MontoIvaAlicuota2", valMontoIVA2, 4);
+            vParams.AddInDecimal("MontoIvaAlicuota3", valMontoIVA3, 4);
+            vParams.AddInBoolean("SeHizoLaRetencionIva", valSeHizoLaRetencionIva);
+            vParams.AddInString("NumeroComprobanteRetencion", valNumeroComprobanteRetencion, 8);
+            vParams.AddInDateTime("FechaAplicacionRetIva", LibDate.Today());
+            vParams.AddInDecimal("PorcentajeRetencionAplicado", valPorcentajeRetencionAplicado, 4);
+            vParams.AddInDecimal("MontoRetenido", vMontoRetenido, 4);
+            vParams.AddInString("OrigenDeLaRetencion", vOrigenDeLaRetencion, 1);
+            vParams.AddInEnum("DondeContabilRetIva", vDondeContabilRetIva);
+            vParams.AddInEnum("OrigenDeLaRetencionISLR", vOrigenDeLaRetencionISLR);
+            vParams.AddInEnum("DondeContabilISLR", vDondeContabilISLR);
+            vParams.AddInDecimal("MontoRetenidoISLR", valMontoRetencionISLR, 2);
+            vParams.AddInDateTime("FechaAplicacionImpuestoMunicipal", LibDate.Today());
+            vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
+            vParams.AddInEnum("OrigenInformacionRetencion", valOrigenInformacionRetencion);
+            vParams.AddInDecimal("MontoAbonado", valMontoAbonado, 2);
             return vParams;
         }
 
@@ -619,7 +617,7 @@ namespace Galac.Adm.Brl.GestionCompras {
             vSQL.AppendLine(" , EsUnaCuentaATerceros, CodigoProveedorOriginalServicio, SeHizoLaDetraccion, AplicaIvaAlicuotaEspecial, MontoGravableAlicuotaEspecial1");
             vSQL.AppendLine(" , MontoIVAAlicuotaEspecial1, PorcentajeIvaAlicuotaEspecial1, MontoGravableAlicuotaEspecial2, MontoIVAAlicuotaEspecial2, PorcentajeIvaAlicuotaEspecial2");
             vSQL.AppendLine(" , NumeroSerie, NumeroDeDocumento, NumeroSerieDocAfectado, NumeroDeDocumentoAfectado ");
-            if(LibDefGen.ProgramInfo.IsCountryVenezuela()) {
+            if (LibDefGen.ProgramInfo.IsCountryVenezuela()) {
                 vSQL.AppendLine(" ,DiaDeAplicacion ");
             }
             vSQL.AppendLine(" , CodigoTipoDeComprobante)");
@@ -642,6 +640,7 @@ namespace Galac.Adm.Brl.GestionCompras {
             vSQL.AppendLine(" , '01')");
             return vSQL.ToString();
         }
+
         internal void EliminarCxPDesdeCompra(int valConsecutivoCompania, string valNumero, string valCodigoProveedor) {
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
@@ -655,30 +654,30 @@ namespace Galac.Adm.Brl.GestionCompras {
                 if (LibXml.GetPropertyString(vXmlData, "Status") == "1") {
                     throw new LibGalac.Aos.Catching.GalacAlertException("No se puede ELIMINAR una CxP que este Cancelada");
                 }
-                vConsecutivoCxP = LibConvert.ToInt(LibXml.GetPropertyString(vXmlData,"ConsecutivoCxP"));
+                vConsecutivoCxP = LibConvert.ToInt(LibXml.GetPropertyString(vXmlData, "ConsecutivoCxP"));
             }
-            EliminaPagosYOtrosDocumentosAsociadosACxP(valConsecutivoCompania,vConsecutivoCxP,valCodigoProveedor);
+            EliminaPagosYOtrosDocumentosAsociadosACxP(valConsecutivoCompania, vConsecutivoCxP, valCodigoProveedor);
             vSQL = new StringBuilder();
             vSQL.AppendLine("DELETE FROM dbo.CxP WHERE ConsecutivoCompania = @ConsecutivoCompania AND Numero = @Numero AND CodigoProveedor = @CodigoProveedor");
             LibBusiness.ExecuteUpdateOrDelete(vSQL.ToString(), vParams.Get(), "", 0);
         }
 
         private void EliminaPagosYOtrosDocumentosAsociadosACxP(int valConsecutivoCompania, int vConsecutivoCxP, string valCodigoProveedor) {
-            XElement vXMLPagoDeCxp = LibBusiness.ExecuteSelect(SQLBuscarPagoAsociadoACxP(),GetParamForBuscarPagoAsociadoACxP(valConsecutivoCompania,vConsecutivoCxP,valCodigoProveedor).Get(),"",0);
+            XElement vXMLPagoDeCxp = LibBusiness.ExecuteSelect(SQLBuscarPagoAsociadoACxP(), GetParamForBuscarPagoAsociadoACxP(valConsecutivoCompania, vConsecutivoCxP, valCodigoProveedor).Get(), "", 0);
             int vNumeroComprobantePago = -1;
             if (vXMLPagoDeCxp != null) {
-                vNumeroComprobantePago = LibConvert.ToInt(LibXml.GetPropertyString(vXMLPagoDeCxp,"NumeroComprobante"));
+                vNumeroComprobantePago = LibConvert.ToInt(LibXml.GetPropertyString(vXMLPagoDeCxp, "NumeroComprobante"));
             }
             if (vNumeroComprobantePago > 0) {
                 StringBuilder vSQL = new StringBuilder();
                 vSQL.AppendLine("DELETE FROM dbo.RetPago WHERE ConsecutivoCompania = @ConsecutivoCompania AND NumeroComprobante = @NumeroComprobante");
                 LibGpParams vParamsElminarPago = new LibGpParams();
-                vParamsElminarPago.AddInInteger("ConsecutivoCompania",valConsecutivoCompania);
-                vParamsElminarPago.AddInInteger("NumeroComprobante",vNumeroComprobantePago);
-                LibBusiness.ExecuteUpdateOrDelete(vSQL.ToString(),vParamsElminarPago.Get(),"",0);
+                vParamsElminarPago.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+                vParamsElminarPago.AddInInteger("NumeroComprobante", vNumeroComprobantePago);
+                LibBusiness.ExecuteUpdateOrDelete(vSQL.ToString(), vParamsElminarPago.Get(), "", 0);
                 vSQL.Clear();
                 vSQL.AppendLine("DELETE FROM dbo.Pago WHERE ConsecutivoCompania = @ConsecutivoCompania AND NumeroComprobante = @NumeroComprobante");
-                LibBusiness.ExecuteUpdateOrDelete(vSQL.ToString(),vParamsElminarPago.Get(),"",0);
+                LibBusiness.ExecuteUpdateOrDelete(vSQL.ToString(), vParamsElminarPago.Get(), "", 0);
             }
         }
 
@@ -698,22 +697,22 @@ namespace Galac.Adm.Brl.GestionCompras {
             return vSQL.ToString();
         }
 
-        private LibGpParams GetParamForBuscarPagoAsociadoACxP(int valConsecutivoCompania,int vConsecutivoCxP,string valCodigoProveedor) {
+        private LibGpParams GetParamForBuscarPagoAsociadoACxP(int valConsecutivoCompania, int vConsecutivoCxP, string valCodigoProveedor) {
             LibGpParams vResult = new LibGpParams();
-            vResult.AddInInteger("ConsecutivoCompania",valConsecutivoCompania);
-            vResult.AddInInteger("ConsecutivoCxP",vConsecutivoCxP);
-            vResult.AddInString("CodigoProveedor",valCodigoProveedor,10);
+            vResult.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            vResult.AddInInteger("ConsecutivoCxP", vConsecutivoCxP);
+            vResult.AddInString("CodigoProveedor", valCodigoProveedor, 10);
             return vResult;
         }
-		
-        private decimal CalculaMontoRetencionISLR(Proveedor valProveedor,decimal valMontoBaseImponibleYExento, ref decimal refPorcentajeDeRetencion, decimal valCambioABolivares) {
+
+        private decimal CalculaMontoRetencionISLR(Proveedor valProveedor, decimal valMontoBaseImponibleYExento, ref decimal refPorcentajeDeRetencion, decimal valCambioABolivares) {
             decimal vResult = 0;
             if (valProveedor.CodigoRetencionUsual != "NORET") {
                 ITablaRetencionPdn tablaRetencion = new clsTablaRetencionNav();
-                TablaRetencion retencion = tablaRetencion.ObtenerDatosDeTablaRetencionPorFecha(valProveedor.TipoDePersonaAsDB,valProveedor.CodigoRetencionUsual,LibDate.Today());
+                TablaRetencion retencion = tablaRetencion.ObtenerDatosDeTablaRetencionPorFecha(valProveedor.TipoDePersonaAsDB, valProveedor.CodigoRetencionUsual, LibDate.Today());
                 decimal vMontoBaseImponibleYExentoEnMonedaLocal = valMontoBaseImponibleYExento * valCambioABolivares;
                 if (vMontoBaseImponibleYExentoEnMonedaLocal >= retencion.ParaPagosMayoresDe) {
-                    vResult = (vMontoBaseImponibleYExentoEnMonedaLocal * (retencion.BaseImponible  /100) * (retencion.Tarifa /100)) - retencion.Sustraendo;
+                    vResult = (vMontoBaseImponibleYExentoEnMonedaLocal * (retencion.BaseImponible / 100) * (retencion.Tarifa / 100)) - retencion.Sustraendo;
                     if (vResult < 0) {
                         vResult = 0;
                     }
@@ -726,8 +725,8 @@ namespace Galac.Adm.Brl.GestionCompras {
         private string GenerateNextNumeroCompRetIVA(int valConsecutivoCompania, DateTime valFechaRetencion) {
             StringBuilder vSQL = new StringBuilder();
             string vUltimoNumero;
-            int vPrimerNumeroComprobanteRetIVA = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros","PrimerNumeroComprobanteRetIva");
-            int vFormaDeReiniciar = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros","FormaDeReiniciarElNumeroDeComprobanteRetIVA");
+            int vPrimerNumeroComprobanteRetIVA = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "PrimerNumeroComprobanteRetIva");
+            int vFormaDeReiniciar = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "FormaDeReiniciarElNumeroDeComprobanteRetIVA");
             vSQL.AppendLine("SELECT MAX(NumeroComprobanteRetencion) AS Maximo FROM ");
             vSQL.AppendLine(" cxP WHERE ");
             vSQL.AppendLine("ConsecutivoCompania = @ConsecutivoCompania");
@@ -744,116 +743,108 @@ namespace Galac.Adm.Brl.GestionCompras {
                     break;
             }
             LibGpParams vParams = new LibGpParams();
-            vParams.AddInInteger("AnoDeRetencion",valFechaRetencion.Year);
-            vParams.AddInInteger("MesDeRetencion",valFechaRetencion.Month);
-            vParams.AddInInteger("ConsecutivoCompania",valConsecutivoCompania);
-            XElement vXmlData = LibBusiness.ExecuteSelect(vSQL.ToString(),vParams.Get(),"",0);
+            vParams.AddInInteger("AnoDeRetencion", valFechaRetencion.Year);
+            vParams.AddInInteger("MesDeRetencion", valFechaRetencion.Month);
+            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            XElement vXmlData = LibBusiness.ExecuteSelect(vSQL.ToString(), vParams.Get(), "", 0);
             if (vXmlData != null) {
-                vUltimoNumero = LibXml.GetPropertyString(vXmlData,"Maximo");
-                vUltimoNumero = LibString.CleanFromCharsToLeft(vUltimoNumero,"0");
+                vUltimoNumero = LibXml.GetPropertyString(vXmlData, "Maximo");
+                vUltimoNumero = LibString.CleanFromCharsToLeft(vUltimoNumero, "0");
                 vUltimoNumero = (LibConvert.ToInt(vUltimoNumero) + 1).ToString();
             } else {
                 vUltimoNumero = "1";
             }
-			if (vFormaDeReiniciar == 3 ) {
-				if (vPrimerNumeroComprobanteRetIVA  > LibConvert.ToInt(vUltimoNumero) ) {
-					vUltimoNumero = LibConvert.ToStr (vPrimerNumeroComprobanteRetIVA);
-				} else if (LibConvert.ToInt(vUltimoNumero)  >= 99999999)  {
-					vUltimoNumero = "1";
-				}
-			}
-			vUltimoNumero = LibText.FillWithCharToLeft(vUltimoNumero , "0",8);
-			return vUltimoNumero;
-		}
+            if (vFormaDeReiniciar == 3) {
+                if (vPrimerNumeroComprobanteRetIVA > LibConvert.ToInt(vUltimoNumero)) {
+                    vUltimoNumero = LibConvert.ToStr(vPrimerNumeroComprobanteRetIVA);
+                } else if (LibConvert.ToInt(vUltimoNumero) >= 99999999) {
+                    vUltimoNumero = "1";
+                }
+            }
+            vUltimoNumero = LibText.FillWithCharToLeft(vUltimoNumero, "0", 8);
+            return vUltimoNumero;
+        }
 
-        private bool InsertarPagoDeImpuestos(int valConsecutivoCompania,int valNumeroConsecutivoComprobanteRetISLR, string valCodigoProveedor,decimal valMontoRetencion, decimal valMontoOtrosImpuestos, string valNumeroDeCheque, string valCodigoMoneda, string valNombreMoneda, decimal valCambioABolivares, int valConsecutivoCxP, string valNumeroCxP, decimal valTotalCxP, string valBeneficiario, decimal valTotalRetenidoIVA, string valSimboloMoneda) {
+        private bool InsertarPagoDeImpuestos(int valConsecutivoCompania, int valNumeroConsecutivoComprobanteRetISLR, string valCodigoProveedor, decimal valMontoRetencion, decimal valMontoOtrosImpuestos, string valNumeroDeCheque, string valCodigoMoneda, string valNombreMoneda, decimal valCambioABolivares, int valConsecutivoCxP, string valNumeroCxP, decimal valTotalCxP, string valBeneficiario, decimal valTotalRetenidoIVA, string valSimboloMoneda) {
             string vDescripcionPago = "Pago de RETENCIÓN";
             if (LibDefGen.ProgramInfo.IsCountryPeru()) {
                 vDescripcionPago = "Pago de DETRACCIÓN";
                 valTotalRetenidoIVA = 0;
             }
             LibGpParams vParams = new LibGpParams();
-            vParams.AddInInteger("ConsecutivoCompania",valConsecutivoCompania);
+            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             vParams.AddInInteger("NumeroComprobante", valNumeroConsecutivoComprobanteRetISLR);
-            vParams.AddInEnum("StatusOrdenDePago",0);
-            vParams.AddInDateTime ("Fecha",LibDate.Today());
-            vParams.AddInDateTime("FechaAnulacion",LibDate.Today());
+            vParams.AddInEnum("StatusOrdenDePago", 0);
+            vParams.AddInDateTime("Fecha", LibDate.Today());
+            vParams.AddInDateTime("FechaAnulacion", LibDate.Today());
             vParams.AddInString("CodigoProveedor", valCodigoProveedor, 10);
-            vParams.AddInDecimal ("TotalDocumentos",LibMath.RoundToNDecimals((valMontoRetencion + valTotalRetenidoIVA)/valCambioABolivares, 2),2);
-            vParams.AddInDecimal("TotalOtros",LibMath.RoundToNDecimals(valMontoOtrosImpuestos,2),2);
-            vParams.AddInDecimal("MontoCheque",0,2);
-            vParams.AddInEnum("FormaDePago",0);
-            vParams.AddInString("CodigoCuentaBancaria",LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros","CodigoGenericoCuentaBancaria"),5);
-            vParams.AddInString("CodigoConcepto",LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros","CodigoConceptoPagoRetenciones"),8);
-            vParams.AddInString("AplicaDebitoBancario","N",1);
+            vParams.AddInDecimal("TotalDocumentos", LibMath.RoundToNDecimals((valMontoRetencion + valTotalRetenidoIVA) / valCambioABolivares, 2), 2);
+            vParams.AddInDecimal("TotalOtros", LibMath.RoundToNDecimals(valMontoOtrosImpuestos, 2), 2);
+            vParams.AddInDecimal("MontoCheque", 0, 2);
+            vParams.AddInEnum("FormaDePago", 0);
+            vParams.AddInString("CodigoCuentaBancaria", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoGenericoCuentaBancaria"), 5);
+            vParams.AddInString("CodigoConcepto", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoConceptoPagoRetenciones"), 8);
+            vParams.AddInString("AplicaDebitoBancario", "N", 1);
             vParams.AddInString("DescripcionPago", vDescripcionPago, 7000);
             vParams.AddInString("Beneficiario", valBeneficiario, 60);
-            vParams.AddInString("Moneda",valNombreMoneda,80);
-            vParams.AddInDecimal("CambioaBolivares",valCambioABolivares,2);
-            vParams.AddInDecimal("TotalRetenido",LibMath.RoundToNDecimals(valMontoRetencion/valCambioABolivares,2),2);
-            vParams.AddInDecimal("TotalRetenidoIva",LibMath.RoundToNDecimals(valTotalRetenidoIVA/valCambioABolivares,2),2);
-            vParams.AddInString("SimboloMoneda",valSimboloMoneda, 4);
-            vParams.AddInString("EsPagoHistorico","N",1);
-            vParams.AddInDecimal("PagadoAnticipo",0,2);
-            vParams.AddInDecimal("TotalAnticiposSinUsar", 0, 2);            
-            vParams.AddInString("CodigoMoneda",valCodigoMoneda,4);
-            vParams.AddInString("NombreOperador",((CustomIdentity)Thread.CurrentPrincipal.Identity).Login,10);
-            vParams.AddInDateTime("FechaUltimaModificacion",LibDate.Today());
-            vParams.AddInInteger("ConsecutivoCxP",valConsecutivoCxP);
-            vParams.AddInString("NumeroDeCxP",valNumeroCxP, 25);
-            vParams.AddInEnum ("Origen",0);
-            vParams.AddInInteger("NumeroLote",0);
-            vParams.AddInDecimal("TotalCxP",valTotalCxP, 2);
-            vParams.AddInString("NumeroCheque", valNumeroDeCheque,25);
-            vParams.AddInDecimal("TotalRetenidoImpuestoMunicipal",0,2);
+            vParams.AddInString("Moneda", valNombreMoneda, 80);
+            vParams.AddInDecimal("CambioaBolivares", valCambioABolivares, 2);
+            vParams.AddInDecimal("TotalRetenido", LibMath.RoundToNDecimals(valMontoRetencion / valCambioABolivares, 2), 2);
+            vParams.AddInDecimal("TotalRetenidoIva", LibMath.RoundToNDecimals(valTotalRetenidoIVA / valCambioABolivares, 2), 2);
+            vParams.AddInString("SimboloMoneda", valSimboloMoneda, 4);
+            vParams.AddInString("EsPagoHistorico", "N", 1);
+            vParams.AddInDecimal("PagadoAnticipo", 0, 2);
+            vParams.AddInDecimal("TotalAnticiposSinUsar", 0, 2);
+            vParams.AddInString("CodigoMoneda", valCodigoMoneda, 4);
+            vParams.AddInString("NombreOperador", ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login, 10);
+            vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
+            vParams.AddInInteger("ConsecutivoCxP", valConsecutivoCxP);
+            vParams.AddInString("NumeroDeCxP", valNumeroCxP, 25);
+            vParams.AddInEnum("Origen", 0);
+            vParams.AddInInteger("NumeroLote", 0);
+            vParams.AddInDecimal("TotalCxP", valTotalCxP, 2);
+            vParams.AddInString("NumeroCheque", valNumeroDeCheque, 25);
+            vParams.AddInDecimal("TotalRetenidoImpuestoMunicipal", 0, 2);
             LibDatabase insDb = new LibDatabase();
-            bool vResult = insDb.ExecSpNonQueryNonTransaction(insDb.ToSpName("dbo","CxPInsertarPagodesdeCxP"),vParams.Get(),0);
+            bool vResult = insDb.ExecSpNonQueryNonTransaction(insDb.ToSpName("dbo", "CxPInsertarPagodesdeCxP"), vParams.Get(), 0);
             insDb.Dispose();
-            return  vResult;
+            return vResult;
         }
 
         private int GenerateNextNumeroCompRetISLR(int valConsecutivoCompania) {
             StringBuilder vSQL = new StringBuilder();
             int vUltimoNumero;
             int vUltimoNumeroPago = 1;
-            int vUltimoNumeroRetPago =1;
+            int vUltimoNumeroRetPago = 1;
             LibGpParams vParams = new LibGpParams();
-            vParams.AddInInteger("ConsecutivoCompania",valConsecutivoCompania);
+            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             vSQL.AppendLine("SELECT MAX(NumeroComprobante) AS Maximo FROM dbo.Pago ");
             vSQL.AppendLine("  WHERE ConsecutivoCompania = @ConsecutivoCompania ");
-            XElement vXmlDataPago = LibBusiness.ExecuteSelect(vSQL.ToString(),vParams.Get(),"",0);
+            XElement vXmlDataPago = LibBusiness.ExecuteSelect(vSQL.ToString(), vParams.Get(), "", 0);
             if (vXmlDataPago != null) {
-                vUltimoNumeroPago = LibConvert.ToInt(LibXml.GetPropertyString(vXmlDataPago,"Maximo"));
+                vUltimoNumeroPago = LibConvert.ToInt(LibXml.GetPropertyString(vXmlDataPago, "Maximo"));
             }
             vSQL.Clear();
             vSQL.AppendLine("SELECT MAX(NumeroComprobante) AS Maximo FROM dbo.retPago ");
             vSQL.AppendLine("  WHERE ConsecutivoCompania = @ConsecutivoCompania");
-            XElement vXmlDataRetPago = LibBusiness.ExecuteSelect(vSQL.ToString(),vParams.Get(),"",0);
+            XElement vXmlDataRetPago = LibBusiness.ExecuteSelect(vSQL.ToString(), vParams.Get(), "", 0);
             if (vXmlDataRetPago != null) {
-                vUltimoNumeroRetPago = LibConvert.ToInt(LibXml.GetPropertyString(vXmlDataRetPago,"Maximo"));
+                vUltimoNumeroRetPago = LibConvert.ToInt(LibXml.GetPropertyString(vXmlDataRetPago, "Maximo"));
             }
             if (vUltimoNumeroRetPago > vUltimoNumeroPago) {
                 vUltimoNumero = vUltimoNumeroRetPago;
-            } else  {
+            } else {
                 vUltimoNumero = vUltimoNumeroPago;
             }
             return vUltimoNumero;
         }
 
-        private LibGpParams GetPAramsParaRetPago(
-            int valConsecutivoCompania
-            , int valNumeroComprobante
-            , string valNumeroReferencia
-            , DateTime valFecha
-            , int valMesAplicacion
-            , int valAnoAplicacion
-            , string valCodigoProveedor
-            , int valNroComprobanteRetISLR) {
+        private LibGpParams GetPAramsParaRetPago(int valConsecutivoCompania, int valNumeroComprobante, string valNumeroReferencia, DateTime valFecha, int valMesAplicacion, int valAnoAplicacion, string valCodigoProveedor, int valNroComprobanteRetISLR) {
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             vParams.AddInInteger("NumeroComprobante", valNumeroComprobante);
-            vParams.AddInString("NumeroReferencia", valNumeroReferencia,25);
-            vParams.AddInDateTime("Fecha", valFecha, true );
+            vParams.AddInString("NumeroReferencia", valNumeroReferencia, 25);
+            vParams.AddInDateTime("Fecha", valFecha, true);
             vParams.AddInInteger("MesAplicacion", valMesAplicacion);
             vParams.AddInInteger("AnoAplicacion", valAnoAplicacion);
             vParams.AddInString("CodigoProveedor", valCodigoProveedor, 10);
@@ -866,7 +857,7 @@ namespace Galac.Adm.Brl.GestionCompras {
             vParams.AddInInteger("PrimerNumeroCompRetencion", 1);
             vParams.AddInInteger("NroComprobanteRetISLR", valNroComprobanteRetISLR);
             vParams.AddInEnum("Origen", 1);
-            vParams.AddInString("NombreOperador",((CustomIdentity)Thread.CurrentPrincipal.Identity).Login, 10);
+            vParams.AddInString("NombreOperador", ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login, 10);
             vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
             return vParams;
         }
@@ -951,48 +942,38 @@ namespace Galac.Adm.Brl.GestionCompras {
             vSQL.AppendLine("		   )");
             return vSQL.ToString();
         }
-        private LibGpParams GetPAramsParaRetDocumentoPagado(
-            int valConsecutivoCompania
-            ,int valNumeroComprobante
-            ,string valNumeroDelDocumentoCxP
-            ,string valNumeroDeControlCxP
-            ,string valCodigoRetencion
-            ,decimal valMontoOriginal
-            ,decimal valMontoBaseImponible
-            ,decimal valMontoRetencionISLR
-            ,decimal valPorcentajeDeRetencion
-            ) {
+        private LibGpParams GetPAramsParaRetDocumentoPagado(int valConsecutivoCompania, int valNumeroComprobante, string valNumeroDelDocumentoCxP, string valNumeroDeControlCxP, string valCodigoRetencion, decimal valMontoOriginal, decimal valMontoBaseImponible, decimal valMontoRetencionISLR, decimal valPorcentajeDeRetencion) {
             LibGpParams vParams = new LibGpParams();
-            vParams.AddInInteger("ConsecutivoCompania",valConsecutivoCompania);
-            vParams.AddInInteger("NumeroComprobante",valNumeroComprobante);
-            vParams.AddInInteger("SecuencialDocPagado",1);
-            vParams.AddInString("NumeroDelDocumento",valNumeroDelDocumentoCxP,25);
-            vParams.AddInString("NumeroControl",valNumeroDeControlCxP,20);
-            vParams.AddInString("CodigoRetencion",valCodigoRetencion,6);
-            vParams.AddInDecimal("MontoOriginal",valMontoOriginal,2);
-            vParams.AddInDecimal("MontoBaseImponible",valMontoBaseImponible,2);
-            vParams.AddInDecimal("MontoRetencion",valMontoRetencionISLR,2);
-            vParams.AddInEnum("TipoOperacion",0);
-            vParams.AddInDecimal("PorcentajeDeRetencion",valPorcentajeDeRetencion,2);
-            vParams.AddInString("CodigoProveedorOriginalServicio","",10);
-            vParams.AddInBoolean ("EsUnaCuentaATerceros",false);
+            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            vParams.AddInInteger("NumeroComprobante", valNumeroComprobante);
+            vParams.AddInInteger("SecuencialDocPagado", 1);
+            vParams.AddInString("NumeroDelDocumento", valNumeroDelDocumentoCxP, 25);
+            vParams.AddInString("NumeroControl", valNumeroDeControlCxP, 20);
+            vParams.AddInString("CodigoRetencion", valCodigoRetencion, 6);
+            vParams.AddInDecimal("MontoOriginal", valMontoOriginal, 2);
+            vParams.AddInDecimal("MontoBaseImponible", valMontoBaseImponible, 2);
+            vParams.AddInDecimal("MontoRetencion", valMontoRetencionISLR, 2);
+            vParams.AddInEnum("TipoOperacion", 0);
+            vParams.AddInDecimal("PorcentajeDeRetencion", valPorcentajeDeRetencion, 2);
+            vParams.AddInString("CodigoProveedorOriginalServicio", "", 10);
+            vParams.AddInBoolean("EsUnaCuentaATerceros", false);
             return vParams;
         }
 
-        internal bool VerificaSiCxPEstaPorCancelar(int valConsecutivoCompania,string valNumeroCxP,string valCodigoProveedor) {
+        internal bool VerificaSiCxPEstaPorCancelar(int valConsecutivoCompania, string valNumeroCxP, string valCodigoProveedor) {
             int vNumeroDeCxp = 0;
-            XElement vXmlDataCxP = LibBusiness.ExecuteSelect(SQLBuscaSiExisteCxP().ToString(),BuscarCxPParams(valConsecutivoCompania, valNumeroCxP, valCodigoProveedor).Get(),"",0);
+            XElement vXmlDataCxP = LibBusiness.ExecuteSelect(SQLBuscaSiExisteCxP().ToString(), BuscarCxPParams(valConsecutivoCompania, valNumeroCxP, valCodigoProveedor).Get(), "", 0);
             if (vXmlDataCxP != null) {
-                vNumeroDeCxp = LibConvert.ToInt(LibXml.GetPropertyString(vXmlDataCxP,"NumeroDeCxP"));
+                vNumeroDeCxp = LibConvert.ToInt(LibXml.GetPropertyString(vXmlDataCxP, "NumeroDeCxP"));
             }
             return vNumeroDeCxp > 0;
         }
 
-        private LibGpParams BuscarCxPParams(int valConsecutivoCompania,string valNumeroCxP,string valCodigoProveedor) {
+        private LibGpParams BuscarCxPParams(int valConsecutivoCompania, string valNumeroCxP, string valCodigoProveedor) {
             LibGpParams vResult = new LibGpParams();
-            vResult.AddInInteger("ConsecutivoCompania",valConsecutivoCompania);
-            vResult.AddInString("CodigoProveedor",valCodigoProveedor,10);
-            vResult.AddInString("NumeroCxP",valNumeroCxP,25);
+            vResult.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            vResult.AddInString("CodigoProveedor", valCodigoProveedor, 10);
+            vResult.AddInString("NumeroCxP", valNumeroCxP, 25);
             return vResult;
         }
 
@@ -1013,11 +994,11 @@ namespace Galac.Adm.Brl.GestionCompras {
             return vSQL.ToString();
         }
 
-        internal bool VerificaSiExisteCxP(int valConsecutivoCompania,string valNumeroCxP,string valCodigoProveedor) {
+        internal bool VerificaSiExisteCxP(int valConsecutivoCompania, string valNumeroCxP, string valCodigoProveedor) {
             int vNumeroDeCxp = 0;
-            XElement vXmlDataCxP = LibBusiness.ExecuteSelect(SQLBuscaSiExisteCxPSinStatus().ToString(),BuscarCxPParams(valConsecutivoCompania,valNumeroCxP,valCodigoProveedor).Get(),"",0);
+            XElement vXmlDataCxP = LibBusiness.ExecuteSelect(SQLBuscaSiExisteCxPSinStatus().ToString(), BuscarCxPParams(valConsecutivoCompania, valNumeroCxP, valCodigoProveedor).Get(), "", 0);
             if (vXmlDataCxP != null) {
-                vNumeroDeCxp = LibConvert.ToInt(LibXml.GetPropertyString(vXmlDataCxP,"NumeroDeCxP"));
+                vNumeroDeCxp = LibConvert.ToInt(LibXml.GetPropertyString(vXmlDataCxP, "NumeroDeCxP"));
             }
             return vNumeroDeCxp > 0;
         }
@@ -1034,4 +1015,3 @@ namespace Galac.Adm.Brl.GestionCompras {
     }
     //End of class clsCxPNav
 } //End of namespace Galac..Brl.ComponenteNoEspecificado
-

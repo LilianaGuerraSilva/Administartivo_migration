@@ -8,6 +8,10 @@ using LibGalac.Aos.Uil;
 using Galac.Adm.Ccl.GestionCompras;
 using Galac.Adm.Uil.GestionCompras.ViewModel;
 using Galac.Adm.Brl.GestionCompras;
+using Galac.Saw.Lib;
+using LibGalac.Aos.UI.Mvvm;
+using LibGalac.Aos.UI.Mvvm.Messaging;
+using Galac.Adm.Uil.GestionCompras.Reportes;
 
 namespace Galac.Adm.Uil.GestionCompras {
     public class clsProveedorMenu: ILibMenu {
@@ -16,6 +20,8 @@ namespace Galac.Adm.Uil.GestionCompras {
         void ILibMenu.Ejecuta(eAccionSR valAction, int valUseInterop) {
             if (valAction == eAccionSR.Instalar || valAction == eAccionSR.ReInstalar) {
                 new ProveedorMngViewModel().InstallOrReInstallDataFromFile(valAction);
+            } else if (valAction == eAccionSR.InformesPantalla) {
+                EjecutaInformesCxP();
             } else {
                 ProveedorMngViewModel vViewModel = new ProveedorMngViewModel();
                 vViewModel.ExecuteSearchAndInitLookAndFeel();
@@ -36,6 +42,12 @@ namespace Galac.Adm.Uil.GestionCompras {
         }
         public static bool ChooseFromInteropForPago(ref XmlDocument refXmlDocument, List<LibSearchDefaultValues> valSearchCriteria, List<LibSearchDefaultValues> valFixedCriteria) {
            return LibFKRetrievalHelper.ChooseRecord<FkProveedorViewModel>("ProveedorForPago", ref refXmlDocument, valSearchCriteria, valFixedCriteria, new clsProveedorNav());
+        }
+
+        private void EjecutaInformesCxP() {
+            LibReportsViewModel _LibReportsViewModel = new clsCxPInformesViewModel();
+            if (LibMessages.ReportsView.ShowReportsView(_LibReportsViewModel, false)) {
+            }
         }
         #endregion //Metodos Generados
 

@@ -10,15 +10,9 @@ using Galac.Comun.Brl.TablasGen;
 using LibGalac.Aos.DefGen;
 
 namespace Galac.Adm.Brl.Venta.Reportes {
-    public class clsNotaDeEntregaSql {
-        #region Metodos Generados
-		public string SqlNotaDeEntregaEntreFechasPorCliente(int valConsecutivoCompania,
-															DateTime valFechaDesde,
-															DateTime valFechaHasta,
-															bool valIncluirNotasDeEntregasAnuladas,
-															Galac.Saw.Lib.eCantidadAImprimir valCantidadAImprimir,
-															Galac.Saw.Lib.eMonedaParaImpresion valMonedaDelReporte,
-															string valCodigoCliente) {
+	public class clsNotaDeEntregaSql {
+		#region Metodos Generados
+		public string SqlNotaDeEntregaEntreFechasPorCliente(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, bool valIncluirNotasDeEntregasAnuladas, eCantidadAImprimir valCantidadAImprimir, Galac.Saw.Lib.eMonedaParaImpresion valMonedaDelReporte, string valCodigoCliente) {
 			QAdvSql vUtilSql = new QAdvSql("");
 			StringBuilder vSql = new StringBuilder();
 			IMonedaLocalActual vMonedaLocalActual = new clsMonedaLocalActual();
@@ -31,7 +25,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			vSql.AppendLine("		[C].[Nombre]				AS Cliente,");
 			vSql.AppendLine("       [F].[Fecha]					AS Fecha,");
 			vSql.AppendLine("       [F].[Numero]				AS Numero,");
-            if (valMonedaDelReporte != Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal) {
+			if (valMonedaDelReporte != Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal) {
 				string vMonedaLocal = vMonedaLocalActual.GetHoyNombreMoneda();
 				vSql.AppendLine($"   {vUtilSql.ToSqlValue(vMonedaLocal)} AS Moneda,");
 			} else {
@@ -49,10 +43,10 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			vSql.AppendLine("INNER JOIN [dbo].[Cliente]		AS [C] ON [C].[Codigo] = [F].[CodigoCliente] AND [C].[ConsecutivoCompania] = [F].[ConsecutivoCompania]");
 			vSql.AppendLine("WHERE [F].[TipoDeDocumento] = 8");
 			vSql.AppendLine($"AND {vSQLWhereBetweenDates}");
-            if (valCantidadAImprimir == Galac.Saw.Lib.eCantidadAImprimir.Uno) {
+			if (valCantidadAImprimir == eCantidadAImprimir.One) {
 				vSql.AppendLine($"AND [F].[CodigoCliente] = {vUtilSql.ToSqlValue(valCodigoCliente)}");
-			}	
-            if (valIncluirNotasDeEntregasAnuladas) {
+			}
+			if (valIncluirNotasDeEntregasAnuladas) {
 				vSql.AppendLine("AND ([F].[StatusFactura] = 0 OR [F].[StatusFactura] = 1)");
 			} else {
 				vSql.AppendLine("AND [F].[StatusFactura] = 0");
@@ -63,10 +57,9 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			vSql.AppendLine("            [F].[Fecha]");
 			return vSql.ToString();
 		}
-        #endregion //Metodos Generados
+		#endregion //Metodos Generados
 
 
-    } //End of class clsNotaDeEntregaSql
+	} //End of class clsNotaDeEntregaSql
 
 } //End of namespace Galac..Brl.ComponenteNoEspecificado
-

@@ -21,7 +21,7 @@ namespace Galac.Adm.Rpt.Venta {
         private DateTime FechaDesde { get; set; }
         private DateTime FechaHasta { get; set; }
         private bool IncluirNotasDeEntregasAnuladas { get; set; }
-        private Galac.Saw.Lib.eCantidadAImprimir CantidadAImprimir { get; set; }
+        private eCantidadAImprimir CantidadAImprimir { get; set; }
         private eMonedaParaImpresion MonedaDelReporte { get; set; }
         private string CodigoCliente { get; set; }
 
@@ -36,7 +36,7 @@ namespace Galac.Adm.Rpt.Venta {
                                                      DateTime initFechaDesde, 
                                                      DateTime initFechaHasta,
                                                      bool initIncluirNotasDeEntregasAnuladas,
-                                                     Galac.Saw.Lib.eCantidadAImprimir initCantidadAImprimir,
+                                                     eCantidadAImprimir initCantidadAImprimir,
                                                      eMonedaParaImpresion initMonedaDelReporte,
                                                      string initCodigoCliente)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {

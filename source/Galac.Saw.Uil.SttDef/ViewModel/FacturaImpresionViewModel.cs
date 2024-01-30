@@ -408,8 +408,14 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if (Model.NumeroDeDigitosEnFactura < 1 || Model.NumeroDeDigitosEnFactura > 10) {
-                    vResult = new ValidationResult("El Número De Digitos En Factura, debe estar entre 1 y 10");
+                if (clsUtilParameters.EsSistemaParaIG()) {
+                    if (Model.NumeroDeDigitosEnFactura < 1 || Model.NumeroDeDigitosEnFactura > 11) {
+                        vResult = new ValidationResult("El Número De Digitos En Factura, debe estar entre 1 y 11");
+                    }
+                } else {
+                    if (Model.NumeroDeDigitosEnFactura < 1 || Model.NumeroDeDigitosEnFactura > 10) {
+                        vResult = new ValidationResult("El Número De Digitos En Factura, debe estar entre 1 y 10");
+                    }
                 }
             }
             return vResult;

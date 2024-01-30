@@ -20,13 +20,13 @@ namespace Galac.Adm.Rpt.Venta {
         public DateTime FechaFinal { get; set; }
         public Saw.Lib.eTipoDeInforme TipoDeInforme { get; set; }
         public Saw.Lib.eMonedaParaImpresion MonedaDeReporte { get; set; }
-        public Saw.Lib.eCantidadAImprimir CantidadOperadorDeReporte { get; set; }
+        public eCantidadAImprimir CantidadOperadorDeReporte { get; set; }
         public string NombreDelOperador { get; set; }
         public string CodigoMonedaExtrajera { get; set; }
         public string SimboloMonedaExtranjera { get; set; }
         #endregion //Propiedades
         #region Constructores
-        public clsCuadreCajaPorUsuario(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eTipoDeInforme valTipoDeInforme, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, Saw.Lib.eCantidadAImprimir valCantidadAImprimir, string valNombreDelOperador, string valCodigoMonedaExtranjera,string valSimboloMonedaExtranjera)
+        public clsCuadreCajaPorUsuario(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eTipoDeInforme valTipoDeInforme, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, eCantidadAImprimir valCantidadAImprimir, string valNombreDelOperador, string valCodigoMonedaExtranjera,string valSimboloMonedaExtranjera)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
             FechaInicial = valFechaInicial;
             FechaFinal = valFechaFinal;

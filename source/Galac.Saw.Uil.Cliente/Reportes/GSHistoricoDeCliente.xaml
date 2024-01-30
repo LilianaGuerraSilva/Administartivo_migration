@@ -1,0 +1,192 @@
+﻿<UserControl
+    x:Class="Galac.Saw.Uil.Cliente.Reportes.GSHistoricoDeCliente"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:nsARRpt="clr-namespace:LibGalac.Aos.ARRpt;assembly=LibGalac.Aos.ARRpt"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Label
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="0"
+            Content="Cantidad a Imprimir"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf
+            Name="cmbCantidadAImprimir"
+            Grid.Row="0"
+            Grid.Column="1"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding Path=ListaCantidadAImprimir}"
+            SelectedItem="{Binding Path=CantidadAImprimir, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            Style="{StaticResource ComboBoxStyle}" />
+        <Label
+            Name="lblNombreDelCliente"
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="0"
+            Content="Nombre del Cliente"
+            Style="{StaticResource LabelPrompt}"
+            Visibility="{Binding Path=IsVisibleNombreDelCliente, Converter={StaticResource booleanToVisibilityConverter}}" />
+        <nsWpfControls:GSSeekConnection
+            Name="txtNombreDelCliente"
+            Grid.Row="1"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            Width="200"
+            Margin="3"
+            HorizontalAlignment="Left"
+            ConnectionValue="{Binding Path=NombreCliente, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+            SearchCommand="{Binding Path=ChooseNombreClienteCommand}"
+            Visibility="{Binding Path=IsVisibleNombreDelCliente, Converter={StaticResource booleanToVisibilityConverter}}" />
+        <Label
+            x:Name="lblSaltoDePaginaPorCliente"
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="0"
+            Content="Salto de página por Cliente"
+            Style="{StaticResource LabelPrompt}"
+            Visibility="{Binding Path=IsVisibleSaltoDePaginaPorCliente, Converter={StaticResource booleanToVisibilityConverter}}" />
+        <CheckBox
+            x:Name="chkSaltoDePaginaPorCliente"
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="0,5,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Stretch"
+            IsChecked="{Binding SaltoDePaginaPorCliente}"
+            Style="{StaticResource CheckBoxStyle}"
+            Visibility="{Binding Path=IsVisibleSaltoDePaginaPorCliente, Converter={StaticResource booleanToVisibilityConverter}}" />
+        <Label
+            x:Name="lblFechaDesde"
+            Grid.Row="4"
+            Grid.Column="0"
+            Margin="0"
+            Content="Fecha Desde"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSDatePickerWpf
+            x:Name="dtpFechaDesde"
+            Grid.Row="4"
+            Grid.Column="1"
+            Margin="3"
+            VerticalAlignment="Top"
+            SelectedDate="{Binding FechaDesde, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+            Style="{StaticResource DatePickerStyle}" />
+        <Label
+            x:Name="lblFechaHasta"
+            Grid.Row="5"
+            Grid.Column="0"
+            Margin="0"
+            Content="Fecha Hasta"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSDatePickerWpf
+            x:Name="dtpFechaHasta"
+            Grid.Row="5"
+            Grid.Column="1"
+            Margin="3"
+            VerticalAlignment="Top"
+            SelectedDate="{Binding FechaHasta, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+            Style="{StaticResource DatePickerStyle}" />
+        <Label
+            x:Name="lblMonedaDelInforme"
+            Grid.Row="7"
+            Grid.Column="0"
+            Margin="0"
+            Content="Moneda del Informe"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf
+            x:Name="cmbMonedaDelInforme"
+            Grid.Row="7"
+            Grid.Column="1"
+            Margin="3"
+            VerticalAlignment="Top"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding ListaMonedaDelInforme}"
+            SelectedItem="{Binding MonedaDelInforme, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+            Style="{StaticResource ComboBoxStyle}" />
+        <nsWpfControls:GSComboBoxWpf
+            x:Name="cmbMonedasActivas"
+            Grid.Row="7"
+            Grid.Column="2"
+            Margin="3"
+            VerticalAlignment="Top"
+            BorderThickness="1"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding ListaMonedasActivas}"
+            SelectedItem="{Binding Moneda, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+            Style="{StaticResource ComboBoxStyle}"
+            Visibility="{Binding IsVisibleMonedasActivas, Converter={StaticResource booleanToVisibilityConverter}}" />
+        <Label
+            x:Name="lblFechaDeLaTasaDeCambio"
+            Grid.Row="8"
+            Grid.Column="0"
+            Margin="0"
+            Content="Tasa de Cambio a la Fecha"
+            Style="{StaticResource LabelPrompt}"
+            Visibility="{Binding IsVisibleTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}" />
+        <nsWpfControls:GSComboBoxWpf
+            x:Name="cmbTasaDeCambio"
+            Grid.Row="8"
+            Grid.Column="1"
+            Margin="3"
+            VerticalAlignment="Top"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding ListaTasaDeCambio}"
+            SelectedItem="{Binding TasaDeCambio, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+            Style="{StaticResource ComboBoxStyle}"
+            Visibility="{Binding IsVisibleTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}" />
+        <Label
+            x:Name="lblOrdenar"
+            Grid.Row="10"
+            Grid.Column="0"
+            Margin="0"
+            Content="Ordenar"
+            Style="{StaticResource LabelPrompt}"
+            Visibility="{Binding IsVisibleTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}" />
+        <nsWpfControls:GSComboBoxWpf
+            x:Name="cmbOrdenar"
+            Grid.Row="10"
+            Grid.Column="1"
+            Margin="3"
+            VerticalAlignment="Top"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding ListaOrdenarPor}"
+            SelectedItem="{Binding OrdenarPor, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+            Style="{StaticResource ComboBoxStyle}" />
+        <!--
+        <nsWpfControls:GSSeekConnection Grid.Row="1" Grid.Column="1" Name="txtSiglasPrograma" Height="23" Margin="3" Width="150" HorizontalAlignment="Left"
+                                        DisplayMemberPath="Siglas"
+                                        Model="{Binding Path=Programa, Mode=TwoWay}"
+                                        ConnectionValue="{Binding Path=SiglasDelPrograma, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                        SearchCommand="{Binding Path=ChooseProgramaCommand}"
+                                        Visibility="{Binding Path=ShowSiglasDelPrograma, Converter={StaticResource BooleanToCollapsedVisibility}}" />-->
+    </Grid>
+</UserControl>

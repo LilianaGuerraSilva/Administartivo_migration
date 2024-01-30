@@ -6,11 +6,9 @@ using Galac.Adm.Ccl.GestionCompras;
 using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Brl.GestionCompras.Reportes {
-    public class clsCompraSql
-    {
+    public class clsCompraSql {
         #region Metodos Generados
-        public string SqlCompra(int valConsecutivoCompania, int ConsecutivoCompra)
-        {
+        public string SqlCompra(int valConsecutivoCompania, int ConsecutivoCompra) {
             StringBuilder vSql = new StringBuilder();
             QAdvSql vUtilSql = new QAdvSql("");
             string vSQLWhere = "";
@@ -25,11 +23,10 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
             vSql.AppendLine(" INNER JOIN dbo.Gv_ArticuloInventario_B2 ON Adm.Gv_CompraDetalleArticuloInventario_B1.ConsecutivoCompania = dbo.Gv_ArticuloInventario_B2.ConsecutivoCompania  AND Adm.Gv_CompraDetalleArticuloInventario_B1.CodigoArticulo = dbo.Gv_ArticuloInventario_B2.CodigoCompuesto  ");
             vSQLWhere = vUtilSql.SqlIntValueWithAnd(vSQLWhere, "Adm.Gv_Compra_B1.ConsecutivoCompania", valConsecutivoCompania);
             vSQLWhere = vUtilSql.SqlIntValueWithAnd(vSQLWhere, "Adm.Gv_Compra_B1.Consecutivo", ConsecutivoCompra);
-            if (LibString.Len(vSQLWhere) > 0)
-            {
+            if (LibString.Len(vSQLWhere) > 0) {
                 vSql.AppendLine(" WHERE " + vSQLWhere);
             }
-          
+
             return vSql.ToString();
         }
         #region Entre Fechas
@@ -39,103 +36,22 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
             } else {
                 return ConfigurarDatosYSeccionesDelReporteComprasEntreFechasBolivaresMonedaOriginal(valConsecutivoCompania, valFechaInicial, valFechaFinal, valCambioOriginal, valMostrarComprasAnuladas, valMuestraDetalle);
             }
-            
-		}
+
+        }
 
         private string ConstruirSQLComprasEntreFechasSoloMonedaOriginal(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, bool valMostrarComprasAnuladas, bool valMuestraDetalle) {
             StringBuilder vSql = new StringBuilder();
             string vSQLWhere = "";
-            
+
             vSQLWhere = "IGV_ComprasConCambioOriginal.EsUnaOrdenDeCompra = " + new QAdvSql("").ToSqlValue("N");
             vSQLWhere = new QAdvSql("").SqlDateValueBetween(vSQLWhere, " IGV_ComprasConCambioOriginal.Fecha", valFechaInicial, valFechaFinal);
             vSQLWhere = new QAdvSql("").SqlIntValueWithAnd(vSQLWhere, " IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania", valConsecutivoCompania);
 
-            if( !valMostrarComprasAnuladas) {
-               vSQLWhere = vSQLWhere + " AND  IGV_ComprasConCambioOriginal.StatusCompra = " + new QAdvSql("").ToSqlValue((int)eStatusCompra.Vigente);
+            if (!valMostrarComprasAnuladas) {
+                vSQLWhere = vSQLWhere + " AND  IGV_ComprasConCambioOriginal.StatusCompra = " + new QAdvSql("").ToSqlValue((int)eStatusCompra.Vigente);
             }
-            
-            if( valMuestraDetalle ) {
-               vSql.AppendLine(" SELECT " );
-               vSql.AppendLine( "IGV_ComprasConCambioOriginal.Moneda," );
-               vSql.AppendLine( "IGV_ComprasConCambioOriginal.Fecha," );
-               vSql.AppendLine( "IGV_ComprasConCambioOriginal.Numero," );
-               vSql.AppendLine( "IGV_ComprasConCambioOriginal.NombreProveedor,");
-               vSql.AppendLine( "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo,");
-               vSql.AppendLine( new QAdvSql("").IIF("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial = '0' ", new QAdvSql("").ToSqlValue(""), "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial", true) + " AS Serial, ");
-               vSql.AppendLine(new QAdvSql("").IIF("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo =  '0' ", new QAdvSql("").ToSqlValue(""), "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo", true) + " AS Rollo, ");
-               vSql.AppendLine( "IGV_ComprasConCambioOriginal.cantidadrecibida,");
-               vSql.AppendLine( "IGV_ComprasConCambioOriginal.TotalRenglones AS totalCompra,");
-               vSql.AppendLine( "IGV_ComprasConCambioOriginal.CostoUnitario,");
-               
-               vSql.AppendLine( "(IGV_ComprasConCambioOriginal.cantidadrecibida * IGV_ComprasConCambioOriginal.CostoUnitario)  AS CompraTotalAlcambio," );
-               
-               vSql.AppendLine( new QAdvSql("").IIF("IGV_ComprasConCambioOriginal.StatusCompra  = " + new QAdvSql("").ToSqlValue((int)eStatusCompra.Vigente), new QAdvSql("").ToSqlValue("VIGENTES"), new QAdvSql("").ToSqlValue("ANULADAS"), true) + " AS StatusCompra ");
-               vSql.AppendLine( " FROM IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1");
-               
-               vSql.AppendLine( "  INNER JOIN IGV_ComprasConCambioOriginal ON ");
-               
-                vSql.AppendLine( "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania = IGV_ComprasConCambioOriginal.ConsecutivoCompania AND ");
-               vSql.AppendLine( "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo = IGV_ComprasConCambioOriginal.CodigoArticulo AND ");
-               vSql.AppendLine( "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial = IGV_ComprasConCambioOriginal.Serial AND ");
-               vSql.AppendLine( "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo = IGV_ComprasConCambioOriginal.Rollo  ");
-               
-               vSql.AppendLine( " WHERE " + vSQLWhere );
-               vSql.AppendLine( " Order By ");
-               vSql.AppendLine( "IGV_ComprasConCambioOriginal.StatusCompra,");
-               vSql.AppendLine( "IGV_ComprasConCambioOriginal.Moneda," );
-               vSql.AppendLine( " fecha," );
-               vSql.AppendLine( " numero");
-            } else {
-               vSql.AppendLine(" SELECT " );
-               vSql.AppendLine( " IGV_ComprasConCambioOriginal.Moneda,");
-               vSql.AppendLine( " IGV_ComprasConCambioOriginal.Fecha,");
-               vSql.AppendLine( " IGV_ComprasConCambioOriginal.Numero,");
-               vSql.AppendLine( " IGV_ComprasConCambioOriginal.NombreProveedor,");
-               vSql.AppendLine( new QAdvSql("").ToSqlValue("")+ " AS CodigoDelArticulo,");
-               vSql.AppendLine( new QAdvSql("").ToSqlValue("")+ " AS Serial,");
-               vSql.AppendLine( new QAdvSql("").ToSqlValue("") + " AS Rollo,");
-               vSql.AppendLine( "0 AS cantidadrecibida," );
-               vSql.AppendLine( "SUM( IGV_ComprasConCambioOriginal.TotalRenglones) AS TotalCompra,");
-               vSql.AppendLine( "0 AS CostoUnitario,");
-               
-               vSql.AppendLine( "0 AS costoAlcambio, ");
-               vSql.AppendLine(new QAdvSql("").IIF("IGV_ComprasConCambioOriginal.StatusCompra  = " + new QAdvSql("").ToSqlValue((int)eStatusCompra.Vigente), new QAdvSql("").ToSqlValue("VIGENTES"), new QAdvSql("").ToSqlValue("ANULADAS"), true) + " AS StatusCompra ");
-               vSql.AppendLine( " FROM IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1");
-               vSql.AppendLine( "  INNER JOIN IGV_ComprasConCambioOriginal ON ");
-               vSql.AppendLine( "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania = IGV_ComprasConCambioOriginal.ConsecutivoCompania AND ");
-               vSql.AppendLine( "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo = IGV_ComprasConCambioOriginal.CodigoArticulo AND ");
-               vSql.AppendLine( "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial = IGV_ComprasConCambioOriginal.Serial AND ");
-               vSql.AppendLine( "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo = IGV_ComprasConCambioOriginal.Rollo  ");
-               vSql.AppendLine( " WHERE " + vSQLWhere );
-               vSql.AppendLine( " GROUP BY  " );
-               vSql.AppendLine( " IGV_ComprasConCambioOriginal.Moneda,IGV_ComprasConCambioOriginal.Fecha, " );
-               vSql.AppendLine( " IGV_ComprasConCambioOriginal.Numero, IGV_ComprasConCambioOriginal.NombreProveedor, " );
-               vSql.AppendLine( " StatusCompra" );
-               vSql.AppendLine( " Order By " );
-               vSql.AppendLine( " StatusCompra," );
-               vSql.AppendLine( "IGV_ComprasConCambioOriginal.Moneda," );
-               vSql.AppendLine( " fecha," );
-               vSql.AppendLine( " numero" );
-            }
-            return vSql.ToString();
 
-        }
-
-        private string ConfigurarDatosYSeccionesDelReporteComprasEntreFechasBolivaresMonedaOriginal(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, bool valCambioOriginal, bool valMostrarComprasAnuladas, bool valMuestraDetalle) {
-            
-              StringBuilder vSql = new StringBuilder();
-              string vSQLWhere = "";
-              
-           if ( valCambioOriginal) {
-               vSQLWhere = "IGV_ComprasConCambioOriginal.EsUnaOrdenDeCompra = " + new QAdvSql("").ToSqlValue("N");
-               vSQLWhere = new QAdvSql("").SqlDateValueBetween(vSQLWhere, "IGV_ComprasConCambioOriginal.Fecha", valFechaInicial, valFechaFinal);
-               vSQLWhere = new QAdvSql("").SqlIntValueWithAnd(vSQLWhere, "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania", valConsecutivoCompania);
-               
-               if ( ! valMostrarComprasAnuladas ) {
-                vSQLWhere = vSQLWhere + " AND IGV_ComprasConCambioOriginal.StatusCompra = " + new QAdvSql("").ToSqlValue((int) eStatusCompra.Vigente);
-               } 
-               
-               if ( valMuestraDetalle ) {
+            if (valMuestraDetalle) {
                 vSql.AppendLine(" SELECT ");
                 vSql.AppendLine("IGV_ComprasConCambioOriginal.Moneda,");
                 vSql.AppendLine("IGV_ComprasConCambioOriginal.Fecha,");
@@ -143,59 +59,42 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
                 vSql.AppendLine("IGV_ComprasConCambioOriginal.NombreProveedor,");
                 vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo,");
                 vSql.AppendLine(new QAdvSql("").IIF("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial = '0' ", new QAdvSql("").ToSqlValue(""), "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial", true) + " AS Serial, ");
-                vSql.AppendLine(new QAdvSql("").IIF("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo =  '0' ", new QAdvSql("").ToSqlValue("N"), "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo", true) + " AS Rollo, ");
+                vSql.AppendLine(new QAdvSql("").IIF("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo =  '0' ", new QAdvSql("").ToSqlValue(""), "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo", true) + " AS Rollo, ");
                 vSql.AppendLine("IGV_ComprasConCambioOriginal.cantidadrecibida,");
                 vSql.AppendLine("IGV_ComprasConCambioOriginal.TotalRenglones AS totalCompra,");
                 vSql.AppendLine("IGV_ComprasConCambioOriginal.CostoUnitario,");
-               
-                if ( valCambioOriginal ) {
-                 vSql.AppendLine("IGV_ComprasConCambioOriginal.TotalRenglonesCambio  AS CompraTotalAlcambio,");
-                 vSql.AppendLine("IGV_ComprasConCambioOriginal.CambioAbolivares AS cambio,");
-                } else {
-                 vSql.AppendLine("IGV_ComprasConCambioOriginal.TotalRenglonesCambio  AS CompraTotalAlcambio,");
-                 vSql.AppendLine("IGV_ComprasConCambioOriginal.cambioalafecha AS cambio,");
-                } 
-               
-                if ( valCambioOriginal ) {
-                 vSql.AppendLine("( IGV_ComprasConCambioOriginal.CostoUnitario) AS costoAlcambio, ");
-                } else {
-                 vSql.AppendLine("( IGV_ComprasConCambioOriginal.cambioalafecha * IGV_ComprasConCambioOriginal.CostoUnitario) AS costoAlcambio, ");
-                } 
+
+                vSql.AppendLine("(IGV_ComprasConCambioOriginal.cantidadrecibida * IGV_ComprasConCambioOriginal.CostoUnitario)  AS CompraTotalAlcambio,");
+
                 vSql.AppendLine(new QAdvSql("").IIF("IGV_ComprasConCambioOriginal.StatusCompra  = " + new QAdvSql("").ToSqlValue((int)eStatusCompra.Vigente), new QAdvSql("").ToSqlValue("VIGENTES"), new QAdvSql("").ToSqlValue("ANULADAS"), true) + " AS StatusCompra ");
                 vSql.AppendLine(" FROM IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1");
-               
-                vSql.AppendLine(" INNER JOIN IGV_ComprasConCambioOriginal ON ");
-               
+
+                vSql.AppendLine("  INNER JOIN IGV_ComprasConCambioOriginal ON ");
+
                 vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania = IGV_ComprasConCambioOriginal.ConsecutivoCompania AND ");
                 vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo = IGV_ComprasConCambioOriginal.CodigoArticulo AND ");
                 vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial = IGV_ComprasConCambioOriginal.Serial AND ");
-                vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo = IGV_ComprasConCambioOriginal.Rollo ");
-               
+                vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo = IGV_ComprasConCambioOriginal.Rollo  ");
+
                 vSql.AppendLine(" WHERE " + vSQLWhere);
                 vSql.AppendLine(" Order By ");
                 vSql.AppendLine("IGV_ComprasConCambioOriginal.StatusCompra,");
                 vSql.AppendLine("IGV_ComprasConCambioOriginal.Moneda,");
                 vSql.AppendLine(" fecha,");
                 vSql.AppendLine(" numero");
-              } else {
+            } else {
                 vSql.AppendLine(" SELECT ");
-                vSql.AppendLine("IGV_ComprasConCambioOriginal.Moneda,");
-                vSql.AppendLine("IGV_ComprasConCambioOriginal.Fecha,");
-                vSql.AppendLine("IGV_ComprasConCambioOriginal.Numero,");
-                vSql.AppendLine("IGV_ComprasConCambioOriginal.NombreProveedor,");
+                vSql.AppendLine(" IGV_ComprasConCambioOriginal.Moneda,");
+                vSql.AppendLine(" IGV_ComprasConCambioOriginal.Fecha,");
+                vSql.AppendLine(" IGV_ComprasConCambioOriginal.Numero,");
+                vSql.AppendLine(" IGV_ComprasConCambioOriginal.NombreProveedor,");
                 vSql.AppendLine(new QAdvSql("").ToSqlValue("") + " AS CodigoDelArticulo,");
                 vSql.AppendLine(new QAdvSql("").ToSqlValue("") + " AS Serial,");
                 vSql.AppendLine(new QAdvSql("").ToSqlValue("") + " AS Rollo,");
                 vSql.AppendLine("0 AS cantidadrecibida,");
-                vSql.AppendLine("SUM(IGV_ComprasConCambioOriginal.TotalRenglones) AS totalCompra,");
+                vSql.AppendLine("SUM( IGV_ComprasConCambioOriginal.TotalRenglones) AS TotalCompra,");
                 vSql.AppendLine("0 AS CostoUnitario,");
-                if ( valCambioOriginal ) {
-                 vSql.AppendLine("SUM(IGV_ComprasConCambioOriginal.TotalRenglonesCambio)  AS CompraTotalAlcambio,");
-                    vSql.AppendLine("MAX(IGV_ComprasConCambioOriginal.CambioAbolivares) AS cambio,");
-                } else {
-                 vSql.AppendLine("SUM(IGV_ComprasConCambioOriginal.TotalRenglonesCambio)  AS CompraTotalAlcambio,");
-                 vSql.AppendLine("MAX(IGV_ComprasConCambioOriginal.cambioalafecha) AS cambio,");
-                } 
+
                 vSql.AppendLine("0 AS costoAlcambio, ");
                 vSql.AppendLine(new QAdvSql("").IIF("IGV_ComprasConCambioOriginal.StatusCompra  = " + new QAdvSql("").ToSqlValue((int)eStatusCompra.Vigente), new QAdvSql("").ToSqlValue("VIGENTES"), new QAdvSql("").ToSqlValue("ANULADAS"), true) + " AS StatusCompra ");
                 vSql.AppendLine(" FROM IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1");
@@ -214,214 +113,312 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
                 vSql.AppendLine("IGV_ComprasConCambioOriginal.Moneda,");
                 vSql.AppendLine(" fecha,");
                 vSql.AppendLine(" numero");
-               } 
-               } else {
-               vSQLWhere = "IGV_ComprasConCambioAlDia.EsUnaOrdenDeCompra = " + new QAdvSql("").ToSqlValue("N");
-               vSQLWhere = new QAdvSql("").SqlDateValueBetween(vSQLWhere, "IGV_ComprasConCambioAlDia.Fecha", valFechaInicial, valFechaFinal);
-               vSQLWhere = new QAdvSql("").SqlIntValueWithAnd(vSQLWhere, "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania", valConsecutivoCompania);
-               if ( ! valMostrarComprasAnuladas ) {
-                vSQLWhere = vSQLWhere + " AND IGV_ComprasConCambioAlDia.StatusCompra = " +  new QAdvSql("").ToSqlValue((int)eStatusCompra.Vigente);
-               }
-              
-               if ( valMuestraDetalle ) {
-                   vSql.AppendLine(" SELECT ");
-                   vSql.AppendLine("IGV_ComprasConCambioAlDia.Moneda,");
-                   vSql.AppendLine("IGV_ComprasConCambioAlDia.Fecha,");
-                   vSql.AppendLine("IGV_ComprasConCambioAlDia.Numero,");
-                   vSql.AppendLine("IGV_ComprasConCambioAlDia.NombreProveedor,");
-                   
-                   vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo,");
-                   vSql.AppendLine(new QAdvSql("").IIF("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial = '0' ", new QAdvSql("").ToSqlValue(""), "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial", true) + " AS Serial, ");
-                   vSql.AppendLine(new QAdvSql("").IIF("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo =  '0' ", new QAdvSql("").ToSqlValue(""), "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo", true) + " AS Rollo, ");
-                   vSql.AppendLine("IGV_ComprasConCambioAlDia.cantidadrecibida,");
-                   
-                   vSql.AppendLine("IGV_ComprasConCambioAlDia.TotalRenglones AS totalCompra,");
-                   vSql.AppendLine("IGV_ComprasConCambioAlDia.CostoUnitario,");
-                   if ( valCambioOriginal ) {
-                      vSql.AppendLine("IGV_ComprasConCambioAlDia.TotalRenglonesCambio  AS CompraTotalAlcambio,");
-                      vSql.AppendLine("IGV_ComprasConCambioAlDia.CambioAbolivares AS cambio,");
-                   } else {
-                      vSql.AppendLine("IGV_ComprasConCambioAlDia.TotalRenglonesCambio  AS CompraTotalAlcambio,");
-                      vSql.AppendLine("IGV_ComprasConCambioAlDia.cambioalafecha AS cambio,");
-                   }
-                   if ( valCambioOriginal ) {
-                      vSql.AppendLine("( IGV_ComprasConCambioAlDia.CostoUnitario) AS costoAlcambio, ");
-                   } else {
-                      vSql.AppendLine("(IGV_ComprasConCambioAlDia.cambioalafecha * IGV_ComprasConCambioAlDia.CostoUnitario) AS costoAlcambio, ");
-                   }
-                   vSql.AppendLine(new QAdvSql("").IIF("IGV_ComprasConCambioAlDia.StatusCompra  = " + new QAdvSql("").ToSqlValue((int)eStatusCompra.Vigente), new QAdvSql("").ToSqlValue("VIGENTES"), new QAdvSql("").ToSqlValue("ANULADAS"), true) + " AS StatusCompra ");
-                   vSql.AppendLine(" FROM IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1");
-                   
-                   vSql.AppendLine("  INNER JOIN IGV_ComprasConCambioAlDia ON ");
-                   
-                   vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania = IGV_ComprasConCambioAlDia.ConsecutivoCompania AND ");
-                   vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo = IGV_ComprasConCambioAlDia.CodigoArticulo AND ");
-                   vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial = IGV_ComprasConCambioAlDia.Serial AND ");
-                   vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo = IGV_ComprasConCambioAlDia.Rollo  ");
-                   
-                   vSql.AppendLine(" WHERE " + vSQLWhere);
-                   vSql.AppendLine(" Order By ");
-                   vSql.AppendLine("IGV_ComprasConCambioAlDia.StatusCompra,");
-                   vSql.AppendLine("IGV_ComprasConCambioAlDia.Moneda,");
-                   vSql.AppendLine(" fecha,");
-                   vSql.AppendLine(" numero");
-               } else {
-                   vSql.AppendLine(" SELECT ");
-                   vSql.AppendLine("IGV_ComprasConCambioAlDia.Moneda,");
-                   vSql.AppendLine("IGV_ComprasConCambioAlDia.Fecha,");
-                   vSql.AppendLine("IGV_ComprasConCambioAlDia.Numero,");
-                   vSql.AppendLine("IGV_ComprasConCambioAlDia.NombreProveedor,");
-                   vSql.AppendLine(new QAdvSql("").ToSqlValue("") + " AS CodigoDelArticulo,");
-                   vSql.AppendLine(new QAdvSql("").ToSqlValue("") + " AS Serial,");
-                   vSql.AppendLine(new QAdvSql("").ToSqlValue("") + " AS Rollo,");
-                   vSql.AppendLine("0 AS cantidadrecibida,");
-                   vSql.AppendLine("SUM(IGV_ComprasConCambioAlDia.TotalRenglones) AS totalCompra,");
-                   vSql.AppendLine("0 AS CostoUnitario,");
-                   if ( valCambioOriginal ) {
-                      vSql.AppendLine("SUM(IGV_ComprasConCambioAlDia.TotalRenglonesCambio)  AS CompraTotalAlcambio,");
-                      vSql.AppendLine("MAX(IGV_ComprasConCambioAlDia.CambioAbolivares) AS cambio,");
-                   } else {
-                      vSql.AppendLine("SUM(IGV_ComprasConCambioAlDia.TotalRenglonesCambio)  AS CompraTotalAlcambio,");
-                      vSql.AppendLine("MAX(IGV_ComprasConCambioAlDia.cambioalafecha) AS cambio,");
-                   }
-                   vSql.AppendLine("0 AS costoAlcambio, ");
-                   vSql.AppendLine(new QAdvSql("").IIF("IGV_ComprasConCambioAlDia.StatusCompra  = " + new QAdvSql("").ToSqlValue((int)eStatusCompra.Vigente), new QAdvSql("").ToSqlValue("VIGENTES"), new QAdvSql("").ToSqlValue("ANULADAS"), true) + " AS StatusCompra ");
-                   vSql.AppendLine(" FROM IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1");
-                   vSql.AppendLine("  INNER JOIN IGV_ComprasConCambioAlDia ON ");
-                   vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania = IGV_ComprasConCambioAlDia.ConsecutivoCompania AND ");
-                   vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo = IGV_ComprasConCambioAlDia.CodigoArticulo AND ");
-                   vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial = IGV_ComprasConCambioAlDia.Serial AND ");
-                   vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo = IGV_ComprasConCambioAlDia.Rollo  ");
-                   vSql.AppendLine(" WHERE " + vSQLWhere);
-                   vSql.AppendLine(" GROUP BY  ");
-                   vSql.AppendLine(" IGV_ComprasConCambioAlDia.Moneda,IGV_ComprasConCambioAlDia.Fecha, ");
-                   vSql.AppendLine(" IGV_ComprasConCambioAlDia.Numero, IGV_ComprasConCambioAlDia.NombreProveedor, ");
-                   vSql.AppendLine(" StatusCompra");
-                   vSql.AppendLine(" Order By ");
-                   vSql.AppendLine(" StatusCompra,");
-                   vSql.AppendLine("IGV_ComprasConCambioAlDia.Moneda,");
-                   vSql.AppendLine(" fecha,");
-                   vSql.AppendLine(" numero");
-               }
-           }
+            }
+            return vSql.ToString();
 
-           return vSql.ToString();
         }
-#endregion
+
+        private string ConfigurarDatosYSeccionesDelReporteComprasEntreFechasBolivaresMonedaOriginal(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, bool valCambioOriginal, bool valMostrarComprasAnuladas, bool valMuestraDetalle) {
+
+            StringBuilder vSql = new StringBuilder();
+            string vSQLWhere = "";
+
+            if (valCambioOriginal) {
+                vSQLWhere = "IGV_ComprasConCambioOriginal.EsUnaOrdenDeCompra = " + new QAdvSql("").ToSqlValue("N");
+                vSQLWhere = new QAdvSql("").SqlDateValueBetween(vSQLWhere, "IGV_ComprasConCambioOriginal.Fecha", valFechaInicial, valFechaFinal);
+                vSQLWhere = new QAdvSql("").SqlIntValueWithAnd(vSQLWhere, "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania", valConsecutivoCompania);
+
+                if (!valMostrarComprasAnuladas) {
+                    vSQLWhere = vSQLWhere + " AND IGV_ComprasConCambioOriginal.StatusCompra = " + new QAdvSql("").ToSqlValue((int)eStatusCompra.Vigente);
+                }
+
+                if (valMuestraDetalle) {
+                    vSql.AppendLine(" SELECT ");
+                    vSql.AppendLine("IGV_ComprasConCambioOriginal.Moneda,");
+                    vSql.AppendLine("IGV_ComprasConCambioOriginal.Fecha,");
+                    vSql.AppendLine("IGV_ComprasConCambioOriginal.Numero,");
+                    vSql.AppendLine("IGV_ComprasConCambioOriginal.NombreProveedor,");
+                    vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo,");
+                    vSql.AppendLine(new QAdvSql("").IIF("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial = '0' ", new QAdvSql("").ToSqlValue(""), "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial", true) + " AS Serial, ");
+                    vSql.AppendLine(new QAdvSql("").IIF("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo =  '0' ", new QAdvSql("").ToSqlValue("N"), "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo", true) + " AS Rollo, ");
+                    vSql.AppendLine("IGV_ComprasConCambioOriginal.cantidadrecibida,");
+                    vSql.AppendLine("IGV_ComprasConCambioOriginal.TotalRenglones AS totalCompra,");
+                    vSql.AppendLine("IGV_ComprasConCambioOriginal.CostoUnitario,");
+
+                    if (valCambioOriginal) {
+                        vSql.AppendLine("IGV_ComprasConCambioOriginal.TotalRenglonesCambio  AS CompraTotalAlcambio,");
+                        vSql.AppendLine("IGV_ComprasConCambioOriginal.CambioAbolivares AS cambio,");
+                    } else {
+                        vSql.AppendLine("IGV_ComprasConCambioOriginal.TotalRenglonesCambio  AS CompraTotalAlcambio,");
+                        vSql.AppendLine("IGV_ComprasConCambioOriginal.cambioalafecha AS cambio,");
+                    }
+
+                    if (valCambioOriginal) {
+                        vSql.AppendLine("( IGV_ComprasConCambioOriginal.CostoUnitario) AS costoAlcambio, ");
+                    } else {
+                        vSql.AppendLine("( IGV_ComprasConCambioOriginal.cambioalafecha * IGV_ComprasConCambioOriginal.CostoUnitario) AS costoAlcambio, ");
+                    }
+                    vSql.AppendLine(new QAdvSql("").IIF("IGV_ComprasConCambioOriginal.StatusCompra  = " + new QAdvSql("").ToSqlValue((int)eStatusCompra.Vigente), new QAdvSql("").ToSqlValue("VIGENTES"), new QAdvSql("").ToSqlValue("ANULADAS"), true) + " AS StatusCompra ");
+                    vSql.AppendLine(" FROM IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1");
+
+                    vSql.AppendLine(" INNER JOIN IGV_ComprasConCambioOriginal ON ");
+
+                    vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania = IGV_ComprasConCambioOriginal.ConsecutivoCompania AND ");
+                    vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo = IGV_ComprasConCambioOriginal.CodigoArticulo AND ");
+                    vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial = IGV_ComprasConCambioOriginal.Serial AND ");
+                    vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo = IGV_ComprasConCambioOriginal.Rollo ");
+
+                    vSql.AppendLine(" WHERE " + vSQLWhere);
+                    vSql.AppendLine(" Order By ");
+                    vSql.AppendLine("IGV_ComprasConCambioOriginal.StatusCompra,");
+                    vSql.AppendLine("IGV_ComprasConCambioOriginal.Moneda,");
+                    vSql.AppendLine(" fecha,");
+                    vSql.AppendLine(" numero");
+                } else {
+                    vSql.AppendLine(" SELECT ");
+                    vSql.AppendLine("IGV_ComprasConCambioOriginal.Moneda,");
+                    vSql.AppendLine("IGV_ComprasConCambioOriginal.Fecha,");
+                    vSql.AppendLine("IGV_ComprasConCambioOriginal.Numero,");
+                    vSql.AppendLine("IGV_ComprasConCambioOriginal.NombreProveedor,");
+                    vSql.AppendLine(new QAdvSql("").ToSqlValue("") + " AS CodigoDelArticulo,");
+                    vSql.AppendLine(new QAdvSql("").ToSqlValue("") + " AS Serial,");
+                    vSql.AppendLine(new QAdvSql("").ToSqlValue("") + " AS Rollo,");
+                    vSql.AppendLine("0 AS cantidadrecibida,");
+                    vSql.AppendLine("SUM(IGV_ComprasConCambioOriginal.TotalRenglones) AS totalCompra,");
+                    vSql.AppendLine("0 AS CostoUnitario,");
+                    if (valCambioOriginal) {
+                        vSql.AppendLine("SUM(IGV_ComprasConCambioOriginal.TotalRenglonesCambio)  AS CompraTotalAlcambio,");
+                        vSql.AppendLine("MAX(IGV_ComprasConCambioOriginal.CambioAbolivares) AS cambio,");
+                    } else {
+                        vSql.AppendLine("SUM(IGV_ComprasConCambioOriginal.TotalRenglonesCambio)  AS CompraTotalAlcambio,");
+                        vSql.AppendLine("MAX(IGV_ComprasConCambioOriginal.cambioalafecha) AS cambio,");
+                    }
+                    vSql.AppendLine("0 AS costoAlcambio, ");
+                    vSql.AppendLine(new QAdvSql("").IIF("IGV_ComprasConCambioOriginal.StatusCompra  = " + new QAdvSql("").ToSqlValue((int)eStatusCompra.Vigente), new QAdvSql("").ToSqlValue("VIGENTES"), new QAdvSql("").ToSqlValue("ANULADAS"), true) + " AS StatusCompra ");
+                    vSql.AppendLine(" FROM IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1");
+                    vSql.AppendLine("  INNER JOIN IGV_ComprasConCambioOriginal ON ");
+                    vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania = IGV_ComprasConCambioOriginal.ConsecutivoCompania AND ");
+                    vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo = IGV_ComprasConCambioOriginal.CodigoArticulo AND ");
+                    vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial = IGV_ComprasConCambioOriginal.Serial AND ");
+                    vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo = IGV_ComprasConCambioOriginal.Rollo  ");
+                    vSql.AppendLine(" WHERE " + vSQLWhere);
+                    vSql.AppendLine(" GROUP BY  ");
+                    vSql.AppendLine(" IGV_ComprasConCambioOriginal.Moneda,IGV_ComprasConCambioOriginal.Fecha, ");
+                    vSql.AppendLine(" IGV_ComprasConCambioOriginal.Numero, IGV_ComprasConCambioOriginal.NombreProveedor, ");
+                    vSql.AppendLine(" StatusCompra");
+                    vSql.AppendLine(" Order By ");
+                    vSql.AppendLine(" StatusCompra,");
+                    vSql.AppendLine("IGV_ComprasConCambioOriginal.Moneda,");
+                    vSql.AppendLine(" fecha,");
+                    vSql.AppendLine(" numero");
+                }
+            } else {
+                vSQLWhere = "IGV_ComprasConCambioAlDia.EsUnaOrdenDeCompra = " + new QAdvSql("").ToSqlValue("N");
+                vSQLWhere = new QAdvSql("").SqlDateValueBetween(vSQLWhere, "IGV_ComprasConCambioAlDia.Fecha", valFechaInicial, valFechaFinal);
+                vSQLWhere = new QAdvSql("").SqlIntValueWithAnd(vSQLWhere, "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania", valConsecutivoCompania);
+                if (!valMostrarComprasAnuladas) {
+                    vSQLWhere = vSQLWhere + " AND IGV_ComprasConCambioAlDia.StatusCompra = " + new QAdvSql("").ToSqlValue((int)eStatusCompra.Vigente);
+                }
+
+                if (valMuestraDetalle) {
+                    vSql.AppendLine(" SELECT ");
+                    vSql.AppendLine("IGV_ComprasConCambioAlDia.Moneda,");
+                    vSql.AppendLine("IGV_ComprasConCambioAlDia.Fecha,");
+                    vSql.AppendLine("IGV_ComprasConCambioAlDia.Numero,");
+                    vSql.AppendLine("IGV_ComprasConCambioAlDia.NombreProveedor,");
+
+                    vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo,");
+                    vSql.AppendLine(new QAdvSql("").IIF("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial = '0' ", new QAdvSql("").ToSqlValue(""), "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial", true) + " AS Serial, ");
+                    vSql.AppendLine(new QAdvSql("").IIF("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo =  '0' ", new QAdvSql("").ToSqlValue(""), "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo", true) + " AS Rollo, ");
+                    vSql.AppendLine("IGV_ComprasConCambioAlDia.cantidadrecibida,");
+
+                    vSql.AppendLine("IGV_ComprasConCambioAlDia.TotalRenglones AS totalCompra,");
+                    vSql.AppendLine("IGV_ComprasConCambioAlDia.CostoUnitario,");
+                    if (valCambioOriginal) {
+                        vSql.AppendLine("IGV_ComprasConCambioAlDia.TotalRenglonesCambio  AS CompraTotalAlcambio,");
+                        vSql.AppendLine("IGV_ComprasConCambioAlDia.CambioAbolivares AS cambio,");
+                    } else {
+                        vSql.AppendLine("IGV_ComprasConCambioAlDia.TotalRenglonesCambio  AS CompraTotalAlcambio,");
+                        vSql.AppendLine("IGV_ComprasConCambioAlDia.cambioalafecha AS cambio,");
+                    }
+                    if (valCambioOriginal) {
+                        vSql.AppendLine("( IGV_ComprasConCambioAlDia.CostoUnitario) AS costoAlcambio, ");
+                    } else {
+                        vSql.AppendLine("(IGV_ComprasConCambioAlDia.cambioalafecha * IGV_ComprasConCambioAlDia.CostoUnitario) AS costoAlcambio, ");
+                    }
+                    vSql.AppendLine(new QAdvSql("").IIF("IGV_ComprasConCambioAlDia.StatusCompra  = " + new QAdvSql("").ToSqlValue((int)eStatusCompra.Vigente), new QAdvSql("").ToSqlValue("VIGENTES"), new QAdvSql("").ToSqlValue("ANULADAS"), true) + " AS StatusCompra ");
+                    vSql.AppendLine(" FROM IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1");
+
+                    vSql.AppendLine("  INNER JOIN IGV_ComprasConCambioAlDia ON ");
+
+                    vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania = IGV_ComprasConCambioAlDia.ConsecutivoCompania AND ");
+                    vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo = IGV_ComprasConCambioAlDia.CodigoArticulo AND ");
+                    vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial = IGV_ComprasConCambioAlDia.Serial AND ");
+                    vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo = IGV_ComprasConCambioAlDia.Rollo  ");
+
+                    vSql.AppendLine(" WHERE " + vSQLWhere);
+                    vSql.AppendLine(" Order By ");
+                    vSql.AppendLine("IGV_ComprasConCambioAlDia.StatusCompra,");
+                    vSql.AppendLine("IGV_ComprasConCambioAlDia.Moneda,");
+                    vSql.AppendLine(" fecha,");
+                    vSql.AppendLine(" numero");
+                } else {
+                    vSql.AppendLine(" SELECT ");
+                    vSql.AppendLine("IGV_ComprasConCambioAlDia.Moneda,");
+                    vSql.AppendLine("IGV_ComprasConCambioAlDia.Fecha,");
+                    vSql.AppendLine("IGV_ComprasConCambioAlDia.Numero,");
+                    vSql.AppendLine("IGV_ComprasConCambioAlDia.NombreProveedor,");
+                    vSql.AppendLine(new QAdvSql("").ToSqlValue("") + " AS CodigoDelArticulo,");
+                    vSql.AppendLine(new QAdvSql("").ToSqlValue("") + " AS Serial,");
+                    vSql.AppendLine(new QAdvSql("").ToSqlValue("") + " AS Rollo,");
+                    vSql.AppendLine("0 AS cantidadrecibida,");
+                    vSql.AppendLine("SUM(IGV_ComprasConCambioAlDia.TotalRenglones) AS totalCompra,");
+                    vSql.AppendLine("0 AS CostoUnitario,");
+                    if (valCambioOriginal) {
+                        vSql.AppendLine("SUM(IGV_ComprasConCambioAlDia.TotalRenglonesCambio)  AS CompraTotalAlcambio,");
+                        vSql.AppendLine("MAX(IGV_ComprasConCambioAlDia.CambioAbolivares) AS cambio,");
+                    } else {
+                        vSql.AppendLine("SUM(IGV_ComprasConCambioAlDia.TotalRenglonesCambio)  AS CompraTotalAlcambio,");
+                        vSql.AppendLine("MAX(IGV_ComprasConCambioAlDia.cambioalafecha) AS cambio,");
+                    }
+                    vSql.AppendLine("0 AS costoAlcambio, ");
+                    vSql.AppendLine(new QAdvSql("").IIF("IGV_ComprasConCambioAlDia.StatusCompra  = " + new QAdvSql("").ToSqlValue((int)eStatusCompra.Vigente), new QAdvSql("").ToSqlValue("VIGENTES"), new QAdvSql("").ToSqlValue("ANULADAS"), true) + " AS StatusCompra ");
+                    vSql.AppendLine(" FROM IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1");
+                    vSql.AppendLine("  INNER JOIN IGV_ComprasConCambioAlDia ON ");
+                    vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania = IGV_ComprasConCambioAlDia.ConsecutivoCompania AND ");
+                    vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo = IGV_ComprasConCambioAlDia.CodigoArticulo AND ");
+                    vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial = IGV_ComprasConCambioAlDia.Serial AND ");
+                    vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo = IGV_ComprasConCambioAlDia.Rollo  ");
+                    vSql.AppendLine(" WHERE " + vSQLWhere);
+                    vSql.AppendLine(" GROUP BY  ");
+                    vSql.AppendLine(" IGV_ComprasConCambioAlDia.Moneda,IGV_ComprasConCambioAlDia.Fecha, ");
+                    vSql.AppendLine(" IGV_ComprasConCambioAlDia.Numero, IGV_ComprasConCambioAlDia.NombreProveedor, ");
+                    vSql.AppendLine(" StatusCompra");
+                    vSql.AppendLine(" Order By ");
+                    vSql.AppendLine(" StatusCompra,");
+                    vSql.AppendLine("IGV_ComprasConCambioAlDia.Moneda,");
+                    vSql.AppendLine(" fecha,");
+                    vSql.AppendLine(" numero");
+                }
+            }
+
+            return vSql.ToString();
+        }
+        #endregion
 
         public string ConstruirSQLCostoDeComprasEntreFechas(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, eReporteCostoDeCompras valLineasDeProductoCantidadAImprimir, string valCodigoProducto) {
-           StringBuilder vSql = new StringBuilder();
-           string vSQLWhere = "";
-           QAdvSql vUtilSql = new QAdvSql("");
-           vSQLWhere = "IGV_ComprasConCambioOriginal.EsUnaOrdenDeCompra = " + vUtilSql.ToSqlValue("N");
+            StringBuilder vSql = new StringBuilder();
+            string vSQLWhere = "";
+            QAdvSql vUtilSql = new QAdvSql("");
+            vSQLWhere = "IGV_ComprasConCambioOriginal.EsUnaOrdenDeCompra = " + vUtilSql.ToSqlValue("N");
 
-           if (valLineasDeProductoCantidadAImprimir == eReporteCostoDeCompras.UnaLineaDeProducto) {
-               vSQLWhere = vUtilSql.SqlValueWithAnd(vSQLWhere, "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.LineaDeProducto", valCodigoProducto, false);
-           }
-           if (valLineasDeProductoCantidadAImprimir == eReporteCostoDeCompras.UnArticulo) {
-              vSQLWhere = vUtilSql.SqlValueWithAnd(vSQLWhere, "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo",valCodigoProducto);
-           }
-           vSQLWhere = vUtilSql.SqlDateValueBetween(vSQLWhere,"IGV_ComprasConCambioOriginal.Fecha", valFechaInicial, valFechaFinal);
-           vSQLWhere = vSQLWhere + " AND IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania = " + vUtilSql.ToSqlValue(valConsecutivoCompania);
-           
-           vSql.AppendLine( " SELECT " );
-           vSql.AppendLine( "IGV_ComprasConCambioOriginal.Moneda,");
-           vSql.AppendLine( "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.LineaDeProducto AS LineaDeProducto,");
-           vSql.AppendLine( " MAX( IGV_ComprasConCambioOriginal.Fecha) AS FechaUltCompra ,");
-           vSql.AppendLine( "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Codigo AS CodigoArticulo, ");
-           vSql.AppendLine( "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Descripcion AS Descripcion, ");
-           vSql.AppendLine( " SUM( IGV_ComprasConCambioOriginal.cantidadrecibida) AS CantArtComp, ");
-           vSql.AppendLine( " COUNT(NUMERO) AS VecesComprados, ");
-           vSql.AppendLine( " MAX( IGV_ComprasConCambioOriginal.CostoUnitario ) AS CostoMaximo,");
-           vSql.AppendLine( " MIN( IGV_ComprasConCambioOriginal.CostoUnitario ) AS CostoMinimo,");
-           vSql.AppendLine( " SUM( IGV_ComprasConCambioOriginal.TotalRenglones ) AS TotalCompXArt,");
-           vSql.AppendLine( vUtilSql.IIF( " SUM( IGV_ComprasConCambioOriginal.cantidadrecibida) = 0","0"," SUM( IGV_ComprasConCambioOriginal.CostoUnitario ) / SUM( IGV_ComprasConCambioOriginal.cantidadrecibida)", true) + "AS PromPonDeComp");
-           vSql.AppendLine( " FROM IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1");
-           vSql.AppendLine( "  INNER JOIN  IGV_ComprasConCambioOriginal ON ");
-           vSql.AppendLine( " IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania = IGV_ComprasConCambioOriginal.ConsecutivoCompania AND ");
-           vSql.AppendLine( " IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo = IGV_ComprasConCambioOriginal.CodigoArticulo AND ");
-           vSql.AppendLine( " IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial = IGV_ComprasConCambioOriginal.Serial AND ");
-           vSql.AppendLine( " IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo = IGV_ComprasConCambioOriginal.Rollo  ");
-           vSql.AppendLine( " WHERE " + vSQLWhere);
-           vSql.AppendLine( " Group By ");
-           vSql.AppendLine( " IGV_ComprasConCambioOriginal.Moneda,");
-           vSql.AppendLine( " IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.LineaDeProducto,");
-           vSql.AppendLine( " IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Codigo,");
-           vSql.AppendLine( " IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Descripcion");
-           vSql.AppendLine( " Order By ");
-           vSql.AppendLine( " IGV_ComprasConCambioOriginal.Moneda");
-           return vSql.ToString();
+            if (valLineasDeProductoCantidadAImprimir == eReporteCostoDeCompras.UnaLineaDeProducto) {
+                vSQLWhere = vUtilSql.SqlValueWithAnd(vSQLWhere, "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.LineaDeProducto", valCodigoProducto, false);
+            }
+            if (valLineasDeProductoCantidadAImprimir == eReporteCostoDeCompras.UnArticulo) {
+                vSQLWhere = vUtilSql.SqlValueWithAnd(vSQLWhere, "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo", valCodigoProducto);
+            }
+            vSQLWhere = vUtilSql.SqlDateValueBetween(vSQLWhere, "IGV_ComprasConCambioOriginal.Fecha", valFechaInicial, valFechaFinal);
+            vSQLWhere = vSQLWhere + " AND IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania = " + vUtilSql.ToSqlValue(valConsecutivoCompania);
+
+            vSql.AppendLine(" SELECT ");
+            vSql.AppendLine("IGV_ComprasConCambioOriginal.Moneda,");
+            vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.LineaDeProducto AS LineaDeProducto,");
+            vSql.AppendLine(" MAX( IGV_ComprasConCambioOriginal.Fecha) AS FechaUltCompra ,");
+            vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Codigo AS CodigoArticulo, ");
+            vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Descripcion AS Descripcion, ");
+            vSql.AppendLine(" SUM( IGV_ComprasConCambioOriginal.cantidadrecibida) AS CantArtComp, ");
+            vSql.AppendLine(" COUNT(NUMERO) AS VecesComprados, ");
+            vSql.AppendLine(" MAX( IGV_ComprasConCambioOriginal.CostoUnitario ) AS CostoMaximo,");
+            vSql.AppendLine(" MIN( IGV_ComprasConCambioOriginal.CostoUnitario ) AS CostoMinimo,");
+            vSql.AppendLine(" SUM( IGV_ComprasConCambioOriginal.TotalRenglones ) AS TotalCompXArt,");
+            vSql.AppendLine(vUtilSql.IIF(" SUM( IGV_ComprasConCambioOriginal.cantidadrecibida) = 0", "0", " SUM( IGV_ComprasConCambioOriginal.CostoUnitario ) / SUM( IGV_ComprasConCambioOriginal.cantidadrecibida)", true) + "AS PromPonDeComp");
+            vSql.AppendLine(" FROM IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1");
+            vSql.AppendLine("  INNER JOIN  IGV_ComprasConCambioOriginal ON ");
+            vSql.AppendLine(" IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania = IGV_ComprasConCambioOriginal.ConsecutivoCompania AND ");
+            vSql.AppendLine(" IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo = IGV_ComprasConCambioOriginal.CodigoArticulo AND ");
+            vSql.AppendLine(" IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial = IGV_ComprasConCambioOriginal.Serial AND ");
+            vSql.AppendLine(" IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo = IGV_ComprasConCambioOriginal.Rollo  ");
+            vSql.AppendLine(" WHERE " + vSQLWhere);
+            vSql.AppendLine(" Group By ");
+            vSql.AppendLine(" IGV_ComprasConCambioOriginal.Moneda,");
+            vSql.AppendLine(" IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.LineaDeProducto,");
+            vSql.AppendLine(" IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Codigo,");
+            vSql.AppendLine(" IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Descripcion");
+            vSql.AppendLine(" Order By ");
+            vSql.AppendLine(" IGV_ComprasConCambioOriginal.Moneda");
+            return vSql.ToString();
         }
-        
+
         public string ContruirSQLHistoricoCompras(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, eReporteCostoDeCompras valLineasDeProductoCantidadAImprimir, string valCodigoProducto) {
 
-           StringBuilder vSql = new StringBuilder();
-           QAdvSql vUtilSql = new QAdvSql("");
-           string vDescripcionTallaColor;
-           string vSQLWhere;
-           bool valCambioOriginal = true;
-           bool valMostrarComprasAnuladas = false;
-           vSQLWhere = "IGV_ComprasConCambioOriginal.EsUnaOrdenDeCompra = " + vUtilSql.ToSqlValue("N");
-           if ( !valMostrarComprasAnuladas ) {
-              vSQLWhere = vSQLWhere + " AND IGV_ComprasConCambioOriginal.StatusCompra = " + vUtilSql.ToSqlValue((int)eStatusCompra.Vigente);
-           }
-           vDescripcionTallaColor = vUtilSql.IIF(vUtilSql.IsNull("IGV_ExistenciaPorGrupoConTallasyColores.DescripcionColor"), vUtilSql.ToSqlValue(""), "IGV_ExistenciaPorGrupoConTallasyColores.DescripcionColor", true);
-           vDescripcionTallaColor = vDescripcionTallaColor + " + " + vUtilSql.IIF(vUtilSql.IsNull("IGV_ExistenciaPorGrupoConTallasyColores.DescripcionTalla"), vUtilSql.ToSqlValue(""), "IGV_ExistenciaPorGrupoConTallasyColores.DescripcionTalla", true);
-            
-           if ( valLineasDeProductoCantidadAImprimir == eReporteCostoDeCompras.UnaLineaDeProducto) {
-              vSQLWhere = vUtilSql.SqlValueWithAnd(vSQLWhere, "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.LineaDeProducto", valCodigoProducto, false);
-           }
-           if (valLineasDeProductoCantidadAImprimir == eReporteCostoDeCompras.UnArticulo) {
-              vSQLWhere = vUtilSql.SqlValueWithAnd(vSQLWhere, "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo", valCodigoProducto, false);
-           }
-          
-           vSQLWhere = vUtilSql.SqlDateValueBetween(vSQLWhere, "IGV_ComprasConCambioOriginal.Fecha", valFechaInicial, valFechaFinal);
-           vSQLWhere =vUtilSql.SqlIntValueWithAnd(vSQLWhere, "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania", valConsecutivoCompania);
-            
-           vSql.AppendLine( " SELECT ");
-           vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.LineaDeProducto," );
-           vSql.AppendLine("IGV_ComprasConCambioOriginal.Fecha," );
-           vSql.AppendLine("IGV_ComprasConCambioOriginal.Numero,");
-           vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo,");
-           vSql.AppendLine(vUtilSql.IIF("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial = '0' ", vUtilSql.ToSqlValue(""), "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial", true) + " AS Serial, ");
-           vSql.AppendLine(vUtilSql.IIF("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo =  '0' ", vUtilSql.ToSqlValue(""), "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo", true) + " AS Rollo, ");
-           vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Descripcion + " + vDescripcionTallaColor + " AS Descripcion  , ");
-           
-           vSql.AppendLine("IGV_ComprasConCambioOriginal.CodigoAlmacen,");
-           vSql.AppendLine("IGV_ComprasConCambioOriginal.NombreProveedor,");
-           vSql.AppendLine("IGV_ComprasConCambioOriginal.cantidadrecibida,");
-          
-           vSql.AppendLine("IGV_ComprasConCambioOriginal.Moneda,");
-           vSql.AppendLine("IGV_ComprasConCambioOriginal.CostoUnitario,");
-           if ( valCambioOriginal ) {
-              vSql.AppendLine("IGV_ComprasConCambioOriginal.CambioAbolivares AS cambio,");
-           } else {
-              vSql.AppendLine("IGV_ComprasConCambioOriginal.cambioalafecha AS cambio,"); 
-           }
-           if ( valCambioOriginal ) {
-               vSql.AppendLine("( IGV_ComprasConCambioOriginal.CambioAbolivares * IGV_ComprasConCambioOriginal.CostoUnitario) AS costoAlcambio,");
-           } else {
-              vSql.AppendLine("( IGV_ComprasConCambioOriginal.cambioalafecha * IGV_ComprasConCambioOriginal.CostoUnitario) AS costoAlcambio,");
-           }
-           vSql.AppendLine(vUtilSql.IIF("IGV_ComprasConCambioOriginal.StatusCompra  = " + vUtilSql.ToSqlValue((int)eStatusCompra.Vigente), vUtilSql.ToSqlValue("VIGENTES"), vUtilSql.ToSqlValue("ANULADAS"), true) + " AS StatusCompra ");
-           vSql.AppendLine(" FROM IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1");
-           vSql.AppendLine("  INNER JOIN  IGV_ComprasConCambioOriginal ON ");
-           vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania = IGV_ComprasConCambioOriginal.ConsecutivoCompania AND ");
-           vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo = IGV_ComprasConCambioOriginal.CodigoArticulo AND ");
-           vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial = IGV_ComprasConCambioOriginal.Serial AND ");
-           vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo = IGV_ComprasConCambioOriginal.Rollo  ");
-           vSql.AppendLine(" LEFT  JOIN IGV_ExistenciaPorGrupoConTallasyColores ON ");
-           vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo = IGV_ExistenciaPorGrupoConTallasyColores.CodigoArticulo AND ");
-           vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial = IGV_ExistenciaPorGrupoConTallasyColores.Serial AND ");
-           vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo = IGV_ExistenciaPorGrupoConTallasyColores.Rollo AND ");
-           vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania = IGV_ExistenciaPorGrupoConTallasyColores.ConsecutivoCompania ");
-           vSql.AppendLine(" WHERE " + vSQLWhere);
-           vSql.AppendLine(" Order By ");
-           vSql.AppendLine("IGV_ComprasConCambioOriginal.StatusCompra,");
-           vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.LineaDeProducto,");
-           vSql.AppendLine(" fecha,");
-           vSql.AppendLine(" numero");
-           return vSql.ToString();
+            StringBuilder vSql = new StringBuilder();
+            QAdvSql vUtilSql = new QAdvSql("");
+            string vDescripcionTallaColor;
+            string vSQLWhere;
+            bool valCambioOriginal = true;
+            bool valMostrarComprasAnuladas = false;
+            vSQLWhere = "IGV_ComprasConCambioOriginal.EsUnaOrdenDeCompra = " + vUtilSql.ToSqlValue("N");
+            if (!valMostrarComprasAnuladas) {
+                vSQLWhere = vSQLWhere + " AND IGV_ComprasConCambioOriginal.StatusCompra = " + vUtilSql.ToSqlValue((int)eStatusCompra.Vigente);
+            }
+            vDescripcionTallaColor = vUtilSql.IIF(vUtilSql.IsNull("IGV_ExistenciaPorGrupoConTallasyColores.DescripcionColor"), vUtilSql.ToSqlValue(""), "IGV_ExistenciaPorGrupoConTallasyColores.DescripcionColor", true);
+            vDescripcionTallaColor = vDescripcionTallaColor + " + " + vUtilSql.IIF(vUtilSql.IsNull("IGV_ExistenciaPorGrupoConTallasyColores.DescripcionTalla"), vUtilSql.ToSqlValue(""), "IGV_ExistenciaPorGrupoConTallasyColores.DescripcionTalla", true);
+
+            if (valLineasDeProductoCantidadAImprimir == eReporteCostoDeCompras.UnaLineaDeProducto) {
+                vSQLWhere = vUtilSql.SqlValueWithAnd(vSQLWhere, "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.LineaDeProducto", valCodigoProducto, false);
+            }
+            if (valLineasDeProductoCantidadAImprimir == eReporteCostoDeCompras.UnArticulo) {
+                vSQLWhere = vUtilSql.SqlValueWithAnd(vSQLWhere, "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo", valCodigoProducto, false);
+            }
+
+            vSQLWhere = vUtilSql.SqlDateValueBetween(vSQLWhere, "IGV_ComprasConCambioOriginal.Fecha", valFechaInicial, valFechaFinal);
+            vSQLWhere = vUtilSql.SqlIntValueWithAnd(vSQLWhere, "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania", valConsecutivoCompania);
+
+            vSql.AppendLine(" SELECT ");
+            vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.LineaDeProducto,");
+            vSql.AppendLine("IGV_ComprasConCambioOriginal.Fecha,");
+            vSql.AppendLine("IGV_ComprasConCambioOriginal.Numero,");
+            vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo,");
+            vSql.AppendLine(vUtilSql.IIF("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial = '0' ", vUtilSql.ToSqlValue(""), "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial", true) + " AS Serial, ");
+            vSql.AppendLine(vUtilSql.IIF("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo =  '0' ", vUtilSql.ToSqlValue(""), "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo", true) + " AS Rollo, ");
+            vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Descripcion + " + vDescripcionTallaColor + " AS Descripcion  , ");
+
+            vSql.AppendLine("IGV_ComprasConCambioOriginal.CodigoAlmacen,");
+            vSql.AppendLine("IGV_ComprasConCambioOriginal.NombreProveedor,");
+            vSql.AppendLine("IGV_ComprasConCambioOriginal.cantidadrecibida,");
+
+            vSql.AppendLine("IGV_ComprasConCambioOriginal.Moneda,");
+            vSql.AppendLine("IGV_ComprasConCambioOriginal.CostoUnitario,");
+            if (valCambioOriginal) {
+                vSql.AppendLine("IGV_ComprasConCambioOriginal.CambioAbolivares AS cambio,");
+            } else {
+                vSql.AppendLine("IGV_ComprasConCambioOriginal.cambioalafecha AS cambio,");
+            }
+            if (valCambioOriginal) {
+                vSql.AppendLine("( IGV_ComprasConCambioOriginal.CambioAbolivares * IGV_ComprasConCambioOriginal.CostoUnitario) AS costoAlcambio,");
+            } else {
+                vSql.AppendLine("( IGV_ComprasConCambioOriginal.cambioalafecha * IGV_ComprasConCambioOriginal.CostoUnitario) AS costoAlcambio,");
+            }
+            vSql.AppendLine(vUtilSql.IIF("IGV_ComprasConCambioOriginal.StatusCompra  = " + vUtilSql.ToSqlValue((int)eStatusCompra.Vigente), vUtilSql.ToSqlValue("VIGENTES"), vUtilSql.ToSqlValue("ANULADAS"), true) + " AS StatusCompra ");
+            vSql.AppendLine(" FROM IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1");
+            vSql.AppendLine("  INNER JOIN  IGV_ComprasConCambioOriginal ON ");
+            vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania = IGV_ComprasConCambioOriginal.ConsecutivoCompania AND ");
+            vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo = IGV_ComprasConCambioOriginal.CodigoArticulo AND ");
+            vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial = IGV_ComprasConCambioOriginal.Serial AND ");
+            vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo = IGV_ComprasConCambioOriginal.Rollo  ");
+            vSql.AppendLine(" LEFT  JOIN IGV_ExistenciaPorGrupoConTallasyColores ON ");
+            vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo = IGV_ExistenciaPorGrupoConTallasyColores.CodigoArticulo AND ");
+            vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial = IGV_ExistenciaPorGrupoConTallasyColores.Serial AND ");
+            vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo = IGV_ExistenciaPorGrupoConTallasyColores.Rollo AND ");
+            vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania = IGV_ExistenciaPorGrupoConTallasyColores.ConsecutivoCompania ");
+            vSql.AppendLine(" WHERE " + vSQLWhere);
+            vSql.AppendLine(" Order By ");
+            vSql.AppendLine("IGV_ComprasConCambioOriginal.StatusCompra,");
+            vSql.AppendLine("IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.LineaDeProducto,");
+            vSql.AppendLine(" fecha,");
+            vSql.AppendLine(" numero");
+            return vSql.ToString();
         }
 
         public string ConstruirSQLMargenSobreCostoPromedioDeComp(int valConsecutivoCompania, eNivelDePrecio valNivelDePrecio, eReporteCostoDeCompras valLineasDeProductoCantidadAImprimir, string valCodigoProducto) {
@@ -436,20 +433,20 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
             string vMargen;
             string vPromComp;
             vPrecioVenta = SqlNivelDePrecio(valNivelDePrecio, true);
-            vPromComp = vUtilSql.IIF(" SUM( " + GetViewNameComprasConCambioOriginal + ".cantidadrecibida) = 0","0","SUM( " + GetViewNameComprasConCambioOriginal + ".CambioAbolivares * " + GetViewNameComprasConCambioOriginal + ".CostoUnitario ) / " + " SUM( " + GetViewNameComprasConCambioOriginal + ".cantidadrecibida)", true);
+            vPromComp = vUtilSql.IIF(" SUM( " + GetViewNameComprasConCambioOriginal + ".cantidadrecibida) = 0", "0", "SUM( " + GetViewNameComprasConCambioOriginal + ".CambioAbolivares * " + GetViewNameComprasConCambioOriginal + ".CostoUnitario ) / " + " SUM( " + GetViewNameComprasConCambioOriginal + ".cantidadrecibida)", true);
             vMargen = GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 + "." + vPrecioVenta + "-" + vPromComp;
             vCondicionPrecioVenta = vUtilSql.IIF(GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 + "." + vPrecioVenta + " = " + vUtilSql.ToSqlValue(0), vUtilSql.ToSqlValue(-1), GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 + "." + vPrecioVenta, true);
-            
+
             vSQLWhere = GetViewNameComprasConCambioOriginal + ".EsUnaOrdenDeCompra = " + vUtilSql.ToSqlValue("N");
-            if ( valLineasDeProductoCantidadAImprimir == eReporteCostoDeCompras.UnaLineaDeProducto ) {
+            if (valLineasDeProductoCantidadAImprimir == eReporteCostoDeCompras.UnaLineaDeProducto) {
                 vSQLWhere = vUtilSql.SqlValueWithAnd(vSQLWhere, GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 + ".LineaDeProducto", valCodigoProducto, false);
             }
             if (valLineasDeProductoCantidadAImprimir == eReporteCostoDeCompras.UnArticulo) {
-               vSQLWhere = vUtilSql.SqlValueWithAnd(vSQLWhere, GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 + ".CodigoDelArticulo", valCodigoProducto, false);
+                vSQLWhere = vUtilSql.SqlValueWithAnd(vSQLWhere, GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 + ".CodigoDelArticulo", valCodigoProducto, false);
             }
 
             vSQLWhere = vSQLWhere + " AND " + GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 + ".ConsecutivoCompania = " + vUtilSql.ToSqlValue(valConsecutivoCompania);
-           
+
             vSql.AppendLine(" SELECT ");
             vSql.AppendLine(GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 + ".LineaDeProducto AS LineaDeProducto,");
             vSql.AppendLine(GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 + ".Codigo AS Codigo, ");
@@ -458,7 +455,7 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
             vSql.AppendLine(vPromComp + " AS PromDeComp, ");
             vSql.AppendLine(vMargen + " AS Margen, ");
             vSql.AppendLine(" ( " + vMargen + "/" + vCondicionPrecioVenta + ") * " + vUtilSql.ToSqlValue(100) + " AS PorcentajeMargen ");
-            
+
             vSql.AppendLine(" FROM " + GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1);
             vSql.AppendLine("  INNER JOIN  " + GetViewNameComprasConCambioOriginal + " ON ");
             vSql.AppendLine(GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 + ".ConsecutivoCompania = " + GetViewNameComprasConCambioOriginal + ".ConsecutivoCompania AND ");
@@ -471,7 +468,7 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
             vSql.AppendLine(GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 + ".Codigo,");
             vSql.AppendLine(GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 + ".Descripcion,");
             vSql.AppendLine(GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 + "." + vPrecioVenta);
-           
+
             vSql.AppendLine(" Order By ");
             vSql.AppendLine(GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 + ".LineaDeProducto");
 
@@ -479,7 +476,7 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
         }
 
         public string ConstruirSQLImpresionDeComprasEtiquetas(int valConsecutivoCompania, eNivelDePrecio valNivelDePrecio, string valNumero) {
-            
+
             string GetViewNameComprasImprimirEtiquetasPorCompras = "IGV_ComprasImprimirEtiquetasPorCompras";
             StringBuilder vSql = new StringBuilder();
             StringBuilder vGroupby = new StringBuilder();
@@ -488,10 +485,10 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
             string vPrecioSinIva;
             string vPrecioConIva;
 
-            
+
             vPrecioSinIva = GetViewNameComprasImprimirEtiquetasPorCompras + "." + SqlNivelDePrecio(valNivelDePrecio, true);
             vPrecioConIva = GetViewNameComprasImprimirEtiquetasPorCompras + "." + SqlNivelDePrecio(valNivelDePrecio, false);
-            
+
             vWhere = "";
             vWhere = GetViewNameComprasImprimirEtiquetasPorCompras + ".Numero ='" + valNumero + "'";
             vWhere = vWhere + " AND ";
@@ -516,7 +513,7 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
             vGroupby.AppendLine(GetViewNameComprasImprimirEtiquetasPorCompras + ".DescripcionTalla, ");
             vGroupby.AppendLine(GetViewNameComprasImprimirEtiquetasPorCompras + ".Fecha, ");
             vGroupby.AppendLine(GetViewNameComprasImprimirEtiquetasPorCompras + ".NombreProveedor");
-            
+
             vSql.AppendLine("SELECT ");
             vSql.AppendLine(" (" + GetViewNameComprasImprimirEtiquetasPorCompras + ".CodigoDelArticulo");
             vSql.AppendLine(" +ISNULL (" + GetViewNameComprasImprimirEtiquetasPorCompras + ".Serial ,'') + ISNULL (" + GetViewNameComprasImprimirEtiquetasPorCompras + ".Rollo ,'') ) AS Concatenado, ");
@@ -565,8 +562,8 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
             return vSql.ToString();
         }
 
-        private string SqlNivelDePrecio(eNivelDePrecio valNivelDePrecio,bool valPrecioSinIva) { 
-            string vPrecioVenta = "";        
+        private string SqlNivelDePrecio(eNivelDePrecio valNivelDePrecio, bool valPrecioSinIva) {
+            string vPrecioVenta = "";
             switch (valNivelDePrecio) {
                 case eNivelDePrecio.Nivel1:
                     vPrecioVenta = "Iva";
@@ -594,4 +591,3 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
         #endregion //Metodos Generados
     }
 }
-

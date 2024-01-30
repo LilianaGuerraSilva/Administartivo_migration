@@ -23,7 +23,8 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             Mfc = initMfc;
             AvailableReports.Add(new clsCxCPendientesEntreFechasViewModel());
             AvailableReports.Add(new clsCxCPorClienteViewModel());
-            Title = "Informes de CxC";
+            AvailableReports.Add(new clsCxCEntreFechasViewModel());
+            Title = "Informes de Cuentas por Cobrar";
         }
         #endregion //Constructores
 
@@ -34,6 +35,8 @@ namespace Galac.Adm.Uil.Venta.Reportes {
                 vResult = ConfigReportCxCPendientesEntreFechas(SelectedReport as clsCxCPendientesEntreFechasViewModel);
             } else if (SelectedReport is clsCxCPorClienteViewModel) {
                 vResult = ConfigReportCxCPorCliente(SelectedReport as clsCxCPorClienteViewModel);
+            } else if (SelectedReport is clsCxCEntreFechasViewModel) {
+                vResult = ConfigReportCxCEntreFechas(SelectedReport as clsCxCEntreFechasViewModel);
             }
             return vResult;
         }
@@ -58,6 +61,18 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             }
             return vResult;
         }
+
+        private ILibRpt ConfigReportCxCEntreFechas(clsCxCEntreFechasViewModel valViewModel) {
+            ILibRpt vResult = null;
+            if (valViewModel != null) {
+                vResult = new Rpt.Venta.clsCxCEntreFechas(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaDesde, valViewModel.FechaHasta, valViewModel.StatusCxC, valViewModel.AgruparPor, valViewModel.ZonaDeCobranza, valViewModel.SectorDeNegocio, valViewModel.MonedaDelInforme, valViewModel.TasaDeCambio, valViewModel.Moneda, valViewModel.IncluirInfoAdicional, valViewModel.IncluirContacto, valViewModel.IncluirNroComprobanteContable) {
+                    Worker = Manager
+                };
+            }
+            return vResult;
+        }
+
+
         #endregion //Metodos Generados
 
     } //End of class clsCxCInformesViewModel

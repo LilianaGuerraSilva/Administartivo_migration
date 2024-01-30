@@ -37,7 +37,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         private DateTime _FechaInicial;
         private DateTime _FechaFinal;
         private Galac.Saw.Lib.eMonedaParaImpresion _Moneda;
-        private Galac.Saw.Lib.eCantidadAImprimir _CantidadAImprimir;
+        private eCantidadAImprimir _CantidadAImprimir;
         private bool _IsEnabledNombreDelUsuario;
         private bool _IsVisibleNombreDelUsuario;
         private FkGUserViewModel _ConexionNombreDelUsuario = null;
@@ -102,7 +102,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
                 }
             }
         }
-        public Galac.Saw.Lib.eCantidadAImprimir CantidadAImprimir {
+        public eCantidadAImprimir CantidadAImprimir {
             get {
                 return _CantidadAImprimir;
             }
@@ -110,7 +110,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
                 if (_CantidadAImprimir != value) {
                     _CantidadAImprimir = value;
                     RaisePropertyChanged(CantidadAImprimirPropertyName);
-                    if (_CantidadAImprimir == Saw.Lib.eCantidadAImprimir.Uno) {
+                    if (_CantidadAImprimir == eCantidadAImprimir.One) {
                         IsEnabledNombreDelUsuario = true;
                         IsVisibleNombreDelUsuario = true;
                     } else {
@@ -120,9 +120,9 @@ namespace Galac.Adm.Uil.Venta.Reportes {
                 }
             }
         }
-        public Galac.Saw.Lib.eCantidadAImprimir[] ArrayCantidadOperadorDeReporte {
+        public eCantidadAImprimir[] ArrayCantidadOperadorDeReporte {
             get {
-                return LibEnumHelper<Galac.Saw.Lib.eCantidadAImprimir>.GetValuesInArray();
+                return LibEnumHelper<eCantidadAImprimir>.GetValuesInArray();
             }
         }
         public bool IsEnabledNombreDelUsuario {
@@ -223,7 +223,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             LlenarEnumerativosMonedaDeReporte();
             Moneda = Galac.Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal;
             NombreDelUsuario = string.Empty;
-            CantidadAImprimir = Galac.Saw.Lib.eCantidadAImprimir.Todos;
+            CantidadAImprimir = eCantidadAImprimir.All;
             IsVisibleNombreDelUsuario = false;
             IsEnabledNombreDelUsuario = false;
             TotalesTipoCobro = true;
@@ -277,7 +277,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         }
         private ValidationResult NombreDelUsuarioValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if (LibString.IsNullOrEmpty(NombreDelUsuario) && CantidadAImprimir == Saw.Lib.eCantidadAImprimir.Uno){
+            if (LibString.IsNullOrEmpty(NombreDelUsuario) && CantidadAImprimir == eCantidadAImprimir.One){
                 vResult = new ValidationResult("El nombre del cajero no puede estar en blanco");
             }
             return vResult;

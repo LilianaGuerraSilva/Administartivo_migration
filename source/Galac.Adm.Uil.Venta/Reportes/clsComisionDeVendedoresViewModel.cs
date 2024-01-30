@@ -61,7 +61,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         private string _CambioComisionEnMonedaExt;
         private decimal _TasaDeCambioComisionEnMonedaExt;
         private bool _IsVisibleCambioComisionEnMonedaExt;
-        private Saw.Lib.eCantidadAImprimir _CantidadAImprimir;
+        private eCantidadAImprimir _CantidadAImprimir;
         private string _NombreVendedor;
         private string _CodigoVendedor;
         private FkVendedorViewModel _ConexionNombreDelVendedor = null;
@@ -274,7 +274,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             }
         }
 
-        public Galac.Saw.Lib.eCantidadAImprimir CantidadAImprimir {
+        public eCantidadAImprimir CantidadAImprimir {
             get {
                 return _CantidadAImprimir;
             }
@@ -282,7 +282,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
                 if (_CantidadAImprimir != value) {
                     _CantidadAImprimir = value;
                     RaisePropertyChanged(CantidadAImprimirPropertyName);
-                    if (_CantidadAImprimir == Saw.Lib.eCantidadAImprimir.Uno){
+                    if (_CantidadAImprimir == eCantidadAImprimir.One){
                         IsVisibleNombreVendedor = true;
                     } else {
                         ConexionNombreDelVendedor = null;
@@ -400,9 +400,9 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             }
         }
 
-        public Galac.Saw.Lib.eCantidadAImprimir[] ArrayCantidadAImprimir {
+        public eCantidadAImprimir[] ArrayCantidadAImprimir {
             get {
-                return LibEnumHelper<Galac.Saw.Lib.eCantidadAImprimir>.GetValuesInArray();
+                return LibEnumHelper<eCantidadAImprimir>.GetValuesInArray();
             }
         }
         #endregion //Propiedades
@@ -422,7 +422,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             IsVisibleIncluirCambioComisionMonedaExt = false;
             IsVisibleCambioComisionEnMonedaExt = false;
             TasaDeCambioComisionEnMonedaExt = 1;
-            CantidadAImprimir = Saw.Lib.eCantidadAImprimir.Todos;
+            CantidadAImprimir = eCantidadAImprimir.All;
             NombreVendedor = string.Empty;
             CodigoVendedor = string.Empty;
             IsVisibleNombreVendedor = false;
@@ -508,7 +508,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 
         private ValidationResult NombreDelVendedorValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if (LibString.IsNullOrEmpty(NombreVendedor) && CantidadAImprimir == Saw.Lib.eCantidadAImprimir.Uno) {
+            if (LibString.IsNullOrEmpty(NombreVendedor) && CantidadAImprimir == eCantidadAImprimir.One) {
                 vResult = new ValidationResult("El nombre del vendedor no puede estar en blanco");
             }
             return vResult;

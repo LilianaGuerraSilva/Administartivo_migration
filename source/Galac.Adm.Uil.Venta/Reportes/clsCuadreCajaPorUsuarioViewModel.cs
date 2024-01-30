@@ -38,7 +38,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         private DateTime _FechaFinal;
         private Galac.Saw.Lib.eMonedaParaImpresion _Moneda;
         private Galac.Saw.Lib.eTipoDeInforme _TipoDeInforme;
-        private Galac.Saw.Lib.eCantidadAImprimir _CantidadAImprimir;
+        private eCantidadAImprimir _CantidadAImprimir;
         private bool _IsEnabledNombreDelOperador;
         private bool _IsVisibleNombreDelOperador;
         private FkGUserViewModel _ConexionNombreDelOperador = null;
@@ -131,7 +131,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             }
         }
 
-        public Saw.Lib.eCantidadAImprimir CantidadAImprimir {
+        public eCantidadAImprimir CantidadAImprimir {
             get {
                 return _CantidadAImprimir;
             }
@@ -139,7 +139,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
                 if (_CantidadAImprimir != value) {
                     _CantidadAImprimir = value;
                     RaisePropertyChanged(CantidadAImprimirPropertyName);
-                    if (_CantidadAImprimir == Saw.Lib.eCantidadAImprimir.Uno) {
+                    if (_CantidadAImprimir == eCantidadAImprimir.One) {
                         IsEnabledNombreDelOperador = true;
                         IsVisibleNombreDelOperador = true;
                     } else {
@@ -150,9 +150,9 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             }
         }
 
-        public Saw.Lib.eCantidadAImprimir[] ArrayCantidadAImprimir {
+        public eCantidadAImprimir[] ArrayCantidadAImprimir {
             get {
-                return LibEnumHelper<Saw.Lib.eCantidadAImprimir>.GetValuesInArray();
+                return LibEnumHelper<eCantidadAImprimir>.GetValuesInArray();
             }
         }
 
@@ -264,7 +264,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 
         private ValidationResult NombreDelUsuarioValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if (LibString.IsNullOrEmpty(NombreDelOperador) && CantidadAImprimir == Saw.Lib.eCantidadAImprimir.Uno){
+            if (LibString.IsNullOrEmpty(NombreDelOperador) && CantidadAImprimir == eCantidadAImprimir.One){
                 vResult = new ValidationResult("El nombre del cajero no puede estar en blanco");
             }
             return vResult;

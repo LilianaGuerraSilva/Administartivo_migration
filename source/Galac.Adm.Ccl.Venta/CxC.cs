@@ -8,6 +8,7 @@ using System.Xml;
 using System.Xml.Linq;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
+using Galac.Saw.Lib;
 
 namespace Galac.Adm.Ccl.Venta {
     [Serializable]
