@@ -36,7 +36,11 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
-  <ItemGroup>    
+  <ItemGroup>
+    <Reference Include="Galac.Adm.Rpt.Banco">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\Galac.Adm.Rpt.Banco.dll</HintPath>
+    </Reference>
     <Reference Include="Galac.Comun.Brl.TablasGen">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.TablasGen.dll</HintPath>
@@ -188,7 +192,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Galac.Adm.Rpt.Banco\Galac.Adm.Rpt.Banco.csproj">
-      <Project>{57a87b4e-47a1-4a4f-aeb5-7a1f35d69812}</Project>
+      <Project>{57a8fb4e-47a1-4a4f-aeb5-7a1f55d69812}</Project>
       <Name>Galac.Adm.Rpt.Banco</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Adm.Brl.Banco\Galac.Adm.Brl.Banco.csproj">
