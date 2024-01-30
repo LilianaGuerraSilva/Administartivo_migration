@@ -37,6 +37,7 @@
         <Label
             Grid.Row="0"
             Grid.Column="0"
+            Margin="0"
             Content="Cantidad a Imprimir"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf
@@ -51,6 +52,7 @@
             Name="lblNombreDelCliente"
             Grid.Row="1"
             Grid.Column="0"
+            Margin="0"
             Content="Nombre del Cliente"
             Style="{StaticResource LabelPrompt}"
             Visibility="{Binding Path=IsVisibleNombreDelCliente, Converter={StaticResource booleanToVisibilityConverter}}" />
@@ -69,6 +71,7 @@
             x:Name="lblSaltoDePaginaPorCliente"
             Grid.Row="2"
             Grid.Column="0"
+            Margin="0"
             Content="Salto de página por Cliente"
             Style="{StaticResource LabelPrompt}"
             Visibility="{Binding Path=IsVisibleSaltoDePaginaPorCliente, Converter={StaticResource booleanToVisibilityConverter}}" />
@@ -87,7 +90,7 @@
             Grid.Row="4"
             Grid.Column="0"
             Margin="0"
-            Content="Fecha desde"
+            Content="Fecha Desde"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSDatePickerWpf
             x:Name="dtpFechaDesde"
@@ -102,7 +105,7 @@
             Grid.Row="5"
             Grid.Column="0"
             Margin="0"
-            Content="Fecha hasta"
+            Content="Fecha Hasta"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSDatePickerWpf
             x:Name="dtpFechaHasta"
@@ -117,7 +120,7 @@
             Grid.Row="7"
             Grid.Column="0"
             Margin="0"
-            Content="Moneda del informe"
+            Content="Moneda del Informe"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf
             x:Name="cmbMonedaDelInforme"
