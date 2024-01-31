@@ -2596,7 +2596,7 @@ namespace Galac.Saw.Brl.SttDef {
                 var vEntity = from vRecord in vResultSet.Descendants("GpResult") select vRecord;
                 foreach (XElement vItem in vEntity) {
                     if (vItem != null) {
-                        vResult.Add(LibConvert.ToStr(vItem.Element("SELECT").Value));
+                        vResult.Add(LibConvert.ToStr(vItem.Element("UserName").Value));
                     }
                 }
             }

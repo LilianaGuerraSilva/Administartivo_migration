@@ -100,7 +100,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             CompaniaActualNombre = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre");
             CompaniaActualRIF = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "NumeroDeRIF");
 
-            SuscripcionGVentas = (new clsSuscripcion()).GetCaracteristicaGVentas();
+            SuscripcionGVentas = new clsSuscripcion().GetCaracteristicaGVentas();
 
             InquilinoNombre = LibString.IsNullOrEmpty(SuscripcionGVentas.TenantNombre) ? "No se encontró información del tenant.": SuscripcionGVentas.TenantNombre;
             LlenaListaCompaniaGVentas();
@@ -162,7 +162,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         private void LlenaListaUsuariosSupervisoresActivos() {
-            ListaUsuariosDeOperaciones = new ObservableCollection<string>();// ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).ListaDeUsuariosSupervisoresActivos();
+            ListaUsuariosDeOperaciones = ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).ListaDeUsuariosSupervisoresActivos();
             UsuarioDeOperaciones = ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login;
         }
 

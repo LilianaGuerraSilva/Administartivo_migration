@@ -58,13 +58,13 @@
             Content="{Binding Path=InquilinoNombre, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
             Style="{StaticResource LabelPrompt}" FontFamily="Arial Rounded MT Bold" FontSize="14" HorizontalAlignment="Center" />
         <Label 
-            Grid.Row="4" 
+            Grid.Row="5" 
             Grid.Column="0" 
             Name="lblCompaniaGVentasNombres" 
             Content="Compañías G-Ventas" 
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf 
-            Grid.Row="4" 
+            Grid.Row="5" 
             Grid.Column="1" 
             Name="cmbCompaniaGVentasNombres" 
             Style="{StaticResource ComboBoxStyle}" 
@@ -74,13 +74,13 @@
             SelectedItem="{Binding CompaniaGVentasNombres, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
             />
         <Label 
-            Grid.Row="5" 
+            Grid.Row="4" 
             Grid.Column="0" 
             Name="lblSerialConector" 
             Content="Serial del Conector" 
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSTextBoxWpf 
-            Grid.Row="5" 
+            Grid.Row="4" 
             Grid.Column="1" 
             Name="txtSerialConector" 
             Style="{StaticResource TextBoxInputStyle}" 
