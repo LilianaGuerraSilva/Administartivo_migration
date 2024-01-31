@@ -28,6 +28,14 @@ namespace Galac.Saw.LibWebConnector {
             public bool EstaActivoPeriodoDeGracia { get; set; }
             public DateTime fechaDeFinalizacionDeLaActivacion { get; set; }
             public int CantidadDeUsuariosFacturados { get; set; }
+            public DatosSuscripcion() {
+                TenantNombre = string.Empty;
+                EdicionNombre = string.Empty;
+                NumeroMaximoDeUsuarios = 0;
+                EstaActivoPeriodoDeGracia = false;
+                fechaDeFinalizacionDeLaActivacion = LibDate.MinDateForDB();
+                CantidadDeUsuariosFacturados = 0;
+            }
             public List<DatosSuscripcionCaracteristicas> Caracteristicas { get; set; } = new List<DatosSuscripcionCaracteristicas>();
 
         }
@@ -38,19 +46,23 @@ namespace Galac.Saw.LibWebConnector {
         }
 
         HttpWebResponse GetResponseGET(string valUrl) {
-            HttpWebResponse vResult;
-            Uri vBaseUri = new Uri(GetEndPointGVentas());
-            var vRequest = (HttpWebRequest)WebRequest.Create(new Uri(vBaseUri, valUrl));
-            vRequest.ContentType = "application/json";
-            vRequest.Method = "GET";
-            vResult = (HttpWebResponse)vRequest.GetResponse();
-            return vResult;
+            try {
+                HttpWebResponse vResult;
+                Uri vBaseUri = new Uri(GetEndPointGVentas());
+                var vRequest = (HttpWebRequest)WebRequest.Create(new Uri(vBaseUri, valUrl));
+                vRequest.ContentType = "application/json";
+                vRequest.Method = "GET";
+                vResult = (HttpWebResponse)vRequest.GetResponse();
+                return vResult;
+            } catch (Exception vEx) {
+                throw vEx;
+            }            
         }
 
         string AddParametroNumeroDeIdentificacionFiscal(string valUrl, string valNumeroDeIDentificacionFiscal) {
             string vResult = valUrl;
             if (!LibString.IsNullOrEmpty(valNumeroDeIDentificacionFiscal)) {
-                vResult += System.Uri.EscapeDataString("numeroDeIdentificacionFiscal");
+                vResult += System.Uri.EscapeDataString("numeroDeIdentificacion");
                 vResult += "=";
                 vResult += System.Uri.EscapeDataString(valNumeroDeIDentificacionFiscal);
             }
@@ -67,16 +79,16 @@ namespace Galac.Saw.LibWebConnector {
 
         public DatosSuscripcion GetCaracteristicaGVentas(string valNumeroDeIdentificacion) {
             DatosSuscripcion vResult = new DatosSuscripcion();
-            //try {
-            //    //TODO:Falta Url real
-            //    HttpWebResponse vResponse = GetResponseGET(AddParametroNumeroDeIdentificacionFiscal(@"/api/saas/datos-suscripcion-por-numero-de-identificacion?", valNumeroDeIdentificacion));
-            //    if (vResponse.StatusCode == HttpStatusCode.OK) {
-            //        vResult = JsonConvert.DeserializeObject<DatosSuscripcion>(GetResultFromResponse(vResponse), new IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd" });
-            //        return vResult;
-            //    }
-            //} catch (Exception) {
-            //    throw;
-            //}
+            try {
+                //TODO:Falta Url real
+                HttpWebResponse vResponse = GetResponseGET(AddParametroNumeroDeIdentificacionFiscal(@"/api/saas/tenants/datos-suscripcion-por-numero-de-identificacion?", valNumeroDeIdentificacion));
+                if (vResponse.StatusCode == HttpStatusCode.OK) {                    
+                    vResult = JsonConvert.DeserializeObject<DatosSuscripcion>(GetResultFromResponse(vResponse), new IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd" });
+                    return vResult;
+                }
+            } catch (Exception) {
+                throw;
+            }
             return vResult;
         }
 
