@@ -44,7 +44,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public string CompaniaActualRIF { get; }
         public string InquilinoNombre { get; }
 
-        public ObservableCollection<string> ListaCompaniaGeVentasNombres { get; set; }
+        public ObservableCollection<string> ListaCompaniaGVentasNombres { get; set; }
         string _CompaniaGVentasNombres;
         public string  CompaniaGVentasNombres {
             get {
@@ -102,7 +102,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
             SuscripcionGVentas = new clsSuscripcion().GetCaracteristicaGVentas();
 
-            InquilinoNombre = LibString.IsNullOrEmpty(SuscripcionGVentas.TenantNombre) ? "No se encontró información del tenant.": SuscripcionGVentas.TenantNombre;
+            InquilinoNombre = LibString.IsNullOrEmpty(SuscripcionGVentas.TenantNombre) ? "No se encontró información del inquilino.": SuscripcionGVentas.TenantNombre;
             LlenaListaCompaniaGVentas();
             LlenaListaUsuariosSupervisoresActivos();
         }
@@ -145,7 +145,14 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         private void ExecuteEstablecerConexionConGVentas() {
-            //
+            string[] vCodigos = SuscripcionGVentas.Caracteristicas.Select(p => p.Codigo).ToArray();
+            string vParametroSuscripcionGVentas;
+            if (vCodigos != null && vCodigos.Count() > 0) {
+                vParametroSuscripcionGVentas = string.Join(";", vCodigos);
+            } else {
+                vParametroSuscripcionGVentas = "1000";
+            }
+            ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).EjecutaConexionConGVentas(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania"), vParametroSuscripcionGVentas, SerialConector, "");
         }
         #endregion //Metodos Generados
 
@@ -155,10 +162,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private void LlenaListaCompaniaGVentas() {
             if (LibString.IsNullOrEmpty(SuscripcionGVentas.TenantNombre, true)) {
-                ListaCompaniaGeVentasNombres = new ObservableCollection<string>();
+                ListaCompaniaGVentasNombres = new ObservableCollection<string>();
             } else {
-                ListaCompaniaGeVentasNombres = new clsSuscripcion().GetCompaniaGVentas();
-                CompaniaGVentasNombres = ListaCompaniaGeVentasNombres.First();
+                ListaCompaniaGVentasNombres = new LibWebConnector.clsSuscripcion().GetCompaniaGVentas("");
             }
         }
 

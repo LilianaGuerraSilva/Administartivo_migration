@@ -2601,7 +2601,15 @@ namespace Galac.Saw.Brl.SttDef {
                 }
             }
             return vResult;
+        }
 
+        void ISettValueByCompanyPdn.EjecutaConexionConGVentas(int valConsecutivoCompania, string valParametroSuscripcionGVentas, string valSerialConectorGVentas, string valNumeroIDGVentas) {
+            QAdvSql insSql = new QAdvSql("");
+            string vSql = "UPDATE COMPANIA SET ConectadaConG360 = 'S' WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania);
+            vSql = "UPDATE Comun.SettValueByCompany SET Value = " + insSql.ToSqlValue(valParametroSuscripcionGVentas) + " WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania) + " AND NameSettDefinition = 'ParametroSuscripcionGVentas'";
+            vSql = "UPDATE Comun.SettValueByCompany SET Value = " + insSql.ToSqlValue(valSerialConectorGVentas) + " WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania) + " AND NameSettDefinition = 'SerialConectorGVentas'";
+            vSql = "UPDATE Comun.SettValueByCompany SET Value = " + insSql.ToSqlValue(valNumeroIDGVentas) + " WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania) + " AND NameSettDefinition = 'NumeroIDGVentas'";
+            
         }
     } //End of class clsSettValueByCompanyNav
 } //End of namespace Galac.Saw.Brl.PrdStt

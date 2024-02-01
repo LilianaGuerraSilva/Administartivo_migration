@@ -70,7 +70,7 @@
             Style="{StaticResource ComboBoxStyle}" 
             Width="300" 
             IsSynchronizedWithCurrentItem="True"
-            ItemsSource="{Binding ListaCompaniaGeVentasNombres}"
+            ItemsSource="{Binding ListaCompaniaGVentasNombres}"
             SelectedItem="{Binding CompaniaGVentasNombres, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
             />
         <Label 
