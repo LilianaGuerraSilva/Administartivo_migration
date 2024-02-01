@@ -40,6 +40,17 @@ namespace Galac.Saw.LibWebConnector {
 
         }
 
+        public class CompaniasDelTenant {
+            public string numeroDeIdentificacion { get;set; }
+            public string nombre { get; set; }
+            public bool conectadaConAdministraivo { get; set; }
+            public CompaniasDelTenant() {
+                numeroDeIdentificacion = string.Empty;
+                nombre = string.Empty;
+                conectadaConAdministraivo = false;
+            }
+        }
+
         public class DatosSuscripcionCaracteristicas {
             public string Codigo { get; set; }
             public string Descripcion { get; set; }
@@ -59,10 +70,10 @@ namespace Galac.Saw.LibWebConnector {
             }            
         }
 
-        string AddParametroNumeroDeIdentificacionFiscal(string valUrl, string valNumeroDeIDentificacionFiscal) {
+        string AddParametroNumeroDeIdentificacionFiscal(string valUrl, string valNumeroDeIDentificacionFiscal, string valKeyNumeroDeIdentificacion) {
             string vResult = valUrl;
             if (!LibString.IsNullOrEmpty(valNumeroDeIDentificacionFiscal)) {
-                vResult += System.Uri.EscapeDataString("numeroDeIdentificacion");
+                vResult += System.Uri.EscapeDataString(valKeyNumeroDeIdentificacion);
                 vResult += "=";
                 vResult += System.Uri.EscapeDataString(valNumeroDeIDentificacionFiscal);
             }
@@ -81,8 +92,8 @@ namespace Galac.Saw.LibWebConnector {
             DatosSuscripcion vResult = new DatosSuscripcion();
             try {
                 //TODO:Falta Url real
-                HttpWebResponse vResponse = GetResponseGET(AddParametroNumeroDeIdentificacionFiscal(@"/api/saas/tenants/datos-suscripcion-por-numero-de-identificacion?", valNumeroDeIdentificacion));
-                if (vResponse.StatusCode == HttpStatusCode.OK) {                    
+                HttpWebResponse vResponse = GetResponseGET(AddParametroNumeroDeIdentificacionFiscal(@"/api/saas/tenants/datos-suscripcion-por-numero-de-identificacion?", valNumeroDeIdentificacion, "numeroDeIdentificacion"));
+                if (vResponse.StatusCode == HttpStatusCode.OK) {
                     vResult = JsonConvert.DeserializeObject<DatosSuscripcion>(GetResultFromResponse(vResponse), new IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd" });
                     return vResult;
                 }
@@ -100,7 +111,7 @@ namespace Galac.Saw.LibWebConnector {
             int vResult = -1;
             //try {
             //    //TODO:Falta Url real              
-            //    HttpWebResponse vResponse = GetResponseGET(AddParametroNumeroDeIdentificacionFiscal(@"/api/saas/usuarios-disponibles?", valNumeroDeIdentificacion));
+            //    HttpWebResponse vResponse = GetResponseGET(AddParametroNumeroDeIdentificacionFiscal(@"/api/saas/tenants/usuarios-disponibles?", valNumeroDeIdentificacion, "numeroDeIdentificacionFiscal"));
             //    if (vResponse.StatusCode == HttpStatusCode.OK) {
             //        vResult = LibConvert.ToInt(new StreamReader(GetResultFromResponse(vResponse)).ReadToEnd());
             //        return vResult;
@@ -111,20 +122,22 @@ namespace Galac.Saw.LibWebConnector {
             return vResult;
         }
 
-        public ObservableCollection<string> GetCompaniaGVentas(string valNumeroDeIdentificacion) {
+        public ObservableCollection<string> GetCompaniaGVentas() {
             ObservableCollection<string> vResult = new ObservableCollection<string>();
-            //try {
-            //    //TODO:Falta Url real
-            //    HttpWebResponse vResponse = GetResponseGET(AddParametroNumeroDeIdentificacionFiscal(@"/api/saas/datos-suscripcion-por-numero-de-identificacion?", valNumeroDeIdentificacion));
-            //    if (vResponse.StatusCode == HttpStatusCode.OK) {
-            //        string vResponseStr = GetResultFromResponse(vResponse);
-            //        //TODO:Resultado real
-            //        return vResult;
-            //    }
-            //} catch (Exception) {
-            //    throw;
-            //}
-            return vResult;
+            try {
+				//  TODO:Falta Url real
+                string vNumeroDeIdentificacion = GetNroDeIdentificacionFiscal();
+                HttpWebResponse vResponse = GetResponseGET(AddParametroNumeroDeIdentificacionFiscal(@"/api/saas/tenants/companias-del-tenant?", vNumeroDeIdentificacion, "numeroDeIdentificacionFiscal"));
+                if (vResponse.StatusCode == HttpStatusCode.OK) {
+                    var vListaGeneralCompanias = JsonConvert.DeserializeObject<ObservableCollection<CompaniasDelTenant>>(GetResultFromResponse(vResponse));
+                    var vCompaniasParaMostrar = vListaGeneralCompanias.Where(CompaniaEnTenant => !CompaniaEnTenant.conectadaConAdministraivo)
+                                                                .Select(CompaniaEnTenant => CompaniaEnTenant.nombre);
+                    vResult = new ObservableCollection<string>(vCompaniasParaMostrar);
+                }
+                return vResult;
+            } catch (Exception) {
+                throw;
+            }
         }
 
         private string GetEndPointGVentas() {

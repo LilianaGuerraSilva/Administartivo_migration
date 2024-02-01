@@ -157,8 +157,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             if (LibString.IsNullOrEmpty(SuscripcionGVentas.TenantNombre, true)) {
                 ListaCompaniaGeVentasNombres = new ObservableCollection<string>();
             } else {
-                ListaCompaniaGeVentasNombres = new LibWebConnector.clsSuscripcion().GetCompaniaGVentas("");
-            }            
+                ListaCompaniaGeVentasNombres = new clsSuscripcion().GetCompaniaGVentas();
+                CompaniaGVentasNombres = ListaCompaniaGeVentasNombres.First();
+            }
         }
 
         private void LlenaListaUsuariosSupervisoresActivos() {
