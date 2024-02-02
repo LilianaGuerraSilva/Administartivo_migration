@@ -20,9 +20,12 @@ using System.Threading;
 using System.Collections.ObjectModel;
 using LibGalac.Aos.Cnf;
 using static Galac.Saw.LibWebConnector.clsSuscripcion;
+using System.Text;
+using System.Diagnostics.Eventing.Reader;
+using System.Security.Cryptography;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
-    public class ConexionGVentasViewModel : LibGenericViewModel {
+    public class ConexionGVentasViewModel: LibGenericViewModel {
         #region Constantes
         public const string CompaniaActualNombrePropertyName = "CompaniaActualNombre";
         public const string CompaniaActualRIFPropertyName = "CompaniaActualRIF";
@@ -32,25 +35,37 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string UsuarioDeOperacionesPropertyName = "UsuarioDeOperaciones";
         #endregion
         #region Variables
-        clsSuscripcion.DatosSuscripcion SuscripcionGVentas;       
+        clsSuscripcion.DatosSuscripcion SuscripcionGVentas;
         #endregion //Variables
         #region Propiedades
         public override string ModuleName {
-            get { return "Conexión G-Ventas"; }
+            get {
+                return "Conexión G-Ventas";
+            }
         }
-        public bool IsDirty { get; private set; }
+        public bool IsDirty {
+            get; private set;
+        }
 
         private eAccionSR mAction;
 
-        public string CompaniaActualNombre { get; }
-        public string CompaniaActualRIF { get; }
-        public string InquilinoNombre { get; }
+        public string CompaniaActualNombre {
+            get;
+        }
+        public string CompaniaActualRIF {
+            get;
+        }
+        public string InquilinoNombre {
+            get;
+        }
 
-        public ObservableCollection<string> ListaCompaniaGVentasNombres { get; set; }
+        public ObservableCollection<string> ListaCompaniaGVentasNombres {
+            get; set;
+        }
         string _CompaniaGVentasNombres;
 
         [LibCustomValidation("CompaniaGVentasNombresValidating")]
-        public string  CompaniaGVentasNombres {
+        public string CompaniaGVentasNombres {
             get {
                 return _CompaniaGVentasNombres;
             }
@@ -62,10 +77,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 }
             }
         }
-                
+
         string _SerialConector;
         [LibCustomValidation("SerialConectorValidating")]
-        public string  SerialConector {
+        public string SerialConector {
             get {
                 return _SerialConector;
             }
@@ -78,9 +93,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public ObservableCollection<string> ListaUsuariosDeOperaciones { get; set; }
+        public ObservableCollection<string> ListaUsuariosDeOperaciones {
+            get; set;
+        }
         string _UsuarioDeOperaciones;
-        public string  UsuarioDeOperaciones {
+        public string UsuarioDeOperaciones {
             get {
                 return _UsuarioDeOperaciones;
             }
@@ -103,10 +120,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             mAction = valAction;
             CompaniaActualNombre = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre");
             CompaniaActualRIF = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "NumeroDeRIF");
-
             SuscripcionGVentas = new clsSuscripcion().GetCaracteristicaGVentas();
-
-            InquilinoNombre = LibString.IsNullOrEmpty(SuscripcionGVentas.TenantNombre) ? "No se encontró información del inquilino.": SuscripcionGVentas.TenantNombre;
+            InquilinoNombre = LibString.IsNullOrEmpty(SuscripcionGVentas.TenantNombre) ? "No se encontró información del inquilino." : SuscripcionGVentas.TenantNombre;
             LlenaListaCompaniaGVentas();
             LlenaListaUsuariosSupervisoresActivos();
         }
@@ -145,7 +160,27 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         private void ExecuteGuardarCommand() {
-            ExecuteEstablecerConexionConGVentas();
+            if (ValidaAlGrabar()) {
+                if (MensajeConfirmacion()) {
+                    ExecuteEstablecerConexionConGVentas();
+                }
+            }
+        }
+
+        private bool ValidaAlGrabar() {
+            bool vResult = true;
+            if (LibString.IsNullOrEmpty(SerialConector, true)) {
+                vResult = false;
+                LibMessages.MessageBox.Alert(this, "El valor del Serial del Conector Web es obligatorio.", ModuleName);
+            } else if (LibString.Len(SerialConector) != 36) {
+                vResult = false;
+                LibMessages.MessageBox.Alert(this, "La longitud del valor proporcionado para Serial del Conector Web no es válida.", ModuleName);
+            }           
+            if (LibString.IsNullOrEmpty(CompaniaGVentasNombres, true)) {
+                vResult = false;
+                LibMessages.MessageBox.Alert(this, "La compañia no puede estar en blanco, debe seleccionar una de la lista.", ModuleName);
+            }
+            return vResult;
         }
 
         private void ExecuteEstablecerConexionConGVentas() {
@@ -156,7 +191,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             } else {
                 vParametroSuscripcionGVentas = "1000";
             }
-            ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).EjecutaConexionConGVentas(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania"), vParametroSuscripcionGVentas, SerialConector, CompaniaGVentasNombres, CompaniaActualNombre, UsuarioDeOperaciones);
+            ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).EjecutaConexionConGVentas(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania"), vParametroSuscripcionGVentas, SerialConector, CompaniaGVentasNombres, CompaniaActualRIF, CompaniaActualNombre, UsuarioDeOperaciones);
         }
         #endregion //Metodos Generados
 
@@ -177,12 +212,12 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             UsuarioDeOperaciones = ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login;
         }
 
-        
+
         private ValidationResult SerialConectorValidating() {
             ValidationResult vResult = ValidationResult.Success;
             if (LibString.IsNullOrEmpty(SerialConector)) {
                 vResult = new ValidationResult("El valor del Serial del Conector Web es obligatorio.");
-            }else if (LibString.Len(SerialConector) != 36) {
+            } else if (LibString.Len(SerialConector) != 36) {
                 vResult = new ValidationResult("La longitud del valor proporcionado para Serial del Conector Web no es válida.");
             }
             return vResult;
@@ -193,6 +228,26 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             if (LibString.IsNullOrEmpty(CompaniaGVentasNombres)) {
                 vResult = new ValidationResult("La compañia no puede estar en blanco, debe seleccionar una de la lista.");
             }
+            return vResult;
+        }
+
+        private bool MensajeConfirmacion() {
+            bool vResult;
+            StringBuilder vMensaje = new StringBuilder();            
+            int vSeparador = LibString.IndexOf(CompaniaGVentasNombres, '|');
+            string vNombre = LibString.SubString(CompaniaGVentasNombres, vSeparador + 2);
+            string vRif = LibString.SubString(CompaniaGVentasNombres, 0, vSeparador - 2);
+            vMensaje.AppendLine("Los datos de Nombre y RIF de la compañía en el Sistema Administrativo ");
+            vMensaje.AppendLine("deben coincidir con los datos de la compañía con la cual va a conectarse en G-Ventas.");
+            vMensaje.AppendLine();
+            vMensaje.AppendLine("Sistema Administrativo: " + CompaniaActualNombre + " - " + CompaniaActualRIF);
+            vMensaje.AppendLine("G-Ventas: " + vRif + " - " + vNombre);
+            vMensaje.AppendLine();
+            vMensaje.AppendLine("Al momento de continuar con la conexión, los datos de la compañía en G-Ventas serán actualizados");
+            vMensaje.AppendLine("con los datos de la compañía en el Sistema Admnistrativo.");
+            vMensaje.AppendLine();
+            vMensaje.AppendLine("¿Desea continuar?");
+            vResult = LibMessages.MessageBox.YesNo(this, vMensaje.ToString(), "Conexión con G-Ventas");
             return vResult;
         }
     } //End of class ConexionGVentasViewModel

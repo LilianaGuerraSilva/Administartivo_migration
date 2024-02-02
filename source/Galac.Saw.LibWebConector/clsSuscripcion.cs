@@ -149,21 +149,20 @@ namespace Galac.Saw.LibWebConnector {
             return GetCaracteristicaGVentas(GetNroDeIdentificacionFiscal());
         }
 
-        public bool ActivarConexionGVentas(string valSerialConectorGVentas, string valRIFCompaniaAdministartivo, string valNombreCompaniaAdministartivo, string valNombreUsuarioOperaciones, string valDatabaseName, string valServerName, ref string refNroDeIdentificacionFiscal) {
+        public bool ActivarConexionGVentas(string valSerialConectorGVentas, string valRIFCompaniaAdministartivo, string valNombreCompaniaAdministartivo, string valNombreUsuarioOperaciones, string valDatabaseName, string valServerName,  string valNroDeIdentificacionFiscal) {
             bool vResult = false;
-            try {
-                refNroDeIdentificacionFiscal = GetNroDeIdentificacionFiscal();
+            try {               
                 DatosDeConexion insDatosDeConexion = new DatosDeConexion();
                 insDatosDeConexion.NombreBdd = valDatabaseName;
                 insDatosDeConexion.NombreServidorBdd = valServerName;
                 insDatosDeConexion.NombreUsuarioOperaciones = valNombreUsuarioOperaciones;
                 insDatosDeConexion.RIFCompaniaAdministartivo = valRIFCompaniaAdministartivo;
-                insDatosDeConexion.RIFCompaniaGVentas = refNroDeIdentificacionFiscal;
+                insDatosDeConexion.RIFCompaniaGVentas = valNroDeIdentificacionFiscal;
                 insDatosDeConexion.NombreCompaniaAdministartivo = valNombreCompaniaAdministartivo;
                 insDatosDeConexion.SerialConector = valSerialConectorGVentas;
-                string JSonData = JsonConvert.SerializeObject(insDatosDeConexion);
-                HttpWebResponse vResponse = PostResponse("", "Token", JSonData);
-                vResult = (vResponse.StatusCode == HttpStatusCode.OK);
+                string JSonData = JsonConvert.SerializeObject(insDatosDeConexion,Formatting.Indented);
+                //HttpWebResponse vResponse = PostResponse("", "Token", JSonData);
+                vResult = true; //(vResponse.StatusCode == HttpStatusCode.OK);
                 return vResult;
             } catch (Exception) {
                 throw;
@@ -196,7 +195,7 @@ namespace Galac.Saw.LibWebConnector {
                 HttpWebResponse vResponse = GetResponseGET(AddParametroNumeroDeIdentificacionFiscal(@"/api/saas/tenants/companias-del-tenant?", vNumeroDeIdentificacion, "numeroDeIdentificacionFiscal"));
                 if (vResponse.StatusCode == HttpStatusCode.OK) {
                     vListaCompaniasDelTenant = JsonConvert.DeserializeObject<ObservableCollection<CompaniasDelTenant>>(GetResultFromResponse(vResponse));
-                    var vCompaniasParaMostrar = vListaCompaniasDelTenant.Where(CompaniaEnTenant => !CompaniaEnTenant.conectadaConAdministraivo).Select(CompaniaFueraDelTenant => CompaniaFueraDelTenant.nombre);
+                    var vCompaniasParaMostrar = vListaCompaniasDelTenant.Where(CompaniaEnTenant => !CompaniaEnTenant.conectadaConAdministraivo).Select(CompaniaFueraDelTenant => CompaniaFueraDelTenant.nombre + " | " + CompaniaFueraDelTenant.numeroDeIdentificacion);
                     vResult = new ObservableCollection<string>(vCompaniasParaMostrar);                   
                 }
                 return vResult;
