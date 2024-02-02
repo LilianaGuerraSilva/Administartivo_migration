@@ -119,7 +119,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public ConexionGVentasViewModel(eAccionSR valAction) {
             mAction = valAction;
             CompaniaActualNombre = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre");
-            CompaniaActualRIF = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "NumeroDeRIF");
+            CompaniaActualRIF =LibAppSettings.ReadAppSettingsKey("NRORIFQA"); //  LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "NumeroDeRIF");
             SuscripcionGVentas = new clsSuscripcion().GetCaracteristicaGVentas();
             InquilinoNombre = LibString.IsNullOrEmpty(SuscripcionGVentas.TenantNombre) ? "No se encontró información del inquilino." : SuscripcionGVentas.TenantNombre;
             LlenaListaCompaniaGVentas();
@@ -233,20 +233,21 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private bool MensajeConfirmacion() {
             bool vResult;
-            StringBuilder vMensaje = new StringBuilder();            
+            StringBuilder vMensaje = new StringBuilder();
             int vSeparador = LibString.IndexOf(CompaniaGVentasNombres, '|');
             string vNombre = LibString.SubString(CompaniaGVentasNombres, vSeparador + 2);
             string vRif = LibString.SubString(CompaniaGVentasNombres, 0, vSeparador - 2);
-            vMensaje.AppendLine("Los datos de Nombre y RIF de la compañía en el Sistema Administrativo ");
+            vMensaje.Append("Los datos de Nombre y RIF de la compañía en el Sistema Administrativo ");
             vMensaje.AppendLine("deben coincidir con los datos de la compañía con la cual va a conectarse en G-Ventas.");
             vMensaje.AppendLine();
             vMensaje.AppendLine("Sistema Administrativo: " + CompaniaActualNombre + " - " + CompaniaActualRIF);
             vMensaje.AppendLine("G-Ventas: " + vRif + " - " + vNombre);
             vMensaje.AppendLine();
-            vMensaje.AppendLine("Al momento de continuar con la conexión, los datos de la compañía en G-Ventas serán actualizados");
+            vMensaje.Append("Al establecer la conexión, los datos de la compañía ");
+            vMensaje.Append("en G-Ventas serán actualizados ");
             vMensaje.AppendLine("con los datos de la compañía en el Sistema Admnistrativo.");
             vMensaje.AppendLine();
-            vMensaje.AppendLine("¿Desea continuar?");
+            vMensaje.Append("¿Desea continuar?");
             vResult = LibMessages.MessageBox.YesNo(this, vMensaje.ToString(), "Conexión con G-Ventas");
             return vResult;
         }
