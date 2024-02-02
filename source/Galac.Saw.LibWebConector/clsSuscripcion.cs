@@ -11,6 +11,8 @@ using LibGalac.Aos.Cnf;
 using LibGalac.Aos.Ccl.Settings;
 using LibGalac.Aos.Brl.Settings;
 using System.Collections.ObjectModel;
+using LibGalac.Aos.Catching;
+using System.Diagnostics.SymbolStore;
 
 namespace Galac.Saw.LibWebConnector {
     public class clsSuscripcion {
@@ -20,7 +22,7 @@ namespace Galac.Saw.LibWebConnector {
 
         public string GetRutaEndpointProduccionInterno { get { return ""; } }
         public string GetRutaEndpointProduccionClientes { get { return ""; } }
-
+      
         public class DatosSuscripcion {
             public string TenantNombre { get; set; }
             public string EdicionNombre { get; set; }
@@ -49,11 +51,30 @@ namespace Galac.Saw.LibWebConnector {
                 nombre = string.Empty;
                 conectadaConAdministraivo = false;
             }
-        }
+        }        
 
         public class DatosSuscripcionCaracteristicas {
             public string Codigo { get; set; }
             public string Descripcion { get; set; }
+        }
+
+        public class DatosDeConexion {
+            public string RIFCompaniaGVentas { get; set;  }
+            public string RIFCompaniaAdministartivo { get; set;  }
+            public string NombreCompaniaAdministartivo { get; set;  }
+            public string SerialConector { get; set;  }
+            public string NombreServidorBdd { get; set;  }
+            public string NombreBdd { get; set;  }
+            public string NombreUsuarioOperaciones { get; set;  }
+            public DatosDeConexion() {
+                RIFCompaniaGVentas = string.Empty;
+                RIFCompaniaAdministartivo =  string.Empty;
+                NombreCompaniaAdministartivo= string.Empty;
+                SerialConector  = string.Empty;
+                NombreServidorBdd  = string.Empty;
+                NombreBdd  = string.Empty;
+                NombreUsuarioOperaciones  = string.Empty;
+            }
         }
 
         HttpWebResponse GetResponseGET(string valUrl) {
@@ -66,11 +87,11 @@ namespace Galac.Saw.LibWebConnector {
                 vResult = (HttpWebResponse)vRequest.GetResponse();
                 return vResult;
             } catch (Exception vEx) {
-                throw vEx;
+                throw new GalacException(vEx.Message,eExceptionManagementType.Controlled);                
             }
         }
 
-        HttpWebResponse PostResponse(string valUrl, string valToken, object valBlockData) {
+        HttpWebResponse PostResponse(string valUrl, string valToken, string valBlockData) {
             try {
                 HttpWebResponse vResult;
                 Uri vBaseUri = new Uri(GetEndPointGVentas());
@@ -78,9 +99,8 @@ namespace Galac.Saw.LibWebConnector {
                 vRequest.ContentType = "application/json";
                 vRequest.Headers.Add("Authorization", "Bearer " + valToken);
                 vRequest.Method = "POST";
-                using (var stWriter = new StreamWriter(vRequest.GetRequestStream())) {
-                    string vJSon = JsonConvert.SerializeObject(valBlockData);
-                    stWriter.Write(vJSon);
+                using (var stWriter = new StreamWriter(vRequest.GetRequestStream())) {                   
+                    stWriter.Write(valBlockData);
                 }
                 vResult = (HttpWebResponse)vRequest.GetResponse();
                 using (var streamReader = new StreamReader(vResult.GetResponseStream())) {
@@ -129,6 +149,27 @@ namespace Galac.Saw.LibWebConnector {
             return GetCaracteristicaGVentas(GetNroDeIdentificacionFiscal());
         }
 
+        public bool ActivarConexionGVentas(string valSerialConectorGVentas, string valRIFCompaniaAdministartivo, string valNombreCompaniaAdministartivo, string valNombreUsuarioOperaciones, string valDatabaseName, string valServerName, ref string refNroDeIdentificacionFiscal) {
+            bool vResult = false;
+            try {
+                refNroDeIdentificacionFiscal = GetNroDeIdentificacionFiscal();
+                DatosDeConexion insDatosDeConexion = new DatosDeConexion();
+                insDatosDeConexion.NombreBdd = valDatabaseName;
+                insDatosDeConexion.NombreServidorBdd = valServerName;
+                insDatosDeConexion.NombreUsuarioOperaciones = valNombreUsuarioOperaciones;
+                insDatosDeConexion.RIFCompaniaAdministartivo = valRIFCompaniaAdministartivo;
+                insDatosDeConexion.RIFCompaniaGVentas = refNroDeIdentificacionFiscal;
+                insDatosDeConexion.NombreCompaniaAdministartivo = valNombreCompaniaAdministartivo;
+                insDatosDeConexion.SerialConector = valSerialConectorGVentas;
+                string JSonData = JsonConvert.SerializeObject(insDatosDeConexion);
+                HttpWebResponse vResponse = PostResponse("", "Token", JSonData);
+                vResult = (vResponse.StatusCode == HttpStatusCode.OK);
+                return vResult;
+            } catch (Exception) {
+                throw;
+            }            
+        }
+
         public int GetCantidadDeUsuariosActivos(string valNumeroDeIdentificacion) {
             int vResult = -1;
             //try {
@@ -141,6 +182,8 @@ namespace Galac.Saw.LibWebConnector {
             //} catch (Exception) {
             //    throw;
             //}
+            //
+            //
             return vResult;
         }
 
@@ -154,7 +197,7 @@ namespace Galac.Saw.LibWebConnector {
                 if (vResponse.StatusCode == HttpStatusCode.OK) {
                     vListaCompaniasDelTenant = JsonConvert.DeserializeObject<ObservableCollection<CompaniasDelTenant>>(GetResultFromResponse(vResponse));
                     var vCompaniasParaMostrar = vListaCompaniasDelTenant.Where(CompaniaEnTenant => !CompaniaEnTenant.conectadaConAdministraivo).Select(CompaniaFueraDelTenant => CompaniaFueraDelTenant.nombre);
-                    vResult = new ObservableCollection<string>(vCompaniasParaMostrar);
+                    vResult = new ObservableCollection<string>(vCompaniasParaMostrar);                   
                 }
                 return vResult;
             } catch (Exception) {

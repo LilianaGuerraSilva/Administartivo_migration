@@ -56,6 +56,10 @@
       <Name>LibGalac.Aos.Catching</Name>
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Catching.dll</HintPath>
     </Reference>
+    <Reference Include="LibGalac.Aos.Cnf">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\LibGalac.Aos.Cnf.dll</HintPath>
+    </Reference>
     <Reference Include="LibGalac.Aos.UI.Mvvm">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Mvvm.dll</HintPath>
@@ -123,6 +127,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="UIMefActivarG360.cs" />
     <Compile Include="UIMefParameters.cs">
       <SubType>Code</SubType>
     </Compile>

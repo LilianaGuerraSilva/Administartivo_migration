@@ -18,6 +18,8 @@ using Galac.Saw.Lib;
 using Galac.Saw.LibWebConnector;
 using System.Threading;
 using System.Collections.ObjectModel;
+using LibGalac.Aos.Cnf;
+using static Galac.Saw.LibWebConnector.clsSuscripcion;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class ConexionGVentasViewModel : LibGenericViewModel {
@@ -30,7 +32,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string UsuarioDeOperacionesPropertyName = "UsuarioDeOperaciones";
         #endregion
         #region Variables
-        clsSuscripcion.DatosSuscripcion SuscripcionGVentas;
+        clsSuscripcion.DatosSuscripcion SuscripcionGVentas;       
         #endregion //Variables
         #region Propiedades
         public override string ModuleName {
@@ -154,7 +156,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             } else {
                 vParametroSuscripcionGVentas = "1000";
             }
-            ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).EjecutaConexionConGVentas(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania"), vParametroSuscripcionGVentas, SerialConector, "");
+            ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).EjecutaConexionConGVentas(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania"), vParametroSuscripcionGVentas, SerialConector, CompaniaGVentasNombres, CompaniaActualNombre, UsuarioDeOperaciones);
         }
         #endregion //Metodos Generados
 
