@@ -46,6 +46,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public ObservableCollection<string> ListaCompaniaGVentasNombres { get; set; }
         string _CompaniaGVentasNombres;
+
+        [LibCustomValidation("CompaniaGVentasNombresValidating")]
         public string  CompaniaGVentasNombres {
             get {
                 return _CompaniaGVentasNombres;
@@ -173,7 +175,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             UsuarioDeOperaciones = ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login;
         }
 
-
+        
         private ValidationResult SerialConectorValidating() {
             ValidationResult vResult = ValidationResult.Success;
             if (LibString.IsNullOrEmpty(SerialConector)) {
@@ -184,7 +186,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             return vResult;
         }
 
-
+        private ValidationResult CompaniaGVentasNombresValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if (LibString.IsNullOrEmpty(CompaniaGVentasNombres)) {
+                vResult = new ValidationResult("La compañia no puede estar en blanco, debe seleccionar una de la lista.");
+            }
+            return vResult;
+        }
     } //End of class ConexionGVentasViewModel
 
 } //End of namespace Galac..Uil.SttDef

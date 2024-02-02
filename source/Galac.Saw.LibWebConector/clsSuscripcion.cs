@@ -67,7 +67,29 @@ namespace Galac.Saw.LibWebConnector {
                 return vResult;
             } catch (Exception vEx) {
                 throw vEx;
-            }            
+            }
+        }
+
+        HttpWebResponse PostResponse(string valUrl, string valToken, object valBlockData) {
+            try {
+                HttpWebResponse vResult;
+                Uri vBaseUri = new Uri(GetEndPointGVentas());
+                HttpWebRequest vRequest = (HttpWebRequest)WebRequest.Create(new Uri(vBaseUri, valUrl));
+                vRequest.ContentType = "application/json";
+                vRequest.Headers.Add("Authorization", "Bearer " + valToken);
+                vRequest.Method = "POST";
+                using (var stWriter = new StreamWriter(vRequest.GetRequestStream())) {
+                    string vJSon = JsonConvert.SerializeObject(valBlockData);
+                    stWriter.Write(vJSon);
+                }
+                vResult = (HttpWebResponse)vRequest.GetResponse();
+                using (var streamReader = new StreamReader(vResult.GetResponseStream())) {
+                    var result = streamReader.ReadToEnd();
+                }
+                return vResult;
+            } catch (Exception vEx) {
+                throw vEx;
+            }
         }
 
         string AddParametroNumeroDeIdentificacionFiscal(string valUrl, string valNumeroDeIDentificacionFiscal, string valKeyNumeroDeIdentificacion) {
@@ -82,7 +104,7 @@ namespace Galac.Saw.LibWebConnector {
 
         string GetResultFromResponse(HttpWebResponse valResponse) {
             string vResult = string.Empty;
-            if (valResponse != null && (valResponse.StatusCode== HttpStatusCode.OK)) {
+            if (valResponse != null && (valResponse.StatusCode == HttpStatusCode.OK)) {
                 vResult = new StreamReader(valResponse.GetResponseStream()).ReadToEnd();
             }
             return vResult;
@@ -122,16 +144,16 @@ namespace Galac.Saw.LibWebConnector {
             return vResult;
         }
 
-        public ObservableCollection<string> GetCompaniaGVentas() {
+        public ObservableCollection<string> GetCompaniaGVentas(string valURI) {
             ObservableCollection<string> vResult = new ObservableCollection<string>();
+            ObservableCollection<CompaniasDelTenant> vListaCompaniasDelTenant = new ObservableCollection<CompaniasDelTenant>();
             try {
-				//  TODO:Falta Url real
+                //  TODO:Falta Url real
                 string vNumeroDeIdentificacion = GetNroDeIdentificacionFiscal();
                 HttpWebResponse vResponse = GetResponseGET(AddParametroNumeroDeIdentificacionFiscal(@"/api/saas/tenants/companias-del-tenant?", vNumeroDeIdentificacion, "numeroDeIdentificacionFiscal"));
                 if (vResponse.StatusCode == HttpStatusCode.OK) {
-                    var vListaGeneralCompanias = JsonConvert.DeserializeObject<ObservableCollection<CompaniasDelTenant>>(GetResultFromResponse(vResponse));
-                    var vCompaniasParaMostrar = vListaGeneralCompanias.Where(CompaniaEnTenant => !CompaniaEnTenant.conectadaConAdministraivo)
-                                                                .Select(CompaniaEnTenant => CompaniaEnTenant.nombre);
+                    vListaCompaniasDelTenant = JsonConvert.DeserializeObject<ObservableCollection<CompaniasDelTenant>>(GetResultFromResponse(vResponse));
+                    var vCompaniasParaMostrar = vListaCompaniasDelTenant.Where(CompaniaEnTenant => !CompaniaEnTenant.conectadaConAdministraivo).Select(CompaniaFueraDelTenant => CompaniaFueraDelTenant.nombre);
                     vResult = new ObservableCollection<string>(vCompaniasParaMostrar);
                 }
                 return vResult;

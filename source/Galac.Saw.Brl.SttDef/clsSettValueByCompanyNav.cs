@@ -2603,13 +2603,20 @@ namespace Galac.Saw.Brl.SttDef {
             return vResult;
         }
 
-        void ISettValueByCompanyPdn.EjecutaConexionConGVentas(int valConsecutivoCompania, string valParametroSuscripcionGVentas, string valSerialConectorGVentas, string valNumeroIDGVentas) {
-            QAdvSql insSql = new QAdvSql("");
-            string vSql = "UPDATE COMPANIA SET ConectadaConG360 = 'S' WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania);
-            vSql = "UPDATE Comun.SettValueByCompany SET Value = " + insSql.ToSqlValue(valParametroSuscripcionGVentas) + " WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania) + " AND NameSettDefinition = 'ParametroSuscripcionGVentas'";
-            vSql = "UPDATE Comun.SettValueByCompany SET Value = " + insSql.ToSqlValue(valSerialConectorGVentas) + " WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania) + " AND NameSettDefinition = 'SerialConectorGVentas'";
-            vSql = "UPDATE Comun.SettValueByCompany SET Value = " + insSql.ToSqlValue(valNumeroIDGVentas) + " WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania) + " AND NameSettDefinition = 'NumeroIDGVentas'";
-            
+        void ISettValueByCompanyPdn.EjecutaConexionConGVentas(int valConsecutivoCompania, string valParametroSuscripcionGVentas, string valSerialConectorGVentas, string valNumeroIDGVentas) {            
+            try {
+                QAdvSql insSql = new QAdvSql("");
+                string vSql = "UPDATE COMPANIA SET ConectadaConG360 = " + insSql.ToSqlValue(true) + " WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania);
+                LibBusiness.ExecuteUpdateOrDelete(vSql, null, "", 0);
+                vSql = "UPDATE Comun.SettValueByCompany SET Value = " + insSql.ToSqlValue(valParametroSuscripcionGVentas) + " WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania) + " AND NameSettDefinition = " + insSql.ToSqlValue("SuscripcionGVentas");
+                LibBusiness.ExecuteUpdateOrDelete(vSql, null, "", 0);
+                vSql = "UPDATE Comun.SettValueByCompany SET Value = " + insSql.ToSqlValue(valSerialConectorGVentas) + " WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania) + " AND NameSettDefinition ="+ insSql.ToSqlValue("SerialConectorGVentas");
+                LibBusiness.ExecuteUpdateOrDelete(vSql, null, "", 0);
+                vSql = "UPDATE Comun.SettValueByCompany SET Value = " + insSql.ToSqlValue(valNumeroIDGVentas) + " WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania) + " AND NameSettDefinition =" + insSql.ToSqlValue("NumeroIDGVentas");
+                LibBusiness.ExecuteUpdateOrDelete(vSql, null, "", 0);
+            } catch (Exception) {
+                throw;
+            }
         }
     } //End of class clsSettValueByCompanyNav
 } //End of namespace Galac.Saw.Brl.PrdStt

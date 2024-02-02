@@ -18,7 +18,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		}
 
 		private void AgregaParametroGeneral() {
-			AgregarNuevoParametro("SuscripcionGVentas", "DatosGenerales", 1, "1.2.-General", 2, "", '2', "", 'S', "0");
+			AgregarNuevoParametro("SuscripcionGVentas", "DatosGenerales", 1, "1.2.-General", 2, "", '2', "", 'N', "0");
+			AgregarNuevoParametro("SerialConectorGVentas", "DatosGenerales", 1, "1.2.-General", 2, "", '2', "", 'S', "");
+			AgregarNuevoParametro("NumeroIDGVentas", "DatosGenerales", 1, "1.2.-General", 2, "", '2', "", 'N', "");
 		}
 	}
 }   
