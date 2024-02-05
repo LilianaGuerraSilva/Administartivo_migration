@@ -66,3 +66,7 @@
 	path = bin/binLibAos
 	url = https://github.com/GalacSoftware/BinLibAos.git
 	branch = release/V5.24.0.0
+[submodule "bin/binLibVb"]
+	path = bin/binLibVb
+	url = https://github.com/GalacSoftware/BinLibVb.git
+	branch = release/V2401
