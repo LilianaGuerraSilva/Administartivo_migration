@@ -10,10 +10,6 @@
 	path = bin/binLibProtec
 	url = https://github.com/Galac-Software/BinLibProtec.git
 	branch = release/v18.2.2.0
-[submodule "bin/binLibVb"]
-	path = bin/binLibVb
-	url = https://github.com/Galac-Software/BinLibVb.git
-	branch = release/V2201
 [submodule "source/Axi"]
 	path = source/Axi
 	url = https://github.com/Galac-Software/Axi.git
