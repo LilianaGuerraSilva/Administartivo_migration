@@ -6,10 +6,6 @@
 	path = bin/binLibNet
 	url = https://github.com/Galac-Software/BinLibNet.git
 	branch = release/v5.14.0.0
-[submodule "bin/binLibProtec"]
-	path = bin/binLibProtec
-	url = https://github.com/Galac-Software/BinLibProtec.git
-	branch = release/v18.2.2.0
 [submodule "source/Axi"]
 	path = source/Axi
 	url = https://github.com/Galac-Software/Axi.git
