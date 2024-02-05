@@ -22,10 +22,6 @@
 	path = source/Axi
 	url = https://github.com/Galac-Software/Axi.git
 	branch = master
-[submodule "source/Lib/VbaLib"]
-	path = source/Lib/VbaLib
-	url = https://github.com/GalacSoftware/vbaLib.git
-	branch = releaase/V2201
 [submodule "bin/binAdministrativoVb"]
 	path = bin/binAdministrativoVb
 	url = https://github.com/GalacSoftware/BinAdministrativoVB.git
