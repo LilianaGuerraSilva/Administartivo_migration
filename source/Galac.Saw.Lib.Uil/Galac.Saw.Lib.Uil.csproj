@@ -33,14 +33,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="LibGalac.Aos.Base">
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Base.5.24.0\lib\LibGalac.Aos.Base.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.Mvvm">
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Mvvm.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.UI.Mvvm.5.24.0\lib\LibGalac.Aos.UI.Mvvm.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.Wpf">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Wpf.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.UI.Wpf.5.24.0\lib\LibGalac.Aos.UI.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -83,6 +82,9 @@
       <Project>{b04e6942-e0b8-4ba2-90e7-fbf8a95ddc86}</Project>
       <Name>Galac.Saw.Lib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
