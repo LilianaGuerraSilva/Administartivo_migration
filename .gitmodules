@@ -66,3 +66,7 @@
 	path = bin/binLibProtec
 	url = https://github.com/GalacSoftware/BinLibProtec.git
 	branch = release/v24.1.0.0
+[submodule "bin/binLibNet"]
+	path = bin/binLibNet
+	url = https://github.com/GalacSoftware/BinLibNet.git
+	branch = release/v5.24.0.0
