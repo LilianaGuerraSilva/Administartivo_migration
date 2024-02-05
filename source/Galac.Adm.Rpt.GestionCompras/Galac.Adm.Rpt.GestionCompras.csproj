@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -36,28 +36,28 @@
     <Reference Include="ActiveReports.Document, Version=6.2.3164.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff" />
     <Reference Include="ActiveReports.Viewer6, Version=6.2.3164.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff" />
     <Reference Include="ActiveReports6, Version=6.2.3164.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff" />
-    <Reference Include="LibGalac.Aos.ARRpt, Version=5.24.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="LibGalac.Aos.ARRpt">
       <HintPath>..\packages\LibGalac.Aos.ARRpt.5.24.0\lib\LibGalac.Aos.ARRpt.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.Base, Version=5.24.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="LibGalac.Aos.Base">
       <HintPath>..\packages\LibGalac.Aos.Base.5.24.0\lib\LibGalac.Aos.Base.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.Brl, Version=5.24.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="LibGalac.Aos.Brl">
       <HintPath>..\packages\LibGalac.Aos.Brl.5.24.0\lib\LibGalac.Aos.Brl.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.Brl.PrnStt, Version=5.24.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="LibGalac.Aos.Brl.PrnStt">
       <HintPath>..\packages\LibGalac.Aos.Brl.PrnStt.5.24.0\lib\LibGalac.Aos.Brl.PrnStt.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.Catching, Version=5.24.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="LibGalac.Aos.Catching">
       <HintPath>..\packages\LibGalac.Aos.Catching.5.24.0\lib\LibGalac.Aos.Catching.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.Ccl.PrnStt, Version=5.24.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="LibGalac.Aos.Ccl.PrnStt">
       <HintPath>..\packages\LibGalac.Aos.Ccl.PrnStt.5.24.0\lib\LibGalac.Aos.Ccl.PrnStt.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.Dal, Version=5.24.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="LibGalac.Aos.Dal">
       <HintPath>..\packages\LibGalac.Aos.Dal.5.24.0\lib\LibGalac.Aos.Dal.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.DefGen, Version=5.24.5.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="LibGalac.Aos.DefGen">
       <HintPath>..\packages\LibGalac.Aos.DefGen.5.24.0\lib\LibGalac.Aos.DefGen.dll</HintPath>
     </Reference>
     <Reference Include="System" />

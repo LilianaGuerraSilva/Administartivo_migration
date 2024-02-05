@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -38,19 +38,19 @@
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.TablasGen.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Comun.Ccl.TablasGen" />
-    <Reference Include="LibGalac.Aos.Base, Version=5.24.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="LibGalac.Aos.Base">
       <HintPath>..\packages\LibGalac.Aos.Base.5.24.0\lib\LibGalac.Aos.Base.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.Brl, Version=5.24.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="LibGalac.Aos.Brl">
       <HintPath>..\packages\LibGalac.Aos.Brl.5.24.0\lib\LibGalac.Aos.Brl.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.Catching, Version=5.24.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="LibGalac.Aos.Catching">
       <HintPath>..\packages\LibGalac.Aos.Catching.5.24.0\lib\LibGalac.Aos.Catching.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.Cib, Version=5.24.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="LibGalac.Aos.Cib">
       <HintPath>..\packages\LibGalac.Aos.Cib.5.24.0\lib\LibGalac.Aos.Cib.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.DefGen, Version=5.24.5.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="LibGalac.Aos.DefGen">
       <HintPath>..\packages\LibGalac.Aos.DefGen.5.24.0\lib\LibGalac.Aos.DefGen.dll</HintPath>
     </Reference>
     <Reference Include="System" />
