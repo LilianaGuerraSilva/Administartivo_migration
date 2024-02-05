@@ -2,10 +2,6 @@
 	path = source/Lib/AosLib
 	url = https://github.com/Galac-Software/AosLib.git
 	branch = release/v5.14.0.0
-[submodule "bin/binLibAos"]
-	path = bin/binLibAos
-	url = https://github.com/Galac-Software/BinLibAos.git
-	branch = release/v5.14.0.0
 [submodule "bin/binLibNet"]
 	path = bin/binLibNet
 	url = https://github.com/Galac-Software/BinLibNet.git
