@@ -69,10 +69,6 @@
       <HintPath>..\packages\LibGalac.Aos.Cnf.5.24.0\lib\LibGalac.Aos.Cnf.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Dal">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Dal.dll</HintPath>
-    </Reference>
-    <Reference Include="LibGalac.Aos.Dal">
       <HintPath>..\packages\LibGalac.Aos.Dal.5.24.0\lib\LibGalac.Aos.Dal.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.DefGen">
