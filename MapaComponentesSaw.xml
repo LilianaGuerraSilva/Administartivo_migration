@@ -96,50 +96,50 @@
     <LibGalac.Ssm.U>18.2.3.0</LibGalac.Ssm.U>
     <LibGalac.Ssm.Wrp.Saw>18.2.0.0</LibGalac.Ssm.Wrp.Saw>
 
-    <Galac.Ent.Uil.Empresarial>2.60.0.0</Galac.Ent.Uil.Empresarial>
-    <Galac.Ent.Brl.Empresarial>2.60.0.0</Galac.Ent.Brl.Empresarial>
-    <Galac.Ent.Ccl.Empresarial>2.60.0.0</Galac.Ent.Ccl.Empresarial>
-    <Galac.Ent.Dal.Empresarial>2.60.0.0</Galac.Ent.Dal.Empresarial>
+    <Galac.Ent.Uil.Empresarial>2.61.0.0</Galac.Ent.Uil.Empresarial>
+    <Galac.Ent.Brl.Empresarial>2.61.0.0</Galac.Ent.Brl.Empresarial>
+    <Galac.Ent.Ccl.Empresarial>2.61.0.0</Galac.Ent.Ccl.Empresarial>
+    <Galac.Ent.Dal.Empresarial>2.61.0.0</Galac.Ent.Dal.Empresarial>
                                  
-    <Galac.Comun.Ccl.TablasGen>2.60.3.0</Galac.Comun.Ccl.TablasGen>
-    <Galac.Comun.Dal.TablasGen>2.60.3.0</Galac.Comun.Dal.TablasGen>
-    <Galac.Comun.Brl.TablasGen>2.60.3.1</Galac.Comun.Brl.TablasGen>
-    <Galac.Comun.Uil.TablasGen>2.60.3.0</Galac.Comun.Uil.TablasGen>
+    <Galac.Comun.Ccl.TablasGen>2.61.0.0</Galac.Comun.Ccl.TablasGen>
+    <Galac.Comun.Dal.TablasGen>2.61.0.0</Galac.Comun.Dal.TablasGen>
+    <Galac.Comun.Brl.TablasGen>2.61.0.0</Galac.Comun.Brl.TablasGen>
+    <Galac.Comun.Uil.TablasGen>2.61.0.0</Galac.Comun.Uil.TablasGen>
                                  
-    <Galac.Comun.Ccl.TablasLey>2.60.0.0</Galac.Comun.Ccl.TablasLey>
-    <Galac.Comun.Dal.TablasLey>2.60.0.0</Galac.Comun.Dal.TablasLey>
-    <Galac.Comun.Brl.TablasLey>2.60.0.0</Galac.Comun.Brl.TablasLey>
-    <Galac.Comun.Uil.TablasLey>2.60.0.0</Galac.Comun.Uil.TablasLey>
+    <Galac.Comun.Ccl.TablasLey>2.61.0.0</Galac.Comun.Ccl.TablasLey>
+    <Galac.Comun.Dal.TablasLey>2.61.0.0</Galac.Comun.Dal.TablasLey>
+    <Galac.Comun.Brl.TablasLey>2.61.0.0</Galac.Comun.Brl.TablasLey>
+    <Galac.Comun.Uil.TablasLey>2.61.0.0</Galac.Comun.Uil.TablasLey>
 
-    <Galac.Comun.Brl.Impuesto>2.60.0.0</Galac.Comun.Brl.Impuesto>
-    <Galac.Comun.Ccl.Impuesto>2.60.0.0</Galac.Comun.Ccl.Impuesto>
-    <Galac.Comun.Dal.Impuesto>2.60.0.0</Galac.Comun.Dal.Impuesto>
-    <Galac.Comun.Uil.Impuesto>2.60.0.0</Galac.Comun.Uil.Impuesto>
+    <Galac.Comun.Brl.Impuesto>2.61.0.0</Galac.Comun.Brl.Impuesto>
+    <Galac.Comun.Ccl.Impuesto>2.61.0.0</Galac.Comun.Ccl.Impuesto>
+    <Galac.Comun.Dal.Impuesto>2.61.0.0</Galac.Comun.Dal.Impuesto>
+    <Galac.Comun.Uil.Impuesto>2.61.0.0</Galac.Comun.Uil.Impuesto>
 
     <Galac.Saw.Brl.SttDef>2.61.0.0</Galac.Saw.Brl.SttDef>
     <Galac.Saw.Ccl.SttDef>2.61.0.0</Galac.Saw.Ccl.SttDef>
     <Galac.Saw.Dal.SttDef>2.61.0.0</Galac.Saw.Dal.SttDef>
     <Galac.Saw.Uil.SttDef>2.61.0.0</Galac.Saw.Uil.SttDef>
 
-    <Galac.Comun.Brl.LeyCosto>2.60.0.0</Galac.Comun.Brl.LeyCosto>
-    <Galac.Comun.Ccl.LeyCosto>2.60.0.0</Galac.Comun.Ccl.LeyCosto>
-    <Galac.Comun.Dal.LeyCosto>2.60.0.0</Galac.Comun.Dal.LeyCosto>
-    <Galac.Comun.Rpt.LeyCosto>2.60.0.0</Galac.Comun.Rpt.LeyCosto>
-    <Galac.Comun.Uil.LeyCosto>2.60.0.0</Galac.Comun.Uil.LeyCosto>
+    <Galac.Comun.Brl.LeyCosto>2.61.0.0</Galac.Comun.Brl.LeyCosto>
+    <Galac.Comun.Ccl.LeyCosto>2.61.0.0</Galac.Comun.Ccl.LeyCosto>
+    <Galac.Comun.Dal.LeyCosto>2.61.0.0</Galac.Comun.Dal.LeyCosto>
+    <Galac.Comun.Rpt.LeyCosto>2.61.0.0</Galac.Comun.Rpt.LeyCosto>
+    <Galac.Comun.Uil.LeyCosto>2.61.0.0</Galac.Comun.Uil.LeyCosto>
 
-    <Galac.Contab.Ccl.WinCont>2.60.2.0</Galac.Contab.Ccl.WinCont>   
-    <Galac.Contab.Dal.WinCont>2.60.4.0</Galac.Contab.Dal.WinCont>     
-    <Galac.Contab.Brl.WinCont>2.60.4.0</Galac.Contab.Brl.WinCont>
-    <Galac.Contab.Rpt.WinCont>2.60.2.0</Galac.Contab.Rpt.WinCont> 
-    <Galac.Contab.Uil.WinCont>2.60.4.0</Galac.Contab.Uil.WinCont> 	
-    <Galac.Contab.RptOXml.Wincont>2.60.2.0</Galac.Contab.RptOXml.Wincont>
+    <Galac.Contab.Ccl.WinCont>2.61.0.0</Galac.Contab.Ccl.WinCont>   
+    <Galac.Contab.Dal.WinCont>2.61.0.0</Galac.Contab.Dal.WinCont>     
+    <Galac.Contab.Brl.WinCont>2.61.0.0</Galac.Contab.Brl.WinCont>
+    <Galac.Contab.Rpt.WinCont>2.61.0.0</Galac.Contab.Rpt.WinCont> 
+    <Galac.Contab.Uil.WinCont>2.61.0.0</Galac.Contab.Uil.WinCont> 	
+    <Galac.Contab.RptOXml.Wincont>2.61.0.0</Galac.Contab.RptOXml.Wincont>
                                  
-    <Galac.Contab.Ccl.Tablas>2.60.0.0</Galac.Contab.Ccl.Tablas>
-    <Galac.Contab.Dal.Tablas>2.60.0.0</Galac.Contab.Dal.Tablas>
-    <Galac.Contab.Brl.Tablas>2.60.0.0</Galac.Contab.Brl.Tablas>
-    <Galac.Contab.Uil.Tablas>2.60.0.0</Galac.Contab.Uil.Tablas>    
+    <Galac.Contab.Ccl.Tablas>2.61.0.0</Galac.Contab.Ccl.Tablas>
+    <Galac.Contab.Dal.Tablas>2.61.0.0</Galac.Contab.Dal.Tablas>
+    <Galac.Contab.Brl.Tablas>2.61.0.0</Galac.Contab.Brl.Tablas>
+    <Galac.Contab.Uil.Tablas>2.61.0.0</Galac.Contab.Uil.Tablas>    
 
-    <Galac.Contab.TablasVbSinMigrar>2.60.2.0</Galac.Contab.TablasVbSinMigrar>
+    <Galac.Contab.TablasVbSinMigrar>2.61.0.0</Galac.Contab.TablasVbSinMigrar>
     <DocumentFormat.OpenXml>2.5.5631.0</DocumentFormat.OpenXml>
 
     <Galac.Saw.Ccl.Contabilizacion>2.61.0.0</Galac.Saw.Ccl.Contabilizacion>
