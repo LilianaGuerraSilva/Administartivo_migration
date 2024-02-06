@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -38,21 +38,19 @@
     <Reference Include="ActiveReports.Viewer6, Version=6.2.3164.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff" />
     <Reference Include="ActiveReports6, Version=6.2.3164.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff" />
     <Reference Include="LibGalac.Aos.ARRpt">
-      <HintPath>..\..\..\Administrativo240\bin\binLibAos\LibGalac.Aos.ARRpt.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.ARRpt.5.24.0\lib\LibGalac.Aos.ARRpt.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Base">
-      <HintPath>..\..\..\Administrativo240\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Base.5.24.0\lib\LibGalac.Aos.Base.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Catching">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Catching.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Catching.5.24.0\lib\LibGalac.Aos.Catching.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Dal">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Dal.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Dal.5.24.0\lib\LibGalac.Aos.Dal.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.DefGen">
-      <HintPath>..\..\..\Administrativo240\bin\binLibAos\LibGalac.Aos.DefGen.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.DefGen.5.24.0\lib\LibGalac.Aos.DefGen.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -92,6 +90,9 @@
       <Project>{b04e6942-e0b8-4ba2-90e7-fbf8a95ddc86}</Project>
       <Name>Galac.Saw.Lib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
