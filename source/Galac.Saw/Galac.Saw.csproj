@@ -82,84 +82,73 @@
       <HintPath>..\..\bin\binComunAos\Galac.Ent.Uil.Empresarial.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.ARRpt">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.ARRpt.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.ARRpt.5.24.0\lib\LibGalac.Aos.ARRpt.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Base">
-      <Name>LibGalac.Aos.Base</Name>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Base.5.24.0\lib\LibGalac.Aos.Base.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Brl">
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Brl.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Brl.5.24.0\lib\LibGalac.Aos.Brl.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Brl.PrnStt">
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Brl.PrnStt.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Brl.PrnStt.5.24.0\lib\LibGalac.Aos.Brl.PrnStt.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Catching">
-      <Name>LibGalac.Aos.Catching</Name>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Catching.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Catching.5.24.0\lib\LibGalac.Aos.Catching.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Cib">
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Cib.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Cib.5.24.0\lib\LibGalac.Aos.Cib.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Cnf">
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Cnf.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Cnf.5.24.0\lib\LibGalac.Aos.Cnf.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Compression">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Compression.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Compression.5.24.0\lib\LibGalac.Aos.Compression.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Dal">
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Dal.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Dal.5.24.0\lib\LibGalac.Aos.Dal.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Dal.Usal">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Dal.Usal.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Dal.Usal.5.24.0\lib\LibGalac.Aos.Dal.Usal.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.DefGen">
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.DefGen.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.DefGen.5.24.0\lib\LibGalac.Aos.DefGen.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.Cib">
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Cib.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.UI.Cib.5.24.0\lib\LibGalac.Aos.UI.Cib.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.Mvvm">
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Mvvm.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.UI.Mvvm.5.24.0\lib\LibGalac.Aos.UI.Mvvm.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.Wpf">
-      <Name>LibGalac.Aos.UI.Wpf</Name>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Wpf.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.UI.Wpf.5.24.0\lib\LibGalac.Aos.UI.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.WpfBN">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfBN.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.UI.WpfBN.5.24.0\lib\LibGalac.Aos.UI.WpfBN.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.WpfControls">
-      <Name>LibGalac.Aos.UI.WpfControls</Name>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfControls.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.UI.WpfControls.5.24.0\lib\LibGalac.Aos.UI.WpfControls.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.WpfMainInterop">
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfMainInterop.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.UI.WpfMainInterop.5.24.0\lib\LibGalac.Aos.UI.WpfMainInterop.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.WpfRD">
-      <Name>LibGalac.Aos.UI.WpfRD</Name>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfRD.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.UI.WpfRD.5.24.0\lib\LibGalac.Aos.UI.WpfRD.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Uil">
-      <Name>LibGalac.Aos.Uil</Name>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Uil.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Uil.5.24.0\lib\LibGalac.Aos.Uil.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Uil.PASOnLine">
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Uil.PASOnLine.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Uil.PASOnLine.5.24.0\lib\LibGalac.Aos.Uil.PASOnLine.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Uil.PrnStt">
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Uil.PrnStt.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Uil.PrnStt.5.24.0\lib\LibGalac.Aos.Uil.PrnStt.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Uil.Settings">
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Uil.Settings.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Uil.Settings.5.24.0\lib\LibGalac.Aos.Uil.Settings.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Uil.Usal">
-      <Name>LibGalac.Aos.Uil.Usal</Name>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Uil.Usal.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Uil.Usal.5.24.0\lib\LibGalac.Aos.Uil.Usal.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="RibbonControlsLibrary, Version=4.0.0.11019, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -241,6 +230,7 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
