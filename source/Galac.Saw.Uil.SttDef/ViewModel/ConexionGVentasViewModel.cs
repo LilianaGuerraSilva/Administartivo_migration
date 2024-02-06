@@ -117,13 +117,18 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         #endregion //Propiedades
         #region Constructores
         public ConexionGVentasViewModel(eAccionSR valAction) {
-            mAction = valAction;
-            CompaniaActualNombre = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre");
-            CompaniaActualRIF =LibAppSettings.ReadAppSettingsKey("NRORIFQA"); //  LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "NumeroDeRIF");
-            SuscripcionGVentas = new clsSuscripcion().GetCaracteristicaGVentas();
-            InquilinoNombre = LibString.IsNullOrEmpty(SuscripcionGVentas.TenantNombre) ? "No se encontró información del inquilino." : SuscripcionGVentas.TenantNombre;
-            LlenaListaCompaniaGVentas();
-            LlenaListaUsuariosSupervisoresActivos();
+            try {
+                mAction = valAction;
+                CompaniaActualNombre = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre");
+                CompaniaActualRIF = LibAppSettings.ReadAppSettingsKey("NRORIFQA"); //  LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "NumeroDeRIF");
+                SuscripcionGVentas = new clsSuscripcion().GetCaracteristicaGVentas();
+                InquilinoNombre = LibString.IsNullOrEmpty(SuscripcionGVentas.TenantNombre) ? "No se encontró información del inquilino." : SuscripcionGVentas.TenantNombre;
+                LlenaListaCompaniaGVentas();
+                LlenaListaUsuariosSupervisoresActivos();
+            } catch (Exception vEx) {
+                InquilinoNombre = "No se encontró información del inquilino.";
+                LibGalac.Aos.UI.Wpf.LibExceptionDisplay.Show(vEx);
+            }
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -252,6 +257,5 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             return vResult;
         }
     } //End of class ConexionGVentasViewModel
-
 } //End of namespace Galac..Uil.SttDef
 

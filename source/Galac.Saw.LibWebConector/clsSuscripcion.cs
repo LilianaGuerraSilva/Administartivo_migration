@@ -24,11 +24,17 @@ namespace Galac.Saw.LibWebConnector {
         public string GetRutaEndpointProduccionClientes { get { return ""; } }
       
         public class DatosSuscripcion {
+            [JsonProperty("TenantNombre")]
             public string TenantNombre { get; set; }
+            [JsonProperty("EdicionNombre")]
             public string EdicionNombre { get; set; }
+            [JsonProperty("NumeroMaximoDeUsuarios")]
             public int NumeroMaximoDeUsuarios { get; set; }
-            public bool EstaActivoPeriodoDeGracia { get; set; }
-            public DateTime fechaDeFinalizacionDeLaActivacion { get; set; }
+            [JsonProperty("EstaActivoPeriodoDeGracia")]
+            public bool EstaActivoPeriodoDeGracia { get; set; }          
+            [JsonProperty("fechaDeFinalizacionDeLaActivacion")]
+            public DateTime fechaDeFinalizacionDeLaActivacion { get; set; }             
+            [JsonProperty("CantidadDeUsuariosFacturados")]
             public int CantidadDeUsuariosFacturados { get; set; }
             public DatosSuscripcion() {
                 TenantNombre = string.Empty;
@@ -139,8 +145,10 @@ namespace Galac.Saw.LibWebConnector {
                     vResult = JsonConvert.DeserializeObject<DatosSuscripcion>(GetResultFromResponse(vResponse), new IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd" });
                     return vResult;
                 }
-            } catch (Exception) {
-                throw;
+            } catch (JsonSerializationException) {
+                new DatosSuscripcion();
+            } catch (Exception vEx) {
+                throw vEx;
             }
             return vResult;
         }
