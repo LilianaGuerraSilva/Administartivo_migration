@@ -198,11 +198,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
             ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).EjecutaConexionConGVentas(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania"), vParametroSuscripcionGVentas, SerialConector, CompaniaGVentasNombres, CompaniaActualRIF, CompaniaActualNombre, UsuarioDeOperaciones);
         }
-        #endregion //Metodos Generados
-
-        private string BuscaNombreInquilinoSobreSuscripcion() {
-            return "Falta Programar";
-        }
+        #endregion //Metodos Generados       
 
         private void LlenaListaCompaniaGVentas() {
             if (LibString.IsNullOrEmpty(SuscripcionGVentas.TenantNombre, true)) {
