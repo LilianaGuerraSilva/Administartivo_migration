@@ -64,8 +64,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Administrativo\source\Galac.Saw.LibWebConector\Galac.Saw.LibWebConnector.csproj">
-      <Project>{6a1396a8-0545-4fa3-83a6-286cc1849ad7}</Project>
+    <ProjectReference Include="..\Galac.Saw.LibWebConector\Galac.Saw.LibWebConnector.csproj">
+      <Project>{08f52bb0-7708-4326-b74c-ac49629c8647}</Project>
       <Name>Galac.Saw.LibWebConnector</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Adm.Brl.Venta\Galac.Adm.Brl.Venta.csproj">

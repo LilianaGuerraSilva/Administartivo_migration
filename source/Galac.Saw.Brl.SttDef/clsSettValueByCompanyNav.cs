@@ -1801,8 +1801,7 @@ namespace Galac.Saw.Brl.SttDef {
             insParametros.ParametrosCobranzasStt = GetCobranzasStt(vListGetSettValueByCompany);
             insParametros.ParametrosComisionesStt = GetComisionesStt(vListGetSettValueByCompany);
             insParametros.ParametrosCompaniaStt = GetCompaniaStt(vListGetSettValueByCompany);
-            insParametros.ParametrosComprasStt = GetComprasStt(vListGetSettValueByCompany);
-            ;
+            insParametros.ParametrosComprasStt = GetComprasStt(vListGetSettValueByCompany);            
             insParametros.ParametrosCotizacionStt = GetCotizacionStt(vListGetSettValueByCompany);
             insParametros.ParametrosCxPProveedorPagosStt = GetCxPProveedorPagosStt(vListGetSettValueByCompany);
             insParametros.ParametrosFacturacionContinuacionStt = GetFacturacionContinuacionStt(vListGetSettValueByCompany);

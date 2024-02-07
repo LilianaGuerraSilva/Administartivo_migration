@@ -199,7 +199,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galac.Adm.IntegracionMS.Ven
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galac.Saw.Rpt.Cliente", "Galac.Saw.Rpt.Cliente\Galac.Saw.Rpt.Cliente.csproj", "{117A5B08-8156-4724-A03F-E9B5FEFB7DE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galac.Saw.LibWebConnector", "..\..\Administrativo\source\Galac.Saw.LibWebConector\Galac.Saw.LibWebConnector.csproj", "{6A1396A8-0545-4FA3-83A6-286CC1849AD7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galac.Saw.LibWebConnector", "Galac.Saw.LibWebConector\Galac.Saw.LibWebConnector.csproj", "{08F52BB0-7708-4326-B74C-AC49629C8647}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1020,18 +1020,18 @@ Global
 		{117A5B08-8156-4724-A03F-E9B5FEFB7DE7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{117A5B08-8156-4724-A03F-E9B5FEFB7DE7}.Release|x86.ActiveCfg = Release|Any CPU
 		{117A5B08-8156-4724-A03F-E9B5FEFB7DE7}.Release|x86.Build.0 = Release|Any CPU
-		{6A1396A8-0545-4FA3-83A6-286CC1849AD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6A1396A8-0545-4FA3-83A6-286CC1849AD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6A1396A8-0545-4FA3-83A6-286CC1849AD7}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{6A1396A8-0545-4FA3-83A6-286CC1849AD7}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{6A1396A8-0545-4FA3-83A6-286CC1849AD7}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{6A1396A8-0545-4FA3-83A6-286CC1849AD7}.Debug|x86.Build.0 = Debug|Any CPU
-		{6A1396A8-0545-4FA3-83A6-286CC1849AD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6A1396A8-0545-4FA3-83A6-286CC1849AD7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6A1396A8-0545-4FA3-83A6-286CC1849AD7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{6A1396A8-0545-4FA3-83A6-286CC1849AD7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{6A1396A8-0545-4FA3-83A6-286CC1849AD7}.Release|x86.ActiveCfg = Release|Any CPU
-		{6A1396A8-0545-4FA3-83A6-286CC1849AD7}.Release|x86.Build.0 = Release|Any CPU
+		{08F52BB0-7708-4326-B74C-AC49629C8647}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08F52BB0-7708-4326-B74C-AC49629C8647}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08F52BB0-7708-4326-B74C-AC49629C8647}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{08F52BB0-7708-4326-B74C-AC49629C8647}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{08F52BB0-7708-4326-B74C-AC49629C8647}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{08F52BB0-7708-4326-B74C-AC49629C8647}.Debug|x86.Build.0 = Debug|Any CPU
+		{08F52BB0-7708-4326-B74C-AC49629C8647}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08F52BB0-7708-4326-B74C-AC49629C8647}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08F52BB0-7708-4326-B74C-AC49629C8647}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{08F52BB0-7708-4326-B74C-AC49629C8647}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{08F52BB0-7708-4326-B74C-AC49629C8647}.Release|x86.ActiveCfg = Release|Any CPU
+		{08F52BB0-7708-4326-B74C-AC49629C8647}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1115,7 +1115,7 @@ Global
 		{02720638-17F0-4B8E-831F-BD5C1A62F587} = {35212D9E-8778-445E-998E-657555ECC258}
 		{D56C88DC-317E-400A-A687-338091B0204D} = {02720638-17F0-4B8E-831F-BD5C1A62F587}
 		{117A5B08-8156-4724-A03F-E9B5FEFB7DE7} = {C74AEA66-9576-47CF-B77A-60C43CFD4B07}
-		{6A1396A8-0545-4FA3-83A6-286CC1849AD7} = {B6A77B0E-2D05-469F-8BD8-0456A6F479C4}
+		{08F52BB0-7708-4326-B74C-AC49629C8647} = {B6A77B0E-2D05-469F-8BD8-0456A6F479C4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {78624AB5-02D6-4BF0-A432-A98D0FB81B04}
