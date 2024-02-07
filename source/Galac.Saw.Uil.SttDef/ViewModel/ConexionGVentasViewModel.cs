@@ -241,7 +241,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             vMensaje.Append("Los datos de Nombre y RIF de la compañía en el Sistema Administrativo ");
             vMensaje.AppendLine("deben coincidir con los datos de la compañía con la cual va a conectarse en G-Ventas.");
             vMensaje.AppendLine();
-            vMensaje.AppendLine("Sistema Administrativo: " + CompaniaActualNombre + " - " + CompaniaActualRIF);
+            vMensaje.AppendLine("Sistema Administrativo: " + CompaniaActualRIF + " - " + CompaniaActualNombre);
             vMensaje.AppendLine("G-Ventas: " + vRif + " - " + vNombre);
             vMensaje.AppendLine();
             vMensaje.Append("Al establecer la conexión, los datos de la compañía ");
