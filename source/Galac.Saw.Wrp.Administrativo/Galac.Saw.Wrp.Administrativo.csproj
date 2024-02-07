@@ -159,7 +159,9 @@
     <Compile Include="wrpImprentaDigital.cs" />
     <Compile Include="wrpInformacionGVentas.cs" />
     <Compile Include="wrpMenuBarCaja.cs" />
+    <Compile Include="wrpMesesGenerados.cs" />
     <Compile Include="wrpRutaDeComercializacion.cs" />
+    <Compile Include="wrpTextosDinamicos.cs" />
     <Compile Include="wrpTransferenciaEntreCuentasBancarias.cs" />
     <Compile Include="wrpVendedor.cs" />
     <Compile Include="wrpVentaInformes.cs" />

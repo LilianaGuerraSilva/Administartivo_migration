@@ -132,6 +132,10 @@
       <Project>{ae2fdf07-4a14-48bd-ba32-d1701f5514d0}</Project>
       <Name>Galac.Saw.Lib.Uil</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.LibWebConector\Galac.Saw.LibWebConnector.csproj">
+      <Project>{08f52bb0-7708-4326-b74c-ac49629c8647}</Project>
+      <Name>Galac.Saw.LibWebConnector</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Lib\Galac.Saw.Lib.csproj">
       <Project>{b04e6942-e0b8-4ba2-90e7-fbf8a95ddc86}</Project>
       <Name>Galac.Saw.Lib</Name>

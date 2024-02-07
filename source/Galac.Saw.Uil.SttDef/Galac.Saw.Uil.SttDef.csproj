@@ -53,6 +53,9 @@
     <Reference Include="LibGalac.Aos.Catching">
       <HintPath>..\packages\LibGalac.Aos.Catching.5.24.0\lib\LibGalac.Aos.Catching.dll</HintPath>
     </Reference>
+    <Reference Include="LibGalac.Aos.Cnf">
+      <HintPath>..\packages\LibGalac.Aos.Cnf.5.24.0\lib\LibGalac.Aos.Cnf.dll</HintPath>
+    </Reference>
     <Reference Include="LibGalac.Aos.DefGen">
       <HintPath>..\packages\LibGalac.Aos.DefGen.5.24.0\lib\LibGalac.Aos.DefGen.dll</HintPath>
     </Reference>
@@ -114,10 +117,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="UIMefActivarG360.cs" />
     <Compile Include="UIMefParameters.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="UIMefSettDefinition.cs" />
+    <Compile Include="ViewModel\ConexionGVentasViewModel.cs" />
     <Compile Include="ViewModel\ImprentaDigitalActivacionViewModel.cs" />
     <Compile Include="ViewModel\BancosAnticipoViewModel.cs" />
     <Compile Include="ViewModel\BancosMonedaViewModel.cs" />
@@ -176,6 +181,9 @@
     </Compile>
     <Compile Include="Views\GSBancosView.xaml.cs">
       <DependentUpon>GSBancosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSConexionGVentasView.xaml.cs">
+      <DependentUpon>GSConexionGVentasView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GSCotizacionNotaDebitoCreditoView.xaml.cs">
       <DependentUpon>GSCotizacionNotaDebitoCreditoView.xaml</DependentUpon>
@@ -315,6 +323,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\GSConexionGVentasView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\GSCotizacionNotaDebitoCreditoView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -445,6 +457,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Administrativo\source\Galac.Saw.LibWebConector\Galac.Saw.LibWebConnector.csproj">
+      <Project>{6a1396a8-0545-4fa3-83a6-286cc1849ad7}</Project>
+      <Name>Galac.Saw.LibWebConnector</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Adm.Brl.Banco\Galac.Adm.Brl.Banco.csproj">
       <Project>{a7b9fb1e-47a1-4a4f-aeb5-7aef55d39b11}</Project>
       <Name>Galac.Adm.Brl.Banco</Name>

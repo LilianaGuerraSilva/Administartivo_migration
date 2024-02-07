@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using LibGalac.Aos.Base;
@@ -35,6 +36,8 @@ namespace Galac.Saw.Ccl.SttDef {
         void ConfigurarImprentaDigital(eProveedorImprentaDigital valProveedorImprentaDigital, DateTime valFechaDeInicioDeUsoDeImprentaDigital);
         bool SonValidosLosSiguienteNumerosDeDocumentosParaImprentaDigital(string valPrimerNumeroFacturaT1, string valPrimerNumeroNotaDeCredito, string valPrimerNumeroNotaDeDebito, out StringBuilder outMessage);
         void GuardarDatosImprentaDigitalAppSettings(eProveedorImprentaDigital valProveedor, string valUsuario, string valClave, string valUrl);
+        ObservableCollection<string> ListaDeUsuariosSupervisoresActivos();
+        void EjecutaConexionConGVentas(int valConsecutivoCompania, string valParametroSuscripcionGVentas, string valSerialConectorGVentas, string valNombreCompaniaGVentas, string valRIFCompaniaAdministrativo, string valNombreCompaniaAdministrativo, string valNombreUsuarioOperaciones);
     }
 }
 
