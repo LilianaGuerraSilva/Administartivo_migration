@@ -19,16 +19,19 @@ using Galac.Comun.Brl.TablasGen;
 using LibGalac.Aos.DefGen;
 using Galac.Saw.Ccl.Inventario;
 using LibGalac.Aos.Dal;
+using System.Collections.ObjectModel;
+using Galac.Saw.Lib;
+using LibGalac.Aos.Catching;
 
 namespace Galac.Saw.Brl.SttDef {
-    public partial class clsSettValueByCompanyNav : LibBaseNav<IList<SettValueByCompany>, IList<SettValueByCompany>>, ILibPdn, ISettValueByCompanyPdn {
+    public partial class clsSettValueByCompanyNav: LibBaseNav<IList<SettValueByCompany>, IList<SettValueByCompany>>, ILibPdn, ISettValueByCompanyPdn {
         #region Variables
         #endregion //Variables
         #region Propiedades
         #endregion //Propiedades
         #region Constructores
-
-        public clsSettValueByCompanyNav() { }
+        public clsSettValueByCompanyNav() {
+        }
 
         #endregion //Constructores
         #region Metodos Generados
@@ -102,7 +105,8 @@ namespace Galac.Saw.Brl.SttDef {
                     vPdnModule = new Galac.Adm.Brl.Banco.clsBeneficiarioNav();
                     vResult = vPdnModule.GetDataForList("Parametros", ref refXmlDocument, valXmlParamsExpression);
                     break;
-                default: break;
+                default:
+                    break;
             }
             return vResult;
         }
@@ -122,7 +126,7 @@ namespace Galac.Saw.Brl.SttDef {
                 } else {
                     insSettValueByCompany.Value = LibConvert.ToStr(vItem.Element("value").Value);
                 }
-                vXElement = new XElement(LibGalac.Aos.Base.LibString.LCase(insSettValueByCompany.NameSettDefinition), insSettValueByCompany.Value);
+                vXElement = new XElement(LibString.LCase(insSettValueByCompany.NameSettDefinition), insSettValueByCompany.Value);
                 vGpResult.Add(vXElement);
             }
             vResult.Add(vGpResult);
@@ -255,6 +259,7 @@ namespace Galac.Saw.Brl.SttDef {
             insEntidad.UsaMultiplesAlicuotasAsBool = false;
             insEntidad.EsSistemaParaIGAsBool = false;
             insEntidad.UsaNotaEntregaAsBool = false;
+            insEntidad.SuscripcionGVentas = "1000";
             return insEntidad;
         }
         private void LlenaListado(GeneralStt valRecord, ref List<SettValueByCompany> valBusinessObject, int valConsecutivoCompania) {
@@ -266,6 +271,7 @@ namespace Galac.Saw.Brl.SttDef {
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.EsSistemaParaIGAsBool), "EsSistemaParaIG", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.ValidarRifEnLaWebAsBool), "ValidarRifEnLaWeb", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaNotaEntregaAsBool), "UsaNotaEntrega", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(valRecord.SuscripcionGVentas, "SuscripcionGVentas", valConsecutivoCompania));
         }
 
         GeneralStt GetGeneralStt(List<SettValueByCompany> valListGetSettValueByCompany) {
@@ -280,6 +286,7 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.ValidarRifEnLaWebAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "ValidarRifEnLaWeb"));
             vResult.EsSistemaParaIGAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "EsSistemaParaIG"));
             vResult.UsaNotaEntregaAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaNotaEntrega"));
+            vResult.SuscripcionGVentas = ValorSegunColumna(valListGetSettValueByCompany, "SuscripcionGVentas");
             return vResult;
         }
         #endregion // GeneralStt
@@ -1387,7 +1394,7 @@ namespace Galac.Saw.Brl.SttDef {
             insEntidad.CodigoMonedaLocal = valCodigoMonedaLocal;
             insEntidad.NombreMonedaLocal = valNombreMonedaLocal;
             insEntidad.CodigoMonedaExtranjera = valCodigoMonedaExtranjera;
-            insEntidad.NombreMonedaExtranjera = valNombreMonedaExtranjera;           
+            insEntidad.NombreMonedaExtranjera = valNombreMonedaExtranjera;
             insEntidad.UsaDivisaComoMonedaPrincipalDeIngresoDeDatosAsBool = false;
             insEntidad.UsarLimiteMaximoParaIngresoDeTasaDeCambio = false;
             insEntidad.MaximoLimitePermitidoParaLaTasaDeCambio = 30m;
@@ -1398,7 +1405,7 @@ namespace Galac.Saw.Brl.SttDef {
         private void LlenaListado(MonedaStt valRecord, ref List<SettValueByCompany> valBusinessObject, int valConsecutivoCompania) {
             valBusinessObject.Add(ConvierteValor(valRecord.CodigoMonedaLocal, "CodigoMonedaLocal", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(valRecord.NombreMonedaLocal, "NombreMonedaLocal", valConsecutivoCompania));
-            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaMonedaExtranjeraAsBool), "UsaMonedaExtranjera", valConsecutivoCompania));            
+            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaMonedaExtranjeraAsBool), "UsaMonedaExtranjera", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(valRecord.CodigoMonedaExtranjera, "CodigoMonedaExtranjera", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(valRecord.NombreMonedaExtranjera, "NombreMonedaExtranjera", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaDivisaComoMonedaPrincipalDeIngresoDeDatosAsBool), "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos", valConsecutivoCompania));
@@ -1413,7 +1420,7 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.GroupName = GetGroupNameSegunColumna(valListGetSettValueByCompany, "CodigoMonedaLocal");
             vResult.CodigoMonedaLocal = ValorSegunColumna(valListGetSettValueByCompany, "CodigoMonedaLocal");
             vResult.NombreMonedaLocal = ValorSegunColumna(valListGetSettValueByCompany, "NombreMonedaLocal");
-            vResult.UsaMonedaExtranjeraAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaMonedaExtranjera"));         
+            vResult.UsaMonedaExtranjeraAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaMonedaExtranjera"));
             vResult.CodigoMonedaExtranjera = ValorSegunColumna(valListGetSettValueByCompany, "CodigoMonedaExtranjera");
             vResult.NombreMonedaExtranjera = ValorSegunColumna(valListGetSettValueByCompany, "NombreMonedaExtranjera");
             vResult.UsaDivisaComoMonedaPrincipalDeIngresoDeDatosAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"));
@@ -1794,7 +1801,7 @@ namespace Galac.Saw.Brl.SttDef {
             insParametros.ParametrosCobranzasStt = GetCobranzasStt(vListGetSettValueByCompany);
             insParametros.ParametrosComisionesStt = GetComisionesStt(vListGetSettValueByCompany);
             insParametros.ParametrosCompaniaStt = GetCompaniaStt(vListGetSettValueByCompany);
-            insParametros.ParametrosComprasStt = GetComprasStt(vListGetSettValueByCompany); ;
+            insParametros.ParametrosComprasStt = GetComprasStt(vListGetSettValueByCompany);            
             insParametros.ParametrosCotizacionStt = GetCotizacionStt(vListGetSettValueByCompany);
             insParametros.ParametrosCxPProveedorPagosStt = GetCxPProveedorPagosStt(vListGetSettValueByCompany);
             insParametros.ParametrosFacturacionContinuacionStt = GetFacturacionContinuacionStt(vListGetSettValueByCompany);
@@ -2563,7 +2570,7 @@ namespace Galac.Saw.Brl.SttDef {
             return vResult;
         }
 
-        void ISettValueByCompanyPdn.GuardarDatosImprentaDigitalAppSettings(eProveedorImprentaDigital valProveedor, string valUsuario, string valClave,  string valUrl) {
+        void ISettValueByCompanyPdn.GuardarDatosImprentaDigitalAppSettings(eProveedorImprentaDigital valProveedor, string valUsuario, string valClave, string valUrl) {
             string vCampoUsuario = string.Empty;
             string vCampoClave = string.Empty;
             bool vContinuar = false;
@@ -2584,5 +2591,49 @@ namespace Galac.Saw.Brl.SttDef {
             }
 
         }
+
+        ObservableCollection<string> ISettValueByCompanyPdn.ListaDeUsuariosSupervisoresActivos() {
+            ObservableCollection<string> vResult = new ObservableCollection<string>();
+            string vSql = "SELECT UserName FROM Lib.GUser WHERE Status = '0' AND IsSuperviser = 'S' ORDER BY UserName";
+            XElement vResultSet = LibBusiness.ExecuteSelect(vSql, null, "", 0);
+            if (vResultSet != null) {
+                var vEntity = from vRecord in vResultSet.Descendants("GpResult") select vRecord;
+                foreach (XElement vItem in vEntity) {
+                    if (vItem != null) {
+                        vResult.Add(LibConvert.ToStr(vItem.Element("UserName").Value));
+                    }
+                }
+            }
+            return vResult;
+        }
+
+        void ISettValueByCompanyPdn.EjecutaConexionConGVentas(int valConsecutivoCompania, string valParametroSuscripcionGVentas, string valSerialConectorGVentas, string valNombreCompaniaGVentas, string valRIFCompaniaAdministrativo, string valNombreCompaniaAdministrativo, string valNombreUsuarioOperaciones) {
+            try {
+                LibWebConnector.clsSuscripcion insSuscripcion = new LibWebConnector.clsSuscripcion();
+                string vDatabaseName = LibServiceInfo.GetDatabaseName();
+                string vServerName = LibServiceInfo.GetServerName();
+                int vGuionSeparador = LibString.IndexOf(valNombreCompaniaGVentas, '|');
+                string vRIFCompaniaGVentas = LibString.SubString(valNombreCompaniaGVentas, vGuionSeparador + 2);
+                valNombreCompaniaGVentas = LibString.SubString(valNombreCompaniaGVentas, 0, vGuionSeparador - 2);
+                if (insSuscripcion.ActivarConexionGVentas(valSerialConectorGVentas, valRIFCompaniaAdministrativo, valNombreCompaniaGVentas, valNombreUsuarioOperaciones, vDatabaseName, vServerName, vRIFCompaniaGVentas)) {
+                    ActualizaValoresEnAdministrativo(valConsecutivoCompania, valParametroSuscripcionGVentas, valSerialConectorGVentas, vRIFCompaniaGVentas);
+                }
+            } catch (Exception vEx) {
+                throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
+            }
+        }
+
+        private void ActualizaValoresEnAdministrativo(int valConsecutivoCompania, string valParametroSuscripcionGVentas, string valSerialConectorGVentas, string valNumeroIDGVentas) {
+            QAdvSql insSql = new QAdvSql("");
+            string vSql = "UPDATE COMPANIA SET ConectadaConG360 = " + insSql.ToSqlValue(true) + " WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania);
+            LibBusiness.ExecuteUpdateOrDelete(vSql, null, "", 0);
+            vSql = "UPDATE Comun.SettValueByCompany SET Value = " + insSql.ToSqlValue(valParametroSuscripcionGVentas) + " WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania) + " AND NameSettDefinition = " + insSql.ToSqlValue("SuscripcionGVentas");
+            LibBusiness.ExecuteUpdateOrDelete(vSql, null, "", 0);
+            vSql = "UPDATE Comun.SettValueByCompany SET Value = " + insSql.ToSqlValue(valSerialConectorGVentas) + " WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania) + " AND NameSettDefinition =" + insSql.ToSqlValue("SerialConectorGVentas");
+            LibBusiness.ExecuteUpdateOrDelete(vSql, null, "", 0);
+            vSql = "UPDATE Comun.SettValueByCompany SET Value = " + insSql.ToSqlValue(valNumeroIDGVentas) + " WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania) + " AND NameSettDefinition =" + insSql.ToSqlValue("NumeroIDGVentas");
+            LibBusiness.ExecuteUpdateOrDelete(vSql, null, "", 0);
+        }
+
     } //End of class clsSettValueByCompanyNav
 } //End of namespace Galac.Saw.Brl.PrdStt

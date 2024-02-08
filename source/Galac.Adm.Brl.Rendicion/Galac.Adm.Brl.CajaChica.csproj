@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -35,23 +35,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="LibGalac.Aos.Base">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Base.5.24.0\lib\LibGalac.Aos.Base.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Brl">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Brl.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Brl.5.24.0\lib\LibGalac.Aos.Brl.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Catching">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Catching.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Catching.5.24.0\lib\LibGalac.Aos.Catching.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Cib">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Cib.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Cib.5.24.0\lib\LibGalac.Aos.Cib.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.Cib">
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Cib.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.UI.Cib.5.24.0\lib\LibGalac.Aos.UI.Cib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -110,6 +106,9 @@
       <Project>{8e983401-52bc-4828-838c-01585fe3a8e7}</Project>
       <Name>Galac.Saw.Ccl.Contabilizacion</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

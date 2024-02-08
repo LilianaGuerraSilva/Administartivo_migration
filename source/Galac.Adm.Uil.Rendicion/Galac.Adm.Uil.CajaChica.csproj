@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -46,46 +46,37 @@
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.Impuesto.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.ARRpt">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.ARRpt.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.ARRpt.5.24.0\lib\LibGalac.Aos.ARRpt.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Base">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Base.5.24.0\lib\LibGalac.Aos.Base.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Brl">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Brl.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Brl.5.24.0\lib\LibGalac.Aos.Brl.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Catching">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Catching.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Catching.5.24.0\lib\LibGalac.Aos.Catching.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.DefGen">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.DefGen.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.DefGen.5.24.0\lib\LibGalac.Aos.DefGen.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.Cib">
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Cib.dll</HintPath>
-    </Reference>
-    <Reference Include="LibGalac.Aos.UI.Wpf">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Wpf.dll</HintPath>
-    </Reference>
-    <Reference Include="LibGalac.Aos.UI.WpfControls">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfControls.dll</HintPath>
-    </Reference>
-    <Reference Include="LibGalac.Aos.UI.WpfRD">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfRD.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.UI.Cib.5.24.0\lib\LibGalac.Aos.UI.Cib.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.Mvvm">
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Mvvm.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.UI.Mvvm.5.24.0\lib\LibGalac.Aos.UI.Mvvm.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.Wpf">
+      <HintPath>..\packages\LibGalac.Aos.UI.Wpf.5.24.0\lib\LibGalac.Aos.UI.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.WpfControls">
+      <HintPath>..\packages\LibGalac.Aos.UI.WpfControls.5.24.0\lib\LibGalac.Aos.UI.WpfControls.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.WpfRD">
+      <HintPath>..\packages\LibGalac.Aos.UI.WpfRD.5.24.0\lib\LibGalac.Aos.UI.WpfRD.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Uil">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Uil.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Uil.5.24.0\lib\LibGalac.Aos.Uil.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
@@ -147,6 +138,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

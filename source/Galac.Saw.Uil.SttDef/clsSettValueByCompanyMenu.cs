@@ -21,13 +21,16 @@ namespace Galac.Saw.Uil.SttDef {
         }
         #endregion //Constructores
         #region Metodos Generados
-
         #region Miembros de ILibMenuMultiFile
         void ILibMenuMultiFile.Ejecuta(eAccionSR valAction, int valUseInterop, IDictionary<string, XmlDocument> refGlobalValues) {
-            ParametersViewModel vViewModel = new ParametersViewModel(valAction);
-            vViewModel.InitializeViewModel(valAction);
-            LibMessages.EditViewModel.ShowEditor(vViewModel, true, false);   
-
+            if (valAction == eAccionSR.Activar) {//Conexión con G-Ventas
+                ConexionGVentasViewModel vViewModel = new ConexionGVentasViewModel(valAction);
+                LibMessages.EditViewModel.ShowEditor(vViewModel, true, true);
+            } else {
+                ParametersViewModel vViewModel = new ParametersViewModel(valAction);
+                vViewModel.InitializeViewModel(valAction);
+                LibMessages.EditViewModel.ShowEditor(vViewModel, true, false);
+            }
         }
             
         public static bool ChooseFromInterop(ref XmlDocument refXmlDocument, List<LibSearchDefaultValues> valSearchCriteria, List<LibSearchDefaultValues> valFixedCriteria) {
@@ -36,9 +39,5 @@ namespace Galac.Saw.Uil.SttDef {
 
         #endregion //Miembros de ILibMenu
         #endregion //Metodos Generados
-
-
     } //End of class clsSettValueByCompanyMenu
-
 } //End of namespace Galac.Saw.Uil.SttDef
-

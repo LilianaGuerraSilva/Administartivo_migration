@@ -12,20 +12,17 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
+
 Private Const CM_FILE_NAME As String = "clsMesGeneradoNavigator"
 Private Const CM_MESSAGE_NAME As String = "Mes Generado"
+Private Const fPrimaryKeyExistMessage As String = "Ya existe ConsecutivoCompania,NumeroContrato,FechaDeGeneracion"
+Private Const getSQLSortOrder As String = " ORDER BY mesGenerado.ConsecutivoCompania, mesGenerado.NumeroContrato, mesGenerado.FechaDeGeneracion"
+
 Private mrsMesGenerado As ADODB.Recordset
 Private mConsecutivoCompania As Currency
 Private mNumeroContrato As String
 Private mFechaDeGeneracion As Date
 Private mFechaDeGeneracionIsSet As Boolean
-Private Function GetGender() As Enum_Gender
-   GetGender = eg_Male
-End Function
-
-Private Function fPrimaryKeyExistMessage() As String
-   fPrimaryKeyExistMessage = "Ya existe ConsecutivoCompania,NumeroContrato,FechaDeGeneracion"
-End Function
 
 Private Sub sClrRecord()
    On Error GoTo h_ERROR
@@ -35,7 +32,7 @@ Private Sub sClrRecord()
    mFechaDeGeneracionIsSet = False
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sClrRecord", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sClrRecord", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function GetConsecutivoCompania() As Currency
@@ -80,7 +77,7 @@ Private Sub setRSWithValues()
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "setRSWithValues", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "setRSWithValues", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub setValuesWithRS(ByVal valRecordSet As ADODB.Recordset)
@@ -102,12 +99,8 @@ Private Sub setValuesWithRS(ByVal valRecordSet As ADODB.Recordset)
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "setValuesWithRS", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "setValuesWithRS", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
-
-Private Function getSQLSortOrder() As String
-   getSQLSortOrder = " ORDER BY " & GetTableName() & ".ConsecutivoCompania" & ", " & GetTableName() & ".NumeroContrato" & ", " & GetTableName() & ".FechaDeGeneracion"
-End Function
 
 Private Function fRsOpened() As Boolean
    On Error GoTo h_ERROR
@@ -120,7 +113,7 @@ Private Function fRsOpened() As Boolean
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fRsOpened = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fRsOpened", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fRsOpened", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub sCloseIfOpened()
@@ -130,7 +123,7 @@ Private Sub sCloseIfOpened()
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sCloseIfOpened", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sCloseIfOpened", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sInitRS(ByVal valAction As AccionSobreRecord)
@@ -143,7 +136,7 @@ Private Sub sInitRS(ByVal valAction As AccionSobreRecord)
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInitRS", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInitRS", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fRsRecordCount() As Long
@@ -156,7 +149,7 @@ Private Function fRsRecordCount() As Long
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fRsRecordCount = 0
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fRsRecordCount", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fRsRecordCount", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function GetRsMesGenerado() As ADODB.Recordset
@@ -168,7 +161,7 @@ Public Function GetRsMesGenerado() As ADODB.Recordset
    End If
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "GetRsMesGenerado", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "GetRsMesGenerado", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub Class_Initialize()
@@ -176,7 +169,7 @@ Private Sub Class_Initialize()
    sClrRecord
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "Class_Initialize", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "Class_Initialize", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub Class_Terminate()
@@ -187,7 +180,7 @@ Private Sub Class_Terminate()
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "Class_Terminate", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "Class_Terminate", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fInsert() As Boolean
@@ -207,21 +200,22 @@ h_ERROR: mrsMesGenerado.CancelUpdate
       gMessage.Advertencia (fPrimaryKeyExistMessage)
       On Error GoTo 0
    Else
-      Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fInsert", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+      Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fInsert", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
    End If
 End Function
+
 Private Function fSQLSearchDetail(ByVal valNumeroContrato As String) As String
-   Dim sql As String
+   Dim Sql As String
    On Error GoTo h_ERROR
-   sql = ""
-   sql = gUtilSQL.fSQLNumberValueWithAnd(sql, "ConsecutivoCompania", gProyCompaniaActual.GetConsecutivoCompania)
-   SQL = gUtilSQL.fSQLValueWithAnd(SQL, "NumeroContrato", valNumeroContrato, False)
-   fSQLSearchDetail = "SELECT " & "FechaDeGeneracion, " & "ConsecutivoCompania, " & "NumeroContrato" & " FROM " & GetTableName & " " & gUtilSQL.getWhereSQL(sql) & getSQLSortOrder()
+   Sql = gUtilSQL.fSQLNumberValueWithAnd("", "ConsecutivoCompania", gProyCompaniaActual.GetConsecutivoCompania)
+   Sql = gUtilSQL.fSQLValueWithAnd(Sql, "NumeroContrato", valNumeroContrato, False)
+   fSQLSearchDetail = "SELECT FechaDeGeneracion, ConsecutivoCompania, NumeroContrato FROM " & GetTableName & " " & gUtilSQL.getWhereSQL(Sql) & getSQLSortOrder
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fSQLSearchDetail = ""
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLSearchDetail", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLSearchDetail", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
+
 Public Function HayAlMenosUnMesGenerado(ByVal valNumeroContrato As String) As Boolean
    Dim HayAlMenosUno As Boolean
    On Error GoTo h_ERROR
@@ -235,7 +229,7 @@ Public Function HayAlMenosUnMesGenerado(ByVal valNumeroContrato As String) As Bo
    HayAlMenosUnMesGenerado = HayAlMenosUno
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "HayAlMenosUnMesGenerado", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "HayAlMenosUnMesGenerado", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fAddNewMesGenerado(ByVal valNumeroContrato As String, ByVal valFechaDeGeneracion As Date) As Boolean
@@ -250,7 +244,7 @@ Public Function fAddNewMesGenerado(ByVal valNumeroContrato As String, ByVal valF
    End If
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fAddNewMesGenerado", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fAddNewMesGenerado", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Sub sAddDirectoDesdeRecordsetExterno(ByVal valConsecutivoCompaniaNew As Long, ByVal valRecordSet As ADODB.Recordset)
@@ -272,9 +266,10 @@ h_ERROR: If gUtilRespaldo.fIgnorarElErrorDeRestauracion(Err.Number, Err.HelpCont
       mrsMesGenerado.CancelUpdate
       GoTo h_EXIT
    Else
-      Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAddDirectoDesdeRecordsetExterno", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+      Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAddDirectoDesdeRecordsetExterno", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
    End If
 End Sub
+
 Public Function fSiExistenBuscaLosMesesGenerados(ByVal valNumeroContrato As String, ByVal valConMensaje As Boolean) As Boolean
    Dim HayAlMenosUno As Boolean
    On Error GoTo h_ERROR
@@ -291,6 +286,23 @@ h_EXIT:
    fSiExistenBuscaLosMesesGenerados = HayAlMenosUno
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSiExistenBuscaLosMesesGenerados", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSiExistenBuscaLosMesesGenerados", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
+Public Function GetMesesGeneradosListaSeparadaPorComa() As String
+   Dim vResult As String
+   On Error GoTo h_ERROR
+   vResult = ""
+   If fRsRecordCount > 0 Then
+      mrsMesGenerado.MoveFirst
+      While Not mrsMesGenerado.EOF
+         vResult = vResult & gConvert.dateToString(mrsMesGenerado("FechaDeGeneracion")) & ","
+         mrsMesGenerado.MoveNext
+      Wend
+   End If
+h_EXIT:
+   GetMesesGeneradosListaSeparadaPorComa = vResult
+   On Error GoTo 0
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "GetMesesGeneradosListaSeparadaPorComa", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function

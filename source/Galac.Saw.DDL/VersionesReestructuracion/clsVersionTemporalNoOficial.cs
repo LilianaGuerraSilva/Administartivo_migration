@@ -4,6 +4,7 @@ using Galac.Saw.Ccl.Tablas;
 using Galac.Saw.Brl.Tablas;
 using System.ComponentModel.DataAnnotations;
 using Galac.Saw.Ccl.SttDef;
+using LibGalac.Aos.Base;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
 
@@ -14,5 +15,6 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			DisposeConnectionNoTransaction();
 			return true;
 		}
+
 	}
 }   
