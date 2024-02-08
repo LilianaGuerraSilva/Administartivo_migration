@@ -17,6 +17,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         public override bool UpdateToVersion() {
             StartConnectionNoTransaction();
             AgregaParametroGeneral();
+            DeleteSettValueByCompany();
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -24,6 +25,10 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             AgregarNuevoParametro("SuscripcionGVentas", "DatosGenerales", 1, "1.2.-General", 2, "", '2', "", 'N', "0");
             AgregarNuevoParametro("SerialConectorGVentas", "DatosGenerales", 1, "1.2.-General", 2, "", '2', "", 'S', "");
             AgregarNuevoParametro("NumeroIDGVentas", "DatosGenerales", 1, "1.2.-General", 2, "", '2', "", 'N', "");
+        }
+
+        private void DeleteSettValueByCompany() {
+            Execute("DELETE FROM Comun.SettValueByCompany WHERE NameSettDefinition = 'SolicitarIngresoDeTasaDeCambioAlEmitir'", 0);           
         }
     }
 }
