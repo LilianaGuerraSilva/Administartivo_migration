@@ -37,12 +37,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Galac.Comun.Brl.TablasGen">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.TablasGen.dll</HintPath>
+      <HintPath>..\packages\Galac.Comun.Brl.TablasGen.2.61.0\lib\Galac.Comun.Brl.TablasGen.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Comun.Ccl.TablasGen">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.TablasGen.dll</HintPath>
+      <HintPath>..\packages\Galac.Comun.Ccl.TablasGen.2.61.0\lib\Galac.Comun.Ccl.TablasGen.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Base">
       <HintPath>..\packages\LibGalac.Aos.Base.5.24.0\lib\LibGalac.Aos.Base.dll</HintPath>
@@ -457,8 +455,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Administrativo\source\Galac.Saw.LibWebConector\Galac.Saw.LibWebConnector.csproj">
-      <Project>{6a1396a8-0545-4fa3-83a6-286cc1849ad7}</Project>
+    <ProjectReference Include="..\Galac.Saw.LibWebConector\Galac.Saw.LibWebConnector.csproj">
+      <Project>{08f52bb0-7708-4326-b74c-ac49629c8647}</Project>
       <Name>Galac.Saw.LibWebConnector</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Adm.Brl.Banco\Galac.Adm.Brl.Banco.csproj">
