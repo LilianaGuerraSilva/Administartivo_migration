@@ -2607,16 +2607,16 @@ namespace Galac.Saw.Brl.SttDef {
             return vResult;
         }
 
-        void ISettValueByCompanyPdn.EjecutaConexionConGVentas(int valConsecutivoCompania, string valParametroSuscripcionGVentas, string valSerialConectorGVentas, string valNombreCompaniaGVentas, string valRIFCompaniaAdministrativo, string valNombreCompaniaAdministrativo, string valNombreUsuarioOperaciones) {
+        void ISettValueByCompanyPdn.EjecutaConexionConGVentas(int valConsecutivoCompania, string valParametroSuscripcionGVentas, string valSerialConectorGVentas, string valNombreCompaniaAdmin, string valRIFCompaniaGVentas, string valNombreCompaniaAdministrativo, string valNombreUsuarioOperaciones) {
             try {
                 LibWebConnector.clsSuscripcion insSuscripcion = new LibWebConnector.clsSuscripcion();
                 string vDatabaseName = LibServiceInfo.GetDatabaseName();
                 string vServerName = LibServiceInfo.GetServerName();
-                int vGuionSeparador = LibString.IndexOf(valNombreCompaniaGVentas, '|');
-                string vRIFCompaniaGVentas = LibString.SubString(valNombreCompaniaGVentas, vGuionSeparador + 2);
-                valNombreCompaniaGVentas = LibString.SubString(valNombreCompaniaGVentas, 0, vGuionSeparador - 2);
-                if (insSuscripcion.ActivarConexionGVentas(valSerialConectorGVentas, valRIFCompaniaAdministrativo, valNombreCompaniaGVentas, valNombreUsuarioOperaciones, vDatabaseName, vServerName, vRIFCompaniaGVentas)) {
-                    ActualizaValoresEnAdministrativo(valConsecutivoCompania, valParametroSuscripcionGVentas, valSerialConectorGVentas, vRIFCompaniaGVentas);
+                int vGuionSeparador = LibString.IndexOf(valNombreCompaniaAdmin, '|');
+                string vRIFCompaniaAdmin = LibString.SubString(valNombreCompaniaAdmin, vGuionSeparador + 2);
+                valNombreCompaniaAdmin = LibString.SubString(valNombreCompaniaAdmin, 0, vGuionSeparador - 2);
+                if (insSuscripcion.ActivarConexionGVentas(valConsecutivoCompania, valSerialConectorGVentas, vRIFCompaniaAdmin, valNombreCompaniaAdmin, valNombreUsuarioOperaciones, vDatabaseName, vServerName, valRIFCompaniaGVentas)) {
+                    ActualizaValoresEnAdministrativo(valConsecutivoCompania, valParametroSuscripcionGVentas, valSerialConectorGVentas, valNombreCompaniaAdmin);
                 }
             } catch (Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);

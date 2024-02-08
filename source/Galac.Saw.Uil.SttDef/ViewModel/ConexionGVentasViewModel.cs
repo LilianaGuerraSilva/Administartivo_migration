@@ -120,7 +120,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             try {
                 mAction = valAction;
                 CompaniaActualNombre = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre");
-                CompaniaActualRIF = LibAppSettings.ReadAppSettingsKey("NRORIFQA"); //  LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "NumeroDeRIF");
+                CompaniaActualRIF = LibAppSettings.ReadAppSettingsKey("NRORIFQA"); // LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "NumeroDeRIF");
                 SuscripcionGVentas = new clsSuscripcion().GetCaracteristicaGVentas();
                 InquilinoNombre = LibString.IsNullOrEmpty(SuscripcionGVentas.TenantNombre) ? "No se encontró información del inquilino." : SuscripcionGVentas.TenantNombre;
                 LlenaListaCompaniaGVentas();
@@ -189,14 +189,20 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         private void ExecuteEstablecerConexionConGVentas() {
-            string[] vCodigos = SuscripcionGVentas.Caracteristicas.Select(p => p.Codigo).ToArray();
-            string vParametroSuscripcionGVentas;
-            if (vCodigos != null && vCodigos.Count() > 0) {
-                vParametroSuscripcionGVentas = string.Join(";", vCodigos);
-            } else {
-                vParametroSuscripcionGVentas = "1000";
+            try {
+                string[] vCodigos = SuscripcionGVentas.Caracteristicas.Select(p => p.Codigo).ToArray();
+                string vParametroSuscripcionGVentas;
+                if (vCodigos != null && vCodigos.Count() > 0) {
+                    vParametroSuscripcionGVentas = string.Join(";", vCodigos);
+                } else {
+                    vParametroSuscripcionGVentas = "1000";
+                }
+            ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).EjecutaConexionConGVentas(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), vParametroSuscripcionGVentas, SerialConector, CompaniaGVentasNombres, CompaniaActualRIF, CompaniaActualNombre, UsuarioDeOperaciones);
+            } catch (GalacException vGx) {
+                LibGalac.Aos.UI.Wpf.LibExceptionDisplay.Show(vGx);
+            } catch (Exception vEx) {
+                LibGalac.Aos.UI.Wpf.LibExceptionDisplay.Show(vEx);
             }
-            ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).EjecutaConexionConGVentas(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania"), vParametroSuscripcionGVentas, SerialConector, CompaniaGVentasNombres, CompaniaActualRIF, CompaniaActualNombre, UsuarioDeOperaciones);
         }
         #endregion //Metodos Generados       
 
