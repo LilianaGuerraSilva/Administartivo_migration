@@ -15,6 +15,7 @@ using LibGalac.Aos.Catching;
 using System.Diagnostics.SymbolStore;
 using System.Net.Http;
 using System.Threading.Tasks;
+using LibGalac.Aos.DefGen;
 
 namespace Galac.Saw.LibWebConnector {
     public class clsSuscripcion {
@@ -94,6 +95,36 @@ namespace Galac.Saw.LibWebConnector {
                 usuario = string.Empty;
             }
         }
+        #region Clase para el manejo de errores
+        [JsonObject("error")]
+        public class clsError {
+        [JsonProperty("code")]
+         public   string code { get; set; }
+        [JsonProperty("message")]
+         public   string message { get; set; }
+        [JsonProperty("details")]
+        public    string details { get; set; }
+        [JsonProperty("data")]
+        public  data dData { get; set; } }
+
+        public class data {
+            [JsonProperty("additionalProp1")]
+            string additionalProp1 { get; set; }
+            [JsonProperty("additionalProp2")]
+            string additionalProp2 { get; set; }
+            [JsonProperty("additionalProp3")]
+            string additionalProp3 { get; set; }
+            [JsonProperty("validationErrors")]
+            clsValidationErrors[] validationErrors { get; set; }
+        }
+
+        private class clsValidationErrors {
+            [JsonProperty("message")]
+            string message{ get; set; }
+            [JsonProperty("members")]
+            string[] members{ get; set; }
+        }
+        #endregion Clase para el manejo de errores
 
         HttpWebResponse GetResponseGET(string valUrl) {
             try {
@@ -109,53 +140,40 @@ namespace Galac.Saw.LibWebConnector {
             }
         }
 
-        //bool PostResponse(string valUrl, string valJSonData, ref string refMensaje) {
-        //    try {
-        //        bool vResult = false;
-        //        HttpClient vHttpClient = new HttpClient();
-        //        vHttpClient.BaseAddress = new Uri(GetEndPointGVentas());
-        //        HttpContent vContent = new StringContent(valJSonData, Encoding.UTF8, "application/json");
-        //        Task<HttpResponseMessage> vHttpRespMsg = vHttpClient.PutAsync(valUrl, vContent);
-        //        vHttpRespMsg.Wait();
-        //        refMensaje = vHttpRespMsg.Result.RequestMessage.ToString();
-        //        vHttpRespMsg.Result.EnsureSuccessStatusCode();
-        //        if (vHttpRespMsg.Result.Content != null) {
-        //            Task<string> HttpReqs = vHttpRespMsg.Result.Content.ReadAsStringAsync();
-        //            HttpReqs.Wait();
-        //            //infoReqs = JsonConvert.DeserializeObject<stPostResq>(HttpReqs.Result);
-        //        }
-        //        return vResult;
-        //    } catch (Exception vEx) {
-        //        throw vEx;
-        //    }
-        //}
-
-
-        HttpWebResponse PostResponse(string valUrl, string valJSonData) {
+        public bool GetResponsePUT(string valUrl, string valJSonData, ref string refMensaje) {
+            bool vResult = false;
+            clsError infoReqs = new clsError();
             try {
-                HttpWebResponse vResult;
-                Uri vBaseUri = new Uri(GetEndPointGVentas());
-                HttpWebRequest vRequest = (HttpWebRequest)WebRequest.Create(new Uri(vBaseUri, valUrl));
-                vRequest.ContentType = "application/json";
-                vRequest.Method = "PUT";
-                byte[] vBlockBytes = Encoding.UTF8.GetBytes(valJSonData);
-                vRequest.ContentLength = vBlockBytes.Length;
-                using (Stream requestStream = vRequest.GetRequestStream()) {
-                    requestStream.Write(vBlockBytes, 0, vBlockBytes.Length);
+                HttpClient vHttpClient = new HttpClient();
+                vHttpClient.BaseAddress = new Uri(GetEndPointGVentas());
+                HttpContent vContent = new StringContent(valJSonData, Encoding.UTF8, "application/json");
+                Task<HttpResponseMessage> vHttpRespMsg = vHttpClient.PutAsync(valUrl, vContent);
+                vHttpRespMsg.Wait();
+                if (vHttpRespMsg.Result.StatusCode == HttpStatusCode.OK) {
+                    vHttpRespMsg.Result.EnsureSuccessStatusCode();
                 }
-                using (HttpWebResponse response = (HttpWebResponse)vRequest.GetResponse()) {
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream())) {
-                        string result = reader.ReadToEnd();
-                        //Console.WriteLine("Respuesta del servidor: " + result);
-                    }
+                Task<string> HttpResq = vHttpRespMsg.Result.Content.ReadAsStringAsync();
+                HttpResq.Wait();
+                if (HttpResq.Result == "true") {
+                    vResult = true;
+                } else {
+                    infoReqs = JsonConvert.DeserializeObject<clsError>(HttpResq.Result);
+                    string vMensaje = HttpResq.Result;
+                    int vCorte = LibString.IndexOf(vMensaje, "\"message\":");
+                    vMensaje = LibString.SubString(vMensaje, vCorte);
+                    vCorte = LibString.IndexOf(vMensaje, ":");
+                    vMensaje = LibString.SubString(vMensaje, vCorte + 2);
+                    vCorte = LibString.IndexOf(vMensaje, ",");
+                    vMensaje = LibString.SubString(vMensaje, 0, vCorte - 1);
+                    refMensaje = vMensaje;
                 }
-                vResult = (HttpWebResponse)vRequest.GetResponse();
                 return vResult;
-            } catch (Exception vEx) {
-                throw vEx;
+            } catch (AggregateException) {
+                throw;
+            } catch (Exception) {
+                throw;
             }
-        }
-
+        }      
 
         string AddParametroNumeroDeIdentificacionFiscal(string valUrl, string valNumeroDeIDentificacionFiscal, string valKeyNumeroDeIdentificacion) {
             string vResult = valUrl;
@@ -210,8 +228,12 @@ namespace Galac.Saw.LibWebConnector {
                 insDatosDeConexion.serialDeConexion = valSerialConectorGVentas;
                 insDatosDeConexion.consecutivoCompania = LibConvert.ToStr(valConsecutivoCompania);
                 string JSonData = JsonConvert.SerializeObject(insDatosDeConexion, Formatting.Indented);
-                HttpWebResponse vReq = PostResponse(@"/api/saas/tenants/configurar-conexion-de-la-compania", JSonData);
-                return vResult = (vReq.StatusCode == HttpStatusCode.OK);
+                if (GetResponsePUT(@"/api/saas/tenants/configurar-conexion-de-la-compania", JSonData, ref vMensaje)) {
+                    vResult = true;
+                } else {
+                    throw new GalacException(vMensaje, eExceptionManagementType.Validation);
+                }
+                return vResult;
             } catch (Exception) {
                 throw;
             }

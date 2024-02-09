@@ -197,7 +197,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 } else {
                     vParametroSuscripcionGVentas = "1000";
                 }
-            ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).EjecutaConexionConGVentas(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), vParametroSuscripcionGVentas, SerialConector, CompaniaGVentasNombres, CompaniaActualRIF, CompaniaActualNombre, UsuarioDeOperaciones);
+                if (((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).EjecutaConexionConGVentas(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), vParametroSuscripcionGVentas, SerialConector, CompaniaGVentasNombres, CompaniaActualRIF, CompaniaActualNombre, UsuarioDeOperaciones)) {
+                    LibMessages.MessageBox.Information(this, "Activación realizada con exíto.", ModuleName);
+                }
             } catch (GalacException vGx) {
                 LibGalac.Aos.UI.Wpf.LibExceptionDisplay.Show(vGx);
             } catch (Exception vEx) {
