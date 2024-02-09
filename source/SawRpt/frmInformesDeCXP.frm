@@ -1841,7 +1841,7 @@ Private Function fNombreDelArchivo(ByVal valLibro As String) As String
    Dim NombreArchivo As String
    On Error GoTo h_ERROR
    varNombreArchivoXLS = gTexto.QuitaCaracteresInvalidosParaDirectorio(gTexto.DfReplace(valLibro, ".", ""))
-   NombreArchivo = gWorkPaths.GetDatabaseDir & "ArchivosXls\" & gUtilFile.fCreaElNombreDeArchivoDeExportacion(gProyCompaniaActual.GetNombre, True, varNombreArchivoXLS, ".xls")
+   NombreArchivo = gDefgen.fDataPathUser & "ArchivosXls\" & gUtilFile.fCreaElNombreDeArchivoDeExportacion(gProyCompaniaActual.GetNombre, True, varNombreArchivoXLS, ".xls")
    fNombreDelArchivo = NombreArchivo
 h_EXIT:
    On Error GoTo 0
