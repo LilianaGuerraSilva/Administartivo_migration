@@ -6,14 +6,6 @@
 	path = source/Axi
 	url = https://github.com/Galac-Software/Axi.git
 	branch = master
-[submodule "bin/binComunAos"]
-	path = bin/binComunAos
-	url = https://github.com/GalacSoftware/BinComunAos.git
-	branch = release/SawV24.3.0.0
-[submodule "bin/binContabilidadAos"]
-	path = bin/binContabilidadAos
-	url = https://github.com/GalacSoftware/BinContabilidadAos.git
-	branch = release/SawV24.3.0.0
 [submodule "bin/binContabilidadVb"]
 	path = bin/binContabilidadVb
 	url = https://github.com/GalacSoftware/BinContabilidadVb.git
