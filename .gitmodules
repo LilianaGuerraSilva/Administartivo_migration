@@ -6,10 +6,6 @@
 	path = source/Axi
 	url = https://github.com/Galac-Software/Axi.git
 	branch = master
-[submodule "bin/binContabilidadVb"]
-	path = bin/binContabilidadVb
-	url = https://github.com/GalacSoftware/BinContabilidadVb.git
-	branch = release/SawV24.3.0.0
 [submodule "bin/binEsqNiif"]
 	path = bin/binEsqNiif
 	url = https://github.com/GalacSoftware/BinEsqNiif.git
@@ -18,21 +14,9 @@
 	path = source/ContabilidadVb
 	url = https://github.com/GalacSoftware/ContabilidadVb.git
 	branch = release/SawV24.3.0.0
-[submodule "source/ContabIwrp"]
-	path = source/ContabIwrp
-	url = https://github.com/GalacSoftware/ContabiWrp.git
-	branch = release/SawV24.3.0.0
 [submodule "source/IvaVb"]
 	path = source/IvaVb
 	url = https://github.com/GalacSoftware/IvaVb.git
-	branch = release/SawV24.3.0.0
-[submodule "source/RetencionesVb"]
-	path = source/RetencionesVb
-	url = https://github.com/GalacSoftware/RetencionesVb.git
-	branch = release/SawV24.3.0.0
-[submodule "source/vbaComun"]
-	path = source/vbaComun
-	url = https://github.com/GalacSoftware/vbaComun.git
 	branch = release/SawV24.3.0.0
 [submodule "source/Lib/VbaLib"]
 	path = source/Lib/VbaLib
@@ -62,11 +46,27 @@
 	path = bin/binAdministrativoVb
 	url = https://github.com/GalacSoftware/BinAdministrativoVB.git
 	branch = release/V2402
+[submodule "bin/binContabilidadVb"]
+	path = bin/binContabilidadVb
+	url = https://github.com/GalacSoftware/BinContabilidadVb.git
+	branch = release/SawV25.0.0.0
 [submodule "bin/binComunAos"]
 	path = bin/binComunAos
 	url = https://github.com/GalacSoftware/BinComunAos.git
-	branch = release/V2.61.0.0
+	branch = release/SawV25.0.0.0
 [submodule "bin/binContabilidadAos"]
 	path = bin/binContabilidadAos
 	url = https://github.com/GalacSoftware/BinContabilidadAos.git
-	branch = release/V2.61.0.0
+	branch = release/SawV25.0.0.0
+[submodule "source/ContabIwrp"]
+	path = source/ContabIwrp
+	url = https://github.com/GalacSoftware/ContabiWrp.git
+	branch = release/SawV25.0.0.0
+[submodule "source/vbaComun"]
+	path = source/vbaComun
+	url = https://github.com/GalacSoftware/vbaComun.git
+	branch = release/SawV25.0.0.0
+[submodule "source/RetencionesVb"]
+	path = source/RetencionesVb
+	url = https://github.com/GalacSoftware/RetencionesVb.git
+	branch = release/SawV25.0.0.0
