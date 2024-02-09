@@ -97,32 +97,33 @@ namespace Galac.Saw.LibWebConnector {
         }
         #region Clase para el manejo de errores
         [JsonObject("error")]
-        public class clsError {
+        public class Error {
         [JsonProperty("code")]
-         public   string code { get; set; }
+        public   string code { get; set; }
         [JsonProperty("message")]
-         public   string message { get; set; }
+        public   string message { get; set; }
         [JsonProperty("details")]
         public    string details { get; set; }
         [JsonProperty("data")]
-        public  data dData { get; set; } }
+        public  data data { get; set; } 
+        [JsonProperty("validationErrors")]
+        public ValidationErrors[] validationErrors{ get; set; }         
+        }
 
         public class data {
             [JsonProperty("additionalProp1")]
-            string additionalProp1 { get; set; }
+            public  string additionalProp1 { get; set; }
             [JsonProperty("additionalProp2")]
-            string additionalProp2 { get; set; }
+            public string additionalProp2 { get; set; }
             [JsonProperty("additionalProp3")]
-            string additionalProp3 { get; set; }
-            [JsonProperty("validationErrors")]
-            clsValidationErrors[] validationErrors { get; set; }
+            public  string additionalProp3 { get; set; }            
         }
 
-        private class clsValidationErrors {
+        public class ValidationErrors {
             [JsonProperty("message")]
-            string message{ get; set; }
+            public string message{ get; set; }
             [JsonProperty("members")]
-            string[] members{ get; set; }
+            public string[] members{ get; set; }
         }
         #endregion Clase para el manejo de errores
 
@@ -142,7 +143,7 @@ namespace Galac.Saw.LibWebConnector {
 
         public bool GetResponsePUT(string valUrl, string valJSonData, ref string refMensaje) {
             bool vResult = false;
-            clsError infoReqs = new clsError();
+            Error infoReqs = new Error();
             try {
                 HttpClient vHttpClient = new HttpClient();
                 vHttpClient.BaseAddress = new Uri(GetEndPointGVentas());
@@ -157,7 +158,7 @@ namespace Galac.Saw.LibWebConnector {
                 if (HttpResq.Result == "true") {
                     vResult = true;
                 } else {
-                    infoReqs = JsonConvert.DeserializeObject<clsError>(HttpResq.Result);
+                    infoReqs = JsonConvert.DeserializeObject<Error>(HttpResq.Result);
                     string vMensaje = HttpResq.Result;
                     int vCorte = LibString.IndexOf(vMensaje, "\"message\":");
                     vMensaje = LibString.SubString(vMensaje, vCorte);
