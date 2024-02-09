@@ -54,3 +54,19 @@
 	path = bin/binComunAos
 	url = https://github.com/GalacSoftware/BinComunAos.git
 	branch = release/SawV25.0.0.0
+[submodule "bin/binContabilidadAos"]
+	path = bin/binContabilidadAos
+	url = https://github.com/GalacSoftware/BinContabilidadAos.git
+	branch = release/SawV25.0.0.0
+[submodule "source/ContabIwrp"]
+	path = source/ContabIwrp
+	url = https://github.com/GalacSoftware/ContabiWrp.git
+	branch = release/SawV25.0.0.0
+[submodule "source/vbaComun"]
+	path = source/vbaComun
+	url = https://github.com/GalacSoftware/vbaComun.git
+	branch = release/SawV25.0.0.0
+[submodule "source/RetencionesVb"]
+	path = source/RetencionesVb
+	url = https://github.com/GalacSoftware/RetencionesVb.git
+	branch = release/SawV25.0.0.0
