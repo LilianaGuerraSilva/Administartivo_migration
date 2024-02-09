@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -35,20 +35,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Galac.Contab.Brl.Tablas">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Brl.Tablas.dll</HintPath>
+      <HintPath>..\packages\Galac.Contab.Brl.Tablas.2.61.0\lib\Galac.Contab.Brl.Tablas.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Brl.WinCont">
-      <Name>Galac.Contab.Brl.WinCont</Name>
-      <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Brl.WinCont.dll</HintPath>
+      <HintPath>..\packages\Galac.Contab.Brl.WinCont.2.61.0\lib\Galac.Contab.Brl.WinCont.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Ccl.Tablas">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Ccl.Tablas.dll</HintPath>
+      <HintPath>..\packages\Galac.Contab.Ccl.Tablas.2.61.0\lib\Galac.Contab.Ccl.Tablas.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Ccl.WinCont">
-      <Name>Galac.Contab.Ccl.WinCont</Name>
-      <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Ccl.WinCont.dll</HintPath>
+      <HintPath>..\packages\Galac.Contab.Ccl.WinCont.2.61.0\lib\Galac.Contab.Ccl.WinCont.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Saw.Dal.Contabilizacion">
       <Name>Galac.Saw.Dal.Contabilizacion</Name>
