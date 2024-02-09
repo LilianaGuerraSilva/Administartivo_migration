@@ -115,7 +115,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="UIMefActivarG360.cs" />
     <Compile Include="UIMefParameters.cs">
       <SubType>Code</SubType>
     </Compile>
