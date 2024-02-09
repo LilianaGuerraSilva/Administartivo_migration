@@ -198,7 +198,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     vParametroSuscripcionGVentas = "1000";
                 }
                 if (((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).EjecutaConexionConGVentas(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), vParametroSuscripcionGVentas, SerialConector, CompaniaGVentasNombres, CompaniaActualRIF, CompaniaActualNombre, UsuarioDeOperaciones)) {
-                    LibMessages.MessageBox.Information(this, "Activación realizada con exíto.", ModuleName);
+                    LibMessages.MessageBox.Information(this, "Conexión entre Administrativo y G-Ventas realizada con éxito.", ModuleName);
                 }
             } catch (GalacException vGx) {
                 LibGalac.Aos.UI.Wpf.LibExceptionDisplay.Show(vGx);
