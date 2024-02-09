@@ -55,31 +55,31 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Galac.Comun.Brl.TablasGen">
-      <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.TablasGen.dll</HintPath>
+      <HintPath>..\packages\Galac.Comun.Brl.TablasGen.2.61.0\lib\Galac.Comun.Brl.TablasGen.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Comun.Ccl.TablasLey">
-      <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.TablasLey.dll</HintPath>
+      <HintPath>..\packages\Galac.Comun.Ccl.TablasLey.2.61.0\lib\Galac.Comun.Ccl.TablasLey.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Ccl.Tablas">
-      <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Ccl.Tablas.dll</HintPath>
+      <HintPath>..\packages\Galac.Contab.Ccl.Tablas.2.61.0\lib\Galac.Contab.Ccl.Tablas.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Ccl.WinCont">
-      <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Ccl.WinCont.dll</HintPath>
+      <HintPath>..\packages\Galac.Contab.Ccl.WinCont.2.61.0\lib\Galac.Contab.Ccl.WinCont.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.SLev">
-      <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.SLev.dll</HintPath>
+      <HintPath>..\packages\Galac.Contab.SLev.2.61.0\lib\Galac.Contab.SLev.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Ent.Brl.Empresarial">
-      <HintPath>..\..\bin\binComunAos\Galac.Ent.Brl.Empresarial.dll</HintPath>
+      <HintPath>..\packages\Galac.Ent.Brl.Empresarial.2.61.0\lib\Galac.Ent.Brl.Empresarial.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Ent.Ccl.Empresarial">
-      <HintPath>..\..\bin\binComunAos\Galac.Ent.Ccl.Empresarial.dll</HintPath>
+      <HintPath>..\packages\Galac.Ent.Ccl.Empresarial.2.61.0\lib\Galac.Ent.Ccl.Empresarial.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Ent.Dal.Empresarial">
-      <HintPath>..\..\bin\binComunAos\Galac.Ent.Dal.Empresarial.dll</HintPath>
+      <HintPath>..\packages\Galac.Ent.Dal.Empresarial.2.61.0\lib\Galac.Ent.Dal.Empresarial.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Ent.Uil.Empresarial">
-      <HintPath>..\..\bin\binComunAos\Galac.Ent.Uil.Empresarial.dll</HintPath>
+      <HintPath>..\packages\Galac.Ent.Uil.Empresarial.2.61.0\lib\Galac.Ent.Uil.Empresarial.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.ARRpt">
       <HintPath>..\packages\LibGalac.Aos.ARRpt.5.24.0\lib\LibGalac.Aos.ARRpt.dll</HintPath>

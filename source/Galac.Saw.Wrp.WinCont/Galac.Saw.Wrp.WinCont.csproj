@@ -45,31 +45,25 @@
       <HintPath>..\..\bin\binEsqNiif\Galac.Axi.Uil.Balances.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Brl.Tablas">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Brl.Tablas.dll</HintPath>
+      <HintPath>..\packages\Galac.Contab.Brl.Tablas.2.61.0\lib\Galac.Contab.Brl.Tablas.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Brl.WinCont">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Brl.WinCont.dll</HintPath>
+      <HintPath>..\packages\Galac.Contab.Brl.WinCont.2.61.0\lib\Galac.Contab.Brl.WinCont.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Ccl.Tablas">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Ccl.Tablas.dll</HintPath>
+      <HintPath>..\packages\Galac.Contab.Ccl.Tablas.2.61.0\lib\Galac.Contab.Ccl.Tablas.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Ccl.WinCont">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Ccl.WinCont.dll</HintPath>
+      <HintPath>..\packages\Galac.Contab.Ccl.WinCont.2.61.0\lib\Galac.Contab.Ccl.WinCont.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.TablasVbSinMigrar">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.TablasVbSinMigrar.dll</HintPath>
+      <HintPath>..\packages\Galac.Contab.TablasVbSinMigrar.2.61.0\lib\Galac.Contab.TablasVbSinMigrar.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Uil.Tablas">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Uil.Tablas.dll</HintPath>
+      <HintPath>..\packages\Galac.Contab.Uil.Tablas.2.61.0\lib\Galac.Contab.Uil.Tablas.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Uil.WinCont">
-      <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Uil.WinCont.dll</HintPath>
+      <HintPath>..\packages\Galac.Contab.Uil.WinCont.2.61.0\lib\Galac.Contab.Uil.WinCont.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac">
       <HintPath>..\packages\LibGalac.5.24.0\lib\LibGalac.dll</HintPath>
