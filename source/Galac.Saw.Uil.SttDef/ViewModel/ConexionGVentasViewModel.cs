@@ -120,7 +120,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             try {
                 mAction = valAction;
                 CompaniaActualNombre = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre");
-                CompaniaActualRIF = LibAppSettings.ReadAppSettingsKey("NRORIFQA"); // LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "NumeroDeRIF");
+                CompaniaActualRIF = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "NumeroDeRIF");
                 SuscripcionGVentas = new clsSuscripcion().GetCaracteristicaGVentas();
                 InquilinoNombre = LibString.IsNullOrEmpty(SuscripcionGVentas.TenantNombre) ? "No se encontró información del inquilino." : SuscripcionGVentas.TenantNombre;
                 LlenaListaCompaniaGVentas();
