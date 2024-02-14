@@ -2747,7 +2747,7 @@ Private Function fBuscaRutaDestino() As String
       Case Else
          vNombreCarpetaRaiz = "\XMLAdministrativo"
    End Select
-   fBuscaRutaDestino = gDefgen.fDataPathUser & vNombreCarpetaRaiz
+   fBuscaRutaDestino = gDefgen.fDataPathUser(gDefProg.GetSiglasDelPrograma, False) & vNombreCarpetaRaiz
    gUtilFile.fDfMkPath fBuscaRutaDestino & "\", False
 h_EXIT: On Error GoTo 0
    Exit Function
