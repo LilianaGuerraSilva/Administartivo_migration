@@ -224,7 +224,7 @@ namespace Galac.Saw.LibWebConnector {
                 insDatosDeConexion.servidor = valServerName;
                 insDatosDeConexion.usuario = valNombreUsuarioOperaciones;
                 insDatosDeConexion.companiaRif = valRIFCompaniaAdministartivo;
-                insDatosDeConexion.rifDeLicencia = valNroDeIdentificacionFiscal;
+                insDatosDeConexion.rifDeLicencia = GetNroDeIdentificacionFiscal();
                 insDatosDeConexion.companiaNombre = valNombreCompaniaAdministartivo;
                 insDatosDeConexion.serialDeConexion = valSerialConectorGVentas;
                 insDatosDeConexion.consecutivoCompania = LibConvert.ToStr(valConsecutivoCompania);
