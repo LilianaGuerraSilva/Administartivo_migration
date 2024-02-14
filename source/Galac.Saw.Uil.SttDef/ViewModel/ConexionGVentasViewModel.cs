@@ -197,7 +197,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 } else {
                     vParametroSuscripcionGVentas = "1000";
                 }
-                if (((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).EjecutaConexionConGVentas(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), vParametroSuscripcionGVentas, SerialConector, CompaniaGVentasNombres, CompaniaActualRIF, CompaniaActualNombre, UsuarioDeOperaciones)) {
+                if (((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).EjecutaConexionConGVentas(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), vParametroSuscripcionGVentas, SerialConector, CompaniaGVentasNombres, UsuarioDeOperaciones)) {
                     LibMessages.MessageBox.Information(this, "Conexión entre Administrativo y G-Ventas realizada con éxito.", ModuleName);
                 }
             } catch (GalacException vGx) {
@@ -254,7 +254,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             vMensaje.AppendLine();
             vMensaje.Append("Al establecer la conexión, los datos de la compañía ");
             vMensaje.Append("en G-Ventas serán actualizados ");
-            vMensaje.AppendLine("con los datos de la compañía en el Sistema Admnistrativo.");
+            vMensaje.AppendLine("con los datos de la compañía en el Sistema Administrativo.");
             vMensaje.AppendLine();
             vMensaje.Append("¿Desea continuar?");
             vResult = LibMessages.MessageBox.YesNo(this, vMensaje.ToString(), "Conexión con G-Ventas");

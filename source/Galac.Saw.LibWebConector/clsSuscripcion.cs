@@ -215,7 +215,7 @@ namespace Galac.Saw.LibWebConnector {
             return GetCaracteristicaGVentas(GetNroDeIdentificacionFiscal());
         }
 
-        public bool ActivarConexionGVentas(int valConsecutivoCompania, string valSerialConectorGVentas, string valRIFCompaniaAdministartivo, string valNombreCompaniaAdministartivo, string valNombreUsuarioOperaciones, string valDatabaseName, string valServerName, string valNroDeIdentificacionFiscal) {
+        public bool ActivarConexionGVentas(int valConsecutivoCompania, string valSerialConectorGVentas, string valRIFCompaniaAdministartivo, string valNombreCompaniaAdministartivo, string valNombreUsuarioOperaciones, string valDatabaseName, string valServerName) {
             bool vResult = false;
             string vMensaje = string.Empty;
             try {
@@ -224,7 +224,7 @@ namespace Galac.Saw.LibWebConnector {
                 insDatosDeConexion.servidor = valServerName;
                 insDatosDeConexion.usuario = valNombreUsuarioOperaciones;
                 insDatosDeConexion.companiaRif = valRIFCompaniaAdministartivo;
-                insDatosDeConexion.rifDeLicencia = valNroDeIdentificacionFiscal;
+                insDatosDeConexion.rifDeLicencia = GetNroDeIdentificacionFiscal();
                 insDatosDeConexion.companiaNombre = valNombreCompaniaAdministartivo;
                 insDatosDeConexion.serialDeConexion = valSerialConectorGVentas;
                 insDatosDeConexion.consecutivoCompania = LibConvert.ToStr(valConsecutivoCompania);
