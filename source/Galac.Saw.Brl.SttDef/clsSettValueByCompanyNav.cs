@@ -2607,7 +2607,7 @@ namespace Galac.Saw.Brl.SttDef {
             return vResult;
         }
 
-        bool ISettValueByCompanyPdn.EjecutaConexionConGVentas(int valConsecutivoCompania, string valParametroSuscripcionGVentas, string valSerialConectorGVentas, string valNombreCompaniaAdmin, string valRIFCompaniaGVentas, string valNombreCompaniaAdministrativo, string valNombreUsuarioOperaciones) {
+        bool ISettValueByCompanyPdn.EjecutaConexionConGVentas(int valConsecutivoCompania, string valParametroSuscripcionGVentas, string valSerialConectorGVentas, string valNombreCompaniaAdmin, string valNombreUsuarioOperaciones) {
             try {
                 bool vResult = false;
                 LibWebConnector.clsSuscripcion insSuscripcion = new LibWebConnector.clsSuscripcion();
@@ -2616,7 +2616,7 @@ namespace Galac.Saw.Brl.SttDef {
                 int vGuionSeparador = LibString.IndexOf(valNombreCompaniaAdmin, '|');
                 string vRIFCompaniaAdmin = LibString.SubString(valNombreCompaniaAdmin, vGuionSeparador + 2);
                 valNombreCompaniaAdmin = LibString.SubString(valNombreCompaniaAdmin, 0, vGuionSeparador - 2);
-                if (insSuscripcion.ActivarConexionGVentas(valConsecutivoCompania, valSerialConectorGVentas, vRIFCompaniaAdmin, valNombreCompaniaAdmin, valNombreUsuarioOperaciones, vDatabaseName, vServerName, valRIFCompaniaGVentas)) {
+                if (insSuscripcion.ActivarConexionGVentas(valConsecutivoCompania, valSerialConectorGVentas, vRIFCompaniaAdmin, valNombreCompaniaAdmin, valNombreUsuarioOperaciones, vDatabaseName, vServerName)) {
                     ActualizaValoresEnAdministrativo(valConsecutivoCompania, valParametroSuscripcionGVentas, valSerialConectorGVentas, valNombreCompaniaAdmin);
                     vResult = true;
                 }
