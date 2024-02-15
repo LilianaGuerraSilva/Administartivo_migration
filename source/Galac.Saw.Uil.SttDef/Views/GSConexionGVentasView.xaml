@@ -92,7 +92,7 @@
             Width="300"
             BorderThickness="1"
             InputDataType="Alfanumeric"
-            MaxLength="100"
+            MaxLength="36"
             Style="{StaticResource TextBoxInputStyle}"
             Text="{Binding Path=SerialConector, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             VerticalScrollBarVisibility="Auto" />
