@@ -23,8 +23,8 @@ namespace Galac.Saw.LibWebConnector {
             get { return LibString.S1IsEqualToS2(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "NumeroDeRIF"), "J305125430"); }
         }
 
-        public string GetRutaEndpointProduccionInterno { get { return "https://api360infotax.galac.com:2044"; } }
-        public string GetRutaEndpointProduccionClientes { get { return "https://gventasapi.galac.com:51114"; } }
+        public string GetRutaEndpointProduccionInterno { get { return @"https://api360infotax.galac.com:2044"; } }
+        public string GetRutaEndpointProduccionClientes { get { return @"https://gventasapi.galac.com:51114"; } }
       
         public class DatosSuscripcion {
             [JsonProperty("TenantNombre")]
