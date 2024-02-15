@@ -23,8 +23,8 @@ namespace Galac.Saw.LibWebConnector {
             get { return LibString.S1IsEqualToS2(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "NumeroDeRIF"), "J305125430"); }
         }
 
-        public string GetRutaEndpointProduccionInterno { get { return ""; } }
-        public string GetRutaEndpointProduccionClientes { get { return ""; } }
+        public string GetRutaEndpointProduccionInterno { get { return "https://api360infotax.galac.com:2044"; } }
+        public string GetRutaEndpointProduccionClientes { get { return "https://gventasapi.galac.com:51114"; } }
       
         public class DatosSuscripcion {
             [JsonProperty("TenantNombre")]
@@ -137,7 +137,11 @@ namespace Galac.Saw.LibWebConnector {
                 vResult = (HttpWebResponse)vRequest.GetResponse();
                 return vResult;
             } catch (Exception vEx) {
-                throw new GalacException(vEx.Message,eExceptionManagementType.Controlled);                
+                if (LibString.S1IsInS2("URI no válido", vEx.Message) || LibString.S1IsInS2("Invalid URI", vEx.Message)) {
+                    throw new GalacException(@"Valor URI inválido: debe proporcionar un valor válido.", eExceptionManagementType.Controlled);
+                } else {
+                    throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
+                }
             }
         }
 
