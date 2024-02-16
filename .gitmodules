@@ -66,7 +66,3 @@
 	path = source/RetencionesVb
 	url = https://github.com/GalacSoftware/RetencionesVb.git
 	branch = release/SawV25.0.0.0
-[submodule "bin/binEsqNiif"]
-	path = bin/binEsqNiif
-	url = https://github.com/GalacSoftware/BinEsqNiif.git
-	branch = release/SawV25.0.0.0
