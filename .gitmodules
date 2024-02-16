@@ -6,10 +6,6 @@
 	path = source/Axi
 	url = https://github.com/Galac-Software/Axi.git
 	branch = master
-[submodule "bin/binEsqNiif"]
-	path = bin/binEsqNiif
-	url = https://github.com/GalacSoftware/BinEsqNiif.git
-	branch = release/SawV24.3.0.0
 [submodule "source/ContabilidadVb"]
 	path = source/ContabilidadVb
 	url = https://github.com/GalacSoftware/ContabilidadVb.git
