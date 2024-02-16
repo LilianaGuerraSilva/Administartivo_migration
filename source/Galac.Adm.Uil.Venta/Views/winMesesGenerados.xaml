@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Galac.Adm.Uil.Venta"
-        mc:Ignorable="d"
-        Title="Meses Generados" Height="400" Width="300" WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d"		
+        Title="Meses Generados" Height="400" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
     WindowStyle="ToolWindow">
     <Grid>
         <Label x:Name="lblNumeroDeContrato" Content="Contrato Número: XXXXX" Margin="10,0,0,333" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="272"/>
