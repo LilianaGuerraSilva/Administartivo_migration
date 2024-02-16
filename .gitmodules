@@ -69,4 +69,4 @@
 [submodule "source/Axi"]
 	path = source/Axi
 	url = https://github.com/GalacSoftware/Axi.git
-	branch = release/v35.0.0.0
+	branch = release/SawV25.0.0.0
