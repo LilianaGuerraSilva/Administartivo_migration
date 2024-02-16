@@ -37,12 +37,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Galac.Axi.Ccl.Balances">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binEsqNiif\Galac.Axi.Ccl.Balances.dll</HintPath>
+      <HintPath>..\packages\Galac.Axi.Ccl.Balances.2.64.0\lib\Galac.Axi.Ccl.Balances.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Axi.Uil.Balances">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binEsqNiif\Galac.Axi.Uil.Balances.dll</HintPath>
+      <HintPath>..\packages\Galac.Axi.Uil.Balances.2.64.0\lib\Galac.Axi.Uil.Balances.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Brl.Tablas">
       <HintPath>..\packages\Galac.Contab.Brl.Tablas.2.61.0\lib\Galac.Contab.Brl.Tablas.dll</HintPath>
@@ -106,6 +104,9 @@
     </Reference>
     <Reference Include="LibGalac.Cswa">
       <HintPath>..\packages\LibGalac.Cswa.5.14.0\lib\LibGalac.Cswa.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />

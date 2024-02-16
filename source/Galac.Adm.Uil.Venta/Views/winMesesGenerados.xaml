@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Galac.Adm.Uil.Venta"
         mc:Ignorable="d"
-        Title="Meses Generados" Height="400" Width="300" WindowStartupLocation="CenterScreen">
+        Title="Meses Generados" Height="400" Width="300" WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
     <Grid>
         <Label x:Name="lblNumeroDeContrato" Content="Contrato Número: XXXXX" Margin="10,0,0,333" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="272"/>
         <ListBox x:Name="lsbMesesGenerados" Height="293" Margin="0,0,10,35" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="272"/>
