@@ -37,12 +37,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Galac.Axi.Ccl.Balances">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binEsqNiif\Galac.Axi.Ccl.Balances.dll</HintPath>
+      <HintPath>..\packages\Galac.Axi.Ccl.Balances.2.64.0\lib\Galac.Axi.Ccl.Balances.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Axi.Uil.Balances">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binEsqNiif\Galac.Axi.Uil.Balances.dll</HintPath>
+      <HintPath>..\packages\Galac.Axi.Uil.Balances.2.64.0\lib\Galac.Axi.Uil.Balances.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Brl.Tablas">
       <HintPath>..\packages\Galac.Contab.Brl.Tablas.2.61.0\lib\Galac.Contab.Brl.Tablas.dll</HintPath>
