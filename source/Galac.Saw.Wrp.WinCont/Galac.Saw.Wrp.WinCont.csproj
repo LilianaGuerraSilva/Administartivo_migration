@@ -36,10 +36,10 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Galac.Axi.Ccl.Balances, Version=2.64.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="Galac.Axi.Ccl.Balances">
       <HintPath>..\packages\Galac.Axi.Ccl.Balances.2.64.0\lib\Galac.Axi.Ccl.Balances.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Axi.Uil.Balances, Version=2.64.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="Galac.Axi.Uil.Balances">
       <HintPath>..\packages\Galac.Axi.Uil.Balances.2.64.0\lib\Galac.Axi.Uil.Balances.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Brl.Tablas">
