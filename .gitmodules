@@ -66,3 +66,7 @@
 	path = bin/binEsqNiif
 	url = https://github.com/GalacSoftware/BinEsqNiif.git
 	branch = release/SawV25.0.0.0
+[submodule "source/Axi"]
+	path = source/Axi
+	url = https://github.com/GalacSoftware/Axi.git
+	branch = release/v35.0.0.0
