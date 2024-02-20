@@ -245,8 +245,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             bool vResult;
             StringBuilder vMensaje = new StringBuilder();
             int vSeparador = LibString.IndexOf(CompaniaGVentasNombres, '|');
-            string vNombre = LibString.Trim(LibString.SubString(CompaniaGVentasNombres, vSeparador + 1));
-            string vRif = LibString.Trim(LibString.SubString(CompaniaGVentasNombres, 0, vSeparador - 1));
+            string vRif = LibString.Trim(LibString.SubString(CompaniaGVentasNombres, vSeparador + 1));
+            string vNombre = LibString.Trim(LibString.SubString(CompaniaGVentasNombres, 0, vSeparador - 1));
             vMensaje.Append("Los datos de Nombre y RIF de la compañía en el Sistema Administrativo ");
             vMensaje.AppendLine("deben coincidir con los datos de la compañía con la cual va a conectarse en G-Ventas.");
             vMensaje.AppendLine();
