@@ -54,11 +54,11 @@ namespace Galac.Saw.LibWebConnector {
         public class CompaniasDelTenant {
             public string numeroDeIdentificacion { get;set; }
             public string nombre { get; set; }
-            public bool conectadaConAdministraivo { get; set; }
+            public string conectadaConAdministraivoStr { get; set; }
             public CompaniasDelTenant() {
                 numeroDeIdentificacion = string.Empty;
                 nombre = string.Empty;
-                conectadaConAdministraivo = false;
+                conectadaConAdministraivoStr = "false";
             }
         }        
 
@@ -219,7 +219,7 @@ namespace Galac.Saw.LibWebConnector {
             return GetCaracteristicaGVentas(GetNroDeIdentificacionFiscal());
         }
 
-        public bool ActivarConexionGVentas(int valConsecutivoCompania, string valSerialConectorGVentas, string valRIFCompaniaAdministartivo, string valNombreCompaniaAdministartivo, string valNombreUsuarioOperaciones, string valDatabaseName, string valServerName) {
+        public bool ActivarConexionGVentas(int valConsecutivoCompania, string valSerialConectorGVentas, string valRIFCompaniaGVentas, string valNombreCompaniaAdministartivo, string valNombreUsuarioOperaciones, string valDatabaseName, string valServerName) {
             bool vResult = false;
             string vMensaje = string.Empty;
             try {
@@ -227,7 +227,7 @@ namespace Galac.Saw.LibWebConnector {
                 insDatosDeConexion.baseDeDatos = valDatabaseName;
                 insDatosDeConexion.servidor = valServerName;
                 insDatosDeConexion.usuario = valNombreUsuarioOperaciones;
-                insDatosDeConexion.companiaRif = valRIFCompaniaAdministartivo;
+                insDatosDeConexion.companiaRif = valRIFCompaniaGVentas;
                 insDatosDeConexion.rifDeLicencia = GetNroDeIdentificacionFiscal();
                 insDatosDeConexion.companiaNombre = valNombreCompaniaAdministartivo;
                 insDatosDeConexion.serialDeConexion = valSerialConectorGVentas;
@@ -270,8 +270,8 @@ namespace Galac.Saw.LibWebConnector {
                 HttpWebResponse vResponse = GetResponseGET(AddParametroNumeroDeIdentificacionFiscal(@"/api/saas/tenants/companias-del-tenant?", vNumeroDeIdentificacion, "numeroDeIdentificacionFiscal"));
                 if (vResponse.StatusCode == HttpStatusCode.OK) {
                     vListaCompaniasDelTenant = JsonConvert.DeserializeObject<ObservableCollection<CompaniasDelTenant>>(GetResultFromResponse(vResponse));
-                    var vCompaniasParaMostrar = vListaCompaniasDelTenant.Where(CompaniaEnTenant => !CompaniaEnTenant.conectadaConAdministraivo).Select(CompaniaFueraDelTenant => CompaniaFueraDelTenant.nombre + " | " + CompaniaFueraDelTenant.numeroDeIdentificacion);
-                    vResult = new ObservableCollection<string>(vCompaniasParaMostrar);                   
+                    var vCompaniasParaMostrar = vListaCompaniasDelTenant.Where(CompaniaEnTenant => LibString.S1IsEqualToS2(CompaniaEnTenant.conectadaConAdministraivoStr, "false")).Select(CompaniaFueraDelTenant => CompaniaFueraDelTenant.nombre + " | " + CompaniaFueraDelTenant.numeroDeIdentificacion);
+                    vResult = new ObservableCollection<string>(vCompaniasParaMostrar);
                 }
                 return vResult;
             } catch (Exception) {
