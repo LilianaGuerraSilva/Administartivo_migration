@@ -2613,10 +2613,10 @@ namespace Galac.Saw.Brl.SttDef {
                 LibWebConnector.clsSuscripcion insSuscripcion = new LibWebConnector.clsSuscripcion();
                 string vDatabaseName = LibServiceInfo.GetDatabaseName();
                 string vServerName = LibServiceInfo.GetServerName();
-                int vGuionSeparador = LibString.IndexOf(valNombreCompaniaAdmin, '|');
-                string vRIFCompaniaAdmin = LibString.SubString(valNombreCompaniaAdmin, vGuionSeparador + 2);
-                valNombreCompaniaAdmin = LibString.SubString(valNombreCompaniaAdmin, 0, vGuionSeparador - 2);
-                if (insSuscripcion.ActivarConexionGVentas(valConsecutivoCompania, valSerialConectorGVentas, vRIFCompaniaAdmin, valNombreCompaniaAdmin, valNombreUsuarioOperaciones, vDatabaseName, vServerName)) {
+                int vGuionSeparador = LibString.IndexOf(valNombreCompaniaAdmin, '|') + 1;
+                string vRIFCompaniaGVentas = LibString.Trim(LibString.SubString(valNombreCompaniaAdmin, vGuionSeparador + 1));
+                valNombreCompaniaAdmin = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre");
+                if (insSuscripcion.ActivarConexionGVentas(valConsecutivoCompania, valSerialConectorGVentas, vRIFCompaniaGVentas, valNombreCompaniaAdmin, valNombreUsuarioOperaciones, vDatabaseName, vServerName)) {
                     ActualizaValoresEnAdministrativo(valConsecutivoCompania, valParametroSuscripcionGVentas, valSerialConectorGVentas, valNombreCompaniaAdmin);
                     vResult = true;
                 }
