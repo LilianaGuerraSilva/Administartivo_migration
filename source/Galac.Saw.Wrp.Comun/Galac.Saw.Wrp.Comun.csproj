@@ -41,96 +41,73 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Galac.Comun.Brl.Impuesto">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.Impuesto.dll</HintPath>
+      <HintPath>..\packages\Galac.Comun.Brl.Impuesto.2.61.0\lib\Galac.Comun.Brl.Impuesto.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Comun.Brl.LeyCosto">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.LeyCosto.dll</HintPath>
+      <HintPath>..\packages\Galac.Comun.Brl.LeyCosto.2.61.0\lib\Galac.Comun.Brl.LeyCosto.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Comun.Brl.TablasGen">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.TablasGen.dll</HintPath>
+      <HintPath>..\packages\Galac.Comun.Brl.TablasGen.2.61.0\lib\Galac.Comun.Brl.TablasGen.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Comun.Brl.TablasLey">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.TablasLey.dll</HintPath>
+      <HintPath>..\packages\Galac.Comun.Brl.TablasLey.2.61.0\lib\Galac.Comun.Brl.TablasLey.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Comun.Ccl.Impuesto">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.Impuesto.dll</HintPath>
+      <HintPath>..\packages\Galac.Comun.Ccl.Impuesto.2.61.0\lib\Galac.Comun.Ccl.Impuesto.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Comun.Ccl.LeyCosto">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.LeyCosto.dll</HintPath>
+      <HintPath>..\packages\Galac.Comun.Ccl.LeyCosto.2.61.0\lib\Galac.Comun.Ccl.LeyCosto.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Comun.Ccl.TablasGen">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.TablasGen.dll</HintPath>
+      <HintPath>..\packages\Galac.Comun.Ccl.TablasGen.2.61.0\lib\Galac.Comun.Ccl.TablasGen.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Comun.Ccl.TablasLey">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.TablasLey.dll</HintPath>
+      <HintPath>..\packages\Galac.Comun.Ccl.TablasLey.2.61.0\lib\Galac.Comun.Ccl.TablasLey.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Comun.Uil.Impuesto">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binComunAos\Galac.Comun.Uil.Impuesto.dll</HintPath>
+      <HintPath>..\packages\Galac.Comun.Uil.Impuesto.2.61.0\lib\Galac.Comun.Uil.Impuesto.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Comun.Uil.LeyCosto">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binComunAos\Galac.Comun.Uil.LeyCosto.dll</HintPath>
+      <HintPath>..\packages\Galac.Comun.Uil.LeyCosto.2.61.0\lib\Galac.Comun.Uil.LeyCosto.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Comun.Uil.TablasGen">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binComunAos\Galac.Comun.Uil.TablasGen.dll</HintPath>
+      <HintPath>..\packages\Galac.Comun.Uil.TablasGen.2.61.0\lib\Galac.Comun.Uil.TablasGen.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Comun.Uil.TablasLey">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binComunAos\Galac.Comun.Uil.TablasLey.dll</HintPath>
+      <HintPath>..\packages\Galac.Comun.Uil.TablasLey.2.61.0\lib\Galac.Comun.Uil.TablasLey.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Base">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\binLibAos\LibGalac.Aos.Base.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Base.5.24.0\lib\LibGalac.Aos.Base.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Brl">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\binLibAos\LibGalac.Aos.Brl.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Brl.5.24.0\lib\LibGalac.Aos.Brl.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Catching">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\binLibAos\LibGalac.Aos.Catching.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Catching.5.24.0\lib\LibGalac.Aos.Catching.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Cib">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\binLibAos\LibGalac.Aos.Cib.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Cib.5.24.0\lib\LibGalac.Aos.Cib.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Cnf">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\binLibAos\LibGalac.Aos.Cnf.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Cnf.5.24.0\lib\LibGalac.Aos.Cnf.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.DefGen">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\binLibAos\LibGalac.Aos.DefGen.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.DefGen.5.24.0\lib\LibGalac.Aos.DefGen.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.Wpf">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\binLibAos\LibGalac.Aos.UI.Wpf.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.UI.Wpf.5.24.0\lib\LibGalac.Aos.UI.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.WpfControls">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\binLibAos\LibGalac.Aos.UI.WpfControls.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.UI.WpfControls.5.24.0\lib\LibGalac.Aos.UI.WpfControls.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Uil">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\binLibAos\LibGalac.Aos.Uil.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Uil.5.24.0\lib\LibGalac.Aos.Uil.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Uil.Usal">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\binLibAos\LibGalac.Aos.Uil.Usal.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Uil.Usal.5.24.0\lib\LibGalac.Aos.Uil.Usal.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Vbwa">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Vbwa.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Vbwa.5.24.0\lib\LibGalac.Aos.Vbwa.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -196,6 +173,9 @@
       <Project>{2b1fa9b0-ad50-4c75-805f-d9efc6b236ab}</Project>
       <Name>Galac.Saw.Uil.SttDef</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
