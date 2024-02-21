@@ -5004,7 +5004,7 @@ Private Sub sConstruyeRDV(ByVal valNumeroComprobanteFiscalDesde As String, ByVal
       .SetTipoDeTransaccionStr gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToString(eTD_A01_REGISTRO)
       .SetNumeroPlanillaExportacion ""
       .SetNumeroFacturaAfectada ""
-      .SetTipoDeVentaStr gEnumProyecto.enumTipoDeVentaToString(eTD_A_CONTRIBUYENTE)
+      .SetTipoDeVentaStr gEnumProyecto.enumTipoDeVentaToString(eTD_A_NO_CONTRIBUYENTE)
       .SetUsaMaquinaFiscal valUsaMF
       .SetCodigoMaquinaRegistradora valCodigoMF
       .SetNumeroDesde valNumeroComprobanteFiscalDesde

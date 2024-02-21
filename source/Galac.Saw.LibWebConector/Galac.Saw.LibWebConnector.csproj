@@ -37,44 +37,54 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="LibGalac.Aos.Base">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\LibGalac.Aos.Base.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Base.5.24.0\lib\LibGalac.Aos.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Brl">
+      <HintPath>..\packages\LibGalac.Aos.Brl.5.24.0\lib\LibGalac.Aos.Brl.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Brl.Settings">
+      <HintPath>..\packages\LibGalac.Aos.Brl.Settings.5.24.0\lib\LibGalac.Aos.Brl.Settings.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Catching">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Catching.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Catching.5.24.0\lib\LibGalac.Aos.Catching.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Ccl.Settings">
+      <HintPath>..\packages\LibGalac.Aos.Ccl.Settings.5.24.0\lib\LibGalac.Aos.Ccl.Settings.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Cnf">
+      <HintPath>..\packages\LibGalac.Aos.Cnf.5.24.0\lib\LibGalac.Aos.Cnf.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.DefGen">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.DefGen.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.DefGen.5.24.0\lib\LibGalac.Aos.DefGen.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Net" />
-    <Reference Include="System.Net.Http">
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http.WebRequest">
+    <Reference Include="System.Net.Http.WebRequest, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsConectorJson.cs" />
     <Compile Include="clsJsonRequest.cs" />
     <Compile Include="clsLoginUser.cs" />
+    <Compile Include="clsSuscripcion.cs" />
     <Compile Include="ILoginUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Galac.Adm.Ccl.ImprentaDigital\Galac.Adm.Ccl.ImprentaDigital.csproj">
-      <Project>{09E94989-2C8C-457A-B6AF-1E529992F5CA}</Project>
+      <Project>{09e94989-2c8c-457a-b6af-1e529992f5ca}</Project>
       <Name>Galac.Adm.Ccl.ImprentaDigital</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

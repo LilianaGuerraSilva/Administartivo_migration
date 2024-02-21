@@ -34,22 +34,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Galac.Comun.Brl.TablasGen">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.TablasGen.dll</HintPath>
+      <HintPath>..\packages\Galac.Comun.Brl.TablasGen.2.61.0\lib\Galac.Comun.Brl.TablasGen.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Base">
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Base.5.24.0\lib\LibGalac.Aos.Base.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Brl">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Administrativo\bin\binLibAos\LibGalac.Aos.Brl.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Brl.5.24.0\lib\LibGalac.Aos.Brl.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Catching">
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Catching.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Catching.5.24.0\lib\LibGalac.Aos.Catching.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Cnf">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Cnf.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Cnf.5.24.0\lib\LibGalac.Aos.Cnf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -109,6 +106,9 @@
       <Project>{B04E6942-E0B8-4BA2-90E7-FBF8A95DDC86}</Project>
       <Name>Galac.Saw.Lib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

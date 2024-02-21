@@ -32,11 +32,11 @@ namespace Galac.Saw.Ccl.SttDef {
         private bool _ValidarRifEnLaWeb;
         private bool _EsSistemaParaIG;
         private bool _UsaNotaEntrega;
+        private string _SuscripcionGVentas;
         private long _fldTimeStamp;
         XmlDocument _datos;
         #endregion //Variables
         #region Propiedades
-
         public bool PermitirEditarIVAenCxC_CxPAsBool {
             get { return _PermitirEditarIVAenCxC_CxP; }
             set { _PermitirEditarIVAenCxC_CxP = value; }
@@ -45,7 +45,6 @@ namespace Galac.Saw.Ccl.SttDef {
         public string PermitirEditarIVAenCxC_CxP {
             set { _PermitirEditarIVAenCxC_CxP = LibConvert.SNToBool(value); }
         }
-
 
         public bool UsaMultiplesAlicuotasAsBool {
             get { return _UsaMultiplesAlicuotas; }
@@ -122,6 +121,11 @@ namespace Galac.Saw.Ccl.SttDef {
             set { _UsaNotaEntrega = LibConvert.SNToBool(value); }
         }
 
+        public string SuscripcionGVentas {
+            get { return LibString.IsNullOrEmpty(_SuscripcionGVentas, true) ? "1000" : _SuscripcionGVentas; }
+            set { _SuscripcionGVentas = LibString.Mid(value, 0, 4); }
+        }
+
         public long fldTimeStamp {
             get { return _fldTimeStamp; }
             set { _fldTimeStamp = value; }
@@ -153,6 +157,7 @@ namespace Galac.Saw.Ccl.SttDef {
             ValidarRifEnLaWebAsBool = false;
             EsSistemaParaIGAsBool = false;
             UsaNotaEntregaAsBool = false;
+            SuscripcionGVentas = "1000";
             fldTimeStamp = 0;
         }
 
@@ -178,12 +183,9 @@ namespace Galac.Saw.Ccl.SttDef {
                 "\nImprimir Comprobante De Cx P = " + _ImprimirComprobanteDeCxP +
                 "\nValidar Rif En La Web = " + _ValidarRifEnLaWeb +
                 "\nEs Sistema Para IG = " + _EsSistemaParaIG +
-                "\nUsa Nota Entrega = " + _UsaNotaEntrega;
+                "\nUsa Nota Entrega = " + _UsaNotaEntrega +
+                "\nSuscripción G-Ventas = " + _SuscripcionGVentas;
         }
         #endregion //Metodos Generados
-
-
     } //End of class GeneralStt
-
 } //End of namespace Galac.Saw.Ccl.SttDef
-

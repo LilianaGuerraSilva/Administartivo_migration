@@ -18,5 +18,6 @@ namespace Galac.Saw.Wrp.SttDef {
         bool ResetFechaDeInicioContabilizacion(string vfwConsecutivoCompania, string vfwFechaDeInicioContabilizacion);
         bool SttUsaVendedor(int valConsecutivoCompania, string valCodigoVendedor);
         int CopiarParametrosAdministrativos(string vfwConsecutivoCompaniaOrigen, string vfwConsecutivoCompaniaDestino);
+        void ConexionGVentas(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters);
     }
 }

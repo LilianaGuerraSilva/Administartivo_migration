@@ -1,0 +1,15 @@
+﻿<Window x:Class="Galac.Adm.Uil.Venta.winTextosDinamicos"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Galac.Adm.Uil.Venta"
+        mc:Ignorable="d"
+        Title="Textos Dinámicos para la Generación de Contratos" Height="300" Width="500" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+    WindowStyle="ToolWindow">
+    <Grid>
+        <TextBox Margin="10,10,10,0" TextWrapping="Wrap" Text="Coloque en la descripción del artículo cualquiera de los símbolos que se muestran a continuación. Al momento de la generación de los contratos, el símbolo será reemplazado por el valor deseado." Height="56" VerticalAlignment="Top" IsReadOnly="True" BorderThickness="0"/>
+        <TextBox HorizontalAlignment="Left" Margin="10,78,0,0" TextWrapping="Wrap" Text="&lt;FECHA&gt;        - Fecha de generación (DD/MM/AA)&#xA;&lt;FECHA,4&gt;     - Fecha de generación (DD/MM/AAAA)&#xA;&lt;DIA&gt;             - Día en números (1,2...31)&#xA;&lt;MES&gt;            - Mes en números (1,2...12)&#xA;&lt;MESTXT&gt;      - Mes en letras (Enero..Diciembre)&#xA;&lt;AÑO&gt;           - Año en números (AA)&#xA;&lt;AÑO,4&gt;        - Año en números (AAAA)&#xA;&lt;AÑOANT&gt;    - Año Anterior en números (AA)&#xA;&lt;AÑOANT,4&gt; - Año Anterior en números (AAAA)" Width="472" Height="164" VerticalAlignment="Top" IsUndoEnabled="True" IsReadOnly="True"/>
+
+    </Grid>
+</Window>
