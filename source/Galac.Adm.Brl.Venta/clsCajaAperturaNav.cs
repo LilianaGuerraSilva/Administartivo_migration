@@ -15,6 +15,7 @@ using Galac.Comun.Ccl.TablasGen;
 using Galac.Comun.Brl.TablasGen;
 using System.Reflection;
 using Galac.Saw.Ccl.Tablas;
+using System.Threading;
 
 namespace Galac.Adm.Brl.Venta {
     public partial class clsCajaAperturaNav:LibBaseNav<IList<CajaApertura>,IList<CajaApertura>>, ICajaAperturaPdn {
@@ -98,7 +99,7 @@ namespace Galac.Adm.Brl.Venta {
         bool ICajaAperturaPdn.AsignarCaja(int ConsecutivoCaja) {
             bool vReq = false;
             try {
-                ConfigHelper.AddKeyToAppSettings("CAJALOCAL",LibConvert.ToStr(ConsecutivoCaja,0));
+                ConfigHelper.AddKeyToAppSettings("CAJALOCAL-"+ ((CustomIdentity) Thread.CurrentPrincipal.Identity).Login,LibConvert.ToStr(ConsecutivoCaja));
                 return vReq;
             } catch(Exception vEx) {
                 throw vEx;
