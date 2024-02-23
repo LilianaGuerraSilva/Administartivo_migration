@@ -66,3 +66,7 @@
 	path = source/ContabilidadVb
 	url = https://github.com/GalacSoftware/ContabilidadVb.git
 	branch = release/SawV25.1.0.0
+[submodule "bin/binLibVb"]
+	path = bin/binLibVb
+	url = https://github.com/GalacSoftware/BinLibVb.git
+	branch = release/V2402
