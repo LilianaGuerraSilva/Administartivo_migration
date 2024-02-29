@@ -975,7 +975,6 @@ Private insProveedor As Object
 Private insPagoSQL As Object
 Private insPagoRpt As Object
 Private insLibWincont As Object
-Private insComprobante As Object
 Private insRptPagoConfigurar As Object
 Private insSearchConnectionComunAOS As Object
 Private insConexionesSawAOS As Object
@@ -1184,7 +1183,6 @@ Private Sub Form_Unload(Cancel As Integer)
    Set insPagoSQL = Nothing
    Set insPagoRpt = Nothing
    Set insLibWincont = Nothing
-   Set insComprobante = Nothing
    Set insRptPagoConfigurar = Nothing
    Set insSearchConnectionComunAOS = Nothing
    Set insFactura = Nothing
@@ -1429,6 +1427,7 @@ Private Sub sMuestraPagosEntreFechas()
    Dim ReporteEnMonedaLocal As Boolean
    Dim CantidadAImprimirUno As Boolean
    Dim MensajesDeMonedaParaInformes As String
+   Dim vFNProveedorPorPagina As String
    On Error GoTo h_ERROR
    If gAPI.SelectedElementInComboBoxToString(CmbCantidadAImprimir) = gEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
       If txtNombreDeProveedor.Text = "" Then
@@ -1450,9 +1449,18 @@ Private Sub sMuestraPagosEntreFechas()
    End If
    ReporteEnMonedaLocal = gAPI.SelectedElementInComboBoxToString(cmbMonedaDeLosReportes) = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, gProyParametros.GetNombreMonedaLocal)
    CantidadAImprimirUno = gAPI.SelectedElementInComboBoxToString(CmbCantidadAImprimir) = gEnumReport.enumCantidadAImprimirToString(eCI_uno)
-   SqlDelReporte = insPagoSQL.fConstruirSQLDelReportePagosEntreFechas(varAgruparPorProveedor, optTasaDeCambio(0).Value, ReporteEnMonedaLocal, gProyCompaniaActual.GetUsaModuloDeContabilidad, gProyCompaniaActual.GetConsecutivoCompania, txtFechaInicial.Value, txtFechaFinal.Value, CantidadAImprimirUno, txtCodigoDeProveedor.Text, gProyParametros.GetUsarCodigoProveedorEnPantalla, gMonedaLocalActual, gUltimaTasaDeCambio, insComprobante.GetTableName, gConvert.ConvertByteToBoolean(chkMostrarObservaciones.Value))
+   SqlDelReporte = insPagoSQL.fConstruirSQLDelReportePagosEntreFechas(varAgruparPorProveedor, optTasaDeCambio(0).Value, ReporteEnMonedaLocal, gProyCompaniaActual.GetUsaModuloDeContabilidad, gProyCompaniaActual.GetConsecutivoCompania, txtFechaInicial.Value, txtFechaFinal.Value, CantidadAImprimirUno, txtCodigoDeProveedor.Text, gProyParametros.GetUsarCodigoProveedorEnPantalla, gMonedaLocalActual, gUltimaTasaDeCambio, gConvert.ConvertByteToBoolean(chkMostrarObservaciones.Value))
+   If varAgruparPorProveedor Then
+      If gProyParametros.GetUsarCodigoProveedorEnPantalla Then
+         vFNProveedorPorPagina = "CodigoProveedor"
+      Else
+         vFNProveedorPorPagina = "NombreProveedor"
+      End If
+   Else
+      vFNProveedorPorPagina = ""
+   End If
    Set reporte = New DDActiveReports2.ActiveReport
-   If insPagoRpt.fConfigurarDatosDePagosEntreFechas(reporte, SqlDelReporte, txtFechaInicial.Value, txtFechaFinal.Value, varAgruparPorProveedor, usarCambioOriginal, unaPaginaPorProveedor, ReporteEnMonedaLocal, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gUtilDate.getFechaDeHoy, gUtilDate.getHoraActualString, gProyCompaniaActual.GetUsaModuloDeContabilidad, gGlobalization, gConvert.ConvertByteToBoolean(chkMostrarObservaciones.Value), gProyCompaniaActual, MensajesDeMonedaParaInformes) Then
+   If insPagoRpt.fConfigurarDatosDePagosEntreFechas(reporte, SqlDelReporte, txtFechaInicial.Value, txtFechaFinal.Value, varAgruparPorProveedor, vFNProveedorPorPagina, usarCambioOriginal, unaPaginaPorProveedor, ReporteEnMonedaLocal, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gUtilDate.getFechaDeHoy, gUtilDate.getHoraActualString, gProyCompaniaActual.GetUsaModuloDeContabilidad, gConvert.ConvertByteToBoolean(chkMostrarObservaciones.Value), MensajesDeMonedaParaInformes) Then
       gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Pagos entre Fechas"
    End If
    Set reporte = Nothing
@@ -3145,7 +3153,6 @@ Public Sub sLoadObjectValues(ByVal valCompaniaActual As Object, _
                            ByVal valInsPagoSQL As Object, _
                            ByVal valInsPagoRpt As Object, _
                            ByVal valInsLibWincont As Object, _
-                           ByVal valInsComprobante As Object, _
                            ByVal valInsRptPagoConfigurar As Object, _
                            ByVal valInsSearchConnectionComunAOS As Object, _
                            ByVal valConexionesSawAOS As Object, _
@@ -3162,7 +3169,6 @@ Public Sub sLoadObjectValues(ByVal valCompaniaActual As Object, _
    Set insPagoSQL = valInsPagoSQL
    Set insPagoRpt = valInsPagoRpt
    Set insLibWincont = valInsLibWincont
-   Set insComprobante = valInsComprobante
    Set insRptPagoConfigurar = valInsRptPagoConfigurar
    Set insSearchConnectionComunAOS = valInsSearchConnectionComunAOS
    Set insConexionesSawAOS = valConexionesSawAOS

@@ -15,37 +15,17 @@ Option Explicit
 Private Const CM_FILE_NAME As String = "clsPagoRpt"
 Private Const CM_MESSAGE_NAME As String = "Configurar Reportes Pago"
 Private Const CM_RPT_LIBRO_RETENCIONES_RENTA As Integer = 17
+Private Const GetGender = Enum_Gender.eg_Male
 
-Private Function GetGender() As Enum_Gender
-   GetGender = eg_Male
-End Function
-Private Function CM_RPT_BORRADOR_PLANILLA_DE_PAGO() As Integer
-   CM_RPT_BORRADOR_PLANILLA_DE_PAGO = 4
-End Function
-Private Function CM_RPT_PAGOS_ENTRE_FECHAS() As Integer
-   CM_RPT_PAGOS_ENTRE_FECHAS = 6
-End Function
-Private Function CM_RPT_PAGOS_ENTRE_FECHAS_AGRUPADO_POR_PROVEEDOR() As Integer
-   CM_RPT_PAGOS_ENTRE_FECHAS_AGRUPADO_POR_PROVEEDOR = 7
-End Function
-Private Function CM_RPT_INFORME_RETENCIONES_POR_MES_ANO_TIPO_DE_PERSONA() As Integer
-   CM_RPT_INFORME_RETENCIONES_POR_MES_ANO_TIPO_DE_PERSONA = 10
-End Function
-Private Function CM_RPT_RET_PAGOS_POR_CONCEPTO() As Integer
-   CM_RPT_RET_PAGOS_POR_CONCEPTO = 12
-End Function
-Private Function CM_RPT_RET_PAGOS_MENS_POR_TIPOPERSONA() As Integer
-   CM_RPT_RET_PAGOS_MENS_POR_TIPOPERSONA = 13
-End Function
-Private Function CM_RPT_DECLARACION_SALARIOS_OTROS() As Integer
-   CM_RPT_DECLARACION_SALARIOS_OTROS = 14
-End Function
-Private Function CM_RPT_DECLARACION_DIVIDENDO_ACCIONES() As Integer
-   CM_RPT_DECLARACION_DIVIDENDO_ACCIONES = 15
-End Function
-Private Function CM_RPT_GANANCIAS_FORTUITAS() As Integer
-   CM_RPT_GANANCIAS_FORTUITAS = 16
-End Function
+Private Const CM_RPT_BORRADOR_PLANILLA_DE_PAGO As Integer = 4
+Private Const CM_RPT_PAGOS_ENTRE_FECHAS As Integer = 6
+Private Const CM_RPT_PAGOS_ENTRE_FECHAS_AGRUPADO_POR_PROVEEDOR As Integer = 7
+Private Const CM_RPT_INFORME_RETENCIONES_POR_MES_ANO_TIPO_DE_PERSONA As Integer = 10
+Private Const CM_RPT_RET_PAGOS_POR_CONCEPTO As Integer = 12
+Private Const CM_RPT_RET_PAGOS_MENS_POR_TIPOPERSONA As Integer = 13
+Private Const CM_RPT_DECLARACION_SALARIOS_OTROS As Integer = 14
+Private Const CM_RPT_DECLARACION_DIVIDENDO_ACCIONES As Integer = 15
+Private Const CM_RPT_GANANCIAS_FORTUITAS As Integer = 16
 
 Public Function fNombreFileDeImpresionDelReporteDePago(ByVal valReporte As Integer) As String
    Dim nombreFileXML As String
@@ -61,8 +41,6 @@ Public Function fNombreFileDeImpresionDelReporteDePago(ByVal valReporte As Integ
       Case CM_RPT_DECLARACION_SALARIOS_OTROS: nombreFileXML = "rpxDeclaracionSalariosYOtros"
       Case CM_RPT_DECLARACION_DIVIDENDO_ACCIONES: nombreFileXML = "rpxDeclaracionDividendoYAcciones"
       Case CM_RPT_GANANCIAS_FORTUITAS: nombreFileXML = "rpxDeclaracionGanaciasFortuitas"
-'      Case eRPT_ReporteDeInconsistenciasProveedores: nombreFileXML = "rpxListadoDeInconsistenciasProveedor"
-'      Case eRPT_ReporteDeInconsistenciasEnPago: nombreFileXML = "rpxInconsistenciaEnPagos"
       Case Else: nombreFileXML = ""
    End Select
    If nombreFileXML <> "" Then
@@ -72,8 +50,7 @@ Public Function fNombreFileDeImpresionDelReporteDePago(ByVal valReporte As Integ
    End If
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-     "fNombreFileDeImpresionDelReporteDePago", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fNombreFileDeImpresionDelReporteDePago", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fNombreDelReporteDePago(ByVal valReporte As Integer) As String
@@ -93,27 +70,16 @@ Public Function fNombreDelReporteDePago(ByVal valReporte As Integer) As String
    End Select
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-     "fNombreDelReporteDePago", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fNombreDelReporteDePago", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-
-Public Function fConfigurarDatosDePagosEntreFechas(ByRef refRpt As DDActiveReports2.ActiveReport, _
-                                                    ByVal valSQL As String, _
-                                                      ByVal valFechaInicial As Date, _
-                                                       ByVal valFechaFinal As Date, _
-                                                        ByVal valAgrupado As Boolean, _
-                                                         ByVal valUsarCambioOriginal As Boolean, _
-                                                          ByVal valUnaPaginaPorCliente As Boolean, _
-                                                           ByVal ReporteEnMonedaLocal As Boolean, _
-                                                            ByVal valNombreCompaniaParaInformes As String, _
-                                                             ByVal valFechaDeHoy As Date, _
-                                                              ByVal valHoraActualString As String, _
-                                                               ByVal UsaModuloDeContabilidad As Boolean, _
-                                                                ByVal gGlobalization As Object, _
-                                                                  ByVal MostrarObservaciones As Boolean, _
-                                                                   ByVal companiaActual As Object, _
-                                                                 Optional ByVal valMensajesDeMonedaParaInformes As String = "") As Boolean
+Public Function fConfigurarDatosDePagosEntreFechas(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSQL As String, _
+                        ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, _
+                        ByVal valAgrupado As Boolean, ByVal valFNProveedorPorPagina As String, ByVal valUsarCambioOriginal As Boolean, _
+                        ByVal valUnaPaginaPorProveedor As Boolean, ByVal valReporteEnMonedaLocal As Boolean, _
+                        ByVal valNombreCompaniaParaInformes As String, ByVal valFechaDeHoy As Date, _
+                        ByVal valHoraActualString As String, ByVal UsaModuloDeContabilidad As Boolean, _
+                        ByVal MostrarObservaciones As Boolean, Optional ByVal valMensajesDeMonedaParaInformes As String = "") As Boolean
    Dim exito As Boolean
    Dim nombreDelFileXML As String
    On Error GoTo h_ERROR
@@ -128,27 +94,46 @@ Public Function fConfigurarDatosDePagosEntreFechas(ByRef refRpt As DDActiveRepor
          gUtilReports.sDefaultConfigurationForLabels refRpt, "lblCompania", valNombreCompaniaParaInformes
          gUtilReports.sDefaultConfigurationForLabels refRpt, "lblFechaInicialYFinal", "del " & gConvert.dateToString(valFechaInicial) & " al " & gConvert.dateToString(valFechaFinal)
          gUtilReports.sDefaultConfigurationForLabels refRpt, "lblFechaYHoraDeEmision", "Emitido el  " & gConvert.dateToString(valFechaDeHoy) & " a las " & valHoraActualString
-         gUtilReports.sDefaultConfigurationForLabels refRpt, "lblTotalRetencion", "Retención " & gGlobalization.fPromptISLR
-         gUtilReports.sDefaultConfigurationForLabels refRpt, "lblTotalRetencionIVA", "Retención " & gGlobalization.fPromptIVA
-         gUtilReports.sConfiguraEncabezado refRpt, "lblCompania", "lblFechaYHoraDeEmision", _
-                                          "lblTituloDelReporte", "lblNumeroDePagina", "lblFechaInicialYFinal", _
-                                          gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
+         gUtilReports.sConfiguraEncabezado refRpt, "lblCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "lblNumeroDePagina", "lblFechaInicialYFinal", gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
+         
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtMoneda", "", "Moneda"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCodigoProveedor", "", "CodigoProveedor"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNombreProveedor", "", "NombreProveedor"
          gUtilReports.sDefaultConfigurationForDateFields refRpt, "txtFecha", "", "Fecha", eFT_DATE
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNumeroCheque", "", "NumeroCheque"
          gUtilReports.sDefaultConfigurationForIntegerFields refRpt, "txtNumeroComprobante", "", "NumeroComprobante"
+         
+         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalOtros", "", "TotalOtros"
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalRetencion", "", "TotalRetenido"
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalRetencionIVA", "", "TotalRetenidoIva"
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalOtros", "", "TotalOtros"
+         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalRetencionMunicipal", "", "TotalRetImpMunicipal"
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtMontoCheque", "", "MontoCheque"
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalTotalRetencion", "", ""
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalTotalRetencionIVA", "", ""
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalTotalOtros", "", ""
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalMontoCheque", "", ""
+         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalAnticipos", "", "TotalAnticipo"
+         
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtCambio", "", "Cambio"
-         If ReporteEnMonedaLocal Then
+         
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalOtros", "TotalOtros", eSF_SUM, "GHMoneda", eSR_GROUP, eST_GRAND_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalRetencion", "TotalRetenido", eSF_SUM, "GHMoneda", eSR_GROUP, eST_GRAND_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalRetencionIVA", "TotalRetenidoIva", eSF_SUM, "GHMoneda", eSR_GROUP, eST_GRAND_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalRetencionMunicipal", "TotalRetImpMunicipal", eSF_SUM, "GHMoneda", eSR_GROUP, eST_GRAND_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalMontoCheque", "MontoCheque", eSF_SUM, "GHMoneda", eSR_GROUP, eST_GRAND_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalAnticipos", "TotalAnticipo", eSF_SUM, "GHMoneda", eSR_GROUP, eST_GRAND_TOTAL
+         
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalOtrosProv", "TotalOtros", eSF_SUM, "GHProveedor", eSR_GROUP, eST_GRAND_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalRetencionProv", "TotalRetenido", eSF_SUM, "GHProveedor", eSR_GROUP, eST_GRAND_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalRetencionIVAProv", "TotalRetenidoIva", eSF_SUM, "GHProveedor", eSR_GROUP, eST_GRAND_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalRetencionMunicipalProv", "TotalRetImpMunicipal", eSF_SUM, "GHProveedor", eSR_GROUP, eST_GRAND_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalMontoChequeProv", "MontoCheque", eSF_SUM, "GHProveedor", eSR_GROUP, eST_GRAND_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalAnticiposProv", "TotalAnticipo", eSF_SUM, "GHProveedor", eSR_GROUP, eST_GRAND_TOTAL
+         
+         gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHMoneda", "Moneda", ddGrpFirstDetail, ddRepeatAll, True, ddNPNone
+         If valUnaPaginaPorProveedor Then
+            gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHProveedor", "", ddGrpAll, ddRepeatOnPage, True, ddNPBefore
+         Else
+            gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHProveedor", "", ddGrpAll, ddRepeatOnPage, True, ddNPNone
+         End If
+         
+         If valReporteEnMonedaLocal Then
             gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "lblCambio", True
             gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "txtCambio", True
             gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "lblLeyendaDeTasaDeCambio", True
@@ -164,21 +149,16 @@ Public Function fConfigurarDatosDePagosEntreFechas(ByRef refRpt As DDActiveRepor
          Else
             gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNComprobante", "", "ComprobanteContable"
          End If
-         If valUnaPaginaPorCliente Then
-            gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GFProveedor", "", ddGrpAll, ddRepeatOnPage, True, ddNPAfter
-         End If
          If MostrarObservaciones Then
-           gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtdescripcionPago", "", "descripcionPago"
-          gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "lblDescripcionPago", True
-           gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "txtDescripcionPago", True
-           gUtilMargins.sAsignarMargenesGenerales refRpt, ddOLandscape
+            gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtdescripcionPago", "", "descripcionPago"
+            gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "lblDescripcionPago", True
+            gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "txtDescripcionPago", True
          Else
-          gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "lbDescripcionPago", False
-          gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "txtDescripcionPago", False
-         gUtilMargins.sAsignarMargenesGenerales refRpt
-        End If
+            gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "lbDescripcionPago", False
+            gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "txtDescripcionPago", False
+         End If
+         gUtilMargins.sAsignarMargenesGenerales refRpt, ddOLandscape
          Call refRpt.AddNamedItem("gUtilReports", gUtilReports)
-         Call refRpt.AddNamedItem("companiaActual", companiaActual)
          exito = True
       End If
    End If
@@ -187,7 +167,7 @@ h_EXIT:
    On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fConfigurarDatosDePagosEntreFechas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+      "fConfigurarDatosDePagosEntreFechas", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfigurarInformeDeRetencionesPorMesAnoTipoDePersona(ByRef refRpt As DDActiveReports2.ActiveReport, _
@@ -236,7 +216,7 @@ h_EXIT: On Error GoTo 0
    fConfigurarInformeDeRetencionesPorMesAnoTipoDePersona = exito
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fConfigurarInformeDeRetencionesPorMesAnoTipoDePersona", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "fConfigurarInformeDeRetencionesPorMesAnoTipoDePersona", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfigurarRetPagosXConcepto(ByRef refRpt As DDActiveReports2.ActiveReport, _
@@ -294,7 +274,7 @@ Public Function fConfigurarRetPagosXConcepto(ByRef refRpt As DDActiveReports2.Ac
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fConfigurarRetPagosXConcepto", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "fConfigurarRetPagosXConcepto", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfigurarRetPagosMensualesPorTipoDePersona(ByRef refRpt As DDActiveReports2.ActiveReport, _
@@ -382,7 +362,7 @@ h_EXIT:
    On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fConfigurarDatosDelLibroRetencionesRenta", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+      "fConfigurarDatosDelLibroRetencionesRenta", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfiguraLasSeccionesDelReporteDeGananciasFortuitas( _
@@ -421,7 +401,7 @@ h_EXIT:
    Exit Function
 h_ERROR:
    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fConfiguraLasSeccionesDelReporteDeGananciasFortuitas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+      "fConfiguraLasSeccionesDelReporteDeGananciasFortuitas", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfigurarDatosDelReporteDeSalariosYOtros(ByRef refReporte As DDActiveReports2.ActiveReport, _
@@ -439,7 +419,7 @@ h_EXIT:
    Exit Function
 h_ERROR:
    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fConfigurarDatosDelReporteDeSalariosYOtros", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+      "fConfigurarDatosDelReporteDeSalariosYOtros", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfigurarDatosDelReporteDeDividendosYAcciones(ByRef refReporte As DDActiveReports2.ActiveReport, _
@@ -457,7 +437,7 @@ h_EXIT:
    Exit Function
 h_ERROR:
    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fConfigurarDatosDelReporteDeDividendosYAcciones", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+      "fConfigurarDatosDelReporteDeDividendosYAcciones", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fConfiguraLasSeccionesDelReporteDeSalariosYOtros(ByRef refReporte As DDActiveReports2.ActiveReport, _
@@ -511,7 +491,7 @@ h_EXIT:
    Exit Function
 h_ERROR:
    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fConfiguraLasSeccionesDelReporteDeSalariosYOtros", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+      "fConfiguraLasSeccionesDelReporteDeSalariosYOtros", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
              
 Private Function fConfiguraLasSeccionesDelReporteDeDividendoYAcciones(ByRef refReporte As DDActiveReports2.ActiveReport, _
@@ -566,7 +546,7 @@ h_EXIT:
    Exit Function
 h_ERROR:
    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fConfiguraLasSeccionesDelReporteDeDividendoYAcciones", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+      "fConfiguraLasSeccionesDelReporteDeDividendoYAcciones", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 'PROVEEDOR
 Public Function fConfigurarDatosDelReporteDeGananciasFortuitas(ByRef refReporte As DDActiveReports2.ActiveReport, _
@@ -584,6 +564,6 @@ h_EXIT:
    Exit Function
 h_ERROR:
    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fConfigurarDatosDelReporteDeGananciasFortuitas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+      "fConfigurarDatosDelReporteDeGananciasFortuitas", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
