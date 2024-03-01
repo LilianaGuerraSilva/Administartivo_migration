@@ -97,7 +97,9 @@ Public Function fConfigurarDatosDePagosEntreFechas(ByRef refRpt As DDActiveRepor
          gUtilReports.sConfiguraEncabezado refRpt, "lblCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "lblNumeroDePagina", "lblFechaInicialYFinal", gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
          
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtMoneda", "", "Moneda"
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtMonedaTotal", "", "Moneda"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCodigoProveedor", "", "CodigoProveedor"
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCodigoProveedorTotal", "", "CodigoProveedor"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNombreProveedor", "", "NombreProveedor"
          gUtilReports.sDefaultConfigurationForDateFields refRpt, "txtFecha", "", "Fecha", eFT_DATE
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNumeroCheque", "", "NumeroCheque"
@@ -134,13 +136,9 @@ Public Function fConfigurarDatosDePagosEntreFechas(ByRef refRpt As DDActiveRepor
          End If
          
          If valReporteEnMonedaLocal Then
-            gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "lblCambio", True
-            gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "txtCambio", True
             gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "lblLeyendaDeTasaDeCambio", True
             gUtilReports.sDefaultConfigurationForLabels refRpt, "lblLeyendaDeTasaDeCambio", valMensajesDeMonedaParaInformes
          Else
-            gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "lblCambio", False
-            gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "txtCambio", False
             gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "lblLeyendaDeTasaDeCambio", False
          End If
          If Not UsaModuloDeContabilidad Then
