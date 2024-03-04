@@ -212,6 +212,7 @@ Private mMontoGravableAlicuota3 As Currency
 Private mMontoIVAAlicuota1 As Currency
 Private mMontoIVAAlicuota2 As Currency
 Private mMontoIVAAlicuota3 As Currency
+Private vSerialMaquinaFiscal As String
 'CXP
 Private mNumeroYCodigoProveedor As String
 'ARTICULOS DE INVENTARIO
@@ -1370,6 +1371,8 @@ Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByV
       .SetUsaMaquinaFiscal vUsaMaquinaFiscal
       vCodigoMaquinaRegistradora = ""
       .SetCodigoMaquinaRegistradora vCodigoMaquinaRegistradora
+      vSerialMaquinaFiscal = ""
+      .SetSerialMaquinaFiscal vSerialMaquinaFiscal
       vNumeroDesde = ""
       .SetNumeroDesde vNumeroDesde
       vNumeroHasta = ""
@@ -4832,6 +4835,7 @@ Private Function fDistribuyeLaLineaDeRDV(ByRef refLineaActual As String, ByVal v
    Dim vFechaAplRetIva As Date
    Dim vMtoIvaRetenido As Currency
    Dim vFechaStr As String
+   Dim vSerialMF As String
    On Error GoTo h_ERROR
    ErrorAlTraducirLaLinea = False
    LineaDeErrores = ""
@@ -4915,7 +4919,7 @@ Private Function fDistribuyeLaLineaDeRDV(ByRef refLineaActual As String, ByVal v
       LineaDeErrores = LineaDeErrores & " Hay inconsistencia en la información de IGTF suministrada."
    End If
    If vUsaMF Then
-      vCodigoMF = fConsecutivoStringMaquinaFiscal(vCodigoMF)
+      vSerialMF = fNumeroRegistroMaquinaFiscal(vCodigoMF)
       If gTexto.DfLen(vCodigoMF) = 0 Then
          ErrorAlTraducirLaLinea = True
          LineaDeErrores = LineaDeErrores & " El Código de la Máquina Fiscal debe ser válido."
@@ -4950,7 +4954,7 @@ Private Function fDistribuyeLaLineaDeRDV(ByRef refLineaActual As String, ByVal v
       vMtoIvaRetenido = 0
    End If
    If Not ErrorAlTraducirLaLinea Then
-      sConstruyeRDV vNumeroComprobanteFiscalDesde, vNumeroComprobanteFiscalHasta, vFechaRDV, vNumeroReporteZ, vBIIGTF, vIGTFML, vAlicuotaIGTF, vUsaMF, vCodigoMF, vNroCtrlDesde, vNroCtrlHasta, vSeRetIva, vNroCompRetIva, vFechaCompRetIva, vFechaAplRetIva, vMtoIvaRetenido
+      sConstruyeRDV vNumeroComprobanteFiscalDesde, vNumeroComprobanteFiscalHasta, vFechaRDV, vNumeroReporteZ, vBIIGTF, vIGTFML, vAlicuotaIGTF, vUsaMF, vCodigoMF, vNroCtrlDesde, vNroCtrlHasta, vSeRetIva, vNroCompRetIva, vFechaCompRetIva, vFechaAplRetIva, vMtoIvaRetenido, vSerialMF
       sConstruyeDetalleRDV vStrMontoExento, vStrMontoBIAlicuotaGeneral, vStrMontoBIAlicuotaReducida, vStrMontoBIAlicuotaExtendida, vStrMontoNCExento, vStrMontoNCBIAlicuotaGeneral, vStrMontoNCBIAlicuotaReducida, vStrMontoNCBIAlicuotaExtendida
    End If
 h_EXIT: On Error GoTo 0
@@ -4959,7 +4963,7 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fDistribuyeLaLineaDeRDV", CM_MESSAGE_NAME_FACTURA, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Private Sub sConstruyeRDV(ByVal valNumeroComprobanteFiscalDesde As String, ByVal valNumeroComprobanteFiscalHasta As String, ByVal valFechaRDV As Date, ByVal valNumeroReporteZ As String, ByVal valBIIGTF As Currency, ByVal valIGTFML As Currency, ByVal valAlicuotaIGTF As Currency, ByVal valUsaMF As Boolean, ByVal valCodigoMF As String, ByVal valNroCtrlDesde As String, ByVal valNroCtrlHasta As String, ByVal valSeRetIva As Boolean, ByVal valNroCompRetIva As Long, ByVal valFechaCompRetIva As Date, ByVal valFechaAplRetIva As Date, ByVal valMtoIvaRetenido As Currency)
+Private Sub sConstruyeRDV(ByVal valNumeroComprobanteFiscalDesde As String, ByVal valNumeroComprobanteFiscalHasta As String, ByVal valFechaRDV As Date, ByVal valNumeroReporteZ As String, ByVal valBIIGTF As Currency, ByVal valIGTFML As Currency, ByVal valAlicuotaIGTF As Currency, ByVal valUsaMF As Boolean, ByVal valCodigoMF As String, ByVal valNroCtrlDesde As String, ByVal valNroCtrlHasta As String, ByVal valSeRetIva As Boolean, ByVal valNroCompRetIva As Long, ByVal valFechaCompRetIva As Date, ByVal valFechaAplRetIva As Date, ByVal valMtoIvaRetenido As Currency, ByVal valSerialMF As String)
    Dim vAlicGeneral As Currency
    Dim vAlicReducida As Currency
    Dim vAlicExtendida As Currency
@@ -5007,6 +5011,7 @@ Private Sub sConstruyeRDV(ByVal valNumeroComprobanteFiscalDesde As String, ByVal
       .SetTipoDeVentaStr gEnumProyecto.enumTipoDeVentaToString(eTD_A_NO_CONTRIBUYENTE)
       .SetUsaMaquinaFiscal valUsaMF
       .SetCodigoMaquinaRegistradora valCodigoMF
+      .SetSerialMaquinaFiscal valSerialMF
       .SetNumeroDesde valNumeroComprobanteFiscalDesde
       .SetNumeroHasta valNumeroComprobanteFiscalHasta
       .SetNumeroResumenDiario valNumeroReporteZ
@@ -5076,26 +5081,6 @@ h_EXIT: On Error GoTo 0
     fConsecutivoAlmacen = vResult
     Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fConsecutivoAlmacen", CM_MESSAGE_NAME_FACTURA, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Function
-
-Private Function fConsecutivoStringMaquinaFiscal(ByVal valCodigoMaquinaFiscal) As String
-   Dim vResult As String
-   Dim vRs As ADODB.Recordset
-   Dim vSql As String
-   On Error GoTo h_ERROR
-   vResult = ""
-   Set vRs = New ADODB.Recordset
-   vSql = "SELECT ConsecutivoMaquinaFiscal FROM Saw.MaquinaFiscal WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual & " AND ConsecutivoMaquinaFiscal = " & gUtilSQL.fSimpleSqlValue(valCodigoMaquinaFiscal)
-   If gDbUtil.fOpenRecordset(vRs, vSql, Conexion) Then
-      If gDbUtil.fRecordCount(vRs) > 0 Then
-         vResult = gConvert.fConvierteAString(vRs.Fields("ConsecutivoMaquinaFiscal").Value)
-      End If
-   End If
-   gDbUtil.sDestroyRecordSet vRs
-h_EXIT: On Error GoTo 0
-    fConsecutivoStringMaquinaFiscal = vResult
-    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fConsecutivoStringMaquinaFiscal", CM_MESSAGE_NAME_FACTURA, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub sConstruyeDetalleRDV(ByVal valStrMontoExento As String, ByVal valStrMontoBIAlicuotaGeneral As String, ByVal valStrMontoBIAlicuotaReducida As String, ByVal valStrMontoBIAlicuotaExtendida As String, ByVal valStrMontoNCExento As String, ByVal valStrMontoNCBIAlicuotaGeneral As String, ByVal valStrMontoNCBIAlicuotaReducida As String, ByVal valStrMontoNCBIAlicuotaExtendida As String)
@@ -5292,4 +5277,24 @@ h_EXIT: On Error GoTo 0
    fImportaRDV = vResult
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fImportaRDV", CM_MESSAGE_NAME_FACTURA, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+
+Private Function fNumeroRegistroMaquinaFiscal(ByVal valCodigoMaquinaFiscal) As String
+   Dim vResult As String
+   Dim vRs As ADODB.Recordset
+   Dim vSql As String
+   On Error GoTo h_ERROR
+   vResult = ""
+   Set vRs = New ADODB.Recordset
+   vSql = "SELECT NumeroRegistro FROM Saw.MaquinaFiscal WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual & " AND ConsecutivoMaquinaFiscal = " & gUtilSQL.fSimpleSqlValue(valCodigoMaquinaFiscal)
+   If gDbUtil.fOpenRecordset(vRs, vSql, Conexion) Then
+      If gDbUtil.fRecordCount(vRs) > 0 Then
+         vResult = gConvert.fConvierteAString(vRs.Fields("NumeroRegistro").Value)
+      End If
+   End If
+   gDbUtil.sDestroyRecordSet vRs
+h_EXIT: On Error GoTo 0
+    fNumeroRegistroMaquinaFiscal = vResult
+    Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fNumeroRegistroMaquinaFiscal", CM_MESSAGE_NAME_FACTURA, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
