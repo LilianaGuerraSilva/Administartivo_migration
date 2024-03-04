@@ -42,6 +42,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         public string Direccion { get; set; }
         [LibGridColum("Teléfonos")]
         public string Telefonos { get; set; }
+        public string Email { get; set; }
         public string NombrePaisResidencia { get; set; }
         public string PaisConveniosSunat { get; set; }
     }
