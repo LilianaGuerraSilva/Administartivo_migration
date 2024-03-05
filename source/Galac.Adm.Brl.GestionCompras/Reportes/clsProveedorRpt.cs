@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using LibGalac.Aos.Base.Report;
 using Galac.Adm.Ccl.GestionCompras;
+using Galac.Saw.Lib;
 
 namespace Galac.Adm.Brl.GestionCompras.Reportes {
 
-    public class clsProveedorRpt: ILibReportInfo {
+    public class clsProveedorRpt: ILibReportInfo, IProveedorInformes {
         #region Variables
         private Dictionary<string, Dictionary<string, string>> _PropertiesForReportList;
         #endregion //Variables
@@ -30,6 +31,14 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
             vResult.Add("SpSearchName", "Adm.Gp_ProveedorSCH");
             vResult.Add("ConfigKeyForDbService", string.Empty);
             return vResult;
+        }
+
+        System.Data.DataTable IProveedorInformes.BuildHistoricoDeProveedor(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, string valCodigoProveedor, eMonedaDelInformeMM valMonedaDelInforme, string valCodigoMoneda, string valNombreMoneda, eTasaDeCambioParaImpresion valTasaDeCambio, eProveedorOrdenadosPor valProveedorOrdenarPor) {
+            string vSql = "";
+            clsProveedorSql insProveedorSql = new clsProveedorSql();
+            LibGalac.Aos.Base.ILibDataRpt insHistoricoDeProveedor = new Dal.GestionCompras.clsProveedorDat();
+            vSql = insProveedorSql.SqlHistoricoDeProveedor(valConsecutivoCompania, valFechaDesde, valFechaHasta, valCodigoProveedor, valMonedaDelInforme, valCodigoMoneda, valNombreMoneda, valTasaDeCambio, valProveedorOrdenarPor);
+            return insHistoricoDeProveedor.GetDt(vSql, 0);
         }
         #endregion //Metodos Generados
 

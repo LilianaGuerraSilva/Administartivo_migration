@@ -84,7 +84,10 @@ namespace Galac.Adm.Brl.GestionCompras {
                     vPdnModule = new Galac.Comun.Brl.TablasGen.clsConveniosSunatNav();
                     vResult = vPdnModule.GetDataForList("Proveedor", ref refXmlDocument, valXmlParamsExpression);
                     break;
-			    default: throw new NotImplementedException();
+                case "ProveedorInforme":
+                    vResult = ((ILibPdn)this).GetDataForList("Proveedor", ref refXmlDocument, valXmlParamsExpression);
+                    break;
+                default: throw new NotImplementedException();
             }
             return vResult;
         }

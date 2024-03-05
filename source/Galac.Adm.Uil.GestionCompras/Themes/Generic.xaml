@@ -65,6 +65,9 @@
         <nsCSV:GSOrdenDeCompraImportarView />
     </DataTemplate>
     <DataTemplate DataType="{x:Type nsReportesView:clsCxPEntreFechasViewModel}">
-        <nsReportesView:GSCxPEntreFechas/>
+        <nsReportesView:GSCxPEntreFechas />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsHistoricoDeProveedorViewModel}">
+        <nsReportesView:GSHistoricoDeProveedor />
     </DataTemplate>
 </ResourceDictionary>

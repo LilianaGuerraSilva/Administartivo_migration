@@ -26,7 +26,7 @@ Begin VB.Form frmInformesDeCXP
       ForeColor       =   &H00A84439&
       Height          =   372
       Left            =   3480
-      TabIndex        =   59
+      TabIndex        =   58
       Top             =   3720
       Width           =   4410
    End
@@ -130,7 +130,7 @@ Begin VB.Form frmInformesDeCXP
          _ExtentY        =   450
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   88801283
+         Format          =   87293955
          CurrentDate     =   36978
       End
       Begin MSComCtl2.DTPicker dtpFechaInicial 
@@ -143,7 +143,7 @@ Begin VB.Form frmInformesDeCXP
          _ExtentY        =   450
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   88801283
+         Format          =   87293955
          CurrentDate     =   36978
       End
       Begin VB.Label lblFechaFinal 
@@ -406,7 +406,7 @@ Begin VB.Form frmInformesDeCXP
          Height          =   195
          Index           =   12
          Left            =   120
-         TabIndex        =   58
+         TabIndex        =   7
          Top             =   2820
          Width           =   2955
       End
@@ -459,7 +459,7 @@ Begin VB.Form frmInformesDeCXP
          Index           =   8
          Left            =   120
          TabIndex        =   10
-         Top             =   4455
+         Top             =   4200
          Width           =   2955
       End
       Begin VB.OptionButton optInformesDeCxP 
@@ -472,20 +472,7 @@ Begin VB.Form frmInformesDeCXP
          Index           =   7
          Left            =   120
          TabIndex        =   9
-         Top             =   4140
-         Width           =   2955
-      End
-      Begin VB.OptionButton optInformesDeCxP 
-         Alignment       =   1  'Right Justify
-         BackColor       =   &H00F3F3F3&
-         Caption         =   "Histórico de Proveedor ......................"
-         CausesValidation=   0   'False
-         ForeColor       =   &H00A84439&
-         Height          =   195
-         Index           =   6
-         Left            =   120
-         TabIndex        =   8
-         Top             =   3825
+         Top             =   3840
          Width           =   2955
       End
       Begin VB.OptionButton optInformesDeCxP 
@@ -536,7 +523,7 @@ Begin VB.Form frmInformesDeCXP
          Height          =   195
          Index           =   3
          Left            =   120
-         TabIndex        =   7
+         TabIndex        =   8
          Top             =   3510
          Width           =   2955
       End
@@ -722,7 +709,7 @@ Private Const OPT_LIBRO_DE_COMPRAS As Integer = 2
 Private Const OPT_ESTADO_DE_CUENTA As Integer = 3
 Private Const OPT_ANALISIS_CxP_HISTORICO As Integer = 4
 Private Const OPT_CxP_PENDIENTE_ENTRE_FECHAS As Integer = 5
-Private Const OPT_HISTORICO_PROVEEDOR As Integer = 6
+
 Private Const OPT_LISTA_DE_PROVEEDORES As Integer = 7
 Private Const OPT_PROVEEDORES_SIN_MOVIMIENTOS As Integer = 8
 Private Const OPT_ANALISIS_DE_VENCIMIENTO_A_UNA_FECHA As Integer = 9
@@ -747,10 +734,10 @@ Private Sub cmbCantidadAImprimir_Click()
    On Error GoTo h_ERROR
    If CmbCantidadAImprimir.Text = gEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
       frameProveedor.Visible = True
-      ChkCambiandodePagina.Visible = False
+      chkCambiandodePagina.Visible = False
    Else
       frameProveedor.Visible = False
-      ChkCambiandodePagina.Visible = True
+      chkCambiandodePagina.Visible = True
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
@@ -885,7 +872,6 @@ Private Sub optInformesDeCxP_Click(Index As Integer)
       Case OPT_ESTADO_DE_CUENTA: sActivarCamposDeEstadoDeCuenta
       Case OPT_ANALISIS_CxP_HISTORICO: sActivarCamposDeAnalisisHistoricoCXP
       Case OPT_CxP_PENDIENTE_ENTRE_FECHAS: sActivarCamposDeCXPPendientesEntreFechas
-      Case OPT_HISTORICO_PROVEEDOR: sActivarCamposDeHistoricoProveedor
       Case OPT_LISTA_DE_PROVEEDORES: sActivarCamposListaProveedores
       Case OPT_PROVEEDORES_SIN_MOVIMIENTOS: sActivarCamposDeProveedoresSinMovimientos
       Case OPT_ANALISIS_DE_VENCIMIENTO_A_UNA_FECHA: sActivarCamposDeAnalisisDeVencimientoAUnaFecha
@@ -937,7 +923,6 @@ Private Sub sEjecutaElInformeSeleccionado()
       Case OPT_ESTADO_DE_CUENTA: sEjecutaEstadoDeCuenta
       Case OPT_ANALISIS_CxP_HISTORICO: sEjecutaAnalisisCxPHistorico
       Case OPT_CxP_PENDIENTE_ENTRE_FECHAS: sEjecutaCXPPendientesEntreFechas 'dll sql y rpt
-      Case OPT_HISTORICO_PROVEEDOR: sEjecutaHistoricoCXP
       Case OPT_LISTA_DE_PROVEEDORES: sEjecutaListaDeProveedores
       Case OPT_PROVEEDORES_SIN_MOVIMIENTOS: sEjecutaProveedoresSinMovimientos
       Case OPT_ANALISIS_DE_VENCIMIENTO_A_UNA_FECHA: sEjecutaAnalisisDeCxPAUnaFecha
@@ -1311,10 +1296,10 @@ Private Sub sActivarCamposDeEstadoDeCuenta()
    frameCantidadAImprimir.Visible = True
    If CmbCantidadAImprimir.Text = gEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
       frameProveedor.Visible = True
-      ChkCambiandodePagina.Visible = False
+      chkCambiandodePagina.Visible = False
    Else
       frameProveedor.Visible = False
-      ChkCambiandodePagina.Visible = True
+      chkCambiandodePagina.Visible = True
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
@@ -1357,7 +1342,7 @@ Private Sub sEjecutaEstadoDeCuenta()
          usarCambioOriginal = optTasaDeCambio(0).Value
       End If
       If gAPI.SelectedElementInComboBoxToString(CmbCantidadAImprimir) = gEnumReport.enumCantidadAImprimirToString(eCI_TODOS) Then
-         unaPaginaPorProveedor = gAPI.fGetCheckBoxValue(ChkCambiandodePagina)
+         unaPaginaPorProveedor = gAPI.fGetCheckBoxValue(chkCambiandodePagina)
       End If
          usarMonedaOriginal = (gAPI.SelectedElementInComboBoxToString(cmbMonedaDeLosReportes) = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnMonedaOriginal, gProyParametros.GetNombreMonedaLocal))
          If gAPI.SelectedElementInComboBoxToString(cmbMonedaDeLosReportes) = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, gProyParametros.GetNombreMonedaLocal) Then
@@ -1382,10 +1367,10 @@ Private Sub sActivarCamposDeAnalisisHistoricoCXP()
    frameCantidadAImprimir.Visible = True
    If CmbCantidadAImprimir.Text = gEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
       frameProveedor.Visible = True
-      ChkCambiandodePagina.Visible = False
+      chkCambiandodePagina.Visible = False
    Else
       frameProveedor.Visible = False
-      ChkCambiandodePagina.Visible = True
+      chkCambiandodePagina.Visible = True
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
@@ -1414,7 +1399,7 @@ Private Sub sEjecutaAnalisisCxPHistorico()
    
    unaPaginaPorProveedor = False
    If gAPI.SelectedElementInComboBoxToString(CmbCantidadAImprimir) = gEnumReport.enumCantidadAImprimirToString(eCI_TODOS) Then
-      unaPaginaPorProveedor = gConvert.ConvertByteToBoolean(ChkCambiandodePagina.Value)
+      unaPaginaPorProveedor = gConvert.ConvertByteToBoolean(chkCambiandodePagina.Value)
    End If
    usarCambioOriginal = optTasaDeCambio(0).Value
    ReporteEnMonedaLocal = (gAPI.SelectedElementInComboBoxToString(cmbMonedaDeLosReportes) = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, gProyParametros.GetNombreMonedaLocal))
@@ -1475,67 +1460,14 @@ Private Sub sActivarCamposDeCXPPendientesEntreFechas()
    frameCantidadAImprimir.Visible = True
    If CmbCantidadAImprimir.Text = gEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
       frameProveedor.Visible = True
-      ChkCambiandodePagina.Visible = False
+      chkCambiandodePagina.Visible = False
    Else
       frameProveedor.Visible = False
-      ChkCambiandodePagina.Visible = True
+      chkCambiandodePagina.Visible = True
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeCXPPendientesEntreFechas", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-
-Private Sub sActivarCamposDeHistoricoProveedor()
-   On Error GoTo h_ERROR
-   lblDatosDelInforme.Caption = "Datos del Informe - Histórico por Proveedor"
-   frameFechas.Visible = True
-   frameMoneda.Visible = True
-   frameCantidadAImprimir.Visible = True
-   If CmbCantidadAImprimir.Text = gEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
-      frameProveedor.Visible = True
-      ChkCambiandodePagina.Visible = False
-   Else
-      frameProveedor.Visible = False
-      ChkCambiandodePagina.Visible = True
-   End If
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeHistoricoProveedor", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-
-Private Sub sEjecutaHistoricoCXP()
-   Dim SqlDelReporte As String
-   Dim reporte As DDActiveReports2.ActiveReport
-   Dim insConfigurar As clsCxPRpt
-   Dim usarCambioBs As Boolean
-   Dim codigoProveedor As String
-   Dim unaPaginaPorProveedor As Boolean
-   On Error GoTo h_ERROR
-   If dtpFechaFinal.Value < dtpFechaInicial.Value Then
-      dtpFechaFinal.Value = dtpFechaInicial.Value
-   End If
-   If txtNombreDeProveedor.Text = "" And CmbCantidadAImprimir.Text = gEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
-      sShowMessageForRequiredFields "Nombre del Proveedor", txtNombreDeProveedor
-    Else
-      Set reporte = New DDActiveReports2.ActiveReport
-      Set insConfigurar = New clsCxPRpt
-      If gAPI.SelectedElementInComboBoxToString(CmbCantidadAImprimir) = gEnumReport.enumCantidadAImprimirToString(eCI_TODOS) Then
-         unaPaginaPorProveedor = gAPI.fGetCheckBoxValue(ChkCambiandodePagina)
-      End If
-      usarCambioBs = (gAPI.SelectedElementInComboBoxToString(cmbMonedaDeLosReportes) = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, gProyParametros.GetNombreMonedaLocal))
-      If gAPI.SelectedElementInComboBoxToString(CmbCantidadAImprimir) = gEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
-         codigoProveedor = Trim(txtNombreDeProveedor.Text)
-      End If
-      SqlDelReporte = insCxPSQL.fSQLHistoricoDeProveedor(usarCambioBs, gProyCompaniaActual.GetConsecutivoCompania, dtpFechaInicial.Value, dtpFechaFinal.Value, gAPI.SelectedElementInComboBoxToString(CmbCantidadAImprimir), txtCodigo.Text, gUltimaTasaDeCambio, gMonedaLocalActual)
-      If insConfigurar.fConfigurarDatosDelReporteHistoricoProveedor(reporte, SqlDelReporte, dtpFechaInicial.Value, dtpFechaFinal.Value, usarCambioBs, unaPaginaPorProveedor, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gEnumReport.getMensajesDeMonedaParaInformes(eMM_CambioDelDia), gGlobalization) Then
-         gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Histórico de Proveedor"
-      End If
-      Set reporte = Nothing
-      Set insConfigurar = Nothing
-   End If
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaHistoricoCXP", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub cmbMonedaDeLosReportes_KeyDown(KeyCode As Integer, Shift As Integer)
@@ -1560,7 +1492,7 @@ Private Sub sOcultarTodosLosCampos()
    frameMoneda.Visible = False
    frameInforme.Visible = False
    frameOrdenadoPor.Visible = False
-   ChkCambiandodePagina.Visible = False
+   chkCambiandodePagina.Visible = False
    cmdExportarAXLS.Visible = False
    chkMostrarInformeDeProrrateo.Visible = False
    pnlEmitirResumenParaVentas.Visible = False

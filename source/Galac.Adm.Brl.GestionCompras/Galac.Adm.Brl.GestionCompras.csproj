@@ -115,6 +115,7 @@
     <Compile Include="Reportes\clsOrdenDeCompraSql.cs" />
     <Compile Include="Reportes\clsCompraSql.cs" />
     <Compile Include="Reportes\clsProveedorRpt.cs" />
+    <Compile Include="Reportes\clsProveedorSql.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Galac.Adm.Ccl.GestionCompras\Galac.Adm.Ccl.GestionCompras.csproj">

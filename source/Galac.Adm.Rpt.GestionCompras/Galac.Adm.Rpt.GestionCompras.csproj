@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsCxPEntreFechas.cs" />
+    <Compile Include="clsHistoricoDeProveedor.cs" />
     <Compile Include="clsImpresionDeEtiquetasPorCompras.cs" />
     <Compile Include="clsImprimirComprasEntreFechas.cs" />
     <Compile Include="clsImprimirCostoDeCompraEntreFechas.cs" />
@@ -86,6 +87,12 @@
     </Compile>
     <Compile Include="dsrCxPEntreFechas.Designer.cs">
       <DependentUpon>dsrCxPEntreFechas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dsrHistoricoDeProveedor.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrHistoricoDeProveedor.designer.cs">
+      <DependentUpon>dsrHistoricoDeProveedor.cs</DependentUpon>
     </Compile>
     <Compile Include="dsrImpresionDeEtiquetasPorCompras.cs">
       <SubType>Component</SubType>
@@ -156,6 +163,9 @@
   <ItemGroup>
     <EmbeddedResource Include="dsrCxPEntreFechas.resx">
       <DependentUpon>dsrCxPEntreFechas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dsrHistoricoDeProveedor.resx">
+      <DependentUpon>dsrHistoricoDeProveedor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="dsrImpresionDeEtiquetasPorCompras.resx">
       <DependentUpon>dsrImpresionDeEtiquetasPorCompras.cs</DependentUpon>
