@@ -10,18 +10,10 @@
 	path = bin/binLibAos
 	url = https://github.com/GalacSoftware/BinLibAos.git
 	branch = release/V5.24.0.0
-[submodule "bin/binLibVb"]
-	path = bin/binLibVb
-	url = https://github.com/GalacSoftware/BinLibVb.git
-	branch = release/V2401
 [submodule "bin/binLibNet"]
 	path = bin/binLibNet
 	url = https://github.com/GalacSoftware/BinLibNet.git
 	branch = release/v5.24.0.0
-[submodule "bin/binContabilidadVb"]
-	path = bin/binContabilidadVb
-	url = https://github.com/GalacSoftware/BinContabilidadVb.git
-	branch = release/SawV25.0.0.0
 [submodule "bin/binComunAos"]
 	path = bin/binComunAos
 	url = https://github.com/GalacSoftware/BinComunAos.git
@@ -46,27 +38,35 @@
 	path = source/Axi
 	url = https://github.com/GalacSoftware/Axi.git
 	branch = release/SawV25.0.0.0
-[submodule "source/ContabilidadVb"]
-	path = source/ContabilidadVb
-	url = https://github.com/GalacSoftware/ContabilidadVb.git
-	branch = release/SawV25.0.0.0
-[submodule "source/IvaVb"]
-	path = source/IvaVb
-	url = https://github.com/GalacSoftware/IvaVb.git
-	branch = release/SawV25.0.0.0
 [submodule "source/ContabIwrp"]
 	path = source/ContabIwrp
 	url = https://github.com/GalacSoftware/ContabiWrp.git
 	branch = release/SawV25.0.0.0
-[submodule "bin/binAdministrativoAos"]
-	path = bin/binAdministrativoAos
-	url = https://github.com/GalacSoftware/BinAdministrativoAos.git
-	branch = release/V25.0.0.0
-[submodule "bin/binAdministrativoVb"]
-	path = bin/binAdministrativoVb
-	url = https://github.com/GalacSoftware/BinAdministrativoVB.git
-	branch = release/V2402
 [submodule "bin/binLibProtec"]
 	path = bin/binLibProtec
 	url = https://github.com/GalacSoftware/BinLibProtec.git
 	branch = release/v24.1.0.0|
+[submodule "source/IvaVb"]
+	path = source/IvaVb
+	url = https://github.com/GalacSoftware/IvaVb.git
+	branch = release/SawV25.1.0.0
+[submodule "source/ContabilidadVb"]
+	path = source/ContabilidadVb
+	url = https://github.com/GalacSoftware/ContabilidadVb.git
+	branch = release/SawV25.1.0.0
+[submodule "bin/binLibVb"]
+	path = bin/binLibVb
+	url = https://github.com/GalacSoftware/BinLibVb.git
+	branch = release/V2402
+[submodule "bin/binContabilidadVb"]
+	path = bin/binContabilidadVb
+	url = https://github.com/GalacSoftware/BinContabilidadVb.git
+	branch = release/V2402
+[submodule "bin/binAdministrativoVb"]
+	path = bin/binAdministrativoVb
+	url = https://github.com/GalacSoftware/BinAdministrativoVB.git
+	branch = release/V2403
+[submodule "bin/binAdministrativoAos"]
+	path = bin/binAdministrativoAos
+	url = https://github.com/GalacSoftware/BinAdministrativoAos.git
+	branch = release/V25.1.0.0
