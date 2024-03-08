@@ -23,75 +23,75 @@ ImprimirComprobanteDeCxC;DatosGenerales;1;1.2.-General;2;;Bool;;S
 ImprimirComprobanteDeCxP;DatosGenerales;1;1.2.-General;2;;Bool;;S
 ValidarRifEnLaWeb;DatosGenerales;1;1.2.-General;2;;Bool;;S
 EsSistemaParaIG;DatosGenerales;1;1.2.-General;2;;Bool;;S
-SuscripcionGVentas;DatosGenerales;1;1.2.-General;2;;Bool;;N
+SuscripcionGVentas;DatosGenerales;1;1.2.-General;2;;Bool;;S
 SerialConectorGVentas;DatosGenerales;1;1.2.-General;2;;Bool;;S
 NumeroIDGVentas;DatosGenerales;1;1.2.-General;2;;Bool;;N
-VerificarFacturasManualesFaltantes;Factura;2;2.1.- Facturaci髇 ;1;;Bool;;S
-NumFacturasManualesFaltantes;Factura;2;2.1.- Facturaci髇 ;1;;Int;;S
-PermitirFacturarConCantidadCero;Factura;2;2.1.- Facturaci髇 ;1;;Bool;;N
-DevolucionReversoSeGeneraComo;Factura;2;2.1.- Facturaci髇 ;1;;Enumerativo;;S
-ExigirRifdeClienteAlEmitirFactura;Factura;2;2.1.- Facturaci髇 ;1;;Bool;;N
-SugerirNumeroControlFactura;Factura;2;2.1.- Facturaci髇 ;1;;Bool;;N
-PedirInformacionLibroVentasXlsalEmitirFactura;Factura;2;2.1.- Facturaci髇 ;1;;Bool;;N
-TipoDeNivelDePrecios;Factura;2;2.1.- Facturaci髇 ;1;;Enumerativo;;N
-ComplConComodinEnBusqDeArtInv;Factura;2;2.1.- Facturaci髇 ;1;;Bool;;N
-UsarResumenDiarioDeVentas;Factura;2;2.1.- Facturaci髇 ;1;;Bool;;N
-ItemsMonto;Factura;2;2.1.- Facturaci髇 ;1;;Enumerativo;;N
-ComisionesEnFactura;Factura;2;2.1.- Facturaci髇 ;1;;Enumerativo;;N
-ComisionesEnRenglones;Factura;2;2.1.- Facturaci髇 ;1;;Enumerativo;;N
-CambiarFechaEnCuotasLuegoDeFijarFechaEntrega;Factura;2;2.1.- Facturaci髇 ;1;;Bool;;N
-BuscarArticuloXSerialAlFacturar;Factura;2;2.1.- Facturaci髇 ;1;;Bool;;N
-NombreVendedorUno;Factura;2;2.1.- Facturaci髇 ;1;;String;;N
-NombreVendedorDos;Factura;2;2.1.- Facturaci髇 ;1;;String;;N
-NombreVendedorTres;Factura;2;2.1.- Facturaci髇 ;1;;String;;N
-UsaPrecioSinIva;Factura;2;2.1.- Facturaci髇 ;1;;Bool;;N
-UsaPrecioSinIvaEnResumenVtas;Factura;2;2.1.- Facturaci髇 ;1;;Bool;;N
-ResumenVtasAfectaInventario;Factura;2;2.1.- Facturaci髇 ;1;;Bool;;N
-UsarRenglonesEnResumenVtas;Factura;2;2.1.- Facturaci髇 ;1;;Bool;;N
-PermitirCambioTasaMondExtrajalEmitirFactura;Factura;2;2.1.- Facturaci髇 ;1;;Bool;;N
-FormaDeCalculoDePrecioRenglonFactura;Factura;2;2.1.- Facturaci髇;1;;Enumerativo;;N
-ForzarFechaFacturaAmesEspecifico;Factura;2;2.2.- Facturaci髇 (Continuaci髇) ;2;;Bool;;N
-MesFacturacionEnCurso;Factura;2;2.2.- Facturaci髇 (Continuaci髇) ;2;;Enumerativo;;N
-PermitirIncluirFacturacionHistorica;Factura;2;2.2.- Facturaci髇 (Continuaci髇) ;2;;Bool;;N
-UltimaFechaDeFacturacionHistorica;Factura;2;2.2.- Facturaci髇 (Continuaci髇) ;2;;Date;;N
-GenerarCxCalEmitirUnaFacturaHistorica;Factura;2;2.2.- Facturaci髇 (Continuaci髇) ;2;;Bool;;N
-AccionAlAnularFactDeMesesAnt;Factura;2;2.2.- Facturaci髇 (Continuaci髇) ;2;;Enumerativo;;N
-UsarOtrosCargoDeFactura;Factura;2;2.2.- Facturaci髇 (Continuaci髇) ;2;;Bool;;N
-UsaCamposExtrasEnRenglonFactura;Factura;2;2.2.- Facturaci髇 (Continuaci髇) ;2;;Bool;;N
-EmitirDirecto;Factura;2;2.2.- Facturaci髇 (Continuaci髇) ;2;;Bool;;N
-UsaCobroDirecto;Factura;2;2.2.- Facturaci髇 (Continuaci髇) ;2;;Bool;;N
-CuentaBancariaCobroDirecto;Factura;2;2.2.- Facturaci髇 (Continuaci髇) ;2;;String;;N
-ConceptoBancarioCobroDirecto;Factura;2;2.2.- Facturaci髇 (Continuaci髇) ;2;;String;;N
-PermitirDobleDescuentoEnFactura;Factura;2;2.2.- Facturaci髇 (Continuaci髇) ;2;;Bool;;N
-MaximoDescuentoEnFactura;Factura;2;2.2.- Facturaci髇 (Continuaci髇) ;2;;Decimal;;N
-BloquearEmision;Factura;2;2.2.- Facturaci髇 (Continuaci髇) ;2;;Enumerativo;;N
-MostrarMtoTotalBsFEnObservaciones;Factura;2;2.2.- Facturaci髇 (Continuaci髇) ;2;;Bool;;N
-UsaCobroDirectoEnMultimoneda;Factura;2;2.2.- Facturaci髇 (Continuaci髇) ;2;;Bool;;N
-CuentaBancariaCobroMultimoneda;Factura;2;2.2.- Facturaci髇 (Continuaci髇) ;2;;String;;N
-ConceptoBancarioCobroMultimoneda;Factura;2;2.2.- Facturaci髇 (Continuaci髇) ;2;;String;;N
-UsaListaDePrecioEnMonedaExtranjera;Factura;2;2.2.- Facturaci髇 (Continuaci髇) ;2;;Bool;;N
-UsaListaDePrecioEnMonedaExtranjeraCXC;Factura;2;2.1.- Facturaci髇 ;1;;Bool;;N
-SeMuestraTotalEnDivisas;Factura;2;2.2.- Facturaci髇 (Continuaci髇) ;2;;Bool;;N
-UsaMediosElectronicosDeCobro;Factura;2;2.2.- Facturaci髇 (Continuaci髇) ;2;;Bool;;N
-NroDiasMantenerTasaCambio;Factura;2;2.1.- Facturaci髇 ;2;;Int;;N
-NumeroDeDigitosEnFactura;Factura;2;2.3.- Impresi髇 de Factura;3;;int;;N
-CantidadDeCopiasDeLaFacturaAlImprimir;Factura;2;2.3.- Impresi髇 de Factura;3;;int;;N
-UsarDecimalesAlImprimirCantidad;Factura;2;2.3.- Impresi髇 de Factura;3;;Bool;;N
-DetalleProdCompFactura;Factura;2;2.3.- Impresi髇 de Factura;3;;Bool;;N
-FormaDeOrdenarDetalleFactura;Factura;2;2.3.- Impresi髇 de Factura;3;;Enumerativo;;N
-ImprimirFacturaConSubtotalesPorLineaDeProducto;Factura;2;2.3.- Impresi髇 de Factura;3;;Bool;;N
-NoImprimirFactura;Factura;2;2.3.- Impresi髇 de Factura;3;;Bool;;N
-ImprimirBorradorAlInsertarFactura;Factura;2;2.3.- Impresi髇 de Factura;3;;Bool;;N
-ImprimeDireccionAlFinalDelComprobanteFiscal;Factura;2;2.3.- Impresi髇 de Factura;3;;Bool;;N
-ConcatenaLetraEaArticuloExento;Factura;2;2.3.- Impresi髇 de Factura;3;;Bool;;N
-ImprimirTipoCobroEnFactura;Factura;2;2.3.- Impresi髇 de Factura;3;;Bool;;N
-NumItemImprimirFactura;Factura;2;2.3.- Impresi髇 de Factura;3;;int;;N
-AccionLimiteItemsFactura;Factura;2;2.3.- Impresi髇 de Factura;3;;Enumerativo;;N
-FormatoDeFecha;Factura;2;2.3.- Impresi髇 de Factura;3;;Enumerativo;;N
-FormatoDeFechaTexto;Factura;2;2.3.- Impresi髇 de Factura;3;;String;;N
-ImprimirAnexoDeSerial;Factura;2;2.3.- Impresi髇 de Factura;3;;Bool;;N
-NombrePlantillaAnexoSeriales;Factura;2;2.3.- Impresi髇 de Factura;3;;String;;N
-ImprimirComprobanteFiscalEnContrato;Factura;2;2.3.- Impresi髇 de Factura;3;;Bool;;N
+VerificarFacturasManualesFaltantes;Factura;2;2.1.- Facturaci贸n ;1;;Bool;;S
+NumFacturasManualesFaltantes;Factura;2;2.1.- Facturaci贸n ;1;;Int;;S
+PermitirFacturarConCantidadCero;Factura;2;2.1.- Facturaci贸n ;1;;Bool;;N
+DevolucionReversoSeGeneraComo;Factura;2;2.1.- Facturaci贸n ;1;;Enumerativo;;S
+ExigirRifdeClienteAlEmitirFactura;Factura;2;2.1.- Facturaci贸n ;1;;Bool;;N
+SugerirNumeroControlFactura;Factura;2;2.1.- Facturaci贸n ;1;;Bool;;N
+PedirInformacionLibroVentasXlsalEmitirFactura;Factura;2;2.1.- Facturaci贸n ;1;;Bool;;N
+TipoDeNivelDePrecios;Factura;2;2.1.- Facturaci贸n ;1;;Enumerativo;;N
+ComplConComodinEnBusqDeArtInv;Factura;2;2.1.- Facturaci贸n ;1;;Bool;;N
+UsarResumenDiarioDeVentas;Factura;2;2.1.- Facturaci贸n ;1;;Bool;;N
+ItemsMonto;Factura;2;2.1.- Facturaci贸n ;1;;Enumerativo;;N
+ComisionesEnFactura;Factura;2;2.1.- Facturaci贸n ;1;;Enumerativo;;N
+ComisionesEnRenglones;Factura;2;2.1.- Facturaci贸n ;1;;Enumerativo;;N
+CambiarFechaEnCuotasLuegoDeFijarFechaEntrega;Factura;2;2.1.- Facturaci贸n ;1;;Bool;;N
+BuscarArticuloXSerialAlFacturar;Factura;2;2.1.- Facturaci贸n ;1;;Bool;;N
+NombreVendedorUno;Factura;2;2.1.- Facturaci贸n ;1;;String;;N
+NombreVendedorDos;Factura;2;2.1.- Facturaci贸n ;1;;String;;N
+NombreVendedorTres;Factura;2;2.1.- Facturaci贸n ;1;;String;;N
+UsaPrecioSinIva;Factura;2;2.1.- Facturaci贸n ;1;;Bool;;N
+UsaPrecioSinIvaEnResumenVtas;Factura;2;2.1.- Facturaci贸n ;1;;Bool;;N
+ResumenVtasAfectaInventario;Factura;2;2.1.- Facturaci贸n ;1;;Bool;;N
+UsarRenglonesEnResumenVtas;Factura;2;2.1.- Facturaci贸n ;1;;Bool;;N
+PermitirCambioTasaMondExtrajalEmitirFactura;Factura;2;2.1.- Facturaci贸n ;1;;Bool;;N
+FormaDeCalculoDePrecioRenglonFactura;Factura;2;2.1.- Facturaci贸n;1;;Enumerativo;;N
+ForzarFechaFacturaAmesEspecifico;Factura;2;2.2.- Facturaci贸n (Continuaci贸n) ;2;;Bool;;N
+MesFacturacionEnCurso;Factura;2;2.2.- Facturaci贸n (Continuaci贸n) ;2;;Enumerativo;;N
+PermitirIncluirFacturacionHistorica;Factura;2;2.2.- Facturaci贸n (Continuaci贸n) ;2;;Bool;;N
+UltimaFechaDeFacturacionHistorica;Factura;2;2.2.- Facturaci贸n (Continuaci贸n) ;2;;Date;;N
+GenerarCxCalEmitirUnaFacturaHistorica;Factura;2;2.2.- Facturaci贸n (Continuaci贸n) ;2;;Bool;;N
+AccionAlAnularFactDeMesesAnt;Factura;2;2.2.- Facturaci贸n (Continuaci贸n) ;2;;Enumerativo;;N
+UsarOtrosCargoDeFactura;Factura;2;2.2.- Facturaci贸n (Continuaci贸n) ;2;;Bool;;N
+UsaCamposExtrasEnRenglonFactura;Factura;2;2.2.- Facturaci贸n (Continuaci贸n) ;2;;Bool;;N
+EmitirDirecto;Factura;2;2.2.- Facturaci贸n (Continuaci贸n) ;2;;Bool;;N
+UsaCobroDirecto;Factura;2;2.2.- Facturaci贸n (Continuaci贸n) ;2;;Bool;;N
+CuentaBancariaCobroDirecto;Factura;2;2.2.- Facturaci贸n (Continuaci贸n) ;2;;String;;N
+ConceptoBancarioCobroDirecto;Factura;2;2.2.- Facturaci贸n (Continuaci贸n) ;2;;String;;N
+PermitirDobleDescuentoEnFactura;Factura;2;2.2.- Facturaci贸n (Continuaci贸n) ;2;;Bool;;N
+MaximoDescuentoEnFactura;Factura;2;2.2.- Facturaci贸n (Continuaci贸n) ;2;;Decimal;;N
+BloquearEmision;Factura;2;2.2.- Facturaci贸n (Continuaci贸n) ;2;;Enumerativo;;N
+MostrarMtoTotalBsFEnObservaciones;Factura;2;2.2.- Facturaci贸n (Continuaci贸n) ;2;;Bool;;N
+UsaCobroDirectoEnMultimoneda;Factura;2;2.2.- Facturaci贸n (Continuaci贸n) ;2;;Bool;;N
+CuentaBancariaCobroMultimoneda;Factura;2;2.2.- Facturaci贸n (Continuaci贸n) ;2;;String;;N
+ConceptoBancarioCobroMultimoneda;Factura;2;2.2.- Facturaci贸n (Continuaci贸n) ;2;;String;;N
+UsaListaDePrecioEnMonedaExtranjera;Factura;2;2.2.- Facturaci贸n (Continuaci贸n) ;2;;Bool;;N
+UsaListaDePrecioEnMonedaExtranjeraCXC;Factura;2;2.1.- Facturaci贸n ;1;;Bool;;N
+SeMuestraTotalEnDivisas;Factura;2;2.2.- Facturaci贸n (Continuaci贸n) ;2;;Bool;;N
+UsaMediosElectronicosDeCobro;Factura;2;2.2.- Facturaci贸n (Continuaci贸n) ;2;;Bool;;N
+NroDiasMantenerTasaCambio;Factura;2;2.1.- Facturaci贸n ;2;;Int;;N
+NumeroDeDigitosEnFactura;Factura;2;2.3.- Impresi贸n de Factura;3;;int;;N
+CantidadDeCopiasDeLaFacturaAlImprimir;Factura;2;2.3.- Impresi贸n de Factura;3;;int;;N
+UsarDecimalesAlImprimirCantidad;Factura;2;2.3.- Impresi贸n de Factura;3;;Bool;;N
+DetalleProdCompFactura;Factura;2;2.3.- Impresi贸n de Factura;3;;Bool;;N
+FormaDeOrdenarDetalleFactura;Factura;2;2.3.- Impresi贸n de Factura;3;;Enumerativo;;N
+ImprimirFacturaConSubtotalesPorLineaDeProducto;Factura;2;2.3.- Impresi贸n de Factura;3;;Bool;;N
+NoImprimirFactura;Factura;2;2.3.- Impresi贸n de Factura;3;;Bool;;N
+ImprimirBorradorAlInsertarFactura;Factura;2;2.3.- Impresi贸n de Factura;3;;Bool;;N
+ImprimeDireccionAlFinalDelComprobanteFiscal;Factura;2;2.3.- Impresi贸n de Factura;3;;Bool;;N
+ConcatenaLetraEaArticuloExento;Factura;2;2.3.- Impresi贸n de Factura;3;;Bool;;N
+ImprimirTipoCobroEnFactura;Factura;2;2.3.- Impresi贸n de Factura;3;;Bool;;N
+NumItemImprimirFactura;Factura;2;2.3.- Impresi贸n de Factura;3;;int;;N
+AccionLimiteItemsFactura;Factura;2;2.3.- Impresi贸n de Factura;3;;Enumerativo;;N
+FormatoDeFecha;Factura;2;2.3.- Impresi贸n de Factura;3;;Enumerativo;;N
+FormatoDeFechaTexto;Factura;2;2.3.- Impresi贸n de Factura;3;;String;;N
+ImprimirAnexoDeSerial;Factura;2;2.3.- Impresi贸n de Factura;3;;Bool;;N
+NombrePlantillaAnexoSeriales;Factura;2;2.3.- Impresi贸n de Factura;3;;String;;N
+ImprimirComprobanteFiscalEnContrato;Factura;2;2.3.- Impresi贸n de Factura;3;;Bool;;N
 ModeloDeFactura;Factura;2; 2.4.- Modelo de Factura ;4;;Enumerativo;;N
 NombrePlantillaFactura;Factura;2; 2.4.- Modelo de Factura ;4;;String;;N
 FacturaPreNumerada;Factura;2; 2.4.- Modelo de Factura ;2;;Bool;;N
@@ -138,27 +138,27 @@ PosicionCodigoArticuloPrecio;Factura;2;2.7.- Balanza - Etiqueta;7;;int;;N
 NumDigitosPrecio;Factura;2;2.7.- Balanza - Etiqueta;7;;int;;N
 NumDecimalesPrecio;Factura;2;2.7.- Balanza - Etiqueta;7;;int;;N
 PrecioIncluyeIva;Factura;2;2.7.- Balanza - Etiqueta;7;;Bool;;N
-NombrePlantillaCotizacion;Cotizaci髇;3;3.1.- Cotizaci髇 ;1;;String;;N
-DetalleProdCompCotizacion;Cotizaci髇;3;3.1.- Cotizaci髇 ;1;;Bool;;N
-UsaControlDespacho;Cotizaci髇;3;3.1.- Cotizaci髇 ;1;;Bool;;N
-LimpiezaDeCotizacionXFactura;Cotizaci髇;3;3.1.- Cotizaci髇 ;1;;Bool;;N
-ValidarArticulosAlGenerarFactura;Cotizaci髇;3;3.1.- Cotizaci髇 ;1;;Bool;;N
-CampoCodigoAlternativoDeArticulo;Cotizaci髇;3;3.1.- Cotizaci髇 ;1;;Enumerativo;;N
-NombrePlantillaNotaDeCredito;Cotizaci髇;3;3.2.- Nota de D閎ito / Cr閐ito ;2;;String;;N
-PrimeraNotaDeCredito;Cotizaci髇;3;3.2.- Nota de D閎ito / Cr閐ito ;2;;String;;N
-TipoDePrefijoNC;Cotizaci髇;3;3.2.- Nota de D閎ito / Cr閐ito ;2;;Enumerativo;;N
-PrefijoNC;Cotizaci髇;3;3.2.- Nota de D閎ito / Cr閐ito ;2;;String;;N
-PrimeraBoleta;Cotizaci髇;3;3.2.- Nota de D閎ito / Cr閐ito ;2;;String;;N
-NombrePlantillaBoleta;Cotizaci髇;3;3.2.- Nota de D閎ito / Cr閐ito ;2;;String;;N
-NombrePlantillaNotaDeDebito;Cotizaci髇;3;3.2.- Nota de D閎ito / Cr閐ito ;2;;String;;N
-NDPreNumerada;Cotizaci髇;3;3.2.- Nota de D閎ito / Cr閐ito ;2;;Bool;;N
-PrimeraNotaDeDebito;Cotizaci髇;3;3.2.- Nota de D閎ito / Cr閐ito ;2;;String;;N
-TipoDePrefijoND;Cotizaci髇;3;3.2.- Nota de D閎ito / Cr閐ito ;2;;Enumerativo;;N
-PrefijoND;Cotizaci髇;3;3.2.- Nota de D閎ito / Cr閐ito ;2;;String;;N
-NCPreNumerada;Cotizaci髇;3;3.2.- Nota de D閎ito / Cr閐ito ;2;;Bool;;N
-UsaCodigoVendedorEnPantalla;Cotizaci髇;3;3.3.- Vendedor ;3;;Bool;;S
-CodigoGenericoVendedor;Cotizaci髇;3;3.3.- Vendedor ;3;;String;;N
-LongitudCodigoVendedor;Cotizaci髇;3;3.3.- Vendedor ;3;;int;;S
+NombrePlantillaCotizacion;Cotizaci贸n;3;3.1.- Cotizaci贸n ;1;;String;;N
+DetalleProdCompCotizacion;Cotizaci贸n;3;3.1.- Cotizaci贸n ;1;;Bool;;N
+UsaControlDespacho;Cotizaci贸n;3;3.1.- Cotizaci贸n ;1;;Bool;;N
+LimpiezaDeCotizacionXFactura;Cotizaci贸n;3;3.1.- Cotizaci贸n ;1;;Bool;;N
+ValidarArticulosAlGenerarFactura;Cotizaci贸n;3;3.1.- Cotizaci贸n ;1;;Bool;;N
+CampoCodigoAlternativoDeArticulo;Cotizaci贸n;3;3.1.- Cotizaci贸n ;1;;Enumerativo;;N
+NombrePlantillaNotaDeCredito;Cotizaci贸n;3;3.2.- Nota de D茅bito / Cr茅dito ;2;;String;;N
+PrimeraNotaDeCredito;Cotizaci贸n;3;3.2.- Nota de D茅bito / Cr茅dito ;2;;String;;N
+TipoDePrefijoNC;Cotizaci贸n;3;3.2.- Nota de D茅bito / Cr茅dito ;2;;Enumerativo;;N
+PrefijoNC;Cotizaci贸n;3;3.2.- Nota de D茅bito / Cr茅dito ;2;;String;;N
+PrimeraBoleta;Cotizaci贸n;3;3.2.- Nota de D茅bito / Cr茅dito ;2;;String;;N
+NombrePlantillaBoleta;Cotizaci贸n;3;3.2.- Nota de D茅bito / Cr茅dito ;2;;String;;N
+NombrePlantillaNotaDeDebito;Cotizaci贸n;3;3.2.- Nota de D茅bito / Cr茅dito ;2;;String;;N
+NDPreNumerada;Cotizaci贸n;3;3.2.- Nota de D茅bito / Cr茅dito ;2;;Bool;;N
+PrimeraNotaDeDebito;Cotizaci贸n;3;3.2.- Nota de D茅bito / Cr茅dito ;2;;String;;N
+TipoDePrefijoND;Cotizaci贸n;3;3.2.- Nota de D茅bito / Cr茅dito ;2;;Enumerativo;;N
+PrefijoND;Cotizaci贸n;3;3.2.- Nota de D茅bito / Cr茅dito ;2;;String;;N
+NCPreNumerada;Cotizaci贸n;3;3.2.- Nota de D茅bito / Cr茅dito ;2;;Bool;;N
+UsaCodigoVendedorEnPantalla;Cotizaci贸n;3;3.3.- Vendedor ;3;;Bool;;S
+CodigoGenericoVendedor;Cotizaci贸n;3;3.3.- Vendedor ;3;;String;;N
+LongitudCodigoVendedor;Cotizaci贸n;3;3.3.- Vendedor ;3;;int;;S
 CodigoGenericoCliente;CXC/Cobranzas;4;4.1.- Cliente ;1;;String;;N
 LongitudCodigoCliente;CXC/Cobranzas;4;4.1.- Cliente ;1;;int;;S
 RellenaCerosAlaIzquierda;CXC/Cobranzas;4;4.1.- Cliente ;1;;Bool;;N
@@ -206,18 +206,18 @@ ImprimirReporteAlIngresarNotaEntradaSalida;Inventario;5;5.2- Nota Entrada/Salida
 NombrePlantillaNotaEntradaSalida;Inventario;5;5.2- Nota Entrada/Salida;2;;String;;N
 NombrePlantillaCodigoDeBarras;Inventario;5;5.2- Nota Entrada/Salida;2;;String;;N
 ImprimirNotaESconPrecio;Inventario;5;5.2- Nota Entrada/Salida;2;;Bool;;N
-MetodoDeCosteo;Inventario;5;5.3.- M閠odo  de costos;3;;Enumerativo;;N
-CalculoAutomaticoDeCosto;Inventario;5;5.3.- M閠odo de costos;3;;Bool;;N
-MaximoGastosAdmisibles;Inventario;5;5.3.- M閠odo de costos;3;;Decimal;;N
-FechaDesdeUsoMetodoDeCosteo;Inventario;5;5.3.- M閠odo de costos;3;;Date;;N
-ComprobanteCostoDetallado;Inventario;5;5.3.- M閠odo  de costos;3;;Bool;;N
-FechaContabilizacionDeCosteo;Inventario;5;5.3.- M閠odo  de costos;3;;Date;;N
+MetodoDeCosteo;Inventario;5;5.3.- M茅todo  de costos;3;;Enumerativo;;N
+CalculoAutomaticoDeCosto;Inventario;5;5.3.- M茅todo de costos;3;;Bool;;N
+MaximoGastosAdmisibles;Inventario;5;5.3.- M茅todo de costos;3;;Decimal;;N
+FechaDesdeUsoMetodoDeCosteo;Inventario;5;5.3.- M茅todo de costos;3;;Date;;N
+ComprobanteCostoDetallado;Inventario;5;5.3.- M茅todo  de costos;3;;Bool;;N
+FechaContabilizacionDeCosteo;Inventario;5;5.3.- M茅todo  de costos;3;;Date;;N
 DuracionEnPantallaEnSegundos;Inventario;5;5.4-. Verificador de Precios;4;;int;;N
 RutaImagen;Inventario;5;5.4-. Verificador de Precios;4;;String;;N
 TipoDePrecioAMostrarEnVerificador;Inventario;5;5.4-. Verificador de Precios;4;;Enumerativo;;N
 TipoDeBusquedaArticulo;Inventario;5;5.4-. Verificador de Precios;4;;Enumerativo;;N
 NivelDePrecioAMostrar;Inventario;5;5.4-. Verificador de Precios;4;;Enumerativo;;N
-CostoTerminadoCalculadoAPartirDe;Inventario;5;5.5.- Producci髇;5;;Enumerativo;;N
+CostoTerminadoCalculadoAPartirDe;Inventario;5;5.5.- Producci贸n;5;;Enumerativo;;N
 GenerarCxpDesdeCompra;CxP/Compras;6;6.1.- Compras;1;;Bool;;S
 ImprimirOrdenDeCompra;CxP/Compras;6;6.1.- Compras;1;;Bool;;N
 NombrePlantillaOrdenDeCompra;CxP/Compras;6;6.1.- Compras;1;;String;;N
@@ -243,37 +243,37 @@ NombrePlantillaRetencionImpuestoMunicipalInforme;CxP/Compras;6;6.2.- CxP / Prove
 PrimerNumeroComprobanteRetImpuestoMunicipal;CxP/Compras;6;6.2.- CxP / Proveedor / Pagos;2;;int;;N
 OrdenarCxPPorFacturaDocumento;CxP/Compras;6;6.2.- CxP / Proveedor / Pagos;2;;Bool;;N
 FechaSugeridaRetencionesCxP;CxP/Compras;6;6.2.- CxP / Proveedor / Pagos;2;;Enumerativo;;N
-EnDondeRetenerIVA;CxP/Compras;6;6.3.- Retenci髇 IVA;3;;Enumerativo;;N
-UsaMismoNumeroCompRetTodasCxP;CxP/Compras;6;6.3.- Retenci髇 IVA;3;;Bool;;N
-PrimerNumeroComprobanteRetIva;CxP/Compras;6;6.3.- Retenci髇 IVA;3;;int;;N
-FormaDeReiniciarElNumeroDeComprobanteRetIva;CxP/Compras;6;6.3.- Retenci髇 IVA;3;;Enumerativo;;N
-ImprimirComprobanteDeRetIva;CxP/Compras;6;6.3.- Retenci髇 IVA;3;;Bool;;N
-NumeroDeCopiasComprobanteRetencionIva;CxP/Compras;6;6.3.- Retenci髇 IVA;3;;int;;N
-UnComprobanteDeRetIvaporHoja;CxP/Compras;6;6.3.- Retenci髇 IVA;3;;Bool;;N
-NombrePlantillaComprobanteDeRetIVA;CxP/Compras;6;6.3.- Retenci髇 IVA;3;;String;;N
-GenerarNumCompDeRetIvasoloSiPorcentajeEsMayorAcero;CxP/Compras;6;6.3.- Retenci髇 IVA;3;;Bool;;N
-UsaRetencion;CxP/Compras;6;6.4.- Retenci髇 ISLR;4;;Bool;;N
-NumCopiasComprobanteRetencion;CxP/Compras;6;6.4.- Retenci髇 ISLR;4;;int;;N
-DiaDelCierreFiscal;CxP/Compras;6;6.4.- Retenci髇 ISLR;4;;String;;N
-MesDelCierreFiscal;CxP/Compras;6;6.4.- Retenci髇 ISLR;4;;String;;N
-TomarEnCuentaRetencionesCeroParaArcvyRa;CxP/Compras;6;6.4.- Retenci髇 ISLR;4;;Bool;;N
-EnDondeRetenerISLR;CxP/Compras;6;6.4.- Retenci髇 ISLR;4;;Enumerativo;;N
-NumeroRifr;CxP/Compras;6;6.4.- Retenci髇 ISLR;4;;String;;N
-NombreYapellidor;CxP/Compras;6;6.4.- Retenci髇 ISLR;4;;String;;N
-CodTelfr;CxP/Compras;6;6.4.- Retenci髇 ISLR;4;;String;;N
-Telefonor;CxP/Compras;6;6.4.- Retenci髇 ISLR;4;;String;;N
-Direccionr;CxP/Compras;6;6.4.- Retenci髇 ISLR;4;;String;;N
-CiudadRepLegal;CxP/Compras;6;6.4.- Retenci髇 ISLR;4;;String;;N
-CorreoElectronicoRepLegal;CxP/Compras;6;6.4.- Retenci髇 ISLR;4;;String;;N
-NombrePlantillaComprobanteDeRetISRL;CxP/Compras;6;6.4.- Retenci髇 ISLR;4;;String;;N
+EnDondeRetenerIVA;CxP/Compras;6;6.3.- Retenci贸n IVA;3;;Enumerativo;;N
+UsaMismoNumeroCompRetTodasCxP;CxP/Compras;6;6.3.- Retenci贸n IVA;3;;Bool;;N
+PrimerNumeroComprobanteRetIva;CxP/Compras;6;6.3.- Retenci贸n IVA;3;;int;;N
+FormaDeReiniciarElNumeroDeComprobanteRetIva;CxP/Compras;6;6.3.- Retenci贸n IVA;3;;Enumerativo;;N
+ImprimirComprobanteDeRetIva;CxP/Compras;6;6.3.- Retenci贸n IVA;3;;Bool;;N
+NumeroDeCopiasComprobanteRetencionIva;CxP/Compras;6;6.3.- Retenci贸n IVA;3;;int;;N
+UnComprobanteDeRetIvaporHoja;CxP/Compras;6;6.3.- Retenci贸n IVA;3;;Bool;;N
+NombrePlantillaComprobanteDeRetIVA;CxP/Compras;6;6.3.- Retenci贸n IVA;3;;String;;N
+GenerarNumCompDeRetIvasoloSiPorcentajeEsMayorAcero;CxP/Compras;6;6.3.- Retenci贸n IVA;3;;Bool;;N
+UsaRetencion;CxP/Compras;6;6.4.- Retenci贸n ISLR;4;;Bool;;N
+NumCopiasComprobanteRetencion;CxP/Compras;6;6.4.- Retenci贸n ISLR;4;;int;;N
+DiaDelCierreFiscal;CxP/Compras;6;6.4.- Retenci贸n ISLR;4;;String;;N
+MesDelCierreFiscal;CxP/Compras;6;6.4.- Retenci贸n ISLR;4;;String;;N
+TomarEnCuentaRetencionesCeroParaArcvyRa;CxP/Compras;6;6.4.- Retenci贸n ISLR;4;;Bool;;N
+EnDondeRetenerISLR;CxP/Compras;6;6.4.- Retenci贸n ISLR;4;;Enumerativo;;N
+NumeroRifr;CxP/Compras;6;6.4.- Retenci贸n ISLR;4;;String;;N
+NombreYapellidor;CxP/Compras;6;6.4.- Retenci贸n ISLR;4;;String;;N
+CodTelfr;CxP/Compras;6;6.4.- Retenci贸n ISLR;4;;String;;N
+Telefonor;CxP/Compras;6;6.4.- Retenci贸n ISLR;4;;String;;N
+Direccionr;CxP/Compras;6;6.4.- Retenci贸n ISLR;4;;String;;N
+CiudadRepLegal;CxP/Compras;6;6.4.- Retenci贸n ISLR;4;;String;;N
+CorreoElectronicoRepLegal;CxP/Compras;6;6.4.- Retenci贸n ISLR;4;;String;;N
+NombrePlantillaComprobanteDeRetISRL;CxP/Compras;6;6.4.- Retenci贸n ISLR;4;;String;;N
 ImprimirCentimosEnPlanilla;CxP/Compras;6;6.5.- Planilla de IVA (Forma 30);5;;Bool;;N
 ModeloPlanillaForma00030;CxP/Compras;6;6.5.- Planilla de IVA (Forma 30);5;;Enumerativo;;N
 NombreContador;CxP/Compras;6;6.5.- Planilla de IVA (Forma 30);5;;String;;N
 CedulaContador;CxP/Compras;6;6.5.- Planilla de IVA (Forma 30);5;;String;;N
 NumeroCpc;CxP/Compras;6;6.5.- Planilla de IVA (Forma 30);5;;String;;N
-NombreLogo;CxP/Compras;6;6.6.- Im醙enes para Comprobantes;6;;String;;N
-NombreSello;CxP/Compras;6;6.6.- Im醙enes para Comprobantes;6;;String;;N
-NombreFirma;CxP/Compras;6;6.6.- Im醙enes para Comprobantes;6;;String;;N
+NombreLogo;CxP/Compras;6;6.6.- Im谩genes para Comprobantes;6;;String;;N
+NombreSello;CxP/Compras;6;6.6.- Im谩genes para Comprobantes;6;;String;;N
+NombreFirma;CxP/Compras;6;6.6.- Im谩genes para Comprobantes;6;;String;;N
 UsaCodigoBancoEnPantalla;Bancos;7;7.1.- Bancos;1;;Bool;;S
 CodigoGenericoCuentaBancaria;Bancos;7;7.1.- Bancos;1;;String;;N
 ManejaDebitoBancario;Bancos;7;7.1.- Bancos;1;;Bool;;N

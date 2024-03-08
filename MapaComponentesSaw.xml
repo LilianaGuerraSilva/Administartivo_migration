@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--Mapa de Componentes de la Version del Producto-->
-<Producto NombreExe="Saw" Pais="VE" Version="25.0" Siglas="Saw">
+<Producto NombreExe="Saw" Pais="VE" Version="25.1" Siglas="Saw">
   <Proteccion>2401</Proteccion>
   <Libreria>
-    <LibGalacCI>2401</LibGalacCI>
-    <LibGalacRdpCI>2401</LibGalacRdpCI>
-    <LibGalacSecCI>2401</LibGalacSecCI>
-    <LibGalacXtmCI>2401</LibGalacXtmCI>
+    <LibGalacCI>2402</LibGalacCI>
+    <LibGalacRdpCI>2402</LibGalacRdpCI>
+    <LibGalacSecCI>2402</LibGalacSecCI>
+    <LibGalacXtmCI>2402</LibGalacXtmCI>
   </Libreria>
   <ComponentesCOM>
-    <SawEnum>2402</SawEnum>
-    <SawImportExport>2402</SawImportExport>
-    <SawMaquinaFiscal>2402</SawMaquinaFiscal>
-    <SawNav>2402</SawNav>
-    <SawRpt>2402</SawRpt>
-    <SawSP>2402</SawSP>
-    <SawTbls>2402</SawTbls>
-    <SawVista>2402</SawVista>    
-    <ContabRpt>2401</ContabRpt>
+    <SawEnum>2403</SawEnum>
+    <SawImportExport>2403</SawImportExport>
+    <SawMaquinaFiscal>2403</SawMaquinaFiscal>
+    <SawNav>2403</SawNav>
+    <SawRpt>2403</SawRpt>
+    <SawSP>2403</SawSP>
+    <SawTbls>2403</SawTbls>
+    <SawVista>2403</SawVista>    
+    <ContabRpt>2402</ContabRpt>
     <VMAX type="ocx" LiteralName="VMAX">4.00.0008</VMAX>
     <vmax3fpi LiteralName="vmax3fpi">1.0.0.8</vmax3fpi>
   </ComponentesCOM>
@@ -116,7 +116,7 @@
     <Galac.Comun.Dal.Impuesto>2.61.0.0</Galac.Comun.Dal.Impuesto>
     <Galac.Comun.Uil.Impuesto>2.61.0.0</Galac.Comun.Uil.Impuesto>
 
-    <Galac.Saw.Brl.SttDef>2.61.0.0</Galac.Saw.Brl.SttDef>
+    <Galac.Saw.Brl.SttDef>2.61.1.0</Galac.Saw.Brl.SttDef>
     <Galac.Saw.Ccl.SttDef>2.61.0.0</Galac.Saw.Ccl.SttDef>
     <Galac.Saw.Dal.SttDef>2.61.0.0</Galac.Saw.Dal.SttDef>
     <Galac.Saw.Uil.SttDef>2.61.0.0</Galac.Saw.Uil.SttDef>
