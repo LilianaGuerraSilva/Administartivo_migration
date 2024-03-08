@@ -14,129 +14,100 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using System.ComponentModel.DataAnnotations;
 using LibGalac.Aos.DefGen;
 using System.Collections.ObjectModel;
+using Galac.Saw.Lib;
 
 namespace Galac.Adm.Uil.Venta.Reportes {
 
 	public class clsCxCPendientesEntreFechasViewModel : LibInputRptViewModelBase<CxC> {
-		#region Constantes
-		public const string FechaDesdePropertyName = "FechaDesde";
-		public const string FechaHastaPropertyName = "FechaHasta";
-		public const string MostrarContactoPropertyName = "MostrarContacto";
-		public const string MonedaDelInformePropertyName = "MonedaDelInforme";
-		public const string TipoTasaDeCambioPropertyName = "TipoTasaDeCambio";
-		public const string IsVisibleTipoTasaDeCambioPropertyName = "IsVisibleTipoTasaDeCambio";
-		#endregion //Constantes
-
 		#region Variables
 		private DateTime _FechaDesde;
 		private DateTime _FechaHasta;
 		private bool _MostrarContacto;
-		private Saw.Lib.eMonedaParaImpresion _MonedaDelInformeAsEnum;
-		private Saw.Lib.eTasaDeCambioParaImpresion _TipoTasaDeCambioAsEnum;
-
-		private ObservableCollection<Saw.Lib.eMonedaParaImpresion> _ListaMonedaDelInforme = new ObservableCollection<Saw.Lib.eMonedaParaImpresion>();
+		private eMonedaDelInformeMM _MonedaDelInformeAsEnum;
+		private eTasaDeCambioParaImpresion _TipoTasaDeCambioAsEnum;
+		private ObservableCollection<eMonedaDelInformeMM> _ListaMonedaDelInforme = new ObservableCollection<eMonedaDelInformeMM>();
 		#endregion //Variables
 
 		#region Propiedades
-		public override string DisplayName {
-			get { return "CxC Pendientes entre Fechas"; }
-		}
-
+		public override string DisplayName { get { return "CxC Pendientes entre Fechas"; } }
 		public LibXmlMemInfo AppMemoryInfo { get; set; }
-
 		public LibXmlMFC Mfc { get; set; }
+		public override bool IsSSRS => false;
 
-		public override bool IsSSRS => throw new NotImplementedException();
-
-		[LibCustomValidation("FechaDesdeValidating")]
 		public DateTime FechaDesde {
-			get {
-				return _FechaDesde;
-			}
+			get { return _FechaDesde; }
 			set {
 				if (_FechaDesde != value) {
 					_FechaDesde = value;
-					RaisePropertyChanged(FechaDesdePropertyName);
+					RaisePropertyChanged(() => FechaDesde);
 				}
 			}
 		}
 
-		[LibCustomValidation("FechaHastaValidating")]
 		public DateTime FechaHasta {
-			get {
-				return _FechaHasta;
-			}
+			get { return _FechaHasta; }
 			set {
 				if (_FechaHasta != value) {
 					_FechaHasta = value;
-					RaisePropertyChanged(FechaHastaPropertyName);
+					RaisePropertyChanged(() => FechaHasta);
 				}
 			}
 		}
 
 		public bool MostrarContacto {
-			get {
-				return _MostrarContacto;
-			}
+			get { return _MostrarContacto; }
 			set {
 				if (_MostrarContacto != value) {
 					_MostrarContacto = value;
-					RaisePropertyChanged(MostrarContactoPropertyName);
+					RaisePropertyChanged(() => MostrarContacto);
 				}
 			}
-
 		}
 
-		public Saw.Lib.eMonedaParaImpresion MonedaDelInforme {
-			get {
-				return _MonedaDelInformeAsEnum;
-			}
+		public eMonedaDelInformeMM MonedaDelInforme {
+			get { return _MonedaDelInformeAsEnum; }
 			set {
 				if (_MonedaDelInformeAsEnum != value) {
 					_MonedaDelInformeAsEnum = value;
-					TipoTasaDeCambio = Saw.Lib.eTasaDeCambioParaImpresion.DelDia;
-					RaisePropertyChanged(MonedaDelInformePropertyName);
-					RaisePropertyChanged(IsVisibleTipoTasaDeCambioPropertyName);
+					TipoTasaDeCambio = eTasaDeCambioParaImpresion.DelDia;
+					RaisePropertyChanged(() => MonedaDelInforme);
+					RaisePropertyChanged(() => IsVisibleTipoTasaDeCambio);
 				}
 			}
 		}
 
-		public Saw.Lib.eTasaDeCambioParaImpresion TipoTasaDeCambio {
-			get {
-				return _TipoTasaDeCambioAsEnum;
-			}
+		public eTasaDeCambioParaImpresion TipoTasaDeCambio {
+			get { return _TipoTasaDeCambioAsEnum; }
 			set {
 				if (_TipoTasaDeCambioAsEnum != value) {
 					_TipoTasaDeCambioAsEnum = value;
-					RaisePropertyChanged(TipoTasaDeCambioPropertyName);
+					RaisePropertyChanged(() => TipoTasaDeCambio);
 				}
 			}
 		}
 
-		public Saw.Lib.eTasaDeCambioParaImpresion[] ArrayTiposTasaDeCambio {
-			get {
-				return LibEnumHelper<Saw.Lib.eTasaDeCambioParaImpresion>.GetValuesInArray();
-			}
+		public eTasaDeCambioParaImpresion[] ArrayTiposTasaDeCambio {
+			get { return LibEnumHelper<eTasaDeCambioParaImpresion>.GetValuesInArray(); }
 		}
 
-		public ObservableCollection<Saw.Lib.eMonedaParaImpresion> ListaMonedaDelInforme {
-			get {
-				return _ListaMonedaDelInforme;
-			}
-			set {
-				_ListaMonedaDelInforme = value;
-			}
+		public ObservableCollection<eMonedaDelInformeMM> ListaMonedaDelInforme {
+			get { return _ListaMonedaDelInforme; }
+			set { _ListaMonedaDelInforme = value; }
 		}
+
+		public ObservableCollection<string> ListaMonedasActivas { get; set; }
+		public string Moneda { get; set; }
 		#endregion //Propiedades
 
 		#region Constructores
 		public clsCxCPendientesEntreFechasViewModel() {
-			FechaDesde = LibDate.Today();
+			FechaDesde = LibDate.DateFromMonthAndYear(LibDate.Today().Month, LibDate.Today().Year, true);
 			FechaHasta = LibDate.Today();
 			MostrarContacto = false;
-			MonedaDelInforme = Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal;
-			TipoTasaDeCambio = Saw.Lib.eTasaDeCambioParaImpresion.DelDia;
+			MonedaDelInforme = eMonedaDelInformeMM.EnMonedaOriginal;
+			TipoTasaDeCambio = eTasaDeCambioParaImpresion.DelDia;
 			LlenarEnumerativosMonedas();
+			LlenarListaMonedasActivas();
 		}
 		#endregion //Constructores
 
@@ -147,43 +118,26 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 		#endregion //Metodos Generados
 
 		#region Código Programador
-		private ValidationResult FechaDesdeValidating() {
-			ValidationResult vResult = ValidationResult.Success;
-			if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaDesde, false, eAccionSR.InformesPantalla)) {
-				vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha Desde"));
-			} else if (LibDate.F1IsGreaterThanF2(FechaDesde, FechaHasta)) {
-				vResult = new ValidationResult("La fecha desde no puede ser mayor a la fecha hasta");
-			}
-			return vResult;
-		}
-
-		private ValidationResult FechaHastaValidating() {
-			ValidationResult vResult = ValidationResult.Success;
-			if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaHasta, false, eAccionSR.InformesPantalla)) {
-				vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha Desde"));
-			} else if (LibDate.F1IsLessThanF2(FechaHasta, FechaDesde)) {
-				vResult = new ValidationResult("La fecha hasta no puede ser menor a la fecha desde");
-			}
-			return vResult;
-		}
-
-		public bool IsVisibleTipoTasaDeCambio {
-			get { return MonedaDelInforme != Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal; }
-		}
+		public bool IsVisibleTipoTasaDeCambio { get { return MonedaDelInforme == eMonedaDelInformeMM.EnBolivares || MonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa; } }
 
 		private void LlenarEnumerativosMonedas() {
+			ListaMonedaDelInforme = new ObservableCollection<eMonedaDelInformeMM>();
 			ListaMonedaDelInforme.Clear();
-			if (LibDefGen.ProgramInfo.IsCountryVenezuela()) {
-				ListaMonedaDelInforme.Add(Saw.Lib.eMonedaParaImpresion.EnBolivares);
-			}
-			else if (LibDefGen.ProgramInfo.IsCountryPeru()) {
-				ListaMonedaDelInforme.Add(Saw.Lib.eMonedaParaImpresion.EnSoles);
-			}
-			ListaMonedaDelInforme.Add(Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal);
+			ListaMonedaDelInforme.Add(eMonedaDelInformeMM.EnBolivares);
+			ListaMonedaDelInforme.Add(eMonedaDelInformeMM.EnMonedaOriginal);
+			ListaMonedaDelInforme.Add(eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa);
+			MonedaDelInforme = eMonedaDelInformeMM.EnMonedaOriginal;
 		}
+		void LlenarListaMonedasActivas() {
+			ListaMonedasActivas = new Galac.Saw.Lib.clsLibSaw().ListaDeMonedasActivasParaInformes(false);
+			if (ListaMonedasActivas.Count > 0) {
+				Moneda = ListaMonedasActivas[0];
+			}
+		}
+
+
 		#endregion //Código Programador
 
 	} //End of class clsCxCPendientesEntreFechasViewModel
 
 } //End of namespace Galac.Adm.Uil.Venta
-

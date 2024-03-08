@@ -18,7 +18,10 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 		}
 
 		#region Metodos Generados
-		public string SqlCxCPendientesEntreFechas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, Saw.Lib.eMonedaParaImpresion valMonedaReporte, Saw.Lib.eTasaDeCambioParaImpresion valTipoTasaDeCambio) {
+		public string SqlCxCPendientesEntreFechas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, eMonedaDelInformeMM valMonedaReporte, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valCodigoMoneda, string valNombreMoneda) {
+			return SqlCxCEntreFechas(valConsecutivoCompania, valFechaDesde, valFechaHasta, true, eInformeStatusCXC_CXP.Todos, eInformeAgruparPor.NoAgurpar, string.Empty, string.Empty, valMonedaReporte, valCodigoMoneda, valNombreMoneda, valTipoTasaDeCambio, false);
+
+/*
 			StringBuilder vSql = new StringBuilder();
 			string vSQLWhere = "";
 			string vMonedaLocal;
@@ -31,11 +34,11 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			vMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
 			vMonedaLocal = vMonedaLocalActual.NombreMoneda(LibDate.Today());
 			vIsInMonedaLocal = LibString.S1IsInS2(vMonedaLocal, valMonedaReporte.GetDescription());
-			vIsInTasaDelDia = valTipoTasaDeCambio == Saw.Lib.eTasaDeCambioParaImpresion.DelDia;
+			vIsInTasaDelDia = valTipoTasaDeCambio == eTasaDeCambioParaImpresion.DelDia;
 
 			if (vIsInMonedaLocal) {
 				if (vIsInTasaDelDia) {
-					vSqlCambio = new Saw.Lib.clsLibSaw().CampoMontoPorTasaDeCambioSql("CxC.CambioAbolivares", "CxC.Moneda", "1", false, "");
+					vSqlCambio = new clsLibSaw().CampoMontoPorTasaDeCambioSql("CxC.CambioAbolivares", "CxC.Moneda", "1", false, "");
 				} else {
 					vSqlCambio = insSql.IIF("CxC.CambioABolivares IS NULL OR CxC.CambioABolivares = 0", "1", "CxC.CambioABolivares", true);
 				}
@@ -85,9 +88,10 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 
 			vSql.AppendLine(vSQLWhere);
 			return vSql.ToString();
+*/
 		}
 
-		public string SqlCxCPorCliente(int valConsecutivoCompania, string valCodigoDelCliente, string valZonaCobranza, DateTime valFechaDesde, DateTime valFechaHasta, eClientesOrdenadosPor valClientesOrdenadosPor, Saw.Lib.eMonedaParaImpresion valMonedaDelReporte, Saw.Lib.eTasaDeCambioParaImpresion valTipoTasaDeCambio) {
+		public string SqlCxCPorCliente(int valConsecutivoCompania, string valCodigoDelCliente, string valZonaCobranza, DateTime valFechaDesde, DateTime valFechaHasta, eClientesOrdenadosPor valClientesOrdenadosPor, eMonedaParaImpresion valMonedaDelReporte, eTasaDeCambioParaImpresion valTipoTasaDeCambio) {
 			StringBuilder vSql = new StringBuilder();
 			string vSQLWhere = "";
 			string vMonedaLocal;
@@ -100,11 +104,11 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			vMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
 			vMonedaLocal = vMonedaLocalActual.NombreMoneda(LibDate.Today());
 			vIsInMonedaLocal = LibString.S1IsInS2(vMonedaLocal, valMonedaDelReporte.GetDescription());
-			vIsInTasaDelDia = valTipoTasaDeCambio == Saw.Lib.eTasaDeCambioParaImpresion.DelDia;
+			vIsInTasaDelDia = valTipoTasaDeCambio == eTasaDeCambioParaImpresion.DelDia;
 
 			if (vIsInMonedaLocal) {
 				if (vIsInTasaDelDia) {
-					vSqlCambio = new Saw.Lib.clsLibSaw().CampoMontoPorTasaDeCambioSql("CxC.CambioAbolivares", "CxC.Moneda", "1", false, "");
+					vSqlCambio = new clsLibSaw().CampoMontoPorTasaDeCambioSql("CxC.CambioAbolivares", "CxC.Moneda", "1", false, "");
 				} else {
 					vSqlCambio = insSql.IIF("CxC.CambioABolivares IS NULL OR CxC.CambioABolivares = 0", "1", "CxC.CambioABolivares", true);
 				}
@@ -169,14 +173,21 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			return vSql.ToString();
 		}
 
-		public string SqlCxCEntreFechas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, eInformeStatusCXC_CXP valStatusCxC, eInformeAgruparPor valAgruparPor, string valZonaDeCobranza, string valSectorDeNegocio, eMonedaDelInformeMM valMonedaDelInforme, string valCodigoMoneda, string valNombreMoneda, eTasaDeCambioParaImpresion valTasaDeCambio, bool valMostrarNroComprobanteContable) {
+		public string SqlCxCEntreFechas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, bool valSoloCxCPendientes, eInformeStatusCXC_CXP valStatusCxC, eInformeAgruparPor valAgruparPor, string valZonaDeCobranza, string valSectorDeNegocio, eMonedaDelInformeMM valMonedaDelInforme, string valCodigoMoneda, string valNombreMoneda, eTasaDeCambioParaImpresion valTasaDeCambio, bool valMostrarNroComprobanteContable) {
 			StringBuilder vSql = new StringBuilder();
 			string vSQLWhere = "";
 			vSQLWhere = insSql.SqlIntValueWithAnd(vSQLWhere, "CxC.ConsecutivoCompania", valConsecutivoCompania);
 			vSQLWhere = insSql.SqlDateValueBetween(vSQLWhere, "CxC.Fecha", valFechaDesde, valFechaHasta);
-			if (valStatusCxC != eInformeStatusCXC_CXP.Todos) {
+
+			if (valSoloCxCPendientes) {
+				string vSqlStatusPendientes = string.Empty;
+				vSqlStatusPendientes = insSql.SqlEnumValueWithOperators(vSqlStatusPendientes, "CxC.Status", (int)eStatusCXC.PORCANCELAR, "", "=");
+				vSqlStatusPendientes = insSql.SqlEnumValueWithOperators(vSqlStatusPendientes, "CxC.Status", (int)eStatusCXC.ABONADO, "OR", "=");
+				vSQLWhere += " AND (" + vSqlStatusPendientes + ")";
+			} else if (valStatusCxC != eInformeStatusCXC_CXP.Todos) {
 				vSQLWhere = insSql.SqlEnumValueWithAnd(vSQLWhere, "CxC.Status", (int)valStatusCxC);
 			}
+
 			if (valAgruparPor == eInformeAgruparPor.SectorDeNegocio) {
 				if (!LibString.S1IsEqualToS2(valSectorDeNegocio, "TODOS")) {
 					vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "Cliente.SectorDeNegocio", valSectorDeNegocio);
@@ -324,6 +335,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 		#endregion //Código Programador
 
 
+
 		/* SQL Análisis de Vencimiento
 		SET DATEFORMAT dmy  
 		DECLARE @ConsecutivoCompania as int
@@ -423,7 +435,6 @@ SELECT
 FROM CTE_BaseAnalisisDeVencimientoCxC
 ORDER BY ZonaDeCobranza, Moneda, Fecha, CodigoCliente, FechaVencimiento 		 
 		 */
-
 
 		/* SQL Análisis de Vencimiento CxC a una Fecha
 		SET DATEFORMAT dmy
@@ -580,7 +591,6 @@ ORDER BY ZonaDeCobranza, Moneda, Fecha, CodigoCliente, FechaVencimiento
 
 
 		 */
-
 
 	} //End of class clsCxCSql
 
