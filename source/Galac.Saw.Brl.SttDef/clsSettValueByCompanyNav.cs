@@ -22,6 +22,7 @@ using LibGalac.Aos.Dal;
 using System.Collections.ObjectModel;
 using Galac.Saw.Lib;
 using LibGalac.Aos.Catching;
+using static Galac.Saw.LibWebConnector.clsSuscripcion;
 
 namespace Galac.Saw.Brl.SttDef {
     public partial class clsSettValueByCompanyNav: LibBaseNav<IList<SettValueByCompany>, IList<SettValueByCompany>>, ILibPdn, ISettValueByCompanyPdn {
@@ -165,6 +166,17 @@ namespace Galac.Saw.Brl.SttDef {
             QAdvSql insQAdvSql = new QAdvSql("");
             string vWhere = "";
             StringBuilder vSql = new StringBuilder();
+            try {
+                DatosSuscripcion vSuscripcion = new LibWebConnector.clsSuscripcion().GetCaracteristicaGVentas();
+                List<DatosSuscripcionCaracteristicas> vListaCaracteristicas = vSuscripcion.Caracteristicas;
+                string vListaCodigos = string.Join(";", vListaCaracteristicas.Select(s => s.Codigo));                
+                vSql.Append("UPDATE Comun.SettValueByCompany SET Value = " + insQAdvSql.ToSqlValue(vListaCodigos) + " WHERE NameSettDefinition = " + insQAdvSql.ToSqlValue("SuscripcionGVentas"));
+                LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), null, "", 0);
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (Exception) {
+            }
+            vSql.Clear();
             vWhere = insQAdvSql.SqlIntValueWithAnd("", "ConsecutivoCompania", valConsecutivoCompania);
             vWhere = insQAdvSql.WhereSql(vWhere);
             vSql.Append(" SELECT ");
