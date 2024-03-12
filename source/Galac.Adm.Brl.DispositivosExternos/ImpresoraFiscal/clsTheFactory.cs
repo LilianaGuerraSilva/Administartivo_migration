@@ -769,25 +769,38 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vTotalPagoME = LibImpresoraFiscalUtil.TotalMediosDePago(valMedioDePago.Descendants("GpResultDetailRenglonCobro"), vCodigoMonedaBase, true);
                 vTotalPagadoML = LibImpresoraFiscalUtil.TotalMediosDePago(valMedioDePago.Descendants("GpResultDetailRenglonCobro"), vCodigoMonedaBase, false);
                 vTotalFactura = LibImportData.ToDec(LibXml.GetPropertyString(valMedioDePago, "TotalFactura"));
-                if (_EstaActivoFlag50 && vIGTFML > 0) {
+                if (_EstaActivoFlag50) {
                     List<XElement> vNodos = valMedioDePago.Descendants("GpResultDetailRenglonCobro").Where(p => p.Element("CodigoMoneda").Value == vCodigoMonedaBase).ToList();
                     int vNodosCount = vNodos.Count;
                     bool vNoEsUnicaMoneda = true;
-                    if (vTotalPagoME > 0) {
-                        if (vTotalPagadoML == 0 && vTotalAPagar == vTotalPagoME) {
+                    if (vTotalPagoME > 0 && vIGTFML > 0) { // Pagos en ME
+                        if (vTotalPagadoML == 0 && vTotalAPagar == vTotalPagoME) { // Se paga Todo en ME
                             vCmd = "120";
                             vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
-                        } else if (vTotalPagadoML < 0.05m && vTotalPagadoML > 0) {
+                        } else if (vTotalPagadoML < 0.05m && vTotalPagadoML > 0) {// Se paga Todo en ME con diferencia cambiaria
                             vCmd = "120";
                             vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
                             vNodosCount = 0;
-                        } else {
+                        } else { // EL Pago en ME es parcial
                             vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vTotalPagoME.ToString("#.##"), _EnterosParaPagos, _DecimalesParaPagos);
                             vCmd = "220" + vMonto;
                             vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
                         }
+                    } else if (vTotalPagoME > 0) { // Pago en Divsas SIN IGTF
+                        if (vTotalPagadoML == 0 && vTotalAPagar == vTotalPagoME) { // Se paga Todo en ME
+                            vCmd = "101";
+                            vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
+                        } else if (vTotalPagadoML < 0.05m && vTotalPagadoML > 0) {// Se paga Todo en ME con diferencia cambiaria
+                            vCmd = "101";
+                            vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
+                            vNodosCount = 0;
+                        } else { // EL Pago en ME es parcial
+                            vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vTotalPagoME.ToString("#.##"), _EnterosParaPagos, _DecimalesParaPagos);
+                            vCmd = "201" + vMonto;
+                            vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
+                        }
                     }
-                    if (vNodosCount > 0) {
+                    if (vNodosCount > 0) { // Pagos en ML
                         foreach (XElement vXElement in vNodos) {
                             vMonto = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
                             vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "CodigoFormaDelCobro"));
@@ -796,10 +809,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                             vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto, _EnterosParaPagos, _DecimalesParaPagos);
                             if ((vNodosCount == 1) && ((vMontoDec - vIGTFML) == vTotalFactura) && (vTotalPagoME == 0)) {
                                 vCmd = "1" + vFormatoDeCobro; //Un solo pago ML
-                            } else if ((vNodosCount == 1) && (vTotalPagoME > 0)) {
-                                vCmd = "2" + vFormatoDeCobro + vMonto;
+                            } else if (vNodosCount == 1 && (vTotalPagoME > 0)) {
+                                vCmd = "2" + vFormatoDeCobro + vMonto; //Pago Parcial  + Pago ME
                             } else {
-                                vCmd = "2" + vFormatoDeCobro + vMonto;
+                                vCmd = "2" + vFormatoDeCobro + vMonto; // Solo Pagos Parciales ML
                             }
                             vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
                         }
