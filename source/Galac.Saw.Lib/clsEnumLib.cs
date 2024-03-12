@@ -365,24 +365,4 @@ namespace Galac.Saw.Lib {
         [LibEnumDescription("NOTA DE CREDITO DE COMPROBANTE FISCAL")]
         NOTADECREDITOCOMPROBANTEFISCAL
     }
-	[TypeConverter(typeof(LibEnumTypeConverter))]
-    public enum eStatusDocumentoCxP {
-        [LibEnumDescription("Por Cancelar")]
-        PorCancelar = 0,
-        [LibEnumDescription("Cancelado")]
-        Cancelado,
-        [LibEnumDescription("Cheque Devuelto")]
-        ChequeDevuelto,
-        [LibEnumDescription("Abonado")]
-        Abonado,
-        [LibEnumDescription("Anulado")]
-        Anulado,
-        [LibEnumDescription("Refinanciado")]
-        Refinanciado
-    }
-	
-public enum eProveedorOrdenadosPor {
-        [LibEnumDescription("Por Código")] PorCodigo = 0,
-        [LibEnumDescription("Por Nombre")] PorNombre
-    }
 }

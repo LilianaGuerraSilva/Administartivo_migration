@@ -7,6 +7,8 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Base.Report;
 using Galac.Saw.Lib;
 using LibGalac.Aos.DefGen;
+using Galac.Adm.Ccl.GestionCompras;
+using eTipoDeTransaccion = Galac.Saw.Lib.eTipoDeTransaccion;
 
 namespace Galac.Adm.Brl.GestionCompras.Reportes {
 	public class clsProveedorSql {

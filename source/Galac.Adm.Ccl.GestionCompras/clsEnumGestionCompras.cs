@@ -88,6 +88,23 @@ namespace Galac.Adm.Ccl.GestionCompras {
         SinProcesar
     }
 
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eStatusDocumentoCxP {
+        [LibEnumDescription("Por Cancelar")]
+        PorCancelar = 0,
+        [LibEnumDescription("Cancelado")]
+        Cancelado,
+        [LibEnumDescription("Cheque Devuelto")]
+        ChequeDevuelto,
+        [LibEnumDescription("Abonado")]
+        Abonado,
+        [LibEnumDescription("Anulado")]
+        Anulado,
+        [LibEnumDescription("Refinanciado")]
+        Refinanciado
+    }
+
+
 	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
 	public enum eTipoDeCosto {
         [LibEnumDescription("Flete  Internacional")]
@@ -216,6 +233,11 @@ namespace Galac.Adm.Ccl.GestionCompras {
         Todas = 0,
         [LibEnumDescription("Una")]
         Una
+    }
+	
+	public enum eProveedorOrdenadosPor {
+        [LibEnumDescription("Por Código")] PorCodigo = 0,
+        [LibEnumDescription("Por Nombre")] PorNombre
     }
 
 } //End of namespace namespace Galac.Adm.Ccl.GestionCompras
