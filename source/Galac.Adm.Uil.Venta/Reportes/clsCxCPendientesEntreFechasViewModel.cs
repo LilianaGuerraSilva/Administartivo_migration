@@ -71,6 +71,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 					_MonedaDelInformeAsEnum = value;
 					TipoTasaDeCambio = eTasaDeCambioParaImpresion.DelDia;
 					RaisePropertyChanged(() => MonedaDelInforme);
+					RaisePropertyChanged(() => IsVisibleMonedasActivas);
 					RaisePropertyChanged(() => IsVisibleTipoTasaDeCambio);
 				}
 			}
@@ -119,6 +120,8 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 
 		#region Código Programador
 		public bool IsVisibleTipoTasaDeCambio { get { return MonedaDelInforme == eMonedaDelInformeMM.EnBolivares || MonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa; } }
+		public bool IsVisibleMonedasActivas { get { return MonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa; } }
+
 
 		private void LlenarEnumerativosMonedas() {
 			ListaMonedaDelInforme = new ObservableCollection<eMonedaDelInformeMM>();

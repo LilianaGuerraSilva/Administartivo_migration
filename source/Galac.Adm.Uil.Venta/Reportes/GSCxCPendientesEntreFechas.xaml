@@ -28,7 +28,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="10" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="29" />
+            <RowDefinition Height="29" />
             <RowDefinition Height="10" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -75,8 +76,8 @@
             Style="{StaticResource ComboBoxStyle}" Margin="3" VerticalAlignment="Top" />
         <nsWpfControls:GSComboBoxWpf
             x:Name="cmbMonedasActivas"
-            Grid.Row="3"
-            Grid.Column="3"
+            Grid.Row="4"
+            Grid.Column="2"
             IsSynchronizedWithCurrentItem="True"
             Visibility="{Binding IsVisibleMonedasActivas, Converter={StaticResource booleanToVisibilityConverter}}"
             ItemsSource="{Binding ListaMonedasActivas}"
@@ -84,7 +85,7 @@
             Style="{StaticResource ComboBoxStyle}" Margin="3"  VerticalAlignment="Top" BorderThickness="1" />
         <Label
             Name="lblTasaDeCambio"
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Content="Tasa de Cambio a la Fecha"
@@ -92,7 +93,7 @@
             Style="{StaticResource LabelPrompt}" Margin="0"/>
         <nsWpfControls:GSComboBoxWpf
             Name="cmbTasaDeCambio"
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.Column="2"
             IsSynchronizedWithCurrentItem="True"
             Visibility="{Binding Path=IsVisibleTipoTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}"
@@ -101,13 +102,13 @@
             Style="{StaticResource ComboBoxStyle}" Margin="3" VerticalAlignment="Top" />
         <Label
             Name="lblMostrarContacto"
-            Grid.Row="6"
+            Grid.Row="7"
             Grid.Column="1"
             Content="Incluir Contacto"
             Style="{StaticResource LabelPrompt}" Margin="0" />
         <CheckBox
             Name="chkMostrarContacto"
-            Grid.Row="6"
+            Grid.Row="7"
             Grid.Column="0"
             IsChecked="{Binding Path=MostrarContacto}"
             Style="{StaticResource CheckBoxStyle}" Margin="0,5,0,0" VerticalAlignment="Stretch" Width="16"  />

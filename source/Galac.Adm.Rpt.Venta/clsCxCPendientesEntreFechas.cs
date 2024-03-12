@@ -24,6 +24,8 @@ namespace Galac.Adm.Rpt.Venta {
         private eMonedaDelInformeMM MonedaDelReporte { get; set; }
         string Moneda { get; set; }
         private eTasaDeCambioParaImpresion TipoTasaDeCambio { get; set; }
+        bool MostrarNroComprobanteContable { get; set; }
+        eMonedaDelInformeMM MonedaDelInforme { get; set; }
         #endregion //Propiedades
 
         #region Constructores
@@ -78,7 +80,7 @@ namespace Galac.Adm.Rpt.Venta {
             Dictionary<string, string> vParams = GetConfigReportParameters();
             dsrCxCPendientesEntreFechas vRpt = new dsrCxCPendientesEntreFechas();
             if (LibDataTable.DataTableHasRows(Data)) {
-                if (vRpt.ConfigReport(Data, vParams)) {
+                if (vRpt.ConfigReport(Data, vParams, MostrarContacto, MostrarNroComprobanteContable, MonedaDelInforme, Moneda, TipoTasaDeCambio)) {
                     LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, ReportName, true, ExportFileFormat, "", false);
                 }
                 WorkerReportProgress(100, "Finalizando...");
