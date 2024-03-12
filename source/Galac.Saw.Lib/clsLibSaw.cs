@@ -441,6 +441,5 @@ namespace Galac.Saw.Lib {
             }
             return vResult;
         }
-
     }
 }
