@@ -624,7 +624,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         }
 
         private bool CerrarComprobanteFiscal(XElement valDocumentoFiscal, bool valIsNotaDeCredito) {
-            bool vResult = true;
+            bool vResult = true;            
             List<string> vListaCMD = new List<string>();
             string vDescuentoTotal = LibXml.GetPropertyString(valDocumentoFiscal, "PorcentajeDescuento");
             string vObservaciones = LibXml.GetPropertyString(valDocumentoFiscal, "Observaciones");
@@ -769,7 +769,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vTotalPagoME = LibImpresoraFiscalUtil.TotalMediosDePago(valMedioDePago.Descendants("GpResultDetailRenglonCobro"), vCodigoMonedaBase, true);
                 vTotalPagadoML = LibImpresoraFiscalUtil.TotalMediosDePago(valMedioDePago.Descendants("GpResultDetailRenglonCobro"), vCodigoMonedaBase, false);
                 vTotalFactura = LibImportData.ToDec(LibXml.GetPropertyString(valMedioDePago, "TotalFactura"));
-                if (_EstaActivoFlag50) {
+                if (_EstaActivoFlag50 && vIGTFML > 0) {
                     List<XElement> vNodos = valMedioDePago.Descendants("GpResultDetailRenglonCobro").Where(p => p.Element("CodigoMoneda").Value == vCodigoMonedaBase).ToList();
                     int vNodosCount = vNodos.Count;
                     bool vNoEsUnicaMoneda = true;
@@ -792,8 +792,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                             vMonto = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
                             vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "CodigoFormaDelCobro"));
                             vFormatoDeCobro = FormaDeCobro(vMedioDePago);
-                            decimal vMontoDec = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));                            
-                            vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto, _EnterosParaPagos, _DecimalesParaPagos);                            
+                            decimal vMontoDec = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
+                            vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto, _EnterosParaPagos, _DecimalesParaPagos);
                             if ((vNodosCount == 1) && ((vMontoDec - vIGTFML) == vTotalFactura) && (vTotalPagoME == 0)) {
                                 vCmd = "1" + vFormatoDeCobro; //Un solo pago ML
                             } else if ((vNodosCount == 1) && (vTotalPagoME > 0)) {

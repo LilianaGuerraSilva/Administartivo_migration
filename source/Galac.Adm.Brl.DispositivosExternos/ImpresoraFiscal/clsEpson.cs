@@ -437,18 +437,20 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vMensaje = "";
             string vResult = "";
             bool vEstado = false;
-
+            int vSteps = 0;
             try {
                 if (valAbrirConexion) {
                     AbrirConexion();
-                }
-                vResult = PFestatus(ConsultaEstatusContadores);
-                vEstado = CheckRequest(vResult, ref vMensaje);
-                if (vEstado) {
-                    vUltimoCierreZ = LeerRepuestaImpFiscal(LeeUltimoCierreZRealizado);
-                    vUltimoCierreZ = LibText.FillWithCharToLeft(vUltimoCierreZ, "0", 8);
-                } else {
-                    throw new LibGalac.Aos.Catching.GalacException(vMensaje, eExceptionManagementType.Controlled);
+                }                                
+                while (LibString.Len(vUltimoCierreZ) <= 1 || vSteps <= 10) {
+                    vResult = PFestatus(ConsultaEstatusContadores);
+                    vEstado = CheckRequest(vResult, ref vMensaje);
+                    if (vEstado) {
+                        vUltimoCierreZ = LeerRepuestaImpFiscal(LeeUltimoCierreZRealizado);                        
+                    } else {
+                        throw new LibGalac.Aos.Catching.GalacException(vMensaje, eExceptionManagementType.Controlled);
+                    }
+                    vSteps++;
                 }
                 if (valAbrirConexion) {
                     CerrarConexion();
