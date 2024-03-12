@@ -9,6 +9,8 @@ using System.Data;
 using LibGalac.Aos.ARRpt;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.DefGen;
+using Galac.Saw.Lib;
+
 namespace Galac.Adm.Rpt.Venta {
     /// <summary>
     /// Summary description for dsrCxCPendientesEntreFechas.
@@ -38,19 +40,7 @@ namespace Galac.Adm.Rpt.Venta {
             return "Cuentas por Cobrar Pendientes entre Fechas";
         }
 
-        public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {
-            Saw.Lib.clsUtilRpt UtiltRpt = new Saw.Lib.clsUtilRpt();;
-            bool vUsaContabilidad = LibConvert.SNToBool(valParameters["UsaContabilidad"]);
-            bool vMostrarContacto = LibConvert.SNToBool(valParameters["MostrarContacto"]);
-            Saw.Lib.eMonedaParaImpresion MonedaDelReporte = (Saw.Lib.eMonedaParaImpresion)LibConvert.DbValueToEnum(valParameters["MonedaDelReporte"]);
-            Saw.Lib.eTasaDeCambioParaImpresion TipoTasaDeCambio = (Saw.Lib.eTasaDeCambioParaImpresion)LibConvert.DbValueToEnum(valParameters["TipoTasaDeCambio"]);
-
-            Comun.Ccl.TablasGen.IMonedaLocalActual vMonedaLocalActual = new Comun.Brl.TablasGen.clsMonedaLocalActual();
-            vMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
-            string vMonedaLocal = vMonedaLocalActual.NombreMoneda(LibDate.Today());
-            bool vIsInMonedaLocal = LibString.S1IsInS2(vMonedaLocal, MonedaDelReporte.GetDescription());
-            bool vIsInTasaDelDia = TipoTasaDeCambio == Saw.Lib.eTasaDeCambioParaImpresion.DelDia;
-
+        public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters, bool valMostrarContacto, bool valMostrarNroComprobanteContable, eMonedaDelInformeMM valMonedaDelInforme, string valMoneda, eTasaDeCambioParaImpresion valTasaDeCambio) {
             if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
                 if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
@@ -58,61 +48,78 @@ namespace Galac.Adm.Rpt.Venta {
                 }
             }
             if (LibReport.ConfigDataSource(this, valDataSource)) {
-                LibReport.ConfigFieldStr(this, "txtCompania", valParameters["NombreCompania"], string.Empty);
-                LibReport.ConfigLabel(this, "lblTituloDelReporte", ReportTitle());
+                LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["NombreCompania"], string.Empty);
+                LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());
                 LibReport.ConfigLabel(this, "lblFechaInicialYFinal", valParameters["FechaInicialYFinal"]);
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
-                LibReport.ConfigHeader(this, "txtCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "txtNumeroDePagina", "lblFechaInicialYFinal", LibGraphPrnSettings.PrintPageNumber, LibGraphPrnSettings.PrintEmitDate);
+                LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
 
-                if (vIsInMonedaLocal) {
-                    if (vIsInTasaDelDia) {
-                        LibReport.ConfigLabel(this, "lblMensajeDelCambioDeLaMoneda", "Nota: Los montos en monedas extranjeras son calculados a " + vMonedaLocal + " tomando en cuenta la última tasa de cambio.");
-                    }
-                    else {
-                        LibReport.ConfigLabel(this, "lblMensajeDelCambioDeLaMoneda", "Nota: Los montos en monedas extranjeras son calculados a " + vMonedaLocal + " tomando en cuenta la tasa de cambio original.");
-                    }
-                }
-                else {
-                    LibReport.ChangeControlVisibility(this, "lblMensajeDelCambioDeLaMoneda", true, false);
-                }
-
-                LibReport.ConfigGroupHeader(this, "GHStatus", "StatusStr", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.After);
+                LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "MonedaTotales");
                 LibReport.ConfigFieldStr(this, "txtStatus", string.Empty, "StatusStr");
+                LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", "dd/MM/yy");
+                LibReport.ConfigFieldStr(this, "txtNumeroDocumento", string.Empty, "Numero");
+                LibReport.ConfigFieldStr(this, "txtCodigoCliente", string.Empty, "CodigoCliente");
+                LibReport.ConfigFieldStr(this, "txtNombreCliente", string.Empty, "NombreCliente");
+                LibReport.ConfigFieldDec(this, "txtCambio", string.Empty, "Cambio", "#,###.0000", false, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtMontoRestante", string.Empty, "MontoRestante");
 
-                LibReport.ConfigGroupHeader(this, "GHMoneda", "Moneda", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
-                LibReport.ConfigFieldStr(this, "txtMonedaPorGrupo", string.Empty, "Moneda");
+                if (valMostrarNroComprobanteContable && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CaracteristicaDeContabilidadActiva")) {
+                    LibReport.ConfigFieldStr(this, "txtNComprobante", string.Empty, "NroComprobanteContable");
+                } else {
+                    LibReport.ChangeControlVisibility(this, "lblNComprobante", false);
+                    LibReport.ChangeControlVisibility(this, "txtNComprobante", false);
+                    float vWidth = lblNComprobante.Width;
+                    lblNombreCliente.Width += vWidth;
+                    txtNombreCliente.Width += vWidth;
+                    lblCambio.Left += vWidth;
+                    txtCambio.Left += vWidth;
+                    lblMontoRestante.Left += vWidth;
+                    txtMontoRestante.Left += vWidth;
 
-                LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", LibGalac.Aos.Base.Report.eDateOutputFormat.DateShort);
-				LibReport.ConfigFieldStr(this, "txtNumeroDocumento", string.Empty, "Numero");
-				LibReport.ConfigFieldStr(this, "txtCodigoCliente", string.Empty, "Codigo");
-				LibReport.ConfigFieldStr(this, "txtNombreCliente", string.Empty, "Nombre");
-				LibReport.ConfigFieldDec(this, "txtMonto", string.Empty, "Monto");
+                    txtTotalMontoRestantePorStatus.Left = lblMontoRestante.Left;
+                    txtTotalMontoRestantePorMoneda.Left = lblMontoRestante.Left;
 
-                if (vUsaContabilidad) {
-                    LibReport.ConfigFieldStr(this, "txtNComprobante", string.Empty, "NumeroComprobante");
+                    txtGFStatusCxC.Width += vWidth;
+                    txtGFMoneda.Width += vWidth;
                 }
-                else {
-                    LibReport.ChangeControlVisibility(this, "txtNComprobante", true, false);
-                    LibReport.ChangeControlVisibility(this, "lbNComprobante", true, false);
-                }
-                
-                if (vMostrarContacto) {
+                if (valMostrarContacto) {
                     LibReport.ConfigFieldStr(this, "txtContacto", string.Empty, "Contacto");
+                } else {
+                    LibReport.ChangeControlVisibility(this, "txtContacto", false);
+                    LibReport.ChangeControlVisibility(this, "lblContacto", false);
+                    txtContacto.Height = 0;
+                    lblContacto.Height = 0;
                 }
-                else {
-                    LibReport.ChangeControlVisibility(this, "txtContacto", true, false);
-                    LibReport.ChangeControlVisibility(this, "lblContacto", true, false);
-                }
+                LibReport.ConfigFieldStr(this, "txtGFStatusCxC", string.Empty, "StatusStr");
+                LibReport.ConfigGroupHeader(this, "GHStatus", "Status", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);
+                LibReport.ConfigSummaryField(this, "txtTotalMontoOriginalPorStatus", "MontoOriginal", SummaryFunc.Sum, "GHStatus", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txtTotalMontoRestantePorStatus", "MontoRestante", SummaryFunc.Sum, "GHStatus", SummaryRunning.Group, SummaryType.SubTotal);
 
-                LibReport.ConfigSummaryField(this, "txtTotalMonto", "Monto", SummaryFunc.Sum, "GHMoneda", SummaryRunning.All, SummaryType.SubTotal);
+                LibReport.ConfigFieldStr(this, "txtGFMoneda", string.Empty, "MonedaTotales");
+                LibReport.ConfigGroupHeader(this, "GHMoneda", "Moneda", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);
+                LibReport.ConfigSummaryField(this, "txtTotalMontoOriginalPorMoneda", "MontoOriginal", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txtTotalMontoRestantePorMoneda", "MontoRestante", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
 
-                LibGraphPrnMargins.SetGeneralMargins(this, PageOrientation.Portrait);
+                string vNotaMonedaCambio = new clsLibSaw().NotaMonedaCambioParaInformes(valMonedaDelInforme, valTasaDeCambio, valMoneda, "cuenta por cobrar");
+                LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", vNotaMonedaCambio, "");
+
+                LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 return true;
             }
             return false;
         }
         #endregion //Metodos Generados
 
+        private void Detail_Format(object sender, EventArgs e) {
+            try {
+                if (LibString.IsNullOrEmpty(txtNComprobante.Text, true)) {
+                    txtNComprobante.Text = "No aplica";
+                }
+            } catch (Exception) {
+                throw;
+            }
+
+        }
     } //End of class dsrCxCPendientesEntreFechas
 
 } //End of namespace Galac.Adm.Rpt.Venta

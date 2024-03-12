@@ -93,7 +93,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             LlenarListaSectorDeNegocio();
             LlenarListaMonedaDelInforme();
             LlenarListaMonedasActivas();
-            LlentarListaTasaDeCambio();
+            LlenarListaTasaDeCambio();
             RaisePropertyChanged(() => IsVisibleIncluirNroCC);
             RaisePropertyChanged(() => IsVisibleTasaDeCambio);
         }
@@ -153,7 +153,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             }
         }
 
-        void LlentarListaTasaDeCambio() {
+        void LlenarListaTasaDeCambio() {
             ListaTasaDeCambio = new ObservableCollection<eTasaDeCambioParaImpresion>();
             ListaTasaDeCambio.Clear();
             ListaTasaDeCambio.Add(eTasaDeCambioParaImpresion.Original);

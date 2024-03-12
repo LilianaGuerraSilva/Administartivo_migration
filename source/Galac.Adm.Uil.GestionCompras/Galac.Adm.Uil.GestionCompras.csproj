@@ -60,7 +60,7 @@
     </Reference>
     <Reference Include="Galac.Comun.Uil.TablasLey">
       <HintPath>..\packages\Galac.Comun.Uil.TablasLey.2.61.0\lib\Galac.Comun.Uil.TablasLey.dll</HintPath>
-    </Reference>    
+    </Reference>
     <Reference Include="LibGalac.Aos.ARRpt">
       <HintPath>..\packages\LibGalac.Aos.ARRpt.5.24.0\lib\LibGalac.Aos.ARRpt.dll</HintPath>
     </Reference>
@@ -124,12 +124,16 @@
     <Compile Include="clsProveedorMenu.cs" />
     <Compile Include="Reportes\clsCxPEntreFechasViewModel.cs" />
     <Compile Include="Reportes\clsCxPInformesViewModel.cs" />
+    <Compile Include="Reportes\clsHistoricoDeProveedorViewModel.cs" />
     <Compile Include="Reportes\clsImprimirCostoDeCompraEntreFechasViewModel.cs" />
     <Compile Include="Reportes\clsImprimirComprasEntreFechasViewModel.cs" />
     <Compile Include="Reportes\clsImprimirCotizacionOrdenDeCompraViewModel.cs" />
     <Compile Include="Reportes\clsImprimirHistoricoDeComprasViewModel.cs" />
     <Compile Include="Reportes\GSCxPEntreFechas.xaml.cs">
       <DependentUpon>GSCxPEntreFechas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSHistoricoDeProveedor.xaml.cs">
+      <DependentUpon>GSHistoricoDeProveedor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reportes\GSImpresionDeEtiquetasPorComprasView.xaml.cs">
       <DependentUpon>GSImpresionDeEtiquetasPorComprasView.xaml</DependentUpon>
@@ -179,6 +183,7 @@
     <Compile Include="UIMefGestionComprasCompra.cs" />
     <Compile Include="UIMefGestionComprasOrdenDeCompra.cs" />
     <Compile Include="UIMefGestionComprasProveedor.cs" />
+    <Compile Include="UIMefProveedorInformes.cs" />
     <Compile Include="ViewModel\AjusteDePrecioPorCostosViewModel.cs" />
     <Compile Include="ViewModel\ArticuloCargaInicialViewModel.cs" />
     <Compile Include="ViewModel\CargaInicialMngViewModel.cs" />
@@ -252,6 +257,10 @@
     <Page Include="Reportes\GSCxPEntreFechas.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reportes\GSHistoricoDeProveedor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Reportes\GSImpresionDeEtiquetasPorComprasView.xaml">
       <Generator>MSBuild:Compile</Generator>
