@@ -23,6 +23,7 @@ namespace Galac.Adm.Uil.GestionCompras.Reportes {
             AppMemoryInfo = initAppMemInfo;
             Mfc = initMfc;
             AvailableReports.Add(new clsCxPEntreFechasViewModel());
+            AvailableReports.Add(new clsHistoricoDeProveedorViewModel());
             Title = "Informes de Cuentas por Pagar";
         }
         #endregion //Constructores
@@ -32,6 +33,8 @@ namespace Galac.Adm.Uil.GestionCompras.Reportes {
             ILibRpt vResult = null;
             if (SelectedReport is clsCxPEntreFechasViewModel) {
                 vResult = ConfigReportCuentasPorPagarEntreFechas(SelectedReport as clsCxPEntreFechasViewModel);
+            } else if (SelectedReport is clsHistoricoDeProveedorViewModel) {
+                vResult = ConfigReportHistoricoDeProveedor(SelectedReport as clsHistoricoDeProveedorViewModel);
             }
             return vResult;
         }
@@ -39,8 +42,18 @@ namespace Galac.Adm.Uil.GestionCompras.Reportes {
         private ILibRpt ConfigReportCuentasPorPagarEntreFechas(clsCxPEntreFechasViewModel valViewModel) {
             ILibRpt vResult = null;
             if (valViewModel != null) {
-                vResult = new Galac.Adm.Rpt.GestionCompras.clsCxPEntreFechas(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaDesde, valViewModel.FechaHasta, valViewModel.StatusCxP, valViewModel.MonedaDelInforme, valViewModel.TasaDeCambio, valViewModel.Moneda, valViewModel.IncluirInfoAdicional, valViewModel.IncluirNroComprobanteContable) {
+                vResult = new Rpt.GestionCompras.clsCxPEntreFechas(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaDesde, valViewModel.FechaHasta, valViewModel.StatusCxP, valViewModel.MonedaDelInforme, valViewModel.TasaDeCambio, valViewModel.Moneda, valViewModel.IncluirInfoAdicional, valViewModel.IncluirNroComprobanteContable) {
                     Worker = Manager
+                };
+            }
+            return vResult;
+        }
+
+        private ILibRpt ConfigReportHistoricoDeProveedor(clsHistoricoDeProveedorViewModel valViewModel) {
+            ILibRpt vResult = null;
+            if (valViewModel != null) {
+                vResult = new Rpt.GestionCompras.clsHistoricoDeProveedor(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaDesde, valViewModel.FechaHasta, valViewModel.CodigoProveedor, valViewModel.MonedaDelInforme, valViewModel.Moneda, valViewModel.TasaDeCambio, valViewModel.SaltoDePaginaPorProveedor, valViewModel.OrdenarPor) {
+                    Worker = Manager,
                 };
             }
             return vResult;
