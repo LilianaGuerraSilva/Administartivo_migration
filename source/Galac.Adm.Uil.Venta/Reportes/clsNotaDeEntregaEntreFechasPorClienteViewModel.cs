@@ -29,7 +29,6 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         private const string FechaHastaPropertyName = "FechaHasta";
         private const string IncluirNotasDeEntregasAnuladasPropertyName = "IncluirNotasDeEntregasAnuladas";
         private const string CantidadAImprimirPropertyName = "CantidadAImprimir";
-        private const string MonedaDelReportePropertyName = "MonedaDelReporte";
         private const string CodigoClientePropertyName = "CodigoCliente";
         private const string NombreClientePropertyName = "NombreCliente";
         private const string IsEnabledClientePropertyName = "IsEnabledCliente";
@@ -37,18 +36,30 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         private DateTime _FechaHasta;
         private bool _IncluirNotasDeEntregasAnuladasAsBool;
         private eCantidadAImprimir _CantidadAImprimirAsEnum;
-        private eMonedaParaImpresion _MonedaDelReporteAsEnum;
         private string _CodigoCliente;
         private string _NombreCliente;
         private FkClienteViewModel _ConexionCliente;
         private bool _IsEnabledCliente;
+        private const string IncluirDetalleNotasDeEntregasPropertyName = "IncluirDetalleNotasDeEntregas";
+        private bool _IncluirDetalleNotasDeEntregasAsBool;
+        private eMonedaDelInformeMM _MonedaDelInforme;
+        const string MonedaDelInformePropertyName = "MonedaDelInforme";
+        const string MonedaPropertyName = "Moneda";
+        const string TasaDeCambioPropertyName = "TasaDeCambio";
+        const string IsVisibleNombreDelClientePropertyName = "IsVisibleNombreDelCliente";
+        const string IsVisibleSaltoDePaginaPorClientePropertyName = "IsVisibleSaltoDePaginaPorCliente";
+        const string IsVisibleMonedasActivasPropertyName = "IsVisibleMonedasActivas";
+        const string IsVisibleTasaDeCambioPropertyName = "IsVisibleTasaDeCambio";
+        const string IsVisibleIncluirNotasDeEntregasAnuladasPropertyName = "IsVisibleIncluirNotasDeEntregasAnuladas";
+        string _Moneda;
+        eTasaDeCambioParaImpresion _TasaDeCambio;
 
         #endregion
 
         #region Propiedades
 
         public override string DisplayName {
-            get { return "Nota De Entrega Entre Fechas Por Cliente"; }
+            get { return "Notas de Entrega entre Fechas por Cliente"; }
         }
 
         public override bool IsSSRS {
@@ -94,6 +105,19 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             }
         }
 
+        public bool IncluirDetalleNotasDeEntregas {
+            get {
+                return _IncluirDetalleNotasDeEntregasAsBool;
+            }
+            set {
+                if(_IncluirDetalleNotasDeEntregasAsBool != value) {
+                    _IncluirDetalleNotasDeEntregasAsBool = value;
+                    RaisePropertyChanged(IncluirDetalleNotasDeEntregasPropertyName);
+                    RaisePropertyChanged(IsVisibleIncluirNotasDeEntregasAnuladasPropertyName);
+                }
+            }
+        }
+
         public eCantidadAImprimir CantidadAImprimir {
             get {
                 return _CantidadAImprimirAsEnum;
@@ -114,14 +138,24 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             }
         }
 
-        public eMonedaParaImpresion MonedaDelReporte {
-            get {
-                return _MonedaDelReporteAsEnum;
-            }
+        public eMonedaDelInformeMM MonedaDelInforme {
+            get { return _MonedaDelInforme; }
             set {
-                if (_MonedaDelReporteAsEnum != value) {
-                    _MonedaDelReporteAsEnum = value;
-                    RaisePropertyChanged(MonedaDelReportePropertyName);
+                if (_MonedaDelInforme != value) {
+                    _MonedaDelInforme = value;
+                    RaisePropertyChanged(MonedaDelInformePropertyName);
+                    RaisePropertyChanged(IsVisibleMonedasActivasPropertyName);
+                    RaisePropertyChanged(IsVisibleTasaDeCambioPropertyName);
+                }
+            }
+        }
+
+        public string Moneda {
+            get { return _Moneda; }
+            set {
+                if (_Moneda != value) {
+                    _Moneda = value;
+                    RaisePropertyChanged(MonedaPropertyName);
                 }
             }
         }
@@ -132,14 +166,22 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             }
         }
 
-        public eMonedaParaImpresion[] ArrayMonedaDelReporte {
-            get {
-                return LibEnumHelper<eMonedaParaImpresion>.GetValuesInArray();
+        public eTasaDeCambioParaImpresion TasaDeCambio {
+            get { return _TasaDeCambio; }
+            set {
+                if (_TasaDeCambio != value) {
+                    _TasaDeCambio = value;
+                    RaisePropertyChanged(TasaDeCambioPropertyName);
+                }
             }
         }
 
-        public ObservableCollection<Galac.Saw.Lib.eMonedaParaImpresion> _ListarMoneda = new ObservableCollection<Galac.Saw.Lib.eMonedaParaImpresion>();
-        public ObservableCollection<Galac.Saw.Lib.eMonedaParaImpresion> ListarMoneda { get { return _ListarMoneda; } set { _ListarMoneda = value; } }
+        public eTasaDeCambioParaImpresion[] ListaTasaDeCambio { get { return LibEnumHelper<eTasaDeCambioParaImpresion>.GetValuesInArray(); } }
+        public eMonedaDelInformeMM[] ListaMonedaDelInforme { get { return LibEnumHelper<eMonedaDelInformeMM>.GetValuesInArray(); } }
+        public ObservableCollection<string> ListaMonedasActivas { get; set; }
+        public bool IsVisibleMonedasActivas { get { return MonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa; } }
+        public bool IsVisibleTasaDeCambio { get { return MonedaDelInforme == eMonedaDelInformeMM.EnBolivares || MonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa; } }
+        public bool IsVisibleIncluirNotasDeEntregasAnuladas { get { return IncluirDetalleNotasDeEntregas == false; } }
 
         [LibCustomValidation("ClienteValidating")]
         [LibGridColum("Codigo", eGridColumType.Connection, ConnectionSearchCommandName = "ChooseNombreClienteCommand")]
@@ -209,10 +251,9 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 
         #region Constructores
         public clsNotaDeEntregaEntreFechasPorClienteViewModel() {
-            FechaDesde = LibDate.Today();
+            FechaDesde = LibDate.DateFromMonthAndYear(1, LibDate.Today().Year, true);
             FechaHasta = LibDate.Today();
-            MonedaDelReporte = eMonedaParaImpresion.EnMonedaOriginal;
-            LlenarEnumerativosMonedas();
+            LlenarListaMonedasActivas();
         }
 
         protected override void InitializeCommands() {
@@ -256,14 +297,11 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 
         #region Metodos
 
-        private void LlenarEnumerativosMonedas() {
-            ListarMoneda.Clear();
-            if (LibDefGen.ProgramInfo.IsCountryVenezuela()) {
-                ListarMoneda.Add(Saw.Lib.eMonedaParaImpresion.EnBolivares);
-            } else if (LibDefGen.ProgramInfo.IsCountryPeru()) {
-                ListarMoneda.Add(Saw.Lib.eMonedaParaImpresion.EnSoles);
+        void LlenarListaMonedasActivas() {
+            ListaMonedasActivas = new clsLibSaw().ListaDeMonedasActivasParaInformes(false);
+            if (ListaMonedasActivas.Count > 0) {
+                Moneda = ListaMonedasActivas[0];
             }
-            ListarMoneda.Add(Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal);
         }
 
         private void ExecuteChooseNombreClienteCommand(string valNombre) {
