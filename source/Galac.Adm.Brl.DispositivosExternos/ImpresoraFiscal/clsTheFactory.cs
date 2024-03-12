@@ -956,10 +956,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     vResult = _TfhkPrinter.SendCmd(vCMD);
                     vCMD = "iS*" + LibText.Trim(LibText.SubString(valRazonSocial, 0, _MaxLongitudDeTexto));
                     vResult &= _TfhkPrinter.SendCmd(vCMD);
-                   //if (LibString.Len(valRazonSocial) > _MaxLongitudDeTexto) {
-                   //     vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString(valRazonSocial, 40, _MaxLongitudDeTexto));
-                   //      vResult &= _TfhkPrinter.SendCmd(vCMD);
-                   //}                    
+                    //if (LibString.Len(valRazonSocial) > _MaxLongitudDeTexto) {
+                    //     vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString(valRazonSocial, 40, _MaxLongitudDeTexto));
+                    //      vResult &= _TfhkPrinter.SendCmd(vCMD);
+                    //}                    
                     vCMD = "iF*" + LibText.Trim(LibText.SubString(valNumeroFacturaOriginal, 0, 11));
                     vResult = _TfhkPrinter.SendCmd(vCMD);
                     vCMD = "iD*" + LibText.Trim(LibText.SubString(valFecha, 0, 10));
