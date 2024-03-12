@@ -769,7 +769,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vTotalPagoME = LibImpresoraFiscalUtil.TotalMediosDePago(valMedioDePago.Descendants("GpResultDetailRenglonCobro"), vCodigoMonedaBase, true);
                 vTotalPagadoML = LibImpresoraFiscalUtil.TotalMediosDePago(valMedioDePago.Descendants("GpResultDetailRenglonCobro"), vCodigoMonedaBase, false);
                 vTotalFactura = LibImportData.ToDec(LibXml.GetPropertyString(valMedioDePago, "TotalFactura"));
-                if (_EstaActivoFlag50) {
+                if (_EstaActivoFlag50) { //Manejo de IGTF
                     List<XElement> vNodos = valMedioDePago.Descendants("GpResultDetailRenglonCobro").Where(p => p.Element("CodigoMoneda").Value == vCodigoMonedaBase).ToList();
                     int vNodosCount = vNodos.Count;
                     bool vNoEsUnicaMoneda = true;
@@ -827,7 +827,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         }
                     }
                     vResult = vResult && _TfhkPrinter.SendCmd(_CierreFacturaIGTF);
-                } else {
+                } else { //Sin Manejo de IGTF
                     List<XElement> vNodos = valMedioDePago.Descendants("GpResultDetailRenglonCobro").ToList();
                     int vNodosCount = vNodos.Count;
                     if (vNodosCount > 0) {
