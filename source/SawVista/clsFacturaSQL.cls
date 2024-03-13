@@ -3317,3 +3317,174 @@ h_EXIT:
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlCteComprasPecioCostoPorItem", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
+
+Public Function fSQLDelReporteEstadisticoDeVentasNew(ByVal valConsecutivoCompania As Integer, ByVal valUsaCambio As Boolean, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valHoyNombreMoneda As String) As String
+   Dim vSql As String
+   Dim vSqlCambio As String
+   Dim vSqlCTEBaseRenglonFactura As String
+   Dim vSqlCTEArticulos As String
+   On Error GoTo h_ERROR
+   
+   vSqlCTEBaseRenglonFactura = "CTE_BaseRenglonFactura AS ("
+   vSqlCTEBaseRenglonFactura = vSqlCTEBaseRenglonFactura & "SELECT "
+   vSqlCTEBaseRenglonFactura = vSqlCTEBaseRenglonFactura & "   renglonFactura.Articulo, "
+   vSqlCTEBaseRenglonFactura = vSqlCTEBaseRenglonFactura & "   renglonFactura.Descripcion, "
+   vSqlCTEBaseRenglonFactura = vSqlCTEBaseRenglonFactura & "   renglonFactura.Cantidad AS Cantidad, "
+   vSqlCTEBaseRenglonFactura = vSqlCTEBaseRenglonFactura & "   factura.CodigoMoneda, "
+   vSqlCTEBaseRenglonFactura = vSqlCTEBaseRenglonFactura & "   factura.Moneda, "
+   vSqlCTEBaseRenglonFactura = vSqlCTEBaseRenglonFactura & "   factura.CambioABolivares, "
+   vSqlCTEBaseRenglonFactura = vSqlCTEBaseRenglonFactura & "   ROUND(ROUND(ROUND((renglonFactura.PrecioSinIVA + ROUND((renglonFactura.PrecioSinIVA * (renglonFactura.PorcentajeAlicuota / 100)), 2)) * renglonFactura.Cantidad, 2) * (1 - ROUND((renglonFactura.PorcentajeDescuento / 100), 2)), 2) * (1 - ROUND((factura.PorcentajeDescuento / 100), 2)), 2) AS MontoConIva, "
+   vSqlCTEBaseRenglonFactura = vSqlCTEBaseRenglonFactura & "   ROUND(ROUND(renglonFactura.PrecioSinIVA * renglonFactura.Cantidad, 2) * ROUND((1 - ROUND((renglonFactura.PorcentajeDescuento / 100), 2)), 2) * (1 - ROUND((factura.PorcentajeDescuento / 100),2)), 2) AS MontoSinIva, "
+   vSqlCTEBaseRenglonFactura = vSqlCTEBaseRenglonFactura & "   ROUND(renglonFactura.precioConIva * renglonFactura.Cantidad, 2) AS MontoBrutoFactura "
+   vSqlCTEBaseRenglonFactura = vSqlCTEBaseRenglonFactura & " FROM factura INNER JOIN "
+   vSqlCTEBaseRenglonFactura = vSqlCTEBaseRenglonFactura & "      renglonFactura ON factura.Numero = renglonFactura.NumeroFactura AND "
+   vSqlCTEBaseRenglonFactura = vSqlCTEBaseRenglonFactura & "      factura.TipoDeDocumento = renglonFactura.TipoDeDocumento AND factura.consecutivoCompania = renglonFactura.consecutivoCompania "
+   vSqlCTEBaseRenglonFactura = vSqlCTEBaseRenglonFactura & " WHERE factura.ConsecutivoCompania = " & valConsecutivoCompania
+   vSqlCTEBaseRenglonFactura = vSqlCTEBaseRenglonFactura & " AND factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA)
+   vSqlCTEBaseRenglonFactura = vSqlCTEBaseRenglonFactura & " AND factura.TipoDeDocumento <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
+   vSqlCTEBaseRenglonFactura = vSqlCTEBaseRenglonFactura & " AND factura.TipoDeDocumento <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTAENTREGA)
+   vSqlCTEBaseRenglonFactura = vSqlCTEBaseRenglonFactura & " AND  " & gUtilSQL.fSQLValueDatesBetween("", "factura.Fecha ", valFechaInicial, valFechaFinal)
+   vSqlCTEBaseRenglonFactura = vSqlCTEBaseRenglonFactura & ")"
+   
+   vSqlCTEArticulos = "CTE_Articulos AS ("
+   vSqlCTEArticulos = vSqlCTEArticulos & "SELECT"
+   vSqlCTEArticulos = vSqlCTEArticulos & "   ArticuloInventario.Categoria,"
+   vSqlCTEArticulos = vSqlCTEArticulos & "   ExistenciaPorGrupo.CodigoArticulo + ISNULL(ExistenciaPorGrupo.CodigoColor, '') + ISNULL(ExistenciaPorGrupo.CodigoTalla, '') AS CodigoArticulo "
+   vSqlCTEArticulos = vSqlCTEArticulos & " FROM ExistenciaPorGrupo INNER JOIN"
+   vSqlCTEArticulos = vSqlCTEArticulos & "      ArticuloInventario ON ExistenciaPorGrupo.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania AND ExistenciaPorGrupo.CodigoArticulo = ArticuloInventario.Codigo"
+   vSqlCTEArticulos = vSqlCTEArticulos & "     LEFT JOIN Saw.Talla ON ExistenciaPorGrupo.ConsecutivoCompania = Saw.Talla.ConsecutivoCompania AND ExistenciaPorGrupo.CodigoTalla = Saw.Talla.CodigoTalla"
+   vSqlCTEArticulos = vSqlCTEArticulos & "     LEFT JOIN Saw.Color ON ExistenciaPorGrupo.ConsecutivoCompania = Saw.Color.ConsecutivoCompania AND ExistenciaPorGrupo.CodigoColor = Saw.Color.CodigoColor"
+   vSqlCTEArticulos = vSqlCTEArticulos & " WHERE ExistenciaPorGrupo.ConsecutivoCompania = " & valConsecutivoCompania
+   vSqlCTEArticulos = vSqlCTEArticulos & " AND ArticuloInventario.TipoArticuloInv <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoArticuloInv.eTAI_Simple)
+   vSqlCTEArticulos = vSqlCTEArticulos & " UNION "
+   vSqlCTEArticulos = vSqlCTEArticulos & " SELECT "
+   vSqlCTEArticulos = vSqlCTEArticulos & "   Categoria, "
+   vSqlCTEArticulos = vSqlCTEArticulos & "   Codigo "
+   vSqlCTEArticulos = vSqlCTEArticulos & " FROM ArticuloInventario"
+   vSqlCTEArticulos = vSqlCTEArticulos & " WHERE ConsecutivoCompania = " & valConsecutivoCompania
+   vSqlCTEArticulos = vSqlCTEArticulos & " AND TipoArticuloInv = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoArticuloInv.eTAI_Simple)
+   vSqlCTEArticulos = vSqlCTEArticulos & ") "
+   
+   If valUsaCambio Then
+      vSqlCambio = " RF.CambioABolivares "
+   Else
+      vSqlCambio = " 1 "
+   End If
+   
+   vSql = ";WITH "
+   vSql = vSql & vSqlCTEBaseRenglonFactura & ", " & vbCrLf
+   vSql = vSql & vSqlCTEArticulos & vbCrLf & vbCrLf
+   
+   vSql = vSql & " SELECT "
+   If valUsaCambio Then
+      vSql = vSql & gUtilSQL.fSimpleSqlValue(valHoyNombreMoneda) & " AS MonedaReporte, "
+   Else
+      vSql = vSql & " RF.Moneda AS MonedaReporte, "
+   End If
+   vSql = vSql & "   AI.Categoria AS TipoCategoria, "
+   vSql = vSql & "   SUM(RF.Cantidad) AS Cantidad, "
+   vSql = vSql & "   SUM(ROUND(RF.MontoConIva * " & vSqlCambio & ", 2)) AS MontoConIva, "
+   vSql = vSql & "   SUM(ROUND(RF.MontoSinIva * " & vSqlCambio & ", 2)) AS MontoSinIva, "
+   vSql = vSql & "   SUM(ROUND(RF.MontoBrutoFactura * " & vSqlCambio & ", 2)) AS MontoBrutoFactura "
+   vSql = vSql & " FROM CTE_BaseRenglonFactura RF INNER JOIN CTE_Articulos AI ON RF.Articulo = AI.CodigoArticulo "
+   If valUsaCambio Then
+      vSql = vSql & " GROUP BY Categoria "
+      vSql = vSql & " ORDER BY MonedaReporte, Categoria "
+   Else
+      vSql = vSql & " GROUP BY RF.Moneda, Categoria "
+      vSql = vSql & " ORDER BY RF.Moneda, Categoria "
+   End If
+   
+   fSQLDelReporteEstadisticoDeVentasNew = vSql
+h_EXIT: On Error GoTo 0
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLDelReporteEstadisticoDeVentasNew", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+
+Public Function fConstruirSQLDelReporteComparativoCategVendXMeses(ByVal valConsecutivoCompania As Integer, ByVal valMesInicial As Integer, ByVal valMesFinal As Integer, ByVal valAno As Integer) As String
+   Dim SQL As String
+   Dim i As Integer
+   On Error GoTo h_ERROR
+   SQL = "SELECT "
+   For i = valMesInicial To valMesFinal
+      SQL = SQL & gUtilSQL.getIIF(gUtilSQL.DfSQLMonthOfDate("factura.Fecha") & " = " & gConvert.fConvierteAString(i), "SUM(renglonFactura.Cantidad)", "0") & " AS MES" & gConvert.fConvierteAString(i) & ", "
+   Next
+   SQL = SQL & gUtilSQL.DfUcaseSQL("articuloInventario.Categoria") & " AS CategoriaDeProducto, "
+   SQL = SQL & "articuloInventario.TipoDeProducto AS TipoProducto "
+   
+   SQL = SQL & "FROM articuloInventario INNER JOIN renglonFactura ON "
+   SQL = SQL & "articuloInventario.ConsecutivoCompania = renglonFactura.ConsecutivoCompania AND "
+   SQL = SQL & "articuloInventario.Codigo = renglonFactura.Articulo INNER JOIN factura ON "
+   SQL = SQL & "renglonFactura.ConsecutivoCompania = factura.ConsecutivoCompania AND "
+   SQL = SQL & "renglonFactura.NumeroFactura = factura.Numero "
+   
+   SQL = SQL & "WHERE "
+   SQL = SQL & gUtilSQL.DfSQLMonthOfDate("factura.Fecha") & " BETWEEN " & valMesInicial & " AND " & valMesFinal & " AND "
+   SQL = SQL & "factura.StatusFactura = " & gConvert.enumerativoAChar(eSF_EMITIDA) & " AND "
+   SQL = SQL & gUtilSQL.DfSQLYearOfDate("factura.Fecha") & " = " & valAno & " AND "
+   SQL = SQL & "factura.ConsecutivoCompania = " & valConsecutivoCompania
+   
+   SQL = SQL & " GROUP BY "
+   SQL = SQL & "articuloInventario.TipoDeProducto, "
+   SQL = SQL & "articuloInventario.Categoria, "
+   SQL = SQL & gUtilSQL.DfSQLMonthOfDate("factura.Fecha")
+   
+   SQL = SQL & " ORDER BY "
+   SQL = SQL & "articuloInventario.Categoria, "
+   SQL = SQL & "articuloInventario.TipoDeProducto, "
+   SQL = SQL & gUtilSQL.DfSQLMonthOfDate("factura.Fecha")
+   fConstruirSQLDelReporteComparativoCategVendXMeses = SQL
+h_EXIT: On Error GoTo 0
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLDelReporteComparativoCategVendXMeses", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+
+Public Function fConstruirSQLDelReporteComparativoCategVendXAño(ByVal valConsecutivoCompania As Integer, ByVal valAnoInicial As Integer, ByVal valAnoFinal As Integer, ByVal valMes As Integer) As String
+   Dim FechaFinal As String
+   Dim UltimoDiaDelMesHasta As Integer
+   Dim SQL As String
+   Dim i As Integer
+   Dim numerodeanos As Integer
+   Dim anocolumnas As Integer
+   On Error GoTo h_ERROR
+   UltimoDiaDelMesHasta = gUtilDate.LastDayOfTheMonth(valMes, valAnoFinal)
+   FechaFinal = gTexto.DfCStr(UltimoDiaDelMesHasta) & "/" & valMes & "/" & valAnoFinal
+   numerodeanos = valAnoFinal - valAnoInicial
+   anocolumnas = valAnoInicial
+   SQL = "SELECT "
+   For i = 0 To numerodeanos
+      SQL = SQL & gUtilSQL.getIIF(gUtilSQL.DfSQLYearOfDate("factura.Fecha") & " = " & gConvert.fConvierteAString(anocolumnas), "SUM(renglonFactura.Cantidad)", "0") & " AS ano" & gConvert.fConvierteAString(i) & ", "
+      anocolumnas = anocolumnas + 1
+   Next
+   
+   SQL = SQL & gUtilSQL.DfUcaseSQL("articuloInventario.Categoria") & " AS CategoriaDeProducto, "
+   SQL = SQL & "articuloInventario.TipoDeProducto AS TipoProducto "
+   
+   SQL = SQL & "FROM articuloInventario INNER JOIN renglonFactura ON "
+   SQL = SQL & "articuloInventario.ConsecutivoCompania = renglonFactura.ConsecutivoCompania AND "
+   SQL = SQL & "articuloInventario.Codigo = renglonFactura.Articulo "
+   SQL = SQL & "INNER JOIN factura ON "
+   SQL = SQL & "renglonFactura.ConsecutivoCompania = factura.ConsecutivoCompania AND "
+   SQL = SQL & "renglonFactura.NumeroFactura = factura.Numero "
+   
+   SQL = SQL & "WHERE "
+   SQL = SQL & gUtilSQL.DfSQLYearOfDate("factura.Fecha") & " BETWEEN " & valAnoInicial & " AND " & valAnoFinal
+   SQL = SQL & " AND factura.StatusFactura = " & gConvert.enumerativoAChar(eSF_EMITIDA) & " AND "
+   SQL = SQL & gUtilSQL.DfSQLMonthOfDate("factura.Fecha") & " <= " & valMes & " AND "
+   SQL = SQL & "factura.ConsecutivoCompania = " & valConsecutivoCompania
+   
+   SQL = SQL & " GROUP BY "
+   SQL = SQL & "articuloInventario.TipoDeProducto, "
+   SQL = SQL & "articuloInventario.Categoria, "
+   SQL = SQL & gUtilSQL.DfSQLYearOfDate("factura.Fecha")
+   SQL = SQL & " ORDER BY "
+   SQL = SQL & "articuloInventario.Categoria, "
+   SQL = SQL & "articuloInventario.TipoDeProducto, "
+   SQL = SQL & gUtilSQL.DfSQLYearOfDate("factura.Fecha")
+   fConstruirSQLDelReporteComparativoCategVendXAño = SQL
+h_EXIT: On Error GoTo 0
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLDelReporteComparativoCategVendXAño", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+
+
