@@ -868,7 +868,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             if (valExtenderLineasAdicionales) {
                 vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString("Dir.:" + valDireccion, 0, _MaxLongitudDeTexto)));
                 if (!((_NumeroDeLineasDeTotalesEnDivisas + _LineaTextoAdicional) > 8)) {
-                    vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString(valDireccion, 30, _MaxLongitudDeTexto)));
+                    vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString(valDireccion, 35, _MaxLongitudDeTexto)));
                 }
                 if (!_ObservacionesAlFinalDeLaFactura) {
                     vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString("Obs.:" + valObservaciones, 0, _MaxLongitudDeTexto)));
@@ -883,7 +883,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 if (!valDireccion.Equals("") && !_ModelosAntiguos) {
                     vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString("Dir.:" + valDireccion, 0, _MaxLongitudDeTexto)));
                     if (LibText.Len(LibText.Trim(valDireccion)) > 30) {
-                        vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString(valDireccion, 30, _MaxLongitudDeTexto)));
+                        vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString(valDireccion, 35, _MaxLongitudDeTexto)));
                     }
                 } else {
                     vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString("Dir.:" + valDireccion, 0, _MaxLongitudDeTexto)));
