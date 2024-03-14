@@ -37,12 +37,14 @@
         <Label
             Grid.Row="0"
             Grid.Column="0"
+            Margin="0"
             Content="Cantidad a Imprimir"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf
             Name="cmbCantidadAImprimir"
             Grid.Row="0"
             Grid.Column="1"
+            Margin="0"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding Path=ListaCantidadAImprimir}"
             SelectedItem="{Binding Path=CantidadAImprimir, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
@@ -51,6 +53,7 @@
             Name="lblNombreDelProveedor"
             Grid.Row="1"
             Grid.Column="0"
+            Margin="0"
             Content="Nombre del Proveedor"
             Style="{StaticResource LabelPrompt}"
             Visibility="{Binding Path=IsVisibleNombreDelProveedor, Converter={StaticResource booleanToVisibilityConverter}}" />
@@ -60,8 +63,7 @@
             Grid.Column="1"
             Grid.ColumnSpan="2"
             Width="200"
-            Margin="3"
-            HorizontalAlignment="Left"
+            Margin="0"
             ConnectionValue="{Binding Path=NombreProveedor, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             SearchCommand="{Binding Path=ChooseNombreProveedorCommand}"
             Visibility="{Binding Path=IsVisibleNombreDelProveedor, Converter={StaticResource booleanToVisibilityConverter}}" />
@@ -69,6 +71,7 @@
             x:Name="lblSaltoDePaginaPorProveedor"
             Grid.Row="2"
             Grid.Column="0"
+            Margin="0"
             Content="Salto de página por Proveedor"
             Style="{StaticResource LabelPrompt}"
             Visibility="{Binding Path=IsVisibleSaltoDePaginaPorProveedor, Converter={StaticResource booleanToVisibilityConverter}}" />
@@ -76,9 +79,7 @@
             x:Name="chkSaltoDePaginaPorProveedor"
             Grid.Row="2"
             Grid.Column="1"
-            Margin="0,5,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Stretch"
+            Margin="0"
             IsChecked="{Binding SaltoDePaginaPorProveedor}"
             Style="{StaticResource CheckBoxStyle}"
             Visibility="{Binding Path=IsVisibleSaltoDePaginaPorProveedor, Converter={StaticResource booleanToVisibilityConverter}}" />
@@ -87,14 +88,13 @@
             Grid.Row="4"
             Grid.Column="0"
             Margin="0"
-            Content="Fecha desde"
+            Content="Fecha Desde"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSDatePickerWpf
             x:Name="dtpFechaDesde"
             Grid.Row="4"
             Grid.Column="1"
-            Margin="3"
-            VerticalAlignment="Top"
+            Margin="0"
             SelectedDate="{Binding FechaDesde, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
             Style="{StaticResource DatePickerStyle}" />
         <Label
@@ -102,14 +102,13 @@
             Grid.Row="5"
             Grid.Column="0"
             Margin="0"
-            Content="Fecha hasta"
+            Content="Fecha Hasta"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSDatePickerWpf
             x:Name="dtpFechaHasta"
             Grid.Row="5"
             Grid.Column="1"
-            Margin="3"
-            VerticalAlignment="Top"
+            Margin="0"
             SelectedDate="{Binding FechaHasta, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
             Style="{StaticResource DatePickerStyle}" />
         <Label
@@ -123,8 +122,7 @@
             x:Name="cmbMonedaDelInforme"
             Grid.Row="7"
             Grid.Column="1"
-            Margin="3"
-            VerticalAlignment="Top"
+            Margin="0"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding ListaMonedaDelInforme}"
             SelectedItem="{Binding MonedaDelInforme, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
@@ -133,8 +131,7 @@
             x:Name="cmbMonedasActivas"
             Grid.Row="7"
             Grid.Column="2"
-            Margin="3"
-            VerticalAlignment="Top"
+            Margin="0"
             BorderThickness="1"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding ListaMonedasActivas}"
@@ -153,8 +150,7 @@
             x:Name="cmbTasaDeCambio"
             Grid.Row="8"
             Grid.Column="1"
-            Margin="3"
-            VerticalAlignment="Top"
+            Margin="0"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding ListaTasaDeCambio}"
             SelectedItem="{Binding TasaDeCambio, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
@@ -171,8 +167,7 @@
             x:Name="cmbOrdenar"
             Grid.Row="10"
             Grid.Column="1"
-            Margin="3"
-            VerticalAlignment="Top"
+            Margin="0"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding ListaOrdenarPor}"
             SelectedItem="{Binding OrdenarPor, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
