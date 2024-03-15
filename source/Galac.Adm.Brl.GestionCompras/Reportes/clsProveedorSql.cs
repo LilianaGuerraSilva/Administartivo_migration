@@ -264,8 +264,9 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
                 string vSqlDocPagCodMonedaIgualML = vSqlDocPagCodigoMonedaCxP + " = " + insSql.ToSqlValue(vCodigoMonedaLocal);
                 string vSqlDocPagCodMonedaDifML = vSqlDocPagCodigoMonedaCxP + " <> " + insSql.ToSqlValue(vCodigoMonedaLocal);
 				vSqlCambio = insSql.IIF("DocumentoPagado.CodigoMonedaDeCxP = " + insSql.ToSqlValue(vCodigoMonedaLocal), " 1 ", " DocumentoPagado.CambioAMonedaDelPago ", true);
-                vMontoPagadoCase.AppendLine($"(CASE WHEN {vSqlDocPagCodigoMonedaCxP} = {vSqlPagoCodigoMoneda} THEN {vSqlMontoPagado} ");
-                vMontoPagadoCase.AppendLine($" WHEN  {vSqlDocPagCodigoMonedaCxP} <> {vSqlPagoCodigoMoneda} AND {vSqlDocPagCodMonedaIgualML} THEN DocumentoPagado.MontoAbonado");
+			 	string vSqlCambioPago = insSql.IIF("Pago.CodigoMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal), " 1 ", " Pago.CambioaBolivares ", true);
+				vMontoPagadoCase.AppendLine($"(CASE WHEN {vSqlDocPagCodigoMonedaCxP} = {vSqlPagoCodigoMoneda} THEN {vSqlMontoPagado} ");
+                vMontoPagadoCase.AppendLine($" WHEN  {vSqlDocPagCodigoMonedaCxP} <> {vSqlPagoCodigoMoneda} AND {vSqlDocPagCodMonedaIgualML} THEN {insSql.RoundToNDecimals("DocumentoPagado.MontoAbonado * " + vSqlCambioPago, 2)} ");
 				vMontoPagadoCase.AppendLine($" WHEN {vSqlDocPagCodigoMonedaCxP} <> {vSqlPagoCodigoMoneda} AND {vSqlDocPagCodMonedaDifML} THEN {insSql.RoundToNDecimals("DocumentoPagado.MontoAbonado / " + vSqlCambio, 2)} ");
                 vMontoPagadoCase.AppendLine($" ELSE 0 ");
                 vMontoPagadoCase.AppendLine($" END)");
