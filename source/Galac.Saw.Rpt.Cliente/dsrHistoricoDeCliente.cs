@@ -76,7 +76,6 @@ namespace Galac.Saw.Rpt.Cliente {
                 LibReport.ConfigFieldDec(this, "txtTotalMontoOriginal", string.Empty, "TotalMontoOriginal");
                 LibReport.ConfigFieldDec(this, "txtTotalMontoCobrado", string.Empty, "TotalMontoCobrado");
                 LibReport.ConfigFieldDec(this, "txtTotalSaldoActual", string.Empty, "TotalSaldoActual");
-                LibReport.ConfigFieldDec(this, "txtTotalMasSaldoInicial", string.Empty, "TotalMasSaldoInicial");
                 LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", string.Empty, "NotaMonedaCambio");
                 LibReport.ConfigFieldStr(this, "txtMonedaExpresadaEn", valParameters["MonedaExpresadaEn"], "");              
 
@@ -86,9 +85,9 @@ namespace Galac.Saw.Rpt.Cliente {
                 LibReport.ConfigGroupHeader(this, "GHTipoReporte", "TituloTipoReporte", GroupKeepTogether.All, RepeatStyle.All, true, NewPage.None);
                 LibReport.ConfigGroupHeader(this, "GHDetalle", "NumeroDocumento", GroupKeepTogether.All, RepeatStyle.All, true, NewPage.None);
 
-                LibReport.ConfigSummaryField(this, "txtTotalMontoOriginal", "MontoOriginal", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
-                LibReport.ConfigSummaryField(this, "txtTotalMontoCobrado", "MontoCobrado", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
-                LibReport.ConfigSummaryField(this, "txtTotalSaldoActual", "SaldoActual", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txtTotalMontoOriginal", "MontoOriginal", SummaryFunc.Sum, "GHTipoReporte", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txtTotalMontoCobrado", "MontoCobrado", SummaryFunc.Sum, "GHTipoReporte", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txtTotalSaldoActual", "SaldoActual", SummaryFunc.Sum, "GHTipoReporte", SummaryRunning.Group, SummaryType.SubTotal);
                 LibGraphPrnMargins.SetGeneralMargins(this, PageOrientation.Portrait);
                 return true;
             }
@@ -101,7 +100,6 @@ namespace Galac.Saw.Rpt.Cliente {
         }
 
         private void GFTipoReporte_BeforePrint(object sender, EventArgs e) {
-            this.txtTotalMasSaldoInicial.Value = LibConvert.ToDec(txtSaldoInicial.Value, 2) + LibConvert.ToDec(txtTotalSaldoActual.Value, 2);
         }
         private void PageFooter_Format(object sender, EventArgs e) {
             eMonedaDelInformeMM vMonedaDelInformeMM = (eMonedaDelInformeMM)LibConvert.DbValueToEnum(txtMonedaDelInforme.Text);
