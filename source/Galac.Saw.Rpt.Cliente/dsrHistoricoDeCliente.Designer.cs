@@ -58,7 +58,6 @@ namespace Galac.Saw.Rpt.Cliente
             this.txtTotalMontoOriginal = new DataDynamics.ActiveReports.TextBox();
             this.txtTotalMontoCobrado = new DataDynamics.ActiveReports.TextBox();
             this.txtTotalSaldoActual = new DataDynamics.ActiveReports.TextBox();
-            this.txtTotalMasSaldoInicial = new DataDynamics.ActiveReports.TextBox();
             this.GHCliente = new DataDynamics.ActiveReports.GroupHeader();
             this.lblCodigo = new DataDynamics.ActiveReports.Label();
             this.GFCliente = new DataDynamics.ActiveReports.GroupFooter();
@@ -78,7 +77,6 @@ namespace Galac.Saw.Rpt.Cliente
             this.lblMontoCobrado = new DataDynamics.ActiveReports.Label();
             this.GFTipoReporte = new DataDynamics.ActiveReports.GroupFooter();
             this.lblTotales = new DataDynamics.ActiveReports.Label();
-            this.lblTotalMasSaldoInicial = new DataDynamics.ActiveReports.Label();
             this.GHDetalle = new DataDynamics.ActiveReports.GroupHeader();
             this.GFDetalle = new DataDynamics.ActiveReports.GroupFooter();
             ((System.ComponentModel.ISupportInitialize)(this.txtNoCobranza)).BeginInit();
@@ -111,7 +109,6 @@ namespace Galac.Saw.Rpt.Cliente
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoOriginal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoCobrado)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalSaldoActual)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTotalMasSaldoInicial)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCodigo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMoneda)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblSaldoInicial)).BeginInit();
@@ -125,7 +122,6 @@ namespace Galac.Saw.Rpt.Cliente
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaCobranza)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMontoCobrado)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotales)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblTotalMasSaldoInicial)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
@@ -475,17 +471,6 @@ namespace Galac.Saw.Rpt.Cliente
             this.txtTotalSaldoActual.Top = 0F;
             this.txtTotalSaldoActual.Width = 1.125F;
             // 
-            // txtTotalMasSaldoInicial
-            // 
-            this.txtTotalMasSaldoInicial.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtTotalMasSaldoInicial.Height = 0.15625F;
-            this.txtTotalMasSaldoInicial.Left = 4.125F;
-            this.txtTotalMasSaldoInicial.Name = "txtTotalMasSaldoInicial";
-            this.txtTotalMasSaldoInicial.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
-            this.txtTotalMasSaldoInicial.Text = "txtTotalMasSaldoInicial";
-            this.txtTotalMasSaldoInicial.Top = 0.28125F;
-            this.txtTotalMasSaldoInicial.Width = 3.375F;
-            // 
             // GHCliente
             // 
             this.GHCliente.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
@@ -677,9 +662,7 @@ namespace Galac.Saw.Rpt.Cliente
             // GFTipoReporte
             // 
             this.GFTipoReporte.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
-            this.txtTotalMasSaldoInicial,
             this.lblTotales,
-            this.lblTotalMasSaldoInicial,
             this.txtTotalMontoOriginal,
             this.txtTotalMontoCobrado,
             this.txtTotalSaldoActual});
@@ -698,18 +681,6 @@ namespace Galac.Saw.Rpt.Cliente
             this.lblTotales.Text = "Totales";
             this.lblTotales.Top = 0F;
             this.lblTotales.Width = 4.125F;
-            // 
-            // lblTotalMasSaldoInicial
-            // 
-            this.lblTotalMasSaldoInicial.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.lblTotalMasSaldoInicial.Height = 0.15625F;
-            this.lblTotalMasSaldoInicial.HyperLink = null;
-            this.lblTotalMasSaldoInicial.Left = 0F;
-            this.lblTotalMasSaldoInicial.Name = "lblTotalMasSaldoInicial";
-            this.lblTotalMasSaldoInicial.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
-            this.lblTotalMasSaldoInicial.Text = "Total + Saldo Inicial";
-            this.lblTotalMasSaldoInicial.Top = 0.28125F;
-            this.lblTotalMasSaldoInicial.Width = 4.125F;
             // 
             // GHDetalle
             // 
@@ -783,7 +754,6 @@ namespace Galac.Saw.Rpt.Cliente
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoOriginal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoCobrado)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalSaldoActual)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTotalMasSaldoInicial)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCodigo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMoneda)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblSaldoInicial)).EndInit();
@@ -797,7 +767,6 @@ namespace Galac.Saw.Rpt.Cliente
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaCobranza)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMontoCobrado)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotales)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblTotalMasSaldoInicial)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -825,7 +794,6 @@ namespace Galac.Saw.Rpt.Cliente
         private DataDynamics.ActiveReports.TextBox txtTotalMontoOriginal;
         private DataDynamics.ActiveReports.TextBox txtTotalMontoCobrado;
         private DataDynamics.ActiveReports.TextBox txtTotalSaldoActual;
-        private DataDynamics.ActiveReports.TextBox txtTotalMasSaldoInicial;
         private DataDynamics.ActiveReports.TextBox txtNotaMonedaCambio;
         private DataDynamics.ActiveReports.PageHeader PageHeader;
         private DataDynamics.ActiveReports.TextBox txtNombreCompania;
@@ -855,7 +823,6 @@ namespace Galac.Saw.Rpt.Cliente
         private DataDynamics.ActiveReports.Label lblTotales;
         private DataDynamics.ActiveReports.GroupHeader GHDetalle;
         private DataDynamics.ActiveReports.GroupFooter GFDetalle;
-        private DataDynamics.ActiveReports.Label lblTotalMasSaldoInicial;
         private DataDynamics.ActiveReports.TextBox txtMonedaDelInforme;
         private DataDynamics.ActiveReports.TextBox txtTasaDeCambioParaElReporte;
         private DataDynamics.ActiveReports.TextBox txtMonedaExpresadaEn;

@@ -350,7 +350,7 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
 				vMontoDetalleCase.AppendLine($"(CASE WHEN {vSqlPagCodMonedaIgualML} AND {vSqlAntPagCodMonedaIgualML} THEN {insSql.RoundToNDecimals(vSqlMontoPagado + " / " + vSqlCambio, 2)} ");
 				vMontoDetalleCase.AppendLine($" WHEN {vSqlPagCodMonedaIgualML} AND {vSqlAntPagCodMonedaDifML} THEN Anticipo.MontoUsado ");
 				vMontoDetalleCase.AppendLine($" WHEN {vSqlPagCodMonedaDifML} AND {vSqlAntPagCodMonedaIgualML} THEN Anticipo.MontoUsado ");
-				vMontoDetalleCase.AppendLine($" ELSE AnticipoPagado.MontoAplicado ");
+				vMontoDetalleCase.AppendLine($" ELSE ISNULL(AnticipoPagado.MontoAplicado, 0) ");
 				vMontoDetalleCase.AppendLine($" END)");
 				vSqlMontoPagado = vMontoDetalleCase.ToString();
 
@@ -358,6 +358,7 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
 				vMontoDetalleCase.AppendLine($"(CASE WHEN {vSqlPagCodMonedaIgualML} AND {vSqlAntPagCodMonedaIgualML} THEN {insSql.RoundToNDecimals(vSqlMontoOriginal + " / " + vSqlCambio, 2)} ");
 				vMontoDetalleCase.AppendLine($" WHEN {vSqlPagCodMonedaIgualML} AND {vSqlAntPagCodMonedaDifML} THEN AnticipoPagado.MontoOriginal ");
 				vMontoDetalleCase.AppendLine($" WHEN {vSqlPagCodMonedaDifML} AND {vSqlAntPagCodMonedaIgualML} THEN {insSql.RoundToNDecimals(vSqlMontoOriginal + " / " + vSqlCambio, 2)} ");
+				vMontoDetalleCase.AppendLine($" WHEN {vSqlPagoCodigoMoneda} IS NULL THEN {insSql.RoundToNDecimals(vSqlMontoOriginal + " / " + vSqlCambio, 2)} ");//No ha sido usado
 				vMontoDetalleCase.AppendLine($" ELSE AnticipoPagado.MontoOriginal ");
 				vMontoDetalleCase.AppendLine($" END)");
 				vSqlMontoOriginal = vMontoDetalleCase.ToString();
@@ -366,9 +367,11 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
 				vMontoDetalleCase.AppendLine($"(CASE WHEN {vSqlPagCodMonedaIgualML} AND {vSqlAntPagCodMonedaIgualML} THEN {insSql.RoundToNDecimals(vSqlSaldoActual + " / " + vSqlCambio, 2)} ");
 				vMontoDetalleCase.AppendLine($" WHEN {vSqlPagCodMonedaIgualML} AND {vSqlAntPagCodMonedaDifML} THEN {vSqlSaldoActual} ");
 				vMontoDetalleCase.AppendLine($" WHEN {vSqlPagCodMonedaDifML} AND {vSqlAntPagCodMonedaIgualML} THEN {insSql.RoundToNDecimals(vSqlSaldoActual + " / " + vSqlCambio, 2)} ");
+				vMontoDetalleCase.AppendLine($" WHEN {vSqlPagoCodigoMoneda} IS NULL THEN {insSql.RoundToNDecimals(vSqlSaldoActual + " / " + vSqlCambio, 2)} ");//No ha sido usado
 				vMontoDetalleCase.AppendLine($" ELSE {vSqlSaldoActual} ");
 				vMontoDetalleCase.AppendLine($" END)");
 				vSqlSaldoActual = vMontoDetalleCase.ToString();
+
 			} else if (valMonedaDelInforme == eMonedaDelInformeMM.EnMonedaOriginal) {
 				StringBuilder vMontoDetalleCase = new StringBuilder();
 				vMontoDetalleCase.AppendLine($"(CASE WHEN {vSqlAntPagCodigoMonedaAnticipo} = {vSqlPagoCodigoMoneda} AND {vSqlAntPagCodMonedaIgualML} THEN AnticipoPagado.MontoAplicado ");
@@ -388,8 +391,8 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
 			vSql.AppendLine("	anticipo.CodigoMoneda AS CodigoMonedaAnticipo,");
 			vSql.AppendLine("	anticipo.Moneda AS MonedaAnticipo, ");
 			vSql.AppendLine("	anticipo.Cambio, ");
-			vSql.AppendLine("	Pago.Moneda, ");
-			vSql.AppendLine("	Pago.CambioAbolivares, ");
+			vSql.AppendLine("	ISNULL(Pago.Moneda, '') AS Moneda, ");
+			vSql.AppendLine("	ISNULL(Pago.CambioAbolivares, 1) AS CambioAbolivares, ");
 			vSql.AppendLine("	anticipo.Moneda AS MonedaReporte, ");
 			vSql.AppendLine("	'Anticipos' AS TituloTipoReporte, ");
 			vSql.AppendLine("	anticipo.Fecha AS FechaDocumento, ");
@@ -400,12 +403,12 @@ namespace Galac.Adm.Brl.GestionCompras.Reportes {
 			vSql.AppendLine($"	{vSqlMontoOriginal} AS MontoOriginal, ");
 			vSql.AppendLine($"	{vSqlSaldoActual} AS SaldoActual, ");
 			vSql.AppendLine("	'Pago' AS TipoDocumentoDetalle, ");
-			vSql.AppendLine("	Pago.NumeroComprobante AS NumeroPago, ");
-			vSql.AppendLine("	Pago.Fecha AS FechaPago, ");
+			vSql.AppendLine("	ISNULL(Pago.NumeroComprobante, 0) AS NumeroPago, ");
+			vSql.AppendLine("	ISNULL(Pago.Fecha, '01/01/1900') AS FechaPago, ");
 			vSql.AppendLine($"	{vSqlMontoPagado} AS MontoPagado, ");
-			vSql.AppendLine("	anticipoPagado.Cambio AS CambioPagado, ");
-			vSql.AppendLine("	Pago.StatusOrdenDePago AS StatusPago");
-			vSql.AppendLine("FROM anticipo LEFT OUTER JOIN Pago INNER JOIN anticipoPagado ");
+			vSql.AppendLine("	ISNULL(anticipoPagado.Cambio, 1) AS CambioPagado, ");
+			vSql.AppendLine("	ISNULL(Pago.StatusOrdenDePago, '') AS StatusPago");
+			vSql.AppendLine("FROM anticipo LEFT JOIN Pago INNER JOIN anticipoPagado ");
 			vSql.AppendLine("	ON Pago.NumeroComprobante = anticipoPagado.NumeroComprobante ");
 			vSql.AppendLine("	AND Pago.ConsecutivoCompania = anticipoPagado.ConsecutivoCompania ");
 			vSql.AppendLine("	AND (Pago.StatusOrdenDePago = '0')");

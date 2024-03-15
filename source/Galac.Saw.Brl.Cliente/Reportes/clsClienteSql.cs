@@ -308,7 +308,6 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			string vSqlMontoCobrado = insSql.IsNull("AnticipoCobrado.MontoAplicadoMonedaOriginal", "0");
 			string vCodigoMonedaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaCompania");
 			string vSqlCambio = vSqlCambioOriginal;
-			string vSqlMonedaTotales = valNombreMoneda;
 			string vSqlCobranzaCodigoMoneda = "Cobranza.CodigoMoneda";
 			string vSqlAntCobradCodigoMonedaAnticipo = "AnticipoCobrado.CodigoMoneda";
 			string vSqlCobCodMonedaIgualML = vSqlCobranzaCodigoMoneda + " = " + insSql.ToSqlValue(vCodigoMonedaLocal);
@@ -345,7 +344,7 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 				vMontoDetalleCase.AppendLine($"(CASE WHEN {vSqlCobCodMonedaIgualML} AND {vSqlAntCobCodMonedaIgualML} THEN {insSql.RoundToNDecimals(vSqlMontoCobrado + " / " + vSqlCambio, 2)} ");
 				vMontoDetalleCase.AppendLine($" WHEN {vSqlCobCodMonedaIgualML} AND {vSqlAntCobCodMonedaDifML} THEN AnticipoCobrado.MontoAplicado ");
 				vMontoDetalleCase.AppendLine($" WHEN {vSqlCobCodMonedaDifML} AND {vSqlAntCobCodMonedaIgualML} THEN AnticipoCobrado.MontoAplicado ");
-				vMontoDetalleCase.AppendLine($" ELSE AnticipoCobrado.MontoAplicado ");
+				vMontoDetalleCase.AppendLine($" ELSE ISNULL(AnticipoCobrado.MontoAplicado, 0) ");
 				vMontoDetalleCase.AppendLine($" END)");
 				vSqlMontoCobrado = vMontoDetalleCase.ToString();
 
@@ -353,6 +352,7 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 				vMontoDetalleCase.AppendLine($"(CASE WHEN {vSqlCobCodMonedaIgualML} AND {vSqlAntCobCodMonedaIgualML} THEN {insSql.RoundToNDecimals(vSqlMontoOriginal + " / " + vSqlCambio, 2)} ");
 				vMontoDetalleCase.AppendLine($" WHEN {vSqlCobCodMonedaIgualML} AND {vSqlAntCobCodMonedaDifML} THEN AnticipoCobrado.MontoOriginal ");
 				vMontoDetalleCase.AppendLine($" WHEN {vSqlCobCodMonedaDifML} AND {vSqlAntCobCodMonedaIgualML} THEN {insSql.RoundToNDecimals(vSqlMontoOriginal + " / " + vSqlCambio, 2)} ");
+				vMontoDetalleCase.AppendLine($" WHEN {vSqlCobranzaCodigoMoneda} IS NULL THEN {insSql.RoundToNDecimals(vSqlMontoOriginal + " / " + vSqlCambio, 2)} ");//No ha sido usado
 				vMontoDetalleCase.AppendLine($" ELSE AnticipoCobrado.MontoOriginal ");
 				vMontoDetalleCase.AppendLine($" END)");
 				vSqlMontoOriginal = vMontoDetalleCase.ToString();
@@ -361,6 +361,7 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 				vMontoDetalleCase.AppendLine($"(CASE WHEN {vSqlCobCodMonedaIgualML} AND {vSqlAntCobCodMonedaIgualML} THEN {insSql.RoundToNDecimals(vSqlSaldoActual + " / " + vSqlCambio, 2)} ");
 				vMontoDetalleCase.AppendLine($" WHEN {vSqlCobCodMonedaIgualML} AND {vSqlAntCobCodMonedaDifML} THEN {vSqlSaldoActual} ");
 				vMontoDetalleCase.AppendLine($" WHEN {vSqlCobCodMonedaDifML} AND {vSqlAntCobCodMonedaIgualML} THEN {insSql.RoundToNDecimals(vSqlSaldoActual + " / " + vSqlCambio, 2)} ");
+				vMontoDetalleCase.AppendLine($" WHEN {vSqlCobranzaCodigoMoneda} IS NULL THEN {insSql.RoundToNDecimals(vSqlSaldoActual + " / " + vSqlCambio, 2)} ");//No ha sido usado
 				vMontoDetalleCase.AppendLine($" ELSE {vSqlSaldoActual} ");
 				vMontoDetalleCase.AppendLine($" END)");
 				vSqlSaldoActual = vMontoDetalleCase.ToString();
@@ -383,8 +384,8 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			vSql.AppendLine("	anticipo.CodigoMoneda AS CodigoMonedaAnticipo,");
 			vSql.AppendLine("	anticipo.Moneda AS MonedaAnticipo, ");
 			vSql.AppendLine("	anticipo.Cambio, ");
-			vSql.AppendLine("	Cobranza.Moneda, ");
-			vSql.AppendLine("	Cobranza.CambioAbolivares, ");
+			vSql.AppendLine("	ISNULL(Cobranza.Moneda, '') AS Moneda, ");
+			vSql.AppendLine("	ISNULL(Cobranza.CambioAbolivares, 1) AS CambioAbolivares, ");
 			vSql.AppendLine("	anticipo.Moneda AS MonedaReporte, ");
 			vSql.AppendLine("	'Anticipos' AS TituloTipoReporte, ");
 			vSql.AppendLine("	anticipo.Fecha AS FechaDocumento, ");
@@ -395,21 +396,22 @@ namespace Galac.Saw.Brl.Cliente.Reportes {
 			vSql.AppendLine($"	{vSqlMontoOriginal} AS MontoOriginal, ");
 			vSql.AppendLine($"	{vSqlSaldoActual} AS SaldoActual, ");
 			vSql.AppendLine("	'Cobro' AS TipoDocumentoDetalle, ");
-			vSql.AppendLine("	Cobranza.Numero AS NumeroCobranza, ");
-			vSql.AppendLine("	Cobranza.Fecha AS FechaCobranza, ");
+			vSql.AppendLine("	ISNULL(Cobranza.Numero, 0) AS NumeroCobranza, ");
+			vSql.AppendLine("	ISNULL(Cobranza.Fecha, '01/01/1900') AS FechaCobranza, ");
 			vSql.AppendLine($"	{vSqlMontoCobrado} AS MontoCobrado, ");
-			vSql.AppendLine("	anticipoCobrado.Cambio AS CambioCobrado, ");
-			vSql.AppendLine("	Cobranza.StatusCobranza");
+			vSql.AppendLine("	ISNULL(anticipoCobrado.Cambio, 1) AS CambioCobrado, ");
+			vSql.AppendLine("	ISNULL(Cobranza.StatusCobranza, '') AS StatusCobranza");
 			vSql.AppendLine("FROM anticipo LEFT JOIN Cobranza RIGHT JOIN anticipoCobrado ");
 			vSql.AppendLine("	ON Cobranza.Numero = anticipoCobrado.NumeroCobranza ");
 			vSql.AppendLine("	AND Cobranza.ConsecutivoCompania = anticipoCobrado.ConsecutivoCompania ");
+			vSql.AppendLine("	AND (Cobranza.StatusCobranza <> '1')");
 			vSql.AppendLine("	ON  anticipo.ConsecutivoAnticipo = anticipoCobrado.ConsecutivoAnticipoUsado ");
 			vSql.AppendLine("	AND anticipo.ConsecutivoCompania = anticipoCobrado.ConsecutivoCompania ");
 			vSql.AppendLine("	INNER JOIN Cliente ");
 			vSql.AppendLine("	ON anticipo.CodigoCliente = Cliente.Codigo ");
 			vSql.AppendLine("	AND anticipo.ConsecutivoCompania = Cliente.ConsecutivoCompania");
-			vSql.AppendLine($"WHERE (anticipo.Status <> '1') AND (anticipo.EsUnaDevolucion = 'N') AND (anticipo.Tipo = '0') AND (Cobranza.StatusCobranza <> '1') AND anticipo.ConsecutivoCompania = {insSql.ToSqlValue(valConsecutivoCompania)} AND ");
-			vSql.AppendLine(insSql.SqlDateValueBetween("", "anticipo.Fecha", valFechaDesde, valFechaHasta) + " AND " + insSql.SqlDateValueBetween("", "Cobranza.Fecha", valFechaDesde, valFechaHasta));
+			vSql.AppendLine($"WHERE (anticipo.Status <> '1') AND (anticipo.EsUnaDevolucion = 'N') AND (anticipo.Tipo = '0') AND anticipo.ConsecutivoCompania = {insSql.ToSqlValue(valConsecutivoCompania)} AND ");
+			vSql.AppendLine(insSql.SqlDateValueBetween("", "anticipo.Fecha", valFechaDesde, valFechaHasta));
 			vSql.AppendLine(")");
 			return vSql.ToString();
 		}
