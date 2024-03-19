@@ -538,6 +538,7 @@ namespace Galac.Adm.Rpt.GestiosCompras
             this.lblMontoPagado});
             this.GHTipoReporte.Height = 0.5F;
             this.GHTipoReporte.Name = "GHTipoReporte";
+            this.GHTipoReporte.Format += new System.EventHandler(this.GHTipoReporte_Format);
             // 
             // lblSaldoInicial
             // 
@@ -667,7 +668,7 @@ namespace Galac.Adm.Rpt.GestiosCompras
             this.txtTotalSaldoActual});
             this.GFTipoReporte.Height = 0.5F;
             this.GFTipoReporte.Name = "GFTipoReporte";
-            this.GFTipoReporte.BeforePrint += new System.EventHandler(this.GFTipoReporte_BeforePrint);
+            this.GFTipoReporte.Format += new System.EventHandler(this.GFTipoReporte_Format);
             // 
             // lblTotales
             // 
@@ -693,6 +694,7 @@ namespace Galac.Adm.Rpt.GestiosCompras
             this.txtSaldoActual});
             this.GHDetalle.Height = 0.15625F;
             this.GHDetalle.Name = "GHDetalle";
+            this.GHDetalle.Format += new System.EventHandler(this.GHDetalle_Format);
             // 
             // GFDetalle
             // 
