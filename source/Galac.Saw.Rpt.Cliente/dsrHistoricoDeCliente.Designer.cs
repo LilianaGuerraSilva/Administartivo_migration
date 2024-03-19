@@ -668,7 +668,7 @@ namespace Galac.Saw.Rpt.Cliente
             this.txtTotalSaldoActual});
             this.GFTipoReporte.Height = 0.53125F;
             this.GFTipoReporte.Name = "GFTipoReporte";
-            this.GFTipoReporte.BeforePrint += new System.EventHandler(this.GFTipoReporte_BeforePrint);
+            this.GFTipoReporte.Format += new System.EventHandler(this.GFTipoReporte_Format);
             // 
             // lblTotales
             // 
