@@ -113,55 +113,6 @@
             IsEnabled="{Binding Path=IsEnabledCliente}"
             SearchCommand="{Binding Path=ChooseNombreClienteCommand}" />
         <Label
-            Name="lblMonedaDelReporte"
-            Grid.Row="4"
-            Height="24"
-            Margin="3,0,0,0"
-            Content="Moneda del Reporte"
-            Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSComboBoxWpf
-            Name="cmbMonedaDelReporte"
-            Grid.Row="4"
-            Grid.Column="1"
-            Width="150"
-            Margin="3,3,0,3"
-            IsEnabled="{Binding Path=IsEnabled}"
-            IsSynchronizedWithCurrentItem="True"
-            ItemsSource="{Binding ListaMonedaDelInforme}"
-            SelectedItem="{Binding MonedaDelInforme, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-            Style="{StaticResource ComboBoxStyle}" />
-        <nsWpfControls:GSComboBoxWpf
-            x:Name="cmbMonedasActivas"
-            Grid.Row="4"
-            Grid.Column="2"
-            VerticalAlignment="Center"
-            BorderThickness="1"
-            IsSynchronizedWithCurrentItem="True"
-            ItemsSource="{Binding ListaMonedasActivas}"
-            SelectedItem="{Binding Moneda, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-            Style="{StaticResource ComboBoxStyle}"
-            Visibility="{Binding IsVisibleMonedasActivas, Converter={StaticResource booleanToVisibilityConverter}}" />
-        <Label
-            Name="lblFechaDeLaTasaDeCambio"
-            Grid.Row="5"
-            Grid.Column="0"
-            Width="163"
-            Height="24"
-            Margin="3,0,0,0"
-            VerticalAlignment="Center"
-            Content="Tasa de Cambio a la Fecha"
-            Style="{StaticResource LabelPrompt}"
-            Visibility="{Binding IsVisibleTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}" />
-        <nsWpfControls:GSComboBoxWpf
-            Name="cmbTasaDeCambio"
-            Grid.Row="5"
-            Grid.Column="1"
-            IsSynchronizedWithCurrentItem="True"
-            ItemsSource="{Binding ListaTasaDeCambio}"
-            SelectedItem="{Binding TasaDeCambio, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-            Style="{StaticResource ComboBoxStyle}"
-            Visibility="{Binding IsVisibleTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}" />
-        <Label
             Name="lblIncluirDetalleNotasDeEntregas"
             Grid.Row="6"
             Grid.Column="0"

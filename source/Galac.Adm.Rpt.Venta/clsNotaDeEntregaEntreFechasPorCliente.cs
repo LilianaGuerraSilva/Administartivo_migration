@@ -24,36 +24,18 @@ namespace Galac.Adm.Rpt.Venta {
         private eCantidadAImprimir CantidadAImprimir { get; set; }
         private eMonedaParaImpresion MonedaDelReporte { get; set; }
         private string CodigoCliente { get; set; }
-        private eMonedaDelInformeMM MonedaDelInforme;
-        private string Moneda;
-        private eTasaDeCambioParaImpresion TasaDeCambio;
 
         #endregion //Propiedades
 
         #region Constructores
 
-        public clsNotaDeEntregaEntreFechasPorCliente(ePrintingDevice initPrintingDevice, 
-                                                     eExportFileFormat initExportFileFormat, 
-                                                     LibXmlMemInfo initAppMemInfo, 
-                                                     LibXmlMFC initMfc, 
-                                                     DateTime initFechaDesde, 
-                                                     DateTime initFechaHasta,
-                                                     bool initIncluirNotasDeEntregasAnuladas,
-                                                     eCantidadAImprimir initCantidadAImprimir,
-                                                     eMonedaDelInformeMM valMonedaDelInforme,
-                                                     string initCodigoCliente,
-                                                     string valMoneda,
-                                                     eTasaDeCambioParaImpresion valTasaDeCambio)
+        public clsNotaDeEntregaEntreFechasPorCliente(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime initFechaDesde, DateTime initFechaHasta, bool initIncluirNotasDeEntregasAnuladas, eCantidadAImprimir initCantidadAImprimir, string initCodigoCliente)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
-
             FechaDesde = initFechaDesde;
             FechaHasta = initFechaHasta;
             IncluirNotasDeEntregasAnuladas = initIncluirNotasDeEntregasAnuladas;
             CantidadAImprimir = initCantidadAImprimir;
             CodigoCliente = initCodigoCliente;
-            MonedaDelInforme = valMonedaDelInforme;
-            Moneda = MonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa ? valMoneda : string.Empty;
-            TasaDeCambio = valTasaDeCambio;
         }
 
         #endregion //Constructores
@@ -74,8 +56,6 @@ namespace Galac.Adm.Rpt.Venta {
             vParams.Add("RifCompania", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "NumeroDeRif"));
             vParams.Add("TituloInforme", vTitulo);
             vParams.Add("FechaInicialYFinal", string.Format("desde {0} hasta {1}", LibConvert.ToStr(FechaDesde, "dd/MM/yyyy"), LibConvert.ToStr(FechaHasta, "dd/MM/yyyy")));
-            vParams.Add("MonedaDelInforme", LibConvert.EnumToDbValue((int)MonedaDelInforme));
-            vParams.Add("TasaDeCambioParaElReporte", LibConvert.EnumToDbValue((int)TasaDeCambio));
             return vParams;
         }
 
@@ -85,9 +65,7 @@ namespace Galac.Adm.Rpt.Venta {
             }
             WorkerReportProgress(30, "Obteniendo datos...");
             INotaDeEntregaInformes vRpt = new Galac.Adm.Brl.Venta.Reportes.clsNotaDeEntregaRpt() as INotaDeEntregaInformes;
-            string vCodigoMoneda = LibString.Trim(LibString.Mid(Moneda, 1, LibString.InStr(Moneda, ")") - 1));
-            vCodigoMoneda = LibString.IsNullOrEmpty(vCodigoMoneda, true) ? LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera") : vCodigoMoneda;
-            Data = vRpt.BuildNotaDeEntregaEntreFechasPorCliente(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), FechaDesde, FechaHasta, IncluirNotasDeEntregasAnuladas, CantidadAImprimir, MonedaDelInforme, CodigoCliente, TasaDeCambio, vCodigoMoneda);				
+            Data = vRpt.BuildNotaDeEntregaEntreFechasPorCliente(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), FechaDesde, FechaHasta, IncluirNotasDeEntregasAnuladas, CantidadAImprimir, CodigoCliente);				
         }
 
         public override void SendReportToDevice() {
@@ -95,7 +73,7 @@ namespace Galac.Adm.Rpt.Venta {
             Dictionary<string, string> vParams = GetConfigReportParameters();
                 dsrNotaDeEntregaEntreFechasPorCliente vRpt = new dsrNotaDeEntregaEntreFechasPorCliente();
             if (Data.Rows.Count >= 1) {
-                if (vRpt.ConfigReport(Data, vParams, MonedaDelInforme, Moneda, TasaDeCambio)) {
+                if (vRpt.ConfigReport(Data, vParams)) {
                     LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsNotaDeEntregaEntreFechasPorCliente.ReportName, true, ExportFileFormat, "", false);
                 }
                 WorkerReportProgress(100, "Finalizando...");
