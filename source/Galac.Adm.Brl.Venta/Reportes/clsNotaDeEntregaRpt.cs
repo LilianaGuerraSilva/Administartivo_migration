@@ -34,19 +34,19 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             return vResult;
         }
 
-       DataTable INotaDeEntregaInformes.BuildNotaDeEntregaEntreFechasPorCliente(int valConsecutivoCompania, DateTime valtFechaDesde, DateTime valFechaHasta, bool valIncluirNotasDeEntregasAnuladas, eCantidadAImprimir valCantidadAImprimir, eMonedaDelInformeMM valMonedaDelReporte, string valCodigoCliente, eTasaDeCambioParaImpresion valTasaDeCambio, string valCodigoMoneda) {
+       DataTable INotaDeEntregaInformes.BuildNotaDeEntregaEntreFechasPorCliente(int valConsecutivoCompania, DateTime valtFechaDesde, DateTime valFechaHasta, bool valIncluirNotasDeEntregasAnuladas, eCantidadAImprimir valCantidadAImprimir, string valCodigoCliente) {
             string vSql = "";
             clsNotaDeEntregaSql insNotaDeEntregaSql = new clsNotaDeEntregaSql();
             LibGalac.Aos.Base.ILibDataRpt insNotaDeEntregaEntreFechasPorCliente = new Galac.Adm.Dal.Venta.clsFacturaRapidaDat();
-            vSql = insNotaDeEntregaSql.SqlNotaDeEntregaEntreFechasPorCliente(valConsecutivoCompania, valtFechaDesde, valFechaHasta, valIncluirNotasDeEntregasAnuladas, valCantidadAImprimir, valMonedaDelReporte, valCodigoCliente, valTasaDeCambio, valCodigoMoneda);
+            vSql = insNotaDeEntregaSql.SqlNotaDeEntregaEntreFechasPorCliente(valConsecutivoCompania, valtFechaDesde, valFechaHasta, valIncluirNotasDeEntregasAnuladas, valCantidadAImprimir,  valCodigoCliente);
             return insNotaDeEntregaEntreFechasPorCliente.GetDt(vSql, 0);
         }
 		
-		DataTable INotaDeEntregaInformes.BuildNotaDeEntregaEntreFechasPorClienteDetallado(int valConsecutivoCompania, DateTime valtFechaDesde, DateTime valFechaHasta, eCantidadAImprimir valCantidadAImprimir, eMonedaDelInformeMM valMonedaDelReporte, string valCodigoCliente, eTasaDeCambioParaImpresion valTasaDeCambio, string valCodigoMoneda) {
+		DataTable INotaDeEntregaInformes.BuildNotaDeEntregaEntreFechasPorClienteDetallado(int valConsecutivoCompania, DateTime valtFechaDesde, DateTime valFechaHasta, eCantidadAImprimir valCantidadAImprimir, string valCodigoCliente) {
             string vSql = "";
             clsNotaDeEntregaSql insNotaDeEntregaSql = new clsNotaDeEntregaSql();
             LibGalac.Aos.Base.ILibDataRpt insNotaDeEntregaEntreFechasPorCliente = new Galac.Adm.Dal.Venta.clsFacturaRapidaDat();
-            vSql = insNotaDeEntregaSql.SqlNotaDeEntregaEntreFechasPorClienteDetallado(valConsecutivoCompania, valtFechaDesde, valFechaHasta, valCantidadAImprimir, valMonedaDelReporte, valCodigoCliente, valTasaDeCambio, valCodigoMoneda);
+            vSql = insNotaDeEntregaSql.SqlNotaDeEntregaEntreFechasPorClienteDetallado(valConsecutivoCompania, valtFechaDesde, valFechaHasta, valCantidadAImprimir, valCodigoCliente);
             return insNotaDeEntregaEntreFechasPorCliente.GetDt(vSql, 0);
         }        
         #endregion //Metodos Generados
