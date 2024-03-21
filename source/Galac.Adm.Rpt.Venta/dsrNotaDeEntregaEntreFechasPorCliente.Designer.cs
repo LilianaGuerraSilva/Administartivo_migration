@@ -266,7 +266,6 @@ namespace Galac.Adm.Rpt.Venta
             this.txtNotaIVA.Style = "font-size: 7pt; ddo-char-set: 1";
             this.txtNotaIVA.Text = "Nota: Los montos están expesados con I.V.A., según corresponda a su alícuota.";
             this.txtNotaIVA.Top = 0F;
-            this.txtNotaIVA.Visible = false;
             this.txtNotaIVA.Width = 7.5F;
             // 
             // GHSecCliente
