@@ -52,42 +52,43 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			//} else if (valMonedaDelReporte == eMonedaDelInformeMM.EnMonedaOriginal) {
 			//}
 			/* FIN */
-			vSql.AppendLine($"{insUtilSql.SetDateFormat()}");
-			vSql.AppendLine("SET NOCOUNT ON");
 
-			vSql.AppendLine("SELECT	Factura.CodigoCliente	AS CodigoCliente,");
+			vSql.AppendLine("SELECT	");
+			vSql.AppendLine("   Factura.CodigoCliente,");
 			vSql.AppendLine("	Cliente.Nombre	AS Cliente,");
-			vSql.AppendLine("   Factura.Fecha	AS Fecha,");
-			vSql.AppendLine("   Factura.Numero	AS Numero,");
 			//if (valMonedaDelReporte == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa) {
 			//	vSql.AppendLine($"	(SELECT Nombre FROM Moneda WHERE Codigo = {insUtilSql.ToSqlValue(valCodigoMoneda)}) AS Moneda,");
 			//} else if (valMonedaDelReporte == eMonedaDelInformeMM.EnBolivares) {
 			//	vSql.AppendLine($"	(SELECT Nombre FROM Moneda WHERE Codigo = {insUtilSql.ToSqlValue(vCodigoMonedaLocal)}) AS Moneda,");
 			//} else {
-				vSql.AppendLine("	Factura.Moneda AS Moneda,");
+			vSql.AppendLine("	Factura.Moneda AS Moneda,");
 			//}
-			vSql.AppendLine("	 Factura.Moneda AS MonedaDoc,");
+			vSql.AppendLine("   Factura.Fecha,");
+			vSql.AppendLine("   Factura.Numero,");
+			vSql.AppendLine("	Factura.Moneda AS MonedaDoc,");
 			vSql.AppendLine($"   {vSqlCambio} AS Cambio,");
-			vSql.AppendLine("    IIF(Factura.StatusFactura = 1, 'Anulada', '') AS EsAnulada,");
-			vSql.AppendLine($"   IIF(Factura.StatusFactura = 1, 0, {vSqlMontoTotal}) AS TotalFactura");
-			vSql.AppendLine("FROM Factura ");
-			vSql.AppendLine("INNER JOIN Cliente		ON Cliente.Codigo = Factura.CodigoCliente AND Cliente.ConsecutivoCompania = Factura.ConsecutivoCompania");
-			vSql.AppendLine("WHERE Factura.TipoDeDocumento = 8");
-			vSql.AppendLine($"AND {vSQLWhereBetweenDates}");
+			vSql.AppendLine($"   {insUtilSql.IIF("Factura.StatusFactura = '0'", "''", "'Anulada'", true)} AS EsAnulada,");
+			vSql.AppendLine($"   {insUtilSql.IIF("Factura.StatusFactura = '0'", vSqlMontoTotal, "0", true)} AS TotalFactura");
+			vSql.AppendLine("FROM Factura INNER JOIN Cliente");
+			vSql.AppendLine("ON Cliente.Codigo = Factura.CodigoCliente ");
+			vSql.AppendLine("AND Cliente.ConsecutivoCompania = Factura.ConsecutivoCompania");
 
+			vSql.AppendLine("WHERE Factura.TipoDeDocumento = '8'");
+			vSql.AppendLine($"AND {vSQLWhereBetweenDates}");
 			if (valCantidadAImprimir == eCantidadAImprimir.One) {
 				vSql.AppendLine($"AND Factura.CodigoCliente = {insUtilSql.ToSqlValue(valCodigoCliente)}");
 			}
 			if (valIncluirNotasDeEntregasAnuladas) {
-				vSql.AppendLine("AND (Factura.StatusFactura = 0 OR Factura.StatusFactura = 1)");
-
+				vSql.AppendLine("AND (Factura.StatusFactura = '0' OR Factura.StatusFactura = '1')");
 			} else {
-				vSql.AppendLine("AND Factura.StatusFactura = 0");
+				vSql.AppendLine("AND Factura.StatusFactura = '0'");
 			}
 			vSql.AppendLine($"AND Factura.ConsecutivoCompania = {valConsecutivoCompania}");
-			vSql.AppendLine("ORDER BY    Cliente.Nombre,");
+			vSql.AppendLine("ORDER BY ");
+			vSql.AppendLine("   Factura.CodigoCliente,");
 			vSql.AppendLine("	Factura.Moneda,");
-			vSql.AppendLine("   Factura.Fecha");
+			vSql.AppendLine("   Factura.Fecha,");
+			vSql.AppendLine("   Factura.Numero");
 			return vSql.ToString();
 		}
 
@@ -134,12 +135,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			//}
 			/* FIN */
 
-			vSql.AppendLine($"{insUtilSql.SetDateFormat()}");
-			vSql.AppendLine("SET NOCOUNT ON");
-			vSql.AppendLine("SELECT	Factura.CodigoCliente	AS CodigoCliente,");
-			vSql.AppendLine("	Cliente.Nombre	AS Cliente,");
-			vSql.AppendLine("   Factura.Fecha	AS Fecha,");
-			vSql.AppendLine("	Factura.Numero	AS Numero,");
+			vSql.AppendLine("SELECT	");
 			//if (valMonedaDelReporte == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa) {
 			//	vSql.AppendLine($"	(SELECT Nombre FROM Moneda WHERE Codigo = {insUtilSql.ToSqlValue(valCodigoMoneda)}) AS Moneda,");
 			//} else if (valMonedaDelReporte == eMonedaDelInformeMM.EnBolivares) {
@@ -147,30 +143,39 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			//} else {
 				vSql.AppendLine("	Factura.Moneda AS Moneda,");
 			//}
+			vSql.AppendLine("   Factura.Fecha,");
+			vSql.AppendLine("	Factura.Numero,");
+			vSql.AppendLine("   Factura.CodigoCliente,");
+			vSql.AppendLine("	Cliente.Nombre	AS Cliente,");
 			vSql.AppendLine("	Factura.Moneda AS MonedaDoc,");
 			vSql.AppendLine($"  {vSqlCambio} AS Cambio,");
-			vSql.AppendLine("   IIF(Factura.StatusFactura = 1, 'Anulada', '') AS EsAnulada,");
 			vSql.AppendLine("	RenglonFactura.Articulo AS CodigoArticulo,");
-			vSql.AppendLine("	RenglonFactura.Descripcion AS Descripcion,");
-			vSql.AppendLine("	RenglonFactura.Cantidad AS Cantidad,");
+			vSql.AppendLine("	RenglonFactura.Descripcion,");
+			vSql.AppendLine("	RenglonFactura.Cantidad,");
 			vSql.AppendLine($"	{vSqlMontoPrecio} AS Precio,");
-			vSql.AppendLine($"	IIF(Factura.StatusFactura = 1, 0, {vSqlMontoTotalRenglon}) AS TotalRenglon,");
-			vSql.AppendLine($"  IIF(Factura.StatusFactura = 1, 0, {vSqlMontoTotal}) AS TotalFactura");
+			vSql.AppendLine($"	{insUtilSql.IIF("Factura.StatusFactura = '0'", vSqlMontoTotalRenglon, "0", true)} AS TotalRenglon,");
+			vSql.AppendLine($"  {insUtilSql.IIF("Factura.StatusFactura = '0'", vSqlMontoTotal, "0", true)} AS TotalFactura");
+
 			vSql.AppendLine("FROM Factura INNER JOIN RenglonFactura ");
 			vSql.AppendLine("ON RenglonFactura.NumeroFactura = Factura.Numero ");
 			vSql.AppendLine("AND RenglonFactura.ConsecutivoCompania = Factura.ConsecutivoCompania ");
 			vSql.AppendLine("AND Factura.TipoDeDocumento = RenglonFactura.TipoDeDocumento");
-			vSql.AppendLine("INNER JOIN Cliente		ON Cliente.Codigo = Factura.CodigoCliente AND Cliente.ConsecutivoCompania = Factura.ConsecutivoCompania");
-			vSql.AppendLine("WHERE Factura.TipoDeDocumento = 8");
+			vSql.AppendLine("INNER JOIN Cliente	");
+			vSql.AppendLine("ON Cliente.Codigo = Factura.CodigoCliente ");
+			vSql.AppendLine("AND Cliente.ConsecutivoCompania = Factura.ConsecutivoCompania");
+
+			vSql.AppendLine("WHERE Factura.TipoDeDocumento = '8'");
 			vSql.AppendLine($"AND {vSQLWhereBetweenDates}");
 			if (valCantidadAImprimir == eCantidadAImprimir.One) {
 				vSql.AppendLine($"AND Factura.CodigoCliente = {insUtilSql.ToSqlValue(valCodigoCliente)}");
 			}
-			vSql.AppendLine("AND Factura.StatusFactura = 0");
+			vSql.AppendLine("AND Factura.StatusFactura = '0'");
 			vSql.AppendLine($"AND Factura.ConsecutivoCompania = {valConsecutivoCompania}");
-			vSql.AppendLine("ORDER BY    Cliente.Nombre,");
-			vSql.AppendLine("            Factura.Moneda,");
-			vSql.AppendLine("            Factura.Fecha");
+			vSql.AppendLine("ORDER BY");
+			vSql.AppendLine("   Factura.Moneda,");
+			vSql.AppendLine("   Factura.CodigoCliente,");
+			vSql.AppendLine("   Factura.Fecha,");
+			vSql.AppendLine("	Factura.Numero");
 			return vSql.ToString();
 		}
 		#endregion //Metodos Generados
