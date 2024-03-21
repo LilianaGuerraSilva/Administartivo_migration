@@ -80,11 +80,6 @@ namespace Galac.Adm.Rpt.Venta
             return false;
         }
         #endregion //Metodos Generados
-
-        private void dsrNotaDeEntregaEntreFechasPorCliente_ReportStart(object sender, EventArgs e)
-        {
-
-        }
     } //End of class dsrNotaDeEntregaEntreFechasPorCliente
 
 } //End of namespace Galac.Dbo.Rpt.ComponenteNoEspecificado

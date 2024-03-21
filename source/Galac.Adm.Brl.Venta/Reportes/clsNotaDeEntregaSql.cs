@@ -156,8 +156,10 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			vSql.AppendLine($"	{vSqlMontoPrecio} AS Precio,");
 			vSql.AppendLine($"	IIF(Factura.StatusFactura = 1, 0, {vSqlMontoTotalRenglon}) AS TotalRenglon,");
 			vSql.AppendLine($"  IIF(Factura.StatusFactura = 1, 0, {vSqlMontoTotal}) AS TotalFactura");
-			vSql.AppendLine("FROM Factura	");
-			vSql.AppendLine("INNER JOIN RenglonFactura ON RenglonFactura.NumeroFactura = Factura.Numero AND RenglonFactura.ConsecutivoCompania = Factura.ConsecutivoCompania");
+			vSql.AppendLine("FROM Factura INNER JOIN RenglonFactura ");
+			vSql.AppendLine("ON RenglonFactura.NumeroFactura = Factura.Numero ");
+			vSql.AppendLine("AND RenglonFactura.ConsecutivoCompania = Factura.ConsecutivoCompania ");
+			vSql.AppendLine("AND Factura.TipoDeDocumento = RenglonFactura.TipoDeDocumento");
 			vSql.AppendLine("INNER JOIN Cliente		ON Cliente.Codigo = Factura.CodigoCliente AND Cliente.ConsecutivoCompania = Factura.ConsecutivoCompania");
 			vSql.AppendLine("WHERE Factura.TipoDeDocumento = 8");
 			vSql.AppendLine($"AND {vSQLWhereBetweenDates}");

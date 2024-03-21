@@ -21,6 +21,7 @@ namespace Galac.Adm.Rpt.Venta
         #region Variables
         private bool _UseExternalRpx;
         private static string _RpxFileName;
+        decimal mTotalMontoTotal;
         #endregion //Variables
         #region Constructores
         public dsrNotaDeEntregaEntreFechasPorClienteDetallado()
@@ -42,6 +43,7 @@ namespace Galac.Adm.Rpt.Venta
         }
 
         public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {
+            mTotalMontoTotal = 0;
             if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
                 if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
@@ -65,25 +67,14 @@ namespace Galac.Adm.Rpt.Venta
                 LibReport.ConfigFieldDec(this, "txtAnulada", string.Empty, "EsAnulada");
                 LibReport.ConfigFieldDec(this, "txtMontoTotal", string.Empty, "TotalFactura");
 
-                LibReport.ChangeSectionPropertiesVisibleAndHeight(this, "GHSecDetalle", true, (float)0.15);
-                LibReport.ChangeSectionPropertiesVisibleAndHeight(this, "Detail", true, (float)0.156);
-                LibReport.ChangeControlVisibility(this, "lblCodigoArticulo", true);
-                LibReport.ChangeControlVisibility(this, "lblDescripcionArticulo", true);
-                LibReport.ChangeControlVisibility(this, "lblCantidad", true);
-                LibReport.ChangeControlVisibility(this, "lblPrecio", true);
-                LibReport.ChangeControlVisibility(this, "lblTotalRenglon", true);
-                LibReport.ChangeControlVisibility(this, "txtCodigoArticulo", true);
-                LibReport.ChangeControlVisibility(this, "txtDescripcionArticulo", true);
-                LibReport.ChangeControlVisibility(this, "txtCantidad", true);
-                LibReport.ChangeControlVisibility(this, "txtPrecio", true);
-                LibReport.ChangeControlVisibility(this, "txtTotalRenglon", true);
                 LibReport.ConfigFieldStr(this, "txtCodigoArticulo", string.Empty, "CodigoArticulo");
                 LibReport.ConfigFieldStr(this, "txtDescripcionArticulo", string.Empty, "Descripcion");
                 LibReport.ConfigFieldDec(this, "txtCantidad", string.Empty, "Cantidad");
                 LibReport.ConfigFieldDec(this, "txtPrecio", String.Empty, "Precio");
                 LibReport.ConfigFieldDec(this, "txtTotalRenglon", String.Empty, "TotalRenglon");
                 LibReport.ConfigFieldStr(this, "txtMonedaReporte", string.Empty, "Moneda");
-                LibReport.ConfigSummaryField(this, "txtSumMontoTotal", "TotalRenglon", SummaryFunc.Sum, "GHSecMoneda", SummaryRunning.Group, SummaryType.SubTotal);
+
+                LibReport.ConfigSummaryField(this, "txtTotalMontoTotal", "TotalRenglon", SummaryFunc.Sum, "GHSecMoneda", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigGroupHeader(this, "GHSecDocumento", "Numero", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
                 LibReport.ConfigGroupHeader(this, "GHSecMoneda", "Moneda", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
 
@@ -97,9 +88,28 @@ namespace Galac.Adm.Rpt.Venta
         }
         #endregion //Metodos Generados
 
-        private void dsrNotaDeEntregaEntreFechasPorClienteDetallado_ReportStart(object sender, EventArgs e)
-        {
+        private void GHSecDocumento_Format(object sender, EventArgs e) {
+            try {
+                mTotalMontoTotal += LibConvert.ToDec(txtMontoTotal.Value);
+            } catch (Exception) {
+                throw;
+            }
+        }
 
+        private void GFSecMoneda_Format(object sender, EventArgs e) {
+            try {
+                txtTotalMontoTotal.Text = LibConvert.NumToString(mTotalMontoTotal, 2);
+            } catch (Exception) {
+                throw;
+            }
+        }
+
+        private void GHSecMoneda_Format(object sender, EventArgs e) {
+            try {
+                mTotalMontoTotal = 0;
+            } catch (Exception) {
+                throw;
+            }
         }
     } //End of class dsrNotaDeEntregaEntreFechasPorClienteDetallado
 
