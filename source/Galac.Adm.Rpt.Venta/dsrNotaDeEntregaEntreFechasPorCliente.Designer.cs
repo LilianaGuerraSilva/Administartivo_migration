@@ -321,9 +321,9 @@ namespace Galac.Adm.Rpt.Venta
             this.lblFecha,
             this.lblMonedaDoc,
             this.lblCambio,
-            this.lblMontoTotal,
-            this.lblNroDocumento});
-            this.GHSecMoneda.Height = 0.3125F;
+            this.lblNroDocumento,
+            this.lblMontoTotal});
+            this.GHSecMoneda.Height = 0.3333333F;
             this.GHSecMoneda.Name = "GHSecMoneda";
             // 
             // lblMoneda
@@ -400,7 +400,7 @@ namespace Galac.Adm.Rpt.Venta
             // lblNroDocumento
             // 
             this.lblNroDocumento.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.lblNroDocumento.Height = 0.15625F;
+            this.lblNroDocumento.Height = 0.157F;
             this.lblNroDocumento.HyperLink = null;
             this.lblNroDocumento.Left = 0.7500001F;
             this.lblNroDocumento.Name = "lblNroDocumento";

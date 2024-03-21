@@ -403,7 +403,7 @@ namespace Galac.Adm.Rpt.Venta {
             this.lblTotalMontoTotal.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblTotalMontoTotal.Text = "Total por Moneda";
             this.lblTotalMontoTotal.Top = 0F;
-            this.lblTotalMontoTotal.Width = 5F;
+            this.lblTotalMontoTotal.Width = 4.5F;
             // 
             // GFSecMoneda
             // 
@@ -419,12 +419,12 @@ namespace Galac.Adm.Rpt.Venta {
             // 
             this.txtMonedaReporte.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtMonedaReporte.Height = 0.15625F;
-            this.txtMonedaReporte.Left = 5F;
+            this.txtMonedaReporte.Left = 4.5F;
             this.txtMonedaReporte.Name = "txtMonedaReporte";
-            this.txtMonedaReporte.Style = "font-size: 8pt; ddo-char-set: 1";
+            this.txtMonedaReporte.Style = "font-size: 8pt; text-align: left; ddo-char-set: 1";
             this.txtMonedaReporte.Text = "txtMonedaReporte";
             this.txtMonedaReporte.Top = 0F;
-            this.txtMonedaReporte.Width = 1.5F;
+            this.txtMonedaReporte.Width = 2F;
             // 
             // GHSecDocumento
             // 

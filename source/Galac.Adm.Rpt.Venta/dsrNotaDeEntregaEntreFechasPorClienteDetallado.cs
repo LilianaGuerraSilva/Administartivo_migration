@@ -74,7 +74,7 @@ namespace Galac.Adm.Rpt.Venta
                 LibReport.ConfigFieldDec(this, "txtTotalRenglon", String.Empty, "TotalRenglon");
                 LibReport.ConfigFieldStr(this, "txtMonedaReporte", string.Empty, "Moneda");
 
-                LibReport.ConfigSummaryField(this, "txtTotalMontoTotal", "TotalRenglon", SummaryFunc.Sum, "GHSecMoneda", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txtTotalMontoTotal", "TotalRenglon", SummaryFunc.Sum, "GHSecMoneda", SummaryRunning.All, SummaryType.SubTotal);
                 LibReport.ConfigGroupHeader(this, "GHSecDocumento", "Numero", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
                 LibReport.ConfigGroupHeader(this, "GHSecMoneda", "Moneda", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
 
