@@ -173,9 +173,9 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			vSql.AppendLine($"AND Factura.ConsecutivoCompania = {valConsecutivoCompania}");
 			vSql.AppendLine("ORDER BY");
 			vSql.AppendLine("   Factura.Moneda,");
+			vSql.AppendLine("   Factura.CodigoCliente,");
 			vSql.AppendLine("   Factura.Fecha,");
-			vSql.AppendLine("	Factura.Numero,");
-			vSql.AppendLine("   Factura.CodigoCliente");
+			vSql.AppendLine("	Factura.Numero");
 			return vSql.ToString();
 		}
 		#endregion //Metodos Generados
