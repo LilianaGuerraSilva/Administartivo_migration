@@ -1,0 +1,139 @@
+using System;
+using System.Drawing;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using DataDynamics.ActiveReports;
+using DataDynamics.ActiveReports.Document;
+using System.Data;
+using LibGalac.Aos.ARRpt;
+using LibGalac.Aos.Base;
+using LibGalac.Aos.DefGen;
+using Galac.Saw.Lib;
+
+namespace Galac.Adm.Rpt.GestiosCompras {
+    /// <summary>
+    /// Summary description for dsrHistoricoDeProveedor.
+    /// </summary>
+    public partial class dsrHistoricoDeProveedor: DataDynamics.ActiveReports.ActiveReport {
+        #region Variables
+        private bool _UseExternalRpx;
+        private static string _RpxFileName;
+        decimal mTotalMontoOriginal;
+        decimal mTotalSaldoActual;
+        #endregion //Variables
+        #region Constructores
+        public dsrHistoricoDeProveedor()
+            : this(false, string.Empty) {
+        }
+
+        public dsrHistoricoDeProveedor(bool initUseExternalRpx, string initRpxFileName){
+            InitializeComponent();
+            _UseExternalRpx = initUseExternalRpx;
+            if (_UseExternalRpx) {
+                _RpxFileName = initRpxFileName;
+            }
+        }
+        #endregion //Constructores
+        #region Metodos Generados
+
+        public string ReportTitle() {
+            return "Histórico de Proveedor";
+        }
+
+        public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {
+            mTotalMontoOriginal = 0;
+            mTotalSaldoActual = 0;
+            if (_UseExternalRpx) {
+                string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
+                if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
+                    LibReport.LoadLayout(this, vRpxPath);
+                }
+            }
+            bool vSaltoDePaginaPorProveedor = LibConvert.SNToBool(valParameters["SaltoDePaginaPorProveedor"]);
+            if (LibReport.ConfigDataSource(this, valDataSource)) {
+                LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["NombreCompania"], string.Empty);
+                LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());
+                LibReport.ConfigLabel(this, "lblFechaInicialYFinal", valParameters["FechaInicialYFinal"]);
+                LibReport.ConfigFieldStr(this, "txtMonedaDelInforme", valParameters["MonedaDelInforme"], "");
+                LibReport.ConfigFieldStr(this, "txtTasaDeCambioParaElReporte", valParameters["TasaDeCambioParaElReporte"], "");
+                LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
+                LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
+                LibReport.ConfigFieldStr(this, "txtCodigo", string.Empty, "Codigo");
+                LibReport.ConfigFieldStr(this, "txtNombre", string.Empty, "Nombre");
+                LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "Moneda");
+                LibReport.ConfigFieldStr(this, "txtTipoReporte", string.Empty, "TipoReporte");
+                LibReport.ConfigFieldStr(this, "txtTituloTipoReporte", string.Empty, "TituloTipoReporte");
+                LibReport.ConfigFieldDec(this, "txtSaldoInicial", string.Empty, "SaldoInicial");
+                LibReport.ConfigFieldStr(this, "txtNoDocumentoParaAgrupar", string.Empty, "NoDocumentoParaAgrupar");
+                LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "FechaDocumento", "dd/MM/yy");
+                LibReport.ConfigFieldStr(this, "txtTipoDocumento", string.Empty, "TipoDeDocumento");
+                LibReport.ConfigFieldStr(this, "txtNoDocumento", string.Empty, "NumeroDocumento");
+                LibReport.ConfigFieldDate(this, "txtFechaVencimiento", string.Empty, "FechaVencimiento", "dd/MM/yy");
+                LibReport.ConfigFieldDec(this, "txtMontoOriginal", string.Empty, "MontoOriginal");
+                LibReport.ConfigFieldDec(this, "txtSaldoActual", string.Empty, "SaldoActual");
+                LibReport.ConfigFieldStr(this, "txtStatusPago", string.Empty, "StatusPago");
+                LibReport.ConfigFieldStr(this, "txtTipoDocumentoDetail", string.Empty, "TipoDocumentoDetalle");
+                LibReport.ConfigFieldStr(this, "txtNoPago", string.Empty, "NumeroPago");
+                LibReport.ConfigFieldDate(this, "txtFechaPago", string.Empty, "FechaPago", "dd/MM/yy");
+                LibReport.ConfigFieldDec(this, "txtMontoPagado", string.Empty, "MontoPagado");
+                LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", string.Empty, "NotaMonedaCambio");
+                LibReport.ConfigFieldStr(this, "txtMonedaExpresadaEn", valParameters["MonedaExpresadaEn"], "");
+
+                LibReport.ConfigGroupHeader(this, "GHProveedor", "Codigo", GroupKeepTogether.All, RepeatStyle.All, true, vSaltoDePaginaPorProveedor? NewPage.After : NewPage.None);
+                LibReport.ConfigGroupHeader(this, "GHMoneda", "MonedaReporte", GroupKeepTogether.All, RepeatStyle.All, true, NewPage.None);
+                LibReport.ConfigGroupHeader(this, "GHTipoReporte", "TituloTipoReporte", GroupKeepTogether.All, RepeatStyle.All, true, NewPage.None);
+                LibReport.ConfigGroupHeader(this, "GHDetalle", "NumeroDocumento", GroupKeepTogether.All, RepeatStyle.All, true, NewPage.None);
+                
+                LibReport.ConfigSummaryField(this, "txtTotalMontoOriginal", "MontoOriginal", SummaryFunc.Sum, "GHTipoReporte", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txtTotalMontoPagado", "MontoPagado", SummaryFunc.Sum, "GHTipoReporte", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txtTotalSaldoActual", "SaldoActual", SummaryFunc.Sum, "GHTipoReporte", SummaryRunning.Group, SummaryType.SubTotal);
+                LibGraphPrnMargins.SetGeneralMargins(this, PageOrientation.Portrait);
+                return true;
+            }
+            return false;
+        }
+        #endregion //Metodos Generados                      
+      
+        private void Detail_Format(object sender, EventArgs e) {
+            this.Detail.Visible = LibString.S1IsEqualToS2(LibConvert.ToStr(txtStatusPago.Value), "0");
+        }
+
+        private void PageFooter_Format(object sender, EventArgs e) {
+            eMonedaDelInformeMM vMonedaDelInformeMM = (eMonedaDelInformeMM)LibConvert.DbValueToEnum(txtMonedaDelInforme.Text);
+            eTasaDeCambioParaImpresion vTasaDeCambioParaElReporte = (eTasaDeCambioParaImpresion)LibConvert.DbValueToEnum(txtTasaDeCambioParaElReporte.Text);
+            this.txtNotaMonedaCambio.Value = new Saw.Lib.clsLibSaw().NotaMonedaCambioParaInformes(vMonedaDelInformeMM, vTasaDeCambioParaElReporte, txtMonedaExpresadaEn.Text, this.txtTituloTipoReporte.Text);
+        }
+
+        private void GHTipoReporte_Format(object sender, EventArgs e) {
+            try {
+                lblFechaVencimiento.Text = LibString.S1IsEqualToS2(LibConvert.ToStr(txtTipoReporte.Value), "1") ? "" : "F. Venc.";
+                mTotalMontoOriginal = 0;
+                mTotalSaldoActual = 0;
+            } catch (Exception) {
+                throw;
+            }
+        }
+
+        private void GHDetalle_Format(object sender, EventArgs e) {
+            try {
+                txtFechaVencimiento.Visible = !LibString.S1IsEqualToS2(LibConvert.ToStr(txtTipoReporte.Value), "1");
+                mTotalMontoOriginal += LibConvert.ToDec(txtMontoOriginal.Value);
+                mTotalSaldoActual += LibConvert.ToDec(txtSaldoActual.Value);
+            } catch (Exception) {
+                throw;
+            }
+        }
+
+        private void GFTipoReporte_Format(object sender, EventArgs e) {
+            try {
+                decimal vTotalMontoOriginal = LibConvert.ToDec(txtSaldoInicial.Value) + mTotalMontoOriginal;
+                txtTotalMontoOriginal.Text = LibConvert.NumToString(vTotalMontoOriginal, 2);
+                decimal vSaldoActual = LibConvert.ToDec(txtSaldoInicial.Value) + mTotalSaldoActual;
+                txtTotalSaldoActual.Text = LibConvert.NumToString(vSaldoActual, 2);
+            } catch (Exception) {
+                throw;
+            }
+        }
+    }
+}

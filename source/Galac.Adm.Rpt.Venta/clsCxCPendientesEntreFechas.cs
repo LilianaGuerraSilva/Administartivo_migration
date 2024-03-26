@@ -10,6 +10,7 @@ using LibGalac.Aos.ARRpt;
 using Galac.Adm.Ccl.Venta;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.Dal;
+using Galac.Saw.Lib;
 
 namespace Galac.Adm.Rpt.Venta {
 
@@ -20,17 +21,21 @@ namespace Galac.Adm.Rpt.Venta {
         private DateTime FechaDesde { get; set; }
         private DateTime FechaHasta { get; set; }
         private bool MostrarContacto { get; set; }
-        private Saw.Lib.eMonedaParaImpresion MonedaDelReporte { get; set; }
-        private Saw.Lib.eTasaDeCambioParaImpresion TipoTasaDeCambio { get; set; }
+        private eMonedaDelInformeMM MonedaDelReporte { get; set; }
+        string Moneda { get; set; }
+        private eTasaDeCambioParaImpresion TipoTasaDeCambio { get; set; }
+        bool MostrarNroComprobanteContable { get; set; }
+        eMonedaDelInformeMM MonedaDelInforme { get; set; }
         #endregion //Propiedades
 
         #region Constructores
-        public clsCxCPendientesEntreFechas(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime valFechaDesde, DateTime valFechaHasta, bool valMostrarContacto, Saw.Lib.eMonedaParaImpresion valMonedaDelReporte, Saw.Lib.eTasaDeCambioParaImpresion valTipoTasaDeCambio)
+        public clsCxCPendientesEntreFechas(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime valFechaDesde, DateTime valFechaHasta, bool valMostrarContacto, eMonedaDelInformeMM valMonedaDelReporte, string initMoneda, eTasaDeCambioParaImpresion valTipoTasaDeCambio)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
             FechaDesde = valFechaDesde;
             FechaHasta = valFechaHasta;
             MostrarContacto = valMostrarContacto;
             MonedaDelReporte = valMonedaDelReporte;
+            Moneda = MonedaDelReporte == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa ? initMoneda : string.Empty;
             TipoTasaDeCambio = valTipoTasaDeCambio;
         }
         #endregion //Constructores
@@ -62,7 +67,12 @@ namespace Galac.Adm.Rpt.Venta {
             }
             WorkerReportProgress(30, "Obteniendo datos...");
             ICxCInformes vRpt = new Brl.Venta.Reportes.clsCxCRpt();
-            Data = vRpt.BuildCxCPendientesEntreFechas(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), FechaDesde, FechaHasta, MonedaDelReporte, TipoTasaDeCambio);
+            int vConsecutivoCompania = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania");
+            string vCodigoMoneda = LibString.Trim(LibString.Mid(Moneda, 1, LibString.InStr(Moneda, ")") - 1));
+            vCodigoMoneda = LibString.IsNullOrEmpty(vCodigoMoneda, true) ? LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera") : vCodigoMoneda;
+            string vNombreMoneda = LibString.Trim(LibString.Mid(Moneda,1+ LibString.InStr(Moneda, ")")));
+
+            Data = vRpt.BuildCxCPendientesEntreFechas(vConsecutivoCompania, FechaDesde, FechaHasta, MonedaDelReporte, TipoTasaDeCambio, vCodigoMoneda, vNombreMoneda);
         }
 
         public override void SendReportToDevice() {
@@ -70,7 +80,7 @@ namespace Galac.Adm.Rpt.Venta {
             Dictionary<string, string> vParams = GetConfigReportParameters();
             dsrCxCPendientesEntreFechas vRpt = new dsrCxCPendientesEntreFechas();
             if (LibDataTable.DataTableHasRows(Data)) {
-                if (vRpt.ConfigReport(Data, vParams)) {
+                if (vRpt.ConfigReport(Data, vParams, MostrarContacto, MostrarNroComprobanteContable, MonedaDelInforme, Moneda, TipoTasaDeCambio)) {
                     LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, ReportName, true, ExportFileFormat, "", false);
                 }
                 WorkerReportProgress(100, "Finalizando...");

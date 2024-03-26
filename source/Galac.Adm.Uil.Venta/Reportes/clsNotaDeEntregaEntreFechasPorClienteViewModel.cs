@@ -29,7 +29,6 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         private const string FechaHastaPropertyName = "FechaHasta";
         private const string IncluirNotasDeEntregasAnuladasPropertyName = "IncluirNotasDeEntregasAnuladas";
         private const string CantidadAImprimirPropertyName = "CantidadAImprimir";
-        private const string MonedaDelReportePropertyName = "MonedaDelReporte";
         private const string CodigoClientePropertyName = "CodigoCliente";
         private const string NombreClientePropertyName = "NombreCliente";
         private const string IsEnabledClientePropertyName = "IsEnabledCliente";
@@ -37,18 +36,20 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         private DateTime _FechaHasta;
         private bool _IncluirNotasDeEntregasAnuladasAsBool;
         private eCantidadAImprimir _CantidadAImprimirAsEnum;
-        private eMonedaParaImpresion _MonedaDelReporteAsEnum;
         private string _CodigoCliente;
         private string _NombreCliente;
         private FkClienteViewModel _ConexionCliente;
         private bool _IsEnabledCliente;
-
+        private const string IncluirDetalleNotasDeEntregasPropertyName = "IncluirDetalleNotasDeEntregas";
+        private bool _IncluirDetalleNotasDeEntregasAsBool;
+        const string IsVisibleNombreDelClientePropertyName = "IsVisibleNombreDelCliente";
+        const string IsVisibleIncluirNotasDeEntregasAnuladasPropertyName = "IsVisibleIncluirNotasDeEntregasAnuladas";
         #endregion
 
         #region Propiedades
 
         public override string DisplayName {
-            get { return "Nota De Entrega Entre Fechas Por Cliente"; }
+            get { return "Notas de Entrega entre Fechas por Cliente"; }
         }
 
         public override bool IsSSRS {
@@ -56,7 +57,6 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         }
 
         [LibRequired(ErrorMessage = "El campo Fecha Desde es requerido.")]
-        [LibCustomValidation("FechaDesdeValidating")]
         public DateTime FechaDesde {
             get {
                 return _FechaDesde;
@@ -68,8 +68,8 @@ namespace Galac.Adm.Uil.Venta.Reportes {
                 }
             }
         }
+
         [LibRequired(ErrorMessage = "El campo Fecha Hasta es requerido.")]
-        [LibCustomValidation("FechaHastaValidating")]
         public DateTime FechaHasta {
             get {
                 return _FechaHasta;
@@ -94,6 +94,19 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             }
         }
 
+        public bool IncluirDetalleNotasDeEntregas {
+            get {
+                return _IncluirDetalleNotasDeEntregasAsBool;
+            }
+            set {
+                if(_IncluirDetalleNotasDeEntregasAsBool != value) {
+                    _IncluirDetalleNotasDeEntregasAsBool = value;
+                    RaisePropertyChanged(IncluirDetalleNotasDeEntregasPropertyName);
+                    RaisePropertyChanged(IsVisibleIncluirNotasDeEntregasAnuladasPropertyName);
+                }
+            }
+        }
+
         public eCantidadAImprimir CantidadAImprimir {
             get {
                 return _CantidadAImprimirAsEnum;
@@ -114,32 +127,12 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             }
         }
 
-        public eMonedaParaImpresion MonedaDelReporte {
-            get {
-                return _MonedaDelReporteAsEnum;
-            }
-            set {
-                if (_MonedaDelReporteAsEnum != value) {
-                    _MonedaDelReporteAsEnum = value;
-                    RaisePropertyChanged(MonedaDelReportePropertyName);
-                }
-            }
-        }
-
         public eCantidadAImprimir[] ArrayCantidadAImprimir {
             get {
                 return LibEnumHelper<eCantidadAImprimir>.GetValuesInArray();
             }
         }
-
-        public eMonedaParaImpresion[] ArrayMonedaDelReporte {
-            get {
-                return LibEnumHelper<eMonedaParaImpresion>.GetValuesInArray();
-            }
-        }
-
-        public ObservableCollection<Galac.Saw.Lib.eMonedaParaImpresion> _ListarMoneda = new ObservableCollection<Galac.Saw.Lib.eMonedaParaImpresion>();
-        public ObservableCollection<Galac.Saw.Lib.eMonedaParaImpresion> ListarMoneda { get { return _ListarMoneda; } set { _ListarMoneda = value; } }
+        public bool IsVisibleIncluirNotasDeEntregasAnuladas { get { return IncluirDetalleNotasDeEntregas == false; } }
 
         [LibCustomValidation("ClienteValidating")]
         [LibGridColum("Codigo", eGridColumType.Connection, ConnectionSearchCommandName = "ChooseNombreClienteCommand")]
@@ -209,10 +202,9 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 
         #region Constructores
         public clsNotaDeEntregaEntreFechasPorClienteViewModel() {
-            FechaDesde = LibDate.Today();
+            FechaDesde = LibDate.DateFromMonthAndYear(1, LibDate.Today().Year, true);
             FechaHasta = LibDate.Today();
-            MonedaDelReporte = eMonedaParaImpresion.EnMonedaOriginal;
-            LlenarEnumerativosMonedas();
+            CantidadAImprimir = eCantidadAImprimir.All;
         }
 
         protected override void InitializeCommands() {
@@ -222,26 +214,6 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 
         protected override ILibBusinessSearch GetBusinessComponent() {
             return new clsFacturaRapidaNav();
-        }
-
-        private ValidationResult FechaDesdeValidating() {
-            ValidationResult vResult = ValidationResult.Success;
-            if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaDesde, false, eAccionSR.InformesPantalla)) {
-                vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha Desde"));
-            } else if (LibDate.F1IsGreaterThanF2(FechaDesde, FechaHasta)) {
-                vResult = new ValidationResult("La fecha desde no puede ser mayor a la fecha hasta");
-            }
-            return vResult;
-        }
-
-        private ValidationResult FechaaHastaValidating() {
-            ValidationResult vResult = ValidationResult.Success;
-            if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaHasta, false, eAccionSR.InformesPantalla)) {
-                vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha Desde"));
-            } else if (LibDate.F1IsLessThanF2(FechaHasta, FechaDesde)) {
-                vResult = new ValidationResult("La fecha hasta no puede ser menor a la fecha desde");
-            }
-            return vResult;
         }
 
         private ValidationResult ClienteValidating() {
@@ -255,16 +227,6 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         #endregion //Constructores
 
         #region Metodos
-
-        private void LlenarEnumerativosMonedas() {
-            ListarMoneda.Clear();
-            if (LibDefGen.ProgramInfo.IsCountryVenezuela()) {
-                ListarMoneda.Add(Saw.Lib.eMonedaParaImpresion.EnBolivares);
-            } else if (LibDefGen.ProgramInfo.IsCountryPeru()) {
-                ListarMoneda.Add(Saw.Lib.eMonedaParaImpresion.EnSoles);
-            }
-            ListarMoneda.Add(Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal);
-        }
 
         private void ExecuteChooseNombreClienteCommand(string valNombre) {
             try {
@@ -285,7 +247,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
+                LibMessages.RaiseError.ShowError(vEx);
             }
         }
 

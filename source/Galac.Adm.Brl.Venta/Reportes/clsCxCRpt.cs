@@ -41,15 +41,15 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             return vResult;
         }
 
-        System.Data.DataTable ICxCInformes.BuildCxCPendientesEntreFechas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, Saw.Lib.eMonedaParaImpresion valMonedaDelReporte, Saw.Lib.eTasaDeCambioParaImpresion valTipoTasaDeCambio) {
+        System.Data.DataTable ICxCInformes.BuildCxCPendientesEntreFechas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, eMonedaDelInformeMM valMonedaDelReporte, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valCodigoMoneda, string valNombreMoneda) {
             string vSql;
             clsCxCSql insCxCSql = new clsCxCSql();
             ILibDataRpt insCxCPendientesEntreFechas = new Dal.Venta.clsCXCDat();
-            vSql = insCxCSql.SqlCxCPendientesEntreFechas(valConsecutivoCompania, valFechaDesde, valFechaHasta, valMonedaDelReporte, valTipoTasaDeCambio);
+            vSql = insCxCSql.SqlCxCPendientesEntreFechas(valConsecutivoCompania, valFechaDesde, valFechaHasta, valMonedaDelReporte, valTipoTasaDeCambio, valCodigoMoneda, valNombreMoneda);
             return insCxCPendientesEntreFechas.GetDt(vSql, 0);
         }
 
-        System.Data.DataTable ICxCInformes.BuildCxCPorCliente(int valConsecutivoCompania, string valCodigoDelCliente, string valZonaCobranza, DateTime valFechaDesde, DateTime valFechaHasta, eClientesOrdenadosPor valClientesOrdenadosPor, Saw.Lib.eMonedaParaImpresion valMonedaDelReporte, Saw.Lib.eTasaDeCambioParaImpresion valTipoTasaDeCambio) {
+        System.Data.DataTable ICxCInformes.BuildCxCPorCliente(int valConsecutivoCompania, string valCodigoDelCliente, string valZonaCobranza, DateTime valFechaDesde, DateTime valFechaHasta, eClientesOrdenadosPor valClientesOrdenadosPor, eMonedaParaImpresion valMonedaDelReporte, eTasaDeCambioParaImpresion valTipoTasaDeCambio) {
             string vSql;
             clsCxCSql insCxCSql = new clsCxCSql();
             ILibDataRpt insCxCPorCliente = new Dal.Venta.clsCXCDat();
@@ -61,7 +61,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             string vSql = "";
             clsCxCSql insCxCSql = new clsCxCSql();
             ILibDataRpt insCxCEntreFechas = new Dal.Venta.clsCXCDat();
-            vSql = insCxCSql.SqlCxCEntreFechas(valConsecutivoCompania, valFechaDesde, valFechaHasta, valStatusCxC, valAgruparPor, valZonaDeCobranza, valSectorDeNegocio, valMonedaDelInforme, valCodigoMoneda, valNombreMoneda, valTasaDeCambio, valMostrarNroComprobanteContable);
+            vSql = insCxCSql.SqlCxCEntreFechas(valConsecutivoCompania, valFechaDesde, valFechaHasta, false, valStatusCxC, valAgruparPor, valZonaDeCobranza, valSectorDeNegocio, valMonedaDelInforme, valCodigoMoneda, valNombreMoneda, valTasaDeCambio, valMostrarNroComprobanteContable);
             return insCxCEntreFechas.GetDt(vSql, 0);
         }
 

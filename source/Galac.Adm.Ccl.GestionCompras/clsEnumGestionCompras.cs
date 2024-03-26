@@ -234,5 +234,11 @@ namespace Galac.Adm.Ccl.GestionCompras {
         [LibEnumDescription("Una")]
         Una
     }
+	
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+	public enum eProveedorOrdenadosPor {
+        [LibEnumDescription("Por Código")] PorCodigo = 0,
+        [LibEnumDescription("Por Nombre")] PorNombre
+    }
 
 } //End of namespace namespace Galac.Adm.Ccl.GestionCompras

@@ -26,7 +26,6 @@ Private Enum eCxPRpt
    eCxPRpt_SUB_LIBRO_DE_COMPRAS
    eCxPRpt_ANALISIS_CxP_HISTORICO
    eCxPRpt_ESTADO_DE_CUENTA_PROVEEDOR
-   eCxPRpt_HISTORICO_DE_PROVEEDOR
    eCxPRpt_ANALISIS_DE_VENCIMIENTO_ENTRE_FECHAS
    eCxPRpt_CxP_ENTRE_FECHAS
    eCxPRpt_CxP_PENDIENTES_ENTRE_FECHAS
@@ -52,7 +51,6 @@ Private Function fNombreFileDeImpresionDelReporteDeCxP(ByVal valReporte As Integ
       Case eCxPRpt_SUB_LIBRO_DE_COMPRAS: nombreFileXML = "rpxSubLibroDeCompraAXLSAjustes"
       Case eCxPRpt_ANALISIS_CxP_HISTORICO: nombreFileXML = "rpxAnalisisDeCxPHistorico"
       Case eCxPRpt_ESTADO_DE_CUENTA_PROVEEDOR: nombreFileXML = "rpxEstadoDeCuentaProveedor"
-      Case eCxPRpt_HISTORICO_DE_PROVEEDOR: nombreFileXML = "rpxHistoricoDeProveedor"
       Case eCxPRpt_ANALISIS_DE_VENCIMIENTO_ENTRE_FECHAS: nombreFileXML = "rpxAnalisisDeVencimientoDeCxPEntreFechas"
       Case eCxPRpt_CxP_ENTRE_FECHAS: nombreFileXML = "rpxCxPEntreFechas"
       Case eCxPRpt_CxP_PENDIENTES_ENTRE_FECHAS: nombreFileXML = "rpxCxPPendientesEntreFechas"
@@ -87,7 +85,6 @@ Private Function fEnumReporteDeCxPToString(ByVal valReporte As Integer) As Strin
       Case eCxPRpt_SUB_LIBRO_DE_COMPRAS: fEnumReporteDeCxPToString = "SubReporte-Ajustes Libro de Compras en XLS"
       Case eCxPRpt_ANALISIS_CxP_HISTORICO: fEnumReporteDeCxPToString = "Análisis de Cuentas por Pagar Histórico"
       Case eCxPRpt_ESTADO_DE_CUENTA_PROVEEDOR: fEnumReporteDeCxPToString = "Estado de Cuente de Proveedor"
-      Case eCxPRpt_HISTORICO_DE_PROVEEDOR: fEnumReporteDeCxPToString = "Histórico de Proveedor"
       Case eCxPRpt_ANALISIS_DE_VENCIMIENTO_ENTRE_FECHAS: fEnumReporteDeCxPToString = "Análisis de Vencimiento de CxP entre Fechas"
       Case eCxPRpt_CxP_ENTRE_FECHAS: fEnumReporteDeCxPToString = "Cuentas por Pagar entre Fechas"
       Case eCxPRpt_CxP_PENDIENTES_ENTRE_FECHAS: fEnumReporteDeCxPToString = "Cuentas por Pagar Pendientes entre Fechas"
@@ -592,65 +589,6 @@ h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
          "fConfigurarReporteEstadoDeCuenta", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Function
-
-Public Function fConfigurarDatosDelReporteHistoricoProveedor(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, _
-                  ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valCambioABs As Boolean, ByVal valUnaPaginaPorCliente As Boolean, ByVal NombreCompaniaParaInformes As String, _
-                  ByVal MensajeMonedaReporteCambioDelDia As String, ByVal gGlobalization As Object) As Boolean
-   Dim nombreDelFileXML As String
-   Dim exito As Boolean
-   On Error GoTo h_ERROR
-   exito = False
-   nombreDelFileXML = fNombreFileDeImpresionDelReporteDeCxP(eCxPRpt_HISTORICO_DE_PROVEEDOR)
-   If gUtilReports.fLoadLayout(refRpt, nombreDelFileXML) Then
-      If gUtilReports.fDefaultConfigurationForDataControl(refRpt, "dcOrigenData", valSqlDelReporte) Then
-         gUtilReports.sDefaultConfigurationForLabels refRpt, "lblCompania", NombreCompaniaParaInformes
-         gUtilReports.sDefaultConfigurationForLabels refRpt, "lblFechaInicialYFinal", "Del " & gConvert.dateToString(valFechaInicial) & " al " & gConvert.dateToString(valFechaFinal)
-         gUtilReports.sDefaultValueForLabelHoraYFechaDeEmision refRpt, "lblFechaYHoraDeEmision"
-         gUtilReports.sConfiguraEncabezado refRpt, "lblCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "lblNumeroDePagina", "lblFechaInicialYFinal", _
-                                    gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
-         If valCambioABs Then
-            gUtilReports.sDefaultConfigurationForLabels refRpt, "lblNotaDeCambio", MensajeMonedaReporteCambioDelDia
-         Else
-            gUtilReports.sDefaultConfigurationForLabels refRpt, "lblNotaDeCambio", ""
-         End If
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCodigo", "", "Codigo"
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNombre", "", "Nombre"
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtMoneda", "", "MonedaReporte"
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtTipoReporte", "", "TipoReporte"
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtTituloTipoReporte", "", "TituloTipoReporte"
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtSaldoInicial", "", "SaldoInicial"
-         gUtilReports.sDefaultConfigurationForDateFields refRpt, "txtFecha", "", "FechaDocumento", eFT_DATE
-         If gGlobalization.fEsCodigoPeru Then
-            gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtTipoDocumentoGH", "", "TipoDocumentoLey"
-         Else
-            gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtTipoDocumentoGH", "", "TipoDeDocumento"
-         End If
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNoDocumento", "", "NumeroDocumento"
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNoDocumentoParaAgrupar", "", "NumeroDocumentoGrupo"
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtMontoOriginal", "", "MontoOriginal"
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtSaldoActual", "", "SaldoActual"
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtStatusPago", "", "StatusPago"
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtTipoDocumentoDetail", "", "TipoDocumentoDetalle"
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNoCheque", "", "NumeroPago"
-         gUtilReports.sDefaultConfigurationForDateFields refRpt, "txtFechaPago", "", "FechaPago", eFT_DATE
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtMontoPagado", "", "MontoPagado"
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalMontoOriginal", "", ""
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalMontoPagado", "", ""
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalSaldoActual", "", ""
-         If valUnaPaginaPorCliente Then
-            gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GFMoneda", "", ddGrpAll, ddRepeatOnPage, True, ddNPAfter
-         End If
-         gUtilMargins.sAsignarMargenesGenerales refRpt
-         Call refRpt.AddNamedItem("gUtilReports", gUtilReports)
-         exito = True
-      End If
-   End If
-h_EXIT: On Error GoTo 0
-   fConfigurarDatosDelReporteHistoricoProveedor = exito
-   Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fConfigurarDatosDelReporteHistoricoProveedor", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfigurarDatosDelReporteAnalisisDeVencimientoEntreFechas(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valMonedaOriginal As Boolean, _

@@ -96,7 +96,6 @@ Public Sub sLlamarfrmInformesDePago(ByVal valMostrarPantallaXML As Boolean, ByVa
                                        ByVal valInsPagoSQL As Object, _
                                        ByVal valInsPagoRpt As Object, _
                                        ByVal valInsLibWincont As Object, _
-                                       ByVal valInsComprobante As Object, _
                                        ByVal valInsRptPagoConfigurar As Object, _
                                        ByVal valInsSearchConnectionComunAOS As Object, _
                                        ByVal valInsConexionesSawAOS As Object, _
@@ -109,7 +108,7 @@ Public Sub sLlamarfrmInformesDePago(ByVal valMostrarPantallaXML As Boolean, ByVa
    On Error GoTo h_ERROR
    Set insInformesDePago = New frmInformesDePago
    insInformesDePago.sLoadObjectValues valCompaniaActual, valProyParametrosCompania, valInsTablaRetencion, valInsProveedor, _
-                                       valInsPagoSQL, valInsPagoRpt, valInsLibWincont, valInsComprobante, valInsRptPagoConfigurar, _
+                                       valInsPagoSQL, valInsPagoRpt, valInsLibWincont, valInsRptPagoConfigurar, _
                                        valInsSearchConnectionComunAOS, valInsConexionesSawAOS, _
                                        valInsFactura, valInsRenglonFact, valInsPago, valInsCxP, valInsUtilXml
    insInformesDePago.sInitLookAndFeel valMostrarPantallaXML

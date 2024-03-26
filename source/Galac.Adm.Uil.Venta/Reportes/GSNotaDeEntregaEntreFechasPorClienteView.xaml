@@ -12,10 +12,13 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid FocusManager.FocusedElement="{Binding ElementName=dtpNotaDeEntregaDesde}">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
@@ -25,12 +28,18 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <Label
             Name="lblNotaDeEntregaDesde"
-            Grid.Row="0"
             Grid.Column="0"
+            Height="24"
+            Margin="3,0,0,0"
+            VerticalAlignment="Center"
             Content="Fecha Desde"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSDatePickerWpf
@@ -38,6 +47,7 @@
             Grid.Row="0"
             Grid.Column="1"
             Width="150"
+            Margin="3,3,0,4"
             IsEnabled="{Binding Path=IsEnabled}"
             SelectedDate="{Binding Path=FechaDesde, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource DatePickerStyle}" />
@@ -45,6 +55,9 @@
             Name="lblNotaDeEntregaHasta"
             Grid.Row="1"
             Grid.Column="0"
+            Height="23"
+            Margin="3,0,0,0"
+            VerticalAlignment="Center"
             Content="Fecha Hasta"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSDatePickerWpf
@@ -52,6 +65,7 @@
             Grid.Row="1"
             Grid.Column="1"
             Width="150"
+            Margin="3,3,0,3"
             IsEnabled="{Binding Path=IsEnabled}"
             SelectedDate="{Binding Path=FechaHasta, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource DatePickerStyle}" />
@@ -59,6 +73,9 @@
             Name="lblCantidadAImprimir"
             Grid.Row="2"
             Grid.Column="0"
+            Height="24"
+            Margin="3,0,0,0"
+            VerticalAlignment="Center"
             Content="Cantidad a Imprimir"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf
@@ -66,6 +83,7 @@
             Grid.Row="2"
             Grid.Column="1"
             Width="150"
+            Margin="3,3,0,4"
             IsEnabled="{Binding Path=IsEnabled}"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding Path=ArrayCantidadAImprimir}"
@@ -75,6 +93,10 @@
             Name="lblCliente"
             Grid.Row="3"
             Grid.Column="0"
+            Width="47"
+            Height="23"
+            Margin="3,0,0,0"
+            VerticalAlignment="Center"
             Content="Cliente"
             IsEnabled="{Binding Path=IsEnabledCliente}"
             Style="{StaticResource LabelPrompt}" />
@@ -83,8 +105,7 @@
             Grid.Row="3"
             Grid.Column="1"
             Width="150"
-            Height="23"
-            Margin="3"
+            Margin="3,3,0,3"
             HorizontalAlignment="Left"
             BorderThickness="1"
             ConnectionValue="{Binding Path=NombreCliente, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
@@ -92,34 +113,46 @@
             IsEnabled="{Binding Path=IsEnabledCliente}"
             SearchCommand="{Binding Path=ChooseNombreClienteCommand}" />
         <Label
-            Name="lblMonedaDelReporte"
-            Grid.Row="4"
+            Name="lblIncluirDetalleNotasDeEntregas"
+            Grid.Row="6"
             Grid.Column="0"
-            Content="Moneda del Reporte"
-            Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSComboBoxWpf
-            Name="cmbMonedaDelReporte"
-            Grid.Row="4"
-            Grid.Column="1"
-            Width="150"
-            IsEnabled="{Binding Path=IsEnabled}"
-            IsSynchronizedWithCurrentItem="True"
-            ItemsSource="{Binding Path=ListarMoneda}"
-            SelectedItem="{Binding Path=MonedaDelReporte, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-            Style="{StaticResource ComboBoxStyle}" />
-        <Label
-            Name="lblIncluirNotasDeEntregasAnuladas"
-            Grid.Row="5"
-            Grid.Column="0"
-            Content="Mostrar Notas de Entregas Anuladas"
+            Height="24"
+            Margin="3,0,0,0"
+            VerticalAlignment="Center"
+            Content="Imprimir Artículos"
             Style="{StaticResource LabelPrompt}" />
         <CheckBox
-            Name="chkIncluirNotasDeEntregasAnuladas"
-            Grid.Row="5"
+            Name="chkdIncluirDetalleNotasDeEntregas"
+            Grid.Row="6"
             Grid.Column="1"
+            Width="15"
+            Height="15"
+            Margin="3,0,0,0"
+            HorizontalAlignment="Left"
+            IsChecked="{Binding Path=IncluirDetalleNotasDeEntregas}"
+            IsEnabled="{Binding Path=IsEnabled}"
+            Style="{StaticResource CheckBoxStyle}" />
+        <Label
+            Name="lblIncluirNotasDeEntregasAnuladas"
+            Grid.Row="7"
+            Grid.Column="0"
+            Height="24"
+            Margin="3,0,0,0"
+            VerticalAlignment="Center"
+            Content="Incluir Anuladas "
+            Style="{StaticResource LabelPrompt}"
+            Visibility="{Binding IsVisibleIncluirNotasDeEntregasAnuladas, Converter={StaticResource booleanToVisibilityConverter}}" />
+        <CheckBox
+            Name="chkIncluirNotasDeEntregasAnuladas"
+            Grid.Row="7"
+            Grid.Column="1"
+            Width="15"
+            Height="15"
+            Margin="3,0,0,0"
             HorizontalAlignment="Left"
             IsChecked="{Binding Path=IncluirNotasDeEntregasAnuladas}"
             IsEnabled="{Binding Path=IsEnabled}"
-            Style="{StaticResource CheckBoxStyle}" />
+            Style="{StaticResource CheckBoxStyle}"
+            Visibility="{Binding IsVisibleIncluirNotasDeEntregasAnuladas, Converter={StaticResource booleanToVisibilityConverter}}" />
     </Grid>
 </UserControl>

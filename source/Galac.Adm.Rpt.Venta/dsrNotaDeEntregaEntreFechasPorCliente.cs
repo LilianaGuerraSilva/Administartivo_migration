@@ -10,6 +10,7 @@ using LibGalac.Aos.ARRpt;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.DefGen;
 using System.Data;
+using Galac.Saw.Lib;
 
 namespace Galac.Adm.Rpt.Venta
 {
@@ -57,19 +58,21 @@ namespace Galac.Adm.Rpt.Venta
 				LibReport.ConfigFieldStr(this, "txtCodigo", string.Empty, "CodigoCliente");
 				LibReport.ConfigFieldStr(this, "txtNombre", string.Empty, "Cliente");
 				LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "Moneda");
-//				LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", LibGalac.Aos.Base.Report.eDateOutputFormat.DateShort); esta sobrecarga no está en versión 5.0.2.0 de lib, temporalmente pasar formato directo
 				LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", "dd/MM/yyyy");
 				LibReport.ConfigFieldStr(this, "txtNroDocumento", string.Empty, "Numero");
 				LibReport.ConfigFieldStr(this, "txtMonedaDoc", string.Empty, "MonedaDoc");
-				LibReport.ConfigFieldDec(this, "txtCambio", string.Empty, "Cambio");
-				LibReport.ConfigFieldDec(this, "txtAnulada", string.Empty, "EsAnulada");
+				LibReport.ConfigFieldDec(this, "txtCambio", string.Empty, "Cambio", "#,###.0000", false, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtAnulada", string.Empty, "EsAnulada");
 				LibReport.ConfigFieldDec(this, "txtMontoTotal", string.Empty, "TotalFactura");
                 LibReport.ConfigSummaryField(this, "txtSumMontoTotal", "TotalFactura", SummaryFunc.Sum, "GHSecMoneda", SummaryRunning.Group, SummaryType.SubTotal);
-
-                //LibReport.ConfigSummaryField(this, "txtT_SumMontoTotal_SecMoneda", "SumMontoTotal", SummaryFunc.Sum, "GHSecMoneda", SummaryRunning.Group, SummaryType.SubTotal);
-
+                
                 LibReport.ConfigGroupHeader(this, "GHSecCliente", "Cliente", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
 				LibReport.ConfigGroupHeader(this, "GHSecMoneda", "Moneda", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+
+                LibReport.ConfigFieldStr(this, "txtMonedaReporte", string.Empty, "Moneda");
+
+                LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", "", "");
+                LibReport.ChangeControlVisibility(this, "txtNotaMonedaCambio", false);
 
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 return true;
@@ -77,11 +80,6 @@ namespace Galac.Adm.Rpt.Venta
             return false;
         }
         #endregion //Metodos Generados
-
-        private void dsrNotaDeEntregaEntreFechasPorCliente_ReportStart(object sender, EventArgs e)
-        {
-
-        }
     } //End of class dsrNotaDeEntregaEntreFechasPorCliente
 
 } //End of namespace Galac.Dbo.Rpt.ComponenteNoEspecificado

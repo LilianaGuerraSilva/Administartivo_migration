@@ -45,9 +45,9 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             Saw.Lib.clsUtilRpt vRpxUtil = new Saw.Lib.clsUtilRpt();
             ILibRpt vResult = null;
             if (valViewModel != null) {
-                vResult = new Rpt.Venta.clsCxCPendientesEntreFechas(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaDesde, valViewModel.FechaHasta, valViewModel.MostrarContacto, valViewModel.MonedaDelInforme, valViewModel.TipoTasaDeCambio) {
-                        Worker = Manager
-                    };
+                vResult = new Rpt.Venta.clsCxCPendientesEntreFechas(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaDesde, valViewModel.FechaHasta, valViewModel.MostrarContacto, valViewModel.MonedaDelInforme, valViewModel.Moneda, valViewModel.TipoTasaDeCambio) {
+                    Worker = Manager
+                };
             }
             return vResult;
         }

@@ -25,6 +25,7 @@ using Galac.Comun.Uil.TablasGen.ViewModel;
 using System.Windows;
 using Galac.Adm.Ccl.CajaChica;
 using Galac.Saw.Lib;
+using System.Threading;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
     public class CajaAperturaViewModel: LibInputViewModel<CajaApertura> {
@@ -681,7 +682,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private string ObtenerCajaAsignada() {
             string vCajaLocal = "";
-            vCajaLocal = LibAppSettings.ReadAppSettingsKey("CAJALOCAL");
+            vCajaLocal = LibAppSettings.ReadAppSettingsKey("CAJALOCAL-" + ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login);
             return LibConvert.ToStr(Model.ConsecutivoCaja) == vCajaLocal ? "\u2713" : "";
         }
 

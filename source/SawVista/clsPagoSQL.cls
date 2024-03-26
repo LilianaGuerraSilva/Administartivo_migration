@@ -76,144 +76,125 @@ Private Function CM_QDI_TodoElMes() As Integer
    CM_QDI_TodoElMes = 2
 End Function
 
-Public Function fConstruirSQLDelReportePagosEntreFechas(ByVal valAgruparPorProveedor As Boolean, _
-                                          ByVal usarCambioOriginal As Boolean, _
-                                           ByVal ReporteEnMonedaLocal As Boolean, _
-                                            ByVal UsaModuloDeContabilidad As Boolean, _
-                                             ByVal valConsecutivoCompania As String, _
-                                              ByVal valFechaInicial As Date, _
-                                               ByVal valFechaFinal As Date, _
-                                                ByVal CantidadAImprimirUno As Boolean, _
-                                                 ByVal valCodigoDeProveedor As String, _
-                                                  ByVal valUsarCodigoProveedorEnPantalla As Boolean, _
-                                                   ByVal gMonedaLocalActual As Object, _
-                                                    ByVal gUltimaTasaDeCambio As Object, _
-                                                     ByVal NombreTablaComprobante As String, _
-                                                      ByVal MostrarObservaciones As Boolean) As String
-   Dim SQL As String
-   Dim sqlTotalRetenido As String
-   Dim sqlTotalRetenidoIVA As String
-   Dim sqlTotalOtros As String
-   Dim sqlTotalCheque As String
-   Dim sqlCambio As String
-   Dim sqlMoneda As String
+Public Function fConstruirSQLDelReportePagosEntreFechas(ByVal valAgruparPorProveedor As Boolean, ByVal usarCambioOriginal As Boolean, _
+                                          ByVal ReporteEnMonedaLocal As Boolean, ByVal UsaModuloDeContabilidad As Boolean, _
+                                          ByVal valConsecutivoCompania As String, ByVal valFechaInicial As Date, _
+                                          ByVal valFechaFinal As Date, ByVal CantidadAImprimirUno As Boolean, _
+                                          ByVal valCodigoDeProveedor As String, ByVal valUsarCodigoProveedorEnPantalla As Boolean, _
+                                          ByVal gMonedaLocalActual As Object, ByVal gUltimaTasaDeCambio As Object, _
+                                          ByVal MostrarObservaciones As Boolean) As String
+   Dim vSql As String
+   Dim vSqlTotalOtros As String
+   Dim vSqlTotalRetenidoISLR As String
+   Dim vSqlTotalRetenidoIVA As String
+   Dim vSqlTotalRetImpMunicipal As String
+   Dim vSqlTotalCheque As String
+   Dim vSqlTotalAnticipo As String
+   Dim vSqlCambio As String
+   
+   Dim vSQLMoneda As String
+   Dim vSqlCodigoMoneda As String
+   Dim vSqlCodigoMonedaIgualMonedaLocal As String
+   Dim vSqlCodigoMonedaIgualMonedaLocalAnt As String
+   Dim vSqlCodigoMonedaEsLocal As String
+   
+   Dim vSqlNroComprobanteContable As String
    On Error GoTo h_ERROR
-   sqlTotalCheque = "Pago.MontoCheque"
-   sqlTotalOtros = "Pago.TotalOtros"
-   sqlTotalRetenido = "Pago.TotalRetenido"
-   sqlTotalRetenidoIVA = "Pago.TotalRetenidoIVA"
-   sqlMoneda = "Pago.Moneda"
-   sqlCambio = "Pago.CambioaBolivares"
+   vSqlTotalOtros = "Pago.TotalOtros"
+   vSqlTotalRetenidoISLR = "Pago.TotalRetenido"
+   vSqlTotalRetenidoIVA = "Pago.TotalRetenidoIVA"
+   vSqlTotalRetImpMunicipal = "Pago.TotalRetenidoImpuestoMunicipal"
+   vSqlTotalCheque = "Pago.MontoCheque"
+   vSqlTotalAnticipo = "Pago.PagadoAnticipo"
+   
+   vSQLMoneda = "Pago.Moneda"
+   vSqlCambio = "Pago.CambioaBolivares"
+   vSqlCodigoMoneda = "Pago.CodigoMoneda"
+   
+   vSqlCodigoMonedaIgualMonedaLocal = vSqlCodigoMoneda & " = " & gUtilSQL.fSimpleSqlValue(gMonedaLocalActual.GetHoyCodigoMoneda)
+   vSqlCodigoMonedaIgualMonedaLocalAnt = vSqlCodigoMoneda & " = " & gUtilSQL.fSimpleSqlValue(gMonedaLocalActual.GetHoyCodigoMonedaAnt)
+   vSqlCodigoMonedaEsLocal = vSqlCodigoMonedaIgualMonedaLocal & " OR " & vSqlCodigoMonedaIgualMonedaLocalAnt
    
    If ReporteEnMonedaLocal Then
       If usarCambioOriginal Then
-         sqlCambio = gMonedaLocalActual.fSQLConvierteMontoSiAplicaMasDecimales(gMonedaLocalActual.GetHoyCodigoMoneda, sqlCambio, "Pago.Fecha")
+         vSqlCambio = gMonedaLocalActual.fSQLConvierteMontoSiAplicaMasDecimales(gMonedaLocalActual.GetHoyCodigoMoneda, vSqlCambio, "Pago.Fecha")
       Else
-         sqlCambio = gUtilSQL.getIIF("Pago.CodigoMoneda = " & gUtilSQL.fSimpleSqlValue(gMonedaLocalActual.GetHoyCodigoMoneda) & " OR " & _
-                                      "Pago.CodigoMoneda = " & gUtilSQL.fSimpleSqlValue(gMonedaLocalActual.GetHoyCodigoMonedaAnt), _
-                                      gMonedaLocalActual.fSQLConvierteMontoSiAplicaMasDecimales(gMonedaLocalActual.GetHoyCodigoMoneda, sqlCambio, "Pago.Fecha"), _
-                                      gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("", sqlMoneda, 1, usarCambioOriginal, ""), True)
+         vSqlCambio = gUtilSQL.getIIF(vSqlCodigoMonedaEsLocal, gMonedaLocalActual.fSQLConvierteMontoSiAplicaMasDecimales(gMonedaLocalActual.GetHoyCodigoMoneda, vSqlCambio, "Pago.Fecha"), gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("", vSQLMoneda, 1, usarCambioOriginal, ""), True)
       End If
       
-      sqlTotalCheque = gUtilSQL.getIIF("(Pago.CodigoMoneda = " & gUtilSQL.fSimpleSqlValue(gMonedaLocalActual.GetHoyCodigoMoneda) & ") OR " & _
-                                     "(Pago.CodigoMoneda = " & gUtilSQL.fSimpleSqlValue(gMonedaLocalActual.GetHoyCodigoMonedaAnt) & ")", _
-                                    gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, sqlTotalCheque, "Pago.Fecha"), _
-                                    gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio(sqlCambio, sqlMoneda, sqlTotalCheque, usarCambioOriginal, ""), True)
+      vSqlTotalOtros = gUtilSQL.getIIF(vSqlCodigoMonedaEsLocal, gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, vSqlTotalOtros, "Pago.Fecha"), gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio(vSqlCambio, vSQLMoneda, vSqlTotalOtros, usarCambioOriginal, ""), True)
+      vSqlTotalRetenidoISLR = gUtilSQL.getIIF(vSqlCodigoMonedaEsLocal, gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, vSqlTotalRetenidoISLR, "Pago.Fecha"), gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio(vSqlCambio, vSQLMoneda, vSqlTotalRetenidoISLR, usarCambioOriginal, ""), True)
+      vSqlTotalRetenidoIVA = gUtilSQL.getIIF(vSqlCodigoMonedaEsLocal, gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, vSqlTotalRetenidoIVA, "Pago.Fecha"), gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio(vSqlCambio, vSQLMoneda, vSqlTotalRetenidoIVA, usarCambioOriginal, ""), True)
+      vSqlTotalRetImpMunicipal = gUtilSQL.getIIF(vSqlCodigoMonedaEsLocal, gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, vSqlTotalRetImpMunicipal, "Pago.Fecha"), gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio(vSqlCambio, vSQLMoneda, vSqlTotalRetImpMunicipal, usarCambioOriginal, ""), True)
+      vSqlTotalCheque = gUtilSQL.getIIF(vSqlCodigoMonedaEsLocal, gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, vSqlTotalCheque, "Pago.Fecha"), gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio(vSqlCambio, vSQLMoneda, vSqlTotalCheque, usarCambioOriginal, ""), True)
+      vSqlTotalAnticipo = gUtilSQL.getIIF(vSqlCodigoMonedaEsLocal, gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, vSqlTotalAnticipo, "Pago.Fecha"), gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio(vSqlCambio, vSQLMoneda, vSqlTotalAnticipo, usarCambioOriginal, ""), True)
                                     
-      sqlTotalOtros = gUtilSQL.getIIF("(Pago.CodigoMoneda = " & gUtilSQL.fSimpleSqlValue(gMonedaLocalActual.GetHoyCodigoMoneda) & ") OR " & _
-                                     "(Pago.CodigoMoneda = " & gUtilSQL.fSimpleSqlValue(gMonedaLocalActual.GetHoyCodigoMonedaAnt) & ")", _
-                                    gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, sqlTotalOtros, "Pago.Fecha"), _
-                                    gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio(sqlCambio, sqlMoneda, sqlTotalOtros, usarCambioOriginal, ""), True)
-                                    
-      sqlTotalRetenido = gUtilSQL.getIIF("(Pago.CodigoMoneda = " & gUtilSQL.fSimpleSqlValue(gMonedaLocalActual.GetHoyCodigoMoneda) & ") OR " & _
-                                     "(Pago.CodigoMoneda = " & gUtilSQL.fSimpleSqlValue(gMonedaLocalActual.GetHoyCodigoMonedaAnt) & ")", _
-                                    gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, sqlTotalRetenido, "Pago.Fecha"), _
-                                    gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio(sqlCambio, sqlMoneda, sqlTotalRetenido, usarCambioOriginal, ""), True)
-                                    
-      sqlTotalRetenidoIVA = gUtilSQL.getIIF("(Pago.CodigoMoneda = " & gUtilSQL.fSimpleSqlValue(gMonedaLocalActual.GetHoyCodigoMoneda) & ") OR " & _
-                                     "(Pago.CodigoMoneda = " & gUtilSQL.fSimpleSqlValue(gMonedaLocalActual.GetHoyCodigoMonedaAnt) & ")", _
-                                    gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, sqlTotalRetenidoIVA, "Pago.Fecha"), _
-                                    gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio(sqlCambio, sqlMoneda, sqlTotalRetenidoIVA, usarCambioOriginal, ""), True)
-      
-      sqlMoneda = gUtilSQL.getIIF("Pago.CodigoMoneda = " & gUtilSQL.fSimpleSqlValue(gMonedaLocalActual.GetHoyCodigoMoneda), _
-                                  "Pago.Moneda", gUtilSQL.fSimpleSqlValue(gMonedaLocalActual.GetHoyNombreMoneda), True)
+      vSQLMoneda = gUtilSQL.getIIF(vSqlCodigoMonedaIgualMonedaLocal, "Pago.Moneda", gUtilSQL.fSimpleSqlValue(gMonedaLocalActual.GetHoyNombreMoneda), True)
    End If
-   SQL = "SELECT "
-   SQL = SQL & "Pago.NumeroComprobante, "
-   SQL = SQL & "Pago.NumeroCheque, "
-   SQL = SQL & "Pago.Fecha, "
-   SQL = SQL & sqlMoneda & " As Moneda, "
-   SQL = SQL & sqlCambio & " AS Cambio, "
-   SQL = SQL & "Pago.CodigoProveedor, "
-   SQL = SQL & "Proveedor.NombreProveedor, "
-   SQL = SQL & sqlTotalRetenido & " AS TotalRetenido, "
-   SQL = SQL & sqlTotalRetenidoIVA & " AS TotalRetenidoIVA, "
-   SQL = SQL & sqlTotalOtros & " AS TotalOtros, "
-   SQL = SQL & sqlTotalCheque & " AS MontoCheque"
    If UsaModuloDeContabilidad Then
-      SQL = SQL & ", " & gUtilSQL.getIIF(fSQLGenerarCuentaContable(valConsecutivoCompania, NombreTablaComprobante, valFechaInicial, valFechaFinal, gUtilSQL.fSimpleSqlValue("Pago.NumeroComprobante"), "Pago.Fecha") & _
-                              " <> " & gUtilSQL.fSimpleSqlValue(""), _
-                              fSQLGenerarCuentaContable(valConsecutivoCompania, NombreTablaComprobante, valFechaInicial, valFechaFinal, gUtilSQL.fSimpleSqlValue("Pago.NumeroComprobante"), "Pago.Fecha"), _
-                              gUtilSQL.fSimpleSqlValue("No Aplica"), True)
-     SQL = SQL & " AS ComprobanteContable"
+      vSqlNroComprobanteContable = fSQLNumeroComprobanteContablePago(valConsecutivoCompania, valFechaInicial, valFechaFinal, "Pago.NumeroComprobante", "Pago.Fecha")
    End If
-   If MostrarObservaciones Then
-   SQL = SQL & ",pago.descripcionPago  AS descripcionPago"
+   
+   vSql = "SELECT "
+   vSql = vSql & "Pago.NumeroComprobante, "
+   vSql = vSql & "Pago.NumeroCheque, "
+   vSql = vSql & "Pago.Fecha, "
+   vSql = vSql & vSQLMoneda & " As Moneda, "
+   vSql = vSql & vSqlCambio & " AS Cambio, "
+   vSql = vSql & "Pago.CodigoProveedor, "
+   vSql = vSql & "Proveedor.NombreProveedor, "
+   vSql = vSql & vSqlTotalOtros & " AS TotalOtros, "
+   vSql = vSql & vSqlTotalRetenidoISLR & " AS TotalRetenido, "
+   vSql = vSql & vSqlTotalRetenidoIVA & " AS TotalRetenidoIVA, "
+   vSql = vSql & vSqlTotalRetImpMunicipal & " AS TotalRetImpMunicipal, "
+   vSql = vSql & vSqlTotalCheque & " AS MontoCheque,"
+   vSql = vSql & vSqlTotalAnticipo & " AS TotalAnticipo, "
+   vSql = vSql & "Pago.DescripcionPago  AS DescripcionPago"
+   If UsaModuloDeContabilidad Then
+      vSql = vSql & ", ISNULL(" & vSqlNroComprobanteContable & ", 'N/A')  AS ComprobanteContable"
    End If
-   SQL = SQL & " FROM Pago INNER JOIN "
-   SQL = SQL & "Proveedor ON "
-   SQL = SQL & "Pago.ConsecutivoCompania = Proveedor.ConsecutivoCompania"
-   SQL = SQL & " AND Pago.CodigoProveedor = Proveedor.CodigoProveedor"
-   SQL = SQL & " WHERE "
-   SQL = SQL & "Pago.ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " AND " & gUtilSQL.DfSQLDateValueBetween("Pago.Fecha", valFechaInicial, valFechaFinal)
-   SQL = SQL & " AND Pago.StatusOrdenDePago = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusPago.eSP_VIGENTE)
+   vSql = vSql & " FROM Pago INNER JOIN Proveedor "
+   vSql = vSql & " ON Pago.ConsecutivoCompania = Proveedor.ConsecutivoCompania "
+   vSql = vSql & " AND Pago.CodigoProveedor = Proveedor.CodigoProveedor "
+   vSql = vSql & " WHERE Pago.ConsecutivoCompania = " & valConsecutivoCompania
+   vSql = vSql & " AND " & gUtilSQL.DfSQLDateValueBetween("Pago.Fecha", valFechaInicial, valFechaFinal)
+   vSql = vSql & " AND Pago.StatusOrdenDePago = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusPago.eSP_VIGENTE)
    If CantidadAImprimirUno Then
-      SQL = SQL & " AND Proveedor.CodigoProveedor = " & gUtilSQL.fSimpleSqlValue(valCodigoDeProveedor)
+      vSql = vSql & " AND Proveedor.CodigoProveedor = " & gUtilSQL.fSimpleSqlValue(valCodigoDeProveedor)
    End If
-   SQL = SQL & " ORDER BY "
-   SQL = SQL & "Pago.Moneda, "
+   vSql = vSql & " ORDER BY Pago.Moneda, "
    If valAgruparPorProveedor Then
       If valUsarCodigoProveedorEnPantalla Then
-         SQL = SQL & "Pago.CodigoProveedor, "
-         SQL = SQL & "Proveedor.NombreProveedor, "
+         vSql = vSql & "Pago.CodigoProveedor, Proveedor.NombreProveedor, "
       Else
-         SQL = SQL & "Proveedor.NombreProveedor, "
-         SQL = SQL & "Pago.CodigoProveedor, "
+         vSql = vSql & "Proveedor.NombreProveedor, Pago.CodigoProveedor, "
       End If
    End If
-
-   SQL = SQL & "Pago.Fecha, "
-   SQL = SQL & "Pago.NumeroCheque"
-   fConstruirSQLDelReportePagosEntreFechas = SQL
+   vSql = vSql & "Pago.Fecha, Pago.NumeroCheque"
+   
+   fConstruirSQLDelReportePagosEntreFechas = vSql
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: SQL = ""
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fConstruirSQLDelReportePagosEntreFechas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: vSql = ""
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLDelReportePagosEntreFechas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Private Function fSQLGenerarCuentaContable(ByVal valConsecutivoCompania As String, ByVal NombreTablaComprobante As String, _
-                                             ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valNumeroPago As String, _
-                                                ByVal valFechaPago As String) As String
-   Dim SQL As String
+Private Function fSQLNumeroComprobanteContablePago(ByVal valConsecutivoCompania As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valNumeroPago As String, ByVal valFechaPago As String) As String
+   Dim Sql As String
    Dim SqlPeriodo As String
    On Error GoTo h_ERROR
-   SQL = "SELECT PERIODO.ConsecutivoPeriodo"
-   SQL = SQL & " FROM PERIODO"
-   SQL = SQL & " WHERE PERIODO.ConsecutivoCompania = " & valConsecutivoCompania
-   SqlPeriodo = gDbUtil.fBuildResultSetAsString(SQL, False)
-   SQL = "(SELECT " & NombreTablaComprobante & ".NUMERO"
-   SQL = SQL & " FROM " & NombreTablaComprobante
-   SQL = SQL & " WHERE " & NombreTablaComprobante & ".NoDocumentoOrigen = " & valNumeroPago
-   SQL = SQL & " AND " & NombreTablaComprobante & ".GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_ComprobanteGeneradoPor.eCG_PAGOS)
-   SQL = SQL & " AND " & NombreTablaComprobante & ".ConsecutivoPeriodo IN (" & SqlPeriodo & ")"
-   SQL = SQL & " AND " & gUtilSQL.DfSQLDateValueBetween(valFechaPago, valFechaInicial, valFechaFinal) & ")"
-   fSQLGenerarCuentaContable = SQL
+   Sql = "SELECT PERIODO.ConsecutivoPeriodo FROM PERIODO WHERE PERIODO.ConsecutivoCompania = " & valConsecutivoCompania
+   SqlPeriodo = gDbUtil.fBuildResultSetAsString(Sql, False)
+   
+   Sql = "(SELECT COMPROBANTE.Numero FROM COMPROBANTE"
+   Sql = Sql & " WHERE COMPROBANTE.NoDocumentoOrigen = " & valNumeroPago
+   Sql = Sql & " AND COMPROBANTE.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_ComprobanteGeneradoPor.eCG_PAGOS)
+   Sql = Sql & " AND COMPROBANTE.ConsecutivoPeriodo IN (" & SqlPeriodo & ")"
+   Sql = Sql & " AND " & gUtilSQL.DfSQLDateValueBetween(valFechaPago, valFechaInicial, valFechaFinal) & ")"
+   fSQLNumeroComprobanteContablePago = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSQLGenerarCuentaContable", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLNumeroComprobanteContablePago", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fSQLRetencionesPorMesAnoTipoDePersona(ByVal valConsecutivoCompania As String, _

@@ -140,7 +140,7 @@
             Grid.ColumnSpan="2"
             Visibility="{Binding IsVisibleTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}"
             Content="Tasa de Cambio a la Fecha"
-            Style="{StaticResource LabelPrompt}" Margin="0" Grid.RowSpan="2"  />
+            Style="{StaticResource LabelPrompt}" Margin="0" />
         <nsWpfControls:GSComboBoxWpf
             x:Name="cmbTasaDeCambio"
             Grid.Row="7"

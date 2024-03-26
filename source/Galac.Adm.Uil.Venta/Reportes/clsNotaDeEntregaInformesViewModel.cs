@@ -42,18 +42,15 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         private ILibRpt ConfigReportNotaDeEntregaEntreFechasPorCliente(clsNotaDeEntregaEntreFechasPorClienteViewModel valViewModel) {
             ILibRpt vResult = null;
             if (valViewModel != null) {
-                vResult = new Galac.Adm.Rpt.Venta.clsNotaDeEntregaEntreFechasPorCliente(PrintingDevice, 
-                                                                                        ExportFileFormat, 
-                                                                                        AppMemoryInfo, 
-                                                                                        Mfc,
-                                                                                        valViewModel.FechaDesde,
-                                                                                        valViewModel.FechaHasta,
-                                                                                        valViewModel.IncluirNotasDeEntregasAnuladas,
-                                                                                        valViewModel.CantidadAImprimir,
-                                                                                        valViewModel.MonedaDelReporte,
-                                                                                        valViewModel.CodigoCliente) {
-                    Worker = Manager,
-                };
+                if (valViewModel.IncluirDetalleNotasDeEntregas) {
+                    vResult = new Rpt.Venta.clsNotaDeEntregaEntreFechasPorClienteDetallado(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaDesde, valViewModel.FechaHasta, valViewModel.IncluirNotasDeEntregasAnuladas, valViewModel.CantidadAImprimir, valViewModel.CodigoCliente, valViewModel.IncluirDetalleNotasDeEntregas) {
+                        Worker = Manager,
+                    };
+                } else {
+                    vResult = new Rpt.Venta.clsNotaDeEntregaEntreFechasPorCliente(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaDesde, valViewModel.FechaHasta, valViewModel.IncluirNotasDeEntregasAnuladas, valViewModel.CantidadAImprimir, valViewModel.CodigoCliente) {
+                        Worker = Manager,
+                    };
+                }
             }
             return vResult;
         }

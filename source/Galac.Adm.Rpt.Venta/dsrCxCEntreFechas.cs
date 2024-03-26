@@ -92,10 +92,6 @@ namespace Galac.Adm.Rpt.Venta {
                     txtGFMoneda.Width += vWidth;
                     txtGFZonaDeCobranza.Width += vWidth;
                     txtGFSectorDeNegocio.Width += vWidth;
-                    //lblTotalPorMoneda.Width = lblMontoOriginal.Left;
-                    //lblTotalPorStatus.Width = lblMontoOriginal.Left;
-                    //lblTotalPorZonaCobranza.Width = lblMontoOriginal.Left;
-                    //lblTotalPorSectorDeNegocio.Width = lblMontoOriginal.Left;
                 }
                 if (valMostrarInfoAdicional) {
                     LibReport.ConfigFieldStr(this, "txtInformacionAdicional", string.Empty, "Descripcion");

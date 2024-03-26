@@ -13,9 +13,11 @@ using LibGalac.Aos.Catching;
 using LibGalac.Aos.Dal;
 using LibGalac.Aos.DefGen;
 using Galac.Adm.Ccl.GestionCompras;
+using LibGalac.Aos.Base.Report;
+using System.Data;
 
 namespace Galac.Adm.Dal.GestionCompras {
-    public class clsProveedorDat: LibData, ILibDataComponentWithSearch<IList<Proveedor>, IList<Proveedor>>, ILibDataImport {
+    public class clsProveedorDat: LibData, ILibDataComponentWithSearch<IList<Proveedor>, IList<Proveedor>>, ILibDataImport, ILibDataRpt {
         #region Variables
         Proveedor _CurrentRecord;
         #endregion //Variables
@@ -671,6 +673,14 @@ namespace Galac.Adm.Dal.GestionCompras {
                 vResult.Add(vRecord);
             }
             return vResult;
+        }
+
+        DataTable ILibDataRpt.GetDt(string valSqlStringCommand, int valCmdTimeout) {
+            return new LibDataReport().GetDataTableForReport(valSqlStringCommand, valCmdTimeout);
+        }
+
+        DataTable ILibDataRpt.GetDt(string valSpName, StringBuilder valXmlParamsExpression, int valCmdTimeout) {
+            return new LibDataReport().GetDataTableForReport(valSpName, valXmlParamsExpression, valCmdTimeout);
         }
         #endregion //Metodos Generados
 

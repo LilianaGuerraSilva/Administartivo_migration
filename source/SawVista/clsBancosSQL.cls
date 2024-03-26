@@ -826,7 +826,7 @@ End Function
 Private Function fSqlDeclaracionIGTFFactura_NC_SQL(ByVal valRedondeaMontoDebitoBancario As Boolean, ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date) As String
    Dim Sql As String
    On Error GoTo h_ERROR
-   Sql = " SELECT 'Contribuyente 6' AS TipoDeAlicuotaPorContribuyenteStr, 'Ajuste por IGTF (Notas de CrÃ©dito)' AS NombreCuenta, CodigoMoneda, Fecha, "
+   Sql = " SELECT 'Contribuyente 6' AS TipoDeAlicuotaPorContribuyenteStr, 'Ajuste por IGTF (Notas de Crédito)' AS NombreCuenta, CodigoMoneda, Fecha, "
    If valRedondeaMontoDebitoBancario Then
       Sql = Sql & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.BaseImponibleIGTF * CambioAbolivares ", 2) & " ) AS BaseImponible, "
       Sql = Sql & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.IGTFML ", 2) & " ) AS MontoITF, "
@@ -851,7 +851,7 @@ End Function
 Private Function fSqlDeclaracionIGTFFactura_ND_SQL(ByVal valRedondeaMontoDebitoBancario As Boolean, ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date) As String
    Dim Sql As String
    On Error GoTo h_ERROR
-   Sql = " SELECT 'Contribuyente 6' AS TipoDeAlicuotaPorContribuyenteStr, 'Ajuste por IGTF (Notas de DÃ©bito)' AS NombreCuenta, CodigoMoneda, Fecha, "
+   Sql = " SELECT 'Contribuyente 6' AS TipoDeAlicuotaPorContribuyenteStr, 'Ajuste por IGTF (Notas de Débito)' AS NombreCuenta, CodigoMoneda, Fecha, "
    If valRedondeaMontoDebitoBancario Then
       Sql = Sql & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.BaseImponibleIGTF * CambioAbolivares ", 2) & " ) AS BaseImponible, "
       Sql = Sql & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.IGTFML ", 2) & " ) AS MontoITF, "
