@@ -70,7 +70,7 @@ namespace Galac.Adm.Rpt.Venta {
             int vConsecutivoCompania = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania");
             string vCodigoMoneda = LibString.Trim(LibString.Mid(Moneda, 1, LibString.InStr(Moneda, ")") - 1));
             vCodigoMoneda = LibString.IsNullOrEmpty(vCodigoMoneda, true) ? LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera") : vCodigoMoneda;
-            string vNombreMoneda = LibString.Trim(LibString.Mid(Moneda, LibString.InStr(Moneda, ")")));
+            string vNombreMoneda = LibString.Trim(LibString.Mid(Moneda,1+ LibString.InStr(Moneda, ")")));
 
             Data = vRpt.BuildCxCPendientesEntreFechas(vConsecutivoCompania, FechaDesde, FechaHasta, MonedaDelReporte, TipoTasaDeCambio, vCodigoMoneda, vNombreMoneda);
         }

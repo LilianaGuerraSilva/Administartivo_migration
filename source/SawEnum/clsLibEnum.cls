@@ -35,6 +35,7 @@ Public Function fEsNumeroValidoParaWhatsapp(ByVal valNumeroTelefonico, Optional 
       End If
    End If
    Set vRegEx = Nothing
+   fEsNumeroValidoParaWhatsapp = vResult
    On Error GoTo 0
 End Function
 
@@ -58,6 +59,7 @@ Public Function fEsDireccionDeEmailValida(ByVal valDireccionEmail, Optional ByVa
       End If
    End If
    Set vRegEx = Nothing
+   fEsDireccionDeEmailValida = vResult
    On Error GoTo 0
 End Function
 

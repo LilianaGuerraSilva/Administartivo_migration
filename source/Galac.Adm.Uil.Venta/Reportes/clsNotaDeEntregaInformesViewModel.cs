@@ -43,34 +43,11 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             ILibRpt vResult = null;
             if (valViewModel != null) {
                 if (valViewModel.IncluirDetalleNotasDeEntregas) {
-                    vResult = new Rpt.Venta.clsNotaDeEntregaEntreFechasPorClienteDetallado(PrintingDevice,
-                                                                                        ExportFileFormat,
-                                                                                        AppMemoryInfo,
-                                                                                        Mfc,
-                                                                                        valViewModel.FechaDesde,
-                                                                                        valViewModel.FechaHasta,
-                                                                                        valViewModel.IncluirNotasDeEntregasAnuladas,
-                                                                                        valViewModel.CantidadAImprimir,
-                                                                                        valViewModel.MonedaDelInforme,
-                                                                                        valViewModel.CodigoCliente,
-                                                                                        valViewModel.IncluirDetalleNotasDeEntregas,
-                                                                                        valViewModel.Moneda,
-                                                                                        valViewModel.TasaDeCambio) {
+                    vResult = new Rpt.Venta.clsNotaDeEntregaEntreFechasPorClienteDetallado(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaDesde, valViewModel.FechaHasta, valViewModel.IncluirNotasDeEntregasAnuladas, valViewModel.CantidadAImprimir, valViewModel.CodigoCliente, valViewModel.IncluirDetalleNotasDeEntregas) {
                         Worker = Manager,
                     };
                 } else {
-                    vResult = new Rpt.Venta.clsNotaDeEntregaEntreFechasPorCliente(PrintingDevice,
-                                                                                   ExportFileFormat,
-                                                                                   AppMemoryInfo,
-                                                                                   Mfc,
-                                                                                   valViewModel.FechaDesde,
-                                                                                   valViewModel.FechaHasta,
-                                                                                   valViewModel.IncluirNotasDeEntregasAnuladas,
-                                                                                   valViewModel.CantidadAImprimir,
-                                                                                   valViewModel.MonedaDelInforme,
-                                                                                   valViewModel.CodigoCliente,
-                                                                                   valViewModel.Moneda,
-                                                                                   valViewModel.TasaDeCambio) {
+                    vResult = new Rpt.Venta.clsNotaDeEntregaEntreFechasPorCliente(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaDesde, valViewModel.FechaHasta, valViewModel.IncluirNotasDeEntregasAnuladas, valViewModel.CantidadAImprimir, valViewModel.CodigoCliente) {
                         Worker = Manager,
                     };
                 }

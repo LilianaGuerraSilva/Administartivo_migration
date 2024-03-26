@@ -41,6 +41,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblFechaInicialYFinal = new DataDynamics.ActiveReports.Label();
             this.PageFooter = new DataDynamics.ActiveReports.PageFooter();
             this.txtNotaMonedaCambio = new DataDynamics.ActiveReports.TextBox();
+            this.txtNotaIVA = new DataDynamics.ActiveReports.TextBox();
             this.GHSecCliente = new DataDynamics.ActiveReports.GroupHeader();
             this.txtCodigo = new DataDynamics.ActiveReports.TextBox();
             this.lblNombre = new DataDynamics.ActiveReports.Label();
@@ -50,10 +51,10 @@ namespace Galac.Adm.Rpt.Venta
             this.lblMoneda = new DataDynamics.ActiveReports.Label();
             this.txtMoneda = new DataDynamics.ActiveReports.TextBox();
             this.lblFecha = new DataDynamics.ActiveReports.Label();
-            this.lblNroDocumento = new DataDynamics.ActiveReports.Label();
             this.lblMonedaDoc = new DataDynamics.ActiveReports.Label();
             this.lblCambio = new DataDynamics.ActiveReports.Label();
             this.lblMontoTotal = new DataDynamics.ActiveReports.Label();
+            this.lblNroDocumento = new DataDynamics.ActiveReports.Label();
             this.lblSumMontoTotal = new DataDynamics.ActiveReports.Label();
             this.GFSecMoneda = new DataDynamics.ActiveReports.GroupFooter();
             this.txtMonedaReporte = new DataDynamics.ActiveReports.TextBox();
@@ -70,16 +71,17 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.lblTituloInforme)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaInicialYFinal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNotaMonedaCambio)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNotaIVA)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCodigo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblNombre)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombre)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMoneda)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMoneda)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFecha)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblNroDocumento)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMonedaDoc)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCambio)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMontoTotal)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblNroDocumento)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblSumMontoTotal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMonedaReporte)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
@@ -94,7 +96,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCambio,
             this.txtMontoTotal,
             this.txtAnulada});
-            this.Detail.Height = 0.1666667F;
+            this.Detail.Height = 0.15625F;
             this.Detail.Name = "Detail";
             // 
             // txtFecha
@@ -105,72 +107,72 @@ namespace Galac.Adm.Rpt.Venta
             this.txtFecha.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtFecha.Text = "txtFecha";
             this.txtFecha.Top = 0F;
-            this.txtFecha.Width = 0.8F;
+            this.txtFecha.Width = 0.75F;
             // 
             // txtNroDocumento
             // 
             this.txtNroDocumento.Height = 0.15625F;
-            this.txtNroDocumento.Left = 0.8F;
+            this.txtNroDocumento.Left = 0.7500001F;
             this.txtNroDocumento.Name = "txtNroDocumento";
             this.txtNroDocumento.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtNroDocumento.Text = "txtNroDocumento";
             this.txtNroDocumento.Top = 0F;
-            this.txtNroDocumento.Width = 0.8960001F;
+            this.txtNroDocumento.Width = 2F;
             // 
             // txtMonedaDoc
             // 
             this.txtMonedaDoc.Height = 0.15625F;
-            this.txtMonedaDoc.Left = 1.696F;
+            this.txtMonedaDoc.Left = 3.75F;
             this.txtMonedaDoc.Name = "txtMonedaDoc";
             this.txtMonedaDoc.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtMonedaDoc.Text = "txtMonedaDoc";
             this.txtMonedaDoc.Top = 0F;
-            this.txtMonedaDoc.Width = 1.94F;
+            this.txtMonedaDoc.Width = 1.5F;
             // 
             // txtCambio
             // 
             this.txtCambio.Height = 0.15625F;
-            this.txtCambio.Left = 3.636F;
+            this.txtCambio.Left = 5.25F;
             this.txtCambio.Name = "txtCambio";
             this.txtCambio.Padding = new DataDynamics.ActiveReports.PaddingEx(0, 0, 1, 0);
             this.txtCambio.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtCambio.Text = "txtCambio";
             this.txtCambio.Top = 0F;
-            this.txtCambio.Width = 1.3F;
+            this.txtCambio.Width = 0.75F;
             // 
             // txtMontoTotal
             // 
             this.txtMontoTotal.Height = 0.15625F;
-            this.txtMontoTotal.Left = 5.686F;
+            this.txtMontoTotal.Left = 6F;
             this.txtMontoTotal.Name = "txtMontoTotal";
             this.txtMontoTotal.Padding = new DataDynamics.ActiveReports.PaddingEx(0, 0, 1, 0);
             this.txtMontoTotal.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtMontoTotal.Text = "txtMontoTotal";
             this.txtMontoTotal.Top = 0F;
-            this.txtMontoTotal.Width = 1.751997F;
+            this.txtMontoTotal.Width = 1.5F;
             // 
             // txtAnulada
             // 
             this.txtAnulada.Height = 0.15625F;
-            this.txtAnulada.Left = 4.936F;
+            this.txtAnulada.Left = 2.75F;
             this.txtAnulada.Name = "txtAnulada";
             this.txtAnulada.Padding = new DataDynamics.ActiveReports.PaddingEx(0, 0, 1, 0);
             this.txtAnulada.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtAnulada.Text = "txtAnulada\r\n";
             this.txtAnulada.Top = 0F;
-            this.txtAnulada.Width = 0.7499998F;
+            this.txtAnulada.Width = 1F;
             // 
             // txtSumMontoTotal
             // 
             this.txtSumMontoTotal.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtSumMontoTotal.Height = 0.15625F;
-            this.txtSumMontoTotal.Left = 5.686F;
+            this.txtSumMontoTotal.Left = 6F;
             this.txtSumMontoTotal.Name = "txtSumMontoTotal";
             this.txtSumMontoTotal.Padding = new DataDynamics.ActiveReports.PaddingEx(0, 0, 1, 0);
             this.txtSumMontoTotal.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtSumMontoTotal.Text = "txtSumMontoTotal";
             this.txtSumMontoTotal.Top = 0F;
-            this.txtSumMontoTotal.Width = 1.751998F;
+            this.txtSumMontoTotal.Width = 1.5F;
             // 
             // PageHeader
             // 
@@ -239,8 +241,9 @@ namespace Galac.Adm.Rpt.Venta
             // PageFooter
             // 
             this.PageFooter.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
-            this.txtNotaMonedaCambio});
-            this.PageFooter.Height = 0.1770833F;
+            this.txtNotaMonedaCambio,
+            this.txtNotaIVA});
+            this.PageFooter.Height = 0.31225F;
             this.PageFooter.Name = "PageFooter";
             // 
             // txtNotaMonedaCambio
@@ -251,9 +254,19 @@ namespace Galac.Adm.Rpt.Venta
             this.txtNotaMonedaCambio.Name = "txtNotaMonedaCambio";
             this.txtNotaMonedaCambio.Style = "font-size: 7pt; ddo-char-set: 1";
             this.txtNotaMonedaCambio.Text = "txtNotaMonedaCambio";
-            this.txtNotaMonedaCambio.Top = 0F;
+            this.txtNotaMonedaCambio.Top = 0.156F;
             this.txtNotaMonedaCambio.Visible = false;
-            this.txtNotaMonedaCambio.Width = 7.438F;
+            this.txtNotaMonedaCambio.Width = 7.5F;
+            // 
+            // txtNotaIVA
+            // 
+            this.txtNotaIVA.Height = 0.15625F;
+            this.txtNotaIVA.Left = 0F;
+            this.txtNotaIVA.Name = "txtNotaIVA";
+            this.txtNotaIVA.Style = "font-size: 7pt; ddo-char-set: 1";
+            this.txtNotaIVA.Text = "Nota: Los montos están expesados con I.V.A., según corresponda a su alícuota.";
+            this.txtNotaIVA.Top = 0F;
+            this.txtNotaIVA.Width = 7.5F;
             // 
             // GHSecCliente
             // 
@@ -261,18 +274,18 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCodigo,
             this.lblNombre,
             this.txtNombre});
-            this.GHSecCliente.Height = 0.1770833F;
+            this.GHSecCliente.Height = 0.15625F;
             this.GHSecCliente.Name = "GHSecCliente";
             // 
             // txtCodigo
             // 
             this.txtCodigo.Height = 0.15625F;
-            this.txtCodigo.Left = 0.8F;
+            this.txtCodigo.Left = 0.7500001F;
             this.txtCodigo.Name = "txtCodigo";
             this.txtCodigo.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtCodigo.Text = "txtCodigo";
             this.txtCodigo.Top = 0F;
-            this.txtCodigo.Width = 0.896F;
+            this.txtCodigo.Width = 1.248F;
             // 
             // lblNombre
             // 
@@ -282,18 +295,18 @@ namespace Galac.Adm.Rpt.Venta
             this.lblNombre.Name = "lblNombre";
             this.lblNombre.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.lblNombre.Text = "Cliente\r\n";
-            this.lblNombre.Top = 0F;
-            this.lblNombre.Width = 0.8F;
+            this.lblNombre.Top = 3.72529E-09F;
+            this.lblNombre.Width = 0.75F;
             // 
             // txtNombre
             // 
             this.txtNombre.Height = 0.15625F;
-            this.txtNombre.Left = 1.696F;
+            this.txtNombre.Left = 1.998F;
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtNombre.Text = "txtNombre";
             this.txtNombre.Top = 0F;
-            this.txtNombre.Width = 5.742001F;
+            this.txtNombre.Width = 5.502F;
             // 
             // GFSecCliente
             // 
@@ -306,11 +319,11 @@ namespace Galac.Adm.Rpt.Venta
             this.lblMoneda,
             this.txtMoneda,
             this.lblFecha,
-            this.lblNroDocumento,
             this.lblMonedaDoc,
             this.lblCambio,
+            this.lblNroDocumento,
             this.lblMontoTotal});
-            this.GHSecMoneda.Height = 0.3229167F;
+            this.GHSecMoneda.Height = 0.3333333F;
             this.GHSecMoneda.Name = "GHSecMoneda";
             // 
             // lblMoneda
@@ -322,17 +335,17 @@ namespace Galac.Adm.Rpt.Venta
             this.lblMoneda.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.lblMoneda.Text = "Moneda";
             this.lblMoneda.Top = 0F;
-            this.lblMoneda.Width = 0.8F;
+            this.lblMoneda.Width = 0.75F;
             // 
             // txtMoneda
             // 
             this.txtMoneda.Height = 0.15625F;
-            this.txtMoneda.Left = 0.8F;
+            this.txtMoneda.Left = 0.7500001F;
             this.txtMoneda.Name = "txtMoneda";
-            this.txtMoneda.Style = "font-size: 8pt; ddo-char-set: 1";
+            this.txtMoneda.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
             this.txtMoneda.Text = "txtMoneda";
             this.txtMoneda.Top = 0F;
-            this.txtMoneda.Width = 0.8960001F;
+            this.txtMoneda.Width = 6.75F;
             // 
             // lblFecha
             // 
@@ -344,69 +357,70 @@ namespace Galac.Adm.Rpt.Venta
             this.lblFecha.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
             this.lblFecha.Text = "Fecha";
             this.lblFecha.Top = 0.15625F;
-            this.lblFecha.Width = 0.8F;
-            // 
-            // lblNroDocumento
-            // 
-            this.lblNroDocumento.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.lblNroDocumento.Height = 0.15625F;
-            this.lblNroDocumento.HyperLink = null;
-            this.lblNroDocumento.Left = 0.8F;
-            this.lblNroDocumento.Name = "lblNroDocumento";
-            this.lblNroDocumento.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
-            this.lblNroDocumento.Text = "N° Documento";
-            this.lblNroDocumento.Top = 0.156F;
-            this.lblNroDocumento.Width = 0.8960001F;
+            this.lblFecha.Width = 0.75F;
             // 
             // lblMonedaDoc
             // 
             this.lblMonedaDoc.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblMonedaDoc.Height = 0.15625F;
             this.lblMonedaDoc.HyperLink = null;
-            this.lblMonedaDoc.Left = 1.696F;
+            this.lblMonedaDoc.Left = 3.75F;
             this.lblMonedaDoc.Name = "lblMonedaDoc";
             this.lblMonedaDoc.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
             this.lblMonedaDoc.Text = "Moneda Doc";
             this.lblMonedaDoc.Top = 0.156F;
-            this.lblMonedaDoc.Width = 1.94F;
+            this.lblMonedaDoc.Width = 1.5F;
             // 
             // lblCambio
             // 
             this.lblCambio.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblCambio.Height = 0.15625F;
             this.lblCambio.HyperLink = null;
-            this.lblCambio.Left = 3.636F;
+            this.lblCambio.Left = 5.25F;
             this.lblCambio.Name = "lblCambio";
             this.lblCambio.Padding = new DataDynamics.ActiveReports.PaddingEx(0, 0, 1, 0);
             this.lblCambio.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblCambio.Text = "Cambio";
             this.lblCambio.Top = 0.156F;
-            this.lblCambio.Width = 1.3F;
+            this.lblCambio.Width = 0.75F;
             // 
             // lblMontoTotal
             // 
             this.lblMontoTotal.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblMontoTotal.Height = 0.15625F;
             this.lblMontoTotal.HyperLink = null;
-            this.lblMontoTotal.Left = 4.936F;
+            this.lblMontoTotal.Left = 6F;
             this.lblMontoTotal.Name = "lblMontoTotal";
             this.lblMontoTotal.Padding = new DataDynamics.ActiveReports.PaddingEx(0, 0, 1, 0);
             this.lblMontoTotal.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblMontoTotal.Text = "Total";
             this.lblMontoTotal.Top = 0.156F;
-            this.lblMontoTotal.Width = 2.501998F;
+            this.lblMontoTotal.Width = 1.5F;
+            // 
+            // lblNroDocumento
+            // 
+            this.lblNroDocumento.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.lblNroDocumento.Height = 0.157F;
+            this.lblNroDocumento.HyperLink = null;
+            this.lblNroDocumento.Left = 0.7500001F;
+            this.lblNroDocumento.Name = "lblNroDocumento";
+            this.lblNroDocumento.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
+            this.lblNroDocumento.Text = "N° Documento";
+            this.lblNroDocumento.Top = 0.156F;
+            this.lblNroDocumento.Width = 3F;
             // 
             // lblSumMontoTotal
             // 
+            this.lblSumMontoTotal.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblSumMontoTotal.Height = 0.15625F;
             this.lblSumMontoTotal.HyperLink = null;
-            this.lblSumMontoTotal.Left = 3.636F;
+            this.lblSumMontoTotal.Left = 0F;
             this.lblSumMontoTotal.Name = "lblSumMontoTotal";
             this.lblSumMontoTotal.Padding = new DataDynamics.ActiveReports.PaddingEx(0, 0, 1, 0);
             this.lblSumMontoTotal.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblSumMontoTotal.Text = "Total por Moneda";
             this.lblSumMontoTotal.Top = 0F;
-            this.lblSumMontoTotal.Width = 1.3F;
+            this.lblSumMontoTotal.Width = 5.25F;
             // 
             // GFSecMoneda
             // 
@@ -414,13 +428,14 @@ namespace Galac.Adm.Rpt.Venta
             this.lblSumMontoTotal,
             this.txtSumMontoTotal,
             this.txtMonedaReporte});
-            this.GFSecMoneda.Height = 0.1979167F;
+            this.GFSecMoneda.Height = 0.25F;
             this.GFSecMoneda.Name = "GFSecMoneda";
             // 
             // txtMonedaReporte
             // 
+            this.txtMonedaReporte.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtMonedaReporte.Height = 0.15625F;
-            this.txtMonedaReporte.Left = 4.936F;
+            this.txtMonedaReporte.Left = 5.25F;
             this.txtMonedaReporte.Name = "txtMonedaReporte";
             this.txtMonedaReporte.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtMonedaReporte.Text = "txtMonedaReporte";
@@ -446,7 +461,6 @@ namespace Galac.Adm.Rpt.Venta
             this.StyleSheet.Add(new DDCssLib.StyleSheetRule("font-family: Times New Roman; font-size: 14pt; font-weight: bold; font-style: ita" +
             "lic", "Heading2", "Normal"));
             this.StyleSheet.Add(new DDCssLib.StyleSheetRule("font-size: 13pt; font-weight: bold", "Heading3", "Normal"));
-            this.ReportStart += new System.EventHandler(this.dsrNotaDeEntregaEntreFechasPorCliente_ReportStart);
             ((System.ComponentModel.ISupportInitialize)(this.txtFecha)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNroDocumento)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMonedaDoc)).EndInit();
@@ -460,16 +474,17 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.lblTituloInforme)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaInicialYFinal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNotaMonedaCambio)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNotaIVA)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCodigo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblNombre)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombre)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMoneda)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMoneda)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFecha)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblNroDocumento)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMonedaDoc)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCambio)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMontoTotal)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblNroDocumento)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblSumMontoTotal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMonedaReporte)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
@@ -509,5 +524,6 @@ namespace Galac.Adm.Rpt.Venta
         private DataDynamics.ActiveReports.TextBox txtAnulada;
         private DataDynamics.ActiveReports.TextBox txtNotaMonedaCambio;
         private DataDynamics.ActiveReports.TextBox txtMonedaReporte;
+        private DataDynamics.ActiveReports.TextBox txtNotaIVA;
     }
 }

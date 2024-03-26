@@ -19,6 +19,8 @@ namespace Galac.Saw.Rpt.Cliente {
         #region Variables
         private bool _UseExternalRpx;
         private static string _RpxFileName;
+        decimal mTotalMontoOriginal;
+        decimal mTotalSaldoActual;
         #endregion //Variables
         #region Constructores
         public dsrHistoricoDeCliente()
@@ -40,6 +42,8 @@ namespace Galac.Saw.Rpt.Cliente {
         }
 
         public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {
+            mTotalMontoOriginal = 0;
+            mTotalSaldoActual = 0;
             if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
                 if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
@@ -73,10 +77,6 @@ namespace Galac.Saw.Rpt.Cliente {
                 LibReport.ConfigFieldStr(this, "txtNoCobranza", string.Empty, "NumeroCobranza");
                 LibReport.ConfigFieldDate(this, "txtFechaCobranza", string.Empty, "FechaCobranza", "dd/MM/yy");
                 LibReport.ConfigFieldDec(this, "txtMontoCobrado", string.Empty, "MontoCobrado");
-                LibReport.ConfigFieldDec(this, "txtTotalMontoOriginal", string.Empty, "TotalMontoOriginal");
-                LibReport.ConfigFieldDec(this, "txtTotalMontoCobrado", string.Empty, "TotalMontoCobrado");
-                LibReport.ConfigFieldDec(this, "txtTotalSaldoActual", string.Empty, "TotalSaldoActual");
-                LibReport.ConfigFieldDec(this, "txtTotalMasSaldoInicial", string.Empty, "TotalMasSaldoInicial");
                 LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", string.Empty, "NotaMonedaCambio");
                 LibReport.ConfigFieldStr(this, "txtMonedaExpresadaEn", valParameters["MonedaExpresadaEn"], "");              
 
@@ -86,9 +86,9 @@ namespace Galac.Saw.Rpt.Cliente {
                 LibReport.ConfigGroupHeader(this, "GHTipoReporte", "TituloTipoReporte", GroupKeepTogether.All, RepeatStyle.All, true, NewPage.None);
                 LibReport.ConfigGroupHeader(this, "GHDetalle", "NumeroDocumento", GroupKeepTogether.All, RepeatStyle.All, true, NewPage.None);
 
-                LibReport.ConfigSummaryField(this, "txtTotalMontoOriginal", "MontoOriginal", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
-                LibReport.ConfigSummaryField(this, "txtTotalMontoCobrado", "MontoCobrado", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
-                LibReport.ConfigSummaryField(this, "txtTotalSaldoActual", "SaldoActual", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txtTotalMontoOriginal", "MontoOriginal", SummaryFunc.Sum, "GHTipoReporte", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txtTotalMontoCobrado", "MontoCobrado", SummaryFunc.Sum, "GHTipoReporte", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txtTotalSaldoActual", "SaldoActual", SummaryFunc.Sum, "GHTipoReporte", SummaryRunning.Group, SummaryType.SubTotal);
                 LibGraphPrnMargins.SetGeneralMargins(this, PageOrientation.Portrait);
                 return true;
             }
@@ -100,9 +100,6 @@ namespace Galac.Saw.Rpt.Cliente {
             this.Detail.Visible = LibString.S1IsEqualToS2(LibConvert.ToStr(txtStatusCobranza.Value), "0");
         }
 
-        private void GFTipoReporte_BeforePrint(object sender, EventArgs e) {
-            this.txtTotalMasSaldoInicial.Value = LibConvert.ToDec(txtSaldoInicial.Value, 2) + LibConvert.ToDec(txtTotalSaldoActual.Value, 2);
-        }
         private void PageFooter_Format(object sender, EventArgs e) {
             eMonedaDelInformeMM vMonedaDelInformeMM = (eMonedaDelInformeMM)LibConvert.DbValueToEnum(txtMonedaDelInforme.Text);
             eTasaDeCambioParaImpresion vTasaDeCambioParaElReporte = (eTasaDeCambioParaImpresion)LibConvert.DbValueToEnum(txtTasaDeCambioParaElReporte.Text);
@@ -112,6 +109,8 @@ namespace Galac.Saw.Rpt.Cliente {
         private void GHTipoReporte_Format(object sender, EventArgs e) {
             try {
                 lblFechaVencimiento.Text = LibString.S1IsEqualToS2(LibConvert.ToStr(txtTipoReporte.Value), "1") ? "" : "F. Venc.";
+                mTotalMontoOriginal = 0;
+                mTotalSaldoActual = 0;
             } catch (Exception) {
                 throw;
             }
@@ -120,6 +119,19 @@ namespace Galac.Saw.Rpt.Cliente {
         private void GHDetalle_Format(object sender, EventArgs e) {
             try {
                 txtFechaVencimiento.Visible = !LibString.S1IsEqualToS2(LibConvert.ToStr(txtTipoReporte.Value), "1");
+                mTotalMontoOriginal += LibConvert.ToDec(txtMontoOriginal.Value);
+                mTotalSaldoActual += LibConvert.ToDec(txtSaldoActual.Value);
+            } catch (Exception) {
+                throw;
+            }
+        }
+
+        private void GFTipoReporte_Format(object sender, EventArgs e) {
+            try {
+                decimal vTotalMontoOriginal = LibConvert.ToDec(txtSaldoInicial.Value) + mTotalMontoOriginal;
+                txtTotalMontoOriginal.Text = LibConvert.NumToString(vTotalMontoOriginal, 2);
+                decimal vSaldoActual = LibConvert.ToDec(txtSaldoInicial.Value) + mTotalSaldoActual;
+                txtTotalSaldoActual.Text = LibConvert.NumToString(vSaldoActual, 2);
             } catch (Exception) {
                 throw;
             }

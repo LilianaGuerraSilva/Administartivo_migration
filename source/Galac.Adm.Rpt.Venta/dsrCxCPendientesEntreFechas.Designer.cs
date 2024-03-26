@@ -134,6 +134,7 @@ namespace Galac.Adm.Rpt.Venta {
             // 
             // txtNombreCliente
             // 
+            this.txtNombreCliente.CanGrow = false;
             this.txtNombreCliente.Height = 0.156F;
             this.txtNombreCliente.Left = 2.437F;
             this.txtNombreCliente.Name = "txtNombreCliente";
@@ -185,6 +186,7 @@ namespace Galac.Adm.Rpt.Venta {
             // 
             // txtContacto
             // 
+			this.txtContacto.CanGrow = false;
             this.txtContacto.Height = 0.156F;
             this.txtContacto.Left = 1.687F;
             this.txtContacto.Name = "txtContacto";

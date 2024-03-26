@@ -42,18 +42,8 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         private bool _IsEnabledCliente;
         private const string IncluirDetalleNotasDeEntregasPropertyName = "IncluirDetalleNotasDeEntregas";
         private bool _IncluirDetalleNotasDeEntregasAsBool;
-        private eMonedaDelInformeMM _MonedaDelInforme;
-        const string MonedaDelInformePropertyName = "MonedaDelInforme";
-        const string MonedaPropertyName = "Moneda";
-        const string TasaDeCambioPropertyName = "TasaDeCambio";
         const string IsVisibleNombreDelClientePropertyName = "IsVisibleNombreDelCliente";
-        const string IsVisibleSaltoDePaginaPorClientePropertyName = "IsVisibleSaltoDePaginaPorCliente";
-        const string IsVisibleMonedasActivasPropertyName = "IsVisibleMonedasActivas";
-        const string IsVisibleTasaDeCambioPropertyName = "IsVisibleTasaDeCambio";
         const string IsVisibleIncluirNotasDeEntregasAnuladasPropertyName = "IsVisibleIncluirNotasDeEntregasAnuladas";
-        string _Moneda;
-        eTasaDeCambioParaImpresion _TasaDeCambio;
-
         #endregion
 
         #region Propiedades
@@ -67,7 +57,6 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         }
 
         [LibRequired(ErrorMessage = "El campo Fecha Desde es requerido.")]
-        [LibCustomValidation("FechaDesdeValidating")]
         public DateTime FechaDesde {
             get {
                 return _FechaDesde;
@@ -79,8 +68,8 @@ namespace Galac.Adm.Uil.Venta.Reportes {
                 }
             }
         }
+
         [LibRequired(ErrorMessage = "El campo Fecha Hasta es requerido.")]
-        [LibCustomValidation("FechaHastaValidating")]
         public DateTime FechaHasta {
             get {
                 return _FechaHasta;
@@ -138,49 +127,11 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             }
         }
 
-        public eMonedaDelInformeMM MonedaDelInforme {
-            get { return _MonedaDelInforme; }
-            set {
-                if (_MonedaDelInforme != value) {
-                    _MonedaDelInforme = value;
-                    RaisePropertyChanged(MonedaDelInformePropertyName);
-                    RaisePropertyChanged(IsVisibleMonedasActivasPropertyName);
-                    RaisePropertyChanged(IsVisibleTasaDeCambioPropertyName);
-                }
-            }
-        }
-
-        public string Moneda {
-            get { return _Moneda; }
-            set {
-                if (_Moneda != value) {
-                    _Moneda = value;
-                    RaisePropertyChanged(MonedaPropertyName);
-                }
-            }
-        }
-
         public eCantidadAImprimir[] ArrayCantidadAImprimir {
             get {
                 return LibEnumHelper<eCantidadAImprimir>.GetValuesInArray();
             }
         }
-
-        public eTasaDeCambioParaImpresion TasaDeCambio {
-            get { return _TasaDeCambio; }
-            set {
-                if (_TasaDeCambio != value) {
-                    _TasaDeCambio = value;
-                    RaisePropertyChanged(TasaDeCambioPropertyName);
-                }
-            }
-        }
-
-        public eTasaDeCambioParaImpresion[] ListaTasaDeCambio { get { return LibEnumHelper<eTasaDeCambioParaImpresion>.GetValuesInArray(); } }
-        public eMonedaDelInformeMM[] ListaMonedaDelInforme { get { return LibEnumHelper<eMonedaDelInformeMM>.GetValuesInArray(); } }
-        public ObservableCollection<string> ListaMonedasActivas { get; set; }
-        public bool IsVisibleMonedasActivas { get { return MonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa; } }
-        public bool IsVisibleTasaDeCambio { get { return MonedaDelInforme == eMonedaDelInformeMM.EnBolivares || MonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa; } }
         public bool IsVisibleIncluirNotasDeEntregasAnuladas { get { return IncluirDetalleNotasDeEntregas == false; } }
 
         [LibCustomValidation("ClienteValidating")]
@@ -253,7 +204,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         public clsNotaDeEntregaEntreFechasPorClienteViewModel() {
             FechaDesde = LibDate.DateFromMonthAndYear(1, LibDate.Today().Year, true);
             FechaHasta = LibDate.Today();
-            LlenarListaMonedasActivas();
+            CantidadAImprimir = eCantidadAImprimir.All;
         }
 
         protected override void InitializeCommands() {
@@ -263,26 +214,6 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 
         protected override ILibBusinessSearch GetBusinessComponent() {
             return new clsFacturaRapidaNav();
-        }
-
-        private ValidationResult FechaDesdeValidating() {
-            ValidationResult vResult = ValidationResult.Success;
-            if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaDesde, false, eAccionSR.InformesPantalla)) {
-                vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha Desde"));
-            } else if (LibDate.F1IsGreaterThanF2(FechaDesde, FechaHasta)) {
-                vResult = new ValidationResult("La fecha desde no puede ser mayor a la fecha hasta");
-            }
-            return vResult;
-        }
-
-        private ValidationResult FechaaHastaValidating() {
-            ValidationResult vResult = ValidationResult.Success;
-            if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaHasta, false, eAccionSR.InformesPantalla)) {
-                vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha Desde"));
-            } else if (LibDate.F1IsLessThanF2(FechaHasta, FechaDesde)) {
-                vResult = new ValidationResult("La fecha hasta no puede ser menor a la fecha desde");
-            }
-            return vResult;
         }
 
         private ValidationResult ClienteValidating() {
@@ -296,13 +227,6 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         #endregion //Constructores
 
         #region Metodos
-
-        void LlenarListaMonedasActivas() {
-            ListaMonedasActivas = new clsLibSaw().ListaDeMonedasActivasParaInformes(false);
-            if (ListaMonedasActivas.Count > 0) {
-                Moneda = ListaMonedasActivas[0];
-            }
-        }
 
         private void ExecuteChooseNombreClienteCommand(string valNombre) {
             try {
@@ -323,7 +247,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
+                LibMessages.RaiseError.ShowError(vEx);
             }
         }
 

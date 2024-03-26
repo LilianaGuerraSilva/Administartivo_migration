@@ -41,7 +41,7 @@ namespace Galac.Adm.Rpt.Venta
             return "Notas de Entrega por Cliente";
         }
 
-        public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters, eMonedaDelInformeMM valMonedaDelInforme, string valMoneda, eTasaDeCambioParaImpresion valTasaDeCambio) {
+        public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {
             if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
                 if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
@@ -58,12 +58,11 @@ namespace Galac.Adm.Rpt.Venta
 				LibReport.ConfigFieldStr(this, "txtCodigo", string.Empty, "CodigoCliente");
 				LibReport.ConfigFieldStr(this, "txtNombre", string.Empty, "Cliente");
 				LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "Moneda");
-//				LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", LibGalac.Aos.Base.Report.eDateOutputFormat.DateShort); esta sobrecarga no está en versión 5.0.2.0 de lib, temporalmente pasar formato directo
 				LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", "dd/MM/yyyy");
 				LibReport.ConfigFieldStr(this, "txtNroDocumento", string.Empty, "Numero");
 				LibReport.ConfigFieldStr(this, "txtMonedaDoc", string.Empty, "MonedaDoc");
-				LibReport.ConfigFieldDec(this, "txtCambio", string.Empty, "Cambio");
-				LibReport.ConfigFieldDec(this, "txtAnulada", string.Empty, "EsAnulada");
+				LibReport.ConfigFieldDec(this, "txtCambio", string.Empty, "Cambio", "#,###.0000", false, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtAnulada", string.Empty, "EsAnulada");
 				LibReport.ConfigFieldDec(this, "txtMontoTotal", string.Empty, "TotalFactura");
                 LibReport.ConfigSummaryField(this, "txtSumMontoTotal", "TotalFactura", SummaryFunc.Sum, "GHSecMoneda", SummaryRunning.Group, SummaryType.SubTotal);
                 
@@ -72,9 +71,8 @@ namespace Galac.Adm.Rpt.Venta
 
                 LibReport.ConfigFieldStr(this, "txtMonedaReporte", string.Empty, "Moneda");
 
-                string vNotaMonedaCambio = new clsLibSaw().NotaMonedaCambioParaInformes(valMonedaDelInforme, valTasaDeCambio, valMoneda, "Notas de Entrega");
-                LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", vNotaMonedaCambio, "");
-                LibReport.ChangeControlVisibility(this, "txtNotaMonedaCambio", true);
+                LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", "", "");
+                LibReport.ChangeControlVisibility(this, "txtNotaMonedaCambio", false);
 
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 return true;
@@ -82,11 +80,6 @@ namespace Galac.Adm.Rpt.Venta
             return false;
         }
         #endregion //Metodos Generados
-
-        private void dsrNotaDeEntregaEntreFechasPorCliente_ReportStart(object sender, EventArgs e)
-        {
-
-        }
     } //End of class dsrNotaDeEntregaEntreFechasPorCliente
 
 } //End of namespace Galac.Dbo.Rpt.ComponenteNoEspecificado
