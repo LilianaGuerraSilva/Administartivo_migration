@@ -158,8 +158,10 @@ Public Function fSqlViewCompras() As String
                     "," & " 0 ", ",", " <> ", "MontoGravableAlicuotaEspecial2, ")
    vSQL = vSQL & gUtilSQL.DfSQLCaseIf("Cxp.Status", _
          "'" & gConvert.enumerativoAChar(enum_StatusDocumento.eSD_ANULADO) & "'", fSqlConvierteMonto("cxP.MontoIVAAlicuotaEspecial2", "cxP.AnoDeAplicacion", "cxP.Fecha") & _
-                    "," & " 0 ", ",", " <> ", "MontoIVAAlicuotaEspecial2")
-
+                    "," & " 0 ", ",", " <> ", "MontoIVAAlicuotaEspecial2, ")
+   vSQL = vSQL & " cxP.BaseImponibleIGTFML, "
+   vSQL = vSQL & " cxP.AlicuotaIGTFML, "
+   vSQL = vSQL & " cxP.MontoIGTFML "
    vSQL = vSQL & " FROM cxP INNER JOIN IGV_EnumTipoDocumentoIva "
    vSQL = vSQL & " ON IGV_EnumTipoDocumentoIva.DbValue COLLATE Modern_Spanish_CI_AS = cxP.TipoDeCxp "
    vSQL = vSQL & " WHERE     (AplicaParaLibrodeCompras = 'S') "

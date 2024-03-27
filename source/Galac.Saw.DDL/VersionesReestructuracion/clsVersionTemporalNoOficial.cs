@@ -19,13 +19,13 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 
 		private void AgregarColumnasIGTFEnCxP() {
 			if (AddColumnCurrency("CxP", "BaseImponibleIGTFML", "")) {
-				AddDefaultConstraint("CxP", "cBiG", "0", "BaseImponibleIGTF");
+				AddDefaultConstraint("CxP", "cBiG", "0", "BaseImponibleIGTFML");
 			}
 			if (AddColumnCurrency("CxP", "AlicuotaIGTFML", "")) {
-				AddDefaultConstraint("CxP", "cAiG", "0", "AlicuotaIGTF");
+				AddDefaultConstraint("CxP", "cAiG", "3", "AlicuotaIGTFML");
 			}
 			if (AddColumnCurrency("CxP", "MontoIGTFML", "")) {
-				AddDefaultConstraint("CxP", "cMiG", "0", "MontoIGTF");
+				AddDefaultConstraint("CxP", "cMiG", "0", "MontoIGTFML");
 			}
 		}
 
