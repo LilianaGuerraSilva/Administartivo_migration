@@ -3,7 +3,7 @@ Proyecto=SAW
  
 
 #INCLUDE=ExternalTablasGen,"C:\cvs\documentos\productos\Migracion AOS\DefTablasGen.txt"
-
+#INCLUDE=ExternalLib,"C:\cvs\documentos\dotNet\Def\DefLibGalac.txt"
 $GENERATE$
 //Tipos Enumerativos
 
@@ -708,7 +708,7 @@ MenuDeInformes : boolean;
 //}
 
 
-{@M}Vendedor = Record //Male,Multiarchivo=Compania,GenerateRptConfigurar, GENERATE
+{@M}Vendedor = Record //Male,Multiarchivo=Compania,GenerateRptConfigurar
    ConsecutivoCompania  : LongInt; //o,HIDE
    Codigo		: Str5;//u,g,o,search,"Código",sugestConsecutive
    Nombre		: Str35;//u,g,o,search
@@ -1468,7 +1468,7 @@ MenuDeInformes : boolean;
 	@PrimaryKey= ConsecutivoCompania, ConsecutivoMaquinaFiscal
    }
 
-{@M}Factura = record //Multiarchivo=Compania,GenerateRptConfigurar,GenerateFrmInforme, "Facturas", GENERATE
+{@M}Factura = record //Multiarchivo=Compania,GenerateRptConfigurar,GenerateFrmInforme, "Facturas"
     ConsecutivoCompania: Longint; //HIDE
     Numero        : str11;  //O,G,U,"Número de Factura",search,suggestConsecutive
     Fecha            : unFecha;//O,G,"Fecha",search
@@ -2099,7 +2099,7 @@ MenuDeInformes : boolean;
     @PrimaryKey=ConsecutivoCompania,CodigoProveedor
 }
 
-{@M}CxP = Record //Female,Multiarchivo=Compania,GenerateRptConfigurar
+{@M}CxP = Record //Female,Multiarchivo=Compania,GenerateRptConfigurar,Generate
     ConsecutivoCompania           : Longint; //HIDE
     Numero                        : str25; //o,g,search,"Número", u
     TipoDeCxP                     : unTipoDeCxC;//search,u
@@ -2170,11 +2170,15 @@ MenuDeInformes : boolean;
     NumeroSerie                   : Str10; //"Serie" o,search
     NumeroDeDocumento             : Str20; //"Número" o,search
     NumeroSerieDocAfectado        : Str10; //"Serie Afectada" 
-    NumeroDeDocumentoAfectado     : Str20; //"Número Doc Afectado" 
-    NombreOperador                	: Str10; //a
+    NumeroDeDocumentoAfectado     : Str20; //"Número Doc Afectado" 	
+    BaseImponibleIGTFML   	  : Currency;
+    AlicuotaIGTFML	     	  : Currency;
+    MontoIGTFML     		  : Currency;  
+    NombreOperador                	: Str10; //a 
     FechaUltimaModificacion       	: Date;//a
     @PrimaryKey=ConsecutivoCompania,ConsecutivoCxP
 }
+
 {@D CxP}OtrosImpuestosCxP = Record////Multiarchivo=Compania, MALE
     ConsecutivoCompania : Longint; //HIDE,o
     ConsecutivoCxP      : Longint; //HIDE,o

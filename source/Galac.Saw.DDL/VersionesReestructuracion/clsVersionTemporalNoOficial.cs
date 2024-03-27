@@ -12,8 +12,21 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
 		public override bool UpdateToVersion() {
 			StartConnectionNoTransaction();
+			AgregarColumnasIGTFEnCxP();
 			DisposeConnectionNoTransaction();
 			return true;
+		}
+
+		private void AgregarColumnasIGTFEnCxP() {
+			if (AddColumnCurrency("CxP", "BaseImponibleIGTFML", "")) {
+				AddDefaultConstraint("CxP", "cBiG", "0", "BaseImponibleIGTF");
+			}
+			if (AddColumnCurrency("CxP", "AlicuotaIGTFML", "")) {
+				AddDefaultConstraint("CxP", "cAiG", "0", "AlicuotaIGTF");
+			}
+			if (AddColumnCurrency("CxP", "MontoIGTFML", "")) {
+				AddDefaultConstraint("CxP", "cMiG", "0", "MontoIGTF");
+			}
 		}
 
 	}
