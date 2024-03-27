@@ -69,4 +69,4 @@
 [submodule "source/vbaComun"]
 	path = source/vbaComun
 	url = https://github.com/GalacSoftware/vbaComun.git
-	branch = release/SawV25.2.0.0
+	branch = feature/AgregarCamposIGTFEnLibroDeCompras
