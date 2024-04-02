@@ -484,6 +484,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         private string LimpiarCaracteresNoValidos(string valInput) {
             string vResult = "";
+            valInput = LibString.Trim(valInput);
             System.Text.RegularExpressions.Regex vListInvalidChars = new System.Text.RegularExpressions.Regex("[´|`|~|^|¨|'|\n|\r|\t]", System.Text.RegularExpressions.RegexOptions.Compiled);
             vResult = vListInvalidChars.Replace(valInput, "");
             return vResult;
