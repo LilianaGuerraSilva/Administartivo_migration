@@ -222,6 +222,9 @@ namespace Galac.Adm.Brl.CajaChica {
             vCurrentRecord.ImpuestoMunicipalRetenidoAsBool = false;
             vCurrentRecord.NumeroControlDeFacturaAfectada = "";
             vCurrentRecord.AplicaIvaAlicuotaEspecialAsBool = false;
+            vCurrentRecord.BaseImponibleIGTFML = 0;
+            vCurrentRecord.AlicuotaIGTFML = 0;
+            vCurrentRecord.MontoIGTFML = 0;
             vCurrentRecord.NombreOperador = "";
             vCurrentRecord.ConsecutivoRendicion = 0;
             vCurrentRecord.FechaUltimaModificacion = LibDate.Today();
@@ -405,9 +408,6 @@ namespace Galac.Adm.Brl.CajaChica {
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("NumeroControlDeFacturaAfectada"), null))) {
                     vRecord.NumeroControlDeFacturaAfectada = vItem.Element("NumeroControlDeFacturaAfectada").Value;
                 }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("NombreOperador"), null))) {
-                    vRecord.NombreOperador = vItem.Element("NombreOperador").Value;
-                }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("ConsecutivoRendicion"), null))) {
                     vRecord.ConsecutivoRendicion = LibConvert.ToInt(vItem.Element("ConsecutivoRendicion"));
                 }
@@ -434,6 +434,18 @@ namespace Galac.Adm.Brl.CajaChica {
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("AplicaIvaAlicuotaEspecial"), null))) {
                     vRecord.AplicaIvaAlicuotaEspecial = vItem.Element("AplicaIvaAlicuotaEspecial").Value;
+                }
+				if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("BaseImponibleIGTFML"), null))) {
+                    vRecord.BaseImponibleIGTFML = LibConvert.ToDec(vItem.Element("BaseImponibleIGTFML"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("AlicuotaIGTFML"), null))) {
+                    vRecord.AlicuotaIGTFML = LibConvert.ToDec(vItem.Element("AlicuotaIGTFML"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("MontoIGTFML"), null))) {
+                    vRecord.MontoIGTFML = LibConvert.ToDec(vItem.Element("MontoIGTFML"));
+                }
+				if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("NombreOperador"), null))) {
+                    vRecord.NombreOperador = vItem.Element("NombreOperador").Value;
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("fldTimeStampBigint"), null))) {
                     vRecord.fldTimeStamp = LibConvert.ToLong(vItem.Element("fldTimeStampBigint"));

@@ -119,6 +119,9 @@ namespace Galac.Adm.Dal.CajaChica {
             vParams.AddInDecimal("MontoGravableAlicuotaEspecial2",valRecord.MontoGravableAlicuotaEspecial2,2);
             vParams.AddInDecimal("MontoIVAAlicuotaEspecial2",valRecord.MontoIVAAlicuotaEspecial2,2);
             vParams.AddInDecimal("PorcentajeIvaAlicuotaEspecial2",valRecord.PorcentajeIvaAlicuotaEspecial2,2);
+            vParams.AddInDecimal("BaseImponibleIGTFML", valRecord.BaseImponibleIGTFML, 2);
+            vParams.AddInDecimal("AlicuotaIGTFML", valRecord.AlicuotaIGTFML, 2);
+            vParams.AddInDecimal("MontoIGTFML", valRecord.MontoIGTFML, 2);
             vParams.AddInString("NombreOperador",((CustomIdentity)Thread.CurrentPrincipal.Identity).Login,10);
             vParams.AddInDateTime("FechaUltimaModificacion",LibDate.Today());
 

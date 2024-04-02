@@ -100,6 +100,9 @@ namespace Galac.Adm.Dal.CajaChica {
             SQL.AppendLine("MontoGravableAlicuotaEspecial2" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CxPMoGrAlEs2 DEFAULT (0), ");
             SQL.AppendLine("MontoIVAAlicuotaEspecial2" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CxPMoIVEs2 DEFAULT (0), ");
             SQL.AppendLine("PorcentajeIvaAlicuotaEspecial2" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CxPPoIvAlEs2 DEFAULT (0), ");
+            SQL.AppendLine("BaseImponibleIGTFML" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CxPBaImIG DEFAULT (0), ");
+            SQL.AppendLine("AlicuotaIGTFML" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CxPAlIG DEFAULT (0), ");
+            SQL.AppendLine("MontoIGTFML" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CxPMoIG DEFAULT (0), ");
             SQL.AppendLine("NombreOperador" + InsSql.VarCharTypeForDb(20) + ", ");
             SQL.AppendLine("FechaUltimaModificacion" + InsSql.DateTypeForDb() + ", ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
@@ -137,8 +140,8 @@ namespace Galac.Adm.Dal.CajaChica {
             SQL.AppendLine(", CxP.SeContabilISLR, CxP.FechaAplicacionImpuestoMunicipal, CxP.NumeroComprobanteImpuestoMunicipal, CxP.MontoRetenidoImpuestoMunicipal");
             SQL.AppendLine(", CxP.ImpuestoMunicipalRetenido, CxP.NumeroControlDeFacturaAfectada, CxP.ConsecutivoRendicion, CxP.EstaAsociadoARendicion, CxP.SeHizoLaDetraccion");
             SQL.AppendLine(", CxP.AplicaIvaAlicuotaEspecial, CxP.CodigoProveedorOriginalServicio, CxP.EsUnaCuentaATerceros");
-            SQL.AppendLine(", CxP.NombreOperador, CxP.FechaUltimaModificacion");
-            SQL.AppendLine(", CxP.FechaDeclaracionAduana, CxP.UsaPrefijoSerie");
+            SQL.AppendLine(", CxP.BaseImponibleIGTFML, CxP.AlicuotaIGTFML, CxP.MontoIGTFML, CxP.NombreOperador");
+            SQL.AppendLine(", CxP.FechaUltimaModificacion, CxP.FechaDeclaracionAduana, CxP.UsaPrefijoSerie");
             SQL.AppendLine(", Adm.Proveedor.nombreProveedor AS NombreProveedor");
             SQL.AppendLine(", CxP.fldTimeStamp, CAST(CxP.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".CxP");
@@ -255,6 +258,9 @@ namespace Galac.Adm.Dal.CajaChica {
             SQL.AppendLine("@MontoGravableAlicuotaEspecial2" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@MontoIVAAlicuotaEspecial2" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@PorcentajeIvaAlicuotaEspecial2" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
+            SQL.AppendLine("@BaseImponibleIGTFML" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
+            SQL.AppendLine("@AlicuotaIGTFML" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
+            SQL.AppendLine("@MontoIGTFML" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(10) + " = '',");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + " = '01/01/1900'");
             return SQL.ToString();
@@ -316,7 +322,6 @@ namespace Galac.Adm.Dal.CajaChica {
             SQL.AppendLine("            CxPgeneradaPor,");
             SQL.AppendLine("            EsCxPhistorica,");
             SQL.AppendLine("            NumDiasDeVencimiento,");
-           
             SQL.AppendLine("            NumeroDocOrigen,");
             SQL.AppendLine("            CodigoLote,");
             SQL.AppendLine("            GenerarAsientoDeRetiroEnCuenta,");
@@ -349,6 +354,9 @@ namespace Galac.Adm.Dal.CajaChica {
             SQL.AppendLine("            MontoGravableAlicuotaEspecial2,");
             SQL.AppendLine("            MontoIVAAlicuotaEspecial2,");
             SQL.AppendLine("            PorcentajeIvaAlicuotaEspecial2,");
+            SQL.AppendLine("            BaseImponibleIGTFML,");
+            SQL.AppendLine("            AlicuotaIGTFML,");
+            SQL.AppendLine("            MontoIGTFML,");
             SQL.AppendLine("            NombreOperador,");
             SQL.AppendLine("            FechaUltimaModificacion)");          
             SQL.AppendLine("            VALUES(");
@@ -430,6 +438,9 @@ namespace Galac.Adm.Dal.CajaChica {
             SQL.AppendLine("            @MontoGravableAlicuotaEspecial2,");
             SQL.AppendLine("            @MontoIVAAlicuotaEspecial2,");
             SQL.AppendLine("            @PorcentajeIvaAlicuotaEspecial2,");
+            SQL.AppendLine("            @BaseImponibleIGTFML,");
+            SQL.AppendLine("            @AlicuotaIGTFML,");
+            SQL.AppendLine("            @MontoIGTFML,");
             SQL.AppendLine("            @NombreOperador,");
             SQL.AppendLine("            @FechaUltimaModificacion)");
             SQL.AppendLine("            SET @ReturnValue = @@ROWCOUNT");
@@ -522,6 +533,9 @@ namespace Galac.Adm.Dal.CajaChica {
             SQL.AppendLine("@MontoGravableAlicuotaEspecial2" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@MontoIVAAlicuotaEspecial2" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@PorcentajeIvaAlicuotaEspecial2" + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("@BaseImponibleIGTFML" + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("@AlicuotaIGTFML" + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("@MontoIGTFML" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(10) + ",");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + ",");
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
@@ -625,6 +639,9 @@ namespace Galac.Adm.Dal.CajaChica {
             SQL.AppendLine("               MontoGravableAlicuotaEspecial2 = @MontoGravableAlicuotaEspecial2,");
             SQL.AppendLine("               MontoIVAAlicuotaEspecial2 = @MontoIVAAlicuotaEspecial2,");
             SQL.AppendLine("               PorcentajeIvaAlicuotaEspecial2 = @PorcentajeIvaAlicuotaEspecial2,");
+            SQL.AppendLine("               BaseImponibleIGTFML = @BaseImponibleIGTFML,");
+            SQL.AppendLine("               AlicuotaIGTFML = @AlicuotaIGTFML,");
+            SQL.AppendLine("               MontoIGTFML = @MontoIGTFML,");
             SQL.AppendLine("               NombreOperador = @NombreOperador,");
             SQL.AppendLine("               FechaUltimaModificacion = @FechaUltimaModificacion");
             SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
@@ -807,6 +824,9 @@ namespace Galac.Adm.Dal.CajaChica {
             SQL.AppendLine("         CxP.MontoGravableAlicuotaEspecial2,");
             SQL.AppendLine("         CxP.MontoIVAAlicuotaEspecial2,");
             SQL.AppendLine("         CxP.PorcentajeIvaAlicuotaEspecial2,");
+            SQL.AppendLine("         CxP.BaseImponibleIGTFML,");
+            SQL.AppendLine("         CxP.AlicuotaIGTFML,");
+            SQL.AppendLine("         CxP.MontoIGTFML,");
             SQL.AppendLine("         CxP.NombreOperador,");
             SQL.AppendLine("         CxP.FechaUltimaModificacion,");
             SQL.AppendLine("         CAST(CxP.fldTimeStamp AS bigint) AS fldTimeStampBigint,");
@@ -859,6 +879,9 @@ namespace Galac.Adm.Dal.CajaChica {
             SQL.AppendLine("      " + DbSchema + ".Gv_CxP_B1.Observaciones,");
             SQL.AppendLine("      " + DbSchema + ".Gv_CxP_B1.ConsecutivoRendicion,");
             SQL.AppendLine("      " + DbSchema + ".Gv_CxP_B1.CxPgeneradaPor,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_CxP_B1.BaseImponibleIGTFML,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_CxP_B1.AlicuotaIGTFML,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_CxP_B1.MontoIGTFML,");			
             SQL.AppendLine("      " + DbSchema + ".Gv_CxP_B1.fldTimeStampBigint");
             SQL.AppendLine("      FROM " + DbSchema + ".Gv_CxP_B1");
             SQL.AppendLine("      INNER JOIN Adm.Gv_Proveedor_B1 ON  " + DbSchema + ".Gv_CxP_B1.CodigoProveedor = Adm.Gv_Proveedor_B1.codigoProveedor");
@@ -994,7 +1017,6 @@ namespace Galac.Adm.Dal.CajaChica {
             return vResult;
         }
         #endregion //Metodos Generados
-
 
     } //End of class clsCxPED
 

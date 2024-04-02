@@ -93,6 +93,9 @@ namespace Galac.Adm.Ccl.CajaChica {
         private decimal _MontoIVAAlicuotaEspecial2;
         private decimal _PorcentajeIvaAlicuotaEspecial2;
         private int _DiaDeAplicacion;
+		private decimal _BaseImponibleIGTFML;
+        private decimal _AlicuotaIGTFML;
+        private decimal _MontoIGTFML;
         private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;
@@ -672,6 +675,20 @@ namespace Galac.Adm.Ccl.CajaChica {
             set { _DiaDeAplicacion = value; }
         }
 		
+		public decimal BaseImponibleIGTFML {
+            get { return _BaseImponibleIGTFML; }
+            set { _BaseImponibleIGTFML = value; }
+        }
+
+        public decimal AlicuotaIGTFML {
+            get { return _AlicuotaIGTFML; }
+            set { _AlicuotaIGTFML = value; }
+        }
+
+        public decimal MontoIGTFML {
+            get { return _MontoIGTFML; }
+            set { _MontoIGTFML = value; }
+        }
         public string NombreOperador {
             get { return _NombreOperador; }
             set { _NombreOperador = LibString.Mid(value, 0, 10); }
@@ -790,6 +807,9 @@ namespace Galac.Adm.Ccl.CajaChica {
             MontoIVAAlicuotaEspecial2 = 0;
             PorcentajeIvaAlicuotaEspecial2 = 0;
             DiaDeAplicacion = 0;
+		    BaseImponibleIGTFML = 0;
+            AlicuotaIGTFML = 0;
+            MontoIGTFML = 0;
             NombreOperador = "";
             FechaUltimaModificacion = LibDate.Today();
             fldTimeStamp = 0;
@@ -877,6 +897,9 @@ namespace Galac.Adm.Ccl.CajaChica {
             vResult.MontoIVAAlicuotaEspecial2 = _MontoIVAAlicuotaEspecial2;
             vResult.PorcentajeIvaAlicuotaEspecial2 = _PorcentajeIvaAlicuotaEspecial2;
             vResult.DiaDeAplicacion = _DiaDeAplicacion;
+			vResult.BaseImponibleIGTFML = _BaseImponibleIGTFML;
+            vResult.AlicuotaIGTFML = _AlicuotaIGTFML;
+            vResult.MontoIGTFML = _MontoIGTFML;
             vResult.NombreOperador = _NombreOperador;
             vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
             vResult.fldTimeStamp = _fldTimeStamp;
@@ -954,6 +977,9 @@ namespace Galac.Adm.Ccl.CajaChica {
                "\nUsar Prefijo Serie = " + _UsaPrefijoSerie +
                "\nCodigo Proveedor Original Servicio = " + _CodigoProveedorOriginalServicio +
                "\nEs Una Cuenta A Terceros = " + _EsUnaCuentaATerceros +
+			   "\nBase Imponible IGTFML = " + _BaseImponibleIGTFML.ToString() +
+               "\nAlicuota IGTFML = " + _AlicuotaIGTFML.ToString() +
+               "\nMonto IGTFML = " + _MontoIGTFML.ToString() +
                "\nNombre Operador = " + _NombreOperador +
                "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();
         }
