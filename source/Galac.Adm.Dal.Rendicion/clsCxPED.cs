@@ -258,9 +258,6 @@ namespace Galac.Adm.Dal.CajaChica {
             SQL.AppendLine("@MontoGravableAlicuotaEspecial2" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@MontoIVAAlicuotaEspecial2" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@PorcentajeIvaAlicuotaEspecial2" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
-            SQL.AppendLine("@BaseImponibleIGTFML" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
-            SQL.AppendLine("@AlicuotaIGTFML" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
-            SQL.AppendLine("@MontoIGTFML" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(10) + " = '',");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + " = '01/01/1900'");
             return SQL.ToString();
@@ -438,9 +435,9 @@ namespace Galac.Adm.Dal.CajaChica {
             SQL.AppendLine("            @MontoGravableAlicuotaEspecial2,");
             SQL.AppendLine("            @MontoIVAAlicuotaEspecial2,");
             SQL.AppendLine("            @PorcentajeIvaAlicuotaEspecial2,");
-            SQL.AppendLine("            @BaseImponibleIGTFML,");
-            SQL.AppendLine("            @AlicuotaIGTFML,");
-            SQL.AppendLine("            @MontoIGTFML,");
+            SQL.AppendLine("            0,");
+            SQL.AppendLine("            0,");
+            SQL.AppendLine("            0,");
             SQL.AppendLine("            @NombreOperador,");
             SQL.AppendLine("            @FechaUltimaModificacion)");
             SQL.AppendLine("            SET @ReturnValue = @@ROWCOUNT");
