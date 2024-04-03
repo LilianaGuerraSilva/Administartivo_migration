@@ -162,7 +162,7 @@ Public Function fSqlViewCompras() As String
    vSQL = vSQL & " BaseImponibleIGTFML, "
    vSQL = vSQL & " AlicuotaIGTFML, "
    vSQL = vSQL & " MontoIGTFML, "
-   vSQL = vSQL & "(MontoExento + MontoGravableAlicuotaGeneral + MontoIva + MontoGravableAlicuota2 + MontoIvaalicuota2 + MontoGravableAlicuota3 + MontoIvaalicuota3 + MontoIGTFML) AS TotalComprasIVAeIGTF "
+   vSQL = vSQL & "(MontoExento + MontoGravableAlicuotaGeneral + MontoIvaalicuotaGeneral + MontoGravableAlicuota2 + MontoIvaalicuota2 + MontoGravableAlicuota3 + MontoIvaalicuota3 + MontoIGTFML) AS TotalComprasIVAeIGTF "
    vSQL = vSQL & " FROM cxP INNER JOIN IGV_EnumTipoDocumentoIva "
    vSQL = vSQL & " ON IGV_EnumTipoDocumentoIva.DbValue COLLATE Modern_Spanish_CI_AS = cxP.TipoDeCxp "
    vSQL = vSQL & " WHERE     (AplicaParaLibrodeCompras = 'S') "
