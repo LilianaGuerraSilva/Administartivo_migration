@@ -128,7 +128,7 @@ Public Function fConfigurarDatosDelReporteNotaES(ByRef refRpt As DDActiveReports
                gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtPrecioUnitarioME", "", "PrecioConIvaME", False, ddTXRight, formatoNDecimales
             End If
             If valUsaListaPreciosME Then
-               gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtCambio", "", "CambioABolivares", False, ddTXRight, formatoNDecimales
+               gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtCambio", "", "CambioABolivares", False, ddTXRight, gUtilReports.getDefaultNumericFormatWithNDecimalPlaces(4)
             Else
                gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "txtCambio", False
                gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "txtPrecioUnitarioME", False
