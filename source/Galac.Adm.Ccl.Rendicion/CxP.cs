@@ -674,9 +674,10 @@ namespace Galac.Adm.Ccl.CajaChica {
 
         public string NombreOperador {
             get { return _NombreOperador; }
-            set { _NombreOperador = LibString.Mid(value, 0, 10); 
-            }
+            set { _NombreOperador = LibString.Mid(value, 0, 10); }
+
         }
+
         public DateTime FechaUltimaModificacion {
             get { return _FechaUltimaModificacion; }
             set { _FechaUltimaModificacion = LibConvert.DateToDbValue(value); }

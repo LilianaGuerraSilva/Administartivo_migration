@@ -16,19 +16,15 @@ using LibGalac.Aos.Cib;
 using Galac.Adm.Ccl.CajaChica;
 
 namespace Galac.Adm.Dal.CajaChica {
-    public class clsCxPDat: LibData, ILibDataMasterComponentWithSearch<IList<CxP>, IList<CxP>> {
+    public class clsCxPDat : LibData, ILibDataMasterComponentWithSearch<IList<CxP>, IList<CxP>> {
         #region Variables
         LibDataScope insTrn;
         CxP _CurrentRecord;
         #endregion //Variables
         #region Propiedades
         private CxP CurrentRecord {
-            get {
-                return _CurrentRecord;
-            }
-            set {
-                _CurrentRecord = value;
-            }
+            get { return _CurrentRecord; }
+            set { _CurrentRecord = value; }
         }
         #endregion //Propiedades
         #region Constructores
@@ -135,7 +131,6 @@ namespace Galac.Adm.Dal.CajaChica {
             vResult = vParams.Get();
             return vResult;
         }
-
 
         private StringBuilder ParametrosClave(CxP valRecord, bool valIncludeTimestamp, bool valAddReturnParameter) {
             StringBuilder vResult = new StringBuilder();
@@ -608,4 +603,3 @@ namespace Galac.Adm.Dal.CajaChica {
     } //End of class clsCxPDat
 
 } //End of namespace Galac.Dbo.Dal.CajaChica
-

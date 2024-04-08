@@ -92,12 +92,12 @@ namespace Galac.Adm.Brl.CajaChica {
         private void FillWithForeignInfoRenglonImpuestoMunicipalRet(ref IList<CxP> refData) {
             XElement vInfoConexion = FindInfoClasificadorActividadEconomica(refData);
             var vListClasificadorActividadEconomica = (from vRecord in vInfoConexion.Descendants("GpResult")
-                                      select new {
-                                          Codigo = vRecord.Element("Codigo").Value, 
-                                          CodigoActividad = vRecord.Element("CodigoActividad").Value
-                                      }).Distinct();
-            foreach(CxP vItem in refData) {
-                vItem.DetailRenglonImpuestoMunicipalRet = 
+                                                       select new {
+                                                           Codigo = vRecord.Element("Codigo").Value,
+                                                           CodigoActividad = vRecord.Element("CodigoActividad").Value
+                                                       }).Distinct();
+            foreach (CxP vItem in refData) {
+                vItem.DetailRenglonImpuestoMunicipalRet =
                     new System.Collections.ObjectModel.ObservableCollection<RenglonImpuestoMunicipalRet>((
                         from vDetail in vItem.DetailRenglonImpuestoMunicipalRet
                         join vClasificadorActividadEconomica in vListClasificadorActividadEconomica
@@ -109,16 +109,16 @@ namespace Galac.Adm.Brl.CajaChica {
                             Codigo = vClasificadorActividadEconomica.Codigo
                         }
                         select new RenglonImpuestoMunicipalRet {
-                            ConsecutivoCompania = vDetail.ConsecutivoCompania, 
-                            Consecutivo = vDetail.Consecutivo, 
-                            ConsecutivoCxp = vDetail.ConsecutivoCxp, 
-                            CodigoRetencion = vDetail.CodigoRetencion, 
-                            CodigoActividad = vClasificadorActividadEconomica.CodigoActividad, 
-                            MontoBaseImponible = vDetail.MontoBaseImponible, 
-                            AlicuotaRetencion = vDetail.AlicuotaRetencion, 
-                            MontoRetencion = vDetail.MontoRetencion, 
-                            TipoDeTransaccionAsEnum = vDetail.TipoDeTransaccionAsEnum, 
-                            NombreOperador = vDetail.NombreOperador, 
+                            ConsecutivoCompania = vDetail.ConsecutivoCompania,
+                            Consecutivo = vDetail.Consecutivo,
+                            ConsecutivoCxp = vDetail.ConsecutivoCxp,
+                            CodigoRetencion = vDetail.CodigoRetencion,
+                            CodigoActividad = vClasificadorActividadEconomica.CodigoActividad,
+                            MontoBaseImponible = vDetail.MontoBaseImponible,
+                            AlicuotaRetencion = vDetail.AlicuotaRetencion,
+                            MontoRetencion = vDetail.MontoRetencion,
+                            TipoDeTransaccionAsEnum = vDetail.TipoDeTransaccionAsEnum,
+                            NombreOperador = vDetail.NombreOperador,
                             FechaUltimaModificacion = vDetail.FechaUltimaModificacion
                         }).ToList<RenglonImpuestoMunicipalRet>());
             }
@@ -126,7 +126,7 @@ namespace Galac.Adm.Brl.CajaChica {
 
         private XElement FindInfoClasificadorActividadEconomica(IList<CxP> valData) {
             XElement vXElement = new XElement("GpData");
-            foreach(CxP vItem in valData) {
+            foreach (CxP vItem in valData) {
                 vXElement.Add(FilterRenglonImpuestoMunicipalRetByDistinctClasificadorActividadEconomica(vItem).Descendants("GpResult"));
             }
             //ILibPdn insClasificadorActividadEconomica = new Galac.Comun.Brl.Impuesto.clsClasificadorActividadEconomicaNav();
@@ -293,7 +293,7 @@ namespace Galac.Adm.Brl.CajaChica {
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("MontoAbonado"), null))) {
                     vRecord.MontoAbonado = LibConvert.ToDec(vItem.Element("MontoAbonado"));
                 }
-                if(!(System.NullReferenceException.ReferenceEquals(vItem.Element("DiaDeAplicacion"),null))) {
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("DiaDeAplicacion"), null))) {
                     vRecord.DiaDeAplicacion = LibConvert.ToInt(vItem.Element("DiaDeAplicacion"));
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("MesDeAplicacion"), null))) {
@@ -437,7 +437,7 @@ namespace Galac.Adm.Brl.CajaChica {
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("AplicaIvaAlicuotaEspecial"), null))) {
                     vRecord.AplicaIvaAlicuotaEspecial = vItem.Element("AplicaIvaAlicuotaEspecial").Value;
                 }
-				if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("BaseImponibleIGTFML"), null))) {
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("BaseImponibleIGTFML"), null))) {
                     vRecord.BaseImponibleIGTFML = LibConvert.ToDec(vItem.Element("BaseImponibleIGTFML"));
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("AlicuotaIGTFML"), null))) {
@@ -446,7 +446,7 @@ namespace Galac.Adm.Brl.CajaChica {
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("MontoIGTFML"), null))) {
                     vRecord.MontoIGTFML = LibConvert.ToDec(vItem.Element("MontoIGTFML"));
                 }
-				if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("NombreOperador"), null))) {
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("NombreOperador"), null))) {
                     vRecord.NombreOperador = vItem.Element("NombreOperador").Value;
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("FechaUltimaModificacion"), null))) {
