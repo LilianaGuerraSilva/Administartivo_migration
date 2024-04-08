@@ -78,7 +78,8 @@ namespace Galac.Adm.Brl.CajaChica {
                 //    vPdnModule = new Galac.Comun.Brl.Impuesto.clsClasificadorActividadEconomicaNav();
                 //    vResult = vPdnModule.GetDataForList("Cx P", ref refXmlDocument, valXmlParamsExpression);
                 //    break;
-                default: throw new NotImplementedException();
+                default:
+                    throw new NotImplementedException();
             }
             return vResult;
         }
@@ -100,9 +101,13 @@ namespace Galac.Adm.Brl.CajaChica {
                     new System.Collections.ObjectModel.ObservableCollection<RenglonImpuestoMunicipalRet>((
                         from vDetail in vItem.DetailRenglonImpuestoMunicipalRet
                         join vClasificadorActividadEconomica in vListClasificadorActividadEconomica
-                        on new {Codigo = vDetail.CodigoRetencion}
+                        on new {
+                            Codigo = vDetail.CodigoRetencion
+                        }
                         equals
-                        new { Codigo = vClasificadorActividadEconomica.Codigo}
+                        new {
+                            Codigo = vClasificadorActividadEconomica.Codigo
+                        }
                         select new RenglonImpuestoMunicipalRet {
                             ConsecutivoCompania = vDetail.ConsecutivoCompania, 
                             Consecutivo = vDetail.Consecutivo, 
@@ -411,9 +416,6 @@ namespace Galac.Adm.Brl.CajaChica {
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("ConsecutivoRendicion"), null))) {
                     vRecord.ConsecutivoRendicion = LibConvert.ToInt(vItem.Element("ConsecutivoRendicion"));
                 }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("FechaUltimaModificacion"), null))) {
-                    vRecord.FechaUltimaModificacion = LibConvert.ToDate(vItem.Element("FechaUltimaModificacion"));
-                }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("NumeroDeclaracionAduana"), null))) {
                     vRecord.NumeroDeclaracionAduana = vItem.Element("NumeroDeclaracionAduana").Value;
                 }
@@ -446,6 +448,9 @@ namespace Galac.Adm.Brl.CajaChica {
                 }
 				if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("NombreOperador"), null))) {
                     vRecord.NombreOperador = vItem.Element("NombreOperador").Value;
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("FechaUltimaModificacion"), null))) {
+                    vRecord.FechaUltimaModificacion = LibConvert.ToDate(vItem.Element("FechaUltimaModificacion"));
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("fldTimeStampBigint"), null))) {
                     vRecord.fldTimeStamp = LibConvert.ToLong(vItem.Element("fldTimeStampBigint"));
