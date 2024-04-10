@@ -36,7 +36,7 @@ namespace Galac.Adm.Uil.Venta {
         public ContentControl View {
             get {
                 if (_View == null) {
-                    _View = new ContentControl() {
+                    _View = new GSSearchView() {
                         DataContext = _VentaInformesMenu
                     };
                 }

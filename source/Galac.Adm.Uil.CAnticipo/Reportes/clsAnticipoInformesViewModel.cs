@@ -39,9 +39,9 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
         private ILibRpt ConfigReportAnticipoPorProveedorOCliente(clsAnticipoPorProveedorOClienteViewModel valViewModel) {
             ILibRpt vResult = null;
             if (valViewModel != null) {
-                //vResult = new Galac.Adm.Rpt.CAnticipo.clsAnticipoPorProveedorOCliente(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc) {
-                //        Worker = Manager
-                //    };
+                vResult = new Galac.Adm.Rpt.CAnticipo.clsAnticipoPorProveedorOCliente(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc,valViewModel.EstatusAnticipo,valViewModel.CantidadAImprimir,valViewModel.CodigoClientProveedor,valViewModel.OrdenamientoClienteStatus,valViewModel.MonedaDelGrupo,valViewModel.EsProveedorOCliente) {
+                    Worker = Manager
+                };
             }
             return vResult;
         }

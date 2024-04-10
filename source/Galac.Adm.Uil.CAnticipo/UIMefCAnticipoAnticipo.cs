@@ -55,11 +55,7 @@ namespace Galac.Adm.Uil.CAnticipo {
         #region Constructores
 
         public UIMefCAnticipoAnticipo() {
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-            AppMemoryInfo = LibGlobalValues.Instance.GetAppMemInfo();
-        */
-        #endregion //Codigo Ejemplo
+       
         }
         #endregion //Constructores
         #region Metodos Generados
