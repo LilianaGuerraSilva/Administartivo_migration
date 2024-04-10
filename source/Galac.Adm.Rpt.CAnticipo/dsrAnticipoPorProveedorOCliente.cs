@@ -9,19 +9,16 @@ using System.Data;
 using LibGalac.Aos.ARRpt;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.DefGen;
-namespace Galac.Dbo.Rpt.CAnticipo {
+namespace Galac.Adm.Rpt.CAnticipo{
     /// <summary>
-    /// ESTE ARCHIVO NO ES PARA SER AGREGADO DIRECTO AL PROYECTO
+    /// Summary description for dsrAnticipoPorProveedorOCliente.
     /// </summary>
-
     public partial class dsrAnticipoPorProveedorOCliente : DataDynamics.ActiveReports.ActiveReport {
         #region Variables
         private bool _UseExternalRpx;
         private static string _RpxFileName;
         #endregion //Variables
         #region Constructores
- LEE PROGRAMADOR: Deja que ActiveReports cree el designer correctamente, 
- LEE PROGRAMADOR: este archivo es solo para pasar lineas AFTER, no para tomarlo en su totalidad 
         public dsrAnticipoPorProveedorOCliente()
             : this(false, string.Empty) {
         }
