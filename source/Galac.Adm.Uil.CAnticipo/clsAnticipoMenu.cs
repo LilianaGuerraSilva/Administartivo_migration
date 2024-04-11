@@ -6,13 +6,15 @@ using Galac.Adm.Brl.CAnticipo;
 using LibGalac.Aos.UI.Mvvm.Messaging;
 using LibGalac.Aos.UI.Mvvm;
 using Galac.Adm.Uil.CAnticipo.Reportes;
+using Galac.Saw.Lib;
 
 namespace Galac.Adm.Uil.CAnticipo {
     public class clsAnticipoMenu : ILibMenu {
         #region Metodos Generados
         void ILibMenu.Ejecuta(eAccionSR valAction, int valUseInterop) {
+            eSystemModules vSystemModule = (eSystemModules)valUseInterop;
             if (valAction == eAccionSR.InformesPantalla) {
-                LibReportsViewModel _LibReportsViewModel = new clsAnticipoInformesViewModel();
+                LibReportsViewModel _LibReportsViewModel = new clsAnticipoInformesViewModel(vSystemModule);
                 if (LibMessages.ReportsView.ShowReportsView(_LibReportsViewModel, false)) {
                 }
             }

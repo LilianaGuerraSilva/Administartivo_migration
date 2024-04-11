@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using Galac.Saw.Lib;
 using LibGalac.Aos.ARRpt;
 using LibGalac.Aos.ARRpt.Reports;
 using LibGalac.Aos.Base;
@@ -15,11 +16,11 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
     public class clsAnticipoInformesViewModel : LibReportsViewModel {
         #region Constructores
 
-        public clsAnticipoInformesViewModel()
-            : this(null, null) {
+        public clsAnticipoInformesViewModel(eSystemModules valSystemModule)
+            : this(null, null, valSystemModule) {
         }
 
-        public clsAnticipoInformesViewModel(LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc) {
+        public clsAnticipoInformesViewModel(LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc,eSystemModules valSystemModule) {
             AppMemoryInfo = initAppMemInfo;
             Mfc = initMfc;
             AvailableReports.Add(new clsAnticipoPorProveedorOClienteViewModel());
@@ -39,9 +40,9 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
         private ILibRpt ConfigReportAnticipoPorProveedorOCliente(clsAnticipoPorProveedorOClienteViewModel valViewModel) {
             ILibRpt vResult = null;
             if (valViewModel != null) {
-                //vResult = new Galac.Adm.Rpt.CAnticipo.clsAnticipoPorProveedorOCliente(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc) {
-                //        Worker = Manager
-                //    };
+                vResult = new Galac.Adm.Rpt.CAnticipo.clsAnticipoPorProveedorOCliente(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc,valViewModel.EstatusAnticipo,valViewModel.CantidadAImprimir,valViewModel.CodigoClientProveedor,valViewModel.OrdenamientoClienteStatus,valViewModel.MonedaDelGrupo,valViewModel.EsProveedorOCliente) {
+                    Worker = Manager
+                };
             }
             return vResult;
         }
