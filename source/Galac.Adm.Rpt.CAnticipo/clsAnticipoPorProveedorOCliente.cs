@@ -22,18 +22,18 @@ namespace Galac.Adm.Rpt.CAnticipo {
         private string CodigoClienteProveedor{ get; set; }
         private bool OrdenamientoClienteStatus{ get; set; }
         private eMonedaDelInformeMM MonedaDelInformeMM{ get; set; } 
-        private bool ProveedorCliente{ get; set; }
+        private bool EsCliente{ get; set; }
 
         #endregion //Propiedades
         #region Constructores
-        public clsAnticipoPorProveedorOCliente(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, eStatusAnticipo initStatusAnticipo, eCantidadAImprimir initCantidadAImprimir, string initCodigoClienteProveedor, bool initOrdenamientoClienteStatus, eMonedaDelInformeMM initMonedaDelInformeMM, bool initProveedorCliente)
+        public clsAnticipoPorProveedorOCliente(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, eStatusAnticipo initStatusAnticipo, eCantidadAImprimir initCantidadAImprimir, string initCodigoClienteProveedor, bool initOrdenamientoClienteStatus, eMonedaDelInformeMM initMonedaDelInformeMM, bool initEsCliente)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
             StatusAnticipo = initStatusAnticipo;
             CantidadAImprimir = initCantidadAImprimir;
             CodigoClienteProveedor = initCodigoClienteProveedor;
             OrdenamientoClienteStatus = initOrdenamientoClienteStatus;
             MonedaDelInformeMM = initMonedaDelInformeMM;
-            ProveedorCliente = initProveedorCliente;
+            EsCliente = initEsCliente;
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -67,7 +67,7 @@ namespace Galac.Adm.Rpt.CAnticipo {
             }
             WorkerReportProgress(30, "Obteniendo datos...");
             IAnticipoInformes vRpt = new Galac.Adm.Brl.CAnticipo.Reportes.clsAnticipoRpt() as IAnticipoInformes;
-            Data = vRpt.BuildAnticipoPorProveedorOCliente(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), StatusAnticipo, CantidadAImprimir, CodigoClienteProveedor, OrdenamientoClienteStatus, MonedaDelInformeMM, ProveedorCliente);
+            Data = vRpt.BuildAnticipoPorProveedorOCliente(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), StatusAnticipo, CantidadAImprimir, CodigoClienteProveedor, OrdenamientoClienteStatus, MonedaDelInformeMM, EsCliente);
         }
 
         public override void SendReportToDevice() {

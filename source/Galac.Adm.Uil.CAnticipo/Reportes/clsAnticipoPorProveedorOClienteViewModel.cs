@@ -19,7 +19,7 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
         #region Constantes
         public const string EstatusAnticipoPropertyName = "EstatusAnticipo";
         public const string CantidadAImprimirPropertyName = "CantidadAImprimir";
-        public const string CodigoClientProveedorPropertyName = "CodigoClientProveedor";
+        public const string CodigoClienteProveedorPropertyName = "CodigoClienteProveedor";
         public const string NombreClientProveedorPropertyName = "NombreClientProveedor";
         public const string OrdenamientoClienteStatusPropertyName = "OrdenamientoClienteStatus";
         public const string MonedaDelGrupoPropertyName = "MonedaDelGrupo";
@@ -30,18 +30,24 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
         private string _CodigoClientProveedor;
         private string _NombreClientProveedor;
         private bool _OrdenamientoClienteStatus;
-        private bool _EsProveedorOCliente;
+        private bool _EsCliente;
         private eMonedaDelInformeMM _MonedaDelGrupo;
-        private FkClienteViewModel _ConexionCodigoClientProveedor = null;
+        private FkClienteViewModel _ConexionCodigoCliente = null;
+        private FkClienteViewModel _ConexionCodigoProveedor = null;
         #endregion //Variables
 
         #region Propiedades
         public override string DisplayName {
             get {
-                return "Anticipos Informes";
+                return "Anticipos por " + (EsCliente ? "Cliente" : "Proveedor");
             }
         }
 
+        public  string lblClienteProveedor {
+            get {
+                return (EsCliente ? "Cliente" : "Proveedor");
+            }
+        }
 
         public eStatusAnticipo EstatusAnticipo {
             get {
@@ -76,10 +82,10 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             set {
                 if (_CodigoClientProveedor != value) {
                     _CodigoClientProveedor = value;
-
-                    RaisePropertyChanged(CodigoClientProveedorPropertyName);
+                    RaisePropertyChanged(CodigoClienteProveedorPropertyName);
                     if (LibString.IsNullOrEmpty(CodigoClientProveedor, true)) {
-                        ConexionCodigoClientProveedor = null;
+                        ConexionCodigoProveedor = null;
+                        ConexionCodigoProveedor = null;
                     }
                 }
             }
@@ -124,13 +130,13 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             }
         }
 
-        public bool EsProveedorOCliente {
+        public bool EsCliente {
             get {
-                return _EsProveedorOCliente;
+                return _EsCliente;
             }
             set {
-                if (_EsProveedorOCliente != value) {
-                    _EsProveedorOCliente = value;
+                if (_EsCliente != value) {
+                    _EsCliente = value;
                 }
             }
         }
@@ -153,16 +159,31 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             }
         }
 
-        public FkClienteViewModel ConexionCodigoClientProveedor {
+        public FkClienteViewModel ConexionCodigoCliente {
             get {
-                return _ConexionCodigoClientProveedor;
+                return _ConexionCodigoCliente;
             }
             set {
-                if (_ConexionCodigoClientProveedor != value) {
-                    _ConexionCodigoClientProveedor = value;
-                    RaisePropertyChanged(CodigoClientProveedorPropertyName);
+                if (_ConexionCodigoCliente != value) {
+                    _ConexionCodigoCliente = value;
+                    RaisePropertyChanged(CodigoClienteProveedorPropertyName);
                 }
-                if (_ConexionCodigoClientProveedor == null) {
+                if (_ConexionCodigoCliente == null) {
+                    CodigoClientProveedor = string.Empty;
+                }
+            }
+        }
+
+         public FkClienteViewModel ConexionCodigoProveedor {
+            get {
+                return _ConexionCodigoProveedor;
+            }
+            set {
+                if (_ConexionCodigoProveedor != value) {
+                    _ConexionCodigoProveedor = value;
+                    RaisePropertyChanged(CodigoClienteProveedorPropertyName);
+                }
+                if (_ConexionCodigoProveedor == null) {
                     CodigoClientProveedor = string.Empty;
                 }
             }
@@ -186,8 +207,8 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
         #endregion //Propiedades
         #region Constructores
 
-        public clsAnticipoPorProveedorOClienteViewModel() {
-
+        public clsAnticipoPorProveedorOClienteViewModel(bool valEsCliente) {
+            EsCliente = valEsCliente;
         }
         #endregion //Constructores        
         protected override ILibBusinessSearch GetBusinessComponent() {
@@ -206,9 +227,9 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
-                ConexionCodigoClientProveedor = ChooseRecord<FkClienteViewModel>("Cliente", vDefaultCriteria, vFixedCriteria, string.Empty);
-                if (ConexionCodigoClientProveedor != null) {
-                    CodigoClientProveedor = ConexionCodigoClientProveedor.Codigo;
+                ConexionCodigoCliente = ChooseRecord<FkClienteViewModel>("Cliente", vDefaultCriteria, vFixedCriteria, string.Empty);
+                if (ConexionCodigoCliente != null) {
+                    CodigoClientProveedor = ConexionCodigoCliente.Codigo;
                 } else {
                     CodigoClientProveedor = string.Empty;
                 }

@@ -14,7 +14,8 @@ namespace Galac.Adm.Uil.CAnticipo {
         void ILibMenu.Ejecuta(eAccionSR valAction, int valUseInterop) {
             eSystemModules vSystemModule = (eSystemModules)valUseInterop;
             if (valAction == eAccionSR.InformesPantalla) {
-                LibReportsViewModel _LibReportsViewModel = new clsAnticipoInformesViewModel(vSystemModule);
+                bool vEsClienteOProveedor = (vSystemModule == eSystemModules.CxC);
+                LibReportsViewModel _LibReportsViewModel = new clsAnticipoInformesViewModel(vEsClienteOProveedor);
                 if (LibMessages.ReportsView.ShowReportsView(_LibReportsViewModel, false)) {
                 }
             }

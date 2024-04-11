@@ -405,6 +405,7 @@ namespace Galac.Saw.ViewModel {
             new XElement("Compania",
                 new XElement("Nombre","Prueba"),
                 new XElement("NumeroRif","J000001")));
+             LibGlobalValues.Instance.GetMfcInfo().Add("Compania", LibConvert.ToInt(""));
             return base.AddEspecialGlobalValues(valGlobalValuesElement);
         }
 

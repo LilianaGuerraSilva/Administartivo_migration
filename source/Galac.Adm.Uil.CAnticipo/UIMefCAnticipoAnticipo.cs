@@ -8,6 +8,7 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.UI.Contracts;
 using LibGalac.Aos.UI.WpfControls;
 using LibGalac.Aos.UI.Mvvm.Ribbon;
+using Galac.Saw.Lib;
 
 namespace Galac.Adm.Uil.CAnticipo {
     [LibMefUilComponentMetadata(typeof(UIMefCAnticipoAnticipo), "Adm")]
@@ -77,7 +78,7 @@ namespace Galac.Adm.Uil.CAnticipo {
             try {
                 InitializeIfNecessary();
                 if (_InformeAnticpoMenu != null) {
-                    _InformeAnticpoMenu.Ejecuta(eAccionSR.InformesPantalla, 0);
+                    _InformeAnticpoMenu.Ejecuta(eAccionSR.InformesPantalla, (int)eSystemModules.CxP);//Temporal solo para ejecucion en IDE
                 }
             } catch (System.AccessViolationException) {
                 throw;
