@@ -78,7 +78,7 @@ namespace Galac.Adm.Uil.CAnticipo {
             try {
                 InitializeIfNecessary();
                 if (_InformeAnticpoMenu != null) {
-                    _InformeAnticpoMenu.Ejecuta(eAccionSR.InformesPantalla, (int)eSystemModules.CxP);//Temporal solo para ejecucion en IDE
+                    _InformeAnticpoMenu.Ejecuta(eAccionSR.InformesPantalla, (int)eSystemModules.CxC);//Temporal solo para ejecucion en IDE
                 }
             } catch (System.AccessViolationException) {
                 throw;

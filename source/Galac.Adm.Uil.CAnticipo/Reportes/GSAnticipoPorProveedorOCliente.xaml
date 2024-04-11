@@ -6,8 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:nsARRpt="clr-namespace:LibGalac.Aos.ARRpt;assembly=LibGalac.Aos.ARRpt"
     xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
-    d:DesignHeight="250"
-    d:DesignWidth="340"
+    d:DesignHeight="230"
+    d:DesignWidth="300"
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -20,10 +20,9 @@
     <Grid FocusManager.FocusedElement="{Binding ElementName=cmbEstatusAnticipo}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -36,16 +35,16 @@
         <Label
             Name="lblEstatusAnticipo"
             Grid.Column="0"
+            Height="24"
             Margin="3,0,0,0"
-            VerticalAlignment="Center"
             Content="Estatus Anticipo"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf
             Name="cmbEstatusAnticipo"
             Grid.Row="0"
             Grid.Column="1"
-            Width="120"
-            Margin="56,3,0,4"
+            Width="110"
+            Margin="38,0,0,1"
             IsEnabled="{Binding Path=IsEnabled}"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding Path=ArrayStatusAnticipo}"
@@ -54,16 +53,16 @@
         <Label
             Name="lblCantidadAImprimir"
             Grid.Row="1"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
+            Height="23"
+            Margin="3,3,0,0"
             Content="Cantidad a Imprimir"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf
             Name="cmbCantidadAImprimir"
             Grid.Row="1"
             Grid.Column="1"
-            Width="120"
-            Margin="56,3,0,3"
+            Width="110"
+            Margin="38,12,0,6"
             IsEnabled="{Binding Path=IsEnabled}"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding Path=ArrayCantidadAImprimir}"
@@ -72,28 +71,26 @@
         <Label
             Name="lblCodigoClientProveedor"
             Grid.Row="2"
+            Margin="3,3,0,3"
             Content="{Binding Path=lblClienteProveedor}"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSSeekConnection
             Name="txtCodigoClient"
             Grid.Row="3"
             Grid.Column="0"
-            Width="70"
-            Height="23"
-            Margin="3,3,0,3"
-            HorizontalAlignment="Left"
-            ConnectionValue="{Binding Path=CodigoClientProveedor, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-            IsEnabled="{Binding Path=IsEnabled}"
-            SearchCommand="{Binding Path=ChooseCodigoClientProveedorCommand}" />
+            Margin="12,0,13,3"
+            ConnectionValue="{Binding Path=CodigoClienteProveedor, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+            IsEnabled="{Binding Path=ClienteProveedorIsEnable}"
+            SearchCommand="{Binding Path=ChooseCodigoClienteProveedorCommand}" />
         <nsWpfControls:GSTextBoxWpf
-            Name="txtNombreClient"
+            Name="txtNombreCliente"
             Grid.Row="3"
-            Grid.ColumnSpan="2"
-            Width="220"
-            Height="23"
-            Margin="77,3,0,3"
+            Grid.Column="1"
+            Width="150"
+            Margin="0,0,0,3"
             BorderThickness="1"
             InputDataType="Alfanumeric"
+            IsEnabled="{Binding Path=ClienteProveedorIsEnable}"
             IsReadOnly="True"
             MaxLength="160"
             Style="{StaticResource TextBoxInputStyle}"
@@ -101,47 +98,47 @@
             VerticalScrollBarVisibility="Auto" />
         <Label
             Name="lblOrdenamientoClienteStatus"
-            Grid.Row="5"
+            Grid.Row="4"
             Grid.Column="0"
-            Grid.ColumnSpan="2"
-            Margin="3,0,0,0"
-            VerticalAlignment="Center"
-            Content="Ordernar por Status o Cliente"
+            Margin="3,5,0,5"
+            Content="{Binding Path=lblOrdenarPorClienteOProveedor}"
             Style="{StaticResource LabelPrompt}" />
         <CheckBox
             Name="chkOrdenamientoClienteStatus"
-            Grid.Row="5"
+            Grid.Row="4"
             Grid.Column="1"
-            Margin="160,0,0,0"
+            Width="16"
+            Height="14"
+            Margin="38,0,0,0"
             HorizontalAlignment="Left"
             IsChecked="{Binding Path=OrdenamientoClienteStatus}"
-            IsEnabled="{Binding Path=IsEnabled}"
+            IsEnabled="{Binding Path=ClienteProveedorIsEnable}"
             Style="{StaticResource CheckBoxStyle}" />
         <Label
             Name="lblMonedaDelGrupo"
-            Grid.Row="6"
+            Grid.Row="5"
             Grid.Column="0"
+            Height="24"
             Margin="3,0,0,0"
-            VerticalAlignment="Center"
-            Content="Moneda del Grupo"
+            Content="Moneda del Informe"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf
             Name="cmbMonedaDelGrupo"
-            Grid.Row="6"
+            Grid.Row="5"
             Grid.Column="1"
-            Width="120"
-            Margin="56,4,0,3"
+            Width="110"
+            Margin="38,4,0,3"
             IsEnabled="{Binding Path=IsEnabled}"
             IsSynchronizedWithCurrentItem="True"
-            ItemsSource="{Binding Path=ArrayMonedaDelGrupo}"
-            SelectedItem="{Binding Path=MonedaDelGrupo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            ItemsSource="{Binding Path=ListaMonedaDelInforme}"
+            SelectedItem="{Binding Path=MonedaDelInforme, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource ComboBoxStyle}" />
         <nsWpfControls:GSComboBoxWpf
-            x:Name="cmbMonedasActivas"
-            Grid.Row="7"
+            Name="cmbMonedasActivas"
+            Grid.Row="6"
             Grid.Column="1"
-            Margin="146,3,0,3"
-            BorderThickness="1"
+            Width="110"
+            Margin="36,3,0,3"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding ListaMonedasActivas}"
             SelectedItem="{Binding Moneda, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
@@ -152,20 +149,23 @@
             Grid.Row="7"
             Grid.Column="0"
             Grid.ColumnSpan="2"
+            Height="24"
             Margin="0"
             Content="Tasa de Cambio a la Fecha"
             Style="{StaticResource LabelPrompt}"
             Visibility="{Binding Path=IsVisibleTipoTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSComboBoxWpf
-            Name="cmbTasaDeCambio"
-            Grid.Row="8"
+            x:Name="cmbTasaDeCambio"
+            Grid.Row="7"
             Grid.Column="1"
-            Margin="146,3,0,3"
+            Width="110"
+            Margin="36,3,0,3"
+            BorderThickness="1"
             IsSynchronizedWithCurrentItem="True"
-            ItemsSource="{Binding Path=ArrayTiposTasaDeCambio}"
-            SelectedItem="{Binding Path=TipoTasaDeCambio, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            ItemsSource="{Binding ArrayTiposTasaDeCambio}"
+            SelectedItem="{Binding Path=TipoTasaDeCambio, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
             Style="{StaticResource ComboBoxStyle}"
-            Visibility="{Binding Path=IsVisibleTipoTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}" />
+            Visibility="{Binding IsVisibleMonedasActivas, Converter={StaticResource booleanToVisibilityConverter}}" />
 
     </Grid>
 </UserControl>
