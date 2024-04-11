@@ -20,10 +20,10 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             : this(null, null, valEsClienteOProveedor) {
         }
 
-        public clsAnticipoInformesViewModel(LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, bool valEsClienteOProveedor) {
+        public clsAnticipoInformesViewModel(LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, bool valEsCliente) {
             AppMemoryInfo = initAppMemInfo;
             Mfc = initMfc;
-            AvailableReports.Add(new clsAnticipoPorProveedorOClienteViewModel(valEsClienteOProveedor));
+            AvailableReports.Add(new clsAnticipoPorProveedorOClienteViewModel(valEsCliente));
             Title = "Informes de Anticipo";
         }
         #endregion //Constructores
@@ -40,7 +40,7 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
         private ILibRpt ConfigReportAnticipoPorProveedorOCliente(clsAnticipoPorProveedorOClienteViewModel valViewModel) {
             ILibRpt vResult = null;
             if (valViewModel != null) {
-                vResult = new Galac.Adm.Rpt.CAnticipo.clsAnticipoPorProveedorOCliente(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc,valViewModel.EstatusAnticipo,valViewModel.CantidadAImprimir,valViewModel.CodigoClientProveedor,valViewModel.OrdenamientoClienteStatus,valViewModel.MonedaDelGrupo,valViewModel.EsClienteOProveedor) {
+                vResult = new Galac.Adm.Rpt.CAnticipo.clsAnticipoPorProveedorOCliente(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.EstatusAnticipo, valViewModel.CantidadAImprimir, valViewModel.CodigoClientProveedor, valViewModel.OrdenamientoClienteStatus, valViewModel.MonedaDelGrupo, valViewModel.EsCliente) {
                     Worker = Manager
                 };
             }

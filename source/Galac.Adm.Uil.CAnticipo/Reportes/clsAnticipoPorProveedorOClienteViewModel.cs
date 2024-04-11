@@ -30,7 +30,7 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
         private string _CodigoClientProveedor;
         private string _NombreClientProveedor;
         private bool _OrdenamientoClienteStatus;
-        private bool _EsProveedorOCliente;
+        private bool _EsCliente;
         private eMonedaDelInformeMM _MonedaDelGrupo;
         private FkClienteViewModel _ConexionCodigoCliente = null;
         private FkClienteViewModel _ConexionCodigoProveedor = null;
@@ -39,10 +39,15 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
         #region Propiedades
         public override string DisplayName {
             get {
-                return "Anticipos Informes";
+                return "Anticipos por " + (EsCliente ? "Cliente" : "Proveedor");
             }
         }
 
+        public  string lblClienteProveedor {
+            get {
+                return (EsCliente ? "Cliente" : "Proveedor");
+            }
+        }
 
         public eStatusAnticipo EstatusAnticipo {
             get {
@@ -125,13 +130,13 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             }
         }
 
-        public bool EsClienteOProveedor {
+        public bool EsCliente {
             get {
-                return _EsProveedorOCliente;
+                return _EsCliente;
             }
             set {
-                if (_EsProveedorOCliente != value) {
-                    _EsProveedorOCliente = value;
+                if (_EsCliente != value) {
+                    _EsCliente = value;
                 }
             }
         }
@@ -202,8 +207,8 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
         #endregion //Propiedades
         #region Constructores
 
-        public clsAnticipoPorProveedorOClienteViewModel(bool valEsClienteOProveedor) {
-            EsClienteOProveedor = valEsClienteOProveedor;
+        public clsAnticipoPorProveedorOClienteViewModel(bool valEsCliente) {
+            EsCliente = valEsCliente;
         }
         #endregion //Constructores        
         protected override ILibBusinessSearch GetBusinessComponent() {
