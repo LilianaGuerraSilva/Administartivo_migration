@@ -22,11 +22,11 @@ namespace Galac.Adm.Rpt.CAnticipo {
         eTasaDeCambioParaImpresion TasaCambio { get; set; }
         private eMonedaDelInformeMM MonedaDelInformeMM{ get; set; } 
         private bool EsCliente{ get; set; }
-        string CodigoMoneda { get; set; }
+        string Moneda { get; set; }
 
         #endregion //Propiedades
         #region Constructores
-        public clsAnticipoPorProveedorOCliente(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, eStatusAnticipo initStatusAnticipo, eCantidadAImprimir initCantidadAImprimir, string initCodigoClienteProveedor, bool initOrdenamientoClienteStatus, eMonedaDelInformeMM initMonedaDelInformeMM, eTasaDeCambioParaImpresion initTasaDeCambio, string initCodigoMoneda, bool initEsCliente)
+        public clsAnticipoPorProveedorOCliente(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, eStatusAnticipo initStatusAnticipo, eCantidadAImprimir initCantidadAImprimir, string initCodigoClienteProveedor, bool initOrdenamientoClienteStatus, eMonedaDelInformeMM initMonedaDelInformeMM, eTasaDeCambioParaImpresion initTasaDeCambio, string initMoneda, bool initEsCliente)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
             StatusAnticipo = initStatusAnticipo;
             CantidadAImprimir = initCantidadAImprimir;
@@ -35,7 +35,7 @@ namespace Galac.Adm.Rpt.CAnticipo {
             TasaCambio = initTasaDeCambio;
             MonedaDelInformeMM = initMonedaDelInformeMM;
             EsCliente = initEsCliente;
-            CodigoMoneda = initCodigoMoneda;
+            Moneda = initMoneda;
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -75,7 +75,7 @@ namespace Galac.Adm.Rpt.CAnticipo {
             WorkerReportProgress(90, "Configurando Informe...");
             Dictionary<string, string> vParams = GetConfigReportParameters();
             dsrAnticipoPorProveedorOCliente vRpt = new dsrAnticipoPorProveedorOCliente();
-            if (vRpt.ConfigReport(Data, vParams, MonedaDelInformeMM, CodigoMoneda, TasaCambio, EsCliente))
+            if (vRpt.ConfigReport(Data, vParams, MonedaDelInformeMM, Moneda, TasaCambio, EsCliente))
             {
                 LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsAnticipoPorProveedorOCliente.ReportName, true, ExportFileFormat, "", false);
             }

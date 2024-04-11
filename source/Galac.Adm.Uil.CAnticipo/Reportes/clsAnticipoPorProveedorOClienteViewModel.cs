@@ -25,6 +25,7 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
         public const string NombreClientProveedorPropertyName = "NombreClientProveedor";
         public const string OrdenamientoClienteStatusPropertyName = "OrdenamientoClienteStatus";
         public const string MonedaDelInformePropertyName = "MonedaDelInforme";
+        public const string ClienteProveedorIsEnablePropertyName = "ClienteProveedorIsEnable";
         #endregion
         #region Variables
         private eStatusAnticipo _EstatusAnticipo;
@@ -36,8 +37,7 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
         private eMonedaDelInformeMM _MonedaDelInforme;
         private FkClienteViewModel _ConexionCodigoCliente = null;
         private FkProveedorViewModel _ConexionCodigoProveedor = null;
-        private eTasaDeCambioParaImpresion _TipoTasaDeCambioAsEnum;
-        private string _CodigoMoneda;
+        private eTasaDeCambioParaImpresion _TipoTasaDeCambioAsEnum;        
 		private ObservableCollection<eMonedaDelInformeMM> _ListaMonedaDelInforme = new ObservableCollection<eMonedaDelInformeMM>();
         #endregion //Variables
 
@@ -54,6 +54,12 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             }
         }
 
+         public string lblOrdenarPorClienteOProveedor {
+            get {
+                return "Ordenar por Estatus o " + (EsCliente ? "Cliente" : "Proveedor");
+            }
+        }
+
         public eStatusAnticipo EstatusAnticipo {
             get {
                 return _EstatusAnticipo;
@@ -61,7 +67,6 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             set {
                 if (_EstatusAnticipo != value) {
                     _EstatusAnticipo = value;
-
                     RaisePropertyChanged(EstatusAnticipoPropertyName);
                 }
             }
@@ -74,24 +79,24 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             set {
                 if (_CantidadAImprimir != value) {
                     _CantidadAImprimir = value;
-
                     RaisePropertyChanged(CantidadAImprimirPropertyName);
+                    RaisePropertyChanged(ClienteProveedorIsEnablePropertyName);
                 }
             }
         }
 
-        public string CodigoClientProveedor {
+        public string CodigoClienteProveedor {
             get {
                 return _CodigoClientProveedor;
             }
             set {
                 if (_CodigoClientProveedor != value) {
                     _CodigoClientProveedor = value;
-                    RaisePropertyChanged(CodigoClienteProveedorPropertyName);
-                    if (LibString.IsNullOrEmpty(CodigoClientProveedor, true)) {
+                    if (LibString.IsNullOrEmpty(CodigoClienteProveedor, true)) {
                         ConexionCodigoProveedor = null;
                         ConexionCodigoProveedor = null;
                     }
+                    RaisePropertyChanged(CodigoClienteProveedorPropertyName);
                 }
             }
         }
@@ -103,7 +108,6 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             set {
                 if (_NombreClientProveedor != value) {
                     _NombreClientProveedor = value;
-
                     RaisePropertyChanged(NombreClientProveedorPropertyName);
                 }
             }
@@ -116,7 +120,6 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             set {
                 if (_OrdenamientoClienteStatus != value) {
                     _OrdenamientoClienteStatus = value;
-
                     RaisePropertyChanged(OrdenamientoClienteStatusPropertyName);
                 }
             }
@@ -130,6 +133,8 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
                 if (_MonedaDelInforme != value) {
                     _MonedaDelInforme = value;
                     RaisePropertyChanged(MonedaDelInformePropertyName);
+                    RaisePropertyChanged(() => IsVisibleMonedasActivas);
+					RaisePropertyChanged(() => IsVisibleTipoTasaDeCambio);
                 }
             }
         }
@@ -156,12 +161,7 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
                 return LibEnumHelper<eCantidadAImprimir>.GetValuesInArray();
             }
         }
-
-        public eMonedaDelInformeMM[] ArrayMonedaDelGrupo {
-            get {
-                return LibEnumHelper<eMonedaDelInformeMM>.GetValuesInArray();
-            }
-        }
+       
 
         public FkClienteViewModel ConexionCodigoCliente {
             get {
@@ -173,7 +173,7 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
                     RaisePropertyChanged(CodigoClienteProveedorPropertyName);
                 }
                 if (_ConexionCodigoCliente == null) {
-                    CodigoClientProveedor = string.Empty;
+                    CodigoClienteProveedor = string.Empty;
                 }
             }
         }
@@ -188,12 +188,12 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
                     RaisePropertyChanged(CodigoClienteProveedorPropertyName);
                 }
                 if (_ConexionCodigoProveedor == null) {
-                    CodigoClientProveedor = string.Empty;
+                    CodigoClienteProveedor = string.Empty;
                 }
             }
         }
 
-        public RelayCommand<string> ChooseCodigoClientProveedorCommand {
+        public RelayCommand<string> ChooseCodigoClienteProveedorCommand {
             get;
             private set;
         }
@@ -217,12 +217,11 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
 			set { _ListaMonedaDelInforme = value; }
 		}
         
-        public string CodigoMoneda {
+        public string Moneda { get; set; }            
+
+        public bool ClienteProveedorIsEnable {
             get {
-                return _CodigoMoneda;
-            }
-            set {
-                _CodigoMoneda = value;
+                return CantidadAImprimir == eCantidadAImprimir.All;
             }
         }
 
@@ -249,34 +248,34 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
         #region Metodos Generados
         protected override void InitializeCommands() {
             base.InitializeCommands();
-            ChooseCodigoClientProveedorCommand = new RelayCommand<string>(ExecuteChooseCodigoClientProveedorCommand);
+            ChooseCodigoClienteProveedorCommand = new RelayCommand<string>(ExecuteChooseCodigoClienteProveedorCommand);
         }
 
-        private void ExecuteChooseCodigoClientProveedorCommand(string valCodigo) {
+        private void ExecuteChooseCodigoClienteProveedorCommand(string valCodigo) {
             try {
                 if (valCodigo == null) {
                     valCodigo = string.Empty;
                 }
                 if (EsCliente) {
-                    LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
-                    LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
+                    LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_Cliente_B1.Codigo", valCodigo);
+                    LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Gv_Cliente_B1.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
                     ConexionCodigoCliente = ChooseRecord<FkClienteViewModel>("Cliente", vDefaultCriteria, vFixedCriteria, string.Empty);
                     if (ConexionCodigoCliente != null) {
-                        CodigoClientProveedor = ConexionCodigoCliente.Codigo;
+                        CodigoClienteProveedor = ConexionCodigoCliente.Codigo;
                         NombreClientProveedor = ConexionCodigoCliente.Nombre;
                     } else {
-                        CodigoClientProveedor = string.Empty;
+                        CodigoClienteProveedor = string.Empty;
                         NombreClientProveedor = string.Empty;
                     }
                 } else {
-                    LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
-                    LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
+                    LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("adm.GV_Proveedor_B1.CodigoProveedor", valCodigo);
+                    LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("adm.GV_Proveedor_B1.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
                     ConexionCodigoProveedor = ChooseRecord<FkProveedorViewModel>("Proveedor", vDefaultCriteria, vFixedCriteria, string.Empty);
                     if (ConexionCodigoProveedor != null) {
-                        CodigoClientProveedor = ConexionCodigoProveedor.CodigoProveedor;
+                        CodigoClienteProveedor = ConexionCodigoProveedor.CodigoProveedor;
                         NombreClientProveedor = ConexionCodigoProveedor.NombreProveedor;
                     } else {
-                        CodigoClientProveedor = string.Empty;
+                        CodigoClienteProveedor = string.Empty;
                         NombreClientProveedor = string.Empty;
                     }
                 }
@@ -302,7 +301,7 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
 		void LlenarListaMonedasActivas() {
 			ListaMonedasActivas = new Galac.Saw.Lib.clsLibSaw().ListaDeMonedasActivasParaInformes(false);
 			if (ListaMonedasActivas.Count > 0) {
-				CodigoMoneda = ListaMonedasActivas[0];
+				Moneda = ListaMonedasActivas[0];
 			}
 		}
         #endregion //Metodos Generados
