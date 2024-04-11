@@ -11,7 +11,7 @@ using Galac.Adm.Ccl.CAnticipo;
 namespace Galac.Adm.Brl.CAnticipo.Reportes {
     public class clsAnticipoSql {
         #region Metodos Generados
-		public string SqlAnticipoPorProveedorOCliente(int valConsecutivoCompania, eStatusAnticipo valStatusAnticipo, eCantidadAImprimir valCantidadAImprimir, string valCodigoClienteProveedor, bool valOrdenamientoClienteStatus, eMonedaDelInformeMM valMonedaDelInformeMM, bool valEsCliente){
+		public string SqlAnticipoPorProveedorOCliente(int valConsecutivoCompania, eStatusAnticipo valStatusAnticipo, eCantidadAImprimir valCantidadAImprimir, string valCodigoClienteProveedor, bool valOrdenamientoClienteStatus, eMonedaDelInformeMM valMonedaDelInformeMM, string valCodigoMoneda, bool valEsCliente){
             StringBuilder vSql = new StringBuilder();
 			string vSQLWhere = "";
 			vSql.AppendLine("SELECT dbo.Gv_Anticipo_B1.Fecha");

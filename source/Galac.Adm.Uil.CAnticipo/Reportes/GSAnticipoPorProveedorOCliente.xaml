@@ -92,9 +92,10 @@
             InputDataType="Alfanumeric"
             IsEnabled="{Binding Path=ClienteProveedorIsEnable}"
             IsReadOnly="True"
-            MaxLength="160"
+            MaxLength="150"
             Style="{StaticResource TextBoxInputStyle}"
             Text="{Binding Path=NombreClientProveedor, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            TextWrapping="NoWrap"
             VerticalScrollBarVisibility="Auto" />
         <Label
             Name="lblOrdenamientoClienteStatus"
