@@ -2632,7 +2632,7 @@ unBancoPM = (Bco_0102 "0102 Banco de Venezuela S.A. Banco Universal", Bco_0104 "
 	@PrimaryKey=ConsecutivoCompania,Consecutivo
  }
 
-{@S}CajaApertura = Record //Multiarchivo=Compania, "Caja Apertura", Componente=Venta, Esquema=Adm, EsquemaBD=Adm,GenerateRptConfigurar,GenerateFrmInforme, GENERATE
+{@S}CajaApertura = Record //Multiarchivo=Compania, "Caja Apertura", Componente=Venta, Esquema=Adm, EsquemaBD=Adm,GenerateRptConfigurar,GenerateFrmInforme
 	ConsecutivoCompania	: LongInt;//o,HIDE
 	Consecutivo   		: LongInt;//u,o,a,sugestconsecutive
 	ConsecutivoCaja     : Long;//Hide,=Caja.ConsecutivoCaja
@@ -4599,4 +4599,5 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	MontoUsado		:decimal;//"Monto Usado"
 	MontoDevuelto	:decimal;//"Monto Devuelto"
 	DifDevolucion	:decimal;//"Diferencia en Devolución"	
+}
 }
