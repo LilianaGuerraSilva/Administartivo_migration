@@ -11,6 +11,7 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
     public class clsAnticipoRpt: ILibReportInfo, IAnticipoInformes {
         #region Variables
         private Dictionary<string, Dictionary<string, string>> _PropertiesForReportList;
+        private string CodigoMoneda { get;set; }
         #endregion //Variables
         #region Propiedades
         Dictionary<string, Dictionary<string, string>> ILibReportInfo.PropertiesForReportList {
@@ -37,7 +38,7 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
             string vSql = "";
             clsAnticipoSql insAnticipoSql = new clsAnticipoSql();
             LibGalac.Aos.Base.ILibDataRpt insAnticipoPorProveedorOCliente = new Galac.Adm.Dal.CAnticipo.clsAnticipoDat();
-            vSql = insAnticipoSql.SqlAnticipoPorProveedorOCliente(valConsecutivoCompania, valStatusAnticipo, valCantidadAImprimir, valCodigoClienteProveedor, valOrdenamientoClienteStatus, valMonedaDelInformeMM, valEsCliente);
+            vSql = insAnticipoSql.SqlAnticipoPorProveedorOCliente(valConsecutivoCompania, valStatusAnticipo, valCantidadAImprimir, valCodigoClienteProveedor, valOrdenamientoClienteStatus, valMonedaDelInformeMM, CodigoMoneda, valEsCliente);
             return insAnticipoPorProveedorOCliente.GetDt(vSql, 0);
         }
         #endregion //Metodos Generados
