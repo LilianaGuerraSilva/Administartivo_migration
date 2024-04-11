@@ -11,6 +11,7 @@ using Galac.Adm.Ccl.CAnticipo;
 using Galac.Adm.Brl.CAnticipo;
 using Galac.Saw.Lib;
 using Galac.Saw.Uil.Cliente.ViewModel;
+using System.Collections.ObjectModel;
 
 namespace Galac.Adm.Uil.CAnticipo.Reportes {
 
@@ -22,7 +23,7 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
         public const string CodigoClienteProveedorPropertyName = "CodigoClienteProveedor";
         public const string NombreClientProveedorPropertyName = "NombreClientProveedor";
         public const string OrdenamientoClienteStatusPropertyName = "OrdenamientoClienteStatus";
-        public const string MonedaDelGrupoPropertyName = "MonedaDelGrupo";
+        public const string MonedaDelInformePropertyName = "MonedaDelInforme";
         #endregion
         #region Variables
         private eStatusAnticipo _EstatusAnticipo;
@@ -31,9 +32,11 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
         private string _NombreClientProveedor;
         private bool _OrdenamientoClienteStatus;
         private bool _EsCliente;
-        private eMonedaDelInformeMM _MonedaDelGrupo;
+        private eMonedaDelInformeMM _MonedaDelInforme;
         private FkClienteViewModel _ConexionCodigoCliente = null;
         private FkClienteViewModel _ConexionCodigoProveedor = null;
+        private eTasaDeCambioParaImpresion _TipoTasaDeCambioAsEnum;
+		private ObservableCollection<eMonedaDelInformeMM> _ListaMonedaDelInforme = new ObservableCollection<eMonedaDelInformeMM>();
         #endregion //Variables
 
         #region Propiedades
@@ -117,15 +120,14 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             }
         }
 
-        public eMonedaDelInformeMM MonedaDelGrupo {
+        public eMonedaDelInformeMM MonedaDelInforme {
             get {
-                return _MonedaDelGrupo;
+                return _MonedaDelInforme;
             }
             set {
-                if (_MonedaDelGrupo != value) {
-                    _MonedaDelGrupo = value;
-
-                    RaisePropertyChanged(MonedaDelGrupoPropertyName);
+                if (_MonedaDelInforme != value) {
+                    _MonedaDelInforme = value;
+                    RaisePropertyChanged(MonedaDelInformePropertyName);
                 }
             }
         }
@@ -194,14 +196,31 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             private set;
         }
 
+        public eTasaDeCambioParaImpresion TipoTasaDeCambio {
+			get { return _TipoTasaDeCambioAsEnum; }
+			set {
+				if (_TipoTasaDeCambioAsEnum != value) {
+					_TipoTasaDeCambioAsEnum = value;
+					RaisePropertyChanged(() => TipoTasaDeCambio);
+				}
+			}
+		}
 
-        public LibXmlMemInfo AppMemoryInfo {
-            get; set;
-        }
+		public eTasaDeCambioParaImpresion[] ArrayTiposTasaDeCambio {
+			get { return LibEnumHelper<eTasaDeCambioParaImpresion>.GetValuesInArray(); }
+		}
 
-        public LibXmlMFC Mfc {
-            get; set;
-        }
+		public ObservableCollection<eMonedaDelInformeMM> ListaMonedaDelInforme {
+			get { return _ListaMonedaDelInforme; }
+			set { _ListaMonedaDelInforme = value; }
+		}
+
+		public ObservableCollection<string> ListaMonedasActivas { get; set; }
+		public string Moneda { get; set; }
+
+        public LibXmlMemInfo AppMemoryInfo { get; set; }
+
+        public LibXmlMFC Mfc { get; set; }
 
         public override bool IsSSRS => throw new NotImplementedException();
         #endregion //Propiedades
@@ -209,6 +228,10 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
 
         public clsAnticipoPorProveedorOClienteViewModel(bool valEsCliente) {
             EsCliente = valEsCliente;
+            MonedaDelInforme = eMonedaDelInformeMM.EnMonedaOriginal;
+			TipoTasaDeCambio = eTasaDeCambioParaImpresion.DelDia;
+			LlenarEnumerativosMonedas();
+			LlenarListaMonedasActivas();
         }
         #endregion //Constructores        
         protected override ILibBusinessSearch GetBusinessComponent() {
@@ -239,6 +262,25 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, DisplayName);
             }
         }
+
+        public bool IsVisibleTipoTasaDeCambio { get { return MonedaDelInforme == eMonedaDelInformeMM.EnBolivares || MonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa; } }
+		public bool IsVisibleMonedasActivas { get { return MonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa; } }
+
+		private void LlenarEnumerativosMonedas() {
+			ListaMonedaDelInforme = new ObservableCollection<eMonedaDelInformeMM>();
+			ListaMonedaDelInforme.Clear();
+			ListaMonedaDelInforme.Add(eMonedaDelInformeMM.EnBolivares);
+			ListaMonedaDelInforme.Add(eMonedaDelInformeMM.EnMonedaOriginal);
+			ListaMonedaDelInforme.Add(eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa);
+			MonedaDelInforme = eMonedaDelInformeMM.EnMonedaOriginal;
+		}
+
+		void LlenarListaMonedasActivas() {
+			ListaMonedasActivas = new Galac.Saw.Lib.clsLibSaw().ListaDeMonedasActivasParaInformes(false);
+			if (ListaMonedasActivas.Count > 0) {
+				Moneda = ListaMonedasActivas[0];
+			}
+		}
         #endregion //Metodos Generados
     } //End of class clsAnticipoPorProveedorOClienteViewModel
 

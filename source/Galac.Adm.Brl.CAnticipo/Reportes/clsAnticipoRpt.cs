@@ -37,7 +37,7 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
             string vSql = "";
             clsAnticipoSql insAnticipoSql = new clsAnticipoSql();
             LibGalac.Aos.Base.ILibDataRpt insAnticipoPorProveedorOCliente = new Galac.Adm.Dal.CAnticipo.clsAnticipoDat();
-            vSql = insAnticipoSql.SqlAnticipoPorProveedorOCliente( valConsecutivoCompania,  valStatusAnticipo,  valCantidadAImprimir,  valCodigoClienteProveedor,  valOrdenamientoClienteStatus,  valMonedaDelInformeMM,  valEsCliente);
+            vSql = insAnticipoSql.SqlAnticipoPorProveedorOCliente(valConsecutivoCompania, valStatusAnticipo, valCantidadAImprimir, valCodigoClienteProveedor, valOrdenamientoClienteStatus, valMonedaDelInformeMM, valEsCliente);
             return insAnticipoPorProveedorOCliente.GetDt(vSql, 0);
         }
         #endregion //Metodos Generados
