@@ -23,16 +23,16 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
         public const string CantidadAImprimirPropertyName = "CantidadAImprimir";
         public const string CodigoClienteProveedorPropertyName = "CodigoClienteProveedor";
         public const string NombreClientProveedorPropertyName = "NombreClientProveedor";
-        public const string OrdenamientoClienteStatusPropertyName = "OrdenamientoClienteStatus";
+        public const string OrdenamientoPorStatusPropertyName = "OrdenamientoStatus";
         public const string MonedaDelInformePropertyName = "MonedaDelInforme";
         public const string ClienteProveedorIsEnablePropertyName = "ClienteProveedorIsEnable";
         #endregion
         #region Variables
-        private eStatusAnticipo _EstatusAnticipo;
+        private eStatusAnticipoInformes _EstatusAnticipo;
         private eCantidadAImprimir _CantidadAImprimir;
         private string _CodigoClientProveedor;
         private string _NombreClientProveedor;
-        private bool _OrdenamientoClienteStatus;
+        private bool _OrdenamientoPorStatus;
         private bool _EsCliente;
         private eMonedaDelInformeMM _MonedaDelInforme;
         private FkClienteViewModel _ConexionCodigoCliente = null;
@@ -60,7 +60,7 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             }
         }
 
-        public eStatusAnticipo EstatusAnticipo {
+        public eStatusAnticipoInformes EstatusAnticipo {
             get {
                 return _EstatusAnticipo;
             }
@@ -113,14 +113,14 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             }
         }
 
-        public bool OrdenamientoClienteStatus {
+        public bool OrdenamientoPorStatus {
             get {
-                return _OrdenamientoClienteStatus;
+                return _OrdenamientoPorStatus;
             }
             set {
-                if (_OrdenamientoClienteStatus != value) {
-                    _OrdenamientoClienteStatus = value;
-                    RaisePropertyChanged(OrdenamientoClienteStatusPropertyName);
+                if (_OrdenamientoPorStatus != value) {
+                    _OrdenamientoPorStatus = value;
+                    RaisePropertyChanged(OrdenamientoPorStatusPropertyName);
                 }
             }
         }
@@ -150,9 +150,9 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             }
         }
 
-        public eStatusAnticipo[] ArrayStatusAnticipo {
+        public eStatusAnticipoInformes[] ArrayStatusAnticipo {
             get {
-                return LibEnumHelper<eStatusAnticipo>.GetValuesInArray();
+                return LibEnumHelper<eStatusAnticipoInformes>.GetValuesInArray();
             }
         }
 
@@ -221,7 +221,7 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
 
         public bool ClienteProveedorIsEnable {
             get {
-                return CantidadAImprimir == eCantidadAImprimir.All;
+                return CantidadAImprimir == eCantidadAImprimir.One;
             }
         }
 
@@ -238,6 +238,8 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             EsCliente = valEsCliente;
             MonedaDelInforme = eMonedaDelInformeMM.EnMonedaOriginal;
 			TipoTasaDeCambio = eTasaDeCambioParaImpresion.DelDia;
+            EstatusAnticipo = eStatusAnticipoInformes.Todos;
+            CantidadAImprimir = eCantidadAImprimir.All;
 			LlenarEnumerativosMonedas();
 			LlenarListaMonedasActivas();
         }

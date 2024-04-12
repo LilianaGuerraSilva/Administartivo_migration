@@ -112,7 +112,7 @@
             Height="14"
             Margin="38,0,0,0"
             HorizontalAlignment="Left"
-            IsChecked="{Binding Path=OrdenamientoClienteStatus}"
+            IsChecked="{Binding Path=OrdenamientoStatus}"
             IsEnabled="{Binding Path=ClienteProveedorIsEnable}"
             Style="{StaticResource CheckBoxStyle}" />
         <Label
