@@ -34,16 +34,14 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
             return vResult;
         }
 
-        System.Data.DataTable IAnticipoInformes.BuildAnticipoPorProveedorOCliente(int valConsecutivoCompania, eStatusAnticipo valStatusAnticipo, eCantidadAImprimir valCantidadAImprimir, string valCodigoClienteProveedor, bool valOrdenamientoClienteStatus, eMonedaDelInformeMM valMonedaDelInformeMM, bool valEsCliente) {
+        System.Data.DataTable IAnticipoInformes.BuildAnticipoPorProveedorOCliente(int valConsecutivoCompania, eStatusAnticipoInformes valStatusAnticipo, eCantidadAImprimir valCantidadAImprimir, string valCodigoClienteProveedor, bool valOrdenamientoPorStatus, eMonedaDelInformeMM valMonedaDelInformeMM, bool valEsCliente, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valCodigoMoneda, string valNombreMoneda) {
             string vSql = "";
             clsAnticipoSql insAnticipoSql = new clsAnticipoSql();
             LibGalac.Aos.Base.ILibDataRpt insAnticipoPorProveedorOCliente = new Galac.Adm.Dal.CAnticipo.clsAnticipoDat();
-            vSql = insAnticipoSql.SqlAnticipoPorProveedorOCliente(valConsecutivoCompania, valStatusAnticipo, valCantidadAImprimir, valCodigoClienteProveedor, valOrdenamientoClienteStatus, valMonedaDelInformeMM, CodigoMoneda, valEsCliente);
+            vSql = insAnticipoSql.SqlAnticipoPorProveedorOCliente(valConsecutivoCompania, valStatusAnticipo, valCantidadAImprimir, valCodigoClienteProveedor, valOrdenamientoPorStatus, valMonedaDelInformeMM, valEsCliente, valTipoTasaDeCambio, valCodigoMoneda, valNombreMoneda);
             return insAnticipoPorProveedorOCliente.GetDt(vSql, 0);
         }
         #endregion //Metodos Generados
-
-
     } //End of class clsAnticipoRpt
 
 } //End of namespace Galac.Adm.Brl.CAnticipo

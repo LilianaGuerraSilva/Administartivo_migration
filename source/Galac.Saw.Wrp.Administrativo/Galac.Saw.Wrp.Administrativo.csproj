@@ -140,6 +140,7 @@
     <Compile Include="IWrpClienteInsercionRapida.cs" />
     <Compile Include="IWrpClienteVb.cs" />
     <Compile Include="IWrpCobroRapidoMultimoneda.cs" />
+    <Compile Include="IWrpAnticipoInformesVb.cs" />
     <Compile Include="IWrpInformesVb.cs" />
     <Compile Include="IWrpImpuestoBancarioVb.cs" />
     <Compile Include="IWrpLibros.cs" />
@@ -149,6 +150,7 @@
     <Compile Include="IWrpTransferenciaEntreCuentasBancariasVb.cs" />
     <Compile Include="IWrpVendedorVb.cs" />
     <Compile Include="IWrpVerificadorDePrecios.cs" />
+    <Compile Include="wrpAnticipoInformes.cs" />
     <Compile Include="wrpCaja.cs" />
     <Compile Include="wrpCajaApertura.cs" />
     <Compile Include="wrpCliente.cs" />
@@ -267,6 +269,10 @@
     <ProjectReference Include="..\Galac.Adm.Uil.Banco\Galac.Adm.Uil.Banco.csproj">
       <Project>{cea20080-8bbe-4562-b30c-88a9b1e0218c}</Project>
       <Name>Galac.Adm.Uil.Banco</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Uil.CAnticipo\Galac.Adm.Uil.CAnticipo.csproj">
+      <Project>{ddec809b-30b5-4d19-af03-9dbad96594f4}</Project>
+      <Name>Galac.Adm.Uil.CAnticipo</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Adm.Uil.DispositivosExternos\Galac.Adm.Uil.DispositivosExternos.csproj">
       <Project>{2844e837-4a95-4eb6-b663-fba990615ba3}</Project>
