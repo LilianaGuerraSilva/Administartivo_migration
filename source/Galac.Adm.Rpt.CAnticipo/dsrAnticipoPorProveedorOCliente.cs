@@ -45,9 +45,9 @@ namespace Galac.Adm.Rpt.CAnticipo {
                 if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
                     LibReport.LoadLayout(this, vRpxPath);
                 }
-            }
+            }            
             if (LibReport.ConfigDataSource(this, valDataSource)) {
-                LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["Nombre"], string.Empty);
+                LibReport.ConfigFieldStr(this, "txtCompania", string.Empty, valParameters["Nombre"]);
                 if (valCliente) {
                     LibReport.ConfigLabel(this, "lblTituloDelReporte", ReportTitle() + " Cobrados por Cliente");
                     LibReport.ConfigLabel(this, "lblClienteProveedor", "Cliente");
@@ -59,12 +59,12 @@ namespace Galac.Adm.Rpt.CAnticipo {
                 }
                 //LibReport.ConfigLabel(this, "lblFechaInicialYFinal", valParameters["FechaInicialYFinal"]);
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
-                LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
-
-                LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "MonedadelReporte");
-                LibReport.ConfigFieldStr(this, "txtClienteProveedor", string.Empty, "ClienteProveedor");
+                LibReport.ConfigHeader(this, "txtCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "txtNumeroDePagina", "", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
+                LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "MonedaReporte");
+                LibReport.ConfigFieldStr(this, "txtCodigo", string.Empty, "CodigoClienteProveedor");
+                LibReport.ConfigFieldStr(this, "txtNombre", string.Empty, "NombreClienteProveedor");
                 LibReport.ConfigFieldStr(this, "txtEstatus", string.Empty, "Estatus");
-                LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", "dd/MM/yyyy");
+                LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", "dd/MM/yy");
                 LibReport.ConfigFieldStr(this, "txtNumero", string.Empty, "Numero");
                 LibReport.ConfigFieldStr(this, "txtMonedaDocumento", string.Empty, "MonedaDocumento");
                 LibReport.ConfigFieldDec(this, "txtCambio", string.Empty, "Cambio", "#,###.0000", false, TextAlignment.Right);
@@ -99,7 +99,7 @@ namespace Galac.Adm.Rpt.CAnticipo {
                 string vNotaMonedaCambio = new clsLibSaw().NotaMonedaCambioParaInformes(valMonedaDelInforme, valTasaDeCambio, valMoneda, "Anticipo");
                 LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", vNotaMonedaCambio, "");
 
-                LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
+                LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Landscape);
                 return true;
             }
             return false;

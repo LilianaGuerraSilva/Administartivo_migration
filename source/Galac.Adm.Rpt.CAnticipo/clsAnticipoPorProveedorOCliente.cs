@@ -52,7 +52,7 @@ namespace Galac.Adm.Rpt.CAnticipo {
                 vTitulo += " - desde RPX externo.";
             }
             Dictionary<string, string> vParams = new Dictionary<string, string>();
-            vParams.Add("Nombre", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre") + " - " + LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "NumeroDeRIF"));
+            vParams.Add("Nombre", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre") + " - RIF " + LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "NumeroDeRIF"));
             vParams.Add("TituloInforme", vTitulo);         
             return vParams;
         }

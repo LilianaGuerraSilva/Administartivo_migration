@@ -37,10 +37,9 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.txtCambio = new DataDynamics.ActiveReports.TextBox();
             this.PageHeader = new DataDynamics.ActiveReports.PageHeader();
             this.lblTituloDelReporte = new DataDynamics.ActiveReports.Label();
-            this.lblCompania = new DataDynamics.ActiveReports.Label();
+            this.txtCompania = new DataDynamics.ActiveReports.TextBox();
             this.lblFechaYHoraDeEmision = new DataDynamics.ActiveReports.Label();
-            this.lblNumeroDePagina = new DataDynamics.ActiveReports.Label();
-            this.lblFechaInicialYFinal = new DataDynamics.ActiveReports.Label();
+            this.txtNumeroDePagina = new DataDynamics.ActiveReports.TextBox();
             this.zzNotaIG = new DataDynamics.ActiveReports.Label();
             this.PageFooter = new DataDynamics.ActiveReports.PageFooter();
             this.txtNotaMonedaCambio = new DataDynamics.ActiveReports.TextBox();
@@ -97,10 +96,9 @@ namespace Galac.Adm.Rpt.CAnticipo
             ((System.ComponentModel.ISupportInitialize)(this.txtMonedaDocumento)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCambio)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTituloDelReporte)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblCompania)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCompania)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaYHoraDeEmision)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblNumeroDePagina)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblFechaInicialYFinal)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNumeroDePagina)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.zzNotaIG)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNotaMonedaCambio)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMoneda)).BeginInit();
@@ -255,10 +253,9 @@ namespace Galac.Adm.Rpt.CAnticipo
             // 
             this.PageHeader.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
             this.lblTituloDelReporte,
-            this.lblCompania,
+            this.txtCompania,
             this.lblFechaYHoraDeEmision,
-            this.lblNumeroDePagina,
-            this.lblFechaInicialYFinal,
+            this.txtNumeroDePagina,
             this.zzNotaIG});
             this.PageHeader.Height = 0.9791667F;
             this.PageHeader.Name = "PageHeader";
@@ -276,14 +273,14 @@ namespace Galac.Adm.Rpt.CAnticipo
             // 
             // lblCompania
             // 
-            this.lblCompania.Height = 0.28125F;
-            this.lblCompania.HyperLink = null;
-            this.lblCompania.Left = 0F;
-            this.lblCompania.Name = "lblCompania";
-            this.lblCompania.Style = "font-size: 14pt; font-weight: bold; text-align: center; vertical-align: top";
-            this.lblCompania.Text = "lblCompania";
-            this.lblCompania.Top = 0F;
-            this.lblCompania.Width = 3.53125F;
+            this.txtCompania.Height = 0.28125F;
+            this.txtCompania.HyperLink = null;
+            this.txtCompania.Left = 0F;
+            this.txtCompania.Name = "txtCompania";
+            this.txtCompania.Style = "font-size: 14pt; font-weight: bold; text-align: center; vertical-align: top";
+            this.txtCompania.Text = "txtCompania";
+            this.txtCompania.Top = 0F;
+            this.txtCompania.Width = 3.53125F;
             // 
             // lblFechaYHoraDeEmision
             // 
@@ -293,30 +290,19 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.lblFechaYHoraDeEmision.Name = "lblFechaYHoraDeEmision";
             this.lblFechaYHoraDeEmision.Style = "font-size: 7pt; text-align: center; vertical-align: top";
             this.lblFechaYHoraDeEmision.Text = "lblFechaYHoraDeEmision";
-            this.lblFechaYHoraDeEmision.Top = 0.687F;
+            this.lblFechaYHoraDeEmision.Top = 0.531F;
             this.lblFechaYHoraDeEmision.Width = 3.53125F;
             // 
             // lblNumeroDePagina
             // 
-            this.lblNumeroDePagina.Height = 0.15625F;
-            this.lblNumeroDePagina.HyperLink = null;
-            this.lblNumeroDePagina.Left = 6.65625F;
-            this.lblNumeroDePagina.Name = "lblNumeroDePagina";
-            this.lblNumeroDePagina.Style = "font-size: 10pt; vertical-align: top";
-            this.lblNumeroDePagina.Text = "lblNumeroDePagina";
-            this.lblNumeroDePagina.Top = 0F;
-            this.lblNumeroDePagina.Width = 0.84375F;
-            // 
-            // lblFechaInicialYFinal
-            // 
-            this.lblFechaInicialYFinal.Height = 0.15625F;
-            this.lblFechaInicialYFinal.HyperLink = null;
-            this.lblFechaInicialYFinal.Left = 0F;
-            this.lblFechaInicialYFinal.Name = "lblFechaInicialYFinal";
-            this.lblFechaInicialYFinal.Style = "font-weight: bold; text-align: center";
-            this.lblFechaInicialYFinal.Text = "lblFechaInicialYFinal";
-            this.lblFechaInicialYFinal.Top = 0.531F;
-            this.lblFechaInicialYFinal.Width = 3.53125F;
+            this.txtNumeroDePagina.Height = 0.15625F;
+            this.txtNumeroDePagina.HyperLink = null;
+            this.txtNumeroDePagina.Left = 6.65625F;
+            this.txtNumeroDePagina.Name = "txtNumeroDePagina";
+            this.txtNumeroDePagina.Style = "font-size: 10pt; vertical-align: top";
+            this.txtNumeroDePagina.Text = "txtNumeroDePagina";
+            this.txtNumeroDePagina.Top = 0F;
+            this.txtNumeroDePagina.Width = 0.84375F;
             // 
             // zzNotaIG
             // 
@@ -965,10 +951,9 @@ namespace Galac.Adm.Rpt.CAnticipo
             ((System.ComponentModel.ISupportInitialize)(this.txtMonedaDocumento)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCambio)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTituloDelReporte)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblCompania)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCompania)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaYHoraDeEmision)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblNumeroDePagina)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblFechaInicialYFinal)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNumeroDePagina)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.zzNotaIG)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNotaMonedaCambio)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMoneda)).EndInit();
@@ -1023,10 +1008,9 @@ namespace Galac.Adm.Rpt.CAnticipo
         private DataDynamics.ActiveReports.TextBox txtMontoUsado;
         private DataDynamics.ActiveReports.PageHeader PageHeader;
         private DataDynamics.ActiveReports.Label lblTituloDelReporte;
-        private DataDynamics.ActiveReports.Label lblCompania;
+        private DataDynamics.ActiveReports.TextBox txtCompania;
         private DataDynamics.ActiveReports.Label lblFechaYHoraDeEmision;
-        private DataDynamics.ActiveReports.Label lblNumeroDePagina;
-        private DataDynamics.ActiveReports.Label lblFechaInicialYFinal;
+        private DataDynamics.ActiveReports.TextBox txtNumeroDePagina;
         private DataDynamics.ActiveReports.Label zzNotaIG;
         private DataDynamics.ActiveReports.PageFooter PageFooter;
         private DataDynamics.ActiveReports.GroupHeader GHMoneda;
