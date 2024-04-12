@@ -140,6 +140,7 @@
     <Compile Include="IWrpClienteInsercionRapida.cs" />
     <Compile Include="IWrpClienteVb.cs" />
     <Compile Include="IWrpCobroRapidoMultimoneda.cs" />
+    <Compile Include="IWrpAnticipoInformesVb.cs" />
     <Compile Include="IWrpInformesVb.cs" />
     <Compile Include="IWrpImpuestoBancarioVb.cs" />
     <Compile Include="IWrpLibros.cs" />

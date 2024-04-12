@@ -12,13 +12,11 @@ using LibGalac.Aos.UI.Wpf;
 using LibGalac.Aos.Uil.Usal;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.Uil;
-using Galac.Saw.Wrp.VentaInformes;
 
-namespace Galac.Saw.Wrp.CAnticipo {
+namespace Galac.Saw.Wrp.AnticipoInformes {
 
     [ClassInterface(ClassInterfaceType.None)]
-
-    public class wrpAnticipoInformes : System.EnterpriseServices.ServicedComponent, IWrpInformesVb {
+    public class wrpAnticipoInformes : System.EnterpriseServices.ServicedComponent, IWrpAnticipoInformesVb {
         #region Variables
         string _Title = "Anticipo";
         #endregion //Variables
@@ -33,11 +31,11 @@ namespace Galac.Saw.Wrp.CAnticipo {
         #region Constructores
         #endregion //Constructores
         #region Metodos Generados
-        #region Miembros de IWrpInformesVb
+        #region Miembros de IWrpAnticipoInformesVb
 
-        void IWrpInformesVb.Execute(string vfwAction, int vfwSystemModule, string vfwCurrentCompany, string vfwCurrentParameters) {
+        void IWrpAnticipoInformesVb.Execute(string vfwAction, int vfwSystemModule, string vfwCurrentParameters) {
             try {
-                CreateGlobalValues(vfwCurrentParameters, vfwCurrentCompany);
+                CreateGlobalValues(vfwCurrentParameters);
                 ILibMenu insMenu = new Galac.Adm.Uil.CAnticipo.clsAnticipoInformesMenu();
                 insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), vfwSystemModule);
             } catch (GalacException gEx) {
@@ -50,7 +48,7 @@ namespace Galac.Saw.Wrp.CAnticipo {
             }
         }
 
-        void IWrpInformesVb.InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath) {
+        void IWrpAnticipoInformesVb.InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath) {
             try {
                 LibWrp.SetAppConfigToCurrentDomain(vfwPath);
                 LibGalac.Aos.Vbwa.LibWrpHelper.ConfigureRuntimeContext(vfwLogin, vfwPassword);
@@ -62,7 +60,7 @@ namespace Galac.Saw.Wrp.CAnticipo {
             }
         }
 
-        void IWrpInformesVb.InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO, bool vfwUsePASOnLine) {
+        void IWrpAnticipoInformesVb.InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO, bool vfwUsePASOnLine) {
             try {
                 string vLogicUnitDir = LibGalac.Aos.Cnf.LibAppSettings.ULS;
                 LibGalac.Aos.DefGen.LibDefGen.InitializeProgramInfo(vfwProgramInitials, vfwProgramVersion, vfwDbVersion, LibConvert.ToDate(vfwStrDateOfVersion), vfwStrHourOfVersion, "", vfwCountry, LibConvert.ToInt(vfwCMTO));
@@ -75,7 +73,7 @@ namespace Galac.Saw.Wrp.CAnticipo {
             }
         }
 
-        void IWrpInformesVb.InitializeContext(string vfwInfo) {
+        void IWrpAnticipoInformesVb.InitializeContext(string vfwInfo) {
             try {
                 LibGalac.Aos.DefGen.LibDefGen.Initialize(vfwInfo);
             } catch (Exception vEx) {
@@ -87,9 +85,8 @@ namespace Galac.Saw.Wrp.CAnticipo {
         }
         #endregion //Miembros de IWrpInformesVb
 
-        private LibGlobalValues CreateGlobalValues(string valCurrentMfc, string valCurrentParameters) {
-            LibGlobalValues.Instance.LoadCompleteAppMemInfo(valCurrentParameters);
-            LibGlobalValues.Instance.GetMfcInfo().Add("Compania", LibConvert.ToInt(valCurrentMfc));
+        private LibGlobalValues CreateGlobalValues( string valCurrentParameters) {
+            LibGlobalValues.Instance.LoadCompleteAppMemInfo(valCurrentParameters);            
             return LibGlobalValues.Instance;
         }
         #endregion //Metodos Generados

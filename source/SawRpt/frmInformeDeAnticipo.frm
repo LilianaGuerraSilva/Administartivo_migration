@@ -17,20 +17,20 @@ Begin VB.Form frmInformeDeAnticipo
       ForeColor       =   &H00808080&
       Height          =   615
       Left            =   8520
-      TabIndex        =   34
+      TabIndex        =   33
       Top             =   2340
       Width           =   1455
       Begin MSComCtl2.DTPicker dtpFechaHasta 
          Height          =   315
          Left            =   120
-         TabIndex        =   35
+         TabIndex        =   34
          Top             =   240
          Width           =   1275
          _ExtentX        =   2249
          _ExtentY        =   556
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   96600067
+         Format          =   94240771
          CurrentDate     =   36978
       End
    End
@@ -39,14 +39,14 @@ Begin VB.Form frmInformeDeAnticipo
       BorderStyle     =   0  'None
       Height          =   315
       Left            =   6720
-      TabIndex        =   32
+      TabIndex        =   31
       Top             =   840
       Visible         =   0   'False
       Width           =   3015
       Begin GSTextBox.GSText txtNumeroCotizacion 
          Height          =   285
          Left            =   1080
-         TabIndex        =   6
+         TabIndex        =   5
          Top             =   0
          Width           =   1230
          _ExtentX        =   2170
@@ -70,7 +70,7 @@ Begin VB.Form frmInformeDeAnticipo
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   240
-         TabIndex        =   33
+         TabIndex        =   32
          Top             =   45
          Width           =   735
       End
@@ -81,13 +81,13 @@ Begin VB.Form frmInformeDeAnticipo
       ForeColor       =   &H00808080&
       Height          =   555
       Left            =   3360
-      TabIndex        =   26
+      TabIndex        =   25
       Top             =   1200
       Width           =   7515
       Begin GSTextBox.GSText txtCodigo 
          Height          =   285
          Left            =   780
-         TabIndex        =   7
+         TabIndex        =   6
          Top             =   180
          Width           =   1110
          _ExtentX        =   1958
@@ -108,7 +108,7 @@ Begin VB.Form frmInformeDeAnticipo
       Begin GSTextBox.GSText txtNombre 
          Height          =   285
          Left            =   1950
-         TabIndex        =   8
+         TabIndex        =   7
          Top             =   195
          Width           =   5430
          _ExtentX        =   9578
@@ -134,7 +134,7 @@ Begin VB.Form frmInformeDeAnticipo
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   120
-         TabIndex        =   27
+         TabIndex        =   26
          Top             =   240
          Width           =   555
       End
@@ -143,7 +143,7 @@ Begin VB.Form frmInformeDeAnticipo
       Caption         =   "&Impresora"
       Height          =   375
       Left            =   60
-      TabIndex        =   14
+      TabIndex        =   13
       Top             =   3090
       Width           =   1215
    End
@@ -154,14 +154,14 @@ Begin VB.Form frmInformeDeAnticipo
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   7320
-      TabIndex        =   24
+      TabIndex        =   23
       Top             =   1950
       Visible         =   0   'False
       Width           =   3495
       Begin VB.ComboBox cmbMonedaDeLosReportes 
          Height          =   315
          Left            =   720
-         TabIndex        =   13
+         TabIndex        =   12
          Top             =   0
          Width           =   1755
       End
@@ -173,7 +173,7 @@ Begin VB.Form frmInformeDeAnticipo
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   80
-         TabIndex        =   25
+         TabIndex        =   24
          Top             =   50
          Width           =   585
       End
@@ -184,7 +184,7 @@ Begin VB.Form frmInformeDeAnticipo
       ForeColor       =   &H00808080&
       Height          =   1095
       Left            =   5520
-      TabIndex        =   23
+      TabIndex        =   22
       Top             =   1860
       Width           =   1695
       Begin VB.OptionButton optTasaDeCambio 
@@ -195,7 +195,7 @@ Begin VB.Form frmInformeDeAnticipo
          Height          =   195
          Index           =   0
          Left            =   120
-         TabIndex        =   11
+         TabIndex        =   10
          Top             =   240
          Width           =   1335
       End
@@ -207,7 +207,7 @@ Begin VB.Form frmInformeDeAnticipo
          Height          =   255
          Index           =   1
          Left            =   120
-         TabIndex        =   12
+         TabIndex        =   11
          Top             =   555
          Width           =   1335
       End
@@ -218,33 +218,33 @@ Begin VB.Form frmInformeDeAnticipo
       ForeColor       =   &H00808080&
       Height          =   1095
       Left            =   3345
-      TabIndex        =   19
+      TabIndex        =   18
       Top             =   1860
       Width           =   2055
       Begin MSComCtl2.DTPicker dtpFechaFinal 
          Height          =   315
          Left            =   720
-         TabIndex        =   10
+         TabIndex        =   9
          Top             =   615
          Width           =   1275
          _ExtentX        =   2249
          _ExtentY        =   556
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   96600067
+         Format          =   94240771
          CurrentDate     =   36978
       End
       Begin MSComCtl2.DTPicker dtpFechaInicial 
          Height          =   315
          Left            =   720
-         TabIndex        =   9
+         TabIndex        =   8
          Top             =   240
          Width           =   1275
          _ExtentX        =   2249
          _ExtentY        =   556
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   96600067
+         Format          =   94240771
          CurrentDate     =   36978
       End
       Begin VB.Label lblFechaFinal 
@@ -255,7 +255,7 @@ Begin VB.Form frmInformeDeAnticipo
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   180
-         TabIndex        =   21
+         TabIndex        =   20
          Top             =   675
          Width           =   330
       End
@@ -267,7 +267,7 @@ Begin VB.Form frmInformeDeAnticipo
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   180
-         TabIndex        =   20
+         TabIndex        =   19
          Top             =   300
          Width           =   405
       End
@@ -275,9 +275,9 @@ Begin VB.Form frmInformeDeAnticipo
    Begin VB.Frame frameInformes 
       BackColor       =   &H00F3F3F3&
       ForeColor       =   &H80000010&
-      Height          =   2535
+      Height          =   1935
       Left            =   120
-      TabIndex        =   17
+      TabIndex        =   16
       Top             =   120
       Width           =   3135
       Begin VB.OptionButton optInformeDeAnticipo 
@@ -287,10 +287,10 @@ Begin VB.Form frmInformeDeAnticipo
          CausesValidation=   0   'False
          ForeColor       =   &H00A84439&
          Height          =   195
-         Index           =   4
+         Index           =   2
          Left            =   120
-         TabIndex        =   3
-         Top             =   1920
+         TabIndex        =   2
+         Top             =   1080
          Width           =   2895
       End
       Begin VB.OptionButton optInformeDeAnticipo 
@@ -302,9 +302,8 @@ Begin VB.Form frmInformeDeAnticipo
          Height          =   195
          Index           =   3
          Left            =   120
-         TabIndex        =   2
+         TabIndex        =   1
          Top             =   1440
-         Visible         =   0   'False
          Width           =   2895
       End
       Begin VB.OptionButton optInformeDeAnticipo 
@@ -313,20 +312,7 @@ Begin VB.Form frmInformeDeAnticipo
          Caption         =   "Anticipo entre Fechas ......................"
          CausesValidation=   0   'False
          ForeColor       =   &H00A84439&
-         Height          =   195
-         Index           =   2
-         Left            =   120
-         TabIndex        =   1
-         Top             =   960
-         Width           =   2895
-      End
-      Begin VB.OptionButton optInformeDeAnticipo 
-         Alignment       =   1  'Right Justify
-         BackColor       =   &H00F3F3F3&
-         Caption         =   "Anticipo por Cliente / Proveedor ......"
-         CausesValidation=   0   'False
-         ForeColor       =   &H00A84439&
-         Height          =   195
+         Height          =   435
          Index           =   1
          Left            =   120
          TabIndex        =   0
@@ -348,7 +334,7 @@ Begin VB.Form frmInformeDeAnticipo
          ForeColor       =   &H00FFFFFF&
          Height          =   255
          Left            =   120
-         TabIndex        =   18
+         TabIndex        =   17
          Top             =   240
          Width           =   2895
       End
@@ -359,7 +345,7 @@ Begin VB.Form frmInformeDeAnticipo
       CausesValidation=   0   'False
       Height          =   375
       Left            =   2940
-      TabIndex        =   16
+      TabIndex        =   15
       Top             =   3090
       Width           =   1215
    End
@@ -367,7 +353,7 @@ Begin VB.Form frmInformeDeAnticipo
       Caption         =   "&Pantalla"
       Height          =   375
       Left            =   1560
-      TabIndex        =   15
+      TabIndex        =   14
       Top             =   3090
       Width           =   1215
    End
@@ -378,13 +364,13 @@ Begin VB.Form frmInformeDeAnticipo
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   3360
-      TabIndex        =   30
+      TabIndex        =   29
       Top             =   840
       Width           =   3135
       Begin VB.ComboBox CmbCantidadAImprimir 
          Height          =   315
          Left            =   1590
-         TabIndex        =   4
+         TabIndex        =   3
          Top             =   0
          Width           =   975
       End
@@ -396,7 +382,7 @@ Begin VB.Form frmInformeDeAnticipo
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   60
-         TabIndex        =   31
+         TabIndex        =   30
          Top             =   60
          Width           =   1380
       End
@@ -408,14 +394,14 @@ Begin VB.Form frmInformeDeAnticipo
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   3435
-      TabIndex        =   28
+      TabIndex        =   27
       Top             =   435
       Width           =   3975
       Begin VB.ComboBox cmbStatus 
          Height          =   315
          Left            =   1305
          Sorted          =   -1  'True
-         TabIndex        =   5
+         TabIndex        =   4
          Top             =   0
          Width           =   1935
       End
@@ -427,7 +413,7 @@ Begin VB.Form frmInformeDeAnticipo
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   0
-         TabIndex        =   29
+         TabIndex        =   28
          Top             =   60
          Width           =   1185
       End
@@ -438,7 +424,7 @@ Begin VB.Form frmInformeDeAnticipo
       ForeColor       =   &H00808080&
       Height          =   825
       Left            =   7785
-      TabIndex        =   36
+      TabIndex        =   35
       Top             =   345
       Width           =   1695
       Begin VB.OptionButton optOrdenar 
@@ -449,7 +435,7 @@ Begin VB.Form frmInformeDeAnticipo
          Height          =   255
          Index           =   1
          Left            =   120
-         TabIndex        =   38
+         TabIndex        =   37
          Top             =   465
          Width           =   1335
       End
@@ -461,7 +447,7 @@ Begin VB.Form frmInformeDeAnticipo
          Height          =   195
          Index           =   0
          Left            =   120
-         TabIndex        =   37
+         TabIndex        =   36
          Top             =   210
          Width           =   1335
       End
@@ -483,7 +469,7 @@ Begin VB.Form frmInformeDeAnticipo
       ForeColor       =   &H000040C0&
       Height          =   300
       Left            =   3375
-      TabIndex        =   22
+      TabIndex        =   21
       Top             =   60
       Width           =   2385
    End
@@ -505,15 +491,12 @@ Private insProveedorNavigator As Object
 Private insFacturaNavigator As Object
 Private insConexionesSawAOS As Object
 Private gProyCompaniaActual As Object
-
-Private Function GetGender() As Enum_Gender
-   GetGender = eg_Male
-End Function
-
-Private Function CM_FILE_NAME() As String
-   CM_FILE_NAME = "frmInformeDeAnticipo"
-End Function
-
+Private Const GetGender = Enum_Gender.eg_Male
+Private Const CM_FILE_NAME As String = "frmInformeDeAnticipo"
+Private Const OPT_INFORME_ANTICIPO_ENTRE_FECHAS As Integer = 1
+Private Const OPT_INFORME_ANTICIPO_A_UNA_FECHA As Integer = 2
+Private Const OPT_INFORME_ANTICIPO_ASOCIADO_CON_COTIZACION As Integer = 3
+     
 Private Function CM_MESSAGE_NAME() As String
    If mTipoDeAnticipo = eTDA_COBRADO Then
       CM_MESSAGE_NAME = "Informe de Anticipo de Cobrados"
@@ -521,19 +504,7 @@ Private Function CM_MESSAGE_NAME() As String
       CM_MESSAGE_NAME = "Informe de Anticipo de Pagos "
    End If
 End Function
-
-Private Function OPT_INFORME_ANTICIPO_ENTRE_FECHAS() As Integer
-   OPT_INFORME_ANTICIPO_ENTRE_FECHAS = 2
-End Function
-
-Private Function OPT_INFORME_ANTICIPO_POR_CLIENTE() As Integer
-  OPT_INFORME_ANTICIPO_POR_CLIENTE = 1
-End Function
-
-Private Function OPT_INFORME_ANTICIPO_ASOCIADO_CON_COTIZACION() As Integer
-  OPT_INFORME_ANTICIPO_ASOCIADO_CON_COTIZACION = 3
-End Function
-
+  
 Public Sub sInitLookAndFeel(ByVal valTipoDeAnticipo As enum_TipoDeAnticipo)
    On Error GoTo h_ERROR
    sInitDefaultValues
@@ -545,7 +516,7 @@ Public Sub sInitLookAndFeel(ByVal valTipoDeAnticipo As enum_TipoDeAnticipo)
    Set insCotizacion = insFacturaNavigator
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInitLookAndFeel", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInitLookAndFeel", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub cmbMonedaDeLosReportes_Click()
@@ -557,7 +528,7 @@ Private Sub cmbMonedaDeLosReportes_Click()
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmbMonedaDeLosReporte_Click", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmbMonedaDeLosReporte_Click", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub cmdPantalla_Click()
@@ -566,7 +537,7 @@ Private Sub cmdPantalla_Click()
    sEjecutaElInformeSeleccionado
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdPantalla_Click", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdPantalla_Click", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub cmdImpresora_Click()
@@ -575,7 +546,7 @@ Private Sub cmdImpresora_Click()
    sEjecutaElInformeSeleccionado
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdPantalla_Click", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdPantalla_Click", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub cmdSalir_Click()
@@ -583,7 +554,7 @@ Private Sub cmdSalir_Click()
    Unload Me
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdSalir_Click", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdSalir_Click", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub Form_Load()
@@ -599,10 +570,10 @@ Private Sub Form_Load()
    End If
    Me.Width = 11115
    Me.Height = 4110
-   mInformeSeleccionado = OPT_INFORME_ANTICIPO_POR_CLIENTE
+   mInformeSeleccionado = OPT_INFORME_ANTICIPO_A_UNA_FECHA
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "Form_Load", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "Form_Load", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -618,7 +589,7 @@ Private Sub Form_Unload(Cancel As Integer)
    Set insConexionesSawAOS = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "Form_Unload", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "Form_Unload", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub optInformeDeAnticipo_Click(Index As Integer)
@@ -626,27 +597,25 @@ Private Sub optInformeDeAnticipo_Click(Index As Integer)
    mInformeSeleccionado = Index
    sOcultaTodosLosCampos
    Select Case mInformeSeleccionado
-      Case OPT_INFORME_ANTICIPO_POR_CLIENTE: sActivarCamposDeAnticipoPorCliente
       Case OPT_INFORME_ANTICIPO_ENTRE_FECHAS: sActivarCamposDeAnticipoEntreFechas
       Case OPT_INFORME_ANTICIPO_ASOCIADO_CON_COTIZACION: sActivarCamposDeAnticipoAsociadosConCotizacion
       Case OPT_INFORME_ANTICIPO_A_UNA_FECHA: sActivarCamposDeAnticipoAUnaFecha
   End Select
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "optInformeDeCxC_Click", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "optInformeDeCxC_Click", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sEjecutaElInformeSeleccionado()
    On Error GoTo h_ERROR
       Select Case mInformeSeleccionado
-         Case OPT_INFORME_ANTICIPO_POR_CLIENTE: sEjecutaInformeAnticipoXClienteProveedor
          Case OPT_INFORME_ANTICIPO_ENTRE_FECHAS: sEjecutaInformeAnticipoEntreFechas
          Case OPT_INFORME_ANTICIPO_ASOCIADO_CON_COTIZACION: sEjecutaInformeAnticipoCobradosAsociadosConCotizacion
          Case OPT_INFORME_ANTICIPO_A_UNA_FECHA: sEjecutaInformeAnticipoAUnaFecha
       End Select
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaElInformeSeleccionado", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaElInformeSeleccionado", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sActivarCamposDeAnticipoEntreFechas()
@@ -659,33 +628,7 @@ Private Sub sActivarCamposDeAnticipoEntreFechas()
    frameMoneda.Visible = True
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sOCultaTodosLosCampos", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-
-Private Sub sActivarCamposDeAnticipoPorCliente() '18/7
-   On Error GoTo h_ERROR
-   If mTipoDeAnticipo = eTDA_COBRADO Then '18/7
-      lblDatosDelReporte.Caption = "Datos del Informe - Anticipo por Cliente"
-      optOrdenar(0).Caption = "Cliente"
-   Else '18/7
-      lblDatosDelReporte.Caption = "Datos del Informe - Anticipo por Proveedor" '18/7
-      optOrdenar(0).Caption = "Proveedor"
-   End If
-   frameCantidad.Visible = True
-   frameClienteProveedor.Visible = True
-   lblCodigo.Visible = True
-   txtNombre.Visible = True
-   frameMoneda.Visible = True
-   If CmbCantidadAImprimir.Text = gEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
-      frameClienteProveedor.Visible = True
-   Else
-      frameClienteProveedor.Visible = False
-   End If
-   frameStatus.Visible = True
-   frmOrdenar.Visible = True
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeCXCPorVendedor", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sOCultaTodosLosCampos", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sActivarCamposDeAnticipoAsociadosConCotizacion() '18/7
@@ -706,7 +649,7 @@ Private Sub sActivarCamposDeAnticipoAsociadosConCotizacion() '18/7
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeAnticipoAsociadosConCotizacion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeAnticipoAsociadosConCotizacion", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 Private Sub sInitDefaultValues()
    Dim gFechasDeLosInformes As clsFechasDeLosInformesNav
@@ -731,14 +674,14 @@ Private Sub sInitDefaultValues()
    End If
    gEnumReport.FillComboBoxWithCantidadAImprimir CmbCantidadAImprimir
    gAPI.SelectTheElementInComboBox CmbCantidadAImprimir, gEnumReport.enumCantidadAImprimirToString(eCI_uno)
-   gAPI.ssSetFocus optInformeDeAnticipo(OPT_INFORME_ANTICIPO_POR_CLIENTE)
-   optInformeDeAnticipo(OPT_INFORME_ANTICIPO_POR_CLIENTE).Value = True
+   gAPI.ssSetFocus optInformeDeAnticipo(OPT_INFORME_ANTICIPO_ENTRE_FECHAS)
+   optInformeDeAnticipo(OPT_INFORME_ANTICIPO_ENTRE_FECHAS).Value = True
    dtpFechaInicial.Value = gUtilDate.getFechaDeHoy
    dtpFechaFinal.Value = gUtilDate.getFechaDeHoy
    dtpFechaHasta.Value = gUtilDate.getFechaDeHoy
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInitDefaltValues", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInitDefaltValues", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub txtCodigo_KeyDown(KeyCode As Integer, Shift As Integer)
@@ -746,14 +689,14 @@ Private Sub txtCodigo_KeyDown(KeyCode As Integer, Shift As Integer)
    sCheckForSpecialKeys KeyCode, Shift
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigo_KeyDown", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigo_KeyDown", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub txtCodigo_LostFocus()
    On Error GoTo h_ERROR
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigo_LostFocus", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigo_LostFocus", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub txtCodigo_Validate(Cancel As Boolean)
@@ -784,7 +727,7 @@ Private Sub txtCodigo_Validate(Cancel As Boolean)
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Cancel = True
-   gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigo_Validate", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigo_Validate", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub txtNumeroCotizacion_KeyDown(KeyCode As Integer, Shift As Integer)
@@ -792,7 +735,7 @@ Private Sub txtNumeroCotizacion_KeyDown(KeyCode As Integer, Shift As Integer)
    sCheckForSpecialKeys KeyCode, Shift
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigo_KeyDown", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigo_KeyDown", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub txtNumeroCotizacion_Validate(Cancel As Boolean)
@@ -817,14 +760,14 @@ Private Sub txtNumeroCotizacion_Validate(Cancel As Boolean)
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Cancel = True
-   gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigo_Validate", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigo_Validate", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 Private Sub txtNombre_KeyDown(KeyCode As Integer, Shift As Integer)
    On Error GoTo h_ERROR
    sCheckForSpecialKeys KeyCode, Shift
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtNombre_KeyDown", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtNombre_KeyDown", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub txtNombre_Validate(Cancel As Boolean)
@@ -855,7 +798,7 @@ Private Sub txtNombre_Validate(Cancel As Boolean)
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Cancel = True
-   gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtNombre_Validate", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtNombre_Validate", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sCheckForSpecialKeys(ByVal valKeyCode As Integer, ByVal valShift As Integer)
@@ -871,7 +814,7 @@ Private Sub sCheckForSpecialKeys(ByVal valKeyCode As Integer, ByVal valShift As 
    End Select
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sCheckForSpecialKeys", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sCheckForSpecialKeys", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sEjecutaInformeAnticipoEntreFechas()
@@ -895,50 +838,7 @@ Private Sub sEjecutaInformeAnticipoEntreFechas()
    
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaInformeAnticipoEntreFechas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-
-Private Sub sEjecutaInformeAnticipoXClienteProveedor()
-   Dim SqlDelReporte As String
-   Dim rptReporte As DDActiveReports2.ActiveReport
-   Dim insConfigurar As clsAnticipoRpt
-   Dim ClienteProveedorUnico As Boolean
-   Dim ReporteEnMonedaLocal As Boolean
-   Dim TituloReporte As String
-   Dim ValcmbStatus As String
-   On Error GoTo h_ERROR
-   If LenB(txtNombre.Text) = 0 And LenB(txtCodigo.Text) = 0 And CmbCantidadAImprimir.Text = gEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
-      If mTipoDeAnticipo = eTDA_COBRADO Then
-         sShowMessageForRequiredFields "Nombre del Cliente", txtNombre
-      Else
-         sShowMessageForRequiredFields "Nombre del Proveedor", txtNombre
-      End If
-   Else
-      Set rptReporte = New DDActiveReports2.ActiveReport
-      Set insConfigurar = New clsAnticipoRpt
-      ReporteEnMonedaLocal = (gAPI.SelectedElementInComboBoxToString(cmbMonedaDeLosReportes) <> gEnumReport.enumMonedaDeLosReportesToString(enum_MonedaDeLosReportes.eMR_EnMonedaOriginal, gProyParametros.GetNombreMonedaLocal))
-      If gAPI.SelectedElementInComboBoxToString(CmbCantidadAImprimir) = gEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
-         ClienteProveedorUnico = True
-      Else
-         ClienteProveedorUnico = False
-      End If
-      If mTipoDeAnticipo = eTDA_COBRADO Then
-         TituloReporte = "Anticipos Cobrados por Clientes"
-      Else
-         TituloReporte = "Anticipos Pagados por Proveedor"
-      End If
-      ValcmbStatus = gAPI.SelectedElementInComboBoxToString(cmbStatus)
-      SqlDelReporte = insAnticipoSQL.fSQLAnticipoCobradosPagadosXClienteProveedor(ReporteEnMonedaLocal, optTasaDeCambio(0).Value, gProyCompaniaActual.GetConsecutivoCompania, mTipoDeAnticipo, txtCodigo.Text, ClienteProveedorUnico, gMonedaLocalActual, gUltimaTasaDeCambio, ValcmbStatus, optOrdenar(0).Value)
-      If insConfigurar.fConfigurarDatosDeAntiposCobradosPagadosXClienteProveedor(rptReporte, SqlDelReporte, mTipoDeAnticipo, gProyCompaniaActual.GetNombreCompaniaParaInformes(False, False), optOrdenar(0).Value) Then
-         gUtilReports.sMostrarOImprimirReporte rptReporte, 1, eDI_PANTALLA, TituloReporte
-      End If
-      Set rptReporte = Nothing
-      Set insConfigurar = Nothing
-      
-   End If
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaInformeAnticipoXClienteProveedor", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaInformeAnticipoEntreFechas", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sShowMessageForRequiredFields(ByVal valCampo As String, ByRef refCampo As GSText)
@@ -947,20 +847,12 @@ Private Sub sShowMessageForRequiredFields(ByVal valCampo As String, ByRef refCam
    gAPI.ssSetFocus refCampo
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sShowMessageForRequiredFields", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sShowMessageForRequiredFields", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub cmbCantidadAImprimir_Click()
    On Error GoTo h_ERROR
    Select Case mInformeSeleccionado
-      Case OPT_INFORME_ANTICIPO_POR_CLIENTE ', OPT_INFORME_ANTICIPO_POR_PROVEEDOR
-         If CmbCantidadAImprimir.Text = gEnumReport.enumCantidadAImprimirToString(eCI_TODOS) Then
-            frameClienteProveedor.Visible = False
-         Else
-            frameClienteProveedor.Visible = True
-            txtNombre.Text = ""
-            txtCodigo.Text = ""
-         End If
       Case OPT_INFORME_ANTICIPO_ASOCIADO_CON_COTIZACION
          If CmbCantidadAImprimir.Text = gEnumReport.enumCantidadAImprimirToString(eCI_TODOS) Then
             frameCotizacion.Visible = False
@@ -979,7 +871,7 @@ Private Sub cmbCantidadAImprimir_Click()
    End Select
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmbCantidadAImprimir_Click", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmbCantidadAImprimir_Click", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub optTasaDeCambio_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
@@ -987,7 +879,7 @@ Private Sub optTasaDeCambio_KeyDown(Index As Integer, KeyCode As Integer, Shift 
    sCheckForSpecialKeys KeyCode, Shift
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "optTasaDeCambio_KeyDown", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "optTasaDeCambio_KeyDown", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sOcultaTodosLosCampos()
@@ -1003,25 +895,23 @@ Private Sub sOcultaTodosLosCampos()
    frmOrdenar.Visible = False
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sOcultaTodosLosCampos", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sOcultaTodosLosCampos", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sInitFormValues()
    On Error GoTo h_ERROR
    If mTipoDeAnticipo = eTDA_COBRADO Then
       lblInformesDeAnticipo.Caption = "Informe de Anticipo Cobrados"
-      optInformeDeAnticipo(OPT_INFORME_ANTICIPO_POR_CLIENTE).Caption = "Anticipo por Cliente .........................."
       frameClienteProveedor.Caption = "Cliente "
-      optInformeDeAnticipo(3).Visible = True
+      optInformeDeAnticipo(OPT_INFORME_ANTICIPO_ASOCIADO_CON_COTIZACION).Visible = True
    Else
       lblInformesDeAnticipo.Caption = "Informe de Anticipo Pagados"
-      optInformeDeAnticipo(OPT_INFORME_ANTICIPO_POR_CLIENTE).Caption = "Anticipo por Proveedor ...................."
       frameClienteProveedor.Caption = "Proveedor "
-      optInformeDeAnticipo(3).Visible = False
+      optInformeDeAnticipo(OPT_INFORME_ANTICIPO_ASOCIADO_CON_COTIZACION).Visible = False
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInitFormValues", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInitFormValues", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sSelectAndSetValuesOfClienteOProveedor(ByRef refCliente As Object, ByRef refProveedor As Object)
@@ -1038,7 +928,7 @@ Private Sub sSelectAndSetValuesOfClienteOProveedor(ByRef refCliente As Object, B
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sSelectAndSetValuesOfClienteOProveedor", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sSelectAndSetValuesOfClienteOProveedor", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sAssignFieldsFromConnectionClienteOProveedor(ByVal valCliente As Object, ByVal valProveedor As Object)
@@ -1052,7 +942,7 @@ Private Sub sAssignFieldsFromConnectionClienteOProveedor(ByVal valCliente As Obj
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAssignFieldsFromConnectionClienteOProveedor", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAssignFieldsFromConnectionClienteOProveedor", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sSelectAndSetValuesOfCotizacion()
@@ -1065,7 +955,7 @@ Private Sub sSelectAndSetValuesOfCotizacion()
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sSelectAndSetValuesOfCotizacion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sSelectAndSetValuesOfCotizacion", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sAssignFieldsFromConnectionCotizacion()
@@ -1073,7 +963,7 @@ Private Sub sAssignFieldsFromConnectionCotizacion()
    txtNumeroCotizacion.Text = insCotizacion.GetNumero
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAssignFieldsFromConnectionCotizacion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAssignFieldsFromConnectionCotizacion", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sEjecutaInformeAnticipoCobradosAsociadosConCotizacion()
@@ -1105,12 +995,8 @@ Private Sub sEjecutaInformeAnticipoCobradosAsociadosConCotizacion()
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaInformeAnticipoCobradosAsociadosConCotizacion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaInformeAnticipoCobradosAsociadosConCotizacion", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
-
-Private Function OPT_INFORME_ANTICIPO_A_UNA_FECHA() As Integer
-  OPT_INFORME_ANTICIPO_A_UNA_FECHA = 4
-End Function
 
 Private Sub sActivarCamposDeAnticipoAUnaFecha()
    On Error GoTo h_ERROR
@@ -1135,7 +1021,7 @@ Private Sub sActivarCamposDeAnticipoAUnaFecha()
    frameHasta.Top = 1785
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeAnticipoAUnaFecha", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeAnticipoAUnaFecha", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sEjecutaInformeAnticipoAUnaFecha()
@@ -1174,7 +1060,7 @@ Private Sub sEjecutaInformeAnticipoAUnaFecha()
       Set insConfigurar = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaInformeAnticipoAUnaFecha", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaInformeAnticipoAUnaFecha", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Sub sLoadObjectValues(ByVal valVendedorNavigator As Object, ByVal valClienteNavigator As Object, ByVal valProveedorNavigator As Object, ByVal valProyCompaniaActual As Object, ByVal valFacturaNavigator As Object, ByVal valConexionesSawAOS As Object, ByVal valTipoDeAnticipo As enum_TipoDeAnticipo)
