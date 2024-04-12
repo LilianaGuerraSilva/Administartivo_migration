@@ -9,7 +9,7 @@ using Galac.Adm.Uil.CAnticipo.Reportes;
 using Galac.Saw.Lib;
 
 namespace Galac.Adm.Uil.CAnticipo {
-    public class clsAnticipoMenu : ILibMenu {
+    public class clsAnticipoInformesMenu : ILibMenu {
         #region Metodos Generados
         void ILibMenu.Ejecuta(eAccionSR valAction, int valUseInterop) {
             eSystemModules vSystemModule = (eSystemModules)valUseInterop;

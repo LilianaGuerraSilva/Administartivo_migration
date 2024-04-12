@@ -65,7 +65,7 @@ namespace Galac.Adm.Uil.CAnticipo {
             try {
                 if (!IsInitialized) {
                     IsInitialized = true;
-                    _InformeAnticpoMenu = new clsAnticipoMenu();
+                    _InformeAnticpoMenu = new clsAnticipoInformesMenu();
                 }
             } catch (System.AccessViolationException) {
                 throw;
