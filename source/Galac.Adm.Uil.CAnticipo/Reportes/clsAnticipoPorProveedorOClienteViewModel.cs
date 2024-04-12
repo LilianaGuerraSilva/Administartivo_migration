@@ -23,7 +23,7 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
         public const string CantidadAImprimirPropertyName = "CantidadAImprimir";
         public const string CodigoClienteProveedorPropertyName = "CodigoClienteProveedor";
         public const string NombreClientProveedorPropertyName = "NombreClientProveedor";
-        public const string OrdenamientoPorStatusPropertyName = "OrdenamientoStatus";
+        public const string OrdenamientoPorStatusPropertyName = "OrdenamientoPorStatus";
         public const string MonedaDelInformePropertyName = "MonedaDelInforme";
         public const string ClienteProveedorIsEnablePropertyName = "ClienteProveedorIsEnable";
         #endregion
@@ -174,6 +174,7 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
                 }
                 if (_ConexionCodigoCliente == null) {
                     CodigoClienteProveedor = string.Empty;
+                    NombreClientProveedor = string.Empty;
                 }
             }
         }
@@ -189,6 +190,7 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
                 }
                 if (_ConexionCodigoProveedor == null) {
                     CodigoClienteProveedor = string.Empty;
+                    NombreClientProveedor = string.Empty;
                 }
             }
         }
@@ -240,6 +242,7 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
 			TipoTasaDeCambio = eTasaDeCambioParaImpresion.DelDia;
             EstatusAnticipo = eStatusAnticipoInformes.Todos;
             CantidadAImprimir = eCantidadAImprimir.All;
+            Moneda = string.Empty;
 			LlenarEnumerativosMonedas();
 			LlenarListaMonedasActivas();
         }
