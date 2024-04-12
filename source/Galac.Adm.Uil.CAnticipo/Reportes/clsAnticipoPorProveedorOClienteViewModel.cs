@@ -92,8 +92,7 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             set {
                 if (_CodigoClientProveedor != value) {
                     _CodigoClientProveedor = value;
-                    if (LibString.IsNullOrEmpty(CodigoClienteProveedor, true)) {
-                        ConexionCodigoProveedor = null;
+                    if (LibString.IsNullOrEmpty(CodigoClienteProveedor, true)) {                        
                         ConexionCodigoProveedor = null;
                     }
                     RaisePropertyChanged(CodigoClienteProveedorPropertyName);
@@ -243,6 +242,7 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             EstatusAnticipo = eStatusAnticipoInformes.Todos;
             CantidadAImprimir = eCantidadAImprimir.All;
             Moneda = string.Empty;
+            CodigoClienteProveedor = string.Empty;
 			LlenarEnumerativosMonedas();
 			LlenarListaMonedasActivas();
         }

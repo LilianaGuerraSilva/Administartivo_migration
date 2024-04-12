@@ -29,13 +29,13 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
 		private string SqlCampoEstatusAnticipos() {
 			StringBuilder vSql = new StringBuilder();
 			vSql.AppendLine("(CASE Anticipo.Status ");
-			vSql.AppendLine("WHEN " + insSql.EnumToSqlValue((int)eStatusAnticipoInformes.Vigente) + " THEN " + insSql.ToSqlValue(eStatusAnticipo.Vigente.GetDescription()));
-			vSql.AppendLine("WHEN " + insSql.EnumToSqlValue((int)eStatusAnticipoInformes.Anulado) + " THEN " + insSql.ToSqlValue(eStatusAnticipo.Anulado.GetDescription()));
-			vSql.AppendLine("WHEN " + insSql.EnumToSqlValue((int)eStatusAnticipoInformes.ParcialmenteUsado) + " THEN " + insSql.ToSqlValue(eStatusAnticipo.ParcialmenteUsado.GetDescription()));
-			vSql.AppendLine("WHEN " + insSql.EnumToSqlValue((int)eStatusAnticipoInformes.CompletamenteUsado) + " THEN " + insSql.ToSqlValue(eStatusAnticipo.CompletamenteUsado.GetDescription()));
-			vSql.AppendLine("WHEN " + insSql.EnumToSqlValue((int)eStatusAnticipoInformes.CompletamenteDevuelto) + " THEN " + insSql.ToSqlValue(eStatusAnticipo.CompletamenteDevuelto.GetDescription()));
-			vSql.AppendLine("WHEN " + insSql.EnumToSqlValue((int)eStatusAnticipoInformes.ParcialmenteDevuelto) + " THEN " + insSql.ToSqlValue(eStatusAnticipo.ParcialmenteDevuelto.GetDescription()));
-			vSql.AppendLine(") AS StatusStr,");
+			vSql.AppendLine("WHEN " + insSql.EnumToSqlValue((int)eStatusAnticipoInformes.Vigente) + " THEN " + insSql.ToSqlValue(eStatusAnticipoInformes.Vigente.GetDescription()));
+			vSql.AppendLine("WHEN " + insSql.EnumToSqlValue((int)eStatusAnticipoInformes.Anulado) + " THEN " + insSql.ToSqlValue(eStatusAnticipoInformes.Anulado.GetDescription()));
+			vSql.AppendLine("WHEN " + insSql.EnumToSqlValue((int)eStatusAnticipoInformes.ParcialmenteUsado) + " THEN " + insSql.ToSqlValue(eStatusAnticipoInformes.ParcialmenteUsado.GetDescription()));
+			vSql.AppendLine("WHEN " + insSql.EnumToSqlValue((int)eStatusAnticipoInformes.CompletamenteUsado) + " THEN " + insSql.ToSqlValue(eStatusAnticipoInformes.CompletamenteUsado.GetDescription()));
+			vSql.AppendLine("WHEN " + insSql.EnumToSqlValue((int)eStatusAnticipoInformes.CompletamenteDevuelto) + " THEN " + insSql.ToSqlValue(eStatusAnticipoInformes.CompletamenteDevuelto.GetDescription()));
+			vSql.AppendLine("WHEN " + insSql.EnumToSqlValue((int)eStatusAnticipoInformes.ParcialmenteDevuelto) + " THEN " + insSql.ToSqlValue(eStatusAnticipoInformes.ParcialmenteDevuelto.GetDescription()));
+			vSql.AppendLine(" END) AS StatusStr,");
 			return vSql.ToString();
 		}
 
@@ -59,7 +59,7 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
 			/* INICIO: Manejo para multimoneda: Moneda Local // Moneda Extranjera Original y Moneda Local en Moneda Extranjera // Moneda Original */
 			string vSqlCambioDelDia;
 			string vSqlCambioMasCercano;
-			string vSqlCambioOriginal = "Anticio.Cambio";
+			string vSqlCambioOriginal = "Anticipo.Cambio";
 			string vCodigoMonedaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaCompania");
 			string vSqlCambio = vSqlCambioOriginal;
 			string vSqlMontoTotal = "Anticipo.MontoTotal";
@@ -129,7 +129,7 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
 			/* INICIO: Manejo para multimoneda: Moneda Local // Moneda Extranjera Original y Moneda Local en Moneda Extranjera // Moneda Original */
 			string vSqlCambioDelDia;
 			string vSqlCambioMasCercano;
-			string vSqlCambioOriginal = "Anticio.Cambio";
+			string vSqlCambioOriginal = "Anticipo.Cambio";
 			string vCodigoMonedaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaCompania");
 			string vSqlCambio = vSqlCambioOriginal;
 			string vSqlMontoTotal = "Anticipo.MontoTotal";
@@ -198,7 +198,7 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
 			/* INICIO: Manejo para multimoneda: Moneda Local // Moneda Extranjera Original y Moneda Local en Moneda Extranjera // Moneda Original */
 			string vSqlCambioDelDia;
 			string vSqlCambioMasCercano;
-			string vSqlCambioOriginal = "Anticio.Cambio";
+			string vSqlCambioOriginal = "Anticipo.Cambio";
 			string vCodigoMonedaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaCompania");
 			string vSqlCambio = vSqlCambioOriginal;
 			string vSqlMontoAnulado = "Anticipo.MontoTotal";
