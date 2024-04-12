@@ -52,16 +52,11 @@ namespace Galac.Adm.Rpt.CAnticipo {
                 vTitulo += " - desde RPX externo.";
             }
             Dictionary<string, string> vParams = new Dictionary<string, string>();
-            vParams.Add("NombreCompania",  LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre"));
-            vParams.Add("TituloInforme", vTitulo);
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-            vParams.Add("FechaInicialYFinal", string.Format("{0} al {1}", LibConvert.ToStr(FechaDesde, "dd/MM/yyyy"), LibConvert.ToStr(FechaHasta, "dd/MM/yyyy")));
-        */
-        #endregion //Codigo Ejemplo
+            vParams.Add("Nombre", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre") + " - " + LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "NumeroDeRIF"));
+            vParams.Add("TituloInforme", vTitulo);         
             return vParams;
         }
-        //eStatusAnticipo valStatusAnticipo, eCantidadAImprimir valCantidadAImprimir, string valCodigoClienteProveedor, bool valOrdenamientoClienteStatus, eMonedaDelInformeMM valMonedaDelInformeMM, bool valProveedorCliente
+        
         public override void RunReport() {
             if (WorkerCancellPending()) {
                 return;

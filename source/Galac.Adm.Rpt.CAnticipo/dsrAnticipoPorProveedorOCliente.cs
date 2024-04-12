@@ -10,7 +10,7 @@ using LibGalac.Aos.ARRpt;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.DefGen;
 using Galac.Saw.Lib;
-namespace Galac.Adm.Rpt.CAnticipo{
+namespace Galac.Adm.Rpt.CAnticipo {
     /// <summary>
     /// Summary description for dsrAnticipoPorProveedorOCliente.
     /// </summary>
@@ -39,8 +39,7 @@ namespace Galac.Adm.Rpt.CAnticipo{
         }
 
 
-        public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters, eMonedaDelInformeMM valMonedaDelInforme, string valMoneda, eTasaDeCambioParaImpresion valTasaDeCambio, bool valCliente)
-        {
+        public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters, eMonedaDelInformeMM valMonedaDelInforme, string valMoneda, eTasaDeCambioParaImpresion valTasaDeCambio, bool valCliente) {
             if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
                 if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
@@ -48,33 +47,33 @@ namespace Galac.Adm.Rpt.CAnticipo{
                 }
             }
             if (LibReport.ConfigDataSource(this, valDataSource)) {
-                LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["NombreCompania"], string.Empty);
-                if (valCliente){
-                    LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle() + " Cobrados por Cliente");
+                LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["Nombre"], string.Empty);
+                if (valCliente) {
+                    LibReport.ConfigLabel(this, "lblTituloDelReporte", ReportTitle() + " Cobrados por Cliente");
                     LibReport.ConfigLabel(this, "lblClienteProveedor", "Cliente");
                     LibReport.ConfigLabel(this, "lblTotalClienteProveedor", "Total por Cliente");
-                }else{
-                    LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle() + " Pagados por Proveedor");
+                } else {
+                    LibReport.ConfigLabel(this, "lblTituloDelReporte", ReportTitle() + " Pagados por Proveedor");
                     LibReport.ConfigLabel(this, "lblClienteProveedor", "Proveedor");
                     LibReport.ConfigLabel(this, "lblTotalClienteProveedor", "Total por Proveedor");
                 }
-                LibReport.ConfigLabel(this, "lblFechaInicialYFinal", valParameters["FechaInicialYFinal"]);
+                //LibReport.ConfigLabel(this, "lblFechaInicialYFinal", valParameters["FechaInicialYFinal"]);
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
 
                 LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "MonedadelReporte");
-				LibReport.ConfigFieldStr(this, "txtClienteProveedor", string.Empty, "ClienteProveedor");
-				LibReport.ConfigFieldStr(this, "txtEstatus", string.Empty, "Estatus");
-				LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", "dd/MM/yyyy");
-				LibReport.ConfigFieldStr(this, "txtNumero", string.Empty, "Numero");
+                LibReport.ConfigFieldStr(this, "txtClienteProveedor", string.Empty, "ClienteProveedor");
+                LibReport.ConfigFieldStr(this, "txtEstatus", string.Empty, "Estatus");
+                LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", "dd/MM/yyyy");
+                LibReport.ConfigFieldStr(this, "txtNumero", string.Empty, "Numero");
                 LibReport.ConfigFieldStr(this, "txtMonedaDocumento", string.Empty, "MonedaDocumento");
                 LibReport.ConfigFieldDec(this, "txtCambio", string.Empty, "Cambio", "#,###.0000", false, TextAlignment.Right);
-				LibReport.ConfigFieldStr(this, "txtNumeroCheque", string.Empty, "NumeroCheque");
-				LibReport.ConfigFieldDec(this, "txtMontoAnulado", string.Empty, "MontoAnulado");
-				LibReport.ConfigFieldDec(this, "txtMontoTotal", string.Empty, "MontoTotal");
-				LibReport.ConfigFieldDec(this, "txtMontoUsado", string.Empty, "MontoUsado");
-				LibReport.ConfigFieldDec(this, "txtMontoDevuelto", string.Empty, "MontoDevuelto");
-				LibReport.ConfigFieldDec(this, "txtDifDevolucion", string.Empty, "DifDevolucion");
+                LibReport.ConfigFieldStr(this, "txtNumeroCheque", string.Empty, "NumeroCheque");
+                LibReport.ConfigFieldDec(this, "txtMontoAnulado", string.Empty, "MontoAnulado");
+                LibReport.ConfigFieldDec(this, "txtMontoTotal", string.Empty, "MontoTotal");
+                LibReport.ConfigFieldDec(this, "txtMontoUsado", string.Empty, "MontoUsado");
+                LibReport.ConfigFieldDec(this, "txtMontoDevuelto", string.Empty, "MontoDevuelto");
+                LibReport.ConfigFieldDec(this, "txtDifDevolucion", string.Empty, "DifDevolucion");
 
                 LibReport.ConfigGroupHeader(this, "GHStatus", "Status", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);
                 LibReport.ConfigSummaryField(this, "txtTotalMontoAnulado", "MontoAnulado", SummaryFunc.Sum, "GHStatus", SummaryRunning.Group, SummaryType.SubTotal);
@@ -90,13 +89,13 @@ namespace Galac.Adm.Rpt.CAnticipo{
                 LibReport.ConfigSummaryField(this, "txtMontoDevClienteProveedor", "MontoDevuelto", SummaryFunc.Sum, "GHClienteProveedor", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtMontoDifClienteProveedor", "DifDevolucion", SummaryFunc.Sum, "GHClienteProveedor", SummaryRunning.Group, SummaryType.SubTotal);
 
-				LibReport.ConfigGroupHeader(this, "GHMoneda", "Moneda", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+                LibReport.ConfigGroupHeader(this, "GHMoneda", "Moneda", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
                 LibReport.ConfigSummaryField(this, "txtMontoAnuladoXMoneda", "MontoAnulado", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtMontoTotalXMoneda", "MontoTotal", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtTotalMontoUsadoXMoneda", "MontoUsado", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtTotalMtoDevtoXMoneda", "MontoDevuelto", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtTotalDifDevolucionXMoneda", "DifDevolucion", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
-                
+
                 string vNotaMonedaCambio = new clsLibSaw().NotaMonedaCambioParaInformes(valMonedaDelInforme, valTasaDeCambio, valMoneda, "Anticipo");
                 LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", vNotaMonedaCambio, "");
 
