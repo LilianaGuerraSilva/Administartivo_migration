@@ -18,7 +18,7 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
 			insSql = new QAdvSql("");
 		}
 		#region Metodos Generados
-		public string SqlAnticipoPorClienteProveedor(int valConsecutivoCompania, eCantidadAImprimir valCantidadAImprimirStatus, eStatusAnticipo valStatusAnticipo, eCantidadAImprimir valCantidadAImprimirClienteProveedor, string valCodigoClienteProveedor, bool valOrdenarPorStatus, eMonedaDelInformeMM valMonedaDelInformeMM, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valCodigoMoneda, string valNombreMoneda, bool valEsCliente) {
+		public string SqlAnticipoPorClienteProveedor(bool valEsCliente, int valConsecutivoCompania, eCantidadAImprimir valCantidadAImprimirStatus, eStatusAnticipo valStatusAnticipo, eCantidadAImprimir valCantidadAImprimirClienteProveedor, string valCodigoClienteProveedor, bool valOrdenarPorStatus, eMonedaDelInformeMM valMonedaDelInformeMM, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valCodigoMoneda, string valNombreMoneda) {
 			StringBuilder vSql = new StringBuilder();
 			vSql.AppendLine(SqlAnticipoNoDevolucion(valEsCliente, valConsecutivoCompania, valCantidadAImprimirStatus, valStatusAnticipo, valCantidadAImprimirClienteProveedor,valCodigoClienteProveedor, valMonedaDelInformeMM, valTipoTasaDeCambio, valCodigoMoneda, valNombreMoneda));
 			vSql.AppendLine("UNION");
@@ -29,7 +29,7 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
 			}
 			vSql.AppendLine("ORDER BY MonedaReporte, ");
 			if (valOrdenarPorStatus) {
-				vSql.AppendLine("CodigoClienteProveedor, Status, ConsecutivoAnticipo");
+				vSql.AppendLine("Status, CodigoClienteProveedor, ConsecutivoAnticipo");
 			} else {
 				vSql.AppendLine("CodigoClienteProveedor, Status, ConsecutivoAnticipo");
 			}
@@ -58,6 +58,18 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
 			}
 			return vSql.ToString();
         }
+
+		private string SqlAnticipoClienteProveedorCodigoNombre(bool valEsCliente) {
+			StringBuilder vSql = new StringBuilder();
+			if (valEsCliente) {
+				vSql.AppendLine("Anticipo.CodigoCliente AS CodigoClienteProveedor, ");
+				vSql.AppendLine("cliente.Nombre AS NombreClienteProveedor, ");
+			} else {
+				vSql.AppendLine("Anticipo.CodigoProveedor AS CodigoClienteProveedor, ");
+				vSql.AppendLine("Proveedor.NombreProveedor AS NombreClienteProveedor, ");
+			}
+			return vSql.ToString();
+		}
 
 		private string SqlWhereAnticipoClienteProveedor(bool valEsCliente, int valConsecutivoCompania, bool valEsUnaDevolucion, eCantidadAImprimir valCantidadAImprimirStatus, eStatusAnticipo valStatusAnticipo, eCantidadAImprimir valCantidadAImprimirClienteProveedor, string valCodigoClienteProveedor) {
 			string vSqlWhere;
@@ -124,8 +136,7 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
 			vSql.AppendLine("SELECT ");
 			vSql.AppendLine("Anticipo.ConsecutivoAnticipo, ");
 			vSql.AppendLine("Anticipo.Moneda, ");
-			vSql.AppendLine("Anticipo.CodigoCliente AS CodigoClienteProveedor, ");
-			vSql.AppendLine("cliente.Nombre AS NombreClienteProveedor, ");
+			vSql.Append(SqlAnticipoClienteProveedorCodigoNombre(valEsCliente));
 			vSql.AppendLine("Anticipo.Status, ");
 			vSql.AppendLine(SqStatusStrAnticipos());
 			vSql.AppendLine("Anticipo.Fecha, ");
@@ -184,8 +195,7 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
 			vSql.AppendLine("SELECT ");
 			vSql.AppendLine("Anticipo.ConsecutivoAnticipo, ");
 			vSql.AppendLine("Anticipo.Moneda, ");
-			vSql.AppendLine("Anticipo.CodigoCliente AS CodigoClienteProveedor, ");
-			vSql.AppendLine("cliente.Nombre AS NombreClienteProveedor, ");
+			vSql.Append(SqlAnticipoClienteProveedorCodigoNombre(valEsCliente));
 			vSql.AppendLine("Anticipo.Status, ");
 			vSql.AppendLine(SqStatusStrAnticipos());
 			vSql.AppendLine("Anticipo.Fecha, ");
@@ -248,8 +258,7 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
 			vSql.AppendLine("SELECT ");
 			vSql.AppendLine("Anticipo.ConsecutivoAnticipo, ");
 			vSql.AppendLine("Anticipo.Moneda, ");
-			vSql.AppendLine("Anticipo.CodigoCliente AS CodigoClienteProveedor, ");
-			vSql.AppendLine("cliente.Nombre AS NombreClienteProveedor, ");
+			vSql.Append(SqlAnticipoClienteProveedorCodigoNombre(valEsCliente));
 			vSql.AppendLine("Anticipo.Status, ");
 			vSql.AppendLine(SqStatusStrAnticipos());
 			vSql.AppendLine("Anticipo.Fecha, ");
