@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:nsARRpt="clr-namespace:LibGalac.Aos.ARRpt;assembly=LibGalac.Aos.ARRpt"
     xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
-    d:DesignHeight="250"
+    d:DesignHeight="265"
     d:DesignWidth="330"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -65,7 +65,7 @@
             Name="txtCodigoClient"
             Grid.Row="0"
             Grid.Column="1"
-            Width="130"
+            Width="135"
             Height="23"
             Margin="2,4,16,2"
             ConnectionValue="{Binding Path=CodigoClienteProveedor, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
@@ -76,8 +76,8 @@
             Grid.Row="1"
             Grid.Column="0"
             Grid.ColumnSpan="2"
-            Width="297"
-            Margin="3,0,0,0"
+            Width="304"
+            Margin="3,10,0,10"
             VerticalAlignment="Center"
             BorderThickness="1"
             Content="{Binding Path=NombreClientProveedor, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
@@ -106,13 +106,13 @@
             Name="cmbEstatusAnticipo"
             Grid.Row="2"
             Grid.Column="1"
-            Width="130"
+            Width="135"
+            Margin="2,10,0,10"
             IsEnabled="{Binding Path=EstatusAnticipoIsEnable}"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding Path=ArrayStatusAnticipo}"
             SelectedItem="{Binding Path=EstatusAnticipo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-            Style="{StaticResource ComboBoxStyle}"
-            Margin="2,4,0,4" />
+            Style="{StaticResource ComboBoxStyle}" />
         <Label
             Name="lblOrdenamientoClienteStatus"
             Grid.Row="4"
@@ -123,8 +123,8 @@
             Name="cmbOrdenarPor"
             Grid.Row="4"
             Grid.Column="1"
+            Width="135"
             Margin="2,10,0,10"
-            Width="130"
             IsEnabled="{Binding Path=IsEnabled}"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding Path=ListaOrdenarPor}"
@@ -141,7 +141,7 @@
             Name="cmbMonedaDelGrupo"
             Grid.Row="5"
             Grid.Column="1"
-            Width="130"
+            Width="135"
             Margin="2,10,0,10"
             IsEnabled="{Binding Path=IsEnabled}"
             IsSynchronizedWithCurrentItem="True"
@@ -152,7 +152,7 @@
             Name="cmbMonedasActivas"
             Grid.Row="6"
             Grid.Column="1"
-            Width="130"
+            Width="135"
             Margin="2,10,0,10"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding ListaMonedasActivas}"
@@ -171,14 +171,14 @@
             x:Name="cmbTasaDeCambio"
             Grid.Row="7"
             Grid.Column="1"
-            Width="130"
+            Width="135"
+            Margin="2,3,0,3"
             BorderThickness="1"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding ArrayTiposTasaDeCambio}"
             SelectedItem="{Binding Path=TipoTasaDeCambio, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
             Style="{StaticResource ComboBoxStyle}"
-            Visibility="{Binding Path=IsVisibleTipoTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}"
-            Margin="2,3,0,3" />
+            Visibility="{Binding Path=IsVisibleTipoTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}" />
     </Grid>
 </UserControl>
 
