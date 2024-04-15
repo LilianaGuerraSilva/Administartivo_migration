@@ -47,8 +47,6 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             return vResult;
         }
         #endregion //Metodos Generados
-
-
     } //End of class clsAnticipoInformesViewModel
 
 } //End of namespace Galac.Adm.Uil.CAnticipo

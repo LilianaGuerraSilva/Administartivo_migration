@@ -34,7 +34,7 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
             return vResult;
         }
 
-        System.Data.DataTable IAnticipoInformes.BuildAnticipoPorProveedorOCliente(int valConsecutivoCompania, eStatusAnticipoInformes valStatusAnticipo, eCantidadAImprimir valCantidadAImprimir, string valCodigoClienteProveedor, bool valOrdenamientoPorStatus, eMonedaDelInformeMM valMonedaDelInformeMM, bool valEsCliente, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valCodigoMoneda, string valNombreMoneda) {
+        System.Data.DataTable IAnticipoInformes.BuildAnticipoPorProveedorOCliente(int valConsecutivoCompania, eStatusAnticipo valStatusAnticipo, eCantidadAImprimir valCantidadAImprimir, string valCodigoClienteProveedor, bool valOrdenamientoPorStatus, eMonedaDelInformeMM valMonedaDelInformeMM, bool valEsCliente, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valCodigoMoneda, string valNombreMoneda) {
             string vSql = "";
             clsAnticipoSql insAnticipoSql = new clsAnticipoSql();
             LibGalac.Aos.Base.ILibDataRpt insAnticipoPorProveedorOCliente = new Galac.Adm.Dal.CAnticipo.clsAnticipoDat();

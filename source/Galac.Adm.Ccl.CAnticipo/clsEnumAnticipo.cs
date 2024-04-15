@@ -59,23 +59,5 @@ namespace Galac.Adm.Ccl.CAnticipo {
         SolicitudDePago,
         [LibEnumDescription("Reposición De Caja Chica")]
         ReposicionDeCajaChica
-    }
-
-    public enum eStatusAnticipoInformes {
-        [LibEnumDescription("Todos")]
-        Todos = 0,
-        [LibEnumDescription("Vigente")]
-        Vigente,
-        [LibEnumDescription("Anulado")]
-        Anulado,
-        [LibEnumDescription("Parcialmente  Usado")]
-        ParcialmenteUsado,
-        [LibEnumDescription("Completamente  Usado")]
-        CompletamenteUsado,
-        [LibEnumDescription("Completamente  Devuelto")]
-        CompletamenteDevuelto,
-        [LibEnumDescription("Parcialmente  Devuelto")]
-        ParcialmenteDevuelto
-    }
-
+    } 
 } //End of namespace namespace  Galac.Adm.Ccl.CAnticipo
