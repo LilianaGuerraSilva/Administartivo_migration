@@ -40,7 +40,7 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
         private ILibRpt ConfigReportAnticipoPorClienteProveedor(clsAnticipoPorProveedorOClienteViewModel valViewModel) {
             ILibRpt vResult = null;
             if (valViewModel != null) {
-                vResult = new Galac.Adm.Rpt.CAnticipo.clsAnticipoPorProveedorOCliente(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.CantidadAImprimir, valViewModel.EstatusAnticipo, valViewModel.CantidadAImprimirClienteProveedor, valViewModel.CodigoClienteProveedor, valViewModel.OrdenamientoPorStatus, valViewModel.MonedaDelInforme, valViewModel.TipoTasaDeCambio, valViewModel.Moneda, valViewModel.EsCliente) {
+                vResult = new Galac.Adm.Rpt.CAnticipo.clsAnticipoPorProveedorOCliente(PrintingDevice, ExportFileFormat, AppMemoryInfo,valViewModel.EsCliente, Mfc, valViewModel.CantidadAImprimir, valViewModel.EstatusAnticipo, valViewModel.CantidadAImprimirClienteProveedor, valViewModel.CodigoClienteProveedor, valViewModel.OrdenamientoPorStatus, valViewModel.MonedaDelInforme, valViewModel.TipoTasaDeCambio, valViewModel.Moneda) {
                     Worker = Manager
                 };
             }

@@ -63,38 +63,41 @@ namespace Galac.Adm.Rpt.CAnticipo {
                 LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "MonedaReporte");
                 LibReport.ConfigFieldStr(this, "txtCodigo", string.Empty, "CodigoClienteProveedor");
                 LibReport.ConfigFieldStr(this, "txtNombre", string.Empty, "NombreClienteProveedor");
-                LibReport.ConfigFieldStr(this, "txtEstatus", string.Empty, "Estatus");
+                LibReport.ConfigFieldStr(this, "txtStatus", string.Empty, "StatusStr");
                 LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", "dd/MM/yy");
                 LibReport.ConfigFieldStr(this, "txtNumero", string.Empty, "Numero");
-                LibReport.ConfigFieldStr(this, "txtMonedaDocumento", string.Empty, "MonedaDocumento");
+                LibReport.ConfigFieldStr(this, "txtMonedaDocumento", string.Empty, "Moneda");
                 LibReport.ConfigFieldDec(this, "txtCambio", string.Empty, "Cambio", "#,###.0000", false, TextAlignment.Right);
                 LibReport.ConfigFieldStr(this, "txtNumeroCheque", string.Empty, "NumeroCheque");
                 LibReport.ConfigFieldDec(this, "txtMontoAnulado", string.Empty, "MontoAnulado");
                 LibReport.ConfigFieldDec(this, "txtMontoTotal", string.Empty, "MontoTotal");
                 LibReport.ConfigFieldDec(this, "txtMontoUsado", string.Empty, "MontoUsado");
                 LibReport.ConfigFieldDec(this, "txtMontoDevuelto", string.Empty, "MontoDevuelto");
-                LibReport.ConfigFieldDec(this, "txtDifDevolucion", string.Empty, "MontoDiferenciaEnDevolucion");
+                LibReport.ConfigFieldDec(this, "txtDiferenciaDevolucion", string.Empty, "MontoDiferenciaEnDevolucion");
 
-                LibReport.ConfigGroupHeader(this, "GHStatus", "Status", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);
+                LibReport.ConfigGroupHeader(this, "GHStatus", "StatusStr", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);
+                LibReport.ConfigFieldStr(this, "txtStatusGF", string.Empty, "StatusStr");
                 LibReport.ConfigSummaryField(this, "txtTotalMontoAnulado", "MontoAnulado", SummaryFunc.Sum, "GHStatus", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtTotalMonto", "MontoTotal", SummaryFunc.Sum, "GHStatus", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtTotalMontoUsado", "MontoUsado", SummaryFunc.Sum, "GHStatus", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtTotalMontoDev", "MontoDevuelto", SummaryFunc.Sum, "GHStatus", SummaryRunning.Group, SummaryType.SubTotal);
-                LibReport.ConfigSummaryField(this, "txtTotalDiferenciaDevol", "DifDevolucion", SummaryFunc.Sum, "GHStatus", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txtTotalDiferenciaDevol", "MontoDiferenciaEnDevolucion", SummaryFunc.Sum, "GHStatus", SummaryRunning.Group, SummaryType.SubTotal);
 
                 LibReport.ConfigGroupHeader(this, "GHClienteProveedor", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+                LibReport.ConfigFieldStr(this, "txtCodigoGF", string.Empty, "CodigoClienteProveedor");
                 LibReport.ConfigSummaryField(this, "txtMontoAnuladoClienteProveedor", "MontoAnulado", SummaryFunc.Sum, "GHClienteProveedor", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtMontoTotalClienteProveedor", "MontoTotal", SummaryFunc.Sum, "GHClienteProveedor", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtMontoUsadoClienteProveedor", "MontoUsado", SummaryFunc.Sum, "GHClienteProveedor", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtMontoDevClienteProveedor", "MontoDevuelto", SummaryFunc.Sum, "GHClienteProveedor", SummaryRunning.Group, SummaryType.SubTotal);
-                LibReport.ConfigSummaryField(this, "txtMontoDifClienteProveedor", "DifDevolucion", SummaryFunc.Sum, "GHClienteProveedor", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txtMontoDifClienteProveedor", "MontoDiferenciaEnDevolucion", SummaryFunc.Sum, "GHClienteProveedor", SummaryRunning.Group, SummaryType.SubTotal);
 
                 LibReport.ConfigGroupHeader(this, "GHMoneda", "Moneda", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+                LibReport.ConfigFieldStr(this, "txtMonedaGF", string.Empty, "MonedaReporte");
                 LibReport.ConfigSummaryField(this, "txtMontoAnuladoXMoneda", "MontoAnulado", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtMontoTotalXMoneda", "MontoTotal", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtTotalMontoUsadoXMoneda", "MontoUsado", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtTotalMtoDevtoXMoneda", "MontoDevuelto", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
-                LibReport.ConfigSummaryField(this, "txtTotalDifDevolucionXMoneda", "DifDevolucion", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txtTotalDifDevolucionXMoneda", "MontoDiferenciaEnDevolucion", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
 
                 string vNotaMonedaCambio = new clsLibSaw().NotaMonedaCambioParaInformes(valMonedaDelInforme, valTasaDeCambio, valMoneda, "Anticipo");
                 LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", vNotaMonedaCambio, "");
