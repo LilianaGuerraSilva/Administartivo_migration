@@ -73,7 +73,7 @@ namespace Galac.Adm.Rpt.CAnticipo {
                 LibReport.ConfigFieldDec(this, "txtMontoTotal", string.Empty, "MontoTotal");
                 LibReport.ConfigFieldDec(this, "txtMontoUsado", string.Empty, "MontoUsado");
                 LibReport.ConfigFieldDec(this, "txtMontoDevuelto", string.Empty, "MontoDevuelto");
-                LibReport.ConfigFieldDec(this, "txtDifDevolucion", string.Empty, "DifDevolucion");
+                LibReport.ConfigFieldDec(this, "txtDifDevolucion", string.Empty, "MontoDiferenciaEnDevolucion");
 
                 LibReport.ConfigGroupHeader(this, "GHStatus", "Status", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);
                 LibReport.ConfigSummaryField(this, "txtTotalMontoAnulado", "MontoAnulado", SummaryFunc.Sum, "GHStatus", SummaryRunning.Group, SummaryType.SubTotal);

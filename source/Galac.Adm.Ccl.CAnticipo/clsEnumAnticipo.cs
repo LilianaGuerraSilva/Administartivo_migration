@@ -59,5 +59,5 @@ namespace Galac.Adm.Ccl.CAnticipo {
         SolicitudDePago,
         [LibEnumDescription("Reposición De Caja Chica")]
         ReposicionDeCajaChica
-    } 
+    }
 } //End of namespace namespace  Galac.Adm.Ccl.CAnticipo

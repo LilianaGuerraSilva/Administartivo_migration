@@ -32,15 +32,15 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
         protected override ILibRpt ConfigReport() {
             ILibRpt vResult = null;
             if (SelectedReport is clsAnticipoPorProveedorOClienteViewModel) {
-                vResult = ConfigReportAnticipoPorProveedorOCliente(SelectedReport as clsAnticipoPorProveedorOClienteViewModel);
+                vResult = ConfigReportAnticipoPorClienteProveedor(SelectedReport as clsAnticipoPorProveedorOClienteViewModel);
             }
             return vResult;
         }
 
-        private ILibRpt ConfigReportAnticipoPorProveedorOCliente(clsAnticipoPorProveedorOClienteViewModel valViewModel) {
+        private ILibRpt ConfigReportAnticipoPorClienteProveedor(clsAnticipoPorProveedorOClienteViewModel valViewModel) {
             ILibRpt vResult = null;
             if (valViewModel != null) {
-                vResult = new Galac.Adm.Rpt.CAnticipo.clsAnticipoPorProveedorOCliente(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.EstatusAnticipo, valViewModel.CantidadAImprimir, valViewModel.CodigoClienteProveedor, valViewModel.OrdenamientoPorStatus, valViewModel.MonedaDelInforme, valViewModel.TipoTasaDeCambio, valViewModel.Moneda, valViewModel.EsCliente) {
+                vResult = new Galac.Adm.Rpt.CAnticipo.clsAnticipoPorProveedorOCliente(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.CantidadAImprimir, valViewModel.EstatusAnticipo, valViewModel.CantidadAImprimirClienteProveedor, valViewModel.CodigoClienteProveedor, valViewModel.OrdenamientoPorStatus, valViewModel.MonedaDelInforme, valViewModel.TipoTasaDeCambio, valViewModel.Moneda, valViewModel.EsCliente) {
                     Worker = Manager
                 };
             }
@@ -48,6 +48,5 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
         }
         #endregion //Metodos Generados
     } //End of class clsAnticipoInformesViewModel
-
 } //End of namespace Galac.Adm.Uil.CAnticipo
 

@@ -15,40 +15,24 @@ namespace Galac.Adm.Rpt.CAnticipo {
 
     public class clsAnticipoPorProveedorOCliente : LibRptBaseMfc {
         #region Propiedades
-        protected DataTable Data {
-            get; set;
-        }
-        private eStatusAnticipo StatusAnticipo {
-            get; set;
-        }
-        private eCantidadAImprimir CantidadAImprimir {
-            get; set;
-        }
-        private string CodigoClienteProveedor {
-            get; set;
-        }
-        private bool OrdenamientoPorStatus {
-            get; set;
-        }
-        eTasaDeCambioParaImpresion TasaCambio {
-            get; set;
-        }
-        private eMonedaDelInformeMM MonedaDelInformeMM {
-            get; set;
-        }
-        private bool EsCliente {
-            get; set;
-        }
-        string Moneda {
-            get; set;
-        }
+        protected DataTable Data { get; set; }
+        private eStatusAnticipo StatusAnticipo { get; set; } 
+        private eCantidadAImprimir CantidadAImprimir{ get; set; }
+        private eCantidadAImprimir CantidadAImprimirClienteProveedor { get; set; }
+        private string CodigoClienteProveedor{ get; set; }
+        private bool OrdenamientoPorStatus{ get; set; }
+        eTasaDeCambioParaImpresion TasaCambio { get; set; }
+        private eMonedaDelInformeMM MonedaDelInformeMM{ get; set; } 
+        private bool EsCliente{ get; set; }
+        string Moneda { get; set; }
 
         #endregion //Propiedades
         #region Constructores
-        public clsAnticipoPorProveedorOCliente(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, eStatusAnticipo initStatusAnticipo, eCantidadAImprimir initCantidadAImprimir, string initCodigoClienteProveedor, bool initOrdenamientoPorStatus, eMonedaDelInformeMM initMonedaDelInformeMM, eTasaDeCambioParaImpresion initTasaDeCambio, string initMoneda, bool initEsCliente)
+        public clsAnticipoPorProveedorOCliente(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, eCantidadAImprimir initCantidadAImprimir,eStatusAnticipo initStatusAnticipo, eCantidadAImprimir initCantidadAImprimirClienteProveedor, string initCodigoClienteProveedor, bool initOrdenamientoPorStatus, eMonedaDelInformeMM initMonedaDelInformeMM, eTasaDeCambioParaImpresion initTasaDeCambio, string initMoneda, bool initEsCliente)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
             StatusAnticipo = initStatusAnticipo;
             CantidadAImprimir = initCantidadAImprimir;
+            CantidadAImprimirClienteProveedor = initCantidadAImprimirClienteProveedor;
             CodigoClienteProveedor = initCodigoClienteProveedor;
             OrdenamientoPorStatus = initOrdenamientoPorStatus;
             TasaCambio = initTasaDeCambio;
@@ -85,7 +69,7 @@ namespace Galac.Adm.Rpt.CAnticipo {
             string vCodigoMoneda = LibString.Trim(LibString.Mid(Moneda, 1, LibString.InStr(Moneda, ")") - 1));
             vCodigoMoneda = LibString.IsNullOrEmpty(vCodigoMoneda, true) ? LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera") : vCodigoMoneda;
             string vNombreMoneda = LibString.Trim(LibString.Mid(Moneda, 1 + LibString.InStr(Moneda, ")")));
-            Data = vRpt.BuildAnticipoPorProveedorOCliente(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), StatusAnticipo, CantidadAImprimir, CodigoClienteProveedor, OrdenamientoPorStatus, MonedaDelInformeMM, EsCliente, TasaCambio, vCodigoMoneda, vNombreMoneda);
+            Data = vRpt.BuildAnticipoClienteProveedor(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), CantidadAImprimir, StatusAnticipo, CantidadAImprimirClienteProveedor, CodigoClienteProveedor, OrdenamientoPorStatus, MonedaDelInformeMM, EsCliente, TasaCambio, vCodigoMoneda, vNombreMoneda);
         }
 
         public override void SendReportToDevice() {
