@@ -18,11 +18,11 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
 			insSql = new QAdvSql("");
 		}
 		#region Metodos Generados
-		public string SqlAnticipoPorProveedorOCliente(int valConsecutivoCompania, eStatusAnticipoInformes valStatusAnticipo, eCantidadAImprimir valCantidadAImprimir, string valCodigoClienteProveedor, bool valOrdenamientoClienteStatus, eMonedaDelInformeMM valMonedaDelInformeMM, bool valEsCliente, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valCodigoMoneda, string valNombreMoneda) {
+		public string SqlAnticipoPorProveedorOCliente(int valConsecutivoCompania, eStatusAnticipoInformes valStatusAnticipo, eCantidadAImprimir valCantidadAImprimir, string valCodigoClienteProveedor, bool valOrdenamientoPorStatus, eMonedaDelInformeMM valMonedaDelInformeMM, bool valEsCliente, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valCodigoMoneda, string valNombreMoneda) {
 			if (valEsCliente) {
-				return SqlAnticipoPorCliente(valConsecutivoCompania, valStatusAnticipo, valCantidadAImprimir, valCodigoClienteProveedor, valOrdenamientoClienteStatus, valMonedaDelInformeMM, valTipoTasaDeCambio, valCodigoMoneda, valNombreMoneda);
+				return SqlAnticipoPorCliente(valConsecutivoCompania, valStatusAnticipo, valCantidadAImprimir, valCodigoClienteProveedor, valOrdenamientoPorStatus, valMonedaDelInformeMM, valTipoTasaDeCambio, valCodigoMoneda, valNombreMoneda);
 			} else {
-				return SqlAnticipoPorProveedor(valConsecutivoCompania, valStatusAnticipo, valCantidadAImprimir, valCodigoClienteProveedor, valOrdenamientoClienteStatus, valMonedaDelInformeMM, valTipoTasaDeCambio, valCodigoMoneda, valNombreMoneda);
+				return SqlAnticipoPorProveedor(valConsecutivoCompania, valStatusAnticipo, valCantidadAImprimir, valCodigoClienteProveedor, valOrdenamientoPorStatus, valMonedaDelInformeMM, valTipoTasaDeCambio, valCodigoMoneda, valNombreMoneda);
 			}
 		}
 
@@ -39,21 +39,20 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
 			return vSql.ToString();
 		}
 
-		public string SqlAnticipoPorCliente(int valConsecutivoCompania, eStatusAnticipoInformes valStatusAnticipo, eCantidadAImprimir valCantidadAImprimir, string valCodigoClienteProveedor, bool valOrdenamientoClienteStatus, eMonedaDelInformeMM valMonedaDelInformeMM, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valCodigoMoneda, string valNombreMoneda) {
-			string vSql = "";
-			vSql = SqlAnticipoPorClienteNo_Devolucion(valConsecutivoCompania, valStatusAnticipo, valCantidadAImprimir, valCodigoClienteProveedor, valOrdenamientoClienteStatus, valMonedaDelInformeMM, valTipoTasaDeCambio, valCodigoMoneda, valNombreMoneda);
-			vSql = vSql + " UNION ";
-			vSql = vSql + SqlAnticipoPorCliente_Devolucion(valConsecutivoCompania, valStatusAnticipo, valCantidadAImprimir, valCodigoClienteProveedor, valOrdenamientoClienteStatus, valMonedaDelInformeMM, valTipoTasaDeCambio, valCodigoMoneda, valNombreMoneda);
+		public string SqlAnticipoPorCliente(int valConsecutivoCompania, eStatusAnticipoInformes valStatusAnticipo, eCantidadAImprimir valCantidadAImprimir, string valCodigoClienteProveedor, bool valOrdenamientoPorStatus, eMonedaDelInformeMM valMonedaDelInformeMM, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valCodigoMoneda, string valNombreMoneda) {
+			StringBuilder vSql = new StringBuilder();
+			vSql.AppendLine(SqlAnticipoPorClienteNo_Devolucion(valConsecutivoCompania, valStatusAnticipo, valCantidadAImprimir, valCodigoClienteProveedor, valOrdenamientoPorStatus, valMonedaDelInformeMM, valTipoTasaDeCambio, valCodigoMoneda, valNombreMoneda));
+			vSql.AppendLine("UNION");
+			vSql.AppendLine(SqlAnticipoPorCliente_Devolucion(valConsecutivoCompania, valStatusAnticipo, valCantidadAImprimir, valCodigoClienteProveedor, valOrdenamientoPorStatus, valMonedaDelInformeMM, valTipoTasaDeCambio, valCodigoMoneda, valNombreMoneda));
 			if (valStatusAnticipo == eStatusAnticipoInformes.Anulado || valStatusAnticipo == eStatusAnticipoInformes.Todos) {
-				vSql = vSql + " UNION ";
-				vSql = vSql + SqlAnticipoAnuladoPorCliente(valConsecutivoCompania, valStatusAnticipo, valCantidadAImprimir, valCodigoClienteProveedor, valOrdenamientoClienteStatus, valMonedaDelInformeMM, valTipoTasaDeCambio, valCodigoMoneda, valNombreMoneda);
+				vSql.AppendLine("UNION");
+				vSql.AppendLine(SqlAnticipoAnuladoPorCliente(valConsecutivoCompania, valStatusAnticipo, valCantidadAImprimir, valCodigoClienteProveedor, valOrdenamientoPorStatus, valMonedaDelInformeMM, valTipoTasaDeCambio, valCodigoMoneda, valNombreMoneda));
 			}
-
-			return vSql;
+			vSql = vSql.AppendLine(" ORDER BY Anticipo.Moneda, " + (valOrdenamientoPorStatus ? "Status" : "CodigoCliente") + ", Anticipo.Fecha");
+			return vSql.ToString();
 		}
 
-
-		public string SqlAnticipoPorClienteNo_Devolucion(int valConsecutivoCompania, eStatusAnticipoInformes valStatusAnticipo, eCantidadAImprimir valCantidadAImprimir, string valCodigoClienteProveedor, bool valOrdenamientoClienteStatus, eMonedaDelInformeMM valMonedaDelInformeMM, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valCodigoMoneda, string valNombreMoneda) {
+		public string SqlAnticipoPorClienteNo_Devolucion(int valConsecutivoCompania, eStatusAnticipoInformes valStatusAnticipo, eCantidadAImprimir valCantidadAImprimir, string valCodigoClienteProveedor, bool valOrdenamientoPorStatus, eMonedaDelInformeMM valMonedaDelInformeMM, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valCodigoMoneda, string valNombreMoneda) {
 			StringBuilder vSql = new StringBuilder();
 			string vSQLWhere = "";
 			/* INICIO: Manejo para multimoneda: Moneda Local // Moneda Extranjera Original y Moneda Local en Moneda Extranjera // Moneda Original */
@@ -113,16 +112,13 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
 			vSQLWhere = insSql.SqlEnumValueWithOperators(vSQLWhere, "Anticipo.Status", (int)eStatusAnticipoInformes.Anulado, "", "<>");
 			if (valCantidadAImprimir == eCantidadAImprimir.One) {
 				vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "Anticipo.CodigoCliente", valCodigoClienteProveedor);
-			}
-			vSQLWhere = vSQLWhere + "ORDER BY Anticipo.Moneda, " + valOrdenamientoClienteStatus + ", Anticipo.Fecha";
+			}			
 			vSQLWhere = insSql.WhereSql(vSQLWhere);
-
 			vSql.AppendLine(vSQLWhere);
-
 			return vSql.ToString();
 		}
 
-		public string SqlAnticipoPorCliente_Devolucion(int valConsecutivoCompania, eStatusAnticipoInformes valStatusAnticipo, eCantidadAImprimir valCantidadAImprimir, string valCodigoClienteProveedor, bool valOrdenamientoClienteStatus, eMonedaDelInformeMM valMonedaDelInformeMM, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valCodigoMoneda, string valNombreMoneda) {
+		public string SqlAnticipoPorCliente_Devolucion(int valConsecutivoCompania, eStatusAnticipoInformes valStatusAnticipo, eCantidadAImprimir valCantidadAImprimir, string valCodigoClienteProveedor, bool valOrdenamientoPorStatus, eMonedaDelInformeMM valMonedaDelInformeMM, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valCodigoMoneda, string valNombreMoneda) {
 			StringBuilder vSql = new StringBuilder();
 			string vSQLWhere = "";
 
@@ -171,10 +167,8 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
 			vSql.AppendLine(" " + vSqlMontoUsado + " AS MontoUsado,");
 			vSql.AppendLine(" 0 AS MontoDevuelto, 0 AS MontoDiferenciaEnDevolucion, ");
 			vSql.AppendLine(" Anticipo.NumeroCheque");
-
 			vSql.AppendLine("FROM Anticipo INNER JOIN Cliente");
 			vSql.AppendLine("ON Anticipo.ConsecutivoCompania = cliente.ConsecutivoCompania AND Anticipo.CodigoCliente = cliente.Codigo");
-
 			vSQLWhere = insSql.SqlIntValueWithAnd(vSQLWhere, "Anticipo.ConsecutivoCompania", valConsecutivoCompania);
 			vSQLWhere = insSql.SqlBoolValueWithAnd(vSQLWhere, "Anticipo.EsUnaDevolucion ", true);
 			if (valStatusAnticipo != eStatusAnticipoInformes.Todos) {
@@ -184,15 +178,13 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
 			if (valCantidadAImprimir == eCantidadAImprimir.One) {
 				vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "Anticipo.CodigoCliente", valCodigoClienteProveedor);
 			}
-			vSQLWhere = vSQLWhere + "ORDER BY Anticipo.Moneda, " + valOrdenamientoClienteStatus + ", Anticipo.Fecha";
+			//vSQLWhere = vSQLWhere + " ORDER BY Anticipo.Moneda, " + (valOrdenamientoPorStatus ? "Status" : "CodigoCliente") + ", Anticipo.Fecha";
 			vSQLWhere = insSql.WhereSql(vSQLWhere);
-
 			vSql.AppendLine(vSQLWhere);
-
 			return vSql.ToString();
 		}
 
-		public string SqlAnticipoAnuladoPorCliente(int valConsecutivoCompania, eStatusAnticipoInformes valStatusAnticipo, eCantidadAImprimir valCantidadAImprimir, string valCodigoClienteProveedor, bool valOrdenamientoClienteStatus, eMonedaDelInformeMM valMonedaDelInformeMM, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valCodigoMoneda, string valNombreMoneda) {
+		public string SqlAnticipoAnuladoPorCliente(int valConsecutivoCompania, eStatusAnticipoInformes valStatusAnticipo, eCantidadAImprimir valCantidadAImprimir, string valCodigoClienteProveedor, bool valOrdenamientoPorStatus, eMonedaDelInformeMM valMonedaDelInformeMM, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valCodigoMoneda, string valNombreMoneda) {
 			StringBuilder vSql = new StringBuilder();
 			string vSQLWhere = "";
 			/* INICIO: Manejo para multimoneda: Moneda Local // Moneda Extranjera Original y Moneda Local en Moneda Extranjera // Moneda Original */
@@ -245,35 +237,27 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
 			vSql.AppendLine(" " + vSqlMontoDevuelto + " AS MontoDevuelto, ");
 			vSql.AppendLine(" " + vSqlMontoDifEnDevolucion + " AS MontoDiferenciaEnDevolucion, ");
 			vSql.AppendLine(" Anticipo.NumeroCheque");
-
 			vSql.AppendLine("FROM Anticipo INNER JOIN Cliente");
 			vSql.AppendLine("ON Anticipo.ConsecutivoCompania = cliente.ConsecutivoCompania AND Anticipo.CodigoCliente = cliente.Codigo");
-
 			vSQLWhere = insSql.SqlIntValueWithAnd(vSQLWhere, "Anticipo.ConsecutivoCompania", valConsecutivoCompania);
 			vSQLWhere = insSql.SqlBoolValueWithAnd(vSQLWhere, "Anticipo.EsUnaDevolucion ", false);
 			vSQLWhere = insSql.SqlEnumValueWithAnd(vSQLWhere, "Anticipo.Status", (int)eStatusAnticipoInformes.Anulado);
 			if (valCantidadAImprimir == eCantidadAImprimir.One) {
 				vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "Anticipo.CodigoCliente", valCodigoClienteProveedor);
 			}
-			vSQLWhere = vSQLWhere + "ORDER BY Anticipo.Moneda, " + valOrdenamientoClienteStatus + ", Anticipo.Fecha";
+			//vSQLWhere = vSQLWhere + " ORDER BY Anticipo.Moneda, " + (valOrdenamientoPorStatus ? "Status" : "CodigoCliente") + ", Anticipo.Fecha";
 			vSQLWhere = insSql.WhereSql(vSQLWhere);
-
 			vSql.AppendLine(vSQLWhere);
-
 			return vSql.ToString();
 		}
 
-		public string SqlAnticipoPorProveedor(int valConsecutivoCompania, eStatusAnticipoInformes valStatusAnticipo, eCantidadAImprimir valCantidadAImprimir, string valCodigoClienteProveedor, bool valOrdenamientoClienteStatus, eMonedaDelInformeMM valMonedaDelInformeMM, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valCodigoMoneda, string valNombreMoneda) {
+		public string SqlAnticipoPorProveedor(int valConsecutivoCompania, eStatusAnticipoInformes valStatusAnticipo, eCantidadAImprimir valCantidadAImprimir, string valCodigoClienteProveedor, bool valOrdenamientoPorStatus, eMonedaDelInformeMM valMonedaDelInformeMM, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valCodigoMoneda, string valNombreMoneda) {
 			StringBuilder vSql = new StringBuilder();
 			string vSQLWhere = "";
-			string vMonedaLocal;
 			vSQLWhere = insSql.SqlIntValueWithAnd(vSQLWhere, "Anticipo.ConsecutivoCompania", valConsecutivoCompania);
 			return vSql.ToString();
 		}
 		#endregion //Metodos Generados
-
-
 	} //End of class clsAnticipoSql
-
 } //End of namespace Galac.Adm.Brl.CAnticipo
 
