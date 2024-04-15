@@ -20,7 +20,7 @@ namespace Galac.Adm.Rpt.CAnticipo {
         private eCantidadAImprimir CantidadAImprimir{ get; set; }
         private eCantidadAImprimir CantidadAImprimirClienteProveedor { get; set; }
         private string CodigoClienteProveedor{ get; set; }
-        private bool OrdenamientoPorStatus{ get; set; }
+        private bool OrdenarPorStatus{ get; set; }
         eTasaDeCambioParaImpresion TasaCambio { get; set; }
         private eMonedaDelInformeMM MonedaDelInformeMM{ get; set; } 
         private bool EsCliente{ get; set; }
@@ -28,13 +28,13 @@ namespace Galac.Adm.Rpt.CAnticipo {
 
         #endregion //Propiedades
         #region Constructores
-        public clsAnticipoPorProveedorOCliente(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, bool initEsCliente,LibXmlMFC initMfc, eCantidadAImprimir initCantidadAImprimir, eStatusAnticipo initStatusAnticipo,  eCantidadAImprimir initCantidadAImprimirClienteProveedor, string initCodigoClienteProveedor, bool initOrdenamientoPorStatus, eMonedaDelInformeMM initMonedaDelInformeMM, eTasaDeCambioParaImpresion initTasaDeCambio, string initMoneda)
+        public clsAnticipoPorProveedorOCliente(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, bool initEsCliente,LibXmlMFC initMfc, eCantidadAImprimir initCantidadAImprimir, eStatusAnticipo initStatusAnticipo,  eCantidadAImprimir initCantidadAImprimirClienteProveedor, string initCodigoClienteProveedor, bool initOrdenarPorStatus, eMonedaDelInformeMM initMonedaDelInformeMM, eTasaDeCambioParaImpresion initTasaDeCambio, string initMoneda)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
             StatusAnticipo = initStatusAnticipo;
             CantidadAImprimir = initCantidadAImprimir;
             CantidadAImprimirClienteProveedor = initCantidadAImprimirClienteProveedor;
             CodigoClienteProveedor = initCodigoClienteProveedor;
-            OrdenamientoPorStatus = initOrdenamientoPorStatus;
+            OrdenarPorStatus = initOrdenarPorStatus;
             TasaCambio = initTasaDeCambio;
             MonedaDelInformeMM = initMonedaDelInformeMM;
             EsCliente = initEsCliente;
@@ -69,7 +69,7 @@ namespace Galac.Adm.Rpt.CAnticipo {
             string vCodigoMoneda = LibString.Trim(LibString.Mid(Moneda, 1, LibString.InStr(Moneda, ")") - 1));
             vCodigoMoneda = LibString.IsNullOrEmpty(vCodigoMoneda, true) ? LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera") : vCodigoMoneda;
             string vNombreMoneda = LibString.Trim(LibString.Mid(Moneda, 1 + LibString.InStr(Moneda, ")")));
-            Data = vRpt.BuildAnticipoClienteProveedor(EsCliente, LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), CantidadAImprimir, StatusAnticipo, CantidadAImprimirClienteProveedor,  CodigoClienteProveedor, OrdenamientoPorStatus, MonedaDelInformeMM, TasaCambio,vCodigoMoneda, vNombreMoneda);
+            Data = vRpt.BuildAnticipoClienteProveedor(EsCliente, LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), CantidadAImprimir, StatusAnticipo, CantidadAImprimirClienteProveedor,  CodigoClienteProveedor, OrdenarPorStatus, MonedaDelInformeMM, TasaCambio,vCodigoMoneda, vNombreMoneda);
         }
 
         public override void SendReportToDevice() {
@@ -79,7 +79,7 @@ namespace Galac.Adm.Rpt.CAnticipo {
             if (Data.Rows.Count < 1) {
                 throw new GalacException("No existen datos para mostrar", eExceptionManagementType.Alert);
             } else {
-                if (vRpt.ConfigReport(Data, vParams, MonedaDelInformeMM, Moneda, TasaCambio, EsCliente)) {
+                if (vRpt.ConfigReport(Data, vParams, EsCliente, MonedaDelInformeMM, Moneda, TasaCambio, OrdenarPorStatus)) {
                     LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsAnticipoPorProveedorOCliente.ReportName, true, ExportFileFormat, "", false);
                 }
                 WorkerReportProgress(100, "Finalizando...");

@@ -67,7 +67,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.txtMontoUsadoClienteProveedor = new DataDynamics.ActiveReports.TextBox();
             this.txtCodigoGF = new DataDynamics.ActiveReports.TextBox();
             this.GHStatus = new DataDynamics.ActiveReports.GroupHeader();
-            this.lblEstatus = new DataDynamics.ActiveReports.Label();
+            this.lblStatus = new DataDynamics.ActiveReports.Label();
             this.txtStatus = new DataDynamics.ActiveReports.TextBox();
             this.lblFecha = new DataDynamics.ActiveReports.Label();
             this.lblNumero = new DataDynamics.ActiveReports.Label();
@@ -86,6 +86,9 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.txtTotalDiferenciaDevol = new DataDynamics.ActiveReports.TextBox();
             this.txtTotalMontoAnulado = new DataDynamics.ActiveReports.TextBox();
             this.txtStatusGF = new DataDynamics.ActiveReports.TextBox();
+            this.GHTitulos = new DataDynamics.ActiveReports.GroupHeader();
+            this.GFTitulos = new DataDynamics.ActiveReports.GroupFooter();
+            this.txtNombre2 = new DataDynamics.ActiveReports.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.txtFecha)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNumero)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoTotal)).BeginInit();
@@ -120,7 +123,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoAnuladoClienteProveedor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoUsadoClienteProveedor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCodigoGF)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblEstatus)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblStatus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtStatus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFecha)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblNumero)).BeginInit();
@@ -138,6 +141,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalDiferenciaDevol)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoAnulado)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtStatusGF)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNombre2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
@@ -271,7 +275,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.lblTituloDelReporte.Top = 0.28125F;
             this.lblTituloDelReporte.Width = 3.53125F;
             // 
-            // lblCompania
+            // txtCompania
             // 
             this.txtCompania.Height = 0.28125F;
             this.txtCompania.HyperLink = null;
@@ -293,7 +297,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.lblFechaYHoraDeEmision.Top = 0.531F;
             this.lblFechaYHoraDeEmision.Width = 3.53125F;
             // 
-            // lblNumeroDePagina
+            // txtNumeroDePagina
             // 
             this.txtNumeroDePagina.Height = 0.15625F;
             this.txtNumeroDePagina.HyperLink = null;
@@ -656,32 +660,24 @@ namespace Galac.Adm.Rpt.CAnticipo
             // GHStatus
             // 
             this.GHStatus.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
-            this.lblEstatus,
+            this.lblStatus,
             this.txtStatus,
-            this.lblFecha,
-            this.lblNumero,
-            this.lblMontototal,
-            this.lblMontoUsado,
-            this.lblMontoDevuelto,
-            this.lblDiferenciaDevulucion,
-            this.lblMontoAnulado,
-            this.lblMonedaDoc,
-            this.lblCambio});
-            this.GHStatus.Height = 0.3226669F;
+            this.txtNombre2});
+            this.GHStatus.Height = 0.15625F;
             this.GHStatus.KeepTogether = true;
             this.GHStatus.Name = "GHStatus";
             this.GHStatus.RepeatStyle = DataDynamics.ActiveReports.RepeatStyle.OnPage;
             // 
-            // lblEstatus
+            // lblStatus
             // 
-            this.lblEstatus.Height = 0.15625F;
-            this.lblEstatus.HyperLink = null;
-            this.lblEstatus.Left = 0F;
-            this.lblEstatus.Name = "lblEstatus";
-            this.lblEstatus.Style = "font-size: 8.25pt; font-weight: bold";
-            this.lblEstatus.Text = "Status";
-            this.lblEstatus.Top = 0F;
-            this.lblEstatus.Width = 0.545F;
+            this.lblStatus.Height = 0.15625F;
+            this.lblStatus.HyperLink = null;
+            this.lblStatus.Left = 0F;
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Style = "font-size: 8.25pt; font-weight: bold";
+            this.lblStatus.Text = "lblStatus";
+            this.lblStatus.Top = 0F;
+            this.lblStatus.Width = 0.545F;
             // 
             // txtStatus
             // 
@@ -691,7 +687,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.txtStatus.Style = "font-size: 8pt";
             this.txtStatus.Text = "txtStatus";
             this.txtStatus.Top = 0F;
-            this.txtStatus.Width = 9.455F;
+            this.txtStatus.Width = 2.58F;
             // 
             // lblFecha
             // 
@@ -703,7 +699,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.lblFecha.Name = "lblFecha";
             this.lblFecha.Style = "font-size: 8pt; font-weight: bold; text-align: left";
             this.lblFecha.Text = "Fecha";
-            this.lblFecha.Top = 0.156F;
+            this.lblFecha.Top = 0F;
             this.lblFecha.Width = 0.545F;
             // 
             // lblNumero
@@ -716,7 +712,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.lblNumero.Name = "lblNumero";
             this.lblNumero.Style = "font-size: 8pt; font-weight: bold; text-align: left";
             this.lblNumero.Text = "Número";
-            this.lblNumero.Top = 0.156F;
+            this.lblNumero.Top = 0F;
             this.lblNumero.Width = 1F;
             // 
             // lblMontototal
@@ -729,7 +725,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.lblMontototal.Name = "lblMontototal";
             this.lblMontototal.Style = "font-size: 8pt; font-weight: bold; text-align: right";
             this.lblMontototal.Text = "Monto Total";
-            this.lblMontototal.Top = 0.156F;
+            this.lblMontototal.Top = 0F;
             this.lblMontototal.Width = 1.25F;
             // 
             // lblMontoUsado
@@ -742,7 +738,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.lblMontoUsado.Name = "lblMontoUsado";
             this.lblMontoUsado.Style = "font-size: 8pt; font-weight: bold; text-align: right";
             this.lblMontoUsado.Text = "Monto Usado";
-            this.lblMontoUsado.Top = 0.156F;
+            this.lblMontoUsado.Top = 0F;
             this.lblMontoUsado.Width = 1.25F;
             // 
             // lblMontoDevuelto
@@ -755,7 +751,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.lblMontoDevuelto.Name = "lblMontoDevuelto";
             this.lblMontoDevuelto.Style = "font-size: 8pt; font-weight: bold; text-align: right";
             this.lblMontoDevuelto.Text = "Monto Devuelto";
-            this.lblMontoDevuelto.Top = 0.156F;
+            this.lblMontoDevuelto.Top = 0F;
             this.lblMontoDevuelto.Width = 1.25F;
             // 
             // lblDiferenciaDevulucion
@@ -768,7 +764,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.lblDiferenciaDevulucion.Name = "lblDiferenciaDevulucion";
             this.lblDiferenciaDevulucion.Style = "font-size: 8pt; font-weight: bold; text-align: right";
             this.lblDiferenciaDevulucion.Text = "Diferencia Devolución";
-            this.lblDiferenciaDevulucion.Top = 0.156F;
+            this.lblDiferenciaDevulucion.Top = 0F;
             this.lblDiferenciaDevulucion.Width = 1.25F;
             // 
             // lblMontoAnulado
@@ -781,7 +777,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.lblMontoAnulado.Name = "lblMontoAnulado";
             this.lblMontoAnulado.Style = "font-size: 8pt; font-weight: bold; text-align: right";
             this.lblMontoAnulado.Text = "Monto Anulado";
-            this.lblMontoAnulado.Top = 0.156F;
+            this.lblMontoAnulado.Top = 0F;
             this.lblMontoAnulado.Width = 1.25F;
             // 
             // lblMonedaDoc
@@ -794,7 +790,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.lblMonedaDoc.Name = "lblMonedaDoc";
             this.lblMonedaDoc.Style = "font-size: 8pt; font-weight: bold; text-align: left";
             this.lblMonedaDoc.Text = "Moneda";
-            this.lblMonedaDoc.Top = 0.156F;
+            this.lblMonedaDoc.Top = 0F;
             this.lblMonedaDoc.Width = 1.58F;
             // 
             // lblCambio
@@ -807,7 +803,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.lblCambio.Name = "lblCambio";
             this.lblCambio.Style = "font-size: 8pt; font-weight: bold; text-align: right";
             this.lblCambio.Text = "Cambio";
-            this.lblCambio.Top = 0.156F;
+            this.lblCambio.Top = 0F;
             this.lblCambio.Width = 0.625F;
             // 
             // GFStatus
@@ -831,7 +827,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.lblTotalStatus.Left = 0F;
             this.lblTotalStatus.Name = "lblTotalStatus";
             this.lblTotalStatus.Style = "font-size: 8.25pt; font-weight: bold; text-align: right";
-            this.lblTotalStatus.Text = "Total por Status";
+            this.lblTotalStatus.Text = "lblTotalStatus";
             this.lblTotalStatus.Top = 0F;
             this.lblTotalStatus.Width = 1.545F;
             // 
@@ -918,6 +914,38 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.txtStatusGF.Top = 0F;
             this.txtStatusGF.Width = 2.205F;
             // 
+            // GHTitulos
+            // 
+            this.GHTitulos.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
+            this.lblFecha,
+            this.lblNumero,
+            this.lblMontototal,
+            this.lblMontoUsado,
+            this.lblMontoDevuelto,
+            this.lblDiferenciaDevulucion,
+            this.lblMontoAnulado,
+            this.lblMonedaDoc,
+            this.lblCambio});
+            this.GHTitulos.Height = 0.15625F;
+            this.GHTitulos.Name = "GHTitulos";
+            // 
+            // GFTitulos
+            // 
+            this.GFTitulos.Height = 0F;
+            this.GFTitulos.Name = "GFTitulos";
+            // 
+            // txtNombre2
+            // 
+            this.txtNombre2.CanShrink = true;
+            this.txtNombre2.Height = 0.15625F;
+            this.txtNombre2.Left = 3.125F;
+            this.txtNombre2.MultiLine = false;
+            this.txtNombre2.Name = "txtNombre2";
+            this.txtNombre2.Style = "font-size: 8pt";
+            this.txtNombre2.Text = "txtNombre2";
+            this.txtNombre2.Top = 0F;
+            this.txtNombre2.Width = 6.874751F;
+            // 
             // dsrAnticipoPorProveedorOCliente
             // 
             this.MasterReport = false;
@@ -928,7 +956,9 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.Sections.Add(this.GHMoneda);
             this.Sections.Add(this.GHClienteProveedor);
             this.Sections.Add(this.GHStatus);
+            this.Sections.Add(this.GHTitulos);
             this.Sections.Add(this.Detail);
+            this.Sections.Add(this.GFTitulos);
             this.Sections.Add(this.GFStatus);
             this.Sections.Add(this.GFClienteProveedor);
             this.Sections.Add(this.GFMoneda);
@@ -975,7 +1005,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoAnuladoClienteProveedor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoUsadoClienteProveedor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCodigoGF)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblEstatus)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblStatus)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtStatus)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFecha)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblNumero)).EndInit();
@@ -993,6 +1023,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalDiferenciaDevol)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoAnulado)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtStatusGF)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNombre2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -1035,7 +1066,7 @@ namespace Galac.Adm.Rpt.CAnticipo
         private DataDynamics.ActiveReports.TextBox txtMontoAnuladoClienteProveedor;
         private DataDynamics.ActiveReports.TextBox txtMontoUsadoClienteProveedor;
         private DataDynamics.ActiveReports.GroupHeader GHStatus;
-        private DataDynamics.ActiveReports.Label lblEstatus;
+        private DataDynamics.ActiveReports.Label lblStatus;
         private DataDynamics.ActiveReports.TextBox txtStatus;
         private DataDynamics.ActiveReports.Label lblFecha;
         private DataDynamics.ActiveReports.Label lblNumero;
@@ -1059,5 +1090,8 @@ namespace Galac.Adm.Rpt.CAnticipo
         private DataDynamics.ActiveReports.TextBox txtCodigoGF;
         private DataDynamics.ActiveReports.TextBox txtStatusGF;
         private DataDynamics.ActiveReports.TextBox txtNotaMonedaCambio;
+        private DataDynamics.ActiveReports.GroupHeader GHTitulos;
+        private DataDynamics.ActiveReports.GroupFooter GFTitulos;
+        private DataDynamics.ActiveReports.TextBox txtNombre2;
     }
 }

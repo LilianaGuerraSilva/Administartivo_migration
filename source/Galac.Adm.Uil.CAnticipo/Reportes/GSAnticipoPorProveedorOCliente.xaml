@@ -12,38 +12,25 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary
-                    Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <BooleanToVisibilityConverter
-                x:Key="booleanToVisibilityConverter" />
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid
-        FocusManager.FocusedElement="{Binding ElementName=cmbEstatusAnticipo}">
+    <Grid FocusManager.FocusedElement="{Binding ElementName=cmbEstatusAnticipo}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition
-                Width="Auto" />
-            <ColumnDefinition
-                Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition
-                Height="Auto" />
-            <RowDefinition
-                Height="Auto" />
-            <RowDefinition
-                Height="Auto" />
-            <RowDefinition
-                Height="Auto" />
-            <RowDefinition
-                Height="Auto" />
-            <RowDefinition
-                Height="Auto" />
-            <RowDefinition
-                Height="Auto" />
-            <RowDefinition
-                Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Label
             Name="lblCodigoClientProveedor"
@@ -55,7 +42,7 @@
             Grid.Row="0"
             Grid.Column="0"
             Width="84"
-            Margin="86,3,0,3"
+            Margin="86,4,0,2"
             IsEnabled="{Binding Path=IsEnabled}"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding Path=ArrayCantidadAImprimirClienteProveedor}"
@@ -65,7 +52,7 @@
             Name="txtCodigoClient"
             Grid.Row="0"
             Grid.Column="1"
-            Width="135"
+            Width="150"
             Height="23"
             Margin="2,4,16,2"
             ConnectionValue="{Binding Path=CodigoClienteProveedor, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
@@ -76,7 +63,7 @@
             Grid.Row="1"
             Grid.Column="0"
             Grid.ColumnSpan="2"
-            Width="304"
+            Width="314"
             Margin="3,10,0,10"
             VerticalAlignment="Center"
             BorderThickness="1"
@@ -88,7 +75,9 @@
             Grid.Row="2"
             Grid.Column="0"
             Height="24"
-            Content="Status"
+            Margin="3,0,0,0"
+            VerticalAlignment="Center"
+            Content="Estatus"
             Style="{StaticResource LabelPrompt}"
             Visibility="{Binding Path=IsVisibleEstatusAnticipo, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSComboBoxWpf
@@ -96,7 +85,7 @@
             Grid.Row="2"
             Grid.Column="0"
             Width="84"
-            Margin="86,4,0,4"
+            Margin="86,10,0,10"
             IsEnabled="{Binding Path=IsEnabled}"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding Path=ArrayCantidadAImprimir}"
@@ -106,7 +95,7 @@
             Name="cmbEstatusAnticipo"
             Grid.Row="2"
             Grid.Column="1"
-            Width="135"
+            Width="150"
             Margin="2,10,0,10"
             IsEnabled="{Binding Path=EstatusAnticipoIsEnable}"
             IsSynchronizedWithCurrentItem="True"
@@ -117,13 +106,15 @@
             Name="lblOrdenamientoClienteStatus"
             Grid.Row="4"
             Grid.Column="0"
+            Margin="3,0,0,0"
+            VerticalAlignment="Center"
             Content="Ordenar Por"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf
             Name="cmbOrdenarPor"
             Grid.Row="4"
             Grid.Column="1"
-            Width="135"
+            Width="150"
             Margin="2,10,0,10"
             IsEnabled="{Binding Path=IsEnabled}"
             IsSynchronizedWithCurrentItem="True"
@@ -135,13 +126,15 @@
             Grid.Row="5"
             Grid.Column="0"
             Height="24"
+            Margin="3,0,0,0"
+            VerticalAlignment="Center"
             Content="Moneda del Informe"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf
             Name="cmbMonedaDelGrupo"
             Grid.Row="5"
             Grid.Column="1"
-            Width="135"
+            Width="150"
             Margin="2,10,0,10"
             IsEnabled="{Binding Path=IsEnabled}"
             IsSynchronizedWithCurrentItem="True"
@@ -152,7 +145,7 @@
             Name="cmbMonedasActivas"
             Grid.Row="6"
             Grid.Column="1"
-            Width="135"
+            Width="150"
             Margin="2,10,0,10"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding ListaMonedasActivas}"
@@ -164,6 +157,8 @@
             Grid.Row="7"
             Grid.Column="0"
             Height="24"
+            Margin="3,0,0,0"
+            VerticalAlignment="Center"
             Content="Tasa de Cambio a la Fecha"
             Style="{StaticResource LabelPrompt}"
             Visibility="{Binding Path=IsVisibleTipoTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}" />
@@ -171,7 +166,7 @@
             x:Name="cmbTasaDeCambio"
             Grid.Row="7"
             Grid.Column="1"
-            Width="135"
+            Width="150"
             Margin="2,3,0,3"
             BorderThickness="1"
             IsSynchronizedWithCurrentItem="True"
