@@ -47,7 +47,7 @@ namespace Galac.Adm.Rpt.CAnticipo {
                 }
             }            
             if (LibReport.ConfigDataSource(this, valDataSource)) {
-                LibReport.ConfigFieldStr(this, "txtCompania", string.Empty, valParameters["Nombre"]);
+                LibReport.ConfigFieldStr(this, "txtCompania", valParameters["Nombre"], string.Empty);
                 if (valCliente) {
                     LibReport.ConfigLabel(this, "lblTituloDelReporte", ReportTitle() + " Cobrados por Cliente");
                     LibReport.ConfigLabel(this, "lblClienteProveedor", "Cliente");
