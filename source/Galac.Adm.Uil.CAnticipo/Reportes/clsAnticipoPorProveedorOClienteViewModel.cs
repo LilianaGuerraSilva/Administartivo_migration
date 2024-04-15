@@ -26,9 +26,12 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
         public const string OrdenamientoPorStatusPropertyName = "OrdenamientoPorStatus";
         public const string MonedaDelInformePropertyName = "MonedaDelInforme";
         public const string ClienteProveedorIsEnablePropertyName = "ClienteProveedorIsEnable";
+        public const string OrdenarPorClienteIsEnablePropertyName = "OrdenarPorClienteIsEnable";
+        public const string CantidadAImprimirClienteProveedorPropertyName = "CantidadAImprimirClienteProveedor";
+        private const string IsVisibleEstatusAnticipoPropertyName = "IsVisibleEstatusAnticipo";
         #endregion
         #region Variables
-        private eStatusAnticipoInformes _EstatusAnticipo;
+        private eStatusAnticipo _EstatusAnticipo;
         private eCantidadAImprimir _CantidadAImprimir;
         private string _CodigoClientProveedor;
         private string _NombreClientProveedor;
@@ -37,7 +40,8 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
         private eMonedaDelInformeMM _MonedaDelInforme;
         private FkClienteViewModel _ConexionCodigoCliente = null;
         private FkProveedorViewModel _ConexionCodigoProveedor = null;
-        private eTasaDeCambioParaImpresion _TipoTasaDeCambioAsEnum;        
+        private eTasaDeCambioParaImpresion _TipoTasaDeCambioAsEnum;            
+        private eCantidadAImprimir _CantidadAImprimirClienteProveedor;        
 		private ObservableCollection<eMonedaDelInformeMM> _ListaMonedaDelInforme = new ObservableCollection<eMonedaDelInformeMM>();
         #endregion //Variables
 
@@ -60,14 +64,14 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             }
         }
 
-        public eStatusAnticipoInformes EstatusAnticipo {
+        public eStatusAnticipo EstatusAnticipo {
             get {
                 return _EstatusAnticipo;
             }
             set {
                 if (_EstatusAnticipo != value) {
                     _EstatusAnticipo = value;
-                    RaisePropertyChanged(EstatusAnticipoPropertyName);
+                    RaisePropertyChanged(EstatusAnticipoPropertyName);                    
                 }
             }
         }
@@ -78,9 +82,28 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             }
             set {
                 if (_CantidadAImprimir != value) {
-                    _CantidadAImprimir = value;
-                    RaisePropertyChanged(CantidadAImprimirPropertyName);
+                    _CantidadAImprimir = value;                   
+                    RaisePropertyChanged(CantidadAImprimirPropertyName); 
+                    RaisePropertyChanged(IsVisibleEstatusAnticipoPropertyName);
+                }
+            }
+        }
+
+
+        public eCantidadAImprimir CantidadAImprimirClienteProveedor {
+            get {
+                return _CantidadAImprimirClienteProveedor;
+            }
+            set {
+                if (_CantidadAImprimirClienteProveedor != value) {
+                    _CantidadAImprimirClienteProveedor = value;
+                    if (_CantidadAImprimirClienteProveedor == eCantidadAImprimir.All) {
+                        CodigoClienteProveedor = string.Empty;
+                        NombreClientProveedor = string.Empty;
+                    }
+                    RaisePropertyChanged(CantidadAImprimirClienteProveedorPropertyName);
                     RaisePropertyChanged(ClienteProveedorIsEnablePropertyName);
+                    RaisePropertyChanged(OrdenarPorClienteIsEnablePropertyName);
                 }
             }
         }
@@ -149,9 +172,9 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             }
         }
 
-        public eStatusAnticipoInformes[] ArrayStatusAnticipo {
+        public eStatusAnticipo[] ArrayStatusAnticipo {
             get {
-                return LibEnumHelper<eStatusAnticipoInformes>.GetValuesInArray();
+                return LibEnumHelper<eStatusAnticipo>.GetValuesInArray();
             }
         }
 
@@ -160,7 +183,12 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
                 return LibEnumHelper<eCantidadAImprimir>.GetValuesInArray();
             }
         }
-       
+
+         public eCantidadAImprimir[] ArrayCantidadAImprimirClienteProveedor {
+            get {
+                return LibEnumHelper<eCantidadAImprimir>.GetValuesInArray();
+            }
+        }       
 
         public FkClienteViewModel ConexionCodigoCliente {
             get {
@@ -222,6 +250,17 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
 
         public bool ClienteProveedorIsEnable {
             get {
+                return CantidadAImprimirClienteProveedor == eCantidadAImprimir.One;
+            }
+        }
+
+        public bool OrdenarPorClienteIsEnable {
+            get {
+                return CantidadAImprimirClienteProveedor == eCantidadAImprimir.All;
+            }
+        }        
+        public bool IsVisibleEstatusAnticipo {
+            get {
                 return CantidadAImprimir == eCantidadAImprimir.One;
             }
         }
@@ -239,8 +278,9 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             EsCliente = valEsCliente;
             MonedaDelInforme = eMonedaDelInformeMM.EnMonedaOriginal;
 			TipoTasaDeCambio = eTasaDeCambioParaImpresion.DelDia;
-            EstatusAnticipo = eStatusAnticipoInformes.Todos;
-            CantidadAImprimir = eCantidadAImprimir.All;
+            EstatusAnticipo = eStatusAnticipo.Vigente;
+            CantidadAImprimir = eCantidadAImprimir.One;
+            CantidadAImprimirClienteProveedor = eCantidadAImprimir.All;
             Moneda = string.Empty;
             CodigoClienteProveedor = string.Empty;
 			LlenarEnumerativosMonedas();

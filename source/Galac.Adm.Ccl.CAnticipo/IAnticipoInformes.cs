@@ -10,7 +10,7 @@ using Galac.Saw.Lib;
 namespace Galac.Adm.Ccl.CAnticipo {
 
     public interface IAnticipoInformes {
-        System.Data.DataTable BuildAnticipoPorProveedorOCliente(int valConsecutivoCompania, eStatusAnticipoInformes valStatusAnticipo, eCantidadAImprimir valCantidadAImprimir, string valCodigoClienteProveedor, bool valOrdenamientoPorStatus, eMonedaDelInformeMM valMonedaDelInformeMM, bool valEsCliente, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valCodigoMoneda, string valNombreMoneda);
+       DataTable BuildAnticipoClienteProveedor(int valConsecutivoCompania, eCantidadAImprimir valCantidadAImprimir, eStatusAnticipo valStatusAnticipo, eCantidadAImprimir valCantidadAImprimirClienteProveedor, string valCodigoClienteProveedor, bool valOrdenamientoPorStatus, eMonedaDelInformeMM valMonedaDelInformeMM, bool valEsCliente, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valCodigoMoneda, string valNombreMoneda);
     }
 } //End of namespace Galac.Adm.Ccl.CAnticipo
 

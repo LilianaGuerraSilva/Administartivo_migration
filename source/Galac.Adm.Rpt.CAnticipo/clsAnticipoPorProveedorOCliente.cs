@@ -9,14 +9,16 @@ using LibGalac.Aos.Base.Report;
 using LibGalac.Aos.ARRpt;
 using Galac.Adm.Ccl.CAnticipo;
 using Galac.Saw.Lib;
+using LibGalac.Aos.Catching;
 
 namespace Galac.Adm.Rpt.CAnticipo {
 
-    public class clsAnticipoPorProveedorOCliente: LibRptBaseMfc {
+    public class clsAnticipoPorProveedorOCliente : LibRptBaseMfc {
         #region Propiedades
         protected DataTable Data { get; set; }
-        private eStatusAnticipoInformes StatusAnticipo { get; set; } 
+        private eStatusAnticipo StatusAnticipo { get; set; } 
         private eCantidadAImprimir CantidadAImprimir{ get; set; }
+        private eCantidadAImprimir CantidadAImprimirClienteProveedor { get; set; }
         private string CodigoClienteProveedor{ get; set; }
         private bool OrdenamientoPorStatus{ get; set; }
         eTasaDeCambioParaImpresion TasaCambio { get; set; }
@@ -26,10 +28,11 @@ namespace Galac.Adm.Rpt.CAnticipo {
 
         #endregion //Propiedades
         #region Constructores
-        public clsAnticipoPorProveedorOCliente(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, eStatusAnticipoInformes initStatusAnticipo, eCantidadAImprimir initCantidadAImprimir, string initCodigoClienteProveedor, bool initOrdenamientoPorStatus, eMonedaDelInformeMM initMonedaDelInformeMM, eTasaDeCambioParaImpresion initTasaDeCambio, string initMoneda, bool initEsCliente)
+        public clsAnticipoPorProveedorOCliente(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, eCantidadAImprimir initCantidadAImprimir,eStatusAnticipo initStatusAnticipo, eCantidadAImprimir initCantidadAImprimirClienteProveedor, string initCodigoClienteProveedor, bool initOrdenamientoPorStatus, eMonedaDelInformeMM initMonedaDelInformeMM, eTasaDeCambioParaImpresion initTasaDeCambio, string initMoneda, bool initEsCliente)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
             StatusAnticipo = initStatusAnticipo;
             CantidadAImprimir = initCantidadAImprimir;
+            CantidadAImprimirClienteProveedor = initCantidadAImprimirClienteProveedor;
             CodigoClienteProveedor = initCodigoClienteProveedor;
             OrdenamientoPorStatus = initOrdenamientoPorStatus;
             TasaCambio = initTasaDeCambio;
@@ -53,10 +56,10 @@ namespace Galac.Adm.Rpt.CAnticipo {
             }
             Dictionary<string, string> vParams = new Dictionary<string, string>();
             vParams.Add("Nombre", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre") + " - RIF " + LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "NumeroDeRIF"));
-            vParams.Add("TituloInforme", vTitulo);         
+            vParams.Add("TituloInforme", vTitulo);
             return vParams;
         }
-        
+
         public override void RunReport() {
             if (WorkerCancellPending()) {
                 return;
@@ -66,23 +69,23 @@ namespace Galac.Adm.Rpt.CAnticipo {
             string vCodigoMoneda = LibString.Trim(LibString.Mid(Moneda, 1, LibString.InStr(Moneda, ")") - 1));
             vCodigoMoneda = LibString.IsNullOrEmpty(vCodigoMoneda, true) ? LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera") : vCodigoMoneda;
             string vNombreMoneda = LibString.Trim(LibString.Mid(Moneda, 1 + LibString.InStr(Moneda, ")")));
-            Data = vRpt.BuildAnticipoPorProveedorOCliente(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), StatusAnticipo, CantidadAImprimir, CodigoClienteProveedor, OrdenamientoPorStatus, MonedaDelInformeMM, EsCliente, TasaCambio,vCodigoMoneda, vNombreMoneda);
+            Data = vRpt.BuildAnticipoClienteProveedor(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), CantidadAImprimir, StatusAnticipo, CantidadAImprimirClienteProveedor, CodigoClienteProveedor, OrdenamientoPorStatus, MonedaDelInformeMM, EsCliente, TasaCambio, vCodigoMoneda, vNombreMoneda);
         }
 
         public override void SendReportToDevice() {
             WorkerReportProgress(90, "Configurando Informe...");
             Dictionary<string, string> vParams = GetConfigReportParameters();
             dsrAnticipoPorProveedorOCliente vRpt = new dsrAnticipoPorProveedorOCliente();
-            if (vRpt.ConfigReport(Data, vParams, MonedaDelInformeMM, Moneda, TasaCambio, EsCliente))
-            {
-                LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsAnticipoPorProveedorOCliente.ReportName, true, ExportFileFormat, "", false);
+            if (Data.Rows.Count < 1) {
+                throw new GalacException("No existen datos para mostrar", eExceptionManagementType.Alert);
+            } else {
+                if (vRpt.ConfigReport(Data, vParams, MonedaDelInformeMM, Moneda, TasaCambio, EsCliente)) {
+                    LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsAnticipoPorProveedorOCliente.ReportName, true, ExportFileFormat, "", false);
+                }
+                WorkerReportProgress(100, "Finalizando...");
             }
-            WorkerReportProgress(100, "Finalizando...");
         }
         #endregion //Metodos Generados
-
-
     } //End of class clsAnticipoPorProveedorOCliente
-
 } //End of namespace Galac.Dbo.Rpt.CAnticipo
 
