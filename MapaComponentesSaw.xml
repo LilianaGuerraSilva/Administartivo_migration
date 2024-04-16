@@ -228,11 +228,11 @@
     <Galac.Adm.Brl.ImprentaDigital>2.61.0.0</Galac.Adm.Brl.ImprentaDigital>    
     <Galac.Saw.LibWebConnector>2.61.0.0</Galac.Saw.LibWebConnector>		    
     	
-    <Galac.Adm.Ccl.CAnticipo>2.61.0.0</Galac.Adm.Ccl.CAnticipo>
-    <Galac.Adm.Dal.CAnticipo>2.61.0.0</Galac.Adm.Dal.CAnticipo>
-    <Galac.Adm.Brl.CAnticipo>2.61.0.0</Galac.Adm.Brl.CAnticipo>
-	<Galac.Adm.Rpt.CAnticipo>2.61.0.0</Galac.Adm.Rpt.CAnticipo>
-	<Galac.Adm.Uil.CAnticipo>2.61.0.0</Galac.Adm.Uil.CAnticipo>
+    <Galac.Adm.Ccl.CAnticipo>2.61.0.9999</Galac.Adm.Ccl.CAnticipo>
+    <Galac.Adm.Dal.CAnticipo>2.61.0.9999</Galac.Adm.Dal.CAnticipo>
+    <Galac.Adm.Brl.CAnticipo>2.61.0.9999</Galac.Adm.Brl.CAnticipo>
+    <Galac.Adm.Rpt.CAnticipo>2.61.0.9999</Galac.Adm.Rpt.CAnticipo>
+    <Galac.Adm.Uil.CAnticipo>2.61.0.9999</Galac.Adm.Uil.CAnticipo>
 	
     <Galac.Saw.Reconv>2.60.0.0</Galac.Saw.Reconv>
     <Galac.Saw.Lib>2.61.1.0</Galac.Saw.Lib>
