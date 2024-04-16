@@ -70,9 +70,9 @@ namespace Galac.Adm.Rpt.CAnticipo {
                         LibReport.ConfigLabel(this, "lblTotalStatus", "Total por Proveedor");                        
                     }
                     LibReport.ConfigLabel(this, "lblTotalClienteProveedor", "Total por Status");
-                    LibReport.ConfigGroupHeader(this, "GHClienteProveedor", "StatusStr", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);
+                    LibReport.ConfigGroupHeader(this, "GHClienteProveedor", "StatusStr", GroupKeepTogether.FirstDetail, RepeatStyle.OnPageIncludeNoDetail, true, NewPage.None);
                     LibReport.ConfigFieldStr(this, "txtCodigoGF", string.Empty, "StatusStr");
-                    LibReport.ConfigGroupHeader(this, "GHStatus", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+                    LibReport.ConfigGroupHeader(this, "GHStatus", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPageIncludeNoDetail, true, NewPage.None);
                     LibReport.ConfigFieldStr(this, "txtStatusGF", string.Empty, "CodigoClienteProveedor");
                 
                 }else{
@@ -92,9 +92,9 @@ namespace Galac.Adm.Rpt.CAnticipo {
                         LibReport.ConfigLabel(this, "lblTotalClienteProveedor", "Total por Proveedor");
                     }
                     LibReport.ConfigLabel(this, "lblTotalStatus", "Total por Status");
-                    LibReport.ConfigGroupHeader(this, "GHStatus", "StatusStr", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);
+                    LibReport.ConfigGroupHeader(this, "GHStatus", "StatusStr", GroupKeepTogether.FirstDetail, RepeatStyle.OnPageIncludeNoDetail, true, NewPage.None);
                     LibReport.ConfigFieldStr(this, "txtStatusGF", string.Empty, "StatusStr");
-                    LibReport.ConfigGroupHeader(this, "GHClienteProveedor", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+                    LibReport.ConfigGroupHeader(this, "GHClienteProveedor", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPageIncludeNoDetail, true, NewPage.None);
                     LibReport.ConfigFieldStr(this, "txtCodigoGF", string.Empty, "CodigoClienteProveedor");
                 }
 
@@ -121,7 +121,7 @@ namespace Galac.Adm.Rpt.CAnticipo {
                 LibReport.ConfigSummaryField(this, "txtMontoDevClienteProveedor", "MontoDevuelto", SummaryFunc.Sum, "GHClienteProveedor", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtMontoDifClienteProveedor", "MontoDiferenciaEnDevolucion", SummaryFunc.Sum, "GHClienteProveedor", SummaryRunning.Group, SummaryType.SubTotal);
 
-                LibReport.ConfigGroupHeader(this, "GHMoneda", "Moneda", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+                LibReport.ConfigGroupHeader(this, "GHMoneda", "Moneda", GroupKeepTogether.FirstDetail, RepeatStyle.OnPageIncludeNoDetail, true, NewPage.None);
                 LibReport.ConfigFieldStr(this, "txtMonedaGF", string.Empty, "MonedaReporte");
                 LibReport.ConfigSummaryField(this, "txtMontoAnuladoXMoneda", "MontoAnulado", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtMontoTotalXMoneda", "MontoTotal", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
