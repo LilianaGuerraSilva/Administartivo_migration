@@ -2553,8 +2553,8 @@ unBancoPM = (Bco_0102 "0102 Banco de Venezuela S.A. Banco Universal", Bco_0104 "
 //    @PrimaryKey=Descripcion
 //}
 
-{@S}Anticipo = Record //Multiarchivo=Compania,Male
-	ConsecutivoCompania	: LongInt;//o,HIDE
+{@S}Anticipo = Record //Multiarchivo=Compania,"Anticipo",Male,Componente=CAnticipo, Esquema=Adm, EsquemaBD=dbo,interop,GenerateRptConfigurar,GenerateFrmInforme, GENERATE
+	ConsecutivoCompania : LongInt;//o,HIDE
 	ConsecutivoAnticipo	: LongInt;//u,o,a,sugestconsecutive,HIDE
 	Status 			: unStatusAnticipo;//g,search
 	Tipo				: unTipoDeAnticipo;//g
@@ -2632,7 +2632,7 @@ unBancoPM = (Bco_0102 "0102 Banco de Venezuela S.A. Banco Universal", Bco_0104 "
 	@PrimaryKey=ConsecutivoCompania,Consecutivo
  }
 
-{@S}CajaApertura = Record //Multiarchivo=Compania, "Caja Apertura", Componente=Venta, Esquema=Adm, EsquemaBD=Adm,GenerateRptConfigurar,GenerateFrmInforme, GENERATE
+{@S}CajaApertura = Record //Multiarchivo=Compania, "Caja Apertura", Componente=Venta, Esquema=Adm, EsquemaBD=Adm,GenerateRptConfigurar,GenerateFrmInforme
 	ConsecutivoCompania	: LongInt;//o,HIDE
 	Consecutivo   		: LongInt;//u,o,a,sugestconsecutive
 	ConsecutivoCaja     : Long;//Hide,=Caja.ConsecutivoCaja
@@ -4581,4 +4581,23 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	MontoRecibidoML	: decimal;//"Monto Recibido en Bs."
 	MontoRecibidoME	: decimal;//"Monto Recibido en $."
 	MontoARegistrar	: decimal;//"Monto a Registrar en $."
+}
+
+{@R Anticipo}AnticipoPorProveedorOCliente = Reporte	//Multiarchivo=Compania,"Anticipos",Componente=CAnticipo,Esquema=Adm,EsquemaBD=Dbo,Generate
+	Moneda			: Section;//"Moneda"
+	NombreDeLaMoneda	: Str80;//"Moneda del grupo"
+	{EndSeccion}	
+	CodigoClienteProveedor	: Section;//"Código"
+	ClienteProveedor		: Str160;//"ClienteProveedor"
+	Estatus			: unStatusAnticipo;//"Estatus"
+	{EndSeccion}		
+	Fecha			: Date;//"Fecha"
+	Numero			: str20;"Número"
+	NumeroCheque	:str15;//"Número de Cheque"
+	MontoAnulado	:decimal;//"Monto Anulado"
+	MontoTotal		:decimal;//"Monto Total"
+	MontoUsado		:decimal;//"Monto Usado"
+	MontoDevuelto	:decimal;//"Monto Devuelto"
+	DifDevolucion	:decimal;//"Diferencia en Devolución"	
+}
 }

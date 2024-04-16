@@ -17,7 +17,7 @@ using Galac.Adm.Ccl.CAnticipo;
 using Galac.Adm.Ccl.Venta;
 
 namespace Galac.Adm.Dal.CAnticipo {
-    public class clsAnticipoDat: LibData, ILibDataComponentWithSearch<IList<Anticipo>, IList<Anticipo>> {
+    public class clsAnticipoDat: LibData, ILibDataComponentWithSearch<IList<Anticipo>, IList<Anticipo>>, ILibDataRpt {
         #region Variables
         Anticipo _CurrentRecord;
         #endregion //Variables
@@ -587,6 +587,16 @@ namespace Galac.Adm.Dal.CAnticipo {
         
 
         #endregion //Miembros de ILibDataFKSearch
+		 #region //Miembros de ILibDataRpt
+
+        System.Data.DataTable ILibDataRpt.GetDt(string valSqlStringCommand, int valCmdTimeout) {
+            return new LibDataReport().GetDataTableForReport(valSqlStringCommand, valCmdTimeout);
+        }
+
+        System.Data.DataTable ILibDataRpt.GetDt(string valSpName, StringBuilder valXmlParamsExpression, int valCmdTimeout) {
+            return new LibDataReport().GetDataTableForReport(valSpName, valXmlParamsExpression, valCmdTimeout);
+        }
+        #endregion ////Miembros de ILibDataRpt
         #endregion //Metodos Generados
 
 
