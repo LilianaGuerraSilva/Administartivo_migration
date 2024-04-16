@@ -94,7 +94,7 @@ namespace Galac.Adm.Rpt.CAnticipo {
                     LibReport.ConfigLabel(this, "lblTotalStatus", "Total por Status");
                     LibReport.ConfigGroupHeader(this, "GHStatus", "StatusStr", GroupKeepTogether.FirstDetail, RepeatStyle.OnPageIncludeNoDetail, true, NewPage.None);
                     LibReport.ConfigFieldStr(this, "txtStatusGF", string.Empty, "StatusStr");
-                    LibReport.ConfigGroupHeader(this, "GHClienteProveedor", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPageIncludeNoDetail, true, NewPage.None);
+                    LibReport.ConfigGroupHeader(this, "GHClienteProveedor", "CodigoClienteProveedor", GroupKeepTogether.FirstDetail, RepeatStyle.OnPageIncludeNoDetail, true, NewPage.None);
                     LibReport.ConfigFieldStr(this, "txtCodigoGF", string.Empty, "CodigoClienteProveedor");
                 }
 
