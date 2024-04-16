@@ -2554,7 +2554,7 @@ unBancoPM = (Bco_0102 "0102 Banco de Venezuela S.A. Banco Universal", Bco_0104 "
 //}
 
 {@S}Anticipo = Record //Multiarchivo=Compania,"Anticipo",Male,Componente=CAnticipo, Esquema=Adm, EsquemaBD=dbo,interop,GenerateRptConfigurar,GenerateFrmInforme, GENERATE
-	ConsecutivoCompania : LongInt;//
+	ConsecutivoCompania : LongInt;//o,HIDE
 	ConsecutivoAnticipo	: LongInt;//u,o,a,sugestconsecutive,HIDE
 	Status 			: unStatusAnticipo;//g,search
 	Tipo				: unTipoDeAnticipo;//g
