@@ -35,6 +35,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.txtMontoUsado = new DataDynamics.ActiveReports.TextBox();
             this.txtMonedaDocumento = new DataDynamics.ActiveReports.TextBox();
             this.txtCambio = new DataDynamics.ActiveReports.TextBox();
+            this.txtNumeroCheque = new DataDynamics.ActiveReports.TextBox();
             this.PageHeader = new DataDynamics.ActiveReports.PageHeader();
             this.lblTituloDelReporte = new DataDynamics.ActiveReports.Label();
             this.txtCompania = new DataDynamics.ActiveReports.TextBox();
@@ -88,6 +89,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.txtTotalMontoAnulado = new DataDynamics.ActiveReports.TextBox();
             this.txtStatusGF = new DataDynamics.ActiveReports.TextBox();
             this.GHTitulos = new DataDynamics.ActiveReports.GroupHeader();
+            this.lblNumeroCheque = new DataDynamics.ActiveReports.Label();
             this.GFTitulos = new DataDynamics.ActiveReports.GroupFooter();
             ((System.ComponentModel.ISupportInitialize)(this.txtFecha)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNumero)).BeginInit();
@@ -98,6 +100,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoUsado)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMonedaDocumento)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCambio)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNumeroCheque)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTituloDelReporte)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCompania)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaYHoraDeEmision)).BeginInit();
@@ -142,6 +145,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalDiferenciaDevol)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoAnulado)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtStatusGF)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblNumeroCheque)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
@@ -156,7 +160,8 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.txtMontoAnulado,
             this.txtMontoUsado,
             this.txtMonedaDocumento,
-            this.txtCambio});
+            this.txtCambio,
+            this.txtNumeroCheque});
             this.Detail.Height = 0.15625F;
             this.Detail.KeepTogether = true;
             this.Detail.Name = "Detail";
@@ -169,17 +174,17 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.txtFecha.Style = "font-size: 8pt";
             this.txtFecha.Text = "txtFecha";
             this.txtFecha.Top = 0F;
-            this.txtFecha.Width = 0.545F;
+            this.txtFecha.Width = 0.65F;
             // 
             // txtNumero
             // 
             this.txtNumero.Height = 0.15625F;
-            this.txtNumero.Left = 0.545F;
+            this.txtNumero.Left = 0.65F;
             this.txtNumero.Name = "txtNumero";
             this.txtNumero.Style = "font-size: 8pt";
             this.txtNumero.Text = "txtNumero";
             this.txtNumero.Top = 0F;
-            this.txtNumero.Width = 1F;
+            this.txtNumero.Width = 0.895F;
             // 
             // txtMontoTotal
             // 
@@ -199,27 +204,27 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.txtMontoDevuelto.Style = "font-size: 8pt; text-align: right";
             this.txtMontoDevuelto.Text = "txtMontoDevuelto";
             this.txtMontoDevuelto.Top = 0F;
-            this.txtMontoDevuelto.Width = 1.25F;
+            this.txtMontoDevuelto.Width = 1.198F;
             // 
             // txtDiferenciaDevolucion
             // 
             this.txtDiferenciaDevolucion.Height = 0.156F;
-            this.txtDiferenciaDevolucion.Left = 8.75F;
+            this.txtDiferenciaDevolucion.Left = 8.698F;
             this.txtDiferenciaDevolucion.Name = "txtDiferenciaDevolucion";
             this.txtDiferenciaDevolucion.Style = "font-size: 8pt; text-align: right";
             this.txtDiferenciaDevolucion.Text = "txtDiferenciaDevolucion";
             this.txtDiferenciaDevolucion.Top = 0F;
-            this.txtDiferenciaDevolucion.Width = 1.25F;
+            this.txtDiferenciaDevolucion.Width = 1.302F;
             // 
             // txtMontoAnulado
             // 
             this.txtMontoAnulado.Height = 0.156F;
-            this.txtMontoAnulado.Left = 3.75F;
+            this.txtMontoAnulado.Left = 3.781F;
             this.txtMontoAnulado.Name = "txtMontoAnulado";
             this.txtMontoAnulado.Style = "font-size: 8pt; text-align: right";
             this.txtMontoAnulado.Text = "txtMontoAnulado";
             this.txtMontoAnulado.Top = 0F;
-            this.txtMontoAnulado.Width = 1.25F;
+            this.txtMontoAnulado.Width = 1.219F;
             // 
             // txtMontoUsado
             // 
@@ -235,23 +240,35 @@ namespace Galac.Adm.Rpt.CAnticipo
             // 
             this.txtMonedaDocumento.CanGrow = false;
             this.txtMonedaDocumento.Height = 0.15625F;
-            this.txtMonedaDocumento.Left = 1.545F;
+            this.txtMonedaDocumento.Left = 2.458F;
             this.txtMonedaDocumento.MultiLine = false;
             this.txtMonedaDocumento.Name = "txtMonedaDocumento";
             this.txtMonedaDocumento.Style = "font-size: 8pt";
             this.txtMonedaDocumento.Text = "txtMonedaDocumento";
             this.txtMonedaDocumento.Top = 0F;
-            this.txtMonedaDocumento.Width = 1.58F;
+            this.txtMonedaDocumento.Width = 0.698F;
             // 
             // txtCambio
             // 
             this.txtCambio.Height = 0.15625F;
-            this.txtCambio.Left = 3.125F;
+            this.txtCambio.Left = 3.156F;
             this.txtCambio.Name = "txtCambio";
             this.txtCambio.Style = "font-size: 8pt; text-align: right";
             this.txtCambio.Text = "txtCambio";
             this.txtCambio.Top = 0F;
             this.txtCambio.Width = 0.625F;
+            // 
+            // txtNumeroCheque
+            // 
+            this.txtNumeroCheque.CanGrow = false;
+            this.txtNumeroCheque.Height = 0.15625F;
+            this.txtNumeroCheque.Left = 1.545F;
+            this.txtNumeroCheque.MultiLine = false;
+            this.txtNumeroCheque.Name = "txtNumeroCheque";
+            this.txtNumeroCheque.Style = "font-size: 8pt";
+            this.txtNumeroCheque.Text = "txtNumeroCheque";
+            this.txtNumeroCheque.Top = 0F;
+            this.txtNumeroCheque.Width = 0.9130002F;
             // 
             // PageHeader
             // 
@@ -358,17 +375,17 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.lblMoneda.Style = "font-size: 8.25pt; font-weight: bold";
             this.lblMoneda.Text = "Moneda";
             this.lblMoneda.Top = 0F;
-            this.lblMoneda.Width = 0.545F;
+            this.lblMoneda.Width = 0.65F;
             // 
             // txtMoneda
             // 
             this.txtMoneda.Height = 0.15625F;
-            this.txtMoneda.Left = 0.545F;
+            this.txtMoneda.Left = 0.65F;
             this.txtMoneda.Name = "txtMoneda";
             this.txtMoneda.Style = "font-size: 8pt";
             this.txtMoneda.Text = "txtMoneda";
             this.txtMoneda.Top = 0F;
-            this.txtMoneda.Width = 9.455F;
+            this.txtMoneda.Width = 9.35F;
             // 
             // GFMoneda
             // 
@@ -392,7 +409,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.lblTotalPoxMoneda.HyperLink = null;
             this.lblTotalPoxMoneda.Left = 0F;
             this.lblTotalPoxMoneda.Name = "lblTotalPoxMoneda";
-            this.lblTotalPoxMoneda.Style = "font-size: 8.25pt; font-weight: bold; text-align: right";
+            this.lblTotalPoxMoneda.Style = "font-size: 8.25pt; font-weight: bold; text-align: left";
             this.lblTotalPoxMoneda.Text = "Total por Moneda";
             this.lblTotalPoxMoneda.Top = 0F;
             this.lblTotalPoxMoneda.Width = 1.545F;
@@ -446,7 +463,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.txtTotalMtoDevtoXMoneda.SummaryType = DataDynamics.ActiveReports.SummaryType.SubTotal;
             this.txtTotalMtoDevtoXMoneda.Text = "txtTotalmtoDevtoXMoneda";
             this.txtTotalMtoDevtoXMoneda.Top = 0F;
-            this.txtTotalMtoDevtoXMoneda.Width = 1.25F;
+            this.txtTotalMtoDevtoXMoneda.Width = 1.198F;
             // 
             // txtTotalDifDevolucionXMoneda
             // 
@@ -455,7 +472,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.txtTotalDifDevolucionXMoneda.Border.TopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.txtTotalDifDevolucionXMoneda.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtTotalDifDevolucionXMoneda.Height = 0.156F;
-            this.txtTotalDifDevolucionXMoneda.Left = 8.75F;
+            this.txtTotalDifDevolucionXMoneda.Left = 8.698F;
             this.txtTotalDifDevolucionXMoneda.Name = "txtTotalDifDevolucionXMoneda";
             this.txtTotalDifDevolucionXMoneda.Style = "font-size: 8pt; text-align: right";
             this.txtTotalDifDevolucionXMoneda.SummaryGroup = "GHMoneda";
@@ -463,7 +480,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.txtTotalDifDevolucionXMoneda.SummaryType = DataDynamics.ActiveReports.SummaryType.SubTotal;
             this.txtTotalDifDevolucionXMoneda.Text = "txtTotalDifDevolucionXMoneda";
             this.txtTotalDifDevolucionXMoneda.Top = 0F;
-            this.txtTotalDifDevolucionXMoneda.Width = 1.25F;
+            this.txtTotalDifDevolucionXMoneda.Width = 1.302F;
             // 
             // txtMontoAnuladoXMoneda
             // 
@@ -472,7 +489,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.txtMontoAnuladoXMoneda.Border.TopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.txtMontoAnuladoXMoneda.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtMontoAnuladoXMoneda.Height = 0.156F;
-            this.txtMontoAnuladoXMoneda.Left = 3.75F;
+            this.txtMontoAnuladoXMoneda.Left = 3.781F;
             this.txtMontoAnuladoXMoneda.Name = "txtMontoAnuladoXMoneda";
             this.txtMontoAnuladoXMoneda.Style = "font-size: 8pt; text-align: right";
             this.txtMontoAnuladoXMoneda.SummaryGroup = "GHMoneda";
@@ -480,7 +497,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.txtMontoAnuladoXMoneda.SummaryType = DataDynamics.ActiveReports.SummaryType.SubTotal;
             this.txtMontoAnuladoXMoneda.Text = "txtMontoAnuladoXMoneda";
             this.txtMontoAnuladoXMoneda.Top = 0F;
-            this.txtMontoAnuladoXMoneda.Width = 1.25F;
+            this.txtMontoAnuladoXMoneda.Width = 1.219F;
             // 
             // txtMonedaGF
             // 
@@ -493,7 +510,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.txtMonedaGF.Style = "font-size: 8pt";
             this.txtMonedaGF.Text = "txtMonedaGF";
             this.txtMonedaGF.Top = 0F;
-            this.txtMonedaGF.Width = 2.205F;
+            this.txtMonedaGF.Width = 2.236F;
             // 
             // GHClienteProveedor
             // 
@@ -515,29 +532,29 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.lblClienteProveedor.Style = "font-size: 8.25pt; font-weight: bold; text-align: left";
             this.lblClienteProveedor.Text = "lblClienteProveedor";
             this.lblClienteProveedor.Top = 0F;
-            this.lblClienteProveedor.Width = 0.545F;
+            this.lblClienteProveedor.Width = 0.65F;
             // 
             // txtNombre
             // 
             this.txtNombre.CanShrink = true;
             this.txtNombre.Height = 0.15625F;
-            this.txtNombre.Left = 3.125F;
+            this.txtNombre.Left = 3.156F;
             this.txtNombre.MultiLine = false;
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Style = "font-size: 8pt";
             this.txtNombre.Text = "txtNombre";
             this.txtNombre.Top = 0F;
-            this.txtNombre.Width = 6.87475F;
+            this.txtNombre.Width = 6.84375F;
             // 
             // txtCodigo
             // 
             this.txtCodigo.Height = 0.15625F;
-            this.txtCodigo.Left = 0.545F;
+            this.txtCodigo.Left = 0.65F;
             this.txtCodigo.Name = "txtCodigo";
             this.txtCodigo.Style = "font-size: 8pt";
             this.txtCodigo.Text = "txtCodigo";
             this.txtCodigo.Top = 0F;
-            this.txtCodigo.Width = 2.58F;
+            this.txtCodigo.Width = 2.506F;
             // 
             // GFClienteProveedor
             // 
@@ -549,7 +566,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.txtMontoAnuladoClienteProveedor,
             this.txtMontoUsadoClienteProveedor,
             this.txtCodigoGF});
-            this.GFClienteProveedor.Height = 0.1736111F;
+            this.GFClienteProveedor.Height = 0.174F;
             this.GFClienteProveedor.Name = "GFClienteProveedor";
             // 
             // lblTotalClienteProveedor
@@ -559,7 +576,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.lblTotalClienteProveedor.HyperLink = null;
             this.lblTotalClienteProveedor.Left = 0F;
             this.lblTotalClienteProveedor.Name = "lblTotalClienteProveedor";
-            this.lblTotalClienteProveedor.Style = "font-size: 8.25pt; font-weight: bold; text-align: right";
+            this.lblTotalClienteProveedor.Style = "font-size: 8.25pt; font-weight: bold; text-align: left";
             this.lblTotalClienteProveedor.Text = "lblTotalClienteProveedor";
             this.lblTotalClienteProveedor.Top = 0F;
             this.lblTotalClienteProveedor.Width = 1.545F;
@@ -594,7 +611,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.txtMontoDevClienteProveedor.SummaryType = DataDynamics.ActiveReports.SummaryType.SubTotal;
             this.txtMontoDevClienteProveedor.Text = "txtMontoDevClienteProveedor";
             this.txtMontoDevClienteProveedor.Top = 0F;
-            this.txtMontoDevClienteProveedor.Width = 1.25F;
+            this.txtMontoDevClienteProveedor.Width = 1.198F;
             // 
             // txtMontoDifClienteProveedor
             // 
@@ -602,7 +619,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.txtMontoDifClienteProveedor.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtMontoDifClienteProveedor.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtMontoDifClienteProveedor.Height = 0.156F;
-            this.txtMontoDifClienteProveedor.Left = 8.75F;
+            this.txtMontoDifClienteProveedor.Left = 8.698F;
             this.txtMontoDifClienteProveedor.Name = "txtMontoDifClienteProveedor";
             this.txtMontoDifClienteProveedor.Style = "font-size: 8pt; text-align: right";
             this.txtMontoDifClienteProveedor.SummaryGroup = "GHClienteProveedor";
@@ -610,7 +627,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.txtMontoDifClienteProveedor.SummaryType = DataDynamics.ActiveReports.SummaryType.SubTotal;
             this.txtMontoDifClienteProveedor.Text = "txtMontoDifClienteProveedor";
             this.txtMontoDifClienteProveedor.Top = 0F;
-            this.txtMontoDifClienteProveedor.Width = 1.25F;
+            this.txtMontoDifClienteProveedor.Width = 1.302F;
             // 
             // txtMontoAnuladoClienteProveedor
             // 
@@ -618,7 +635,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.txtMontoAnuladoClienteProveedor.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtMontoAnuladoClienteProveedor.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtMontoAnuladoClienteProveedor.Height = 0.156F;
-            this.txtMontoAnuladoClienteProveedor.Left = 3.75F;
+            this.txtMontoAnuladoClienteProveedor.Left = 3.781F;
             this.txtMontoAnuladoClienteProveedor.Name = "txtMontoAnuladoClienteProveedor";
             this.txtMontoAnuladoClienteProveedor.Style = "font-size: 8pt; text-align: right";
             this.txtMontoAnuladoClienteProveedor.SummaryGroup = "GHClienteProveedor";
@@ -626,7 +643,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.txtMontoAnuladoClienteProveedor.SummaryType = DataDynamics.ActiveReports.SummaryType.SubTotal;
             this.txtMontoAnuladoClienteProveedor.Text = "txtMontoAnuladoClienteProveedor";
             this.txtMontoAnuladoClienteProveedor.Top = 0F;
-            this.txtMontoAnuladoClienteProveedor.Width = 1.25F;
+            this.txtMontoAnuladoClienteProveedor.Width = 1.219F;
             // 
             // txtMontoUsadoClienteProveedor
             // 
@@ -655,7 +672,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.txtCodigoGF.Style = "font-size: 8pt";
             this.txtCodigoGF.Text = "txtCodigoGF";
             this.txtCodigoGF.Top = 0F;
-            this.txtCodigoGF.Width = 2.205F;
+            this.txtCodigoGF.Width = 2.236F;
             // 
             // GHStatus
             // 
@@ -677,29 +694,29 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.lblStatus.Style = "font-size: 8.25pt; font-weight: bold";
             this.lblStatus.Text = "lblStatus";
             this.lblStatus.Top = 0F;
-            this.lblStatus.Width = 0.545F;
+            this.lblStatus.Width = 0.65F;
             // 
             // txtStatus
             // 
             this.txtStatus.Height = 0.15625F;
-            this.txtStatus.Left = 0.545F;
+            this.txtStatus.Left = 0.65F;
             this.txtStatus.Name = "txtStatus";
             this.txtStatus.Style = "font-size: 8pt";
             this.txtStatus.Text = "txtStatus";
             this.txtStatus.Top = 0F;
-            this.txtStatus.Width = 2.58F;
+            this.txtStatus.Width = 2.506F;
             // 
             // txtNombre2
             // 
             this.txtNombre2.CanShrink = true;
             this.txtNombre2.Height = 0.15625F;
-            this.txtNombre2.Left = 3.125F;
+            this.txtNombre2.Left = 3.156F;
             this.txtNombre2.MultiLine = false;
             this.txtNombre2.Name = "txtNombre2";
             this.txtNombre2.Style = "font-size: 8pt";
             this.txtNombre2.Text = "txtNombre2";
             this.txtNombre2.Top = 0F;
-            this.txtNombre2.Width = 6.874751F;
+            this.txtNombre2.Width = 6.843751F;
             // 
             // lblFecha
             // 
@@ -712,7 +729,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.lblFecha.Style = "font-size: 8pt; font-weight: bold; text-align: left";
             this.lblFecha.Text = "Fecha";
             this.lblFecha.Top = 0F;
-            this.lblFecha.Width = 0.545F;
+            this.lblFecha.Width = 0.65F;
             // 
             // lblNumero
             // 
@@ -720,12 +737,12 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.lblNumero.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblNumero.Height = 0.15625F;
             this.lblNumero.HyperLink = null;
-            this.lblNumero.Left = 0.545F;
+            this.lblNumero.Left = 0.65F;
             this.lblNumero.Name = "lblNumero";
             this.lblNumero.Style = "font-size: 8pt; font-weight: bold; text-align: left";
             this.lblNumero.Text = "Número";
             this.lblNumero.Top = 0F;
-            this.lblNumero.Width = 1F;
+            this.lblNumero.Width = 0.895F;
             // 
             // lblMontototal
             // 
@@ -764,7 +781,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.lblMontoDevuelto.Style = "font-size: 8pt; font-weight: bold; text-align: right";
             this.lblMontoDevuelto.Text = "Monto Devuelto";
             this.lblMontoDevuelto.Top = 0F;
-            this.lblMontoDevuelto.Width = 1.25F;
+            this.lblMontoDevuelto.Width = 1.198F;
             // 
             // lblDiferenciaDevulucion
             // 
@@ -772,12 +789,12 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.lblDiferenciaDevulucion.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblDiferenciaDevulucion.Height = 0.156F;
             this.lblDiferenciaDevulucion.HyperLink = null;
-            this.lblDiferenciaDevulucion.Left = 8.75F;
+            this.lblDiferenciaDevulucion.Left = 8.698F;
             this.lblDiferenciaDevulucion.Name = "lblDiferenciaDevulucion";
             this.lblDiferenciaDevulucion.Style = "font-size: 8pt; font-weight: bold; text-align: right";
             this.lblDiferenciaDevulucion.Text = "Diferencia Devolución";
             this.lblDiferenciaDevulucion.Top = 0F;
-            this.lblDiferenciaDevulucion.Width = 1.25F;
+            this.lblDiferenciaDevulucion.Width = 1.302F;
             // 
             // lblMontoAnulado
             // 
@@ -785,12 +802,12 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.lblMontoAnulado.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblMontoAnulado.Height = 0.156F;
             this.lblMontoAnulado.HyperLink = null;
-            this.lblMontoAnulado.Left = 3.75F;
+            this.lblMontoAnulado.Left = 3.781F;
             this.lblMontoAnulado.Name = "lblMontoAnulado";
             this.lblMontoAnulado.Style = "font-size: 8pt; font-weight: bold; text-align: right";
             this.lblMontoAnulado.Text = "Monto Anulado";
             this.lblMontoAnulado.Top = 0F;
-            this.lblMontoAnulado.Width = 1.25F;
+            this.lblMontoAnulado.Width = 1.219F;
             // 
             // lblMonedaDoc
             // 
@@ -798,12 +815,12 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.lblMonedaDoc.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblMonedaDoc.Height = 0.15625F;
             this.lblMonedaDoc.HyperLink = null;
-            this.lblMonedaDoc.Left = 1.545F;
+            this.lblMonedaDoc.Left = 2.458F;
             this.lblMonedaDoc.Name = "lblMonedaDoc";
             this.lblMonedaDoc.Style = "font-size: 8pt; font-weight: bold; text-align: left";
             this.lblMonedaDoc.Text = "Moneda";
             this.lblMonedaDoc.Top = 0F;
-            this.lblMonedaDoc.Width = 1.58F;
+            this.lblMonedaDoc.Width = 0.6979997F;
             // 
             // lblCambio
             // 
@@ -811,7 +828,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.lblCambio.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblCambio.Height = 0.15625F;
             this.lblCambio.HyperLink = null;
-            this.lblCambio.Left = 3.125F;
+            this.lblCambio.Left = 3.156F;
             this.lblCambio.Name = "lblCambio";
             this.lblCambio.Style = "font-size: 8pt; font-weight: bold; text-align: right";
             this.lblCambio.Text = "Cambio";
@@ -838,7 +855,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.lblTotalStatus.HyperLink = null;
             this.lblTotalStatus.Left = 0F;
             this.lblTotalStatus.Name = "lblTotalStatus";
-            this.lblTotalStatus.Style = "font-size: 8.25pt; font-weight: bold; text-align: right";
+            this.lblTotalStatus.Style = "font-size: 8.25pt; font-weight: bold; text-align: left";
             this.lblTotalStatus.Text = "lblTotalStatus";
             this.lblTotalStatus.Top = 0F;
             this.lblTotalStatus.Width = 1.545F;
@@ -883,13 +900,13 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.txtTotalMontoDev.SummaryType = DataDynamics.ActiveReports.SummaryType.SubTotal;
             this.txtTotalMontoDev.Text = "txtTotalMontoDev";
             this.txtTotalMontoDev.Top = 0F;
-            this.txtTotalMontoDev.Width = 1.25F;
+            this.txtTotalMontoDev.Width = 1.198F;
             // 
             // txtTotalDiferenciaDevol
             // 
             this.txtTotalDiferenciaDevol.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtTotalDiferenciaDevol.Height = 0.156F;
-            this.txtTotalDiferenciaDevol.Left = 8.75F;
+            this.txtTotalDiferenciaDevol.Left = 8.698F;
             this.txtTotalDiferenciaDevol.Name = "txtTotalDiferenciaDevol";
             this.txtTotalDiferenciaDevol.Style = "font-size: 8pt; text-align: right";
             this.txtTotalDiferenciaDevol.SummaryGroup = "GHStatus";
@@ -897,13 +914,13 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.txtTotalDiferenciaDevol.SummaryType = DataDynamics.ActiveReports.SummaryType.SubTotal;
             this.txtTotalDiferenciaDevol.Text = "txtTotalDiferenciaDevol";
             this.txtTotalDiferenciaDevol.Top = 0F;
-            this.txtTotalDiferenciaDevol.Width = 1.25F;
+            this.txtTotalDiferenciaDevol.Width = 1.302F;
             // 
             // txtTotalMontoAnulado
             // 
             this.txtTotalMontoAnulado.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtTotalMontoAnulado.Height = 0.156F;
-            this.txtTotalMontoAnulado.Left = 3.75F;
+            this.txtTotalMontoAnulado.Left = 3.781F;
             this.txtTotalMontoAnulado.Name = "txtTotalMontoAnulado";
             this.txtTotalMontoAnulado.Style = "font-size: 8pt; text-align: right";
             this.txtTotalMontoAnulado.SummaryGroup = "GHStatus";
@@ -911,7 +928,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.txtTotalMontoAnulado.SummaryType = DataDynamics.ActiveReports.SummaryType.SubTotal;
             this.txtTotalMontoAnulado.Text = "txtTotalMontoAnulado";
             this.txtTotalMontoAnulado.Top = 0F;
-            this.txtTotalMontoAnulado.Width = 1.25F;
+            this.txtTotalMontoAnulado.Width = 1.219F;
             // 
             // txtStatusGF
             // 
@@ -924,7 +941,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.txtStatusGF.Style = "font-size: 8pt";
             this.txtStatusGF.Text = "txtStatusGF";
             this.txtStatusGF.Top = 0F;
-            this.txtStatusGF.Width = 2.205F;
+            this.txtStatusGF.Width = 2.236F;
             // 
             // GHTitulos
             // 
@@ -937,10 +954,24 @@ namespace Galac.Adm.Rpt.CAnticipo
             this.lblDiferenciaDevulucion,
             this.lblMontoAnulado,
             this.lblMonedaDoc,
-            this.lblCambio});
+            this.lblCambio,
+            this.lblNumeroCheque});
             this.GHTitulos.Height = 0.1979167F;
             this.GHTitulos.Name = "GHTitulos";
             this.GHTitulos.RepeatStyle = DataDynamics.ActiveReports.RepeatStyle.OnPageIncludeNoDetail;
+            // 
+            // lblNumeroCheque
+            // 
+            this.lblNumeroCheque.Border.BottomColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblNumeroCheque.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.lblNumeroCheque.Height = 0.15625F;
+            this.lblNumeroCheque.HyperLink = null;
+            this.lblNumeroCheque.Left = 1.545F;
+            this.lblNumeroCheque.Name = "lblNumeroCheque";
+            this.lblNumeroCheque.Style = "font-size: 8pt; font-weight: bold; text-align: left";
+            this.lblNumeroCheque.Text = "Cheque";
+            this.lblNumeroCheque.Top = 0F;
+            this.lblNumeroCheque.Width = 0.9130002F;
             // 
             // GFTitulos
             // 
@@ -981,6 +1012,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoUsado)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMonedaDocumento)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCambio)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNumeroCheque)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTituloDelReporte)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCompania)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaYHoraDeEmision)).EndInit();
@@ -1025,6 +1057,7 @@ namespace Galac.Adm.Rpt.CAnticipo
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalDiferenciaDevol)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoAnulado)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtStatusGF)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblNumeroCheque)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -1094,5 +1127,7 @@ namespace Galac.Adm.Rpt.CAnticipo
         private DataDynamics.ActiveReports.GroupHeader GHTitulos;
         private DataDynamics.ActiveReports.GroupFooter GFTitulos;
         private DataDynamics.ActiveReports.TextBox txtNombre2;
+        private DataDynamics.ActiveReports.TextBox txtNumeroCheque;
+        private DataDynamics.ActiveReports.Label lblNumeroCheque;
     }
 }
