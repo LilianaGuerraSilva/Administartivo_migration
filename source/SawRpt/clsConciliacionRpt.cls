@@ -82,11 +82,16 @@ Public Function fConfiguraReporteDatosResumidos(ByRef refRpt As DDActiveReports2
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCuenta", "", "Codigo"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNumeroCuenta", "", "NumeroCuenta"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNombreCuenta", "", "NombreCuenta"
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtMoneda", "", "NombreDeLaMoneda"
          gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHConciliacion", "NroConciliacion", ddGrpFirstDetail, ddRepeatOnPage, True, ddNPNone
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtSaldoLibro", "", "SaldoFinal"
          gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtEgresos", "Egreso", eSF_SUM, "GHConciliacion", eSR_GROUP, eST_SUB_TOTAL
          gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtIngresos", "Ingreso", eSF_SUM, "GHConciliacion", eSR_GROUP, eST_SUB_TOTAL
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtSaldoBanco", "", "SaldoEdoCuentaBancario"
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtSimboloMoneda1", "", "SimboloDeLaMoneda"
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtSimboloMoneda2", "", "SimboloDeLaMoneda"
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtSimboloMoneda3", "", "SimboloDeLaMoneda"
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtSimboloMoneda4", "", "SimboloDeLaMoneda"
          gUtilMargins.sAsignarMargenesGenerales refRpt, ddOPortrait, fNombreFileDeImpresionDelReporte(eConRpt_DATOS_RESUMIDOS)
          gUtilMargins.sAsignarMargenesGenerales refRpt
          Call refRpt.AddNamedItem("gUtilReports", gUtilReports)
