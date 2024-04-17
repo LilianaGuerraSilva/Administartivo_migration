@@ -358,7 +358,7 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
         ValidationResult CodigoClienteProveedorlValidating() {
             ValidationResult vResult = ValidationResult.Success;
             if (LibString.IsNullOrEmpty(CodigoClienteProveedor) && CantidadAImprimirClienteProveedor == eCantidadAImprimir.One) {
-                vResult = new ValidationResult("El " + (EsCliente ? "cliente" : "proveedor") + " es obligatorio");
+                vResult = new ValidationResult("El " + (EsCliente ? "Cliente" : "Proveedor") + " es obligatorio");
             }
             return vResult;
         }
