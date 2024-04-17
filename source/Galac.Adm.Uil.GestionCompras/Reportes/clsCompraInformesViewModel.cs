@@ -85,7 +85,8 @@ namespace Galac.Adm.Uil.GestionCompras.Reportes {
             vResult = new Galac.Adm.Rpt.GestionCompras.clsCompra(ePrintingDevice.Screen, ExportFileFormat, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
                 Worker = Manager,
                 ConsecutivoCompra = valConsecutivo,
-                NumeroDeOrdenDeCompra =valNumeroOrdeDeCompra
+                NumeroDeOrdenDeCompra =valNumeroOrdeDeCompra,
+                UseExternalRpx=true,
             };
             return vResult;
         }
