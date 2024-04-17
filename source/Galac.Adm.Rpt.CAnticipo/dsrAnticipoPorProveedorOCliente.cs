@@ -76,7 +76,7 @@ namespace Galac.Adm.Rpt.CAnticipo {
                         LibReport.ConfigLabel(this, "lblTotalStatus", "Total por Proveedor");
                         lblNumeroCheque.Visible = true;
                         txtNumeroCheque.Visible = true;
-                        LibReport.ConfigFieldStr(this, string.Empty ,"txtNumeroCheque", "NumeroCheque");
+                        LibReport.ConfigFieldStr(this, "txtNumeroCheque", string.Empty, "NumeroCheque");
                     }
                     LibReport.ConfigLabel(this, "lblTotalClienteProveedor", "Total por Estatus");
                     LibReport.ConfigGroupHeader(this, "GHClienteProveedor", "StatusStr", GroupKeepTogether.FirstDetail, RepeatStyle.OnPageIncludeNoDetail, true, NewPage.None);
@@ -107,7 +107,7 @@ namespace Galac.Adm.Rpt.CAnticipo {
                         LibReport.ConfigLabel(this, "lblTotalClienteProveedor", "Total por Proveedor");
                         lblNumeroCheque.Visible = true;
                         txtNumeroCheque.Visible = true;
-                        LibReport.ConfigFieldStr(this, string.Empty, "txtNumeroCheque", "NumeroCheque");
+                        LibReport.ConfigFieldStr(this, "txtNumeroCheque", string.Empty, "NumeroCheque");
                     }
                     LibReport.ConfigLabel(this, "lblTotalStatus", "Total por Estatus");
                     LibReport.ConfigGroupHeader(this, "GHStatus", "StatusStr", GroupKeepTogether.FirstDetail, RepeatStyle.OnPageIncludeNoDetail, true, NewPage.None);
