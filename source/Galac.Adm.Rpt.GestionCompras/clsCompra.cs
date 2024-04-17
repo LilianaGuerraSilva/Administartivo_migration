@@ -45,14 +45,6 @@ namespace Galac.Adm.Rpt.GestionCompras {
             vParams.Add("NombreCompania", AppMemoryInfo.GlobalValuesGetString("Compania", "Nombre"));
             vParams.Add("TituloInforme", vTitulo);
             vParams.Add("NumeroDeOrdenDeCompra", NumeroDeOrdenDeCompra);
-
-
-
-            #region Codigo Ejemplo
-            /* Codigo de Ejemplo
-                vParams.Add("FechaInicialYFinal", string.Format("{0} al {1}", LibConvert.ToStr(FechaDesde, "dd/MM/yyyy"), LibConvert.ToStr(FechaHasta, "dd/MM/yyyy")));
-            */
-            #endregion //Codigo Ejemplo
             return vParams;
         }
 
