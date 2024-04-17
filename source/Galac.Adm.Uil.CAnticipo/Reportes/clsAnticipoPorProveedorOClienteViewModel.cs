@@ -13,6 +13,8 @@ using Galac.Saw.Lib;
 using Galac.Saw.Uil.Cliente.ViewModel;
 using System.Collections.ObjectModel;
 using Galac.Adm.Uil.GestionCompras.ViewModel;
+using LibGalac.Aos.UI.Mvvm.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace Galac.Adm.Uil.CAnticipo.Reportes {
 
@@ -47,7 +49,15 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
         #region Propiedades
         public override string DisplayName {
             get {
-                return "Anticipos por " + (EsCliente ? "Cliente" : "Proveedor");
+                return NombreDelInformeSegunSujeto();
+            }
+        }
+
+        private string NombreDelInformeSegunSujeto() {
+            if (EsCliente) {
+                return "Anticipos Cobrados a Cliente";
+            } else {
+                return "Anticipos Pagados a Proveedor";
             }
         }
 
@@ -100,6 +110,7 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             }
         }
 
+         [LibCustomValidation("CodigoClienteProveedorlValidating")]
         public string CodigoClienteProveedor {
             get {
                 return _CodigoClientProveedor;
@@ -286,6 +297,10 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             OrdenadoPor = ListaOrdenarPor[0];
         }
 
+        protected override string ValidateProperty(string valColumnName) {
+            return base.ValidateProperty(valColumnName);
+        }
+
         private void ExecuteChooseCodigoClienteProveedorCommand(string valCodigo) {
             try {
                 if (valCodigo == null) {
@@ -319,7 +334,7 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, DisplayName);
             }
-        }
+        }        
 
         public bool IsVisibleTipoTasaDeCambio { get { return MonedaDelInforme == eMonedaDelInformeMM.EnBolivares || MonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa; } }
 		public bool IsVisibleMonedasActivas { get { return MonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa; } }
@@ -339,6 +354,14 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
 				Moneda = ListaMonedasActivas[0];
 			}
 		}
+
+        ValidationResult CodigoClienteProveedorlValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if (LibString.IsNullOrEmpty(CodigoClienteProveedor) && CantidadAImprimirClienteProveedor == eCantidadAImprimir.One) {
+                vResult = new ValidationResult("El " + (EsCliente ? "Cliente" : "Proveedor") + " es obligatorio");
+            }
+            return vResult;
+        }
         #endregion //Metodos Generados
     } //End of class clsAnticipoPorProveedorOClienteViewModel
 
