@@ -54,14 +54,14 @@ namespace Galac.Adm.Rpt.CAnticipo {
                 LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "MonedaReporte");
 
                 if (valOrdenarPorStatus){//Cuando es Ordenar x Status, se inverte el orden de los grupos GHClienteProveedor y GHStatus, con sus respectivos GF. Como no se puede hacer eso en tiempo de ejecución, se hace a través de los campos.
-                    LibReport.ConfigLabel(this, "lblClienteProveedor", "Status");
+                    LibReport.ConfigLabel(this, "lblClienteProveedor", "Estatus");
                     LibReport.ConfigFieldStr(this, "txtCodigo", string.Empty, "StatusStr");
                     LibReport.ConfigFieldStr(this, "txtStatus", string.Empty, "CodigoClienteProveedor");
                     LibReport.ConfigFieldStr(this, "txtNombre2", string.Empty, "NombreClienteProveedor");
                     txtCodigo.Width += txtNombre.Width;
                     txtNombre.Visible = false;
                     if (valCliente){
-                        LibReport.ConfigLabel(this, "lblTituloDelReporte", ReportTitle() + " Cobrados por Cliente");
+                        LibReport.ConfigLabel(this, "lblTituloDelReporte", ReportTitle() + " Cobrados a Cliente");
                         LibReport.ConfigLabel(this, "lblStatus", "Cliente");
                         LibReport.ConfigLabel(this, "lblTotalStatus", "Total por Cliente");
                     }else{
@@ -69,7 +69,7 @@ namespace Galac.Adm.Rpt.CAnticipo {
                         LibReport.ConfigLabel(this, "lblStatus", "Proveedor");
                         LibReport.ConfigLabel(this, "lblTotalStatus", "Total por Proveedor");                        
                     }
-                    LibReport.ConfigLabel(this, "lblTotalClienteProveedor", "Total por Status");
+                    LibReport.ConfigLabel(this, "lblTotalClienteProveedor", "Total por Estatus");
                     LibReport.ConfigGroupHeader(this, "GHClienteProveedor", "StatusStr", GroupKeepTogether.FirstDetail, RepeatStyle.OnPageIncludeNoDetail, true, NewPage.None);
                     LibReport.ConfigFieldStr(this, "txtCodigoGF", string.Empty, "StatusStr");
                     LibReport.ConfigGroupHeader(this, "GHStatus", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPageIncludeNoDetail, true, NewPage.None);
@@ -79,11 +79,11 @@ namespace Galac.Adm.Rpt.CAnticipo {
                     LibReport.ConfigFieldStr(this, "txtCodigo", string.Empty, "CodigoClienteProveedor");
                     LibReport.ConfigFieldStr(this, "txtNombre", string.Empty, "NombreClienteProveedor");
                     LibReport.ConfigFieldStr(this, "txtStatus", string.Empty, "StatusStr");
-                    LibReport.ConfigLabel(this, "lblStatus", "Status");
+                    LibReport.ConfigLabel(this, "lblStatus", "Estatus");
                     txtStatus.Width += txtNombre2.Width;
                     txtNombre2.Visible = false;
                     if (valCliente){
-                        LibReport.ConfigLabel(this, "lblTituloDelReporte", ReportTitle() + " Cobrados por Cliente");
+                        LibReport.ConfigLabel(this, "lblTituloDelReporte", ReportTitle() + " Cobrados a Cliente");
                         LibReport.ConfigLabel(this, "lblClienteProveedor", "Cliente");
                         LibReport.ConfigLabel(this, "lblTotalClienteProveedor", "Total por Cliente");
                     }else{
@@ -91,7 +91,7 @@ namespace Galac.Adm.Rpt.CAnticipo {
                         LibReport.ConfigLabel(this, "lblClienteProveedor", "Proveedor");
                         LibReport.ConfigLabel(this, "lblTotalClienteProveedor", "Total por Proveedor");
                     }
-                    LibReport.ConfigLabel(this, "lblTotalStatus", "Total por Status");
+                    LibReport.ConfigLabel(this, "lblTotalStatus", "Total por Estatus");
                     LibReport.ConfigGroupHeader(this, "GHStatus", "StatusStr", GroupKeepTogether.FirstDetail, RepeatStyle.OnPageIncludeNoDetail, true, NewPage.None);
                     LibReport.ConfigFieldStr(this, "txtStatusGF", string.Empty, "StatusStr");
                     LibReport.ConfigGroupHeader(this, "GHClienteProveedor", "CodigoClienteProveedor", GroupKeepTogether.FirstDetail, RepeatStyle.OnPageIncludeNoDetail, true, NewPage.None);
