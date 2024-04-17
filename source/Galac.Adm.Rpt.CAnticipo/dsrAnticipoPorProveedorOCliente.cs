@@ -64,10 +64,19 @@ namespace Galac.Adm.Rpt.CAnticipo {
                         LibReport.ConfigLabel(this, "lblTituloDelReporte", ReportTitle() + " Cobrados a Cliente");
                         LibReport.ConfigLabel(this, "lblStatus", "Cliente");
                         LibReport.ConfigLabel(this, "lblTotalStatus", "Total por Cliente");
-                    }else{
+                        lblMonedaDoc.Left = lblNumeroCheque.Left;
+                        txtMonedaDocumento.Left = txtNumeroCheque.Left;
+                        lblMonedaDoc.Width += lblNumeroCheque.Width;
+                        txtMonedaDocumento.Width += txtNumeroCheque.Width;
+                        lblNumeroCheque.Visible = false;
+                        txtNumeroCheque.Visible = false;
+                    } else{
                         LibReport.ConfigLabel(this, "lblTituloDelReporte", ReportTitle() + " Pagados a Proveedor");
                         LibReport.ConfigLabel(this, "lblStatus", "Proveedor");
-                        LibReport.ConfigLabel(this, "lblTotalStatus", "Total por Proveedor");                        
+                        LibReport.ConfigLabel(this, "lblTotalStatus", "Total por Proveedor");
+                        lblNumeroCheque.Visible = true;
+                        txtNumeroCheque.Visible = true;
+                        LibReport.ConfigFieldStr(this, string.Empty ,"txtNumeroCheque", "NumeroCheque");
                     }
                     LibReport.ConfigLabel(this, "lblTotalClienteProveedor", "Total por Estatus");
                     LibReport.ConfigGroupHeader(this, "GHClienteProveedor", "StatusStr", GroupKeepTogether.FirstDetail, RepeatStyle.OnPageIncludeNoDetail, true, NewPage.None);
@@ -86,10 +95,19 @@ namespace Galac.Adm.Rpt.CAnticipo {
                         LibReport.ConfigLabel(this, "lblTituloDelReporte", ReportTitle() + " Cobrados a Cliente");
                         LibReport.ConfigLabel(this, "lblClienteProveedor", "Cliente");
                         LibReport.ConfigLabel(this, "lblTotalClienteProveedor", "Total por Cliente");
-                    }else{
+                        lblMonedaDoc.Left = lblNumeroCheque.Left;
+                        txtMonedaDocumento.Left = txtNumeroCheque.Left;
+                        lblMonedaDoc.Width += lblNumeroCheque.Width;
+                        txtMonedaDocumento.Width += txtNumeroCheque.Width;
+                        lblNumeroCheque.Visible = false;
+                        txtNumeroCheque.Visible = false;
+                    } else{
                         LibReport.ConfigLabel(this, "lblTituloDelReporte", ReportTitle() + " Pagados a Proveedor");
                         LibReport.ConfigLabel(this, "lblClienteProveedor", "Proveedor");
                         LibReport.ConfigLabel(this, "lblTotalClienteProveedor", "Total por Proveedor");
+                        lblNumeroCheque.Visible = true;
+                        txtNumeroCheque.Visible = true;
+                        LibReport.ConfigFieldStr(this, string.Empty, "txtNumeroCheque", "NumeroCheque");
                     }
                     LibReport.ConfigLabel(this, "lblTotalStatus", "Total por Estatus");
                     LibReport.ConfigGroupHeader(this, "GHStatus", "StatusStr", GroupKeepTogether.FirstDetail, RepeatStyle.OnPageIncludeNoDetail, true, NewPage.None);
@@ -102,7 +120,6 @@ namespace Galac.Adm.Rpt.CAnticipo {
                 LibReport.ConfigFieldStr(this, "txtNumero", string.Empty, "Numero");
                 LibReport.ConfigFieldStr(this, "txtMonedaDocumento", string.Empty, "Moneda");
                 LibReport.ConfigFieldDec(this, "txtCambio", string.Empty, "Cambio", "#,###.0000", false, TextAlignment.Right);
-                LibReport.ConfigFieldStr(this, "txtNumeroCheque", string.Empty, "NumeroCheque");
                 LibReport.ConfigFieldDec(this, "txtMontoAnulado", string.Empty, "MontoAnulado");
                 LibReport.ConfigFieldDec(this, "txtMontoTotal", string.Empty, "MontoTotal");
                 LibReport.ConfigFieldDec(this, "txtMontoUsado", string.Empty, "MontoUsado");
