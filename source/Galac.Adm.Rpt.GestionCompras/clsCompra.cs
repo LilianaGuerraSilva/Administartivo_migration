@@ -27,9 +27,7 @@ namespace Galac.Adm.Rpt.GestionCompras {
         #endregion //Propiedades
         #region Constructores
         public clsCompra(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc)
-            : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
-            #region Codigo Ejemplo                   
-            #endregion //Codigo Ejemplo
+            : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {            
         }
         #endregion //Constructores
         #region Metodos Generados
