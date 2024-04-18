@@ -172,8 +172,8 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
 			string vSqlCambioOriginal = "Anticipo.Cambio";
 			string vCodigoMonedaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaCompania");
 			string vSqlCambio = vSqlCambioOriginal;
-			string vSqlMontoTotal = "Anticipo.MontoTotal";
-			string vSqlMontoUsado = "Anticipo.MontoUsado";
+			string vSqlMontoDevuelto = "Anticipo.MontoDevuelto";
+			string vSqlMontoDifEnDevolucion = "Anticipo.MontoDiferenciaEnDevolucion";
 			string vSqlMonedaTotales = "Anticipo.Moneda";
 
 			if (valMonedaDelInformeMM == eMonedaDelInformeMM.EnBolivares) {
@@ -182,8 +182,8 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
 				} else {
 					vSqlCambio = vSqlCambioOriginal;
 				}
-				vSqlMontoTotal = insSql.RoundToNDecimals(vSqlMontoTotal + " * " + vSqlCambio, 2);
-				vSqlMontoUsado = insSql.RoundToNDecimals(vSqlMontoUsado + " * " + vSqlCambio, 2);
+				vSqlMontoDevuelto = insSql.RoundToNDecimals(vSqlMontoDevuelto + " * " + vSqlCambio, 2);
+				vSqlMontoDifEnDevolucion = insSql.RoundToNDecimals(vSqlMontoDifEnDevolucion + " * " + vSqlCambio, 2);
 				vSqlMonedaTotales = "'Bolívares'";
 			} else if (valMonedaDelInformeMM == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa) {
 				vSqlCambioDelDia = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + insSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia <= " + insSql.ToSqlValue(LibDate.Today()) + " ORDER BY FechaDeVigencia DESC), 1)";
@@ -194,8 +194,8 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
 					vSqlCambio = vSqlCambioMasCercano;
 				}
 				vSqlCambio = insSql.IIF("Anticipo.CodigoMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal), vSqlCambio, " 1 ", true);
-				vSqlMontoTotal = insSql.RoundToNDecimals(vSqlMontoTotal + " / " + vSqlCambio, 2);
-				vSqlMontoUsado = insSql.RoundToNDecimals(vSqlMontoUsado + " / " + vSqlCambio, 2);
+				vSqlMontoDevuelto = insSql.RoundToNDecimals(vSqlMontoDevuelto + " / " + vSqlCambio, 2);
+				vSqlMontoDifEnDevolucion = insSql.RoundToNDecimals(vSqlMontoDifEnDevolucion + " / " + vSqlCambio, 2);
 				vSqlMonedaTotales = insSql.IIF("Anticipo.CodigoMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal), "'Bolívares expresados en " + valNombreMoneda + "'", "Anticipo.Moneda", true);
 			} else if (valMonedaDelInformeMM == eMonedaDelInformeMM.EnMonedaOriginal) {
 			}
@@ -212,10 +212,10 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
 			vSql.AppendLine(vSqlCambio + " AS Cambio, ");
 			vSql.AppendLine(vSqlMonedaTotales + " AS MonedaReporte, ");
 			vSql.AppendLine("0 AS MontoAnulado, ");
-			vSql.AppendLine(vSqlMontoTotal + " AS MontoTotal, ");
-			vSql.AppendLine(vSqlMontoUsado + " AS MontoUsado, ");
-			vSql.AppendLine("0 AS MontoDevuelto, ");
-			vSql.AppendLine("0 AS MontoDiferenciaEnDevolucion, ");
+			vSql.AppendLine("0 AS MontoTotal, ");
+			vSql.AppendLine("0 AS MontoUsado, ");
+			vSql.AppendLine(vSqlMontoDevuelto + " AS MontoDevuelto, ");
+			vSql.AppendLine(vSqlMontoDifEnDevolucion + " AS MontoDiferenciaEnDevolucion, ");
 			vSql.AppendLine("Anticipo.NumeroCheque");
 
 			vSql.Append(SqlFromAnticipoClienteProveedor(valEsCliente));
