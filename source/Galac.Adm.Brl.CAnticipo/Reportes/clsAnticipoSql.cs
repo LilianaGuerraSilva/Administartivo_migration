@@ -73,18 +73,14 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
 			return vSql.ToString();
 		}
 
-		private string SqlWhereAnticipoClienteProveedor(bool valEsCliente, int valConsecutivoCompania, bool valEsUnaDevolucion, eCantidadAImprimir valCantidadAImprimirStatus, eStatusAnticipo valStatusAnticipo, eCantidadAImprimir valCantidadAImprimirClienteProveedor, string valCodigoClienteProveedor) {
+		private string SqlWhereAnticipoClienteProveedor(bool valEsCliente, bool valSqlAnticipoAnulado, int valConsecutivoCompania, bool valEsUnaDevolucion, eCantidadAImprimir valCantidadAImprimirStatus, eStatusAnticipo valStatusAnticipo, eCantidadAImprimir valCantidadAImprimirClienteProveedor, string valCodigoClienteProveedor) {
 			string vSqlWhere;
 			vSqlWhere = insSql.SqlIntValueWithAnd("", "Anticipo.ConsecutivoCompania", valConsecutivoCompania);
 			vSqlWhere = insSql.SqlBoolValueWithAnd(vSqlWhere, "Anticipo.EsUnaDevolucion ", valEsUnaDevolucion);
 			if (valCantidadAImprimirStatus == eCantidadAImprimir.One) {
-				if (valStatusAnticipo == eStatusAnticipo.Anulado) {
-					vSqlWhere = insSql.SqlEnumValueWithAnd(vSqlWhere, "Anticipo.Status", (int)valStatusAnticipo);
-				} else {
-					vSqlWhere = insSql.SqlEnumValueWithAnd(vSqlWhere, "Anticipo.Status", (int)valStatusAnticipo);
-					vSqlWhere = insSql.SqlEnumValueWithOperators(vSqlWhere, "Anticipo.Status", (int)eStatusAnticipo.Anulado, "", "<>");
-				}
-			} else {
+				vSqlWhere = insSql.SqlEnumValueWithAnd(vSqlWhere, "Anticipo.Status", (int)valStatusAnticipo);
+			}
+			if (!valSqlAnticipoAnulado) { 
 				vSqlWhere = insSql.SqlEnumValueWithOperators(vSqlWhere, "Anticipo.Status", (int)eStatusAnticipo.Anulado, "", "<>");
 			}
 			if (valCantidadAImprimirClienteProveedor == eCantidadAImprimir.One) {
@@ -102,8 +98,6 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
 			vSqlWhere = insSql.WhereSql(vSqlWhere);
 			return vSqlWhere;
 		}
-
-
 
 		public string SqlAnticipoNoDevolucion(bool valEsCliente, int valConsecutivoCompania, eCantidadAImprimir valCantidadAImprimirStatus, eStatusAnticipo valStatusAnticipo, eCantidadAImprimir valCantidadAImprimirClienteProveedor, string valCodigoClienteProveedor, eMonedaDelInformeMM valMonedaDelInformeMM, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valCodigoMoneda, string valNombreMoneda) {
 			StringBuilder vSql = new StringBuilder();
@@ -160,7 +154,7 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
 			vSql.AppendLine("Anticipo.NumeroCheque");
 
 			vSql.Append(SqlFromAnticipoClienteProveedor(valEsCliente));
-			vSql.Append(SqlWhereAnticipoClienteProveedor(valEsCliente, valConsecutivoCompania, false, valCantidadAImprimirStatus, valStatusAnticipo, valCantidadAImprimirClienteProveedor, valCodigoClienteProveedor));
+			vSql.Append(SqlWhereAnticipoClienteProveedor(valEsCliente, false, valConsecutivoCompania, false, valCantidadAImprimirStatus, valStatusAnticipo, valCantidadAImprimirClienteProveedor, valCodigoClienteProveedor));
 			return vSql.ToString();
 		}
 
@@ -219,7 +213,7 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
 			vSql.AppendLine("Anticipo.NumeroCheque");
 
 			vSql.Append(SqlFromAnticipoClienteProveedor(valEsCliente));
-			vSql.Append(SqlWhereAnticipoClienteProveedor(valEsCliente, valConsecutivoCompania, true, valCantidadAImprimirStatus, valStatusAnticipo, valCantidadAImprimirClienteProveedor, valCodigoClienteProveedor));
+			vSql.Append(SqlWhereAnticipoClienteProveedor(valEsCliente, false, valConsecutivoCompania, true, valCantidadAImprimirStatus, valStatusAnticipo, valCantidadAImprimirClienteProveedor, valCodigoClienteProveedor));
 
 			return vSql.ToString();
 		}
@@ -282,7 +276,7 @@ namespace Galac.Adm.Brl.CAnticipo.Reportes {
 			vSql.AppendLine("Anticipo.NumeroCheque ");
 
 			vSql.Append(SqlFromAnticipoClienteProveedor(valEsCliente));
-			vSql.Append(SqlWhereAnticipoClienteProveedor(valEsCliente, valConsecutivoCompania, false, eCantidadAImprimir.One, eStatusAnticipo.Anulado, valCantidadAImprimirClienteProveedor, valCodigoClienteProveedor));
+			vSql.Append(SqlWhereAnticipoClienteProveedor(valEsCliente, true, valConsecutivoCompania, false, eCantidadAImprimir.One, eStatusAnticipo.Anulado, valCantidadAImprimirClienteProveedor, valCodigoClienteProveedor));
 
 			return vSql.ToString();
 		}
