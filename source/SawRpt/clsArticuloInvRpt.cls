@@ -1209,6 +1209,7 @@ Public Function fConfigurarDatosDelReporteTransferencia(ByRef refRpt As DDActive
          End If
          gUtilMargins.sAsignarMargenesGenerales refRpt, , NombreDelReporte
          Call refRpt.AddNamedItem("gUtilReports", gUtilReports)
+         Call refRpt.AddNamedItem("gConvert", gConvert)
          Call refRpt.AddNamedItem("gProyParametrosCompania", gProyParametrosCompania)
          exito = True
       End If
