@@ -16,18 +16,13 @@ namespace Galac.Adm.Rpt.GestionCompras {
 
     public class clsCompra : LibRptBaseMfc {
         #region Propiedades
-
         protected DataTable Data { get; set; }
-
         public int ConsecutivoCompra { get; set; }
-
-        public string NumeroDeOrdenDeCompra { get; set; }
-        #region Codigo Ejemplo
-        
+        public string NumeroDeOrdenDeCompra { get; set; }       
         #endregion //Propiedades
         #region Constructores
         public clsCompra(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc)
-            : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {            
+            : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -62,23 +57,14 @@ namespace Galac.Adm.Rpt.GestionCompras {
             Dictionary<string, string> vParams = GetConfigReportParameters();
             Galac.Saw.Lib.clsUtilRpt vUtil = new Galac.Saw.Lib.clsUtilRpt();
             string vRpxCompra = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "NombrePlantillaCompra");
-            if (vUtil.EsFormatoRpxValidoParaAOS(vRpxCompra)) {
-                dsrCompra vRpt = new dsrCompra(UseExternalRpx, vRpxCompra);
-                if (vRpt.ConfigReport(Data, vParams)) {
-                    LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsCompra.ReportName, true, ExportFileFormat, "", false);
-                    WorkerReportProgress(100, "Finalizando...");
-                }
-            } else {
-                StringBuilder vMensaje = new StringBuilder();
-                vMensaje.AppendLine("No se puede imprimir la compra, hay un problema con el formato del reporte,");
-                vMensaje.AppendLine("verifique que el archivo .RPX se encuentre en el directorio de reportes y tenga un formato válido");
-                throw new GalacException(vMensaje.ToString(), eExceptionManagementType.Validation);
+            UseExternalRpx = UseExternalRpx && vUtil.EsFormatoRpxValidoParaAOS(vRpxCompra);
+            dsrCompra vRpt = new dsrCompra(UseExternalRpx, vRpxCompra);
+            if (vRpt.ConfigReport(Data, vParams)) {
+                LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsCompra.ReportName, true, ExportFileFormat, "", false);
+                WorkerReportProgress(100, "Finalizando...");
             }
         }
         #endregion //Metodos Generados
-
-
-    } //End of class clsDiarioCompra
-
+    } //End of class clsDiarioCompra   
 } //End of namespace Galac.Dbo.Rpt.ComponenteNoEspecificado
 
