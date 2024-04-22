@@ -84,7 +84,8 @@ namespace Galac.Saw.Brl.SttDef {
         }
 
         public void ActualizarValores() {
-            string vClaveEncriptada = LibCryptography.SymEncryptDES(LibAppSettings.ReadAppSettingsKey("CLAVE"));
+            string vClaveAppSst = LibAppSettings.ReadAppSettingsKey("CLAVE");
+            string vClaveEncriptada = LibString.IsNullOrEmpty(vClaveAppSst) ? LibCryptography.SymEncryptDES(Clave) : LibCryptography.SymEncryptDES(vClaveAppSst);
             ConfigHelper.AddKeyToAppSettings("DIRECCIONURL", DireccionURL);
             ConfigHelper.AddKeyToAppSettings("CAMPOUSUARIO", CampoUsuario);
             ConfigHelper.AddKeyToAppSettings("USUARIO", Usuario);
