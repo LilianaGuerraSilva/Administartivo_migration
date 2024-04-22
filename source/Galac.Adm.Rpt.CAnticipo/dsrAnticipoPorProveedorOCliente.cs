@@ -81,7 +81,7 @@ namespace Galac.Adm.Rpt.CAnticipo {
                     LibReport.ConfigLabel(this, "lblTotalClienteProveedor", "Total por Estatus");
                     LibReport.ConfigGroupHeader(this, "GHClienteProveedor", "StatusStr", GroupKeepTogether.FirstDetail, RepeatStyle.OnPageIncludeNoDetail, true, NewPage.None);
                     LibReport.ConfigFieldStr(this, "txtCodigoGF", string.Empty, "StatusStr");
-                    LibReport.ConfigGroupHeader(this, "GHStatus", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPageIncludeNoDetail, true, NewPage.None);
+                    LibReport.ConfigGroupHeader(this, "GHStatus", "CodigoClienteProveedor", GroupKeepTogether.FirstDetail, RepeatStyle.OnPageIncludeNoDetail, true, NewPage.None);
                     LibReport.ConfigFieldStr(this, "txtStatusGF", string.Empty, "CodigoClienteProveedor");
                 
                 }else{
@@ -138,7 +138,7 @@ namespace Galac.Adm.Rpt.CAnticipo {
                 LibReport.ConfigSummaryField(this, "txtMontoDevClienteProveedor", "MontoDevuelto", SummaryFunc.Sum, "GHClienteProveedor", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtMontoDifClienteProveedor", "MontoDiferenciaEnDevolucion", SummaryFunc.Sum, "GHClienteProveedor", SummaryRunning.Group, SummaryType.SubTotal);
 
-                LibReport.ConfigGroupHeader(this, "GHMoneda", "Moneda", GroupKeepTogether.FirstDetail, RepeatStyle.OnPageIncludeNoDetail, true, NewPage.None);
+                LibReport.ConfigGroupHeader(this, "GHMoneda", "MonedaReporte", GroupKeepTogether.FirstDetail, RepeatStyle.OnPageIncludeNoDetail, true, NewPage.None);
                 LibReport.ConfigFieldStr(this, "txtMonedaGF", string.Empty, "MonedaReporte");
                 LibReport.ConfigSummaryField(this, "txtMontoAnuladoXMoneda", "MontoAnulado", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtMontoTotalXMoneda", "MontoTotal", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
