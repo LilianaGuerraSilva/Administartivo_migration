@@ -28,7 +28,7 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
         public const string MonedaDelInformePropertyName = "MonedaDelInforme";
         public const string ClienteProveedorIsEnablePropertyName = "ClienteProveedorIsEnable";        
         public const string CantidadAImprimirClienteProveedorPropertyName = "CantidadAImprimirClienteProveedor";
-        private const string EstatusAnticipoIsEnablePropertyName = "EstatusAnticipoIsEnable";
+        private const string EstatusAnticipoIsVisiblePropertyName = "EstatusAnticipoIsVisible";
         public const string ClientesOrdenadosPorPropertyName = "ClientesOrdenadosPor";
         #endregion
         #region Variables
@@ -86,8 +86,8 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             set {
                 if (_CantidadAImprimir != value) {
                     _CantidadAImprimir = value;                   
-                    RaisePropertyChanged(CantidadAImprimirPropertyName); 
-                    RaisePropertyChanged(EstatusAnticipoIsEnablePropertyName);
+                    RaisePropertyChanged(CantidadAImprimirPropertyName);
+                    RaisePropertyChanged(EstatusAnticipoIsVisiblePropertyName);
                 }
             }
         }
@@ -254,7 +254,7 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
             }
         }
         
-        public bool EstatusAnticipoIsEnable {
+        public bool EstatusAnticipoIsVisible {
             get {
                 return CantidadAImprimir == eCantidadAImprimir.One;
             }

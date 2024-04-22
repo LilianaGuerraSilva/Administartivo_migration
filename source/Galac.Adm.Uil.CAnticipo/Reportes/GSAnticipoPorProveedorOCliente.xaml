@@ -97,11 +97,11 @@
             Grid.Column="1"
             Width="160"
             Margin="2,10,0,10"
-            IsEnabled="{Binding Path=EstatusAnticipoIsEnable}"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding Path=ArrayStatusAnticipo}"
             SelectedItem="{Binding Path=EstatusAnticipo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-            Style="{StaticResource ComboBoxStyle}" />
+            Style="{StaticResource ComboBoxStyle}"
+            Visibility="{Binding Path=EstatusAnticipoIsVisible, Converter={StaticResource booleanToVisibilityConverter}}" />
         <Label
             Name="lblOrdenamientoClienteStatus"
             Grid.Row="4"
