@@ -18,7 +18,7 @@ namespace Galac.Adm.Rpt.GestionCompras {
         #region Propiedades
         protected DataTable Data { get; set; }
         public int ConsecutivoCompra { get; set; }
-        public string NumeroDeOrdenDeCompra { get; set; }       
+        public string NumeroDeOrdenDeCompra { get; set; }
         #endregion //Propiedades
         #region Constructores
         public clsCompra(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc)
@@ -28,7 +28,9 @@ namespace Galac.Adm.Rpt.GestionCompras {
         #region Metodos Generados
 
         public static string ReportName {
-            get { return new dsrCompra().ReportTitle(); }
+            get {
+                return new dsrCompra().ReportTitle();
+            }
         }
 
         public override Dictionary<string, string> GetConfigReportParameters() {
@@ -61,8 +63,8 @@ namespace Galac.Adm.Rpt.GestionCompras {
             dsrCompra vRpt = new dsrCompra(UseExternalRpx, vRpxCompra);
             if (vRpt.ConfigReport(Data, vParams)) {
                 LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsCompra.ReportName, true, ExportFileFormat, "", false);
-                WorkerReportProgress(100, "Finalizando...");
             }
+            WorkerReportProgress(100, "Finalizando...");
         }
         #endregion //Metodos Generados
     } //End of class clsDiarioCompra   
