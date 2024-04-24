@@ -83,24 +83,24 @@
             MaxLength="34"
             Style="{StaticResource TextBoxInputStyle}"
             Value="{Binding Path=Cantidad, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-	<Label 
-	    Name="lblUnidadDeVenta"
-	    Grid.Row="3" 
-	    Grid.Column="0"  
-	    Content="Unidad" 
-	    Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSSeekConnection 
-	    Grid.Row="3" 
-	    Grid.Column="1" 
-	    Name="txtUnidadDeVenta" 
-	    Height="23" 
-	    Margin="3" 
-	    HorizontalAlignment="Left" 
-	    Width="120" 
-	    IsEnabled="{Binding Path=IsEnabled}"
+        <Label
+            Name="lblUnidadDeVenta"
+            Grid.Row="3"
+            Grid.Column="0"
+            Content="Unidad"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSSeekConnection
+            Name="txtUnidadDeVenta"
+            Grid.Row="3"
+            Grid.Column="1"
+            Width="120"
+            Height="23"
+            Margin="3"
+            HorizontalAlignment="Left"
+            ConnectionValue="{Binding Path=UnidadDeVenta, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             DisplayMemberPath="UnidadDeVenta"
-            Model="{Binding Path=ConexionUnidadDeVenta, Mode=TwoWay}"
-	    ConnectionValue="{Binding Path=UnidadDeVenta, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"/>
+            IsEnabled="{Binding Path=IsEnabled}"
+            Model="{Binding Path=ConexionUnidadDeVenta, Mode=TwoWay}" />
     </Grid>
 
 </UserControl>
