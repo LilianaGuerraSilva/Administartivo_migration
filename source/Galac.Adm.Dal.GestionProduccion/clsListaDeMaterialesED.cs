@@ -338,7 +338,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("      " + DbSchema + ".ListaDeMateriales.Codigo,");
             SQL.AppendLine("      " + DbSchema + ".ListaDeMateriales.Nombre,");
             SQL.AppendLine("      " + DbSchema + ".ListaDeMateriales.CodigoArticuloInventario,");
-            SQL.AppendLine("      " + DbSchema + ".ListaDeMateriales.FechaCreacion,");
+            SQL.AppendLine("      " + DbSchema + ".ListaDeMateriales.FechaCreacion");
             //SQL.AppendLine("      ," + DbSchema + ".ListaDeMateriales.[Programador - personaliza este sp y coloca solo los campos que te interesa exponer a quienes lo consumen]");
             SQL.AppendLine("      FROM " + DbSchema + ".ListaDeMateriales");
             SQL.AppendLine("      WHERE " + DbSchema + ".ListaDeMateriales.ConsecutivoCompania = @ConsecutivoCompania");
