@@ -227,7 +227,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         public int DecimalDigitsCosto {
             get {
-                return 8;
+                return 4;
             }
         }
         #endregion //Metodos Generados
