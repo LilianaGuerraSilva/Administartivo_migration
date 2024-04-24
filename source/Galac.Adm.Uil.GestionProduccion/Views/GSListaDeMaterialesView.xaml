@@ -136,7 +136,6 @@
                                 Content="{Binding Path=DetailListaDeMaterialesDetalleArticulo.SelectedItem}"
                                 Focusable="False"
                                 IsEnabled="{Binding Path=IsEnabled}" />
-
                             <Border
                                 Grid.Row="1"
                                 Grid.ColumnSpan="2"
@@ -180,8 +179,8 @@
                                 Style="{StaticResource GSDataGridStyle}" />
                         </Grid>
                     </TabItem>
-                    <TabItem Name="tbiSeccionListaDeMaterialesDetalleArticuloInventarioAProducir" Header="Salidas">
-                        <Grid Name="gtSeccionListaDeMaterialesDetalleArticuloInventarioAProducir">
+                    <TabItem Name="tbiSeccionListaDeMaterialesDetalleSalidas" Header="Salidas">
+                        <Grid Name="gtSeccionListaDeMaterialesDetalleSalidas">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
@@ -197,12 +196,12 @@
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <ContentControl
-                                x:Name="dListaDeMaterialesDetalleArticuloAProducir"
+                                x:Name="dListaDeMaterialesDetalleSalidas"
                                 Grid.Row="0"
                                 Grid.RowSpan="2"
                                 Grid.ColumnSpan="5"
                                 Margin="0,0,0,25"
-                                Content="{Binding Path=DetailListaDeMaterialesDetalleArticuloAProducir.SelectedItem}"
+                                Content="{Binding Path=DetailListaDeMaterialesDetalleSalidas.SelectedItem}"
                                 Focusable="False"
                                 IsEnabled="{Binding Path=IsEnabled}" />
                             <Border
@@ -214,15 +213,15 @@
                                 BorderThickness="0,0,0,1">
                                 <StackPanel Orientation="Horizontal">
                                     <Button
-                                        nsWpf:LibKeyboardListener.FocusTarget="{Binding ElementName=dListaDeMaterialesDetalleArticuloAProducir}"
-                                        Command="{Binding Path=DetailListaDeMaterialesDetalleArticuloAProducir.CreateCommand}"
+                                        nsWpf:LibKeyboardListener.FocusTarget="{Binding ElementName=dListaDeMaterialesDetalleSalidas}"
+                                        Command="{Binding Path=DetailListaDeMaterialesDetalleSalidas.CreateCommand}"
                                         IsEnabled="{Binding Path=IsEnabled}"
                                         Style="{StaticResource MenuButtonStyle}"
                                         ToolTip="Nuevo">
                                         <Image Focusable="False" Source="/LibGalac.Aos.UI.WpfRD;component/Images/add.png" />
                                     </Button>
                                     <Button
-                                        Command="{Binding Path=DetailListaDeMaterialesDetalleArticuloAProducir.DeleteCommand}"
+                                        Command="{Binding Path=DetailListaDeMaterialesDetalleSalidas.DeleteCommand}"
                                         IsEnabled="{Binding Path=IsEnabled}"
                                         Style="{StaticResource MenuButtonStyle}"
                                         ToolTip="Eliminar">
@@ -231,20 +230,20 @@
                                 </StackPanel>
                             </Border>
                             <nsWpfControls:GSDataGrid
-                                Name="dgDetailListaMaterialesAProducir"
+                                Name="dgDetailListaMaterialesSalidas"
                                 Grid.Row="2"
                                 Grid.ColumnSpan="5"
                                 Height="220"
                                 MinWidth="250"
                                 MinHeight="200"
-                                ColumnsMap="{Binding Path=DetailListaDeMaterialesDetalleArticuloAProducir.VisibleColumns}"
+                                ColumnsMap="{Binding Path=DetailListaDeMaterialesDetalleSalidas.VisibleColumns}"
                                 Focusable="False"
                                 IsReadOnly="True"
                                 IsSynchronizedWithCurrentItem="True"
-                                ItemsSource="{Binding Path=DetailListaDeMaterialesDetalleArticuloAProducir.Items}"
+                                ItemsSource="{Binding Path=DetailListaDeMaterialesDetalleSalidas.Items}"
                                 KeyboardNavigation.IsTabStop="False"
-                                SelectedIndex="{Binding Path=DetailListaDeMaterialesDetalleArticuloAProducir.SelectedIndex}"
-                                SelectedItem="{Binding Path=DetailListaDeMaterialesDetalleArticuloAProducir.SelectedItem, Mode=OneWayToSource}"
+                                SelectedIndex="{Binding Path=DetailListaDeMaterialesDetalleSalidas.SelectedIndex}"
+                                SelectedItem="{Binding Path=DetailListaDeMaterialesDetalleSalidas.SelectedItem, Mode=OneWayToSource}"
                                 Style="{StaticResource GSDataGridStyle}" />
                         </Grid>
                     </TabItem>
