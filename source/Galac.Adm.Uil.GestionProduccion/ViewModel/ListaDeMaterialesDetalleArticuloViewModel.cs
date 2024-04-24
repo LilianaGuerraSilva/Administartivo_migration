@@ -29,8 +29,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         #region Variables
 
         private FkArticuloInventarioViewModel _ConexionCodigoArticuloInventario = null;
-        private FkArticuloInventarioViewModel _ConexionDescripcionArticuloInventario = null;
-        private FkArticuloInventarioViewModel _ConexionUnidadDeVenta = null;
         #endregion //Variables
 
         #region Propiedades
@@ -72,7 +70,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Código Artículo", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoArticuloInventario", ConnectionSearchCommandName = "ChooseCodigoArticuloInventarioCommand", Width = 180)]
+        [LibGridColum("Código Artículo", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoArticuloInventario", ConnectionSearchCommandName = "ChooseCodigoArticuloInventarioCommand", Width = 160)]
         public string CodigoArticuloInventario {
             get {
                 return Model.CodigoArticuloInventario;
@@ -90,7 +88,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Descripción es requerido.")]
-        [LibGridColum("Descripción", eGridColumType.Connection, ConnectionDisplayMemberPath = "Descripcion", ConnectionModelPropertyName = "DescripcionArticuloInventario", ConnectionSearchCommandName = "ChooseDescripcionArticuloInventarioCommand", Width = 300, Trimming = System.Windows.TextTrimming.WordEllipsis)]
+        [LibGridColum("Descripción", eGridColumType.Connection, ConnectionDisplayMemberPath = "Descripcion", ConnectionModelPropertyName = "DescripcionArticuloInventario", ConnectionSearchCommandName = "ChooseDescripcionArticuloInventarioCommand", Width = 350, Trimming = System.Windows.TextTrimming.WordEllipsis)]
         public string DescripcionArticuloInventario {
             get {
                 return Model.DescripcionArticuloInventario;
@@ -118,8 +116,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibRequired(ErrorMessage = "El campo Unidad es requerido.")]
-        [LibGridColum("Unidad", eGridColumType.Connection, ConnectionDisplayMemberPath = "UnidadDeVenta", ConnectionModelPropertyName = "UnidadDeVenta", ConnectionSearchCommandName = "ChooseUnidadDeVentaCommand", MaxWidth=120)]
+        [LibGridColum("Unidad", eGridColumType.Connection, ConnectionDisplayMemberPath = "UnidadDeVenta", ConnectionModelPropertyName = "UnidadDeVenta", MaxWidth=60)]
         public string  UnidadDeVenta {
             get {
                 return Model.UnidadDeVenta;
@@ -129,9 +126,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Model.UnidadDeVenta = value;
                     IsDirty = true;
                     RaisePropertyChanged(UnidadDeVentaPropertyName);
-                    if (LibString.IsNullOrEmpty(UnidadDeVenta, true)) {
-                        ConexionUnidadDeVenta = null;
-                    }
                 }
             }
         }
@@ -156,20 +150,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        public FkArticuloInventarioViewModel ConexionUnidadDeVenta {
-            get {
-                return _ConexionUnidadDeVenta;
-            }
-            set {
-                if (_ConexionUnidadDeVenta != value) {
-                    _ConexionUnidadDeVenta = value;
-                    RaisePropertyChanged(UnidadDeVentaPropertyName);
-                }
-                if (_ConexionUnidadDeVenta == null) {
-                    UnidadDeVenta = string.Empty;
-                }
-            }
-        }
+        
         public RelayCommand<string> ChooseCodigoArticuloInventarioCommand {
             get;
             private set;

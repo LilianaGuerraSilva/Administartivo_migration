@@ -83,24 +83,6 @@
             MaxLength="34"
             Style="{StaticResource TextBoxInputStyle}"
             Value="{Binding Path=Cantidad, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-        <Label
-            Name="lblUnidadDeVenta"
-            Grid.Row="3"
-            Grid.Column="0"
-            Content="Unidad"
-            Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSSeekConnection
-            Name="txtUnidadDeVenta"
-            Grid.Row="3"
-            Grid.Column="1"
-            Width="120"
-            Height="23"
-            Margin="3"
-            HorizontalAlignment="Left"
-            ConnectionValue="{Binding Path=UnidadDeVenta, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-            DisplayMemberPath="UnidadDeVenta"
-            IsEnabled="{Binding Path=IsEnabled}"
-            Model="{Binding Path=ConexionUnidadDeVenta, Mode=TwoWay}" />
     </Grid>
 
 </UserControl>

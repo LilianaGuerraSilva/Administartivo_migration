@@ -26,8 +26,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         #endregion
         #region Variables
         private FkArticuloInventarioViewModel _ConexionCodigoArticuloInventario = null;
-        private FkArticuloInventarioViewModel _ConexionDescripcionArticuloInventario = null;
-        private FkArticuloInventarioViewModel _ConexionUnidadDeVenta = null;
         #endregion //Variables
         #region Propiedades
 
@@ -68,7 +66,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Código Inventario", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoArticuloInventario", ConnectionSearchCommandName = "ChooseCodigoArticuloInventarioCommand", MaxWidth=120)]
+        [LibGridColum("Código Artículo", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoArticuloInventario", ConnectionSearchCommandName = "ChooseCodigoArticuloInventarioCommand", MaxWidth=100)]
         public string  CodigoArticuloInventario {
             get {
                 return Model.CodigoArticuloInventario;
@@ -85,7 +83,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibRequired(ErrorMessage = "El campo Descripción Artículo es requerido.")]
+        [LibGridColum("Descripción", eGridColumType.Connection, ConnectionDisplayMemberPath = "Descripcion", ConnectionModelPropertyName = "DescripcionArticuloInventario", ConnectionSearchCommandName = "ChooseDescripcionArticuloInventarioCommand", Width = 350, Trimming = System.Windows.TextTrimming.WordEllipsis)]
         public string  DescripcionArticuloInventario {
             get {
                 return Model.DescripcionArticuloInventario;
@@ -95,15 +93,12 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Model.DescripcionArticuloInventario = value;
                     IsDirty = true;
                     RaisePropertyChanged(DescripcionArticuloInventarioPropertyName);
-                    if (LibString.IsNullOrEmpty(DescripcionArticuloInventario, true)) {
-                        ConexionDescripcionArticuloInventario = null;
-                    }
                 }
             }
         }
 
         [LibRequired(ErrorMessage = "El campo Cantidad es requerido.")]
-        [LibGridColum("Cantidad", eGridColumType.Numeric, Alignment = eTextAlignment.Right)]
+        [LibGridColum("Cantidad", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", MaxWidth = 90)]
         public decimal  Cantidad {
             get {
                 return Model.Cantidad;
@@ -117,8 +112,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibRequired(ErrorMessage = "El campo Unidad es requerido.")]
-        [LibGridColum("Unidad", eGridColumType.Connection, ConnectionDisplayMemberPath = "UnidadDeVenta", ConnectionModelPropertyName = "UnidadDeVenta", ConnectionSearchCommandName = "ChooseUnidadDeVentaCommand", MaxWidth=120)]
+        [LibGridColum("Unidad", eGridColumType.Connection, ConnectionDisplayMemberPath = "UnidadDeVenta", ConnectionModelPropertyName = "UnidadDeVenta", MaxWidth=60)]
         public string  UnidadDeVenta {
             get {
                 return Model.UnidadDeVenta;
@@ -128,15 +122,12 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Model.UnidadDeVenta = value;
                     IsDirty = true;
                     RaisePropertyChanged(UnidadDeVentaPropertyName);
-                    if (LibString.IsNullOrEmpty(UnidadDeVenta, true)) {
-                        ConexionUnidadDeVenta = null;
-                    }
                 }
             }
         }
 
         [LibRequired(ErrorMessage = "El campo %Costo es requerido.")]
-        [LibGridColum("%Costo", eGridColumType.Numeric, Alignment = eTextAlignment.Right)]
+        [LibGridColum("%Costo", eGridColumType.Numeric, Alignment = eTextAlignment.Right, MaxWidth = 70, ConditionalPropertyDecimalDigits = "DecimalDigitsCosto")]
         public decimal  PorcentajeDeCosto {
             get {
                 return Model.PorcentajeDeCosto;
@@ -170,47 +161,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        public FkArticuloInventarioViewModel ConexionDescripcionArticuloInventario {
-            get {
-                return _ConexionDescripcionArticuloInventario;
-            }
-            set {
-                if (_ConexionDescripcionArticuloInventario != value) {
-                    _ConexionDescripcionArticuloInventario = value;
-                    RaisePropertyChanged(DescripcionArticuloInventarioPropertyName);
-                }
-                if (_ConexionDescripcionArticuloInventario == null) {
-                    DescripcionArticuloInventario = string.Empty;
-                }
-            }
-        }
-
-        public FkArticuloInventarioViewModel ConexionUnidadDeVenta {
-            get {
-                return _ConexionUnidadDeVenta;
-            }
-            set {
-                if (_ConexionUnidadDeVenta != value) {
-                    _ConexionUnidadDeVenta = value;
-                    RaisePropertyChanged(UnidadDeVentaPropertyName);
-                }
-                if (_ConexionUnidadDeVenta == null) {
-                    UnidadDeVenta = string.Empty;
-                }
-            }
-        }
-
         public RelayCommand<string> ChooseCodigoArticuloInventarioCommand {
-            get;
-            private set;
-        }
-
-        public RelayCommand<string> ChooseDescripcionArticuloInventarioCommand {
-            get;
-            private set;
-        }
-
-        public RelayCommand<string> ChooseUnidadDeVentaCommand {
             get;
             private set;
         }
@@ -237,15 +188,11 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         protected override void InitializeCommands() {
             base.InitializeCommands();
             ChooseCodigoArticuloInventarioCommand = new RelayCommand<string>(ExecuteChooseCodigoArticuloInventarioCommand);
-            ChooseDescripcionArticuloInventarioCommand = new RelayCommand<string>(ExecuteChooseDescripcionArticuloInventarioCommand);
-            ChooseUnidadDeVentaCommand = new RelayCommand<string>(ExecuteChooseUnidadDeVentaCommand);
         }
 
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
             ConexionCodigoArticuloInventario = Master.FirstConnectionRecordOrDefault<FkArticuloInventarioViewModel>("Artículo Inventario", LibSearchCriteria.CreateCriteria("Codigo", CodigoArticuloInventario));
-            ConexionDescripcionArticuloInventario = Master.FirstConnectionRecordOrDefault<FkArticuloInventarioViewModel>("Artículo Inventario", LibSearchCriteria.CreateCriteria("Descripcion", DescripcionArticuloInventario));
-            ConexionUnidadDeVenta = Master.FirstConnectionRecordOrDefault<FkArticuloInventarioViewModel>("Artículo Inventario", LibSearchCriteria.CreateCriteria("UnidadDeVenta", UnidadDeVenta));
         }
 
         private void ExecuteChooseCodigoArticuloInventarioCommand(string valCodigo) {
@@ -272,56 +219,18 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        private void ExecuteChooseDescripcionArticuloInventarioCommand(string valDescripcion) {
-            try {
-                if (valDescripcion == null) {
-                    valDescripcion = string.Empty;
-                }
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Descripcion", valDescripcion);
-                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
-                ConexionDescripcionArticuloInventario = Master.ChooseRecord<FkArticuloInventarioViewModel>("Artículo Inventario", vDefaultCriteria, vFixedCriteria, string.Empty);
-                if (ConexionDescripcionArticuloInventario != null) {
-                    CodigoArticuloInventario = ConexionDescripcionArticuloInventario.Codigo;
-                    DescripcionArticuloInventario = ConexionDescripcionArticuloInventario.Descripcion;
-                    UnidadDeVenta = ConexionDescripcionArticuloInventario.UnidadDeVenta;
-                } else {
-                    CodigoArticuloInventario = string.Empty;
-                    DescripcionArticuloInventario = string.Empty;
-                    UnidadDeVenta = string.Empty;
-                }
-            } catch (System.AccessViolationException) {
-                throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+        public int DecimalDigits {
+            get {
+                return 8;
             }
         }
 
-        private void ExecuteChooseUnidadDeVentaCommand(string valUnidadDeVenta) {
-            try {
-                if (valUnidadDeVenta == null) {
-                    valUnidadDeVenta = string.Empty;
-                }
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("UnidadDeVenta", valUnidadDeVenta);
-                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
-                ConexionUnidadDeVenta = Master.ChooseRecord<FkArticuloInventarioViewModel>("Artículo Inventario", vDefaultCriteria, vFixedCriteria, string.Empty);
-                if (ConexionUnidadDeVenta != null) {
-                    CodigoArticuloInventario = ConexionUnidadDeVenta.Codigo;
-                    DescripcionArticuloInventario = ConexionUnidadDeVenta.Descripcion;
-                    UnidadDeVenta = ConexionUnidadDeVenta.UnidadDeVenta;
-                } else {
-                    CodigoArticuloInventario = string.Empty;
-                    DescripcionArticuloInventario = string.Empty;
-                    UnidadDeVenta = string.Empty;
-                }
-            } catch (System.AccessViolationException) {
-                throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+        public int DecimalDigitsCosto {
+            get {
+                return 8;
             }
         }
         #endregion //Metodos Generados
-
-
     } //End of class ListaDeMaterialesDetalleSalidasViewModel
 
 } //End of namespace Galac.Adm.Uil.GestionProduccion

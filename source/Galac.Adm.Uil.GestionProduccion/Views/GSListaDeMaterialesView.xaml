@@ -29,7 +29,7 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="400" />
+            <ColumnDefinition Width="600" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -67,7 +67,8 @@
             Name="txtCodigo"
             Grid.Row="1"
             Grid.Column="1"
-            Width="120"
+            Width="170"
+            Margin="3,3,0,3"
             nsWpf:LibFocusManager.FocusedPropertyName="Codigo"
             nsWpf:LibFocusManager.IsFocused="True"
             BorderThickness="1"
@@ -89,8 +90,9 @@
             Name="txtNombre"
             Grid.Row="2"
             Grid.Column="1"
-            Width="440"
+            Width="587"
             Height="45"
+            Margin="3,3,0,3"
             nsWpf:LibKeyboardListener.IgnoreEnterKeyLikeTab="True"
             AcceptsReturn="True"
             InvalidCharacters="&quot;|@°¬!#$%&amp;/()=?'¡¿¨;,:*+~&lt;&gt;^''{}"
@@ -115,11 +117,12 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
-                    Width="600"
+                    Width="700"
                     Margin="3">
                     <TabItem Name="tbiSeccionListaDeMaterialesDetalleArticuloInventario" Header="Insumos">
                         <Grid Name="gtSeccionListaDeMaterialesDetalleArticuloInventario">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
@@ -182,6 +185,7 @@
                     <TabItem Name="tbiSeccionListaDeMaterialesDetalleSalidas" Header="Salidas">
                         <Grid Name="gtSeccionListaDeMaterialesDetalleSalidas">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />

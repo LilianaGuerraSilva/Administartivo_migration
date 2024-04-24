@@ -52,19 +52,20 @@
             Grid.Column="0"
             Content="Descripción Artículo"
             Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSSeekConnection
+        <nsWpfControls:GSTextAreaWpf
             Name="txtDescripcionArticuloInventario"
             Grid.Row="1"
             Grid.Column="1"
             Width="300"
             Height="23"
             Margin="3"
-            HorizontalAlignment="Left"
-            ConnectionValue="{Binding Path=DescripcionArticuloInventario, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-            DisplayMemberPath="Descripcion"
-            IsEnabled="{Binding Path=IsEnabled}"
-            Model="{Binding Path=ConexionDescripcionArticuloInventario, Mode=TwoWay}"
-            SearchCommand="{Binding Path=ChooseDescripcionArticuloInventarioCommand}" />
+            nsWpf:LibKeyboardListener.IgnoreEnterKeyLikeTab="True"
+            AcceptsReturn="True"
+            IsReadOnly="True"
+            MaxLength="7000"
+            Style="{StaticResource TextBoxInputStyle}"
+            Text="{Binding Path=DescripcionArticuloInventario, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            VerticalScrollBarVisibility="Auto" />
         <Label
             Name="lblCantidad"
             Grid.Row="2"
@@ -77,27 +78,12 @@
             Grid.Column="1"
             Width="120"
             BorderThickness="1"
-            DecimalDigits="8"
+            DecimalDigits="{Binding Path=DecimalDigits}"
             InputDataType="UDecimal"
             IsEnabled="{Binding Path=IsEnabled}"
             MaxLength="34"
             Style="{StaticResource TextBoxInputStyle}"
             Value="{Binding Path=Cantidad, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-        <Label
-            Name="lblUnidadDeVenta"
-            Grid.Row="3"
-            Grid.Column="0"
-            Content="Unidad de Venta"
-            Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSTextBoxWpf
-            Name="txtUnidadDeVenta"
-            Grid.Row="3"
-            Grid.Column="1"
-            Width="120"
-            Height="23"
-            Margin="3"
-            HorizontalAlignment="Left"
-            IsEnabled="{Binding Path=IsEnabled}" />
         <Label
             Name="lblPorcentajeDeCosto"
             Grid.Row="4"
@@ -110,7 +96,7 @@
             Grid.Column="1"
             Width="120"
             BorderThickness="1"
-            DecimalDigits="4"
+            DecimalDigits="{Binding Path=DecimalDigitsCosto}"
             InputDataType="UDecimal"
             IsEnabled="{Binding Path=IsEnabled}"
             MaxLength="30"
