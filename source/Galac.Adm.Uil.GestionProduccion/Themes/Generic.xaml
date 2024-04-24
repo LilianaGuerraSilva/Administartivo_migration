@@ -40,4 +40,7 @@
     <DataTemplate DataType="{x:Type nsCSVM:OrdenDeProduccionDetalleArticuloViewModel}">
         <nsCSV:GSOrdenDeProduccionDetalleArticuloView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:ListaDeMaterialesDetalleSalidasViewModel}">
+        <nsCSV:GSListaDeMaterialesDetalleSalidasView />
+    </DataTemplate>
 </ResourceDictionary>

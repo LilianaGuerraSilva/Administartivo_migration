@@ -136,6 +136,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
                     vResult = insDb.LoadFromSp<ListaDeMateriales>(valProcessMessage, valParameters, CmdTimeOut);
                     if (valUseDetail && vResult != null && vResult.Count > 0) {
                         new clsListaDeMaterialesDetalleArticuloDat().GetDetailAndAppendToMaster(ref vResult);
+                        new clsListaDeMaterialesDetalleSalidasDat().GetDetailAndAppendToMaster(ref vResult);
                     }
                     break;
                 default: throw new ProgrammerMissingCodeException();
@@ -257,6 +258,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
         private bool InsertDetail(ListaDeMateriales valRecord) {
             bool vResult = true;
             vResult = vResult && SetPkInDetailListaDeMaterialesDetalleArticuloAndUpdateDb(valRecord);
+            vResult = vResult && SetPkInDetailListaDeMaterialesDetalleSalidasAndUpdateDb(valRecord);
             return vResult;
         }
 
@@ -274,9 +276,24 @@ namespace Galac.Adm.Dal.GestionProduccion {
             return vResult;
         }
 
+        private bool SetPkInDetailListaDeMaterialesDetalleSalidasAndUpdateDb(ListaDeMateriales valRecord) {
+            bool vResult = false;
+            int vConsecutivo = 1;
+            clsListaDeMaterialesDetalleSalidasDat insListaDeMaterialesDetalleSalidas = new clsListaDeMaterialesDetalleSalidasDat();
+            foreach (ListaDeMaterialesDetalleSalidas vDetail in valRecord.DetailListaDeMaterialesDetalleSalidas) {
+                vDetail.ConsecutivoCompania = valRecord.ConsecutivoCompania;
+                vDetail.ConsecutivoListaDeMateriales = valRecord.Consecutivo;
+                vDetail.Consecutivo = vConsecutivo;
+                vConsecutivo++;
+            }
+            vResult = insListaDeMaterialesDetalleSalidas.InsertChild(valRecord, insTrn);
+            return vResult;
+        }
+
         private bool UpdateDetail(ListaDeMateriales valRecord) {
             bool vResult = true;
             vResult = vResult && SetPkInDetailListaDeMaterialesDetalleArticuloAndUpdateDb(valRecord);
+            vResult = vResult && SetPkInDetailListaDeMaterialesDetalleSalidasAndUpdateDb(valRecord);
             return vResult;
         }
         #region Validaciones
@@ -286,8 +303,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vResult = IsValidConsecutivoCompania(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo);
             vResult = IsValidConsecutivo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo) && vResult;
             vResult = IsValidCodigo(valAction, CurrentRecord.Codigo) && vResult;
-            vResult = IsValidNombre(valAction, CurrentRecord.Nombre) && vResult;
-            vResult = IsValidCodigoArticuloInventario(valAction, CurrentRecord.CodigoArticuloInventario) && vResult;
             vResult = IsValidFechaCreacion(valAction, CurrentRecord.FechaCreacion) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
@@ -355,25 +370,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             return vResult;
         }
 
-        private bool IsValidCodigoArticuloInventario(eAccionSR valAction, string valCodigoArticuloInventario){
-            bool vResult = true;
-            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
-                return true;
-            }
-            valCodigoArticuloInventario = LibString.Trim(valCodigoArticuloInventario);
-            if (LibString.IsNullOrEmpty(valCodigoArticuloInventario , true)) {
-                BuildValidationInfo(MsgRequiredField("Código Inventario a producir"));
-                vResult = false;
-            } else {
-                LibDatabase insDb = new LibDatabase();
-                if (!insDb.ExistsValue("dbo.ArticuloInventario", "dbo.ArticuloInventario.Codigo", insDb.InsSql.ToSqlValue(valCodigoArticuloInventario), true)) {
-                    BuildValidationInfo("El valor asignado al campo Código Inventario a producir no existe, escoga nuevamente.");
-                    vResult = false;
-                }
-            }
-            return vResult;
-        }
-
         private bool IsValidFechaCreacion(eAccionSR valAction, DateTime valFechaCreacion){
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
@@ -430,6 +426,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             bool vResult = true;
             outErrorMessage = "";
             vResult = vResult && ValidateDetailListaDeMaterialesDetalleArticulo(valRecord, valAction, out outErrorMessage);
+            vResult = vResult && ValidateDetailListaDeMaterialesDetalleSalidas(valRecord, valAction, out outErrorMessage);
             return vResult;
         }
 
@@ -450,7 +447,29 @@ namespace Galac.Adm.Dal.GestionProduccion {
                 vNumeroDeLinea++;
             }
             if (!vResult) {
-                outErrorMessage = "Productos y/o Servicios"  + Environment.NewLine + vSbErrorInfo.ToString();
+                outErrorMessage = "Insumos"  + Environment.NewLine + vSbErrorInfo.ToString();
+            }
+            return vResult;
+        }
+
+        private bool ValidateDetailListaDeMaterialesDetalleSalidas(ListaDeMateriales valRecord, eAccionSR valAction, out string outErrorMessage) {
+            bool vResult = true;
+            StringBuilder vSbErrorInfo = new StringBuilder();
+            int vNumeroDeLinea = 1;
+            outErrorMessage = string.Empty;
+            foreach (ListaDeMaterialesDetalleSalidas vDetail in valRecord.DetailListaDeMaterialesDetalleSalidas) {
+                bool vLineHasError = true;
+                //agregar validaciones
+                if (LibString.IsNullOrEmpty(vDetail.CodigoArticuloInventario)) {
+                    vSbErrorInfo.AppendLine("Línea " + vNumeroDeLinea.ToString() + ": No fue asignado el Código Inventario.");
+                } else {
+                    vLineHasError = false;
+                }
+                vResult = vResult && (!vLineHasError);
+                vNumeroDeLinea++;
+            }
+            if (!vResult) {
+                outErrorMessage = "Salidas"  + Environment.NewLine + vSbErrorInfo.ToString();
             }
             return vResult;
         }

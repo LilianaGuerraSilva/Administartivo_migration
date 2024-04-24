@@ -24,18 +24,19 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private const string CodigoArticuloInventarioPropertyName = "CodigoArticuloInventario";
         private const string DescripcionArticuloInventarioPropertyName = "DescripcionArticuloInventario";
         private const string CantidadPropertyName = "Cantidad";
-
+        private const string UnidadDeVentaPropertyName = "UnidadDeVenta";
         #endregion
         #region Variables
 
         private FkArticuloInventarioViewModel _ConexionCodigoArticuloInventario = null;
-
+        private FkArticuloInventarioViewModel _ConexionDescripcionArticuloInventario = null;
+        private FkArticuloInventarioViewModel _ConexionUnidadDeVenta = null;
         #endregion //Variables
 
         #region Propiedades
 
         public override string ModuleName {
-            get { return "Productos y/o Servicios"; }
+            get { return "Insumos"; }
         }
 
         public int ConsecutivoCompania {
@@ -117,6 +118,24 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
+        [LibRequired(ErrorMessage = "El campo Unidad es requerido.")]
+        [LibGridColum("Unidad", eGridColumType.Connection, ConnectionDisplayMemberPath = "UnidadDeVenta", ConnectionModelPropertyName = "UnidadDeVenta", ConnectionSearchCommandName = "ChooseUnidadDeVentaCommand", MaxWidth=120)]
+        public string  UnidadDeVenta {
+            get {
+                return Model.UnidadDeVenta;
+            }
+            set {
+                if (Model.UnidadDeVenta != value) {
+                    Model.UnidadDeVenta = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(UnidadDeVentaPropertyName);
+                    if (LibString.IsNullOrEmpty(UnidadDeVenta, true)) {
+                        ConexionUnidadDeVenta = null;
+                    }
+                }
+            }
+        }
+
         public ListaDeMaterialesViewModel Master {
             get;
             set;
@@ -137,6 +156,20 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
+        public FkArticuloInventarioViewModel ConexionUnidadDeVenta {
+            get {
+                return _ConexionUnidadDeVenta;
+            }
+            set {
+                if (_ConexionUnidadDeVenta != value) {
+                    _ConexionUnidadDeVenta = value;
+                    RaisePropertyChanged(UnidadDeVentaPropertyName);
+                }
+                if (_ConexionUnidadDeVenta == null) {
+                    UnidadDeVenta = string.Empty;
+                }
+            }
+        }
         public RelayCommand<string> ChooseCodigoArticuloInventarioCommand {
             get;
             private set;

@@ -52,13 +52,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
             SQL.AppendLine("CONSTRAINT p_ListaDeMateriales PRIMARY KEY CLUSTERED");
             SQL.AppendLine("(ConsecutivoCompania ASC, Consecutivo ASC)");
-            // ojo revisar con Libreria
-            //SQL.AppendLine(", CONSTRAINT fk_ListaDeMaterialesArticuloInventarioNombre FOREIGN KEY (ConsecutivoCompania, Nombre)");
-            //SQL.AppendLine("REFERENCES dbo.ArticuloInventario(ConsecutivoCompania, Descripcion)");
-            //SQL.AppendLine("ON UPDATE CASCADE");
-            SQL.AppendLine(", CONSTRAINT fk_ListaDeMaterialesArticuloInventario FOREIGN KEY (ConsecutivoCompania, CodigoArticuloInventario)");
-            SQL.AppendLine("REFERENCES dbo.ArticuloInventario(ConsecutivoCompania, Codigo)");
-            SQL.AppendLine("ON UPDATE CASCADE");
             SQL.AppendLine(",CONSTRAINT u_LisDeMatniaigo UNIQUE NONCLUSTERED (ConsecutivoCompania,Codigo)");
             SQL.AppendLine(",CONSTRAINT u_LisDeMatniabre UNIQUE NONCLUSTERED (ConsecutivoCompania,Nombre)");
             SQL.AppendLine(")");
@@ -68,13 +61,9 @@ namespace Galac.Adm.Dal.GestionProduccion {
         private string SqlViewB1() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("SELECT ListaDeMateriales.ConsecutivoCompania, ListaDeMateriales.Consecutivo, ListaDeMateriales.Codigo, ListaDeMateriales.Nombre");
-            SQL.AppendLine(", ListaDeMateriales.CodigoArticuloInventario, dbo.ArticuloInventario.Descripcion AS DescripcionArticuloInventario,ListaDeMateriales.FechaCreacion, ListaDeMateriales.NombreOperador, ListaDeMateriales.FechaUltimaModificacion");
+            SQL.AppendLine(", ListaDeMateriales.CodigoArticuloInventario, ListaDeMateriales.FechaCreacion, ListaDeMateriales.NombreOperador, ListaDeMateriales.FechaUltimaModificacion");
             SQL.AppendLine(", ListaDeMateriales.fldTimeStamp, CAST(ListaDeMateriales.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".ListaDeMateriales");
-            //SQL.AppendLine("INNER JOIN dbo.ArticuloInventario ON  " + DbSchema + ".ListaDeMateriales.Nombre = dbo.ArticuloInventario.Descripcion");
-            //SQL.AppendLine("      AND " + DbSchema + ".ListaDeMateriales.ConsecutivoCompania = dbo.ArticuloInventario.ConsecutivoCompania");
-            SQL.AppendLine("INNER JOIN dbo.ArticuloInventario ON  " + DbSchema + ".ListaDeMateriales.CodigoArticuloInventario = dbo.ArticuloInventario.Codigo");
-            SQL.AppendLine("      AND " + DbSchema + ".ListaDeMateriales.ConsecutivoCompania = dbo.ArticuloInventario.ConsecutivoCompania");
             return SQL.ToString();
         }
 
@@ -85,7 +74,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@Codigo" + InsSql.VarCharTypeForDb(30) + " = '',");
             SQL.AppendLine("@Nombre" + InsSql.VarCharTypeForDb(255) + " = '',");
-            SQL.AppendLine("@CodigoArticuloInventario" + InsSql.VarCharTypeForDb(30) + ",");
+            SQL.AppendLine("@CodigoArticuloInventario" + InsSql.VarCharTypeForDb(30) + " = '',");
             SQL.AppendLine("@FechaCreacion" + InsSql.DateTypeForDb() + " = '01/01/1900',");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(20) + " = '',");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + " = '01/01/1900'");
@@ -278,17 +267,12 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("         ListaDeMateriales.Codigo,");
             SQL.AppendLine("         ListaDeMateriales.Nombre,");
             SQL.AppendLine("         ListaDeMateriales.CodigoArticuloInventario,");
-            SQL.AppendLine("         Gv_ArticuloInventario_B2.Descripcion AS DescripcionArticuloInventario,");
             SQL.AppendLine("         ListaDeMateriales.FechaCreacion,");
             SQL.AppendLine("         ListaDeMateriales.NombreOperador,");
             SQL.AppendLine("         ListaDeMateriales.FechaUltimaModificacion,");
             SQL.AppendLine("         CAST(ListaDeMateriales.fldTimeStamp AS bigint) AS fldTimeStampBigint,");
             SQL.AppendLine("         ListaDeMateriales.fldTimeStamp");
             SQL.AppendLine("      FROM " + DbSchema + ".ListaDeMateriales");
-            // REVISAR AQUI CON LIBRERIAS
-            //SQL.AppendLine("             INNER JOIN dbo.Gv_ArticuloInventario_B1 ON " + DbSchema + ".ListaDeMateriales.Nombre = dbo.Gv_ArticuloInventario_B1.Descripcion ");
-//                                         INNER JOIN Adm.Gv_Proveedor_B1 ON " + DbSchema + ".Compra.ConsecutivoProveedor = Adm.Gv_Proveedor_B1.consecutivo AND " + DbSchema + ".Compra.ConsecutivoCompania = Adm.Gv_Proveedor_B1.ConsecutivoCompania");
-            SQL.AppendLine("             INNER JOIN dbo.Gv_ArticuloInventario_B2 ON " + DbSchema + ".ListaDeMateriales.CodigoArticuloInventario = dbo.Gv_ArticuloInventario_B2.Codigo AND " + DbSchema + ".ListaDeMateriales.ConsecutivoCompania = dbo.Gv_ArticuloInventario_B2.ConsecutivoCompania");
             SQL.AppendLine("      WHERE ListaDeMateriales.ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("         AND ListaDeMateriales.Consecutivo = @Consecutivo");
             SQL.AppendLine("   RETURN @@ROWCOUNT");
@@ -321,14 +305,11 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("      " + DbSchema + ".Gv_ListaDeMateriales_B1.Codigo,");
             SQL.AppendLine("      " + DbSchema + ".Gv_ListaDeMateriales_B1.Nombre,");
             SQL.AppendLine("      " + DbSchema + ".Gv_ListaDeMateriales_B1.CodigoArticuloInventario,");
-            SQL.AppendLine("      dbo.Gv_ArticuloInventario_B2.Descripcion AS DescripcionArticuloInventario,");
             SQL.AppendLine("      " + DbSchema + ".Gv_ListaDeMateriales_B1.FechaCreacion,");
             SQL.AppendLine("      ''COLPIVOTE'' AS ColControl,");
             SQL.AppendLine("      " + DbSchema + ".Gv_ListaDeMateriales_B1.ConsecutivoCompania,");
             SQL.AppendLine("      " + DbSchema + ".Gv_ListaDeMateriales_B1.Consecutivo");
             SQL.AppendLine("      FROM " + DbSchema + ".Gv_ListaDeMateriales_B1");            
-            SQL.AppendLine("        INNER JOIN dbo.Gv_ArticuloInventario_B2 ON  " + DbSchema + ".Gv_ListaDeMateriales_B1.CodigoArticuloInventario = dbo.Gv_ArticuloInventario_B2.Codigo");
-            SQL.AppendLine("      AND " + DbSchema + ".Gv_ListaDeMateriales_B1.ConsecutivoCompania = dbo.Gv_ArticuloInventario_B2.ConsecutivoCompania");
             SQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
             SQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE ' + @SQLWhere");
             SQL.AppendLine("   IF (NOT @SQLOrderBy IS NULL) AND (@SQLOrderBy <> '')");
@@ -358,11 +339,8 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("      " + DbSchema + ".ListaDeMateriales.Nombre,");
             SQL.AppendLine("      " + DbSchema + ".ListaDeMateriales.CodigoArticuloInventario,");
             SQL.AppendLine("      " + DbSchema + ".ListaDeMateriales.FechaCreacion,");
-            SQL.AppendLine("          Gv_ArticuloInventario_B2.Descripcion AS DescripcionArticuloInventario");
             //SQL.AppendLine("      ," + DbSchema + ".ListaDeMateriales.[Programador - personaliza este sp y coloca solo los campos que te interesa exponer a quienes lo consumen]");
             SQL.AppendLine("      FROM " + DbSchema + ".ListaDeMateriales");
-            SQL.AppendLine("        INNER JOIN dbo.Gv_ArticuloInventario_B2 ON  " + DbSchema + ".ListaDeMateriales.CodigoArticuloInventario = dbo.Gv_ArticuloInventario_B2.Codigo");
-            SQL.AppendLine("      AND " + DbSchema + ".ListaDeMateriales.ConsecutivoCompania = dbo.Gv_ArticuloInventario_B2.ConsecutivoCompania");
             SQL.AppendLine("      WHERE " + DbSchema + ".ListaDeMateriales.ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("          AND  " + DbSchema + ".ListaDeMateriales.Consecutivo IN (");
             SQL.AppendLine("            SELECT  Consecutivo ");
@@ -408,6 +386,8 @@ namespace Galac.Adm.Dal.GestionProduccion {
                 CrearProcedimientos();
                 clsListaDeMaterialesDetalleArticuloED insDetailLisDeMatDetArt = new clsListaDeMaterialesDetalleArticuloED();
                 vResult = insDetailLisDeMatDetArt.InstalarTabla();
+                clsListaDeMaterialesDetalleSalidasED insDetailLisDeMatDetSal = new clsListaDeMaterialesDetalleSalidasED();
+                vResult = vResult && insDetailLisDeMatDetSal.InstalarTabla();
             }
             return vResult;
         }
@@ -418,6 +398,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
                 CrearVistas();
                 CrearProcedimientos();
                 vResult = new clsListaDeMaterialesDetalleArticuloED().InstalarVistasYSps();
+                vResult = vResult && new clsListaDeMaterialesDetalleSalidasED().InstalarVistasYSps();
             }
             return vResult;
         }
@@ -427,6 +408,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             LibStoredProc insSp = new LibStoredProc();
             LibViews insVista = new LibViews();
             vResult = new clsListaDeMaterialesDetalleArticuloED().BorrarVistasYSps();
+            vResult = new clsListaDeMaterialesDetalleSalidasED().BorrarVistasYSps() && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_ListaDeMaterialesINS") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_ListaDeMaterialesUPD") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_ListaDeMaterialesDEL") && vResult;
