@@ -17,15 +17,14 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="122.17" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Label
             Name="lblCodigoArticuloInventario"
@@ -37,9 +36,9 @@
             Name="txtCodigoArticuloInventario"
             Grid.Row="0"
             Grid.Column="1"
-            Width="120"
+            Width="200"
             Height="23"
-            Margin="3"
+            Margin="3,3,0,4"
             HorizontalAlignment="Left"
             ConnectionValue="{Binding Path=CodigoArticuloInventario, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             DisplayMemberPath="Codigo"
@@ -56,9 +55,10 @@
             Name="txtDescripcionArticuloInventario"
             Grid.Row="1"
             Grid.Column="1"
-            Width="300"
+            Grid.ColumnSpan="3"
+            Width="460"
             Height="23"
-            Margin="3"
+            Margin="3,3,0,3"
             nsWpf:LibKeyboardListener.IgnoreEnterKeyLikeTab="True"
             AcceptsReturn="True"
             IsReadOnly="True"
@@ -86,14 +86,14 @@
             Value="{Binding Path=Cantidad, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         <Label
             Name="lblPorcentajeDeCosto"
-            Grid.Row="4"
-            Grid.Column="0"
+            Grid.Row="2"
+            Grid.Column="2"
             Content="% Costo"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSNumericBoxWpf
             Name="txtPorcentajeDeCosto"
-            Grid.Row="4"
-            Grid.Column="1"
+            Grid.Row="2"
+            Grid.Column="3"
             Width="120"
             BorderThickness="1"
             DecimalDigits="{Binding Path=DecimalDigitsCosto}"
