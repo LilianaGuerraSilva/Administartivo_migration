@@ -88,7 +88,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Descripción es requerido.")]
-        [LibGridColum("Descripción", eGridColumType.Connection, ConnectionDisplayMemberPath = "Descripcion", ConnectionModelPropertyName = "DescripcionArticuloInventario", ConnectionSearchCommandName = "ChooseDescripcionArticuloInventarioCommand", Width = 490, Trimming = System.Windows.TextTrimming.WordEllipsis)]
+        [LibGridColum("Descripción", eGridColumType.Connection, ConnectionDisplayMemberPath = "Descripcion", ConnectionModelPropertyName = "DescripcionArticuloInventario", ConnectionSearchCommandName = "ChooseDescripcionArticuloInventarioCommand", Width = 435, Trimming = System.Windows.TextTrimming.WordEllipsis)]
         public string DescripcionArticuloInventario {
             get {
                 return Model.DescripcionArticuloInventario;

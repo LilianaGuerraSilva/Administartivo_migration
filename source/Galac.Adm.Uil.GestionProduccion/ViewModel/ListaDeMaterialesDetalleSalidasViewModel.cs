@@ -23,6 +23,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public const string CantidadPropertyName = "Cantidad";
         public const string UnidadDeVentaPropertyName = "UnidadDeVenta";
         public const string PorcentajeDeCostoPropertyName = "PorcentajeDeCosto";
+        public const string PorcentajeDeCostoTotalPropertyName = "PorcentajeDeCostoTotal";
+        
         #endregion
         #region Variables
         private FkArticuloInventarioViewModel _ConexionCodigoArticuloInventario = null;
@@ -83,7 +85,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Descripción", eGridColumType.Connection, ConnectionDisplayMemberPath = "Descripcion", ConnectionModelPropertyName = "DescripcionArticuloInventario", ConnectionSearchCommandName = "ChooseDescripcionArticuloInventarioCommand", Width = 350, Trimming = System.Windows.TextTrimming.WordEllipsis)]
+        [LibGridColum("Descripción", eGridColumType.Connection, ConnectionDisplayMemberPath = "Descripcion", ConnectionModelPropertyName = "DescripcionArticuloInventario", ConnectionSearchCommandName = "ChooseDescripcionArticuloInventarioCommand", Width = 362, Trimming = System.Windows.TextTrimming.WordEllipsis)]
         public string  DescripcionArticuloInventario {
             get {
                 return Model.DescripcionArticuloInventario;
@@ -126,7 +128,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibRequired(ErrorMessage = "El campo %Costo es requerido.")]
+        [LibCustomValidation("PorcentajeDeCostoValidating")]
         [LibGridColum("%Costo", eGridColumType.Numeric, Alignment = eTextAlignment.Right, MaxWidth = 70, ConditionalPropertyDecimalDigits = "DecimalDigitsCosto")]
         public decimal  PorcentajeDeCosto {
             get {
@@ -229,6 +231,14 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             get {
                 return 4;
             }
+        }
+
+        private ValidationResult PorcentajeDeCostoValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if ((Action == eAccionSR.Insertar) || (Action == eAccionSR.Modificar) && PorcentajeDeCosto < 0) {
+                return ValidationResult.Success;
+            }
+            return vResult;
         }
         #endregion //Metodos Generados
     } //End of class ListaDeMaterialesDetalleSalidasViewModel
