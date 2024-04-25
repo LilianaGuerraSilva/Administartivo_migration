@@ -11,6 +11,7 @@ using LibGalac.Aos.Brl;
 using LibGalac.Aos.Base.Dal;
 using Galac.Saw.Ccl.Inventario;
 using Galac.Adm.Ccl.GestionProduccion;
+using System.Collections.ObjectModel;
 
 namespace Galac.Adm.Brl.GestionProduccion {
     public partial class clsListaDeMaterialesNav : LibBaseNavMaster<IList<ListaDeMateriales>, IList<ListaDeMateriales>>, IListaDeMaterialesPdn {
@@ -134,12 +135,6 @@ namespace Galac.Adm.Brl.GestionProduccion {
                                                ComisionaPorcentaje = vRecord.Element("ComisionaPorcentaje").Value,
                                                UsaBalanza = vRecord.Element("UsaBalanza").Value
                                            }).Distinct();
-
-            //foreach (ListaDeMateriales vItem in refData) {
-            //    //vItem.DescripcionArticuloInventario = vInfoConexionArticuloInventario.Descendants("GpResult")
-            //    //    .Where(p => p.Element("Codigo").Value == vItem.CodigoArticuloInventario)
-            //    //    .Select(p => p.Element("Descripcion").Value).FirstOrDefault();
-            //}
         }
 
         private XElement FindInfoArticuloInventario(IList<ListaDeMateriales> valData) {
@@ -359,22 +354,25 @@ namespace Galac.Adm.Brl.GestionProduccion {
         }
 
         protected override LibResponse UpdateRecord(IList<ListaDeMateriales> refRecord, bool valUseDetail, eAccionSR valAction) {
-            ValidaListaDeMateriaContraArticuloAProducir(refRecord);
+            ValidaListasInsumosVsSalidas(refRecord);
+            ValidaPorcentajeDeCosto(refRecord);
+            ValidaTotalDePorcentajeCosto(refRecord);
             return base.UpdateRecord(refRecord, valUseDetail, valAction);
         }
 
         protected override LibResponse InsertRecord(IList<ListaDeMateriales> refRecord, bool valUseDetail) {
-            ValidaListaDeMateriaContraArticuloAProducir(refRecord);
+            ValidaListasInsumosVsSalidas(refRecord);
+            ValidaPorcentajeDeCosto(refRecord);
+            ValidaTotalDePorcentajeCosto(refRecord);
             return base.InsertRecord(refRecord, valUseDetail);
         }
 
-        private void ValidaListaDeMateriaContraArticuloAProducir(IList<ListaDeMateriales> refRecord) {
-            foreach (ListaDeMateriales vListaDeMateriales in refRecord) {
-                if (vListaDeMateriales.DetailListaDeMaterialesDetalleArticulo != null && vListaDeMateriales.DetailListaDeMaterialesDetalleArticulo.Count > 0) {
-                    if (vListaDeMateriales.DetailListaDeMaterialesDetalleArticulo.Count(p => p.CodigoArticuloInventario == vListaDeMateriales.CodigoArticuloInventario) > 0) {
-                        throw new LibGalac.Aos.Catching.GalacValidationException("En la lista de materiales/servicios a utilizar se encuentra el articulo a producir.");
-                    }
-                }
+        private void ValidaListasInsumosVsSalidas(IList<ListaDeMateriales> refRecord) {
+            List<string> vListaDeInsumos = refRecord[0].DetailListaDeMaterialesDetalleArticulo.Select(x => x.CodigoArticuloInventario).ToList();
+            List<string> vListaDeSalidas = refRecord[0].DetailListaDeMaterialesDetalleSalidas.Select(x => x.CodigoArticuloInventario).ToList();
+            bool tienenElementosComunes = vListaDeInsumos.Intersect(vListaDeSalidas).Count() > 0;
+            if (tienenElementosComunes) { 
+                throw new LibGalac.Aos.Catching.GalacValidationException("Al menos insumos a utilizar se encuentra en la lista de artículos a producir.");
             }
         }
 
@@ -398,6 +396,22 @@ namespace Galac.Adm.Brl.GestionProduccion {
             vSql.AppendLine("UPDATE Adm.ListaDeMateriales SET Codigo = Codigo WHERE Nombre = @Nombre AND ConsecutivoCompania = @ConsecutivoCompania");
             vResult = LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParams.Get(), "", 0) > 0;
             return vResult;
+        }
+
+        public void ValidaTotalDePorcentajeCosto(IList<ListaDeMateriales> refRecord) {
+            decimal TotalPorcentajeDeCosto = refRecord[0].DetailListaDeMaterialesDetalleSalidas.Sum(s => s.PorcentajeDeCosto);
+            if (TotalPorcentajeDeCosto != 100) {
+                throw new LibGalac.Aos.Catching.GalacValidationException("El Total % Costo debe ser igual a 100");
+            }
+        }
+        public void ValidaPorcentajeDeCosto(IList<ListaDeMateriales> refRecord) {
+            decimal PorcentajeMax = 100;
+            decimal PorcentajeMin = 0;
+            bool PorcentajeMayor = refRecord[0].DetailListaDeMaterialesDetalleSalidas.Count(x => x.PorcentajeDeCosto > PorcentajeMax) > 0;
+            bool PorcentajeMenor = refRecord[0].DetailListaDeMaterialesDetalleSalidas.Count(x => x.PorcentajeDeCosto < PorcentajeMin) > 0;
+            if (PorcentajeMayor || PorcentajeMenor) {
+                throw new LibGalac.Aos.Catching.GalacValidationException("El % Costo debe ser mayor igual 0 y menor igual 100");
+            }
         }
         #endregion //Código Programador
 

@@ -101,17 +101,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        public string  CodigoArticuloInventario {
-            get {
-                return Model.CodigoArticuloInventario;
-            }
-            set {
-                if(Model.CodigoArticuloInventario != value) {
-                    Model.CodigoArticuloInventario = value;
-                }
-            }
-        }
-
         [LibRequired(ErrorMessage = "El campo Fecha de Creación es requerido.")]
         [LibCustomValidation("FechaCreacionValidating")]
         [LibGridColum("Fecha de Creación", eGridColumType.DatePicker, BindingStringFormat = "dd/MM/yyyy")]
@@ -165,20 +154,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             get;
             set;
         }
-        //public FkArticuloInventarioViewModel ConexionCodigoArticuloInventario {
-        //    get {
-        //        return _ConexionCodigoArticuloInventario;
-        //    }
-        //    set {
-        //        if(_ConexionCodigoArticuloInventario != value) {
-        //            _ConexionCodigoArticuloInventario = value;
-        //            RaisePropertyChanged(CodigoArticuloInventarioPropertyName);
-        //        }
-        //        if(_ConexionCodigoArticuloInventario == null) {
-        //            CodigoArticuloInventario = string.Empty;
-        //        }
-        //    }
-        //}
 
         public RelayCommand<string> ChooseCodigoArticuloInventarioCommand {
             get;
@@ -374,31 +349,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             //ConexionCodigoArticuloInventario = FirstConnectionRecordOrDefault<FkArticuloInventarioViewModel>("Artículo Inventario", LibSearchCriteria.CreateCriteria("Codigo", CodigoArticuloInventario));
         }
 
-        //private void ExecuteChooseCodigoArticuloInventarioCommand(string valCodigo) {
-        //    try {
-        //        if(valCodigo == null) {
-        //            valCodigo = string.Empty;
-        //        }
-        //        LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_ArticuloInventario_B2.Codigo", valCodigo);
-        //        LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
-        //        vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("StatusdelArticulo ", eStatusArticulo.Vigente), eLogicOperatorType.And);
-        //        vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityEquality, eTipoArticuloInv.Simple, eLogicOperatorType.And);
-        //        vFixedCriteria.Add("TipoDeArticulo", eBooleanOperatorType.IdentityEquality, eTipoDeArticulo.Mercancia, eLogicOperatorType.And);
-        //        ConexionCodigoArticuloInventario = ChooseRecord<FkArticuloInventarioViewModel>("Artículo Inventario", vDefaultCriteria, vFixedCriteria, string.Empty);
-        //        if(ConexionCodigoArticuloInventario != null) {
-        //            CodigoArticuloInventario = ConexionCodigoArticuloInventario.Codigo;
-        //            DescripcionArticuloInventario = ConexionCodigoArticuloInventario.Descripcion;
-        //        } else {
-        //            CodigoArticuloInventario = string.Empty;
-        //            DescripcionArticuloInventario = string.Empty;
-        //        }
-        //    } catch(System.AccessViolationException) {
-        //        throw;
-        //    } catch(System.Exception vEx) {
-        //        LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
-        //    }
-        //}
-
         private ValidationResult FechaCreacionValidating() {
             ValidationResult vResult = ValidationResult.Success;
             if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
@@ -429,6 +379,18 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
             }
             return vResult;
+        }
+
+        public decimal PorcentajeDeCostoTotal {
+            get {
+                return DetailListaDeMaterialesDetalleSalidas.Items.Sum(s=> s.PorcentajeDeCosto);
+            }
+        }
+
+        public string PorcentajeDeCostoTotalStr {
+            get {
+                return LibConvert.NumToString(PorcentajeDeCostoTotal,4);
+            }
         }
 
         #endregion //Metodos Generados
