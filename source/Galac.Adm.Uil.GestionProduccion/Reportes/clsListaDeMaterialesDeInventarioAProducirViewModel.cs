@@ -22,9 +22,9 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         #region Constantes
 
         private const string CantidadAImprimirPropertyName = "CantidadAImprimir";
-        private const string CodigoArticuloInventarioPropertyName = "CodigoArticuloInventario";
-        private const string DescripcionArticuloInventarioPropertyName = "DescripcionArticuloInventario";
-        private const string IsEnabledCodigoArticuloInventarioPropertyName = "IsEnabledCodigoArticuloInventario";
+        private const string CodigoListaMaterialesPropertyName = "CodigoListaMateriales";
+        private const string NombreListaDeMaterialesPropertyName = "NombreListaDeMateriales";
+        private const string IsEnabledCodigoListaDeMaterialesPropertyName = "IsEnabledCodigoListaDeMateriales";
         private const string CantidadAProducirPropertyName = "CantidadAProducir";
 
         #endregion
@@ -32,58 +32,57 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         #region Variables
 
         private eCantidadAImprimir _CantidadAImprimir;
-        private string _CodigoArticuloInventario;
-        private string _DescripcionArticuloInventario;
-        private bool _IsEnabledCodigoArticuloInventario;
+        private string _CodigoListaMateriales;
+        private string _NombreListaDeMateriales;        
         private decimal _CantidadAProducir;
-        private FkArticuloInventarioViewModel _ConexionCodigoArticuloInventario = null;
-
+        private FkListaDeMaterialesInformeViewModel _ConexionListaDeMateriales = null;
+        private bool _IsEnabledCodigoListaDeMateriales;
         #endregion //Variables
 
         #region Propiedades
 
-        public FkArticuloInventarioViewModel ConexionCodigoArticuloInventario {
+        public FkListaDeMaterialesInformeViewModel ConexionListaDeMateriales {
             get {
-                return _ConexionCodigoArticuloInventario;
+                return _ConexionListaDeMateriales;
             }
             set {
-                if (_ConexionCodigoArticuloInventario != value) {
-                    _ConexionCodigoArticuloInventario = value;
-                    RaisePropertyChanged(CodigoArticuloInventarioPropertyName);
+                if (_ConexionListaDeMateriales != value) {
+                    _ConexionListaDeMateriales = value;
+                    RaisePropertyChanged(CodigoListaMaterialesPropertyName);
                 }
-                if (_ConexionCodigoArticuloInventario == null) {
-                    _CodigoArticuloInventario = string.Empty;
+                if (_ConexionListaDeMateriales == null) {
+                    _CodigoListaMateriales = string.Empty;
                 }
             }
         }
 
-        [LibCustomValidation("IsCodigoArticuloRequired")]
-        public string CodigoArticuloInventario {
+        [LibCustomValidation("IsCodigoListaRequired")]
+        public string CodigoListaMateriales {
             get {
-                return _CodigoArticuloInventario;
+                return _CodigoListaMateriales;
             }
             set {
-                if (_CodigoArticuloInventario != value) {
-                    _CodigoArticuloInventario = value;
-                    RaisePropertyChanged(CodigoArticuloInventarioPropertyName);
-                    if (LibString.IsNullOrEmpty(CodigoArticuloInventario, true)) {
-                        ConexionCodigoArticuloInventario = null;
-                        DescripcionArticuloInventario = string.Empty;
+                if (_CodigoListaMateriales != value) {
+                    _CodigoListaMateriales = value;
+                    RaisePropertyChanged(CodigoListaMaterialesPropertyName);
+                    if (LibString.IsNullOrEmpty(_CodigoListaMateriales, true)) {
+                        ConexionListaDeMateriales = null;
+                        NombreListaDeMateriales = string.Empty;
                     } else {
-                        DescripcionArticuloInventario = ConexionCodigoArticuloInventario.Descripcion;
+                        NombreListaDeMateriales = ConexionListaDeMateriales.Nombre;
                     }
                 }
             }
         }
 
-        public string DescripcionArticuloInventario {
+        public string NombreListaDeMateriales {
             get {
-                return _DescripcionArticuloInventario;
+                return _NombreListaDeMateriales;
             }
             set {
-                if (_DescripcionArticuloInventario != value) {
-                    _DescripcionArticuloInventario = value;
-                    RaisePropertyChanged(DescripcionArticuloInventarioPropertyName);
+                if (_NombreListaDeMateriales != value) {
+                    _NombreListaDeMateriales = value;
+                    RaisePropertyChanged(NombreListaDeMaterialesPropertyName);
                 }
             }
         }
@@ -95,15 +94,15 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             set {
                 if (_CantidadAImprimir != value) {
                     _CantidadAImprimir = value;
-                    RaisePropertyChanged(CantidadAImprimirPropertyName);
-                    RaisePropertyChanged(IsEnabledCodigoArticuloInventarioPropertyName);
                     if (eCantidadAImprimir.One.Equals(_CantidadAImprimir)) {
-                        IsEnabledCodigoArticuloInventario = true;
+                        IsEnabledCodigoListaDeMateriales = true;
                     } else {
-                        IsEnabledCodigoArticuloInventario = false;
-                        DescripcionArticuloInventario = string.Empty;
-                        CodigoArticuloInventario = string.Empty;
+                        IsEnabledCodigoListaDeMateriales = false;
+                        NombreListaDeMateriales = string.Empty;
+                        CodigoListaMateriales= string.Empty;
                     }
+                    RaisePropertyChanged(CantidadAImprimirPropertyName);
+                    RaisePropertyChanged(IsEnabledCodigoListaDeMaterialesPropertyName);
                 }
             }
         }
@@ -131,19 +130,20 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             get { return false; }
         }
 
-        public RelayCommand<string> ChooseCodigoArticuloInventarioCommand {
+        public RelayCommand<string> ChooseCodigoListaDeMaterialesCommand {
             get;
             private set;
         }
 
-        public bool IsEnabledCodigoArticuloInventario {
+
+        public bool IsEnabledCodigoListaDeMateriales {
             get {
-                return _IsEnabledCodigoArticuloInventario;
+                return _IsEnabledCodigoListaDeMateriales;
             }
             set {
-                if (_IsEnabledCodigoArticuloInventario != value) {
-                    _IsEnabledCodigoArticuloInventario = value;
-                    RaisePropertyChanged(IsEnabledCodigoArticuloInventarioPropertyName);
+                if (_IsEnabledCodigoListaDeMateriales != value) {
+                    _IsEnabledCodigoListaDeMateriales = value;
+                    RaisePropertyChanged(IsEnabledCodigoListaDeMaterialesPropertyName);
                 }
             }
         }
@@ -154,7 +154,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
 
         public clsListaDeMaterialesDeInventarioAProducirViewModel() {
             _CantidadAImprimir = eCantidadAImprimir.All;
-            _CodigoArticuloInventario = string.Empty;
+            _CodigoListaMateriales = string.Empty;
             _CantidadAProducir = 1;
         }
 
@@ -174,26 +174,23 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
 
         protected override void InitializeCommands() {
             base.InitializeCommands();
-            ChooseCodigoArticuloInventarioCommand = new RelayCommand<string>(ExecuteChooseCodigoArticuloInventarioCommand);
+            ChooseCodigoListaDeMaterialesCommand = new RelayCommand<string>(ExecuteChooseCodigoListaMaterialesCommand);
         }
 
-        private void ExecuteChooseCodigoArticuloInventarioCommand(string valCodigo) {
+        private void ExecuteChooseCodigoListaMaterialesCommand(string valCodigo) {
             try {
                 if (valCodigo == null) {
                     valCodigo = string.Empty;
                 }
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_ArticuloInventario_B2.Codigo", valCodigo);
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Adm.Gv_ListaDeMateriales_B1.Codigo", valCodigo);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
-                vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("StatusdelArticulo ", eStatusArticulo.Vigente), eLogicOperatorType.And);
-                vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityEquality, eTipoArticuloInv.Simple, eLogicOperatorType.And);
-                vFixedCriteria.Add("TipoDeArticulo", eBooleanOperatorType.IdentityEquality, eTipoDeArticulo.Mercancia, eLogicOperatorType.And);
-                ConexionCodigoArticuloInventario = ChooseRecord<FkArticuloInventarioViewModel>("Artículo Inventario", vDefaultCriteria, vFixedCriteria, string.Empty);
-                if(ConexionCodigoArticuloInventario != null) {
-                    CodigoArticuloInventario = ConexionCodigoArticuloInventario.Codigo;
-                    DescripcionArticuloInventario = ConexionCodigoArticuloInventario.Descripcion;
+                ConexionListaDeMateriales = ChooseRecord<FkListaDeMaterialesInformeViewModel>("Lista de Materiales", vDefaultCriteria, vFixedCriteria, string.Empty);
+                if(ConexionListaDeMateriales != null) {
+                    CodigoListaMateriales = ConexionListaDeMateriales.Codigo;
+                    NombreListaDeMateriales = ConexionListaDeMateriales.Nombre;
                 } else {
-                    CodigoArticuloInventario = string.Empty;
-                    DescripcionArticuloInventario = string.Empty;
+                    CodigoListaMateriales = string.Empty;
+                    NombreListaDeMateriales = string.Empty;
                 }
             } catch (System.AccessViolationException) {
                 throw;
@@ -206,10 +203,10 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
 
         #region Código Programador
 
-        private ValidationResult IsCodigoArticuloRequired() {
+        private ValidationResult IsCodigoListaRequired() {
             ValidationResult vResult = ValidationResult.Success;
-            if (IsEnabledCodigoArticuloInventario && LibText.IsNullOrEmpty(CodigoArticuloInventario)) {
-                vResult = new ValidationResult("Debe seleccionar un Articulo de Inventario a consultar.");
+            if (IsEnabledCodigoListaDeMateriales && LibText.IsNullOrEmpty(CodigoListaMateriales)) {
+                vResult = new ValidationResult("Debe seleccionar una lista de materiales a consultar.");
             }
             return vResult;
         }
