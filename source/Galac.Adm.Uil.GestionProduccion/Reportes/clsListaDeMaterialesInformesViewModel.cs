@@ -47,7 +47,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         private ILibRpt ConfigReportListaDeMaterialesDeInventarioAProducir(clsListaDeMaterialesDeInventarioAProducirViewModel valViewModel) {
             ILibRpt vResult = null;
             if (valViewModel != null) {
-                vResult = new Galac.Adm.Rpt.GestionProduccion.clsListaDeMaterialesDeInventarioAProducir(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.CodigoArticuloInventario, valViewModel.CantidadAImprimir, valViewModel.CantidadAProducir) {
+                vResult = new Galac.Adm.Rpt.GestionProduccion.clsListaDeMaterialesDeSalida(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.CodigoArticuloInventario, valViewModel.CantidadAImprimir, valViewModel.CantidadAProducir) {
                         Worker = Manager
                     };
             }
