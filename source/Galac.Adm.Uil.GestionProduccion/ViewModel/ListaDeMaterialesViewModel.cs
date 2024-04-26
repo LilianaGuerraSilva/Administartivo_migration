@@ -32,8 +32,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         #endregion
 
         #region Variables
-
-        private FkArticuloInventarioViewModel _ConexionCodigoArticuloInventario = null;
         private decimal _TotalPorcentajeCosto;
 
         #endregion //Variables
