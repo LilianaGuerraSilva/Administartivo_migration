@@ -424,10 +424,11 @@ namespace Galac.Saw.Lib {
             return vNotaMonedaCambio.ToString();
         }
 
-        public ObservableCollection<string> ListaDeMonedasActivasParaInformes(bool valIncluirOtrosTiposDeMoneda) {
+        public ObservableCollection<string> ListaDeMonedasActivasParaInformes(bool valIncluirOtrosTiposDeMoneda, bool valIncluirMonedaLocal = false) {
             ObservableCollection<string> vResult = new ObservableCollection<string>();
             string vSqlSoloMonedasFisicas = valIncluirOtrosTiposDeMoneda ? "" : " AND TipoDeMoneda ='0' ";
-            string vSql = "SELECT Codigo, Nombre FROM Moneda WHERE Activa = 'S' AND Nombre NOT LIKE '%bolívar%' " + vSqlSoloMonedasFisicas + " ORDER BY Codigo DESC";
+            string vIncluirBolivar = valIncluirMonedaLocal ? " AND CODIGO <> 'VEB' " : "AND Nombre NOT LIKE '%bolívar%' ";
+            string vSql = "SELECT Codigo, Nombre FROM Moneda WHERE Activa = 'S' "+ vIncluirBolivar + vSqlSoloMonedasFisicas + " ORDER BY Codigo DESC";
             XElement vResultSet = LibBusiness.ExecuteSelect(vSql, null, "", 0);
             if (vResultSet != null) {
                 var vEntity = from vRecord in vResultSet.Descendants("GpResult") select vRecord;

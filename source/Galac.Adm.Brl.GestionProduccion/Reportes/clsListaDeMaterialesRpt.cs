@@ -33,7 +33,7 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             return vResult;
         }
 
-        System.Data.DataTable IListaDeMaterialesInformes.BuildListaDeMateriales(int valConsecutivoCompania, string valCodigoListaAProducir, eCantidadAImprimir valCantidadAImprimir, decimal valCantidadAProducir,eMonedaDelInformeMM valMonedaDelInformeMM, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valNombreMoneda, string valCodigoMoneda) {
+        System.Data.DataTable IListaDeMaterialesInformes.BuildListaDeMateriales(int valConsecutivoCompania, string valCodigoListaAProducir, eCantidadAImprimir valCantidadAImprimir, decimal valCantidadAProducir,string valMonedaDelInformeMM, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valNombreMoneda, string valCodigoMoneda) {
             string vSql = "";
             clsListaDeMaterialesSql insListaDeMaterialesSql = new clsListaDeMaterialesSql();
             LibGalac.Aos.Base.ILibDataRpt insListaDeMaterialesDeInventarioAProducir = new Galac.Adm.Dal.GestionProduccion.clsListaDeMaterialesDat();

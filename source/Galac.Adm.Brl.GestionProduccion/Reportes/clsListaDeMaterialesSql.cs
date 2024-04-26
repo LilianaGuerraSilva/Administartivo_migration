@@ -12,7 +12,7 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
 
         #region Metodos Generados
 
-        public string SqlListaDeMaterialesDeInventarioAProducir(int valConsecutivoCompania, string valCodigoListaAProducir, eCantidadAImprimir valCantidadAImprimir, decimal valCantidadAProducir,eMonedaDelInformeMM valMonedaDelInformeMM, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valNombreMoneda, string valCodigoMoneda) {
+        public string SqlListaDeMaterialesDeInventarioAProducir(int valConsecutivoCompania, string valCodigoListaAProducir, eCantidadAImprimir valCantidadAImprimir, decimal valCantidadAProducir,string valMonedaDelInformeMM, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valNombreMoneda, string valCodigoMoneda) {
             string vSQLWhere = string.Empty;
             StringBuilder vSql = new StringBuilder();
             if (valCantidadAProducir == 0) { valCantidadAProducir = 1; }
