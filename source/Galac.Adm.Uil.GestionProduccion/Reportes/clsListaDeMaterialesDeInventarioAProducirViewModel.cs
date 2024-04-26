@@ -15,6 +15,8 @@ using Galac.Adm.Uil.GestionProduccion.ViewModel;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using System.ComponentModel.DataAnnotations;
 using Galac.Saw.Ccl.Inventario;
+using Galac.Saw.Lib;
+using System.Collections.ObjectModel;
 
 namespace Galac.Adm.Uil.GestionProduccion.Reportes {
     public class clsListaDeMaterialesDeInventarioAProducirViewModel : LibInputRptViewModelBase<ListaDeMateriales> {
@@ -26,7 +28,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         private const string NombreListaDeMaterialesPropertyName = "NombreListaDeMateriales";
         private const string IsEnabledCodigoListaDeMaterialesPropertyName = "IsEnabledCodigoListaDeMateriales";
         private const string CantidadAProducirPropertyName = "CantidadAProducir";
-
+        private const string MonedaDelInformePropertyName = "MonedaDelInforme";
         #endregion
 
         #region Variables
@@ -37,6 +39,9 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         private decimal _CantidadAProducir;
         private FkListaDeMaterialesInformeViewModel _ConexionListaDeMateriales = null;
         private bool _IsEnabledCodigoListaDeMateriales;
+        private eTasaDeCambioParaImpresion _TipoTasaDeCambioAsEnum;                    
+        private ObservableCollection<eMonedaDelInformeMM> _ListaMonedaDelInforme;
+         private eMonedaDelInformeMM _MonedaDelInforme;
         #endregion //Variables
 
         #region Propiedades
@@ -135,6 +140,41 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             private set;
         }
 
+        public eTasaDeCambioParaImpresion TipoTasaDeCambio {
+			get { return _TipoTasaDeCambioAsEnum; }
+			set {
+				if (_TipoTasaDeCambioAsEnum != value) {
+					_TipoTasaDeCambioAsEnum = value;
+					RaisePropertyChanged(() => TipoTasaDeCambio);
+				}
+			}
+		}
+
+		public eTasaDeCambioParaImpresion[] ArrayTiposTasaDeCambio {
+			get { return LibEnumHelper<eTasaDeCambioParaImpresion>.GetValuesInArray(); }
+		}
+
+		public ObservableCollection<eMonedaDelInformeMM> ListaMonedaDelInforme {
+			get { return _ListaMonedaDelInforme; }
+			set { _ListaMonedaDelInforme = value; }
+		}
+        
+        public ObservableCollection<string> ListaMonedasActivas { get; set; }
+         public eMonedaDelInformeMM MonedaDelInforme {
+            get {
+                return _MonedaDelInforme;
+            }
+            set {
+                if (_MonedaDelInforme != value) {
+                    _MonedaDelInforme = value;
+                    RaisePropertyChanged(MonedaDelInformePropertyName);
+                    RaisePropertyChanged(() => IsVisibleMonedasActivas);
+					RaisePropertyChanged(() => IsVisibleTipoTasaDeCambio);
+                }
+            }
+        }
+
+        public string Moneda { get; set; }            
 
         public bool IsEnabledCodigoListaDeMateriales {
             get {
@@ -148,6 +188,9 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             }
         }
 
+        public bool IsVisibleTipoTasaDeCambio { get { return MonedaDelInforme == eMonedaDelInformeMM.EnBolivares || MonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa; } }
+		public bool IsVisibleMonedasActivas { get { return MonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa; } }
+
         #endregion
 
         #region Constructores
@@ -156,8 +199,12 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             _CantidadAImprimir = eCantidadAImprimir.All;
             _CodigoListaMateriales = string.Empty;
             _CantidadAProducir = 1;
+            MonedaDelInforme = eMonedaDelInformeMM.EnMonedaOriginal;
+            TipoTasaDeCambio = eTasaDeCambioParaImpresion.DelDia;
+            Moneda = string.Empty;
+            LlenarEnumerativosMonedas();
+            LlenarListaMonedasActivas();
         }
-
         #endregion //Constructores
 
         #region Metodos Generados
@@ -201,7 +248,23 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
 
         #endregion //Metodos Generados
 
-        #region Código Programador
+        #region Código Programador       
+
+        private void LlenarEnumerativosMonedas() {
+            ListaMonedaDelInforme = new ObservableCollection<eMonedaDelInformeMM>() {
+                eMonedaDelInformeMM.EnBolivares,
+                eMonedaDelInformeMM.EnMonedaOriginal,
+                eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa
+            };
+            MonedaDelInforme = eMonedaDelInformeMM.EnMonedaOriginal;
+        }
+
+		void LlenarListaMonedasActivas() {
+			ListaMonedasActivas = new Galac.Saw.Lib.clsLibSaw().ListaDeMonedasActivasParaInformes(false);
+			if (ListaMonedasActivas.Count > 0) {
+				Moneda = ListaMonedasActivas[0];
+			}
+		}         
 
         private ValidationResult IsCodigoListaRequired() {
             ValidationResult vResult = ValidationResult.Success;
@@ -210,10 +273,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             }
             return vResult;
         }
-
         #endregion //Código Programador
-
     } //End of class clsListaDeMaterialesDeInventarioAProducirViewModel
-
 } //End of namespace Galac.Adm.Uil.GestionProduccion
 
