@@ -176,7 +176,11 @@
                                 Style="{StaticResource GSDataGridStyle}" />
                         </Grid>
                     </TabItem>
-                    <TabItem Name="tbiSeccionListaDeMaterialesDetalleSalidas" Header="Salidas">
+                    <TabItem
+                        Name="tbiSeccionListaDeMaterialesDetalleSalidas"
+                        Height="20"
+                        VerticalAlignment="Top"
+                        Header="Salidas">
                         <Grid Name="gtSeccionListaDeMaterialesDetalleSalidas">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -187,13 +191,11 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <ContentControl
                                 x:Name="dListaDeMaterialesDetalleSalidas"
                                 Grid.Row="0"
-                                Grid.RowSpan="2"
                                 Grid.ColumnSpan="2"
                                 Content="{Binding Path=DetailListaDeMaterialesDetalleSalidas.SelectedItem}"
                                 Focusable="False"
@@ -226,9 +228,9 @@
                             <nsWpfControls:GSDataGrid
                                 Name="dgDetailListaMaterialesSalidas"
                                 Grid.Row="2"
+                                Grid.ColumnSpan="2"
                                 MinWidth="250"
                                 MinHeight="200"
-                                Margin="0,10,0,0"
                                 ColumnsMap="{Binding Path=DetailListaDeMaterialesDetalleSalidas.VisibleColumns}"
                                 Focusable="False"
                                 IsReadOnly="True"
@@ -238,7 +240,7 @@
                                 SelectedIndex="{Binding Path=DetailListaDeMaterialesDetalleSalidas.SelectedIndex}"
                                 SelectedItem="{Binding Path=DetailListaDeMaterialesDetalleSalidas.SelectedItem, Mode=OneWayToSource}"
                                 Style="{StaticResource GSDataGridStyle}" />
-                            <ContentControl Grid.Row="3">
+                            <ContentControl Grid.Row="3" Grid.ColumnSpan="2">
                                 <Grid x:Name="gtTotalCosto" Width="690">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="607" />
@@ -253,23 +255,19 @@
                                         Content="Total % Costo:"
                                         Foreground="Black"
                                         Style="{StaticResource LabelPrompt}" />
-                                    <Label
-                                        Name="lnesumTotalCosto"
+                                    <nsWpfControls:GSNumericBoxWpf
+                                        Name="txtSumTotalCosto"
                                         Grid.Column="1"
-                                        Height="24"
+                                        Width="80"
+                                        Height="25"
+                                        Margin="3,3,0,3"
                                         HorizontalContentAlignment="Right"
-                                        Content="{Binding Path=PorcentajeDeCostoTotalStr, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                                        Foreground="Black"
-                                        Style="{StaticResource LabelPrompt}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0,0,3,0" RenderTransformOrigin="0.5,0.5" >
-                                        <Label.RenderTransform>
-                                            <TransformGroup>
-                                                <ScaleTransform/>
-                                                <SkewTransform/>
-                                                <RotateTransform Angle="-0.021"/>
-                                                <TranslateTransform/>
-                                            </TransformGroup>
-                                        </Label.RenderTransform>
-                                    </Label>
+                                        BorderThickness="0,0,0,0"
+                                        DecimalDigits="4"
+                                        InputDataType="UDecimal"
+                                        IsEnabled="True"
+                                        Style="{StaticResource TextBoxInputStyle}"
+                                        Value="{Binding Path=TotalPorcentajeDeCosto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                                 </Grid>
                             </ContentControl>
                         </Grid>

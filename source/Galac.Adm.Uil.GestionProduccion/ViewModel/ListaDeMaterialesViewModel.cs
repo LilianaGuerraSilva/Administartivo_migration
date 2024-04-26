@@ -15,6 +15,7 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Adm.Brl.GestionProduccion;
 using Galac.Adm.Ccl.GestionProduccion;
 using Galac.Saw.Ccl.Inventario;
+using System.ComponentModel;
 
 namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
     public class ListaDeMaterialesViewModel : LibInputMasterViewModelMfc<ListaDeMateriales> {
@@ -26,12 +27,14 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private const string FechaCreacionPropertyName = "FechaCreacion";
         private const string NombreOperadorPropertyName = "NombreOperador";
         private const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
+        private const string TotalPorcentajeCostoPropertyName = "TotalPorcentajeDeCosto";
 
         #endregion
 
         #region Variables
 
         private FkArticuloInventarioViewModel _ConexionCodigoArticuloInventario = null;
+        private decimal _TotalPorcentajeCosto;
 
         #endregion //Variables
 
@@ -192,6 +195,18 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         public string NombreTemp { get; set; }
 
+        public decimal TotalPorcentajeDeCosto {
+            get {
+                return DetailListaDeMaterialesDetalleSalidas.Items.Sum(s => s.PorcentajeDeCosto);
+            }
+            set {
+                if (_TotalPorcentajeCosto != value) {
+                    _TotalPorcentajeCosto = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(TotalPorcentajeCostoPropertyName);
+                }
+            }
+        }
 
         #endregion //Propiedades
 
@@ -305,6 +320,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             try {
                 UpdateListaDeMaterialesDetalleSalidasCommand.RaiseCanExecuteChanged();
                 DeleteListaDeMaterialesDetalleSalidasCommand.RaiseCanExecuteChanged();
+                ActualizaTotalCosto();
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
@@ -316,6 +332,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             try {
                 IsDirty = true;
                 Model.DetailListaDeMaterialesDetalleSalidas.Remove(e.ViewModel.GetModel());
+                ActualizaTotalCosto();
+                e.ViewModel.PropertyChanged -= OnDetailPropertyChanged;
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
@@ -326,6 +344,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private void DetailListaDeMaterialesDetalleSalidas_OnUpdated(object sender, SearchCollectionChangedEventArgs<ListaDeMaterialesDetalleSalidasViewModel> e) {
             try {
                 IsDirty = e.ViewModel.IsDirty;
+                ActualizaTotalCosto();
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
@@ -336,6 +355,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private void DetailListaDeMaterialesDetalleSalidas_OnCreated(object sender, SearchCollectionChangedEventArgs<ListaDeMaterialesDetalleSalidasViewModel> e) {
             try {
                 Model.DetailListaDeMaterialesDetalleSalidas.Add(e.ViewModel.GetModel());
+                ActualizaTotalCosto();
+                e.ViewModel.PropertyChanged += OnDetailPropertyChanged;
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
@@ -343,7 +364,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
         #endregion //ListaDeMaterialesDetalleSalidas
-
+        private void OnDetailPropertyChanged(object sender, PropertyChangedEventArgs e) {
+            ActualizaTotalCosto();
+        }
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
             //ConexionCodigoArticuloInventario = FirstConnectionRecordOrDefault<FkArticuloInventarioViewModel>("Artículo Inventario", LibSearchCriteria.CreateCriteria("Codigo", CodigoArticuloInventario));
@@ -381,18 +404,10 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             return vResult;
         }
 
-        public decimal PorcentajeDeCostoTotal {
-            get {
-                return DetailListaDeMaterialesDetalleSalidas.Items.Sum(s=> s.PorcentajeDeCosto);
-            }
+        private void ActualizaTotalCosto() {
+            TotalPorcentajeDeCosto = DetailListaDeMaterialesDetalleSalidas.Items.Sum(s => s.PorcentajeDeCosto);
+            RaisePropertyChanged(TotalPorcentajeCostoPropertyName);
         }
-
-        public string PorcentajeDeCostoTotalStr {
-            get {
-                return LibConvert.NumToString(PorcentajeDeCostoTotal,4);
-            }
-        }
-
         #endregion //Metodos Generados
 
     } //End of class ListaDeMaterialesViewModel
