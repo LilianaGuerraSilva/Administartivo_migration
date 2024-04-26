@@ -24,7 +24,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         public clsListaDeMaterialesInformesViewModel(LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc) {
             AppMemoryInfo = initAppMemInfo;
             Mfc = initMfc;
-            AvailableReports.Add(new clsListaDeMaterialesDeInventarioAProducirViewModel());
+            AvailableReports.Add(new clsListaDeMaterialesViewModel());
             Galac.Adm.Ccl.GestionProduccion.IListaDeMaterialesPdn insNombreListaMateriales = new Galac.Adm.Brl.GestionProduccion.clsListaDeMaterialesNav();
             string vNombreAMostrarListaMateriales = insNombreListaMateriales.NombreParaMostrarListaDeMateriales();
             if (LibString.IsNullOrEmpty(vNombreAMostrarListaMateriales)) {
@@ -38,18 +38,18 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
 
         protected override ILibRpt ConfigReport() {
             ILibRpt vResult = null;
-            if (SelectedReport is clsListaDeMaterialesDeInventarioAProducirViewModel) {
-                vResult = ConfigReportListaDeMaterialesDeInventarioAProducir(SelectedReport as clsListaDeMaterialesDeInventarioAProducirViewModel);
+            if (SelectedReport is clsListaDeMaterialesViewModel) {
+                vResult = ConfigReportListaDeMateriales(SelectedReport as clsListaDeMaterialesViewModel);
             }
             return vResult;
         }
 
-        private ILibRpt ConfigReportListaDeMaterialesDeInventarioAProducir(clsListaDeMaterialesDeInventarioAProducirViewModel valViewModel) {
+        private ILibRpt ConfigReportListaDeMateriales(clsListaDeMaterialesViewModel valViewModel) {
             ILibRpt vResult = null;
             if (valViewModel != null) {
-                vResult = new Galac.Adm.Rpt.GestionProduccion.clsListaDeMaterialesDeSalida(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.CodigoListaMateriales, valViewModel.CantidadAImprimir, valViewModel.CantidadAProducir) {
-                        Worker = Manager
-                    };
+                vResult = new clsListaDeMaterialesDeSalida(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.CantidadAImprimir, valViewModel.CantidadAProducir, valViewModel.CodigoListaMateriales, valViewModel.MonedaDelInforme, valViewModel.TipoTasaDeCambio, valViewModel.Moneda) {
+                    Worker = Manager
+                };
             }
             return vResult;
         }

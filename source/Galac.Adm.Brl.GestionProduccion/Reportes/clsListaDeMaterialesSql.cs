@@ -5,12 +5,14 @@ using System.Text;
 using LibGalac.Aos.Base.Dal;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Base.Report;
+using Galac.Saw.Lib;
+
 namespace Galac.Adm.Brl.GestionProduccion.Reportes {
     public class clsListaDeMaterialesSql {
 
         #region Metodos Generados
 
-        public string SqlListaDeMaterialesDeInventarioAProducir(int valConsecutivoCompania, string valCodigoInventarioAProducir, eCantidadAImprimir valCantidadAImprimir, decimal valCantidadAProducir) {
+        public string SqlListaDeMaterialesDeInventarioAProducir(int valConsecutivoCompania, string valCodigoListaAProducir, eCantidadAImprimir valCantidadAImprimir, decimal valCantidadAProducir,eMonedaDelInformeMM valMonedaDelInformeMM, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valNombreMoneda, string valCodigoMoneda) {
             string vSQLWhere = string.Empty;
             StringBuilder vSql = new StringBuilder();
             if (valCantidadAProducir == 0) { valCantidadAProducir = 1; }
@@ -39,7 +41,7 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             vSql.AppendLine("Adm.ListaDeMaterialesDetalleArticulo.CodigoArticuloInventario = ArticuloInventario_1.Codigo");
             vSQLWhere = new QAdvSql("").SqlIntValueWithAnd(vSQLWhere, "Adm.ListaDeMateriales.ConsecutivoCompania", valConsecutivoCompania);
             if (valCantidadAImprimir == eCantidadAImprimir.One) {
-                vSQLWhere = new QAdvSql("").SqlValueWithAnd(vSQLWhere, "Adm.ListaDeMateriales.CodigoArticuloInventario", valCodigoInventarioAProducir);
+                vSQLWhere = new QAdvSql("").SqlValueWithAnd(vSQLWhere, "Adm.ListaDeMateriales.CodigoArticuloInventario", valCodigoListaAProducir);
             }
             if (LibString.Len(vSQLWhere) > 0) {
                 vSql.AppendLine(" WHERE " + vSQLWhere);
