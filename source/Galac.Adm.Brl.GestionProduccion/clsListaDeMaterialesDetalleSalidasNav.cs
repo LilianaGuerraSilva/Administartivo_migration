@@ -110,9 +110,6 @@ namespace Galac.Adm.Brl.GestionProduccion {
 
         private XElement FilterListaDeMaterialesDetalleSalidasByDistinctArticuloInventario(ListaDeMaterialesDetalleSalidas valMaster) {
             XElement vXElement = new XElement("GpData","0");
-            //from vEntity in valMaster.DetailListaDeMaterialesDetalleArticuloProducir.Distinct()
-            //select new XElement("GpResult",
-            //    new XElement("CodigoArticuloInventario", vEntity.CodigoArticuloInventario)));
             return vXElement;
         }
 

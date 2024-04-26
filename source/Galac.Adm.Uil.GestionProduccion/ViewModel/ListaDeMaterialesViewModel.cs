@@ -234,7 +234,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         protected override void InitializeCommands() {
             base.InitializeCommands();
-            //ChooseCodigoArticuloInventarioCommand = new RelayCommand<string>(ExecuteChooseCodigoArticuloInventarioCommand);
         }
 
         protected override void InitializeDetails() {
@@ -367,7 +366,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
-            //ConexionCodigoArticuloInventario = FirstConnectionRecordOrDefault<FkArticuloInventarioViewModel>("Artículo Inventario", LibSearchCriteria.CreateCriteria("Codigo", CodigoArticuloInventario));
         }
 
         private ValidationResult FechaCreacionValidating() {

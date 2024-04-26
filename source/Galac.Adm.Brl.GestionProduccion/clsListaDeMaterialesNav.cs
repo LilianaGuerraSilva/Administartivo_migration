@@ -33,7 +33,6 @@ namespace Galac.Adm.Brl.GestionProduccion {
 
         bool ILibPdn.CanBeChoosen(string valCallingModule, eAccionSR valAction, string valExtendedAction, XmlDocument valXmlRow) {
             bool vResult = false;
-            //ILibDataFKSearch instanciaDal = new Galac.Adm.Dal.Inventario.clsListaDeMaterialesDat();
             switch (valCallingModule) {
                 default:
                     vResult = true;
@@ -73,8 +72,6 @@ namespace Galac.Adm.Brl.GestionProduccion {
         }
 
         protected override void FillWithForeignInfo(ref IList<ListaDeMateriales> refData) {
-            //FillWithForeignInfoListaDeMateriales(ref refData);
-            //FillWithForeignInfoListaDeMaterialesDetalle(ref refData);
         }
 
         #endregion //Metodos Generados
@@ -149,9 +146,6 @@ namespace Galac.Adm.Brl.GestionProduccion {
 
         private XElement FilterListaDeMaterialesByDistinctArticuloInventario(ListaDeMateriales valMaster) {
             XElement vXElement = new XElement("GpData", "0");
-            //from vEntity in valMaster.DetailListaDeMaterialesDetalle.Distinct()
-            //select new XElement("GpResult",
-            //    new XElement("DescripcionArticuloInventario", vEntity.DescripcionArticuloInventario));
             return vXElement;
         }
 
@@ -355,6 +349,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
 
         protected override LibResponse UpdateRecord(IList<ListaDeMateriales> refRecord, bool valUseDetail, eAccionSR valAction) {
             ValidaListasInsumosVsSalidas(refRecord);
+            ValidaListasSalidas(refRecord);
             ValidaPorcentajeDeCosto(refRecord);
             ValidaTotalDePorcentajeCosto(refRecord);
             return base.UpdateRecord(refRecord, valUseDetail, valAction);
@@ -362,6 +357,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
 
         protected override LibResponse InsertRecord(IList<ListaDeMateriales> refRecord, bool valUseDetail) {
             ValidaListasInsumosVsSalidas(refRecord);
+            ValidaListasSalidas(refRecord);
             ValidaPorcentajeDeCosto(refRecord);
             ValidaTotalDePorcentajeCosto(refRecord);
             return base.InsertRecord(refRecord, valUseDetail);
@@ -412,6 +408,14 @@ namespace Galac.Adm.Brl.GestionProduccion {
             if (PorcentajeMayor || PorcentajeMenor) {
                 throw new LibGalac.Aos.Catching.GalacValidationException("El % Costo debe ser mayor igual 0 y menor igual 100");
             }
+        }
+
+        private void ValidaListasSalidas(IList<ListaDeMateriales> refRecord) {
+            List<string> vListaDeSalidas = refRecord[0].DetailListaDeMaterialesDetalleSalidas.Select(x => x.CodigoArticuloInventario).ToList();
+            List<string> Repetido = vListaDeSalidas.GroupBy(x => x).Where(g => g.Count() > 1).Select(x => x.Key).ToList();
+            if (Repetido.Count > 0) {
+                throw new LibGalac.Aos.Catching.GalacValidationException("En la lista de ítems de Salidas, existe al menos un artículo repetido.");
+            }    
         }
         #endregion //Código Programador
 
