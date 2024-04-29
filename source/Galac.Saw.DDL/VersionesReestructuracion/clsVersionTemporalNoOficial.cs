@@ -37,7 +37,6 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			if (new Adm.Dal.GestionProduccion.clsListaDeMaterialesDetalleSalidasED().InstalarTabla()) {
 				LLenarListaDeMaterialesProducir();
 			}
-			AgregarValorPorDefecto();
 		}
 
 		private void LLenarListaDeMaterialesProducir() {
@@ -47,19 +46,6 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 				vSql.AppendLine("SELECT ConsecutivoCompania,Consecutivo,1,CodigoArticuloInventario,1,100");
 				vSql.AppendLine("FROM Adm.ListaDeMateriales");
 				LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), null, "", 0);
-			} catch (Exception) {
-				throw;
-			}
-		}
-
-		private void AgregarValorPorDefecto() {
-			try {
-				if (ColumnExists("Adm.ListaDeMateriales", "CodigoArticuloInventario")) {
-					StringBuilder vSql = new StringBuilder();
-					vSql.AppendLine("UPDATE Adm.ListaDeMateriales");
-					vSql.AppendLine("SET CodigoArticuloInventario = " + _insSql.ToSqlValue(""));
-					LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), null, "", 0);
-				}
 			} catch (Exception) {
 				throw;
 			}

@@ -406,7 +406,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
             bool PorcentajeMayor = refRecord[0].DetailListaDeMaterialesDetalleSalidas.Count(x => x.PorcentajeDeCosto > PorcentajeMax) > 0;
             bool PorcentajeMenor = refRecord[0].DetailListaDeMaterialesDetalleSalidas.Count(x => x.PorcentajeDeCosto < PorcentajeMin) > 0;
             if (PorcentajeMayor || PorcentajeMenor) {
-                throw new LibGalac.Aos.Catching.GalacValidationException("El % Costo debe ser mayor igual 0 y menor igual 100");
+                throw new LibGalac.Aos.Catching.GalacValidationException("El %Costo debe ser mayor igual a 0 y menor igual a 100");
             }
         }
 

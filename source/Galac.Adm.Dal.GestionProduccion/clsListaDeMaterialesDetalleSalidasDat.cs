@@ -189,18 +189,20 @@ namespace Galac.Adm.Dal.GestionProduccion {
         private bool IsValidCantidad(eAccionSR valAction, decimal valCantidad){
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
-                return true;
+                vResult = true;
+            } else if (valCantidad < 0) {
+                throw new GalacValidationException("La Cantidad debe ser mayor a 0");
             }
-            throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
             return vResult;
         }
 
         private bool IsValidPorcentajeDeCosto(eAccionSR valAction, decimal valPorcentajeDeCosto){
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
-                return true;
+                vResult = true;
+            } else if (valPorcentajeDeCosto < 0 || valPorcentajeDeCosto >100) {
+                throw new GalacValidationException("El %Costo debe ser mayor igual a 0 y menor igual a 100");
             }
-            throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
             return vResult;
         }
 

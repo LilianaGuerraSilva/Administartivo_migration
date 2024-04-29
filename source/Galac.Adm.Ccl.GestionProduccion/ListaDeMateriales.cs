@@ -136,7 +136,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
                "\nConsecutivo = " + _Consecutivo.ToString() +
                "\nCódigo = " + _Codigo +
                "\nNombre = " + _Nombre +
-               "\nCodigo Articulo Inventario = " + _CodigoArticuloInventario +
                "\nFecha de Creación = " + _FechaCreacion.ToShortDateString() +
                "\nNombre Operador = " + _NombreOperador +
                "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();
