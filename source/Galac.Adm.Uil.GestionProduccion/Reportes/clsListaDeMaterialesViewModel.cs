@@ -16,6 +16,12 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using System.ComponentModel.DataAnnotations;
 using Galac.Saw.Lib;
 using System.Collections.ObjectModel;
+using Galac.Adm.Uil.Banco.ViewModel;
+using Galac.Comun.Uil.TablasGen.ViewModel;
+using Galac.Comun.Ccl.TablasGen;
+using LibGalac.Aos.DefGen;
+using LibGalac.Aos.Uil;
+using Galac.Comun.Brl.TablasGen;
 
 namespace Galac.Adm.Uil.GestionProduccion.Reportes {
     public class clsListaDeMaterialesViewModel : LibInputRptViewModelBase<ListaDeMateriales> {
@@ -28,20 +34,23 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         private const string IsEnabledCodigoListaDeMaterialesPropertyName = "IsEnabledCodigoListaDeMateriales";
         private const string CantidadAProducirPropertyName = "CantidadAProducir";
         private const string MonedaDelInformePropertyName = "MonedaDelInforme";
+        private const string ListaMonedaDelInformePropertyName = "ListaMonedaDelInforme";
+        private const string MonedaPropertyName = "Moneda";
         #endregion
 
         #region Variables
 
         private eCantidadAImprimir _CantidadAImprimir;
         private string _CodigoListaMateriales;
-        private string _NombreListaDeMateriales;        
+        private string _NombreListaDeMateriales;
         private decimal _CantidadAProducir;
         private FkListaDeMaterialesInformeViewModel _ConexionListaDeMateriales = null;
         private bool _IsEnabledCodigoListaDeMateriales;
-        private eTasaDeCambioParaImpresion _TipoTasaDeCambioAsEnum;                    
+        private eTasaDeCambioParaImpresion _TipoTasaDeCambioAsEnum;
         private ObservableCollection<string> _ListaMonedaDelInforme;
-
+        private Comun.Uil.TablasGen.ViewModel.FkMonedaViewModel _ConexionMoneda;
         private string _MonedaDelInforme;
+        private string _Moneda;
         #endregion //Variables
 
         #region Propiedades
@@ -51,11 +60,11 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
                 return _ConexionListaDeMateriales;
             }
             set {
-                if (_ConexionListaDeMateriales != value) {
+                if(_ConexionListaDeMateriales != value) {
                     _ConexionListaDeMateriales = value;
                     RaisePropertyChanged(CodigoListaMaterialesPropertyName);
                 }
-                if (_ConexionListaDeMateriales == null) {
+                if(_ConexionListaDeMateriales == null) {
                     _CodigoListaMateriales = string.Empty;
                 }
             }
@@ -67,10 +76,10 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
                 return _CodigoListaMateriales;
             }
             set {
-                if (_CodigoListaMateriales != value) {
+                if(_CodigoListaMateriales != value) {
                     _CodigoListaMateriales = value;
                     RaisePropertyChanged(CodigoListaMaterialesPropertyName);
-                    if (LibString.IsNullOrEmpty(_CodigoListaMateriales, true)) {
+                    if(LibString.IsNullOrEmpty(_CodigoListaMateriales, true)) {
                         ConexionListaDeMateriales = null;
                         NombreListaDeMateriales = string.Empty;
                     } else {
@@ -85,7 +94,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
                 return _NombreListaDeMateriales;
             }
             set {
-                if (_NombreListaDeMateriales != value) {
+                if(_NombreListaDeMateriales != value) {
                     _NombreListaDeMateriales = value;
                     RaisePropertyChanged(NombreListaDeMaterialesPropertyName);
                 }
@@ -97,14 +106,14 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
                 return _CantidadAImprimir;
             }
             set {
-                if (_CantidadAImprimir != value) {
+                if(_CantidadAImprimir != value) {
                     _CantidadAImprimir = value;
-                    if (eCantidadAImprimir.One.Equals(_CantidadAImprimir)) {
+                    if(eCantidadAImprimir.One.Equals(_CantidadAImprimir)) {
                         IsEnabledCodigoListaDeMateriales = true;
                     } else {
                         IsEnabledCodigoListaDeMateriales = false;
                         NombreListaDeMateriales = string.Empty;
-                        CodigoListaMateriales= string.Empty;
+                        CodigoListaMateriales = string.Empty;
                     }
                     RaisePropertyChanged(CantidadAImprimirPropertyName);
                     RaisePropertyChanged(IsEnabledCodigoListaDeMaterialesPropertyName);
@@ -117,10 +126,10 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
                 return _CantidadAProducir;
             }
             set {
-                if (_CantidadAProducir != value) {
+                if(_CantidadAProducir != value) {
                     _CantidadAProducir = value;
                     RaisePropertyChanged(CantidadAProducirPropertyName);
-                    if (_CantidadAProducir == 0) {
+                    if(_CantidadAProducir == 0) {
                         _CantidadAProducir = 1;
                     }
                 }
@@ -128,67 +137,118 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         }
 
         public override string DisplayName {
-            get { return "Lista de Materiales de Inventario a Producir"; }
+            get {
+                return "Lista de Materiales de Inventario a Producir";
+            }
         }
 
         public override bool IsSSRS {
-            get { return false; }
+            get {
+                return false;
+            }
         }
 
         public RelayCommand<string> ChooseCodigoListaDeMaterialesCommand {
             get;
             private set;
         }
+        public RelayCommand<string> ChooseMonedaCommand {
+            get;
+            private set;
+        }
 
         public eTasaDeCambioParaImpresion TipoTasaDeCambio {
-			get { return _TipoTasaDeCambioAsEnum; }
-			set {
-				if (_TipoTasaDeCambioAsEnum != value) {
-					_TipoTasaDeCambioAsEnum = value;
-					RaisePropertyChanged(() => TipoTasaDeCambio);
-				}
-			}
-		}
+            get {
+                return _TipoTasaDeCambioAsEnum;
+            }
+            set {
+                if(_TipoTasaDeCambioAsEnum != value) {
+                    _TipoTasaDeCambioAsEnum = value;
+                    RaisePropertyChanged(() => TipoTasaDeCambio);
+                }
+            }
+        }
 
-		public eTasaDeCambioParaImpresion[] ArrayTiposTasaDeCambio {
-			get { return LibEnumHelper<eTasaDeCambioParaImpresion>.GetValuesInArray(); }
-		}
+        public eTasaDeCambioParaImpresion[] ArrayTiposTasaDeCambio {
+            get {
+                return LibEnumHelper<eTasaDeCambioParaImpresion>.GetValuesInArray();
+            }
+        }
 
-		public ObservableCollection<string> ListaMonedaDelInforme {
-			get { return _ListaMonedaDelInforme; }
-			set { _ListaMonedaDelInforme = value; }
-		}
-        
-        public ObservableCollection<string> ListaMonedasActivas { get; set; }
+        public ObservableCollection<string> ListaMonedaDelInforme {
+            get {
+                return _ListaMonedaDelInforme;
+            }
+            set {
+                _ListaMonedaDelInforme = value;
+                RaisePropertyChanged(ListaMonedaDelInformePropertyName);
+            }
+        }
+
+        public ObservableCollection<string> ListaMonedasActivas {
+            get; set;
+        }
         public string MonedaDelInforme {
             get {
                 return _MonedaDelInforme;
             }
             set {
-                if (_MonedaDelInforme != value) {
-                    _MonedaDelInforme = value;
-                    LlenarEnumerativosMonedas();
-                    RaisePropertyChanged(MonedaDelInformePropertyName);                 
+                if(_MonedaDelInforme != value) {
+                    _MonedaDelInforme = value;                    
+                    RaisePropertyChanged(MonedaDelInformePropertyName);                    
                     RaisePropertyChanged(() => IsVisibleTipoTasaDeCambio);
                 }
             }
         }
 
-        public string Moneda { get; set; }            
+        public string Moneda {
+            get {
+                return _Moneda;
+            }
+            set {
+                if(_Moneda != value) {
+                    _Moneda = value;
+                    RaisePropertyChanged(MonedaPropertyName);
+                }
+            }
+        }
+        public string CodigoMoneda {
+            get; set;
+        }
+
+        public Comun.Uil.TablasGen.ViewModel.FkMonedaViewModel ConexionMoneda {
+            get {
+                return _ConexionMoneda;
+            }
+            set {
+                if(_ConexionMoneda != value) {
+                    _ConexionMoneda = value;
+                    RaisePropertyChanged(MonedaPropertyName);
+                }
+                if(_ConexionMoneda == null) {
+                    CodigoMoneda = string.Empty;
+                    Moneda = string.Empty;
+                }
+            }
+        }
 
         public bool IsEnabledCodigoListaDeMateriales {
             get {
                 return _IsEnabledCodigoListaDeMateriales;
             }
             set {
-                if (_IsEnabledCodigoListaDeMateriales != value) {
+                if(_IsEnabledCodigoListaDeMateriales != value) {
                     _IsEnabledCodigoListaDeMateriales = value;
                     RaisePropertyChanged(IsEnabledCodigoListaDeMaterialesPropertyName);
                 }
             }
         }
 
-        public bool IsVisibleTipoTasaDeCambio { get { return !LibString.S1IsEqualToS2(MonedaDelInforme, "Bolívares"); } }		
+        public bool IsVisibleTipoTasaDeCambio {
+            get {
+                return !LibString.S1IsEqualToS2(MonedaDelInforme, "Bolívares");
+            }
+        }
         #endregion
 
         #region Constructores
@@ -196,12 +256,13 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         public clsListaDeMaterialesViewModel() {
             _CantidadAImprimir = eCantidadAImprimir.All;
             _CodigoListaMateriales = string.Empty;
-            _CantidadAProducir = 1;            
+            _CantidadAProducir = 1;
             TipoTasaDeCambio = eTasaDeCambioParaImpresion.DelDia;
-            Moneda = string.Empty;
-            LlenarListaMonedasActivas();
-            LlenarEnumerativosMonedas();
-           
+            string vCodigoMoneda = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMoneda");
+            ConexionMoneda = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<Comun.Uil.TablasGen.ViewModel.FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteria("Codigo", vCodigoMoneda), new clsMonedaNav());
+            Moneda = ConexionMoneda.Nombre;
+            CodigoMoneda = ConexionMoneda.Codigo;
+            LlenarEnumerativosMonedas("Dólar");
         }
         #endregion //Constructores
 
@@ -220,11 +281,38 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         protected override void InitializeCommands() {
             base.InitializeCommands();
             ChooseCodigoListaDeMaterialesCommand = new RelayCommand<string>(ExecuteChooseCodigoListaMaterialesCommand);
+            ChooseMonedaCommand = new RelayCommand<string>(ExecuteChooseMonedaCommand);
+        }
+
+        private void ExecuteChooseMonedaCommand(string valNombreMoneda) {
+            try {
+                if(valNombreMoneda == null) {
+                    valNombreMoneda = string.Empty;
+                }             
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_Moneda_B1.Nombre", valNombreMoneda);
+                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Gv_Moneda_B1.Activa", LibConvert.BoolToSN(true));
+                vFixedCriteria.Add("TipoDeMoneda", eBooleanOperatorType.IdentityEquality, eTipoDeMoneda.Fisica);
+                vFixedCriteria.Add("Codigo",eBooleanOperatorType.IdentityInequality,"VEB");                               
+                ConexionMoneda = null;
+                ConexionMoneda = LibFKRetrievalHelper.ChooseRecord<Comun.Uil.TablasGen.ViewModel.FkMonedaViewModel>("Moneda", vDefaultCriteria, vFixedCriteria, string.Empty);
+                if(ConexionMoneda != null) {
+                    CodigoMoneda = ConexionMoneda.Codigo;
+                    Moneda = ConexionMoneda.Nombre;
+                    LlenarEnumerativosMonedas(Moneda);
+                } else {
+                    CodigoMoneda = string.Empty;
+                    Moneda = string.Empty;
+                }
+            } catch(System.AccessViolationException) {
+                throw;
+            } catch(System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, Galac.Adm.Rpt.GestionProduccion.clsListaDeMaterialesDeSalida.ReportName);
+            }
         }
 
         private void ExecuteChooseCodigoListaMaterialesCommand(string valCodigo) {
             try {
-                if (valCodigo == null) {
+                if(valCodigo == null) {
                     valCodigo = string.Empty;
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Adm.Gv_ListaDeMateriales_B1.Codigo", valCodigo);
@@ -232,14 +320,14 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
                 ConexionListaDeMateriales = ChooseRecord<FkListaDeMaterialesInformeViewModel>("Lista de Materiales", vDefaultCriteria, vFixedCriteria, string.Empty);
                 if(ConexionListaDeMateriales != null) {
                     CodigoListaMateriales = ConexionListaDeMateriales.Codigo;
-                    NombreListaDeMateriales = ConexionListaDeMateriales.Nombre;
+                    NombreListaDeMateriales = ConexionListaDeMateriales.Nombre;                    
                 } else {
                     CodigoListaMateriales = string.Empty;
                     NombreListaDeMateriales = string.Empty;
                 }
-            } catch (System.AccessViolationException) {
+            } catch(System.AccessViolationException) {
                 throw;
-            } catch (System.Exception vEx) {
+            } catch(System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, Galac.Adm.Rpt.GestionProduccion.clsListaDeMaterialesDeSalida.ReportName);
             }
         }
@@ -248,27 +336,20 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
 
         #region Código Programador       
 
-        private void LlenarEnumerativosMonedas() {
+        private void LlenarEnumerativosMonedas(string vMonedaExtranjera) {
             ListaMonedaDelInforme = new ObservableCollection<string>() {
                "Bolívares",
-               Moneda,
-               "Bolívares expresados en " + Moneda,
-               Moneda + "expresados  Bolívares"
+               vMonedaExtranjera,
+               "Bolívares expresados en " + vMonedaExtranjera,
+               vMonedaExtranjera + " expresados  Bolívares"
 
             };
             MonedaDelInforme = ListaMonedaDelInforme[0];
         }
 
-		void LlenarListaMonedasActivas() {
-            ListaMonedasActivas = new Galac.Saw.Lib.clsLibSaw().ListaDeMonedasActivasParaInformes(false, true);
-			if (ListaMonedasActivas.Count > 0) {
-				Moneda = ListaMonedasActivas[0];
-			}
-		}         
-
         private ValidationResult IsCodigoListaRequired() {
             ValidationResult vResult = ValidationResult.Success;
-            if (IsEnabledCodigoListaDeMateriales && LibText.IsNullOrEmpty(CodigoListaMateriales)) {
+            if(IsEnabledCodigoListaDeMateriales && LibText.IsNullOrEmpty(CodigoListaMateriales)) {
                 vResult = new ValidationResult("Debe seleccionar una lista de materiales a consultar.");
             }
             return vResult;

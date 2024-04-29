@@ -99,16 +99,15 @@
             Margin="0"
             Content="Moneda del Informe"
             Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSComboBoxWpf
-            Name="cmbMonedasActivas"
+        <nsWpfControls:GSSeekConnection
+            Name="txtMoneda"
             Grid.Row="4"
             Grid.Column="1"
             Width="165"
+            Height="23"
             Margin="0,0,0,20"
-            IsSynchronizedWithCurrentItem="True"
-            ItemsSource="{Binding ListaMonedasActivas}"
-            SelectedItem="{Binding Moneda, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-            Style="{StaticResource ComboBoxStyle}" />
+            ConnectionValue="{Binding Path=Moneda, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+            SearchCommand="{Binding Path=ChooseMonedaCommand}" />
         <nsWpfControls:GSComboBoxWpf
             Name="cmbMonedaDelGrupo"
             Grid.Row="5"
