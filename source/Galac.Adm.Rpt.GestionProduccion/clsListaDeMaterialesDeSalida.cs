@@ -50,7 +50,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             if (UseExternalRpx) {
                 vTitulo += " - desde RPX externo.";
             }
-            int vPos = LibString.IndexOf(MonedaDelInforme, " ") > 0 ? LibString.IndexOf(MonedaDelInforme, " ") - 1 : LibString.Len(MonedaDelInforme);
+            int vPos = LibString.IndexOf(MonedaDelInforme, " ") > 0 ? LibString.IndexOf(MonedaDelInforme, "expresado") - 1 : LibString.Len(MonedaDelInforme);
             string vNombreMoneda = LibString.SubString(MonedaDelInforme, 0, vPos);
             Dictionary<string, string> vParams = new Dictionary<string, string>();
             vParams.Add("NombreCompania", AppMemoryInfo.GlobalValuesGetString("Compania", "Nombre"));

@@ -51,12 +51,12 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 }
             }
             if (LibReport.ConfigDataSource(this, valDataSourceSalidas)) {
-                LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["NombreCompania"], string.Empty);
+                LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["NombreCompania"], "");
+                LibReport.ConfigFieldStr(this, "txtMoneda", valParameters["NombreMoneda"], string.Empty);
                 LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
                 LibReport.ConfigFieldStr(this, "txtListaDeMateriales", string.Empty, "ListaDeMateriales");
-                LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, valParameters["NombreMoneda"]);
                 LibReport.ConfigFieldDec(this, "txtCantidadAProducir", string.Empty, "CantidadAProducir");
                 LibReport.ConfigFieldDec(this, "txtCantidadAProducirDetalle", string.Empty, "CantidadAProducirDetalle");
                 LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "ArticuloListaSalida");
