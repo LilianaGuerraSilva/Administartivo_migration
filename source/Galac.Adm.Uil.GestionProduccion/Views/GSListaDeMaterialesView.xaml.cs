@@ -27,5 +27,5 @@ namespace Galac.Adm.Uil.GestionProduccion.Views {
 
     } //End of class GSListaDeMaterialesView.xaml
 
-} //End of namespace Galac.Saw.Uil.Inventario
+} //End of namespace Galac.Adm.Uil.GestionProduccion
 

@@ -4189,13 +4189,12 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 		{EndSeccion}
 }
 
-{@M}ListaDeMateriales = record //Multiarchivo=Compania, "Lista de Materiales", Componente=GestionProduccion, Esquema=Adm, EsquemaBD=Adm     
+{@M}ListaDeMateriales = record //Multiarchivo=Compania, "Lista de Materiales", Componente=GestionProduccion, Esquema=Adm, EsquemaBD=Adm, GENERATE
 	ConsecutivoCompania: Longint//HIDE 
 	Consecutivo: LongInt;//HIDE,Consecutive 
 	Codigo: str30//o, search,g, "Código" 
 	Nombre: textArea//g,"Nombre" 
-	CodigoArticuloInventario: str30//g,search,=ArticuloInventario.Codigo,"Código Inventario a producir" 
-	DescripcionArticuloInventario: str7000//=ArticuloInventario.Descripcion,"Descripción Artículo",logical 
+	CodigoArticuloInventario: str30//HIDE, dv=''
 	FechaCreacion : unFecha;//O,G,"Fecha de Creación",search
 	NombreOperador: Str20// 
 	FechaUltimaModificacion: date;// 
@@ -4204,13 +4203,26 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	@UniqueKey=ConsecutivoCompania,Nombre 
 } 
 
-{@D ListaDeMateriales} ListaDeMaterialesDetalleArticulo = record //Multiarchivo=Compania, "Productos y/o Servicios", Componente=GestionProduccion, Esquema=Adm, EsquemaBD=Adm     
+{@D ListaDeMateriales} ListaDeMaterialesDetalleArticulo = record //Multiarchivo=Compania, "Insumos", Componente=GestionProduccion, Esquema=Adm, EsquemaBD=Adm, GENERATE
 	ConsecutivoCompania: Longint//HIDE 
 	ConsecutivoListaDeMateriales: Longint//HIDE 
 	Consecutivo : Longint//HIDE 
 	CodigoArticuloInventario: Str30//g,=ArticuloInventario.Codigo,"Código Inventario" 
 	DescripcionArticuloInventario: str7000//g, logical, =ArticuloInventario.Descripcion,"Descripción" 
-	Cantidad: Decimal//o,g,"Cantidad", decimales=8 
+	Cantidad: decimal//o,g,"Cantidad", decimales=8 
+	UnidadDeVenta: str20//g,logical,=ArticuloInventario.UnidadDeVenta,"Unidad de Venta"
+	@PrimaryKey=ConsecutivoCompania, ConsecutivoListaDeMateriales,Consecutivo 
+} 
+
+{@D ListaDeMateriales} ListaDeMaterialesDetalleSalidas = record //Multiarchivo=Compania, "Salidas", Componente=GestionProduccion, Esquema=Adm, EsquemaBD=Adm, GENERATE  
+	ConsecutivoCompania: Longint//HIDE 
+	ConsecutivoListaDeMateriales: Longint//HIDE 
+	Consecutivo: Longint//HIDE 
+	CodigoArticuloInventario: Str30//g,=ArticuloInventario.Codigo,"Código Inventario"
+	DescripcionArticuloInventario: str7000//=ArticuloInventario.Descripcion,"Descripción Artículo",logical 
+	Cantidad: decimal//o,g,"Cantidad", decimales=8 
+	UnidadDeVenta: Str20;//g,logical,=ArticuloInventario.UnidadDeVenta,"Unidad de Venta",logical 
+	PorcentajeDeCosto: decimal//o,g,"%Costo",decimales=4
 	@PrimaryKey=ConsecutivoCompania, ConsecutivoListaDeMateriales,Consecutivo 
 } 
 

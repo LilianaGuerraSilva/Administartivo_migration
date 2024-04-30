@@ -137,6 +137,8 @@
     </Compile>
     <Compile Include="UIMefGestionProduccionOrdenDeProduccion.cs" />
     <Compile Include="UIMefGestionProduccionListaDeMateriales.cs" />
+    <Compile Include="ViewModel\ListaDeMaterialesDetalleSalidasMngViewModel.cs" />
+    <Compile Include="ViewModel\ListaDeMaterialesDetalleSalidasViewModel.cs" />
     <Compile Include="ViewModel\OrdenDeProduccionDetalleArticuloMngViewModel.cs" />
     <Compile Include="ViewModel\OrdenDeProduccionDetalleArticuloViewModel.cs" />
     <Compile Include="ViewModel\clsFKViewModel.cs" />
@@ -150,6 +152,9 @@
     <Compile Include="ViewModel\OrdenDeProduccionViewModel.cs" />
     <Compile Include="Views\GSListaDeMaterialesDetalleArticuloView.xaml.cs">
       <DependentUpon>GSListaDeMaterialesDetalleArticuloView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSListaDeMaterialesDetalleSalidasView.xaml.cs">
+      <DependentUpon>GSListaDeMaterialesDetalleSalidasView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GSListaDeMaterialesView.xaml.cs">
       <DependentUpon>GSListaDeMaterialesView.xaml</DependentUpon>
@@ -199,6 +204,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GSListaDeMaterialesDetalleArticuloView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSListaDeMaterialesDetalleSalidasView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

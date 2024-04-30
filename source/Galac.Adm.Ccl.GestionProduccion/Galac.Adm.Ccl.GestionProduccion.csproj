@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsEnumGestionProduccion.cs" />
+    <Compile Include="IFkListaDeMaterialesDetalleSalidasViewModel.cs" />
     <Compile Include="IFkListaDeMaterialesDetalleViewModel.cs" />
     <Compile Include="IFkListaDeMaterialesViewModel.cs" />
     <Compile Include="IFkOrdenDeProduccionViewModel.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="ListaDeMaterialesDetalleArticulo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ListaDeMaterialesDetalleSalidas.cs" />
     <Compile Include="OrdenDeProduccion.cs" />
     <Compile Include="OrdenDeProduccionDetalleArticulo.cs" />
     <Compile Include="OrdenDeProduccionDetalleMateriales.cs" />

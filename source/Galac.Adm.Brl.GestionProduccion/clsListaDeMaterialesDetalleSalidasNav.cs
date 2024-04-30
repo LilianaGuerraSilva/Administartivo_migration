@@ -10,31 +10,30 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Brl;
 using LibGalac.Aos.Base.Dal;
 using Galac.Adm.Ccl.GestionProduccion;
-using Galac.Saw.Brl.Inventario ;
 
 namespace Galac.Adm.Brl.GestionProduccion {
-    public partial class clsListaDeMaterialesDetalleArticuloNav: LibBaseNavDetail<IList<ListaDeMaterialesDetalleArticulo>, IList<ListaDeMaterialesDetalleArticulo>> {
+    public partial class clsListaDeMaterialesDetalleSalidasNav: LibBaseNavDetail<IList<ListaDeMaterialesDetalleSalidas>, IList<ListaDeMaterialesDetalleSalidas>> {
         #region Variables
         #endregion //Variables
         #region Propiedades
         #endregion //Propiedades
         #region Constructores
 
-        public clsListaDeMaterialesDetalleArticuloNav() {
+        public clsListaDeMaterialesDetalleSalidasNav() {
         }
         #endregion //Constructores
         #region Metodos Generados
 
-        protected override ILibDataDetailComponent<IList<ListaDeMaterialesDetalleArticulo>, IList<ListaDeMaterialesDetalleArticulo>> GetDataInstance() {
-            return new Galac.Adm.Dal.GestionProduccion.clsListaDeMaterialesDetalleArticuloDat();
+        protected override ILibDataDetailComponent<IList<ListaDeMaterialesDetalleSalidas>, IList<ListaDeMaterialesDetalleSalidas>> GetDataInstance() {
+            return new Galac.Adm.Dal.GestionProduccion.clsListaDeMaterialesDetalleSalidasDat();
         }
 
-        private void FillWithForeignInfo(ref IList<ListaDeMaterialesDetalleArticulo> refData) {
-            //FillWithForeignInfoListaDeMaterialesDetalleArticulo(ref refData);
+        private void FillWithForeignInfo(ref IList<ListaDeMaterialesDetalleSalidas> refData) {
+            //FillWithForeignInfoListaDeMaterialesDetalleSalidas(ref refData);
         }
-        #region ListaDeMaterialesDetalleArticulo
+        #region ListaDeMaterialesDetalleSalidas
 
-        private void FillWithForeignInfoListaDeMaterialesDetalleArticulo(ref IList<ListaDeMaterialesDetalleArticulo> refData) {
+        private void FillWithForeignInfoListaDeMaterialesDetalleSalidas(ref IList<ListaDeMaterialesDetalleSalidas> refData) {
             XElement vInfoConexionArticuloInventario = FindInfoArticuloInventario(refData);
             var vListArticuloInventario = (from vRecord in vInfoConexionArticuloInventario.Descendants("GpResult")
                                       select new {
@@ -89,7 +88,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
                                           UsaBalanza = vRecord.Element("UsaBalanza").Value
                                       }).Distinct();
 
-            foreach (ListaDeMaterialesDetalleArticulo vItem in refData) {
+            foreach (ListaDeMaterialesDetalleSalidas vItem in refData) {
                 vItem.DescripcionArticuloInventario = vInfoConexionArticuloInventario.Descendants("GpResult")
                     .Where(p => p.Element("Codigo").Value == vItem.CodigoArticuloInventario)
                     .Select(p => p.Element("Descripcion").Value).FirstOrDefault();
@@ -99,21 +98,18 @@ namespace Galac.Adm.Brl.GestionProduccion {
             }
         }
 
-        private XElement FindInfoArticuloInventario(IList<ListaDeMaterialesDetalleArticulo> valData) {
+        private XElement FindInfoArticuloInventario(IList<ListaDeMaterialesDetalleSalidas> valData) {
             XElement vXElement = new XElement("GpData");
-            foreach(ListaDeMaterialesDetalleArticulo vItem in valData) {
-                vXElement.Add(FilterListaDeMaterialesDetalleArticuloByDistinctArticuloInventario(vItem).Descendants("GpResult"));
+            foreach(ListaDeMaterialesDetalleSalidas vItem in valData) {
+                vXElement.Add(FilterListaDeMaterialesDetalleSalidasByDistinctArticuloInventario(vItem).Descendants("GpResult"));
             }
             ILibPdn insArticuloInventario = new Galac.Saw.Brl.Inventario.clsArticuloInventarioNav();
-            XElement vXElementResult = insArticuloInventario.GetFk("Lista de Materiales", ParametersGetFKArticuloInventarioForXmlSubSet(valData[0].ConsecutivoCompania, vXElement));
+            XElement vXElementResult = insArticuloInventario.GetFk("ListaDeMaterialesDetalleSalidas", ParametersGetFKArticuloInventarioForXmlSubSet(valData[0].ConsecutivoCompania, vXElement));
             return vXElementResult;
         }
 
-        private XElement FilterListaDeMaterialesDetalleArticuloByDistinctArticuloInventario(ListaDeMaterialesDetalleArticulo valMaster) {
+        private XElement FilterListaDeMaterialesDetalleSalidasByDistinctArticuloInventario(ListaDeMaterialesDetalleSalidas valMaster) {
             XElement vXElement = new XElement("GpData","0");
-                //from vEntity in valMaster.DetailListaDeMaterialesDetalleArticulo.Distinct()
-                //select new XElement("GpResult",
-                //    new XElement("CodigoArticuloInventario", vEntity.CodigoArticuloInventario)));
             return vXElement;
         }
 
@@ -126,40 +122,32 @@ namespace Galac.Adm.Brl.GestionProduccion {
             vResult = vParams.Get();
             return vResult;
         }
-
-        internal IList<ListaDeMaterialesDetalleArticulo> DetalleArticulos(int valConsecutivoCompania, int valConsecutivoListaDeMateriales) {
-            RegisterClient();
-            LibGpParams vParams = new LibGpParams();
-            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
-            vParams.AddInInteger("ConsecutivoListaDeMateriales", valConsecutivoListaDeMateriales);
-            IList<ListaDeMaterialesDetalleArticulo> vList = _Db.GetData(eProcessMessageType.SpName, "ListaDeMaterialesDetalleArticuloSelDet", vParams.Get());
-            return vList;
-        }
-        #endregion //ListaDeMaterialesDetalleArticulo
+        #endregion //ListaDeMaterialesDetalleSalidas
         #endregion //Metodos Generados
         #region Codigo Ejemplo
         /* Codigo de Ejemplo
 
-        bool IListaDeMaterialesDetalleArticuloPdn.InsertDefaultRecord(int valConsecutivoCompania) {
-            ILibDataComponent<IList<ListaDeMaterialesDetalleArticulo>, IList<ListaDeMaterialesDetalleArticulo>> instanciaDal = new clsListaDeMaterialesDetalleArticuloDat();
-            IList<ListaDeMaterialesDetalleArticulo> vLista = new List<ListaDeMaterialesDetalleArticulo>();
-            ListaDeMaterialesDetalleArticulo vCurrentRecord = new Galac.Saw.Dal.InventarioListaDeMaterialesDetalleArticulo();
+        bool IListaDeMaterialesDetalleSalidasPdn.InsertDefaultRecord(int valConsecutivoCompania) {
+            ILibDataComponent<IList<ListaDeMaterialesDetalleSalidas>, IList<ListaDeMaterialesDetalleSalidas>> instanciaDal = new clsListaDeMaterialesDetalleSalidasDat();
+            IList<ListaDeMaterialesDetalleSalidas> vLista = new List<ListaDeMaterialesDetalleSalidas>();
+            ListaDeMaterialesDetalleSalidas vCurrentRecord = new Galac.Adm.Dal.GestionProduccionListaDeMaterialesDetalleSalidas();
             vCurrentRecord.ConsecutivoCompania = valConsecutivoCompania;
             vCurrentRecord.ConsecutivoCompania = 0;
             vCurrentRecord.ConsecutivoListaDeMateriales = 0;
             vCurrentRecord.Consecutivo = 0;
             vCurrentRecord.CodigoArticuloInventario = "";
             vCurrentRecord.Cantidad = 0;
+            vCurrentRecord.PorcentajeDeCosto = 0;
             vLista.Add(vCurrentRecord);
             return instanciaDal.Insert(vLista).Success;
         }
 
-        private List<ListaDeMaterialesDetalleArticulo> ParseToListEntity(XElement valXmlEntity) {
-            List<ListaDeMaterialesDetalleArticulo> vResult = new List<ListaDeMaterialesDetalleArticulo>();
+        private List<ListaDeMaterialesDetalleSalidas> ParseToListEntity(XElement valXmlEntity) {
+            List<ListaDeMaterialesDetalleSalidas> vResult = new List<ListaDeMaterialesDetalleSalidas>();
             var vEntity = from vRecord in valXmlEntity.Descendants("GpResult")
                           select vRecord;
             foreach (XElement vItem in vEntity) {
-                ListaDeMaterialesDetalleArticulo vRecord = new ListaDeMaterialesDetalleArticulo();
+                ListaDeMaterialesDetalleSalidas vRecord = new ListaDeMaterialesDetalleSalidas();
                 vRecord.Clear();
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("ConsecutivoCompania"), null))) {
                     vRecord.ConsecutivoCompania = LibConvert.ToInt(vItem.Element("ConsecutivoCompania"));
@@ -176,6 +164,9 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("Cantidad"), null))) {
                     vRecord.Cantidad = LibConvert.ToDec(vItem.Element("Cantidad"));
                 }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("PorcentajeDeCosto"), null))) {
+                    vRecord.PorcentajeDeCosto = LibConvert.ToDec(vItem.Element("PorcentajeDeCosto"));
+                }
                 vResult.Add(vRecord);
             }
             return vResult;
@@ -184,7 +175,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
         #endregion //Codigo Ejemplo
 
 
-    } //End of class clsListaDeMaterialesDetalleArticuloNav
+    } //End of class clsListaDeMaterialesDetalleSalidasNav
 
 } //End of namespace Galac.Adm.Brl.GestionProduccion
 

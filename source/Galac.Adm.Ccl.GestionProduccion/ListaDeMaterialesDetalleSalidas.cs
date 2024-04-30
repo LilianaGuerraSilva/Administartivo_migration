@@ -5,12 +5,10 @@ using System.ComponentModel;
 using System.Text;
 using System.Xml;
 using LibGalac.Aos.Base;
-using Galac.Adm.Ccl.GestionProduccion;
-using Galac.Saw.Ccl.Inventario;
 
 namespace Galac.Adm.Ccl.GestionProduccion {
     [Serializable]
-    public class ListaDeMaterialesDetalleArticulo: IEquatable<ListaDeMaterialesDetalleArticulo>, INotifyPropertyChanged, ICloneable {
+    public class ListaDeMaterialesDetalleSalidas: IEquatable<ListaDeMaterialesDetalleSalidas>, INotifyPropertyChanged, ICloneable {
         #region Variables
         private int _ConsecutivoCompania;
         private int _ConsecutivoListaDeMateriales;
@@ -18,8 +16,8 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         private string _CodigoArticuloInventario;
         private string _DescripcionArticuloInventario;
         private decimal _Cantidad;
-        private eTipoDeArticulo _TipoDeArticulo;
-		private string _UnidadDeVenta;
+        private string _UnidadDeVenta;
+        private decimal _PorcentajeDeCosto;
         #endregion //Variables
         #region Propiedades
 
@@ -48,10 +46,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
 
         public string DescripcionArticuloInventario {
             get { return _DescripcionArticuloInventario; }
-            set { 
-                _DescripcionArticuloInventario = LibString.Mid(value, 0, 7000);
-                OnPropertyChanged("DescripcionArticuloInventario");
-            }
+            set { _DescripcionArticuloInventario = LibString.Mid(value, 0, 7000); }
         }
 
         public decimal Cantidad {
@@ -62,25 +57,25 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             }
         }
 
-        public eTipoDeArticulo TipoDeArticuloAsEnum {
-            get { return _TipoDeArticulo; }
-            set { _TipoDeArticulo = value; }
-        }       
-        public string TipoDeArticulo {
-            set { _TipoDeArticulo = (eTipoDeArticulo)LibConvert.DbValueToEnum(value); }
-        }
-		
-		public string UnidadDeVenta {
+        public string UnidadDeVenta {
             get { return _UnidadDeVenta; }
             set { 
                 _UnidadDeVenta = LibString.Mid(value, 0, 20);
                 OnPropertyChanged("UnidadDeVenta");
             }
         }
+
+        public decimal PorcentajeDeCosto {
+            get { return _PorcentajeDeCosto; }
+            set { 
+                _PorcentajeDeCosto = value;
+                OnPropertyChanged("PorcentajeDeCosto");
+            }
+        }
         #endregion //Propiedades
         #region Constructores
 
-        public ListaDeMaterialesDetalleArticulo() {
+        public ListaDeMaterialesDetalleSalidas() {
             Clear();
         }
         #endregion //Constructores
@@ -98,10 +93,11 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             DescripcionArticuloInventario = string.Empty;
             Cantidad = 0;
             UnidadDeVenta = string.Empty;
+            PorcentajeDeCosto = 0;
         }
 
-        public ListaDeMaterialesDetalleArticulo Clone() {
-            ListaDeMaterialesDetalleArticulo vResult = new ListaDeMaterialesDetalleArticulo();
+        public ListaDeMaterialesDetalleSalidas Clone() {
+            ListaDeMaterialesDetalleSalidas vResult = new ListaDeMaterialesDetalleSalidas();
             vResult.ConsecutivoCompania = _ConsecutivoCompania;
             vResult.ConsecutivoListaDeMateriales = _ConsecutivoListaDeMateriales;
             vResult.Consecutivo = _Consecutivo;
@@ -109,6 +105,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             vResult.DescripcionArticuloInventario = _DescripcionArticuloInventario;
             vResult.Cantidad = _Cantidad;
             vResult.UnidadDeVenta = _UnidadDeVenta;
+            vResult.PorcentajeDeCosto = _PorcentajeDeCosto;
             return vResult;
         }
 
@@ -117,20 +114,21 @@ namespace Galac.Adm.Ccl.GestionProduccion {
                "\nConsecutivo Lista De Materiales = " + _ConsecutivoListaDeMateriales.ToString() +
                "\nConsecutivo = " + _Consecutivo.ToString() +
                "\nCódigo Inventario = " + _CodigoArticuloInventario +
-               "\nCantidad = " + _Cantidad.ToString();
+               "\nCantidad = " + _Cantidad.ToString() +
+               "\n%Costo = " + _PorcentajeDeCosto.ToString();
         }
 
-        #region Miembros de IEquatable<ListaDeMaterialesDetalleArticulo>
-        bool IEquatable<ListaDeMaterialesDetalleArticulo>.Equals(ListaDeMaterialesDetalleArticulo other) {
+        #region Miembros de IEquatable<ListaDeMaterialesDetalleSalidas>
+        bool IEquatable<ListaDeMaterialesDetalleSalidas>.Equals(ListaDeMaterialesDetalleSalidas other) {
             return Object.ReferenceEquals(this, other);
         }
-        #endregion //IEquatable<ListaDeMaterialesDetalleArticulo>
+        #endregion //IEquatable<ListaDeMaterialesDetalleSalidas>
 
-        #region Miembros de ICloneable<ListaDeMaterialesDetalleArticulo>
+        #region Miembros de ICloneable<ListaDeMaterialesDetalleSalidas>
         object ICloneable.Clone() {
             return this.Clone();
         }
-        #endregion //ICloneable<ListaDeMaterialesDetalleArticulo>
+        #endregion //ICloneable<ListaDeMaterialesDetalleSalidas>
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -143,7 +141,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         #endregion //Metodos Generados
 
 
-    } //End of class ListaDeMaterialesDetalleArticulo
+    } //End of class ListaDeMaterialesDetalleSalidas
 
 } //End of namespace Galac.Adm.Ccl.GestionProduccion
 
