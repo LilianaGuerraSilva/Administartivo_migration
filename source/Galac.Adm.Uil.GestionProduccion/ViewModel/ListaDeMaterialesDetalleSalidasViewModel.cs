@@ -235,7 +235,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         private ValidationResult PorcentajeDeCostoValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if (((Action == eAccionSR.Insertar) || (Action == eAccionSR.Modificar)) && (PorcentajeDeCosto >= 0 || PorcentajeDeCosto <= 100)) {
+            if ((Action == eAccionSR.Insertar || Action == eAccionSR.Modificar) && (PorcentajeDeCosto >= 0 || PorcentajeDeCosto <= 100)) {
                 return ValidationResult.Success;
             }
             return vResult;
