@@ -12,7 +12,7 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
     public class clsListaDeMaterialesSql {
           private QAdvSql vSqlUtil = new QAdvSql("");
         #region Metodos Generados
-        public string SqlListaDeMaterialesSalida(int valConsecutivoCompania, string valCodigoListaAProducir, eCantidadAImprimir valCantidadAImprimir, decimal valCantidadAProducir, string valMonedaDelInformeMM, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valNombreMoneda, string valCodigoMoneda) {
+        public string SqlListaDeMaterialesSalida(int valConsecutivoCompania, string valCodigoListaAProducir, eCantidadAImprimir valCantidadAImprimir, decimal valCantidadAProducir,string valMonedaDelInformeMM, decimal valTasaDeCambio, string valNombreMoneda, string valCodigoMoneda, string valCodigoMonedaExtranjera) {
             StringBuilder vSql = new StringBuilder();
             vSql.AppendLine("SELECT ");
             vSql.AppendLine("ListaDeMateriales.Codigo, ");
@@ -40,7 +40,7 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             return vSql.ToString();
         }
 
-        public string SqlListaDeMaterialesInsumos(int valConsecutivoCompania, string valCodigoListaAProducir, eCantidadAImprimir valCantidadAImprimir, decimal valCantidadAProducir, string valMonedaDelInformeMM, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valNombreMoneda, string valCodigoMoneda) {
+        public string SqlListaDeMaterialesInsumos(int valConsecutivoCompania, string valCodigoListaAProducir, eCantidadAImprimir valCantidadAImprimir, decimal valCantidadAProducir,string valMonedaDelInformeMM, decimal valTasaDeCambio, string valNombreMoneda, string valCodigoMoneda, string valCodigoMonedaExtranjera) {
             StringBuilder vSql = new StringBuilder();
             vSql.AppendLine("SELECT ");
             vSql.AppendLine("ListaDeMaterialesDetalleArticulo.CodigoArticuloInventario AS CodigoArticuloListainsumos, ");

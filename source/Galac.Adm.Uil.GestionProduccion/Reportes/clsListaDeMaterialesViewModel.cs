@@ -27,7 +27,6 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
     public class clsListaDeMaterialesViewModel : LibInputRptViewModelBase<ListaDeMateriales> {
 
         #region Constantes
-
         private const string CantidadAImprimirPropertyName = "CantidadAImprimir";
         private const string CodigoListaMaterialesPropertyName = "CodigoListaMateriales";
         private const string NombreListaDeMaterialesPropertyName = "NombreListaDeMateriales";
@@ -45,8 +44,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         private string _NombreListaDeMateriales;
         private decimal _CantidadAProducir;
         private FkListaDeMaterialesInformeViewModel _ConexionListaDeMateriales = null;
-        private bool _IsEnabledCodigoListaDeMateriales;
-        private eTasaDeCambioParaImpresion _TipoTasaDeCambioAsEnum;
+        private bool _IsEnabledCodigoListaDeMateriales;        
         private ObservableCollection<string> _ListaMonedaDelInforme;                
         private decimal _TasaDeCambio;
         private string _MonedaDelInforme;
@@ -155,18 +153,6 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             private set;
         }
 
-        public eTasaDeCambioParaImpresion TipoTasaDeCambio {
-            get {
-                return _TipoTasaDeCambioAsEnum;
-            }
-            set {
-                if(_TipoTasaDeCambioAsEnum != value) {
-                    _TipoTasaDeCambioAsEnum = value;
-                    RaisePropertyChanged(() => TipoTasaDeCambio);
-                }
-            }
-        }
-
         public eTasaDeCambioParaImpresion[] ArrayTiposTasaDeCambio {
             get {
                 return LibEnumHelper<eTasaDeCambioParaImpresion>.GetValuesInArray();
@@ -237,8 +223,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         public clsListaDeMaterialesViewModel() {
             _CantidadAImprimir = eCantidadAImprimir.All;
             _CodigoListaMateriales = string.Empty;
-            _CantidadAProducir = 1;
-            TipoTasaDeCambio = eTasaDeCambioParaImpresion.DelDia;
+            _CantidadAProducir = 1;            
             CantidadAImprimir = eCantidadAImprimir.One;
             CodigoMoneda = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMoneda");
             CodigoMonedaExtranjera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
@@ -272,7 +257,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
                 ConexionListaDeMateriales = ChooseRecord<FkListaDeMaterialesInformeViewModel>("Lista de Materiales", vDefaultCriteria, vFixedCriteria, string.Empty);
                 if(ConexionListaDeMateriales != null) {
                     CodigoListaMateriales = ConexionListaDeMateriales.Codigo;
-                    NombreListaDeMateriales = ConexionListaDeMateriales.Nombre;                    
+                    NombreListaDeMateriales = LibString.SubString(ConexionListaDeMateriales.Nombre, 0, 36) + " ...";                    
                 } else {
                     CodigoListaMateriales = string.Empty;
                     NombreListaDeMateriales = string.Empty;

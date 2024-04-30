@@ -47,15 +47,13 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         private ILibRpt ConfigReportListaDeMateriales(clsListaDeMaterialesViewModel valViewModel) {
             ILibRpt vResult = null;
             if (valViewModel != null) {
-                vResult = new clsListaDeMaterialesDeSalida(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.CantidadAImprimir, valViewModel.CantidadAProducir, valViewModel.CodigoListaMateriales, valViewModel.MonedaDelInforme, valViewModel.TipoTasaDeCambio,valViewModel.CodigoMoneda) {
+                vResult = new clsListaDeMaterialesDeSalida(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.CantidadAImprimir, valViewModel.CantidadAProducir, valViewModel.CodigoListaMateriales, valViewModel.TasaDeCambio, valViewModel.MonedaDelInforme, valViewModel.CodigoMoneda, valViewModel.CodigoMonedaExtranjera) {
                     Worker = Manager
                 };
             }
             return vResult;
         }
         #endregion //Metodos Generados
-
-
     } //End of class clsListaDeMaterialesInformesViewModel
 
 } //End of namespace Galac.Adm.Uil.GestionProduccion

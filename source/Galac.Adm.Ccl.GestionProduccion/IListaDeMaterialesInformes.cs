@@ -8,9 +8,9 @@ using LibGalac.Aos.Base.Report;
 
 namespace Galac.Adm.Ccl.GestionProduccion {
 
-    public interface IListaDeMaterialesInformes {        
-        System.Data.DataTable BuildListaDeMaterialesSalida(int valConsecutivoCompania, string valCodigoListaAProducir, eCantidadAImprimir valCantidadAImprimir, decimal valCantidadAProducir,string valMonedaDelInformeMM, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valNombreMoneda, string valCodigoMoneda);
-        System.Data.DataTable BuildListaDeMaterialesInsumos(int valConsecutivoCompania, string valCodigoListaAProducir, eCantidadAImprimir valCantidadAImprimir, decimal valCantidadAProducir,string valMonedaDelInformeMM, eTasaDeCambioParaImpresion valTipoTasaDeCambio, string valNombreMoneda, string valCodigoMoneda);
+    public interface IListaDeMaterialesInformes {
+        System.Data.DataTable BuildListaDeMaterialesSalida(int valConsecutivoCompania, string valCodigoListaAProducir, eCantidadAImprimir valCantidadAImprimir, decimal valCantidadAProducir, string valMonedaDelInformeMM, decimal valTasaDeCambio, string valNombreMoneda, string valCodigoMoneda, string valCodigoMonedaExtranjera);
+        System.Data.DataTable BuildListaDeMaterialesInsumos(int valConsecutivoCompania, string valCodigoListaAProducir, eCantidadAImprimir valCantidadAImprimir, decimal valCantidadAProducir, string valMonedaDelInformeMM, decimal valTasaDeCambio, string valNombreMoneda, string valCodigoMoneda, string valCodigoMonedaExtranjera);
     }
 } //End of namespace Galac.Adm.Ccl.GestionProduccion
 

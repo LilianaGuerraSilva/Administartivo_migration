@@ -65,10 +65,9 @@
             IsEnabled="{Binding Path=IsEnabledCodigoListaDeMateriales}"
             SearchCommand="{Binding Path=ChooseCodigoListaDeMaterialesCommand}" />
         <Label
-            Name="lblDescripcionArticuloInventario"
+            Name="lblNombreListaDeMateriales"
             Grid.Row="2"
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
+            Grid.Column="1"
             Margin="0,0,0,10"
             VerticalAlignment="Center"
             Content="{Binding Path=NombreListaDeMateriales}"

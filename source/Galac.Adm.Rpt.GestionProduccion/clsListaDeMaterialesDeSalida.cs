@@ -19,20 +19,22 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         protected DataTable DataListaInsumos { get; set; }    
         private string CodigoListaAProducir { get; set; }       
         private eCantidadAImprimir CantidadAImprimir { get; set; }       
-        private decimal CantidadAProducir { get; set; }       
-        private string MonedaDelInformeMM { get; set; }       
-        private eTasaDeCambioParaImpresion TipoTasaDeCambio { get; set; }     
-        private string Moneda { get; set; }
+        private decimal CantidadAProducir { get; set; }              
+        private decimal TasaDeCambio { get; set; }     
+        private string MonedaDelInforme { get; set; }
+        private string CodigoMoneda { get; set; }
+        private string CodigoMonedaExtranjera { get; set; }
         #endregion //Propiedades
         #region Constructores
-        public clsListaDeMaterialesDeSalida(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, eCantidadAImprimir initCantidadAImprimir, decimal initCantidadAProducir, string initCodigoListaAProducir, string initMonedaDelInformeMM, eTasaDeCambioParaImpresion initTipoTasaDeCambio, string initMoneda)
+        public clsListaDeMaterialesDeSalida(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, eCantidadAImprimir initCantidadAImprimir, decimal initCantidadAProducir, string initCodigoListaAProducir, decimal initTasaDeCambio, string initMonedaDelInforme, string initCodigoMoneda, string initCodigoMonedaExtranjera)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {            
             CodigoListaAProducir = initCodigoListaAProducir;
             CantidadAImprimir = initCantidadAImprimir;
-            CantidadAProducir = initCantidadAProducir;
-            MonedaDelInformeMM = initMonedaDelInformeMM;
-            TipoTasaDeCambio = initTipoTasaDeCambio;
-            Moneda = initMoneda;            
+            CantidadAProducir = initCantidadAProducir;            
+            TasaDeCambio = initTasaDeCambio;
+            MonedaDelInforme = initMonedaDelInforme;
+            CodigoMoneda = initCodigoMoneda;
+            CodigoMonedaExtranjera = CodigoMonedaExtranjera;
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -48,9 +50,12 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             if (UseExternalRpx) {
                 vTitulo += " - desde RPX externo.";
             }
+            int vPos = LibString.IndexOf(MonedaDelInforme, " ") > 0 ? LibString.IndexOf(MonedaDelInforme, " ") - 1 : LibString.Len(MonedaDelInforme);
+            string vNombreMoneda = LibString.SubString(MonedaDelInforme, 0, vPos);
             Dictionary<string, string> vParams = new Dictionary<string, string>();
             vParams.Add("NombreCompania", AppMemoryInfo.GlobalValuesGetString("Compania", "Nombre"));
-            vParams.Add("TituloInforme", vTitulo);            
+            vParams.Add("TituloInforme", vTitulo);
+            vParams.Add("NombreMoneda", vNombreMoneda);
             return vParams;
         }
 
@@ -59,13 +64,10 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 return;
             }
             WorkerReportProgress(30, "Obteniendo datos...");
-            int vConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
+            int vConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");            
             IListaDeMaterialesInformes vRpt = new Galac.Adm.Brl.GestionProduccion.Reportes.clsListaDeMaterialesRpt() as IListaDeMaterialesInformes;
-            string vCodigoMoneda = LibString.Trim(LibString.Mid(Moneda, 1, LibString.InStr(Moneda, ")") - 1));
-            vCodigoMoneda = LibString.IsNullOrEmpty(vCodigoMoneda, true) ? LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera") : vCodigoMoneda;
-            string vNombreMoneda = LibString.Trim(LibString.Mid(Moneda, 1 + LibString.InStr(Moneda, ")")));
-            DataListaSalida = vRpt.BuildListaDeMaterialesSalida(vConsecutivoCompania, CodigoListaAProducir, CantidadAImprimir, CantidadAProducir, MonedaDelInformeMM, TipoTasaDeCambio, vNombreMoneda, vCodigoMoneda);
-            DataListaInsumos = vRpt.BuildListaDeMaterialesInsumos(vConsecutivoCompania, CodigoListaAProducir, CantidadAImprimir, CantidadAProducir, MonedaDelInformeMM, TipoTasaDeCambio, vNombreMoneda, vCodigoMoneda);
+            DataListaSalida = vRpt.BuildListaDeMaterialesSalida(vConsecutivoCompania, CodigoListaAProducir, CantidadAImprimir, CantidadAProducir, MonedaDelInforme, TasaDeCambio, MonedaDelInforme, CodigoMoneda, CodigoMonedaExtranjera);
+            DataListaInsumos = vRpt.BuildListaDeMaterialesInsumos(vConsecutivoCompania, CodigoListaAProducir, CantidadAImprimir, CantidadAProducir, MonedaDelInforme, TasaDeCambio, MonedaDelInforme, CodigoMoneda, CodigoMonedaExtranjera);
         }
 
         public override void SendReportToDevice() {

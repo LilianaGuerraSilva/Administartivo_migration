@@ -241,7 +241,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblMoneda.Left = 0F;
             this.lblMoneda.Name = "lblMoneda";
             this.lblMoneda.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
-            this.lblMoneda.Text = "Moneda del Grupo";
+            this.lblMoneda.Text = "Moneda";
             this.lblMoneda.Top = 0F;
             this.lblMoneda.Width = 1.6875F;
             // 
