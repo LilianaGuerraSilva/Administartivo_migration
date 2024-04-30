@@ -8,7 +8,7 @@
     xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
     xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
     Width="335"
-    d:DesignHeight="260"
+    d:DesignHeight="235"
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -30,7 +30,6 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Label
             Name="lblCantidadAImprimir"
@@ -45,7 +44,7 @@
             Width="88"
             Margin="0,0,0,20"
             IsSynchronizedWithCurrentItem="True"
-            ItemsSource="{Binding Path=ECantidadAImprimir}"
+            ItemsSource="{Binding Path=ArrayCantidadAImprimir}"
             SelectedItem="{Binding Path=CantidadAImprimir, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource ComboBoxStyle}" />
         <Label
@@ -59,7 +58,7 @@
             Name="txtCodigoArticuloLista"
             Grid.Row="1"
             Grid.Column="1"
-            Width="165"
+            Width="200"
             Height="23"
             Margin="0,0,0,20"
             ConnectionValue="{Binding Path=CodigoListaMateriales, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
@@ -87,7 +86,7 @@
             Width="86"
             Margin="0,0,0,20"
             BorderThickness="1"
-            DecimalDigits="{Binding Path=DecimalDigits}"
+            DecimalDigits="8"
             InputDataType="UDecimal"
             IsEnabled="{Binding Path=IsEnabled}"
             MaxLength="34"
@@ -99,20 +98,11 @@
             Margin="0"
             Content="Moneda del Informe"
             Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSSeekConnection
-            Name="txtMoneda"
-            Grid.Row="4"
-            Grid.Column="1"
-            Width="165"
-            Height="23"
-            Margin="0,0,0,20"
-            ConnectionValue="{Binding Path=Moneda, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-            SearchCommand="{Binding Path=ChooseMonedaCommand}" />
         <nsWpfControls:GSComboBoxWpf
             Name="cmbMonedaDelGrupo"
-            Grid.Row="5"
+            Grid.Row="4"
             Grid.Column="1"
-            Width="165"
+            Width="200"
             Margin="0,0,0,20"
             IsEnabled="{Binding Path=IsEnabled}"
             IsSynchronizedWithCurrentItem="True"
@@ -121,23 +111,26 @@
             Style="{StaticResource ComboBoxStyle}" />
         <Label
             Name="lblTasaDeCambio"
-            Grid.Row="6"
+            Grid.Row="5"
             Grid.Column="0"
+            Width="115"
             Margin="0"
-            Content="Tasa de Cambio a la Fecha"
+            Content="Tasa de Cambio"
             Style="{StaticResource LabelPrompt}"
-            Visibility="{Binding Path=IsVisibleTipoTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}" />
-        <nsWpfControls:GSComboBoxWpf
-            x:Name="cmbTasaDeCambio"
-            Grid.Row="6"
+            Visibility="{Binding Path=IsVisibleTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}" />
+        <nsWpfControls:GSNumericBoxWpf
+            Name="txtTasaDeCambio"
+            Grid.Row="5"
             Grid.Column="1"
-            Width="165"
+            Width="86"
             Margin="0,0,0,20"
             BorderThickness="1"
-            IsSynchronizedWithCurrentItem="True"
-            ItemsSource="{Binding ArrayTiposTasaDeCambio}"
-            SelectedItem="{Binding Path=TipoTasaDeCambio, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-            Style="{StaticResource ComboBoxStyle}"
-            Visibility="{Binding Path=IsVisibleTipoTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}" />
+            DecimalDigits="4"
+            InputDataType="UDecimal"
+            IsEnabled="{Binding Path=IsEnabled}"
+            MaxLength="34"
+            Style="{StaticResource TextBoxInputStyle}"
+            Visibility="{Binding Path=IsVisibleTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}"
+            Value="{Binding Path=TasaDeCambio, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
     </Grid>
 </UserControl>

@@ -42,6 +42,8 @@ namespace Galac.Adm.Rpt.GestionProduccion
             this.PageFooter = new DataDynamics.ActiveReports.PageFooter();
             this.GHListaInsumos = new DataDynamics.ActiveReports.GroupHeader();
             this.GFListaInsumos = new DataDynamics.ActiveReports.GroupFooter();
+            this.txtTotalCostoCalculado = new DataDynamics.ActiveReports.TextBox();
+            this.lblTotalCosto = new DataDynamics.ActiveReports.Label();
             ((System.ComponentModel.ISupportInitialize)(this.txtArticulo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCantidad)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCosto)).BeginInit();
@@ -54,6 +56,8 @@ namespace Galac.Adm.Rpt.GestionProduccion
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadAReservar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCostoTotal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblExistencia)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalCostoCalculado)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblTotalCosto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
@@ -142,7 +146,7 @@ namespace Galac.Adm.Rpt.GestionProduccion
             this.lblDescripcionArticulo.Left = 0F;
             this.lblDescripcionArticulo.Name = "lblDescripcionArticulo";
             this.lblDescripcionArticulo.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
-            this.lblDescripcionArticulo.Text = "Descripción";
+            this.lblDescripcionArticulo.Text = "Artículo";
             this.lblDescripcionArticulo.Top = 0F;
             this.lblDescripcionArticulo.Width = 3F;
             // 
@@ -225,8 +229,34 @@ namespace Galac.Adm.Rpt.GestionProduccion
             // 
             // GFListaInsumos
             // 
-            this.GFListaInsumos.Height = 0.25F;
+            this.GFListaInsumos.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
+            this.txtTotalCostoCalculado,
+            this.lblTotalCosto});
+            this.GFListaInsumos.Height = 0.15625F;
             this.GFListaInsumos.Name = "GFListaInsumos";
+            // 
+            // txtTotalCostoCalculado
+            // 
+            this.txtTotalCostoCalculado.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtTotalCostoCalculado.Height = 0.15625F;
+            this.txtTotalCostoCalculado.Left = 5.565001F;
+            this.txtTotalCostoCalculado.Name = "txtTotalCostoCalculado";
+            this.txtTotalCostoCalculado.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtTotalCostoCalculado.Text = "txtTotalCostoCalculado";
+            this.txtTotalCostoCalculado.Top = 0F;
+            this.txtTotalCostoCalculado.Width = 0.8550003F;
+            // 
+            // lblTotalCosto
+            // 
+            this.lblTotalCosto.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.lblTotalCosto.Height = 0.15625F;
+            this.lblTotalCosto.HyperLink = null;
+            this.lblTotalCosto.Left = 4.710001F;
+            this.lblTotalCosto.Name = "lblTotalCosto";
+            this.lblTotalCosto.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
+            this.lblTotalCosto.Text = "Total Costo";
+            this.lblTotalCosto.Top = 0F;
+            this.lblTotalCosto.Width = 0.8550003F;
             // 
             // dsrListaDeMaterialesDeInsumos
             // 
@@ -257,6 +287,8 @@ namespace Galac.Adm.Rpt.GestionProduccion
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadAReservar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCostoTotal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblExistencia)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalCostoCalculado)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblTotalCosto)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -279,6 +311,8 @@ namespace Galac.Adm.Rpt.GestionProduccion
         private DataDynamics.ActiveReports.PageFooter PageFooter;
         private DataDynamics.ActiveReports.GroupHeader GHListaInsumos;
         private DataDynamics.ActiveReports.GroupFooter GFListaInsumos;
+        private DataDynamics.ActiveReports.TextBox txtTotalCostoCalculado;
+        private DataDynamics.ActiveReports.Label lblTotalCosto;
 
 
 

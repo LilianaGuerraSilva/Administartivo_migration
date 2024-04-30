@@ -32,14 +32,14 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         private const string CodigoListaMaterialesPropertyName = "CodigoListaMateriales";
         private const string NombreListaDeMaterialesPropertyName = "NombreListaDeMateriales";
         private const string IsEnabledCodigoListaDeMaterialesPropertyName = "IsEnabledCodigoListaDeMateriales";
-        private const string CantidadAProducirPropertyName = "CantidadAProducir";
-        private const string MonedaDelInformePropertyName = "MonedaDelInforme";
+        private const string CantidadAProducirPropertyName = "CantidadAProducir";        
         private const string ListaMonedaDelInformePropertyName = "ListaMonedaDelInforme";
-        private const string MonedaPropertyName = "Moneda";
+        private const string TasaDeCambioPropertyName = "TasaDeCambio";
+        private const string IsVisibleTasaDeCambioPropertyName = "IsVisibleTasaDeCambio";
+        private const string MonedaDelInformePropertyName = "MonedaDelInforme";
         #endregion
 
         #region Variables
-
         private eCantidadAImprimir _CantidadAImprimir;
         private string _CodigoListaMateriales;
         private string _NombreListaDeMateriales;
@@ -47,12 +47,10 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         private FkListaDeMaterialesInformeViewModel _ConexionListaDeMateriales = null;
         private bool _IsEnabledCodigoListaDeMateriales;
         private eTasaDeCambioParaImpresion _TipoTasaDeCambioAsEnum;
-        private ObservableCollection<string> _ListaMonedaDelInforme;
-        private Comun.Uil.TablasGen.ViewModel.FkMonedaViewModel _ConexionMoneda;
+        private ObservableCollection<string> _ListaMonedaDelInforme;                
+        private decimal _TasaDeCambio;
         private string _MonedaDelInforme;
-        private string _Moneda;
         #endregion //Variables
-
         #region Propiedades
 
         public FkListaDeMaterialesInformeViewModel ConexionListaDeMateriales {
@@ -78,13 +76,13 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             set {
                 if(_CodigoListaMateriales != value) {
                     _CodigoListaMateriales = value;
-                    RaisePropertyChanged(CodigoListaMaterialesPropertyName);
                     if(LibString.IsNullOrEmpty(_CodigoListaMateriales, true)) {
                         ConexionListaDeMateriales = null;
                         NombreListaDeMateriales = string.Empty;
                     } else {
                         NombreListaDeMateriales = ConexionListaDeMateriales.Nombre;
                     }
+                    RaisePropertyChanged(CodigoListaMaterialesPropertyName);
                 }
             }
         }
@@ -126,12 +124,12 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
                 return _CantidadAProducir;
             }
             set {
-                if(_CantidadAProducir != value) {
+                if (_CantidadAProducir != value) {
                     _CantidadAProducir = value;
-                    RaisePropertyChanged(CantidadAProducirPropertyName);
-                    if(_CantidadAProducir == 0) {
+                    if (_CantidadAProducir == 0) {
                         _CantidadAProducir = 1;
                     }
+                    RaisePropertyChanged(CantidadAProducirPropertyName);
                 }
             }
         }
@@ -184,53 +182,24 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
                 RaisePropertyChanged(ListaMonedaDelInformePropertyName);
             }
         }
-
-        public ObservableCollection<string> ListaMonedasActivas {
-            get; set;
-        }
+       
         public string MonedaDelInforme {
             get {
                 return _MonedaDelInforme;
             }
             set {
-                if(_MonedaDelInforme != value) {
-                    _MonedaDelInforme = value;                    
-                    RaisePropertyChanged(MonedaDelInformePropertyName);                    
-                    RaisePropertyChanged(() => IsVisibleTipoTasaDeCambio);
+                if (_MonedaDelInforme != value) {
+                    _MonedaDelInforme = value;
+                    RaisePropertyChanged(MonedaDelInformePropertyName);
+                    RaisePropertyChanged(IsVisibleTasaDeCambioPropertyName);
+                    if (IsVisibleTasaDeCambio) {
+                        AsignaTasaDelDia();
+                    }
                 }
             }
         }
-
-        public string Moneda {
-            get {
-                return _Moneda;
-            }
-            set {
-                if(_Moneda != value) {
-                    _Moneda = value;
-                    RaisePropertyChanged(MonedaPropertyName);
-                }
-            }
-        }
-        public string CodigoMoneda {
-            get; set;
-        }
-
-        public Comun.Uil.TablasGen.ViewModel.FkMonedaViewModel ConexionMoneda {
-            get {
-                return _ConexionMoneda;
-            }
-            set {
-                if(_ConexionMoneda != value) {
-                    _ConexionMoneda = value;
-                    RaisePropertyChanged(MonedaPropertyName);
-                }
-                if(_ConexionMoneda == null) {
-                    CodigoMoneda = string.Empty;
-                    Moneda = string.Empty;
-                }
-            }
-        }
+        public string CodigoMoneda { get; set; }        
+        public string CodigoMonedaExtranjera { get; set; } 
 
         public bool IsEnabledCodigoListaDeMateriales {
             get {
@@ -244,9 +213,21 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             }
         }
 
-        public bool IsVisibleTipoTasaDeCambio {
+        public bool IsVisibleTasaDeCambio {
             get {
-                return !LibString.S1IsEqualToS2(MonedaDelInforme, "Bolívares");
+                return LibString.S1IsInS2("expresado en", MonedaDelInforme);
+            }
+        }
+
+        public decimal TasaDeCambio {
+            get {
+                return _TasaDeCambio;
+            }
+            set {
+                if (_TasaDeCambio != value) {
+                    _TasaDeCambio = value;
+                    RaisePropertyChanged(TasaDeCambioPropertyName);
+                }
             }
         }
         #endregion
@@ -258,17 +239,15 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             _CodigoListaMateriales = string.Empty;
             _CantidadAProducir = 1;
             TipoTasaDeCambio = eTasaDeCambioParaImpresion.DelDia;
-            string vCodigoMoneda = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMoneda");
-            ConexionMoneda = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<Comun.Uil.TablasGen.ViewModel.FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteria("Codigo", vCodigoMoneda), new clsMonedaNav());
-            Moneda = ConexionMoneda.Nombre;
-            CodigoMoneda = ConexionMoneda.Codigo;
-            LlenarEnumerativosMonedas("Dólar");
-        }
+            CantidadAImprimir = eCantidadAImprimir.One;
+            CodigoMoneda = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMoneda");
+            CodigoMonedaExtranjera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
+            LlenarEnumerativosMonedas();
+        }        
         #endregion //Constructores
+        #region Metodos Generados        
 
-        #region Metodos Generados
-
-        public eCantidadAImprimir[] ECantidadAImprimir {
+        public eCantidadAImprimir[] ArrayCantidadAImprimir {
             get {
                 return LibEnumHelper<eCantidadAImprimir>.GetValuesInArray();
             }
@@ -280,36 +259,9 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
 
         protected override void InitializeCommands() {
             base.InitializeCommands();
-            ChooseCodigoListaDeMaterialesCommand = new RelayCommand<string>(ExecuteChooseCodigoListaMaterialesCommand);
-            ChooseMonedaCommand = new RelayCommand<string>(ExecuteChooseMonedaCommand);
+            ChooseCodigoListaDeMaterialesCommand = new RelayCommand<string>(ExecuteChooseCodigoListaMaterialesCommand);            
         }
-
-        private void ExecuteChooseMonedaCommand(string valNombreMoneda) {
-            try {
-                if(valNombreMoneda == null) {
-                    valNombreMoneda = string.Empty;
-                }             
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_Moneda_B1.Nombre", valNombreMoneda);
-                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Gv_Moneda_B1.Activa", LibConvert.BoolToSN(true));
-                vFixedCriteria.Add("TipoDeMoneda", eBooleanOperatorType.IdentityEquality, eTipoDeMoneda.Fisica);
-                vFixedCriteria.Add("Codigo",eBooleanOperatorType.IdentityInequality,"VEB");                               
-                ConexionMoneda = null;
-                ConexionMoneda = LibFKRetrievalHelper.ChooseRecord<Comun.Uil.TablasGen.ViewModel.FkMonedaViewModel>("Moneda", vDefaultCriteria, vFixedCriteria, string.Empty);
-                if(ConexionMoneda != null) {
-                    CodigoMoneda = ConexionMoneda.Codigo;
-                    Moneda = ConexionMoneda.Nombre;
-                    LlenarEnumerativosMonedas(Moneda);
-                } else {
-                    CodigoMoneda = string.Empty;
-                    Moneda = string.Empty;
-                }
-            } catch(System.AccessViolationException) {
-                throw;
-            } catch(System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, Galac.Adm.Rpt.GestionProduccion.clsListaDeMaterialesDeSalida.ReportName);
-            }
-        }
-
+        
         private void ExecuteChooseCodigoListaMaterialesCommand(string valCodigo) {
             try {
                 if(valCodigo == null) {
@@ -331,20 +283,28 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, Galac.Adm.Rpt.GestionProduccion.clsListaDeMaterialesDeSalida.ReportName);
             }
         }
-
+        
         #endregion //Metodos Generados
-
-        #region Código Programador       
-
-        private void LlenarEnumerativosMonedas(string vMonedaExtranjera) {
+        #region Código Programador     
+        private void LlenarEnumerativosMonedas() {
+            IMonedaPdn insMoneda = new clsMonedaNav();
+            string vMonedaExtranjera = insMoneda.GetNombreMoneda(CodigoMonedaExtranjera);
+            string vMonedLocal = insMoneda.GetNombreMoneda(CodigoMoneda);
             ListaMonedaDelInforme = new ObservableCollection<string>() {
-               "Bolívares",
+               vMonedLocal,
                vMonedaExtranjera,
-               "Bolívares expresados en " + vMonedaExtranjera,
-               vMonedaExtranjera + " expresados  Bolívares"
-
+               $"{vMonedLocal} expresado en {vMonedaExtranjera}",
+                 $"{vMonedaExtranjera} expresado en {vMonedLocal}"
             };
             MonedaDelInforme = ListaMonedaDelInforme[0];
+        }
+
+        private void AsignaTasaDelDia() {
+            bool vElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsModoAvanzado");
+            bool vUsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarLimiteMaximoParaIngresoDeTasaDeCambio");
+            decimal vMaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros", "MaximoLimitePermitidoParaLaTasaDeCambio");
+            bool vObtenerAutomaticamenteTasaDeCambioDelBCV = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "ObtenerAutomaticamenteTasaDeCambioDelBCV");
+            TasaDeCambio = clsSawCambio.InsertaTasaDeCambioParaElDia(CodigoMonedaExtranjera, LibDate.Today(), vUsarLimiteMaximoParaIngresoDeTasaDeCambio, vMaximoLimitePermitidoParaLaTasaDeCambio, vElProgramaEstaEnModoAvanzado, vObtenerAutomaticamenteTasaDeCambioDelBCV);
         }
 
         private ValidationResult IsCodigoListaRequired() {

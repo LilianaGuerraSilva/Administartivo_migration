@@ -49,7 +49,8 @@ namespace Galac.Adm.Rpt.GestionProduccion {
 				LibReport.ConfigFieldDec(this, "txtCosto", string.Empty, "CostoUnitario");
 				LibReport.ConfigFieldDec(this, "txtCantidadAReservar", string.Empty, "CantidadAReservar");
 				LibReport.ConfigFieldDec(this, "txtCostoTotal", string.Empty, "CostoTotal");
-				LibReport.ConfigFieldDec(this, "txtExistencia", string.Empty, "Existencia");                
+				LibReport.ConfigFieldDec(this, "txtExistencia", string.Empty, "Existencia"); 
+                LibReport.ConfigSummaryField(this, "txtTotalCostoCalculado", "CostoTotal", SummaryFunc.Sum, "GHListaInsumos", SummaryRunning.Group, SummaryType.SubTotal);                
                 return true;
             }
             return false;
