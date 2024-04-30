@@ -35,7 +35,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             return "Lista De Materiales Insumos";
         }
 
-        public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {
+        public bool ConfigReport(DataTable valDataSource) {
             if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
                 if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
@@ -43,22 +43,13 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 }
             }
             if (LibReport.ConfigDataSource(this, valDataSource)) {
-                LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["NombreCompania"], string.Empty);
-                LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());
-                LibReport.ConfigLabel(this, "lblFechaInicialYFinal", valParameters["FechaInicialYFinal"]);
-                LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
-                LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
-
-				LibReport.ConfigFieldStr(this, "txtDescripcionArticulo", string.Empty, "DescripcionArticulo");
-				LibReport.ConfigFieldDec(this, "txtCantidad", string.Empty, "Cantidad");
-				LibReport.ConfigFieldDec(this, "txtCosto", string.Empty, "Costo");
+                LibReport.ConfigGroupHeader(this, "GHListaInsumos", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);                
+				LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "ListaArticuloInsumos");
+				LibReport.ConfigFieldDec(this, "txtCantidad", string.Empty, "CantidadInsumos");
+				LibReport.ConfigFieldDec(this, "txtCosto", string.Empty, "CostoUnitario");
 				LibReport.ConfigFieldDec(this, "txtCantidadAReservar", string.Empty, "CantidadAReservar");
 				LibReport.ConfigFieldDec(this, "txtCostoTotal", string.Empty, "CostoTotal");
-				LibReport.ConfigFieldDec(this, "txtExistencia", string.Empty, "Existencia");
-
-
-
-                LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
+				LibReport.ConfigFieldDec(this, "txtExistencia", string.Empty, "Existencia");                
                 return true;
             }
             return false;

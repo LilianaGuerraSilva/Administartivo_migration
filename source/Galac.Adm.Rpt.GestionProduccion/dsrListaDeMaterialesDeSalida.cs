@@ -39,38 +39,43 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             if (!LibString.IsNullOrEmpty(insListaMateriales.NombreParaMostrarListaDeMateriales())) {
                 return insListaMateriales.NombreParaMostrarListaDeMateriales() + " de Inventario a Producir";
             } else {
-            return "Lista De Materiales de Salida";
+                return "Lista De Materiales de Salida";
             }
         }
 
-        public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {
+        public bool ConfigReport(DataTable valDataSourceSalidas, DataTable valDataSourceInsumos, Dictionary<string, string> valParameters) {
             if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
                 if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
                     LibReport.LoadLayout(this, vRpxPath);
-                }                
+                }
             }
-            if (LibReport.ConfigDataSource(this, valDataSource)) {
+            if (LibReport.ConfigDataSource(this, valDataSourceSalidas)) {
                 LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["NombreCompania"], string.Empty);
                 LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
-
-				LibReport.ConfigFieldStr(this, "txtListaDeMateriales", string.Empty, "ListaDeMateriales");
-				LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "Moneda");
-				LibReport.ConfigFieldDec(this, "txtCantidadAProducir", string.Empty, "CantidadAProducir");
-				LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "Articulo");
-				LibReport.ConfigFieldStr(this, "txtUnidades", string.Empty, "Unidades");
-				LibReport.ConfigFieldDec(this, "txtPorcentajeCosto", string.Empty, "PorcentajeCosto");
-				LibReport.ConfigFieldDec(this, "txtCostoCalculado", string.Empty, "CostoCalculado");
-
-
-				LibReport.ConfigGroupHeader(this, "GHCodigoListaAProducir", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
-
+                LibReport.ConfigFieldStr(this, "txtListaDeMateriales", string.Empty, "ListaDeMateriales");
+                LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "Moneda");
+                LibReport.ConfigFieldDec(this, "txtCantidadAProducir", string.Empty, "CantidadAProducir");
+                LibReport.ConfigFieldDec(this, "txtCantidadAProducirDetalle", string.Empty, "CantidadAProducirDetalle");
+                LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "ArticuloListaSalida");
+                LibReport.ConfigFieldStr(this, "txtUnidades", string.Empty, "Unidades");
+                LibReport.ConfigFieldDec(this, "txtPorcentajeCosto", string.Empty, "PorcentajeDeCosto");
+                LibReport.ConfigFieldDec(this, "txtCostoCalculado", string.Empty, "CostoCalculado");
+                LibReport.ConfigGroupHeader(this, "GHCodigoListaAProducir", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);                
+                LibReport.ConfigSummaryField(this, "txtTotalCostoCalculado", "CostoCalculado", SummaryFunc.Sum, "GHCodigoListaAProducir", SummaryRunning.Group, SummaryType.SubTotal);                
+                LibReport.SetSubReportIfExists(this, SubRptListaDeInsumos(valDataSourceInsumos), "srptListaDeInsumos");
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 return true;
             }
             return false;
+        }
+
+        private ActiveReport SubRptListaDeInsumos(DataTable valDataSourceInsumos) {
+            dsrListaDeMaterialesDeInsumos vRpt = new dsrListaDeMaterialesDeInsumos();
+            vRpt.ConfigReport(valDataSourceInsumos);
+            return vRpt;
         }
         #endregion
     }

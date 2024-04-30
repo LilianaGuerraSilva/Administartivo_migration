@@ -15,8 +15,8 @@ namespace Galac.Adm.Rpt.GestionProduccion {
     public class clsListaDeMaterialesDeSalida : LibRptBaseMfc {
         #region Propiedades
 
-        protected DataTable Data { get; set; }
-        private int ConsecutivoCompania { get; set; }       
+        protected DataTable DataListaSalida { get; set; }
+        protected DataTable DataListaInsumos { get; set; }    
         private string CodigoListaAProducir { get; set; }       
         private eCantidadAImprimir CantidadAImprimir { get; set; }       
         private decimal CantidadAProducir { get; set; }       
@@ -26,8 +26,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         #endregion //Propiedades
         #region Constructores
         public clsListaDeMaterialesDeSalida(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, eCantidadAImprimir initCantidadAImprimir, decimal initCantidadAProducir, string initCodigoListaAProducir, string initMonedaDelInformeMM, eTasaDeCambioParaImpresion initTipoTasaDeCambio, string initMoneda)
-            : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
-            ConsecutivoCompania = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania");
+            : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {            
             CodigoListaAProducir = initCodigoListaAProducir;
             CantidadAImprimir = initCantidadAImprimir;
             CantidadAProducir = initCantidadAProducir;
@@ -60,18 +59,20 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 return;
             }
             WorkerReportProgress(30, "Obteniendo datos...");
+            int vConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
             IListaDeMaterialesInformes vRpt = new Galac.Adm.Brl.GestionProduccion.Reportes.clsListaDeMaterialesRpt() as IListaDeMaterialesInformes;
             string vCodigoMoneda = LibString.Trim(LibString.Mid(Moneda, 1, LibString.InStr(Moneda, ")") - 1));
             vCodigoMoneda = LibString.IsNullOrEmpty(vCodigoMoneda, true) ? LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera") : vCodigoMoneda;
             string vNombreMoneda = LibString.Trim(LibString.Mid(Moneda, 1 + LibString.InStr(Moneda, ")")));
-            Data = vRpt.BuildListaDeMateriales(ConsecutivoCompania, CodigoListaAProducir, CantidadAImprimir, CantidadAProducir, MonedaDelInformeMM, TipoTasaDeCambio, vNombreMoneda, vCodigoMoneda);
+            DataListaSalida = vRpt.BuildListaDeMaterialesSalida(vConsecutivoCompania, CodigoListaAProducir, CantidadAImprimir, CantidadAProducir, MonedaDelInformeMM, TipoTasaDeCambio, vNombreMoneda, vCodigoMoneda);
+            DataListaInsumos = vRpt.BuildListaDeMaterialesInsumos(vConsecutivoCompania, CodigoListaAProducir, CantidadAImprimir, CantidadAProducir, MonedaDelInformeMM, TipoTasaDeCambio, vNombreMoneda, vCodigoMoneda);
         }
 
         public override void SendReportToDevice() {
             WorkerReportProgress(90, "Configurando Informe...");
             Dictionary<string, string> vParams = GetConfigReportParameters();
             dsrListaDeMaterialesDeSalida vRpt = new dsrListaDeMaterialesDeSalida();
-            if (vRpt.ConfigReport(Data, vParams)) {
+            if (vRpt.ConfigReport(DataListaSalida,DataListaInsumos, vParams)) {
                 LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsListaDeMaterialesDeSalida.ReportName, true, ExportFileFormat, "", false);
             }
             WorkerReportProgress(100, "Finalizando...");
