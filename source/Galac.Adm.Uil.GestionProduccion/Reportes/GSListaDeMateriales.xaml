@@ -72,6 +72,7 @@
             Margin="0,0,0,10"
             VerticalAlignment="Center"
             Content="{Binding Path=NombreListaDeMateriales}"
+            Foreground="Black"
             Style="{StaticResource LabelPrompt}" />
         <Label
             Name="lblCantidad"

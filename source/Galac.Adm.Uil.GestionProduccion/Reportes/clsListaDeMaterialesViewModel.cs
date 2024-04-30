@@ -136,7 +136,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
 
         public override string DisplayName {
             get {
-                return "Lista de Materiales de Inventario a Producir";
+                return "Lista de Materiales a Producir";
             }
         }
 
