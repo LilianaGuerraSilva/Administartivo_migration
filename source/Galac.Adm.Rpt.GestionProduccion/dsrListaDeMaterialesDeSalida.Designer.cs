@@ -44,12 +44,11 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblPorcentajeCosto = new DataDynamics.ActiveReports.Label();
             this.lblCostoCalculado = new DataDynamics.ActiveReports.Label();
             this.lblCantidadAProducirDetalle = new DataDynamics.ActiveReports.Label();
-            this.label1 = new DataDynamics.ActiveReports.Label();
+            this.lblSalidas = new DataDynamics.ActiveReports.Label();
             this.GFCodigoListaAProducir = new DataDynamics.ActiveReports.GroupFooter();
             this.srptListaDeInsumos = new DataDynamics.ActiveReports.SubReport();
             this.txtTotalCostoCalculado = new DataDynamics.ActiveReports.TextBox();
             this.lblTotalCosto = new DataDynamics.ActiveReports.Label();
-            this.label2 = new DataDynamics.ActiveReports.Label();
             ((System.ComponentModel.ISupportInitialize)(this.txtArticulo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtUnidades)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPorcentajeCosto)).BeginInit();
@@ -70,10 +69,9 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             ((System.ComponentModel.ISupportInitialize)(this.lblPorcentajeCosto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCostoCalculado)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadAProducirDetalle)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.label1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblSalidas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalCostoCalculado)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotalCosto)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.label2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
@@ -209,7 +207,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblPorcentajeCosto,
             this.lblCostoCalculado,
             this.lblCantidadAProducirDetalle,
-            this.label1});
+            this.lblSalidas});
             this.GHCodigoListaAProducir.Height = 0.63525F;
             this.GHCodigoListaAProducir.Name = "GHCodigoListaAProducir";
             // 
@@ -336,25 +334,24 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblCantidadAProducirDetalle.Top = 0.312F;
             this.lblCantidadAProducirDetalle.Width = 0.6370001F;
             // 
-            // label1
+            // lblSalidas
             // 
-            this.label1.Height = 0.15625F;
-            this.label1.HyperLink = null;
-            this.label1.Left = 0F;
-            this.label1.Name = "label1";
-            this.label1.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
-            this.label1.Text = "Salida";
-            this.label1.Top = 0.312F;
-            this.label1.Width = 4.48F;
+            this.lblSalidas.Height = 0.15625F;
+            this.lblSalidas.HyperLink = null;
+            this.lblSalidas.Left = 0F;
+            this.lblSalidas.Name = "lblSalidas";
+            this.lblSalidas.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
+            this.lblSalidas.Text = "Salidas";
+            this.lblSalidas.Top = 0.312F;
+            this.lblSalidas.Width = 4.48F;
             // 
             // GFCodigoListaAProducir
             // 
             this.GFCodigoListaAProducir.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
             this.srptListaDeInsumos,
             this.txtTotalCostoCalculado,
-            this.lblTotalCosto,
-            this.label2});
-            this.GFCodigoListaAProducir.Height = 0.5000001F;
+            this.lblTotalCosto});
+            this.GFCodigoListaAProducir.Height = 0.3440001F;
             this.GFCodigoListaAProducir.Name = "GFCodigoListaAProducir";
             // 
             // srptListaDeInsumos
@@ -365,7 +362,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.srptListaDeInsumos.Name = "srptListaDeInsumos";
             this.srptListaDeInsumos.Report = null;
             this.srptListaDeInsumos.ReportName = "";
-            this.srptListaDeInsumos.Top = 0.312F;
+            this.srptListaDeInsumos.Top = 0.156F;
             this.srptListaDeInsumos.Width = 7.5F;
             // 
             // txtTotalCostoCalculado
@@ -390,17 +387,6 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblTotalCosto.Text = "Total Costo";
             this.lblTotalCosto.Top = 0F;
             this.lblTotalCosto.Width = 1.179251F;
-            // 
-            // label2
-            // 
-            this.label2.Height = 0.15625F;
-            this.label2.HyperLink = null;
-            this.label2.Left = 0F;
-            this.label2.Name = "label2";
-            this.label2.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
-            this.label2.Text = "Salida";
-            this.label2.Top = 0.156F;
-            this.label2.Width = 7.499F;
             // 
             // dsrListaDeMaterialesDeSalida
             // 
@@ -439,10 +425,9 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             ((System.ComponentModel.ISupportInitialize)(this.lblPorcentajeCosto)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCostoCalculado)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadAProducirDetalle)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.label1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblSalidas)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalCostoCalculado)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotalCosto)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.label2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -476,7 +461,6 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         private DataDynamics.ActiveReports.Label lblTotalCosto;
         private DataDynamics.ActiveReports.TextBox txtCantidadAProducirDetalle;
         private DataDynamics.ActiveReports.Label lblCantidadAProducirDetalle;
-        private DataDynamics.ActiveReports.Label label1;
-        private DataDynamics.ActiveReports.Label label2;
+        private DataDynamics.ActiveReports.Label lblSalidas;
     }
 }
