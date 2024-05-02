@@ -34,8 +34,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         #region Variables
         private decimal _TotalPorcentajeCosto;
-        private string _CodigoDescripcionArticuloPrincipalProducir = string.Empty;
-
+        private string _CodigoDescripcionArticuloPrincipalProducir;
         #endregion //Variables
 
         #region Propiedades
@@ -320,7 +319,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private void DetailListaDeMaterialesDetalleArticulo_OnCreated(object sender, SearchCollectionChangedEventArgs<ListaDeMaterialesDetalleArticuloViewModel> e) {
             try {
                 Model.DetailListaDeMaterialesDetalleArticulo.Add(e.ViewModel.GetModel());
-                RaisePropertyChanged(CodigoDescripcionArticuloPrincipalProducirPropertyName);
             } catch(System.AccessViolationException) {
                 throw;
             } catch(System.Exception vEx) {
@@ -348,8 +346,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 IsDirty = true;
                 Model.DetailListaDeMaterialesDetalleSalidas.Remove(e.ViewModel.GetModel());
                 ActualizaTotalCosto();
-                e.ViewModel.PropertyChanged -= OnDetailPropertyChanged;
                 ActualizaCodigoDescripcionArticuloPrincipalAProducir();
+                e.ViewModel.PropertyChanged -= OnDetailPropertyChanged;
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
@@ -362,6 +360,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 IsDirty = e.ViewModel.IsDirty;
                 ActualizaTotalCosto();
                 ActualizaCodigoDescripcionArticuloPrincipalAProducir();
+                e.ViewModel.PropertyChanged -= OnDetailPropertyChanged;
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
@@ -373,8 +372,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             try {
                 Model.DetailListaDeMaterialesDetalleSalidas.Add(e.ViewModel.GetModel());
                 ActualizaTotalCosto();
-                ActualizaCodigoDescripcionArticuloPrincipalAProducir();
-                
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
@@ -385,7 +382,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private void OnDetailPropertyChanged(object sender, PropertyChangedEventArgs e) {
             ActualizaTotalCosto();
             RaisePropertyChanged(TotalPorcentajeCostoPropertyName);
-
         }
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
@@ -432,6 +428,15 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 CodigoDescripcionArticuloPrincipalProducir = DetailListaDeMaterialesDetalleSalidas.Items[0].CodigoArticuloInventario + " - " + DetailListaDeMaterialesDetalleSalidas.Items[0].DescripcionArticuloInventario;
             } else {
                 CodigoDescripcionArticuloPrincipalProducir = string.Empty;
+            }
+        }
+
+        protected override void ExecuteProcessAfterAction() {
+            base.ExecuteProcessAfterAction();
+            if (Action == eAccionSR.Insertar) {
+                DetailListaDeMaterialesDetalleArticulo.Items = new System.Collections.ObjectModel.ObservableCollection<ListaDeMaterialesDetalleArticuloViewModel>();
+                DetailListaDeMaterialesDetalleSalidas.Items = new System.Collections.ObjectModel.ObservableCollection<ListaDeMaterialesDetalleSalidasViewModel>();
+                CodigoDescripcionArticuloPrincipalProducir = String.Empty;
             }
         }
         #endregion //Metodos Generados
