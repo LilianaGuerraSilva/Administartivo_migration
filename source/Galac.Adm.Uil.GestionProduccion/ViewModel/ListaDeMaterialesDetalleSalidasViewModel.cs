@@ -14,6 +14,7 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Adm.Brl.GestionProduccion;
 using Galac.Adm.Ccl.GestionProduccion;
+using Galac.Saw.Ccl.Inventario;
 
 namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
     public class ListaDeMaterialesDetalleSalidasViewModel : LibInputDetailViewModelMfc<ListaDeMaterialesDetalleSalidas> {
@@ -204,6 +205,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
+                vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("StatusdelArticulo ", eStatusArticulo.Vigente), eLogicOperatorType.And);
+                vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityEquality, eTipoArticuloInv.Simple, eLogicOperatorType.And);
+                vFixedCriteria.Add("TipoDeArticulo", eBooleanOperatorType.IdentityEquality, eTipoDeArticulo.Mercancia, eLogicOperatorType.And);
                 ConexionCodigoArticuloInventario = Master.ChooseRecord<FkArticuloInventarioViewModel>("Artículo Inventario", vDefaultCriteria, vFixedCriteria, string.Empty);
                 if (ConexionCodigoArticuloInventario == null) {
                     CodigoArticuloInventario = string.Empty;
