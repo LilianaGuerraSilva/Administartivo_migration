@@ -85,8 +85,8 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             }
             vSql.AppendLine("SELECT ");
             vSql.AppendLine("ListaDeMateriales.Consecutivo,");
-            vSql.AppendLine("ListaDeMaterialesDetalleArticulo.CodigoArticuloInventario AS CodigoArticuloListainsumos, ");
-            vSql.AppendLine("ListaDeMaterialesDetalleArticulo.CodigoArticuloInventario + ' - ' + ArticuloInventario.Descripcion AS ListaArticuloInsumos, ");
+            vSql.AppendLine("ListaDeMateriales.CodigoArticuloInventario AS Codigo, ");
+            vSql.AppendLine("ArticuloInventario.Descripcion AS ListaArticuloInsumos, ");
             vSql.AppendLine("ListaDeMaterialesDetalleArticulo.Cantidad AS CantidadInsumos, ");
             vSql.AppendLine("ArticuloInventario.CostoUnitario, ");          
             vSql.AppendLine("ArticuloInventario.Existencia, ");
