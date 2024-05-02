@@ -20,6 +20,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         #region Variables
         private bool _UseExternalRpx;
         private static string _RpxFileName;
+        private DataTable _dtInsumos { get;set; }
         #endregion //Variables
         #region Constructor
         public dsrListaDeMaterialesDeSalida()
@@ -44,6 +45,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         }
 
         public bool ConfigReport(DataTable valDataSourceSalidas, DataTable valDataSourceInsumos, Dictionary<string, string> valParameters) {
+            _dtInsumos = valDataSourceInsumos;
             if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
                 if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
@@ -57,8 +59,8 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
                 LibReport.ConfigFieldStr(this, "txtListaDeMateriales", string.Empty, "ListaDeMateriales");
-                LibReport.ConfigFieldDec(this, "txtCantidadAProducir", string.Empty, "CantidadAProducir");
-                LibReport.ConfigFieldDec(this, "txtCantidadAProducirDetalle", string.Empty, "CantidadAProducirDetalle");
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidadAProducir", string.Empty, "CantidadAProducir",8);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidadAProducirDetalle", string.Empty, "CantidadAProducirDetalle", 8);
                 LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "ArticuloListaSalida");
                 LibReport.ConfigFieldStr(this, "txtUnidades", string.Empty, "Unidades");
                 LibReport.ConfigFieldDec(this, "txtPorcentajeCosto", string.Empty, "PorcentajeDeCosto");
@@ -77,6 +79,6 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             vRpt.ConfigReport(valDataSourceInsumos);
             return vRpt;
         }
-        #endregion
+        #endregion      
     }
 }

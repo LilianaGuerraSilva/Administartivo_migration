@@ -24,7 +24,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         public dsrListaDeMaterialesDeInsumos(bool initUseExternalRpx, string initRpxFileName) {
             InitializeComponent();
             _UseExternalRpx = initUseExternalRpx;
-            if (_UseExternalRpx) {
+            if(_UseExternalRpx) {
                 _RpxFileName = initRpxFileName;
             }
         }
@@ -36,21 +36,21 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         }
 
         public bool ConfigReport(DataTable valDataSource) {
-            if (_UseExternalRpx) {
+            if(_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
-                if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
+                if(!LibString.IsNullOrEmpty(vRpxPath, true)) {
                     LibReport.LoadLayout(this, vRpxPath);
                 }
             }
-            if (LibReport.ConfigDataSource(this, valDataSource)) {
-                LibReport.ConfigGroupHeader(this, "GHListaInsumos", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);                
-				LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "ListaArticuloInsumos");
-				LibReport.ConfigFieldDec(this, "txtCantidad", string.Empty, "CantidadInsumos");
-				LibReport.ConfigFieldDec(this, "txtCosto", string.Empty, "CostoUnitario");
-				LibReport.ConfigFieldDec(this, "txtCantidadAReservar", string.Empty, "CantidadAReservar");
-				LibReport.ConfigFieldDec(this, "txtCostoTotal", string.Empty, "CostoTotal");
-				LibReport.ConfigFieldDec(this, "txtExistencia", string.Empty, "Existencia"); 
-                LibReport.ConfigSummaryField(this, "txtTotalCostoCalculado", "CostoTotal", SummaryFunc.Sum, "GHListaInsumos", SummaryRunning.Group, SummaryType.SubTotal);                
+            if(LibReport.ConfigDataSource(this, valDataSource)) {
+                LibReport.ConfigGroupHeader(this, "GHListaInsumos", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+                LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "ListaArticuloInsumos");
+                LibReport.ConfigFieldDec(this, "txtCantidad", string.Empty, "CantidadInsumos");
+                LibReport.ConfigFieldDec(this, "txtCosto", string.Empty, "CostoUnitario");
+                LibReport.ConfigFieldDec(this, "txtCantidadAReservar", string.Empty, "CantidadAReservar");
+                LibReport.ConfigFieldDec(this, "txtCostoTotal", string.Empty, "CostoTotal");
+                LibReport.ConfigFieldDec(this, "txtExistencia", string.Empty, "Existencia");
+                LibReport.ConfigSummaryField(this, "txtTotalCostoCalculado", "CostoTotal", SummaryFunc.Sum, "GHListaInsumos", SummaryRunning.Group, SummaryType.SubTotal);
                 return true;
             }
             return false;

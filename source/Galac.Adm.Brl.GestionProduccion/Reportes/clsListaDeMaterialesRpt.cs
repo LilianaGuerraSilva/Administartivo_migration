@@ -46,6 +46,7 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             clsListaDeMaterialesSql insListaDeMaterialesSql = new clsListaDeMaterialesSql();
             LibGalac.Aos.Base.ILibDataRpt insListaDeMaterialesDeInventarioAProducir = new Galac.Adm.Dal.GestionProduccion.clsListaDeMaterialesDat();
             vSql = insListaDeMaterialesSql.SqlListaDeMaterialesInsumos(valConsecutivoCompania, valCodigoListaAProducir, valCantidadAImprimir, valCantidadAProducir, valMonedaDelInformeMM, valTasaDeCambio, valListaMoneda);
+            vSql += " ORDER BY ListaDeMateriales.Codigo,ListaDeMateriales.FechaCreacion";
             return insListaDeMaterialesDeInventarioAProducir.GetDt(vSql, 0);
         }
         #endregion //Metodos Generados
