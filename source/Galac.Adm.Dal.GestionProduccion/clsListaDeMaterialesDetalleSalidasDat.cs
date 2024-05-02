@@ -43,7 +43,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vParams.AddInInteger("Consecutivo", valRecord.Consecutivo);
             vParams.AddInString("CodigoArticuloInventario", valRecord.CodigoArticuloInventario, 30);
             vParams.AddInDecimal("Cantidad", valRecord.Cantidad, 8);
-            vParams.AddInDecimal("PorcentajeDeCosto", valRecord.PorcentajeDeCosto, 4);
+            vParams.AddInDecimal("PorcentajeDeCosto", valRecord.PorcentajeDeCosto, 8);
             vResult = vParams.Get();
             return vResult;
         }

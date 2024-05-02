@@ -85,7 +85,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Descripción", eGridColumType.Connection, ConnectionDisplayMemberPath = "Descripcion", ConnectionModelPropertyName = "DescripcionArticuloInventario", ConnectionSearchCommandName = "ChooseDescripcionArticuloInventarioCommand", Width = 362, Trimming = System.Windows.TextTrimming.WordEllipsis)]
+        [LibGridColum("Descripción", eGridColumType.Connection, ConnectionDisplayMemberPath = "Descripcion", ConnectionModelPropertyName = "DescripcionArticuloInventario", ConnectionSearchCommandName = "ChooseDescripcionArticuloInventarioCommand", Width = 332, Trimming = System.Windows.TextTrimming.WordEllipsis)]
         public string  DescripcionArticuloInventario {
             get {
                 return Model.DescripcionArticuloInventario;
@@ -100,7 +100,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Cantidad es requerido.")]
-        [LibGridColum("Cantidad", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", MaxWidth = 90)]
+        [LibGridColum("          Cantidad", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", MaxWidth = 90)]
         public decimal  Cantidad {
             get {
                 return Model.Cantidad;
@@ -114,7 +114,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Unidad", eGridColumType.Connection, ConnectionDisplayMemberPath = "UnidadDeVenta", ConnectionModelPropertyName = "UnidadDeVenta", MaxWidth=60)]
+        [LibGridColum("Unidad", eGridColumType.Connection, ConnectionDisplayMemberPath = "UnidadDeVenta", ConnectionModelPropertyName = "UnidadDeVenta", MaxWidth=80)]
         public string  UnidadDeVenta {
             get {
                 return Model.UnidadDeVenta;
@@ -129,7 +129,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         [LibCustomValidation("PorcentajeDeCostoValidating")]
-        [LibGridColum("%Costo", eGridColumType.Numeric, Alignment = eTextAlignment.Right, MaxWidth = 70, ConditionalPropertyDecimalDigits = "DecimalDigitsCosto")]
+        [LibGridColum("          %Costo", eGridColumType.Numeric, Alignment = eTextAlignment.Right, MaxWidth = 80, ConditionalPropertyDecimalDigits = "DecimalDigits")]
         public decimal  PorcentajeDeCosto {
             get {
                 return Model.PorcentajeDeCosto;
@@ -205,14 +205,15 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
                 ConexionCodigoArticuloInventario = Master.ChooseRecord<FkArticuloInventarioViewModel>("Artículo Inventario", vDefaultCriteria, vFixedCriteria, string.Empty);
-                if (ConexionCodigoArticuloInventario != null) {
-                    CodigoArticuloInventario = ConexionCodigoArticuloInventario.Codigo;
-                    DescripcionArticuloInventario = ConexionCodigoArticuloInventario.Descripcion;
-                    UnidadDeVenta = ConexionCodigoArticuloInventario.UnidadDeVenta;
-                } else {
+                if (ConexionCodigoArticuloInventario == null) {
                     CodigoArticuloInventario = string.Empty;
                     DescripcionArticuloInventario = string.Empty;
                     UnidadDeVenta = string.Empty;
+                    Master.CodigoDescripcionArticuloPrincipalProducir = string.Empty;
+                } else {
+                    CodigoArticuloInventario = ConexionCodigoArticuloInventario.Codigo;
+                    DescripcionArticuloInventario = ConexionCodigoArticuloInventario.Descripcion;
+                    UnidadDeVenta = ConexionCodigoArticuloInventario.UnidadDeVenta;
                 }
             } catch (System.AccessViolationException) {
                 throw;
@@ -224,12 +225,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public int DecimalDigits {
             get {
                 return 8;
-            }
-        }
-
-        public int DecimalDigitsCosto {
-            get {
-                return 4;
             }
         }
 

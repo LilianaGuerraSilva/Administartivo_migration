@@ -61,7 +61,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             get { return _UnidadDeVenta; }
             set { 
                 _UnidadDeVenta = LibString.Mid(value, 0, 20);
-                OnPropertyChanged("UnidadDeVenta");
             }
         }
 

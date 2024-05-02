@@ -368,7 +368,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
             List<string> vListaDeSalidas = refRecord[0].DetailListaDeMaterialesDetalleSalidas.Select(x => x.CodigoArticuloInventario).ToList();
             bool tienenElementosComunes = vListaDeInsumos.Intersect(vListaDeSalidas).Count() > 0;
             if (tienenElementosComunes) { 
-                throw new LibGalac.Aos.Catching.GalacValidationException("Al menos insumos a utilizar se encuentra en la lista de artículos a producir.");
+                throw new LibGalac.Aos.Catching.GalacValidationException("Al menos uno de los insumos a utilizar, se encuentra en la lista de artículos a producir.");
             }
         }
 
@@ -406,7 +406,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
             bool PorcentajeMayor = refRecord[0].DetailListaDeMaterialesDetalleSalidas.Count(x => x.PorcentajeDeCosto > PorcentajeMax) > 0;
             bool PorcentajeMenor = refRecord[0].DetailListaDeMaterialesDetalleSalidas.Count(x => x.PorcentajeDeCosto < PorcentajeMin) > 0;
             if (PorcentajeMayor || PorcentajeMenor) {
-                throw new LibGalac.Aos.Catching.GalacValidationException("El %Costo debe ser mayor igual a 0 y menor igual a 100");
+                throw new LibGalac.Aos.Catching.GalacValidationException("El porcentaje de costo debe ser un valor igual o superior a 0 y menor o igual a 100.");
             }
         }
 

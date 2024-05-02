@@ -26,12 +26,13 @@
     </UserControl.Resources>
 
     <Grid FocusManager.FocusedElement="{Binding ElementName=txtCodigo}">
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="593" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -93,8 +94,28 @@
             Style="{StaticResource TextBoxInputStyle}"
             Text="{Binding Path=Nombre, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             VerticalScrollBarVisibility="Auto" />
+        <Label
+            Name="lblArticuloSalida"
+            Grid.Row="3"
+            Grid.Column="1"
+            Margin="1,0,0,0"
+            Content="Artículo Principal a Producir:"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSTextAreaWpf
+            Name="txtArticuloPrincipalAProducirDescripcion"
+            Grid.Row="3"
+            Grid.Column="1"
+            Width="582"
+            Height="70"
+            Margin="3,22,0,3"
+            IsEnabled="False"
+            IsReadOnly="{Binding Path=IsReadOnly}"
+            MaxLength="255"
+            Style="{StaticResource TextBoxInputStyle}"
+            Text="{Binding Path=CodigoDescripcionArticuloPrincipalProducir, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            VerticalScrollBarVisibility="Auto" />
         <!--  aqui llamado al detalle  -->
-        <Grid Grid.Row="7" Grid.ColumnSpan="2">
+        <Grid Grid.Row="4" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -243,27 +264,31 @@
                             <ContentControl Grid.Row="3" Grid.ColumnSpan="2">
                                 <Grid x:Name="gtTotalCosto" Width="690">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="607" />
-                                        <ColumnDefinition Width="Auto" MinWidth="79" />
+                                        <ColumnDefinition Width="587" />
+                                        <ColumnDefinition Width="Auto" MinWidth="99" />
                                     </Grid.ColumnDefinitions>
                                     <Label
                                         Name="lblTotalCosto"
                                         Width="87"
                                         Height="24"
-                                        Margin="520,0,0,0"
+                                        Margin="500,0,0,0"
                                         VerticalAlignment="Center"
-                                        Content="Total % Costo:"
+                                        Content="Total %Costo:"
                                         Foreground="Black"
                                         Style="{StaticResource LabelPrompt}" />
                                     <nsWpfControls:GSNumericBoxWpf
                                         Name="txtSumTotalCosto"
                                         Grid.Column="1"
-                                        Width="80"
-                                        Height="25"
-                                        Margin="3,3,0,3"
+                                        Width="99"
+                                        Height="24"
+                                        Margin="3,0,0,0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
                                         HorizontalContentAlignment="Right"
+                                        VerticalContentAlignment="Center"
                                         BorderThickness="0,0,0,0"
-                                        DecimalDigits="4"
+                                        DecimalDigits="8"
+                                        HorizontalScrollBarVisibility="Auto"
                                         InputDataType="UDecimal"
                                         IsEnabled="True"
                                         Style="{StaticResource TextBoxInputStyle}"
