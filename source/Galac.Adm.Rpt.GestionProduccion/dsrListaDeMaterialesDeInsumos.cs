@@ -45,9 +45,10 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             if(LibReport.ConfigDataSource(this, valDataSource)) {
                 LibReport.ConfigGroupHeader(this, "GHListaInsumos", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
                 LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "ListaArticuloInsumos");
-                LibReport.ConfigFieldDec(this, "txtCantidad", string.Empty, "CantidadInsumos");
+                LibReport.ConfigFieldStr(this, "txtUnidades", string.Empty, "Unidades");
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidad", string.Empty, "CantidadInsumos", 8);
                 LibReport.ConfigFieldDec(this, "txtCosto", string.Empty, "CostoUnitario");
-                LibReport.ConfigFieldDec(this, "txtCantidadAReservar", string.Empty, "CantidadAReservar");
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidadAReservar", string.Empty, "CantidadAReservar", 8);
                 LibReport.ConfigFieldDec(this, "txtCostoTotal", string.Empty, "CostoTotal");
                 LibReport.ConfigFieldDec(this, "txtExistencia", string.Empty, "Existencia");
                 LibReport.ConfigSummaryField(this, "txtTotalCostoCalculado", "CostoTotal", SummaryFunc.Sum, "GHListaInsumos", SummaryRunning.Group, SummaryType.SubTotal);

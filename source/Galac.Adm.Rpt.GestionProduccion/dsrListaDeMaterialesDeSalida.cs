@@ -65,10 +65,11 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
                 LibReport.ConfigFieldStr(this, "txtListaDeMateriales", string.Empty, "ListaDeMateriales");
                 LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidadAProducir", string.Empty, "CantidadAProducir",8);
-                LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidadAProducirDetalle", string.Empty, "CantidadAProducirDetalle", 8);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidadArticulos", string.Empty, "CantidadArticulos", 8);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidadAProducirDetalle", string.Empty, "CantidadDetalleAProducir", 8);
                 LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "ArticuloListaSalida");
                 LibReport.ConfigFieldStr(this, "txtUnidades", string.Empty, "Unidades");
-                LibReport.ConfigFieldDec(this, "txtPorcentajeCosto", string.Empty, "PorcentajeDeCosto");
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtPorcentajeCosto", string.Empty, "PorcentajeDeCosto",8);
                 LibReport.ConfigFieldDec(this, "txtCostoCalculado", string.Empty, "CostoTotal");
                 LibReport.ConfigGroupHeader(this, "GHCodigoListaAProducir", "Codigo", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.Before);                
                 LibReport.ConfigSummaryField(this, "txtTotalCostoCalculado", "Costototal", SummaryFunc.Sum, "GHCodigoListaAProducir", SummaryRunning.Group, SummaryType.SubTotal);                
@@ -91,7 +92,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 this.txtNotaMonedaCambio.Value = "Los montos están expresados en " + txtMoneda.Text;
             } else if(LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[2]) || LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[3])) {
                 int vPos = LibString.IndexOf(_MonedaDelInforme, "expresado en") + LibString.Len("expresado en ");
-                string vSegundaMoneda = LibString.SubString(_MonedaDelInforme,vPos);
+                string vSegundaMoneda = LibString.SubString(_MonedaDelInforme, vPos);
                 this.txtNotaMonedaCambio.Value = $"Los montos en {txtMoneda.Text} estan expresados en {vSegundaMoneda} a la tasa {LibConvert.NumToString(_TasaDeCambio, 4)}";
             }
         }
