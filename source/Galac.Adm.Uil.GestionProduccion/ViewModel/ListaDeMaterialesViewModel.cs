@@ -28,11 +28,13 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private const string NombreOperadorPropertyName = "NombreOperador";
         private const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
         private const string TotalPorcentajeCostoPropertyName = "TotalPorcentajeDeCosto";
+        private const string CodigoDescripcionArticuloPrincipalProducirPropertyName = "CodigoDescripcionArticuloPrincipalProducir";
 
         #endregion
 
         #region Variables
         private decimal _TotalPorcentajeCosto;
+        private string _CodigoDescripcionArticuloPrincipalProducir = string.Empty;
 
         #endregion //Variables
 
@@ -98,6 +100,19 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Model.Nombre = value;
                     IsDirty = true;
                     RaisePropertyChanged(NombrePropertyName);
+                }
+            }
+        }
+
+        public string CodigoDescripcionArticuloPrincipalProducir {
+            get {
+                return _CodigoDescripcionArticuloPrincipalProducir;
+            }
+            set {
+                if (_CodigoDescripcionArticuloPrincipalProducir != value) {
+                    _CodigoDescripcionArticuloPrincipalProducir = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(CodigoDescripcionArticuloPrincipalProducirPropertyName);
                 }
             }
         }
@@ -230,6 +245,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             if(valAction == eAccionSR.Insertar) {
                 FechaCreacion = LibDefGen.DateForInitializeInputValue();
             }
+            CodigoDescripcion(valAction);
         }
 
         protected override void InitializeCommands() {
@@ -304,6 +320,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private void DetailListaDeMaterialesDetalleArticulo_OnCreated(object sender, SearchCollectionChangedEventArgs<ListaDeMaterialesDetalleArticuloViewModel> e) {
             try {
                 Model.DetailListaDeMaterialesDetalleArticulo.Add(e.ViewModel.GetModel());
+                RaisePropertyChanged(CodigoDescripcionArticuloPrincipalProducirPropertyName);
             } catch(System.AccessViolationException) {
                 throw;
             } catch(System.Exception vEx) {
@@ -318,6 +335,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 UpdateListaDeMaterialesDetalleSalidasCommand.RaiseCanExecuteChanged();
                 DeleteListaDeMaterialesDetalleSalidasCommand.RaiseCanExecuteChanged();
                 ActualizaTotalCosto();
+                if (DetailListaDeMaterialesDetalleSalidas != null && DetailListaDeMaterialesDetalleSalidas.Items.Count > 0) {
+                    CodigoDescripcionArticuloPrincipalProducir = DetailListaDeMaterialesDetalleSalidas.Items[0].CodigoArticuloInventario + " - " + DetailListaDeMaterialesDetalleSalidas.Items[0].DescripcionArticuloInventario;
+                }
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
@@ -331,6 +351,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 Model.DetailListaDeMaterialesDetalleSalidas.Remove(e.ViewModel.GetModel());
                 ActualizaTotalCosto();
                 e.ViewModel.PropertyChanged -= OnDetailPropertyChanged;
+                if (DetailListaDeMaterialesDetalleSalidas != null && DetailListaDeMaterialesDetalleSalidas.Items.Count > 0) {
+                    CodigoDescripcionArticuloPrincipalProducir = DetailListaDeMaterialesDetalleSalidas.Items[0].CodigoArticuloInventario + " - " + DetailListaDeMaterialesDetalleSalidas.Items[0].DescripcionArticuloInventario;
+                }
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
@@ -342,6 +365,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             try {
                 IsDirty = e.ViewModel.IsDirty;
                 ActualizaTotalCosto();
+                if (DetailListaDeMaterialesDetalleSalidas != null && DetailListaDeMaterialesDetalleSalidas.Items.Count > 0) {
+                    CodigoDescripcionArticuloPrincipalProducir = DetailListaDeMaterialesDetalleSalidas.Items[0].CodigoArticuloInventario + " - " + DetailListaDeMaterialesDetalleSalidas.Items[0].DescripcionArticuloInventario;
+                }
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
@@ -353,7 +379,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             try {
                 Model.DetailListaDeMaterialesDetalleSalidas.Add(e.ViewModel.GetModel());
                 ActualizaTotalCosto();
-                e.ViewModel.PropertyChanged += OnDetailPropertyChanged;
+                if (DetailListaDeMaterialesDetalleSalidas != null && DetailListaDeMaterialesDetalleSalidas.Items.Count > 0) {
+                    CodigoDescripcionArticuloPrincipalProducir = DetailListaDeMaterialesDetalleSalidas.Items[0].CodigoArticuloInventario + " - " + DetailListaDeMaterialesDetalleSalidas.Items[0].DescripcionArticuloInventario;
+                }
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
@@ -363,6 +391,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         #endregion //ListaDeMaterialesDetalleSalidas
         private void OnDetailPropertyChanged(object sender, PropertyChangedEventArgs e) {
             ActualizaTotalCosto();
+            RaisePropertyChanged(TotalPorcentajeCostoPropertyName);
+
         }
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
@@ -402,7 +432,14 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         private void ActualizaTotalCosto() {
             TotalPorcentajeDeCosto = DetailListaDeMaterialesDetalleSalidas.Items.Sum(s => s.PorcentajeDeCosto);
-            RaisePropertyChanged(TotalPorcentajeCostoPropertyName);
+        }
+
+        private void CodigoDescripcion (eAccionSR valAction) {
+            if (valAction == eAccionSR.Insertar) {
+                _CodigoDescripcionArticuloPrincipalProducir = string.Empty;
+            } else {
+                _CodigoDescripcionArticuloPrincipalProducir = DetailListaDeMaterialesDetalleSalidas.Items[0].CodigoArticuloInventario + " - " + DetailListaDeMaterialesDetalleSalidas.Items[0].DescripcionArticuloInventario;
+            }
         }
         #endregion //Metodos Generados
 

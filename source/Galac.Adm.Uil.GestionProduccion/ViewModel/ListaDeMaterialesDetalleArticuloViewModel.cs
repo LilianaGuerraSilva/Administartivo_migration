@@ -209,12 +209,14 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityEquality, eTipoArticuloInv.Simple, eLogicOperatorType.And);
                 vFixedCriteria.Add("TipoDeArticulo", eBooleanOperatorType.IdentityInequality, eTipoDeArticulo.ProductoCompuesto, eLogicOperatorType.And);
                 ConexionCodigoArticuloInventario = Master.ChooseRecord<FkArticuloInventarioViewModel>("Artículo Inventario", vDefaultCriteria, vFixedCriteria, string.Empty);
-                if (ConexionCodigoArticuloInventario != null) {
-                    CodigoArticuloInventario = ConexionCodigoArticuloInventario.Codigo;
-                    DescripcionArticuloInventario = ConexionCodigoArticuloInventario.Descripcion;
-                } else {
+                if (ConexionCodigoArticuloInventario == null) {
                     CodigoArticuloInventario = string.Empty;
                     DescripcionArticuloInventario = string.Empty;
+                    UnidadDeVenta = string.Empty;
+                } else {
+                    CodigoArticuloInventario = ConexionCodigoArticuloInventario.Codigo;
+                    DescripcionArticuloInventario = ConexionCodigoArticuloInventario.Descripcion;
+                    UnidadDeVenta = ConexionCodigoArticuloInventario.UnidadDeVenta;
                 }
             } catch (System.AccessViolationException) {
                 throw;
