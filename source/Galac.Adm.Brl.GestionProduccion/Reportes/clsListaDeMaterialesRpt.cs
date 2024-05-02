@@ -8,7 +8,7 @@ using Galac.Saw.Lib;
 
 namespace Galac.Adm.Brl.GestionProduccion.Reportes {
 
-    public class clsListaDeMaterialesRpt: ILibReportInfo, IListaDeMaterialesInformes {
+    public class clsListaDeMaterialesRpt : ILibReportInfo, IListaDeMaterialesInformes {
         #region Variables
         private Dictionary<string, Dictionary<string, string>> _PropertiesForReportList;
         #endregion //Variables
@@ -33,23 +33,22 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             return vResult;
         }
 
-        System.Data.DataTable IListaDeMaterialesInformes.BuildListaDeMaterialesSalida(int valConsecutivoCompania, string valCodigoListaAProducir, eCantidadAImprimir valCantidadAImprimir, decimal valCantidadAProducir,string valMonedaDelInformeMM, decimal valTasaDeCambio, string valNombreMoneda, string valCodigoMoneda, string valCodigoMonedaExtranjera) {
+        System.Data.DataTable IListaDeMaterialesInformes.BuildListaDeMaterialesSalida(int valConsecutivoCompania, string valCodigoListaAProducir, eCantidadAImprimir valCantidadAImprimir, decimal valCantidadAProducir, string valMonedaDelInformeMM, decimal valTasaDeCambio, string[] valListaMoneda) {
             string vSql = "";
             clsListaDeMaterialesSql insListaDeMaterialesSql = new clsListaDeMaterialesSql();
             LibGalac.Aos.Base.ILibDataRpt insListaDeMaterialesDeInventarioAProducir = new Galac.Adm.Dal.GestionProduccion.clsListaDeMaterialesDat();
-            vSql = insListaDeMaterialesSql.SqlListaDeMaterialesSalida(valConsecutivoCompania, valCodigoListaAProducir, valCantidadAImprimir, valCantidadAProducir, valMonedaDelInformeMM, valTasaDeCambio, valNombreMoneda, valCodigoMoneda, valCodigoMonedaExtranjera);
+            vSql = insListaDeMaterialesSql.SqlListaDeMaterialesSalida(valConsecutivoCompania, valCodigoListaAProducir, valCantidadAImprimir, valCantidadAProducir, valMonedaDelInformeMM, valTasaDeCambio, valListaMoneda);
             return insListaDeMaterialesDeInventarioAProducir.GetDt(vSql, 0);
         }
 
-        System.Data.DataTable IListaDeMaterialesInformes.BuildListaDeMaterialesInsumos(int valConsecutivoCompania, string valCodigoListaAProducir, LibGalac.Aos.Base.Report.eCantidadAImprimir valCantidadAImprimir, decimal valCantidadAProducir, string valMonedaDelInformeMM, decimal valTasaDeCambio, string valNombreMoneda, string valCodigoMoneda,string valCodigoMonedaExtranjera) {
+        System.Data.DataTable IListaDeMaterialesInformes.BuildListaDeMaterialesInsumos(int valConsecutivoCompania, string valCodigoListaAProducir, eCantidadAImprimir valCantidadAImprimir, decimal valCantidadAProducir, string valMonedaDelInformeMM, decimal valTasaDeCambio, string[] valListaMoneda) {
             string vSql = "";
             clsListaDeMaterialesSql insListaDeMaterialesSql = new clsListaDeMaterialesSql();
             LibGalac.Aos.Base.ILibDataRpt insListaDeMaterialesDeInventarioAProducir = new Galac.Adm.Dal.GestionProduccion.clsListaDeMaterialesDat();
-            vSql = insListaDeMaterialesSql.SqlListaDeMaterialesInsumos(valConsecutivoCompania, valCodigoListaAProducir, valCantidadAImprimir, valCantidadAProducir, valMonedaDelInformeMM, valTasaDeCambio, valNombreMoneda, valCodigoMoneda,valCodigoMonedaExtranjera);
+            vSql = insListaDeMaterialesSql.SqlListaDeMaterialesInsumos(valConsecutivoCompania, valCodigoListaAProducir, valCantidadAImprimir, valCantidadAProducir, valMonedaDelInformeMM, valTasaDeCambio, valListaMoneda);
             return insListaDeMaterialesDeInventarioAProducir.GetDt(vSql, 0);
         }
         #endregion //Metodos Generados
     } //End of class clsListaDeMaterialesRpt
-
 } //End of namespace Galac.Adm.Brl.GestionProduccion
 

@@ -184,8 +184,8 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
                 }
             }
         }
-        public string CodigoMoneda { get; set; }        
-        public string CodigoMonedaExtranjera { get; set; } 
+        private string CodigoMoneda { get; set; }
+        private string CodigoMonedaExtranjera { get; set; } 
 
         public bool IsEnabledCodigoListaDeMateriales {
             get {

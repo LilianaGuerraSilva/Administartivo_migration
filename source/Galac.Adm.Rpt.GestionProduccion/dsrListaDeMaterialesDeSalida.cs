@@ -62,9 +62,9 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "ArticuloListaSalida");
                 LibReport.ConfigFieldStr(this, "txtUnidades", string.Empty, "Unidades");
                 LibReport.ConfigFieldDec(this, "txtPorcentajeCosto", string.Empty, "PorcentajeDeCosto");
-                LibReport.ConfigFieldDec(this, "txtCostoCalculado", string.Empty, "CostoCalculado");
-                LibReport.ConfigGroupHeader(this, "GHCodigoListaAProducir", "", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.Before);                
-                LibReport.ConfigSummaryField(this, "txtTotalCostoCalculado", "CostoCalculado", SummaryFunc.Sum, "GHCodigoListaAProducir", SummaryRunning.Group, SummaryType.SubTotal);                
+                LibReport.ConfigFieldDec(this, "txtCostoCalculado", string.Empty, "CostoTotal");
+                LibReport.ConfigGroupHeader(this, "GHCodigoListaAProducir", "Codigo", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.Before);                
+                LibReport.ConfigSummaryField(this, "txtTotalCostoCalculado", "Costototal", SummaryFunc.Sum, "GHCodigoListaAProducir", SummaryRunning.Group, SummaryType.SubTotal);                
                 LibReport.SetSubReportIfExists(this, SubRptListaDeInsumos(valDataSourceInsumos), "srptListaDeInsumos");
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 return true;
