@@ -74,7 +74,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             Dictionary<string, string> vParams = GetConfigReportParameters();
             dsrListaDeMaterialesDeSalida vRpt = new dsrListaDeMaterialesDeSalida();
             if(DataListaSalida.Rows.Count > 0) {
-                if(vRpt.ConfigReport(DataListaSalida, DataListaInsumos, vParams)) {
+                if(vRpt.ConfigReport(DataListaSalida, DataListaInsumos, ListaMonedas, MonedaDelInforme, TasaDeCambio, vParams)) {
                     LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsListaDeMaterialesDeSalida.ReportName, true, ExportFileFormat, "", false);
                 }
                 WorkerReportProgress(100, "Finalizando...");

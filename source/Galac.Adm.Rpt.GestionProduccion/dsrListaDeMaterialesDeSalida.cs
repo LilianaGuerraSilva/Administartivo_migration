@@ -11,6 +11,7 @@ using Galac.Adm.Ccl.GestionProduccion;
 using LibGalac.Aos.ARRpt;
 using System.Data;
 using LibGalac.Aos.DefGen;
+using Galac.Saw.Lib;
 
 namespace Galac.Adm.Rpt.GestionProduccion {
     /// <summary>
@@ -20,7 +21,9 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         #region Variables
         private bool _UseExternalRpx;
         private static string _RpxFileName;
-        private DataTable _dtInsumos { get;set; }
+        private string[] _ListaMonedasDelReporte { get; set; }
+        private string _MonedaDelInforme { get; set; }
+        private decimal _TasaDeCambio { get; set; }
         #endregion //Variables
         #region Constructor
         public dsrListaDeMaterialesDeSalida()
@@ -44,8 +47,10 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             }
         }
 
-        public bool ConfigReport(DataTable valDataSourceSalidas, DataTable valDataSourceInsumos, Dictionary<string, string> valParameters) {
-            _dtInsumos = valDataSourceInsumos;
+        public bool ConfigReport(DataTable valDataSourceSalidas, DataTable valDataSourceInsumos, string[] valListaMonedasDelReporte, string valMonedaDelInforme, decimal valTasaDeCambio, Dictionary<string, string> valParameters) {
+            _ListaMonedasDelReporte = valListaMonedasDelReporte;
+            _MonedaDelInforme = valMonedaDelInforme;
+            _TasaDeCambio = valTasaDeCambio;
             if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
                 if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
@@ -79,6 +84,16 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             vRpt.ConfigReport(valDataSourceInsumos);
             return vRpt;
         }
-        #endregion      
+        #endregion
+
+        private void PageFooter_Format(object sender, EventArgs e) {
+            if(LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[0]) || LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[1])) {
+                this.txtNotaMonedaCambio.Value = "Los montos están expresados en " + txtMoneda.Text;
+            } else if(LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[2]) || LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[3])) {
+                int vPos = LibString.IndexOf(_MonedaDelInforme, "expresado en") + LibString.Len("expresado en ");
+                string vSegundaMoneda = LibString.SubString(_MonedaDelInforme,vPos);
+                this.txtNotaMonedaCambio.Value = $"Los montos en {txtMoneda.Text} estan expresados en {vSegundaMoneda} a la tasa {LibConvert.NumToString(_TasaDeCambio, 4)}";
+            }
+        }
     }
 }
