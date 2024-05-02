@@ -245,7 +245,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             if(valAction == eAccionSR.Insertar) {
                 FechaCreacion = LibDefGen.DateForInitializeInputValue();
             }
-            CodigoDescripcion(valAction);
+            ActualizaCodigoDescripcionArticuloPrincipalAProducir();
         }
 
         protected override void InitializeCommands() {
@@ -335,9 +335,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 UpdateListaDeMaterialesDetalleSalidasCommand.RaiseCanExecuteChanged();
                 DeleteListaDeMaterialesDetalleSalidasCommand.RaiseCanExecuteChanged();
                 ActualizaTotalCosto();
-                if (DetailListaDeMaterialesDetalleSalidas != null && DetailListaDeMaterialesDetalleSalidas.Items.Count > 0) {
-                    CodigoDescripcionArticuloPrincipalProducir = DetailListaDeMaterialesDetalleSalidas.Items[0].CodigoArticuloInventario + " - " + DetailListaDeMaterialesDetalleSalidas.Items[0].DescripcionArticuloInventario;
-                }
+                ActualizaCodigoDescripcionArticuloPrincipalAProducir();
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
@@ -351,9 +349,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 Model.DetailListaDeMaterialesDetalleSalidas.Remove(e.ViewModel.GetModel());
                 ActualizaTotalCosto();
                 e.ViewModel.PropertyChanged -= OnDetailPropertyChanged;
-                if (DetailListaDeMaterialesDetalleSalidas != null && DetailListaDeMaterialesDetalleSalidas.Items.Count > 0) {
-                    CodigoDescripcionArticuloPrincipalProducir = DetailListaDeMaterialesDetalleSalidas.Items[0].CodigoArticuloInventario + " - " + DetailListaDeMaterialesDetalleSalidas.Items[0].DescripcionArticuloInventario;
-                }
+                ActualizaCodigoDescripcionArticuloPrincipalAProducir();
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
@@ -365,9 +361,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             try {
                 IsDirty = e.ViewModel.IsDirty;
                 ActualizaTotalCosto();
-                if (DetailListaDeMaterialesDetalleSalidas != null && DetailListaDeMaterialesDetalleSalidas.Items.Count > 0) {
-                    CodigoDescripcionArticuloPrincipalProducir = DetailListaDeMaterialesDetalleSalidas.Items[0].CodigoArticuloInventario + " - " + DetailListaDeMaterialesDetalleSalidas.Items[0].DescripcionArticuloInventario;
-                }
+                ActualizaCodigoDescripcionArticuloPrincipalAProducir();
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
@@ -379,9 +373,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             try {
                 Model.DetailListaDeMaterialesDetalleSalidas.Add(e.ViewModel.GetModel());
                 ActualizaTotalCosto();
-                if (DetailListaDeMaterialesDetalleSalidas != null && DetailListaDeMaterialesDetalleSalidas.Items.Count > 0) {
-                    CodigoDescripcionArticuloPrincipalProducir = DetailListaDeMaterialesDetalleSalidas.Items[0].CodigoArticuloInventario + " - " + DetailListaDeMaterialesDetalleSalidas.Items[0].DescripcionArticuloInventario;
-                }
+                ActualizaCodigoDescripcionArticuloPrincipalAProducir();
+                
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
@@ -434,11 +427,11 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             TotalPorcentajeDeCosto = DetailListaDeMaterialesDetalleSalidas.Items.Sum(s => s.PorcentajeDeCosto);
         }
 
-        private void CodigoDescripcion (eAccionSR valAction) {
-            if (valAction == eAccionSR.Insertar) {
-                _CodigoDescripcionArticuloPrincipalProducir = string.Empty;
+        private void ActualizaCodigoDescripcionArticuloPrincipalAProducir() {
+            if (DetailListaDeMaterialesDetalleSalidas != null && DetailListaDeMaterialesDetalleSalidas.Items.Count > 0) {
+                CodigoDescripcionArticuloPrincipalProducir = DetailListaDeMaterialesDetalleSalidas.Items[0].CodigoArticuloInventario + " - " + DetailListaDeMaterialesDetalleSalidas.Items[0].DescripcionArticuloInventario;
             } else {
-                _CodigoDescripcionArticuloPrincipalProducir = DetailListaDeMaterialesDetalleSalidas.Items[0].CodigoArticuloInventario + " - " + DetailListaDeMaterialesDetalleSalidas.Items[0].DescripcionArticuloInventario;
+                CodigoDescripcionArticuloPrincipalProducir = string.Empty;
             }
         }
         #endregion //Metodos Generados
