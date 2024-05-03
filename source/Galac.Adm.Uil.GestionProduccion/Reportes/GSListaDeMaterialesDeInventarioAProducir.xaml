@@ -1,0 +1,95 @@
+<UserControl
+    x:Class="Galac.Adm.Uil.GestionProduccion.Reportes.GSListaDeMaterialesDeInventarioAProducir"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:nsARRpt="clr-namespace:LibGalac.Aos.ARRpt;assembly=LibGalac.Aos.ARRpt"
+    xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+    d:DesignHeight="150"
+    d:DesignWidth="440"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="170" />
+            <ColumnDefinition Width="261" />
+            <ColumnDefinition Width="14*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5*" />
+        </Grid.RowDefinitions>
+        <Label
+            Name="lblCantidadAImprimir"
+            Grid.Row="0"
+            Grid.Column="0"
+            Content="Cantidad a Imprimir"
+            Style="{StaticResource LabelPrompt}" />
+        <ComboBox
+            x:Name="cmbCantidadAImprimir"
+            Grid.Row="0"
+            Grid.Column="1"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding Path=ECantidadAImprimir}"
+            SelectedItem="{Binding Path=CantidadAImprimir, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            Style="{StaticResource ComboBoxStyle}" />
+        <Label
+            Name="lblCodigoInventarioAProducir"
+            Grid.Row="1"
+            Grid.Column="0"
+            Content="Codigo Inventario a Producir"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSSeekConnection
+            Name="txtCodigoArticuloInventario"
+            Grid.Row="1"
+            Grid.Column="1"
+            Width="220"
+            Height="23"
+            Margin="3"
+            HorizontalAlignment="Left"
+            ConnectionValue="{Binding Path=CodigoArticuloInventario, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+            DisplayMemberPath="Codigo"
+            IsEnabled="{Binding Path=IsEnabledCodigoArticuloInventario}"
+            Model="{Binding Path=ConexionCodigoArticuloInventario, Mode=TwoWay}"
+            SearchCommand="{Binding Path=ChooseCodigoArticuloInventarioCommand}" />
+        <TextBlock
+            Name="lblDescripcionArticuloInventario"
+            Grid.Row="2"
+            Grid.Column="1"
+            Width="220"
+            MinHeight="50"
+            Margin="3"
+            Style="{StaticResource TextBlockFeatureInfo}"
+            Text="{Binding Path=DescripcionArticuloInventario}" />
+        <Label
+            Name="lblCantidad"
+            Grid.Row="3"
+            Grid.Column="0"
+            Content="Cantidad a Producir"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSNumericBoxWpf
+            Name="txtCantidadAProducir"
+            Grid.Row="3"
+            Grid.Column="1"
+            Width="120"
+            BorderThickness="1"
+            DecimalDigits="{Binding Path=DecimalDigits}"
+            InputDataType="UDecimal"
+            IsEnabled="{Binding Path=IsEnabled}"
+            MaxLength="34"
+            Style="{StaticResource TextBoxInputStyle}"
+            Value="{Binding Path=CantidadAProducir, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+
+    </Grid>
+</UserControl>
