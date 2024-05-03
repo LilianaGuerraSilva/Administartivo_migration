@@ -14,19 +14,9 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
           private QAdvSql vSqlUtil = new QAdvSql("");
         #region Metodos Generados
         public string SqlListaDeMaterialesSalida(int valConsecutivoCompania, string valCodigoListaAProducir, eCantidadAImprimir valCantidadAImprimir, decimal valCantidadAProducir, string valMonedaDelInformeMM, decimal valTasaDeCambio, string[] valListaMoneda) {
-            StringBuilder vSql = new StringBuilder();            
-            string vSqlCostoUnitario;
-             int vPos = LibString.IndexOf(valMonedaDelInformeMM, " ") > 0 ? LibString.IndexOf(valMonedaDelInformeMM, "expresado") - 1 : LibString.Len(valMonedaDelInformeMM);
-            string vNombreMoneda = LibString.SubString(valMonedaDelInformeMM, 0, vPos);
-            if(LibString.S1IsEqualToS2(valMonedaDelInformeMM, valListaMoneda[1])) { // En ME
-                vSqlCostoUnitario = "ArticuloInventario.MeCostoUnitario AS CostoUnitario, ";                
-            } else if(LibString.S1IsEqualToS2(valMonedaDelInformeMM, valListaMoneda[2])) { // ML expresados en ME
-                vSqlCostoUnitario = vSqlUtil.RoundToNDecimals($"ArticuloInventario.CostoUnitario / {valTasaDeCambio}", 2, "CostoUnitario,");                
-            } else if(LibString.S1IsEqualToS2(valMonedaDelInformeMM, valListaMoneda[3])) { // ME expresados en ML
-                vSqlCostoUnitario = vSqlUtil.RoundToNDecimals($"ArticuloInventario.MeCostoUnitario * {valTasaDeCambio}", 2, "CostoUnitario,");                
-            } else {    // En ML
-                vSqlCostoUnitario = "ArticuloInventario.CostoUnitario, ";                
-            }
+            StringBuilder vSql = new StringBuilder();                        
+            int vPos = LibString.IndexOf(valMonedaDelInformeMM, " ") > 0 ? LibString.IndexOf(valMonedaDelInformeMM, "expresado") - 1 : LibString.Len(valMonedaDelInformeMM);
+            string vNombreMoneda = LibString.SubString(valMonedaDelInformeMM, 0, vPos);           
             vSql.AppendLine(";WITH CTE_Insumos AS (");
             vSql.AppendLine(SqlListaDeMaterialesInsumos(valConsecutivoCompania, valCodigoListaAProducir, valCantidadAImprimir, valCantidadAProducir, valMonedaDelInformeMM, valTasaDeCambio, valListaMoneda) + ") ");
             vSql.AppendLine(",CTE_CostoTotalInsumos AS ( ");            
@@ -43,10 +33,10 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             vSql.AppendLine("ArticuloInventario.Descripcion AS ArticuloListaSalida, ");
             vSql.AppendLine("SUBSTRING(ArticuloInventario.UnidadDeVenta,1,10) AS Unidades, ");
             vSql.AppendLine("ListaDeMaterialesDetalleSalidas.PorcentajeDeCosto, ");
-            vSql.AppendLine(vSqlCostoUnitario);
+            vSql.AppendLine(vSqlUtil.RoundToNDecimals($"(CTE_CostoTotalInsumos.SumCostoTotal * (ListaDeMaterialesDetalleSalidas.PorcentajeDeCosto / 100))/{vSqlUtil.ToSqlValue(valCantidadAProducir)}", 2, "CostoUnitario,"));  
             vSql.AppendLine("ListaDeMaterialesDetalleSalidas.Cantidad As CantidadArticulos, ");
             vSql.AppendLine(vSqlUtil.ToSqlValue(valCantidadAProducir) + " AS CantidadAProducir, ");
-            vSql.AppendLine(vSqlUtil.RoundToNDecimals(vSqlUtil.ToSqlValue(valCantidadAProducir) + " * ListaDeMaterialesDetalleSalidas.Cantidad", 2, "CantidadDetalleAProducir,"));
+            vSql.AppendLine(vSqlUtil.RoundToNDecimals(vSqlUtil.ToSqlValue(valCantidadAProducir) + " * ListaDeMaterialesDetalleSalidas.Cantidad", 8, "CantidadDetalleAProducir,"));
             vSql.AppendLine(vSqlUtil.RoundToNDecimals("CTE_CostoTotalInsumos.SumCostoTotal * ListaDeMaterialesDetalleSalidas.PorcentajeDeCosto / 100", 2, "CostoTotal"));
             vSql.AppendLine("FROM Adm.ListaDeMateriales ");
             vSql.AppendLine("INNER JOIN Adm.ListaDeMaterialesDetalleSalidas ON ");
@@ -90,7 +80,7 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             vSql.AppendLine(vSqlCostoUnitario);          
             vSql.AppendLine("ArticuloInventario.Existencia, ");
             vSql.AppendLine("SUBSTRING(ArticuloInventario.UnidadDeVenta,1,10) AS Unidades, ");
-            vSql.AppendLine(vSqlUtil.RoundToNDecimals($"{vSqlUtil.ToSqlValue(valCantidadAProducir)} * Adm.ListaDeMaterialesDetalleArticulo.Cantidad", 2, "CantidadAReservar,"));
+            vSql.AppendLine(vSqlUtil.RoundToNDecimals($"{vSqlUtil.ToSqlValue(valCantidadAProducir)} * Adm.ListaDeMaterialesDetalleArticulo.Cantidad", 8, "CantidadAReservar,"));
             vSql.AppendLine(vSqlCostoTotal);
             vSql.AppendLine("FROM Adm.ListaDeMateriales ");
             vSql.AppendLine("INNER JOIN Adm.ListaDeMaterialesDetalleArticulo ON ");
