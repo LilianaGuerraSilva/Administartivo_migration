@@ -10,8 +10,8 @@
     <DataTemplate DataType="{x:Type nsCSVM:ListaDeMaterialesDetalleArticuloViewModel}">
         <nsCSV:GSListaDeMaterialesDetalleArticuloView />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type nsReportesView:clsListaDeMaterialesDeInventarioAProducirViewModel}">
-        <nsReportesView:GSListaDeMaterialesDeInventarioAProducir />
+    <DataTemplate DataType="{x:Type nsReportesView:clsListaDeMaterialesViewModel}">
+        <nsReportesView:GSListaDeMateriales />
     </DataTemplate>
     <DataTemplate DataType="{x:Type nsReportesView:clsOrdenDeProduccionRptViewModel}">
         <nsReportesView:GSOrdenDeProduccionRpt />

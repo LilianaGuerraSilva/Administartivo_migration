@@ -329,7 +329,7 @@ unBancoPM = (Bco_0102 "0102 Banco de Venezuela S.A. Banco Universal", Bco_0104 "
 	// Nombre no es clave unica fisica por compatibilidad de migracion
 }
 
-{@D VENDEDOR}VendedorDetalleComisiones = Record //Male,Multiarchivo=Compania, Componente=Vendedor, Esquema=Adm, EsquemaBD=Adm, GENERATE
+{@D VENDEDOR}VendedorDetalleComisiones = Record //Male,Multiarchivo=Compania, Componente=Vendedor, Esquema=Adm, EsquemaBD=Adm
    ConsecutivoCompania  : LongInt; //o,HIDE
    ConsecutivoVendedor       : Longint;//o
    Consecutivo    : LongInt; //o,HIDE
@@ -1100,7 +1100,7 @@ unBancoPM = (Bco_0102 "0102 Banco de Venezuela S.A. Banco Universal", Bco_0104 "
     @PrimaryKey=ConsecutivoCompania,NumeroFactura,TipoDeDocumento,ConsecutivoRenglon
 }
 
-{@D Factura}RenglonCobroDeFactura = record //Multiarchivo=Compania, GENERATE
+{@D Factura}RenglonCobroDeFactura = record //Multiarchivo=Compania
     ConsecutivoCompania		    : Longint; //HIDE
     NumeroFactura			    : str11;//HIDE,o
     TipoDeDocumento		        : unTipoDocumentoFactura;//HIDE,o
@@ -2553,7 +2553,7 @@ unBancoPM = (Bco_0102 "0102 Banco de Venezuela S.A. Banco Universal", Bco_0104 "
 //    @PrimaryKey=Descripcion
 //}
 
-{@S}Anticipo = Record //Multiarchivo=Compania,"Anticipo",Male,Componente=CAnticipo, Esquema=Adm, EsquemaBD=dbo,interop,GenerateRptConfigurar,GenerateFrmInforme, GENERATE
+{@S}Anticipo = Record //Multiarchivo=Compania,"Anticipo",Male,Componente=CAnticipo, Esquema=Adm, EsquemaBD=dbo,interop,GenerateRptConfigurar,GenerateFrmInforme
 	ConsecutivoCompania : LongInt;//o,HIDE
 	ConsecutivoAnticipo	: LongInt;//u,o,a,sugestconsecutive,HIDE
 	Status 			: unStatusAnticipo;//g,search
@@ -4189,7 +4189,8 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 		{EndSeccion}
 }
 
-{@M}ListaDeMateriales = record //Multiarchivo=Compania, "Lista de Materiales", Componente=GestionProduccion, Esquema=Adm, EsquemaBD=Adm, GENERATE
+
+{@M}ListaDeMateriales = record //Multiarchivo=Compania, "Lista de Materiales", Componente=GestionProduccion, Esquema=Adm, EsquemaBD=Adm,interop,GenerateRptConfigurar, GenerateFrmInforme,Generate     
 	ConsecutivoCompania: Longint//HIDE 
 	Consecutivo: LongInt;//HIDE,Consecutive 
 	Codigo: str30//o, search,g, "Código" 
@@ -4595,7 +4596,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	MontoARegistrar	: decimal;//"Monto a Registrar en $."
 }
 
-{@R Anticipo}AnticipoPorProveedorOCliente = Reporte	//Multiarchivo=Compania,"Anticipos",Componente=CAnticipo,Esquema=Adm,EsquemaBD=Dbo,Generate
+{@R Anticipo}AnticipoPorProveedorOCliente = Reporte	//Multiarchivo=Compania,"Anticipos",Componente=CAnticipo,Esquema=Adm,EsquemaBD=Dbo
 	Moneda			: Section;//"Moneda"
 	NombreDeLaMoneda	: Str80;//"Moneda del grupo"
 	{EndSeccion}	
@@ -4612,4 +4613,24 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	MontoDevuelto	:decimal;//"Monto Devuelto"
 	DifDevolucion	:decimal;//"Diferencia en Devolución"	
 }
+
+{@R ListaDeMateriales}ListaDeMaterialesDeSalida = Reporte	//Multiarchivo=Compania,"Lista De Materiales de Salida",Componente=GestionProduccion,Esquema=Adm,EsquemaBD=Dbo,Generate	
+		CodigoListaAProducir	:	Section;//"Código Lista a Producir"	
+		ListaDeMateriales	:	Str50;//"Lista De Materiales"
+		Moneda	:	Str80;//"Moneda del Grupo"		
+		CantidadAProducir	:	Decimal;//"Cantidad A Producir"	
+		{EndSeccion}
+		Articulo	:	Str50;//"Artículo"
+		Unidades	:	Str20;"Unidades"
+		PorcentajeCosto	:	Decimal;//"Porcentaje de Costo"
+		CostoCalculado	:	Decimal;//"Costo Calculado"		
+}
+
+{@R ListaDeMateriales}ListaDeMaterialesDeInsumos = Reporte	//Multiarchivo=Compania,"Lista De Materiales Insumos",Componente=GestionProduccion,Esquema=Adm,EsquemaBD=Dbo,Generate		
+	DescripcionArticulo		:	Str10;//"Descripción"	
+	Cantidad	:	Decimal;//"Cantidad"			
+	Costo	:	Decimal;//"Costo Calculado"	
+	CantidadAReservar : Decimal;//"Cantidad A Reservar"	
+	CostoTotal	:	Decimal;//"Costo Total"
+	Existencia	:	Decimal;//"Existencia"
 }

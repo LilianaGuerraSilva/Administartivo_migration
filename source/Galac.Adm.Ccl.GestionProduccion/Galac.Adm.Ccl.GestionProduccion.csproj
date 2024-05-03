@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -76,6 +76,10 @@
     <ProjectReference Include="..\Galac.Saw.Ccl.SttDef\Galac.Saw.Ccl.SttDef.csproj">
       <Project>{82C458B1-C93B-46A9-B58C-63ECD3633861}</Project>
       <Name>Galac.Saw.Ccl.SttDef</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Lib\Galac.Saw.Lib.csproj">
+      <Project>{B04E6942-E0B8-4BA2-90E7-FBF8A95DDC86}</Project>
+      <Name>Galac.Saw.Lib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

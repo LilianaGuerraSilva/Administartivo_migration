@@ -104,7 +104,7 @@
     <Compile Include="Reportes\clsCostoMatServUtilizadosEnProduccionInvViewModel.cs" />
     <Compile Include="Reportes\clsCostoProduccionInventarioEntreFechasViewModel.cs" />
     <Compile Include="Reportes\clsDetalleDeCostoDeProduccionViewModel.cs" />
-    <Compile Include="Reportes\clsListaDeMaterialesDeInventarioAProducirViewModel.cs" />
+    <Compile Include="Reportes\clsListaDeMaterialesViewModel.cs" />
     <Compile Include="Reportes\clsListaDeMaterialesInformesViewModel.cs" />
     <Compile Include="Reportes\clsOrdenDeProduccionInformesViewModel.cs">
       <SubType>Code</SubType>
@@ -123,8 +123,8 @@
     <Compile Include="Reportes\GSDetalleDeCostoDeProduccion.xaml.cs">
       <DependentUpon>GSDetalleDeCostoDeProduccion.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Reportes\GSListaDeMaterialesDeInventarioAProducir.xaml.cs">
-      <DependentUpon>GSListaDeMaterialesDeInventarioAProducir.xaml</DependentUpon>
+    <Compile Include="Reportes\GSListaDeMateriales.xaml.cs">
+      <DependentUpon>GSListaDeMateriales.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reportes\GSOrdenDeProduccionRpt.xaml.cs">
       <DependentUpon>GSOrdenDeProduccionRpt.xaml</DependentUpon>
@@ -183,7 +183,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Reportes\GSListaDeMaterialesDeInventarioAProducir.xaml">
+    <Page Include="Reportes\GSListaDeMateriales.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
