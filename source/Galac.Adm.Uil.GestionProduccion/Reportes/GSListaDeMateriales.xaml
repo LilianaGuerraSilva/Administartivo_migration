@@ -36,7 +36,8 @@
             Grid.Row="0"
             Margin="0"
             Content="Cantidad a Imprimir"
-            Style="{StaticResource LabelPrompt}" />
+            Style="{StaticResource LabelPrompt}"
+            Visibility="Hidden" />
         <ComboBox
             Name="cmbCantidadAImprimir"
             Grid.Row="0"
@@ -46,7 +47,8 @@
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding Path=ArrayCantidadAImprimir}"
             SelectedItem="{Binding Path=CantidadAImprimir, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-            Style="{StaticResource ComboBoxStyle}" />
+            Style="{StaticResource ComboBoxStyle}"
+            Visibility="Hidden" />
         <Label
             Name="lblListaAProducir"
             Grid.Row="1"

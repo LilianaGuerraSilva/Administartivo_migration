@@ -179,7 +179,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
                     RaisePropertyChanged(MonedaDelInformePropertyName);
                     RaisePropertyChanged(IsVisibleTasaDeCambioPropertyName);
                     if (IsVisibleTasaDeCambio) {
-                        AsignaTasaDelDia();
+                        AsignaTasaDeCambio();
                     }
                 }
             }
@@ -225,7 +225,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             _CodigoListaMateriales = string.Empty;
             _CantidadAProducir = 1;            
             CantidadAImprimir = eCantidadAImprimir.One;
-            CodigoMoneda = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMoneda");
+            CodigoMoneda = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaLocal");
             CodigoMonedaExtranjera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
             LlenarEnumerativosMonedas();
         }        
@@ -284,12 +284,11 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             MonedaDelInforme = ListaMonedaDelInforme[0];
         }
 
-        private void AsignaTasaDelDia() {
-            bool vElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsModoAvanzado");
-            bool vUsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarLimiteMaximoParaIngresoDeTasaDeCambio");
-            decimal vMaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros", "MaximoLimitePermitidoParaLaTasaDeCambio");
-            bool vObtenerAutomaticamenteTasaDeCambioDelBCV = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "ObtenerAutomaticamenteTasaDeCambioDelBCV");
-            TasaDeCambio = clsSawCambio.InsertaTasaDeCambioParaElDia(CodigoMonedaExtranjera, LibDate.Today(), vUsarLimiteMaximoParaIngresoDeTasaDeCambio, vMaximoLimitePermitidoParaLaTasaDeCambio, vElProgramaEstaEnModoAvanzado, vObtenerAutomaticamenteTasaDeCambioDelBCV);
+        private void AsignaTasaDeCambio() {
+            ICambioPdn insCambio = new clsCambioNav();
+            decimal vCambio = 1;
+            insCambio.ExisteTasaDeCambioParaElDia(CodigoMonedaExtranjera, LibDate.Today(), out vCambio);
+            TasaDeCambio = (vCambio == 0) ? 1 : vCambio;            
         }
 
         private ValidationResult IsCodigoListaRequired() {

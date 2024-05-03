@@ -42,10 +42,11 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                     LibReport.LoadLayout(this, vRpxPath);
                 }
             }
-            if(LibReport.ConfigDataSource(this, valDataSource)) {
-                LibReport.ConfigGroupHeader(this, "GHListaInsumos", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+            if(LibReport.ConfigDataSource(this, valDataSource)) {                
+                LibReport.ConfigGroupHeader(this, "GHListaInsumos", "Codigo", GroupKeepTogether.FirstDetail,  RepeatStyle.OnPage, true, NewPage.None);                
                 LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "ListaArticuloInsumos");
                 LibReport.ConfigFieldStr(this, "txtUnidades", string.Empty, "Unidades");
+                LibReport.ConfigFieldStr(this, "txtCodigo", string.Empty, "Codigo");
                 LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidad", string.Empty, "CantidadInsumos", 8);
                 LibReport.ConfigFieldDec(this, "txtCosto", string.Empty, "CostoUnitario");
                 LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidadAReservar", string.Empty, "CantidadAReservar", 8);
