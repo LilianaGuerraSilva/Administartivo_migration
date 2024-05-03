@@ -43,10 +43,10 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             vSql.AppendLine("ArticuloInventario.Descripcion AS ArticuloListaSalida, ");
             vSql.AppendLine("SUBSTRING(ArticuloInventario.UnidadDeVenta,1,10) AS Unidades, ");
             vSql.AppendLine("ListaDeMaterialesDetalleSalidas.PorcentajeDeCosto, ");
-            vSql.AppendLine(vSqlCostoUnitario);
+            vSql.AppendLine(vSqlUtil.RoundToNDecimals($"(CTE_CostoTotalInsumos.SumCostoTotal * (ListaDeMaterialesDetalleSalidas.PorcentajeDeCosto / 100))/{vSqlUtil.ToSqlValue(valCantidadAProducir)}", 2, "CostoUnitario,"));  
             vSql.AppendLine("ListaDeMaterialesDetalleSalidas.Cantidad As CantidadArticulos, ");
             vSql.AppendLine(vSqlUtil.ToSqlValue(valCantidadAProducir) + " AS CantidadAProducir, ");
-            vSql.AppendLine(vSqlUtil.RoundToNDecimals(vSqlUtil.ToSqlValue(valCantidadAProducir) + " * ListaDeMaterialesDetalleSalidas.Cantidad", 2, "CantidadDetalleAProducir,"));
+            vSql.AppendLine(vSqlUtil.RoundToNDecimals(vSqlUtil.ToSqlValue(valCantidadAProducir) + " * ListaDeMaterialesDetalleSalidas.Cantidad", 8, "CantidadDetalleAProducir,"));
             vSql.AppendLine(vSqlUtil.RoundToNDecimals("CTE_CostoTotalInsumos.SumCostoTotal * ListaDeMaterialesDetalleSalidas.PorcentajeDeCosto / 100", 2, "CostoTotal"));
             vSql.AppendLine("FROM Adm.ListaDeMateriales ");
             vSql.AppendLine("INNER JOIN Adm.ListaDeMaterialesDetalleSalidas ON ");
@@ -90,7 +90,7 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             vSql.AppendLine(vSqlCostoUnitario);          
             vSql.AppendLine("ArticuloInventario.Existencia, ");
             vSql.AppendLine("SUBSTRING(ArticuloInventario.UnidadDeVenta,1,10) AS Unidades, ");
-            vSql.AppendLine(vSqlUtil.RoundToNDecimals($"{vSqlUtil.ToSqlValue(valCantidadAProducir)} * Adm.ListaDeMaterialesDetalleArticulo.Cantidad", 2, "CantidadAReservar,"));
+            vSql.AppendLine(vSqlUtil.RoundToNDecimals($"{vSqlUtil.ToSqlValue(valCantidadAProducir)} * Adm.ListaDeMaterialesDetalleArticulo.Cantidad", 8, "CantidadAReservar,"));
             vSql.AppendLine(vSqlCostoTotal);
             vSql.AppendLine("FROM Adm.ListaDeMateriales ");
             vSql.AppendLine("INNER JOIN Adm.ListaDeMaterialesDetalleArticulo ON ");
