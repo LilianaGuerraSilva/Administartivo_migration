@@ -96,7 +96,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             } else if(LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[2]) || LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[3])) {
                 int vPos = LibString.IndexOf(_MonedaDelInforme, "expresado en") + LibString.Len("expresado en ");
                 string vSegundaMoneda = LibString.SubString(_MonedaDelInforme, vPos);
-                this.txtNotaMonedaCambio.Value = $"Los montos en {txtMoneda.Text} estan expresados en {vSegundaMoneda} a la tasa {LibConvert.NumToString(_TasaDeCambio, 4)}";
+                this.txtNotaMonedaCambio.Value = $"Los montos en {txtMoneda.Text} están expresados en {vSegundaMoneda} a la tasa {LibConvert.NumToString(_TasaDeCambio, 4)}";
             }
         }
     }
