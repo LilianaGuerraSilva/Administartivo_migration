@@ -87,7 +87,7 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             vSql.AppendLine("ListaDeMateriales.CodigoArticuloInventario AS Codigo, ");
             vSql.AppendLine("ArticuloInventario.Descripcion AS ListaArticuloInsumos, ");
             vSql.AppendLine("ListaDeMaterialesDetalleArticulo.Cantidad AS CantidadInsumos, ");
-            vSql.AppendLine("ArticuloInventario.CostoUnitario, ");          
+            vSql.AppendLine(vSqlCostoUnitario);          
             vSql.AppendLine("ArticuloInventario.Existencia, ");
             vSql.AppendLine("SUBSTRING(ArticuloInventario.UnidadDeVenta,1,10) AS Unidades, ");
             vSql.AppendLine(vSqlUtil.RoundToNDecimals($"{vSqlUtil.ToSqlValue(valCantidadAProducir)} * Adm.ListaDeMaterialesDetalleArticulo.Cantidad", 2, "CantidadAReservar,"));
