@@ -60,24 +60,22 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             string vSqlCostoTotal;
             string vSqlCostoUnitario;
             if(LibString.S1IsEqualToS2(valMonedaDelInformeMM, valListaMoneda[1])) { // En ME
-                vSqlCostoUnitario = "ArticuloInventario.MeCostoUnitario AS CostoUnitario, ";
-                vSqlCostoTotal = vSqlUtil.RoundToNDecimals($"{vSqlUtil.ToSqlValue(valCantidadAProducir)} * Adm.ListaDeMaterialesDetalleArticulo.Cantidad * ArticuloInventario.MeCostoUnitario", 2, "CostoTotal");
+                vSqlCostoUnitario = "ArticuloInventario.MeCostoUnitario ";
             } else if(LibString.S1IsEqualToS2(valMonedaDelInformeMM, valListaMoneda[2])) { // ML expresados en ME
-                vSqlCostoUnitario = vSqlUtil.RoundToNDecimals($"ArticuloInventario.CostoUnitario / {valTasaDeCambio}", 2, "CostoUnitario,");
-                vSqlCostoTotal = vSqlUtil.RoundToNDecimals($"({vSqlUtil.ToSqlValue(valCantidadAProducir)} * Adm.ListaDeMaterialesDetalleArticulo.Cantidad * ArticuloInventario.CostoUnitario) / {vSqlUtil.ToSqlValue(valTasaDeCambio)}", 2, "CostoTotal");
+                vSqlCostoUnitario = vSqlUtil.RoundToNDecimals($"ArticuloInventario.CostoUnitario / {valTasaDeCambio}", 2, "");
             } else if(LibString.S1IsEqualToS2(valMonedaDelInformeMM, valListaMoneda[3])) { // ME expresados en ML
-                vSqlCostoUnitario = vSqlUtil.RoundToNDecimals($"ArticuloInventario.MeCostoUnitario * {valTasaDeCambio}", 2, "CostoUnitario,");
-                vSqlCostoTotal = vSqlUtil.RoundToNDecimals($"({vSqlUtil.ToSqlValue(valCantidadAProducir)} * Adm.ListaDeMaterialesDetalleArticulo.Cantidad * ArticuloInventario.MeCostoUnitario) * {vSqlUtil.ToSqlValue(valTasaDeCambio)}", 2, "CostoTotal");
+                vSqlCostoUnitario = vSqlUtil.RoundToNDecimals($"ArticuloInventario.MeCostoUnitario * {valTasaDeCambio}", 2, "");
             } else {    // En ML
-                vSqlCostoUnitario = "ArticuloInventario.CostoUnitario, ";
-                vSqlCostoTotal = vSqlUtil.RoundToNDecimals($"{vSqlUtil.ToSqlValue(valCantidadAProducir)} * Adm.ListaDeMaterialesDetalleArticulo.Cantidad * ArticuloInventario.CostoUnitario", 2, "CostoTotal");
+                vSqlCostoUnitario = "ArticuloInventario.CostoUnitario ";
             }
+            vSqlCostoTotal = vSqlUtil.RoundToNDecimals($"{vSqlUtil.ToSqlValue(valCantidadAProducir)} * Adm.ListaDeMaterialesDetalleArticulo.Cantidad * {vSqlCostoUnitario}", 2, "CostoTotal");        
+
             vSql.AppendLine("SELECT ");
             vSql.AppendLine("ListaDeMateriales.Consecutivo,");
             vSql.AppendLine("ListaDeMateriales.CodigoArticuloInventario AS Codigo, ");
             vSql.AppendLine("ArticuloInventario.Descripcion AS ListaArticuloInsumos, ");
             vSql.AppendLine("ListaDeMaterialesDetalleArticulo.Cantidad AS CantidadInsumos, ");
-            vSql.AppendLine(vSqlCostoUnitario);          
+            vSql.AppendLine(vSqlCostoUnitario + " AS CostoUnitario, ");          
             vSql.AppendLine("ArticuloInventario.Existencia, ");
             vSql.AppendLine("SUBSTRING(ArticuloInventario.UnidadDeVenta,1,10) AS Unidades, ");
             vSql.AppendLine(vSqlUtil.RoundToNDecimals($"{vSqlUtil.ToSqlValue(valCantidadAProducir)} * Adm.ListaDeMaterialesDetalleArticulo.Cantidad", 8, "CantidadAReservar,"));
