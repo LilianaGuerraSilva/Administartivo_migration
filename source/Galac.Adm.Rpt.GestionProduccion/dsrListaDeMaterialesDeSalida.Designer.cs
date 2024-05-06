@@ -57,7 +57,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.GFMoneda = new DataDynamics.ActiveReports.GroupFooter();
             this.GHSalidas = new DataDynamics.ActiveReports.GroupHeader();
             this.lblCostoUnitario = new DataDynamics.ActiveReports.Label();
-            this.label1 = new DataDynamics.ActiveReports.Label();
+            this.lblCostoEstimado = new DataDynamics.ActiveReports.Label();
             this.GFSalidas = new DataDynamics.ActiveReports.GroupFooter();
             ((System.ComponentModel.ISupportInitialize)(this.txtArticulo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtUnidades)).BeginInit();
@@ -87,7 +87,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalCostoCalculado)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotalCosto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCostoUnitario)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.label1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblCostoEstimado)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
@@ -469,7 +469,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblSalidas,
             this.lblCantidadArticulos,
             this.lblCostoUnitario,
-            this.label1});
+            this.lblCostoEstimado});
             this.GHSalidas.Height = 0.32325F;
             this.GHSalidas.Name = "GHSalidas";
             // 
@@ -485,16 +485,16 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblCostoUnitario.Top = 0.156F;
             this.lblCostoUnitario.Width = 0.5949998F;
             // 
-            // label1
+            // lblCostoEstimado
             // 
-            this.label1.Height = 0.156F;
-            this.label1.HyperLink = null;
-            this.label1.Left = 6.03F;
-            this.label1.Name = "label1";
-            this.label1.Style = "font-size: 8.25pt; font-weight: bold; text-align: center; ddo-char-set: 0";
-            this.label1.Text = "Costo Estimado";
-            this.label1.Top = 0.01099998F;
-            this.label1.Width = 1.412F;
+            this.lblCostoEstimado.Height = 0.156F;
+            this.lblCostoEstimado.HyperLink = null;
+            this.lblCostoEstimado.Left = 6.03F;
+            this.lblCostoEstimado.Name = "lblCostoEstimado";
+            this.lblCostoEstimado.Style = "font-size: 8.25pt; font-weight: bold; text-align: center; ddo-char-set: 0";
+            this.lblCostoEstimado.Text = "Costo Estimado";
+            this.lblCostoEstimado.Top = 0.01099998F;
+            this.lblCostoEstimado.Width = 1.412F;
             // 
             // GFSalidas
             // 
@@ -553,7 +553,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalCostoCalculado)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotalCosto)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCostoUnitario)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.label1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblCostoEstimado)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -597,6 +597,6 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         private DataDynamics.ActiveReports.GroupFooter GFSalidas;
         private DataDynamics.ActiveReports.TextBox txtCostoUnitario;
         private DataDynamics.ActiveReports.Label lblCostoUnitario;
-        private DataDynamics.ActiveReports.Label label1;
+        private DataDynamics.ActiveReports.Label lblCostoEstimado;
     }
 }
