@@ -9,17 +9,17 @@ using Galac.Saw.Lib;
 using Galac.Saw.Ccl.Inventario;
 
 namespace Galac.Adm.Brl.GestionProduccion.Reportes {
-    
+
     public class clsListaDeMaterialesSql {
-          private QAdvSql vSqlUtil = new QAdvSql("");
+        private QAdvSql vSqlUtil = new QAdvSql("");
         #region Metodos Generados
         public string SqlListaDeMaterialesSalida(int valConsecutivoCompania, string valCodigoListaAProducir, eCantidadAImprimir valCantidadAImprimir, decimal valCantidadAProducir, string valMonedaDelInformeMM, decimal valTasaDeCambio, string[] valListaMoneda) {
-            StringBuilder vSql = new StringBuilder();                        
+            StringBuilder vSql = new StringBuilder();
             int vPos = LibString.IndexOf(valMonedaDelInformeMM, " ") > 0 ? LibString.IndexOf(valMonedaDelInformeMM, "expresado") - 1 : LibString.Len(valMonedaDelInformeMM);
-            string vNombreMoneda = LibString.SubString(valMonedaDelInformeMM, 0, vPos);           
+            string vNombreMoneda = LibString.SubString(valMonedaDelInformeMM, 0, vPos);
             vSql.AppendLine(";WITH CTE_Insumos AS (");
             vSql.AppendLine(SqlListaDeMaterialesInsumos(valConsecutivoCompania, valCodigoListaAProducir, valCantidadAImprimir, valCantidadAProducir, valMonedaDelInformeMM, valTasaDeCambio, valListaMoneda) + ") ");
-            vSql.AppendLine(",CTE_CostoTotalInsumos AS ( ");            
+            vSql.AppendLine(",CTE_CostoTotalInsumos AS ( ");
             vSql.AppendLine("SELECT ");
             vSql.AppendLine("CTE_Insumos.Consecutivo, ");
             vSql.AppendLine("SUM(CostoTotal) AS SumCostoTotal ");
@@ -33,7 +33,7 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             vSql.AppendLine("ArticuloInventario.Descripcion AS ArticuloListaSalida, ");
             vSql.AppendLine("SUBSTRING(ArticuloInventario.UnidadDeVenta,1,10) AS Unidades, ");
             vSql.AppendLine("ListaDeMaterialesDetalleSalidas.PorcentajeDeCosto, ");
-            vSql.AppendLine(vSqlUtil.RoundToNDecimals($"(CTE_CostoTotalInsumos.SumCostoTotal * (ListaDeMaterialesDetalleSalidas.PorcentajeDeCosto / 100))/{vSqlUtil.ToSqlValue(valCantidadAProducir)}", 2, "CostoUnitario,"));  
+            vSql.AppendLine(vSqlUtil.RoundToNDecimals($"(CTE_CostoTotalInsumos.SumCostoTotal * (ListaDeMaterialesDetalleSalidas.PorcentajeDeCosto / 100))/{vSqlUtil.ToSqlValue(valCantidadAProducir)}", 2, "CostoUnitario,"));
             vSql.AppendLine("ListaDeMaterialesDetalleSalidas.Cantidad As CantidadArticulos, ");
             vSql.AppendLine(vSqlUtil.ToSqlValue(valCantidadAProducir) + " AS CantidadAProducir, ");
             vSql.AppendLine(vSqlUtil.RoundToNDecimals(vSqlUtil.ToSqlValue(valCantidadAProducir) + " * ListaDeMaterialesDetalleSalidas.Cantidad", 8, "CantidadDetalleAProducir,"));
@@ -62,20 +62,21 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             if(LibString.S1IsEqualToS2(valMonedaDelInformeMM, valListaMoneda[1])) { // En ME
                 vSqlCostoUnitario = "ArticuloInventario.MeCostoUnitario ";
             } else if(LibString.S1IsEqualToS2(valMonedaDelInformeMM, valListaMoneda[2])) { // ML expresados en ME
-                vSqlCostoUnitario = vSqlUtil.RoundToNDecimals($"ArticuloInventario.CostoUnitario / {valTasaDeCambio}", 2, "");
+                vSqlCostoUnitario = $"ArticuloInventario.CostoUnitario / {vSqlUtil.ToSqlValue(valTasaDeCambio)}";
             } else if(LibString.S1IsEqualToS2(valMonedaDelInformeMM, valListaMoneda[3])) { // ME expresados en ML
-                vSqlCostoUnitario = vSqlUtil.RoundToNDecimals($"ArticuloInventario.MeCostoUnitario * {valTasaDeCambio}", 2, "");
+                vSqlCostoUnitario = $"ArticuloInventario.MeCostoUnitario * {vSqlUtil.ToSqlValue(valTasaDeCambio)}";
             } else {    // En ML
                 vSqlCostoUnitario = "ArticuloInventario.CostoUnitario ";
             }
-            vSqlCostoTotal = vSqlUtil.RoundToNDecimals($"{vSqlUtil.ToSqlValue(valCantidadAProducir)} * Adm.ListaDeMaterialesDetalleArticulo.Cantidad * {vSqlCostoUnitario}", 2, "CostoTotal");        
+            vSqlCostoTotal = vSqlUtil.RoundToNDecimals($"{vSqlUtil.ToSqlValue(valCantidadAProducir)} * Adm.ListaDeMaterialesDetalleArticulo.Cantidad * {vSqlCostoUnitario}", 2, "CostoTotal");
+            vSqlCostoUnitario = vSqlUtil.RoundToNDecimals(vSqlCostoUnitario, 2);
 
             vSql.AppendLine("SELECT ");
             vSql.AppendLine("ListaDeMateriales.Consecutivo,");
             vSql.AppendLine("ListaDeMateriales.CodigoArticuloInventario AS Codigo, ");
             vSql.AppendLine("ArticuloInventario.Descripcion AS ListaArticuloInsumos, ");
             vSql.AppendLine("ListaDeMaterialesDetalleArticulo.Cantidad AS CantidadInsumos, ");
-            vSql.AppendLine(vSqlCostoUnitario + " AS CostoUnitario, ");          
+            vSql.AppendLine(vSqlCostoUnitario + " AS CostoUnitario, ");
             vSql.AppendLine("ArticuloInventario.Existencia, ");
             vSql.AppendLine("SUBSTRING(ArticuloInventario.UnidadDeVenta,1,10) AS Unidades, ");
             vSql.AppendLine(vSqlUtil.RoundToNDecimals($"{vSqlUtil.ToSqlValue(valCantidadAProducir)} * Adm.ListaDeMaterialesDetalleArticulo.Cantidad", 8, "CantidadAReservar,"));
@@ -90,7 +91,7 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             vSql.AppendLine("WHERE ListaDeMateriales.ConsecutivoCompania = " + vSqlUtil.ToSqlValue(valConsecutivoCompania));
             if(valCantidadAImprimir == eCantidadAImprimir.One) {
                 vSql.AppendLine(" AND ListaDeMateriales.Codigo = " + vSqlUtil.ToSqlValue(valCodigoListaAProducir));
-            }                       
+            }
             return vSql.ToString();
         }
         #endregion //Metodos Generados
