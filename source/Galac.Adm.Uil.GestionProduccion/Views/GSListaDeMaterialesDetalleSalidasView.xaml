@@ -57,7 +57,7 @@
             Grid.Column="1"
             Grid.ColumnSpan="3"
             Width="460"
-            Height="23"
+            Height="45"
             Margin="3,3,0,3"
             nsWpf:LibKeyboardListener.IgnoreEnterKeyLikeTab="True"
             AcceptsReturn="True"
