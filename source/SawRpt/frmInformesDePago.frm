@@ -2218,7 +2218,7 @@ Private Function fNombreDelArchivoDeLaDeclaracionInformativa() As String
    nombreDelArchivo = nombreDelArchivo & gProyCompaniaActual.GetCodigo & "-"
    nombreDelArchivo = nombreDelArchivo & gProyCompaniaActual.GetNombre & "_"
    nombreDelArchivo = nombreDelArchivo & "_" & gUtilDate.fYear(txtFechaFinal.Value) & gUtilDate.fMonth(txtFechaFinal.Value) & gUtilDate.fDay(txtFechaFinal.Value)
-   nombreDelArchivo = gUtilReports.getOutputPath & "\" & nombreDelArchivo & ".txt"
+   nombreDelArchivo = gDefgen.fDataPathUser(gDefProg.GetSiglasDelPrograma, False) & "\" & nombreDelArchivo & ".txt"
 h_EXIT:
    fNombreDelArchivoDeLaDeclaracionInformativa = nombreDelArchivo
    On Error GoTo 0
