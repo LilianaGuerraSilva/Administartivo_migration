@@ -550,7 +550,7 @@ Private Function fNombreDelArchivo() As String
    End If
    VarCompania = gProyCompaniaActual.GetNombre
    gTexto.ReemplazaCaracteresEnElString VarCompania, " ", ""
-   NombreDeArchivo = gUtilReports.getOutputPath & "Impues_" & VarCompania & "_" & gUtilDate.fDay(gUtilDate.getFechaDeHoy) & gUtilDate.fMonth(gUtilDate.getFechaDeHoy) & gUtilDate.fYear(gUtilDate.getFechaDeHoy) & ".txt"
+   NombreDeArchivo = gDefgen.fDataPathUser(gDefProg.GetSiglasDelPrograma, False) & "Impues_" & VarCompania & "_" & gUtilDate.fDay(gUtilDate.getFechaDeHoy) & gUtilDate.fMonth(gUtilDate.getFechaDeHoy) & gUtilDate.fYear(gUtilDate.getFechaDeHoy) & ".txt"
    fNombreDelArchivo = NombreDeArchivo
 h_EXIT: On Error GoTo 0
    Exit Function
