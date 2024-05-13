@@ -2190,11 +2190,11 @@ Private Function fBuscaCodProveedorSegunModulo(ByVal valNroDocOriginal, ByVal va
    Dim insAnticipo As clsAnticipoNavigator
    Dim varcodigoProveedor As String
    Dim CXP As clsCxPNavigator
-   Dim insRendicion As clsRendicionNavigator
+   Dim insRendicion As clsCajaChicaNavigator
    On Error GoTo h_ERROR
    Set insPago = New clsPagoNavigator
    Set CXP = New clsCxPNavigator
-   Set insRendicion = New clsRendicionNavigator
+   Set insRendicion = New clsCajaChicaNavigator
    Select Case valModulo
       Case eCG_CXP
             CXP.SetConsecutivoCxP valNroDocOriginal

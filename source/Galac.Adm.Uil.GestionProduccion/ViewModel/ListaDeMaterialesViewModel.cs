@@ -15,6 +15,7 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Adm.Brl.GestionProduccion;
 using Galac.Adm.Ccl.GestionProduccion;
 using Galac.Saw.Ccl.Inventario;
+using System.ComponentModel;
 
 namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
     public class ListaDeMaterialesViewModel : LibInputMasterViewModelMfc<ListaDeMateriales> {
@@ -23,18 +24,17 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         private const string CodigoPropertyName = "Codigo";
         private const string NombrePropertyName = "Nombre";
-        private const string CodigoArticuloInventarioPropertyName = "CodigoArticuloInventario";
-        private const string DescripcionArticuloInventarioPropertyName = "DescripcionArticuloInventario";
         private const string FechaCreacionPropertyName = "FechaCreacion";
         private const string NombreOperadorPropertyName = "NombreOperador";
         private const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
+        private const string TotalPorcentajeCostoPropertyName = "TotalPorcentajeDeCosto";
+        private const string CodigoDescripcionArticuloPrincipalProducirPropertyName = "CodigoDescripcionArticuloPrincipalProducir";
 
         #endregion
 
         #region Variables
-
-        private FkArticuloInventarioViewModel _ConexionCodigoArticuloInventario = null;
-
+        private decimal _TotalPorcentajeCosto;
+        private string _CodigoDescripcionArticuloPrincipalProducir;
         #endregion //Variables
 
         #region Propiedades
@@ -103,35 +103,15 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Código Artículo a Producir", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoArticuloInventario", ConnectionSearchCommandName = "ChooseCodigoArticuloInventarioCommand", Width = 200)]
-        [LibRequired(ErrorMessage = "El campo Código Artículo a Producir es requerido.")]
-        public string CodigoArticuloInventario {
+        public string CodigoDescripcionArticuloPrincipalProducir {
             get {
-                return Model.CodigoArticuloInventario;
+                return _CodigoDescripcionArticuloPrincipalProducir;
             }
             set {
-                if(Model.CodigoArticuloInventario != value) {
-                    Model.CodigoArticuloInventario = value;
+                if (_CodigoDescripcionArticuloPrincipalProducir != value) {
+                    _CodigoDescripcionArticuloPrincipalProducir = value;
                     IsDirty = true;
-                    RaisePropertyChanged(CodigoArticuloInventarioPropertyName);
-                    if(LibString.IsNullOrEmpty(CodigoArticuloInventario, true)) {
-                        ConexionCodigoArticuloInventario = null;
-                    }
-                }
-            }
-        }
-
-        [LibRequired(ErrorMessage = "El campo Descripción Artículo es requerido.")]
-        [LibGridColum("Descripción del Artículo a Producir", Width = 600, IsForSearch = false, Trimming = System.Windows.TextTrimming.WordEllipsis)]
-        public string DescripcionArticuloInventario {
-            get {
-                return Model.DescripcionArticuloInventario;
-            }
-            set {
-                if(Model.DescripcionArticuloInventario != value) {
-                    Model.DescripcionArticuloInventario = value;
-                    IsDirty = true;
-                    RaisePropertyChanged(DescripcionArticuloInventarioPropertyName);
+                    RaisePropertyChanged(CodigoDescripcionArticuloPrincipalProducirPropertyName);
                 }
             }
         }
@@ -178,25 +158,16 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibDetailRequired(ErrorMessage = "Productos y/o Servicios es requerido.")]
+        [LibDetailRequired(ErrorMessage = "Insumos es requerido.")]
         public ListaDeMaterialesDetalleArticuloMngViewModel DetailListaDeMaterialesDetalleArticulo {
             get;
             set;
         }
 
-        public FkArticuloInventarioViewModel ConexionCodigoArticuloInventario {
-            get {
-                return _ConexionCodigoArticuloInventario;
-            }
-            set {
-                if(_ConexionCodigoArticuloInventario != value) {
-                    _ConexionCodigoArticuloInventario = value;
-                    RaisePropertyChanged(CodigoArticuloInventarioPropertyName);
-                }
-                if(_ConexionCodigoArticuloInventario == null) {
-                    CodigoArticuloInventario = string.Empty;
-                }
-            }
+        [LibDetailRequired(ErrorMessage = "Salidas es requerido.")]
+        public ListaDeMaterialesDetalleSalidasMngViewModel DetailListaDeMaterialesDetalleSalidas {
+            get;
+            set;
         }
 
         public RelayCommand<string> ChooseCodigoArticuloInventarioCommand {
@@ -216,6 +187,18 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             get { return DetailListaDeMaterialesDetalleArticulo.DeleteCommand; }
         }
 
+        public RelayCommand<string> CreateListaDeMaterialesDetalleSalidasCommand {
+            get { return DetailListaDeMaterialesDetalleSalidas.CreateCommand; }
+        }
+
+        public RelayCommand<string> UpdateListaDeMaterialesDetalleSalidasCommand {
+            get { return DetailListaDeMaterialesDetalleSalidas.UpdateCommand; }
+        }
+
+        public RelayCommand<string> DeleteListaDeMaterialesDetalleSalidasCommand {
+            get { return DetailListaDeMaterialesDetalleSalidas.DeleteCommand; }
+        }
+
         public bool IsEnabledCodigo {
             get {
                 return IsEnabled && Action == eAccionSR.Insertar;
@@ -224,6 +207,18 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         public string NombreTemp { get; set; }
 
+        public decimal TotalPorcentajeDeCosto {
+            get {
+                return DetailListaDeMaterialesDetalleSalidas.Items.Sum(s => s.PorcentajeDeCosto);
+            }
+            set {
+                if (_TotalPorcentajeCosto != value) {
+                    _TotalPorcentajeCosto = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(TotalPorcentajeCostoPropertyName);
+                }
+            }
+        }
 
         #endregion //Propiedades
 
@@ -249,11 +244,11 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             if(valAction == eAccionSR.Insertar) {
                 FechaCreacion = LibDefGen.DateForInitializeInputValue();
             }
+            ActualizaCodigoDescripcionArticuloPrincipalAProducir();
         }
 
         protected override void InitializeCommands() {
             base.InitializeCommands();
-            ChooseCodigoArticuloInventarioCommand = new RelayCommand<string>(ExecuteChooseCodigoArticuloInventarioCommand);
         }
 
         protected override void InitializeDetails() {
@@ -262,6 +257,11 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             DetailListaDeMaterialesDetalleArticulo.OnUpdated += new EventHandler<SearchCollectionChangedEventArgs<ListaDeMaterialesDetalleArticuloViewModel>>(DetailListaDeMaterialesDetalleArticulo_OnUpdated);
             DetailListaDeMaterialesDetalleArticulo.OnDeleted += new EventHandler<SearchCollectionChangedEventArgs<ListaDeMaterialesDetalleArticuloViewModel>>(DetailListaDeMaterialesDetalleArticulo_OnDeleted);
             DetailListaDeMaterialesDetalleArticulo.OnSelectedItemChanged += new EventHandler<SearchCollectionChangedEventArgs<ListaDeMaterialesDetalleArticuloViewModel>>(DetailListaDeMaterialesDetalleArticulo_OnSelectedItemChanged);
+            DetailListaDeMaterialesDetalleSalidas = new ListaDeMaterialesDetalleSalidasMngViewModel(this, Model.DetailListaDeMaterialesDetalleSalidas, Action);
+            DetailListaDeMaterialesDetalleSalidas.OnCreated += new EventHandler<SearchCollectionChangedEventArgs<ListaDeMaterialesDetalleSalidasViewModel>>(DetailListaDeMaterialesDetalleSalidas_OnCreated);
+            DetailListaDeMaterialesDetalleSalidas.OnUpdated += new EventHandler<SearchCollectionChangedEventArgs<ListaDeMaterialesDetalleSalidasViewModel>>(DetailListaDeMaterialesDetalleSalidas_OnUpdated);
+            DetailListaDeMaterialesDetalleSalidas.OnDeleted += new EventHandler<SearchCollectionChangedEventArgs<ListaDeMaterialesDetalleSalidasViewModel>>(DetailListaDeMaterialesDetalleSalidas_OnDeleted);
+            DetailListaDeMaterialesDetalleSalidas.OnSelectedItemChanged += new EventHandler<SearchCollectionChangedEventArgs<ListaDeMaterialesDetalleSalidasViewModel>>(DetailListaDeMaterialesDetalleSalidas_OnSelectedItemChanged);
         }
 
         #endregion //Constructores e Inicializadores
@@ -325,37 +325,66 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
-
         #endregion //ListaDeMaterialesDetalleArticulo
+        #region ListaDeMaterialesDetalleSalidas
 
-        protected override void ReloadRelatedConnections() {
-            base.ReloadRelatedConnections();
-            //ConexionCodigoArticuloInventario = FirstConnectionRecordOrDefault<FkArticuloInventarioViewModel>("Artículo Inventario", LibSearchCriteria.CreateCriteria("Codigo", CodigoArticuloInventario));
-        }
-
-        private void ExecuteChooseCodigoArticuloInventarioCommand(string valCodigo) {
+        private void DetailListaDeMaterialesDetalleSalidas_OnSelectedItemChanged(object sender, SearchCollectionChangedEventArgs<ListaDeMaterialesDetalleSalidasViewModel> e) {
             try {
-                if(valCodigo == null) {
-                    valCodigo = string.Empty;
-                }
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_ArticuloInventario_B2.Codigo", valCodigo);
-                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
-                vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("StatusdelArticulo ", eStatusArticulo.Vigente), eLogicOperatorType.And);
-                vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityEquality, eTipoArticuloInv.Simple, eLogicOperatorType.And);
-                vFixedCriteria.Add("TipoDeArticulo", eBooleanOperatorType.IdentityEquality, eTipoDeArticulo.Mercancia, eLogicOperatorType.And);
-                ConexionCodigoArticuloInventario = ChooseRecord<FkArticuloInventarioViewModel>("Artículo Inventario", vDefaultCriteria, vFixedCriteria, string.Empty);
-                if(ConexionCodigoArticuloInventario != null) {
-                    CodigoArticuloInventario = ConexionCodigoArticuloInventario.Codigo;
-                    DescripcionArticuloInventario = ConexionCodigoArticuloInventario.Descripcion;
-                } else {
-                    CodigoArticuloInventario = string.Empty;
-                    DescripcionArticuloInventario = string.Empty;
-                }
-            } catch(System.AccessViolationException) {
+                UpdateListaDeMaterialesDetalleSalidasCommand.RaiseCanExecuteChanged();
+                DeleteListaDeMaterialesDetalleSalidasCommand.RaiseCanExecuteChanged();
+                ActualizaTotalCosto();
+                ActualizaCodigoDescripcionArticuloPrincipalAProducir();
+            } catch (System.AccessViolationException) {
                 throw;
-            } catch(System.Exception vEx) {
+            } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
+        }
+
+        private void DetailListaDeMaterialesDetalleSalidas_OnDeleted(object sender, SearchCollectionChangedEventArgs<ListaDeMaterialesDetalleSalidasViewModel> e) {
+            try {
+                IsDirty = true;
+                Model.DetailListaDeMaterialesDetalleSalidas.Remove(e.ViewModel.GetModel());
+                ActualizaTotalCosto();
+                ActualizaCodigoDescripcionArticuloPrincipalAProducir();
+                e.ViewModel.PropertyChanged -= OnDetailPropertyChanged;
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
+
+        private void DetailListaDeMaterialesDetalleSalidas_OnUpdated(object sender, SearchCollectionChangedEventArgs<ListaDeMaterialesDetalleSalidasViewModel> e) {
+            try {
+                IsDirty = e.ViewModel.IsDirty;
+                ActualizaTotalCosto();
+                ActualizaCodigoDescripcionArticuloPrincipalAProducir();
+                e.ViewModel.PropertyChanged -= OnDetailPropertyChanged;
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
+
+        private void DetailListaDeMaterialesDetalleSalidas_OnCreated(object sender, SearchCollectionChangedEventArgs<ListaDeMaterialesDetalleSalidasViewModel> e) {
+            try {
+                Model.DetailListaDeMaterialesDetalleSalidas.Add(e.ViewModel.GetModel());
+                ActualizaTotalCosto();
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
+        #endregion //ListaDeMaterialesDetalleSalidas
+        private void OnDetailPropertyChanged(object sender, PropertyChangedEventArgs e) {
+            ActualizaTotalCosto();
+            RaisePropertyChanged(TotalPorcentajeCostoPropertyName);
+        }
+        protected override void ReloadRelatedConnections() {
+            base.ReloadRelatedConnections();
         }
 
         private ValidationResult FechaCreacionValidating() {
@@ -390,9 +419,29 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             return vResult;
         }
 
+        private void ActualizaTotalCosto() {
+            TotalPorcentajeDeCosto = DetailListaDeMaterialesDetalleSalidas.Items.Sum(s => s.PorcentajeDeCosto);
+        }
+
+        private void ActualizaCodigoDescripcionArticuloPrincipalAProducir() {
+            if (DetailListaDeMaterialesDetalleSalidas != null && DetailListaDeMaterialesDetalleSalidas.Items.Count > 0) {
+                CodigoDescripcionArticuloPrincipalProducir = DetailListaDeMaterialesDetalleSalidas.Items[0].CodigoArticuloInventario + " - " + DetailListaDeMaterialesDetalleSalidas.Items[0].DescripcionArticuloInventario;
+            } else {
+                CodigoDescripcionArticuloPrincipalProducir = string.Empty;
+            }
+        }
+
+        protected override void ExecuteProcessAfterAction() {
+            base.ExecuteProcessAfterAction();
+            if (Action == eAccionSR.Insertar) {
+                DetailListaDeMaterialesDetalleArticulo.Items = new System.Collections.ObjectModel.ObservableCollection<ListaDeMaterialesDetalleArticuloViewModel>();
+                DetailListaDeMaterialesDetalleSalidas.Items = new System.Collections.ObjectModel.ObservableCollection<ListaDeMaterialesDetalleSalidasViewModel>();
+                CodigoDescripcionArticuloPrincipalProducir = String.Empty;
+            }
+        }
         #endregion //Metodos Generados
 
     } //End of class ListaDeMaterialesViewModel
 
-} //End of namespace Galac.Saw.Uil.Inventario
+} //End of namespace Galac.Adm.Uil.GestionProduccion
 

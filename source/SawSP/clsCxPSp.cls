@@ -102,83 +102,85 @@ Private Function GetSpNameINS() As String
 End Function
 Private Function fSpParametersINS() As String
    Dim vResult As String
-   
-   vResult = "      @ConsecutivoCompania " & gUtilSQL.getNumericTypeForDB(9, 0) & "," & vbCrLf
-   vResult = vResult & "      @ConsecutivoCxP " & gUtilSQL.getNumericTypeForDB(9, 0) & "," & vbCrLf
-   vResult = vResult & "      @Numero " & gUtilSQL.getVarCharTypeForDB(25) & "," & vbCrLf
-   vResult = vResult & "      @TipoDeCxP char(1) = '0'," & vbCrLf
-   vResult = vResult & "      @Status char(1) = '0'," & vbCrLf
-   vResult = vResult & "      @CodigoProveedor " & gUtilSQL.getVarCharTypeForDB(10) & "," & vbCrLf
-   vResult = vResult & "      @Fecha " & gUtilSQL.getDateTypeForDB() & " = ''," & vbCrLf
-   vResult = vResult & "      @FechaCancelacion " & gUtilSQL.getDateTypeForDB() & " = ''," & vbCrLf
-   vResult = vResult & "      @FechaVencimiento " & gUtilSQL.getDateTypeForDB() & " = ''," & vbCrLf
-   vResult = vResult & "      @FechaAnulacion " & gUtilSQL.getDateTypeForDB() & " = ''," & vbCrLf
-   vResult = vResult & "      @Moneda " & gUtilSQL.getVarCharTypeForDB(10) & "," & vbCrLf
-   vResult = vResult & "      @CambioABolivares money = 0," & vbCrLf
-   vResult = vResult & "      @AplicaParaLibrodeCompras char(1) = 'N'," & vbCrLf
-   vResult = vResult & "      @MontoExento money = 0," & vbCrLf
-   vResult = vResult & "      @MontoGravado money = 0," & vbCrLf
-   vResult = vResult & "      @MontoIva money = 0," & vbCrLf
-   vResult = vResult & "      @MontoAbonado money = 0," & vbCrLf
-   vResult = vResult & "      @MesDeAplicacion " & gUtilSQL.getNumericTypeForDB(9, 0) & " = 0," & vbCrLf
-   vResult = vResult & "      @AnoDeAplicacion " & gUtilSQL.getNumericTypeForDB(9, 0) & " = 0," & vbCrLf
-   vResult = vResult & "      @Observaciones " & gUtilSQL.getVarCharTypeForDB(255) & " = ''," & vbCrLf
-   vResult = vResult & "      @CreditoFiscal char(1) = '0'," & vbCrLf
-   vResult = vResult & "      @TipoDeCompra char(1) = '0'," & vbCrLf
-   vResult = vResult & "      @SeHizoLaRetencion char(1) = 'N'," & vbCrLf
-   vResult = vResult & "      @MontoGravableAlicuotaGeneral money = 0," & vbCrLf
-   vResult = vResult & "      @MontoGravableAlicuota2 money = 0," & vbCrLf
-   vResult = vResult & "      @MontoGravableAlicuota3 money = 0," & vbCrLf
-   vResult = vResult & "      @MontoIVAAlicuotaGeneral money = 0," & vbCrLf
-   vResult = vResult & "      @MontoIVAAlicuota2 money = 0," & vbCrLf
-   vResult = vResult & "      @MontoIVAAlicuota3 money = 0," & vbCrLf
-   vResult = vResult & "      @NumeroPlanillaDeImportacion " & gUtilSQL.getVarCharTypeForDB(20) & " = ''," & vbCrLf
-   vResult = vResult & "      @NumeroExpedienteDeImportacion " & gUtilSQL.getVarCharTypeForDB(20) & " = ''," & vbCrLf
-   vResult = vResult & "      @TipoDeTransaccion char(1) = '0'," & vbCrLf
-   vResult = vResult & "      @NumeroDeFacturaAfectada " & gUtilSQL.getVarCharTypeForDB(11) & " = ''," & vbCrLf
-   vResult = vResult & "      @NumeroControl " & gUtilSQL.getVarCharTypeForDB(20) & " = ''," & vbCrLf
-   vResult = vResult & "      @SeHizoLaRetencionIVA char(1) = 'N'," & vbCrLf
-   vResult = vResult & "      @NumeroComprobanteRetencion " & gUtilSQL.getVarCharTypeForDB(8) & " = ''," & vbCrLf
-   vResult = vResult & "      @FechaAplicacionRetIVA " & gUtilSQL.getDateTypeForDB() & " = ''," & vbCrLf
-   vResult = vResult & "      @PorcentajeRetencionAplicado money = 0," & vbCrLf
-   vResult = vResult & "      @MontoRetenido money = 0," & vbCrLf
-   vResult = vResult & "      @OrigenDeLaRetencion char(1) = '0'," & vbCrLf
-   vResult = vResult & "      @RetencionAplicadaEnPago char(1) = 'N'," & vbCrLf
-   vResult = vResult & "      @OrigenInformacionRetencion char(1) = '0'," & vbCrLf
-   vResult = vResult & "      @CxPgeneradaPor char(1) = '0'," & vbCrLf
-   vResult = vResult & "      @EsCxPhistorica char(1) = 'N'," & vbCrLf
-   vResult = vResult & "      @NumDiasDeVencimiento " & gUtilSQL.getNumericTypeForDB(9, 0) & " = 0," & vbCrLf
-   vResult = vResult & "      @NumeroDocOrigen " & gUtilSQL.getVarCharTypeForDB(15) & " = ''," & vbCrLf
-   vResult = vResult & "      @CodigoLote " & gUtilSQL.getVarCharTypeForDB(10) & " = ''," & vbCrLf
-   vResult = vResult & "      @GenerarAsientoDeRetiroEnCuenta char(1) = 'N'," & vbCrLf
-   vResult = vResult & "      @TotalOtrosImpuestos money = 0," & vbCrLf
-   vResult = vResult & "      @SeContabilRetIva char(1) = 'N'," & vbCrLf
-   vResult = vResult & "      @DondeContabilRetIva char(1) = '0'," & vbCrLf
-   vResult = vResult & "      @CodigoMoneda " & gUtilSQL.getVarCharTypeForDB(4) & "," & vbCrLf
-   vResult = vResult & "      @EstaAsociadoARendicion char(1) = 'N'," & vbCrLf
-   vResult = vResult & "      @ConsecutivoRendicion" & gUtilSQL.getNumericTypeForDB(9, 0) & " = 0," & vbCrLf
-   vResult = vResult & "      @CodigoTipoDeDocumentoLey varchar(10) = ''," & vbCrLf
-   vResult = vResult & "      @AplicaDetraccion char(1) = 'N'," & vbCrLf
-   vResult = vResult & "      @NumeroDetraccion varchar(15) = ''," & vbCrLf
-   vResult = vResult & "      @CodigoDetraccion varchar(10) = ''," & vbCrLf
-   vResult = vResult & "      @DescripcionDeDetraccion varchar(100) = ''," & vbCrLf
-   vResult = vResult & "      @PorcentajeDetraccion decimal(25,5) = 0," & vbCrLf
-   vResult = vResult & "      @TotalDetraccion decimal(25,5) = 0," & vbCrLf
-   vResult = vResult & "      @StatusDetraccion char(1) = '0'," & vbCrLf
-   vResult = vResult & "      @ConsecutivoMovimiento int = 0," & vbCrLf
-   vResult = vResult & "   @NumeroDeclaracionAduana varchar(20) = ''," & vbCrLf
-   vResult = vResult & "   @FechaDeclaracionAduana smalldatetime = ''," & vbCrLf
-   vResult = vResult & "   @UsaPrefijoSerie char(1) = 'N'," & vbCrLf
-   vResult = vResult & "   @EsUnaCuentaATerceros char(1) = 'N'," & vbCrLf
-   vResult = vResult & "   @CodigoProveedorOriginalServicio varchar(10) = ''," & vbCrLf
-   vResult = vResult & "   @AplicaIvaAlicuotaEspecial char(1) = 'N'," & vbCrLf
-   vResult = vResult & "   @MontoGravableAlicuotaEspecial1 decimal(25,5) = 0," & vbCrLf
-   vResult = vResult & "   @MontoIVAAlicuotaEspecial1 decimal(25,5) = 0," & vbCrLf
-   vResult = vResult & "   @PorcentajeIvaAlicuotaEspecial1 decimal(25,5) = 0," & vbCrLf
-   vResult = vResult & "   @MontoGravableAlicuotaEspecial2 decimal(25,5) = 0," & vbCrLf
-   vResult = vResult & "   @MontoIVAAlicuotaEspecial2 decimal(25,5) = 0," & vbCrLf
-   vResult = vResult & "   @PorcentajeIvaAlicuotaEspecial2 decimal(25,5) = 0," & vbCrLf
-   vResult = vResult & "      @NombreOperador " & gUtilSQL.getVarCharTypeForDB(10) & "" & vbCrLf
+   vResult = "                   @ConsecutivoCompania " & gUtilSQL.getNumericTypeForDB(9, 0) & "," & vbCrLf
+   vResult = vResult & " @ConsecutivoCxP " & gUtilSQL.getNumericTypeForDB(9, 0) & "," & vbCrLf
+   vResult = vResult & " @Numero " & gUtilSQL.getVarCharTypeForDB(25) & "," & vbCrLf
+   vResult = vResult & " @TipoDeCxP char(1) = '0'," & vbCrLf
+   vResult = vResult & " @Status char(1) = '0'," & vbCrLf
+   vResult = vResult & " @CodigoProveedor " & gUtilSQL.getVarCharTypeForDB(10) & "," & vbCrLf
+   vResult = vResult & " @Fecha " & gUtilSQL.getDateTypeForDB() & " = ''," & vbCrLf
+   vResult = vResult & " @FechaCancelacion " & gUtilSQL.getDateTypeForDB() & " = ''," & vbCrLf
+   vResult = vResult & " @FechaVencimiento " & gUtilSQL.getDateTypeForDB() & " = ''," & vbCrLf
+   vResult = vResult & " @FechaAnulacion " & gUtilSQL.getDateTypeForDB() & " = ''," & vbCrLf
+   vResult = vResult & " @Moneda " & gUtilSQL.getVarCharTypeForDB(10) & "," & vbCrLf
+   vResult = vResult & " @CambioABolivares money = 0," & vbCrLf
+   vResult = vResult & " @AplicaParaLibrodeCompras char(1) = 'N'," & vbCrLf
+   vResult = vResult & " @MontoExento money = 0," & vbCrLf
+   vResult = vResult & " @MontoGravado money = 0," & vbCrLf
+   vResult = vResult & " @MontoIva money = 0," & vbCrLf
+   vResult = vResult & " @MontoAbonado money = 0," & vbCrLf
+   vResult = vResult & " @MesDeAplicacion " & gUtilSQL.getNumericTypeForDB(9, 0) & " = 0," & vbCrLf
+   vResult = vResult & " @AnoDeAplicacion " & gUtilSQL.getNumericTypeForDB(9, 0) & " = 0," & vbCrLf
+   vResult = vResult & " @Observaciones " & gUtilSQL.getVarCharTypeForDB(255) & " = ''," & vbCrLf
+   vResult = vResult & " @CreditoFiscal char(1) = '0'," & vbCrLf
+   vResult = vResult & " @TipoDeCompra char(1) = '0'," & vbCrLf
+   vResult = vResult & " @SeHizoLaRetencion char(1) = 'N'," & vbCrLf
+   vResult = vResult & " @MontoGravableAlicuotaGeneral money = 0," & vbCrLf
+   vResult = vResult & " @MontoGravableAlicuota2 money = 0," & vbCrLf
+   vResult = vResult & " @MontoGravableAlicuota3 money = 0," & vbCrLf
+   vResult = vResult & " @MontoIVAAlicuotaGeneral money = 0," & vbCrLf
+   vResult = vResult & " @MontoIVAAlicuota2 money = 0," & vbCrLf
+   vResult = vResult & " @MontoIVAAlicuota3 money = 0," & vbCrLf
+   vResult = vResult & " @NumeroPlanillaDeImportacion " & gUtilSQL.getVarCharTypeForDB(20) & " = ''," & vbCrLf
+   vResult = vResult & " @NumeroExpedienteDeImportacion " & gUtilSQL.getVarCharTypeForDB(20) & " = ''," & vbCrLf
+   vResult = vResult & " @TipoDeTransaccion char(1) = '0'," & vbCrLf
+   vResult = vResult & " @NumeroDeFacturaAfectada " & gUtilSQL.getVarCharTypeForDB(11) & " = ''," & vbCrLf
+   vResult = vResult & " @NumeroControl " & gUtilSQL.getVarCharTypeForDB(20) & " = ''," & vbCrLf
+   vResult = vResult & " @SeHizoLaRetencionIVA char(1) = 'N'," & vbCrLf
+   vResult = vResult & " @NumeroComprobanteRetencion " & gUtilSQL.getVarCharTypeForDB(8) & " = ''," & vbCrLf
+   vResult = vResult & " @FechaAplicacionRetIVA " & gUtilSQL.getDateTypeForDB() & " = ''," & vbCrLf
+   vResult = vResult & " @PorcentajeRetencionAplicado money = 0," & vbCrLf
+   vResult = vResult & " @MontoRetenido money = 0," & vbCrLf
+   vResult = vResult & " @OrigenDeLaRetencion char(1) = '0'," & vbCrLf
+   vResult = vResult & " @RetencionAplicadaEnPago char(1) = 'N'," & vbCrLf
+   vResult = vResult & " @OrigenInformacionRetencion char(1) = '0'," & vbCrLf
+   vResult = vResult & " @CxPgeneradaPor char(1) = '0'," & vbCrLf
+   vResult = vResult & " @EsCxPhistorica char(1) = 'N'," & vbCrLf
+   vResult = vResult & " @NumDiasDeVencimiento " & gUtilSQL.getNumericTypeForDB(9, 0) & " = 0," & vbCrLf
+   vResult = vResult & " @NumeroDocOrigen " & gUtilSQL.getVarCharTypeForDB(15) & " = ''," & vbCrLf
+   vResult = vResult & " @CodigoLote " & gUtilSQL.getVarCharTypeForDB(10) & " = ''," & vbCrLf
+   vResult = vResult & " @GenerarAsientoDeRetiroEnCuenta char(1) = 'N'," & vbCrLf
+   vResult = vResult & " @TotalOtrosImpuestos money = 0," & vbCrLf
+   vResult = vResult & " @SeContabilRetIva char(1) = 'N'," & vbCrLf
+   vResult = vResult & " @DondeContabilRetIva char(1) = '0'," & vbCrLf
+   vResult = vResult & " @CodigoMoneda " & gUtilSQL.getVarCharTypeForDB(4) & "," & vbCrLf
+   vResult = vResult & " @EstaAsociadoARendicion char(1) = 'N'," & vbCrLf
+   vResult = vResult & " @ConsecutivoRendicion" & gUtilSQL.getNumericTypeForDB(9, 0) & " = 0," & vbCrLf
+   vResult = vResult & " @CodigoTipoDeDocumentoLey varchar(10) = ''," & vbCrLf
+   vResult = vResult & " @AplicaDetraccion char(1) = 'N'," & vbCrLf
+   vResult = vResult & " @NumeroDetraccion varchar(15) = ''," & vbCrLf
+   vResult = vResult & " @CodigoDetraccion varchar(10) = ''," & vbCrLf
+   vResult = vResult & " @DescripcionDeDetraccion varchar(100) = ''," & vbCrLf
+   vResult = vResult & " @PorcentajeDetraccion decimal(25,5) = 0," & vbCrLf
+   vResult = vResult & " @TotalDetraccion decimal(25,5) = 0," & vbCrLf
+   vResult = vResult & " @StatusDetraccion char(1) = '0'," & vbCrLf
+   vResult = vResult & " @ConsecutivoMovimiento int = 0," & vbCrLf
+   vResult = vResult & " @NumeroDeclaracionAduana varchar(20) = ''," & vbCrLf
+   vResult = vResult & " @FechaDeclaracionAduana smalldatetime = ''," & vbCrLf
+   vResult = vResult & " @UsaPrefijoSerie char(1) = 'N'," & vbCrLf
+   vResult = vResult & " @EsUnaCuentaATerceros char(1) = 'N'," & vbCrLf
+   vResult = vResult & " @CodigoProveedorOriginalServicio varchar(10) = ''," & vbCrLf
+   vResult = vResult & " @AplicaIvaAlicuotaEspecial char(1) = 'N'," & vbCrLf
+   vResult = vResult & " @MontoGravableAlicuotaEspecial1 decimal(25,5) = 0," & vbCrLf
+   vResult = vResult & " @MontoIVAAlicuotaEspecial1 decimal(25,5) = 0," & vbCrLf
+   vResult = vResult & " @PorcentajeIvaAlicuotaEspecial1 decimal(25,5) = 0," & vbCrLf
+   vResult = vResult & " @MontoGravableAlicuotaEspecial2 decimal(25,5) = 0," & vbCrLf
+   vResult = vResult & " @MontoIVAAlicuotaEspecial2 decimal(25,5) = 0," & vbCrLf
+   vResult = vResult & " @PorcentajeIvaAlicuotaEspecial2 decimal(25,5) = 0," & vbCrLf
+   vResult = vResult & " @BaseImponibleIGTFML decimal(25,5) = 0," & vbCrLf
+   vResult = vResult & " @AlicuotaIGTFML decimal(25,5) = 0," & vbCrLf
+   vResult = vResult & " @MontoIGTFML decimal(25,5) = 0," & vbCrLf
+   vResult = vResult & " @NombreOperador varchar(10) = ''," & vbCrLf
    fSpParametersINS = vResult
 End Function
 Private Function fStatementsSpINS() As String
@@ -263,6 +265,9 @@ Private Function fStatementsSpINS() As String
    vResult = vResult & "         MontoGravableAlicuotaEspecial2," & vbCrLf
    vResult = vResult & "         MontoIVAAlicuotaEspecial2," & vbCrLf
    vResult = vResult & "         PorcentajeIvaAlicuotaEspecial2," & vbCrLf
+   vResult = vResult & "         BaseImponibleIGTFML," & vbCrLf
+   vResult = vResult & "         AlicuotaIGTFML," & vbCrLf
+   vResult = vResult & "         MontoIGTFML," & vbCrLf
    vResult = vResult & "         NombreOperador," & vbCrLf
    vResult = vResult & "         FechaUltimaModificacion)" & vbCrLf
    vResult = vResult & "      VALUES(" & vbCrLf
@@ -341,6 +346,9 @@ Private Function fStatementsSpINS() As String
    vResult = vResult & "         @MontoGravableAlicuotaEspecial2," & vbCrLf
    vResult = vResult & "         @MontoIVAAlicuotaEspecial2," & vbCrLf
    vResult = vResult & "         @PorcentajeIvaAlicuotaEspecial2," & vbCrLf
+   vResult = vResult & "         @BaseImponibleIGTFML," & vbCrLf
+   vResult = vResult & "         @AlicuotaIGTFML," & vbCrLf
+   vResult = vResult & "         @MontoIGTFML," & vbCrLf
    vResult = vResult & "         @NombreOperador," & vbCrLf
    vResult = vResult & "         @FechaUltimaModificacion)" & vbCrLf
    vResult = vResult & "   RETURN @@ROWCOUNT" & vbCrLf
@@ -385,59 +393,59 @@ Private Function fSpParametersUPD() As String
    Dim vResult As String
    On Error GoTo h_ERROR
    vResult = "         @ConsecutivoCompania " & gUtilSQL.getNumericTypeForDB(9, 0) & "," & vbCrLf
-   vResult = vResult & "         @ConsecutivoCxP " & gUtilSQL.getNumericTypeForDB(9, 0) & "," & vbCrLf
-   vResult = vResult & "         @Numero " & gUtilSQL.getVarCharTypeForDB(25) & " = NULL," & vbCrLf
-   vResult = vResult & "         @TipoDeCxP char(1) = NULL," & vbCrLf
-   vResult = vResult & "         @Status char(1) = NULL," & vbCrLf
-   vResult = vResult & "         @CodigoProveedor " & gUtilSQL.getVarCharTypeForDB(10) & " = NULL," & vbCrLf
-   vResult = vResult & "         @Fecha " & gUtilSQL.getDateTypeForDB() & " = NULL," & vbCrLf
-   vResult = vResult & "         @FechaCancelacion " & gUtilSQL.getDateTypeForDB() & " = NULL," & vbCrLf
-   vResult = vResult & "         @FechaVencimiento " & gUtilSQL.getDateTypeForDB() & " = NULL," & vbCrLf
-   vResult = vResult & "         @FechaAnulacion " & gUtilSQL.getDateTypeForDB() & " = NULL," & vbCrLf
-   vResult = vResult & "         @Moneda " & gUtilSQL.getVarCharTypeForDB(10) & " = NULL," & vbCrLf
-   vResult = vResult & "         @CambioABolivares money = NULL," & vbCrLf
-   vResult = vResult & "         @AplicaParaLibrodeCompras char(1) = NULL," & vbCrLf
-   vResult = vResult & "         @MontoExento money = NULL," & vbCrLf
-   vResult = vResult & "         @MontoGravado money = NULL," & vbCrLf
-   vResult = vResult & "         @MontoIva money = NULL," & vbCrLf
-   vResult = vResult & "         @MontoAbonado money = NULL," & vbCrLf
-   vResult = vResult & "         @MesDeAplicacion " & gUtilSQL.getNumericTypeForDB(9, 0) & " = NULL," & vbCrLf
-   vResult = vResult & "         @AnoDeAplicacion " & gUtilSQL.getNumericTypeForDB(9, 0) & " = NULL," & vbCrLf
-   vResult = vResult & "         @Observaciones " & gUtilSQL.getVarCharTypeForDB(255) & " = NULL," & vbCrLf
-   vResult = vResult & "         @CreditoFiscal char(1) = NULL," & vbCrLf
-   vResult = vResult & "         @TipoDeCompra char(1) = NULL," & vbCrLf
-   vResult = vResult & "         @SeHizoLaRetencion char(1) = NULL," & vbCrLf
-   vResult = vResult & "         @MontoGravableAlicuotaGeneral money = NULL," & vbCrLf
-   vResult = vResult & "         @MontoGravableAlicuota2 money = NULL," & vbCrLf
-   vResult = vResult & "         @MontoGravableAlicuota3 money = NULL," & vbCrLf
-   vResult = vResult & "         @MontoIVAAlicuotaGeneral money = NULL," & vbCrLf
-   vResult = vResult & "         @MontoIVAAlicuota2 money = NULL," & vbCrLf
-   vResult = vResult & "         @MontoIVAAlicuota3 money = NULL," & vbCrLf
-   vResult = vResult & "         @NumeroPlanillaDeImportacion " & gUtilSQL.getVarCharTypeForDB(20) & " = NULL," & vbCrLf
-   vResult = vResult & "         @NumeroExpedienteDeImportacion " & gUtilSQL.getVarCharTypeForDB(20) & " = NULL," & vbCrLf
-   vResult = vResult & "         @TipoDeTransaccion char(1) = NULL," & vbCrLf
-   vResult = vResult & "         @NumeroDeFacturaAfectada " & gUtilSQL.getVarCharTypeForDB(11) & " = NULL," & vbCrLf
-   vResult = vResult & "         @NumeroControl " & gUtilSQL.getVarCharTypeForDB(20) & " = NULL," & vbCrLf
-   vResult = vResult & "         @SeHizoLaRetencionIVA char(1) = NULL," & vbCrLf
-   vResult = vResult & "         @NumeroComprobanteRetencion " & gUtilSQL.getVarCharTypeForDB(8) & " = NULL," & vbCrLf
-   vResult = vResult & "         @FechaAplicacionRetIVA " & gUtilSQL.getDateTypeForDB() & " = NULL," & vbCrLf
-   vResult = vResult & "         @PorcentajeRetencionAplicado money = NULL," & vbCrLf
-   vResult = vResult & "         @MontoRetenido money = NULL," & vbCrLf
-   vResult = vResult & "         @OrigenDeLaRetencion char(1) = NULL," & vbCrLf
-   vResult = vResult & "         @RetencionAplicadaEnPago char(1) = NULL," & vbCrLf
-   vResult = vResult & "         @OrigenInformacionRetencion char(1) = NULL," & vbCrLf
-   vResult = vResult & "         @CxPgeneradaPor char(1) = NULL," & vbCrLf
-   vResult = vResult & "         @EsCxPhistorica char(1) = NULL," & vbCrLf
-   vResult = vResult & "         @NumDiasDeVencimiento " & gUtilSQL.getNumericTypeForDB(9, 0) & " = NULL," & vbCrLf
-   vResult = vResult & "         @NumeroDocOrigen " & gUtilSQL.getVarCharTypeForDB(15) & " = NULL," & vbCrLf
-   vResult = vResult & "         @CodigoLote " & gUtilSQL.getVarCharTypeForDB(10) & " = NULL," & vbCrLf
-   vResult = vResult & "         @GenerarAsientoDeRetiroEnCuenta char(1) = NULL," & vbCrLf
-   vResult = vResult & "         @TotalOtrosImpuestos " & gUtilSQL.getNumericTypeForDB(12, 2) & " = NULL," & vbCrLf
-   vResult = vResult & "         @SeContabilRetIva char(1) = NULL," & vbCrLf
-   vResult = vResult & "         @DondeContabilRetIva char(1) = NULL," & vbCrLf
-   vResult = vResult & "         @CodigoMoneda " & gUtilSQL.getVarCharTypeForDB(4) & " = NULL," & vbCrLf
-   vResult = vResult & "         @EstaAsociadoARendicion char(1) = NULL," & vbCrLf
-   vResult = vResult & "         @ConsecutivoRendicion " & gUtilSQL.getNumericTypeForDB(9, 0) & " = NULL," & vbCrLf
+   vResult = vResult & "   @ConsecutivoCxP " & gUtilSQL.getNumericTypeForDB(9, 0) & "," & vbCrLf
+   vResult = vResult & "   @Numero " & gUtilSQL.getVarCharTypeForDB(25) & " = NULL," & vbCrLf
+   vResult = vResult & "   @TipoDeCxP char(1) = NULL," & vbCrLf
+   vResult = vResult & "   @Status char(1) = NULL," & vbCrLf
+   vResult = vResult & "   @CodigoProveedor " & gUtilSQL.getVarCharTypeForDB(10) & " = NULL," & vbCrLf
+   vResult = vResult & "   @Fecha " & gUtilSQL.getDateTypeForDB() & " = NULL," & vbCrLf
+   vResult = vResult & "   @FechaCancelacion " & gUtilSQL.getDateTypeForDB() & " = NULL," & vbCrLf
+   vResult = vResult & "   @FechaVencimiento " & gUtilSQL.getDateTypeForDB() & " = NULL," & vbCrLf
+   vResult = vResult & "   @FechaAnulacion " & gUtilSQL.getDateTypeForDB() & " = NULL," & vbCrLf
+   vResult = vResult & "   @Moneda " & gUtilSQL.getVarCharTypeForDB(10) & " = NULL," & vbCrLf
+   vResult = vResult & "   @CambioABolivares money = NULL," & vbCrLf
+   vResult = vResult & "   @AplicaParaLibrodeCompras char(1) = NULL," & vbCrLf
+   vResult = vResult & "   @MontoExento money = NULL," & vbCrLf
+   vResult = vResult & "   @MontoGravado money = NULL," & vbCrLf
+   vResult = vResult & "   @MontoIva money = NULL," & vbCrLf
+   vResult = vResult & "   @MontoAbonado money = NULL," & vbCrLf
+   vResult = vResult & "   @MesDeAplicacion " & gUtilSQL.getNumericTypeForDB(9, 0) & " = NULL," & vbCrLf
+   vResult = vResult & "   @AnoDeAplicacion " & gUtilSQL.getNumericTypeForDB(9, 0) & " = NULL," & vbCrLf
+   vResult = vResult & "   @Observaciones " & gUtilSQL.getVarCharTypeForDB(255) & " = NULL," & vbCrLf
+   vResult = vResult & "   @CreditoFiscal char(1) = NULL," & vbCrLf
+   vResult = vResult & "   @TipoDeCompra char(1) = NULL," & vbCrLf
+   vResult = vResult & "   @SeHizoLaRetencion char(1) = NULL," & vbCrLf
+   vResult = vResult & "   @MontoGravableAlicuotaGeneral money = NULL," & vbCrLf
+   vResult = vResult & "   @MontoGravableAlicuota2 money = NULL," & vbCrLf
+   vResult = vResult & "   @MontoGravableAlicuota3 money = NULL," & vbCrLf
+   vResult = vResult & "   @MontoIVAAlicuotaGeneral money = NULL," & vbCrLf
+   vResult = vResult & "   @MontoIVAAlicuota2 money = NULL," & vbCrLf
+   vResult = vResult & "   @MontoIVAAlicuota3 money = NULL," & vbCrLf
+   vResult = vResult & "   @NumeroPlanillaDeImportacion " & gUtilSQL.getVarCharTypeForDB(20) & " = NULL," & vbCrLf
+   vResult = vResult & "   @NumeroExpedienteDeImportacion " & gUtilSQL.getVarCharTypeForDB(20) & " = NULL," & vbCrLf
+   vResult = vResult & "   @TipoDeTransaccion char(1) = NULL," & vbCrLf
+   vResult = vResult & "   @NumeroDeFacturaAfectada " & gUtilSQL.getVarCharTypeForDB(11) & " = NULL," & vbCrLf
+   vResult = vResult & "   @NumeroControl " & gUtilSQL.getVarCharTypeForDB(20) & " = NULL," & vbCrLf
+   vResult = vResult & "   @SeHizoLaRetencionIVA char(1) = NULL," & vbCrLf
+   vResult = vResult & "   @NumeroComprobanteRetencion " & gUtilSQL.getVarCharTypeForDB(8) & " = NULL," & vbCrLf
+   vResult = vResult & "   @FechaAplicacionRetIVA " & gUtilSQL.getDateTypeForDB() & " = NULL," & vbCrLf
+   vResult = vResult & "   @PorcentajeRetencionAplicado money = NULL," & vbCrLf
+   vResult = vResult & "   @MontoRetenido money = NULL," & vbCrLf
+   vResult = vResult & "   @OrigenDeLaRetencion char(1) = NULL," & vbCrLf
+   vResult = vResult & "   @RetencionAplicadaEnPago char(1) = NULL," & vbCrLf
+   vResult = vResult & "   @OrigenInformacionRetencion char(1) = NULL," & vbCrLf
+   vResult = vResult & "   @CxPgeneradaPor char(1) = NULL," & vbCrLf
+   vResult = vResult & "   @EsCxPhistorica char(1) = NULL," & vbCrLf
+   vResult = vResult & "   @NumDiasDeVencimiento " & gUtilSQL.getNumericTypeForDB(9, 0) & " = NULL," & vbCrLf
+   vResult = vResult & "   @NumeroDocOrigen " & gUtilSQL.getVarCharTypeForDB(15) & " = NULL," & vbCrLf
+   vResult = vResult & "   @CodigoLote " & gUtilSQL.getVarCharTypeForDB(10) & " = NULL," & vbCrLf
+   vResult = vResult & "   @GenerarAsientoDeRetiroEnCuenta char(1) = NULL," & vbCrLf
+   vResult = vResult & "   @TotalOtrosImpuestos " & gUtilSQL.getNumericTypeForDB(12, 2) & " = NULL," & vbCrLf
+   vResult = vResult & "   @SeContabilRetIva char(1) = NULL," & vbCrLf
+   vResult = vResult & "   @DondeContabilRetIva char(1) = NULL," & vbCrLf
+   vResult = vResult & "   @CodigoMoneda " & gUtilSQL.getVarCharTypeForDB(4) & " = NULL," & vbCrLf
+   vResult = vResult & "   @EstaAsociadoARendicion char(1) = NULL," & vbCrLf
+   vResult = vResult & "   @ConsecutivoRendicion " & gUtilSQL.getNumericTypeForDB(9, 0) & " = NULL," & vbCrLf
    vResult = vResult & "   @CodigoTipoDeDocumentoLey varchar(10) = NULL," & vbCrLf
    vResult = vResult & "   @AplicaDetraccion char(1) = NULL," & vbCrLf
    vResult = vResult & "   @NumeroDetraccion varchar(15) = NULL," & vbCrLf
@@ -459,7 +467,10 @@ Private Function fSpParametersUPD() As String
    vResult = vResult & "   @MontoGravableAlicuotaEspecial2 decimal(25,5) = NULL," & vbCrLf
    vResult = vResult & "   @MontoIVAAlicuotaEspecial2 decimal(25,5) = NULL," & vbCrLf
    vResult = vResult & "   @PorcentajeIvaAlicuotaEspecial2 decimal(25,5) = NULL," & vbCrLf
-   vResult = vResult & "         @NombreOperador " & gUtilSQL.getVarCharTypeForDB(10) & " = NULL" & vbCrLf
+   vResult = vResult & "   @BaseImponibleIGTFML money = NULL," & vbCrLf
+   vResult = vResult & "   @AlicuotaIGTFML money = NULL," & vbCrLf
+   vResult = vResult & "   @MontoIGTFML money = NULL," & vbCrLf
+   vResult = vResult & "   @NombreOperador " & gUtilSQL.getVarCharTypeForDB(10) & " = NULL" & vbCrLf
    fSpParametersUPD = vResult
 h_EXIT:  On Error GoTo 0
    Exit Function
@@ -535,6 +546,9 @@ Private Function fStatementsSpUPD() As String
    vResult = vResult & "   DECLARE @Ori_FechaDeclaracionAduana " & gUtilSQL.getDateTypeForDB() & vbCrLf
    vResult = vResult & "   DECLARE @Ori_UsaPrefijoSerie " & gUtilSQL.getVarCharTypeForDB(1) & vbCrLf
    vResult = vResult & "   DECLARE @Ori_EsUnaCuentaATerceros " & gUtilSQL.getVarCharTypeForDB(1) & vbCrLf
+   vResult = vResult & "   DECLARE @Ori_BaseImponibleIGTFML money " & vbCrLf
+   vResult = vResult & "   DECLARE @Ori_AlicuotaIGTFML money " & vbCrLf
+   vResult = vResult & "   DECLARE @Ori_MontoIGTFML money " & vbCrLf
    vResult = vResult & "   DECLARE @Ori_CodigoProveedorOriginalServicio " & gUtilSQL.getVarCharTypeForDB(10) & vbCrLf
    vResult = vResult & "   DECLARE @Ori_NombreOperador " & gUtilSQL.getVarCharTypeForDB(10) & "" & vbCrLf
    vResult = vResult & "   DECLARE @Ori_TimeStamp timestamp" & vbCrLf
@@ -611,60 +625,63 @@ Private Function fStatementsSpUPD() As String
    vResult = vResult & "   DECLARE @Up_MontoGravableAlicuotaEspecial2 " & gUtilSQL.getNumericTypeForDB(12, 2) & vbCrLf
    vResult = vResult & "   DECLARE @Up_MontoIVAAlicuotaEspecial2 " & gUtilSQL.getNumericTypeForDB(12, 2) & vbCrLf
    vResult = vResult & "   DECLARE @Up_PorcentajeIvaAlicuotaEspecial2 " & gUtilSQL.getNumericTypeForDB(12, 2) & vbCrLf
+   vResult = vResult & "   DECLARE @Up_BaseImponibleIGTFML money " & vbCrLf
+   vResult = vResult & "   DECLARE @Up_AlicuotaIGTFML money " & vbCrLf
+   vResult = vResult & "   DECLARE @Up_MontoIGTFML money " & vbCrLf
    vResult = vResult & "   DECLARE @Up_NombreOperador " & gUtilSQL.getVarCharTypeForDB(10) & "" & vbCrLf
    vResult = vResult & "   BEGIN TRAN" & vbCrLf
    vResult = vResult & "   SELECT @Ori_Numero = Numero," & vbCrLf
-   vResult = vResult & "           @Ori_TipoDeCxP = TipoDeCxP," & vbCrLf
-   vResult = vResult & "           @Ori_Status = Status," & vbCrLf
-   vResult = vResult & "           @Ori_CodigoProveedor = CodigoProveedor," & vbCrLf
-   vResult = vResult & "           @Ori_Fecha = Fecha," & vbCrLf
-   vResult = vResult & "           @Ori_FechaCancelacion = FechaCancelacion," & vbCrLf
-   vResult = vResult & "           @Ori_FechaVencimiento = FechaVencimiento," & vbCrLf
-   vResult = vResult & "           @Ori_FechaAnulacion = FechaAnulacion," & vbCrLf
-   vResult = vResult & "           @Ori_Moneda = Moneda," & vbCrLf
-   vResult = vResult & "           @Ori_CambioABolivares = CambioABolivares," & vbCrLf
-   vResult = vResult & "           @Ori_AplicaParaLibrodeCompras = AplicaParaLibrodeCompras," & vbCrLf
-   vResult = vResult & "           @Ori_MontoExento = MontoExento," & vbCrLf
-   vResult = vResult & "           @Ori_MontoGravado = MontoGravado," & vbCrLf
-   vResult = vResult & "           @Ori_MontoIva = MontoIva," & vbCrLf
-   vResult = vResult & "           @Ori_MontoAbonado = MontoAbonado," & vbCrLf
-   vResult = vResult & "           @Ori_MesDeAplicacion = MesDeAplicacion," & vbCrLf
-   vResult = vResult & "           @Ori_AnoDeAplicacion = AnoDeAplicacion," & vbCrLf
-   vResult = vResult & "           @Ori_Observaciones = Observaciones," & vbCrLf
-   vResult = vResult & "           @Ori_CreditoFiscal = CreditoFiscal," & vbCrLf
-   vResult = vResult & "           @Ori_TipoDeCompra = TipoDeCompra," & vbCrLf
-   vResult = vResult & "           @Ori_SeHizoLaRetencion = SeHizoLaRetencion," & vbCrLf
-   vResult = vResult & "           @Ori_MontoGravableAlicuotaGeneral = MontoGravableAlicuotaGeneral," & vbCrLf
-   vResult = vResult & "           @Ori_MontoGravableAlicuota2 = MontoGravableAlicuota2," & vbCrLf
-   vResult = vResult & "           @Ori_MontoGravableAlicuota3 = MontoGravableAlicuota3," & vbCrLf
-   vResult = vResult & "           @Ori_MontoIVAAlicuotaGeneral = MontoIVAAlicuotaGeneral," & vbCrLf
-   vResult = vResult & "           @Ori_MontoIVAAlicuota2 = MontoIVAAlicuota2," & vbCrLf
-   vResult = vResult & "           @Ori_MontoIVAAlicuota3 = MontoIVAAlicuota3," & vbCrLf
-   vResult = vResult & "           @Ori_NumeroPlanillaDeImportacion = NumeroPlanillaDeImportacion," & vbCrLf
-   vResult = vResult & "           @Ori_NumeroExpedienteDeImportacion = NumeroExpedienteDeImportacion," & vbCrLf
-   vResult = vResult & "           @Ori_TipoDeTransaccion = TipoDeTransaccion," & vbCrLf
-   vResult = vResult & "           @Ori_NumeroDeFacturaAfectada = NumeroDeFacturaAfectada," & vbCrLf
-   vResult = vResult & "           @Ori_NumeroControl = NumeroControl," & vbCrLf
-   vResult = vResult & "           @Ori_SeHizoLaRetencionIVA = SeHizoLaRetencionIVA," & vbCrLf
-   vResult = vResult & "           @Ori_NumeroComprobanteRetencion = NumeroComprobanteRetencion," & vbCrLf
-   vResult = vResult & "           @Ori_FechaAplicacionRetIVA = FechaAplicacionRetIVA," & vbCrLf
-   vResult = vResult & "           @Ori_PorcentajeRetencionAplicado = PorcentajeRetencionAplicado," & vbCrLf
-   vResult = vResult & "           @Ori_MontoRetenido = MontoRetenido," & vbCrLf
-   vResult = vResult & "           @Ori_OrigenDeLaRetencion = OrigenDeLaRetencion," & vbCrLf
-   vResult = vResult & "           @Ori_RetencionAplicadaEnPago = RetencionAplicadaEnPago," & vbCrLf
-   vResult = vResult & "           @Ori_OrigenInformacionRetencion = OrigenInformacionRetencion," & vbCrLf
-   vResult = vResult & "           @Ori_CxPgeneradaPor = CxPgeneradaPor," & vbCrLf
-   vResult = vResult & "           @Ori_EsCxPhistorica = EsCxPhistorica," & vbCrLf
-   vResult = vResult & "           @Ori_NumDiasDeVencimiento = NumDiasDeVencimiento," & vbCrLf
-   vResult = vResult & "           @Ori_NumeroDocOrigen = NumeroDocOrigen," & vbCrLf
-   vResult = vResult & "           @Ori_CodigoLote = CodigoLote," & vbCrLf
-   vResult = vResult & "           @Ori_GenerarAsientoDeRetiroEnCuenta = GenerarAsientoDeRetiroEnCuenta," & vbCrLf
-   vResult = vResult & "           @Ori_TotalOtrosImpuestos = TotalOtrosImpuestos," & vbCrLf
-   vResult = vResult & "           @Ori_SeContabilRetIva = SeContabilRetIva," & vbCrLf
-   vResult = vResult & "           @Ori_DondeContabilRetIva = DondeContabilRetIva," & vbCrLf
-   vResult = vResult & "           @Ori_CodigoMoneda = CodigoMoneda," & vbCrLf
-   vResult = vResult & "           @Ori_EstaAsociadoARendicion = EstaAsociadoARendicion," & vbCrLf
-   vResult = vResult & "           @Ori_ConsecutivoRendicion = ConsecutivoRendicion," & vbCrLf
+   vResult = vResult & "          @Ori_TipoDeCxP = TipoDeCxP," & vbCrLf
+   vResult = vResult & "          @Ori_Status = Status," & vbCrLf
+   vResult = vResult & "          @Ori_CodigoProveedor = CodigoProveedor," & vbCrLf
+   vResult = vResult & "          @Ori_Fecha = Fecha," & vbCrLf
+   vResult = vResult & "          @Ori_FechaCancelacion = FechaCancelacion," & vbCrLf
+   vResult = vResult & "          @Ori_FechaVencimiento = FechaVencimiento," & vbCrLf
+   vResult = vResult & "          @Ori_FechaAnulacion = FechaAnulacion," & vbCrLf
+   vResult = vResult & "          @Ori_Moneda = Moneda," & vbCrLf
+   vResult = vResult & "          @Ori_CambioABolivares = CambioABolivares," & vbCrLf
+   vResult = vResult & "          @Ori_AplicaParaLibrodeCompras = AplicaParaLibrodeCompras," & vbCrLf
+   vResult = vResult & "          @Ori_MontoExento = MontoExento," & vbCrLf
+   vResult = vResult & "          @Ori_MontoGravado = MontoGravado," & vbCrLf
+   vResult = vResult & "          @Ori_MontoIva = MontoIva," & vbCrLf
+   vResult = vResult & "          @Ori_MontoAbonado = MontoAbonado," & vbCrLf
+   vResult = vResult & "          @Ori_MesDeAplicacion = MesDeAplicacion," & vbCrLf
+   vResult = vResult & "          @Ori_AnoDeAplicacion = AnoDeAplicacion," & vbCrLf
+   vResult = vResult & "          @Ori_Observaciones = Observaciones," & vbCrLf
+   vResult = vResult & "          @Ori_CreditoFiscal = CreditoFiscal," & vbCrLf
+   vResult = vResult & "          @Ori_TipoDeCompra = TipoDeCompra," & vbCrLf
+   vResult = vResult & "          @Ori_SeHizoLaRetencion = SeHizoLaRetencion," & vbCrLf
+   vResult = vResult & "          @Ori_MontoGravableAlicuotaGeneral = MontoGravableAlicuotaGeneral," & vbCrLf
+   vResult = vResult & "          @Ori_MontoGravableAlicuota2 = MontoGravableAlicuota2," & vbCrLf
+   vResult = vResult & "          @Ori_MontoGravableAlicuota3 = MontoGravableAlicuota3," & vbCrLf
+   vResult = vResult & "          @Ori_MontoIVAAlicuotaGeneral = MontoIVAAlicuotaGeneral," & vbCrLf
+   vResult = vResult & "          @Ori_MontoIVAAlicuota2 = MontoIVAAlicuota2," & vbCrLf
+   vResult = vResult & "          @Ori_MontoIVAAlicuota3 = MontoIVAAlicuota3," & vbCrLf
+   vResult = vResult & "          @Ori_NumeroPlanillaDeImportacion = NumeroPlanillaDeImportacion," & vbCrLf
+   vResult = vResult & "          @Ori_NumeroExpedienteDeImportacion = NumeroExpedienteDeImportacion," & vbCrLf
+   vResult = vResult & "          @Ori_TipoDeTransaccion = TipoDeTransaccion," & vbCrLf
+   vResult = vResult & "          @Ori_NumeroDeFacturaAfectada = NumeroDeFacturaAfectada," & vbCrLf
+   vResult = vResult & "          @Ori_NumeroControl = NumeroControl," & vbCrLf
+   vResult = vResult & "          @Ori_SeHizoLaRetencionIVA = SeHizoLaRetencionIVA," & vbCrLf
+   vResult = vResult & "          @Ori_NumeroComprobanteRetencion = NumeroComprobanteRetencion," & vbCrLf
+   vResult = vResult & "          @Ori_FechaAplicacionRetIVA = FechaAplicacionRetIVA," & vbCrLf
+   vResult = vResult & "          @Ori_PorcentajeRetencionAplicado = PorcentajeRetencionAplicado," & vbCrLf
+   vResult = vResult & "          @Ori_MontoRetenido = MontoRetenido," & vbCrLf
+   vResult = vResult & "          @Ori_OrigenDeLaRetencion = OrigenDeLaRetencion," & vbCrLf
+   vResult = vResult & "          @Ori_RetencionAplicadaEnPago = RetencionAplicadaEnPago," & vbCrLf
+   vResult = vResult & "          @Ori_OrigenInformacionRetencion = OrigenInformacionRetencion," & vbCrLf
+   vResult = vResult & "          @Ori_CxPgeneradaPor = CxPgeneradaPor," & vbCrLf
+   vResult = vResult & "          @Ori_EsCxPhistorica = EsCxPhistorica," & vbCrLf
+   vResult = vResult & "          @Ori_NumDiasDeVencimiento = NumDiasDeVencimiento," & vbCrLf
+   vResult = vResult & "          @Ori_NumeroDocOrigen = NumeroDocOrigen," & vbCrLf
+   vResult = vResult & "          @Ori_CodigoLote = CodigoLote," & vbCrLf
+   vResult = vResult & "          @Ori_GenerarAsientoDeRetiroEnCuenta = GenerarAsientoDeRetiroEnCuenta," & vbCrLf
+   vResult = vResult & "          @Ori_TotalOtrosImpuestos = TotalOtrosImpuestos," & vbCrLf
+   vResult = vResult & "          @Ori_SeContabilRetIva = SeContabilRetIva," & vbCrLf
+   vResult = vResult & "          @Ori_DondeContabilRetIva = DondeContabilRetIva," & vbCrLf
+   vResult = vResult & "          @Ori_CodigoMoneda = CodigoMoneda," & vbCrLf
+   vResult = vResult & "          @Ori_EstaAsociadoARendicion = EstaAsociadoARendicion," & vbCrLf
+   vResult = vResult & "          @Ori_ConsecutivoRendicion = ConsecutivoRendicion," & vbCrLf
    vResult = vResult & "          @Ori_CodigoTipoDeDocumentoLey = CodigoTipoDeDocumentoLey," & vbCrLf
    vResult = vResult & "          @Ori_AplicaDetraccion = AplicaDetraccion," & vbCrLf
    vResult = vResult & "          @Ori_NumeroDetraccion = NumeroDetraccion," & vbCrLf
@@ -686,8 +703,11 @@ Private Function fStatementsSpUPD() As String
    vResult = vResult & "          @Ori_MontoGravableAlicuotaEspecial2 = MontoGravableAlicuotaEspecial2," & vbCrLf
    vResult = vResult & "          @Ori_MontoIVAAlicuotaEspecial2 = MontoIVAAlicuotaEspecial2," & vbCrLf
    vResult = vResult & "          @Ori_PorcentajeIvaAlicuotaEspecial2 = PorcentajeIvaAlicuotaEspecial2," & vbCrLf
-   vResult = vResult & "           @Ori_NombreOperador = NombreOperador," & vbCrLf
-   vResult = vResult & "           @Ori_TimeStamp = fldTimeStamp" & vbCrLf
+   vResult = vResult & "          @Ori_BaseImponibleIGTFML = BaseImponibleIGTFML," & vbCrLf
+   vResult = vResult & "          @Ori_AlicuotaIGTFML = AlicuotaIGTFML," & vbCrLf
+   vResult = vResult & "          @Ori_MontoIGTFML = MontoIGTFML," & vbCrLf
+   vResult = vResult & "          @Ori_NombreOperador = NombreOperador," & vbCrLf
+   vResult = vResult & "          @Ori_TimeStamp = fldTimeStamp" & vbCrLf
    vResult = vResult & "   FROM CxP" & vbCrLf
    vResult = vResult & "   WHERE ConsecutivoCompania = @ConsecutivoCompania" & vbCrLf
    vResult = vResult & "     AND ConsecutivoCxP = @ConsecutivoCxP" & vbCrLf
@@ -987,6 +1007,30 @@ Private Function fStatementsSpUPD() As String
    vResult = vResult & "      SET @Up_PorcentajeIvaAlicuotaEspecial2 = @Ori_PorcentajeIvaAlicuotaEspecial2" & vbCrLf
    vResult = vResult & "   ELSE" & vbCrLf
    vResult = vResult & "      SET @Up_PorcentajeIvaAlicuotaEspecial2 = @PorcentajeIvaAlicuotaEspecial2" & vbCrLf
+   
+   
+   
+   
+   
+   vResult = vResult & "   IF @BaseImponibleIGTFML is null" & vbCrLf
+   vResult = vResult & "      SET @Up_BaseImponibleIGTFML = @Ori_BaseImponibleIGTFML" & vbCrLf
+   vResult = vResult & "   ELSE" & vbCrLf
+   vResult = vResult & "      SET @Up_BaseImponibleIGTFML = @BaseImponibleIGTFML" & vbCrLf
+   vResult = vResult & "   IF @AlicuotaIGTFML is null" & vbCrLf
+   vResult = vResult & "      SET @Up_AlicuotaIGTFML = @Ori_AlicuotaIGTFML" & vbCrLf
+   vResult = vResult & "   ELSE" & vbCrLf
+   vResult = vResult & "      SET @Up_AlicuotaIGTFML = @AlicuotaIGTFML" & vbCrLf
+   
+   vResult = vResult & "   IF @MontoIGTFML is null" & vbCrLf
+   vResult = vResult & "      SET @Up_MontoIGTFML = @Ori_MontoIGTFML" & vbCrLf
+   vResult = vResult & "   ELSE" & vbCrLf
+   vResult = vResult & "      SET @Up_MontoIGTFML = @MontoIGTFML" & vbCrLf
+   
+   
+   
+   
+   
+   
    vResult = vResult & "   IF @NombreOperador is null" & vbCrLf
    vResult = vResult & "      SET @Up_NombreOperador = @Ori_NombreOperador" & vbCrLf
    vResult = vResult & "   ELSE" & vbCrLf
@@ -1065,8 +1109,11 @@ Private Function fStatementsSpUPD() As String
    vResult = vResult & "         MontoGravableAlicuotaEspecial2 = @Up_MontoGravableAlicuotaEspecial2," & vbCrLf
    vResult = vResult & "         MontoIVAAlicuotaEspecial2 = @Up_MontoIVAAlicuotaEspecial2," & vbCrLf
    vResult = vResult & "         PorcentajeIvaAlicuotaEspecial2 = @Up_PorcentajeIvaAlicuotaEspecial2," & vbCrLf
-   vResult = vResult & "        NombreOperador = @Up_NombreOperador," & vbCrLf
-   vResult = vResult & "        FechaUltimaModificacion = CONVERT(" & gUtilSQL.getDateTypeForDB() & ", GETDATE(), 103)" & vbCrLf
+   vResult = vResult & "         BaseImponibleIGTFML = @Up_BaseImponibleIGTFML," & vbCrLf
+   vResult = vResult & "         AlicuotaIGTFML = @Up_AlicuotaIGTFML," & vbCrLf
+   vResult = vResult & "         MontoIGTFML = @Up_MontoIGTFML," & vbCrLf
+   vResult = vResult & "         NombreOperador = @Up_NombreOperador," & vbCrLf
+   vResult = vResult & "         FechaUltimaModificacion = CONVERT(" & gUtilSQL.getDateTypeForDB() & ", GETDATE(), 103)" & vbCrLf
    vResult = vResult & "   WHERE ConsecutivoCompania = @ConsecutivoCompania" & vbCrLf
    vResult = vResult & "     AND ConsecutivoCxP = @ConsecutivoCxP" & vbCrLf
    vResult = vResult & "     AND fldTimeStamp = @Ori_TimeStamp" & vbCrLf

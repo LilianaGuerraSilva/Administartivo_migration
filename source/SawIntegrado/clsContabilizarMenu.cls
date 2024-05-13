@@ -556,9 +556,7 @@ Private Sub sEjecutacontabilizarOrdenDeProduccion()
    On Error GoTo h_ERROR
    If fSePuedeEjecutarContabilizacion(gEnumProyectoWincont.enumComprobanteGeneradoPorToString(eCG_ORDEN_DE_PRODUCCION)) Then
       Set insGenerarComprobanteNavigator = New clsGenerarComprobanteNavigator
-      'TODO:MAYEL ajustar nombre de valComponentName, valClassName según aplique
       Set objWrapper = gUtilWrp.fCreateWrpForModule(gUtilWrp.fWrpClassName("Inventario", "wrpOrdenDeProduccion"), gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword)
-
       vParametros = "<GpData><DatosDocumento><Consecutivo>-1</Consecutivo>"
       vParametros = vParametros & "<FechaAperturaDelPeriodo>" & gConvert.dateToString(gContPeriodoActual.GetFechaAperturaDelPeriodo) & "</FechaAperturaDelPeriodo>"
       vParametros = vParametros & "<FechaCierreDelPeriodo>" & gConvert.dateToString(gContPeriodoActual.GetFechaCierreDelPeriodo) & "</FechaCierreDelPeriodo></DatosDocumento>"
@@ -570,7 +568,6 @@ Private Sub sEjecutacontabilizarOrdenDeProduccion()
       vParametros = vParametros & "<UsaAlmacen>" & gConvert.ConvertBooleanToString(gProyParametrosCompania.GetUsaAlmacen) & "</UsaAlmacen></Parametros>"
       vParametros = vParametros & "</GpData>"
       vDatos = objWrapper.ExecuteAndReturnValue(gDefgen.AccionSobreRecordStr(AccionSobreRecord.Contabilizar), gConvert.fConvierteAString(gProyCompaniaActual.GetConsecutivoCompania), vParametros)
-               
       If vDatos <> "" Then
          gLibGalacDataParse.Initialize vDatos
          gLibGalacDataParse.SetRootName "Datos"
@@ -603,3 +600,36 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsContabilizarMenu", "sEjecutacontabilizarOrdenDeProduccion", "clsContabilizarMenu", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
+Public Sub sEjecutaContabilizacionDeFacturas()
+   Dim factura As clsFacturaNavigator
+   Dim vSQL As String
+   Dim rsFacturasAContabilizar As ADODB.Recordset
+   On Error GoTo h_ERROR
+   Set factura = New clsFacturaNavigator
+   factura.fSearchForContabilizarRecords "factura.StatusFactura <>  " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_BORRADOR) & " AND factura.TipoDeDocumento =" & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_COMPROBANTEFISCAL), vSQL
+   gProyReglasDeContabilizacion.sSetEditaComprobanteDespuesDeInsertar eCG_FACTURA, False
+   Set rsFacturasAContabilizar = New ADODB.Recordset
+   If gDbUtil.fOpenRecordset(rsFacturasAContabilizar, vSQL, gDefDatabase.Conexion) Then
+      If gDbUtil.fRecordCount(rsFacturasAContabilizar) > 0 Then
+         If Not gProyReglasDeContabilizacion.fLasCuentasDeReglasDeContabilizacionEstanCompletas(gEnumProyectoWincont.strComprobanteGeneradoPorToNum(gEnumProyectoWincont.enumComprobanteGeneradoPorToString(eCG_FACTURA)), gProyUsuarioActual.GetUsaContabilidad, 0) Then
+            gDbUtil.sDestroyRecordSet rsFacturasAContabilizar
+            Set rsFacturasAContabilizar = Nothing
+            GoTo h_EXIT
+         End If
+         rsFacturasAContabilizar.MoveFirst
+         While Not rsFacturasAContabilizar.EOF
+            If factura.fSearchByNumeroTipoDocumento(rsFacturasAContabilizar("Numero").value, rsFacturasAContabilizar("TipoDeDocumento").value, True, True) Then
+               factura.sContabilizaEstaFactura False, Contabilizar, False
+            End If
+            rsFacturasAContabilizar.MoveNext
+         Wend
+         Set factura = Nothing
+      End If
+   End If
+   gDbUtil.sDestroyRecordSet rsFacturasAContabilizar
+   Set rsFacturasAContabilizar = Nothing
+   Set factura = Nothing
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsContabilizaFacturasPuntoDeVenta", "sEjecutaContabilizacionDeFacturas", "Contabiliza Lote De Facturas de Punto De Venta", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub

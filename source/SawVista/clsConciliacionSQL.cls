@@ -203,6 +203,8 @@ Public Function fConstruirSQLDelReporteConciliacionDatosResumidos(ByVal valConse
    SQL = SQL & " CuentaBancaria.Codigo,"
    SQL = SQL & " CuentaBancaria.NumeroCuenta,"
    SQL = SQL & " CuentaBancaria.NombreCuenta,"
+   SQL = SQL & " CuentaBancaria.NombreDeLaMoneda,"
+   SQL = SQL & " Moneda.Simbolo AS SimboloDeLaMoneda,"
    SQL = SQL & " Conciliacion.MesDeAplicacion AS mes,"
    SQL = SQL & " Conciliacion.AnoDeAplicacion AS Ano,"
    SQL = SQL & " SUM" & gUtilSQL.getIIF("DetalleDeConciliacion.TipoConcepto" & _
@@ -232,6 +234,8 @@ Public Function fConstruirSQLDelReporteConciliacionDatosResumidos(ByVal valConse
    SQL = SQL & " ON (Conciliacion.NroConciliacion = DetalleDeConciliacion.NroConciliacion"
    SQL = SQL & " AND CuentaBancaria.Codigo =  DetalleDeConciliacion.CodigoCuenta"
    SQL = SQL & " AND Conciliacion.ConsecutivoCompania = DetalleDeConciliacion.ConsecutivoCompania)"
+   SQL = SQL & " INNER JOIN Moneda"
+   SQL = SQL & " ON (Moneda.Codigo = CuentaBancaria.CodigoMoneda)"
    SQL = SQL & " WHERE Conciliacion.ConsecutivoCompania = " & valConsecutivoCompania
    SQL = SQL & " AND Conciliacion.NroConciliacion = " & gUtilSQL.fSimpleSqlValue(Trim(valNroConciliacion))
    SQL = SQL & " AND Conciliacion.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusConciliacion.eSC_CERRADA)
@@ -242,7 +246,9 @@ Public Function fConstruirSQLDelReporteConciliacionDatosResumidos(ByVal valConse
    SQL = SQL & " CuentaBancaria.NombreCuenta,"
    SQL = SQL & " Conciliacion.MesDeAplicacion,"
    SQL = SQL & " Conciliacion.AnoDeAplicacion,"
-   SQL = SQL & " DetalleDeConciliacion.TipoConcepto"
+   SQL = SQL & " DetalleDeConciliacion.TipoConcepto,"
+   SQL = SQL & " CuentaBancaria.NombreDeLaMoneda,"
+   SQL = SQL & " Moneda.Simbolo"
    
 h_EXIT: On Error GoTo 0
    fConstruirSQLDelReporteConciliacionDatosResumidos = SQL

@@ -2218,7 +2218,8 @@ Private Function fNombreDelArchivoDeLaDeclaracionInformativa() As String
    nombreDelArchivo = nombreDelArchivo & gProyCompaniaActual.GetCodigo & "-"
    nombreDelArchivo = nombreDelArchivo & gProyCompaniaActual.GetNombre & "_"
    nombreDelArchivo = nombreDelArchivo & "_" & gUtilDate.fYear(txtFechaFinal.Value) & gUtilDate.fMonth(txtFechaFinal.Value) & gUtilDate.fDay(txtFechaFinal.Value)
-   nombreDelArchivo = gUtilReports.getOutputPath & "\" & nombreDelArchivo & ".txt"
+   gTexto.LimpiaStringDeChar nombreDelArchivo, ","
+   nombreDelArchivo = gDefgen.fDataPathUser(gDefProg.GetSiglasDelPrograma, False) & "\" & nombreDelArchivo & ".txt"
 h_EXIT:
    fNombreDelArchivoDeLaDeclaracionInformativa = nombreDelArchivo
    On Error GoTo 0
@@ -2772,11 +2773,11 @@ Private Function fNombreDelArchivoXML() As String
    valOutputPath = fBuscaRutaDestino
    Select Case mInformeSeleccionado
       Case CM_OPT_TIPO_RELACION_INFORMATIVA_SALARIO
-      txtNombreDelArchivo.Text = valOutputPath & "\SawISLR..."
-      nombreDelArchivo = valOutputPath & "\SawISLR" & gConvert.fConvierteAString(mAno) & gConvert.fConvierteAString(gTexto.llenaConCaracterALaIzquierda(mMes, "0", 2)) & fNombreDeclaracion & insLibWincont.fToXmlValidStrValue(gTexto.DfReplace(gTexto.fCleanTextOfInvalidChars(gProyCompaniaActual.GetNombre, ".,/"), " ", "")) & ".xml"
+         txtNombreDelArchivo.Text = valOutputPath & "\SawISLR..."
+         nombreDelArchivo = valOutputPath & "\SawISLR" & gConvert.fConvierteAString(mAno) & gConvert.fConvierteAString(gTexto.llenaConCaracterALaIzquierda(mMes, "0", 2)) & fNombreDeclaracion & insLibWincont.fToXmlValidStrValue(gTexto.DfReplace(gTexto.fCleanTextOfInvalidChars(gProyCompaniaActual.GetNombre, ".,/"), " ", "")) & ".xml"
       Case Else
-      nombreDelArchivo = valOutputPath & "\SawISLR" & gConvert.fConvierteAString(mAno) & gConvert.fConvierteAString(gTexto.llenaConCaracterALaIzquierda(mMes, "0", 2)) & fNombreDeclaracion & insLibWincont.fToXmlValidStrValue(gTexto.DfReplace(gTexto.fCleanTextOfInvalidChars(gProyCompaniaActual.GetNombre, ".,/"), " ", "")) & ".xml"
-      txtNombreDelArchivo.Text = nombreDelArchivo
+         nombreDelArchivo = valOutputPath & "\SawISLR" & gConvert.fConvierteAString(mAno) & gConvert.fConvierteAString(gTexto.llenaConCaracterALaIzquierda(mMes, "0", 2)) & fNombreDeclaracion & insLibWincont.fToXmlValidStrValue(gTexto.DfReplace(gTexto.fCleanTextOfInvalidChars(gProyCompaniaActual.GetNombre, ".,/"), " ", "")) & ".xml"
+         txtNombreDelArchivo.Text = nombreDelArchivo
    End Select
 h_EXIT:
    fNombreDelArchivoXML = nombreDelArchivo

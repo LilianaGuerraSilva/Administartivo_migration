@@ -375,11 +375,11 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
 
         public string ObtenerUltimoNumeroReporteZ(bool valAbrirConexion) {
             string vUltimoNumero = "";
-            ReportData estado;
+            ReportData insReportData;
             S1PrinterData _Estados1;
             PrinterStatus PrStatus;
             bool vPrinterNotSupport = false;
-
+            int vSteps = 0;
             try {
                 if (valAbrirConexion || !_TfhkPrinter.StatusPort) {
                     AbrirConexion();
@@ -390,12 +390,12 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     _Estados1 = _TfhkPrinter.GetS1PrinterData();
                     vUltimoNumero = LibText.FillWithCharToLeft(LibConvert.ToStr(_Estados1.DailyClosureCounter), "0", 8);
                 } else {
-                    do {
-                        PrStatus = _TfhkPrinter.GetPrinterStatus();
-                    } while (PrStatus.PrinterStatusCode != 4);
-                    estado = _TfhkPrinter.GetZReport();
-                    vUltimoNumero = LibConvert.ToStr(estado.NumberOfLastZReport);
-                    vUltimoNumero = LibText.FillWithCharToLeft(vUltimoNumero, "0", 8);
+                    while (LibString.Len(vUltimoNumero) <= 0 || vSteps <= 10) {
+                        insReportData = _TfhkPrinter.GetZReport();
+                        vUltimoNumero = LibConvert.ToStr(insReportData.NumberOfLastZReport);
+                        vUltimoNumero = LibText.FillWithCharToLeft(vUltimoNumero, "0", 8);
+                        vSteps++;
+                    }
                 }
                 if (valAbrirConexion) {
                     CerrarConexion();

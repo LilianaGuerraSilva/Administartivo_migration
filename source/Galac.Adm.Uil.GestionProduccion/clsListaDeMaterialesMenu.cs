@@ -32,5 +32,5 @@ namespace Galac.Adm.Uil.GestionProduccion {
 
     } //End of class clsListaDeMaterialesMenu
 
-} //End of namespace Galac.Saw.Uil.Inventario
+} //End of namespace Galac.Adm.Uil.GestionProduccion
 

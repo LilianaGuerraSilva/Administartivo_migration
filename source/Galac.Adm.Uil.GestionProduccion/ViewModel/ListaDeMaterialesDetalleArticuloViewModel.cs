@@ -24,18 +24,17 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private const string CodigoArticuloInventarioPropertyName = "CodigoArticuloInventario";
         private const string DescripcionArticuloInventarioPropertyName = "DescripcionArticuloInventario";
         private const string CantidadPropertyName = "Cantidad";
-
+        private const string UnidadDeVentaPropertyName = "UnidadDeVenta";
         #endregion
         #region Variables
 
         private FkArticuloInventarioViewModel _ConexionCodigoArticuloInventario = null;
-
         #endregion //Variables
 
         #region Propiedades
 
         public override string ModuleName {
-            get { return "Productos y/o Servicios"; }
+            get { return "Insumos"; }
         }
 
         public int ConsecutivoCompania {
@@ -71,7 +70,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Código Artículo", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoArticuloInventario", ConnectionSearchCommandName = "ChooseCodigoArticuloInventarioCommand", Width = 180)]
+        [LibGridColum("Código Artículo", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoArticuloInventario", ConnectionSearchCommandName = "ChooseCodigoArticuloInventarioCommand", Width = 100)]
         public string CodigoArticuloInventario {
             get {
                 return Model.CodigoArticuloInventario;
@@ -89,7 +88,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Descripción es requerido.")]
-        [LibGridColum("Descripción", eGridColumType.Connection, ConnectionDisplayMemberPath = "Descripcion", ConnectionModelPropertyName = "DescripcionArticuloInventario", ConnectionSearchCommandName = "ChooseDescripcionArticuloInventarioCommand", Width = 300, Trimming = System.Windows.TextTrimming.WordEllipsis)]
+        [LibGridColum("Descripción", eGridColumType.Connection, ConnectionDisplayMemberPath = "Descripcion", ConnectionModelPropertyName = "DescripcionArticuloInventario", ConnectionSearchCommandName = "ChooseDescripcionArticuloInventarioCommand", Width = 435, Trimming = System.Windows.TextTrimming.WordEllipsis)]
         public string DescripcionArticuloInventario {
             get {
                 return Model.DescripcionArticuloInventario;
@@ -117,6 +116,20 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
+        [LibGridColum("Unidad", eGridColumType.Connection, ConnectionDisplayMemberPath = "UnidadDeVenta", ConnectionModelPropertyName = "UnidadDeVenta", MaxWidth=60)]
+        public string  UnidadDeVenta {
+            get {
+                return Model.UnidadDeVenta;
+            }
+            set {
+                if (Model.UnidadDeVenta != value) {
+                    Model.UnidadDeVenta = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(UnidadDeVentaPropertyName);
+                }
+            }
+        }
+
         public ListaDeMaterialesViewModel Master {
             get;
             set;
@@ -137,6 +150,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
+        
         public RelayCommand<string> ChooseCodigoArticuloInventarioCommand {
             get;
             private set;
@@ -195,12 +209,14 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityEquality, eTipoArticuloInv.Simple, eLogicOperatorType.And);
                 vFixedCriteria.Add("TipoDeArticulo", eBooleanOperatorType.IdentityInequality, eTipoDeArticulo.ProductoCompuesto, eLogicOperatorType.And);
                 ConexionCodigoArticuloInventario = Master.ChooseRecord<FkArticuloInventarioViewModel>("Artículo Inventario", vDefaultCriteria, vFixedCriteria, string.Empty);
-                if (ConexionCodigoArticuloInventario != null) {
-                    CodigoArticuloInventario = ConexionCodigoArticuloInventario.Codigo;
-                    DescripcionArticuloInventario = ConexionCodigoArticuloInventario.Descripcion;
-                } else {
+                if (ConexionCodigoArticuloInventario == null) {
                     CodigoArticuloInventario = string.Empty;
                     DescripcionArticuloInventario = string.Empty;
+                    UnidadDeVenta = string.Empty;
+                } else {
+                    CodigoArticuloInventario = ConexionCodigoArticuloInventario.Codigo;
+                    DescripcionArticuloInventario = ConexionCodigoArticuloInventario.Descripcion;
+                    UnidadDeVenta = ConexionCodigoArticuloInventario.UnidadDeVenta;
                 }
             } catch (System.AccessViolationException) {
                 throw;

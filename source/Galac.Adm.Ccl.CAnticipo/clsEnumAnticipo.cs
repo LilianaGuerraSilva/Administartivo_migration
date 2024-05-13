@@ -60,5 +60,4 @@ namespace Galac.Adm.Ccl.CAnticipo {
         [LibEnumDescription("Reposición De Caja Chica")]
         ReposicionDeCajaChica
     }
-
 } //End of namespace namespace  Galac.Adm.Ccl.CAnticipo

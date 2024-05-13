@@ -1635,7 +1635,10 @@ Public Function fSQLActualizarPrimerPaso(ByVal valConsecutivoCompania As Long, B
    SQL = SQL & "NombreOperador, "
    SQL = SQL & "NumDiasDeVencimiento, "
    SQL = SQL & "FechaUltimaModificacion, "
-    SQL = SQL & "CodigoMoneda"
+   SQL = SQL & "CodigoMoneda,"
+   SQL = SQL & "BaseImponibleIGTFML, "
+   SQL = SQL & "AlicuotaIGTFML, "
+   SQL = SQL & "MontoIGTFML "
    SQL = SQL & " FROM " & "cxP"
    SQL = SQL & " WHERE ConsecutivoCompania = " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania)
    SQL = SQL & " AND ConsecutivoCxP = " & gUtilSQL.fNumToStrSQL(valConsecutivoCxp)
@@ -1691,8 +1694,11 @@ Public Function fSQLActualizarSegundoPaso(ByVal valConsecutivoCompania As Long, 
    SQL = SQL & "UsaPrefijoSerie, "
    SQL = SQL & "EsUnaCuentaATerceros, "
    SQL = SQL & "CodigoProveedorOriginalServicio, "
-   SQL = SQL & "SeHizoLaDetraccion , AplicaIvaAlicuotaEspecial, MontoGravableAlicuotaEspecial1, MontoIVAAlicuotaEspecial1, PorcentajeIvaAlicuotaEspecial1, MontoGravableAlicuotaEspecial2, MontoIVAAlicuotaEspecial2, PorcentajeIvaAlicuotaEspecial2"
-   SQL = SQL & ", DiaDeAplicacion "
+   SQL = SQL & "SeHizoLaDetraccion , AplicaIvaAlicuotaEspecial, MontoGravableAlicuotaEspecial1, MontoIVAAlicuotaEspecial1, PorcentajeIvaAlicuotaEspecial1, MontoGravableAlicuotaEspecial2, MontoIVAAlicuotaEspecial2, PorcentajeIvaAlicuotaEspecial2, "
+   SQL = SQL & "DiaDeAplicacion, "
+   SQL = SQL & "BaseImponibleIGTFML, "
+   SQL = SQL & "AlicuotaIGTFML, "
+   SQL = SQL & "MontoIGTFML "
    SQL = SQL & " FROM " & "cxP"
    SQL = SQL & " WHERE ConsecutivoCompania = " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania)
    SQL = SQL & " AND ConsecutivoCxP = " & gUtilSQL.fNumToStrSQL(valConsecutivoCxp)

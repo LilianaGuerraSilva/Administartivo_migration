@@ -231,6 +231,7 @@ Public Enum enum_SystemModules
    eSM_CondicionesDePago
    eSM_ListaDeMateriales
    eSM_ListaDeMaterialesDetalleArticulo
+   eSM_ListaDeMaterialesDetalleSalidas
    eSM_OrdenDeProduccion
    eSM_OrdenDeProduccionDetalleArticulo '180
    eSM_OrdenDeProduccionDetalleMateriales

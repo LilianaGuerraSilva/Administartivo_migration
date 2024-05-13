@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -41,6 +41,7 @@
     <Compile Include="Anticipo.cs" />
     <Compile Include="AnticipoCobrado.cs" />
     <Compile Include="clsEnumAnticipo.cs" />
+    <Compile Include="IAnticipoInformes.cs" />
     <Compile Include="IAnticipoPdn.cs" />
     <Compile Include="IFkAnticipoCobradoViewModel.cs" />
     <Compile Include="IFkAnticipoViewModel.cs" />
@@ -54,6 +55,7 @@
       <HintPath>..\packages\LibGalac.Aos.Catching.5.24.0\lib\LibGalac.Aos.Catching.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.XML" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
@@ -62,7 +64,11 @@
       <Project>{f6be19ab-c04f-44fe-b68f-62bc8cc4cdb0}</Project>
       <Name>Galac.Adm.Ccl.Venta</Name>
     </ProjectReference>
-  </ItemGroup>
+    <ProjectReference Include="..\Galac.Saw.Lib\Galac.Saw.Lib.csproj">
+      <Project>{f6be19ab-c04f-44fe-b68f-61b78cc0cdb0}</Project>
+      <Name>Galac.Saw.Lib</Name>
+    </ProjectReference>
+  </ItemGroup>  
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

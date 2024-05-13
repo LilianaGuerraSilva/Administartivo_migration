@@ -16,14 +16,13 @@ namespace Galac.Saw.Lib {
 
         public bool EsFormatoRpxValidoParaAOS(string valNameRpx) {
             bool vResult = false;
-            if(LibText.IsNullOrEmpty(valNameRpx)) {
+            if (LibText.IsNullOrEmpty(valNameRpx)) {
                 return vResult;
-            }
-            string RutaRpx = ObtenerRutaPlantilla(valNameRpx);
-            if(!LibText.IsNullOrEmpty(RutaRpx)) {
-                System.IO.StreamReader vFile = System.IO.File.OpenText(RutaRpx);
-                if(vFile.ReadToEnd().Contains("ScriptLang=\"C#\"")) {
-                    vResult = true;
+            } else {
+                string RutaRpx = ObtenerRutaPlantilla(valNameRpx);
+                if (!LibText.IsNullOrEmpty(RutaRpx)) {
+                    System.IO.StreamReader vFile = System.IO.File.OpenText(RutaRpx);
+                    vResult = vFile.ReadToEnd().Contains("ScriptLang=\"C#\"");
                 }
             }
             return vResult;
@@ -31,14 +30,12 @@ namespace Galac.Saw.Lib {
 
         private string ObtenerRutaPlantilla(string valNameRpx) {
             string vResult = string.Empty;
-
             string rutaReportes = System.IO.Path.Combine(LibWorkPaths.ProgramDir,"Reportes");
             string rutaReportesULS = System.IO.Path.Combine(LibWorkPaths.LogicUnitDir,"Reportes");
             string rutaOriginal = System.IO.Path.Combine(rutaReportes,"Original");
             string rutaUsuario = System.IO.Path.Combine(rutaReportes,"Usuario");
             string rutaOriginalULS = System.IO.Path.Combine(rutaReportesULS,"Original");
             string rutaUsuarioULS = System.IO.Path.Combine(rutaReportesULS,"Usuario");
-
             if(LibFile.FileExists(rutaOriginal + @"\" + valNameRpx + ".rpx")) {
                 vResult = rutaOriginal + @"\" + valNameRpx + ".rpx";
             }

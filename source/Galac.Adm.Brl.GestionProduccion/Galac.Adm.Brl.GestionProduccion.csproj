@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsListaDeMaterialesDetalleArticuloNav.cs" />
+    <Compile Include="clsListaDeMaterialesDetalleSalidasNav.cs" />
     <Compile Include="clsListaDeMaterialesNav.cs" />
     <Compile Include="clsOrdenDeProduccionDetalleArticuloNav.cs" />
     <Compile Include="clsOrdenDeProduccionDetalleMaterialesNav.cs" />

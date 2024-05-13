@@ -58,6 +58,8 @@
     <Compile Include="clsListaDeMaterialesDat.cs" />
     <Compile Include="clsListaDeMaterialesDetalleArticuloDat.cs" />
     <Compile Include="clsListaDeMaterialesDetalleArticuloED.cs" />
+    <Compile Include="clsListaDeMaterialesDetalleSalidasDat.cs" />
+    <Compile Include="clsListaDeMaterialesDetalleSalidasED.cs" />
     <Compile Include="clsListaDeMaterialesED.cs" />
     <Compile Include="clsOrdenDeProduccionDat.cs" />
     <Compile Include="clsOrdenDeProduccionDetalleArticuloDat.cs" />

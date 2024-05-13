@@ -53,15 +53,16 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public string DescripcionArticuloInventario { get; set; }
         public DateTime FechaCreacion { get; set; }
     }
-    public class FkListaDeMaterialesConexionViewModel : IFkListaDeMaterialesViewModel {
+    public class FkListaDeMaterialesInformeViewModel : IFkListaDeMaterialesViewModel {
         public int ConsecutivoCompania { get; set; }
         public int Consecutivo { get; set; }
+        [LibGridColum("Codigo")]
         public string Codigo { get; set; }
-        public string Nombre { get; set; }
-        [LibGridColum("Código Inventario a producir", DbMemberPath = "Adm.Gv_ListaDeMateriales_B1.CodigoArticuloInventario")]
-        public string CodigoArticuloInventario { get; set; }
-        [LibGridColum("Descripcion Articulo", Width = 400)]
+        [LibGridColum("Nombre")]
+        public string Nombre { get; set; }        
+        public string CodigoArticuloInventario { get; set; }       
         public string DescripcionArticuloInventario { get; set; }
+        [LibGridColum("Fecha de Creación")]
         public DateTime FechaCreacion { get; set; }
     }
     public class FkAlmacenViewModel : IFkAlmacenViewModel {

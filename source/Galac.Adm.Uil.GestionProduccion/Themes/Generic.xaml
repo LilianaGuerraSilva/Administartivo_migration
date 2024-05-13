@@ -10,8 +10,8 @@
     <DataTemplate DataType="{x:Type nsCSVM:ListaDeMaterialesDetalleArticuloViewModel}">
         <nsCSV:GSListaDeMaterialesDetalleArticuloView />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type nsReportesView:clsListaDeMaterialesDeInventarioAProducirViewModel}">
-        <nsReportesView:GSListaDeMaterialesDeInventarioAProducir />
+    <DataTemplate DataType="{x:Type nsReportesView:clsListaDeMaterialesViewModel}">
+        <nsReportesView:GSListaDeMateriales />
     </DataTemplate>
     <DataTemplate DataType="{x:Type nsReportesView:clsOrdenDeProduccionRptViewModel}">
         <nsReportesView:GSOrdenDeProduccionRpt />
@@ -39,5 +39,8 @@
     </DataTemplate>
     <DataTemplate DataType="{x:Type nsCSVM:OrdenDeProduccionDetalleArticuloViewModel}">
         <nsCSV:GSOrdenDeProduccionDetalleArticuloView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:ListaDeMaterialesDetalleSalidasViewModel}">
+        <nsCSV:GSListaDeMaterialesDetalleSalidasView />
     </DataTemplate>
 </ResourceDictionary>

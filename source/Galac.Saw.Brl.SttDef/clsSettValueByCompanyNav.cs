@@ -2597,7 +2597,7 @@ namespace Galac.Saw.Brl.SttDef {
                     CampoUsuario = vCampoUsuario,
                     CampoClave = vCampoClave,
                     Usuario = valUsuario,
-                    Clave = valClave
+                    Clave = LibCryptography.SymEncryptDES(valClave)
                 };
                 insIDStt.ActualizarValores();
             }

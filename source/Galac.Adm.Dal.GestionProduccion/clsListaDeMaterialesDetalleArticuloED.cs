@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using LibGalac.Aos.Dal;
 using LibGalac.Aos.Dal.Contracts;
-using Galac.Adm.Ccl.GestionProduccion ;
+using Galac.Adm.Ccl.GestionProduccion;
 
 namespace Galac.Adm.Dal.GestionProduccion {
     [LibMefDalComponentMetadata(typeof(clsListaDeMaterialesDetalleArticuloED))]
@@ -65,6 +65,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("SELECT ListaDeMaterialesDetalleArticulo.ConsecutivoCompania, ListaDeMaterialesDetalleArticulo.ConsecutivoListaDeMateriales, ListaDeMaterialesDetalleArticulo.Consecutivo, ListaDeMaterialesDetalleArticulo.CodigoArticuloInventario");
             SQL.AppendLine(", ListaDeMaterialesDetalleArticulo.Cantidad");
             SQL.AppendLine(", dbo.ArticuloInventario.Descripcion AS DescripcionArticuloInventario");
+            SQL.AppendLine(", dbo.ArticuloInventario.UnidadDeVenta AS UnidadDeVenta");
             SQL.AppendLine(", ListaDeMaterialesDetalleArticulo.fldTimeStamp, CAST(ListaDeMaterialesDetalleArticulo.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".ListaDeMaterialesDetalleArticulo");
             SQL.AppendLine("INNER JOIN dbo.ArticuloInventario ON  " + DbSchema + ".ListaDeMaterialesDetalleArticulo.CodigoArticuloInventario = dbo.ArticuloInventario.Codigo");
@@ -285,6 +286,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("        dbo.ArticuloInventario.Descripcion AS DescripcionArticuloInventario,");
             SQL.AppendLine("        dbo.ArticuloInventario.TipoDeArticulo AS TipoDeArticulo,");
             SQL.AppendLine("        Adm.ListaDeMaterialesDetalleArticulo.Cantidad,");
+            SQL.AppendLine("        dbo.ArticuloInventario.UnidadDeVenta AS UnidadDeVenta,");
             SQL.AppendLine("        Adm.ListaDeMaterialesDetalleArticulo.fldTimeStamp");
             SQL.AppendLine("    FROM ListaDeMaterialesDetalleArticulo");
             SQL.AppendLine("    INNER JOIN dbo.ArticuloInventario ON dbo.ArticuloInventario.ConsecutivoCompania = Adm.ListaDeMaterialesDetalleArticulo.ConsecutivoCompania and  dbo.ArticuloInventario.Codigo = Adm.ListaDeMaterialesDetalleArticulo.CodigoArticuloInventario");
