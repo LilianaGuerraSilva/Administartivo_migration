@@ -455,9 +455,7 @@
                     IsEnabled="{Binding Path=IsEnabled}"
                     MaxLength="34"
                     Style="{StaticResource TextBoxInputStyle}"
-                    Value="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items[0].CantidadSolicitada, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-
-
+                    Value="{Binding Path=CantidadAProducir, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <Label
                     Name="lblCantidadProdicida"
                     Grid.Row="3"
@@ -473,11 +471,11 @@
                     BorderThickness="1"
                     DecimalDigits="{Binding Path=DecimalDigits}"
                     InputDataType="UDecimal"
-                    IsEnabled="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items[0].IsEnabledFechaFinalizacion}"
+                    IsEnabled="{Binding Path=IsEnabledCantidadProducida}"
                     MaxLength="34"
                     Style="{StaticResource TextBoxInputStyle}"
                     Visibility="{Binding Path=IsVisbleCantidadProducida, Converter={StaticResource booleanToVisibilityConverter}}"
-                    Value="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items[0].CantidadProducida, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                    Value="{Binding Path=CantidadProducida, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
 
 
             </Grid>

@@ -292,7 +292,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
             vCurrentRecord.Consecutivo = 0;
             vCurrentRecord.Codigo = "";
             vCurrentRecord.Descripcion = "";
-            vCurrentRecord.StatusOpAsEnum = eTipoStatusOrdenProduccion.Ingresada;
+            vCurrentRecord.StatusOp = '0';
             vCurrentRecord.ConsecutivoAlmacenProductoTerminado = 0;
             vCurrentRecord.ConsecutivoAlmacenMateriales = 0;
             vCurrentRecord.FechaCreacion = LibDate.Today();
@@ -301,9 +301,15 @@ namespace Galac.Adm.Brl.GestionProduccion {
             vCurrentRecord.FechaAnulacion = LibDate.Today();
             vCurrentRecord.FechaAjuste = LibDate.Today();
             vCurrentRecord.AjustadaPostCierreAsBool = false;
-            vCurrentRecord.Observacion = "";
-            vCurrentRecord.MotivoDeAnulacion = "";
-            vCurrentRecord.CostoTerminadoCalculadoAPartirDeAsEnum = eCostoTerminadoCalculadoAPartirDe.MonedaLocal;
+            vCurrentRecord.Observacion = "''";
+            vCurrentRecord.MotivoDeAnulacion = "''";
+            vCurrentRecord.NumeroDecimales = 2;
+            vCurrentRecord.CostoTerminadoCalculadoAPartirDeAsEnum = eFormaDeCalcularCostoTerminado.APartirDeMonedaLocal;
+            vCurrentRecord.CodigoMonedaCostoProduccion = "";
+            vCurrentRecord.CambioCostoProduccion = 0;
+            vCurrentRecord.ConsecutivoListaDeMateriales = 0;
+            vCurrentRecord.CantidadAProducir = 0;
+            vCurrentRecord.CantidadProducida = 0;
             vCurrentRecord.NombreOperador = "";
             vCurrentRecord.FechaUltimaModificacion = LibDate.Today();
             vLista.Add(vCurrentRecord);
@@ -373,6 +379,15 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CambioCostoProduccion"), null))) {
                     vRecord.CambioCostoProduccion = LibConvert.ToDec(vItem.Element("CambioCostoProduccion"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("ConsecutivoListaDeMateriales"), null))) {
+                    vRecord.ConsecutivoListaDeMateriales = LibConvert.ToInt(vItem.Element("ConsecutivoListaDeMateriales"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CantidadAProducir"), null))) {
+                    vRecord.CantidadAProducir = LibConvert.ToDec(vItem.Element("CantidadAProducir"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CantidadProducida"), null))) {
+                    vRecord.CantidadProducida = LibConvert.ToDec(vItem.Element("CantidadProducida"));
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("NombreOperador"), null))) {
                     vRecord.NombreOperador = vItem.Element("NombreOperador").Value;
@@ -729,6 +744,48 @@ namespace Galac.Adm.Brl.GestionProduccion {
             return vNotaDeEntradaSalidaPdn.AnularNotaDeSalidaAsociadaProduccion(valOrdenDeProduccion.ConsecutivoCompania, valOrdenDeProduccion.Consecutivo);
         }
 
+        List<OrdenDeProduccionDetalleMateriales> IOrdenDeProduccionPdn.ObtenerDetalleInicialInsumos(int valConsecutivoCompania, int valConsecutivoListaDeMateriales, int valConsecutivoAlmacen, decimal valCantidadSolicitada) {
+           IList<ListaDeMaterialesDetalleArticulo> vData;
+            vData = new clsListaDeMaterialesDetalleArticuloNav().DetalleArticulos(valConsecutivoCompania, valConsecutivoListaDeMateriales);
+            List<OrdenDeProduccionDetalleMateriales> vResult = new List<OrdenDeProduccionDetalleMateriales>();            
+            foreach (var item in vData) {
+                vResult.Add(new OrdenDeProduccionDetalleMateriales() {
+                    CodigoArticulo = item.CodigoArticuloInventario,
+                    DescripcionArticulo = item.DescripcionArticuloInventario,
+                    ConsecutivoAlmacen = valConsecutivoAlmacen,
+                    Cantidad = item.Cantidad,
+                    CantidadReservadaInventario = LibMath.RoundToNDecimals(item.Cantidad * valCantidadSolicitada, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "CantidadDeDecimales")),
+                    CostoUnitarioArticuloInventario = 0,
+                    CostoUnitarioMEArticuloInventario = 0,
+                    MontoSubtotal = 0,
+                    TipoDeArticuloAsEnum  = item.TipoDeArticuloAsEnum 
+                });
+            }
+            return vResult;
+        }
+
+        List<OrdenDeProduccionDetalleArticulo> IOrdenDeProduccionPdn.ObtenerDetalleInicialSalidas(int valConsecutivoCompania, int valConsecutivoAlmacenEntrada, int valConsecutivoListaDeMateriales, decimal valCantidadSolicitada) {
+            IList<ListaDeMaterialesDetalleSalidas> vData;
+            vData = new clsListaDeMaterialesDetalleSalidasNav().DetalleSalidas(valConsecutivoCompania, valConsecutivoListaDeMateriales);
+            List<OrdenDeProduccionDetalleArticulo> vResult = new List<OrdenDeProduccionDetalleArticulo>();
+            foreach(ListaDeMaterialesDetalleSalidas item in vData) {
+                vResult.Add(new OrdenDeProduccionDetalleArticulo() {
+                    ConsecutivoAlmacen = valConsecutivoAlmacenEntrada,
+                    CodigoArticulo = item.CodigoArticuloInventario,
+                    CantidadOriginalLista = item.Cantidad,
+                    CantidadSolicitada = valCantidadSolicitada,
+                    CantidadProducida = 0,
+                    CostoUnitario = 0,
+                    MontoSubTotal = 0,
+                    AjustadoPostCierreAsBool = false,
+                    CantidadAjustada = 0,
+                    PorcentajeCostoEstimado = item.PorcentajeDeCosto,
+                    PorcentajeCostoCierre = item.PorcentajeDeCosto,
+                    Costo = 0
+                });
+            }
+            return vResult;
+        }
     } //End of class clsOrdenDeProduccionNav
 
 } //End of namespace Galac.Adm.Brl.GestionProduccion

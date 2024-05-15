@@ -62,7 +62,9 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vParams.AddInString("CodigoMonedaCostoProduccion", valRecord.CodigoMonedaCostoProduccion, 4);
             vParams.AddInDecimal("CambioCostoProduccion", valRecord.CambioCostoProduccion, 4);
             vParams.AddInInteger("ConsecutivoListaDeMateriales", valRecord.ConsecutivoListaDeMateriales);
-            vParams.AddInString("NombreOperador", ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login, 10);
+            vParams.AddInDecimal("CantidadAProducir", valRecord.CantidadAProducir, 8);
+            vParams.AddInDecimal("CantidadProducida", valRecord.CantidadProducida, 8);
+            vParams.AddInString("NombreOperador", ((CustomIdentity) Thread.CurrentPrincipal.Identity).Login, 10);
             vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
             if (valAction == eAccionSR.Modificar) {
                 vParams.AddInTimestamp("TimeStampAsInt", valRecord.fldTimeStamp);
@@ -340,6 +342,8 @@ namespace Galac.Adm.Dal.GestionProduccion {
             // vResult = IsValidFechaAjuste(valAction, CurrentRecord.FechaAjuste) && vResult;
             vResult = IsValidCodigoMonedaCostoProduccion(valAction, CurrentRecord.CodigoMonedaCostoProduccion) && vResult;
             vResult = IsValidConsecutivoListaDeMateriales(valAction, CurrentRecord.ConsecutivoListaDeMateriales) && vResult;
+            vResult = IsValidCantidadAProducir(valAction, CurrentRecord.CantidadAProducir) && vResult;
+            vResult = IsValidCantidadProducida(valAction, CurrentRecord.CantidadProducida) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
         }
@@ -518,6 +522,28 @@ namespace Galac.Adm.Dal.GestionProduccion {
                 BuildValidationInfo(MsgRequiredField("Consecutivo Lista De Materiales"));
                 vResult = false;
             }
+            return vResult;
+        }
+
+        private bool IsValidCantidadAProducir(eAccionSR valAction, decimal valCantidadAProducir){
+            bool vResult = true;
+			/*
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
+			*/
+            return vResult;
+        }
+
+        private bool IsValidCantidadProducida(eAccionSR valAction, decimal valCantidadProducida){
+            bool vResult = true;
+			/*
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
+			*/
             return vResult;
         }
 

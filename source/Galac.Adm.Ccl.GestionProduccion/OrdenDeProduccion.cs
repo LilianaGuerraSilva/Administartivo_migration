@@ -40,6 +40,8 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         private int _ConsecutivoListaDeMateriales;
         private string _CodigoListaDeMateriales;
         private string _NombreListaDeMateriales;
+        private decimal _CantidadAProducir;
+        private decimal _CantidadProducida;
         private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;
@@ -207,6 +209,16 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             set { _NombreListaDeMateriales = LibString.Mid(value, 0, 255); }
         }
 
+        public decimal CantidadAProducir {
+            get { return _CantidadAProducir; }
+            set { _CantidadAProducir = value; }
+        }
+
+        public decimal CantidadProducida {
+            get { return _CantidadProducida; }
+            set { _CantidadProducida = value; }
+        }
+
         public string NombreOperador {
             get { return _NombreOperador; }
             set { _NombreOperador = LibString.Mid(value, 0, 20); }
@@ -278,6 +290,8 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             ConsecutivoListaDeMateriales = 0;
             CodigoListaDeMateriales = string.Empty;
             NombreListaDeMateriales = string.Empty;
+            CantidadAProducir = 0;
+            CantidadProducida = 0;
             NombreOperador = string.Empty;
             FechaUltimaModificacion = LibDate.Today();
             fldTimeStamp = 0;
@@ -313,6 +327,8 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             vResult.ConsecutivoListaDeMateriales = _ConsecutivoListaDeMateriales;
             vResult.CodigoListaDeMateriales = _CodigoListaDeMateriales;
             vResult.NombreListaDeMateriales = _NombreListaDeMateriales;
+            vResult.CantidadAProducir = _CantidadAProducir;
+            vResult.CantidadProducida = _CantidadProducida;
             vResult.NombreOperador = _NombreOperador;
             vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
             vResult.fldTimeStamp = _fldTimeStamp;
@@ -339,6 +355,8 @@ namespace Galac.Adm.Ccl.GestionProduccion {
                "\nCódigo Moneda Para El Costo = " + _CodigoMonedaCostoProduccion +
                "\nCambio Costo Produccion = " + _CambioCostoProduccion.ToString() +
                "\nConsecutivo Lista De Materiales = " + _ConsecutivoListaDeMateriales.ToString() +
+               "\nCantidad a Producir = " + _CantidadAProducir.ToString() +
+               "\nCantidad Producida = " + _CantidadProducida.ToString() +
                "\nNombre Operador = " + _NombreOperador +
                "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();
         }
