@@ -50,7 +50,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
 
         #endregion
-
         #region Variables
 
         private FkAlmacenViewModel _ConexionCodigoAlmacenProductoTerminado = null;
