@@ -43,11 +43,6 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Label
@@ -379,18 +374,13 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Label
                     Name="lblCodigoListaDeMateriales"
                     Grid.Row="0"
                     Grid.Column="0"
-                    Content="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items[0].SinonimoListaDeMateriales}"
+                    Content="{Binding Path=SinonimoListaDeMateriales}"
                     Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSSeekConnection
                     Name="txtCodigoListaDeMateriales"
@@ -419,25 +409,6 @@
                     Grid.Column="0"
                     Content="Lista de Materiales"
                     Style="{StaticResource LabelPrompt}" />
-                <!--<Label
-                    Name="lneCodigoArticulo"
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    Width="170"
-                    Margin="3,3,0,0"
-                    Content="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items[0].CodigoArticulo}"
-                    Style="{StaticResource LabelCalculatedField}" />-->
-                <!--<nsWpfControls:GSTextAreaWpf
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    Grid.ColumnSpan="3"
-                    Width="495"
-                    BorderThickness="1"
-                    IsEnabled="True"
-                    IsReadOnly="True"
-                    Style="{StaticResource TextBoxInputStyle}"
-                    Text="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items[0].DescripcionArticulo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                    VerticalScrollBarVisibility="Auto" />-->
                 <Label
                     Name="lblCantidadSolicitada"
                     Grid.Row="3"
@@ -476,8 +447,6 @@
                     Style="{StaticResource TextBoxInputStyle}"
                     Visibility="{Binding Path=IsVisbleCantidadProducida, Converter={StaticResource booleanToVisibilityConverter}}"
                     Value="{Binding Path=CantidadProducida, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-
-
             </Grid>
         </GroupBox>
         <Label

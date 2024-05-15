@@ -26,7 +26,7 @@ namespace Galac.Adm.Uil. GestionProduccion.Views {
         }
 
         private void GSOrdenDeProduccionDetalleArticuloView_Loaded(object sender, RoutedEventArgs e) {
-            dgDetailDetailOrdenDeProduccionDetalleMateriales.SelectedIndex = 0;
+            dgDetailDetailOrdenDeProduccionDetalleArticulos.SelectedIndex = 0;
         }
         #endregion //Constructores
 

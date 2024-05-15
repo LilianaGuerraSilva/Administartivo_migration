@@ -166,6 +166,9 @@
     <Compile Include="Views\GSOrdenDeProduccionDetalleMaterialesView.xaml.cs">
       <DependentUpon>GSOrdenDeProduccionDetalleMaterialesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\GSOrdenDeProduccionDetalleSalidaView.xaml.cs">
+      <DependentUpon>GSOrdenDeProduccionDetalleSalidaView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GSOrdenDeProduccionView.xaml.cs">
       <DependentUpon>GSOrdenDeProduccionView.xaml</DependentUpon>
     </Compile>
@@ -220,6 +223,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GSOrdenDeProduccionDetalleMaterialesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSOrdenDeProduccionDetalleSalidaView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

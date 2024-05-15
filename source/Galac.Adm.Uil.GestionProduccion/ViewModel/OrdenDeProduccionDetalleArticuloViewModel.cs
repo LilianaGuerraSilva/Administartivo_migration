@@ -294,18 +294,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public OrdenDeProduccionViewModel Master {
             get;
             set;
-        }       
-        
-        public string SinonimoListaDeMateriales {
-            get {
-                string vResult = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "NombreParaMostrarListaDeMateriales");
-                if (LibString.IsNullOrEmpty(vResult)) {
-                    vResult = "Lista de Materiales";
-                }
-                return vResult;
-            }
-        }
-       
+        }                          
 
         public bool IsEnabledFechaFinalizacion {
             get {
