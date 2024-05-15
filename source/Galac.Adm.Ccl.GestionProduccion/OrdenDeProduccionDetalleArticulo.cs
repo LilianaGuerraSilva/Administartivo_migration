@@ -16,22 +16,22 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         private int _ConsecutivoCompania;
         private int _ConsecutivoOrdenDeProduccion;
         private int _Consecutivo;
-        private int _ConsecutivoListaDeMateriales;
-        private string _CodigoListaDeMateriales;
-        private string _NombreListaDeMateriales;
         private int _ConsecutivoAlmacen;
         private string _CodigoAlmacen;
         private string _NombreAlmacen;
         private string _CodigoArticulo;
         private string _DescripcionArticulo;
+        private string _UnidadDeVenta;
+        private decimal _CantidadOriginalLista;
         private decimal _CantidadSolicitada;
         private decimal _CantidadProducida;
         private decimal _CostoUnitario;
         private decimal _MontoSubTotal;
         private bool _AjustadoPostCierre;
         private decimal _CantidadAjustada;
-        private long _fldTimeStamp;
-		private ObservableCollection<OrdenDeProduccionDetalleMateriales> _DetailOrdenDeProduccionDetalleMateriales;
+        private decimal _PorcentajeCostoEstimado;
+        private decimal _PorcentajeCostoCierre;
+        private decimal _Costo;
         #endregion //Variables
         #region Propiedades
 
@@ -48,21 +48,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         public int Consecutivo {
             get { return _Consecutivo; }
             set { _Consecutivo = value; }
-        }
-
-        public int ConsecutivoListaDeMateriales {
-            get { return _ConsecutivoListaDeMateriales; }
-            set { _ConsecutivoListaDeMateriales = value; }
-        }
-
-        public string CodigoListaDeMateriales {
-            get { return _CodigoListaDeMateriales; }
-            set { _CodigoListaDeMateriales = LibString.Mid(value, 0, 30); }
-        }
-
-        public string NombreListaDeMateriales {
-            get { return _NombreListaDeMateriales; }
-            set { _NombreListaDeMateriales = LibString.Mid(value, 0, 255); }
         }
 
         public int ConsecutivoAlmacen {
@@ -90,14 +75,34 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             set { _DescripcionArticulo = LibString.Mid(value, 0, 255); }
         }
 
+        public string UnidadDeVenta {
+            get { return _UnidadDeVenta; }
+            set { 
+                _UnidadDeVenta = LibString.Mid(value, 0, 20);
+                OnPropertyChanged("UnidadDeVenta");
+            }
+        }
+
+        public decimal CantidadOriginalLista {
+            get { return _CantidadOriginalLista; }
+            set { 
+                _CantidadOriginalLista = value;                
+            }
+        }
         public decimal CantidadSolicitada {
             get { return _CantidadSolicitada; }
-            set { _CantidadSolicitada = value; }
+            set { 
+                _CantidadSolicitada = value;
+                OnPropertyChanged("CantidadSolicitada");
+            }
         }
 
         public decimal CantidadProducida {
             get { return _CantidadProducida; }
-            set { _CantidadProducida = value; }
+            set { 
+                _CantidadProducida = value;
+                OnPropertyChanged("CantidadProducida");
+            }
         }
 
         public decimal CostoUnitario {
@@ -119,19 +124,33 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             set { _AjustadoPostCierre = LibConvert.SNToBool(value); }
         }
 
+
         public decimal CantidadAjustada {
             get { return _CantidadAjustada; }
             set { _CantidadAjustada = value; }
         }
 
-        public long fldTimeStamp {
-            get { return _fldTimeStamp; }
-            set { _fldTimeStamp = value; }
+        public decimal PorcentajeCostoEstimado {
+            get { return _PorcentajeCostoEstimado; }
+            set { 
+                _PorcentajeCostoEstimado = value;
+                OnPropertyChanged("PorcentajeCostoEstimado");
+            }
+        }
+        public decimal PorcentajeCostoCierre {
+            get { return _PorcentajeCostoCierre; }
+            set { 
+                _PorcentajeCostoCierre = value;
+                OnPropertyChanged("PorcentajeCostoCierre");
+            }
         }
 
-        public ObservableCollection<OrdenDeProduccionDetalleMateriales> DetailOrdenDeProduccionDetalleMateriales {
-            get { return _DetailOrdenDeProduccionDetalleMateriales; }
-            set { _DetailOrdenDeProduccionDetalleMateriales = value; }
+        public decimal Costo {
+            get { return _Costo; }
+            set { 
+                _Costo = value;
+                OnPropertyChanged("Costo");
+            }
         }
         #endregion //Propiedades
         #region Constructores
@@ -150,22 +169,22 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
             ConsecutivoOrdenDeProduccion = 0;
             Consecutivo = 0;
-            ConsecutivoListaDeMateriales = 0;
-            CodigoListaDeMateriales = string.Empty;
-            NombreListaDeMateriales = string.Empty;
             ConsecutivoAlmacen = 0;
             CodigoAlmacen = string.Empty;
             NombreAlmacen = string.Empty;
             CodigoArticulo = string.Empty;
             DescripcionArticulo = string.Empty;
+            UnidadDeVenta = string.Empty;
+            CantidadOriginalLista = 0;
             CantidadSolicitada = 0;
             CantidadProducida = 0;
             CostoUnitario = 0;
             MontoSubTotal = 0;
             AjustadoPostCierreAsBool = false;
             CantidadAjustada = 0;
-            fldTimeStamp = 0;
-            DetailOrdenDeProduccionDetalleMateriales = new ObservableCollection<OrdenDeProduccionDetalleMateriales>();
+            PorcentajeCostoEstimado = 0;
+            PorcentajeCostoCierre = 0;
+            Costo = 0;
         }
 
         public OrdenDeProduccionDetalleArticulo Clone() {
@@ -173,20 +192,22 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             vResult.ConsecutivoCompania = _ConsecutivoCompania;
             vResult.ConsecutivoOrdenDeProduccion = _ConsecutivoOrdenDeProduccion;
             vResult.Consecutivo = _Consecutivo;
-            vResult.ConsecutivoListaDeMateriales = _ConsecutivoListaDeMateriales;
-            vResult.CodigoListaDeMateriales = _CodigoListaDeMateriales;
-            vResult.NombreListaDeMateriales = _NombreListaDeMateriales;
             vResult.ConsecutivoAlmacen = _ConsecutivoAlmacen;
             vResult.CodigoAlmacen = _CodigoAlmacen;
             vResult.NombreAlmacen = _NombreAlmacen;
             vResult.CodigoArticulo = _CodigoArticulo;
             vResult.DescripcionArticulo = _DescripcionArticulo;
+            vResult.UnidadDeVenta = _UnidadDeVenta;
+            vResult.CantidadOriginalLista = _CantidadOriginalLista;
             vResult.CantidadSolicitada = _CantidadSolicitada;
             vResult.CantidadProducida = _CantidadProducida;
             vResult.CostoUnitario = _CostoUnitario;
             vResult.MontoSubTotal = _MontoSubTotal;
             vResult.AjustadoPostCierreAsBool = _AjustadoPostCierre;
             vResult.CantidadAjustada = _CantidadAjustada;
+            vResult.PorcentajeCostoEstimado = _PorcentajeCostoEstimado;
+            vResult.PorcentajeCostoCierre = _PorcentajeCostoCierre;
+            vResult.Costo = _Costo;
             return vResult;
         }
 
@@ -194,15 +215,18 @@ namespace Galac.Adm.Ccl.GestionProduccion {
            return "Consecutivo Compania = " + _ConsecutivoCompania.ToString() +
                "\nConsecutivo Orden De Produccion = " + _ConsecutivoOrdenDeProduccion.ToString() +
                "\nConsecutivo = " + _Consecutivo.ToString() +
-               "\nConsecutivo Lista De Materiales = " + _ConsecutivoListaDeMateriales.ToString() +
                "\nConsecutivo Almacen = " + _ConsecutivoAlmacen.ToString() +
                "\nCódigo de Artículo = " + _CodigoArticulo +
+               "\nCantidad Original Lista = " + _CantidadOriginalLista.ToString() +
                "\nCantidad Solicitada = " + _CantidadSolicitada.ToString() +
                "\nCantidad Producida = " + _CantidadProducida.ToString() +
-               "\nCostoUnitario = " + _CostoUnitario.ToString() +
-               "\nACUM OrdeProduccionDetalleMateriales.MontoSubtotal = " + _MontoSubTotal.ToString() +
+               "\nMontoSubTotal/CantidadProducidad = " + _CostoUnitario.ToString() +
+               "\nACUM OrdenDeProduccionDetalleMateriales.MontoSubTotal = " + _MontoSubTotal.ToString() +
                "\nAjusta por Cierre = " + _AjustadoPostCierre +
-               "\nCantidad Ajustada = " + _CantidadAjustada.ToString();
+               "\nCantidad Ajustada = " + _CantidadAjustada.ToString() +
+               "\n% Costo Est. = " + _PorcentajeCostoEstimado.ToString() +
+               "\n% Costo Cierre = " + _PorcentajeCostoCierre.ToString() +
+               "\nCosto = " + _Costo.ToString();
         }
 
         #region Miembros de IEquatable<OrdenDeProduccionDetalleArticulo>

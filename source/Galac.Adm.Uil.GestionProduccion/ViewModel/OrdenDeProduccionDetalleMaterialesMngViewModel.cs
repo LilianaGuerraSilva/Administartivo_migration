@@ -23,23 +23,23 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         #region Propiedades
 
         public override string ModuleName {
-            get { return "Orden De Produccion Detalle Materiales"; }
+            get { return "Insumos"; }
         }
 
-        public OrdenDeProduccionDetalleArticuloViewModel Master {
+        public OrdenDeProduccionViewModel Master {
             get;
             set;
         }
         #endregion //Propiedades
         #region Constructores
 
-        public OrdenDeProduccionDetalleMaterialesMngViewModel(OrdenDeProduccionDetalleArticuloViewModel initMaster )
+        public OrdenDeProduccionDetalleMaterialesMngViewModel(OrdenDeProduccionViewModel initMaster )
             : base(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             Master = initMaster;
             Title = "Buscar " + ModuleName;
         }
 
-        public OrdenDeProduccionDetalleMaterialesMngViewModel(OrdenDeProduccionDetalleArticuloViewModel initMaster, ObservableCollection<OrdenDeProduccionDetalleMateriales> initDetail, eAccionSR initAction)
+        public OrdenDeProduccionDetalleMaterialesMngViewModel(OrdenDeProduccionViewModel initMaster, ObservableCollection<OrdenDeProduccionDetalleMateriales> initDetail, eAccionSR initAction)
             : base(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             Master = initMaster;
             foreach (var vItem in initDetail) {
@@ -47,10 +47,12 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 vViewModel.InitializeViewModel(initAction);
                 Add(vViewModel);
             }
+			/*
             if (Master.Master.StatusOp == eTipoStatusOrdenProduccion.Cerrada) {
                 VisibleColumns[1].Width = 420;
                 VisibleColumns.Insert(4, new LibGridColumModel() { Header = "Cantidad Consumida", IsReadOnly = true, IsForList = true, Alignment = eTextAlignment.Right, Type = eGridColumType.Numeric, ModelType = typeof(OrdenDeProduccionDetalleMaterialesViewModel), DbMemberPath = "CantidadConsumida", DisplayMemberPath = "CantidadConsumida", Width = 120, ConditionalPropertyDecimalDigits = "DecimalDigits" , ColumnOrder = 4 });
             }
+			*/
         }
         #endregion //Constructores
         #region Metodos Generados

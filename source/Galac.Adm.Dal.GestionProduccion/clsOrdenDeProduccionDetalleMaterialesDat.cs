@@ -33,6 +33,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             DbSchema = "Adm";
             insTrn = new LibDataScope();
         }
+		
         public clsOrdenDeProduccionDetalleMaterialesDat(LibDataScope initTrn) {
             DbSchema = "Adm";
             insTrn = initTrn;
@@ -46,7 +47,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vParams.AddReturn();
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
             vParams.AddInInteger("ConsecutivoOrdenDeProduccion", valRecord.ConsecutivoOrdenDeProduccion);
-            vParams.AddInInteger("ConsecutivoOrdenDeProduccionDetalleArticulo", valRecord.ConsecutivoOrdenDeProduccionDetalleArticulo);
             vParams.AddInInteger("Consecutivo", valRecord.Consecutivo);
             vParams.AddInInteger("ConsecutivoAlmacen", valRecord.ConsecutivoAlmacen);
             vParams.AddInString("CodigoArticulo", valRecord.CodigoArticulo, 30);
@@ -61,13 +61,12 @@ namespace Galac.Adm.Dal.GestionProduccion {
             return vResult;
         }
 
-        private StringBuilder ParametrosActualizacionDetail(OrdenDeProduccionDetalleArticulo valRecord, eAccionSR eAccionSR) {
+        private StringBuilder ParametrosActualizacionDetail(OrdenDeProduccion valRecord, eAccionSR eAccionSR) {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             vParams.AddReturn();
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
-            vParams.AddInInteger("ConsecutivoOrdenDeProduccion", valRecord.ConsecutivoOrdenDeProduccion);
-            vParams.AddInInteger("ConsecutivoOrdenDeProduccionDetalleArticulo", valRecord.Consecutivo);
+            vParams.AddInInteger("ConsecutivoOrdenDeProduccion", valRecord.Consecutivo);
             vParams.AddInXml("XmlDataDetail", ParseToXml(valRecord));
             vResult = vParams.Get();
             return vResult;
@@ -81,7 +80,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             }
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
             vParams.AddInInteger("ConsecutivoOrdenDeProduccion", valRecord.ConsecutivoOrdenDeProduccion);
-            vParams.AddInInteger("ConsecutivoOrdenDeProduccionDetalleArticulo", valRecord.ConsecutivoOrdenDeProduccionDetalleArticulo);
             vParams.AddInInteger("Consecutivo", valRecord.Consecutivo);
             vResult = vParams.Get();
             return vResult;
@@ -92,41 +90,37 @@ namespace Galac.Adm.Dal.GestionProduccion {
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
             vParams.AddInInteger("ConsecutivoOrdenDeProduccion", valRecord.ConsecutivoOrdenDeProduccion);
-            vParams.AddInInteger("ConsecutivoOrdenDeProduccionDetalleArticulo", valRecord.ConsecutivoOrdenDeProduccionDetalleArticulo);
             vResult = vParams.Get();
             return vResult;
         }
 
-        StringBuilder ParametrosDetail(OrdenDeProduccionDetalleArticulo valMaster) {
+        StringBuilder ParametrosDetail(OrdenDeProduccion valMaster) {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("ConsecutivoCompania", valMaster.ConsecutivoCompania);
-            vParams.AddInInteger("ConsecutivoOrdenDeProduccion", valMaster.ConsecutivoOrdenDeProduccion);
-            vParams.AddInInteger("ConsecutivoOrdenDeProduccionDetalleArticulo", valMaster.Consecutivo);
-
+            vParams.AddInInteger("ConsecutivoOrdenDeProduccion", valMaster.Consecutivo);
             vResult = vParams.Get();
             return vResult;
         }
 
-        private XElement ParseToXml(OrdenDeProduccionDetalleArticulo valEntidad) {
-            List<OrdenDeProduccionDetalleArticulo> vListEntidades = new List<OrdenDeProduccionDetalleArticulo>();
+        private XElement ParseToXml(OrdenDeProduccion valEntidad) {
+            List<OrdenDeProduccion> vListEntidades = new List<OrdenDeProduccion>();
             vListEntidades.Add(valEntidad);
             XElement vXElement = new XElement("GpData",
                 from vEntity in vListEntidades
                 select new XElement("GpResult",
                     new XElement("ConsecutivoCompania", vEntity.ConsecutivoCompania),
-                    new XElement("ConsecutivoOrdenDeProduccion", vEntity.ConsecutivoOrdenDeProduccion),
+                    new XElement("Consecutivo", vEntity.Consecutivo),
                     new XElement(BuildElementDetail(vEntity))));
             return vXElement;
         }
 
-        private XElement BuildElementDetail(OrdenDeProduccionDetalleArticulo valMaster) {
+        private XElement BuildElementDetail(OrdenDeProduccion valMaster) {
             XElement vXElement = new XElement("GpDataOrdenDeProduccionDetalleMateriales",
                 from vEntity in valMaster.DetailOrdenDeProduccionDetalleMateriales
                 select new XElement("GpDetailOrdenDeProduccionDetalleMateriales",
                     new XElement("ConsecutivoCompania", valMaster.ConsecutivoCompania),
-                    new XElement("ConsecutivoOrdenDeProduccion", valMaster.ConsecutivoOrdenDeProduccion),
-                    new XElement("ConsecutivoOrdenDeProduccionDetalleArticulo", valMaster.Consecutivo),
+                    new XElement("ConsecutivoOrdenDeProduccion", valMaster.Consecutivo),
                     new XElement("Consecutivo", vEntity.Consecutivo),
                     new XElement("ConsecutivoAlmacen", vEntity.ConsecutivoAlmacen),
                     new XElement("CodigoArticulo", vEntity.CodigoArticulo),
@@ -158,7 +152,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             return vResult;
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "Orden De Produccion Detalle Articulo.Insertar")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Orden de Producción.Insertar")]
         LibResponse ILibDataDetailComponent<IList<OrdenDeProduccionDetalleMateriales>, IList<OrdenDeProduccionDetalleMateriales>>.Insert(IList<OrdenDeProduccionDetalleMateriales> refRecord, XmlReader valExtended) {
             LibResponse vResult = new LibResponse();
             string vErrMsg = "";
@@ -176,7 +170,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
         }
         #endregion //ILibDataDetailComponent<IList<OrdenDeProduccionDetalleMateriales>, IList<OrdenDeProduccionDetalleMateriales>>
 
-        public bool InsertChild(OrdenDeProduccionDetalleArticulo valRecord, LibDataScope insTrn) {
+        public bool InsertChild(OrdenDeProduccion valRecord, LibDataScope insTrn) {
             bool vResult = false;
             vResult = insTrn.ExecSpNonQueryWithScope(insTrn.ToSpName(DbSchema, "OrdenDeProduccionDetalleMaterialesInsDet"), ParametrosActualizacionDetail(valRecord, eAccionSR.Insertar));
             return vResult;
@@ -186,11 +180,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             bool vResult = true;
             ClearValidationInfo();
             vResult = IsValidConsecutivoAlmacen(valAction, CurrentRecord.ConsecutivoAlmacen);
-            vResult = IsValidCodigoArticulo(valAction, CurrentRecord.CodigoArticulo) && vResult;
-            vResult = IsValidCantidad(valAction, CurrentRecord.Cantidad) && vResult;
-            vResult = IsValidCantidadReservadaInventario(valAction, CurrentRecord.CantidadReservadaInventario) && vResult;
-            vResult = IsValidCantidadConsumida(valAction, CurrentRecord.CantidadConsumida) && vResult;
-            vResult = IsValidCantidadAjustada(valAction, CurrentRecord.CantidadAjustada) && vResult;
+            vResult = IsValidCodigoArticulo(valAction, CurrentRecord.CodigoArticulo) && vResult;            
             outErrorMessage = Information.ToString();
             return vResult;
         }
@@ -232,40 +222,12 @@ namespace Galac.Adm.Dal.GestionProduccion {
             return vResult;
         }
 
-        private bool IsValidCantidad(eAccionSR valAction, decimal valCantidad) {
-            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
-                return true;
-            }
-            throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
-        }
 
-        private bool IsValidCantidadReservadaInventario(eAccionSR valAction, decimal valCantidadReservadaInventario) {
-            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
-                return true;
-            }
-            throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
-        }
-
-        private bool IsValidCantidadConsumida(eAccionSR valAction, decimal valCantidadConsumida) {
-            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
-                return true;
-            }
-            throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
-        }
-
-        private bool IsValidCantidadAjustada(eAccionSR valAction, decimal valCantidadAjustada) {
-            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
-                return true;
-            }
-            throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
-        }
-
-        private bool KeyExists(int valConsecutivoCompania, int valConsecutivoOrdenDeProduccion, int valConsecutivoOrdenDeProduccionDetalleArticulo, int valConsecutivo) {
+        private bool KeyExists(int valConsecutivoCompania, int valConsecutivoOrdenDeProduccion, int valConsecutivo) {
             bool vResult = false;
             OrdenDeProduccionDetalleMateriales vRecordBusqueda = new OrdenDeProduccionDetalleMateriales();
             vRecordBusqueda.ConsecutivoCompania = valConsecutivoCompania;
             vRecordBusqueda.ConsecutivoOrdenDeProduccion = valConsecutivoOrdenDeProduccion;
-            vRecordBusqueda.ConsecutivoOrdenDeProduccionDetalleArticulo = valConsecutivoOrdenDeProduccionDetalleArticulo;
             vRecordBusqueda.Consecutivo = valConsecutivo;
             LibDatabase insDb = new LibDatabase();
             vResult = insDb.ExistsRecord(DbSchema + ".OrdenDeProduccionDetalleMateriales", "ConsecutivoCompania", ParametrosClave(vRecordBusqueda, false, false));
@@ -274,10 +236,10 @@ namespace Galac.Adm.Dal.GestionProduccion {
         }
         #endregion //Validaciones
 
-        public bool GetDetailAndAppendToMaster(ref List<OrdenDeProduccionDetalleArticulo> refMaster) {
+        public bool GetDetailAndAppendToMaster(ref List<OrdenDeProduccion>  refMaster) {
             bool vResult = false;
             List<OrdenDeProduccionDetalleMateriales> vDetail = null;
-            foreach (OrdenDeProduccionDetalleArticulo vItemMaster in refMaster) {
+            foreach (OrdenDeProduccion vItemMaster in refMaster) {
                 vItemMaster.DetailOrdenDeProduccionDetalleMateriales = new ObservableCollection<OrdenDeProduccionDetalleMateriales>();
                 vDetail = new LibDatabase().LoadFromSp<OrdenDeProduccionDetalleMateriales>("Adm.Gp_OrdenDeProduccionDetalleMaterialesSelDet", ParametrosDetail(vItemMaster), CmdTimeOut);
                 foreach (OrdenDeProduccionDetalleMateriales vItemDetail in vDetail) {

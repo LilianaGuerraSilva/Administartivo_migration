@@ -37,10 +37,14 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         private eFormaDeCalcularCostoTerminado _CostoTerminadoCalculadoAPartirDe;
         private string _CodigoMonedaCostoProduccion;
         private decimal _CambioCostoProduccion;
+        private int _ConsecutivoListaDeMateriales;
+        private string _CodigoListaDeMateriales;
+        private string _NombreListaDeMateriales;
         private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;
 		private ObservableCollection<OrdenDeProduccionDetalleArticulo> _DetailOrdenDeProduccionDetalleArticulo;
+		private ObservableCollection<OrdenDeProduccionDetalleMateriales> _DetailOrdenDeProduccionDetalleMateriales;
         XmlDocument _datos;
         #endregion //Variables
         #region Propiedades
@@ -188,6 +192,21 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             set { _CambioCostoProduccion = value; }
         }
 
+        public int ConsecutivoListaDeMateriales {
+            get { return _ConsecutivoListaDeMateriales; }
+            set { _ConsecutivoListaDeMateriales = value; }
+        }
+
+        public string CodigoListaDeMateriales {
+            get { return _CodigoListaDeMateriales; }
+            set { _CodigoListaDeMateriales = LibString.Mid(value, 0, 30); }
+        }
+
+        public string NombreListaDeMateriales {
+            get { return _NombreListaDeMateriales; }
+            set { _NombreListaDeMateriales = LibString.Mid(value, 0, 255); }
+        }
+
         public string NombreOperador {
             get { return _NombreOperador; }
             set { _NombreOperador = LibString.Mid(value, 0, 20); }
@@ -208,6 +227,11 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             set { _DetailOrdenDeProduccionDetalleArticulo = value; }
         }
 
+        public ObservableCollection<OrdenDeProduccionDetalleMateriales> DetailOrdenDeProduccionDetalleMateriales {
+            get { return _DetailOrdenDeProduccionDetalleMateriales; }
+            set { _DetailOrdenDeProduccionDetalleMateriales = value; }
+        }
+
         public XmlDocument Datos {
             get { return _datos; }
             set { _datos = value; }
@@ -217,6 +241,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
 
         public OrdenDeProduccion() {
             _DetailOrdenDeProduccionDetalleArticulo = new ObservableCollection<OrdenDeProduccionDetalleArticulo>();
+            _DetailOrdenDeProduccionDetalleMateriales = new ObservableCollection<OrdenDeProduccionDetalleMateriales>();
             Clear();
         }
         #endregion //Constructores
@@ -250,10 +275,14 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             CostoTerminadoCalculadoAPartirDeAsEnum = eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaLocal;
             CodigoMonedaCostoProduccion = "VED";
             CambioCostoProduccion = 1;
+            ConsecutivoListaDeMateriales = 0;
+            CodigoListaDeMateriales = string.Empty;
+            NombreListaDeMateriales = string.Empty;
             NombreOperador = string.Empty;
             FechaUltimaModificacion = LibDate.Today();
             fldTimeStamp = 0;
             DetailOrdenDeProduccionDetalleArticulo = new ObservableCollection<OrdenDeProduccionDetalleArticulo>();
+            DetailOrdenDeProduccionDetalleMateriales = new ObservableCollection<OrdenDeProduccionDetalleMateriales>();
         }
 
         public OrdenDeProduccion Clone() {
@@ -281,6 +310,9 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             vResult.CostoTerminadoCalculadoAPartirDeAsEnum = _CostoTerminadoCalculadoAPartirDe;
             vResult.CodigoMonedaCostoProduccion = _CodigoMonedaCostoProduccion;
             vResult.CambioCostoProduccion = _CambioCostoProduccion;
+            vResult.ConsecutivoListaDeMateriales = _ConsecutivoListaDeMateriales;
+            vResult.CodigoListaDeMateriales = _CodigoListaDeMateriales;
+            vResult.NombreListaDeMateriales = _NombreListaDeMateriales;
             vResult.NombreOperador = _NombreOperador;
             vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
             vResult.fldTimeStamp = _fldTimeStamp;
@@ -306,6 +338,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
                "\nCosto Terminado Calculado A Partir De = " + _CostoTerminadoCalculadoAPartirDe.ToString() +
                "\nCódigo Moneda Para El Costo = " + _CodigoMonedaCostoProduccion +
                "\nCambio Costo Produccion = " + _CambioCostoProduccion.ToString() +
+               "\nConsecutivo Lista De Materiales = " + _ConsecutivoListaDeMateriales.ToString() +
                "\nNombre Operador = " + _NombreOperador +
                "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();
         }

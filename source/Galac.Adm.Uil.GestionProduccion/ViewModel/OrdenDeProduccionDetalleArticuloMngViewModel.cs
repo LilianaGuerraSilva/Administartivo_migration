@@ -23,7 +23,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         #region Propiedades
 
         public override string ModuleName {
-            get { return "Orden De Produccion Detalle Articulo"; }
+            get { return "Salidas"; }
         }
 
         public OrdenDeProduccionViewModel Master {

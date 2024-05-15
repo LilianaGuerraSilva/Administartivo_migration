@@ -364,7 +364,7 @@
             Grid.Row="10"
             Grid.ColumnSpan="4"
             Margin="3"
-            Header="Artículo a Producir"
+            Header="Lista de Materiales a Producir"
             HeaderTemplate="{StaticResource GroupBoxHeaderTemplate}"
             Style="{StaticResource GroupBoxStyle}">
             <Grid FocusManager.FocusedElement="{Binding ElementName=txtCodigo}">
@@ -400,11 +400,11 @@
                     Height="23"
                     Margin="3"
                     HorizontalAlignment="Left"
-                    ConnectionValue="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items[0].CodigoListaDeMateriales, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                    ConnectionValue="{Binding Path=CodigoListaDeMateriales, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                     DisplayMemberPath="Codigo"
-                    IsEnabled="{Binding Path=IsEnabled}"
-                    Model="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items[0].ConexionCodigoListaDeMateriales, Mode=TwoWay}"
-                    SearchCommand="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items[0].ChooseCodigoListaDeMaterialesCommand}" />
+                    IsEnabled="{Binding Path=IsEnabledCodigoListaDeMateriales}"
+                    Model="{Binding Path=ConexionCodigoListaDeMateriales, Mode=TwoWay}"
+                    SearchCommand="{Binding Path=ChooseCodigoListaDeMaterialesCommand}" />
                 <Label
                     Name="lneNombreListaDemateriales"
                     Grid.Row="0"
@@ -412,22 +412,22 @@
                     Grid.ColumnSpan="2"
                     Width="320"
                     Margin="3,3,0,0"
-                    Content="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items[0].NombreListaDeMateriales}"
+                    Content="{Binding Path=NombreListaDeMateriales}"
                     Style="{StaticResource LabelCalculatedField}" />
                 <Label
-                    Grid.Row="1"
+                    Grid.Row="0"
                     Grid.Column="0"
-                    Content="Inventario a Producir"
+                    Content="Lista de Materiales"
                     Style="{StaticResource LabelPrompt}" />
-                <Label
+                <!--<Label
                     Name="lneCodigoArticulo"
                     Grid.Row="1"
                     Grid.Column="1"
                     Width="170"
                     Margin="3,3,0,0"
                     Content="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items[0].CodigoArticulo}"
-                    Style="{StaticResource LabelCalculatedField}" />
-                <nsWpfControls:GSTextAreaWpf
+                    Style="{StaticResource LabelCalculatedField}" />-->
+                <!--<nsWpfControls:GSTextAreaWpf
                     Grid.Row="2"
                     Grid.Column="1"
                     Grid.ColumnSpan="3"
@@ -437,8 +437,7 @@
                     IsReadOnly="True"
                     Style="{StaticResource TextBoxInputStyle}"
                     Text="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items[0].DescripcionArticulo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                    VerticalScrollBarVisibility="Auto" />
-
+                    VerticalScrollBarVisibility="Auto" />-->
                 <Label
                     Name="lblCantidadSolicitada"
                     Grid.Row="3"

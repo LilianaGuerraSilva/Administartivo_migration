@@ -210,12 +210,11 @@ namespace Galac.Adm.Brl.GestionProduccion {
         */
         #endregion //Codigo Ejemplo
 
-
-        internal ObservableCollection<OrdenDeProduccionDetalleMateriales> FillWithForeignInfo(OrdenDeProduccionDetalleArticulo vOrdenDeProduccionDetalleArticulo) {
-            IList<OrdenDeProduccionDetalleMateriales> vList = vOrdenDeProduccionDetalleArticulo.DetailOrdenDeProduccionDetalleMateriales .ToList();
-            FillWithForeignInfo(ref vList);
-            return new ObservableCollection<OrdenDeProduccionDetalleMateriales>(vList);
-        }
+        //internal ObservableCollection<OrdenDeProduccionDetalleMateriales> FillWithForeignInfo(OrdenDeProduccionDetalleArticulo vOrdenDeProduccionDetalleArticulo) {
+        //    IList<OrdenDeProduccionDetalleMateriales> vList = vOrdenDeProduccionDetalleArticulo.DetailOrdenDeProduccionDetalleMateriales .ToList();
+        //    FillWithForeignInfo(ref vList);
+        //    return new ObservableCollection<OrdenDeProduccionDetalleMateriales>(vList);
+        //}
     } //End of class clsOrdenDeProduccionDetalleMaterialesNav
 
 } //End of namespace Galac.Adm.Brl.GestionProduccion

@@ -61,6 +61,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vParams.AddInEnum("CostoTerminadoCalculadoAPartirDe", valRecord.CostoTerminadoCalculadoAPartirDeAsDB);
             vParams.AddInString("CodigoMonedaCostoProduccion", valRecord.CodigoMonedaCostoProduccion, 4);
             vParams.AddInDecimal("CambioCostoProduccion", valRecord.CambioCostoProduccion, 4);
+            vParams.AddInInteger("ConsecutivoListaDeMateriales", valRecord.ConsecutivoListaDeMateriales);
             vParams.AddInString("NombreOperador", ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login, 10);
             vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
             if (valAction == eAccionSR.Modificar) {
@@ -162,6 +163,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
                     vResult = insDb.LoadFromSp<OrdenDeProduccion>(valProcessMessage, valParameters, CmdTimeOut);
                     if (valUseDetail && vResult != null && vResult.Count > 0) {
                         new clsOrdenDeProduccionDetalleArticuloDat().GetDetailAndAppendToMaster(ref vResult);
+                        new clsOrdenDeProduccionDetalleMaterialesDat().GetDetailAndAppendToMaster(ref vResult);
                     }
                     break;
                 default: throw new ProgrammerMissingCodeException();
@@ -283,6 +285,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
         private bool InsertDetail(OrdenDeProduccion valRecord) {
             bool vResult = true;
             vResult = vResult && SetPkInDetailOrdenDeProduccionDetalleArticuloAndUpdateDb(valRecord);
+            vResult = vResult && SetPkInDetailOrdenDeProduccionDetalleMaterialesAndUpdateDb(valRecord);
             return vResult;
         }
 
@@ -300,9 +303,24 @@ namespace Galac.Adm.Dal.GestionProduccion {
             return vResult;
         }
 
+        private bool SetPkInDetailOrdenDeProduccionDetalleMaterialesAndUpdateDb(OrdenDeProduccion valRecord) {
+            bool vResult = false;
+            int vConsecutivo = 1;
+            clsOrdenDeProduccionDetalleMaterialesDat insOrdenDeProduccionDetalleMateriales = new clsOrdenDeProduccionDetalleMaterialesDat();
+            foreach (OrdenDeProduccionDetalleMateriales vDetail in valRecord.DetailOrdenDeProduccionDetalleMateriales) {
+                vDetail.ConsecutivoCompania = valRecord.ConsecutivoCompania;
+                vDetail.ConsecutivoOrdenDeProduccion = valRecord.Consecutivo;
+                vDetail.Consecutivo = vConsecutivo;
+                vConsecutivo++;
+            }
+            vResult = insOrdenDeProduccionDetalleMateriales.InsertChild(valRecord, insTrn);
+            return vResult;
+        }
+
         private bool UpdateDetail(OrdenDeProduccion valRecord) {
             bool vResult = true;
             vResult = vResult && SetPkInDetailOrdenDeProduccionDetalleArticuloAndUpdateDb(valRecord);
+            vResult = vResult && SetPkInDetailOrdenDeProduccionDetalleMaterialesAndUpdateDb(valRecord);
             return vResult;
         }
         #region Validaciones
@@ -321,6 +339,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vResult = IsValidFechaAnulacion(valAction, CurrentRecord.FechaAnulacion) && vResult;
             // vResult = IsValidFechaAjuste(valAction, CurrentRecord.FechaAjuste) && vResult;
             vResult = IsValidCodigoMonedaCostoProduccion(valAction, CurrentRecord.CodigoMonedaCostoProduccion) && vResult;
+            vResult = IsValidConsecutivoListaDeMateriales(valAction, CurrentRecord.ConsecutivoListaDeMateriales) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
         }
@@ -489,6 +508,18 @@ namespace Galac.Adm.Dal.GestionProduccion {
             }
             return vResult;
         }
+		
+		 private bool IsValidConsecutivoListaDeMateriales(eAccionSR valAction, int valConsecutivoListaDeMateriales){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            if (valConsecutivoListaDeMateriales == 0) {
+                BuildValidationInfo(MsgRequiredField("Consecutivo Lista De Materiales"));
+                vResult = false;
+            }
+            return vResult;
+        }
 
         private bool KeyExists(int valConsecutivoCompania, int valConsecutivo) {
             bool vResult = false;
@@ -534,6 +565,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             bool vResult = true;
             outErrorMessage = "";
             vResult = vResult && ValidateDetailOrdenDeProduccionDetalleArticulo(valRecord, valAction, out outErrorMessage);
+            vResult = vResult && ValidateDetailOrdenDeProduccionDetalleMateriales(valRecord, valAction, out outErrorMessage);
             return vResult;
         }
 
@@ -544,11 +576,11 @@ namespace Galac.Adm.Dal.GestionProduccion {
             outErrorMessage = string.Empty;
             foreach (OrdenDeProduccionDetalleArticulo vDetail in valRecord.DetailOrdenDeProduccionDetalleArticulo) {
                 bool vLineHasError = true;
-                //agregar validaciones
-                if (vDetail.ConsecutivoListaDeMateriales == 0) {
-                    vSbErrorInfo.AppendLine("Línea " + vNumeroDeLinea.ToString() + ": No fue asignado el Consecutivo Lista De Materiales.");
-                } else if (vDetail.ConsecutivoAlmacen == 0) {
+                //agregar validaciones                                
+                if (vDetail.ConsecutivoAlmacen == 0) {
                     vSbErrorInfo.AppendLine("Línea " + vNumeroDeLinea.ToString() + ": No fue asignado el Consecutivo Almacen.");
+                } else if (LibString.IsNullOrEmpty(vDetail.CodigoArticulo)) {
+                    vSbErrorInfo.AppendLine("Línea " + vNumeroDeLinea.ToString() + ": No fue asignado el Código de Artículo.");
                 } else {
                     vLineHasError = false;
                 }
@@ -556,10 +588,35 @@ namespace Galac.Adm.Dal.GestionProduccion {
                 vNumeroDeLinea++;
             }
             if (!vResult) {
-                outErrorMessage = "Orden De Produccion Detalle Articulo" + Environment.NewLine + vSbErrorInfo.ToString();
+                outErrorMessage = "Salidas"  + Environment.NewLine + vSbErrorInfo.ToString();
             }
             return vResult;
         }
+		
+		 private bool ValidateDetailOrdenDeProduccionDetalleMateriales(OrdenDeProduccion valRecord, eAccionSR valAction, out string outErrorMessage) {
+            bool vResult = true;
+            StringBuilder vSbErrorInfo = new StringBuilder();
+            int vNumeroDeLinea = 1;
+            outErrorMessage = string.Empty;
+            foreach (OrdenDeProduccionDetalleMateriales vDetail in valRecord.DetailOrdenDeProduccionDetalleMateriales) {
+                bool vLineHasError = true;
+                //agregar validaciones
+                if (vDetail.ConsecutivoAlmacen == 0) {
+                    vSbErrorInfo.AppendLine("Línea " + vNumeroDeLinea.ToString() + ": No fue asignado el Consecutivo Almacen.");
+                } else if (LibString.IsNullOrEmpty(vDetail.CodigoArticulo)) {
+                    vSbErrorInfo.AppendLine("Línea " + vNumeroDeLinea.ToString() + ": No fue asignado el Código de Artículo.");
+                } else {
+                    vLineHasError = false;
+                }
+                vResult = vResult && (!vLineHasError);
+                vNumeroDeLinea++;
+            }
+            if (!vResult) {
+                outErrorMessage = "Insumos"  + Environment.NewLine + vSbErrorInfo.ToString();
+            }
+            return vResult;
+        }
+		
         #endregion //Validaciones
         #region Miembros de ILibDataFKSearch
         bool ILibDataFKSearch.ConnectFk(ref XmlDocument refResulset, eProcessMessageType valType, string valProcessMessage, StringBuilder valXmlParamsExpression) {

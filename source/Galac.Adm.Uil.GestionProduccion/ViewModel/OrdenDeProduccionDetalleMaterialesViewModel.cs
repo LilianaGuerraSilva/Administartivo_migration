@@ -25,6 +25,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public const string NombreAlmacenPropertyName = "NombreAlmacen";
         public const string CodigoArticuloPropertyName = "CodigoArticulo";
         public const string DescripcionArticuloPropertyName = "DescripcionArticulo";
+        public const string UnidadDeVentaPropertyName = "UnidadDeVenta";
         public const string CantidadPropertyName = "Cantidad";
         public const string CantidadReservadaInventarioPropertyName = "CantidadReservadaInventario";
         public const string CantidadConsumidaPropertyName = "CantidadConsumida";
@@ -39,7 +40,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         #region Propiedades
 
         public override string ModuleName {
-            get { return "Orden De Produccion Detalle Materiales"; }
+            get { return "Insumos"; }
         }
 
         public int  ConsecutivoCompania {
@@ -62,18 +63,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Model.ConsecutivoOrdenDeProduccion = value;
                 }
             }
-        }
-
-        public int  ConsecutivoOrdenDeProduccionDetalleArticulo {
-            get {
-                return Model.ConsecutivoOrdenDeProduccionDetalleArticulo;
-            }
-            set {
-                if (Model.ConsecutivoOrdenDeProduccionDetalleArticulo != value) {
-                    Model.ConsecutivoOrdenDeProduccionDetalleArticulo = value;
-                }
-            }
-        }
+        }        
 
         public int  Consecutivo {
             get {
@@ -127,7 +117,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Codigo", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoArticulo", ConnectionSearchCommandName = "ChooseCodigoArticuloCommand", MaxWidth=120, ColumnOrder= 0)]
+        [LibGridColum("Código", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoArticulo", ConnectionSearchCommandName = "ChooseCodigoArticuloCommand", MaxWidth=120, ColumnOrder= 0)]
         public string  CodigoArticulo {
             get {
                 return Model.CodigoArticulo;
@@ -159,7 +149,21 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         
-        [LibGridColum(" Cantidad Original", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigitsCantidadOriginal", ColumnOrder = 2)]
+        [LibGridColum("Unidad", eGridColumType.Connection, ConnectionDisplayMemberPath = "UnidadDeVenta", ConnectionModelPropertyName = "UnidadDeVenta", ConnectionSearchCommandName = "ChooseUnidadDeVentaCommand", MaxWidth=120)]
+        public string  UnidadDeVenta {
+            get {
+                return Model.UnidadDeVenta;
+            }
+            set {
+                if (Model.UnidadDeVenta != value) {
+                    Model.UnidadDeVenta = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(UnidadDeVentaPropertyName);                   
+                }
+            }
+        }
+		
+		[LibGridColum(" Cantidad Original", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigitsCantidadOriginal", ColumnOrder = 2)]
         public decimal  Cantidad {
             get {
                 return Model.Cantidad;
@@ -174,7 +178,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         
-        [LibGridColum("Cantidad Reservada Inventario", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 200, ConditionalPropertyDecimalDigits = "DecimalDigits",  ColumnOrder = 3)]
+        [LibGridColum("Cantidad a Consumir", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 200, ConditionalPropertyDecimalDigits = "DecimalDigits",  ColumnOrder = 3)]
         public decimal  CantidadReservadaInventario {
             get {
                 return Model.CantidadReservadaInventario;
@@ -241,7 +245,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
             }
         }
-
         
         public decimal  CantidadAjustada {
             get {
@@ -256,12 +259,12 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        public OrdenDeProduccionDetalleArticuloViewModel Master {
+        public OrdenDeProduccionViewModel Master {
             get;
             set;
         }
 
-        [LibGridColum("Existencia", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 5)]
+        [LibGridColum("Existencia Actual", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 5)]
         public Decimal Existencia { get; set; }
 
         
@@ -302,7 +305,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public OrdenDeProduccionDetalleMaterialesViewModel()
             : base(new OrdenDeProduccionDetalleMateriales(), eAccionSR.Insertar, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
         }
-        public OrdenDeProduccionDetalleMaterialesViewModel(OrdenDeProduccionDetalleArticuloViewModel initMaster, OrdenDeProduccionDetalleMateriales initModel, eAccionSR initAction)
+        public OrdenDeProduccionDetalleMaterialesViewModel(OrdenDeProduccionViewModel initMaster, OrdenDeProduccionDetalleMateriales initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             Master = initMaster;
         }
