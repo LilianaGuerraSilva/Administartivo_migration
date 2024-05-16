@@ -23,7 +23,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
 
         public eSeleccionarOrdenPor SeleccionarOrdenPor { get; set; }
 
-        protected DataTable Data { get; set; }
+        protected DataTable DataInsumos { get; set; }
 
         protected DataTable DataSalidas { get; set; }
 
@@ -41,7 +41,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         #region Constructores
         public clsDetalleDeCostoDeProduccion(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime iniFechaInicial, DateTime iniFechaFinal, int iniConsecutivoOrden, string iniCodigoOrden, eSeleccionarOrdenPor iniSeleccionarOdenPor) //, decimal initTasaDeCambio, string initMonedaDelInforme, string[] initListaMonedas)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
-            ConsecutivoCompania = 16; //LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", LibConvert.ToInt("16"));
+            ConsecutivoCompania = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania");
             FechaInicial = iniFechaInicial;
             FechaFinal = iniFechaFinal;
             ConsecutivoOrden = iniConsecutivoOrden;
@@ -82,7 +82,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             }
             WorkerReportProgress(30, "Obteniendo datos...");
             IOrdenDeProduccionInformes vRpt = new Galac.Adm.Brl.GestionProduccion.Reportes.clsOrdenDeProduccionRpt() as IOrdenDeProduccionInformes;
-            Data = vRpt.BuildDetalleDeCostoDeProduccion(ConsecutivoCompania, FechaInicial, FechaFinal,SeleccionarOrdenPor, ConsecutivoOrden, MonedaDelInforme, TasaDeCambio, ListaMonedas);
+            DataInsumos = vRpt.BuildDetalleDeCostoDeProduccion(ConsecutivoCompania, FechaInicial, FechaFinal,SeleccionarOrdenPor, ConsecutivoOrden, MonedaDelInforme, TasaDeCambio, ListaMonedas);
             DataSalidas = vRpt.BuildDetalleDeCostoDeProduccionSalida(ConsecutivoCompania, FechaInicial, FechaFinal, SeleccionarOrdenPor, ConsecutivoOrden, MonedaDelInforme, TasaDeCambio, ListaMonedas);
         }
 
@@ -91,7 +91,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             Dictionary<string, string> vParams = GetConfigReportParameters();
             dsrDetalleDeCostoDeProduccion vRpt = new dsrDetalleDeCostoDeProduccion();
             if (DataSalidas.Rows.Count > 0) {
-                if (vRpt.ConfigReport(DataSalidas, Data, ListaMonedas, MonedaDelInforme, TasaDeCambio, vParams)) {
+                if (vRpt.ConfigReport(DataSalidas, DataInsumos, ListaMonedas, MonedaDelInforme, TasaDeCambio, vParams)) {
                     LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsDetalleDeCostoDeProduccion.ReportName, true, ExportFileFormat, "", false);
                 }
                 WorkerReportProgress(100, "Finalizando...");
