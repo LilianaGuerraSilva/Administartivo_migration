@@ -6,6 +6,7 @@ using LibGalac.Aos.Base.Dal;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Base.Report;
 using Galac.Adm.Ccl.GestionProduccion;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Brl. GestionProduccion.Reportes {
     public class clsOrdenDeProduccionSql {
@@ -214,53 +215,81 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
         public string SqlDetalleDeCostoDeProduccion(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, eSeleccionarOrdenPor valSeleccionarOrdenPor, int valConsecutivoOrden) {
             StringBuilder vSql = new StringBuilder();
             QAdvSql vUtilSql = new QAdvSql("");
-            string vSQLWhere = string.Empty;
+            string vSQLWhere;
+
+            vSQLWhere = vUtilSql.SqlIntValueWithAnd(string.Empty, "OrdenDeProduccion.ConsecutivoCompania", valConsecutivoCompania);
+            vSQLWhere = vUtilSql.SqlEnumValueWithAnd(vSQLWhere, "OrdenDeProduccion.StatusOp", (int)eTipoStatusOrdenProduccion.Cerrada);
+            if (valSeleccionarOrdenPor == eSeleccionarOrdenPor.NumeroDeOrden) {
+                vSQLWhere = vUtilSql.SqlIntValueWithAnd(vSQLWhere, "OrdenDeProduccion.Consecutivo", valConsecutivoOrden);
+            } else if (valSeleccionarOrdenPor == eSeleccionarOrdenPor.FechaDeInicio) {
+                vSQLWhere = vUtilSql.SqlDateValueBetween(vSQLWhere, "OrdenDeProduccion.FechaInicio", valFechaInicial, valFechaFinal);
+            } else if (valSeleccionarOrdenPor == eSeleccionarOrdenPor.FechaDeFinalizacion) {
+                vSQLWhere = vUtilSql.SqlDateValueBetween(vSQLWhere, "OrdenDeProduccion.FechaFinalizacion", valFechaInicial, valFechaFinal);
+            }
+
+            string vCodigoMonedaLocal = "VED";//parámetro
+            string vCodigoMonedaExtranjera = "USD";//parámetro
 
             vSql.AppendLine("SELECT");
-            vSql.AppendLine(vUtilSql.IIF("OrdProd.StatusOp = " + vUtilSql.EnumToSqlValue((int)eTipoStatusOrdenProduccion.Cerrada), vUtilSql.ToSqlValue("Cerrada"), vUtilSql.ToSqlValue("Abierta"), false) + " AS Estatus,");
-            vSql.AppendLine("OrdProd.Codigo AS CodigoOrden,");
-            vSql.AppendLine("OrdProd.Codigo + '-' + OrdProd.Descripcion AS OrdenCodigoDescripcion,");
-            vSql.AppendLine("AlmacenDeProductoTerminado.NombreAlmacen AS AlmacenProductoTerminado,");
-            vSql.AppendLine("AlmacenDeMateriales.NombreAlmacen AS AlmacenMateriales,");
-            vSql.AppendLine("OrdProd.FechaInicio,");
-            vSql.AppendLine("OrdProd.FechaFinalizacion,");
-            vSql.AppendLine("OrdProd.Observacion AS Observaciones,");
-            vSql.AppendLine("OrdProdDetalleProducto.CodigoArticulo + '-' + ArticuloAProducir.Descripcion AS InventarioProducido,");
-            vSql.AppendLine("OrdProdDetalleProducto.CantidadSolicitada AS CantidadAProducir,");
-            vSql.AppendLine("OrdProdDetalleProducto.CantidadProducida,");
-            vSql.AppendLine("OrdProdDetalleProducto.CostoUnitario AS CostoUnitarioProductoTerminado,");
-            vSql.AppendLine("OrdProdDetalleProducto.MontoSubTotal AS MontoTotalOrden,");
-            vSql.AppendLine("OrdProDetalleMateriales.CodigoArticulo + '-' + MaterialDeProduccion.Descripcion AS ArtServUtilizado,");
-            vSql.AppendLine("OrdProDetalleMateriales.CantidadReservadaInventario AS CantidadEstimada,");
-            vSql.AppendLine("OrdProDetalleMateriales.CantidadConsumida,");
-            vSql.AppendLine("OrdProDetalleMateriales.CostoUnitarioArticuloInventario AS CostoUnitarioMatServ,");
-            vSql.AppendLine("OrdProDetalleMateriales.MontoSubtotal AS MontoTotalConsumo");
-            vSql.AppendLine("FROM");
-            vSql.AppendLine("Adm.OrdenDeProduccion OrdProd INNER JOIN");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleArticulo OrdProdDetalleProducto ON OrdProd.ConsecutivoCompania = OrdProdDetalleProducto.ConsecutivoCompania AND");
-            vSql.AppendLine("OrdProd.Consecutivo = OrdProdDetalleProducto.ConsecutivoOrdenDeProduccion INNER JOIN");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleMateriales OrdProDetalleMateriales ON OrdProdDetalleProducto.ConsecutivoCompania = OrdProDetalleMateriales.ConsecutivoCompania AND");
-            vSql.AppendLine("OrdProdDetalleProducto.ConsecutivoOrdenDeProduccion = OrdProDetalleMateriales.ConsecutivoOrdenDeProduccion AND");
-            vSql.AppendLine("OrdProdDetalleProducto.Consecutivo = OrdProDetalleMateriales.ConsecutivoOrdenDeProduccionDetalleArticulo INNER JOIN");
-            vSql.AppendLine("dbo.ArticuloInventario MaterialDeProduccion ON OrdProDetalleMateriales.ConsecutivoCompania = MaterialDeProduccion.ConsecutivoCompania AND");
-            vSql.AppendLine("OrdProDetalleMateriales.CodigoArticulo = MaterialDeProduccion.Codigo INNER JOIN");
-            vSql.AppendLine("dbo.ArticuloInventario ArticuloAProducir ON OrdProdDetalleProducto.ConsecutivoCompania = ArticuloAProducir.ConsecutivoCompania AND");
-            vSql.AppendLine("OrdProdDetalleProducto.CodigoArticulo = ArticuloAProducir.Codigo INNER JOIN");
-            vSql.AppendLine("Saw.Almacen AlmacenDeProductoTerminado ON OrdProd.ConsecutivoCompania = AlmacenDeProductoTerminado.ConsecutivoCompania AND OrdProd.ConsecutivoAlmacenProductoTerminado = AlmacenDeProductoTerminado.Consecutivo INNER JOIN");
-            vSql.AppendLine("Saw.Almacen AlmacenDeMateriales ON OrdProd.ConsecutivoCompania = AlmacenDeMateriales.ConsecutivoCompania AND  OrdProd.ConsecutivoAlmacenMateriales = AlmacenDeMateriales.Consecutivo"); 
-            vSQLWhere = vUtilSql.SqlIntValueWithAnd(string.Empty, "OrdProd.ConsecutivoCompania", valConsecutivoCompania);
-            vSQLWhere = vUtilSql.SqlEnumValueWithAnd(vSQLWhere, "OrdProd.StatusOp", (int)eTipoStatusOrdenProduccion.Cerrada);
+            vSql.AppendLine("OrdenDeProduccion.Codigo AS CodigoOrden,");
+            vSql.AppendLine("Insumos.Consecutivo AS ConsecutivoInsumos,");
+            vSql.AppendLine("OrdenDeProduccion.Codigo + ' - ' + OrdenDeProduccion.Descripcion AS OrdenCodigoDescripcion,");
+            vSql.AppendLine("");
+            vSql.AppendLine("OrdenDeProduccion.StatusOp AS Estatus,");
+            vSql.AppendLine("OrdenDeProduccion.CodigoMonedaCostoProduccion AS Moneda,");
+            vSql.AppendLine("OrdenDeProduccion.CambioCostoProduccion AS Cambio,");
+            vSql.AppendLine("OrdenDeProduccion.FechaInicio,");
+            vSql.AppendLine("OrdenDeProduccion.FechaFinalizacion,");
+            vSql.AppendLine("(CASE WHEN OrdenDeProduccion.CostoTerminadoCalculadoAPartirDe = '0' THEN 'Costos expresados en ' + ISNULL((SELECT TOP 1 Nombre FROM Moneda WHERE Codigo = " + vUtilSql.ToSqlValue(vCodigoMonedaLocal) + "), " + vUtilSql.ToSqlValue(vCodigoMonedaLocal) + ") ELSE 'Costo expresados en ' + ISNULL((SELECT TOP 1 Nombre FROM Moneda WHERE Codigo = OrdenDeProduccion.CodigoMonedaCostoProduccion), " + vUtilSql.ToSqlValue(vCodigoMonedaExtranjera) + " )  END) AS FormaDeCalculoDelCosto,");
+            vSql.AppendLine("OrdenDeProduccion.Observacion,");
+            vSql.AppendLine("AlmacenInsumos.Codigo +  ' - ' + AlmacenInsumos.NombreAlmacen AS AlmacenInsumos,");
+            vSql.AppendLine("AlmacenSalidas.Codigo +  ' - ' + AlmacenInsumos.NombreAlmacen AS AlmacenSalida,");
+            vSql.AppendLine("Insumos.CodigoArticulo + ' - ' + ArticuloInventario.Descripcion AS ArticuloInventarioInsumo,");
+            vSql.AppendLine("ArticuloInventario.UnidadDeVenta AS Unidad,");
+            vSql.AppendLine("Insumos.CantidadReservadaInventario AS CantidadEstimada,");
+            vSql.AppendLine("Insumos.CantidadConsumida,");
+            vSql.AppendLine("Insumos.CostoUnitarioArticuloInventario AS CostoUnitarioMatServ,");
+            vSql.AppendLine("Insumos.MontoSubtotal AS MontoTotalConsumo");
+
+            vSql.AppendLine("FROM Adm.OrdenDeProduccion INNER JOIN Adm.OrdenDeProduccionDetalleMateriales AS Insumos ON OrdenDeProduccion.ConsecutivoCompania = Insumos.ConsecutivoCompania AND OrdenDeProduccion.Consecutivo = Insumos.ConsecutivoOrdenDeProduccion");
+            vSql.AppendLine("INNER JOIN Saw.Almacen AS AlmacenInsumos ON OrdenDeProduccion.ConsecutivoCompania = AlmacenInsumos.ConsecutivoCompania AND OrdenDeProduccion.ConsecutivoAlmacenMateriales = AlmacenInsumos.Consecutivo");
+            vSql.AppendLine("INNER JOIN Saw.Almacen AS AlmacenSalidas ON OrdenDeProduccion.ConsecutivoCompania = AlmacenSalidas.ConsecutivoCompania AND OrdenDeProduccion.ConsecutivoAlmacenProductoTerminado = AlmacenSalidas.Consecutivo");
+            vSql.AppendLine("INNER JOIN ArticuloInventario ON Insumos.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania AND Insumos.CodigoArticulo = ArticuloInventario.Codigo");
+
+            vSql.AppendLine(vUtilSql.WhereSql(vSQLWhere));
+            vSql.AppendLine("ORDER BY CodigoOrden, ConsecutivoInsumos");
+            return vSql.ToString();
+        }
+
+        public string SqlDetalleDeCostoDeProduccionSalida(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, eSeleccionarOrdenPor valSeleccionarOrdenPor, int valConsecutivoOrden) {
+            StringBuilder vSql = new StringBuilder();
+            QAdvSql vUtilSql = new QAdvSql("");
+            string vSQLWhere;
+            vSQLWhere = vUtilSql.SqlIntValueWithAnd(string.Empty, "OrdenDeProduccion.ConsecutivoCompania", valConsecutivoCompania);
+            vSQLWhere = vUtilSql.SqlEnumValueWithAnd(vSQLWhere, "OrdenDeProduccion.StatusOp", (int)eTipoStatusOrdenProduccion.Cerrada);
             if (valSeleccionarOrdenPor == eSeleccionarOrdenPor.NumeroDeOrden) {
-                vSQLWhere = vUtilSql.SqlIntValueWithAnd(vSQLWhere, "OrdProd.Consecutivo", valConsecutivoOrden);
+                vSQLWhere = vUtilSql.SqlIntValueWithAnd(vSQLWhere, "OrdenDeProduccion.Consecutivo", valConsecutivoOrden);
             } else if (valSeleccionarOrdenPor == eSeleccionarOrdenPor.FechaDeInicio) {
-                vSQLWhere = vUtilSql.SqlDateValueBetween(vSQLWhere, "OrdProd.FechaInicio", valFechaInicial, valFechaFinal);
+                vSQLWhere = vUtilSql.SqlDateValueBetween(vSQLWhere, "OrdenDeProduccion.FechaInicio", valFechaInicial, valFechaFinal);
             } else if (valSeleccionarOrdenPor == eSeleccionarOrdenPor.FechaDeFinalizacion) {
-                vSQLWhere = vUtilSql.SqlDateValueBetween(vSQLWhere, "OrdProd.FechaFinalizacion", valFechaInicial, valFechaFinal);
+                vSQLWhere = vUtilSql.SqlDateValueBetween(vSQLWhere, "OrdenDeProduccion.FechaFinalizacion", valFechaInicial, valFechaFinal);
             }
-            if (LibString.Len(vSQLWhere) > 0) {
-                vSql.AppendLine("WHERE " + vSQLWhere);
-            }
-            vSql.AppendLine("ORDER BY OrdProd.Codigo");
+
+            vSql.AppendLine("SELECT");
+            vSql.AppendLine("OrdenDeProduccion.Codigo AS CodigoOrden,");
+            vSql.AppendLine("Salidas.Consecutivo AS ConsecutivoSalidas,");            
+            vSql.AppendLine("Salidas.CodigoArticulo + ' - ' + ArticuloInventario.Descripcion AS DescripcionArticuloSalida,");
+            vSql.AppendLine("ArticuloInventario.UnidadDeVenta AS Unidad,");
+            vSql.AppendLine("Salidas.CantidadSolicitada AS CantidadAProducir,");
+            vSql.AppendLine("Salidas.CantidadProducida,");
+            vSql.AppendLine("Salidas.PorcentajeCostoCierre AS PorcentajeCosto,");
+            vSql.AppendLine("Salidas.CostoUnitario AS CostoUnitario,");
+            vSql.AppendLine("Salidas.MontoSubTotal AS CostoTotal");
+
+            vSql.AppendLine("FROM Adm.OrdenDeProduccion INNER JOIN Adm.OrdenDeProduccionDetalleArticulo AS Salidas ON OrdenDeProduccion.ConsecutivoCompania = Salidas.ConsecutivoCompania AND OrdenDeProduccion.Consecutivo = Salidas.ConsecutivoOrdenDeProduccion");
+            vSql.AppendLine("INNER JOIN ArticuloInventario AS ArticuloInventario ON Salidas.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania AND Salidas.CodigoArticulo = ArticuloInventario.Codigo ");
+            vSql.AppendLine(vUtilSql.WhereSql(vSQLWhere));
+            vSql.AppendLine("ORDER BY CodigoOrden, ConsecutivoSalidas");
             return vSql.ToString();
         }
         #endregion //Metodos Generados
