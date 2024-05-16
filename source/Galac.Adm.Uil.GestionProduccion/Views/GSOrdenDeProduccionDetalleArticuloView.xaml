@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:nsV="clr-namespace:Galac.Adm.Uil.GestionProduccion.Views"
     xmlns:nsVm="clr-namespace:Galac.Adm.Uil.GestionProduccion.ViewModel"
     xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
     xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
@@ -13,107 +12,104 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <ScrollViewer Margin="3" VerticalScrollBarVisibility="Auto">
-            <TabControl
-                Width="1168"
-                Height="488"
-                Name="tbcArticulos"
-                Grid.Row="0"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                Margin="3">
-                <TabItem Name="tbiSeccionOrdenDeProduccionDetalleArticulos" Header="Insumos">
-                    <Grid Name="gtSeccionOrdenDeProduccionDetalleArticulos">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <nsV:GSOrdenDeProduccionDetalleMaterialesView
-                            Grid.Row="0"
-                            Grid.ColumnSpan="2"
-                            DataContext="{Binding Path=Deta.SelectedItem}"
-                            FocusManager.IsFocusScope="True"
-                            KeyboardNavigation.ControlTabNavigation="Cycle"
-                            KeyboardNavigation.DirectionalNavigation="Cycle"
-                            KeyboardNavigation.TabNavigation="Cycle" />
-                        <nsWpfControls:GSDataGrid
-                            Name="dgDetailDetailOrdenDeProduccionDetalleArticulos"
-                            Grid.Row="2"
-                            Grid.ColumnSpan="2"
-                            Width="1150"
-                            Height="360"
-                            MinWidth="250"
-                            MinHeight="200"
-                            ColumnsMap="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.VisibleColumns}"
-                            Focusable="False"
-                            HorizontalScrollBarVisibility="Auto"
-                            IsReadOnly="True"
-                            IsSynchronizedWithCurrentItem="True"
-                            ItemsSource="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items}"
-                            KeyboardNavigation.IsTabStop="False"
-                            SelectedIndex="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.SelectedIndex}"
-                            SelectedItem="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.SelectedItem, Mode=OneWayToSource}"
-                            Style="{StaticResource GSDataGridStyle}" />
-                    </Grid>
-                </TabItem>
-                <TabItem Name="tbiSeccionOrdenDeProduccionDetalleSalidas" Header="Salidas">
-                    <Grid Name="gtSeccionOrdenDeProduccionDetalleMateriales">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <nsV:GSOrdenDeProduccionDetalleSalidaView
-                            Grid.Row="0"
-                            Grid.ColumnSpan="2"
-                            DataContext="{Binding Path=DetailOrdenDeProduccionDetalleMateriales.SelectedItem}"
-                            FocusManager.IsFocusScope="True"
-                            KeyboardNavigation.ControlTabNavigation="Cycle"
-                            KeyboardNavigation.DirectionalNavigation="Cycle"
-                            KeyboardNavigation.TabNavigation="Cycle" />
-                        <nsWpfControls:GSDataGrid
-                            Name="dgDetailDetailOrdenDeProduccionDetalleSalida"
-                            Grid.Row="2"
-                            Grid.ColumnSpan="2"
-                            Width="1150"
-                            Height="360"
-                            MinWidth="250"
-                            MinHeight="200"
-                            ColumnsMap="{Binding Path=DetailOrdenDeProduccionDetalleMateriales.VisibleColumns}"
-                            Focusable="False"
-                            HorizontalScrollBarVisibility="Auto"
-                            IsReadOnly="True"
-                            IsSynchronizedWithCurrentItem="True"
-                            ItemsSource="{Binding Path=DetailOrdenDeProduccionDetalleMateriales.Items}"
-                            KeyboardNavigation.IsTabStop="False"
-                            SelectedIndex="{Binding Path=DetailOrdenDeProduccionDetalleMateriales.SelectedIndex}"
-                            SelectedItem="{Binding Path=DetailOrdenDeProduccionDetalleMateriales.SelectedItem, Mode=OneWayToSource}"
-                            Style="{StaticResource GSDataGridStyle}" />
-                    </Grid>
-                </TabItem>
-            </TabControl>
-        </ScrollViewer>
+        <Label
+            Name="lblCodigoArticulo"
+            Grid.Row="0"
+            Grid.Column="0"
+            Content="Codigo"
+            Style="{StaticResource LabelPrompt}" />
+        <Label
+            Name="lneCodigoArticulo"
+            Grid.Row="0"
+            Grid.Column="1"
+            Width="170"
+            Margin="3,3,0,0"
+            Content="{Binding Path=CodigoArticulo}"
+            Style="{StaticResource LabelCalculatedField}" />
+        <nsWpfControls:GSTextAreaWpf
+            Grid.Row="0"
+            Grid.Column="2"
+            Grid.ColumnSpan="2"
+            Width="510"
+            BorderThickness="1"
+            IsEnabled="True"
+            IsReadOnly="True"
+            Style="{StaticResource TextBoxInputStyle}"
+            Text="{Binding Path=DescripcionArticulo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            VerticalScrollBarVisibility="Auto" />
+        <Label
+            Name="lblCantidad"
+            Grid.Row="1"
+            Grid.Column="0"
+            Content=" Cantidad A Producir"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSNumericBoxWpf
+            Name="txtCantidadSolicitada"
+            Grid.Row="1"
+            Grid.Column="1"
+            Width="120"
+            BorderThickness="1"
+            DecimalDigits="8"
+            InputDataType="UDecimal"
+            IsEnabled="False"
+            MaxLength="34"
+            Style="{StaticResource TextBoxInputStyle}"
+            Value="{Binding Path=Cantidad, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        <Label
+            Name="lblPorcentajedeCosto"
+            Grid.Row="1"
+            Grid.Column="2"
+            Content="% de Costo"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSNumericBoxWpf
+            Name="txtPorcentajedeCosto"
+            Grid.Row="1"
+            Grid.Column="3"
+            Width="120"
+            BorderThickness="1"
+            DecimalDigits="{Binding Path=DecimalDigits}"
+            InputDataType="UDecimal"
+            IsEnabled="{Binding Path=IsEnabled}"
+            MaxLength="34"
+            Style="{StaticResource TextBoxInputStyle}"
+            Value="{Binding Path=CantidadReservadaInventario, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        <Label
+            Name="lblCantidadProducida"
+            Grid.Row="2"
+            Grid.Column="3"
+            HorizontalAlignment="Right"
+            Content="Cantidad Producida"
+            Style="{StaticResource LabelPrompt}"
+            Visibility="{Binding Path=IsVisibleFechaFinalizacion, Converter={StaticResource booleanToVisibilityConverter}}" />
+        <nsWpfControls:GSNumericBoxWpf
+            Name="txtCantidadProducida"
+            Grid.Row="2"
+            Grid.Column="4"
+            Width="120"
+            BorderThickness="1"
+            DecimalDigits="{Binding Path=DecimalDigits}"
+            InputDataType="UDecimal"
+            IsEnabled="{Binding Path=IsEnabledFechaFinalizacion}"
+            MaxLength="34"
+            Style="{StaticResource TextBoxInputStyle}"
+            Visibility="{Binding Path=IsVisibleFechaFinalizacion, Converter={StaticResource booleanToVisibilityConverter}}"
+            Value="{Binding Path=CantidadConsumida, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
     </Grid>
 </UserControl>

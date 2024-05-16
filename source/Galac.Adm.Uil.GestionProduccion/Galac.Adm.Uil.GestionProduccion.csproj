@@ -150,6 +150,7 @@
     <Compile Include="ViewModel\OrdenDeProduccionDetalleMaterialesViewModel.cs" />
     <Compile Include="ViewModel\OrdenDeProduccionMngViewModel.cs" />
     <Compile Include="ViewModel\OrdenDeProduccionViewModel.cs" />
+    <Compile Include="ViewModel\OrdenDeProduccionMasterViewModel.cs" />
     <Compile Include="Views\GSListaDeMaterialesDetalleArticuloView.xaml.cs">
       <DependentUpon>GSListaDeMaterialesDetalleArticuloView.xaml</DependentUpon>
     </Compile>
@@ -160,14 +161,14 @@
       <DependentUpon>GSListaDeMaterialesView.xaml</DependentUpon>
     </Compile>
     <AppDesigner Include="Properties\" />
-    <Compile Include="Views\GSOrdenDeProduccionDetalleArticuloView.xaml.cs">
-      <DependentUpon>GSOrdenDeProduccionDetalleArticuloView.xaml</DependentUpon>
+    <Compile Include="Views\GSOrdenDeProduccionMasterView.xaml.cs">
+      <DependentUpon>GSOrdenDeProduccionMasterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GSOrdenDeProduccionDetalleMaterialesView.xaml.cs">
       <DependentUpon>GSOrdenDeProduccionDetalleMaterialesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\GSOrdenDeProduccionDetalleSalidaView.xaml.cs">
-      <DependentUpon>GSOrdenDeProduccionDetalleSalidaView.xaml</DependentUpon>
+    <Compile Include="Views\GSOrdenDeProduccionDetalleArticuloView.xaml.cs">
+      <DependentUpon>GSOrdenDeProduccionDetalleArticuloView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GSOrdenDeProduccionView.xaml.cs">
       <DependentUpon>GSOrdenDeProduccionView.xaml</DependentUpon>
@@ -218,7 +219,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\GSOrdenDeProduccionDetalleArticuloView.xaml">
+    <Page Include="Views\GSOrdenDeProduccionMasterView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -226,7 +227,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\GSOrdenDeProduccionDetalleSalidaView.xaml">
+    <Page Include="Views\GSOrdenDeProduccionDetalleArticuloView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

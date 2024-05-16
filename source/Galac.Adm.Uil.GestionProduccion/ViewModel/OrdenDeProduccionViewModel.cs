@@ -922,7 +922,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         private void ExecuteVerDetalleCommand() {
             try {
-                OrdenDeProduccionDetalleArticuloViewModel vViewModel = DetailOrdenDeProduccionDetalleArticulo.Items[0];
+                OrdenDeProduccionMasterViewModel vViewModel = new OrdenDeProduccionMasterViewModel(this);
                 //vViewModel.BuscaExistencia();
                 //vViewModel.InicializarRibbon();
                 LibMessages.EditViewModel.ShowEditor(vViewModel, true);
