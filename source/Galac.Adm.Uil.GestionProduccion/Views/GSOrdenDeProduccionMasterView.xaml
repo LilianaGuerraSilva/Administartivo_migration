@@ -48,7 +48,7 @@
                         <nsV:GSOrdenDeProduccionDetalleMaterialesView
                             Grid.Row="0"
                             Grid.ColumnSpan="2"
-                            DataContext="{Binding Path=Deta.SelectedItem}"
+                            DataContext="{Binding Path=OrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales.SelectedItem}"
                             FocusManager.IsFocusScope="True"
                             KeyboardNavigation.ControlTabNavigation="Cycle"
                             KeyboardNavigation.DirectionalNavigation="Cycle"

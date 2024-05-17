@@ -118,6 +118,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
        
 
         [LibRequired(ErrorMessage = "El campo Código de Artículo es requerido.")]
+        [LibGridColum("Código", eGridColumType.Generic, ColumnOrder=0)]
         public string CodigoArticulo {
             get {
                 return Model.CodigoArticulo;
@@ -132,6 +133,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Descripción Artículo es requerido.")]
+        [LibGridColum("Descripción", eGridColumType.Generic,MaxWidth = 120, ColumnOrder = 0)]
         public string DescripcionArticulo {
             get {
                 return Model.DescripcionArticulo;
@@ -146,7 +148,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 				
-        [LibGridColum("Unidad", eGridColumType.Connection, ConnectionDisplayMemberPath = "UnidadDeVenta", ConnectionModelPropertyName = "UnidadDeVenta", ConnectionSearchCommandName = "ChooseUnidadDeVentaCommand", MaxWidth=120)]
+        [LibGridColum("Unidad", eGridColumType.Generic)]
         public string  UnidadDeVenta {
             get {
                 return Model.UnidadDeVenta;
@@ -249,7 +251,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-         [LibGridColum("% Costo Est.", eGridColumType.Numeric, Alignment = eTextAlignment.Right)]
+        [LibGridColum("% Costo Est.", eGridColumType.Numeric, Alignment = eTextAlignment.Right)]
         public decimal  PorcentajeCostoEstimado {
             get {
                 return Model.PorcentajeCostoEstimado;
@@ -290,7 +292,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
             }
         }
-
         public OrdenDeProduccionViewModel Master {
             get;
             set;
