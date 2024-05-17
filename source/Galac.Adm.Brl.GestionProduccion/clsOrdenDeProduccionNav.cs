@@ -472,7 +472,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
                     vList.Add(vDetailOrdenDeProduccionDetalleArticulo);
                 }
             }
-            XElement vData = new clsOrdenDeProduccionDetalleArticuloNav().BuscaExistenciaDeArticulos(refRecord[0].ConsecutivoCompania, vList);
+            XElement vData = new clsOrdenDeProduccionDetalleMaterialesNav().BuscaExistenciaDeArticulos(refRecord[0].ConsecutivoCompania, vList);
             string vCostoUnitario = (refRecord[0].CostoTerminadoCalculadoAPartirDeAsEnum == eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaLocal) ? "CostoUnitario" : "MeCostoUnitario";
             var vDataArticulo = vDataXmlArticulo.Descendants("GpResult").Select(p => new {
                 CodigoArticulo = p.Element("Codigo").Value,
@@ -785,6 +785,10 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 });
             }
             return vResult;
+        }
+
+        XElement IOrdenDeProduccionPdn.BuscaExistenciaDeArticulos(int valConsecutivoCompania, IList<OrdenDeProduccionDetalleArticulo> valData) {
+            throw new NotImplementedException();
         }
     } //End of class clsOrdenDeProduccionNav
 

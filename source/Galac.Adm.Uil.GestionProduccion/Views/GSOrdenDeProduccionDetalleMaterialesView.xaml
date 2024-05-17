@@ -55,58 +55,22 @@
             Text="{Binding Path=DescripcionArticulo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             VerticalScrollBarVisibility="Auto" />
         <Label
-            Name="lblCantidad"
+            Name="lblCantidadConsumida"
             Grid.Row="1"
-            Grid.Column="0"
-            Content=" Cantidad Original"
-            Style="{StaticResource LabelPrompt}" />
+            Grid.Column="2"
+            HorizontalAlignment="Right"
+            Content="Cantidad Consumida"
+            Style="{StaticResource LabelPrompt}"
+            Visibility="Visible" />
         <nsWpfControls:GSNumericBoxWpf
-            Name="txtCantidadSolicitada"
+            Name="txtCantidadConsumida"
             Grid.Row="1"
-            Grid.Column="1"
+            Grid.Column="3"
             Width="120"
             BorderThickness="1"
             DecimalDigits="8"
             InputDataType="UDecimal"
-            IsEnabled="False"
-            MaxLength="34"
-            Style="{StaticResource TextBoxInputStyle}"
-            Value="{Binding Path=Cantidad, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-        <Label
-            Name="lblCantidadReservadaInventario"
-            Grid.Row="1"
-            Grid.Column="2"
-            Content="Cantidad Reservada Inventario"
-            Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSNumericBoxWpf
-            Name="txtCantidadReservadaInventario"
-            Grid.Row="1"
-            Grid.Column="3"
-            Width="120"
-            BorderThickness="1"
-            DecimalDigits="{Binding Path=DecimalDigits}"
-            InputDataType="UDecimal"
-            IsEnabled="{Binding Path=IsEnabled}"
-            MaxLength="34"
-            Style="{StaticResource TextBoxInputStyle}"
-            Value="{Binding Path=CantidadReservadaInventario, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-        <Label
-            Name="lblCantidadConsumida"
-            Grid.Row="2"
-            Grid.Column="3"
-            HorizontalAlignment="Right"
-            Content="Cantidad Consumida"
-            Style="{StaticResource LabelPrompt}"
-            Visibility="{Binding Path=IsVisibleFechaFinalizacion, Converter={StaticResource booleanToVisibilityConverter}}" />
-        <nsWpfControls:GSNumericBoxWpf
-            Name="txtCantidadConsumida"
-            Grid.Row="2"
-            Grid.Column="4"
-            Width="120"
-            BorderThickness="1"
-            DecimalDigits="{Binding Path=DecimalDigits}"
-            InputDataType="UDecimal"
-            IsEnabled="{Binding Path=IsEnabledFechaFinalizacion}"
+            IsEnabled="True"
             MaxLength="34"
             Style="{StaticResource TextBoxInputStyle}"
             Visibility="{Binding Path=IsVisibleFechaFinalizacion, Converter={StaticResource booleanToVisibilityConverter}}"

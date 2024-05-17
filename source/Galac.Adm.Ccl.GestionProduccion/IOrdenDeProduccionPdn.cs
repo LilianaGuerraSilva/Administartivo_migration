@@ -11,6 +11,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         XElement FindByConsecutivoCompaniaCodigo(int valConsecutivoCompania, string valCodigo);
         List<OrdenDeProduccionDetalleMateriales> ObtenerDetalleInicialInsumos(int valConsecutivoCompania, int valConsecutivoListaDeMateriales, int valConsecutivoAlmacen, decimal valCantidadSolicitada);
         List<OrdenDeProduccionDetalleArticulo> ObtenerDetalleInicialSalidas(int valConsecutivoCompania, int valConsecutivoAlmacenEntrada, int valConsecutivoListaDeMateriales, decimal valCantidadSolicitada);        
+        XElement BuscaExistenciaDeArticulos(int valConsecutivoCompania, IList<OrdenDeProduccionDetalleArticulo> valData);
     } //End of class IOrdenDeProduccionPdn
 
 } //End of namespace Galac.Adm.Ccl.GestionProduccion

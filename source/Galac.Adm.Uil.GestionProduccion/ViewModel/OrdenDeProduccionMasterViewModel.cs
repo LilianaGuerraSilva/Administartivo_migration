@@ -29,12 +29,12 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        public OrdenDeProduccionViewModel OrdenDeProduccionMst {
+        public OrdenDeProduccionViewModel OrdenDeProduccion {
             get {
                 return _OrdenDeProduccion;
             }
             set {
-                if(_OrdenDeProduccion != value) {
+                if (_OrdenDeProduccion != value) {
                     _OrdenDeProduccion = value;
                     RaisePropertyChanged(OrdenDeProduccionPropertyName);
                 }
@@ -45,7 +45,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         #region Constructores
         public OrdenDeProduccionMasterViewModel(OrdenDeProduccionViewModel initOrdenDeProduccion)
             : base() {
-            OrdenDeProduccionMst = initOrdenDeProduccion;
+            OrdenDeProduccion = initOrdenDeProduccion;
+            //OrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo
+            //OrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales
         }
         #endregion //Constructores
         #region Metodos Generados

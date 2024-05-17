@@ -125,6 +125,18 @@ namespace Galac.Adm.Brl.GestionProduccion {
             vResult = vParams.Get();
             return vResult;
         }
+
+        public XElement BuscaExistenciaDeArticulos(int valConsecutivoCompania, IList<OrdenDeProduccionDetalleArticulo> valData) {
+            XElement vXElement = new XElement("GpData");
+            //foreach (OrdenDeProduccionDetalleArticulo vItem in valData) {
+            //    vXElement.Add(FilterOrdenDeProduccionDetalleArticuloByDistinctArticulo(vItem).Descendants("GpResult"));
+            //}
+            //IArticuloInventarioPdn insArticulo = new Galac.Saw.Brl.Inventario.clsArticuloInventarioNav ();
+            //XElement vXElementResult = insArticulo.DisponibilidadDeArticuloPorAlmacen(valConsecutivoCompania, vXElement);
+            //return vXElementResult;
+            return vXElement;
+        }
+
         #endregion //OrdenDeProduccionDetalleMateriales
         
         #endregion //Metodos Generados

@@ -57,13 +57,14 @@
         <Label
             Name="lblCantidad"
             Grid.Row="1"
-            Grid.Column="0"
+            Grid.Column="1"
+            HorizontalAlignment="Right"
             Content=" Cantidad A Producir"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSNumericBoxWpf
             Name="txtCantidadSolicitada"
             Grid.Row="1"
-            Grid.Column="1"
+            Grid.Column="2"
             Width="120"
             BorderThickness="1"
             DecimalDigits="8"
@@ -75,13 +76,14 @@
         <Label
             Name="lblPorcentajedeCosto"
             Grid.Row="1"
-            Grid.Column="2"
+            Grid.Column="3"
+            HorizontalAlignment="Right"
             Content="% de Costo"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSNumericBoxWpf
             Name="txtPorcentajedeCosto"
             Grid.Row="1"
-            Grid.Column="3"
+            Grid.Column="4"
             Width="120"
             BorderThickness="1"
             DecimalDigits="{Binding Path=DecimalDigits}"
@@ -90,7 +92,7 @@
             MaxLength="34"
             Style="{StaticResource TextBoxInputStyle}"
             Value="{Binding Path=CantidadReservadaInventario, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-        <Label
+        <!--<Label
             Name="lblCantidadProducida"
             Grid.Row="2"
             Grid.Column="3"
@@ -104,12 +106,12 @@
             Grid.Column="4"
             Width="120"
             BorderThickness="1"
-            DecimalDigits="{Binding Path=DecimalDigits}"
+            DecimalDigits="8"
             InputDataType="UDecimal"
             IsEnabled="{Binding Path=IsEnabledFechaFinalizacion}"
             MaxLength="34"
             Style="{StaticResource TextBoxInputStyle}"
-            Visibility="{Binding Path=IsVisibleFechaFinalizacion, Converter={StaticResource booleanToVisibilityConverter}}"
-            Value="{Binding Path=CantidadConsumida, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+            Visibility="Visible"
+            Value="{Binding Path=CantidadConsumida, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />-->
     </Grid>
 </UserControl>

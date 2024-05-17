@@ -33,8 +33,8 @@
                 Width="1168"
                 Height="488"
                 Margin="3">
-                <TabItem Name="tbiSeccionOrdenDeProduccionDetalleArticulos" Header="Insumos">
-                    <Grid Name="gtSeccionOrdenDeProduccionDetalleArticulos">
+                <TabItem Name="tbiSeccionOrdenDeProduccionDetalleMateriales" Header="Insumos">
+                    <Grid Name="gtSeccionOrdenDeProduccionDetalleMateriales">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
@@ -54,27 +54,27 @@
                             KeyboardNavigation.DirectionalNavigation="Cycle"
                             KeyboardNavigation.TabNavigation="Cycle" />
                         <nsWpfControls:GSDataGrid
-                            Name="dgDetailDetailOrdenDeProduccionDetalleArticulos"
+                            Name="dgDetailDetailOrdenDeProduccionDetalleMateriales"
                             Grid.Row="2"
                             Grid.ColumnSpan="2"
                             Width="1150"
                             Height="360"
                             MinWidth="250"
                             MinHeight="200"
-                            ColumnsMap="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.VisibleColumns}"
+                            ColumnsMap="{Binding Path=OrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales.VisibleColumns}"
                             Focusable="False"
                             HorizontalScrollBarVisibility="Auto"
                             IsReadOnly="True"
                             IsSynchronizedWithCurrentItem="True"
-                            ItemsSource="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items}"
+                            ItemsSource="{Binding Path=OrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales.Items}"
                             KeyboardNavigation.IsTabStop="False"
-                            SelectedIndex="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.SelectedIndex}"
-                            SelectedItem="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.SelectedItem, Mode=OneWayToSource}"
+                            SelectedIndex="{Binding Path=OrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales.SelectedIndex}"
+                            SelectedItem="{Binding Path=OrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales.SelectedItem, Mode=OneWayToSource}"
                             Style="{StaticResource GSDataGridStyle}" />
                     </Grid>
                 </TabItem>
                 <TabItem Name="tbiSeccionOrdenDeProduccionDetalleSalidas" Header="Salidas">
-                    <Grid Name="gtSeccionOrdenDeProduccionDetalleMateriales">
+                    <Grid Name="gtSeccionOrdenDeProduccionDetalleSalidas">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
@@ -88,7 +88,7 @@
                         <nsV:GSOrdenDeProduccionDetalleArticuloView
                             Grid.Row="0"
                             Grid.ColumnSpan="2"
-                            DataContext="{Binding Path=DetailOrdenDeProduccionDetalleMateriales.SelectedItem}"
+                            DataContext="{Binding Path=OrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo.SelectedItem}"
                             FocusManager.IsFocusScope="True"
                             KeyboardNavigation.ControlTabNavigation="Cycle"
                             KeyboardNavigation.DirectionalNavigation="Cycle"
@@ -101,15 +101,15 @@
                             Height="360"
                             MinWidth="250"
                             MinHeight="200"
-                            ColumnsMap="{Binding Path=DetailOrdenDeProduccionDetalleMateriales.VisibleColumns}"
+                            ColumnsMap="{Binding Path=OrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo.VisibleColumns}"
                             Focusable="False"
                             HorizontalScrollBarVisibility="Auto"
                             IsReadOnly="True"
                             IsSynchronizedWithCurrentItem="True"
-                            ItemsSource="{Binding Path=DetailOrdenDeProduccionDetalleMateriales.Items}"
+                            ItemsSource="{Binding Path=OrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo.Items}"
                             KeyboardNavigation.IsTabStop="False"
-                            SelectedIndex="{Binding Path=DetailOrdenDeProduccionDetalleMateriales.SelectedIndex}"
-                            SelectedItem="{Binding Path=DetailOrdenDeProduccionDetalleMateriales.SelectedItem, Mode=OneWayToSource}"
+                            SelectedIndex="{Binding Path=OrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo.SelectedIndex}"
+                            SelectedItem="{Binding Path=OrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo.SelectedItem, Mode=OneWayToSource}"
                             Style="{StaticResource GSDataGridStyle}" />
                     </Grid>
                 </TabItem>
