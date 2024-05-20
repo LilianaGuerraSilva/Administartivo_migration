@@ -101,82 +101,82 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.txtCantidadAProducirDetalle,
             this.txtCantidadArticulos,
             this.txtCostoUnitario});
-            this.Detail.Height = 0.15625F;
+            this.Detail.Height = 0.167F;
             this.Detail.Name = "Detail";
             // 
             // txtArticulo
             // 
             this.txtArticulo.CanGrow = false;
-            this.txtArticulo.Height = 0.15625F;
+            this.txtArticulo.Height = 0.167F;
             this.txtArticulo.Left = 0F;
             this.txtArticulo.MultiLine = false;
             this.txtArticulo.Name = "txtArticulo";
             this.txtArticulo.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtArticulo.Text = "txtArticulo";
             this.txtArticulo.Top = 0F;
-            this.txtArticulo.Width = 2.783F;
+            this.txtArticulo.Width = 3F;
             // 
             // txtUnidades
             // 
             this.txtUnidades.CanGrow = false;
-            this.txtUnidades.Height = 0.15625F;
-            this.txtUnidades.Left = 2.783F;
+            this.txtUnidades.Height = 0.167F;
+            this.txtUnidades.Left = 3F;
             this.txtUnidades.MultiLine = false;
             this.txtUnidades.Name = "txtUnidades";
             this.txtUnidades.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtUnidades.Text = "txtUnidades";
-            this.txtUnidades.Top = 5.960464E-08F;
-            this.txtUnidades.Width = 0.6210001F;
+            this.txtUnidades.Top = 0F;
+            this.txtUnidades.Width = 1F;
             // 
             // txtPorcentajeCosto
             // 
-            this.txtPorcentajeCosto.Height = 0.15625F;
-            this.txtPorcentajeCosto.Left = 5.168F;
+            this.txtPorcentajeCosto.Height = 0.167F;
+            this.txtPorcentajeCosto.Left = 6.25F;
             this.txtPorcentajeCosto.Name = "txtPorcentajeCosto";
             this.txtPorcentajeCosto.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtPorcentajeCosto.Text = "txtPorcentajeCosto";
             this.txtPorcentajeCosto.Top = 0F;
-            this.txtPorcentajeCosto.Width = 0.862F;
+            this.txtPorcentajeCosto.Width = 1.25F;
             // 
             // txtCostoCalculado
             // 
-            this.txtCostoCalculado.Height = 0.15625F;
-            this.txtCostoCalculado.Left = 6.625F;
+            this.txtCostoCalculado.Height = 0.167F;
+            this.txtCostoCalculado.Left = 8.75F;
             this.txtCostoCalculado.Name = "txtCostoCalculado";
             this.txtCostoCalculado.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtCostoCalculado.Text = "txtCostoCalculado";
             this.txtCostoCalculado.Top = 0F;
-            this.txtCostoCalculado.Width = 0.8169999F;
+            this.txtCostoCalculado.Width = 1.25F;
             // 
             // txtCantidadAProducirDetalle
             // 
-            this.txtCantidadAProducirDetalle.Height = 0.15625F;
-            this.txtCantidadAProducirDetalle.Left = 4.265F;
+            this.txtCantidadAProducirDetalle.Height = 0.167F;
+            this.txtCantidadAProducirDetalle.Left = 5F;
             this.txtCantidadAProducirDetalle.Name = "txtCantidadAProducirDetalle";
             this.txtCantidadAProducirDetalle.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtCantidadAProducirDetalle.Text = "txtCantidadAProducirDetalle";
-            this.txtCantidadAProducirDetalle.Top = 2.980232E-08F;
-            this.txtCantidadAProducirDetalle.Width = 0.9029999F;
+            this.txtCantidadAProducirDetalle.Top = -1.776357E-15F;
+            this.txtCantidadAProducirDetalle.Width = 1.25F;
             // 
             // txtCantidadArticulos
             // 
-            this.txtCantidadArticulos.Height = 0.15625F;
-            this.txtCantidadArticulos.Left = 3.404F;
+            this.txtCantidadArticulos.Height = 0.167F;
+            this.txtCantidadArticulos.Left = 4F;
             this.txtCantidadArticulos.Name = "txtCantidadArticulos";
             this.txtCantidadArticulos.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtCantidadArticulos.Text = "txtCantidadArticulos";
             this.txtCantidadArticulos.Top = 0F;
-            this.txtCantidadArticulos.Width = 0.8609998F;
+            this.txtCantidadArticulos.Width = 1F;
             // 
             // txtCostoUnitario
             // 
-            this.txtCostoUnitario.Height = 0.15625F;
-            this.txtCostoUnitario.Left = 6.03F;
+            this.txtCostoUnitario.Height = 0.167F;
+            this.txtCostoUnitario.Left = 7.5F;
             this.txtCostoUnitario.Name = "txtCostoUnitario";
             this.txtCostoUnitario.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtCostoUnitario.Text = "txtUnitario";
             this.txtCostoUnitario.Top = 0F;
-            this.txtCostoUnitario.Width = 0.5949998F;
+            this.txtCostoUnitario.Width = 1.25F;
             // 
             // PageHeader
             // 
@@ -246,7 +246,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.txtNotaMonedaCambio.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.txtNotaMonedaCambio.Text = "txtNotaMonedaCambio";
             this.txtNotaMonedaCambio.Top = 0F;
-            this.txtNotaMonedaCambio.Width = 7.5F;
+            this.txtNotaMonedaCambio.Width = 10F;
             // 
             // GHCodigoListaAProducir
             // 
@@ -255,50 +255,50 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.txtListaDeMateriales,
             this.lblCantidadAProducir,
             this.txtCantidadAProducir});
-            this.GHCodigoListaAProducir.Height = 0.31225F;
+            this.GHCodigoListaAProducir.Height = 0.1878333F;
             this.GHCodigoListaAProducir.Name = "GHCodigoListaAProducir";
             // 
             // lblListaDeMateriales
             // 
-            this.lblListaDeMateriales.Height = 0.15625F;
+            this.lblListaDeMateriales.Height = 0.167F;
             this.lblListaDeMateriales.HyperLink = null;
             this.lblListaDeMateriales.Left = 0F;
             this.lblListaDeMateriales.Name = "lblListaDeMateriales";
             this.lblListaDeMateriales.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.lblListaDeMateriales.Text = "Lista De Materiales";
-            this.lblListaDeMateriales.Top = 0.156F;
-            this.lblListaDeMateriales.Width = 1.6875F;
+            this.lblListaDeMateriales.Top = 0F;
+            this.lblListaDeMateriales.Width = 1.687F;
             // 
             // txtListaDeMateriales
             // 
-            this.txtListaDeMateriales.Height = 0.15625F;
-            this.txtListaDeMateriales.Left = 1.6875F;
+            this.txtListaDeMateriales.Height = 0.167F;
+            this.txtListaDeMateriales.Left = 1.687F;
             this.txtListaDeMateriales.Name = "txtListaDeMateriales";
             this.txtListaDeMateriales.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtListaDeMateriales.Text = "txtListaDeMateriales";
-            this.txtListaDeMateriales.Top = 0.156F;
-            this.txtListaDeMateriales.Width = 5.7545F;
+            this.txtListaDeMateriales.Top = 0F;
+            this.txtListaDeMateriales.Width = 5.755F;
             // 
             // lblCantidadAProducir
             // 
-            this.lblCantidadAProducir.Height = 0.156F;
+            this.lblCantidadAProducir.Height = 0.167F;
             this.lblCantidadAProducir.HyperLink = null;
-            this.lblCantidadAProducir.Left = 5.168F;
+            this.lblCantidadAProducir.Left = 7.442F;
             this.lblCantidadAProducir.Name = "lblCantidadAProducir";
             this.lblCantidadAProducir.Style = "font-size: 8.25pt; font-weight: bold; text-align: left; ddo-char-set: 0";
             this.lblCantidadAProducir.Text = "Cantidad a Producir";
             this.lblCantidadAProducir.Top = 0F;
-            this.lblCantidadAProducir.Width = 1.457F;
+            this.lblCantidadAProducir.Width = 1.308F;
             // 
             // txtCantidadAProducir
             // 
-            this.txtCantidadAProducir.Height = 0.15625F;
-            this.txtCantidadAProducir.Left = 6.625F;
+            this.txtCantidadAProducir.Height = 0.167F;
+            this.txtCantidadAProducir.Left = 8.75F;
             this.txtCantidadAProducir.Name = "txtCantidadAProducir";
             this.txtCantidadAProducir.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtCantidadAProducir.Text = "txtCantidadAProducir";
             this.txtCantidadAProducir.Top = 0F;
-            this.txtCantidadAProducir.Width = 0.8169999F;
+            this.txtCantidadAProducir.Width = 1.25F;
             // 
             // lblMoneda
             // 
@@ -324,62 +324,62 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             // lblArticulo
             // 
             this.lblArticulo.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.lblArticulo.Height = 0.15625F;
+            this.lblArticulo.Height = 0.167F;
             this.lblArticulo.HyperLink = null;
             this.lblArticulo.Left = 0F;
             this.lblArticulo.Name = "lblArticulo";
             this.lblArticulo.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
             this.lblArticulo.Text = "Artículos a Producir";
-            this.lblArticulo.Top = 0.167F;
-            this.lblArticulo.Width = 2.783F;
+            this.lblArticulo.Top = 0.156F;
+            this.lblArticulo.Width = 3F;
             // 
             // lblUnidades
             // 
             this.lblUnidades.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.lblUnidades.Height = 0.15625F;
+            this.lblUnidades.Height = 0.167F;
             this.lblUnidades.HyperLink = null;
-            this.lblUnidades.Left = 2.783F;
+            this.lblUnidades.Left = 3F;
             this.lblUnidades.Name = "lblUnidades";
             this.lblUnidades.Style = "font-size: 8pt; font-weight: bold; text-align: left; ddo-char-set: 1";
             this.lblUnidades.Text = "Unidad";
-            this.lblUnidades.Top = 0.167F;
-            this.lblUnidades.Width = 0.6210001F;
+            this.lblUnidades.Top = 0.156F;
+            this.lblUnidades.Width = 1F;
             // 
             // lblPorcentajeCosto
             // 
             this.lblPorcentajeCosto.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblPorcentajeCosto.Height = 0.1672499F;
             this.lblPorcentajeCosto.HyperLink = null;
-            this.lblPorcentajeCosto.Left = 5.168F;
+            this.lblPorcentajeCosto.Left = 6.25F;
             this.lblPorcentajeCosto.Name = "lblPorcentajeCosto";
             this.lblPorcentajeCosto.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblPorcentajeCosto.Text = "% Costo";
             this.lblPorcentajeCosto.Top = 0.156F;
-            this.lblPorcentajeCosto.Width = 0.862F;
+            this.lblPorcentajeCosto.Width = 1.25F;
             // 
             // lblCostoCalculado
             // 
             this.lblCostoCalculado.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblCostoCalculado.Height = 0.1672499F;
             this.lblCostoCalculado.HyperLink = null;
-            this.lblCostoCalculado.Left = 6.625F;
+            this.lblCostoCalculado.Left = 8.75F;
             this.lblCostoCalculado.Name = "lblCostoCalculado";
             this.lblCostoCalculado.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblCostoCalculado.Text = "Total";
             this.lblCostoCalculado.Top = 0.156F;
-            this.lblCostoCalculado.Width = 0.8169999F;
+            this.lblCostoCalculado.Width = 1.25F;
             // 
             // lblCantidadAProducirDetalle
             // 
             this.lblCantidadAProducirDetalle.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.lblCantidadAProducirDetalle.Height = 0.32325F;
+            this.lblCantidadAProducirDetalle.Height = 0.167F;
             this.lblCantidadAProducirDetalle.HyperLink = null;
-            this.lblCantidadAProducirDetalle.Left = 4.265F;
+            this.lblCantidadAProducirDetalle.Left = 5F;
             this.lblCantidadAProducirDetalle.Name = "lblCantidadAProducirDetalle";
             this.lblCantidadAProducirDetalle.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblCantidadAProducirDetalle.Text = "Cantidad a Producir";
-            this.lblCantidadAProducirDetalle.Top = 0F;
-            this.lblCantidadAProducirDetalle.Width = 0.9029999F;
+            this.lblCantidadAProducirDetalle.Top = 0.156F;
+            this.lblCantidadAProducirDetalle.Width = 1.25F;
             // 
             // lblSalidas
             // 
@@ -390,19 +390,19 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblSalidas.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.lblSalidas.Text = "SALIDAS";
             this.lblSalidas.Top = 0F;
-            this.lblSalidas.Width = 4.265F;
+            this.lblSalidas.Width = 7.5F;
             // 
             // lblCantidadArticulos
             // 
             this.lblCantidadArticulos.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.lblCantidadArticulos.Height = 0.1672499F;
+            this.lblCantidadArticulos.Height = 0.167F;
             this.lblCantidadArticulos.HyperLink = null;
-            this.lblCantidadArticulos.Left = 3.404F;
+            this.lblCantidadArticulos.Left = 4F;
             this.lblCantidadArticulos.Name = "lblCantidadArticulos";
             this.lblCantidadArticulos.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblCantidadArticulos.Text = "Cantidad";
             this.lblCantidadArticulos.Top = 0.156F;
-            this.lblCantidadArticulos.Width = 0.8609998F;
+            this.lblCantidadArticulos.Width = 1F;
             // 
             // GFCodigoListaAProducir
             // 
@@ -420,30 +420,30 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.srptListaDeInsumos.Report = null;
             this.srptListaDeInsumos.ReportName = "";
             this.srptListaDeInsumos.Top = 0F;
-            this.srptListaDeInsumos.Width = 7.587F;
+            this.srptListaDeInsumos.Width = 10F;
             // 
             // txtTotalCostoCalculado
             // 
             this.txtTotalCostoCalculado.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtTotalCostoCalculado.Height = 0.15625F;
-            this.txtTotalCostoCalculado.Left = 6.625F;
+            this.txtTotalCostoCalculado.Left = 8.75F;
             this.txtTotalCostoCalculado.Name = "txtTotalCostoCalculado";
             this.txtTotalCostoCalculado.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtTotalCostoCalculado.Text = "txtTotalCostoCalculado";
             this.txtTotalCostoCalculado.Top = 0F;
-            this.txtTotalCostoCalculado.Width = 0.8169999F;
+            this.txtTotalCostoCalculado.Width = 1.25F;
             // 
             // lblTotalCosto
             // 
             this.lblTotalCosto.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblTotalCosto.Height = 0.15625F;
             this.lblTotalCosto.HyperLink = null;
-            this.lblTotalCosto.Left = 5.168F;
+            this.lblTotalCosto.Left = 7.5F;
             this.lblTotalCosto.Name = "lblTotalCosto";
             this.lblTotalCosto.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblTotalCosto.Text = "Total Costo";
             this.lblTotalCosto.Top = 0F;
-            this.lblTotalCosto.Width = 1.457F;
+            this.lblTotalCosto.Width = 1.25F;
             // 
             // GHMoneda
             // 
@@ -470,7 +470,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblCantidadArticulos,
             this.lblCostoUnitario,
             this.lblCostoEstimado});
-            this.GHSalidas.Height = 0.32325F;
+            this.GHSalidas.Height = 0.3440832F;
             this.GHSalidas.Name = "GHSalidas";
             // 
             // lblCostoUnitario
@@ -478,23 +478,23 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblCostoUnitario.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblCostoUnitario.Height = 0.1672499F;
             this.lblCostoUnitario.HyperLink = null;
-            this.lblCostoUnitario.Left = 6.03F;
+            this.lblCostoUnitario.Left = 7.5F;
             this.lblCostoUnitario.Name = "lblCostoUnitario";
             this.lblCostoUnitario.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblCostoUnitario.Text = "Unitario";
             this.lblCostoUnitario.Top = 0.156F;
-            this.lblCostoUnitario.Width = 0.5949998F;
+            this.lblCostoUnitario.Width = 1.25F;
             // 
             // lblCostoEstimado
             // 
             this.lblCostoEstimado.Height = 0.156F;
             this.lblCostoEstimado.HyperLink = null;
-            this.lblCostoEstimado.Left = 6.03F;
+            this.lblCostoEstimado.Left = 7.5F;
             this.lblCostoEstimado.Name = "lblCostoEstimado";
             this.lblCostoEstimado.Style = "font-size: 8.25pt; font-weight: bold; text-align: center; ddo-char-set: 0";
             this.lblCostoEstimado.Text = "Costo Estimado";
-            this.lblCostoEstimado.Top = 0.01099998F;
-            this.lblCostoEstimado.Width = 1.412F;
+            this.lblCostoEstimado.Top = 0F;
+            this.lblCostoEstimado.Width = 2.499999F;
             // 
             // GFSalidas
             // 
@@ -509,7 +509,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.MasterReport = false;
             this.PageSettings.PaperHeight = 11F;
             this.PageSettings.PaperWidth = 8.5F;
-            this.PrintWidth = 7.587F;
+            this.PrintWidth = 10F;
             this.Sections.Add(this.PageHeader);
             this.Sections.Add(this.GHMoneda);
             this.Sections.Add(this.GHCodigoListaAProducir);
