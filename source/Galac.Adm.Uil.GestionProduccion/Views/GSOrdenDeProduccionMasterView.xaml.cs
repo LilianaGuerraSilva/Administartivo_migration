@@ -22,12 +22,12 @@ namespace Galac.Adm.Uil. GestionProduccion.Views {
 
         public GSOrdenDeProduccionMasterView() {
             InitializeComponent();
-            this.Loaded += GSOrdenDeProduccionDetalleArticuloView_Loaded;
+            this.Loaded += GSOrdenDeProduccionMasterView_Loaded;
         }
 
-        private void GSOrdenDeProduccionDetalleArticuloView_Loaded(object sender, RoutedEventArgs e) {
-            dgDetailDetailOrdenDeProduccionDetalleSalida.SelectedIndex = 0;
+        private void GSOrdenDeProduccionMasterView_Loaded(object sender, RoutedEventArgs e) {
             dgDetailDetailOrdenDeProduccionDetalleMateriales.SelectedIndex = 0;
+            dgDetailDetailOrdenDeProduccionDetalleSalida.SelectedIndex = 0;
         }
         #endregion //Constructores
 

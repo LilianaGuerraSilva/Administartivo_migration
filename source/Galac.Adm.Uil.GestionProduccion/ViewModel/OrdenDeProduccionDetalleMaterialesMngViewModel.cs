@@ -30,6 +30,11 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             get;
             set;
         }
+
+        public new ObservableCollection<LibGridColumModel> VisibleColumns {
+            get;
+            private set;
+        }
         #endregion //Propiedades
         #region Constructores
 
@@ -47,6 +52,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 vViewModel.InitializeViewModel(initAction);
                 Add(vViewModel);
             }
+            ColumnasAMostrar();
 			/*
             if (Master.Master.StatusOp == eTipoStatusOrdenProduccion.Cerrada) {
                 VisibleColumns[1].Width = 420;
@@ -71,6 +77,14 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
         #endregion //Metodos Generados
 
+        private void ColumnasAMostrar() {
+            VisibleColumns = LibGridColumModel.GetGridColumsFromType(typeof(OrdenDeProduccionDetalleMaterialesViewModel));
+            //if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida", "UsaPrecioSinIva")) {
+            //    VisibleColumns.RemoveAt(4);
+            //} else {
+            //    VisibleColumns.RemoveAt(3);
+            //}
+        }
 
     } //End of class OrdenDeProduccionDetalleMaterialesMngViewModel
 

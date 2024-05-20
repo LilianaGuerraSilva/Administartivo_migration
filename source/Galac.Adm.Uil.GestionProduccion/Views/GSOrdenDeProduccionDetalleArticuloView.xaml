@@ -33,7 +33,7 @@
             Name="lblCodigoArticulo"
             Grid.Row="0"
             Grid.Column="0"
-            Content="Codigo"
+            Content="Código"
             Style="{StaticResource LabelPrompt}" />
         <Label
             Name="lneCodigoArticulo"
@@ -69,7 +69,7 @@
             BorderThickness="1"
             DecimalDigits="8"
             InputDataType="UDecimal"
-            IsEnabled="False"
+            IsEnabled="True"
             MaxLength="34"
             Style="{StaticResource TextBoxInputStyle}"
             Value="{Binding Path=Cantidad, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -92,26 +92,5 @@
             MaxLength="34"
             Style="{StaticResource TextBoxInputStyle}"
             Value="{Binding Path=CantidadReservadaInventario, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-        <!--<Label
-            Name="lblCantidadProducida"
-            Grid.Row="2"
-            Grid.Column="3"
-            HorizontalAlignment="Right"
-            Content="Cantidad Producida"
-            Style="{StaticResource LabelPrompt}"
-            Visibility="{Binding Path=IsVisibleFechaFinalizacion, Converter={StaticResource booleanToVisibilityConverter}}" />
-        <nsWpfControls:GSNumericBoxWpf
-            Name="txtCantidadProducida"
-            Grid.Row="2"
-            Grid.Column="4"
-            Width="120"
-            BorderThickness="1"
-            DecimalDigits="8"
-            InputDataType="UDecimal"
-            IsEnabled="{Binding Path=IsEnabledFechaFinalizacion}"
-            MaxLength="34"
-            Style="{StaticResource TextBoxInputStyle}"
-            Visibility="Visible"
-            Value="{Binding Path=CantidadConsumida, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />-->
     </Grid>
 </UserControl>

@@ -117,7 +117,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
        
 
-        [LibRequired(ErrorMessage = "El campo Código de Artículo es requerido.")]
+        //[LibRequired(ErrorMessage = "El campo Código de Artículo es requerido.")]
         [LibGridColum("Código", eGridColumType.Generic, ColumnOrder=0)]
         public string CodigoArticulo {
             get {
@@ -132,8 +132,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibRequired(ErrorMessage = "El campo Descripción Artículo es requerido.")]
-        [LibGridColum("Descripción", eGridColumType.Generic,MaxWidth = 120, ColumnOrder = 0)]
+        //[LibRequired(ErrorMessage = "El campo Descripción Artículo es requerido.")]
+        [LibGridColum("Descripción", eGridColumType.Generic,MaxWidth = 120, ColumnOrder = 1)]
         public string DescripcionArticulo {
             get {
                 return Model.DescripcionArticulo;
@@ -148,7 +148,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 				
-        [LibGridColum("Unidad", eGridColumType.Generic)]
+        [LibGridColum("Unidad", eGridColumType.Generic, ColumnOrder = 2)]
         public string  UnidadDeVenta {
             get {
                 return Model.UnidadDeVenta;
@@ -162,7 +162,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Cantidad Original Lista", eGridColumType.Numeric, Alignment = eTextAlignment.Right)]
+        [LibGridColum("Cantidad Original Lista", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 3)]
         public decimal  CantidadOriginalLista {
             get {
                 return Model.CantidadOriginalLista;
@@ -175,7 +175,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
             }
         }
-        [LibRequired(ErrorMessage = "El campo Cantidad Solicitada es requerido.")]
+
+        [LibGridColum("Cantidad Solicitada", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 4)]
         public decimal CantidadSolicitada {
             get {
                 return Model.CantidadSolicitada;
@@ -190,6 +191,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
+        [LibGridColum("Cantidad Producida", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 5)]
         public decimal CantidadProducida {
             get {
                 return Model.CantidadProducida;
@@ -251,7 +253,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("% Costo Est.", eGridColumType.Numeric, Alignment = eTextAlignment.Right)]
+        [LibGridColum("% Costo Est.", eGridColumType.Numeric, Alignment = eTextAlignment.Right,ColumnOrder = 6)]
         public decimal  PorcentajeCostoEstimado {
             get {
                 return Model.PorcentajeCostoEstimado;
@@ -265,7 +267,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("% Costo Cierre", eGridColumType.Numeric, Alignment = eTextAlignment.Right)]
+        [LibGridColum("% Costo Cierre", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 7)]
         public decimal  PorcentajeCostoCierre {
             get {
                 return Model.PorcentajeCostoCierre;
@@ -279,7 +281,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Costo", eGridColumType.Numeric, Alignment = eTextAlignment.Right)]
+        //[LibGridColum("Costo", eGridColumType.Numeric, Alignment = eTextAlignment.Right)]
         public decimal  Costo {
             get {
                 return Model.Costo;
@@ -315,7 +317,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         public int DecimalDigits {
             get {
-                return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "CantidadDeDecimales");
+                return 8;//LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "CantidadDeDecimales");
             }
         }
 

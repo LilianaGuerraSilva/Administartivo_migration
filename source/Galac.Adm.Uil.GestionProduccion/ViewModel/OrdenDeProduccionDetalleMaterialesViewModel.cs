@@ -149,7 +149,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         
-        [LibGridColum("Unidad", eGridColumType.Generic, MaxWidth = 120 )]
+        [LibGridColum("Unidad", eGridColumType.Generic, MaxWidth = 120, ColumnOrder = 2)]
         public string  UnidadDeVenta {
             get {
                 return Model.UnidadDeVenta;
@@ -163,7 +163,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 		
-		[LibGridColum("Cantidad Original", eGridColumType.Numeric)]
+		[LibGridColum("Cantidad Original", eGridColumType.Numeric, ColumnOrder = 3, ConditionalPropertyDecimalDigits = "DecimalDigits")]
         public decimal  Cantidad {
             get {
                 return Model.Cantidad;
@@ -178,7 +178,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         
-        [LibGridColum("Cantidad a Consumir")]
         public decimal  CantidadReservadaInventario {
             get {
                 return Model.CantidadReservadaInventario;
@@ -191,6 +190,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
             }
         }      
+
+        [LibGridColum("Cantidad a Consumir", eGridColumType.Numeric,Width =150, ColumnOrder = 4, ConditionalPropertyDecimalDigits = "DecimalDigits")]
         public decimal  CantidadConsumida {
             get {
                 return Model.CantidadConsumida;
@@ -204,7 +205,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        public decimal  CostoUnitarioArticuloInventario {
+        [LibGridColum("Costo Total", eGridColumType.Numeric, ColumnOrder = 6, ConditionalPropertyDecimalDigits = "DecimalDigits")]
+        public decimal CostoUnitarioArticuloInventario {
             get {
                 return Model.CostoUnitarioArticuloInventario;
             }
@@ -280,7 +282,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         public int DecimalDigits {
             get {
-                return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "CantidadDeDecimales");
+                return 8;//LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "CantidadDeDecimales");
             }
         }
 
