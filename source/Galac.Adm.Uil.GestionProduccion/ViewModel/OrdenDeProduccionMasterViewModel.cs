@@ -45,9 +45,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         #region Constructores
         public OrdenDeProduccionMasterViewModel(OrdenDeProduccionViewModel initOrdenDeProduccion)
             : base() {
-            OrdenDeProduccion = initOrdenDeProduccion;
-            //OrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo
-            //OrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales
+            OrdenDeProduccion = initOrdenDeProduccion;           
         }
         #endregion //Constructores
         #region Metodos Generados
