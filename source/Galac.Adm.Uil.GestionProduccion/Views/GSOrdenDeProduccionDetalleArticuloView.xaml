@@ -55,25 +55,6 @@
             Text="{Binding Path=DescripcionArticulo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             VerticalScrollBarVisibility="Auto" />
         <Label
-            Name="lblCantidad"
-            Grid.Row="1"
-            Grid.Column="1"
-            HorizontalAlignment="Right"
-            Content=" Cantidad A Producir"
-            Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSNumericBoxWpf
-            Name="txtCantidadSolicitada"
-            Grid.Row="1"
-            Grid.Column="2"
-            Width="120"
-            BorderThickness="1"
-            DecimalDigits="8"
-            InputDataType="UDecimal"
-            IsEnabled="True"
-            MaxLength="34"
-            Style="{StaticResource TextBoxInputStyle}"
-            Value="{Binding Path=Cantidad, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-        <Label
             Name="lblPorcentajedeCosto"
             Grid.Row="1"
             Grid.Column="3"

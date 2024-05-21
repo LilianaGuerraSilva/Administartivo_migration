@@ -240,20 +240,8 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 });
             }
             return vResult;
-        }
-		*/
-		//Mudar a Materiales
-       
-		/*
-        private XElement FilterOrdenDeProduccionDetalleArticuloByDistinctArticulo(OrdenDeProduccionDetalleArticulo valRecord) {
-            List<XElement> vList = new List<XElement>();
-            foreach (var item in valRecord.DetailOrdenDeProduccionDetalleMateriales ) {
-                vList.Add(new XElement ("GpResult", new XElement("CodigoArticulo", item.CodigoArticulo), new XElement("ConsecutivoAlmacen", item.ConsecutivoAlmacen)));
-            }
-            XElement vXElement = new XElement("GpData", vList.ToArray());
-            return vXElement;
-        }
-		*/
+        }	
+        */
     } //End of class clsOrdenDeProduccionDetalleArticuloNav
 
 } //End of namespace Galac.Adm.Brl.GestionProduccion

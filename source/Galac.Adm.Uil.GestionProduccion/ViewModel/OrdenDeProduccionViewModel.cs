@@ -461,6 +461,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 if(Model.CantidadAProducir != value) {
                     Model.CantidadAProducir = value;
                     IsDirty = true;
+                    ActualizaCantidadEnDetalles();
                     RaisePropertyChanged(CantidadAProducirPropertyName);
                 }
             }
@@ -775,7 +776,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 if(Action == eAccionSR.Contabilizar) {
                     return (Model.Consecutivo != 0);
                 } else {
-                    return DetailOrdenDeProduccionDetalleArticulo.Items[0].IsVisibleFechaFinalizacion;
+                    return true;//DetailOrdenDeProduccionDetalleArticulo.Items[0].IsVisibleFechaFinalizacion;
                 }
             }
         }
@@ -1549,6 +1550,28 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 NombreAlmacenProductoTerminado = string.Empty;
             }
         }
+
+        private void ActualizaCantidadEnDetalles() {
+            foreach (OrdenDeProduccionDetalleMateriales vItem in Model.DetailOrdenDeProduccionDetalleMateriales) {
+                vItem.CantidadReservadaInventario = CantidadAProducir * vItem.Cantidad;
+            }
+
+            foreach (OrdenDeProduccionDetalleArticulo vItem in Model.DetailOrdenDeProduccionDetalleArticulo) {
+                vItem.CantidadSolicitada = CantidadAProducir * vItem.CantidadOriginalLista;
+            }
+        }
+
+        internal void BuscaExistencia() {
+            IOrdenDeProduccionDetalleMaterialesPdn vOrdenDeProduccionDetalleMateriales = new clsOrdenDeProduccionDetalleMaterialesNav();
+            //XElement vData = vOrdenDeProduccionDetalleMateriales.BuscaExistenciaDeArticulos(ConsecutivoCompania, new ObservableCollection<OrdenDeProduccionDetalleMateriales> { DetailOrdenDeProduccionDetalleMateriales });
+            foreach (OrdenDeProduccionDetalleMaterialesViewModel item in DetailOrdenDeProduccionDetalleMateriales.Items) {
+                //var vExistencia = vData.Descendants("GpResult").Where(p => p.Element("CodigoArticulo").Value == item.CodigoArticulo && LibConvert.ToInt(p.Element("ConsecutivoAlmacen")) == item.ConsecutivoAlmacen).Select(q => new { Existencia = LibConvert.ToDec(q.Element("Cantidad"), 8) }).FirstOrDefault();
+                //if (vExistencia != null) {
+                //    item.Existencia = vExistencia.Existencia;
+                //}
+            }
+        }      
+
         #endregion //Metodos
     } //End of class OrdenDeProduccionViewModel
 

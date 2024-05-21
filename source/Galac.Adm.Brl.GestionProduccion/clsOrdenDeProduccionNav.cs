@@ -466,10 +466,10 @@ namespace Galac.Adm.Brl.GestionProduccion {
             LibResponse vResult = new LibResponse();
             vResult.Success = true;
             XElement vDataXmlArticulo = BuscarInfoDeCostoDeArticulos(refRecord[0].DetailOrdenDeProduccionDetalleArticulo);
-            IList<OrdenDeProduccionDetalleArticulo> vList = new List<OrdenDeProduccionDetalleArticulo>();
+            IList<OrdenDeProduccionDetalleMateriales> vList = new List<OrdenDeProduccionDetalleMateriales>();
             foreach (OrdenDeProduccion vOrdenDeProduccion in refRecord) {
-                foreach (var vDetailOrdenDeProduccionDetalleArticulo in vOrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo) {
-                    vList.Add(vDetailOrdenDeProduccionDetalleArticulo);
+                foreach (OrdenDeProduccionDetalleMateriales vDetailOrdenDeProduccionDetalleMateriales in vOrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales) {
+                    vList.Add(vDetailOrdenDeProduccionDetalleMateriales);
                 }
             }
             XElement vData = new clsOrdenDeProduccionDetalleMaterialesNav().BuscaExistenciaDeArticulos(refRecord[0].ConsecutivoCompania, vList);
@@ -788,11 +788,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 });
             }
             return vResult;
-        }
-
-        XElement IOrdenDeProduccionPdn.BuscaExistenciaDeArticulos(int valConsecutivoCompania, IList<OrdenDeProduccionDetalleArticulo> valData) {
-            throw new NotImplementedException();
-        }
+        }        
     } //End of class clsOrdenDeProduccionNav
 
 } //End of namespace Galac.Adm.Brl.GestionProduccion

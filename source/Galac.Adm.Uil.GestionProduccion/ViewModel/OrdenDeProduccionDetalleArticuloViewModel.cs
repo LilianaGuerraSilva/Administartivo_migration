@@ -184,7 +184,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 if (Model.CantidadSolicitada != value) {
                     Model.CantidadSolicitada = value;
                     IsDirty = true;
-                    //ActualizaCantidadEnDetalles();
+                    //ActualizaCantidadEnDetalles() Al refrescar la Cantidad EN EL MASTER// Mudar al master;
                     RaisePropertyChanged(CantidadSolicitadaPropertyName);
                 }
             }

@@ -14,7 +14,7 @@ using System.Collections.ObjectModel;
 using Galac.Saw.Ccl.Inventario;
 
 namespace Galac.Adm.Brl.GestionProduccion {
-    public partial class clsOrdenDeProduccionDetalleMaterialesNav: LibBaseNavDetail<IList<OrdenDeProduccionDetalleMateriales>, IList<OrdenDeProduccionDetalleMateriales>> {
+    public partial class clsOrdenDeProduccionDetalleMaterialesNav: LibBaseNavDetail<IList<OrdenDeProduccionDetalleMateriales>, IList<OrdenDeProduccionDetalleMateriales>>, IOrdenDeProduccionDetalleMaterialesPdn {
         #region Variables
         #endregion //Variables
         #region Propiedades
@@ -126,19 +126,10 @@ namespace Galac.Adm.Brl.GestionProduccion {
             return vResult;
         }
 
-        public XElement BuscaExistenciaDeArticulos(int valConsecutivoCompania, IList<OrdenDeProduccionDetalleArticulo> valData) {
-            XElement vXElement = new XElement("GpData");
-            //foreach (OrdenDeProduccionDetalleArticulo vItem in valData) {
-            //    vXElement.Add(FilterOrdenDeProduccionDetalleArticuloByDistinctArticulo(vItem).Descendants("GpResult"));
-            //}
-            //IArticuloInventarioPdn insArticulo = new Galac.Saw.Brl.Inventario.clsArticuloInventarioNav ();
-            //XElement vXElementResult = insArticulo.DisponibilidadDeArticuloPorAlmacen(valConsecutivoCompania, vXElement);
-            //return vXElementResult;
-            return vXElement;
-        }
+
 
         #endregion //OrdenDeProduccionDetalleMateriales
-        
+
         #endregion //Metodos Generados
         #region Codigo Ejemplo
         /* Codigo de Ejemplo
@@ -226,7 +217,17 @@ namespace Galac.Adm.Brl.GestionProduccion {
         //    IList<OrdenDeProduccionDetalleMateriales> vList = vOrdenDeProduccionDetalleArticulo.DetailOrdenDeProduccionDetalleMateriales .ToList();
         //    FillWithForeignInfo(ref vList);
         //    return new ObservableCollection<OrdenDeProduccionDetalleMateriales>(vList);
-        //}
+        //}       
+
+        public XElement BuscaExistenciaDeArticulos(int valConsecutivoCompania, IList<OrdenDeProduccionDetalleMateriales> valData) {
+            XElement vXElement = new XElement("GpData",new XElement("GpResult"));
+            foreach (OrdenDeProduccionDetalleMateriales vItem in valData) {
+                vXElement.Descendants().First().Add(new XElement("GpResult", new XElement("CodigoArticulo", vItem.CodigoArticulo), new XElement("ConsecutivoAlmacen", vItem.ConsecutivoAlmacen)));
+            }
+            IArticuloInventarioPdn insArticulo = new Galac.Saw.Brl.Inventario.clsArticuloInventarioNav();
+            XElement vXElementResult = insArticulo.DisponibilidadDeArticuloPorAlmacen(valConsecutivoCompania, vXElement);
+            return vXElementResult;
+        }      
     } //End of class clsOrdenDeProduccionDetalleMaterialesNav
 
 } //End of namespace Galac.Adm.Brl.GestionProduccion
