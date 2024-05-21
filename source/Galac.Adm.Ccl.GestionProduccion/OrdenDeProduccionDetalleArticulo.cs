@@ -86,7 +86,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         public decimal CantidadOriginalLista {
             get { return _CantidadOriginalLista; }
             set { 
-                _CantidadOriginalLista = value;                
+                _CantidadOriginalLista = value;
             }
         }
         public decimal CantidadSolicitada {

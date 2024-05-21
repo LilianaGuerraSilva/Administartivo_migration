@@ -51,8 +51,8 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vParams.AddInInteger("ConsecutivoAlmacen", valRecord.ConsecutivoAlmacen);
             vParams.AddInString("CodigoArticulo", valRecord.CodigoArticulo, 30);
             vParams.AddInDecimal("Cantidad", valRecord.Cantidad, 8);
-            vParams.AddInDecimal("CantidadReservadaInventario", valRecord.CantidadReservadaInventario, 4);
-            vParams.AddInDecimal("CantidadConsumida", valRecord.CantidadConsumida, 4);
+            vParams.AddInDecimal("CantidadReservadaInventario", valRecord.CantidadReservadaInventario, 8);
+            vParams.AddInDecimal("CantidadConsumida", valRecord.CantidadConsumida, 8);
             vParams.AddInDecimal("CostoUnitarioArticuloInventario", valRecord.CostoUnitarioArticuloInventario, 2);
             vParams.AddInDecimal("MontoSubtotal", valRecord.MontoSubtotal, 2);
             vParams.AddInBoolean("AjustadoPostCierre", valRecord.AjustadoPostCierreAsBool);

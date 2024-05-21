@@ -117,7 +117,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
        
 
-        //[LibRequired(ErrorMessage = "El campo Código de Artículo es requerido.")]
         [LibGridColum("Código", eGridColumType.Generic, ColumnOrder=0)]
         public string CodigoArticulo {
             get {
@@ -132,7 +131,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        //[LibRequired(ErrorMessage = "El campo Descripción Artículo es requerido.")]
         [LibGridColum("Descripción", eGridColumType.Generic,MaxWidth = 120, ColumnOrder = 1)]
         public string DescripcionArticulo {
             get {
@@ -162,7 +160,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Cantidad", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 3)]
+        [LibGridColum("Cantidad Original", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 3)]
         public decimal  CantidadOriginalLista {
             get {
                 return Model.CantidadOriginalLista;
@@ -177,7 +175,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
        
-	    [LibGridColum("Cantidad a Producir", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 4)]       
+	    [LibGridColum("Cantidad Solicitada", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 4)]       
 	    public decimal CantidadSolicitada {
             get {
                 return Model.CantidadSolicitada;

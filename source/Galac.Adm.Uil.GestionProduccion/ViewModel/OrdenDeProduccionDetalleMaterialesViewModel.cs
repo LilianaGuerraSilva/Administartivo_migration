@@ -257,6 +257,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
             }
         }
+
         public OrdenDeProduccionViewModel Master {
             get;
             set;
