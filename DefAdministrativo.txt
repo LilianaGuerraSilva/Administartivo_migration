@@ -3,7 +3,7 @@ Proyecto=SAW
 PatronPresentacion=MVVM
 
 $GENERATE$
-#INCLUDE=ExternalLib,"C:\cvs\documentos\dotNet\Def\DefLibGalac.txt"
+//#INCLUDE=ExternalLib,"C:\cvs\documentos\dotNet\Def\DefLibGalac.txt"
 #INCLUDE=ExternalTablasGen,"C:\cvs\documentos\productos\Migracion AOS\DefTablasGen.txt"
 //#INCLUDE=ExternalSttdef,"C:\Git\Administrativo\DefParametrosAdministrativos.txt"
 //#INCLUDE=ExternarWincont,"C:\cvs\documentos\vba\Def\DefContabilidad-V1.txt"
@@ -202,6 +202,7 @@ unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Component
 unIdFiscalPM = (V, J, E, G, P);//e,Componente=Venta
 unCodigoCel = (Cod_0412, Cod_0414, Cod_0424, Cod_0416, Cod_0426);//e,Componente=Venta
 unBancoPM = (Bco_0102 "0102 Banco de Venezuela S.A. Banco Universal", Bco_0104 "0104 Banco Venezolano de Crédito S.A. Banco Universal", Bco_0105 "0105 Banco Mercantil C.A. Banco Universal", Bco_0108 "0108 Banco Provincial S.A. Banco Universal", Bco_0114 "0114 Banco del Caribe C.A. Banco Universal", Bco_0115 "0115 Banco Exterior C.A. Banco Universal", Bco_0128 "0128 Banco Caroní C.A. Banco Universal", Bco_0134 "0134 Banesco Banco Universal C.A.", Bco_0137 "0137 Banco Sofitasa Banco Universal C.A.", Bco_0138 "0138 Banco Plaza Banco universal", Bco_0146 "0146 Banco de la Gente Emprendedora C.A.", Bco_0151 "0151 Banco Fondo Común C.A Banco Universal", Bco_0156 "0156 100% Banco Banco Comercial C.A", Bco_0157 "0157 DelSur Banco Universal C.A.", Bco_0163 "0163 Banco del Tesoro C.A. Banco Universal", Bco_0168 "0168 Bancrecer S.A. Banco Microfinanciero", Bco_0169 "0169 Mi Banco Banco Microfinanciero C.A.", Bco_0171 "0171 Banco Activo C.A. Banco Universal", Bco_0172 "0172 Bancamiga Banco Universal C.A.", Bco_0174 "0174 Banplus Banco Universal C.A.", Bco_0175 "0175 Banco Bicentenario del Pueblo Banco Universal C.A.", Bco_0177 "0177 Banco de la Fuerza Armada Nacional Bolivariana B.U.", Bco_0191 "0191 Banco Nacional de Crédito C.A. Banco Universal");//e,Componente=Venta
+unTipoStatusOrdenProduccion = (Ingresada, Iniciada, Cerrada, Anulada);//e,Componente=GestionProduccion,Esquema=Adm
 
 
 // Record Repetido en archivo Externo
@@ -4190,7 +4191,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 }
 
 
-{@M}ListaDeMateriales = record //Multiarchivo=Compania, "Lista de Materiales", Componente=GestionProduccion, Esquema=Adm, EsquemaBD=Adm,interop,GenerateRptConfigurar, GenerateFrmInforme,Generate     
+{@M}ListaDeMateriales = record //Multiarchivo=Compania, "Lista de Materiales", Componente=GestionProduccion, Esquema=Adm, EsquemaBD=Adm,interop,GenerateRptConfigurar, GenerateFrmInforme     
 	ConsecutivoCompania: Longint//HIDE 
 	Consecutivo: LongInt;//HIDE,Consecutive 
 	Codigo: str30//o, search,g, "Código" 
@@ -4204,7 +4205,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	@UniqueKey=ConsecutivoCompania,Nombre 
 } 
 
-{@D ListaDeMateriales} ListaDeMaterialesDetalleArticulo = record //Multiarchivo=Compania, "Insumos", Componente=GestionProduccion, Esquema=Adm, EsquemaBD=Adm, GENERATE
+{@D ListaDeMateriales} ListaDeMaterialesDetalleArticulo = record //Multiarchivo=Compania, "Insumos", Componente=GestionProduccion, Esquema=Adm, EsquemaBD=Adm
 	ConsecutivoCompania: Longint//HIDE 
 	ConsecutivoListaDeMateriales: Longint//HIDE 
 	Consecutivo : Longint//HIDE 
@@ -4215,7 +4216,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	@PrimaryKey=ConsecutivoCompania, ConsecutivoListaDeMateriales,Consecutivo 
 } 
 
-{@D ListaDeMateriales} ListaDeMaterialesDetalleSalidas = record //Multiarchivo=Compania, "Salidas", Componente=GestionProduccion, Esquema=Adm, EsquemaBD=Adm, GENERATE  
+{@D ListaDeMateriales} ListaDeMaterialesDetalleSalidas = record //Multiarchivo=Compania, "Salidas", Componente=GestionProduccion, Esquema=Adm, EsquemaBD=Adm  
 	ConsecutivoCompania: Longint//HIDE 
 	ConsecutivoListaDeMateriales: Longint//HIDE 
 	Consecutivo: Longint//HIDE 
@@ -4223,7 +4224,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	DescripcionArticuloInventario: str7000//=ArticuloInventario.Descripcion,"Descripción Artículo",logical 
 	Cantidad: decimal//o,g,"Cantidad", decimales=8 
 	UnidadDeVenta: Str20;//g,logical,=ArticuloInventario.UnidadDeVenta,"Unidad de Venta",logical 
-	PorcentajeDeCosto: decimal//o,g,"%Costo",decimales=4
+	PorcentajeDeCosto: decimal//o,g,"%Costo",decimales=8
 	@PrimaryKey=ConsecutivoCompania, ConsecutivoListaDeMateriales,Consecutivo 
 } 
 
@@ -4459,73 +4460,76 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	SoloCuentasActivas	: boolean;	//"Solo cuentas activas"
 }
 
-{@S}OrdenDeProduccion = Record//Esquema=Adm,
-	ConsecutivoCompania		        : LongInt;//
-	Consecutivo		                : LongInt;//
-	Codigo		                    : Str15;//
-	Descripcion		                : Str250;//dv=''
-	StatusOp		                : boolean;//"�ENUMERATIVO O BOOLEAN?",dv='0'
-	ConsecutivoAlmacenProductoTerminado		: LongInt;//
-	ConsecutivoAlmacenMateriales	: LongInt;//
-	FechaCreacion		            : date;//dv=''
-	FechaInicio		                : date;//dv=''
-	FechaFinalizacion		        : date;//dv=''
-	FechaAnulacion		            : date;//dv=''
-	FechaAjuste		                : date;//dv=''
-	AjustadaPostCierre		        : boolean;//"�ENUMERATIVO O BOOLEAN?",
-	Observacion		                : Str600;//dv=''
-	MotivoDeAnulacion		        : Str600;//dv=''
-	NumeroDecimales		            : LongInt;//
-    Moneda              		    : str80;//logical,=Moneda.Nombre, "Nombre de la Moneda"
-    CostoTerminadoCalculadoAPartirDe : unFormaDeCalcularCostoTerminado;
-    CodigoMonedaCostoProduccion     : str04; //"Código Moneda Para El Costo"
-    CambioCostoProduccion           : double; //
-//ATENCI�N: Ultimos campos del Record. Los campos nuevos deben ir antes de estas l�neas.
-	NombreOperador		            : Str10;//a
-	FechaUltimaModificacion	        : date;//a
+{@M}OrdenDeProduccion = Record//Multiarchivo=Compania,"Orden de Producción",Componente=GestionProduccion,Esquema=Adm,EsquemaBD=Adm,interop,GenerateRptConfigurar, GenerateFrmInforme, GENERATE
+	ConsecutivoCompania 				: LongInt;//HIDE
+	Consecutivo 						: LongInt;//a,u,o,Consecutive,search,Hide
+	Codigo 								: Str15;//o,g,sugestConsecutive,"Código de Orden"
+	Descripcion 						: Str250;//o
+	StatusOp 							: unTipoStatusOrdenProduccion;//dv='0'
+	ConsecutivoAlmacenProductoTerminado	: LongInt;//=Almacen.Consecutivo
+	ConsecutivoAlmacenMateriales		: LongInt;//=Almacen.Consecutivo
+	FechaCreacion 						: date;//"Fecha de Creación"
+	FechaInicio 						: date;//"Fecha de Inicio"
+	FechaFinalizacion 					: date;//"Fecha de Finalización"
+	FechaAnulacion 						: date;//"Fecha de Anulación"
+	FechaAjuste 						: date;//"Fecha de Ajuste"
+	AjustadaPostCierre 					: boolean;//"Ajustada por Cierre"
+	Observacion 						: Str600;//dv='',"Observación"
+	MotivoDeAnulacion 					: Str600;//dv='',"Motivo de Anulación"
+	NumeroDecimales 					: LongInt;//dv=2,HIDE
+	CostoTerminadoCalculadoAPartirDe	: unFormaDeCalcularCostoTerminado;
+	CodigoMonedaCostoProduccion 		: Str4; //o,"Moneda para el Costo",=Moneda.Codigo
+	Moneda  							: str80;//logical,=Moneda.Nombre, "Nombre de la Moneda"
+	CambioCostoProduccion 				: decimal;//"Cambio a Moneda Local"
+	ConsecutivoListaDeMateriales		: LongInt;//HIDE,o,=ListaDeMateriales.Consecutivo
+	CodigoListaDeMateriales				: Str30;//o,logical,=ListaDeMateriales.Codigo
+	NombreListaDeMateriales				: textArea;//o,logical,=ListaDeMateriales.Nombre
+	NombreOperador						: Str10;//a
+	FechaUltimaModificacion				: date;//a
 	@PrimaryKey=ConsecutivoCompania,Consecutivo
 }
 
-{@S}OrdenDeProduccionDetalleArticulo = Record//Esquema=Adm
-	ConsecutivoCompania		: LongInt;//
-	ConsecutivoOrdenDeProduccion		: LongInt;//
-	Consecutivo		: LongInt;//
-	ConsecutivoListaDeMateriales		: LongInt;//
-	ConsecutivoAlmacen		: LongInt;//
-	CodigoArticulo		: Str30;//
-	CantidadSolicitada		: decimal;//Decimales=9,Longitud=25,
-	CantidadProducida		: decimal;//Decimales=9,Longitud=25,
-	CostoUnitario		: decimal;//,dv=(0)
-	CostoUnitarioME		: decimal;//,dv=(0)
-	MontoSubTotal		: decimal;//,dv=(0)
-	AjustadoPostCierre		: boolean;//"�ENUMERATIVO O BOOLEAN?",
-	CantidadAjustada		: decimal;//,
-//ATENCI�N: Ultimos campos del Record. Los campos nuevos deben ir antes de estas l�neas.
-	NombreOperador		: Str10;//a
-	FechaUltimaModificacion	: date;//a
+{@D OrdenDeProduccion}OrdenDeProduccionDetalleArticulo = Record//Multiarchivo=Compania,"Salida",Esquema=Adm,Componente=GestionProduccion,EsquemaBD=Adm,GENERATE
+	ConsecutivoCompania				: LongInt;//HIDE
+	ConsecutivoOrdenDeProduccion	: LongInt;//HIDE,o
+	Consecutivo						: LongInt;//HIDE,o
+	ConsecutivoAlmacen				: LongInt;//HIDE,o,=Almacen.Consecutivo
+	CodigoAlmacen					: Str5;//logical,=Almacen.Codigo,"Código de Almacén"
+	NombreAlmacen					: Str40;//logical,=Almacen.Nombre,"Nombre de Almacén"
+	CodigoArticulo					: Str30;//g,o,=ArticuloInventario.Codigo,"Código de Artículo"
+	DescripcionArticulo				: textArea;//g,logical,=ArticuloInventario.Descripcion,"Descripción Artículo"
+	UnidadDeVenta					: Str20;//g,logical,=ArticuloInventario.UnidadDeVenta,"Unidad"
+	CantidadSolicitada				: decimal;//o,g,"Cantidad Solicitada",decimales=8
+	CantidadProducida				: decimal;//o,g,"Cantidad Producida",decimales=8
+	CostoUnitario					: decimal;//HIDE,"MontoSubTotal/CantidadProducidad"
+	MontoSubTotal					: decimal;//HIDE,"ACUM OrdenDeProduccionDetalleMateriales.MontoSubTotal"
+	AjustadoPostCierre				: boolean;//"Ajusta por Cierre"
+	CantidadAjustada				: decimal;//o,"Cantidad Ajustada"
+	PorcentajeCosto					: decimal;//g,"% Costo",decimales=4
+	Costo							: decimal;//g,"Costo",
 	@PrimaryKey=ConsecutivoCompania,ConsecutivoOrdenDeProduccion,Consecutivo
 }
 
-{@S}OrdenDeProduccionDetalleMateriales = Record//Esquema=Adm
-	ConsecutivoCompania		            : LongInt;//
-	ConsecutivoOrdenDeProduccion		: LongInt;//
-	ConsecutivoOrdenDeProduccionDetalleArticulo		: LongInt;//
-	Consecutivo		                    : LongInt;//
-	ConsecutivoAlmacen		            : LongInt;//dv=0
-	CodigoArticulo		                : Str30;//dv=''
-	Cantidad		                    : decimal;//Decimales=9,Longitud=25,
-	CantidadReservadaInventario		    : decimal;//,
-	CantidadConsumida		            : decimal;//,
-	CostoUnitarioArticuloInventario		: decimal;//,dv=0
-	CostoUnitarioMEArticuloInventario	: decimal;//,dv=0
-	MontoSubtotal		                : decimal;//,dv=0
-	AjustadoPostCierre		            : boolean;//"�ENUMERATIVO O BOOLEAN?",
-	CantidadAjustada		            : decimal;//,
-//ATENCI�N: Ultimos campos del Record. Los campos nuevos deben ir antes de estas l�neas.
-	NombreOperador		                : Str10;//a
-	FechaUltimaModificacion	            : date;//a
-	@PrimaryKey=ConsecutivoCompania,ConsecutivoOrdenDeProduccion,ConsecutivoOrdenDeProduccionDetalleArticulo,Consecutivo
+{@D OrdenDeProduccion}OrdenDeProduccionDetalleMateriales = Record//Multiarchivo=Compania,"Insumos",Componente=GestionProduccion,EsquemaBD=Adm,GENERATE
+	ConsecutivoCompania					: LongInt;//HIDE
+	ConsecutivoOrdenDeProduccion		: LongInt;//HIDE,o
+	Consecutivo							: LongInt;//HIDE,o
+	ConsecutivoAlmacen					: LongInt;//HIDE,=Almacen.Consecutivo
+	CodigoAlmacen						: Str5;//logical,=Almacen.Codigo,"Código de Almacén"
+	NombreAlmacen						: Str40;//logical,=Almacen.Nombre,"Nombre de Almacén"
+	CodigoArticulo						: Str30;//g,o,=ArticuloInventario.Codigo,"Código de Artículo"
+	DescripcionArticulo					: textArea;//g,logical,=ArticuloInventario.Descripcion,"Descripción Artículo"
+	UnidadDeVenta						: Str20;//g,logical,=ArticuloInventario.UnidadDeVenta,"Unidad"
+	Cantidad							: decimal;//a,o,g,decimales=8
+	CantidadReservadaInventario			: decimal;//o,g,decimales=4,a" Cantidad * OrdenProduccionDetalleArticulo.CantidadSolicidada"
+	CantidadConsumida					: decimal;//o,g,decimales=4
+	CostoUnitarioArticuloInventario		: decimal;//a=ArticuloInventario.CostoUnitario
+	MontoSubtotal						: decimal;//a"CantidadConsumida * CostoUnitarioArticuloInventario"
+	AjustadoPostCierre					: boolean;//"Ajusta por Cierre"
+	CantidadAjustada					: decimal;//o,"Cantidad Ajustada"
+	@PrimaryKey=ConsecutivoCompania,ConsecutivoOrdenDeProduccion,Consecutivo
 }
+
 {@S}TransferenciaEntreCuentasBancarias = record //Multiarchivo=Compania,"Transferencia Entre Cuentas Bancarias",Componente=Banco,Esquema=Adm,interop,GenerateRptConfigurar,GenerateFrmInforme
 	ConsecutivoCompania				: LongInt;	//Hide	
 	Consecutivo						: LongInt; 	//Hide,"Consecutivo Transferencia",sugestConsecutive
@@ -4614,7 +4618,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	DifDevolucion	:decimal;//"Diferencia en Devolución"	
 }
 
-{@R ListaDeMateriales}ListaDeMaterialesDeSalida = Reporte	//Multiarchivo=Compania,"Lista De Materiales de Salida",Componente=GestionProduccion,Esquema=Adm,EsquemaBD=Dbo,Generate	
+{@R ListaDeMateriales}ListaDeMaterialesDeSalida = Reporte	//Multiarchivo=Compania,"Lista De Materiales de Salida",Componente=GestionProduccion,Esquema=Adm,EsquemaBD=Dbo	
 		CodigoListaAProducir	:	Section;//"Código Lista a Producir"	
 		ListaDeMateriales	:	Str50;//"Lista De Materiales"
 		Moneda	:	Str80;//"Moneda del Grupo"		
@@ -4626,7 +4630,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 		CostoCalculado	:	Decimal;//"Costo Calculado"		
 }
 
-{@R ListaDeMateriales}ListaDeMaterialesDeInsumos = Reporte	//Multiarchivo=Compania,"Lista De Materiales Insumos",Componente=GestionProduccion,Esquema=Adm,EsquemaBD=Dbo,Generate		
+{@R ListaDeMateriales}ListaDeMaterialesDeInsumos = Reporte	//Multiarchivo=Compania,"Lista De Materiales Insumos",Componente=GestionProduccion,Esquema=Adm,EsquemaBD=Dbo		
 	DescripcionArticulo		:	Str10;//"Descripción"	
 	Cantidad	:	Decimal;//"Cantidad"			
 	Costo	:	Decimal;//"Costo Calculado"	
@@ -4634,3 +4638,29 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	CostoTotal	:	Decimal;//"Costo Total"
 	Existencia	:	Decimal;//"Existencia"
 }
+
+{@R OrdenDeProduccion}DetalleCostoProducccionSalida = Reporte	//Multiarchivo=Compania,"Detalle de Costo de Produccción Salida",Componente=GestionProduccion,Esquema=Adm,EsquemaBD=Dbo, GENERATE
+	CodigoOrdenProduccion		:	Section;//"Código Orden Producción"
+	OrdenProduccion				:	Str50;//"Orden de Producccion"
+	Moneda						:	Str80;//"Moneda del Grupo"		
+	{EndSeccion}
+	Articulo					:	Str50;//"Artículo"
+	DescripcionArticulo			:	Str255;//"Descripción Artículo"
+	Unidades					:	Str20;"Unidades"
+	Cantidad					:	Decimal;//"Cantidad"
+	CantidadAProducir			:	Decimal;//"Cantidad A Producir"
+	CantidadAProducida			:	Decimal;//"Cantidad A Producida"
+	PorcentajeCostoEstimado		:	Decimal;//"Porcentaje de Costo Estimado"
+	PorcentajeCostoCierre		:	Decimal;//"Porcentaje de Costo de Cierre"
+	CostoCalculado				:	Decimal;//"Costo Calculado"
+}
+
+{@R OrdenDeProduccion}DetalleCostoProducccionInsumos = Reporte	//Multiarchivo=Compania,"Detalle de Costo de Producccion Insumos",Componente=GestionProduccion,Esquema=Adm,EsquemaBD=Dbo, GENERATE
+	Articulo					:	Str50;//"Artículo"
+	DescripcionArticulo			:	Str255;//"Descripción Artículo"
+	Unidades					:	Str20;"Unidades"
+	Cantidad					:	Decimal;//"Cantidad"
+	CantidadAReservar 			: 	Decimal;//"Cantidad A Reservar"
+	CantidadAConsumida 			: 	Decimal;//"Cantidad Consumida"
+	Existencia					:	Decimal;//"Existencia"
+	CostoTotal					:	Decimal;//"Costo Total"
