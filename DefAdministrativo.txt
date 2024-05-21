@@ -4224,7 +4224,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	DescripcionArticuloInventario: str7000//=ArticuloInventario.Descripcion,"Descripción Artículo",logical 
 	Cantidad: decimal//o,g,"Cantidad", decimales=8 
 	UnidadDeVenta: Str20;//g,logical,=ArticuloInventario.UnidadDeVenta,"Unidad de Venta",logical 
-	PorcentajeDeCosto: decimal//o,g,"%Costo",decimales=8
+	PorcentajeDeCosto: decimal//o,g,"%Costo",decimales=4
 	@PrimaryKey=ConsecutivoCompania, ConsecutivoListaDeMateriales,Consecutivo 
 } 
 
@@ -4484,6 +4484,8 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	ConsecutivoListaDeMateriales		: LongInt;//HIDE,o,=ListaDeMateriales.Consecutivo
 	CodigoListaDeMateriales				: Str30;//o,logical,=ListaDeMateriales.Codigo
 	NombreListaDeMateriales				: textArea;//o,logical,=ListaDeMateriales.Nombre
+	CantidadAProducir					: decimal;//o,"Cantidad a Producir",decimales=8
+	CantidadProducida					: decimal;//o,"Cantidad Producida",decimales=8
 	NombreOperador						: Str10;//a
 	FechaUltimaModificacion				: date;//a
 	@PrimaryKey=ConsecutivoCompania,Consecutivo
@@ -4499,13 +4501,15 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	CodigoArticulo					: Str30;//g,o,=ArticuloInventario.Codigo,"Código de Artículo"
 	DescripcionArticulo				: textArea;//g,logical,=ArticuloInventario.Descripcion,"Descripción Artículo"
 	UnidadDeVenta					: Str20;//g,logical,=ArticuloInventario.UnidadDeVenta,"Unidad"
-	CantidadSolicitada				: decimal;//o,g,"Cantidad Solicitada",decimales=8
-	CantidadProducida				: decimal;//o,g,"Cantidad Producida",decimales=8
+	CantidadOriginalLista			: decimal;//g,"Cantidad Original Lista",decimales=8,dv=0
+	CantidadSolicitada				: decimal;//g,"Cantidad Solicitada",decimales=8,dv=0
+	CantidadProducida				: decimal;//g,"Cantidad Producida",decimales=8,dv=0
 	CostoUnitario					: decimal;//HIDE,"MontoSubTotal/CantidadProducidad"
 	MontoSubTotal					: decimal;//HIDE,"ACUM OrdenDeProduccionDetalleMateriales.MontoSubTotal"
 	AjustadoPostCierre				: boolean;//"Ajusta por Cierre"
-	CantidadAjustada				: decimal;//o,"Cantidad Ajustada"
-	PorcentajeCosto					: decimal;//g,"% Costo",decimales=4
+	CantidadAjustada				: decimal;//"Cantidad Ajustada",dv=0
+	PorcentajeCostoEstimado			: decimal;//g,"% Costo Est.",decimales=8
+	PorcentajeCostoCierre			: decimal;//g,"% Costo Cierre",decimales=8
 	Costo							: decimal;//g,"Costo",
 	@PrimaryKey=ConsecutivoCompania,ConsecutivoOrdenDeProduccion,Consecutivo
 }
@@ -4520,13 +4524,13 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	CodigoArticulo						: Str30;//g,o,=ArticuloInventario.Codigo,"Código de Artículo"
 	DescripcionArticulo					: textArea;//g,logical,=ArticuloInventario.Descripcion,"Descripción Artículo"
 	UnidadDeVenta						: Str20;//g,logical,=ArticuloInventario.UnidadDeVenta,"Unidad"
-	Cantidad							: decimal;//a,o,g,decimales=8
-	CantidadReservadaInventario			: decimal;//o,g,decimales=4,a" Cantidad * OrdenProduccionDetalleArticulo.CantidadSolicidada"
-	CantidadConsumida					: decimal;//o,g,decimales=4
+	Cantidad							: decimal;//a,o,g,decimales=8,dv=0
+	CantidadReservadaInventario			: decimal;//g,decimales=4,a" Cantidad * OrdenProduccionDetalleArticulo.CantidadSolicidada",dv=0
+	CantidadConsumida					: decimal;//g,decimales=4,dv=0
 	CostoUnitarioArticuloInventario		: decimal;//a=ArticuloInventario.CostoUnitario
 	MontoSubtotal						: decimal;//a"CantidadConsumida * CostoUnitarioArticuloInventario"
 	AjustadoPostCierre					: boolean;//"Ajusta por Cierre"
-	CantidadAjustada					: decimal;//o,"Cantidad Ajustada"
+	CantidadAjustada					: decimal;//"Cantidad Ajustada",dv=0
 	@PrimaryKey=ConsecutivoCompania,ConsecutivoOrdenDeProduccion,Consecutivo
 }
 
