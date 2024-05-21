@@ -4525,8 +4525,8 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	DescripcionArticulo					: textArea;//g,logical,=ArticuloInventario.Descripcion,"Descripción Artículo"
 	UnidadDeVenta						: Str20;//g,logical,=ArticuloInventario.UnidadDeVenta,"Unidad"
 	Cantidad							: decimal;//a,o,g,decimales=8,dv=0
-	CantidadReservadaInventario			: decimal;//g,decimales=4,a" Cantidad * OrdenProduccionDetalleArticulo.CantidadSolicidada",dv=0
-	CantidadConsumida					: decimal;//g,decimales=4,dv=0
+	CantidadReservadaInventario			: decimal;//g,decimales=8,a" Cantidad * OrdenProduccionDetalleArticulo.CantidadSolicidada",dv=0
+	CantidadConsumida					: decimal;//g,decimales=8,dv=0
 	CostoUnitarioArticuloInventario		: decimal;//a=ArticuloInventario.CostoUnitario
 	MontoSubtotal						: decimal;//a"CantidadConsumida * CostoUnitarioArticuloInventario"
 	AjustadoPostCierre					: boolean;//"Ajusta por Cierre"
