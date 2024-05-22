@@ -21,10 +21,11 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -46,7 +47,7 @@
         <nsWpfControls:GSTextAreaWpf
             Grid.Row="0"
             Grid.Column="2"
-            Grid.ColumnSpan="2"
+            Grid.ColumnSpan="3"
             Width="510"
             BorderThickness="1"
             IsEnabled="True"
@@ -55,23 +56,42 @@
             Text="{Binding Path=DescripcionArticulo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             VerticalScrollBarVisibility="Auto" />
         <Label
-            Name="lblPorcentajedeCosto"
+            Name="lblPorcentajeCostoEstimado"
             Grid.Row="1"
-            Grid.Column="3"
+            Grid.Column="2"
             HorizontalAlignment="Right"
             Content="% de Costo"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSNumericBoxWpf
-            Name="txtPorcentajedeCosto"
+            Name="txtPorcentajeCostoEstimado"
             Grid.Row="1"
-            Grid.Column="4"
+            Grid.Column="3"
             Width="120"
             BorderThickness="1"
             DecimalDigits="{Binding Path=DecimalDigits}"
             InputDataType="UDecimal"
-            IsEnabled="{Binding Path=IsEnabled}"
+            IsEnabled="{Binding Path=IsEnabledPorcentajeCostoEstimado}"
             MaxLength="34"
             Style="{StaticResource TextBoxInputStyle}"
-            Value="{Binding Path=CantidadReservadaInventario, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+            Value="{Binding Path=PorcentajeCostoEstimado, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        <Label
+            Name="lblPorcentajeCostoCierre"
+            Grid.Row="1"
+            Grid.Column="4"
+            HorizontalAlignment="Right"
+            Content="% de Costo"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSNumericBoxWpf
+            Name="txtPorcentajeCostoCierre"
+            Grid.Row="1"
+            Grid.Column="5"
+            Width="120"
+            BorderThickness="1"
+            DecimalDigits="{Binding Path=DecimalDigits}"
+            InputDataType="UDecimal"
+            IsEnabled="{Binding Path=IsEnabledPorcentajeCostoCierre}"
+            MaxLength="34"
+            Style="{StaticResource TextBoxInputStyle}"
+            Value="{Binding Path=PorcentajeCostoCierre, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
     </Grid>
 </UserControl>

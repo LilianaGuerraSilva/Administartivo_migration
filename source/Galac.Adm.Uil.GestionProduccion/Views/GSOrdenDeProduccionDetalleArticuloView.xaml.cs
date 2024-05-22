@@ -26,13 +26,13 @@ namespace Galac.Adm.Uil.GestionProduccion.Views {
 
         private void GSListaDeMaterialesDetalleArticuloView_Loaded(object sender, RoutedEventArgs e) {           
             FocusManager.SetFocusedElement(this, lneCodigoArticulo);
-            txtPorcentajedeCosto.GotFocus += txtPorcentajedeCosto_GotFocus;
-            txtPorcentajedeCosto.MouseDoubleClick += txtPorcentajedeCosto_GotFocus;
+            //txtPorcentajedeCosto.GotFocus += txtPorcentajedeCosto_GotFocus;
+            //txtPorcentajedeCosto.MouseDoubleClick += txtPorcentajedeCosto_GotFocus;
         }
 
         private void txtPorcentajedeCosto_GotFocus(object sender, RoutedEventArgs e) {
-            FocusManager.SetFocusedElement(this, txtPorcentajedeCosto);
-            txtPorcentajedeCosto.SelectAll();
+            //FocusManager.SetFocusedElement(this, txtPorcentajedeCosto);
+            //txtPorcentajedeCosto.SelectAll();
         }
         #endregion //Constructores
 

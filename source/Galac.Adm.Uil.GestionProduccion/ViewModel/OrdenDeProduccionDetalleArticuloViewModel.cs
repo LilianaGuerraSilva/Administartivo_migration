@@ -77,8 +77,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Model.Consecutivo = value;
                 }
             }
-        }       
-        
+        }
+
         public int ConsecutivoAlmacen {
             get {
                 return Model.ConsecutivoAlmacen;
@@ -98,7 +98,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 if (Model.CodigoAlmacen != value) {
                     Model.CodigoAlmacen = value;
                     IsDirty = true;
-                    RaisePropertyChanged(CodigoAlmacenPropertyName);                    
+                    RaisePropertyChanged(CodigoAlmacenPropertyName);
                 }
             }
         }
@@ -115,9 +115,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
             }
         }
-       
 
-        [LibGridColum("Código", eGridColumType.Generic, ColumnOrder=0)]
+
+        [LibGridColum("Código", eGridColumType.Generic, ColumnOrder = 0)]
         public string CodigoArticulo {
             get {
                 return Model.CodigoArticulo;
@@ -131,7 +131,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Descripción", eGridColumType.Generic,MaxWidth = 120, ColumnOrder = 1)]
+        [LibGridColum("Descripción", eGridColumType.Generic, MaxWidth = 120, ColumnOrder = 1)]
         public string DescripcionArticulo {
             get {
                 return Model.DescripcionArticulo;
@@ -145,9 +145,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
             }
         }
-				
+
         [LibGridColum("Unidad", eGridColumType.Generic, ColumnOrder = 2)]
-        public string  UnidadDeVenta {
+        public string UnidadDeVenta {
             get {
                 return Model.UnidadDeVenta;
             }
@@ -155,13 +155,13 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 if (Model.UnidadDeVenta != value) {
                     Model.UnidadDeVenta = value;
                     IsDirty = true;
-                    RaisePropertyChanged(UnidadDeVentaPropertyName);                    
+                    RaisePropertyChanged(UnidadDeVentaPropertyName);
                 }
             }
         }
 
         [LibGridColum("Cantidad Original", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 3)]
-        public decimal  CantidadOriginalLista {
+        public decimal CantidadOriginalLista {
             get {
                 return Model.CantidadOriginalLista;
             }
@@ -174,9 +174,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-       
-	    [LibGridColum("Cantidad Solicitada", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 4)]       
-	    public decimal CantidadSolicitada {
+
+        [LibGridColum("Cantidad Solicitada", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 4)]
+        public decimal CantidadSolicitada {
             get {
                 return Model.CantidadSolicitada;
             }
@@ -205,7 +205,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         [LibGridColum("Costo Unitario", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 6)]
-		public decimal CostoUnitario {
+        public decimal CostoUnitario {
             get {
                 return Model.CostoUnitario;
             }
@@ -253,8 +253,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("% Costo Est.", eGridColumType.Numeric, Alignment = eTextAlignment.Right,ColumnOrder = 7)]
-        public decimal  PorcentajeCostoEstimado {
+        [LibGridColum("% Costo Est.", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 7)]
+        public decimal PorcentajeCostoEstimado {
             get {
                 return Model.PorcentajeCostoEstimado;
             }
@@ -268,7 +268,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         [LibGridColum("% Costo Cierre", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 8)]
-        public decimal  PorcentajeCostoCierre {
+        public decimal PorcentajeCostoCierre {
             get {
                 return Model.PorcentajeCostoCierre;
             }
@@ -282,7 +282,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         [LibGridColum("Costo", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 9)]
-        public decimal  Costo {
+        public decimal Costo {
             get {
                 return Model.Costo;
             }
@@ -294,11 +294,11 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
             }
         }
-		
+
         public OrdenDeProduccionViewModel Master {
             get;
             set;
-        }                          
+        }
 
         public bool IsEnabledFechaFinalizacion {
             get {
@@ -322,6 +322,13 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
+        public bool IsEnabledPorcentajeCostoEstimado {
+            get { return Action == eAccionSR.Insertar || Action == eAccionSR.Modificar; }
+        }
+
+        public bool IsEnabledPorcentajeCostoCierre {
+            get { return Action == eAccionSR.Cerrar; }
+        }
         #endregion //Propiedades
 
         #region Constructores e Inicializadores
@@ -339,14 +346,14 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         public override void InitializeViewModel(eAccionSR valAction) {
-            if(valAction == eAccionSR.Cerrar) {
+            if (valAction == eAccionSR.Cerrar) {
                 CantidadProducida = CantidadSolicitada;
             }
-            base.InitializeViewModel(valAction);           
+            base.InitializeViewModel(valAction);
         }
 
         public override void InitializeViewModel(eAccionSR valAction, string valCustomAction) {
-            if(valAction == eAccionSR.Custom) {
+            if (valAction == eAccionSR.Custom) {
                 base.InitializeViewModel(valAction, "Iniciar");
             } else {
                 base.InitializeViewModel(valAction, valCustomAction);
@@ -354,10 +361,10 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         protected override void InitializeCommands() {
-            base.InitializeCommands();            
+            base.InitializeCommands();
         }
-       
-		/*
+
+        /*
         internal void InicializarRibbon() {
             if(Action == eAccionSR.Consultar || Action == eAccionSR.Eliminar || Action == eAccionSR.Contabilizar) {
                 RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0].Command = null;
@@ -389,11 +396,11 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             //ConexionCodigoAlmacen = Master.FirstConnectionRecordOrDefault<FkAlmacenViewModel>("Almacén", LibSearchCriteria.CreateCriteria("Codigo", CodigoAlmacen));
             //ConexionCodigoArticulo = Master.FirstConnectionRecordOrDefault<FkArticuloInventarioViewModel>("Articulo Inventario", LibSearchCriteria.CreateCriteria("Descripcion", DescripcionArticulo));
         }
-       
+
         #endregion //Metodos Generados
 
         #region Metodos
-		/* 
+        /* 
 		MUDAR
         private void ActualizaCantidadEnDetalles() {
             foreach(OrdenDeProduccionDetalleMateriales vItem in Model.DetailOrdenDeProduccionDetalleMateriales) {
@@ -417,4 +424,3 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
     } //End of class OrdenDeProduccionDetalleArticuloViewModel
 
 } //End of namespace Galac.Adm.Uil. GestionProduccion
-

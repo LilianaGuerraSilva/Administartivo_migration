@@ -295,6 +295,10 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
+        public bool IsEnabledCantidadConsumida {
+            get { return Action == eAccionSR.Cerrar; }
+        }
+
         #endregion //Propiedades
         #region Constructores
         public OrdenDeProduccionDetalleMaterialesViewModel()
