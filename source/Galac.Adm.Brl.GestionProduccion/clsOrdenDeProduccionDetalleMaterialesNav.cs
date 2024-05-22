@@ -239,12 +239,14 @@ namespace Galac.Adm.Brl.GestionProduccion {
             decimal vResult = 0;
             QAdvSql vSqlUtil = new QAdvSql("");
             StringBuilder vSql = new StringBuilder();
+            LibGpParams vParam = new LibGpParams();
+            vParam.AddInInteger("ConsecutivoCompania",valConsecutivoCompania);
             vSql.AppendLine("SELECT Cantidad ");
             vSql.AppendLine("FROM ExistenciaPorAlmacen ");
-            vSql.AppendLine("WHERE ConsecutivoCompania = " + vSqlUtil.ToSqlValue(valConsecutivoCompania));
+            vSql.AppendLine("WHERE ConsecutivoCompania = @ConsecutivoCompania ");
             vSql.AppendLine(" AND ConsecutivoAlmacen = " + vSqlUtil.ToSqlValue(valConsecutivoAlmacen));
-            vSql.AppendLine(" AND CodigoArticulo =" + vSqlUtil.ToSqlValue(valCodigoArticulo));
-            XElement vXmlResult = LibBusiness.ExecuteSelect(vSql.ToString(), new StringBuilder(), "", 0);
+            vSql.AppendLine(" AND CodigoArticulo = " + vSqlUtil.ToSqlValue(valCodigoArticulo));
+            XElement vXmlResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParam.Get(), "", 0, "");
             if (vXmlResult != null && vXmlResult.HasElements) {
                 string vCantidadStr = LibXml.GetElementValueOrEmpty(vXmlResult, "Cantidad");
                 vResult = LibConvert.ToDec(vCantidadStr);
