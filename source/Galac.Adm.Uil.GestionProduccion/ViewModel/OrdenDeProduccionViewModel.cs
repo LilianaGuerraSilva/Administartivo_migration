@@ -1365,7 +1365,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 if (ConexionCodigoListaDeMateriales != null) {
                     Model.ConsecutivoListaDeMateriales = ConexionCodigoListaDeMateriales.Consecutivo;
                     CodigoListaDeMateriales = ConexionCodigoListaDeMateriales.Codigo;
-                    NombreListaDeMateriales = ConexionCodigoListaDeMateriales.Nombre;
+                    NombreListaDeMateriales = ConexionCodigoListaDeMateriales.Nombre;                   
                     CargarDetalles();
                 } else {
                     Model.ConsecutivoListaDeMateriales = 0;
@@ -1387,6 +1387,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             Model.DetailOrdenDeProduccionDetalleMateriales = vListInsumos;
             Model.DetailOrdenDeProduccionDetalleArticulo = vListSalidas;
             ActualizaAlmacenenMaterialesEnDetalles();
+            BuscarExistencia();
             VerDetalleCommand.RaiseCanExecuteChanged();
         }
 
@@ -1566,10 +1567,11 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        internal void BuscaExistencia() {
+        private void BuscarExistencia() {
             IOrdenDeProduccionDetalleMaterialesPdn vOrdenDeProduccionDetalleMateriales = new clsOrdenDeProduccionDetalleMaterialesNav();
-            //XElement vData = vOrdenDeProduccionDetalleMateriales.BuscaExistenciaDeArticulos(ConsecutivoCompania, new ObservableCollection<OrdenDeProduccionDetalleMateriales> { DetailOrdenDeProduccionDetalleMateriales });
+            //XElement vData = vOrdenDeProduccionDetalleMateriales.BuscaExistenciaDeArticulos(ConsecutivoCompania, Model.DetailOrdenDeProduccionDetalleMateriales);
             foreach (OrdenDeProduccionDetalleMaterialesViewModel item in DetailOrdenDeProduccionDetalleMateriales.Items) {
+                item.Existencia = vOrdenDeProduccionDetalleMateriales.BuscaExistenciaDeArticulo(ConsecutivoCompania, item.CodigoArticulo, Model.ConsecutivoAlmacenMateriales);
                 //var vExistencia = vData.Descendants("GpResult").Where(p => p.Element("CodigoArticulo").Value == item.CodigoArticulo && LibConvert.ToInt(p.Element("ConsecutivoAlmacen")) == item.ConsecutivoAlmacen).Select(q => new { Existencia = LibConvert.ToDec(q.Element("Cantidad"), 8) }).FirstOrDefault();
                 //if (vExistencia != null) {
                 //    item.Existencia = vExistencia.Existencia;
