@@ -289,7 +289,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             AjustadaPostCierreAsBool = false;
             Observacion = string.Empty;
             MotivoDeAnulacion = string.Empty;
-            NumeroDecimales = 2;
+            NumeroDecimales = 8;
 			CostoTerminadoCalculadoAPartirDeAsEnum = eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaLocal;
             CodigoMonedaCostoProduccion = "VED";
             Moneda = string.Empty;
