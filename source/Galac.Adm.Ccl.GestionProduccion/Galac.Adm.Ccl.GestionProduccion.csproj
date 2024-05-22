@@ -56,6 +56,7 @@
     <Compile Include="IListaDeMaterialesInformes.cs" />
     <Compile Include="IListaDeMaterialesPdn.cs" />
     <Compile Include="IOrdenDeProduccionDetalleArticuloPdn.cs" />
+    <Compile Include="IOrdenDeProduccionDetalleMaterialesPdn.cs" />
     <Compile Include="IOrdenDeProduccionInformes.cs" />
     <Compile Include="IOrdenDeProduccionPdn.cs" />
     <Compile Include="ListaDeMateriales.cs" />

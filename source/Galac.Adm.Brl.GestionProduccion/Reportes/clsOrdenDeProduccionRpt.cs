@@ -77,12 +77,21 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
             return insProduccionPorEstatusEntreFecha.GetDt(vSql, 0);
         }
 
-        System.Data.DataTable IOrdenDeProduccionInformes.BuildDetalleDeCostoDeProduccion(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, eSeleccionarOrdenPor valSeleccionarOrdenPor, int valConsecutivoOrden) {
+        System.Data.DataTable IOrdenDeProduccionInformes.BuildDetalleDeCostoDeProduccion(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, eSeleccionarOrdenPor valSeleccionarOrdenPor, int valConsecutivoOrden, string valMonedaDelInforme, decimal valTasaDeCambio, string[] valListaMonedas){
             string vSql = "";
             System.Data.DataTable vDt = new System.Data.DataTable();
             clsOrdenDeProduccionSql insOrdenDeProduccionSql = new clsOrdenDeProduccionSql();
             LibGalac.Aos.Base.ILibDataRpt insProduccionPorEstatusEntreFecha = new Galac.Adm.Dal.GestionProduccion.clsOrdenDeProduccionDat();
             vSql = insOrdenDeProduccionSql.SqlDetalleDeCostoDeProduccion(valConsecutivoCompania, valFechaInicial, valFechaFinal, valSeleccionarOrdenPor, valConsecutivoOrden);
+            return insProduccionPorEstatusEntreFecha.GetDt(vSql, 0);
+        }
+
+        System.Data.DataTable IOrdenDeProduccionInformes.BuildDetalleDeCostoDeProduccionSalida(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, eSeleccionarOrdenPor valSeleccionarOrdenPor, int valConsecutivoOrden, string valMonedaDelInforme, decimal valTasaDeCambio, string[] valListaMonedas) {
+            string vSql = "";
+            System.Data.DataTable vDt = new System.Data.DataTable();
+            clsOrdenDeProduccionSql insOrdenDeProduccionSql = new clsOrdenDeProduccionSql();
+            LibGalac.Aos.Base.ILibDataRpt insProduccionPorEstatusEntreFecha = new Galac.Adm.Dal.GestionProduccion.clsOrdenDeProduccionDat();
+            vSql = insOrdenDeProduccionSql.SqlDetalleDeCostoDeProduccionSalida(valConsecutivoCompania, valFechaInicial, valFechaFinal, valSeleccionarOrdenPor, valConsecutivoOrden);
             return insProduccionPorEstatusEntreFecha.GetDt(vSql, 0);
         }
         #endregion //Metodos Generados

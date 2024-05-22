@@ -9,6 +9,8 @@ using LibGalac.Aos.Base.Report;
 using LibGalac.Aos.ARRpt;
 using Galac.Adm.Ccl.GestionProduccion;
 using LibGalac.Aos.DefGen;
+using LibGalac.Aos.Catching;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Rpt.GestionProduccion {
     public class clsDetalleDeCostoDeProduccion : LibRptBaseMfc {
@@ -21,15 +23,23 @@ namespace Galac.Adm.Rpt.GestionProduccion {
 
         public eSeleccionarOrdenPor SeleccionarOrdenPor { get; set; }
 
-        protected DataTable Data { get; set; }
+        protected DataTable DataInsumos { get; set; }
+
+        protected DataTable DataSalidas { get; set; }
 
         public DateTime FechaInicial { get; set; }
 
         public DateTime FechaFinal { get; set; }
 
+        private decimal TasaDeCambio { get; set; }
+        private string MonedaDelInforme { get; set; }
+        private string[] ListaMonedas { get; set; }
+
+        public int CostoTerminadoCalculadoAPartirDe { get; set; }
+
         #endregion //Propiedades
         #region Constructores
-        public clsDetalleDeCostoDeProduccion(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime iniFechaInicial, DateTime iniFechaFinal, int iniConsecutivoOrden, string iniCodigoOrden, eSeleccionarOrdenPor iniSeleccionarOdenPor)
+        public clsDetalleDeCostoDeProduccion(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime iniFechaInicial, DateTime iniFechaFinal, int iniConsecutivoOrden, string iniCodigoOrden, eSeleccionarOrdenPor iniSeleccionarOdenPor) //, decimal initTasaDeCambio, string initMonedaDelInforme, string[] initListaMonedas)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
             ConsecutivoCompania = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania");
             FechaInicial = iniFechaInicial;
@@ -37,6 +47,9 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             ConsecutivoOrden = iniConsecutivoOrden;
             CodigoOrden = iniCodigoOrden;
             SeleccionarOrdenPor = iniSeleccionarOdenPor;
+            TasaDeCambio = 1;//initTasaDeCambio;
+            MonedaDelInforme = "";//initMonedaDelInforme;
+            //ListaMonedas = ;//initListaMonedas;
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -69,17 +82,22 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             }
             WorkerReportProgress(30, "Obteniendo datos...");
             IOrdenDeProduccionInformes vRpt = new Galac.Adm.Brl.GestionProduccion.Reportes.clsOrdenDeProduccionRpt() as IOrdenDeProduccionInformes;
-            Data = vRpt.BuildDetalleDeCostoDeProduccion(ConsecutivoCompania, FechaInicial, FechaFinal,SeleccionarOrdenPor, ConsecutivoOrden);
+            DataInsumos = vRpt.BuildDetalleDeCostoDeProduccion(ConsecutivoCompania, FechaInicial, FechaFinal,SeleccionarOrdenPor, ConsecutivoOrden, MonedaDelInforme, TasaDeCambio, ListaMonedas);
+            DataSalidas = vRpt.BuildDetalleDeCostoDeProduccionSalida(ConsecutivoCompania, FechaInicial, FechaFinal, SeleccionarOrdenPor, ConsecutivoOrden, MonedaDelInforme, TasaDeCambio, ListaMonedas);
         }
 
         public override void SendReportToDevice() {
             WorkerReportProgress(90, "Configurando Informe...");
             Dictionary<string, string> vParams = GetConfigReportParameters();
             dsrDetalleDeCostoDeProduccion vRpt = new dsrDetalleDeCostoDeProduccion();
-            if (vRpt.ConfigReport(Data, vParams)) {
-                LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsDetalleDeCostoDeProduccion.ReportName, true, ExportFileFormat, "", false);
+            if (DataSalidas.Rows.Count > 0) {
+                if (vRpt.ConfigReport(DataSalidas, DataInsumos, ListaMonedas, MonedaDelInforme, TasaDeCambio, vParams)) {
+                    LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsDetalleDeCostoDeProduccion.ReportName, true, ExportFileFormat, "", false);
+                }
+                WorkerReportProgress(100, "Finalizando...");
+            } else {
+                throw new GalacException("No existen registros para mostrar", eExceptionManagementType.Alert);
             }
-            WorkerReportProgress(100, "Finalizando...");
         }
         #endregion //Metodos Generados
 

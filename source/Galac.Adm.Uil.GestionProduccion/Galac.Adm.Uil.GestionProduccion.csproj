@@ -47,19 +47,19 @@
       <HintPath>..\packages\Galac.Comun.Uil.TablasGen.2.61.0\lib\Galac.Comun.Uil.TablasGen.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.ARRpt">
-      <HintPath>..\packages\LibGalac.Aos.ARRpt.5.24.0\lib\LibGalac.Aos.ARRpt.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.ARRpt.5.24.0.2\lib\LibGalac.Aos.ARRpt.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Base">
       <HintPath>..\packages\LibGalac.Aos.Base.5.24.0\lib\LibGalac.Aos.Base.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Brl">
-      <HintPath>..\packages\LibGalac.Aos.Brl.5.24.0\lib\LibGalac.Aos.Brl.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Brl.5.24.0.4\lib\LibGalac.Aos.Brl.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Catching">
       <HintPath>..\packages\LibGalac.Aos.Catching.5.24.0\lib\LibGalac.Aos.Catching.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.DefGen">
-      <HintPath>..\packages\LibGalac.Aos.DefGen.5.24.0\lib\LibGalac.Aos.DefGen.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.DefGen.5.24.0.3\lib\LibGalac.Aos.DefGen.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.Cib">
       <HintPath>..\packages\LibGalac.Aos.UI.Cib.5.24.0\lib\LibGalac.Aos.UI.Cib.dll</HintPath>
@@ -150,6 +150,7 @@
     <Compile Include="ViewModel\OrdenDeProduccionDetalleMaterialesViewModel.cs" />
     <Compile Include="ViewModel\OrdenDeProduccionMngViewModel.cs" />
     <Compile Include="ViewModel\OrdenDeProduccionViewModel.cs" />
+    <Compile Include="ViewModel\OrdenDeProduccionMasterViewModel.cs" />
     <Compile Include="Views\GSListaDeMaterialesDetalleArticuloView.xaml.cs">
       <DependentUpon>GSListaDeMaterialesDetalleArticuloView.xaml</DependentUpon>
     </Compile>
@@ -160,11 +161,14 @@
       <DependentUpon>GSListaDeMaterialesView.xaml</DependentUpon>
     </Compile>
     <AppDesigner Include="Properties\" />
-    <Compile Include="Views\GSOrdenDeProduccionDetalleArticuloView.xaml.cs">
-      <DependentUpon>GSOrdenDeProduccionDetalleArticuloView.xaml</DependentUpon>
+    <Compile Include="Views\GSOrdenDeProduccionMasterView.xaml.cs">
+      <DependentUpon>GSOrdenDeProduccionMasterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GSOrdenDeProduccionDetalleMaterialesView.xaml.cs">
       <DependentUpon>GSOrdenDeProduccionDetalleMaterialesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSOrdenDeProduccionDetalleArticuloView.xaml.cs">
+      <DependentUpon>GSOrdenDeProduccionDetalleArticuloView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GSOrdenDeProduccionView.xaml.cs">
       <DependentUpon>GSOrdenDeProduccionView.xaml</DependentUpon>
@@ -215,11 +219,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\GSOrdenDeProduccionDetalleArticuloView.xaml">
+    <Page Include="Views\GSOrdenDeProduccionMasterView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GSOrdenDeProduccionDetalleMaterialesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSOrdenDeProduccionDetalleArticuloView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

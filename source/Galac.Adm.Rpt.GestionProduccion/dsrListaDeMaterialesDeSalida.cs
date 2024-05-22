@@ -77,7 +77,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 LibReport.ConfigGroupHeader(this, "GHSalidas", "Codigo", GroupKeepTogether.FirstDetail, RepeatStyle.None, true, NewPage.Before);
                 LibReport.ConfigSummaryField(this, "txtTotalCostoCalculado", "Costototal", SummaryFunc.Sum, "GHSalidas", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.SetSubReportIfExists(this, SubRptListaDeInsumos(valDataSourceInsumos), "srptListaDeInsumos");
-                LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
+                LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Landscape);
                 return true;
             }
             return false;
@@ -92,13 +92,13 @@ namespace Galac.Adm.Rpt.GestionProduccion {
 
         private void PageFooter_Format(object sender, EventArgs e) {
             if(LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[0]) || LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[1])) {
-                this.txtNotaMonedaCambio.Value = "Los montos están expresados en " + txtMoneda.Text;
+                this.txtNotaMonedaCambio.Value = "Los montos de los costos están expresados en " + txtMoneda.Text;
             } else if(LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[2]) || LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[3])) {
                 int vPos = LibString.IndexOf(_MonedaDelInforme, "expresado en");
                 if(vPos > 0) {
                     string vPrimeraMoneda = LibString.Trim(LibString.SubString(_MonedaDelInforme, 0, vPos));
                     string vSegundaMoneda = LibString.SubString(_MonedaDelInforme, vPos + LibString.Len("expresado en "));
-                    this.txtNotaMonedaCambio.Value = $"Los montos en {vPrimeraMoneda} están expresados en {vSegundaMoneda} a la tasa {LibConvert.NumToString(_TasaDeCambio, 4)}";
+                    this.txtNotaMonedaCambio.Value = $"Los montos de los costos en {vPrimeraMoneda} están expresados en {vSegundaMoneda} a la tasa {LibConvert.NumToString(_TasaDeCambio, 4)}";
                 }
             }
         }
