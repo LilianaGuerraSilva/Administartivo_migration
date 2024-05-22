@@ -66,7 +66,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Saw.Almacen", "Adm.OrdenDeProduccionDetalleMateriales");
 			DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "ArticuloInventario", "Adm.OrdenDeProduccionDetalleMateriales");
 			DeletePrimaryKey("Adm.OrdenDeProduccionDetalleMateriales");
-			AddPrimaryKey("Adm.OrdenDeProduccionDetalleMateriales", "ConsecutivoCompania, ConsecutivoOrdenDeProduccion, Consecutivo");
+            AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "d_OrdDeProDetMatCoDetArt", "0", "ConsecutivoOrdenDeProduccionDetalleArticulo");
+            AddPrimaryKey("Adm.OrdenDeProduccionDetalleMateriales", "ConsecutivoCompania, ConsecutivoOrdenDeProduccion, Consecutivo");
 			AddForeignKey("Adm.OrdenDeProduccion", "Adm.OrdenDeProduccionDetalleMateriales", new string[] { "ConsecutivoCompania", "Consecutivo" }, new string[] { "ConsecutivoCompania", "ConsecutivoOrdenDeProduccion" }, true, true);
 			if (AddColumnDecimal("Adm.OrdenDeProduccionDetalleArticulo", "PorcentajeCostoEstimado", 25, 8, "", 0)) {
 				AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtPoCoEs", "0", "PorcentajeCostoEstimado");
