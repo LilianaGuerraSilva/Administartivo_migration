@@ -5,15 +5,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:nsARRpt="clr-namespace:LibGalac.Aos.ARRpt;assembly=LibGalac.Aos.ARRpt"
-    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
-    d:DesignHeight="140"
-    d:DesignWidth="350"
-    mc:Ignorable="d">
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -22,6 +20,9 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -52,7 +53,7 @@
             Name="txtOrdenDeProduccion"
             Grid.Row="1"
             Grid.Column="1"
-            Width="220"
+            Width="162"
             Height="23"
             Margin="3"
             HorizontalAlignment="Left"
@@ -61,7 +62,6 @@
             IsEnabled="{Binding Path=IsEnabledCodigoDeOrden}"
             Model="{Binding Path=ConexionCodigoDeOrden, Mode=TwoWay}"
             SearchCommand="{Binding Path=ChooseCodigoDeOrdenCommand}" />
-
         <Label
             Grid.Row="2"
             Grid.Column="0"
@@ -88,5 +88,60 @@
             IsEnabled="{Binding Path=IsEnabledFecha}"
             SelectedDate="{Binding Path=FechaFinal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource DatePickerStyle}" />
+        <Label
+            x:Name="lblMonedaDelInforme"
+            Grid.Row="4"
+            Margin="2,3,0,3"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Content="Moneda del informe"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf
+            x:Name="cmbMonedaDelInforme"
+            Grid.Row="4"
+            Grid.Column="1"
+            Width="162"
+            Margin="3,3,0,3"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding ListaMonedaDelInforme}"
+            SelectedItem="{Binding MonedaDelInforme, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+            Style="{StaticResource ComboBoxStyle}" />
+        <nsWpfControls:GSComboBoxWpf
+            x:Name="cmbMonedasActivas"
+            Grid.Row="5"
+            Grid.Column="1"
+            Width="162"
+            Height="23"
+            VerticalAlignment="Center"
+            BorderThickness="1"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding ListaMonedasActivas}"
+            SelectedItem="{Binding Moneda, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+            Style="{StaticResource ComboBoxStyle}"
+            Visibility="{Binding IsVisibleMonedasActivas, Converter={StaticResource booleanToVisibilityConverter}}" />
+        <Label
+            x:Name="lblFechaDeLaTasaDeCambio"
+            Grid.Row="6"
+            Grid.Column="0"
+            Width="160"
+            Height="23"
+            Margin="2,3,2,3"
+            VerticalAlignment="Center"
+            Content="Tasa de Cambio a la Fecha"
+            Style="{StaticResource LabelPrompt}"
+            Visibility="{Binding IsVisibleTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}" />
+        <nsWpfControls:GSComboBoxWpf
+            x:Name="cmbTasaDeCambio"
+            Grid.Row="6"
+            Grid.Column="1"
+            Width="120"
+            Height="23"
+            Margin="3,0,0,0"
+            VerticalAlignment="Center"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding ListaTasaDeCambio}"
+            SelectedItem="{Binding TasaDeCambio, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+            Style="{StaticResource ComboBoxStyle}"
+            Visibility="{Binding IsVisibleTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}" />
     </Grid>
 </UserControl>

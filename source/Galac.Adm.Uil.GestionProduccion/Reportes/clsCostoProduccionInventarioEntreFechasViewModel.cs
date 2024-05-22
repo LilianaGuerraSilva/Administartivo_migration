@@ -13,6 +13,8 @@ using Galac.Adm.Brl.GestionProduccion;
 using Galac.Adm.Uil.GestionProduccion.ViewModel;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using System.ComponentModel.DataAnnotations;
+using Galac.Saw.Lib;
+using System.Collections.ObjectModel;
 
 namespace Galac.Adm.Uil.GestionProduccion.Reportes {
     public class clsCostoProduccionInventarioEntreFechasViewModel : LibInputRptViewModelBase<OrdenDeProduccion> {
@@ -41,6 +43,8 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         private DateTime _FechaInicial;
         private DateTime _FechaFinal;
         private FkOrdenDeProduccionViewModel _ConexionCodigoDeOrden = null;
+        eMonedaDelInformeMM _MonedaDelInforme;
+        eTasaDeCambioParaImpresion _TasaDeCambio;
         #region Codigo Ejemplo
         /* Codigo de Ejemplo
         public const string CantidadAImprimirPropertyName = "CantidadAImprimir";
@@ -253,6 +257,18 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
                 }
             }
         }
+
+        public bool IsVisibleTasaDeCambio { get { return MonedaDelInforme == eMonedaDelInformeMM.EnBolivares || MonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa; } }
+
+        public bool IsVisibleMonedasActivas { get { return MonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa; } }
+
+        public string Moneda { get; set; }
+
+        public ObservableCollection<eTasaDeCambioParaImpresion> ListaTasaDeCambio { get; set; }
+
+        public ObservableCollection<eMonedaDelInformeMM> ListaMonedaDelInforme { get; set; }
+
+        public ObservableCollection<string> ListaMonedasActivas { get; set; }
         #endregion
         #region Constructores
 
@@ -265,6 +281,10 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             _FechaFinal = DateTime.Today;
             _IsEnabledFecha = true;
             _IsEnabledCodigoDeOrden = false;
+            LlenarListaMonedaDelInforme();
+            LlenarListaMonedasActivas();
+            LlenarListaTasaDeCambio();
+            RaisePropertyChanged(() => IsVisibleTasaDeCambio);
             #region Codigo Ejemplo
             /* Codigo de Ejemplo
             FechaDesde = LibDate.AddsNMonths(LibDate.Today(), - 1, false);
@@ -355,6 +375,49 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
                 vResult = new ValidationResult("Debe seleccionar una Orden de Producción a consultar.");
             }
             return vResult;
+        }
+        public eMonedaDelInformeMM MonedaDelInforme {
+            get { return _MonedaDelInforme; }
+            set {
+                if (_MonedaDelInforme != value) {
+                    _MonedaDelInforme = value;
+                    RaisePropertyChanged(() => MonedaDelInforme);
+                    RaisePropertyChanged(() => IsVisibleMonedasActivas);
+                    RaisePropertyChanged(() => IsVisibleTasaDeCambio);
+                }
+            }
+        }
+        public eTasaDeCambioParaImpresion TasaDeCambio {
+            get { return _TasaDeCambio; }
+            set {
+                if (_TasaDeCambio != value) {
+                    _TasaDeCambio = value;
+                    RaisePropertyChanged(() => TasaDeCambio);
+                }
+            }
+        }
+
+        void LlenarListaMonedaDelInforme() {
+            ListaMonedaDelInforme = new ObservableCollection<eMonedaDelInformeMM>();
+            ListaMonedaDelInforme.Clear();
+            ListaMonedaDelInforme.Add(eMonedaDelInformeMM.EnBolivares);
+            ListaMonedaDelInforme.Add(eMonedaDelInformeMM.EnMonedaOriginal);
+            ListaMonedaDelInforme.Add(eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa);
+            MonedaDelInforme = eMonedaDelInformeMM.EnMonedaOriginal;
+        }
+
+        void LlenarListaMonedasActivas() {
+            ListaMonedasActivas = new Galac.Saw.Lib.clsLibSaw().ListaDeMonedasActivasParaInformes(false);
+            if (ListaMonedasActivas.Count > 0) {
+                Moneda = ListaMonedasActivas[0];
+            }
+        }
+        void LlenarListaTasaDeCambio() {
+            ListaTasaDeCambio = new ObservableCollection<eTasaDeCambioParaImpresion>();
+            ListaTasaDeCambio.Clear();
+            ListaTasaDeCambio.Add(eTasaDeCambioParaImpresion.Original);
+            ListaTasaDeCambio.Add(eTasaDeCambioParaImpresion.DelDia);
+            TasaDeCambio = eTasaDeCambioParaImpresion.Original;
         }
         #endregion
         #region Codigo Ejemplo
