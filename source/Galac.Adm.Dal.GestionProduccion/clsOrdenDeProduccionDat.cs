@@ -56,7 +56,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vParams.AddInString("Observacion", valRecord.Observacion, 600);
             vParams.AddInString("MotivoDeAnulacion", valRecord.MotivoDeAnulacion, 600);
             if (valAction == eAccionSR.Insertar) {
-                vParams.AddInInteger("NumeroDecimales", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "CantidadDeDecimales"));
+                vParams.AddInInteger("NumeroDecimales", 8);
             }
             vParams.AddInEnum("CostoTerminadoCalculadoAPartirDe", valRecord.CostoTerminadoCalculadoAPartirDeAsDB);
             vParams.AddInString("CodigoMonedaCostoProduccion", valRecord.CodigoMonedaCostoProduccion, 4);

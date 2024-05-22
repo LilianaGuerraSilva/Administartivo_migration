@@ -223,8 +223,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("@FechaAjuste" + InsSql.DateTypeForDb() + ",");
             SQL.AppendLine("@AjustadaPostCierre" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@Observacion" + InsSql.VarCharTypeForDb(600) + ",");
-            SQL.AppendLine("@MotivoDeAnulacion" + InsSql.VarCharTypeForDb(600) + ",");
-            SQL.AppendLine("@NumeroDecimales" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@MotivoDeAnulacion" + InsSql.VarCharTypeForDb(600) + ",");            
             SQL.AppendLine("@CostoTerminadoCalculadoAPartirDe" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@CodigoMonedaCostoProduccion" + InsSql.VarCharTypeForDb(4) + ",");
             SQL.AppendLine("@CambioCostoProduccion" + InsSql.DecimalTypeForDb(25, 4) + ",");
@@ -270,8 +269,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("               FechaAjuste = @FechaAjuste,");
             SQL.AppendLine("               AjustadaPostCierre = @AjustadaPostCierre,");
             SQL.AppendLine("               Observacion = @Observacion,");
-            SQL.AppendLine("               MotivoDeAnulacion = @MotivoDeAnulacion,");
-            SQL.AppendLine("               NumeroDecimales = @NumeroDecimales,");
+            SQL.AppendLine("               MotivoDeAnulacion = @MotivoDeAnulacion,");            
             SQL.AppendLine("               CostoTerminadoCalculadoAPartirDe = @CostoTerminadoCalculadoAPartirDe,");
             SQL.AppendLine("               CodigoMonedaCostoProduccion = @CodigoMonedaCostoProduccion,");
             SQL.AppendLine("               CambioCostoProduccion = @CambioCostoProduccion,");

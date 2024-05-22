@@ -72,7 +72,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         private void ColumnasAMostrar() {
-            VisibleColumns = LibGridColumModel.GetGridColumsFromType(typeof(OrdenDeProduccionDetalleMaterialesViewModel));
+            VisibleColumns = LibGridColumModel.GetGridColumsFromType(typeof(OrdenDeProduccionDetalleArticuloViewModel));
             //if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida", "UsaPrecioSinIva")) {
             //    VisibleColumns.RemoveAt(4);
             //} else {

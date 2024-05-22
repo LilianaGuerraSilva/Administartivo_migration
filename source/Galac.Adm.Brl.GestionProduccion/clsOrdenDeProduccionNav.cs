@@ -749,7 +749,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
             vData = new clsListaDeMaterialesDetalleArticuloNav().DetalleArticulos(valConsecutivoCompania, valConsecutivoListaDeMateriales);
             List<OrdenDeProduccionDetalleMateriales> vResult = new List<OrdenDeProduccionDetalleMateriales>();            
             foreach (var item in vData) {
-                vResult.Add(new OrdenDeProduccionDetalleMateriales() {
+                vResult.Add(new OrdenDeProduccionDetalleMateriales() {                    
                     CodigoArticulo = item.CodigoArticuloInventario,
                     DescripcionArticulo = item.DescripcionArticuloInventario,
                     ConsecutivoAlmacen = valConsecutivoAlmacen,
@@ -772,7 +772,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
             foreach(ListaDeMaterialesDetalleSalidas item in vData) {
                 vResult.Add(new OrdenDeProduccionDetalleArticulo() {
                     ConsecutivoAlmacen = valConsecutivoAlmacenEntrada,
-                    CodigoArticulo = item.CodigoArticuloInventario,
+                    CodigoArticulo = item.CodigoArticuloInventario,                    
                     CantidadOriginalLista = item.Cantidad,
                     CantidadSolicitada = valCantidadSolicitada,
                     CantidadProducida = 0,
