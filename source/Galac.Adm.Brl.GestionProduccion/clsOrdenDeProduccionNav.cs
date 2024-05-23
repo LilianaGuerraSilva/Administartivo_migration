@@ -189,7 +189,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
         private XElement FindInfoMoneda(IList<OrdenDeProduccion> valData) {
             XElement vXElement = new XElement("GpData");
             foreach (OrdenDeProduccion vItem in valData) {
-                XElement vFilter = new XElement("GpData",new XElement("GpResult", new XElement("CodigoMonedaCostoProduccion", vItem.CodigoMonedaCostoProduccion)));
+                XElement vFilter = new XElement("GpData",new XElement("GpResult", new XElement("Codigo", vItem.CodigoMonedaCostoProduccion)));
                 vXElement.Add(vFilter.Descendants("GpResult"));
             }
             ILibPdn insMoneda = new Galac.Comun.Brl.TablasGen.clsMonedaNav();
