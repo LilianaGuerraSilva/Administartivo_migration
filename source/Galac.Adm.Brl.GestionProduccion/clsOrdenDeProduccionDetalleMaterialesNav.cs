@@ -28,10 +28,12 @@ namespace Galac.Adm.Brl.GestionProduccion {
 
         protected override ILibDataDetailComponent<IList<OrdenDeProduccionDetalleMateriales>, IList<OrdenDeProduccionDetalleMateriales>> GetDataInstance() {
             return new Galac.Adm.Dal.GestionProduccion.clsOrdenDeProduccionDetalleMaterialesDat();
-        }
+        }     
 
-        private void FillWithForeignInfo(ref IList<OrdenDeProduccionDetalleMateriales> refData) {
-            FillWithForeignInfoOrdenDeProduccionDetalleMateriales(ref refData);
+        internal ObservableCollection<OrdenDeProduccionDetalleMateriales> FillWithForeignInfo(OrdenDeProduccion valOrdenDeProduccion) {
+            IList<OrdenDeProduccionDetalleMateriales> vList = valOrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales.ToList();
+            FillWithForeignInfoOrdenDeProduccionDetalleMateriales(ref vList);
+            return new ObservableCollection<OrdenDeProduccionDetalleMateriales>(vList);
         }
         #region OrdenDeProduccionDetalleMateriales
 
@@ -40,8 +42,8 @@ namespace Galac.Adm.Brl.GestionProduccion {
             var vListAlmacen = (from vRecord in vInfoConexionAlmacen.Descendants("GpResult")
                                 select new {
                                     ConsecutivoCompania = LibConvert.ToInt(vRecord.Element("ConsecutivoCompania")),
-                                    Consecutivo = LibConvert.ToInt(vRecord.Element("Consecutivo")),
-                                    Codigo = vRecord.Element("Codigo").Value,
+                                    ConsecutivoAlmacen = LibConvert.ToInt(vRecord.Element("Consecutivo")),
+                                    CodigoAlmacen = vRecord.Element("Codigo").Value,
                                     NombreAlmacen = vRecord.Element("NombreAlmacen").Value,
                                     TipoDeAlmacen = vRecord.Element("TipoDeAlmacen").Value,
                                     ConsecutivoCliente = LibConvert.ToInt(vRecord.Element("ConsecutivoCliente")),
@@ -63,8 +65,8 @@ namespace Galac.Adm.Brl.GestionProduccion {
                                                AlicuotaIVA = vRecord.Element("AlicuotaIVA").Value
                                            }).Distinct();
             foreach (OrdenDeProduccionDetalleMateriales vItem in refData) {
-                var vItemAlmacen = vListAlmacen.Where(p => p.Consecutivo == vItem.ConsecutivoAlmacen).Select(p => p).FirstOrDefault();
-                vItem.CodigoAlmacen = vItemAlmacen.Codigo;
+                var vItemAlmacen = vListAlmacen.Where(p => p.ConsecutivoAlmacen == vItem.ConsecutivoAlmacen).Select(p => p).FirstOrDefault();
+                vItem.CodigoAlmacen = vItemAlmacen.CodigoAlmacen;
                 vItem.NombreAlmacen = vItemAlmacen.NombreAlmacen;
                 var vItemArticulo = vListArticuloInventario.Where(p => p.Codigo == vItem.CodigoArticulo).Select(p => p).FirstOrDefault();
                 vItem.DescripcionArticulo = vItemArticulo.Descripcion;
