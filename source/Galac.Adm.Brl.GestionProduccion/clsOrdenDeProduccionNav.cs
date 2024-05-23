@@ -124,14 +124,15 @@ namespace Galac.Adm.Brl.GestionProduccion {
                                            }).Distinct();
             }
             XElement vInfoConexionMoneda = FindInfoMoneda(refData);
-            var vListMoneda = (from vRecord in vInfoConexionMoneda.Descendants("GpResult")
-                               select new {
-                                   Codigo = vRecord.Element("Codigo").Value,
-                                   Nombre = vRecord.Element("Nombre").Value,
-                                   Simbolo = vRecord.Element("Simbolo").Value,
-                                   Activa = vRecord.Element("Activa").Value
-                               }).Distinct();
-
+            if (vInfoConexionMoneda != null && vInfoConexionMoneda.HasElements) {
+                var vListMoneda = (from vRecord in vInfoConexionMoneda.Descendants("GpResult")
+                                   select new {
+                                       Codigo = vRecord.Element("Codigo").Value,
+                                       Nombre = vRecord.Element("Nombre").Value,
+                                       Simbolo = vRecord.Element("Simbolo").Value,
+                                       Activa = vRecord.Element("Activa").Value
+                                   }).Distinct();
+            }
             XElement vInfoConexionListaDeMateriales = FindInfoListaDeMateriales(refData);
             var vListListaDeMateriales = (from vRecord in vInfoConexionListaDeMateriales.Descendants("GpResult")
                                           select new {
@@ -188,7 +189,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
         private XElement FindInfoMoneda(IList<OrdenDeProduccion> valData) {
             XElement vXElement = new XElement("GpData");
             foreach (OrdenDeProduccion vItem in valData) {
-                XElement vFilter = new XElement("GpData", new XElement("CodigoMonedaCostoProduccion", vItem.CodigoMonedaCostoProduccion));
+                XElement vFilter = new XElement("GpData",new XElement("GpResult", new XElement("CodigoMonedaCostoProduccion", vItem.CodigoMonedaCostoProduccion)));
                 vXElement.Add(vFilter.Descendants("GpResult"));
             }
             ILibPdn insMoneda = new Galac.Comun.Brl.TablasGen.clsMonedaNav();

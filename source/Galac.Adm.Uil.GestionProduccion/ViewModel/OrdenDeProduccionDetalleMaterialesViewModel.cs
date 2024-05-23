@@ -285,13 +285,13 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         public int DecimalDigits {
             get {
-                return 8;//LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "CantidadDeDecimales");
+                return Master.DecimalDigits == 0 ? 8 : Master.DecimalDigits;
             }
         }
 
         public int DecimalDigitsCantidadOriginal {
             get {
-                return 8;
+                return Master.DecimalDigits == 0 ? 8 : Master.DecimalDigits;
             }
         }
 

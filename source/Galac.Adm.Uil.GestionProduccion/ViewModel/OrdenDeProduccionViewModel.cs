@@ -467,7 +467,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibRequired(ErrorMessage = "El campo Cantidad Producida es requerido.")]
+        [LibCustomValidation("CantidadProducidaValidating")]
         public decimal CantidadProducida {
             get {
                 return Model.CantidadProducida;
@@ -776,12 +776,11 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 if (Action == eAccionSR.Contabilizar) {
                     return (Model.Consecutivo != 0);
                 } else {
-                    return true;//DetailOrdenDeProduccionDetalleArticulo.Items[0].IsVisibleFechaFinalizacion;
+                    return DetailOrdenDeProduccionDetalleArticulo.Items[0].IsVisibleFechaFinalizacion;
                 }
             }
         }
         #endregion //Propiedades
-
         #region Constructores e Inicializadores
 
         public OrdenDeProduccionViewModel()
@@ -1028,6 +1027,15 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         #endregion
 
         #region Validation
+
+        private ValidationResult CantidadProducidaValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if (Action == eAccionSR.Cerrar && CantidadProducida == 0) {
+                return new ValidationResult("La cantidad producida es requerida");
+            } else {
+                return vResult;
+            }
+        }
 
         private ValidationResult FechaCreacionValidating() {
             ValidationResult vResult = ValidationResult.Success;
@@ -1568,14 +1576,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         private void BuscarExistencia() {
-            IOrdenDeProduccionDetalleMaterialesPdn vOrdenDeProduccionDetalleMateriales = new clsOrdenDeProduccionDetalleMaterialesNav();
-            //XElement vData = vOrdenDeProduccionDetalleMateriales.BuscaExistenciaDeArticulos(ConsecutivoCompania, Model.DetailOrdenDeProduccionDetalleMateriales);
+            IOrdenDeProduccionDetalleMaterialesPdn vOrdenDeProduccionDetalleMateriales = new clsOrdenDeProduccionDetalleMaterialesNav();            
             foreach (OrdenDeProduccionDetalleMaterialesViewModel item in DetailOrdenDeProduccionDetalleMateriales.Items) {
-                item.Existencia = vOrdenDeProduccionDetalleMateriales.BuscaExistenciaDeArticulo(ConsecutivoCompania, item.CodigoArticulo, Model.ConsecutivoAlmacenMateriales);
-                //var vExistencia = vData.Descendants("GpResult").Where(p => p.Element("CodigoArticulo").Value == item.CodigoArticulo && LibConvert.ToInt(p.Element("ConsecutivoAlmacen")) == item.ConsecutivoAlmacen).Select(q => new { Existencia = LibConvert.ToDec(q.Element("Cantidad"), 8) }).FirstOrDefault();
-                //if (vExistencia != null) {
-                //    item.Existencia = vExistencia.Existencia;
-                //}
+                item.Existencia = vOrdenDeProduccionDetalleMateriales.BuscaExistenciaDeArticulo(ConsecutivoCompania, item.CodigoArticulo, Model.ConsecutivoAlmacenMateriales);                
             }
         }
 

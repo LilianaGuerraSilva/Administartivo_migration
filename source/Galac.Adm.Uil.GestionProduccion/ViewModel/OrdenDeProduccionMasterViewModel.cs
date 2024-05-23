@@ -49,6 +49,23 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
         #endregion //Constructores
         #region Metodos Generados
+        protected override void InitializeRibbon() {
+            base.InitializeRibbon();
+            if (OrdenDeProduccion.Action == eAccionSR.Consultar || OrdenDeProduccion.Action == eAccionSR.Eliminar || OrdenDeProduccion.Action == eAccionSR.Contabilizar) {
+                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0].Command = null;
+                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0].IsVisible = false;
+            } else {
+                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0].Command = null;
+                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0].IsVisible = false;
+                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[1].Label = "Grabar";
+                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[1].ToolTipDescription = "Ejecuta la acción seleccionada.";
+                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[1].ToolTipDescription = "Ejecutar Acción";
+                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[1].LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/saveAndClose.png", UriKind.Relative);
+                OrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo.SelectedItem = OrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo.Items.FirstOrDefault();
+                OrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales.SelectedItem = OrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales.Items.FirstOrDefault();
+                RaisePropertyChanged("DetailOrdenDeProduccionDetalleMateriales");
+            }
+        }
         #endregion //Metodos Generados
     } //End of class OrdenDeProduccionMasterViewModel
 } //End of namespace Galac.Adm.Uil.GestionProduccion.ViewModel

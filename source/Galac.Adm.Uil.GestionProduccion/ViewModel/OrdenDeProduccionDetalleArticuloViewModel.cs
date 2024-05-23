@@ -184,7 +184,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 if (Model.CantidadSolicitada != value) {
                     Model.CantidadSolicitada = value;
                     IsDirty = true;
-                    //ActualizaCantidadEnDetalles() Al refrescar la Cantidad EN EL MASTER// Mudar al master;
                     RaisePropertyChanged(CantidadSolicitadaPropertyName);
                 }
             }
@@ -318,7 +317,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         public int DecimalDigits {
             get {
-                return 8;//LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "CantidadDeDecimales");
+                return Master.DecimalDigits == 0 ? 8 : Master.DecimalDigits;
             }
         }
 
@@ -363,25 +362,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         protected override void InitializeCommands() {
             base.InitializeCommands();
         }
-
-        /*
-        internal void InicializarRibbon() {
-            if(Action == eAccionSR.Consultar || Action == eAccionSR.Eliminar || Action == eAccionSR.Contabilizar) {
-                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0].Command = null;
-                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0].IsVisible = false;
-            } else {
-                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0].Command = null;
-                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0].IsVisible = false;
-                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[1].Label = "Grabar";
-                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[1].ToolTipDescription = "Ejecuta la acción seleccionada.";
-                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[1].ToolTipDescription = "Ejecutar Acción";
-                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[1].LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/saveAndClose.png", UriKind.Relative);
-                DetailOrdenDeProduccionDetalleMateriales.SelectedItem = DetailOrdenDeProduccionDetalleMateriales.Items.FirstOrDefault();
-                RaisePropertyChanged("DetailOrdenDeProduccionDetalleMateriales");
-            }
-        }
-		*/
-
         #endregion //Constructores e Inicializadores
 
         #region Metodos Generados
@@ -392,33 +372,10 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
-            //ConexionCodigoListaDeMateriales = Master.FirstConnectionRecordOrDefault<FkListaDeMaterialesViewModel>("Lista de Materiales", LibSearchCriteria.CreateCriteria("Codigo", CodigoListaDeMateriales));
-            //ConexionCodigoAlmacen = Master.FirstConnectionRecordOrDefault<FkAlmacenViewModel>("Almacén", LibSearchCriteria.CreateCriteria("Codigo", CodigoAlmacen));
-            //ConexionCodigoArticulo = Master.FirstConnectionRecordOrDefault<FkArticuloInventarioViewModel>("Articulo Inventario", LibSearchCriteria.CreateCriteria("Descripcion", DescripcionArticulo));
         }
-
         #endregion //Metodos Generados
 
-        #region Metodos
-        /* 
-		MUDAR
-        private void ActualizaCantidadEnDetalles() {
-            foreach(OrdenDeProduccionDetalleMateriales vItem in Model.DetailOrdenDeProduccionDetalleMateriales) {
-                vItem.CantidadReservadaInventario = CantidadSolicitada * vItem.Cantidad;
-            }
-        }
-
-        internal void BuscaExistencia() {
-            IOrdenDeProduccionDetalleArticuloPdn vOrdenDeProduccionDetalleArticulo = new clsOrdenDeProduccionDetalleArticuloNav();
-            XElement vData = vOrdenDeProduccionDetalleArticulo.BuscaExistenciaDeArticulos(ConsecutivoCompania, new List<OrdenDeProduccionDetalleArticulo> { Model });
-            foreach(var item in DetailOrdenDeProduccionDetalleMateriales.Items) {
-                var vExistencia = vData.Descendants("GpResult").Where(p => p.Element("CodigoArticulo").Value == item.CodigoArticulo && LibConvert.ToInt(p.Element("ConsecutivoAlmacen")) == item.ConsecutivoAlmacen).Select(q => new { Existencia = LibConvert.ToDec(q.Element("Cantidad"), 8) }).FirstOrDefault();
-                if(vExistencia != null) {
-                    item.Existencia = vExistencia.Existencia;
-                }
-            }
-        }
-		*/
+        #region Metodos        
         #endregion //Metodos
 
     } //End of class OrdenDeProduccionDetalleArticuloViewModel
