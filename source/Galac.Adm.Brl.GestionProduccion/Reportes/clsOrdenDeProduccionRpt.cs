@@ -60,12 +60,12 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
             return insCostoProduccionInventarioEntreFechas.GetDt(vSql, 0);
         }
 
-        System.Data.DataTable IOrdenDeProduccionInformes.BuildCostoMatServUtilizadosEnProduccionInv(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, string valCodigoOrden, eGeneradoPor valGeneradoPor) {
+        System.Data.DataTable IOrdenDeProduccionInformes.BuildCostoMatServUtilizadosEnProduccionInv(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, string valCodigoOrden, eGeneradoPor valGeneradoPor, eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio, string valCodigoMoneda, string valNombreMoneda) {
             string vSql = "";
             System.Data.DataTable vDt = new System.Data.DataTable();
             clsOrdenDeProduccionSql insOrdenDeProduccionSql = new clsOrdenDeProduccionSql();
             LibGalac.Aos.Base.ILibDataRpt insCostoMatServUtilizadosEnProduccionInv = new Galac.Adm.Dal.GestionProduccion.clsOrdenDeProduccionDat();
-            vSql = insOrdenDeProduccionSql.SqlCostoMatServUtilizadosEnProduccionInv(valConsecutivoCompania, valFechaInicial, valFechaFinal, valCodigoOrden, valGeneradoPor);
+            vSql = insOrdenDeProduccionSql.SqlCostoMatServUtilizadosEnProduccionInv(valConsecutivoCompania, valFechaInicial, valFechaFinal, valCodigoOrden, valGeneradoPor, valMonedaDelInforme, valTasaDeCambio, valCodigoMoneda, valNombreMoneda);
             return insCostoMatServUtilizadosEnProduccionInv.GetDt(vSql, 0);
         }
 

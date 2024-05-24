@@ -83,7 +83,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         private ILibRpt ConfigReportCostoMatServUtilizadosEnProduccionInv(clsCostoMatServUtilizadosEnProduccionInvViewModel valViewModel) {
             ILibRpt vResult = null;
             if (valViewModel != null) {
-                vResult = new Rpt.GestionProduccion.clsCostoMatServUtilizadosEnProduccionInv(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaInicial, valViewModel.FechaFinal, valViewModel.CodigoDeOrden, valViewModel.GeneradoPor) {
+                vResult = new Rpt.GestionProduccion.clsCostoMatServUtilizadosEnProduccionInv(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaInicial, valViewModel.FechaFinal, valViewModel.CodigoDeOrden, valViewModel.GeneradoPor, valViewModel.MonedaDelInforme, valViewModel.TasaDeCambio, valViewModel.Moneda) {
                     Worker = Manager
                 };
             }
