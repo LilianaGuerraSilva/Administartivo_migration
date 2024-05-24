@@ -75,7 +75,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             ObservableCollection<LibGridColumModel> VisibleColumnsCpy = LibGridColumModel.GetGridColumsFromType(typeof(OrdenDeProduccionDetalleArticuloViewModel));
             if (Master.Action == eAccionSR.Consultar) {
                 foreach (var item in VisibleColumnsCpy) {
-                    VisibleColumns.RemoveAt(2);
+                    if (VisibleColumns.Count > 2) {
+                        VisibleColumns.RemoveAt(2);
+                    }
                 }
             }
         }

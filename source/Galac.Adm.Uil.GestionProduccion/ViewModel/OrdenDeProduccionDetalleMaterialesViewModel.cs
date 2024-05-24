@@ -294,8 +294,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        public bool IsEnabledCantidadConsumida {
-            get { return Action == eAccionSR.Cerrar; }
+        public bool IsEnabledCantidadReservadaInventario {
+            get { return Action == eAccionSR.Insertar || Action == eAccionSR.Modificar; }
         }
 
         #endregion //Propiedades

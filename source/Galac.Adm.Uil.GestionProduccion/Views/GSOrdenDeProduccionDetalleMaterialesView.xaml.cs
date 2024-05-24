@@ -25,22 +25,15 @@ namespace Galac.Adm.Uil.GestionProduccion.Views {
         }
 
         private void GSOrdenDeProduccionDetalleMaterialesView_Loaded(object sender, RoutedEventArgs e) {            
-            FocusManager.SetFocusedElement(this, lneCodigoArticulo);
-            //txtCantidad.GotFocus += TxtCantidad_GotFocus;
-            //txtCantidad.MouseDoubleClick += TxtCantidad_GotFocus;
-            txtCantidadConsumida.GotFocus += TxtCantidadConsumida_GotFocus;
-            txtCantidadConsumida.MouseDoubleClick += TxtCantidadConsumida_GotFocus;
+            FocusManager.SetFocusedElement(this, lneCodigoArticulo);            
+            txtCantidadReservadaInventario.GotFocus += TxtCantidadConsumida_GotFocus;
+            txtCantidadReservadaInventario.MouseDoubleClick += TxtCantidadConsumida_GotFocus;
 
-        }
-
-        private void TxtCantidad_GotFocus(object sender, RoutedEventArgs e) {
-            //FocusManager.SetFocusedElement(this, txtCantidad);
-            //txtCantidad.SelectAll();
-        }
+        }        
 
         private void TxtCantidadConsumida_GotFocus(object sender, RoutedEventArgs e) {
-            FocusManager.SetFocusedElement(this, txtCantidadConsumida);
-            txtCantidadConsumida.SelectAll();
+            FocusManager.SetFocusedElement(this, txtCantidadReservadaInventario);
+            txtCantidadReservadaInventario.SelectAll();
         }
 
 

@@ -21,18 +21,18 @@ namespace Galac.Adm.Uil.GestionProduccion.Views {
 
         public GSOrdenDeProduccionDetalleArticuloView() {
             InitializeComponent();
-            //this.Loaded += GSListaDeMaterialesDetalleArticuloView_Loaded;
+            this.Loaded += GSListaDeMaterialesDetalleArticuloView_Loaded;
         }
 
         private void GSListaDeMaterialesDetalleArticuloView_Loaded(object sender, RoutedEventArgs e) {           
             FocusManager.SetFocusedElement(this, lneCodigoArticulo);
-            //txtPorcentajedeCosto.GotFocus += txtPorcentajedeCosto_GotFocus;
-            //txtPorcentajedeCosto.MouseDoubleClick += txtPorcentajedeCosto_GotFocus;
+            txtPorcentajeCostoEstimado.GotFocus += txtPorcentajedeCosto_GotFocus;
+            txtPorcentajeCostoEstimado.MouseDoubleClick += txtPorcentajedeCosto_GotFocus;
         }
 
         private void txtPorcentajedeCosto_GotFocus(object sender, RoutedEventArgs e) {
-            //FocusManager.SetFocusedElement(this, txtPorcentajedeCosto);
-            //txtPorcentajedeCosto.SelectAll();
+            FocusManager.SetFocusedElement(this, txtPorcentajeCostoEstimado);
+            txtPorcentajeCostoEstimado.SelectAll();
         }
         #endregion //Constructores
 
