@@ -12,6 +12,7 @@ using LibGalac.Aos.ARRpt;
 using System.Data;
 using LibGalac.Aos.DefGen;
 using Galac.Saw.Ccl.SttDef;
+using Galac.Saw.Lib;
 
 namespace Galac.Adm.Rpt.GestionProduccion {
     /// <summary>
@@ -21,9 +22,6 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         #region Variables
         private bool _UseExternalRpx;
         private static string _RpxFileName;
-        private string[] _ListaMonedasDelReporte { get; set; }
-        private string _MonedaDelInforme { get; set; }
-        private decimal _TasaDeCambio { get; set; }
 
         #endregion //Variables
         #region Propiedades
@@ -47,10 +45,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             return "Detalle de Costo de Producción";
         }
 
-        public bool ConfigReport(DataTable valDataSalida, DataTable valDataInsumos, string[] valListaMonedasDelReporte, string valMonedaDelInforme, decimal valTasaDeCambio, Dictionary<string, string> valParameters) {
-            _ListaMonedasDelReporte = valListaMonedasDelReporte;
-            _MonedaDelInforme = valMonedaDelInforme;
-            _TasaDeCambio = valTasaDeCambio;
+        public bool ConfigReport(DataTable valDataSalida, DataTable valDataInsumos, eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio, string valMoneda, Dictionary<string, string> valParameters) {
             string valNombreDocFiscal = string.Empty;
             if (LibDefGen.ProgramInfo.IsCountryVenezuela()) {
                 valNombreDocFiscal = " RIF ";
@@ -92,7 +87,10 @@ namespace Galac.Adm.Rpt.GestionProduccion {
 
                 LibReport.SetSubReportIfExists(this, SubRptListaDeSalida(valDataSalida), "srptListaDeSalida");
                 LibReport.ConfigGroupHeader(this, "GHSecOrdenDeProduccion", "CodigoOrden", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.After);
-               
+
+                string vNotaMonedaCambio = new clsLibSaw().NotaMonedaCambioParaInformes(valMonedaDelInforme, valTasaDeCambio, valMoneda, "Orden de Producción");
+                LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", vNotaMonedaCambio, "");
+
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Landscape);
                 LibReport.AddNoDataEvent(this);
                 return true;
@@ -111,15 +109,3 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         }
     }
 }
-
-//    this.txt_TCostoTotalConsumido.Value = LibConvert.ToStr(SumaTotalConsumo, 8);
-//    //if (LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[0]) || LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[1])) {
-//    //    this.txtNotaMonedaCambio.Value = "Los montos están expresados en " + txtMoneda.Text;
-//    //} else if (LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[2]) || LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[3])) {
-//    //    int vPos = LibString.IndexOf(_MonedaDelInforme, "expresado en");
-//    //    if (vPos > 0) {
-//    //        string vPrimeraMoneda = LibString.Trim(LibString.SubString(_MonedaDelInforme, 0, vPos));
-//    //        string vSegundaMoneda = LibString.SubString(_MonedaDelInforme, vPos + LibString.Len("expresado en "));
-//    //        this.txtNotaMonedaCambio.Value = $"Los montos en {vPrimeraMoneda} están expresados en {vSegundaMoneda} a la tasa {LibConvert.NumToString(_TasaDeCambio, 4)}";
-//    //    }
-//    //}

@@ -213,6 +213,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vResult = true;
             return vResult;
         }
+
         #endregion //Metodos Generados
 
 
