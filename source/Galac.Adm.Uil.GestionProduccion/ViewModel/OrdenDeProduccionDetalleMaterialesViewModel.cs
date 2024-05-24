@@ -285,13 +285,13 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         public int DecimalDigits {
             get {
-                return 8;// Master.DecimalDigits;
+                return Master == null ? 8 : Master.DecimalDigits;
             }
         }
 
         public int DecimalDigitsCantidadOriginal {
             get {
-                return Master.DecimalDigits;
+                return Master == null ? 8 : Master.DecimalDigits;
             }
         }
 
