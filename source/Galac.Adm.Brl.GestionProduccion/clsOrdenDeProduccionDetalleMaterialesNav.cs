@@ -28,7 +28,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
 
         protected override ILibDataDetailComponent<IList<OrdenDeProduccionDetalleMateriales>, IList<OrdenDeProduccionDetalleMateriales>> GetDataInstance() {
             return new Galac.Adm.Dal.GestionProduccion.clsOrdenDeProduccionDetalleMaterialesDat();
-        }     
+        }
 
         internal ObservableCollection<OrdenDeProduccionDetalleMateriales> FillWithForeignInfo(OrdenDeProduccion valOrdenDeProduccion) {
             IList<OrdenDeProduccionDetalleMateriales> vList = valOrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales.ToList();
