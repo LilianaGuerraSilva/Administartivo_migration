@@ -37,7 +37,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         #region Constructores
         public clsOrdenDeProduccionRpt(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, string iniCodigoOrden, eGeneradoPor iniGeneradoPor, DateTime iniFechaDesde, DateTime iniFechaHasta, eSeleccionarOrdenPor iniSeleccionarOrdenPor)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
-            ConsecutivoCompania = 16; //LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania");
+            ConsecutivoCompania = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania");
             CodigoOrden = iniCodigoOrden;
             GeneradoPor = iniGeneradoPor;
             SeleccionarPor = iniSeleccionarOrdenPor;
