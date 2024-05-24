@@ -14,7 +14,7 @@ using System.Collections.ObjectModel;
 using Galac.Saw.Ccl.Inventario;
 
 namespace Galac.Adm.Brl.GestionProduccion {
-    public partial class clsOrdenDeProduccionDetalleArticuloNav: LibBaseNavDetail<IList<OrdenDeProduccionDetalleArticulo>, IList<OrdenDeProduccionDetalleArticulo>>, IOrdenDeProduccionDetalleArticuloPdn {
+    public partial class clsOrdenDeProduccionDetalleArticuloNav : LibBaseNavDetail<IList<OrdenDeProduccionDetalleArticulo>, IList<OrdenDeProduccionDetalleArticulo>>, IOrdenDeProduccionDetalleArticuloPdn {
         #region Variables
         #endregion //Variables
         #region Propiedades
@@ -67,9 +67,9 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 vItem.CodigoAlmacen = vItemAlmacen.CodigoAlmancen;
                 vItem.NombreAlmacen = vItemAlmacen.NombreAlmacen;
                 var vItemArticulo = vListArticuloInventario.Where(p => p.Codigo == vItem.CodigoArticulo).Select(p => p).FirstOrDefault();
-                vItem.DescripcionArticulo = vItemArticulo.Descripcion;             
+                vItem.DescripcionArticulo = vItemArticulo.Descripcion;
             }
-        }     
+        }
 
         internal XElement FindInfoArticuloInventario(IList<OrdenDeProduccionDetalleArticulo> valData) {
             XElement vXElement = new XElement("GpData");
@@ -97,8 +97,8 @@ namespace Galac.Adm.Brl.GestionProduccion {
             vResult = vParams.Get();
             return vResult;
         }
-		
-		
+
+
         private XElement FindInfoAlmacen(IList<OrdenDeProduccionDetalleArticulo> valData) {
             XElement vXElement = new XElement("GpData");
             foreach (OrdenDeProduccionDetalleArticulo vItem in valData) {
@@ -230,7 +230,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
             FillWithForeignInfo(ref vList);
             return new ObservableCollection<OrdenDeProduccionDetalleArticulo>(vList);
         }
-		/*
+        /*
         public List<OrdenDeProduccionDetalleMateriales> ObtenerDetalleInicialDeListaDemateriales(int valConsecutivoCompania, int valConsecutivoListaDeMateriales, int valConsecutivoAlmacen, decimal valCantidadSolicitada) {
             IList<ListaDeMaterialesDetalleArticulo> vData;
             vData = new clsListaDeMaterialesDetalleArticuloNav().DetalleArticulos(valConsecutivoCompania, valConsecutivoListaDeMateriales);
