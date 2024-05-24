@@ -138,8 +138,8 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         }
 
         private void PageFooter_Format(object sender, EventArgs e) {
-            this.txt_TTMayorCostoConsumo.Value = LibConvert.ToStr(MayorCostoConsumo, 2);
-            this.txt_TTMenorCostoConsumo.Value = LibConvert.ToStr(MenorCostoConsumo, 2);
+            this.txt_TTMayorCostoConsumo.Value = LibConvert.ToStr(MayorCostoConsumo, 8);
+            this.txt_TTMenorCostoConsumo.Value = LibConvert.ToStr(MenorCostoConsumo, 8);
             this.txtOrdenConMayorCosto.Value = LibConvert.ToStr(OrdenMayorCosto);
             this.txtOrdenConMenorCosto.Value = LibConvert.ToStr(OrdenMenorCosto);
         }
