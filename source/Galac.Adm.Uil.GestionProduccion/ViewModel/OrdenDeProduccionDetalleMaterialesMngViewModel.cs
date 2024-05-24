@@ -51,14 +51,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 var vViewModel = new OrdenDeProduccionDetalleMaterialesViewModel(Master, vItem, initAction);
                 vViewModel.InitializeViewModel(initAction);
                 Add(vViewModel);
-            }
-            ColumnasAMostrar();
-			/*
-            if (Master.Master.StatusOp == eTipoStatusOrdenProduccion.Cerrada) {
-                VisibleColumns[1].Width = 420;
-                VisibleColumns.Insert(4, new LibGridColumModel() { Header = "Cantidad Consumida", IsReadOnly = true, IsForList = true, Alignment = eTextAlignment.Right, Type = eGridColumType.Numeric, ModelType = typeof(OrdenDeProduccionDetalleMaterialesViewModel), DbMemberPath = "CantidadConsumida", DisplayMemberPath = "CantidadConsumida", Width = 120, ConditionalPropertyDecimalDigits = "DecimalDigits" , ColumnOrder = 4 });
-            }
-			*/
+            }         
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -77,15 +70,17 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
         #endregion //Metodos Generados
 
-        private void ColumnasAMostrar() {
+        public void OcultarColumnas() {
             VisibleColumns = LibGridColumModel.GetGridColumsFromType(typeof(OrdenDeProduccionDetalleMaterialesViewModel));
-            //if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida", "UsaPrecioSinIva")) {
-            //    VisibleColumns.RemoveAt(4);
-            //} else {
-            //    VisibleColumns.RemoveAt(3);
-            //}
+            ObservableCollection<LibGridColumModel> VisibleColumnsCpy = LibGridColumModel.GetGridColumsFromType(typeof(OrdenDeProduccionDetalleArticuloViewModel));
+            if (Master.Action == eAccionSR.Consultar) {
+                foreach (var item in VisibleColumnsCpy) {
+                    if (VisibleColumns.Count > 2) {
+                        VisibleColumns.RemoveAt(2);
+                    }
+                }
+            }
         }
-
     } //End of class OrdenDeProduccionDetalleMaterialesMngViewModel
 
 } //End of namespace Galac.Adm.Uil.GestionProduccion

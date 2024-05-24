@@ -47,6 +47,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             : base() {
             OrdenDeProduccion = initOrdenDeProduccion;
             InitializeRibbonAfter();
+            initOrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo.OcultarColumnas();
+            initOrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales.OcultarColumnas();
         }
         #endregion //Constructores
         #region Metodos Generados

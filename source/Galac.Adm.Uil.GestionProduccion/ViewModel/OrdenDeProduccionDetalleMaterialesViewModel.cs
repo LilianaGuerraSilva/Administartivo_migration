@@ -205,7 +205,10 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Costo Unitario", eGridColumType.Numeric, ColumnOrder = 6, ConditionalPropertyDecimalDigits = "DecimalDigits")]
+        [LibGridColum("Existencia Actual", eGridColumType.Numeric, ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 6)]
+        public Decimal Existencia { get; set; }
+
+        [LibGridColum("Costo Unitario", eGridColumType.Numeric, ColumnOrder = 7, ConditionalPropertyDecimalDigits = "DecimalDigits")]
         public decimal CostoUnitarioArticuloInventario {
             get {
                 return Model.CostoUnitarioArticuloInventario;
@@ -219,7 +222,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Costo Total", eGridColumType.Numeric, ColumnOrder = 7, ConditionalPropertyDecimalDigits = "DecimalDigits")]
+        [LibGridColum("Costo Total", eGridColumType.Numeric, ColumnOrder = 8)]
         public decimal MontoSubtotal {
             get {
                 return Model.MontoSubtotal;
@@ -261,11 +264,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public OrdenDeProduccionViewModel Master {
             get;
             set;
-        }
-
-        [LibGridColum("Existencia Actual", eGridColumType.Numeric, ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 7)]
-        public Decimal Existencia { get; set; }
-
+        }     
 
         public eTipoDeArticulo TipoDeArticulo {
             get { return Model.TipoDeArticuloAsEnum; }

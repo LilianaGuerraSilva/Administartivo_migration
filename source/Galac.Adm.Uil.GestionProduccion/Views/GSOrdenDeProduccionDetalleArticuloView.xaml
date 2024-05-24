@@ -60,7 +60,7 @@
             Grid.Row="1"
             Grid.Column="2"
             HorizontalAlignment="Right"
-            Content="% de Costo"
+            Content="% Costo Est."
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSNumericBoxWpf
             Name="txtPorcentajeCostoEstimado"
@@ -79,7 +79,7 @@
             Grid.Row="1"
             Grid.Column="4"
             HorizontalAlignment="Right"
-            Content="% de Costo"
+            Content="% Costo Cierre"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSNumericBoxWpf
             Name="txtPorcentajeCostoCierre"
