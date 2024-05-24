@@ -465,6 +465,44 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("END");
             return SQL.ToString();
         }
+
+        private string SqlSpSearchParameters() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("@SQLWhere" + InsSql.VarCharTypeForDb(2000) + " = null,");
+            SQL.AppendLine("@SQLOrderBy" + InsSql.VarCharTypeForDb(500) + " = null,");
+            SQL.AppendLine("@DateFormat" + InsSql.VarCharTypeForDb(3) + " = null,");
+            SQL.AppendLine("@UseTopClausule" + InsSql.VarCharTypeForDb(1) + " = 'S'");
+            return SQL.ToString();
+        }
+
+        private string SqlSpSearch() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("BEGIN");
+            SQL.AppendLine("   SET NOCOUNT ON;");
+            SQL.AppendLine("   DECLARE @strSQL AS " + InsSql.VarCharTypeForDb(7000));
+            SQL.AppendLine("   DECLARE @TopClausule AS " + InsSql.VarCharTypeForDb(10));
+            SQL.AppendLine("   IF(@UseTopClausule = 'S') ");
+            SQL.AppendLine("    SET @TopClausule = 'TOP 500'");
+            SQL.AppendLine("   ELSE ");
+            SQL.AppendLine("    SET @TopClausule = ''");
+            SQL.AppendLine("   SET @strSQL = ");
+            SQL.AppendLine("    ' SET DateFormat ' + @DateFormat + ");
+            SQL.AppendLine("    ' SELECT ' + @TopClausule + '");
+            SQL.AppendLine("      " + DbSchema + ".Gv_OrdenDeProduccionDetalleArticulo_B1.CodigoArticulo,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_OrdenDeProduccionDetalleArticulo_B1.DescripcionArticulo,");
+            SQL.AppendLine("      ''COLPIVOTE'' AS ColControl,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_OrdenDeProduccionDetalleArticulo_B1.ConsecutivoCompania,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_OrdenDeProduccionDetalleArticulo_B1.ConsecutivoOrdenDeProduccion,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_OrdenDeProduccionDetalleArticulo_B1.Consecutivo");
+            SQL.AppendLine("      FROM " + DbSchema + ".Gv_OrdenDeProduccionDetalleArticulo_B1");
+            SQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
+            SQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE ' + @SQLWhere");
+            SQL.AppendLine("   IF (NOT @SQLOrderBy IS NULL) AND (@SQLOrderBy <> '')");
+            SQL.AppendLine("      SET @strSQL = @strSQL + ' ORDER BY ' + @SQLOrderBy");
+            SQL.AppendLine("   EXEC(@strSQL)");
+            SQL.AppendLine("END");
+            return SQL.ToString();
+        }
         #endregion //Queries
 
         bool CrearTabla() {
@@ -487,6 +525,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloUPD", SqlSpUpdParameters(), SqlSpUpd(), true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloDEL", SqlSpDelParameters(), SqlSpDel(), true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloGET", SqlSpGetParameters(), SqlSpGet(), true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloSCH", SqlSpSearchParameters(), SqlSpSearch(), true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloSelDet", SqlSpSelDetailParameters(), SqlSpSelDetail(), true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloDelDet", SqlSpDelDetailParameters(), SqlSpDelDetail(), true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloInsDet", SqlSpInsDetailParameters(), SqlSpInsDetail(), true) && vResult;
@@ -522,6 +561,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloUPD") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloDEL") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloGET") && vResult;
+            vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloSCH") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloInsDet") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloDelDet") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloSelDet") && vResult;

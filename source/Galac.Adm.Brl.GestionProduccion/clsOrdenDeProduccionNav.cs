@@ -49,7 +49,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
         }
 
         bool ILibPdn.GetDataForList(string valCallingModule, ref XmlDocument refXmlDocument, StringBuilder valXmlParamsExpression) {
-            ILibDataFKSearch instanciaDal = new Galac.Adm.Dal.GestionProduccion.clsOrdenDeProduccionDat();
+            ILibDataFKSearch instanciaDal = new Dal.GestionProduccion.clsOrdenDeProduccionDat();
             return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "Adm.Gp_OrdenDeProduccionSCH", valXmlParamsExpression);
         }
 
@@ -59,8 +59,13 @@ namespace Galac.Adm.Brl.GestionProduccion {
         }
 
         private bool ContabGetDataForList(ref XmlDocument refXmlDocument, StringBuilder valXmlParamsExpression) {
-            ILibDataFKSearch instanciaDal = new Galac.Adm.Dal.GestionProduccion.clsOrdenDeProduccionDat();
+            ILibDataFKSearch instanciaDal = new Dal.GestionProduccion.clsOrdenDeProduccionDat();
             return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "Adm.Gp_OrdenDeProduccionDatContaSCH", valXmlParamsExpression);
+        }
+
+        private bool ArticuloGetDataForList(ref XmlDocument refXmlDocument, StringBuilder valXmlParamsExpression) {
+            ILibDataFKSearch instanciaDal = new Dal.GestionProduccion.clsOrdenDeProduccionDat();
+            return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "Adm.Gp_OrdenDeProduccionDetalleArticuloSCH", valXmlParamsExpression);
         }
         #endregion //Miembros de ILibPdn
 
@@ -89,6 +94,9 @@ namespace Galac.Adm.Brl.GestionProduccion {
                     break;
                 case "Orden de Producción a Contabilizar":
                     vResult = ContabGetDataForList(ref refXmlDocument, valXmlParamsExpression);
+                    break;
+                case "Orden de Producción Articulo":
+                    vResult = ArticuloGetDataForList(ref refXmlDocument, valXmlParamsExpression);
                     break;
                 default: throw new NotImplementedException();
             }

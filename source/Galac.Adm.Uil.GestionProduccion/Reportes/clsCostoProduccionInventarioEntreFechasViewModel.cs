@@ -39,7 +39,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         private string _CodigoArticuloInventario;
         private string _DescripcionArticuloInventario;
         private bool _IsEnabledCodigoArticuloInventario;
-        private FkListaDeMaterialesViewModel _ConexionCodigoArticuloInventario = null;
+        private FkOrdenProduccionArticuloProducirViewModel _ConexionCodigoArticuloInventario = null;
         private DateTime _FechaInicial;
         private DateTime _FechaFinal;
         private FkOrdenDeProduccionViewModel _ConexionCodigoDeOrden = null;
@@ -130,7 +130,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             }
         }
 
-        public FkListaDeMaterialesViewModel ConexionCodigoArticuloInventario {
+        public FkOrdenProduccionArticuloProducirViewModel ConexionCodigoArticuloInventario {
             get {
                 return _ConexionCodigoArticuloInventario;
             }
@@ -158,7 +158,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
                         ConexionCodigoArticuloInventario = null;
                         DescripcionArticuloInventario = string.Empty;
                     } else {
-                        DescripcionArticuloInventario = ConexionCodigoArticuloInventario.DescripcionArticuloInventario;
+                        DescripcionArticuloInventario = ConexionCodigoArticuloInventario.DescripcionArticulo;
                     }
                 }
             }
@@ -339,12 +339,12 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
                 if (valCodigo == null) {
                     valCodigo = string.Empty;
                 }
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("adm.Gv_ListaDeMateriales_B1.CodigoArticuloInventario", valCodigo);
-                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("adm.Gv_ListaDeMateriales_B1.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
-                ConexionCodigoArticuloInventario = ChooseRecord<FkListaDeMaterialesViewModel>("Lista de Materiales", vDefaultCriteria, vFixedCriteria, string.Empty);
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Adm.Gv_OrdenDeProduccionDetalleArticulo_B1.CodigoArticulo", valCodigo);
+                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccionDetalleArticulo_B1.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
+                ConexionCodigoArticuloInventario = ChooseRecord<FkOrdenProduccionArticuloProducirViewModel>("Orden de Producción Articulo", vDefaultCriteria, vFixedCriteria, string.Empty);
                 if (ConexionCodigoArticuloInventario != null) {
-                    CodigoArticuloInventario = ConexionCodigoArticuloInventario.CodigoArticuloInventario;
-                    DescripcionArticuloInventario = ConexionCodigoArticuloInventario.DescripcionArticuloInventario;
+                    CodigoArticuloInventario = ConexionCodigoArticuloInventario.CodigoArticulo;
+                    DescripcionArticuloInventario = ConexionCodigoArticuloInventario.DescripcionArticulo;
                 } else {
                     CodigoArticuloInventario = string.Empty;
                     DescripcionArticuloInventario = string.Empty;
