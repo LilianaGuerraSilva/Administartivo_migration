@@ -45,25 +45,20 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         #region Constructores
         public OrdenDeProduccionMasterViewModel(OrdenDeProduccionViewModel initOrdenDeProduccion)
             : base() {
-            OrdenDeProduccion = initOrdenDeProduccion;           
+            OrdenDeProduccion = initOrdenDeProduccion;
+            InitializeRibbonAfter();
         }
         #endregion //Constructores
         #region Metodos Generados
-        protected override void InitializeRibbon() {
+        private void InitializeRibbonAfter() {
             base.InitializeRibbon();
-            if (OrdenDeProduccion.Action == eAccionSR.Consultar || OrdenDeProduccion.Action == eAccionSR.Eliminar || OrdenDeProduccion.Action == eAccionSR.Contabilizar) {
-                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0].Command = null;
-                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0].IsVisible = false;
-            } else {
-                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0].Command = null;
-                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0].IsVisible = false;
-                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[1].Label = "Grabar";
-                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[1].ToolTipDescription = "Ejecuta la acción seleccionada.";
-                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[1].ToolTipDescription = "Ejecutar Acción";
-                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[1].LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/saveAndClose.png", UriKind.Relative);
+            if (OrdenDeProduccion.Action == eAccionSR.Insertar || OrdenDeProduccion.Action == eAccionSR.Modificar || OrdenDeProduccion.Action == eAccionSR.Custom) {            
+                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0].Label = "Grabar";
+                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0].ToolTipDescription = "Ejecuta la acción seleccionada.";
+                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0].ToolTipDescription = "Ejecutar Acción";
+                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0].LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/saveAndClose.png", UriKind.Relative);
                 OrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo.SelectedItem = OrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo.Items.FirstOrDefault();
-                OrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales.SelectedItem = OrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales.Items.FirstOrDefault();
-                RaisePropertyChanged("DetailOrdenDeProduccionDetalleMateriales");
+                OrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales.SelectedItem = OrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales.Items.FirstOrDefault();                
             }
         }
         #endregion //Metodos Generados
