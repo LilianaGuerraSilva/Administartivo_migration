@@ -229,7 +229,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         }
 
         public override string DisplayName {
-            get { return "Costo Producción de Inventario Entre Fechas"; }
+            get { return "Costos de Inventario entre Fechas"; }
         }
 
         public override bool IsSSRS {

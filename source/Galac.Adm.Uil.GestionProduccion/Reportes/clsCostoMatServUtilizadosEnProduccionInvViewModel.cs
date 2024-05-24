@@ -47,7 +47,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         #region Propiedades
 
         public override string DisplayName {
-            get { return "Costos de Materiales o Servicios usados en Producción"; }
+            get { return "Costos usados en Producción"; }
         }
 
         public FkOrdenDeProduccionViewModel ConexionCodigoDeOrden {
