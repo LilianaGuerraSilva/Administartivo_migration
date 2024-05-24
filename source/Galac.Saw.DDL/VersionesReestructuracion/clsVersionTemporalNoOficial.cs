@@ -61,13 +61,13 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 				AddForeignKey("Adm.ListaDeMateriales", "Adm.OrdenDeProduccion", new string[] { "ConsecutivoCompania", "Consecutivo" }, new string[] { "ConsecutivoCompania", "ConsecutivoListaDeMateriales", }, false, false);
 			}
 			AlterColumnIfExist("Adm.OrdenDeProduccionDetalleArticulo", "ConsecutivoListaDeMateriales", InsSql.NumericTypeForDb(10, 0), "", "0");
-
+			AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "nnOrdDeProDetArtConsecutiv", "0", "ConsecutivoListaDeMateriales");
 			DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Adm.OrdenDeProduccionDetalleArticulo", "Adm.OrdenDeProduccionDetalleMateriales");
 			DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Saw.Almacen", "Adm.OrdenDeProduccionDetalleMateriales");
 			DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "ArticuloInventario", "Adm.OrdenDeProduccionDetalleMateriales");
 			DeletePrimaryKey("Adm.OrdenDeProduccionDetalleMateriales");
-            AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "d_OrdDeProDetMatCoDetArt", "0", "ConsecutivoOrdenDeProduccionDetalleArticulo");
-            AddPrimaryKey("Adm.OrdenDeProduccionDetalleMateriales", "ConsecutivoCompania, ConsecutivoOrdenDeProduccion, Consecutivo");
+			AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "d_OrdDeProDetMatCoDetArt", "0", "ConsecutivoOrdenDeProduccionDetalleArticulo");
+			AddPrimaryKey("Adm.OrdenDeProduccionDetalleMateriales", "ConsecutivoCompania, ConsecutivoOrdenDeProduccion, Consecutivo");
 			AddForeignKey("Adm.OrdenDeProduccion", "Adm.OrdenDeProduccionDetalleMateriales", new string[] { "ConsecutivoCompania", "Consecutivo" }, new string[] { "ConsecutivoCompania", "ConsecutivoOrdenDeProduccion" }, true, true);
 			if (AddColumnDecimal("Adm.OrdenDeProduccionDetalleArticulo", "PorcentajeCostoEstimado", 25, 8, "", 0)) {
 				AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtPoCoEs", "0", "PorcentajeCostoEstimado");
@@ -111,7 +111,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 
 			if (AddColumnNumeric("Adm.OrdenDeProduccion", "CantidadAProducir", 25, 8, "", 0)) {
 				ActualizaCantidadProducir();
-				AddNotNullConstraint("Adm.OrdenDeProduccion", "CantidadAProducir", InsSql.NumericTypeForDb(25,8));
+				AddNotNullConstraint("Adm.OrdenDeProduccion", "CantidadAProducir", InsSql.NumericTypeForDb(25, 8));
 			}
 
 			if (AddColumnNumeric("Adm.OrdenDeProduccion", "CantidadProducida", 25, 8, "", 0)) {

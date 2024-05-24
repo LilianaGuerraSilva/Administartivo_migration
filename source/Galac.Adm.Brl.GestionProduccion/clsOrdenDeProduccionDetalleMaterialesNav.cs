@@ -71,6 +71,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 var vItemArticulo = vListArticuloInventario.Where(p => p.Codigo == vItem.CodigoArticulo).Select(p => p).FirstOrDefault();
                 vItem.DescripcionArticulo = vItemArticulo.Descripcion;
                 vItem.TipoDeArticuloAsEnum = vItemArticulo.TipoDeArticulo;
+                vItem.UnidadDeVenta = vItemArticulo.UnidadDeVenta;
             }
         }
 

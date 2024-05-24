@@ -263,7 +263,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             set;
         }
 
-        [LibGridColum("Existencia Actual", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 7)]
+        [LibGridColum("Existencia Actual", eGridColumType.Numeric, ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 7)]
         public Decimal Existencia { get; set; }
 
 
@@ -285,13 +285,13 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         public int DecimalDigits {
             get {
-                return 8;
+                return 8;// Master.DecimalDigits;
             }
         }
 
         public int DecimalDigitsCantidadOriginal {
             get {
-                return 8;
+                return Master.DecimalDigits;
             }
         }
 

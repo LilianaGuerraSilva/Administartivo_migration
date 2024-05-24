@@ -53,7 +53,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
                                            select new {
                                                ConsecutivoCompania = LibConvert.ToInt(vRecord.Element("ConsecutivoCompania")),
                                                Codigo = vRecord.Element("Codigo").Value,
-                                               Descripcion = vRecord.Element("Descripcion").Value,
+                                               Descripcion = vRecord.Element("Descripcion").Value,                                             
                                                LineaDeProducto = vRecord.Element("LineaDeProducto").Value,
                                                StatusdelArticulo = vRecord.Element("StatusdelArticulo").Value,
                                                TipoDeArticulo = (eTipoDeArticulo)LibConvert.DbValueToEnum(vRecord.Element("TipoDeArticulo").Value),
@@ -65,9 +65,10 @@ namespace Galac.Adm.Brl.GestionProduccion {
             foreach (OrdenDeProduccionDetalleArticulo vItem in refData) {
                 var vItemAlmacen = vListAlmacen.Where(p => p.ConsecutivoAlmacen == vItem.ConsecutivoAlmacen).Select(p => p).FirstOrDefault();
                 vItem.CodigoAlmacen = vItemAlmacen.CodigoAlmancen;
-                vItem.NombreAlmacen = vItemAlmacen.NombreAlmacen;
+                vItem.NombreAlmacen = vItemAlmacen.NombreAlmacen;                
                 var vItemArticulo = vListArticuloInventario.Where(p => p.Codigo == vItem.CodigoArticulo).Select(p => p).FirstOrDefault();
                 vItem.DescripcionArticulo = vItemArticulo.Descripcion;
+                vItem.UnidadDeVenta = vItemArticulo.UnidadDeVenta;
             }
         }
 

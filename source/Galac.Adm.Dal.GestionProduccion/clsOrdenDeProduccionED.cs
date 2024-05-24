@@ -449,6 +449,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("    ' SELECT ' + @TopClausule + '");
             SQL.AppendLine("      " + DbSchema + ".Gv_OrdenDeProduccion_B1.Codigo,");
             SQL.AppendLine("      " + DbSchema + ".Gv_OrdenDeProduccion_B1.Descripcion,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_OrdenDeProduccion_B1.NumeroDecimales,");
             SQL.AppendLine("      ''COLPIVOTE'' AS ColControl,");
             SQL.AppendLine("      " + DbSchema + ".Gv_OrdenDeProduccion_B1.ConsecutivoCompania,");
             SQL.AppendLine("      " + DbSchema + ".Gv_OrdenDeProduccion_B1.Consecutivo");

@@ -444,10 +444,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 if (Model.NombreListaDeMateriales != value) {
                     Model.NombreListaDeMateriales = value;
                     IsDirty = true;
-                    RaisePropertyChanged(NombreListaDeMaterialesPropertyName);
-                    if (LibString.IsNullOrEmpty(NombreListaDeMateriales, true)) {
-                        //ConexionNombreListaDeMateriales = null;
-                    }
+                    RaisePropertyChanged(NombreListaDeMaterialesPropertyName);                    
                 }
             }
         }
@@ -512,8 +509,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 return LibEnumHelper<eTipoStatusOrdenProduccion>.GetValuesInArray();
             }
         }
-
-        //[LibDetailRequired(ErrorMessage = "Orden De Produccion Detalle Articulo es requerido.")]
+        
         [LibCustomValidation("ValidateDetalleDeOrdenDeProduccion")]
         public OrdenDeProduccionDetalleArticuloMngViewModel DetailOrdenDeProduccionDetalleArticulo {
             get;
@@ -739,7 +735,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         public int DecimalDigits {
             get {
-                return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "CantidadDeDecimales");
+                return Model.NumeroDecimales;
             }
         }
         public bool IsVisibleEscogerCodigoOrdenProduccion {
@@ -922,9 +918,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         private void ExecuteVerDetalleCommand() {
             try {
-                OrdenDeProduccionMasterViewModel vViewModel = new OrdenDeProduccionMasterViewModel(this);
-                //vViewModel.BuscaExistencia();
-                //vViewModel.InicializarRibbon();
+                OrdenDeProduccionMasterViewModel vViewModel = new OrdenDeProduccionMasterViewModel(this);               
                 LibMessages.EditViewModel.ShowEditor(vViewModel, true);
             } catch (AccessViolationException) {
                 throw;

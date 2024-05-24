@@ -433,18 +433,16 @@ namespace Galac.Adm.Brl.GestionProduccion {
         }
 
         private bool VerificarExistenciaAlIniciar(OrdenDeProduccion valOrdenDeProduccion) {
-            //IArticuloInventarioPdn vArticuloPdn = new clsArticuloInventarioNav();
-            //foreach (OrdenDeProduccionDetalleArticulo vOrdenDeProduccionDetalleArticulo in valOrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo) {
-            //    foreach (OrdenDeProduccionDetalleMateriales vOrdenDeProduccionDetalleMateriales in vOrdenDeProduccionDetalleArticulo.DetailOrdenDeProduccionDetalleMateriales) {
-            //        if (vOrdenDeProduccionDetalleMateriales.TipoDeArticuloAsEnum == eTipoDeArticulo.Mercancia) {
-            //            decimal vDisponibilidad = vArticuloPdn.DisponibilidadDeArticulo(vOrdenDeProduccionDetalleMateriales.ConsecutivoCompania, vOrdenDeProduccionDetalleMateriales.CodigoAlmacen, vOrdenDeProduccionDetalleMateriales.CodigoArticulo, 1, "", "");
-            //            if (vDisponibilidad < vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario &&
-            //                    (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PermitirSobregiro"))) {
-            //                throw new GalacValidationException("No hay suficiente existencia de algunos materiales para producir este inventario.");
-            //            }
-            //        }
-            //    }
-            //}
+            IArticuloInventarioPdn vArticuloPdn = new clsArticuloInventarioNav();
+            foreach (OrdenDeProduccionDetalleMateriales vOrdenDeProduccionDetalleMateriales in valOrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales) {
+                if (vOrdenDeProduccionDetalleMateriales.TipoDeArticuloAsEnum == eTipoDeArticulo.Mercancia) {
+                    decimal vDisponibilidad = vArticuloPdn.DisponibilidadDeArticulo(vOrdenDeProduccionDetalleMateriales.ConsecutivoCompania, vOrdenDeProduccionDetalleMateriales.CodigoAlmacen, vOrdenDeProduccionDetalleMateriales.CodigoArticulo, 1, "", "");
+                    if (vDisponibilidad < vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario &&
+                            (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PermitirSobregiro"))) {
+                        throw new GalacValidationException("No hay suficiente existencia de algunos materiales para producir este inventario.");
+                    }
+                }
+            }
             return true;
         }
 
