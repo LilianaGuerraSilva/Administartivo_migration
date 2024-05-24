@@ -317,7 +317,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         public int DecimalDigits {
             get {
-                return Master.DecimalDigits == 0 ? 8 : Master.DecimalDigits;
+                return 8;
             }
         }
 
