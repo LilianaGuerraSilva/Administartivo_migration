@@ -103,127 +103,120 @@ namespace Galac.Adm.Brl.GestionProduccion {
         #region OrdenDeProduccion
 
         private void FillWithForeignInfoOrdenDeProduccion(ref IList<OrdenDeProduccion> refData) {
-            //XElement vInfoConexionAlmacen = FindInfoAlmacen(refData);
-            //var vListAlmacen = (from vRecord in vInfoConexionAlmacen.Descendants("GpResult")
-            //                          select new {
-            //                              ConsecutivoCompania = LibConvert.ToInt(vRecord.Element("ConsecutivoCompania")),
-            //                              ConsecutivoCompania = LibConvert.ToInt(vRecord.Element("ConsecutivoCompania")), 
-            //                              Consecutivo = LibConvert.ToInt(vRecord.Element("Consecutivo")), 
-            //                              Codigo = vRecord.Element("Codigo").Value, 
-            //                              NombreAlmacen = vRecord.Element("NombreAlmacen").Value, 
-            //                              TipoDeAlmacen = vRecord.Element("TipoDeAlmacen").Value, 
-            //                              ConsecutivoCliente = LibConvert.ToInt(vRecord.Element("ConsecutivoCliente")), 
-            //                              CodigoCliente = vRecord.Element("CodigoCliente").Value, 
-            //                              NombreCliente = vRecord.Element("NombreCliente").Value, 
-            //                              CodigoCc = vRecord.Element("CodigoCc").Value, 
-            //                              Descripcion = vRecord.Element("Descripcion").Value
-            //                          }).Distinct();
-            //XElement vInfoConexionMoneda = FindInfoMoneda(refData);
-            //var vListMoneda = (from vRecord in vInfoConexionMoneda.Descendants("GpResult")
-            //                          select new {
-            //                              Codigo = vRecord.Element("Codigo").Value, 
-            //                              Nombre = vRecord.Element("Nombre").Value, 
-            //                              Simbolo = vRecord.Element("Simbolo").Value, 
-            //                              Activa = vRecord.Element("Activa").Value
-            //                          }).Distinct();
-            //XElement vInfoConexionListaDeMateriales = FindInfoListaDeMateriales(refData);
-            //var vListListaDeMateriales = (from vRecord in vInfoConexionListaDeMateriales.Descendants("GpResult")
-            //                          select new {
-            //                              ConsecutivoCompania = LibConvert.ToInt(vRecord.Element("ConsecutivoCompania")),
-            //                              ConsecutivoCompania = LibConvert.ToInt(vRecord.Element("ConsecutivoCompania")), 
-            //                              Consecutivo = LibConvert.ToInt(vRecord.Element("Consecutivo")), 
-            //                              Codigo = vRecord.Element("Codigo").Value, 
-            //                              Nombre = vRecord.Element("Nombre").Value, 
-            //                              CodigoArticuloInventario = vRecord.Element("CodigoArticuloInventario").Value, 
-            //                              FechaCreacion = vRecord.Element("FechaCreacion").Value
-            //                          }).Distinct();
+            XElement vInfoAlmacenInsumos = FindInfoAlmacenInsumos(refData);
+            if (vInfoAlmacenInsumos != null && vInfoAlmacenInsumos.HasElements) {
+                var vListAlmacenInsumos = (from vRecord in vInfoAlmacenInsumos.Descendants("GpResult")
+                                           select new {
+                                               ConsecutivoCompania = LibConvert.ToInt(vRecord.Element("ConsecutivoCompania")),
+                                               Consecutivo = LibConvert.ToInt(vRecord.Element("Consecutivo")),
+                                               Codigo = vRecord.Element("Codigo").Value,
+                                               NombreAlmacen = vRecord.Element("NombreAlmacen").Value,
+                                           }).Distinct();
+            }
+            XElement vInfoAlmacenSalidas = FindInfoAlmacenSalidas(refData);
+            if (vInfoAlmacenSalidas != null && vInfoAlmacenSalidas.HasElements) {
+                var vListAlmacenSalidas = (from vRecord in vInfoAlmacenSalidas.Descendants("GpResult")
+                                           select new {
+                                               ConsecutivoCompania = LibConvert.ToInt(vRecord.Element("ConsecutivoCompania")),
+                                               Consecutivo = LibConvert.ToInt(vRecord.Element("Consecutivo")),
+                                               Codigo = vRecord.Element("Codigo").Value,
+                                               NombreAlmacen = vRecord.Element("NombreAlmacen").Value,
+                                           }).Distinct();
+            }
+            XElement vInfoConexionMoneda = FindInfoMoneda(refData);
+            if (vInfoConexionMoneda != null && vInfoConexionMoneda.HasElements) {
+                var vListMoneda = (from vRecord in vInfoConexionMoneda.Descendants("GpResult")
+                                   select new {
+                                       Codigo = vRecord.Element("Codigo").Value,
+                                       Nombre = vRecord.Element("Nombre").Value,
+                                       Simbolo = vRecord.Element("Simbolo").Value,
+                                       Activa = vRecord.Element("Activa").Value
+                                   }).Distinct();
+            }
+            XElement vInfoConexionListaDeMateriales = FindInfoListaDeMateriales(refData);
+            var vListListaDeMateriales = (from vRecord in vInfoConexionListaDeMateriales.Descendants("GpResult")
+                                          select new {
+                                              ConsecutivoCompania = LibConvert.ToInt(vRecord.Element("ConsecutivoCompania")),
+                                              Consecutivo = LibConvert.ToInt(vRecord.Element("Consecutivo")),
+                                              Codigo = vRecord.Element("Codigo").Value,
+                                              Nombre = vRecord.Element("Nombre").Value,
+                                              CodigoArticuloInventario = vRecord.Element("CodigoArticuloInventario").Value,
+                                              FechaCreacion = vRecord.Element("FechaCreacion").Value
+                                          }).Distinct();
 
-            //foreach (OrdenDeProduccion vItem in refData) {
-            //    vItem.Moneda = vInfoConexionMoneda.Descendants("GpResult")
-            //        .Where(p => p.Element("Codigo").Value == vItem.CodigoMonedaCostoProduccion)
-            //        .Select(p => p.Element("Nombre").Value).FirstOrDefault();
-            //    vItem.CodigoListaDeMateriales = vInfoConexionListaDeMateriales.Descendants("GpResult")
-            //        .Where(p => p.Element("Consecutivo").Value == vItem.ConsecutivoListaDeMateriales)
-            //        .Select(p => p.Element("Codigo").Value).FirstOrDefault();
-            //    vItem.NombreListaDeMateriales = vInfoConexionListaDeMateriales.Descendants("GpResult")
-            //        .Where(p => p.Element("Consecutivo").Value == vItem.ConsecutivoListaDeMateriales)
-            //        .Select(p => p.Element("Nombre").Value).FirstOrDefault();
-            //}
+            foreach (OrdenDeProduccion vItem in refData) {
+                vItem.Moneda = vInfoConexionMoneda.Descendants("GpResult").Where(p => p.Element("Codigo").Value == vItem.CodigoMonedaCostoProduccion).Select(p => p.Element("Nombre").Value).FirstOrDefault();
+                vItem.NombreAlmacenMateriales = vInfoAlmacenInsumos.Descendants("GpResult").Where(p => p.Element("Consecutivo").Value == vItem.ConsecutivoAlmacenMateriales.ToString()).Select(p => p.Element("NombreAlmacen").Value).FirstOrDefault();
+                vItem.NombreAlmacenProductoTerminado = vInfoAlmacenSalidas.Descendants("GpResult").Where(p => p.Element("Consecutivo").Value == vItem.ConsecutivoAlmacenProductoTerminado.ToString()).Select(p => p.Element("NombreAlmacen").Value).FirstOrDefault();
+                vItem.CodigoListaDeMateriales = vInfoConexionListaDeMateriales.Descendants("GpResult").Where(p => p.Element("Consecutivo").Value == vItem.ConsecutivoListaDeMateriales.ToString()).Select(p => p.Element("Codigo").Value).FirstOrDefault();
+                vItem.NombreListaDeMateriales = vInfoConexionListaDeMateriales.Descendants("GpResult").Where(p => p.Element("Consecutivo").Value == vItem.ConsecutivoListaDeMateriales.ToString()).Select(p => p.Element("Nombre").Value).FirstOrDefault();
+            }
         }
 
-        //private XElement FindInfoAlmacen(IList<OrdenDeProduccion> valData) {
-        //    XElement vXElement = new XElement("GpData");
-        //    foreach(OrdenDeProduccion vItem in valData) {
-        //        vXElement.Add(FilterOrdenDeProduccionByDistinctAlmacen(vItem).Descendants("GpResult"));
-        //    }
-        //    ILibPdn insAlmacen = new Galac.Saw.Brl.Inventario.clsAlmacenNav();
-        //    XElement vXElementResult = insAlmacen.GetFk("OrdenDeProduccion", ParametersGetFKAlmacenForXmlSubSet(valData[0].ConsecutivoCompania, vXElement));
-        //    return vXElementResult;
-        //}
+        #region Almacen
+        private XElement FindInfoAlmacenInsumos(IList<OrdenDeProduccion> valData) {
+            XElement vXElement = new XElement("GpData");
+            foreach (OrdenDeProduccion vItem in valData) {
+                XElement vFilter = new XElement("GpData", new XElement("GpResult", new XElement("ConsecutivoAlmacenMateriales", vItem.ConsecutivoAlmacenMateriales)));
+                vXElement.Add(vFilter.Descendants("GpResult"));
+            }
+            ILibPdn insAlmacen = new Galac.Saw.Brl.Inventario.clsAlmacenNav();
+            XElement vXElementResult = insAlmacen.GetFk("OrdenDeProduccion", ParametersGetFKAlmacenForXmlSubSet(valData[0].ConsecutivoCompania, vXElement));
+            return vXElementResult;
+        }
+        private XElement FindInfoAlmacenSalidas(IList<OrdenDeProduccion> valData) {
+            XElement vXElement = new XElement("GpData");
+            foreach (OrdenDeProduccion vItem in valData) {
+                XElement vFilter = new XElement("GpData", new XElement("GpResult", new XElement("ConsecutivoAlmacenProductoTerminado", vItem.ConsecutivoAlmacenProductoTerminado)));
+                vXElement.Add(vFilter.Descendants("GpResult"));
+            }
+            ILibPdn insAlmacen = new Galac.Saw.Brl.Inventario.clsAlmacenNav();
+            XElement vXElementResult = insAlmacen.GetFk("OrdenDeProduccion", ParametersGetFKAlmacenForXmlSubSet(valData[0].ConsecutivoCompania, vXElement));
+            return vXElementResult;
+        }
+        private StringBuilder ParametersGetFKAlmacenForXmlSubSet(int valConsecutivoCompania, XElement valXElement) {
+            StringBuilder vResult = new StringBuilder();
+            LibGpParams vParams = new LibGpParams();
+            vParams.AddReturn();
+            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            vParams.AddInXml("XmlData", valXElement);
+            vResult = vParams.Get();
+            return vResult;
+        }
+        #endregion Almacen
 
-        //private XElement FilterOrdenDeProduccionByDistinctAlmacen(OrdenDeProduccion valMaster) {
-        //    XElement vXElement = new XElement("GpData",
-        //        from vEntity in valMaster.DetailOrdenDeProduccion.Distinct()
-        //        select new XElement("GpResult",
-        //            new XElement("ConsecutivoAlmacenProductoTerminado", vEntity.ConsecutivoAlmacenProductoTerminado)));
-        //    return vXElement;
-        //}
+        #region Moneda
+        private XElement FindInfoMoneda(IList<OrdenDeProduccion> valData) {
+            XElement vXElement = new XElement("GpData");
+            foreach (OrdenDeProduccion vItem in valData) {
+                XElement vFilter = new XElement("GpData",new XElement("GpResult", new XElement("Codigo", vItem.CodigoMonedaCostoProduccion)));
+                vXElement.Add(vFilter.Descendants("GpResult"));
+            }
+            ILibPdn insMoneda = new Galac.Comun.Brl.TablasGen.clsMonedaNav();
+            XElement vXElementResult = insMoneda.GetFk("OrdenDeProduccion", ParametersGetFKMonedaForXmlSubSet(vXElement));
+            return vXElementResult;
+        }
+        private StringBuilder ParametersGetFKMonedaForXmlSubSet(XElement valXElement) {
+            StringBuilder vResult = new StringBuilder();
+            LibGpParams vParams = new LibGpParams();
+            vParams.AddReturn();
+            vParams.AddInXml("XmlData", valXElement);
+            vResult = vParams.Get();
+            return vResult;
+        }
+        #endregion Moneda
 
-        //private StringBuilder ParametersGetFKAlmacenForXmlSubSet(int valConsecutivoCompania, XElement valXElement) {
-        //    StringBuilder vResult = new StringBuilder();
-        //    LibGpParams vParams = new LibGpParams();
-        //    vParams.AddReturn();
-        //    vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
-        //    vParams.AddInXml("XmlData", valXElement);
-        //    vResult = vParams.Get();
-        //    return vResult;
-        //}
-
-        //private XElement FindInfoMoneda(IList<OrdenDeProduccion> valData) {
-        //    XElement vXElement = new XElement("GpData");
-        //    foreach(OrdenDeProduccion vItem in valData) {
-        //        vXElement.Add(FilterOrdenDeProduccionByDistinctMoneda(vItem).Descendants("GpResult"));
-        //    }
-        //    ILibPdn insMoneda = new Galac.Comun.Brl.TablasGen.clsMonedaNav();
-        //    XElement vXElementResult = insMoneda.GetFk("OrdenDeProduccion", ParametersGetFKMonedaForXmlSubSet(vXElement));
-        //    return vXElementResult;
-        //}
-
-        //private XElement FilterOrdenDeProduccionByDistinctMoneda(OrdenDeProduccion valMaster) {
-        //    XElement vXElement = new XElement("GpData",
-        //        from vEntity in valMaster.DetailOrdenDeProduccionDetalleArticulo.Distinct()
-        //        select new XElement("GpResult",
-        //            new XElement("CodigoMonedaCostoProduccion", vEntity.CodigoMonedaCostoProduccion)));
-        //    return vXElement;
-        //}
-
-        //private StringBuilder ParametersGetFKMonedaForXmlSubSet(XElement valXElement) {
-        //    StringBuilder vResult = new StringBuilder();
-        //    LibGpParams vParams = new LibGpParams();
-        //    vParams.AddReturn();
-        //    vParams.AddInXml("XmlData", valXElement);
-        //    vResult = vParams.Get();
-        //    return vResult;
-        //}
-
-        //private XElement FindInfoListaDeMateriales(IList<OrdenDeProduccion> valData) {
-        //    XElement vXElement = new XElement("GpData");
-        //    foreach(OrdenDeProduccion vItem in valData) {
-        //        vXElement.Add(FilterOrdenDeProduccionByDistinctListaDeMateriales(vItem).Descendants("GpResult"));
-        //    }
-        //    ILibPdn insListaDeMateriales = new Galac.Adm.Brl.GestionProduccion.clsListaDeMaterialesNav();
-        //    XElement vXElementResult = insListaDeMateriales.GetFk("OrdenDeProduccion", ParametersGetFKListaDeMaterialesForXmlSubSet(valData[0].ConsecutivoCompania, vXElement));
-        //    return vXElementResult;
-        //}
-
-        //private XElement FilterOrdenDeProduccionByDistinctListaDeMateriales(OrdenDeProduccion valMaster) {
-        //    XElement vXElement = new XElement("GpData",
-        //        from vEntity in valMaster.DetailOrdenDeProduccion.Distinct()
-        //        select new XElement("GpResult",
-        //            new XElement("ConsecutivoListaDeMateriales", vEntity.ConsecutivoListaDeMateriales)));
-        //    return vXElement;
-        //}
-
+        #region Lista de Materiales
+        private XElement FindInfoListaDeMateriales(IList<OrdenDeProduccion> valData) {
+            XElement vXElement = new XElement("GpData");
+            foreach (OrdenDeProduccion vItem in valData) {
+                XElement vFilter = new XElement("GpData", new XElement("GpResult", new XElement("ConsecutivoListaDeMateriales", vItem.ConsecutivoListaDeMateriales)));
+                vXElement.Add(vFilter.Descendants("GpResult"));
+            }
+            ILibPdn insListaDeMateriales = new Galac.Adm.Brl.GestionProduccion.clsListaDeMaterialesNav();
+            XElement vXElementResult = insListaDeMateriales.GetFk("OrdenDeProduccion", ParametersGetFKListaDeMaterialesForXmlSubSet(valData[0].ConsecutivoCompania, vXElement));
+            return vXElementResult;
+        }
         private StringBuilder ParametersGetFKListaDeMaterialesForXmlSubSet(int valConsecutivoCompania, XElement valXElement) {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
@@ -233,6 +226,8 @@ namespace Galac.Adm.Brl.GestionProduccion {
             vResult = vParams.Get();
             return vResult;
         }
+        #endregion Lista de Materiales
+
         #endregion //OrdenDeProduccion
         #region OrdenDeProduccionDetalleArticulo
 
@@ -245,8 +240,11 @@ namespace Galac.Adm.Brl.GestionProduccion {
         #region OrdenDeProduccionDetalleMateriales
 
         private void FillWithForeignInfoOrdenDeProduccionDetalleMateriales(ref IList<OrdenDeProduccion> refData) {
-//HACER...
+            foreach (OrdenDeProduccion vItem in refData) {
+                vItem.DetailOrdenDeProduccionDetalleMateriales = new clsOrdenDeProduccionDetalleMaterialesNav().FillWithForeignInfo(vItem);
+            }
         }
+
         #endregion //OrdenDeProduccionDetalleMateriales
         XElement IOrdenDeProduccionPdn.FindByConsecutivo(int valConsecutivoCompania, int valConsecutivo) {
             LibGpParams vParams = new LibGpParams();
