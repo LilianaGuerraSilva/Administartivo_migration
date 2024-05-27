@@ -250,7 +250,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
             XElement vXmlResult = LibBusiness.ExecuteSelect(vSql.ToString(), null, "", 0);
             if (vXmlResult != null && vXmlResult.HasElements) {
                 string vCantidadStr = LibXml.GetPropertyString(vXmlResult, "Cantidad");
-                vResult = LibConvert.ToDec(vCantidadStr);
+                vResult = LibImportData.ToDec(vCantidadStr);
             }
             return vResult;
         }
