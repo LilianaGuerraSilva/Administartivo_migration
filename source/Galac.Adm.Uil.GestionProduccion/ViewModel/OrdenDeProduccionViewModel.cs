@@ -1418,8 +1418,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             DetailOrdenDeProduccionDetalleArticulo = new OrdenDeProduccionDetalleArticuloMngViewModel(this, vListSalidas, Action);
             Model.DetailOrdenDeProduccionDetalleMateriales = vListInsumos;
             Model.DetailOrdenDeProduccionDetalleArticulo = vListSalidas;
-            ActualizaAlmacenenMaterialesEnDetalles();
             BuscarExistencia();
+            ActualizaTotalProcentajeDeCosto();
+            ActualizaAlmacenenMaterialesEnDetalles();
             VerDetalleCommand.RaiseCanExecuteChanged();
         }
 
