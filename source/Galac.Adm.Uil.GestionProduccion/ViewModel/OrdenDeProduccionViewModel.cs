@@ -1295,14 +1295,13 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         protected override void ExecuteProcessBeforeAction() {
             if (Action != eAccionSR.Contabilizar) {
                 if (Action == eAccionSR.Custom) {
-                    //DetailOrdenDeProduccionDetalleArticulo.Items[0].BuscaExistencia();
-                    //if (DetailOrdenDeProduccionDetalleArticulo.Items
-                    //    .Where(p => p.DetailOrdenDeProduccionDetalleMateriales.Items
-                    //    .Where(q => q.TipoDeArticulo == Saw.Ccl.Inventario.eTipoDeArticulo.Mercancia && q.Existencia < q.CantidadReservadaInventario).Count() > 0).Count() > 0) {
-                    //    if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PermitirSobregiro")) {
-                    //        throw new GalacValidationException("No hay suficiente existencia de algunos materiales para producir este inventario.");
-                    //    }
-                    //}
+                    BuscarExistencia();
+                    if (DetailOrdenDeProduccionDetalleMateriales.Items
+                        .Where(q => q.TipoDeArticulo == Saw.Ccl.Inventario.eTipoDeArticulo.Mercancia && q.Existencia < q.CantidadReservadaInventario).Count() > 0) {
+                        if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PermitirSobregiro")) {
+                            throw new GalacValidationException("No hay suficiente existencia de algunos materiales para producir este inventario.");
+                        }
+                    }
                 }
             }
         }
