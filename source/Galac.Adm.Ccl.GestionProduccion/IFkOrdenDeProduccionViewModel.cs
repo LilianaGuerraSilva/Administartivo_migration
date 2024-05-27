@@ -17,7 +17,7 @@ namespace Galac.Adm.Ccl. GestionProduccion {
         string ConsecutivoAlmacenMateriales { get; set; }
         string Observacion { get; set; }
         string CodigoMonedaCostoProduccion { get; set; }
-
+        string Descripcion { get; set; }
         decimal CambioCostoProduccion { get; set; }
 
         #endregion //Propiedades

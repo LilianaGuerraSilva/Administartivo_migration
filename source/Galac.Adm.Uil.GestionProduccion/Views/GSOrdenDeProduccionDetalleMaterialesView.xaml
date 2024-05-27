@@ -55,25 +55,25 @@
             Text="{Binding Path=DescripcionArticulo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             VerticalScrollBarVisibility="Auto" />
         <Label
-            Name="lblCantidadConsumida"
+            Name="lblCantidadReservadaInventario"
             Grid.Row="1"
             Grid.Column="2"
             HorizontalAlignment="Right"
-            Content="Cantidad Consumida"
+            Content="Cantidad A Consumir"
             Style="{StaticResource LabelPrompt}"
             Visibility="Visible" />
         <nsWpfControls:GSNumericBoxWpf
-            Name="txtCantidadConsumida"
+            Name="txtCantidadReservadaInventario"
             Grid.Row="1"
             Grid.Column="3"
             Width="120"
             BorderThickness="1"
             DecimalDigits="8"
             InputDataType="UDecimal"
-            IsEnabled="{Binding Path= IsEnabledCantidadConsumida}"
+            IsEnabled="{Binding Path=IsEnabledCantidadReservadaInventario}"
             MaxLength="34"
             Style="{StaticResource TextBoxInputStyle}"
             Visibility="Visible"
-            Value="{Binding Path=CantidadConsumida, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+            Value="{Binding Path=CantidadReservadaInventario, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
     </Grid>
 </UserControl>

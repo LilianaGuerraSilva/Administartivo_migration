@@ -7,6 +7,7 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Base.Report;
 using Galac.Adm.Ccl.GestionProduccion;
 using Galac.Saw.Ccl.SttDef;
+using Galac.Saw.Lib;
 
 namespace Galac.Adm.Brl. GestionProduccion.Reportes {
     public class clsOrdenDeProduccionSql {
@@ -97,24 +98,10 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
             return vSql.ToString();
 		}
 
-        public string SqlCostoProduccionInventarioEntreFechas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, eCantidadAImprimir valCantidadAImprimir, string valCodigoInventario, eGeneradoPor valGeneradoPor, string valCodigoOrden) {
-            string vSQLWhere = string.Empty;
+        public string SqlCostoProduccionInventarioEntreFechas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, eCantidadAImprimir valCantidadAImprimir, string valCodigoInventario, eGeneradoPor valGeneradoPor, string valCodigoOrden, eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio, string valCodigoMoneda, string valNombreMoneda) {
+            QAdvSql vUtilSql = new QAdvSql("");
+            string vSQLWhere;
             StringBuilder vSql = new StringBuilder();
-            vSql.AppendLine("SELECT");
-            vSql.AppendLine("Adm.OrdenDeProduccion.ConsecutivoCompania,");
-            vSql.AppendLine("Adm.OrdenDeProduccion.Codigo,");
-            vSql.AppendLine("dbo.ArticuloInventario.Codigo + ' - ' + dbo.ArticuloInventario.Descripcion  AS ArticuloInventario,");
-            vSql.AppendLine("Adm.OrdenDeProduccion.FechaFinalizacion,");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleArticulo.CantidadProducida,");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleArticulo.CostoUnitario,");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleArticulo.MontoSubTotal");
-            vSql.AppendLine("FROM");
-            vSql.AppendLine("Adm.OrdenDeProduccion INNER JOIN");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleArticulo ON Adm.OrdenDeProduccion.ConsecutivoCompania = Adm.OrdenDeProduccionDetalleArticulo.ConsecutivoCompania AND");
-            vSql.AppendLine("Adm.OrdenDeProduccion.Consecutivo = Adm.OrdenDeProduccionDetalleArticulo.ConsecutivoOrdenDeProduccion INNER JOIN");
-            vSql.AppendLine("dbo.ArticuloInventario ON Adm.OrdenDeProduccionDetalleArticulo.ConsecutivoCompania = dbo.ArticuloInventario.ConsecutivoCompania AND");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleArticulo.CodigoArticulo = dbo.ArticuloInventario.Codigo");
-
             vSQLWhere = new QAdvSql("").SqlIntValueWithAnd(string.Empty, "Adm.OrdenDeProduccion.ConsecutivoCompania", valConsecutivoCompania);
             vSQLWhere = new QAdvSql("").SqlEnumValueWithAnd(vSQLWhere, "Adm.OrdenDeProduccion.StatusOp", (int)eTipoStatusOrdenProduccion.Cerrada);
             if (valCantidadAImprimir == eCantidadAImprimir.One) {
@@ -125,47 +112,126 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
             } else if (valGeneradoPor == eGeneradoPor.Fecha) {
                 vSQLWhere = new QAdvSql("").SqlDateValueBetween(vSQLWhere, "Adm.OrdenDeProduccion.FechaFinalizacion", valFechaDesde, valFechaHasta);
             }
-			if (LibString.Len(vSQLWhere) > 0) {
-                vSql.AppendLine(" WHERE " + vSQLWhere);
-			}
+
+            /* INICIO: Manejo para multimoneda: Moneda Local // Moneda Extranjera Original y Moneda Local en Moneda Extranjera // Moneda Original */
+            string vSqlCambioDelDia;
+            string vSqlCambioMasCercano;
+            string vSqlCambioOriginal = "OrdenDeProduccion.CambioCostoProduccion";
+            string vSqlMontoSubTotal = "(SALIDAS.MontoSubTotal)";
+            string vSqlMontoCostoUnitario = "(SALIDAS.CostoUnitario)";
+            string vCodigoMonedaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaCompania");
+            string vCodigoMonedaExtranjera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
+            string vSqlCambio = vSqlCambioOriginal;
+            if (valMonedaDelInforme == eMonedaDelInformeMM.EnBolivares) {
+                if (valTasaDeCambio == eTasaDeCambioParaImpresion.DelDia) {
+                    vSqlCambio = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = OrdenDeProduccion.CodigoMonedaCostoProduccion AND FechaDeVigencia <= " + vUtilSql.ToSqlValue(LibDate.Today()) + " ORDER BY FechaDeVigencia DESC), 1)";
+                } else {
+                    vSqlCambio = vSqlCambioOriginal;
+                }
+                vSqlMontoSubTotal = vUtilSql.RoundToNDecimals(vSqlMontoSubTotal + " * " + vSqlCambio, 2);
+                vSqlMontoCostoUnitario = vUtilSql.RoundToNDecimals(vSqlMontoCostoUnitario + " * " + vSqlCambio, 2);
+            } else if (valMonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa) {
+                vSqlCambioDelDia = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + vUtilSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia <= " + vUtilSql.ToSqlValue(LibDate.Today()) + " ORDER BY FechaDeVigencia DESC), 1)";
+                vSqlCambioMasCercano = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + vUtilSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia <= OrdenDeProduccion.FechaFinalizacion ORDER BY FechaDeVigencia DESC), 1)";
+                if (valTasaDeCambio == eTasaDeCambioParaImpresion.DelDia) {
+                    vSqlCambio = vSqlCambioDelDia;
+                } else {
+                    vSqlCambio = vSqlCambioMasCercano;
+                }
+                vSqlCambio = vUtilSql.IIF("OrdenDeProduccion.CodigoMonedaCostoProduccion = " + vUtilSql.ToSqlValue(vCodigoMonedaLocal), vSqlCambio, " 1 ", true);
+                vSqlMontoSubTotal = vUtilSql.RoundToNDecimals(vSqlMontoSubTotal + " / " + vSqlCambio, 2);
+                vSqlMontoCostoUnitario = vUtilSql.RoundToNDecimals(vSqlMontoCostoUnitario + " / " + vSqlCambio, 2);
+            } else if (valMonedaDelInforme == eMonedaDelInformeMM.EnMonedaOriginal) {
+            }
+            /* FIN */
+
+            vSql.AppendLine("SELECT");
+            vSql.AppendLine("Adm.OrdenDeProduccion.ConsecutivoCompania,");
+            vSql.AppendLine("Adm.OrdenDeProduccion.Codigo,");
+            vSql.AppendLine("dbo.ArticuloInventario.Codigo + ' - ' + dbo.ArticuloInventario.Descripcion  AS ArticuloInventario,");
+            vSql.AppendLine("Adm.OrdenDeProduccion.FechaFinalizacion,");
+            vSql.AppendLine("SALIDAS.CantidadProducida,");
+            vSql.AppendLine(" (CASE WHEN OrdenDeProduccion.CodigoMonedaCostoProduccion = " + vUtilSql.ToSqlValue(vCodigoMonedaLocal) + " THEN ISNULL((SELECT TOP 1 Nombre FROM Moneda WHERE Codigo = " + vUtilSql.ToSqlValue(vCodigoMonedaLocal) + "), " + vUtilSql.ToSqlValue(vCodigoMonedaLocal) + ") ELSE ISNULL((SELECT TOP 1 Nombre FROM Moneda WHERE Codigo = OrdenDeProduccion.CodigoMonedaCostoProduccion), " + vUtilSql.ToSqlValue(vCodigoMonedaExtranjera) + " )  END) AS Moneda,");
+            vSql.AppendLine(" " + vSqlCambio + " AS Cambio, ");
+            vSql.AppendLine(" " + vSqlMontoCostoUnitario + " AS CostoUnitario, ");
+            vSql.AppendLine(" " + vSqlMontoSubTotal + " AS MontoSubTotal ");
+            vSql.AppendLine("FROM");
+            vSql.AppendLine("Adm.OrdenDeProduccion INNER JOIN");
+            vSql.AppendLine("Adm.OrdenDeProduccionDetalleArticulo AS SALIDAS ON Adm.OrdenDeProduccion.ConsecutivoCompania = SALIDAS.ConsecutivoCompania AND");
+            vSql.AppendLine("Adm.OrdenDeProduccion.Consecutivo = SALIDAS.ConsecutivoOrdenDeProduccion INNER JOIN");
+            vSql.AppendLine("ArticuloInventario ON SALIDAS.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania AND");
+            vSql.AppendLine("SALIDAS.CodigoArticulo = ArticuloInventario.Codigo");
+            vSql.AppendLine(vUtilSql.WhereSql(vSQLWhere));
             return vSql.ToString();
 		}
 
-        public string SqlCostoMatServUtilizadosEnProduccionInv(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, string valCodigoOrden, eGeneradoPor valGeneradoPor) {
-            string vSQLWhere = string.Empty;
+        public string SqlCostoMatServUtilizadosEnProduccionInv(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, string valCodigoOrden, eGeneradoPor valGeneradoPor, eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio, string valCodigoMoneda, string valNombreMoneda) {
+            QAdvSql vUtilSql = new QAdvSql("");
             StringBuilder vSql = new StringBuilder();
-            vSql.AppendLine("SELECT");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleArticulo.CodigoArticulo + ' - ' + ArticuloInventario.Descripcion AS InventarioProducido,");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleMateriales.CodigoArticulo + ' - ' + ArticuloInventario_1.Descripcion AS ArticuloServicioUtilizado,");
-            vSql.AppendLine("Adm.OrdenDeProduccion.Codigo AS Orden,");
-            vSql.AppendLine("Adm.OrdenDeProduccion.FechaFinalizacion,");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleMateriales.CantidadConsumida,");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleMateriales.CostoUnitarioArticuloInventario,");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleMateriales.MontoSubtotal");
-            vSql.AppendLine("FROM");
-            vSql.AppendLine("Adm.OrdenDeProduccion INNER JOIN");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleArticulo ON Adm.OrdenDeProduccion.ConsecutivoCompania = Adm.OrdenDeProduccionDetalleArticulo.ConsecutivoCompania AND");
-            vSql.AppendLine("Adm.OrdenDeProduccion.Consecutivo = Adm.OrdenDeProduccionDetalleArticulo.ConsecutivoOrdenDeProduccion INNER JOIN");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleMateriales ON Adm.OrdenDeProduccionDetalleArticulo.ConsecutivoCompania = Adm.OrdenDeProduccionDetalleMateriales.ConsecutivoCompania AND");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleArticulo.ConsecutivoOrdenDeProduccion = Adm.OrdenDeProduccionDetalleMateriales.ConsecutivoOrdenDeProduccion AND");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleArticulo.Consecutivo = Adm.OrdenDeProduccionDetalleMateriales.ConsecutivoOrdenDeProduccionDetalleArticulo INNER JOIN");
-            vSql.AppendLine("dbo.ArticuloInventario ON Adm.OrdenDeProduccionDetalleArticulo.ConsecutivoCompania = dbo.ArticuloInventario.ConsecutivoCompania AND");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleArticulo.CodigoArticulo = dbo.ArticuloInventario.Codigo INNER JOIN");
-            vSql.AppendLine("dbo.ArticuloInventario AS ArticuloInventario_1 ON Adm.OrdenDeProduccionDetalleMateriales.ConsecutivoCompania = ArticuloInventario_1.ConsecutivoCompania AND");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleMateriales.CodigoArticulo = ArticuloInventario_1.Codigo");
-
-            vSQLWhere = new QAdvSql("").SqlIntValueWithAnd(string.Empty, "Adm.OrdenDeProduccion.ConsecutivoCompania", valConsecutivoCompania);
-            vSQLWhere = new QAdvSql("").SqlEnumValueWithAnd(vSQLWhere, "Adm.OrdenDeProduccion.StatusOp", (int)eTipoStatusOrdenProduccion.Cerrada);
+            string vSQLWhere = string.Empty;
+            vSQLWhere = new QAdvSql("").SqlIntValueWithAnd(string.Empty, "OrdenProduccion.ConsecutivoCompania", valConsecutivoCompania);
+            vSQLWhere = new QAdvSql("").SqlEnumValueWithAnd(vSQLWhere, "OrdenProduccion.StatusOp", (int)eTipoStatusOrdenProduccion.Cerrada);
             if (valGeneradoPor == eGeneradoPor.Orden) {
-                vSQLWhere = new QAdvSql("").SqlValueWithAnd(vSQLWhere, "Adm.OrdenDeProduccion.Codigo", valCodigoOrden);
+                vSQLWhere = new QAdvSql("").SqlValueWithAnd(vSQLWhere, "OrdenProduccion.Codigo", valCodigoOrden);
             } else if (valGeneradoPor == eGeneradoPor.Fecha) {
-                vSQLWhere = new QAdvSql("").SqlDateValueBetween(vSQLWhere, "Adm.OrdenDeProduccion.FechaFinalizacion", valFechaDesde, valFechaHasta);
+                vSQLWhere = new QAdvSql("").SqlDateValueBetween(vSQLWhere, "OrdenProduccion.FechaFinalizacion", valFechaDesde, valFechaHasta);
             }
-            if (LibString.Len(vSQLWhere) > 0) {
-                vSql.AppendLine(" WHERE " + vSQLWhere);
-            }
-            vSql.AppendLine("ORDER BY Adm.OrdenDeProduccionDetalleArticulo.CodigoArticulo,Adm.OrdenDeProduccionDetalleMateriales.CodigoArticulo, Adm.OrdenDeProduccion.Codigo");
 
+            /* INICIO: Manejo para multimoneda: Moneda Local // Moneda Extranjera Original y Moneda Local en Moneda Extranjera // Moneda Original */
+            string vSqlCambioDelDia;
+            string vSqlCambioMasCercano;
+            string vSqlCambioOriginal = "OrdenProduccion.CambioCostoProduccion";
+            string vSqlMontoSubTotal = "(Materiales.MontoSubtotal)";
+            string vSqlMontoCostoUnitario = "(Materiales.CostoUnitarioArticuloInventario)";
+            string vCodigoMonedaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaCompania");
+            string vCodigoMonedaExtranjera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
+            string vSqlCambio = vSqlCambioOriginal;
+            if (valMonedaDelInforme == eMonedaDelInformeMM.EnBolivares) {
+                if (valTasaDeCambio == eTasaDeCambioParaImpresion.DelDia) {
+                    vSqlCambio = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = OrdenProduccion.CodigoMonedaCostoProduccion AND FechaDeVigencia <= " + vUtilSql.ToSqlValue(LibDate.Today()) + " ORDER BY FechaDeVigencia DESC), 1)";
+                } else {
+                    vSqlCambio = vSqlCambioOriginal;
+                }
+                vSqlMontoSubTotal = vUtilSql.RoundToNDecimals(vSqlMontoSubTotal + " * " + vSqlCambio, 2);
+                vSqlMontoCostoUnitario = vUtilSql.RoundToNDecimals(vSqlMontoCostoUnitario + " * " + vSqlCambio, 2);
+            } else if (valMonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa) {
+                vSqlCambioDelDia = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + vUtilSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia <= " + vUtilSql.ToSqlValue(LibDate.Today()) + " ORDER BY FechaDeVigencia DESC), 1)";
+                vSqlCambioMasCercano = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + vUtilSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia <= OrdenProduccion.FechaFinalizacion ORDER BY FechaDeVigencia DESC), 1)";
+                if (valTasaDeCambio == eTasaDeCambioParaImpresion.DelDia) {
+                    vSqlCambio = vSqlCambioDelDia;
+                } else {
+                    vSqlCambio = vSqlCambioMasCercano;
+                }
+                vSqlCambio = vUtilSql.IIF("OrdenProduccion.CodigoMonedaCostoProduccion = " + vUtilSql.ToSqlValue(vCodigoMonedaLocal), vSqlCambio, " 1 ", true);
+                vSqlMontoSubTotal = vUtilSql.RoundToNDecimals(vSqlMontoSubTotal + " / " + vSqlCambio, 2);
+                vSqlMontoCostoUnitario = vUtilSql.RoundToNDecimals(vSqlMontoCostoUnitario + " / " + vSqlCambio, 2);
+            } else if (valMonedaDelInforme == eMonedaDelInformeMM.EnMonedaOriginal) {
+            }
+            /* FIN */
+
+            vSql.AppendLine("SELECT");
+            vSql.AppendLine(" Salidas.CodigoArticulo + ' - ' + ArticuloInventario.Descripcion AS InventarioProducido,");
+            vSql.AppendLine(" Materiales.CodigoArticulo + ' - ' + ArticuloInventario_1.Descripcion AS ArticuloServicioUtilizado,");
+            vSql.AppendLine(" OrdenProduccion.Codigo AS Orden,");
+            vSql.AppendLine(" OrdenProduccion.FechaFinalizacion,");
+            vSql.AppendLine(" Materiales.CantidadConsumida,");
+            vSql.AppendLine(" (CASE WHEN OrdenProduccion.CodigoMonedaCostoProduccion = " + vUtilSql.ToSqlValue(vCodigoMonedaLocal) + " THEN ISNULL((SELECT TOP 1 Nombre FROM Moneda WHERE Codigo = " + vUtilSql.ToSqlValue(vCodigoMonedaLocal) + "), " + vUtilSql.ToSqlValue(vCodigoMonedaLocal) + ") ELSE ISNULL((SELECT TOP 1 Nombre FROM Moneda WHERE Codigo = OrdenProduccion.CodigoMonedaCostoProduccion), " + vUtilSql.ToSqlValue(vCodigoMonedaExtranjera) + " )  END) AS Moneda,");
+            vSql.AppendLine(" " + vSqlCambio + " AS Cambio, ");
+            vSql.AppendLine(" " + vSqlMontoCostoUnitario + " AS CostoUnitarioArticuloInventario, ");
+            vSql.AppendLine(" " + vSqlMontoSubTotal + " AS MontoSubtotal ");
+            vSql.AppendLine("FROM");
+            vSql.AppendLine("Adm.OrdenDeProduccion AS OrdenProduccion INNER JOIN");
+            vSql.AppendLine("Adm.OrdenDeProduccionDetalleArticulo AS Salidas ON OrdenProduccion.ConsecutivoCompania = Salidas.ConsecutivoCompania AND");
+            vSql.AppendLine("OrdenProduccion.Consecutivo = Salidas.ConsecutivoOrdenDeProduccion INNER JOIN");
+            vSql.AppendLine("Adm.OrdenDeProduccionDetalleMateriales AS Materiales ON Salidas.ConsecutivoCompania = Materiales.ConsecutivoCompania AND");
+            vSql.AppendLine("Salidas.ConsecutivoOrdenDeProduccion = Materiales.ConsecutivoOrdenDeProduccion AND");
+            vSql.AppendLine("Salidas.Consecutivo = Materiales.ConsecutivoOrdenDeProduccionDetalleArticulo INNER JOIN");
+            vSql.AppendLine("ArticuloInventario ON Salidas.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania AND");
+            vSql.AppendLine("Salidas.CodigoArticulo = ArticuloInventario.Codigo INNER JOIN");
+            vSql.AppendLine("ArticuloInventario AS ArticuloInventario_1 ON Materiales.ConsecutivoCompania = ArticuloInventario_1.ConsecutivoCompania AND");
+            vSql.AppendLine("Materiales.CodigoArticulo = ArticuloInventario_1.Codigo");
+            vSql.AppendLine(vUtilSql.WhereSql(vSQLWhere));
+            vSql.AppendLine("ORDER BY Salidas.CodigoArticulo,Materiales.CodigoArticulo, OrdenProduccion.Codigo");
             return vSql.ToString();
         }
 
@@ -212,11 +278,10 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
             return vSql.ToString();
         }
 
-        public string SqlDetalleDeCostoDeProduccion(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, eSeleccionarOrdenPor valSeleccionarOrdenPor, int valConsecutivoOrden) {
+        public string SqlDetalleDeCostoDeProduccion(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, eSeleccionarOrdenPor valSeleccionarOrdenPor, int valConsecutivoOrden, eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio, string valCodigoMoneda, string valNombreMoneda) {
             StringBuilder vSql = new StringBuilder();
             QAdvSql vUtilSql = new QAdvSql("");
             string vSQLWhere;
-
             vSQLWhere = vUtilSql.SqlIntValueWithAnd(string.Empty, "OrdenDeProduccion.ConsecutivoCompania", valConsecutivoCompania);
             vSQLWhere = vUtilSql.SqlEnumValueWithAnd(vSQLWhere, "OrdenDeProduccion.StatusOp", (int)eTipoStatusOrdenProduccion.Cerrada);
             if (valSeleccionarOrdenPor == eSeleccionarOrdenPor.NumeroDeOrden) {
@@ -227,41 +292,67 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
                 vSQLWhere = vUtilSql.SqlDateValueBetween(vSQLWhere, "OrdenDeProduccion.FechaFinalizacion", valFechaInicial, valFechaFinal);
             }
 
-            string vCodigoMonedaLocal = "VED";//parámetro
-            string vCodigoMonedaExtranjera = "USD";//parámetro
+            /* INICIO: Manejo para multimoneda: Moneda Local // Moneda Extranjera Original y Moneda Local en Moneda Extranjera // Moneda Original */
+            string vSqlCambioDelDia;
+            string vSqlCambioMasCercano;
+            string vSqlCambioOriginal = "OrdenDeProduccion.CambioCostoProduccion";
+            string vSqlMontoSubTotal = "(Insumos.MontoSubtotal)";
+            string vSqlMontoCostoUnitario = "(Insumos.CostoUnitarioArticuloInventario)";
+            string vCodigoMonedaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaCompania");
+            string vCodigoMonedaExtranjera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
+            string vSqlCambio = vSqlCambioOriginal;
+            if (valMonedaDelInforme == eMonedaDelInformeMM.EnBolivares) {
+                if (valTasaDeCambio == eTasaDeCambioParaImpresion.DelDia) {
+                    vSqlCambio = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = OrdenDeProduccion.CodigoMonedaCostoProduccion AND FechaDeVigencia <= " + vUtilSql.ToSqlValue(LibDate.Today()) + " ORDER BY FechaDeVigencia DESC), 1)";
+                } else {
+                    vSqlCambio = vSqlCambioOriginal;
+                }
+                vSqlMontoSubTotal = vUtilSql.RoundToNDecimals(vSqlMontoSubTotal + " * " + vSqlCambio, 2);
+                vSqlMontoCostoUnitario = vUtilSql.RoundToNDecimals(vSqlMontoCostoUnitario + " * " + vSqlCambio, 2);
+            } else if (valMonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa) {
+                vSqlCambioDelDia = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + vUtilSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia <= " + vUtilSql.ToSqlValue(LibDate.Today()) + " ORDER BY FechaDeVigencia DESC), 1)";
+                vSqlCambioMasCercano = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + vUtilSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia <= OrdenDeProduccion.FechaFinalizacion ORDER BY FechaDeVigencia DESC), 1)";
+                if (valTasaDeCambio == eTasaDeCambioParaImpresion.DelDia) {
+                    vSqlCambio = vSqlCambioDelDia;
+                } else {
+                    vSqlCambio = vSqlCambioMasCercano;
+                }
+                vSqlCambio = vUtilSql.IIF("OrdenDeProduccion.CodigoMonedaCostoProduccion = " + vUtilSql.ToSqlValue(vCodigoMonedaLocal), vSqlCambio, " 1 ", true);
+                vSqlMontoSubTotal = vUtilSql.RoundToNDecimals(vSqlMontoSubTotal + " / " + vSqlCambio, 2);
+                vSqlMontoCostoUnitario = vUtilSql.RoundToNDecimals(vSqlMontoCostoUnitario + " / " + vSqlCambio, 2);
+            } else if (valMonedaDelInforme == eMonedaDelInformeMM.EnMonedaOriginal) {
+            }
+            /* FIN */
 
             vSql.AppendLine("SELECT");
-            vSql.AppendLine("OrdenDeProduccion.Codigo AS CodigoOrden,");
-            vSql.AppendLine("Insumos.Consecutivo AS ConsecutivoInsumos,");
-            vSql.AppendLine("OrdenDeProduccion.Codigo + ' - ' + OrdenDeProduccion.Descripcion AS OrdenCodigoDescripcion,");
-            vSql.AppendLine("");
-            vSql.AppendLine("OrdenDeProduccion.StatusOp AS Estatus,");
-            vSql.AppendLine("OrdenDeProduccion.CodigoMonedaCostoProduccion AS Moneda,");
-            vSql.AppendLine("OrdenDeProduccion.CambioCostoProduccion AS Cambio,");
-            vSql.AppendLine("OrdenDeProduccion.FechaInicio,");
-            vSql.AppendLine("OrdenDeProduccion.FechaFinalizacion,");
-            vSql.AppendLine("(CASE WHEN OrdenDeProduccion.CostoTerminadoCalculadoAPartirDe = '0' THEN 'Costos expresados en ' + ISNULL((SELECT TOP 1 Nombre FROM Moneda WHERE Codigo = " + vUtilSql.ToSqlValue(vCodigoMonedaLocal) + "), " + vUtilSql.ToSqlValue(vCodigoMonedaLocal) + ") ELSE 'Costo expresados en ' + ISNULL((SELECT TOP 1 Nombre FROM Moneda WHERE Codigo = OrdenDeProduccion.CodigoMonedaCostoProduccion), " + vUtilSql.ToSqlValue(vCodigoMonedaExtranjera) + " )  END) AS FormaDeCalculoDelCosto,");
-            vSql.AppendLine("OrdenDeProduccion.Observacion,");
-            vSql.AppendLine("AlmacenInsumos.Codigo +  ' - ' + AlmacenInsumos.NombreAlmacen AS AlmacenInsumos,");
-            vSql.AppendLine("AlmacenSalidas.Codigo +  ' - ' + AlmacenInsumos.NombreAlmacen AS AlmacenSalida,");
-            vSql.AppendLine("Insumos.CodigoArticulo + ' - ' + ArticuloInventario.Descripcion AS ArticuloInventarioInsumo,");
-            vSql.AppendLine("ArticuloInventario.UnidadDeVenta AS Unidad,");
-            vSql.AppendLine("Insumos.CantidadReservadaInventario AS CantidadEstimada,");
-            vSql.AppendLine("Insumos.CantidadConsumida,");
-            vSql.AppendLine("Insumos.CostoUnitarioArticuloInventario AS CostoUnitarioMatServ,");
-            vSql.AppendLine("Insumos.MontoSubtotal AS MontoTotalConsumo");
-
+            vSql.AppendLine(" OrdenDeProduccion.Codigo AS CodigoOrden,");
+            vSql.AppendLine(" Insumos.Consecutivo AS ConsecutivoInsumos,");
+            vSql.AppendLine(" OrdenDeProduccion.Codigo + ' - ' + OrdenDeProduccion.Descripcion AS OrdenCodigoDescripcion,");
+            vSql.AppendLine(" OrdenDeProduccion.StatusOp AS Estatus,");
+            vSql.AppendLine(" (CASE WHEN OrdenDeProduccion.CodigoMonedaCostoProduccion = " + vUtilSql.ToSqlValue(vCodigoMonedaLocal) + " THEN ISNULL((SELECT TOP 1 Nombre FROM Moneda WHERE Codigo = " + vUtilSql.ToSqlValue(vCodigoMonedaLocal) + "), " + vUtilSql.ToSqlValue(vCodigoMonedaLocal) + ") ELSE ISNULL((SELECT TOP 1 Nombre FROM Moneda WHERE Codigo = OrdenDeProduccion.CodigoMonedaCostoProduccion), " + vUtilSql.ToSqlValue(vCodigoMonedaExtranjera) + " )  END) AS Moneda,");
+            vSql.AppendLine(" " + vSqlCambio + " AS Cambio, ");
+            vSql.AppendLine(" OrdenDeProduccion.FechaInicio,");
+            vSql.AppendLine(" OrdenDeProduccion.FechaFinalizacion,");
+            vSql.AppendLine(" (CASE WHEN OrdenDeProduccion.CostoTerminadoCalculadoAPartirDe = '0' THEN 'Costos expresados en ' + ISNULL((SELECT TOP 1 Nombre FROM Moneda WHERE Codigo = " + vUtilSql.ToSqlValue(vCodigoMonedaLocal) + "), " + vUtilSql.ToSqlValue(vCodigoMonedaLocal) + ") ELSE 'Costo expresados en ' + ISNULL((SELECT TOP 1 Nombre FROM Moneda WHERE Codigo = OrdenDeProduccion.CodigoMonedaCostoProduccion), " + vUtilSql.ToSqlValue(vCodigoMonedaExtranjera) + " )  END) AS FormaDeCalculoDelCosto,");
+            vSql.AppendLine(" OrdenDeProduccion.Observacion,");
+            vSql.AppendLine(" AlmacenInsumos.Codigo +  ' - ' + AlmacenInsumos.NombreAlmacen AS AlmacenInsumos,");
+            vSql.AppendLine(" AlmacenSalidas.Codigo +  ' - ' + AlmacenInsumos.NombreAlmacen AS AlmacenSalida,");
+            vSql.AppendLine(" Insumos.CodigoArticulo + ' - ' + ArticuloInventario.Descripcion AS ArticuloInventarioInsumo,");
+            vSql.AppendLine(" ArticuloInventario.UnidadDeVenta AS Unidad,");
+            vSql.AppendLine(" Insumos.CantidadReservadaInventario AS CantidadEstimada,");
+            vSql.AppendLine(" Insumos.CantidadConsumida,");
+            vSql.AppendLine(" " + vSqlMontoCostoUnitario + " AS CostoUnitarioMatServ, ");
+            vSql.AppendLine(" " + vSqlMontoSubTotal + " AS MontoTotalConsumo ");
             vSql.AppendLine("FROM Adm.OrdenDeProduccion INNER JOIN Adm.OrdenDeProduccionDetalleMateriales AS Insumos ON OrdenDeProduccion.ConsecutivoCompania = Insumos.ConsecutivoCompania AND OrdenDeProduccion.Consecutivo = Insumos.ConsecutivoOrdenDeProduccion");
             vSql.AppendLine("INNER JOIN Saw.Almacen AS AlmacenInsumos ON OrdenDeProduccion.ConsecutivoCompania = AlmacenInsumos.ConsecutivoCompania AND OrdenDeProduccion.ConsecutivoAlmacenMateriales = AlmacenInsumos.Consecutivo");
             vSql.AppendLine("INNER JOIN Saw.Almacen AS AlmacenSalidas ON OrdenDeProduccion.ConsecutivoCompania = AlmacenSalidas.ConsecutivoCompania AND OrdenDeProduccion.ConsecutivoAlmacenProductoTerminado = AlmacenSalidas.Consecutivo");
             vSql.AppendLine("INNER JOIN ArticuloInventario ON Insumos.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania AND Insumos.CodigoArticulo = ArticuloInventario.Codigo");
-
             vSql.AppendLine(vUtilSql.WhereSql(vSQLWhere));
             vSql.AppendLine("ORDER BY CodigoOrden, ConsecutivoInsumos");
             return vSql.ToString();
         }
 
-        public string SqlDetalleDeCostoDeProduccionSalida(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, eSeleccionarOrdenPor valSeleccionarOrdenPor, int valConsecutivoOrden) {
+        public string SqlDetalleDeCostoDeProduccionSalida(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, eSeleccionarOrdenPor valSeleccionarOrdenPor, int valConsecutivoOrden, eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio, string valCodigoMoneda, string valNombreMoneda) {
             StringBuilder vSql = new StringBuilder();
             QAdvSql vUtilSql = new QAdvSql("");
             string vSQLWhere;
@@ -275,17 +366,47 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
                 vSQLWhere = vUtilSql.SqlDateValueBetween(vSQLWhere, "OrdenDeProduccion.FechaFinalizacion", valFechaInicial, valFechaFinal);
             }
 
-            vSql.AppendLine("SELECT");
-            vSql.AppendLine("OrdenDeProduccion.Codigo AS CodigoOrden,");
-            vSql.AppendLine("Salidas.Consecutivo AS ConsecutivoSalidas,");            
-            vSql.AppendLine("Salidas.CodigoArticulo + ' - ' + ArticuloInventario.Descripcion AS DescripcionArticuloSalida,");
-            vSql.AppendLine("ArticuloInventario.UnidadDeVenta AS Unidad,");
-            vSql.AppendLine("Salidas.CantidadSolicitada AS CantidadAProducir,");
-            vSql.AppendLine("Salidas.CantidadProducida,");
-            vSql.AppendLine("Salidas.PorcentajeCostoCierre AS PorcentajeCosto,");
-            vSql.AppendLine("Salidas.CostoUnitario AS CostoUnitario,");
-            vSql.AppendLine("Salidas.MontoSubTotal AS CostoTotal");
+            /* INICIO: Manejo para multimoneda: Moneda Local // Moneda Extranjera Original y Moneda Local en Moneda Extranjera // Moneda Original */
+            string vSqlCambioDelDia;
+            string vSqlCambioMasCercano;
+            string vSqlCambioOriginal = "OrdenDeProduccion.CambioCostoProduccion";
+            string vSqlMontoSubTotalSalida = "(Salidas.MontoSubTotal)";
+            string vSqlMontoCostoUnitarioSalida = "(Salidas.CostoUnitario)";
+            string vCodigoMonedaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaCompania");
+            string vSqlCambio = vSqlCambioOriginal;
+            if (valMonedaDelInforme == eMonedaDelInformeMM.EnBolivares) {
+                if (valTasaDeCambio == eTasaDeCambioParaImpresion.DelDia) {
+                    vSqlCambio = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = OrdenDeProduccion.CodigoMonedaCostoProduccion AND FechaDeVigencia <= " + vUtilSql.ToSqlValue(LibDate.Today()) + " ORDER BY FechaDeVigencia DESC), 1)";
+                } else {
+                    vSqlCambio = vSqlCambioOriginal;
+                }
+                vSqlMontoSubTotalSalida = vUtilSql.RoundToNDecimals(vSqlMontoSubTotalSalida + " * " + vSqlCambio, 2);
+                vSqlMontoCostoUnitarioSalida = vUtilSql.RoundToNDecimals(vSqlMontoCostoUnitarioSalida + " * " + vSqlCambio, 2);
+            } else if (valMonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa) {
+                vSqlCambioDelDia = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + vUtilSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia <= " + vUtilSql.ToSqlValue(LibDate.Today()) + " ORDER BY FechaDeVigencia DESC), 1)";
+                vSqlCambioMasCercano = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + vUtilSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia <= OrdenDeProduccion.FechaFinalizacion ORDER BY FechaDeVigencia DESC), 1)";
+                if (valTasaDeCambio == eTasaDeCambioParaImpresion.DelDia) {
+                    vSqlCambio = vSqlCambioDelDia;
+                } else {
+                    vSqlCambio = vSqlCambioMasCercano;
+                }
+                vSqlCambio = vUtilSql.IIF("OrdenDeProduccion.CodigoMonedaCostoProduccion = " + vUtilSql.ToSqlValue(vCodigoMonedaLocal), vSqlCambio, " 1 ", true);
+                vSqlMontoSubTotalSalida = vUtilSql.RoundToNDecimals(vSqlMontoSubTotalSalida + " / " + vSqlCambio, 2);
+                vSqlMontoCostoUnitarioSalida = vUtilSql.RoundToNDecimals(vSqlMontoCostoUnitarioSalida + " / " + vSqlCambio, 2);
+            } else if (valMonedaDelInforme == eMonedaDelInformeMM.EnMonedaOriginal) {
+            }
+            /* FIN */
 
+            vSql.AppendLine("SELECT");
+            vSql.AppendLine(" OrdenDeProduccion.Codigo AS CodigoOrden,");
+            vSql.AppendLine(" Salidas.Consecutivo AS ConsecutivoSalidas,");            
+            vSql.AppendLine(" Salidas.CodigoArticulo + ' - ' + ArticuloInventario.Descripcion AS DescripcionArticuloSalida,");
+            vSql.AppendLine(" ArticuloInventario.UnidadDeVenta AS Unidad,");
+            vSql.AppendLine(" Salidas.CantidadSolicitada AS CantidadAProducir,");
+            vSql.AppendLine(" Salidas.CantidadProducida,");
+            vSql.AppendLine(" Salidas.PorcentajeCostoCierre AS PorcentajeCosto,");
+            vSql.AppendLine(" " + vSqlMontoCostoUnitarioSalida + " AS CostoUnitario, ");
+            vSql.AppendLine(" " + vSqlMontoSubTotalSalida + " AS CostoTotal ");
             vSql.AppendLine("FROM Adm.OrdenDeProduccion INNER JOIN Adm.OrdenDeProduccionDetalleArticulo AS Salidas ON OrdenDeProduccion.ConsecutivoCompania = Salidas.ConsecutivoCompania AND OrdenDeProduccion.Consecutivo = Salidas.ConsecutivoOrdenDeProduccion");
             vSql.AppendLine("INNER JOIN ArticuloInventario AS ArticuloInventario ON Salidas.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania AND Salidas.CodigoArticulo = ArticuloInventario.Codigo ");
             vSql.AppendLine(vUtilSql.WhereSql(vSQLWhere));

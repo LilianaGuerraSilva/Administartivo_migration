@@ -66,6 +66,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.GHDetalleCostoProduccionInsumos = new DataDynamics.ActiveReports.GroupHeader();
             this.lblUnidad = new DataDynamics.ActiveReports.Label();
             this.GFDetalleCostoProduccionInsumos = new DataDynamics.ActiveReports.GroupFooter();
+            this.txtNotaMonedaCambio = new DataDynamics.ActiveReports.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.txtArticuloServicio)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCantidadEstimada)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCantidadConsumida)).BeginInit();
@@ -102,6 +103,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             ((System.ComponentModel.ISupportInitialize)(this.label3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAlmacenProductoTerminado)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblUnidad)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNotaMonedaCambio)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
@@ -255,7 +257,9 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             // 
             // PageFooter
             // 
-            this.PageFooter.Height = 0F;
+            this.PageFooter.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
+            this.txtNotaMonedaCambio});
+            this.PageFooter.Height = 0.15625F;
             this.PageFooter.Name = "PageFooter";
             // 
             // GHSecOrdenDeProduccion
@@ -513,7 +517,6 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.txt_TCostoTotalConsumido.Height = 0.15625F;
             this.txt_TCostoTotalConsumido.Left = 8.75F;
             this.txt_TCostoTotalConsumido.Name = "txt_TCostoTotalConsumido";
-            this.txt_TCostoTotalConsumido.OutputFormat = resources.GetString("txt_TCostoTotalConsumido.OutputFormat");
             this.txt_TCostoTotalConsumido.Style = "font-size: 8.25pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.txt_TCostoTotalConsumido.Text = "txt_TCostoTotalConsumido";
             this.txt_TCostoTotalConsumido.Top = 0F;
@@ -615,6 +618,16 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.GFDetalleCostoProduccionInsumos.Height = 0.15625F;
             this.GFDetalleCostoProduccionInsumos.Name = "GFDetalleCostoProduccionInsumos";
             // 
+            // txtNotaMonedaCambio
+            // 
+            this.txtNotaMonedaCambio.Height = 0.15625F;
+            this.txtNotaMonedaCambio.Left = 0F;
+            this.txtNotaMonedaCambio.Name = "txtNotaMonedaCambio";
+            this.txtNotaMonedaCambio.Style = "font-size: 8pt; ddo-char-set: 1";
+            this.txtNotaMonedaCambio.Text = "txtNotaMonedaCambio";
+            this.txtNotaMonedaCambio.Top = 0F;
+            this.txtNotaMonedaCambio.Width = 8.75F;
+            // 
             // dsrDetalleDeCostoDeProduccion
             // 
             this.MasterReport = false;
@@ -672,6 +685,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             ((System.ComponentModel.ISupportInitialize)(this.label3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAlmacenProductoTerminado)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblUnidad)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNotaMonedaCambio)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -723,5 +737,6 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         private DataDynamics.ActiveReports.TextBox txtCambio;
         private DataDynamics.ActiveReports.Label lblUnidad;
         private DataDynamics.ActiveReports.TextBox txtCostoCalculadoAPartirDe;
+        private DataDynamics.ActiveReports.TextBox txtNotaMonedaCambio;
     }
 }

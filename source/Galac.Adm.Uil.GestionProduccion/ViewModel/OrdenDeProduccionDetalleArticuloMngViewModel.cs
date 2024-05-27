@@ -52,8 +52,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 vViewModel.InitializeViewModel(initAction);
                 Add(vViewModel);
                
-            }
-            ColumnasAMostrar();
+            }          
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -71,13 +70,16 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             base.RaiseOnCreatedEvent(valViewModel);
         }
 
-        private void ColumnasAMostrar() {
+        public void OcultarColumnas() {
             VisibleColumns = LibGridColumModel.GetGridColumsFromType(typeof(OrdenDeProduccionDetalleArticuloViewModel));
-            //if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida", "UsaPrecioSinIva")) {
-            //    VisibleColumns.RemoveAt(4);
-            //} else {
-            //    VisibleColumns.RemoveAt(3);
-            //}
+            ObservableCollection<LibGridColumModel> VisibleColumnsCpy = LibGridColumModel.GetGridColumsFromType(typeof(OrdenDeProduccionDetalleArticuloViewModel));
+            if (Master.Action == eAccionSR.Consultar) {
+                foreach (var item in VisibleColumnsCpy) {
+                    if (VisibleColumns.Count > 2) {
+                        VisibleColumns.RemoveAt(2);
+                    }
+                }
+            }
         }
         #endregion //Metodos Generados
     } //End of class OrdenDeProduccionDetalleArticuloMngViewModel

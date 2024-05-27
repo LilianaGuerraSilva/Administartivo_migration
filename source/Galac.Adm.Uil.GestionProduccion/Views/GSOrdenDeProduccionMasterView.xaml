@@ -83,6 +83,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <nsV:GSOrdenDeProduccionDetalleArticuloView
@@ -111,6 +112,40 @@
                             SelectedIndex="{Binding Path=OrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo.SelectedIndex}"
                             SelectedItem="{Binding Path=OrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo.SelectedItem, Mode=OneWayToSource}"
                             Style="{StaticResource GSDataGridStyle}" />
+                        <ContentControl Grid.Row="2" Grid.ColumnSpan="2">
+                            <Grid x:Name="gtTotalCosto" Width="690">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="587" />
+                                    <ColumnDefinition Width="Auto" MinWidth="99" />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Name="lblTotalPorcCosto"
+                                    Width="87"
+                                    Height="24"
+                                    Margin="500,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Content="Total %Costo:"
+                                    Foreground="Black"
+                                    Style="{StaticResource LabelPrompt}" />
+                                <nsWpfControls:GSNumericBoxWpf
+                                    Name="txtSumTotalPorcCosto"
+                                    Grid.Column="1"
+                                    Width="99"
+                                    Height="24"
+                                    Margin="3,0,0,0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    HorizontalContentAlignment="Right"
+                                    VerticalContentAlignment="Center"
+                                    BorderThickness="0,0,0,0"
+                                    DecimalDigits="8"
+                                    HorizontalScrollBarVisibility="Auto"
+                                    InputDataType="UDecimal"
+                                    IsEnabled="True"
+                                    Style="{StaticResource TextBoxInputStyle}"
+                                    Value="{Binding Path=OrdenDeProduccion.TotalPorcentajeDeCosto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            </Grid>
+                        </ContentControl>
                     </Grid>
                 </TabItem>
             </TabControl>
