@@ -629,23 +629,22 @@ namespace Galac.Adm.Brl.GestionProduccion {
             vNotaDeEntradaSalida.ConsecutivoDocumentoOrigen = valOrdenDeProduccion.Consecutivo;
             vNotaDeEntradaSalida.TipoNotaProduccionAsEnum = eTipoNotaProduccion.Abrir;
             vNotaDeEntradaSalida.DetailRenglonNotaES = new ObservableCollection<RenglonNotaES>();
-            int vIndex = 1;
-            //foreach (var vOrdenDeProduccionDetalleArticulo in valOrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo) {
-            //    foreach (var vOrdenDeProduccionDetalleMateriales in vOrdenDeProduccionDetalleArticulo.DetailOrdenDeProduccionDetalleMateriales) {
-            //        RenglonNotaES vRenglonNotaES = new RenglonNotaES();
-            //        vRenglonNotaES.ConsecutivoCompania = valOrdenDeProduccion.ConsecutivoCompania;
-            //        vRenglonNotaES.NumeroDocumento = vNumeroDocumento;
-            //        vRenglonNotaES.ConsecutivoRenglon = vIndex;
-            //        vIndex++;
-            //        vRenglonNotaES.CodigoArticulo = vOrdenDeProduccionDetalleMateriales.CodigoArticulo;
-            //        vRenglonNotaES.Cantidad = vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario;
-            //        vRenglonNotaES.TipoArticuloInvAsEnum = eTipoArticuloInv.Simple;
-            //        vRenglonNotaES.Serial = "0";
-            //        vRenglonNotaES.Rollo = "0";
-            //        vRenglonNotaES.CostoUnitario = vOrdenDeProduccionDetalleMateriales.CostoUnitarioArticuloInventario;
-            //        vNotaDeEntradaSalida.DetailRenglonNotaES.Add(vRenglonNotaES);
-            //    }
-            //}
+            int vIndex = 0;
+            foreach (OrdenDeProduccionDetalleMateriales vOrdenDeProduccionDetalleMateriales in valOrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales) {
+                vIndex++;
+                RenglonNotaES vRenglonNotaES = new RenglonNotaES();
+                vRenglonNotaES.ConsecutivoCompania = valOrdenDeProduccion.ConsecutivoCompania;
+                vRenglonNotaES.NumeroDocumento = vNumeroDocumento;
+                vRenglonNotaES.ConsecutivoRenglon = vIndex;
+                vRenglonNotaES.CodigoArticulo = vOrdenDeProduccionDetalleMateriales.CodigoArticulo;
+                vRenglonNotaES.Cantidad = vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario;
+                vRenglonNotaES.TipoArticuloInvAsEnum = eTipoArticuloInv.Simple;
+                vRenglonNotaES.Serial = "0";
+                vRenglonNotaES.Rollo = "0";
+                vRenglonNotaES.CostoUnitario = vOrdenDeProduccionDetalleMateriales.CostoUnitarioArticuloInventario;
+                vNotaDeEntradaSalida.DetailRenglonNotaES.Add(vRenglonNotaES);
+            }
+
             INotaDeEntradaSalidaPdn vNotaDeEntradaSalidaPdn = new clsNotaDeEntradaSalidaNav();
             IList<NotaDeEntradaSalida> valListNotaDeEntradaSalida = new List<NotaDeEntradaSalida>();
             valListNotaDeEntradaSalida.Add(vNotaDeEntradaSalida);
