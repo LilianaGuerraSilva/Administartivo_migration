@@ -151,7 +151,7 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
             vSql.AppendLine("dbo.ArticuloInventario.Codigo + ' - ' + dbo.ArticuloInventario.Descripcion  AS ArticuloInventario,");
             vSql.AppendLine("Adm.OrdenDeProduccion.FechaFinalizacion,");
             vSql.AppendLine("SALIDAS.CantidadProducida,");
-            vSql.AppendLine(" (CASE WHEN OrdenDeProduccion.CodigoMonedaCostoProduccion = " + vCodigoMonedaLocal + " THEN ISNULL((SELECT TOP 1 Nombre FROM Moneda WHERE Codigo = " + vUtilSql.ToSqlValue(vCodigoMonedaLocal) + "), " + vUtilSql.ToSqlValue(vCodigoMonedaLocal) + ") ELSE ISNULL((SELECT TOP 1 Nombre FROM Moneda WHERE Codigo = OrdenDeProduccion.CodigoMonedaCostoProduccion), " + vUtilSql.ToSqlValue(vCodigoMonedaExtranjera) + " )  END) AS Moneda,");
+            vSql.AppendLine(" (CASE WHEN OrdenDeProduccion.CodigoMonedaCostoProduccion = " + vUtilSql.ToSqlValue(vCodigoMonedaLocal) + " THEN ISNULL((SELECT TOP 1 Nombre FROM Moneda WHERE Codigo = " + vUtilSql.ToSqlValue(vCodigoMonedaLocal) + "), " + vUtilSql.ToSqlValue(vCodigoMonedaLocal) + ") ELSE ISNULL((SELECT TOP 1 Nombre FROM Moneda WHERE Codigo = OrdenDeProduccion.CodigoMonedaCostoProduccion), " + vUtilSql.ToSqlValue(vCodigoMonedaExtranjera) + " )  END) AS Moneda,");
             vSql.AppendLine(" " + vSqlCambio + " AS Cambio, ");
             vSql.AppendLine(" " + vSqlMontoCostoUnitario + " AS CostoUnitario, ");
             vSql.AppendLine(" " + vSqlMontoSubTotal + " AS MontoSubTotal ");
@@ -329,7 +329,7 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
             vSql.AppendLine(" Insumos.Consecutivo AS ConsecutivoInsumos,");
             vSql.AppendLine(" OrdenDeProduccion.Codigo + ' - ' + OrdenDeProduccion.Descripcion AS OrdenCodigoDescripcion,");
             vSql.AppendLine(" OrdenDeProduccion.StatusOp AS Estatus,");
-            vSql.AppendLine(" (CASE WHEN OrdenDeProduccion.CodigoMonedaCostoProduccion = " + vCodigoMonedaLocal + " THEN ISNULL((SELECT TOP 1 Nombre FROM Moneda WHERE Codigo = " + vUtilSql.ToSqlValue(vCodigoMonedaLocal) + "), " + vUtilSql.ToSqlValue(vCodigoMonedaLocal) + ") ELSE ISNULL((SELECT TOP 1 Nombre FROM Moneda WHERE Codigo = OrdenDeProduccion.CodigoMonedaCostoProduccion), " + vUtilSql.ToSqlValue(vCodigoMonedaExtranjera) + " )  END) AS Moneda,");
+            vSql.AppendLine(" (CASE WHEN OrdenDeProduccion.CodigoMonedaCostoProduccion = " + vUtilSql.ToSqlValue(vCodigoMonedaLocal) + " THEN ISNULL((SELECT TOP 1 Nombre FROM Moneda WHERE Codigo = " + vUtilSql.ToSqlValue(vCodigoMonedaLocal) + "), " + vUtilSql.ToSqlValue(vCodigoMonedaLocal) + ") ELSE ISNULL((SELECT TOP 1 Nombre FROM Moneda WHERE Codigo = OrdenDeProduccion.CodigoMonedaCostoProduccion), " + vUtilSql.ToSqlValue(vCodigoMonedaExtranjera) + " )  END) AS Moneda,");
             vSql.AppendLine(" " + vSqlCambio + " AS Cambio, ");
             vSql.AppendLine(" OrdenDeProduccion.FechaInicio,");
             vSql.AppendLine(" OrdenDeProduccion.FechaFinalizacion,");
