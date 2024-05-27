@@ -63,6 +63,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private FkListaDeMaterialesViewModel _ConexionCodigoListaDeMateriales = null;
         private Saw.Lib.clsNoComunSaw vMonedaLocal = null;
         private FkOrdenDeProduccionViewModel _ConexionCodigoOrdenProduccion = null;
+        private decimal _TotalPorcentajeCosto;
 
         #endregion //Variables
 
@@ -444,7 +445,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 if (Model.NombreListaDeMateriales != value) {
                     Model.NombreListaDeMateriales = value;
                     IsDirty = true;
-                    RaisePropertyChanged(NombreListaDeMaterialesPropertyName);                    
+                    RaisePropertyChanged(NombreListaDeMaterialesPropertyName);
                 }
             }
         }
@@ -509,7 +510,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 return LibEnumHelper<eTipoStatusOrdenProduccion>.GetValuesInArray();
             }
         }
-        
+
         [LibCustomValidation("ValidateDetalleDeOrdenDeProduccion")]
         public OrdenDeProduccionDetalleArticuloMngViewModel DetailOrdenDeProduccionDetalleArticulo {
             get;
@@ -776,6 +777,21 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
             }
         }
+
+        [LibCustomValidation("TotalPorcentajeDeCostoValidating")]
+        public decimal TotalPorcentajeDeCosto {
+            get {
+                return _TotalPorcentajeCosto;
+            }
+            set {
+                if (_TotalPorcentajeCosto != value) {
+                    _TotalPorcentajeCosto = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(() => TotalPorcentajeDeCosto);
+                }
+            }
+        }
+
         #endregion //Propiedades
         #region Constructores e Inicializadores
 
@@ -890,6 +906,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             DetailOrdenDeProduccionDetalleMateriales.OnUpdated += new EventHandler<SearchCollectionChangedEventArgs<OrdenDeProduccionDetalleMaterialesViewModel>>(DetailOrdenDeProduccionDetalleMateriales_OnUpdated);
             DetailOrdenDeProduccionDetalleMateriales.OnDeleted += new EventHandler<SearchCollectionChangedEventArgs<OrdenDeProduccionDetalleMaterialesViewModel>>(DetailOrdenDeProduccionDetalleMateriales_OnDeleted);
             DetailOrdenDeProduccionDetalleMateriales.OnSelectedItemChanged += new EventHandler<SearchCollectionChangedEventArgs<OrdenDeProduccionDetalleMaterialesViewModel>>(DetailOrdenDeProduccionDetalleMateriales_OnSelectedItemChanged);
+            ActualizaTotalProcentajeDeCosto();
         }
 
         protected override void InitializeRibbon() {
@@ -916,9 +933,13 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             return DetailOrdenDeProduccionDetalleArticulo != null && DetailOrdenDeProduccionDetalleMateriales.Items != null && DetailOrdenDeProduccionDetalleArticulo.Items.Count > 0 && DetailOrdenDeProduccionDetalleMateriales.Items.Count > 0;
         }
 
+        public void ActualizaTotalProcentajeDeCosto() {
+            TotalPorcentajeDeCosto = DetailOrdenDeProduccionDetalleArticulo.Items.Sum(s => s.PorcentajeCostoEstimado);
+        }
+
         private void ExecuteVerDetalleCommand() {
             try {
-                OrdenDeProduccionMasterViewModel vViewModel = new OrdenDeProduccionMasterViewModel(this);               
+                OrdenDeProduccionMasterViewModel vViewModel = new OrdenDeProduccionMasterViewModel(this);
                 LibMessages.EditViewModel.ShowEditor(vViewModel, true);
             } catch (AccessViolationException) {
                 throw;
@@ -1116,6 +1137,16 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     return new ValidationResult("Orden De Producción Detalle Artículo es requerido.");
                 }
 
+            }
+            return vResult;
+        }
+
+        private ValidationResult TotalPorcentajeDeCostoValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if ((Action != eAccionSR.Consultar) && TotalPorcentajeDeCosto != 100) {
+                vResult = new ValidationResult("El porcentaje total de costo estimado en los artículos a producir debe ser igual a 100%.");
+            } else {
+                return vResult;
             }
             return vResult;
         }
@@ -1367,7 +1398,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 if (ConexionCodigoListaDeMateriales != null) {
                     Model.ConsecutivoListaDeMateriales = ConexionCodigoListaDeMateriales.Consecutivo;
                     CodigoListaDeMateriales = ConexionCodigoListaDeMateriales.Codigo;
-                    NombreListaDeMateriales = ConexionCodigoListaDeMateriales.Nombre;                   
+                    NombreListaDeMateriales = ConexionCodigoListaDeMateriales.Nombre;
                     CargarDetalles();
                 } else {
                     Model.ConsecutivoListaDeMateriales = 0;
@@ -1570,9 +1601,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         private void BuscarExistencia() {
-            IOrdenDeProduccionDetalleMaterialesPdn vOrdenDeProduccionDetalleMateriales = new clsOrdenDeProduccionDetalleMaterialesNav();            
+            IOrdenDeProduccionDetalleMaterialesPdn vOrdenDeProduccionDetalleMateriales = new clsOrdenDeProduccionDetalleMaterialesNav();
             foreach (OrdenDeProduccionDetalleMaterialesViewModel item in DetailOrdenDeProduccionDetalleMateriales.Items) {
-                item.Existencia = vOrdenDeProduccionDetalleMateriales.BuscaExistenciaDeArticulo(ConsecutivoCompania, item.CodigoArticulo, Model.ConsecutivoAlmacenMateriales);                
+                item.Existencia = vOrdenDeProduccionDetalleMateriales.BuscaExistenciaDeArticulo(ConsecutivoCompania, item.CodigoArticulo, Model.ConsecutivoAlmacenMateriales);
             }
         }
 

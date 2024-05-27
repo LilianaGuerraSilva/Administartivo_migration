@@ -33,6 +33,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private const string PorcentajeCostoEstimadoPropertyName = "PorcentajeCostoEstimado";
         private const string PorcentajeCostoCierrePropertyName = "PorcentajeCostoCierre";
         private const string CostoPropertyName = "Costo";
+        private decimal _TotalPorcentajeCosto;
         #endregion
 
         #region Variables
@@ -262,6 +263,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Model.PorcentajeCostoEstimado = value;
                     IsDirty = true;
                     RaisePropertyChanged(PorcentajeCostoEstimadoPropertyName);
+                    Master.ActualizaTotalProcentajeDeCosto();
                 }
             }
         }

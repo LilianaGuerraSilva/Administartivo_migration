@@ -54,13 +54,13 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         #region Metodos Generados
         private void InitializeRibbonAfter() {
             base.InitializeRibbon();
-            if (OrdenDeProduccion.Action == eAccionSR.Insertar || OrdenDeProduccion.Action == eAccionSR.Modificar || OrdenDeProduccion.Action == eAccionSR.Custom) {            
+            if (OrdenDeProduccion.Action == eAccionSR.Insertar || OrdenDeProduccion.Action == eAccionSR.Modificar || OrdenDeProduccion.Action == eAccionSR.Custom) {
                 RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0].Label = "Grabar";
                 RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0].ToolTipDescription = "Ejecuta la acción seleccionada.";
                 RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0].ToolTipDescription = "Ejecutar Acción";
                 RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0].LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/saveAndClose.png", UriKind.Relative);
                 OrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo.SelectedItem = OrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo.Items.FirstOrDefault();
-                OrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales.SelectedItem = OrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales.Items.FirstOrDefault();                
+                OrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales.SelectedItem = OrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales.Items.FirstOrDefault();
             }
         }
         #endregion //Metodos Generados
