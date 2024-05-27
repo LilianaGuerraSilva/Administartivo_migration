@@ -1310,6 +1310,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             if (LibString.Equals(valCustomAction, "Iniciar")) {
                 IList<OrdenDeProduccion> vList = new List<OrdenDeProduccion>();
                 vList.Add(Model);
+                BuscarExistencia();
                 DialogResult = GetBusinessComponent().DoAction(vList, Action, null, true).Success;
             } else if (LibString.Equals(valCustomAction, "Contabilizar")) {
                 DialogResult = true;
