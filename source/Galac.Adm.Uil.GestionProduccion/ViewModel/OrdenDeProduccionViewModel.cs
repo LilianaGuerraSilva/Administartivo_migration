@@ -822,7 +822,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 CodigoMonedaCostoProduccion = Model.CodigoMonedaCostoProduccion;
                 Moneda = Model.Moneda;
                 AsignarNombreMoneda();
-            } else {
+            } else {                
                 if (Action == eAccionSR.Insertar) {
                     if (DetailOrdenDeProduccionDetalleArticulo.Items.Count() == 0) {
                         DetailOrdenDeProduccionDetalleArticulo.CreateCommand.Execute(null);
@@ -907,6 +907,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             DetailOrdenDeProduccionDetalleMateriales.OnDeleted += new EventHandler<SearchCollectionChangedEventArgs<OrdenDeProduccionDetalleMaterialesViewModel>>(DetailOrdenDeProduccionDetalleMateriales_OnDeleted);
             DetailOrdenDeProduccionDetalleMateriales.OnSelectedItemChanged += new EventHandler<SearchCollectionChangedEventArgs<OrdenDeProduccionDetalleMaterialesViewModel>>(DetailOrdenDeProduccionDetalleMateriales_OnSelectedItemChanged);
             ActualizaTotalProcentajeDeCosto();
+            BuscarExistencia();
         }
 
         protected override void InitializeRibbon() {
@@ -1294,8 +1295,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         protected override void ExecuteProcessBeforeAction() {
             if (Action != eAccionSR.Contabilizar) {
-                if (Action == eAccionSR.Custom) {
-                    BuscarExistencia();
+                if (Action == eAccionSR.Custom) {                   
                     if (DetailOrdenDeProduccionDetalleMateriales.Items
                         .Where(q => q.TipoDeArticulo == Saw.Ccl.Inventario.eTipoDeArticulo.Mercancia && q.Existencia < q.CantidadReservadaInventario).Count() > 0) {
                         if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PermitirSobregiro")) {
@@ -1309,8 +1309,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         protected override bool ExecuteSpecialAction(string valCustomAction) {
             if (LibString.Equals(valCustomAction, "Iniciar")) {
                 IList<OrdenDeProduccion> vList = new List<OrdenDeProduccion>();
-                vList.Add(Model);
-                BuscarExistencia();
+                vList.Add(Model);               
                 DialogResult = GetBusinessComponent().DoAction(vList, Action, null, true).Success;
             } else if (LibString.Equals(valCustomAction, "Contabilizar")) {
                 DialogResult = true;
