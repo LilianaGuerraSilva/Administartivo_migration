@@ -1045,7 +1045,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         private ValidationResult CantidadProducidaValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if (Action == eAccionSR.Cerrar && CantidadProducida == 0) {
+            if (Action == eAccionSR.Cerrar && CantidadProducida >= 0) {
                 return new ValidationResult("La cantidad producida es requerida");
             } else {
                 return vResult;
