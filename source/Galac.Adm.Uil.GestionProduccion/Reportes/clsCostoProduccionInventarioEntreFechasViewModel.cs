@@ -281,6 +281,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             _FechaFinal = DateTime.Today;
             _IsEnabledFecha = true;
             _IsEnabledCodigoDeOrden = false;
+            GeneradoPor = eGeneradoPor.Orden;
             LlenarListaMonedaDelInforme();
             LlenarListaMonedasActivas();
             LlenarListaTasaDeCambio();
