@@ -103,10 +103,10 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public int ConsecutivoCompania { get; set; }
         public int Consecutivo { get; set; }
         public int ConsecutivoOrdenDeProduccion { get; set; }
-        [LibGridColum("Código Articulo", DbMemberPath = "Adm.Gv_OrdenDeProduccionDetalleArticulo_B1.CodigoArticulo", Width = 400)]
+        [LibGridColum("Código Artículo", DbMemberPath = "Adm.Gv_OrdenDeProduccionDetalleArticulo_B1.CodigoArticulo", Width = 400)]
         public string CodigoArticulo { get; set; }
         
-        [LibGridColum("Descripcion Articulo", Width = 400)]
+        [LibGridColum("Descripción Artículo", Width = 400)]
         public string DescripcionArticulo { get; set; }
         
     }

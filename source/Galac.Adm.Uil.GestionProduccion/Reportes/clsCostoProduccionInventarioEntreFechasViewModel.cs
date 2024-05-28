@@ -365,7 +365,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         private ValidationResult IsCodigoArticuloRequired() {
             ValidationResult vResult = ValidationResult.Success;
             if (IsEnabledCodigoArticuloInventario && LibText.IsNullOrEmpty(CodigoArticuloInventario)) {
-                vResult = new ValidationResult("Debe seleccionar un Articulo de Inventario a consultar.");
+                vResult = new ValidationResult("Debe seleccionar un Artículo de Inventario a consultar.");
             }
             return vResult;
         }

@@ -74,8 +74,11 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine(", OrdenDeProduccionDetalleArticulo.PorcentajeCostoEstimado, OrdenDeProduccionDetalleArticulo.PorcentajeCostoCierre, OrdenDeProduccionDetalleArticulo.Costo");
             SQL.AppendLine(", ArticuloInventario.Descripcion AS DescripcionArticulo");
             SQL.AppendLine(", ArticuloInventario.UnidadDeVenta AS UnidadDeVenta");
+            SQL.AppendLine(", Adm.OrdenDeProduccion.StatusOp AS StatusOp");
             SQL.AppendLine(", OrdenDeProduccionDetalleArticulo.fldTimeStamp, CAST(OrdenDeProduccionDetalleArticulo.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".OrdenDeProduccionDetalleArticulo");
+            SQL.AppendLine("INNER JOIN Adm.OrdenDeProduccion ON  " + DbSchema + ".OrdenDeProduccionDetalleArticulo.ConsecutivoOrdenDeProduccion = Adm.OrdenDeProduccion.Consecutivo");
+            SQL.AppendLine("      AND " + DbSchema + ".OrdenDeProduccionDetalleArticulo.ConsecutivoCompania = Adm.OrdenDeProduccion.ConsecutivoCompania");
             SQL.AppendLine("INNER JOIN Saw.Almacen ON  " + DbSchema + ".OrdenDeProduccionDetalleArticulo.ConsecutivoAlmacen = Saw.Almacen.Consecutivo");
             SQL.AppendLine("      AND " + DbSchema + ".OrdenDeProduccionDetalleArticulo.ConsecutivoCompania = Saw.Almacen.ConsecutivoCompania");
             SQL.AppendLine("INNER JOIN ArticuloInventario ON  " + DbSchema + ".OrdenDeProduccionDetalleArticulo.CodigoArticulo = ArticuloInventario.Codigo");

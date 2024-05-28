@@ -249,8 +249,8 @@ namespace Galac.Adm.Brl.GestionProduccion {
             vSql.AppendLine(" AND CodigoArticulo = " + vSqlUtil.ToSqlValue(valCodigoArticulo));
             XElement vXmlResult = LibBusiness.ExecuteSelect(vSql.ToString(), null, "", 0);
             if (vXmlResult != null && vXmlResult.HasElements) {
-                string vCantidadStr = LibXml.GetElementValueOrEmpty(vXmlResult, "Cantidad");
-                vResult = LibConvert.ToDec(vCantidadStr);
+                string vCantidadStr = LibXml.GetPropertyString(vXmlResult, "Cantidad");
+                vResult = LibImportData.ToDec(vCantidadStr);
             }
             return vResult;
         }

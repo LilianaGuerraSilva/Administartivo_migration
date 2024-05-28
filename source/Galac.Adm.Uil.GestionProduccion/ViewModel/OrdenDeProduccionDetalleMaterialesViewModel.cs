@@ -163,7 +163,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Cantidad", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 3, ConditionalPropertyDecimalDigits = "DecimalDigits")]
+        [LibGridColum("Cantidad en Lista", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 3, ConditionalPropertyDecimalDigits = "DecimalDigits")]
         public decimal Cantidad {
             get {
                 return Model.Cantidad;
@@ -177,7 +177,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Cantidad Reservada Inventario", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 200, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 4)]
+        [LibGridColum("Cantidad a Consumir", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 200, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 4)]
         public decimal CantidadReservadaInventario {
             get {
                 return Model.CantidadReservadaInventario;
@@ -191,7 +191,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Cantidad Consumida", eGridColumType.Numeric, Width = 150, ColumnOrder = 5, ConditionalPropertyDecimalDigits = "DecimalDigits")]
+        [LibGridColum("Cantidad Consumida", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 150, ColumnOrder = 5, ConditionalPropertyDecimalDigits = "DecimalDigits")]
         public decimal CantidadConsumida {
             get {
                 return Model.CantidadConsumida;
