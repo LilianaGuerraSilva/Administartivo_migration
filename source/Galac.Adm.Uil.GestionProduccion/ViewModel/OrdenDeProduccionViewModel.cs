@@ -907,6 +907,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             DetailOrdenDeProduccionDetalleMateriales.OnDeleted += new EventHandler<SearchCollectionChangedEventArgs<OrdenDeProduccionDetalleMaterialesViewModel>>(DetailOrdenDeProduccionDetalleMateriales_OnDeleted);
             DetailOrdenDeProduccionDetalleMateriales.OnSelectedItemChanged += new EventHandler<SearchCollectionChangedEventArgs<OrdenDeProduccionDetalleMaterialesViewModel>>(DetailOrdenDeProduccionDetalleMateriales_OnSelectedItemChanged);
             ActualizaTotalProcentajeDeCosto();
+            BuscarExistencia();
         }
 
         protected override void InitializeRibbon() {
@@ -1297,15 +1298,13 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         protected override void ExecuteProcessBeforeAction() {
             if (Action != eAccionSR.Contabilizar) {
-                if (Action == eAccionSR.Custom) {
-                    //DetailOrdenDeProduccionDetalleArticulo.Items[0].BuscaExistencia();
-                    //if (DetailOrdenDeProduccionDetalleArticulo.Items
-                    //    .Where(p => p.DetailOrdenDeProduccionDetalleMateriales.Items
-                    //    .Where(q => q.TipoDeArticulo == Saw.Ccl.Inventario.eTipoDeArticulo.Mercancia && q.Existencia < q.CantidadReservadaInventario).Count() > 0).Count() > 0) {
-                    //    if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PermitirSobregiro")) {
-                    //        throw new GalacValidationException("No hay suficiente existencia de algunos materiales para producir este inventario.");
-                    //    }
-                    //}
+                if (Action == eAccionSR.Custom) {                   
+                    if (DetailOrdenDeProduccionDetalleMateriales.Items
+                        .Where(q => q.TipoDeArticulo == Saw.Ccl.Inventario.eTipoDeArticulo.Mercancia && q.Existencia < q.CantidadReservadaInventario).Count() > 0) {
+                        if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PermitirSobregiro")) {
+                            throw new GalacValidationException("No hay suficiente existencia de algunos materiales para producir este inventario.");
+                        }
+                    }
                 }
             }
         }
