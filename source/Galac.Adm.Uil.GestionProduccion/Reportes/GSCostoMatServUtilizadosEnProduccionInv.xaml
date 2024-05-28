@@ -35,7 +35,8 @@
             Grid.Row="0"
             Grid.Column="0"
             Content="Generar Por"
-            Style="{StaticResource LabelPrompt}" />
+            Style="{StaticResource LabelPrompt}"
+            Visibility="Collapsed" />
         <ComboBox
             x:Name="cmbGenerarPor"
             Grid.Row="0"
@@ -43,7 +44,8 @@
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding Path=EGeneradoPor}"
             SelectedItem="{Binding Path=GeneradoPor, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-            Style="{StaticResource ComboBoxStyle}" />
+            Style="{StaticResource ComboBoxStyle}"
+            Visibility="Collapsed" />
         <Label
             Name="lblOrdenDeProduccion"
             Grid.Row="1"
@@ -68,7 +70,8 @@
             Grid.Row="2"
             Grid.Column="0"
             Content="Fecha Inicial"
-            Style="{StaticResource LabelPrompt}" />
+            Style="{StaticResource LabelPrompt}"
+            Visibility="Collapsed" />
         <nsWpfControls:GSDatePickerWpf
             Name="dtpFechaInicial"
             Grid.Row="2"
@@ -76,12 +79,14 @@
             Width="120"
             IsEnabled="{Binding Path=IsEnabledFecha}"
             SelectedDate="{Binding Path=FechaInicial, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-            Style="{StaticResource DatePickerStyle}" />
+            Style="{StaticResource DatePickerStyle}"
+            Visibility="Collapsed" />
         <Label
             Grid.Row="3"
             Grid.Column="0"
             Content="Fecha Final"
-            Style="{StaticResource LabelPrompt}" />
+            Style="{StaticResource LabelPrompt}"
+            Visibility="Collapsed" />
         <nsWpfControls:GSDatePickerWpf
             Name="dtpFechaFinal"
             Grid.Row="3"
@@ -89,7 +94,8 @@
             Width="120"
             IsEnabled="{Binding Path=IsEnabledFecha}"
             SelectedDate="{Binding Path=FechaFinal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-            Style="{StaticResource DatePickerStyle}" />
+            Style="{StaticResource DatePickerStyle}"
+            Visibility="Collapsed" />
         <Label
             x:Name="lblMonedaDelInforme"
             Grid.Row="5"
