@@ -64,6 +64,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private Saw.Lib.clsNoComunSaw vMonedaLocal = null;
         private FkOrdenDeProduccionViewModel _ConexionCodigoOrdenProduccion = null;
         private decimal _TotalPorcentajeCosto;
+        private decimal _TotalPorcentajeCostoCierre;
 
         #endregion //Variables
 
@@ -724,6 +725,18 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
+        public bool IsVisibleTotalPorcentajeDeCosto {
+            get {
+                return !IsVisibleTotalPorcentajeDeCostoCierre;
+            }
+        }
+
+        public bool IsVisibleTotalPorcentajeDeCostoCierre {
+            get {
+                return StatusOp == eTipoStatusOrdenProduccion.Cerrada || Action == eAccionSR.Cerrar;
+            }
+        }
+
         protected override bool RecordIsReadOnly() {
             return base.RecordIsReadOnly() || Action == eAccionSR.Custom || Action == eAccionSR.Anular || Action == eAccionSR.Cerrar || Action == eAccionSR.Contabilizar;
         }
@@ -791,6 +804,21 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
             }
         }
+                
+        [LibCustomValidation("TotalPorcentajeDeCostoCierreValidating")]
+        public decimal TotalPorcentajeDeCostoCierre {
+            get {
+                return _TotalPorcentajeCostoCierre;
+            }
+            set {
+                if (_TotalPorcentajeCostoCierre != value) {
+                    _TotalPorcentajeCostoCierre = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(() => TotalPorcentajeDeCostoCierre);
+                }
+            }
+        }
+
 
         #endregion //Propiedades
         #region Constructores e Inicializadores
@@ -936,6 +964,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         public void ActualizaTotalProcentajeDeCosto() {
             TotalPorcentajeDeCosto = DetailOrdenDeProduccionDetalleArticulo.Items.Sum(s => s.PorcentajeCostoEstimado);
+            TotalPorcentajeDeCostoCierre = DetailOrdenDeProduccionDetalleArticulo.Items.Sum(s =>s.PorcentajeCostoCierre);
         }
 
         private void ExecuteVerDetalleCommand() {
@@ -1154,6 +1183,21 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
             return vResult;
         }
+
+
+        private ValidationResult TotalPorcentajeDeCostoCierreValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if (Action == eAccionSR.Cerrar) {
+                ActualizaTotalProcentajeDeCosto();
+                if (TotalPorcentajeDeCostoCierre != 100) {
+                    vResult = new ValidationResult("El porcentaje total de costo de cierre en los artículos a producir debe ser igual a 100%.");
+                }
+            } else {
+                return vResult;
+            }
+            return vResult;
+        }
+
         #endregion //Validation
 
         #region Metodos Generados
