@@ -229,7 +229,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         }
 
         public override string DisplayName {
-            get { return "Costos de Inventario entre Fechas"; }
+            get { return "Costos de Inventario"; }
         }
 
         public override bool IsSSRS {
@@ -342,7 +342,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Adm.Gv_OrdenDeProduccionDetalleArticulo_B1.CodigoArticulo", valCodigo);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccionDetalleArticulo_B1.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
-                ConexionCodigoArticuloInventario = ChooseRecord<FkOrdenProduccionArticuloProducirViewModel>("Orden de Producción Artículo", vDefaultCriteria, vFixedCriteria, string.Empty);
+                ConexionCodigoArticuloInventario = ChooseRecord<FkOrdenProduccionArticuloProducirViewModel>("Orden de Producción Artículo for Rpt", vDefaultCriteria, vFixedCriteria, string.Empty);
                 if (ConexionCodigoArticuloInventario != null) {
                     CodigoArticuloInventario = ConexionCodigoArticuloInventario.CodigoArticulo;
                     DescripcionArticuloInventario = ConexionCodigoArticuloInventario.DescripcionArticulo;

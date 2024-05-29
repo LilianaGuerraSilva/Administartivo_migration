@@ -67,6 +67,11 @@ namespace Galac.Adm.Brl.GestionProduccion {
             ILibDataFKSearch instanciaDal = new Dal.GestionProduccion.clsOrdenDeProduccionDat();
             return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "Adm.Gp_OrdenDeProduccionDetalleArticuloSCH", valXmlParamsExpression);
         }
+
+        private bool ArticuloGetDataForListRpt(ref XmlDocument refXmlDocument, StringBuilder valXmlParamsExpression) {
+            ILibDataFKSearch instanciaDal = new Dal.GestionProduccion.clsOrdenDeProduccionDat();
+            return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "Adm.Gp_OrdenDeProdCerradaDetArtSchForRpt", valXmlParamsExpression);
+        }
         #endregion //Miembros de ILibPdn
 
         protected override bool RetrieveListInfo(string valModule, ref XmlDocument refXmlDocument, StringBuilder valXmlParamsExpression) {
@@ -97,6 +102,9 @@ namespace Galac.Adm.Brl.GestionProduccion {
                     break;
                 case "Orden de Producción Artículo":
                     vResult = ArticuloGetDataForList(ref refXmlDocument, valXmlParamsExpression);
+                    break;
+                case "Orden de Producción Artículo for Rpt":
+                    vResult = ArticuloGetDataForListRpt(ref refXmlDocument, valXmlParamsExpression);
                     break;
                 default: throw new NotImplementedException();
             }
