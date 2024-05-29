@@ -804,8 +804,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
             }
         }
-
-
+                
+        [LibCustomValidation("TotalPorcentajeDeCostoCierreValidating")]
         public decimal TotalPorcentajeDeCostoCierre {
             get {
                 return _TotalPorcentajeCostoCierre;
@@ -1183,6 +1183,21 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
             return vResult;
         }
+
+
+        private ValidationResult TotalPorcentajeDeCostoCierreValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if (Action == eAccionSR.Cerrar) {
+                ActualizaTotalProcentajeDeCosto();
+                if (TotalPorcentajeDeCostoCierre != 100) {
+                    vResult = new ValidationResult("El porcentaje total de costo de cierre en los artículos a producir debe ser igual a 100%.");
+                }
+            } else {
+                return vResult;
+            }
+            return vResult;
+        }
+
         #endregion //Validation
 
         #region Metodos Generados
