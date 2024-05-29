@@ -161,7 +161,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Cantidad Original", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 3)]
+        [LibGridColum("Cantidad Original en Lista", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 3, Width =200)]
         public decimal CantidadOriginalLista {
             get {
                 return Model.CantidadOriginalLista;
@@ -313,6 +313,14 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
+        public bool IsVisiblePorcentajeCostoEstimado {
+            get { return ((Master.Action == eAccionSR.Insertar) || (Master.Action == eAccionSR.Modificar)); }
+        }
+
+        public bool IsVisiblePorcentajeCostoCierre {
+            get { return (Master.Action == eAccionSR.Cerrar); }
+        }
+
         protected override bool RecordIsReadOnly() {
             return Master.IsReadOnly;
         }
@@ -324,11 +332,11 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         public bool IsEnabledPorcentajeCostoEstimado {
-            get { return Action == eAccionSR.Insertar || Action == eAccionSR.Modificar; }
+            get { return Master.Action == eAccionSR.Insertar ||  Master.Action == eAccionSR.Modificar; }
         }
 
         public bool IsEnabledPorcentajeCostoCierre {
-            get { return Action == eAccionSR.Cerrar; }
+            get { return Master.Action == eAccionSR.Cerrar; }
         }
         #endregion //Propiedades
 
