@@ -67,8 +67,13 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "ArticuloInventario", "Adm.OrdenDeProduccionDetalleMateriales");
 			DeletePrimaryKey("Adm.OrdenDeProduccionDetalleMateriales");
 			AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "d_OrdDeProDetMatCoDetArt", "0", "ConsecutivoOrdenDeProduccionDetalleArticulo");
-			AddPrimaryKey("Adm.OrdenDeProduccionDetalleMateriales", "ConsecutivoCompania, ConsecutivoOrdenDeProduccion, Consecutivo");
-			AddForeignKey("Adm.OrdenDeProduccion", "Adm.OrdenDeProduccionDetalleMateriales", new string[] { "ConsecutivoCompania", "Consecutivo" }, new string[] { "ConsecutivoCompania", "ConsecutivoOrdenDeProduccion" }, true, true);
+			if (!TableHasPrimaryKey("Adm.OrdenDeProduccionDetalleMateriales")){
+				AddPrimaryKey("Adm.OrdenDeProduccionDetalleMateriales", "ConsecutivoCompania, ConsecutivoOrdenDeProduccion, Consecutivo");
+			}
+			string vRelationName = FKName("Adm.OrdenDeProduccion", "Adm.OrdenDeProduccionDetalleMateriales");
+			if (!ForeignKeyNameExists(vRelationName)) {
+				AddForeignKey("Adm.OrdenDeProduccion", "Adm.OrdenDeProduccionDetalleMateriales", new string[] { "ConsecutivoCompania", "Consecutivo" }, new string[] { "ConsecutivoCompania", "ConsecutivoOrdenDeProduccion" }, true, true);
+			}
 			if (AddColumnDecimal("Adm.OrdenDeProduccionDetalleArticulo", "PorcentajeCostoEstimado", 25, 8, "", 0)) {
 				AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtPoCoEs", "0", "PorcentajeCostoEstimado");
 			}
@@ -149,6 +154,22 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			vSql.AppendLine("Adm.OrdenDeProduccion ON Adm.OrdenDeProduccion.ConsecutivoCompania = OPDetalleArticulo.ConsecutivoCompania ");
 			vSql.AppendLine("AND Adm.OrdenDeProduccion.Consecutivo = OPDetalleArticulo.ConsecutivoOrdenDeProduccion");
 			Execute(vSql.ToString(), 0);
+		}
+
+		private string FKName(string valParentTableName, string valChildTableName) {
+			string vParentTN;
+			string vParentOwner;
+			LibDbo.SplitObjectNameInNameAndOwner(valParentTableName, out vParentTN, out vParentOwner);
+			string vChildTN;
+			string vChildOwner;
+			LibDbo.SplitObjectNameInNameAndOwner(valChildTableName, out vChildTN, out vChildOwner);
+			string vRelationName;
+			if (LibString.Len(vParentTN) <= 6) {
+				vRelationName = BuildForeignKeyName("fk_" + vChildTN + vParentTN);
+			} else {
+				vRelationName = BuildForeignKeyName("fk_" + vChildTN + LibString.Mid(vParentTN, 6, 4));
+			}
+			return vRelationName;
 		}
 	}
 }
