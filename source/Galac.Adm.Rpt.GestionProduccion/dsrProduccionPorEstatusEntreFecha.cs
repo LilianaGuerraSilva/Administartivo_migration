@@ -36,7 +36,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         #endregion
         #region Metodos Generados
         public string ReportTitle() {
-            return "Producción por Estatus entre Fechas";
+            return "Producción por Estatus";
         }
 
         public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters, eTipoStatusOrdenProduccion valEstatus) {

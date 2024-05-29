@@ -51,7 +51,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         #endregion
         #region Metodos Generados
         public string ReportTitle() {
-            return "Costo Producción de Inventario Entre Fechas";
+            return "Costo Producción de Inventario";
         }
 
         public bool ConfigReport(DataTable valDataSource, eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio, string valMoneda, Dictionary<string, string> valParameters) {

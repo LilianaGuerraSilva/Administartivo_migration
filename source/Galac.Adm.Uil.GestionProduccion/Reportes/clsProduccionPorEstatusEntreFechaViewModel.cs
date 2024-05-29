@@ -164,7 +164,7 @@ namespace Galac.Adm.Uil. GestionProduccion.Reportes {
         }
 
         public override string DisplayName {
-            get { return "Producción por Estatus entre Fechas"; }
+            get { return "Producción por Estatus"; }
         }
 
         public override bool IsSSRS {

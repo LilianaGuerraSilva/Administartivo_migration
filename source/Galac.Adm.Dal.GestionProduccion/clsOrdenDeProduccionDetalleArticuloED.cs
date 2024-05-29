@@ -506,6 +506,34 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("END");
             return SQL.ToString();
         }
+
+        private string SqlSpSchForRpt() {
+            StringBuilder SQL = new StringBuilder();            
+            SQL.AppendLine("BEGIN");
+            SQL.AppendLine("   SET NOCOUNT ON;");
+            SQL.AppendLine("   DECLARE @strSQL AS " + InsSql.VarCharTypeForDb(7000));
+            SQL.AppendLine("   DECLARE @TopClausule AS " + InsSql.VarCharTypeForDb(10));
+            SQL.AppendLine("   IF(@UseTopClausule = 'S') ");
+            SQL.AppendLine("    SET @TopClausule = 'TOP 500'");
+            SQL.AppendLine("   ELSE ");
+            SQL.AppendLine("    SET @TopClausule = ''");
+            SQL.AppendLine("   SET @strSQL = ");
+            SQL.AppendLine("    ' SET DateFormat ' + @DateFormat + ");
+            SQL.AppendLine("    ' SELECT ' + @TopClausule + '");
+            SQL.AppendLine("      " + DbSchema + ".Gv_OrdenDeProduccionDetalleArticulo_B1.CodigoArticulo,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_OrdenDeProduccionDetalleArticulo_B1.DescripcionArticulo,");
+            SQL.AppendLine("      ''COLPIVOTE'' AS ColControl,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_OrdenDeProduccionDetalleArticulo_B1.ConsecutivoCompania");
+            SQL.AppendLine("      FROM " + DbSchema + ".Gv_OrdenDeProduccionDetalleArticulo_B1'");
+            SQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE  " + DbSchema + ".Gv_OrdenDeProduccionDetalleArticulo_B1.StatusOP = ''2''' ");
+            SQL.AppendLine("   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
+            SQL.AppendLine("      SET @strSQL = @strSQL + ' AND ' + @SQLWhere");
+            SQL.AppendLine("   IF (NOT @SQLOrderBy IS NULL) AND (@SQLOrderBy <> '')");
+            SQL.AppendLine("      SET @strSQL = @strSQL + ' ORDER BY ' + @SQLOrderBy");
+            SQL.AppendLine("   EXEC(@strSQL)");
+            SQL.AppendLine("END");
+            return SQL.ToString();
+        }
         #endregion //Queries
 
         bool CrearTabla() {
@@ -532,6 +560,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloSelDet", SqlSpSelDetailParameters(), SqlSpSelDetail(), true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloDelDet", SqlSpDelDetailParameters(), SqlSpDelDetail(), true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloInsDet", SqlSpInsDetailParameters(), SqlSpInsDetail(), true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeProdCerradaDetArtSchForRpt", SqlSpSearchParameters(), SqlSpSchForRpt(), true) && vResult;
             insSps.Dispose();
             return vResult;
         }
@@ -568,6 +597,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloInsDet") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloDelDet") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloSelDet") && vResult;
+            vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeProdCerradaDetArtSchForRpt") && vResult;            
             vResult = insVista.Drop(DbSchema + ".Gv_OrdenDeProduccionDetalleArticulo_B1") && vResult;
             insSp.Dispose();
             insVista.Dispose();
