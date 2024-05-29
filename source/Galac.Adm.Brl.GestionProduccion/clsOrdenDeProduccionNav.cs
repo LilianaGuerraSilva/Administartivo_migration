@@ -95,7 +95,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 case "Orden de Producción a Contabilizar":
                     vResult = ContabGetDataForList(ref refXmlDocument, valXmlParamsExpression);
                     break;
-                case "Orden de Producción Articulo":
+                case "Orden de Producción Artículo":
                     vResult = ArticuloGetDataForList(ref refXmlDocument, valXmlParamsExpression);
                     break;
                 default: throw new NotImplementedException();
