@@ -1144,8 +1144,11 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         private ValidationResult TotalPorcentajeDeCostoValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if ((Action != eAccionSR.Consultar) && TotalPorcentajeDeCosto != 100) {
-                vResult = new ValidationResult("El porcentaje total de costo estimado en los artículos a producir debe ser igual a 100%.");
+            if ((Action != eAccionSR.Consultar) && (Action != eAccionSR.Eliminar)){
+                ActualizaTotalProcentajeDeCosto();
+                if (TotalPorcentajeDeCosto != 100) {
+                    vResult = new ValidationResult("El porcentaje total de costo estimado en los artículos a producir debe ser igual a 100%.");
+                }
             } else {
                 return vResult;
             }
