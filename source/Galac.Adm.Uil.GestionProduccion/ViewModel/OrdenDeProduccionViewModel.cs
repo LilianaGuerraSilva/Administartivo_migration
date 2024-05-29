@@ -822,7 +822,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 CodigoMonedaCostoProduccion = Model.CodigoMonedaCostoProduccion;
                 Moneda = Model.Moneda;
                 AsignarNombreMoneda();
-            } else {                
+            } else {
                 if (Action == eAccionSR.Insertar) {
                     if (DetailOrdenDeProduccionDetalleArticulo.Items.Count() == 0) {
                         DetailOrdenDeProduccionDetalleArticulo.CreateCommand.Execute(null);
@@ -1312,7 +1312,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         protected override bool ExecuteSpecialAction(string valCustomAction) {
             if (LibString.Equals(valCustomAction, "Iniciar")) {
                 IList<OrdenDeProduccion> vList = new List<OrdenDeProduccion>();
-                vList.Add(Model);               
+                vList.Add(Model);
                 DialogResult = GetBusinessComponent().DoAction(vList, Action, null, true).Success;
             } else if (LibString.Equals(valCustomAction, "Contabilizar")) {
                 DialogResult = true;
@@ -1421,10 +1421,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             DetailOrdenDeProduccionDetalleArticulo = new OrdenDeProduccionDetalleArticuloMngViewModel(this, vListSalidas, Action);
             Model.DetailOrdenDeProduccionDetalleMateriales = vListInsumos;
             Model.DetailOrdenDeProduccionDetalleArticulo = vListSalidas;
-            
-            ActualizaTotalProcentajeDeCosto();
             ActualizaAlmacenenMaterialesEnDetalles();
 			BuscarExistencia();
+            ActualizaTotalProcentajeDeCosto();
             VerDetalleCommand.RaiseCanExecuteChanged();
         }
 
