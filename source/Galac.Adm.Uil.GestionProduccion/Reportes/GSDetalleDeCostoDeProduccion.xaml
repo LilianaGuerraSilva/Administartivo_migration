@@ -34,7 +34,7 @@
             Grid.Column="0"
             Content="Seleccionar Por"
             Style="{StaticResource LabelPrompt}"
-            Visibility="Hidden" />
+            Visibility="Collapsed" />
         <ComboBox
             x:Name="cmbSeleccionarOrdenPor"
             Grid.Row="0"
@@ -43,7 +43,7 @@
             ItemsSource="{Binding Path=ArraySeleccionarOrdenPor}"
             SelectedItem="{Binding Path=SeleccionarOrdenPor, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource ComboBoxStyle}"
-            Visibility="Hidden" />
+            Visibility="Collapsed" />
         <Label
             Name="lblOrdenDeProduccion"
             Grid.Row="1"
