@@ -103,7 +103,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 case "Orden de Producción Artículo":
                     vResult = ArticuloGetDataForList(ref refXmlDocument, valXmlParamsExpression);
                     break;
-                case "Orden de Producción Artículo for Rpt":
+                case "Orden de Producción Artículo para reportes":
                     vResult = ArticuloGetDataForListRpt(ref refXmlDocument, valXmlParamsExpression);
                     break;
                 default: throw new NotImplementedException();
