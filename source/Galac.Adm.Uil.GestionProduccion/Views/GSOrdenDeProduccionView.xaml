@@ -418,7 +418,7 @@
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtCantidadSolicitada"
                     Grid.Row="3"
-                    Grid.Column="1"                    
+                    Grid.Column="1"
                     Width="120"
                     BorderThickness="1"
                     DecimalDigits="{Binding DecimalDigits}"
