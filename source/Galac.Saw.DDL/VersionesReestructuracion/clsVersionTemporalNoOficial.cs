@@ -72,7 +72,12 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			}
 			string vRelationName = FKName("Adm.OrdenDeProduccion", "Adm.OrdenDeProduccionDetalleMateriales");
 			if (!ForeignKeyNameExists(vRelationName)) {
-				AddForeignKey("Adm.OrdenDeProduccion", "Adm.OrdenDeProduccionDetalleMateriales", new string[] { "ConsecutivoCompania", "Consecutivo" }, new string[] { "ConsecutivoCompania", "ConsecutivoOrdenDeProduccion" }, true, true);
+				try {
+					AddForeignKey("Adm.OrdenDeProduccion", "Adm.OrdenDeProduccionDetalleMateriales", new string[] { "ConsecutivoCompania", "Consecutivo" }, new string[] { "ConsecutivoCompania", "ConsecutivoOrdenDeProduccion" }, true, true);
+				}catch (System.AccessViolationException) {
+					throw;
+				} catch (Exception) {
+                }
 			}
 			if (AddColumnDecimal("Adm.OrdenDeProduccionDetalleArticulo", "PorcentajeCostoEstimado", 25, 8, "", 0)) {
 				AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtPoCoEs", "0", "PorcentajeCostoEstimado");
