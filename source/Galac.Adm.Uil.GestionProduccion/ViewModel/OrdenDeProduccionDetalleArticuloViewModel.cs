@@ -278,6 +278,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Model.PorcentajeCostoCierre = value;
                     IsDirty = true;
                     RaisePropertyChanged(PorcentajeCostoCierrePropertyName);
+                    Master.ActualizaTotalProcentajeDeCosto();
                 }
             }
         }

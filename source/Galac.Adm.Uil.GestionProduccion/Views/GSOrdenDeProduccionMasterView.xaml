@@ -13,6 +13,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -78,6 +79,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
@@ -112,7 +114,10 @@
                             SelectedIndex="{Binding Path=OrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo.SelectedIndex}"
                             SelectedItem="{Binding Path=OrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo.SelectedItem, Mode=OneWayToSource}"
                             Style="{StaticResource GSDataGridStyle}" />
-                        <ContentControl Grid.Row="2" Grid.ColumnSpan="2">
+                        <ContentControl
+                            Grid.Row="2"
+                            Grid.ColumnSpan="2"
+                            Visibility="{Binding Path=OrdenDeProduccion.IsVisibleTotalPorcentajeDeCosto, Converter={StaticResource booleanToVisibilityConverter}}">
                             <Grid x:Name="gtTotalCosto" Width="690">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="587" />
@@ -124,7 +129,7 @@
                                     Height="24"
                                     Margin="500,0,0,0"
                                     VerticalAlignment="Center"
-                                    Content="Total %Costo:"
+                                    Content="Total % Costo:"
                                     Foreground="Black"
                                     Style="{StaticResource LabelPrompt}" />
                                 <nsWpfControls:GSNumericBoxWpf
@@ -144,6 +149,44 @@
                                     IsEnabled="True"
                                     Style="{StaticResource TextBoxInputStyle}"
                                     Value="{Binding Path=OrdenDeProduccion.TotalPorcentajeDeCosto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            </Grid>
+                        </ContentControl>
+                        <ContentControl
+                            Grid.Row="3"
+                            Grid.ColumnSpan="2"
+                            Visibility="{Binding Path=OrdenDeProduccion.IsVisibleTotalPorcentajeDeCostoCierre, Converter={StaticResource booleanToVisibilityConverter}}">
+                            <Grid x:Name="gtTotalCostoCierre" Width="690">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="587" />
+                                    <ColumnDefinition Width="Auto" MinWidth="99" />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Name="lblTotalPorcCostoCierre"
+                                    Grid.ColumnSpan="2"
+                                    Width="144"
+                                    Height="24"
+                                    Margin="446,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Content="Total % Costo de Cierre:"
+                                    Foreground="Black"
+                                    Style="{StaticResource LabelPrompt}" />
+                                <nsWpfControls:GSNumericBoxWpf
+                                    Name="txtSumTotalPorcCostoCierre"
+                                    Grid.Column="1"
+                                    Width="99"
+                                    Height="24"
+                                    Margin="3,0,0,0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    HorizontalContentAlignment="Right"
+                                    VerticalContentAlignment="Center"
+                                    BorderThickness="0,0,0,0"
+                                    DecimalDigits="8"
+                                    HorizontalScrollBarVisibility="Auto"
+                                    InputDataType="UDecimal"
+                                    IsEnabled="True"
+                                    Style="{StaticResource TextBoxInputStyle}"
+                                    Value="{Binding Path=OrdenDeProduccion.TotalPorcentajeDeCostoCierre, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                             </Grid>
                         </ContentControl>
                     </Grid>
