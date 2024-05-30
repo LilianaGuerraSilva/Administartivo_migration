@@ -76,27 +76,27 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             if ((Master.Action == eAccionSR.Insertar) || (Master.Action == eAccionSR.Modificar) || (Master.Action == eAccionSR.Consultar) || (Master.Action == eAccionSR.Eliminar) || (Master.Action == eAccionSR.Anular)) {
                 foreach (var vItem in VisibleColumnsCpy) {
                     if (Master.StatusOp == eTipoStatusOrdenProduccion.Ingresada || Master.StatusOp == eTipoStatusOrdenProduccion.Iniciada || Master.StatusOp == eTipoStatusOrdenProduccion.Anulada) {
-                        if (VisibleColumns.Count > 5) {
-                            VisibleColumns.RemoveAt(5);
-                        }
-                    } else if (Master.StatusOp == eTipoStatusOrdenProduccion.Cerrada) {
                         if (VisibleColumns.Count > 6) {
                             VisibleColumns.RemoveAt(6);
                         }
-                    } else if (VisibleColumns.Count > 6) {
-                        VisibleColumns.RemoveAt(6);
+                    } else if (Master.StatusOp == eTipoStatusOrdenProduccion.Cerrada) {
+                        if (VisibleColumns.Count > 7) {
+                            VisibleColumns.RemoveAt(7);
+                        }
+                    } else if (VisibleColumns.Count > 7) {
+                        VisibleColumns.RemoveAt(7);
                     }
                 }
             } else if (Master.Action == eAccionSR.Cerrar) {
                 foreach (var vItem in VisibleColumnsCpy) {
-                    if (VisibleColumns.Count > 6) {
-                        VisibleColumns.RemoveAt(6);
+                    if (VisibleColumns.Count > 7) {
+                        VisibleColumns.RemoveAt(7);
                     }
                 }
             } else if (Master.Action == eAccionSR.Custom) {//Iniciar
                 foreach (var vItem in VisibleColumnsCpy) {
-                    if (VisibleColumns.Count > 6) {
-                        VisibleColumns.RemoveAt(6);
+                    if (VisibleColumns.Count > 7) {
+                        VisibleColumns.RemoveAt(7);
                     }
                 }
             }

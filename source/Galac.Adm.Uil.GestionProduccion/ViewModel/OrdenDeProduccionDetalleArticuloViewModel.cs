@@ -190,8 +190,25 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
+        [LibCustomValidation("PorcentajeCostoEstimadoValidating")]
+        [LibGridColum("% Costo Est.", eGridColumType.Numeric, ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 5)]
+        public decimal PorcentajeCostoEstimado {
+            get {
+                return Model.PorcentajeCostoEstimado;
+            }
+            set {
+                if (Model.PorcentajeCostoEstimado != value) {
+                    Model.PorcentajeCostoEstimado = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(PorcentajeCostoEstimadoPropertyName);
+                    Master.ActualizaTotalProcentajeDeCosto();
+                }
+            }
+        }
+
+
         [LibCustomValidation("CantidadProducidaValidating")]
-        [LibGridColum("Cantidad Producida", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 5)]
+        [LibGridColum("Cantidad Producida", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 6)]
         public decimal CantidadProducida {
             get {
                 return Model.CantidadProducida;
@@ -205,7 +222,23 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Costo Unitario", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 6)]
+        [LibCustomValidation("PorcentajeCostoCierreValidating")]
+        [LibGridColum("% Costo Cierre", eGridColumType.Numeric, ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 7)]
+        public decimal PorcentajeCostoCierre {
+            get {
+                return Model.PorcentajeCostoCierre;
+            }
+            set {
+                if (Model.PorcentajeCostoCierre != value) {
+                    Model.PorcentajeCostoCierre = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(PorcentajeCostoCierrePropertyName);
+                    Master.ActualizaTotalProcentajeDeCosto();
+                }
+            }
+        }
+
+        [LibGridColum("Costo Unitario", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 8)]
         public decimal CostoUnitario {
             get {
                 return Model.CostoUnitario;
@@ -217,6 +250,21 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
+
+
+        [LibGridColum("Costo", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 9)]
+        public decimal Costo {
+            get {
+                return Model.Costo;
+            }
+            set {
+                if (Model.Costo != value) {
+                    Model.Costo = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(CostoPropertyName);
+                }
+            }
+        }
         public decimal MontoSubTotal {
             get {
                 return Model.MontoSubTotal;
@@ -250,52 +298,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Model.CantidadAjustada = value;
                     IsDirty = true;
                     RaisePropertyChanged(CantidadAjustadaPropertyName);
-                }
-            }
-        }
-
-        [LibCustomValidation("PorcentajeCostoEstimadoValidating")]
-        [LibGridColum("% Costo Est.", eGridColumType.Numeric, ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 7)]
-        public decimal PorcentajeCostoEstimado {
-            get {
-                return Model.PorcentajeCostoEstimado;
-            }
-            set {
-                if (Model.PorcentajeCostoEstimado != value) {
-                    Model.PorcentajeCostoEstimado = value;
-                    IsDirty = true;
-                    RaisePropertyChanged(PorcentajeCostoEstimadoPropertyName);
-                    Master.ActualizaTotalProcentajeDeCosto();
-                }
-            }
-        }
-
-        [LibCustomValidation("PorcentajeCostoCierreValidating")]
-        [LibGridColum("% Costo Cierre", eGridColumType.Numeric, ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 8)]
-        public decimal PorcentajeCostoCierre {
-            get {
-                return Model.PorcentajeCostoCierre;
-            }
-            set {
-                if (Model.PorcentajeCostoCierre != value) {
-                    Model.PorcentajeCostoCierre = value;
-                    IsDirty = true;
-                    RaisePropertyChanged(PorcentajeCostoCierrePropertyName);
-                    Master.ActualizaTotalProcentajeDeCosto();
-                }
-            }
-        }
-
-        [LibGridColum("Costo", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 9)]
-        public decimal Costo {
-            get {
-                return Model.Costo;
-            }
-            set {
-                if (Model.Costo != value) {
-                    Model.Costo = value;
-                    IsDirty = true;
-                    RaisePropertyChanged(CostoPropertyName);
                 }
             }
         }
