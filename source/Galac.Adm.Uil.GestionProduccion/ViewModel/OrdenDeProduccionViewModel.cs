@@ -707,6 +707,12 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
+        public bool IsEnabledCantidadProducida {
+            get {
+                return Action == eAccionSR.Cerrar;
+            }
+        }
+
         public bool IsVisibleFechaFinalizacion {
             get {
                 return StatusOp == eTipoStatusOrdenProduccion.Cerrada;
