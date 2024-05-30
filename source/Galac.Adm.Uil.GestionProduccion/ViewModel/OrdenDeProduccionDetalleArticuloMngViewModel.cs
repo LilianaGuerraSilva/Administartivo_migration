@@ -95,8 +95,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
             } else if (Master.Action == eAccionSR.Custom) {//Iniciar
                 foreach (var vItem in VisibleColumnsCpy) {
-                    if (VisibleColumns.Count > 8) {
-                        VisibleColumns.RemoveAt(8);
+                    if (VisibleColumns.Count > 6) {
+                        VisibleColumns.RemoveAt(6);
                     }
                 }
             }

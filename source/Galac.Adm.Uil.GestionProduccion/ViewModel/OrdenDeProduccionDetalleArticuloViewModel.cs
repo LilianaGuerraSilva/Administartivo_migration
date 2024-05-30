@@ -190,7 +190,25 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Cantidad Producida", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 5)]
+        [LibCustomValidation("PorcentajeCostoEstimadoValidating")]
+        [LibGridColum("% Costo Est.", eGridColumType.Numeric, ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 5)]
+        public decimal PorcentajeCostoEstimado {
+            get {
+                return Model.PorcentajeCostoEstimado;
+            }
+            set {
+                if (Model.PorcentajeCostoEstimado != value) {
+                    Model.PorcentajeCostoEstimado = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(PorcentajeCostoEstimadoPropertyName);
+                    Master.ActualizaTotalProcentajeDeCosto();
+                }
+            }
+        }
+
+
+        [LibCustomValidation("CantidadProducidaValidating")]
+        [LibGridColum("Cantidad Producida", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 6)]
         public decimal CantidadProducida {
             get {
                 return Model.CantidadProducida;
@@ -204,7 +222,23 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Costo Unitario", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 6)]
+        [LibCustomValidation("PorcentajeCostoCierreValidating")]
+        [LibGridColum("% Costo Cierre", eGridColumType.Numeric, ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 7)]
+        public decimal PorcentajeCostoCierre {
+            get {
+                return Model.PorcentajeCostoCierre;
+            }
+            set {
+                if (Model.PorcentajeCostoCierre != value) {
+                    Model.PorcentajeCostoCierre = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(PorcentajeCostoCierrePropertyName);
+                    Master.ActualizaTotalProcentajeDeCosto();
+                }
+            }
+        }
+
+        [LibGridColum("Costo Unitario", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 8)]
         public decimal CostoUnitario {
             get {
                 return Model.CostoUnitario;
@@ -216,6 +250,22 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
+
+
+        [LibGridColum("Costo", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 9)]
+        public decimal Costo {
+            get {
+                return Model.Costo;
+            }
+            set {
+                if (Model.Costo != value) {
+                    Model.Costo = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(CostoPropertyName);
+                }
+            }
+        }
+		
         public decimal MontoSubTotal {
             get {
                 return Model.MontoSubTotal;
@@ -253,50 +303,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("% Costo Est.", eGridColumType.Numeric, ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 7)]
-        public decimal PorcentajeCostoEstimado {
-            get {
-                return Model.PorcentajeCostoEstimado;
-            }
-            set {
-                if (Model.PorcentajeCostoEstimado != value) {
-                    Model.PorcentajeCostoEstimado = value;
-                    IsDirty = true;
-                    RaisePropertyChanged(PorcentajeCostoEstimadoPropertyName);
-                    Master.ActualizaTotalProcentajeDeCosto();
-                }
-            }
-        }
-
-        [LibGridColum("% Costo Cierre", eGridColumType.Numeric, ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 8)]
-        public decimal PorcentajeCostoCierre {
-            get {
-                return Model.PorcentajeCostoCierre;
-            }
-            set {
-                if (Model.PorcentajeCostoCierre != value) {
-                    Model.PorcentajeCostoCierre = value;
-                    IsDirty = true;
-                    RaisePropertyChanged(PorcentajeCostoCierrePropertyName);
-                    Master.ActualizaTotalProcentajeDeCosto();
-                }
-            }
-        }
-
-        [LibGridColum("Costo", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 9)]
-        public decimal Costo {
-            get {
-                return Model.Costo;
-            }
-            set {
-                if (Model.Costo != value) {
-                    Model.Costo = value;
-                    IsDirty = true;
-                    RaisePropertyChanged(CostoPropertyName);
-                }
-            }
-        }
-
         public OrdenDeProduccionViewModel Master {
             get;
             set;
@@ -321,6 +327,10 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public bool IsVisiblePorcentajeCostoCierre {
             get { return (Master.Action == eAccionSR.Cerrar); }
         }
+		
+        public bool IsVisibleCantidadProducida {
+            get { return (Master.Action == eAccionSR.Cerrar); }
+        }
 
         protected override bool RecordIsReadOnly() {
             return Master.IsReadOnly;
@@ -339,6 +349,11 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public bool IsEnabledPorcentajeCostoCierre {
             get { return Master.Action == eAccionSR.Cerrar; }
         }
+
+        public bool IsEnabledCantidadProducida {
+            get { return Master.Action == eAccionSR.Cerrar; }
+        }
+        
         #endregion //Propiedades
 
         #region Constructores e Inicializadores
@@ -388,6 +403,34 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         #region Metodos        
         #endregion //Metodos
+
+        private ValidationResult CantidadProducidaValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if (Master.Action == eAccionSR.Cerrar && CantidadProducida < 0) {
+                return new ValidationResult("La Cantidad Producida debe ser mayor o igual a cero.");
+            } else {
+                return vResult;
+            }
+        }
+
+        private ValidationResult PorcentajeCostoEstimadoValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if ((Master.Action == eAccionSR.Insertar || Master.Action == eAccionSR.Modificar) && (PorcentajeCostoEstimado < 0 || PorcentajeCostoEstimado > 100)) {
+                return new ValidationResult("El % Costo Estimado debe ser mayor o igual a cero y menor o igual a 100.");
+            } else {
+                return vResult;
+            }
+        }
+
+        private ValidationResult PorcentajeCostoCierreValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if (Master.Action == eAccionSR.Cerrar && (PorcentajeCostoCierre < 0 || PorcentajeCostoCierre > 100)) {
+                return new ValidationResult("El % Costo al Cierre debe ser mayor o igual a cero y menor o igual a 100.");
+            } else {
+                return vResult;
+            }
+        }
+
 
     } //End of class OrdenDeProduccionDetalleArticuloViewModel
 

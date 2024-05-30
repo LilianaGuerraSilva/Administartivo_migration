@@ -128,8 +128,8 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
                 } else {
                     vSqlCambio = vSqlCambioOriginal;
                 }
-                vSqlMontoSubTotal = vUtilSql.RoundToNDecimals(vSqlMontoSubTotal + " * " + vSqlCambio, 2);
-                vSqlMontoCostoUnitario = vUtilSql.RoundToNDecimals(vSqlMontoCostoUnitario + " * " + vSqlCambio, 2);
+                vSqlMontoSubTotal = vUtilSql.RoundToNDecimals(vSqlMontoSubTotal + " * " + vSqlCambio, 8);
+                vSqlMontoCostoUnitario = vUtilSql.RoundToNDecimals(vSqlMontoCostoUnitario + " * " + vSqlCambio, 8);
             } else if (valMonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa) {
                 vSqlCambioDelDia = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + vUtilSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia <= " + vUtilSql.ToSqlValue(LibDate.Today()) + " ORDER BY FechaDeVigencia DESC), 1)";
                 vSqlCambioMasCercano = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + vUtilSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia <= OrdenDeProduccion.FechaFinalizacion ORDER BY FechaDeVigencia DESC), 1)";
@@ -139,8 +139,8 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
                     vSqlCambio = vSqlCambioMasCercano;
                 }
                 vSqlCambio = vUtilSql.IIF("OrdenDeProduccion.CodigoMonedaCostoProduccion = " + vUtilSql.ToSqlValue(vCodigoMonedaLocal), vSqlCambio, " 1 ", true);
-                vSqlMontoSubTotal = vUtilSql.RoundToNDecimals(vSqlMontoSubTotal + " / " + vSqlCambio, 2);
-                vSqlMontoCostoUnitario = vUtilSql.RoundToNDecimals(vSqlMontoCostoUnitario + " / " + vSqlCambio, 2);
+                vSqlMontoSubTotal = vUtilSql.RoundToNDecimals(vSqlMontoSubTotal + " / " + vSqlCambio, 8);
+                vSqlMontoCostoUnitario = vUtilSql.RoundToNDecimals(vSqlMontoCostoUnitario + " / " + vSqlCambio, 8);
             } else if (valMonedaDelInforme == eMonedaDelInformeMM.EnMonedaOriginal) {
             }
             /* FIN */
@@ -192,8 +192,8 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
                 } else {
                     vSqlCambio = vSqlCambioOriginal;
                 }
-                vSqlMontoSubTotal = vUtilSql.RoundToNDecimals(vSqlMontoSubTotal + " * " + vSqlCambio, 2);
-                vSqlMontoCostoUnitario = vUtilSql.RoundToNDecimals(vSqlMontoCostoUnitario + " * " + vSqlCambio, 2);
+                vSqlMontoSubTotal = vUtilSql.RoundToNDecimals(vSqlMontoSubTotal + " * " + vSqlCambio, 8);
+                vSqlMontoCostoUnitario = vUtilSql.RoundToNDecimals(vSqlMontoCostoUnitario + " * " + vSqlCambio, 8);
             } else if (valMonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa) {
                 vSqlCambioDelDia = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + vUtilSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia <= " + vUtilSql.ToSqlValue(LibDate.Today()) + " ORDER BY FechaDeVigencia DESC), 1)";
                 vSqlCambioMasCercano = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + vUtilSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia <= OrdenProduccion.FechaFinalizacion ORDER BY FechaDeVigencia DESC), 1)";
@@ -203,8 +203,8 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
                     vSqlCambio = vSqlCambioMasCercano;
                 }
                 vSqlCambio = vUtilSql.IIF("OrdenProduccion.CodigoMonedaCostoProduccion = " + vUtilSql.ToSqlValue(vCodigoMonedaLocal), vSqlCambio, " 1 ", true);
-                vSqlMontoSubTotal = vUtilSql.RoundToNDecimals(vSqlMontoSubTotal + " / " + vSqlCambio, 2);
-                vSqlMontoCostoUnitario = vUtilSql.RoundToNDecimals(vSqlMontoCostoUnitario + " / " + vSqlCambio, 2);
+                vSqlMontoSubTotal = vUtilSql.RoundToNDecimals(vSqlMontoSubTotal + " / " + vSqlCambio, 8);
+                vSqlMontoCostoUnitario = vUtilSql.RoundToNDecimals(vSqlMontoCostoUnitario + " / " + vSqlCambio, 8);
             } else if (valMonedaDelInforme == eMonedaDelInformeMM.EnMonedaOriginal) {
             }
             /* FIN */
@@ -307,8 +307,8 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
                 } else {
                     vSqlCambio = vSqlCambioOriginal;
                 }
-                vSqlMontoSubTotal = vUtilSql.RoundToNDecimals(vSqlMontoSubTotal + " * " + vSqlCambio, 2);
-                vSqlMontoCostoUnitario = vUtilSql.RoundToNDecimals(vSqlMontoCostoUnitario + " * " + vSqlCambio, 2);
+                vSqlMontoSubTotal = vUtilSql.RoundToNDecimals(vSqlMontoSubTotal + " * " + vSqlCambio, 8);
+                vSqlMontoCostoUnitario = vUtilSql.RoundToNDecimals(vSqlMontoCostoUnitario + " * " + vSqlCambio, 8);
             } else if (valMonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa) {
                 vSqlCambioDelDia = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + vUtilSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia <= " + vUtilSql.ToSqlValue(LibDate.Today()) + " ORDER BY FechaDeVigencia DESC), 1)";
                 vSqlCambioMasCercano = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + vUtilSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia <= OrdenDeProduccion.FechaFinalizacion ORDER BY FechaDeVigencia DESC), 1)";
@@ -318,8 +318,8 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
                     vSqlCambio = vSqlCambioMasCercano;
                 }
                 vSqlCambio = vUtilSql.IIF("OrdenDeProduccion.CodigoMonedaCostoProduccion = " + vUtilSql.ToSqlValue(vCodigoMonedaLocal), vSqlCambio, " 1 ", true);
-                vSqlMontoSubTotal = vUtilSql.RoundToNDecimals(vSqlMontoSubTotal + " / " + vSqlCambio, 2);
-                vSqlMontoCostoUnitario = vUtilSql.RoundToNDecimals(vSqlMontoCostoUnitario + " / " + vSqlCambio, 2);
+                vSqlMontoSubTotal = vUtilSql.RoundToNDecimals(vSqlMontoSubTotal + " / " + vSqlCambio, 8);
+                vSqlMontoCostoUnitario = vUtilSql.RoundToNDecimals(vSqlMontoCostoUnitario + " / " + vSqlCambio, 8);
             } else if (valMonedaDelInforme == eMonedaDelInformeMM.EnMonedaOriginal) {
             }
             /* FIN */
@@ -380,8 +380,8 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
                 } else {
                     vSqlCambio = vSqlCambioOriginal;
                 }
-                vSqlMontoSubTotalSalida = vUtilSql.RoundToNDecimals(vSqlMontoSubTotalSalida + " * " + vSqlCambio, 2);
-                vSqlMontoCostoUnitarioSalida = vUtilSql.RoundToNDecimals(vSqlMontoCostoUnitarioSalida + " * " + vSqlCambio, 2);
+                vSqlMontoSubTotalSalida = vUtilSql.RoundToNDecimals(vSqlMontoSubTotalSalida + " * " + vSqlCambio, 8);
+                vSqlMontoCostoUnitarioSalida = vUtilSql.RoundToNDecimals(vSqlMontoCostoUnitarioSalida + " * " + vSqlCambio, 8);
             } else if (valMonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa) {
                 vSqlCambioDelDia = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + vUtilSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia <= " + vUtilSql.ToSqlValue(LibDate.Today()) + " ORDER BY FechaDeVigencia DESC), 1)";
                 vSqlCambioMasCercano = "ISNULL((SELECT TOP 1 CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = " + vUtilSql.ToSqlValue(valCodigoMoneda) + " AND FechaDeVigencia <= OrdenDeProduccion.FechaFinalizacion ORDER BY FechaDeVigencia DESC), 1)";
@@ -391,8 +391,8 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
                     vSqlCambio = vSqlCambioMasCercano;
                 }
                 vSqlCambio = vUtilSql.IIF("OrdenDeProduccion.CodigoMonedaCostoProduccion = " + vUtilSql.ToSqlValue(vCodigoMonedaLocal), vSqlCambio, " 1 ", true);
-                vSqlMontoSubTotalSalida = vUtilSql.RoundToNDecimals(vSqlMontoSubTotalSalida + " / " + vSqlCambio, 2);
-                vSqlMontoCostoUnitarioSalida = vUtilSql.RoundToNDecimals(vSqlMontoCostoUnitarioSalida + " / " + vSqlCambio, 2);
+                vSqlMontoSubTotalSalida = vUtilSql.RoundToNDecimals(vSqlMontoSubTotalSalida + " / " + vSqlCambio, 8);
+                vSqlMontoCostoUnitarioSalida = vUtilSql.RoundToNDecimals(vSqlMontoCostoUnitarioSalida + " / " + vSqlCambio, 8);
             } else if (valMonedaDelInforme == eMonedaDelInformeMM.EnMonedaOriginal) {
             }
             /* FIN */

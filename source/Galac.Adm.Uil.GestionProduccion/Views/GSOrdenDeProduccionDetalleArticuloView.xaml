@@ -23,6 +23,8 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -81,9 +83,30 @@
             Visibility="{Binding Path=IsVisiblePorcentajeCostoEstimado, Converter={StaticResource booleanToVisibilityConverter}}"
             Value="{Binding Path=PorcentajeCostoEstimado, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         <Label
-            Name="lblPorcentajeCostoCierre"
+            Name="lblCantidadProducida"
             Grid.Row="2"
             Grid.Column="4"
+            HorizontalAlignment="Right"
+            Content="Cantidad Producida"
+            Style="{StaticResource LabelPrompt}"
+            Visibility="{Binding Path=IsVisibleCantidadProducida, Converter={StaticResource booleanToVisibilityConverter}}" />
+        <nsWpfControls:GSNumericBoxWpf
+            Name="txtCantidadProducida"
+            Grid.Row="2"
+            Grid.Column="5"
+            Width="120"
+            BorderThickness="1"
+            DecimalDigits="8"
+            InputDataType="UDecimal"
+            IsEnabled="{Binding Path=IsEnabledCantidadProducida}"
+            MaxLength="34"
+            Style="{StaticResource TextBoxInputStyle}"
+            Visibility="{Binding Path=IsVisibleCantidadProducida, Converter={StaticResource booleanToVisibilityConverter}}"
+            Value="{Binding Path=CantidadProducida, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />        
+        <Label
+            Name="lblPorcentajeCostoCierre"
+            Grid.Row="2"
+            Grid.Column="6"
             HorizontalAlignment="Right"
             Content="% Costo Cierre"
             Style="{StaticResource LabelPrompt}"
@@ -91,7 +114,7 @@
         <nsWpfControls:GSNumericBoxWpf
             Name="txtPorcentajeCostoCierre"
             Grid.Row="2"
-            Grid.Column="5"
+            Grid.Column="7"
             Width="120"
             BorderThickness="1"
             DecimalDigits="8"
