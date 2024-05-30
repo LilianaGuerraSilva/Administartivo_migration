@@ -181,11 +181,60 @@ namespace Galac.Adm.Dal.GestionProduccion {
         #region Validaciones
         protected override bool Validate(eAccionSR valAction, out string outErrorMessage) {
             bool vResult = true;
-            ClearValidationInfo();            
+            ClearValidationInfo();
+            vResult = IsValidCodigoArticulo(valAction, CurrentRecord.CodigoArticulo) && vResult;
+            vResult = IsValidCantidadProducida(valAction, CurrentRecord.CantidadProducida) && vResult;
+            vResult = IsValidPorcentajeCostoEstimado(valAction, CurrentRecord.PorcentajeCostoEstimado) && vResult;
+            vResult = IsValidPorcentajeCostoCiere(valAction, CurrentRecord.PorcentajeCostoCierre) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
-        }     
-        
+        }
+
+        private bool IsValidCodigoArticulo(eAccionSR valAction, string valCodigoArticulo) {
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            valCodigoArticulo = LibString.Trim(valCodigoArticulo);
+            if (LibString.IsNullOrEmpty(valCodigoArticulo, true)) {
+                BuildValidationInfo(MsgRequiredField("Código Artículo"));
+                vResult = false;
+            } else {
+                LibDatabase insDb = new LibDatabase();
+                if (!insDb.ExistsValue("dbo.ArticuloInventario", "Codigo", insDb.InsSql.ToSqlValue(valCodigoArticulo), true)) {
+                    BuildValidationInfo("El valor asignado al campo CodigoArticulo no existe, escoga nuevamente.");
+                    vResult = false;
+                }
+            }
+            return vResult;
+        }
+        private bool IsValidCantidadProducida(eAccionSR valAction, decimal valCantidadProducida) {
+            bool vResult = true;
+            if ((valAction == eAccionSR.Cerrar) && (valCantidadProducida < 0)) {
+                BuildValidationInfo("La Cantidad Producida debe ser mayor o igual a cero.");
+                vResult = false;
+            }
+            return vResult;
+        }
+
+        private bool IsValidPorcentajeCostoEstimado(eAccionSR valAction, decimal valPorcentajeCostoEstimado) {
+            bool vResult = true;
+            if ((valAction == eAccionSR.Insertar || valAction == eAccionSR.Modificar) && (valPorcentajeCostoEstimado < 0 || valPorcentajeCostoEstimado > 100)) {
+                BuildValidationInfo("El % Costo Estimado debe ser mayor o igual a cero y menor o igual a 100.");
+                vResult = false;
+            }
+            return vResult;
+        }
+
+        private bool IsValidPorcentajeCostoCiere(eAccionSR valAction, decimal valPorcentajeCostoCierre) {
+            bool vResult = true;
+            if (valAction == eAccionSR.Cerrar && (valPorcentajeCostoCierre < 0 || valPorcentajeCostoCierre > 100)) {
+                BuildValidationInfo("El % Costo al Cierre debe ser mayor o igual a cero y menor o igual a 100.");
+                vResult = false;
+            }
+            return vResult;
+        }
+
         private bool KeyExists(int valConsecutivoCompania, int valConsecutivoOrdenDeProduccion, int valConsecutivo) {
             bool vResult = false;
             OrdenDeProduccionDetalleArticulo vRecordBusqueda = new OrdenDeProduccionDetalleArticulo();
@@ -215,7 +264,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
         }
 
         #endregion //Metodos Generados
-
 
     } //End of class clsOrdenDeProduccionDetalleArticuloDat
 

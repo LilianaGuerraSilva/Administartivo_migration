@@ -265,6 +265,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
             }
         }
+		
         public decimal MontoSubTotal {
             get {
                 return Model.MontoSubTotal;
@@ -423,7 +424,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         private ValidationResult PorcentajeCostoCierreValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if (Action == eAccionSR.Cerrar && (PorcentajeCostoCierre < 0 || PorcentajeCostoCierre > 100)) {
+            if (Master.Action == eAccionSR.Cerrar && (PorcentajeCostoCierre < 0 || PorcentajeCostoCierre > 100)) {
                 return new ValidationResult("El % Costo al Cierre debe ser mayor o igual a cero y menor o igual a 100.");
             } else {
                 return vResult;

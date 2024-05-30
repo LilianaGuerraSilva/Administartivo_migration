@@ -519,7 +519,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("    SET @TopClausule = ''");
             SQL.AppendLine("   SET @strSQL = ");
             SQL.AppendLine("    ' SET DateFormat ' + @DateFormat + ");
-            SQL.AppendLine("    ' SELECT ' + @TopClausule + '");
+            SQL.AppendLine("    ' SELECT DISTINCT ' + @TopClausule + '");
             SQL.AppendLine("      " + DbSchema + ".Gv_OrdenDeProduccionDetalleArticulo_B1.CodigoArticulo,");
             SQL.AppendLine("      " + DbSchema + ".Gv_OrdenDeProduccionDetalleArticulo_B1.DescripcionArticulo,");
             SQL.AppendLine("      ''COLPIVOTE'' AS ColControl,");

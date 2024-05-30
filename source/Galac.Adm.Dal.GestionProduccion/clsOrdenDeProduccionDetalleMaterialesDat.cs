@@ -180,8 +180,28 @@ namespace Galac.Adm.Dal.GestionProduccion {
             bool vResult = true;
             ClearValidationInfo();
             vResult = IsValidConsecutivoAlmacen(valAction, CurrentRecord.ConsecutivoAlmacen);
-            vResult = IsValidCodigoArticulo(valAction, CurrentRecord.CodigoArticulo) && vResult;            
+            vResult = IsValidCodigoArticulo(valAction, CurrentRecord.CodigoArticulo) && vResult;
+            vResult = IsValidCantidadReservadaInventario(valAction, CurrentRecord.CantidadReservadaInventario) && vResult;
+            vResult = IsValidCantidadConsumida(valAction, CurrentRecord.CantidadConsumida) && vResult;
             outErrorMessage = Information.ToString();
+            return vResult;
+        }
+
+        private bool IsValidCantidadConsumida(eAccionSR valAction, decimal valCantidadConsumida) {
+            bool vResult = true;
+            if (valAction == eAccionSR.Cerrar && valCantidadConsumida < 0) {
+                BuildValidationInfo("La Cantidad Consumida debe ser mayor igual a 0.");
+                vResult = false;
+            }
+            return vResult;
+        }
+
+        private bool IsValidCantidadReservadaInventario(eAccionSR valAction, decimal valCantidadReservadaInventario) {
+            bool vResult = true;
+            if ((valAction == eAccionSR.Insertar || valAction == eAccionSR.Modificar) && (valCantidadReservadaInventario < 0)) {
+                BuildValidationInfo("La Cantidad a Consumir debe ser mayor igual a 0.");
+                vResult = false;
+            }
             return vResult;
         }
 

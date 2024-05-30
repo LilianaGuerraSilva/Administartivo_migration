@@ -166,7 +166,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         [LibGridColum("Existencia Actual", eGridColumType.Numeric, ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 3, Width = 200)]
         public Decimal Existencia { get; set; }
 
-        [LibGridColum("Cantidad en Lista", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 4, ConditionalPropertyDecimalDigits = "DecimalDigits")]
+        [LibGridColum("Cantidad Original en Lista", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 4, ConditionalPropertyDecimalDigits = "DecimalDigits")]
         public decimal Cantidad {
             get {
                 return Model.Cantidad;
@@ -180,6 +180,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
+        [LibCustomValidation("CantidadReservadaInventarioValidating")]
         [LibGridColum("Cantidad a Consumir", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 200, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 5)]
         public decimal CantidadReservadaInventario {
             get {
@@ -194,6 +195,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
+        [LibCustomValidation("ValidatingCantidadConsumida")]
         [LibGridColum("Cantidad Consumida", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 150, ColumnOrder = 6, ConditionalPropertyDecimalDigits = "DecimalDigits")]
         public decimal CantidadConsumida {
             get {
@@ -349,6 +351,26 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         protected override bool RecordIsReadOnly() {
             return Master.IsReadOnly;
         }
+
+
+        private ValidationResult CantidadReservadaInventarioValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if ((Master.Action == eAccionSR.Insertar || Master.Action == eAccionSR.Modificar) && CantidadReservadaInventario < 0) {
+                return new ValidationResult("La Cantidad a Consumir debe ser mayor igual a 0.");
+            } else {
+                return vResult;
+            }
+        }
+
+        private ValidationResult ValidatingCantidadConsumida() {
+            ValidationResult vResult = ValidationResult.Success;
+            if (Master.Action == eAccionSR.Cerrar && CantidadConsumida < 0) {
+                return new ValidationResult("La Cantidad Consumida debe ser mayor igual a 0.");
+            } else {
+                return vResult;
+            }
+        }
+
 
     } //End of class OrdenDeProduccionDetalleMaterialesViewModel
 
