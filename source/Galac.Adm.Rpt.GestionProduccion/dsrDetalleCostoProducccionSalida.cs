@@ -53,9 +53,9 @@ namespace Galac.Adm.Rpt.GestionProduccion {
 				LibReport.ConfigFieldDec(this, "txtCantidadAProducir",          string.Empty, "CantidadAProducir", "n" + 8, true, TextAlignment.Right);
                 LibReport.ConfigFieldDec(this, "txtCantidadProducida",          string.Empty, "CantidadProducida", "n" + 8, true, TextAlignment.Right);
                 LibReport.ConfigFieldDec(this, "txtPorcentajeCosto",      string.Empty, "PorcentajeCosto", "n" + 8, true, TextAlignment.Right);
-                LibReport.ConfigFieldDec(this, "txtCostoUnitario",              string.Empty, "CostoUnitario", "n" + 8, true, TextAlignment.Right);
-                LibReport.ConfigFieldDec(this, "txtCostoTotal",                 string.Empty, "CostoTotal", "n" + 8, true, TextAlignment.Right);
-                LibReport.ConfigSummaryField(this, "txtTotalCostoTotal", "CostoTotal", SummaryFunc.Sum, "GHCodigoOrdenProduccion", SummaryRunning.Group, SummaryType.SubTotal, "n" + 8, "");
+                LibReport.ConfigFieldDec(this, "txtCostoUnitario",              string.Empty, "CostoUnitario", "n" + 2, true, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtCostoTotal",                 string.Empty, "CostoTotal", "n" + 2, true, TextAlignment.Right);
+                LibReport.ConfigSummaryField(this, "txtTotalCostoTotal", "CostoTotal", SummaryFunc.Sum, "GHCodigoOrdenProduccion", SummaryRunning.Group, SummaryType.SubTotal, "n" + 2, "");
                 LibReport.ConfigGroupHeader(this, "GHCodigoOrdenProduccion", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
 
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Landscape);

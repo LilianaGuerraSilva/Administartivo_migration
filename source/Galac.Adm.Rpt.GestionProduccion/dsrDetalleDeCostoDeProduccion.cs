@@ -80,10 +80,10 @@ namespace Galac.Adm.Rpt.GestionProduccion {
 				LibReport.ConfigFieldStr(this, "txtUnidades",                   string.Empty, "Unidad");
                 LibReport.ConfigFieldDec(this, "txtCantidadEstimada",           string.Empty, "CantidadEstimada", "n" + 8, true, TextAlignment.Right);
                 LibReport.ConfigFieldDec(this, "txtCantidadConsumida",          string.Empty, "CantidadConsumida", "n" + 8, true, TextAlignment.Right);
-                LibReport.ConfigFieldDec(this, "txtCostoUnitarioMatServ",       string.Empty, "CostoUnitarioMatServ", "n" + 8, true, TextAlignment.Right);
-                LibReport.ConfigFieldDec(this, "txtCostoTotalConsumido",        string.Empty, "MontoTotalConsumo", "n" + 8, true, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtCostoUnitarioMatServ",       string.Empty, "CostoUnitarioMatServ", "n" + 2, true, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtCostoTotalConsumido",        string.Empty, "MontoTotalConsumo", "n" + 2, true, TextAlignment.Right);
                 LibReport.ConfigFieldStr(this, "txtObservaciones",              string.Empty, "Observaciones");
-                LibReport.ConfigSummaryField(this, "txt_TCostoTotalConsumido", "MontoTotalConsumo", SummaryFunc.Sum, "GHDetalleCostoProduccionInsumos", SummaryRunning.Group, SummaryType.SubTotal, "n" + 8, "");
+                LibReport.ConfigSummaryField(this, "txt_TCostoTotalConsumido", "MontoTotalConsumo", SummaryFunc.Sum, "GHDetalleCostoProduccionInsumos", SummaryRunning.Group, SummaryType.SubTotal, "n" + 2, "");
 
                 LibReport.SetSubReportIfExists(this, SubRptListaDeSalida(valDataSalida), "srptListaDeSalida");
                 LibReport.ConfigGroupHeader(this, "GHSecOrdenDeProduccion", "CodigoOrden", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.After);
