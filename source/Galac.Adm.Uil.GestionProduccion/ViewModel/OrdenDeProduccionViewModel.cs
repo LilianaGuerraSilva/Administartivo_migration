@@ -743,6 +743,10 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
+        public bool IsVisibleSumMontoSubTotal {
+            get { return StatusOp == eTipoStatusOrdenProduccion.Cerrada || Action == eAccionSR.Cerrar; }
+        }
+
         protected override bool RecordIsReadOnly() {
             return base.RecordIsReadOnly() || Action == eAccionSR.Custom || Action == eAccionSR.Anular || Action == eAccionSR.Cerrar || Action == eAccionSR.Contabilizar;
         }
@@ -821,6 +825,18 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     _TotalPorcentajeCostoCierre = value;
                     IsDirty = true;
                     RaisePropertyChanged(() => TotalPorcentajeDeCostoCierre);
+                }
+            }
+        }
+
+        decimal _SumMontoSubTotal;
+        public decimal SumMontoSubTotal {
+            get { return _SumMontoSubTotal; }
+            set {
+                if (_SumMontoSubTotal != value) {
+                    _SumMontoSubTotal = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(() => _SumMontoSubTotal);
                 }
             }
         }
@@ -941,6 +957,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             DetailOrdenDeProduccionDetalleMateriales.OnDeleted += new EventHandler<SearchCollectionChangedEventArgs<OrdenDeProduccionDetalleMaterialesViewModel>>(DetailOrdenDeProduccionDetalleMateriales_OnDeleted);
             DetailOrdenDeProduccionDetalleMateriales.OnSelectedItemChanged += new EventHandler<SearchCollectionChangedEventArgs<OrdenDeProduccionDetalleMaterialesViewModel>>(DetailOrdenDeProduccionDetalleMateriales_OnSelectedItemChanged);
             ActualizaTotalProcentajeDeCosto();
+            ActualizaSumMontoSubTotal();
             BuscarExistencia();
         }
 
@@ -971,6 +988,10 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public void ActualizaTotalProcentajeDeCosto() {
             TotalPorcentajeDeCosto = DetailOrdenDeProduccionDetalleArticulo.Items.Sum(s => s.PorcentajeCostoEstimado);
             TotalPorcentajeDeCostoCierre = DetailOrdenDeProduccionDetalleArticulo.Items.Sum(s =>s.PorcentajeCostoCierre);
+        }
+
+        public void ActualizaSumMontoSubTotal() {
+            SumMontoSubTotal = DetailOrdenDeProduccionDetalleMateriales.Items.Sum(s => s.MontoSubtotal);
         }
 
         private void ExecuteVerDetalleCommand() {

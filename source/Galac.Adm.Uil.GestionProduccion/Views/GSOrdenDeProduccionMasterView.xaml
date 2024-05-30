@@ -44,6 +44,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <nsV:GSOrdenDeProduccionDetalleMaterialesView
@@ -59,7 +60,7 @@
                             Grid.Row="1"
                             Grid.ColumnSpan="2"
                             Width="1150"
-                            Height="360"
+                            Height="300"
                             MinWidth="250"
                             MinHeight="200"
                             ColumnsMap="{Binding Path=OrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales.VisibleColumns}"
@@ -72,6 +73,41 @@
                             SelectedIndex="{Binding Path=OrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales.SelectedIndex}"
                             SelectedItem="{Binding Path=OrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales.SelectedItem, Mode=OneWayToSource}"
                             Style="{StaticResource GSDataGridStyle}" />
+                        <ContentControl
+                            Grid.Row="2"
+                            Grid.ColumnSpan="2"
+                            Visibility="{Binding Path=OrdenDeProduccion.IsVisibleSumMontoSubTotal, Converter={StaticResource booleanToVisibilityConverter}}">
+                            <Grid Width="690">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="587" />
+                                    <ColumnDefinition Width="Auto" MinWidth="99" />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Name="lblSumMontoSubTotal"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Content="Total Costo:"
+                                    Foreground="Black"
+                                    Style="{StaticResource LabelPrompt}" />
+                                <nsWpfControls:GSNumericBoxWpf
+                                    Name="txtSumMontoSubTotal"
+                                    Grid.Column="1"
+                                    Width="99"
+                                    Height="24"
+                                    Margin="3,0,0,0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    HorizontalContentAlignment="Right"
+                                    VerticalContentAlignment="Center"
+                                    BorderThickness="0,0,0,0"
+                                    DecimalDigits="2"
+                                    HorizontalScrollBarVisibility="Auto"
+                                    InputDataType="UDecimal"
+                                    IsEnabled="True"
+                                    Style="{StaticResource TextBoxInputStyle}"
+                                    Value="{Binding Path=OrdenDeProduccion.SumMontoSubTotal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            </Grid>
+                        </ContentControl>
                     </Grid>
                 </TabItem>
                 <TabItem Name="tbiSeccionOrdenDeProduccionDetalleSalidas" Header="Salidas">
