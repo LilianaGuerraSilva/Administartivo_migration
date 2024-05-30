@@ -107,11 +107,11 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
             if (valCantidadAImprimir == eCantidadAImprimir.One) {
                 vSQLWhere = new QAdvSql("").SqlValueWithAnd(vSQLWhere, "dbo.ArticuloInventario.Codigo", valCodigoInventario);
             }
-            if (valGeneradoPor == eGeneradoPor.Orden) {
-                vSQLWhere = new QAdvSql("").SqlValueWithAnd(vSQLWhere, "Adm.OrdenDeProduccion.Codigo", valCodigoOrden);
-            } else if (valGeneradoPor == eGeneradoPor.Fecha) {
-                vSQLWhere = new QAdvSql("").SqlDateValueBetween(vSQLWhere, "Adm.OrdenDeProduccion.FechaFinalizacion", valFechaDesde, valFechaHasta);
-            }
+            vSQLWhere = new QAdvSql("").SqlValueWithAnd(vSQLWhere, "Adm.OrdenDeProduccion.Codigo", valCodigoOrden);
+            //if (valGeneradoPor == eGeneradoPor.Orden) {
+            //} else if (valGeneradoPor == eGeneradoPor.Fecha) {
+            //    vSQLWhere = new QAdvSql("").SqlDateValueBetween(vSQLWhere, "Adm.OrdenDeProduccion.FechaFinalizacion", valFechaDesde, valFechaHasta);
+            //}
 
             /* INICIO: Manejo para multimoneda: Moneda Local // Moneda Extranjera Original y Moneda Local en Moneda Extranjera // Moneda Original */
             string vSqlCambioDelDia;
@@ -171,11 +171,11 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
             string vSQLWhere = string.Empty;
             vSQLWhere = new QAdvSql("").SqlIntValueWithAnd(string.Empty, "OrdenProduccion.ConsecutivoCompania", valConsecutivoCompania);
             vSQLWhere = new QAdvSql("").SqlEnumValueWithAnd(vSQLWhere, "OrdenProduccion.StatusOp", (int)eTipoStatusOrdenProduccion.Cerrada);
-            if (valGeneradoPor == eGeneradoPor.Orden) {
-                vSQLWhere = new QAdvSql("").SqlValueWithAnd(vSQLWhere, "OrdenProduccion.Codigo", valCodigoOrden);
-            } else if (valGeneradoPor == eGeneradoPor.Fecha) {
-                vSQLWhere = new QAdvSql("").SqlDateValueBetween(vSQLWhere, "OrdenProduccion.FechaFinalizacion", valFechaDesde, valFechaHasta);
-            }
+            vSQLWhere = new QAdvSql("").SqlValueWithAnd(vSQLWhere, "OrdenProduccion.Codigo", valCodigoOrden);
+            //if (valGeneradoPor == eGeneradoPor.Orden) {
+            //} else if (valGeneradoPor == eGeneradoPor.Fecha) {
+            //    vSQLWhere = new QAdvSql("").SqlDateValueBetween(vSQLWhere, "OrdenProduccion.FechaFinalizacion", valFechaDesde, valFechaHasta);
+            //}
 
             /* INICIO: Manejo para multimoneda: Moneda Local // Moneda Extranjera Original y Moneda Local en Moneda Extranjera // Moneda Original */
             string vSqlCambioDelDia;

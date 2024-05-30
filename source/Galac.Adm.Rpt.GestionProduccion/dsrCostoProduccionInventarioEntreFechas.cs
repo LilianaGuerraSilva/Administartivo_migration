@@ -79,16 +79,16 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 LibReport.ConfigFieldDate(this, "txtFechaFinalizacion", string.Empty, "FechaFinalizacion", LibGalac.Aos.Base.Report.eDateOutputFormat.DateLong);
                 LibReport.ConfigFieldStr(this, "txtInventarioProducido", string.Empty, "ArticuloInventario");
                 LibReport.ConfigFieldDec(this, "txtCantidadProducida", string.Empty, "CantidadProducida", "n" + 8, true, TextAlignment.Right);
-                LibReport.ConfigFieldDec(this, "txtCostoUnitario", string.Empty, "CostoUnitario", "n" + 8, true, TextAlignment.Right);
-                LibReport.ConfigFieldDec(this, "txtCostoTotalOrden", string.Empty, "MontoSubTotal", "n" + 8, true, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtCostoUnitario", string.Empty, "CostoUnitario", "n" + 2, true, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtCostoTotalOrden", string.Empty, "MontoSubTotal", "n" + 2, true, TextAlignment.Right);
 
                 LibReport.ConfigGroupHeader(this, "GHSecInventarioProducido", "ArticuloInventario", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
 
                 LibReport.ConfigSummaryField(this, "txt_TCantidadTotalProducida", "CantidadProducida", SummaryFunc.Sum, "GHSecInventarioProducido", SummaryRunning.Group, SummaryType.SubTotal);
-                LibReport.ConfigSummaryField(this, "txt_TCostoTotalProduccion", "MontoSubTotal", SummaryFunc.Sum, "GHSecInventarioProducido", SummaryRunning.Group, SummaryType.SubTotal, "n" + 8, "");
+                LibReport.ConfigSummaryField(this, "txt_TCostoTotalProduccion", "MontoSubTotal", SummaryFunc.Sum, "GHSecInventarioProducido", SummaryRunning.Group, SummaryType.SubTotal, "n" + 2, "");
 
-                LibReport.ConfigSummaryField(this, "txt_TTCantidadProducidas", "CantidadProducida", SummaryFunc.Sum, "PageHeader", SummaryRunning.Group, SummaryType.GrandTotal);
-                LibReport.ConfigSummaryField(this, "txt_TTCostoProduccion", "MontoSubTotal", SummaryFunc.Sum, "PageHeader", SummaryRunning.Group, SummaryType.GrandTotal, "n" + 8, "");
+                LibReport.ConfigSummaryField(this, "txt_TTCantidadProducidas", "CantidadProducida", SummaryFunc.Sum, "PageHeader", SummaryRunning.Group, SummaryType.GrandTotal, "n" + 8, "");
+                LibReport.ConfigSummaryField(this, "txt_TTCostoProduccion", "MontoSubTotal", SummaryFunc.Sum, "PageHeader", SummaryRunning.Group, SummaryType.GrandTotal, "n" + 2, "");
 
                 string vNotaMonedaCambio = new clsLibSaw().NotaMonedaCambioParaInformes(valMonedaDelInforme, valTasaDeCambio, valMoneda, "Orden de Producción");
                 LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", vNotaMonedaCambio, "");
@@ -133,20 +133,20 @@ namespace Galac.Adm.Rpt.GestionProduccion {
 
         private void PageFooter_Format(object sender, EventArgs e) {
             this.txt_TTProductosServicios.Value = CantidadDeTiposInventarioProducidos;
-            this.txt_TTMayorCostoDeProduccion.Value = LibConvert.ToStr(MayorCostoProduccion, 8);
-            this.txt_TTMenorCostoDeProduccion.Value = LibConvert.ToStr(MenorCostoDeProduccion, 8);
+            this.txt_TTMayorCostoDeProduccion.Value = LibConvert.ToStr(MayorCostoProduccion, 2);
+            this.txt_TTMenorCostoDeProduccion.Value = LibConvert.ToStr(MenorCostoDeProduccion, 2);
             this.txtOrdenConMayorCosto.Value = "Orden(es):" + LibConvert.ToStr(OrdenMayorCosto);
             this.txtOrdenConMenorCosto.Value = "Orden(es):" + LibConvert.ToStr(OrdenMenorCosto);
         }
 
         private void CalculosParaElPeriodo() {
             decimal vCostoPromedio = 0;
-            decimal vCostoTotalProduccion = LibConvert.ToDec(this.txt_TCostoTotalProduccion.Text, 8);
-            decimal vCantidadTotalProducida = LibConvert.ToDec(this.txt_TCantidadTotalProducida.Text, 2);
+            decimal vCostoTotalProduccion = LibConvert.ToDec(this.txt_TCostoTotalProduccion.Text, 2);
+            decimal vCantidadTotalProducida = LibConvert.ToDec(this.txt_TCantidadTotalProducida.Text, 8);
             if (vCantidadTotalProducida > 0) {
                 vCostoPromedio = vCostoTotalProduccion / vCantidadTotalProducida;
             }
-            this.txt_TCostoUnitarioPromedio.Value = LibConvert.ToStr(vCostoPromedio, 8);
+            this.txt_TCostoUnitarioPromedio.Value = LibConvert.ToStr(vCostoPromedio, 2);
         }
         #endregion
         #endregion
