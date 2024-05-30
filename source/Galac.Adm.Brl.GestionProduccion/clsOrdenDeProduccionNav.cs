@@ -493,12 +493,9 @@ namespace Galac.Adm.Brl.GestionProduccion {
                     ConsecutivoAlmacen = LibConvert.ToInt(p.Element("ConsecutivoAlmacen"))
                 }).ToList();
 
-                decimal vCostoTotal = 0;
-
                 foreach (OrdenDeProduccionDetalleMateriales vOrdenDeProduccionDetalleMateriales in refRecord[0].DetailOrdenDeProduccionDetalleMateriales) {
-                    vOrdenDeProduccionDetalleMateriales.CostoUnitarioArticuloInventario = vDataArticulo.Where(p => p.CodigoArticulo == vOrdenDeProduccionDetalleMateriales.CodigoArticulo).FirstOrDefault().CostoUnitario;
-                    vOrdenDeProduccionDetalleMateriales.MontoSubtotal = vOrdenDeProduccionDetalleMateriales.CostoUnitarioArticuloInventario * vOrdenDeProduccionDetalleMateriales.CantidadConsumida;
-                    vCostoTotal += vOrdenDeProduccionDetalleMateriales.CostoUnitarioArticuloInventario;
+                    vOrdenDeProduccionDetalleMateriales.CostoUnitarioArticuloInventario = LibMath.RoundToNDecimals(vDataArticulo.Where(p => p.CodigoArticulo == vOrdenDeProduccionDetalleMateriales.CodigoArticulo).FirstOrDefault().CostoUnitario, 2);
+                    vOrdenDeProduccionDetalleMateriales.MontoSubtotal = LibMath.RoundToNDecimals(vOrdenDeProduccionDetalleMateriales.CostoUnitarioArticuloInventario * vOrdenDeProduccionDetalleMateriales.CantidadConsumida, 2);
                     if (vOrdenDeProduccionDetalleMateriales.TipoDeArticuloAsEnum == eTipoDeArticulo.Mercancia &&
                         (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PermitirSobregiro")) &&
                         vOrdenDeProduccionDetalleMateriales.CantidadConsumida > vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario &&
@@ -507,8 +504,10 @@ namespace Galac.Adm.Brl.GestionProduccion {
                         throw new GalacValidationException("No hay suficiente existencia de algunos materiales para producir este inventario. (" + vOrdenDeProduccionDetalleMateriales.CodigoArticulo + ")");
                     }
                 }
+                decimal vCostoTotal = refRecord[0].DetailOrdenDeProduccionDetalleMateriales.Sum(p => p.MontoSubtotal);
+
                 foreach (OrdenDeProduccionDetalleArticulo vOrdenDeProduccionDetalleArticulo in refRecord[0].DetailOrdenDeProduccionDetalleArticulo) {
-                    vOrdenDeProduccionDetalleArticulo.MontoSubTotal = LibMath.RoundToNDecimals(vCostoTotal / (vOrdenDeProduccionDetalleArticulo.PorcentajeCostoCierre / 100), 2);
+                    vOrdenDeProduccionDetalleArticulo.MontoSubTotal = LibMath.RoundToNDecimals(vCostoTotal * (vOrdenDeProduccionDetalleArticulo.PorcentajeCostoCierre / 100), 2);
                     vOrdenDeProduccionDetalleArticulo.CostoUnitario = LibMath.RoundToNDecimals(vOrdenDeProduccionDetalleArticulo.MontoSubTotal / vOrdenDeProduccionDetalleArticulo.CantidadProducida, 2);                    
                 }
                 using (TransactionScope vScope = LibBusiness.CreateScope()) {
