@@ -79,16 +79,16 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 LibReport.ConfigFieldDate(this, "txtFechaFinalizacion", string.Empty, "FechaFinalizacion", LibGalac.Aos.Base.Report.eDateOutputFormat.DateLong);
                 LibReport.ConfigFieldStr(this, "txtInventarioProducido", string.Empty, "ArticuloInventario");
                 LibReport.ConfigFieldDec(this, "txtCantidadProducida", string.Empty, "CantidadProducida", "n" + 8, true, TextAlignment.Right);
-                LibReport.ConfigFieldDec(this, "txtCostoUnitario", string.Empty, "CostoUnitario", "n" + 2, true, TextAlignment.Right);
-                LibReport.ConfigFieldDec(this, "txtCostoTotalOrden", string.Empty, "MontoSubTotal", "n" + 2, true, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtCostoUnitario", string.Empty, "CostoUnitario");
+                LibReport.ConfigFieldDec(this, "txtCostoTotalOrden", string.Empty, "MontoSubTotal");
 
                 LibReport.ConfigGroupHeader(this, "GHSecInventarioProducido", "ArticuloInventario", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
 
                 LibReport.ConfigSummaryField(this, "txt_TCantidadTotalProducida", "CantidadProducida", SummaryFunc.Sum, "GHSecInventarioProducido", SummaryRunning.Group, SummaryType.SubTotal);
-                LibReport.ConfigSummaryField(this, "txt_TCostoTotalProduccion", "MontoSubTotal", SummaryFunc.Sum, "GHSecInventarioProducido", SummaryRunning.Group, SummaryType.SubTotal, "n" + 2, "");
+                LibReport.ConfigSummaryField(this, "txt_TCostoTotalProduccion", "MontoSubTotal", SummaryFunc.Sum, "GHSecInventarioProducido", SummaryRunning.Group, SummaryType.SubTotal);
 
                 LibReport.ConfigSummaryField(this, "txt_TTCantidadProducidas", "CantidadProducida", SummaryFunc.Sum, "PageHeader", SummaryRunning.Group, SummaryType.GrandTotal, "n" + 8, "");
-                LibReport.ConfigSummaryField(this, "txt_TTCostoProduccion", "MontoSubTotal", SummaryFunc.Sum, "PageHeader", SummaryRunning.Group, SummaryType.GrandTotal, "n" + 2, "");
+                LibReport.ConfigSummaryField(this, "txt_TTCostoProduccion", "MontoSubTotal", SummaryFunc.Sum, "PageHeader", SummaryRunning.Group, SummaryType.GrandTotal);
 
                 string vNotaMonedaCambio = new clsLibSaw().NotaMonedaCambioParaInformes(valMonedaDelInforme, valTasaDeCambio, valMoneda, "Orden de Producción");
                 LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", vNotaMonedaCambio, "");
