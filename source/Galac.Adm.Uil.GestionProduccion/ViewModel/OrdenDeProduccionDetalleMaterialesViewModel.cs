@@ -149,7 +149,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
 
-        [LibGridColum("Unidad", eGridColumType.Generic, MaxWidth = 120, ColumnOrder = 2)]
+        [LibGridColum("Unidad", eGridColumType.Generic, MaxWidth = 100, ColumnOrder = 2)]
         public string UnidadDeVenta {
             get {
                 return Model.UnidadDeVenta;
@@ -163,10 +163,10 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Existencia Actual", eGridColumType.Numeric, ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 3, Width = 200)]
+        [LibGridColum("Existencia Actual", eGridColumType.Numeric, ConditionalPropertyDecimalDigits = "2", Alignment = eTextAlignment.Right, ColumnOrder = 3, Width = 120)]
         public Decimal Existencia { get; set; }
 
-        [LibGridColum("Cantidad Original en Lista", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 4, ConditionalPropertyDecimalDigits = "DecimalDigits")]
+        [LibGridColum("Cantidad Original en Lista", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 4, ConditionalPropertyDecimalDigits = "DecimalDigits", Width =150)]
         public decimal Cantidad {
             get {
                 return Model.Cantidad;
@@ -181,7 +181,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         [LibCustomValidation("CantidadReservadaInventarioValidating")]
-        [LibGridColum("Cantidad a Consumir", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 200, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 5)]
+        [LibGridColum("Cantidad a Consumir", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 150, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 5)]
         public decimal CantidadReservadaInventario {
             get {
                 return Model.CantidadReservadaInventario;
@@ -210,7 +210,21 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Costo Unitario", eGridColumType.Numeric, ColumnOrder = 7, ConditionalPropertyDecimalDigits = "DecimalDigits")]
+        [LibGridColum("Costo Total", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 100, ColumnOrder = 7, ConditionalPropertyDecimalDigits = "2")]
+        public decimal MontoSubtotal {
+            get {
+                return Model.MontoSubtotal;
+            }
+            set {
+                if (Model.MontoSubtotal != value) {
+                    Model.MontoSubtotal = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(MontoSubtotalPropertyName);
+                }
+            }
+        }
+
+        [LibGridColum("Costo Unitario", eGridColumType.Numeric, ColumnOrder = 8, ConditionalPropertyDecimalDigits = "DecimalDigits")]
         public decimal CostoUnitarioArticuloInventario {
             get {
                 return Model.CostoUnitarioArticuloInventario;
@@ -224,19 +238,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Costo Total", eGridColumType.Numeric, ColumnOrder = 8)]
-        public decimal MontoSubtotal {
-            get {
-                return Model.MontoSubtotal;
-            }
-            set {
-                if (Model.MontoSubtotal != value) {
-                    Model.MontoSubtotal = value;
-                    IsDirty = true;
-                    RaisePropertyChanged(MontoSubtotalPropertyName);
-                }
-            }
-        }
         public bool AjustadoPostCierre {
             get {
                 return Model.AjustadoPostCierreAsBool;

@@ -102,7 +102,7 @@
             MaxLength="34"
             Style="{StaticResource TextBoxInputStyle}"
             Visibility="{Binding Path=IsVisibleCantidadProducida, Converter={StaticResource booleanToVisibilityConverter}}"
-            Value="{Binding Path=CantidadProducida, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />        
+            Value="{Binding Path=CantidadProducida, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         <Label
             Name="lblPorcentajeCostoCierre"
             Grid.Row="2"
