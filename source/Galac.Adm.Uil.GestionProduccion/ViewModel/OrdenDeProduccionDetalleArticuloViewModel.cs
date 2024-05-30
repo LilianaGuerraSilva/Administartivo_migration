@@ -190,6 +190,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
+        [LibCustomValidation("CantidadProducidaValidating")]
         [LibGridColum("Cantidad Producida", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 5)]
         public decimal CantidadProducida {
             get {
@@ -253,6 +254,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
+        [LibCustomValidation("PorcentajeCostoEstimadoValidating")]
         [LibGridColum("% Costo Est.", eGridColumType.Numeric, ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 7)]
         public decimal PorcentajeCostoEstimado {
             get {
@@ -268,6 +270,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
+        [LibCustomValidation("PorcentajeCostoCierreValidating")]
         [LibGridColum("% Costo Cierre", eGridColumType.Numeric, ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 8)]
         public decimal PorcentajeCostoCierre {
             get {
@@ -321,6 +324,10 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public bool IsVisiblePorcentajeCostoCierre {
             get { return (Master.Action == eAccionSR.Cerrar); }
         }
+		
+        public bool IsVisibleCantidadProducida {
+            get { return (Master.Action == eAccionSR.Cerrar); }
+        }
 
         protected override bool RecordIsReadOnly() {
             return Master.IsReadOnly;
@@ -339,6 +346,11 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public bool IsEnabledPorcentajeCostoCierre {
             get { return Master.Action == eAccionSR.Cerrar; }
         }
+
+        public bool IsEnabledCantidadProducida {
+            get { return Master.Action == eAccionSR.Cerrar; }
+        }
+        
         #endregion //Propiedades
 
         #region Constructores e Inicializadores
@@ -388,6 +400,34 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         #region Metodos        
         #endregion //Metodos
+
+        private ValidationResult CantidadProducidaValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if (Master.Action == eAccionSR.Cerrar && CantidadProducida < 0) {
+                return new ValidationResult("La Cantidad Producida debe ser mayor o igual a cero.");
+            } else {
+                return vResult;
+            }
+        }
+
+        private ValidationResult PorcentajeCostoEstimadoValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if ((Master.Action == eAccionSR.Insertar || Master.Action == eAccionSR.Modificar) && (PorcentajeCostoEstimado < 0 || PorcentajeCostoEstimado > 100)) {
+                return new ValidationResult("El % Costo Estimado debe ser mayor o igual a cero y menor o igual a 100.");
+            } else {
+                return vResult;
+            }
+        }
+
+        private ValidationResult PorcentajeCostoCierreValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if (Action == eAccionSR.Cerrar && (PorcentajeCostoCierre < 0 || PorcentajeCostoCierre > 100)) {
+                return new ValidationResult("El % Costo al Cierre debe ser mayor o igual a cero y menor o igual a 100.");
+            } else {
+                return vResult;
+            }
+        }
+
 
     } //End of class OrdenDeProduccionDetalleArticuloViewModel
 
