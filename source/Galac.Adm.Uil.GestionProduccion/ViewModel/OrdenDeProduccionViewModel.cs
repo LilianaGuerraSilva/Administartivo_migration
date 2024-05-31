@@ -744,7 +744,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         public bool IsVisibleSumMontoSubTotal {
-            get { return StatusOp == eTipoStatusOrdenProduccion.Cerrada || Action == eAccionSR.Cerrar; }
+            get { return StatusOp == eTipoStatusOrdenProduccion.Cerrada; }
         }
 
         protected override bool RecordIsReadOnly() {
