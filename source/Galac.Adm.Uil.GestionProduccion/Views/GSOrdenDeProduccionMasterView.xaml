@@ -149,45 +149,7 @@
                             SelectedIndex="{Binding Path=OrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo.SelectedIndex}"
                             SelectedItem="{Binding Path=OrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo.SelectedItem, Mode=OneWayToSource}"
                             Style="{StaticResource GSDataGridStyle}" />
-                        <ContentControl
-                            Grid.Row="3"
-                            Grid.ColumnSpan="2"
-                            Visibility="{Binding Path=OrdenDeProduccion.IsVisibleTotalPorcentajeDeCosto, Converter={StaticResource booleanToVisibilityConverter}}">
-                            <Grid x:Name="gtTotalCosto" Width="690">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="587" />
-                                    <ColumnDefinition Width="Auto" MinWidth="99" />
-                                </Grid.ColumnDefinitions>
-                                <Label
-                                    Name="lblTotalPorcCosto"
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Center"
-                                    Content="Total % Costo Estimado:"
-                                    Foreground="Black"
-                                    Style="{StaticResource LabelPrompt}" />
-                                <nsWpfControls:GSNumericBoxWpf
-                                    Name="txtSumTotalPorcCosto"
-                                    Grid.Column="1"
-                                    Width="99"
-                                    Height="24"
-                                    Margin="3,0,0,0"
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Center"
-                                    HorizontalContentAlignment="Right"
-                                    VerticalContentAlignment="Center"
-                                    BorderThickness="0,0,0,0"
-                                    DecimalDigits="8"
-                                    HorizontalScrollBarVisibility="Auto"
-                                    InputDataType="UDecimal"
-                                    IsEnabled="True"
-                                    Style="{StaticResource TextBoxInputStyle}"
-                                    Value="{Binding Path=OrdenDeProduccion.TotalPorcentajeDeCosto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                            </Grid>
-                        </ContentControl>
-                        <ContentControl
-                            Grid.Row="2"
-                            Grid.ColumnSpan="2"
-                            Visibility="{Binding Path=OrdenDeProduccion.IsVisibleTotalPorcentajeDeCostoCierre, Converter={StaticResource booleanToVisibilityConverter}}">
+                        <ContentControl Grid.Row="2" Grid.ColumnSpan="2">
                             <Grid x:Name="gtTotalCostoCierre" Width="690">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="587" />
@@ -199,7 +161,8 @@
                                     VerticalAlignment="Center"
                                     Content="Total % Costo de Cierre:"
                                     Foreground="Black"
-                                    Style="{StaticResource LabelPrompt}" />
+                                    Style="{StaticResource LabelPrompt}"
+                                    Visibility="{Binding Path=OrdenDeProduccion.IsVisibleTotalPorcentajeDeCostoCierre, Converter={StaticResource booleanToVisibilityConverter}}" />
                                 <nsWpfControls:GSNumericBoxWpf
                                     Name="txtSumTotalPorcCostoCierre"
                                     Grid.Column="1"
@@ -216,7 +179,68 @@
                                     InputDataType="UDecimal"
                                     IsEnabled="True"
                                     Style="{StaticResource TextBoxInputStyle}"
+                                    Visibility="{Binding Path=OrdenDeProduccion.IsVisibleTotalPorcentajeDeCostoCierre, Converter={StaticResource booleanToVisibilityConverter}}"
                                     Value="{Binding Path=OrdenDeProduccion.TotalPorcentajeDeCostoCierre, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            </Grid>
+                        </ContentControl>
+                        <ContentControl Grid.Row="3" Grid.ColumnSpan="2">
+                            <Grid x:Name="gtTotalCosto" Width="690">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="587" />
+                                    <ColumnDefinition Width="Auto" MinWidth="99" />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Name="lblTotalPorcCosto"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Content="Total % Costo Estimado:"
+                                    Foreground="Black"
+                                    Style="{StaticResource LabelPrompt}"
+                                    Visibility="{Binding Path=OrdenDeProduccion.IsVisibleTotalPorcentajeDeCosto, Converter={StaticResource booleanToVisibilityConverter}}" />
+                                <nsWpfControls:GSNumericBoxWpf
+                                    Name="txtSumTotalPorcCosto"
+                                    Grid.Column="1"
+                                    Width="99"
+                                    Height="24"
+                                    Margin="3,0,0,0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    HorizontalContentAlignment="Right"
+                                    VerticalContentAlignment="Center"
+                                    BorderThickness="0,0,0,0"
+                                    DecimalDigits="8"
+                                    HorizontalScrollBarVisibility="Auto"
+                                    InputDataType="UDecimal"
+                                    IsEnabled="True"
+                                    Style="{StaticResource TextBoxInputStyle}"
+                                    Visibility="{Binding Path=OrdenDeProduccion.IsVisibleTotalPorcentajeDeCosto, Converter={StaticResource booleanToVisibilityConverter}}"
+                                    Value="{Binding Path=OrdenDeProduccion.TotalPorcentajeDeCosto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                                <Label
+                                    Name="lblSumMontoSubTotalEnSalidas"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Content="Total Costo:"
+                                    Foreground="Black"
+                                    Style="{StaticResource LabelPrompt}"
+                                    Visibility="{Binding Path=OrdenDeProduccion.IsVisibleSumMontoSubTotal, Converter={StaticResource booleanToVisibilityConverter}}" />
+                                <nsWpfControls:GSNumericBoxWpf
+                                    Name="txtSumMontoSubTotalEnSalidas"
+                                    Grid.Column="1"
+                                    Width="99"
+                                    Height="24"
+                                    Margin="3,0,0,0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    HorizontalContentAlignment="Right"
+                                    VerticalContentAlignment="Center"
+                                    BorderThickness="0,0,0,0"
+                                    DecimalDigits="2"
+                                    HorizontalScrollBarVisibility="Auto"
+                                    InputDataType="UDecimal"
+                                    IsEnabled="True"
+                                    Style="{StaticResource TextBoxInputStyle}"
+                                    Visibility="{Binding Path=OrdenDeProduccion.IsVisibleSumMontoSubTotal, Converter={StaticResource booleanToVisibilityConverter}}"
+                                    Value="{Binding Path=OrdenDeProduccion.SumMontoSubTotal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                             </Grid>
                         </ContentControl>
                     </Grid>
