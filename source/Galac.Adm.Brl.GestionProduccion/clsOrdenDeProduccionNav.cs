@@ -508,7 +508,11 @@ namespace Galac.Adm.Brl.GestionProduccion {
 
                 foreach (OrdenDeProduccionDetalleArticulo vOrdenDeProduccionDetalleArticulo in refRecord[0].DetailOrdenDeProduccionDetalleArticulo) {
                     vOrdenDeProduccionDetalleArticulo.MontoSubTotal = LibMath.RoundToNDecimals(vCostoTotal * (vOrdenDeProduccionDetalleArticulo.PorcentajeCostoCierre / 100), 2);
-                    vOrdenDeProduccionDetalleArticulo.CostoUnitario = LibMath.RoundToNDecimals(vOrdenDeProduccionDetalleArticulo.MontoSubTotal / vOrdenDeProduccionDetalleArticulo.CantidadProducida, 2);                    
+                    if (vOrdenDeProduccionDetalleArticulo.CantidadProducida == 0) {
+                        vOrdenDeProduccionDetalleArticulo.CostoUnitario = 0;
+                    } else {
+                        vOrdenDeProduccionDetalleArticulo.CostoUnitario = LibMath.RoundToNDecimals(vOrdenDeProduccionDetalleArticulo.MontoSubTotal / vOrdenDeProduccionDetalleArticulo.CantidadProducida, 2);
+                    }
                 }
                 using (TransactionScope vScope = LibBusiness.CreateScope()) {
                     vResult = base.UpdateRecord(refRecord, true, eAccionSR.Modificar);
