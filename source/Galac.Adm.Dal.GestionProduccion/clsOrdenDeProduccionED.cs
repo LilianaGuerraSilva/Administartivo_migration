@@ -84,7 +84,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
         private string SqlViewB1() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("SELECT OrdenDeProduccion.ConsecutivoCompania, OrdenDeProduccion.Consecutivo, OrdenDeProduccion.Codigo, OrdenDeProduccion.Descripcion");
-            SQL.AppendLine(", OrdenDeProduccion.StatusOp, " + DbSchema + ".Gv_EnumTipoStatusOrdenProduccion.StrValue AS StatusOpStr, OrdenDeProduccion.ConsecutivoAlmacenProductoTerminado, AlmacenEntrada.NombreAlmacen AS NombreAlmacenEntrada, OrdenDeProduccion.ConsecutivoAlmacenMateriales, AlmacenSalida.NombreAlmacen AS NombreAlmacenSalida, OrdenDeProduccion.FechaCreacion");
+            SQL.AppendLine(", OrdenDeProduccion.StatusOp, " + DbSchema + ".Gv_EnumTipoStatusOrdenProduccion.StrValue AS StatusOpStr, OrdenDeProduccion.ConsecutivoAlmacenProductoTerminado, OrdenDeProduccion.ConsecutivoAlmacenMateriales, OrdenDeProduccion.FechaCreacion");
             SQL.AppendLine(", OrdenDeProduccion.FechaInicio, OrdenDeProduccion.FechaFinalizacion, OrdenDeProduccion.FechaAnulacion, OrdenDeProduccion.FechaAjuste");
             SQL.AppendLine(", OrdenDeProduccion.AjustadaPostCierre, OrdenDeProduccion.Observacion, OrdenDeProduccion.MotivoDeAnulacion, OrdenDeProduccion.NumeroDecimales");
             SQL.AppendLine(", OrdenDeProduccion.CostoTerminadoCalculadoAPartirDe, " + DbSchema + ".Gv_EnumFormaDeCalcularCostoTerminado.StrValue AS CostoTerminadoCalculadoAPartirDeStr, OrdenDeProduccion.CodigoMonedaCostoProduccion, OrdenDeProduccion.CambioCostoProduccion, OrdenDeProduccion.ConsecutivoListaDeMateriales");
@@ -96,14 +96,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine(" = " + DbSchema + ".Gv_EnumTipoStatusOrdenProduccion.DbValue");
             SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumFormaDeCalcularCostoTerminado");
             SQL.AppendLine("ON " + DbSchema + ".OrdenDeProduccion.CostoTerminadoCalculadoAPartirDe COLLATE MODERN_SPANISH_CS_AS");
-            SQL.AppendLine(" = " + DbSchema + ".Gv_EnumFormaDeCalcularCostoTerminado.DbValue");
-            SQL.AppendLine("INNER JOIN Saw.Almacen AS AlmacenEntrada ON  " + DbSchema + ".OrdenDeProduccion.ConsecutivoAlmacenProductoTerminado = AlmacenEntrada.Consecutivo");
-            SQL.AppendLine("      AND " + DbSchema + ".OrdenDeProduccion.ConsecutivoCompania = AlmacenEntrada.ConsecutivoCompania");
-            SQL.AppendLine("INNER JOIN Saw.Almacen AS AlmacenSalida ON  " + DbSchema + ".OrdenDeProduccion.ConsecutivoAlmacenMateriales = AlmacenSalida.Consecutivo");
-            SQL.AppendLine("      AND " + DbSchema + ".OrdenDeProduccion.ConsecutivoCompania = AlmacenSalida.ConsecutivoCompania");
-            SQL.AppendLine("INNER JOIN Moneda ON  " + DbSchema + ".OrdenDeProduccion.CodigoMonedaCostoProduccion = Moneda.Codigo");
-            SQL.AppendLine("INNER JOIN Adm.ListaDeMateriales ON  " + DbSchema + ".OrdenDeProduccion.ConsecutivoListaDeMateriales = Adm.ListaDeMateriales.Consecutivo");
-            SQL.AppendLine("      AND " + DbSchema + ".OrdenDeProduccion.ConsecutivoCompania = Adm.ListaDeMateriales.ConsecutivoCompania");
+            SQL.AppendLine(" = " + DbSchema + ".Gv_EnumFormaDeCalcularCostoTerminado.DbValue");            
             return SQL.ToString();
         }
 
