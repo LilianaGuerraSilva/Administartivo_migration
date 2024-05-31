@@ -82,7 +82,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 LibReport.ConfigFieldDec(this, "txtCantidadConsumida",          string.Empty, "CantidadConsumida", "n" + 8, true, TextAlignment.Right);
                 LibReport.ConfigFieldDec(this, "txtCostoUnitarioMatServ",       string.Empty, "CostoUnitarioMatServ", "n" + 2, true, TextAlignment.Right);
                 LibReport.ConfigFieldDec(this, "txtCostoTotalConsumido",        string.Empty, "MontoTotalConsumo", "n" + 2, true, TextAlignment.Right);
-                LibReport.ConfigFieldStr(this, "txtObservaciones",              string.Empty, "Observaciones");
+                LibReport.ConfigFieldStr(this, "txtObservaciones",              string.Empty, "Observacion");
                 LibReport.ConfigSummaryField(this, "txt_TCostoTotalConsumido", "MontoTotalConsumo", SummaryFunc.Sum, "GHDetalleCostoProduccionInsumos", SummaryRunning.Group, SummaryType.SubTotal, "n" + 2, "");
 
                 LibReport.SetSubReportIfExists(this, SubRptListaDeSalida(valDataSalida), "srptListaDeSalida");
