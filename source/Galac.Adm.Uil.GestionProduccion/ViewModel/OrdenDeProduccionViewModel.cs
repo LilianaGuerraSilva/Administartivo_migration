@@ -476,6 +476,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Model.CantidadProducida = value;
                     IsDirty = true;
                     RaisePropertyChanged(CantidadProducidaPropertyName);
+                    RecalcularCantidadProducida();
                 }
             }
         }
@@ -1682,6 +1683,20 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 item.Existencia = vOrdenDeProduccionDetalleMateriales.BuscaExistenciaDeArticulo(ConsecutivoCompania, item.CodigoArticulo, Model.ConsecutivoAlmacenMateriales);
             }
         }
+
+        private void RecalcularCantidadProducida() {
+            decimal vCantidadProducidaNew;
+            if (Action == eAccionSR.Cerrar) {
+                foreach (OrdenDeProduccionDetalleArticulo vItem in Model.DetailOrdenDeProduccionDetalleArticulo) {
+                    vCantidadProducidaNew = LibMath.RoundToNDecimals(CantidadProducida * vItem.CantidadOriginalLista, DecimalDigits);
+                    if (vItem.CantidadSolicitada != vCantidadProducidaNew) {
+                        vItem.CantidadProducida = vCantidadProducidaNew;
+                        vItem.CantidadAjustada = vItem.CantidadSolicitada - vItem.CantidadProducida;
+                    }
+                }
+            }
+        }
+
 
         #endregion //Metodos
     } //End of class OrdenDeProduccionViewModel
