@@ -23,6 +23,8 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="105" />
+            <ColumnDefinition Width="150" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
@@ -124,5 +126,13 @@
             Style="{StaticResource TextBoxInputStyle}"
             Visibility="{Binding Path=IsVisiblePorcentajeCostoCierre, Converter={StaticResource booleanToVisibilityConverter}}"
             Value="{Binding Path=PorcentajeCostoCierre, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        <Label
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="6"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Left"
+            Content="{Binding Path=Master.LabelFormaDeCalcularCostosDeProduccion}"
+            Style="{StaticResource LabelStatusRed}" />
     </Grid>
 </UserControl>
