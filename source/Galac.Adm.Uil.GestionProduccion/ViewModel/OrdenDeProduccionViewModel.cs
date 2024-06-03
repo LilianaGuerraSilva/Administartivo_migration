@@ -235,7 +235,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         [LibCustomValidation("FechaCreacionValidating")]
-        [LibGridColum("Fecha de Creación", eGridColumType.DatePicker, ColumnOrder = 3)]
+        //[LibGridColum("Fecha de Creación", eGridColumType.DatePicker, ColumnOrder = 3)]
         public DateTime FechaCreacion {
             get {
                 return Model.FechaCreacion;
