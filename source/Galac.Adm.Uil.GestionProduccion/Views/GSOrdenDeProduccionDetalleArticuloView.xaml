@@ -131,8 +131,6 @@
             Grid.RowSpan="2"
             Grid.Column="6"
             Grid.ColumnSpan="2"
-            Width="245"
-            Margin="0,0,0,36"
             HorizontalAlignment="Left"
             Content="{Binding Path=Master.LabelFormaDeCalcularCostosDeProduccion}"
             Style="{StaticResource LabelStatusRed}" />
