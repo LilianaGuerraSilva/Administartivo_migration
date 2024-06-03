@@ -745,7 +745,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         public bool IsVisibleSumMontoSubTotal {
-            get { return StatusOp == eTipoStatusOrdenProduccion.Cerrada || Action == eAccionSR.Cerrar; }
+            get { return StatusOp == eTipoStatusOrdenProduccion.Cerrada && Action== eAccionSR.Consultar; }
         }
 
         protected override bool RecordIsReadOnly() {
@@ -894,6 +894,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 if (Action == eAccionSR.Insertar) {
                     CodigoMonedaCostoProduccion = AsignarCodigoDeLaMonedaAlInsertar();
                     CostoTerminadoCalculadoAPartirDe = (eFormaDeCalcularCostoTerminado)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CostoTerminadoCalculadoAPartirDe"));
+                } else if (Action == eAccionSR.Cerrar) {
+                    CantidadProducida = CantidadAProducir;
                 }
                 if (Action == eAccionSR.Anular || Action == eAccionSR.Consultar || Action == eAccionSR.Eliminar) {
                     Moneda = AsignarNombreMoneda().Nombre;
