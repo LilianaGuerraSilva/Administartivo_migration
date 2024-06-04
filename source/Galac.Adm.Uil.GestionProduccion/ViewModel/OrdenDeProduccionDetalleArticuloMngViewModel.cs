@@ -23,12 +23,17 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         #region Propiedades
 
         public override string ModuleName {
-            get { return "Orden De Produccion Detalle Articulo"; }
+            get { return "Salidas"; }
         }
 
         public OrdenDeProduccionViewModel Master {
             get;
             set;
+        }
+
+        public new ObservableCollection<LibGridColumModel> VisibleColumns {
+            get;
+            private set;
         }
         #endregion //Propiedades
         #region Constructores
@@ -47,7 +52,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 vViewModel.InitializeViewModel(initAction);
                 Add(vViewModel);
                
-            }
+            }          
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -64,9 +69,39 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             valViewModel.Master = Master;
             base.RaiseOnCreatedEvent(valViewModel);
         }
+
+        public void OcultarColumnas() {
+            VisibleColumns = LibGridColumModel.GetGridColumsFromType(typeof(OrdenDeProduccionDetalleArticuloViewModel));
+            ObservableCollection<LibGridColumModel> VisibleColumnsCpy = LibGridColumModel.GetGridColumsFromType(typeof(OrdenDeProduccionDetalleArticuloViewModel));
+            if ((Master.Action == eAccionSR.Insertar) || (Master.Action == eAccionSR.Modificar) || (Master.Action == eAccionSR.Consultar) || (Master.Action == eAccionSR.Eliminar) || (Master.Action == eAccionSR.Anular)) {
+                foreach (var item in VisibleColumnsCpy) {
+                    if (Master.StatusOp == eTipoStatusOrdenProduccion.Ingresada || Master.StatusOp == eTipoStatusOrdenProduccion.Iniciada || Master.StatusOp == eTipoStatusOrdenProduccion.Anulada) {
+                        if (VisibleColumns.Count > 6) {
+                            VisibleColumns.RemoveAt(6);
+                        }
+                    } else if (Master.StatusOp == eTipoStatusOrdenProduccion.Cerrada) {
+                        if (VisibleColumns.Count > 9) {
+                            VisibleColumns.RemoveAt(9);
+                        }
+                    } else if (VisibleColumns.Count > 8) {
+                        VisibleColumns.RemoveAt(8);
+                    }
+                }
+            } else if (Master.Action == eAccionSR.Cerrar) {
+                foreach (var vItem in VisibleColumnsCpy) {
+                    if (VisibleColumns.Count > 8) {
+                        VisibleColumns.RemoveAt(8);
+                    }
+                }
+            } else if (Master.Action == eAccionSR.Custom) {//Iniciar
+                foreach (var vItem in VisibleColumnsCpy) {
+                    if (VisibleColumns.Count > 6) {
+                        VisibleColumns.RemoveAt(6);
+                    }
+                }
+            }
+        }
         #endregion //Metodos Generados
-
-
     } //End of class OrdenDeProduccionDetalleArticuloMngViewModel
 
 } //End of namespace Galac.Adm.Uil. GestionProduccion

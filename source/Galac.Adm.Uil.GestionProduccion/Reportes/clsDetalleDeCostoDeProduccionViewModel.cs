@@ -13,6 +13,8 @@ using Galac.Adm.Brl.GestionProduccion;
 using Galac.Adm.Uil.GestionProduccion.ViewModel;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using System.ComponentModel.DataAnnotations;
+using Galac.Saw.Lib;
+using System.Collections.ObjectModel;
 
 namespace Galac.Adm.Uil.GestionProduccion.Reportes {
     public class clsDetalleDeCostoDeProduccionViewModel : LibInputRptViewModelBase<OrdenDeProduccion> {
@@ -33,6 +35,8 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         private bool _IsEnabledCodigoDeOrden;
         private bool _IsEnabledFecha;
         private FkOrdenDeProduccionViewModel _ConexionCodigoDeOrden = null;
+        eMonedaDelInformeMM _MonedaDelInforme;
+        eTasaDeCambioParaImpresion _TasaDeCambio;
         #region Codigo Ejemplo
         /* Codigo de Ejemplo
         public const string CantidadAImprimirPropertyName = "CantidadAImprimir";
@@ -173,7 +177,19 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             get;
             private set;
         }
-        #endregion
+
+        public bool IsVisibleTasaDeCambio { get { return MonedaDelInforme == eMonedaDelInformeMM.EnBolivares || MonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa; } }
+
+        public bool IsVisibleMonedasActivas { get { return MonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa; } }
+
+        public string Moneda { get; set; }
+
+        public ObservableCollection<eTasaDeCambioParaImpresion> ListaTasaDeCambio { get; set; }
+
+        public ObservableCollection<eMonedaDelInformeMM> ListaMonedaDelInforme { get; set; }
+
+        public ObservableCollection<string> ListaMonedasActivas { get; set; }
+        #endregion //Propiedades
         #region Constructores
         public clsDetalleDeCostoDeProduccionViewModel() {
             _SeleccionarOrdenPor = eSeleccionarOrdenPor.NumeroDeOrden;
@@ -183,6 +199,11 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             _FechaFinal = DateTime.Today;
             _IsEnabledFecha = false;
             _IsEnabledCodigoDeOrden = true;
+            SeleccionarOrdenPor = eSeleccionarOrdenPor.NumeroDeOrden;
+            LlenarListaMonedaDelInforme();
+            LlenarListaMonedasActivas();
+            LlenarListaTasaDeCambio();
+            RaisePropertyChanged(() => IsVisibleTasaDeCambio);
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -205,7 +226,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Adm.Gv_OrdenDeProduccion_B1.Codigo", valCodigo);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccion_B1.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
-                vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccion_B1.StatusOp", (int)Galac.Adm.Ccl.GestionProduccion.eTipoStatusOrdenProduccion.Cerrada),eLogicOperatorType.And);
+                vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccion_B1.StatusOp", (int)eTipoStatusOrdenProduccion.Cerrada),eLogicOperatorType.And);
                 ConexionCodigoDeOrden = ChooseRecord<FkOrdenDeProduccionViewModel>("Orden de Producción", vDefaultCriteria, vFixedCriteria, string.Empty);
                 if (ConexionCodigoDeOrden != null) {
                     CodigoDeOrden = ConexionCodigoDeOrden.Codigo;
@@ -232,6 +253,49 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
                 vResult = new ValidationResult("Debe seleccionar una Orden de Producción a consultar.");
             }
             return vResult;
+        }
+        public eMonedaDelInformeMM MonedaDelInforme {
+            get { return _MonedaDelInforme; }
+            set {
+                if (_MonedaDelInforme != value) {
+                    _MonedaDelInforme = value;
+                    RaisePropertyChanged(() => MonedaDelInforme);
+                    RaisePropertyChanged(() => IsVisibleMonedasActivas);
+                    RaisePropertyChanged(() => IsVisibleTasaDeCambio);
+                }
+            }
+        }
+        public eTasaDeCambioParaImpresion TasaDeCambio {
+            get { return _TasaDeCambio; }
+            set {
+                if (_TasaDeCambio != value) {
+                    _TasaDeCambio = value;
+                    RaisePropertyChanged(() => TasaDeCambio);
+                }
+            }
+        }
+
+        void LlenarListaMonedaDelInforme() {
+            ListaMonedaDelInforme = new ObservableCollection<eMonedaDelInformeMM>();
+            ListaMonedaDelInforme.Clear();
+            ListaMonedaDelInforme.Add(eMonedaDelInformeMM.EnBolivares);
+            ListaMonedaDelInforme.Add(eMonedaDelInformeMM.EnMonedaOriginal);
+            ListaMonedaDelInforme.Add(eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa);
+            MonedaDelInforme = eMonedaDelInformeMM.EnMonedaOriginal;
+        }
+
+        void LlenarListaMonedasActivas() {
+            ListaMonedasActivas = new Galac.Saw.Lib.clsLibSaw().ListaDeMonedasActivasParaInformes(false);
+            if (ListaMonedasActivas.Count > 0) {
+                Moneda = ListaMonedasActivas[0];
+            }
+        }
+        void LlenarListaTasaDeCambio() {
+            ListaTasaDeCambio = new ObservableCollection<eTasaDeCambioParaImpresion>();
+            ListaTasaDeCambio.Clear();
+            ListaTasaDeCambio.Add(eTasaDeCambioParaImpresion.Original);
+            ListaTasaDeCambio.Add(eTasaDeCambioParaImpresion.DelDia);
+            TasaDeCambio = eTasaDeCambioParaImpresion.Original;
         }
         #endregion
     }//End of class clsDetalleDeCostoDeProduccionViewModel

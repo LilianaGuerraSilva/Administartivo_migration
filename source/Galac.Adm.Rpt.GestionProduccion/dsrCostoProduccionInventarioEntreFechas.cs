@@ -13,6 +13,7 @@ using System.Data;
 using LibGalac.Aos.DefGen;
 using LibGalac.Aos.Base.Dal;
 using System.Text;
+using Galac.Saw.Lib;
 
 namespace Galac.Adm.Rpt.GestionProduccion {
     /// <summary>
@@ -50,18 +51,18 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         #endregion
         #region Metodos Generados
         public string ReportTitle() {
-            return "Costo Producción de Inventario Entre Fechas";
+            return "Costo Producción de Inventario";
         }
 
-        public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {
+        public bool ConfigReport(DataTable valDataSource, eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio, string valMoneda, Dictionary<string, string> valParameters) {
             if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
                 if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
                     LibReport.LoadLayout(this, vRpxPath);
                 }
             }
-            MayorCostoProduccion = LibConvert.ToDec(valDataSource.Compute("MAX(MontoSubTotal)", ""), 2);
-            MenorCostoDeProduccion = LibConvert.ToDec(valDataSource.Compute("MIN(MontoSubTotal)", ""), 2);
+            MayorCostoProduccion = LibConvert.ToDec(valDataSource.Compute("MAX(MontoSubTotal)", ""), 8);
+            MenorCostoDeProduccion = LibConvert.ToDec(valDataSource.Compute("MIN(MontoSubTotal)", ""), 8);
             if (MayorCostoProduccion != MenorCostoDeProduccion) {
                 OrdenMayorCosto = OrdenSegunCosto(valDataSource, MayorCostoProduccion);
                 OrdenMenorCosto = OrdenSegunCosto(valDataSource, MenorCostoDeProduccion);
@@ -73,19 +74,24 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
                 LibReport.ConfigFieldStr(this, "txtCodigoOrden", string.Empty, "Codigo");
+                LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "Moneda");
+                LibReport.ConfigFieldDec(this, "txtCambio", string.Empty, "Cambio", "n" + 4, true, TextAlignment.Right);
                 LibReport.ConfigFieldDate(this, "txtFechaFinalizacion", string.Empty, "FechaFinalizacion", LibGalac.Aos.Base.Report.eDateOutputFormat.DateLong);
                 LibReport.ConfigFieldStr(this, "txtInventarioProducido", string.Empty, "ArticuloInventario");
-                LibReport.ConfigFieldDec(this, "txtCantidadProducida", string.Empty, "CantidadProducida", "n" + 2, true, TextAlignment.Right);
-                LibReport.ConfigFieldDec(this, "txtCostoUnitario", string.Empty, "CostoUnitario", "n" + 4, true, TextAlignment.Right);
-                LibReport.ConfigFieldDec(this, "txtCostoTotalOrden", string.Empty, "MontoSubTotal", "n" + 4, true, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtCantidadProducida", string.Empty, "CantidadProducida", "n" + 8, true, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtCostoUnitario", string.Empty, "CostoUnitario");
+                LibReport.ConfigFieldDec(this, "txtCostoTotalOrden", string.Empty, "MontoSubTotal");
 
                 LibReport.ConfigGroupHeader(this, "GHSecInventarioProducido", "ArticuloInventario", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
 
                 LibReport.ConfigSummaryField(this, "txt_TCantidadTotalProducida", "CantidadProducida", SummaryFunc.Sum, "GHSecInventarioProducido", SummaryRunning.Group, SummaryType.SubTotal);
-                LibReport.ConfigSummaryField(this, "txt_TCostoTotalProduccion", "MontoSubTotal", SummaryFunc.Sum, "GHSecInventarioProducido", SummaryRunning.Group, SummaryType.SubTotal, "n" + 4, "");
+                LibReport.ConfigSummaryField(this, "txt_TCostoTotalProduccion", "MontoSubTotal", SummaryFunc.Sum, "GHSecInventarioProducido", SummaryRunning.Group, SummaryType.SubTotal);
 
-                LibReport.ConfigSummaryField(this, "txt_TTCantidadProducidas", "CantidadProducida", SummaryFunc.Sum, "PageHeader", SummaryRunning.Group, SummaryType.GrandTotal);
-                LibReport.ConfigSummaryField(this, "txt_TTCostoProduccion", "MontoSubTotal", SummaryFunc.Sum, "PageHeader", SummaryRunning.Group, SummaryType.GrandTotal, "n" + 4, "");
+                LibReport.ConfigSummaryField(this, "txt_TTCantidadProducidas", "CantidadProducida", SummaryFunc.Sum, "PageHeader", SummaryRunning.Group, SummaryType.GrandTotal, "n" + 8, "");
+                LibReport.ConfigSummaryField(this, "txt_TTCostoProduccion", "MontoSubTotal", SummaryFunc.Sum, "PageHeader", SummaryRunning.Group, SummaryType.GrandTotal);
+
+                string vNotaMonedaCambio = new clsLibSaw().NotaMonedaCambioParaInformes(valMonedaDelInforme, valTasaDeCambio, valMoneda, "Orden de Producción");
+                LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", vNotaMonedaCambio, "");
 
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 LibReport.AddNoDataEvent(this);
@@ -136,7 +142,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         private void CalculosParaElPeriodo() {
             decimal vCostoPromedio = 0;
             decimal vCostoTotalProduccion = LibConvert.ToDec(this.txt_TCostoTotalProduccion.Text, 2);
-            decimal vCantidadTotalProducida = LibConvert.ToDec(this.txt_TCantidadTotalProducida.Text, 2);
+            decimal vCantidadTotalProducida = LibConvert.ToDec(this.txt_TCantidadTotalProducida.Text, 8);
             if (vCantidadTotalProducida > 0) {
                 vCostoPromedio = vCostoTotalProduccion / vCantidadTotalProducida;
             }

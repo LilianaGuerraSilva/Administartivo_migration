@@ -13,13 +13,13 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         #region Variables
         private int _ConsecutivoCompania;
         private int _ConsecutivoOrdenDeProduccion;
-        private int _ConsecutivoOrdenDeProduccionDetalleArticulo;
         private int _Consecutivo;
         private int _ConsecutivoAlmacen;
         private string _CodigoAlmacen;
         private string _NombreAlmacen;
         private string _CodigoArticulo;
         private string _DescripcionArticulo;
+        private string _UnidadDeVenta;
         private decimal _Cantidad;
         private decimal _CantidadReservadaInventario;
         private decimal _CantidadConsumida;
@@ -40,11 +40,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         public int ConsecutivoOrdenDeProduccion {
             get { return _ConsecutivoOrdenDeProduccion; }
             set { _ConsecutivoOrdenDeProduccion = value; }
-        }
-
-        public int ConsecutivoOrdenDeProduccionDetalleArticulo {
-            get { return _ConsecutivoOrdenDeProduccionDetalleArticulo; }
-            set { _ConsecutivoOrdenDeProduccionDetalleArticulo = value; }
         }
 
         public int Consecutivo {
@@ -80,6 +75,14 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             set { 
                 _DescripcionArticulo = LibString.Mid(value, 0, 255);
                 OnPropertyChanged("DescripcionArticulo");
+            }
+        }
+
+        public string UnidadDeVenta {
+            get { return _UnidadDeVenta; }
+            set { 
+                _UnidadDeVenta = LibString.Mid(value, 0, 20);
+                OnPropertyChanged("UnidadDeVenta");
             }
         }
 
@@ -141,6 +144,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             get { return _TipoDeArticulo; }
             set { _TipoDeArticulo = value; }
         }
+		
         public string TipoDeArticulo {
             set { _TipoDeArticulo = (eTipoDeArticulo)LibConvert.DbValueToEnum(value); }
         }
@@ -160,13 +164,13 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         public void Clear() {
             ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
             ConsecutivoOrdenDeProduccion = 0;
-            ConsecutivoOrdenDeProduccionDetalleArticulo = 0;
             Consecutivo = 0;
             ConsecutivoAlmacen = 0;
             CodigoAlmacen = string.Empty;
             NombreAlmacen = string.Empty;
             CodigoArticulo = string.Empty;
             DescripcionArticulo = string.Empty;
+            UnidadDeVenta = string.Empty;
             Cantidad = 0;
             CantidadReservadaInventario = 0;
             CantidadConsumida = 0;
@@ -182,13 +186,13 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             OrdenDeProduccionDetalleMateriales vResult = new OrdenDeProduccionDetalleMateriales();
             vResult.ConsecutivoCompania = _ConsecutivoCompania;
             vResult.ConsecutivoOrdenDeProduccion = _ConsecutivoOrdenDeProduccion;
-            vResult.ConsecutivoOrdenDeProduccionDetalleArticulo = _ConsecutivoOrdenDeProduccionDetalleArticulo;
             vResult.Consecutivo = _Consecutivo;
             vResult.ConsecutivoAlmacen = _ConsecutivoAlmacen;
             vResult.CodigoAlmacen = _CodigoAlmacen;
             vResult.NombreAlmacen = _NombreAlmacen;
             vResult.CodigoArticulo = _CodigoArticulo;
             vResult.DescripcionArticulo = _DescripcionArticulo;
+            vResult.UnidadDeVenta = _UnidadDeVenta;
             vResult.Cantidad = _Cantidad;
             vResult.CantidadReservadaInventario = _CantidadReservadaInventario;
             vResult.CantidadConsumida = _CantidadConsumida;
@@ -203,7 +207,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         public override string ToString() {
            return "Consecutivo Compania = " + _ConsecutivoCompania.ToString() +
                "\nConsecutivo Orden De Produccion = " + _ConsecutivoOrdenDeProduccion.ToString() +
-               "\nConsecutivo Orden De Produccion Detalle Articulo = " + _ConsecutivoOrdenDeProduccionDetalleArticulo.ToString() +
                "\nConsecutivo = " + _Consecutivo.ToString() +
                "\nConsecutivo Almacen = " + _ConsecutivoAlmacen.ToString() +
                "\nCodigoArticulo = " + _CodigoArticulo +

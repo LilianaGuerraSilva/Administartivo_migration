@@ -8,6 +8,8 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Base.Report;
 using LibGalac.Aos.ARRpt;
 using Galac.Adm.Ccl. GestionProduccion;
+using Galac.Saw.Lib;
+
 namespace Galac.Adm.Rpt. GestionProduccion {
 
     public class clsCostoProduccionInventarioEntreFechas: LibRptBaseMfc {
@@ -27,6 +29,9 @@ namespace Galac.Adm.Rpt. GestionProduccion {
         public string CodigoOrden { get; set; }
 
         public eGeneradoPor GeneradoPor { get; set; }
+        eTasaDeCambioParaImpresion TasaDeCambio { get; set; }
+        eMonedaDelInformeMM MonedaDelInforme { get; set; }
+        string Moneda { get; set; }
         #region Codigo Ejemplo
         /* Codigo de Ejemplo
 
@@ -37,7 +42,7 @@ namespace Galac.Adm.Rpt. GestionProduccion {
         #endregion //Codigo Ejemplo
         #endregion //Propiedades
         #region Constructores
-        public clsCostoProduccionInventarioEntreFechas(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime iniFechaInicial, DateTime iniFechaFinal, eCantidadAImprimir iniCantidadAImprimir, string iniCodigoInventarioAProducir,  eGeneradoPor iniGeneradoPor, string iniCodigoOrden)
+        public clsCostoProduccionInventarioEntreFechas(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime iniFechaInicial, DateTime iniFechaFinal, eCantidadAImprimir iniCantidadAImprimir, string iniCodigoInventarioAProducir,  eGeneradoPor iniGeneradoPor, string iniCodigoOrden, eMonedaDelInformeMM initMonedaDelInforme, eTasaDeCambioParaImpresion initTasaDeCambio, string initMoneda)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
             ConsecutivoCompania = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania");       
             FechaInicial = iniFechaInicial;
@@ -46,13 +51,16 @@ namespace Galac.Adm.Rpt. GestionProduccion {
             CodigoInventarioAProducir = iniCodigoInventarioAProducir;
             CodigoOrden = iniCodigoOrden;
             GeneradoPor = iniGeneradoPor;
+            TasaDeCambio = initTasaDeCambio;
+            MonedaDelInforme = initMonedaDelInforme;
+            Moneda = MonedaDelInforme == eMonedaDelInformeMM.BolivaresExpresadosEnEnDivisa ? initMoneda : string.Empty;
 
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-            FechaDesde = initFechaDesde;
-            FechaHasta = initFechaHasta;
-        */
-        #endregion //Codigo Ejemplo
+            #region Codigo Ejemplo
+            /* Codigo de Ejemplo
+                FechaDesde = initFechaDesde;
+                FechaHasta = initFechaHasta;
+            */
+            #endregion //Codigo Ejemplo
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -83,15 +91,18 @@ namespace Galac.Adm.Rpt. GestionProduccion {
                 return;
             }
             WorkerReportProgress(30, "Obteniendo datos...");
-            IOrdenDeProduccionInformes vRpt = new Galac.Adm.Brl. GestionProduccion.Reportes.clsOrdenDeProduccionRpt() as IOrdenDeProduccionInformes;
-            Data = vRpt.BuildCostoProduccionInventarioEntreFechas(ConsecutivoCompania, FechaInicial, FechaFinal, CantidadAImprimir, CodigoInventarioAProducir, GeneradoPor, CodigoOrden);
+            string vCodigoMoneda = LibString.Trim(LibString.Mid(Moneda, 1, LibString.InStr(Moneda, ")") - 1));
+            vCodigoMoneda = LibString.IsNullOrEmpty(vCodigoMoneda, true) ? LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera") : vCodigoMoneda;
+            string vNombreMoneda = LibString.Trim(LibString.Mid(Moneda, 1 + LibString.InStr(Moneda, ")")));
+            IOrdenDeProduccionInformes vRpt = new Brl. GestionProduccion.Reportes.clsOrdenDeProduccionRpt() as IOrdenDeProduccionInformes;
+            Data = vRpt.BuildCostoProduccionInventarioEntreFechas(ConsecutivoCompania, FechaInicial, FechaFinal, CantidadAImprimir, CodigoInventarioAProducir, GeneradoPor, CodigoOrden, MonedaDelInforme, TasaDeCambio, vCodigoMoneda, vNombreMoneda);
         }
 
         public override void SendReportToDevice() {
             WorkerReportProgress(90, "Configurando Informe...");
             Dictionary<string, string> vParams = GetConfigReportParameters();
             dsrCostoProduccionInventarioEntreFechas vRpt = new dsrCostoProduccionInventarioEntreFechas();
-            if (vRpt.ConfigReport(Data, vParams)) {
+            if (vRpt.ConfigReport(Data, MonedaDelInforme, TasaDeCambio, Moneda, vParams)) {
                 LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsCostoProduccionInventarioEntreFechas.ReportName, true, ExportFileFormat, "", false);
             }
             WorkerReportProgress(100, "Finalizando...");

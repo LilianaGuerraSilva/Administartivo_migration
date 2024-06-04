@@ -13,6 +13,7 @@ using System.Data;
 using LibGalac.Aos.DefGen;
 using LibGalac.Aos.Base.Dal;
 using System.Text;
+using Galac.Saw.Lib;
 
 namespace Galac.Adm.Rpt.GestionProduccion {
     /// <summary>
@@ -62,7 +63,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
 
         #region Metodos Generados
 
-        public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {
+        public bool ConfigReport(DataTable valDataSource, eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio, string valMoneda, Dictionary<string, string> valParameters) {
             if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
                 if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
@@ -82,19 +83,25 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
                 LibReport.ConfigFieldStr(this, "txtInventarioProducido", string.Empty, "InventarioProducido");
+                LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "Moneda");
+                LibReport.ConfigFieldDec(this, "txtCambio", string.Empty, "Cambio", "n" + 4, true, TextAlignment.Right);
                 LibReport.ConfigFieldStr(this, "txtArticuloUtilizado", string.Empty, "ArticuloServicioUtilizado");
                 LibReport.ConfigFieldStr(this, "txtCodigoOrden", string.Empty, "Orden");
                 LibReport.ConfigFieldDate(this, "txtFechaFinalizacion", string.Empty, "FechaFinalizacion", LibGalac.Aos.Base.Report.eDateOutputFormat.DateLong);
-                LibReport.ConfigFieldDec(this, "txtCantidadConsumida", string.Empty, "CantidadConsumida", "n" + 2, true, TextAlignment.Right);
-                LibReport.ConfigFieldDec(this, "txtCostoUnitario", string.Empty, "CostoUnitarioArticuloInventario", "n" + 4, true, TextAlignment.Right);
-                LibReport.ConfigFieldDec(this, "txtCostoTotal", string.Empty, "MontoSubtotal", "n" + 4, true, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtCantidadConsumida", string.Empty, "CantidadConsumida", "n" + 8, true, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtCostoUnitario", string.Empty, "CostoUnitarioArticuloInventario", "n" + 8, true, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtCostoTotal", string.Empty, "MontoSubtotal", "n" + 8, true, TextAlignment.Right);
 
                 LibReport.ConfigGroupHeader(this, "GHSecInventarioProducido", "InventarioProducido", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
                 LibReport.ConfigGroupHeader(this, "GHSecArticuloUtilizado", "ArticuloServicioUtilizado", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
 
-                LibReport.ConfigSummaryField(this, "txt_TCantidadConsumida", "CantidadConsumida", SummaryFunc.Sum, "GHSecArticuloUtilizado", SummaryRunning.Group, SummaryType.SubTotal);
-                LibReport.ConfigSummaryField(this, "txt_TCostoTotal", "MontoSubtotal", SummaryFunc.Sum, "GHSecArticuloUtilizado", SummaryRunning.Group, SummaryType.SubTotal, "n" + 4, "");
-                LibReport.ConfigSummaryField(this, "txt_TTCostoConsumo", "MontoSubTotal", SummaryFunc.Sum, "PageHeader", SummaryRunning.Group, SummaryType.GrandTotal, "n" + 4, "");
+                LibReport.ConfigSummaryField(this, "txt_TCantidadConsumida", "CantidadConsumida", SummaryFunc.Sum, "GHSecArticuloUtilizado", SummaryRunning.Group, SummaryType.SubTotal, "n" + 8, "");
+                LibReport.ConfigSummaryField(this, "txt_TCostoTotal", "MontoSubtotal", SummaryFunc.Sum, "GHSecArticuloUtilizado", SummaryRunning.Group, SummaryType.SubTotal, "n" + 8, "");
+                LibReport.ConfigSummaryField(this, "txt_TTCostoConsumo", "MontoSubTotal", SummaryFunc.Sum, "PageHeader", SummaryRunning.Group, SummaryType.GrandTotal, "n" + 8, "");
+
+                string vNotaMonedaCambio = new clsLibSaw().NotaMonedaCambioParaInformes(valMonedaDelInforme, valTasaDeCambio, valMoneda, "Orden de Producción");
+                LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", vNotaMonedaCambio, "");
+
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 LibReport.AddNoDataEvent(this);
                 return true;
@@ -131,8 +138,8 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         }
 
         private void PageFooter_Format(object sender, EventArgs e) {
-            this.txt_TTMayorCostoConsumo.Value = LibConvert.ToStr(MayorCostoConsumo, 2);
-            this.txt_TTMenorCostoConsumo.Value = LibConvert.ToStr(MenorCostoConsumo, 2);
+            this.txt_TTMayorCostoConsumo.Value = LibConvert.ToStr(MayorCostoConsumo, 8);
+            this.txt_TTMenorCostoConsumo.Value = LibConvert.ToStr(MenorCostoConsumo, 8);
             this.txtOrdenConMayorCosto.Value = LibConvert.ToStr(OrdenMayorCosto);
             this.txtOrdenConMenorCosto.Value = LibConvert.ToStr(OrdenMenorCosto);
         }

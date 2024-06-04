@@ -16,6 +16,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			StartConnectionNoTransaction();
 			AgregarColumnasIGTFEnCxP();
 			CrearListaDeMaterialesDetalleArticuloProducir();
+			OrdenDeProduccionMultiplesSalidas();
 			DisposeConnectionNoTransaction();
 			return true;
 		}
@@ -49,6 +50,131 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			} catch (Exception) {
 				throw;
 			}
+		}
+
+		void OrdenDeProduccionMultiplesSalidas() {
+			DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Saw.Almacen", "Adm.OrdenDeProduccionDetalleArticulo");
+			DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Adm.ListaDeMateriales", "Adm.OrdenDeProduccionDetalleArticulo");
+			if (AddColumnNumeric("Adm.OrdenDeProduccion", "ConsecutivoListaDeMateriales", 10, 0, "", 0)) {
+				ActualizaConsecutivoListaMaterias();
+				AddNotNullConstraint("Adm.OrdenDeProduccion", "ConsecutivoListaDeMateriales", InsSql.NumericTypeForDb(10, 0));
+				AddForeignKey("Adm.ListaDeMateriales", "Adm.OrdenDeProduccion", new string[] { "ConsecutivoCompania", "Consecutivo" }, new string[] { "ConsecutivoCompania", "ConsecutivoListaDeMateriales", }, false, false);
+			}
+			AlterColumnIfExist("Adm.OrdenDeProduccionDetalleArticulo", "ConsecutivoListaDeMateriales", InsSql.NumericTypeForDb(10, 0), "", "0");
+			AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "nnOrdDeProDetArtConsecutiv", "0", "ConsecutivoListaDeMateriales");
+			DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Adm.OrdenDeProduccionDetalleArticulo", "Adm.OrdenDeProduccionDetalleMateriales");
+			DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Saw.Almacen", "Adm.OrdenDeProduccionDetalleMateriales");
+			DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "ArticuloInventario", "Adm.OrdenDeProduccionDetalleMateriales");
+			DeletePrimaryKey("Adm.OrdenDeProduccionDetalleMateriales");
+			AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "d_OrdDeProDetMatCoDetArt", "0", "ConsecutivoOrdenDeProduccionDetalleArticulo");
+			if (!TableHasPrimaryKey("Adm.OrdenDeProduccionDetalleMateriales")){
+				AddPrimaryKey("Adm.OrdenDeProduccionDetalleMateriales", "ConsecutivoCompania, ConsecutivoOrdenDeProduccion, Consecutivo");
+			}
+			string vRelationName = FKName("Adm.OrdenDeProduccion", "Adm.OrdenDeProduccionDetalleMateriales");
+			if (!ForeignKeyNameExists(vRelationName)) {
+				try {
+					AddForeignKey("Adm.OrdenDeProduccion", "Adm.OrdenDeProduccionDetalleMateriales", new string[] { "ConsecutivoCompania", "Consecutivo" }, new string[] { "ConsecutivoCompania", "ConsecutivoOrdenDeProduccion" }, true, true);
+				}catch (System.AccessViolationException) {
+					throw;
+				} catch (Exception) {
+                }
+			}
+			if (AddColumnDecimal("Adm.OrdenDeProduccionDetalleArticulo", "PorcentajeCostoEstimado", 25, 8, "", 0)) {
+				AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtPoCoEs", "0", "PorcentajeCostoEstimado");
+			}
+			if (AddColumnDecimal("Adm.OrdenDeProduccionDetalleArticulo", "PorcentajeCostoCierre", 25, 8, "", 0)) {
+				AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtPoCoCi", "0", "PorcentajeCostoCierre");
+			}
+			if (AddColumnDecimal("Adm.OrdenDeProduccionDetalleArticulo", "Costo", 25, 8, "", 0)) {
+				AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtCo", "0", "Costo");
+			}
+			if (AddColumnDecimal("Adm.OrdenDeProduccionDetalleArticulo", "CantidadOriginalLista", 25, 8, "", 0)) {
+				AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtCaOrLi", "0", "CantidadOriginalLista");
+			}
+
+			AlterColumnIfExist("Adm.OrdenDeProduccionDetalleArticulo", "CantidadSolicitada", InsSql.DecimalTypeForDb(25, 8), "", "0");
+			AlterColumnIfExist("Adm.OrdenDeProduccionDetalleArticulo", "CantidadProducida", InsSql.DecimalTypeForDb(25, 8), "", "0");
+			AlterColumnIfExist("Adm.OrdenDeProduccionDetalleArticulo", "CostoUnitario", InsSql.DecimalTypeForDb(25, 8), "", "0");
+			AlterColumnIfExist("Adm.OrdenDeProduccionDetalleArticulo", "MontoSubTotal", InsSql.DecimalTypeForDb(25, 8), "", "0");
+			AlterColumnIfExist("Adm.OrdenDeProduccionDetalleArticulo", "CantidadAjustada", InsSql.DecimalTypeForDb(25, 8), "", "0");
+
+			AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtCaSo", "0", "CantidadSolicitada");
+			AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtCaPr", "0", "CantidadProducida");
+			AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtCoUn", "0", "CostoUnitario");
+			AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtMoSuTo", "0", "MontoSubTotal");
+			AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtCaAj", "0", "CantidadAjustada");
+
+			AlterColumnIfExist("Adm.OrdenDeProduccionDetalleMateriales", "CantidadReservadaInventario", InsSql.DecimalTypeForDb(25, 8), "", "0");
+			AlterColumnIfExist("Adm.OrdenDeProduccionDetalleMateriales", "CantidadConsumida", InsSql.DecimalTypeForDb(25, 8), "", "0");
+			AlterColumnIfExist("Adm.OrdenDeProduccionDetalleMateriales", "CostoUnitarioArticuloInventario", InsSql.DecimalTypeForDb(25, 8), "", "0");
+			AlterColumnIfExist("Adm.OrdenDeProduccionDetalleMateriales", "MontoSubtotal", InsSql.DecimalTypeForDb(25, 8), "", "0");
+			AlterColumnIfExist("Adm.OrdenDeProduccionDetalleMateriales", "CantidadAjustada", InsSql.DecimalTypeForDb(25, 8), "", "0");
+
+			AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "d_OrdDeProDetMatCaReIn", "0", "CantidadReservadaInventario");
+			AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "d_OrdDeProDetMatCaCo", "0", "CantidadConsumida");
+			AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "d_OrdDeProDetMatCoUnArIn", "0", "CostoUnitarioArticuloInventario");
+			AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "d_OrdDeProDetMatMoSu", "0", "MontoSubtotal");
+			AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "d_OrdDeProDetMatCaAj", "0", "CantidadAjustada");
+
+			Execute("UPDATE Adm.OrdenDeProduccionDetalleMateriales SET CodigoArticulo = '' WHERE CodigoArticulo = NULL");
+			AddNotNullConstraint("Adm.OrdenDeProduccionDetalleMateriales", "CodigoArticulo", InsSql.VarCharTypeForDb(30));
+
+			if (AddColumnNumeric("Adm.OrdenDeProduccion", "CantidadAProducir", 25, 8, "", 0)) {
+				ActualizaCantidadProducir();
+				AddNotNullConstraint("Adm.OrdenDeProduccion", "CantidadAProducir", InsSql.NumericTypeForDb(25, 8));
+			}
+
+			if (AddColumnNumeric("Adm.OrdenDeProduccion", "CantidadProducida", 25, 8, "", 0)) {
+				ActualizaCantidadProducida();
+				AddNotNullConstraint("Adm.OrdenDeProduccion", "CantidadProducida", InsSql.NumericTypeForDb(25, 8));
+			}
+
+		}
+
+		private void ActualizaConsecutivoListaMaterias() {
+			StringBuilder vSql = new StringBuilder();
+			vSql.AppendLine("UPDATE Adm.OrdenDeProduccion");
+			vSql.AppendLine("SET Adm.OrdenDeProduccion.ConsecutivoListaDeMateriales = OPDetalleArticulo.ConsecutivoListaDeMateriales");
+			vSql.AppendLine("FROM Adm.OrdenDeProduccionDetalleArticulo AS OPDetalleArticulo INNER JOIN  ");
+			vSql.AppendLine("Adm.OrdenDeProduccion ON Adm.OrdenDeProduccion.ConsecutivoCompania = OPDetalleArticulo.ConsecutivoCompania ");
+			vSql.AppendLine("AND Adm.OrdenDeProduccion.Consecutivo = OPDetalleArticulo.ConsecutivoOrdenDeProduccion");
+			Execute(vSql.ToString(), 0);
+		}
+
+		private void ActualizaCantidadProducir() {
+			StringBuilder vSql = new StringBuilder();
+			vSql.AppendLine("UPDATE Adm.OrdenDeProduccion");
+			vSql.AppendLine("SET Adm.OrdenDeProduccion.CantidadAProducir = OPDetalleArticulo.CantidadSolicitada");
+			vSql.AppendLine("FROM Adm.OrdenDeProduccionDetalleArticulo AS OPDetalleArticulo INNER JOIN  ");
+			vSql.AppendLine("Adm.OrdenDeProduccion ON Adm.OrdenDeProduccion.ConsecutivoCompania = OPDetalleArticulo.ConsecutivoCompania ");
+			vSql.AppendLine("AND Adm.OrdenDeProduccion.Consecutivo = OPDetalleArticulo.ConsecutivoOrdenDeProduccion");
+			Execute(vSql.ToString(), 0);
+		}
+
+		private void ActualizaCantidadProducida() {
+			StringBuilder vSql = new StringBuilder();
+			vSql.AppendLine("UPDATE Adm.OrdenDeProduccion");
+			vSql.AppendLine("SET Adm.OrdenDeProduccion.CantidadProducida = OPDetalleArticulo.CantidadProducida");
+			vSql.AppendLine("FROM Adm.OrdenDeProduccionDetalleArticulo AS OPDetalleArticulo INNER JOIN  ");
+			vSql.AppendLine("Adm.OrdenDeProduccion ON Adm.OrdenDeProduccion.ConsecutivoCompania = OPDetalleArticulo.ConsecutivoCompania ");
+			vSql.AppendLine("AND Adm.OrdenDeProduccion.Consecutivo = OPDetalleArticulo.ConsecutivoOrdenDeProduccion");
+			Execute(vSql.ToString(), 0);
+		}
+
+		private string FKName(string valParentTableName, string valChildTableName) {
+			string vParentTN;
+			string vParentOwner;
+			LibDbo.SplitObjectNameInNameAndOwner(valParentTableName, out vParentTN, out vParentOwner);
+			string vChildTN;
+			string vChildOwner;
+			LibDbo.SplitObjectNameInNameAndOwner(valChildTableName, out vChildTN, out vChildOwner);
+			string vRelationName;
+			if (LibString.Len(vParentTN) <= 6) {
+				vRelationName = BuildForeignKeyName("fk_" + vChildTN + vParentTN);
+			} else {
+				vRelationName = BuildForeignKeyName("fk_" + vChildTN + LibString.Mid(vParentTN, 6, 4));
+			}
+			return vRelationName;
 		}
 	}
 }

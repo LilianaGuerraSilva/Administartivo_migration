@@ -173,8 +173,14 @@ namespace Galac.Adm.Brl.GestionProduccion {
         }
         */
         #endregion //Codigo Ejemplo
-
-
+        internal IList<ListaDeMaterialesDetalleSalidas> DetalleSalidas(int valConsecutivoCompania, int valConsecutivoListaDeMateriales) {
+            RegisterClient();
+            LibGpParams vParams = new LibGpParams();
+            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            vParams.AddInInteger("ConsecutivoListaDeMateriales", valConsecutivoListaDeMateriales);
+            IList<ListaDeMaterialesDetalleSalidas> vList = _Db.GetData(eProcessMessageType.SpName, "ListaDeMaterialesDetalleSalidasSelDet", vParams.Get());
+            return vList;
+        }
     } //End of class clsListaDeMaterialesDetalleSalidasNav
 
 } //End of namespace Galac.Adm.Brl.GestionProduccion

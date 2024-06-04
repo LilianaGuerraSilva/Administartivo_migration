@@ -52,10 +52,13 @@
     <Compile Include="IFkListaDeMaterialesDetalleSalidasViewModel.cs" />
     <Compile Include="IFkListaDeMaterialesDetalleViewModel.cs" />
     <Compile Include="IFkListaDeMaterialesViewModel.cs" />
+    <Compile Include="IFkOrdenDeProduccionDetalleArticuloViewModel.cs" />
+    <Compile Include="IFkOrdenDeProduccionDetalleMaterialesViewModel.cs" />
     <Compile Include="IFkOrdenDeProduccionViewModel.cs" />
     <Compile Include="IListaDeMaterialesInformes.cs" />
     <Compile Include="IListaDeMaterialesPdn.cs" />
     <Compile Include="IOrdenDeProduccionDetalleArticuloPdn.cs" />
+    <Compile Include="IOrdenDeProduccionDetalleMaterialesPdn.cs" />
     <Compile Include="IOrdenDeProduccionInformes.cs" />
     <Compile Include="IOrdenDeProduccionPdn.cs" />
     <Compile Include="ListaDeMateriales.cs" />

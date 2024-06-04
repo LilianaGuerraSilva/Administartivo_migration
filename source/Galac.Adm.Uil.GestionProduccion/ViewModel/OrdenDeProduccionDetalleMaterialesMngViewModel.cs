@@ -23,34 +23,35 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         #region Propiedades
 
         public override string ModuleName {
-            get { return "Orden De Produccion Detalle Materiales"; }
+            get { return "Insumos"; }
         }
 
-        public OrdenDeProduccionDetalleArticuloViewModel Master {
+        public OrdenDeProduccionViewModel Master {
             get;
             set;
+        }
+
+        public new ObservableCollection<LibGridColumModel> VisibleColumns {
+            get;
+            private set;
         }
         #endregion //Propiedades
         #region Constructores
 
-        public OrdenDeProduccionDetalleMaterialesMngViewModel(OrdenDeProduccionDetalleArticuloViewModel initMaster )
+        public OrdenDeProduccionDetalleMaterialesMngViewModel(OrdenDeProduccionViewModel initMaster )
             : base(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             Master = initMaster;
             Title = "Buscar " + ModuleName;
         }
 
-        public OrdenDeProduccionDetalleMaterialesMngViewModel(OrdenDeProduccionDetalleArticuloViewModel initMaster, ObservableCollection<OrdenDeProduccionDetalleMateriales> initDetail, eAccionSR initAction)
+        public OrdenDeProduccionDetalleMaterialesMngViewModel(OrdenDeProduccionViewModel initMaster, ObservableCollection<OrdenDeProduccionDetalleMateriales> initDetail, eAccionSR initAction)
             : base(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             Master = initMaster;
             foreach (var vItem in initDetail) {
                 var vViewModel = new OrdenDeProduccionDetalleMaterialesViewModel(Master, vItem, initAction);
                 vViewModel.InitializeViewModel(initAction);
                 Add(vViewModel);
-            }
-            if (Master.Master.StatusOp == eTipoStatusOrdenProduccion.Cerrada) {
-                VisibleColumns[1].Width = 420;
-                VisibleColumns.Insert(4, new LibGridColumModel() { Header = "Cantidad Consumida", IsReadOnly = true, IsForList = true, Alignment = eTextAlignment.Right, Type = eGridColumType.Numeric, ModelType = typeof(OrdenDeProduccionDetalleMaterialesViewModel), DbMemberPath = "CantidadConsumida", DisplayMemberPath = "CantidadConsumida", Width = 120, ConditionalPropertyDecimalDigits = "DecimalDigits" , ColumnOrder = 4 });
-            }
+            }         
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -69,7 +70,37 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
         #endregion //Metodos Generados
 
-
+        public void OcultarColumnas() {
+            VisibleColumns = LibGridColumModel.GetGridColumsFromType(typeof(OrdenDeProduccionDetalleMaterialesViewModel));
+            ObservableCollection<LibGridColumModel> VisibleColumnsCpy = LibGridColumModel.GetGridColumsFromType(typeof(OrdenDeProduccionDetalleMaterialesViewModel));
+            if ((Master.Action == eAccionSR.Insertar) || (Master.Action == eAccionSR.Modificar) || (Master.Action == eAccionSR.Consultar) || (Master.Action == eAccionSR.Eliminar) || (Master.Action == eAccionSR.Anular)) {
+                foreach (var vItem in VisibleColumnsCpy) {
+                    if (Master.StatusOp == eTipoStatusOrdenProduccion.Ingresada || Master.StatusOp == eTipoStatusOrdenProduccion.Iniciada || Master.StatusOp == eTipoStatusOrdenProduccion.Anulada) {
+                        if (VisibleColumns.Count > 6) {
+                            VisibleColumns.RemoveAt(6);
+                        }
+                    } else if (Master.StatusOp == eTipoStatusOrdenProduccion.Cerrada) {
+                        if (VisibleColumns.Count > 8) {
+                            VisibleColumns.RemoveAt(8);
+                        }
+                    } else if (VisibleColumns.Count > 8) {
+                        VisibleColumns.RemoveAt(8);
+                    }
+                }
+            } else if (Master.Action == eAccionSR.Cerrar) {
+                foreach (var vItem in VisibleColumnsCpy) {
+                    if (VisibleColumns.Count > 7) {
+                        VisibleColumns.RemoveAt(7);
+                    }
+                }
+            } else if (Master.Action == eAccionSR.Custom) {//Iniciar
+                foreach (var vItem in VisibleColumnsCpy) {
+                    if (VisibleColumns.Count > 6) {
+                        VisibleColumns.RemoveAt(6);
+                    }
+                }
+            }
+        }
     } //End of class OrdenDeProduccionDetalleMaterialesMngViewModel
 
 } //End of namespace Galac.Adm.Uil.GestionProduccion
