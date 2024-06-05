@@ -93,7 +93,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
                 RaisePropertyChanged(IsEnabledCodigoDeOrdenPropertyName);
             }
         }
-        
+
         public eSeleccionarOrdenPor SeleccionarOrdenPor {
             get {
                 return _SeleccionarOrdenPor;
@@ -174,7 +174,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
 
         public override string DisplayName {
             //get { return "Orden de Producción"; }
-            get { return "PreCierre Orden de Producción"; }
+            get { return "Precierre Orden de Producción"; }
         }
 
         public override bool IsSSRS {
@@ -189,7 +189,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         #endregion //Propiedades
 
         #region Constructores
-        
+
         public clsOrdenDeProduccionRptViewModel() {
             _GeneradoPor = eGeneradoPor.Orden;
             _SeleccionarOrdenPor = eSeleccionarOrdenPor.NumeroDeOrden;
@@ -208,7 +208,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             get {
                 return LibEnumHelper<eGeneradoPor>.GetValuesInArray();
             }
-        }        
+        }
         public eSeleccionarOrdenPor[] ESeleccionarOrdenPor {
             get {
                 return LibEnumHelper<eSeleccionarOrdenPor>.GetValuesInArray();
