@@ -9,10 +9,10 @@ using Galac.Adm.Ccl.GestionProduccion;
 using Galac.Saw.Ccl.SttDef;
 using Galac.Saw.Lib;
 
-namespace Galac.Adm.Brl. GestionProduccion.Reportes {
+namespace Galac.Adm.Brl.GestionProduccion.Reportes {
     public class clsOrdenDeProduccionSql {
         #region Metodos Generados
-		public string SqlOrdenDeProduccionRpt(int valConsecutivoCompania, string valCodigoOrden, DateTime valFechaInicio, DateTime valFechaFinal, eGeneradoPor valGeneradoPor){
+        public string SqlOrdenDeProduccionRpt(int valConsecutivoCompania, string valCodigoOrden, DateTime valFechaInicio, DateTime valFechaFinal, eGeneradoPor valGeneradoPor) {
             StringBuilder vSql = new StringBuilder();
             vSql.AppendLine("SELECT");
             vSql.AppendLine("Adm.OrdenDeProduccion.ConsecutivoCompania,");
@@ -52,8 +52,8 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
             }
             vSql.AppendLine("ORDER BY Adm.OrdenDeProduccion.Codigo");
 
-			return vSql.ToString();
-		}
+            return vSql.ToString();
+        }
 
         public string SqlRequisicionDeMateriales(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, bool valMostrarSoloExistenciaInsuficiente, string valCodigoOrden, eGeneradoPor valGeneradoPor) {
             StringBuilder vSql = new StringBuilder();
@@ -96,7 +96,7 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
             vSql.AppendLine("ORDER BY Adm.OrdenDeProduccionDetalleMateriales.CodigoArticulo, Adm.OrdenDeProduccion.Codigo");
 
             return vSql.ToString();
-		}
+        }
 
         public string SqlCostoProduccionInventarioEntreFechas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, eCantidadAImprimir valCantidadAImprimir, string valCodigoInventario, eGeneradoPor valGeneradoPor, string valCodigoOrden, eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio, string valCodigoMoneda, string valNombreMoneda) {
             QAdvSql vUtilSql = new QAdvSql("");
@@ -163,7 +163,7 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
             vSql.AppendLine("SALIDAS.CodigoArticulo = ArticuloInventario.Codigo");
             vSql.AppendLine(vUtilSql.WhereSql(vSQLWhere));
             return vSql.ToString();
-		}
+        }
 
         public string SqlCostoMatServUtilizadosEnProduccionInv(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, string valCodigoOrden, eGeneradoPor valGeneradoPor, eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio, string valCodigoMoneda, string valNombreMoneda) {
             QAdvSql vUtilSql = new QAdvSql("");
@@ -399,7 +399,7 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
 
             vSql.AppendLine("SELECT");
             vSql.AppendLine(" OrdenDeProduccion.Codigo AS CodigoOrden,");
-            vSql.AppendLine(" Salidas.Consecutivo AS ConsecutivoSalidas,");            
+            vSql.AppendLine(" Salidas.Consecutivo AS ConsecutivoSalidas,");
             vSql.AppendLine(" Salidas.CodigoArticulo + ' - ' + ArticuloInventario.Descripcion AS DescripcionArticuloSalida,");
             vSql.AppendLine(" ArticuloInventario.UnidadDeVenta AS Unidad,");
             vSql.AppendLine(" Salidas.CantidadSolicitada AS CantidadAProducir,");
