@@ -78,10 +78,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             set {
                 if (_GeneradoPor != value) {
                     _GeneradoPor = value;
-                    RaisePropertyChanged(GeneradoPorPropertyName);
-                    RaisePropertyChanged(IsEnabledCodigoDeOrdenPropertyName);
-                    RaisePropertyChanged(IsEnabledFechaPropertyName);
-                    if (eGeneradoPor.Orden.Equals(_SeleccionarOrdenPor)) {
+                    if (_GeneradoPor == eGeneradoPor.Orden) {
                         IsEnabledCodigoDeOrden = true;
                         IsEnabledFecha = false;
                     } else {
@@ -90,8 +87,14 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
                         CodigoDeOrden = string.Empty;
                     }
                 }
+                RaisePropertyChanged(GeneradoPorPropertyName);
+                RaisePropertyChanged(IsEnabledCodigoDeOrdenPropertyName);
+                RaisePropertyChanged(IsEnabledFechaPropertyName);
+                RaisePropertyChanged(IsEnabledCodigoDeOrdenPropertyName);
             }
-        }        public eSeleccionarOrdenPor SeleccionarOrdenPor {
+        }
+        
+        public eSeleccionarOrdenPor SeleccionarOrdenPor {
             get {
                 return _SeleccionarOrdenPor;
             }
