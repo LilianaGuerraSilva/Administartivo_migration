@@ -99,6 +99,24 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public decimal CambioCostoProduccion { get; set; }
     }
 
+    public class FkOrdenDeProduccionViewModelInformes : IFkOrdenDeProduccionViewModel {
+        public int ConsecutivoCompania { get; set; }
+        public int Consecutivo { get; set; }
+        [LibGridColum("Código", DbMemberPath = "Adm.Gv_OrdenDeProduccion_B1.Codigo")]
+        public string Codigo { get; set; }
+        [LibGridColum("Descripción", DbMemberPath = "Adm.Gv_OrdenDeProduccion_B1.Descripcion", Width = 250)]
+        public string Descripcion { get; set; }        
+        public eTipoStatusOrdenProduccion StatusOp { get; set; }
+        public DateTime FechaFinalizacion { get; set; }
+        public DateTime FechaAnulacion { get; set; }
+        public string ConsecutivoAlmacenProductoTerminado { get; set; }
+        public string ConsecutivoAlmacenMateriales { get; set; }
+        public DateTime FechaCreacion { get; set; }
+        public string Observacion { get; set; }
+        public string CodigoMonedaCostoProduccion { get; set; }
+        public decimal CambioCostoProduccion { get; set; }
+    }
+
     public class FkOrdenProduccionArticuloProducirViewModel : IFkOrdenDeProduccionDetalleArticuloViewModel {
         public int ConsecutivoCompania { get; set; }
         public int Consecutivo { get; set; }

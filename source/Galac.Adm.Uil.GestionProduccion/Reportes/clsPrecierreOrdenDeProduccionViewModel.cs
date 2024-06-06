@@ -34,13 +34,13 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         private DateTime _FechaHasta;
         private bool _IsEnabledCodigoDeOrden;
         private bool _IsEnabledFecha;
-        private FkOrdenDeProduccionViewModel _ConexionCodigoDeOrden = null;
+        private FkOrdenDeProduccionViewModelInformes _ConexionCodigoDeOrden = null;
 
         #endregion //Variables y Constantes
 
         #region Propiedades
 
-        public FkOrdenDeProduccionViewModel ConexionCodigoDeOrden {
+        public FkOrdenDeProduccionViewModelInformes ConexionCodigoDeOrden {
             get {
                 return _ConexionCodigoDeOrden;
             }
@@ -55,7 +55,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             }
         }
 
-        [LibCustomValidation("IsCodigoDeOrdenRequired")]
+        [LibCustomValidation("CodigoDeOrdenIsRequired")]
         public string CodigoDeOrden {
             get {
                 return _CodigoDeOrden;
@@ -228,7 +228,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Adm.Gv_OrdenDeProduccion_B1.Codigo", valCodigo);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccion_B1.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
                 vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccion_B1.StatusOp", (int)Galac.Adm.Ccl.GestionProduccion.eTipoStatusOrdenProduccion.Ingresada), eLogicOperatorType.And);
-                ConexionCodigoDeOrden = ChooseRecord<FkOrdenDeProduccionViewModel>("Orden de Producción", vDefaultCriteria, vFixedCriteria, string.Empty);
+                ConexionCodigoDeOrden = ChooseRecord<FkOrdenDeProduccionViewModelInformes>("Orden de Producción", vDefaultCriteria, vFixedCriteria, string.Empty);
                 if (ConexionCodigoDeOrden != null) {
                     CodigoDeOrden = ConexionCodigoDeOrden.Codigo;
                 } else {
@@ -245,7 +245,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             return new clsOrdenDeProduccionNav();
         }
 
-        private ValidationResult IsCodigoDeOrdenRequired() {
+        private ValidationResult CodigoDeOrdenIsRequired() {
             ValidationResult vResult = ValidationResult.Success;
             if (IsEnabledCodigoDeOrden && LibText.IsNullOrEmpty(CodigoDeOrden)) {
                 vResult = new ValidationResult("Debe seleccionar una Orden de Producción a consultar.");
