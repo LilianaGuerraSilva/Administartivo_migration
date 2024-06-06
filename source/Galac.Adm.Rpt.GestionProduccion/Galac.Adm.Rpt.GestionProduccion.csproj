@@ -110,11 +110,17 @@
     <Compile Include="dsrListaDeMaterialesDeSalida.Designer.cs">
       <DependentUpon>dsrListaDeMaterialesDeSalida.cs</DependentUpon>
     </Compile>
-    <Compile Include="dsrOrdenDeProduccion.cs">
+    <Compile Include="dsrPrecierreOrdenDeProduccionSubRpt.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="dsrOrdenDeProduccion.Designer.cs">
-      <DependentUpon>dsrOrdenDeProduccion.cs</DependentUpon>
+    <Compile Include="dsrPrecierreOrdenDeProduccionSubRpt.Designer.cs">
+      <DependentUpon>dsrPrecierreOrdenDeProduccionSubRpt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dsrPrecierreOrdenDeProduccion.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrPrecierreOrdenDeProduccion.Designer.cs">
+      <DependentUpon>dsrPrecierreOrdenDeProduccion.cs</DependentUpon>
     </Compile>
     <Compile Include="dsrProduccionPorEstatusEntreFecha.cs">
       <SubType>Component</SubType>
@@ -153,8 +159,11 @@
     <EmbeddedResource Include="dsrListaDeMaterialesDeSalida.resx">
       <DependentUpon>dsrListaDeMaterialesDeSalida.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="dsrOrdenDeProduccion.resx">
-      <DependentUpon>dsrOrdenDeProduccion.cs</DependentUpon>
+    <EmbeddedResource Include="dsrPrecierreOrdenDeProduccionSubRpt.resx">
+      <DependentUpon>dsrPrecierreOrdenDeProduccionSubRpt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dsrPrecierreOrdenDeProduccion.resx">
+      <DependentUpon>dsrPrecierreOrdenDeProduccion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="dsrProduccionPorEstatusEntreFecha.resx">
       <DependentUpon>dsrProduccionPorEstatusEntreFecha.cs</DependentUpon>
