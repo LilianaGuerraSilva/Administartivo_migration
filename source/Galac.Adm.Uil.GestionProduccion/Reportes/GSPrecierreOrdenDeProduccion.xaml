@@ -1,4 +1,4 @@
-<UserControl
+﻿<UserControl
     x:Class="Galac.Adm.Uil.GestionProduccion.Reportes.GSPrecierreOrdenDeProduccion"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -68,7 +68,7 @@
             Grid.Row="2"
             Width="93"
             Margin="3,3,0,0"
-            Content="Fecha Inicial"
+            Content="Fecha de Inicio"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSDatePickerWpf
             Grid.Row="2"
@@ -85,7 +85,7 @@
             Grid.Row="3"
             Width="93"
             Margin="3,3,0,0"
-            Content="Fecha Final"
+            Content="Fecha de Finalización"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSDatePickerWpf
             Grid.Row="3"
