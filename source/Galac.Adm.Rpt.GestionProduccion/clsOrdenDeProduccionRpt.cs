@@ -55,7 +55,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         #region Metodos Generados
 
         public static string ReportName {
-            get { return new dsrOrdenDeProduccion().ReportTitle(); }
+            get { return new dsrPrecierreOrdenDeProduccion().ReportTitle(); }
         }
 
         public override Dictionary<string, string> GetConfigReportParameters() {
@@ -88,7 +88,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         public override void SendReportToDevice() {
             WorkerReportProgress(90, "Configurando Informe...");
             Dictionary<string, string> vParams = GetConfigReportParameters();
-            dsrOrdenDeProduccion vRpt = new dsrOrdenDeProduccion();
+            dsrPrecierreOrdenDeProduccion vRpt = new dsrPrecierreOrdenDeProduccion();
             if (vRpt.ConfigReport(DataSalidas, DataInsumos, vParams)) {
                 LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsOrdenDeProduccionRpt.ReportName, true, ExportFileFormat, "", false);
             }
