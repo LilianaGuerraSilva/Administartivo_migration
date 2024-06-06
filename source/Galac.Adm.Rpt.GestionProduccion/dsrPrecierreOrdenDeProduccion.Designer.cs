@@ -24,6 +24,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.txtArticulo = new DataDynamics.ActiveReports.TextBox();
             this.txtCantidadReservadaDeInventario = new DataDynamics.ActiveReports.TextBox();
             this.txtCantidadConsumoReal = new DataDynamics.ActiveReports.TextBox();
+            this.txtUnidad = new DataDynamics.ActiveReports.TextBox();
             this.PageHeader = new DataDynamics.ActiveReports.PageHeader();
             this.txtNombreCompania = new DataDynamics.ActiveReports.TextBox();
             this.txtNroDePagina = new DataDynamics.ActiveReports.TextBox();
@@ -40,14 +41,16 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblCantidadAProducirEstimada = new DataDynamics.ActiveReports.Label();
             this.lblCantidadAProducirReal = new DataDynamics.ActiveReports.Label();
             this.txtCantidadAProducirReal = new DataDynamics.ActiveReports.TextBox();
-            this.lblAlmacenSalida = new DataDynamics.ActiveReports.Label();
-            this.txtAlmacenSalida = new DataDynamics.ActiveReports.TextBox();
             this.lblCantidadAProducir = new DataDynamics.ActiveReports.Label();
             this.txtCantidadAProducirEstimada = new DataDynamics.ActiveReports.TextBox();
             this.lblFechaFinalizacion = new DataDynamics.ActiveReports.Label();
             this.txtFechaCierre = new DataDynamics.ActiveReports.TextBox();
-            this.lblArticulo = new DataDynamics.ActiveReports.Label();
+            this.lblTituloSalidas = new DataDynamics.ActiveReports.Label();
             this.lblAlmacenEntrada = new DataDynamics.ActiveReports.Label();
+            this.txtAlmacenEntrada = new DataDynamics.ActiveReports.TextBox();
+            this.lblAlmacenSalida = new DataDynamics.ActiveReports.Label();
+            this.txtAlmacenSalida = new DataDynamics.ActiveReports.TextBox();
+            this.lblArticulo = new DataDynamics.ActiveReports.Label();
             this.lblCantidadReservadaDeInventario = new DataDynamics.ActiveReports.Label();
             this.lblCantidadConsumoReal = new DataDynamics.ActiveReports.Label();
             this.lnInsumos = new DataDynamics.ActiveReports.Line();
@@ -55,20 +58,18 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.GFSecOrdenDeProduccion = new DataDynamics.ActiveReports.GroupFooter();
             this.lblObservacion = new DataDynamics.ActiveReports.Label();
             this.lblFirma = new DataDynamics.ActiveReports.Label();
-            this.GHSecDetalle = new DataDynamics.ActiveReports.GroupHeader();
-            this.subRptSalidas = new DataDynamics.ActiveReports.SubReport();
-            this.GFSecDetalle = new DataDynamics.ActiveReports.GroupFooter();
-            this.lblTituloSalidas = new DataDynamics.ActiveReports.Label();
-            this.txtAlmacenEntrada = new DataDynamics.ActiveReports.TextBox();
             this.line1 = new DataDynamics.ActiveReports.Line();
             this.line2 = new DataDynamics.ActiveReports.Line();
             this.line3 = new DataDynamics.ActiveReports.Line();
             this.line4 = new DataDynamics.ActiveReports.Line();
+            this.GHSecDetalle = new DataDynamics.ActiveReports.GroupHeader();
+            this.subRptSalidas = new DataDynamics.ActiveReports.SubReport();
             this.lblUnidad = new DataDynamics.ActiveReports.Label();
-            this.txtUnidad = new DataDynamics.ActiveReports.TextBox();
+            this.GFSecDetalle = new DataDynamics.ActiveReports.GroupFooter();
             ((System.ComponentModel.ISupportInitialize)(this.txtArticulo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCantidadReservadaDeInventario)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCantidadConsumoReal)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtUnidad)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreCompania)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNroDePagina)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaYHoraDeEmision)).BeginInit();
@@ -82,23 +83,22 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadAProducirEstimada)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadAProducirReal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCantidadAProducirReal)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblAlmacenSalida)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtAlmacenSalida)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadAProducir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCantidadAProducirEstimada)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaFinalizacion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFechaCierre)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblArticulo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblTituloSalidas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblAlmacenEntrada)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtAlmacenEntrada)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblAlmacenSalida)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtAlmacenSalida)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblArticulo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadReservadaDeInventario)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadConsumoReal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTituloInsumos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblObservacion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFirma)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblTituloSalidas)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtAlmacenEntrada)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblUnidad)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtUnidad)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
@@ -149,6 +149,17 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.txtCantidadConsumoReal.Text = null;
             this.txtCantidadConsumoReal.Top = 0.01F;
             this.txtCantidadConsumoReal.Width = 1.5F;
+            // 
+            // txtUnidad
+            // 
+            this.txtUnidad.CanGrow = false;
+            this.txtUnidad.Height = 0.15625F;
+            this.txtUnidad.Left = 3.437F;
+            this.txtUnidad.Name = "txtUnidad";
+            this.txtUnidad.Style = "font-size: 8pt; vertical-align: middle; ddo-char-set: 1";
+            this.txtUnidad.Text = "txtUnidad";
+            this.txtUnidad.Top = 0F;
+            this.txtUnidad.Width = 1F;
             // 
             // PageHeader
             // 
@@ -335,27 +346,6 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.txtCantidadAProducirReal.Top = 1.375F;
             this.txtCantidadAProducirReal.Width = 1.625F;
             // 
-            // lblAlmacenSalida
-            // 
-            this.lblAlmacenSalida.Height = 0.15625F;
-            this.lblAlmacenSalida.HyperLink = null;
-            this.lblAlmacenSalida.Left = 0F;
-            this.lblAlmacenSalida.Name = "lblAlmacenSalida";
-            this.lblAlmacenSalida.Style = "font-size: 8.25pt; font-weight: bold; vertical-align: middle; ddo-char-set: 0";
-            this.lblAlmacenSalida.Text = "Almacén de Salida";
-            this.lblAlmacenSalida.Top = 0.656F;
-            this.lblAlmacenSalida.Width = 1.25F;
-            // 
-            // txtAlmacenSalida
-            // 
-            this.txtAlmacenSalida.Height = 0.15625F;
-            this.txtAlmacenSalida.Left = 1.25F;
-            this.txtAlmacenSalida.Name = "txtAlmacenSalida";
-            this.txtAlmacenSalida.Style = "font-size: 8pt; text-align: left; vertical-align: middle; ddo-char-set: 1";
-            this.txtAlmacenSalida.Text = "txtAlmacenSalida";
-            this.txtAlmacenSalida.Top = 0.656F;
-            this.txtAlmacenSalida.Width = 6.250001F;
-            // 
             // lblCantidadAProducir
             // 
             this.lblCantidadAProducir.Height = 0.15625F;
@@ -406,16 +396,17 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.txtFechaCierre.Top = 0.719F;
             this.txtFechaCierre.Width = 1F;
             // 
-            // lblArticulo
+            // lblTituloSalidas
             // 
-            this.lblArticulo.Height = 0.15625F;
-            this.lblArticulo.HyperLink = null;
-            this.lblArticulo.Left = -3.72529E-09F;
-            this.lblArticulo.Name = "lblArticulo";
-            this.lblArticulo.Style = "font-size: 8pt; font-weight: bold; vertical-align: bottom; ddo-char-set: 1";
-            this.lblArticulo.Text = "Artículo / Servicio";
-            this.lblArticulo.Top = 0.812F;
-            this.lblArticulo.Width = 3.437F;
+            this.lblTituloSalidas.Height = 0.15625F;
+            this.lblTituloSalidas.HyperLink = null;
+            this.lblTituloSalidas.Left = 0F;
+            this.lblTituloSalidas.Name = "lblTituloSalidas";
+            this.lblTituloSalidas.Style = "background-color: LightGrey; font-size: 8.25pt; font-weight: bold; ddo-char-set: " +
+    "0";
+            this.lblTituloSalidas.Text = "SALIDAS";
+            this.lblTituloSalidas.Top = 1.75F;
+            this.lblTituloSalidas.Width = 7.5F;
             // 
             // lblAlmacenEntrada
             // 
@@ -428,6 +419,48 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblAlmacenEntrada.Text = "Almacén Entrada";
             this.lblAlmacenEntrada.Top = 1.906F;
             this.lblAlmacenEntrada.Width = 1.25F;
+            // 
+            // txtAlmacenEntrada
+            // 
+            this.txtAlmacenEntrada.Height = 0.15625F;
+            this.txtAlmacenEntrada.Left = 1.25F;
+            this.txtAlmacenEntrada.Name = "txtAlmacenEntrada";
+            this.txtAlmacenEntrada.Style = "font-size: 8pt; text-align: left; vertical-align: middle; ddo-char-set: 1";
+            this.txtAlmacenEntrada.Text = "txtAlmacenEntrada";
+            this.txtAlmacenEntrada.Top = 1.906F;
+            this.txtAlmacenEntrada.Width = 6.25F;
+            // 
+            // lblAlmacenSalida
+            // 
+            this.lblAlmacenSalida.Height = 0.15625F;
+            this.lblAlmacenSalida.HyperLink = null;
+            this.lblAlmacenSalida.Left = 0F;
+            this.lblAlmacenSalida.Name = "lblAlmacenSalida";
+            this.lblAlmacenSalida.Style = "font-size: 8.25pt; font-weight: bold; vertical-align: middle; ddo-char-set: 0";
+            this.lblAlmacenSalida.Text = "Almacén de Salida";
+            this.lblAlmacenSalida.Top = 0.656F;
+            this.lblAlmacenSalida.Width = 1.25F;
+            // 
+            // txtAlmacenSalida
+            // 
+            this.txtAlmacenSalida.Height = 0.15625F;
+            this.txtAlmacenSalida.Left = 1.25F;
+            this.txtAlmacenSalida.Name = "txtAlmacenSalida";
+            this.txtAlmacenSalida.Style = "font-size: 8pt; text-align: left; vertical-align: middle; ddo-char-set: 1";
+            this.txtAlmacenSalida.Text = "txtAlmacenSalida";
+            this.txtAlmacenSalida.Top = 0.656F;
+            this.txtAlmacenSalida.Width = 6.250001F;
+            // 
+            // lblArticulo
+            // 
+            this.lblArticulo.Height = 0.15625F;
+            this.lblArticulo.HyperLink = null;
+            this.lblArticulo.Left = -3.72529E-09F;
+            this.lblArticulo.Name = "lblArticulo";
+            this.lblArticulo.Style = "font-size: 8pt; font-weight: bold; vertical-align: bottom; ddo-char-set: 1";
+            this.lblArticulo.Text = "Artículo / Servicio";
+            this.lblArticulo.Top = 0.812F;
+            this.lblArticulo.Width = 3.437F;
             // 
             // lblCantidadReservadaDeInventario
             // 
@@ -514,59 +547,6 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblFirma.Top = 1.75F;
             this.lblFirma.Width = 3.125F;
             // 
-            // GHSecDetalle
-            // 
-            this.GHSecDetalle.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
-            this.lblArticulo,
-            this.lblCantidadReservadaDeInventario,
-            this.lblCantidadConsumoReal,
-            this.lblTituloInsumos,
-            this.subRptSalidas,
-            this.lblAlmacenSalida,
-            this.txtAlmacenSalida,
-            this.lblUnidad,
-            this.lnInsumos});
-            this.GHSecDetalle.Height = 0.9759445F;
-            this.GHSecDetalle.Name = "GHSecDetalle";
-            // 
-            // subRptSalidas
-            // 
-            this.subRptSalidas.CloseBorder = false;
-            this.subRptSalidas.Height = 0.25F;
-            this.subRptSalidas.Left = 0F;
-            this.subRptSalidas.Name = "subRptSalidas";
-            this.subRptSalidas.Report = null;
-            this.subRptSalidas.ReportName = "subRptSalidas";
-            this.subRptSalidas.Top = 0F;
-            this.subRptSalidas.Width = 7.5F;
-            // 
-            // GFSecDetalle
-            // 
-            this.GFSecDetalle.Height = 0F;
-            this.GFSecDetalle.Name = "GFSecDetalle";
-            // 
-            // lblTituloSalidas
-            // 
-            this.lblTituloSalidas.Height = 0.15625F;
-            this.lblTituloSalidas.HyperLink = null;
-            this.lblTituloSalidas.Left = 0F;
-            this.lblTituloSalidas.Name = "lblTituloSalidas";
-            this.lblTituloSalidas.Style = "background-color: LightGrey; font-size: 8.25pt; font-weight: bold; ddo-char-set: " +
-    "0";
-            this.lblTituloSalidas.Text = "SALIDAS";
-            this.lblTituloSalidas.Top = 1.75F;
-            this.lblTituloSalidas.Width = 7.5F;
-            // 
-            // txtAlmacenEntrada
-            // 
-            this.txtAlmacenEntrada.Height = 0.15625F;
-            this.txtAlmacenEntrada.Left = 1.25F;
-            this.txtAlmacenEntrada.Name = "txtAlmacenEntrada";
-            this.txtAlmacenEntrada.Style = "font-size: 8pt; text-align: left; vertical-align: middle; ddo-char-set: 1";
-            this.txtAlmacenEntrada.Text = "txtAlmacenEntrada";
-            this.txtAlmacenEntrada.Top = 1.906F;
-            this.txtAlmacenEntrada.Width = 6.25F;
-            // 
             // line1
             // 
             this.line1.Height = 0F;
@@ -619,6 +599,32 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.line4.Y1 = 1.25F;
             this.line4.Y2 = 1.25F;
             // 
+            // GHSecDetalle
+            // 
+            this.GHSecDetalle.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
+            this.lblArticulo,
+            this.lblCantidadReservadaDeInventario,
+            this.lblCantidadConsumoReal,
+            this.lblTituloInsumos,
+            this.subRptSalidas,
+            this.lblAlmacenSalida,
+            this.txtAlmacenSalida,
+            this.lblUnidad,
+            this.lnInsumos});
+            this.GHSecDetalle.Height = 0.9759445F;
+            this.GHSecDetalle.Name = "GHSecDetalle";
+            // 
+            // subRptSalidas
+            // 
+            this.subRptSalidas.CloseBorder = false;
+            this.subRptSalidas.Height = 0.25F;
+            this.subRptSalidas.Left = 0F;
+            this.subRptSalidas.Name = "subRptSalidas";
+            this.subRptSalidas.Report = null;
+            this.subRptSalidas.ReportName = "subRptSalidas";
+            this.subRptSalidas.Top = 0F;
+            this.subRptSalidas.Width = 7.531F;
+            // 
             // lblUnidad
             // 
             this.lblUnidad.Height = 0.15625F;
@@ -630,18 +636,12 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblUnidad.Top = 0.812F;
             this.lblUnidad.Width = 1F;
             // 
-            // txtUnidad
+            // GFSecDetalle
             // 
-            this.txtUnidad.CanGrow = false;
-            this.txtUnidad.Height = 0.15625F;
-            this.txtUnidad.Left = 3.437F;
-            this.txtUnidad.Name = "txtUnidad";
-            this.txtUnidad.Style = "font-size: 8pt; vertical-align: middle; ddo-char-set: 1";
-            this.txtUnidad.Text = "txtUnidad";
-            this.txtUnidad.Top = 0F;
-            this.txtUnidad.Width = 1F;
+            this.GFSecDetalle.Height = 0F;
+            this.GFSecDetalle.Name = "GFSecDetalle";
             // 
-            // dsrOrdenDeProduccion
+            // dsrPrecierreOrdenDeProduccion
             // 
             this.MasterReport = false;
             this.PageSettings.PaperHeight = 11F;
@@ -663,6 +663,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             ((System.ComponentModel.ISupportInitialize)(this.txtArticulo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCantidadReservadaDeInventario)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCantidadConsumoReal)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtUnidad)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreCompania)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNroDePagina)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaYHoraDeEmision)).EndInit();
@@ -676,23 +677,22 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadAProducirEstimada)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadAProducirReal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCantidadAProducirReal)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblAlmacenSalida)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtAlmacenSalida)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadAProducir)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCantidadAProducirEstimada)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaFinalizacion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFechaCierre)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblArticulo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblTituloSalidas)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblAlmacenEntrada)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtAlmacenEntrada)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblAlmacenSalida)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtAlmacenSalida)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblArticulo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadReservadaDeInventario)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadConsumoReal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTituloInsumos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblObservacion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFirma)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblTituloSalidas)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtAlmacenEntrada)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblUnidad)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtUnidad)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }

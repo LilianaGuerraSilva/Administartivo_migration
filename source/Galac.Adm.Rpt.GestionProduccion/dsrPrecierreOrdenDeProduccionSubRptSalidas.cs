@@ -53,7 +53,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 //LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);                                
                 LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "ArticuloSalida");
                 LibReport.ConfigFieldStr(this, "txtUnidad", string.Empty, "Unidad");
-                LibReport.ConfigFieldDec(this, "txtCantidadSolicitada", string.Empty, "CantidadSolicitada", "n" + 4, true, TextAlignment.Right);               
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidadSolicitada", string.Empty, "CantidadSolicitada", 8);               
                 LibReport.ConfigGroupHeader(this, "GHSecOrdenDeProduccion", "Codigo", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.After);
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 LibReport.AddNoDataEvent(this);

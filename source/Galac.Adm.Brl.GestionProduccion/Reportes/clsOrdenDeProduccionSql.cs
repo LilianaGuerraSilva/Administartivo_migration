@@ -26,7 +26,8 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             vSql.AppendLine("AlmacenInsumosProdTerminado.Codigo + ' - ' + AlmacenInsumosProdTerminado.NombreAlmacen AS AlmacenEntrada, ");
             vSql.AppendLine("OrdenDeProduccionDetalleMateriales.CodigoArticulo + ' - ' + ArticuloInventario.Descripcion AS ArticuloInsumo, ");
             vSql.AppendLine("ArticuloInventario.UnidadDeVenta AS Unidad, ");
-            vSql.AppendLine("OrdenDeProduccionDetalleMateriales.CantidadReservadaInventario ");
+            vSql.AppendLine("OrdenDeProduccionDetalleMateriales.CantidadReservadaInventario, ");
+            vSql.AppendLine("ListaDeMateriales.Codigo + ' - ' + ListaDeMateriales.Nombre AS NombreListaDeMateriales ");
             vSql.AppendLine("FROM ");
             vSql.AppendLine("Adm.OrdenDeProduccion ");
             vSql.AppendLine("INNER JOIN Adm.OrdenDeProduccionDetalleMateriales ON ");
@@ -40,7 +41,10 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             vSql.AppendLine("AND OrdenDeProduccion.ConsecutivoCompania = AlmacenInsumos.ConsecutivoCompania ");           
             vSql.AppendLine("INNER JOIN Saw.Almacen AS AlmacenInsumosProdTerminado ON ");
             vSql.AppendLine("OrdenDeProduccion.ConsecutivoAlmacenProductoTerminado = AlmacenInsumosProdTerminado.Consecutivo ");
-            vSql.AppendLine("AND OrdenDeProduccion.ConsecutivoCompania = AlmacenInsumosProdTerminado.ConsecutivoCompania ");           
+            vSql.AppendLine("AND OrdenDeProduccion.ConsecutivoCompania = AlmacenInsumosProdTerminado.ConsecutivoCompania ");
+            vSql.AppendLine("INNER JOIN Adm.ListaDeMateriales ON ");
+            vSql.AppendLine("OrdenDeProduccion.ConsecutivoListaDeMateriales = ListaDeMateriales.Consecutivo ");
+            vSql.AppendLine("AND OrdenDeProduccion.ConsecutivoCompania = ListaDeMateriales.ConsecutivoCompania ");
             string vSqlWhere = vSqlUtil.SqlIntValueWithAnd(string.Empty, "Adm.OrdenDeProduccion.ConsecutivoCompania", valConsecutivoCompania);
             if (valGeneradoPor == eGeneradoPor.Orden) {
                 vSqlWhere = vSqlUtil.SqlValueWithAnd(vSqlWhere, "Adm.OrdenDeProduccion.Codigo", valCodigoOrden);

@@ -48,17 +48,18 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             if (LibReport.ConfigDataSource(this, valDataSourceInsumos)) {
                 LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["NombreCompania"], string.Empty);
                 LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());
-                //LibReport.ConfigLabel(this, "lblFechaInicialYFinal", valParameters["FechaInicialYFinal"]);
+                //LibReport.ConfigLabel(this, "lblFechaInicialYFinal", valParameters["FechaInicialYFinal"]);                
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
                 LibReport.ConfigFieldStr(this, "txtCodigoDeOrden", string.Empty, "Codigo");
                 LibReport.ConfigFieldDate(this, "txtFechaInicio", string.Empty, "FechaInicio", LibGalac.Aos.Base.Report.eDateOutputFormat.DateLong);
-                LibReport.ConfigFieldDec(this, "txtCantidadAProducirEstimada", string.Empty, "CantidadSolicitada", "n" + 4, true, TextAlignment.Right);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidadAProducirEstimada", string.Empty, "CantidadSolicitada", 8);
+                LibReport.ConfigFieldStr(this, "txtListaDeMateriales", string.Empty, "NombreListaDeMateriales");
                 LibReport.ConfigFieldStr(this, "txtAlmacenSalida", string.Empty, "AlmacenSalida");
                 LibReport.ConfigFieldStr(this, "txtAlmacenEntrada", string.Empty, "AlmacenEntrada");
                 LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "ArticuloInsumo");
                 LibReport.ConfigFieldStr(this, "txtUnidad", string.Empty, "Unidad");
-                LibReport.ConfigFieldDec(this, "txtCantidadReservadaDeInventario", string.Empty, "CantidadReservadaInventario", "n" + 4, true, TextAlignment.Right);                
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidadReservadaDeInventario", string.Empty, "CantidadReservadaInventario", 8);
                 LibReport.ConfigGroupHeader(this, "GHSecOrdenDeProduccion", "Codigo", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.After);
                 LibReport.SetSubReportIfExists(this, SubRptListaDeSalidas(valDataSourceSalidas), "subRptSalidas");
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);

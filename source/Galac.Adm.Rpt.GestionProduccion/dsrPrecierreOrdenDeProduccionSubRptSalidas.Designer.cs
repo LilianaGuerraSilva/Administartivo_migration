@@ -188,7 +188,7 @@ namespace Galac.Adm.Rpt.GestionProduccion
             this.MasterReport = false;
             this.PageSettings.PaperHeight = 11F;
             this.PageSettings.PaperWidth = 8.5F;
-            this.PrintWidth = 7.5F;
+            this.PrintWidth = 7.666667F;
             this.Sections.Add(this.GHSecDetalle);
             this.Sections.Add(this.detail);
             this.Sections.Add(this.GFSecDetalle);
