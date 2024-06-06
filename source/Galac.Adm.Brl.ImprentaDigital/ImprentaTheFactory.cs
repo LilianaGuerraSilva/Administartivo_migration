@@ -259,7 +259,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                new XElement("telefono", ""),
                new XElement("telefono", ClienteImprentaDigital.Telefono),
                new XElement("correo", ""),
-               new XElement("correo", ClienteImprentaDigital.Email));
+               new XElement("correo", LibString.Trim(ClienteImprentaDigital.Email)));
             return vResult;
         }
 
