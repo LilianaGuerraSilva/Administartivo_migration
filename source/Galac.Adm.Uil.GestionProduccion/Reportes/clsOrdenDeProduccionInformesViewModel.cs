@@ -23,7 +23,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             Mfc = initMfc;
             AvailableReports.Add(new clsCostoProduccionInventarioEntreFechasViewModel());
             AvailableReports.Add(new clsDetalleDeCostoDeProduccionViewModel());
-            AvailableReports.Add(new clsOrdenDeProduccionRptViewModel());
+            AvailableReports.Add(new clsPrecierreOrdenDeProduccionViewModel());
             AvailableReports.Add(new clsProduccionPorEstatusEntreFechaViewModel());
             AvailableReports.Add(new clsRequisicionDeMaterialesViewModel());
             //AvailableReports.Add(new clsCostoMatServUtilizadosEnProduccionInvViewModel());
@@ -34,8 +34,8 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         protected override ILibRpt ConfigReport() {
             MoveFocusIfNecessary();
             ILibRpt vResult = null;
-            if (SelectedReport is clsOrdenDeProduccionRptViewModel) {
-                vResult = ConfigReportOrdenDeProduccionRpt(SelectedReport as clsOrdenDeProduccionRptViewModel);
+            if (SelectedReport is clsPrecierreOrdenDeProduccionViewModel) {
+                vResult = ConfigReportOrdenDeProduccionRpt(SelectedReport as clsPrecierreOrdenDeProduccionViewModel);
             } else if (SelectedReport is clsRequisicionDeMaterialesViewModel) {
                 vResult = ConfigReportRequisicionDeMateriales(SelectedReport as clsRequisicionDeMaterialesViewModel);
             } else if (SelectedReport is clsCostoProduccionInventarioEntreFechasViewModel) {
@@ -50,7 +50,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             return vResult;
         }
 
-        private ILibRpt ConfigReportOrdenDeProduccionRpt(clsOrdenDeProduccionRptViewModel valViewModel) {
+        private ILibRpt ConfigReportOrdenDeProduccionRpt(clsPrecierreOrdenDeProduccionViewModel valViewModel) {
             ILibRpt vResult = null;
             if (valViewModel != null) {
                 vResult = new Galac.Adm.Rpt.GestionProduccion.clsOrdenDeProduccionRpt(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.CodigoDeOrden, valViewModel.GeneradoPor, valViewModel.FechaDesde, valViewModel.FechaHasta, valViewModel.SeleccionarOrdenPor) {

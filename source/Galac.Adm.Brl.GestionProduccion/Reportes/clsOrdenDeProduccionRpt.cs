@@ -38,7 +38,7 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
             System.Data.DataTable vDt = new System.Data.DataTable();
             clsOrdenDeProduccionSql insOrdenDeProduccionSql = new clsOrdenDeProduccionSql();
             LibGalac.Aos.Base.ILibDataRpt insOrdenDeProduccionRpt = new Galac.Adm.Dal.GestionProduccion.clsOrdenDeProduccionDat();
-            vSql = insOrdenDeProduccionSql.SqlOrdenDeProduccionRpt(valConsecutivoCompania, valCodigoOrden, valFechaInicial, valFechaHasta, valGeneradoPor);          
+            vSql = insOrdenDeProduccionSql.SqlPrecierreOrdenDeProduccion(valConsecutivoCompania, valCodigoOrden, valFechaInicial, valFechaHasta, valGeneradoPor);          
             return insOrdenDeProduccionRpt.GetDt(vSql, 0);
         }
         System.Data.DataTable IOrdenDeProduccionInformes.BuildPrecierreOrdendeProduccionInsumos(int valConsecutivoCompania, string valCodigoOrden, DateTime valFechaInicial, DateTime valFechaHasta, eGeneradoPor valGeneradoPor) {
@@ -46,7 +46,7 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
             System.Data.DataTable vDt = new System.Data.DataTable();
             clsOrdenDeProduccionSql insOrdenDeProduccionSql = new clsOrdenDeProduccionSql();
             LibGalac.Aos.Base.ILibDataRpt insOrdenDeProduccionRpt = new Galac.Adm.Dal.GestionProduccion.clsOrdenDeProduccionDat();
-            vSqlt = insOrdenDeProduccionSql.SqlOrdenDeProduccionSubRpt(valConsecutivoCompania, valCodigoOrden, valFechaInicial, valFechaHasta, valGeneradoPor);
+            vSqlt = insOrdenDeProduccionSql.SqlPrecierreOrdenDeProduccionSubRpt(valConsecutivoCompania, valCodigoOrden, valFechaInicial, valFechaHasta, valGeneradoPor);
             return insOrdenDeProduccionRpt.GetDt(vSqlt, 0);
         }
 
