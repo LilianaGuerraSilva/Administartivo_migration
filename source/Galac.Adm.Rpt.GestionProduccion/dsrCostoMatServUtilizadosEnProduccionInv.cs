@@ -31,7 +31,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         #region Propiedades
 
         public string ReportTitle() {
-            return "Costos de Materiales o Servicios utilizados en Producción de Inventario";
+            return "Costos usados en Producción";
         }
 
         public int CantidadDeTiposInventarioProducidos { get; set; }
@@ -70,39 +70,49 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                     LibReport.LoadLayout(this, vRpxPath);
                 }
             }
-            MayorCostoConsumo = LibConvert.ToDec(valDataSource.Compute("MAX(MontoSubTotal)", ""), 2);
-            MenorCostoConsumo = LibConvert.ToDec(valDataSource.Compute("MIN(MontoSubTotal)", ""), 2);
-            if (MayorCostoConsumo != MenorCostoConsumo) {
-                OrdenMayorCosto = OrdenSegunCosto(valDataSource, MayorCostoConsumo);
-                OrdenMenorCosto = OrdenSegunCosto(valDataSource, MenorCostoConsumo);
-            }
+            //MayorCostoConsumo = LibConvert.ToDec(valDataSource.Compute("MAX(MontoSubTotal)", ""), 2);
+            //MenorCostoConsumo = LibConvert.ToDec(valDataSource.Compute("MIN(MontoSubTotal)", ""), 2);
+            //if (MayorCostoConsumo != MenorCostoConsumo) {
+            //    OrdenMayorCosto = OrdenSegunCosto(valDataSource, MayorCostoConsumo);
+            //    OrdenMenorCosto = OrdenSegunCosto(valDataSource, MenorCostoConsumo);
+            //}
             if (LibReport.ConfigDataSource(this, valDataSource)) {
                 LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["NombreCompania"], string.Empty);
                 LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());
                 LibReport.ConfigLabel(this, "lblFechaInicialYFinal", valParameters["FechaInicialYFinal"]);
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
-                LibReport.ConfigFieldStr(this, "txtInventarioProducido", string.Empty, "InventarioProducido");
+                //Encabezado
+                LibReport.ConfigFieldStr(this, "txtCodigoOrden", string.Empty, "CodigoOrden");
+                LibReport.ConfigFieldStr(this, "txtDescripcionOrden", string.Empty, "DescripcionOrden");
+                LibReport.ConfigFieldDate(this, "txtFechaInicio", string.Empty, "FechaInicio", LibGalac.Aos.Base.Report.eDateOutputFormat.DateLong);
+                LibReport.ConfigFieldDate(this, "txtFechaFinalizacion", string.Empty, "FechaFinalizacion", LibGalac.Aos.Base.Report.eDateOutputFormat.DateLong);
+                LibReport.ConfigFieldDec(this, "txtCostoTotalOP", string.Empty, "CostoTotalOP");
                 LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "Moneda");
                 LibReport.ConfigFieldDec(this, "txtCambio", string.Empty, "Cambio", "n" + 4, true, TextAlignment.Right);
-                LibReport.ConfigFieldStr(this, "txtArticuloUtilizado", string.Empty, "ArticuloServicioUtilizado");
-                LibReport.ConfigFieldStr(this, "txtCodigoOrden", string.Empty, "Orden");
-                LibReport.ConfigFieldDate(this, "txtFechaFinalizacion", string.Empty, "FechaFinalizacion", LibGalac.Aos.Base.Report.eDateOutputFormat.DateLong);
+                //Salidas
+                LibReport.ConfigFieldStr(this, "txtCodigoArticuloProducido", string.Empty, "CodigoArticuloProducido");
+                LibReport.ConfigFieldStr(this, "txtDescripcionArticulo", string.Empty, "DescripcionArticuloProducido");
+                LibReport.ConfigFieldDec(this, "txtCantidadProducida", string.Empty, "CantidadProducida", "n" + 8, true, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtCostoUnitarioArtPro", string.Empty, "CostoUnitario");
+                //Insumos
+                LibReport.ConfigFieldStr(this, "txtArticuloComsumido", string.Empty, "ArticuloComsumido");
                 LibReport.ConfigFieldDec(this, "txtCantidadConsumida", string.Empty, "CantidadConsumida", "n" + 8, true, TextAlignment.Right);
-                LibReport.ConfigFieldDec(this, "txtCostoUnitario", string.Empty, "CostoUnitarioArticuloInventario", "n" + 8, true, TextAlignment.Right);
-                LibReport.ConfigFieldDec(this, "txtCostoTotal", string.Empty, "MontoSubtotal", "n" + 8, true, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtMontoSubTotal", string.Empty, "MontoSubtotal");
+                LibReport.ConfigFieldDec(this, "txtPorcentajeCostoCierre", string.Empty, "PorcentajeCostoCierre", "n" + 8, true, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtSubTotal", string.Empty, "SubTotal");
 
-                LibReport.ConfigGroupHeader(this, "GHSecInventarioProducido", "InventarioProducido", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
-                LibReport.ConfigGroupHeader(this, "GHSecArticuloUtilizado", "ArticuloServicioUtilizado", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+                LibReport.ConfigGroupHeader(this, "GHSecOrdenProduccion", "ConsecutivoOrdenDeProduccion", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+                LibReport.ConfigGroupHeader(this, "GHSecArticuloProducido", "ConsecutivoSalida", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
 
-                LibReport.ConfigSummaryField(this, "txt_TCantidadConsumida", "CantidadConsumida", SummaryFunc.Sum, "GHSecArticuloUtilizado", SummaryRunning.Group, SummaryType.SubTotal, "n" + 8, "");
-                LibReport.ConfigSummaryField(this, "txt_TCostoTotal", "MontoSubtotal", SummaryFunc.Sum, "GHSecArticuloUtilizado", SummaryRunning.Group, SummaryType.SubTotal, "n" + 8, "");
-                LibReport.ConfigSummaryField(this, "txt_TTCostoConsumo", "MontoSubTotal", SummaryFunc.Sum, "PageHeader", SummaryRunning.Group, SummaryType.GrandTotal, "n" + 8, "");
+                LibReport.ConfigSummaryField(this, "txt_TMontoSubTotal", "MontoSubtotal", SummaryFunc.Sum, "GHSecArticuloProducido", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txt_TSubTotal", "SubTotal", SummaryFunc.Sum, "GHSecArticuloProducido", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txt_TTCostoConsumo", "MontoSubTotal", SummaryFunc.Sum, "PageHeader", SummaryRunning.Group, SummaryType.GrandTotal);
 
                 string vNotaMonedaCambio = new clsLibSaw().NotaMonedaCambioParaInformes(valMonedaDelInforme, valTasaDeCambio, valMoneda, "Orden de Producción");
                 LibReport.ConfigFieldStr(this, "txtNotaMonedaCambio", vNotaMonedaCambio, "");
 
-                LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
+                LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Landscape);
                 LibReport.AddNoDataEvent(this);
                 return true;
             }
@@ -113,21 +123,21 @@ namespace Galac.Adm.Rpt.GestionProduccion {
 
         #region Código Programador
 
-        string OrdenSegunCosto(DataTable valDataSource, decimal valCostoProduccion) {
-            StringBuilder vResult = new StringBuilder();
-            string vArtServ = string.Empty;
-            string vFilter = new QAdvSql("").SqlDecValueWithAnd("", "MontoSubTotal", valCostoProduccion);
-            DataRow[] vDrs = valDataSource.Select(vFilter);
-            if (vDrs.Length > 0) {
-                for (int i = 0; i < vDrs.Length; i++) {
-                    if (!LibText.IsNullOrEmpty(vResult.ToString())) {
-                        vResult.Append("/");
-                    }
-                    vResult.Append(LibConvert.ToStr(vDrs[i]["ArticuloServicioUtilizado"]) + "- Orden: " + LibConvert.ToStr(vDrs[i]["Orden"]));
-                }
-            }
-            return vResult.ToString();
-        }
+        //string OrdenSegunCosto(DataTable valDataSource, decimal valCostoProduccion) {
+        //    StringBuilder vResult = new StringBuilder();
+        //    string vArtServ = string.Empty;
+        //    string vFilter = new QAdvSql("").SqlDecValueWithAnd("", "MontoSubTotal", valCostoProduccion);
+        //    DataRow[] vDrs = valDataSource.Select(vFilter);
+        //    if (vDrs.Length > 0) {
+        //        for (int i = 0; i < vDrs.Length; i++) {
+        //            if (!LibText.IsNullOrEmpty(vResult.ToString())) {
+        //                vResult.Append("/");
+        //            }
+        //            vResult.Append(LibConvert.ToStr(vDrs[i]["GHSecOrdenProduccion"]) + "- Orden: " + LibConvert.ToStr(vDrs[i]["Orden"]));
+        //        }
+        //    }
+        //    return vResult.ToString();
+        //}
 
         #endregion
 

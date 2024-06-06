@@ -53,32 +53,52 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
                 LibReport.ConfigFieldStr(this, "txtEstatus", string.Empty, "EstatusStr");
+                LibReport.ConfigFieldStr(this, "txtCodigoOrden", string.Empty, "Orden");
                 LibReport.ConfigFieldStr(this, "txtInventarioProducido", string.Empty, "InventarioAProducir");
                 LibReport.ConfigFieldDate(this, "txtFechaCreacion", string.Empty, "FechaCreacion", LibGalac.Aos.Base.Report.eDateOutputFormat.DateLong);
                 LibReport.ConfigFieldDate(this, "txtFechaInicio", string.Empty, "FechaInicio", LibGalac.Aos.Base.Report.eDateOutputFormat.DateLong);
                 LibReport.ConfigFieldDate(this, "txtFechaFinalizacion", string.Empty, "FechaFinalizacion", LibGalac.Aos.Base.Report.eDateOutputFormat.DateLong);
-                LibReport.ConfigFieldStr(this, "txtCodigoOrden", string.Empty, "Orden");
-                LibReport.ConfigFieldDec(this, "txtCantidadEstimada", string.Empty, "CantidadSolicitada", "n" + 3, true, TextAlignment.Right);
-                LibReport.ConfigFieldDec(this, "txtCantidadProducida", string.Empty, "CantidadProducida", "n" + 3, true, TextAlignment.Right);
-                LibReport.ConfigFieldStr(this, "txtMotivoDeAnulacion", string.Empty, "MotivoDeAnulacion");
-                //Mostrar Campos
+                LibReport.ConfigFieldDec(this, "txtCantidadEstimada", string.Empty, "CantidadSolicitada", "n" + 8, true, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtCantidadProducida", string.Empty, "CantidadProducida", "n" + 8, true, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtDiferencia", string.Empty, "Diferencia", "n" + 8, true, TextAlignment.Right);
+                LibReport.ConfigFieldStr(this, "txtMotivoAnulacion", string.Empty, "MotivoDeAnulacion");
 
-                bool vMostrarCamposParaOrdenCerrada = (valEstatus == eTipoStatusOrdenProduccion.Cerrada);
-                LibReport.ChangeControlVisibility(this, "lblCantidadProducida", vMostrarCamposParaOrdenCerrada);
-                LibReport.ChangeControlVisibility(this, "txtCantidadProducida", vMostrarCamposParaOrdenCerrada);
-                bool vMostrarCamposFechaInicio = (valEstatus == eTipoStatusOrdenProduccion.Iniciada) || (valEstatus == eTipoStatusOrdenProduccion.Anulada) || (valEstatus == eTipoStatusOrdenProduccion.Cerrada);
-                LibReport.ChangeControlVisibility(this, "lblFechaInicio", vMostrarCamposFechaInicio);
-                LibReport.ChangeControlVisibility(this, "txtFechaInicio", vMostrarCamposFechaInicio);
-                bool vMostrarCamposFechaFinalizacion = (valEstatus == eTipoStatusOrdenProduccion.Anulada) || (valEstatus == eTipoStatusOrdenProduccion.Cerrada);
-                LibReport.ChangeControlVisibility(this, "lblFechaFinalizacion", vMostrarCamposFechaFinalizacion);
-                LibReport.ChangeControlVisibility(this, "txtFechaFinalizacion", vMostrarCamposFechaFinalizacion);
-                bool vMostrarMotivoAnulación = (valEstatus == eTipoStatusOrdenProduccion.Anulada);
-                LibReport.ChangeControlVisibility(this, "lblMotivoAnulación", vMostrarMotivoAnulación);
-                LibReport.ChangeControlVisibility(this, "txtMotivoDeAnulacion", vMostrarMotivoAnulación);
-                //Agrupamiento del Informe
+                LibReport.ChangeControlVisibility(this, "lblMotivoAnulacion", (valEstatus == eTipoStatusOrdenProduccion.Anulada));
+                LibReport.ChangeControlVisibility(this, "txtMotivoAnulacion", (valEstatus == eTipoStatusOrdenProduccion.Anulada));
+
+                if (valEstatus == eTipoStatusOrdenProduccion.Anulada) {
+                } else {
+                }
+
+                switch (valEstatus) {
+                    case eTipoStatusOrdenProduccion.Ingresada:
+                    case eTipoStatusOrdenProduccion.Anulada:
+                        LibReport.ConfigLabel(this, "lblFechaInicio", "");
+                        LibReport.ConfigLabel(this, "lblFechaFinalizacion", "");
+                        LibReport.ConfigLabel(this, "lblCantidadProducida", "");
+                        LibReport.ConfigLabel(this, "lblDiferencia", "");
+
+                        LibReport.ChangeControlVisibility(this, "txtFechaInicio", false);
+                        LibReport.ChangeControlVisibility(this, "txtFechaFinalizacion", false);
+                        LibReport.ChangeControlVisibility(this, "txtCantidadProducida", false);
+                        LibReport.ChangeControlVisibility(this, "txtDiferencia", false);
+                        break;
+                    case eTipoStatusOrdenProduccion.Iniciada:
+                        LibReport.ConfigLabel(this, "lblFechaFinalizacion", "");
+                        LibReport.ConfigLabel(this, "lblCantidadProducida", "");
+                        LibReport.ConfigLabel(this, "lblDiferencia", "");
+
+                        LibReport.ChangeControlVisibility(this, "txtFechaFinalizacion", false);
+                        LibReport.ChangeControlVisibility(this, "txtCantidadProducida", false);
+                        LibReport.ChangeControlVisibility(this, "txtDiferencia", false);
+                        break;
+                    default:
+                        break;
+                }
+
                 LibReport.ConfigGroupHeader(this, "GHSecEstatus", "EstatusStr", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
-                LibReport.ConfigGroupHeader(this, "GHSecInventario", "InventarioAProducir", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
-                LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
+                LibReport.ConfigGroupHeader(this, "GHSecOrden", "Orden", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+                LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Landscape);
                 LibReport.AddNoDataEvent(this);
                 return true;
             }

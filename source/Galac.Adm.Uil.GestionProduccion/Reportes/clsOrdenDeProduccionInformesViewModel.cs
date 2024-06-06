@@ -21,12 +21,12 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         public clsOrdenDeProduccionInformesViewModel(LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc) {
             AppMemoryInfo = initAppMemInfo;
             Mfc = initMfc;
-            AvailableReports.Add(new clsCostoMatServUtilizadosEnProduccionInvViewModel());
             AvailableReports.Add(new clsCostoProduccionInventarioEntreFechasViewModel());
             AvailableReports.Add(new clsDetalleDeCostoDeProduccionViewModel());
             AvailableReports.Add(new clsOrdenDeProduccionRptViewModel());
             AvailableReports.Add(new clsProduccionPorEstatusEntreFechaViewModel());
             AvailableReports.Add(new clsRequisicionDeMaterialesViewModel());
+            //AvailableReports.Add(new clsCostoMatServUtilizadosEnProduccionInvViewModel());
             Title = "Informes de Orden de Producción";
         }
         #endregion //Constructores
