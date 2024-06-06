@@ -34,18 +34,18 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         }
         #endregion
         #region Metodos Generados
-        public string ReportTitle() {            
+        public string ReportTitle() {
             return "Precierre Orden de Producción";
         }
 
-        public bool ConfigReport(DataTable valDataSourceSalidas, DataTable valDataSourceInsumos, Dictionary<string, string> valParameters) {
+        public bool ConfigReport(DataTable valDataSourceInsumos, DataTable valDataSourceSalidas, Dictionary<string, string> valParameters) {
             if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
                 if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
                     LibReport.LoadLayout(this, vRpxPath);
                 }
             }
-            if (LibReport.ConfigDataSource(this, valDataSourceSalidas)) {
+            if (LibReport.ConfigDataSource(this, valDataSourceInsumos)) {
                 LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["NombreCompania"], string.Empty);
                 LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());
                 //LibReport.ConfigLabel(this, "lblFechaInicialYFinal", valParameters["FechaInicialYFinal"]);
@@ -53,21 +53,25 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
                 LibReport.ConfigFieldStr(this, "txtCodigoDeOrden", string.Empty, "Codigo");
                 LibReport.ConfigFieldDate(this, "txtFechaInicio", string.Empty, "FechaInicio", LibGalac.Aos.Base.Report.eDateOutputFormat.DateLong);
-                LibReport.ConfigFieldStr(this, "txtArticuloInventarioAProducir", string.Empty, "InventarioAProducir");
                 LibReport.ConfigFieldDec(this, "txtCantidadAProducirEstimada", string.Empty, "CantidadSolicitada", "n" + 4, true, TextAlignment.Right);
-                LibReport.ConfigFieldStr(this, "txtAlmacen1", string.Empty, "AlmacenProductoTerminado");
-                LibReport.ConfigFieldStr(this, "txtArticuloServicio", string.Empty, "MaterialesServicioUtilizado");
-                LibReport.ConfigFieldStr(this, "txtAlmacen2", string.Empty, "AlmacenMaterialesServicioUtilizado");
-
-                LibReport.ConfigFieldDec(this, "txtCantidadReservadaDeInventario", string.Empty, "CantidadReservadaInventario", "n" + 4, true, TextAlignment.Right);
-
+                LibReport.ConfigFieldStr(this, "txtAlmacenSalida", string.Empty, "AlmacenSalida");
+                LibReport.ConfigFieldStr(this, "txtAlmacenEntrada", string.Empty, "AlmacenEntrada");
+                LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "ArticuloInsumo");
+                LibReport.ConfigFieldStr(this, "txtUnidad", string.Empty, "Unidad");
+                LibReport.ConfigFieldDec(this, "txtCantidadReservadaDeInventario", string.Empty, "CantidadReservadaInventario", "n" + 4, true, TextAlignment.Right);                
                 LibReport.ConfigGroupHeader(this, "GHSecOrdenDeProduccion", "Codigo", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.After);
-
+                LibReport.SetSubReportIfExists(this, SubRptListaDeSalidas(valDataSourceSalidas), "subRptSalidas");
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 LibReport.AddNoDataEvent(this);
                 return true;
             }
             return false;
+        }
+
+        private ActiveReport SubRptListaDeSalidas(DataTable valDataSourceSalidas) {
+            dsrPrecierreOrdenDeProduccionSubRptSalidas vRpt = new dsrPrecierreOrdenDeProduccionSubRptSalidas();
+            vRpt.ConfigReport(valDataSourceSalidas);
+            return vRpt;
         }
         #endregion
     }

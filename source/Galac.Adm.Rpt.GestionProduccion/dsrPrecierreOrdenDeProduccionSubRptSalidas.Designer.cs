@@ -27,25 +27,25 @@ namespace Galac.Adm.Rpt.GestionProduccion
         {
             System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(dsrPrecierreOrdenDeProduccionSubRptSalidas));
             this.detail = new DataDynamics.ActiveReports.Detail();
+            this.txtArticulo = new DataDynamics.ActiveReports.TextBox();
+            this.txtCantidadSolicitada = new DataDynamics.ActiveReports.TextBox();
+            this.txtCantidadConsumoReal = new DataDynamics.ActiveReports.TextBox();
+            this.txtUnidad = new DataDynamics.ActiveReports.TextBox();
             this.GHSecDetalle = new DataDynamics.ActiveReports.GroupHeader();
-            this.GFSecDetalle = new DataDynamics.ActiveReports.GroupFooter();
             this.lblArticulo = new DataDynamics.ActiveReports.Label();
             this.lblCantidadEstimadaAProducir = new DataDynamics.ActiveReports.Label();
             this.lblCantidadProducidaReal = new DataDynamics.ActiveReports.Label();
             this.lblUnidad = new DataDynamics.ActiveReports.Label();
             this.lnInsumos = new DataDynamics.ActiveReports.Line();
-            this.txtArticulo = new DataDynamics.ActiveReports.TextBox();
-            this.txtCantidadReservadaDeInventario = new DataDynamics.ActiveReports.TextBox();
-            this.txtCantidadConsumoReal = new DataDynamics.ActiveReports.TextBox();
-            this.txtUnidad = new DataDynamics.ActiveReports.TextBox();
+            this.GFSecDetalle = new DataDynamics.ActiveReports.GroupFooter();
+            ((System.ComponentModel.ISupportInitialize)(this.txtArticulo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCantidadSolicitada)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCantidadConsumoReal)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtUnidad)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblArticulo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadEstimadaAProducir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadProducidaReal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblUnidad)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtArticulo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCantidadReservadaDeInventario)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCantidadConsumoReal)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtUnidad)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // detail
@@ -53,11 +53,60 @@ namespace Galac.Adm.Rpt.GestionProduccion
             this.detail.ColumnSpacing = 0F;
             this.detail.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
             this.txtArticulo,
-            this.txtCantidadReservadaDeInventario,
+            this.txtCantidadSolicitada,
             this.txtCantidadConsumoReal,
             this.txtUnidad});
             this.detail.Height = 0.29125F;
             this.detail.Name = "detail";
+            // 
+            // txtArticulo
+            // 
+            this.txtArticulo.Height = 0.15625F;
+            this.txtArticulo.Left = 0F;
+            this.txtArticulo.Name = "txtArticulo";
+            this.txtArticulo.Style = "font-size: 8pt; vertical-align: middle; ddo-char-set: 1";
+            this.txtArticulo.Text = "txtArticulo";
+            this.txtArticulo.Top = 0F;
+            this.txtArticulo.Width = 3.437F;
+            // 
+            // txtCantidadSolicitada
+            // 
+            this.txtCantidadSolicitada.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtCantidadSolicitada.Border.LeftStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtCantidadSolicitada.Border.RightStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtCantidadSolicitada.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtCantidadSolicitada.Height = 0.25F;
+            this.txtCantidadSolicitada.Left = 4.469F;
+            this.txtCantidadSolicitada.Name = "txtCantidadSolicitada";
+            this.txtCantidadSolicitada.Style = "font-size: 8pt; text-align: right; vertical-align: middle; ddo-char-set: 1";
+            this.txtCantidadSolicitada.Text = "txtCantidadSolicitada";
+            this.txtCantidadSolicitada.Top = 0.01F;
+            this.txtCantidadSolicitada.Width = 1.5F;
+            // 
+            // txtCantidadConsumoReal
+            // 
+            this.txtCantidadConsumoReal.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtCantidadConsumoReal.Border.LeftStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtCantidadConsumoReal.Border.RightStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtCantidadConsumoReal.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtCantidadConsumoReal.Height = 0.25F;
+            this.txtCantidadConsumoReal.Left = 6F;
+            this.txtCantidadConsumoReal.Name = "txtCantidadConsumoReal";
+            this.txtCantidadConsumoReal.Style = "font-size: 8pt; text-align: right; vertical-align: middle; ddo-char-set: 1";
+            this.txtCantidadConsumoReal.Text = null;
+            this.txtCantidadConsumoReal.Top = 0.01F;
+            this.txtCantidadConsumoReal.Width = 1.5F;
+            // 
+            // txtUnidad
+            // 
+            this.txtUnidad.CanGrow = false;
+            this.txtUnidad.Height = 0.15625F;
+            this.txtUnidad.Left = 3.437F;
+            this.txtUnidad.Name = "txtUnidad";
+            this.txtUnidad.Style = "font-size: 8pt; vertical-align: middle; ddo-char-set: 1";
+            this.txtUnidad.Text = "txtUnidad";
+            this.txtUnidad.Top = 0F;
+            this.txtUnidad.Width = 1F;
             // 
             // GHSecDetalle
             // 
@@ -69,11 +118,6 @@ namespace Galac.Adm.Rpt.GestionProduccion
             this.lnInsumos});
             this.GHSecDetalle.Height = 0.1639444F;
             this.GHSecDetalle.Name = "GHSecDetalle";
-            // 
-            // GFSecDetalle
-            // 
-            this.GFSecDetalle.Height = 0.25F;
-            this.GFSecDetalle.Name = "GFSecDetalle";
             // 
             // lblArticulo
             // 
@@ -134,56 +178,12 @@ namespace Galac.Adm.Rpt.GestionProduccion
             this.lnInsumos.Y1 = 0.1569999F;
             this.lnInsumos.Y2 = 0.1569999F;
             // 
-            // txtArticulo
+            // GFSecDetalle
             // 
-            this.txtArticulo.Height = 0.15625F;
-            this.txtArticulo.Left = 0F;
-            this.txtArticulo.Name = "txtArticulo";
-            this.txtArticulo.Style = "font-size: 8pt; vertical-align: middle; ddo-char-set: 1";
-            this.txtArticulo.Text = "txtArticulo";
-            this.txtArticulo.Top = 0F;
-            this.txtArticulo.Width = 3.437F;
+            this.GFSecDetalle.Height = 0.25F;
+            this.GFSecDetalle.Name = "GFSecDetalle";
             // 
-            // txtCantidadReservadaDeInventario
-            // 
-            this.txtCantidadReservadaDeInventario.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtCantidadReservadaDeInventario.Border.LeftStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtCantidadReservadaDeInventario.Border.RightStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtCantidadReservadaDeInventario.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtCantidadReservadaDeInventario.Height = 0.25F;
-            this.txtCantidadReservadaDeInventario.Left = 4.469F;
-            this.txtCantidadReservadaDeInventario.Name = "txtCantidadReservadaDeInventario";
-            this.txtCantidadReservadaDeInventario.Style = "font-size: 8pt; text-align: right; vertical-align: middle; ddo-char-set: 1";
-            this.txtCantidadReservadaDeInventario.Text = "txtCantidadReservadaDeInventario";
-            this.txtCantidadReservadaDeInventario.Top = 0.01F;
-            this.txtCantidadReservadaDeInventario.Width = 1.5F;
-            // 
-            // txtCantidadConsumoReal
-            // 
-            this.txtCantidadConsumoReal.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtCantidadConsumoReal.Border.LeftStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtCantidadConsumoReal.Border.RightStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtCantidadConsumoReal.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtCantidadConsumoReal.Height = 0.25F;
-            this.txtCantidadConsumoReal.Left = 6F;
-            this.txtCantidadConsumoReal.Name = "txtCantidadConsumoReal";
-            this.txtCantidadConsumoReal.Style = "font-size: 8pt; text-align: right; vertical-align: middle; ddo-char-set: 1";
-            this.txtCantidadConsumoReal.Text = null;
-            this.txtCantidadConsumoReal.Top = 0.01F;
-            this.txtCantidadConsumoReal.Width = 1.5F;
-            // 
-            // txtUnidad
-            // 
-            this.txtUnidad.CanGrow = false;
-            this.txtUnidad.Height = 0.15625F;
-            this.txtUnidad.Left = 3.437F;
-            this.txtUnidad.Name = "txtUnidad";
-            this.txtUnidad.Style = "font-size: 8pt; vertical-align: middle; ddo-char-set: 1";
-            this.txtUnidad.Text = "txtUnidad";
-            this.txtUnidad.Top = 0F;
-            this.txtUnidad.Width = 1F;
-            // 
-            // dsrOrdenDeProduccionSubRptSalidas
+            // dsrPrecierreOrdenDeProduccionSubRptSalidas
             // 
             this.MasterReport = false;
             this.PageSettings.PaperHeight = 11F;
@@ -198,14 +198,14 @@ namespace Galac.Adm.Rpt.GestionProduccion
             this.StyleSheet.Add(new DDCssLib.StyleSheetRule("font-family: Times New Roman; font-size: 14pt; font-weight: bold; font-style: ita" +
             "lic", "Heading2", "Normal"));
             this.StyleSheet.Add(new DDCssLib.StyleSheetRule("font-size: 13pt; font-weight: bold", "Heading3", "Normal"));
+            ((System.ComponentModel.ISupportInitialize)(this.txtArticulo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCantidadSolicitada)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCantidadConsumoReal)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtUnidad)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblArticulo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadEstimadaAProducir)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadProducidaReal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblUnidad)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtArticulo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCantidadReservadaDeInventario)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCantidadConsumoReal)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtUnidad)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -219,7 +219,7 @@ namespace Galac.Adm.Rpt.GestionProduccion
         private DataDynamics.ActiveReports.Label lblUnidad;
         private DataDynamics.ActiveReports.Line lnInsumos;
         private DataDynamics.ActiveReports.TextBox txtArticulo;
-        private DataDynamics.ActiveReports.TextBox txtCantidadReservadaDeInventario;
+        private DataDynamics.ActiveReports.TextBox txtCantidadSolicitada;
         private DataDynamics.ActiveReports.TextBox txtCantidadConsumoReal;
         private DataDynamics.ActiveReports.TextBox txtUnidad;
     }
