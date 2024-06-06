@@ -33,13 +33,21 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
             return vResult;
         }
 
-        System.Data.DataTable IOrdenDeProduccionInformes.BuildOrdenDeProduccionRpt(int valConsecutivoCompania, string valCodigoOrden, DateTime valFechaInicial, DateTime valFechaHasta, eGeneradoPor valGeneradoPor) {
-            string vSql = "";
+        System.Data.DataTable IOrdenDeProduccionInformes.BuildPrecierreOrdendeProduccionSalidas(int valConsecutivoCompania, string valCodigoOrden, DateTime valFechaInicial, DateTime valFechaHasta, eGeneradoPor valGeneradoPor) {
+            string vSql = "";           
             System.Data.DataTable vDt = new System.Data.DataTable();
             clsOrdenDeProduccionSql insOrdenDeProduccionSql = new clsOrdenDeProduccionSql();
             LibGalac.Aos.Base.ILibDataRpt insOrdenDeProduccionRpt = new Galac.Adm.Dal.GestionProduccion.clsOrdenDeProduccionDat();
-            vSql = insOrdenDeProduccionSql.SqlOrdenDeProduccionRpt(valConsecutivoCompania, valCodigoOrden, valFechaInicial, valFechaHasta, valGeneradoPor);
+            vSql = insOrdenDeProduccionSql.SqlOrdenDeProduccionRpt(valConsecutivoCompania, valCodigoOrden, valFechaInicial, valFechaHasta, valGeneradoPor);          
             return insOrdenDeProduccionRpt.GetDt(vSql, 0);
+        }
+        System.Data.DataTable IOrdenDeProduccionInformes.BuildPrecierreOrdendeProduccionInsumos(int valConsecutivoCompania, string valCodigoOrden, DateTime valFechaInicial, DateTime valFechaHasta, eGeneradoPor valGeneradoPor) {
+            string vSqlt = "";
+            System.Data.DataTable vDt = new System.Data.DataTable();
+            clsOrdenDeProduccionSql insOrdenDeProduccionSql = new clsOrdenDeProduccionSql();
+            LibGalac.Aos.Base.ILibDataRpt insOrdenDeProduccionRpt = new Galac.Adm.Dal.GestionProduccion.clsOrdenDeProduccionDat();
+            vSqlt = insOrdenDeProduccionSql.SqlOrdenDeProduccionSubRpt(valConsecutivoCompania, valCodigoOrden, valFechaInicial, valFechaHasta, valGeneradoPor);
+            return insOrdenDeProduccionRpt.GetDt(vSqlt, 0);
         }
 
         System.Data.DataTable IOrdenDeProduccionInformes.BuildRequisicionDeMateriales(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, bool valMostrarSoloExistenciaInsuficiente, string valCodigoOrden, eGeneradoPor valGeneradoPor) {

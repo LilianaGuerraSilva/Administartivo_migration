@@ -15,31 +15,24 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
         #region Metodos Generados
         public string SqlOrdenDeProduccionRpt(int valConsecutivoCompania, string valCodigoOrden, DateTime valFechaInicio, DateTime valFechaFinal, eGeneradoPor valGeneradoPor) {
             StringBuilder vSql = new StringBuilder();
-            vSql.AppendLine("SELECT");
-            vSql.AppendLine("Adm.OrdenDeProduccion.ConsecutivoCompania,");
-            vSql.AppendLine("Adm.OrdenDeProduccion.Codigo,");
-            vSql.AppendLine("Adm.OrdenDeProduccion.FechaInicio,");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleArticulo.CodigoArticulo + ' - ' + dbo.ArticuloInventario.Descripcion AS InventarioAProducir,");
-            vSql.AppendLine("Saw.Almacen.Codigo + ' - ' + Saw.Almacen.NombreAlmacen AS AlmacenProductoTerminado,");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleArticulo.CantidadSolicitada,");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleMateriales.CodigoArticulo + ' - ' + ArticuloInventario_1.Descripcion AS MaterialesServicioUtilizado,");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleMateriales.CantidadReservadaInventario,");
-            vSql.AppendLine("Almacen_1.Codigo + ' - ' + Almacen_1.NombreAlmacen AS AlmacenMaterialesServicioUtilizado");
+            vSql.AppendLine("SELECT ");
+            vSql.AppendLine("OrdenDeProduccion.ConsecutivoCompania, ");
+            vSql.AppendLine("OrdenDeProduccion.Codigo, ");
+            vSql.AppendLine("OrdenDeProduccion.FechaInicio, ");
+            vSql.AppendLine("OrdenDeProduccionDetalleArticulo.CodigoArticulo + ' - ' + ArticuloInventario.Descripcion AS InventarioAProducir, ");
+            vSql.AppendLine("Almacen.Codigo + ' - ' + Almacen.NombreAlmacen AS AlmacenProductoTerminado, ");
+            vSql.AppendLine("OrdenDeProduccionDetalleArticulo.CantidadSolicitada ");
             vSql.AppendLine("FROM ");
-            vSql.AppendLine("Adm.OrdenDeProduccion INNER JOIN ");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleArticulo ON Adm.OrdenDeProduccion.ConsecutivoCompania = Adm.OrdenDeProduccionDetalleArticulo.ConsecutivoCompania AND ");
-            vSql.AppendLine("Adm.OrdenDeProduccion.Consecutivo = Adm.OrdenDeProduccionDetalleArticulo.ConsecutivoOrdenDeProduccion INNER JOIN ");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleMateriales ON Adm.OrdenDeProduccionDetalleArticulo.ConsecutivoCompania = Adm.OrdenDeProduccionDetalleMateriales.ConsecutivoCompania AND ");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleArticulo.ConsecutivoOrdenDeProduccion = Adm.OrdenDeProduccionDetalleMateriales.ConsecutivoOrdenDeProduccion INNER JOIN ");            
-            vSql.AppendLine("dbo.ArticuloInventario ON Adm.OrdenDeProduccionDetalleArticulo.ConsecutivoCompania = dbo.ArticuloInventario.ConsecutivoCompania AND ");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleArticulo.CodigoArticulo = dbo.ArticuloInventario.Codigo INNER JOIN ");
-            vSql.AppendLine("dbo.ArticuloInventario AS ArticuloInventario_1 ON Adm.OrdenDeProduccionDetalleMateriales.ConsecutivoCompania = ArticuloInventario_1.ConsecutivoCompania AND ");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleMateriales.CodigoArticulo = ArticuloInventario_1.Codigo INNER JOIN ");
-            vSql.AppendLine("Saw.Almacen ON Adm.OrdenDeProduccionDetalleArticulo.ConsecutivoAlmacen = Saw.Almacen.Consecutivo AND ");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleArticulo.ConsecutivoCompania = Saw.Almacen.ConsecutivoCompania INNER JOIN");
-            vSql.AppendLine("Saw.Almacen AS Almacen_1 ON Adm.OrdenDeProduccionDetalleMateriales.ConsecutivoCompania = Almacen_1.ConsecutivoCompania AND");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleMateriales.ConsecutivoAlmacen = Almacen_1.Consecutivo");
-
+            vSql.AppendLine("Adm.OrdenDeProduccion ");
+            vSql.AppendLine("INNER JOIN Adm.OrdenDeProduccionDetalleArticulo ON ");
+            vSql.AppendLine("OrdenDeProduccion.Consecutivo = OrdenDeProduccionDetalleArticulo.ConsecutivoOrdenDeProduccion ");
+            vSql.AppendLine("AND OrdenDeProduccion.ConsecutivoCompania = OrdenDeProduccionDetalleArticulo.ConsecutivoCompania ");
+            vSql.AppendLine("INNER JOIN .ArticuloInventario ON ");
+            vSql.AppendLine("OrdenDeProduccionDetalleArticulo.CodigoArticulo = ArticuloInventario.Codigo ");
+            vSql.AppendLine("AND OrdenDeProduccionDetalleArticulo.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania ");
+            vSql.AppendLine("INNER JOIN Saw.Almacen ON ");
+            vSql.AppendLine("OrdenDeProduccionDetalleArticulo.ConsecutivoCompania = Almacen.ConsecutivoCompania ");
+            vSql.AppendLine("AND OrdenDeProduccionDetalleArticulo.ConsecutivoAlmacen = Almacen.Consecutivo ");
             string vSqlWhere = vSqlUtil.SqlIntValueWithAnd(string.Empty, "Adm.OrdenDeProduccion.ConsecutivoCompania", valConsecutivoCompania);
             if (valGeneradoPor == eGeneradoPor.Orden) {
                 vSqlWhere = vSqlUtil.SqlValueWithAnd(vSqlWhere, "Adm.OrdenDeProduccion.Codigo", valCodigoOrden);
@@ -51,7 +44,40 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
                 vSql.AppendLine(" WHERE " + vSqlWhere);
             }
             vSql.AppendLine("ORDER BY Adm.OrdenDeProduccion.Codigo");
+            return vSql.ToString();
+        }
 
+        public string SqlOrdenDeProduccionSubRpt(int valConsecutivoCompania, string valCodigoOrden, DateTime valFechaInicio, DateTime valFechaFinal, eGeneradoPor valGeneradoPor) {
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("SELECT ");
+            vSql.AppendLine("OrdenDeProduccion.ConsecutivoCompania, ");
+            vSql.AppendLine("OrdenDeProduccion.Codigo, ");
+            vSql.AppendLine("OrdenDeProduccion.FechaInicio, ");
+            vSql.AppendLine("OrdenDeProduccionDetalleMateriales.CodigoArticulo + ' - ' + ArticuloInventario.Descripcion AS MaterialesServicioUtilizado, ");
+            vSql.AppendLine("OrdenDeProduccionDetalleMateriales.CantidadReservadaInventario, ");
+            vSql.AppendLine("Almacen.Codigo + ' - ' + Almacen.NombreAlmacen AS AlmacenMaterialesServicioUtilizado ");
+            vSql.AppendLine("FROM ");
+            vSql.AppendLine("Adm.OrdenDeProduccion ");
+            vSql.AppendLine("INNER JOIN Adm.OrdenDeProduccionDetalleMateriales ON ");
+            vSql.AppendLine("OrdenDeProduccion.Consecutivo = OrdenDeProduccionDetalleMateriales.ConsecutivoOrdenDeProduccion ");
+            vSql.AppendLine("AND OrdenDeProduccion.ConsecutivoCompania = OrdenDeProduccionDetalleMateriales.ConsecutivoCompania ");
+            vSql.AppendLine("INNER JOIN dbo.ArticuloInventario  ON ");
+            vSql.AppendLine("OrdenDeProduccionDetalleMateriales.CodigoArticulo = ArticuloInventario.Codigo ");
+            vSql.AppendLine("AND OrdenDeProduccionDetalleMateriales.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania ");
+            vSql.AppendLine("INNER JOIN Saw.Almacen AS Almacen ON ");
+            vSql.AppendLine("OrdenDeProduccionDetalleMateriales.ConsecutivoAlmacen = Almacen.Consecutivo ");
+            vSql.AppendLine("AND OrdenDeProduccionDetalleMateriales.ConsecutivoCompania = Almacen.ConsecutivoCompania ");           
+            string vSqlWhere = vSqlUtil.SqlIntValueWithAnd(string.Empty, "Adm.OrdenDeProduccion.ConsecutivoCompania", valConsecutivoCompania);
+            if (valGeneradoPor == eGeneradoPor.Orden) {
+                vSqlWhere = vSqlUtil.SqlValueWithAnd(vSqlWhere, "Adm.OrdenDeProduccion.Codigo", valCodigoOrden);
+            } else if (valGeneradoPor == eGeneradoPor.Fecha) {
+                vSqlWhere = vSqlUtil.SqlDateValueBetween(vSqlWhere, "Adm.OrdenDeProduccion.FechaCreacion", valFechaInicio, valFechaFinal);
+            }
+            vSqlWhere = vSqlUtil.SqlEnumValueWithAnd(vSqlWhere, "Adm.OrdenDeProduccion.StatusOp", (int)eTipoStatusOrdenProduccion.Ingresada);
+            if (LibString.Len(vSqlWhere) > 0) {
+                vSql.AppendLine(" WHERE " + vSqlWhere);
+            }
+            vSql.AppendLine("ORDER BY Adm.OrdenDeProduccion.Codigo");
             return vSql.ToString();
         }
 

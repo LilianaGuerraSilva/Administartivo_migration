@@ -39,14 +39,14 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             return "PreCierre Orden de Producción";
         }
 
-        public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {
+        public bool ConfigReport(DataTable valDataSourceSalidas, DataTable valDataSourceInsumos, Dictionary<string, string> valParameters) {
             if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
                 if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
                     LibReport.LoadLayout(this, vRpxPath);
                 }
             }
-            if (LibReport.ConfigDataSource(this, valDataSource)) {
+            if (LibReport.ConfigDataSource(this, valDataSourceSalidas)) {
                 LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["NombreCompania"], string.Empty);
                 LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());
                 //LibReport.ConfigLabel(this, "lblFechaInicialYFinal", valParameters["FechaInicialYFinal"]);

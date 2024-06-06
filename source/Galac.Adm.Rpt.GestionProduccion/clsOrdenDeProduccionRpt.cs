@@ -24,7 +24,8 @@ namespace Galac.Adm.Rpt.GestionProduccion {
 
         public DateTime FechaHasta { get; set; }
 
-        protected DataTable Data { get; set; }
+        protected DataTable DataSalidas { get; set; }
+        protected DataTable DataInsumos { get; set; }
         #region Codigo Ejemplo
         /* Codigo de Ejemplo
 
@@ -80,14 +81,15 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             }
             WorkerReportProgress(30, "Obteniendo datos...");
             IOrdenDeProduccionInformes vRpt = new Galac.Adm.Brl.GestionProduccion.Reportes.clsOrdenDeProduccionRpt() as IOrdenDeProduccionInformes;
-             Data = vRpt.BuildOrdenDeProduccionRpt(ConsecutivoCompania, CodigoOrden, FechaDesde, FechaHasta, GeneradoPor);
+            DataSalidas = vRpt.BuildPrecierreOrdendeProduccionSalidas(ConsecutivoCompania, CodigoOrden, FechaDesde, FechaHasta, GeneradoPor);
+            DataInsumos = vRpt.BuildPrecierreOrdendeProduccionInsumos(ConsecutivoCompania, CodigoOrden, FechaDesde, FechaHasta, GeneradoPor);
         }
 
         public override void SendReportToDevice() {
             WorkerReportProgress(90, "Configurando Informe...");
             Dictionary<string, string> vParams = GetConfigReportParameters();
             dsrOrdenDeProduccion vRpt = new dsrOrdenDeProduccion();
-            if (vRpt.ConfigReport(Data, vParams)) {
+            if (vRpt.ConfigReport(DataSalidas, DataInsumos, vParams)) {
                 LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsOrdenDeProduccionRpt.ReportName, true, ExportFileFormat, "", false);
             }
             WorkerReportProgress(100, "Finalizando...");
