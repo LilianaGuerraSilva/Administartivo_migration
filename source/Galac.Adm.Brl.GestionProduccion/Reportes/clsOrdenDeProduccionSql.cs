@@ -73,7 +73,6 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             vSql.AppendLine("Almacen.Codigo + ' - ' + Almacen.NombreAlmacen AS AlmacenMaterialesServicioUtilizado, ");
             vSql.AppendLine("Adm.OrdenDeProduccionDetalleMateriales.CantidadReservadaInventario, ");
             vSql.AppendLine("ArticuloInventario.Existencia, ");
-            vSql.AppendLine("ArticuloInventario.TipoDeArticulo,");
             vSql.AppendLine("CASE WHEN ArticuloInventario.TipoDeArticulo = '1'  THEN 'N/A' ELSE CONVERT(varchar, CAST(ExistenciaPorAlmacen.Cantidad AS money), 8) END AS ExistenciaToStr");
             vSql.AppendLine("FROM Adm.OrdenDeProduccion INNER JOIN Adm.OrdenDeProduccionDetalleMateriales ");
             vSql.AppendLine("ON Adm.OrdenDeProduccion.ConsecutivoCompania = Adm.OrdenDeProduccionDetalleMateriales.ConsecutivoCompania AND ");
@@ -255,6 +254,7 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             vSql.AppendLine("Adm.OrdenDeProduccion.Codigo AS Orden,");
             vSql.AppendLine("Adm.OrdenDeProduccionDetalleArticulo.CantidadSolicitada,");
             vSql.AppendLine("Adm.OrdenDeProduccionDetalleArticulo.CantidadProducida,");
+            vSql.AppendLine("Adm.OrdenDeProduccionDetalleArticulo.CantidadSolicitada - Adm.OrdenDeProduccionDetalleArticulo.CantidadProducida AS Diferencia,");
             vSql.AppendLine("Adm.OrdenDeProduccion.MotivoDeAnulacion");
             vSql.AppendLine("FROM");
             vSql.AppendLine("Adm.OrdenDeProduccion INNER JOIN");
