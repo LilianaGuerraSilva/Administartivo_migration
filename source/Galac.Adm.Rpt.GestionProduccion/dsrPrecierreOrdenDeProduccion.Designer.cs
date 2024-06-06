@@ -1,6 +1,6 @@
 namespace Galac.Adm.Rpt.GestionProduccion {
     /// <summary>
-    /// Summary description for dsrOrdenDeProduccion.
+    /// Summary description for dsrPrecierreOrdenDeProduccion.
     /// </summary>
     partial class dsrPrecierreOrdenDeProduccion {
 
@@ -21,8 +21,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         private void InitializeComponent() {
             System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(dsrPrecierreOrdenDeProduccion));
             this.Detail = new DataDynamics.ActiveReports.Detail();
-            this.txtArticuloServicio = new DataDynamics.ActiveReports.TextBox();
-            this.txtAlmacen2 = new DataDynamics.ActiveReports.TextBox();
+            this.txtArticulo = new DataDynamics.ActiveReports.TextBox();
             this.txtCantidadReservadaDeInventario = new DataDynamics.ActiveReports.TextBox();
             this.txtCantidadConsumoReal = new DataDynamics.ActiveReports.TextBox();
             this.PageHeader = new DataDynamics.ActiveReports.PageHeader();
@@ -36,31 +35,38 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.txtCodigoDeOrden = new DataDynamics.ActiveReports.TextBox();
             this.lblFechaInicio = new DataDynamics.ActiveReports.Label();
             this.txtFechaInicio = new DataDynamics.ActiveReports.TextBox();
-            this.lblArticuloInventarioAProducir = new DataDynamics.ActiveReports.Label();
-            this.txtArticuloInventarioAProducir = new DataDynamics.ActiveReports.TextBox();
+            this.lblListaDeMateriales = new DataDynamics.ActiveReports.Label();
+            this.txtListaDeMateriales = new DataDynamics.ActiveReports.TextBox();
             this.lblCantidadAProducirEstimada = new DataDynamics.ActiveReports.Label();
             this.lblCantidadAProducirReal = new DataDynamics.ActiveReports.Label();
             this.txtCantidadAProducirReal = new DataDynamics.ActiveReports.TextBox();
-            this.lblAlmacen1 = new DataDynamics.ActiveReports.Label();
-            this.txtAlmacen1 = new DataDynamics.ActiveReports.TextBox();
-            this.lblArticuloServicio = new DataDynamics.ActiveReports.Label();
-            this.lblAlmacen2 = new DataDynamics.ActiveReports.Label();
+            this.lblAlmacenSalida = new DataDynamics.ActiveReports.Label();
+            this.txtAlmacenSalida = new DataDynamics.ActiveReports.TextBox();
+            this.lblCantidadAProducir = new DataDynamics.ActiveReports.Label();
+            this.txtCantidadAProducirEstimada = new DataDynamics.ActiveReports.TextBox();
+            this.lblFechaFinalizacion = new DataDynamics.ActiveReports.Label();
+            this.txtFechaCierre = new DataDynamics.ActiveReports.TextBox();
+            this.lblArticulo = new DataDynamics.ActiveReports.Label();
+            this.lblAlmacenEntrada = new DataDynamics.ActiveReports.Label();
             this.lblCantidadReservadaDeInventario = new DataDynamics.ActiveReports.Label();
             this.lblCantidadConsumoReal = new DataDynamics.ActiveReports.Label();
-            this.label1 = new DataDynamics.ActiveReports.Label();
-            this.line1 = new DataDynamics.ActiveReports.Line();
-            this.txtCantidadAProducirEstimada = new DataDynamics.ActiveReports.TextBox();
-            this.label2 = new DataDynamics.ActiveReports.Label();
+            this.lnInsumos = new DataDynamics.ActiveReports.Line();
+            this.lblTituloInsumos = new DataDynamics.ActiveReports.Label();
             this.GFSecOrdenDeProduccion = new DataDynamics.ActiveReports.GroupFooter();
             this.lblObservacion = new DataDynamics.ActiveReports.Label();
-            this.txtObservacion = new DataDynamics.ActiveReports.TextBox();
-            this.textBox1 = new DataDynamics.ActiveReports.TextBox();
-            this.textBox2 = new DataDynamics.ActiveReports.TextBox();
-            this.label3 = new DataDynamics.ActiveReports.Label();
-            this.label4 = new DataDynamics.ActiveReports.Label();
-            this.txtFechaCierre = new DataDynamics.ActiveReports.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.txtArticuloServicio)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtAlmacen2)).BeginInit();
+            this.lblFirma = new DataDynamics.ActiveReports.Label();
+            this.GHSecDetalle = new DataDynamics.ActiveReports.GroupHeader();
+            this.subRptSalidas = new DataDynamics.ActiveReports.SubReport();
+            this.GFSecDetalle = new DataDynamics.ActiveReports.GroupFooter();
+            this.lblTituloSalidas = new DataDynamics.ActiveReports.Label();
+            this.txtAlmacenEntrada = new DataDynamics.ActiveReports.TextBox();
+            this.line1 = new DataDynamics.ActiveReports.Line();
+            this.line2 = new DataDynamics.ActiveReports.Line();
+            this.line3 = new DataDynamics.ActiveReports.Line();
+            this.line4 = new DataDynamics.ActiveReports.Line();
+            this.lblUnidad = new DataDynamics.ActiveReports.Label();
+            this.txtUnidad = new DataDynamics.ActiveReports.TextBox();
+            ((System.ComponentModel.ISupportInitialize)(this.txtArticulo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCantidadReservadaDeInventario)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCantidadConsumoReal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreCompania)).BeginInit();
@@ -71,59 +77,50 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             ((System.ComponentModel.ISupportInitialize)(this.txtCodigoDeOrden)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaInicio)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFechaInicio)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblArticuloInventarioAProducir)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtArticuloInventarioAProducir)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblListaDeMateriales)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtListaDeMateriales)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadAProducirEstimada)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadAProducirReal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCantidadAProducirReal)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblAlmacen1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtAlmacen1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblArticuloServicio)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblAlmacen2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblAlmacenSalida)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtAlmacenSalida)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblCantidadAProducir)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCantidadAProducirEstimada)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblFechaFinalizacion)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtFechaCierre)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblArticulo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblAlmacenEntrada)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadReservadaDeInventario)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadConsumoReal)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.label1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCantidadAProducirEstimada)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.label2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblTituloInsumos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblObservacion)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtObservacion)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.label3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.label4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtFechaCierre)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblFirma)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblTituloSalidas)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtAlmacenEntrada)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblUnidad)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtUnidad)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
             // 
             this.Detail.ColumnSpacing = 0F;
             this.Detail.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
-            this.txtArticuloServicio,
-            this.txtAlmacen2,
+            this.txtArticulo,
             this.txtCantidadReservadaDeInventario,
-            this.txtCantidadConsumoReal});
-            this.Detail.Height = 0.2916667F;
+            this.txtCantidadConsumoReal,
+            this.txtUnidad});
+            this.Detail.Height = 0.26F;
             this.Detail.Name = "Detail";
             // 
-            // txtArticuloServicio
+            // txtArticulo
             // 
-            this.txtArticuloServicio.Height = 0.271F;
-            this.txtArticuloServicio.Left = 0.02999997F;
-            this.txtArticuloServicio.Name = "txtArticuloServicio";
-            this.txtArticuloServicio.Style = "font-size: 8pt; vertical-align: middle; ddo-char-set: 1";
-            this.txtArticuloServicio.Text = "txtArticuloServicio";
-            this.txtArticuloServicio.Top = 0F;
-            this.txtArticuloServicio.Width = 3.13F;
-            // 
-            // txtAlmacen2
-            // 
-            this.txtAlmacen2.Height = 0.271F;
-            this.txtAlmacen2.Left = 3.16F;
-            this.txtAlmacen2.Name = "txtAlmacen2";
-            this.txtAlmacen2.Style = "font-size: 6.75pt; text-align: center; vertical-align: middle; ddo-char-set: 0";
-            this.txtAlmacen2.Text = "txtAlmacen2";
-            this.txtAlmacen2.Top = 0F;
-            this.txtAlmacen2.Width = 1.092F;
+            this.txtArticulo.Height = 0.15625F;
+            this.txtArticulo.Left = -3.72529E-09F;
+            this.txtArticulo.Name = "txtArticulo";
+            this.txtArticulo.Style = "font-size: 8pt; vertical-align: middle; ddo-char-set: 1";
+            this.txtArticulo.Text = "txtArticulo";
+            this.txtArticulo.Top = 0F;
+            this.txtArticulo.Width = 3.437F;
             // 
             // txtCantidadReservadaDeInventario
             // 
@@ -131,13 +128,13 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.txtCantidadReservadaDeInventario.Border.LeftStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtCantidadReservadaDeInventario.Border.RightStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtCantidadReservadaDeInventario.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtCantidadReservadaDeInventario.Height = 0.271F;
-            this.txtCantidadReservadaDeInventario.Left = 4.309F;
+            this.txtCantidadReservadaDeInventario.Height = 0.25F;
+            this.txtCantidadReservadaDeInventario.Left = 4.469F;
             this.txtCantidadReservadaDeInventario.Name = "txtCantidadReservadaDeInventario";
             this.txtCantidadReservadaDeInventario.Style = "font-size: 8pt; text-align: right; vertical-align: middle; ddo-char-set: 1";
             this.txtCantidadReservadaDeInventario.Text = "txtCantidadReservadaDeInventario";
-            this.txtCantidadReservadaDeInventario.Top = 0F;
-            this.txtCantidadReservadaDeInventario.Width = 1.229F;
+            this.txtCantidadReservadaDeInventario.Top = 0.01F;
+            this.txtCantidadReservadaDeInventario.Width = 1.5F;
             // 
             // txtCantidadConsumoReal
             // 
@@ -145,13 +142,13 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.txtCantidadConsumoReal.Border.LeftStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtCantidadConsumoReal.Border.RightStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtCantidadConsumoReal.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtCantidadConsumoReal.Height = 0.271F;
-            this.txtCantidadConsumoReal.Left = 5.633F;
+            this.txtCantidadConsumoReal.Height = 0.25F;
+            this.txtCantidadConsumoReal.Left = 6F;
             this.txtCantidadConsumoReal.Name = "txtCantidadConsumoReal";
             this.txtCantidadConsumoReal.Style = "font-size: 8pt; text-align: right; vertical-align: middle; ddo-char-set: 1";
             this.txtCantidadConsumoReal.Text = null;
-            this.txtCantidadConsumoReal.Top = 0F;
-            this.txtCantidadConsumoReal.Width = 1.229F;
+            this.txtCantidadConsumoReal.Top = 0.01F;
+            this.txtCantidadConsumoReal.Width = 1.5F;
             // 
             // PageHeader
             // 
@@ -217,24 +214,19 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.txtCodigoDeOrden,
             this.lblFechaInicio,
             this.txtFechaInicio,
-            this.lblArticuloInventarioAProducir,
-            this.txtArticuloInventarioAProducir,
+            this.lblListaDeMateriales,
+            this.txtListaDeMateriales,
             this.lblCantidadAProducirEstimada,
             this.lblCantidadAProducirReal,
             this.txtCantidadAProducirReal,
-            this.lblAlmacen1,
-            this.txtAlmacen1,
-            this.lblArticuloServicio,
-            this.lblAlmacen2,
-            this.lblCantidadReservadaDeInventario,
-            this.lblCantidadConsumoReal,
-            this.label1,
-            this.line1,
+            this.lblCantidadAProducir,
             this.txtCantidadAProducirEstimada,
-            this.label2,
-            this.label4,
-            this.txtFechaCierre});
-            this.GHSecOrdenDeProduccion.Height = 1.531417F;
+            this.lblFechaFinalizacion,
+            this.txtFechaCierre,
+            this.lblTituloSalidas,
+            this.lblAlmacenEntrada,
+            this.txtAlmacenEntrada});
+            this.GHSecOrdenDeProduccion.Height = 2.06225F;
             this.GHSecOrdenDeProduccion.Name = "GHSecOrdenDeProduccion";
             // 
             // lblCodigoDeOrden
@@ -245,84 +237,89 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblCodigoDeOrden.Name = "lblCodigoDeOrden";
             this.lblCodigoDeOrden.Style = "font-family: Microsoft Sans Serif; font-size: 12pt; font-weight: bold; ddo-char-s" +
     "et: 0";
-            this.lblCodigoDeOrden.Text = "Orden: ";
+            this.lblCodigoDeOrden.Text = "Orden";
             this.lblCodigoDeOrden.Top = 0F;
-            this.lblCodigoDeOrden.Width = 0.7090001F;
+            this.lblCodigoDeOrden.Width = 0.625F;
             // 
             // txtCodigoDeOrden
             // 
             this.txtCodigoDeOrden.Height = 0.219F;
-            this.txtCodigoDeOrden.Left = 0.7090001F;
+            this.txtCodigoDeOrden.Left = 0.625999F;
             this.txtCodigoDeOrden.Name = "txtCodigoDeOrden";
             this.txtCodigoDeOrden.Style = "font-family: Microsoft Sans Serif; font-size: 12pt; font-weight: bold; ddo-char-s" +
     "et: 0";
             this.txtCodigoDeOrden.Text = "txtCodigoDeOrden";
             this.txtCodigoDeOrden.Top = 0F;
-            this.txtCodigoDeOrden.Width = 3.999F;
+            this.txtCodigoDeOrden.Width = 6.874001F;
             // 
             // lblFechaInicio
             // 
-            this.lblFechaInicio.Height = 0.15625F;
+            this.lblFechaInicio.Height = 0.25F;
             this.lblFechaInicio.HyperLink = null;
-            this.lblFechaInicio.Left = 5.024F;
+            this.lblFechaInicio.Left = 5.25F;
             this.lblFechaInicio.Name = "lblFechaInicio";
             this.lblFechaInicio.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.lblFechaInicio.Text = "Fecha de Inicio";
-            this.lblFechaInicio.Top = 0F;
-            this.lblFechaInicio.Width = 0.9170001F;
+            this.lblFechaInicio.Top = 0.469F;
+            this.lblFechaInicio.Width = 1.25F;
             // 
             // txtFechaInicio
             // 
-            this.txtFechaInicio.Height = 0.15625F;
-            this.txtFechaInicio.Left = 5.941F;
+            this.txtFechaInicio.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtFechaInicio.Border.LeftStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtFechaInicio.Border.RightStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtFechaInicio.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtFechaInicio.Height = 0.25F;
+            this.txtFechaInicio.Left = 6.5F;
             this.txtFechaInicio.Name = "txtFechaInicio";
-            this.txtFechaInicio.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtFechaInicio.Style = "font-size: 8pt; text-align: left; ddo-char-set: 1";
             this.txtFechaInicio.Text = "txtFechaInicio";
-            this.txtFechaInicio.Top = 0F;
-            this.txtFechaInicio.Width = 0.9430008F;
+            this.txtFechaInicio.Top = 0.469F;
+            this.txtFechaInicio.Width = 1F;
             // 
-            // lblArticuloInventarioAProducir
+            // lblListaDeMateriales
             // 
-            this.lblArticuloInventarioAProducir.Height = 0.15625F;
-            this.lblArticuloInventarioAProducir.HyperLink = null;
-            this.lblArticuloInventarioAProducir.Left = 0F;
-            this.lblArticuloInventarioAProducir.Name = "lblArticuloInventarioAProducir";
-            this.lblArticuloInventarioAProducir.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
-            this.lblArticuloInventarioAProducir.Text = "Inventario a Producir";
-            this.lblArticuloInventarioAProducir.Top = 0.3125F;
-            this.lblArticuloInventarioAProducir.Width = 1.177F;
+            this.lblListaDeMateriales.Height = 0.25F;
+            this.lblListaDeMateriales.HyperLink = null;
+            this.lblListaDeMateriales.Left = 0F;
+            this.lblListaDeMateriales.Name = "lblListaDeMateriales";
+            this.lblListaDeMateriales.Style = "font-size: 9.75pt; font-weight: bold; ddo-char-set: 0";
+            this.lblListaDeMateriales.Text = "Lista de Materiales";
+            this.lblListaDeMateriales.Top = 0.719F;
+            this.lblListaDeMateriales.Width = 5.25F;
             // 
-            // txtArticuloInventarioAProducir
+            // txtListaDeMateriales
             // 
-            this.txtArticuloInventarioAProducir.Height = 0.15625F;
-            this.txtArticuloInventarioAProducir.Left = 1.177F;
-            this.txtArticuloInventarioAProducir.Name = "txtArticuloInventarioAProducir";
-            this.txtArticuloInventarioAProducir.Style = "font-size: 8pt; ddo-char-set: 1";
-            this.txtArticuloInventarioAProducir.Text = "txtArticuloInventarioAProducir";
-            this.txtArticuloInventarioAProducir.Top = 0.312F;
-            this.txtArticuloInventarioAProducir.Width = 3.531F;
+            this.txtListaDeMateriales.CanGrow = false;
+            this.txtListaDeMateriales.Height = 0.656F;
+            this.txtListaDeMateriales.Left = 0F;
+            this.txtListaDeMateriales.Name = "txtListaDeMateriales";
+            this.txtListaDeMateriales.Style = "font-size: 8pt; ddo-char-set: 1";
+            this.txtListaDeMateriales.Text = "txtListaDeMateriales";
+            this.txtListaDeMateriales.Top = 0.969F;
+            this.txtListaDeMateriales.Width = 5.25F;
             // 
             // lblCantidadAProducirEstimada
             // 
-            this.lblCantidadAProducirEstimada.Height = 0.15625F;
+            this.lblCantidadAProducirEstimada.Height = 0.25F;
             this.lblCantidadAProducirEstimada.HyperLink = null;
-            this.lblCantidadAProducirEstimada.Left = 1.177F;
+            this.lblCantidadAProducirEstimada.Left = 5.25F;
             this.lblCantidadAProducirEstimada.Name = "lblCantidadAProducirEstimada";
-            this.lblCantidadAProducirEstimada.Style = "font-size: 8.25pt; font-weight: bold; text-align: center; ddo-char-set: 0";
+            this.lblCantidadAProducirEstimada.Style = "font-size: 8.25pt; font-weight: bold; text-align: left; ddo-char-set: 0";
             this.lblCantidadAProducirEstimada.Text = "Estimada";
-            this.lblCantidadAProducirEstimada.Top = 0.53F;
-            this.lblCantidadAProducirEstimada.Width = 1.229F;
+            this.lblCantidadAProducirEstimada.Top = 1.125F;
+            this.lblCantidadAProducirEstimada.Width = 0.625F;
             // 
             // lblCantidadAProducirReal
             // 
-            this.lblCantidadAProducirReal.Height = 0.15625F;
+            this.lblCantidadAProducirReal.Height = 0.25F;
             this.lblCantidadAProducirReal.HyperLink = null;
-            this.lblCantidadAProducirReal.Left = 2.583F;
+            this.lblCantidadAProducirReal.Left = 5.25F;
             this.lblCantidadAProducirReal.Name = "lblCantidadAProducirReal";
-            this.lblCantidadAProducirReal.Style = "font-size: 8.25pt; font-weight: bold; text-align: center; ddo-char-set: 0";
+            this.lblCantidadAProducirReal.Style = "font-size: 8.25pt; font-weight: bold; text-align: left; ddo-char-set: 0";
             this.lblCantidadAProducirReal.Text = "Real";
-            this.lblCantidadAProducirReal.Top = 0.529F;
-            this.lblCantidadAProducirReal.Width = 1.229F;
+            this.lblCantidadAProducirReal.Top = 1.375F;
+            this.lblCantidadAProducirReal.Width = 0.625F;
             // 
             // txtCantidadAProducirReal
             // 
@@ -331,104 +328,44 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.txtCantidadAProducirReal.Border.RightStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtCantidadAProducirReal.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtCantidadAProducirReal.Height = 0.23875F;
-            this.txtCantidadAProducirReal.Left = 2.583F;
+            this.txtCantidadAProducirReal.Left = 5.875F;
             this.txtCantidadAProducirReal.Name = "txtCantidadAProducirReal";
             this.txtCantidadAProducirReal.Style = "font-size: 8pt; text-align: right; vertical-align: middle; ddo-char-set: 1";
             this.txtCantidadAProducirReal.Text = null;
-            this.txtCantidadAProducirReal.Top = 0.686F;
-            this.txtCantidadAProducirReal.Width = 1.229F;
+            this.txtCantidadAProducirReal.Top = 1.375F;
+            this.txtCantidadAProducirReal.Width = 1.625F;
             // 
-            // lblAlmacen1
+            // lblAlmacenSalida
             // 
-            this.lblAlmacen1.Height = 0.24F;
-            this.lblAlmacen1.HyperLink = null;
-            this.lblAlmacen1.Left = 5.024F;
-            this.lblAlmacen1.Name = "lblAlmacen1";
-            this.lblAlmacen1.Style = "font-size: 8.25pt; font-weight: bold; vertical-align: middle; ddo-char-set: 0";
-            this.lblAlmacen1.Text = "Almacen";
-            this.lblAlmacen1.Top = 0.6850001F;
-            this.lblAlmacen1.Width = 0.6090002F;
+            this.lblAlmacenSalida.Height = 0.15625F;
+            this.lblAlmacenSalida.HyperLink = null;
+            this.lblAlmacenSalida.Left = 0F;
+            this.lblAlmacenSalida.Name = "lblAlmacenSalida";
+            this.lblAlmacenSalida.Style = "font-size: 8.25pt; font-weight: bold; vertical-align: middle; ddo-char-set: 0";
+            this.lblAlmacenSalida.Text = "Almacén de Salida";
+            this.lblAlmacenSalida.Top = 0.656F;
+            this.lblAlmacenSalida.Width = 1.25F;
             // 
-            // txtAlmacen1
+            // txtAlmacenSalida
             // 
-            this.txtAlmacen1.Height = 0.24F;
-            this.txtAlmacen1.Left = 5.633F;
-            this.txtAlmacen1.Name = "txtAlmacen1";
-            this.txtAlmacen1.Style = "font-size: 8pt; text-align: right; vertical-align: middle; ddo-char-set: 1";
-            this.txtAlmacen1.Text = "txtAlmacen1";
-            this.txtAlmacen1.Top = 0.684F;
-            this.txtAlmacen1.Width = 1.221F;
+            this.txtAlmacenSalida.Height = 0.15625F;
+            this.txtAlmacenSalida.Left = 1.25F;
+            this.txtAlmacenSalida.Name = "txtAlmacenSalida";
+            this.txtAlmacenSalida.Style = "font-size: 8pt; text-align: left; vertical-align: middle; ddo-char-set: 1";
+            this.txtAlmacenSalida.Text = "txtAlmacenSalida";
+            this.txtAlmacenSalida.Top = 0.656F;
+            this.txtAlmacenSalida.Width = 6.250001F;
             // 
-            // lblArticuloServicio
+            // lblCantidadAProducir
             // 
-            this.lblArticuloServicio.Height = 0.31225F;
-            this.lblArticuloServicio.HyperLink = null;
-            this.lblArticuloServicio.Left = 0F;
-            this.lblArticuloServicio.Name = "lblArticuloServicio";
-            this.lblArticuloServicio.Style = "font-size: 8pt; font-weight: bold; vertical-align: bottom; ddo-char-set: 1";
-            this.lblArticuloServicio.Text = "Articulo/Servicio";
-            this.lblArticuloServicio.Top = 1.211F;
-            this.lblArticuloServicio.Width = 3.16F;
-            // 
-            // lblAlmacen2
-            // 
-            this.lblAlmacen2.Height = 0.31225F;
-            this.lblAlmacen2.HyperLink = null;
-            this.lblAlmacen2.Left = 3.16F;
-            this.lblAlmacen2.Name = "lblAlmacen2";
-            this.lblAlmacen2.Style = "font-size: 8pt; font-weight: bold; text-align: center; vertical-align: bottom; dd" +
-    "o-char-set: 1";
-            this.lblAlmacen2.Text = "Almacén";
-            this.lblAlmacen2.Top = 1.211F;
-            this.lblAlmacen2.Width = 1.062F;
-            // 
-            // lblCantidadReservadaDeInventario
-            // 
-            this.lblCantidadReservadaDeInventario.Height = 0.31225F;
-            this.lblCantidadReservadaDeInventario.HyperLink = null;
-            this.lblCantidadReservadaDeInventario.Left = 4.279F;
-            this.lblCantidadReservadaDeInventario.Name = "lblCantidadReservadaDeInventario";
-            this.lblCantidadReservadaDeInventario.Style = "font-size: 8pt; font-weight: bold; text-align: right; vertical-align: bottom; ddo" +
-    "-char-set: 1";
-            this.lblCantidadReservadaDeInventario.Text = "Cantidad Reservada de Inventario";
-            this.lblCantidadReservadaDeInventario.Top = 1.211F;
-            this.lblCantidadReservadaDeInventario.Width = 1.229F;
-            // 
-            // lblCantidadConsumoReal
-            // 
-            this.lblCantidadConsumoReal.Height = 0.31225F;
-            this.lblCantidadConsumoReal.HyperLink = null;
-            this.lblCantidadConsumoReal.Left = 5.633F;
-            this.lblCantidadConsumoReal.Name = "lblCantidadConsumoReal";
-            this.lblCantidadConsumoReal.Style = "font-size: 8pt; font-weight: bold; text-align: right; vertical-align: bottom; ddo" +
-    "-char-set: 1";
-            this.lblCantidadConsumoReal.Text = "Cantidad Consumo Real";
-            this.lblCantidadConsumoReal.Top = 1.211F;
-            this.lblCantidadConsumoReal.Width = 1.229F;
-            // 
-            // label1
-            // 
-            this.label1.Height = 0.23875F;
-            this.label1.HyperLink = null;
-            this.label1.Left = 0F;
-            this.label1.Name = "label1";
-            this.label1.Style = "font-size: 8.25pt; font-weight: bold; vertical-align: middle; ddo-char-set: 0";
-            this.label1.Text = "Cantidad a Producir";
-            this.label1.Top = 0.685F;
-            this.label1.Width = 1.177F;
-            // 
-            // line1
-            // 
-            this.line1.Height = 0F;
-            this.line1.Left = 0F;
-            this.line1.LineWeight = 1F;
-            this.line1.Name = "line1";
-            this.line1.Top = 1.523F;
-            this.line1.Width = 6.959F;
-            this.line1.X1 = 0F;
-            this.line1.X2 = 6.959F;
-            this.line1.Y1 = 1.523F;
-            this.line1.Y2 = 1.523F;
+            this.lblCantidadAProducir.Height = 0.15625F;
+            this.lblCantidadAProducir.HyperLink = null;
+            this.lblCantidadAProducir.Left = 5.25F;
+            this.lblCantidadAProducir.Name = "lblCantidadAProducir";
+            this.lblCantidadAProducir.Style = "font-size: 8.25pt; font-weight: bold; vertical-align: middle; ddo-char-set: 0";
+            this.lblCantidadAProducir.Text = "Cantidad a Producir";
+            this.lblCantidadAProducir.Top = 0.969F;
+            this.lblCantidadAProducir.Width = 2.25F;
             // 
             // txtCantidadAProducirEstimada
             // 
@@ -437,34 +374,120 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.txtCantidadAProducirEstimada.Border.RightStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtCantidadAProducirEstimada.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtCantidadAProducirEstimada.Height = 0.23875F;
-            this.txtCantidadAProducirEstimada.Left = 1.177F;
+            this.txtCantidadAProducirEstimada.Left = 5.875F;
             this.txtCantidadAProducirEstimada.Name = "txtCantidadAProducirEstimada";
-            this.txtCantidadAProducirEstimada.Style = "font-size: 8pt; text-align: right; vertical-align: middle; ddo-char-set: 1";
+            this.txtCantidadAProducirEstimada.Style = "font-size: 8pt; text-align: right; vertical-align: top; ddo-char-set: 1";
             this.txtCantidadAProducirEstimada.Text = "txtCantidadAProducirEstimada";
-            this.txtCantidadAProducirEstimada.Top = 0.686F;
-            this.txtCantidadAProducirEstimada.Width = 1.22875F;
+            this.txtCantidadAProducirEstimada.Top = 1.13625F;
+            this.txtCantidadAProducirEstimada.Width = 1.625F;
             // 
-            // label2
+            // lblFechaFinalizacion
             // 
-            this.label2.Height = 0.15625F;
-            this.label2.HyperLink = null;
-            this.label2.Left = 0F;
-            this.label2.Name = "label2";
-            this.label2.Style = "background-color: LightGrey; font-size: 8.25pt; font-weight: bold; ddo-char-set: " +
+            this.lblFechaFinalizacion.Height = 0.25F;
+            this.lblFechaFinalizacion.HyperLink = null;
+            this.lblFechaFinalizacion.Left = 5.25F;
+            this.lblFechaFinalizacion.Name = "lblFechaFinalizacion";
+            this.lblFechaFinalizacion.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
+            this.lblFechaFinalizacion.Text = "Fecha de Finalización";
+            this.lblFechaFinalizacion.Top = 0.719F;
+            this.lblFechaFinalizacion.Width = 1.25F;
+            // 
+            // txtFechaCierre
+            // 
+            this.txtFechaCierre.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtFechaCierre.Border.LeftStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtFechaCierre.Border.RightStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtFechaCierre.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtFechaCierre.Height = 0.25F;
+            this.txtFechaCierre.Left = 6.5F;
+            this.txtFechaCierre.Name = "txtFechaCierre";
+            this.txtFechaCierre.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtFechaCierre.Text = null;
+            this.txtFechaCierre.Top = 0.719F;
+            this.txtFechaCierre.Width = 1F;
+            // 
+            // lblArticulo
+            // 
+            this.lblArticulo.Height = 0.15625F;
+            this.lblArticulo.HyperLink = null;
+            this.lblArticulo.Left = -3.72529E-09F;
+            this.lblArticulo.Name = "lblArticulo";
+            this.lblArticulo.Style = "font-size: 8pt; font-weight: bold; vertical-align: bottom; ddo-char-set: 1";
+            this.lblArticulo.Text = "Artículo / Servicio";
+            this.lblArticulo.Top = 0.812F;
+            this.lblArticulo.Width = 3.437F;
+            // 
+            // lblAlmacenEntrada
+            // 
+            this.lblAlmacenEntrada.Height = 0.15625F;
+            this.lblAlmacenEntrada.HyperLink = null;
+            this.lblAlmacenEntrada.Left = 0F;
+            this.lblAlmacenEntrada.Name = "lblAlmacenEntrada";
+            this.lblAlmacenEntrada.Style = "font-size: 8pt; font-weight: bold; text-align: left; vertical-align: bottom; ddo-" +
+    "char-set: 1";
+            this.lblAlmacenEntrada.Text = "Almacén Entrada";
+            this.lblAlmacenEntrada.Top = 1.906F;
+            this.lblAlmacenEntrada.Width = 1.25F;
+            // 
+            // lblCantidadReservadaDeInventario
+            // 
+            this.lblCantidadReservadaDeInventario.Height = 0.15625F;
+            this.lblCantidadReservadaDeInventario.HyperLink = null;
+            this.lblCantidadReservadaDeInventario.Left = 4.469F;
+            this.lblCantidadReservadaDeInventario.Name = "lblCantidadReservadaDeInventario";
+            this.lblCantidadReservadaDeInventario.Style = "font-size: 8pt; font-weight: bold; text-align: right; vertical-align: bottom; ddo" +
+    "-char-set: 1";
+            this.lblCantidadReservadaDeInventario.Text = "Cantidad a Consumir";
+            this.lblCantidadReservadaDeInventario.Top = 0.812F;
+            this.lblCantidadReservadaDeInventario.Width = 1.5F;
+            // 
+            // lblCantidadConsumoReal
+            // 
+            this.lblCantidadConsumoReal.Height = 0.15625F;
+            this.lblCantidadConsumoReal.HyperLink = null;
+            this.lblCantidadConsumoReal.Left = 6F;
+            this.lblCantidadConsumoReal.Name = "lblCantidadConsumoReal";
+            this.lblCantidadConsumoReal.Style = "font-size: 8pt; font-weight: bold; text-align: right; vertical-align: bottom; ddo" +
+    "-char-set: 1";
+            this.lblCantidadConsumoReal.Text = "Cantidad Consumida Real";
+            this.lblCantidadConsumoReal.Top = 0.812F;
+            this.lblCantidadConsumoReal.Width = 1.5F;
+            // 
+            // lnInsumos
+            // 
+            this.lnInsumos.Height = 0F;
+            this.lnInsumos.Left = 0F;
+            this.lnInsumos.LineWeight = 1F;
+            this.lnInsumos.Name = "lnInsumos";
+            this.lnInsumos.Top = 0.969F;
+            this.lnInsumos.Width = 7.5F;
+            this.lnInsumos.X1 = 0F;
+            this.lnInsumos.X2 = 7.5F;
+            this.lnInsumos.Y1 = 0.969F;
+            this.lnInsumos.Y2 = 0.969F;
+            // 
+            // lblTituloInsumos
+            // 
+            this.lblTituloInsumos.Height = 0.15625F;
+            this.lblTituloInsumos.HyperLink = null;
+            this.lblTituloInsumos.Left = 0F;
+            this.lblTituloInsumos.Name = "lblTituloInsumos";
+            this.lblTituloInsumos.Style = "background-color: LightGrey; font-size: 8.25pt; font-weight: bold; ddo-char-set: " +
     "0";
-            this.label2.Text = "Materiales/Servicios a Utilizar";
-            this.label2.Top = 1.055F;
-            this.label2.Width = 6.884F;
+            this.lblTituloInsumos.Text = "INSUMOS";
+            this.lblTituloInsumos.Top = 0.5F;
+            this.lblTituloInsumos.Width = 7.5F;
             // 
             // GFSecOrdenDeProduccion
             // 
             this.GFSecOrdenDeProduccion.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
             this.lblObservacion,
-            this.txtObservacion,
-            this.textBox1,
-            this.textBox2,
-            this.label3});
-            this.GFSecOrdenDeProduccion.Height = 1.760417F;
+            this.lblFirma,
+            this.line1,
+            this.line2,
+            this.line3,
+            this.line4});
+            this.GFSecOrdenDeProduccion.Height = 2F;
             this.GFSecOrdenDeProduccion.Name = "GFSecOrdenDeProduccion";
             // 
             // lblObservacion
@@ -476,87 +499,159 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblObservacion.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
             this.lblObservacion.Text = "Observación";
             this.lblObservacion.Top = 0F;
-            this.lblObservacion.Width = 6.854001F;
+            this.lblObservacion.Width = 7.5F;
             // 
-            // txtObservacion
+            // lblFirma
             // 
-            this.txtObservacion.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtObservacion.Height = 0.15625F;
-            this.txtObservacion.Left = 0F;
-            this.txtObservacion.Name = "txtObservacion";
-            this.txtObservacion.Style = "font-size: 8pt; ddo-char-set: 1";
-            this.txtObservacion.Text = null;
-            this.txtObservacion.Top = 0.271F;
-            this.txtObservacion.Width = 6.854001F;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.textBox1.Height = 0.15625F;
-            this.textBox1.Left = 0F;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Style = "font-size: 8pt; ddo-char-set: 1";
-            this.textBox1.Text = null;
-            this.textBox1.Top = 0.48975F;
-            this.textBox1.Width = 6.854F;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.textBox2.Height = 0.15625F;
-            this.textBox2.Left = 0F;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Style = "font-size: 8pt; ddo-char-set: 1";
-            this.textBox2.Text = null;
-            this.textBox2.Top = 0.71F;
-            this.textBox2.Width = 6.854F;
-            // 
-            // label3
-            // 
-            this.label3.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.label3.Height = 0.24F;
-            this.label3.HyperLink = null;
-            this.label3.Left = 5.323F;
-            this.label3.Name = "label3";
-            this.label3.Style = "font-size: 8.25pt; font-weight: bold; text-align: center; vertical-align: middle;" +
+            this.lblFirma.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.lblFirma.Height = 0.24F;
+            this.lblFirma.HyperLink = null;
+            this.lblFirma.Left = 4.375F;
+            this.lblFirma.Name = "lblFirma";
+            this.lblFirma.Style = "font-size: 8.25pt; font-weight: bold; text-align: center; vertical-align: middle;" +
     " ddo-char-set: 0";
-            this.label3.Text = "Firma Responsable";
-            this.label3.Top = 1.52F;
-            this.label3.Width = 1.531F;
+            this.lblFirma.Text = "Firma Responsable";
+            this.lblFirma.Top = 1.75F;
+            this.lblFirma.Width = 3.125F;
             // 
-            // label4
+            // GHSecDetalle
             // 
-            this.label4.Height = 0.15625F;
-            this.label4.HyperLink = null;
-            this.label4.Left = 5.024F;
-            this.label4.Name = "label4";
-            this.label4.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
-            this.label4.Text = "Fecha de Cierre";
-            this.label4.Top = 0.312F;
-            this.label4.Width = 0.917F;
+            this.GHSecDetalle.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
+            this.lblArticulo,
+            this.lblCantidadReservadaDeInventario,
+            this.lblCantidadConsumoReal,
+            this.lblTituloInsumos,
+            this.subRptSalidas,
+            this.lblAlmacenSalida,
+            this.txtAlmacenSalida,
+            this.lblUnidad,
+            this.lnInsumos});
+            this.GHSecDetalle.Height = 0.9759445F;
+            this.GHSecDetalle.Name = "GHSecDetalle";
             // 
-            // txtFechaCierre
+            // subRptSalidas
             // 
-            this.txtFechaCierre.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtFechaCierre.Border.LeftStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtFechaCierre.Border.RightStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtFechaCierre.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtFechaCierre.Height = 0.218F;
-            this.txtFechaCierre.Left = 5.941F;
-            this.txtFechaCierre.Name = "txtFechaCierre";
-            this.txtFechaCierre.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
-            this.txtFechaCierre.Top = 0.272F;
-            this.txtFechaCierre.Width = 0.9430007F;
+            this.subRptSalidas.CloseBorder = false;
+            this.subRptSalidas.Height = 0.25F;
+            this.subRptSalidas.Left = 0F;
+            this.subRptSalidas.Name = "subRptSalidas";
+            this.subRptSalidas.Report = null;
+            this.subRptSalidas.ReportName = "subRptSalidas";
+            this.subRptSalidas.Top = 0F;
+            this.subRptSalidas.Width = 7.5F;
+            // 
+            // GFSecDetalle
+            // 
+            this.GFSecDetalle.Height = 0F;
+            this.GFSecDetalle.Name = "GFSecDetalle";
+            // 
+            // lblTituloSalidas
+            // 
+            this.lblTituloSalidas.Height = 0.15625F;
+            this.lblTituloSalidas.HyperLink = null;
+            this.lblTituloSalidas.Left = 0F;
+            this.lblTituloSalidas.Name = "lblTituloSalidas";
+            this.lblTituloSalidas.Style = "background-color: LightGrey; font-size: 8.25pt; font-weight: bold; ddo-char-set: " +
+    "0";
+            this.lblTituloSalidas.Text = "SALIDAS";
+            this.lblTituloSalidas.Top = 1.75F;
+            this.lblTituloSalidas.Width = 7.5F;
+            // 
+            // txtAlmacenEntrada
+            // 
+            this.txtAlmacenEntrada.Height = 0.15625F;
+            this.txtAlmacenEntrada.Left = 1.25F;
+            this.txtAlmacenEntrada.Name = "txtAlmacenEntrada";
+            this.txtAlmacenEntrada.Style = "font-size: 8pt; text-align: left; vertical-align: middle; ddo-char-set: 1";
+            this.txtAlmacenEntrada.Text = "txtAlmacenEntrada";
+            this.txtAlmacenEntrada.Top = 1.906F;
+            this.txtAlmacenEntrada.Width = 6.25F;
+            // 
+            // line1
+            // 
+            this.line1.Height = 0F;
+            this.line1.Left = 0F;
+            this.line1.LineWeight = 1F;
+            this.line1.Name = "line1";
+            this.line1.Top = 0.5F;
+            this.line1.Width = 7.5F;
+            this.line1.X1 = 0F;
+            this.line1.X2 = 7.5F;
+            this.line1.Y1 = 0.5F;
+            this.line1.Y2 = 0.5F;
+            // 
+            // line2
+            // 
+            this.line2.Height = 0F;
+            this.line2.Left = 0F;
+            this.line2.LineWeight = 1F;
+            this.line2.Name = "line2";
+            this.line2.Top = 0.75F;
+            this.line2.Width = 7.5F;
+            this.line2.X1 = 0F;
+            this.line2.X2 = 7.5F;
+            this.line2.Y1 = 0.75F;
+            this.line2.Y2 = 0.75F;
+            // 
+            // line3
+            // 
+            this.line3.Height = 0F;
+            this.line3.Left = 0F;
+            this.line3.LineWeight = 1F;
+            this.line3.Name = "line3";
+            this.line3.Top = 1F;
+            this.line3.Width = 7.5F;
+            this.line3.X1 = 0F;
+            this.line3.X2 = 7.5F;
+            this.line3.Y1 = 1F;
+            this.line3.Y2 = 1F;
+            // 
+            // line4
+            // 
+            this.line4.Height = 0F;
+            this.line4.Left = 0F;
+            this.line4.LineWeight = 1F;
+            this.line4.Name = "line4";
+            this.line4.Top = 1.25F;
+            this.line4.Width = 7.5F;
+            this.line4.X1 = 0F;
+            this.line4.X2 = 7.5F;
+            this.line4.Y1 = 1.25F;
+            this.line4.Y2 = 1.25F;
+            // 
+            // lblUnidad
+            // 
+            this.lblUnidad.Height = 0.15625F;
+            this.lblUnidad.HyperLink = null;
+            this.lblUnidad.Left = 3.437F;
+            this.lblUnidad.Name = "lblUnidad";
+            this.lblUnidad.Style = "font-size: 8pt; font-weight: bold; vertical-align: bottom; ddo-char-set: 1";
+            this.lblUnidad.Text = "Unidad";
+            this.lblUnidad.Top = 0.812F;
+            this.lblUnidad.Width = 1F;
+            // 
+            // txtUnidad
+            // 
+            this.txtUnidad.CanGrow = false;
+            this.txtUnidad.Height = 0.15625F;
+            this.txtUnidad.Left = 3.437F;
+            this.txtUnidad.Name = "txtUnidad";
+            this.txtUnidad.Style = "font-size: 8pt; vertical-align: middle; ddo-char-set: 1";
+            this.txtUnidad.Text = "txtUnidad";
+            this.txtUnidad.Top = 0F;
+            this.txtUnidad.Width = 1F;
             // 
             // dsrOrdenDeProduccion
             // 
             this.MasterReport = false;
             this.PageSettings.PaperHeight = 11F;
             this.PageSettings.PaperWidth = 8.5F;
-            this.PrintWidth = 7.21875F;
+            this.PrintWidth = 7.531001F;
             this.Sections.Add(this.PageHeader);
             this.Sections.Add(this.GHSecOrdenDeProduccion);
+            this.Sections.Add(this.GHSecDetalle);
             this.Sections.Add(this.Detail);
+            this.Sections.Add(this.GFSecDetalle);
             this.Sections.Add(this.GFSecOrdenDeProduccion);
             this.Sections.Add(this.PageFooter);
             this.StyleSheet.Add(new DDCssLib.StyleSheetRule("font-family: Arial; font-style: normal; text-decoration: none; font-weight: norma" +
@@ -565,8 +660,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.StyleSheet.Add(new DDCssLib.StyleSheetRule("font-family: Times New Roman; font-size: 14pt; font-weight: bold; font-style: ita" +
             "lic", "Heading2", "Normal"));
             this.StyleSheet.Add(new DDCssLib.StyleSheetRule("font-size: 13pt; font-weight: bold", "Heading3", "Normal"));
-            ((System.ComponentModel.ISupportInitialize)(this.txtArticuloServicio)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtAlmacen2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtArticulo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCantidadReservadaDeInventario)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCantidadConsumoReal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreCompania)).EndInit();
@@ -577,38 +671,37 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             ((System.ComponentModel.ISupportInitialize)(this.txtCodigoDeOrden)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaInicio)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFechaInicio)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblArticuloInventarioAProducir)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtArticuloInventarioAProducir)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblListaDeMateriales)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtListaDeMateriales)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadAProducirEstimada)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadAProducirReal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCantidadAProducirReal)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblAlmacen1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtAlmacen1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblArticuloServicio)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblAlmacen2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblAlmacenSalida)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtAlmacenSalida)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblCantidadAProducir)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCantidadAProducirEstimada)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblFechaFinalizacion)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtFechaCierre)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblArticulo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblAlmacenEntrada)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadReservadaDeInventario)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadConsumoReal)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.label1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCantidadAProducirEstimada)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.label2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblTituloInsumos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblObservacion)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtObservacion)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.label3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.label4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtFechaCierre)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblFirma)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblTituloSalidas)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtAlmacenEntrada)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblUnidad)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtUnidad)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
         #endregion
 
         private DataDynamics.ActiveReports.Detail Detail;
-        private DataDynamics.ActiveReports.TextBox txtArticuloServicio;
-        private DataDynamics.ActiveReports.TextBox txtAlmacen2;
+        private DataDynamics.ActiveReports.TextBox txtArticulo;
         private DataDynamics.ActiveReports.TextBox txtCantidadReservadaDeInventario;
         private DataDynamics.ActiveReports.TextBox txtCantidadConsumoReal;
-        private DataDynamics.ActiveReports.TextBox txtObservacion;
         private DataDynamics.ActiveReports.PageHeader PageHeader;
         private DataDynamics.ActiveReports.TextBox txtNombreCompania;
         private DataDynamics.ActiveReports.TextBox txtNroDePagina;
@@ -620,27 +713,36 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         private DataDynamics.ActiveReports.TextBox txtCodigoDeOrden;
         private DataDynamics.ActiveReports.Label lblFechaInicio;
         private DataDynamics.ActiveReports.TextBox txtFechaInicio;
-        private DataDynamics.ActiveReports.Label lblArticuloInventarioAProducir;
-        private DataDynamics.ActiveReports.TextBox txtArticuloInventarioAProducir;
+        private DataDynamics.ActiveReports.Label lblListaDeMateriales;
+        private DataDynamics.ActiveReports.TextBox txtListaDeMateriales;
         private DataDynamics.ActiveReports.Label lblCantidadAProducirEstimada;
         private DataDynamics.ActiveReports.TextBox txtCantidadAProducirEstimada;
         private DataDynamics.ActiveReports.Label lblCantidadAProducirReal;
         private DataDynamics.ActiveReports.TextBox txtCantidadAProducirReal;
-        private DataDynamics.ActiveReports.Label lblAlmacen1;
-        private DataDynamics.ActiveReports.TextBox txtAlmacen1;
-        private DataDynamics.ActiveReports.Label lblArticuloServicio;
-        private DataDynamics.ActiveReports.Label lblAlmacen2;
+        private DataDynamics.ActiveReports.Label lblAlmacenSalida;
+        private DataDynamics.ActiveReports.TextBox txtAlmacenSalida;
+        private DataDynamics.ActiveReports.Label lblArticulo;
+        private DataDynamics.ActiveReports.Label lblAlmacenEntrada;
         private DataDynamics.ActiveReports.Label lblCantidadReservadaDeInventario;
         private DataDynamics.ActiveReports.Label lblCantidadConsumoReal;
         private DataDynamics.ActiveReports.Label lblObservacion;
         private DataDynamics.ActiveReports.GroupFooter GFSecOrdenDeProduccion;
-        private DataDynamics.ActiveReports.Label label1;
-        private DataDynamics.ActiveReports.TextBox textBox1;
-        private DataDynamics.ActiveReports.TextBox textBox2;
-        private DataDynamics.ActiveReports.Line line1;
-        private DataDynamics.ActiveReports.Label label2;
-        private DataDynamics.ActiveReports.Label label3;
-        private DataDynamics.ActiveReports.Label label4;
+        private DataDynamics.ActiveReports.Label lblCantidadAProducir;
+        private DataDynamics.ActiveReports.Line lnInsumos;
+        private DataDynamics.ActiveReports.Label lblTituloInsumos;
+        private DataDynamics.ActiveReports.Label lblFirma;
+        private DataDynamics.ActiveReports.Label lblFechaFinalizacion;
         private DataDynamics.ActiveReports.TextBox txtFechaCierre;
+        private DataDynamics.ActiveReports.GroupHeader GHSecDetalle;
+        private DataDynamics.ActiveReports.GroupFooter GFSecDetalle;
+        private DataDynamics.ActiveReports.SubReport subRptSalidas;
+        private DataDynamics.ActiveReports.Label lblTituloSalidas;
+        private DataDynamics.ActiveReports.TextBox txtAlmacenEntrada;
+        private DataDynamics.ActiveReports.Line line1;
+        private DataDynamics.ActiveReports.Line line2;
+        private DataDynamics.ActiveReports.Line line3;
+        private DataDynamics.ActiveReports.Line line4;
+        private DataDynamics.ActiveReports.TextBox txtUnidad;
+        private DataDynamics.ActiveReports.Label lblUnidad;
     }
 }

@@ -8,6 +8,8 @@ using LibGalac.Aos.Base.Report;
 using Galac.Adm.Ccl.GestionProduccion;
 using Galac.Saw.Ccl.SttDef;
 using Galac.Saw.Lib;
+using Galac.Saw.Ccl.Inventario;
+using System.Reflection;
 
 namespace Galac.Adm.Brl.GestionProduccion.Reportes {
     public class clsOrdenDeProduccionSql {
@@ -21,7 +23,8 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             vSql.AppendLine("OrdenDeProduccion.FechaInicio, ");
             vSql.AppendLine("OrdenDeProduccionDetalleArticulo.CodigoArticulo + ' - ' + ArticuloInventario.Descripcion AS InventarioAProducir, ");
             vSql.AppendLine("Almacen.Codigo + ' - ' + Almacen.NombreAlmacen AS AlmacenProductoTerminado, ");
-            vSql.AppendLine("OrdenDeProduccionDetalleArticulo.CantidadSolicitada ");
+            vSql.AppendLine("OrdenDeProduccionDetalleArticulo.CantidadSolicitada, ");
+            vSql.AppendLine("ListaDeMateriales.Codigo + ' - ' + ListaDeMateriales.Nombre AS ListaDeMateriales" );
             vSql.AppendLine("FROM ");
             vSql.AppendLine("Adm.OrdenDeProduccion ");
             vSql.AppendLine("INNER JOIN Adm.OrdenDeProduccionDetalleArticulo ON ");
@@ -33,6 +36,9 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             vSql.AppendLine("INNER JOIN Saw.Almacen ON ");
             vSql.AppendLine("OrdenDeProduccionDetalleArticulo.ConsecutivoCompania = Almacen.ConsecutivoCompania ");
             vSql.AppendLine("AND OrdenDeProduccionDetalleArticulo.ConsecutivoAlmacen = Almacen.Consecutivo ");
+            vSql.AppendLine("INNER JOIN Adm.ListaDeMateriales ON ");
+            vSql.AppendLine("OrdenDeProduccion.ConsecutivoListaDeMateriales = ListaDeMateriales.Consecutivo ");
+            vSql.AppendLine("AND OrdenDeProduccion.ConsecutivoCompania = Almacen.ConsecutivoCompania ");
             string vSqlWhere = vSqlUtil.SqlIntValueWithAnd(string.Empty, "Adm.OrdenDeProduccion.ConsecutivoCompania", valConsecutivoCompania);
             if (valGeneradoPor == eGeneradoPor.Orden) {
                 vSqlWhere = vSqlUtil.SqlValueWithAnd(vSqlWhere, "Adm.OrdenDeProduccion.Codigo", valCodigoOrden);
