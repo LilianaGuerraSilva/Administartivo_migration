@@ -66,10 +66,6 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 LibReport.ChangeControlVisibility(this, "lblMotivoAnulacion", (valEstatus == eTipoStatusOrdenProduccion.Anulada));
                 LibReport.ChangeControlVisibility(this, "txtMotivoAnulacion", (valEstatus == eTipoStatusOrdenProduccion.Anulada));
 
-                if (valEstatus == eTipoStatusOrdenProduccion.Anulada) {
-                } else {
-                }
-
                 switch (valEstatus) {
                     case eTipoStatusOrdenProduccion.Ingresada:
                     case eTipoStatusOrdenProduccion.Anulada:
