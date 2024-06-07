@@ -8,8 +8,6 @@ using LibGalac.Aos.Base.Report;
 using Galac.Adm.Ccl.GestionProduccion;
 using Galac.Saw.Ccl.SttDef;
 using Galac.Saw.Lib;
-using Galac.Saw.Ccl.Inventario;
-using System.Reflection;
 
 namespace Galac.Adm.Brl.GestionProduccion.Reportes {
     public class clsOrdenDeProduccionSql {
