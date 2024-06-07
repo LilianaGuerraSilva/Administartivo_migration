@@ -54,3 +54,19 @@
 	path = source/vbaComun
 	url = https://github.com/GalacSoftware/vbaComun.git
 	branch = release/SawV25.2.0.0
+[submodule "bin/binLibAos"]
+	path = bin/binLibAos
+	url = https://github.com/GalacSoftware/BinLibAos.git
+	branch = release/V5.24.1.0
+[submodule "bin/binLibNet"]
+	path = bin/binLibNet
+	url = https://github.com/GalacSoftware/BinLibNet.git
+	branch = release/V5.24.2.0
+[submodule "bin/binLibProtec"]
+	path = bin/binLibProtec
+	url = https://github.com/GalacSoftware/BinLibProtec.git
+	branch = release/V24.2.0.0
+[submodule "bin/binLibVb"]
+	path = bin/binLibVb
+	url = https://github.com/GalacSoftware/BinLibVb.git
+	branch = release/V2403
