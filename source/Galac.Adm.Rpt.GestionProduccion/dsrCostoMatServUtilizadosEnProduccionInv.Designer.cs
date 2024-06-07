@@ -39,7 +39,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblCantidadConsumida = new DataDynamics.ActiveReports.Label();
             this.lblArticuloUtilizado = new DataDynamics.ActiveReports.Label();
             this.PageFooter = new DataDynamics.ActiveReports.PageFooter();
-            this.label1 = new DataDynamics.ActiveReports.Label();
+            this.lblResumenTodos = new DataDynamics.ActiveReports.Label();
             this.lblTotalCostoConsumo = new DataDynamics.ActiveReports.Label();
             this.txt_TTCostoConsumo = new DataDynamics.ActiveReports.TextBox();
             this.lblMayorCostoConsumo = new DataDynamics.ActiveReports.Label();
@@ -51,13 +51,13 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.txtNotaMonedaCambio = new DataDynamics.ActiveReports.TextBox();
             this.GHSecArticuloProducido = new DataDynamics.ActiveReports.GroupHeader();
             this.txtCodigoArticuloProducido = new DataDynamics.ActiveReports.TextBox();
-            this.label2 = new DataDynamics.ActiveReports.Label();
+            this.lblArticuloProducido = new DataDynamics.ActiveReports.Label();
             this.lblDescripcionArticulo = new DataDynamics.ActiveReports.Label();
             this.txtDescripcionArticulo = new DataDynamics.ActiveReports.TextBox();
-            this.label4 = new DataDynamics.ActiveReports.Label();
+            this.lblCantidadProducida = new DataDynamics.ActiveReports.Label();
             this.txtCantidadProducida = new DataDynamics.ActiveReports.TextBox();
             this.txtCostoUnitarioArtPro = new DataDynamics.ActiveReports.TextBox();
-            this.label5 = new DataDynamics.ActiveReports.Label();
+            this.lblCostoUnitario = new DataDynamics.ActiveReports.Label();
             this.lblMontoSubTotal = new DataDynamics.ActiveReports.Label();
             this.lblCostoCierre = new DataDynamics.ActiveReports.Label();
             this.GFSecArticuloUtilizado = new DataDynamics.ActiveReports.GroupFooter();
@@ -93,7 +93,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaFinalizacion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadConsumida)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblArticuloUtilizado)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.label1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblResumenTodos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotalCostoConsumo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_TTCostoConsumo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMayorCostoConsumo)).BeginInit();
@@ -104,13 +104,13 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             ((System.ComponentModel.ISupportInitialize)(this.txtOrdenConMayorCosto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNotaMonedaCambio)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCodigoArticuloProducido)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.label2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblArticuloProducido)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblDescripcionArticulo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDescripcionArticulo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.label4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblCantidadProducida)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCantidadProducida)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCostoUnitarioArtPro)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.label5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblCostoUnitario)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMontoSubTotal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCostoCierre)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_TSubTotal)).BeginInit();
@@ -332,7 +332,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             // PageFooter
             // 
             this.PageFooter.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
-            this.label1,
+            this.lblResumenTodos,
             this.lblTotalCostoConsumo,
             this.txt_TTCostoConsumo,
             this.lblMayorCostoConsumo,
@@ -346,18 +346,18 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.PageFooter.Name = "PageFooter";
             this.PageFooter.Format += new System.EventHandler(this.PageFooter_Format);
             // 
-            // label1
+            // lblResumenTodos
             // 
-            this.label1.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.label1.Height = 0.166F;
-            this.label1.HyperLink = null;
-            this.label1.Left = 0F;
-            this.label1.Name = "label1";
-            this.label1.Style = "font-size: 8.25pt; font-weight: bold; text-align: center; vertical-align: bottom;" +
+            this.lblResumenTodos.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.lblResumenTodos.Height = 0.166F;
+            this.lblResumenTodos.HyperLink = null;
+            this.lblResumenTodos.Left = 0F;
+            this.lblResumenTodos.Name = "lblResumenTodos";
+            this.lblResumenTodos.Style = "font-size: 8.25pt; font-weight: bold; text-align: center; vertical-align: bottom;" +
     " ddo-char-set: 0";
-            this.label1.Text = "Resumen de todos los Artículos/Servicios Utilizados";
-            this.label1.Top = 0F;
-            this.label1.Width = 10F;
+            this.lblResumenTodos.Text = "Resumen de todos los Artículos/Servicios Utilizados";
+            this.lblResumenTodos.Top = 0F;
+            this.lblResumenTodos.Width = 10F;
             // 
             // lblTotalCostoConsumo
             // 
@@ -456,13 +456,13 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             // 
             this.GHSecArticuloProducido.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
             this.txtCodigoArticuloProducido,
-            this.label2,
+            this.lblArticuloProducido,
             this.lblDescripcionArticulo,
             this.txtDescripcionArticulo,
-            this.label4,
+            this.lblCantidadProducida,
             this.txtCantidadProducida,
             this.txtCostoUnitarioArtPro,
-            this.label5,
+            this.lblCostoUnitario,
             this.lblArticuloUtilizado,
             this.lblCantidadConsumida,
             this.lblsubTotal,
@@ -481,16 +481,16 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.txtCodigoArticuloProducido.Top = 0F;
             this.txtCodigoArticuloProducido.Width = 6.313001F;
             // 
-            // label2
+            // lblArticuloProducido
             // 
-            this.label2.Height = 0.15625F;
-            this.label2.HyperLink = null;
-            this.label2.Left = 0F;
-            this.label2.Name = "label2";
-            this.label2.Style = "font-size: 8.25pt; font-weight: bold; vertical-align: bottom; ddo-char-set: 0";
-            this.label2.Text = "Artículo Producido";
-            this.label2.Top = 0F;
-            this.label2.Width = 1.187F;
+            this.lblArticuloProducido.Height = 0.15625F;
+            this.lblArticuloProducido.HyperLink = null;
+            this.lblArticuloProducido.Left = 0F;
+            this.lblArticuloProducido.Name = "lblArticuloProducido";
+            this.lblArticuloProducido.Style = "font-size: 8.25pt; font-weight: bold; vertical-align: bottom; ddo-char-set: 0";
+            this.lblArticuloProducido.Text = "Artículo Producido";
+            this.lblArticuloProducido.Top = 0F;
+            this.lblArticuloProducido.Width = 1.187F;
             // 
             // lblDescripcionArticulo
             // 
@@ -513,17 +513,17 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.txtDescripcionArticulo.Top = 0.156F;
             this.txtDescripcionArticulo.Width = 6.312F;
             // 
-            // label4
+            // lblCantidadProducida
             // 
-            this.label4.Height = 0.15625F;
-            this.label4.HyperLink = null;
-            this.label4.Left = 7.5F;
-            this.label4.Name = "label4";
-            this.label4.Style = "font-size: 8.25pt; font-weight: bold; text-align: left; text-justify: auto; ddo-c" +
+            this.lblCantidadProducida.Height = 0.15625F;
+            this.lblCantidadProducida.HyperLink = null;
+            this.lblCantidadProducida.Left = 7.5F;
+            this.lblCantidadProducida.Name = "lblCantidadProducida";
+            this.lblCantidadProducida.Style = "font-size: 8.25pt; font-weight: bold; text-align: left; text-justify: auto; ddo-c" +
     "har-set: 0";
-            this.label4.Text = "Cant. Producida";
-            this.label4.Top = 0F;
-            this.label4.Width = 0.9999995F;
+            this.lblCantidadProducida.Text = "Cant. Producida";
+            this.lblCantidadProducida.Top = 0F;
+            this.lblCantidadProducida.Width = 0.9999995F;
             // 
             // txtCantidadProducida
             // 
@@ -545,17 +545,17 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.txtCostoUnitarioArtPro.Top = 0.156F;
             this.txtCostoUnitarioArtPro.Width = 1.5F;
             // 
-            // label5
+            // lblCostoUnitario
             // 
-            this.label5.Height = 0.15625F;
-            this.label5.HyperLink = null;
-            this.label5.Left = 7.5F;
-            this.label5.Name = "label5";
-            this.label5.Style = "font-size: 8.25pt; font-weight: bold; text-align: left; text-justify: auto; ddo-c" +
+            this.lblCostoUnitario.Height = 0.15625F;
+            this.lblCostoUnitario.HyperLink = null;
+            this.lblCostoUnitario.Left = 7.5F;
+            this.lblCostoUnitario.Name = "lblCostoUnitario";
+            this.lblCostoUnitario.Style = "font-size: 8.25pt; font-weight: bold; text-align: left; text-justify: auto; ddo-c" +
     "har-set: 0";
-            this.label5.Text = "Costo Unitario";
-            this.label5.Top = 0.156F;
-            this.label5.Width = 0.9999995F;
+            this.lblCostoUnitario.Text = "Costo Unitario";
+            this.lblCostoUnitario.Top = 0.156F;
+            this.lblCostoUnitario.Width = 0.9999995F;
             // 
             // lblMontoSubTotal
             // 
@@ -803,7 +803,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaFinalizacion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadConsumida)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblArticuloUtilizado)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.label1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblResumenTodos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotalCostoConsumo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_TTCostoConsumo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMayorCostoConsumo)).EndInit();
@@ -814,13 +814,13 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             ((System.ComponentModel.ISupportInitialize)(this.txtOrdenConMayorCosto)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNotaMonedaCambio)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCodigoArticuloProducido)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.label2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblArticuloProducido)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblDescripcionArticulo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDescripcionArticulo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.label4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblCantidadProducida)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCantidadProducida)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCostoUnitarioArtPro)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.label5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblCostoUnitario)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMontoSubTotal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCostoCierre)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_TSubTotal)).EndInit();
@@ -862,7 +862,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         private DataDynamics.ActiveReports.Label lblCantidadConsumida;
         private DataDynamics.ActiveReports.Label lblArticuloUtilizado;
         private DataDynamics.ActiveReports.TextBox txt_TSubTotal;
-        private DataDynamics.ActiveReports.Label label1;
+        private DataDynamics.ActiveReports.Label lblResumenTodos;
         private DataDynamics.ActiveReports.Label lblTotalCostoConsumo;
         private DataDynamics.ActiveReports.TextBox txt_TTCostoConsumo;
         private DataDynamics.ActiveReports.Label lblMayorCostoConsumo;
@@ -874,7 +874,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         private DataDynamics.ActiveReports.GroupHeader GHSecOrdenProduccion;
         private DataDynamics.ActiveReports.TextBox txtCodigoArticuloProducido;
         private DataDynamics.ActiveReports.GroupFooter GFSecInventarioProducido;
-        private DataDynamics.ActiveReports.Label label2;
+        private DataDynamics.ActiveReports.Label lblArticuloProducido;
         private DataDynamics.ActiveReports.Label lblMoneda;
         private DataDynamics.ActiveReports.Label lblCambio;
         private DataDynamics.ActiveReports.TextBox txtCambio;
@@ -889,10 +889,10 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         private DataDynamics.ActiveReports.Label lblCostoTotalOP;
         private DataDynamics.ActiveReports.Label lblDescripcionArticulo;
         private DataDynamics.ActiveReports.TextBox txtDescripcionArticulo;
-        private DataDynamics.ActiveReports.Label label4;
+        private DataDynamics.ActiveReports.Label lblCantidadProducida;
         private DataDynamics.ActiveReports.TextBox txtCantidadProducida;
         private DataDynamics.ActiveReports.TextBox txtCostoUnitarioArtPro;
-        private DataDynamics.ActiveReports.Label label5;
+        private DataDynamics.ActiveReports.Label lblCostoUnitario;
         private DataDynamics.ActiveReports.TextBox txtMontoSubTotal;
         private DataDynamics.ActiveReports.Label lblMontoSubTotal;
         private DataDynamics.ActiveReports.Label lblCostoCierre;

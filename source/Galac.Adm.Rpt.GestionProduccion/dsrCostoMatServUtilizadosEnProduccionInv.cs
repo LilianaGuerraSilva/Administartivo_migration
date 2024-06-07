@@ -70,19 +70,12 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                     LibReport.LoadLayout(this, vRpxPath);
                 }
             }
-            //MayorCostoConsumo = LibConvert.ToDec(valDataSource.Compute("MAX(MontoSubTotal)", ""), 2);
-            //MenorCostoConsumo = LibConvert.ToDec(valDataSource.Compute("MIN(MontoSubTotal)", ""), 2);
-            //if (MayorCostoConsumo != MenorCostoConsumo) {
-            //    OrdenMayorCosto = OrdenSegunCosto(valDataSource, MayorCostoConsumo);
-            //    OrdenMenorCosto = OrdenSegunCosto(valDataSource, MenorCostoConsumo);
-            //}
             if (LibReport.ConfigDataSource(this, valDataSource)) {
                 LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["NombreCompania"], string.Empty);
                 LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());
                 LibReport.ConfigLabel(this, "lblFechaInicialYFinal", valParameters["FechaInicialYFinal"]);
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
-                //Encabezado
                 LibReport.ConfigFieldStr(this, "txtCodigoOrden", string.Empty, "CodigoOrden");
                 LibReport.ConfigFieldStr(this, "txtDescripcionOrden", string.Empty, "DescripcionOrden");
                 LibReport.ConfigFieldDate(this, "txtFechaInicio", string.Empty, "FechaInicio", LibGalac.Aos.Base.Report.eDateOutputFormat.DateLong);
@@ -90,12 +83,10 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 LibReport.ConfigFieldDec(this, "txtCostoTotalOP", string.Empty, "CostoTotalOP");
                 LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "Moneda");
                 LibReport.ConfigFieldDec(this, "txtCambio", string.Empty, "Cambio", "n" + 4, true, TextAlignment.Right);
-                //Salidas
                 LibReport.ConfigFieldStr(this, "txtCodigoArticuloProducido", string.Empty, "CodigoArticuloProducido");
                 LibReport.ConfigFieldStr(this, "txtDescripcionArticulo", string.Empty, "DescripcionArticuloProducido");
                 LibReport.ConfigFieldDec(this, "txtCantidadProducida", string.Empty, "CantidadProducida", "n" + 8, true, TextAlignment.Right);
                 LibReport.ConfigFieldDec(this, "txtCostoUnitarioArtPro", string.Empty, "CostoUnitario");
-                //Insumos
                 LibReport.ConfigFieldStr(this, "txtArticuloComsumido", string.Empty, "ArticuloComsumido");
                 LibReport.ConfigFieldDec(this, "txtCantidadConsumida", string.Empty, "CantidadConsumida", "n" + 8, true, TextAlignment.Right);
                 LibReport.ConfigFieldDec(this, "txtMontoSubTotal", string.Empty, "MontoSubtotal");
@@ -122,23 +113,6 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         #endregion
 
         #region Código Programador
-
-        //string OrdenSegunCosto(DataTable valDataSource, decimal valCostoProduccion) {
-        //    StringBuilder vResult = new StringBuilder();
-        //    string vArtServ = string.Empty;
-        //    string vFilter = new QAdvSql("").SqlDecValueWithAnd("", "MontoSubTotal", valCostoProduccion);
-        //    DataRow[] vDrs = valDataSource.Select(vFilter);
-        //    if (vDrs.Length > 0) {
-        //        for (int i = 0; i < vDrs.Length; i++) {
-        //            if (!LibText.IsNullOrEmpty(vResult.ToString())) {
-        //                vResult.Append("/");
-        //            }
-        //            vResult.Append(LibConvert.ToStr(vDrs[i]["GHSecOrdenProduccion"]) + "- Orden: " + LibConvert.ToStr(vDrs[i]["Orden"]));
-        //        }
-        //    }
-        //    return vResult.ToString();
-        //}
-
         #endregion
 
         #region Eventos del dsr
@@ -153,7 +127,6 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.txtOrdenConMayorCosto.Value = LibConvert.ToStr(OrdenMayorCosto);
             this.txtOrdenConMenorCosto.Value = LibConvert.ToStr(OrdenMenorCosto);
         }
-
         #endregion
         
     }
