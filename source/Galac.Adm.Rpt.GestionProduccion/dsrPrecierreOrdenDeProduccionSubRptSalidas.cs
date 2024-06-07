@@ -45,15 +45,10 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                     LibReport.LoadLayout(this, vRpxPath);
                 }
             }
-            if (LibReport.ConfigDataSource(this, valData)) {
-                //LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["NombreCompania"], string.Empty);
-                //LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());
-                //LibReport.ConfigLabel(this, "lblFechaInicialYFinal", valParameters["FechaInicialYFinal"]);
-                //LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
-                //LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);                                
-                LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "ArticuloSalida");
+            if (LibReport.ConfigDataSource(this, valData)) {               
+                LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "ArticuloInsumo");
                 LibReport.ConfigFieldStr(this, "txtUnidad", string.Empty, "Unidad");
-                LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidadSolicitada", string.Empty, "CantidadSolicitada", 8);               
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidadSolicitada", string.Empty, "CantidadReservadaInventario", 8);               
                 LibReport.ConfigGroupHeader(this, "GHSecOrdenDeProduccion", "Codigo", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.After);
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 LibReport.AddNoDataEvent(this);

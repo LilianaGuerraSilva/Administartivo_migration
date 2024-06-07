@@ -77,7 +77,7 @@
     <Compile Include="clsCostoProduccionInventarioEntreFechas.cs" />
     <Compile Include="clsDetalleDeCostoDeProduccion.cs" />
     <Compile Include="clsListaDeMaterialesDeSalida.cs" />
-    <Compile Include="clsOrdenDeProduccionRpt.cs" />
+    <Compile Include="clsPrecierreOrdenDeProduccionRpt.cs" />
     <Compile Include="clsProduccionPorEstatusEntreFecha.cs" />
     <Compile Include="clsRequisicionDeMateriales.cs" />
     <Compile Include="dsrCostoMatServUtilizadosEnProduccionInv.cs">

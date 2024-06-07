@@ -38,14 +38,14 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             return "Precierre Orden de Producción";
         }
 
-        public bool ConfigReport(DataTable valDataSourceInsumos, DataTable valDataSourceSalidas, Dictionary<string, string> valParameters) {
+        public bool ConfigReport(DataTable valDataSourceSalidas, DataTable valDataSourceInsumos, Dictionary<string, string> valParameters) {
             if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
                 if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
                     LibReport.LoadLayout(this, vRpxPath);
                 }
             }
-            if (LibReport.ConfigDataSource(this, valDataSourceInsumos)) {
+            if (LibReport.ConfigDataSource(this, valDataSourceSalidas)) {
                 LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["NombreCompania"], string.Empty);
                 LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());
                 //LibReport.ConfigLabel(this, "lblFechaInicialYFinal", valParameters["FechaInicialYFinal"]);                
@@ -57,11 +57,11 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 LibReport.ConfigFieldStr(this, "txtListaDeMateriales", string.Empty, "NombreListaDeMateriales");
                 LibReport.ConfigFieldStr(this, "txtAlmacenSalida", string.Empty, "AlmacenSalida");
                 LibReport.ConfigFieldStr(this, "txtAlmacenEntrada", string.Empty, "AlmacenEntrada");
-                LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "ArticuloInsumo");
+                LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "ArticuloSalida");
                 LibReport.ConfigFieldStr(this, "txtUnidad", string.Empty, "Unidad");
-                LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidadReservadaDeInventario", string.Empty, "CantidadReservadaInventario", 8);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidadReservadaDeInventario", string.Empty, "CantidadAProducirEstimada", 8);
                 LibReport.ConfigGroupHeader(this, "GHSecOrdenDeProduccion", "Codigo", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.After);
-                LibReport.SetSubReportIfExists(this, SubRptListaDeSalidas(valDataSourceSalidas), "subRptSalidas");
+                LibReport.SetSubReportIfExists(this, SubRptListaDeSalidas(valDataSourceInsumos), "subRptSalidas");
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 LibReport.AddNoDataEvent(this);
                 return true;
@@ -69,9 +69,9 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             return false;
         }
 
-        private ActiveReport SubRptListaDeSalidas(DataTable valDataSourceSalidas) {
+        private ActiveReport SubRptListaDeSalidas(DataTable valDataSourceInsumos) {
             dsrPrecierreOrdenDeProduccionSubRptSalidas vRpt = new dsrPrecierreOrdenDeProduccionSubRptSalidas();
-            vRpt.ConfigReport(valDataSourceSalidas);
+            vRpt.ConfigReport(valDataSourceInsumos);
             return vRpt;
         }
         #endregion

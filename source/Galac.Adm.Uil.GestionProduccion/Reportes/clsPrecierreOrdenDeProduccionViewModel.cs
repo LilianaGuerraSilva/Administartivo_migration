@@ -147,11 +147,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             set {
                 if (_FechaDesde != value) {
                     _FechaDesde = value;
-                    RaisePropertyChanged(FechaDesdePropertyName);
-                    if (LibDate.F1IsGreaterThanF2(FechaDesde, FechaHasta)) {
-                        FechaHasta = FechaDesde;
-                        RaisePropertyChanged(FechaHastaPropertyName);
-                    }
+                    RaisePropertyChanged(FechaDesdePropertyName);                    
                 }
             }
         }
@@ -163,11 +159,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             set {
                 if (_FechaHasta != value) {
                     _FechaHasta = value;
-                    RaisePropertyChanged(FechaHastaPropertyName);
-                    if (LibDate.F1IsLessThanF2(FechaHasta, FechaDesde)) {
-                        FechaDesde = FechaHasta;
-                        RaisePropertyChanged(FechaHastaPropertyName);
-                    }
+                    RaisePropertyChanged(FechaHastaPropertyName);                  
                 }
             }
         }

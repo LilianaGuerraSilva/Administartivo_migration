@@ -53,7 +53,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         private ILibRpt ConfigReportOrdenDeProduccionRpt(clsPrecierreOrdenDeProduccionViewModel valViewModel) {
             ILibRpt vResult = null;
             if (valViewModel != null) {
-                vResult = new Galac.Adm.Rpt.GestionProduccion.clsOrdenDeProduccionRpt(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.CodigoDeOrden, valViewModel.GeneradoPor, valViewModel.FechaDesde, valViewModel.FechaHasta, valViewModel.SeleccionarOrdenPor) {
+                vResult = new Galac.Adm.Rpt.GestionProduccion.clsPrecierreOrdenDeProduccionRpt(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.CodigoDeOrden, valViewModel.GeneradoPor, valViewModel.FechaDesde, valViewModel.FechaHasta, valViewModel.SeleccionarOrdenPor) {
                     Worker = Manager
                 };
             }
