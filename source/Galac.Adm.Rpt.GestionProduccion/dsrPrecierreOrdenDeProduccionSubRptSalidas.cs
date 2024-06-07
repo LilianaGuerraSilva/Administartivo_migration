@@ -46,9 +46,9 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 }
             }
             if (LibReport.ConfigDataSource(this, valData)) {               
-                LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "ArticuloInsumo");
+                LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "ArticuloSalida");
                 LibReport.ConfigFieldStr(this, "txtUnidad", string.Empty, "Unidad");
-                LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidadSolicitada", string.Empty, "CantidadReservadaInventario", 8);               
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidadSolicitada", string.Empty, "CantidadSolicitadaEstimada", 8);               
                 LibReport.ConfigGroupHeader(this, "GHSecOrdenDeProduccion", "Codigo", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.After);
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 LibReport.AddNoDataEvent(this);

@@ -57,9 +57,9 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 LibReport.ConfigFieldStr(this, "txtListaDeMateriales", string.Empty, "NombreListaDeMateriales");
                 LibReport.ConfigFieldStr(this, "txtAlmacenSalida", string.Empty, "AlmacenSalida");
                 LibReport.ConfigFieldStr(this, "txtAlmacenEntrada", string.Empty, "AlmacenEntrada");
-                LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "ArticuloSalida");
+                LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "ArticuloInsumo");
                 LibReport.ConfigFieldStr(this, "txtUnidad", string.Empty, "Unidad");
-                LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidadReservadaDeInventario", string.Empty, "CantidadAProducirEstimada", 8);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidadReservadaDeInventario", string.Empty, "CantidadReservadaInventario", 8);
                 LibReport.ConfigGroupHeader(this, "GHSecOrdenDeProduccion", "Codigo", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.After);
                 LibReport.SetSubReportIfExists(this, SubRptListaDeSalidas(valDataSourceInsumos), "subRptSalidas");
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
