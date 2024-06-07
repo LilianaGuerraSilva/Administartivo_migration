@@ -1,11 +1,3 @@
-[submodule "source/Lib/AosLib"]
-	path = source/Lib/AosLib
-	url = https://github.com/Galac-Software/AosLib.git
-	branch = release/v5.14.0.0
-[submodule "source/Lib/VbaLib"]
-	path = source/Lib/VbaLib
-	url = https://github.com/GalacSoftware/vbaLib.git
-	branch = release/v2401
 [submodule "bin/binAdministrativoAos"]
 	path = bin/binAdministrativoAos
 	url = https://github.com/GalacSoftware/BinAdministrativoAos.git
