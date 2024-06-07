@@ -15,7 +15,6 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
     public class clsOrdenDeProduccionSql {
         private QAdvSql vSqlUtil = new QAdvSql("");
         #region Metodos Generados
-
         public string SqlPrecierreOrdenDeProduccion(int valConsecutivoCompania, string valCodigoOrden, DateTime valFechaInicio, DateTime valFechaFinal, eGeneradoPor valGeneradoPor) {
             StringBuilder vSql = new StringBuilder();
             vSql.AppendLine("SELECT ");
