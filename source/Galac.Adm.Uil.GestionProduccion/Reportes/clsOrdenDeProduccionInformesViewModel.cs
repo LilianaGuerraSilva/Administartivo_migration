@@ -35,7 +35,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             MoveFocusIfNecessary();
             ILibRpt vResult = null;
             if (SelectedReport is clsPrecierreOrdenDeProduccionViewModel) {
-                vResult = ConfigReportOrdenDeProduccionRpt(SelectedReport as clsPrecierreOrdenDeProduccionViewModel);
+                vResult = ConfigReportPrecierreOrdenDeProduccionRpt(SelectedReport as clsPrecierreOrdenDeProduccionViewModel);
             } else if (SelectedReport is clsRequisicionDeMaterialesViewModel) {
                 vResult = ConfigReportRequisicionDeMateriales(SelectedReport as clsRequisicionDeMaterialesViewModel);
             } else if (SelectedReport is clsCostoProduccionInventarioEntreFechasViewModel) {
@@ -50,7 +50,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             return vResult;
         }
 
-        private ILibRpt ConfigReportOrdenDeProduccionRpt(clsPrecierreOrdenDeProduccionViewModel valViewModel) {
+        private ILibRpt ConfigReportPrecierreOrdenDeProduccionRpt(clsPrecierreOrdenDeProduccionViewModel valViewModel) {
             ILibRpt vResult = null;
             if (valViewModel != null) {
                 vResult = new Galac.Adm.Rpt.GestionProduccion.clsPrecierreOrdenDeProduccionRpt(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.CodigoDeOrden, valViewModel.GeneradoPor, valViewModel.FechaDesde, valViewModel.FechaHasta, valViewModel.SeleccionarOrdenPor) {
