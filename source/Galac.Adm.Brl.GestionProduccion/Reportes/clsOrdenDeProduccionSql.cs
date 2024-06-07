@@ -44,11 +44,11 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             vSql.AppendLine("OrdenDeProduccion.ConsecutivoListaDeMateriales = ListaDeMateriales.Consecutivo ");
             vSql.AppendLine("AND OrdenDeProduccion.ConsecutivoCompania = ListaDeMateriales.ConsecutivoCompania ");
             string vSqlWhere = vSqlUtil.SqlIntValueWithAnd(string.Empty, "Adm.OrdenDeProduccion.ConsecutivoCompania", valConsecutivoCompania);
-            if (valGeneradoPor == eGeneradoPor.Orden) {
+            //if (valGeneradoPor == eGeneradoPor.Orden) {
                 vSqlWhere = vSqlUtil.SqlValueWithAnd(vSqlWhere, "Adm.OrdenDeProduccion.Codigo", valCodigoOrden);
-            } else if (valGeneradoPor == eGeneradoPor.Fecha) {
-                vSqlWhere = vSqlUtil.SqlDateValueBetween(vSqlWhere, "Adm.OrdenDeProduccion.FechaCreacion", valFechaInicio, valFechaFinal);
-            }
+            //} else if (valGeneradoPor == eGeneradoPor.Fecha) {
+            //    vSqlWhere = vSqlUtil.SqlDateValueBetween(vSqlWhere, "Adm.OrdenDeProduccion.FechaCreacion", valFechaInicio, valFechaFinal);
+            //}
             vSqlWhere = vSqlUtil.SqlEnumValueWithAnd(vSqlWhere, "Adm.OrdenDeProduccion.StatusOp", (int)eTipoStatusOrdenProduccion.Ingresada);
             if (LibString.Len(vSqlWhere) > 0) {
                 vSql.AppendLine(" WHERE " + vSqlWhere);
@@ -72,11 +72,11 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             vSql.AppendLine("OrdenDeProduccionDetalleArticulo.CodigoArticulo = ArticuloInventario.Codigo ");
             vSql.AppendLine("AND OrdenDeProduccionDetalleArticulo.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania ");            
             string vSqlWhere = vSqlUtil.SqlIntValueWithAnd(string.Empty, "Adm.OrdenDeProduccion.ConsecutivoCompania", valConsecutivoCompania);
-            if (valGeneradoPor == eGeneradoPor.Orden) {
+            //if (valGeneradoPor == eGeneradoPor.Orden) {
                 vSqlWhere = vSqlUtil.SqlValueWithAnd(vSqlWhere, "Adm.OrdenDeProduccion.Codigo", valCodigoOrden);
-            } else if (valGeneradoPor == eGeneradoPor.Fecha) {
-                vSqlWhere = vSqlUtil.SqlDateValueBetween(vSqlWhere, "Adm.OrdenDeProduccion.FechaCreacion", valFechaInicio, valFechaFinal);
-            }
+            //} else if (valGeneradoPor == eGeneradoPor.Fecha) {
+            //    vSqlWhere = vSqlUtil.SqlDateValueBetween(vSqlWhere, "Adm.OrdenDeProduccion.FechaCreacion", valFechaInicio, valFechaFinal);
+            //}
             vSqlWhere = vSqlUtil.SqlEnumValueWithAnd(vSqlWhere, "Adm.OrdenDeProduccion.StatusOp", (int)eTipoStatusOrdenProduccion.Ingresada);
             if (LibString.Len(vSqlWhere) > 0) {
                 vSql.AppendLine(" WHERE " + vSqlWhere);

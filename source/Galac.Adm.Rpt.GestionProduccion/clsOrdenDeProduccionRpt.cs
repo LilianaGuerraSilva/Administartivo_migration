@@ -24,8 +24,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
 
         public DateTime FechaHasta { get; set; }
 
-        protected DataTable DataSalidas { get; set; }
-        protected DataTable DataInsumos { get; set; }
+        protected DataTable Data { get; set; }
         #region Codigo Ejemplo
         /* Codigo de Ejemplo
 
@@ -38,7 +37,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         #region Constructores
         public clsOrdenDeProduccionRpt(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, string iniCodigoOrden, eGeneradoPor iniGeneradoPor, DateTime iniFechaDesde, DateTime iniFechaHasta, eSeleccionarOrdenPor iniSeleccionarOrdenPor)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
-            ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
+            ConsecutivoCompania = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania");
             CodigoOrden = iniCodigoOrden;
             GeneradoPor = iniGeneradoPor;
             SeleccionarPor = iniSeleccionarOrdenPor;
@@ -55,7 +54,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         #region Metodos Generados
 
         public static string ReportName {
-            get { return new dsrPrecierreOrdenDeProduccion().ReportTitle(); }
+            get { return new dsrOrdenDeProduccion().ReportTitle(); }
         }
 
         public override Dictionary<string, string> GetConfigReportParameters() {
@@ -81,15 +80,14 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             }
             WorkerReportProgress(30, "Obteniendo datos...");
             IOrdenDeProduccionInformes vRpt = new Galac.Adm.Brl.GestionProduccion.Reportes.clsOrdenDeProduccionRpt() as IOrdenDeProduccionInformes;
-            DataSalidas = vRpt.BuildPrecierreOrdendeProduccionSalidas(ConsecutivoCompania, CodigoOrden, FechaDesde, FechaHasta, GeneradoPor);
-            DataInsumos = vRpt.BuildPrecierreOrdendeProduccionInsumos(ConsecutivoCompania, CodigoOrden, FechaDesde, FechaHasta, GeneradoPor);
+             Data = vRpt.BuildOrdenDeProduccionRpt(ConsecutivoCompania, CodigoOrden, FechaDesde, FechaHasta, GeneradoPor);
         }
 
         public override void SendReportToDevice() {
             WorkerReportProgress(90, "Configurando Informe...");
             Dictionary<string, string> vParams = GetConfigReportParameters();
-            dsrPrecierreOrdenDeProduccion vRpt = new dsrPrecierreOrdenDeProduccion();
-            if (vRpt.ConfigReport(DataSalidas, DataInsumos, vParams)) {
+            dsrOrdenDeProduccion vRpt = new dsrOrdenDeProduccion();
+            if (vRpt.ConfigReport(Data, vParams)) {
                 LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsOrdenDeProduccionRpt.ReportName, true, ExportFileFormat, "", false);
             }
             WorkerReportProgress(100, "Finalizando...");

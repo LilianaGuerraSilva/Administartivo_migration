@@ -42,12 +42,12 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
             return insOrdenDeProduccionRpt.GetDt(vSql, 0);
         }
         System.Data.DataTable IOrdenDeProduccionInformes.BuildPrecierreOrdendeProduccionInsumos(int valConsecutivoCompania, string valCodigoOrden, DateTime valFechaInicial, DateTime valFechaHasta, eGeneradoPor valGeneradoPor) {
-            string vSqlt = "";
+            string vSql = "";
             System.Data.DataTable vDt = new System.Data.DataTable();
             clsOrdenDeProduccionSql insOrdenDeProduccionSql = new clsOrdenDeProduccionSql();
             LibGalac.Aos.Base.ILibDataRpt insOrdenDeProduccionRpt = new Galac.Adm.Dal.GestionProduccion.clsOrdenDeProduccionDat();
-            vSqlt = insOrdenDeProduccionSql.SqlPrecierreOrdenDeProduccionSubRpt(valConsecutivoCompania, valCodigoOrden, valFechaInicial, valFechaHasta, valGeneradoPor);
-            return insOrdenDeProduccionRpt.GetDt(vSqlt, 0);
+            vSql = insOrdenDeProduccionSql.SqlPrecierreOrdenDeProduccionSubRpt(valConsecutivoCompania, valCodigoOrden, valFechaInicial, valFechaHasta, valGeneradoPor);
+            return insOrdenDeProduccionRpt.GetDt(vSql, 0);
         }
 
         System.Data.DataTable IOrdenDeProduccionInformes.BuildRequisicionDeMateriales(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, bool valMostrarSoloExistenciaInsuficiente, string valCodigoOrden, eGeneradoPor valGeneradoPor) {
