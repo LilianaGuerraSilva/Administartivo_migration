@@ -183,13 +183,13 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         #region Constructores
 
         public clsPrecierreOrdenDeProduccionViewModel() {
-            _GeneradoPor = eGeneradoPor.Orden;
-            _SeleccionarOrdenPor = eSeleccionarOrdenPor.NumeroDeOrden;
-            _CodigoDeOrden = string.Empty;
-            _FechaDesde = DateTime.Today;
-            _FechaHasta = DateTime.Today;
-            _IsEnabledFecha = false;
-            _IsEnabledCodigoDeOrden = true;
+            GeneradoPor = eGeneradoPor.Orden;
+            SeleccionarOrdenPor = eSeleccionarOrdenPor.NumeroDeOrden;
+            CodigoDeOrden = string.Empty;
+            FechaDesde = DateTime.Today;
+            FechaHasta = DateTime.Today;
+            IsEnabledFecha = false;
+            IsEnabledCodigoDeOrden = true;
         }
 
         #endregion //Constructores

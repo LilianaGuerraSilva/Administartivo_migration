@@ -18,18 +18,15 @@
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="96" />
-            <ColumnDefinition Width="330" />
-            <ColumnDefinition Width="7*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="97*" />
         </Grid.RowDefinitions>
-        <Label
+        <!--<Label
             Name="lblGenerarPor"
             Grid.Row="0"
             Grid.Column="0"
@@ -42,7 +39,7 @@
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding Path=EGeneradoPor}"
             SelectedItem="{Binding Path=GeneradoPor, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-            Style="{StaticResource ComboBoxStyle}" />
+            Style="{StaticResource ComboBoxStyle}" />-->
         <Label
             Name="lblOrdenDeProduccion"
             Grid.Row="1"
@@ -63,7 +60,7 @@
             IsEnabled="{Binding Path=IsEnabledCodigoDeOrden}"
             Model="{Binding Path=ConexionCodigoDeOrden, Mode=TwoWay}"
             SearchCommand="{Binding Path=ChooseCodigoDeOrdenCommand}" />
-        <Label
+        <!--<Label
             Name="lblDesde"
             Grid.Row="2"
             Width="93"
@@ -96,8 +93,6 @@
             HorizontalAlignment="Center"
             IsEnabled="{Binding Path=IsEnabledFecha}"
             SelectedDate="{Binding Path=FechaHasta, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-            Style="{StaticResource DatePickerStyle}" />
-
-
+            Style="{StaticResource DatePickerStyle}" />-->
     </Grid>
 </UserControl>
