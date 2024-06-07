@@ -85,9 +85,7 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             }
             vSql.AppendLine("ORDER BY Adm.OrdenDeProduccion.Codigo");
             return vSql.ToString();
-        }
-
-       
+        }       
 
         public string SqlRequisicionDeMateriales(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, bool valMostrarSoloExistenciaInsuficiente, string valCodigoOrden, eGeneradoPor valGeneradoPor) {
             StringBuilder vSql = new StringBuilder();
