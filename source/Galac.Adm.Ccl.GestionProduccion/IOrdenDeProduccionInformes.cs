@@ -8,8 +8,9 @@ using LibGalac.Aos.Base.Report;
 
 namespace Galac.Adm.Ccl. GestionProduccion {
 
-    public interface IOrdenDeProduccionInformes {
-        System.Data.DataTable BuildOrdenDeProduccionRpt(int valConsecutivoCompania, string valCodigoOrden, DateTime valFechaDesde, DateTime valFechaHasta, eGeneradoPor valGeneradoPor);
+    public interface IOrdenDeProduccionInformes {        
+        System.Data.DataTable BuildPrecierreOrdendeProduccionInsumos(int valConsecutivoCompania, string valCodigoOrden, DateTime valFechaDesde, DateTime valFechaHasta, eGeneradoPor valGeneradoPor);
+        System.Data.DataTable BuildPrecierreOrdendeProduccionSalidas(int valConsecutivoCompania, string valCodigoOrden, DateTime valFechaDesde, DateTime valFechaHasta, eGeneradoPor valGeneradoPor);
         System.Data.DataTable BuildRequisicionDeMateriales(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, bool valMostrarSoloExistenciaInsuficiente, string valCodigoOrden, eGeneradoPor valGeneradoPor);
         System.Data.DataTable BuildCostoProduccionInventarioEntreFechas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, eCantidadAImprimir valCantidadAImprimir, string valCodigoInventarioAProducir, eGeneradoPor valGeneradoPor, string valCodigoOrden, eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio, string valCodigoMoneda, string valNombreMoneda);
         System.Data.DataTable BuildCostoMatServUtilizadosEnProduccionInv(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, string valCodigoOrden, eGeneradoPor valGeneradoPor, eMonedaDelInformeMM valMonedaDelInforme, eTasaDeCambioParaImpresion valTasaDeCambio, string valCodigoMoneda, string valNombreMoneda);
