@@ -109,7 +109,7 @@
     <Compile Include="Reportes\clsOrdenDeProduccionInformesViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Reportes\clsOrdenDeProduccionRptViewModel.cs">
+    <Compile Include="Reportes\clsPrecierreOrdenDeProduccionViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Reportes\clsProduccionPorEstatusEntreFechaViewModel.cs" />
@@ -126,8 +126,8 @@
     <Compile Include="Reportes\GSListaDeMateriales.xaml.cs">
       <DependentUpon>GSListaDeMateriales.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Reportes\GSOrdenDeProduccionRpt.xaml.cs">
-      <DependentUpon>GSOrdenDeProduccionRpt.xaml</DependentUpon>
+    <Compile Include="Reportes\GSPrecierreOrdenDeProduccion.xaml.cs">
+      <DependentUpon>GSPrecierreOrdenDeProduccion.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reportes\GSProduccionPorEstatusEntreFecha.xaml.cs">
       <DependentUpon>GSProduccionPorEstatusEntreFecha.xaml</DependentUpon>
@@ -191,7 +191,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Reportes\GSOrdenDeProduccionRpt.xaml">
+    <Page Include="Reportes\GSPrecierreOrdenDeProduccion.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
