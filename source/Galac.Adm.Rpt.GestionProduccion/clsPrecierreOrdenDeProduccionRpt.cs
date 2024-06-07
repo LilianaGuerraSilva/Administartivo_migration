@@ -89,7 +89,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             WorkerReportProgress(90, "Configurando Informe...");
             Dictionary<string, string> vParams = GetConfigReportParameters();
             dsrPrecierreOrdenDeProduccion vRpt = new dsrPrecierreOrdenDeProduccion();
-            if (vRpt.ConfigReport(DataSalidas, DataInsumos, vParams)) {
+            if (vRpt.ConfigReport(DataInsumos, DataSalidas, vParams)) {
                 LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsPrecierreOrdenDeProduccionRpt.ReportName, true, ExportFileFormat, "", false);
             }
             WorkerReportProgress(100, "Finalizando...");
