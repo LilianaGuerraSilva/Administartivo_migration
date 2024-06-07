@@ -6,22 +6,6 @@
 	path = source/Lib/VbaLib
 	url = https://github.com/GalacSoftware/vbaLib.git
 	branch = release/v2401
-[submodule "bin/binLibAos"]
-	path = bin/binLibAos
-	url = https://github.com/GalacSoftware/BinLibAos.git
-	branch = release/V5.24.0.0
-[submodule "bin/binLibNet"]
-	path = bin/binLibNet
-	url = https://github.com/GalacSoftware/BinLibNet.git
-	branch = release/v5.24.0.0
-[submodule "bin/binLibProtec"]
-	path = bin/binLibProtec
-	url = https://github.com/GalacSoftware/BinLibProtec.git
-	branch = release/v24.1.0.0|
-[submodule "bin/binLibVb"]
-	path = bin/binLibVb
-	url = https://github.com/GalacSoftware/BinLibVb.git
-	branch = release/V2402
 [submodule "bin/binAdministrativoAos"]
 	path = bin/binAdministrativoAos
 	url = https://github.com/GalacSoftware/BinAdministrativoAos.git
