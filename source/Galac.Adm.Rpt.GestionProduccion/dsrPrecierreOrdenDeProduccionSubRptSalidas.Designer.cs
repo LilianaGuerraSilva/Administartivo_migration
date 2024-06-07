@@ -76,7 +76,7 @@ namespace Galac.Adm.Rpt.GestionProduccion
             this.txtCantidadSolicitada.Border.RightStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtCantidadSolicitada.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtCantidadSolicitada.Height = 0.25F;
-            this.txtCantidadSolicitada.Left = 4.469F;
+            this.txtCantidadSolicitada.Left = 4.439F;
             this.txtCantidadSolicitada.Name = "txtCantidadSolicitada";
             this.txtCantidadSolicitada.Style = "font-size: 8pt; text-align: right; vertical-align: middle; ddo-char-set: 1";
             this.txtCantidadSolicitada.Text = "txtCantidadSolicitada";
@@ -90,7 +90,7 @@ namespace Galac.Adm.Rpt.GestionProduccion
             this.txtCantidadConsumoReal.Border.RightStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtCantidadConsumoReal.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtCantidadConsumoReal.Height = 0.25F;
-            this.txtCantidadConsumoReal.Left = 6F;
+            this.txtCantidadConsumoReal.Left = 5.97F;
             this.txtCantidadConsumoReal.Name = "txtCantidadConsumoReal";
             this.txtCantidadConsumoReal.Style = "font-size: 8pt; text-align: right; vertical-align: middle; ddo-char-set: 1";
             this.txtCantidadConsumoReal.Text = null;
@@ -106,7 +106,7 @@ namespace Galac.Adm.Rpt.GestionProduccion
             this.txtUnidad.Style = "font-size: 8pt; vertical-align: middle; ddo-char-set: 1";
             this.txtUnidad.Text = "txtUnidad";
             this.txtUnidad.Top = 0F;
-            this.txtUnidad.Width = 1F;
+            this.txtUnidad.Width = 0.959F;
             // 
             // GHSecDetalle
             // 
@@ -134,7 +134,7 @@ namespace Galac.Adm.Rpt.GestionProduccion
             // 
             this.lblCantidadEstimadaAProducir.Height = 0.15625F;
             this.lblCantidadEstimadaAProducir.HyperLink = null;
-            this.lblCantidadEstimadaAProducir.Left = 4.469F;
+            this.lblCantidadEstimadaAProducir.Left = 4.439F;
             this.lblCantidadEstimadaAProducir.Name = "lblCantidadEstimadaAProducir";
             this.lblCantidadEstimadaAProducir.Style = "font-size: 8pt; font-weight: bold; text-align: right; vertical-align: bottom; ddo" +
     "-char-set: 1";
@@ -146,7 +146,7 @@ namespace Galac.Adm.Rpt.GestionProduccion
             // 
             this.lblCantidadProducidaReal.Height = 0.15625F;
             this.lblCantidadProducidaReal.HyperLink = null;
-            this.lblCantidadProducidaReal.Left = 6F;
+            this.lblCantidadProducidaReal.Left = 5.97F;
             this.lblCantidadProducidaReal.Name = "lblCantidadProducidaReal";
             this.lblCantidadProducidaReal.Style = "font-size: 8pt; font-weight: bold; text-align: right; vertical-align: bottom; ddo" +
     "-char-set: 1";
@@ -156,14 +156,14 @@ namespace Galac.Adm.Rpt.GestionProduccion
             // 
             // lblUnidad
             // 
-            this.lblUnidad.Height = 0.15625F;
+            this.lblUnidad.Height = 0.156F;
             this.lblUnidad.HyperLink = null;
             this.lblUnidad.Left = 3.437F;
             this.lblUnidad.Name = "lblUnidad";
             this.lblUnidad.Style = "font-size: 8pt; font-weight: bold; vertical-align: bottom; ddo-char-set: 1";
             this.lblUnidad.Text = "Unidad";
             this.lblUnidad.Top = 0F;
-            this.lblUnidad.Width = 1F;
+            this.lblUnidad.Width = 0.959F;
             // 
             // lnInsumos
             // 
