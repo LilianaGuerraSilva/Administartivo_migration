@@ -45,6 +45,6 @@
         <Label Grid.Row="3" Grid.Column="0" Content="Fecha Final" Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSDatePickerWpf Grid.Row="3" Grid.Column="1" Width="120" Style="{StaticResource DatePickerStyle}" Name="dtpFechaFinal"
             SelectedDate="{Binding Path=FechaFinal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=IsEnabledFecha}"/>
-        <TextBlock Grid.Row="4" Grid.Column="1" Name="lblDescripcionNota" Text="Nota: Este informe lista los materiales que seran utilizados en las ordenes de produccion que aun no han sido iniciadas." Style="{StaticResource TextBlockFeatureInfo}" Width="222" MinHeight="50" Margin="3,20,0,0" Grid.ColumnSpan="2" Height="70" />
+        <TextBlock Grid.Row="4" Grid.Column="1" Name="lblDescripcionNota" Text="Nota: Este informe lista los materiales que serán utilizados en las órdenes de producción que aún no han sido iniciadas." Style="{StaticResource TextBlockFeatureInfo}" Width="222" MinHeight="50" Margin="3,20,0,0" Grid.ColumnSpan="2" Height="70" />
     </Grid>
 </UserControl>
