@@ -77,7 +77,7 @@
     <Compile Include="clsCostoProduccionInventarioEntreFechas.cs" />
     <Compile Include="clsDetalleDeCostoDeProduccion.cs" />
     <Compile Include="clsListaDeMaterialesDeSalida.cs" />
-    <Compile Include="clsOrdenDeProduccionRpt.cs" />
+    <Compile Include="clsPrecierreOrdenDeProduccionRpt.cs" />
     <Compile Include="clsProduccionPorEstatusEntreFecha.cs" />
     <Compile Include="clsRequisicionDeMateriales.cs" />
     <Compile Include="dsrCostoMatServUtilizadosEnProduccionInv.cs">
@@ -110,11 +110,17 @@
     <Compile Include="dsrListaDeMaterialesDeSalida.Designer.cs">
       <DependentUpon>dsrListaDeMaterialesDeSalida.cs</DependentUpon>
     </Compile>
-    <Compile Include="dsrOrdenDeProduccion.cs">
+    <Compile Include="dsrPrecierreOrdenDeProduccionSubRptSalidas.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="dsrOrdenDeProduccion.Designer.cs">
-      <DependentUpon>dsrOrdenDeProduccion.cs</DependentUpon>
+    <Compile Include="dsrPrecierreOrdenDeProduccionSubRptSalidas.Designer.cs">
+      <DependentUpon>dsrPrecierreOrdenDeProduccionSubRptSalidas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dsrPrecierreOrdenDeProduccion.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrPrecierreOrdenDeProduccion.Designer.cs">
+      <DependentUpon>dsrPrecierreOrdenDeProduccion.cs</DependentUpon>
     </Compile>
     <Compile Include="dsrProduccionPorEstatusEntreFecha.cs">
       <SubType>Component</SubType>
@@ -153,8 +159,11 @@
     <EmbeddedResource Include="dsrListaDeMaterialesDeSalida.resx">
       <DependentUpon>dsrListaDeMaterialesDeSalida.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="dsrOrdenDeProduccion.resx">
-      <DependentUpon>dsrOrdenDeProduccion.cs</DependentUpon>
+    <EmbeddedResource Include="dsrPrecierreOrdenDeProduccionSubRptSalidas.resx">
+      <DependentUpon>dsrPrecierreOrdenDeProduccionSubRptSalidas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dsrPrecierreOrdenDeProduccion.resx">
+      <DependentUpon>dsrPrecierreOrdenDeProduccion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="dsrProduccionPorEstatusEntreFecha.resx">
       <DependentUpon>dsrProduccionPorEstatusEntreFecha.cs</DependentUpon>
