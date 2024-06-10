@@ -40,10 +40,10 @@
       <HintPath>..\packages\LibGalac.Aos.Catching.5.24.0\lib\LibGalac.Aos.Catching.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Dal">
-      <HintPath>..\packages\LibGalac.Aos.Dal.5.24.0.4\lib\LibGalac.Aos.Dal.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Dal.5.24.1\lib\LibGalac.Aos.Dal.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.DefGen">
-      <HintPath>..\packages\LibGalac.Aos.DefGen.5.24.0.3\lib\LibGalac.Aos.DefGen.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.DefGen.5.24.1\lib\LibGalac.Aos.DefGen.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
