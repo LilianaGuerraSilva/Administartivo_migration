@@ -10,14 +10,6 @@
 	path = bin/binComunAos
 	url = https://github.com/GalacSoftware/BinComunAos.git
 	branch = release/SawV25.2.0.0
-[submodule "bin/binContabilidadAos"]
-	path = bin/binContabilidadAos
-	url = https://github.com/GalacSoftware/BinContabilidadAos.git
-	branch = release/SawV25.2.0.0
-[submodule "bin/binContabilidadVb"]
-	path = bin/binContabilidadVb
-	url = https://github.com/GalacSoftware/BinContabilidadVb.git
-	branch = release/SawV25.2.0.0
 [submodule "bin/binEsqNiif"]
 	path = bin/binEsqNiif
 	url = https://github.com/GalacSoftware/BinEsqNiif.git
@@ -26,17 +18,9 @@
 	path = source/Axi
 	url = https://github.com/GalacSoftware/Axi.git
 	branch = release/SawV25.2.0.0
-[submodule "source/ContabilidadVb"]
-	path = source/ContabilidadVb
-	url = https://github.com/GalacSoftware/ContabilidadVb.git
-	branch = release/SawV25.2.0.0
 [submodule "source/ContabIwrp"]
 	path = source/ContabIwrp
 	url = https://github.com/GalacSoftware/ContabiWrp.git
-	branch = release/SawV25.2.0.0
-[submodule "source/IvaVb"]
-	path = source/IvaVb
-	url = https://github.com/GalacSoftware/IvaVb.git
 	branch = release/SawV25.2.0.0
 [submodule "source/RetencionesVb"]
 	path = source/RetencionesVb
@@ -70,3 +54,19 @@
 	path = source/Lib/AosLib
 	url = https://github.com/GalacSoftware/AosLib.git
 	branch = release/5.24.1.0
+[submodule "source/ContabilidadVb"]
+	path = source/ContabilidadVb
+	url = https://github.com/GalacSoftware/ContabilidadVb.git
+	branch = release/Saw_25.3_OOM
+[submodule "source/IvaVb"]
+	path = source/IvaVb
+	url = https://github.com/GalacSoftware/IvaVb.git
+	branch = release/SawV25.2.0.0
+[submodule "bin/binContabilidadVb"]
+	path = bin/binContabilidadVb
+	url = https://github.com/GalacSoftware/BinContabilidadVb.git
+	branch = release/v2403
+[submodule "bin/binContabilidadAos"]
+	path = bin/binContabilidadAos
+	url = https://github.com/GalacSoftware/BinContabilidadAos.git
+	branch = release/V.2.61.1.0
