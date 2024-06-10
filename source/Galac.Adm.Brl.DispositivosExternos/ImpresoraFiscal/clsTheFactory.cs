@@ -41,7 +41,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         bool _EstaActivoFlag50 = false;
         #endregion
         #region Longitud de Impresion
-        int _LineaTextoAdicional;
+        int _LineaTextoAdicionalEncabezado;
+        int _LineaTextoAdicionalPie;
         int _NumeroDeLineasDeTotalesEnDivisas;
         bool _ExtenderLineasAdicionales;
         #endregion  
@@ -64,7 +65,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         #region Propiedades
         public clsTheFactory(XElement valXmlDatosImpresora) {
             _TfhkPrinter = new Tfhka();
-            _LineaTextoAdicional = 0;
+            _LineaTextoAdicionalEncabezado = 0;
+            _LineaTextoAdicionalPie = 0;
             ConfigurarImpresora(valXmlDatosImpresora);
             _ListPrintersNotSupport = new string[] {
                     "Z1B"
@@ -635,9 +637,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vResult = ImprimirTotalesEnDivisas(vTotalesEnDivisa);
             }
             if (!vObservaciones.Equals("") && _ObservacionesAlFinalDeLaFactura && !_ModelosAntiguos) {
-                vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString("Obs.:" + vObservaciones, 0, _MaxLongitudDeTexto)));
+                vListaCMD.Add(GetLineaDeTextoPie() + LibText.Trim(LibText.SubString("Obs.:" + vObservaciones, 0, _MaxLongitudDeTexto)));
                 if (LibText.Len(vObservaciones) > 35) {
-                    vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString(vObservaciones, 35, _MaxLongitudDeTexto)));
+                    vListaCMD.Add(GetLineaDeTextoPie() + LibText.Trim(LibText.SubString(vObservaciones, 35, _MaxLongitudDeTexto)));
                 }
             }
             if (!valIsNotaDeCredito && LibString.Len(vTotalesEnDivisa) == 0) {
@@ -665,28 +667,15 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string[] vList = LibString.Split(vTotales, '\n');
             if (vList != null && vList.Length > 0) {
                 foreach (string vText in vList) {
-                    vCmd = GetLineaTexto() + vText;
+                    vCmd = GetLineaDeTextoPie() + vText;
                     vResult = _TfhkPrinter.SendCmd(vCmd);
-                    if (_LineaTextoAdicional >= 10) {
+                    if (_LineaTextoAdicionalPie >= 10) {
                         break;
                     }
                 }
             }
             return vResult;
-        }
-
-        private bool ImprimirObservacionesIGTF(string vObservacionesIGTF) {
-            bool vResult = true;
-            string vCmd = "";
-            string[] vList = LibString.Split(vObservacionesIGTF, '\n');
-            if (vList != null && vList.Length > 0) {
-                foreach (string vText in vList) {
-                    vCmd = GetLineaTexto() + vText;
-                    vResult = _TfhkPrinter.SendCmd(vCmd);
-                }
-            }
-            return vResult;
-        }
+        }       
 
         private bool ImprimirArticuloVenta(string valDescripcion, string valCantidad, string valPrecio, string valTipoTasa, string valPorcetajeDesRenglon, bool valEsDevolucion) {
             bool vResult = true;
@@ -736,9 +725,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             List<XElement> vCamposDefinibles = valData.Descendants("GpResultDetailCamposDefinibles").ToList();
             if (vCamposDefinibles.Count > 0) {
                 foreach (XElement vRecord in vCamposDefinibles) {
-                    vCmd = GetLineaTexto() + LibXml.GetElementValueOrEmpty(vRecord, "CampoDefinibleValue");
+                    vCmd = GetLineaDeTextoPie() + LibXml.GetElementValueOrEmpty(vRecord, "CampoDefinibleValue");
                     vResult |= _TfhkPrinter.SendCmd(vCmd);
-                    if (_LineaTextoAdicional >= 10) {
+                    if (_LineaTextoAdicionalPie >= 10) {
                         break;
                     }
                 }
@@ -855,10 +844,17 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             }
         }
 
-        private string GetLineaTexto() {
+        private string GetLineaDeTextoEncabezado() {
             string vResult = "";
-            vResult = "i" + String.Format("{0:D2}", _LineaTextoAdicional);
-            _LineaTextoAdicional++;
+            vResult = "i" + String.Format("{0:D2}", _LineaTextoAdicionalEncabezado);
+            _LineaTextoAdicionalEncabezado++;
+            return vResult;
+        }
+
+        private string GetLineaDeTextoPie() {
+            string vResult = "";
+            vResult = "i" + String.Format("{0:D2}", _LineaTextoAdicionalPie);
+            _LineaTextoAdicionalPie++;
             return vResult;
         }
 
@@ -866,37 +862,37 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             bool vResult = true;
             List<string> vListaCMD = new List<string>();
             if (valExtenderLineasAdicionales) {
-                vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString("Dir.:" + valDireccion, 0, _MaxLongitudDeTexto)));
-                if (!((_NumeroDeLineasDeTotalesEnDivisas + _LineaTextoAdicional) > 8)) {
-                    vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString(valDireccion, 35, _MaxLongitudDeTexto)));
+                vListaCMD.Add(GetLineaDeTextoEncabezado() + LibText.Trim(LibText.SubString("Dir.:" + valDireccion, 0, _MaxLongitudDeTexto)));
+                if (!((_NumeroDeLineasDeTotalesEnDivisas + _LineaTextoAdicionalEncabezado) > 8)) {
+                    vListaCMD.Add(GetLineaDeTextoEncabezado() + LibText.Trim(LibText.SubString(valDireccion, 35, _MaxLongitudDeTexto)));
                 }
                 if (!_ObservacionesAlFinalDeLaFactura) {
-                    vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString("Obs.:" + valObservaciones, 0, _MaxLongitudDeTexto)));
-                    if (!((_NumeroDeLineasDeTotalesEnDivisas + _LineaTextoAdicional) > 9)) {
-                        vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString(valObservaciones, 35, _MaxLongitudDeTexto)));
+                    vListaCMD.Add(GetLineaDeTextoEncabezado() + LibText.Trim(LibText.SubString("Obs.:" + valObservaciones, 0, _MaxLongitudDeTexto)));
+                    if (!((_NumeroDeLineasDeTotalesEnDivisas + _LineaTextoAdicionalEncabezado) > 9)) {
+                        vListaCMD.Add(GetLineaDeTextoEncabezado() + LibText.Trim(LibText.SubString(valObservaciones, 35, _MaxLongitudDeTexto)));
                     }
                 }
             } else {
                 if (LibText.Len(valTelefono) > 0) {
-                    vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString("Telf: " + valTelefono, 0, _MaxLongitudDeTexto)));
+                    vListaCMD.Add(GetLineaDeTextoEncabezado() + LibText.Trim(LibText.SubString("Telf: " + valTelefono, 0, _MaxLongitudDeTexto)));
                 }
                 if (!valDireccion.Equals("") && !_ModelosAntiguos) {
-                    vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString("Dir.:" + valDireccion, 0, _MaxLongitudDeTexto)));
+                    vListaCMD.Add(GetLineaDeTextoEncabezado() + LibText.Trim(LibText.SubString("Dir.:" + valDireccion, 0, _MaxLongitudDeTexto)));
                     if (LibText.Len(LibText.Trim(valDireccion)) > 30) {
-                        vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString(valDireccion, 35, _MaxLongitudDeTexto)));
+                        vListaCMD.Add(GetLineaDeTextoEncabezado() + LibText.Trim(LibText.SubString(valDireccion, 35, _MaxLongitudDeTexto)));
                     }
                 } else {
-                    vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString("Dir.:" + valDireccion, 0, _MaxLongitudDeTexto)));
+                    vListaCMD.Add(GetLineaDeTextoEncabezado() + LibText.Trim(LibText.SubString("Dir.:" + valDireccion, 0, _MaxLongitudDeTexto)));
                 }
                 if (!valObservaciones.Equals("") && !_ObservacionesAlFinalDeLaFactura && !_ModelosAntiguos) {
-                    vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString("Obs.:" + valObservaciones, 0, _MaxLongitudDeTexto)));
+                    vListaCMD.Add(GetLineaDeTextoEncabezado() + LibText.Trim(LibText.SubString("Obs.:" + valObservaciones, 0, _MaxLongitudDeTexto)));
                     if (LibText.Len(LibText.Trim(valObservaciones)) > 35) {
-                        vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString(valObservaciones, 35, _MaxLongitudDeTexto)));
+                        vListaCMD.Add(GetLineaDeTextoEncabezado() + LibText.Trim(LibText.SubString(valObservaciones, 35, _MaxLongitudDeTexto)));
                     }
                 } else if (!_ObservacionesAlFinalDeLaFactura) {
-                    vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString("Obs.:" + valObservaciones, 0, _MaxLongitudDeTexto)));
+                    vListaCMD.Add(GetLineaDeTextoEncabezado() + LibText.Trim(LibText.SubString("Obs.:" + valObservaciones, 0, _MaxLongitudDeTexto)));
                     if (LibText.Len(LibText.Trim(valObservaciones)) > 35) {
-                        vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString(valObservaciones, 35, _MaxLongitudDeTexto)));
+                        vListaCMD.Add(GetLineaDeTextoEncabezado() + LibText.Trim(LibText.SubString(valObservaciones, 35, _MaxLongitudDeTexto)));
                     }
                 }
             }
@@ -911,20 +907,20 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 bool vResult = true;
                 string vCMD = "";
                 if (_ModelosAntiguos) {
-                    _LineaTextoAdicional = 0;
-                    vCMD = GetLineaTexto() + "Nombre:" + LibText.Trim(LibText.SubString(valRazonSocial, 0, _MaxLongitudDeTexto));
+                    _LineaTextoAdicionalEncabezado = 0;
+                    vCMD = GetLineaDeTextoEncabezado() + "Nombre:" + LibText.Trim(LibText.SubString(valRazonSocial, 0, _MaxLongitudDeTexto));
                     vResult &= _TfhkPrinter.SendCmd(vCMD);
-                    vCMD = GetLineaTexto() + "RIF:" + LibText.Trim(LibText.SubString(valRif, 0, 15));
+                    vCMD = GetLineaDeTextoEncabezado() + "RIF:" + LibText.Trim(LibText.SubString(valRif, 0, 15));
                     vResult = _TfhkPrinter.SendCmd(vCMD);
                 } else {
                     vCMD = "iR*" + LibText.Trim(LibText.SubString(valRif, 0, 15));
                     vResult = _TfhkPrinter.SendCmd(vCMD);
                     vCMD = "iS*" + LibText.Trim(LibText.SubString(valRazonSocial, 0, _MaxLongitudDeTexto));
                     vResult &= _TfhkPrinter.SendCmd(vCMD);
-                    //if (LibString.Len(valRazonSocial) > _MaxLongitudDeTexto) {
-                    //    vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString(valRazonSocial, 40, _MaxLongitudDeTexto));
-                    //     vResult &= _TfhkPrinter.SendCmd(vCMD);
-                    //}
+                    if (LibString.Len(valRazonSocial) > _MaxLongitudDeTexto) {
+                        vCMD = GetLineaDeTextoEncabezado() + LibText.Trim(LibText.SubString(valRazonSocial, 40, _MaxLongitudDeTexto));
+                         vResult &= _TfhkPrinter.SendCmd(vCMD);
+                    }
                 }
                 vResult &= EnviarDatosAdicionales(valDireccion, valTelefono, valObservaciones, _ExtenderLineasAdicionales);
                 return vResult;
@@ -938,17 +934,17 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 bool vResult = false;
                 string vCMD = "";
                 if (_ModelosAntiguos) {
-                    _LineaTextoAdicional = 0;
-                    vCMD = GetLineaTexto() + "# Factura:" + LibText.Trim(LibText.SubString(valNumeroFacturaOriginal, 0, 11));
+                    _LineaTextoAdicionalEncabezado = 0;
+                    vCMD = GetLineaDeTextoEncabezado() + "# Factura:" + LibText.Trim(LibText.SubString(valNumeroFacturaOriginal, 0, 11));
                     vResult = _TfhkPrinter.SendCmd(vCMD);
-                    vCMD = GetLineaTexto() + "Nombre Cliente:" + LibText.Trim(LibText.SubString(valRazonSocial, 0, _MaxLongitudDeTexto));
+                    vCMD = GetLineaDeTextoEncabezado() + "Nombre Cliente:" + LibText.Trim(LibText.SubString(valRazonSocial, 0, _MaxLongitudDeTexto));
                     vResult &= _TfhkPrinter.SendCmd(vCMD);
-                    vCMD = GetLineaTexto() + "RIF:" + LibText.Trim(LibText.SubString(valRif, 0, 15));
+                    vCMD = GetLineaDeTextoEncabezado() + "RIF:" + LibText.Trim(LibText.SubString(valRif, 0, 15));
                     vResult = _TfhkPrinter.SendCmd(vCMD);
-                    vCMD = GetLineaTexto() + "Serial Maquina:" + LibText.Trim(LibText.SubString(valSerialMaquinaFiscal, 0, 10));
+                    vCMD = GetLineaDeTextoEncabezado() + "Serial Maquina:" + LibText.Trim(LibText.SubString(valSerialMaquinaFiscal, 0, 10));
                     vResult = _TfhkPrinter.SendCmd(vCMD);
                     valFecha = LibString.SubString(valFecha, 0, 10);
-                    vCMD = GetLineaTexto() + "Fecha:" + LibText.Trim(LibText.SubString(valFecha, 0, 10));
+                    vCMD = GetLineaDeTextoEncabezado() + "Fecha:" + LibText.Trim(LibText.SubString(valFecha, 0, 10));
                     vResult = _TfhkPrinter.SendCmd(vCMD);
                 } else {
                     valFecha = LibString.SubString(valFecha, 0, 10);
@@ -956,10 +952,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     vResult = _TfhkPrinter.SendCmd(vCMD);
                     vCMD = "iS*" + LibText.Trim(LibText.SubString(valRazonSocial, 0, _MaxLongitudDeTexto));
                     vResult &= _TfhkPrinter.SendCmd(vCMD);
-                    //if (LibString.Len(valRazonSocial) > _MaxLongitudDeTexto) {
-                    //     vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString(valRazonSocial, 40, _MaxLongitudDeTexto));
-                    //      vResult &= _TfhkPrinter.SendCmd(vCMD);
-                    //}                    
+                    if (LibString.Len(valRazonSocial) > _MaxLongitudDeTexto) {
+                         vCMD = GetLineaDeTextoEncabezado() + LibText.Trim(LibText.SubString(valRazonSocial, 40, _MaxLongitudDeTexto));
+                          vResult &= _TfhkPrinter.SendCmd(vCMD);
+                    }                    
                     vCMD = "iF*" + LibText.Trim(LibText.SubString(valNumeroFacturaOriginal, 0, 11));
                     vResult = _TfhkPrinter.SendCmd(vCMD);
                     vCMD = "iD*" + LibText.Trim(LibText.SubString(valFecha, 0, 10));
