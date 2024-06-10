@@ -62,10 +62,6 @@
 	path = bin/binLibVb
 	url = https://github.com/GalacSoftware/BinLibVb.git
 	branch = release/V2403
-[submodule "source/Lib/AosLib"]
-	path = source/Lib/AosLib
-	url = https://github.com/GalacSoftware/AosLib.git
-	branch = release/V5.24.1.0
 [submodule "source/Lib/VbaLib"]
 	path = source/Lib/VbaLib
 	url = https://github.com/GalacSoftware/vbaLib.git
