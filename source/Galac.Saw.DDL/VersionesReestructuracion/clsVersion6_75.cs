@@ -12,8 +12,8 @@ using System.Text;
 using Galac.Saw.Ccl.Tablas;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
-	class clsVersion6_74 : clsVersionARestructurar {
-		public clsVersion6_74(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
+	class clsVersion6_75 : clsVersionARestructurar {
+		public clsVersion6_75(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
 		public override bool UpdateToVersion() {
 			StartConnectionNoTransaction();
 			AgregarColumnasIGTFEnCxP();
