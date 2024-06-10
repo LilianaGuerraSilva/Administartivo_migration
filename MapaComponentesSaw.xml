@@ -208,7 +208,7 @@
 
     <Galac.Adm.Ccl.DispositivosExternos>2.61.0.0</Galac.Adm.Ccl.DispositivosExternos>
     <Galac.Adm.Dal.DispositivosExternos>2.61.0.0</Galac.Adm.Dal.DispositivosExternos>
-    <Galac.Adm.Brl.DispositivosExternos>2.61.1.0</Galac.Adm.Brl.DispositivosExternos>
+    <Galac.Adm.Brl.DispositivosExternos>2.61.2.0</Galac.Adm.Brl.DispositivosExternos>
     <Galac.Adm.Uil.DispositivosExternos>2.61.0.0</Galac.Adm.Uil.DispositivosExternos>    
 
     <Galac.Adm.Ccl.GestionProduccion>2.61.1.0</Galac.Adm.Ccl.GestionProduccion>
@@ -238,11 +238,11 @@
     <Galac.Saw.Lib>2.61.2.0</Galac.Saw.Lib>
     <Galac.Saw.Lib.Uil>2.61.0.0</Galac.Saw.Lib.Uil>
 
-    <Galac.Saw.Wrp.Administrativo>2.61.0.0</Galac.Saw.Wrp.Administrativo>
+    <Galac.Saw.Wrp.Administrativo>2.61.1.0</Galac.Saw.Wrp.Administrativo>
     <Galac.Saw.Wrp.Comun>2.61.0.0</Galac.Saw.Wrp.Comun>                      
     <Galac.Saw.Wrp.Crm>2.61.0.0</Galac.Saw.Wrp.Crm>
     <Galac.Saw.Wrp.WinCont>2.61.0.0</Galac.Saw.Wrp.WinCont>
-    <Galac.Saw.DDL>2.61.0.9999</Galac.Saw.DDL>
+    <Galac.Saw.DDL>2.61.1.0</Galac.Saw.DDL>
 
     <Microsoft.Practices.Unity>2.0.414.0</Microsoft.Practices.Unity>
     <Microsoft.Practices.EnterpriseLibrary.Data>5.0.414.0</Microsoft.Practices.EnterpriseLibrary.Data>
