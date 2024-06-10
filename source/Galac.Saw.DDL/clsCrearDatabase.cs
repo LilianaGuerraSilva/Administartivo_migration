@@ -681,6 +681,20 @@ namespace Galac.Saw.DDL {
             return vResult;
         }
 
+        public bool CrearGVentasDefiniciones() {
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("CREATE TABLE dbo.GVentasDefiniciones (");
+            vSql.AppendLine("    Id UNIQUEIDENTIFIER CONSTRAINT nnGVentasDefinicionesID NOT NULL,");
+            vSql.AppendLine("    ConsecutivoCompania INT,");
+            vSql.AppendLine("    ModuleName VARCHAR(100),");
+            vSql.AppendLine("    Value VARCHAR(MAX),");
+            vSql.AppendLine("   Eliminada BIT NOT NULL,");
+            vSql.AppendLine("       CONSTRAINT p_GVentasDefiniciones PRIMARY KEY CLUSTERED (Id ASC)");
+            vSql.AppendLine(")");
+
+            return (new LibDbo()).Create("dbo.GVentasDefiniciones", vSql.ToString(), true, eDboType.Tabla);
+        }
+
         public bool CrearVistasYProcedimientos(string[] valModulos) {
             bool vResult = true;
             if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Usuario")) {
