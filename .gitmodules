@@ -50,10 +50,6 @@
 	path = bin/binComunAos
 	url = https://github.com/GalacSoftware/BinComunAos.git
 	branch = release/SawV25.3.0.0
-[submodule "source/ContabilidadVb"]
-	path = source/ContabilidadVb
-	url = https://github.com/GalacSoftware/ContabilidadVb.git
-	branch = release/SawV23.5.0.0
 [submodule "source/ContabIwrp"]
 	path = source/ContabIwrp
 	url = https://github.com/GalacSoftware/ContabiWrp.git
