@@ -56,8 +56,8 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 LibReport.ConfigFieldDate(this, "txtFechaCreacion", string.Empty, "FechaCreacion", LibGalac.Aos.Base.Report.eDateOutputFormat.DateLong);
                 LibReport.ConfigFieldStr(this, "txtCodigoDeOrden", string.Empty, "Codigo");
                 LibReport.ConfigFieldStr(this, "txtAlmacen", string.Empty, "AlmacenMaterialesServicioUtilizado");
-                LibReport.ConfigFieldDec(this, "txtCantidadReservadaDeInventario", string.Empty, "CantidadReservadaInventario", "n" + 8, true, TextAlignment.Right);
-                LibReport.ConfigFieldDec(this, "txtExistencia", string.Empty, "ExistenciaToStr", "n" + 4, true, TextAlignment.Right);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidadReservadaDeInventario", string.Empty, "CantidadReservadaInventario", 8);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtExistencia", string.Empty, "ExistenciaPorAlmacen", 4);
 
                 LibReport.ConfigGroupHeader(this, "GHSecArticuloServicioAUtilizar", "MaterialesServicioUtilizado", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
                 LibReport.ConfigSummaryField(this, "txt_TCantidadReservadaDeInventario", "CantidadReservadaInventario", SummaryFunc.Sum, "GHSecArticuloServicioAUtilizar", SummaryRunning.Group, SummaryType.SubTotal, "n" + 8, "");
