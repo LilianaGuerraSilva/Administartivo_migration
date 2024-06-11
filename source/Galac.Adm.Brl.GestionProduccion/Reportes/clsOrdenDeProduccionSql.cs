@@ -83,7 +83,7 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             }
             vSql.AppendLine("ORDER BY Adm.OrdenDeProduccion.Codigo");
             return vSql.ToString();
-        }       
+        }
 
         public string SqlRequisicionDeMateriales(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, bool valMostrarSoloExistenciaInsuficiente, string valCodigoOrden, eGeneradoPor valGeneradoPor) {
             StringBuilder vSql = new StringBuilder();
@@ -101,7 +101,7 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             vSql.AppendLine("Adm.OrdenDeProduccion.FechaCreacion, ");
             vSql.AppendLine("Adm.OrdenDeProduccion.Codigo, ");
             vSql.AppendLine("Almacen.Codigo + ' - ' + Almacen.NombreAlmacen AS AlmacenMaterialesServicioUtilizado, ");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleMateriales.CantidadReservadaInventario, ");
+            vSql.AppendLine(vSqlUtil.RoundToNDecimals("Adm.OrdenDeProduccionDetalleMateriales.CantidadReservadaInventario", 8) + " AS CantidadReservadaInventario, ");
             vSql.AppendLine("ArticuloInventario.Existencia, ");
             vSql.AppendLine("CASE WHEN ArticuloInventario.TipoDeArticulo = '1'  THEN 'N/A' ELSE CONVERT(varchar, CAST(ExistenciaPorAlmacen.Cantidad AS money), 8) END AS ExistenciaToStr");
             vSql.AppendLine("FROM Adm.OrdenDeProduccion INNER JOIN Adm.OrdenDeProduccionDetalleMateriales ");
