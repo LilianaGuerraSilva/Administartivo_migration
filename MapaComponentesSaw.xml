@@ -49,9 +49,9 @@
     <LibGalac.Aos.Cnf>5.24.0.0</LibGalac.Aos.Cnf>
     <LibGalac.Aos.Dal>5.24.1.0</LibGalac.Aos.Dal>
     <LibGalac.Aos.DefGen>5.24.1.0</LibGalac.Aos.DefGen>
-    <LibGalac.Aos.UI.Wpf>5.24.1.0</LibGalac.Aos.UI.Wpf>
+    <LibGalac.Aos.UI.Wpf>5.24.0.0</LibGalac.Aos.UI.Wpf>
     <LibGalac.Aos.UI.WpfControls>5.24.0.0</LibGalac.Aos.UI.WpfControls>
-    <LibGalac.Aos.UI.WpfRD>5.24.0.0</LibGalac.Aos.UI.WpfRD>
+    <LibGalac.Aos.UI.WpfRD>5.24.1.0</LibGalac.Aos.UI.WpfRD>
     <LibGalac.Aos.UI.Mvvm>5.24.1.0</LibGalac.Aos.UI.Mvvm>
     <LibGalac.Aos.UI.WpfBN>5.24.0.0</LibGalac.Aos.UI.WpfBN>
     <LibGalac.Aos.Uil>5.24.1.0</LibGalac.Aos.Uil>
@@ -147,13 +147,13 @@
     <Galac.Saw.Brl.Contabilizacion>2.61.0.0</Galac.Saw.Brl.Contabilizacion>
     <Galac.Saw.Uil.Contabilizacion>2.61.0.0</Galac.Saw.Uil.Contabilizacion>
 
-    <Galac.Adm.Ccl.GestionCompras>2.61.2.0</Galac.Adm.Ccl.GestionCompras>
-    <Galac.Adm.Brl.GestionCompras>2.61.2.0</Galac.Adm.Brl.GestionCompras>
-    <Galac.Adm.Dal.GestionCompras>2.61.2.0</Galac.Adm.Dal.GestionCompras>
+    <Galac.Adm.Ccl.GestionCompras>2.61.1.0</Galac.Adm.Ccl.GestionCompras>
+    <Galac.Adm.Brl.GestionCompras>2.61.1.0</Galac.Adm.Brl.GestionCompras>
+    <Galac.Adm.Dal.GestionCompras>2.61.1.0</Galac.Adm.Dal.GestionCompras>
     <Galac.Adm.Rpt.GestionCompras>2.61.2.0</Galac.Adm.Rpt.GestionCompras>
     <Galac.Adm.Rpt.GestionCompras.resources>2.61.2.0</Galac.Adm.Rpt.GestionCompras.resources>
-    <Galac.Adm.Uil.GestionCompras>2.61.2.0</Galac.Adm.Uil.GestionCompras>
-    <Galac.Adm.Uil.GestionCompras.resources>2.61.2.0</Galac.Adm.Uil.GestionCompras.resources>
+    <Galac.Adm.Uil.GestionCompras>2.61.1.0</Galac.Adm.Uil.GestionCompras>
+    <Galac.Adm.Uil.GestionCompras.resources>2.61.1.0</Galac.Adm.Uil.GestionCompras.resources>
 
     <Galac.Saw.Ccl.Cliente>2.61.0.0</Galac.Saw.Ccl.Cliente>
     <Galac.Saw.Brl.Cliente>2.61.1.0</Galac.Saw.Brl.Cliente>
@@ -200,11 +200,11 @@
     <Galac.Adm.Uil.Banco>2.61.0.0</Galac.Adm.Uil.Banco>
     <Galac.Adm.Uil.Banco.resources>2.61.0.0</Galac.Adm.Uil.Banco.resources>
 
-    <Galac.Adm.Ccl.CajaChica>2.61.0.0</Galac.Adm.Ccl.CajaChica>
-    <Galac.Adm.Dal.CajaChica>2.61.0.0</Galac.Adm.Dal.CajaChica>
-    <Galac.Adm.Brl.CajaChica>2.61.0.0</Galac.Adm.Brl.CajaChica>
-    <Galac.Adm.Rpt.CajaChica>2.61.0.0</Galac.Adm.Rpt.CajaChica>
-    <Galac.Adm.Uil.CajaChica>2.61.0.0</Galac.Adm.Uil.CajaChica>
+    <Galac.Adm.Ccl.CajaChica>2.61.1.0</Galac.Adm.Ccl.CajaChica>
+    <Galac.Adm.Dal.CajaChica>2.61.1.0</Galac.Adm.Dal.CajaChica>
+    <Galac.Adm.Brl.CajaChica>2.61.1.0</Galac.Adm.Brl.CajaChica>
+    <Galac.Adm.Rpt.CajaChica>2.61.1.0</Galac.Adm.Rpt.CajaChica>
+    <Galac.Adm.Uil.CajaChica>2.61.1.0</Galac.Adm.Uil.CajaChica>
 
     <Galac.Adm.Ccl.DispositivosExternos>2.61.0.0</Galac.Adm.Ccl.DispositivosExternos>
     <Galac.Adm.Dal.DispositivosExternos>2.61.0.0</Galac.Adm.Dal.DispositivosExternos>
@@ -224,7 +224,7 @@
     <Galac.Adm.Uil.Venta>2.61.1.0</Galac.Adm.Uil.Venta>	
     <Galac.Adm.IntegracionMS.Venta>2.61.0.0</Galac.Adm.IntegracionMS.Venta>	
 	
-    <Galac.Adm.Ccl.ImprentaDigital>2.61.1.0</Galac.Adm.Ccl.ImprentaDigital>
+    <Galac.Adm.Ccl.ImprentaDigital>2.61.0.0</Galac.Adm.Ccl.ImprentaDigital>
     <Galac.Adm.Brl.ImprentaDigital>2.61.1.0</Galac.Adm.Brl.ImprentaDigital>    
     <Galac.Saw.LibWebConnector>2.61.0.0</Galac.Saw.LibWebConnector>		    
     	
