@@ -1689,6 +1689,7 @@ Public Enum enum_FacturaGeneradaPor
    eFGP_Cotizacion
    eFGP_Galac360
    eFGP_AjusteIGTF
+   eFGP_API
 End Enum
 
 Public Enum enum_TipoAlicPorContIGTF
@@ -13964,6 +13965,7 @@ Public Function enumFacturaGeneradaPorToString(FacturaGeneradaPor As enum_Factur
       Case eFGP_Cotizacion: enumFacturaGeneradaPorToString = "Cotizacion"
       Case eFGP_Galac360: enumFacturaGeneradaPorToString = "Galac 360"
       Case eFGP_AjusteIGTF: enumFacturaGeneradaPorToString = "Ajuste IGTF"
+      Case eFGP_API: enumFacturaGeneradaPorToString = "API"
       Case Else: enumFacturaGeneradaPorToString = enumFacturaGeneradaPorToString(0)
    End Select
 End Function
@@ -14055,7 +14057,7 @@ Public Function strFacturaGeneradaPorToNum(ByVal FacturaGeneradaPor As String, O
    Dim mEnum As enum_FacturaGeneradaPor
    Dim nCount As Integer
    nCount = 0
-   For mEnum = eFGP_Usuario To eFGP_AjusteIGTF
+   For mEnum = eFGP_Usuario To eFGP_API
       If UCase(FacturaGeneradaPor) = UCase(enumFacturaGeneradaPorToString(mEnum)) Then
          strFacturaGeneradaPorToNum = nCount
          GoTo h_EXIT
