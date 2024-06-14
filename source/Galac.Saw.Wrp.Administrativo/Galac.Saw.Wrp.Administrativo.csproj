@@ -37,7 +37,7 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Galac.Comun.Uil.Dashboard, Version=2.62.1.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Galac.Comun.Uil.Dashboard">
       <HintPath>..\packages\Galac.Comun.Uil.Dashboard.2.62.1\lib\Galac.Comun.Uil.Dashboard.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Brl.Tablas">
@@ -103,7 +103,7 @@
     <Reference Include="LibGalac.Aos.Vbwa">
       <HintPath>..\packages\LibGalac.Aos.Vbwa.5.24.1\lib\LibGalac.Aos.Vbwa.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
