@@ -147,6 +147,7 @@
     <Compile Include="IWrpClienteVb.cs" />
     <Compile Include="IWrpCobroRapidoMultimoneda.cs" />
     <Compile Include="IWrpAnticipoInformesVb.cs" />
+    <Compile Include="IWrpDashboard.cs" />
     <Compile Include="IWrpInformesVb.cs" />
     <Compile Include="IWrpImpuestoBancarioVb.cs" />
     <Compile Include="IWrpLibros.cs" />
@@ -160,6 +161,7 @@
     <Compile Include="wrpCaja.cs" />
     <Compile Include="wrpCajaApertura.cs" />
     <Compile Include="wrpCliente.cs" />
+    <Compile Include="wrpDashboard.cs" />
     <Compile Include="wrpImprentaDigital.cs" />
     <Compile Include="wrpInformacionGVentas.cs" />
     <Compile Include="wrpMenuBarCaja.cs" />
