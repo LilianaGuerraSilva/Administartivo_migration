@@ -52,6 +52,8 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.txtMotivoAnulacion = new DataDynamics.ActiveReports.TextBox();
             this.lblMotivoAnulacion = new DataDynamics.ActiveReports.Label();
             this.GFSecOrden = new DataDynamics.ActiveReports.GroupFooter();
+            this.lblUnidad = new DataDynamics.ActiveReports.Label();
+            this.txtUnidad = new DataDynamics.ActiveReports.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.txtFechaInicio)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFechaFinalizacion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCantidadEstimada)).BeginInit();
@@ -77,6 +79,8 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             ((System.ComponentModel.ISupportInitialize)(this.lblDiferencia)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMotivoAnulacion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMotivoAnulacion)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblUnidad)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtUnidad)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
@@ -89,29 +93,30 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.txtCantidadProducida,
             this.txtDiferencia,
             this.txtFechaCreacion,
-            this.txtInventarioProducido});
-            this.Detail.Height = 0.15625F;
+            this.txtInventarioProducido,
+            this.txtUnidad});
+            this.Detail.Height = 0.1562501F;
             this.Detail.Name = "Detail";
             // 
             // txtFechaInicio
             // 
             this.txtFechaInicio.Height = 0.15625F;
-            this.txtFechaInicio.Left = 4.65F;
+            this.txtFechaInicio.Left = 3.87F;
             this.txtFechaInicio.Name = "txtFechaInicio";
             this.txtFechaInicio.Style = "font-size: 8pt; text-align: left; vertical-align: top; ddo-char-set: 1";
             this.txtFechaInicio.Text = "txtFechaInicio";
-            this.txtFechaInicio.Top = 0F;
-            this.txtFechaInicio.Width = 0.7999997F;
+            this.txtFechaInicio.Top = 8.940697E-08F;
+            this.txtFechaInicio.Width = 0.5900002F;
             // 
             // txtFechaFinalizacion
             // 
             this.txtFechaFinalizacion.Height = 0.15625F;
-            this.txtFechaFinalizacion.Left = 5.45F;
+            this.txtFechaFinalizacion.Left = 4.46F;
             this.txtFechaFinalizacion.Name = "txtFechaFinalizacion";
             this.txtFechaFinalizacion.Style = "font-size: 8pt; text-align: left; vertical-align: top; ddo-char-set: 1";
             this.txtFechaFinalizacion.Text = "txtFechaFinalizacion";
-            this.txtFechaFinalizacion.Top = 0F;
-            this.txtFechaFinalizacion.Width = 0.7999997F;
+            this.txtFechaFinalizacion.Top = 1.043081E-07F;
+            this.txtFechaFinalizacion.Width = 0.7900004F;
             // 
             // txtCantidadEstimada
             // 
@@ -146,12 +151,12 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             // txtFechaCreacion
             // 
             this.txtFechaCreacion.Height = 0.15625F;
-            this.txtFechaCreacion.Left = 3.85F;
+            this.txtFechaCreacion.Left = 3.23F;
             this.txtFechaCreacion.Name = "txtFechaCreacion";
             this.txtFechaCreacion.Style = "font-size: 8pt; text-align: left; vertical-align: top; ddo-char-set: 1";
             this.txtFechaCreacion.Text = "txtFechaCreacion";
-            this.txtFechaCreacion.Top = 0F;
-            this.txtFechaCreacion.Width = 0.7999997F;
+            this.txtFechaCreacion.Top = 4.470348E-08F;
+            this.txtFechaCreacion.Width = 0.6400001F;
             // 
             // txtInventarioProducido
             // 
@@ -164,7 +169,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
     ": top; ddo-char-set: 0";
             this.txtInventarioProducido.Text = "txtInventarioProducido";
             this.txtInventarioProducido.Top = 0F;
-            this.txtInventarioProducido.Width = 3.85F;
+            this.txtInventarioProducido.Width = 3.23F;
             // 
             // PageHeader
             // 
@@ -280,8 +285,9 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblCantidadEstimada,
             this.lblCantidadProducida,
             this.lblFechaFinalizacion,
-            this.lblDiferencia});
-            this.GHSecOrden.Height = 0.333F;
+            this.lblDiferencia,
+            this.lblUnidad});
+            this.GHSecOrden.Height = 0.3330001F;
             this.GHSecOrden.Name = "GHSecOrden";
             // 
             // lblCodigoOrden
@@ -298,8 +304,10 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             // 
             // txtCodigoOrden
             // 
+            this.txtCodigoOrden.CanGrow = false;
             this.txtCodigoOrden.Height = 0.15625F;
             this.txtCodigoOrden.Left = 0.5F;
+            this.txtCodigoOrden.MultiLine = false;
             this.txtCodigoOrden.Name = "txtCodigoOrden";
             this.txtCodigoOrden.Style = "font-size: 8pt; text-align: left; vertical-align: bottom; ddo-char-set: 1";
             this.txtCodigoOrden.Text = "txtCodigoOrden";
@@ -316,33 +324,33 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblInventarioProducido.Style = "font-size: 8pt; font-weight: bold; vertical-align: bottom; ddo-char-set: 1";
             this.lblInventarioProducido.Text = "Salidas";
             this.lblInventarioProducido.Top = 0.156F;
-            this.lblInventarioProducido.Width = 3.85F;
+            this.lblInventarioProducido.Width = 3.23F;
             // 
             // lblFechaCreacion
             // 
             this.lblFechaCreacion.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblFechaCreacion.Height = 0.177F;
             this.lblFechaCreacion.HyperLink = null;
-            this.lblFechaCreacion.Left = 3.85F;
+            this.lblFechaCreacion.Left = 3.23F;
             this.lblFechaCreacion.Name = "lblFechaCreacion";
             this.lblFechaCreacion.Style = "font-size: 8pt; font-weight: bold; text-align: left; vertical-align: bottom; ddo-" +
     "char-set: 1";
             this.lblFechaCreacion.Text = "F. Creación";
-            this.lblFechaCreacion.Top = 0.1559999F;
-            this.lblFechaCreacion.Width = 0.7999997F;
+            this.lblFechaCreacion.Top = 0.156F;
+            this.lblFechaCreacion.Width = 0.6400001F;
             // 
             // lblFechaInicio
             // 
             this.lblFechaInicio.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblFechaInicio.Height = 0.177F;
             this.lblFechaInicio.HyperLink = null;
-            this.lblFechaInicio.Left = 4.65F;
+            this.lblFechaInicio.Left = 3.87F;
             this.lblFechaInicio.Name = "lblFechaInicio";
             this.lblFechaInicio.Style = "font-size: 8pt; font-weight: bold; text-align: left; vertical-align: bottom; ddo-" +
     "char-set: 1";
             this.lblFechaInicio.Text = "F. Inicio";
             this.lblFechaInicio.Top = 0.156F;
-            this.lblFechaInicio.Width = 0.7999997F;
+            this.lblFechaInicio.Width = 0.5900002F;
             // 
             // lblCantidadEstimada
             // 
@@ -375,13 +383,13 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblFechaFinalizacion.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblFechaFinalizacion.Height = 0.177F;
             this.lblFechaFinalizacion.HyperLink = null;
-            this.lblFechaFinalizacion.Left = 5.45F;
+            this.lblFechaFinalizacion.Left = 4.46F;
             this.lblFechaFinalizacion.Name = "lblFechaFinalizacion";
             this.lblFechaFinalizacion.Style = "font-size: 8pt; font-weight: bold; text-align: left; vertical-align: bottom; ddo-" +
     "char-set: 1";
             this.lblFechaFinalizacion.Text = "F. Finalización";
             this.lblFechaFinalizacion.Top = 0.156F;
-            this.lblFechaFinalizacion.Width = 0.7999997F;
+            this.lblFechaFinalizacion.Width = 0.7900004F;
             // 
             // lblDiferencia
             // 
@@ -425,6 +433,30 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.txtMotivoAnulacion});
             this.GFSecOrden.Height = 0.25F;
             this.GFSecOrden.Name = "GFSecOrden";
+            // 
+            // lblUnidad
+            // 
+            this.lblUnidad.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.lblUnidad.Height = 0.177F;
+            this.lblUnidad.HyperLink = null;
+            this.lblUnidad.Left = 5.25F;
+            this.lblUnidad.Name = "lblUnidad";
+            this.lblUnidad.Style = "font-size: 8pt; font-weight: bold; vertical-align: bottom; ddo-char-set: 1";
+            this.lblUnidad.Text = "Unidad";
+            this.lblUnidad.Top = 0.156F;
+            this.lblUnidad.Width = 1F;
+            // 
+            // txtUnidad
+            // 
+            this.txtUnidad.CanGrow = false;
+            this.txtUnidad.Height = 0.15625F;
+            this.txtUnidad.Left = 5.25F;
+            this.txtUnidad.MultiLine = false;
+            this.txtUnidad.Name = "txtUnidad";
+            this.txtUnidad.Style = "font-size: 8pt; text-align: left; vertical-align: top; ddo-char-set: 1";
+            this.txtUnidad.Text = "txtUnidad";
+            this.txtUnidad.Top = 0F;
+            this.txtUnidad.Width = 0.9999998F;
             // 
             // dsrProduccionPorEstatusEntreFecha
             // 
@@ -470,6 +502,8 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             ((System.ComponentModel.ISupportInitialize)(this.lblDiferencia)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMotivoAnulacion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMotivoAnulacion)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblUnidad)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtUnidad)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -507,5 +541,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         private DataDynamics.ActiveReports.TextBox txtMotivoAnulacion;
         private DataDynamics.ActiveReports.Label lblMotivoAnulacion;
         private DataDynamics.ActiveReports.Label lblDiferencia;
+        private DataDynamics.ActiveReports.TextBox txtUnidad;
+        private DataDynamics.ActiveReports.Label lblUnidad;
     }
 }
