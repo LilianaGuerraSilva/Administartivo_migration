@@ -103,6 +103,7 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             vSql.AppendLine("Almacen.Codigo + ' - ' + Almacen.NombreAlmacen AS AlmacenMaterialesServicioUtilizado, ");
             vSql.AppendLine(vSqlUtil.RoundToNDecimals("Adm.OrdenDeProduccionDetalleMateriales.CantidadReservadaInventario", 8) + " AS CantidadReservadaInventario, ");
             vSql.AppendLine("ArticuloInventario.Existencia, ");
+            vSql.AppendLine("ArticuloInventario.UnidadDeVenta AS Unidad, ");
             vSql.AppendLine("CASE WHEN ArticuloInventario.TipoDeArticulo = '1'  THEN 0 ELSE ExistenciaPorAlmacen.Cantidad END AS ExistenciaPorAlmacen ");
             vSql.AppendLine("FROM Adm.OrdenDeProduccion INNER JOIN Adm.OrdenDeProduccionDetalleMateriales ");
             vSql.AppendLine("ON Adm.OrdenDeProduccion.ConsecutivoCompania = Adm.OrdenDeProduccionDetalleMateriales.ConsecutivoCompania AND ");

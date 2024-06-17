@@ -53,6 +53,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
                 LibReport.ConfigFieldStr(this, "txtArticuloServicioAUtilizar", string.Empty, "MaterialesServicioUtilizado");
+                LibReport.ConfigFieldStr(this, "txtUnidad", string.Empty, "Unidad");
                 LibReport.ConfigFieldDate(this, "txtFechaCreacion", string.Empty, "FechaCreacion", LibGalac.Aos.Base.Report.eDateOutputFormat.DateLong);
                 LibReport.ConfigFieldStr(this, "txtCodigoDeOrden", string.Empty, "Codigo");
                 LibReport.ConfigFieldStr(this, "txtAlmacen", string.Empty, "AlmacenMaterialesServicioUtilizado");

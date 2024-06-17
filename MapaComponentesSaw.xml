@@ -26,10 +26,10 @@
     <GSSDSL type="exe">5.1.0.0</GSSDSL>
     <GSXFV type="exe">5.1.0.0</GSXFV>
     <LibGalac.OIM>5.14.0.0</LibGalac.OIM>
-    <LibGalac>5.24.2.0</LibGalac>
+    <LibGalac>5.24.3.0</LibGalac>
     <LibGalac.Ctrls>5.14.0.0</LibGalac.Ctrls>
     <LibGalac.Cswa>5.14.0.0</LibGalac.Cswa>
-    <LibGalac.Aos.UI.WpfRD>5.24.1.0</LibGalac.Aos.UI.WpfRD>	
+    <LibGalac.Aos.UI.WpfRD>5.24.2.0</LibGalac.Aos.UI.WpfRD>	
     <ActiveReports.Chart>6.2.3164.0</ActiveReports.Chart>
     <ActiveReports.Document>6.2.3164.0</ActiveReports.Document>
     <ActiveReports.HtmlExport>6.2.3164.0</ActiveReports.HtmlExport>
@@ -51,7 +51,7 @@
     <LibGalac.Aos.DefGen>5.24.1.0</LibGalac.Aos.DefGen>
     <LibGalac.Aos.UI.Wpf>5.24.0.0</LibGalac.Aos.UI.Wpf>
     <LibGalac.Aos.UI.WpfControls>5.24.0.0</LibGalac.Aos.UI.WpfControls>
-    <LibGalac.Aos.UI.WpfRD>5.24.1.0</LibGalac.Aos.UI.WpfRD>
+    <LibGalac.Aos.UI.WpfRD>5.24.2.0</LibGalac.Aos.UI.WpfRD>
     <LibGalac.Aos.UI.Mvvm>5.24.1.0</LibGalac.Aos.UI.Mvvm>
     <LibGalac.Aos.UI.WpfBN>5.24.0.0</LibGalac.Aos.UI.WpfBN>
     <LibGalac.Aos.Uil>5.24.1.0</LibGalac.Aos.Uil>
@@ -100,6 +100,8 @@
     <Galac.Ent.Brl.Empresarial>2.61.0.0</Galac.Ent.Brl.Empresarial>
     <Galac.Ent.Ccl.Empresarial>2.61.0.0</Galac.Ent.Ccl.Empresarial>
     <Galac.Ent.Dal.Empresarial>2.61.0.0</Galac.Ent.Dal.Empresarial>
+    
+    <Galac.Comun.Uil.Dashboard>2.62.1.0</Galac.Comun.Uil.Dashboard>
                                  
     <Galac.Comun.Ccl.TablasGen>2.61.0.0</Galac.Comun.Ccl.TablasGen>
     <Galac.Comun.Dal.TablasGen>2.61.0.0</Galac.Comun.Dal.TablasGen>
@@ -241,7 +243,7 @@
     <Galac.Saw.Wrp.Administrativo>2.61.1.0</Galac.Saw.Wrp.Administrativo>
     <Galac.Saw.Wrp.Comun>2.61.0.0</Galac.Saw.Wrp.Comun>                      
     <Galac.Saw.Wrp.Crm>2.61.0.0</Galac.Saw.Wrp.Crm>
-    <Galac.Saw.Wrp.WinCont>2.61.0.0</Galac.Saw.Wrp.WinCont>
+    <Galac.Saw.Wrp.WinCont>2.61.1.0</Galac.Saw.Wrp.WinCont>
     <Galac.Saw.DDL>2.61.1.0</Galac.Saw.DDL>
 
     <Microsoft.Practices.Unity>2.0.414.0</Microsoft.Practices.Unity>

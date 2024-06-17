@@ -969,6 +969,11 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection.Add(CreateAccionRibbonGroup());
         }
 
+        protected override void ExecuteProcessAfterAction() {
+            base.ExecuteProcessAfterAction();
+            CantidadAProducir = 0;
+        }
+
         private LibRibbonButtonData CreateAccionRibbonGroup() {
             LibRibbonButtonData vResult = new LibRibbonButtonData() {
                 Label = Action == eAccionSR.Insertar || Action == eAccionSR.Modificar ? "Editar Detalle" : "Ver Detalle",
