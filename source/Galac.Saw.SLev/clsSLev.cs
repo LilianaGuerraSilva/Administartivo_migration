@@ -599,13 +599,16 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Dashboard
-            if (NetworkInterface.GetIsNetworkAvailable()) {
-                List<Dashboard> vListaDB = clsDashboardProcess.GetDashboardListViaAPI(LibProduct.GetInitialsSaw());
-                if (vListaDB != null && vListaDB.Count > 0) {
-                    foreach (Dashboard vItem in vListaDB) {
-                        vPermisos.Add(new CustomRole("Dashboard", vItem.nombre, "Dashboard", 15));
+            try {
+                if (NetworkInterface.GetIsNetworkAvailable()) {
+                    List<Dashboard> vListaDB = clsDashboardProcess.GetDashboardListViaAPI(LibProduct.GetInitialsSaw());
+                    if (vListaDB != null && vListaDB.Count > 0) {
+                        foreach (Dashboard vItem in vListaDB) {
+                            vPermisos.Add(new CustomRole("Dashboard", vItem.nombre, "Dashboard", 15));
+                        }
                     }
                 }
+            } catch (Exception) {
             }
             #endregion Dashboard
 
