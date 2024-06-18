@@ -102,12 +102,12 @@
     <Galac.Ent.Dal.Empresarial>2.61.0.0</Galac.Ent.Dal.Empresarial>
     
     <Galac.Comun.Uil.Dashboard>2.62.1.0</Galac.Comun.Uil.Dashboard>
-                                 
+	
     <Galac.Comun.Ccl.TablasGen>2.61.0.0</Galac.Comun.Ccl.TablasGen>
     <Galac.Comun.Dal.TablasGen>2.61.0.0</Galac.Comun.Dal.TablasGen>
     <Galac.Comun.Brl.TablasGen>2.61.0.0</Galac.Comun.Brl.TablasGen>
     <Galac.Comun.Uil.TablasGen>2.61.0.0</Galac.Comun.Uil.TablasGen>
-                                 
+
     <Galac.Comun.Ccl.TablasLey>2.61.0.0</Galac.Comun.Ccl.TablasLey>
     <Galac.Comun.Dal.TablasLey>2.61.0.0</Galac.Comun.Dal.TablasLey>
     <Galac.Comun.Brl.TablasLey>2.61.0.0</Galac.Comun.Brl.TablasLey>
@@ -169,7 +169,7 @@
     <Galac.Saw.Rpt.Inventario>2.61.1.0</Galac.Saw.Rpt.Inventario>
     <Galac.Saw.Uil.Inventario>2.61.1.0</Galac.Saw.Uil.Inventario>
 
-    <Galac.Saw.SLev>2.61.0.0</Galac.Saw.SLev>
+    <Galac.Saw.SLev>2.61.1.0</Galac.Saw.SLev>
     <Galac.Contab.SLev>2.61.0.0</Galac.Contab.SLev>
 
     <Galac.Saw.Ccl.Vehiculo>2.61.0.0</Galac.Saw.Ccl.Vehiculo>
