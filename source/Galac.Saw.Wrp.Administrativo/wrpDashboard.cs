@@ -16,6 +16,7 @@ namespace Galac.Saw.Wrp.Administrativo {
         private string Title = "Dashboard";
         void IWrpDashboard.Execute(string vfwAction, string vfwCurrentCompany, string vfwCurrentParameters) {
             try {
+                LibGlobalValues insGV = CreateGlobalValues(vfwCurrentCompany, vfwCurrentParameters);
                 if (NetworkInterface.GetIsNetworkAvailable()) {
                     ILibMenu insMenu = new clsDashboardMenu();
                     insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1);
@@ -66,5 +67,13 @@ namespace Galac.Saw.Wrp.Administrativo {
                 LibExceptionDisplay.Show(vEx);
             }
         }
+
+        private LibGlobalValues CreateGlobalValues(string valCurrentMfc, string valCurrentParameters) {
+            LibGlobalValues.Instance.LoadCompleteAppMemInfo(valCurrentParameters);
+            LibGlobalValues.Instance.GetMfcInfo().Add("Compania", LibConvert.ToInt(valCurrentMfc));
+            LibGlobalValues.Instance.GetMfcInfo().Add("Periodo", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("RecordName", "ConsecutivoPeriodo"));
+            return LibGlobalValues.Instance;
+        }
+
     }
 }
