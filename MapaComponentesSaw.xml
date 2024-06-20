@@ -261,6 +261,7 @@
     <System.Net.Http>1.0.0.0</System.Net.Http>
     <System.Net.Http.WebRequest>1.0.0.0</System.Net.Http.WebRequest>	
     <RibbonControlsLibrary>4.0.0.11019</RibbonControlsLibrary>
-    <Microsoft.Windows.Shell>3.5.41019.1</Microsoft.Windows.Shell>    
+    <Microsoft.Windows.Shell>3.5.41019.1</Microsoft.Windows.Shell>  
+    <MaterialSkin>1.0.0.0</MaterialSkin>	
   </ComponentesAOS>
 </Producto>
