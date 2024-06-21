@@ -37,8 +37,8 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Galac.Comun.Uil.Dashboard">
-      <HintPath>..\packages\Galac.Comun.Uil.Dashboard.2.62.1\lib\Galac.Comun.Uil.Dashboard.dll</HintPath>
+    <Reference Include="Galac.Comun.Uil.Dashboard, Version=2.62.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Galac.Comun.Uil.Dashboard.2.62.2\lib\Galac.Comun.Uil.Dashboard.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Brl.Tablas">
       <HintPath>..\packages\Galac.Contab.Brl.Tablas.2.61.0\lib\Galac.Contab.Brl.Tablas.dll</HintPath>
