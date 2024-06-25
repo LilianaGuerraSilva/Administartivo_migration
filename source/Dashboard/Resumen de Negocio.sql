@@ -19,9 +19,9 @@ FROM cxC
 WHERE ConsecutivoCompania = @Compania AND Status IN ('0','3') 
 	AND Fecha BETWEEN CAST('01/' + CAST(MONTH(DATEADD(m,-1, GETDATE())) AS varchar) + '/' + CAST(YEAR(DATEADD(m,-1, GETDATE())) AS varchar) AS smalldatetime) AND GETDATE()
 UNION
-SELECT MONTH(GETDATE())  AS mesCxC, 0 AS montoVigente, 0 AS montoVencido FROM cxC WHERE ConsecutivoCompania = @Compania 
+SELECT MONTH(GETDATE())  AS mesCxC, 0 AS montoVigente, 0 AS montoVencido 
 UNION
-SELECT MONTH(GETDATE())-1  AS mesCxC, 0 AS montoVigente, 0 AS montoVencido FROM cxC WHERE ConsecutivoCompania = @Compania 
+SELECT MONTH(GETDATE())-1  AS mesCxC, 0 AS montoVigente, 0 AS montoVencido 
 )
 SELECT
 	mesCxC AS mesCxC, 
@@ -42,9 +42,9 @@ FROM cxP
 WHERE ConsecutivoCompania = @Compania AND Status IN ('0','3')
 AND Fecha BETWEEN CAST('01/' + CAST(MONTH(DATEADD(m,-1, GETDATE())) AS varchar) + '/' + CAST(YEAR(DATEADD(m,-1, GETDATE())) AS varchar) AS smalldatetime) AND GETDATE()
 UNION
-SELECT MONTH(GETDATE()) AS mesCxP,  0 AS montoVigente, 0 AS montoVencido FROM cxP WHERE ConsecutivoCompania = @Compania 
+SELECT MONTH(GETDATE()) AS mesCxP,  0 AS montoVigente, 0 AS montoVencido 
 UNION
-SELECT MONTH(GETDATE())-1 AS mesCxP, 0 AS montoVigente, 0 AS montoVencido FROM cxP WHERE ConsecutivoCompania = @Compania 
+SELECT MONTH(GETDATE())-1 AS mesCxP, 0 AS montoVigente, 0 AS montoVencido 
 )
 SELECT
 	mesCxP AS mesCxP,
@@ -64,9 +64,9 @@ FROM cobranza
 WHERE ConsecutivoCompania = @Compania AND StatusCobranza = '0' 
 AND Fecha BETWEEN CAST('01/' + CAST(MONTH(DATEADD(m,-1, GETDATE())) AS varchar) + '/' + CAST(YEAR(DATEADD(m,-1, GETDATE())) AS varchar) AS smalldatetime) AND GETDATE()
 UNION
-SELECT MONTH(GETDATE()) AS mesCobranza, 0 AS totalCobrado FROM cobranza WHERE ConsecutivoCompania = @Compania 
+SELECT MONTH(GETDATE()) AS mesCobranza, 0 AS totalCobrado 
 UNION
-SELECT MONTH(GETDATE())-1 AS mesCobranza, 0 AS totalCobrado FROM cobranza WHERE ConsecutivoCompania = @Compania 
+SELECT MONTH(GETDATE())-1 AS mesCobranza, 0 AS totalCobrado 
 )
 SELECT 
 	mesCobranza AS mesCobranzas, 
@@ -86,9 +86,9 @@ WHERE ConsecutivoCompania = @Compania AND StatusFactura = '0' AND TipoDeDocument
 AND Fecha BETWEEN CAST('01/' + CAST(MONTH(DATEADD(m,-1, GETDATE())) AS varchar) + '/' + CAST(YEAR(DATEADD(m,-1, GETDATE())) AS varchar) AS smalldatetime) AND GETDATE()
 GROUP BY MONTH(Fecha)
 UNION
-SELECT MONTH(GETDATE()) AS mesFactura, 0 AS clientesFacturados FROM factura WHERE ConsecutivoCompania = @Compania 
+SELECT MONTH(GETDATE()) AS mesFactura, 0 AS clientesFacturados 
 UNION
-SELECT MONTH(GETDATE())-1 AS mesFactura, 0 AS clientesFacturados FROM factura WHERE ConsecutivoCompania = @Compania 
+SELECT MONTH(GETDATE())-1 AS mesFactura, 0 AS clientesFacturados 
 )
 SELECT
 	mesFactura,
@@ -108,53 +108,53 @@ SELECT
 	FROM factura 
 	WHERE ConsecutivoCompania = @Compania AND YEAR(Fecha) BETWEEN YEAR(GETDATE())-1 AND YEAR(GETDATE()) AND StatusFactura = '0' AND GeneradoPor <> '3' AND TipoDeDocumento IN ('0', '1', '2') 
 UNION
-SELECT YEAR(GETDATE()) AS anoFactura, 1 AS mesFactura, 0 AS totalFactura FROM factura WHERE ConsecutivoCompania = @Compania
+SELECT YEAR(GETDATE()) AS anoFactura, 1 AS mesFactura, 0 AS totalFactura 
 UNION
-SELECT YEAR(GETDATE()) AS anoFactura, 2 AS mesFactura, 0 AS totalFactura FROM factura WHERE ConsecutivoCompania = @Compania 
+SELECT YEAR(GETDATE()) AS anoFactura, 2 AS mesFactura, 0 AS totalFactura 
 UNION
-SELECT YEAR(GETDATE()) AS anoFactura, 3 AS mesFactura, 0 AS totalFactura FROM factura WHERE ConsecutivoCompania = @Compania
+SELECT YEAR(GETDATE()) AS anoFactura, 3 AS mesFactura, 0 AS totalFactura 
 UNION
-SELECT YEAR(GETDATE()) AS anoFactura, 4 AS mesFactura, 0 AS totalFactura FROM factura WHERE ConsecutivoCompania = @Compania
+SELECT YEAR(GETDATE()) AS anoFactura, 4 AS mesFactura, 0 AS totalFactura 
 UNION
-SELECT YEAR(GETDATE()) AS anoFactura, 5 AS mesFactura, 0 AS totalFactura FROM factura WHERE ConsecutivoCompania = @Compania
+SELECT YEAR(GETDATE()) AS anoFactura, 5 AS mesFactura, 0 AS totalFactura 
 UNION
-SELECT YEAR(GETDATE()) AS anoFactura, 6 AS mesFactura, 0 AS totalFactura FROM factura WHERE ConsecutivoCompania = @Compania
+SELECT YEAR(GETDATE()) AS anoFactura, 6 AS mesFactura, 0 AS totalFactura 
 UNION
-SELECT YEAR(GETDATE()) AS anoFactura, 7 AS mesFactura, 0 AS totalFactura FROM factura WHERE ConsecutivoCompania = @Compania
+SELECT YEAR(GETDATE()) AS anoFactura, 7 AS mesFactura, 0 AS totalFactura  
 UNION
-SELECT YEAR(GETDATE()) AS anoFactura, 8 AS mesFactura, 0 AS totalFactura FROM factura WHERE ConsecutivoCompania = @Compania
+SELECT YEAR(GETDATE()) AS anoFactura, 8 AS mesFactura, 0 AS totalFactura  
 UNION
-SELECT YEAR(GETDATE()) AS anoFactura, 9 AS mesFactura, 0 AS totalFactura FROM factura WHERE ConsecutivoCompania = @Compania
+SELECT YEAR(GETDATE()) AS anoFactura, 9 AS mesFactura, 0 AS totalFactura  
 UNION
-SELECT YEAR(GETDATE()) AS anoFactura, 10 AS mesFactura, 0 AS totalFactura FROM factura WHERE ConsecutivoCompania = @Compania
+SELECT YEAR(GETDATE()) AS anoFactura, 10 AS mesFactura, 0 AS totalFactura  
 UNION
-SELECT YEAR(GETDATE()) AS anoFactura, 11 AS mesFactura, 0 AS totalFactura FROM factura WHERE ConsecutivoCompania = @Compania
+SELECT YEAR(GETDATE()) AS anoFactura, 11 AS mesFactura, 0 AS totalFactura  
 UNION
-SELECT YEAR(GETDATE()) AS anoFactura, 12 AS mesFactura, 0 AS totalFactura FROM factura WHERE ConsecutivoCompania = @Compania
+SELECT YEAR(GETDATE()) AS anoFactura, 12 AS mesFactura, 0 AS totalFactura  
 UNION
-SELECT YEAR(GETDATE())-1 AS anoFactura, 1 AS mesFactura, 0 AS totalFactura FROM factura WHERE ConsecutivoCompania = @Compania
+SELECT YEAR(GETDATE())-1 AS anoFactura, 1 AS mesFactura, 0 AS totalFactura  
 UNION
-SELECT YEAR(GETDATE())-1 AS anoFactura, 2 AS mesFactura, 0 AS totalFactura FROM factura WHERE ConsecutivoCompania = @Compania 
+SELECT YEAR(GETDATE())-1 AS anoFactura, 2 AS mesFactura, 0 AS totalFactura   
 UNION
-SELECT YEAR(GETDATE())-1 AS anoFactura, 3 AS mesFactura, 0 AS totalFactura FROM factura WHERE ConsecutivoCompania = @Compania
+SELECT YEAR(GETDATE())-1 AS anoFactura, 3 AS mesFactura, 0 AS totalFactura  
 UNION
-SELECT YEAR(GETDATE())-1 AS anoFactura, 4 AS mesFactura, 0 AS totalFactura FROM factura WHERE ConsecutivoCompania = @Compania
+SELECT YEAR(GETDATE())-1 AS anoFactura, 4 AS mesFactura, 0 AS totalFactura  
 UNION
-SELECT YEAR(GETDATE())-1 AS anoFactura, 5 AS mesFactura, 0 AS totalFactura FROM factura WHERE ConsecutivoCompania = @Compania
+SELECT YEAR(GETDATE())-1 AS anoFactura, 5 AS mesFactura, 0 AS totalFactura  
 UNION
-SELECT YEAR(GETDATE())-1 AS anoFactura, 6 AS mesFactura, 0 AS totalFactura FROM factura WHERE ConsecutivoCompania = @Compania
+SELECT YEAR(GETDATE())-1 AS anoFactura, 6 AS mesFactura, 0 AS totalFactura  
 UNION
-SELECT YEAR(GETDATE())-1 AS anoFactura, 7 AS mesFactura, 0 AS totalFactura FROM factura WHERE ConsecutivoCompania = @Compania
+SELECT YEAR(GETDATE())-1 AS anoFactura, 7 AS mesFactura, 0 AS totalFactura  
 UNION
-SELECT YEAR(GETDATE())-1 AS anoFactura, 8 AS mesFactura, 0 AS totalFactura FROM factura WHERE ConsecutivoCompania = @Compania
+SELECT YEAR(GETDATE())-1 AS anoFactura, 8 AS mesFactura, 0 AS totalFactura  
 UNION
-SELECT YEAR(GETDATE())-1 AS anoFactura, 9 AS mesFactura, 0 AS totalFactura FROM factura WHERE ConsecutivoCompania = @Compania
+SELECT YEAR(GETDATE())-1 AS anoFactura, 9 AS mesFactura, 0 AS totalFactura  
 UNION
-SELECT YEAR(GETDATE())-1 AS anoFactura, 10 AS mesFactura, 0 AS totalFactura FROM factura WHERE ConsecutivoCompania = @Compania
+SELECT YEAR(GETDATE())-1 AS anoFactura, 10 AS mesFactura, 0 AS totalFactura  
 UNION
-SELECT YEAR(GETDATE())-1 AS anoFactura, 11 AS mesFactura, 0 AS totalFactura FROM factura WHERE ConsecutivoCompania = @Compania
+SELECT YEAR(GETDATE())-1 AS anoFactura, 11 AS mesFactura, 0 AS totalFactura  
 UNION
-SELECT YEAR(GETDATE())-1 AS anoFactura, 12 AS mesFactura, 0 AS totalFactura FROM factura WHERE ConsecutivoCompania = @Compania
+SELECT YEAR(GETDATE())-1 AS anoFactura, 12 AS mesFactura, 0 AS totalFactura  
 )
 SELECT 
 	anoFactura, 
@@ -175,53 +175,53 @@ SELECT
 FROM cobranza 
 WHERE ConsecutivoCompania = @Compania AND YEAR(Fecha) BETWEEN YEAR(GETDATE())-1 AND YEAR(GETDATE()) AND StatusCobranza = '0' 
 UNION
-SELECT YEAR(GETDATE()) AS anoCobranza, 1 AS mesCobranza, 0 AS totalCobrado FROM cobranza WHERE ConsecutivoCompania = @Compania 
+SELECT YEAR(GETDATE()) AS anoCobranza, 1 AS mesCobranza, 0 AS totalCobrado   
 UNION
-SELECT YEAR(GETDATE()) AS anoCobranza, 2 AS mesCobranza, 0 AS totalCobrado FROM cobranza WHERE ConsecutivoCompania = @Compania 
+SELECT YEAR(GETDATE()) AS anoCobranza, 2 AS mesCobranza, 0 AS totalCobrado   
 UNION
-SELECT YEAR(GETDATE()) AS anoCobranza, 3 AS mesCobranza, 0 AS totalCobrado FROM cobranza WHERE ConsecutivoCompania = @Compania 
+SELECT YEAR(GETDATE()) AS anoCobranza, 3 AS mesCobranza, 0 AS totalCobrado   
 UNION
-SELECT YEAR(GETDATE()) AS anoCobranza, 4 AS mesCobranza, 0 AS totalCobrado FROM cobranza WHERE ConsecutivoCompania = @Compania 
+SELECT YEAR(GETDATE()) AS anoCobranza, 4 AS mesCobranza, 0 AS totalCobrado   
 UNION
-SELECT YEAR(GETDATE()) AS anoCobranza, 5 AS mesCobranza, 0 AS totalCobrado FROM cobranza WHERE ConsecutivoCompania = @Compania 
+SELECT YEAR(GETDATE()) AS anoCobranza, 5 AS mesCobranza, 0 AS totalCobrado   
 UNION
-SELECT YEAR(GETDATE()) AS anoCobranza, 6 AS mesCobranza, 0 AS totalCobrado FROM cobranza WHERE ConsecutivoCompania = @Compania 
+SELECT YEAR(GETDATE()) AS anoCobranza, 6 AS mesCobranza, 0 AS totalCobrado   
 UNION
-SELECT YEAR(GETDATE()) AS anoCobranza, 7 AS mesCobranza, 0 AS totalCobrado FROM cobranza WHERE ConsecutivoCompania = @Compania 
+SELECT YEAR(GETDATE()) AS anoCobranza, 7 AS mesCobranza, 0 AS totalCobrado   
 UNION
-SELECT YEAR(GETDATE()) AS anoCobranza, 8 AS mesCobranza, 0 AS totalCobrado FROM cobranza WHERE ConsecutivoCompania = @Compania 
+SELECT YEAR(GETDATE()) AS anoCobranza, 8 AS mesCobranza, 0 AS totalCobrado   
 UNION
-SELECT YEAR(GETDATE()) AS anoCobranza, 9 AS mesCobranza, 0 AS totalCobrado FROM cobranza WHERE ConsecutivoCompania = @Compania 
+SELECT YEAR(GETDATE()) AS anoCobranza, 9 AS mesCobranza, 0 AS totalCobrado   
 UNION
-SELECT YEAR(GETDATE()) AS anoCobranza, 10 AS mesCobranza, 0 AS totalCobrado FROM cobranza WHERE ConsecutivoCompania = @Compania 
+SELECT YEAR(GETDATE()) AS anoCobranza, 10 AS mesCobranza, 0 AS totalCobrado   
 UNION
-SELECT YEAR(GETDATE()) AS anoCobranza, 11 AS mesCobranza, 0 AS totalCobrado FROM cobranza WHERE ConsecutivoCompania = @Compania 
+SELECT YEAR(GETDATE()) AS anoCobranza, 11 AS mesCobranza, 0 AS totalCobrado   
 UNION
-SELECT YEAR(GETDATE()) AS anoCobranza, 12 AS mesCobranza, 0 AS totalCobrado FROM cobranza WHERE ConsecutivoCompania = @Compania 
+SELECT YEAR(GETDATE()) AS anoCobranza, 12 AS mesCobranza, 0 AS totalCobrado   
 UNION
-SELECT YEAR(GETDATE())-1 AS anoCobranza, 1 AS mesCobranza, 0 AS totalCobrado FROM cobranza WHERE ConsecutivoCompania = @Compania 
+SELECT YEAR(GETDATE())-1 AS anoCobranza, 1 AS mesCobranza, 0 AS totalCobrado   
 UNION
-SELECT YEAR(GETDATE())-1 AS anoCobranza, 2 AS mesCobranza, 0 AS totalCobrado FROM cobranza WHERE ConsecutivoCompania = @Compania 
+SELECT YEAR(GETDATE())-1 AS anoCobranza, 2 AS mesCobranza, 0 AS totalCobrado   
 UNION
-SELECT YEAR(GETDATE())-1 AS anoCobranza, 3 AS mesCobranza, 0 AS totalCobrado FROM cobranza WHERE ConsecutivoCompania = @Compania 
+SELECT YEAR(GETDATE())-1 AS anoCobranza, 3 AS mesCobranza, 0 AS totalCobrado   
 UNION
-SELECT YEAR(GETDATE())-1 AS anoCobranza, 4 AS mesCobranza, 0 AS totalCobrado FROM cobranza WHERE ConsecutivoCompania = @Compania 
+SELECT YEAR(GETDATE())-1 AS anoCobranza, 4 AS mesCobranza, 0 AS totalCobrado   
 UNION
-SELECT YEAR(GETDATE())-1 AS anoCobranza, 5 AS mesCobranza, 0 AS totalCobrado FROM cobranza WHERE ConsecutivoCompania = @Compania 
+SELECT YEAR(GETDATE())-1 AS anoCobranza, 5 AS mesCobranza, 0 AS totalCobrado   
 UNION
-SELECT YEAR(GETDATE())-1 AS anoCobranza, 6 AS mesCobranza, 0 AS totalCobrado FROM cobranza WHERE ConsecutivoCompania = @Compania 
+SELECT YEAR(GETDATE())-1 AS anoCobranza, 6 AS mesCobranza, 0 AS totalCobrado   
 UNION
-SELECT YEAR(GETDATE())-1 AS anoCobranza, 7 AS mesCobranza, 0 AS totalCobrado FROM cobranza WHERE ConsecutivoCompania = @Compania 
+SELECT YEAR(GETDATE())-1 AS anoCobranza, 7 AS mesCobranza, 0 AS totalCobrado   
 UNION
-SELECT YEAR(GETDATE())-1 AS anoCobranza, 8 AS mesCobranza, 0 AS totalCobrado FROM cobranza WHERE ConsecutivoCompania = @Compania 
+SELECT YEAR(GETDATE())-1 AS anoCobranza, 8 AS mesCobranza, 0 AS totalCobrado   
 UNION
-SELECT YEAR(GETDATE())-1 AS anoCobranza, 9 AS mesCobranza, 0 AS totalCobrado FROM cobranza WHERE ConsecutivoCompania = @Compania 
+SELECT YEAR(GETDATE())-1 AS anoCobranza, 9 AS mesCobranza, 0 AS totalCobrado   
 UNION
-SELECT YEAR(GETDATE())-1 AS anoCobranza, 10 AS mesCobranza, 0 AS totalCobrado FROM cobranza WHERE ConsecutivoCompania = @Compania 
+SELECT YEAR(GETDATE())-1 AS anoCobranza, 10 AS mesCobranza, 0 AS totalCobrado   
 UNION
-SELECT YEAR(GETDATE())-1 AS anoCobranza, 11 AS mesCobranza, 0 AS totalCobrado FROM cobranza WHERE ConsecutivoCompania = @Compania 
+SELECT YEAR(GETDATE())-1 AS anoCobranza, 11 AS mesCobranza, 0 AS totalCobrado   
 UNION
-SELECT YEAR(GETDATE())-1 AS anoCobranza, 12 AS mesCobranza, 0 AS totalCobrado FROM cobranza WHERE ConsecutivoCompania = @Compania 
+SELECT YEAR(GETDATE())-1 AS anoCobranza, 12 AS mesCobranza, 0 AS totalCobrado   
 )
 SELECT 
 	anoCobranza, 
@@ -242,29 +242,29 @@ SELECT
 FROM movimientoBancario MB INNER JOIN Saw.CuentaBancaria CB ON MB.ConsecutivoCompania = CB.ConsecutivoCompania AND MB.CodigoCtaBancaria = CB.Codigo
 WHERE MB.ConsecutivoCompania = @Compania AND YEAR(MB.Fecha) = YEAR(GETDATE()) 
 UNION
-SELECT 1 AS mesMovBancario, 0 AS totalCobrado, 0 AS totalPagado FROM movimientoBancario MB WHERE MB.ConsecutivoCompania = @Compania 
+SELECT 1 AS mesMovBancario, 0 AS totalCobrado, 0 AS totalPagado  
 UNION
-SELECT 2 AS mesMovBancario, 0 AS totalCobrado, 0 AS totalPagado FROM movimientoBancario MB WHERE MB.ConsecutivoCompania = @Compania 
+SELECT 2 AS mesMovBancario, 0 AS totalCobrado, 0 AS totalPagado  
 UNION
-SELECT 3 AS mesMovBancario, 0 AS totalCobrado, 0 AS totalPagado FROM movimientoBancario MB WHERE MB.ConsecutivoCompania = @Compania 
+SELECT 3 AS mesMovBancario, 0 AS totalCobrado, 0 AS totalPagado  
 UNION
-SELECT 4 AS mesMovBancario, 0 AS totalCobrado, 0 AS totalPagado FROM movimientoBancario MB WHERE MB.ConsecutivoCompania = @Compania 
+SELECT 4 AS mesMovBancario, 0 AS totalCobrado, 0 AS totalPagado  
 UNION
-SELECT 5 AS mesMovBancario, 0 AS totalCobrado, 0 AS totalPagado FROM movimientoBancario MB WHERE MB.ConsecutivoCompania = @Compania 
+SELECT 5 AS mesMovBancario, 0 AS totalCobrado, 0 AS totalPagado  
 UNION
-SELECT 6 AS mesMovBancario, 0 AS totalCobrado, 0 AS totalPagado FROM movimientoBancario MB WHERE MB.ConsecutivoCompania = @Compania 
+SELECT 6 AS mesMovBancario, 0 AS totalCobrado, 0 AS totalPagado  
 UNION
-SELECT 7 AS mesMovBancario, 0 AS totalCobrado, 0 AS totalPagado FROM movimientoBancario MB WHERE MB.ConsecutivoCompania = @Compania 
+SELECT 7 AS mesMovBancario, 0 AS totalCobrado, 0 AS totalPagado  
 UNION
-SELECT 8 AS mesMovBancario, 0 AS totalCobrado, 0 AS totalPagado FROM movimientoBancario MB WHERE MB.ConsecutivoCompania = @Compania 
+SELECT 8 AS mesMovBancario, 0 AS totalCobrado, 0 AS totalPagado  
 UNION
-SELECT 9 AS mesMovBancario, 0 AS totalCobrado, 0 AS totalPagado FROM movimientoBancario MB WHERE MB.ConsecutivoCompania = @Compania 
+SELECT 9 AS mesMovBancario, 0 AS totalCobrado, 0 AS totalPagado  
 UNION
-SELECT 10 AS mesMovBancario, 0 AS totalCobrado, 0 AS totalPagado FROM movimientoBancario MB WHERE MB.ConsecutivoCompania = @Compania 
+SELECT 10 AS mesMovBancario, 0 AS totalCobrado, 0 AS totalPagado  
 UNION
-SELECT 11 AS mesMovBancario, 0 AS totalCobrado, 0 AS totalPagado FROM movimientoBancario MB WHERE MB.ConsecutivoCompania = @Compania 
+SELECT 11 AS mesMovBancario, 0 AS totalCobrado, 0 AS totalPagado  
 UNION
-SELECT 12 AS mesMovBancario, 0 AS totalCobrado, 0 AS totalPagado FROM movimientoBancario MB WHERE MB.ConsecutivoCompania = @Compania 
+SELECT 12 AS mesMovBancario, 0 AS totalCobrado, 0 AS totalPagado  
 )
 SELECT 
 	mesMovBancario AS mes, 
@@ -284,7 +284,7 @@ SELECT
 FROM movimientoBancario MB INNER JOIN ConceptoBancario CB ON MB.CodigoConcepto = CB.Codigo INNER JOIN Saw.CuentaBancaria CtaB ON MB.ConsecutivoCompania = CtaB.ConsecutivoCompania AND MB.CodigoCtaBancaria = CtaB.Codigo
 WHERE MB.ConsecutivoCompania = @Compania AND YEAR(MB.Fecha) = YEAR(GETDATE()) AND MB.TipoConcepto = '1' 
 UNION
-SELECT 'sin movimientos' AS descripcion, 0 AS monto FROM movimientoBancario MB WHERE MB.ConsecutivoCompania = @Compania 
+SELECT 'sin movimientos' AS descripcion, 0 AS monto  
 )
 SELECT 
 	descripcion AS descripcionMovimiento, 
