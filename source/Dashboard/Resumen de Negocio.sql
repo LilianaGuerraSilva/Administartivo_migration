@@ -279,19 +279,60 @@ ORDER BY mesMovBancario
 */
 ;WITH CTE_MovBancario AS(
 SELECT 
+	MB.CodigoConcepto AS CodigoCB,
 	CB.Descripcion AS descripcion, 
 	(ROUND(MB.Monto / ISNULL(CASE WHEN CtaB.CodigoMoneda = 'VED' THEN (SELECT TOP 1 CambioABolivares FROM Cambio WHERE CodigoMoneda = 'USD' AND FechaDeVigencia <= MB.Fecha) ELSE 1 END, 1), 2)) AS monto 
 FROM movimientoBancario MB INNER JOIN ConceptoBancario CB ON MB.CodigoConcepto = CB.Codigo INNER JOIN Saw.CuentaBancaria CtaB ON MB.ConsecutivoCompania = CtaB.ConsecutivoCompania AND MB.CodigoCtaBancaria = CtaB.Codigo
 WHERE MB.ConsecutivoCompania = @Compania AND YEAR(MB.Fecha) = YEAR(GETDATE()) AND MB.TipoConcepto = '1' 
 UNION
-SELECT 'sin movimientos' AS descripcion, 0 AS monto  
-)
-SELECT 
+SELECT 'S/M', 'sin movimientos' AS descripcion, 0 AS monto  
+),
+CTE_SumaTop10 AS (
+SELECT TOP 10
+	CodigoCB,
 	descripcion AS descripcionMovimiento, 
 	SUM(monto) AS monto 
 FROM CTE_MovBancario
-GROUP BY descripcion
+GROUP BY CodigoCB, descripcion
 ORDER BY monto DESC
+),
+CTE_Resto AS (
+SELECT 
+	'*** Otros Egresos ***' AS descripcionMovimiento, 
+	ISNULL(SUM(monto), 0) AS monto 
+FROM CTE_MovBancario
+WHERE CodigoCB NOT IN (SELECT CodigoCB FROM CTE_SumaTop10)
+)
+SELECT 
+	'0' AS ColOrden, 
+	descripcionMovimiento, 
+	monto 
+FROM CTE_SumaTop10
+UNION
+SELECT 
+	'1' AS ColOrden, 
+	descripcionMovimiento, 
+	monto 
+FROM CTE_Resto
+ORDER BY ColOrden
+
+
+
+--;WITH CTE_MovBancario AS(
+--SELECT 
+--	CB.Descripcion AS descripcion, 
+--	(ROUND(MB.Monto / ISNULL(CASE WHEN CtaB.CodigoMoneda = 'VED' THEN (SELECT TOP 1 CambioABolivares FROM Cambio WHERE CodigoMoneda = 'USD' AND FechaDeVigencia <= MB.Fecha) ELSE 1 END, 1), 2)) AS monto 
+--FROM movimientoBancario MB INNER JOIN ConceptoBancario CB ON MB.CodigoConcepto = CB.Codigo INNER JOIN Saw.CuentaBancaria CtaB ON MB.ConsecutivoCompania = CtaB.ConsecutivoCompania AND MB.CodigoCtaBancaria = CtaB.Codigo
+--WHERE MB.ConsecutivoCompania = @Compania AND YEAR(MB.Fecha) = YEAR(GETDATE()) AND MB.TipoConcepto = '1' 
+--UNION
+--SELECT 'sin movimientos' AS descripcion, 0 AS monto  
+--)
+--SELECT 
+--	descripcion AS descripcionMovimiento, 
+--	SUM(monto) AS monto 
+--FROM CTE_MovBancario
+--GROUP BY descripcion
+--ORDER BY monto DESC
 
 /*
 
