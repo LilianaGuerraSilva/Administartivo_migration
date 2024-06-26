@@ -164,7 +164,6 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vResult = "";
             string vFecha = "";
             string vHora = "";
-
             vResult = PFLeereloj();
             vEstado = CheckRequest(vResult, ref vMensaje);
             if (vEstado) {
