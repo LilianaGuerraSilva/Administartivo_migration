@@ -133,7 +133,7 @@
       <HintPath>..\packages\LibGalac.Aos.UI.WpfMainInterop.5.24.0\lib\LibGalac.Aos.UI.WpfMainInterop.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.WpfRD">
-      <HintPath>..\packages\LibGalac.Aos.UI.WpfRD.5.24.1\lib\LibGalac.Aos.UI.WpfRD.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.UI.WpfRD.5.24.2.1\lib\LibGalac.Aos.UI.WpfRD.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Uil">
       <HintPath>..\packages\LibGalac.Aos.Uil.5.24.1\lib\LibGalac.Aos.Uil.dll</HintPath>
