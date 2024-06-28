@@ -62,10 +62,6 @@
 	path = bin/binLibNet
 	url = https://github.com/GalacSoftware/BinLibNet.git
 	branch = release/V5.24.3.0
-[submodule "bin/binLibAos"]
-	path = bin/binLibAos
-	url = https://github.com/GalacSoftware/BinLibAos.git
-	branch = release/V5.24.2.0
 [submodule "bin/binComunAos"]
 	path = bin/binComunAos
 	url = https://github.com/GalacSoftware/BinComunAos.git
