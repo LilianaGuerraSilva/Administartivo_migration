@@ -37,7 +37,7 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Galac.Comun.Uil.Dashboard, Version=2.62.2.2, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Galac.Comun.Uil.Dashboard>
       <HintPath>..\packages\Galac.Comun.Uil.Dashboard.2.62.2.2\lib\Galac.Comun.Uil.Dashboard.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Brl.Tablas">
@@ -91,7 +91,7 @@
     <Reference Include="LibGalac.Aos.UI.WpfMainInterop">
       <HintPath>..\packages\LibGalac.Aos.UI.WpfMainInterop.5.24.0\lib\LibGalac.Aos.UI.WpfMainInterop.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.UI.WpfRD, Version=5.24.2.1, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="LibGalac.Aos.UI.WpfRD>
       <HintPath>..\packages\LibGalac.Aos.UI.WpfRD.5.24.2.1\lib\LibGalac.Aos.UI.WpfRD.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Uil">
