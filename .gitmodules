@@ -66,3 +66,7 @@
 	path = bin/binLibAos
 	url = https://github.com/GalacSoftware/BinLibAos.git
 	branch = hotfix/v5.24.2.1
+[submodule "bin/binComunAos"]
+	path = bin/binComunAos
+	url = https://github.com/GalacSoftware/BinComunAos.git
+	branch = release/V2.62.2.2
