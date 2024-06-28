@@ -69,4 +69,4 @@
 [submodule "bin/binComunAos"]
 	path = bin/binComunAos
 	url = https://github.com/GalacSoftware/BinComunAos.git
-	branch = release/V2.62.1.0
+	branch = release/V2.62.2.1
