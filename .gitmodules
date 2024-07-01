@@ -58,14 +58,6 @@
 	path = source/ContabilidadVb
 	url = https://github.com/GalacSoftware/ContabilidadVb.git
 	branch = release/Saw_25.3_OOM
-[submodule "bin/binLibNet"]
-	path = bin/binLibNet
-	url = https://github.com/GalacSoftware/BinLibNet.git
-	branch = release/V5.24.3.0
-[submodule "bin/binLibAos"]
-	path = bin/binLibAos
-	url = https://github.com/GalacSoftware/BinLibAos.git
-	branch = hotfix/v5.24.2.1
 [submodule "bin/binComunAos"]
 	path = bin/binComunAos
 	url = https://github.com/GalacSoftware/BinComunAos.git
