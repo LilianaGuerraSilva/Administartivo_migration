@@ -20,8 +20,6 @@ namespace Galac.Saw.Wrp.Administrativo {
                 if (NetworkInterface.GetIsNetworkAvailable()) {
                     ILibMenu insMenu = new clsDashboardMenu();
                     insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1);
-                } else {
-                    throw new LibGalac.Aos.Catching.GalacValidationException("Sin conexión a internet, para ejecutar esta opcón debe contar con una conexión a internet.");
                 }
             } catch (GalacException gEx) {
                 LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
