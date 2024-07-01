@@ -26,7 +26,7 @@
     <GSSDSL type="exe">5.1.0.0</GSSDSL>
     <GSXFV type="exe">5.1.0.0</GSXFV>
     <LibGalac.OIM>5.14.0.0</LibGalac.OIM>
-    <LibGalac>5.24.3.1</LibGalac>
+    <LibGalac>5.24.3.2</LibGalac>
     <LibGalac.Ctrls>5.14.0.0</LibGalac.Ctrls>
     <LibGalac.Cswa>5.14.0.0</LibGalac.Cswa>
     <LibGalac.Aos.UI.WpfRD>5.24.2.1</LibGalac.Aos.UI.WpfRD>	
@@ -44,7 +44,7 @@
   </ComponentesNET>
   <ComponentesAOS>
     <LibGalac.Aos.Base>5.24.0.0</LibGalac.Aos.Base>
-    <LibGalac.Aos.Brl>5.24.2.2</LibGalac.Aos.Brl>
+    <LibGalac.Aos.Brl>5.24.2.3</LibGalac.Aos.Brl>
     <LibGalac.Aos.Catching>5.24.0.0</LibGalac.Aos.Catching>
     <LibGalac.Aos.Cnf>5.24.0.0</LibGalac.Aos.Cnf>
     <LibGalac.Aos.Dal>5.24.1.0</LibGalac.Aos.Dal>
