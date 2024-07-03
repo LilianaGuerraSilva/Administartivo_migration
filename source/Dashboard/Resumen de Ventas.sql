@@ -25,7 +25,8 @@ C.ZonaDeCobranza AS zonaCobranzaCliente,
 Ruta.Descripcion AS rutaComercializacionVendedor,
 RF.Cantidad AS unidades,
 (CASE WHEN CodigoMoneda = 'VED' THEN ROUND(ROUND(ROUND((RF.Cantidad * RF.PrecioSinIVA) * (1 - (RF.PorcentajeDescuento/100)), 2) * (1 - (F.PorcentajeDescuento/100)), 2) / F.CambioMonedaCXC,2) ELSE ROUND(ROUND((RF.Cantidad * RF.PrecioSinIVA) * (1 - (RF.PorcentajeDescuento/100)), 2) * (1 - (F.PorcentajeDescuento/100)), 2) END)
-AS totalRenglonConDescuentosME
+AS totalRenglonConDescuentosME,
+AI.UnidadDeVenta AS unidadDeVenta
 
 FROM factura F INNER JOIN renglonFactura RF ON F.ConsecutivoCompania = RF.ConsecutivoCompania AND F.TipoDeDocumento = RF.TipoDeDocumento AND F.Numero = RF.NumeroFactura
 INNER JOIN articuloInventario AI ON RF.ConsecutivoCompania = AI.ConsecutivoCompania AND RF.Articulo = AI.Codigo

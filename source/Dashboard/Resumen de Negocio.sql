@@ -80,15 +80,16 @@ GROUP BY mesCobranza
 ;WITH CTE_factura AS (
 SELECT DISTINCT
 	MONTH(Fecha) AS mesFactura, 
-	COUNT(CodigoCliente) AS clientesFacturados 
+	CodigoCliente,
+	1 AS clientesFacturados 
 FROM factura 
 WHERE ConsecutivoCompania = @Compania AND StatusFactura = '0' AND TipoDeDocumento = '0' 
 AND Fecha BETWEEN CAST('01/' + CAST(MONTH(DATEADD(m,-1, GETDATE())) AS varchar) + '/' + CAST(YEAR(DATEADD(m,-1, GETDATE())) AS varchar) AS smalldatetime) AND GETDATE()
-GROUP BY MONTH(Fecha)
+GROUP BY MONTH(Fecha), CodigoCliente
 UNION
-SELECT MONTH(GETDATE()) AS mesFactura, 0 AS clientesFacturados 
+SELECT MONTH(GETDATE()) AS mesFactura, '', 0 AS clientesFacturados 
 UNION
-SELECT MONTH(GETDATE())-1 AS mesFactura, 0 AS clientesFacturados 
+SELECT MONTH(GETDATE())-1 AS mesFactura,'', 0 AS clientesFacturados 
 )
 SELECT
 	mesFactura,
