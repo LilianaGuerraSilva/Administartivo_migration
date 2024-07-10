@@ -202,7 +202,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnabledPlantillaNotaEntrega {
             get {
-                return (ModeloNotaEntrega == eModeloDeFactura.eMD_OTRO) && UsaImprentaDigital();
+                return (ModeloNotaEntrega == eModeloDeFactura.eMD_OTRO) && !UsaImprentaDigital();
             }
         }
 

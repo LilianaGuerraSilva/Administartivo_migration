@@ -2619,7 +2619,7 @@ namespace Galac.Saw.Brl.SttDef {
             return vResult;
         }
 
-        bool ISettValueByCompanyPdn.EjecutaConexionConGVentas(int valConsecutivoCompania, string valParametroSuscripcionGVentas, string valSerialConectorGVentas, string valNombreCompaniaAdmin, string valNombreUsuarioOperaciones) {
+        bool ISettValueByCompanyPdn.EjecutaConexionConGVentas(int valConsecutivoCompania, string valParametroSuscripcionGVentas, string valSerialConectorGVentas, string valNombreCompaniaAdmin, string valNombreUsuarioOperaciones, eAccionSR valAction) {
             try {
                 bool vResult = false;
                 LibWebConnector.clsSuscripcion insSuscripcion = new LibWebConnector.clsSuscripcion();
@@ -2628,9 +2628,16 @@ namespace Galac.Saw.Brl.SttDef {
                 int vGuionSeparador = LibString.IndexOf(valNombreCompaniaAdmin, '|') + 1;
                 string vRIFCompaniaGVentas = LibString.Trim(LibString.SubString(valNombreCompaniaAdmin, vGuionSeparador + 1));
                 valNombreCompaniaAdmin = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre");
-                if (insSuscripcion.ActivarConexionGVentas(valConsecutivoCompania, valSerialConectorGVentas, vRIFCompaniaGVentas, valNombreCompaniaAdmin, valNombreUsuarioOperaciones, vDatabaseName, vServerName)) {
-                    ActualizaValoresEnAdministrativo(valConsecutivoCompania, valParametroSuscripcionGVentas, valSerialConectorGVentas, valNombreCompaniaAdmin);
-                    vResult = true;
+                if (valAction == eAccionSR.Activar) {
+                    if (insSuscripcion.ActivarDesactivarConexionGVentas(valConsecutivoCompania, valSerialConectorGVentas, vRIFCompaniaGVentas, valNombreCompaniaAdmin, valNombreUsuarioOperaciones, vDatabaseName, vServerName, valAction)) {
+                        ActualizaValoresEnAdministrativo(valConsecutivoCompania, valParametroSuscripcionGVentas, valSerialConectorGVentas, valNombreCompaniaAdmin, valAction);
+                        vResult = true;
+                    }
+                } else if (valAction == eAccionSR.Desactivar) {
+                    if (insSuscripcion.ActivarDesactivarConexionGVentas(valConsecutivoCompania, valSerialConectorGVentas, vRIFCompaniaGVentas, valNombreCompaniaAdmin, valNombreUsuarioOperaciones, vDatabaseName, vServerName, valAction)) {
+                        ActualizaValoresEnAdministrativo(valConsecutivoCompania, "", "", "", valAction);
+                        vResult = true;
+                    }
                 }
                 return vResult;
             } catch (Exception vEx) {
@@ -2638,9 +2645,10 @@ namespace Galac.Saw.Brl.SttDef {
             }
         }
 
-        private void ActualizaValoresEnAdministrativo(int valConsecutivoCompania, string valParametroSuscripcionGVentas, string valSerialConectorGVentas, string valNumeroIDGVentas) {
+        private void ActualizaValoresEnAdministrativo(int valConsecutivoCompania, string valParametroSuscripcionGVentas, string valSerialConectorGVentas, string valNumeroIDGVentas, eAccionSR valAction) {
             QAdvSql insSql = new QAdvSql("");
-            string vSql = "UPDATE COMPANIA SET ConectadaConG360 = " + insSql.ToSqlValue(true) + " WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania);
+            string vActivaDesactivaCompania = (valAction == eAccionSR.Activar ? insSql.ToSqlValue(true) : insSql.ToSqlValue(false));
+            string vSql = "UPDATE COMPANIA SET ConectadaConG360 = " + vActivaDesactivaCompania + " WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania);
             LibBusiness.ExecuteUpdateOrDelete(vSql, null, "", 0);
             vSql = "UPDATE Comun.SettValueByCompany SET Value = " + insSql.ToSqlValue(valParametroSuscripcionGVentas) + " WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania) + " AND NameSettDefinition = " + insSql.ToSqlValue("SuscripcionGVentas");
             LibBusiness.ExecuteUpdateOrDelete(vSql, null, "", 0);
