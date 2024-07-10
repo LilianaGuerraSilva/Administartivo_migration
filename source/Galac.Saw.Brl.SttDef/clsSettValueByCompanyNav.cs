@@ -2628,16 +2628,13 @@ namespace Galac.Saw.Brl.SttDef {
                 int vGuionSeparador = LibString.IndexOf(valNombreCompaniaAdmin, '|') + 1;
                 string vRIFCompaniaGVentas = LibString.Trim(LibString.SubString(valNombreCompaniaAdmin, vGuionSeparador + 1));
                 valNombreCompaniaAdmin = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre");
-                if (valAction == eAccionSR.Activar) {
-                    if (insSuscripcion.ActivarDesactivarConexionGVentas(valConsecutivoCompania, valSerialConectorGVentas, vRIFCompaniaGVentas, valNombreCompaniaAdmin, valNombreUsuarioOperaciones, vDatabaseName, vServerName, valAction)) {
+                if (insSuscripcion.ActivarDesactivarConexionGVentas(valConsecutivoCompania, valSerialConectorGVentas, vRIFCompaniaGVentas, valNombreCompaniaAdmin, valNombreUsuarioOperaciones, vDatabaseName, vServerName, valAction)) {
+                    if (valAction == eAccionSR.Activar) {
                         ActualizaValoresEnAdministrativo(valConsecutivoCompania, valParametroSuscripcionGVentas, valSerialConectorGVentas, valNombreCompaniaAdmin, valAction);
-                        vResult = true;
-                    }
-                } else if (valAction == eAccionSR.Desactivar) {
-                    if (insSuscripcion.ActivarDesactivarConexionGVentas(valConsecutivoCompania, valSerialConectorGVentas, vRIFCompaniaGVentas, valNombreCompaniaAdmin, valNombreUsuarioOperaciones, vDatabaseName, vServerName, valAction)) {
+                    } else if (valAction == eAccionSR.Desactivar) {
                         ActualizaValoresEnAdministrativo(valConsecutivoCompania, "", "", "", valAction);
-                        vResult = true;
                     }
+                    vResult = true;
                 }
                 return vResult;
             } catch (Exception vEx) {
