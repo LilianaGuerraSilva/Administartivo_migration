@@ -4910,7 +4910,7 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
          "fSQLDisponibilidadArticuloInventario", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fSQLDisponibilidadArticuloInventarioPorAlmacen(ByVal valConsecutivoCompania As String, ByVal valSqlStatus As String, ByVal valRango As Boolean, ByVal valLineaProducto As Boolean, ByVal valCategoria As Boolean, ByVal valMarca As Boolean, valSqlOrder As String, ByVal valCodigoDesde As String, ByVal valCodigoHasta As String, ByVal valStrLineaProducto As String, ByVal valStrCategoria As String, ByVal valStrMarca As String, ByVal valMuestraExistenciaCero As Boolean) As String
+Public Function fSQLDisponibilidadArticuloInventarioPorAlmacen(ByVal valConsecutivoCompania As String, ByVal valSqlStatus As String, ByVal valRango As Boolean, ByVal valLineaProducto As Boolean, ByVal valCategoria As Boolean, ByVal valMarca As Boolean, valSqlOrder As String, ByVal valCodigoDesde As String, ByVal valCodigoHasta As String, ByVal valStrLineaProducto As String, ByVal valStrCategoria As String, ByVal valStrMarca As String, ByVal valMuestraExistenciaCero As Boolean, ByVal valAlmacen As String) As String
    Dim Sql As String
    Dim gEnumProyecto As clsEnumAdministrativo
    On Error GoTo h_ERROR
@@ -4974,6 +4974,10 @@ Public Function fSQLDisponibilidadArticuloInventarioPorAlmacen(ByVal valConsecut
    End If
    If valMarca Then
       SQL = SQL & " AND ArticuloInventario.Marca = " & gUtilSQL.fSimpleSqlValue(gTexto.fLimpiaStringdeBlancosAAmbosLados(valStrMarca))
+   
+   If valAlmacen <> "" Then
+      Sql = Sql & " AND Almacen.Codigo = " & gUtilSQL.fSimpleSqlValue(gTexto.fLimpiaStringdeBlancosAAmbosLados(valAlmacen))
+   End If
    End If
    If Not valMuestraExistenciaCero Then
       SQL = SQL & " AND ArticuloInventario.Existencia <> 0 "
@@ -5043,6 +5047,10 @@ Public Function fSQLDisponibilidadArticuloInventarioPorAlmacen(ByVal valConsecut
    End If
    If valMarca Then
       SQL = SQL & " AND ArticuloInventario.Marca = " & gUtilSQL.fSimpleSqlValue(gTexto.fLimpiaStringdeBlancosAAmbosLados(valStrMarca))
+   
+   If valAlmacen <> "" Then
+      Sql = Sql & " AND Almacen.Codigo = " & gUtilSQL.fSimpleSqlValue(gTexto.fLimpiaStringdeBlancosAAmbosLados(valAlmacen))
+   End If
    End If
    If Not valMuestraExistenciaCero Then
       SQL = SQL & " AND ArticuloInventario.Existencia <> 0 "
