@@ -1105,21 +1105,82 @@ Public Function fCambiaGeneradoPorEnIntegracion(ByRef refGeneradoPor As enum_Com
    fCambiaGeneradoPorEnIntegracion = False
 End Function
 
-Public Sub sEliminaRecordCuentasFlujoEfectivo(ByVal valConsecutivoCompania As String)
-'
-End Sub
-
 Public Sub sInsertaElRecordDeCuentasFlujoEfectivo()
-'
+   Dim ExecuteStr As String
+   Dim varSQL As String
+   Dim insCompaniaDefCuentasFlujoEfectivo As clsCompDefCtaFlujoEfectivoNav
+   On Error GoTo h_ERROR
+   Set insCompaniaDefCuentasFlujoEfectivo = New clsCompDefCtaFlujoEfectivoNav
+   ExecuteStr = "ConsecutivoCompania, "
+   ExecuteStr = ExecuteStr & "ConsecutivoRenglon, "
+   ExecuteStr = ExecuteStr & "CodigoCuenta, "
+   ExecuteStr = ExecuteStr & "ActividadFlujoEfectivo, "
+   ExecuteStr = ExecuteStr & "NombreOperador, "
+   ExecuteStr = ExecuteStr & "FechaUltimaModificacion "
+   varSQL = " INSERT INTO " & insCompaniaDefCuentasFlujoEfectivo.GetTableName & "(" & ExecuteStr & " ) VALUES " & "( " & gProyCompaniaActual.GetConsecutivoCompania & ", " & "'0','','','" & gProyUsuarioActual.GetNombreDelUsuario & "'," & gUtilSQL.fDateToSQLValue(gUtilDate.getFechaDeHoy) & ")"
+   gDbUtil.Execute Conexion, varSQL
+   Set insCompaniaDefCuentasFlujoEfectivo = Nothing
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInsertaElRecordDeCuentasFlujoEfectivo", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
-
-Public Sub sEjecutaDefinirCuentasDeFlujoEfectivo()
-'
+   
+Public Sub sEliminaRecordCuentasFlujoEfectivo(ByVal valConseutivoCompania As String)
+   Dim varSQL As String
+   Dim insCompaniaDefCuentasFlujoEfectivo As clsCompDefCtaFlujoEfectivoNav
+   On Error GoTo h_ERROR
+   Set insCompaniaDefCuentasFlujoEfectivo = New clsCompDefCtaFlujoEfectivoNav
+   varSQL = "DELETE  FROM " & insCompaniaDefCuentasFlujoEfectivo.GetTableName & " WHERE ConsecutivoCompania = " & valConseutivoCompania
+   gDbUtil.Execute Conexion, varSQL
+   Set insCompaniaDefCuentasFlujoEfectivo = Nothing
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEliminaRecordCuentasFlujoEfectivo", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Function fExisteCuentaEnDefinicionFlujoEfectivo(ByVal valConsecutivoCompania As String, ByVal valCodigoCuenta As String) As Boolean
-   fExisteCuentaEnDefinicionFlujoEfectivo = False
+   Dim varTemp As Boolean
+   Dim Sql As String
+   Dim RS As ADODB.Recordset
+   On Error GoTo h_ERROR
+   Set RS = New ADODB.Recordset
+   varTemp = False
+   Sql = "SELECT CompaniaDefCuentaFlujoEfectivo.ConsecutivoCompania, CompaniaDefCuentaFlujoEfectivo.CodigoCuenta "
+   Sql = Sql & " FROM CompaniaDefCuentaFlujoEfectivo WHERE CompaniaDefCuentaFlujoEfectivo.ConsecutivoCompania = " & gUtilSQL.fSimpleSqlValue(valConsecutivoCompania)
+   Sql = Sql & " AND CompaniaDefCuentaFlujoEfectivo.CodigoCuenta = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
+   If gDbUtil.fOpenRecordset(RS, Sql, Conexion) Then
+      If gDbUtil.fRecordCount(RS) > 0 Then
+         varTemp = True
+      End If
+   End If
+   fExisteCuentaEnDefinicionFlujoEfectivo = varTemp
+   gDbUtil.sDestroyRecordSet RS
+h_EXIT: On Error GoTo 0
+   Exit Function
+h_ERROR:
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fExisteCuentaEnDefinicionFlujoEfectivo", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
+
+Public Sub sEjecutaDefinirCuentasDeFlujoEfectivo()
+   Dim insFrmDefCuentasFlujoEfectivo As frmCompDefCtaFlujoEfectivoInput
+   Dim insCompaniaDefCuentasFlujoEfectivo As clsCompDefCtaFlujoEfectivoNav
+   On Error GoTo h_ERROR
+   Set insCompaniaDefCuentasFlujoEfectivo = New clsCompDefCtaFlujoEfectivoNav
+   If gProyCompaniaActual.fLaCompaniaYElPeriodoFueronEscogidos Then
+      If gContPeriodoActual.ElPeriodoEstaCerrado(True) Then
+      ElseIf gAPI.fExistOpenForm(Forms) Then
+         gMessage.AlertMessage "Debe cerrar todas las pantallas " & "para poder Definir las Cuentas Informes", "IMPORTANTE"
+      Else
+         Set insFrmDefCuentasFlujoEfectivo = New frmCompDefCtaFlujoEfectivoInput
+         insFrmDefCuentasFlujoEfectivo.sInitLookAndFeelAndSetValues Modificar, insFrmDefCuentasFlujoEfectivo, insCompaniaDefCuentasFlujoEfectivo
+         Set insFrmDefCuentasFlujoEfectivo = Nothing
+         Set insCompaniaDefCuentasFlujoEfectivo = Nothing
+      End If
+   End If
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaDefinirCuentasDeFlujoEfectivo", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
 
 Private Function fEsComprobanteGeneradoPorInventario(ByVal valGeneradoPorChr As String) As Boolean
    On Error GoTo h_ERROR
@@ -1187,6 +1248,7 @@ h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaInformeTotalesCentroDeCostoEntreFechas", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
+
 Private Function fSQLMovimientosPorCentroDeCostos(ByVal identificadorDatos As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, Optional ByVal valEsInformeConCodigoDeMoneda As Boolean = False, Optional ByVal valCodigoMoneda As String) As String
    Dim Sql As String
    Dim varNombreTablaAsiento As String
