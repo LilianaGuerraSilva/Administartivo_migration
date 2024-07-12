@@ -272,6 +272,8 @@ namespace Galac.Saw.Brl.SttDef {
             insEntidad.EsSistemaParaIGAsBool = false;
             insEntidad.UsaNotaEntregaAsBool = false;
             insEntidad.SuscripcionGVentas = "1000";
+            insEntidad.NumeroIDGVentas = "";
+            insEntidad.SerialConectorGVentas = "";
             return insEntidad;
         }
         private void LlenaListado(GeneralStt valRecord, ref List<SettValueByCompany> valBusinessObject, int valConsecutivoCompania) {
@@ -284,6 +286,8 @@ namespace Galac.Saw.Brl.SttDef {
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.ValidarRifEnLaWebAsBool), "ValidarRifEnLaWeb", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaNotaEntregaAsBool), "UsaNotaEntrega", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(valRecord.SuscripcionGVentas, "SuscripcionGVentas", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(valRecord.SerialConectorGVentas, "SerialConectorGVentas", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(valRecord.NumeroIDGVentas, "NumeroIDGVentas", valConsecutivoCompania));
         }
 
         GeneralStt GetGeneralStt(List<SettValueByCompany> valListGetSettValueByCompany) {
@@ -299,6 +303,8 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.EsSistemaParaIGAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "EsSistemaParaIG"));
             vResult.UsaNotaEntregaAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaNotaEntrega"));
             vResult.SuscripcionGVentas = ValorSegunColumna(valListGetSettValueByCompany, "SuscripcionGVentas");
+            vResult.NumeroIDGVentas = ValorSegunColumna(valListGetSettValueByCompany, "NumeroIDGVentas");
+            vResult.SerialConectorGVentas = ValorSegunColumna(valListGetSettValueByCompany, "SerialConectorGVentas");
             return vResult;
         }
         #endregion // GeneralStt
