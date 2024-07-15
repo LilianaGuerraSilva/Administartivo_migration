@@ -1,43 +1,7 @@
-[submodule "bin/binAdministrativoAos"]
-	path = bin/binAdministrativoAos
-	url = https://github.com/GalacSoftware/BinAdministrativoAos.git
-	branch = release/V25.2.0.0
-[submodule "bin/binAdministrativoVb"]
-	path = bin/binAdministrativoVb
-	url = https://github.com/GalacSoftware/BinAdministrativoVB.git
-	branch = release/V2404
-[submodule "bin/binComunAos"]
-	path = bin/binComunAos
-	url = https://github.com/GalacSoftware/BinComunAos.git
-	branch = release/SawV25.2.0.0
-[submodule "bin/binEsqNiif"]
-	path = bin/binEsqNiif
-	url = https://github.com/GalacSoftware/BinEsqNiif.git
-	branch = release/SawV25.2.0.0
 [submodule "source/Axi"]
 	path = source/Axi
 	url = https://github.com/GalacSoftware/Axi.git
 	branch = release/SawV25.2.0.0
-[submodule "source/ContabIwrp"]
-	path = source/ContabIwrp
-	url = https://github.com/GalacSoftware/ContabiWrp.git
-	branch = release/SawV25.2.0.0
-[submodule "source/RetencionesVb"]
-	path = source/RetencionesVb
-	url = https://github.com/GalacSoftware/RetencionesVb.git
-	branch = release/SawV25.2.0.0
-[submodule "source/vbaComun"]
-	path = source/vbaComun
-	url = https://github.com/GalacSoftware/vbaComun.git
-	branch = release/SawV25.2.0.0
-[submodule "bin/binLibAos"]
-	path = bin/binLibAos
-	url = https://github.com/GalacSoftware/BinLibAos.git
-	branch = release/V5.24.1.0
-[submodule "bin/binLibNet"]
-	path = bin/binLibNet
-	url = https://github.com/GalacSoftware/BinLibNet.git
-	branch = release/V5.24.2.0
 [submodule "bin/binLibProtec"]
 	path = bin/binLibProtec
 	url = https://github.com/GalacSoftware/BinLibProtec.git
@@ -54,19 +18,55 @@
 	path = source/Lib/AosLib
 	url = https://github.com/GalacSoftware/AosLib.git
 	branch = release/5.24.1.0
+[submodule "bin/binAdministrativoAos"]
+	path = bin/binAdministrativoAos
+	url = https://github.com/GalacSoftware/BinAdministrativoAos.git
+	branch = release/V25.3.0.0
+[submodule "bin/binAdministrativoVb"]
+	path = bin/binAdministrativoVb
+	url = https://github.com/GalacSoftware/BinAdministrativoVB.git
+	branch = release/V2406
+[submodule "bin/binEsqNiif"]
+	path = bin/binEsqNiif
+	url = https://github.com/GalacSoftware/BinEsqNiif.git
+	branch = release/SawV25.3.0.0
+[submodule "bin/binContabilidadVb"]
+	path = bin/binContabilidadVb
+	url = https://github.com/GalacSoftware/BinContabilidadVb.git
+	branch = release/SawV25.3.0.0
+[submodule "bin/binContabilidadAos"]
+	path = bin/binContabilidadAos
+	url = https://github.com/GalacSoftware/BinContabilidadAos.git
+	branch = release/SawV25.3.0.0
+[submodule "source/ContabIwrp"]
+	path = source/ContabIwrp
+	url = https://github.com/GalacSoftware/ContabiWrp.git
+	branch = release/SawV25.3.0.0
+[submodule "source/IvaVb"]
+	path = source/IvaVb
+	url = https://github.com/GalacSoftware/IvaVb.git
+	branch = release/SawV25.3.0.0
+[submodule "source/RetencionesVb"]
+	path = source/RetencionesVb
+	url = https://github.com/GalacSoftware/RetencionesVb.git
+	branch = release/SawV25.3.0.0
+[submodule "source/vbaComun"]
+	path = source/vbaComun
+	url = https://github.com/GalacSoftware/vbaComun.git
+	branch = release/SawV25.3.0.0
 [submodule "source/ContabilidadVb"]
 	path = source/ContabilidadVb
 	url = https://github.com/GalacSoftware/ContabilidadVb.git
 	branch = release/Saw_25.3_OOM
-[submodule "source/IvaVb"]
-	path = source/IvaVb
-	url = https://github.com/GalacSoftware/IvaVb.git
-	branch = release/SawV25.2.0.0
-[submodule "bin/binContabilidadAos"]
-	path = bin/binContabilidadAos
-	url = https://github.com/GalacSoftware/BinContabilidadAos.git
-	branch = release/V.2.61.1.0
-[submodule "bin/binContabilidadVb"]
-	path = bin/binContabilidadVb
-	url = https://github.com/GalacSoftware/BinContabilidadVb.git
-	branch = release/V2404
+[submodule "bin/binLibNet"]
+	path = bin/binLibNet
+	url = https://github.com/GalacSoftware/BinLibNet.git
+	branch = hotfix/V5.24.3.2
+[submodule "bin/binLibAos"]
+	path = bin/binLibAos
+	url = https://github.com/GalacSoftware/BinLibAos.git
+	branch = hotfix/V5.24.2.3
+[submodule "bin/binComunAos"]
+	path = bin/binComunAos
+	url = https://github.com/GalacSoftware/BinComunAos.git
+	branch = release/V2.62.2.4

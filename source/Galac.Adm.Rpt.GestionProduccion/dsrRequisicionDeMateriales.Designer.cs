@@ -34,7 +34,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblFechaInicialYFinal = new DataDynamics.ActiveReports.Label();
             this.lblCantidadReservadaDeInventario = new DataDynamics.ActiveReports.Label();
             this.lblCodigoDeOrden = new DataDynamics.ActiveReports.Label();
-            this.lblAlmacen2 = new DataDynamics.ActiveReports.Label();
+            this.lblAlmacen = new DataDynamics.ActiveReports.Label();
             this.lblFechaCreacion = new DataDynamics.ActiveReports.Label();
             this.lblArticuloServicioAUtilizar = new DataDynamics.ActiveReports.Label();
             this.lblExistencia = new DataDynamics.ActiveReports.Label();
@@ -44,6 +44,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.GFSecTitulo = new DataDynamics.ActiveReports.GroupFooter();
             this.txt_TCantidadReservadaDeInventario = new DataDynamics.ActiveReports.TextBox();
             this.GHSecArticuloServicioAUtilizar = new DataDynamics.ActiveReports.GroupHeader();
+            this.txtUnidad = new DataDynamics.ActiveReports.TextBox();
             this.GFSecArticuloServicioAUtilizar = new DataDynamics.ActiveReports.GroupFooter();
             ((System.ComponentModel.ISupportInitialize)(this.txtFechaCreacion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCodigoDeOrden)).BeginInit();
@@ -57,12 +58,13 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaInicialYFinal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadReservadaDeInventario)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCodigoDeOrden)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblAlmacen2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblAlmacen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaCreacion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblArticuloServicioAUtilizar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblExistencia)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtArticuloServicioAUtilizar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_TCantidadReservadaDeInventario)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtUnidad)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
@@ -80,32 +82,32 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             // txtFechaCreacion
             // 
             this.txtFechaCreacion.Height = 0.15625F;
-            this.txtFechaCreacion.Left = 3.531F;
+            this.txtFechaCreacion.Left = 4.25F;
             this.txtFechaCreacion.Name = "txtFechaCreacion";
             this.txtFechaCreacion.Style = "font-size: 8pt; text-align: left; ddo-char-set: 1";
             this.txtFechaCreacion.Text = "txtFechaCreacion";
             this.txtFechaCreacion.Top = 0F;
-            this.txtFechaCreacion.Width = 1F;
+            this.txtFechaCreacion.Width = 0.75F;
             // 
             // txtCodigoDeOrden
             // 
             this.txtCodigoDeOrden.Height = 0.15625F;
-            this.txtCodigoDeOrden.Left = 4.531F;
+            this.txtCodigoDeOrden.Left = 5F;
             this.txtCodigoDeOrden.Name = "txtCodigoDeOrden";
             this.txtCodigoDeOrden.Style = "font-size: 8pt; text-align: left; ddo-char-set: 1";
             this.txtCodigoDeOrden.Text = "txtCodigoDeOrden";
             this.txtCodigoDeOrden.Top = 0F;
-            this.txtCodigoDeOrden.Width = 1.5F;
+            this.txtCodigoDeOrden.Width = 1.25F;
             // 
             // txtAlmacen
             // 
             this.txtAlmacen.Height = 0.15625F;
-            this.txtAlmacen.Left = 6.031F;
+            this.txtAlmacen.Left = 6.25F;
             this.txtAlmacen.Name = "txtAlmacen";
             this.txtAlmacen.Style = "font-size: 8pt; text-align: left; ddo-char-set: 1";
             this.txtAlmacen.Text = "txtAlmacen";
             this.txtAlmacen.Top = 0F;
-            this.txtAlmacen.Width = 1.4685F;
+            this.txtAlmacen.Width = 1.25F;
             // 
             // txtCantidadReservadaDeInventario
             // 
@@ -193,8 +195,8 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             // 
             // lblCantidadReservadaDeInventario
             // 
-            this.lblCantidadReservadaDeInventario.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Dot;
-            this.lblCantidadReservadaDeInventario.Height = 0.312F;
+            this.lblCantidadReservadaDeInventario.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.lblCantidadReservadaDeInventario.Height = 0.15625F;
             this.lblCantidadReservadaDeInventario.HyperLink = null;
             this.lblCantidadReservadaDeInventario.Left = 8.75F;
             this.lblCantidadReservadaDeInventario.Name = "lblCantidadReservadaDeInventario";
@@ -206,47 +208,47 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             // 
             // lblCodigoDeOrden
             // 
-            this.lblCodigoDeOrden.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Dot;
-            this.lblCodigoDeOrden.Height = 0.312F;
+            this.lblCodigoDeOrden.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.lblCodigoDeOrden.Height = 0.15625F;
             this.lblCodigoDeOrden.HyperLink = null;
-            this.lblCodigoDeOrden.Left = 4.531F;
+            this.lblCodigoDeOrden.Left = 5F;
             this.lblCodigoDeOrden.Name = "lblCodigoDeOrden";
             this.lblCodigoDeOrden.Style = "font-size: 8pt; font-weight: bold; text-align: left; vertical-align: bottom; ddo-" +
     "char-set: 1";
             this.lblCodigoDeOrden.Text = " Orden";
             this.lblCodigoDeOrden.Top = 0F;
-            this.lblCodigoDeOrden.Width = 1.5F;
+            this.lblCodigoDeOrden.Width = 1.25F;
             // 
-            // lblAlmacen2
+            // lblAlmacen
             // 
-            this.lblAlmacen2.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Dot;
-            this.lblAlmacen2.Height = 0.312F;
-            this.lblAlmacen2.HyperLink = null;
-            this.lblAlmacen2.Left = 6.031F;
-            this.lblAlmacen2.Name = "lblAlmacen2";
-            this.lblAlmacen2.Style = "font-size: 8pt; font-weight: bold; text-align: left; vertical-align: bottom; ddo-" +
+            this.lblAlmacen.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.lblAlmacen.Height = 0.15625F;
+            this.lblAlmacen.HyperLink = null;
+            this.lblAlmacen.Left = 6.25F;
+            this.lblAlmacen.Name = "lblAlmacen";
+            this.lblAlmacen.Style = "font-size: 8pt; font-weight: bold; text-align: left; vertical-align: bottom; ddo-" +
     "char-set: 1";
-            this.lblAlmacen2.Text = "Almacén";
-            this.lblAlmacen2.Top = 0F;
-            this.lblAlmacen2.Width = 1.4685F;
+            this.lblAlmacen.Text = "Almacén";
+            this.lblAlmacen.Top = 0F;
+            this.lblAlmacen.Width = 1.25F;
             // 
             // lblFechaCreacion
             // 
-            this.lblFechaCreacion.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Dot;
-            this.lblFechaCreacion.Height = 0.312F;
+            this.lblFechaCreacion.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.lblFechaCreacion.Height = 0.15625F;
             this.lblFechaCreacion.HyperLink = null;
-            this.lblFechaCreacion.Left = 3.531F;
+            this.lblFechaCreacion.Left = 4.25F;
             this.lblFechaCreacion.Name = "lblFechaCreacion";
             this.lblFechaCreacion.Style = "font-size: 8pt; font-weight: bold; text-align: left; vertical-align: bottom; ddo-" +
     "char-set: 1";
-            this.lblFechaCreacion.Text = "Fecha Creación";
+            this.lblFechaCreacion.Text = "F. Creación";
             this.lblFechaCreacion.Top = 0F;
-            this.lblFechaCreacion.Width = 1F;
+            this.lblFechaCreacion.Width = 0.75F;
             // 
             // lblArticuloServicioAUtilizar
             // 
-            this.lblArticuloServicioAUtilizar.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Dot;
-            this.lblArticuloServicioAUtilizar.Height = 0.3119999F;
+            this.lblArticuloServicioAUtilizar.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.lblArticuloServicioAUtilizar.Height = 0.15625F;
             this.lblArticuloServicioAUtilizar.HyperLink = null;
             this.lblArticuloServicioAUtilizar.Left = 0F;
             this.lblArticuloServicioAUtilizar.Name = "lblArticuloServicioAUtilizar";
@@ -254,18 +256,18 @@ namespace Galac.Adm.Rpt.GestionProduccion {
     "do-char-set: 0";
             this.lblArticuloServicioAUtilizar.Text = "Insumos";
             this.lblArticuloServicioAUtilizar.Top = 0F;
-            this.lblArticuloServicioAUtilizar.Width = 3.531F;
+            this.lblArticuloServicioAUtilizar.Width = 4.25F;
             // 
             // lblExistencia
             // 
-            this.lblExistencia.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Dot;
-            this.lblExistencia.Height = 0.312F;
+            this.lblExistencia.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.lblExistencia.Height = 0.15625F;
             this.lblExistencia.HyperLink = null;
             this.lblExistencia.Left = 7.5F;
             this.lblExistencia.Name = "lblExistencia";
             this.lblExistencia.Style = "font-size: 8pt; font-weight: bold; text-align: right; vertical-align: bottom; ddo" +
     "-char-set: 1";
-            this.lblExistencia.Text = "Existencia por Almacén";
+            this.lblExistencia.Text = "Existencia/Almacén";
             this.lblExistencia.Top = 0F;
             this.lblExistencia.Width = 1.25F;
             // 
@@ -279,17 +281,19 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.GHSecTitulo.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
             this.lblArticuloServicioAUtilizar,
             this.lblCodigoDeOrden,
-            this.lblAlmacen2,
+            this.lblAlmacen,
             this.lblFechaCreacion,
             this.lblCantidadReservadaDeInventario,
             this.lblExistencia});
-            this.GHSecTitulo.Height = 0.312F;
+            this.GHSecTitulo.Height = 0.15625F;
             this.GHSecTitulo.Name = "GHSecTitulo";
             // 
             // txtArticuloServicioAUtilizar
             // 
+            this.txtArticuloServicioAUtilizar.CanGrow = false;
             this.txtArticuloServicioAUtilizar.Height = 0.15625F;
             this.txtArticuloServicioAUtilizar.Left = 0F;
+            this.txtArticuloServicioAUtilizar.MultiLine = false;
             this.txtArticuloServicioAUtilizar.Name = "txtArticuloServicioAUtilizar";
             this.txtArticuloServicioAUtilizar.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.txtArticuloServicioAUtilizar.Text = "txtArticuloServicioAUtilizar";
@@ -319,10 +323,23 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.GHSecArticuloServicioAUtilizar.Height = 0.15625F;
             this.GHSecArticuloServicioAUtilizar.Name = "GHSecArticuloServicioAUtilizar";
             // 
+            // txtUnidad
+            // 
+            this.txtUnidad.CanGrow = false;
+            this.txtUnidad.Height = 0.15625F;
+            this.txtUnidad.Left = 6.25F;
+            this.txtUnidad.MultiLine = false;
+            this.txtUnidad.Name = "txtUnidad";
+            this.txtUnidad.Style = "font-size: 8.25pt; font-weight: bold; text-align: right; ddo-char-set: 0";
+            this.txtUnidad.Text = "txtUnidad";
+            this.txtUnidad.Top = 0F;
+            this.txtUnidad.Width = 2.5F;
+            // 
             // GFSecArticuloServicioAUtilizar
             // 
             this.GFSecArticuloServicioAUtilizar.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
-            this.txt_TCantidadReservadaDeInventario});
+            this.txt_TCantidadReservadaDeInventario,
+            this.txtUnidad});
             this.GFSecArticuloServicioAUtilizar.Height = 0.15625F;
             this.GFSecArticuloServicioAUtilizar.Name = "GFSecArticuloServicioAUtilizar";
             // 
@@ -331,7 +348,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.MasterReport = false;
             this.PageSettings.PaperHeight = 11F;
             this.PageSettings.PaperWidth = 8.5F;
-            this.PrintWidth = 10F;
+            this.PrintWidth = 11.4375F;
             this.Sections.Add(this.PageHeader);
             this.Sections.Add(this.GHSecTitulo);
             this.Sections.Add(this.GHSecArticuloServicioAUtilizar);
@@ -357,12 +374,13 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaInicialYFinal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadReservadaDeInventario)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCodigoDeOrden)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblAlmacen2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblAlmacen)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaCreacion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblArticuloServicioAUtilizar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblExistencia)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtArticuloServicioAUtilizar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_TCantidadReservadaDeInventario)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtUnidad)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -385,7 +403,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         private DataDynamics.ActiveReports.TextBox txtArticuloServicioAUtilizar;
         private DataDynamics.ActiveReports.Label lblFechaCreacion;
         private DataDynamics.ActiveReports.Label lblCodigoDeOrden;
-        private DataDynamics.ActiveReports.Label lblAlmacen2;
+        private DataDynamics.ActiveReports.Label lblAlmacen;
         private DataDynamics.ActiveReports.Label lblCantidadReservadaDeInventario;
         private DataDynamics.ActiveReports.GroupFooter GFSecTitulo;
         private DataDynamics.ActiveReports.TextBox txt_TCantidadReservadaDeInventario;
@@ -393,5 +411,6 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         private DataDynamics.ActiveReports.TextBox txtExistencia;
         private DataDynamics.ActiveReports.GroupHeader GHSecArticuloServicioAUtilizar;
         private DataDynamics.ActiveReports.GroupFooter GFSecArticuloServicioAUtilizar;
+        private DataDynamics.ActiveReports.TextBox txtUnidad;
     }
 }

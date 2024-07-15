@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--Mapa de Componentes de la Version del Producto-->
-<Producto NombreExe="Saw" Pais="VE" Version="25.3" Siglas="Saw">
+<Producto NombreExe="Saw" Pais="VE" Version="26.0" Siglas="Saw">
   <Proteccion>2401</Proteccion>
   <Libreria>
     <LibGalacCI>2403</LibGalacCI>
@@ -26,10 +26,10 @@
     <GSSDSL type="exe">5.1.0.0</GSSDSL>
     <GSXFV type="exe">5.1.0.0</GSXFV>
     <LibGalac.OIM>5.14.0.0</LibGalac.OIM>
-    <LibGalac>5.24.2.0</LibGalac>
+    <LibGalac>5.24.3.2</LibGalac>
     <LibGalac.Ctrls>5.14.0.0</LibGalac.Ctrls>
     <LibGalac.Cswa>5.14.0.0</LibGalac.Cswa>
-    <LibGalac.Aos.UI.WpfRD>5.24.1.0</LibGalac.Aos.UI.WpfRD>	
+    <LibGalac.Aos.UI.WpfRD>5.24.2.1</LibGalac.Aos.UI.WpfRD>	
     <ActiveReports.Chart>6.2.3164.0</ActiveReports.Chart>
     <ActiveReports.Document>6.2.3164.0</ActiveReports.Document>
     <ActiveReports.HtmlExport>6.2.3164.0</ActiveReports.HtmlExport>
@@ -44,14 +44,14 @@
   </ComponentesNET>
   <ComponentesAOS>
     <LibGalac.Aos.Base>5.24.0.0</LibGalac.Aos.Base>
-    <LibGalac.Aos.Brl>5.24.1.0</LibGalac.Aos.Brl>
+    <LibGalac.Aos.Brl>5.24.2.3</LibGalac.Aos.Brl>
     <LibGalac.Aos.Catching>5.24.0.0</LibGalac.Aos.Catching>
     <LibGalac.Aos.Cnf>5.24.0.0</LibGalac.Aos.Cnf>
     <LibGalac.Aos.Dal>5.24.1.0</LibGalac.Aos.Dal>
     <LibGalac.Aos.DefGen>5.24.1.0</LibGalac.Aos.DefGen>
     <LibGalac.Aos.UI.Wpf>5.24.0.0</LibGalac.Aos.UI.Wpf>
     <LibGalac.Aos.UI.WpfControls>5.24.0.0</LibGalac.Aos.UI.WpfControls>
-    <LibGalac.Aos.UI.WpfRD>5.24.1.0</LibGalac.Aos.UI.WpfRD>
+    <LibGalac.Aos.UI.WpfRD>5.24.2.1</LibGalac.Aos.UI.WpfRD>
     <LibGalac.Aos.UI.Mvvm>5.24.1.0</LibGalac.Aos.UI.Mvvm>
     <LibGalac.Aos.UI.WpfBN>5.24.0.0</LibGalac.Aos.UI.WpfBN>
     <LibGalac.Aos.Uil>5.24.1.0</LibGalac.Aos.Uil>
@@ -70,7 +70,7 @@
     <LibGalac.Aos.Ccl.PrnStt>5.24.0.0</LibGalac.Aos.Ccl.PrnStt>
     <LibGalac.Aos.Dal.PrnStt>5.24.0.0</LibGalac.Aos.Dal.PrnStt>
     <LibGalac.Aos.Brl.PrnStt>5.24.0.0</LibGalac.Aos.Brl.PrnStt>
-    <LibGalac.Aos.Uil.PrnStt>5.24.0.0</LibGalac.Aos.Uil.PrnStt>
+    <LibGalac.Aos.Uil.PrnStt>5.24.2.0</LibGalac.Aos.Uil.PrnStt>
 
     <LibGalac.Aos.Ccl.IdFiscal>5.24.0.0</LibGalac.Aos.Ccl.IdFiscal>
     <LibGalac.Aos.Brl.IdFiscal>5.24.0.0</LibGalac.Aos.Brl.IdFiscal>
@@ -100,12 +100,14 @@
     <Galac.Ent.Brl.Empresarial>2.61.0.0</Galac.Ent.Brl.Empresarial>
     <Galac.Ent.Ccl.Empresarial>2.61.0.0</Galac.Ent.Ccl.Empresarial>
     <Galac.Ent.Dal.Empresarial>2.61.0.0</Galac.Ent.Dal.Empresarial>
-                                 
+    
+    <Galac.Comun.Uil.Dashboard>2.62.2.4</Galac.Comun.Uil.Dashboard>
+	
     <Galac.Comun.Ccl.TablasGen>2.61.0.0</Galac.Comun.Ccl.TablasGen>
     <Galac.Comun.Dal.TablasGen>2.61.0.0</Galac.Comun.Dal.TablasGen>
     <Galac.Comun.Brl.TablasGen>2.61.0.0</Galac.Comun.Brl.TablasGen>
     <Galac.Comun.Uil.TablasGen>2.61.0.0</Galac.Comun.Uil.TablasGen>
-                                 
+
     <Galac.Comun.Ccl.TablasLey>2.61.0.0</Galac.Comun.Ccl.TablasLey>
     <Galac.Comun.Dal.TablasLey>2.61.0.0</Galac.Comun.Dal.TablasLey>
     <Galac.Comun.Brl.TablasLey>2.61.0.0</Galac.Comun.Brl.TablasLey>
@@ -167,7 +169,7 @@
     <Galac.Saw.Rpt.Inventario>2.61.1.0</Galac.Saw.Rpt.Inventario>
     <Galac.Saw.Uil.Inventario>2.61.1.0</Galac.Saw.Uil.Inventario>
 
-    <Galac.Saw.SLev>2.61.0.0</Galac.Saw.SLev>
+    <Galac.Saw.SLev>2.61.1.0</Galac.Saw.SLev>
     <Galac.Contab.SLev>2.61.0.0</Galac.Contab.SLev>
 
     <Galac.Saw.Ccl.Vehiculo>2.61.0.0</Galac.Saw.Ccl.Vehiculo>
@@ -259,6 +261,7 @@
     <System.Net.Http>1.0.0.0</System.Net.Http>
     <System.Net.Http.WebRequest>1.0.0.0</System.Net.Http.WebRequest>	
     <RibbonControlsLibrary>4.0.0.11019</RibbonControlsLibrary>
-    <Microsoft.Windows.Shell>3.5.41019.1</Microsoft.Windows.Shell>    
+    <Microsoft.Windows.Shell>3.5.41019.1</Microsoft.Windows.Shell>  
+    <MaterialSkin>1.0.0.0</MaterialSkin>	
   </ComponentesAOS>
 </Producto>

@@ -103,6 +103,7 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             vSql.AppendLine("Almacen.Codigo + ' - ' + Almacen.NombreAlmacen AS AlmacenMaterialesServicioUtilizado, ");
             vSql.AppendLine(vSqlUtil.RoundToNDecimals("Adm.OrdenDeProduccionDetalleMateriales.CantidadReservadaInventario", 8) + " AS CantidadReservadaInventario, ");
             vSql.AppendLine("ArticuloInventario.Existencia, ");
+            vSql.AppendLine("ArticuloInventario.UnidadDeVenta AS Unidad, ");
             vSql.AppendLine("CASE WHEN ArticuloInventario.TipoDeArticulo = '1'  THEN 0 ELSE ExistenciaPorAlmacen.Cantidad END AS ExistenciaPorAlmacen ");
             vSql.AppendLine("FROM Adm.OrdenDeProduccion INNER JOIN Adm.OrdenDeProduccionDetalleMateriales ");
             vSql.AppendLine("ON Adm.OrdenDeProduccion.ConsecutivoCompania = Adm.OrdenDeProduccionDetalleMateriales.ConsecutivoCompania AND ");
@@ -277,14 +278,15 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             vSql.AppendLine("SELECT");
             vSql.AppendLine("Adm.OrdenDeProduccion.StatusOp,");
             vSql.AppendLine("Adm.Gv_EnumTipoStatusOrdenProduccion.StrValue AS EstatusStr,");
-            vSql.AppendLine("dbo.ArticuloInventario.Codigo + '-' +  dbo.ArticuloInventario.Descripcion AS InventarioAProducir,");
+            vSql.AppendLine("dbo.ArticuloInventario.Codigo + ' - ' +  dbo.ArticuloInventario.Descripcion AS InventarioAProducir,");
             vSql.AppendLine("Adm.OrdenDeProduccion.FechaCreacion,");
             vSql.AppendLine("Adm.OrdenDeProduccion.FechaInicio,");
             vSql.AppendLine("Adm.OrdenDeProduccion.FechaFinalizacion,");
-            vSql.AppendLine("Adm.OrdenDeProduccion.Codigo AS Orden,");
+            vSql.AppendLine("Adm.OrdenDeProduccion.Codigo + ' - ' + Adm.OrdenDeProduccion.Descripcion AS Orden,");
             vSql.AppendLine("Adm.OrdenDeProduccionDetalleArticulo.CantidadSolicitada,");
+            vSql.AppendLine("ArticuloInventario.UnidadDeVenta AS Unidad, ");
             vSql.AppendLine("Adm.OrdenDeProduccionDetalleArticulo.CantidadProducida,");
-            vSql.AppendLine("Adm.OrdenDeProduccionDetalleArticulo.CantidadSolicitada - Adm.OrdenDeProduccionDetalleArticulo.CantidadProducida AS Diferencia,");
+            vSql.AppendLine("Adm.OrdenDeProduccionDetalleArticulo.CantidadProducida - Adm.OrdenDeProduccionDetalleArticulo.CantidadSolicitada AS Diferencia,");
             vSql.AppendLine("Adm.OrdenDeProduccion.MotivoDeAnulacion");
             vSql.AppendLine("FROM");
             vSql.AppendLine("Adm.OrdenDeProduccion INNER JOIN");

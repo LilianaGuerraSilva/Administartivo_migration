@@ -58,6 +58,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 LibReport.ConfigFieldDate(this, "txtFechaCreacion", string.Empty, "FechaCreacion", LibGalac.Aos.Base.Report.eDateOutputFormat.DateLong);
                 LibReport.ConfigFieldDate(this, "txtFechaInicio", string.Empty, "FechaInicio", LibGalac.Aos.Base.Report.eDateOutputFormat.DateLong);
                 LibReport.ConfigFieldDate(this, "txtFechaFinalizacion", string.Empty, "FechaFinalizacion", LibGalac.Aos.Base.Report.eDateOutputFormat.DateLong);
+                LibReport.ConfigFieldStr(this, "txtUnidad", string.Empty, "Unidad");
                 LibReport.ConfigFieldDec(this, "txtCantidadEstimada", string.Empty, "CantidadSolicitada", "n" + 8, true, TextAlignment.Right);
                 LibReport.ConfigFieldDec(this, "txtCantidadProducida", string.Empty, "CantidadProducida", "n" + 8, true, TextAlignment.Right);
                 LibReport.ConfigFieldDec(this, "txtDiferencia", string.Empty, "Diferencia", "n" + 8, true, TextAlignment.Right);
