@@ -44,43 +44,45 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnOrdDeProDetArtConsecutiv NOT NULL, ");
             SQL.AppendLine("ConsecutivoOrdenDeProduccion" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnOrdDeProDetArtConsecutiv NOT NULL, ");
             SQL.AppendLine("Consecutivo" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnOrdDeProDetArtConsecutiv NOT NULL, ");
-            SQL.AppendLine("ConsecutivoListaDeMateriales" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnOrdDeProDetArtConsecutiv NOT NULL, ");
             SQL.AppendLine("ConsecutivoAlmacen" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnOrdDeProDetArtConsecutiv NOT NULL, ");
             SQL.AppendLine("CodigoArticulo" + InsSql.VarCharTypeForDb(30) + " CONSTRAINT nnOrdDeProDetArtCodigoArti NOT NULL, ");
-            SQL.AppendLine("CantidadSolicitada" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT nnOrdDeProDetArtCantidadSo NOT NULL, ");
-            SQL.AppendLine("CantidadProducida" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT nnOrdDeProDetArtCantidadPr NOT NULL, ");
-            SQL.AppendLine("CostoUnitario" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_OrdDeProDetArtCoUn DEFAULT (0), ");
-            SQL.AppendLine("MontoSubTotal" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_OrdDeProDetArtMoSuTo DEFAULT (0), ");
+            SQL.AppendLine("CantidadOriginalLista" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT d_OrdDeProDetArtCaOrLi DEFAULT (0), ");
+            SQL.AppendLine("CantidadSolicitada" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT d_OrdDeProDetArtCaSo DEFAULT (0), ");
+            SQL.AppendLine("CantidadProducida" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT d_OrdDeProDetArtCaPr DEFAULT (0), ");
+            SQL.AppendLine("CostoUnitario" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT d_OrdDeProDetArtCoUn DEFAULT (0), ");
+            SQL.AppendLine("MontoSubTotal" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT d_OrdDeProDetArtMoSuTo DEFAULT (0), ");
             SQL.AppendLine("AjustadoPostCierre" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnOrdDeProDetArtAjustadoPo NOT NULL, ");
-            SQL.AppendLine("CantidadAjustada" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT nnOrdDeProDetArtCantidadAj NOT NULL, ");
+            SQL.AppendLine("CantidadAjustada" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT d_OrdDeProDetArtCaAj DEFAULT (0), ");
+            SQL.AppendLine("PorcentajeCostoEstimado" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT d_OrdDeProDetArtPoCoEs DEFAULT (0), ");
+            SQL.AppendLine("PorcentajeCostoCierre" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT d_OrdDeProDetArtPoCoCi DEFAULT (0), ");
+            SQL.AppendLine("Costo" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT d_OrdDeProDetArtCo DEFAULT (0), ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
             SQL.AppendLine("CONSTRAINT p_OrdenDeProduccionDetalleArticulo PRIMARY KEY CLUSTERED");
             SQL.AppendLine("(ConsecutivoCompania ASC, ConsecutivoOrdenDeProduccion ASC, Consecutivo ASC)");
             SQL.AppendLine(",CONSTRAINT fk_OrdenDeProduccionDetalleArticuloOrdenDeProduccion FOREIGN KEY (ConsecutivoCompania, ConsecutivoOrdenDeProduccion)");
-            SQL.AppendLine("REFERENCES Adm .OrdenDeProduccion(ConsecutivoCompania, Consecutivo)");
+            SQL.AppendLine("REFERENCES Adm.OrdenDeProduccion(ConsecutivoCompania, Consecutivo)");
             SQL.AppendLine("ON DELETE CASCADE");
-            SQL.AppendLine("ON UPDATE CASCADE");
-            SQL.AppendLine(", CONSTRAINT fk_OrdenDeProduccionDetalleArticuloListaDeMateriales FOREIGN KEY (ConsecutivoCompania, ConsecutivoListaDeMateriales)");
-            SQL.AppendLine("REFERENCES Adm.ListaDeMateriales(ConsecutivoCompania, Consecutivo)");
-            SQL.AppendLine("ON UPDATE CASCADE");
-            SQL.AppendLine(", CONSTRAINT fk_OrdenDeProduccionDetalleArticuloAlmacen FOREIGN KEY (ConsecutivoCompania, ConsecutivoAlmacen)");
-            SQL.AppendLine("REFERENCES Saw.Almacen(ConsecutivoCompania, Consecutivo)");
-            
             SQL.AppendLine(")");
             return SQL.ToString();
         }
 
         private string SqlViewB1() {
             StringBuilder SQL = new StringBuilder();
-            SQL.AppendLine("SELECT OrdenDeProduccionDetalleArticulo.ConsecutivoCompania, OrdenDeProduccionDetalleArticulo.ConsecutivoOrdenDeProduccion, OrdenDeProduccionDetalleArticulo.Consecutivo, OrdenDeProduccionDetalleArticulo.ConsecutivoListaDeMateriales");
-            SQL.AppendLine(", OrdenDeProduccionDetalleArticulo.ConsecutivoAlmacen, OrdenDeProduccionDetalleArticulo.CodigoArticulo, OrdenDeProduccionDetalleArticulo.CantidadSolicitada, OrdenDeProduccionDetalleArticulo.CantidadProducida");
+            SQL.AppendLine("SELECT OrdenDeProduccionDetalleArticulo.ConsecutivoCompania, OrdenDeProduccionDetalleArticulo.ConsecutivoOrdenDeProduccion, OrdenDeProduccionDetalleArticulo.Consecutivo, OrdenDeProduccionDetalleArticulo.ConsecutivoAlmacen");
+            SQL.AppendLine(", OrdenDeProduccionDetalleArticulo.CodigoArticulo, OrdenDeProduccionDetalleArticulo.CantidadOriginalLista, OrdenDeProduccionDetalleArticulo.CantidadSolicitada, OrdenDeProduccionDetalleArticulo.CantidadProducida");
             SQL.AppendLine(", OrdenDeProduccionDetalleArticulo.CostoUnitario, OrdenDeProduccionDetalleArticulo.MontoSubTotal, OrdenDeProduccionDetalleArticulo.AjustadoPostCierre, OrdenDeProduccionDetalleArticulo.CantidadAjustada");
+            SQL.AppendLine(", OrdenDeProduccionDetalleArticulo.PorcentajeCostoEstimado, OrdenDeProduccionDetalleArticulo.PorcentajeCostoCierre, OrdenDeProduccionDetalleArticulo.Costo");
+            SQL.AppendLine(", ArticuloInventario.Descripcion AS DescripcionArticulo");
+            SQL.AppendLine(", ArticuloInventario.UnidadDeVenta AS UnidadDeVenta");
+            SQL.AppendLine(", Adm.OrdenDeProduccion.StatusOp AS StatusOp");
             SQL.AppendLine(", OrdenDeProduccionDetalleArticulo.fldTimeStamp, CAST(OrdenDeProduccionDetalleArticulo.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".OrdenDeProduccionDetalleArticulo");
-            SQL.AppendLine("INNER JOIN Adm.ListaDeMateriales ON  " + DbSchema + ".OrdenDeProduccionDetalleArticulo.ConsecutivoListaDeMateriales = Adm.ListaDeMateriales.Consecutivo");
-            SQL.AppendLine("      AND " + DbSchema + ".OrdenDeProduccionDetalleArticulo.ConsecutivoCompania = Adm.ListaDeMateriales.ConsecutivoCompania");
+            SQL.AppendLine("INNER JOIN Adm.OrdenDeProduccion ON  " + DbSchema + ".OrdenDeProduccionDetalleArticulo.ConsecutivoOrdenDeProduccion = Adm.OrdenDeProduccion.Consecutivo");
+            SQL.AppendLine("      AND " + DbSchema + ".OrdenDeProduccionDetalleArticulo.ConsecutivoCompania = Adm.OrdenDeProduccion.ConsecutivoCompania");
             SQL.AppendLine("INNER JOIN Saw.Almacen ON  " + DbSchema + ".OrdenDeProduccionDetalleArticulo.ConsecutivoAlmacen = Saw.Almacen.Consecutivo");
             SQL.AppendLine("      AND " + DbSchema + ".OrdenDeProduccionDetalleArticulo.ConsecutivoCompania = Saw.Almacen.ConsecutivoCompania");
+            SQL.AppendLine("INNER JOIN ArticuloInventario ON  " + DbSchema + ".OrdenDeProduccionDetalleArticulo.CodigoArticulo = ArticuloInventario.Codigo");
+            SQL.AppendLine("      AND " + DbSchema + ".OrdenDeProduccionDetalleArticulo.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania");
             return SQL.ToString();
         }
 
@@ -89,15 +91,18 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@ConsecutivoOrdenDeProduccion" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10, 0) + ",");
-            SQL.AppendLine("@ConsecutivoListaDeMateriales" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@ConsecutivoAlmacen" + InsSql.NumericTypeForDb(10, 0) + ",");
-            SQL.AppendLine("@CodigoArticulo" + InsSql.VarCharTypeForDb(30) + " = '',");
+            SQL.AppendLine("@CodigoArticulo" + InsSql.VarCharTypeForDb(30) + ",");
+            SQL.AppendLine("@CantidadOriginalLista" + InsSql.DecimalTypeForDb(25, 8) + " = 0,");
             SQL.AppendLine("@CantidadSolicitada" + InsSql.DecimalTypeForDb(25, 8) + " = 0,");
             SQL.AppendLine("@CantidadProducida" + InsSql.DecimalTypeForDb(25, 8) + " = 0,");
-            SQL.AppendLine("@CostoUnitario" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
-            SQL.AppendLine("@MontoSubTotal" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
+            SQL.AppendLine("@CostoUnitario" + InsSql.DecimalTypeForDb(25, 8) + " = 0,");
+            SQL.AppendLine("@MontoSubTotal" + InsSql.DecimalTypeForDb(25, 8) + " = 0,");
             SQL.AppendLine("@AjustadoPostCierre" + InsSql.CharTypeForDb(1) + " = 'N',");
-            SQL.AppendLine("@CantidadAjustada" + InsSql.DecimalTypeForDb(25, 4) + " = 0");
+            SQL.AppendLine("@CantidadAjustada" + InsSql.DecimalTypeForDb(25, 8) + " = 0,");
+            SQL.AppendLine("@PorcentajeCostoEstimado" + InsSql.DecimalTypeForDb(25, 8) + " = 0,");
+            SQL.AppendLine("@PorcentajeCostoCierre" + InsSql.DecimalTypeForDb(25, 8) + " = 0,");
+            SQL.AppendLine("@Costo" + InsSql.DecimalTypeForDb(25, 8) + " = 0");
             return SQL.ToString();
         }
 
@@ -113,28 +118,34 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("            ConsecutivoCompania,");
             SQL.AppendLine("            ConsecutivoOrdenDeProduccion,");
             SQL.AppendLine("            Consecutivo,");
-            SQL.AppendLine("            ConsecutivoListaDeMateriales,");
             SQL.AppendLine("            ConsecutivoAlmacen,");
             SQL.AppendLine("            CodigoArticulo,");
+            SQL.AppendLine("            CantidadOriginalLista,");
             SQL.AppendLine("            CantidadSolicitada,");
             SQL.AppendLine("            CantidadProducida,");
             SQL.AppendLine("            CostoUnitario,");
             SQL.AppendLine("            MontoSubTotal,");
             SQL.AppendLine("            AjustadoPostCierre,");
-            SQL.AppendLine("            CantidadAjustada)");
+            SQL.AppendLine("            CantidadAjustada,");
+            SQL.AppendLine("            PorcentajeCostoEstimado,");
+            SQL.AppendLine("            PorcentajeCostoCierre,");
+            SQL.AppendLine("            Costo)");
             SQL.AppendLine("            VALUES(");
             SQL.AppendLine("            @ConsecutivoCompania,");
             SQL.AppendLine("            @ConsecutivoOrdenDeProduccion,");
             SQL.AppendLine("            @Consecutivo,");
-            SQL.AppendLine("            @ConsecutivoListaDeMateriales,");
             SQL.AppendLine("            @ConsecutivoAlmacen,");
             SQL.AppendLine("            @CodigoArticulo,");
+            SQL.AppendLine("            @CantidadOriginalLista,");
             SQL.AppendLine("            @CantidadSolicitada,");
             SQL.AppendLine("            @CantidadProducida,");
             SQL.AppendLine("            @CostoUnitario,");
             SQL.AppendLine("            @MontoSubTotal,");
             SQL.AppendLine("            @AjustadoPostCierre,");
-            SQL.AppendLine("            @CantidadAjustada)");
+            SQL.AppendLine("            @CantidadAjustada,");
+            SQL.AppendLine("            @PorcentajeCostoEstimado,");
+            SQL.AppendLine("            @PorcentajeCostoCierre,");
+            SQL.AppendLine("            @Costo)");
             SQL.AppendLine("            SET @ReturnValue = @@ROWCOUNT");
             SQL.AppendLine("        COMMIT TRAN");
             SQL.AppendLine("        RETURN @ReturnValue ");
@@ -150,15 +161,18 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@ConsecutivoOrdenDeProduccion" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10, 0) + ",");
-            SQL.AppendLine("@ConsecutivoListaDeMateriales" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@ConsecutivoAlmacen" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@CodigoArticulo" + InsSql.VarCharTypeForDb(30) + ",");
+            SQL.AppendLine("@CantidadOriginalLista" + InsSql.DecimalTypeForDb(25, 8) + ",");
             SQL.AppendLine("@CantidadSolicitada" + InsSql.DecimalTypeForDb(25, 8) + ",");
             SQL.AppendLine("@CantidadProducida" + InsSql.DecimalTypeForDb(25, 8) + ",");
-            SQL.AppendLine("@CostoUnitario" + InsSql.DecimalTypeForDb(25, 4) + ",");
-            SQL.AppendLine("@MontoSubTotal" + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("@CostoUnitario" + InsSql.DecimalTypeForDb(25, 8) + ",");
+            SQL.AppendLine("@MontoSubTotal" + InsSql.DecimalTypeForDb(25, 8) + ",");
             SQL.AppendLine("@AjustadoPostCierre" + InsSql.CharTypeForDb(1) + ",");
-            SQL.AppendLine("@CantidadAjustada" + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("@CantidadAjustada" + InsSql.DecimalTypeForDb(25, 8) + ",");
+            SQL.AppendLine("@PorcentajeCostoEstimado" + InsSql.DecimalTypeForDb(25, 8) + ",");
+            SQL.AppendLine("@PorcentajeCostoCierre" + InsSql.DecimalTypeForDb(25, 8) + ",");
+            SQL.AppendLine("@Costo" + InsSql.DecimalTypeForDb(25, 8) + ",");
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
             return SQL.ToString();
         }
@@ -173,29 +187,32 @@ namespace Galac.Adm.Dal.GestionProduccion {
             //SQL.AppendLine("--DECLARE @CanBeChanged bit");
             SQL.AppendLine("   SET @ReturnValue = -1");
             SQL.AppendLine("   SET @ValidationMsg = ''");
-            SQL.AppendLine("   IF EXISTS(SELECT ConsecutivoCompania FROM " + DbSchema + ".OrdenDeProduccionDetalleArticulo WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoOrdenDeProduccion = @ConsecutivoOrdenDeProduccion AND Consecutivo = @Consecutivo AND ConsecutivoListaDeMateriales = @ConsecutivoListaDeMateriales)");
+            SQL.AppendLine("   IF EXISTS(SELECT ConsecutivoCompania FROM " + DbSchema + ".OrdenDeProduccionDetalleArticulo WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoOrdenDeProduccion = @ConsecutivoOrdenDeProduccion AND Consecutivo = @Consecutivo)");
             SQL.AppendLine("   BEGIN");
-            SQL.AppendLine("      SELECT @CurrentTimeStamp = fldTimeStamp FROM " + DbSchema + ".OrdenDeProduccionDetalleArticulo WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoOrdenDeProduccion = @ConsecutivoOrdenDeProduccion AND Consecutivo = @Consecutivo AND ConsecutivoListaDeMateriales = @ConsecutivoListaDeMateriales");
+            SQL.AppendLine("      SELECT @CurrentTimeStamp = fldTimeStamp FROM " + DbSchema + ".OrdenDeProduccionDetalleArticulo WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoOrdenDeProduccion = @ConsecutivoOrdenDeProduccion AND Consecutivo = @Consecutivo");
             SQL.AppendLine("      IF (CAST(@CurrentTimeStamp AS bigint) = @TimeStampAsInt)");
             SQL.AppendLine("      BEGIN");
-            SQL.AppendLine("--Para Validaciones de FK Lógicas crear e invocar:DECLARE @CanBeChanged bit; EXEC @CanBeChanged = " + DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloCanBeUpdated @ConsecutivoCompania,@ConsecutivoOrdenDeProduccion,@Consecutivo,@ConsecutivoListaDeMateriales, @CurrentTimeStamp, @ValidationMsg out");
+            SQL.AppendLine("--Para Validaciones de FK Lógicas crear e invocar:DECLARE @CanBeChanged bit; EXEC @CanBeChanged = " + DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloCanBeUpdated @ConsecutivoCompania,@ConsecutivoOrdenDeProduccion,@Consecutivo, @CurrentTimeStamp, @ValidationMsg out");
             //SQL.AppendLine("--IF @CanBeChanged = 1 --True");
             //SQL.AppendLine("--BEGIN");
             SQL.AppendLine("         BEGIN TRAN");
             SQL.AppendLine("         UPDATE " + DbSchema + ".OrdenDeProduccionDetalleArticulo");
             SQL.AppendLine("            SET ConsecutivoAlmacen = @ConsecutivoAlmacen,");
             SQL.AppendLine("               CodigoArticulo = @CodigoArticulo,");
+            SQL.AppendLine("               CantidadOriginalLista = @CantidadOriginalLista,");
             SQL.AppendLine("               CantidadSolicitada = @CantidadSolicitada,");
             SQL.AppendLine("               CantidadProducida = @CantidadProducida,");
             SQL.AppendLine("               CostoUnitario = @CostoUnitario,");
             SQL.AppendLine("               MontoSubTotal = @MontoSubTotal,");
             SQL.AppendLine("               AjustadoPostCierre = @AjustadoPostCierre,");
-            SQL.AppendLine("               CantidadAjustada = @CantidadAjustada");
+            SQL.AppendLine("               CantidadAjustada = @CantidadAjustada,");
+            SQL.AppendLine("               PorcentajeCostoEstimado = @PorcentajeCostoEstimado,");
+            SQL.AppendLine("               PorcentajeCostoCierre = @PorcentajeCostoCierre,");
+            SQL.AppendLine("               Costo = @Costo");
             SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
             SQL.AppendLine("               AND ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("               AND ConsecutivoOrdenDeProduccion = @ConsecutivoOrdenDeProduccion");
             SQL.AppendLine("               AND Consecutivo = @Consecutivo");
-            SQL.AppendLine("               AND ConsecutivoListaDeMateriales = @ConsecutivoListaDeMateriales");
             SQL.AppendLine("         SET @ReturnValue = @@ROWCOUNT");
             SQL.AppendLine("         IF @@ERROR = 0");
             SQL.AppendLine("         BEGIN");
@@ -229,7 +246,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@ConsecutivoOrdenDeProduccion" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10, 0) + ",");
-            SQL.AppendLine("@ConsecutivoListaDeMateriales" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
             return SQL.ToString();
         }
@@ -244,12 +260,12 @@ namespace Galac.Adm.Dal.GestionProduccion {
             //SQL.AppendLine("--DECLARE @CanBeDeleted bit");
             SQL.AppendLine("   SET @ReturnValue = -1");
             SQL.AppendLine("   SET @ValidationMsg = ''");
-            SQL.AppendLine("   IF EXISTS(SELECT ConsecutivoCompania FROM " + DbSchema + ".OrdenDeProduccionDetalleArticulo WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoOrdenDeProduccion = @ConsecutivoOrdenDeProduccion AND Consecutivo = @Consecutivo AND ConsecutivoListaDeMateriales = @ConsecutivoListaDeMateriales)");
+            SQL.AppendLine("   IF EXISTS(SELECT ConsecutivoCompania FROM " + DbSchema + ".OrdenDeProduccionDetalleArticulo WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoOrdenDeProduccion = @ConsecutivoOrdenDeProduccion AND Consecutivo = @Consecutivo)");
             SQL.AppendLine("   BEGIN");
-            SQL.AppendLine("      SELECT @CurrentTimeStamp = fldTimeStamp FROM " + DbSchema + ".OrdenDeProduccionDetalleArticulo WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoOrdenDeProduccion = @ConsecutivoOrdenDeProduccion AND Consecutivo = @Consecutivo AND ConsecutivoListaDeMateriales = @ConsecutivoListaDeMateriales");
+            SQL.AppendLine("      SELECT @CurrentTimeStamp = fldTimeStamp FROM " + DbSchema + ".OrdenDeProduccionDetalleArticulo WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoOrdenDeProduccion = @ConsecutivoOrdenDeProduccion AND Consecutivo = @Consecutivo");
             SQL.AppendLine("      IF (CAST(@CurrentTimeStamp AS bigint) = @TimeStampAsInt)");
             SQL.AppendLine("      BEGIN");
-            SQL.AppendLine("--Para Validaciones de FK Lógicas crear e invocar:DECLARE @CanBeDeleted bit; EXEC @CanBeDeleted = " + DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloCanBeDeleted @ConsecutivoCompania,@ConsecutivoOrdenDeProduccion,@Consecutivo,@ConsecutivoListaDeMateriales, @CurrentTimeStamp, @ValidationMsg out");
+            SQL.AppendLine("--Para Validaciones de FK Lógicas crear e invocar:DECLARE @CanBeDeleted bit; EXEC @CanBeDeleted = " + DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloCanBeDeleted @ConsecutivoCompania,@ConsecutivoOrdenDeProduccion,@Consecutivo, @CurrentTimeStamp, @ValidationMsg out");
             //SQL.AppendLine("--IF @CanBeDeleted = 1 --True");
             //SQL.AppendLine("--BEGIN");
             SQL.AppendLine("         BEGIN TRAN");
@@ -258,7 +274,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("               AND ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("               AND ConsecutivoOrdenDeProduccion = @ConsecutivoOrdenDeProduccion");
             SQL.AppendLine("               AND Consecutivo = @Consecutivo");
-            SQL.AppendLine("               AND ConsecutivoListaDeMateriales = @ConsecutivoListaDeMateriales");
             SQL.AppendLine("         SET @ReturnValue = @@ROWCOUNT");
             SQL.AppendLine("         IF @@ERROR = 0");
             SQL.AppendLine("         BEGIN");
@@ -291,8 +306,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@ConsecutivoOrdenDeProduccion" + InsSql.NumericTypeForDb(10, 0) + ",");
-            SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10, 0) + ",");
-            SQL.AppendLine("@ConsecutivoListaDeMateriales" + InsSql.NumericTypeForDb(10, 0));
+            SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10, 0));
             return SQL.ToString();
         }
 
@@ -304,22 +318,24 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("         ConsecutivoCompania,");
             SQL.AppendLine("         ConsecutivoOrdenDeProduccion,");
             SQL.AppendLine("         Consecutivo,");
-            SQL.AppendLine("         ConsecutivoListaDeMateriales,");
             SQL.AppendLine("         ConsecutivoAlmacen,");
             SQL.AppendLine("         CodigoArticulo,");
+            SQL.AppendLine("         CantidadOriginalLista,");
             SQL.AppendLine("         CantidadSolicitada,");
             SQL.AppendLine("         CantidadProducida,");
             SQL.AppendLine("         CostoUnitario,");
             SQL.AppendLine("         MontoSubTotal,");
             SQL.AppendLine("         AjustadoPostCierre,");
             SQL.AppendLine("         CantidadAjustada,");
+            SQL.AppendLine("         PorcentajeCostoEstimado,");
+            SQL.AppendLine("         PorcentajeCostoCierre,");
+            SQL.AppendLine("         Costo,");
             SQL.AppendLine("         CAST(fldTimeStamp AS bigint) AS fldTimeStampBigint,");
             SQL.AppendLine("         fldTimeStamp");
             SQL.AppendLine("      FROM " + DbSchema + ".OrdenDeProduccionDetalleArticulo");
             SQL.AppendLine("      WHERE OrdenDeProduccionDetalleArticulo.ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("         AND OrdenDeProduccionDetalleArticulo.ConsecutivoOrdenDeProduccion = @ConsecutivoOrdenDeProduccion");
             SQL.AppendLine("         AND OrdenDeProduccionDetalleArticulo.Consecutivo = @Consecutivo");
-            SQL.AppendLine("         AND OrdenDeProduccionDetalleArticulo.ConsecutivoListaDeMateriales = @ConsecutivoListaDeMateriales");
             SQL.AppendLine("   RETURN @@ROWCOUNT");
             SQL.AppendLine("END");
             return SQL.ToString();
@@ -339,15 +355,18 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("        ConsecutivoCompania,");
             SQL.AppendLine("        ConsecutivoOrdenDeProduccion,");
             SQL.AppendLine("        Consecutivo,");
-            SQL.AppendLine("        ConsecutivoListaDeMateriales,");
             SQL.AppendLine("        ConsecutivoAlmacen,");
             SQL.AppendLine("        CodigoArticulo,");
+            SQL.AppendLine("        CantidadOriginalLista,");
             SQL.AppendLine("        CantidadSolicitada,");
             SQL.AppendLine("        CantidadProducida,");
             SQL.AppendLine("        CostoUnitario,");
             SQL.AppendLine("        MontoSubTotal,");
             SQL.AppendLine("        AjustadoPostCierre,");
             SQL.AppendLine("        CantidadAjustada,");
+            SQL.AppendLine("        PorcentajeCostoEstimado,");
+            SQL.AppendLine("        PorcentajeCostoCierre,");
+            SQL.AppendLine("        Costo,");
             SQL.AppendLine("        fldTimeStamp");
             SQL.AppendLine("    FROM OrdenDeProduccionDetalleArticulo");
             SQL.AppendLine(" 	WHERE ConsecutivoOrdenDeProduccion = @ConsecutivoOrdenDeProduccion");
@@ -397,46 +416,121 @@ namespace Galac.Adm.Dal.GestionProduccion {
 			SQL.AppendLine("	        ConsecutivoCompania,");
 			SQL.AppendLine("	        ConsecutivoOrdenDeProduccion,");
 			SQL.AppendLine("	        Consecutivo,");
-			SQL.AppendLine("	        ConsecutivoListaDeMateriales,");
 			SQL.AppendLine("	        ConsecutivoAlmacen,");
 			SQL.AppendLine("	        CodigoArticulo,");
+			SQL.AppendLine("	        CantidadOriginalLista,");
 			SQL.AppendLine("	        CantidadSolicitada,");
 			SQL.AppendLine("	        CantidadProducida,");
 			SQL.AppendLine("	        CostoUnitario,");
 			SQL.AppendLine("	        MontoSubTotal,");
 			SQL.AppendLine("	        AjustadoPostCierre,");
-			SQL.AppendLine("	        CantidadAjustada)");
+			SQL.AppendLine("	        CantidadAjustada,");
+			SQL.AppendLine("	        PorcentajeCostoEstimado,");
+			SQL.AppendLine("	        PorcentajeCostoCierre,");
+			SQL.AppendLine("	        Costo)");
 		    SQL.AppendLine("	    SELECT ");
 			SQL.AppendLine("	        @ConsecutivoCompania,");
 			SQL.AppendLine("	        @ConsecutivoOrdenDeProduccion,");
 			SQL.AppendLine("	        Consecutivo,");
-			SQL.AppendLine("	        ConsecutivoListaDeMateriales,");
 			SQL.AppendLine("	        ConsecutivoAlmacen,");
 			SQL.AppendLine("	        CodigoArticulo,");
+			SQL.AppendLine("	        CantidadOriginalLista,");
 			SQL.AppendLine("	        CantidadSolicitada,");
 			SQL.AppendLine("	        CantidadProducida,");
 			SQL.AppendLine("	        CostoUnitario,");
 			SQL.AppendLine("	        MontoSubTotal,");
 			SQL.AppendLine("	        AjustadoPostCierre,");
-			SQL.AppendLine("	        CantidadAjustada");
+			SQL.AppendLine("	        CantidadAjustada,");
+			SQL.AppendLine("	        PorcentajeCostoEstimado,");
+			SQL.AppendLine("	        PorcentajeCostoCierre,");
+			SQL.AppendLine("	        Costo");
 		    SQL.AppendLine("	    FROM OPENXML( @hdoc, 'GpData/GpResult/GpDataOrdenDeProduccionDetalleArticulo/GpDetailOrdenDeProduccionDetalleArticulo',2) ");
             SQL.AppendLine("	    WITH (");
             SQL.AppendLine("	        Consecutivo " + InsSql.NumericTypeForDb(10, 0) + ",");
-            SQL.AppendLine("	        ConsecutivoListaDeMateriales " + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("	        ConsecutivoAlmacen " + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("	        CodigoArticulo " + InsSql.VarCharTypeForDb(30) + ",");
+            SQL.AppendLine("	        CantidadOriginalLista " + InsSql.DecimalTypeForDb(25, 8) + ",");
             SQL.AppendLine("	        CantidadSolicitada " + InsSql.DecimalTypeForDb(25, 8) + ",");
             SQL.AppendLine("	        CantidadProducida " + InsSql.DecimalTypeForDb(25, 8) + ",");
-            SQL.AppendLine("	        CostoUnitario " + InsSql.DecimalTypeForDb(25, 4) + ",");
-            SQL.AppendLine("	        MontoSubTotal " + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("	        CostoUnitario " + InsSql.DecimalTypeForDb(25, 8) + ",");
+            SQL.AppendLine("	        MontoSubTotal " + InsSql.DecimalTypeForDb(25, 8) + ",");
             SQL.AppendLine("	        AjustadoPostCierre " + InsSql.CharTypeForDb(1) + ",");
-            SQL.AppendLine("	        CantidadAjustada " + InsSql.DecimalTypeForDb(25, 4) + ") AS XmlDocDetailOfOrdenDeProduccion");
+            SQL.AppendLine("	        CantidadAjustada " + InsSql.DecimalTypeForDb(25, 8) + ",");
+            SQL.AppendLine("	        PorcentajeCostoEstimado " + InsSql.DecimalTypeForDb(25, 8) + ",");
+            SQL.AppendLine("	        PorcentajeCostoCierre " + InsSql.DecimalTypeForDb(25, 8) + ",");
+            SQL.AppendLine("	        Costo " + InsSql.DecimalTypeForDb(25, 8) + ") AS XmlDocDetailOfOrdenDeProduccion");
             SQL.AppendLine("	    EXEC sp_xml_removedocument @hdoc");
             SQL.AppendLine("	    SET @ReturnValue = @@ROWCOUNT");
             SQL.AppendLine("	    RETURN @ReturnValue");
 	        SQL.AppendLine("	END");
 	        SQL.AppendLine("	ELSE");
             SQL.AppendLine("	    RETURN -1");
+            SQL.AppendLine("END");
+            return SQL.ToString();
+        }
+
+        private string SqlSpSearchParameters() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("@SQLWhere" + InsSql.VarCharTypeForDb(2000) + " = null,");
+            SQL.AppendLine("@SQLOrderBy" + InsSql.VarCharTypeForDb(500) + " = null,");
+            SQL.AppendLine("@DateFormat" + InsSql.VarCharTypeForDb(3) + " = null,");
+            SQL.AppendLine("@UseTopClausule" + InsSql.VarCharTypeForDb(1) + " = 'S'");
+            return SQL.ToString();
+        }
+
+        private string SqlSpSearch() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("BEGIN");
+            SQL.AppendLine("   SET NOCOUNT ON;");
+            SQL.AppendLine("   DECLARE @strSQL AS " + InsSql.VarCharTypeForDb(7000));
+            SQL.AppendLine("   DECLARE @TopClausule AS " + InsSql.VarCharTypeForDb(10));
+            SQL.AppendLine("   IF(@UseTopClausule = 'S') ");
+            SQL.AppendLine("    SET @TopClausule = 'TOP 500'");
+            SQL.AppendLine("   ELSE ");
+            SQL.AppendLine("    SET @TopClausule = ''");
+            SQL.AppendLine("   SET @strSQL = ");
+            SQL.AppendLine("    ' SET DateFormat ' + @DateFormat + ");
+            SQL.AppendLine("    ' SELECT ' + @TopClausule + '");
+            SQL.AppendLine("      " + DbSchema + ".Gv_OrdenDeProduccionDetalleArticulo_B1.CodigoArticulo,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_OrdenDeProduccionDetalleArticulo_B1.DescripcionArticulo,");
+            SQL.AppendLine("      ''COLPIVOTE'' AS ColControl,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_OrdenDeProduccionDetalleArticulo_B1.ConsecutivoCompania,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_OrdenDeProduccionDetalleArticulo_B1.ConsecutivoOrdenDeProduccion,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_OrdenDeProduccionDetalleArticulo_B1.Consecutivo");
+            SQL.AppendLine("      FROM " + DbSchema + ".Gv_OrdenDeProduccionDetalleArticulo_B1");
+            SQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
+            SQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE ' + @SQLWhere");
+            SQL.AppendLine("   IF (NOT @SQLOrderBy IS NULL) AND (@SQLOrderBy <> '')");
+            SQL.AppendLine("      SET @strSQL = @strSQL + ' ORDER BY ' + @SQLOrderBy");
+            SQL.AppendLine("   EXEC(@strSQL)");
+            SQL.AppendLine("END");
+            return SQL.ToString();
+        }
+
+        private string SqlSpSchForRpt() {
+            StringBuilder SQL = new StringBuilder();            
+            SQL.AppendLine("BEGIN");
+            SQL.AppendLine("   SET NOCOUNT ON;");
+            SQL.AppendLine("   DECLARE @strSQL AS " + InsSql.VarCharTypeForDb(7000));
+            SQL.AppendLine("   DECLARE @TopClausule AS " + InsSql.VarCharTypeForDb(10));
+            SQL.AppendLine("   IF(@UseTopClausule = 'S') ");
+            SQL.AppendLine("    SET @TopClausule = 'TOP 500'");
+            SQL.AppendLine("   ELSE ");
+            SQL.AppendLine("    SET @TopClausule = ''");
+            SQL.AppendLine("   SET @strSQL = ");
+            SQL.AppendLine("    ' SET DateFormat ' + @DateFormat + ");
+            SQL.AppendLine("    ' SELECT DISTINCT ' + @TopClausule + '");
+            SQL.AppendLine("      " + DbSchema + ".Gv_OrdenDeProduccionDetalleArticulo_B1.CodigoArticulo,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_OrdenDeProduccionDetalleArticulo_B1.DescripcionArticulo,");
+            SQL.AppendLine("      ''COLPIVOTE'' AS ColControl,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_OrdenDeProduccionDetalleArticulo_B1.ConsecutivoCompania");
+            SQL.AppendLine("      FROM " + DbSchema + ".Gv_OrdenDeProduccionDetalleArticulo_B1'");
+            SQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE  " + DbSchema + ".Gv_OrdenDeProduccionDetalleArticulo_B1.StatusOP = ''2''' ");
+            SQL.AppendLine("   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
+            SQL.AppendLine("      SET @strSQL = @strSQL + ' AND ' + @SQLWhere");
+            SQL.AppendLine("   IF (NOT @SQLOrderBy IS NULL) AND (@SQLOrderBy <> '')");
+            SQL.AppendLine("      SET @strSQL = @strSQL + ' ORDER BY ' + @SQLOrderBy");
+            SQL.AppendLine("   EXEC(@strSQL)");
             SQL.AppendLine("END");
             return SQL.ToString();
         }
@@ -462,9 +556,11 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloUPD", SqlSpUpdParameters(), SqlSpUpd(), true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloDEL", SqlSpDelParameters(), SqlSpDel(), true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloGET", SqlSpGetParameters(), SqlSpGet(), true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloSCH", SqlSpSearchParameters(), SqlSpSearch(), true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloSelDet", SqlSpSelDetailParameters(), SqlSpSelDetail(), true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloDelDet", SqlSpDelDetailParameters(), SqlSpDelDetail(), true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloInsDet", SqlSpInsDetailParameters(), SqlSpInsDetail(), true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeProdCerradaDetArtSchForRpt", SqlSpSearchParameters(), SqlSpSchForRpt(), true) && vResult;
             insSps.Dispose();
             return vResult;
         }
@@ -474,8 +570,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             if (CrearTabla()) {
                 CrearVistas();
                 CrearProcedimientos();
-                clsOrdenDeProduccionDetalleMaterialesED insDetailOrdDeProDetMat = new clsOrdenDeProduccionDetalleMaterialesED();
-                vResult = insDetailOrdDeProDetMat.InstalarTabla();
+                vResult = true;
             }
             return vResult;
         }
@@ -485,7 +580,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             if (insDbo.Exists(DbSchema + ".OrdenDeProduccionDetalleArticulo", eDboType.Tabla)) {
                 CrearVistas();
                 CrearProcedimientos();
-                vResult = new clsOrdenDeProduccionDetalleMaterialesED().InstalarVistasYSps();
+                vResult = true;
             }
             return vResult;
         }
@@ -494,14 +589,15 @@ namespace Galac.Adm.Dal.GestionProduccion {
             bool vResult = false;
             LibStoredProc insSp = new LibStoredProc();
             LibViews insVista = new LibViews();
-            vResult = new clsOrdenDeProduccionDetalleMaterialesED().BorrarVistasYSps();
             vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloINS");
             vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloUPD") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloDEL") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloGET") && vResult;
+            vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloSCH") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloInsDet") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloDelDet") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeProduccionDetalleArticuloSelDet") && vResult;
+            vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeProdCerradaDetArtSchForRpt") && vResult;            
             vResult = insVista.Drop(DbSchema + ".Gv_OrdenDeProduccionDetalleArticulo_B1") && vResult;
             insSp.Dispose();
             insVista.Dispose();

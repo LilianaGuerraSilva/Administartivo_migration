@@ -53,17 +53,17 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
                 LibReport.ConfigFieldStr(this, "txtArticuloServicioAUtilizar", string.Empty, "MaterialesServicioUtilizado");
-                LibReport.ConfigFieldDate(this, "txtFechaInicio", string.Empty, "FechaInicio", LibGalac.Aos.Base.Report.eDateOutputFormat.DateLong);
+                LibReport.ConfigFieldStr(this, "txtUnidad", string.Empty, "Unidad");
+                LibReport.ConfigFieldDate(this, "txtFechaCreacion", string.Empty, "FechaCreacion", LibGalac.Aos.Base.Report.eDateOutputFormat.DateLong);
                 LibReport.ConfigFieldStr(this, "txtCodigoDeOrden", string.Empty, "Codigo");
-                LibReport.ConfigFieldStr(this, "txtTipoDeArticulo", string.Empty, "TipoDeArticulo");
                 LibReport.ConfigFieldStr(this, "txtAlmacen", string.Empty, "AlmacenMaterialesServicioUtilizado");
-                LibReport.ConfigFieldDec(this, "txtCantidadReservadaDeInventario", string.Empty, "CantidadReservadaInventario", "n" + 2, true, TextAlignment.Right);
-                LibReport.ConfigFieldDec(this, "txtExistencia", string.Empty, "ExistenciaToStr", "n" + 4, true, TextAlignment.Right);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidadReservadaDeInventario", string.Empty, "CantidadReservadaInventario", 8);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtExistencia", string.Empty, "ExistenciaPorAlmacen", 4);
 
                 LibReport.ConfigGroupHeader(this, "GHSecArticuloServicioAUtilizar", "MaterialesServicioUtilizado", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
-                LibReport.ConfigSummaryField(this, "txt_TCantidadReservadaDeInventario", "CantidadReservadaInventario", SummaryFunc.Sum, "GHSecArticuloServicioAUtilizar", SummaryRunning.Group, SummaryType.SubTotal, "n" + 2, "");
+                LibReport.ConfigSummaryField(this, "txt_TCantidadReservadaDeInventario", "CantidadReservadaInventario", SummaryFunc.Sum, "GHSecArticuloServicioAUtilizar", SummaryRunning.Group, SummaryType.SubTotal, "n" + 8, "");
 
-                LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
+                LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Landscape);
                 LibReport.AddNoDataEvent(this);
                 return true;
             }

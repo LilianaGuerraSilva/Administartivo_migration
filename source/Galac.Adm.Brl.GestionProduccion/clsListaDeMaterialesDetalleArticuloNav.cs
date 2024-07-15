@@ -38,7 +38,6 @@ namespace Galac.Adm.Brl.GestionProduccion {
             XElement vInfoConexionArticuloInventario = FindInfoArticuloInventario(refData);
             var vListArticuloInventario = (from vRecord in vInfoConexionArticuloInventario.Descendants("GpResult")
                                       select new {
-
                                           ConsecutivoCompania = LibConvert.ToInt(vRecord.Element("ConsecutivoCompania")), 
                                           Codigo = vRecord.Element("Codigo").Value, 
                                           Descripcion = vRecord.Element("Descripcion").Value, 
@@ -94,6 +93,9 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 vItem.DescripcionArticuloInventario = vInfoConexionArticuloInventario.Descendants("GpResult")
                     .Where(p => p.Element("Codigo").Value == vItem.CodigoArticuloInventario)
                     .Select(p => p.Element("Descripcion").Value).FirstOrDefault();
+                vItem.UnidadDeVenta = vInfoConexionArticuloInventario.Descendants("GpResult")
+                    .Where(p => p.Element("Codigo").Value == vItem.CodigoArticuloInventario)
+                    .Select(p => p.Element("UnidadDeVenta").Value).FirstOrDefault();
             }
         }
 
@@ -184,5 +186,5 @@ namespace Galac.Adm.Brl.GestionProduccion {
 
     } //End of class clsListaDeMaterialesDetalleArticuloNav
 
-} //End of namespace Galac.Saw.Brl.Inventario
+} //End of namespace Galac.Adm.Brl.GestionProduccion
 

@@ -134,8 +134,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         private string _PorcAlicuotaExcenta = string.Empty;
         private string _PorcAlicuotaGeneral = string.Empty;
         private string _PorcAlicuotaReducida = string.Empty;
-        private string _PorcAlicuotaAdicional = string.Empty;
-        private const int _MaxCantidadCaracteresDescripcion = 20;
+        private string _PorcAlicuotaAdicional = string.Empty;        
         #endregion
 
         public clsEpson(XElement valXmlDatosImpresora) {
@@ -152,9 +151,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         private void AjustarAnchoDeLineaSegunModelo() {
             if (_ModeloEpson.Equals(eImpresoraFiscal.EPSON_PF_300)) {
                 PFTipoImp("300");
-                _MaxCantidadCaracteres = 48;
+                _MaxCantidadCaracteres = 48;               
             } else {
-                _MaxCantidadCaracteres = 38;
+                _MaxCantidadCaracteres = 38;                
                 PFTipoImp("0");
             }
         }
@@ -695,14 +694,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     }
                     vCantidad = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vCantidad, _EnterosParaCantidad, _DecimalesParaCantidad, ".");
                     vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto, _EnterosParaMonto, _DecimalesParaMonto, ".");
-                    vDescripcion = vCodigo + "|" + vDescripcion;
-                    vDescipcionExtendida = "";
-                    if (LibString.Len(vDescripcion) > _MaxCantidadCaracteresDescripcion) {
-                        vDescipcionExtendida = LibString.Left(vDescripcion, _MaxCantidadCaracteresDescripcion);
-                        vDescripcion = LibString.SubString(vDescripcion, _MaxCantidadCaracteresDescripcion, _MaxCantidadCaracteresDescripcion);
-                        vResultado = PFTfiscal(vDescipcionExtendida);
-                        vEstatus &= CheckRequest(vResultado, ref vMensaje);
-                    }
+                    vDescripcion = vCodigo + "|" + vDescripcion;                    
                     vResultado = PFrenglon(vDescripcion, vCantidad, vMonto, vPorcentajeAlicuota);
                     vEstatus &= CheckRequest(vResultado, ref vMensaje);
                     if (!vEstatus) {

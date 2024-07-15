@@ -23,7 +23,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         #region Propiedades
 
         public override string ModuleName {
-            get { return "Productos y/o Servicios"; }
+            get { return "Insumos"; }
         }
 
         public ListaDeMaterialesViewModel Master {
@@ -67,5 +67,5 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
     } //End of class ListaDeMaterialesDetalleArticuloMngViewModel
 
-} //End of namespace Galac.Saw.Uil.Inventario
+} //End of namespace Galac.Adm.Uil.GestionProduccion
 

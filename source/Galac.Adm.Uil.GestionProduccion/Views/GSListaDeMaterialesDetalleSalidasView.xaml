@@ -1,0 +1,106 @@
+﻿<UserControl
+    x:Class="Galac.Adm.Uil.GestionProduccion.Views.GSListaDeMaterialesDetalleSalidasView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:nsVm="clr-namespace:Galac.Adm.Uil.GestionProduccion.ViewModel"
+    xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="122.17" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Label
+            Name="lblCodigoArticuloInventario"
+            Grid.Row="0"
+            Grid.Column="0"
+            Content="Código Inventario"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSSeekConnection
+            Name="txtCodigoArticuloInventario"
+            Grid.Row="0"
+            Grid.Column="1"
+            Width="200"
+            Height="23"
+            Margin="3,3,0,4"
+            HorizontalAlignment="Left"
+            ConnectionValue="{Binding Path=CodigoArticuloInventario, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+            DisplayMemberPath="Codigo"
+            IsEnabled="{Binding Path=IsEnabled}"
+            Model="{Binding Path=ConexionCodigoArticuloInventario, Mode=TwoWay}"
+            SearchCommand="{Binding Path=ChooseCodigoArticuloInventarioCommand}" />
+        <Label
+            Name="lblDescripcionArticuloInventario"
+            Grid.Row="1"
+            Grid.Column="0"
+            Content="Descripción Artículo"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSTextAreaWpf
+            Name="txtDescripcionArticuloInventario"
+            Grid.Row="1"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Width="460"
+            Height="45"
+            Margin="3,3,0,3"
+            nsWpf:LibKeyboardListener.IgnoreEnterKeyLikeTab="True"
+            AcceptsReturn="True"
+            IsReadOnly="True"
+            MaxLength="7000"
+            Style="{StaticResource TextBoxInputStyle}"
+            Text="{Binding Path=DescripcionArticuloInventario, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            VerticalScrollBarVisibility="Auto" />
+        <Label
+            Name="lblCantidad"
+            Grid.Row="2"
+            Grid.Column="0"
+            Content="Cantidad"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSNumericBoxWpf
+            Name="txtCantidad"
+            Grid.Row="2"
+            Grid.Column="1"
+            Width="120"
+            BorderThickness="1"
+            DecimalDigits="{Binding Path=DecimalDigits}"
+            InputDataType="UDecimal"
+            IsEnabled="{Binding Path=IsEnabled}"
+            MaxLength="34"
+            Style="{StaticResource TextBoxInputStyle}"
+            Value="{Binding Path=Cantidad, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        <Label
+            Name="lblPorcentajeDeCosto"
+            Grid.Row="2"
+            Grid.Column="2"
+            Content="% Costo"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSNumericBoxWpf
+            Name="txtPorcentajeDeCosto"
+            Grid.Row="2"
+            Grid.Column="3"
+            Width="120"
+            BorderThickness="1"
+            DecimalDigits="8"
+            InputDataType="UDecimal"
+            IsEnabled="{Binding Path=IsEnabled}"
+            MaxLength="30"
+            Style="{StaticResource TextBoxInputStyle}"
+            Value="{Binding Path=PorcentajeDeCosto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+    </Grid>
+</UserControl>

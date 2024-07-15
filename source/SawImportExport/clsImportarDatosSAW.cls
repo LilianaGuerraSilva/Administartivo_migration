@@ -2517,6 +2517,9 @@ Private Function fDistribuyeLaLineaDeLaCxP(ByRef refLineaActual As String, ByVal
    insCxP.SetDiaDeAplicacion gUtilImport.fToInt(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxP.SetNumeroSerieDocAfectado gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insCxP.SetNumeroDeDocumentoAfectado gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   insCxP.SetBaseImponibleIGTFML gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+   insCxP.SetAlicuotaIGTFML gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   insCxP.SetMontoIGTFML gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    If Not (fFechaAplicacionEnCxPEsValida(refLineaDeError)) Then
       ErrorAlTraducirLaLinea = True
    End If

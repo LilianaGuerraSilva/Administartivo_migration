@@ -37,6 +37,9 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Galac.Comun.Uil.Dashboard">
+      <HintPath>..\packages\Galac.Comun.Uil.Dashboard.2.62.2.4\lib\Galac.Comun.Uil.Dashboard.dll</HintPath>
+    </Reference>
     <Reference Include="Galac.Contab.Brl.Tablas">
       <HintPath>..\packages\Galac.Contab.Brl.Tablas.2.61.0\lib\Galac.Contab.Brl.Tablas.dll</HintPath>
     </Reference>
@@ -53,7 +56,7 @@
       <HintPath>..\packages\LibGalac.Aos.Base.5.24.0\lib\LibGalac.Aos.Base.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Brl">
-      <HintPath>..\packages\LibGalac.Aos.Brl.5.24.0\lib\LibGalac.Aos.Brl.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Brl.5.24.1\lib\LibGalac.Aos.Brl.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Catching">
       <HintPath>..\packages\LibGalac.Aos.Catching.5.24.0\lib\LibGalac.Aos.Catching.dll</HintPath>
@@ -65,7 +68,7 @@
       <HintPath>..\packages\LibGalac.Aos.Cnf.5.24.0\lib\LibGalac.Aos.Cnf.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Dal">
-      <HintPath>..\packages\LibGalac.Aos.Dal.5.24.0\lib\LibGalac.Aos.Dal.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Dal.5.24.1\lib\LibGalac.Aos.Dal.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Dal.PASOnLine">
       <HintPath>..\packages\LibGalac.Aos.Dal.PASOnLine.5.24.0\lib\LibGalac.Aos.Dal.PASOnLine.dll</HintPath>
@@ -74,10 +77,10 @@
       <HintPath>..\packages\LibGalac.Aos.Dal.Settings.5.24.0\lib\LibGalac.Aos.Dal.Settings.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.Mvvm">
-      <HintPath>..\packages\LibGalac.Aos.DefGen.5.24.0\lib\LibGalac.Aos.DefGen.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.UI.Mvvm.5.24.1\lib\LibGalac.Aos.UI.Mvvm.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.DefGen">
-      <HintPath>..\packages\LibGalac.Aos.UI.Mvvm.5.24.0\lib\LibGalac.Aos.UI.Mvvm.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.DefGen.5.24.1\lib\LibGalac.Aos.DefGen.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.Wpf">
       <HintPath>..\packages\LibGalac.Aos.UI.Wpf.5.24.0\lib\LibGalac.Aos.UI.Wpf.dll</HintPath>
@@ -89,16 +92,19 @@
       <HintPath>..\packages\LibGalac.Aos.UI.WpfMainInterop.5.24.0\lib\LibGalac.Aos.UI.WpfMainInterop.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.WpfRD">
-      <HintPath>..\packages\LibGalac.Aos.UI.WpfRD.5.24.0\lib\LibGalac.Aos.UI.WpfRD.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.UI.WpfRD.5.24.2.1\lib\LibGalac.Aos.UI.WpfRD.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Uil">
-      <HintPath>..\packages\LibGalac.Aos.Uil.5.24.0\lib\LibGalac.Aos.Uil.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Uil.5.24.1\lib\LibGalac.Aos.Uil.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Uil.Usal">
-      <HintPath>..\packages\LibGalac.Aos.Uil.Usal.5.24.0\lib\LibGalac.Aos.Uil.Usal.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Uil.Usal.5.24.1\lib\LibGalac.Aos.Uil.Usal.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Vbwa">
-      <HintPath>..\packages\LibGalac.Aos.Vbwa.5.24.0\lib\LibGalac.Aos.Vbwa.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Vbwa.5.24.1\lib\LibGalac.Aos.Vbwa.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -140,6 +146,8 @@
     <Compile Include="IWrpClienteInsercionRapida.cs" />
     <Compile Include="IWrpClienteVb.cs" />
     <Compile Include="IWrpCobroRapidoMultimoneda.cs" />
+    <Compile Include="IWrpAnticipoInformesVb.cs" />
+    <Compile Include="IWrpDashboard.cs" />
     <Compile Include="IWrpInformesVb.cs" />
     <Compile Include="IWrpImpuestoBancarioVb.cs" />
     <Compile Include="IWrpLibros.cs" />
@@ -149,9 +157,11 @@
     <Compile Include="IWrpTransferenciaEntreCuentasBancariasVb.cs" />
     <Compile Include="IWrpVendedorVb.cs" />
     <Compile Include="IWrpVerificadorDePrecios.cs" />
+    <Compile Include="wrpAnticipoInformes.cs" />
     <Compile Include="wrpCaja.cs" />
     <Compile Include="wrpCajaApertura.cs" />
     <Compile Include="wrpCliente.cs" />
+    <Compile Include="wrpDashboard.cs" />
     <Compile Include="wrpImprentaDigital.cs" />
     <Compile Include="wrpInformacionGVentas.cs" />
     <Compile Include="wrpMenuBarCaja.cs" />
@@ -267,6 +277,10 @@
     <ProjectReference Include="..\Galac.Adm.Uil.Banco\Galac.Adm.Uil.Banco.csproj">
       <Project>{cea20080-8bbe-4562-b30c-88a9b1e0218c}</Project>
       <Name>Galac.Adm.Uil.Banco</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Uil.CAnticipo\Galac.Adm.Uil.CAnticipo.csproj">
+      <Project>{ddec809b-30b5-4d19-af03-9dbad96594f4}</Project>
+      <Name>Galac.Adm.Uil.CAnticipo</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Adm.Uil.DispositivosExternos\Galac.Adm.Uil.DispositivosExternos.csproj">
       <Project>{2844e837-4a95-4eb6-b663-fba990615ba3}</Project>

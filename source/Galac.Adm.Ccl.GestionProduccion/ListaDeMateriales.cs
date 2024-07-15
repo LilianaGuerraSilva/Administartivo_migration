@@ -19,12 +19,12 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         private string _Codigo;
         private string _Nombre;
         private string _CodigoArticuloInventario;
-        private string _DescripcionArticuloInventario;
         private DateTime _FechaCreacion;
         private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;
 		private ObservableCollection<ListaDeMaterialesDetalleArticulo> _DetailListaDeMaterialesDetalleArticulo;
+		private ObservableCollection<ListaDeMaterialesDetalleSalidas> _DetailListaDeMaterialesDetalleSalidas;
         XmlDocument _datos;
         #endregion //Variables
         #region Propiedades
@@ -54,11 +54,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             set { _CodigoArticuloInventario = LibString.Mid(value, 0, 30); }
         }
 
-        public string DescripcionArticuloInventario {
-            get { return _DescripcionArticuloInventario; }
-            set { _DescripcionArticuloInventario = LibString.Mid(value, 0, 7000); }
-        }
-
         public DateTime FechaCreacion {
             get { return _FechaCreacion; }
             set { _FechaCreacion = LibConvert.DateToDbValue(value); }
@@ -84,6 +79,11 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             set { _DetailListaDeMaterialesDetalleArticulo = value; }
         }
 
+        public ObservableCollection<ListaDeMaterialesDetalleSalidas> DetailListaDeMaterialesDetalleSalidas {
+            get { return _DetailListaDeMaterialesDetalleSalidas; }
+            set { _DetailListaDeMaterialesDetalleSalidas = value; }
+        }
+
         public XmlDocument Datos {
             get { return _datos; }
             set { _datos = value; }
@@ -93,6 +93,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
 
         public ListaDeMateriales() {
             _DetailListaDeMaterialesDetalleArticulo = new ObservableCollection<ListaDeMaterialesDetalleArticulo>();
+            _DetailListaDeMaterialesDetalleSalidas = new ObservableCollection<ListaDeMaterialesDetalleSalidas>();
             Clear();
         }
         #endregion //Constructores
@@ -108,12 +109,12 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             Codigo = string.Empty;
             Nombre = string.Empty;
             CodigoArticuloInventario = string.Empty;
-            DescripcionArticuloInventario = string.Empty;
             FechaCreacion = LibDate.Today();
             NombreOperador = string.Empty;
             FechaUltimaModificacion = LibDate.Today();
             fldTimeStamp = 0;
             DetailListaDeMaterialesDetalleArticulo = new ObservableCollection<ListaDeMaterialesDetalleArticulo>();
+            DetailListaDeMaterialesDetalleSalidas = new ObservableCollection<ListaDeMaterialesDetalleSalidas>();
         }
 
         public ListaDeMateriales Clone() {
@@ -123,7 +124,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             vResult.Codigo = _Codigo;
             vResult.Nombre = _Nombre;
             vResult.CodigoArticuloInventario = _CodigoArticuloInventario;
-            vResult.DescripcionArticuloInventario = _DescripcionArticuloInventario;
             vResult.FechaCreacion = _FechaCreacion;
             vResult.NombreOperador = _NombreOperador;
             vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
@@ -136,7 +136,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
                "\nConsecutivo = " + _Consecutivo.ToString() +
                "\nCódigo = " + _Codigo +
                "\nNombre = " + _Nombre +
-               "\nCódigo Inventario a producir = " + _CodigoArticuloInventario +
                "\nFecha de Creación = " + _FechaCreacion.ToShortDateString() +
                "\nNombre Operador = " + _NombreOperador +
                "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();

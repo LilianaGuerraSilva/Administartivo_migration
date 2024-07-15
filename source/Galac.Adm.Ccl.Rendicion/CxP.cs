@@ -79,7 +79,7 @@ namespace Galac.Adm.Ccl.CajaChica {
         private string _NumeroControlDeFacturaAfectada;
         private int _ConsecutivoRendicion;
         private bool _EstaAsociadoARendicion;
-		 private string _NumeroDeclaracionAduana;
+		private string _NumeroDeclaracionAduana;
         private DateTime _FechaDeclaracionAduana;
         private bool _UsaPrefijoSerie;
         private string _CodigoProveedorOriginalServicio;
@@ -93,6 +93,9 @@ namespace Galac.Adm.Ccl.CajaChica {
         private decimal _MontoIVAAlicuotaEspecial2;
         private decimal _PorcentajeIvaAlicuotaEspecial2;
         private int _DiaDeAplicacion;
+		private decimal _BaseImponibleIGTFML;
+        private decimal _AlicuotaIGTFML;
+        private decimal _MontoIGTFML;
         private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;
@@ -202,7 +205,6 @@ namespace Galac.Adm.Ccl.CajaChica {
             set { _AplicaParaLibrodeCompras = LibConvert.SNToBool(value); }
         }
 
-
         public decimal MontoExento {
             get { return _MontoExento; }
             set { _MontoExento = value; }
@@ -281,7 +283,6 @@ namespace Galac.Adm.Ccl.CajaChica {
             set { _SeHizoLaRetencion = LibConvert.SNToBool(value); }
         }
 
-
         public decimal MontoGravableAlicuotaGeneral {
             get { return _MontoGravableAlicuotaGeneral; }
             set { _MontoGravableAlicuotaGeneral = value; }
@@ -357,7 +358,6 @@ namespace Galac.Adm.Ccl.CajaChica {
         public string SeHizoLaRetencionIVA {
             set { _SeHizoLaRetencionIVA = LibConvert.SNToBool(value); }
         }
-
 
         public string NumeroComprobanteRetencion {
             get { return _NumeroComprobanteRetencion; }
@@ -449,14 +449,10 @@ namespace Galac.Adm.Ccl.CajaChica {
             set { _EsCxPhistorica = LibConvert.SNToBool(value); }
         }
 
-
         public int NumDiasDeVencimiento {
             get { return _NumDiasDeVencimiento; }
             set { _NumDiasDeVencimiento = value; }
         }
-
-
-
 
         public string NumeroDocOrigen {
             get { return _NumeroDocOrigen; }
@@ -477,12 +473,10 @@ namespace Galac.Adm.Ccl.CajaChica {
             set { _GenerarAsientoDeRetiroEnCuenta = LibConvert.SNToBool(value); }
         }
 
-
         public decimal TotalOtrosImpuestos {
             get { return _TotalOtrosImpuestos; }
             set { _TotalOtrosImpuestos = value; }
         }
-
 
         public bool SeContabilRetIvaAsBool {
             get { return _SeContabilRetIva; }
@@ -491,17 +485,13 @@ namespace Galac.Adm.Ccl.CajaChica {
 
         public string SeContabilRetIva {
             set { _SeContabilRetIva = LibConvert.SNToBool(value); }
-        }
-
-
-        
+        }        
 
         public string DondeContabilRetIva {
             get { return _DondeContabilRetIva; }
             set { _DondeContabilRetIva = value; }
 
         }
-
 
         public bool OrigenDeLaRetencionISLRAsBool {
             get { return _OrigenDeLaRetencionISLR; }
@@ -512,7 +502,6 @@ namespace Galac.Adm.Ccl.CajaChica {
             set { _OrigenDeLaRetencionISLR = LibConvert.SNToBool(value); }
         }
 
-
         public bool DondeContabilISLRAsBool {
             get { return _DondeContabilISLR; }
             set { _DondeContabilISLR = value; }
@@ -522,7 +511,6 @@ namespace Galac.Adm.Ccl.CajaChica {
             set { _DondeContabilISLR = LibConvert.SNToBool(value); }
         }
 
-
         public bool ISLRAplicadaEnPagoAsBool {
             get { return _ISLRAplicadaEnPago; }
             set { _ISLRAplicadaEnPago = value; }
@@ -531,7 +519,6 @@ namespace Galac.Adm.Ccl.CajaChica {
         public string ISLRAplicadaEnPago {
             set { _ISLRAplicadaEnPago = LibConvert.SNToBool(value); }
         }
-
 
         public decimal MontoRetenidoISLR {
             get { return _MontoRetenidoISLR; }
@@ -570,7 +557,6 @@ namespace Galac.Adm.Ccl.CajaChica {
         public string ImpuestoMunicipalRetenido {
             set { _ImpuestoMunicipalRetenido = LibConvert.SNToBool(value); }
         }
-
 
         public string NumeroControlDeFacturaAfectada {
             get { return _NumeroControlDeFacturaAfectada; }
@@ -636,7 +622,6 @@ namespace Galac.Adm.Ccl.CajaChica {
             set { _AplicaIvaAlicuotaEspecial = LibConvert.SNToBool(value); }
         }
 
-
         public decimal MontoGravableAlicuotaEspecial1 {
             get { return _MontoGravableAlicuotaEspecial1; }
             set { _MontoGravableAlicuotaEspecial1 = value; }
@@ -667,11 +652,26 @@ namespace Galac.Adm.Ccl.CajaChica {
             set { _PorcentajeIvaAlicuotaEspecial2 = value; }
         }
 
-         public int  DiaDeAplicacion {
+        public int  DiaDeAplicacion {
             get { return _DiaDeAplicacion; }
             set { _DiaDeAplicacion = value; }
         }
 		
+		public decimal BaseImponibleIGTFML {
+            get { return _BaseImponibleIGTFML; }
+            set { _BaseImponibleIGTFML = value; }
+        }
+
+        public decimal AlicuotaIGTFML {
+            get { return _AlicuotaIGTFML; }
+            set { _AlicuotaIGTFML = value; }
+        }
+
+        public decimal MontoIGTFML {
+            get { return _MontoIGTFML; }
+            set { _MontoIGTFML = value; }
+        }
+
         public string NombreOperador {
             get { return _NombreOperador; }
             set { _NombreOperador = LibString.Mid(value, 0, 10); }
@@ -706,7 +706,6 @@ namespace Galac.Adm.Ccl.CajaChica {
         }
         #endregion //Constructores
         #region Metodos Generados
-
         public object TextDateLastModifiedForInput() {
             return "";
         }
@@ -790,6 +789,9 @@ namespace Galac.Adm.Ccl.CajaChica {
             MontoIVAAlicuotaEspecial2 = 0;
             PorcentajeIvaAlicuotaEspecial2 = 0;
             DiaDeAplicacion = 0;
+		    BaseImponibleIGTFML = 0;
+            AlicuotaIGTFML = 0;
+            MontoIGTFML = 0;
             NombreOperador = "";
             FechaUltimaModificacion = LibDate.Today();
             fldTimeStamp = 0;
@@ -877,6 +879,9 @@ namespace Galac.Adm.Ccl.CajaChica {
             vResult.MontoIVAAlicuotaEspecial2 = _MontoIVAAlicuotaEspecial2;
             vResult.PorcentajeIvaAlicuotaEspecial2 = _PorcentajeIvaAlicuotaEspecial2;
             vResult.DiaDeAplicacion = _DiaDeAplicacion;
+			vResult.BaseImponibleIGTFML = _BaseImponibleIGTFML;
+            vResult.AlicuotaIGTFML = _AlicuotaIGTFML;
+            vResult.MontoIGTFML = _MontoIGTFML;
             vResult.NombreOperador = _NombreOperador;
             vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
             vResult.fldTimeStamp = _fldTimeStamp;
@@ -954,13 +959,13 @@ namespace Galac.Adm.Ccl.CajaChica {
                "\nUsar Prefijo Serie = " + _UsaPrefijoSerie +
                "\nCodigo Proveedor Original Servicio = " + _CodigoProveedorOriginalServicio +
                "\nEs Una Cuenta A Terceros = " + _EsUnaCuentaATerceros +
+			   "\nBase Imponible IGTFML = " + _BaseImponibleIGTFML.ToString() +
+               "\nAlicuota IGTFML = " + _AlicuotaIGTFML.ToString() +
+               "\nMonto IGTFML = " + _MontoIGTFML.ToString() +
                "\nNombre Operador = " + _NombreOperador +
                "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();
         }
         #endregion //Metodos Generados
-
-
     } //End of class CxP
-
 } //End of namespace Galac.Dbo.Ccl.CajaChica
 

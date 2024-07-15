@@ -10,11 +10,11 @@
     <DataTemplate DataType="{x:Type nsCSVM:ListaDeMaterialesDetalleArticuloViewModel}">
         <nsCSV:GSListaDeMaterialesDetalleArticuloView />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type nsReportesView:clsListaDeMaterialesDeInventarioAProducirViewModel}">
-        <nsReportesView:GSListaDeMaterialesDeInventarioAProducir />
+    <DataTemplate DataType="{x:Type nsReportesView:clsListaDeMaterialesViewModel}">
+        <nsReportesView:GSListaDeMateriales />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type nsReportesView:clsOrdenDeProduccionRptViewModel}">
-        <nsReportesView:GSOrdenDeProduccionRpt />
+    <DataTemplate DataType="{x:Type nsReportesView:clsPrecierreOrdenDeProduccionViewModel}">
+        <nsReportesView:GSPrecierreOrdenDeProduccion />
     </DataTemplate>
     <DataTemplate DataType="{x:Type nsReportesView:clsRequisicionDeMaterialesViewModel}">
         <nsReportesView:GSRequisicionDeMateriales />
@@ -31,13 +31,19 @@
     <DataTemplate DataType="{x:Type nsReportesView:clsProduccionPorEstatusEntreFechaViewModel}">
         <nsReportesView:GSProduccionPorEstatusEntreFecha />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type nsCSVM:OrdenDeProduccionDetalleMaterialesViewModel}">
-        <nsCSV:GSOrdenDeProduccionDetalleMaterialesView />
-    </DataTemplate>
     <DataTemplate DataType="{x:Type nsCSVM:OrdenDeProduccionViewModel}">
         <nsCSV:GSOrdenDeProduccionView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:OrdenDeProduccionMasterViewModel}">
+        <nsCSV:GSOrdenDeProduccionMasterView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:ListaDeMaterialesDetalleSalidasViewModel}">
+        <nsCSV:GSListaDeMaterialesDetalleSalidasView />
+    </DataTemplate>
     <DataTemplate DataType="{x:Type nsCSVM:OrdenDeProduccionDetalleArticuloViewModel}">
         <nsCSV:GSOrdenDeProduccionDetalleArticuloView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:OrdenDeProduccionDetalleMaterialesViewModel}">
+        <nsCSV:GSOrdenDeProduccionDetalleMaterialesView />
     </DataTemplate>
 </ResourceDictionary>

@@ -9,7 +9,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
           int ConsecutivoCompania { get; set; }
           int Consecutivo { get; set; }
           string Codigo { get; set; }
-          string CodigoArticuloInventario { get; set; }
           DateTime FechaCreacion { get; set; }
         #endregion //Propiedades
 

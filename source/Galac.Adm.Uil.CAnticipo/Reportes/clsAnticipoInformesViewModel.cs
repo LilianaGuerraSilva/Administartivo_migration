@@ -1,0 +1,52 @@
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using Galac.Saw.Lib;
+using LibGalac.Aos.ARRpt;
+using LibGalac.Aos.ARRpt.Reports;
+using LibGalac.Aos.Base;
+using LibGalac.Aos.Base.Report;
+using LibGalac.Aos.UI.Mvvm;
+
+namespace Galac.Adm.Uil.CAnticipo.Reportes {
+
+    public class clsAnticipoInformesViewModel : LibReportsViewModel {
+        #region Constructores
+
+        public clsAnticipoInformesViewModel(bool valEsClienteOProveedor)
+            : this(null, null, valEsClienteOProveedor) {
+        }
+
+        public clsAnticipoInformesViewModel(LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, bool valEsCliente) {
+            AppMemoryInfo = initAppMemInfo;
+            Mfc = initMfc;
+            AvailableReports.Add(new clsAnticipoPorProveedorOClienteViewModel(valEsCliente));
+            Title = "Informes de Anticipo";
+        }
+        #endregion //Constructores
+        #region Metodos Generados
+
+        protected override ILibRpt ConfigReport() {
+            ILibRpt vResult = null;
+            if (SelectedReport is clsAnticipoPorProveedorOClienteViewModel) {
+                vResult = ConfigReportAnticipoPorClienteProveedor(SelectedReport as clsAnticipoPorProveedorOClienteViewModel);
+            }
+            return vResult;
+        }
+
+        private ILibRpt ConfigReportAnticipoPorClienteProveedor(clsAnticipoPorProveedorOClienteViewModel valViewModel) {
+            ILibRpt vResult = null;
+            if (valViewModel != null) {
+                vResult = new Galac.Adm.Rpt.CAnticipo.clsAnticipoPorProveedorOCliente(PrintingDevice, ExportFileFormat, AppMemoryInfo,valViewModel.EsCliente, Mfc, valViewModel.CantidadAImprimir, valViewModel.EstatusAnticipo, valViewModel.CantidadAImprimirClienteProveedor, valViewModel.CodigoClienteProveedor, valViewModel.OrdenamientoPorStatus, valViewModel.MonedaDelInforme, valViewModel.TipoTasaDeCambio, valViewModel.Moneda) {
+                    Worker = Manager
+                };
+            }
+            return vResult;
+        }
+        #endregion //Metodos Generados
+    } //End of class clsAnticipoInformesViewModel
+} //End of namespace Galac.Adm.Uil.CAnticipo
+

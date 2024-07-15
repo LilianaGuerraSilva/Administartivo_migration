@@ -53,15 +53,16 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public string DescripcionArticuloInventario { get; set; }
         public DateTime FechaCreacion { get; set; }
     }
-    public class FkListaDeMaterialesConexionViewModel : IFkListaDeMaterialesViewModel {
+    public class FkListaDeMaterialesInformeViewModel : IFkListaDeMaterialesViewModel {
         public int ConsecutivoCompania { get; set; }
         public int Consecutivo { get; set; }
+        [LibGridColum("Codigo")]
         public string Codigo { get; set; }
-        public string Nombre { get; set; }
-        [LibGridColum("Código Inventario a producir", DbMemberPath = "Adm.Gv_ListaDeMateriales_B1.CodigoArticuloInventario")]
-        public string CodigoArticuloInventario { get; set; }
-        [LibGridColum("Descripcion Articulo", Width = 400)]
+        [LibGridColum("Nombre")]
+        public string Nombre { get; set; }        
+        public string CodigoArticuloInventario { get; set; }       
         public string DescripcionArticuloInventario { get; set; }
+        [LibGridColum("Fecha de Creación")]
         public DateTime FechaCreacion { get; set; }
     }
     public class FkAlmacenViewModel : IFkAlmacenViewModel {
@@ -96,5 +97,35 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public string Observacion { get; set; }
         public string CodigoMonedaCostoProduccion { get; set; }
         public decimal CambioCostoProduccion { get; set; }
+    }
+
+    public class FkOrdenDeProduccionViewModelInformes : IFkOrdenDeProduccionViewModel {
+        public int ConsecutivoCompania { get; set; }
+        public int Consecutivo { get; set; }
+        [LibGridColum("Código", DbMemberPath = "Adm.Gv_OrdenDeProduccion_B1.Codigo")]
+        public string Codigo { get; set; }
+        [LibGridColum("Descripción", DbMemberPath = "Adm.Gv_OrdenDeProduccion_B1.Descripcion", Width = 250)]
+        public string Descripcion { get; set; }        
+        public eTipoStatusOrdenProduccion StatusOp { get; set; }
+        public DateTime FechaFinalizacion { get; set; }
+        public DateTime FechaAnulacion { get; set; }
+        public string ConsecutivoAlmacenProductoTerminado { get; set; }
+        public string ConsecutivoAlmacenMateriales { get; set; }
+        public DateTime FechaCreacion { get; set; }
+        public string Observacion { get; set; }
+        public string CodigoMonedaCostoProduccion { get; set; }
+        public decimal CambioCostoProduccion { get; set; }
+    }
+
+    public class FkOrdenProduccionArticuloProducirViewModel : IFkOrdenDeProduccionDetalleArticuloViewModel {
+        public int ConsecutivoCompania { get; set; }
+        public int Consecutivo { get; set; }
+        public int ConsecutivoOrdenDeProduccion { get; set; }
+        [LibGridColum("Código Artículo", DbMemberPath = "Adm.Gv_OrdenDeProduccionDetalleArticulo_B1.CodigoArticulo", Width = 400)]
+        public string CodigoArticulo { get; set; }
+        
+        [LibGridColum("Descripción Artículo", Width = 400)]
+        public string DescripcionArticulo { get; set; }
+        
     }
 }

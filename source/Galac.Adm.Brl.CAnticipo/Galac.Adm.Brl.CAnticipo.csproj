@@ -41,6 +41,8 @@
     <Compile Include="clsAnticipoCobradoNav.cs" />
     <Compile Include="clsAnticipoNav.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reportes\clsAnticipoRpt.cs" />
+    <Compile Include="Reportes\clsAnticipoSql.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Galac.Comun.Brl.TablasGen">
@@ -53,15 +55,19 @@
       <HintPath>..\packages\LibGalac.Aos.Base.5.24.0\lib\LibGalac.Aos.Base.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Brl">
-      <HintPath>..\packages\LibGalac.Aos.Brl.5.24.0\lib\LibGalac.Aos.Brl.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Brl.5.24.2.3\lib\LibGalac.Aos.Brl.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Catching">
       <HintPath>..\packages\LibGalac.Aos.Catching.5.24.0\lib\LibGalac.Aos.Catching.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Dal">
-      <HintPath>..\packages\LibGalac.Aos.Dal.5.24.0\lib\LibGalac.Aos.Dal.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Dal.5.24.1\lib\LibGalac.Aos.Dal.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.DefGen">
+      <HintPath>..\packages\LibGalac.Aos.DefGen.5.24.1\lib\LibGalac.Aos.DefGen.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.XML" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>

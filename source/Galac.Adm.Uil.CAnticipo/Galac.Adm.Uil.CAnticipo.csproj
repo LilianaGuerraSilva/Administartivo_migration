@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DDEC809B-30B5-4D19-AF03-9DBAD96594F4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Galac.Adm.Uil.CAnticipo</RootNamespace>
+    <AssemblyName>Galac.Adm.Uil.CAnticipo</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="LibGalac.Aos.ARRpt">
+      <HintPath>..\packages\LibGalac.Aos.ARRpt.5.24.1\lib\LibGalac.Aos.ARRpt.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Base">
+      <HintPath>..\packages\LibGalac.Aos.Base.5.24.0\lib\LibGalac.Aos.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Brl">
+      <HintPath>..\packages\LibGalac.Aos.Brl.5.24.2.3\lib\LibGalac.Aos.Brl.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Catching">
+      <HintPath>..\packages\LibGalac.Aos.Catching.5.24.0\lib\LibGalac.Aos.Catching.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.Wpf">
+      <HintPath>..\packages\LibGalac.Aos.DefGen.5.24.1\lib\LibGalac.Aos.DefGen.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.DefGen">
+      <HintPath>..\packages\LibGalac.Aos.UI.Mvvm.5.24.1\lib\LibGalac.Aos.UI.Mvvm.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.Mvvm">
+      <HintPath>..\packages\LibGalac.Aos.UI.Wpf.5.24.0\lib\LibGalac.Aos.UI.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.WpfControls">
+      <HintPath>..\packages\LibGalac.Aos.UI.WpfControls.5.24.0\lib\LibGalac.Aos.UI.WpfControls.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.WpfRD">
+      <HintPath>..\packages\LibGalac.Aos.UI.WpfRD.5.24.2.1\lib\LibGalac.Aos.UI.WpfRD.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Uil">
+      <HintPath>..\packages\LibGalac.Aos.Uil.5.24.1\lib\LibGalac.Aos.Uil.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="clsAnticipoInformesMenu.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UIMefCAnticipoAnticipo.cs" />
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <None Include="packages.config" />
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Reportes\clsAnticipoInformesViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Reportes\clsAnticipoPorProveedorOClienteViewModel.cs" />
+    <Compile Include="Reportes\GSAnticipoPorProveedorOCliente.xaml.cs">
+      <DependentUpon>GSAnticipoPorProveedorOCliente.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Reportes\GSAnticipoPorProveedorOCliente.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Galac.Adm.Brl.CAnticipo\Galac.Adm.Brl.CAnticipo.csproj">
+      <Project>{74d3e1bd-b636-4640-8fc5-e943935a708a}</Project>
+      <Name>Galac.Adm.Brl.CAnticipo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.CAnticipo\Galac.Adm.Ccl.CAnticipo.csproj">
+      <Project>{002d527c-ec0e-4817-955f-538d36e16885}</Project>
+      <Name>Galac.Adm.Ccl.CAnticipo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Rpt.CAnticipo\Galac.Adm.Rpt.CAnticipo.csproj">
+      <Project>{f563ea73-6e10-409a-8754-35cad6130055}</Project>
+      <Name>Galac.Adm.Rpt.CAnticipo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Uil.Cliente\Galac.Saw.Uil.Cliente.csproj">
+      <Project>{0a2d5a7c-1c0e-4817-955f-538d36e16885}</Project>
+      <Name>Galac.Saw.Uil.Cliente</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Uil.GestionCompras\Galac.Adm.Uil.GestionCompras.csproj">
+      <Project>{ea2d5a75-1c0e-4817-955f-538da6e18889}</Project>
+      <Name>Galac.Adm.Uil.GestionCompras</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Lib\Galac.Saw.Lib.csproj">
+      <Project>{f145674a-e0b8-4ba2-90e7-fbf8ad5ad186}</Project>
+      <Name>Galac.Saw.Lib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

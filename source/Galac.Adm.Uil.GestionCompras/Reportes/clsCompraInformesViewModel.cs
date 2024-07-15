@@ -80,12 +80,13 @@ namespace Galac.Adm.Uil.GestionCompras.Reportes {
             return vResult;
         }
 
-        private ILibRpt ConfigReportImprimirCompra(int valConsecutivo,string valNumeroOrdeDeCompra) {
+        private ILibRpt ConfigReportImprimirCompra(int valConsecutivo, string valNumeroOrdeDeCompra) {
             ILibRpt vResult = null;
             vResult = new Galac.Adm.Rpt.GestionCompras.clsCompra(ePrintingDevice.Screen, ExportFileFormat, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
                 Worker = Manager,
                 ConsecutivoCompra = valConsecutivo,
-                NumeroDeOrdenDeCompra =valNumeroOrdeDeCompra
+                NumeroDeOrdenDeCompra = valNumeroOrdeDeCompra,
+                UseExternalRpx = true,
             };
             return vResult;
         }

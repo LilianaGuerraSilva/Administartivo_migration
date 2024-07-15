@@ -43,11 +43,6 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Label
@@ -182,7 +177,8 @@
             Grid.Column="2"
             Grid.ColumnSpan="2"
             Width="260"
-            Margin="3,3,0,0"
+            Margin="1,0,0,0"
+            VerticalAlignment="Center"
             Content="{Binding Path=NombreAlmacenProductoTerminado}"
             Style="{StaticResource LabelCalculatedField}"
             Visibility="{Binding Path=IsVisibleAlmacen, Converter={StaticResource booleanToVisibilityConverter}}" />
@@ -363,7 +359,7 @@
             Grid.Row="10"
             Grid.ColumnSpan="4"
             Margin="3"
-            Header="Artículo a Producir"
+            Header="Lista de Materiales a Producir"
             HeaderTemplate="{StaticResource GroupBoxHeaderTemplate}"
             Style="{StaticResource GroupBoxStyle}">
             <Grid FocusManager.FocusedElement="{Binding ElementName=txtCodigo}">
@@ -378,18 +374,13 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Label
                     Name="lblCodigoListaDeMateriales"
                     Grid.Row="0"
                     Grid.Column="0"
-                    Content="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items[0].SinonimoListaDeMateriales}"
+                    Content="{Binding Path=SinonimoListaDeMateriales}"
                     Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSSeekConnection
                     Name="txtCodigoListaDeMateriales"
@@ -399,11 +390,11 @@
                     Height="23"
                     Margin="3"
                     HorizontalAlignment="Left"
-                    ConnectionValue="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items[0].CodigoListaDeMateriales, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                    ConnectionValue="{Binding Path=CodigoListaDeMateriales, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                     DisplayMemberPath="Codigo"
-                    IsEnabled="{Binding Path=IsEnabled}"
-                    Model="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items[0].ConexionCodigoListaDeMateriales, Mode=TwoWay}"
-                    SearchCommand="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items[0].ChooseCodigoListaDeMaterialesCommand}" />
+                    IsEnabled="{Binding Path=IsEnabledCodigoListaDeMateriales}"
+                    Model="{Binding Path=ConexionCodigoListaDeMateriales, Mode=TwoWay}"
+                    SearchCommand="{Binding Path=ChooseCodigoListaDeMaterialesCommand}" />
                 <Label
                     Name="lneNombreListaDemateriales"
                     Grid.Row="0"
@@ -411,33 +402,13 @@
                     Grid.ColumnSpan="2"
                     Width="320"
                     Margin="3,3,0,0"
-                    Content="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items[0].NombreListaDeMateriales}"
+                    Content="{Binding Path=NombreListaDeMateriales}"
                     Style="{StaticResource LabelCalculatedField}" />
                 <Label
-                    Grid.Row="1"
+                    Grid.Row="0"
                     Grid.Column="0"
-                    Content="Inventario a Producir"
+                    Content="Lista de Materiales"
                     Style="{StaticResource LabelPrompt}" />
-                <Label
-                    Name="lneCodigoArticulo"
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    Width="170"
-                    Margin="3,3,0,0"
-                    Content="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items[0].CodigoArticulo}"
-                    Style="{StaticResource LabelCalculatedField}" />
-                <nsWpfControls:GSTextAreaWpf
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    Grid.ColumnSpan="3"
-                    Width="495"
-                    BorderThickness="1"
-                    IsEnabled="True"
-                    IsReadOnly="True"
-                    Style="{StaticResource TextBoxInputStyle}"
-                    Text="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items[0].DescripcionArticulo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                    VerticalScrollBarVisibility="Auto" />
-
                 <Label
                     Name="lblCantidadSolicitada"
                     Grid.Row="3"
@@ -455,9 +426,7 @@
                     IsEnabled="{Binding Path=IsEnabled}"
                     MaxLength="34"
                     Style="{StaticResource TextBoxInputStyle}"
-                    Value="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items[0].CantidadSolicitada, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-
-
+                    Value="{Binding Path=CantidadAProducir, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <Label
                     Name="lblCantidadProdicida"
                     Grid.Row="3"
@@ -473,13 +442,11 @@
                     BorderThickness="1"
                     DecimalDigits="{Binding Path=DecimalDigits}"
                     InputDataType="UDecimal"
-                    IsEnabled="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items[0].IsEnabledFechaFinalizacion}"
+                    IsEnabled="{Binding Path=IsEnabledCantidadProducida}"
                     MaxLength="34"
                     Style="{StaticResource TextBoxInputStyle}"
                     Visibility="{Binding Path=IsVisbleCantidadProducida, Converter={StaticResource booleanToVisibilityConverter}}"
-                    Value="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items[0].CantidadProducida, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-
-
+                    Value="{Binding Path=CantidadProducida, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
         </GroupBox>
         <Label
