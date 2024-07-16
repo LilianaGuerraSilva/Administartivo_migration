@@ -121,7 +121,7 @@ Public Function fConstruirSQLDelReporteArticuloDeInventario(ByVal valPreciosConS
    SQL = SQL & "articuloInventario.LINEADEPRODUCTO , "
    SQL = SQL & "articuloInventario.CODIGO"
    Set gEnumProyecto = Nothing
-   fConstruirSQLDelReporteArticuloDeInventario = Sql
+   fConstruirSQLDelReporteArticuloDeInventario = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLDelReporteArticuloDeInventario", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -129,7 +129,7 @@ End Function
 
 Public Function fConstruirSQLDelReporteListadoDeArticulos(ByVal valConsecutivoCompania As Long, ByVal valCantidadAImprimirLineaDeProducto As String, ByVal valenumCantidadAImprimirToString As String, _
                      ByVal valLineaDeProductos As String, ByVal valTipoDeArticulo As String, ByVal valstrTipoDearticuloInventarioToNum As String) As String
-   Dim Sql As String
+   Dim SQL As String
    On Error GoTo h_ERROR
    SQL = "SELECT "
    SQL = SQL & "articuloInventario.CODIGO , "
@@ -149,13 +149,13 @@ Public Function fConstruirSQLDelReporteListadoDeArticulos(ByVal valConsecutivoCo
    SQL = SQL & " ORDER BY "
    SQL = SQL & "articuloInventario.LINEADEPRODUCTO , "
    SQL = SQL & "articuloInventario.CODIGO"
-   fConstruirSQLDelReporteListadoDeArticulos = Sql
+   fConstruirSQLDelReporteListadoDeArticulos = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLDelReporteListadoDeArticulos", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 Public Function fConstruirSQLDelReporteListadoArticulosPorRetirarEntreFecha(ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valConsecutivoCompania As Long, ByVal valIsSQLDataBase As Boolean) As String
-   Dim Sql As String
+   Dim SQL As String
    Dim SQLCodigoArticulo As String
    On Error GoTo h_ERROR
    SQLCodigoArticulo = gUtilSQL.getIIF("renglonfactura.Serial <> ''", " renglonFactura.Articulo + ' Serial ' + renglonfactura.Serial + ' Rollo '+ renglonfactura.rollo ", " renglonFactura.Articulo", True) & "  as CodArt "
@@ -212,14 +212,14 @@ Public Function fConstruirSQLDelReporteListadoArticulosPorRetirarEntreFecha(ByVa
    Else
       SQL = SQL & " order by NumeroDocumento, fechaRetiro"
     End If
-  fConstruirSQLDelReporteListadoArticulosPorRetirarEntreFecha = Sql
+  fConstruirSQLDelReporteListadoArticulosPorRetirarEntreFecha = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLDelReporteListadoArticulosPorRetirarEntreFecha", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConstruirSQLDelReporteArticulosReservados(ByVal valConsecutivoCompania As Long) As String
-   Dim Sql As String
+   Dim SQL As String
    Dim SQLCodigoArticulo As String
    On Error GoTo h_ERROR
    SQLCodigoArticulo = gUtilSQL.getIIF("renglonfactura.Serial <> '0'", " renglonFactura.Articulo + ' Serial ' + renglonfactura.Serial + ' Rollo '+ renglonfactura.rollo ", " renglonFactura.Articulo", True) & "  as CodArt "
@@ -273,7 +273,7 @@ Public Function fConstruirSQLDelReporteArticulosReservados(ByVal valConsecutivoC
    SQL = SQL & " ON (Cotizacion.Numero = renglonCotizacion.NumeroCotizacion) AND (Cotizacion.ConsecutivoCompania = renglonCotizacion.ConsecutivoCompania)) ON (cliente.Codigo = Cotizacion.CodigoCliente) AND (cliente.ConsecutivoCompania = Cotizacion.ConsecutivoCompania)) ON (articuloInventario.ConsecutivoCompania = Cotizacion.ConsecutivoCompania) AND (articuloInventario.Codigo = renglonCotizacion.CodigoArticulo)"
    SQL = SQL & " WHERE   (Cotizacion.ReservarMercancia  = " & gUtilSQL.fBooleanToSqlValue(True) & ") AND (renglonCotizacion.ConsecutivoCompania = " & valConsecutivoCompania & " )"
     SQL = SQL & "AND (ArticuloInventario.TipoArticuloInv = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoArticuloInv.eTAI_Simple) & ")"
-  fConstruirSQLDelReporteArticulosReservados = Sql
+  fConstruirSQLDelReporteArticulosReservados = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLDelReporteArticulosReservados", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -283,77 +283,77 @@ Public Function fSQLParaLaImpresionDeCodDeBarras(ByVal valConsecutivoCompania As
                                                    ByVal valCodigoHasta As String, ByVal valNivelDePrecio As enum_NivelDePrecio, _
                                                    ByVal valPorcentajeAlicuotaGeneral As Currency, ByVal valPorcentajeAlicuotaReducida As Currency, ByVal valPorcentajeAlicuotaAdicional As Currency)
    Dim insArticuloInvVista As clsArticuloInvVista
-   Dim vSql As String
-   Dim vSqlWhere As String
+   Dim vSQL As String
+   Dim vSQLWhere As String
    Dim vPrecio As String
    Dim vSqlAlicuota As String
    Dim vSqlColorDescrip As String
    Dim vSqlTallaDescrip As String
    On Error GoTo h_ERROR
    Set insArticuloInvVista = New clsArticuloInvVista
-   vSqlWhere = ""
+   vSQLWhere = ""
    vSqlColorDescrip = gUtilSQL.fSimpleSqlValue(" ") & gUtilSQL.CharConcat & "ISNULL(Color.DescripcionColor, " & gUtilSQL.fSimpleSqlValue("") & ")"
    vSqlTallaDescrip = gUtilSQL.fSimpleSqlValue(" ") & gUtilSQL.CharConcat & "ISNULL(Talla.DescripcionTalla, " & gUtilSQL.fSimpleSqlValue("") & ")"
    If gTexto.DfLen(valCodigoDesde) > 0 And gTexto.DfLen(valCodigoHasta) > 0 Then
-      vSqlWhere = gUtilSQL.fSQLStringValueBetween("AI.Codigo", valCodigoDesde, valCodigoHasta) & "  AND  "
+      vSQLWhere = gUtilSQL.fSQLStringValueBetween("AI.Codigo", valCodigoDesde, valCodigoHasta) & "  AND  "
    End If
-   vSqlWhere = vSqlWhere & "AI.ConsecutivoCompania = " & valConsecutivoCompania
-   vSqlWhere = gUtilSQL.getWhereSQL(vSqlWhere)
+   vSQLWhere = vSQLWhere & "AI.ConsecutivoCompania = " & valConsecutivoCompania
+   vSQLWhere = gUtilSQL.getWhereSQL(vSQLWhere)
    vSqlAlicuota = " (CASE AI.AlicuotaIva WHEN " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeAlicuota.eTD_EXENTO) & " THEN 0 WHEN " _
    & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeAlicuota.eTD_ALICUOTAGENERAL) & " THEN " & gConvert.fConvierteAString(valPorcentajeAlicuotaGeneral) _
    & " WHEN " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeAlicuota.eTD_ALICUOTA2) & " THEN " & gConvert.fConvierteAString(valPorcentajeAlicuotaReducida) _
    & " WHEN " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeAlicuota.eTD_ALICUOTA3) & " THEN " & gConvert.fConvierteAString(valPorcentajeAlicuotaAdicional) & " ELSE 0 END)"
    vSQL = " SELECT AI.Codigo + ISNULL(EPG.CodigoColor, '') + ISNULL(EPG.CodigoTalla, '') AS CodigoArticulo, "
-   vSql = vSql & "AI.Descripcion " & gUtilSQL.CharConcat & vSqlColorDescrip & gUtilSQL.CharConcat & vSqlTallaDescrip & " AS Descripcion, "
-   vSql = vSql & "AI.AlicuotaIva AS AlicuotaIvaChr, "
-   vSql = vSql & vSqlAlicuota & " AS AlicuotaIvaValor, "
+   vSQL = vSQL & "AI.Descripcion " & gUtilSQL.CharConcat & vSqlColorDescrip & gUtilSQL.CharConcat & vSqlTallaDescrip & " AS Descripcion, "
+   vSQL = vSQL & "AI.AlicuotaIva AS AlicuotaIvaChr, "
+   vSQL = vSQL & vSqlAlicuota & " AS AlicuotaIvaValor, "
    If (valNivelDePrecio = eND_PRECIO_4) Then
-      vSql = vSql & "AI.PrecioSinIva4 AS PrecioSinIvaML, "
-      vSql = vSql & "AI.PrecioConIva4 AS PrecioConIVAML, "
-      vSql = vSql & "(AI.PrecioConIva4 - AI.PrecioSinIva4) AS IvaML, "
-      vSql = vSql & "ISNULL(ME.MePrecioSinIva4, 0) AS PrecioSinIvaME, "
-      vSql = vSql & "ISNULL(ME.MePrecioConIva4, 0) AS PrecioConIvaME, "
-      vSql = vSql & "(ISNULL(ME.MePrecioConIva4, 0) - ISNULL(ME.MePrecioSinIva4, 0)) AS IvaME, "
+      vSQL = vSQL & "AI.PrecioSinIva4 AS PrecioSinIvaML, "
+      vSQL = vSQL & "AI.PrecioConIva4 AS PrecioConIVAML, "
+      vSQL = vSQL & "(AI.PrecioConIva4 - AI.PrecioSinIva4) AS IvaML, "
+      vSQL = vSQL & "ISNULL(ME.MePrecioSinIva4, 0) AS PrecioSinIvaME, "
+      vSQL = vSQL & "ISNULL(ME.MePrecioConIva4, 0) AS PrecioConIvaME, "
+      vSQL = vSQL & "(ISNULL(ME.MePrecioConIva4, 0) - ISNULL(ME.MePrecioSinIva4, 0)) AS IvaME, "
    ElseIf (valNivelDePrecio = eND_PRECIO_3) Then
-      vSql = vSql & "AI.PrecioSinIva3 AS PrecioSinIvaML, "
-      vSql = vSql & "AI.PrecioConIva3 AS PrecioConIVAML, "
-      vSql = vSql & "(AI.PrecioConIva3 - AI.PrecioSinIva3) AS IvaML, "
-      vSql = vSql & "ISNULL(ME.MePrecioSinIva3, 0) AS PrecioSinIvaME, "
-      vSql = vSql & "ISNULL(ME.MePrecioConIva3, 0) AS PrecioConIvaME, "
-      vSql = vSql & "(ISNULL(ME.MePrecioConIva3, 0) - ISNULL(ME.MePrecioSinIva3, 0)) AS IvaME, "
+      vSQL = vSQL & "AI.PrecioSinIva3 AS PrecioSinIvaML, "
+      vSQL = vSQL & "AI.PrecioConIva3 AS PrecioConIVAML, "
+      vSQL = vSQL & "(AI.PrecioConIva3 - AI.PrecioSinIva3) AS IvaML, "
+      vSQL = vSQL & "ISNULL(ME.MePrecioSinIva3, 0) AS PrecioSinIvaME, "
+      vSQL = vSQL & "ISNULL(ME.MePrecioConIva3, 0) AS PrecioConIvaME, "
+      vSQL = vSQL & "(ISNULL(ME.MePrecioConIva3, 0) - ISNULL(ME.MePrecioSinIva3, 0)) AS IvaME, "
    ElseIf (valNivelDePrecio = eND_PRECIO_2) Then
-      vSql = vSql & "AI.PrecioSinIva2 AS PrecioSinIvaML, "
-      vSql = vSql & "AI.PrecioConIva2 AS PrecioConIVAML, "
-      vSql = vSql & "(AI.PrecioConIva2 - AI.PrecioSinIva2) AS IvaML, "
-      vSql = vSql & "ISNULL(ME.MePrecioSinIva2, 0) AS PrecioSinIvaME, "
-      vSql = vSql & "ISNULL(ME.MePrecioConIva2, 0) AS PrecioConIvaME, "
-      vSql = vSql & "(ISNULL(ME.MePrecioConIva2, 0) - ISNULL(ME.MePrecioSinIva2, 0)) AS IvaME, "
+      vSQL = vSQL & "AI.PrecioSinIva2 AS PrecioSinIvaML, "
+      vSQL = vSQL & "AI.PrecioConIva2 AS PrecioConIVAML, "
+      vSQL = vSQL & "(AI.PrecioConIva2 - AI.PrecioSinIva2) AS IvaML, "
+      vSQL = vSQL & "ISNULL(ME.MePrecioSinIva2, 0) AS PrecioSinIvaME, "
+      vSQL = vSQL & "ISNULL(ME.MePrecioConIva2, 0) AS PrecioConIvaME, "
+      vSQL = vSQL & "(ISNULL(ME.MePrecioConIva2, 0) - ISNULL(ME.MePrecioSinIva2, 0)) AS IvaME, "
    Else
-      vSql = vSql & "AI.PrecioSinIva AS PrecioSinIvaML, "
-      vSql = vSql & "AI.PrecioConIva AS PrecioConIVAML, "
-      vSql = vSql & "(AI.PrecioConIva - AI.PrecioSinIva) AS IvaML, "
-      vSql = vSql & "ISNULL(ME.MePrecioSinIva, 0) AS PrecioSinIvaME, "
-      vSql = vSql & "ISNULL(ME.MePrecioConIva, 0) AS PrecioConIvaME, "
-      vSql = vSql & "(ISNULL(ME.MePrecioConIva, 0) - ISNULL(ME.MePrecioSinIva, 0)) AS IvaME, "
+      vSQL = vSQL & "AI.PrecioSinIva AS PrecioSinIvaML, "
+      vSQL = vSQL & "AI.PrecioConIva AS PrecioConIVAML, "
+      vSQL = vSQL & "(AI.PrecioConIva - AI.PrecioSinIva) AS IvaML, "
+      vSQL = vSQL & "ISNULL(ME.MePrecioSinIva, 0) AS PrecioSinIvaME, "
+      vSQL = vSQL & "ISNULL(ME.MePrecioConIva, 0) AS PrecioConIvaME, "
+      vSQL = vSQL & "(ISNULL(ME.MePrecioConIva, 0) - ISNULL(ME.MePrecioSinIva, 0)) AS IvaME, "
    End If
-   vSql = vSql & "AI.PorcentajeBaseImponible, AI.UnidadDeVenta, AI.CampoDefinible1, AI.CampoDefinible2, AI.CampoDefinible3, AI.CampoDefinible4, AI.CampoDefinible5, AI.UnidadDeVentaSecundaria "
-   vSql = vSql & "FROM ArticuloInventario AS AI LEFT OUTER JOIN "
-   vSql = vSql & "ExistenciaPorGrupo AS EPG INNER JOIN "
-   vSql = vSql & "Saw.Talla ON EPG.CodigoTalla = Saw.Talla.CodigoTalla INNER JOIN "
-   vSql = vSql & "Saw.Color ON EPG.CodigoColor = Saw.Color.CodigoColor ON AI.ConsecutivoCompania = Saw.Color.ConsecutivoCompania AND "
-   vSql = vSql & "AI.ConsecutivoCompania = Saw.Talla.ConsecutivoCompania AND "
-   vSql = vSql & "AI.Codigo = EPG.CodigoArticulo AND "
-   vSql = vSql & "AI.CodigoGrupo = (CASE WHEN EPG.CodigoGrupo = '0' THEN '' ELSE EPG.CodigoGrupo END) AND AI.ConsecutivoCompania = EPG.ConsecutivoCompania LEFT OUTER JOIN "
-   vSql = vSql & "CamposMonedaExtranjera AS ME ON AI.ConsecutivoCompania = ME.ConsecutivoCompania AND AI.Codigo = ME.Codigo "
-   vSql = vSql & vSqlWhere
+   vSQL = vSQL & "AI.PorcentajeBaseImponible, AI.UnidadDeVenta, AI.CampoDefinible1, AI.CampoDefinible2, AI.CampoDefinible3, AI.CampoDefinible4, AI.CampoDefinible5, AI.UnidadDeVentaSecundaria "
+   vSQL = vSQL & "FROM ArticuloInventario AS AI LEFT OUTER JOIN "
+   vSQL = vSQL & "ExistenciaPorGrupo AS EPG INNER JOIN "
+   vSQL = vSQL & "Saw.Talla ON EPG.CodigoTalla = Saw.Talla.CodigoTalla INNER JOIN "
+   vSQL = vSQL & "Saw.Color ON EPG.CodigoColor = Saw.Color.CodigoColor ON AI.ConsecutivoCompania = Saw.Color.ConsecutivoCompania AND "
+   vSQL = vSQL & "AI.ConsecutivoCompania = Saw.Talla.ConsecutivoCompania AND "
+   vSQL = vSQL & "AI.Codigo = EPG.CodigoArticulo AND "
+   vSQL = vSQL & "AI.CodigoGrupo = (CASE WHEN EPG.CodigoGrupo = '0' THEN '' ELSE EPG.CodigoGrupo END) AND AI.ConsecutivoCompania = EPG.ConsecutivoCompania LEFT OUTER JOIN "
+   vSQL = vSQL & "CamposMonedaExtranjera AS ME ON AI.ConsecutivoCompania = ME.ConsecutivoCompania AND AI.Codigo = ME.Codigo "
+   vSQL = vSQL & vSQLWhere
 h_EXIT:   On Error GoTo 0
-   fSQLParaLaImpresionDeCodDeBarras = vSql
+   fSQLParaLaImpresionDeCodDeBarras = vSQL
    Exit Function
 h_ERROR:   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlParaLaImpresionDeCodDeBarras", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConstruirSQLDelReporteGananciaXProducto(ByVal valConsecutivoCompania As Long, ByVal valCantidadAImprimirLineaDeProducto As String, ByVal valenumCantidadAImprimirToString As String, ByVal valLineaDeProductos As String) As String
-   Dim Sql As String
+   Dim SQL As String
    On Error GoTo h_ERROR
    SQL = "SELECT "
    SQL = SQL & " CODIGO , "
@@ -373,7 +373,7 @@ Public Function fConstruirSQLDelReporteGananciaXProducto(ByVal valConsecutivoCom
    SQL = SQL & " ORDER BY "
    SQL = SQL & " LINEADEPRODUCTO , "
    SQL = SQL & " CODIGO"
-   fConstruirSQLDelReporteGananciaXProducto = Sql
+   fConstruirSQLDelReporteGananciaXProducto = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLDelReporteGananciaXProducto", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -385,7 +385,7 @@ Public Function fConstruirSQLDelReporteValoracionDeInventario(ByVal valPreciosCo
                                                                         ByVal valLineaDeProductos As String, ByVal valCodigoDesde As String, ByVal valCodigoHasta As String, ByRef gGlobalization As Object) As String
    Dim TraerCamposSinOConString As String
    Dim TraerCamposUsaMonedaExtranjera As String
-   Dim Sql As String
+   Dim SQL As String
    Dim SQLMePrecio As String
    Dim SQLMeValoracion As String
    Dim SQLValorDeVenta As String
@@ -469,7 +469,7 @@ Public Function fConstruirSQLDelReporteValoracionDeInventario(ByVal valPreciosCo
    SQL = SQL & " ORDER BY "
    SQL = SQL & "articuloInventario.LINEADEPRODUCTO , "
    SQL = SQL & "articuloInventario.CODIGO"
-   fConstruirSQLDelReporteValoracionDeInventario = Sql
+   fConstruirSQLDelReporteValoracionDeInventario = SQL
    Set gEnumProyecto = Nothing
 h_EXIT: On Error GoTo 0
    Exit Function
@@ -480,7 +480,7 @@ Public Function fConstruirSQLDelReporteHojaDeTrabajoDePedido(ByVal valConsecutiv
                                                                ByVal valenumCantidadAImprimirToString As String, ByVal valLineaDeProductos As String, _
                                                                   ByVal valUsaAlmacen As Boolean, ByVal valCantidadAImprimirAlmacen As String, _
                                                                      ByVal valNombreAlmacen As String) As String
-   Dim Sql As String
+   Dim SQL As String
    On Error GoTo h_ERROR
    SQL = "SELECT "
    SQL = SQL & "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Codigo , "
@@ -518,7 +518,7 @@ Public Function fConstruirSQLDelReporteHojaDeTrabajoDePedido(ByVal valConsecutiv
    SQL = SQL & "almacen.NombreAlmacen, "
    SQL = SQL & "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.LineaDeProducto, "
    SQL = SQL & "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Codigo"
-   fConstruirSQLDelReporteHojaDeTrabajoDePedido = Sql
+   fConstruirSQLDelReporteHojaDeTrabajoDePedido = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLDelReporteHojaDeTrabajoDePedido", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -561,7 +561,7 @@ Public Function fConstruirSQLDelReporteDeProductoSinVenta(ByVal valConsecutivoCo
    SQL = SQL & sqlWhere
    SQL = SQL & " GROUP BY ArticuloInventario.Codigo, articuloInventario.CostoUnitario, articuloInventario.Existencia, articuloInventario.LineaDeProducto, factura.StatusFactura, articuloInventario.Descripcion, Color.DescripcionColor, Talla.DescripcionTalla,ExistenciaPorGrupo.CodigoColor,ExistenciaPorGrupo.CodigoTalla,Factura_1.StatusFactura"
    SQL = SQL & " ORDER BY Codigo"
-   fConstruirSQLDelReporteDeProductoSinVenta = Sql
+   fConstruirSQLDelReporteDeProductoSinVenta = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLDelReporteDeProductoSinVenta", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -575,7 +575,7 @@ Public Function fSQLExistenciaInicialMovInvFactura(ByVal valCodigoProducto As St
    SQL = SQL & " WHERE (IGV_ArticuloVenta_B2.Codigo = " & gUtilSQL.fSimpleSqlValue(Trim(valCodigoProducto)) & ")"
    SQL = SQL & " AND (IGV_ArticuloVenta_B2.ConsecutivoCompania  = " & valConsecutivoCompania & ")"
    SQL = SQL & " AND (" & gUtilSQL.fSQLValueDateWithComparisonRule("", "IGV_ArticuloVenta_B2.Fecha", valFechaInicial, "<") & ")" & vbCrLf
-   fSQLExistenciaInicialMovInvFactura = Sql
+   fSQLExistenciaInicialMovInvFactura = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLExistenciaInicialMovInvFactura", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -598,7 +598,7 @@ Public Function fConstruirSQLDelReporteProductosPorDebajoDeExistenciaMinima(ByVa
       SQL = SQL & " AND LINEADEPRODUCTO  = " & gUtilSQL.fSimpleSqlValue(Trim(valLineaDeProductos))
    End If
    SQL = SQL & " ORDER BY LINEADEPRODUCTO, CODIGO"
-   fConstruirSQLDelReporteProductosPorDebajoDeExistenciaMinima = Sql
+   fConstruirSQLDelReporteProductosPorDebajoDeExistenciaMinima = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLDelReporteProductosPorDebajoDeExistenciaMinima", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -694,7 +694,7 @@ Public Function fConstruirSQLDelReporteExistenciaPorTallaYColor(ByVal valConsecu
    SQL = SQL & " ArticuloInventario.codigo, "
    SQL = SQL & " Color.CodigoColor "
 h_EXIT: On Error GoTo 0
-   fConstruirSQLDelReporteExistenciaPorTallaYColor = Sql
+   fConstruirSQLDelReporteExistenciaPorTallaYColor = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLDelReporteExistenciaPorTallaYColor", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
@@ -719,7 +719,7 @@ Public Function fConstruirSQLDelReporteVencimientoDeProducto(ByVal valConsecutiv
    SQL = SQL & "ArticuloInventario.FechaDeVencimiento, "
    SQL = SQL & "ArticuloInventario.Codigo"
 h_EXIT: On Error GoTo 0
-   fConstruirSQLDelReporteVencimientoDeProducto = Sql
+   fConstruirSQLDelReporteVencimientoDeProducto = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLDelReporteVencimientoDeProducto", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
@@ -737,7 +737,7 @@ Public Function fSQLExistenciaPorGrupo(ByVal valCodigoGrupo As String, ByVal val
    SQL = SQL & " AND ExistenciaPorGrupo.CodigoColor = " & gUtilSQL.fSimpleSqlValue(valCodigoColor)
    SQL = SQL & " GROUP BY CodigoArticulo "
 h_EXIT: On Error GoTo 0
-   fSQLExistenciaPorGrupo = Sql
+   fSQLExistenciaPorGrupo = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLExistenciaPorGrupo", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
@@ -865,7 +865,7 @@ Public Function fSQLDetalleDelInventarioPermanenteEnUnidadesFisicas(ByVal valCod
    SQL = SQL & " WHERE (InventarioInicial.ConsecutivoCompania = MovimientoDeInventario.ConsecutivoCompania) "
    SQL = SQL & " AND (InventarioInicial.CodigoArticulo = MovimientoDeInventario.CodigoArticulo) "
    SQL = SQL & " AND (InventarioInicial.Fecha < " & gUtilSQL.fSimpleSqlValue(valFechaInicial) & "))"
-   ExistenciaInicial = Sql
+   ExistenciaInicial = SQL
    
    SQL = "SELECT "
    SQL = SQL & " MovimientoDeInventario.Fecha, "
@@ -888,7 +888,7 @@ Public Function fSQLDetalleDelInventarioPermanenteEnUnidadesFisicas(ByVal valCod
 
    Set insInvPermanenteVista = Nothing
 h_EXIT: On Error GoTo 0
-   fSQLDetalleDelInventarioPermanenteEnUnidadesFisicas = Sql
+   fSQLDetalleDelInventarioPermanenteEnUnidadesFisicas = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLDetalleDelInventarioPermanenteEnUnidadesFisicas", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
@@ -900,7 +900,7 @@ Public Function fSQLDetalleDelInventarioPermanenteValorizado(ByVal valCodigoComp
    On Error GoTo h_ERROR
    Set insInvPermanenteVista = New clsArticuloInvVista
    If valCostoUltimaCompra Then
-      Sql = fSQLDetalleDelInventarioPermanenteValorizadoUltimaCompra(valCodigoCompaniaActual, valFechaInicial, valFechaFinal)
+      SQL = fSQLDetalleDelInventarioPermanenteValorizadoUltimaCompra(valCodigoCompaniaActual, valFechaInicial, valFechaFinal)
    Else
       SQL = "SELECT "
       SQL = SQL & " Fecha, "
@@ -929,7 +929,7 @@ Public Function fSQLDetalleDelInventarioPermanenteValorizado(ByVal valCodigoComp
    End If
    Set insInvPermanenteVista = Nothing
 h_EXIT: On Error GoTo 0
-   fSQLDetalleDelInventarioPermanenteValorizado = Sql
+   fSQLDetalleDelInventarioPermanenteValorizado = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLDetalleDelInventarioPermanenteValorizado", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
@@ -974,7 +974,7 @@ Public Function fSQLExistenciaDetalladaDeArticulo(ByVal valSqlCamposFiltro As St
    Set gEnumProyecto = Nothing
    Set insArticuloInvVista = Nothing
 h_EXIT: On Error GoTo 0
-   fSQLExistenciaDetalladaDeArticulo = Sql
+   fSQLExistenciaDetalladaDeArticulo = SQL
    
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLExistenciaDetalladaDeArticulo", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -995,16 +995,16 @@ Public Function fSQLUbicacionXAlmacenDeArticulo(ByVal valConsecutivoCompania As 
       SQL = SQL & "AND (LineaDeProducto = " & gUtilSQL.fSimpleSqlValue(valLineaDeProducto) & ") "
    End If
    If gTexto.DfLen(valMarca) > 0 Then
-      Sql = gUtilSQL.fSQLValueWithWildcardWithAnd(Sql, "Marca", valMarca)
+      SQL = gUtilSQL.fSQLValueWithWildcardWithAnd(SQL, "Marca", valMarca)
    End If
    If gTexto.DfLen(valCategoria) > 0 Then
       SQL = SQL & "AND (Categoria = " & gUtilSQL.fSimpleSqlValue(valCategoria) & ") "
    End If
    If gTexto.DfLen(valSerial) > 0 Then
-      Sql = gUtilSQL.fSQLValueWithWildcardWithAnd(Sql, "Serial ", valSerial)
+      SQL = gUtilSQL.fSQLValueWithWildcardWithAnd(SQL, "Serial ", valSerial)
    End If
    If gTexto.DfLen(valRollo) > 0 Then
-      Sql = gUtilSQL.fSQLValueWithWildcardWithAnd(Sql, "Rollo ", valRollo)
+      SQL = gUtilSQL.fSQLValueWithWildcardWithAnd(SQL, "Rollo ", valRollo)
    End If
    If gTexto.DfLen(valCodigoIncio) > 0 And gTexto.DfLen(valCodigoFin) > 0 Then
       SQL = SQL & "AND " & gUtilSQL.fSQLValueBetween("Codigo", valCodigoIncio, valCodigoFin)
@@ -1017,7 +1017,7 @@ Public Function fSQLUbicacionXAlmacenDeArticulo(ByVal valConsecutivoCompania As 
    End If
    Set insArticuloView = Nothing
 h_EXIT: On Error GoTo 0
-   fSQLUbicacionXAlmacenDeArticulo = Sql
+   fSQLUbicacionXAlmacenDeArticulo = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLUbicacionXAlmacenDeArticulo", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
@@ -1118,7 +1118,7 @@ Public Function fSQLExistenciaMercanciaEnTransito(ByVal valConsecutivoCompania A
    SQL = SQL & " ORDER BY " & valSqlOrder
    Set gEnumProyecto = Nothing
 h_EXIT: On Error GoTo 0
-   fSQLExistenciaMercanciaEnTransito = Sql
+   fSQLExistenciaMercanciaEnTransito = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLExistenciaMercanciaEnTransito", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
@@ -1305,7 +1305,7 @@ Public Function fSqlCostoUltimaCompraReporte(ByVal valConsecutivoCompania As Lon
    SQL = SQL & "  order by ArticulosyCostos.codigo"
    Set gEnumProyecto = Nothing
 h_EXIT: On Error GoTo 0
-  fSqlCostoUltimaCompraReporte = Sql
+  fSqlCostoUltimaCompraReporte = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlCostoUltimaCompra", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
@@ -1317,7 +1317,7 @@ Public Function fSQLRegistroDetalladadoInventario(ByVal valFechaInicial As Date,
    On Error GoTo h_ERROR
    sqlFacturaOut = fSQLFacturaParaRegistroDetallado(valFechaInicial, valFechaFinal, valConsecutivoCompania)
    sqlFacturaProductoCompuestoOut = fSQLFacturaPCParaRegistroDetallado(valFechaInicial, valFechaFinal, valConsecutivoCompania)
-   SQL = SQLFacturaOut
+   SQL = sqlFacturaOut
    SQL = SQL & " UNION " & sqlFacturaProductoCompuestoOut
    SQL = SQL & " UNION " & fSQLExistenciaParaRegistroDetallado(valConsecutivoCompania)
    If Not valEsSistemaInterno Then
@@ -1332,7 +1332,7 @@ Public Function fSQLRegistroDetalladadoInventario(ByVal valFechaInicial As Date,
       SQL = SQL & " UNION " & fSQLConteoFisicoParaExistenciaAnterior(valFechaInicial, valConsecutivoCompania)
       SQL = SQL & " UNION " & fSQLComprasParaExistenciaAnterior(valFechaInicial, valConsecutivoCompania)
    End If
-   fSQLRegistroDetalladadoInventario = Sql
+   fSQLRegistroDetalladadoInventario = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLRegistroDetalladadoInventario", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -1423,16 +1423,16 @@ End Function
 
 Private Function fSQLNotaESParaRegistroDetallado(ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valConsecutivoCompania As Long) As String
    Dim sqlNotaES As String
-   Dim vSqlWhere As String
+   Dim vSQLWhere As String
    Dim sqlOperacion As String
    On Error GoTo h_ERROR
    sqlOperacion = "RenglonNotaES.Cantidad * ArticuloInventario.CostoUnitario"
   
-   vSqlWhere = gUtilSQL.fSQLValueDatesBetween("", "NotaDeEntradaSalida.Fecha", valFechaInicial, valFechaFinal)
-   vSqlWhere = gUtilSQL.fSQLEnumValueWithAnd(vSqlWhere, "StatusNotaEntradaSalida", enum_StatusNotaEntradaSalida.eSNES_Vigente)
-   vSqlWhere = vSqlWhere & " AND ArticuloInventario.TipoDeArticulo <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeArticulo.eTD_SERVICIO)
-   vSqlWhere = vSqlWhere & " AND ArticuloInventario.ConsecutivoCompania = " & valConsecutivoCompania
-   vSqlWhere = gUtilSQL.getWhereSQL(vSqlWhere)
+   vSQLWhere = gUtilSQL.fSQLValueDatesBetween("", "NotaDeEntradaSalida.Fecha", valFechaInicial, valFechaFinal)
+   vSQLWhere = gUtilSQL.fSQLEnumValueWithAnd(vSQLWhere, "StatusNotaEntradaSalida", enum_StatusNotaEntradaSalida.eSNES_Vigente)
+   vSQLWhere = vSQLWhere & " AND ArticuloInventario.TipoDeArticulo <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeArticulo.eTD_SERVICIO)
+   vSQLWhere = vSQLWhere & " AND ArticuloInventario.ConsecutivoCompania = " & valConsecutivoCompania
+   vSQLWhere = gUtilSQL.getWhereSQL(vSQLWhere)
    
    sqlNotaES = "SELECT "
    sqlNotaES = sqlNotaES & "ArticuloInventario.Codigo, "
@@ -1457,7 +1457,7 @@ Private Function fSQLNotaESParaRegistroDetallado(ByVal valFechaInicial As Date, 
                   ") AND (NotaDeEntradaSalida.ConsecutivoCompania" & _
                   " = RenglonNotaES.ConsecutivoCompania)"
    
-   sqlNotaES = sqlNotaES & vSqlWhere
+   sqlNotaES = sqlNotaES & vSQLWhere
    
    sqlNotaES = sqlNotaES & " UNION SELECT RenglonNotaEs.CodigoArticulo as Codigo,"
    sqlNotaES = sqlNotaES & "(ArticuloInventario.Descripcion+" & gUtilSQL.fSimpleSqlValue(" ") & "+"
@@ -1479,7 +1479,7 @@ Private Function fSQLNotaESParaRegistroDetallado(ByVal valFechaInicial As Date, 
    sqlNotaES = sqlNotaES & " AND (ExistenciaPorGrupo.CodigoArticulo = articuloInventario.Codigo)) LEFT JOIN Color ON (ExistenciaPorGrupo.ConsecutivoCompania = Color.ConsecutivoCompania) "
    sqlNotaES = sqlNotaES & " AND (ExistenciaPorGrupo.CodigoColor = Color.CodigoColor)) LEFT JOIN Talla ON (ExistenciaPorGrupo.ConsecutivoCompania = Talla.ConsecutivoCompania) "
    sqlNotaES = sqlNotaES & " AND (ExistenciaPorGrupo.CodigoTalla = Talla.CodigoTalla)"
-   sqlNotaES = sqlNotaES & vSqlWhere
+   sqlNotaES = sqlNotaES & vSQLWhere
    fSQLNotaESParaRegistroDetallado = sqlNotaES
 h_EXIT: On Error GoTo 0
    Exit Function
@@ -1862,7 +1862,7 @@ Public Function fSQLConteoFisicoParaRegistroDetallado(ByVal valFechaInicial As D
    SQL = SQL & " LEFT JOIN Talla ON (ExistenciaPorGrupo.ConsecutivoCompania = Talla.ConsecutivoCompania) AND (ExistenciaPorGrupo.CodigoTalla = Talla.CodigoTalla)) "
    SQL = SQL & " ON (conteoFisico.ConsecutivoConteo = renglonConteoFisico.ConsecutivoConteo) AND (conteoFisico.ConsecutivoCompania = renglonConteoFisico.ConsecutivoCompania)"
    SQL = SQL & sqlWhere
-   fSQLConteoFisicoParaRegistroDetallado = Sql
+   fSQLConteoFisicoParaRegistroDetallado = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLConteoFisicoParaRegistroDetallado", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -1925,7 +1925,7 @@ Public Function fSQLConteoFisico_Para_ExistenciaAnterior(ByVal valFechaInicial A
    SQL = SQL & " LEFT JOIN Talla ON (ExistenciaPorGrupo.ConsecutivoCompania = Talla.ConsecutivoCompania) AND (ExistenciaPorGrupo.CodigoTalla = Talla.CodigoTalla)) "
    SQL = SQL & " ON (conteoFisico.ConsecutivoConteo = renglonConteoFisico.ConsecutivoConteo) AND (conteoFisico.ConsecutivoCompania = renglonConteoFisico.ConsecutivoCompania)"
    SQL = SQL & sqlWhere
-   fSQLConteoFisico_Para_ExistenciaAnterior = Sql
+   fSQLConteoFisico_Para_ExistenciaAnterior = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLConteoFisico_Para_ExistenciaAnterior", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -1999,14 +1999,14 @@ Public Function fSQLExistenciaInicialMovInvNotaES(ByVal valCodigoProducto As Str
    End If
    SQL = SQL & " AND (notaDeEntradaSalida.StatusNotaEntradaSalida = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusNotaEntradaSalida.eSNES_Vigente) & ")" & vbCrLf
    
-   fSQLExistenciaInicialMovInvNotaES = Sql
+   fSQLExistenciaInicialMovInvNotaES = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLExistenciaInicialMovInvNotaES", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fSQLExistenciaInicialMovInvCompras(ByVal valCodigoProducto As String, ByVal valFechaInicial As Date, ByVal valCompaniaActual As Long) As String
-   Dim SQL As String
+   Dim Sql As String
    On Error GoTo h_ERROR
 
    SQL = " SELECT " & gUtilSQL.fIfResultIsNullReplace("SUM(renglonCompra.CantidadRecibida)", 0) & " AS ExistenciaInicial " & vbCrLf
@@ -2076,7 +2076,7 @@ Public Function fSQLExistenciaInicialMovInvCompras(ByVal valCodigoProducto As St
    SQL = SQL & " AND (ArticuloInventario.TipoArticuloInv = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoArticuloInv.eTAI_UsaTalla_ColorySerial) & ")" & vbCrLf
 
 
-   fSQLExistenciaInicialMovInvCompras = Sql
+   fSQLExistenciaInicialMovInvCompras = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -2084,7 +2084,7 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
 End Function
 
 Public Function fConstruirSQLDelReporteListaDePrecios(ByVal valLineaDeProductoAImprimir As String, ByVal valStatus As Integer, ByVal valOrdenarPorCodigo As Boolean, ByVal valCantidadAImprimirLineaDeProducto As String, ByVal valAgruparPorLineaDeProducto As Boolean, ByVal valCodigoPais As String, ByVal valCompaniaActual As Long, ByVal valOrdenamientoCodigo As String, ByVal valBuscarPais As Boolean, ByVal gMonedaLocalActual As Object, ByVal valTasaMoneda As Currency, ByVal valMonedaReporte As String, ByVal valUsaMultiMoneda As Boolean, ByVal valEsMonedaLocalATasaDelDia As Boolean) As String
-   Dim SQL As String
+   Dim Sql As String
    Dim SQLTasaMoneda As String
    Dim SQLCodigoArticulo As String
    Dim vCountryCode As String
@@ -2207,7 +2207,7 @@ Public Function fConstruirSQLDelReporteListaDePrecios(ByVal valLineaDeProductoAI
    End If
    Set gEnumProyecto = Nothing
 h_EXIT: On Error GoTo 0
-   fConstruirSQLDelReporteListaDePrecios = Sql
+   fConstruirSQLDelReporteListaDePrecios = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
       "fConstruirSQLDelReporteListaDePrecios", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -2293,7 +2293,7 @@ Public Function fSQLInsertarArticuloEspecial(ByVal valConsecutivoCompania As Lon
    SQL = SQL & " WHERE NOT EXISTS(SELECT ConsecutivoCompania, Codigo FROM articuloInventario WHERE ConsecutivoCompania = " & valConsecutivoCompania & " AND Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigo) & ")"
    
 h_EXIT: On Error GoTo 0
-   fSQLInsertarArticuloEspecial = Sql
+   fSQLInsertarArticuloEspecial = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLInsertarArticuloEspecial", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
@@ -2355,7 +2355,7 @@ Public Function fSQLCamposRequeridos(ByVal valNumero As String, ByVal valConsecu
    SQL = "SELECT " & strCampos & " FROM articuloInventario " & _
          " WHERE Codigo = " & gUtilSQL.fSimpleSqlValue(valNumero) & _
          " AND ConsecutivoCompania = " & valConsecutivoCompania
-   fSQLCamposRequeridos = Sql
+   fSQLCamposRequeridos = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLCamposRequeridos", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -2398,7 +2398,7 @@ Public Function fQueryNotaES(ByVal valTipoOperacion As enum_TipodeOperacion, ByV
          End If
       End If
    End If
-   fQueryNotaES = Sql
+   fQueryNotaES = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fQueryNotaES", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -2443,7 +2443,7 @@ Public Function fQueryTransferencia(ByVal valTipoOperacion As enum_TipodeOperaci
          End If
       End If
    End If
-   fQueryTransferencia = Sql
+   fQueryTransferencia = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fQueryTransferencia", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -2487,7 +2487,7 @@ Public Function fQueryFactura(ByVal valCodigoAlmacen As String, ByVal valConsecu
          End If
       End If
    End If
-   fQueryFactura = Sql
+   fQueryFactura = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fQueryFactura", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -2536,7 +2536,7 @@ Public Function fQueryFacturaPC(ByVal valCodigoAlmacen As String, ByVal valConse
          End If
       End If
    End If
-   fQueryFacturaPC = Sql
+   fQueryFacturaPC = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -2544,7 +2544,7 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
 End Function
 
 Public Function fQueryConteoFisico(ByVal valCodigoAlmacen As String, ByVal valConsecutivoCompania As Long, ByVal valTipoArticuloInvAsEnum As Integer, ByVal valCodigoCompuesto As String, ByVal valCodigo As String, ByVal valSerial As String, ByVal valRollo As String) As String
-   Dim SQL As String
+   Dim Sql As String
    On Error GoTo h_ERROR
    SQL = "SELECT ISNULL(SUM(Diferencia) ,0) AS SumCantidad"
    SQL = SQL & " FROM ConteoFisico INNER JOIN RenglonConteoFisico "
@@ -2579,7 +2579,7 @@ Public Function fQueryConteoFisico(ByVal valCodigoAlmacen As String, ByVal valCo
       End If
    End If
 h_EXIT: On Error GoTo 0
-   fQueryConteoFisico = Sql
+   fQueryConteoFisico = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fQueryConteoFisico", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
@@ -2659,7 +2659,7 @@ SQL = SQL & "  order by codigo, fecha, PrioridadOperacion, numerodocumento"
     
 Set gEnumProyecto = Nothing
 h_EXIT: On Error GoTo 0
-  fSqlCostoUltimaCompraReporteDetallado = Sql
+  fSqlCostoUltimaCompraReporteDetallado = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
          "fSqlCostoUltimaCompra", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -2697,7 +2697,7 @@ SQL = SQL & insArticuloView.GetViewNameArticuloInvMovimientoDetallado() & ".Codi
 SQL = SQL & insArticuloView.GetViewNameArticuloInvMovimientoDetallado() & ".Descripcion"
 Set insArticuloView = Nothing
 h_EXIT: On Error GoTo 0
-  fSqlExistenciaEntreFechaExitenciaAnterior = Sql
+  fSqlExistenciaEntreFechaExitenciaAnterior = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
          "fSqlExistenciaEntreFechaExitenciaAnte", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -2735,7 +2735,7 @@ SQL = SQL & insArticuloView.GetViewNameArticuloInvMovimientoDetallado() & ".Codi
 SQL = SQL & insArticuloView.GetViewNameArticuloInvMovimientoDetallado() & ".Descripcion"
 Set insArticuloView = Nothing
 h_EXIT: On Error GoTo 0
-  fSqlExistenciaEntreFechaExitenciaActual = Sql
+  fSqlExistenciaEntreFechaExitenciaActual = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
          "fSqlExistenciaEntreFechaExitenciaActual", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -2775,7 +2775,7 @@ SQL = SQL & insArticuloView.GetViewNameArticuloInvMovimientoDetallado() & ".Codi
 SQL = SQL & insArticuloView.GetViewNameArticuloInvMovimientoDetallado() & ".Descripcion"
 Set insArticuloView = Nothing
 h_EXIT: On Error GoTo 0
- fSqlExistenciaEntreFechaEntradasSalidas = Sql
+ fSqlExistenciaEntreFechaEntradasSalidas = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
          "fSqlExistenciaEntreFechaEntradasSalidas", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -2826,7 +2826,7 @@ SQL = SQL & "ORDER BY CODIGO"
 'SQL = SQL & " UNION "
 'SQL = SQL & fSqlExistenciaEntreFechaExitenciaActual(valConsecutivoCompania, valCodigoDesde, valCodigoHasta, valFechaFinal, sqlWhere)
 h_EXIT: On Error GoTo 0
- fSqlInformeExistenciaEntreFechas = Sql
+ fSqlInformeExistenciaEntreFechas = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
          "fSqlInformeExistenciaEntreFechas", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -2856,7 +2856,7 @@ Public Function fSQLSearchArticuloInventarioFactura(ByVal valConsecutivoCompania
       End If
       sqlWhere = sqlWhere & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoDelArticulo NOT  IN( " & valSqlArtIGTF & ")"
    End If
-    Sql = fSQLSearchArticuloInventarioFacturaSelect(valConsecutivoCompania, valCodigoArticulo, valCodigoAlmacen, valPrecio1, valPrecio2, sqlWhere, valMonedaExtranjera, vGroupby, valBuscarPorSerial, valSerial, valUsaArticulosReservadosPorAlmacen, vaUsaArticulosReservadosPorCotizacion, valDescripcion)
+    SQL = fSQLSearchArticuloInventarioFacturaSelect(valConsecutivoCompania, valCodigoArticulo, valCodigoAlmacen, valPrecio1, valPrecio2, sqlWhere, valMonedaExtranjera, vGroupby, valBuscarPorSerial, valSerial, valUsaArticulosReservadosPorAlmacen, vaUsaArticulosReservadosPorCotizacion, valDescripcion)
     SQL = SQL & " UNION "
     SQL = SQL & fSQLSearchArticuloInventarioFacturaSelectCom(valConsecutivoCompania, valCodigoArticulo, valPrecio1, valPrecio2, sqlWhere, valMonedaExtranjera, vGroupby, valCodigoAlmacen, valBuscarPorSerial, valSerial, valUsaArticulosReservadosPorAlmacen, vaUsaArticulosReservadosPorCotizacion, valDescripcion)
     articulosCom = fSQLSearchArticuloInventarioFacturaSelectSoloCompuestos(valConsecutivoCompania, valCodigoArticulo, valPrecio1, valPrecio2, sqlWhere, valMonedaExtranjera, vGroupby, valBuscarPorSerial, valSerial, valDescripcion)
@@ -2872,7 +2872,7 @@ Public Function fSQLSearchArticuloInventarioFactura(ByVal valConsecutivoCompania
   End If
 Set insArticuloInvVista = Nothing
 h_EXIT:    On Error GoTo 0
-   fSQLSearchArticuloInventarioFactura = Sql
+   fSQLSearchArticuloInventarioFactura = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
       "fSQLSearchArticuloInventarioFactura", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -2880,8 +2880,8 @@ End Function
 
 Public Function fSQLSearchArticuloInventarioFacturaSelect(ByVal valConsecutivoCompania As Long, ByVal valCodigoArticulo As String, ByVal valCodigoAlmacen As String, ByVal valPrecio1 As String, ByVal valPrecio2 As String, ByVal valsqlWhere As String, ByVal valMonedaExtranjera As Boolean, ByVal vGroupby As String, ByVal valBuscarPorSerial As Boolean, ByVal valSerial As String, ByVal valUsaArticulosReservadosPorAlmacen As Boolean, ByVal vaUsaArticulosReservadosPorCotizacion As Boolean, Optional ByVal valDescripcion As String) As String
 Dim insArticuloInvVista As clsArticuloInvVista
-Dim vSql As String
-Dim vSqlWhere As String
+Dim vSQL As String
+Dim vSQLWhere As String
 Dim vDescripcionTallaColor As String
 Dim vSQLCondicionExistencia As String
 Dim vSQLCondicionTipoArticulo As String
@@ -2894,136 +2894,136 @@ Set insArticuloInvVista = New clsArticuloInvVista
  vDescripcionTallaColor = vDescripcionTallaColor & " + " & gUtilSQL.getIIF(gUtilSQL.DfSQLIsNull(insArticuloInvVista.GetViewNameExistenciaPorGrupoConTallasyColores & ".DescripcionTalla"), gUtilSQL.fSimpleSqlValue(""), insArticuloInvVista.GetViewNameExistenciaPorGrupoConTallasyColores & ".DescripcionTalla", True)
  vSQLCondicionExistencia = vSQLCondicionExistencia & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ExistenciaAlmacen > " & gUtilSQL.fNumToStrSQL(0)
  If gTexto.DfLen(valCodigoArticulo) > 0 And valCodigoArticulo <> "*" Then
-     vSqlWhere = gUtilSQL.fSQLValueWithAnd(vSqlWhere, insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".CodigoDelArticulo", valCodigoArticulo, False)
+     vSQLWhere = gUtilSQL.fSQLValueWithAnd(vSQLWhere, insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".CodigoDelArticulo", valCodigoArticulo, False)
  End If
- vSqlWhere = gUtilSQL.fSQLEnumValueWithAnd(vSqlWhere, insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".StatusdelArticulo", enum_StatusArticulo.eSA_VIGENTE)
+ vSQLWhere = gUtilSQL.fSQLEnumValueWithAnd(vSQLWhere, insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".StatusdelArticulo", enum_StatusArticulo.eSA_VIGENTE)
  If valBuscarPorSerial Then
    If valSerial <> "" Then
       If valSerial = "%%" Then
-         vSqlWhere = vSqlWhere & " And " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".Serial != " & gUtilSQL.fSimpleSqlValue("0")
+         vSQLWhere = vSQLWhere & " And " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".Serial != " & gUtilSQL.fSimpleSqlValue("0")
       Else
-         vSqlWhere = vSqlWhere & "And " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".Serial Like " & gUtilSQL.fSimpleSqlValue(valSerial)
+         vSQLWhere = vSQLWhere & "And " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".Serial Like " & gUtilSQL.fSimpleSqlValue(valSerial)
       End If
    End If
  End If
  vSQLCondicionTipoArticulo = " AND ( " & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".TipoDeArticulo <> " & enum_TipoDeArticulo.eTD_SERVICIO & ")"
- vSqlWhere = vSqlWhere & vSQLCondicionTipoArticulo
+ vSQLWhere = vSQLWhere & vSQLCondicionTipoArticulo
  If valDescripcion <> "" Then
-    vSqlWhere = vSqlWhere & "And " & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Descripcion LIKE " & gUtilSQL.fSimpleSqlValue(valDescripcion)
+    vSQLWhere = vSQLWhere & "And " & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Descripcion LIKE " & gUtilSQL.fSimpleSqlValue(valDescripcion)
  End If
- vSqlWhere = gUtilSQL.fSQLValueWithAnd(vSqlWhere, insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".CodigoAlmacen", valCodigoAlmacen, False)
- vSqlWhere = vSqlWhere & "AND " & gUtilSQL.fSQLNumberValueWithAnd(valsqlWhere, insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ConsecutivoCompania", valConsecutivoCompania)
- vSqlWhere = gUtilSQL.getWhereSQL(vSqlWhere)
+ vSQLWhere = gUtilSQL.fSQLValueWithAnd(vSQLWhere, insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".CodigoAlmacen", valCodigoAlmacen, False)
+ vSQLWhere = vSQLWhere & "AND " & gUtilSQL.fSQLNumberValueWithAnd(valsqlWhere, insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ConsecutivoCompania", valConsecutivoCompania)
+ vSQLWhere = gUtilSQL.getWhereSQL(vSQLWhere)
  vSQL = ""
- vSql = vSql & " SELECT "
- vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoDelArticulo AS CodigoCompuesto  ,"
- vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Descripcion + " & vDescripcionTallaColor & " AS Descripcion , "
- vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".LineaDeProducto,"
+ vSQL = vSQL & " SELECT "
+ vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoDelArticulo AS CodigoCompuesto  ,"
+ vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Descripcion + " & vDescripcionTallaColor & " AS Descripcion , "
+ vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".LineaDeProducto,"
  If vaUsaArticulosReservadosPorCotizacion And valUsaArticulosReservadosPorAlmacen Then
-   vSql = vSql & " ISNULL(" & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ExistenciaAlmacen,0)" & _
+   vSQL = vSQL & " ISNULL(" & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ExistenciaAlmacen,0)" & _
    " - ISNULL(" & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen() & ".CantArtReservados,0)" & _
    " - ISNULL(" & insArticuloInvVista.GetViewNameArticulosReservadosPorCotizacion() & ".CantArtReservados,0) AS Disponibilidad,"
  ElseIf valUsaArticulosReservadosPorAlmacen Then
-   vSql = vSql & " ISNULL(" & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ExistenciaAlmacen ,0)" & _
+   vSQL = vSQL & " ISNULL(" & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ExistenciaAlmacen ,0)" & _
    " - ISNULL(" & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen() & ".CantArtReservados,0) AS Disponibilidad,"
  ElseIf vaUsaArticulosReservadosPorCotizacion Then
-   vSql = vSql & " ISNULL(" & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ExistenciaAlmacen,0)" & _
+   vSQL = vSQL & " ISNULL(" & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ExistenciaAlmacen,0)" & _
    " - ISNULL(" & insArticuloInvVista.GetViewNameArticulosReservadosPorCotizacion() & ".CantArtReservados,0) AS Disponibilidad,"
  Else
-   vSql = vSql & " ISNULL(" & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ExistenciaAlmacen,0) AS Disponibilidad,"
+   vSQL = vSQL & " ISNULL(" & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ExistenciaAlmacen,0) AS Disponibilidad,"
  End If
- vSql = vSql & valPrecio1 & " ,"
- vSql = vSql & valPrecio2 & " ,"
- vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".Serial,"
- vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".Rollo,"
- vSql = vSql & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & ".CantidadRecibida AS CantidadUltimaCompra,"
- vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".AlicuotaIva,"
- vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoGrupo,"
- vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".TipoArticuloInv,"
- vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Codigo,"
- vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ConsecutivoCompania,"
- vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".PorcentajeBaseImponible,"
- vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".CodigoAlmacen,"
- vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ExistenciaAlmacen"
- vSql = vSql & " FROM " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1()
-vSql = vSql & " INNER JOIN  "
- vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & " ON "
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ConsecutivoCompania = " & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".ConsecutivoCompania AND "
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".Serial = " & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Serial AND "
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".Rollo = " & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Rollo AND "
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".CodigoArticulo = " & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoDelArticulo"
+ vSQL = vSQL & valPrecio1 & " ,"
+ vSQL = vSQL & valPrecio2 & " ,"
+ vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".Serial,"
+ vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".Rollo,"
+ vSQL = vSQL & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & ".CantidadRecibida AS CantidadUltimaCompra,"
+ vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".AlicuotaIva,"
+ vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoGrupo,"
+ vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".TipoArticuloInv,"
+ vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Codigo,"
+ vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ConsecutivoCompania,"
+ vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".PorcentajeBaseImponible,"
+ vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".CodigoAlmacen,"
+ vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ExistenciaAlmacen"
+ vSQL = vSQL & " FROM " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1()
+vSQL = vSQL & " INNER JOIN  "
+ vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & " ON "
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ConsecutivoCompania = " & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".ConsecutivoCompania AND "
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".Serial = " & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Serial AND "
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".Rollo = " & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Rollo AND "
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".CodigoArticulo = " & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoDelArticulo"
 If valUsaArticulosReservadosPorAlmacen Then
-   vSql = vSql & " LEFT JOIN  "
-   vSql = vSql & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen & " ON "
-   vSql = vSql & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen() & ".ConsecutivoCompania = " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".ConsecutivoCompania AND "
-   vSql = vSql & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen() & ".CodigoArticulo = " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".CodigoArticulo AND "
-   vSql = vSql & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen() & ".CodigoAlmacen = " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".CodigoAlmacen"
+   vSQL = vSQL & " LEFT JOIN  "
+   vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen & " ON "
+   vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen() & ".ConsecutivoCompania = " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".ConsecutivoCompania AND "
+   vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen() & ".CodigoArticulo = " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".CodigoArticulo AND "
+   vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen() & ".CodigoAlmacen = " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".CodigoAlmacen"
 End If
 If vaUsaArticulosReservadosPorCotizacion Then
-   vSql = vSql & " LEFT JOIN  "
-   vSql = vSql & insArticuloInvVista.GetViewNameArticulosReservadosPorCotizacion() & " ON "
-   vSql = vSql & insArticuloInvVista.GetViewNameArticulosReservadosPorCotizacion() & ".ConsecutivoCompania = " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".ConsecutivoCompania AND "
-   vSql = vSql & insArticuloInvVista.GetViewNameArticulosReservadosPorCotizacion() & ".CodigoArticulo = " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".CodigoArticulo "
+   vSQL = vSQL & " LEFT JOIN  "
+   vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosReservadosPorCotizacion() & " ON "
+   vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosReservadosPorCotizacion() & ".ConsecutivoCompania = " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".ConsecutivoCompania AND "
+   vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosReservadosPorCotizacion() & ".CodigoArticulo = " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".CodigoArticulo "
 End If
-vSql = vSql & " LEFT JOIN  "
-vSql = vSql & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & " ON "
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ConsecutivoCompania = " & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & ".ConsecutivoCompania AND "
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".CodigoAlmacen = " & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & ".CodigoAlmacen AND  "
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".CodigoArticulo = " & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & ".CodigoArticulo AND "
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".Serial = " & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & ".Serial AND "
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".Rollo = " & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & ".Rollo "
+vSQL = vSQL & " LEFT JOIN  "
+vSQL = vSQL & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & " ON "
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ConsecutivoCompania = " & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & ".ConsecutivoCompania AND "
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".CodigoAlmacen = " & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & ".CodigoAlmacen AND  "
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".CodigoArticulo = " & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & ".CodigoArticulo AND "
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".Serial = " & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & ".Serial AND "
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".Rollo = " & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & ".Rollo "
 
-vSql = vSql & " LEFT JOIN  "
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorGrupoConTallasyColores & " ON "
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".ConsecutivoCompania = " & insArticuloInvVista.GetViewNameExistenciaPorGrupoConTallasyColores & ".ConsecutivoCompania AND "
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Codigo = " & insArticuloInvVista.GetViewNameExistenciaPorGrupoConTallasyColores & ".CodigoArticulo AND "
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Serial = " & insArticuloInvVista.GetViewNameExistenciaPorGrupoConTallasyColores & ".Serial AND "
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Rollo = " & insArticuloInvVista.GetViewNameExistenciaPorGrupoConTallasyColores & ".Rollo AND "
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoTalla = " & insArticuloInvVista.GetViewNameExistenciaPorGrupoConTallasyColores & ".CodigoTalla AND "
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoColor = " & insArticuloInvVista.GetViewNameExistenciaPorGrupoConTallasyColores & ".CodigoColor "
+vSQL = vSQL & " LEFT JOIN  "
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorGrupoConTallasyColores & " ON "
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".ConsecutivoCompania = " & insArticuloInvVista.GetViewNameExistenciaPorGrupoConTallasyColores & ".ConsecutivoCompania AND "
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Codigo = " & insArticuloInvVista.GetViewNameExistenciaPorGrupoConTallasyColores & ".CodigoArticulo AND "
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Serial = " & insArticuloInvVista.GetViewNameExistenciaPorGrupoConTallasyColores & ".Serial AND "
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Rollo = " & insArticuloInvVista.GetViewNameExistenciaPorGrupoConTallasyColores & ".Rollo AND "
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoTalla = " & insArticuloInvVista.GetViewNameExistenciaPorGrupoConTallasyColores & ".CodigoTalla AND "
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoColor = " & insArticuloInvVista.GetViewNameExistenciaPorGrupoConTallasyColores & ".CodigoColor "
 
-vSql = vSql & " LEFT JOIN  "
-vSql = vSql & " CamposMonedaExtranjera ON "
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".ConsecutivoCompania = CamposMonedaExtranjera.ConsecutivoCompania AND "
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Codigo = CamposMonedaExtranjera.Codigo "
+vSQL = vSQL & " LEFT JOIN  "
+vSQL = vSQL & " CamposMonedaExtranjera ON "
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".ConsecutivoCompania = CamposMonedaExtranjera.ConsecutivoCompania AND "
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Codigo = CamposMonedaExtranjera.Codigo "
 
-vSql = vSql & vSqlWhere
-vSql = vSql & " Group By "
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoDelArticulo  ,"
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Descripcion,"
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".LineaDeProducto,"
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Existencia, "
+vSQL = vSQL & vSQLWhere
+vSQL = vSQL & " Group By "
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoDelArticulo  ,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Descripcion,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".LineaDeProducto,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Existencia, "
 If (valMonedaExtranjera) Then
-vSql = vSql & vGroupby & ","
+vSQL = vSQL & vGroupby & ","
 Else
-vSql = vSql & valPrecio1 & ","
-vSql = vSql & valPrecio2 & ","
+vSQL = vSQL & valPrecio1 & ","
+vSQL = vSQL & valPrecio2 & ","
 End If
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CantArtReservado ,"
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".Serial,"
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".Rollo,"
-vSql = vSql & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & ".CantidadRecibida ,"
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".AlicuotaIva,"
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoGrupo,"
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".TipoArticuloInv,"
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Codigo,"
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ConsecutivoCompania,"
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".PorcentajeBaseImponible,"
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".CodigoAlmacen,"
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ExistenciaAlmacen,"
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorGrupoConTallasyColores & ".DescripcionTalla, "
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorGrupoConTallasyColores & ".DescripcionColor "
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CantArtReservado ,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".Serial,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".Rollo,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & ".CantidadRecibida ,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".AlicuotaIva,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoGrupo,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".TipoArticuloInv,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Codigo,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ConsecutivoCompania,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".PorcentajeBaseImponible,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".CodigoAlmacen,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ExistenciaAlmacen,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorGrupoConTallasyColores & ".DescripcionTalla, "
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorGrupoConTallasyColores & ".DescripcionColor "
 If valUsaArticulosReservadosPorAlmacen And vaUsaArticulosReservadosPorCotizacion Then
-   vSql = vSql & "," & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen() & ".CantArtReservados,"
-   vSql = vSql & insArticuloInvVista.GetViewNameArticulosReservadosPorCotizacion() & ".CantArtReservados"
+   vSQL = vSQL & "," & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen() & ".CantArtReservados,"
+   vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosReservadosPorCotizacion() & ".CantArtReservados"
 ElseIf valUsaArticulosReservadosPorAlmacen Then
-   vSql = vSql & "," & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen() & ".CantArtReservados "
+   vSQL = vSQL & "," & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen() & ".CantArtReservados "
 ElseIf vaUsaArticulosReservadosPorCotizacion Then
-   vSql = vSql & "," & insArticuloInvVista.GetViewNameArticulosReservadosPorCotizacion() & ".CantArtReservados"
+   vSQL = vSQL & "," & insArticuloInvVista.GetViewNameArticulosReservadosPorCotizacion() & ".CantArtReservados"
 End If
    Set insArticuloInvVista = Nothing
 h_EXIT:    On Error GoTo 0
-   fSQLSearchArticuloInventarioFacturaSelect = vSql
+   fSQLSearchArticuloInventarioFacturaSelect = vSQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
       "fSQLSearchArticuloInventarioFacturaSelect", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -3031,8 +3031,8 @@ End Function
 
 Public Function fSQLSearchArticuloInventarioFacturaSelectCom(ByVal valConsecutivoCompania As Long, ByVal valCodigoArticulo As String, ByVal valPrecio1 As String, ByVal valPrecio2 As String, ByVal valsqlWhere As String, ByVal valMonedaExtranjera As Boolean, ByVal vGroupby As String, ByVal valCodigoAlmacen As String, ByVal valBuscarPorSerial As Boolean, ByVal valSerial As String, ByVal valUsaArticulosReservadosPorAlmacen As Boolean, ByVal vaUsaArticulosReservadosPorCotizacion As Boolean, Optional ByVal valDescripcion As String) As String
 Dim insArticuloInvVista As clsArticuloInvVista
-Dim vSql As String
-Dim vSqlWhere As String
+Dim vSQL As String
+Dim vSQLWhere As String
 Dim vSQLCondicionTipoArticulo As String
 On Error GoTo h_ERROR
 Set insArticuloInvVista = New clsArticuloInvVista
@@ -3042,116 +3042,116 @@ Set insArticuloInvVista = New clsArticuloInvVista
       vSQLCondicionTipoArticulo = valsqlWhere & " AND " & vSQLCondicionTipoArticulo
  End If
  If gTexto.DfLen(valCodigoArticulo) > 0 And valCodigoArticulo <> "*" Then
-        vSqlWhere = gUtilSQL.fSQLValueWithAnd(vSqlWhere, insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".CodigoDelArticulo", valCodigoArticulo, False)
+        vSQLWhere = gUtilSQL.fSQLValueWithAnd(vSQLWhere, insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".CodigoDelArticulo", valCodigoArticulo, False)
  End If
- vSqlWhere = gUtilSQL.fSQLEnumValueWithAnd(vSqlWhere, insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".StatusdelArticulo", enum_StatusArticulo.eSA_VIGENTE)
- vSqlWhere = vSqlWhere & " And " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".CodigoAlmacen = " & gUtilSQL.fSimpleSqlValue(valCodigoAlmacen)
+ vSQLWhere = gUtilSQL.fSQLEnumValueWithAnd(vSQLWhere, insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".StatusdelArticulo", enum_StatusArticulo.eSA_VIGENTE)
+ vSQLWhere = vSQLWhere & " And " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".CodigoAlmacen = " & gUtilSQL.fSimpleSqlValue(valCodigoAlmacen)
 If valBuscarPorSerial Then
    If valSerial <> "" Then
       If valSerial = "%%" Then
-         vSqlWhere = vSqlWhere & " And " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".Serial != " & gUtilSQL.fSimpleSqlValue("0")
+         vSQLWhere = vSQLWhere & " And " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".Serial != " & gUtilSQL.fSimpleSqlValue("0")
       Else
-         vSqlWhere = vSqlWhere & "And " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".Serial Like " & gUtilSQL.fSimpleSqlValue(valSerial)
+         vSQLWhere = vSQLWhere & "And " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".Serial Like " & gUtilSQL.fSimpleSqlValue(valSerial)
       End If
    End If
  End If
  If valDescripcion <> "" Then
-    vSqlWhere = vSqlWhere & "And " & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Descripcion LIKE " & gUtilSQL.fSimpleSqlValue(valDescripcion)
+    vSQLWhere = vSQLWhere & "And " & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Descripcion LIKE " & gUtilSQL.fSimpleSqlValue(valDescripcion)
  End If
-vSqlWhere = vSqlWhere & " AND " & gUtilSQL.fSQLNumberValueWithAnd(vSQLCondicionTipoArticulo, insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".ConsecutivoCompania", valConsecutivoCompania)
-vSqlWhere = gUtilSQL.getWhereSQL(vSqlWhere)
+vSQLWhere = vSQLWhere & " AND " & gUtilSQL.fSQLNumberValueWithAnd(vSQLCondicionTipoArticulo, insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".ConsecutivoCompania", valConsecutivoCompania)
+vSQLWhere = gUtilSQL.getWhereSQL(vSQLWhere)
 vSQL = " SELECT "
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".CodigoDelArticulo AS CodigoCompuesto, "
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".Descripcion,"
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".LineaDeProducto, "
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".CodigoDelArticulo AS CodigoCompuesto, "
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".Descripcion,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".LineaDeProducto, "
 If vaUsaArticulosReservadosPorCotizacion And valUsaArticulosReservadosPorAlmacen Then
-   vSql = vSql & "ISNULL(" & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ExistenciaAlmacen,0 )" & _
+   vSQL = vSQL & "ISNULL(" & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ExistenciaAlmacen,0 )" & _
    " - ISNULL(" & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen() & ".CantArtReservados,0)" & _
    " - ISNULL(" & insArticuloInvVista.GetViewNameArticulosReservadosPorCotizacion() & ".CantArtReservados,0) AS Disponibilidad,"
  ElseIf valUsaArticulosReservadosPorAlmacen Then
-   vSql = vSql & "ISNULL(" & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ExistenciaAlmacen,0 )" & _
+   vSQL = vSQL & "ISNULL(" & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ExistenciaAlmacen,0 )" & _
    " - ISNULL(" & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen() & ".CantArtReservados,0) AS Disponibilidad,"
  ElseIf vaUsaArticulosReservadosPorCotizacion Then
-   vSql = vSql & "ISNULL(" & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ExistenciaAlmacen,0 )" & _
+   vSQL = vSQL & "ISNULL(" & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ExistenciaAlmacen,0 )" & _
    " - ISNULL(" & insArticuloInvVista.GetViewNameArticulosReservadosPorCotizacion() & ".CantArtReservados,0) AS Disponibilidad,"
  Else
-   vSql = vSql & "ISNULL(" & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ExistenciaAlmacen,0) AS Disponibilidad,"
+   vSQL = vSQL & "ISNULL(" & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ExistenciaAlmacen,0) AS Disponibilidad,"
  End If
-vSql = vSql & valPrecio1 & " ,"
-vSql = vSql & valPrecio2 & " ,"
-vSql = vSql & gUtilSQL.fSimpleSqlValue("0") & " AS Serial,"
-vSql = vSql & gUtilSQL.fSimpleSqlValue("0") & " AS Rollo,"
-vSql = vSql & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & ".CantidadRecibida AS CantidadUltimaCompra,"
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".AlicuotaIva,"
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".CodigoGrupo,"
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".TipoArticuloInv,"
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".Codigo,"
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".ConsecutivoCompania,"
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".PorcentajeBaseImponible,"
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".CodigoAlmacen,"
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ExistenciaAlmacen"
-vSql = vSql & " FROM " & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1
-vSql = vSql & " LEFT JOIN   CamposMonedaExtranjera ON "
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".ConsecutivoCompania = CamposMonedaExtranjera.ConsecutivoCompania AND "
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".Codigo = CamposMonedaExtranjera.Codigo  "
-vSql = vSql & " LEFT JOIN  " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & " ON "
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".CodigoArticulo = "
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".CodigoDelArticulo AND "
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".ConsecutivoCompania = "
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".ConsecutivoCompania "
-vSql = vSql & " LEFT JOIN  "
-vSql = vSql & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & " ON "
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ConsecutivoCompania = " & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & ".ConsecutivoCompania AND "
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".CodigoAlmacen = " & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & ".CodigoAlmacen AND  "
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".CodigoArticulo = " & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & ".CodigoArticulo AND "
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".Serial = " & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & ".Serial AND "
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".Rollo = " & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & ".Rollo "
+vSQL = vSQL & valPrecio1 & " ,"
+vSQL = vSQL & valPrecio2 & " ,"
+vSQL = vSQL & gUtilSQL.fSimpleSqlValue("0") & " AS Serial,"
+vSQL = vSQL & gUtilSQL.fSimpleSqlValue("0") & " AS Rollo,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & ".CantidadRecibida AS CantidadUltimaCompra,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".AlicuotaIva,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".CodigoGrupo,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".TipoArticuloInv,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".Codigo,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".ConsecutivoCompania,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".PorcentajeBaseImponible,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".CodigoAlmacen,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ExistenciaAlmacen"
+vSQL = vSQL & " FROM " & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1
+vSQL = vSQL & " LEFT JOIN   CamposMonedaExtranjera ON "
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".ConsecutivoCompania = CamposMonedaExtranjera.ConsecutivoCompania AND "
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".Codigo = CamposMonedaExtranjera.Codigo  "
+vSQL = vSQL & " LEFT JOIN  " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & " ON "
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".CodigoArticulo = "
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".CodigoDelArticulo AND "
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".ConsecutivoCompania = "
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".ConsecutivoCompania "
+vSQL = vSQL & " LEFT JOIN  "
+vSQL = vSQL & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & " ON "
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".ConsecutivoCompania = " & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & ".ConsecutivoCompania AND "
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".CodigoAlmacen = " & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & ".CodigoAlmacen AND  "
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".CodigoArticulo = " & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & ".CodigoArticulo AND "
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".Serial = " & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & ".Serial AND "
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1() & ".Rollo = " & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales() & ".Rollo "
 If valUsaArticulosReservadosPorAlmacen Then
-   vSql = vSql & " LEFT JOIN  "
-   vSql = vSql & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen & " ON "
-   vSql = vSql & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen() & ".ConsecutivoCompania = " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".ConsecutivoCompania AND "
-   vSql = vSql & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen() & ".CodigoArticulo = " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".CodigoArticulo AND "
-   vSql = vSql & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen() & ".CodigoAlmacen = " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".CodigoAlmacen"
+   vSQL = vSQL & " LEFT JOIN  "
+   vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen & " ON "
+   vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen() & ".ConsecutivoCompania = " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".ConsecutivoCompania AND "
+   vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen() & ".CodigoArticulo = " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".CodigoArticulo AND "
+   vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen() & ".CodigoAlmacen = " & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".CodigoAlmacen"
 End If
 If vaUsaArticulosReservadosPorCotizacion Then
-   vSql = vSql & " LEFT JOIN  "
-   vSql = vSql & insArticuloInvVista.GetViewNameArticulosReservadosPorCotizacion() & " ON "
-   vSql = vSql & insArticuloInvVista.GetViewNameArticulosReservadosPorCotizacion() & ".ConsecutivoCompania = " & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".ConsecutivoCompania AND "
-   vSql = vSql & insArticuloInvVista.GetViewNameArticulosReservadosPorCotizacion() & ".CodigoArticulo = " & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".CodigoDelArticulo "
+   vSQL = vSQL & " LEFT JOIN  "
+   vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosReservadosPorCotizacion() & " ON "
+   vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosReservadosPorCotizacion() & ".ConsecutivoCompania = " & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".ConsecutivoCompania AND "
+   vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosReservadosPorCotizacion() & ".CodigoArticulo = " & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".CodigoDelArticulo "
 End If
-vSql = vSql & vSqlWhere
-vSql = vSql & " Group By "
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".CodigoDelArticulo , "
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".Descripcion,"
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".LineaDeProducto,"
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".Existencia, "
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".CantArtReservado,"
+vSQL = vSQL & vSQLWhere
+vSQL = vSQL & " Group By "
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".CodigoDelArticulo , "
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".Descripcion,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".LineaDeProducto,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".Existencia, "
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".CantArtReservado,"
 If (valMonedaExtranjera) Then
-vSql = vSql & vGroupby & ","
+vSQL = vSQL & vGroupby & ","
 Else
-vSql = vSql & valPrecio1 & ","
-vSql = vSql & valPrecio2 & ","
+vSQL = vSQL & valPrecio1 & ","
+vSQL = vSQL & valPrecio2 & ","
 End If
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".AlicuotaIva,"
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".CodigoGrupo,"
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".TipoArticuloInv,"
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".Codigo,"
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".ConsecutivoCompania,"
-vSql = vSql & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".PorcentajeBaseImponible,"
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".CodigoAlmacen,"
-vSql = vSql & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales & ".CantidadRecibida,"
-vSql = vSql & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".ExistenciaAlmacen "
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".AlicuotaIva,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".CodigoGrupo,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".TipoArticuloInv,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".Codigo,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".ConsecutivoCompania,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".PorcentajeBaseImponible,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".CodigoAlmacen,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameComprasUltimaConOsinSeriales & ".CantidadRecibida,"
+vSQL = vSQL & insArticuloInvVista.GetViewNameExistenciaPorAlmacenArticulosDeInvenpIB1 & ".ExistenciaAlmacen "
 If valUsaArticulosReservadosPorAlmacen And vaUsaArticulosReservadosPorCotizacion Then
-   vSql = vSql & "," & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen() & ".CantArtReservados,"
-   vSql = vSql & insArticuloInvVista.GetViewNameArticulosReservadosPorCotizacion() & ".CantArtReservados "
+   vSQL = vSQL & "," & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen() & ".CantArtReservados,"
+   vSQL = vSQL & insArticuloInvVista.GetViewNameArticulosReservadosPorCotizacion() & ".CantArtReservados "
 ElseIf valUsaArticulosReservadosPorAlmacen Then
-   vSql = vSql & "," & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen() & ".CantArtReservados "
+   vSQL = vSQL & "," & insArticuloInvVista.GetViewNameArticulosReservadosPorAlmacen() & ".CantArtReservados "
 ElseIf vaUsaArticulosReservadosPorCotizacion Then
-   vSql = vSql & "," & insArticuloInvVista.GetViewNameArticulosReservadosPorCotizacion() & ".CantArtReservados "
+   vSQL = vSQL & "," & insArticuloInvVista.GetViewNameArticulosReservadosPorCotizacion() & ".CantArtReservados "
 End If
    Set insArticuloInvVista = Nothing
 h_EXIT:    On Error GoTo 0
- fSQLSearchArticuloInventarioFacturaSelectCom = vSql
+ fSQLSearchArticuloInventarioFacturaSelectCom = vSQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
       "fSQLSearchArticuloInventarioFacturaSelectCom", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -3159,17 +3159,17 @@ End Function
 
 Private Function fSQLSearchArticuloInventarioFacturaSelectSoloCompuestos(ByVal valConsecutivoCompania As Long, ByVal valCodigoArticulo As String, ByVal valPrecio1 As String, ByVal valPrecio2 As String, ByVal valsqlWhere As String, ByVal valMonedaExtranjera As Boolean, ByVal vGroupby As String, ByVal valBuscarPorSerial As Boolean, ByVal valSerial As String, Optional ByVal valDescripcion As String) As String
    Dim insArticuloInvVista As clsArticuloInvVista
-   Dim vSql As String
-   Dim vSqlWhere As String
+   Dim vSQL As String
+   Dim vSQLWhere As String
    Dim vSQLCondicionTipoArticulo As String
    On Error GoTo h_ERROR
    Set insArticuloInvVista = New clsArticuloInvVista
  vSQLCondicionTipoArticulo = "ArticuloInventario.TipoDeArticulo = " & enum_TipoDeArticulo.eTD_PRODUCTO_COMPUESTO
-   vSqlWhere = gUtilSQL.fSQLNumberValueWithAnd(vSQLCondicionTipoArticulo, "ArticuloInventario.ConsecutivoCompania", valConsecutivoCompania)
+   vSQLWhere = gUtilSQL.fSQLNumberValueWithAnd(vSQLCondicionTipoArticulo, "ArticuloInventario.ConsecutivoCompania", valConsecutivoCompania)
    If gTexto.DfLen(valCodigoArticulo) > 0 And valCodigoArticulo <> "*" Then
-      vSqlWhere = gUtilSQL.fSQLValueWithAnd(vSqlWhere, "ArticuloInventario.Codigo", valCodigoArticulo, False)
+      vSQLWhere = gUtilSQL.fSQLValueWithAnd(vSQLWhere, "ArticuloInventario.Codigo", valCodigoArticulo, False)
    End If
-   vSqlWhere = gUtilSQL.fSQLEnumValueWithAnd(vSqlWhere, "ArticuloInventario.StatusdelArticulo", enum_StatusArticulo.eSA_VIGENTE)
+   vSQLWhere = gUtilSQL.fSQLEnumValueWithAnd(vSQLWhere, "ArticuloInventario.StatusdelArticulo", enum_StatusArticulo.eSA_VIGENTE)
    If valBuscarPorSerial Then
       If valSerial <> "" Then
          fSQLSearchArticuloInventarioFacturaSelectSoloCompuestos = ""
@@ -3177,9 +3177,9 @@ Private Function fSQLSearchArticuloInventarioFacturaSelectSoloCompuestos(ByVal v
       End If
    End If
    If valDescripcion <> "" Then
-      vSqlWhere = vSqlWhere & "And ArticuloInventario.Descripcion LIKE " & gUtilSQL.fSimpleSqlValue(valDescripcion)
+      vSQLWhere = vSQLWhere & "And ArticuloInventario.Descripcion LIKE " & gUtilSQL.fSimpleSqlValue(valDescripcion)
    End If
-   vSqlWhere = vSqlWhere & " AND articuloInventario.Codigo NOT IN (" & _
+   vSQLWhere = vSQLWhere & " AND articuloInventario.Codigo NOT IN (" & _
                gUtilSQL.fSimpleSqlValue("RD_AliGeneral @") & ", " & _
                gUtilSQL.fSimpleSqlValue("RD_AliGeneralNC @") & ", " & _
                gUtilSQL.fSimpleSqlValue("RD_AliReducida@") & ", " & _
@@ -3191,33 +3191,33 @@ Private Function fSQLSearchArticuloInventarioFacturaSelectSoloCompuestos(ByVal v
                gUtilSQL.fSimpleSqlValue(getCodigoArticuloResumenDiario(eTD_ALICUOTA2)) & ", " & _
                gUtilSQL.fSimpleSqlValue(getCodigoArticuloResumenDiario(eTD_ALICUOTA3)) & ", " & _
                gUtilSQL.fSimpleSqlValue(getCodigoComisionXPorcentajeDeAlmacenaje) & ")"
-   vSqlWhere = gUtilSQL.getWhereSQL(vSqlWhere)
+   vSQLWhere = gUtilSQL.getWhereSQL(vSQLWhere)
    vSQL = " SELECT "
-   vSql = vSql & " ArticuloInventario.codigo AS CodigoCompuesto, "
-   vSql = vSql & " ArticuloInventario.descripcion,"
-   vSql = vSql & " ArticuloInventario.LineaDeProducto, "
-   vSql = vSql & " ArticuloInventario.Existencia AS Disponibilidad,"
-   vSql = vSql & valPrecio1 & " ,"
-   vSql = vSql & valPrecio2 & " ,"
-   vSql = vSql & " '0' AS Serial,"
-   vSql = vSql & " '0' AS Rollo,"
-   vSql = vSql & " '0' AS CantidadUltimaCompra,"
-   vSql = vSql & " ArticuloInventario.AlicuotaIva,"
-   vSql = vSql & " '0' AS CodigoGrupo,"
-   vSql = vSql & " ArticuloInventario.TipoArticuloInv,"
-   vSql = vSql & " ISNULL(ArticuloInventario.CodigoGrupo,''),"
-   vSql = vSql & " ArticuloInventario.ConsecutivoCompania,"
-   vSql = vSql & " ArticuloInventario.PorcentajeBaseImponible,"
-   vSql = vSql & " '0' AS CodigoAlmacen,"
-   vSql = vSql & " ArticuloInventario.Existencia"
-   vSql = vSql & " FROM  ArticuloInventario"
-   vSql = vSql & " LEFT JOIN   CamposMonedaExtranjera ON "
-   vSql = vSql & "ArticuloInventario.ConsecutivoCompania = CamposMonedaExtranjera.ConsecutivoCompania AND "
-   vSql = vSql & "ArticuloInventario.Codigo = CamposMonedaExtranjera.Codigo  "
-   vSql = vSql & vSqlWhere
+   vSQL = vSQL & " ArticuloInventario.codigo AS CodigoCompuesto, "
+   vSQL = vSQL & " ArticuloInventario.descripcion,"
+   vSQL = vSQL & " ArticuloInventario.LineaDeProducto, "
+   vSQL = vSQL & " ArticuloInventario.Existencia AS Disponibilidad,"
+   vSQL = vSQL & valPrecio1 & " ,"
+   vSQL = vSQL & valPrecio2 & " ,"
+   vSQL = vSQL & " '0' AS Serial,"
+   vSQL = vSQL & " '0' AS Rollo,"
+   vSQL = vSQL & " '0' AS CantidadUltimaCompra,"
+   vSQL = vSQL & " ArticuloInventario.AlicuotaIva,"
+   vSQL = vSQL & " '0' AS CodigoGrupo,"
+   vSQL = vSQL & " ArticuloInventario.TipoArticuloInv,"
+   vSQL = vSQL & " ISNULL(ArticuloInventario.CodigoGrupo,''),"
+   vSQL = vSQL & " ArticuloInventario.ConsecutivoCompania,"
+   vSQL = vSQL & " ArticuloInventario.PorcentajeBaseImponible,"
+   vSQL = vSQL & " '0' AS CodigoAlmacen,"
+   vSQL = vSQL & " ArticuloInventario.Existencia"
+   vSQL = vSQL & " FROM  ArticuloInventario"
+   vSQL = vSQL & " LEFT JOIN   CamposMonedaExtranjera ON "
+   vSQL = vSQL & "ArticuloInventario.ConsecutivoCompania = CamposMonedaExtranjera.ConsecutivoCompania AND "
+   vSQL = vSQL & "ArticuloInventario.Codigo = CamposMonedaExtranjera.Codigo  "
+   vSQL = vSQL & vSQLWhere
    Set insArticuloInvVista = Nothing
 h_EXIT:    On Error GoTo 0
- fSQLSearchArticuloInventarioFacturaSelectSoloCompuestos = vSql
+ fSQLSearchArticuloInventarioFacturaSelectSoloCompuestos = vSQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
       "fSQLSearchArticuloInventarioFacturaSelectSoloCompuestos", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -3258,14 +3258,14 @@ Public Function fConstruirSQLDelInformeArticulosXAlmacen(ByVal valCodigoAlmacen 
    Set insArticuloView = Nothing
    Set gEnumReportLocal = Nothing
 h_EXIT: On Error GoTo 0
-   fConstruirSQLDelInformeArticulosXAlmacen = Sql
+   fConstruirSQLDelInformeArticulosXAlmacen = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
       "fConstruirSQLDelInformeArticulosXAlmacen", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 Public Function fSqlUpdateCostoPromedio(ByVal valConsecutivoCompania As Long, ByVal valCodigoArticulo As String, ByVal valCostoPromedio As Currency) As String
 Dim vWhere As String
- Dim vSql As String
+ Dim vSQL As String
 On Error GoTo h_ERROR
 h_EXIT: On Error GoTo 0
    vSQL = ""
@@ -3273,25 +3273,25 @@ h_EXIT: On Error GoTo 0
    vWhere = gUtilSQL.fSQLNumberValueWithAnd(vWhere, "ConsecutivoCompania", valConsecutivoCompania)
    vWhere = gUtilSQL.getWhereSQL(vWhere)
    vSQL = " UPDATE    ArticuloInventario SET  "
-   vSql = vSql & " CostoPromedio =  " & gUtilSQL.fNumToStrSQL(valCostoPromedio) & " "
-   vSql = vSql & vWhere
-   fSqlUpdateCostoPromedio = vSql
+   vSQL = vSQL & " CostoPromedio =  " & gUtilSQL.fNumToStrSQL(valCostoPromedio) & " "
+   vSQL = vSQL & vWhere
+   fSqlUpdateCostoPromedio = vSQL
   Exit Function
 h_ERROR:
    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlUpdateCostoPromedio", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 Public Function fSQLCargaInicialCierreExistencia(ByVal valConsecutivoCompania As Long) As String
-   Dim vSql As String
+   Dim vSQL As String
    Dim vWhere As String
    On Error GoTo h_ERROR
    vWhere = "EscargaInicial = " & gUtilSQL.fBooleanToSqlValue(True)
    vWhere = gUtilSQL.fSQLNumberValueWithAnd(vWhere, "ConsecutivoCompania", valConsecutivoCompania)
    vWhere = gUtilSQL.getWhereSQL(vWhere)
    vSQL = " SELECT Max(Fecha) AS FECHA "
-   vSql = vSql & " FROM  CierreCostoDelPeriodo "
-   vSql = vSql & vWhere
-   vSql = vSql & " Group by FECHA "
-  fSQLCargaInicialCierreExistencia = vSql
+   vSQL = vSQL & " FROM  CierreCostoDelPeriodo "
+   vSQL = vSQL & vWhere
+   vSQL = vSQL & " Group by FECHA "
+  fSQLCargaInicialCierreExistencia = vSQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -3299,7 +3299,7 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
 End Function
 
 Public Function fSQLCargaCierreAutomatico(ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date) As String
-   Dim vSql As String
+   Dim vSQL As String
    Dim sqlUltimaCompra As String
    Dim insArticuloInvVista As clsArticuloInvVista
    Dim vWhere As String
@@ -3314,23 +3314,23 @@ Public Function fSQLCargaCierreAutomatico(ByVal valConsecutivoCompania As Long, 
    vWhere = gUtilSQL.fSQLNumberValueWithAnd(vWhere, "ArticuloInventario.ConsecutivoCompania", valConsecutivoCompania)
    vWhere = gUtilSQL.getWhereSQL(vWhere)
    vSQL = " INSERT INTO CierreCostoDelPeriodo (ConsecutivoCompania,Codigo,Fecha,Existencia,Costo,EsCargaInicial)"
-   vSql = vSql & " SELECT "
-   vSql = vSql & insArticuloInvVista.GetViewNameArticuloInvMovimiento & ".ConsecutivoCompania, "
-   vSql = vSql & insArticuloInvVista.GetViewNameArticuloInvMovimiento() & ".Codigo, "
-   vSql = vSql & gUtilSQL.fDateToSQLValue(valFechaInicial) & ", "
-   vSql = vSql & " SUM( " & insArticuloInvVista.GetViewNameArticuloInvMovimiento() & ".Entrada ) -   SUM( " & insArticuloInvVista.GetViewNameArticuloInvMovimiento() & ".Salidad )  AS  Existencia, "
-   vSql = vSql & gUtilSQL.getIIF(gUtilSQL.DfSQLIsNull(sqlUltimaCompra), gUtilSQL.fNumToStrSQL(0), sqlUltimaCompra, True) & ","
-   vSql = vSql & gUtilSQL.fBooleanToSqlValue(True)
-   vSql = vSql & " FROM ArticuloInventario INNER JOIN "
-   vSql = vSql & insArticuloInvVista.GetViewNameArticuloInvMovimiento() & " ON "
-   vSql = vSql & " ArticuloInventario.ConsecutivoCompania  =  " & insArticuloInvVista.GetViewNameArticuloInvMovimiento() & ".ConsecutivoCompania AND "
-   vSql = vSql & " ArticuloInventario.Codigo =  " & insArticuloInvVista.GetViewNameArticuloInvMovimiento() & ".Codigo"
-   vSql = vSql & vWhere
-   vSql = vSql & " Group By "
-   vSql = vSql & insArticuloInvVista.GetViewNameArticuloInvMovimiento() & ".ConsecutivoCompania, "
-   vSql = vSql & insArticuloInvVista.GetViewNameArticuloInvMovimiento() & ".Codigo, "
-   vSql = vSql & " HAVING   (  SUM( " & insArticuloInvVista.GetViewNameArticuloInvMovimiento() & ".Entrada ) -   SUM( " & insArticuloInvVista.GetViewNameArticuloInvMovimiento() & ".Salidad ) > " & gUtilSQL.fNumToStrSQL(0) & " ) "
-  fSQLCargaCierreAutomatico = vSql
+   vSQL = vSQL & " SELECT "
+   vSQL = vSQL & insArticuloInvVista.GetViewNameArticuloInvMovimiento & ".ConsecutivoCompania, "
+   vSQL = vSQL & insArticuloInvVista.GetViewNameArticuloInvMovimiento() & ".Codigo, "
+   vSQL = vSQL & gUtilSQL.fDateToSQLValue(valFechaInicial) & ", "
+   vSQL = vSQL & " SUM( " & insArticuloInvVista.GetViewNameArticuloInvMovimiento() & ".Entrada ) -   SUM( " & insArticuloInvVista.GetViewNameArticuloInvMovimiento() & ".Salidad )  AS  Existencia, "
+   vSQL = vSQL & gUtilSQL.getIIF(gUtilSQL.DfSQLIsNull(sqlUltimaCompra), gUtilSQL.fNumToStrSQL(0), sqlUltimaCompra, True) & ","
+   vSQL = vSQL & gUtilSQL.fBooleanToSqlValue(True)
+   vSQL = vSQL & " FROM ArticuloInventario INNER JOIN "
+   vSQL = vSQL & insArticuloInvVista.GetViewNameArticuloInvMovimiento() & " ON "
+   vSQL = vSQL & " ArticuloInventario.ConsecutivoCompania  =  " & insArticuloInvVista.GetViewNameArticuloInvMovimiento() & ".ConsecutivoCompania AND "
+   vSQL = vSQL & " ArticuloInventario.Codigo =  " & insArticuloInvVista.GetViewNameArticuloInvMovimiento() & ".Codigo"
+   vSQL = vSQL & vWhere
+   vSQL = vSQL & " Group By "
+   vSQL = vSQL & insArticuloInvVista.GetViewNameArticuloInvMovimiento() & ".ConsecutivoCompania, "
+   vSQL = vSQL & insArticuloInvVista.GetViewNameArticuloInvMovimiento() & ".Codigo, "
+   vSQL = vSQL & " HAVING   (  SUM( " & insArticuloInvVista.GetViewNameArticuloInvMovimiento() & ".Entrada ) -   SUM( " & insArticuloInvVista.GetViewNameArticuloInvMovimiento() & ".Salidad ) > " & gUtilSQL.fNumToStrSQL(0) & " ) "
+  fSQLCargaCierreAutomatico = vSQL
 Set insArticuloInvVista = Nothing
 h_EXIT: On Error GoTo 0
    Exit Function
@@ -3338,7 +3338,7 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
       "fSQLCargaInicialCierreExistencia", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 Public Function fSQLUpdateArticuloInventarioFechaCierre(ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valMarcaRecalcular As Boolean) As String
-   Dim vSql As String
+   Dim vSQL As String
    Dim vWhere As String
    On Error GoTo h_ERROR
    vWhere = gUtilSQL.fSQLEnumValueWithAnd("", "ArticuloInventario.TipoDeArticulo", enum_TipoDeArticulo.eTD_MERCANCIA)
@@ -3347,18 +3347,18 @@ Public Function fSQLUpdateArticuloInventarioFechaCierre(ByVal valConsecutivoComp
    vWhere = gUtilSQL.getWhereSQL(vWhere)
    valFechaInicial = valFechaInicial - 1
    vSQL = " Update ArticuloInventario "
-   vSql = vSql & " SET FechaCierreActualizada  = " & gUtilSQL.fDateToSQLValue(valFechaInicial) & ","
-   vSql = vSql & " RecalcularCierre = " & gUtilSQL.fBooleanToSqlValue(valMarcaRecalcular) & ", "
-   vSql = vSql & " RecalcularCosto  = " & gUtilSQL.fBooleanToSqlValue(valMarcaRecalcular)
-   vSql = vSql & vWhere
-  fSQLUpdateArticuloInventarioFechaCierre = vSql
+   vSQL = vSQL & " SET FechaCierreActualizada  = " & gUtilSQL.fDateToSQLValue(valFechaInicial) & ","
+   vSQL = vSQL & " RecalcularCierre = " & gUtilSQL.fBooleanToSqlValue(valMarcaRecalcular) & ", "
+   vSQL = vSQL & " RecalcularCosto  = " & gUtilSQL.fBooleanToSqlValue(valMarcaRecalcular)
+   vSQL = vSQL & vWhere
+  fSQLUpdateArticuloInventarioFechaCierre = vSQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
       "fSQLUpdateArticuloInventarioFechaCierre", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 Public Function fSQLUpdateCargaInicialCierreExistencia(ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date) As String
-   Dim vSql As String
+   Dim vSQL As String
    Dim vWhere As String
    On Error GoTo h_ERROR
    valFechaInicial = valFechaInicial - 1
@@ -3366,16 +3366,16 @@ Public Function fSQLUpdateCargaInicialCierreExistencia(ByVal valConsecutivoCompa
    vWhere = gUtilSQL.fSQLNumberValueWithAnd(vWhere, "ConsecutivoCompania", valConsecutivoCompania)
    vWhere = gUtilSQL.getWhereSQL(vWhere)
    vSQL = " Update CierreCostoDelPeriodo "
-   vSql = vSql & " SET Fecha  = " & gUtilSQL.fDateToSQLValue(valFechaInicial)
-   vSql = vSql & vWhere
-   fSQLUpdateCargaInicialCierreExistencia = vSql
+   vSQL = vSQL & " SET Fecha  = " & gUtilSQL.fDateToSQLValue(valFechaInicial)
+   vSQL = vSQL & vWhere
+   fSQLUpdateCargaInicialCierreExistencia = vSQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
       "fSQLUpdateCargaInicialCierreExistencia", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 Public Function fSQLDELETECargaInicialCierreExistencia(ByVal valConsecutivoCompania As Long) As String
-   Dim vSql As String
+   Dim vSQL As String
    Dim vWhere As String
    On Error GoTo h_ERROR
    vWhere = " EscargaInicial = " & gUtilSQL.fBooleanToSqlValue(True)
@@ -3383,7 +3383,7 @@ Public Function fSQLDELETECargaInicialCierreExistencia(ByVal valConsecutivoCompa
    vWhere = gUtilSQL.getWhereSQL(vWhere)
    vSQL = " DELETE CierreCostoDelPeriodo "
    vSQL = vSQL & vWhere
-   fSQLDELETECargaInicialCierreExistencia = vSql
+   fSQLDELETECargaInicialCierreExistencia = vSQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -3400,7 +3400,7 @@ Public Function fSQLFechaCierresCostoPromedio(ByVal valConsecutivoCompania As Lo
    vSQL = " SELECT Max(Fecha ) As Fecha  FROM CierreCostoDelPeriodo "
    vSQL = vSQL & vWhere
    vSQL = vSQL & "  GROUP BY   ConsecutivoCompania "
-   fSQLFechaCierresCostoPromedio = vSql
+   fSQLFechaCierresCostoPromedio = vSQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -3429,7 +3429,7 @@ Public Function fSQLUpdateArticuloInventarioFechaCierreOperacion(ByVal valConsec
    vSQL = vSQL & "   ArticuloInventario.Codigo = " & insArticuloInvVista.GetViewNameArticuloInvMovimiento() & ".Codigo "
    vSQL = vSQL & vWhere
    Set insArticuloInvVista = Nothing
-   fSQLUpdateArticuloInventarioFechaCierreOperacion = vSql
+   fSQLUpdateArticuloInventarioFechaCierreOperacion = vSQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -3457,7 +3457,7 @@ Public Function fSQLUpdateArticuloInventarioRecalulaCostoOperacion(ByVal valCons
    vSQL = vSQL & "   ArticuloInventario.Codigo = " & insArticuloInvVista.GetViewNameArticuloInvMovimiento() & ".Codigo "
    vSQL = vSQL & vWhere
    Set insArticuloInvVista = Nothing
-   fSQLUpdateArticuloInventarioRecalulaCostoOperacion = vSql
+   fSQLUpdateArticuloInventarioRecalulaCostoOperacion = vSQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -3480,7 +3480,7 @@ Public Function fSQLUpdateCostoPromedioPonderado(ByVal valConsecutivoCompania As
    vSQL = vSQL & "   B.codigo = A.Codigo AND "
    vSQL = vSQL & "   B.consecutivoCompania = " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania)
    vSQL = vSQL & vWhere
- fSQLUpdateCostoPromedioPonderado = vSql
+ fSQLUpdateCostoPromedioPonderado = vSQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -3506,7 +3506,7 @@ Public Function fSQLCodigoArticuloDeOperaciones(ByVal valConsecutivoCompania As 
    vSQL = vSQL & "   ArticuloInventario.Codigo = " & insArticuloInvVista.GetViewNameArticuloInvMovimiento() & ".Codigo "
    vSQL = vSQL & vWhere
     Set insArticuloInvVista = Nothing
- fSQLCodigoArticuloDeOperaciones = vSql
+ fSQLCodigoArticuloDeOperaciones = vSQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -3521,7 +3521,7 @@ Public Function fSQLUltimaFechaCierresCostoPromedio(ByVal valConsecutivoCompania
    vSQL = " SELECT Max(Fecha) As Fecha  FROM CierreCostoDelPeriodo "
    vSQL = vSQL & vWhere
    vSQL = vSQL & "  GROUP BY   ConsecutivoCompania "
-   fSQLUltimaFechaCierresCostoPromedio = vSql
+   fSQLUltimaFechaCierresCostoPromedio = vSQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -3538,7 +3538,7 @@ Public Function fSQLExistenArticulosConCierresPorRecalculo(ByVal valConsecutivoC
    vWhere = gUtilSQL.getWhereSQL(vWhere)
    vSQL = " SELECT CODIGO FROM ArticuloInventario "
    vSQL = vSQL & vWhere
-   fSQLExistenArticulosConCierresPorRecalculo = vSql
+   fSQLExistenArticulosConCierresPorRecalculo = vSQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -3558,7 +3558,7 @@ Public Function fSQLFechaCierresCostoPromedioReporte(ByVal valConsecutivoCompani
    vSQL = " SELECT Max(Fecha ) As Fecha  FROM CierreCostoDelPeriodo "
    vSQL = vSQL & vWhere
    vSQL = vSQL & "  GROUP BY   ConsecutivoCompania "
-   fSQLFechaCierresCostoPromedioReporte = vSql
+   fSQLFechaCierresCostoPromedioReporte = vSQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -3576,7 +3576,7 @@ End If
   SQL = SQL & " UNION "
   SQL = SQL & fSqlCostoPromedioPonderadoReporteSelect2(valConsecutivoCompania, valCodigoDesde, valCodigoHasta, valFechaCierre, valFechaInicial, valFechaFinal)
 h_EXIT: On Error GoTo 0
-  fSqlCostoPromedioPonderadoReporteDetallado = Sql
+  fSqlCostoPromedioPonderadoReporteDetallado = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
          "fSqlCostoUltimaCompra", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -3614,7 +3614,7 @@ On Error GoTo h_ERROR
    SQL = SQL & " ArticuloInventario.ConsecutivoCompania = " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania)
    SQL = SQL & sqlWhere
 h_EXIT: On Error GoTo 0
-  fSqlCostoPromedioPonderadoReporteSelect1 = Sql
+  fSqlCostoPromedioPonderadoReporteSelect1 = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
          "fSqlCostoUltimaCompra", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -3649,7 +3649,7 @@ On Error GoTo h_ERROR
    SQL = SQL & " ArticuloInventario.ConsecutivoCompania = " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania)
   SQL = SQL & sqlWhere
 h_EXIT: On Error GoTo 0
- fSqlCostoPromedioPonderadoReporteSelect2 = Sql
+ fSqlCostoPromedioPonderadoReporteSelect2 = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
          "fSqlCostoUltimaCompra", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -3678,7 +3678,7 @@ Public Function fSQLExistenciayCostoAUnaFecha(ByVal valConsecutivoCompania As Lo
    vSQL = vSQL & " Group By "
    vSQL = vSQL & insArticuloInvVista.GetViewNameArticuloInvMovimiento() & ".ConsecutivoCompania, "
    vSQL = vSQL & insArticuloInvVista.GetViewNameArticuloInvMovimiento() & ".Codigo "
-   fSQLExistenciayCostoAUnaFecha = vSql
+   fSQLExistenciayCostoAUnaFecha = vSQL
 Set insArticuloInvVista = Nothing
 h_EXIT: On Error GoTo 0
    Exit Function
@@ -3731,7 +3731,7 @@ Public Function fSQLDataSourceCargaInicialModificar(ByVal valConsecutivoCompania
    vSQL = vSQL & " articuloInventario.ConsecutivoCompania = CierreCostoDelPeriodo.ConsecutivoCompania AND "
    vSQL = vSQL & " articuloInventario.Codigo = CierreCostoDelPeriodo.Codigo "
    vSQL = vSQL & vWhere
-  fSQLDataSourceCargaInicialModificar = vSql
+  fSQLDataSourceCargaInicialModificar = vSQL
 Set insArticuloInvVista = Nothing
 h_EXIT: On Error GoTo 0
    Exit Function
@@ -3794,7 +3794,7 @@ Public Function fSQLDataSourceCargaInicialInsertar(ByVal valConsecutivoCompania 
    vSQL = vSQL & " ArticuloInventario.ConsecutivoCompania, "
    vSQL = vSQL & " ArticuloInventario.Codigo, "
    vSQL = vSQL & "CierreCostoDelPeriodo.existencia "
-   fSQLDataSourceCargaInicialInsertar = vSql
+   fSQLDataSourceCargaInicialInsertar = vSQL
   Set insArticuloInvVista = Nothing
 h_EXIT: On Error GoTo 0
    Exit Function
@@ -3816,7 +3816,7 @@ Public Function fSQLCodigoDeArticulos(ByVal valConsecutivoCompania As Long, ByVa
    vSQL = " SELECT articuloInventario.Codigo "
    vSQL = vSQL & "   FROM   articuloInventario  "
    vSQL = vSQL & vWhere
-  fSQLCodigoDeArticulos = vSql
+  fSQLCodigoDeArticulos = vSQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -3857,7 +3857,7 @@ If (valSoloVigente) Then
 End If
 
 h_EXIT: On Error GoTo 0
-fSqlCostoPromedioPonderadoReporte = Sql
+fSqlCostoPromedioPonderadoReporte = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
          "fSqlCostoPromedioPonderadoReporte", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -3865,14 +3865,14 @@ End Function
 Public Function fSqlBuscarArticulosInventario(ByVal valConsecutivoCompania As Long) As String
    Dim insArticuloInvVista As clsArticuloInvVista
    Dim vSQL As String
-   Dim vSqlWhere As String
+   Dim vSQLWhere As String
    On Error GoTo h_ERROR
    Set insArticuloInvVista = New clsArticuloInvVista
    vSQL = ""
-   vSqlWhere = ""
-   vSqlWhere = gUtilSQL.fSQLEnumValueWithAnd(vSqlWhere, insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".TipoDeArticulo", enum_TipoDeArticulo.eTD_MERCANCIA)
-   vSqlWhere = gUtilSQL.fSQLNumberValueWithAnd(vSqlWhere, insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".ConsecutivoCompania", valConsecutivoCompania)
-   vSqlWhere = gUtilSQL.getWhereSQL(vSqlWhere)
+   vSQLWhere = ""
+   vSQLWhere = gUtilSQL.fSQLEnumValueWithAnd(vSQLWhere, insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".TipoDeArticulo", enum_TipoDeArticulo.eTD_MERCANCIA)
+   vSQLWhere = gUtilSQL.fSQLNumberValueWithAnd(vSQLWhere, insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".ConsecutivoCompania", valConsecutivoCompania)
+   vSQLWhere = gUtilSQL.getWhereSQL(vSQLWhere)
    vSQL = " SELECT "
    vSQL = vSQL & " Codigo ,"
    vSQL = vSQL & " CodigoDelArticulo,"
@@ -3883,10 +3883,10 @@ Public Function fSqlBuscarArticulosInventario(ByVal valConsecutivoCompania As Lo
    vSQL = vSQL & "Serial,"
    vSQL = vSQL & "Rollo "
    vSQL = vSQL & " From " & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1()
-   vSQL = vSQL & vSqlWhere
+   vSQL = vSQL & vSQLWhere
 h_EXIT: On Error GoTo 0
   Set insArticuloInvVista = Nothing
-  fSqlBuscarArticulosInventario = vSql
+  fSqlBuscarArticulosInventario = vSQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
          "fSqlBuscarArticulosConCotizacion", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -3928,7 +3928,7 @@ Public Function fSQLDelReporteConteoFisico(ByVal valConsecutivoCompania As Long,
    SQL = SQL & " AND (renglonConteoFisico.Rollo = ExistenciaPorGrupo.Rollo) AND (renglonConteoFisico.CodigoArticulo =(ExistenciaPorGrupo.CodigoArticulo+ExistenciaPorGrupo.CodigoColor+ExistenciaPorGrupo.CodigoTalla))"
    SQL = SQL & sqlWhere
    SQL = SQL & " ORDER BY conteoFisico.ConsecutivoConteo, articuloInventario.LineaDeProducto, renglonConteoFisico.CodigoArticulo, RenglonConteoFisico.Serial, RenglonConteoFisico.Rollo"
-   fSQLDelReporteConteoFisico = Sql
+   fSQLDelReporteConteoFisico = SQL
   Set gEnumProyecto = Nothing
 
 h_EXIT: On Error GoTo 0
@@ -3952,34 +3952,34 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
          "fArticuloInventarioMaxOrMinCodigo", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 Public Function fSQLSearchArticulosParaElGridDeConteoFisico(ByVal valConsecutivoCompania As Long, ByVal valCodigoDelAlmacen As String, Optional ByVal valLineaDeProducto As String) As String
-   Dim vSqlWhere As String
+   Dim vSQLWhere As String
    Dim SQL As String
    On Error GoTo h_ERROR
-  vSqlWhere = ""
+  vSQLWhere = ""
  
   If valLineaDeProducto <> "" Then
-       vSqlWhere = gUtilSQL.fSQLValueWithAnd(vSqlWhere, "ArticuloInventario.LineaDeProducto", valLineaDeProducto, False)
+       vSQLWhere = gUtilSQL.fSQLValueWithAnd(vSQLWhere, "ArticuloInventario.LineaDeProducto", valLineaDeProducto, False)
   End If
  
-   vSqlWhere = gUtilSQL.fSQLEnumValueWithAnd(vSqlWhere, "ArticuloInventario.StatusDelArticulo", enum_StatusArticulo.eSA_VIGENTE)
-   vSqlWhere = gUtilSQL.fSQLEnumValueWithAnd(vSqlWhere, "ArticuloInventario.TipoDeArticulo", enum_TipoDeArticulo.eTD_MERCANCIA)
-   vSqlWhere = gUtilSQL.fSQLValueWithAnd(vSqlWhere, "existenciaPorAlmacen.CodigoAlmacen", valCodigoDelAlmacen, False)
-   vSqlWhere = gUtilSQL.fSQLNumberValueWithAnd(vSqlWhere, "ArticuloInventario.ConsecutivoCompania", valConsecutivoCompania)
-   vSqlWhere = gUtilSQL.getWhereSQL(vSqlWhere)
+   vSQLWhere = gUtilSQL.fSQLEnumValueWithAnd(vSQLWhere, "ArticuloInventario.StatusDelArticulo", enum_StatusArticulo.eSA_VIGENTE)
+   vSQLWhere = gUtilSQL.fSQLEnumValueWithAnd(vSQLWhere, "ArticuloInventario.TipoDeArticulo", enum_TipoDeArticulo.eTD_MERCANCIA)
+   vSQLWhere = gUtilSQL.fSQLValueWithAnd(vSQLWhere, "existenciaPorAlmacen.CodigoAlmacen", valCodigoDelAlmacen, False)
+   vSQLWhere = gUtilSQL.fSQLNumberValueWithAnd(vSQLWhere, "ArticuloInventario.ConsecutivoCompania", valConsecutivoCompania)
+   vSQLWhere = gUtilSQL.getWhereSQL(vSQLWhere)
    
    SQL = "SELECT existenciaPorAlmacen.CodigoArticulo AS CodigoArt, existenciaPorAlmacen.Cantidad, '0' AS Serial,'0' AS Rollo,ArticuloInventario.TipoArticuloInv "
    SQL = SQL & " FROM articuloInventario INNER JOIN existenciaPorAlmacen ON (articuloInventario.Codigo = existenciaPorAlmacen.CodigoArticulo) AND (articuloInventario.ConsecutivoCompania = existenciaPorAlmacen.ConsecutivoCompania)"
-   SQL = SQL & vSqlWhere & " And ArticuloInventario.TipoArticuloInv = '" & eTAI_Simple & "'"
+   SQL = SQL & vSQLWhere & " And ArticuloInventario.TipoArticuloInv = '" & eTAI_Simple & "'"
    SQL = SQL & " UNION ALL"
    SQL = SQL & " SELECT existenciaPorAlmacen.CodigoArticulo AS CodigoArt, RenglonExistenciaAlmacen.Cantidad, RenglonExistenciaAlmacen.CodigoSerial AS SERIAL, RenglonExistenciaAlmacen.CodigoRollo AS ROLLO,ArticuloInventario.TipoArticuloInv "
    SQL = SQL & " FROM existenciaPorAlmacen INNER JOIN (articuloInventario INNER JOIN (RenglonExistenciaAlmacen INNER JOIN ExistenciaPorGrupo ON (RenglonExistenciaAlmacen.CodigoRollo = ExistenciaPorGrupo.Rollo)"
    SQL = SQL & " AND (RenglonExistenciaAlmacen.CodigoSerial = ExistenciaPorGrupo.Serial) AND (RenglonExistenciaAlmacen.CodigoArticulo = (ExistenciaPorGrupo.CodigoArticulo+ExistenciaPorGrupo.CodigoColor+ExistenciaPorGrupo.CodigoTalla)) AND (RenglonExistenciaAlmacen.ConsecutivoCompania = ExistenciaPorGrupo.ConsecutivoCompania)) ON (articuloInventario.Codigo = ExistenciaPorGrupo.CodigoArticulo) AND (articuloInventario.ConsecutivoCompania = ExistenciaPorGrupo.ConsecutivoCompania)) ON (existenciaPorAlmacen.CodigoArticulo = RenglonExistenciaAlmacen.CodigoArticulo) AND (existenciaPorAlmacen.CodigoAlmacen = RenglonExistenciaAlmacen.CodigoAlmacen) AND (existenciaPorAlmacen.ConsecutivoCompania = RenglonExistenciaAlmacen.ConsecutivoCompania)"
-   SQL = SQL & vSqlWhere
+   SQL = SQL & vSQLWhere
    SQL = SQL & " UNION ALL "
    SQL = SQL & " SELECT existenciaPorAlmacen.CodigoArticulo AS CodigoArt,ExistenciaPorAlmacen.Cantidad,'0' AS Serial,'0' AS Rollo, articuloInventario.TipoArticuloInv"
    SQL = SQL & " FROM existenciaPorAlmacen INNER JOIN (articuloInventario INNER JOIN ExistenciaPorGrupo ON (articuloInventario.ConsecutivoCompania = ExistenciaPorGrupo.ConsecutivoCompania) AND (articuloInventario.Codigo = ExistenciaPorGrupo.CodigoArticulo)) ON (existenciaPorAlmacen.CodigoArticulo = (ExistenciaPorGrupo.CodigoArticulo+ExistenciaPorGrupo.CodigoColor+ExistenciaPorGrupo.CodigoTalla)) AND (existenciaPorAlmacen.ConsecutivoCompania = ExistenciaPorGrupo.ConsecutivoCompania)"
-   SQL = SQL & vSqlWhere & " And ArticuloInventario.TipoArticuloInv = '" & eTAI_UsaTalla_Color & "'"
-   fSQLSearchArticulosParaElGridDeConteoFisico = Sql
+   SQL = SQL & vSQLWhere & " And ArticuloInventario.TipoArticuloInv = '" & eTAI_UsaTalla_Color & "'"
+   fSQLSearchArticulosParaElGridDeConteoFisico = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fSQLSearchArticulosParaElGridDeConteoFisico = ""
@@ -3993,8 +3993,8 @@ Public Function fSqlArticulosAjustarCosto(ByVal valConsecutivoCompania As Long, 
    Dim vSQL As String
    vWhere = ""
    vWhere = "CODIGO IN (" & valConjunto & ")"
-   vSql = gUtilSQL.fSQLNumberValueWithAnd(vWhere, "ConsecutivoCompania", valConsecutivoCompania)
-  fSqlArticulosAjustarCosto = "SELECT * FROM articuloInventario " & gUtilSQL.getWhereSQL(vSql)
+   vSQL = gUtilSQL.fSQLNumberValueWithAnd(vWhere, "ConsecutivoCompania", valConsecutivoCompania)
+  fSqlArticulosAjustarCosto = "SELECT * FROM articuloInventario " & gUtilSQL.getWhereSQL(vSQL)
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fSqlArticulosAjustarCosto = ""
@@ -4003,7 +4003,7 @@ h_ERROR: fSqlArticulosAjustarCosto = ""
 End Function
 
 Public Function sActualizarPreciosConMargenesNuevos(ByVal valUsarNuevaFormula As Boolean, ByVal valUsaCostoPromedio As Boolean, ByVal valDesde As String, ByVal valHasta As String, ByVal vSQLAlicuotasVigentes As String, ByVal valConsecutivoCia As Long, ByVal valMarca As String, ByVal valMargen As Currency, ByVal valMargen2 As Currency, ByVal valMargen3 As Currency, ByVal valMargen4 As Currency, ByVal valPrecio As Boolean, ByVal valPrecio2 As Boolean, ByVal valPrecio3 As Boolean, ByVal valPrecio4 As Boolean, Optional ByVal valLineaProducto As String, Optional ByVal valCategoria As String) As String
-   Dim SQL As String
+   Dim Sql As String
    Dim SQLNameColum As String
    Dim vAumento As String
    On Error GoTo h_ERROR
@@ -4058,7 +4058,7 @@ Public Function sActualizarPreciosConMargenesNuevos(ByVal valUsarNuevaFormula As
       If gTexto.DfLen(valMarca) > 0 Then
          SQL = SQL & " AND marca = '" & valMarca & "'"
       End If
-    sActualizarPreciosConMargenesNuevos = Sql
+    sActualizarPreciosConMargenesNuevos = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActualizarPreciosConMargenes", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -4122,7 +4122,7 @@ Public Function sActualizarPreciosSinMargenesNuevos(ByVal valUsarNuevaFormula As
    If gTexto.DfLen(valMarca) > 0 Then
       SQL = SQL & " AND marca = '" & valMarca & "'"
    End If
-   sActualizarPreciosSinMargenesNuevos = Sql
+   sActualizarPreciosSinMargenesNuevos = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActualizarPreciosSinMargenes", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -4237,16 +4237,16 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
 End Function
 
 Public Function fSQLDetalleDelInventarioPermanenteValorizadoUltimaCompra(ByVal valCodigoCompaniaActual As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date) As String
-   Dim SQL As String
+   Dim Sql As String
    Dim vSqlWhere As String
    Dim ExistenciaInicial As String
    Dim insInvPermanenteVista As clsArticuloInvVista
    On Error GoTo h_ERROR
    Set insInvPermanenteVista = New clsArticuloInvVista
      
-    vSqlWhere = gUtilSQL.fSQLValueDatesBetween("", "Fecha", valFechaInicial, valFechaFinal)
-    vSqlWhere = gUtilSQL.fSQLNumberValueWithAnd(vSqlWhere, "consecutivocompania", valCodigoCompaniaActual)
-    vSqlWhere = gUtilSQL.getWhereSQL(vSqlWhere)
+    vSQLWhere = gUtilSQL.fSQLValueDatesBetween("", "Fecha", valFechaInicial, valFechaFinal)
+    vSQLWhere = gUtilSQL.fSQLNumberValueWithAnd(vSQLWhere, "consecutivocompania", valCodigoCompaniaActual)
+    vSQLWhere = gUtilSQL.getWhereSQL(vSQLWhere)
  
     SQL = " ;WITH ArticulosyCostos(ConsecutivoCompania,Fecha,TipoDeDocumento, TipoDeOperacion,NumeroDeDocumento,CodigoArticulo,Descripcion,UnidadDeVenta,Entradas,Salidas,CostoUnitarioCompra,CostoUnitarioOperacion)"
    
@@ -4265,7 +4265,7 @@ Public Function fSQLDetalleDelInventarioPermanenteValorizadoUltimaCompra(ByVal v
     SQL = SQL & " Round(Vista.CostoUnitario,2) AS CostoUnitarioCompra ,"
     SQL = SQL & " Round(dbo.Gf_CompraUnaFecha(ConsecutivoCompania, Vista.Fecha, Vista.CodigoArticulo), 2) As CostoUnitarioOperacion"
     SQL = SQL & " FROM  " & insInvPermanenteVista.GetViewNameRegistroInventarioPermanenteValorizado & " AS Vista "
-    SQL = SQL & vSqlWhere
+    SQL = SQL & vSQLWhere
     SQL = SQL & ")"
     SQL = SQL & "SELECT"
     SQL = SQL & " Fecha,"
@@ -4289,7 +4289,7 @@ Public Function fSQLDetalleDelInventarioPermanenteValorizadoUltimaCompra(ByVal v
     SQL = SQL & " ORDER BY  CodigoArticulo,Fecha"
    Set insInvPermanenteVista = Nothing
 h_EXIT: On Error GoTo 0
-   fSQLDetalleDelInventarioPermanenteValorizadoUltimaCompra = Sql
+   fSQLDetalleDelInventarioPermanenteValorizadoUltimaCompra = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
          "fSQLDetalleDelInventarioPermanenteValorizadoUltimaCompra", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -4297,17 +4297,17 @@ End Function
 Public Function fSqlCostoPromedioPorAlmacenReporte(ByVal valConsecutivoCompania As Long, ByVal valCodigoAlmacen As String, ByVal valFechaCierre As Date, ByVal valFecha As Date, ByVal valCodigoMin As String, ByVal valCodigoMax As String) As String
 
    Dim vSQL As String
-   Dim vSqlWhere As String
+   Dim vSQLWhere As String
    Dim insArticuloInvVista As clsArticuloInvVista
     On Error GoTo h_ERROR
    Set insArticuloInvVista = New clsArticuloInvVista
-    vSqlWhere = gUtilSQL.fSQLValueDateWithComparisonRule("", "ArticuloInvMovimientosAlmacen.Fecha", valFecha, "<=")
+    vSQLWhere = gUtilSQL.fSQLValueDateWithComparisonRule("", "ArticuloInvMovimientosAlmacen.Fecha", valFecha, "<=")
    
     If (valCodigoAlmacen <> "") Then
-      vSqlWhere = gUtilSQL.fSQLValueWithAnd(vSqlWhere, "ArticuloInvMovimientosAlmacen.CodigoAlmacen", valCodigoAlmacen, False)
+      vSQLWhere = gUtilSQL.fSQLValueWithAnd(vSQLWhere, "ArticuloInvMovimientosAlmacen.CodigoAlmacen", valCodigoAlmacen, False)
     End If
-    vSqlWhere = gUtilSQL.fSQLNumberValueWithAnd(vSqlWhere, "articuloInventario.ConsecutivoCompania", valConsecutivoCompania)
-    vSqlWhere = gUtilSQL.getWhereSQL(vSqlWhere)
+    vSQLWhere = gUtilSQL.fSQLNumberValueWithAnd(vSQLWhere, "articuloInventario.ConsecutivoCompania", valConsecutivoCompania)
+    vSQLWhere = gUtilSQL.getWhereSQL(vSQLWhere)
  
   
    vSQL = vSQL & " SELECT"
@@ -4332,7 +4332,7 @@ Public Function fSqlCostoPromedioPorAlmacenReporte(ByVal valConsecutivoCompania 
    vSQL = vSQL & " almacen.ConsecutivoCompania = ArticuloInvMovimientosAlmacen.ConsecutivoCompania"
    
    
-   vSQL = vSQL & vSqlWhere
+   vSQL = vSQL & vSQLWhere
    vSQL = vSQL & " Group By"
    vSQL = vSQL & "  ArticuloInvMovimientosAlmacen.CodigoAlmacen,"
    vSQL = vSQL & "  NombreAlmacen,"
@@ -4343,7 +4343,7 @@ Public Function fSqlCostoPromedioPorAlmacenReporte(ByVal valConsecutivoCompania 
    vSQL = vSQL & " ORDER BY "
    vSQL = vSQL & " ArticuloInvMovimientosAlmacen.CodigoAlmacen, articuloInventario.Codigo"
    
-   fSqlCostoPromedioPorAlmacenReporte = vSql
+   fSqlCostoPromedioPorAlmacenReporte = vSQL
   Set insArticuloInvVista = Nothing
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -4352,13 +4352,13 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
 Public Function fSqlCostoPromedioGeneralReporte(ByVal valConsecutivoCompania As Long, ByVal valFechaCierre As Date, ByVal valFecha As Date, ByVal valCodigoMin As String, ByVal valCodigoMax As String) As String
 
    Dim vSQL As String
-   Dim vSqlWhere As String
+   Dim vSQLWhere As String
    Dim insArticuloInvVista As clsArticuloInvVista
    On Error GoTo h_ERROR
    Set insArticuloInvVista = New clsArticuloInvVista
-   vSqlWhere = gUtilSQL.fSQLValueDateWithComparisonRule("", "ArticuloInvMovimientosAlmacen.Fecha", valFecha, "<=")
-   vSqlWhere = gUtilSQL.fSQLNumberValueWithAnd(vSqlWhere, "articuloInventario.ConsecutivoCompania", valConsecutivoCompania)
-   vSqlWhere = gUtilSQL.getWhereSQL(vSqlWhere)
+   vSQLWhere = gUtilSQL.fSQLValueDateWithComparisonRule("", "ArticuloInvMovimientosAlmacen.Fecha", valFecha, "<=")
+   vSQLWhere = gUtilSQL.fSQLNumberValueWithAnd(vSQLWhere, "articuloInventario.ConsecutivoCompania", valConsecutivoCompania)
+   vSQLWhere = gUtilSQL.getWhereSQL(vSQLWhere)
   
    vSQL = vSQL & " SELECT"
    vSQL = vSQL & " articuloInventario.Codigo,"
@@ -4375,14 +4375,14 @@ Public Function fSqlCostoPromedioGeneralReporte(ByVal valConsecutivoCompania As 
    vSQL = vSQL & " articuloInventario.Codigo = fn_CostoPromedioPonderado_1.Codigo   AND"
    vSQL = vSQL & " fn_CostoPromedioPonderado_1.CostoALaFecha = 'S'"
    
-   vSQL = vSQL & vSqlWhere
+   vSQL = vSQL & vSQLWhere
    vSQL = vSQL & " Group By"
    vSQL = vSQL & " articuloInventario.Codigo,"
    vSQL = vSQL & " articuloInventario.Descripcion,"
    vSQL = vSQL & " fn_CostoPromedioPonderado_1.costofinal"
     vSQL = vSQL & " ORDER BY "
    vSQL = vSQL & " articuloInventario.Codigo"
-    fSqlCostoPromedioGeneralReporte = vSql
+    fSqlCostoPromedioGeneralReporte = vSQL
   Set insArticuloInvVista = Nothing
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -4431,13 +4431,13 @@ Public Function fSqlCostoPromedioPonderadoArticulosCompuestos(ByVal valConsecuti
 Dim insArticuloInvVista As clsArticuloInvVista
 Dim SQL As String
 Dim vPrecio As String
-Dim vSqlWhere As String
+Dim vSQLWhere As String
 On Error GoTo h_ERROR
 Set insArticuloInvVista = New clsArticuloInvVista
    vPrecio = fSqlNivelDePrecio(valNivelDePrecio, valPrecioSinIva)
-   vSqlWhere = gUtilSQL.fSQLValueBetween("VistaArticulosCompuestos.Compuesto", gTexto.fLimpiaStringdeBlancosAAmbosLados(valCodigoDesdeCompuestos), gTexto.fLimpiaStringdeBlancosAAmbosLados(valCodigoHastaCompuestos))
-   vSqlWhere = gUtilSQL.fSQLNumberValueWithAnd(vSqlWhere, "VistaArticulosCompuestos.ConsecutivoCompania", valConsecutivoCompania)
-   vSqlWhere = gUtilSQL.getWhereSQL(vSqlWhere)
+   vSQLWhere = gUtilSQL.fSQLValueBetween("VistaArticulosCompuestos.Compuesto", gTexto.fLimpiaStringdeBlancosAAmbosLados(valCodigoDesdeCompuestos), gTexto.fLimpiaStringdeBlancosAAmbosLados(valCodigoHastaCompuestos))
+   vSQLWhere = gUtilSQL.fSQLNumberValueWithAnd(vSQLWhere, "VistaArticulosCompuestos.ConsecutivoCompania", valConsecutivoCompania)
+   vSQLWhere = gUtilSQL.getWhereSQL(vSQLWhere)
 
    SQL = SQL & " SELECT "
    SQL = SQL & "VistaArticulosCompuestos.Compuesto,"
@@ -4452,10 +4452,10 @@ Set insArticuloInvVista = New clsArticuloInvVista
    SQL = SQL & " dbo.Gf_CostoPromedioPonderado( " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania) & "," & gUtilSQL.fDateToSQLValue(valFechaCierre) & "," & gUtilSQL.fDateToSQLValue(valFechaReporte) & "," & gUtilSQL.fSimpleSqlValue(valCodigoDesde) & "," & gUtilSQL.fSimpleSqlValue(valCodigoHasta) & ") AS Gf_CostoPromedioPonderado_1 ON "
    SQL = SQL & " VistaArticulosCompuestos.Codigo = Gf_CostoPromedioPonderado_1.Codigo AND "
    SQL = SQL & " Gf_CostoPromedioPonderado_1.CostoAlaFecha = " & gUtilSQL.fBooleanToSqlValue(True)
-   SQL = SQL & vSqlWhere
+   SQL = SQL & vSQLWhere
   Set insArticuloInvVista = Nothing
 h_EXIT: On Error GoTo 0
-  fSqlCostoPromedioPonderadoArticulosCompuestos = Sql
+  fSqlCostoPromedioPonderadoArticulosCompuestos = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
          "fSqlCostoPromedioPonderadoArticulosCompuestos", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -4466,13 +4466,13 @@ Public Function fSqlCostoUltimaCompraArticulosCompuestos(ByVal valConsecutivoCom
 Dim insArticuloInvVista As clsArticuloInvVista
 Dim SQL As String
 Dim vPrecio As String
-Dim vSqlWhere As String
+Dim vSQLWhere As String
 On Error GoTo h_ERROR
 Set insArticuloInvVista = New clsArticuloInvVista
    vPrecio = fSqlNivelDePrecio(valNivelDePrecio, valPrecioSinIva)
-   vSqlWhere = gUtilSQL.fSQLValueBetween("VistaArticulosCompuestos.Compuesto", gTexto.fLimpiaStringdeBlancosAAmbosLados(valCodigoDesdeCompuestos), gTexto.fLimpiaStringdeBlancosAAmbosLados(valCodigoHastaCompuestos))
-   vSqlWhere = gUtilSQL.fSQLNumberValueWithAnd(vSqlWhere, "VistaArticulosCompuestos.ConsecutivoCompania", valConsecutivoCompania)
-   vSqlWhere = gUtilSQL.getWhereSQL(vSqlWhere)
+   vSQLWhere = gUtilSQL.fSQLValueBetween("VistaArticulosCompuestos.Compuesto", gTexto.fLimpiaStringdeBlancosAAmbosLados(valCodigoDesdeCompuestos), gTexto.fLimpiaStringdeBlancosAAmbosLados(valCodigoHastaCompuestos))
+   vSQLWhere = gUtilSQL.fSQLNumberValueWithAnd(vSQLWhere, "VistaArticulosCompuestos.ConsecutivoCompania", valConsecutivoCompania)
+   vSQLWhere = gUtilSQL.getWhereSQL(vSQLWhere)
 
    SQL = SQL & " SELECT "
    SQL = SQL & "VistaArticulosCompuestos.Compuesto,"
@@ -4488,10 +4488,10 @@ Set insArticuloInvVista = New clsArticuloInvVista
    SQL = SQL & " VistaArticulosCompuestos.Codigo = Gf_CostosUltimaCompra.Codigo "
    
    
-   SQL = SQL & vSqlWhere
+   SQL = SQL & vSQLWhere
   Set insArticuloInvVista = Nothing
 h_EXIT: On Error GoTo 0
-  fSqlCostoUltimaCompraArticulosCompuestos = Sql
+  fSqlCostoUltimaCompraArticulosCompuestos = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
          "fSqlCostoUltimaCompraArticulosCompuestos", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -4503,7 +4503,7 @@ Public Function fSQLCamposNoRequeridos(ByVal valCodigoArt As String, ByVal gProy
    On Error GoTo h_ERROR
    strCampos = "ConsecutivoCompania, Codigo, CantArtReservado, NombreOperador, FechaUltimaModificacion, fldTimeStamp, CodigoGrupo, TipoArticuloInv, UsaBalanza"
    SQL = "SELECT " & strCampos & " FROM articuloInventario WHERE Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoArt) & " AND ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
-   fSQLCamposNoRequeridos = Sql
+   fSQLCamposNoRequeridos = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLCamposNoRequeridos", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -4520,7 +4520,7 @@ Public Function fSQLAlicuotasVigentes(ByVal gAdmAlicuotaIvaActual As Object) As 
    valAlicuota3 = gAdmAlicuotaIvaActual.GetAlicuotaIVA(gUtilDate.getFechaDeHoy, eTD_ALICUOTA3)
    SQL = " (case when alicuotaiva = 1 then " & valAlicuotaGeneral & " when alicuotaiva = 2 then " & valAlicuota2
    SQL = SQL & " when alicuotaiva = 3 then " & valAlicuota3 & " else " & valAlicuotaGeneral & " end)"
-   fSQLAlicuotasVigentes = Sql
+   fSQLAlicuotasVigentes = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLCaseAlicuotas", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -4603,7 +4603,7 @@ SQL = SQL & sqlWhere2
 SQL = SQL & "  order by codigo, fecha, PrioridadOperacion, numerodocumento"
 Set gEnumProyecto = Nothing
 h_EXIT: On Error GoTo 0
-  fSqlCostoUltimaCompraValoracionDeInventario = Sql
+  fSqlCostoUltimaCompraValoracionDeInventario = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
          "fSqlCostoUltimaCompraValoracionDeInventario", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -4621,7 +4621,7 @@ End If
   SQL = SQL & " UNION "
   SQL = SQL & fSqlCostoPromedioPonderadoReporteSelect2ValoracionDeInventario(valConsecutivoCompania, valCodigoDesde, valCodigoHasta, valFechaCierre, valFechaInicial, valFechaFinal)
 h_EXIT: On Error GoTo 0
- fSqlCostoPromedioPonderadoReporteDetalladoValoracionDeInventario = Sql
+ fSqlCostoPromedioPonderadoReporteDetalladoValoracionDeInventario = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
          "fSqlCostoPromedioPonderadoReporteDetalladoValoracionDeInventario", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -4662,7 +4662,7 @@ On Error GoTo h_ERROR
    SQL = SQL & " ArticuloInventario.ConsecutivoCompania = " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania)
    SQL = SQL & sqlWhere
 h_EXIT: On Error GoTo 0
-  fSqlCostoPromedioPonderadoReporteSelect1ValoracionDeInventario = Sql
+  fSqlCostoPromedioPonderadoReporteSelect1ValoracionDeInventario = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
          "fSqlCostoPromedioPonderadoReporteSelect1ValoracionDeInventario", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -4701,7 +4701,7 @@ On Error GoTo h_ERROR
    SQL = SQL & " ArticuloInventario.ConsecutivoCompania = " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania)
   SQL = SQL & sqlWhere
 h_EXIT: On Error GoTo 0
-fSqlCostoPromedioPonderadoReporteSelect2ValoracionDeInventario = Sql
+fSqlCostoPromedioPonderadoReporteSelect2ValoracionDeInventario = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
          "fSqlCostoPromedioPonderadoReporteSelect2ValoracionDeInventario", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -4738,7 +4738,7 @@ On Error GoTo h_ERROR
    Else
    SQL = SQL & valOrdenarPor
    End If
-   fSqlInventarioPorCategoria = Sql
+   fSqlInventarioPorCategoria = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -4773,7 +4773,7 @@ Public Function fQueryCompra(ByVal valConsecutivoCompania As Long, ByVal valCons
       SQL = SQL & " AND compra.ConsecutivoAlmacen = " & gUtilSQL.fSimpleSqlValue(valConsecutivoAlmacen)
       SQL = SQL & " AND compra.StatusCompra = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCompra.eSCp_VIGENTE)
    End If
-   fQueryCompra = Sql
+   fQueryCompra = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fQueryCompra", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -4782,16 +4782,16 @@ End Function
 Private Function fSQLSearchArticuloInventarioFacturaSelectSoloServicios(ByVal valConsecutivoCompania As Long, ByVal valCodigoArticulo As String, ByVal valPrecio1 As String, ByVal valPrecio2 As String, ByVal valsqlWhere As String, ByVal valMonedaExtranjera As Boolean, ByVal vGroupby As String, ByVal valBuscarPorSerial As Boolean, ByVal valSerial As String, ByVal valDescripcion As String, ByVal valArtResumen As String, ByVal valSqlArtIGTF As String) As String
 Dim insArticuloInvVista As clsArticuloInvVista
 Dim vSQL As String
-Dim vSqlWhere As String
+Dim vSQLWhere As String
 Dim vSQLCondicionTipoArticulo As String
 On Error GoTo h_ERROR
 Set insArticuloInvVista = New clsArticuloInvVista
  vSQLCondicionTipoArticulo = "ArticuloInventario.TipoDeArticulo = " & enum_TipoDeArticulo.eTD_SERVICIO
- vSqlWhere = gUtilSQL.fSQLNumberValueWithAnd(vSQLCondicionTipoArticulo, "ArticuloInventario.ConsecutivoCompania", valConsecutivoCompania)
+ vSQLWhere = gUtilSQL.fSQLNumberValueWithAnd(vSQLCondicionTipoArticulo, "ArticuloInventario.ConsecutivoCompania", valConsecutivoCompania)
  If gTexto.DfLen(valCodigoArticulo) > 0 And valCodigoArticulo <> "*" Then
-    vSqlWhere = gUtilSQL.fSQLValueWithAnd(vSqlWhere, "ArticuloInventario.Codigo", valCodigoArticulo, False)
+    vSQLWhere = gUtilSQL.fSQLValueWithAnd(vSQLWhere, "ArticuloInventario.Codigo", valCodigoArticulo, False)
  End If
- vSqlWhere = gUtilSQL.fSQLEnumValueWithAnd(vSqlWhere, "ArticuloInventario.StatusdelArticulo", enum_StatusArticulo.eSA_VIGENTE)
+ vSQLWhere = gUtilSQL.fSQLEnumValueWithAnd(vSQLWhere, "ArticuloInventario.StatusdelArticulo", enum_StatusArticulo.eSA_VIGENTE)
  If valBuscarPorSerial Then
     If valSerial <> "" Then
       fSQLSearchArticuloInventarioFacturaSelectSoloServicios = ""
@@ -4799,14 +4799,14 @@ Set insArticuloInvVista = New clsArticuloInvVista
    End If
 End If
  If valDescripcion <> "" Then
-   vSqlWhere = vSqlWhere & "And ArticuloInventario.Descripcion LIKE " & gUtilSQL.fSimpleSqlValue(valDescripcion)
+   vSQLWhere = vSQLWhere & "And ArticuloInventario.Descripcion LIKE " & gUtilSQL.fSimpleSqlValue(valDescripcion)
  End If
-vSqlWhere = gUtilSQL.getWhereSQL(vSqlWhere)
+vSQLWhere = gUtilSQL.getWhereSQL(vSQLWhere)
    If gTexto.DfLen(valArtResumen) > 0 Then
-vSqlWhere = vSqlWhere & "And ArticuloInventario.Codigo NOT IN (" & valArtResumen & ")  "
+vSQLWhere = vSQLWhere & "And ArticuloInventario.Codigo NOT IN (" & valArtResumen & ")  "
    End If
    If gTexto.DfLen(valSqlArtIGTF) > 0 Then
-      vSqlWhere = vSqlWhere & "And ArticuloInventario.Codigo NOT IN (" & valSqlArtIGTF & ")  "
+      vSQLWhere = vSQLWhere & "And ArticuloInventario.Codigo NOT IN (" & valSqlArtIGTF & ")  "
    End If
 vSQL = " SELECT "
 vSQL = vSQL & " ArticuloInventario.codigo AS CodigoCompuesto, "
@@ -4830,17 +4830,17 @@ vSQL = vSQL & " FROM  ArticuloInventario"
 vSQL = vSQL & " LEFT JOIN   CamposMonedaExtranjera ON "
 vSQL = vSQL & "ArticuloInventario.ConsecutivoCompania = CamposMonedaExtranjera.ConsecutivoCompania AND "
 vSQL = vSQL & "ArticuloInventario.Codigo = CamposMonedaExtranjera.Codigo  "
-vSQL = vSQL & vSqlWhere
+vSQL = vSQL & vSQLWhere
    Set insArticuloInvVista = Nothing
 h_EXIT:    On Error GoTo 0
- fSQLSearchArticuloInventarioFacturaSelectSoloServicios = vSql
+ fSQLSearchArticuloInventarioFacturaSelectSoloServicios = vSQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
       "fSQLSearchArticuloInventarioFacturaSelectSoloServicios", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fSQLDisponibilidadArticuloInventario(ByVal valConsecutivoCompania As String, ByVal valSqlStatus As String, ByVal valRango As Boolean, ByVal valLineaProducto As Boolean, ByVal valCategoria As Boolean, ByVal valMarca As Boolean, valSqlOrder As String, ByVal valCodigoDesde As String, ByVal valCodigoHasta As String, ByVal valStrLineaProducto As String, ByVal valStrCategoria As String, ByVal valStrMarca As String, ByVal valMuestraExistenciaCero As Boolean) As String
-   Dim SQL As String
+   Dim Sql As String
    Dim gEnumProyecto As clsEnumAdministrativo
    On Error GoTo h_ERROR
    Set gEnumProyecto = New clsEnumAdministrativo
@@ -4904,14 +4904,14 @@ Public Function fSQLDisponibilidadArticuloInventario(ByVal valConsecutivoCompani
    SQL = SQL & " ORDER BY " & valSqlOrder
    Set gEnumProyecto = Nothing
 h_EXIT: On Error GoTo 0
-   fSQLDisponibilidadArticuloInventario = Sql
+   fSQLDisponibilidadArticuloInventario = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
          "fSQLDisponibilidadArticuloInventario", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fSQLDisponibilidadArticuloInventarioPorAlmacen(ByVal valConsecutivoCompania As String, ByVal valSqlStatus As String, ByVal valRango As Boolean, ByVal valLineaProducto As Boolean, ByVal valCategoria As Boolean, ByVal valMarca As Boolean, valSqlOrder As String, ByVal valCodigoDesde As String, ByVal valCodigoHasta As String, ByVal valStrLineaProducto As String, ByVal valStrCategoria As String, ByVal valStrMarca As String, ByVal valMuestraExistenciaCero As Boolean, ByVal valAlmacen As String) As String
-   Dim SQL As String
+   Dim Sql As String
    Dim gEnumProyecto As clsEnumAdministrativo
    On Error GoTo h_ERROR
    Set gEnumProyecto = New clsEnumAdministrativo
@@ -5053,16 +5053,17 @@ Public Function fSQLDisponibilidadArticuloInventarioPorAlmacen(ByVal valConsecut
    If Not valMuestraExistenciaCero Then
       SQL = SQL & " AND ArticuloInventario.Existencia <> 0 "
    End If
+   
    SQL = SQL & " ORDER BY " & valSqlOrder
    Set gEnumProyecto = Nothing
 h_EXIT: On Error GoTo 0
-   fSQLDisponibilidadArticuloInventarioPorAlmacen = Sql
+   fSQLDisponibilidadArticuloInventarioPorAlmacen = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLDisponibilidadArticuloInventarioPorAlmacen", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fSqlAlertaMaximoMinimo(ByVal valVerificaMaximo As Boolean, ByVal valCodigoArticulo As String, ByVal valCantidad As Currency, ByVal valConsecutivoCompaniaActual As Long) As String
-   Dim vSqlWhere As String
+   Dim vSQLWhere As String
    Dim vSQL As String
    Dim vCondicion As String
    On Error GoTo h_ERROR
@@ -5072,18 +5073,18 @@ Public Function fSqlAlertaMaximoMinimo(ByVal valVerificaMaximo As Boolean, ByVal
       vCondicion = "( ( ArticuloInventario.Existencia   - " & gUtilSQL.fSimpleSqlValueForNumeric(valCantidad) & " ) <  ArticuloInventario.CantidadMinima) "
    End If
    vCondicion = gUtilSQL.getIIF(vCondicion, gUtilSQL.fSimpleSqlValue("S"), gUtilSQL.fSimpleSqlValue("N"), False)
-   vSqlWhere = gUtilSQL.fSQLValueWithAnd("", "dbo.IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo", valCodigoArticulo, False)
-   vSqlWhere = gUtilSQL.fSQLNumberValueWithAnd(vSqlWhere, "ArticuloInventario.ConsecutivoCompania", valConsecutivoCompaniaActual)
-   vSqlWhere = gUtilSQL.getWhereSQL(vSqlWhere)
+   vSQLWhere = gUtilSQL.fSQLValueWithAnd("", "dbo.IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo", valCodigoArticulo, False)
+   vSQLWhere = gUtilSQL.fSQLNumberValueWithAnd(vSQLWhere, "ArticuloInventario.ConsecutivoCompania", valConsecutivoCompaniaActual)
+   vSQLWhere = gUtilSQL.getWhereSQL(vSQLWhere)
    vSQL = " SELECT "
    vSQL = vSQL & vCondicion & "AS Alertar "
    vSQL = vSQL & " FROM dbo.IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1 "
    vSQL = vSQL & " INNER JOIN   dbo.ArticuloInventario ON"
    vSQL = vSQL & " dbo.IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Codigo = dbo.ArticuloInventario.Codigo AND"
    vSQL = vSQL & " dbo.IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.consecutivoCompania = dbo.ArticuloInventario.consecutivoCompania"
-   vSQL = vSQL & vSqlWhere
+   vSQL = vSQL & vSQLWhere
    vSQL = vSQL & " GROUP BY  dbo.ArticuloInventario.Codigo,dbo.ArticuloInventario.Existencia,CantidadMinima,CantidadMaxima "
-   fSqlAlertaMaximoMinimo = vSql
+   fSqlAlertaMaximoMinimo = vSQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fSqlAlertaMaximoMinimo = ""
@@ -5151,7 +5152,7 @@ Public Function fConstruirSQLDelReporteGananciaXProductoSegunLeyCosto(ByVal valC
    SQL = SQL & "LINEADEPRODUCTO , "
    SQL = SQL & "CODIGO"
  
-   fConstruirSQLDelReporteGananciaXProductoSegunLeyCosto = Sql
+   fConstruirSQLDelReporteGananciaXProductoSegunLeyCosto = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLDelReporteGananciaXProductoSegunLeyCosto", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -5171,7 +5172,7 @@ Public Function fSQLInsertarArticuloEspecialME(ByVal valConsecutivoCompania As L
    SQL = SQL & valSqlValueNombreOperador & ", " & valSqlValueFechaUltModificacion
    SQL = SQL & " WHERE NOT EXISTS (SELECT ConsecutivoCompania, Codigo FROM camposMonedaExtranjera WHERE ConsecutivoCompania = " & valConsecutivoCompania & " AND Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigo) & ")"
 h_EXIT: On Error GoTo 0
-   fSQLInsertarArticuloEspecialME = Sql
+   fSQLInsertarArticuloEspecialME = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLInsertarArticuloEspecialME", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
@@ -5183,59 +5184,59 @@ Public Function fSQLInsertarSinoExisteLineaDeProducto(ByVal valSqlValueNombreOpe
    SQL = SQL & valSqlValueFechaUltModificacion & " FROM COMPANIA "
    SQL = SQL & " WHERE NOT EXISTS(SELECT Nombre FROM Adm.LineaDeProducto WHERE ConsecutivoCompania = COMPANIA.ConsecutivoCompania AND Nombre = 'LINEA DE PRODUCTO')"
 h_EXIT: On Error GoTo 0
-   fSQLInsertarSinoExisteLineaDeProducto = Sql
+   fSQLInsertarSinoExisteLineaDeProducto = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLInsertarSinoExisteLineaDeProducto", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fQueryNotaESSaldoInicial(ByVal valTipoOperacion As enum_TipodeOperacion, ByVal valFechaInicial As Date, ByVal valConsecutivoCompania As Long, ByVal valTipoArticuloInvAsEnum As Integer, _
                ByVal valCodigoCompuesto As String, ByVal valCodigoDesde As String, ByVal valSerial As String, ByVal valRollo As String, ByVal valCodigoHasta As String, ByVal valCodigoAlmacen As String, ByVal valEsSalida As Boolean) As String
-   Dim SQL As String
+   Dim Sql As String
    On Error GoTo h_ERROR
-   SQL = "SELECT RenglonNotaES.CodigoArticulo AS CodigoArticulo,"
+   Sql = "SELECT RenglonNotaES.CodigoArticulo AS CodigoArticulo,"
    If valEsSalida Then
-      SQL = SQL & " -1 * (ISNULL(SUM(RenglonNotaES.Cantidad), 0)) AS SumCantidad,"
+      Sql = Sql & " -1 * (ISNULL(SUM(RenglonNotaES.Cantidad), 0)) AS SumCantidad,"
    Else
-      SQL = SQL & " ISNULL(SUM(RenglonNotaES.Cantidad), 0) AS SumCantidad,"
+      Sql = Sql & " ISNULL(SUM(RenglonNotaES.Cantidad), 0) AS SumCantidad,"
    End If
-   SQL = SQL & " notaDeEntradaSalida.CodigoAlmacen AS CodigoAlmacen"
-   SQL = SQL & " FROM notaDeEntradaSalida INNER JOIN renglonNotaES "
-   SQL = SQL & " ON notaDeEntradaSalida.NumeroDocumento = renglonNotaES.NumeroDocumento"
-   SQL = SQL & " AND notaDeEntradaSalida.ConsecutivoCompania = renglonNotaES.ConsecutivoCompania"
-   SQL = SQL & " INNER JOIN articuloInventario  ON articuloInventario.Codigo = renglonNotaES.CodigoArticulo "
-   SQL = SQL & " AND articuloInventario.ConsecutivoCompania = renglonNotaES.ConsecutivoCompania"
-   SQL = SQL & " INNER JOIN almacen ON notaDeEntradaSalida.CodigoAlmacen = almacen.Codigo AND notaDeEntradaSalida.ConsecutivoCompania = almacen.ConsecutivoCompania"
-   SQL = SQL & " WHERE notaDeEntradaSalida.ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " AND notaDeEntradaSalida.StatusNotaEntradaSalida = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusNotaEntradaSalida.eSNES_Vigente)
-   SQL = SQL & " AND (" & gUtilSQL.fSQLValueDateWithComparisonRule("", "NotaDeEntradaSalida.Fecha", valFechaInicial, "<") & ")"
-   SQL = SQL & " AND notaDeEntradaSalida.TipodeOperacion = " & gUtilSQL.fSQLSimpleValueForEnum(valTipoOperacion)
+   Sql = Sql & " notaDeEntradaSalida.CodigoAlmacen AS CodigoAlmacen"
+   Sql = Sql & " FROM notaDeEntradaSalida INNER JOIN renglonNotaES "
+   Sql = Sql & " ON notaDeEntradaSalida.NumeroDocumento = renglonNotaES.NumeroDocumento"
+   Sql = Sql & " AND notaDeEntradaSalida.ConsecutivoCompania = renglonNotaES.ConsecutivoCompania"
+   Sql = Sql & " INNER JOIN articuloInventario  ON articuloInventario.Codigo = renglonNotaES.CodigoArticulo "
+   Sql = Sql & " AND articuloInventario.ConsecutivoCompania = renglonNotaES.ConsecutivoCompania"
+   Sql = Sql & " INNER JOIN almacen ON notaDeEntradaSalida.CodigoAlmacen = almacen.Codigo AND notaDeEntradaSalida.ConsecutivoCompania = almacen.ConsecutivoCompania"
+   Sql = Sql & " WHERE notaDeEntradaSalida.ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = Sql & " AND notaDeEntradaSalida.StatusNotaEntradaSalida = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusNotaEntradaSalida.eSNES_Vigente)
+   Sql = Sql & " AND (" & gUtilSQL.fSQLValueDateWithComparisonRule("", "NotaDeEntradaSalida.Fecha", valFechaInicial, "<") & ")"
+   Sql = Sql & " AND notaDeEntradaSalida.TipodeOperacion = " & gUtilSQL.fSQLSimpleValueForEnum(valTipoOperacion)
    If valTipoArticuloInvAsEnum = eTAI_UsaTalla_Color Or valTipoArticuloInvAsEnum = eTAI_UsaTalla_ColorySerial Then
-      SQL = SQL & " AND renglonNotaES.CodigoArticulo =" & gUtilSQL.fSimpleSqlValue(valCodigoCompuesto)
+      Sql = Sql & " AND renglonNotaES.CodigoArticulo =" & gUtilSQL.fSimpleSqlValue(valCodigoCompuesto)
       If valTipoArticuloInvAsEnum = eTAI_UsaTalla_ColorySerial Then
          If (valSerial <> "" And valSerial <> "0") Then
-            SQL = SQL & " AND RenglonNotaES.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+            Sql = Sql & " AND RenglonNotaES.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
          End If
          If (valRollo <> "" And valRollo <> "0") Then
-            SQL = SQL & " AND renglonNotaES.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+            Sql = Sql & " AND renglonNotaES.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
          End If
       End If
    Else
-      SQL = SQL & " AND " & gUtilSQL.fSQLStringValueBetween("renglonNotaES.CodigoArticulo", Trim(valCodigoDesde), Trim(valCodigoHasta)) & ""
+      Sql = Sql & " AND " & gUtilSQL.fSQLStringValueBetween("renglonNotaES.CodigoArticulo", Trim(valCodigoDesde), Trim(valCodigoHasta)) & ""
       If valTipoArticuloInvAsEnum = eTAI_UsaSerial Then
          If (valSerial <> "" And valSerial <> "0") Then
-            SQL = SQL & " AND renglonNotaES.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+            Sql = Sql & " AND renglonNotaES.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
          End If
       ElseIf valTipoArticuloInvAsEnum = eTAI_UsaSerial_Rollo Then
          If (valSerial <> "" And valSerial <> "0") Then
-            SQL = SQL & " AND RenglonNotaES.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+            Sql = Sql & " AND RenglonNotaES.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
          End If
          If (valRollo <> "" And valRollo <> "0") Then
-            SQL = SQL & " AND renglonNotaES.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+            Sql = Sql & " AND renglonNotaES.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
          End If
       End If
    End If
-   SQL = SQL & " AND almacen.Codigo LIKE " & gUtilSQL.getIIF(gUtilSQL.fSimpleSqlValue(valCodigoAlmacen) & " <> " & gUtilSQL.fSimpleSqlValue(""), gUtilSQL.fSimpleSqlValue(valCodigoAlmacen), gUtilSQL.fSimpleSqlValue("%"))
-   SQL = SQL & " GROUP BY CodigoArticulo, CodigoAlmacen "
+   Sql = Sql & " AND almacen.Codigo LIKE " & gUtilSQL.getIIF(gUtilSQL.fSimpleSqlValue(valCodigoAlmacen) & " <> " & gUtilSQL.fSimpleSqlValue(""), gUtilSQL.fSimpleSqlValue(valCodigoAlmacen), gUtilSQL.fSimpleSqlValue("%"))
+   Sql = Sql & " GROUP BY CodigoArticulo, CodigoAlmacen "
    fQueryNotaESSaldoInicial = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
@@ -5244,59 +5245,59 @@ End Function
 
 Public Function fQueryTransferenciaSaldoInicial(ByVal valTipoOperacion As enum_TipodeOperacion, ByVal valFechaInicial As Date, ByVal valConsecutivoCompania As Long, ByVal valTipoArticuloInvAsEnum As Integer, _
                   ByVal valCodigoCompuesto As String, ByVal valCodigoDesde As String, ByVal valSerial As String, ByVal valRollo As String, ByVal valCodigoHasta As String, ByVal valCodigoAlmacen As String, ByVal valEsSalida As Boolean) As String
-   Dim SQL As String
+   Dim Sql As String
    On Error GoTo h_ERROR
-   SQL = "SELECT RenglonTransferencia.CodigoArticulo AS CodigoArticulo,"
+   Sql = "SELECT RenglonTransferencia.CodigoArticulo AS CodigoArticulo,"
    If valEsSalida Then
-      SQL = SQL & " -1 * (ISNULL(SUM(RenglonTransferencia.Cantidad), 0)) AS SumCantidad,"
+      Sql = Sql & " -1 * (ISNULL(SUM(RenglonTransferencia.Cantidad), 0)) AS SumCantidad,"
    Else
-      SQL = SQL & " ISNULL(SUM(RenglonTransferencia.Cantidad), 0) AS SumCantidad,"
+      Sql = Sql & " ISNULL(SUM(RenglonTransferencia.Cantidad), 0) AS SumCantidad,"
    End If
    If valTipoOperacion = eTO_ENTRADA_DE_INVENTARIO Then
-      SQL = SQL & " Transferencia.CodigoAlmacenEntrada AS CodigoAlmacen"
+      Sql = Sql & " Transferencia.CodigoAlmacenEntrada AS CodigoAlmacen"
    ElseIf valTipoOperacion = eTO_SALIDA_DE_INVENTARIO Then
-      SQL = SQL & " Transferencia.CodigoAlmacenSalida AS CodigoAlmacen"
+      Sql = Sql & " Transferencia.CodigoAlmacenSalida AS CodigoAlmacen"
    End If
-   SQL = SQL & " FROM Transferencia INNER JOIN RenglonTransferencia "
-   SQL = SQL & " ON Transferencia.NumeroDocumento = RenglonTransferencia.NumeroDocumento"
-   SQL = SQL & " AND Transferencia.ConsecutivoCompania = RenglonTransferencia.ConsecutivoCompania"
+   Sql = Sql & " FROM Transferencia INNER JOIN RenglonTransferencia "
+   Sql = Sql & " ON Transferencia.NumeroDocumento = RenglonTransferencia.NumeroDocumento"
+   Sql = Sql & " AND Transferencia.ConsecutivoCompania = RenglonTransferencia.ConsecutivoCompania"
    If valTipoOperacion = eTO_ENTRADA_DE_INVENTARIO Then
-      SQL = SQL & " INNER JOIN almacen ON Transferencia.CodigoAlmacenEntrada = almacen.Codigo AND Transferencia.ConsecutivoCompania = almacen.ConsecutivoCompania"
+      Sql = Sql & " INNER JOIN almacen ON Transferencia.CodigoAlmacenEntrada = almacen.Codigo AND Transferencia.ConsecutivoCompania = almacen.ConsecutivoCompania"
    ElseIf valTipoOperacion = eTO_SALIDA_DE_INVENTARIO Then
-      SQL = SQL & " INNER JOIN almacen ON Transferencia.CodigoAlmacenSalida = almacen.Codigo AND Transferencia.ConsecutivoCompania = almacen.ConsecutivoCompania"
+      Sql = Sql & " INNER JOIN almacen ON Transferencia.CodigoAlmacenSalida = almacen.Codigo AND Transferencia.ConsecutivoCompania = almacen.ConsecutivoCompania"
    End If
-   SQL = SQL & " WHERE Transferencia.ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " AND (" & gUtilSQL.fSQLValueDateWithComparisonRule("", "Transferencia.Fecha", valFechaInicial, "<") & ")"
+   Sql = Sql & " WHERE Transferencia.ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = Sql & " AND (" & gUtilSQL.fSQLValueDateWithComparisonRule("", "Transferencia.Fecha", valFechaInicial, "<") & ")"
    If valTipoArticuloInvAsEnum = eTAI_UsaTalla_Color Or valTipoArticuloInvAsEnum = eTAI_UsaTalla_ColorySerial Then
-      SQL = SQL & " AND RenglonTransferencia.CodigoArticulo = " & gUtilSQL.fSimpleSqlValue(valCodigoCompuesto)
+      Sql = Sql & " AND RenglonTransferencia.CodigoArticulo = " & gUtilSQL.fSimpleSqlValue(valCodigoCompuesto)
       If valTipoArticuloInvAsEnum = eTAI_UsaTalla_ColorySerial Then
          If (valSerial <> "" And valSerial <> "0") Then
-            SQL = SQL & " AND RenglonTransferencia.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+            Sql = Sql & " AND RenglonTransferencia.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
          End If
          If (valRollo <> "" And valRollo <> "0") Then
-            SQL = SQL & " AND RenglonTransferencia.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+            Sql = Sql & " AND RenglonTransferencia.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
          End If
       End If
    Else
-      SQL = SQL & " AND " & gUtilSQL.fSQLStringValueBetween("RenglonTransferencia.CodigoArticulo", Trim(valCodigoDesde), Trim(valCodigoHasta)) & ""
+      Sql = Sql & " AND " & gUtilSQL.fSQLStringValueBetween("RenglonTransferencia.CodigoArticulo", Trim(valCodigoDesde), Trim(valCodigoHasta)) & ""
       If valTipoArticuloInvAsEnum = eTAI_UsaSerial Then
          If (valSerial <> "" And valSerial <> "0") Then
-            SQL = SQL & " AND RenglonTransferencia.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+            Sql = Sql & " AND RenglonTransferencia.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
          End If
       ElseIf valTipoArticuloInvAsEnum = eTAI_UsaSerial_Rollo Then
          If (valSerial <> "" And valSerial <> "0") Then
-            SQL = SQL & " AND RenglonTransferencia.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+            Sql = Sql & " AND RenglonTransferencia.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
          End If
          If (valRollo <> "" And valRollo <> "0") Then
-            SQL = SQL & " AND RenglonTransferencia.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+            Sql = Sql & " AND RenglonTransferencia.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
          End If
       End If
    End If
-   SQL = SQL & " AND almacen.Codigo LIKE " & gUtilSQL.getIIF(gUtilSQL.fSimpleSqlValue(valCodigoAlmacen) & " <> " & gUtilSQL.fSimpleSqlValue(""), gUtilSQL.fSimpleSqlValue(valCodigoAlmacen), gUtilSQL.fSimpleSqlValue("%"))
+   Sql = Sql & " AND almacen.Codigo LIKE " & gUtilSQL.getIIF(gUtilSQL.fSimpleSqlValue(valCodigoAlmacen) & " <> " & gUtilSQL.fSimpleSqlValue(""), gUtilSQL.fSimpleSqlValue(valCodigoAlmacen), gUtilSQL.fSimpleSqlValue("%"))
    If valTipoOperacion = eTO_ENTRADA_DE_INVENTARIO Then
-      SQL = SQL & " GROUP BY CodigoArticulo, CodigoAlmacenEntrada"
+      Sql = Sql & " GROUP BY CodigoArticulo, CodigoAlmacenEntrada"
    ElseIf valTipoOperacion = eTO_SALIDA_DE_INVENTARIO Then
-      SQL = SQL & " GROUP BY CodigoArticulo, CodigoAlmacenSalida"
+      Sql = Sql & " GROUP BY CodigoArticulo, CodigoAlmacenSalida"
    End If
    fQueryTransferenciaSaldoInicial = Sql
 h_EXIT: On Error GoTo 0
@@ -5306,50 +5307,50 @@ End Function
 
 Public Function fQueryFacturaSaldoInicial(ByVal valFechaInicial As Date, ByVal valConsecutivoCompania As Long, ByVal valTipoArticuloInvAsEnum As Integer, ByVal valCodigoCompuesto As String, _
                   ByVal valCodigoDesde As String, ByVal valSerial As String, ByVal valRollo As String, ByVal valCodigoHasta As String, ByVal valCodigoAlmacen As String, ByVal valEsSalida As Boolean) As String
-   Dim SQL As String
+   Dim Sql As String
    On Error GoTo h_ERROR
-   SQL = "SELECT renglonFactura.Articulo AS CodigoArticulo, "
+   Sql = "SELECT renglonFactura.Articulo AS CodigoArticulo, "
    If valEsSalida Then
-      SQL = SQL & " -1 * (ISNULL(SUM(Renglonfactura.Cantidad), 0)) AS SumCantidad,"
+      Sql = Sql & " -1 * (ISNULL(SUM(Renglonfactura.Cantidad), 0)) AS SumCantidad,"
    Else
-      SQL = SQL & " ISNULL(SUM(Renglonfactura.Cantidad), 0) AS SumCantidad,"
+      Sql = Sql & " ISNULL(SUM(Renglonfactura.Cantidad), 0) AS SumCantidad,"
    End If
-   SQL = SQL & " factura.CodigoAlmacen AS CodigoAlmacen "
-   SQL = SQL & " FROM factura INNER JOIN renglonFactura "
-   SQL = SQL & " ON factura.Numero = renglonFactura.NumeroFactura "
-   SQL = SQL & " AND factura.ConsecutivoCompania = renglonFactura.ConsecutivoCompania AND factura.TipoDeDocumento = renglonFactura.TipoDeDocumento "
-   SQL = SQL & " INNER JOIN almacen ON factura.ConsecutivoCompania = almacen.ConsecutivoCompania AND factura.CodigoAlmacen = almacen.Codigo"
-   SQL = SQL & " WHERE factura.ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " AND (" & gUtilSQL.fSQLValueDateWithComparisonRule("", "factura.Fecha", valFechaInicial, "<") & ")"
-   SQL = SQL & " AND factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(eSF_EMITIDA)
-   SQL = SQL & " AND factura.GeneradaPorNotaEntrega = " & gUtilSQL.fSQLSimpleValueForEnum(enum_FacturaGeneraNotaEntrega.eFGNE_NoGenerada)
+   Sql = Sql & " factura.CodigoAlmacen AS CodigoAlmacen "
+   Sql = Sql & " FROM factura INNER JOIN renglonFactura "
+   Sql = Sql & " ON factura.Numero = renglonFactura.NumeroFactura "
+   Sql = Sql & " AND factura.ConsecutivoCompania = renglonFactura.ConsecutivoCompania AND factura.TipoDeDocumento = renglonFactura.TipoDeDocumento "
+   Sql = Sql & " INNER JOIN almacen ON factura.ConsecutivoCompania = almacen.ConsecutivoCompania AND factura.CodigoAlmacen = almacen.Codigo"
+   Sql = Sql & " WHERE factura.ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = Sql & " AND (" & gUtilSQL.fSQLValueDateWithComparisonRule("", "factura.Fecha", valFechaInicial, "<") & ")"
+   Sql = Sql & " AND factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(eSF_EMITIDA)
+   Sql = Sql & " AND factura.GeneradaPorNotaEntrega = " & gUtilSQL.fSQLSimpleValueForEnum(enum_FacturaGeneraNotaEntrega.eFGNE_NoGenerada)
    If valTipoArticuloInvAsEnum = eTAI_UsaTalla_Color Or valTipoArticuloInvAsEnum = eTAI_UsaTalla_ColorySerial Then
-      SQL = SQL & " AND renglonFactura.Articulo = " & gUtilSQL.fSimpleSqlValue(valCodigoCompuesto)
+      Sql = Sql & " AND renglonFactura.Articulo = " & gUtilSQL.fSimpleSqlValue(valCodigoCompuesto)
       If valTipoArticuloInvAsEnum = eTAI_UsaTalla_ColorySerial Then
          If (valSerial <> "" And valSerial <> "0") Then
-            SQL = SQL & " AND Renglonfactura.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+            Sql = Sql & " AND Renglonfactura.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
          End If
          If (valRollo <> "" And valRollo <> "0") Then
-            SQL = SQL & " AND renglonfactura.rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+            Sql = Sql & " AND renglonfactura.rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
          End If
       End If
    Else
-      SQL = SQL & " AND " & gUtilSQL.fSQLStringValueBetween("renglonFactura.Articulo", Trim(valCodigoDesde), Trim(valCodigoHasta))
+      Sql = Sql & " AND " & gUtilSQL.fSQLStringValueBetween("renglonFactura.Articulo", Trim(valCodigoDesde), Trim(valCodigoHasta))
       If valTipoArticuloInvAsEnum = eTAI_UsaSerial Then
          If (valSerial <> "" And valSerial <> "0") Then
-            SQL = SQL & " AND Renglonfactura.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+            Sql = Sql & " AND Renglonfactura.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
          End If
       ElseIf valTipoArticuloInvAsEnum = eTAI_UsaSerial_Rollo Then
          If (valSerial <> "" And valSerial <> "0") Then
-            SQL = SQL & " AND Renglonfactura.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+            Sql = Sql & " AND Renglonfactura.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
          End If
          If (valRollo <> "" And valRollo <> "0") Then
-            SQL = SQL & " AND Renglonfactura.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+            Sql = Sql & " AND Renglonfactura.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
          End If
       End If
    End If
-   SQL = SQL & " AND almacen.Codigo LIKE " & gUtilSQL.getIIF(gUtilSQL.fSimpleSqlValue(valCodigoAlmacen) & " <> " & gUtilSQL.fSimpleSqlValue(""), gUtilSQL.fSimpleSqlValue(valCodigoAlmacen), gUtilSQL.fSimpleSqlValue("%"))
-   SQL = SQL & " GROUP BY Articulo, CodigoAlmacen"
+   Sql = Sql & " AND almacen.Codigo LIKE " & gUtilSQL.getIIF(gUtilSQL.fSimpleSqlValue(valCodigoAlmacen) & " <> " & gUtilSQL.fSimpleSqlValue(""), gUtilSQL.fSimpleSqlValue(valCodigoAlmacen), gUtilSQL.fSimpleSqlValue("%"))
+   Sql = Sql & " GROUP BY Articulo, CodigoAlmacen"
    fQueryFacturaSaldoInicial = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
@@ -5358,53 +5359,53 @@ End Function
 
 Public Function fQueryFacturaPCSaldoInicial(ByVal valFechaInicial As Date, ByVal valConsecutivoCompania As Long, ByVal valTipoArticuloInvAsEnum As Integer, ByVal valCodigoCompuesto As String, _
                   ByVal valCodigoDesde As String, ByVal valSerial As String, ByVal valRollo As String, ByVal valCodigoHasta As String, ByVal valCodigoAlmacen As String, ByVal valEsSalida As Boolean) As String
-   Dim SQL As String
+   Dim Sql As String
    On Error GoTo h_ERROR
-   SQL = "SELECT renglonFactura.Articulo AS CodigoArticulo, "
+   Sql = "SELECT renglonFactura.Articulo AS CodigoArticulo, "
    If valEsSalida Then
-      SQL = SQL & " -1 * (ISNULL(SUM(Renglonfactura.Cantidad*productoCompuesto.cantidad), 0)) AS SumCantidad,"
+      Sql = Sql & " -1 * (ISNULL(SUM(Renglonfactura.Cantidad*productoCompuesto.cantidad), 0)) AS SumCantidad,"
    Else
-      SQL = SQL & " ISNULL(SUM(Renglonfactura.Cantidad*productoCompuesto.cantidad), 0) AS SumCantidad,"
+      Sql = Sql & " ISNULL(SUM(Renglonfactura.Cantidad*productoCompuesto.cantidad), 0) AS SumCantidad,"
    End If
-   SQL = SQL & " factura.CodigoAlmacen AS CodigoAlmacen"
-   SQL = SQL & " FROM ProductoCompuesto INNER JOIN ArticuloInventario"
-   SQL = SQL & " ON ProductoCompuesto.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania AND ProductoCompuesto.CodigoConexionConElMaster = ArticuloInventario.Codigo"
-   SQL = SQL & " INNER JOIN renglonFactura ON ArticuloInventario.ConsecutivoCompania = renglonFactura.ConsecutivoCompania"
-   SQL = SQL & " AND ArticuloInventario.Codigo = renglonFactura.Articulo"
-   SQL = SQL & " INNER JOIN factura ON factura.ConsecutivoCompania = renglonFactura.ConsecutivoCompania AND factura.Numero = renglonFactura.NumeroFactura"
-   SQL = SQL & " AND factura.TipoDeDocumento = renglonFactura.TipoDeDocumento"
-   SQL = SQL & " INNER JOIN almacen ON ArticuloInventario.ConsecutivoCompania = almacen.ConsecutivoCompania"
-   SQL = SQL & " AND ArticuloInventario.Codigo = almacen.Codigo"
-   SQL = SQL & " WHERE factura.ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " AND (" & gUtilSQL.fSQLValueDateWithComparisonRule("", "factura.Fecha", valFechaInicial, "<") & ")"
-   SQL = SQL & " AND factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(eSF_EMITIDA)
+   Sql = Sql & " factura.CodigoAlmacen AS CodigoAlmacen"
+   Sql = Sql & " FROM ProductoCompuesto INNER JOIN ArticuloInventario"
+   Sql = Sql & " ON ProductoCompuesto.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania AND ProductoCompuesto.CodigoConexionConElMaster = ArticuloInventario.Codigo"
+   Sql = Sql & " INNER JOIN renglonFactura ON ArticuloInventario.ConsecutivoCompania = renglonFactura.ConsecutivoCompania"
+   Sql = Sql & " AND ArticuloInventario.Codigo = renglonFactura.Articulo"
+   Sql = Sql & " INNER JOIN factura ON factura.ConsecutivoCompania = renglonFactura.ConsecutivoCompania AND factura.Numero = renglonFactura.NumeroFactura"
+   Sql = Sql & " AND factura.TipoDeDocumento = renglonFactura.TipoDeDocumento"
+   Sql = Sql & " INNER JOIN almacen ON ArticuloInventario.ConsecutivoCompania = almacen.ConsecutivoCompania"
+   Sql = Sql & " AND ArticuloInventario.Codigo = almacen.Codigo"
+   Sql = Sql & " WHERE factura.ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = Sql & " AND (" & gUtilSQL.fSQLValueDateWithComparisonRule("", "factura.Fecha", valFechaInicial, "<") & ")"
+   Sql = Sql & " AND factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(eSF_EMITIDA)
    If valTipoArticuloInvAsEnum = eTAI_UsaTalla_Color Or valTipoArticuloInvAsEnum = eTAI_UsaTalla_ColorySerial Then
-      SQL = SQL & " AND productoCompuesto.CodigoArticulo = " & gUtilSQL.fSimpleSqlValue(valCodigoCompuesto)
+      Sql = Sql & " AND productoCompuesto.CodigoArticulo = " & gUtilSQL.fSimpleSqlValue(valCodigoCompuesto)
       If valTipoArticuloInvAsEnum = eTAI_UsaTalla_ColorySerial Then
          If (valSerial <> "" And valSerial <> "0") Then
-            SQL = SQL & " AND Renglonfactura.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+            Sql = Sql & " AND Renglonfactura.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
          End If
          If (valRollo <> "" And valRollo <> "0") Then
-            SQL = SQL & " AND renglonfactura.rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+            Sql = Sql & " AND renglonfactura.rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
          End If
       End If
    Else
-      SQL = SQL & " AND " & gUtilSQL.fSQLStringValueBetween("productoCompuesto.CodigoArticulo", Trim(valCodigoDesde), Trim(valCodigoHasta))
+      Sql = Sql & " AND " & gUtilSQL.fSQLStringValueBetween("productoCompuesto.CodigoArticulo", Trim(valCodigoDesde), Trim(valCodigoHasta))
       If valTipoArticuloInvAsEnum = eTAI_UsaSerial Then
          If (valSerial <> "" And valSerial <> "0") Then
-            SQL = SQL & " AND Renglonfactura.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+            Sql = Sql & " AND Renglonfactura.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
          End If
       ElseIf valTipoArticuloInvAsEnum = eTAI_UsaSerial_Rollo Then
          If (valSerial <> "" And valSerial <> "0") Then
-            SQL = SQL & " AND Renglonfactura.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+            Sql = Sql & " AND Renglonfactura.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
          End If
          If (valRollo <> "" And valRollo <> "0") Then
-            SQL = SQL & " AND Renglonfactura.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+            Sql = Sql & " AND Renglonfactura.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
          End If
       End If
    End If
-   SQL = SQL & " AND almacen.Codigo LIKE " & gUtilSQL.getIIF(gUtilSQL.fSimpleSqlValue(valCodigoAlmacen) & " <> " & gUtilSQL.fSimpleSqlValue(""), gUtilSQL.fSimpleSqlValue(valCodigoAlmacen), gUtilSQL.fSimpleSqlValue("%"))
-   SQL = SQL & " GROUP BY Articulo, CodigoAlmacen"
+   Sql = Sql & " AND almacen.Codigo LIKE " & gUtilSQL.getIIF(gUtilSQL.fSimpleSqlValue(valCodigoAlmacen) & " <> " & gUtilSQL.fSimpleSqlValue(""), gUtilSQL.fSimpleSqlValue(valCodigoAlmacen), gUtilSQL.fSimpleSqlValue("%"))
+   Sql = Sql & " GROUP BY Articulo, CodigoAlmacen"
    fQueryFacturaPCSaldoInicial = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
@@ -5412,32 +5413,32 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
 End Function
 
 Public Function fQueryCompraSaldoInicial(ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valCodigoDesde As String, ByVal valTipoArticuloInv As enum_TipoArticuloInv, ByVal valSerial As String, ByVal valRollo As String, ByVal valCodigoHasta As String, ByVal valCodigoAlmacen As String) As String
-   Dim SQL As String
+   Dim Sql As String
    On Error GoTo h_ERROR
    If valTipoArticuloInv = eTAI_Simple Or valTipoArticuloInv = eTAI_UsaTalla_Color Then
-      SQL = "SELECT CompraDetalleArticuloInventario.CodigoArticulo AS CodigoArticulo, ISNULL(SUM(CompraDetalleArticuloInventario.Cantidad) , 0) AS SumCantidad, Compra.CodigoAlmacen AS CodigoAlmacen"
-      SQL = SQL & " FROM compra INNER JOIN Adm.CompraDetalleArticuloInventario"
-      SQL = SQL & " ON compra.Consecutivo = CompraDetalleArticuloInventario.ConsecutivoCompra AND compra.ConsecutivoCompania = CompraDetalleArticuloInventario.ConsecutivoCompania"
-      SQL = SQL & " INNER JOIN Almacen ON Almacen.Codigo = compra.CodigoAlmacen AND Almacen.ConsecutivoCompania = compra.ConsecutivoCompania"
-      SQL = SQL & " WHERE " & gUtilSQL.fSQLStringValueBetween("CompraDetalleArticuloInventario.CodigoArticulo", Trim(valCodigoDesde), Trim(valCodigoHasta))
+      Sql = "SELECT CompraDetalleArticuloInventario.CodigoArticulo AS CodigoArticulo, ISNULL(SUM(CompraDetalleArticuloInventario.Cantidad) , 0) AS SumCantidad, Compra.CodigoAlmacen AS CodigoAlmacen"
+      Sql = Sql & " FROM compra INNER JOIN Adm.CompraDetalleArticuloInventario"
+      Sql = Sql & " ON compra.Consecutivo = CompraDetalleArticuloInventario.ConsecutivoCompra AND compra.ConsecutivoCompania = CompraDetalleArticuloInventario.ConsecutivoCompania"
+      Sql = Sql & " INNER JOIN Almacen ON Almacen.Codigo = compra.CodigoAlmacen AND Almacen.ConsecutivoCompania = compra.ConsecutivoCompania"
+      Sql = Sql & " WHERE " & gUtilSQL.fSQLStringValueBetween("CompraDetalleArticuloInventario.CodigoArticulo", Trim(valCodigoDesde), Trim(valCodigoHasta))
    Else
-      SQL = "SELECT CompraDetalleSerialRollo.CodigoArticulo AS CodigoArticulo, ISNULL(SUM(CompraDetalleSerialRollo.Cantidad) , 0) AS SumCantidad, Compra.CodigoAlmacen AS CodigoAlmacen"
-      SQL = SQL & " FROM compra INNER JOIN Adm.CompraDetalleSerialRollo "
-      SQL = SQL & " ON compra.Consecutivo = CompraDetalleSerialRollo.ConsecutivoCompra AND compra.ConsecutivoCompania = CompraDetalleSerialRollo.ConsecutivoCompania"
-      SQL = SQL & " INNER JOIN Almacen ON Almacen.Codigo = compra.CodigoAlmacen AND Almacen.ConsecutivoCompania = compra.ConsecutivoCompania"
-      SQL = SQL & " WHERE " & gUtilSQL.fSQLStringValueBetween("CompraDetalleSerialRollo.CodigoArticulo", Trim(valCodigoDesde), Trim(valCodigoHasta))
+      Sql = "SELECT CompraDetalleSerialRollo.CodigoArticulo AS CodigoArticulo, ISNULL(SUM(CompraDetalleSerialRollo.Cantidad) , 0) AS SumCantidad, Compra.CodigoAlmacen AS CodigoAlmacen"
+      Sql = Sql & " FROM compra INNER JOIN Adm.CompraDetalleSerialRollo "
+      Sql = Sql & " ON compra.Consecutivo = CompraDetalleSerialRollo.ConsecutivoCompra AND compra.ConsecutivoCompania = CompraDetalleSerialRollo.ConsecutivoCompania"
+      Sql = Sql & " INNER JOIN Almacen ON Almacen.Codigo = compra.CodigoAlmacen AND Almacen.ConsecutivoCompania = compra.ConsecutivoCompania"
+      Sql = Sql & " WHERE " & gUtilSQL.fSQLStringValueBetween("CompraDetalleSerialRollo.CodigoArticulo", Trim(valCodigoDesde), Trim(valCodigoHasta))
       If (valSerial <> "" And valSerial <> "0") Then
-         SQL = SQL & " AND CompraDetalleSerialRollo.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+         Sql = Sql & " AND CompraDetalleSerialRollo.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
       End If
       If (valRollo <> "" And valRollo <> "0") Then
-         SQL = SQL & " AND CompraDetalleSerialRollo.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+         Sql = Sql & " AND CompraDetalleSerialRollo.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
       End If
    End If
-   SQL = SQL & " AND Compra.ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " AND " & gUtilSQL.fSQLValueDateWithComparisonRule("", "Compra.Fecha", valFechaInicial, "<") & ""
-   SQL = SQL & " AND Compra.StatusCompra = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCompra.eSCp_VIGENTE)
-   SQL = SQL & " AND almacen.Codigo LIKE " & gUtilSQL.getIIF(gUtilSQL.fSimpleSqlValue(valCodigoAlmacen) & " <> " & gUtilSQL.fSimpleSqlValue(""), gUtilSQL.fSimpleSqlValue(valCodigoAlmacen), gUtilSQL.fSimpleSqlValue("%"))
-   SQL = SQL & " GROUP BY CodigoArticulo, CodigoAlmacen"
+   Sql = Sql & " AND Compra.ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = Sql & " AND " & gUtilSQL.fSQLValueDateWithComparisonRule("", "Compra.Fecha", valFechaInicial, "<") & ""
+   Sql = Sql & " AND Compra.StatusCompra = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCompra.eSCp_VIGENTE)
+   Sql = Sql & " AND almacen.Codigo LIKE " & gUtilSQL.getIIF(gUtilSQL.fSimpleSqlValue(valCodigoAlmacen) & " <> " & gUtilSQL.fSimpleSqlValue(""), gUtilSQL.fSimpleSqlValue(valCodigoAlmacen), gUtilSQL.fSimpleSqlValue("%"))
+   Sql = Sql & " GROUP BY CodigoArticulo, CodigoAlmacen"
    fQueryCompraSaldoInicial = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
@@ -5445,43 +5446,43 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
 End Function
 
 Public Function fQueryConteoFisicoSaldoInicial(ByVal valFechaInicial As Date, ByVal valConsecutivoCompania As Long, ByVal valTipoArticuloInvAsEnum As Integer, ByVal valCodigoCompuesto As String, ByVal valCodigoDesde As String, ByVal valSerial As String, ByVal valRollo As String, ByVal valCodigoHasta As String, ByVal valCodigoAlmacen As String) As String
-   Dim SQL As String
+   Dim Sql As String
    On Error GoTo h_ERROR
-   SQL = "SELECT RenglonConteoFisico.CodigoArticulo AS CodigoArticulo, ISNULL(SUM(Diferencia) ,0) AS SumCantidad, ConteoFisico.CodigoAlmacen AS CodigoAlmacen"
-   SQL = SQL & " FROM ConteoFisico INNER JOIN RenglonConteoFisico "
-   SQL = SQL & " ON ConteoFisico.ConsecutivoConteo = RenglonConteoFisico.ConsecutivoConteo"
-   SQL = SQL & " AND ConteoFisico.ConsecutivoCompania = RenglonConteoFisico.ConsecutivoCompania"
-   SQL = SQL & " INNER JOIN Almacen ON Almacen.Codigo = ConteoFisico.CodigoAlmacen AND Almacen.ConsecutivoCompania = ConteoFisico.ConsecutivoCompania"
-   SQL = SQL & " WHERE ConteoFisico.ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " AND (" & gUtilSQL.fSQLValueDateWithComparisonRule("", "ConteoFisico.Fecha", valFechaInicial, "<") & ")"
-   SQL = SQL & " AND ConteoFisico.Status = " & gUtilSQL.fSQLSimpleValueForEnum(eSC_PROCESADO)
+   Sql = "SELECT RenglonConteoFisico.CodigoArticulo AS CodigoArticulo, ISNULL(SUM(Diferencia) ,0) AS SumCantidad, ConteoFisico.CodigoAlmacen AS CodigoAlmacen"
+   Sql = Sql & " FROM ConteoFisico INNER JOIN RenglonConteoFisico "
+   Sql = Sql & " ON ConteoFisico.ConsecutivoConteo = RenglonConteoFisico.ConsecutivoConteo"
+   Sql = Sql & " AND ConteoFisico.ConsecutivoCompania = RenglonConteoFisico.ConsecutivoCompania"
+   Sql = Sql & " INNER JOIN Almacen ON Almacen.Codigo = ConteoFisico.CodigoAlmacen AND Almacen.ConsecutivoCompania = ConteoFisico.ConsecutivoCompania"
+   Sql = Sql & " WHERE ConteoFisico.ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = Sql & " AND (" & gUtilSQL.fSQLValueDateWithComparisonRule("", "ConteoFisico.Fecha", valFechaInicial, "<") & ")"
+   Sql = Sql & " AND ConteoFisico.Status = " & gUtilSQL.fSQLSimpleValueForEnum(eSC_PROCESADO)
    If valTipoArticuloInvAsEnum = eTAI_UsaTalla_Color Or valTipoArticuloInvAsEnum = eTAI_UsaTalla_ColorySerial Then
-      SQL = SQL & " AND RenglonConteoFisico.CodigoArticulo = " & gUtilSQL.fSimpleSqlValue(valCodigoCompuesto)
+      Sql = Sql & " AND RenglonConteoFisico.CodigoArticulo = " & gUtilSQL.fSimpleSqlValue(valCodigoCompuesto)
       If valTipoArticuloInvAsEnum = eTAI_UsaTalla_ColorySerial Then
          If (valSerial <> "" And valSerial <> "0") Then
-            SQL = SQL & " AND RenglonConteoFisico.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+            Sql = Sql & " AND RenglonConteoFisico.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
          End If
          If (valRollo <> "" And valRollo <> "0") Then
-            SQL = SQL & " AND RenglonConteoFisico.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+            Sql = Sql & " AND RenglonConteoFisico.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
          End If
       End If
    Else
-      SQL = SQL & " AND " & gUtilSQL.fSQLStringValueBetween("RenglonConteoFisico.CodigoArticulo", Trim(valCodigoDesde), Trim(valCodigoHasta))
+      Sql = Sql & " AND " & gUtilSQL.fSQLStringValueBetween("RenglonConteoFisico.CodigoArticulo", Trim(valCodigoDesde), Trim(valCodigoHasta))
       If valTipoArticuloInvAsEnum = eTAI_UsaSerial Then
          If (valSerial <> "" And valSerial <> "0") Then
-            SQL = SQL & " AND RenglonConteoFisico.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+            Sql = Sql & " AND RenglonConteoFisico.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
          End If
       ElseIf valTipoArticuloInvAsEnum = eTAI_UsaSerial_Rollo Then
          If (valSerial <> "" And valSerial <> "0") Then
-            SQL = SQL & " AND RenglonConteoFisico.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+            Sql = Sql & " AND RenglonConteoFisico.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
          End If
          If (valRollo <> "" And valRollo <> "0") Then
-            SQL = SQL & " AND RenglonConteoFisico.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+            Sql = Sql & " AND RenglonConteoFisico.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
          End If
       End If
    End If
-   SQL = SQL & " AND almacen.Codigo LIKE " & gUtilSQL.getIIF(gUtilSQL.fSimpleSqlValue(valCodigoAlmacen) & " <> " & gUtilSQL.fSimpleSqlValue(""), gUtilSQL.fSimpleSqlValue(valCodigoAlmacen), gUtilSQL.fSimpleSqlValue("%"))
-   SQL = SQL & " GROUP BY CodigoArticulo, CodigoAlmacen"
+   Sql = Sql & " AND almacen.Codigo LIKE " & gUtilSQL.getIIF(gUtilSQL.fSimpleSqlValue(valCodigoAlmacen) & " <> " & gUtilSQL.fSimpleSqlValue(""), gUtilSQL.fSimpleSqlValue(valCodigoAlmacen), gUtilSQL.fSimpleSqlValue("%"))
+   Sql = Sql & " GROUP BY CodigoArticulo, CodigoAlmacen"
 h_EXIT: On Error GoTo 0
    fQueryConteoFisicoSaldoInicial = Sql
    Exit Function
