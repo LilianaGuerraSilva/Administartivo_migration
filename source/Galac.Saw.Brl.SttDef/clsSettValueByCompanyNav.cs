@@ -2582,7 +2582,7 @@ namespace Galac.Saw.Brl.SttDef {
             return vResult;
         }
 
-        void ISettValueByCompanyPdn.GuardarDatosImprentaDigitalAppSettings(eProveedorImprentaDigital valProveedor, string valUsuario, string valClave, string valUrl) {
+        void ISettValueByCompanyPdn.GuardarDatosImprentaDigitalAppSettings(int valConsecutivoCompania, eProveedorImprentaDigital valProveedor, string valUsuario, string valClave, string valUrl) {
             string vCampoUsuario = string.Empty;
             string vCampoClave = string.Empty;
             bool vContinuar = false;
@@ -2599,7 +2599,7 @@ namespace Galac.Saw.Brl.SttDef {
                     Usuario = valUsuario,
                     Clave = LibCryptography.SymEncryptDES(valClave)
                 };
-                insIDStt.ActualizarValores();
+                insIDStt.ActualizarValores(valConsecutivoCompania);
             }
 
         }

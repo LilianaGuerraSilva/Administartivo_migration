@@ -28,6 +28,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         eProveedorImprentaDigital _ProveedorImprentaDigital;
 
         public bool IsDirty { get; private set; }
+
         public override string ModuleName {
             get { return "Actualización de Datos de Conexión"; }
         }
@@ -111,14 +112,15 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             _Usuario = string.Empty;
             _Clave = string.Empty;
         }
-        
+
         #endregion //Metodos Generados
 
         protected void ExecuteActualizarConexion() {
+            int _ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
             if (LibString.IsNullOrEmpty(Usuario) || LibString.IsNullOrEmpty(Clave)) {
                 LibMessages.MessageBox.ValidationError(this, "Los campos Usuario y Clave son obligatorios.", ModuleName);
-            } else {                
-                ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).GuardarDatosImprentaDigitalAppSettings(_ProveedorImprentaDigital, Usuario, Clave, Url);
+            } else {
+                ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).GuardarDatosImprentaDigitalAppSettings(_ConsecutivoCompania, _ProveedorImprentaDigital, Usuario, Clave, Url);
                 RaiseRequestCloseEvent();
             }
         }

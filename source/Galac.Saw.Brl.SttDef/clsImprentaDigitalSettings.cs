@@ -48,11 +48,10 @@ namespace Galac.Saw.Brl.SttDef {
         #region Constructor
         public clsImprentaDigitalSettings() {
             Clear();
-            DireccionURL = LibAppSettings.ReadAppSettingsKey("DIRECCIONURL");
-            CampoUsuario = LibAppSettings.ReadAppSettingsKey("CAMPOUSUARIO");
-            Usuario = LibAppSettings.ReadAppSettingsKey("USUARIO");
-            CampoClave = LibAppSettings.ReadAppSettingsKey("CAMPOCLAVE");
-            Clave = ObtenerClaveEncriptada();
+            //DireccionURL = LibAppSettings.ReadAppSettingsKey("DIRECCIONURL");
+            //CampoUsuario = LibAppSettings.ReadAppSettingsKey("CAMPOUSUARIO");
+            //Usuario = LibAppSettings.ReadAppSettingsKey("USUARIO");
+            //CampoClave = LibAppSettings.ReadAppSettingsKey("CAMPOCLAVE");            
         }
         #endregion //Constructor
         #region Metodos Generados
@@ -63,27 +62,28 @@ namespace Galac.Saw.Brl.SttDef {
             CampoClave = string.Empty;
             Clave = string.Empty;
         }
-        public string ObtenerClaveEncriptada() {
-            LibAppConfig.UseExternalConfig = false;
-            if (LaClaveEstaEncriptada()) {
-                return LibAppSettings.ReadAppSettingsKey("CLAVE-E");
-            } else {
-                return EncriptarClave();
-            }
-        }
-        private static bool LaClaveEstaEncriptada() {
+        //public string ObtenerClaveEncriptadaP() {
+        //    LibAppConfig.UseExternalConfig = false;
+        //    if (LaClaveEstaEncriptada()) {
+        //        return LibAppSettings.ReadAppSettingsKey("CLAVE-E");
+        //    } else {
+        //        return EncriptarClave();
+        //    }
+        //}
+        private static bool LaClaveEstaEncriptadaP() {
             bool vKeyClaveEstaVacio = LibString.S1IsEqualToS2(LibAppSettings.ReadAppSettingsKey("CLAVE"), "");
             bool vKeyClaveEncriptadaTieneValor = !LibString.S1IsEqualToS2(LibAppSettings.ReadAppSettingsKey("CLAVE-E"), "");
             return vKeyClaveEstaVacio && vKeyClaveEncriptadaTieneValor;
         }
-        private string EncriptarClave() {
-            string vClaveEncriptada = LibCryptography.SymEncryptDES(LibAppSettings.ReadAppSettingsKey("CLAVE"));
-            ConfigHelper.AddKeyToAppSettings("CLAVE", string.Empty);
-            ConfigHelper.AddKeyToAppSettings("CLAVE-E", vClaveEncriptada);
-            return vClaveEncriptada;
-        }
 
-        public void ActualizarValores() {
+        //private string EncriptarClaveP() {
+        //    string vClaveEncriptada = LibCryptography.SymEncryptDES(LibAppSettings.ReadAppSettingsKey("CLAVE"));
+        //    ConfigHelper.AddKeyToAppSettings("CLAVE", string.Empty);
+        //    ConfigHelper.AddKeyToAppSettings("CLAVE-E", vClaveEncriptada);
+        //    return vClaveEncriptada;
+        //}
+
+        public void ActualizarValores(int valConsecutivoCompania) {
             string vClaveAppSst = LibAppSettings.ReadAppSettingsKey("CLAVE");
             string vClaveEncriptada = LibString.IsNullOrEmpty(vClaveAppSst) ? LibCryptography.SymEncryptDES(Clave) : LibCryptography.SymEncryptDES(vClaveAppSst);
             ConfigHelper.AddKeyToAppSettings("DIRECCIONURL", DireccionURL);

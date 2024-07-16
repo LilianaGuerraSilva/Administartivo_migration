@@ -13,9 +13,18 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 	class clsVersionTemporalNoOficial : clsVersionARestructurar {
 		public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
 		public override bool UpdateToVersion() {
-			StartConnectionNoTransaction();	
-			DisposeConnectionNoTransaction();
+			StartConnectionNoTransaction();
+			AgregarColumnasEnCompania();
+            DisposeConnectionNoTransaction();
 			return true;
 		}
+
+		private void AgregarColumnasEnCompania() {
+			AddColumnString("Compania", "ImprentaDigitalUrl", 500,"","");			
+            AddColumnString("Compania", "ImprentaDigitalNombreCampoUsuario", 50, "", "");
+            AddColumnString("Compania", "ImprentaDigitalNombreCampoClave", 50, "", "");
+            AddColumnString("Compania", "ImprentaDigitalUsuario", 100, "", "");
+            AddColumnString("Compania", "ImprentaDigitalClave", 500, "", "");            
+        }
 	}
 }
