@@ -75,7 +75,7 @@
                     Width="140"
                     nsWpf:LibFocusManager.FocusedPropertyName="Codigo"
                     nsWpf:LibFocusManager.IsFocused="True"
-                    InputDataType="Digit"                   
+                    InputDataType="Alfanumeric"
                     IsEnabled="{Binding Path=IsEnabledCodigoDeVendedor}"
                     MaxLength="5"
                     Style="{StaticResource TextBoxInputStyle}"
