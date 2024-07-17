@@ -420,7 +420,7 @@ namespace Galac.Adm.Dal.Vendedor {
                 return false;
             } else if (valAction == eAccionSR.Insertar) {
                 if (UniqueKeyExists(valConsecutivoCompania, valCodigo)) {
-                    BuildValidationInfo(MsgFieldValueAlreadyExist("Código", valCodigo));
+                    BuildValidationInfo("Ya existe un Vendedor con el código: " + valCodigo);
                     return false;
                 }
             }

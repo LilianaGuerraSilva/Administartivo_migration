@@ -75,12 +75,11 @@
                     Width="140"
                     nsWpf:LibFocusManager.FocusedPropertyName="Codigo"
                     nsWpf:LibFocusManager.IsFocused="True"
-                    InputDataType="Alfanumeric"
-                    IsEnabled="{Binding Path=IsEnabled}"
-                    IsReadOnly="True"
+                    InputDataType="Digit"                   
+                    IsEnabled="{Binding Path=IsEnabledCodigoDeVendedor}"
                     MaxLength="5"
                     Style="{StaticResource TextBoxInputStyle}"
-                    Text="{Binding Path=Codigo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                    Text="{Binding Path=Codigo, NotifyOnValidationError=True, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <Label
                     Name="lblNombreVendedor"
                     Grid.Row="1"
