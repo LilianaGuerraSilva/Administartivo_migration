@@ -1,5 +1,4 @@
-﻿using LibGalac.Aos.Base;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,14 +18,6 @@ namespace Galac.Adm.Uil.Vendedor.Views {
     public partial class GSVendedorView : UserControl {
         public GSVendedorView() {
             InitializeComponent();
-            txtCodigo.LostFocus += TxtCodigo_LostFocus;
-        }
-
-        private void TxtCodigo_LostFocus(object sender, RoutedEventArgs e) {
-            txtCodigo.Text = LibText.EraseCharacter(txtCodigo.Text, "\u0020");
-            if (!LibString.IsNullOrEmpty(txtCodigo.Text) && LibString.Len(txtCodigo.Text) < 5) {
-                txtCodigo.Text = LibText.FillWithCharToLeft(txtCodigo.Text, "0", 5);
-            }
         }
     }
 }

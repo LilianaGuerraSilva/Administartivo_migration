@@ -113,8 +113,8 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 return Model.Codigo;
             }
             set {
-                if (Model.Codigo != value) {
-                    Model.Codigo = value;
+                if (Model.Codigo != value) {                    
+                    Model.Codigo = (LibString.IsNullOrEmpty(value) ? String.Empty : LibText.FillWithCharToLeft(value, "0", 5));
                     IsDirty = true;
                     RaisePropertyChanged(CodigoPropertyName);
                 }

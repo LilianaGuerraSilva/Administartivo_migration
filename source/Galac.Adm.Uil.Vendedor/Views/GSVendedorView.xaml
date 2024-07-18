@@ -79,7 +79,7 @@
                     IsEnabled="{Binding Path=IsEnabledCodigoDeVendedor}"
                     MaxLength="5"
                     Style="{StaticResource TextBoxInputStyle}"
-                    Text="{Binding Path=Codigo, NotifyOnValidationError=True, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                    Text="{Binding Path=Codigo, NotifyOnValidationError=True, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=LostFocus}" />
                 <Label
                     Name="lblNombreVendedor"
                     Grid.Row="1"
