@@ -19,7 +19,9 @@ Attribute VB_Exposed = False
 Option Explicit
 Private Const CM_FILE_NAME As String = "rptLibroDeCompras"
 Private Const CM_MESSAGE_NAME As String = "Reporte Libro de Compras"
+Private Const GetGender = Enum_Gender.eg_Male
 Private Const ERR_NOHAYIMPRESORA = 5007
+Private Const CM_SUB_INFORME_DE_PRORRATEO As Integer = 0
 Private mRepFechaInicioMes As Date
 Private mFechaDeHoy As String
 Private mSumExoneradas As Currency
@@ -51,9 +53,6 @@ Private gFacturaNav As Object
 Private gProyCompaniaActual As Object
 Private gNoComun As Object
 Private gRPTFacturaConfigurar As Object
-Private Function CM_SUB_INFORME_DE_PRORRATEO() As Integer
-   CM_SUB_INFORME_DE_PRORRATEO = 0
-End Function
 
 Public Sub sConfigurarDatosDelReporte(ByVal valSqlDelReporte As String, ByVal valMes As String, ByVal ValAno As String, ByVal valPorcentajeProrrateo As Currency, ByVal valMostrarInformeDeProrrateo As Boolean, ByVal valMostrarResumenDeVentas As Boolean, ByVal valNombreCompaniaParaInformes As String, ByRef refInsFactura As Object, ByRef refInsCompaniaActual As Object, ByRef refInsNoComun As Object, ByRef refInsRPTFacturaConfigurar As Object, ByRef gGlobalization As Object, ByRef gAdmAlicuotaIvaActual As Object, ByVal valFechaDesde As Date, ByVal valFechaHasta As Date, ByRef valCreditosFiscalesTotalmenteDeducibles As Currency, ByRef valCreditosProrrateablesParcialmenteDeducibles As Currency, Optional ByVal valAplicaAContribuyentesEpeciales As Boolean = False)
    Dim SubRptInformeDeProrrateo As DDActiveReports2.ActiveReport
@@ -204,10 +203,6 @@ h_EXIT: On Error GoTo 0
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "ActiveReport_Error", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Private Function GetGender() As Enum_Gender
-   GetGender = eg_Male
-End Function
-
 Private Sub ActiveReport_PageStart()
    On Error GoTo h_ERROR
    lblNumeroDePagina.Caption = "Pág. " & pageNumber
@@ -231,12 +226,9 @@ Private Sub Detail_Format()
       txtNoCausaImpuesto.Text = "0,00"
    Else
       Select Case DcOrigenData.Recordset!tipoDeCompra
-         Case eTD_COMPRASNACIONALES
-            sLlenarCamposDeComprasInternas
-         Case eTD_COMPRASIMPORTACION
-            sLlenarCamposDeComprasDeImportacion
-         Case eTD_COMPRASEXENTAS, eTD_COMPRASEXONERADAS, eTD_COMPRASNOSUJETAS, eTD_COMPRASSINDERECHOACREDITO
-            sLlenarCamposYAcumuladoresDeComprasSinImpuesto
+         Case eTD_COMPRASNACIONALES: sLlenarCamposDeComprasInternas
+         Case eTD_COMPRASIMPORTACION: sLlenarCamposDeComprasDeImportacion
+         Case eTD_COMPRASEXENTAS, eTD_COMPRASEXONERADAS, eTD_COMPRASNOSUJETAS, eTD_COMPRASSINDERECHOACREDITO: sLlenarCamposYAcumuladoresDeComprasSinImpuesto
       End Select
    End If
    mSumNoCausaImpuesto = mSumNoCausaImpuesto + gConvert.fConvierteACurrency(txtNoCausaImpuesto.Text)
@@ -260,7 +252,7 @@ Private Sub sLlenarCamposDeComprasInternas()
    On Error GoTo h_ERROR
    If Not DcOrigenData.Recordset.EOF Then
       Select Case DcOrigenData.Recordset!creditoFiscal
-          Case eCF_DEDUCIBLE
+         Case eCF_DEDUCIBLE
             txtCreditosDEPD.Visible = True
             txtNoCausaImpuesto.Text = gConvert.FormatoNumerico(DcOrigenData.Recordset!MontoExentoConMoneda, False)
             If gConvert.fConvierteACurrency(DcOrigenData.Recordset!MontoGravableAlicuotaGeneralxCambio) <> 0 Then
@@ -403,14 +395,10 @@ Private Sub sLlenarCamposYAcumuladoresDeComprasSinImpuesto()
    txtNoCausaImpuesto.Text = txtTotalComprasIncluyendoIva.Text
    If Not DcOrigenData.Recordset.EOF Then
       Select Case DcOrigenData.Recordset!tipoDeCompra
-         Case eTD_COMPRASEXENTAS
-              mSumExentas = mSumExentas + gConvert.fConvierteACurrency(txtNoCausaImpuesto)
-         Case eTD_COMPRASEXONERADAS
-              mSumExoneradas = mSumExoneradas + gConvert.fConvierteACurrency(txtNoCausaImpuesto)
-         Case eTD_COMPRASSINDERECHOACREDITO
-              mSumSinDerechoCredito = mSumSinDerechoCredito + gConvert.fConvierteACurrency(txtNoCausaImpuesto)
-         Case eTD_COMPRASNOSUJETAS
-              mSumNoSujetas = mSumNoSujetas + gConvert.fConvierteACurrency(txtNoCausaImpuesto)
+         Case eTD_COMPRASEXENTAS: mSumExentas = mSumExentas + gConvert.fConvierteACurrency(txtNoCausaImpuesto)
+         Case eTD_COMPRASEXONERADAS: mSumExoneradas = mSumExoneradas + gConvert.fConvierteACurrency(txtNoCausaImpuesto)
+         Case eTD_COMPRASSINDERECHOACREDITO: mSumSinDerechoCredito = mSumSinDerechoCredito + gConvert.fConvierteACurrency(txtNoCausaImpuesto)
+         Case eTD_COMPRASNOSUJETAS: mSumNoSujetas = mSumNoSujetas + gConvert.fConvierteACurrency(txtNoCausaImpuesto)
       End Select
    End If
 h_EXIT: On Error GoTo 0
@@ -461,7 +449,7 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInicializaAcumuladores", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 Private Sub sConfiguraLosPorcentajesDeLasAlicuotasDelIVA(ByRef gAdmAlicuotaIvaActual As Object)
-On Error GoTo h_ERROR
+   On Error GoTo h_ERROR
    mPorcentajeIVAAlicuotaGeneral = gAdmAlicuotaIvaActual.GetAlicuotaIVA(mRepFechaInicioMes, eTD_ALICUOTAGENERAL)
    mPorcentajeIVAAlicuota2 = gAdmAlicuotaIvaActual.GetAlicuotaIVA(mRepFechaInicioMes, eTD_ALICUOTA2)
    mPorcentajeIVAAlicuota3 = gAdmAlicuotaIvaActual.GetAlicuotaIVA(mRepFechaInicioMes, eTD_ALICUOTA3)
@@ -512,12 +500,13 @@ End Sub
 Private Sub sCalculaYDevuelveBaseImponibleEImpuestoConProrrateo(ByRef refBaseImponibleProrrateda As Currency, ByRef refImpuestoIVAProrrateado As Currency)
    Dim varBaseImponibleProrrateable As Currency
    On Error GoTo h_ERROR
-   refBaseImponibleProrrateda = gConvert.fTruncaANDecimales(gConvert.fConvierteACurrency((DcOrigenData.Recordset!MontoGravableAlicuotaGeneralxCambio * mPorcentajeProrrateo) / 100), 2) _
-         + gConvert.fTruncaANDecimales(gConvert.fConvierteACurrency((DcOrigenData.Recordset!MontoGravableAlicuota2xCambio * mPorcentajeProrrateo) / 100), 2) _
-         + gConvert.fTruncaANDecimales(gConvert.fConvierteACurrency((DcOrigenData.Recordset!MontoGravableAlicuota3xCambio * mPorcentajeProrrateo) / 100), 2)
-   refImpuestoIVAProrrateado = gConvert.fTruncaANDecimales(gConvert.fConvierteACurrency((DcOrigenData.Recordset!MontoIVAAlicuotaGeneralxCambio * mPorcentajeProrrateo) / 100), 2) _
-         + gConvert.fTruncaANDecimales(gConvert.fConvierteACurrency((DcOrigenData.Recordset!MontoIVAAlicuota2xCambio * mPorcentajeProrrateo) / 100), 2) _
-         + gConvert.fTruncaANDecimales(gConvert.fConvierteACurrency((DcOrigenData.Recordset!MontoIVAAlicuota3xCambio * mPorcentajeProrrateo) / 100), 2)
+   refBaseImponibleProrrateda = gConvert.fTruncaANDecimales(gConvert.fConvierteACurrency((dcOrigenData.Recordset!MontoGravableAlicuotaGeneralxCambio * mPorcentajeProrrateo) / 100), 2)
+   refBaseImponibleProrrateda = refBaseImponibleProrrateda + gConvert.fTruncaANDecimales(gConvert.fConvierteACurrency((dcOrigenData.Recordset!MontoGravableAlicuota2xCambio * mPorcentajeProrrateo) / 100), 2)
+   refBaseImponibleProrrateda = refBaseImponibleProrrateda + gConvert.fTruncaANDecimales(gConvert.fConvierteACurrency((dcOrigenData.Recordset!MontoGravableAlicuota3xCambio * mPorcentajeProrrateo) / 100), 2)
+   
+   refImpuestoIVAProrrateado = gConvert.fTruncaANDecimales(gConvert.fConvierteACurrency((dcOrigenData.Recordset!MontoIVAAlicuotaGeneralxCambio * mPorcentajeProrrateo) / 100), 2)
+   refImpuestoIVAProrrateado = refImpuestoIVAProrrateado + gConvert.fTruncaANDecimales(gConvert.fConvierteACurrency((dcOrigenData.Recordset!MontoIVAAlicuota2xCambio * mPorcentajeProrrateo) / 100), 2)
+   refImpuestoIVAProrrateado = refImpuestoIVAProrrateado + gConvert.fTruncaANDecimales(gConvert.fConvierteACurrency((dcOrigenData.Recordset!MontoIVAAlicuota3xCambio * mPorcentajeProrrateo) / 100), 2)
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sCalculaYDevuelveBaseImponibleEImpuestoConProrrateo", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -544,8 +533,7 @@ Private Sub sAsignaLosValoresParaLosCreditosDeducibles(ByVal valMes As String, B
    Dim porcentaje As Currency
    Dim TotalCreditosParcialDeducibles As Currency
    On Error GoTo h_ERROR
-   gNoComun.sCalculaPorcentajeAplicable porcentaje, mCreditosFiscalesTotalmenteDeducibles, _
-               mCreditosProrrateables, TotalCreditosParcialDeducibles, valMes, ValAno, valFechaDesde, valFechaHasta
+   gNoComun.sCalculaPorcentajeAplicable porcentaje, mCreditosFiscalesTotalmenteDeducibles, mCreditosProrrateables, TotalCreditosParcialDeducibles, valMes, ValAno, valFechaDesde, valFechaHasta
    mTotalCreditosFiscalesDeducibles = mCreditosFiscalesTotalmenteDeducibles + mCreditosProrrateables
 h_EXIT: On Error GoTo 0
    Exit Sub
