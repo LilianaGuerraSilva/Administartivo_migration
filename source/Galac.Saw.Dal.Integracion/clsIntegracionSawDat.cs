@@ -90,7 +90,6 @@ namespace Galac.Saw.Dal.Integracion {
             }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "Integracion.Eliminar")]
         LibResponse ILibDataComponent<IList<IntegracionSaw>, IList<IntegracionSaw>>.Delete(IList<IntegracionSaw> refRecord) {
             LibResponse vResult = new LibResponse();
             string vErrMsg = "";
@@ -122,7 +121,6 @@ namespace Galac.Saw.Dal.Integracion {
             return vResult;
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "Integracion.Insertar")]
         LibResponse ILibDataComponent<IList<IntegracionSaw>, IList<IntegracionSaw>>.Insert(IList<IntegracionSaw> refRecord) {
             LibResponse vResult = new LibResponse();
             string vErrMsg = "";
@@ -156,7 +154,6 @@ namespace Galac.Saw.Dal.Integracion {
             return vResult;
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "Integracion.Modificar")]
         LibResponse ILibDataComponent<IList<IntegracionSaw>, IList<IntegracionSaw>>.Update(IList<IntegracionSaw> refRecord) {
             LibResponse vResult = new LibResponse();
             string vErrMsg ="";
