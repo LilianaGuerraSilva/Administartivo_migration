@@ -272,6 +272,8 @@ namespace Galac.Saw.Brl.SttDef {
             insEntidad.EsSistemaParaIGAsBool = false;
             insEntidad.UsaNotaEntregaAsBool = false;
             insEntidad.SuscripcionGVentas = "1000";
+            insEntidad.NumeroIDGVentas = "";
+            insEntidad.SerialConectorGVentas = "";
             return insEntidad;
         }
         private void LlenaListado(GeneralStt valRecord, ref List<SettValueByCompany> valBusinessObject, int valConsecutivoCompania) {
@@ -284,6 +286,8 @@ namespace Galac.Saw.Brl.SttDef {
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.ValidarRifEnLaWebAsBool), "ValidarRifEnLaWeb", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaNotaEntregaAsBool), "UsaNotaEntrega", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(valRecord.SuscripcionGVentas, "SuscripcionGVentas", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(valRecord.SerialConectorGVentas, "SerialConectorGVentas", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(valRecord.NumeroIDGVentas, "NumeroIDGVentas", valConsecutivoCompania));
         }
 
         GeneralStt GetGeneralStt(List<SettValueByCompany> valListGetSettValueByCompany) {
@@ -299,6 +303,8 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.EsSistemaParaIGAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "EsSistemaParaIG"));
             vResult.UsaNotaEntregaAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaNotaEntrega"));
             vResult.SuscripcionGVentas = ValorSegunColumna(valListGetSettValueByCompany, "SuscripcionGVentas");
+            vResult.NumeroIDGVentas = ValorSegunColumna(valListGetSettValueByCompany, "NumeroIDGVentas");
+            vResult.SerialConectorGVentas = ValorSegunColumna(valListGetSettValueByCompany, "SerialConectorGVentas");
             return vResult;
         }
         #endregion // GeneralStt
@@ -2619,7 +2625,7 @@ namespace Galac.Saw.Brl.SttDef {
             return vResult;
         }
 
-        bool ISettValueByCompanyPdn.EjecutaConexionConGVentas(int valConsecutivoCompania, string valParametroSuscripcionGVentas, string valSerialConectorGVentas, string valNombreCompaniaAdmin, string valNombreUsuarioOperaciones) {
+        bool ISettValueByCompanyPdn.EjecutaConexionConGVentas(int valConsecutivoCompania, string valParametroSuscripcionGVentas, string valSerialConectorGVentas, string valNombreCompaniaAdmin, string valNombreUsuarioOperaciones, eAccionSR valAction) {
             try {
                 bool vResult = false;
                 LibWebConnector.clsSuscripcion insSuscripcion = new LibWebConnector.clsSuscripcion();
@@ -2628,8 +2634,12 @@ namespace Galac.Saw.Brl.SttDef {
                 int vGuionSeparador = LibString.IndexOf(valNombreCompaniaAdmin, '|') + 1;
                 string vRIFCompaniaGVentas = LibString.Trim(LibString.SubString(valNombreCompaniaAdmin, vGuionSeparador + 1));
                 valNombreCompaniaAdmin = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre");
-                if (insSuscripcion.ActivarConexionGVentas(valConsecutivoCompania, valSerialConectorGVentas, vRIFCompaniaGVentas, valNombreCompaniaAdmin, valNombreUsuarioOperaciones, vDatabaseName, vServerName)) {
-                    ActualizaValoresEnAdministrativo(valConsecutivoCompania, valParametroSuscripcionGVentas, valSerialConectorGVentas, valNombreCompaniaAdmin);
+                if (insSuscripcion.ActivarDesactivarConexionGVentas(valConsecutivoCompania, valSerialConectorGVentas, vRIFCompaniaGVentas, valNombreCompaniaAdmin, valNombreUsuarioOperaciones, vDatabaseName, vServerName, valAction)) {
+                    if (valAction == eAccionSR.Activar) {
+                        ActualizaValoresEnAdministrativo(valConsecutivoCompania, valParametroSuscripcionGVentas, valSerialConectorGVentas, valNombreCompaniaAdmin, valAction);
+                    } else if (valAction == eAccionSR.Desactivar) {
+                        ActualizaValoresEnAdministrativo(valConsecutivoCompania, "", "", "", valAction);
+                    }
                     vResult = true;
                 }
                 return vResult;
@@ -2638,9 +2648,10 @@ namespace Galac.Saw.Brl.SttDef {
             }
         }
 
-        private void ActualizaValoresEnAdministrativo(int valConsecutivoCompania, string valParametroSuscripcionGVentas, string valSerialConectorGVentas, string valNumeroIDGVentas) {
+        private void ActualizaValoresEnAdministrativo(int valConsecutivoCompania, string valParametroSuscripcionGVentas, string valSerialConectorGVentas, string valNumeroIDGVentas, eAccionSR valAction) {
             QAdvSql insSql = new QAdvSql("");
-            string vSql = "UPDATE COMPANIA SET ConectadaConG360 = " + insSql.ToSqlValue(true) + " WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania);
+            string vActivaDesactivaCompania = (valAction == eAccionSR.Activar ? insSql.ToSqlValue(true) : insSql.ToSqlValue(false));
+            string vSql = "UPDATE COMPANIA SET ConectadaConG360 = " + vActivaDesactivaCompania + " WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania);
             LibBusiness.ExecuteUpdateOrDelete(vSql, null, "", 0);
             vSql = "UPDATE Comun.SettValueByCompany SET Value = " + insSql.ToSqlValue(valParametroSuscripcionGVentas) + " WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania) + " AND NameSettDefinition = " + insSql.ToSqlValue("SuscripcionGVentas");
             LibBusiness.ExecuteUpdateOrDelete(vSql, null, "", 0);

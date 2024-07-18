@@ -125,6 +125,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 InquilinoNombre = LibString.IsNullOrEmpty(SuscripcionGVentas.TenantNombre) ? "No se encontró información del inquilino." : SuscripcionGVentas.TenantNombre;
                 LlenaListaCompaniaGVentas();
                 LlenaListaUsuariosSupervisoresActivos();
+                Title = ModuleName + " / " + LibEnumHelper.GetDescription(mAction);
             } catch (Exception vEx) {
                 InquilinoNombre = "No se encontró información del inquilino.";
                 LibGalac.Aos.UI.Wpf.LibExceptionDisplay.Show(vEx);
@@ -174,13 +175,15 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private bool ValidaAlGrabar() {
             bool vResult = true;
-            if (LibString.IsNullOrEmpty(SerialConector, true)) {
-                vResult = false;
-                LibMessages.MessageBox.Alert(this, "El valor del Serial del Conector Web es obligatorio.", ModuleName);
-            } else if (LibString.Len(SerialConector) != 36) {
-                vResult = false;
-                LibMessages.MessageBox.Alert(this, "La longitud del valor proporcionado para Serial del Conector Web no es válida.", ModuleName);
-            }           
+            if (mAction == eAccionSR.Activar) {
+                if (LibString.IsNullOrEmpty(SerialConector, true)) {
+                    vResult = false;
+                    LibMessages.MessageBox.Alert(this, "El valor del Serial del Conector Web es obligatorio.", ModuleName);
+                } else if (LibString.Len(SerialConector) != 36) {
+                    vResult = false;
+                    LibMessages.MessageBox.Alert(this, "La longitud del valor proporcionado para Serial del Conector Web no es válida.", ModuleName);
+                }                
+            }
             if (LibString.IsNullOrEmpty(CompaniaGVentasNombres, true)) {
                 vResult = false;
                 LibMessages.MessageBox.Alert(this, "La compañia no puede estar en blanco, debe seleccionar una de la lista.", ModuleName);
@@ -197,8 +200,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 } else {
                     vParametroSuscripcionGVentas = "1000";
                 }
-                if (((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).EjecutaConexionConGVentas(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), vParametroSuscripcionGVentas, SerialConector, CompaniaGVentasNombres, UsuarioDeOperaciones)) {
-                    LibMessages.MessageBox.Information(this, "Conexión entre Administrativo y G-Ventas realizada con éxito.", ModuleName);
+                if (((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).EjecutaConexionConGVentas(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), vParametroSuscripcionGVentas, SerialConector, CompaniaGVentasNombres, UsuarioDeOperaciones, mAction)) {
+                    if (mAction == eAccionSR.Activar) {
+                        LibMessages.MessageBox.Information(this, "Conexión entre Administrativo y G-Ventas realizada con éxito.", ModuleName);
+                    }
+                    else if(mAction == eAccionSR.Desactivar) {
+                        LibMessages.MessageBox.Information(this, "Desconexión entre Administrativo y G-Ventas realizada con éxito.", ModuleName);
+                    }                    
                     RaiseRequestCloseEvent();
                 }
             } catch (GalacException vGx) {
@@ -213,7 +221,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             if (LibString.IsNullOrEmpty(SuscripcionGVentas.TenantNombre, true)) {
                 ListaCompaniaGVentasNombres = new ObservableCollection<string>();
             } else {
-                ListaCompaniaGVentasNombres = new LibWebConnector.clsSuscripcion().GetCompaniaGVentas("");
+                ListaCompaniaGVentasNombres = new LibWebConnector.clsSuscripcion().GetCompaniaGVentas();
+                if (mAction == eAccionSR.Desactivar) {
+                    CompaniaGVentasNombres = ListaCompaniaGVentasNombres[0];
+                }
             }
         }
 
@@ -247,20 +258,36 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             int vSeparador = LibString.IndexOf(CompaniaGVentasNombres, '|');
             string vRif = LibString.Trim(LibString.SubString(CompaniaGVentasNombres, vSeparador + 1));
             string vNombre = LibString.Trim(LibString.SubString(CompaniaGVentasNombres, 0, vSeparador - 1));
-            vMensaje.Append("Los datos de Nombre y RIF de la compañía en el Sistema Administrativo ");
-            vMensaje.AppendLine("deben coincidir con los datos de la compañía con la cual va a conectarse en G-Ventas.");
-            vMensaje.AppendLine();
+            if (mAction == eAccionSR.Activar) {
+                vMensaje.Append("Los datos de Nombre y RIF de la compañía en el Sistema Administrativo ");
+                vMensaje.AppendLine("deben coincidir con los datos de la compañía con la cual va a conectarse en G-Ventas.");
+                vMensaje.AppendLine();
+            }
             vMensaje.AppendLine("Sistema Administrativo: " + CompaniaActualRIF + " - " + CompaniaActualNombre);
             vMensaje.AppendLine("G-Ventas: " + vRif + " - " + vNombre);
             vMensaje.AppendLine();
-            vMensaje.Append("Al establecer la conexión, los datos de la compañía ");
-            vMensaje.Append("en G-Ventas serán actualizados ");
-            vMensaje.AppendLine("con los datos de la compañía en el Sistema Administrativo.");
-            vMensaje.AppendLine();
+            if (mAction == eAccionSR.Activar) {
+                vMensaje.Append("Al establecer la conexión, los datos de la compañía ");
+                vMensaje.Append("en G-Ventas serán actualizados ");
+                vMensaje.AppendLine("con los datos de la compañía en el Sistema Administrativo.");
+                vMensaje.AppendLine();
+            } else if (mAction == eAccionSR.Desactivar) {
+                vMensaje.Append("Al desactivar la conexión, los datos de la compañía ");
+                vMensaje.Append("en G-Ventas serán desvinculados ");
+                vMensaje.AppendLine("de los datos de la compañía en el Sistema Administrativo.");
+            }
             vMensaje.Append("¿Desea continuar?");
             vResult = LibMessages.MessageBox.YesNo(this, vMensaje.ToString(), "Conexión con G-Ventas");
             return vResult;
         }
+
+        public bool IsVisibleDatosEmpresa {
+            get {
+                return mAction == eAccionSR.Activar;
+            }
+        }
+
+
     } //End of class ConexionGVentasViewModel
 } //End of namespace Galac..Uil.SttDef
 

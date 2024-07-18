@@ -202,13 +202,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnabledPlantillaNotaEntrega {
             get {
-                return (ModeloNotaEntrega == eModeloDeFactura.eMD_OTRO) && UsaImprentaDigital();
+                return IsEnabled && (ModeloNotaEntrega == eModeloDeFactura.eMD_OTRO) && !UsaImprentaDigital();
             }
         }
 
         public bool IsEnabledModeloNotaEntrega {
             get {
-                return !UsaImprentaDigital();
+                return IsEnabled && !UsaImprentaDigital();
             }
         }
 
@@ -226,7 +226,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnabledTipoPrefijo {
             get {
-                return Model.NotaEntregaPreNumeradaAsBool && !UsaImprentaDigital();
+                return IsEnabled && Model.NotaEntregaPreNumeradaAsBool && !UsaImprentaDigital();
             }
         }
 
@@ -244,19 +244,19 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnabledNotaEntregaPreNumerada {
             get {
-                return !UsaImprentaDigital();
+                return IsEnabled && !UsaImprentaDigital();
             }
         }
 
         public bool IsEnabledModeloNotaEntregaModoTexto {
             get {
-                return !UsaImprentaDigital();
+                return IsEnabled && !UsaImprentaDigital();
             }
         }
 
         public bool IsEnabledOrdenDeDespacho {
             get {
-                return !UsaImprentaDigital();
+                return IsEnabled && !UsaImprentaDigital();
             }
         }
 
