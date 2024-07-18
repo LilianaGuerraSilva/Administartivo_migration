@@ -219,18 +219,18 @@ namespace Galac.Saw.LibWebConnector {
             return GetCaracteristicaGVentas(GetNroDeIdentificacionFiscal());
         }
 
-        public bool ActivarConexionGVentas(int valConsecutivoCompania, string valSerialConectorGVentas, string valRIFCompaniaGVentas, string valNombreCompaniaAdministartivo, string valNombreUsuarioOperaciones, string valDatabaseName, string valServerName) {
+        public bool ActivarDesactivarConexionGVentas(int valConsecutivoCompania, string valSerialConectorGVentas, string valRIFCompaniaGVentas, string valNombreCompaniaAdministartivo, string valNombreUsuarioOperaciones, string valDatabaseName, string valServerName, eAccionSR valAction) {
             bool vResult = false;
             string vMensaje = string.Empty;
             try {
                 DatosDeConexion insDatosDeConexion = new DatosDeConexion();
-                insDatosDeConexion.baseDeDatos = valDatabaseName;
-                insDatosDeConexion.servidor = valServerName;
-                insDatosDeConexion.usuario = valNombreUsuarioOperaciones;
+                insDatosDeConexion.baseDeDatos = (valAction == eAccionSR.Activar ? valDatabaseName : "");
+                insDatosDeConexion.servidor = (valAction == eAccionSR.Activar ? valServerName : "");
+                insDatosDeConexion.usuario = (valAction == eAccionSR.Activar ? valNombreUsuarioOperaciones : "");
                 insDatosDeConexion.companiaRif = valRIFCompaniaGVentas;
                 insDatosDeConexion.rifDeLicencia = GetNroDeIdentificacionFiscal();
                 insDatosDeConexion.companiaNombre = valNombreCompaniaAdministartivo;
-                insDatosDeConexion.serialDeConexion = valSerialConectorGVentas;
+                insDatosDeConexion.serialDeConexion = (valAction == eAccionSR.Activar ? valSerialConectorGVentas : "");
                 insDatosDeConexion.consecutivoCompania = LibConvert.ToStr(valConsecutivoCompania);
                 string JSonData = JsonConvert.SerializeObject(insDatosDeConexion, Formatting.Indented);
                 if (GetResponsePUT(@"/api/saas/tenants/configurar-conexion-de-la-compania", JSonData, ref vMensaje)) {
@@ -243,7 +243,7 @@ namespace Galac.Saw.LibWebConnector {
                 throw;
             }
         }
-
+     
         public int GetCantidadDeUsuariosActivos(string valNumeroDeIdentificacion) {
             int vResult = -1;
             //try {
@@ -261,7 +261,7 @@ namespace Galac.Saw.LibWebConnector {
             return vResult;
         }
 
-        public ObservableCollection<string> GetCompaniaGVentas(string valURI) {
+        public ObservableCollection<string> GetCompaniaGVentas() {
             ObservableCollection<string> vResult = new ObservableCollection<string>();
             ObservableCollection<CompaniasDelTenant> vListaCompaniasDelTenant = new ObservableCollection<CompaniasDelTenant>();
             try {

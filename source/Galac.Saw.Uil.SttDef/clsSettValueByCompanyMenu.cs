@@ -23,7 +23,7 @@ namespace Galac.Saw.Uil.SttDef {
         #region Metodos Generados
         #region Miembros de ILibMenuMultiFile
         void ILibMenuMultiFile.Ejecuta(eAccionSR valAction, int valUseInterop, IDictionary<string, XmlDocument> refGlobalValues) {
-            if (valAction == eAccionSR.Activar) {//Conexión con G-Ventas
+            if (valAction == eAccionSR.Activar || valAction == eAccionSR.Desactivar) {//Conexión con G-Ventas
                 ConexionGVentasViewModel vViewModel = new ConexionGVentasViewModel(valAction);
                 LibMessages.EditViewModel.ShowEditor(vViewModel, true, true);
             } else {
