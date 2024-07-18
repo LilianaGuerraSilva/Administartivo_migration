@@ -16,7 +16,6 @@ Private Const CM_FILE_NAME As String = "clsInfLibrosVentasYComprasSQL"
 Private Const CM_MESSAGE_NAME As String = "SQL Libros Ventas Y Compras"
 Private Const CM_MODULO_CxP As Integer = 1
 Private Const CM_MODULO_CxC As Integer = 2
-  
 Private Const CM_OPT_LIBRO_DE_VENTAS_FORMALES  As Integer = 0
 Private Const CM_OPT_LIBRO_DE_COMPRAS_FORMALES  As Integer = 1
 Private Const CM_OPT_LIBRO_DE_COMPRAS  As Integer = 2
@@ -73,12 +72,7 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
 End Function
 
 
-Public Function fSQLLibroDeComprasEnXLSOrdinarios(ByVal valMesStr As String, ByVal valAnoStr As String, ByVal valSoloAjuste As Boolean, ByVal porcentajeDeProrrateo As Currency, _
-                                    ByRef gMonedaLocalActual As Object, ByRef insAlicuotaIva As Object, ByVal valConsecutivoCompania As Long, ByVal UsarOpcionesDeContribuyenteEspecial As Boolean, ByVal valUsaRetencion As Boolean) As String
-'   Dim insCxP As clsCxPNavigator
-'   Dim insProveedor As clsProveedorNavigator
-'   Dim insFactura As clsFacturaNavigator
-'   Dim insAlicuotaIva As clsAlicuotaIVANavigator
+Public Function fSQLLibroDeComprasEnXLSOrdinarios(ByVal valMesStr As String, ByVal valAnoStr As String, ByVal valSoloAjuste As Boolean, ByVal porcentajeDeProrrateo As Currency, ByRef gMonedaLocalActual As Object, ByRef insAlicuotaIva As Object, ByVal valConsecutivoCompania As Long, ByVal UsarOpcionesDeContribuyenteEspecial As Boolean, ByVal valUsaRetencion As Boolean) As String
    Dim SQL As String
    Dim EsNoDeducibleONoEsCompraNiInternaNiImportacion As String
    Dim totalMontoExentoGravadoIva As String
