@@ -1106,18 +1106,13 @@ Public Function fCambiaGeneradoPorEnIntegracion(ByRef refGeneradoPor As enum_Com
 End Function
 
 Public Sub sInsertaElRecordDeCuentasFlujoEfectivo()
-   Dim ExecuteStr As String
+   Dim vTableFields As String
    Dim varSQL As String
    Dim insCompaniaDefCuentasFlujoEfectivo As clsCompDefCtaFlujoEfectivoNav
    On Error GoTo h_ERROR
    Set insCompaniaDefCuentasFlujoEfectivo = New clsCompDefCtaFlujoEfectivoNav
-   ExecuteStr = "ConsecutivoCompania, "
-   ExecuteStr = ExecuteStr & "ConsecutivoRenglon, "
-   ExecuteStr = ExecuteStr & "CodigoCuenta, "
-   ExecuteStr = ExecuteStr & "ActividadFlujoEfectivo, "
-   ExecuteStr = ExecuteStr & "NombreOperador, "
-   ExecuteStr = ExecuteStr & "FechaUltimaModificacion "
-   varSQL = " INSERT INTO " & insCompaniaDefCuentasFlujoEfectivo.GetTableName & "(" & ExecuteStr & " ) VALUES " & "( " & gProyCompaniaActual.GetConsecutivoCompania & ", " & "'0','','','" & gProyUsuarioActual.GetNombreDelUsuario & "'," & gUtilSQL.fDateToSQLValue(gUtilDate.getFechaDeHoy) & ")"
+   vTableFields = "ConsecutivoCompania, ConsecutivoRenglon, CodigoCuenta, ActividadFlujoEfectivo, NombreOperador, FechaUltimaModificacion "
+   varSQL = " INSERT INTO " & insCompaniaDefCuentasFlujoEfectivo.GetTableName & "(" & vTableFields & " ) VALUES " & "( " & gProyCompaniaActual.GetConsecutivoCompania & ", " & "'0','','','" & gProyUsuarioActual.GetNombreDelUsuario & "'," & gUtilSQL.fDateToSQLValue(gUtilDate.getFechaDeHoy) & ")"
    gDbUtil.Execute Conexion, varSQL
    Set insCompaniaDefCuentasFlujoEfectivo = Nothing
 h_EXIT: On Error GoTo 0
@@ -1141,20 +1136,13 @@ End Sub
 Public Function fExisteCuentaEnDefinicionFlujoEfectivo(ByVal valConsecutivoCompania As String, ByVal valCodigoCuenta As String) As Boolean
    Dim varTemp As Boolean
    Dim Sql As String
-   Dim RS As ADODB.Recordset
    On Error GoTo h_ERROR
-   Set RS = New ADODB.Recordset
    varTemp = False
    Sql = "SELECT CompaniaDefCuentaFlujoEfectivo.ConsecutivoCompania, CompaniaDefCuentaFlujoEfectivo.CodigoCuenta "
    Sql = Sql & " FROM CompaniaDefCuentaFlujoEfectivo WHERE CompaniaDefCuentaFlujoEfectivo.ConsecutivoCompania = " & gUtilSQL.fSimpleSqlValue(valConsecutivoCompania)
    Sql = Sql & " AND CompaniaDefCuentaFlujoEfectivo.CodigoCuenta = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
-   If gDbUtil.fOpenRecordset(RS, Sql, Conexion) Then
-      If gDbUtil.fRecordCount(RS) > 0 Then
-         varTemp = True
-      End If
-   End If
+   varTemp = gDbUtil.fRecordCountOfSql(Sql) > 0
    fExisteCuentaEnDefinicionFlujoEfectivo = varTemp
-   gDbUtil.sDestroyRecordSet RS
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR:
