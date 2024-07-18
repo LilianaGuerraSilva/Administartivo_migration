@@ -24,17 +24,17 @@ Public Function fConfigurarDsrLibroDeComprasNAlicuotas(ByVal valSqlDelReporte As
                      ByVal valMostrarResumenDeVentas As Boolean, ByVal valNombreCompaniaParaInformes As String, _
                      ByRef refInsFactura As Object, ByRef refInsCompaniaActual As Object, ByRef refInsEnumProyecto As Object, _
                      ByRef refInsNoComun As Object, ByRef refInsRPTFacturaConfigurar As Object, ByRef gGlobalization As Object, ByRef gAdmAlicuotaIvaActual As Object, ByVal valFechaDesde As Date, ByVal valFechaHasta As Date, _
+                     ByRef valCreditosFiscalesTotalmenteDeducibles As Currency, ByRef valCreditosProrrateablesParcialmenteDeducibles As Currency, _
                      Optional ByVal valAplicaAContribuyenteEspecial As Boolean = False) As DDActiveReports2.ActiveReport
    Dim reporte As rptLibroDeComprasNAlicuotas
    On Error GoTo h_ERROR
    Set reporte = New rptLibroDeComprasNAlicuotas
-   reporte.sConfigurarDatosDelReporte valSqlDelReporte, valMes, ValAno, valPorcentajeProrrateo, valMostrarInformeDeProrrateo, valMostrarResumenDeVentas, valNombreCompaniaParaInformes, refInsFactura, refInsCompaniaActual, refInsNoComun, refInsRPTFacturaConfigurar, gGlobalization, gAdmAlicuotaIvaActual, valFechaDesde, valFechaHasta, valAplicaAContribuyenteEspecial
+   reporte.sConfigurarDatosDelReporte valSqlDelReporte, valMes, ValAno, valPorcentajeProrrateo, valMostrarInformeDeProrrateo, valMostrarResumenDeVentas, valNombreCompaniaParaInformes, refInsFactura, refInsCompaniaActual, refInsNoComun, refInsRPTFacturaConfigurar, gGlobalization, gAdmAlicuotaIvaActual, valFechaDesde, valFechaHasta, valCreditosFiscalesTotalmenteDeducibles, valCreditosProrrateablesParcialmenteDeducibles, valAplicaAContribuyenteEspecial
    Set fConfigurarDsrLibroDeComprasNAlicuotas = reporte
    Set reporte = Nothing
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fConfigurarDsrLibroDeComprasNAlicuotas", "Reporte", GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDsrLibroDeComprasNAlicuotas", "Reporte", GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 
