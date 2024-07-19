@@ -9,6 +9,7 @@ using LibGalac.Aos.Brl;
 using System;
 using System.Data;
 using LibGalac.Aos.Cnf;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
 
@@ -40,26 +41,25 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             if (vDataSet != null && vDataSet.Tables[0].Rows.Count > 0) {
 				vConsecutivoCompania = LibConvert.ToInt(vDataSet.Tables[0].Rows[0]["ConsecutivoCompania"]);
 				vKeyValue = LibAppSettings.ReadAppSettingsKey("DIRECCIONURL");
-                vSql.AppendLine("UPDATE Compania SET ImprentaDigitalUrl= " + _insSql.ToSqlValue(vKeyValue));
-                //
+                vSql.AppendLine("UPDATE Compania SET ImprentaDigitalUrl= " + _insSql.ToSqlValue(vKeyValue));               
                 vKeyValue = LibAppSettings.ReadAppSettingsKey("CAMPOUSUARIO");
                 vSql.AppendLine(", ImprentaDigitalNombreCampoUsuario= " + _insSql.ToSqlValue(vKeyValue));
-                //
                 vKeyValue = LibAppSettings.ReadAppSettingsKey("CAMPOCLAVE");
                 vSql.AppendLine(", ImprentaDigitalNombreCampoClave= " + _insSql.ToSqlValue(vKeyValue));
-                //
                 vKeyValue = LibAppSettings.ReadAppSettingsKey("USUARIO");
                 vSql.AppendLine(", ImprentaDigitalUsuario= " + _insSql.ToSqlValue(vKeyValue));
-                //
                 vKeyValue = LibAppSettings.ReadAppSettingsKey("CLAVE-E");
                 vSql.AppendLine(", ImprentaDigitalClave= " + _insSql.ToSqlValue(vKeyValue));
-				//
                 vSql.AppendLine(" WHERE ConsecutivoCompania=" + _insSql.ToSqlValue(vConsecutivoCompania));
-				//
 				Execute(vSql.ToString(), 0);
+                //
+                ConfigHelper.AddKeyToAppSettings("DIRECCIONURL", string.Empty);
+                ConfigHelper.AddKeyToAppSettings("CAMPOUSUARIO", string.Empty);
+                ConfigHelper.AddKeyToAppSettings("CAMPOCLAVE", string.Empty);
+                ConfigHelper.AddKeyToAppSettings("USUARIO", string.Empty);
+                ConfigHelper.AddKeyToAppSettings("CLAVE", string.Empty);
+                ConfigHelper.AddKeyToAppSettings("CLAVE-E",string.Empty);
             }
-		}
-		
-
+		}	
 	}
 }

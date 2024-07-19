@@ -15,6 +15,8 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
 using System.Text;
+using Galac.Saw.LibWebConnector;
+using Galac.Adm.Ccl.ImprentaDigital;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     class ImprentaDigitalDatosDeConexionViewModel : LibGenericViewModel {
@@ -23,9 +25,17 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string UrlPropertyName = "Url";
         public const string UsuarioPropertyName = "Usuario";
         public const string ClavePropertyName = "Clave";
+        public const string ExecuteEnabledPropertyName = "ExecuteEnabled";
         #endregion
-        #region Propiedades
+        #region variables
+        private bool _ExecuteEnabled;
         eProveedorImprentaDigital _ProveedorImprentaDigital;
+        string _Url;
+        string _Usuario;
+        string _Clave;        
+        #endregion
+
+        #region Propiedades
 
         public bool IsDirty { get; private set; }
 
@@ -38,8 +48,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return LibEnumHelper.GetDescription(_ProveedorImprentaDigital);
             }
         }
-
-        string _Url;
+        
         [LibCustomValidation("UrlValidating")]
         public string Url {
             get { return _Url; }
@@ -51,8 +60,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 }
             }
         }
-
-        string _Usuario;
+        
         [LibCustomValidation("UsuarioValidating")]
         public string Usuario {
             get { return _Usuario; }
@@ -64,8 +72,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 }
             }
         }
-
-        string _Clave;
+       
         [LibCustomValidation("ClaveValidating")]
         public string Clave {
             get { return _Clave; }
@@ -82,14 +89,56 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             private set;
         }
 
+        public RelayCommand ProbarConexionCommand {
+            get;
+            private set;
+        }
+
         #endregion //Propiedades
         #region Constructores
         #endregion //Constructores
         #region Metodos Generados
         protected override void InitializeCommands() {
             base.InitializeCommands();
-            InicializaValores();
+            
             GuardarCommand = new RelayCommand(ExecuteGuardarCommand, CanExecuteGuardarCommand);
+            ProbarConexionCommand = new RelayCommand(ExecuteProbarConexionCommand);
+        }
+
+        protected override void InitializeLookAndFeel() {
+            base.InitializeLookAndFeel();
+            InicializaValores();
+        }
+
+
+        public bool ExecuteEnabled {
+            get {
+                return _ExecuteEnabled;
+            }
+            set {
+                if (_ExecuteEnabled != value) {
+                    _ExecuteEnabled = value;
+                    RaisePropertyChanged(ExecuteEnabledPropertyName);
+                }
+            }
+        }
+
+        private void ExecuteProbarConexionCommand() {
+            string vMensaje = string.Empty;
+            string vCommand = _ProveedorImprentaDigital== eProveedorImprentaDigital.TheFactoryHKA? LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion) : "";
+            clsConectorJson _ConectorJson = new clsConectorJson(new clsLoginUser() {
+                User = Usuario,
+                URL = Url,
+                Password = Clave
+            });
+            bool vResult = _ConectorJson.CheckConnection(ref vMensaje, vCommand);
+            if (vResult) {
+                LibMessages.MessageBox.Information(this, "Conectado exitosamente a la Imprenta Digital " + Proveedor + ".", ModuleName);
+                ActivarButtonActions(true);
+            } else {
+                LibMessages.MessageBox.Warning(this, "No se pudo conectar con la Imprenta Digital.\r\nPor favor verifique los datos de conexión e intente de nuevo.", ModuleName);
+                ActivarButtonActions(false);
+            }
         }
 
         protected override void InitializeRibbon() {
@@ -108,9 +157,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private void InicializaValores() {
             _ProveedorImprentaDigital = (eProveedorImprentaDigital)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ProveedorImprentaDigital");
-            _Url = string.Empty;
-            _Usuario = string.Empty;
-            _Clave = string.Empty;
+            clsImprentaDigitalSettings _clsImprentaDigitalSettings = new clsImprentaDigitalSettings();
+            _Url = _clsImprentaDigitalSettings.DireccionURL;
+            _Usuario = _clsImprentaDigitalSettings.Usuario;
+            _Clave = _clsImprentaDigitalSettings.Clave;
         }
 
         #endregion //Metodos Generados
@@ -125,7 +175,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         private bool CanExecuteGuardarCommand() {
-            return true;
+            return _ExecuteEnabled;
+        }
+
+        private void ActivarButtonActions(bool valActivate) {
+            _ExecuteEnabled = valActivate;
+            RaisePropertyChanged(ExecuteEnabledPropertyName);
+            GuardarCommand.RaiseCanExecuteChanged();            
         }
 
         private LibRibbonGroupData CreateAccionesRibbonGroup() {
