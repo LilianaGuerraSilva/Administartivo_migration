@@ -74,6 +74,10 @@
     <Compile Include="clsCategoriaED.cs" />
     <Compile Include="clsColorDat.cs" />
     <Compile Include="clsColorED.cs" />
+    <Compile Include="clsLoteDeInventarioDat.cs" />
+    <Compile Include="clsLoteDeInventarioED.cs" />
+    <Compile Include="clsLoteDeInventarioMovimientoDat.cs" />
+    <Compile Include="clsLoteDeInventarioMovimientoED.cs" />
     <Compile Include="clsNotaDeEntradaSalidaDat.cs" />
     <Compile Include="clsNotaDeEntradaSalidaED.cs" />
     <Compile Include="clsRenglonNotaESDat.cs" />

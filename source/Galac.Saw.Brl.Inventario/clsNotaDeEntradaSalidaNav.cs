@@ -42,12 +42,12 @@ namespace Galac.Saw.Brl.Inventario {
 
         bool ILibPdn.GetDataForList(string valCallingModule, ref XmlDocument refXmlDocument, StringBuilder valXmlParamsExpression) {
             ILibDataFKSearch instanciaDal = new Galac.Saw.Dal.Inventario.clsNotaDeEntradaSalidaDat();
-            return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "Saw.Gp_NotaDeEntradaSalidaSCH", valXmlParamsExpression);
+            return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "dbo.Gp_NotaDeEntradaSalidaSCH", valXmlParamsExpression);
         }
 
         System.Xml.Linq.XElement ILibPdn.GetFk(string valCallingModule, StringBuilder valParameters) {
             ILibDataMasterComponent<IList<NotaDeEntradaSalida>, IList<NotaDeEntradaSalida>> instanciaDal = new Galac.Saw.Dal.Inventario.clsNotaDeEntradaSalidaDat();
-            return instanciaDal.QueryInfo(eProcessMessageType.SpName, "Saw.Gp_NotaDeEntradaSalidaGetFk", valParameters);
+            return instanciaDal.QueryInfo(eProcessMessageType.SpName, "dbo.Gp_NotaDeEntradaSalidaGetFk", valParameters);
         }
         #endregion //Miembros de ILibPdn
 
@@ -246,13 +246,13 @@ namespace Galac.Saw.Brl.Inventario {
             vParams.AddInString("NumeroDocumento", valNumeroDocumento, 11);
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             StringBuilder SQL = new StringBuilder();
-            SQL.AppendLine("SELECT * FROM Saw.NotaDeEntradaSalida");
+            SQL.AppendLine("SELECT * FROM dbo.NotaDeEntradaSalida");
             SQL.AppendLine("WHERE NumeroDocumento = @NumeroDocumento");
             SQL.AppendLine("AND ConsecutivoCompania = @ConsecutivoCompania");
             return LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", -1);
         }
 
-        public LibResponse AgregarNotaDeEntradaSalida(IList<NotaDeEntradaSalida> valListNotaDeEntradaSalida) {
+        LibResponse INotaDeEntradaSalidaPdn.AgregarNotaDeEntradaSalida(IList<NotaDeEntradaSalida> valListNotaDeEntradaSalida) {
             LibResponse vResult = new LibResponse();
             RegisterClient();
             vResult.Success = true;
@@ -269,7 +269,7 @@ namespace Galac.Saw.Brl.Inventario {
             return vResult;
         }
 
-        public LibResponse AnularNotaDeSalidaAsociadaProduccion(int valConsecutivoCompania, int valConsecutivoOrdenDeProduccion) {
+        LibResponse INotaDeEntradaSalidaPdn.AnularNotaDeSalidaAsociadaProduccion(int valConsecutivoCompania, int valConsecutivoOrdenDeProduccion) {
             RegisterClient();
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
@@ -285,6 +285,10 @@ namespace Galac.Saw.Brl.Inventario {
                 return UpdateRecord(vDataEntradaSalida, true, eAccionSR.Anular);
             }
             return new LibResponse();
+        }
+
+        XElement INotaDeEntradaSalidaPdn.FindByConsecutivoCompaniaNumeroDocumento(int valConsecutivoCompania, string valNumeroDocumento) {
+            throw new NotImplementedException();
         }
         #endregion //Metodos Generados
         #region Codigo Ejemplo

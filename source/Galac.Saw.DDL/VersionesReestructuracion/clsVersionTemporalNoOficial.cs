@@ -13,9 +13,30 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 	class clsVersionTemporalNoOficial : clsVersionARestructurar {
 		public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
 		public override bool UpdateToVersion() {
-			StartConnectionNoTransaction();	
+			StartConnectionNoTransaction();
+			CrearLoteDeInventario();
+			AjustesNotaEntradaSalida();
 			DisposeConnectionNoTransaction();
 			return true;
 		}
+
+        void AjustesNotaEntradaSalida() {
+            if (TableExists("dbo.RenglonNotaES")) {
+				DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "dbo.NotaDeEntradaSalida", "dbo.RenglonNotaES");
+				DeletePrimaryKey("dbo.RenglonNotaES");
+				AddPrimaryKey("dbo.RenglonNotaES", "ConsecutivoCompania,NumeroDocumento,ConsecutivoRenglon");
+				AddForeignKey("dbo.NotaDeEntradaSalida", "dbo.RenglonNotaES", new string[] { "ConsecutivoCompania,NumeroDocumento" }, new string[] { "ConsecutivoCompania,NumeroDocumento" }, true, true);
+
+				AddColumnString("dbo.RenglonNotaES", "LoteDeInventario", 30, "", "");
+				AddColumnDate("dbo.RenglonNotaES", "FechaDeElaboracion", "", false, true);
+				AddColumnDate("dbo.RenglonNotaES", "FechaDeVencimiento", "", false, true);
+			}
+		}
+
+        void CrearLoteDeInventario() {
+			if (!TableExists("Saw.LoteDeInventario")) {
+				new Galac.Saw.Dal.Inventario.clsLoteDeInventarioED().InstalarTabla();
+            }
+        }
 	}
 }

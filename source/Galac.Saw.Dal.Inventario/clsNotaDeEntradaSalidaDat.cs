@@ -47,12 +47,7 @@ namespace Galac.Saw.Dal.Inventario {
             vParams.AddInString("CodigoAlmacen", valRecord.CodigoAlmacen, 5);
             vParams.AddInDateTime("Fecha", valRecord.Fecha);
             vParams.AddInString("Comentarios", valRecord.Comentarios, 255);
-            if (LibDefGen.ProgramInfo.ProgramInitials == LibProduct.GetInitialsSaw()) {
-                vParams.AddInString("CodigoLote", valRecord.CodigoLote, 10);
-            } else if (LibDefGen.ProgramInfo.ProgramInitials == LibProduct.GetInitialsAdmEcuador()) {
-                vParams.AddInInteger("ConsecutivoCliente", valRecord.ConsecutivoCliente);
-                vParams.AddInInteger("NumeroLote", valRecord.NumeroLote);
-            }
+            vParams.AddInString("CodigoLote", valRecord.CodigoLote, 10);
             vParams.AddInEnum("StatusNotaEntradaSalida", valRecord.StatusNotaEntradaSalidaAsDB);
             vParams.AddInInteger("ConsecutivoAlmacen", valRecord.ConsecutivoAlmacen);
             vParams.AddInEnum("GeneradoPor", valRecord.GeneradoPorAsDB);
@@ -202,7 +197,8 @@ namespace Galac.Saw.Dal.Inventario {
             throw new ProgrammerMissingCodeException();
         }
 
-       // [PrincipalPermission(SecurityAction.Demand, Role = "Nota de Entrada/Salida.Modificar")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Nota de Entrada/Salida.Modificar")]
+//Agregar permisos de los módulos que crean NES: Producción, Compra
         LibResponse ILibDataMasterComponent<IList<NotaDeEntradaSalida>, IList<NotaDeEntradaSalida>>.Update(IList<NotaDeEntradaSalida> refRecord, bool valUseDetail, eAccionSR valAction) {
             LibResponse vResult = new LibResponse();
             try {
@@ -306,6 +302,35 @@ namespace Galac.Saw.Dal.Inventario {
             return vResult;
         }
 
+        private bool IsValidConsecutivoCompania(eAccionSR valAction, int valConsecutivoCompania, int valConsecutivo){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            if (valConsecutivoCompania <= 0) {
+                BuildValidationInfo(MsgRequiredField("Consecutivo Compania"));
+                vResult = false;
+            }
+            return vResult;
+        }
+
+        //private bool IsValidConsecutivo(eAccionSR valAction, int valConsecutivoCompania, int valConsecutivo){
+        //    bool vResult = true;
+        //    if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+        //        return true;
+        //    }
+        //    if (valConsecutivo == 0) {
+        //        BuildValidationInfo(MsgRequiredField("Consecutivo"));
+        //        vResult = false;
+        //    } else if (valAction == eAccionSR.Insertar) {
+        //        if (KeyExists(valConsecutivoCompania, valConsecutivo)) {
+        //            BuildValidationInfo(MsgFieldValueAlreadyExist("Consecutivo", valConsecutivo));
+        //            vResult = false;
+        //        }
+        //    }
+        //    return vResult;
+        //}
+
         private bool IsValidNumeroDocumento(eAccionSR valAction, int valConsecutivoCompania, string valNumeroDocumento){
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
@@ -405,6 +430,17 @@ namespace Galac.Saw.Dal.Inventario {
             return vResult;
         }
 
+        //private bool KeyExists(int valConsecutivoCompania, int valConsecutivo) {
+        //    bool vResult = false;
+        //    NotaDeEntradaSalida vRecordBusqueda = new NotaDeEntradaSalida();
+        //    vRecordBusqueda.ConsecutivoCompania = valConsecutivoCompania;
+        //    vRecordBusqueda.Consecutivo = valConsecutivo;
+        //    LibDatabase insDb = new LibDatabase();
+        //    vResult = insDb.ExistsRecord(DbSchema + ".NotaDeEntradaSalida", "ConsecutivoCompania", ParametrosClave(vRecordBusqueda, false, false));
+        //    insDb.Dispose();
+        //    return vResult;
+        //}
+
         private bool KeyExists(int valConsecutivoCompania, NotaDeEntradaSalida valRecordBusqueda) {
             bool vResult = false;
             valRecordBusqueda.ConsecutivoCompania = valConsecutivoCompania;
@@ -474,6 +510,17 @@ namespace Galac.Saw.Dal.Inventario {
             return vResult;
         }
         #endregion //Miembros de ILibDataFKSearch
+
+        #region //Miembros de ILibDataRpt
+
+        //System.Data.DataTable ILibDataRpt.GetDt(string valSqlStringCommand, int valCmdTimeout) {
+        //    return new LibDataReport().GetDataTableForReport(valSqlStringCommand, valCmdTimeout);
+        //}
+
+        //System.Data.DataTable ILibDataRpt.GetDt(string valSpName, StringBuilder valXmlParamsExpression, int valCmdTimeout) {
+        //    return new LibDataReport().GetDataTableForReport(valSpName, valXmlParamsExpression, valCmdTimeout);
+        //}
+        #endregion ////Miembros de ILibDataRpt
         #endregion //Metodos Generados
 
 

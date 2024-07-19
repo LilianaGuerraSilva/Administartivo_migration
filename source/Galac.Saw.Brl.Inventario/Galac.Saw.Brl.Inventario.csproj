@@ -88,6 +88,8 @@
     <Compile Include="clsCategoriaNav.cs" />
     <Compile Include="clsColorNav.cs" />
     <Compile Include="clsLibroElectronicoHelper.cs" />
+    <Compile Include="clsLoteDeInventarioMovimientoNav.cs" />
+    <Compile Include="clsLoteDeInventarioNav.cs" />
     <Compile Include="clsNotaDeEntradaSalidaNav.cs" />
     <Compile Include="clsRenglonNotaESNav.cs" />
     <Compile Include="clsTallaNav.cs" />
@@ -98,6 +100,9 @@
     <Compile Include="Reportes\clsArticuloInventarioSql.cs" />
     <Compile Include="Reportes\clsCategoriaRpt.cs" />
     <Compile Include="Reportes\clsColorRpt.cs" />
+    <Compile Include="Reportes\clsLoteDeInventarioRpt.cs" />
+    <Compile Include="Reportes\clsNotaDeEntradaSalidaRpt.cs" />
+    <Compile Include="Reportes\clsNotaDeEntradaSalidaSql.cs" />
     <Compile Include="Reportes\clsTallaRpt.cs" />
   </ItemGroup>
   <ItemGroup>

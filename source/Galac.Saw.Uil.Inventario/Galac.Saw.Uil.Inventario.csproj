@@ -106,6 +106,8 @@
     <Compile Include="clsCategoriaMenu.cs" />
     <Compile Include="clsColorMenu.cs" />
     <Compile Include="clsAsignarBalanzaMenu.cs" />
+    <Compile Include="clsLoteDeInventarioMenu.cs" />
+    <Compile Include="clsNotaDeEntradaSalidaMenu.cs" />
     <Compile Include="clsTallaMenu.cs" />
     <Compile Include="clsVerificadorDePreciosMenu.cs" />
     <Compile Include="Reportes\clsListadoDeArticulosBalanzaViewModel.cs" />
@@ -127,6 +129,8 @@
     <Compile Include="UIMefInventarioAlmacen.cs" />
     <Compile Include="UIMefInventarioCategoria.cs" />
     <Compile Include="UIMefInventarioColor.cs" />
+    <Compile Include="UIMefInventarioLoteDeInventario.cs" />
+    <Compile Include="UIMefInventarioNotaDeEntradaSalida.cs" />
     <Compile Include="UIMefInventarioTalla.cs" />
     <Compile Include="UIMefInventarioVerificadorDePrecios.cs" />
     <Compile Include="ViewModel\ImportarPreciosDeArticuloViewModel.cs" />
@@ -142,6 +146,14 @@
     <Compile Include="ViewModel\AsignarBalanzaMngViewModel.cs" />
     <Compile Include="ViewModel\AsignarBalanzaViewModel.cs" />
     <Compile Include="ViewModel\CuadroDeBusquedaDeArticulosViewModel.cs" />
+    <Compile Include="ViewModel\LoteDeInventarioMngViewModel.cs" />
+    <Compile Include="ViewModel\LoteDeInventarioMovimientoMngViewModel.cs" />
+    <Compile Include="ViewModel\LoteDeInventarioMovimientoViewModel.cs" />
+    <Compile Include="ViewModel\LoteDeInventarioViewModel.cs" />
+    <Compile Include="ViewModel\NotaDeEntradaSalidaMngViewModel.cs" />
+    <Compile Include="ViewModel\NotaDeEntradaSalidaViewModel.cs" />
+    <Compile Include="ViewModel\RenglonNotaESMngViewModel.cs" />
+    <Compile Include="ViewModel\RenglonNotaESViewModel.cs" />
     <Compile Include="ViewModel\TallaMngViewModel.cs" />
     <Compile Include="ViewModel\TallaViewModel.cs" />
     <Compile Include="ViewModel\VerificadorDePreciosMngViewModel.cs" />
@@ -160,6 +172,21 @@
     </Compile>
     <Compile Include="Views\GSImportarPreciosDeArticuloView.xaml.cs">
       <DependentUpon>GSImportarPreciosDeArticuloView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSLoteDeInventarioConsultaView.xaml.cs">
+      <DependentUpon>GSLoteDeInventarioConsultaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSLoteDeInventarioMovimientoView.xaml.cs">
+      <DependentUpon>GSLoteDeInventarioMovimientoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSLoteDeInventarioView.xaml.cs">
+      <DependentUpon>GSLoteDeInventarioView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSNotaDeEntradaSalidaView.xaml.cs">
+      <DependentUpon>GSNotaDeEntradaSalidaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSRenglonNotaESView.xaml.cs">
+      <DependentUpon>GSRenglonNotaESView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GSTallaView.xaml.cs">
       <DependentUpon>GSTallaView.xaml</DependentUpon>
@@ -204,6 +231,26 @@
     <Page Include="Views\GSImportarPreciosDeArticuloView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GSLoteDeInventarioConsultaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GSLoteDeInventarioMovimientoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSLoteDeInventarioView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSNotaDeEntradaSalidaView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSRenglonNotaESView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GSTallaView.xaml">
       <Generator>MSBuild:Compile</Generator>

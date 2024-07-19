@@ -2,105 +2,107 @@ using System;
 using System.ComponentModel;
 using LibGalac.Aos.Base;
 
-namespace Galac.Saw.Ccl.Inventario { 
-
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eTipoDeAlmacen {
-        [LibEnumDescription("Principal")]
-        Principal = 0, 
-        [LibEnumDescription("Secundario")]
-        Secundario, 
-        [LibEnumDescription("Consignación")]
-        Consignacion, 
-        [LibEnumDescription("Mercancía en tienda")]
-        Mercanciaentienda
-	}
+namespace Galac.Saw.Ccl.Inventario {
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eTipoDeAlicuota {
+    public enum eTipoDeAlmacen {
+        [LibEnumDescription("Principal")]
+        Principal = 0,
+        [LibEnumDescription("Secundario")]
+        Secundario,
+        [LibEnumDescription("Consignación")]
+        Consignacion,
+        [LibEnumDescription("Mercancía en tienda")]
+        Mercanciaentienda
+    }
+
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipoDeAlicuota {
         [LibEnumDescription("Exento")]
-        Exento = 0, 
+        Exento = 0,
         [LibEnumDescription("Alicuota General")]
-        AlicuotaGeneral, 
+        AlicuotaGeneral,
         [LibEnumDescription("Alicuota 2")]
-        Alicuota2, 
+        Alicuota2,
         [LibEnumDescription("Alicuota 3")]
         Alicuota3,
         [LibEnumDescription("ExentoNC")]
-        ExentoNC, 
+        ExentoNC,
         [LibEnumDescription("Alicuota General NC")]
-        AlicuotaGeneralNC, 
+        AlicuotaGeneralNC,
         [LibEnumDescription("Alicuota 2 NC")]
-        Alicuota2NC, 
+        Alicuota2NC,
         [LibEnumDescription("Alicuota 3 NC")]
         Alicuota3NC
-	}
+    }
 
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eStatusArticulo {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eStatusArticulo {
         [LibEnumDescription("Vigente")]
-        Vigente = 0, 
+        Vigente = 0,
         [LibEnumDescription("Desincorporado")]
         Desincorporado
-	}
+    }
 
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eTipoDeProducto {
+    public enum eTipoDeProducto {
         [LibEnumDescription("Nuevo")]
-        Nuevo = 0, 
+        Nuevo = 0,
         [LibEnumDescription("Actualizacion")]
-        Actualizacion, 
+        Actualizacion,
         [LibEnumDescription("Otro")]
-        Otro, 
+        Otro,
         [LibEnumDescription("POLIZA")]
         POLIZA
-	}
+    }
 
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eTipoDeArticulo {
+    public enum eTipoDeArticulo {
         [LibEnumDescription("Mercancía")]
-        Mercancia = 0, 
+        Mercancia = 0,
         [LibEnumDescription("Servicio")]
         Servicio,
         [LibEnumDescription("Producto Compuesto")]
         ProductoCompuesto
-	}
+    }
 
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eTipoArticuloInv {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipoArticuloInv {
         [LibEnumDescription("Simple")]
-        Simple = 0, 
+        Simple = 0,
         [LibEnumDescription("Usa Talla/Color")]
-        UsaTallaColor, 
+        UsaTallaColor,
         [LibEnumDescription("Usa Serial")]
-        UsaSerial, 
+        UsaSerial,
         [LibEnumDescription("Usa Talla/Color y Serial")]
         UsaTallaColorySerial,
         [LibEnumDescription("Usa Serial y Rollo")]
-        UsaSerialRollo
+        UsaSerialRollo, 
+        [LibEnumDescription("Lote / Fecha de Vto.")]
+        LoteFechadeVencimiento
     }
-	
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eTipoDeAsignacion {
+
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipoDeAsignacion {
         [LibEnumDescription("Todos")]
-        Todos = 0, 
+        Todos = 0,
         [LibEnumDescription("Rango De Artículos")]
-        RangoDeArticulos, 
+        RangoDeArticulos,
         [LibEnumDescription("Línea De Producto")]
         LineaDeProducto
-	}
-	
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eTipoDeAccion {
+    }
+
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipoDeAccion {
         [LibEnumDescription("Activar")]
-        Activar = 0, 
+        Activar = 0,
         [LibEnumDescription("Desactivar")]
         Desactivar
-	}
+    }
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eListarPorLineaDeProducto {
@@ -126,7 +128,7 @@ namespace Galac.Saw.Ccl.Inventario {
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum ePrecioAjustar {
-        [LibEnumDescription("Precio Sin IVA",CountryCode="VE")]
+        [LibEnumDescription("Precio Sin IVA", CountryCode = "VE")]
         [LibEnumDescription("Precio Sin IGV", CountryCode = "PE")]
         PrecioSinIVA = 0,
         [LibEnumDescription("Precio Con IVA", CountryCode = "VE")]
@@ -141,7 +143,7 @@ namespace Galac.Saw.Ccl.Inventario {
         [LibEnumDescription("Costo Promedio")]
         CostoPromedio
     }
-    
+
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eTipoDeRegistroPLE {
         [LibEnumDescription("Registro de Compras")]
@@ -167,19 +169,19 @@ namespace Galac.Saw.Ccl.Inventario {
         [LibEnumDescription("Materia Prima")]
         MateriaPrima,
         [LibEnumDescription("Producto Terminado")]
-        ProductoTerminado        
+        ProductoTerminado
     }
-	
+
     public enum eTipoActualizacion {
         Existencia = 0,
         Costo,
         ExistenciayCosto
     }
-	
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eTipodeOperacion {
+
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipodeOperacion {
         [LibEnumDescription("Entrada de  Inventario")]
-        EntradadeInventario = 0, 
+        EntradadeInventario = 0,
         [LibEnumDescription("Salida de  Inventario")]
         SalidadeInventario,
         [LibEnumDescription("Autoconsumo")]
@@ -187,41 +189,60 @@ namespace Galac.Saw.Ccl.Inventario {
         [LibEnumDescription("Retiro")]
         Retiro,
     }
-	
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eTipoGeneradoPorNotaDeEntradaSalida {
+
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipoGeneradoPorNotaDeEntradaSalida {
         [LibEnumDescription("Usuario")]
-        Usuario = 0, 
+        Usuario = 0,
         [LibEnumDescription("Orden De Produccion")]
         OrdenDeProduccion
-	}
+    }
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eTipoNotaProduccion {
-        [LibEnumDescription("No  Aplica")]
-        NoAplica = 0, 
-        [LibEnumDescription("Abrir")]
-        Abrir, 
-        [LibEnumDescription("Cerrar")]
-        Cerrar, 
-        [LibEnumDescription("Ajuste")]
-        Ajuste
-	}
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipoNotaProduccion {
+        [LibEnumDescription("No  Aplica")] NoAplica = 0,
+        [LibEnumDescription("Abrir")] Abrir,
+        [LibEnumDescription("Cerrar")] Cerrar,
+        [LibEnumDescription("Ajuste")] Ajuste
+    }
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eStatusNotaEntradaSalida {
-        [LibEnumDescription("Vigente")]
-        Vigente = 0, 
-        [LibEnumDescription("Anulada")]
-        Anulada
-	}
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eStatusNotaEntradaSalida {
+        [LibEnumDescription("Vigente")] Vigente = 0,
+        [LibEnumDescription("Anulada")] Anulada
+    }
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eMonedaPresentacionDeReporteRM {
-        [LibEnumDescription("En Bolivares")]
-        EnBolivares = 0,
-        [LibEnumDescription("En Bolivares a la Tasa del Dia")]
-        EnMonedaExtranjera
+        [LibEnumDescription("En Bolivares")] EnBolivares = 0,
+        [LibEnumDescription("En Bolivares a la Tasa del Dia")] EnMonedaExtranjera
+    }
+
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eStatusLoteDeInventario {
+        [LibEnumDescription("Vigente")] Vigente = 0,
+        [LibEnumDescription("Consumido")] Consumido,
+        [LibEnumDescription("Anulado")] Anulado
+    }
+
+
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eOrigenLoteInv {
+        [LibEnumDescription("Factura")] Factura = 0,
+        [LibEnumDescription("Nota de Crédito")] NotaDeCredito,
+        [LibEnumDescription("Nota de Débito")] NotaDeDebito,
+        [LibEnumDescription("Nota de Entrega")] NotaDeEntrega,
+        [LibEnumDescription("Producción")] Produccion,
+        [LibEnumDescription("Nota de Entrada/Salida")] NotaEntradaSalida,
+        [LibEnumDescription("Compra")] Compra,
+        [LibEnumDescription("Conteo Físico")] ConteoFisico
+    }
+
+
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eStatusDocOrigenLoteInv {
+        [LibEnumDescription("Vigente")] Vigente = 0,
+        [LibEnumDescription("Anulado")] Anulado
     }
 
 } //End of namespace namespace Galac.Saw.Ccl.Inventario

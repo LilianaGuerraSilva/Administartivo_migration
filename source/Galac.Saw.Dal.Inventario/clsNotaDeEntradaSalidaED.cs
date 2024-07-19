@@ -77,12 +77,7 @@ namespace Galac.Saw.Dal.Inventario {
         private string SqlViewB1() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("SELECT NotaDeEntradaSalida.ConsecutivoCompania, NotaDeEntradaSalida.NumeroDocumento, NotaDeEntradaSalida.TipodeOperacion, " + DbSchema + ".Gv_EnumTipodeOperacion.StrValue AS TipodeOperacionStr, NotaDeEntradaSalida.CodigoCliente");
-            SQL.AppendLine(", NotaDeEntradaSalida.CodigoAlmacen, NotaDeEntradaSalida.Fecha, NotaDeEntradaSalida.Comentarios");
-            if (LibDefGen.ProgramInfo.ProgramInitials == LibProduct.GetInitialsSaw()) {
-                SQL.AppendLine(", NotaDeEntradaSalida.CodigoLote");
-            } else if (LibDefGen.ProgramInfo.ProgramInitials == LibProduct.GetInitialsAdmEcuador()) {
-                SQL.AppendLine(", NotaDeEntradaSalida.ConsecutivoCliente,NotaDeEntradaSalida.NumeroLote");
-            }
+            SQL.AppendLine(", NotaDeEntradaSalida.CodigoAlmacen, NotaDeEntradaSalida.Fecha, NotaDeEntradaSalida.Comentarios, NotaDeEntradaSalida.CodigoLote");
             SQL.AppendLine(", NotaDeEntradaSalida.StatusNotaEntradaSalida, " + DbSchema + ".Gv_EnumStatusNotaEntradaSalida.StrValue AS StatusNotaEntradaSalidaStr, NotaDeEntradaSalida.ConsecutivoAlmacen, NotaDeEntradaSalida.GeneradoPor, " + DbSchema + ".Gv_EnumTipoGeneradoPorNotaDeEntradaSalida.StrValue AS GeneradoPorStr, NotaDeEntradaSalida.ConsecutivoDocumentoOrigen");
             SQL.AppendLine(", NotaDeEntradaSalida.TipoNotaProduccion, " + DbSchema + ".Gv_EnumTipoNotaProduccion.StrValue AS TipoNotaProduccionStr, NotaDeEntradaSalida.NombreOperador, NotaDeEntradaSalida.FechaUltimaModificacion");
             SQL.AppendLine(", dbo.Cliente.nombre AS NombreCliente");
@@ -117,12 +112,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("@CodigoAlmacen" + InsSql.VarCharTypeForDb(5) + ",");
             SQL.AppendLine("@Fecha" + InsSql.DateTypeForDb() + " = '01/01/1900',");
             SQL.AppendLine("@Comentarios" + InsSql.VarCharTypeForDb(255) + " = '',");
-            if (LibDefGen.ProgramInfo.ProgramInitials == LibProduct.GetInitialsSaw()) {
-                SQL.AppendLine("@CodigoLote" + InsSql.VarCharTypeForDb(10) + " = '',");
-            } else if (LibDefGen.ProgramInfo.ProgramInitials == LibProduct.GetInitialsAdmEcuador()) {
-                SQL.AppendLine("@ConsecutivoCliente" + InsSql.NumericTypeForDb(10, 0) + ",");
-                SQL.AppendLine("@NumeroLote" + InsSql.NumericTypeForDb(10, 0) + " = '0',");
-            }
+            SQL.AppendLine("@CodigoLote" + InsSql.VarCharTypeForDb(10) + " = '',");
             SQL.AppendLine("@StatusNotaEntradaSalida" + InsSql.CharTypeForDb(1) + " = '0',");
             SQL.AppendLine("@ConsecutivoAlmacen" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@GeneradoPor" + InsSql.CharTypeForDb(1) + " = '0',");
@@ -150,12 +140,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("            CodigoAlmacen,");
             SQL.AppendLine("            Fecha,");
             SQL.AppendLine("            Comentarios,");
-            if (LibDefGen.ProgramInfo.ProgramInitials == LibProduct.GetInitialsSaw()) {
-                SQL.AppendLine("            CodigoLote,");
-            } else if (LibDefGen.ProgramInfo.ProgramInitials == LibProduct.GetInitialsAdmEcuador()) {
-                SQL.AppendLine("            ConsecutivoCliente,");
-                SQL.AppendLine("            NumeroLote,");
-            }
+            SQL.AppendLine("            CodigoLote,");
             SQL.AppendLine("            StatusNotaEntradaSalida,");
             SQL.AppendLine("            ConsecutivoAlmacen,");
             SQL.AppendLine("            GeneradoPor,");
@@ -171,12 +156,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("            @CodigoAlmacen,");
             SQL.AppendLine("            @Fecha,");
             SQL.AppendLine("            @Comentarios,");
-            if (LibDefGen.ProgramInfo.ProgramInitials == LibProduct.GetInitialsSaw()) {
-                SQL.AppendLine("            @CodigoLote,");
-            } else if (LibDefGen.ProgramInfo.ProgramInitials == LibProduct.GetInitialsAdmEcuador()) {
-                SQL.AppendLine("            @ConsecutivoCliente,");
-                SQL.AppendLine("            @NumeroLote,");
-            }
+            SQL.AppendLine("            @CodigoLote,");
             SQL.AppendLine("            @StatusNotaEntradaSalida,");
             SQL.AppendLine("            @ConsecutivoAlmacen,");
             SQL.AppendLine("            @GeneradoPor,");
@@ -204,12 +184,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("@CodigoAlmacen" + InsSql.VarCharTypeForDb(5) + ",");
             SQL.AppendLine("@Fecha" + InsSql.DateTypeForDb() + ",");
             SQL.AppendLine("@Comentarios" + InsSql.VarCharTypeForDb(255) + ",");
-            if (LibDefGen.ProgramInfo.ProgramInitials == LibProduct.GetInitialsSaw()) {
-                SQL.AppendLine("@CodigoLote" + InsSql.VarCharTypeForDb(10) + " = '',");
-            } else if (LibDefGen.ProgramInfo.ProgramInitials == LibProduct.GetInitialsAdmEcuador()) {
-                SQL.AppendLine("@ConsecutivoCliente" + InsSql.NumericTypeForDb(10, 0) + ",");
-                SQL.AppendLine("@NumeroLote" + InsSql.NumericTypeForDb(10, 0) + " = '0',");
-            }
+            SQL.AppendLine("@CodigoLote" + InsSql.VarCharTypeForDb(10) + ",");
             SQL.AppendLine("@StatusNotaEntradaSalida" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@ConsecutivoAlmacen" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@GeneradoPor" + InsSql.CharTypeForDb(1) + ",");
@@ -247,12 +222,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("               CodigoAlmacen = @CodigoAlmacen,");
             SQL.AppendLine("               Fecha = @Fecha,");
             SQL.AppendLine("               Comentarios = @Comentarios,");
-            if (LibDefGen.ProgramInfo.ProgramInitials == LibProduct.GetInitialsSaw()) {
-                SQL.AppendLine("               CodigoLote = @CodigoLote,");
-            } else if (LibDefGen.ProgramInfo.ProgramInitials == LibProduct.GetInitialsAdmEcuador()) {
-                SQL.AppendLine("               ConsecutivoCliente = @ConsecutivoCliente,");
-                SQL.AppendLine("               NumeroLote = @NumeroLote,");
-            }
+            SQL.AppendLine("               CodigoLote = @CodigoLote,");
             SQL.AppendLine("               StatusNotaEntradaSalida = @StatusNotaEntradaSalida,");
             SQL.AppendLine("               ConsecutivoAlmacen = @ConsecutivoAlmacen,");
             SQL.AppendLine("               GeneradoPor = @GeneradoPor,");
@@ -371,12 +341,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("         Gv_Almacen_B1.NombreAlmacen AS NombreAlmacen,");
             SQL.AppendLine("         NotaDeEntradaSalida.Fecha,");
             SQL.AppendLine("         NotaDeEntradaSalida.Comentarios,");
-            if (LibDefGen.ProgramInfo.ProgramInitials == LibProduct.GetInitialsSaw()) {
-                SQL.AppendLine("         NotaDeEntradaSalida.CodigoLote,");
-            } else if (LibDefGen.ProgramInfo.ProgramInitials == LibProduct.GetInitialsAdmEcuador()) {
-                SQL.AppendLine("         NotaDeEntradaSalida.ConsecutivoCliente,");
-                SQL.AppendLine("         NotaDeEntradaSalida.NumeroLote,");
-            }
+            SQL.AppendLine("         NotaDeEntradaSalida.CodigoLote,");
             SQL.AppendLine("         NotaDeEntradaSalida.StatusNotaEntradaSalida,");
             SQL.AppendLine("         NotaDeEntradaSalida.ConsecutivoAlmacen,");
             SQL.AppendLine("         NotaDeEntradaSalida.GeneradoPor,");

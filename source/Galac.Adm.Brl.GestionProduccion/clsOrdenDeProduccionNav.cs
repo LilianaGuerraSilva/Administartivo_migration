@@ -629,12 +629,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
             vNotaDeEntradaSalida.NumeroDocumento = vNumeroDocumento;
             vNotaDeEntradaSalida.TipodeOperacionAsEnum = eTipodeOperacion.SalidadeInventario;
             vNotaDeEntradaSalida.CodigoCliente = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoGenericoCliente");
-            if (LibDefGen.ProgramInfo.ProgramInitials == LibProduct.GetInitialsSaw()) {
-                vNotaDeEntradaSalida.CodigoLote = "0000000000";
-            } else if (LibDefGen.ProgramInfo.ProgramInitials == LibProduct.GetInitialsAdmEcuador()) {
-                vNotaDeEntradaSalida.ConsecutivoCliente = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ConsecutivoGenericoCliente");
-                vNotaDeEntradaSalida.NumeroLote = 0;
-            }
+            vNotaDeEntradaSalida.CodigoLote = "0000000000";
             vNotaDeEntradaSalida.CodigoAlmacen = valOrdenDeProduccion.CodigoAlmacenMateriales;
             vNotaDeEntradaSalida.Fecha = valOrdenDeProduccion.FechaInicio;
             vNotaDeEntradaSalida.Comentarios = "Nota salida Inicio de Orden de Producción " + valOrdenDeProduccion.Codigo;
@@ -674,12 +669,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
             vNotaDeEntrada.NumeroDocumento = vNumeroDocumento;
             vNotaDeEntrada.TipodeOperacionAsEnum = eTipodeOperacion.EntradadeInventario;
             vNotaDeEntrada.CodigoCliente = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoGenericoCliente");
-            if (LibDefGen.ProgramInfo.ProgramInitials == LibProduct.GetInitialsSaw()) {
-                vNotaDeEntrada.CodigoLote = "0000000000";
-            } else if (LibDefGen.ProgramInfo.ProgramInitials == LibProduct.GetInitialsAdmEcuador()) {
-                vNotaDeEntrada.ConsecutivoCliente = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ConsecutivoGenericoCliente");
-                vNotaDeEntrada.NumeroLote = 0;
-            }
+            vNotaDeEntrada.CodigoLote = "0000000000";
             vNotaDeEntrada.CodigoAlmacen = valOrdenDeProduccion.CodigoAlmacenProductoTerminado;
             vNotaDeEntrada.Fecha = valOrdenDeProduccion.FechaFinalizacion;
             vNotaDeEntrada.Comentarios = "Nota entrada Cierre de Orden de Producción " + valOrdenDeProduccion.Codigo;

@@ -38,16 +38,20 @@ namespace Galac.Saw.Dal.Inventario {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             vParams.AddReturn();
+            vParams.AddInDateFormat("DateFormat");
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
             vParams.AddInString("NumeroDocumento", valRecord.NumeroDocumento, 11);
             vParams.AddInInteger("ConsecutivoRenglon", valRecord.ConsecutivoRenglon);
-            vParams.AddInString("CodigoArticulo", valRecord.CodigoArticulo, 15);
+            vParams.AddInString("CodigoArticulo", valRecord.CodigoArticulo, 30);
             vParams.AddInDecimal("Cantidad", valRecord.Cantidad, 2);
             vParams.AddInEnum("TipoArticuloInv", valRecord.TipoArticuloInvAsDB);
             vParams.AddInString("Serial", valRecord.Serial, 50);
             vParams.AddInString("Rollo", valRecord.Rollo, 20);
             vParams.AddInDecimal("CostoUnitario", valRecord.CostoUnitario, 2);
             vParams.AddInDecimal("CostoUnitarioME", valRecord.CostoUnitarioME, 2);
+            vParams.AddInString("LoteDeInventario", valRecord.LoteDeInventario, 30);
+            vParams.AddInDateTime("FechaDeElaboracion", valRecord.FechaDeElaboracion);
+            vParams.AddInDateTime("FechaDeVencimiento", valRecord.FechaDeVencimiento);
             vResult = vParams.Get();
             return vResult;
         }
@@ -56,6 +60,7 @@ namespace Galac.Saw.Dal.Inventario {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             vParams.AddReturn();
+            vParams.AddInDateFormat("DateFormat");
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
             vParams.AddInString("NumeroDocumento", valRecord.NumeroDocumento, 11);
             vParams.AddInXml("XmlDataDetail", ParseToXml(valRecord));
@@ -119,7 +124,10 @@ namespace Galac.Saw.Dal.Inventario {
                     new XElement("Serial", vEntity.Serial),
                     new XElement("Rollo", vEntity.Rollo),
                     new XElement("CostoUnitario", vEntity.CostoUnitario),
-                    new XElement("CostoUnitarioME", vEntity.CostoUnitarioME)));
+                    new XElement("CostoUnitarioME", vEntity.CostoUnitarioME),
+                    new XElement("LoteDeInventario", vEntity.LoteDeInventario),
+                    new XElement("FechaDeElaboracion", vEntity.FechaDeElaboracion),
+                    new XElement("FechaDeVencimiento", vEntity.FechaDeVencimiento)));
             return vXElement;
         }
         #region Miembros de ILibDataDetailComponent<IList<RenglonNotaES>, IList<RenglonNotaES>>
@@ -171,6 +179,8 @@ namespace Galac.Saw.Dal.Inventario {
             vResult = IsValidCodigoArticulo(valAction, CurrentRecord.CodigoArticulo);
             vResult = IsValidCantidad(valAction, CurrentRecord.Cantidad) && vResult;
             vResult = IsValidTipoArticuloInv(valAction, CurrentRecord.TipoArticuloInvAsEnum) && vResult;
+            vResult = IsValidFechaDeElaboracion(valAction, CurrentRecord.FechaDeElaboracion) && vResult;
+            vResult = IsValidFechaDeVencimiento(valAction, CurrentRecord.FechaDeVencimiento) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
         }
@@ -201,6 +211,30 @@ namespace Galac.Saw.Dal.Inventario {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
+            }
+            return vResult;
+        }
+
+        private bool IsValidFechaDeElaboracion(eAccionSR valAction, DateTime valFechaDeElaboracion){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(valFechaDeElaboracion, false, valAction)) {
+                BuildValidationInfo(LibDefGen.MessageDateRestrictionDemoProgram());
+                vResult = false;
+            }
+            return vResult;
+        }
+
+        private bool IsValidFechaDeVencimiento(eAccionSR valAction, DateTime valFechaDeVencimiento){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(valFechaDeVencimiento, false, valAction)) {
+                BuildValidationInfo(LibDefGen.MessageDateRestrictionDemoProgram());
+                vResult = false;
             }
             return vResult;
         }
