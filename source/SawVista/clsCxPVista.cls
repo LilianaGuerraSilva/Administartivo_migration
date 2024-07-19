@@ -235,7 +235,7 @@ Public Function fSqlViewRetencionImpuestoMunicipalCxP() As String
         vSQL = vSQL & "dbo.cxP.ConsecutivoCxp = dbo.RenglonImpuestoMunicipalRet.ConsecutivoCxp "
         vSQL = vSQL & "INNER JOIN  dbo.Proveedor ON "
         vSQL = vSQL & "dbo.cxP.ConsecutivoCompania = dbo.Proveedor.ConsecutivoCompania AND "
-        vSql = vSql & gUtilSQL.getIIF("CxP.EsUnaCuentaATerceros =" & gUtilSQL.fBooleanToSqlValue(True), "CxP.CodigoProveedorOriginalServicio", "CxP.CodigoProveedor", True) & " = Proveedor.CodigoProveedor "
+        vSQL = vSQL & gUtilSQL.getIIF("CxP.EsUnaCuentaATerceros =" & gUtilSQL.fBooleanToSqlValue(True), "CxP.CodigoProveedorOriginalServicio", "CxP.CodigoProveedor", True) & " = Proveedor.CodigoProveedor "
         vSQL = vSQL & "INNER JOIN "
         vSQL = vSQL & "dbo.COMPANIA ON "
         vSQL = vSQL & "dbo.cxP.ConsecutivoCompania = dbo.COMPANIA.ConsecutivoCompania "

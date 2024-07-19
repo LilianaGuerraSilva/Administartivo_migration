@@ -250,13 +250,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnabledModeloNotaEntregaModoTexto {
             get {
-                return !UsaImprentaDigital();
+                return IsEnabled && !UsaImprentaDigital();
             }
         }
 
         public bool IsEnabledOrdenDeDespacho {
             get {
-                return !UsaImprentaDigital();
+                return IsEnabled && !UsaImprentaDigital();
             }
         }
 

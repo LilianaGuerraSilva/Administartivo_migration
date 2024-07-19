@@ -35,7 +35,7 @@ INNER JOIN Saw.RutaDeComercializacion Ruta ON V.ConsecutivoCompania = Ruta.Conse
 INNER JOIN cliente C ON F.ConsecutivoCompania = C.ConsecutivoCompania AND F.CodigoCliente = C.Codigo
 
 WHERE F.ConsecutivoCompania = @Compania
-AND YEAR(F.Fecha) BETWEEN YEAR(GETDATE())-1 AND YEAR(GETDATE())
+AND YEAR(F.Fecha) = YEAR(GETDATE())
 AND F.StatusFactura = '0'
 AND F.GeneradoPor <> '3'
 AND F.TipoDeDocumento IN ('0', '1', '2', '5', '7')
