@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Controls ;
 using System.Windows.Controls.Primitives ;
 using LibGalac.Aos.Base;
-using LibGalac.Aos.Catching;
+using LibGalac.Aos.UI.WpfControls;
 using LibGalac.Aos.UI.Wpf;
 using LibGalac.Aos.Uil.Usal;
+using LibGalac.Aos.Catching;
 using LibGalac.Aos.Uil;
 namespace Galac.Saw.Wrp.Inventario {
 
+    [ClassInterface(ClassInterfaceType.None)]
 
-    public class wrpNotaDeEntradaSalida: IWrpMfCs {
+    public class wrpNotaDeEntradaSalida: System.EnterpriseServices.ServicedComponent, IWrpMfVb {
         #region Variables
         string _Title = "Nota de Entrada/Salida";
         #endregion //Variables
@@ -25,9 +29,9 @@ namespace Galac.Saw.Wrp.Inventario {
         #region Constructores
         #endregion //Constructores
         #region Metodos Generados
-        #region Miembros de IWrpMfCs
+        #region Miembros de IWrpMfVb
 
-        void IWrpMfCs.Execute(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
+        void IWrpMfVb.Execute(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
             try {
                 CreateGlobalValues(vfwCurrentParameters);
                 ILibMenu insMenu = new Galac.Saw.Uil.Inventario.clsNotaDeEntradaSalidaMenu();
@@ -42,7 +46,7 @@ namespace Galac.Saw.Wrp.Inventario {
             }
         }
 
-        string IWrpMfCs.Choose(string vfwParamInitializationList, string vfwParamFixedList) {
+        string IWrpMfVb.Choose(string vfwParamInitializationList, string vfwParamFixedList) {
             string vResult = "";
             LibSearch insLibSearch = new LibSearch();
             List<LibSearchDefaultValues> vSearchValues = new List<LibSearchDefaultValues>();
@@ -65,7 +69,43 @@ namespace Galac.Saw.Wrp.Inventario {
             }
             return "";
         }
-        #endregion //Miembros de IWrpMfCs
+
+        void IWrpMfVb.InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath) {
+            try {
+                LibWrp.SetAppConfigToCurrentDomain(vfwPath);
+                LibGalac.Aos.Vbwa.LibWrpHelper.ConfigureRuntimeContext(vfwLogin, vfwPassword);
+            } catch (Exception vEx) {
+                if (vEx is AccessViolationException) {
+                    throw;
+                }
+                throw new GalacWrapperException(Title + " - Inicializar", vEx);
+            }
+        }
+
+        void IWrpMfVb.InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO) {
+            try {
+                string vLogicUnitDir = LibGalac.Aos.Cnf.LibAppSettings.ULS;
+                LibGalac.Aos.DefGen.LibDefGen.InitializeProgramInfo(vfwProgramInitials, vfwProgramVersion, vfwDbVersion, LibConvert.ToDate(vfwStrDateOfVersion), vfwStrHourOfVersion, "", vfwCountry, LibConvert.ToInt(vfwCMTO));
+                LibGalac.Aos.DefGen.LibDefGen.InitializeWorkPaths("", vLogicUnitDir, LibApp.AppPath(), LibGalac.Aos.DefGen.LibDefGen.ProgramInfo.ProgramInitials);
+            } catch (Exception vEx) {
+                if (vEx is AccessViolationException) {
+                    throw;
+                }
+                throw new GalacWrapperException(Title + " - Inicializar", vEx);
+            }
+        }
+
+        void IWrpMfVb.InitializeContext(string vfwInfo) {
+            try {
+                LibGalac.Aos.DefGen.LibDefGen.Initialize(vfwInfo);
+            } catch (Exception vEx) {
+                if (vEx is System.AccessViolationException) {
+                    throw;
+                }
+                throw new GalacWrapperException(Title + " - Inicialización", vEx);
+            }
+        }
+        #endregion //Miembros de IWrpMfVb
 
         private void CreateGlobalValues(string valCurrentParameters) {
             LibGlobalValues.Instance.LoadCompleteAppMemInfo(valCurrentParameters);
