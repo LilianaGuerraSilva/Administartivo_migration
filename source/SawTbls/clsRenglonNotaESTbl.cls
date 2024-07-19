@@ -55,10 +55,13 @@ Public Function fCreateTable(ByVal valShowMessage As Boolean) As Boolean
    SQL = SQL & "CodigoArticulo " & gUtilSQL.getVarCharTypeForDB(30) & " CONSTRAINT nnRenglonNotaESCodigoArti NOT NULL, "
    SQL = SQL & "Cantidad " & gUtilSQL.getNumericTypeForDB(12, 2) & " CONSTRAINT nnRenglonNotaESCantidad NOT NULL, "
    SQL = SQL & "TipoArticuloInv" & gUtilSQL.getCharTypeForDB(1) & " CONSTRAINT nnRenglonNotaESTipoArticu NOT NULL, "
-   SQL = SQL & "Serial" & gUtilSQL.getVarCharTypeForDB(50) & " CONSTRAINT nnRenglonNotaESSerial NOT NULL, "
-   SQL = SQL & "Rollo" & gUtilSQL.getVarCharTypeForDB(20) & "CONSTRAINT nnRenglonNotaESRollo NOT NULL, "
+   SQL = SQL & "Serial" & gUtilSQL.getVarCharTypeForDB(50) & ", "
+   SQL = SQL & "Rollo" & gUtilSQL.getVarCharTypeForDB(20) & ", "
    SQL = SQL & "CostoUnitario " & gUtilSQL.getNumericTypeForDB(12, 4) & " CONSTRAINT d_RenNotESCoUn DEFAULT (0), "
    SQL = SQL & "CostoUnitarioME " & gUtilSQL.getNumericTypeForDB(12, 4) & " CONSTRAINT d_RenNotESCoUnME DEFAULT (0), "
+   SQL = SQL & "LoteDeInventario" & gUtilSQL.getVarCharTypeForDB(30) & ", "
+   SQL = SQL & "FechaDeElaboracion" & gUtilSQL.getDateTypeForDB() & ", "
+   SQL = SQL & "FechaDeVencimiento" & gUtilSQL.getDateTypeForDB() & ", "
    SQL = SQL & gDefDatabase.getFN_TIMESTAMP() & " timestamp )"
    gDbUtil.Execute gDefDatabase.Conexion, SQL
    sAddPrimaryKeyAndOtherConstrains
