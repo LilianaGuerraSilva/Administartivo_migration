@@ -138,11 +138,14 @@ UnNEntregaGeneradaPor = (Usuario, Factura);//e
 unConsultarDataPor = (Descuadre, Error de Sistema, Error de Usuario, Conversión, Integración, Conversión/Integración);//e
 unFamiliaDeMaquinaFiscal = (Bematech,Epson,Elepos,TheFactory,QPrint,BMC);//e,Componente=Venta
 unImpresorasFiscales = (EPSON_PF_220, EPSON_PF_300,EPSON_TM_675_PF,EPSON_TM_950_PF,BEMATECH_MP_20_FI_II);//e
+unTipoDocumentoIdentificacion = (RUC, DNI, Carnet de Extranjería, Pasaporte, Otros Tipos de Documentos);//e,Componente=GestionCompras
 unStatusRendicion = (EnProceso, Cerrada, Anulada);//e
 unTipoDeTransaccion = (Factura, Giro, ChequeDevuelto, NotaDeCredito, NotaDeDebito, NotaEntrega, NoAsignado, BoletaDeVenta, TicketMaquinaRegistradora, ReciboPorHonorarios, LiquidacionDeCompra, Otros); //e
 unAccionLimiteItemsFactura = (Solo Advertir,No Exeder numero Items);//e
 unStatusDetraccion= (Autodetraccion,DetraccionPorTercero, NoAplicada);//e,Componente=Pago
 unOrigenRendicion = (Manual, Sistema10); //e
+unTipoNegocio = (General, TallerMecanico); //e
+unOrigen = (Pago, cxP); //e
 unTipoDeDocumentoRendicion = (Redicion, Reposicion);//e,Componente=CajaChica
 unOrigenBeneficiario = (Administrativo,Nomina);//e,Componente=Banco
 unSolicitudGeneradaPor= (CalculosDeNomina, Vacaciones, Utilidades, PagoDeIntereses, Fideicomiso, Liquidacion, NoAplica);//e,Componente=Banco
@@ -156,7 +159,6 @@ DondeEfectuoContabilizacionRetIVA= (NoContabilizada, CxP,Pago); //e,Componente=C
 //unConceptoBancarioPorDefecto = (DEBITO_BANCARIO_AUTOMATICO,REVERSO_AUTOMATICO_COBRANZA,REV_AUTOMATICO_ANT_COBRADO,REV_AUTOMATICO_ANT_PAGADO,ANTICIPO_COBRADO,ANTICIPO_PAGADO,COBRO_DIRECTO_DE_FACT,REVERSO_AUTOMATICO_PAGO,TRANSERENCIA_INGRESO,TRANSERENCIA_EGRESO,DETRACCION_INGRESO,DETRACCION_EGRESO,REV_AUTOMATICO_SOLI_PAGADO,PAGO_RETENCION_DIRECTO_DESDE_CXP,PAGO_CAJA_CHICA,EGRESO_REPOSICION_CAJA_CHICA,INGRESO_REPOSICION_CAJA_CHICA)//e,Componente=Banco
 unConceptoBancarioPorDefecto = (Debito Bancario Automatico,Reverso Automatico Cobranza,Rev Automatico Ant Cobrado,Rev Automatico Ant Pagado,Anticipo Cobrado,Anticipo Pagado,Cobro Directo De Fact,Reverso Automatico Pago,Transerencia Ingreso,Transerencia Egreso,Detraccion Ingreso,Detraccion Egreso,Rev Automatico Soli Pagado,Pago Retencion Directo Desde Cxp,Pago Caja Chica,Egreso Reposicion Caja Chica,Ingreso Reposicion Caja Chica)//e,Componente=Banco
 unTipodePersonaRetencion = (PJ_Domiciliada, PJ_NoDomiciliada,PN_Residente,PN_NoResidente);//e,Componente=GestionCompras
-unTipoDocumentoIdentificacion = (RUC, DNI, Carnet de Extranjería, Pasaporte, Otros Tipos de Documentos);//e,Componente=GestionCompras
 unTipoDeProveedorDeLibrosFiscales = (Con Rif, Sin Rif, No Residenciado, No Domiciliado);//e,Componente=GestionCompras
 unTipoDePersonaLibrosElectronicos (Natural, Juridico,NoDomiciliado);//e,Componente=GestionCompras
 unTipoDeDatoParametros = (Enumerativo, Int, String, Decimal)//e,Componente=SttDef
