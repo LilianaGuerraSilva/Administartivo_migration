@@ -291,10 +291,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             ConfigurarNotaCredito();
         }
 
-        private void ConfigurarImprentaDigital() {
-            int vConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
+        private void ConfigurarImprentaDigital() {            
             ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).ConfigurarImprentaDigital(Proveedor, FechaDeInicioDeUso);
-            ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).GuardarDatosImprentaDigitalAppSettings(vConsecutivoCompania, Proveedor, Usuario, Clave, Url);
+            ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).GuardarDatosImprentaDigitalAppSettings(Proveedor, Usuario, Clave, Url);
         }
 
         private void MoverDocumentosFactura(eTipoDocumentoFactura valTipoDocFactura, eTalonario valTalonarioOrigen, eTalonario valTalonarioDestino) {
@@ -328,7 +327,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             _UsaFacturaPreNumeradaTalonario1 = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "FacturaPreNumeradaTalonario1");
             _UsaNCPreNumerada = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "NCPreNumerada");
             _UsaNDPreNumerada = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "NDPreNumerada");
-
             Proveedor = eProveedorImprentaDigital.NoAplica;
             Url = string.Empty;
             Usuario = string.Empty;

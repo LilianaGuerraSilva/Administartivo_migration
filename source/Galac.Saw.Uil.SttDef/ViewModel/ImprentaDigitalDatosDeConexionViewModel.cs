@@ -116,11 +116,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         #endregion //Metodos Generados
 
         protected void ExecuteActualizarConexion() {
-            int _ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
             if (LibString.IsNullOrEmpty(Usuario) || LibString.IsNullOrEmpty(Clave)) {
                 LibMessages.MessageBox.ValidationError(this, "Los campos Usuario y Clave son obligatorios.", ModuleName);
             } else {
-                ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).GuardarDatosImprentaDigitalAppSettings(_ConsecutivoCompania, _ProveedorImprentaDigital, Usuario, Clave, Url);
+                ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).GuardarDatosImprentaDigitalAppSettings(_ProveedorImprentaDigital, Usuario, Clave, Url);
                 RaiseRequestCloseEvent();
             }
         }

@@ -35,7 +35,7 @@ namespace Galac.Saw.Ccl.SttDef {
         void MoverDocumentosDeTalonario(eTipoDocumentoFactura valTipoDeDocumento, eTalonario valTalonarioOrigen, eTalonario valTalonarioDestino);
         void ConfigurarImprentaDigital(eProveedorImprentaDigital valProveedorImprentaDigital, DateTime valFechaDeInicioDeUsoDeImprentaDigital);
         bool SonValidosLosSiguienteNumerosDeDocumentosParaImprentaDigital(string valPrimerNumeroFacturaT1, string valPrimerNumeroNotaDeCredito, string valPrimerNumeroNotaDeDebito, out StringBuilder outMessage);
-        void GuardarDatosImprentaDigitalAppSettings(int valConsecutivoCompania, eProveedorImprentaDigital valProveedor, string valUsuario, string valClave, string valUrl);
+        void GuardarDatosImprentaDigitalAppSettings(eProveedorImprentaDigital valProveedor, string valUsuario, string valClave, string valUrl);
         ObservableCollection<string> ListaDeUsuariosSupervisoresActivos();
         bool EjecutaConexionConGVentas(int valConsecutivoCompania, string valParametroSuscripcionGVentas, string valSerialConectorGVentas, string valNombreCompaniaGVentas, string valNombreUsuarioOperaciones, eAccionSR valAction);
     }

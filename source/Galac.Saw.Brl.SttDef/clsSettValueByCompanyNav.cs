@@ -2588,7 +2588,7 @@ namespace Galac.Saw.Brl.SttDef {
             return vResult;
         }
 
-        void ISettValueByCompanyPdn.GuardarDatosImprentaDigitalAppSettings(int valConsecutivoCompania, eProveedorImprentaDigital valProveedor, string valUsuario, string valClave, string valUrl) {
+        void ISettValueByCompanyPdn.GuardarDatosImprentaDigitalAppSettings(eProveedorImprentaDigital valProveedor, string valUsuario, string valClave, string valUrl) {
             string vCampoUsuario = string.Empty;
             string vCampoClave = string.Empty;
             bool vContinuar = false;
@@ -2598,16 +2598,15 @@ namespace Galac.Saw.Brl.SttDef {
                 vContinuar = true;
             }
             if (vContinuar) {
-                clsImprentaDigitalSettings insIDStt = new clsImprentaDigitalSettings {
-                    DireccionURL = valUrl,
-                    CampoUsuario = vCampoUsuario,
-                    CampoClave = vCampoClave,
-                    Usuario = valUsuario,
-                    Clave = LibCryptography.SymEncryptDES(valClave)
+                clsImprentaDigitalSettings insIDStt = new clsImprentaDigitalSettings() {
+                    DireccionURL = LibString.Trim(valUrl),
+                    CampoUsuario = LibString.Trim(vCampoUsuario),
+                    CampoClave = LibString.Trim(vCampoClave),
+                    Usuario = LibString.Trim(valUsuario),
+                    Clave = LibString.Trim(LibCryptography.SymEncryptDES(valClave))
                 };
-                insIDStt.ActualizarValores(valConsecutivoCompania);
+                insIDStt.ActualizarValores();
             }
-
         }
 
         ObservableCollection<string> ISettValueByCompanyPdn.ListaDeUsuariosSupervisoresActivos() {
