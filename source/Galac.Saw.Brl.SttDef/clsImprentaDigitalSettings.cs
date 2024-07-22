@@ -41,7 +41,7 @@ namespace Galac.Saw.Brl.SttDef {
 
         public string CampoClave {
             get { return _CampoClave; }
-            set { _CampoClave = LibString.Mid(value, 0, 50); }
+            set { _CampoClave = LibString.Mid(value, 0, 100); }
         }
 
         public string Clave {
