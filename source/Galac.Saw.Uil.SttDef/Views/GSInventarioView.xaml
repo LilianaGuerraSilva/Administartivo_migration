@@ -15,8 +15,6 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-
-
     <Grid FocusManager.FocusedElement="{Binding ElementName=chkUsarBaseImponibleDiferenteA0Y100}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -26,9 +24,10 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
         <GroupBox
             Grid.Row="0"
             Grid.Column="0"
@@ -39,64 +38,47 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" MinWidth="142" />
+                    <ColumnDefinition Width="Auto" MinWidth="203" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-
                 <Label
-                    Name="lblUsarBaseImponibleDiferenteA0Y100"
+                    Name="lblUsaLoteFechaDeVencimiento"
                     Grid.Row="0"
                     Grid.Column="0"
-                    Content="Usar Base Imponible Diferente 100%........................"
-                    Style="{StaticResource LabelPrompt}" />
+                    Content="Usar Lote/Fecha de Vencimiento"
+                    Style="{StaticResource LabelPrompt}" Height="24" Margin="3,3,0,0" Width="184" />
                 <CheckBox
-                    Name="chkUsarBaseImponibleDiferenteA0Y100"
+                    Name="chkUsaLoteFechaDeVencimiento"
                     Grid.Row="0"
                     Grid.Column="1"
                     HorizontalAlignment="Left"
-                    IsChecked="{Binding Path=UsarBaseImponibleDiferenteA0Y100}"
-                    IsEnabled="{Binding Path=IsEnabled}"
-                    Style="{StaticResource CheckBoxStyle}" />
-                <Label
-                    Name="lblImprimirTransferenciaAlInsertar"
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    Content="Mostrar Opción de Imprimir al insertar Transferencia"
-                    Style="{StaticResource LabelPrompt}" />
-                <CheckBox
-                    Name="chkImprimirTransferenciaAlInsertar"
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    HorizontalAlignment="Left"
-                    IsChecked="{Binding Path=ImprimirTransferenciaAlInsertar}"
-                    IsEnabled="{Binding Path=IsEnabled}"
-                    Style="{StaticResource CheckBoxStyle}" />
-
+                    IsChecked="{Binding Path=UsaLoteFechaDeVencimiento}"
+                    IsEnabled="{Binding Path=IsEnabledUsaLoteFechaDeVencimiento}"
+                    Style="{StaticResource CheckBoxStyle}" Height="14" Margin="3,8,0,8" Width="16" />
                 <Label
                     Name="lblCantidadDeDecimales"
-                    Grid.Row="1"
+                    Grid.Row="0"
                     Grid.Column="2"
                     Content="Cantidad de Decimales"
-                    Style="{StaticResource LabelPrompt}" />
+                    Style="{StaticResource LabelPrompt}" Height="24" Margin="3,3,0,0" Width="134" />
                 <nsWpfControls:GSComboBoxWpf
                     Name="cmbCantidadDeDecimales"
-                    Grid.Row="1"
+                    Grid.Row="0"
                     Grid.Column="3"
                     Width="120"
                     IsEnabled="{Binding Path=IsEnabled}"
                     IsSynchronizedWithCurrentItem="True"
                     ItemsSource="{Binding Path=ArrayCantidadDeDecimales}"
                     SelectedItem="{Binding Path=CantidadDeDecimales, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                    Style="{StaticResource ComboBoxStyle}" />
+                    Style="{StaticResource ComboBoxStyle}" Height="Auto" Margin="3,4,0,4" />
 
             </Grid>
         </GroupBox>
-
         <GroupBox
             Grid.Row="1"
             Grid.Column="0"
@@ -313,13 +295,11 @@
 
             </Grid>
         </GroupBox>
-
         <GroupBox
             Grid.Row="1"
-            Grid.RowSpan="2"
             Grid.Column="1"
             Margin="3"
-            Header="Artículo de Inventario - Campos Definibles"
+            Header="Campos Definibles"
             Style="{StaticResource GroupBoxStyle}">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -356,7 +336,6 @@
                     MaxLength="20"
                     Style="{StaticResource TextBoxInputStyle}"
                     Text="{Binding Path=NombreCampoDefinibleInventario1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-
                 <Label
                     Name="lblNombreCampoDefinibleInventario2"
                     Grid.Row="1"
@@ -374,7 +353,6 @@
                     MaxLength="20"
                     Style="{StaticResource TextBoxInputStyle}"
                     Text="{Binding Path=NombreCampoDefinibleInventario2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-
                 <Label
                     Name="lblNombreCampoDefinibleInventario3"
                     Grid.Row="2"
@@ -392,7 +370,6 @@
                     MaxLength="20"
                     Style="{StaticResource TextBoxInputStyle}"
                     Text="{Binding Path=NombreCampoDefinibleInventario3, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-
                 <Label
                     Name="lblNombreCampoDefinibleInventario4"
                     Grid.Row="3"
@@ -410,7 +387,6 @@
                     MaxLength="20"
                     Style="{StaticResource TextBoxInputStyle}"
                     Text="{Binding Path=NombreCampoDefinibleInventario4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-
                 <Label
                     Name="lblNombreCampoDefinibleInventario5"
                     Grid.Row="4"
@@ -428,81 +404,138 @@
                     MaxLength="20"
                     Style="{StaticResource TextBoxInputStyle}"
                     Text="{Binding Path=NombreCampoDefinibleInventario5, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-
+            </Grid>
+        </GroupBox>
+        <GroupBox
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="3"
+            Header=""
+            Style="{StaticResource GroupBoxStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="195" />
+                    <ColumnDefinition Width="Auto" MinWidth="212" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="26*" />
+                </Grid.RowDefinitions>
                 <Label
                     Name="lblAsociarCentroDeCosto"
-                    Grid.Row="5"
+                    Grid.Row="0"
                     Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    Content="Asociar Centro de Costos................"
-                    Style="{StaticResource LabelPrompt}" />
+                    Content="Asociar Centro de Costos"
+                    Style="{StaticResource LabelPrompt}" Height="24" Width="146" />
                 <nsWpfControls:GSComboBoxWpf
                     Name="cmbFormaDeAsociarCentroDeCosto"
-                    Grid.Row="5"
+                    Grid.Row="0"
                     Grid.Column="1"
                     Width="200"
                     IsEnabled="{Binding Path=IsEnabledAsociarCentroDeCostos}"
                     IsSynchronizedWithCurrentItem="True"
                     ItemsSource="{Binding Path=ArrayAsociarCentroDeCostos}"
                     SelectedItem="{Binding Path=AsociarCentroDeCostos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                    Style="{StaticResource ComboBoxStyle}" />
-
+                    Style="{StaticResource ComboBoxStyle}" Height="Auto" />
                 <Label
                     Name="lblAvisoDeReservasvencidas"
-                    Grid.Row="6"
+                    Grid.Row="1"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
-                    Content="Alerta de Reservas Vencidas..................................................................."
-                    Style="{StaticResource LabelPrompt}" />
+                    Content="Alerta de Reservas Vencidas............................................................."
+                    Style="{StaticResource LabelPrompt}" Height="24"   />
                 <CheckBox
                     Name="chkAvisoDeReservasvencidas"
-                    Grid.Row="6"
+                    Grid.Row="1"
                     Grid.Column="1"
-                    Margin="190,10,0,10"
                     HorizontalAlignment="Left"
                     IsChecked="{Binding Path=AvisoDeReservasvencidas}"
                     IsEnabled="{Binding Path=IsEnabled}"
-                    Style="{StaticResource CheckBoxStyle}" />
-
+                    Style="{StaticResource CheckBoxStyle}" Height="15" Width="16" Margin="186,10,0,5" />
                 <Label
                     Name="lblVerificarStock"
-                    Grid.Row="7"
+                    Grid.Row="2"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
-                    Content="Alerta por Máximo o Mí­nimo Stock..........................................................."
-                    Style="{StaticResource LabelPrompt}" />
+                    Content="Alerta por Máximo o Mí­nimo Stock....................................................."
+                    Style="{StaticResource LabelPrompt}" Height="24"  />
                 <CheckBox
                     Name="chkVerificarStock"
-                    Grid.Row="7"
+                    Grid.Row="2"
                     Grid.Column="1"
-                    Margin="190,10,0,10"
                     HorizontalAlignment="Left"
                     IsChecked="{Binding Path=VerificarStock}"
                     IsEnabled="{Binding Path=IsEnabled}"
-                    Style="{StaticResource CheckBoxStyle}" />
-
+                    Style="{StaticResource CheckBoxStyle}" Height="15" Width="16" Margin="186,5,0,10" />
                 <Label
                     Name="lblImprimeSerialRolloLuegoDeDescripArticulo"
-                    Grid.Row="8"
+                    Grid.Row="3"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
-                    Content="Imprime Serial Rollo Luego de Descripción de Artículo..........................."
-                    Style="{StaticResource LabelPrompt}" />
+                    Content="Imprime Serial Rollo luego de descripción de Artículo........................"
+                    Style="{StaticResource LabelPrompt}" Height="24" />
                 <CheckBox
                     Name="chkImprimeSerialRolloLuegoDeDescripArticulo"
-                    Grid.Row="8"
+                    Grid.Row="3"
                     Grid.Column="1"
-                    Margin="190,10,0,10"
+                    Margin="186,10,0,10"
                     HorizontalAlignment="Left"
                     IsChecked="{Binding Path=ImprimeSerialRolloLuegoDeDescripArticulo}"
                     IsEnabled="{Binding Path=IsEnabled}"
-                    Style="{StaticResource CheckBoxStyle}" />
-
+                    Style="{StaticResource CheckBoxStyle}" Height="15" Width="16" />
             </Grid>
         </GroupBox>
+        <GroupBox
+            Grid.Row="5"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="3"
+            Header=""
+            Style="{StaticResource GroupBoxStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" MinWidth="45" />
+                    <ColumnDefinition Width="Auto" MinWidth="315" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
+                <Label
+                    Name="lblUsarBaseImponibleDiferenteA0Y100"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Content="Usar Base Imponible Diferente 100%........................"
+                    Style="{StaticResource LabelPrompt}" Height="24" Margin="3,3,0,0" Width="287" />
+                <CheckBox
+                    Name="chkUsarBaseImponibleDiferenteA0Y100"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding Path=UsarBaseImponibleDiferenteA0Y100}"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    Style="{StaticResource CheckBoxStyle}" Height="14" Margin="3,8,0,8" Width="16" />
+                <Label
+                    Name="lblImprimirTransferenciaAlInsertar"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Content="Mostrar Opción de Imprimir al insertar Transferencia"
+                    Style="{StaticResource LabelPrompt}" Height="24" Margin="3,3,0,0" Width="288" />
+                <CheckBox
+                    Name="chkImprimirTransferenciaAlInsertar"
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding Path=ImprimirTransferenciaAlInsertar}"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    Style="{StaticResource CheckBoxStyle}" Height="14" Margin="3,8,0,8" Width="16" />
+            </Grid>
+        </GroupBox>
     </Grid>
-
-
-
 </UserControl>

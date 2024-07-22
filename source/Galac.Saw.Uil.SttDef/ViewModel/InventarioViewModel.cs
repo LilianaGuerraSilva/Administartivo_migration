@@ -358,6 +358,17 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
            
         }
 
+        public bool UsaLoteFechaDeVencimiento {
+            get { return Model.UsaLoteFechaDeVencimientoAsBool; }
+            set {
+                if (Model.UsaLoteFechaDeVencimientoAsBool != value) {
+                    Model.UsaLoteFechaDeVencimientoAsBool = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(() => UsaLoteFechaDeVencimiento);
+                }
+            }
+        }
+
         public ePermitirSobregiro[] ArrayPermitirSobregiro {
             get {
                 return LibEnumHelper<ePermitirSobregiro>.GetValuesInArray();
@@ -406,6 +417,12 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public bool IsEnabledDatosAlmacen {
             get {
                 return IsEnabled && UsaAlmacen && !LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsEmprendedor");
+            }
+        }
+
+        public bool IsEnabledUsaLoteFechaDeVencimiento {
+            get {
+                return IsEnabled && SePuedeModificarUsaLoteFechaDeVencimiento();
             }
         }
         #endregion //Propiedades
@@ -466,6 +483,19 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
+        }
+
+        private bool SePuedeModificarUsaLoteFechaDeVencimiento() {
+            int vConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
+            bool vSePuedeModificarUsaLoteFechaDeVencimiento = true;
+            ISettValueByCompanyPdn insParametrosByCompany = new clsSettValueByCompanyNav();
+            if (UsaLoteFechaDeVencimiento) {
+                vSePuedeModificarUsaLoteFechaDeVencimiento = !insParametrosByCompany.ExistenArticulosLoteFdV(vConsecutivoCompania);
+            } else {
+                vSePuedeModificarUsaLoteFechaDeVencimiento = !insParametrosByCompany.ExistenArticulosMercanciaNoSimpleNoLoteFDV(vConsecutivoCompania);
+            }
+            
+            return vSePuedeModificarUsaLoteFechaDeVencimiento;
         }
 
         #endregion //Metodos Generados

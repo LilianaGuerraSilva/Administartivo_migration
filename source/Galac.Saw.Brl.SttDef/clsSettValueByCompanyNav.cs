@@ -995,6 +995,7 @@ namespace Galac.Saw.Brl.SttDef {
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.AvisoDeReservasvencidasAsBool), "AvisoDeReservasvencidas", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.VerificarStockAsBool), "VerificarStock", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.ImprimeSerialRolloLuegoDeDescripArticuloAsBool), "ImprimeSerialRolloLuegoDeDescripArticulo", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaLoteFechaDeVencimientoAsBool), "UsaLoteFechaDeVencimiento", valConsecutivoCompania));            
         }
         InventarioStt GetInventarioStt(List<SettValueByCompany> valListGetSettValueByCompany) {
             InventarioStt vResult = new InventarioStt();
@@ -2650,5 +2651,28 @@ namespace Galac.Saw.Brl.SttDef {
             LibBusiness.ExecuteUpdateOrDelete(vSql, null, "", 0);
         }
 
+        bool ISettValueByCompanyPdn.ExistenArticulosMercanciaNoSimpleNoLoteFDV(int valConsecutivoCompania) {
+            bool vResult = false;
+            QAdvSql insSql = new QAdvSql("");
+            string vSql = "SELECT COUNT(*) AS CantidadArticulos FROM articuloInventario WHERE TipoDeArticulo = '0' AND TipoArticuloInv IN ('1', '2', '3', '4') AND ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania);
+            XElement vCountArtMercanciaNoSimpleNoLoteFdV = LibBusiness.ExecuteSelect(vSql, new StringBuilder(), string.Empty, 0);
+            if (vCountArtMercanciaNoSimpleNoLoteFdV != null) {
+                int vCount = LibConvert.ToInt(vCountArtMercanciaNoSimpleNoLoteFdV.Descendants().Select(s => s.Element("CantidadArticulos")).FirstOrDefault());
+                vResult = vCount > 0;
+            }
+            return vResult;
+        }
+
+        bool ISettValueByCompanyPdn.ExistenArticulosLoteFdV(int valConsecutivoCompania) {
+            bool vResult = false;
+            QAdvSql insSql = new QAdvSql("");
+            string vSql = "SELECT COUNT(*) AS CantidadArticulos FROM articuloInventario WHERE TipoDeArticulo = '0' AND TipoArticuloInv IN ('5') AND ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania);
+            XElement vCountArtMercanciaNoSimpleNoLoteFdV = LibBusiness.ExecuteSelect(vSql, new StringBuilder(), string.Empty, 0);
+            if (vCountArtMercanciaNoSimpleNoLoteFdV != null) {
+                int vCount = LibConvert.ToInt(vCountArtMercanciaNoSimpleNoLoteFdV.Descendants().Select(s => s.Element("CantidadArticulos")).FirstOrDefault());
+                vResult = vCount > 0;
+            }
+            return vResult;
+        }
     } //End of class clsSettValueByCompanyNav
 } //End of namespace Galac.Saw.Brl.PrdStt

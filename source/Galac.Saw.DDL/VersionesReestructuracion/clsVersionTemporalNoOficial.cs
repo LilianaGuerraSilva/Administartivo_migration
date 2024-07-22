@@ -16,8 +16,13 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			StartConnectionNoTransaction();
 			CrearLoteDeInventario();
 			AjustesNotaEntradaSalida();
+			CreacionDeParametros();
 			DisposeConnectionNoTransaction();
 			return true;
+		}
+
+		void CreacionDeParametros() {
+			AgregarNuevoParametro("UsaLoteFechaDeVencimiento", "Inventario", 0, "5.1.- Inventario", 1, "", eTipoDeDatoParametros.Enumerativo, "", 'N', "N");
 		}
 
         void AjustesNotaEntradaSalida() {
