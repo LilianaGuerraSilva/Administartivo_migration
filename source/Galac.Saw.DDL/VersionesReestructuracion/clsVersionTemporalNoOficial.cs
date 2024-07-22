@@ -10,6 +10,7 @@ using System;
 using System.Data;
 using LibGalac.Aos.Cnf;
 using Galac.Saw.Lib;
+using LibGalac.Aos.DefGen;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
 
@@ -17,9 +18,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
 		public override bool UpdateToVersion() {
 			StartConnectionNoTransaction();
-			AgregarColumnasEnCompania();
-			TrasladarDatosImprentaDigitalACompania();
-			DisposeConnectionNoTransaction();
+			AgregarColumnasEnCompania();            
+            DisposeConnectionNoTransaction();
 			return true;
 		}
 
@@ -29,7 +29,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			AddColumnString("Compania", "ImprentaDigitalNombreCampoClave", 50, "", "");
 			AddColumnString("Compania", "ImprentaDigitalUsuario", 100, "", "");
 			AddColumnString("Compania", "ImprentaDigitalClave", 500, "", "");
-		}
+            TrasladarDatosImprentaDigitalACompania();
+        }
 
 		private void TrasladarDatosImprentaDigitalACompania() {
 			int vConsecutivoCompania;
@@ -52,7 +53,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
                 vSql.AppendLine(", ImprentaDigitalClave= " + _insSql.ToSqlValue(vKeyValue));
                 vSql.AppendLine(" WHERE ConsecutivoCompania=" + _insSql.ToSqlValue(vConsecutivoCompania));
 				Execute(vSql.ToString(), 0);
-                //
+                //                
                 ConfigHelper.AddKeyToAppSettings("DIRECCIONURL", string.Empty);
                 ConfigHelper.AddKeyToAppSettings("CAMPOUSUARIO", string.Empty);
                 ConfigHelper.AddKeyToAppSettings("CAMPOCLAVE", string.Empty);
