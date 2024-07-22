@@ -26,9 +26,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public const string NombreAlmacenPropertyName = "NombreAlmacen";
         public const string FechaPropertyName = "Fecha";
         public const string ComentariosPropertyName = "Comentarios";
+        public const string StatusNotaEntradaSalidaPropertyName = "StatusNotaEntradaSalida";
         public const string ConsecutivoAlmacenPropertyName = "ConsecutivoAlmacen";
-        public const string ConsecutivoDocumentoOrigenPropertyName = "ConsecutivoDocumentoOrigen";
-        public const string TipoNotaProduccionPropertyName = "TipoNotaProduccion";
         public const string NombreOperadorPropertyName = "NombreOperador";
         public const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
         #endregion
@@ -37,7 +36,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         private FkClienteViewModel _ConexionNombreCliente = null;
         private FkAlmacenViewModel _ConexionCodigoAlmacen = null;
         private FkAlmacenViewModel _ConexionNombreAlmacen = null;
-        private FkAlmacenViewModel _ConexionConsecutivoAlmacen = null;
         #endregion //Variables
         #region Propiedades
 
@@ -200,11 +198,12 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             set {
                 if (Model.StatusNotaEntradaSalidaAsEnum != value) {
                     Model.StatusNotaEntradaSalidaAsEnum = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(StatusNotaEntradaSalidaPropertyName);
                 }
             }
         }
 
-        [LibGridColum("Consecutivo Almacen", eGridColumType.Integer, Alignment = eTextAlignment.Right)]
         public int  ConsecutivoAlmacen {
             get {
                 return Model.ConsecutivoAlmacen;
@@ -212,11 +211,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             set {
                 if (Model.ConsecutivoAlmacen != value) {
                     Model.ConsecutivoAlmacen = value;
-                    IsDirty = true;
-                    RaisePropertyChanged(ConsecutivoAlmacenPropertyName);
-                    //if (LibString.IsNullOrEmpty(ConsecutivoAlmacen, true)) {
-                    //    ConexionConsecutivoAlmacen = null;
-                    //}
                 }
             }
         }
@@ -239,8 +233,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             set {
                 if (Model.ConsecutivoDocumentoOrigen != value) {
                     Model.ConsecutivoDocumentoOrigen = value;
-                    IsDirty = true;
-                    RaisePropertyChanged(ConsecutivoDocumentoOrigenPropertyName);
                 }
             }
         }
@@ -252,8 +244,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             set {
                 if (Model.TipoNotaProduccionAsEnum != value) {
                     Model.TipoNotaProduccionAsEnum = value;
-                    IsDirty = true;
-                    RaisePropertyChanged(TipoNotaProduccionPropertyName);
                 }
             }
         }
@@ -374,21 +364,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        public FkAlmacenViewModel ConexionConsecutivoAlmacen {
-            get {
-                return _ConexionConsecutivoAlmacen;
-            }
-            set {
-                if (_ConexionConsecutivoAlmacen != value) {
-                    _ConexionConsecutivoAlmacen = value;
-                    RaisePropertyChanged(ConsecutivoAlmacenPropertyName);
-                }
-                if (_ConexionConsecutivoAlmacen == null) {
-                    ConsecutivoAlmacen = 0;
-                }
-            }
-        }
-
         public RelayCommand<string> ChooseCodigoClienteCommand {
             get;
             private set;
@@ -405,11 +380,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         public RelayCommand<string> ChooseNombreAlmacenCommand {
-            get;
-            private set;
-        }
-
-        public RelayCommand<string> ChooseConsecutivoAlmacenCommand {
             get;
             private set;
         }
@@ -525,7 +495,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             ChooseNombreClienteCommand = new RelayCommand<string>(ExecuteChooseNombreClienteCommand);
             ChooseCodigoAlmacenCommand = new RelayCommand<string>(ExecuteChooseCodigoAlmacenCommand);
             ChooseNombreAlmacenCommand = new RelayCommand<string>(ExecuteChooseNombreAlmacenCommand);
-            ChooseConsecutivoAlmacenCommand = new RelayCommand<string>(ExecuteChooseConsecutivoAlmacenCommand);
         }
 
         protected override void ReloadRelatedConnections() {
@@ -534,7 +503,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             ConexionNombreCliente = FirstConnectionRecordOrDefault<FkClienteViewModel>("Cliente", LibSearchCriteria.CreateCriteria("nombre", NombreCliente));
             ConexionCodigoAlmacen = FirstConnectionRecordOrDefault<FkAlmacenViewModel>("Almacén", LibSearchCriteria.CreateCriteria("Codigo", CodigoAlmacen));
             ConexionNombreAlmacen = FirstConnectionRecordOrDefault<FkAlmacenViewModel>("Almacén", LibSearchCriteria.CreateCriteria("NombreAlmacen", NombreAlmacen));
-            ConexionConsecutivoAlmacen = FirstConnectionRecordOrDefault<FkAlmacenViewModel>("Almacén", LibSearchCriteria.CreateCriteria("Consecutivo", ConsecutivoAlmacen));
         }
 
         private void ExecuteChooseCodigoClienteCommand(string valcodigo) {
@@ -592,11 +560,11 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 if (ConexionCodigoAlmacen != null) {
                     CodigoAlmacen = ConexionCodigoAlmacen.Codigo;
                     NombreAlmacen = ConexionCodigoAlmacen.NombreAlmacen;
-                    ConsecutivoAlmacen = ConexionCodigoAlmacen.Consecutivo;
+                    Model.ConsecutivoAlmacen = ConexionCodigoAlmacen.Consecutivo;
                 } else {
                     CodigoAlmacen = string.Empty;
                     NombreAlmacen = string.Empty;
-                    ConsecutivoAlmacen = 0;
+                    Model.ConsecutivoAlmacen = 0;
                 }
             } catch (System.AccessViolationException) {
                 throw;
@@ -617,30 +585,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                     CodigoAlmacen = ConexionNombreAlmacen.Codigo;
                     NombreAlmacen = ConexionNombreAlmacen.NombreAlmacen;
                     ConsecutivoAlmacen = ConexionNombreAlmacen.Consecutivo;
-                } else {
-                    CodigoAlmacen = string.Empty;
-                    NombreAlmacen = string.Empty;
-                    ConsecutivoAlmacen = 0;
-                }
-            } catch (System.AccessViolationException) {
-                throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
-            }
-        }
-
-        private void ExecuteChooseConsecutivoAlmacenCommand(string valConsecutivo) {
-            try {
-                if (valConsecutivo == null) {
-                    valConsecutivo = string.Empty;
-                }
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Consecutivo", valConsecutivo);
-                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
-                ConexionConsecutivoAlmacen = ChooseRecord<FkAlmacenViewModel>("Almacén", vDefaultCriteria, vFixedCriteria, string.Empty);
-                if (ConexionConsecutivoAlmacen != null) {
-                    CodigoAlmacen = ConexionConsecutivoAlmacen.Codigo;
-                    NombreAlmacen = ConexionConsecutivoAlmacen.NombreAlmacen;
-                    ConsecutivoAlmacen = ConexionConsecutivoAlmacen.Consecutivo;
                 } else {
                     CodigoAlmacen = string.Empty;
                     NombreAlmacen = string.Empty;
