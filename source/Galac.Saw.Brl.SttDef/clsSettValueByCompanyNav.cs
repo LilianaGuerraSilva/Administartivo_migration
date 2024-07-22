@@ -2598,16 +2598,15 @@ namespace Galac.Saw.Brl.SttDef {
                 vContinuar = true;
             }
             if (vContinuar) {
-                clsImprentaDigitalSettings insIDStt = new clsImprentaDigitalSettings {
-                    DireccionURL = valUrl,
-                    CampoUsuario = vCampoUsuario,
-                    CampoClave = vCampoClave,
-                    Usuario = valUsuario,
-                    Clave = LibCryptography.SymEncryptDES(valClave)
+                clsImprentaDigitalSettings insIDStt = new clsImprentaDigitalSettings() {
+                    DireccionURL = LibString.Trim(valUrl),
+                    CampoUsuario = LibString.Trim(vCampoUsuario),
+                    CampoClave = LibString.Trim(vCampoClave),
+                    Usuario = LibString.Trim(valUsuario),
+                    Clave = LibString.Trim(LibCryptography.SymEncryptDES(valClave))
                 };
                 insIDStt.ActualizarValores();
             }
-
         }
 
         ObservableCollection<string> ISettValueByCompanyPdn.ListaDeUsuariosSupervisoresActivos() {

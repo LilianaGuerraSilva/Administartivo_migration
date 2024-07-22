@@ -38,7 +38,7 @@
                     <!--  3  -->
                     <RowDefinition Height="Auto" />
                     <!--  4  -->
-                    <RowDefinition Height="25" />
+                    <RowDefinition Height="Auto" />
                     <!--  5  -->
                     <RowDefinition Height="Auto" />
                     <!--  6  -->
@@ -221,6 +221,17 @@
                     Text="{Binding Path=Clave, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                     TextWrapping="Wrap"
                     VerticalScrollBarVisibility="Auto" />
+                <Button
+                    Name="btnProbarConexion"
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    Width="95"
+                    Margin="30,10,30,10"
+                    HorizontalAlignment="Left"
+                    Command="{Binding Path=ProbarConexionCommand}"
+                    Content="Probar Conexión"
+                    IsEnabled="{Binding Path=IsEnabled}" />
                 <nsWpfControls:GSTextBoxWpf
                     Name="txtFacturaT1"
                     Grid.Row="8"
