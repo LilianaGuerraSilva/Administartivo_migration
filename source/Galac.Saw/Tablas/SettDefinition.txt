@@ -202,6 +202,7 @@ AsociarCentroDeCostos;Inventario;5;5.1.- Inventario;1;;Enumerativo;;N
 AvisoDeReservasvencidas;Inventario;5;5.1.- Inventario;1;;Bool;;N
 VerificarStock;Inventario;5;5.1.- Inventario;1;;Bool;;N
 ImprimeSerialRolloLuegoDeDescripArticulo;Inventario;5;5.1.- Inventario;1;;Bool;;N
+UsaLoteFechaDeVencimiento;Inventario;5;5.1.- Inventario;1;;Bool;;N
 ImprimirReporteAlIngresarNotaEntradaSalida;Inventario;5;5.2- Nota Entrada/Salida;2;;Bool;;N
 NombrePlantillaNotaEntradaSalida;Inventario;5;5.2- Nota Entrada/Salida;2;;String;;N
 NombrePlantillaCodigoDeBarras;Inventario;5;5.2- Nota Entrada/Salida;2;;String;;N

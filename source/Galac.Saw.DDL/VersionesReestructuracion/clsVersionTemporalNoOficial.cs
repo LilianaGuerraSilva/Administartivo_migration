@@ -22,7 +22,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		}
 
 		void CreacionDeParametros() {
-			AgregarNuevoParametro("UsaLoteFechaDeVencimiento", "Inventario", 0, "5.1.- Inventario", 1, "", eTipoDeDatoParametros.Enumerativo, "", 'N', "N");
+			AgregarNuevoParametro("UsaLoteFechaDeVencimiento", "Inventario", 5, "5.1.- Inventario", 1, "", eTipoDeDatoParametros.Enumerativo, "", 'N', "N");
 		}
 
         void AjustesNotaEntradaSalida() {
