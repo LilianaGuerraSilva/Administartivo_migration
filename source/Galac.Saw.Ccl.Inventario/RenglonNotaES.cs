@@ -15,6 +15,7 @@ namespace Galac.Saw.Ccl.Inventario {
         private string _NumeroDocumento;
         private int _ConsecutivoRenglon;
         private string _CodigoArticulo;
+        private string _DescripcionArticulo;
         private decimal _Cantidad;
         private eTipoArticuloInv _TipoArticuloInv;
         private string _Serial;
@@ -47,6 +48,14 @@ namespace Galac.Saw.Ccl.Inventario {
             set { 
                 _CodigoArticulo = LibString.Mid(value, 0, 30);
                 OnPropertyChanged("CodigoArticulo");
+            }
+        }
+
+        public string DescripcionArticulo {
+            get { return _DescripcionArticulo; }
+            set { 
+                _DescripcionArticulo = LibString.Mid(value, 0, 255);
+                OnPropertyChanged("DescripcionArticulo");
             }
         }
 
@@ -145,6 +154,7 @@ namespace Galac.Saw.Ccl.Inventario {
             NumeroDocumento = string.Empty;
             ConsecutivoRenglon = 0;
             CodigoArticulo = string.Empty;
+            DescripcionArticulo = string.Empty;
             Cantidad = 0;
             TipoArticuloInvAsEnum = eTipoArticuloInv.Simple;
             Serial = string.Empty;
@@ -162,6 +172,7 @@ namespace Galac.Saw.Ccl.Inventario {
             vResult.NumeroDocumento = _NumeroDocumento;
             vResult.ConsecutivoRenglon = _ConsecutivoRenglon;
             vResult.CodigoArticulo = _CodigoArticulo;
+            vResult.DescripcionArticulo = _DescripcionArticulo;
             vResult.Cantidad = _Cantidad;
             vResult.TipoArticuloInvAsEnum = _TipoArticuloInv;
             vResult.Serial = _Serial;
