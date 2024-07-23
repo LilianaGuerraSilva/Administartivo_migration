@@ -161,7 +161,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 if (Model.UsaAlmacenAsBool != value) {
                     Model.UsaAlmacenAsBool = value;
                     IsDirty = true;
-                    if (!value) {
+                    if (value) {
+                        UsaLoteFechaDeVencimiento = false;
+                        RaisePropertyChanged(() => UsaLoteFechaDeVencimiento);
+                        RaisePropertyChanged(() => IsEnabledUsaLoteFechaDeVencimiento);
+                    } else { 
                         ActivarFacturacionPorAlmacen = false;
                     }
                     RaisePropertyChanged(UsaAlmacenPropertyName);
@@ -422,7 +426,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnabledUsaLoteFechaDeVencimiento {
             get {
-                return IsEnabled && SePuedeModificarUsaLoteFechaDeVencimiento();
+                return IsEnabled && !UsaAlmacen && SePuedeModificarUsaLoteFechaDeVencimiento();
             }
         }
         #endregion //Propiedades
