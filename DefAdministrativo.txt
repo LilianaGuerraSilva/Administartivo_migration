@@ -1326,11 +1326,11 @@ unStatusDocOrigenLoteInv = (Vigente, Anulado);//e,Componente=Inventario
     Fecha                : date; //o,search
     Comentarios          : Str255; //search
     CodigoLote           : Str10;//HIDE
-    StatusNotaEntradaSalida    : unStatusNotaEntradaSalida;//HIDE
-    ConsecutivoAlmacen         : Longint; //g,=Almacen.Consecutivo,search
+    StatusNotaEntradaSalida    : unStatusNotaEntradaSalida;//
+    ConsecutivoAlmacen         : Longint; //=Almacen.Consecutivo,HIDE
     GeneradoPor                : unTipoGeneradoPorNotaDeEntradaSalida;//HIDE
-    ConsecutivoDocumentoOrigen : longint
-    TipoNotaProduccion         : unTipoNotaProduccion
+    ConsecutivoDocumentoOrigen : longint;//HIDE
+    TipoNotaProduccion         : unTipoNotaProduccion;//HIDE
 
     NombreOperador       : Str10; //a
     FechaUltimaModificacion: date;//a
@@ -1340,16 +1340,17 @@ unStatusDocOrigenLoteInv = (Vigente, Anulado);//e,Componente=Inventario
 }
 
 {@D NotaDeEntradaSalida}RenglonNotaES = Record //Multiarchivo=Compania, Componente=Inventario,Esquema=dbo,interop,GENERATE
-   ConsecutivoCompania	: LongInt;//
+   ConsecutivoCompania	: LongInt;//HIDE
    NumeroDocumento	: str11; //HIDE
    ConsecutivoRenglon	: LongInt;//HIDE,o,a
-   CodigoArticulo	: Str30;//g
+   CodigoArticulo	: Str30;//g,=ArticuloInventario.Descripcion
+   DescripcionArticulo  : TextArea;//g,"Descripción",Search,o,Logical,=ArticuloInventario.Descripcion
    Cantidad		: decimal;//g
-   TipoArticuloInv	: unTipoArticuloInv;//g
-   Serial		: Str50;//g
-   Rollo		: Str20;//g
-   CostoUnitario	: decimal;//dv=0
-   CostoUnitarioME	: decimal;//dv=0
+   TipoArticuloInv	: unTipoArticuloInv;//HIDE
+   Serial		: Str50;//HIDE
+   Rollo		: Str20;//HIDE
+   CostoUnitario	: decimal;//dv=0,HIDE
+   CostoUnitarioME	: decimal;//dv=0,HIDE
    LoteDeInventario	: Str30;//g
    FechaDeElaboracion	: date;//g
    FechaDeVencimiento   : date;//g
