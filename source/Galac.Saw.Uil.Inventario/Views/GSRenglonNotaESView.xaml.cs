@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Galac.Dbo.Uil.Inventario.Views {
+namespace Galac.Saw.Uil.Inventario.Views {
     /// <summary>
     /// Interaction logic for GSRenglonNotaESView.xaml
     /// </summary>

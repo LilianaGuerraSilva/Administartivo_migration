@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
              xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
-             xmlns:nsVm="clr-namespace:Galac.Dbo.Uil.Inventario.ViewModel" xmlns:Views="clr-namespace:Galac.Saw.Uil.Inventario.Views" x:Class="Galac.Dbo.Uil.Inventario.Views.GSNotaDeEntradaSalidaView"
+             xmlns:nsVm="clr-namespace:Galac.Saw.Uil.Inventario.ViewModel" xmlns:Views="clr-namespace:Galac.Saw.Uil.Inventario.Views" x:Class="Galac.Saw.Uil.Inventario.Views.GSNotaDeEntradaSalidaView"
              >
     <UserControl.Resources>
         <ResourceDictionary>
