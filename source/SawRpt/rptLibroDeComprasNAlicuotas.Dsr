@@ -120,7 +120,7 @@ Public Sub sConfigurarDatosDelReporte(ByVal valSqlDelReporte As String, ByVal va
    gDbUtil.sDestroyRecordSet rsVentas
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sConfigurarDatosDelReporte", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sConfigurarDatosDelReporte", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fConfigurarDatosSubReporteInformeDeProrrateo(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valNombreDelFileXML As String, ByVal valMes As String, ByVal ValAno As String, ByVal valFechaDesde As Date, ByVal valFechaHasta As Date, ByVal valCreditosFiscalesTotalmenteDeducibles As Currency, ByVal valCreditosProrrateables As Currency, ByVal valTotalCreditosFiscalesDeducibles As Currency, ByRef refInsNoComun As Object, ByRef refrsVentas As ADODB.Recordset) As Boolean
@@ -171,7 +171,7 @@ h_EXIT: On Error GoTo 0
    fConfigurarDatosSubReporteInformeDeProrrateo = exito
    Exit Function
 h_ERROR: fConfigurarDatosSubReporteInformeDeProrrateo = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosSubReporteInformeDeProrrateo", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosSubReporteInformeDeProrrateo", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub ActiveReport_Terminate()
@@ -179,7 +179,7 @@ Private Sub ActiveReport_Terminate()
    WindowState = vbNormal
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "ActiveReport_Te rminate", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "ActiveReport_Te rminate", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub ActiveReport_NoData()
@@ -189,7 +189,7 @@ Private Sub ActiveReport_NoData()
    Unload Me
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "ActiveReport_NoData", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "ActiveReport_NoData", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub ActiveReport_Error(ByVal Number As Integer, ByVal Description As DDActiveReports2.IReturnString, ByVal Scode As Long, ByVal Source As String, ByVal HelpFile As String, ByVal HelpContext As Long, ByVal CancelDisplay As DDActiveReports2.IReturnBool)
@@ -200,7 +200,7 @@ Private Sub ActiveReport_Error(ByVal Number As Integer, ByVal Description As DDA
    CancelDisplay = True
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "ActiveReport_Error", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "ActiveReport_Error", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub ActiveReport_PageStart()
@@ -208,7 +208,7 @@ Private Sub ActiveReport_PageStart()
    lblNumeroDePagina.Caption = "Pág. " & pageNumber
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "ActiveReport_PageStar", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "ActiveReport_PageStar", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub Detail_Format()
@@ -235,7 +235,7 @@ Private Sub Detail_Format()
    Set gEnumProyecto = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "Detail_Format", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "Detail_Format", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub ReportFooter_Format()
@@ -243,7 +243,7 @@ Private Sub ReportFooter_Format()
    sReportFooterLlenaLasLineasDeSubTotalesPorAlicuota
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "ReportFooter_Format", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "ReportFooter_Format", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sLlenarCamposDeComprasInternas()
@@ -315,7 +315,7 @@ Private Sub sLlenarCamposDeComprasInternas()
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sLlenarCamposDeComprasInternas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sLlenarCamposDeComprasInternas", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sLlenarCamposDeComprasDeImportacion()
@@ -387,7 +387,7 @@ Private Sub sLlenarCamposDeComprasDeImportacion()
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sLlenarCamposDeComprasDeImportacion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sLlenarCamposDeComprasDeImportacion", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sLlenarCamposYAcumuladoresDeComprasSinImpuesto()
@@ -403,7 +403,7 @@ Private Sub sLlenarCamposYAcumuladoresDeComprasSinImpuesto()
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sLlenarCamposYAcumuladoresDeComprasSinImpuesto", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sLlenarCamposYAcumuladoresDeComprasSinImpuesto", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sInicializarCampos()
@@ -422,7 +422,7 @@ Private Sub sInicializarCampos()
    txtPorcentajesAlicuotasComprasInternasConcatenados.Text = ""
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInicializarCampos", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInicializarCampos", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sInicializaAcumuladores()
@@ -446,7 +446,7 @@ Private Sub sInicializaAcumuladores()
    mSumCIMImpuestoAlicuotaGeneral = 0
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInicializaAcumuladores", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInicializaAcumuladores", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 Private Sub sConfiguraLosPorcentajesDeLasAlicuotasDelIVA(ByRef gAdmAlicuotaIvaActual As Object)
    On Error GoTo h_ERROR
@@ -458,7 +458,7 @@ h_EXIT:
    On Error GoTo 0
    Exit Sub
 h_ERROR:
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sConfiguraLosPorcentajesDeLasAlicuotasDelIVA", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sConfiguraLosPorcentajesDeLasAlicuotasDelIVA", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sReportFooterLlenaLasLineasDeSubTotalesPorAlicuota()
@@ -493,8 +493,7 @@ Private Sub sReportFooterLlenaLasLineasDeSubTotalesPorAlicuota()
    txtRFSubTotalImpuestoComprasInternas.Text = gConvert.fNumToStringConSeparadorDeMiles(mSumCINImpuestoAlicuota2 + mSumCINImpuestoAlicuota3 + mSumCINImpuestoAlicuotaGeneral)
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sReportFooterLlenaLasLineasDeSubTotalesPorAlicuota", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sReportFooterLlenaLasLineasDeSubTotalesPorAlicuota", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sCalculaYDevuelveBaseImponibleEImpuestoConProrrateo(ByRef refBaseImponibleProrrateda As Currency, ByRef refImpuestoIVAProrrateado As Currency)
@@ -509,7 +508,7 @@ Private Sub sCalculaYDevuelveBaseImponibleEImpuestoConProrrateo(ByRef refBaseImp
    refImpuestoIVAProrrateado = refImpuestoIVAProrrateado + gConvert.fTruncaANDecimales(gConvert.fConvierteACurrency((dcOrigenData.Recordset!MontoIVAAlicuota3xCambio * mPorcentajeProrrateo) / 100), 2)
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sCalculaYDevuelveBaseImponibleEImpuestoConProrrateo", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sCalculaYDevuelveBaseImponibleEImpuestoConProrrateo", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fNombreFileDeImpresionDelReporte(ByVal valReporte As Integer) As String
@@ -526,7 +525,7 @@ Private Function fNombreFileDeImpresionDelReporte(ByVal valReporte As Integer) A
    End If
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fNombreFileDeImpresionDelReporte", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fNombreFileDeImpresionDelReporte", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub sAsignaLosValoresParaLosCreditosDeducibles(ByVal valMes As String, ByVal ValAno As String, ByVal valFechaDesde As Date, ByVal valFechaHasta As Date)
@@ -537,7 +536,7 @@ Private Sub sAsignaLosValoresParaLosCreditosDeducibles(ByVal valMes As String, B
    mTotalCreditosFiscalesDeducibles = mCreditosFiscalesTotalmenteDeducibles + mCreditosProrrateables
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAsignaLosValoresParaLosCreditosDeducibles", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAsignaLosValoresParaLosCreditosDeducibles", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fValorNumericoDelRegistro(ByVal rsValor As ADODB.Recordset, ByVal valFieldName As String) As Currency
