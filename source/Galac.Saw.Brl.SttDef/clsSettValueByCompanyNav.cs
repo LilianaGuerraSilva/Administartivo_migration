@@ -962,6 +962,7 @@ namespace Galac.Saw.Brl.SttDef {
             insEntidad.SinonimoSerial = "Serial";
             insEntidad.SinonimoRollo = "Rollo";
             insEntidad.ImprimeSerialRolloLuegoDeDescripArticuloAsBool = false;
+            insEntidad.UsaLoteFechaDeVencimientoAsBool = false;
             return insEntidad;
         }
 
@@ -1023,6 +1024,7 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.AvisoDeReservasvencidasAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "AvisoDeReservasvencidas"));
             vResult.VerificarStockAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "VerificarStock"));
             vResult.ImprimeSerialRolloLuegoDeDescripArticuloAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "ImprimeSerialRolloLuegoDeDescripArticulo"));
+            vResult.UsaLoteFechaDeVencimientoAsBool= LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaLoteFechaDeVencimiento"));
             return vResult;
         }
         #endregion // InventarioStt
