@@ -55,7 +55,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("CONSTRAINT p_LoteDeInventario PRIMARY KEY CLUSTERED");
             SQL.AppendLine("(ConsecutivoCompania ASC, Consecutivo ASC)");
             SQL.AppendLine(", CONSTRAINT fk_LoteDeInventarioArticuloInventario FOREIGN KEY (ConsecutivoCompania, CodigoArticulo)");
-            SQL.AppendLine("REFERENCES Saw.ArticuloInventario(ConsecutivoCompania, Codigo)");
+            SQL.AppendLine("REFERENCES ArticuloInventario(ConsecutivoCompania, Codigo)");
             SQL.AppendLine("ON UPDATE CASCADE");
             SQL.AppendLine(",CONSTRAINT u_LotDeInvniaoteulo UNIQUE NONCLUSTERED (ConsecutivoCompania,CodigoLote,CodigoArticulo)");
             SQL.AppendLine(")");
@@ -72,8 +72,8 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumStatusLoteDeInventario");
             SQL.AppendLine("ON " + DbSchema + ".LoteDeInventario.StatusLoteInv COLLATE MODERN_SPANISH_CS_AS");
             SQL.AppendLine(" = " + DbSchema + ".Gv_EnumStatusLoteDeInventario.DbValue");
-            SQL.AppendLine("INNER JOIN Saw.ArticuloInventario ON  " + DbSchema + ".LoteDeInventario.CodigoArticulo = Saw.ArticuloInventario.Codigo");
-            SQL.AppendLine("      AND " + DbSchema + ".LoteDeInventario.ConsecutivoCompania = Saw.ArticuloInventario.ConsecutivoCompania");
+            SQL.AppendLine("INNER JOIN ArticuloInventario ON  " + DbSchema + ".LoteDeInventario.CodigoArticulo = ArticuloInventario.Codigo");
+            SQL.AppendLine("      AND " + DbSchema + ".LoteDeInventario.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania");
             return SQL.ToString();
         }
 

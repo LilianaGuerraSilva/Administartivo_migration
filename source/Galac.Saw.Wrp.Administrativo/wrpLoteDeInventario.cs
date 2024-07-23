@@ -35,7 +35,9 @@ namespace Galac.Saw.Wrp.Inventario {
         void IWrpMfVb.Execute(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
             try {
                 CreateGlobalValues(vfwCurrentParameters);
-                ILibMenu insMenu = new Galac.Saw.Uil.Inventario.clsLoteDeInventarioMenu();
+                int vConsecitivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
+                string vCodigoArticulo = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "CodigoArticulo");
+                ILibMenu insMenu = new Galac.Saw.Uil.Inventario.clsLoteDeInventarioMenu(vConsecitivoCompania, vCodigoArticulo);
                 insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1);
             } catch (GalacException gEx) {
                 LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
@@ -83,7 +85,7 @@ namespace Galac.Saw.Wrp.Inventario {
             }
         }
 
-        void IWrpMfVb.InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO) {
+        void IWrpMfVb.InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO, bool vfwUsePASOnLine) {
             try {
                 string vLogicUnitDir = LibGalac.Aos.Cnf.LibAppSettings.ULS;
                 LibGalac.Aos.DefGen.LibDefGen.InitializeProgramInfo(vfwProgramInitials, vfwProgramVersion, vfwDbVersion, LibConvert.ToDate(vfwStrDateOfVersion), vfwStrHourOfVersion, "", vfwCountry, LibConvert.ToInt(vfwCMTO));
