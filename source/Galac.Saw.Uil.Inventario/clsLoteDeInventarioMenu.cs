@@ -37,7 +37,7 @@ namespace Galac.Saw.Uil.Inventario {
         }
 
         public static bool ChooseFromInterop(ref XmlDocument refXmlDocument, List<LibSearchDefaultValues> valSearchCriteria, List<LibSearchDefaultValues> valFixedCriteria) {
-            return false; // LibFKRetrievalHelper.ChooseRecord<FkLoteDeInventarioViewModel>("Lote de Inventario", ref refXmlDocument, valSearchCriteria, valFixedCriteria, new clsLoteDeInventarioNav());
+            return LibFKRetrievalHelper.ChooseRecord<FkLoteDeInventarioViewModel>("Lote de Inventario", ref refXmlDocument, valSearchCriteria, valFixedCriteria, new clsLoteDeInventarioNav());
         }
         #endregion //Metodos Generados
 

@@ -295,7 +295,8 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("         CAST(LoteDeInventario.fldTimeStamp AS bigint) AS fldTimeStampBigint,");
             SQL.AppendLine("         LoteDeInventario.fldTimeStamp");
             SQL.AppendLine("      FROM " + DbSchema + ".LoteDeInventario");
-            SQL.AppendLine("             INNER JOIN Saw.Gv_ArticuloInventario_B1 ON " + DbSchema + ".LoteDeInventario.CodigoArticulo = Saw.Gv_ArticuloInventario_B1.Codigo");
+            SQL.AppendLine("             INNER JOIN ArticuloInventario ON " + DbSchema + ".LoteDeInventario.CodigoArticulo = ArticuloInventario.Codigo ");
+            SQL.AppendLine("             AND " + DbSchema + ".LoteDeInventario.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania ");
             SQL.AppendLine("      WHERE LoteDeInventario.ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("         AND LoteDeInventario.Consecutivo = @Consecutivo");
             SQL.AppendLine("   RETURN @@ROWCOUNT");
@@ -336,8 +337,8 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("      " + DbSchema + ".Gv_LoteDeInventario_B1.Consecutivo,");
             SQL.AppendLine("      " + DbSchema + ".Gv_LoteDeInventario_B1.StatusLoteInv");
             SQL.AppendLine("      FROM " + DbSchema + ".Gv_LoteDeInventario_B1");
-            SQL.AppendLine("      INNER JOIN Saw.Gv_ArticuloInventario_B1 ON  " + DbSchema + ".Gv_LoteDeInventario_B1.CodigoArticulo = Saw.Gv_ArticuloInventario_B1.Codigo");
-            SQL.AppendLine("      AND " + DbSchema + ".Gv_LoteDeInventario_B1.ConsecutivoCompania = Saw.Gv_ArticuloInventario_B1.ConsecutivoCompania");
+            SQL.AppendLine("      INNER JOIN ArticuloInventario ON  " + DbSchema + ".Gv_LoteDeInventario_B1.CodigoArticulo = ArticuloInventario.Codigo");
+            SQL.AppendLine("      AND " + DbSchema + ".Gv_LoteDeInventario_B1.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania");
             SQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
             SQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE ' + @SQLWhere");
             SQL.AppendLine("   IF (NOT @SQLOrderBy IS NULL) AND (@SQLOrderBy <> '')");
@@ -368,7 +369,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("      " + DbSchema + ".LoteDeInventario.FechaDeElaboracion,");
             SQL.AppendLine("      " + DbSchema + ".LoteDeInventario.FechaDeVencimiento,");
             SQL.AppendLine("      " + DbSchema + ".LoteDeInventario.StatusLoteInv");
-            SQL.AppendLine("      ," + DbSchema + ".LoteDeInventario.[Programador - personaliza este sp y coloca solo los campos que te interesa exponer a quienes lo consumen]");
+            //SQL.AppendLine("      ," + DbSchema + ".LoteDeInventario.[Programador - personaliza este sp y coloca solo los campos que te interesa exponer a quienes lo consumen]");
             SQL.AppendLine("      FROM " + DbSchema + ".LoteDeInventario");
             SQL.AppendLine("      WHERE ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("          AND Consecutivo IN (");
@@ -425,7 +426,7 @@ namespace Galac.Saw.Dal.Inventario {
             if (insDbo.Exists(DbSchema + ".LoteDeInventario", eDboType.Tabla)) {
                 CrearVistas();
                 CrearProcedimientos();
-                vResult = new clsLoteDeInventarioMovimientoED().InstalarVistasYSps();
+                vResult = true;
             }
             return vResult;
         }
