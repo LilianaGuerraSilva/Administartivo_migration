@@ -10,6 +10,7 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Brl;
 using LibGalac.Aos.Base.Dal;
 using Galac.Saw.Ccl.Inventario;
+using LibGalac.Aos.Dal;
 
 namespace Galac.Saw.Brl.Inventario {
     public partial class clsLoteDeInventarioNav: LibBaseNavMaster<IList<LoteDeInventario>, IList<LoteDeInventario>>, ILoteDeInventarioPdn {
@@ -205,7 +206,11 @@ namespace Galac.Saw.Brl.Inventario {
             return instanciaDal.Insert(vLista).Success;
         }
 
-        private List<LoteDeInventario> ParseToListEntity(XElement valXmlEntity) {
+
+        */
+        #endregion //Codigo Ejemplo
+
+        internal List<LoteDeInventario> ParseToListEntity(XElement valXmlEntity) {
             List<LoteDeInventario> vResult = new List<LoteDeInventario>();
             var vEntity = from vRecord in valXmlEntity.Descendants("GpResult")
                           select vRecord;
@@ -246,10 +251,38 @@ namespace Galac.Saw.Brl.Inventario {
             }
             return vResult;
         }
-        */
-        #endregion //Codigo Ejemplo
+
+        internal bool ExisteLoteDeInventario(int valConsecutivoCompania, string valCodigoArticulo, string valLoteDeInventario) {
+            bool vResult = false;
+            LibGpParams vParam = new LibGpParams();
+            vParam.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            vParam.AddInString("CodigoArticulo", valCodigoArticulo, 30);
+            vParam.AddInString("CodigoLote", valLoteDeInventario, 30);
+            vResult = new LibDatabase().ExistsRecord("Saw.LoteDeInventario", "CodigoLote", vParam.Get());
+            return vResult;
+        }
 
 
+        LibResponse ILoteDeInventarioPdn.AgregarLote(IList<LoteDeInventario> valListaLote) {
+            LibResponse vResult = new LibResponse();
+            RegisterClient();
+            foreach (LoteDeInventario vItemLote in valListaLote) {
+                LibGpParams vParams = new LibGpParams();
+                vParams.AddInInteger("ConsecutivoCompania", vItemLote.ConsecutivoCompania);
+                XElement vData = _Db.QueryInfo(eProcessMessageType.Message, "ProximoConsecutivo", vParams.Get());
+                int vProximoConsecutivo = LibConvert.ToInt(LibXml.GetPropertyString(vData, "Consecutivo"));
+                vItemLote.Consecutivo = vProximoConsecutivo;
+                vResult = InsertRecord(new List<LoteDeInventario>() { vItemLote }, true);
+                if (!vResult.Success) {
+                    return vResult;
+                }
+            }
+            return vResult;
+        }
+
+        LibResponse ILoteDeInventarioPdn.ActualizarLote(IList<LoteDeInventario> valListaLote) {
+            return UpdateRecord(valListaLote, true, eAccionSR.Modificar);
+        }
     } //End of class clsLoteDeInventarioNav
 
 } //End of namespace Galac.Saw.Brl.Inventario

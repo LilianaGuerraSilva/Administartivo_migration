@@ -377,7 +377,118 @@ namespace Galac.Saw.Brl.Inventario {
         */
         #endregion //Codigo Ejemplo
 
+        protected override LibResponse InsertRecord(IList<NotaDeEntradaSalida> refRecord, bool valUseDetail) {
+            LibResponse vResult = new LibResponse();
+            foreach (NotaDeEntradaSalida vItem in refRecord) {
+                if (valUseDetail) {
+                    if (vItem != null && vItem.TipodeOperacionAsEnum != eTipodeOperacion.EntradadeInventario) {
+                        string vCodigos;
+                        if (!HayExistenciaParaNotaDeSalidaDeInventario(vItem, out vCodigos)) {
+                            vResult = new LibResponse();
+                            vResult.Success = false;
+                            vResult.AddError("No hay existencia suficiente de algunos ítems (" + vCodigos + ") en la Nota: " + vItem.NumeroDocumento + " para realizar la acción. El proceso será cancelado.");
+                            return vResult;
+                        }
+                        vResult = base.InsertRecord(refRecord, valUseDetail);
+                    }
+                    if (vResult.Success) {
+                        InsertarLoteDeInventario(vItem);
+                    }
+                } else {
+                    vResult = base.InsertRecord(refRecord, valUseDetail);
+                }
+            }
+            return vResult;
+        }
 
+        private void InsertarLoteDeInventario(NotaDeEntradaSalida valItemNotaES) {
+            foreach (RenglonNotaES vItemRenglon in valItemNotaES.DetailRenglonNotaES) {
+                if (vItemRenglon.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento) {
+                    if (ExisteLoteDeInventario(vItemRenglon.ConsecutivoCompania, vItemRenglon.CodigoArticulo, vItemRenglon.LoteDeInventario)) {
+                        ActualizaLoteDeInventarioInsertaMovimientoDeLoteDeInventario(valItemNotaES, vItemRenglon);
+                    } else {
+                        InsertaLoteDeInventario(valItemNotaES, vItemRenglon);
+                    }
+                }
+            }
+        }
+
+        private void InsertaLoteDeInventario(NotaDeEntradaSalida valItemNotaES, RenglonNotaES valItemRenglonNotaES) {
+            LoteDeInventarioMovimiento vLoteMov = new LoteDeInventarioMovimiento();
+            vLoteMov.ConsecutivoCompania = valItemRenglonNotaES.ConsecutivoCompania;
+            vLoteMov.Fecha = valItemNotaES.Fecha;
+            vLoteMov.ModuloAsEnum = eOrigenLoteInv.NotaEntradaSalida;
+            vLoteMov.Cantidad = valItemRenglonNotaES.Cantidad;
+            vLoteMov.ConsecutivoDocumentoOrigen = 0;
+            vLoteMov.NumeroDocumentoOrigen = valItemNotaES.NumeroDocumento;
+            vLoteMov.StatusDocumentoOrigenAsEnum = eStatusDocOrigenLoteInv.Vigente;
+
+            LoteDeInventario vLote = new LoteDeInventario();
+            vLote.ConsecutivoCompania = valItemRenglonNotaES.ConsecutivoCompania;
+            vLote.CodigoLote = valItemRenglonNotaES.LoteDeInventario;
+            vLote.CodigoArticulo = valItemRenglonNotaES.CodigoArticulo;
+            vLote.FechaDeElaboracion = valItemRenglonNotaES.FechaDeElaboracion;
+            vLote.FechaDeVencimiento = valItemRenglonNotaES.FechaDeVencimiento;
+            vLote.Existencia = valItemRenglonNotaES.Cantidad;
+            vLote.StatusLoteInvAsEnum = eStatusLoteDeInventario.Vigente;
+            vLote.DetailLoteDeInventarioMovimiento.Add(vLoteMov);
+
+            ILoteDeInventarioPdn vLotePdn = new clsLoteDeInventarioNav();
+            IList<LoteDeInventario> vListLote = new List<LoteDeInventario>();
+            vListLote.Add(vLote);
+            vLotePdn.AgregarLote(vListLote);
+        }
+
+        private void ActualizaLoteDeInventarioInsertaMovimientoDeLoteDeInventario(NotaDeEntradaSalida valItemNotaES, RenglonNotaES valItemRenglonNotaES) {
+            XElement vLoteXElemnt = ((ILoteDeInventarioPdn)new clsLoteDeInventarioNav()).FindByConsecutivoCompaniaCodigoLoteCodigoArticulo(valItemRenglonNotaES.ConsecutivoCompania, valItemRenglonNotaES.LoteDeInventario, valItemRenglonNotaES.CodigoArticulo);
+            if (vLoteXElemnt != null) {
+                LoteDeInventario vLote = (new clsLoteDeInventarioNav().ParseToListEntity(vLoteXElemnt))[0];
+                if (vLote != null) {
+                    LoteDeInventarioMovimiento vLoteMov = new LoteDeInventarioMovimiento();
+                    vLoteMov.ConsecutivoCompania = valItemRenglonNotaES.ConsecutivoCompania;
+                    vLoteMov.ConsecutivoLote = vLote.Consecutivo;
+                    vLoteMov.Fecha = valItemNotaES.Fecha;
+                    vLoteMov.ModuloAsEnum = eOrigenLoteInv.NotaEntradaSalida;
+                    vLoteMov.Cantidad = valItemRenglonNotaES.Cantidad;
+                    vLoteMov.ConsecutivoDocumentoOrigen = 0;
+                    vLoteMov.NumeroDocumentoOrigen = valItemNotaES.NumeroDocumento;
+                    vLoteMov.StatusDocumentoOrigenAsEnum = eStatusDocOrigenLoteInv.Vigente;
+
+                    vLote.Existencia += valItemRenglonNotaES.Cantidad;
+                    vLote.DetailLoteDeInventarioMovimiento.Add(vLoteMov);
+
+                    ILoteDeInventarioPdn vLotePnd = new clsLoteDeInventarioNav();
+                    IList<LoteDeInventario> vListLote = new List<LoteDeInventario>();
+                    vListLote.Add(vLote);
+                    vLotePnd.ActualizarLote(vListLote);
+                }
+            }
+        }
+
+        private bool ExisteLoteDeInventario(int valConsecutivoCompania, string valCodigoArticulo, string valLoteDeInventario) {
+            return new clsLoteDeInventarioNav().ExisteLoteDeInventario(valConsecutivoCompania, valCodigoArticulo, valLoteDeInventario);
+        }
+
+        private bool HayExistenciaParaNotaDeSalidaDeInventario(NotaDeEntradaSalida valItemNotaES, out string outCodigos) {
+            outCodigos = string.Empty;
+            if ((int)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetEnum("FacturaRapida", "PermitirSobregiro") == (int)Galac.Saw.Ccl.SttDef.ePermitirSobregiro.NoPermitirSobregiro) {
+                IArticuloInventarioPdn insArticuloInventarioNav = new clsArticuloInventarioNav();
+                string vCodigos = string.Empty;
+                foreach (RenglonNotaES vItemRenglon in valItemNotaES.DetailRenglonNotaES) {
+                    decimal vDisponibilidad = insArticuloInventarioNav.DisponibilidadDeArticulo(valItemNotaES.ConsecutivoCompania, valItemNotaES.CodigoAlmacen, vItemRenglon.CodigoArticulo, (int)eTipoDeArticulo.Mercancia, vItemRenglon.Serial, vItemRenglon.Rollo);
+                    bool vHayExistencia = (vItemRenglon.Cantidad < vDisponibilidad);
+                    if (!vHayExistencia) {
+                        if (LibString.Len(vCodigos) > 0) vCodigos += ", ";
+                        vCodigos += vItemRenglon.CodigoArticulo;
+                    }
+                }
+                outCodigos = vCodigos;
+                return (LibString.Len(vCodigos) <= 0);
+            } else {
+                return true;
+            }
+            throw new NotImplementedException();
+        }
     } //End of class clsNotaDeEntradaSalidaNav
 
 } //End of namespace Galac.Saw.Brl.Inventario
