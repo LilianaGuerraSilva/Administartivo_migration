@@ -444,17 +444,18 @@ namespace Galac.Saw.Brl.Inventario {
             if (vLoteXElemnt != null) {
                 LoteDeInventario vLote = (new clsLoteDeInventarioNav().ParseToListEntity(vLoteXElemnt))[0];
                 if (vLote != null) {
+                    decimal vCant = (valItemNotaES.TipodeOperacionAsEnum == eTipodeOperacion.EntradadeInventario) ? valItemRenglonNotaES.Cantidad : valItemRenglonNotaES.Cantidad * -1;
                     LoteDeInventarioMovimiento vLoteMov = new LoteDeInventarioMovimiento();
                     vLoteMov.ConsecutivoCompania = valItemRenglonNotaES.ConsecutivoCompania;
                     vLoteMov.ConsecutivoLote = vLote.Consecutivo;
                     vLoteMov.Fecha = valItemNotaES.Fecha;
                     vLoteMov.ModuloAsEnum = eOrigenLoteInv.NotaEntradaSalida;
-                    vLoteMov.Cantidad = valItemRenglonNotaES.Cantidad;
+                    vLoteMov.Cantidad = vCant;
                     vLoteMov.ConsecutivoDocumentoOrigen = 0;
                     vLoteMov.NumeroDocumentoOrigen = valItemNotaES.NumeroDocumento;
                     vLoteMov.StatusDocumentoOrigenAsEnum = eStatusDocOrigenLoteInv.Vigente;
 
-                    vLote.Existencia += valItemRenglonNotaES.Cantidad;
+                    vLote.Existencia += vCant;
                     vLote.DetailLoteDeInventarioMovimiento.Add(vLoteMov);
 
                     ILoteDeInventarioPdn vLotePnd = new clsLoteDeInventarioNav();
