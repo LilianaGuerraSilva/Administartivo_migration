@@ -26,26 +26,29 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Grid.Column="0" Name="lblCodigoArticulo" Content="Artículo" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSSeekConnection Grid.Row="0" Grid.Column="1" Name="txtCodigoArticulo" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsEnabled}"
-                                        DisplayMemberPath="Descripcion"
-                                        Model="{Binding Path=ConexionCodigoArticulo, Mode=TwoWay}"
-                                        ConnectionValue="{Binding Path=CodigoArticulo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                                        SearchCommand="{Binding Path=ChooseCodigoArticuloCommand}" />
+        <nsWpfControls:GSSeekConnection Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Name="txtCodigoArticulo" Height="23" Margin="3" HorizontalAlignment="Left" Width="300" IsEnabled="{Binding Path=IsEnabled}"
+            DisplayMemberPath="Descripcion"
+            Model="{Binding Path=ConexionCodigoArticulo, Mode=TwoWay}"
+            ConnectionValue="{Binding Path=CodigoArticulo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+            SearchCommand="{Binding Path=ChooseCodigoArticuloCommand}" VerticalAlignment="Top" />
         <!--<Label Grid.Row="1" Grid.Column="0" Name="lblDescripcionArticulo" Content="Descripción" Style="{StaticResource LabelPrompt}" />-->
-        <nsWpfControls:GSSeekConnection Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="4" Name="txtDescripcionArticulo" Height="23" Margin="3" HorizontalAlignment="Left" Width="400" IsEnabled="{Binding Path=IsEnabled}"
+        <!--<nsWpfControls:GSSeekConnection Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="4" Name="txtDescripcionArticulo" Height="23" Margin="3" HorizontalAlignment="Left" Width="400" IsEnabled="{Binding Path=IsEnabled}"
                                         DisplayMemberPath="Descripcion"
                                         Model="{Binding Path=ConexionDescripcionArticulo, Mode=TwoWay}"
                                         ConnectionValue="{Binding Path=DescripcionArticulo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                                        SearchCommand="{Binding Path=ChooseDescripcionArticuloCommand}" />
-        <Label Grid.Row="1" Grid.Column="0" Name="lblCantidad" Content="Cantidad" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSNumericBoxWpf Grid.Row="1" Grid.Column="1" Name="txtCantidad" Style="{StaticResource TextBoxInputStyle}" InputDataType="UDecimal" MaxLength="28" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+                                        SearchCommand="{Binding Path=ChooseDescripcionArticuloCommand}" />-->
+        <nsWpfControls:GSTextBoxWpf Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="5" Name="txtDescripcionArticulo" Height="69" Margin="3" HorizontalAlignment="Left" Width="500" IsEnabled="False"
+            Text="{Binding Path=DescripcionArticulo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        <Label Grid.Row="2" Grid.Column="0" Name="lblCantidad" Content="Cantidad" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSNumericBoxWpf Grid.Row="2" Grid.Column="1" Name="txtCantidad" Style="{StaticResource TextBoxInputStyle}" InputDataType="UDecimal" MaxLength="28" Width="120" IsEnabled="{Binding Path=IsEnabled}"
                                     Value="{Binding Path=Cantidad, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
         <Label 
             Visibility="{Binding Path=IsVisbleLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" 
-            Grid.Row="2" 
+            Grid.Row="3" 
             Grid.Column="0" 
             Name="lblLoteDeInventario" 
             Content="Lote de Inventario" 
@@ -53,7 +56,7 @@
         <nsWpfControls:GSTextBoxWpf 
             Visibility="{Binding Path=IsVisbleLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" 
             IsEnabled="{Binding Path=IsEnabledLoteDeInventario}"
-            Grid.Row="2" 
+            Grid.Row="3" 
             Grid.Column="1" 
             Name="txtLoteDeInventario" 
             Style="{StaticResource TextBoxInputStyle}" 
@@ -64,7 +67,7 @@
             BorderThickness="1"/>
         <Label 
             Visibility="{Binding Path=IsVisbleLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" 
-            Grid.Row="2" 
+            Grid.Row="3" 
             Grid.Column="2" 
             Name="lblFechaDeElaboracion" 
             Content="Elaboración" 
@@ -72,7 +75,8 @@
         <nsWpfControls:GSDatePickerWpf 
             Visibility="{Binding Path=IsVisbleLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" 
             IsEnabled="{Binding Path=IsEnabledLoteDeInventario}"
-            Grid.Row="2" Grid.Column="3" 
+            Grid.Row="3" 
+            Grid.Column="3" 
             Width="120" 
             Style="{StaticResource DatePickerStyle}" 
             Name="dtpFechaDeElaboracion"
@@ -80,7 +84,7 @@
             />
         <Label 
             Visibility="{Binding Path=IsVisbleLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" 
-            Grid.Row="2" 
+            Grid.Row="3" 
             Grid.Column="4" 
             Name="lblFechaDeVencimiento" 
             Content="Vencimiento" 
@@ -88,7 +92,7 @@
         <nsWpfControls:GSDatePickerWpf 
             Visibility="{Binding Path=IsVisbleLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" 
             IsEnabled="{Binding Path=IsEnabledLoteDeInventario}"
-            Grid.Row="2" 
+            Grid.Row="3" 
             Grid.Column="5" 
             Width="120" 
             Style="{StaticResource DatePickerStyle}" 
