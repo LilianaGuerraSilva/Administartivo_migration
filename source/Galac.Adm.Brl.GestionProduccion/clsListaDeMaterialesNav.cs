@@ -372,27 +372,27 @@ namespace Galac.Adm.Brl.GestionProduccion {
             }
         }
 
-        public bool ExisteListaDeMaterialesConEsteCodigo(int valConsecutivoCompania, string valCodigo) {
-            bool vResult = false;
-            LibGpParams vParams = new LibGpParams();
-            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
-            vParams.AddInString("Codigo", valCodigo, 30);
-            StringBuilder vSql = new StringBuilder();
-            vSql.AppendLine("UPDATE Adm.ListaDeMateriales SET Codigo = Codigo WHERE Codigo = @Codigo AND ConsecutivoCompania = @ConsecutivoCompania");
-            vResult = LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParams.Get(), "", 0) > 0;
-            return vResult;
-        }
+        //public bool ExisteListaDeMaterialesConEsteCodigo(int valConsecutivoCompania, string valCodigo) {
+        //    bool vResult = false;
+        //    LibGpParams vParams = new LibGpParams();
+        //    vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+        //    vParams.AddInString("Codigo", valCodigo, 30);
+        //    StringBuilder vSql = new StringBuilder();
+        //    vSql.AppendLine("UPDATE Adm.ListaDeMateriales SET Codigo = Codigo WHERE Codigo = @Codigo AND ConsecutivoCompania = @ConsecutivoCompania");
+        //    vResult = LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParams.Get(), "", 0) > 0;
+        //    return vResult;
+        //}
 
-        public bool ExisteListaDeMaterialesConEsteNombre(int valConsecutivoCompania, string valNombre) {
-            bool vResult = false;
-            LibGpParams vParams = new LibGpParams();
-            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
-            vParams.AddInString("Nombre", valNombre.Trim(), 30);
-            StringBuilder vSql = new StringBuilder();
-            vSql.AppendLine("UPDATE Adm.ListaDeMateriales SET Codigo = Codigo WHERE Nombre = @Nombre AND ConsecutivoCompania = @ConsecutivoCompania");
-            vResult = LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParams.Get(), "", 0) > 0;
-            return vResult;
-        }
+        //public bool ExisteListaDeMaterialesConEsteNombre(int valConsecutivoCompania, string valNombre) {
+        //    bool vResult = false;
+        //    LibGpParams vParams = new LibGpParams();
+        //    vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+        //    vParams.AddInString("Nombre", valNombre.Trim(), 30);
+        //    StringBuilder vSql = new StringBuilder();
+        //    vSql.AppendLine("UPDATE Adm.ListaDeMateriales SET Codigo = Codigo WHERE Nombre = @Nombre AND ConsecutivoCompania = @ConsecutivoCompania");
+        //    vResult = LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParams.Get(), "", 0) > 0;
+        //    return vResult;
+        //}
 
         public void ValidaTotalDePorcentajeCosto(IList<ListaDeMateriales> refRecord) {
             decimal TotalPorcentajeDeCosto = refRecord[0].DetailListaDeMaterialesDetalleSalidas.Sum(s => s.PorcentajeDeCosto);
