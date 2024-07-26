@@ -192,8 +192,7 @@
         <ScrollViewer
             x:Name="scvRenglonNotaES"
             Grid.Row="5"
-            Grid.ColumnSpan="2"
-            Margin="3,3,-95,3"
+            Grid.ColumnSpan="6"
             VerticalScrollBarVisibility="Auto">
             <ContentControl
                 Name="cntInicoRenglonNotaES"
@@ -249,7 +248,7 @@
                     <nsWpfControls:GSDataGrid
                         x:Name="dgRenglonNotaES"
                         Grid.Row="2"
-                        Grid.ColumnSpan="4"
+                        Grid.ColumnSpan="2"
                         Height="220"
                         MinWidth="250"
                         MinHeight="200"
