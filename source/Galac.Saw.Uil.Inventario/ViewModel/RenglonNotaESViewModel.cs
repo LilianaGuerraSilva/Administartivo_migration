@@ -67,7 +67,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibRequired(ErrorMessage = "El Código del Artículo es requerido.")]
+        //[LibRequired(ErrorMessage = "El Código del Artículo es requerido.")]
         [LibGridColum("Código Articulo", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoArticulo", ConnectionSearchCommandName = "ChooseCodigoArticuloCommand", MaxWidth = 150)]
         public string CodigoArticulo {
             get {
