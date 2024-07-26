@@ -554,8 +554,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 if (valCodigo == null) {
                     valCodigo = string.Empty;
                 }
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
-                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Saw.Gv_Almacen_B1.Codigo", valCodigo);
+                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Saw.Gv_Almacen_B1.ConsecutivoCompania", Mfc.GetInt("Compania"));
                 ConexionCodigoAlmacen = ChooseRecord<FkAlmacenViewModel>("Almacén", vDefaultCriteria, vFixedCriteria, string.Empty);
                 if (ConexionCodigoAlmacen != null) {
                     CodigoAlmacen = ConexionCodigoAlmacen.Codigo;
@@ -578,8 +578,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 if (valNombreAlmacen == null) {
                     valNombreAlmacen = string.Empty;
                 }
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("NombreAlmacen", valNombreAlmacen);
-                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_Almacen_B1.NombreAlmacen", valNombreAlmacen);
+                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Saw.Gv_Almacen_B1.ConsecutivoCompania", Mfc.GetInt("Compania"));
                 ConexionNombreAlmacen = ChooseRecord<FkAlmacenViewModel>("Almacén", vDefaultCriteria, vFixedCriteria, string.Empty);
                 if (ConexionNombreAlmacen != null) {
                     CodigoAlmacen = ConexionNombreAlmacen.Codigo;
