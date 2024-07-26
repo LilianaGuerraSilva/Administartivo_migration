@@ -217,11 +217,11 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         public bool IsEnabledLoteDeInventario {
-            get { return IsEnabled && ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia && ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento; }
+            get { return false; }// IsEnabled && ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia && ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento; }
         }
 
         public bool IsVisbleLoteDeInventario {
-            get { return ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia && ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento; }
+            get { return false; }// ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia && ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento; }
         }
 
         public eTipoArticuloInv[] ArrayTipoArticuloInv {

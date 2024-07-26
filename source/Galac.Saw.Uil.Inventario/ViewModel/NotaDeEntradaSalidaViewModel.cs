@@ -305,7 +305,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         public FkClienteViewModel ConexionCodigoCliente {
-            get {
+            get {                
                 return _ConexionCodigoCliente;
             }
             set {
@@ -403,7 +403,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public NotaDeEntradaSalidaViewModel(NotaDeEntradaSalida initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = NumeroDocumentoPropertyName;
-            Model.ConsecutivoCompania = Mfc.GetInt("Compania");
+            Model.ConsecutivoCompania = Mfc.GetInt("Compania");            
             InitializeDetails();
         }
         #endregion //Constructores
