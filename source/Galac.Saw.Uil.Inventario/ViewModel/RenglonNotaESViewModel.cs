@@ -24,6 +24,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public const string LoteDeInventarioPropertyName = "LoteDeInventario";
         public const string FechaDeElaboracionPropertyName = "FechaDeElaboracion";
         public const string FechaDeVencimientoPropertyName = "FechaDeVencimiento";
+        DateTime MinimaFechaLoteFdV = new DateTime(2000, 01, 01);
         #endregion
         #region Variables
         private FkArticuloInventarioViewModel _ConexionCodigoArticulo = null;
@@ -67,7 +68,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        //[LibRequired(ErrorMessage = "El Código del Artículo es requerido.")]
+        [LibRequired(ErrorMessage = "El Código del Artículo es requerido.")]
         [LibGridColum("Código Articulo", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoArticulo", ConnectionSearchCommandName = "ChooseCodigoArticuloCommand", MaxWidth = 150)]
         public string CodigoArticulo {
             get {
@@ -96,13 +97,11 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                     Model.DescripcionArticulo = value;
                     IsDirty = true;
                     RaisePropertyChanged(DescripcionArticuloPropertyName);
-                    //if (LibString.IsNullOrEmpty(DescripcionArticulo, true)) {
-                    //    ConexionDescripcionArticulo = null;
-                    //}
                 }
             }
         }
 
+        [LibCustomValidation("CantidadValidating")]
         [LibGridColum("Cantidad", eGridColumType.Numeric, Alignment = eTextAlignment.Right)]
         public decimal Cantidad {
             get {
@@ -172,7 +171,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Lote De Inventario", MaxLength = 30)]
+        [LibCustomValidation("LoteDeInventarioValidating")]
+        [LibGridColum("Lote de Inventario", MaxLength = 30)]
         public string LoteDeInventario {
             get {
                 return Model.LoteDeInventario;
@@ -187,7 +187,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibCustomValidation("FechaDeElaboracionValidating")]
-        [LibGridColum("Fecha De Elaboracion", eGridColumType.DatePicker)]
+        [LibGridColum("Fecha de Elaboración", eGridColumType.DatePicker)]
         public DateTime FechaDeElaboracion {
             get {
                 return Model.FechaDeElaboracion;
@@ -202,7 +202,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibCustomValidation("FechaDeVencimientoValidating")]
-        [LibGridColum("Fecha De Vencimiento", eGridColumType.DatePicker)]
+        [LibGridColum("Fecha de Vencimiento", eGridColumType.DatePicker)]
         public DateTime FechaDeVencimiento {
             get {
                 return Model.FechaDeVencimiento;
@@ -352,12 +352,18 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         private ValidationResult FechaDeElaboracionValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar) || (Action == eAccionSR.Anular)) {
                 return ValidationResult.Success;
-            } else {
+            } else if (TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento) {
                 if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaDeElaboracion, false, Action)) {
-                    vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha De Elaboracion"));
+                    vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha de Elaboración"));
+                } else if (LibDate.F1IsGreaterThanF2(FechaDeElaboracion, FechaDeVencimiento)) {
+                    vResult = new ValidationResult("La Fecha de Elaboración debe ser menor o igual a la Fecha de Vencimiento.");
+                } else if (LibDate.F1IsLessThanF2(FechaDeElaboracion, MinimaFechaLoteFdV)) {
+                    vResult = new ValidationResult("La Fecha de Elaboración debe ser mayor o igual a: " + LibConvert.ToStr(MinimaFechaLoteFdV));
                 }
+            } else if (TipoArticuloInv != eTipoArticuloInv.LoteFechadeVencimiento) {
+                FechaDeElaboracion = LibDate.MinDateForDB();
             }
             return vResult;
         }
@@ -366,10 +372,40 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             ValidationResult vResult = ValidationResult.Success;
             if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
-            } else {
+            } else if (TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento) {
                 if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaDeVencimiento, false, Action)) {
-                    vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha De Vencimiento"));
+                    vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha de Vencimiento"));
+                } else if (LibDate.F1IsGreaterThanF2(FechaDeElaboracion, FechaDeVencimiento)) {
+                    vResult = new ValidationResult("La Fecha de Vencimiento debe ser mayor o igual a la Fecha de Elaboración.");
+                } else if (LibDate.F1IsLessThanF2(FechaDeVencimiento, MinimaFechaLoteFdV)) {
+                    vResult = new ValidationResult("La Fecha de Vencimiento debe ser mayor o igual a: " + LibConvert.ToStr(MinimaFechaLoteFdV));
                 }
+            } else if (TipoArticuloInv != eTipoArticuloInv.LoteFechadeVencimiento) {
+                FechaDeVencimiento = LibDate.MinDateForDB();
+            }
+            return vResult;
+        }
+
+        private ValidationResult LoteDeInventarioValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+                return ValidationResult.Success;
+            } else if (TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento) {
+                if (LibString.IsNullOrEmpty(LoteDeInventario, true)) {
+                    vResult = new ValidationResult("Para los Artículos de Inventario del tipo Lote/Fecha de Vencimiento, el Lote de Inventario es requerido.");
+                }
+            } else if (TipoArticuloInv != eTipoArticuloInv.LoteFechadeVencimiento) {
+                LoteDeInventario = string.Empty;
+            }
+            return vResult;
+        }
+
+        private ValidationResult CantidadValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+                return ValidationResult.Success;
+            }else if (Cantidad <= 0) {
+                vResult = new ValidationResult("El valor de Cantidad debe ser mayor a cero (0).");
             }
             return vResult;
         }

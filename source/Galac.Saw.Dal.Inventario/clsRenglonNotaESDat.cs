@@ -175,19 +175,19 @@ namespace Galac.Saw.Dal.Inventario {
         #region Validaciones
         protected override bool Validate(eAccionSR valAction, out string outErrorMessage) {
             bool vResult = true;
-            ClearValidationInfo();
+            ClearValidationInfo();            
             vResult = IsValidCodigoArticulo(valAction, CurrentRecord.CodigoArticulo);
             vResult = IsValidCantidad(valAction, CurrentRecord.Cantidad) && vResult;
-            vResult = IsValidTipoArticuloInv(valAction, CurrentRecord.TipoArticuloInvAsEnum) && vResult;
-            vResult = IsValidFechaDeElaboracion(valAction, CurrentRecord.FechaDeElaboracion) && vResult;
-            vResult = IsValidFechaDeVencimiento(valAction, CurrentRecord.FechaDeVencimiento) && vResult;
+            vResult = IsValidFechaDeElaboracion(valAction, CurrentRecord.FechaDeElaboracion, CurrentRecord.FechaDeVencimiento, CurrentRecord.TipoArticuloInvAsEnum) && vResult;
+            vResult = IsValidFechaDeVencimiento(valAction, CurrentRecord.FechaDeElaboracion, CurrentRecord.FechaDeVencimiento, CurrentRecord.TipoArticuloInvAsEnum) && vResult;
+            vResult = IsValidLoteDeInventario(valAction, CurrentRecord.LoteDeInventario, CurrentRecord.TipoArticuloInvAsEnum) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
         }
 
         private bool IsValidCodigoArticulo(eAccionSR valAction, string valCodigoArticulo){
             bool vResult = true;
-            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar) || (valAction == eAccionSR.Anular)) {
                 return true;
             }
             valCodigoArticulo = LibString.Trim(valCodigoArticulo);
@@ -200,41 +200,67 @@ namespace Galac.Saw.Dal.Inventario {
 
         private bool IsValidCantidad(eAccionSR valAction, decimal valCantidad){
             bool vResult = true;
-            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar) || (valAction == eAccionSR.Anular)) {
                 return true;
             }
-            throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
-            return vResult;
-        }
-
-        private bool IsValidTipoArticuloInv(eAccionSR valAction, eTipoArticuloInv valTipoArticuloInv){
-            bool vResult = true;
-            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
-                return true;
+            if (valCantidad <= 0) {
+                BuildValidationInfo("El campo Cantidad debe ser mayor a cero (0).");
+                vResult = false;
             }
             return vResult;
         }
 
-        private bool IsValidFechaDeElaboracion(eAccionSR valAction, DateTime valFechaDeElaboracion){
+        private bool IsValidFechaDeElaboracion(eAccionSR valAction, DateTime valFechaDeElaboracion, DateTime valFechaDeVencimiento, eTipoArticuloInv valTipoArticuloInv) {
             bool vResult = true;
-            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar) || (valAction == eAccionSR.Anular)) {
                 return true;
             }
             if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(valFechaDeElaboracion, false, valAction)) {
                 BuildValidationInfo(LibDefGen.MessageDateRestrictionDemoProgram());
                 vResult = false;
             }
+            if (LibDate.F1IsGreaterThanF2(valFechaDeElaboracion, valFechaDeVencimiento)) {
+                BuildValidationInfo("La Fecha de Elaboración debe ser menor o igual a la Fecha de Vencimiento.");
+                vResult = false;
+            }
+            if (LibDate.F1IsLessThanF2(valFechaDeElaboracion, new DateTime(2000, 01, 01))) {
+                BuildValidationInfo("La Fecha de Elaboración debe ser mayor o igual a: " + LibConvert.ToStr(new DateTime(2000, 01, 01)));
+                vResult = false;
+            }
             return vResult;
         }
 
-        private bool IsValidFechaDeVencimiento(eAccionSR valAction, DateTime valFechaDeVencimiento){
+        private bool IsValidFechaDeVencimiento(eAccionSR valAction, DateTime valFechaDeElaboracion, DateTime valFechaDeVencimiento, eTipoArticuloInv valTipoArticuloInv) {
             bool vResult = true;
-            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar) || (valAction == eAccionSR.Anular)) {
                 return true;
             }
             if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(valFechaDeVencimiento, false, valAction)) {
                 BuildValidationInfo(LibDefGen.MessageDateRestrictionDemoProgram());
                 vResult = false;
+            }
+            if (LibDate.F1IsGreaterThanF2(valFechaDeElaboracion, valFechaDeVencimiento)) {
+                BuildValidationInfo("La Fecha de Elaboración debe ser menor o igual a la Fecha de Vencimiento.");
+                vResult = false;
+            }
+            if (LibDate.F1IsLessThanF2(valFechaDeVencimiento, new DateTime(2000, 01, 01))) {
+                BuildValidationInfo("La Fecha de Vencimiento debe ser mayor o igual a: " + LibConvert.ToStr(new DateTime(2000, 01, 01)));
+                vResult = false;
+            }
+            return vResult;
+        }
+
+        private bool IsValidLoteDeInventario(eAccionSR valAction, string valLoteDeInventario, eTipoArticuloInv valTipoArticuloInv) {
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar) || (valAction == eAccionSR.Anular)) {
+                return true;
+            }
+            if (valTipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento) {
+                valLoteDeInventario = LibString.Trim(valLoteDeInventario);
+                if (LibString.IsNullOrEmpty(valLoteDeInventario, true)) {
+                    BuildValidationInfo(MsgRequiredField("Lote de Inventario"));
+                    vResult = false;
+                }
             }
             return vResult;
         }
