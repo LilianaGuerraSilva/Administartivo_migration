@@ -25,19 +25,19 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 
         private void AgregarColumnasEnCompania() {
             if (AddColumnString("Compania", "ImprentaDigitalUrl", 500, "", "")) {
-                AddDefaultConstraint("Compania", "ImDiUrl", "", "ImprentaDigitalUrl");
+                AddDefaultConstraint("Compania", "ImDiUrl", "''", "ImprentaDigitalUrl");
             }
             if (AddColumnString("Compania", "ImprentaDigitalNombreCampoUsuario", 50, "", "")) {
-                AddDefaultConstraint("Compania", "ImDiCUsr", "", "ImprentaDigitalNombreCampoUsuario");
+                AddDefaultConstraint("Compania", "ImDiCUsr", "''", "ImprentaDigitalNombreCampoUsuario");
             }
             if (AddColumnString("Compania", "ImprentaDigitalNombreCampoClave", 50, "", "")) {
-                AddDefaultConstraint("Compania", "ImDiCCla", "", "ImprentaDigitalNombreCampoClave");
+                AddDefaultConstraint("Compania", "ImDiCCla", "''", "ImprentaDigitalNombreCampoClave");
             }
             if (AddColumnString("Compania", "ImprentaDigitalUsuario", 100, "", "")) {
-                AddDefaultConstraint("Compania", "ImDiUsr", "", "ImprentaDigitalUsuario");
+                AddDefaultConstraint("Compania", "ImDiUsr", "''", "ImprentaDigitalUsuario");
             }
             if (AddColumnString("Compania", "ImprentaDigitalClave", 500, "", "")) {
-                AddDefaultConstraint("Compania", "ImDiClv", "", "ImprentaDigitalClave");
+                AddDefaultConstraint("Compania", "ImDiClv", "''", "ImprentaDigitalClave");
             }
             TrasladarDatosImprentaDigitalACompania();
         }
