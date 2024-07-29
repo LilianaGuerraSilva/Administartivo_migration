@@ -401,6 +401,57 @@ namespace Galac.Saw.Brl.Inventario {
             return vResult;
         }
 
+        protected override LibResponse UpdateRecord(IList<NotaDeEntradaSalida> refRecord, bool valUseDetail, eAccionSR valAction) {
+            //en principio solo entra por acá si la acción es anular, es decir, acción especial = anular
+            return base.UpdateRecord(refRecord, valUseDetail, valAction);
+        }
+
+        protected override LibResponse DeleteRecord(IList<NotaDeEntradaSalida> refRecord) {
+            return base.DeleteRecord(refRecord);
+        }
+
+        protected override bool CanBeChoosenForAction(IList<NotaDeEntradaSalida> refRecord, eAccionSR valAction) {
+            if ((valAction == eAccionSR.Eliminar) ||(valAction == eAccionSR.Anular)) {
+                if (ExisteAlMenosUnArticuloDeLoteFdV(refRecord)) {
+                    return false;
+                } else {
+                    return base.CanBeChoosenForAction(refRecord, valAction);
+                }
+            } else {
+                return base.CanBeChoosenForAction(refRecord, valAction);
+            }
+        }
+
+        private bool ExisteAlMenosUnArticuloDeLoteFdV(IList<NotaDeEntradaSalida> refRecord) {
+            bool vResult = false;
+            foreach (NotaDeEntradaSalida vItemNotaES in refRecord) {
+                if (HayAlMenosUnArtLoteFdV(vItemNotaES)) {
+                    return true;
+                }
+            }
+            return vResult;
+        }
+
+        private bool HayAlMenosUnArtLoteFdV(NotaDeEntradaSalida valItemNotaES) {
+            bool vResult = false;
+            LibGpParams vParams = new LibGpParams();
+            vParams.AddInInteger("ConsecutivoCompania", valItemNotaES.ConsecutivoCompania);
+            vParams.AddInString("NumeroDocumento", valItemNotaES.NumeroDocumento, 11);
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("SELECT COUNT(*) AS Cantidad FROM RenglonNotaES INNER JOIN ArticuloInventario ");
+            vSql.AppendLine("ON RenglonNotaES.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania ");
+            vSql.AppendLine("AND RenglonNotaES.CodigoArticulo = ArticuloInventario.Codigo ");
+            vSql.AppendLine("WHERE RenglonNotaES.ConsecutivoCompania = @ConsecutivoCompania");
+            vSql.AppendLine("AND RenglonNotaES.NumeroDocumento = @NumeroDocumento");
+            vSql.AppendLine("AND ArticuloInventario.TipoDeArticulo = '0'");
+            vSql.AppendLine("AND ArticuloInventario.TipoArticuloInv = '5'");            
+            XElement vCantidad = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", -1);
+            if (vCantidad != null) {
+                vResult = (LibConvert.ToInt(LibXml.GetPropertyString(vCantidad, "Cantidad")) > 0);
+            }
+            return vResult;
+        }
+
         private void InsertarLoteDeInventario(NotaDeEntradaSalida valItemNotaES) {
             foreach (RenglonNotaES vItemRenglon in valItemNotaES.DetailRenglonNotaES) {
                 if (vItemRenglon.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento) {
