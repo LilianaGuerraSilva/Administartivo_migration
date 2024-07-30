@@ -38,7 +38,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         private FkAlmacenViewModel _ConexionNombreAlmacen = null;
         #endregion //Variables
         #region Propiedades
-
         public override string ModuleName {
             get { return "Nota de Entrada/Salida"; }
         }
@@ -191,17 +190,21 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        public eStatusNotaEntradaSalida  StatusNotaEntradaSalida {
-            get {
-                return Model.StatusNotaEntradaSalidaAsEnum;
-            }
-            set {
-                if (Model.StatusNotaEntradaSalidaAsEnum != value) {
-                    Model.StatusNotaEntradaSalidaAsEnum = value;
-                    IsDirty = true;
-                    RaisePropertyChanged(StatusNotaEntradaSalidaPropertyName);
-                }
-            }
+        //public eStatusNotaEntradaSalida  StatusNotaEntradaSalida {
+        //    get {
+        //        return Model.StatusNotaEntradaSalidaAsEnum;
+        //    }
+        //    set {
+        //        if (Model.StatusNotaEntradaSalidaAsEnum != value) {
+        //            Model.StatusNotaEntradaSalidaAsEnum = value;
+        //            IsDirty = true;
+        //            RaisePropertyChanged(StatusNotaEntradaSalidaPropertyName);
+        //        }
+        //    }
+        //}
+
+        public string StatusNotaEntradaSalidaStr { 
+            get { return Model.StatusNotaEntradaSalidaAsString; }
         }
 
         public int  ConsecutivoAlmacen {
@@ -413,6 +416,9 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             base.InitializeLookAndFeel(valModel);
             if (LibString.IsNullOrEmpty(NumeroDocumento, true)) {
                 NumeroDocumento = GenerarProximoNumeroDocumento();
+            }
+            if (Action == eAccionSR.Insertar) {//FASE 1 Lote/FdV: No se maneja almacén
+                CodigoAlmacen = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoAlmacenGenerico");
             }
         }
 

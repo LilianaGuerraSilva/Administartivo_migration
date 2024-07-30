@@ -44,13 +44,12 @@
             x:Name="lblNumeroDocumento"
             Grid.Row="0"
             Grid.Column="0"
-            Content="Numero Documento"
+            Content="Número de Documento"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSTextBoxWpf
             x:Name="txtNumeroDocumento"
             Grid.Row="0"
             Grid.Column="1"
-            Width="120"
             nsWpf:LibFocusManager.FocusedPropertyName="NumeroDocumento"
             nsWpf:LibFocusManager.IsFocused="True"
             BorderThickness="1"
@@ -58,18 +57,19 @@
             IsEnabled="{Binding IsEnabled}"
             MaxLength="11"
             Style="{StaticResource TextBoxInputStyle}"
-            Text="{Binding NumeroDocumento, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+            Text="{Binding NumeroDocumento, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" HorizontalAlignment="Stretch" Margin="3,4,43,4" />
         <Label
             x:Name="lblTipodeOperacion"
             Grid.Row="1"
             Grid.Column="0"
-            Content="Tipode Operacion"
+            Content="Tipo de Operación"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf
             x:Name="cmbTipodeOperacion"
             Grid.Row="1"
             Grid.Column="1"
-            Width="120"
+            Grid.ColumnSpan="3"
+            Width="250"
             IsEnabled="{Binding IsEnabled}"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding ArrayTipodeOperacion}"
@@ -85,10 +85,8 @@
             x:Name="txtCodigoCliente"
             Grid.Row="2"
             Grid.Column="1"
-            Width="120"
             Height="23"
-            Margin="3"
-            HorizontalAlignment="Left"
+            Margin="3,4,10,4"
             ConnectionValue="{Binding CodigoCliente, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             DisplayMemberPath="codigo"
             IsEnabled="{Binding IsEnabled}"
@@ -113,7 +111,8 @@
             x:Name="lblCodigoAlmacen"
             Grid.Row="3"
             Grid.Column="0"
-            Content="Codigo Almacen"
+            Content="Código de Almacén"
+
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSSeekConnection
             x:Name="txtCodigoAlmacen"
@@ -122,10 +121,10 @@
             Width="120"
             Height="23"
             Margin="3"
-            HorizontalAlignment="Left"
+            HorizontalAlignment="Left"            
             ConnectionValue="{Binding CodigoAlmacen, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             DisplayMemberPath="Codigo"
-            IsEnabled="{Binding IsEnabled}"
+            IsEnabled="False"
             Model="{Binding ConexionCodigoAlmacen, Mode=TwoWay}"
             SearchCommand="{Binding ChooseCodigoAlmacenCommand}" />
         <!--<Label Grid.Row="5" Grid.Column="0" Name="lblNombreAlmacen" Content="Nombre Almacen" Style="{StaticResource LabelPrompt}" />-->
@@ -174,21 +173,12 @@
             Text="{Binding Comentarios, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
             VerticalScrollBarVisibility="Auto" />
         <Label
-            x:Name="lblStatusNotaEntradaSalida"
+            x:Name="lneStatusNotaEntradaSalida"
             Grid.Row="0"
             Grid.Column="4"
-            Content="Status Nota Entrada Salida"
-            Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSComboBoxWpf
-            x:Name="cmbStatusNotaEntradaSalida"
-            Grid.Row="0"
-            Grid.Column="5"
-            Width="120"
-            IsEnabled="{Binding IsEnabled}"
-            IsSynchronizedWithCurrentItem="True"
-            ItemsSource="{Binding ArrayStatusNotaEntradaSalida}"
-            SelectedItem="{Binding StatusNotaEntradaSalida, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-            Style="{StaticResource ComboBoxStyle}" />
+            Grid.ColumnSpan="2"
+            Content="{Binding StatusNotaEntradaSalidaStr}"
+            Style="{StaticResource LabelStatusBlue}" />
         <ScrollViewer
             x:Name="scvRenglonNotaES"
             Grid.Row="5"
