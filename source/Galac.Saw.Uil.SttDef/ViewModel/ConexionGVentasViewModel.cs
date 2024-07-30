@@ -258,6 +258,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             int vSeparador = LibString.IndexOf(CompaniaGVentasNombres, '|');
             string vRif = LibString.Trim(LibString.SubString(CompaniaGVentasNombres, vSeparador + 1));
             string vNombre = LibString.Trim(LibString.SubString(CompaniaGVentasNombres, 0, vSeparador - 1));
+            string vMsgAccion = (mAction == eAccionSR.Activar) ? "Conexión" : "Desconexión";            
             if (mAction == eAccionSR.Activar) {
                 vMensaje.Append("Los datos de Nombre y RIF de la compañía en el Sistema Administrativo ");
                 vMensaje.AppendLine("deben coincidir con los datos de la compañía con la cual va a conectarse en G-Ventas.");
@@ -277,7 +278,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 vMensaje.AppendLine("de los datos de la compañía en el Sistema Administrativo.");
             }
             vMensaje.Append("¿Desea continuar?");
-            vResult = LibMessages.MessageBox.YesNo(this, vMensaje.ToString(), "Conexión con G-Ventas");
+            vResult = LibMessages.MessageBox.YesNo(this, vMensaje.ToString(), vMsgAccion + " con G-Ventas");
             return vResult;
         }
 
