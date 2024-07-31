@@ -369,6 +369,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     Model.UsaLoteFechaDeVencimientoAsBool = value;
                     IsDirty = true;
                     RaisePropertyChanged(() => UsaLoteFechaDeVencimiento);
+                    if (value) {
+                        UsaAlmacen = false;
+                        RaisePropertyChanged(() => UsaAlmacen);
+                        RaisePropertyChanged(() => IsEnabledUsalAlmacen);
+                    }
                 }
             }
         }
@@ -408,7 +413,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnabledUsalAlmacen {
             get {
-                return IsEnabled && !LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsEmprendedor");
+                return IsEnabled && !UsaLoteFechaDeVencimiento && !LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsEmprendedor");
             }
         }
 		
