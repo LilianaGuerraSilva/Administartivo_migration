@@ -156,10 +156,10 @@ namespace Galac.Saw.Ccl.Inventario {
                "\nConsecutivo = " + _Consecutivo.ToString() +
                "\nCódigo = " + _CodigoLote +
                "\nCódigo de Artículo = " + _CodigoArticulo +
-               "\nFecha de Elaboración = " + _FechaDeElaboracion.ToShortDateString() +
-               "\nFecha de Vencimiento = " + _FechaDeVencimiento.ToShortDateString() +
+               "\nFecha Elab. = " + _FechaDeElaboracion.ToShortDateString() +
+               "\nFecha Vcto. = " + _FechaDeVencimiento.ToShortDateString() +
                "\nExistencia = " + _Existencia.ToString() +
-               "\nStatus Lote Inv = " + _StatusLoteInv.ToString() +
+               "\nStatus = " + _StatusLoteInv.ToString() +
                "\nNombre Operador = " + _NombreOperador +
                "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();
         }
