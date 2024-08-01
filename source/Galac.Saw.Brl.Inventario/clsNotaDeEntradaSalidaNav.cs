@@ -522,7 +522,7 @@ namespace Galac.Saw.Brl.Inventario {
         }
 
         private bool ExisteLoteDeInventario(int valConsecutivoCompania, string valCodigoArticulo, string valLoteDeInventario) {
-            return new clsLoteDeInventarioNav().ExisteLoteDeInventario(valConsecutivoCompania, valCodigoArticulo, valLoteDeInventario);
+            return ((ILoteDeInventarioPdn)new clsLoteDeInventarioNav()).ExisteLoteDeInventario(valConsecutivoCompania, valCodigoArticulo, valLoteDeInventario);
         }
 
         private bool HayExistenciaParaNotaDeSalidaDeInventario(NotaDeEntradaSalida valItemNotaES, out string outCodigos) {
