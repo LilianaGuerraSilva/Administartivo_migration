@@ -368,6 +368,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("      " + DbSchema + ".LoteDeInventario.CodigoArticulo,");
             SQL.AppendLine("      " + DbSchema + ".LoteDeInventario.FechaDeElaboracion,");
             SQL.AppendLine("      " + DbSchema + ".LoteDeInventario.FechaDeVencimiento,");
+            SQL.AppendLine("      " + DbSchema + ".LoteDeInventario.Existencia,");
             SQL.AppendLine("      " + DbSchema + ".LoteDeInventario.StatusLoteInv");
             //SQL.AppendLine("      ," + DbSchema + ".LoteDeInventario.[Programador - personaliza este sp y coloca solo los campos que te interesa exponer a quienes lo consumen]");
             SQL.AppendLine("      FROM " + DbSchema + ".LoteDeInventario");
@@ -426,7 +427,7 @@ namespace Galac.Saw.Dal.Inventario {
             if (insDbo.Exists(DbSchema + ".LoteDeInventario", eDboType.Tabla)) {
                 CrearVistas();
                 CrearProcedimientos();
-                vResult = true;
+                vResult = new clsLoteDeInventarioMovimientoED().InstalarVistasYSps();
             }
             return vResult;
         }
