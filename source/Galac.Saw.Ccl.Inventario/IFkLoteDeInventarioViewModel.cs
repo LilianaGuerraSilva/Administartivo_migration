@@ -12,6 +12,7 @@ namespace Galac.Saw.Ccl.Inventario {
           string CodigoArticulo { get; set; }
           DateTime FechaDeElaboracion { get; set; }
           DateTime FechaDeVencimiento { get; set; }
+          decimal Existencia { get; set; }
           eStatusLoteDeInventario StatusLoteInv { get; set; }
         #endregion //Propiedades
 
