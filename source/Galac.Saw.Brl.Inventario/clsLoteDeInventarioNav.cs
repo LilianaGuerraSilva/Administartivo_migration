@@ -252,7 +252,7 @@ namespace Galac.Saw.Brl.Inventario {
             return vResult;
         }
 
-        internal bool ExisteLoteDeInventario(int valConsecutivoCompania, string valCodigoArticulo, string valLoteDeInventario) {
+        bool ILoteDeInventarioPdn.ExisteLoteDeInventario(int valConsecutivoCompania, string valCodigoArticulo, string valLoteDeInventario) {
             bool vResult = false;
             LibGpParams vParam = new LibGpParams();
             vParam.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
