@@ -74,7 +74,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Código de Artículo es requerido.")]
-        [LibGridColum("Código de Artículo", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoArticulo", ConnectionSearchCommandName = "ChooseCodigoArticuloCommand", MaxWidth=120)]
         public string  CodigoArticulo {
             get {
                 return Model.CodigoArticulo;
@@ -92,7 +91,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibCustomValidation("FechaDeElaboracionValidating")]
-        [LibGridColum("Fecha de Elaboración", eGridColumType.DatePicker)]
+        [LibGridColum("Fecha Elab.", eGridColumType.DatePicker)]
         public DateTime  FechaDeElaboracion {
             get {
                 return Model.FechaDeElaboracion;
@@ -107,7 +106,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibCustomValidation("FechaDeVencimientoValidating")]
-        [LibGridColum("Fecha de Vencimiento", eGridColumType.DatePicker)]
+        [LibGridColum("Fecha Vcto.", eGridColumType.DatePicker)]
         public DateTime  FechaDeVencimiento {
             get {
                 return Model.FechaDeVencimiento;
@@ -135,7 +134,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Status Lote Inv", eGridColumType.Enum, PrintingMemberPath = "StatusLoteInvStr")]
+        [LibGridColum("Status", eGridColumType.Enum, PrintingMemberPath = "StatusLoteInvStr")]
         public eStatusLoteDeInventario  StatusLoteInv {
             get {
                 return Model.StatusLoteInvAsEnum;
