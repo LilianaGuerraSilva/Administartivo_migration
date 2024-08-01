@@ -141,7 +141,7 @@ namespace Galac.Saw.Brl.Inventario {
             LibGpParams vParams = new LibGpParams();
             vParams.AddReturn();
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
-            vParams.AddInXml("XmlData", valXElement);
+            vParams.AddInXml("XmlDataDetail", valXElement);
             vResult = vParams.Get();
             return vResult;
         }
@@ -381,18 +381,22 @@ namespace Galac.Saw.Brl.Inventario {
             LibResponse vResult = new LibResponse();
             foreach (NotaDeEntradaSalida vItem in refRecord) {
                 if (valUseDetail) {
-                    if (vItem != null && vItem.TipodeOperacionAsEnum != eTipodeOperacion.EntradadeInventario) {
-                        string vCodigos;
-                        if (!HayExistenciaParaNotaDeSalidaDeInventario(vItem, out vCodigos)) {
-                            vResult = new LibResponse();
-                            vResult.Success = false;
-                            vResult.AddError("No hay existencia suficiente de algunos ítems (" + vCodigos + ") en la Nota: " + vItem.NumeroDocumento + " para realizar la acción. El proceso será cancelado.");
-                            return vResult;
+                    if (vItem!= null) {
+                        if (vItem.TipodeOperacionAsEnum != eTipodeOperacion.EntradadeInventario) {
+                            string vCodigos;
+                            if (!HayExistenciaParaNotaDeSalidaDeInventario(vItem, out vCodigos)) {
+                                vResult = new LibResponse();
+                                vResult.Success = false;
+                                vResult.AddError("No hay existencia suficiente de algunos ítems (" + vCodigos + ") en la Nota: " + vItem.NumeroDocumento + " para realizar la acción. El proceso será cancelado.");
+                                return vResult;
+                            }
+                            vResult = base.InsertRecord(refRecord, valUseDetail);
+                        } else {
+                            vResult = base.InsertRecord(refRecord, valUseDetail);
                         }
-                        vResult = base.InsertRecord(refRecord, valUseDetail);
-                    }
-                    if (vResult.Success) {
-                        InsertarLoteDeInventario(vItem);
+                        if (vResult.Success) {
+                            InsertarLoteDeInventario(vItem);
+                        }
                     }
                 } else {
                     vResult = base.InsertRecord(refRecord, valUseDetail);
