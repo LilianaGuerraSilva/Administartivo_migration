@@ -127,6 +127,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                     Model.CodigoAlmacen = value;
                     IsDirty = true;
                     RaisePropertyChanged(CodigoAlmacenPropertyName);
+                    ExecuteChooseCodigoAlmacenCommand(CodigoAlmacen);
+                    RaisePropertyChanged(NombreAlmacenPropertyName);
                     if (LibString.IsNullOrEmpty(CodigoAlmacen, true)) {
                         ConexionCodigoAlmacen = null;
                     }
