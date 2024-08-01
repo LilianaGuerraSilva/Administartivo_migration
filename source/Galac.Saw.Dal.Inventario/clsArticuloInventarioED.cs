@@ -109,8 +109,6 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine(", ISNULL(CamposMonedaExtranjera.MePrecioConIVA3,0) AS MePrecioConIva3");
             SQL.AppendLine(", ISNULL(CamposMonedaExtranjera.MePrecioSinIVA4,0) AS MePrecioSinIva4");
             SQL.AppendLine(", ISNULL(CamposMonedaExtranjera.MePrecioConIVA4,0) AS MePrecioConIva4");
-
-
             SQL.AppendLine(", (CASE WHEN ArticuloInventario.TipoArticuloInv = '1' THEN  (ISNULL(SUM(ExistenciaPorAlmacen.Cantidad), 0) + ISNULL(SUM(ExistenciaPorGrupo.Existencia), 0) + ISNULL(SUM(RenglonExistenciaAlmacen.Cantidad), 0) ");
             SQL.AppendLine("- SUM(ArticuloInventario.CantArtReservado))");
             SQL.AppendLine("ELSE ");
@@ -514,58 +512,20 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("    Gv_ArticuloInventario_B1.CampoDefinible5, ");
             SQL.AppendLine("    Comun.Aranceles.AdValorem, ");
             SQL.AppendLine("    Comun.Aranceles.Seguro, ");
-            SQL.AppendLine("    Gv_ArticuloInventario_B1.TipoDeMercanciaProduccion ");
+            SQL.AppendLine("    Gv_ArticuloInventario_B1.TipoDeMercanciaProduccion, ");
+            SQL.AppendLine("    ISNULL(Saw.LoteDeInventario.CodigoLote, '''') AS CodigoLote,");
+            SQL.AppendLine("    ISNULL(Saw.LoteDeInventario.FechaDeElaboracion, '" + InsSql.ToSqlValue(new DateTime(2000, 01, 01)) + "') AS FechaDeElaboracion,");
+            SQL.AppendLine("    ISNULL(Saw.LoteDeInventario.FechaDeVencimiento, '" + InsSql.ToSqlValue(new DateTime(2000, 01, 01)) + "') AS FechaDeVencimiento");
             SQL.AppendLine("    FROM Gv_ArticuloInventario_B1 LEFT JOIN Comun.Aranceles ON Gv_ArticuloInventario_B1.ArancelesCodigo = Comun.Aranceles.Codigo ");
+            SQL.AppendLine("      LEFT JOIN Saw.LoteDeInventario ON Gv_ArticuloInventario_B1.ConsecutivoCompania = Saw.LoteDeInventario.ConsecutivoCompania AND Gv_ArticuloInventario_B1.Codigo= Saw.LoteDeInventario.CodigoArticulo");
             SQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
             SQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE ' + @SQLWhere");
             SQL.AppendLine("   IF (NOT @SQLOrderBy IS NULL) AND (@SQLOrderBy <> '')");
             SQL.AppendLine("      SET @strSQL = @strSQL + ' ORDER BY ' + @SQLOrderBy");
             SQL.AppendLine("   EXEC(@strSQL)");
-            SQL.AppendLine("END");
+            SQL.AppendLine("END");            
             return SQL.ToString();
         }
-
-        //private string SqlSpSearch() {
-        //    StringBuilder SQL = new StringBuilder();
-        //    SQL.AppendLine("BEGIN");
-        //    SQL.AppendLine("   SET NOCOUNT ON;");
-        //    SQL.AppendLine("   DECLARE @strSQL AS " + InsSql.VarCharTypeForDb(7000));
-        //    SQL.AppendLine("   DECLARE @TopClausule AS " + InsSql.VarCharTypeForDb(10));
-        //    SQL.AppendLine("   IF(@UseTopClausule = 'S') ");
-        //    SQL.AppendLine("    SET @TopClausule = 'TOP 500'");
-        //    SQL.AppendLine("   ELSE ");
-        //    SQL.AppendLine("    SET @TopClausule = ''");
-        //    SQL.AppendLine("   SET @strSQL = ");
-        //    SQL.AppendLine("    ' SET DateFormat ' + @DateFormat + ");
-        //    SQL.AppendLine("    ' SELECT ' + @TopClausule + '");
-        //    SQL.AppendLine("    Gv_ArticuloInventario_B1.Codigo, '");
-        //    SQL.AppendLine("    Gv_ArticuloInventario_B1.Descripcion,'");
-        //    SQL.AppendLine("    Gv_ArticuloInventario_B1.LineaDeProducto,'");
-        //    SQL.AppendLine("    Gv_ArticuloInventario_B1.TipoDeArticuloStr,'");
-        //    SQL.AppendLine("    Gv_ArticuloInventario_B1.PrecioSinIVA, '");
-        //    SQL.AppendLine("    Gv_ArticuloInventario_B1.PrecioConIVA, '");
-        //    SQL.AppendLine("    Gv_ArticuloInventario_B1.Categoria, '");
-        //    SQL.AppendLine("    Gv_ArticuloInventario_B1.Existencia,'");
-        //    SQL.AppendLine("    Gv_ArticuloInventario_B1.PorcentajeBaseImponible,'");
-        //    SQL.AppendLine("    ''COLPIVOTE'' AS ColControl,");
-        //    SQL.AppendLine("    Gv_ArticuloInventario_B1.ConsecutivoCompania, '");
-        //    SQL.AppendLine("    Gv_ArticuloInventario_B1.StatusdelArticulo, '");
-        //    SQL.AppendLine("    Gv_ArticuloInventario_B1.TipoDeArticulo, '");
-        //    SQL.AppendLine("    Gv_ArticuloInventario_B1.AlicuotaIVA '");
-        //    SQL.AppendLine("    FROM Gv_ArticuloInventario_B1 '");
-        //    SQL.AppendLine("    INNER JOIN LineaDeProducto ON  Gv_ArticuloInventario_B1.LineaDeProducto = LineaDeProducto.Nombre '");
-        //    SQL.AppendLine("    AND Gv_ArticuloInventario_B1.ConsecutivoCompania = LineaDeProducto.ConsecutivoCompania '");
-        //    SQL.AppendLine("    INNER JOIN Saw.Gv_Categoria_B1 ON  Gv_ArticuloInventario_B1.Categoria = Saw.Gv_Categoria_B1.Descripcion '");
-        //    SQL.AppendLine("    AND Gv_ArticuloInventario_B1.ConsecutivoCompania = Saw.Gv_Categoria_B1.ConsecutivoCompania '");
-        //    SQL.AppendLine("    INNER JOIN Saw.Gv_UnidadDeVenta_B1 ON  Gv_ArticuloInventario_B1.UnidadDeVenta = Saw.Gv_UnidadDeVenta_B1.Nombre'");
-        //    SQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
-        //    SQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE ' + @SQLWhere");
-        //    SQL.AppendLine("   IF (NOT @SQLOrderBy IS NULL) AND (@SQLOrderBy <> '')");
-        //    SQL.AppendLine("      SET @strSQL = @strSQL + ' ORDER BY ' + @SQLOrderBy");
-        //    SQL.AppendLine("   EXEC(@strSQL)");
-        //    SQL.AppendLine("END");
-        //    return SQL.ToString();
-        //}
 
         private string SqlSpGetFKParameters() {
             StringBuilder SQL = new StringBuilder();
