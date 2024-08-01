@@ -4695,11 +4695,11 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
    ConsecutivoCompania : LongInt;//HIDE
    Consecutivo 	       : LongInt;//HIDE,a
    CodigoLote          : Str30;//o,sugestConsecutive,g,"Código",search
-   CodigoArticulo      : Str30;//o,g,=ArticuloInventario.Codigo,"Código de Artículo",search
-   FechaDeElaboracion  : date;//g,"Fecha de Elaboración",search
-   FechaDeVencimiento  : date;//g,"Fecha de Vencimiento",search
-   Existencia          : Decimal;//g
-   StatusLoteInv       : unStatusLoteDeInventario;//g,search
+   CodigoArticulo      : Str30;//o,=ArticuloInventario.Codigo,"Código de Artículo"
+   FechaDeElaboracion  : date;//g,"Fecha Elab.",search
+   FechaDeVencimiento  : date;//g,"Fecha Vcto.",search
+   Existencia          : Decimal;//g,search
+   StatusLoteInv       : unStatusLoteDeInventario;//g,search,"Status"
 
    NombreOperador          : Str10;//a
    FechaUltimaModificacion : date;//a
