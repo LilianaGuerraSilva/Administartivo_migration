@@ -217,11 +217,11 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         public bool IsEnabledLoteDeInventario {
-            get { return false; }// IsEnabled && ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia && ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento; }
+            get { return IsEnabled && SePuedeEditarLote(); }
         }
 
         public bool IsVisbleLoteDeInventario {
-            get { return false; }// ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia && ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento; }
+            get { return ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia && ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento; }
         }
 
         public eTipoArticuloInv[] ArrayTipoArticuloInv {
@@ -317,6 +317,9 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 if (ConexionCodigoArticulo != null) {
                     CodigoArticulo = ConexionCodigoArticulo.Descripcion;
                     DescripcionArticulo = ConexionCodigoArticulo.Descripcion;
+                    if (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia && ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento) {
+                        
+                    }
                 } else {
                     CodigoArticulo = string.Empty;
                     DescripcionArticulo = string.Empty;
@@ -404,12 +407,25 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             ValidationResult vResult = ValidationResult.Success;
             if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
-            }else if (Cantidad <= 0) {
+            } else if (Cantidad <= 0) {
                 vResult = new ValidationResult("El valor de Cantidad debe ser mayor a cero (0).");
             }
             return vResult;
         }
         #endregion //Metodos Generados
+
+        private bool SePuedeEditarLote() {
+            if ((Action == eAccionSR.Insertar)
+                && (Master.TipodeOperacion == eTipodeOperacion.EntradadeInventario)
+                && (ConexionCodigoArticulo != null)
+                && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia)
+                && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento)) {
+                bool vExisteLote = ((ILoteDeInventarioPdn)new clsLoteDeInventarioNav()).ExisteLoteDeInventario(Mfc.GetInt("Compania"), CodigoArticulo, LoteDeInventario);
+                return !vExisteLote;
+            } else {
+                return false;
+            }
+        }
 
     } //End of class RenglonNotaESViewModel
 } //End of namespace Galac.Saw.Uil.Inventario
