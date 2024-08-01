@@ -23,9 +23,9 @@ namespace Galac.Saw.Uil.Inventario {
         #region Metodos Generados
 
         void ILibMenu.Ejecuta(eAccionSR valAction, int valUseInterop) {
-            XElement vLotesPorArticulo = ((ILoteDeInventarioPdn)new clsLoteDeInventarioMovimientoNav()).FindByConsecutivoCompaniaCodigoArticulo(_ConsecutivoCompana, _CodigoArticulo);
-            LoteDeInventarioMngViewModel vViewModel = new LoteDeInventarioMngViewModel();
-            vViewModel.ExecuteConsultarLotesPorArticulo(vLotesPorArticulo);
+            //XElement vLotesPorArticulo = ((ILoteDeInventarioPdn)new clsLoteDeInventarioMovimientoNav()).FindByConsecutivoCompaniaCodigoArticulo(_ConsecutivoCompana, _CodigoArticulo);
+            //LoteDeInventarioMngViewModel vViewModel = new LoteDeInventarioMngViewModel();
+            //vViewModel.ExecuteConsultarLotesPorArticulo(vLotesPorArticulo);
             //vViewModel.ExecuteSearchAndInitLookAndFeel();
             //LibSearchView insFrmSearch = new LibSearchView(vViewModel);
             //if (valUseInterop == 0) {
