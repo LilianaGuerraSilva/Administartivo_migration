@@ -15,7 +15,6 @@ using LibGalac.Aos.ARRpt.Reports;
 using Galac.Saw.Brl.Inventario;
 using Galac.Saw.Brl.Inventario.Reportes;
 using Galac.Saw.Ccl.Inventario;
-using System.Xml.Linq;
 
 namespace Galac.Saw.Uil.Inventario.ViewModel {
 
@@ -152,17 +151,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
         */
         #endregion //Codigo Ejemplo
-        public void ExecuteConsultarLotesPorArticulo(XElement valLotesDeInventarioPorArticulo) {
-            try {                
-                //ANYRELATEDViewModel vViewModel = CreateNewElementForSUPROCESOPARTICULAR(CurrentItem.GetModel(), eAccionSR.Cerrar);
-                //vViewModel.InitializeViewModel(eAccionSR.SUACCION);
-                //LibMessages.EditViewModel.ShowEditor(vViewModel);
-            } catch (System.AccessViolationException) {
-                throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
-            }
-        }
 
 
     } //End of class LoteDeInventarioMngViewModel
