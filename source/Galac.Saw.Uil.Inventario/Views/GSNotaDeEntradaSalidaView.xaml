@@ -18,12 +18,12 @@
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" MinWidth="120"/>
+            <ColumnDefinition Width="Auto" MinWidth="135" />
+            <ColumnDefinition Width="Auto" MinWidth="216" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -44,8 +44,8 @@
             x:Name="lblNumeroDocumento"
             Grid.Row="0"
             Grid.Column="0"
-            Content="Número de Documento"
-            Style="{StaticResource LabelPrompt}" />
+            Content="N° Documento"
+            Style="{StaticResource LabelPrompt}" Height="24" Margin="3,3,29,0" HorizontalAlignment="Stretch" />
         <nsWpfControls:GSTextBoxWpf
             x:Name="txtNumeroDocumento"
             Grid.Row="0"
@@ -57,50 +57,49 @@
             IsEnabled="{Binding IsEnabled}"
             MaxLength="11"
             Style="{StaticResource TextBoxInputStyle}"
-            Text="{Binding NumeroDocumento, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" HorizontalAlignment="Stretch" Margin="3,4,43,4" />
+            Text="{Binding NumeroDocumento, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+            HorizontalAlignment="Stretch" Margin="3,4,10,4" Height="Auto" />
         <Label
             x:Name="lblTipodeOperacion"
             Grid.Row="1"
             Grid.Column="0"
-            Content="Tipo de Operación"
-            Style="{StaticResource LabelPrompt}" />
+            Content="Operación"
+            Style="{StaticResource LabelPrompt}" Height="24" Margin="3,3,52,0" HorizontalAlignment="Stretch" />
         <nsWpfControls:GSComboBoxWpf
             x:Name="cmbTipodeOperacion"
             Grid.Row="1"
             Grid.Column="1"
-            Grid.ColumnSpan="3"
-            Width="250"
+            Grid.ColumnSpan="2"
             IsEnabled="{Binding IsEnabled}"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding ArrayTipodeOperacion}"
             SelectedItem="{Binding TipodeOperacion, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-            Style="{StaticResource ComboBoxStyle}" />
+            Style="{StaticResource ComboBoxStyle}" Margin="3,3,170,3" Height="Auto" HorizontalAlignment="Stretch" />
         <Label
             x:Name="lblCodigoCliente"
             Grid.Row="2"
             Grid.Column="0"
-            Content="Código del Cliente"
-            Style="{StaticResource LabelPrompt}" />
+            Content="Cliente"
+            Style="{StaticResource LabelPrompt}" Height="24" Margin="3,3,70,0" HorizontalAlignment="Stretch" />
         <nsWpfControls:GSSeekConnection
             x:Name="txtCodigoCliente"
             Grid.Row="2"
             Grid.Column="1"
-            Height="23"
             Margin="3,4,10,4"
             ConnectionValue="{Binding CodigoCliente, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             DisplayMemberPath="codigo"
+            Height="25"
             IsEnabled="{Binding IsEnabled}"
             Model="{Binding ConexionCodigoCliente, Mode=TwoWay}"
             SearchCommand="{Binding ChooseCodigoClienteCommand}" />
-        <!--<Label Grid.Row="3" Grid.Column="0" Name="lblNombreCliente" Content="Nombre Cliente" Style="{StaticResource LabelPrompt}" />-->
         <nsWpfControls:GSSeekConnection
             x:Name="txtNombreCliente"
             Grid.Row="2"
             Grid.Column="2"
-            Grid.ColumnSpan="3"
+            Grid.ColumnSpan="2"
             Width="332"
-            Height="23"
             Margin="3,4,0,4"
+            Height="25"
             HorizontalAlignment="Left"
             ConnectionValue="{Binding NombreCliente, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             DisplayMemberPath="nombre"
@@ -111,38 +110,35 @@
             x:Name="lblCodigoAlmacen"
             Grid.Row="3"
             Grid.Column="0"
-            Content="Código de Almacén"
-
-            Style="{StaticResource LabelPrompt}" />
+            Content="Almacén"
+            Style="{StaticResource LabelPrompt}" Height="24" Margin="3,3,60,0" HorizontalAlignment="Stretch" />
         <nsWpfControls:GSSeekConnection
             x:Name="txtCodigoAlmacen"
+            Height="25"
             Grid.Row="3"
             Grid.Column="1"
-            Width="120"
-            Height="23"
-            Margin="3"
-            HorizontalAlignment="Left"            
+            Margin="3,4,10,0"            
             ConnectionValue="{Binding CodigoAlmacen, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             DisplayMemberPath="Codigo"
             IsEnabled="False"
             Model="{Binding ConexionCodigoAlmacen, Mode=TwoWay}"
             SearchCommand="{Binding ChooseCodigoAlmacenCommand}" />
-        <!--<Label Grid.Row="5" Grid.Column="0" Name="lblNombreAlmacen" Content="Nombre Almacen" Style="{StaticResource LabelPrompt}" />-->
         <Label
             x:Name="lneNombreAlmacen"
             Grid.Row="3"
             Grid.Column="2"
-            Grid.ColumnSpan="3"
+            Grid.ColumnSpan="2"
             Width="332"
             Margin="3,3,0,0"
             Content="{Binding NombreAlmacen}"
-            Style="{StaticResource LabelCalculatedField}" />
+            Style="{StaticResource LabelCalculatedField}" 
+            Height="25" />
         <Label
             x:Name="lblFecha"
             Grid.Row="0"
             Grid.Column="2"
             Content="Fecha"
-            Style="{StaticResource LabelPrompt}" />
+            Style="{StaticResource LabelPrompt}" Height="24" Margin="3,3,0,0" Width="43" HorizontalAlignment="Right" />
         <nsWpfControls:GSDatePickerWpf
             x:Name="dtpFecha"
             Grid.Row="0"
@@ -150,20 +146,19 @@
             Width="120"
             IsEnabled="{Binding IsEnabled}"
             SelectedDate="{Binding Fecha, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-            Style="{StaticResource DatePickerStyle}" />
+            Style="{StaticResource DatePickerStyle}" Height="Auto" Margin="3,4,0,4" />
         <Label
             x:Name="lblComentarios"
             Grid.Row="4"
             Grid.Column="0"
             Content="Comentarios"
-            Style="{StaticResource LabelPrompt}" />
+            Style="{StaticResource LabelPrompt}" Height="24" Margin="3,3,39,0" HorizontalAlignment="Stretch" />
         <nsWpfControls:GSTextBoxWpf
             x:Name="txtComentarios"
             Grid.Row="4"
             Grid.Column="1"
-            Grid.ColumnSpan="4"
-            Width="458"
-            Height="100"
+            Grid.ColumnSpan="3"
+            Height="55"
             Margin="3,3,0,3"
             BorderThickness="1"
             InputDataType="Alfanumeric"
@@ -171,7 +166,7 @@
             MaxLength="255"
             Style="{StaticResource TextBoxInputStyle}"
             Text="{Binding Comentarios, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-            VerticalScrollBarVisibility="Auto" />
+            VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" />
         <Label
             x:Name="lneStatusNotaEntradaSalida"
             Grid.Row="0"
@@ -179,18 +174,18 @@
             Grid.ColumnSpan="2"
             Content="{Binding StatusNotaEntradaSalidaStr}"
             Style="{StaticResource LabelStatusBlue}" />
-        <ScrollViewer
-            x:Name="scvRenglonNotaES"
-            Grid.Row="5"
-            Grid.ColumnSpan="6"
-            VerticalScrollBarVisibility="Auto">
+        <!--<ScrollViewer-->
+            <!--x:Name="scvRenglonNotaES"-->
+            <!--Grid.Row="5"-->
+            <!--Grid.ColumnSpan="6"-->
+            <!--VerticalScrollBarVisibility="Auto" Margin="0">-->
             <ContentControl
                 Name="cntInicoRenglonNotaES"
-                Grid.Row="0"
+                Grid.Row="5"
                 Grid.Column="0"
-                Grid.ColumnSpan="2"
-                Width="700"
-                Margin="3">
+                Grid.ColumnSpan="6"
+                Width="550"
+                Margin="0,3">
                 <Grid Name="gdRenglonNotaES">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -238,10 +233,10 @@
                     <nsWpfControls:GSDataGrid
                         x:Name="dgRenglonNotaES"
                         Grid.Row="2"
-                        Grid.ColumnSpan="2"
-                        Height="220"
+                        Grid.ColumnSpan="4"
+                        Height="100"
                         MinWidth="250"
-                        MinHeight="200"
+                        MinHeight="100"
                         ColumnsMap="{Binding DetailRenglonNotaES.VisibleColumns}"
                         Focusable="False"
                         IsReadOnly="True"
@@ -253,6 +248,6 @@
                         Style="{StaticResource GSDataGridStyle}" />
                 </Grid>
             </ContentControl>
-        </ScrollViewer>
+        <!--</ScrollViewer>-->
     </Grid>
 </UserControl>

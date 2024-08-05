@@ -28,7 +28,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         #endregion
         #region Variables
         private FkArticuloInventarioViewModel _ConexionCodigoArticulo = null;
-        //private FkArticuloInventarioViewModel _ConexionDescripcionArticulo = null;
         #endregion //Variables
         #region Propiedades
         public override string ModuleName {
@@ -69,7 +68,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El Código del Artículo es requerido.")]
-        [LibGridColum("Código Articulo", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoArticulo", ConnectionSearchCommandName = "ChooseCodigoArticuloCommand", MaxWidth = 150)]
+        [LibGridColum("Cód. Articulo", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoArticulo", ConnectionSearchCommandName = "ChooseCodigoArticuloCommand", MaxWidth = 120)]
         public string CodigoArticulo {
             get {
                 return Model.CodigoArticulo;
@@ -86,8 +85,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        //[LibRequired(ErrorMessage = "El campo Descripción es requerido.")]
-        //[LibGridColum("Descripción", eGridColumType.Connection, ConnectionDisplayMemberPath = "Descripción", ConnectionModelPropertyName = "DescripcionArticulo", ConnectionSearchCommandName = "ChooseDescripcionArticuloCommand", MaxWidth = 120)]
         public string DescripcionArticulo {
             get {
                 return Model.DescripcionArticulo;
@@ -102,7 +99,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibCustomValidation("CantidadValidating")]
-        [LibGridColum("Cantidad", eGridColumType.Numeric, Alignment = eTextAlignment.Right)]
+        [LibGridColum("Cantidad", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 100)]
         public decimal Cantidad {
             get {
                 return Model.Cantidad;
@@ -172,7 +169,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibCustomValidation("LoteDeInventarioValidating")]
-        [LibGridColum("Lote de Inventario", MaxLength = 30)]
+        [LibGridColum("Lote de Inventario", MaxLength = 50)]
         public string LoteDeInventario {
             get {
                 return Model.LoteDeInventario;
@@ -187,7 +184,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibCustomValidation("FechaDeElaboracionValidating")]
-        [LibGridColum("Fecha de Elaboración", eGridColumType.DatePicker)]
+        [LibGridColum("Fecha Elab.", eGridColumType.DatePicker, Width = 100)]
         public DateTime FechaDeElaboracion {
             get {
                 return Model.FechaDeElaboracion;
@@ -202,7 +199,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibCustomValidation("FechaDeVencimientoValidating")]
-        [LibGridColum("Fecha de Vencimiento", eGridColumType.DatePicker)]
+        [LibGridColum("Fecha Vcto.", eGridColumType.DatePicker, Width = 100)]
         public DateTime FechaDeVencimiento {
             get {
                 return Model.FechaDeVencimiento;
@@ -250,30 +247,11 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        //public FkArticuloInventarioViewModel ConexionDescripcionArticulo {
-        //    get {
-        //        return _ConexionDescripcionArticulo;
-        //    }
-        //    set {
-        //        if (_ConexionDescripcionArticulo != value) {
-        //            _ConexionDescripcionArticulo = value;
-        //            RaisePropertyChanged(DescripcionArticuloPropertyName);
-        //        }
-        //        if (_ConexionDescripcionArticulo == null) {
-        //            DescripcionArticulo = string.Empty;
-        //        }
-        //    }
-        //}
-
         public RelayCommand<string> ChooseCodigoArticuloCommand {
             get;
             private set;
         }
 
-        //public RelayCommand<string> ChooseDescripcionArticuloCommand {
-        //    get;
-        //    private set;
-        //}
         #endregion //Propiedades
         #region Constructores
         public RenglonNotaESViewModel()
@@ -318,7 +296,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                     CodigoArticulo = ConexionCodigoArticulo.Descripcion;
                     DescripcionArticulo = ConexionCodigoArticulo.Descripcion;
                     if (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia && ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento) {
-                        
+
                     }
                 } else {
                     CodigoArticulo = string.Empty;
@@ -330,28 +308,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
-
-        //private void ExecuteChooseDescripcionArticuloCommand(string valDescripcion) {
-        //    try {
-        //        if (valDescripcion == null) {
-        //            valDescripcion = string.Empty;
-        //        }
-        //        LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Descripcion", valDescripcion);
-        //        LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
-        //        ConexionDescripcionArticulo = Master.ChooseRecord<FkArticuloInventarioViewModel>("Artículo Inventario", vDefaultCriteria, vFixedCriteria, string.Empty);
-        //        if (ConexionDescripcionArticulo != null) {
-        //            CodigoArticulo = ConexionDescripcionArticulo.Descripcion;
-        //            DescripcionArticulo = ConexionDescripcionArticulo.Descripcion;
-        //        } else {
-        //            CodigoArticulo = string.Empty;
-        //            DescripcionArticulo = string.Empty;
-        //        }
-        //    } catch (System.AccessViolationException) {
-        //        throw;
-        //    } catch (System.Exception vEx) {
-        //        LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
-        //    }
-        //}
 
         private ValidationResult FechaDeElaboracionValidating() {
             ValidationResult vResult = ValidationResult.Success;

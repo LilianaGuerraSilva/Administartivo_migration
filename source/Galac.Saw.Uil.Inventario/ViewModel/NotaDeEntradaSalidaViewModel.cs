@@ -192,19 +192,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        //public eStatusNotaEntradaSalida  StatusNotaEntradaSalida {
-        //    get {
-        //        return Model.StatusNotaEntradaSalidaAsEnum;
-        //    }
-        //    set {
-        //        if (Model.StatusNotaEntradaSalidaAsEnum != value) {
-        //            Model.StatusNotaEntradaSalidaAsEnum = value;
-        //            IsDirty = true;
-        //            RaisePropertyChanged(StatusNotaEntradaSalidaPropertyName);
-        //        }
-        //    }
-        //}
-
         public string StatusNotaEntradaSalidaStr { 
             get { return Model.StatusNotaEntradaSalidaAsString; }
         }
@@ -507,10 +494,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
-            ConexionCodigoCliente = FirstConnectionRecordOrDefault<FkClienteViewModel>("Cliente", LibSearchCriteria.CreateCriteria("codigo", CodigoCliente));
-            ConexionNombreCliente = FirstConnectionRecordOrDefault<FkClienteViewModel>("Cliente", LibSearchCriteria.CreateCriteria("nombre", NombreCliente));
-            ConexionCodigoAlmacen = FirstConnectionRecordOrDefault<FkAlmacenViewModel>("Almacén", LibSearchCriteria.CreateCriteria("Codigo", CodigoAlmacen));
-            ConexionNombreAlmacen = FirstConnectionRecordOrDefault<FkAlmacenViewModel>("Almacén", LibSearchCriteria.CreateCriteria("NombreAlmacen", NombreAlmacen));
         }
 
         private void ExecuteChooseCodigoClienteCommand(string valcodigo) {
@@ -562,8 +545,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 if (valCodigo == null) {
                     valCodigo = string.Empty;
                 }
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Saw.Gv_Almacen_B1.Codigo", valCodigo);
-                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Saw.Gv_Almacen_B1.ConsecutivoCompania", Mfc.GetInt("Compania"));
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_Almacen_B1.Codigo", valCodigo);
+                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Gv_Almacen_B1.ConsecutivoCompania", Mfc.GetInt("Compania"));
                 ConexionCodigoAlmacen = ChooseRecord<FkAlmacenViewModel>("Almacén", vDefaultCriteria, vFixedCriteria, string.Empty);
                 if (ConexionCodigoAlmacen != null) {
                     CodigoAlmacen = ConexionCodigoAlmacen.Codigo;
