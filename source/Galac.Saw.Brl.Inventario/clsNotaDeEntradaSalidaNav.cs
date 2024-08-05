@@ -12,7 +12,7 @@ using LibGalac.Aos.Base.Dal;
 using Galac.Saw.Ccl.Inventario;
 
 namespace Galac.Saw.Brl.Inventario {
-    public partial class clsNotaDeEntradaSalidaNav: LibBaseNavMaster<IList<NotaDeEntradaSalida>, IList<NotaDeEntradaSalida>>, INotaDeEntradaSalidaPdn {
+    public partial class clsNotaDeEntradaSalidaNav : LibBaseNavMaster<IList<NotaDeEntradaSalida>, IList<NotaDeEntradaSalida>>, INotaDeEntradaSalidaPdn {
         #region Variables
         #endregion //Variables
         #region Propiedades
@@ -23,7 +23,6 @@ namespace Galac.Saw.Brl.Inventario {
         }
         #endregion //Constructores
         #region Metodos Generados
-
         protected override ILibDataMasterComponentWithSearch<IList<NotaDeEntradaSalida>, IList<NotaDeEntradaSalida>> GetDataInstance() {
             return new Galac.Saw.Dal.Inventario.clsNotaDeEntradaSalidaDat();
         }
@@ -84,13 +83,7 @@ namespace Galac.Saw.Brl.Inventario {
         private void FillWithForeignInfoNotaDeEntradaSalida(ref IList<NotaDeEntradaSalida> refData) {
             if (refData != null) {
                 XElement vInfoConexionCliente = FindInfoCliente(refData);
-                //if (vInfoConexionCliente != null && vInfoConexionCliente.HasElements) {
-                //    var vListCliente = (from vRecord in vInfoConexionCliente.Descendants("GpResult") select new {ConsecutivoCompania = LibConvert.ToInt(vRecord.Element("ConsecutivoCompania")), Consecutivo = LibConvert.ToInt(vRecord.Element("Consecutivo")), Codigo = vRecord.Element("Codigo").Value, Nombre = vRecord.Element("Nombre").Value}).Distinct();
-                //}
                 XElement vInfoConexionAlmacen = FindInfoAlmacen(refData);
-                //if (vInfoConexionAlmacen != null && vInfoConexionAlmacen.HasElements) {
-                //var vListAlmacen = (from vRecord in vInfoConexionAlmacen.Descendants("GpResult") select new {ConsecutivoCompania = LibConvert.ToInt(vRecord.Element("ConsecutivoCompania")), Consecutivo = LibConvert.ToInt(vRecord.Element("Consecutivo")), Codigo = vRecord.Element("Codigo").Value, NombreAlmacen = vRecord.Element("NombreAlmacen").Value}).Distinct();
-                //}
                 foreach (NotaDeEntradaSalida vItem in refData) {
                     vItem.NombreCliente = vInfoConexionCliente.Descendants("GpResult").Where(p => p.Element("Codigo").Value == vItem.CodigoCliente).Select(p => p.Element("Nombre").Value).FirstOrDefault();
                     vItem.NombreAlmacen = vInfoConexionAlmacen.Descendants("GpResult").Where(p => p.Element("Codigo").Value == vItem.CodigoAlmacen).Select(p => p.Element("NombreAlmacen").Value).FirstOrDefault();
@@ -114,20 +107,20 @@ namespace Galac.Saw.Brl.Inventario {
             return vXElementResult;
         }
 
-        private XElement FilterNotaDeEntradaSalidaByDistinctCliente(NotaDeEntradaSalida valMaster) {
-            XElement vXElement = new XElement("GpData", new XElement("GpResult", new XElement("CodigoCliente", valMaster.CodigoCliente)));
-            return vXElement;
-        }
+        //private XElement FilterNotaDeEntradaSalidaByDistinctCliente(NotaDeEntradaSalida valMaster) {
+        //    XElement vXElement = new XElement("GpData", new XElement("GpResult", new XElement("CodigoCliente", valMaster.CodigoCliente)));
+        //    return vXElement;
+        //}
 
-        private StringBuilder ParametersGetFKClienteForXmlSubSet(int valConsecutivoCompania, XElement valXElement) {
-            StringBuilder vResult = new StringBuilder();
-            LibGpParams vParams = new LibGpParams();
-            vParams.AddReturn();
-            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
-            vParams.AddInXml("XmlDataDetail", valXElement);
-            vResult = vParams.Get();
-            return vResult;
-        }
+        //private StringBuilder ParametersGetFKClienteForXmlSubSet(int valConsecutivoCompania, XElement valXElement) {
+        //    StringBuilder vResult = new StringBuilder();
+        //    LibGpParams vParams = new LibGpParams();
+        //    vParams.AddReturn();
+        //    vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+        //    vParams.AddInXml("XmlDataDetail", valXElement);
+        //    vResult = vParams.Get();
+        //    return vResult;
+        //}
 
         private XElement FindInfoAlmacen(IList<NotaDeEntradaSalida> valData) {
             XElement vXElementResult = new XElement("GpData");
@@ -145,63 +138,63 @@ namespace Galac.Saw.Brl.Inventario {
             return vXElementResult;
         }
 
-        private XElement FilterNotaDeEntradaSalidaByDistinctAlmacen(NotaDeEntradaSalida valMaster) {
-            XElement vXElement = new XElement("GpData", new XElement("GpResult", new XElement("CodigoAlmacen", valMaster.CodigoAlmacen)));
-            return vXElement;
-        }
+        //private XElement FilterNotaDeEntradaSalidaByDistinctAlmacen(NotaDeEntradaSalida valMaster) {
+        //    XElement vXElement = new XElement("GpData", new XElement("GpResult", new XElement("CodigoAlmacen", valMaster.CodigoAlmacen)));
+        //    return vXElement;
+        //}
 
-        private StringBuilder ParametersGetFKAlmacenForXmlSubSet(int valConsecutivoCompania, XElement valXElement) {
-            StringBuilder vResult = new StringBuilder();
-            LibGpParams vParams = new LibGpParams();
-            vParams.AddReturn();
-            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
-            vParams.AddInXml("XmlData", valXElement);
-            vResult = vParams.Get();
-            return vResult;
-        }
+        //private StringBuilder ParametersGetFKAlmacenForXmlSubSet(int valConsecutivoCompania, XElement valXElement) {
+        //    StringBuilder vResult = new StringBuilder();
+        //    LibGpParams vParams = new LibGpParams();
+        //    vParams.AddReturn();
+        //    vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+        //    vParams.AddInXml("XmlData", valXElement);
+        //    vResult = vParams.Get();
+        //    return vResult;
+        //}
         #endregion //NotaDeEntradaSalida
         #region RenglonNotaES
 
-        private void FillWithForeignInfoRenglonNotaES(ref IList<NotaDeEntradaSalida> refData) {
-            //XElement vInfoConexionArticuloInventario = FindInfoArticuloInventario(refData);
-            //var vListArticuloInventario = (from vRecord in vInfoConexionArticuloInventario.Descendants("GpResult")
-            //                          select new {
-            //                              ConsecutivoCompania = LibConvert.ToInt(vRecord.Element("ConsecutivoCompania")),                                          
-            //                              Codigo = vRecord.Element("Codigo").Value, 
-            //                              Descripcion = vRecord.Element("Descripcion").Value, 
-            //                              LineaDeProducto = vRecord.Element("LineaDeProducto").Value, 
-            //                              StatusdelArticulo = vRecord.Element("StatusdelArticulo").Value, 
-            //                              TipoDeArticulo = vRecord.Element("TipoDeArticulo").Value, 
-            //                              AlicuotaIVA = vRecord.Element("AlicuotaIVA").Value,                                           
-            //                              CostoUnitario = LibConvert.ToDec(vRecord.Element("CostoUnitario")), 
-            //                              Existencia = LibConvert.ToDec(vRecord.Element("Existencia")),                                           
-            //                              TipoDeProducto = vRecord.Element("TipoDeProducto").Value                                          
-            //                          }).Distinct();
-            //foreach(NotaDeEntradaSalida vItem in refData) {
-            //    vItem.DetailRenglonNotaES = 
-            //        new System.Collections.ObjectModel.ObservableCollection<RenglonNotaES>((
-            //            from vDetail in vItem.DetailRenglonNotaES
-            //            join vArticuloInventario in vListArticuloInventario
-            //            on new {Codigo = vDetail.CodigoArticulo, ConsecutivoCompania = vDetail.ConsecutivoCompania}
-            //            equals
-            //            new { Codigo = vArticuloInventario.Codigo, ConsecutivoCompania = vArticuloInventario.ConsecutivoCompania}
-            //            select new RenglonNotaES {
-            //                ConsecutivoCompania = vDetail.ConsecutivoCompania, 
-            //                NumeroDocumento = vDetail.NumeroDocumento, 
-            //                ConsecutivoRenglon = vDetail.ConsecutivoRenglon, 
-            //                CodigoArticulo = vDetail.CodigoArticulo, 
-            //                Cantidad = vDetail.Cantidad, 
-            //                TipoArticuloInvAsEnum = vDetail.TipoArticuloInvAsEnum, 
-            //                Serial = vDetail.Serial, 
-            //                Rollo = vDetail.Rollo, 
-            //                CostoUnitario = vDetail.CostoUnitario
-            //            }).ToList<RenglonNotaES>());
-            //}
-        }
+        //private void FillWithForeignInfoRenglonNotaES(ref IList<NotaDeEntradaSalida> refData) {
+        //    //XElement vInfoConexionArticuloInventario = FindInfoArticuloInventario(refData);
+        //    //var vListArticuloInventario = (from vRecord in vInfoConexionArticuloInventario.Descendants("GpResult")
+        //    //                          select new {
+        //    //                              ConsecutivoCompania = LibConvert.ToInt(vRecord.Element("ConsecutivoCompania")),                                          
+        //    //                              Codigo = vRecord.Element("Codigo").Value, 
+        //    //                              Descripcion = vRecord.Element("Descripcion").Value, 
+        //    //                              LineaDeProducto = vRecord.Element("LineaDeProducto").Value, 
+        //    //                              StatusdelArticulo = vRecord.Element("StatusdelArticulo").Value, 
+        //    //                              TipoDeArticulo = vRecord.Element("TipoDeArticulo").Value, 
+        //    //                              AlicuotaIVA = vRecord.Element("AlicuotaIVA").Value,                                           
+        //    //                              CostoUnitario = LibConvert.ToDec(vRecord.Element("CostoUnitario")), 
+        //    //                              Existencia = LibConvert.ToDec(vRecord.Element("Existencia")),                                           
+        //    //                              TipoDeProducto = vRecord.Element("TipoDeProducto").Value                                          
+        //    //                          }).Distinct();
+        //    //foreach(NotaDeEntradaSalida vItem in refData) {
+        //    //    vItem.DetailRenglonNotaES = 
+        //    //        new System.Collections.ObjectModel.ObservableCollection<RenglonNotaES>((
+        //    //            from vDetail in vItem.DetailRenglonNotaES
+        //    //            join vArticuloInventario in vListArticuloInventario
+        //    //            on new {Codigo = vDetail.CodigoArticulo, ConsecutivoCompania = vDetail.ConsecutivoCompania}
+        //    //            equals
+        //    //            new { Codigo = vArticuloInventario.Codigo, ConsecutivoCompania = vArticuloInventario.ConsecutivoCompania}
+        //    //            select new RenglonNotaES {
+        //    //                ConsecutivoCompania = vDetail.ConsecutivoCompania, 
+        //    //                NumeroDocumento = vDetail.NumeroDocumento, 
+        //    //                ConsecutivoRenglon = vDetail.ConsecutivoRenglon, 
+        //    //                CodigoArticulo = vDetail.CodigoArticulo, 
+        //    //                Cantidad = vDetail.Cantidad, 
+        //    //                TipoArticuloInvAsEnum = vDetail.TipoArticuloInvAsEnum, 
+        //    //                Serial = vDetail.Serial, 
+        //    //                Rollo = vDetail.Rollo, 
+        //    //                CostoUnitario = vDetail.CostoUnitario
+        //    //            }).ToList<RenglonNotaES>());
+        //    //}
+        //}
 
         private XElement FindInfoArticuloInventario(IList<NotaDeEntradaSalida> valData) {
             XElement vXElement = new XElement("GpData");
-            foreach(NotaDeEntradaSalida vItem in valData) {
+            foreach (NotaDeEntradaSalida vItem in valData) {
                 vXElement.Add(FilterRenglonNotaESByDistinctArticuloInventario(vItem).Descendants("GpResult"));
             }
             ILibPdn insArticuloInventario = new Galac.Saw.Brl.Inventario.clsArticuloInventarioNav();
@@ -210,10 +203,7 @@ namespace Galac.Saw.Brl.Inventario {
         }
 
         private XElement FilterRenglonNotaESByDistinctArticuloInventario(NotaDeEntradaSalida valMaster) {
-            XElement vXElement = new XElement("GpData",
-                from vEntity in valMaster.DetailRenglonNotaES.Distinct()
-                select new XElement("GpResult",
-                    new XElement("CodigoArticulo", vEntity.CodigoArticulo)));
+            XElement vXElement = new XElement("GpData", from vEntity in valMaster.DetailRenglonNotaES.Distinct() select new XElement("GpResult", new XElement("CodigoArticulo", vEntity.CodigoArticulo)));
             return vXElement;
         }
 
@@ -251,7 +241,7 @@ namespace Galac.Saw.Brl.Inventario {
             foreach (NotaDeEntradaSalida item in valListNotaDeEntradaSalida) {
                 item.NumeroDocumento = vSecuencial;
                 vSecuencial = LibText.NextSequential(vSecuencial, 11);
-                vResult.Success = InsertRecord(new List<NotaDeEntradaSalida>() { item } , true).Success && vResult.Success;
+                vResult.Success = InsertRecord(new List<NotaDeEntradaSalida>() { item }, true).Success && vResult.Success;
             }
             return vResult;
         }
@@ -265,8 +255,8 @@ namespace Galac.Saw.Brl.Inventario {
             string vNumeroDocumento = LibXml.GetPropertyString(vData, "NumeroDocumento");
             vParams = new LibGpParams();
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
-            vParams.AddInString("NumeroDocumento", vNumeroDocumento,11);
-            IList<NotaDeEntradaSalida> vDataEntradaSalida = _Db.GetData(eProcessMessageType.SpName, "NotaDeEntradaSalidaGET", vParams.Get(),true);
+            vParams.AddInString("NumeroDocumento", vNumeroDocumento, 11);
+            IList<NotaDeEntradaSalida> vDataEntradaSalida = _Db.GetData(eProcessMessageType.SpName, "NotaDeEntradaSalidaGET", vParams.Get(), true);
             if (vDataEntradaSalida != null && vDataEntradaSalida.Count > 0) {
                 vDataEntradaSalida[0].StatusNotaEntradaSalidaAsEnum = eStatusNotaEntradaSalida.Anulada;
                 return UpdateRecord(vDataEntradaSalida, true, eAccionSR.Anular);
@@ -368,7 +358,7 @@ namespace Galac.Saw.Brl.Inventario {
             LibResponse vResult = new LibResponse();
             foreach (NotaDeEntradaSalida vItem in refRecord) {
                 if (valUseDetail) {
-                    if (vItem!= null) {
+                    if (vItem != null) {
                         if (vItem.TipodeOperacionAsEnum != eTipodeOperacion.EntradadeInventario) {
                             string vCodigos;
                             if (!HayExistenciaParaNotaDeSalidaDeInventario(vItem, out vCodigos)) {
@@ -388,12 +378,37 @@ namespace Galac.Saw.Brl.Inventario {
                 } else {
                     vResult = base.InsertRecord(refRecord, valUseDetail);
                 }
+                if (vResult.Success) {
+                    ActualizaExistenciaDeArticulos(vItem);
+                }
             }
             return vResult;
         }
 
+        private void ActualizaExistenciaDeArticulos(NotaDeEntradaSalida valItemNotaES) {
+            if (valItemNotaES != null) {
+                List<ArticuloInventarioExistencia> vList = new List<ArticuloInventarioExistencia>();
+                foreach (RenglonNotaES vItem in valItemNotaES.DetailRenglonNotaES) {
+                    if (vItem != null) {
+                        decimal vCantidad = valItemNotaES.TipodeOperacionAsEnum == eTipodeOperacion.EntradadeInventario ? vItem.Cantidad : vItem.Cantidad * -1;
+                        vList.Add(new ArticuloInventarioExistencia() {
+                            ConsecutivoCompania = valItemNotaES.ConsecutivoCompania,
+                            CodigoAlmacen = valItemNotaES.CodigoAlmacen,
+                            CodigoArticulo = vItem.CodigoArticulo,
+                            Cantidad = vCantidad,
+                            Ubicacion = "",
+                            ConsecutivoAlmacen = valItemNotaES.ConsecutivoAlmacen,
+                            DetalleArticuloInventarioExistenciaSerial = new List<ArticuloInventarioExistenciaSerial>()
+                        });
+                    }
+                }
+                IArticuloInventarioPdn vArticuloPdn = new clsArticuloInventarioNav();
+                vArticuloPdn.ActualizarExistencia(valItemNotaES.ConsecutivoAlmacen, vList);
+            }
+        }
+
         protected override LibResponse UpdateRecord(IList<NotaDeEntradaSalida> refRecord, bool valUseDetail, eAccionSR valAction) {
-            //en principio solo entra por acá si la acción es anular, es decir, acción especial = anular
+            //en principio solo entra por acá si la acción es anular
             return base.UpdateRecord(refRecord, valUseDetail, valAction);
         }
 
@@ -402,7 +417,7 @@ namespace Galac.Saw.Brl.Inventario {
         }
 
         protected override bool CanBeChoosenForAction(IList<NotaDeEntradaSalida> refRecord, eAccionSR valAction) {
-            if ((valAction == eAccionSR.Eliminar) ||(valAction == eAccionSR.Anular)) {
+            if ((valAction == eAccionSR.Eliminar) || (valAction == eAccionSR.Anular)) {
                 if (ExisteAlMenosUnArticuloDeLoteFdV(refRecord)) {
                     return false;
                 } else {
@@ -435,7 +450,7 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.AppendLine("WHERE RenglonNotaES.ConsecutivoCompania = @ConsecutivoCompania");
             vSql.AppendLine("AND RenglonNotaES.NumeroDocumento = @NumeroDocumento");
             vSql.AppendLine("AND ArticuloInventario.TipoDeArticulo = '0'");
-            vSql.AppendLine("AND ArticuloInventario.TipoArticuloInv = '5'");            
+            vSql.AppendLine("AND ArticuloInventario.TipoArticuloInv = '5'");
             XElement vCantidad = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", -1);
             if (vCantidad != null) {
                 vResult = (LibConvert.ToInt(LibXml.GetPropertyString(vCantidad, "Cantidad")) > 0);
@@ -535,4 +550,3 @@ namespace Galac.Saw.Brl.Inventario {
     } //End of class clsNotaDeEntradaSalidaNav
 
 } //End of namespace Galac.Saw.Brl.Inventario
-
