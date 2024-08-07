@@ -15,6 +15,8 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
 using System.Text;
+using Galac.Adm.Ccl.ImprentaDigital;
+using Galac.Saw.LibWebConnector;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class ImprentaDigitalActivacionViewModel : LibGenericViewModel {
@@ -28,13 +30,14 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string NotaDeDebitoPropertyName = "NotaDeDebito";
         public const string FechaDeInicioDeUsoPropertyName = "FechaDeInicioDeUso";
         public const string ReajustarTalonariosDeFacturaPropertyName = "ReajustarTalonariosDeFactura";
+        public const string ExecuteEnabledPropertyName = "ExecuteEnabled";
         #endregion
         #region Propiedades
         bool _UsaDosTalonarios;
         bool _UsaFacturaPreNumeradaTalonario1;
         bool _UsaNCPreNumerada;
         bool _UsaNDPreNumerada;
-
+        bool _ExecuteEnabled;
         public override string ModuleName {
             get { return "Activación de Imprenta Digital"; }
         }
@@ -166,6 +169,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             get { return LibEnumHelper<eProveedorImprentaDigital>.GetValuesInArray(); }
         }
 
+        public RelayCommand ProbarConexionCommand {
+            get;
+            private set;
+        }
+
         public bool IsEnabledProximoNumeroFacturaTalonario1 {
             get { return IsEnabledProximoNumero(eTipoDocumentoFactura.Factura); }
         }
@@ -193,6 +201,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             base.InitializeCommands();
             InicializaValores();
             GuardarCommand = new RelayCommand(ExecuteGuardarCommand, CanExecuteGuardarCommand);
+            ProbarConexionCommand = new RelayCommand(ExecuteProbarConexionCommand);
         }
 
         protected override void InitializeRibbon() {
@@ -207,6 +216,30 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private void ExecuteGuardarCommand() {
             ExecuteActivacion();
+        }
+
+        private void ExecuteProbarConexionCommand() {
+            string vMensaje = string.Empty;
+            string vCommand = (Proveedor == eProveedorImprentaDigital.TheFactoryHKA ? LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion) : "");
+            clsConectorJson _ConectorJson = new clsConectorJson(new clsLoginUser() {
+                User = Usuario,
+                URL = Url,
+                Password = Clave
+            });
+            bool vResult = _ConectorJson.CheckConnection(ref vMensaje, vCommand);
+            if (vResult) {
+                LibMessages.MessageBox.Information(this, "Conectado exitosamente a la Imprenta Digital " + Proveedor + ".", ModuleName);
+                ActivarButtonActions(true);
+            } else {
+                LibMessages.MessageBox.Warning(this, "No se pudo conectar con la Imprenta Digital.\r\nPor favor verifique los datos de conexión e intente de nuevo.", ModuleName);
+                ActivarButtonActions(false);
+            }
+        }
+
+        private void ActivarButtonActions(bool valActivate) {
+            _ExecuteEnabled = valActivate;
+            RaisePropertyChanged(ExecuteEnabledPropertyName);
+            GuardarCommand.RaiseCanExecuteChanged();
         }
 
         private ValidationResult FechaDeInicioDeUsoValidating() {
@@ -243,7 +276,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         private bool CanExecuteGuardarCommand() {
-            return true;
+            return _ExecuteEnabled;
         }
 
         private LibRibbonGroupData CreateAccionesRibbonGroup() {
@@ -291,7 +324,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             ConfigurarNotaCredito();
         }
 
-        private void ConfigurarImprentaDigital() {
+        private void ConfigurarImprentaDigital() {            
             ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).ConfigurarImprentaDigital(Proveedor, FechaDeInicioDeUso);
             ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).GuardarDatosImprentaDigitalAppSettings(Proveedor, Usuario, Clave, Url);
         }
@@ -327,7 +360,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             _UsaFacturaPreNumeradaTalonario1 = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "FacturaPreNumeradaTalonario1");
             _UsaNCPreNumerada = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "NCPreNumerada");
             _UsaNDPreNumerada = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "NDPreNumerada");
-
             Proveedor = eProveedorImprentaDigital.NoAplica;
             Url = string.Empty;
             Usuario = string.Empty;

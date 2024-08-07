@@ -113,7 +113,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 return Model.Codigo;
             }
             set {
-                if (Model.Codigo != value) {
+                if (Model.Codigo != value) {                    
                     Model.Codigo = (LibString.IsNullOrEmpty(value) ? String.Empty : LibText.FillWithCharToLeft(value, "0", 5));
                     IsDirty = true;
                     RaisePropertyChanged(CodigoPropertyName);
@@ -807,6 +807,12 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
+        public bool IsEnabledCodigoDeVendedor {
+            get {
+                return IsEnabled && (Action == eAccionSR.Insertar);
+            }
+        }
+
         public bool IsVisibleAsignacionDeComisiones {
             get {
                 return CalculaComisionesSobreRenglones();
@@ -1020,7 +1026,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         }
 
         protected override void ExecuteAction() {
-            if (Action == eAccionSR.Insertar || Action == eAccionSR.Modificar) {
+            if (Action == eAccionSR.Insertar || Action == eAccionSR.Modificar) {                
                 if (!UsaComisionPorVenta && !UsaComisionPorCobranza) {
                     LibMessages.MessageBox.Alert(this, "Recuerde asignar Comisiones de Venta y/o Cobranza a este Vendedor.", ModuleName);
                 }

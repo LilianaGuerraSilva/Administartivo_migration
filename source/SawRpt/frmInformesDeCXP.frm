@@ -1623,7 +1623,7 @@ Private Sub sEjecutaLibroDeCompras()
    insFacturaNav.setClaseDeTrabajo eCTFC_Factura
    SqlDelReporte = insLibrosVentasYComprasSQL.fSQLLibroDeComprasNAlicuotas(gProyCompaniaActual.GetConsecutivoCompania, txtMes.Text, txtAno.Text, gMonedaLocalActual, dtpFechaInicial.Value, dtpFechaFinal.Value)
    porcentajeDeProrrateo = insFacturaNav.fPorcentajeProrrateo(dtpFechaInicial.Value, dtpFechaFinal.Value, txtMes.Text, txtAno.Text)
-   Set reporteLibroDeCompras = insCxPDsr.fConfigurarDsrLibroDeComprasNAlicuotas(SqlDelReporte, txtMes.Text, txtAno.Text, porcentajeDeProrrateo, gConvert.ConvertByteToBoolean(chkMostrarInformeDeProrrateo.Value), mMostrarInformedeVentas, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), insFacturaNav, gProyCompaniaActual, gEnumProyecto, insNoComunSawIva, insRptFactura, gGlobalization, gAdmAlicuotaIvaActual, dtpFechaInicial.Value, dtpFechaFinal.Value)
+   Set reporteLibroDeCompras = insCxPDsr.fConfigurarDsrLibroDeComprasNAlicuotas(SqlDelReporte, txtMes.Text, txtAno.Text, porcentajeDeProrrateo, gConvert.ConvertByteToBoolean(chkMostrarInformeDeProrrateo.Value), mMostrarInformedeVentas, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), insFacturaNav, gProyCompaniaActual, gEnumProyecto, insNoComunSawIva, insRptFactura, gGlobalization, gAdmAlicuotaIvaActual, dtpFechaInicial.Value, dtpFechaFinal.Value, 0, 0)
    gUtilReports.sMostrarOImprimirReporte reporteLibroDeCompras, 1, mDondeImprimir, ""
    Set reporteLibroDeCompras = Nothing
 h_EXIT: On Error GoTo 0
