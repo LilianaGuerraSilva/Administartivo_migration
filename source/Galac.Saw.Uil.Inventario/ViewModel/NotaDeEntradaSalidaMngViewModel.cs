@@ -20,22 +20,19 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
     public class NotaDeEntradaSalidaMngViewModel : LibMngMasterViewModelMfc<NotaDeEntradaSalidaViewModel, NotaDeEntradaSalida> {
         #region Propiedades
-
         public override string ModuleName {
             get { return "Nota de Entrada/Salida"; }
         }
+
+        public RelayCommand AnularCommand {
+            get;
+            private set;
+        }
         #endregion //Propiedades
         #region Constructores
-
-        public NotaDeEntradaSalidaMngViewModel()
-            : base(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
+        public NotaDeEntradaSalidaMngViewModel() : base(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             Title = "Buscar " + ModuleName;
             OrderByMember = "ConsecutivoCompania, NumeroDocumento";
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-            OrderByDirection = "DESC";
-        */
-        #endregion //Codigo Ejemplo
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -66,21 +63,16 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         protected override void InitializeCommands() {
             base.InitializeCommands();
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-            SUPROCESOPARTICULARCommand = new RelayCommand(ExecuteSUPROCESOPARTICULARCommand, CanExecuteSUPROCESOPARTICULARCommand);
-        */
-        #endregion //Codigo Ejemplo
+            AnularCommand = new RelayCommand(ExecuteAnularCommand, CanExecuteAnularCommand);
         }
 
         protected override void InitializeRibbon() {
             base.InitializeRibbon();
             if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-                RibbonData.TabDataCollection[0].AddTabGroupData(CreateSUPROCESOPARTICULARRibbonGroup());
-        */
-        #endregion //Codigo Ejemplo
+                RibbonData.RemoveRibbonControl("Administrar", "Modificar");
+                RibbonData.TabDataCollection[0].AddTabGroupData(CreateRibbonGroup());
+                #region Codigo Ejemplo
+                #endregion //Codigo Ejemplo
             }
         }
         #endregion //Metodos Generados
@@ -151,6 +143,39 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
         */
         #endregion //Codigo Ejemplo
+
+        private LibRibbonGroupData CreateRibbonGroup() {
+            LibRibbonGroupData vResult = new LibRibbonGroupData("Especial");
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                Label = "Anular Retiro",
+                Command = AnularCommand,
+                CommandParameter = eAccionSR.Anular,
+                LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/specializedUpdate.png", UriKind.Relative),
+                ToolTipDescription = "Anula Notas de Salida por Retiro.",
+                ToolTipTitle = "Anular Notas de Salida por Retiro"
+            });
+            return vResult;
+        }
+
+        private void ExecuteAnularCommand() {
+            try {
+                NotaDeEntradaSalidaViewModel vViewModel = CreateNewElement(CurrentItem.GetModel(), eAccionSR.Anular);
+                vViewModel.InitializeViewModel(eAccionSR.Anular);
+                bool result = LibMessages.EditViewModel.ShowEditor(vViewModel);
+                if (result) {
+                    SearchItems();
+                }
+            } catch (AccessViolationException) {
+                throw;
+            } catch (Exception vEx) {
+                LibMessages.RaiseError.ShowError(vEx);
+            }
+        }
+
+        private bool CanExecuteAnularCommand() {
+            return CurrentItem != null && LibSecurityManager.CurrentUserHasAccessTo(ModuleName, "Anular Retiro") && CurrentItem.TipodeOperacion == eTipodeOperacion.Retiro;
+        }
+
 
 
     } //End of class NotaDeEntradaSalidaMngViewModel
