@@ -38,6 +38,8 @@ namespace Galac.Saw.Ccl.SttDef {
         void GuardarDatosImprentaDigitalAppSettings(eProveedorImprentaDigital valProveedor, string valUsuario, string valClave, string valUrl);
         ObservableCollection<string> ListaDeUsuariosSupervisoresActivos();
         bool EjecutaConexionConGVentas(int valConsecutivoCompania, string valParametroSuscripcionGVentas, string valSerialConectorGVentas, string valNombreCompaniaGVentas, string valNombreUsuarioOperaciones, eAccionSR valAction);
+        bool ExistenArticulosMercanciaNoSimpleNoLoteFDV(int valConsecutivoCompania);
+        bool ExistenArticulosLoteFdV(int valConsecutivoCompania);
     }
 }
 

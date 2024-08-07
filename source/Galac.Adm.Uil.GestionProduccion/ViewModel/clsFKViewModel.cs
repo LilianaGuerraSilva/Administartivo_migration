@@ -29,16 +29,23 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public string UnidadDeVenta { get; set; }
         public decimal MePrecioSinIva { get; set; }
         public decimal MePrecioConIva { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 1, ColumnOrder = 3)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 1, ColumnOrder = 3)]
         public string CampoDefinible1 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 2, ColumnOrder = 4)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 2, ColumnOrder = 4)]
         public string CampoDefinible2 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 3, ColumnOrder = 5)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 3, ColumnOrder = 5)]
         public string CampoDefinible3 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 4, ColumnOrder = 6)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 4, ColumnOrder = 6)]
         public string CampoDefinible4 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 5, ColumnOrder = 7)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 5, ColumnOrder = 7)]
         public string CampoDefinible5 { get; set; }
+        [ArtInvCamposLoteFechaDeVencimientoGridColumn("Lote Inv.", "", 11)]
+        public string LoteDeInventario { get; set; }
+        [ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Elab.", "", 12)]
+        public DateTime FechaDeElaboracion { get; set; }
+        [ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Vcto.", "", 13)]
+        public DateTime FechaDeVencimiento { get; set; }
+
     }
     public class FkListaDeMaterialesViewModel : IFkListaDeMaterialesViewModel {
         public int ConsecutivoCompania { get; set; }

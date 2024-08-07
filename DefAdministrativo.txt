@@ -131,18 +131,21 @@ unTipoComision = (Por Porcentaje, Por Monto);//e
 unComisionesEnFactura = (SobreTotalFactura,SobreRenglones,SobreTotalFacturayRenglones );//e
 unComisionesEnRenglones = (PorUnVendedor, PordosVendedores, PorTresVendedores);//e
 unSalonDeCurso = (SALA 1, SALA 2, SALA 3); //e
-unTipoArticuloInv = (Simple,Usa Talla/Color, Usa Serial, Usa Talla/Color y Serial);//e,Componente=Inventario
+unTipoArticuloInv = (Simple,Usa Talla/Color, Usa Serial, Usa Talla/Color y Serial, Usa Serial/Rollo, Lote/Fecha de Vencimiento);//e,Componente=Inventario
 unAccionAlAnularFactDeMesesAnt = (Permitir Anular Sin Chequear, Preguntar Si Desea Anular, No Permitir Anular);//e
 unStatusNEntrega = (Borrador, Emitida, Reintegrada, Anulada);//e
 UnNEntregaGeneradaPor = (Usuario, Factura);//e 
 unConsultarDataPor = (Descuadre, Error de Sistema, Error de Usuario, Conversión, Integración, Conversión/Integración);//e
 unFamiliaDeMaquinaFiscal = (Bematech,Epson,Elepos,TheFactory,QPrint,BMC);//e,Componente=Venta
 unImpresorasFiscales = (EPSON_PF_220, EPSON_PF_300,EPSON_TM_675_PF,EPSON_TM_950_PF,BEMATECH_MP_20_FI_II);//e
+unTipoDocumentoIdentificacion = (RUC, DNI, Carnet de Extranjería, Pasaporte, Otros Tipos de Documentos);//e,Componente=GestionCompras
 unStatusRendicion = (EnProceso, Cerrada, Anulada);//e
 unTipoDeTransaccion = (Factura, Giro, ChequeDevuelto, NotaDeCredito, NotaDeDebito, NotaEntrega, NoAsignado, BoletaDeVenta, TicketMaquinaRegistradora, ReciboPorHonorarios, LiquidacionDeCompra, Otros); //e
 unAccionLimiteItemsFactura = (Solo Advertir,No Exeder numero Items);//e
 unStatusDetraccion= (Autodetraccion,DetraccionPorTercero, NoAplicada);//e,Componente=Pago
 unOrigenRendicion = (Manual, Sistema10); //e
+unTipoNegocio = (General, TallerMecanico); //e
+unOrigen = (Pago, cxP); //e
 unTipoDeDocumentoRendicion = (Redicion, Reposicion);//e,Componente=CajaChica
 unOrigenBeneficiario = (Administrativo,Nomina);//e,Componente=Banco
 unSolicitudGeneradaPor= (CalculosDeNomina, Vacaciones, Utilidades, PagoDeIntereses, Fideicomiso, Liquidacion, NoAplica);//e,Componente=Banco
@@ -156,7 +159,6 @@ DondeEfectuoContabilizacionRetIVA= (NoContabilizada, CxP,Pago); //e,Componente=C
 //unConceptoBancarioPorDefecto = (DEBITO_BANCARIO_AUTOMATICO,REVERSO_AUTOMATICO_COBRANZA,REV_AUTOMATICO_ANT_COBRADO,REV_AUTOMATICO_ANT_PAGADO,ANTICIPO_COBRADO,ANTICIPO_PAGADO,COBRO_DIRECTO_DE_FACT,REVERSO_AUTOMATICO_PAGO,TRANSERENCIA_INGRESO,TRANSERENCIA_EGRESO,DETRACCION_INGRESO,DETRACCION_EGRESO,REV_AUTOMATICO_SOLI_PAGADO,PAGO_RETENCION_DIRECTO_DESDE_CXP,PAGO_CAJA_CHICA,EGRESO_REPOSICION_CAJA_CHICA,INGRESO_REPOSICION_CAJA_CHICA)//e,Componente=Banco
 unConceptoBancarioPorDefecto = (Debito Bancario Automatico,Reverso Automatico Cobranza,Rev Automatico Ant Cobrado,Rev Automatico Ant Pagado,Anticipo Cobrado,Anticipo Pagado,Cobro Directo De Fact,Reverso Automatico Pago,Transerencia Ingreso,Transerencia Egreso,Detraccion Ingreso,Detraccion Egreso,Rev Automatico Soli Pagado,Pago Retencion Directo Desde Cxp,Pago Caja Chica,Egreso Reposicion Caja Chica,Ingreso Reposicion Caja Chica)//e,Componente=Banco
 unTipodePersonaRetencion = (PJ_Domiciliada, PJ_NoDomiciliada,PN_Residente,PN_NoResidente);//e,Componente=GestionCompras
-unTipoDocumentoIdentificacion = (RUC, DNI, Carnet de Extranjería, Pasaporte, Otros Tipos de Documentos);//e,Componente=GestionCompras
 unTipoDeProveedorDeLibrosFiscales = (Con Rif, Sin Rif, No Residenciado, No Domiciliado);//e,Componente=GestionCompras
 unTipoDePersonaLibrosElectronicos (Natural, Juridico,NoDomiciliado);//e,Componente=GestionCompras
 unTipoDeDatoParametros = (Enumerativo, Int, String, Decimal)//e,Componente=SttDef
@@ -203,6 +205,14 @@ unIdFiscalPM = (V, J, E, G, P);//e,Componente=Venta
 unCodigoCel = (Cod_0412, Cod_0414, Cod_0424, Cod_0416, Cod_0426);//e,Componente=Venta
 unBancoPM = (Bco_0102 "0102 Banco de Venezuela S.A. Banco Universal", Bco_0104 "0104 Banco Venezolano de Crédito S.A. Banco Universal", Bco_0105 "0105 Banco Mercantil C.A. Banco Universal", Bco_0108 "0108 Banco Provincial S.A. Banco Universal", Bco_0114 "0114 Banco del Caribe C.A. Banco Universal", Bco_0115 "0115 Banco Exterior C.A. Banco Universal", Bco_0128 "0128 Banco Caroní C.A. Banco Universal", Bco_0134 "0134 Banesco Banco Universal C.A.", Bco_0137 "0137 Banco Sofitasa Banco Universal C.A.", Bco_0138 "0138 Banco Plaza Banco universal", Bco_0146 "0146 Banco de la Gente Emprendedora C.A.", Bco_0151 "0151 Banco Fondo Común C.A Banco Universal", Bco_0156 "0156 100% Banco Banco Comercial C.A", Bco_0157 "0157 DelSur Banco Universal C.A.", Bco_0163 "0163 Banco del Tesoro C.A. Banco Universal", Bco_0168 "0168 Bancrecer S.A. Banco Microfinanciero", Bco_0169 "0169 Mi Banco Banco Microfinanciero C.A.", Bco_0171 "0171 Banco Activo C.A. Banco Universal", Bco_0172 "0172 Bancamiga Banco Universal C.A.", Bco_0174 "0174 Banplus Banco Universal C.A.", Bco_0175 "0175 Banco Bicentenario del Pueblo Banco Universal C.A.", Bco_0177 "0177 Banco de la Fuerza Armada Nacional Bolivariana B.U.", Bco_0191 "0191 Banco Nacional de Crédito C.A. Banco Universal");//e,Componente=Venta
 unTipoStatusOrdenProduccion = (Ingresada, Iniciada, Cerrada, Anulada);//e,Componente=GestionProduccion,Esquema=Adm
+unStatusNotaEntradaSalida = (Vigente, Anulada);//e,Componente=Inventario
+unTipoGeneradoPorNotaDeEntradaSalida = (Usuario, OrdenDeProduccion);//e,Componente=Inventario
+unTipoNotaProduccion = (NoAplica, Abrir, Cerrar, Ajuste);//e,Componente=Inventario
+unStatusLoteDeInventario = (Vigente, Consumido, Anulado);//e,Componente=Inventario
+unOrigenLoteInv = (Factura, NotaDeCredito, NotaDeDebito, NotaDeEntrega, Produccion, NotaEntradaSalida, Compra, ConteoFisico);//e,Componente=Inventario
+unStatusDocOrigenLoteInv = (Vigente, Anulado);//e,Componente=Inventario
+
+
 
 
 // Record Repetido en archivo Externo
@@ -1304,39 +1314,49 @@ unTipoStatusOrdenProduccion = (Ingresada, Iniciada, Cerrada, Anulada);//e,Compon
 @PrimaryKey=ConsecutivoCompania,CodigoAlmacen,CodigoArticulo,ConsecutivoRenglon
 }
 
-{@M}NotaDeEntradaSalida=  record //"Nota de Entrada/Salida",Multiarchivo=Compania
+{@M}NotaDeEntradaSalida =  record //"Nota de Entrada/Salida",Multiarchivo=Compania, Componente=Inventario,Esquema=dbo,GenerateRptConfigurar,GenerateFrmInforme,interop,GENERATE
     ConsecutivoCompania  : Longint; //HIDE
+//Consecutivo		 : Longint; //HIDE,o,a
     NumeroDocumento      : str11; //g,o,u,sugestConsecutive,search
     TipodeOperacion      : UnTipodeOperacion; //search,grid
     CodigoCliente        : Str10;//g,"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()",search
     NombreCliente        : Str80;//g,Logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()",search
     CodigoAlmacen        : str5; //g,=Almacen.Codigo,search
     NombreAlmacen        : Str40;//Logical,a,=Almacen.NombreAlmacen
-    Fecha                : unFecha; //o,search
-    Descripción Artículo : textArea; //Logical,a
-    Comentarios          : textArea; //search
+    Fecha                : date; //o,search
+    Comentarios          : Str255; //search
     CodigoLote           : Str10;//HIDE
-    CodigoMonedaCostoProduccion     : str04; //"Código Moneda Para El Costo"
+    StatusNotaEntradaSalida    : unStatusNotaEntradaSalida;//
+    ConsecutivoAlmacen         : Longint; //=Almacen.Consecutivo,HIDE
+    GeneradoPor                : unTipoGeneradoPorNotaDeEntradaSalida;//HIDE
+    ConsecutivoDocumentoOrigen : longint;//HIDE
+    TipoNotaProduccion         : unTipoNotaProduccion;//HIDE
+
     NombreOperador       : Str10; //a
     FechaUltimaModificacion: date;//a
 @PrimaryKey=ConsecutivoCompania,NumeroDocumento
+//@PrimaryKey=ConsecutivoCompania,Consecutivo
+//@UniqueKey=ConsecutivoCompania,NumeroDocumento
 }
 
-{@D NotaDeEntradaSalida}RenglonNotaES = Record //Multiarchivo=Compania
-	ConsecutivoCompania		: LongInt;//
-	NumeroDocumento		    : Str11;//
-	ConsecutivoRenglon		: LongInt;//
-	CodigoArticulo		    : Str30;//
-	Cantidad		        : decimal;//
-	TipoArticuloInv		    : boolean;//"�ENUMERATIVO O BOOLEAN?",
-	Serial		            : Str50;//
-	Rollo		            : Str20;//
-	CostoUnitario		    : decimal;//dv=0
-    CostoUnitarioME		    : decimal;//dv=0
-//ATENCI�N: Ultimos campos del Record. Los campos nuevos deben ir antes de estas l�neas.
-	NombreOperador		    : Str10;//a
-	FechaUltimaModificacion	: date;//a
-	@PrimaryKey=ConsecutivoCompania,NumeroDocumento,ConsecutivoRenglon,Serial,Rollo
+{@D NotaDeEntradaSalida}RenglonNotaES = Record //Multiarchivo=Compania, Componente=Inventario,Esquema=dbo,interop,GENERATE
+   ConsecutivoCompania	: LongInt;//HIDE
+   NumeroDocumento	: str11; //HIDE
+   ConsecutivoRenglon	: LongInt;//HIDE,o,a
+   CodigoArticulo	: Str30;//g,=ArticuloInventario.Descripcion
+   DescripcionArticulo  : TextArea;//g,"Descripción",Search,o,Logical,=ArticuloInventario.Descripcion
+   Cantidad		: decimal;//g
+   TipoArticuloInv	: unTipoArticuloInv;//HIDE
+   Serial		: Str50;//HIDE
+   Rollo		: Str20;//HIDE
+   CostoUnitario	: decimal;//dv=0,HIDE
+   CostoUnitarioME	: decimal;//dv=0,HIDE
+   LoteDeInventario	: Str30;//g
+   FechaDeElaboracion	: date;//g
+   FechaDeVencimiento   : date;//g
+
+@PrimaryKey=ConsecutivoCompania,NumeroDocumento,ConsecutivoRenglon
+//@PrimaryKey=ConsecutivoCompania,ConsecutivoNotaDeEntradaSalida,ConsecutivoRenglon
 }
 
 {@M}Transferencia =  record //"Transferencia",Multiarchivo=Compania, Componente=Inventario,Esquema=Saw
@@ -4460,7 +4480,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	SoloCuentasActivas	: boolean;	//"Solo cuentas activas"
 }
 
-{@M}OrdenDeProduccion = Record//Multiarchivo=Compania,"Orden de Producción",Componente=GestionProduccion,Esquema=Adm,EsquemaBD=Adm,interop,GenerateRptConfigurar, GenerateFrmInforme, GENERATE
+{@M}OrdenDeProduccion = Record//Multiarchivo=Compania,"Orden de Producción",Componente=GestionProduccion,Esquema=Adm,EsquemaBD=Adm,interop,GenerateRptConfigurar, GenerateFrmInforme
 	ConsecutivoCompania 				: LongInt;//HIDE
 	Consecutivo 						: LongInt;//a,u,o,Consecutive,search,Hide
 	Codigo 								: Str15;//o,g,sugestConsecutive,"Código de Orden"
@@ -4491,7 +4511,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	@PrimaryKey=ConsecutivoCompania,Consecutivo
 }
 
-{@D OrdenDeProduccion}OrdenDeProduccionDetalleArticulo = Record//Multiarchivo=Compania,"Salida",Esquema=Adm,Componente=GestionProduccion,EsquemaBD=Adm,GENERATE
+{@D OrdenDeProduccion}OrdenDeProduccionDetalleArticulo = Record//Multiarchivo=Compania,"Salida",Esquema=Adm,Componente=GestionProduccion,EsquemaBD=Adm
 	ConsecutivoCompania				: LongInt;//HIDE
 	ConsecutivoOrdenDeProduccion	: LongInt;//HIDE,o
 	Consecutivo						: LongInt;//HIDE,o
@@ -4514,7 +4534,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	@PrimaryKey=ConsecutivoCompania,ConsecutivoOrdenDeProduccion,Consecutivo
 }
 
-{@D OrdenDeProduccion}OrdenDeProduccionDetalleMateriales = Record//Multiarchivo=Compania,"Insumos",Componente=GestionProduccion,EsquemaBD=Adm,GENERATE
+{@D OrdenDeProduccion}OrdenDeProduccionDetalleMateriales = Record//Multiarchivo=Compania,"Insumos",Componente=GestionProduccion,EsquemaBD=Adm
 	ConsecutivoCompania					: LongInt;//HIDE
 	ConsecutivoOrdenDeProduccion		: LongInt;//HIDE,o
 	Consecutivo							: LongInt;//HIDE,o
@@ -4643,7 +4663,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	Existencia	:	Decimal;//"Existencia"
 }
 
-{@R OrdenDeProduccion}DetalleCostoProducccionSalida = Reporte	//Multiarchivo=Compania,"Detalle de Costo de Produccción Salida",Componente=GestionProduccion,Esquema=Adm,EsquemaBD=Dbo, GENERATE
+{@R OrdenDeProduccion}DetalleCostoProducccionSalida = Reporte	//Multiarchivo=Compania,"Detalle de Costo de Produccción Salida",Componente=GestionProduccion,Esquema=Adm,EsquemaBD=Dbo
 	CodigoOrdenProduccion		:	Section;//"Código Orden Producción"
 	OrdenProduccion				:	Str50;//"Orden de Producccion"
 	Moneda						:	Str80;//"Moneda del Grupo"		
@@ -4659,7 +4679,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	CostoCalculado				:	Decimal;//"Costo Calculado"
 }
 
-{@R OrdenDeProduccion}DetalleCostoProducccionInsumos = Reporte	//Multiarchivo=Compania,"Detalle de Costo de Producccion Insumos",Componente=GestionProduccion,Esquema=Adm,EsquemaBD=Dbo, GENERATE
+{@R OrdenDeProduccion}DetalleCostoProducccionInsumos = Reporte	//Multiarchivo=Compania,"Detalle de Costo de Producccion Insumos",Componente=GestionProduccion,Esquema=Adm,EsquemaBD=Dbo
 	Articulo					:	Str50;//"Artículo"
 	DescripcionArticulo			:	Str255;//"Descripción Artículo"
 	Unidades					:	Str20;"Unidades"
@@ -4668,3 +4688,55 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	CantidadAConsumida 			: 	Decimal;//"Cantidad Consumida"
 	Existencia					:	Decimal;//"Existencia"
 	CostoTotal					:	Decimal;//"Costo Total"
+}
+
+
+{@M}LoteDeInventario = record //Multiarchivo=Compania, "Lote de Inventario",Componente=Inventario,Esquema=Saw,interop,GENERATE
+   ConsecutivoCompania : LongInt;//HIDE
+   Consecutivo 	       : LongInt;//HIDE,a
+   CodigoLote          : Str30;//o,sugestConsecutive,g,"Código",search
+   CodigoArticulo      : Str30;//o,=ArticuloInventario.Codigo,"Código de Artículo"
+   FechaDeElaboracion  : date;//g,"Fecha Elab.",search
+   FechaDeVencimiento  : date;//g,"Fecha Vcto.",search
+   Existencia          : Decimal;//g,search
+   StatusLoteInv       : unStatusLoteDeInventario;//g,search,"Status"
+
+   NombreOperador          : Str10;//a
+   FechaUltimaModificacion : date;//a
+
+@PrimaryKey=ConsecutivoCompania,Consecutivo
+@UniqueKey=ConsecutivoCompania,CodigoLote,CodigoArticulo
+}
+
+{@D LoteDeInventario}LoteDeInventarioMovimiento = record//Multiarchivo=Compania,Componente=Inventario,Esquema=Saw,interop,GenerateRptConfigurar,GenerateFrmInforme,GENERATE
+   ConsecutivoCompania   : LongInt;//HIDE
+   ConsecutivoLote       : LongInt;//HIDE,a
+   Consecutivo           : LongInt;//HIDE,a
+   Fecha                 : date;//g
+   Modulo                : unOrigenLoteInv;//g,"Módulo"
+   Cantidad              : Decimal;//g
+   ConsecutivoDocumentoOrigen: LongInt;//HIDE
+   NumeroDocumentoOrigen : Str30;//g,"Número Doc. Origen"
+   StatusDocumentoOrigen : unStatusDocOrigenLoteInv;//g,"Status del Origen"
+
+@PrimaryKey=ConsecutivoCompania,ConsecutivoLote,Consecutivo
+
+//Cantidad > 0 es entrada Cantidad < 0 es salida. No se guardan 0
+}
+
+
+{@D ArticuloInventario}LoteDeArticulo = Record//Multiarchivo=Compania, "Lote de Artículo Inventario", Componente=Inventario,Esquema=Saw, GENERATE
+    ConsecutivoCompania: Longint; //HIDE
+    Codigo	       : str15;//o,g,"Código del Artículo",Search
+    CodigoLote         : Str30;//o,g
+    FechaDeElaboracion  : date;//g,"Fecha de Elaboración",search
+    FechaDeVencimiento  : date;//g,"Fecha de Vencimiento",search
+    Existencia          : Decimal;//g
+@PrimaryKey=ConsecutivoCompania,Codigo,CodigoLote
+}
+
+
+
+
+
+

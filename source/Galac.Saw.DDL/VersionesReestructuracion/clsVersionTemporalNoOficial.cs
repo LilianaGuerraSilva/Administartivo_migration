@@ -19,9 +19,35 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		public override bool UpdateToVersion() {
 			StartConnectionNoTransaction();
 			AgregarColumnasEnCompania();            
-            DisposeConnectionNoTransaction();
+			CrearLoteDeInventario();
+			AjustesNotaEntradaSalida();
+			CreacionDeParametros();
+			DisposeConnectionNoTransaction();
 			return true;
 		}
+
+		void CreacionDeParametros() {
+			AgregarNuevoParametro("UsaLoteFechaDeVencimiento", "Inventario", 5, "5.1.- Inventario", 1, "", eTipoDeDatoParametros.String, "", 'N', "N");
+		}
+
+        void AjustesNotaEntradaSalida() {
+            if (TableExists("dbo.RenglonNotaES")) {
+				DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "dbo.NotaDeEntradaSalida", "dbo.RenglonNotaES");
+				DeletePrimaryKey("dbo.RenglonNotaES");
+				AddPrimaryKey("dbo.RenglonNotaES", "ConsecutivoCompania,NumeroDocumento,ConsecutivoRenglon");
+				AddForeignKey("dbo.NotaDeEntradaSalida", "dbo.RenglonNotaES", new string[] { "ConsecutivoCompania,NumeroDocumento" }, new string[] { "ConsecutivoCompania,NumeroDocumento" }, true, true);
+
+				AddColumnString("dbo.RenglonNotaES", "LoteDeInventario", 30, "", "");
+				AddColumnDate("dbo.RenglonNotaES", "FechaDeElaboracion", "", false, true);
+				AddColumnDate("dbo.RenglonNotaES", "FechaDeVencimiento", "", false, true);
+			}
+		}
+
+        void CrearLoteDeInventario() {
+			if (!TableExists("Saw.LoteDeInventario")) {
+				new Galac.Saw.Dal.Inventario.clsLoteDeInventarioED().InstalarTabla();
+            }
+        }
 
         private void AgregarColumnasEnCompania() {
             if (AddColumnString("Compania", "ImprentaDigitalUrl", 500, "", "")) {

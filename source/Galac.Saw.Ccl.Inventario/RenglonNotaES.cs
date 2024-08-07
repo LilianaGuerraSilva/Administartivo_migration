@@ -15,12 +15,16 @@ namespace Galac.Saw.Ccl.Inventario {
         private string _NumeroDocumento;
         private int _ConsecutivoRenglon;
         private string _CodigoArticulo;
+        private string _DescripcionArticulo;
         private decimal _Cantidad;
         private eTipoArticuloInv _TipoArticuloInv;
         private string _Serial;
         private string _Rollo;
         private decimal _CostoUnitario;
         private decimal _CostoUnitarioME;
+        private string _LoteDeInventario;
+        private DateTime _FechaDeElaboracion;
+        private DateTime _FechaDeVencimiento;
         #endregion //Variables
         #region Propiedades
 
@@ -42,8 +46,16 @@ namespace Galac.Saw.Ccl.Inventario {
         public string CodigoArticulo {
             get { return _CodigoArticulo; }
             set { 
-                _CodigoArticulo = LibString.Mid(value, 0, 15);
+                _CodigoArticulo = LibString.Mid(value, 0, 30);
                 OnPropertyChanged("CodigoArticulo");
+            }
+        }
+
+        public string DescripcionArticulo {
+            get { return _DescripcionArticulo; }
+            set { 
+                _DescripcionArticulo = LibString.Mid(value, 0, 255);
+                OnPropertyChanged("DescripcionArticulo");
             }
         }
 
@@ -77,12 +89,18 @@ namespace Galac.Saw.Ccl.Inventario {
 
         public string Serial {
             get { return _Serial; }
-            set { _Serial = LibString.Mid(value, 0, 50); }
+            set { 
+                _Serial = LibString.Mid(value, 0, 50);
+                OnPropertyChanged("Serial");
+            }
         }
 
         public string Rollo {
             get { return _Rollo; }
-            set { _Rollo = LibString.Mid(value, 0, 20); }
+            set { 
+                _Rollo = LibString.Mid(value, 0, 20);
+                OnPropertyChanged("Rollo");
+            }
         }
 
         public decimal CostoUnitario {
@@ -94,7 +112,30 @@ namespace Galac.Saw.Ccl.Inventario {
             get { return _CostoUnitarioME; }
             set { _CostoUnitarioME = value; }
         }
-        
+
+        public string LoteDeInventario {
+            get { return _LoteDeInventario; }
+            set { 
+                _LoteDeInventario = LibString.Mid(value, 0, 30);
+                OnPropertyChanged("LoteDeInventario");
+            }
+        }
+
+        public DateTime FechaDeElaboracion {
+            get { return _FechaDeElaboracion; }
+            set { 
+                _FechaDeElaboracion = LibConvert.DateToDbValue(value);
+                OnPropertyChanged("FechaDeElaboracion");
+            }
+        }
+
+        public DateTime FechaDeVencimiento {
+            get { return _FechaDeVencimiento; }
+            set { 
+                _FechaDeVencimiento = LibConvert.DateToDbValue(value);
+                OnPropertyChanged("FechaDeVencimiento");
+            }
+        }
         #endregion //Propiedades
         #region Constructores
 
@@ -113,12 +154,16 @@ namespace Galac.Saw.Ccl.Inventario {
             NumeroDocumento = string.Empty;
             ConsecutivoRenglon = 0;
             CodigoArticulo = string.Empty;
+            DescripcionArticulo = string.Empty;
             Cantidad = 0;
             TipoArticuloInvAsEnum = eTipoArticuloInv.Simple;
             Serial = string.Empty;
             Rollo = string.Empty;
             CostoUnitario = 0;
             CostoUnitarioME = 0;
+            LoteDeInventario = string.Empty;
+            FechaDeElaboracion = LibDate.Today();
+            FechaDeVencimiento = LibDate.Today();
         }
 
         public RenglonNotaES Clone() {
@@ -127,12 +172,16 @@ namespace Galac.Saw.Ccl.Inventario {
             vResult.NumeroDocumento = _NumeroDocumento;
             vResult.ConsecutivoRenglon = _ConsecutivoRenglon;
             vResult.CodigoArticulo = _CodigoArticulo;
+            vResult.DescripcionArticulo = _DescripcionArticulo;
             vResult.Cantidad = _Cantidad;
             vResult.TipoArticuloInvAsEnum = _TipoArticuloInv;
             vResult.Serial = _Serial;
             vResult.Rollo = _Rollo;
             vResult.CostoUnitario = _CostoUnitario;
             vResult.CostoUnitarioME = _CostoUnitarioME;
+            vResult.LoteDeInventario = _LoteDeInventario;
+            vResult.FechaDeElaboracion = _FechaDeElaboracion;
+            vResult.FechaDeVencimiento = _FechaDeVencimiento;
             return vResult;
         }
 
@@ -140,13 +189,16 @@ namespace Galac.Saw.Ccl.Inventario {
            return "Consecutivo Compania = " + _ConsecutivoCompania.ToString() +
                "\nNumero Documento = " + _NumeroDocumento +
                "\nConsecutivo Renglon = " + _ConsecutivoRenglon.ToString() +
-               "\nCódigo Inventario = " + _CodigoArticulo +
+               "\nCodigo Articulo = " + _CodigoArticulo +
                "\nCantidad = " + _Cantidad.ToString() +
                "\nTipo Articulo Inv = " + _TipoArticuloInv.ToString() +
                "\nSerial = " + _Serial +
                "\nRollo = " + _Rollo +
                "\nCosto Unitario = " + _CostoUnitario.ToString() +
-               "\nCosto Unitario en Moneda Extranjera = " + _CostoUnitarioME.ToString();
+               "\nCosto Unitario ME = " + _CostoUnitarioME.ToString() +
+               "\nLote De Inventario = " + _LoteDeInventario +
+               "\nFecha De Elaboracion = " + _FechaDeElaboracion.ToShortDateString() +
+               "\nFecha De Vencimiento = " + _FechaDeVencimiento.ToShortDateString();
         }
 
         #region Miembros de IEquatable<RenglonNotaES>
@@ -171,7 +223,8 @@ namespace Galac.Saw.Ccl.Inventario {
         }
         #endregion //Metodos Generados
 
+
     } //End of class RenglonNotaES
 
-} //End of namespace Galac.Saw.Ccl.Inventario
+} //End of namespace Galac.Dbo.Ccl.Inventario
 

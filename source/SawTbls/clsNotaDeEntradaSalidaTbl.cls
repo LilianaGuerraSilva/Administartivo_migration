@@ -13,18 +13,9 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
-
-Private Function CM_FILE_NAME() As String
-   CM_FILE_NAME = "clsNotaDeEntradaSalidaTbl"
-End Function
-
-Private Function CM_MESSAGE_NAME() As String
-   CM_MESSAGE_NAME = "Nota de Entrada/Salida"
-End Function
-
-Private Function GetGender() As Enum_Gender
-   GetGender = eg_Male
-End Function
+Private Const CM_FILE_NAME As String = "clsNotaDeEntradaSalidaTbl"
+Private Const CM_MESSAGE_NAME As String = "Nota de Entrada/Salida"
+Private Const GetGender = Enum_Gender.eg_Male
 
 Public Function GetTableName() As String
    GetTableName = "NotaDeEntradaSalida"
@@ -36,14 +27,11 @@ Private Sub sAddForeignKeys()
    On Error GoTo h_ERROR
    usarSoloUnElementoEnLaRelacion = True
    deleteOnCascade = True
-   gDbUtil.AddForeignKeySegunTablaPrimaria "Cliente", GetTableName(), "Codigo", _
-         "CodigoCliente", Not usarSoloUnElementoEnLaRelacion, _
-         "ConsecutivoCompania", "ConsecutivoCompania", Not deleteOnCascade
-         gDbUtil.Execute gDefDatabase.Conexion, "SET DATEFORMAT dmy  ALTER TABLE NotaDeEntradaSalida ADD CONSTRAINT fk_NotaDeEntradaSalidaAlma FOREIGN KEY (ConsecutivoCompania,ConsecutivoAlmacen) REFERENCES Saw.Almacen (ConsecutivoCompania,Consecutivo) ON UPDATE NO ACTION ON DELETE NO ACTION"
-   
+   gDbUtil.AddForeignKeySegunTablaPrimaria "Cliente", GetTableName(), "Codigo", "CodigoCliente", Not usarSoloUnElementoEnLaRelacion, "ConsecutivoCompania", "ConsecutivoCompania", Not deleteOnCascade
+   gDbUtil.Execute gDefDatabase.Conexion, "SET DATEFORMAT dmy  ALTER TABLE NotaDeEntradaSalida ADD CONSTRAINT fk_NotaDeEntradaSalidaAlma FOREIGN KEY (ConsecutivoCompania,ConsecutivoAlmacen) REFERENCES Saw.Almacen (ConsecutivoCompania,Consecutivo) ON UPDATE NO ACTION ON DELETE NO ACTION"
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAddForeignKeys", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAddForeignKeys", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sAddPrimaryKeyAndOtherConstrains()
@@ -52,7 +40,7 @@ Private Sub sAddPrimaryKeyAndOtherConstrains()
    sAddForeignKeys
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAddPrimaryKeyAndOtherConstrains", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAddPrimaryKeyAndOtherConstrains", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sAllowCeroLengthFields()
@@ -62,8 +50,7 @@ Private Sub sAllowCeroLengthFields()
    gDbUtil.sModificarLaPropiedadPermitirLongitudCeroDelcampo GetTableName, "NombreOperador"
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sAllowCeroLengthFields", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAllowCeroLengthFields", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sModifyOtherPropertiesOfFields()
@@ -72,8 +59,7 @@ Private Sub sModifyOtherPropertiesOfFields()
    gDbUtil.sModificarLaPropiedadFormatDeLaFecha GetTableName, "FechaUltimaModificacion", gDefDatabase.getDatabaseName, gDefDatabase.getPasswordBaseDeDatos
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sModifyOtherPropertiesOfFields", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sModifyOtherPropertiesOfFields", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Function fCreateTable(ByVal valShowMessage As Boolean) As Boolean
@@ -112,7 +98,7 @@ Public Function fCreateTable(ByVal valShowMessage As Boolean) As Boolean
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fCreateTable = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fCreateTable", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fCreateTable", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Sub sDropTable()
@@ -125,6 +111,5 @@ Public Sub sDropTable()
    gMessage.ProgrammerMessage "La Tabla '" & CM_MESSAGE_NAME & "' fue borrada exitosamente"
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sDropTable", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sDropTable", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
-

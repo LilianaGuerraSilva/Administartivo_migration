@@ -135,16 +135,23 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         public decimal CantidadMinima { get; set; }
         public decimal MePrecioSinIva { get; set; }
         public decimal MePrecioConIva { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 1, 6)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 1, 6)]
         public string CampoDefinible1 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 2, 7)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 2, 7)]
         public string CampoDefinible2 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 3, 8)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 3, 8)]
         public string CampoDefinible3 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 4, 9)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 4, 9)]
         public string CampoDefinible4 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 5, 10)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 5, 10)]
         public string CampoDefinible5 { get; set; }
+        [ArtInvCamposLoteFechaDeVencimientoGridColumn("Lote Inv.", "CodigoLote", 11)]
+        public string LoteDeInventario { get; set; }
+        [ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Elab.", "FechaDeElaboracion", 12)]
+        public DateTime FechaDeElaboracion { get; set; }
+        [ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Vcto.", "FechaDeVencimiento", 13)]
+        public DateTime FechaDeVencimiento { get; set; }
+
     }
 
     public class FkAlmacenViewModel : IFkAlmacenViewModel {

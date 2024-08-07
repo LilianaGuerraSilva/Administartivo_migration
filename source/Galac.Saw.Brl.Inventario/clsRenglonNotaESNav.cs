@@ -90,7 +90,7 @@ namespace Galac.Saw.Brl.Inventario {
             vCurrentRecord.ConsecutivoCompania = valConsecutivoCompania;
             vCurrentRecord.ConsecutivoCompania = 0;
             vCurrentRecord.NumeroDocumento = "";
-            vCurrentRecord.consecutivoRenglon = 0;
+            vCurrentRecord.ConsecutivoRenglon = 0;
             vCurrentRecord.CodigoArticulo = "";
             vCurrentRecord.Cantidad = 0;
             vCurrentRecord.TipoArticuloInvAsEnum = eTipoArticuloInv.Simple;
@@ -98,6 +98,9 @@ namespace Galac.Saw.Brl.Inventario {
             vCurrentRecord.Rollo = "";
             vCurrentRecord.CostoUnitario = 0;
             vCurrentRecord.CostoUnitarioME = 0;
+            vCurrentRecord.LoteDeInventario = "";
+            vCurrentRecord.FechaDeElaboracion = LibDate.Today();
+            vCurrentRecord.FechaDeVencimiento = LibDate.Today();
             vLista.Add(vCurrentRecord);
             return instanciaDal.Insert(vLista).Success;
         }
@@ -115,8 +118,8 @@ namespace Galac.Saw.Brl.Inventario {
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("NumeroDocumento"), null))) {
                     vRecord.NumeroDocumento = vItem.Element("NumeroDocumento").Value;
                 }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("consecutivoRenglon"), null))) {
-                    vRecord.consecutivoRenglon = LibConvert.ToInt(vItem.Element("consecutivoRenglon"));
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("ConsecutivoRenglon"), null))) {
+                    vRecord.ConsecutivoRenglon = LibConvert.ToInt(vItem.Element("ConsecutivoRenglon"));
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CodigoArticulo"), null))) {
                     vRecord.CodigoArticulo = vItem.Element("CodigoArticulo").Value;
@@ -138,6 +141,15 @@ namespace Galac.Saw.Brl.Inventario {
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CostoUnitarioME"), null))) {
                     vRecord.CostoUnitarioME = LibConvert.ToDec(vItem.Element("CostoUnitarioME"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("LoteDeInventario"), null))) {
+                    vRecord.LoteDeInventario = vItem.Element("LoteDeInventario").Value;
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("FechaDeElaboracion"), null))) {
+                    vRecord.FechaDeElaboracion = LibConvert.ToDate(vItem.Element("FechaDeElaboracion"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("FechaDeVencimiento"), null))) {
+                    vRecord.FechaDeVencimiento = LibConvert.ToDate(vItem.Element("FechaDeVencimiento"));
                 }
                 vResult.Add(vRecord);
             }

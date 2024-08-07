@@ -130,11 +130,12 @@ unTipoComision = (Por Porcentaje, Por Monto);//e
 unComisionesEnFactura = (SobreTotalFactura,SobreRenglones,SobreTotalFacturayRenglones );//e
 unComisionesEnRenglones = (PorUnVendedor, PordosVendedores, PorTresVendedores);//e
 unSalonDeCurso = (SALA 1, SALA 2, SALA 3); //e
-unTipoArticuloInv = (Simple,Usa Talla/Color, Usa Serial, Usa Talla/Color y Serial)
+unTipoArticuloInv = (Simple,Usa Talla/Color, Usa Serial, Usa Talla/Color y Serial, Usa Serial/Rollo, Lote/Fecha de Vencimiento);//e
 unAccionAlAnularFactDeMesesAnt = (Permitir Anular Sin Chequear, Preguntar Si Desea Anular, No Permitir Anular);//e
 unStatusNEntrega = (Borrador, Emitida, Reintegrada, Anulada);//e
 UnNEntregaGeneradaPor = (Usuario, Factura);//e 
 unConsultarDataPor = (Descuadre, Error de Sistema, Error de Usuario, Conversión, Integración, Conversión/Integración);//e
+unFamiliaDeMaquinaFiscal = (Bematech,Epson,Elepos,TheFactory,QPrint,BMC);//e,Componente=Venta
 unImpresorasFiscales = (EPSON_PF_220, EPSON_PF_300,EPSON_TM_675_PF,EPSON_TM_950_PF,BEMATECH_MP_20_FI_II);//e
 unTipoDocumentoIdentificacion = (RUC, DNI, Carnet de Extranjería, Pasaporte, Otros Tipos de Documentos);//e
 unStatusRendicion = (EnProceso, Cerrada, Anulada);//e
@@ -158,8 +159,14 @@ unStatusCompania=(Activa, Inactiva);//e
 unFormaDeCalculoDePrecioRenglonFactura = (APartirDelPrecioSinIVA, APartirDelPrecioConIVA); //e
 unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", Cont5 "Contribuyente 5", Cont6 "Contribuyente 6");//e,Componente=Banco
 unFormaDeCalcularCostoTerminado = (APartirDeMonedaLocal, APartirDeMonedaExtranjera); //e,Componente=SttDef
-unRutaDeComercializacion = (No Asignado, Agentes, Asesores, Consultor, Gerente, Incobrable, Oficina, Vendedores); //e,Componente=Vendedor, GENERATE
-unProveedorImprentaDigital = (NoAplica,TheFactoryHKA); //e, GENERATE
+unRutaDeComercializacion = (No Asignado, Agentes, Asesores, Consultor, Gerente, Incobrable, Oficina, Vendedores); //e,Componente=Vendedor
+unProveedorImprentaDigital = (NoAplica,TheFactoryHKA); //e
+unStatusNotaEntradaSalida = (Vigente, Anulada);//e,Componente=Inventario
+unTipoGeneradoPorNotaDeEntradaSalida = (Usuario, OrdenDeProduccion);//e,Componente=Inventario
+unTipoNotaProduccion = (NoAplica, Abrir, Cerrar, Ajuste);//e,Componente=Inventario
+unStatusLoteDeInventario = (Vigente, Consumido, Anulado);//e,Componente=Inventario
+unOrigenLoteInv = (Factura, NotaDeCredito, NotaDeDebito, NotaDeEntrega, Produccion, NotaEntradaSalida, Compra, ConteoFisico);//e,Componente=Inventario
+unStatusDocOrigenLoteInv = (Vigente, Anulado);//e,Componente=Inventario
 
 {@S}UrbanizacionZP = record //"Urbanización - Zona Postal",
    Urbanización: str30; //o,g,SEARCH
@@ -1032,7 +1039,7 @@ MenuDeInformes : boolean;
     @PrimaryKey=Secuencial
 }
 
-{@S}ParametrosCompania = Record//GENERATE
+{@S}ParametrosCompania = Record//
     ConsecutivoCompania    : Longint;
     usaMonedaExtranjera    : boolean;//o,g,SEARCH
     UsaPrecioSinIva        : Boolean;//o
@@ -1873,34 +1880,48 @@ MenuDeInformes : boolean;
 @PrimaryKey=ConsecutivoCompania,CodigoAlmacen,CodigoArticulo,ConsecutivoRenglon
 }
 
-{@M}NotaDeEntradaSalida=  record //"Nota de Entrada/Salida",Multiarchivo=Compania
+{@M}NotaDeEntradaSalida=  record //"Nota de Entrada/Salida",Multiarchivo=Compania,GENERATE
     ConsecutivoCompania  : Longint; //HIDE
+//Consecutivo		 : Longint; //HIDE,o,a
     NumeroDocumento      : str11; //g,o,u,sugestConsecutive,search
     TipodeOperacion      : UnTipodeOperacion; //search,grid
     CodigoCliente        : Str10;//g,"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()",search
     NombreCliente        : Str80;//g,Logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()",search
     CodigoAlmacen        : str5; //g,=Almacen.Codigo,search
     NombreAlmacen        : Str40;//Logical,a,=Almacen.NombreAlmacen
-    Fecha                : unFecha; //o,search
-    Descripción Artículo : textArea; //Logical,a
-    Comentarios          : textArea; //search
+    Fecha                : date; //o,search
+    Comentarios          : Str255; //search
     CodigoLote           : Str10;//HIDE
+    StatusNotaEntradaSalida    : unStatusNotaEntradaSalida;//HIDE
+    ConsecutivoAlmacen         : Longint; //g,=Almacen.Consecutivo,search
+    GeneradoPor                : unTipoGeneradoPorNotaDeEntradaSalida;//HIDE
+    ConsecutivoDocumentoOrigen : longint
+    TipoNotaProduccion         : unTipoNotaProduccion
+
     NombreOperador       : Str10; //a
     FechaUltimaModificacion: date;//a
 @PrimaryKey=ConsecutivoCompania,NumeroDocumento
+//@PrimaryKey=ConsecutivoCompania,Consecutivo
+//@UniqueKey=ConsecutivoCompania,NumeroDocumento
 }
 
-{@D NotaDeEntradaSalida}RenglonNotaES = Record //Multiarchivo=Compania,
-    ConsecutivoCompania	: Longint; //HIDE
-    NumeroDocumento: Str11;   //o,HIDE
-    consecutivoRenglon	: longint; //o,HIDE
-    CodigoArticulo      : str15; //g,o,=ArticuloInventario.Codigo,"Código Inventario"
-    //Descripcion         : textArea; //g,a,=ArticuloInventario.Descripcion,"Descripción"
-    Cantidad           : Double;//g,o
-    TipoArticuloInv     : unTipoArticuloInv; //g,a,o
-    Serial              : str50;
-    Rollo               : str20;
-    @PrimaryKey=ConsecutivoCompania,NumeroDocumento,ConsecutivoRenglon
+{@D NotaDeEntradaSalida}RenglonNotaES = Record //Multiarchivo=Compania,GENERATE
+   ConsecutivoCompania	: LongInt;//
+   NumeroDocumento	: str11; //HIDE
+   ConsecutivoRenglon	: LongInt;//HIDE,o,a
+   CodigoArticulo	: Str30;//g
+   Cantidad		: decimal;//g
+   TipoArticuloInv	: unTipoArticuloInv;//g
+   Serial		: Str50;//g
+   Rollo		: Str20;//g
+   CostoUnitario	: decimal;//dv=0
+   CostoUnitarioME	: decimal;//dv=0
+   LoteDeInventario	: Str30;//g
+   FechaDeElaboracion	: date;//g
+   FechaDeVencimiento   : date;//g
+
+@PrimaryKey=ConsecutivoCompania,NumeroDocumento,ConsecutivoRenglon
+//@PrimaryKey=ConsecutivoCompania,ConsecutivoNotaDeEntradaSalida,ConsecutivoRenglon
 }
 
 {@M}Transferencia =  record //"Transferencia",Multiarchivo=Compania,
@@ -3735,3 +3756,48 @@ MenuDeInformes : boolean;
 
 @groupBy=StatusContrato
 }
+
+{@M}LoteDeInventario = record //Multiarchivo=Compania, "Lote de Inventario",Componente=Inventario,Esquema=Saw,interop,GENERATE
+   ConsecutivoCompania : LongInt;//HIDE
+   Consecutivo 	       : LongInt;//HIDE,a
+   CodigoLote          : Str30;//o,sugestConsecutive,g,"Código",search
+   CodigoArticulo      : Str30;//o,g,=ArticuloInventario.Codigo,"Código de Artículo",search
+   FechaDeElaboracion  : date;//g,"Fecha de Elaboración",search
+   FechaDeVencimiento  : date;//g,"Fecha de Vencimiento",search
+   Existencia          : Decimal;//g
+   StatusLoteInv       : unStatusLoteDeInventario;//g,search
+
+   NombreOperador          : Str10;//a
+   FechaUltimaModificacion : date;//a
+
+@PrimaryKey=ConsecutivoCompania,Consecutivo
+@UniqueKey=ConsecutivoCompania,CodigoLote,CodigoArticulo
+}
+
+{@D LoteDeInventario}LoteDeInventarioMovimiento = record//Multiarchivo=Compania,Componente=Inventario,Esquema=Saw,interop,GenerateRptConfigurar,GenerateFrmInforme,GENERATE
+   ConsecutivoCompania   : LongInt;//HIDE
+   ConsecutivoLote       : LongInt;//HIDE,a
+   Consecutivo           : LongInt;//HIDE,a
+   Fecha                 : date;//g
+   Modulo                : unOrigenLoteInv;//g,"Módulo"
+   Cantidad              : Decimal;//g
+   ConsecutivoDocumentoOrigen: LongInt;//HIDE
+   NumeroDocumentoOrigen : Str30;//g,"Número Doc. Origen"
+   StatusDocumentoOrigen : unStatusDocOrigenLoteInv;//g,"Status del Origen"
+
+@PrimaryKey=ConsecutivoCompania,ConsecutivoLote,Consecutivo
+
+//Cantidad > 0 es entrada Cantidad < 0 es salida. No se guardan 0
+}
+
+
+{@D ArticuloInventario}LoteDeArticulo = Record//Multiarchivo=Compania, "Lote de Artículo Inventario", Componente=Inventario,Esquema=Saw, GENERATE
+    ConsecutivoCompania: Longint; //HIDE
+    Codigo	       : str15;//o,g,"Código del Artículo",Search
+    CodigoLote         : Str30;//o,g
+    FechaDeElaboracion  : date;//g,"Fecha de Elaboración",search
+    FechaDeVencimiento  : date;//g,"Fecha de Vencimiento",search
+    Existencia          : Decimal;//g
+@PrimaryKey=ConsecutivoCompania,Codigo,CodigoLote
+}
+

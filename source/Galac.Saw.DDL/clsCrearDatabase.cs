@@ -90,6 +90,7 @@ namespace Galac.Saw.DDL {
         }
     }
     #endregion codigo producto 100% aos
+
     #region codigo de transicion
     /// <summary>
     /// esto es a lo que a futuro va a ternminar siendo el CrearLasTablas que actualmente tenemos en controlversion
@@ -101,9 +102,11 @@ namespace Galac.Saw.DDL {
             get { return _CreateCompatibilityView; }
             protected set { _CreateCompatibilityView = value; }
         }
+
         public clsCrearDatabase() {
             _CreateCompatibilityView = true;
         }
+
         //<summary>
         //Crea la Tabla de Ciudad y Sus Vistas y SP's
         //Nota: Falta implementar la Carga Inicial
@@ -138,7 +141,6 @@ namespace Galac.Saw.DDL {
         /// Crea la Tabla de Banco y sus Vistas y Sp's
         /// </summary>
         /// <returns></returns>
-
         public bool CrearBanco() {
             bool vResult = new Galac.Comun.Dal.TablasGen.clsBancoED().InstalarTabla();
             if (CreateCompatibilityView) {
@@ -146,6 +148,7 @@ namespace Galac.Saw.DDL {
             }
             return vResult;
         }
+
         /// <summary>
         /// Crea la Tabla de Pais y sus Vistas y Sp's
         /// </summary>
@@ -157,6 +160,7 @@ namespace Galac.Saw.DDL {
             }
             return vResult;
         }
+
         /// <summary>
         /// Crea la Tabla de Ciiu y sus Vistas y Sp's
         /// </summary>
@@ -180,13 +184,13 @@ namespace Galac.Saw.DDL {
             }
             return vResult;
         }
+
         /// <summary>
         /// Crea la Tabla de Modelo y sus Vistas y Sp's
         /// </summary>
         /// <returns></returns>
         public bool CrearModelo() {
-            bool vResult = new Galac.Saw.Dal.Vehiculo.clsModeloED().InstalarTabla();
-            return vResult;
+            return new Galac.Saw.Dal.Vehiculo.clsModeloED().InstalarTabla();
         }
 
         /// <summary>
@@ -194,25 +198,18 @@ namespace Galac.Saw.DDL {
         /// </summary>
         /// <returns></returns>
         public bool CrearMarca() {
-            bool vResult = new Galac.Saw.Dal.Vehiculo.clsMarcaED().InstalarTabla();
-            return vResult;
+            return new Galac.Saw.Dal.Vehiculo.clsMarcaED().InstalarTabla();
         }
-
 
         //<summary>
         //Crea la Tabla de Unidad de venta y sus Vistas y Sp's
         //</summary>
         //<returns></returns>
         public bool CrearUnidadDeVenta() {
-            //ILibHCIL insCargaInicial;
             bool vResult = new Galac.Saw.Dal.Tablas.clsUnidadDeVentaED().InstalarTabla();
             if (CreateCompatibilityView) {
                 clsCompatViews.CrearVistaDboUnidadDeVenta();
             }
-            /*if (vResult) {
-                insCargaInicial = new Galac.Saw.Dal.Tablas.clsUnidadDeVentaDat();
-                vResult = insCargaInicial.InsertDefaultRecords();
-            }*/
             return vResult;
         }
 
@@ -257,15 +254,10 @@ namespace Galac.Saw.DDL {
         //</summary>
         //<returns></returns>
         public bool CrearPropAnalisisVenc() {
-
             bool vResult = new Galac.Saw.Dal.Tablas.clsPropAnalisisVencED().InstalarTabla();
             if (CreateCompatibilityView) {
                 clsCompatViews.CrearVistaDboPropAnalisisVenc();
             }
-            //if (vResult) {
-            //   insCargaInicial = new Galac.Saw.Dal.Tablas.clsPropAnalisisVencDat();
-            //   vResult = insCargaInicial.InsertDefaultRecords();
-            //}
             return vResult;
         }
 
@@ -293,9 +285,6 @@ namespace Galac.Saw.DDL {
             return vResult;
         }
 
-
-
-
         //<summary>
         //Crea la Tabla NotaFinal  y sus Vistas y Sp's
         //</summary>
@@ -321,20 +310,16 @@ namespace Galac.Saw.DDL {
         }
 
         public bool CrearBeneficiario() {
-            bool vResult = new Galac.Adm.Dal.Banco.clsBeneficiarioED().InstalarTabla();
-            return vResult;
-        }
-        public bool CrearSolicitudesDePago() {
-            bool vResult;
-            vResult = new Galac.Adm.Dal.Banco.clsSolicitudesDePagoED().InstalarTabla();
-            return vResult;
-        }
-        public bool CrearIntegracion() {
-            bool vResult;
-            vResult = new Galac.Saw.Dal.Integracion.clsIntegracionSawED().InstalarTabla();
-            return vResult;
+            return new Galac.Adm.Dal.Banco.clsBeneficiarioED().InstalarTabla();
         }
 
+        public bool CrearSolicitudesDePago() {
+            return new Galac.Adm.Dal.Banco.clsSolicitudesDePagoED().InstalarTabla();
+        }
+
+        public bool CrearIntegracion() {
+            return new Galac.Saw.Dal.Integracion.clsIntegracionSawED().InstalarTabla();
+        }
 
         ///// <summary>
         ///// Crea la Tabla de  ReglasDeContabilizacion y sus Vistas y Sp's
@@ -367,6 +352,7 @@ namespace Galac.Saw.DDL {
             }
             return vResult;
         }
+
         public bool CrearAuxiliar() {
             bool vResult = new Galac.Contab.Dal.WinCont.clsAuxiliarED().InstalarTabla();
             if (CreateCompatibilityView) {
@@ -374,6 +360,7 @@ namespace Galac.Saw.DDL {
             }
             return vResult;
         }
+
         public bool CrearAlmacen() {
             bool vResult = new Galac.Saw.Dal.Inventario.clsAlmacenED().InstalarTabla();
             if (CreateCompatibilityView) {
@@ -383,28 +370,19 @@ namespace Galac.Saw.DDL {
         }
 
         public bool CrearMunicipio() {
-            bool vResult;
-            vResult = new Galac.Comun.Dal.TablasGen.clsMunicipioED().InstalarTabla();
-            return vResult;
-
+            return new Galac.Comun.Dal.TablasGen.clsMunicipioED().InstalarTabla();
         }
-        public bool CrearMunicipioCiudad() {
-            bool vResult;
-            vResult = new Galac.Comun.Dal.TablasGen.clsMunicipioCiudadED().InstalarTabla();
-            return vResult;
 
+        public bool CrearMunicipioCiudad() {
+            return new Galac.Comun.Dal.TablasGen.clsMunicipioCiudadED().InstalarTabla();
         }
 
         public bool CrearValorUT() {
-            bool vResult;
-            vResult = new Galac.Comun.Dal.TablasLey.clsValorUTED().InstalarTabla();
-            return vResult;
+            return new Galac.Comun.Dal.TablasLey.clsValorUTED().InstalarTabla();
         }
 
         public bool CrearMoneda() {
-            bool vResult;
-            vResult = new Galac.Comun.Dal.TablasGen.clsMonedaED().InstalarTabla();
-            return vResult;
+            return new Galac.Comun.Dal.TablasGen.clsMonedaED().InstalarTabla();
         }
 
         public bool CrearCuentaBancaria() {
@@ -416,20 +394,19 @@ namespace Galac.Saw.DDL {
         }
 
         public bool CrearSettDefinition() {
-            bool vResult = new Galac.Saw.Dal.SttDef.clsSettDefinitionED().InstalarTabla();
-            return vResult;
+            return new Galac.Saw.Dal.SttDef.clsSettDefinitionED().InstalarTabla();
         }
+
         public bool CrearSettValueByCompany() {
-            bool vResult = new Galac.Saw.Dal.SttDef.clsSettValueByCompanyED().InstalarTabla();
-            return vResult;
+            return new Galac.Saw.Dal.SttDef.clsSettValueByCompanyED().InstalarTabla();
         }
+
         public bool BorrarTablaAnterior(string valTableName) {
             return new LibDbo().Drop(valTableName, eDboType.Tabla);
         }
 
         public bool CrearParametrosConciliacion() {
-            bool vResult = new Galac.Contab.Dal.WinCont.clsParametrosConciliacionED().InstalarTabla();
-            return vResult;
+            return new Galac.Contab.Dal.WinCont.clsParametrosConciliacionED().InstalarTabla();
         }
 
         public bool CrearCargaInicial() {
@@ -450,10 +427,9 @@ namespace Galac.Saw.DDL {
         }
 
         public bool CrearRendicion() {
-            bool vResult = true;
-            vResult = vResult && new Galac.Adm.Dal.CajaChica.clsRendicionED().InstalarTabla();
-            return vResult;
+            return new Galac.Adm.Dal.CajaChica.clsRendicionED().InstalarTabla();
         }
+
         public bool CrearConceptoBancario() {
             bool vResult = true;
             vResult = vResult && new Galac.Adm.Dal.Banco.clsConceptoBancarioED().InstalarTabla();
@@ -464,15 +440,11 @@ namespace Galac.Saw.DDL {
         }
 
         public bool CrearClasificadorActividadEconomica() {
-            bool vResult = true;
-            vResult = new Galac.Comun.Dal.Impuesto.clsClasificadorActividadEconomicaED().InstalarTabla();
-            return vResult;
+            return new Galac.Comun.Dal.Impuesto.clsClasificadorActividadEconomicaED().InstalarTabla();
         }
 
         public bool CrearFormatosImpMunicipales() {
-            bool vResult = true;
-            vResult = vResult && new Galac.Comun.Dal.Impuesto.clsFormatosImpMunicipalesED().InstalarTabla();
-            return vResult;
+            return new Galac.Comun.Dal.Impuesto.clsFormatosImpMunicipalesED().InstalarTabla();
         }
 
         public bool CrearProducto() {
@@ -540,18 +512,15 @@ namespace Galac.Saw.DDL {
         }
 
         public bool CrearElementoDelCosto() {
-            bool vResult = new Galac.Comun.Dal.LeyCosto.clsElementoDelCostoED().InstalarTabla();
-            return vResult;
+            return new Galac.Comun.Dal.LeyCosto.clsElementoDelCostoED().InstalarTabla();
         }
 
         public bool CrearTablaDetraccion() {
-            bool vResult = new Galac.Comun.Dal.Impuesto.clsTablaDetraccionED().InstalarTabla();
-            return vResult;
+            return new Galac.Comun.Dal.Impuesto.clsTablaDetraccionED().InstalarTabla();
         }
 
         public bool CrearAlicuotaImpuestoEspecial() {
-            bool vResult = new Galac.Comun.Dal.Impuesto.clsAlicuotaImpuestoEspecialED().InstalarTabla();
-            return vResult;
+            return new Galac.Comun.Dal.Impuesto.clsAlicuotaImpuestoEspecialED().InstalarTabla();
         }
 
         public bool CrearLineaDeProducto() {
@@ -563,8 +532,7 @@ namespace Galac.Saw.DDL {
         }
 
         public bool CrearBalanza() {
-            bool vResult = new Galac.Adm.Dal.DispositivosExternos.clsBalanzaED().InstalarTabla();
-            return vResult;
+            return new Galac.Adm.Dal.DispositivosExternos.clsBalanzaED().InstalarTabla();
         }
 
         public bool CrearImpuestoBancario() {
@@ -579,11 +547,10 @@ namespace Galac.Saw.DDL {
             return new Galac.Contab.TablasVbSinMigrar.clsWcontVbTablas().CrearTablas();
         }
 
-
         public bool CrearCompra() {
             new Galac.Saw.Dal.Inventario.clsArticuloInventarioED().InstalarVistasYSps();
             bool vResult = new Galac.Adm.Dal.GestionCompras.clsOrdenDeCompraED().InstalarTabla();
-            if (vResult) {                 
+            if (vResult) {
                 vResult = new Galac.Adm.Dal.GestionCompras.clsCompraED().InstalarTabla();
             }
             if (CreateCompatibilityView) {
@@ -593,51 +560,41 @@ namespace Galac.Saw.DDL {
         }
 
         public bool CrearAranceles() {
-            bool vResult = new Galac.Comun.Dal.Impuesto.clsArancelesED().InstalarTabla();
-            return vResult;
+            return new Galac.Comun.Dal.Impuesto.clsArancelesED().InstalarTabla();
         }
 
         public bool CrearProvincia() {
-            bool vResult = new Galac.Comun.Dal.TablasGen.clsProvinciaED().InstalarTabla();
-            return vResult;
+            return new Galac.Comun.Dal.TablasGen.clsProvinciaED().InstalarTabla();
         }
         public bool CrearDepartamento() {
-            bool vResult = new Galac.Comun.Dal.TablasGen.clsDepartamentoED().InstalarTabla();
-            return vResult;
+            return new Galac.Comun.Dal.TablasGen.clsDepartamentoED().InstalarTabla();
         }
         public bool CrearUbigeo() {
-            bool vResult = new Galac.Comun.Dal.TablasGen.clsUbigeoED().InstalarTabla();
-            return vResult;
+            return new Galac.Comun.Dal.TablasGen.clsUbigeoED().InstalarTabla();
         }
-
 
         public bool CrearPaisSunat() {
-            bool vResult = new Galac.Comun.Dal.TablasGen.clsPaisSunatED().InstalarTabla();
-            return vResult;
+            return new Galac.Comun.Dal.TablasGen.clsPaisSunatED().InstalarTabla();
         }
 
-
         public bool CrearConveniosSunat() {
-            bool vResult = new Galac.Comun.Dal.TablasGen.clsConveniosSunatED().InstalarTabla();
-            return vResult;
+            return new Galac.Comun.Dal.TablasGen.clsConveniosSunatED().InstalarTabla();
         }
 
         public bool CrearCondicionesDePago() {
-            bool vResult = new Galac.Saw.Dal.Tablas.clsCondicionesDePagoED().InstalarTabla();
-            return vResult;
+            return new Galac.Saw.Dal.Tablas.clsCondicionesDePagoED().InstalarTabla();
         }
-
 
         public bool CrearCajaRegistradora() {
             bool vResult = new Galac.Adm.Dal.Venta.clsCajaED().InstalarTabla();
-            if(vResult) {
+            if (vResult) {
                 vResult &= new Galac.Adm.Dal.Venta.clsCajaAperturaED().InstalarTabla();
-                if(CreateCompatibilityView) {
+                if (CreateCompatibilityView) {
                     vResult &= clsCompatViews.CrearVistaDboCaja();
                 }
             }
             return vResult;
-        }       
+        }
 
         public bool CrearCambio() {
             bool vResult = new Galac.Comun.Dal.TablasGen.clsCambioED().InstalarTabla();
@@ -645,25 +602,21 @@ namespace Galac.Saw.DDL {
             return vResult;
         }
 
-       public bool CrearListaDeMateriales() {
-           bool vResult = new Galac.Adm.Dal.GestionProduccion.clsListaDeMaterialesED().InstalarTabla();
-           return vResult;
-       }
-       
-       public bool CrearOrdenDeProduccion() {
-           bool vResult = new Galac.Adm.Dal.GestionProduccion.clsOrdenDeProduccionED().InstalarTabla();
-           return vResult;
-       }
-
-        public bool CrearNotaDeEntregaSalida() {
-            bool vResult = new Galac.Saw.Dal.Inventario.clsNotaDeEntradaSalidaED().InstalarTabla();
-            return vResult;
+        public bool CrearListaDeMateriales() {
+            return new Galac.Adm.Dal.GestionProduccion.clsListaDeMaterialesED().InstalarTabla();
         }
 
-		public bool CrearTransferenciaEntreCuentasBancarias() {
-			bool vResult = new Galac.Adm.Dal.Banco.clsTransferenciaEntreCuentasBancariasED().InstalarTabla();
-			return vResult;
-		}
+        public bool CrearOrdenDeProduccion() {
+            return new Galac.Adm.Dal.GestionProduccion.clsOrdenDeProduccionED().InstalarTabla();
+        }
+
+        public bool CrearNotaDeEntregaSalida() {
+            return new Galac.Saw.Dal.Inventario.clsNotaDeEntradaSalidaED().InstalarTabla();
+        }
+
+        public bool CrearTransferenciaEntreCuentasBancarias() {
+            return new Galac.Adm.Dal.Banco.clsTransferenciaEntreCuentasBancariasED().InstalarTabla();
+        }
 
         public bool CrearVendedor() {
             bool vResult;
@@ -676,9 +629,7 @@ namespace Galac.Saw.DDL {
         }
 
         public bool CrearRutaDeComercializacion() {
-            bool vResult;
-            vResult = new Galac.Saw.Dal.Tablas.clsRutaDeComercializacionED().InstalarTabla();            
-            return vResult;
+            return new Galac.Saw.Dal.Tablas.clsRutaDeComercializacionED().InstalarTabla();
         }
 
         public bool CrearGVentasDefiniciones() {
@@ -691,271 +642,270 @@ namespace Galac.Saw.DDL {
             vSql.AppendLine("   Eliminada BIT NOT NULL,");
             vSql.AppendLine("       CONSTRAINT p_GVentasDefiniciones PRIMARY KEY CLUSTERED (Id ASC)");
             vSql.AppendLine(")");
-
             return (new LibDbo()).Create("dbo.GVentasDefiniciones", vSql.ToString(), true, eDboType.Tabla);
+        }
+
+        public bool CrearLoteDeInventario() {
+            return new Galac.Saw.Dal.Inventario.clsLoteDeInventarioED().InstalarTabla();
         }
 
         public bool CrearVistasYProcedimientos(string[] valModulos) {
             bool vResult = true;
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Usuario")) {
+            if (LibArray.Contains(valModulos, "Usuario")) {
                 vResult = vResult && new LibGalac.Aos.Dal.Usal.LibGUserED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Ciudad")) {
+            if (LibArray.Contains(valModulos, "Ciudad")) {
                 vResult = vResult && new Galac.Comun.Dal.TablasGen.clsCiudadED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "SectorDeNegocio")) {
+            if (LibArray.Contains(valModulos, "SectorDeNegocio")) {
                 vResult = vResult && new Galac.Comun.Dal.TablasGen.clsSectorDeNegocioED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Banco")) {
+            if (LibArray.Contains(valModulos, "Banco")) {
                 vResult = vResult && new Galac.Comun.Dal.TablasGen.clsBancoED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Pais")) {
+            if (LibArray.Contains(valModulos, "Pais")) {
                 vResult = vResult && new Galac.Comun.Dal.TablasGen.clsPaisED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Ciiu")) {
+            if (LibArray.Contains(valModulos, "Ciiu")) {
                 vResult = vResult && new Galac.Comun.Dal.TablasGen.clsCIIUED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Categoria")) {
+            if (LibArray.Contains(valModulos, "Categoria")) {
                 vResult = vResult && new Galac.Saw.Dal.Inventario.clsCategoriaED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Marca")) {
+            if (LibArray.Contains(valModulos, "Marca")) {
                 vResult = vResult && new Galac.Saw.Dal.Vehiculo.clsMarcaED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Modelo")) {
+            if (LibArray.Contains(valModulos, "Modelo")) {
                 vResult = vResult && new Galac.Saw.Dal.Vehiculo.clsModeloED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "UnidadDeVenta")) {
+            if (LibArray.Contains(valModulos, "UnidadDeVenta")) {
                 vResult = vResult && new Galac.Saw.Dal.Tablas.clsUnidadDeVentaED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "UrbanizacionZP")) {
+            if (LibArray.Contains(valModulos, "UrbanizacionZP")) {
                 vResult = vResult && new Galac.Saw.Dal.Tablas.clsUrbanizacionZPED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "MaquinaFiscal")) {
+            if (LibArray.Contains(valModulos, "MaquinaFiscal")) {
                 vResult = vResult && new Galac.Saw.Dal.Tablas.clsMaquinaFiscalED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "PropAnalisisVenc")) {
+            if (LibArray.Contains(valModulos, "PropAnalisisVenc")) {
                 vResult = vResult && new Galac.Saw.Dal.Tablas.clsPropAnalisisVencED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "ZonaCobranza")) {
+            if (LibArray.Contains(valModulos, "ZonaCobranza")) {
                 vResult = vResult && new Galac.Saw.Dal.Tablas.clsZonaCobranzaED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "TablaDetraccion")) {
+            if (LibArray.Contains(valModulos, "TablaDetraccion")) {
                 vResult = vResult && new Galac.Comun.Dal.Impuesto.clsTablaDetraccionED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Talla")) {
+            if (LibArray.Contains(valModulos, "Talla")) {
                 vResult = vResult && new Galac.Saw.Dal.Inventario.clsTallaED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Color")) {
+            if (LibArray.Contains(valModulos, "Color")) {
                 vResult = vResult && new Galac.Saw.Dal.Inventario.clsColorED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "NotaFinal")) {
+            if (LibArray.Contains(valModulos, "NotaFinal")) {
                 vResult = vResult && new Galac.Saw.Dal.Tablas.clsNotaFinalED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "TipoProveedor")) {
+            if (LibArray.Contains(valModulos, "TipoProveedor")) {
                 vResult = vResult && new Galac.Saw.Dal.Tablas.clsTipoProveedorED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Beneficiario")) {
+            if (LibArray.Contains(valModulos, "Beneficiario")) {
                 vResult = vResult && new Galac.Adm.Dal.Banco.clsBeneficiarioED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "SolicitudesDePago")) {
+            if (LibArray.Contains(valModulos, "SolicitudesDePago")) {
                 vResult = vResult && new Galac.Adm.Dal.Banco.clsSolicitudesDePagoED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Integracion")) {
+            if (LibArray.Contains(valModulos, "Integracion")) {
                 vResult = vResult && new Galac.Saw.Dal.Integracion.clsIntegracionSawED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "TipoDeComprobante")) {
+            if (LibArray.Contains(valModulos, "TipoDeComprobante")) {
                 vResult = vResult && new Galac.Contab.Dal.Tablas.clsTipoDeComprobanteED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "ReglasDeContabilizacion")) {
+            if (LibArray.Contains(valModulos, "ReglasDeContabilizacion")) {
                 vResult = vResult && new Galac.Saw.Dal.Contabilizacion.clsReglasDeContabilizacionED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Cuentas")) {
+            if (LibArray.Contains(valModulos, "Cuentas")) {
                 vResult = vResult && new Galac.Contab.Dal.WinCont.clsCuentaED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "FormaDelCobro")) {
+            if (LibArray.Contains(valModulos, "FormaDelCobro")) {
                 vResult = vResult && new Galac.Saw.Dal.Tablas.clsFormaDelCobroED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Vehiculo")) {
+            if (LibArray.Contains(valModulos, "Vehiculo")) {
                 vResult = vResult && new Galac.Saw.Dal.Vehiculo.clsVehiculoED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Cliente")) {
+            if (LibArray.Contains(valModulos, "Cliente")) {
                 vResult = vResult && new Galac.Saw.Dal.Cliente.clsClienteED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "GrupoDeActivos")) {
+            if (LibArray.Contains(valModulos, "GrupoDeActivos")) {
                 vResult = vResult && new Galac.Contab.Dal.WinCont.clsGrupoDeActivosED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "ParametrosContables")) {
+            if (LibArray.Contains(valModulos, "ParametrosContables")) {
                 vResult = vResult && new Galac.Contab.Dal.WinCont.clsParametrosGenED().InstalarVistasYSps();
                 vResult = vResult && new Galac.Contab.Dal.WinCont.clsParametrosConciliacionED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "CentroDeCostos")) {
+            if (LibArray.Contains(valModulos, "CentroDeCostos")) {
                 vResult = vResult && new Galac.Contab.Dal.WinCont.clsCentroDeCostosED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Almacen")) {
+            if (LibArray.Contains(valModulos, "Almacen")) {
                 vResult = vResult && new Galac.Saw.Dal.Inventario.clsAlmacenED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "PrnStt")) {
+            if (LibArray.Contains(valModulos, "PrnStt")) {
                 vResult = vResult && new LibGalac.Aos.Dal.DDL.LibCreateDb().CreatePrnStt(false);
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Auxiliar")) {
+            if (LibArray.Contains(valModulos, "Auxiliar")) {
                 vResult = vResult && new Galac.Contab.Dal.WinCont.clsAuxiliarED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Municipio")) {
+            if (LibArray.Contains(valModulos, "Municipio")) {
                 vResult = vResult && new Galac.Comun.Dal.TablasGen.clsMunicipioED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "MunicipioCiudad")) {
+            if (LibArray.Contains(valModulos, "MunicipioCiudad")) {
                 vResult = vResult && new Galac.Comun.Dal.TablasGen.clsMunicipioCiudadED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Moneda")) {
+            if (LibArray.Contains(valModulos, "Moneda")) {
                 vResult = vResult && new Galac.Comun.Dal.TablasGen.clsMonedaED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "ValorUT")) {
+            if (LibArray.Contains(valModulos, "ValorUT")) {
                 vResult = vResult && new Galac.Comun.Dal.TablasLey.clsValorUTED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "CuentaBancaria")) {
+            if (LibArray.Contains(valModulos, "CuentaBancaria")) {
                 vResult = vResult && new Galac.Adm.Dal.Banco.clsCuentaBancariaED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "ClasificadorActividadEconomica")) {
+            if (LibArray.Contains(valModulos, "ClasificadorActividadEconomica")) {
                 vResult = vResult && new Galac.Comun.Dal.Impuesto.clsClasificadorActividadEconomicaED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "FormatosImpMunicipales")) {
+            if (LibArray.Contains(valModulos, "FormatosImpMunicipales")) {
                 vResult = vResult && new Galac.Comun.Dal.Impuesto.clsFormatosImpMunicipalesED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "SettDefinition")) {
+            if (LibArray.Contains(valModulos, "SettDefinition")) {
                 vResult = vResult && new Galac.Saw.Dal.SttDef.clsSettDefinitionED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "SettValueByCompany")) {
+            if (LibArray.Contains(valModulos, "SettValueByCompany")) {
                 vResult = vResult && new Galac.Saw.Dal.SttDef.clsSettValueByCompanyED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Vendedor")) {
+            if (LibArray.Contains(valModulos, "Vendedor")) {
                 vResult = vResult && new Galac.Adm.Dal.Vendedor.clsVendedorED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "ConceptoBancario")) {
+            if (LibArray.Contains(valModulos, "ConceptoBancario")) {
                 vResult = vResult && new Galac.Adm.Dal.Banco.clsConceptoBancarioED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Rendicion")) {
+            if (LibArray.Contains(valModulos, "Rendicion")) {
                 vResult = vResult && new Galac.Adm.Dal.Banco.clsMovimientoBancarioED().InstalarVistasYSps();
                 vResult = vResult && new Galac.Adm.Dal.CajaChica.clsRendicionED().InstalarVistasYSps();
-                //vResult = vResult && new Galac.Adm.Dal.CajaChica.clsAnticipoED().InstalarVistasYSps();
-                //vResult = vResult && new Galac.Adm.Dal.CajaChica.clsProveedorED().InstalarVistasYSps();
                 vResult = vResult && new Galac.Adm.Dal.CajaChica.clsAlicuotaIVAED().InstalarVistasYSps();
-                //vResult = vResult && new Galac.Adm.Dal.CajaChica.clsConceptoBancarioED().InstalarVistasYSps();
                 vResult = vResult && new Galac.Adm.Dal.CajaChica.clsCxPED().InstalarVistasYSps();
                 vResult = vResult && new Galac.Adm.Dal.CajaChica.clsRenglonImpuestoMunicipalRetED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Producto")) {
+            if (LibArray.Contains(valModulos, "Producto")) {
                 vResult = vResult && new Galac.Comun.Dal.LeyCosto.clsProductoED().InstalarVistasYSps();
                 vResult = vResult && new Galac.Ent.Dal.Empresarial.clsCompaniaBaseED().InstalarVistasYSps();
                 vResult = vResult && new Galac.Comun.Dal.LeyCosto.clsElementoDelCostoED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "CriterioDeDistribucion")) {
+            if (LibArray.Contains(valModulos, "CriterioDeDistribucion")) {
                 vResult = vResult && new Galac.Comun.Dal.LeyCosto.clsCriterioDeDistribucionED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "ElementoDelCosto")) {
+            if (LibArray.Contains(valModulos, "ElementoDelCosto")) {
                 vResult = vResult && new Galac.Comun.Dal.LeyCosto.clsElementoDelCostoED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "TarifaN2")) {
+            if (LibArray.Contains(valModulos, "TarifaN2")) {
                 vResult = vResult && new Galac.Comun.Dal.TablasLey.clsTarifaN2ED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "TablaRetencion")) {
+            if (LibArray.Contains(valModulos, "TablaRetencion")) {
                 vResult = vResult && new Galac.Comun.Dal.TablasLey.clsTablaRetencionED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Proveedor")) {
+            if (LibArray.Contains(valModulos, "Proveedor")) {
                 vResult = vResult && new Galac.Adm.Dal.GestionCompras.clsProveedorED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Moneda")) {
+            if (LibArray.Contains(valModulos, "Moneda")) {
                 vResult = vResult && new Galac.Comun.Dal.TablasGen.clsMonedaED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "MonedaLocal")) {
+            if (LibArray.Contains(valModulos, "MonedaLocal")) {
                 vResult = vResult && new Galac.Comun.Dal.TablasGen.clsMonedaLocalED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Cuenta")) {
+            if (LibArray.Contains(valModulos, "Cuenta")) {
                 vResult = vResult && new Galac.Contab.Dal.WinCont.clsGrupoDeActivosED().InstalarVistasYSps();
                 vResult = vResult && new Galac.Contab.Dal.WinCont.clsCuentaED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "CentroDeCostos")) {
+            if (LibArray.Contains(valModulos, "CentroDeCostos")) {
                 vResult = vResult && new Galac.Contab.Dal.WinCont.clsCentroDeCostosED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Auxiliar")) {
+            if (LibArray.Contains(valModulos, "Auxiliar")) {
                 vResult = vResult && new Galac.Contab.Dal.WinCont.clsAuxiliarED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "LineaDeProducto")) {
+            if (LibArray.Contains(valModulos, "LineaDeProducto")) {
                 vResult = vResult && new Galac.Saw.Dal.Tablas.clsLineaDeProductoED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "ArticuloInventario")) {
+            if (LibArray.Contains(valModulos, "ArticuloInventario")) {
                 vResult = vResult && new Galac.Saw.Dal.Inventario.clsArticuloInventarioED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Factura")) {
+            if (LibArray.Contains(valModulos, "Factura")) {
                 vResult = vResult && new Galac.Adm.Dal.Venta.clsFacturaRapidaED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "RenglonCobroDeFactura")) {
+            if (LibArray.Contains(valModulos, "RenglonCobroDeFactura")) {
                 vResult = vResult && new Galac.Adm.Dal.Venta.clsRenglonCobroDeFacturaED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Anticipo")) {
+            if (LibArray.Contains(valModulos, "Anticipo")) {
                 vResult = vResult && new Galac.Adm.Dal.CAnticipo.clsAnticipoED().InstalarVistasYSps();
                 vResult = vResult && new Galac.Adm.Dal.CAnticipo.clsAnticipoCobradoED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "TablaDetraccion")) {
+            if (LibArray.Contains(valModulos, "TablaDetraccion")) {
                 vResult = vResult && new Galac.Comun.Dal.Impuesto.clsTablaDetraccionED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "AlicuotaImpuestoEspecial")) {
+            if (LibArray.Contains(valModulos, "AlicuotaImpuestoEspecial")) {
                 vResult = vResult && new Galac.Comun.Dal.Impuesto.clsAlicuotaImpuestoEspecialED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "LineaDeProducto")) {
+            if (LibArray.Contains(valModulos, "LineaDeProducto")) {
                 vResult = vResult && new Galac.Saw.Dal.Tablas.clsLineaDeProductoED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Compra")) {
+            if (LibArray.Contains(valModulos, "Compra")) {
                 vResult = vResult && new Galac.Adm.Dal.GestionCompras.clsCompraED().InstalarVistasYSps();
                 vResult = vResult && new Galac.Adm.Dal.GestionCompras.clsOrdenDeCompraED().InstalarVistasYSps();
                 vResult = vResult && new Galac.Adm.Dal.GestionCompras.clsCargaInicialED().InstalarVistasYSps();
             }
-
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Compra")) {
+            if (LibArray.Contains(valModulos, "Compra")) {
                 vResult = vResult && new Galac.Adm.Dal.GestionCompras.clsCompraED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Aranceles")) {
+            if (LibArray.Contains(valModulos, "Aranceles")) {
                 vResult = vResult && new Galac.Comun.Dal.Impuesto.clsArancelesED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Provincia")) {
+            if (LibArray.Contains(valModulos, "Provincia")) {
                 vResult = vResult && new Galac.Comun.Dal.TablasGen.clsProvinciaED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Departamento")) {
+            if (LibArray.Contains(valModulos, "Departamento")) {
                 vResult = vResult && new Galac.Comun.Dal.TablasGen.clsDepartamentoED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Ubigeo")) {
+            if (LibArray.Contains(valModulos, "Ubigeo")) {
                 vResult = vResult && new Galac.Comun.Dal.TablasGen.clsUbigeoED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "PaisSunat")) {
+            if (LibArray.Contains(valModulos, "PaisSunat")) {
                 vResult = vResult && new Galac.Comun.Dal.TablasGen.clsPaisSunatED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "ConveniosSunat")) {
+            if (LibArray.Contains(valModulos, "ConveniosSunat")) {
                 vResult = vResult && new Galac.Comun.Dal.TablasGen.clsConveniosSunatED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "CondicionesDePago")) {
+            if (LibArray.Contains(valModulos, "CondicionesDePago")) {
                 vResult = vResult && new Galac.Saw.Dal.Tablas.clsCondicionesDePagoED().InstalarVistasYSps();
             }
-
             LibViews insVistas = new LibViews(Galac.Contab.Ccl.WinCont.clsCkn.ConfigKeyForDbService);
             vResult = vResult && insVistas.Create("Contab" + ".Gv_EnumComprobanteGeneradoPor", LibTpvCreator.SqlViewStandardEnum(typeof(eComprobanteGeneradoPor), new LibGalac.Aos.Base.Dal.QAdvSql(Galac.Contab.Ccl.WinCont.clsCkn.ConfigKeyForDbService)), true, true);
-
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "CargaInicial")) {
+            if (LibArray.Contains(valModulos, "CargaInicial")) {
                 vResult = vResult && new Galac.Adm.Dal.GestionCompras.clsCargaInicialED().InstalarVistasYSps();
-                
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "ListaDeMateriales")) {
+            if (LibArray.Contains(valModulos, "ListaDeMateriales")) {
                 vResult = vResult && new Galac.Adm.Dal.GestionProduccion.clsListaDeMaterialesED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "OrdenDeProduccion")) {
+            if (LibArray.Contains(valModulos, "OrdenDeProduccion")) {
                 vResult = vResult && new Galac.Adm.Dal.GestionProduccion.clsOrdenDeProduccionED().InstalarVistasYSps();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "NotaDeEntradaSalida")) {
+            if (LibArray.Contains(valModulos, "NotaDeEntradaSalida")) {
                 vResult = vResult && new Galac.Saw.Dal.Inventario.clsNotaDeEntradaSalidaED().InstalarVistasYSps();
             }
-			if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "TransferenciaEntreCuentasBancarias")) {
-				vResult = vResult && new Galac.Adm.Dal.Banco.clsTransferenciaEntreCuentasBancariasED().InstalarVistasYSps();
-			}
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "RutaDeComercializacion")) {
+            if (LibArray.Contains(valModulos, "TransferenciaEntreCuentasBancarias")) {
+                vResult = vResult && new Galac.Adm.Dal.Banco.clsTransferenciaEntreCuentasBancariasED().InstalarVistasYSps();
+            }
+            if (LibArray.Contains(valModulos, "RutaDeComercializacion")) {
                 vResult = vResult && new Galac.Saw.Dal.Tablas.clsRutaDeComercializacionED().InstalarVistasYSps();
+            }
+            if (LibArray.Contains(valModulos, "LoteDeInventario")) {
+                vResult = vResult && new Galac.Saw.Dal.Inventario.clsLoteDeInventarioED().InstalarVistasYSps();
             }
             return vResult;
         }

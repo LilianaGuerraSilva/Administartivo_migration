@@ -63,10 +63,17 @@
     <Compile Include="IFkCategoriaViewModel.cs" />
     <Compile Include="IFkCentroDeCostosViewModel.cs" />
     <Compile Include="IFkColorViewModel.cs" />
+    <Compile Include="IFkLoteDeInventarioMovimientoViewModel.cs" />
+    <Compile Include="IFkLoteDeInventarioViewModel.cs" />
     <Compile Include="IFkNotaDeEntradaSalidaViewModel.cs" />
+    <Compile Include="IFkRenglonNotaESViewModel.cs" />
     <Compile Include="IFkTallaViewModel.cs" />
     <Compile Include="IAsignarBalanzaPdn.cs" />
     <Compile Include="AsignarBalanza.cs" />
+    <Compile Include="ILoteDeInventarioPdn.cs" />
+    <Compile Include="INotaDeEntradaSalidaInformes.cs" />
+    <Compile Include="LoteDeInventario.cs" />
+    <Compile Include="LoteDeInventarioMovimiento.cs" />
     <Compile Include="PreciosDeArticulo.cs" />
     <Compile Include="INotaDeEntradaSalidaPdn.cs" />
     <Compile Include="IImportarPreciosDeArticuloPdn.cs" />
