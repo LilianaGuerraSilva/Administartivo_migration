@@ -501,7 +501,11 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("      CampoDefinible3,");
             SQL.AppendLine("      CampoDefinible4,");
             SQL.AppendLine("      CampoDefinible5, ");
-            SQL.AppendLine("      UnidadDeVenta ");
+            SQL.AppendLine("      UnidadDeVenta, ");
+            SQL.AppendLine("      CodigoLote, ");
+            SQL.AppendLine("      FechaDeElaboracion, ");
+            SQL.AppendLine("      FechaDeVencimiento, ");
+            SQL.AppendLine("      ExistenciaPorLote ");
             SQL.AppendLine("     FROM Gv_ArticuloInventario_B2");
             SQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
             SQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE ' + @SQLWhere");
