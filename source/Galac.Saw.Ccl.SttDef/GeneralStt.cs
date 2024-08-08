@@ -33,6 +33,8 @@ namespace Galac.Saw.Ccl.SttDef {
         private bool _EsSistemaParaIG;
         private bool _UsaNotaEntrega;
         private string _SuscripcionGVentas;
+        private string _NumeroIDGVentas;
+        private string _SerialConectorGVentas;
         private long _fldTimeStamp;
         XmlDocument _datos;
         #endregion //Variables
@@ -125,6 +127,16 @@ namespace Galac.Saw.Ccl.SttDef {
             get { return LibString.IsNullOrEmpty(_SuscripcionGVentas, true) ? "1000" : _SuscripcionGVentas; }
             set { _SuscripcionGVentas = LibString.Mid(value, 0, 4); }
         }
+        
+        public string NumeroIDGVentas {
+            get { return _NumeroIDGVentas; }
+            set { _NumeroIDGVentas = value; }        
+        }
+
+        public string SerialConectorGVentas {
+            get { return _SerialConectorGVentas; }
+            set { _SerialConectorGVentas = value; }        
+        }
 
         public long fldTimeStamp {
             get { return _fldTimeStamp; }
@@ -158,6 +170,8 @@ namespace Galac.Saw.Ccl.SttDef {
             EsSistemaParaIGAsBool = false;
             UsaNotaEntregaAsBool = false;
             SuscripcionGVentas = "1000";
+            NumeroIDGVentas = "";
+            SerialConectorGVentas = "";
             fldTimeStamp = 0;
         }
 
@@ -171,7 +185,10 @@ namespace Galac.Saw.Ccl.SttDef {
             vResult.ValidarRifEnLaWebAsBool = _ValidarRifEnLaWeb;
             vResult.EsSistemaParaIGAsBool = _EsSistemaParaIG;
             vResult.UsaNotaEntregaAsBool = _UsaNotaEntrega;
-            vResult.fldTimeStamp = _fldTimeStamp;
+            vResult.SuscripcionGVentas = _SuscripcionGVentas;
+            vResult.NumeroIDGVentas = _NumeroIDGVentas;
+            vResult.SerialConectorGVentas = _SerialConectorGVentas;
+            vResult.fldTimeStamp = _fldTimeStamp;            
             return vResult;
         }
 
@@ -183,8 +200,10 @@ namespace Galac.Saw.Ccl.SttDef {
                 "\nImprimir Comprobante De Cx P = " + _ImprimirComprobanteDeCxP +
                 "\nValidar Rif En La Web = " + _ValidarRifEnLaWeb +
                 "\nEs Sistema Para IG = " + _EsSistemaParaIG +
-                "\nUsa Nota Entrega = " + _UsaNotaEntrega +
-                "\nSuscripción G-Ventas = " + _SuscripcionGVentas;
+                "\nUsa Nota Entrega = " + _UsaNotaEntrega +                                
+                "\nSuscripción G-Ventas = " + _SuscripcionGVentas +
+                "\nNumero ID GVentas = " + _NumeroIDGVentas +
+                "\nSerial Conector GVentas = " + _SerialConectorGVentas;
         }
         #endregion //Metodos Generados
     } //End of class GeneralStt

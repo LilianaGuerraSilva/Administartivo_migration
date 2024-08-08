@@ -3,7 +3,7 @@ Proyecto=SAW
  
 
 #INCLUDE=ExternalTablasGen,"C:\cvs\documentos\productos\Migracion AOS\DefTablasGen.txt"
-#INCLUDE=ExternalLib,"C:\cvs\documentos\dotNet\Def\DefLibGalac.txt"
+//#INCLUDE=ExternalLib,"C:\cvs\documentos\dotNet\Def\DefLibGalac.txt"
 $GENERATE$
 //Tipos Enumerativos
 
@@ -646,7 +646,7 @@ MenuDeInformes : boolean;
    @PrimaryKey=NombreDelUsuario
 }
 
-{@S}Compania = Record //"Compañía",Female, CONTROLADORMULTIARCHIVO=ConsecutivoCompania
+{@S}Compania = Record //"Compañía",Female, CONTROLADORMULTIARCHIVO=ConsecutivoCompania,Generate
    ConsecutivoCompania      : LongInt;//o,HIDE,sugestConsecutive
    Codigo                   : Str4;  //u,g,o,"Código",sugestConsecutive,SEARCH
    Nombre                   : Str50; //u,g,o,SEARCH
@@ -677,7 +677,7 @@ MenuDeInformes : boolean;
    EsCatalogoGeneral        : Boolean;
    TipoDeContribuyenteIVA   : UnTipoDeContribuyenteDelIva;
    TablaCIIU                : UnTablaCiiu;
-   CodigoCIIU      	    : Str6;  // o,"Código CIIU",=CIIU.CodigoCIIU
+   CodigoCIIU      	    : Str6;  // o,"Código CIIU",=CIIU.Codigo
    PorcentajeDePatente      : double;
    PersonaFiscal            : unTipoDePersonaFiscal;
    Pais			    : Str80;
@@ -693,9 +693,13 @@ MenuDeInformes : boolean;
    StatusMonetaryReconversionProcess: str01;//o
    NombreOperador                    : Str10; //a
    FechaUltimaModificacion           : date;//a
+   ImprentaDigitalUrl	: Str500;//Hide
+   ImprentaDigitalNombreCampoUsuario	: Str50;//Hide
+   ImprentaDigitalNombreCampoClave	: Str50;//Hide
+   ImprentaDigitalUsuario	:Str100,//Hide
+   ImprentaDigitalClave	: Str500;//Hide
    @PrimaryKey=ConsecutivoCompania
 }
-
 
 {@S}Cambio = Record //male,,
    Nombre		  : Str10; //o,g,=Moneda.Nombre,SEARCH
