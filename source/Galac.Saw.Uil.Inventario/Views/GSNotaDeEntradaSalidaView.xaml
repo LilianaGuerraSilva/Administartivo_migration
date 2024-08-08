@@ -175,62 +175,62 @@
             Content="{Binding StatusNotaEntradaSalidaStr}"
             Style="{StaticResource LabelStatusBlue}" />
         <!--<ScrollViewer-->
-            <!--x:Name="scvRenglonNotaES"-->
-            <!--Grid.Row="5"-->
-            <!--Grid.ColumnSpan="6"-->
-            <!--VerticalScrollBarVisibility="Auto" Margin="0">-->
-            <ContentControl
+        <!--x:Name="scvRenglonNotaES"-->
+        <!--Grid.Row="5"-->
+        <!--Grid.ColumnSpan="6"-->
+        <!--VerticalScrollBarVisibility="Auto" Margin="0">-->
+        <ContentControl
                 Name="cntInicoRenglonNotaES"
                 Grid.Row="5"
                 Grid.Column="0"
-                Grid.ColumnSpan="6"
-                Width="550"
+                Grid.ColumnSpan="4"
+                Width="Auto"
                 Margin="0,3">
-                <Grid Name="gdRenglonNotaES">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <ContentControl
+            <Grid Name="gdRenglonNotaES">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <ContentControl
                         x:Name="cntRenglonNotaES"
                         Grid.Row="0"
                         Grid.ColumnSpan="2"
                         Content="{Binding Path=DetailRenglonNotaES.SelectedItem}"
                         Focusable="False"
                         IsEnabled="{Binding Path=IsEnabled}" />
-                    <Border
+                <Border
                         Grid.Row="1"
                         Grid.ColumnSpan="2"
                         Height="25"
                         Background="Transparent"
                         BorderBrush="LightGray"
                         BorderThickness="0,0,0,1">
-                        <StackPanel Orientation="Horizontal">
-                            <Button
+                    <StackPanel Orientation="Horizontal">
+                        <Button
                                 nsWpf:LibKeyboardListener.FocusTarget="{Binding ElementName=cntRenglonNotaES}"
                                 Command="{Binding Path=DetailRenglonNotaES.CreateCommand}"
                                 IsEnabled="{Binding Path=IsEnabled}"
                                 Style="{StaticResource MenuButtonStyle}"
                                 ToolTip="Nuevo">
-                                <Image Focusable="False" Source="/LibGalac.Aos.UI.WpfRD;component/Images/add.png" />
-                            </Button>
-                            <Button
+                            <Image Focusable="False" Source="/LibGalac.Aos.UI.WpfRD;component/Images/add.png" />
+                        </Button>
+                        <Button
                                 Command="{Binding Path=DetailRenglonNotaES.DeleteCommand}"
                                 IsEnabled="{Binding Path=IsEnabled}"
                                 Style="{StaticResource MenuButtonStyle}"
                                 ToolTip="Eliminar">
-                                <Image Focusable="False" Source="/LibGalac.Aos.UI.WpfRD;component/Images/delete.png" />
-                            </Button>
-                        </StackPanel>
-                    </Border>
-                    <nsWpfControls:GSDataGrid
+                            <Image Focusable="False" Source="/LibGalac.Aos.UI.WpfRD;component/Images/delete.png" />
+                        </Button>
+                    </StackPanel>
+                </Border>
+                <nsWpfControls:GSDataGrid
                         x:Name="dgRenglonNotaES"
                         Grid.Row="2"
                         Grid.ColumnSpan="4"
@@ -246,8 +246,8 @@
                         SelectedIndex="{Binding DetailRenglonNotaES.SelectedIndex}"
                         SelectedItem="{Binding DetailRenglonNotaES.SelectedItem, Mode=OneWayToSource}"
                         Style="{StaticResource GSDataGridStyle}" />
-                </Grid>
-            </ContentControl>
+            </Grid>
+        </ContentControl>
         <!--</ScrollViewer>-->
     </Grid>
 </UserControl>
