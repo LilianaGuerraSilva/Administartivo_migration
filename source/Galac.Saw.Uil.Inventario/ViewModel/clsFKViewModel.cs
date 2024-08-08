@@ -91,7 +91,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public string Codigo { get; set; }
         [LibGridColum("Descripción")]
         public string Descripcion { get; set; }
-        [LibGridColum("PrecioSinIVA")]
+        [LibGridColum("Precio Sin IVA", Alignment = eTextAlignment.Right)]
         public decimal PrecioSinIVA {
             get { return _PrecioSinIVA; }
             set {
@@ -102,7 +102,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public decimal PrecioSinIVA2 { get; set; }
         public decimal PrecioSinIVA3 { get; set; }
         public decimal PrecioSinIVA4 { get; set; }
-        [LibGridColum("PrecioConIVA")]
+        [LibGridColum("Precio Con IVA", Alignment = eTextAlignment.Right)]
         public decimal PrecioConIVA {
             get { return _PrecioConIVA; }
             set {
@@ -130,7 +130,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             Impuesto = PrecioConIVA - PrecioSinIVA;
         }
 
-        [LibGridColum("MePrecioSinIVA")]
+        [LibGridColum("Precio Sin IVA (ME)", Alignment = eTextAlignment.Right)]
         public decimal MePrecioSinIva {
             get { return _MePrecioSinIva; }
             set {
@@ -141,7 +141,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public decimal MePrecioSinIva2 { get; set; }
         public decimal MePrecioSinIva3 { get; set; }
         public decimal MePrecioSinIva4 { get; set; }
-        [LibGridColum("MePrecioConIVA")]
+        [LibGridColum("Precio Con IVA (ME)", Alignment = eTextAlignment.Right)]
         public decimal MePrecioConIva {
             get { return _MePrecioConIva; }
             set {
@@ -152,7 +152,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public decimal MePrecioConIva2 { get; set; }
         public decimal MePrecioConIva3 { get; set; }
         public decimal MePrecioConIva4 { get; set; }
-
         private void UpdateImpuestoMe() {
             ImpuestoMe = MePrecioConIva - MePrecioSinIva;
         }
@@ -166,11 +165,11 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public string CampoDefinible4 { get; set; }
         [ArtInvCamposDefiniblesGridColumnAttribute("", 5)]
         public string CampoDefinible5 { get; set; }
-        [ArtInvCamposLoteFechaDeVencimientoGridColumn("Lote Inv.", "", 11)]
-        public string LoteDeInventario { get; set; }
-        [ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Elab.", "", 12)]
+        [ArtInvCamposLoteFechaDeVencimientoGridColumn("Lote Inv.", "CodigoLote", 11)]
+        public string CodigoLote { get; set; }
+        [ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Elab.", "FechaDeElaboracion", 12)]
         public DateTime FechaDeElaboracion { get; set; }
-        [ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Vcto.", "", 13)]
+        [ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Vcto.", "FechaDeVencimiento", 13)]
         public DateTime FechaDeVencimiento { get; set; }
     }
 
@@ -207,7 +206,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         [ArtInvCamposDefiniblesGridColumnAttribute("", 5)]
         public string CampoDefinible5 { get; set; }
         [ArtInvCamposLoteFechaDeVencimientoGridColumn("Lote Inv.", "", 11)]
-        public string LoteDeInventario { get; set; }
+        public string CodigoLote { get; set; }
         [ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Elab.", "", 12)]
         public DateTime FechaDeElaboracion { get; set; }
         [ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Vcto.", "", 13)]
@@ -236,7 +235,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         [LibGridColum("Código de Lote")]
         public string CodigoLote { get; set; }
         public string CodigoArticulo { get; set; }
-        [LibGridColum("Fecha Elab.", eGridColumType.DatePicker,BindingStringFormat = "dd/MM/yyyy")]
+        [LibGridColum("Fecha Elab.", eGridColumType.DatePicker, BindingStringFormat = "dd/MM/yyyy")]
         public DateTime FechaDeElaboracion { get; set; }
         [LibGridColum("Fecha Vcto.", eGridColumType.DatePicker, BindingStringFormat = "dd/MM/yyyy")]
         public DateTime FechaDeVencimiento { get; set; }
@@ -294,9 +293,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
     public class ArtInvCamposLoteFechaDeVencimientoGridColumnAttribute : LibGridColumAttribute {
         public ArtInvCamposLoteFechaDeVencimientoGridColumnAttribute(string initHeader, string initDBPath, int initColumnOrder) : base(initHeader) {
-            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento")
-                && !LibString.IsNullOrEmpty(initHeader)
-                && !LibString.IsNullOrEmpty(initDBPath)) {
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento") && !LibString.IsNullOrEmpty(initHeader) && !LibString.IsNullOrEmpty(initDBPath)) {
                 IsForList = true;
                 IsForSearch = LibString.S1IsInS2("Lote", initHeader);
                 Header = initHeader;
@@ -305,7 +302,9 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 Width = 100;
                 ColumnOrder = initColumnOrder;
                 if (Type == eGridColumType.DatePicker) {
-                    BindingStringFormat = "dd/MM/yy";
+                    BindingStringFormat = "dd/MM/yyyy";
+                } else {
+                    BindingStringFormat = "";
                 }
             }
         }

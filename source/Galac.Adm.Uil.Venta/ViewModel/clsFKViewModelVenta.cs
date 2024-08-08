@@ -121,7 +121,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         [ArtInvCamposDefiniblesGridColumnAttribute("", 5)]
         public string CampoDefinible5 { get; set; }
         [ArtInvCamposLoteFechaDeVencimientoGridColumn("Lote Inv.", "", 11)]
-        public string LoteDeInventario { get; set; }
+        public string CodigoLote { get; set; }
         [ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Elab.", "", 12)]
         public DateTime FechaDeElaboracion { get; set; }
         [ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Vcto.", "", 13)]
@@ -191,7 +191,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         [ArtInvCamposDefiniblesGridColumnAttribute("", 5)]
         public string CampoDefinible5 { get; set; }
         [ArtInvCamposLoteFechaDeVencimientoGridColumn("Lote Inv.", "", 11)]
-        public string LoteDeInventario { get; set; }
+        public string CodigoLote { get; set; }
         [ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Elab.", "", 12)]
         public DateTime FechaDeElaboracion { get; set; }
         [ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Vcto.", "", 13)]

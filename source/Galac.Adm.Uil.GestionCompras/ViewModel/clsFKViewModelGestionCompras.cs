@@ -146,7 +146,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         [ArtInvCamposDefiniblesGridColumnAttribute("", 5, 10)]
         public string CampoDefinible5 { get; set; }
         [ArtInvCamposLoteFechaDeVencimientoGridColumn("Lote Inv.", "CodigoLote", 11)]
-        public string LoteDeInventario { get; set; }
+        public string CodigoLote { get; set; }
         [ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Elab.", "FechaDeElaboracion", 12)]
         public DateTime FechaDeElaboracion { get; set; }
         [ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Vcto.", "FechaDeVencimiento", 13)]

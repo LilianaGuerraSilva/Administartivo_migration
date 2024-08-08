@@ -40,7 +40,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         [ArtInvCamposDefiniblesGridColumnAttribute("", 5, ColumnOrder = 7)]
         public string CampoDefinible5 { get; set; }
         [ArtInvCamposLoteFechaDeVencimientoGridColumn("Lote Inv.", "", 11)]
-        public string LoteDeInventario { get; set; }
+        public string CodigoLote { get; set; }
         [ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Elab.", "", 12)]
         public DateTime FechaDeElaboracion { get; set; }
         [ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Vcto.", "", 13)]
