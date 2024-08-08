@@ -30,7 +30,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public LoteDeInventarioMngViewModel()
             : base(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             Title = "Buscar " + ModuleName;
-            OrderByMember = "ConsecutivoCompania, Consecutivo";
+            OrderByMember = "ConsecutivoCompania, FechaDeVencimiento, FechaDeElaboracion, Consecutivo";
         #region Codigo Ejemplo
         /* Codigo de Ejemplo
             OrderByDirection = "DESC";

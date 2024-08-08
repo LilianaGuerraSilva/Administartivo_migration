@@ -275,13 +275,11 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         protected override void InitializeCommands() {
             base.InitializeCommands();
             ChooseCodigoArticuloCommand = new RelayCommand<string>(ExecuteChooseCodigoArticuloCommand);
-            //ChooseDescripcionArticuloCommand = new RelayCommand<string>(ExecuteChooseDescripcionArticuloCommand);
         }
 
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
             ConexionCodigoArticulo = Master.FirstConnectionRecordOrDefault<FkArticuloInventarioViewModel>("Artículo Inventario", LibSearchCriteria.CreateCriteria("Descripcion", CodigoArticulo));
-            //ConexionDescripcionArticulo = Master.FirstConnectionRecordOrDefault<FkArticuloInventarioViewModel>("Artículo Inventario", LibSearchCriteria.CreateCriteria("Descripcion", DescripcionArticulo));
         }
 
         private void ExecuteChooseCodigoArticuloCommand(string valDescripcion) {

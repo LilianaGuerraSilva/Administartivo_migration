@@ -172,6 +172,7 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Nota de Entrada/Salida", "Consultar", "Inventario", 4));
             vPermisos.Add(new CustomRole("Nota de Entrada/Salida", "Insertar", "Inventario", 4));
             vPermisos.Add(new CustomRole("Nota de Entrada/Salida", "Eliminar", "Inventario", 4));
+            vPermisos.Add(new CustomRole("Nota de Entrada/Salida", "Anular Retiro", "Inventario", 4));
             vPermisos.Add(new CustomRole("Nota de Entrada/Salida", "Informes", "Inventario", 4));
             #endregion
 

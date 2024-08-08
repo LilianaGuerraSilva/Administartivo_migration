@@ -54,7 +54,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Numero Documento es requerido.")]
-        [LibGridColum("Numero Documento", MaxLength=11)]
+        [LibGridColum("N° Documento", MaxLength=11)]
         public string  NumeroDocumento {
             get {
                 return Model.NumeroDocumento;
@@ -68,7 +68,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Tipode Operacion", eGridColumType.Enum, PrintingMemberPath = "TipodeOperacionStr")]
+        [LibGridColum("Operación", eGridColumType.Enum, PrintingMemberPath = "TipodeOperacionStr", Width =150)]
         public eTipodeOperacion  TipodeOperacion {
             get {
                 return Model.TipodeOperacionAsEnum;
@@ -82,7 +82,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Código del Cliente", eGridColumType.Connection, ConnectionDisplayMemberPath = "codigo", ConnectionModelPropertyName = "CodigoCliente", ConnectionSearchCommandName = "ChooseCodigoClienteCommand", MaxWidth=120)]
+        [LibGridColum("Código del Cliente", eGridColumType.Connection, ConnectionDisplayMemberPath = "codigo", ConnectionModelPropertyName = "CodigoCliente", ConnectionSearchCommandName = "ChooseCodigoClienteCommand", Width=120)]
         public string  CodigoCliente {
             get {
                 return Model.CodigoCliente;
@@ -100,7 +100,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Nombre Cliente es requerido.")]
-        [LibGridColum("Nombre Cliente", eGridColumType.Connection, ConnectionDisplayMemberPath = "nombre", ConnectionModelPropertyName = "NombreCliente", ConnectionSearchCommandName = "ChooseNombreClienteCommand", MaxWidth=120)]
+        [LibGridColum("Nombre del Cliente", eGridColumType.Connection, ConnectionDisplayMemberPath = "nombre", ConnectionModelPropertyName = "NombreCliente", ConnectionSearchCommandName = "ChooseNombreClienteCommand", Width=150)]
         public string  NombreCliente {
             get {
                 return Model.NombreCliente;
@@ -117,7 +117,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Codigo Almacen", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoAlmacen", ConnectionSearchCommandName = "ChooseCodigoAlmacenCommand", MaxWidth=120)]
+        [LibGridColum("Código del Almacén", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoAlmacen", ConnectionSearchCommandName = "ChooseCodigoAlmacenCommand", MaxWidth=120)]
         public string  CodigoAlmacen {
             get {
                 return Model.CodigoAlmacen;
@@ -137,6 +137,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Nombre Almacen es requerido.")]
+        [LibGridColum("Nombre del Almacén", eGridColumType.Connection, ConnectionDisplayMemberPath = "NombreAlmacen", ConnectionModelPropertyName = "NombreAlmacen", ConnectionSearchCommandName = "ChooseNombreAlmacenCommand", Width = 150)]
         public string  NombreAlmacen {
             get {
                 return Model.NombreAlmacen;

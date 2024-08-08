@@ -388,6 +388,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("      " + DbSchema + ".Gv_NotaDeEntradaSalida_B1.CodigoCliente,");
             SQL.AppendLine("      " + DbSchema + ".Cliente.nombre AS NombreCliente,");
             SQL.AppendLine("      " + DbSchema + ".Gv_NotaDeEntradaSalida_B1.CodigoAlmacen,");
+            SQL.AppendLine("      Saw.Gv_Almacen_B1.NombreAlmacen AS NombreAlmacen,");
             SQL.AppendLine("      ''COLPIVOTE'' AS ColControl,");
             SQL.AppendLine("      " + DbSchema + ".Gv_NotaDeEntradaSalida_B1.ConsecutivoCompania,");
             SQL.AppendLine("      " + DbSchema + ".Gv_NotaDeEntradaSalida_B1.TipodeOperacion,");

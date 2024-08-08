@@ -379,18 +379,21 @@ namespace Galac.Saw.Brl.Inventario {
                     vResult = base.InsertRecord(refRecord, valUseDetail);
                 }
                 if (vResult.Success) {
-                    ActualizaExistenciaDeArticulos(vItem);
+                    ActualizaExistenciaDeArticulos(vItem, eAccionSR.Insertar);
                 }
             }
             return vResult;
         }
 
-        private void ActualizaExistenciaDeArticulos(NotaDeEntradaSalida valItemNotaES) {
+        private void ActualizaExistenciaDeArticulos(NotaDeEntradaSalida valItemNotaES, eAccionSR valAccion) {
             if (valItemNotaES != null) {
                 List<ArticuloInventarioExistencia> vList = new List<ArticuloInventarioExistencia>();
                 foreach (RenglonNotaES vItem in valItemNotaES.DetailRenglonNotaES) {
                     if (vItem != null) {
                         decimal vCantidad = valItemNotaES.TipodeOperacionAsEnum == eTipodeOperacion.EntradadeInventario ? vItem.Cantidad : vItem.Cantidad * -1;
+                        if (valAccion == eAccionSR.Eliminar || valAccion == eAccionSR.Anular) {
+                            vCantidad *= -1;
+                        }
                         vList.Add(new ArticuloInventarioExistencia() {
                             ConsecutivoCompania = valItemNotaES.ConsecutivoCompania,
                             CodigoAlmacen = valItemNotaES.CodigoAlmacen,
@@ -408,12 +411,27 @@ namespace Galac.Saw.Brl.Inventario {
         }
 
         protected override LibResponse UpdateRecord(IList<NotaDeEntradaSalida> refRecord, bool valUseDetail, eAccionSR valAction) {
-            //en principio solo entra por acá si la acción es anular
-            return base.UpdateRecord(refRecord, valUseDetail, valAction);
+            LibResponse vResult = base.UpdateRecord(refRecord, valUseDetail, valAction);
+            if (vResult.Success && valAction == eAccionSR.Anular) {
+                if (refRecord != null) {
+                    foreach (NotaDeEntradaSalida  vItemNotaES in refRecord) {
+                        ActualizaExistenciaDeArticulos(vItemNotaES, eAccionSR.Anular);
+                    }
+                }
+            }
+            return vResult;
         }
 
         protected override LibResponse DeleteRecord(IList<NotaDeEntradaSalida> refRecord) {
-            return base.DeleteRecord(refRecord);
+            LibResponse vResult = base.DeleteRecord(refRecord);
+            if (vResult.Success) {
+                if (refRecord != null) {
+                    foreach (NotaDeEntradaSalida vItemNotaES in refRecord) {
+                        ActualizaExistenciaDeArticulos(vItemNotaES, eAccionSR.Eliminar);
+                    }
+                }
+            }
+            return vResult;
         }
 
         protected override bool CanBeChoosenForAction(IList<NotaDeEntradaSalida> refRecord, eAccionSR valAction) {
