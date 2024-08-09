@@ -141,7 +141,6 @@ namespace Galac.Saw.Dal.Inventario {
             return vResult;
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "Lote de Inventario.Insertar")]
         LibResponse ILibDataDetailComponent<IList<LoteDeInventarioMovimiento>, IList<LoteDeInventarioMovimiento>>.Insert(IList<LoteDeInventarioMovimiento> refRecord, XmlReader valExtended) {
             LibResponse vResult = new LibResponse();
             string vErrMsg = "";

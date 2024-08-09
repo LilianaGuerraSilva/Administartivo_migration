@@ -218,7 +218,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         public bool IsVisbleLoteDeInventario {
-            get { return ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia && ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento; }
+            get { return ConexionCodigoArticulo != null && ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia && ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento; }
         }
 
         public eTipoArticuloInv[] ArrayTipoArticuloInv {
@@ -240,6 +240,12 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 if (_ConexionCodigoArticulo != value) {
                     _ConexionCodigoArticulo = value;
                     RaisePropertyChanged(CodigoArticuloPropertyName);
+                    RaisePropertyChanged(() => DescripcionArticulo);
+                    RaisePropertyChanged(() => Cantidad);
+                    RaisePropertyChanged(() => TipoArticuloInv);
+                    RaisePropertyChanged(() => LoteDeInventario);
+                    RaisePropertyChanged(() => FechaDeElaboracion);
+                    RaisePropertyChanged(() => FechaDeVencimiento);
                 }
                 if (_ConexionCodigoArticulo == null) {
                     CodigoArticulo = string.Empty;
@@ -293,12 +299,19 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 if (ConexionCodigoArticulo != null) {
                     CodigoArticulo = ConexionCodigoArticulo.Descripcion;
                     DescripcionArticulo = ConexionCodigoArticulo.Descripcion;
-                    if (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia && ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento) {
+                    TipoArticuloInv = ConexionCodigoArticulo.TipoArticuloInv;
+                    LoteDeInventario = ConexionCodigoArticulo.CodigoLote;
+                    FechaDeElaboracion = ConexionCodigoArticulo.FechaDeElaboracion;
+                    FechaDeVencimiento = ConexionCodigoArticulo.FechaDeElaboracion;
 
-                    }
+                    RaisePropertyChanged(() => IsVisbleLoteDeInventario);
+                    RaisePropertyChanged(() => IsEnabledLoteDeInventario);
                 } else {
                     CodigoArticulo = string.Empty;
                     DescripcionArticulo = string.Empty;
+                    LoteDeInventario = string.Empty;
+                    FechaDeElaboracion = new DateTime(2000, 01, 01);
+                    FechaDeVencimiento = new DateTime(2000, 01, 01);
                 }
             } catch (System.AccessViolationException) {
                 throw;
@@ -353,6 +366,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 }
             } else if (TipoArticuloInv != eTipoArticuloInv.LoteFechadeVencimiento) {
                 LoteDeInventario = string.Empty;
+                FechaDeElaboracion = new DateTime(2000, 1, 1);
+                FechaDeVencimiento = new DateTime(2000, 1, 1);
             }
             return vResult;
         }
@@ -374,8 +389,9 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 && (ConexionCodigoArticulo != null)
                 && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia)
                 && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento)) {
-                bool vExisteLote = ((ILoteDeInventarioPdn)new clsLoteDeInventarioNav()).ExisteLoteDeInventario(Mfc.GetInt("Compania"), CodigoArticulo, LoteDeInventario);
-                return !vExisteLote;
+                return true;
+                //bool vExisteLote = ((ILoteDeInventarioPdn)new clsLoteDeInventarioNav()).ExisteLoteDeInventario(Mfc.GetInt("Compania"), CodigoArticulo, LoteDeInventario);
+                //return !vExisteLote;
             } else {
                 return false;
             }

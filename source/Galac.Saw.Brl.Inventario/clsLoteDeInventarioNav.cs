@@ -264,7 +264,7 @@ namespace Galac.Saw.Brl.Inventario {
 
 
         LibResponse ILoteDeInventarioPdn.AgregarLote(IList<LoteDeInventario> valListaLote) {
-            LibResponse vResult = new LibResponse();
+            LibResponse vResult = new LibResponse();            
             RegisterClient();
             foreach (LoteDeInventario vItemLote in valListaLote) {
                 LibGpParams vParams = new LibGpParams();
@@ -281,6 +281,7 @@ namespace Galac.Saw.Brl.Inventario {
         }
 
         LibResponse ILoteDeInventarioPdn.ActualizarLote(IList<LoteDeInventario> valListaLote) {
+            RegisterClient();
             return UpdateRecord(valListaLote, true, eAccionSR.Modificar);
         }
     } //End of class clsLoteDeInventarioNav

@@ -118,7 +118,6 @@ namespace Galac.Saw.Dal.Inventario {
             }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "Lote de Inventario.Eliminar")]
         LibResponse ILibDataMasterComponent<IList<LoteDeInventario>, IList<LoteDeInventario>>.Delete(IList<LoteDeInventario> refRecord) {
             LibResponse vResult = new LibResponse();
             try {
@@ -161,7 +160,6 @@ namespace Galac.Saw.Dal.Inventario {
             return vResult;
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "Lote de Inventario.Insertar")]
         LibResponse ILibDataMasterComponent<IList<LoteDeInventario>, IList<LoteDeInventario>>.Insert(IList<LoteDeInventario> refRecord, bool valUseDetail) {
             LibResponse vResult = new LibResponse();
             try {
@@ -216,7 +214,6 @@ namespace Galac.Saw.Dal.Inventario {
             throw new ProgrammerMissingCodeException();
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "Lote de Inventario.Modificar")]
         LibResponse ILibDataMasterComponent<IList<LoteDeInventario>, IList<LoteDeInventario>>.Update(IList<LoteDeInventario> refRecord, bool valUseDetail, eAccionSR valAction) {
             LibResponse vResult = new LibResponse();
             try {
