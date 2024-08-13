@@ -239,9 +239,9 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public DateTime FechaDeElaboracion { get; set; }
         [LibGridColum("Fecha Vcto.", eGridColumType.DatePicker, BindingStringFormat = "dd/MM/yyyy")]
         public DateTime FechaDeVencimiento { get; set; }
-        [LibGridColum("Existencia", Alignment = eTextAlignment.Right)]
+        [LibGridColum("Existencia", eGridColumType.Numeric, Alignment = eTextAlignment.Right)]
         public decimal Existencia { get; set; }
-        [LibGridColum("Status", eGridColumType.Enum, PrintingMemberPath = "StatusLoteInvStr", DbMemberPath = "Saw.Gv_LoteDeInventario_B1.StatusLoteInvStr", Width = 75)]
+        [LibGridColum("Status", eGridColumType.Enum, PrintingMemberPath = "StatusLoteInvStr", DbMemberPath = "Saw.Gv_LoteDeInventario_B1.StatusLoteInv", Width = 75)]
         public eStatusLoteDeInventario StatusLoteInv { get; set; }
     }
 
