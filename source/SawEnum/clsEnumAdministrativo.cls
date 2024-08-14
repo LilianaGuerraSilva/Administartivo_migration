@@ -1258,6 +1258,7 @@ Public Enum enum_TipoArticuloInv
    eTAI_UsaTalla_ColorySerial
    eTAI_UsaSerial_Rollo
    eTAI_LoteFechadeVencimiento
+   eTAI_Lote
 End Enum
 
 Public Enum enum_AccionAlAnularFactDeMesesAnt
@@ -8575,6 +8576,7 @@ Public Function enumTipoArticuloInvToString(TipoArticuloInv As enum_TipoArticulo
       Case eTAI_UsaTalla_ColorySerial: enumTipoArticuloInvToString = "Usa Talla /Color y Serial"
       Case eTAI_UsaSerial_Rollo: enumTipoArticuloInvToString = "Usa Serial y Rollo"
       Case eTAI_LoteFechadeVencimiento: enumTipoArticuloInvToString = "Lote / Fecha de Vto."
+      Case eTAI_Lote: enumTipoArticuloInvToString = "Lote"
       Case Else: enumTipoArticuloInvToString = enumTipoArticuloInvToString(0)
    End Select
 End Function
@@ -8583,7 +8585,7 @@ Public Function strTipoArticuloInvToNum(ByVal TipoArticuloInv As String, Optiona
    Dim mEnum As enum_TipoArticuloInv
    Dim nCount As Integer
    nCount = 0
-   For mEnum = eTAI_Simple To eTAI_LoteFechadeVencimiento
+   For mEnum = eTAI_Simple To eTAI_Lote
       If UCase(TipoArticuloInv) = UCase(enumTipoArticuloInvToString(mEnum)) Then
          strTipoArticuloInvToNum = nCount
          GoTo h_EXIT
@@ -8613,6 +8615,8 @@ Public Sub FillComboBoxWithTipoArticuloInv(ByRef varComboBox As Object, ByVal va
    If valUsaLoteFechaVcto Then
       nCount = nCount + 1
       varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_LoteFechadeVencimiento)
+      nCount = nCount + 1
+      varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_Lote)
    Else
       nCount = nCount + 1
       varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_UsaTalla_Color)
@@ -8638,10 +8642,10 @@ Public Function fEnumTipoArticuloInvToStringInArray(Optional ByVal valPrepararPa
    If valPrepararParaSql Then
       varCaracterDelimitador = "'"
    End If
-   varLimiteSuperior = enum_TipoArticuloInv.eTAI_LoteFechadeVencimiento - enum_TipoArticuloInv.eTAI_Simple
+   varLimiteSuperior = enum_TipoArticuloInv.eTAI_Lote - enum_TipoArticuloInv.eTAI_Simple
    nCount = 0
    ReDim varArray(0 To varLimiteSuperior)
-   For varEnum = enum_TipoArticuloInv.eTAI_Simple To enum_TipoArticuloInv.eTAI_LoteFechadeVencimiento
+   For varEnum = enum_TipoArticuloInv.eTAI_Simple To enum_TipoArticuloInv.eTAI_Lote
       varArray(nCount) = varCaracterDelimitador & enumTipoArticuloInvToString(varEnum) & varCaracterDelimitador
       nCount = nCount + 1
    Next
