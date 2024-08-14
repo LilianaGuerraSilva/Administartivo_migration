@@ -60,20 +60,26 @@
             Style="{StaticResource TextBoxInputStyle}"
             Text="{Binding NumeroDocumento, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
             HorizontalAlignment="Stretch" Margin="3,4,10,4" Height="Auto" />
-        <Label
+        <Grid Grid.Row="0" Grid.Column="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Label
             x:Name="lblFecha"
             Grid.Row="0"
-            Grid.Column="2"
+            Grid.Column="0"
             Content="Fecha"
-            Style="{StaticResource LabelPrompt}" Height="24" Margin="3,3,0,0" Width="43" HorizontalAlignment="Right" />
-        <nsWpfControls:GSDatePickerWpf
+            Style="{StaticResource LabelPrompt}" Height="24" Margin="3,3,0,0" Width="45" HorizontalAlignment="Right" />
+            <nsWpfControls:GSDatePickerWpf
             x:Name="dtpFecha"
             Grid.Row="0"
-            Grid.Column="3"
+            Grid.Column="1"
             Width="120"
             IsEnabled="{Binding IsEnabled}"
             SelectedDate="{Binding Fecha, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
             Style="{StaticResource DatePickerStyle}" Height="Auto" Margin="3,4,0,4" />
+        </Grid>
         <Label
             x:Name="lblTipodeOperacion"
             Grid.Row="1"
@@ -171,7 +177,7 @@
         <Label
             x:Name="lneStatusNotaEntradaSalida"
             Grid.Row="0"
-            Grid.Column="4"
+            Grid.Column="3"
             Grid.ColumnSpan="2"
             Content="{Binding StatusNotaEntradaSalidaStr}"
             Style="{StaticResource LabelStatusBlue}" />
