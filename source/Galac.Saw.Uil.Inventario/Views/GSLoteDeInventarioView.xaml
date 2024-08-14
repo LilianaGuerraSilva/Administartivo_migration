@@ -43,12 +43,12 @@
         <Label Grid.Row="3" Grid.Column="0" Name="lblFechaDeVencimiento" Content="Fecha de Vencimiento" Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSDatePickerWpf Grid.Row="3" Grid.Column="1" Width="120" Style="{StaticResource DatePickerStyle}" Name="dtpFechaDeVencimiento"
                                        SelectedDate="{Binding Path=FechaDeVencimiento, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=IsEnabled}"/>
-        <Label Grid.Row="4" Grid.Column="0" Name="lblExistencia" Content="Existencia" Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=IsVisibleExistencia}" />
+        <Label Grid.Row="4" Grid.Column="0" Name="lblExistencia" Content="Existencia" Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=IsVisibleExistencia, Converter={StaticResource boolToVisibilityConverter}}" />
         <nsWpfControls:GSNumericBoxWpf Grid.Row="4" Grid.Column="1" Name="txtExistencia" Style="{StaticResource TextBoxInputStyle}" InputDataType="UDecimal" MaxLength="28" Width="120" IsEnabled="False"
-                                    Value="{Binding Path=Existencia, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" Visibility="{Binding Path=IsVisibleExistencia}"/>
-        <Label Grid.Row="5" Grid.Column="0" Name="lblStatusLoteInv" Content="Status Lote Inv" Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=IsVisibleStatus}" />
+                                    Value="{Binding Path=Existencia, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" Visibility="{Binding Path=IsVisibleExistencia, Converter={StaticResource boolToVisibilityConverter}}"/>
+        <Label Grid.Row="5" Grid.Column="0" Name="lblStatusLoteInv" Content="Status Lote Inv" Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=IsVisibleStatus, Converter={StaticResource boolToVisibilityConverter}}" />
         <nsWpfControls:GSComboBoxWpf Grid.Row="5" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbStatusLoteInv" Width="120"
-                                     Visibility="{Binding Path=IsVisibleStatus}"
+                                     Visibility="{Binding Path=IsVisibleStatus, Converter={StaticResource boolToVisibilityConverter}}"
                 IsSynchronizedWithCurrentItem="True"
                 ItemsSource="{Binding Path=ArrayStatusLoteDeInventario}"
                 SelectedItem="{Binding Path=StatusLoteInv, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"

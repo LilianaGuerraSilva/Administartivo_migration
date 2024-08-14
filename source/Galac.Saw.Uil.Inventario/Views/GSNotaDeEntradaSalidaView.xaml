@@ -7,7 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:nsVm="clr-namespace:Galac.Saw.Uil.Inventario.ViewModel"
     xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
-    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+    Width="750">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -59,6 +60,20 @@
             Style="{StaticResource TextBoxInputStyle}"
             Text="{Binding NumeroDocumento, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
             HorizontalAlignment="Stretch" Margin="3,4,10,4" Height="Auto" />
+        <Label
+            x:Name="lblFecha"
+            Grid.Row="0"
+            Grid.Column="2"
+            Content="Fecha"
+            Style="{StaticResource LabelPrompt}" Height="24" Margin="3,3,0,0" Width="43" HorizontalAlignment="Right" />
+        <nsWpfControls:GSDatePickerWpf
+            x:Name="dtpFecha"
+            Grid.Row="0"
+            Grid.Column="3"
+            Width="120"
+            IsEnabled="{Binding IsEnabled}"
+            SelectedDate="{Binding Fecha, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+            Style="{StaticResource DatePickerStyle}" Height="Auto" Margin="3,4,0,4" />
         <Label
             x:Name="lblTipodeOperacion"
             Grid.Row="1"
@@ -134,20 +149,6 @@
             Style="{StaticResource LabelCalculatedField}" 
             Height="25" />
         <Label
-            x:Name="lblFecha"
-            Grid.Row="0"
-            Grid.Column="2"
-            Content="Fecha"
-            Style="{StaticResource LabelPrompt}" Height="24" Margin="3,3,0,0" Width="43" HorizontalAlignment="Right" />
-        <nsWpfControls:GSDatePickerWpf
-            x:Name="dtpFecha"
-            Grid.Row="0"
-            Grid.Column="3"
-            Width="120"
-            IsEnabled="{Binding IsEnabled}"
-            SelectedDate="{Binding Fecha, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-            Style="{StaticResource DatePickerStyle}" Height="Auto" Margin="3,4,0,4" />
-        <Label
             x:Name="lblComentarios"
             Grid.Row="4"
             Grid.Column="0"
@@ -174,17 +175,12 @@
             Grid.ColumnSpan="2"
             Content="{Binding StatusNotaEntradaSalidaStr}"
             Style="{StaticResource LabelStatusBlue}" />
-        <!--<ScrollViewer-->
-        <!--x:Name="scvRenglonNotaES"-->
-        <!--Grid.Row="5"-->
-        <!--Grid.ColumnSpan="6"-->
-        <!--VerticalScrollBarVisibility="Auto" Margin="0">-->
         <ContentControl
                 Name="cntInicoRenglonNotaES"
                 Grid.Row="5"
                 Grid.Column="0"
                 Grid.ColumnSpan="4"
-                Width="Auto"
+                Width="730"
                 Margin="0,3">
             <Grid Name="gdRenglonNotaES">
                 <Grid.ColumnDefinitions>

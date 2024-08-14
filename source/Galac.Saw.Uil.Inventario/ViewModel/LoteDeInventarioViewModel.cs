@@ -378,9 +378,13 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             UseDetail = false;
             CloseOnActionComplete = true;
             bool vResult = base.CreateRecord();
-            Action = eAccionSR.SalirSinPreguntar;
+            DialogResult = vResult;
             RaiseRequestCloseEvent();
             return vResult;
+        }
+
+        public override bool OnClosing() {
+            return false;
         }
 
     } //End of class LoteDeInventarioViewModel

@@ -152,7 +152,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         */
         #endregion //Codigo Ejemplo
 
-        internal void ExecuteCreatCommandEspecial(string initCodigoLote, string initCodigoArticulo) {
+        internal void ExecuteCreateCommandEspecial(string initCodigoLote, string initCodigoArticulo) {
             try {
                 LoteDeInventarioViewModel vViewModel = CreateNewElement(default(LoteDeInventario), eAccionSR.Insertar);
                 vViewModel.InitializeViewModel(eAccionSR.Insertar);
@@ -163,7 +163,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             } catch (Exception) {
                 throw;
             }
-            base.ExecuteCreateCommand();
         }
     } //End of class LoteDeInventarioMngViewModel
 

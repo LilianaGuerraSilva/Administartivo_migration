@@ -129,6 +129,14 @@
             ContentStringFormat="dd/MM/yyyy"
             Style="{StaticResource LabelCalculatedField}" 
             Height="25" />
-        <!--<Label Visibility="{Binding Path=IsVisbleLabelLoteNuevo, Converter={StaticResource boolToVisibilityConverter}}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="4" Name="lblNotaLoteNuevo" Content="Lote Nuevo" Style="{StaticResource LabelStatusBlue}" HorizontalAlignment="Left" />-->
+        <Label 
+            Visibility="{Binding Path=IsVisbleLabelLoteNuevo, Converter={StaticResource boolToVisibilityConverter}}" 
+            Grid.Row="0" 
+            Grid.Column="3" 
+            Grid.ColumnSpan="2" 
+            Name="lneTipoDeMercancia" 
+            Content="{Binding Path=TipoDeMercanciaStr}" 
+            Style="{StaticResource LabelStatusGreen}" 
+            HorizontalAlignment="Left" />
     </Grid>
 </UserControl>

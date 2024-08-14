@@ -15,6 +15,7 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.Inventario;
 using Galac.Saw.Ccl.Inventario;
 
+
 namespace Galac.Saw.Uil.Inventario.ViewModel {
     public class RenglonNotaESViewModel : LibInputDetailViewModelMfc<RenglonNotaES> {
         #region Constantes
@@ -120,8 +121,13 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             set {
                 if (Model.TipoArticuloInvAsEnum != value) {
                     Model.TipoArticuloInvAsEnum = value;
+                    RaisePropertyChanged(() => TipoDeMercanciaStr);
                 }
             }
+        }
+
+        public string TipoDeMercanciaStr {
+            get { return Model.TipoArticuloInvAsString; }
         }
 
         public string Serial {
@@ -320,6 +326,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", CodigoArticulo);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
+                vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("TipoDeArticulo", LibConvert.EnumToDbValue((int)eTipoDeArticulo.Mercancia)), eLogicOperatorType.And);
                 ConexionCodigoArticulo = Master.ChooseRecord<FkArticuloInventarioViewModel>("Artículo Inventario", vDefaultCriteria, vFixedCriteria, string.Empty);
                 if (ConexionCodigoArticulo == null) {
                     CodigoArticulo = string.Empty;
@@ -346,8 +353,11 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 if (valCodigoLote == null) {
                     valCodigoLote = string.Empty;
                 }
-                if (!((ILoteDeInventarioPdn)new clsLoteDeInventarioNav()).ExisteLoteDeInventario(Mfc.GetInt("Compania"), CodigoArticulo, valCodigoLote)) {
-                    new LoteDeInventarioMngViewModel().ExecuteCreatCommandEspecial(valCodigoLote, CodigoArticulo);
+                bool vInvocarCrear = !LibString.IsNullOrEmpty(valCodigoLote, true);
+                vInvocarCrear = vInvocarCrear && !LibString.S1IsInS2("*", valCodigoLote);
+                vInvocarCrear = vInvocarCrear && !((ILoteDeInventarioPdn)new clsLoteDeInventarioNav()).ExisteLoteDeInventario(Mfc.GetInt("Compania"), CodigoArticulo, valCodigoLote);
+                if (vInvocarCrear) {
+                    new LoteDeInventarioMngViewModel().ExecuteCreateCommandEspecial(valCodigoLote, CodigoArticulo);
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("CodigoLote", valCodigoLote);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
@@ -469,7 +479,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             vResult = vResult && (ConexionLoteDeInventario == null || LibString.IsNullOrEmpty(ConexionLoteDeInventario.CodigoLote, true));
             return vResult;
         }
-
 
     } //End of class RenglonNotaESViewModel
 } //End of namespace Galac.Saw.Uil.Inventario
