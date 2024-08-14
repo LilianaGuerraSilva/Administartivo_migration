@@ -28,7 +28,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Grid.Column="0" Name="lblCodigoLote" Content="Código" Style="{StaticResource LabelPrompt}" />
+        <Label Grid.Row="0" Grid.Column="0" Name="lblCodigoLote" Content="Lote de Inventario" Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSTextBoxWpf Grid.Row="0" Grid.Column="1" Name="txtCodigoLote" nsWpf:LibFocusManager.IsFocused="True" nsWpf:LibFocusManager.FocusedPropertyName="CodigoLote" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="30" Width="120" IsEnabled="{Binding Path=IsEnabled}"
                                     Text="{Binding Path=CodigoLote, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
         <Label Grid.Row="1" Grid.Column="0" Name="lblCodigoArticulo" Content="Código de Artículo" Style="{StaticResource LabelPrompt}" />

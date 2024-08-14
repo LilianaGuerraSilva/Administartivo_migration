@@ -15,24 +15,28 @@
             <BooleanToVisibilityConverter x:Key="boolToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <!--<RowDefinition Height="Auto" />-->
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Label Grid.Row="0" Grid.Column="0" Name="lblCodigoArticulo" Content="Artículo" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSSeekConnection 
+    <Border BorderThickness="1" BorderBrush="Gray">
+        <Border.CacheMode>
+            <BitmapCache/>
+        </Border.CacheMode>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <!--<RowDefinition Height="Auto" />-->
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Name="lblCodigoArticulo" Content="Artículo" Style="{StaticResource LabelPrompt}" />
+            <nsWpfControls:GSSeekConnection 
             Grid.Row="0" 
             Grid.Column="1" 
             Name="txtCodigoArticulo" 
@@ -44,7 +48,7 @@
             Model="{Binding Path=ConexionCodigoArticulo, Mode=TwoWay}"
             ConnectionValue="{Binding Path=CodigoArticulo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             SearchCommand="{Binding Path=ChooseCodigoArticuloCommand}" VerticalAlignment="Top" />
-        <nsWpfControls:GSTextBoxWpf 
+            <nsWpfControls:GSTextBoxWpf 
             Grid.Row="1" 
             Grid.Column="1" 
             Grid.ColumnSpan="4" 
@@ -56,8 +60,8 @@
             IsEnabled="False"
             Text="{Binding Path=DescripcionArticulo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
             VerticalScrollBarVisibility="Auto" />
-        <Label Grid.Row="2" Grid.Column="0" Name="lblCantidad" Content="Cantidad" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSNumericBoxWpf 
+            <Label Grid.Row="2" Grid.Column="0" Name="lblCantidad" Content="Cantidad" Style="{StaticResource LabelPrompt}" />
+            <nsWpfControls:GSNumericBoxWpf 
             Grid.Row="2" 
             Grid.Column="1" 
             Name="txtCantidad" 
@@ -69,15 +73,15 @@
             Value="{Binding Path=Cantidad, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
             BorderThickness="1" 
             DecimalDigits="4"/>
-        <Label 
+            <Label 
             Visibility="{Binding Path=IsVisbleLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" 
             Grid.Row="3" 
             Grid.Column="0" 
             Name="lblLoteDeInventario" 
             Content="Lote de Inventario" 
             Style="{StaticResource LabelPrompt}" />
-        <!--<nsWpfControls:GSTextBoxWpf Visibility="{Binding Path=IsVisbleLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" IsEnabled="{Binding Path=IsEnabledLoteDeInventario}" Grid.Row="3" Grid.Column="1" Name="txtLoteDeInventario" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="30" Width="120" Text="{Binding Path=LoteDeInventario, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>-->
-        <nsWpfControls:GSSeekConnection 
+            <!--<nsWpfControls:GSTextBoxWpf Visibility="{Binding Path=IsVisbleLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" IsEnabled="{Binding Path=IsEnabledLoteDeInventario}" Grid.Row="3" Grid.Column="1" Name="txtLoteDeInventario" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="30" Width="120" Text="{Binding Path=LoteDeInventario, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>-->
+            <nsWpfControls:GSSeekConnection 
             Visibility="{Binding Path=IsVisbleLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" 
             IsEnabled="{Binding Path=IsEnabledLoteDeInventario}"
             Grid.Row="3" 
@@ -91,15 +95,15 @@
             Model="{Binding Path=ConexionLoteDeInventario, Mode=TwoWay}"
             ConnectionValue="{Binding Path=LoteDeInventario, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             SearchCommand="{Binding Path=ChooseLoteDeInventarioCommand}" />
-        <Label 
+            <Label 
             Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" 
             Grid.Row="3" 
             Grid.Column="2" 
             Name="lblFechaDeElaboracion" 
             Content="Fecha Elab." 
             Style="{StaticResource LabelPrompt}" />
-        <!--<nsWpfControls:GSDatePickerWpf Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" IsEnabled="{Binding Path=IsEnabledFechaLoteDeInventario}" Grid.Row="3" Grid.Column="3" Width="90" Style="{StaticResource DatePickerStyle}" Name="dtpFechaDeElaboracion" SelectedDate="{Binding Path=FechaDeElaboracion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />-->
-        <Label
+            <!--<nsWpfControls:GSDatePickerWpf Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" IsEnabled="{Binding Path=IsEnabledFechaLoteDeInventario}" Grid.Row="3" Grid.Column="3" Width="90" Style="{StaticResource DatePickerStyle}" Name="dtpFechaDeElaboracion" SelectedDate="{Binding Path=FechaDeElaboracion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />-->
+            <Label
             x:Name="lneFechaDeElaboracion"
             Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" 
             Grid.Row="3" 
@@ -110,15 +114,15 @@
             ContentStringFormat="dd/MM/yyyy"
             Style="{StaticResource LabelCalculatedField}" 
             Height="25" />
-        <Label 
+            <Label 
             Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" 
             Grid.Row="3" 
             Grid.Column="4" 
             Name="lblFechaDeVencimiento" 
             Content="Fecha Vcto." 
             Style="{StaticResource LabelPrompt}" />
-        <!--<nsWpfControls:GSDatePickerWpf Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" IsEnabled="{Binding Path=IsEnabledFechaLoteDeInventario}" Grid.Row="3" Grid.Column="5" Width="90" Style="{StaticResource DatePickerStyle}" Name="dtpFechaDeVencimiento"SelectedDate="{Binding Path=FechaDeVencimiento, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />-->
-        <Label
+            <!--<nsWpfControls:GSDatePickerWpf Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" IsEnabled="{Binding Path=IsEnabledFechaLoteDeInventario}" Grid.Row="3" Grid.Column="5" Width="90" Style="{StaticResource DatePickerStyle}" Name="dtpFechaDeVencimiento"SelectedDate="{Binding Path=FechaDeVencimiento, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />-->
+            <Label
             x:Name="lneFechaDeVencimiento"
             Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" 
             Grid.Row="3" 
@@ -129,7 +133,7 @@
             ContentStringFormat="dd/MM/yyyy"
             Style="{StaticResource LabelCalculatedField}" 
             Height="25" />
-        <Label 
+            <Label 
             Visibility="{Binding Path=IsVisbleLabelLoteNuevo, Converter={StaticResource boolToVisibilityConverter}}" 
             Grid.Row="0" 
             Grid.Column="3" 
@@ -138,5 +142,6 @@
             Content="{Binding Path=TipoDeMercanciaStr}" 
             Style="{StaticResource LabelStatusGreen}" 
             HorizontalAlignment="Left" />
-    </Grid>
+        </Grid>
+    </Border>
 </UserControl>

@@ -187,7 +187,7 @@
                 Grid.Column="0"
                 Grid.ColumnSpan="4"
                 Width="730"
-                Margin="0,3">
+                Margin="0,3" >
             <Grid Name="gdRenglonNotaES">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -204,9 +204,10 @@
                         x:Name="cntRenglonNotaES"
                         Grid.Row="0"
                         Grid.ColumnSpan="2"
+                    
                         Content="{Binding Path=DetailRenglonNotaES.SelectedItem}"
                         Focusable="False"
-                        IsEnabled="{Binding Path=IsEnabled}" />
+                        IsEnabled="{Binding Path=IsEnabled}" Margin="0,0,0,5" />
                 <Border
                         Grid.Row="1"
                         Grid.ColumnSpan="2"
