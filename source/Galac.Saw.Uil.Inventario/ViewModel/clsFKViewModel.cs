@@ -165,12 +165,12 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public string CampoDefinible4 { get; set; }
         [ArtInvCamposDefiniblesGridColumnAttribute("", 5)]
         public string CampoDefinible5 { get; set; }
-        [ArtInvCamposLoteFechaDeVencimientoGridColumn("Lote Inv.", "CodigoLote", 11)]
-        public string CodigoLote { get; set; }
-        [ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Elab.", "FechaDeElaboracion", 12)]
-        public DateTime FechaDeElaboracion { get; set; }
-        [ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Vcto.", "FechaDeVencimiento", 13)]
-        public DateTime FechaDeVencimiento { get; set; }
+        //[ArtInvCamposLoteFechaDeVencimientoGridColumn("Lote Inv.", "CodigoLote", 11)]
+        //public string CodigoLote { get; set; }
+        //[ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Elab.", "FechaDeElaboracion", 12)]
+        //public DateTime FechaDeElaboracion { get; set; }
+        //[ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Vcto.", "FechaDeVencimiento", 13)]
+        //public DateTime FechaDeVencimiento { get; set; }
     }
 
     public class FkArticuloInventarioRptViewModel : IFkArticuloInventarioViewModel {
@@ -205,12 +205,12 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public string CampoDefinible4 { get; set; }
         [ArtInvCamposDefiniblesGridColumnAttribute("", 5)]
         public string CampoDefinible5 { get; set; }
-        [ArtInvCamposLoteFechaDeVencimientoGridColumn("Lote Inv.", "", 11)]
-        public string CodigoLote { get; set; }
-        [ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Elab.", "", 12)]
-        public DateTime FechaDeElaboracion { get; set; }
-        [ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Vcto.", "", 13)]
-        public DateTime FechaDeVencimiento { get; set; }
+        //[ArtInvCamposLoteFechaDeVencimientoGridColumn("Lote Inv.", "", 11)]
+        //public string CodigoLote { get; set; }
+        //[ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Elab.", "", 12)]
+        //public DateTime FechaDeElaboracion { get; set; }
+        //[ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Vcto.", "", 13)]
+        //public DateTime FechaDeVencimiento { get; set; }
 
     }
 
@@ -291,22 +291,22 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
     }
 
-    public class ArtInvCamposLoteFechaDeVencimientoGridColumnAttribute : LibGridColumAttribute {
-        public ArtInvCamposLoteFechaDeVencimientoGridColumnAttribute(string initHeader, string initDBPath, int initColumnOrder) : base(initHeader) {
-            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento") && !LibString.IsNullOrEmpty(initHeader) && !LibString.IsNullOrEmpty(initDBPath)) {
-                IsForList = true;
-                IsForSearch = LibString.S1IsInS2("Lote", initHeader);
-                Header = initHeader;
-                DbMemberPath = initDBPath;
-                Type = LibString.S1IsInS2("Fecha", initHeader) ? eGridColumType.DatePicker : eGridColumType.Generic;
-                Width = 100;
-                ColumnOrder = initColumnOrder;
-                if (Type == eGridColumType.DatePicker) {
-                    BindingStringFormat = "dd/MM/yyyy";
-                } else {
-                    BindingStringFormat = "";
-                }
-            }
-        }
-    }
+    //public class ArtInvCamposLoteFechaDeVencimientoGridColumnAttribute : LibGridColumAttribute {
+    //    public ArtInvCamposLoteFechaDeVencimientoGridColumnAttribute(string initHeader, string initDBPath, int initColumnOrder) : base(initHeader) {
+    //        if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento") && !LibString.IsNullOrEmpty(initHeader) && !LibString.IsNullOrEmpty(initDBPath)) {
+    //            IsForList = true;
+    //            IsForSearch = LibString.S1IsInS2("Lote", initHeader);
+    //            Header = initHeader;
+    //            DbMemberPath = initDBPath;
+    //            Type = LibString.S1IsInS2("Fecha", initHeader) ? eGridColumType.DatePicker : eGridColumType.Generic;
+    //            Width = 100;
+    //            ColumnOrder = initColumnOrder;
+    //            if (Type == eGridColumType.DatePicker) {
+    //                BindingStringFormat = "dd/MM/yyyy";
+    //            } else {
+    //                BindingStringFormat = "";
+    //            }
+    //        }
+    //    }
+    //}
 }
