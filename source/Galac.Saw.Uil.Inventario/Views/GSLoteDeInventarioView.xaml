@@ -11,6 +11,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="boolToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid FocusManager.FocusedElement="{Binding ElementName=txtCodigoLote}">
@@ -31,7 +32,7 @@
         <nsWpfControls:GSTextBoxWpf Grid.Row="0" Grid.Column="1" Name="txtCodigoLote" nsWpf:LibFocusManager.IsFocused="True" nsWpf:LibFocusManager.FocusedPropertyName="CodigoLote" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="30" Width="120" IsEnabled="{Binding Path=IsEnabled}"
                                     Text="{Binding Path=CodigoLote, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
         <Label Grid.Row="1" Grid.Column="0" Name="lblCodigoArticulo" Content="Código de Artículo" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSSeekConnection Grid.Row="1" Grid.Column="1" Name="txtCodigoArticulo" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+        <nsWpfControls:GSSeekConnection Grid.Row="1" Grid.Column="1" Name="txtCodigoArticulo" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="False"
                                         DisplayMemberPath="Codigo"
                                         Model="{Binding Path=ConexionCodigoArticulo, Mode=TwoWay}"
                                         ConnectionValue="{Binding Path=CodigoArticulo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
@@ -42,14 +43,15 @@
         <Label Grid.Row="3" Grid.Column="0" Name="lblFechaDeVencimiento" Content="Fecha de Vencimiento" Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSDatePickerWpf Grid.Row="3" Grid.Column="1" Width="120" Style="{StaticResource DatePickerStyle}" Name="dtpFechaDeVencimiento"
                                        SelectedDate="{Binding Path=FechaDeVencimiento, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=IsEnabled}"/>
-        <Label Grid.Row="4" Grid.Column="0" Name="lblExistencia" Content="Existencia" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSNumericBoxWpf Grid.Row="4" Grid.Column="1" Name="txtExistencia" Style="{StaticResource TextBoxInputStyle}" InputDataType="UDecimal" MaxLength="28" Width="120" IsEnabled="{Binding Path=IsEnabled}"
-                                    Value="{Binding Path=Existencia, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
-        <Label Grid.Row="5" Grid.Column="0" Name="lblStatusLoteInv" Content="Status Lote Inv" Style="{StaticResource LabelPrompt}" />
+        <Label Grid.Row="4" Grid.Column="0" Name="lblExistencia" Content="Existencia" Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=IsVisibleExistencia}" />
+        <nsWpfControls:GSNumericBoxWpf Grid.Row="4" Grid.Column="1" Name="txtExistencia" Style="{StaticResource TextBoxInputStyle}" InputDataType="UDecimal" MaxLength="28" Width="120" IsEnabled="False"
+                                    Value="{Binding Path=Existencia, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" Visibility="{Binding Path=IsVisibleExistencia}"/>
+        <Label Grid.Row="5" Grid.Column="0" Name="lblStatusLoteInv" Content="Status Lote Inv" Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=IsVisibleStatus}" />
         <nsWpfControls:GSComboBoxWpf Grid.Row="5" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbStatusLoteInv" Width="120"
+                                     Visibility="{Binding Path=IsVisibleStatus}"
                 IsSynchronizedWithCurrentItem="True"
                 ItemsSource="{Binding Path=ArrayStatusLoteDeInventario}"
                 SelectedItem="{Binding Path=StatusLoteInv, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                IsEnabled="{Binding Path=IsEnabled}" />
+                IsEnabled="False" />
     </Grid>
 </UserControl>

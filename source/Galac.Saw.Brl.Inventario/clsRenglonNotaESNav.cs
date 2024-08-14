@@ -23,7 +23,6 @@ namespace Galac.Saw.Brl.Inventario {
         }
         #endregion //Constructores
         #region Metodos Generados
-
         protected override ILibDataDetailComponent<IList<RenglonNotaES>, IList<RenglonNotaES>> GetDataInstance() {
             return new Galac.Saw.Dal.Inventario.clsRenglonNotaESDat();
         }

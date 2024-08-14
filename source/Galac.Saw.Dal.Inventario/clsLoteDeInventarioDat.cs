@@ -27,7 +27,6 @@ namespace Galac.Saw.Dal.Inventario {
         }
         #endregion //Propiedades
         #region Constructores
-
         public clsLoteDeInventarioDat() {
             DbSchema = "Saw";
             insTrn = new LibTrn();
@@ -448,7 +447,9 @@ namespace Galac.Saw.Dal.Inventario {
         private bool ValidateDetail(LoteDeInventario valRecord, eAccionSR valAction, out string outErrorMessage) {
             bool vResult = true;
             outErrorMessage = "";
-            vResult = vResult && ValidateDetailLoteDeInventarioMovimiento(valRecord, valAction, out outErrorMessage);
+            if (valRecord.DetailLoteDeInventarioMovimiento.Count > 0) {
+                vResult = vResult && ValidateDetailLoteDeInventarioMovimiento(valRecord, valAction, out outErrorMessage);
+            }
             return vResult;
         }
 

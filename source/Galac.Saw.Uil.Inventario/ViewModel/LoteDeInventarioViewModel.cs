@@ -36,7 +36,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             get { return "Lote de Inventario"; }
         }
 
-        public int  ConsecutivoCompania {
+        public int ConsecutivoCompania {
             get {
                 return Model.ConsecutivoCompania;
             }
@@ -47,7 +47,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        public int  Consecutivo {
+        public int Consecutivo {
             get {
                 return Model.Consecutivo;
             }
@@ -59,8 +59,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Código es requerido.")]
-        [LibGridColum("Código", MaxLength=30)]
-        public string  CodigoLote {
+        [LibGridColum("Código", MaxLength = 30)]
+        public string CodigoLote {
             get {
                 return Model.CodigoLote;
             }
@@ -74,7 +74,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Código de Artículo es requerido.")]
-        public string  CodigoArticulo {
+        public string CodigoArticulo {
             get {
                 return Model.CodigoArticulo;
             }
@@ -92,7 +92,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         [LibCustomValidation("FechaDeElaboracionValidating")]
         [LibGridColum("Fecha Elab.", eGridColumType.DatePicker)]
-        public DateTime  FechaDeElaboracion {
+        public DateTime FechaDeElaboracion {
             get {
                 return Model.FechaDeElaboracion;
             }
@@ -107,7 +107,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         [LibCustomValidation("FechaDeVencimientoValidating")]
         [LibGridColum("Fecha Vcto.", eGridColumType.DatePicker)]
-        public DateTime  FechaDeVencimiento {
+        public DateTime FechaDeVencimiento {
             get {
                 return Model.FechaDeVencimiento;
             }
@@ -121,7 +121,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibGridColum("Existencia", eGridColumType.Numeric, Alignment = eTextAlignment.Right)]
-        public decimal  Existencia {
+        public decimal Existencia {
             get {
                 return Model.Existencia;
             }
@@ -135,7 +135,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibGridColum("Status", eGridColumType.Enum, PrintingMemberPath = "StatusLoteInvStr")]
-        public eStatusLoteDeInventario  StatusLoteInv {
+        public eStatusLoteDeInventario StatusLoteInv {
             get {
                 return Model.StatusLoteInvAsEnum;
             }
@@ -148,7 +148,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        public string  NombreOperador {
+        public string NombreOperador {
             get {
                 return Model.NombreOperador;
             }
@@ -161,7 +161,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        public DateTime  FechaUltimaModificacion {
+        public DateTime FechaUltimaModificacion {
             get {
                 return Model.FechaUltimaModificacion;
             }
@@ -180,7 +180,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibDetailRequired(ErrorMessage = "Lote De Inventario Movimiento es requerido.")]
+        //[LibDetailRequired(ErrorMessage = "Lote de Inventario Movimiento es requerido.")]
         public LoteDeInventarioMovimientoMngViewModel DetailLoteDeInventarioMovimiento {
             get;
             set;
@@ -217,6 +217,14 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public RelayCommand<string> DeleteLoteDeInventarioMovimientoCommand {
             get { return DetailLoteDeInventarioMovimiento.DeleteCommand; }
         }
+
+        public bool IsVisibleStatus {
+            get { return Action != eAccionSR.Insertar; }
+        }
+
+        public bool IsVisibleExistencia {
+            get { return Action != eAccionSR.Insertar; }
+        }
         #endregion //Propiedades
         #region Constructores
         public LoteDeInventarioViewModel()
@@ -233,9 +241,9 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         protected override void InitializeLookAndFeel(LoteDeInventario valModel) {
             base.InitializeLookAndFeel(valModel);
-            if (LibString.IsNullOrEmpty(CodigoLote, true)) {
-                CodigoLote = GenerarProximoCodigoLote();
-            }
+            //if (LibString.IsNullOrEmpty(CodigoLote, true)) {
+            //    CodigoLote = GenerarProximoCodigoLote();
+            //}
         }
 
         protected override LoteDeInventario FindCurrentRecord(LoteDeInventario valModel) {
@@ -252,18 +260,18 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             return new clsLoteDeInventarioNav();
         }
 
-        private string GenerarProximoCodigoLote() {
-            string vResult = string.Empty;
-            XElement vResulset = GetBusinessComponent().QueryInfo(eProcessMessageType.Message, "ProximoCodigoLote", Mfc.GetIntAsParam("Compania"), false);
-            vResult = LibXml.GetPropertyString(vResulset, "CodigoLote");
-            return vResult;
-        }
+        //private string GenerarProximoCodigoLote() {
+        //    string vResult = string.Empty;
+        //    XElement vResulset = GetBusinessComponent().QueryInfo(eProcessMessageType.Message, "ProximoCodigoLote", Mfc.GetIntAsParam("Compania"), false);
+        //    vResult = LibXml.GetPropertyString(vResulset, "CodigoLote");
+        //    return vResult;
+        //}
 
         protected override void InitializeDetails() {
             DetailLoteDeInventarioMovimiento = new LoteDeInventarioMovimientoMngViewModel(this, Model.DetailLoteDeInventarioMovimiento, Action);
-            DetailLoteDeInventarioMovimiento.OnCreated += new EventHandler<SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel>>(DetailLoteDeInventarioMovimiento_OnCreated);
-            DetailLoteDeInventarioMovimiento.OnUpdated += new EventHandler<SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel>>(DetailLoteDeInventarioMovimiento_OnUpdated);
-            DetailLoteDeInventarioMovimiento.OnDeleted += new EventHandler<SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel>>(DetailLoteDeInventarioMovimiento_OnDeleted);
+            //DetailLoteDeInventarioMovimiento.OnCreated += new EventHandler<SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel>>(DetailLoteDeInventarioMovimiento_OnCreated);
+            //DetailLoteDeInventarioMovimiento.OnUpdated += new EventHandler<SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel>>(DetailLoteDeInventarioMovimiento_OnUpdated);
+            //DetailLoteDeInventarioMovimiento.OnDeleted += new EventHandler<SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel>>(DetailLoteDeInventarioMovimiento_OnDeleted);
             DetailLoteDeInventarioMovimiento.OnSelectedItemChanged += new EventHandler<SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel>>(DetailLoteDeInventarioMovimiento_OnSelectedItemChanged);
         }
         #region LoteDeInventarioMovimiento
@@ -279,36 +287,36 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        private void DetailLoteDeInventarioMovimiento_OnDeleted(object sender, SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel> e) {
-            try {
-                IsDirty = true;
-                Model.DetailLoteDeInventarioMovimiento.Remove(e.ViewModel.GetModel());
-            } catch (System.AccessViolationException) {
-                throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
-            }
-        }
+        //private void DetailLoteDeInventarioMovimiento_OnDeleted(object sender, SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel> e) {
+        //    try {
+        //        IsDirty = true;
+        //        Model.DetailLoteDeInventarioMovimiento.Remove(e.ViewModel.GetModel());
+        //    } catch (System.AccessViolationException) {
+        //        throw;
+        //    } catch (System.Exception vEx) {
+        //        LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+        //    }
+        //}
 
-        private void DetailLoteDeInventarioMovimiento_OnUpdated(object sender, SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel> e) {
-            try {
-                IsDirty = e.ViewModel.IsDirty;
-            } catch (System.AccessViolationException) {
-                throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
-            }
-        }
+        //private void DetailLoteDeInventarioMovimiento_OnUpdated(object sender, SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel> e) {
+        //    try {
+        //        IsDirty = e.ViewModel.IsDirty;
+        //    } catch (System.AccessViolationException) {
+        //        throw;
+        //    } catch (System.Exception vEx) {
+        //        LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+        //    }
+        //}
 
-        private void DetailLoteDeInventarioMovimiento_OnCreated(object sender, SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel> e) {
-            try {
-                Model.DetailLoteDeInventarioMovimiento.Add(e.ViewModel.GetModel());
-            } catch (System.AccessViolationException) {
-                throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
-            }
-        }
+        //private void DetailLoteDeInventarioMovimiento_OnCreated(object sender, SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel> e) {
+        //    try {
+        //        Model.DetailLoteDeInventarioMovimiento.Add(e.ViewModel.GetModel());
+        //    } catch (System.AccessViolationException) {
+        //        throw;
+        //    } catch (System.Exception vEx) {
+        //        LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+        //    }
+        //}
         #endregion //LoteDeInventarioMovimiento
 
         protected override void InitializeCommands() {
@@ -366,8 +374,15 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
         #endregion //Metodos Generados
 
+        protected override bool CreateRecord() {
+            UseDetail = false;
+            CloseOnActionComplete = true;
+            bool vResult = base.CreateRecord();
+            Action = eAccionSR.SalirSinPreguntar;
+            RaiseRequestCloseEvent();
+            return vResult;
+        }
 
     } //End of class LoteDeInventarioViewModel
 
 } //End of namespace Galac.Saw.Uil.Inventario
-
