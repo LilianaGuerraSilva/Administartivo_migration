@@ -10,8 +10,8 @@ namespace Galac.Saw.Ccl.Inventario {
         #region Metodos Generados
         XElement FindByConsecutivoCompaniaCodigoLoteCodigoArticulo(int valConsecutivoCompania, string valCodigoLote, string valCodigoArticulo);
         XElement FindByConsecutivoCompaniaCodigoArticulo(int valConsecutivoCompania, string valCodigoArticulo);
-        LibResponse AgregarLote(IList<LoteDeInventario> valListaLote, bool valUsaDetalle);
-        LibResponse ActualizarLote(IList<LoteDeInventario> valListaLote);
+        //LibResponse AgregarLote(IList<LoteDeInventario> valListaLote, bool valUsaDetalle);
+        bool ActualizarLote(IList<LoteDeInventario> valListaLote);
         bool ExisteLoteDeInventario(int valConsecutivoCompania, string valCodigoArticulo, string valLoteDeInventario);
         #endregion //Metodos Generados
 
