@@ -159,7 +159,6 @@
     <Compile Include="wrpImprentaDigital.cs" />
     <Compile Include="wrpInformacionGVentas.cs" />
     <Compile Include="wrpLoteDeInventario.cs" />
-    <Compile Include="wrpMenuBarLoteDeInventario.cs" />
     <Compile Include="wrpMenuBarCaja.cs" />
     <Compile Include="wrpMesesGenerados.cs" />
     <Compile Include="wrpNotaDeEntradaSalida.cs" />
