@@ -93,11 +93,6 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine(", ArticuloInventario.CampoDefinible3 ");
             SQL.AppendLine(", ArticuloInventario.CampoDefinible4 ");
             SQL.AppendLine(", ArticuloInventario.CampoDefinible5 ");
-            SQL.AppendLine(", ISNULL(LoteDeInventario.CodigoLote, '') AS CodigoLote");
-            SQL.AppendLine(", ISNULL(LoteDeInventario.FechaDeElaboracion, '01/01/2000') AS FechaDeElaboracion");
-            SQL.AppendLine(", ISNULL(LoteDeInventario.FechaDeVencimiento, '01/01/2000') AS FechaDeVencimiento");
-            SQL.AppendLine(", ISNULL(LoteDeInventario.Existencia, 0) AS ExistenciaPorLote ");
-
             SQL.AppendLine(" FROM ArticuloInventario ");
             SQL.AppendLine(" LEFT JOIN ExistenciaPorAlmacen ON (ExistenciaPorAlmacen.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania AND ExistenciaPorAlmacen.CodigoArticulo = ArticuloInventario.Codigo) 	");
             SQL.AppendLine(" LEFT JOIN RenglonExistenciaAlmacen  ON (RenglonExistenciaAlmacen.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania AND RenglonExistenciaAlmacen.CodigoArticulo = ArticuloInventario.Codigo)");
@@ -105,7 +100,6 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine(" LEFT JOIN Saw.Color ON (Saw.Color.ConsecutivoCompania = ExistenciaPorGrupo.ConsecutivoCompania AND Saw.Color.CodigoColor = ExistenciaPorGrupo.CodigoColor )");
             SQL.AppendLine(" LEFT JOIN Saw.Talla ON( Saw.Talla.ConsecutivoCompania = ExistenciaPorGrupo.ConsecutivoCompania AND Saw.Talla.CodigoTalla = ExistenciaPorGrupo.CodigoTalla )");
             SQL.AppendLine(" LEFT JOIN dbo.CamposMonedaExtranjera ON( dbo.CamposMonedaExtranjera.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania AND dbo.CamposMonedaExtranjera.Codigo = ArticuloInventario.Codigo )");
-            SQL.AppendLine(" LEFT JOIN Saw.LoteDeInventario ON ArticuloInventario.ConsecutivoCompania = Saw.LoteDeInventario.ConsecutivoCompania AND ArticuloInventario.Codigo = Saw.LoteDeInventario.CodigoArticulo ");
 
             SQL.AppendLine(" INNER JOIN Gv_EnumStatusArticulo ON ArticuloInventario.StatusdelArticulo COLLATE MODERN_SPANISH_CS_AS = Gv_EnumStatusArticulo.DbValue");
             SQL.AppendLine(" INNER JOIN Gv_EnumTipoDeArticulo ON ArticuloInventario.TipoDeArticulo COLLATE MODERN_SPANISH_CS_AS = Gv_EnumTipoDeArticulo.DbValue");
@@ -125,7 +119,6 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine(" , ArticuloInventario.Peso, ArticuloInventario.ArancelesCodigo, ArticuloInventario.TipoDeMercanciaProduccion, MePrecioSinIva, MePrecioConIva, MePrecioSinIva2");
             SQL.AppendLine(", MePrecioConIva2, MePrecioSinIva3, MePrecioConIva3, MePrecioSinIva4, MePrecioConIva4");
             SQL.AppendLine(", CampoDefinible1, CampoDefinible2, CampoDefinible3, CampoDefinible4, CampoDefinible5");
-            SQL.AppendLine(", LoteDeInventario.CodigoLote, LoteDeInventario.FechaDeElaboracion, LoteDeInventario.FechaDeVencimiento, LoteDeInventario.Existencia ");
             return SQL.ToString();
 
         }
@@ -233,11 +226,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("    Gv_ArticuloInventario_B1.CampoDefinible5, ");
             SQL.AppendLine("    Comun.Aranceles.AdValorem, ");
             SQL.AppendLine("    Comun.Aranceles.Seguro, ");
-            SQL.AppendLine("    Gv_ArticuloInventario_B1.TipoDeMercanciaProduccion, ");
-            SQL.AppendLine("    Gv_ArticuloInventario_B1.CodigoLote, ");
-            SQL.AppendLine("    Gv_ArticuloInventario_B1.FechaDeElaboracion, ");
-            SQL.AppendLine("    Gv_ArticuloInventario_B1.FechaDeVencimiento");
-
+            SQL.AppendLine("    Gv_ArticuloInventario_B1.TipoDeMercanciaProduccion ");
             SQL.AppendLine("    FROM Gv_ArticuloInventario_B1 LEFT JOIN Comun.Aranceles ON Gv_ArticuloInventario_B1.ArancelesCodigo = Comun.Aranceles.Codigo ");
             SQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
             SQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE ' + @SQLWhere");
@@ -334,7 +323,6 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("	ON ArticuloInventario.ConsecutivoCompania = renglonFactura.ConsecutivoCompania AND ArticuloInventario.Codigo = renglonFactura.Articulo");
             SQL.AppendLine("	LEFT JOIN renglonCotizacion INNER JOIN cotizacion ON renglonCotizacion.NumeroCotizacion = cotizacion.Numero AND renglonCotizacion.ConsecutivoCompania = cotizacion.ConsecutivoCompania");
             SQL.AppendLine("	ON ArticuloInventario.ConsecutivoCompania = renglonCotizacion.ConsecutivoCompania AND ArticuloInventario.Codigo = renglonCotizacion.CodigoArticulo");
-            SQL.AppendLine(" LEFT JOIN Saw.LoteDeInventario ON ArticuloInventario.ConsecutivoCompania = Saw.LoteDeInventario.ConsecutivoCompania AND ArticuloInventario.Codigo = Saw.LoteDeInventario.CodigoArticulo ");
 
             SQL.AppendLine(" WHERE ArticuloInventario.Codigo NOT IN ('RD_AliExenta  @', 'RD_AliGeneral @', 'RD_AliReducida@', 'RD_AliExtendida', 'RD_ComXPorcDeAlmacen @','RD_AliExentaNC @', 'RD_AliGeneralNC @', 'RD_AliReducidaNC @', 'RD_AliExtendidaNC @', 'ND-NC IGTF @') ");
             SQL.AppendLine(" GROUP BY ArticuloInventario.Codigo, ExistenciaPorGrupo.CodigoColor, ExistenciaPorGrupo.CodigoTalla, ArticuloInventario.Descripcion, Saw.Color.DescripcionColor");
@@ -343,7 +331,6 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine(", RenglonExistenciaAlmacen.CodigoSerial, RenglonExistenciaAlmacen.CodigoRollo, ArticuloInventario.AlicuotaIva, ExistenciaPorGrupo.CodigoGrupo");
             SQL.AppendLine(", ArticuloInventario.TipoArticuloInv, ArticuloInventario.PorcentajeBaseImponible, ExistenciaPorAlmacen.CodigoAlmacen");
             SQL.AppendLine(", ArticuloInventario.Categoria, ArticuloInventario.UnidadDeVenta,ArticuloInventario.UsaBalanza, ArticuloInventario.Peso, ArticuloInventario.ArancelesCodigo, ArticuloInventario.TipoDeMercanciaProduccion ");
-            SQL.AppendLine(", LoteDeInventario.CodigoLote, LoteDeInventario.FechaDeElaboracion, LoteDeInventario.FechaDeVencimiento, LoteDeInventario.Existencia ");
             return SQL.ToString();
         }
         private string SqlViewB2() {
@@ -379,10 +366,6 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("       ArticuloInventario.CampoDefinible4, ");
             SQL.AppendLine("       ArticuloInventario.CampoDefinible5, ");
             SQL.AppendLine("       ArticuloInventario.UnidadDeVentaSecundaria ");
-            SQL.AppendLine(", '' AS CodigoLote");
-            SQL.AppendLine(", '01/01/2000' AS FechaDeElaboracion");
-            SQL.AppendLine(", '01/01/2000' AS FechaDeVencimiento");
-            SQL.AppendLine(", 0 AS ExistenciaPorLote ");
 
             SQL.AppendLine("     FROM Saw.Talla RIGHT JOIN");
             SQL.AppendLine("       Comun.Aranceles RIGHT JOIN");
@@ -395,13 +378,11 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("       ON Saw.Talla.CodigoTalla = ExistenciaPorGrupo.CodigoTalla AND Saw.Talla.ConsecutivoCompania = ExistenciaPorGrupo.ConsecutivoCompania LEFT  JOIN");
             SQL.AppendLine("         Saw.Color ");
             SQL.AppendLine("           ON ExistenciaPorGrupo.CodigoColor = Saw.Color.CodigoColor AND ExistenciaPorGrupo.ConsecutivoCompania = Saw.Color.ConsecutivoCompania");
-            SQL.AppendLine("     WHERE(ArticuloInventario.TipoArticuloInv = '3' ");
-            SQL.AppendLine("       OR ArticuloInventario.TipoArticuloInv = '1' ");
-            SQL.AppendLine("       OR ArticuloInventario.TipoArticuloInv = '2' ");
-            SQL.AppendLine("       OR ArticuloInventario.TipoArticuloInv = '4')");
-            SQL.AppendLine("       AND articuloInventario.Codigo NOT IN('RD_AliExenta  @', 'RD_AliGeneral @', 'RD_AliReducida@', 'RD_AliExtendida', 'RD_ComXPorcDeAlmacen @', 'RD_AliExentaNC @', 'RD_AliGeneralNC @', 'RD_AliReducidaNC @', 'RD_AliExtendidaNC @', 'ND-NC IGTF @')");
-            SQL.AppendLine("       AND articuloInventario.TipoDeArticulo <> '2'");
-            SQL.AppendLine("       AND articuloInventario.TipoDeArticulo <> '1'");
+            SQL.AppendLine("     WHERE ");
+            SQL.AppendLine("       ArticuloInventario.TipoArticuloInv IN ('3', '1', '2', '4')");
+            SQL.AppendLine("       AND ArticuloInventario.Codigo NOT IN ('RD_AliExenta  @', 'RD_AliGeneral @', 'RD_AliReducida@', 'RD_AliExtendida', 'RD_ComXPorcDeAlmacen @', 'RD_AliExentaNC @', 'RD_AliGeneralNC @', 'RD_AliReducidaNC @', 'RD_AliExtendidaNC @', 'ND-NC IGTF @')");
+            SQL.AppendLine("       AND ArticuloInventario.TipoDeArticulo <> '2'");
+            SQL.AppendLine("       AND ArticuloInventario.TipoDeArticulo <> '1'");
             SQL.AppendLine("    UNION ");
             SQL.AppendLine("  SELECT ");
             SQL.AppendLine("       ArticuloInventario.Codigo, ");
@@ -435,19 +416,14 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("       ArticuloInventario.CampoDefinible4, ");
             SQL.AppendLine("       ArticuloInventario.CampoDefinible5, ");
             SQL.AppendLine("       ArticuloInventario.UnidadDeVentaSecundaria ");
-            SQL.AppendLine(", ISNULL(LoteDeInventario.CodigoLote, '') AS CodigoLote");
-            SQL.AppendLine(", ISNULL(LoteDeInventario.FechaDeElaboracion, '01/01/2000') AS FechaDeElaboracion");
-            SQL.AppendLine(", ISNULL(LoteDeInventario.FechaDeVencimiento, '01/01/2000') AS FechaDeVencimiento");
-            SQL.AppendLine(", ISNULL(LoteDeInventario.Existencia, 0) AS ExistenciaPorLote ");
 
             SQL.AppendLine("     FROM ArticuloInventario ");
             SQL.AppendLine("      LEFT JOIN Comun.Aranceles ON ArticuloInventario.Codigo = Comun.Aranceles.Codigo ");
             SQL.AppendLine("      LEFT JOIN CamposMonedaExtranjera ON ArticuloInventario.Codigo = CamposMonedaExtranjera.Codigo AND CamposMonedaExtranjera.consecutivoCompania = ArticuloInventario.ConsecutivoCompania");
-            SQL.AppendLine("      LEFT JOIN Saw.LoteDeInventario ON ArticuloInventario.ConsecutivoCompania = Saw.LoteDeInventario.ConsecutivoCompania AND ArticuloInventario.Codigo = Saw.LoteDeInventario.CodigoArticulo ");
             SQL.AppendLine("     WHERE");
             SQL.AppendLine("       ArticuloInventario.TipoDeArticulo <> '2'");
-            SQL.AppendLine("       AND(ArticuloInventario.AlicuotaIva IN('1', '0', '2', '3', '5', '4', '6', '7'))");
-            SQL.AppendLine("       AND ArticuloInventario.TipoArticuloInv IN ('0', '5')");
+            SQL.AppendLine("       AND ArticuloInventario.AlicuotaIva IN ('1', '0', '2', '3', '5', '4', '6', '7')");
+            SQL.AppendLine("       AND ArticuloInventario.TipoArticuloInv IN ('0', '5', '6')");
             SQL.AppendLine("       AND ArticuloInventario.Codigo NOT IN ('RD_AliExenta  @', 'RD_AliGeneral @', 'RD_AliReducida@', 'RD_AliExtendida', 'RD_ComXPorcDeAlmacen @', 'RD_AliExentaNC @', 'RD_AliGeneralNC @', 'RD_AliReducidaNC @', 'RD_AliExtendidaNC @', 'ND-NC IGTF @')");
             return SQL.ToString();
 

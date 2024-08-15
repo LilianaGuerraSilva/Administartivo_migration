@@ -36,9 +36,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string ConsecutivoAlmacenGenericoPropertyName = "ConsecutivoAlmacenGenerico";
         public const string NombreAlmacenGenericoPropertyName = "NombreAlmacenGenerico";
         public const string IsEnabledDatosAlmacenPropertyName = "IsEnabledDatosAlmacen";
-        public const string IsEnabledAsociarCentroDeCostosPropertyName = "IsEnabledAsociarCentrosDeCosto";
-        
-        
+        public const string IsEnabledAsociarCentroDeCostosPropertyName = "IsEnabledAsociarCentrosDeCosto";      
         #endregion
         #region Variables
         private FkAlmacenViewModel _ConexionCodigoAlmacenGenerico = null;
@@ -164,12 +162,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     if (value) {
                         UsaLoteFechaDeVencimiento = false;
                         RaisePropertyChanged(() => UsaLoteFechaDeVencimiento);
-                        RaisePropertyChanged(() => IsEnabledUsaLoteFechaDeVencimiento);
                     } else { 
                         ActivarFacturacionPorAlmacen = false;
                     }
                     RaisePropertyChanged(UsaAlmacenPropertyName);
-                    RaisePropertyChanged(IsEnabledDatosAlmacenPropertyName);                    
+                    RaisePropertyChanged(IsEnabledDatosAlmacenPropertyName);
+                    RaisePropertyChanged(() => IsEnabledUsalAlmacen);
+                    RaisePropertyChanged(() => IsEnabledUsaLoteFechaDeVencimiento);
                 }
             }
         }
@@ -372,8 +371,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     if (value) {
                         UsaAlmacen = false;
                         RaisePropertyChanged(() => UsaAlmacen);
-                        RaisePropertyChanged(() => IsEnabledUsalAlmacen);
                     }
+                    RaisePropertyChanged(() => IsEnabledUsalAlmacen);
+                    RaisePropertyChanged(() => IsEnabledUsaLoteFechaDeVencimiento);
                 }
             }
         }

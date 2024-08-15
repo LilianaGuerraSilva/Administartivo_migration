@@ -30,9 +30,9 @@ namespace Galac.Saw.Ccl.Inventario {
         string CampoDefinible3 { get; set; }
         string CampoDefinible4 { get; set; }
         string CampoDefinible5 { get; set; }
-        string LoteDeInventario { get; set; }
-        DateTime FechaDeElaboracion { get; set; }
-        DateTime FechaDeVencimiento { get; set; }
+        //string CodigoLote { get; set; }
+        //DateTime FechaDeElaboracion { get; set; }
+        //DateTime FechaDeVencimiento { get; set; }
         #endregion //Propiedades
 
     } //End of class IFkArticuloInventarioViewModel

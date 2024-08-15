@@ -19,12 +19,10 @@ namespace Galac.Saw.Brl.Inventario {
         #region Propiedades
         #endregion //Propiedades
         #region Constructores
-
         public clsLoteDeInventarioNav() {
         }
         #endregion //Constructores
         #region Metodos Generados
-
         protected override ILibDataMasterComponentWithSearch<IList<LoteDeInventario>, IList<LoteDeInventario>> GetDataInstance() {
             return new Galac.Saw.Dal.Inventario.clsLoteDeInventarioDat();
         }
@@ -186,7 +184,6 @@ namespace Galac.Saw.Brl.Inventario {
         #endregion //Metodos Generados
         #region Codigo Ejemplo
         /* Codigo de Ejemplo
-
         bool ILoteDeInventarioPdn.InsertDefaultRecord(int valConsecutivoCompania) {
             ILibDataComponent<IList<LoteDeInventario>, IList<LoteDeInventario>> instanciaDal = new clsLoteDeInventarioDat();
             IList<LoteDeInventario> vLista = new List<LoteDeInventario>();
@@ -205,15 +202,12 @@ namespace Galac.Saw.Brl.Inventario {
             vLista.Add(vCurrentRecord);
             return instanciaDal.Insert(vLista).Success;
         }
-
-
         */
         #endregion //Codigo Ejemplo
 
         internal List<LoteDeInventario> ParseToListEntity(XElement valXmlEntity) {
             List<LoteDeInventario> vResult = new List<LoteDeInventario>();
-            var vEntity = from vRecord in valXmlEntity.Descendants("GpResult")
-                          select vRecord;
+            var vEntity = from vRecord in valXmlEntity.Descendants("GpResult") select vRecord;
             foreach (XElement vItem in vEntity) {
                 LoteDeInventario vRecord = new LoteDeInventario();
                 vRecord.Clear();
@@ -262,8 +256,7 @@ namespace Galac.Saw.Brl.Inventario {
             return vResult;
         }
 
-
-        LibResponse ILoteDeInventarioPdn.AgregarLote(IList<LoteDeInventario> valListaLote) {
+        LibResponse ILoteDeInventarioPdn.AgregarLote(IList<LoteDeInventario> valListaLote, bool valUsaDetalle) {
             LibResponse vResult = new LibResponse();
             RegisterClient();
             foreach (LoteDeInventario vItemLote in valListaLote) {
@@ -272,7 +265,7 @@ namespace Galac.Saw.Brl.Inventario {
                 XElement vData = _Db.QueryInfo(eProcessMessageType.Message, "ProximoConsecutivo", vParams.Get());
                 int vProximoConsecutivo = LibConvert.ToInt(LibXml.GetPropertyString(vData, "Consecutivo"));
                 vItemLote.Consecutivo = vProximoConsecutivo;
-                vResult = InsertRecord(new List<LoteDeInventario>() { vItemLote }, true);
+                vResult = InsertRecord(new List<LoteDeInventario>() { vItemLote }, valUsaDetalle);
                 if (!vResult.Success) {
                     return vResult;
                 }
@@ -281,6 +274,7 @@ namespace Galac.Saw.Brl.Inventario {
         }
 
         LibResponse ILoteDeInventarioPdn.ActualizarLote(IList<LoteDeInventario> valListaLote) {
+            RegisterClient();
             return UpdateRecord(valListaLote, true, eAccionSR.Modificar);
         }
     } //End of class clsLoteDeInventarioNav

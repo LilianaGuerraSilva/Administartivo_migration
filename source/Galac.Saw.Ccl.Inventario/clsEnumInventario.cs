@@ -72,18 +72,13 @@ namespace Galac.Saw.Ccl.Inventario {
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eTipoArticuloInv {
-        [LibEnumDescription("Simple")]
-        Simple = 0,
-        [LibEnumDescription("Usa Talla/Color")]
-        UsaTallaColor,
-        [LibEnumDescription("Usa Serial")]
-        UsaSerial,
-        [LibEnumDescription("Usa Talla/Color y Serial")]
-        UsaTallaColorySerial,
-        [LibEnumDescription("Usa Serial y Rollo")]
-        UsaSerialRollo, 
-        [LibEnumDescription("Lote / Fecha de Vto.")]
-        LoteFechadeVencimiento
+        [LibEnumDescription("Simple")] Simple = 0,
+        [LibEnumDescription("Usa Talla/Color")] UsaTallaColor,
+        [LibEnumDescription("Usa Serial")] UsaSerial,
+        [LibEnumDescription("Usa Talla/Color y Serial")] UsaTallaColorySerial,
+        [LibEnumDescription("Usa Serial y Rollo")] UsaSerialRollo,
+        [LibEnumDescription("Lote / Fecha de Vto.")] LoteFechadeVencimiento,
+        [LibEnumDescription("Lote")] Lote
     }
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]

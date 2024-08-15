@@ -27,7 +27,6 @@ namespace Galac.Saw.Brl.Inventario {
             return new Galac.Saw.Dal.Inventario.clsNotaDeEntradaSalidaDat();
         }
         #region Miembros de ILibPdn
-
         bool ILibPdn.CanBeChoosen(string valCallingModule, eAccionSR valAction, string valExtendedAction, XmlDocument valXmlRow) {
             bool vResult = false;
             //ILibDataFKSearch instanciaDal = new Galac.Saw.Dal.Inventario.clsNotaDeEntradaSalidaDat();
@@ -67,6 +66,10 @@ namespace Galac.Saw.Brl.Inventario {
                     break;
                 case "Artículo Inventario":
                     vPdnModule = new Galac.Saw.Brl.Inventario.clsArticuloInventarioNav();
+                    vResult = vPdnModule.GetDataForList("Nota de Entrada/Salida", ref refXmlDocument, valXmlParamsExpression);
+                    break;
+                case "Lote de Inventario":
+                    vPdnModule = new Galac.Saw.Brl.Inventario.clsLoteDeInventarioNav();
                     vResult = vPdnModule.GetDataForList("Nota de Entrada/Salida", ref refXmlDocument, valXmlParamsExpression);
                     break;
                 default: throw new NotImplementedException();
@@ -208,6 +211,31 @@ namespace Galac.Saw.Brl.Inventario {
         }
 
         private StringBuilder ParametersGetFKArticuloInventarioForXmlSubSet(int valConsecutivoCompania, XElement valXElement) {
+            StringBuilder vResult = new StringBuilder();
+            LibGpParams vParams = new LibGpParams();
+            vParams.AddReturn();
+            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            vParams.AddInXml("XmlData", valXElement);
+            vResult = vParams.Get();
+            return vResult;
+        }
+
+        private XElement FindInfoLoteDeInventario(IList<NotaDeEntradaSalida> valData) {
+            XElement vXElement = new XElement("GpData");
+            foreach(NotaDeEntradaSalida vItem in valData) {
+                vXElement.Add(FilterRenglonNotaESByDistinctLoteDeInventario(vItem).Descendants("GpResult"));
+            }
+            ILibPdn insLoteDeInventario = new Galac.Saw.Brl.Inventario.clsLoteDeInventarioNav();
+            XElement vXElementResult = insLoteDeInventario.GetFk("NotaDeEntradaSalida", ParametersGetFKLoteDeInventarioForXmlSubSet(valData[0].ConsecutivoCompania, vXElement));
+            return vXElementResult;
+        }
+
+        private XElement FilterRenglonNotaESByDistinctLoteDeInventario(NotaDeEntradaSalida valMaster) {
+            XElement vXElement = new XElement("GpData", from vEntity in valMaster.DetailRenglonNotaES.Distinct() select new XElement("GpResult", new XElement("LoteDeInventario", vEntity.LoteDeInventario)));
+            return vXElement;
+        }
+
+        private StringBuilder ParametersGetFKLoteDeInventarioForXmlSubSet(int valConsecutivoCompania, XElement valXElement) {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             vParams.AddReturn();
@@ -489,29 +517,29 @@ namespace Galac.Saw.Brl.Inventario {
         }
 
         private void InsertaLoteDeInventario(NotaDeEntradaSalida valItemNotaES, RenglonNotaES valItemRenglonNotaES) {
-            LoteDeInventarioMovimiento vLoteMov = new LoteDeInventarioMovimiento();
-            vLoteMov.ConsecutivoCompania = valItemRenglonNotaES.ConsecutivoCompania;
-            vLoteMov.Fecha = valItemNotaES.Fecha;
-            vLoteMov.ModuloAsEnum = eOrigenLoteInv.NotaEntradaSalida;
-            vLoteMov.Cantidad = valItemRenglonNotaES.Cantidad;
-            vLoteMov.ConsecutivoDocumentoOrigen = 0;
-            vLoteMov.NumeroDocumentoOrigen = valItemNotaES.NumeroDocumento;
-            vLoteMov.StatusDocumentoOrigenAsEnum = eStatusDocOrigenLoteInv.Vigente;
+            //LoteDeInventarioMovimiento vLoteMov = new LoteDeInventarioMovimiento();
+            //vLoteMov.ConsecutivoCompania = valItemRenglonNotaES.ConsecutivoCompania;
+            //vLoteMov.Fecha = valItemNotaES.Fecha;
+            //vLoteMov.ModuloAsEnum = eOrigenLoteInv.NotaEntradaSalida;
+            //vLoteMov.Cantidad = valItemRenglonNotaES.Cantidad;
+            //vLoteMov.ConsecutivoDocumentoOrigen = 0;
+            //vLoteMov.NumeroDocumentoOrigen = valItemNotaES.NumeroDocumento;
+            //vLoteMov.StatusDocumentoOrigenAsEnum = eStatusDocOrigenLoteInv.Vigente;
 
-            LoteDeInventario vLote = new LoteDeInventario();
-            vLote.ConsecutivoCompania = valItemRenglonNotaES.ConsecutivoCompania;
-            vLote.CodigoLote = valItemRenglonNotaES.LoteDeInventario;
-            vLote.CodigoArticulo = valItemRenglonNotaES.CodigoArticulo;
-            vLote.FechaDeElaboracion = valItemRenglonNotaES.FechaDeElaboracion;
-            vLote.FechaDeVencimiento = valItemRenglonNotaES.FechaDeVencimiento;
-            vLote.Existencia = valItemRenglonNotaES.Cantidad;
-            vLote.StatusLoteInvAsEnum = eStatusLoteDeInventario.Vigente;
-            vLote.DetailLoteDeInventarioMovimiento.Add(vLoteMov);
+            //LoteDeInventario vLote = new LoteDeInventario();
+            //vLote.ConsecutivoCompania = valItemRenglonNotaES.ConsecutivoCompania;
+            //vLote.CodigoLote = valItemRenglonNotaES.LoteDeInventario;
+            //vLote.CodigoArticulo = valItemRenglonNotaES.CodigoArticulo;
+            //vLote.FechaDeElaboracion = valItemRenglonNotaES.FechaDeElaboracion;
+            //vLote.FechaDeVencimiento = valItemRenglonNotaES.FechaDeVencimiento;
+            //vLote.Existencia = valItemRenglonNotaES.Cantidad;
+            //vLote.StatusLoteInvAsEnum = eStatusLoteDeInventario.Vigente;
+            //vLote.DetailLoteDeInventarioMovimiento.Add(vLoteMov);
 
-            ILoteDeInventarioPdn vLotePdn = new clsLoteDeInventarioNav();
-            IList<LoteDeInventario> vListLote = new List<LoteDeInventario>();
-            vListLote.Add(vLote);
-            vLotePdn.AgregarLote(vListLote);
+            //ILoteDeInventarioPdn vLotePdn = new clsLoteDeInventarioNav();
+            //IList<LoteDeInventario> vListLote = new List<LoteDeInventario>();
+            //vListLote.Add(vLote);
+            //vLotePdn.AgregarLote(vListLote);
         }
 
         private void ActualizaLoteDeInventarioInsertaMovimientoDeLoteDeInventario(NotaDeEntradaSalida valItemNotaES, RenglonNotaES valItemRenglonNotaES) {
@@ -566,5 +594,4 @@ namespace Galac.Saw.Brl.Inventario {
             throw new NotImplementedException();
         }
     } //End of class clsNotaDeEntradaSalidaNav
-
 } //End of namespace Galac.Saw.Brl.Inventario

@@ -39,12 +39,12 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public string CampoDefinible4 { get; set; }
         [ArtInvCamposDefiniblesGridColumnAttribute("", 5, ColumnOrder = 7)]
         public string CampoDefinible5 { get; set; }
-        [ArtInvCamposLoteFechaDeVencimientoGridColumn("Lote Inv.", "", 11)]
-        public string LoteDeInventario { get; set; }
-        [ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Elab.", "", 12)]
-        public DateTime FechaDeElaboracion { get; set; }
-        [ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Vcto.", "", 13)]
-        public DateTime FechaDeVencimiento { get; set; }
+        //[ArtInvCamposLoteFechaDeVencimientoGridColumn("Lote Inv.", "", 11)]
+        //public string CodigoLote { get; set; }
+        //[ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Elab.", "", 12)]
+        //public DateTime FechaDeElaboracion { get; set; }
+        //[ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Vcto.", "", 13)]
+        //public DateTime FechaDeVencimiento { get; set; }
 
     }
     public class FkListaDeMaterialesViewModel : IFkListaDeMaterialesViewModel {

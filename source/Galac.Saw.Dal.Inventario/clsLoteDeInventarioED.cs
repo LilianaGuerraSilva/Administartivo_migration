@@ -71,9 +71,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("FROM " + DbSchema + ".LoteDeInventario");
             SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumStatusLoteDeInventario");
             SQL.AppendLine("ON " + DbSchema + ".LoteDeInventario.StatusLoteInv COLLATE MODERN_SPANISH_CS_AS");
-            SQL.AppendLine(" = " + DbSchema + ".Gv_EnumStatusLoteDeInventario.DbValue");
-            SQL.AppendLine("INNER JOIN ArticuloInventario ON  " + DbSchema + ".LoteDeInventario.CodigoArticulo = ArticuloInventario.Codigo");
-            SQL.AppendLine("      AND " + DbSchema + ".LoteDeInventario.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania");
+            SQL.AppendLine(" = " + DbSchema + ".Gv_EnumStatusLoteDeInventario.DbValue");            
             return SQL.ToString();
         }
 
@@ -295,8 +293,6 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("         CAST(LoteDeInventario.fldTimeStamp AS bigint) AS fldTimeStampBigint,");
             SQL.AppendLine("         LoteDeInventario.fldTimeStamp");
             SQL.AppendLine("      FROM " + DbSchema + ".LoteDeInventario");
-            SQL.AppendLine("             INNER JOIN ArticuloInventario ON " + DbSchema + ".LoteDeInventario.CodigoArticulo = ArticuloInventario.Codigo ");
-            SQL.AppendLine("             AND " + DbSchema + ".LoteDeInventario.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania ");
             SQL.AppendLine("      WHERE LoteDeInventario.ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("         AND LoteDeInventario.Consecutivo = @Consecutivo");
             SQL.AppendLine("   RETURN @@ROWCOUNT");
@@ -337,8 +333,6 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("      " + DbSchema + ".Gv_LoteDeInventario_B1.Consecutivo,");
             SQL.AppendLine("      " + DbSchema + ".Gv_LoteDeInventario_B1.StatusLoteInv");
             SQL.AppendLine("      FROM " + DbSchema + ".Gv_LoteDeInventario_B1");
-            SQL.AppendLine("      INNER JOIN ArticuloInventario ON  " + DbSchema + ".Gv_LoteDeInventario_B1.CodigoArticulo = ArticuloInventario.Codigo");
-            SQL.AppendLine("      AND " + DbSchema + ".Gv_LoteDeInventario_B1.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania");
             SQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
             SQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE ' + @SQLWhere");
             SQL.AppendLine("   IF (NOT @SQLOrderBy IS NULL) AND (@SQLOrderBy <> '')");

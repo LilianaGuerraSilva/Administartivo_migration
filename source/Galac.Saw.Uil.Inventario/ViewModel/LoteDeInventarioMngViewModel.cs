@@ -31,11 +31,11 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             : base(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             Title = "Buscar " + ModuleName;
             OrderByMember = "ConsecutivoCompania, FechaDeVencimiento, FechaDeElaboracion, Consecutivo";
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-            OrderByDirection = "DESC";
-        */
-        #endregion //Codigo Ejemplo
+            #region Codigo Ejemplo
+            /* Codigo de Ejemplo
+                OrderByDirection = "DESC";
+            */
+            #endregion //Codigo Ejemplo
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -66,21 +66,21 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         protected override void InitializeCommands() {
             base.InitializeCommands();
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-            SUPROCESOPARTICULARCommand = new RelayCommand(ExecuteSUPROCESOPARTICULARCommand, CanExecuteSUPROCESOPARTICULARCommand);
-        */
-        #endregion //Codigo Ejemplo
+            #region Codigo Ejemplo
+            /* Codigo de Ejemplo
+                SUPROCESOPARTICULARCommand = new RelayCommand(ExecuteSUPROCESOPARTICULARCommand, CanExecuteSUPROCESOPARTICULARCommand);
+            */
+            #endregion //Codigo Ejemplo
         }
 
         protected override void InitializeRibbon() {
             base.InitializeRibbon();
             if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-                RibbonData.TabDataCollection[0].AddTabGroupData(CreateSUPROCESOPARTICULARRibbonGroup());
-        */
-        #endregion //Codigo Ejemplo
+                #region Codigo Ejemplo
+                /* Codigo de Ejemplo
+                        RibbonData.TabDataCollection[0].AddTabGroupData(CreateSUPROCESOPARTICULARRibbonGroup());
+                */
+                #endregion //Codigo Ejemplo
             }
         }
         #endregion //Metodos Generados
@@ -152,8 +152,18 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         */
         #endregion //Codigo Ejemplo
 
-
+        internal void ExecuteCreateCommandEspecial(string initCodigoLote, string initCodigoArticulo) {
+            try {
+                LoteDeInventarioViewModel vViewModel = CreateNewElement(default(LoteDeInventario), eAccionSR.Insertar);
+                vViewModel.InitializeViewModel(eAccionSR.Insertar);
+                vViewModel.Consecutivo = (new LibGalac.Aos.Dal.LibDatabase()).NextLngConsecutive("Saw.LoteDeInventario", "Consecutivo", "ConsecutivoCompania = " + Mfc.GetInt("Compania").ToString());
+                vViewModel.CodigoLote = initCodigoLote;
+                vViewModel.CodigoArticulo = initCodigoArticulo;
+                bool vResult = ShowEditor(vViewModel, true);
+            } catch (Exception) {
+                throw;
+            }
+        }
     } //End of class LoteDeInventarioMngViewModel
 
 } //End of namespace Galac.Saw.Uil.Inventario
-

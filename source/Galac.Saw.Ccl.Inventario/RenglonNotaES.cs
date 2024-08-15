@@ -27,7 +27,6 @@ namespace Galac.Saw.Ccl.Inventario {
         private DateTime _FechaDeVencimiento;
         #endregion //Variables
         #region Propiedades
-
         public int ConsecutivoCompania {
             get { return _ConsecutivoCompania; }
             set { _ConsecutivoCompania = value; }
@@ -69,10 +68,7 @@ namespace Galac.Saw.Ccl.Inventario {
 
         public eTipoArticuloInv TipoArticuloInvAsEnum {
             get { return _TipoArticuloInv; }
-            set { 
-                _TipoArticuloInv = value;
-                OnPropertyChanged("TipoArticuloInv");
-            }
+            set { _TipoArticuloInv = value; }
         }
 
         public string TipoArticuloInv {
@@ -89,18 +85,12 @@ namespace Galac.Saw.Ccl.Inventario {
 
         public string Serial {
             get { return _Serial; }
-            set { 
-                _Serial = LibString.Mid(value, 0, 50);
-                OnPropertyChanged("Serial");
-            }
+            set { _Serial = LibString.Mid(value, 0, 50); }
         }
 
         public string Rollo {
             get { return _Rollo; }
-            set { 
-                _Rollo = LibString.Mid(value, 0, 20);
-                OnPropertyChanged("Rollo");
-            }
+            set { _Rollo = LibString.Mid(value, 0, 20); }
         }
 
         public decimal CostoUnitario {
@@ -138,7 +128,6 @@ namespace Galac.Saw.Ccl.Inventario {
         }
         #endregion //Propiedades
         #region Constructores
-
         public RenglonNotaES() {
             Clear();
         }
@@ -162,8 +151,8 @@ namespace Galac.Saw.Ccl.Inventario {
             CostoUnitario = 0;
             CostoUnitarioME = 0;
             LoteDeInventario = string.Empty;
-            FechaDeElaboracion = LibDate.Today();
-            FechaDeVencimiento = LibDate.Today();
+            FechaDeElaboracion = LibDate.MinDateForDB();
+            FechaDeVencimiento = LibDate.MaxDateForDB();
         }
 
         public RenglonNotaES Clone() {
