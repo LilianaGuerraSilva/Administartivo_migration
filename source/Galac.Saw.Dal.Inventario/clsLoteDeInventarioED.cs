@@ -71,9 +71,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("FROM " + DbSchema + ".LoteDeInventario");
             SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumStatusLoteDeInventario");
             SQL.AppendLine("ON " + DbSchema + ".LoteDeInventario.StatusLoteInv COLLATE MODERN_SPANISH_CS_AS");
-            SQL.AppendLine(" = " + DbSchema + ".Gv_EnumStatusLoteDeInventario.DbValue");
-            SQL.AppendLine("INNER JOIN ArticuloInventario ON  " + DbSchema + ".LoteDeInventario.CodigoArticulo = ArticuloInventario.Codigo");
-            SQL.AppendLine("      AND " + DbSchema + ".LoteDeInventario.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania");
+            SQL.AppendLine(" = " + DbSchema + ".Gv_EnumStatusLoteDeInventario.DbValue");            
             return SQL.ToString();
         }
 
