@@ -73,60 +73,8 @@ namespace Galac.Saw.Brl.Inventario {
 
         private void FillWithForeignInfoLoteDeInventario(ref IList<LoteDeInventario> refData) {
             XElement vInfoConexionArticuloInventario = FindInfoArticuloInventario(refData);
-            var vListArticuloInventario = (from vRecord in vInfoConexionArticuloInventario.Descendants("GpResult")
-                                      select new {
-                                          ConsecutivoCompania = LibConvert.ToInt(vRecord.Element("ConsecutivoCompania")),
-                                          Codigo = vRecord.Element("Codigo").Value, 
-                                          Descripcion = vRecord.Element("Descripcion").Value, 
-                                          LineaDeProducto = vRecord.Element("LineaDeProducto").Value, 
-                                          StatusdelArticulo = vRecord.Element("StatusdelArticulo").Value, 
-                                          TipoDeArticulo = vRecord.Element("TipoDeArticulo").Value, 
-                                          AlicuotaIVA = vRecord.Element("AlicuotaIVA").Value, 
-                                          PrecioSinIVA = LibConvert.ToDec(vRecord.Element("PrecioSinIVA")), 
-                                          PrecioConIVA = LibConvert.ToDec(vRecord.Element("PrecioConIVA")), 
-                                          PrecioSinIVA2 = LibConvert.ToDec(vRecord.Element("PrecioSinIVA2")), 
-                                          PrecioConIVA2 = LibConvert.ToDec(vRecord.Element("PrecioConIVA2")), 
-                                          PrecioSinIVA3 = LibConvert.ToDec(vRecord.Element("PrecioSinIVA3")), 
-                                          PrecioConIVA3 = LibConvert.ToDec(vRecord.Element("PrecioConIVA3")), 
-                                          PrecioSinIVA4 = LibConvert.ToDec(vRecord.Element("PrecioSinIVA4")), 
-                                          PrecioConIVA4 = LibConvert.ToDec(vRecord.Element("PrecioConIVA4")), 
-                                          PorcentajeBaseImponible = LibConvert.ToDec(vRecord.Element("PorcentajeBaseImponible")), 
-                                          CostoUnitario = LibConvert.ToDec(vRecord.Element("CostoUnitario")), 
-                                          Existencia = LibConvert.ToDec(vRecord.Element("Existencia")), 
-                                          CantidadMinima = LibConvert.ToDec(vRecord.Element("CantidadMinima")), 
-                                          CantidadMaxima = LibConvert.ToDec(vRecord.Element("CantidadMaxima")), 
-                                          EstadisticasdeProducto = vRecord.Element("EstadisticasdeProducto").Value, 
-                                          Categoria = vRecord.Element("Categoria").Value, 
-                                          TipoDeProducto = vRecord.Element("TipoDeProducto").Value, 
-                                          NombrePrograma = vRecord.Element("NombrePrograma").Value, 
-                                          OtrosDatos = vRecord.Element("OtrosDatos").Value, 
-                                          Marca = vRecord.Element("Marca").Value, 
-                                          FechaDeVencimiento = vRecord.Element("FechaDeVencimiento").Value, 
-                                          UnidadDeVenta = vRecord.Element("UnidadDeVenta").Value, 
-                                          CampoDefinible1 = vRecord.Element("CampoDefinible1").Value, 
-                                          CampoDefinible2 = vRecord.Element("CampoDefinible2").Value, 
-                                          CampoDefinible3 = vRecord.Element("CampoDefinible3").Value, 
-                                          CampoDefinible4 = vRecord.Element("CampoDefinible4").Value, 
-                                          CampoDefinible5 = vRecord.Element("CampoDefinible5").Value, 
-                                          MeCostoUnitario = LibConvert.ToDec(vRecord.Element("MeCostoUnitario")), 
-                                          UnidadDeVentaSecundaria = LibConvert.ToDec(vRecord.Element("UnidadDeVentaSecundaria")), 
-                                          CodigoLote = vRecord.Element("CodigoLote").Value, 
-                                          PorcentajeComision = LibConvert.ToDec(vRecord.Element("PorcentajeComision")), 
-                                          ExcluirDeComision = vRecord.Element("ExcluirDeComision").Value, 
-                                          CantArtReservado = LibConvert.ToDec(vRecord.Element("CantArtReservado")), 
-                                          CodigoGrupo = vRecord.Element("CodigoGrupo").Value, 
-                                          RetornaAAlmacen = vRecord.Element("RetornaAAlmacen").Value, 
-                                          PedirDimension = vRecord.Element("PedirDimension").Value, 
-                                          MargenGanancia = LibConvert.ToDec(vRecord.Element("MargenGanancia")), 
-                                          MargenGanancia2 = LibConvert.ToDec(vRecord.Element("MargenGanancia2")), 
-                                          MargenGanancia3 = LibConvert.ToDec(vRecord.Element("MargenGanancia3")), 
-                                          MargenGanancia4 = LibConvert.ToDec(vRecord.Element("MargenGanancia4")), 
-                                          TipoArticuloInv = vRecord.Element("TipoArticuloInv").Value, 
-                                          ComisionaPorcentaje = vRecord.Element("ComisionaPorcentaje").Value, 
-                                          UsaBalanza = vRecord.Element("UsaBalanza").Value
-                                      }).Distinct();
-
             foreach (LoteDeInventario vItem in refData) {
+                vItem.CodigoArticulo = LibXml.GetPropertyString(vInfoConexionArticuloInventario, "Codigo");
             }
         }
 
@@ -136,14 +84,14 @@ namespace Galac.Saw.Brl.Inventario {
                 vXElement.Add(FilterLoteDeInventarioByDistinctArticuloInventario(vItem).Descendants("GpResult"));
             }
             ILibPdn insArticuloInventario = new Galac.Saw.Brl.Inventario.clsArticuloInventarioNav();
-            XElement vXElementResult = insArticuloInventario.GetFk("LoteDeInventario", ParametersGetFKArticuloInventarioForXmlSubSet(valData[0].ConsecutivoCompania, vXElement));
+            XElement vXElementResult = insArticuloInventario.GetFk("Lote De Inventario", ParametersGetFKArticuloInventarioForXmlSubSet(valData[0].ConsecutivoCompania, vXElement));
             return vXElementResult;
         }
 
         private XElement FilterLoteDeInventarioByDistinctArticuloInventario(LoteDeInventario valMaster) {
             XElement vXElement = new XElement("GpData",
                 new XElement("GpResult",
-                    new XElement("CodigoArticulo", valMaster.CodigoArticulo)));
+                    new XElement("Codigo", valMaster.CodigoArticulo)));
             return vXElement;
         }
 

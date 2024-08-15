@@ -67,6 +67,7 @@ namespace Galac.Saw.Brl.Inventario {
                 case "OrdenDeCompra":
                 case "Lista de Materiales":
                 case "Orden de Producción":
+                case "Lote De Inventario":
                     return instanciaDal.QueryInfo(eProcessMessageType.SpName, "dbo.Gp_ArticuloInventarioCompraGetFk", valParameters);
                 case "Punto de Venta Ubicación":
                     return instanciaDal.QueryInfo(eProcessMessageType.SpName, "dbo.Gp_ArticuloInventarioUbicacionGetFk", valParameters);
