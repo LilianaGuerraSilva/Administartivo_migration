@@ -458,12 +458,12 @@ namespace Galac.Saw.Dal.Inventario {
             StringBuilder vSbErrorInfo = new StringBuilder();
             int vNumeroDeLinea = 1;
             outErrorMessage = string.Empty;
-            foreach (LoteDeInventarioMovimiento vDetail in valRecord.DetailLoteDeInventarioMovimiento) {
-                bool vLineHasError = true;
-                //agregar validaciones
-                vResult = vResult && (!vLineHasError);
-                vNumeroDeLinea++;
-            }
+            //foreach (LoteDeInventarioMovimiento vDetail in valRecord.DetailLoteDeInventarioMovimiento) {
+            //    bool vLineHasError = true;
+            //    //agregar validaciones
+            //    vResult = vResult && (!vLineHasError);
+            //    vNumeroDeLinea++;
+            //}
             if (!vResult) {
                 outErrorMessage = "Lote De Inventario Movimiento"  + Environment.NewLine + vSbErrorInfo.ToString();
             }

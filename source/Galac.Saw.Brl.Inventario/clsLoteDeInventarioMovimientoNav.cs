@@ -10,6 +10,7 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Brl;
 using LibGalac.Aos.Base.Dal;
 using Galac.Saw.Ccl.Inventario;
+using LibGalac.Aos.Dal;
 
 namespace Galac.Saw.Brl.Inventario {
     public partial class clsLoteDeInventarioMovimientoNav: LibBaseNavDetail<IList<LoteDeInventarioMovimiento>, IList<LoteDeInventarioMovimiento>> {
@@ -92,6 +93,13 @@ namespace Galac.Saw.Brl.Inventario {
         }
         */
         #endregion //Codigo Ejemplo
+        internal int ProximoConsecutivo(int valConsecutivoCompania, int valConsecutivoLote) {
+            LibGpParams vParam = new LibGpParams();
+            vParam.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            vParam.AddInInteger("ConsecutivoLote", valConsecutivoLote);
+            int vResult = new LibDatabase().NextLngConsecutive("Saw.LoteDeInventarioMovimiento", "Consecutivo", vParam.Get());
+            return vResult;
+        }
 
 
     } //End of class clsLoteDeInventarioMovimientoNav

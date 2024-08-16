@@ -152,13 +152,14 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         */
         #endregion //Codigo Ejemplo
 
-        internal void ExecuteCreateCommandEspecial(string initCodigoLote, string initCodigoArticulo) {
+        internal void ExecuteCreateCommandEspecial(string initCodigoLote, string initCodigoArticulo, eTipoArticuloInv initTipoArticuloInv) {
             try {
                 LoteDeInventarioViewModel vViewModel = CreateNewElement(default(LoteDeInventario), eAccionSR.Insertar);
                 vViewModel.InitializeViewModel(eAccionSR.Insertar);
                 vViewModel.Consecutivo = (new LibGalac.Aos.Dal.LibDatabase()).NextLngConsecutive("Saw.LoteDeInventario", "Consecutivo", "ConsecutivoCompania = " + Mfc.GetInt("Compania").ToString());
                 vViewModel.CodigoLote = initCodigoLote;
                 vViewModel.CodigoArticulo = initCodigoArticulo;
+                vViewModel.TipoArticuloInv = initTipoArticuloInv;
                 bool vResult = ShowEditor(vViewModel, true);
             } catch (Exception) {
                 throw;

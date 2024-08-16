@@ -35,9 +35,7 @@ namespace Galac.Saw.Wrp.Inventario {
         void IWrpMfVb.Execute(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
             try {
                 CreateGlobalValues(vfwCurrentParameters);
-                int vConsecitivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
-                string vCodigoArticulo = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "CodigoArticulo");
-                ILibMenu insMenu = new Galac.Saw.Uil.Inventario.clsLoteDeInventarioMenu(vConsecitivoCompania, vCodigoArticulo);
+                ILibMenu insMenu = new Galac.Saw.Uil.Inventario.clsLoteDeInventarioMenu();
                 insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1);
             } catch (GalacException gEx) {
                 LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);

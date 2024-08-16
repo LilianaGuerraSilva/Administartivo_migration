@@ -180,7 +180,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        //[LibDetailRequired(ErrorMessage = "Lote de Inventario Movimiento es requerido.")]
         public LoteDeInventarioMovimientoMngViewModel DetailLoteDeInventarioMovimiento {
             get;
             set;
@@ -224,6 +223,23 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         public bool IsVisibleExistencia {
             get { return Action != eAccionSR.Insertar; }
+        }
+
+        eTipoArticuloInv _TipoArticuloInv;
+        public eTipoArticuloInv TipoArticuloInv {
+            get {
+                return _TipoArticuloInv;
+            }
+            set {
+                if (_TipoArticuloInv != value) {
+                    _TipoArticuloInv = value;
+                    RaisePropertyChanged(() => IsVisibleFechaLoteDeInventario);
+                }
+            }
+        }
+
+        public bool IsVisibleFechaLoteDeInventario {
+            get { return TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento; }
         }
         #endregion //Propiedades
         #region Constructores
@@ -326,7 +342,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
-            ConexionCodigoArticulo = FirstConnectionRecordOrDefault<FkArticuloInventarioViewModel>("Artículo Inventario", LibSearchCriteria.CreateCriteria("Codigo", CodigoArticulo));
+            ConexionCodigoArticulo = FirstConnectionRecordOrDefault<FkArticuloInventarioViewModel>("Artículo Inventario", LibSearchCriteria.CreateCriteria("Gv_ArticuloInventario_B1.Codigo", CodigoArticulo));
         }
 
         private void ExecuteChooseCodigoArticuloCommand(string valCodigo) {
@@ -334,7 +350,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 if (valCodigo == null) {
                     valCodigo = string.Empty;
                 }
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_ArticuloInventario_B1.Codigo", valCodigo);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
                 ConexionCodigoArticulo = ChooseRecord<FkArticuloInventarioViewModel>("Artículo Inventario", vDefaultCriteria, vFixedCriteria, string.Empty);
                 if (ConexionCodigoArticulo != null) {
@@ -356,6 +372,12 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             } else {
                 if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaDeElaboracion, false, Action)) {
                     vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha de Elaboración"));
+                } else if (LibDate.F1IsGreaterThanF2(FechaDeElaboracion, FechaDeVencimiento)) {
+                    vResult = new ValidationResult("La Fecha de Elaboración debe ser menor o igual a la Fecha de Vencimiento.");
+                } else if (LibDate.F1IsLessThanF2(FechaDeElaboracion, LibDate.MinDateForDB())) {
+                    vResult = new ValidationResult("La Fecha de Elaboración debe ser mayor o igual a: " + LibConvert.ToStr(LibDate.MinDateForDB()));
+                } else if (LibDate.F1IsGreaterThanF2(FechaDeElaboracion, LibDate.MaxDateForDB())) {
+                    vResult = new ValidationResult("La Fecha de Elaboración debe ser menor o igual a: " + LibConvert.ToStr(LibDate.MaxDateForDB()));
                 }
             }
             return vResult;
@@ -368,6 +390,12 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             } else {
                 if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaDeVencimiento, false, Action)) {
                     vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha de Vencimiento"));
+                } else if (LibDate.F1IsGreaterThanF2(FechaDeElaboracion, FechaDeVencimiento)) {
+                    vResult = new ValidationResult("La Fecha de Vencimiento debe ser mayor o igual a la Fecha de Elaboración.");
+                } else if (LibDate.F1IsLessThanF2(FechaDeVencimiento, LibDate.MinDateForDB())) {
+                    vResult = new ValidationResult("La Fecha de Vencimiento debe ser mayor o igual a: " + LibConvert.ToStr(LibDate.MinDateForDB()));
+                } else if (LibDate.F1IsGreaterThanF2(FechaDeVencimiento, LibDate.MaxDateForDB())) {
+                    vResult = new ValidationResult("La Fecha de Vencimiento debe ser menor o igual a: " + LibConvert.ToStr(LibDate.MaxDateForDB()));
                 }
             }
             return vResult;
