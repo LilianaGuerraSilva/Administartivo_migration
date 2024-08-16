@@ -32,7 +32,6 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <!--<RowDefinition Height="Auto" />-->
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Name="lblCodigoArticulo" Content="Artículo" Style="{StaticResource LabelPrompt}" />
@@ -80,7 +79,6 @@
             Name="lblLoteDeInventario" 
             Content="Lote de Inventario" 
             Style="{StaticResource LabelPrompt}" />
-            <!--<nsWpfControls:GSTextBoxWpf Visibility="{Binding Path=IsVisbleLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" IsEnabled="{Binding Path=IsEnabledLoteDeInventario}" Grid.Row="3" Grid.Column="1" Name="txtLoteDeInventario" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="30" Width="120" Text="{Binding Path=LoteDeInventario, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>-->
             <nsWpfControls:GSSeekConnection 
             Visibility="{Binding Path=IsVisbleLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" 
             IsEnabled="{Binding Path=IsEnabledLoteDeInventario}"
@@ -102,7 +100,6 @@
             Name="lblFechaDeElaboracion" 
             Content="Fecha Elab." 
             Style="{StaticResource LabelPrompt}" />
-            <!--<nsWpfControls:GSDatePickerWpf Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" IsEnabled="{Binding Path=IsEnabledFechaLoteDeInventario}" Grid.Row="3" Grid.Column="3" Width="90" Style="{StaticResource DatePickerStyle}" Name="dtpFechaDeElaboracion" SelectedDate="{Binding Path=FechaDeElaboracion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />-->
             <Label
             x:Name="lneFechaDeElaboracion"
             Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" 
@@ -121,7 +118,6 @@
             Name="lblFechaDeVencimiento" 
             Content="Fecha Vcto." 
             Style="{StaticResource LabelPrompt}" />
-            <!--<nsWpfControls:GSDatePickerWpf Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" IsEnabled="{Binding Path=IsEnabledFechaLoteDeInventario}" Grid.Row="3" Grid.Column="5" Width="90" Style="{StaticResource DatePickerStyle}" Name="dtpFechaDeVencimiento"SelectedDate="{Binding Path=FechaDeVencimiento, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />-->
             <Label
             x:Name="lneFechaDeVencimiento"
             Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" 

@@ -443,32 +443,6 @@ namespace Galac.Saw.Brl.Inventario {
             }
         }
 
-        //private void InsertaLoteDeInventario(NotaDeEntradaSalida valItemNotaES, RenglonNotaES valItemRenglonNotaES) {
-            //LoteDeInventarioMovimiento vLoteMov = new LoteDeInventarioMovimiento();
-            //vLoteMov.ConsecutivoCompania = valItemRenglonNotaES.ConsecutivoCompania;
-            //vLoteMov.Fecha = valItemNotaES.Fecha;
-            //vLoteMov.ModuloAsEnum = eOrigenLoteInv.NotaEntradaSalida;
-            //vLoteMov.Cantidad = valItemRenglonNotaES.Cantidad;
-            //vLoteMov.ConsecutivoDocumentoOrigen = 0;
-            //vLoteMov.NumeroDocumentoOrigen = valItemNotaES.NumeroDocumento;
-            //vLoteMov.StatusDocumentoOrigenAsEnum = eStatusDocOrigenLoteInv.Vigente;
-
-            //LoteDeInventario vLote = new LoteDeInventario();
-            //vLote.ConsecutivoCompania = valItemRenglonNotaES.ConsecutivoCompania;
-            //vLote.CodigoLote = valItemRenglonNotaES.LoteDeInventario;
-            //vLote.CodigoArticulo = valItemRenglonNotaES.CodigoArticulo;
-            //vLote.FechaDeElaboracion = valItemRenglonNotaES.FechaDeElaboracion;
-            //vLote.FechaDeVencimiento = valItemRenglonNotaES.FechaDeVencimiento;
-            //vLote.Existencia = valItemRenglonNotaES.Cantidad;
-            //vLote.StatusLoteInvAsEnum = eStatusLoteDeInventario.Vigente;
-            //vLote.DetailLoteDeInventarioMovimiento.Add(vLoteMov);
-
-            //ILoteDeInventarioPdn vLotePdn = new clsLoteDeInventarioNav();
-            //IList<LoteDeInventario> vListLote = new List<LoteDeInventario>();
-            //vListLote.Add(vLote);
-            //vLotePdn.AgregarLote(vListLote);
-        //}
-
         private void ActualizaLoteDeInventarioInsertaMovimientoDeLoteDeInventario(NotaDeEntradaSalida valItemNotaES, RenglonNotaES valItemRenglonNotaES) {
             XElement vLoteXElement = ((ILoteDeInventarioPdn)new clsLoteDeInventarioNav()).FindByConsecutivoCompaniaCodigoLoteCodigoArticulo(valItemRenglonNotaES.ConsecutivoCompania, valItemRenglonNotaES.LoteDeInventario, valItemRenglonNotaES.CodigoArticulo);
             if (vLoteXElement != null && vLoteXElement.HasElements) {
