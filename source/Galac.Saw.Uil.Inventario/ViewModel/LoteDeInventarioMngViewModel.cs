@@ -75,14 +75,11 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         protected override void InitializeRibbon() {
             base.InitializeRibbon();
-            if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
-                #region Codigo Ejemplo
-                /* Codigo de Ejemplo
-                        RibbonData.TabDataCollection[0].AddTabGroupData(CreateSUPROCESOPARTICULARRibbonGroup());
-                */
-                #endregion //Codigo Ejemplo
+            if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {                
+                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0].IsVisible = false; // Botón Insertar Oculto
             }
         }
+    
         #endregion //Metodos Generados
         #region Codigo Ejemplo
         /* Codigo de Ejemplo

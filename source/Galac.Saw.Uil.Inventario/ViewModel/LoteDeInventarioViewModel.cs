@@ -241,6 +241,10 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public bool IsVisibleFechaLoteDeInventario {
             get { return TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento; }
         }
+
+        public bool IsVisibleDetaillLoteDeInventario {
+            get { return  Action != eAccionSR.Consultar; }
+        }
         #endregion //Propiedades
         #region Constructores
         public LoteDeInventarioViewModel()
