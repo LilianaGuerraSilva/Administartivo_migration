@@ -473,6 +473,8 @@ namespace Galac.Saw.Brl.Inventario {
         private bool HayExistenciaParaNotaDeSalidaDeInventario(NotaDeEntradaSalida valItemNotaES, out string outCodigos) {
             outCodigos = string.Empty;
             if (PermitirSobregiro()) {
+                return true;
+            } else {
                 IArticuloInventarioPdn insArticuloInventarioNav = new clsArticuloInventarioNav();
                 string vCodigos = string.Empty;
                 foreach (RenglonNotaES vItemRenglon in valItemNotaES.DetailRenglonNotaES) {
@@ -485,14 +487,12 @@ namespace Galac.Saw.Brl.Inventario {
                 }
                 outCodigos = vCodigos;
                 return (LibString.Len(vCodigos) <= 0);
-            } else {
-                return true;
             }
-            throw new NotImplementedException();
         }
 
         bool PermitirSobregiro() {
-            return (int)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetEnum("FacturaRapida", "PermitirSobregiro") == (int)Galac.Saw.Ccl.SttDef.ePermitirSobregiro.NoPermitirSobregiro;
+            Ccl.SttDef.ePermitirSobregiro vParametroPermitirSobregiro = (Ccl.SttDef.ePermitirSobregiro)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetEnum("FacturaRapida", "PermitirSobregiro");
+            return vParametroPermitirSobregiro == Ccl.SttDef.ePermitirSobregiro.PermitirSobregiro || vParametroPermitirSobregiro == Ccl.SttDef.ePermitirSobregiro.NoChequearExistencia;
         }
     } //End of class clsNotaDeEntradaSalidaNav
 } //End of namespace Galac.Saw.Brl.Inventario
