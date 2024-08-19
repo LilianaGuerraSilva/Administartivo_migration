@@ -175,14 +175,10 @@ namespace Galac.Saw.Ccl.Inventario {
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eTipodeOperacion {
-        [LibEnumDescription("Entrada de  Inventario")]
-        EntradadeInventario = 0,
-        [LibEnumDescription("Salida de  Inventario")]
-        SalidadeInventario,
-        [LibEnumDescription("Autoconsumo")]
-        Autoconsumo,
-        [LibEnumDescription("Retiro")]
-        Retiro,
+        [LibEnumDescription("Entrada de Inventario")] EntradadeInventario = 0,
+        [LibEnumDescription("Salida de Inventario")] SalidadeInventario,
+        [LibEnumDescription("Autoconsumo")] Autoconsumo,
+        [LibEnumDescription("Retiro")] Retiro
     }
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
