@@ -52,6 +52,7 @@ namespace Galac.Saw.Brl.Inventario {
                 case "Lista de Materiales":
                 case "Orden de Producción":
                 case "Nota de Entrada/Salida":
+                case "Lote de Inventario":
                     return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "dbo.Gp_ArticuloInventarioCompraSCH", valXmlParamsExpression);
                 case "Punto de Venta Ubicación":
                     return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "dbo.Gp_ArticuloInventarioUbicacionSCH", valXmlParamsExpression);

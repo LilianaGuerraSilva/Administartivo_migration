@@ -78,7 +78,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Módulo", eGridColumType.Enum, PrintingMemberPath = "ModuloStr", ColumnOrder = 2)]
+        [LibGridColum("Módulo", eGridColumType.Enum, PrintingMemberPath = "ModuloStr", ColumnOrder = 3)]
         public eOrigenLoteInv Modulo {
             get {
                 return Model.ModuloAsEnum;
@@ -131,7 +131,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Status", eGridColumType.Enum, PrintingMemberPath = "StatusDocumentoOrigenStr", ColumnOrder = 3)]
+        [LibGridColum("Status", eGridColumType.Enum, PrintingMemberPath = "StatusDocumentoOrigenStr", ColumnOrder = 2)]
         public eStatusDocOrigenLoteInv StatusDocumentoOrigen {
             get {
                 return Model.StatusDocumentoOrigenAsEnum;
