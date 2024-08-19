@@ -319,7 +319,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                     CodigoArticulo = string.Empty;
                     DescripcionArticulo = string.Empty;
                 } else {
-                    CodigoArticulo = ConexionCodigoArticulo.Descripcion;
+                    CodigoArticulo = ConexionCodigoArticulo.Codigo;
                     DescripcionArticulo = ConexionCodigoArticulo.Descripcion;
                     TipoArticuloInv = ConexionCodigoArticulo.TipoArticuloInv;
                 }
