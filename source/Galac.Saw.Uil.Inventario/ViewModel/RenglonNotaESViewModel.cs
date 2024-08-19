@@ -338,7 +338,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 if (valCodigoLote == null) {
                     valCodigoLote = string.Empty;
                 }
-                bool vInvocarCrear = !LibString.IsNullOrEmpty(valCodigoLote, true);
+                bool vInvocarCrear = Master.TipodeOperacion == eTipodeOperacion.EntradadeInventario;
+                vInvocarCrear = vInvocarCrear && !LibString.IsNullOrEmpty(valCodigoLote, true);
                 vInvocarCrear = vInvocarCrear && !LibString.S1IsInS2("*", valCodigoLote);
                 vInvocarCrear = vInvocarCrear && !((ILoteDeInventarioPdn)new clsLoteDeInventarioNav()).ExisteLoteDeInventario(Mfc.GetInt("Compania"), CodigoArticulo, valCodigoLote);
                 if (vInvocarCrear) {
@@ -402,7 +403,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         private bool SePuedeEditarLote() {
             if ((Action == eAccionSR.Insertar)
-                && (Master.TipodeOperacion == eTipodeOperacion.EntradadeInventario)
                 && (ConexionCodigoArticulo != null)
                 && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia)
                 && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.Lote)) {
