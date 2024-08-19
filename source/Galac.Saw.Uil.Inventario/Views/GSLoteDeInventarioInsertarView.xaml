@@ -39,7 +39,8 @@
             Name="txtCodigoLote"
             Grid.Row="0"
             Grid.Column="1"
-            Width="120"
+            Width="250"
+            Height="30"
             nsWpf:LibFocusManager.FocusedPropertyName="CodigoLote"
             nsWpf:LibFocusManager.IsFocused="True"
             BorderThickness="1"
@@ -54,7 +55,7 @@
             Grid.Column="0"
             Content="Código de Artículo"
             Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSSeekConnection
+        <!--<nsWpfControls:GSSeekConnection
             Name="txtCodigoArticulo"
             Grid.Row="1"
             Grid.Column="1"
@@ -66,7 +67,16 @@
             DisplayMemberPath="Codigo"
             IsEnabled="False"
             Model="{Binding Path=ConexionCodigoArticulo, Mode=TwoWay}"
-            SearchCommand="{Binding Path=ChooseCodigoArticuloCommand}" />
+            SearchCommand="{Binding Path=ChooseCodigoArticuloCommand}" />-->
+        <Label
+            Name="lneCodigoArticulo"
+            Grid.Row="1"
+            Grid.Column="1"
+            Width="250"
+            Height="35"
+            Style="{StaticResource LabelCalculatedField}"
+            Content="{Binding Path=CodigoArticulo, UpdateSourceTrigger=PropertyChanged}"
+            />
         <Label
             Name="lblFechaDeElaboracion"
             Grid.Row="2"
