@@ -92,16 +92,11 @@ namespace Galac.Saw.Dal.Inventario {
             StringBuilder vSbInfo = new StringBuilder();
             string vErrMsg = "";
             LibDatabase insDB = new LibDatabase();
-            if (valAction == eAccionSR.Eliminar) {
-                if (!PuedeSerEliminadaOAnuladaNotaDeESPorLoteFdV(refRecord)) {
-                    vErrMsg = "Esta Nota de Entrada/Salida contiene Artículos de Inventario de tipo Lote o Lote/Fecha de Vencimiento. No se puede Eliminar. Debe ingresar un reverso de la misma.";
+            if (valAction == eAccionSR.Eliminar || valAction == eAccionSR.Anular) {                
+                if (!PuedeSerEliminadaOAnuladaNotaDeESPorLoteFdV(refRecord, valAction, out vErrMsg)) {
                     throw new GalacAlertException(vErrMsg);
                 }
-            } else if (valAction == eAccionSR.Anular) {
-                if (!PuedeSerEliminadaOAnuladaNotaDeESPorLoteFdV(refRecord)) {
-                    vErrMsg = "Esta Nota de Entrada/Salida contiene Artículos de Inventario de tipo Lote o Lote/Fecha de Vencimiento. No se puede Anular. Debe ingresar un reverso de la misma.";
-                    throw new GalacAlertException(vErrMsg);
-                }
+                vResult.Success = true;
             } else {
                 vResult.Success = true;
             }
@@ -533,19 +528,18 @@ namespace Galac.Saw.Dal.Inventario {
         #endregion ////Miembros de ILibDataRpt
         #endregion //Metodos Generados
 
-        private bool PuedeSerEliminadaOAnuladaNotaDeESPorLoteFdV(IList<NotaDeEntradaSalida> refRecord) {
+        private bool PuedeSerEliminadaOAnuladaNotaDeESPorLoteFdV(IList<NotaDeEntradaSalida> refRecord, eAccionSR valAccion, out string outMensaje) {
             bool vResult = true;
-            if (ExisteAlMenosUnArticuloDeLoteFdV(refRecord)) {
-                return false;
-            }
-            return vResult;
-        }
-
-        private bool ExisteAlMenosUnArticuloDeLoteFdV(IList<NotaDeEntradaSalida> refRecord) {
-            bool vResult = false;
+            outMensaje = string.Empty;
             foreach (NotaDeEntradaSalida vItemNotaES in refRecord) {
                 if (HayAlMenosUnArtLoteFdV(vItemNotaES)) {
-                    return true;
+                    StringBuilder vMsg = new StringBuilder();
+                    string vNotaReverso = (vItemNotaES.TipodeOperacionAsEnum == eTipodeOperacion.EntradadeInventario) ? LibEnumHelper.GetDescription(eTipodeOperacion.SalidadeInventario) : LibEnumHelper.GetDescription(eTipodeOperacion.EntradadeInventario);
+                    vMsg.AppendLine("Esta Nota de " + vItemNotaES.TipodeOperacionAsString + " contiene Artículos Lote o Lote/Fecha de Vencimiento.");
+                    vMsg.AppendLine("");
+                    vMsg.AppendLine("No se puede " + LibEAccionSR.ToString(valAccion) + ". Debe ingresar una Nota de " + vNotaReverso + " para hacer el ajuste.");
+                    outMensaje = vMsg.ToString();
+                    return false;
                 }
             }
             return vResult;
