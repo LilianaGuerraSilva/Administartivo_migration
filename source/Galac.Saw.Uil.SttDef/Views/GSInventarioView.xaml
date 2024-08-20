@@ -37,10 +37,10 @@
             Style="{StaticResource GroupBoxStyle}">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" MinWidth="142" />
-                    <ColumnDefinition Width="Auto" MinWidth="203" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" MinWidth="218" />
+                    <ColumnDefinition Width="Auto" MinWidth="106" />
+                    <ColumnDefinition Width="Auto" MinWidth="171" />
+                    <ColumnDefinition Width="Auto" MinWidth="246" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -60,12 +60,20 @@
                     IsChecked="{Binding Path=UsaLoteFechaDeVencimiento}"
                     IsEnabled="{Binding Path=IsEnabledUsaLoteFechaDeVencimiento}"
                     Style="{StaticResource CheckBoxStyle}" Height="14" Margin="15,8,0,8" Width="16" />
+                <TextBlock
+                    Name="lblNotaLoteFechaVcto"
+                    Text="Nota: Al activar Lote/Fecha de Vencimiento, no se podrán usar los Artículos Tipo de Mercancía: Serial, Rollo, Talla/Color. Tampoco se podrá hacer uso de Almacén."
+                    Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    Grid.Column="0" Foreground="#FFC00000"
+                    Width="315" TextWrapping="WrapWithOverflow" HorizontalAlignment="Left" Margin="10,0,0,0"
+                    />
                 <Label
                     Name="lblCantidadDeDecimales"
                     Grid.Row="0"
                     Grid.Column="2"
                     Content="Cantidad de Decimales"
-                    Style="{StaticResource LabelPrompt}" Height="24" Margin="3,3,0,0" Width="134" />
+                    Style="{StaticResource LabelPrompt}" Height="24" Margin="3,3,0,0" Width="166" />
                 <nsWpfControls:GSComboBoxWpf
                     Name="cmbCantidadDeDecimales"
                     Grid.Row="0"

@@ -30,7 +30,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             get { return "Lote De Inventario Movimiento"; }
         }
 
-        public int  ConsecutivoCompania {
+        public int ConsecutivoCompania {
             get {
                 return Model.ConsecutivoCompania;
             }
@@ -41,7 +41,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        public int  ConsecutivoLote {
+        public int ConsecutivoLote {
             get {
                 return Model.ConsecutivoLote;
             }
@@ -52,7 +52,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        public int  Consecutivo {
+        public int Consecutivo {
             get {
                 return Model.Consecutivo;
             }
@@ -64,8 +64,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibCustomValidation("FechaValidating")]
-        [LibGridColum("Fecha", eGridColumType.DatePicker)]
-        public DateTime  Fecha {
+        [LibGridColum("Fecha", eGridColumType.DatePicker, ColumnOrder = 4)]
+        public DateTime Fecha {
             get {
                 return Model.Fecha;
             }
@@ -78,8 +78,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Módulo", eGridColumType.Enum, PrintingMemberPath = "ModuloStr")]
-        public eOrigenLoteInv  Modulo {
+        [LibGridColum("Módulo", eGridColumType.Enum, PrintingMemberPath = "ModuloStr", ColumnOrder = 3)]
+        public eOrigenLoteInv Modulo {
             get {
                 return Model.ModuloAsEnum;
             }
@@ -92,8 +92,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Cantidad", eGridColumType.Numeric, Alignment = eTextAlignment.Right)]
-        public decimal  Cantidad {
+        [LibGridColum("Cantidad", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 1)]
+        public decimal Cantidad {
             get {
                 return Model.Cantidad;
             }
@@ -106,7 +106,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        public int  ConsecutivoDocumentoOrigen {
+        public int ConsecutivoDocumentoOrigen {
             get {
                 return Model.ConsecutivoDocumentoOrigen;
             }
@@ -117,8 +117,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Número Doc. Origen", MaxLength=30)]
-        public string  NumeroDocumentoOrigen {
+        [LibGridColum("Número Doc.", MaxLength = 30, ColumnOrder = 0)]
+        public string NumeroDocumentoOrigen {
             get {
                 return Model.NumeroDocumentoOrigen;
             }
@@ -131,8 +131,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Status del Origen", eGridColumType.Enum, PrintingMemberPath = "StatusDocumentoOrigenStr")]
-        public eStatusDocOrigenLoteInv  StatusDocumentoOrigen {
+        [LibGridColum("Status", eGridColumType.Enum, PrintingMemberPath = "StatusDocumentoOrigenStr", ColumnOrder = 2)]
+        public eStatusDocOrigenLoteInv StatusDocumentoOrigen {
             get {
                 return Model.StatusDocumentoOrigenAsEnum;
             }

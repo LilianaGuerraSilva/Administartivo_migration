@@ -16,7 +16,7 @@ using Galac.Saw.Brl.Inventario;
 using Galac.Saw.Ccl.Inventario;
 
 namespace Galac.Saw.Uil.Inventario.ViewModel {
-    public class LoteDeInventarioViewModel : LibInputMasterViewModelMfc<LoteDeInventario> {
+    public class LoteDeInventarioInsertarViewModel : LibInputMasterViewModelMfc<LoteDeInventario> {
         #region Constantes
         public const string CodigoLotePropertyName = "CodigoLote";
         public const string CodigoArticuloPropertyName = "CodigoArticulo";
@@ -247,10 +247,10 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
         #endregion //Propiedades
         #region Constructores
-        public LoteDeInventarioViewModel()
+        public LoteDeInventarioInsertarViewModel()
             : this(new LoteDeInventario(), eAccionSR.Insertar) {
         }
-        public LoteDeInventarioViewModel(LoteDeInventario initModel, eAccionSR initAction)
+        public LoteDeInventarioInsertarViewModel(LoteDeInventario initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = CodigoLotePropertyName;
             Model.ConsecutivoCompania = Mfc.GetInt("Compania");
@@ -288,11 +288,11 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         //}
 
         protected override void InitializeDetails() {
-            DetailLoteDeInventarioMovimiento = new LoteDeInventarioMovimientoMngViewModel(this, Model.DetailLoteDeInventarioMovimiento, Action);
+            //DetailLoteDeInventarioMovimiento = new LoteDeInventarioMovimientoMngViewModel(this, Model.DetailLoteDeInventarioMovimiento, Action);
             //DetailLoteDeInventarioMovimiento.OnCreated += new EventHandler<SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel>>(DetailLoteDeInventarioMovimiento_OnCreated);
             //DetailLoteDeInventarioMovimiento.OnUpdated += new EventHandler<SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel>>(DetailLoteDeInventarioMovimiento_OnUpdated);
             //DetailLoteDeInventarioMovimiento.OnDeleted += new EventHandler<SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel>>(DetailLoteDeInventarioMovimiento_OnDeleted);
-            DetailLoteDeInventarioMovimiento.OnSelectedItemChanged += new EventHandler<SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel>>(DetailLoteDeInventarioMovimiento_OnSelectedItemChanged);
+            //DetailLoteDeInventarioMovimiento.OnSelectedItemChanged += new EventHandler<SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel>>(DetailLoteDeInventarioMovimiento_OnSelectedItemChanged);
         }
         #region LoteDeInventarioMovimiento
 
@@ -423,6 +423,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             return false;
         }
 
-    } //End of class LoteDeInventarioViewModel
+    } //End of class LoteDeInventarioViewModelInsertar
 
 } //End of namespace Galac.Saw.Uil.Inventario

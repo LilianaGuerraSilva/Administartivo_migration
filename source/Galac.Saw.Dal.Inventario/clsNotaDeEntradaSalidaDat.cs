@@ -92,10 +92,11 @@ namespace Galac.Saw.Dal.Inventario {
             StringBuilder vSbInfo = new StringBuilder();
             string vErrMsg = "";
             LibDatabase insDB = new LibDatabase();
-            if (valAction == eAccionSR.Eliminar) {
-                if (vSbInfo.Length == 0) {
-                    vResult.Success = true;
+            if (valAction == eAccionSR.Eliminar || valAction == eAccionSR.Anular) {                
+                if (!PuedeSerEliminadaOAnuladaNotaDeESPorLoteFdV(refRecord, valAction, out vErrMsg)) {
+                    throw new GalacAlertException(vErrMsg);
                 }
+                vResult.Success = true;
             } else {
                 vResult.Success = true;
             }
@@ -527,8 +528,40 @@ namespace Galac.Saw.Dal.Inventario {
         #endregion ////Miembros de ILibDataRpt
         #endregion //Metodos Generados
 
+        private bool PuedeSerEliminadaOAnuladaNotaDeESPorLoteFdV(IList<NotaDeEntradaSalida> refRecord, eAccionSR valAccion, out string outMensaje) {
+            bool vResult = true;
+            outMensaje = string.Empty;
+            foreach (NotaDeEntradaSalida vItemNotaES in refRecord) {
+                if (HayAlMenosUnArtLoteFdV(vItemNotaES)) {
+                    StringBuilder vMsg = new StringBuilder();
+                    string vNotaReverso = (vItemNotaES.TipodeOperacionAsEnum == eTipodeOperacion.EntradadeInventario) ? LibEnumHelper.GetDescription(eTipodeOperacion.SalidadeInventario) : LibEnumHelper.GetDescription(eTipodeOperacion.EntradadeInventario);
+                    vMsg.AppendLine("Esta Nota de " + vItemNotaES.TipodeOperacionAsString + " contiene Artículos Lote o Lote/Fecha de Vencimiento.");
+                    vMsg.AppendLine("");
+                    vMsg.AppendLine("No se puede " + LibEAccionSR.ToString(valAccion) + ". Debe ingresar una Nota de " + vNotaReverso + " para hacer el ajuste.");
+                    outMensaje = vMsg.ToString();
+                    return false;
+                }
+            }
+            return vResult;
+        }
+
+        private bool HayAlMenosUnArtLoteFdV(NotaDeEntradaSalida valItemNotaES) {
+            bool vResult;
+            LibDatabase insDb = new LibDatabase();
+            LibGpParams vParams = new LibGpParams();
+            vParams.AddInInteger("ConsecutivoCompania", valItemNotaES.ConsecutivoCompania);
+            vParams.AddInString("NumeroDocumento", valItemNotaES.NumeroDocumento, 11);
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("SELECT ConsecutivoRenglon FROM RenglonNotaES INNER JOIN ArticuloInventario ");
+            vSql.AppendLine("ON RenglonNotaES.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania ");
+            vSql.AppendLine("AND RenglonNotaES.CodigoArticulo = ArticuloInventario.Codigo ");
+            vSql.AppendLine("WHERE RenglonNotaES.ConsecutivoCompania = "+ insDb.InsSql.ToSqlValue(valItemNotaES.ConsecutivoCompania));
+            vSql.AppendLine("AND RenglonNotaES.NumeroDocumento = " + insDb.InsSql.ToSqlValue(valItemNotaES.NumeroDocumento));
+            vSql.AppendLine("AND ArticuloInventario.TipoDeArticulo = '0'");
+            vSql.AppendLine("AND (ArticuloInventario.TipoArticuloInv = '5' OR ArticuloInventario.TipoArticuloInv = '6')");
+            vResult = insDb.RecordCountOfSql(vSql.ToString()) > 0;
+            return vResult;
+        }
 
     } //End of class clsNotaDeEntradaSalidaDat
-
 } //End of namespace Galac.Saw.Dal.Inventario
-

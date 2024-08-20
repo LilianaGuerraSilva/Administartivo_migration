@@ -151,6 +151,7 @@
     <Compile Include="ViewModel\LoteDeInventarioMovimientoMngViewModel.cs" />
     <Compile Include="ViewModel\LoteDeInventarioMovimientoViewModel.cs" />
     <Compile Include="ViewModel\LoteDeInventarioViewModel.cs" />
+    <Compile Include="ViewModel\LoteDeInventarioInsertarViewModel.cs" />
     <Compile Include="ViewModel\NotaDeEntradaSalidaMngViewModel.cs" />
     <Compile Include="ViewModel\NotaDeEntradaSalidaViewModel.cs" />
     <Compile Include="ViewModel\RenglonNotaESMngViewModel.cs" />
@@ -176,6 +177,9 @@
     </Compile>
     <Compile Include="Views\GSLoteDeInventarioConsultaView.xaml.cs">
       <DependentUpon>GSLoteDeInventarioConsultaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSLoteDeInventarioInsertarView.xaml.cs">
+      <DependentUpon>GSLoteDeInventarioInsertarView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GSLoteDeInventarioMovimientoView.xaml.cs">
       <DependentUpon>GSLoteDeInventarioMovimientoView.xaml</DependentUpon>
@@ -236,6 +240,10 @@
     <Page Include="Views\GSLoteDeInventarioConsultaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GSLoteDeInventarioInsertarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="Views\GSLoteDeInventarioMovimientoView.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -48,6 +48,14 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             return new LoteDeInventarioViewModel(vNewModel, valAction);
         }
 
+        private LoteDeInventarioInsertarViewModel CreateNewElementInsertar(LoteDeInventario valModel, eAccionSR valAction) {
+            var vNewModel = valModel;
+            if (vNewModel == null) {
+                vNewModel = new LoteDeInventario();
+            }
+            return new LoteDeInventarioInsertarViewModel(vNewModel, valAction);
+        }
+
         protected override LibSearchCriteria GetMFCCriteria() {
             return LibSearchCriteria.CreateCriteria("Gv_LoteDeInventario_B1.ConsecutivoCompania", Mfc.GetInt("Compania"));
         }
@@ -75,14 +83,13 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         protected override void InitializeRibbon() {
             base.InitializeRibbon();
-            if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
-                #region Codigo Ejemplo
-                /* Codigo de Ejemplo
-                        RibbonData.TabDataCollection[0].AddTabGroupData(CreateSUPROCESOPARTICULARRibbonGroup());
-                */
-                #endregion //Codigo Ejemplo
+            if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {                
+                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0].IsVisible = false; // Botón Insertar Oculto
+                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[1].IsVisible = false; // Botón Modificar Oculto
+                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[2].IsVisible = false; // Botón Eliminar Oculto
             }
         }
+    
         #endregion //Metodos Generados
         #region Codigo Ejemplo
         /* Codigo de Ejemplo
@@ -154,13 +161,13 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         internal void ExecuteCreateCommandEspecial(string initCodigoLote, string initCodigoArticulo, eTipoArticuloInv initTipoArticuloInv) {
             try {
-                LoteDeInventarioViewModel vViewModel = CreateNewElement(default(LoteDeInventario), eAccionSR.Insertar);
+                LoteDeInventarioInsertarViewModel vViewModel = CreateNewElementInsertar(default(LoteDeInventario), eAccionSR.Insertar);
                 vViewModel.InitializeViewModel(eAccionSR.Insertar);
                 vViewModel.Consecutivo = (new LibGalac.Aos.Dal.LibDatabase()).NextLngConsecutive("Saw.LoteDeInventario", "Consecutivo", "ConsecutivoCompania = " + Mfc.GetInt("Compania").ToString());
                 vViewModel.CodigoLote = initCodigoLote;
                 vViewModel.CodigoArticulo = initCodigoArticulo;
-                vViewModel.TipoArticuloInv = initTipoArticuloInv;
-                bool vResult = ShowEditor(vViewModel, true);
+                vViewModel.TipoArticuloInv = initTipoArticuloInv;                
+                bool vResult = LibMessages.EditViewModel.ShowEditor(vViewModel,true);
             } catch (Exception) {
                 throw;
             }
