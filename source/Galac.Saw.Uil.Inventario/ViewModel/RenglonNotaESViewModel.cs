@@ -245,6 +245,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             set {
                 if (_ConexionCodigoArticulo != value) {
                     _ConexionCodigoArticulo = value;
+                    DescripcionArticulo = _ConexionCodigoArticulo.Descripcion;
                     RaisePropertyChanged(CodigoArticuloPropertyName);
                     RaisePropertyChanged(() => DescripcionArticulo);
                     RaisePropertyChanged(() => Cantidad);
@@ -302,7 +303,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
-            ConexionCodigoArticulo = Master.FirstConnectionRecordOrDefault<FkArticuloInventarioViewModel>("Artículo Inventario", LibSearchCriteria.CreateCriteria("Codigo", CodigoArticulo));
+            ConexionCodigoArticulo = Master.FirstConnectionRecordOrDefault<FkArticuloInventarioViewModel>("Artículo Inventario", LibSearchCriteria.CreateCriteria("Gv_ArticuloInventario_B1.Codigo", CodigoArticulo));
             ConexionLoteDeInventario = Master.FirstConnectionRecordOrDefault<FkLoteDeInventarioViewModel>("Lote de Inventario", LibSearchCriteria.CreateCriteria("CodigoLote", LoteDeInventario));
         }
 
@@ -311,7 +312,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 if (CodigoArticulo == null) {
                     CodigoArticulo = string.Empty;
                 }
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigoArticulo);
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_ArticuloInventario_B1.Codigo", valCodigoArticulo);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
                 vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("TipoDeArticulo", LibConvert.EnumToDbValue((int)eTipoDeArticulo.Mercancia)), eLogicOperatorType.And);
                 ConexionCodigoArticulo = Master.ChooseRecord<FkArticuloInventarioViewModel>("Artículo Inventario", vDefaultCriteria, vFixedCriteria, string.Empty);
