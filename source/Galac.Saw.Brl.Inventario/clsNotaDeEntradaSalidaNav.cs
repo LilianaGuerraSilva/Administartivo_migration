@@ -325,6 +325,7 @@ namespace Galac.Saw.Brl.Inventario {
                 if (valUseDetail) {
                     foreach (NotaDeEntradaSalida vItem in refRecord) {
                         if (vItem != null) {
+                            vItem.StatusNotaEntradaSalidaAsEnum = eStatusNotaEntradaSalida.Anulada;
                             IList<NotaDeEntradaSalida> vItemList = new List<NotaDeEntradaSalida>();
                             vItemList.Add(vItem);
                             if (vItem.TipodeOperacionAsEnum == eTipodeOperacion.EntradadeInventario) {
@@ -333,7 +334,6 @@ namespace Galac.Saw.Brl.Inventario {
                                     vResult.AddError("No hay existencia suficiente de algunos ítems (" + vCodigos + ") en la Nota: " + vItem.NumeroDocumento + " para anular. El proceso será cancelado.");
                                     return vResult;
                                 }
-                                vItem.StatusNotaEntradaSalidaAsEnum = eStatusNotaEntradaSalida.Anulada;
                                 vResult = base.UpdateRecord(vItemList, valUseDetail, valAction);
                                 if (vResult.Success) {
                                     ActualizaExistenciaDeArticulos(vItem, valAction);
