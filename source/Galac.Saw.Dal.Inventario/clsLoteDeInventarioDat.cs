@@ -71,7 +71,7 @@ namespace Galac.Saw.Dal.Inventario {
             return vResult;
         }
 
-        private StringBuilder ParametrosClaveCodigo(LoteDeInventario valRecord, bool valIncludeTimestamp, bool valAddReturnParameter) {
+        private StringBuilder ParametrosClaveCodigoCodigoArticulo(LoteDeInventario valRecord, bool valIncludeTimestamp, bool valAddReturnParameter) {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             if (valAddReturnParameter) {
@@ -79,6 +79,7 @@ namespace Galac.Saw.Dal.Inventario {
             }
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
             vParams.AddInString("CodigoLote", valRecord.CodigoLote, 30);
+            vParams.AddInString("CodigoArticulo", valRecord.CodigoArticulo, 30);
             if (valIncludeTimestamp) {
                 vParams.AddInTimestamp("TimeStampAsInt", valRecord.fldTimeStamp);
             }
@@ -301,7 +302,7 @@ namespace Galac.Saw.Dal.Inventario {
             ClearValidationInfo();
             vResult = IsValidConsecutivoCompania(valAction, CurrentRecord.ConsecutivoCompania);
             vResult = IsValidConsecutivo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo) && vResult;
-            vResult = IsValidCodigoLote(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.CodigoLote) && vResult;
+            vResult = IsValidCodigoLote(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.CodigoLote, CurrentRecord.CodigoArticulo) && vResult;
             vResult = IsValidCodigoArticulo(valAction, CurrentRecord.CodigoArticulo) && vResult;
             vResult = IsValidFechaDeElaboracion(valAction, CurrentRecord.FechaDeElaboracion) && vResult;
             vResult = IsValidFechaDeVencimiento(valAction, CurrentRecord.FechaDeVencimiento) && vResult;
@@ -338,7 +339,7 @@ namespace Galac.Saw.Dal.Inventario {
             return vResult;
         }
 
-        private bool IsValidCodigoLote(eAccionSR valAction, int valConsecutivoCompania, string valCodigoLote){
+        private bool IsValidCodigoLote(eAccionSR valAction, int valConsecutivoCompania, string valCodigoLote, string valCodigoArticulo) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
@@ -348,7 +349,7 @@ namespace Galac.Saw.Dal.Inventario {
                 BuildValidationInfo(MsgRequiredField("Código"));
                 vResult = false;
             } else if (valAction == eAccionSR.Insertar) {
-                if (KeyExists(valConsecutivoCompania, valCodigoLote)) {
+                if (KeyExists(valConsecutivoCompania, valCodigoLote, valCodigoArticulo)) {
                     BuildValidationInfo(MsgFieldValueAlreadyExist("Código", valCodigoLote));
                     vResult = false;
                 }
@@ -404,13 +405,14 @@ namespace Galac.Saw.Dal.Inventario {
             return vResult;
         }
 
-        private bool KeyExists(int valConsecutivoCompania, string valCodigoLote) {
+        private bool KeyExists(int valConsecutivoCompania, string valCodigoLote, string valCodigoArticulo) {
             bool vResult = false;
             LoteDeInventario vRecordBusqueda = new LoteDeInventario();
             vRecordBusqueda.ConsecutivoCompania = valConsecutivoCompania;
             vRecordBusqueda.CodigoLote = valCodigoLote;
+            vRecordBusqueda.CodigoArticulo = valCodigoArticulo;
             LibDatabase insDb = new LibDatabase();
-            vResult = insDb.ExistsRecord(DbSchema + ".LoteDeInventario", "ConsecutivoCompania", ParametrosClaveCodigo(vRecordBusqueda, false, false));
+            vResult = insDb.ExistsRecord(DbSchema + ".LoteDeInventario", "ConsecutivoCompania", ParametrosClaveCodigoCodigoArticulo(vRecordBusqueda, false, false));
             insDb.Dispose();
             return vResult;
         }
