@@ -13,6 +13,7 @@ using LibGalac.Aos.Catching;
 using LibGalac.Aos.Dal;
 using LibGalac.Aos.DefGen;
 using Galac.Saw.Ccl.Inventario;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Dal.Inventario {
     public class clsNotaDeEntradaSalidaDat: LibData, ILibDataMasterComponentWithSearch<IList<NotaDeEntradaSalida>, IList<NotaDeEntradaSalida>> {
@@ -536,10 +537,38 @@ namespace Galac.Saw.Dal.Inventario {
                     StringBuilder vMsg = new StringBuilder();
                     string vNotaReverso = (vItemNotaES.TipodeOperacionAsEnum == eTipodeOperacion.EntradadeInventario) ? LibEnumHelper.GetDescription(eTipodeOperacion.SalidadeInventario) : LibEnumHelper.GetDescription(eTipodeOperacion.EntradadeInventario);
                     vMsg.AppendLine("Esta Nota de " + vItemNotaES.TipodeOperacionAsString + " contiene Artículos Lote o Lote/Fecha de Vencimiento.");
-                    vMsg.AppendLine("");
+                    vMsg.AppendLine();
                     vMsg.AppendLine("No se puede " + LibEAccionSR.ToString(valAccion) + ". Debe ingresar una Nota de " + vNotaReverso + " para hacer el ajuste.");
                     outMensaje = vMsg.ToString();
                     return false;
+                } else if (valAccion == eAccionSR.Anular && vItemNotaES.TipodeOperacionAsEnum != eTipodeOperacion.Retiro) {
+                    outMensaje = "Solo se pueden Anular Operaciones de Retiro.";
+                    return false;
+                } else if (ExistenComprobantesDeCostoDeVentasPosteriores(vItemNotaES.ConsecutivoCompania, vItemNotaES.Fecha)) {
+                    StringBuilder vMsg = new StringBuilder();
+                    vMsg.AppendLine("Existe al menos un Comprobante de Costo de Venta posterior a la operación de " + LibEAccionSR.ToString(valAccion) + ".");
+                    vMsg.AppendLine();
+                    vMsg.AppendLine("Deberá abrir el Período y/o Eliminar el Comprobante para " + LibEAccionSR.ToString(valAccion) + " el documento.");
+                    outMensaje = vMsg.ToString();
+                }
+            }
+            return vResult;
+        }
+
+        private bool ExistenComprobantesDeCostoDeVentasPosteriores(int valConsecutivoCompania, DateTime valFecha) {
+            //duplicado en: IArticuloInventarioPdn.ExistenComprobantesDeCostoDeVentasPosteriores, no se invoca acá por estar en Brl (capa superior)
+            bool vResult = false;
+            bool vUsaContabilidad = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Compania", "UsaModuloDeContabilidad");
+            bool vUsaCostoPromedio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaCostoPromedio");
+            if (vUsaCostoPromedio && vUsaContabilidad) {
+                if (new clsLibSaw().EsValidaLaFechaParaContabilidad(valConsecutivoCompania, valFecha)) {
+                    LibDatabase insDb = new LibDatabase();
+                    StringBuilder vSql = new StringBuilder();
+                    vSql.AppendLine("SELECT COMPROBANTE.Numero FROM PERIODO INNER JOIN  COMPROBANTE ON periodo.ConsecutivoPeriodo = COMPROBANTE.ConsecutivoPeriodo ");
+                    vSql.AppendLine("WHERE PERIODO.ConsecutivoCompania = " + insDb.InsSql.ToSqlValue(valConsecutivoCompania));
+                    vSql.AppendLine("AND COMPROBANTE.GeneradoPor = " + insDb.InsSql.EnumToSqlValue((int)eComprobanteGeneradoPorVBSaw.eCG_INVENTARIO));
+                    vSql.AppendLine("AND COMPROBANTE.Fecha >= " + insDb.InsSql.ToSqlValue(valFecha));
+                    vResult = insDb.RecordCountOfSql(vSql.ToString()) > 0;
                 }
             }
             return vResult;
@@ -548,9 +577,6 @@ namespace Galac.Saw.Dal.Inventario {
         private bool HayAlMenosUnArtLoteFdV(NotaDeEntradaSalida valItemNotaES) {
             bool vResult;
             LibDatabase insDb = new LibDatabase();
-            LibGpParams vParams = new LibGpParams();
-            vParams.AddInInteger("ConsecutivoCompania", valItemNotaES.ConsecutivoCompania);
-            vParams.AddInString("NumeroDocumento", valItemNotaES.NumeroDocumento, 11);
             StringBuilder vSql = new StringBuilder();
             vSql.AppendLine("SELECT ConsecutivoRenglon FROM RenglonNotaES INNER JOIN ArticuloInventario ");
             vSql.AppendLine("ON RenglonNotaES.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania ");

@@ -173,7 +173,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         private bool CanExecuteAnularCommand() {
-            return true; //CurrentItem != null && LibSecurityManager.CurrentUserHasAccessTo(ModuleName, "Anular Retiro") && CurrentItem.TipodeOperacion == eTipodeOperacion.Retiro;
+            return CurrentItem != null && LibSecurityManager.CurrentUserHasAccessTo(ModuleName, "Anular Retiro");// && CurrentItem.TipodeOperacion == eTipodeOperacion.Retiro;
         }
 
     } //End of class NotaDeEntradaSalidaMngViewModel

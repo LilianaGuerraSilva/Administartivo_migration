@@ -315,7 +315,7 @@ namespace Galac.Saw.Brl.Inventario {
                     }
                 }
                 IArticuloInventarioPdn vArticuloPdn = new clsArticuloInventarioNav();
-                vArticuloPdn.ActualizarExistencia(valItemNotaES.ConsecutivoAlmacen, vList);
+                vArticuloPdn.ActualizarExistencia(valItemNotaES.ConsecutivoCompania, vList);
             }
         }
 
@@ -325,6 +325,7 @@ namespace Galac.Saw.Brl.Inventario {
                 if (valUseDetail) {
                     foreach (NotaDeEntradaSalida vItem in refRecord) {
                         if (vItem != null) {
+                            vItem.StatusNotaEntradaSalidaAsEnum = eStatusNotaEntradaSalida.Anulada;
                             IList<NotaDeEntradaSalida> vItemList = new List<NotaDeEntradaSalida>();
                             vItemList.Add(vItem);
                             if (vItem.TipodeOperacionAsEnum == eTipodeOperacion.EntradadeInventario) {
@@ -448,6 +449,6 @@ namespace Galac.Saw.Brl.Inventario {
             Ccl.SttDef.ePermitirSobregiro vParametroPermitirSobregiro = (Ccl.SttDef.ePermitirSobregiro)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetEnum("FacturaRapida", "PermitirSobregiro");
             return vParametroPermitirSobregiro == Ccl.SttDef.ePermitirSobregiro.PermitirSobregiro || vParametroPermitirSobregiro == Ccl.SttDef.ePermitirSobregiro.NoChequearExistencia;
         }
-
+        
     } //End of class clsNotaDeEntradaSalidaNav
 } //End of namespace Galac.Saw.Brl.Inventario
