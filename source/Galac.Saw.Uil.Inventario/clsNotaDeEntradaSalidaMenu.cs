@@ -21,7 +21,7 @@ namespace Galac.Saw.Uil.Inventario {
                 insFrmSearch.Owner = System.Windows.Application.Current.MainWindow;
                 insFrmSearch.Show();
             } else {
-                insFrmSearch.ShowDialog();
+                insFrmSearch.Show();
             }
         }
 
