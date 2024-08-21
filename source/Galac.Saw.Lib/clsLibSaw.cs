@@ -161,9 +161,14 @@ namespace Galac.Saw.Lib {
             return valMoneda;
         }
 
+        /// <summary>
+        /// Validación de Fecha para contabilidad contra mes cerrado, período cerrado, período anterio cerrado, pertenencia a un período cerrado. Se genera una nueva GalacAlertException.
+        /// </summary>
+        /// <param name="valConsecutivoCompania"></param>
+        /// <param name="valFecha"></param>
+        /// <param name="valErrorMessage"></param>
+        /// <returns></returns>
         public bool EsValidaLaFechaParaContabilidad(int valConsecutivoCompania, DateTime valFecha, string valErrorMessage) {
-            bool vResult = false;
-            bool vUsaContabilidad = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Compania", "AccesoCaracteristicaDeContabilidadActiva");
             if (PerteneceAUnMesCerrado(valFecha)) {
                 throw new LibGalac.Aos.Catching.GalacAlertException(valErrorMessage + ": " + LibConvert.ToStr(valFecha) + ", pertenece a un mes cerrado.");
             } else if (PerteneceAUnPeriodoCerrado()) {
@@ -173,11 +178,29 @@ namespace Galac.Saw.Lib {
             } else if (PerteneceAUnPeriodoCerrado()) {
                 throw new LibGalac.Aos.Catching.GalacAlertException(valErrorMessage + ": " + LibConvert.ToStr(valFecha) + " de Cierre, pertenece a un Período Cerrado.");
             } else {
-                vResult = true;
+                return true;
             }
-            return vResult;
         }
 
+        /// <summary>
+        /// Validación de Fecha para contabilidad contra mes cerrado, período cerrado, período anterio cerrado, pertenencia a un período cerrado. Sin mensaje ni throw error.
+        /// </summary>
+        /// <param name="valConsecutivoCompania"></param>
+        /// <param name="valFecha"></param>
+        /// <returns></returns>
+        public bool EsValidaLaFechaParaContabilidad(int valConsecutivoCompania, DateTime valFecha) {
+            if (PerteneceAUnMesCerrado(valFecha)) {
+                return false;
+            } else if (PerteneceAUnPeriodoCerrado()) {
+                return false;
+            } else if (PerteneceAUnPeriodoCerradoAnterior(valConsecutivoCompania, valFecha)) {
+                return false;
+            } else if (PerteneceAUnPeriodoCerrado()) {
+                return false;
+            } else {
+                return true;
+            }
+        }
         private bool PerteneceAUnMesCerrado(DateTime valFecha) {
             bool vResult = false;
             if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Periodo", "UsaCierreDeMes")) {
