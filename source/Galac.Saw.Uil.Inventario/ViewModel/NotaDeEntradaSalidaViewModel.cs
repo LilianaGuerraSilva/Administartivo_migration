@@ -14,6 +14,8 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.Inventario;
 using Galac.Saw.Ccl.Inventario;
+using Galac.Saw.Lib;
+using System.Text;
 
 namespace Galac.Saw.Uil.Inventario.ViewModel {
     public class NotaDeEntradaSalidaViewModel : LibInputMasterViewModelMfc<NotaDeEntradaSalida> {
@@ -596,7 +598,23 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             } else {
                 if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(Fecha, false, Action)) {
                     vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha"));
+                } else if (LibDate.F1IsGreaterThanF2(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Parametros", "FechaMinimaIngresarDatos"), Fecha)) {
+                    string vFechaMinima = LibConvert.ToStr(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Parametros", "FechaMinimaIngresarDatos"));
+                    vResult = new ValidationResult("La fecha mínima de entrada de documentos para esta Compañía es: " + vFechaMinima);
                 }
+                //if ((Action == eAccionSR.Insertar) 
+                //    && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Compania", "UsaModuloDeContabilidad") 
+                //    && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaCostoPromedio")
+                //    && (new clsLibSaw().EsValidaLaFechaParaContabilidad(ConsecutivoCompania, Fecha))) {
+                //    if (((IArticuloInventarioPdn)new clsArticuloInventarioNav()).ExistenComprobantesDeCostoDeVentasPosteriores(ConsecutivoCompania, Fecha)) {
+                //        StringBuilder vMsg = new StringBuilder();
+                //        vMsg.AppendLine("Existe al menos un Comprobante de Costo de Venta posterior a la operación de " + LibEAccionSR.ToString(Action) + ".");
+                //        vMsg.AppendLine();
+                //        vMsg.AppendLine("Deberá abrir el Período y/o Eliminar el Comprobante para " + LibEAccionSR.ToString(Action) + " el documento.");
+                //        vResult = new ValidationResult(vMsg.ToString());
+                //    }
+                //}
+
             }
             return vResult;
         }
