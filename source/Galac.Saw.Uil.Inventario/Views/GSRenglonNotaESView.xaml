@@ -125,7 +125,7 @@
             Grid.Column="5" 
             Width="90"
             Margin="3,3,0,0"
-            Content="{Binding FechaDeElaboracion}"
+            Content="{Binding FechaDeVencimiento}"
             ContentStringFormat="dd/MM/yyyy"
             Style="{StaticResource LabelCalculatedField}" 
             Height="25" />
