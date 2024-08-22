@@ -200,7 +200,8 @@ namespace Galac.Saw.Dal.Inventario {
         }
 
         [PrincipalPermission(SecurityAction.Demand, Role = "Nota de Entrada/Salida.Modificar")]
-//Agregar permisos de los módulos que crean NES: Producción, Compra
+        [PrincipalPermission(SecurityAction.Demand, Role = "Nota de Entrada/Salida.Anular Retiro")]
+        //Agregar permisos de los módulos que crean NES: Producción, Compra
         LibResponse ILibDataMasterComponent<IList<NotaDeEntradaSalida>, IList<NotaDeEntradaSalida>>.Update(IList<NotaDeEntradaSalida> refRecord, bool valUseDetail, eAccionSR valAction) {
             LibResponse vResult = new LibResponse();
             try {

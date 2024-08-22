@@ -12,6 +12,7 @@ namespace Galac.Saw.Ccl.Inventario {
         LibResponse AgregarNotaDeEntradaSalida(IList<NotaDeEntradaSalida> valListNotaDeEntradaSalida);
         LibResponse AnularNotaDeSalidaAsociadaProduccion(int valConsecutivoCompania, int valConsecutivoOrdenDeProduccion );
         XElement FindByConsecutivoCompaniaNumeroDocumento(int valConsecutivoCompania, string valNumeroDocumento);
+        LibResponse AnularRecord(IList<NotaDeEntradaSalida> refRecord);
         #endregion //Metodos Generados
 
 

@@ -319,41 +319,39 @@ namespace Galac.Saw.Brl.Inventario {
             }
         }
 
-        protected override LibResponse UpdateRecord(IList<NotaDeEntradaSalida> refRecord, bool valUseDetail, eAccionSR valAction) {
+        LibResponse INotaDeEntradaSalidaPdn.AnularRecord(IList<NotaDeEntradaSalida> refRecord) {
             LibResponse vResult = new LibResponse();
-            if (valAction == eAccionSR.Anular) {
-                if (valUseDetail) {
-                    foreach (NotaDeEntradaSalida vItem in refRecord) {
-                        if (vItem != null) {
+            foreach (NotaDeEntradaSalida vItem in refRecord) {
+                if (vItem != null) {
+                    IList<NotaDeEntradaSalida> vItemList = new List<NotaDeEntradaSalida>();
+                    vItemList.Add(vItem);
+                    RegisterClient();
+                    if (vItem.TipodeOperacionAsEnum == eTipodeOperacion.EntradadeInventario) {
+                        string vCodigos;
+                        if (!HayExistenciaParaNotaDeSalidaDeInventario(vItem, out vCodigos)) {
+                            vResult.AddError("No hay existencia suficiente de algunos ítems (" + vCodigos + ") en la Nota: " + vItem.NumeroDocumento + " para anular. El proceso será cancelado.");
+                            return vResult;
+                        }
+                        vResult = base.UpdateRecord(vItemList, false, eAccionSR.Modificar);
+                        if (vResult.Success) {
+                            ActualizaExistenciaDeArticulos(vItem, eAccionSR.Anular);
+                        }
+                    } else {
+                        if (vItem.StatusNotaEntradaSalidaAsEnum == eStatusNotaEntradaSalida.Anulada) {
+                            vResult.AddError("La Nota: " + vItem.NumeroDocumento + " ya fue anulada.");
+                            return vResult;
+                        } else {
                             vItem.StatusNotaEntradaSalidaAsEnum = eStatusNotaEntradaSalida.Anulada;
-                            IList<NotaDeEntradaSalida> vItemList = new List<NotaDeEntradaSalida>();
-                            vItemList.Add(vItem);
-                            if (vItem.TipodeOperacionAsEnum == eTipodeOperacion.EntradadeInventario) {
-                                string vCodigos;
-                                if (!HayExistenciaParaNotaDeSalidaDeInventario(vItem, out vCodigos)) {
-                                    vResult.AddError("No hay existencia suficiente de algunos ítems (" + vCodigos + ") en la Nota: " + vItem.NumeroDocumento + " para anular. El proceso será cancelado.");
-                                    return vResult;
-                                }
-                                vResult = base.UpdateRecord(vItemList, valUseDetail, valAction);
-                                if (vResult.Success) {
-                                    ActualizaExistenciaDeArticulos(vItem, valAction);
-                                }
-                            } else {
-                                vResult = base.UpdateRecord(vItemList, valUseDetail, valAction);
-                                if (vResult.Success) {
-                                    ActualizaExistenciaDeArticulos(vItem, valAction);
-                                }
-                            }
-                            if (vResult.Success) {
-                                ActualizaInformacionDeLoteDeInventario(vItem);
-                            }
+                        }
+                        vResult = base.UpdateRecord(vItemList, false, eAccionSR.Modificar);
+                        if (vResult.Success) {
+                            ActualizaExistenciaDeArticulos(vItem, eAccionSR.Anular);
                         }
                     }
-                } else {
-                    vResult = base.UpdateRecord(refRecord, valUseDetail, valAction);
+                    if (vResult.Success) {
+                        ActualizaInformacionDeLoteDeInventario(vItem);
+                    }
                 }
-            } else {
-                vResult.AddError("No está permitida la acción: " + LibEnumHelper.GetDescription(valAction));
             }
             return vResult;
         }
