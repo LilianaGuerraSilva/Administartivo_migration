@@ -348,7 +348,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 vInvocarCrear = vInvocarCrear && !LibString.S1IsInS2("*", valCodigoLote);
                 vInvocarCrear = vInvocarCrear && !((ILoteDeInventarioPdn)new clsLoteDeInventarioNav()).ExisteLoteDeInventario(Mfc.GetInt("Compania"), CodigoArticulo, valCodigoLote);
                 if (vInvocarCrear) {
-                    new LoteDeInventarioMngViewModel().ExecuteCreateCommandEspecial(valCodigoLote, CodigoArticulo, TipoArticuloInv);
+                    new LoteDeInventarioMngViewModel().ExecuteCreateCommandEspecial(ref valCodigoLote, CodigoArticulo, TipoArticuloInv);
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("CodigoLote", valCodigoLote);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
