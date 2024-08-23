@@ -164,7 +164,7 @@
             Margin="3,4,10,0"
             ConnectionValue="{Binding CodigoAlmacen, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             DisplayMemberPath="Codigo"
-            IsEnabled="{Binding Path=NotaESIsEnabled}"
+            IsEnabled="False"
             Model="{Binding ConexionCodigoAlmacen, Mode=TwoWay}"
             SearchCommand="{Binding ChooseCodigoAlmacenCommand}" />
         <Label
