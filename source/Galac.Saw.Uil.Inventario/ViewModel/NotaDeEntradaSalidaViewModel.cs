@@ -442,6 +442,39 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             DetailRenglonNotaES.OnDeleted += new EventHandler<SearchCollectionChangedEventArgs<RenglonNotaESViewModel>>(DetailRenglonNotaES_OnDeleted);
             DetailRenglonNotaES.OnSelectedItemChanged += new EventHandler<SearchCollectionChangedEventArgs<RenglonNotaESViewModel>>(DetailRenglonNotaES_OnSelectedItemChanged);
         }
+
+        protected override void ExecuteAction() {
+            if (Action.Equals(eAccionSR.Anular)) {
+                CloseOnActionComplete = true;
+                if (Model.TipodeOperacionAsEnum == eTipodeOperacion.Retiro) {
+                    if (LibMessages.MessageBox.YesNo(this, "¿Está seguro que desea Anular esta Nota de Retiro de Inventario?", ModuleName)) {
+                        INotaDeEntradaSalidaPdn vNotaDeEntradaSalidaNav = new clsNotaDeEntradaSalidaNav();
+                        IList<NotaDeEntradaSalida> vNotaDeEntradaSalida = new List<NotaDeEntradaSalida>();
+                        vNotaDeEntradaSalida.Add(Model);
+                        LibResponse vDialgoResult = vNotaDeEntradaSalidaNav.AnularRecord(vNotaDeEntradaSalida);
+                        if (vDialgoResult.Success) {
+                            LibMessages.MessageBox.Information(this, String.Format("La Nota de Entrada {0} se anuló correctamente", Model.NumeroDocumento), "Información");
+                        } else {
+                            LibMessages.MessageBox.Information(this, vDialgoResult.GetInformation(), ModuleName);
+                        }
+                    }
+                } else {
+                    LibMessages.MessageBox.Information(this, "Solo se pueden Anular las Notas de Retiro de Inventario", ModuleName);
+                }
+                RaiseRequestCloseEvent();
+            } else {
+                base.ExecuteAction();
+            }
+        }
+
+        public override bool OnClosing() {
+            if (Action == eAccionSR.Anular) {
+                return false;
+            } else {
+                return base.OnClosing();
+            }
+        }
+
         #region RenglonNotaES
 
         private void DetailRenglonNotaES_OnSelectedItemChanged(object sender, SearchCollectionChangedEventArgs<RenglonNotaESViewModel> e) {
@@ -588,6 +621,12 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 throw;
             } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
+
+        public bool NotaESIsEnabled {
+            get {
+                return IsEnabled && Action != eAccionSR.Anular;
             }
         }
 
