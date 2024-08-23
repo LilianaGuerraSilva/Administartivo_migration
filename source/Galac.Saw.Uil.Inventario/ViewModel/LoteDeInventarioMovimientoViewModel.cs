@@ -181,17 +181,17 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             return new clsLoteDeInventarioMovimientoNav();
         }
 
-        private ValidationResult FechaValidating() {
-            ValidationResult vResult = ValidationResult.Success;
-            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
-                return ValidationResult.Success;
-            } else {
-                if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(Fecha, false, Action)) {
-                    vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha"));
-                }
-            }
-            return vResult;
-        }
+        //private ValidationResult FechaValidating() {
+        //    ValidationResult vResult = ValidationResult.Success;
+        //    if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+        //        return ValidationResult.Success;
+        //    } else {
+        //        if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(Fecha, false, Action)) {
+        //            vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha"));
+        //        }
+        //    }
+        //    return vResult;
+        //}
         #endregion //Metodos Generados
 
 

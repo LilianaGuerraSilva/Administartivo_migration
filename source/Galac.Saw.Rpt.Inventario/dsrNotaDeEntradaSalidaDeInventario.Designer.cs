@@ -177,9 +177,9 @@ namespace Galac.Saw.Rpt.Inventario
             // txtTipoArticuloInv
             // 
             this.txtTipoArticuloInv.Height = 0.15625F;
-            this.txtTipoArticuloInv.Left = 5F;
+            this.txtTipoArticuloInv.Left = 7.5F;
             this.txtTipoArticuloInv.Name = "txtTipoArticuloInv";
-            this.txtTipoArticuloInv.Style = "color: Red; font-size: 8pt; ddo-char-set: 1";
+            this.txtTipoArticuloInv.Style = "color: White; font-size: 8pt; ddo-char-set: 1; ddo-font-vertical: true";
             this.txtTipoArticuloInv.Text = "txtTipoArticuloInv";
             this.txtTipoArticuloInv.Top = 0F;
             this.txtTipoArticuloInv.Width = 0.25F;
@@ -508,7 +508,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.MasterReport = false;
             this.PageSettings.PaperHeight = 11F;
             this.PageSettings.PaperWidth = 8.5F;
-            this.PrintWidth = 7.5F;
+            this.PrintWidth = 7.75F;
             this.Sections.Add(this.PageHeader);
             this.Sections.Add(this.GHSecNota);
             this.Sections.Add(this.Detail);

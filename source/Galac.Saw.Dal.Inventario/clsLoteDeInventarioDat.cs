@@ -375,13 +375,15 @@ namespace Galac.Saw.Dal.Inventario {
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
-            if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(valFechaDeElaboracion, false, valAction)) {
-                BuildValidationInfo(LibDefGen.MessageDateRestrictionDemoProgram());
-                vResult = false;
-            }
-            if (LibDate.F1IsGreaterThanF2(valFechaDeElaboracion, valFechaDeVencimiento)) {
-                BuildValidationInfo("La Fecha de Elaboración debe ser menor o igual a la Fecha de Vencimiento.");
-                vResult = false;
+            if (TipoArticuloInvEsLoteFecha(CurrentRecord.ConsecutivoCompania, CurrentRecord.CodigoArticulo)) {
+                if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(valFechaDeElaboracion, false, valAction)) {
+                    BuildValidationInfo(LibDefGen.MessageDateRestrictionDemoProgram());
+                    vResult = false;
+                }
+                if (LibDate.F1IsGreaterThanF2(valFechaDeElaboracion, valFechaDeVencimiento)) {
+                    BuildValidationInfo("La Fecha de Elaboración debe ser menor o igual a la Fecha de Vencimiento.");
+                    vResult = false;
+                }
             }
             return vResult;
         }
@@ -391,14 +393,28 @@ namespace Galac.Saw.Dal.Inventario {
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
-            if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(valFechaDeVencimiento, false, valAction)) {
-                BuildValidationInfo(LibDefGen.MessageDateRestrictionDemoProgram());
-                vResult = false;
+            if (TipoArticuloInvEsLoteFecha(CurrentRecord.ConsecutivoCompania, CurrentRecord.CodigoArticulo)) {
+                if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(valFechaDeVencimiento, false, valAction)) {
+                    BuildValidationInfo(LibDefGen.MessageDateRestrictionDemoProgram());
+                    vResult = false;
+                }
+                if (LibDate.F1IsGreaterThanF2(valFechaDeElaboracion, valFechaDeVencimiento)) {
+                    BuildValidationInfo("La Fecha de Elaboración debe ser menor o igual a la Fecha de Vencimiento.");
+                    vResult = false;
+                }
             }
-            if (LibDate.F1IsGreaterThanF2(valFechaDeElaboracion, valFechaDeVencimiento)) {
-                BuildValidationInfo("La Fecha de Elaboración debe ser menor o igual a la Fecha de Vencimiento.");
-                vResult = false;
-            }
+            return vResult;
+        }
+
+        private bool TipoArticuloInvEsLoteFecha(int valConsecutivoCompania, string valCodigoArticulo) {
+            bool vResult = false;
+            LibDatabase insDb = new LibDatabase();
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("SELECT Codigo FROM ArticuloInventario ");
+            vSql.AppendLine("WHERE ConsecutivoCompania = " + insDb.InsSql.ToSqlValue(valConsecutivoCompania));
+            vSql.AppendLine(" AND Codigo = " + insDb.InsSql.ToSqlValue(valCodigoArticulo));
+            vSql.AppendLine(" AND TipoArticuloInv = " + insDb.InsSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento));
+            vResult = insDb.RecordCountOfSql(vSql.ToString()) > 0;
             return vResult;
         }
 
