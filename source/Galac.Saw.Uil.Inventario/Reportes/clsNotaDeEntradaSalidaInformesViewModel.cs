@@ -9,6 +9,7 @@ using LibGalac.Aos.ARRpt.Reports;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Base.Report;
 using LibGalac.Aos.UI.Cib;
+using LibGalac.Aos.UI.Mvvm;
 
 namespace Galac.Saw.Uil.Inventario.Reportes {
 
@@ -22,6 +23,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         public clsNotaDeEntradaSalidaInformesViewModel(LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc) {
             AppMemoryInfo = initAppMemInfo;
             Mfc = initMfc;
+            //AvailableReports.Add(new clsNotaDeEntradaSalidaDeInventarioViewModel());
             Title = "Informes de Nota de Entrada/Salida";
         }
         #endregion //Constructores
@@ -29,6 +31,24 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
 
         protected override ILibRpt ConfigReport() {
             ILibRpt vResult = null;
+            //if (SelectedReport is clsNotaDeEntradaSalidaDeInventarioViewModel) {
+            //    vResult = ConfigReportNotaDeEntradaSalidaDeInventario(SelectedReport as clsNotaDeEntradaSalidaDeInventarioViewModel);
+            //}
+            return vResult;
+        }
+
+        internal ILibRpt ConfigReportNotaEntradaSalida(string valNumeroDocumento) {
+            ILibRpt vResult = ConfigReportNotaDeEntradaSalidaDeInventario(valNumeroDocumento);
+            vResult.RunReport();
+            vResult.SendReportToDevice();
+            return vResult;
+        }
+
+        private ILibRpt ConfigReportNotaDeEntradaSalidaDeInventario(string valNumeroDocumento) {            
+            ILibRpt vResult = new Galac.Saw.Rpt.Inventario.clsNotaDeEntradaSalidaDeInventario(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc) {
+                Worker = Manager, 
+                NumeroDocumento = valNumeroDocumento
+            };
             return vResult;
         }
         #endregion //Metodos Generados

@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="clsListadoDePrecios.cs" />
     <Compile Include="clsListdoDeArticulosBalanza.cs" />
+    <Compile Include="clsNotaDeEntradaSalidaDeInventario.cs" />
     <Compile Include="clsValoracionDeInventario.cs" />
     <Compile Include="dsrListadoDePrecios.cs">
       <SubType>Component</SubType>
@@ -86,6 +87,12 @@
     </Compile>
     <Compile Include="dsrListadoDeArticulosBalanza.Designer.cs">
       <DependentUpon>dsrListadoDeArticulosBalanza.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dsrNotaDeEntradaSalidaDeInventario.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrNotaDeEntradaSalidaDeInventario.Designer.cs">
+      <DependentUpon>dsrNotaDeEntradaSalidaDeInventario.cs</DependentUpon>
     </Compile>
     <Compile Include="dsrValoracionDeInventario.cs">
       <SubType>Component</SubType>
@@ -101,6 +108,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="dsrListadoDeArticulosBalanza.resx">
       <DependentUpon>dsrListadoDeArticulosBalanza.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dsrNotaDeEntradaSalidaDeInventario.resx">
+      <DependentUpon>dsrNotaDeEntradaSalidaDeInventario.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="dsrValoracionDeInventario.resx">
       <DependentUpon>dsrValoracionDeInventario.cs</DependentUpon>

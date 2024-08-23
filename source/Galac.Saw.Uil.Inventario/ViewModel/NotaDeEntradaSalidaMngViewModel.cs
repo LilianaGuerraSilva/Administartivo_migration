@@ -24,10 +24,14 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             get { return "Nota de Entrada/Salida"; }
         }
 
-        public RelayCommand AnularCommand {
-            get;
-            private set;
-        }
+        //public RelayCommand InformesCommand {
+        //    get;
+        //    private set;
+        //}
+
+        public RelayCommand AnularCommand { get; private set; }
+
+        public RelayCommand ReImprimirCommand { get; private set; }
         #endregion //Propiedades
         #region Constructores
         public NotaDeEntradaSalidaMngViewModel() : base(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
@@ -54,7 +58,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         protected override ILibReportInfo GetDataRetrievesInstance() {
-            return  new clsNotaDeEntradaSalidaRpt();
+            return new clsNotaDeEntradaSalidaRpt();
         }
 
         protected override ILibRpt GetReportForList(string valModuleName, ILibReportInfo valReportInfo, LibCollFieldFormatForGrid valFieldsFormat, LibGpParams valParams) {
@@ -63,18 +67,52 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         protected override void InitializeCommands() {
             base.InitializeCommands();
+            //InformesCommand = new RelayCommand(ExecuteInformesCommand, CanExecuteInformesCommand);
             AnularCommand = new RelayCommand(ExecuteAnularCommand, CanExecuteAnularCommand);
+            ReImprimirCommand = new RelayCommand(ExecuteReImprimirCommand, CanExecuteReImprimirCommand);
         }
 
         protected override void InitializeRibbon() {
             base.InitializeRibbon();
             if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
+                //RibbonData.TabDataCollection[0].AddTabGroupData(CreateInformesRibbonGroup());
                 RibbonData.RemoveRibbonControl("Administrar", "Modificar");
                 RibbonData.TabDataCollection[0].AddTabGroupData(CreateRibbonGroup());
-                #region Codigo Ejemplo
-                #endregion //Codigo Ejemplo
             }
         }
+
+        protected override void ExecuteCommandsRaiseCanExecuteChanged() {
+            base.ExecuteCommandsRaiseCanExecuteChanged();
+            //InformesCommand.RaiseCanExecuteChanged();
+        }
+
+        //private LibRibbonGroupData CreateInformesRibbonGroup() {
+        //    LibRibbonGroupData vResult = new LibRibbonGroupData("");
+        //    vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+        //        Label = "Informes",
+        //        Command = InformesCommand,
+        //        LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/report.png", UriKind.Relative),
+        //        ToolTipDescription = "Informes",
+        //        ToolTipTitle = "Informes"
+        //    });
+        //    return vResult;
+        //}
+
+        //private void ExecuteInformesCommand() {
+        //    try {
+        //        if (LibMessages.ReportsView.ShowReportsView(new clsNotaDeEntradaSalidaInformesViewModel(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()))) {
+        //            DialogResult = true;
+        //        }
+        //    } catch (System.AccessViolationException) {
+        //        throw;
+        //    } catch (System.Exception vEx) {
+        //        LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
+        //    }
+        //}
+
+        //private bool CanExecuteInformesCommand() {
+        //    return LibSecurityManager.CurrentUserHasAccessTo(ModuleName, "Informes");
+        //}
         #endregion //Metodos Generados
         #region Codigo Ejemplo
         /* Codigo de Ejemplo
@@ -145,7 +183,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         #endregion //Codigo Ejemplo
 
         private LibRibbonGroupData CreateRibbonGroup() {
-            LibRibbonGroupData vResult = new LibRibbonGroupData("Especial");
+            LibRibbonGroupData vResult = new LibRibbonGroupData("");
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
                 Label = "Anular Retiro",
                 Command = AnularCommand,
@@ -153,6 +191,14 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/specializedUpdate.png", UriKind.Relative),
                 ToolTipDescription = "Anula Notas de Salida por Retiro.",
                 ToolTipTitle = "Anular Notas de Salida por Retiro"
+            });
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData(){
+                Label = "Reimprimir Nota E/S",
+                Command = ReImprimirCommand,
+                CommandParameter = eAccionSR.ReImprimir,
+                LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/print.png", UriKind.Relative),
+                ToolTipDescription = "Reimprimir Nota de Entrada/Salida",
+                ToolTipTitle = "Reimprimir Nota de Entrada/Salida"
             });
             return vResult;
         }
@@ -176,7 +222,22 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             return CurrentItem != null && LibSecurityManager.CurrentUserHasAccessTo(ModuleName, "Anular Retiro");// && CurrentItem.TipodeOperacion == eTipodeOperacion.Retiro;
         }
 
+        private void ExecuteReImprimirCommand() {
+            try {
+                NotaDeEntradaSalidaViewModel vViewModel = CreateNewElement(CurrentItem.GetModel(), eAccionSR.ReImprimir);
+                vViewModel.InitializeViewModel(eAccionSR.ReImprimir);
+                LibMessages.EditViewModel.ShowEditor(vViewModel);
+            } catch (AccessViolationException) {
+                throw;
+            } catch (Exception vEx) {
+                LibMessages.RaiseError.ShowError(vEx);
+            }
+        }
+
+        private bool CanExecuteReImprimirCommand() {
+            return CurrentItem != null && LibSecurityManager.CurrentUserHasAccessTo(ModuleName, "Informes");
+        }
+
     } //End of class NotaDeEntradaSalidaMngViewModel
 
 } //End of namespace Galac.Saw.Uil.Inventario
-

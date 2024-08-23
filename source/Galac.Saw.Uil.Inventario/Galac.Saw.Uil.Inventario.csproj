@@ -112,6 +112,7 @@
     <Compile Include="clsTallaMenu.cs" />
     <Compile Include="clsVerificadorDePreciosMenu.cs" />
     <Compile Include="Reportes\clsListadoDeArticulosBalanzaViewModel.cs" />
+    <Compile Include="Reportes\clsNotaDeEntradaSalidaInformesViewModel.cs" />
     <Compile Include="Reportes\clsValoracionDeInventarioViewModel.cs" />
     <Compile Include="Reportes\GSListadoDeArticulosBalanza.xaml.cs">
       <DependentUpon>GSListadoDeArticulosBalanza.xaml</DependentUpon>

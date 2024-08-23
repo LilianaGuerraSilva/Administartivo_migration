@@ -178,9 +178,9 @@ namespace Galac.Saw.Dal.Inventario {
             ClearValidationInfo();            
             vResult = IsValidCodigoArticulo(valAction, CurrentRecord.CodigoArticulo);
             vResult = IsValidCantidad(valAction, CurrentRecord.Cantidad) && vResult;
-            vResult = IsValidFechaDeElaboracion(valAction, CurrentRecord.FechaDeElaboracion, CurrentRecord.FechaDeVencimiento, CurrentRecord.TipoArticuloInvAsEnum) && vResult;
-            vResult = IsValidFechaDeVencimiento(valAction, CurrentRecord.FechaDeElaboracion, CurrentRecord.FechaDeVencimiento, CurrentRecord.TipoArticuloInvAsEnum) && vResult;
             vResult = IsValidLoteDeInventario(valAction, CurrentRecord.LoteDeInventario, CurrentRecord.TipoArticuloInvAsEnum) && vResult;
+            //vResult = IsValidFechaDeElaboracion(valAction, CurrentRecord.FechaDeElaboracion, CurrentRecord.FechaDeVencimiento, CurrentRecord.TipoArticuloInvAsEnum) && vResult;
+            //vResult = IsValidFechaDeVencimiento(valAction, CurrentRecord.FechaDeElaboracion, CurrentRecord.FechaDeVencimiento, CurrentRecord.TipoArticuloInvAsEnum) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
         }
@@ -206,50 +206,6 @@ namespace Galac.Saw.Dal.Inventario {
             if (valCantidad <= 0) {
                 BuildValidationInfo("El campo Cantidad debe ser mayor a cero (0).");
                 vResult = false;
-            }
-            return vResult;
-        }
-
-        private bool IsValidFechaDeElaboracion(eAccionSR valAction, DateTime valFechaDeElaboracion, DateTime valFechaDeVencimiento, eTipoArticuloInv valTipoArticuloInv) {
-            bool vResult = true;
-            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar) || (valAction == eAccionSR.Anular)) {
-                return true;
-            }
-            if (valTipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento) {
-                if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(valFechaDeElaboracion, false, valAction)) {
-                    BuildValidationInfo(LibDefGen.MessageDateRestrictionDemoProgram());
-                    vResult = false;
-                }
-                if (LibDate.F1IsGreaterThanF2(valFechaDeElaboracion, valFechaDeVencimiento)) {
-                    BuildValidationInfo("La Fecha de Elaboración debe ser menor o igual a la Fecha de Vencimiento.");
-                    vResult = false;
-                }
-                if (LibDate.F1IsLessThanF2(valFechaDeElaboracion, new DateTime(2000, 01, 01))) {
-                    BuildValidationInfo("La Fecha de Elaboración debe ser mayor o igual a: " + LibConvert.ToStr(new DateTime(2000, 01, 01)));
-                    vResult = false;
-                }
-            } 
-            return vResult;
-        }
-
-        private bool IsValidFechaDeVencimiento(eAccionSR valAction, DateTime valFechaDeElaboracion, DateTime valFechaDeVencimiento, eTipoArticuloInv valTipoArticuloInv) {
-            bool vResult = true;
-            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar) || (valAction == eAccionSR.Anular)) {
-                return true;
-            }
-            if (valTipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento) {
-                if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(valFechaDeVencimiento, false, valAction)) {
-                    BuildValidationInfo(LibDefGen.MessageDateRestrictionDemoProgram());
-                    vResult = false;
-                }
-                if (LibDate.F1IsGreaterThanF2(valFechaDeElaboracion, valFechaDeVencimiento)) {
-                    BuildValidationInfo("La Fecha de Elaboración debe ser menor o igual a la Fecha de Vencimiento.");
-                    vResult = false;
-                }
-                if (LibDate.F1IsLessThanF2(valFechaDeVencimiento, new DateTime(2000, 01, 01))) {
-                    BuildValidationInfo("La Fecha de Vencimiento debe ser mayor o igual a: " + LibConvert.ToStr(new DateTime(2000, 01, 01)));
-                    vResult = false;
-                }
             }
             return vResult;
         }
