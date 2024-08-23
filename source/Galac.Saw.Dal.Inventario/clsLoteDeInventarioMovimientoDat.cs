@@ -167,22 +167,22 @@ namespace Galac.Saw.Dal.Inventario {
         protected override bool Validate(eAccionSR valAction, out string outErrorMessage) {
             bool vResult = true;
             ClearValidationInfo();
-            vResult = IsValidFecha(valAction, CurrentRecord.Fecha);
+            //vResult = IsValidFecha(valAction, CurrentRecord.Fecha);
             outErrorMessage = Information.ToString();
             return vResult;
         }
 
-        private bool IsValidFecha(eAccionSR valAction, DateTime valFecha){
-            bool vResult = true;
-            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
-                return true;
-            }
-            if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(valFecha, false, valAction)) {
-                BuildValidationInfo(LibDefGen.MessageDateRestrictionDemoProgram());
-                vResult = false;
-            }
-            return vResult;
-        }
+        //private bool IsValidFecha(eAccionSR valAction, DateTime valFecha){
+        //    bool vResult = true;
+        //    if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+        //        return true;
+        //    }
+        //    if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(valFecha, false, valAction)) {
+        //        BuildValidationInfo(LibDefGen.MessageDateRestrictionDemoProgram());
+        //        vResult = false;
+        //    }
+        //    return vResult;
+        //}
 
         private bool KeyExists(int valConsecutivoCompania, int valConsecutivoLote, int valConsecutivo) {
             bool vResult = false;

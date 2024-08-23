@@ -32,7 +32,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         #endregion //Variables
         #region Propiedades
         public override string ModuleName {
-            get { return "Renglon Nota ES"; }
+            get { return "Renglón Nota ES"; }
         }
 
         public int ConsecutivoCompania {
@@ -348,7 +348,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 vInvocarCrear = vInvocarCrear && !LibString.S1IsInS2("*", valCodigoLote);
                 vInvocarCrear = vInvocarCrear && !((ILoteDeInventarioPdn)new clsLoteDeInventarioNav()).ExisteLoteDeInventario(Mfc.GetInt("Compania"), CodigoArticulo, valCodigoLote);
                 if (vInvocarCrear) {
-                    new LoteDeInventarioMngViewModel().ExecuteCreateCommandEspecial(valCodigoLote, CodigoArticulo, TipoArticuloInv);
+                    new LoteDeInventarioMngViewModel().ExecuteCreateCommandEspecial(ref valCodigoLote, CodigoArticulo, TipoArticuloInv);
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("CodigoLote", valCodigoLote);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
@@ -379,12 +379,10 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 return ValidationResult.Success;
             } else if (TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || TipoArticuloInv == eTipoArticuloInv.Lote) {
                 if (LibString.IsNullOrEmpty(LoteDeInventario, true)) {
-                    vResult = new ValidationResult("Para los Artículos de Inventario del tipo Lote/Fecha de Vencimiento, el Lote de Inventario es requerido.");
-                } else if (Master.TipodeOperacion == eTipodeOperacion.EntradadeInventario) {
-                    //puede ser nuevo
+                    vResult = new ValidationResult("El Lote de Inventario no fue ingresado.");
                 } else if (Master.TipodeOperacion != eTipodeOperacion.EntradadeInventario) {
                     if (ConexionLoteDeInventario == null || LibString.IsNullOrEmpty(ConexionLoteDeInventario.CodigoLote, true)) {
-                        vResult = new ValidationResult("El Código de Lote de Inventario es requerido y debe existir previamente.");
+                        vResult = new ValidationResult("El Lote de Inventario es requerido y debe existir.");
                     }
                 }
             } else if (TipoArticuloInv != eTipoArticuloInv.LoteFechadeVencimiento && TipoArticuloInv != eTipoArticuloInv.Lote) {

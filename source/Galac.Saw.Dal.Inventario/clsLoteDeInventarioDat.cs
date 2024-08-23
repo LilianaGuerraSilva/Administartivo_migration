@@ -304,8 +304,8 @@ namespace Galac.Saw.Dal.Inventario {
             vResult = IsValidConsecutivo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo) && vResult;
             vResult = IsValidCodigoLote(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.CodigoLote, CurrentRecord.CodigoArticulo) && vResult;
             vResult = IsValidCodigoArticulo(valAction, CurrentRecord.CodigoArticulo) && vResult;
-            vResult = IsValidFechaDeElaboracion(valAction, CurrentRecord.FechaDeElaboracion) && vResult;
-            vResult = IsValidFechaDeVencimiento(valAction, CurrentRecord.FechaDeVencimiento) && vResult;
+            vResult = IsValidFechaDeElaboracion(valAction, CurrentRecord.FechaDeElaboracion, CurrentRecord.FechaDeVencimiento) && vResult;
+            vResult = IsValidFechaDeVencimiento(valAction, CurrentRecord.FechaDeVencimiento, CurrentRecord.FechaDeElaboracion) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
         }
@@ -370,27 +370,51 @@ namespace Galac.Saw.Dal.Inventario {
             return vResult;
         }
 
-        private bool IsValidFechaDeElaboracion(eAccionSR valAction, DateTime valFechaDeElaboracion){
+        private bool IsValidFechaDeElaboracion(eAccionSR valAction, DateTime valFechaDeElaboracion, DateTime valFechaDeVencimiento) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
-            if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(valFechaDeElaboracion, false, valAction)) {
-                BuildValidationInfo(LibDefGen.MessageDateRestrictionDemoProgram());
-                vResult = false;
+            if (TipoArticuloInvEsLoteFecha(CurrentRecord.ConsecutivoCompania, CurrentRecord.CodigoArticulo)) {
+                if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(valFechaDeElaboracion, false, valAction)) {
+                    BuildValidationInfo(LibDefGen.MessageDateRestrictionDemoProgram());
+                    vResult = false;
+                }
+                if (LibDate.F1IsGreaterThanF2(valFechaDeElaboracion, valFechaDeVencimiento)) {
+                    BuildValidationInfo("La Fecha de Elaboración debe ser menor o igual a la Fecha de Vencimiento.");
+                    vResult = false;
+                }
             }
             return vResult;
         }
 
-        private bool IsValidFechaDeVencimiento(eAccionSR valAction, DateTime valFechaDeVencimiento){
+        private bool IsValidFechaDeVencimiento(eAccionSR valAction, DateTime valFechaDeVencimiento, DateTime valFechaDeElaboracion) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
-            if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(valFechaDeVencimiento, false, valAction)) {
-                BuildValidationInfo(LibDefGen.MessageDateRestrictionDemoProgram());
-                vResult = false;
+            if (TipoArticuloInvEsLoteFecha(CurrentRecord.ConsecutivoCompania, CurrentRecord.CodigoArticulo)) {
+                if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(valFechaDeVencimiento, false, valAction)) {
+                    BuildValidationInfo(LibDefGen.MessageDateRestrictionDemoProgram());
+                    vResult = false;
+                }
+                if (LibDate.F1IsGreaterThanF2(valFechaDeElaboracion, valFechaDeVencimiento)) {
+                    BuildValidationInfo("La Fecha de Elaboración debe ser menor o igual a la Fecha de Vencimiento.");
+                    vResult = false;
+                }
             }
+            return vResult;
+        }
+
+        private bool TipoArticuloInvEsLoteFecha(int valConsecutivoCompania, string valCodigoArticulo) {
+            bool vResult = false;
+            LibDatabase insDb = new LibDatabase();
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("SELECT Codigo FROM ArticuloInventario ");
+            vSql.AppendLine("WHERE ConsecutivoCompania = " + insDb.InsSql.ToSqlValue(valConsecutivoCompania));
+            vSql.AppendLine(" AND Codigo = " + insDb.InsSql.ToSqlValue(valCodigoArticulo));
+            vSql.AppendLine(" AND TipoArticuloInv = " + insDb.InsSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento));
+            vResult = insDb.RecordCountOfSql(vSql.ToString()) > 0;
             return vResult;
         }
 

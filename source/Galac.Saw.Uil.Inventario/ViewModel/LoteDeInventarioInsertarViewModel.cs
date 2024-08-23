@@ -67,6 +67,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             set {
                 if (Model.CodigoLote != value) {
                     Model.CodigoLote = value;
+                    ReturnCodigoLote = Model.CodigoLote;
                     IsDirty = true;
                     RaisePropertyChanged(CodigoLotePropertyName);
                 }
@@ -238,12 +239,14 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
+        public string ReturnCodigoLote { private set; get; }
+
         public bool IsVisibleFechaLoteDeInventario {
             get { return TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento; }
         }
 
         public bool IsVisibleDetaillLoteDeInventario {
-            get { return  Action == eAccionSR.Consultar; }
+            get { return Action == eAccionSR.Consultar; }
         }
         #endregion //Propiedades
         #region Constructores
@@ -261,9 +264,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         protected override void InitializeLookAndFeel(LoteDeInventario valModel) {
             base.InitializeLookAndFeel(valModel);
-            //if (LibString.IsNullOrEmpty(CodigoLote, true)) {
-            //    CodigoLote = GenerarProximoCodigoLote();
-            //}
         }
 
         protected override LoteDeInventario FindCurrentRecord(LoteDeInventario valModel) {
@@ -280,19 +280,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             return new clsLoteDeInventarioNav();
         }
 
-        //private string GenerarProximoCodigoLote() {
-        //    string vResult = string.Empty;
-        //    XElement vResulset = GetBusinessComponent().QueryInfo(eProcessMessageType.Message, "ProximoCodigoLote", Mfc.GetIntAsParam("Compania"), false);
-        //    vResult = LibXml.GetPropertyString(vResulset, "CodigoLote");
-        //    return vResult;
-        //}
-
         protected override void InitializeDetails() {
-            //DetailLoteDeInventarioMovimiento = new LoteDeInventarioMovimientoMngViewModel(this, Model.DetailLoteDeInventarioMovimiento, Action);
-            //DetailLoteDeInventarioMovimiento.OnCreated += new EventHandler<SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel>>(DetailLoteDeInventarioMovimiento_OnCreated);
-            //DetailLoteDeInventarioMovimiento.OnUpdated += new EventHandler<SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel>>(DetailLoteDeInventarioMovimiento_OnUpdated);
-            //DetailLoteDeInventarioMovimiento.OnDeleted += new EventHandler<SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel>>(DetailLoteDeInventarioMovimiento_OnDeleted);
-            //DetailLoteDeInventarioMovimiento.OnSelectedItemChanged += new EventHandler<SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel>>(DetailLoteDeInventarioMovimiento_OnSelectedItemChanged);
+
         }
         #region LoteDeInventarioMovimiento
 
@@ -306,37 +295,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
-
-        //private void DetailLoteDeInventarioMovimiento_OnDeleted(object sender, SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel> e) {
-        //    try {
-        //        IsDirty = true;
-        //        Model.DetailLoteDeInventarioMovimiento.Remove(e.ViewModel.GetModel());
-        //    } catch (System.AccessViolationException) {
-        //        throw;
-        //    } catch (System.Exception vEx) {
-        //        LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
-        //    }
-        //}
-
-        //private void DetailLoteDeInventarioMovimiento_OnUpdated(object sender, SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel> e) {
-        //    try {
-        //        IsDirty = e.ViewModel.IsDirty;
-        //    } catch (System.AccessViolationException) {
-        //        throw;
-        //    } catch (System.Exception vEx) {
-        //        LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
-        //    }
-        //}
-
-        //private void DetailLoteDeInventarioMovimiento_OnCreated(object sender, SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel> e) {
-        //    try {
-        //        Model.DetailLoteDeInventarioMovimiento.Add(e.ViewModel.GetModel());
-        //    } catch (System.AccessViolationException) {
-        //        throw;
-        //    } catch (System.Exception vEx) {
-        //        LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
-        //    }
-        //}
         #endregion //LoteDeInventarioMovimiento
 
         protected override void InitializeCommands() {
@@ -349,7 +307,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_ArticuloInventario_B2.Codigo", CodigoArticulo);
             vDefaultCriteria.Add(LibSearchCriteria.CreateCriteria("Gv_ArticuloInventario_B2.ConsecutivoCompania", ConsecutivoCompania), eLogicOperatorType.And);
             ConexionCodigoArticulo = FirstConnectionRecordOrDefault<FkArticuloInventarioViewModel>("Artículo Inventario", vDefaultCriteria);
-            TipoArticuloInv = ConexionCodigoArticulo.TipoArticuloInv;            
+            TipoArticuloInv = ConexionCodigoArticulo.TipoArticuloInv;
         }
 
         private void ExecuteChooseCodigoArticuloCommand(string valCodigo) {
@@ -378,14 +336,16 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaDeElaboracion, false, Action)) {
-                    vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha de Elaboración"));
-                } else if (LibDate.F1IsGreaterThanF2(FechaDeElaboracion, FechaDeVencimiento)) {
-                    vResult = new ValidationResult("La Fecha de Elaboración debe ser menor o igual a la Fecha de Vencimiento.");
-                } else if (LibDate.F1IsLessThanF2(FechaDeElaboracion, LibDate.MinDateForDB())) {
-                    vResult = new ValidationResult("La Fecha de Elaboración debe ser mayor o igual a: " + LibConvert.ToStr(LibDate.MinDateForDB()));
-                } else if (LibDate.F1IsGreaterThanF2(FechaDeElaboracion, LibDate.MaxDateForDB())) {
-                    vResult = new ValidationResult("La Fecha de Elaboración debe ser menor o igual a: " + LibConvert.ToStr(LibDate.MaxDateForDB()));
+                if (TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento) {
+                    if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaDeElaboracion, false, Action)) {
+                        vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha de Elaboración"));
+                    } else if (LibDate.F1IsGreaterThanF2(FechaDeElaboracion, FechaDeVencimiento)) {
+                        vResult = new ValidationResult("La Fecha de Elaboración debe ser menor o igual a la Fecha de Vencimiento.");
+                    } else if (LibDate.F1IsLessThanF2(FechaDeElaboracion, LibDate.MinDateForDB())) {
+                        vResult = new ValidationResult("La Fecha de Elaboración debe ser mayor o igual a: " + LibConvert.ToStr(LibDate.MinDateForDB()));
+                    } else if (LibDate.F1IsGreaterThanF2(FechaDeElaboracion, LibDate.MaxDateForDB())) {
+                        vResult = new ValidationResult("La Fecha de Elaboración debe ser menor o igual a: " + LibConvert.ToStr(LibDate.MaxDateForDB()));
+                    }
                 }
             }
             return vResult;
@@ -396,14 +356,16 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaDeVencimiento, false, Action)) {
-                    vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha de Vencimiento"));
-                } else if (LibDate.F1IsGreaterThanF2(FechaDeElaboracion, FechaDeVencimiento)) {
-                    vResult = new ValidationResult("La Fecha de Vencimiento debe ser mayor o igual a la Fecha de Elaboración.");
-                } else if (LibDate.F1IsLessThanF2(FechaDeVencimiento, LibDate.MinDateForDB())) {
-                    vResult = new ValidationResult("La Fecha de Vencimiento debe ser mayor o igual a: " + LibConvert.ToStr(LibDate.MinDateForDB()));
-                } else if (LibDate.F1IsGreaterThanF2(FechaDeVencimiento, LibDate.MaxDateForDB())) {
-                    vResult = new ValidationResult("La Fecha de Vencimiento debe ser menor o igual a: " + LibConvert.ToStr(LibDate.MaxDateForDB()));
+                if (TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento) {
+                    if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaDeVencimiento, false, Action)) {
+                        vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha de Vencimiento"));
+                    } else if (LibDate.F1IsGreaterThanF2(FechaDeElaboracion, FechaDeVencimiento)) {
+                        vResult = new ValidationResult("La Fecha de Vencimiento debe ser mayor o igual a la Fecha de Elaboración.");
+                    } else if (LibDate.F1IsLessThanF2(FechaDeVencimiento, LibDate.MinDateForDB())) {
+                        vResult = new ValidationResult("La Fecha de Vencimiento debe ser mayor o igual a: " + LibConvert.ToStr(LibDate.MinDateForDB()));
+                    } else if (LibDate.F1IsGreaterThanF2(FechaDeVencimiento, LibDate.MaxDateForDB())) {
+                        vResult = new ValidationResult("La Fecha de Vencimiento debe ser menor o igual a: " + LibConvert.ToStr(LibDate.MaxDateForDB()));
+                    }
                 }
             }
             return vResult;
@@ -424,5 +386,4 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
     } //End of class LoteDeInventarioViewModelInsertar
-
 } //End of namespace Galac.Saw.Uil.Inventario

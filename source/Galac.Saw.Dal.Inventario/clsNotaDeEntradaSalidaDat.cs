@@ -16,7 +16,7 @@ using Galac.Saw.Ccl.Inventario;
 using Galac.Saw.Lib;
 
 namespace Galac.Saw.Dal.Inventario {
-    public class clsNotaDeEntradaSalidaDat: LibData, ILibDataMasterComponentWithSearch<IList<NotaDeEntradaSalida>, IList<NotaDeEntradaSalida>> {
+    public class clsNotaDeEntradaSalidaDat: LibData, ILibDataMasterComponentWithSearch<IList<NotaDeEntradaSalida>, IList<NotaDeEntradaSalida>>, ILibDataRpt {
         #region Variables
         LibDataScope insTrn;
         NotaDeEntradaSalida _CurrentRecord;
@@ -519,14 +519,13 @@ namespace Galac.Saw.Dal.Inventario {
         #endregion //Miembros de ILibDataFKSearch
 
         #region //Miembros de ILibDataRpt
+        System.Data.DataTable ILibDataRpt.GetDt(string valSqlStringCommand, int valCmdTimeout) {
+            return new LibDataReport().GetDataTableForReport(valSqlStringCommand, valCmdTimeout);
+        }
 
-        //System.Data.DataTable ILibDataRpt.GetDt(string valSqlStringCommand, int valCmdTimeout) {
-        //    return new LibDataReport().GetDataTableForReport(valSqlStringCommand, valCmdTimeout);
-        //}
-
-        //System.Data.DataTable ILibDataRpt.GetDt(string valSpName, StringBuilder valXmlParamsExpression, int valCmdTimeout) {
-        //    return new LibDataReport().GetDataTableForReport(valSpName, valXmlParamsExpression, valCmdTimeout);
-        //}
+        System.Data.DataTable ILibDataRpt.GetDt(string valSpName, StringBuilder valXmlParamsExpression, int valCmdTimeout) {
+            return new LibDataReport().GetDataTableForReport(valSpName, valXmlParamsExpression, valCmdTimeout);
+        }
         #endregion ////Miembros de ILibDataRpt
         #endregion //Metodos Generados
 

@@ -16,6 +16,7 @@ using Galac.Saw.Brl.Inventario;
 using Galac.Saw.Ccl.Inventario;
 using Galac.Saw.Lib;
 using System.Text;
+using Galac.Saw.Uil.Inventario.Reportes;
 
 namespace Galac.Saw.Uil.Inventario.ViewModel {
     public class NotaDeEntradaSalidaViewModel : LibInputMasterViewModelMfc<NotaDeEntradaSalida> {
@@ -459,16 +460,21 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                         }
                     }
                 } else {
-                    LibMessages.MessageBox.Information(this, "Solo se pueden Anular las Notas de Retiro de Inventario", ModuleName);
+                    LibMessages.MessageBox.Information(this, "Sólo se pueden Anular las Notas de Retiro de Inventario", ModuleName);
                 }
                 RaiseRequestCloseEvent();
+            } else if (Action == eAccionSR.ReImprimir) {
+                CloseOnActionComplete = true;
+                DialogResult = true;
+                clsNotaDeEntradaSalidaInformesViewModel insViewModel = new clsNotaDeEntradaSalidaInformesViewModel();
+                insViewModel.ConfigReportNotaEntradaSalida(NumeroDocumento);
             } else {
                 base.ExecuteAction();
             }
         }
 
         public override bool OnClosing() {
-            if (Action == eAccionSR.Anular) {
+            if (Action == eAccionSR.Anular || Action == eAccionSR.ReImprimir) {
                 return false;
             } else {
                 return base.OnClosing();
@@ -626,7 +632,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         public bool NotaESIsEnabled {
             get {
-                return IsEnabled && Action != eAccionSR.Anular;
+                return IsEnabled && Action != eAccionSR.Anular && Action != eAccionSR.ReImprimir;
             }
         }
 
@@ -641,25 +647,29 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                     string vFechaMinima = LibConvert.ToStr(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Parametros", "FechaMinimaIngresarDatos"));
                     vResult = new ValidationResult("La fecha mínima de entrada de documentos para esta Compañía es: " + vFechaMinima);
                 }
-                //if ((Action == eAccionSR.Insertar) 
-                //    && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Compania", "UsaModuloDeContabilidad") 
-                //    && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaCostoPromedio")
-                //    && (new clsLibSaw().EsValidaLaFechaParaContabilidad(ConsecutivoCompania, Fecha))) {
-                //    if (((IArticuloInventarioPdn)new clsArticuloInventarioNav()).ExistenComprobantesDeCostoDeVentasPosteriores(ConsecutivoCompania, Fecha)) {
-                //        StringBuilder vMsg = new StringBuilder();
-                //        vMsg.AppendLine("Existe al menos un Comprobante de Costo de Venta posterior a la operación de " + LibEAccionSR.ToString(Action) + ".");
-                //        vMsg.AppendLine();
-                //        vMsg.AppendLine("Deberá abrir el Período y/o Eliminar el Comprobante para " + LibEAccionSR.ToString(Action) + " el documento.");
-                //        vResult = new ValidationResult(vMsg.ToString());
-                //    }
-                //}
-
             }
             return vResult;
         }
         #endregion //Metodos Generados
 
+        protected override bool CreateRecord() {
+            bool vResult = base.CreateRecord();
+            bool vImprimirReporteAlIngresarNotaEntradaSalida = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "ImprimirReporteAlIngresarNotaEntradaSalida");
+            if (vResult && vImprimirReporteAlIngresarNotaEntradaSalida) {
+                clsNotaDeEntradaSalidaInformesViewModel insInfViewModel = new clsNotaDeEntradaSalidaInformesViewModel();
+                insInfViewModel.ConfigReportNotaEntradaSalida(NumeroDocumento);
+            }
+            return vResult;
+        }
 
+        //protected override void ExecuteSpecialAction(eAccionSR valAction) {
+        //    if (valAction == eAccionSR.ReImprimir) {
+        //        CloseOnActionComplete = true;
+        //        DialogResult = true;
+        //        clsNotaDeEntradaSalidaInformesViewModel insViewModel = new clsNotaDeEntradaSalidaInformesViewModel();
+        //        insViewModel.ConfigReportNotaEntradaSalida(ConsecutivoCompania, NumeroDocumento);
+        //    }
+        //}
     } //End of class NotaDeEntradaSalidaViewModel
 
 } //End of namespace Galac.Saw.Uil.Inventario
