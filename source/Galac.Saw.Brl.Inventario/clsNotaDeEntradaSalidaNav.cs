@@ -258,16 +258,17 @@ namespace Galac.Saw.Brl.Inventario {
             return vResult;
         }
         */
-        #endregion //Codigo Ejemplo
+        #endregion //Codigo Ejemplo        
 
         protected override LibResponse InsertRecord(IList<NotaDeEntradaSalida> refRecord, bool valUseDetail) {
-            LibResponse vResult = new LibResponse();
-            if (valUseDetail) {
+            LibResponse vResult = new LibResponse();            
+            if (valUseDetail) {               
                 foreach (NotaDeEntradaSalida vItem in refRecord) {
                     if (vItem != null) {
+                        ValidaListasDeArticulos(vItem);
                         IList<NotaDeEntradaSalida> vItemList = new List<NotaDeEntradaSalida>();
                         vItemList.Add(vItem);
-                        if (vItem.TipodeOperacionAsEnum == eTipodeOperacion.EntradadeInventario) {
+                        if (vItem.TipodeOperacionAsEnum == eTipodeOperacion.EntradadeInventario) {                            
                             vResult = base.InsertRecord(vItemList, valUseDetail);
                             if (vResult.Success) {
                                 ActualizaExistenciaDeArticulos(vItem, eAccionSR.Insertar);
@@ -440,6 +441,16 @@ namespace Galac.Saw.Brl.Inventario {
                 }
                 outCodigos = vCodigos;
                 return (LibString.Len(vCodigos) <= 0);
+            }
+        }
+		
+        private void ValidaListasDeArticulos(NotaDeEntradaSalida refRecord) {
+            var articulosDuplicados = refRecord.DetailRenglonNotaES
+            .GroupBy(a => new { a.CodigoArticulo, a.LoteDeInventario })
+            .Where(g => g.Count() > 1 && g.All(a => a.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote || a.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento))
+            .SelectMany(g => g).ToList();
+            if (articulosDuplicados.Count() > 0) {
+                throw new LibGalac.Aos.Catching.GalacValidationException("En la lista de ítems, existe al menos un lote de inventario repetido para un mismo artículo.");
             }
         }
 
