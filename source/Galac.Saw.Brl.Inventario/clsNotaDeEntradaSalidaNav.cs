@@ -264,8 +264,7 @@ namespace Galac.Saw.Brl.Inventario {
             LibResponse vResult = new LibResponse();            
             if (valUseDetail) {               
                 foreach (NotaDeEntradaSalida vItem in refRecord) {
-                    if (vItem != null) {
-                        ValidaListasDeArticulos(vItem);
+                    if (vItem != null) {                        
                         IList<NotaDeEntradaSalida> vItemList = new List<NotaDeEntradaSalida>();
                         vItemList.Add(vItem);
                         if (vItem.TipodeOperacionAsEnum == eTipodeOperacion.EntradadeInventario) {                            
@@ -442,18 +441,8 @@ namespace Galac.Saw.Brl.Inventario {
                 outCodigos = vCodigos;
                 return (LibString.Len(vCodigos) <= 0);
             }
-        }
-		
-        private void ValidaListasDeArticulos(NotaDeEntradaSalida refRecord) {
-            var articulosDuplicados = refRecord.DetailRenglonNotaES
-            .GroupBy(a => new { a.CodigoArticulo, a.LoteDeInventario })
-            .Where(g => g.Count() > 1 && g.All(a => a.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote || a.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento))
-            .SelectMany(g => g).ToList();
-            if (articulosDuplicados.Count() > 0) {
-                throw new LibGalac.Aos.Catching.GalacValidationException("En la lista de ítems, existe al menos un lote de inventario repetido para un mismo artículo.");
-            }
-        }
-
+        }	
+       
         bool PermitirSobregiro() {
             Ccl.SttDef.ePermitirSobregiro vParametroPermitirSobregiro = (Ccl.SttDef.ePermitirSobregiro)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetEnum("FacturaRapida", "PermitirSobregiro");
             return vParametroPermitirSobregiro == Ccl.SttDef.ePermitirSobregiro.PermitirSobregiro || vParametroPermitirSobregiro == Ccl.SttDef.ePermitirSobregiro.NoChequearExistencia;
