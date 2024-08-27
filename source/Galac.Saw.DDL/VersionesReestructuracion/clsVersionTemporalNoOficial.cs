@@ -38,8 +38,6 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 				AddForeignKey("dbo.NotaDeEntradaSalida", "dbo.RenglonNotaES", new string[] { "ConsecutivoCompania,NumeroDocumento" }, new string[] { "ConsecutivoCompania,NumeroDocumento" }, true, true);
 
 				AddColumnString("dbo.RenglonNotaES", "LoteDeInventario", 30, "", "");
-				AddColumnDate("dbo.RenglonNotaES", "FechaDeElaboracion", "", false, true);
-				AddColumnDate("dbo.RenglonNotaES", "FechaDeVencimiento", "", false, true);
 			}
 		}
 

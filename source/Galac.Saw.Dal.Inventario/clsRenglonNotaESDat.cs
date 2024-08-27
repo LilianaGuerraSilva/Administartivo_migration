@@ -38,7 +38,6 @@ namespace Galac.Saw.Dal.Inventario {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             vParams.AddReturn();
-            vParams.AddInDateFormat("DateFormat");
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
             vParams.AddInString("NumeroDocumento", valRecord.NumeroDocumento, 11);
             vParams.AddInInteger("ConsecutivoRenglon", valRecord.ConsecutivoRenglon);
@@ -50,8 +49,6 @@ namespace Galac.Saw.Dal.Inventario {
             vParams.AddInDecimal("CostoUnitario", valRecord.CostoUnitario, 2);
             vParams.AddInDecimal("CostoUnitarioME", valRecord.CostoUnitarioME, 2);
             vParams.AddInString("LoteDeInventario", valRecord.LoteDeInventario, 30);
-            vParams.AddInDateTime("FechaDeElaboracion", valRecord.FechaDeElaboracion);
-            vParams.AddInDateTime("FechaDeVencimiento", valRecord.FechaDeVencimiento);
             vResult = vParams.Get();
             return vResult;
         }
@@ -60,7 +57,6 @@ namespace Galac.Saw.Dal.Inventario {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             vParams.AddReturn();
-            vParams.AddInDateFormat("DateFormat");
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
             vParams.AddInString("NumeroDocumento", valRecord.NumeroDocumento, 11);
             vParams.AddInXml("XmlDataDetail", ParseToXml(valRecord));
@@ -125,9 +121,7 @@ namespace Galac.Saw.Dal.Inventario {
                     new XElement("Rollo", vEntity.Rollo),
                     new XElement("CostoUnitario", vEntity.CostoUnitario),
                     new XElement("CostoUnitarioME", vEntity.CostoUnitarioME),
-                    new XElement("LoteDeInventario", vEntity.LoteDeInventario),
-                    new XElement("FechaDeElaboracion", vEntity.FechaDeElaboracion),
-                    new XElement("FechaDeVencimiento", vEntity.FechaDeVencimiento)));
+                    new XElement("LoteDeInventario", vEntity.LoteDeInventario)));
             return vXElement;
         }
         #region Miembros de ILibDataDetailComponent<IList<RenglonNotaES>, IList<RenglonNotaES>>
@@ -177,10 +171,7 @@ namespace Galac.Saw.Dal.Inventario {
             bool vResult = true;
             ClearValidationInfo();            
             vResult = IsValidCodigoArticulo(valAction, CurrentRecord.CodigoArticulo);
-            vResult = IsValidCantidad(valAction, CurrentRecord.Cantidad) && vResult;
             vResult = IsValidLoteDeInventario(valAction, CurrentRecord.LoteDeInventario, CurrentRecord.TipoArticuloInvAsEnum) && vResult;
-            //vResult = IsValidFechaDeElaboracion(valAction, CurrentRecord.FechaDeElaboracion, CurrentRecord.FechaDeVencimiento, CurrentRecord.TipoArticuloInvAsEnum) && vResult;
-            //vResult = IsValidFechaDeVencimiento(valAction, CurrentRecord.FechaDeElaboracion, CurrentRecord.FechaDeVencimiento, CurrentRecord.TipoArticuloInvAsEnum) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
         }
@@ -220,6 +211,12 @@ namespace Galac.Saw.Dal.Inventario {
                 if (LibString.IsNullOrEmpty(valLoteDeInventario, true)) {
                     BuildValidationInfo(MsgRequiredField("Lote de Inventario"));
                     vResult = false;
+                } else {
+                    LibDatabase insDb = new LibDatabase();
+                    if (!insDb.ExistsValue("Saw.LoteDeInventario", "CodigoLote", insDb.InsSql.ToSqlValue(valLoteDeInventario), true)) {
+                        BuildValidationInfo("El valor asignado al campo Lote De Inventario no existe, escoga nuevamente.");
+                        vResult = false;
+                    }
                 }
             }
             return vResult;

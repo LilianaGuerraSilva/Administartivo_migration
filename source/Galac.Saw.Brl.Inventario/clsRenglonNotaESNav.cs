@@ -98,8 +98,6 @@ namespace Galac.Saw.Brl.Inventario {
             vCurrentRecord.CostoUnitario = 0;
             vCurrentRecord.CostoUnitarioME = 0;
             vCurrentRecord.LoteDeInventario = "";
-            vCurrentRecord.FechaDeElaboracion = LibDate.Today();
-            vCurrentRecord.FechaDeVencimiento = LibDate.Today();
             vLista.Add(vCurrentRecord);
             return instanciaDal.Insert(vLista).Success;
         }
@@ -143,12 +141,6 @@ namespace Galac.Saw.Brl.Inventario {
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("LoteDeInventario"), null))) {
                     vRecord.LoteDeInventario = vItem.Element("LoteDeInventario").Value;
-                }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("FechaDeElaboracion"), null))) {
-                    vRecord.FechaDeElaboracion = LibConvert.ToDate(vItem.Element("FechaDeElaboracion"));
-                }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("FechaDeVencimiento"), null))) {
-                    vRecord.FechaDeVencimiento = LibConvert.ToDate(vItem.Element("FechaDeVencimiento"));
                 }
                 vResult.Add(vRecord);
             }
