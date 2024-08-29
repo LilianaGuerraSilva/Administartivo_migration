@@ -64,7 +64,7 @@ namespace Galac.Saw.Dal.Inventario {
 
         private string SqlViewB1() {
             StringBuilder SQL = new StringBuilder();
-            SQL.AppendLine("SELECT LoteDeInventario.ConsecutivoCompania, LoteDeInventario.Consecutivo, LoteDeInventario.CodigoLote, LoteDeInventario.CodigoArticulo,ArticuloInventario.Descripcion As DescripcionArticulo");
+            SQL.AppendLine("SELECT LoteDeInventario.ConsecutivoCompania, LoteDeInventario.Consecutivo, LoteDeInventario.CodigoLote, LoteDeInventario.CodigoArticulo, ArticuloInventario.Descripcion As DescripcionArticulo");
             SQL.AppendLine(", LoteDeInventario.FechaDeElaboracion, LoteDeInventario.FechaDeVencimiento, LoteDeInventario.Existencia, LoteDeInventario.StatusLoteInv, " + DbSchema + ".Gv_EnumStatusLoteDeInventario.StrValue AS StatusLoteInvStr");
             SQL.AppendLine(", LoteDeInventario.NombreOperador, LoteDeInventario.FechaUltimaModificacion");
             SQL.AppendLine(", LoteDeInventario.fldTimeStamp, CAST(LoteDeInventario.fldTimeStamp AS bigint) AS fldTimeStampBigint");
@@ -73,8 +73,8 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("ON " + DbSchema + ".LoteDeInventario.StatusLoteInv COLLATE MODERN_SPANISH_CS_AS");
             SQL.AppendLine(" = " + DbSchema + ".Gv_EnumStatusLoteDeInventario.DbValue");
             SQL.AppendLine("INNER JOIN dbo.ArticuloInventario");
-            SQL.AppendLine("ON " + DbSchema + ".LoteDeInventario.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania");
-            SQL.AppendLine("AND " + DbSchema + ".LoteDeInventario.CodigoArticulo = ArticuloInventario.Codigo");
+            SQL.AppendLine("ON " + DbSchema + ".LoteDeInventario.CodigoArticulo = ArticuloInventario.Codigo");
+            SQL.AppendLine("AND " + DbSchema + ".LoteDeInventario.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania");
             return SQL.ToString();
         }
 
