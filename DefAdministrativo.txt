@@ -131,7 +131,7 @@ unTipoComision = (Por Porcentaje, Por Monto);//e
 unComisionesEnFactura = (SobreTotalFactura,SobreRenglones,SobreTotalFacturayRenglones );//e
 unComisionesEnRenglones = (PorUnVendedor, PordosVendedores, PorTresVendedores);//e
 unSalonDeCurso = (SALA 1, SALA 2, SALA 3); //e
-unTipoArticuloInv = (Simple,Usa Talla/Color, Usa Serial, Usa Talla/Color y Serial, Usa Serial/Rollo, Lote/Fecha de Vencimiento);//e,Componente=Inventario
+unTipoArticuloInv = (Simple,Usa Talla/Color, Usa Serial, Usa Talla/Color y Serial, Usa Serial/Rollo, Lote/Fecha de Vencimiento, Lote);//e,Componente=Inventario
 unAccionAlAnularFactDeMesesAnt = (Permitir Anular Sin Chequear, Preguntar Si Desea Anular, No Permitir Anular);//e
 unStatusNEntrega = (Borrador, Emitida, Reintegrada, Anulada);//e
 UnNEntregaGeneradaPor = (Usuario, Factura);//e 
@@ -1322,7 +1322,7 @@ unStatusDocOrigenLoteInv = (Vigente, Anulado);//e,Componente=Inventario
     CodigoCliente        : Str10;//g,"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()",search
     NombreCliente        : Str80;//g,Logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()",search
     CodigoAlmacen        : str5; //g,=Almacen.Codigo,search
-    NombreAlmacen        : Str40;//Logical,a,=Almacen.NombreAlmacen
+    NombreAlmacen        : Str40;//Logical,a,=Almacen.NombreAlmacen,g,search
     Fecha                : date; //o,search
     Comentarios          : Str255; //search
     CodigoLote           : Str10;//HIDE
@@ -1351,9 +1351,7 @@ unStatusDocOrigenLoteInv = (Vigente, Anulado);//e,Componente=Inventario
    Rollo		: Str20;//HIDE
    CostoUnitario	: decimal;//dv=0,HIDE
    CostoUnitarioME	: decimal;//dv=0,HIDE
-   LoteDeInventario	: Str30;//g
-   FechaDeElaboracion	: date;//g
-   FechaDeVencimiento   : date;//g
+   LoteDeInventario	: Str30;//g,=LoteDeInventario.CodigoLote
 
 @PrimaryKey=ConsecutivoCompania,NumeroDocumento,ConsecutivoRenglon
 //@PrimaryKey=ConsecutivoCompania,ConsecutivoNotaDeEntradaSalida,ConsecutivoRenglon
@@ -3339,7 +3337,7 @@ unStatusDocOrigenLoteInv = (Vigente, Anulado);//e,Componente=Inventario
 }  
 }
 
-{@M}ArticuloInventario = Record//Multiarchivo=Compania, "Artículo Inventario", Componente=Inventario,Esquema=Saw, GenerateRptConfigurar,GenerateFrmInforme
+{@M}ArticuloInventario = Record//Multiarchivo=Compania, "Artículo Inventario", Componente=Inventario,Esquema=Saw, GenerateRptConfigurar,GenerateFrmInforme,GENERATE
     ConsecutivoCompania: Longint; //HIDE
     Codigo	       : str15;//O,g,"Código del Artículo",Search
     Descripcion        : TextArea;//g,"Descripción",Search,o
@@ -4725,18 +4723,25 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 }
 
 
-{@D ArticuloInventario}LoteDeArticulo = Record//Multiarchivo=Compania, "Lote de Artículo Inventario", Componente=Inventario,Esquema=Saw, GENERATE
-    ConsecutivoCompania: Longint; //HIDE
-    Codigo	       : str15;//o,g,"Código del Artículo",Search
-    CodigoLote         : Str30;//o,g
-    FechaDeElaboracion  : date;//g,"Fecha de Elaboración",search
-    FechaDeVencimiento  : date;//g,"Fecha de Vencimiento",search
-    Existencia          : Decimal;//g
-@PrimaryKey=ConsecutivoCompania,Codigo,CodigoLote
+{@R NotaDeEntradaSalida}NotaDeEntradaSalidaDeInventario = Reporte //Multiarchivo=Compania,"Nota de Entrada/Salida de Inventario",GENERATE
+    SecNota: section;
+	NumeroDocumento      : str11;//"N° Documento"
+	TipodeOperacion      : Str30;//"Operación"
+	CodigoCliente        : Str10;//"Código de Cliente"
+	NombreCliente        : Str80;//"Nombre de Cliente"
+	CodigoAlmacen        : str5; //"Código de Almacén"
+	NombreAlmacen        : Str40;//"Nombre de Almacén"
+	Fecha                : date;//"Fecha"
+	Comentarios          : Str255;//"Comentarios"
+	StatusNotaEntradaSalida    : Str30;//"Status"
+    {EndSeccion}    
+    SecDetalle: section;
+	CodigoArticulo		: Str30;//"Código"
+	DescripcionArticulo	: Str50;//"Descripción"
+	Cantidad		: decimal;//"Cantiad"	
+	LoteDeInventario	: Str30;//"Lote de Inventario"
+	FechaDeElaboracion	: date;//"F. Elab."
+	FechaDeVencimiento	: date;//"F. Vcto."
+    {EndSeccion}    
+@GroupBy=NumeroDocumento
 }
-
-
-
-
-
-
