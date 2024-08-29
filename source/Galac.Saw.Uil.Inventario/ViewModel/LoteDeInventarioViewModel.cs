@@ -59,7 +59,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Código es requerido.")]
-        [LibGridColum("Código", MaxLength = 30)]
+        [LibGridColum("Código", MaxLength = 30,ColumnOrder =0)]
         public string CodigoLote {
             get {
                 return Model.CodigoLote;
@@ -91,7 +91,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibCustomValidation("FechaDeElaboracionValidating")]
-        [LibGridColum("Fecha Elab.", eGridColumType.DatePicker)]
+        [LibGridColum("Fecha Elab.", eGridColumType.DatePicker, ColumnOrder = 1)]
         public DateTime FechaDeElaboracion {
             get {
                 return Model.FechaDeElaboracion;
@@ -106,7 +106,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibCustomValidation("FechaDeVencimientoValidating")]
-        [LibGridColum("Fecha Vcto.", eGridColumType.DatePicker)]
+        [LibGridColum("Fecha Vcto.", eGridColumType.DatePicker, ColumnOrder = 2)]
         public DateTime FechaDeVencimiento {
             get {
                 return Model.FechaDeVencimiento;
@@ -120,7 +120,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Existencia", eGridColumType.Numeric, Alignment = eTextAlignment.Right)]
+        [LibGridColum("Existencia", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 4)]
         public decimal Existencia {
             get {
                 return Model.Existencia;
@@ -134,7 +134,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Status", eGridColumType.Enum, PrintingMemberPath = "StatusLoteInvStr")]
+        [LibGridColum("Estatus", eGridColumType.Enum, PrintingMemberPath = "StatusLoteInvStr", ColumnOrder = 3)]
         public eStatusLoteDeInventario StatusLoteInv {
             get {
                 return Model.StatusLoteInvAsEnum;
@@ -278,6 +278,18 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         protected override ILibBusinessMasterComponentWithSearch<IList<LoteDeInventario>, IList<LoteDeInventario>> GetBusinessComponent() {
             return new clsLoteDeInventarioNav();
+        }
+
+        protected override void ExecuteAction() {
+            if (Action == eAccionSR.Eliminar || Action ==eAccionSR.Modificar) {
+                if (Model.DetailLoteDeInventarioMovimiento.Count != 0) {
+                    LibMessages.MessageBox.Information(this,$"Solo se pueden {LibEnumHelper.GetDescription(Action)} Lotes que no hayan tenido movimientos.",ModuleName);
+                    CloseOnActionComplete = true;                    
+                    RaiseRequestCloseEvent();
+                    return;
+                }
+            }
+            base.ExecuteAction();
         }
 
         //private string GenerarProximoCodigoLote() {

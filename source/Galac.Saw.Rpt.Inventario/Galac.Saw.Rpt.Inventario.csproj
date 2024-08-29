@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="clsListadoDePrecios.cs" />
     <Compile Include="clsListdoDeArticulosBalanza.cs" />
+    <Compile Include="clsLoteDeInventarioRpt.cs" />
     <Compile Include="clsNotaDeEntradaSalidaDeInventario.cs" />
     <Compile Include="clsValoracionDeInventario.cs" />
     <Compile Include="dsrListadoDePrecios.cs">
