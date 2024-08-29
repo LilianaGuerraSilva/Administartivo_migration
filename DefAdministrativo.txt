@@ -4698,7 +4698,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
    FechaDeVencimiento  : date;//g,"Fecha Vcto.",search
    Existencia          : Decimal;//g,search
    StatusLoteInv       : unStatusLoteDeInventario;//g,search,"Status"
-
+   DescripcionArticulo : Str150;//logical,"Descripción de Artículo"
    NombreOperador          : Str10;//a
    FechaUltimaModificacion : date;//a
 
