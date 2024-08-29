@@ -64,14 +64,17 @@ namespace Galac.Saw.Dal.Inventario {
 
         private string SqlViewB1() {
             StringBuilder SQL = new StringBuilder();
-            SQL.AppendLine("SELECT LoteDeInventario.ConsecutivoCompania, LoteDeInventario.Consecutivo, LoteDeInventario.CodigoLote, LoteDeInventario.CodigoArticulo");
+            SQL.AppendLine("SELECT LoteDeInventario.ConsecutivoCompania, LoteDeInventario.Consecutivo, LoteDeInventario.CodigoLote, LoteDeInventario.CodigoArticulo,ArticuloInventario.Descripcion As DescripcionArticulo");
             SQL.AppendLine(", LoteDeInventario.FechaDeElaboracion, LoteDeInventario.FechaDeVencimiento, LoteDeInventario.Existencia, LoteDeInventario.StatusLoteInv, " + DbSchema + ".Gv_EnumStatusLoteDeInventario.StrValue AS StatusLoteInvStr");
             SQL.AppendLine(", LoteDeInventario.NombreOperador, LoteDeInventario.FechaUltimaModificacion");
             SQL.AppendLine(", LoteDeInventario.fldTimeStamp, CAST(LoteDeInventario.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".LoteDeInventario");
             SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumStatusLoteDeInventario");
             SQL.AppendLine("ON " + DbSchema + ".LoteDeInventario.StatusLoteInv COLLATE MODERN_SPANISH_CS_AS");
-            SQL.AppendLine(" = " + DbSchema + ".Gv_EnumStatusLoteDeInventario.DbValue");            
+            SQL.AppendLine(" = " + DbSchema + ".Gv_EnumStatusLoteDeInventario.DbValue");
+            SQL.AppendLine("INNER JOIN dbo.ArticuloInventario");
+            SQL.AppendLine("ON " + DbSchema + ".LoteDeInventario.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania");
+            SQL.AppendLine("AND " + DbSchema + ".LoteDeInventario.CodigoArticulo = ArticuloInventario.Codigo");
             return SQL.ToString();
         }
 
@@ -324,6 +327,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("    ' SELECT ' + @TopClausule + '");
             SQL.AppendLine("      " + DbSchema + ".Gv_LoteDeInventario_B1.CodigoLote,");
             SQL.AppendLine("      " + DbSchema + ".Gv_LoteDeInventario_B1.CodigoArticulo,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_LoteDeInventario_B1.DescripcionArticulo,");            
             SQL.AppendLine("      " + DbSchema + ".Gv_LoteDeInventario_B1.FechaDeElaboracion,");
             SQL.AppendLine("      " + DbSchema + ".Gv_LoteDeInventario_B1.FechaDeVencimiento,");
             SQL.AppendLine("      " + DbSchema + ".Gv_LoteDeInventario_B1.Existencia,");

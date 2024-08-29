@@ -24,6 +24,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public const string FechaDeVencimientoPropertyName = "FechaDeVencimiento";
         public const string ExistenciaPropertyName = "Existencia";
         public const string StatusLoteInvPropertyName = "StatusLoteInv";
+        public const string DescripcionArticuloPropertyName = "DescripcionArticulo";
         public const string NombreOperadorPropertyName = "NombreOperador";
         public const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
         #endregion
@@ -59,7 +60,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Código es requerido.")]
-        [LibGridColum("Código", MaxLength = 30,ColumnOrder =0)]
+        [LibGridColum("Cód Lote", MaxLength = 30, Width = 160, ColumnOrder = 0)]
         public string CodigoLote {
             get {
                 return Model.CodigoLote;
@@ -74,6 +75,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Código de Artículo es requerido.")]
+        [LibGridColum("Cód. Artículo", MaxLength = 30, Width = 160, ColumnOrder = 1)]
         public string CodigoArticulo {
             get {
                 return Model.CodigoArticulo;
@@ -90,8 +92,23 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
+        [LibGridColum("Descripción", eGridColumType.Generic, Width = 300, ColumnOrder = 2)]
+        public string DescripcionArticulo {
+            get {
+                return Model.DescripcionArticulo;
+            }
+            set {
+                if (Model.DescripcionArticulo != value) {
+                    Model.DescripcionArticulo = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(DescripcionArticuloPropertyName);
+                }
+            }
+        }
+
+
         [LibCustomValidation("FechaDeElaboracionValidating")]
-        [LibGridColum("Fecha Elab.", eGridColumType.DatePicker, ColumnOrder = 1)]
+        [LibGridColum("Fecha Elab.", eGridColumType.DatePicker, Width = 75, ColumnOrder = 3)]
         public DateTime FechaDeElaboracion {
             get {
                 return Model.FechaDeElaboracion;
@@ -106,7 +123,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibCustomValidation("FechaDeVencimientoValidating")]
-        [LibGridColum("Fecha Vcto.", eGridColumType.DatePicker, ColumnOrder = 2)]
+        [LibGridColum("Fecha Vcto.", eGridColumType.DatePicker, Width = 75, ColumnOrder = 4)]
         public DateTime FechaDeVencimiento {
             get {
                 return Model.FechaDeVencimiento;
@@ -120,7 +137,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Existencia", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 4)]
+        [LibGridColum("Existencia", eGridColumType.Numeric, Width = 75, Alignment = eTextAlignment.Right, ColumnOrder = 6)]
         public decimal Existencia {
             get {
                 return Model.Existencia;
@@ -134,7 +151,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Estatus", eGridColumType.Enum, PrintingMemberPath = "StatusLoteInvStr", ColumnOrder = 3)]
+        [LibGridColum("Estatus", eGridColumType.Enum, Width = 80, PrintingMemberPath = "StatusLoteInvStr", ColumnOrder = 5)]
         public eStatusLoteDeInventario StatusLoteInv {
             get {
                 return Model.StatusLoteInvAsEnum;
@@ -146,7 +163,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                     RaisePropertyChanged(StatusLoteInvPropertyName);
                 }
             }
-        }
+        }        
 
         public string NombreOperador {
             get {
@@ -243,7 +260,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         public bool IsVisibleDetaillLoteDeInventario {
-            get { return  Action == eAccionSR.Consultar; }
+            get { return Action == eAccionSR.Consultar; }
         }
         #endregion //Propiedades
         #region Constructores
@@ -281,10 +298,10 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         protected override void ExecuteAction() {
-            if (Action == eAccionSR.Eliminar || Action ==eAccionSR.Modificar) {
+            if (Action == eAccionSR.Eliminar || Action == eAccionSR.Modificar) {
                 if (Model.DetailLoteDeInventarioMovimiento.Count != 0) {
-                    LibMessages.MessageBox.Information(this,$"Solo se pueden {LibEnumHelper.GetDescription(Action)} Lotes que no hayan tenido movimientos.",ModuleName);
-                    CloseOnActionComplete = true;                    
+                    LibMessages.MessageBox.Information(this, $"Solo se pueden {LibEnumHelper.GetDescription(Action)} Lotes que no hayan tenido movimientos.", ModuleName);
+                    CloseOnActionComplete = true;
                     RaiseRequestCloseEvent();
                     return;
                 }
@@ -361,7 +378,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_ArticuloInventario_B2.Codigo", CodigoArticulo);
             vDefaultCriteria.Add(LibSearchCriteria.CreateCriteria("Gv_ArticuloInventario_B2.ConsecutivoCompania", ConsecutivoCompania), eLogicOperatorType.And);
             ConexionCodigoArticulo = FirstConnectionRecordOrDefault<FkArticuloInventarioViewModel>("Artículo Inventario", vDefaultCriteria);
-            TipoArticuloInv = ConexionCodigoArticulo.TipoArticuloInv;            
+            TipoArticuloInv = ConexionCodigoArticulo.TipoArticuloInv;
         }
 
         private void ExecuteChooseCodigoArticuloCommand(string valCodigo) {
