@@ -57,10 +57,10 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                     Model.Consecutivo = value;
                 }
             }
-        }
+        }       
 
-        [LibRequired(ErrorMessage = "El campo Código es requerido.")]
-        [LibGridColum("Cód Lote", MaxLength = 30, Width = 160, ColumnOrder = 0)]
+        [LibRequired(ErrorMessage = "El campo Código Lote es requerido.")]
+        [LibGridColum("Cód. Lote", MaxLength = 18, Width = 160, WidthForPrinting = 18, ColumnOrder = 2)]
         public string CodigoLote {
             get {
                 return Model.CodigoLote;
@@ -75,7 +75,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Código de Artículo es requerido.")]
-        [LibGridColum("Cód. Artículo", MaxLength = 30, Width = 160, ColumnOrder = 1)]
+        [LibGridColum("Cód. Artículo", MaxLength = 18, Width = 160, WidthForPrinting = 18, ColumnOrder = 0)]
         public string CodigoArticulo {
             get {
                 return Model.CodigoArticulo;
@@ -92,7 +92,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Descripción", eGridColumType.Generic, Width = 300, ColumnOrder = 2)]
+        [LibGridColum("Descripción", eGridColumType.Generic, MaxLength = 50, Width = 300, WidthForPrinting = 35, ColumnOrder = 1)]
         public string DescripcionArticulo {
             get {
                 return Model.DescripcionArticulo;
@@ -106,9 +106,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-
         [LibCustomValidation("FechaDeElaboracionValidating")]
-        [LibGridColum("Fecha Elab.", eGridColumType.DatePicker, Width = 75, ColumnOrder = 3)]
+        [LibGridColum("Fecha Elab.", eGridColumType.DatePicker, Width = 75, WidthForPrinting = 10, ColumnOrder = 3)]
         public DateTime FechaDeElaboracion {
             get {
                 return Model.FechaDeElaboracion;
@@ -123,7 +122,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibCustomValidation("FechaDeVencimientoValidating")]
-        [LibGridColum("Fecha Vcto.", eGridColumType.DatePicker, Width = 75, ColumnOrder = 4)]
+        [LibGridColum("Fecha Vcto.", eGridColumType.DatePicker, Width = 75, WidthForPrinting = 10, ColumnOrder = 4)]
         public DateTime FechaDeVencimiento {
             get {
                 return Model.FechaDeVencimiento;
@@ -137,7 +136,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Existencia", eGridColumType.Numeric, Width = 75, Alignment = eTextAlignment.Right, ColumnOrder = 6)]
+        [LibGridColum("Existencia", eGridColumType.Numeric, Width = 75, Alignment = eTextAlignment.Right, WidthForPrinting = 10, ColumnOrder = 6)]
         public decimal Existencia {
             get {
                 return Model.Existencia;
@@ -151,7 +150,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Estatus", eGridColumType.Enum, Width = 80, PrintingMemberPath = "StatusLoteInvStr", ColumnOrder = 5)]
+        [LibGridColum("Estatus", eGridColumType.Enum, Width = 80, PrintingMemberPath = "StatusLoteInvStr", WidthForPrinting = 10, ColumnOrder = 5)]
         public eStatusLoteDeInventario StatusLoteInv {
             get {
                 return Model.StatusLoteInvAsEnum;
@@ -163,7 +162,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                     RaisePropertyChanged(StatusLoteInvPropertyName);
                 }
             }
-        }        
+        }
 
         public string NombreOperador {
             get {
