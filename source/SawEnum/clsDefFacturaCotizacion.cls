@@ -12,19 +12,15 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
-
 Private Const CM_FILE_NAME As String = "clsDefFacturaCotizacion"
 Private Const CM_MESSAGE_NAME As String = "Def Factura y Cotizaci�n"
+Private Const GetGender = Enum_Gender.eg_Male
 
 Enum enum_ClaseDeTrabajoFacturaCotizacion
    eCTFC_Factura = 0
    eCTFC_Cotizacion
    eCTFC_NotaDeEntrega
   End Enum
-
-Private Function GetGender() As Enum_Gender
-   GetGender = eg_Male
-End Function
 
 Public Function getFN_CONSECUTIVO_COMPANIA(ByVal valClaseDeTrabajo As enum_ClaseDeTrabajoFacturaCotizacion) As String
    getFN_CONSECUTIVO_COMPANIA = "ConsecutivoCompania"
@@ -598,5 +594,3 @@ End Function
 Public Function getFN_EMITIDA_EN_FACTURA_NUMERO(ByVal valClaseDeTrabajo As enum_ClaseDeTrabajoFacturaCotizacion) As String
    getFN_EMITIDA_EN_FACTURA_NUMERO = "EmitidaEnFacturaNumero"
 End Function
-
-
