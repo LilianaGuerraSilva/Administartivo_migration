@@ -252,7 +252,18 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("CodigoCompuesto", valCodigo);
                 vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("StatusdelArticulo ", "0"), eLogicOperatorType.And);
-                vFixedCriteria.Add("TipoDeArticulo", eBooleanOperatorType.IdentityInequality, "2", eLogicOperatorType.And);                
+                vFixedCriteria.Add("TipoDeArticulo", eBooleanOperatorType.IdentityInequality, "2", eLogicOperatorType.And);
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento")){
+                    vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.UsaSerialRollo));
+                    vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.UsaTallaColorySerial));
+                    vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.UsaTallaColor));
+                    vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.UsaSerial));
+                } 
+                else
+                {
+                    vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.Lote));
+                    vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.LoteFechadeVencimiento));
+                }
                 if (vAplicaProductoTerminado) {
                     vFixedCriteria.Add("TipoDeMercanciaProduccion", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoDeMercancia.ProductoTerminado));
                 }
