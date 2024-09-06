@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--Mapa de Componentes de la Version del Producto-->
-<Producto NombreExe="Saw" Pais="VE" Version="26.0" Siglas="Saw">
+<Producto NombreExe="Saw" Pais="VE" Version="26.1" Siglas="Saw">
   <Proteccion>2401</Proteccion>
   <Libreria>
     <LibGalacCI>2403</LibGalacCI>
@@ -101,7 +101,7 @@
     <Galac.Ent.Ccl.Empresarial>2.61.0.0</Galac.Ent.Ccl.Empresarial>
     <Galac.Ent.Dal.Empresarial>2.61.0.0</Galac.Ent.Dal.Empresarial>
     
-    <Galac.Comun.Uil.Dashboard>2.62.2.4</Galac.Comun.Uil.Dashboard>
+    <Galac.Comun.Uil.Dashboard>2.62.2.6</Galac.Comun.Uil.Dashboard>
 	
     <Galac.Comun.Ccl.TablasGen>2.61.0.0</Galac.Comun.Ccl.TablasGen>
     <Galac.Comun.Dal.TablasGen>2.61.0.0</Galac.Comun.Dal.TablasGen>
