@@ -14,7 +14,7 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.Inventario;
 using Galac.Saw.Ccl.Inventario;
-
+using System.Text;
 
 namespace Galac.Saw.Uil.Inventario.ViewModel {
     public class RenglonNotaESViewModel : LibInputDetailViewModelMfc<RenglonNotaES> {
@@ -362,6 +362,16 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                     LoteDeInventario = ConexionLoteDeInventario.CodigoLote;
                     FechaDeElaboracion = ConexionLoteDeInventario.FechaDeElaboracion;
                     FechaDeVencimiento = ConexionLoteDeInventario.FechaDeVencimiento;
+                    if (Action == eAccionSR.Insertar) {
+                        if (TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento) {
+                            if (LibDate.F1IsLessThanF2(FechaDeVencimiento, LibDate.Today())) {
+                                StringBuilder vMensaje = new StringBuilder();
+                                vMensaje.AppendLine("El Artículo:" + CodigoArticulo + " - " + LibString.Left(DescripcionArticulo, 15) + "...");
+                                vMensaje.AppendLine("Lote: " + LoteDeInventario + " venció el: " + LibConvert.ToStr(FechaDeVencimiento));
+                                LibMessages.MessageBox.Information(this, vMensaje.ToString(), Title);
+                            }
+                        }
+                    }
                 }
                 RaisePropertyChanged(() => IsVisbleLoteDeInventario);
                 RaisePropertyChanged(() => IsEnabledLoteDeInventario);
