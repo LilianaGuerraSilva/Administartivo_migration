@@ -215,8 +215,7 @@
             Grid.Column="0"
             Grid.ColumnSpan="4"
             Width="730"
-            Margin="0,3"
-            IsEnabled="{Binding Path=NotaESIsEnabled}">
+            Margin="0,3">
             <Grid Name="gdRenglonNotaES">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -243,7 +242,8 @@
                     Height="25"
                     Background="Transparent"
                     BorderBrush="LightGray"
-                    BorderThickness="0,0,0,1">
+                    BorderThickness="0,0,0,1"
+                    IsEnabled="{Binding Path=NotaESIsEnabled}">
                     <StackPanel Orientation="Horizontal">
                         <Button
                             nsWpf:LibKeyboardListener.FocusTarget="{Binding ElementName=cntRenglonNotaES}"

@@ -18,10 +18,11 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
 		public override bool UpdateToVersion() {
 			StartConnectionNoTransaction();
-			AgregarColumnasEnCompania();            
-			CrearLoteDeInventario();
+			AgregarColumnasEnCompania();
+            CreacionDeParametros();
+            CrearLoteDeInventario();
 			AjustesNotaEntradaSalida();
-			CreacionDeParametros();
+            AjustesRenglonFactura();
 			DisposeConnectionNoTransaction();
 			return true;
 		}
@@ -38,8 +39,6 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 				AddForeignKey("dbo.NotaDeEntradaSalida", "dbo.RenglonNotaES", new string[] { "ConsecutivoCompania,NumeroDocumento" }, new string[] { "ConsecutivoCompania,NumeroDocumento" }, true, true);
 
 				AddColumnString("dbo.RenglonNotaES", "LoteDeInventario", 30, "", "");
-				AddColumnDate("dbo.RenglonNotaES", "FechaDeElaboracion", "", false, true);
-				AddColumnDate("dbo.RenglonNotaES", "FechaDeVencimiento", "", false, true);
 			}
 		}
 
@@ -97,6 +96,11 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
                 ConfigHelper.AddKeyToAppSettings("CLAVE", string.Empty);
                 ConfigHelper.AddKeyToAppSettings("CLAVE-E",string.Empty);
             }
-		}	
-	}
+		}
+
+        private void AjustesRenglonFactura() {
+            AddColumnString("dbo.renglonFactura", "LoteDeInventario", 30, "", "");
+        }
+
+    }
 }

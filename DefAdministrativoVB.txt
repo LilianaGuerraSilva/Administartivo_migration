@@ -130,7 +130,7 @@ unTipoComision = (Por Porcentaje, Por Monto);//e
 unComisionesEnFactura = (SobreTotalFactura,SobreRenglones,SobreTotalFacturayRenglones );//e
 unComisionesEnRenglones = (PorUnVendedor, PordosVendedores, PorTresVendedores);//e
 unSalonDeCurso = (SALA 1, SALA 2, SALA 3); //e
-unTipoArticuloInv = (Simple,Usa Talla/Color, Usa Serial, Usa Talla/Color y Serial, Usa Serial/Rollo, Lote/Fecha de Vencimiento);//e
+unTipoArticuloInv = (Simple,Usa Talla/Color, Usa Serial, Usa Talla/Color y Serial, Usa Serial/Rollo, Lote/Fecha de Vencimiento, Lote);//e
 unAccionAlAnularFactDeMesesAnt = (Permitir Anular Sin Chequear, Preguntar Si Desea Anular, No Permitir Anular);//e
 unStatusNEntrega = (Borrador, Emitida, Reintegrada, Anulada);//e
 UnNEntregaGeneradaPor = (Usuario, Factura);//e 
@@ -1479,7 +1479,7 @@ MenuDeInformes : boolean;
 	@PrimaryKey= ConsecutivoCompania, ConsecutivoMaquinaFiscal
    }
 
-{@M}Factura = record //Multiarchivo=Compania,GenerateRptConfigurar,GenerateFrmInforme, "Facturas"
+{@M}Factura = record //Multiarchivo=Compania,GenerateRptConfigurar,GenerateFrmInforme, "Facturas",GENERATE
     ConsecutivoCompania: Longint; //HIDE
     Numero        : str11;  //O,G,U,"Número de Factura",search,suggestConsecutive
     Fecha            : unFecha;//O,G,"Fecha",search
@@ -1596,7 +1596,7 @@ MenuDeInformes : boolean;
     @UniqueKey=ConsecutivoCompania,NumeroDeSerie,NumeroDeDocumento,TipoDeDocumento
 }
 
-{@D Factura}RenglonFactura = record //Multiarchivo=Compania
+{@D Factura}RenglonFactura = record //Multiarchivo=Compania,GENERATE
     ConsecutivoCompania: Longint; //HIDE
     NumeroFactura    : str11;//HIDE,o
     TipoDeDocumento  : unTipoDocumentoFactura;//HIDE,o
@@ -1623,6 +1623,8 @@ MenuDeInformes : boolean;
     Rollo               : str20;
     Dimension1		: Currency;
     Dimension2		: Currency;
+    LoteDeInventario	: Str30;//g,=LoteDeInventario.CodigoLote
+
     @PrimaryKey=ConsecutivoCompania,NumeroFactura,TipoDeDocumento,ConsecutivoRenglon
 }
 
@@ -1880,7 +1882,7 @@ MenuDeInformes : boolean;
 @PrimaryKey=ConsecutivoCompania,CodigoAlmacen,CodigoArticulo,ConsecutivoRenglon
 }
 
-{@M}NotaDeEntradaSalida=  record //"Nota de Entrada/Salida",Multiarchivo=Compania,GENERATE
+{@M}NotaDeEntradaSalida=  record //"Nota de Entrada/Salida",Multiarchivo=Compania
     ConsecutivoCompania  : Longint; //HIDE
 //Consecutivo		 : Longint; //HIDE,o,a
     NumeroDocumento      : str11; //g,o,u,sugestConsecutive,search
@@ -1905,7 +1907,7 @@ MenuDeInformes : boolean;
 //@UniqueKey=ConsecutivoCompania,NumeroDocumento
 }
 
-{@D NotaDeEntradaSalida}RenglonNotaES = Record //Multiarchivo=Compania,GENERATE
+{@D NotaDeEntradaSalida}RenglonNotaES = Record //Multiarchivo=Compania
    ConsecutivoCompania	: LongInt;//
    NumeroDocumento	: str11; //HIDE
    ConsecutivoRenglon	: LongInt;//HIDE,o,a
@@ -1917,8 +1919,6 @@ MenuDeInformes : boolean;
    CostoUnitario	: decimal;//dv=0
    CostoUnitarioME	: decimal;//dv=0
    LoteDeInventario	: Str30;//g
-   FechaDeElaboracion	: date;//g
-   FechaDeVencimiento   : date;//g
 
 @PrimaryKey=ConsecutivoCompania,NumeroDocumento,ConsecutivoRenglon
 //@PrimaryKey=ConsecutivoCompania,ConsecutivoNotaDeEntradaSalida,ConsecutivoRenglon
@@ -3774,7 +3774,7 @@ MenuDeInformes : boolean;
 @UniqueKey=ConsecutivoCompania,CodigoLote,CodigoArticulo
 }
 
-{@D LoteDeInventario}LoteDeInventarioMovimiento = record//Multiarchivo=Compania,Componente=Inventario,Esquema=Saw,interop,GenerateRptConfigurar,GenerateFrmInforme,GENERATE
+{@D LoteDeInventario}LoteDeInventarioMovimiento = record//Multiarchivo=Compania,Componente=Inventario,Esquema=Saw,interop,GenerateRptConfigurar,GenerateFrmInforme
    ConsecutivoCompania   : LongInt;//HIDE
    ConsecutivoLote       : LongInt;//HIDE,a
    Consecutivo           : LongInt;//HIDE,a
@@ -3791,7 +3791,7 @@ MenuDeInformes : boolean;
 }
 
 
-{@D ArticuloInventario}LoteDeArticulo = Record//Multiarchivo=Compania, "Lote de Artículo Inventario", Componente=Inventario,Esquema=Saw, GENERATE
+{@D ArticuloInventario}LoteDeArticulo = Record//Multiarchivo=Compania, "Lote de Artículo Inventario", Componente=Inventario,Esquema=Saw
     ConsecutivoCompania: Longint; //HIDE
     Codigo	       : str15;//o,g,"Código del Artículo",Search
     CodigoLote         : Str30;//o,g

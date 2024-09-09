@@ -22,6 +22,7 @@ namespace Galac.Saw.Ccl.Inventario {
         private DateTime _FechaDeVencimiento;
         private decimal _Existencia;
         private eStatusLoteDeInventario _StatusLoteInv;
+        private string _DescripcionArticulo;
         private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;
@@ -82,6 +83,11 @@ namespace Galac.Saw.Ccl.Inventario {
             get { return LibEnumHelper.GetDescription(_StatusLoteInv); }
         }
 
+        public string DescripcionArticulo {
+            get { return _DescripcionArticulo; }
+            set { _DescripcionArticulo = LibString.Mid(value, 0, 150); }
+        }
+
         public string NombreOperador {
             get { return _NombreOperador; }
             set { _NombreOperador = LibString.Mid(value, 0, 10); }
@@ -129,6 +135,7 @@ namespace Galac.Saw.Ccl.Inventario {
             FechaDeVencimiento = LibDate.Today();
             Existencia = 0;
             StatusLoteInvAsEnum = eStatusLoteDeInventario.Vigente;
+            DescripcionArticulo = string.Empty;
             NombreOperador = string.Empty;
             FechaUltimaModificacion = LibDate.Today();
             fldTimeStamp = 0;
@@ -145,6 +152,7 @@ namespace Galac.Saw.Ccl.Inventario {
             vResult.FechaDeVencimiento = _FechaDeVencimiento;
             vResult.Existencia = _Existencia;
             vResult.StatusLoteInvAsEnum = _StatusLoteInv;
+            vResult.DescripcionArticulo = _DescripcionArticulo;
             vResult.NombreOperador = _NombreOperador;
             vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
             vResult.fldTimeStamp = _fldTimeStamp;
