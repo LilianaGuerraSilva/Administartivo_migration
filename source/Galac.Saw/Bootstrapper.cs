@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows;
+using Galac.Saw.Ccl.Inventario;
 using Galac.Saw.DDL;
 using Galac.Saw.Properties;
+using Galac.Saw.Uil.Inventario;
+using Galac.Saw.Uil.Inventario.ViewModel;
 using Galac.Saw.Views;
 using LibGalac.Aos.Base;
+using LibGalac.Aos.Brl;
 using LibGalac.Aos.Cnf;
 using LibGalac.Aos.DefGen;
 using LibGalac.Aos.UI.Composition;
@@ -51,6 +55,8 @@ namespace Galac.Saw {
             LibGalac.Aos.Uil.LibMessagesHandler.RegisterMessages();
             LibGalac.Aos.Uil.Settings.LibSettingsMessagesHandler.RegisterMessages();
             LibGalac.Aos.Uil.PASOnLine.LibPASOnLineHandler.RegisterMessages();
+            InventarioMessagesHandler.RegisterMessages();
+
         }
 
         protected override bool CreateTablesIfNecesary() {

@@ -298,4 +298,19 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         public string CodigoCliente { get; set; }
         public string CodigoVendedor { get; set; }
     }
+    public class FkLoteDeInventarioViewModel : IFkLoteDeInventarioViewModel {
+        public int ConsecutivoCompania { get; set; }
+        public int Consecutivo { get; set; }
+        [LibGridColum("Código de Lote")]
+        public string CodigoLote { get; set; }
+        public string CodigoArticulo { get; set; }
+        [LibGridColum("Fecha Elab.", eGridColumType.DatePicker, BindingStringFormat = "dd/MM/yyyy")]
+        public DateTime FechaDeElaboracion { get; set; }
+        [LibGridColum("Fecha Vcto.", eGridColumType.DatePicker, BindingStringFormat = "dd/MM/yyyy")]
+        public DateTime FechaDeVencimiento { get; set; }
+        [LibGridColum("Existencia", eGridColumType.Numeric, Alignment = eTextAlignment.Right)]
+        public decimal Existencia { get; set; }
+        [LibGridColum("Status", eGridColumType.Enum, PrintingMemberPath = "StatusLoteInvStr", DbMemberPath = "Saw.Gv_LoteDeInventario_B1.StatusLoteInv", Width = 75)]
+        public eStatusLoteDeInventario StatusLoteInv { get; set; }
+    }
 }
