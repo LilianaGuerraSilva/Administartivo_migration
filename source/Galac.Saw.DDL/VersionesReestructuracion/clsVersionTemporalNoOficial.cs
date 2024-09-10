@@ -23,7 +23,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             CrearLoteDeInventario();
 			AjustesNotaEntradaSalida();
             AjustesRenglonFactura();
-			DisposeConnectionNoTransaction();
+            AjustesRenglonCompra();
+            DisposeConnectionNoTransaction();
 			return true;
 		}
 
@@ -102,5 +103,11 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             AddColumnString("dbo.renglonFactura", "LoteDeInventario", 30, "", "");
         }
 
+        private void AjustesRenglonCompra() {
+            if (!ColumnExists("Adm.CompraDetalleArticuloInventario", "ConsecutivoLoteDeInventario")) {
+                AddColumnInteger("Adm.CompraDetalleArticuloInventario", "ConsecutivoLoteDeInventario", "", 0);
+                AddDefaultConstraint("Adm.CompraDetalleArticuloInventario", "ConsecutivoLoteDeInventario", "d_ComDetArtInvCoLoIn", "0");
+            }
+        }
     }
 }

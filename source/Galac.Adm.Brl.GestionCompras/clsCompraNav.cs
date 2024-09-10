@@ -12,6 +12,7 @@ using Galac.Adm.Ccl.GestionCompras;
 using Galac.Saw.Brl.Inventario;
 using Galac.Saw.Ccl.Inventario;
 using LibGalac.Aos.Catching;
+using System.Security.Policy;
 
 namespace Galac.Adm.Brl.GestionCompras {
     public partial class clsCompraNav : LibBaseNavMaster<IList<Compra>, IList<Compra>>, ILibPdn, ICompraPdn {
@@ -83,6 +84,10 @@ namespace Galac.Adm.Brl.GestionCompras {
                     break;
                 case "OrdenDeCompra":
                     vPdnModule = new clsOrdenDeCompraNav();
+                    vResult = vPdnModule.GetDataForList("Compra", ref refXmlDocument, valXmlParamsExpression);
+                    break;
+                case "Lote de Inventario":
+                    vPdnModule = new Galac.Saw.Brl.Inventario.clsLoteDeInventarioNav();
                     vResult = vPdnModule.GetDataForList("Compra", ref refXmlDocument, valXmlParamsExpression);
                     break;
                 default: throw new NotImplementedException();
@@ -448,7 +453,9 @@ namespace Galac.Adm.Brl.GestionCompras {
                     if (refRecord[0].ConsecutivoOrdenDeCompra != 0) {
                         ActualizarOrdenDeCompra(refRecord, eAccionSR.Insertar );
                     }
-
+                    if (vResult.Success) {
+                        ActualizaInformacionDeLoteDeInventario(refRecord[0], true);
+                    }
                     if (vResult.Success) {
                         vScope.Complete();
                     }
@@ -466,6 +473,7 @@ namespace Galac.Adm.Brl.GestionCompras {
                 IList<Compra> vCompras = _Db.GetData(eProcessMessageType.SpName, "CompraGET", vParams.Get(), true);
                 if (vCompras != null && vCompras.Count > 0) {
                     vResult = ActualizaCantidadArticuloInventario(vCompras[0], false);
+                    ActualizaInformacionDeLoteDeInventario(vCompras[0], false);
                 } else {
                     throw new LibGalac.Aos.Catching.GalacConcurrencyException();
                 }
@@ -474,6 +482,9 @@ namespace Galac.Adm.Brl.GestionCompras {
                     if (vResult.Success && refRecord[0].StatusCompraAsEnum != eStatusCompra.Anulada) {
                         vResult = ActualizaCantidadArticuloInventario(refRecord[0], true);
                     }
+                }
+                if (vResult.Success) {
+                    ActualizaInformacionDeLoteDeInventario(refRecord[0], true);
                 }
                 if (vResult.Success) {
                     vScope.Complete();
@@ -497,7 +508,8 @@ namespace Galac.Adm.Brl.GestionCompras {
                 	new clsCxPNav().EliminarCxPDesdeCompra(refRecord[0].ConsecutivoCompania, vNumero, refRecord[0].CodigoProveedor);              
                     if (refRecord[0].ConsecutivoOrdenDeCompra != 0) {
                         ActualizarOrdenDeCompra(refRecord, eAccionSR.Eliminar);
-                    }
+                    }                    
+                    ActualizaInformacionDeLoteDeInventario(refRecord[0], true);
                 }
                 if (vResult.Success) {
                     vScope.Complete();
@@ -732,6 +744,44 @@ namespace Galac.Adm.Brl.GestionCompras {
                 vResult = new clsCxPNav().VerificaSiExisteCxP(valCompra.ConsecutivoCompania,valCompra.Numero,valCompra.CodigoProveedor);
             }
             return vResult;
+        }
+
+        private void ActualizaInformacionDeLoteDeInventario(Compra valItemCompra, bool valAumentaCantidad) {
+            foreach (CompraDetalleArticuloInventario vItemDetalle in valItemCompra.DetailCompraDetalleArticuloInventario) {
+                if (vItemDetalle.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || vItemDetalle.TipoArticuloInv == eTipoArticuloInv.Lote) {
+                    if (((ILoteDeInventarioPdn)new clsLoteDeInventarioNav()).ExisteLoteDeInventario(vItemDetalle.ConsecutivoCompania, vItemDetalle.CodigoArticulo, vItemDetalle.CodigoLote)) {
+                        ActualizaLoteDeInventarioInsertaMovimientoDeLoteDeInventario(valItemCompra, vItemDetalle, valAumentaCantidad);
+                    }
+                }
+            }
+        }
+
+        private void ActualizaLoteDeInventarioInsertaMovimientoDeLoteDeInventario(Compra valItemCompra, CompraDetalleArticuloInventario vItemDetalle, bool valAumentaCantidad) {
+            XElement vLoteXElement = ((ILoteDeInventarioPdn)new clsLoteDeInventarioNav()).FindByConsecutivoCompaniaCodigoLoteCodigoArticulo(valItemCompra.ConsecutivoCompania, vItemDetalle.CodigoLote, vItemDetalle.CodigoArticulo);
+            if (vLoteXElement != null && vLoteXElement.HasElements) {
+                LoteDeInventario vLote = LibParserHelper.ParseToItem<LoteDeInventario>(vLoteXElement.Elements().FirstOrDefault());                
+                if (vLote != null) {
+                    decimal vCant = vItemDetalle.Cantidad;
+                    eStatusDocOrigenLoteInv vStatusDocOrigen = (valItemCompra.StatusCompraAsEnum  == eStatusCompra.Vigente) ? eStatusDocOrigenLoteInv.Vigente : eStatusDocOrigenLoteInv.Anulado;
+                    LoteDeInventarioMovimiento vLoteMov = new LoteDeInventarioMovimiento();
+                    vLoteMov.ConsecutivoCompania = valItemCompra.ConsecutivoCompania;
+                    vLoteMov.ConsecutivoLote = vLote.Consecutivo;
+                    vLoteMov.Fecha = valItemCompra.Fecha;
+                    vLoteMov.ModuloAsEnum = eOrigenLoteInv.Compra;
+                    vLoteMov.Cantidad = vCant;
+                    vLoteMov.ConsecutivoDocumentoOrigen = 0;
+                    vLoteMov.NumeroDocumentoOrigen = valItemCompra.Numero;
+                    vLoteMov.StatusDocumentoOrigenAsEnum = vStatusDocOrigen;
+
+                    vLote.Existencia += vCant;
+                    vLote.DetailLoteDeInventarioMovimiento.Add(vLoteMov);
+
+                    ILoteDeInventarioPdn vLotePnd = new clsLoteDeInventarioNav();
+                    IList<LoteDeInventario> vListLote = new List<LoteDeInventario>();
+                    vListLote.Add(vLote);
+                    vLotePnd.ActualizarLote(vListLote);
+                }
+            }
         }
     } //End of class clsCompraNav
 

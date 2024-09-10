@@ -28,6 +28,10 @@ namespace Galac.Adm.Ccl.GestionCompras {
         private decimal _PorcentajeArancel;
         private string _CodigoGrupo;
         private eTipoArticuloInv _TipoArticuloInv;
+        private int _ConsecutivoLoteDeInventario;
+        private string _CodigoLote;
+        private DateTime _FechaDeElaboracion;
+        private DateTime _FechaDeVencimiento;
         #endregion //Variables
         #region Propiedades
 
@@ -141,6 +145,22 @@ namespace Galac.Adm.Ccl.GestionCompras {
             get;
             set;
         }
+        public int ConsecutivoLoteDeInventario {
+            get { return _ConsecutivoLoteDeInventario; }
+            set { _ConsecutivoLoteDeInventario = value; }
+        }
+        public string CodigoLote {
+            get { return _CodigoLote; }
+            set { _CodigoLote = value; }
+        }
+        public DateTime FechaDeElaboracion {
+            get { return _FechaDeElaboracion; }
+            set { _FechaDeElaboracion = value; }
+        }
+        public DateTime FechaDeVencimiento {
+            get { return _FechaDeVencimiento; }
+            set { _FechaDeVencimiento = value; }
+        }
 
         #endregion //Propiedades
         #region Constructores
@@ -172,7 +192,7 @@ namespace Galac.Adm.Ccl.GestionCompras {
             PorcentajeArancel = 0;
             CodigoGrupo = string.Empty;
             TipoArticuloInv = eTipoArticuloInv.Simple;
-
+            ConsecutivoLoteDeInventario = 0;
         }
 
         public CompraDetalleArticuloInventario Clone() {
