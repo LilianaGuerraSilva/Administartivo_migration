@@ -215,8 +215,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.TipoArticuloInvStr;
             }
             set {
-                if (Model.TipoArticuloInvStr != value)
-                {
+                if (Model.TipoArticuloInvStr != value) {
                     Model.TipoArticuloInvStr = value;
                     IsDirty = true;
                     RaisePropertyChanged(TipoArticuloInvStrPropertyName);
