@@ -95,6 +95,11 @@ namespace Galac.Adm.Ccl.GestionCompras {
             get;
             set;
         }
+        public string TipoArticuloInvStr
+        {
+            get;
+            set;
+        }
         #endregion //Propiedades
         #region Constructores
 
@@ -118,6 +123,7 @@ namespace Galac.Adm.Ccl.GestionCompras {
             CostoUnitario = 0;
             CantidadRecibida = 0;
             TipoArticuloInv = eTipoArticuloInv.Simple;
+            TipoArticuloInvStr = string.Empty;
         }
 
         public OrdenDeCompraDetalleArticuloInventario Clone() {
@@ -130,6 +136,7 @@ namespace Galac.Adm.Ccl.GestionCompras {
             vResult.Cantidad = _Cantidad;
             vResult.CostoUnitario = _CostoUnitario;
             vResult.CantidadRecibida = _CantidadRecibida;
+            vResult.TipoArticuloInvStr = "";
             return vResult;
         }
 
@@ -141,7 +148,8 @@ namespace Galac.Adm.Ccl.GestionCompras {
                 "\nDescripción = " + _DescripcionArticulo +
                 "\nCantidad = " + _Cantidad.ToString() +
                 "\nCosto Unitario = " + _CostoUnitario.ToString() +
-                "\nCantidad Recibida = " + _CantidadRecibida.ToString();
+                "\nCantidad Recibida = " + _CantidadRecibida.ToString()+
+                "\nTipo Articulo Inventario = " + TipoArticuloInvStr.ToString();
         }
 
         #region Miembros de IEquatable<OrdenDeCompraDetalleArticuloInventario>
