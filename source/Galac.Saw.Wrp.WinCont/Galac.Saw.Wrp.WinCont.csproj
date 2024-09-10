@@ -46,13 +46,13 @@
       <HintPath>..\packages\Galac.Contab.Brl.Tablas.2.61.0\lib\Galac.Contab.Brl.Tablas.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Brl.WinCont">
-      <HintPath>..\packages\Galac.Contab.Brl.WinCont.2.61.0\lib\Galac.Contab.Brl.WinCont.dll</HintPath>
+      <HintPath>..\packages\Galac.Contab.Brl.WinCont.2.61.2\lib\Galac.Contab.Brl.WinCont.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Ccl.Tablas">
       <HintPath>..\packages\Galac.Contab.Ccl.Tablas.2.61.0\lib\Galac.Contab.Ccl.Tablas.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Ccl.WinCont">
-      <HintPath>..\packages\Galac.Contab.Ccl.WinCont.2.61.0\lib\Galac.Contab.Ccl.WinCont.dll</HintPath>
+      <HintPath>..\packages\Galac.Contab.Ccl.WinCont.2.61.2\lib\Galac.Contab.Ccl.WinCont.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.TablasVbSinMigrar">
       <HintPath>..\packages\Galac.Contab.TablasVbSinMigrar.2.61.0\lib\Galac.Contab.TablasVbSinMigrar.dll</HintPath>
@@ -61,7 +61,8 @@
       <HintPath>..\packages\Galac.Contab.Uil.Tablas.2.61.0\lib\Galac.Contab.Uil.Tablas.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Uil.WinCont">
-      <HintPath>..\packages\Galac.Contab.Uil.WinCont.2.61.0\lib\Galac.Contab.Uil.WinCont.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Uil.WinCont.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac">
       <HintPath>..\packages\LibGalac.5.24.3.2\lib\LibGalac.dll</HintPath>
@@ -157,6 +158,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
