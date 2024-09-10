@@ -95,8 +95,7 @@ namespace Galac.Adm.Ccl.GestionCompras {
             get;
             set;
         }
-        public string TipoArticuloInvStr
-        {
+        public string TipoArticuloInvStr {
             get;
             set;
         }
