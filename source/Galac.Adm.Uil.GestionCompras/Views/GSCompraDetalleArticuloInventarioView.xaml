@@ -59,20 +59,41 @@
         <Label
             Name="lneDescripcionArticulo"
             Grid.Column="2"
-            Grid.ColumnSpan="4"
+            Grid.ColumnSpan="3"
             Width="330"
             Margin="3,3,0,0"
             Content="{Binding Path=DescripcionArticulo}"
             Style="{StaticResource LabelCalculatedField}" />
+
+        <Label 
+            Visibility="{Binding Path=IsVisbleLabelLoteNuevo, Converter={StaticResource booleanToVisibilityConverter}}" 
+            Grid.Row="0" Grid.Column="5" Name="lneTipoDeMercancia" Content="{Binding Path=TipoDeMercanciaStr}" Style="{StaticResource LabelStatusGreen}" HorizontalAlignment="Left" />
+
+
+        <Label Grid.Row="1" Grid.Column="0" Name="lblLoteDeInventario" Content="Lote de Inventario" Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=IsVisbleLoteDeInventario, Converter={StaticResource booleanToVisibilityConverter}}" />
+        <nsWpfControls:GSSeekConnection 
+    IsEnabled="{Binding Path=IsEnabledLoteDeInventario}" Grid.Column="1" Grid.Row="1" Name="txtLoteDeInventario" Height="23" Margin="3" 
+    HorizontalAlignment="Left" Width="120" DisplayMemberPath="CodigoLote" Model="{Binding Path=ConexionLoteDeInventario, Mode=TwoWay}"
+    ConnectionValue="{Binding Path=CodigoLote, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+    SearchCommand="{Binding Path=ChooseLoteDeInventarioCommand}" Visibility="{Binding Path=IsVisbleLoteDeInventario, Converter={StaticResource booleanToVisibilityConverter}}" />
+    <Label Grid.Row="1" Grid.Column="2" Name="lblFechaDeElaboracion" Content="Fecha Elab." Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=IsVisbleLoteDeInventario, Converter={StaticResource booleanToVisibilityConverter}}" />
+    <Label x:Name="lneFechaDeElaboracion" Grid.Row="1" Grid.Column="3" Width="90" Margin="3" Content="{Binding FechaDeElaboracion}"
+    ContentStringFormat="dd/MM/yyyy" Style="{StaticResource LabelCalculatedField}" Height="25" Visibility="{Binding Path=IsVisbleLoteDeInventario, Converter={StaticResource booleanToVisibilityConverter}}"/>
+        <Label Grid.Row="1" Grid.Column="4" Name="lblFechaDeVencimiento" Content="Fecha Vcto." Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=IsVisbleLoteDeInventario, Converter={StaticResource booleanToVisibilityConverter}}"/>
+            <Label x:Name="lneFechaDeVencimiento" Grid.Row="1" Grid.Column="5" Width="90" Margin="3"
+    Content="{Binding FechaDeVencimiento}" ContentStringFormat="dd/MM/yyyy" Style="{StaticResource LabelCalculatedField}"  Height="25" Visibility="{Binding Path=IsVisbleLoteDeInventario, Converter={StaticResource booleanToVisibilityConverter}}"/>
+        
+
+
         <Label
             Name="lblCantidad"
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.Column="0"
             Content="Cantidad"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSNumericBoxWpf
             Name="txtCantidad"
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.Column="1"
             Width="120"
             BorderThickness="1"
@@ -80,20 +101,21 @@
             InputDataType="UDecimal"
             IsEnabled="{Binding Path=IsEnabled}"
             MaxLength="28"
+            Margin="3"
             Style="{StaticResource TextBoxInputStyle}"
             Value="{Binding Path=Cantidad, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         <Label
             Name="lblCostoUnitario"
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.Column="2"
             Content="Precio Unitario"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSNumericBoxWpf
             Name="txtPrecioUnitario"
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.Column="3"
             Width="120"
-            Margin="3,3,0,3"
+            Margin="3,3,3,3"
             BorderThickness="1"
             DecimalDigits="{Binding DecimalDigits}"
             InputDataType="UDecimal"
@@ -103,14 +125,14 @@
             Value="{Binding Path=PrecioUnitario, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         <Label
             Name="lblCantidadRecibida"
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.Column="4"
             Content="Cantidad Disponible"
             Style="{StaticResource LabelPrompt}"
             Visibility="{Binding Path=IsVisibleCantidadRecibida, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSNumericBoxWpf
             Name="txtCantidadRecibida"
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.Column="5"
             Width="120"
             BorderThickness="1"
@@ -121,7 +143,7 @@
             Style="{StaticResource TextBoxInputStyle}"
             Visibility="{Binding Path=IsVisibleCantidadRecibida, Converter={StaticResource booleanToVisibilityConverter}}"
             Value="{Binding Path=CantidadRecibida, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-        <Grid Grid.Row="2" Grid.ColumnSpan="6">
+        <Grid Grid.Row="3" Grid.ColumnSpan="6">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -179,14 +201,14 @@
         </Grid>
         <Label
             Name="lblPorcentajeSeguro"
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.Column="0"
             Content="Porcentaje Seguro"
             Style="{StaticResource LabelPrompt}"
             Visibility="{Binding Path=IsVisibleUsaSeguro, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSNumericBoxWpf
             Name="txtPorcentajeSeguro"
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.Column="1"
             Width="120"
             BorderThickness="1"

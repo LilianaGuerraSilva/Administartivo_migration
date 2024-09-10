@@ -102,6 +102,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InventarioMessagesHandler.cs" />
     <Compile Include="clsAlmacenMenu.cs" />
     <Compile Include="clsArticuloInventarioMenu.cs" />
     <Compile Include="clsCategoriaMenu.cs" />

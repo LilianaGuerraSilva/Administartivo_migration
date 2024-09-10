@@ -16,6 +16,8 @@ using Galac.Adm.Brl.GestionCompras;
 using Galac.Adm.Ccl.GestionCompras;
 using System.Collections.ObjectModel;
 using Galac.Saw.Ccl.Inventario;
+using Galac.Saw.Brl.Inventario;
+using LibGalac.Aos.Brl;
 
 namespace Galac.Adm.Uil.GestionCompras.ViewModel {
     public class CompraDetalleArticuloInventarioViewModel : LibInputDetailViewModelMfc<CompraDetalleArticuloInventario> {
@@ -28,9 +30,13 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         public const string PorcentajeDeDistribucionPropertyName = "PorcentajeDeDistribucion";
         public const string MontoDistribucionPropertyName = "MontoDistribucion";
         public const string PorcentajeSeguroPropertyName = "PorcentajeSeguro";
+        public const string CodigoLotePropertyName = "CodigoLote";
+        public const string FechaDeElaboracionPropertyName = "FechaDeElaboracion";
+        public const string FechaDeVencimientoPropertyName = "FechaDeVencimiento";
         #endregion
         #region Variables
         private FkArticuloInventarioViewModel _ConexionCodigoArticulo = null;
+        private FkLoteDeInventarioViewModel _ConexionLoteDeInventario = null;
         #endregion //Variables
         #region Propiedades
 
@@ -245,6 +251,17 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
+        public int ConsecutivoLoteDeInventario {
+            get {
+                return Model.ConsecutivoLoteDeInventario;
+            }
+            set {
+                if (Model.ConsecutivoLoteDeInventario != value) {
+                    Model.ConsecutivoLoteDeInventario = value;
+                }
+            }
+        }       
+
         public CompraViewModel Master {
             get;
             set;
@@ -258,6 +275,10 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 if (_ConexionCodigoArticulo != value) {
                     _ConexionCodigoArticulo = value;
                     RaisePropertyChanged(CodigoArticuloPropertyName);
+                    RaisePropertyChanged(() => IsVisbleLoteDeInventario);
+                    RaisePropertyChanged(() => IsEnabledLoteDeInventario);
+                    RaisePropertyChanged(() => IsVisibleFechaLoteDeInventario);
+                    RaisePropertyChanged(() => IsVisbleLabelLoteNuevo);                    
                     if (_ConexionCodigoArticulo != null) {
                         CodigoArticulo = ConexionCodigoArticulo.CodigoCompuesto;
                         DescripcionArticulo = ConexionCodigoArticulo.Descripcion;
@@ -271,6 +292,11 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                         TipoArticulo = ConexionCodigoArticulo.TipoDeArticulo;
                         Model.TipoDeAlicuota  = LibConvert.ToInt(ConexionCodigoArticulo.AlicuotaIva);
                         Model.TipoDeArticulo = (int)ConexionCodigoArticulo.TipoDeArticulo;
+                        RaisePropertyChanged(() => TipoDeMercanciaStr);
+                        CodigoLote = string.Empty;
+                        FechaDeElaboracion = LibDate.MinDateForDB();
+                        FechaDeVencimiento = LibDate.MaxDateForDB();
+                        RaisePropertyChanged(() => CodigoLote);
                     }
                 }
                 if (_ConexionCodigoArticulo == null) {
@@ -338,7 +364,16 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         }
        
         public string CodigoGrupo { get; set; }
-        public eTipoArticuloInv TipoArticuloInv { get; set; }
+        public eTipoArticuloInv TipoArticuloInv {
+            get {
+                return Model.TipoArticuloInv;
+            }
+            set {
+                if (Model.TipoArticuloInv != value) {
+                    Model.TipoArticuloInv = value;
+                }
+            }
+        }
 
         public bool IsVisibleUsaSeguro {
             get {
@@ -425,6 +460,80 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         public eTipoDeArticulo TipoArticulo { get; set; }
         public decimal CantidadMaxima { get; set; }
 
+        [LibCustomValidation("LoteDeInventarioValidating")]        
+        public string CodigoLote {
+            get {
+                return Model.CodigoLote;
+            }
+            set {
+                if (Model.CodigoLote != value) {
+                    Model.CodigoLote = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(CodigoLotePropertyName);
+                }
+            }
+        }        
+        public DateTime FechaDeElaboracion {
+            get {
+                return Model.FechaDeElaboracion;
+            }
+            set {
+                if (Model.FechaDeElaboracion != value) {
+                    Model.FechaDeElaboracion = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(FechaDeElaboracionPropertyName);
+                }
+            }
+        }        
+        public DateTime FechaDeVencimiento {
+            get {
+                return Model.FechaDeVencimiento;
+            }
+            set {
+                if (Model.FechaDeVencimiento != value) {
+                    Model.FechaDeVencimiento = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(FechaDeVencimientoPropertyName);
+                }
+            }
+        }
+
+        public string TipoDeMercanciaStr {
+            get { return LibEnumHelper.GetDescription(TipoArticuloInv); }
+        }
+
+        public bool IsVisbleLoteDeInventario {
+            get { return (ConexionCodigoArticulo != null) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.Lote); }
+        }
+
+        public bool IsEnabledLoteDeInventario {
+            get { return IsEnabled && SePuedeEditarLote(); }
+        }
+
+        public bool IsVisibleFechaLoteDeInventario {
+            get { return (ConexionCodigoArticulo != null) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento); }
+        }
+
+        public bool IsVisbleLabelLoteNuevo {
+            get { return (ConexionCodigoArticulo != null); }
+        }
+        public RelayCommand<string> ChooseLoteDeInventarioCommand {
+            get;
+            private set;
+        }
+
+        public FkLoteDeInventarioViewModel ConexionLoteDeInventario {
+            get {
+                return _ConexionLoteDeInventario;
+            }
+            set {
+                if (_ConexionLoteDeInventario != value) {
+                    _ConexionLoteDeInventario = value;
+                    RaisePropertyChanged(CodigoLotePropertyName);
+                }
+            }
+        }
+
         #endregion //Propiedades
         #region Constructores
         public CompraDetalleArticuloInventarioViewModel()
@@ -451,13 +560,19 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         protected override void InitializeCommands() {
             base.InitializeCommands();
             ChooseCodigoArticuloCommand = new RelayCommand<string>(ExecuteChooseCodigoArticuloCommand);
+            ChooseLoteDeInventarioCommand = new RelayCommand<string>(ExecuteChooseLoteDeInventarioCommand);
         }
 
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
-            //ConexionCodigoArticulo = Master.FirstConnectionRecordOrDefault<FkArticuloInventarioViewModel>("Articulo Inventario", LibSearchCriteria.CreateCriteria("CodigoCompuesto", CodigoArticulo));
+            //ConexionCodigoArticulo = Master.FirstConnectionRecordOrDefault<FkArticuloInventarioViewModel>("Articulo Inventario", LibSearchCriteria.CreateCriteria("CodigoCompuesto", CodigoArticulo));         
+            LibSearchCriteria vDefaultCriteriaInventario = LibSearchCriteria.CreateCriteria("Codigo", CodigoArticulo);
+            vDefaultCriteriaInventario.Add(LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania")), eLogicOperatorType.And);
+            ConexionCodigoArticulo = Master.FirstConnectionRecordOrDefault<FkArticuloInventarioViewModel>("Articulo Inventario", vDefaultCriteriaInventario);
+            LibSearchCriteria vDefaultCriteriaLote = LibSearchCriteria.CreateCriteria("CodigoLote", CodigoLote);
+            vDefaultCriteriaLote.Add(LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania")), eLogicOperatorType.And);
+            ConexionLoteDeInventario = Master.FirstConnectionRecordOrDefault<FkLoteDeInventarioViewModel>("Lote de Inventario", vDefaultCriteriaLote);
         }
-
         private void ExecuteChooseCodigoArticuloCommand(string valCodigo) {
             bool vAplicaProductoTerminado = false;
             //clsArticuloInventarioED clsArticuloInventarioED = new clsArticuloInventarioED();
@@ -623,6 +738,76 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 if (SubTotal == 0) {
                     vResult = new ValidationResult("No se puede grabar una Compra con monto cero.");
                 }
+            }
+            return vResult;
+        }
+
+        private void ExecuteChooseLoteDeInventarioCommand(string valCodigoLote) {
+            try {
+                if (valCodigoLote == null) {
+                    valCodigoLote = string.Empty;
+                }
+                bool vInvocarCrear = true;
+                vInvocarCrear = vInvocarCrear && !LibString.IsNullOrEmpty(valCodigoLote, true);
+                vInvocarCrear = vInvocarCrear && !LibString.S1IsInS2("*", valCodigoLote);
+                vInvocarCrear = vInvocarCrear && !((ILoteDeInventarioPdn)new clsLoteDeInventarioNav()).ExisteLoteDeInventario(Mfc.GetInt("Compania"), CodigoArticulo, valCodigoLote);
+                if (vInvocarCrear) {
+                    LibBusinessProcessMessage libBusinessProcessMessage = new LibBusinessProcessMessage();
+                    libBusinessProcessMessage.Content = valCodigoLote + "|" + CodigoArticulo + "|" + (int)TipoArticuloInv;
+                    LibBusinessProcess.Call("InsertarLoteInventarioDesdeModuloExterno", libBusinessProcessMessage);
+                    valCodigoLote = libBusinessProcessMessage.Result.ToString();
+                }
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("CodigoLote", valCodigoLote);
+                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
+                vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("CodigoArticulo", CodigoArticulo), eLogicOperatorType.And);
+                ConexionLoteDeInventario = Master.ChooseRecord<FkLoteDeInventarioViewModel>("Lote de Inventario", vDefaultCriteria, vFixedCriteria, "FechaDeVencimiento, FechaDeElaboracion, CodigoLote");
+                if (ConexionLoteDeInventario == null) {
+                    CodigoLote = string.Empty;
+                    FechaDeElaboracion = LibDate.MinDateForDB();
+                    FechaDeVencimiento = LibDate.MaxDateForDB();
+                } else {
+                    if (LibDate.F1IsLessThanF2(ConexionLoteDeInventario.FechaDeVencimiento, LibDate.Today())){
+                        LibMessages.MessageBox.Information(this, $"El Articulo:{CodigoArticulo} - {LibString.Left(DescripcionArticulo,15) + "..."} Lote: {ConexionLoteDeInventario.CodigoLote} venció el {ConexionLoteDeInventario.FechaDeVencimiento.ToString("dd/MM/yyyy")}.", ModuleName);
+                    }
+                    ConsecutivoLoteDeInventario = ConexionLoteDeInventario.Consecutivo;
+                    CodigoLote = ConexionLoteDeInventario.CodigoLote;
+                    FechaDeElaboracion = ConexionLoteDeInventario.FechaDeElaboracion;
+                    FechaDeVencimiento = ConexionLoteDeInventario.FechaDeVencimiento;
+                }
+                RaisePropertyChanged(() => IsVisbleLoteDeInventario);
+                RaisePropertyChanged(() => IsEnabledLoteDeInventario);
+                RaisePropertyChanged(() => IsVisibleFechaLoteDeInventario);
+                RaisePropertyChanged(() => IsVisbleLabelLoteNuevo);
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
+
+        private bool SePuedeEditarLote() {
+            if ((Action == eAccionSR.Insertar)
+                && (ConexionCodigoArticulo != null)
+                && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia)
+                && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.Lote)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        private ValidationResult LoteDeInventarioValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+                return ValidationResult.Success;
+            } else if (TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || TipoArticuloInv == eTipoArticuloInv.Lote) {
+                if (LibString.IsNullOrEmpty(CodigoLote, true)) {
+                    vResult = new ValidationResult("El Lote de Inventario no fue ingresado.");                
+                }
+            } else if (TipoArticuloInv != eTipoArticuloInv.LoteFechadeVencimiento || TipoArticuloInv != eTipoArticuloInv.Lote) {
+                CodigoLote = string.Empty;
+                FechaDeElaboracion = LibDate.MinDateForDB();
+                FechaDeVencimiento = LibDate.MaxDateForDB();
             }
             return vResult;
         }

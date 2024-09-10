@@ -51,6 +51,7 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("PorcentajeDeDistribucion" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_ComDetArtInvPoDeDi DEFAULT (0), ");
             SQL.AppendLine("MontoDistribucion" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_ComDetArtInvMoDi DEFAULT (0), ");
             SQL.AppendLine("PorcentajeSeguro" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_ComDetArtInvPoSe DEFAULT (0), ");
+            SQL.AppendLine("ConsecutivoLoteDeInventario" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT d_ComDetArtInvCoLoIn DEFAULT (0), ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
             SQL.AppendLine("CONSTRAINT p_CompraDetalleArticuloInventario PRIMARY KEY CLUSTERED");
             SQL.AppendLine("(ConsecutivoCompania ASC, ConsecutivoCompra ASC, Consecutivo ASC)");
@@ -69,7 +70,7 @@ namespace Galac.Adm.Dal.GestionCompras {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("SELECT CompraDetalleArticuloInventario.ConsecutivoCompania, CompraDetalleArticuloInventario.ConsecutivoCompra, CompraDetalleArticuloInventario.Consecutivo, CompraDetalleArticuloInventario.CodigoArticulo");
             SQL.AppendLine(", CompraDetalleArticuloInventario.Cantidad, CompraDetalleArticuloInventario.PrecioUnitario, CompraDetalleArticuloInventario.CantidadRecibida, CompraDetalleArticuloInventario.PorcentajeDeDistribucion");
-            SQL.AppendLine(", CompraDetalleArticuloInventario.MontoDistribucion, CompraDetalleArticuloInventario.PorcentajeSeguro");
+            SQL.AppendLine(", CompraDetalleArticuloInventario.MontoDistribucion, CompraDetalleArticuloInventario.PorcentajeSeguro, ConsecutivoLoteDeInventario");
             SQL.AppendLine(", CompraDetalleArticuloInventario.fldTimeStamp, CAST(CompraDetalleArticuloInventario.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".CompraDetalleArticuloInventario");
             SQL.AppendLine("INNER JOIN dbo.Gv_ArticuloInventario_B2 ON  " + DbSchema + ".CompraDetalleArticuloInventario.CodigoArticulo = dbo.Gv_ArticuloInventario_B2.CodigoCompuesto");
@@ -88,7 +89,8 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("@CantidadRecibida" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@PorcentajeDeDistribucion" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@MontoDistribucion" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
-            SQL.AppendLine("@PorcentajeSeguro" + InsSql.DecimalTypeForDb(25, 4) + " = 0");
+            SQL.AppendLine("@PorcentajeSeguro" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
+            SQL.AppendLine("@ConsecutivoLoteDeInventario" + InsSql.DecimalTypeForDb(10, 0) + " = 0");            
             return SQL.ToString();
         }
 
@@ -110,7 +112,8 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("            CantidadRecibida,");
             SQL.AppendLine("            PorcentajeDeDistribucion,");
             SQL.AppendLine("            MontoDistribucion,");
-            SQL.AppendLine("            PorcentajeSeguro)");
+            SQL.AppendLine("            PorcentajeSeguro,");
+            SQL.AppendLine("            ConsecutivoLoteDeInventario)");
             SQL.AppendLine("            VALUES(");
             SQL.AppendLine("            @ConsecutivoCompania,");
             SQL.AppendLine("            @ConsecutivoCompra,");
@@ -121,7 +124,8 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("            @CantidadRecibida,");
             SQL.AppendLine("            @PorcentajeDeDistribucion,");
             SQL.AppendLine("            @MontoDistribucion,");
-            SQL.AppendLine("            @PorcentajeSeguro)");
+            SQL.AppendLine("            @PorcentajeSeguro,");
+            SQL.AppendLine("            @ConsecutivoLoteDeInventario)");
             SQL.AppendLine("            SET @ReturnValue = @@ROWCOUNT");
             SQL.AppendLine("        COMMIT TRAN");
             SQL.AppendLine("        RETURN @ReturnValue ");
@@ -144,6 +148,7 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("@PorcentajeDeDistribucion" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@MontoDistribucion" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@PorcentajeSeguro" + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("@ConsecutivoLoteDeInventario" + InsSql.DecimalTypeForDb(10, 0) + ",");            
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
             return SQL.ToString();
         }
@@ -174,7 +179,8 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("               CantidadRecibida = @CantidadRecibida,");
             SQL.AppendLine("               PorcentajeDeDistribucion = @PorcentajeDeDistribucion,");
             SQL.AppendLine("               MontoDistribucion = @MontoDistribucion,");
-            SQL.AppendLine("               PorcentajeSeguro = @PorcentajeSeguro");
+            SQL.AppendLine("               PorcentajeSeguro = @PorcentajeSeguro,");
+            SQL.AppendLine("               ConsecutivoLoteDeInventario = @ConsecutivoLoteDeInventario");
             SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
             SQL.AppendLine("               AND ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("               AND ConsecutivoCompra = @ConsecutivoCompra");
@@ -291,6 +297,7 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("         PorcentajeDeDistribucion,");
             SQL.AppendLine("         MontoDistribucion,");
             SQL.AppendLine("         PorcentajeSeguro,");
+            SQL.AppendLine("         ConsecutivoLoteDeInventario,");
             SQL.AppendLine("         CAST(fldTimeStamp AS bigint) AS fldTimeStampBigint,");
             SQL.AppendLine("         fldTimeStamp");
             SQL.AppendLine("      FROM " + DbSchema + ".CompraDetalleArticuloInventario");
@@ -324,6 +331,7 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("        CompraDetalleArticuloInventario.PorcentajeDeDistribucion,");
             SQL.AppendLine("        CompraDetalleArticuloInventario.MontoDistribucion,");
 			SQL.AppendLine("        CompraDetalleArticuloInventario.PorcentajeSeguro,");
+            SQL.AppendLine("        CompraDetalleArticuloInventario.ConsecutivoLoteDeInventario,");
             SQL.AppendLine("        dbo.Gv_ArticuloInventario_B2.AlicuotaIva,");
             SQL.AppendLine("        CompraDetalleArticuloInventario.fldTimeStamp");
             SQL.AppendLine("    FROM CompraDetalleArticuloInventario");
@@ -382,7 +390,8 @@ namespace Galac.Adm.Dal.GestionCompras {
 			SQL.AppendLine("	        CantidadRecibida,");
 			SQL.AppendLine("	        PorcentajeDeDistribucion,");
 			SQL.AppendLine("	        MontoDistribucion,");
-			SQL.AppendLine("	        PorcentajeSeguro)");
+            SQL.AppendLine("	        PorcentajeSeguro,");
+            SQL.AppendLine("	        ConsecutivoLoteDeInventario)");
 		    SQL.AppendLine("	    SELECT ");
 			SQL.AppendLine("	        @ConsecutivoCompania,");
 			SQL.AppendLine("	        @ConsecutivoCompra,");
@@ -393,8 +402,9 @@ namespace Galac.Adm.Dal.GestionCompras {
 			SQL.AppendLine("	        CantidadRecibida,");
 			SQL.AppendLine("	        PorcentajeDeDistribucion,");
 			SQL.AppendLine("	        MontoDistribucion,");
-			SQL.AppendLine("	        PorcentajeSeguro");
-		    SQL.AppendLine("	    FROM OPENXML( @hdoc, 'GpData/GpResult/GpDataCompraDetalleArticuloInventario/GpDetailCompraDetalleArticuloInventario',2) ");
+            SQL.AppendLine("	        PorcentajeSeguro,");
+            SQL.AppendLine("	        ConsecutivoLoteDeInventario");
+            SQL.AppendLine("	    FROM OPENXML( @hdoc, 'GpData/GpResult/GpDataCompraDetalleArticuloInventario/GpDetailCompraDetalleArticuloInventario',2) ");
             SQL.AppendLine("	    WITH (");
             SQL.AppendLine("	        Consecutivo " + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("	        CodigoArticulo " + InsSql.VarCharTypeForDb(30) + ",");
@@ -403,7 +413,8 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("	        CantidadRecibida " + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("	        PorcentajeDeDistribucion " + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("	        MontoDistribucion " + InsSql.DecimalTypeForDb(25, 4) + ",");
-            SQL.AppendLine("	        PorcentajeSeguro " + InsSql.DecimalTypeForDb(25, 4) + ") AS XmlDocDetailOfCompra");
+            SQL.AppendLine("	        PorcentajeSeguro " + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("	        ConsecutivoLoteDeInventario " + InsSql.DecimalTypeForDb(10, 0) + ") AS XmlDocDetailOfCompra");
             SQL.AppendLine("	    EXEC sp_xml_removedocument @hdoc");
             SQL.AppendLine("	    SET @ReturnValue = @@ROWCOUNT");
             SQL.AppendLine("	    RETURN @ReturnValue");
