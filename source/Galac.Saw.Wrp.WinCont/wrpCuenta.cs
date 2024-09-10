@@ -212,22 +212,15 @@ namespace Galac.Saw.Wrp.WinCont {
             }
             return vResult;
         }
-        void IWrpCuenta.ExportarArchivoCuentas(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters)
-        {
-            try
-            {
+        void IWrpCuenta.ExportarArchivoCuentas(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
+            try {
                 CreateGlobalValues(vfwCurrentParameters);
                 ILibMenuMultiFile insMenu = new Galac.Contab.Uil.WinCont.clsExportarCuentasMenu();
                 insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1, LibGlobalValues.Instance.GVDictionary);
-            }
-            catch (GalacException gEx)
-            {
+            } catch (GalacException gEx) {
                 LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
-            }
-            catch (Exception vEx)
-            {
-                if (vEx is AccessViolationException)
-                {
+            } catch (Exception vEx) {
+                if (vEx is AccessViolationException) {
                     throw;
                 }
                 LibExceptionDisplay.Show(vEx);
