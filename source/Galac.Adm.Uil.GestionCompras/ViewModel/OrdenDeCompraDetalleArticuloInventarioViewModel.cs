@@ -25,6 +25,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         public const string CantidadPropertyName = "Cantidad";
         public const string PrecioUnitarioPropertyName = "PrecioUnitario";
         public const string CantidadRecibidaPropertyName = "CantidadRecibida";
+        public const string TipoArticuloInvStrPropertyName = "TipoArticuloInvStr";
         #endregion
         #region Variables
         private FkArticuloInventarioViewModel _ConexionCodigoArticulo = null;
@@ -182,6 +183,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                         TipoArticuloInv = ConexionCodigoArticulo.TipoArticuloInv;
                         Model.TipoDeAlicuota = LibConvert.ToInt(ConexionCodigoArticulo.AlicuotaIva);
                         Model.TipoDeArticulo = (int)ConexionCodigoArticulo.TipoDeArticulo;
+                        TipoArticuloInvStr = LibEnumHelper.GetDescription(TipoArticuloInv);
                     }
                 }
                 if (_ConexionCodigoArticulo == null) {
@@ -208,6 +210,18 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         public string Codigo { get; set; }
         public string CodigoGrupo { get; set; }
         public eTipoArticuloInv TipoArticuloInv { get; set; }
+        public string TipoArticuloInvStr {
+            get {
+                return Model.TipoArticuloInvStr;
+            }
+            set {
+                if (Model.TipoArticuloInvStr != value) {
+                    Model.TipoArticuloInvStr = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(TipoArticuloInvStrPropertyName);
+                }
+            }
+        }
         #endregion //Propiedades
         #region Constructores
         public OrdenDeCompraDetalleArticuloInventarioViewModel()
@@ -281,6 +295,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                     Codigo = ConexionCodigoArticulo.Codigo;
                     CodigoGrupo = ConexionCodigoArticulo.CodigoGrupo;
                     TipoArticuloInv = ConexionCodigoArticulo.TipoArticuloInv;
+                    TipoArticuloInvStr = LibEnumHelper.GetDescription(TipoArticuloInv);
                 } else {
                     CodigoArticulo = string.Empty;
                     DescripcionArticulo = string.Empty;
