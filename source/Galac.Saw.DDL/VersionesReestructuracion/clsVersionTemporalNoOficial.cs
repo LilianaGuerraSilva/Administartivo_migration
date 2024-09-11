@@ -106,7 +106,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         private void AjustesRenglonCompra() {
             if (!ColumnExists("Adm.CompraDetalleArticuloInventario", "ConsecutivoLoteDeInventario")) {
                 AddColumnInteger("Adm.CompraDetalleArticuloInventario", "ConsecutivoLoteDeInventario", "", 0);
-                AddDefaultConstraint("Adm.CompraDetalleArticuloInventario", "ConsecutivoLoteDeInventario", "d_ComDetArtInvCoLoIn", "0");
+                AddDefaultConstraint("Adm.CompraDetalleArticuloInventario", "d_ComDetArtInvCoLoIn", "0", "ConsecutivoLoteDeInventario");
             }
         }
     }
