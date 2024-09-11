@@ -272,7 +272,37 @@ namespace Galac.Saw.Wrp.WinCont {
             }
         }
 
-    } //End of class wrpCuenta
+        void IWrpCuenta.ReiniciarTablasDeReportes(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
+            try {
+                CreateGlobalValues(vfwCurrentParameters);
+                IReiniciarTablasTemporales insPdn = new clsReiniciarTablasTemporalesProceso();
+
+                insPdn.ReiniciarTablasTemporales();
+            } catch(GalacException gEx) {
+                LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
+            } catch(Exception vEx) {
+                if(vEx is AccessViolationException) {
+                    throw;
+                }
+                LibExceptionDisplay.Show(vEx);
+            }
+        }
+        void IWrpCuenta.CrearTablasDeReportesTMP(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
+            try {
+                CreateGlobalValues(vfwCurrentParameters);
+                IReiniciarTablasTemporales insPdn = new clsReiniciarTablasTemporalesProceso();
+
+                insPdn.CrearTablasTMP();
+            } catch(GalacException gEx) {
+                LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
+            } catch(Exception vEx) {
+                if(vEx is AccessViolationException) {
+                    throw;
+                }
+                LibExceptionDisplay.Show(vEx);
+            }
+        }
+    } //End of class wrpCuenta  
 
 } //End of namespace Galac.Iva.Wrp.Cuenta
 
