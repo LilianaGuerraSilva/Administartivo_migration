@@ -473,6 +473,11 @@ Enum enum_ExpresarBalancesEnMonedaExtrangera
    eGC_ConGananciaPerdidaCambiaria
 End Enum
 
+Enum enum_OpcionesDePlantilla
+   eODP_CrearArchivo = 0
+   eODP_ActualizarArchivo
+End Enum
+
 Private Function CM_FILE_NAME() As String
    CM_FILE_NAME = "clsEnumContabilidad"
 End Function
@@ -3700,4 +3705,30 @@ Public Function strExpresarBalancesEnMonedaExtrangeraToNum(ByVal ExpresarBalance
    End If
 h_EXIT:
    Exit Function
+End Function
+
+Public Sub FillComboBoxWithOpcionesDePlantilla(ByRef varComboBox As Object, Optional action As AccionSobreRecord = Abrir)
+   Dim nCount As Integer
+   nCount = 0
+   If action = Buscar Then
+      varComboBox.Text = gDefGen.getSearchAllComboBox()
+      varComboBox.List(nCount) = gDefGen.getSearchAllComboBox()
+      nCount = nCount + 1
+   Else
+      varComboBox.Text = enumOpcionesDePlantillaToString(enum_OpcionesDePlantilla.eODP_ActualizarArchivo)
+   End If
+   varComboBox.List(nCount) = enumOpcionesDePlantillaToString(enum_OpcionesDePlantilla.eODP_CrearArchivo)
+   nCount = nCount + 1
+   varComboBox.List(nCount) = enumOpcionesDePlantillaToString(enum_OpcionesDePlantilla.eODP_ActualizarArchivo)
+   varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
+   varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
+End Sub
+
+Public Function enumOpcionesDePlantillaToString(opcionesDePlantilla As enum_OpcionesDePlantilla) As String
+   Select Case opcionesDePlantilla
+      Case eODP_CrearArchivo: enumOpcionesDePlantillaToString = "Nuevo archivo"
+      Case eODP_ActualizarArchivo: enumOpcionesDePlantillaToString = "Actualizar archivo"
+      Case Else
+         enumOpcionesDePlantillaToString = enumOpcionesDePlantillaToString(0)
+         End Select
 End Function

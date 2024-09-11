@@ -18,5 +18,5 @@ using System.EnterpriseServices;
 // El siguiente GUID sirve como identificador de typelib si este proyecto se expone a COM
 [assembly: Guid("76d305aa-adda-4aa6-9d81-bc155e960773")]
 
-[assembly: AssemblyVersion("2.61.0.0")]
-[assembly: AssemblyFileVersion("2.61.0.0")]
+[assembly: AssemblyVersion("2.61.0.*")]
+[assembly: AssemblyFileVersion("2.61.0.9999")]

@@ -34,14 +34,6 @@
 	path = bin/binContabilidadVb
 	url = https://github.com/GalacSoftware/BinContabilidadVb.git
 	branch = release/SawV25.3.0.0
-[submodule "bin/binContabilidadAos"]
-	path = bin/binContabilidadAos
-	url = https://github.com/GalacSoftware/BinContabilidadAos.git
-	branch = release/SawV25.3.0.0
-[submodule "source/ContabIwrp"]
-	path = source/ContabIwrp
-	url = https://github.com/GalacSoftware/ContabiWrp.git
-	branch = release/SawV25.3.0.0
 [submodule "source/IvaVb"]
 	path = source/IvaVb
 	url = https://github.com/GalacSoftware/IvaVb.git
@@ -54,10 +46,6 @@
 	path = source/vbaComun
 	url = https://github.com/GalacSoftware/vbaComun.git
 	branch = release/SawV25.3.0.0
-[submodule "source/ContabilidadVb"]
-	path = source/ContabilidadVb
-	url = https://github.com/GalacSoftware/ContabilidadVb.git
-	branch = release/Saw_25.3_OOM
 [submodule "bin/binLibNet"]
 	path = bin/binLibNet
 	url = https://github.com/GalacSoftware/BinLibNet.git
@@ -70,3 +58,15 @@
 	path = bin/binComunAos
 	url = https://github.com/GalacSoftware/BinComunAos.git
 	branch = release/V2.62.2.4
+[submodule "source/ContabiWrp"]
+	path = source/ContabiWrp
+	url = https://github.com/GalacSoftware/ContabiWrp.git
+	branch = feature/ExportarComprobantes
+[submodule "source/ContabilidadVb"]
+	path = source/ContabilidadVb
+	url = https://github.com/GalacSoftware/ContabilidadVb.git
+	branch = feature/ExportarComprobantes
+[submodule "bin/binContabilidadAos"]
+	path = bin/binContabilidadAos
+	url = https://github.com/GalacSoftware/BinContabilidadAos.git
+	branch = feature/ExportarComprobantes
