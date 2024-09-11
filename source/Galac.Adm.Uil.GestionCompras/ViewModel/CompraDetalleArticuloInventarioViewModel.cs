@@ -275,10 +275,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 if (_ConexionCodigoArticulo != value) {
                     _ConexionCodigoArticulo = value;
                     RaisePropertyChanged(CodigoArticuloPropertyName);
-                    RaisePropertyChanged(() => IsVisbleLoteDeInventario);
-                    RaisePropertyChanged(() => IsEnabledLoteDeInventario);
-                    RaisePropertyChanged(() => IsVisibleFechaLoteDeInventario);
-                    RaisePropertyChanged(() => IsVisbleLabelLoteNuevo);                    
+                    RaisePropertyLote();
                     if (_ConexionCodigoArticulo != null) {
                         CodigoArticulo = ConexionCodigoArticulo.CodigoCompuesto;
                         DescripcionArticulo = ConexionCodigoArticulo.Descripcion;
@@ -290,7 +287,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                         CantidadMaxima = ConexionCodigoArticulo.CantidadMaxima;
                         Existencia = ConexionCodigoArticulo.Existencia;
                         TipoArticulo = ConexionCodigoArticulo.TipoDeArticulo;
-                        Model.TipoDeAlicuota  = LibConvert.ToInt(ConexionCodigoArticulo.AlicuotaIva);
+                        Model.TipoDeAlicuota = LibConvert.ToInt(ConexionCodigoArticulo.AlicuotaIva);
                         Model.TipoDeArticulo = (int)ConexionCodigoArticulo.TipoDeArticulo;
                         RaisePropertyChanged(() => TipoDeMercanciaStr);
                         CodigoLote = string.Empty;
@@ -303,7 +300,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                     CodigoArticulo = string.Empty;
                 }
             }
-        }
+        }       
 
         public RelayCommand<string> ChooseCodigoArticuloCommand {
             get;
@@ -366,11 +363,11 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         public string CodigoGrupo { get; set; }
         public eTipoArticuloInv TipoArticuloInv {
             get {
-                return Model.TipoArticuloInv;
+                return Model.TipoArticuloInvAsEnum;
             }
             set {
-                if (Model.TipoArticuloInv != value) {
-                    Model.TipoArticuloInv = value;
+                if (Model.TipoArticuloInvAsEnum != value) {
+                    Model.TipoArticuloInvAsEnum = value;
                 }
             }
         }
@@ -530,6 +527,13 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 if (_ConexionLoteDeInventario != value) {
                     _ConexionLoteDeInventario = value;
                     RaisePropertyChanged(CodigoLotePropertyName);
+                    if (_ConexionLoteDeInventario != null) {
+                        CodigoLote = _ConexionLoteDeInventario.CodigoLote;
+                        FechaDeElaboracion = _ConexionLoteDeInventario.FechaDeElaboracion;
+                        FechaDeVencimiento = _ConexionLoteDeInventario.FechaDeVencimiento;
+                        ConsecutivoLoteDeInventario  = _ConexionLoteDeInventario.Consecutivo;                        
+                    }
+                    RaisePropertyLote();
                 }
             }
         }
@@ -542,9 +546,9 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         public CompraDetalleArticuloInventarioViewModel(CompraViewModel initMaster, CompraDetalleArticuloInventario initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             Master = initMaster;
-            IsEnabledCantidad = initModel.TipoArticuloInv == eTipoArticuloInv.Simple || initModel.TipoArticuloInv == eTipoArticuloInv.UsaTallaColor;
-            TipoArticuloInv = initModel.TipoArticuloInv;
-            CodigoGrupo = initModel.TipoArticuloInv == eTipoArticuloInv.UsaSerial || initModel.TipoArticuloInv == eTipoArticuloInv.UsaSerialRollo ? "0" : initModel.CodigoGrupo;
+            IsEnabledCantidad = initModel.TipoArticuloInvAsEnum == eTipoArticuloInv.Simple || initModel.TipoArticuloInvAsEnum == eTipoArticuloInv.UsaTallaColor || initModel.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento || initModel.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote;
+            TipoArticuloInv = initModel.TipoArticuloInvAsEnum;
+            CodigoGrupo = initModel.TipoArticuloInvAsEnum == eTipoArticuloInv.UsaSerial || initModel.TipoArticuloInvAsEnum == eTipoArticuloInv.UsaSerialRollo ? "0" : initModel.CodigoGrupo;
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -810,6 +814,13 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 FechaDeVencimiento = LibDate.MaxDateForDB();
             }
             return vResult;
+        }
+
+        private void RaisePropertyLote() {
+            RaisePropertyChanged(() => IsVisbleLoteDeInventario);
+            RaisePropertyChanged(() => IsEnabledLoteDeInventario);
+            RaisePropertyChanged(() => IsVisibleFechaLoteDeInventario);
+            RaisePropertyChanged(() => IsVisbleLabelLoteNuevo);
         }
     } //End of class CompraDetalleArticuloInventarioViewModel
 

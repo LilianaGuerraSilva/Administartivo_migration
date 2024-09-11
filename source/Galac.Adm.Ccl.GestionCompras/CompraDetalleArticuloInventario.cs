@@ -32,6 +32,7 @@ namespace Galac.Adm.Ccl.GestionCompras {
         private string _CodigoLote;
         private DateTime _FechaDeElaboracion;
         private DateTime _FechaDeVencimiento;
+        private int _ConsecutivoLoteDeInventarioMov;
         #endregion //Variables
         #region Propiedades
 
@@ -131,10 +132,15 @@ namespace Galac.Adm.Ccl.GestionCompras {
             set { _CodigoGrupo = value; }
         }
 
-        public eTipoArticuloInv TipoArticuloInv {
+        public eTipoArticuloInv TipoArticuloInvAsEnum {
             get { return _TipoArticuloInv; }
             set { _TipoArticuloInv = value; }
         }
+
+        public string TipoArticuloInv {
+            set { _TipoArticuloInv = (eTipoArticuloInv)LibConvert.DbValueToEnum(value); }
+        }
+
 
         public int TipoDeAlicuota {
             get;
@@ -191,7 +197,7 @@ namespace Galac.Adm.Ccl.GestionCompras {
             PorcentajeSeguroLey = 0;
             PorcentajeArancel = 0;
             CodigoGrupo = string.Empty;
-            TipoArticuloInv = eTipoArticuloInv.Simple;
+            TipoArticuloInvAsEnum = eTipoArticuloInv.Simple;
             ConsecutivoLoteDeInventario = 0;
         }
 
