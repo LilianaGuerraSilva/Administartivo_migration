@@ -62,3 +62,11 @@
 	path = bin/binContabilidadAos
 	url = https://github.com/GalacSoftware/BinContabilidadAos.git
 	branch = feature/ExportarComprobantes
+[submodule "source/ContabilidadVb"]
+	path = source/ContabilidadVb
+	url = https://github.com/GalacSoftware/ContabilidadVb.git
+	branch = feature/ReiniciarTablasTemporales
+[submodule "source/ContabiWrp"]
+	path = source/ContabiWrp
+	url = https://github.com/GalacSoftware/ContabiWrp.git
+	branch = feature/ReiniciarTablasTemporales
