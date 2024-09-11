@@ -119,6 +119,19 @@ namespace Galac.Saw.Brl.Inventario {
             return LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", -1);
         }
 
+        XElement ILoteDeInventarioPdn.FindByConsecutivoCompaniaConsecutivoLoteCodigoArticulo(int valConsecutivoCompania, int valConsecutivoLote, string valCodigoArticulo) {
+            LibGpParams vParams = new LibGpParams();
+            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            vParams.AddInInteger("Consecutivo", valConsecutivoLote);
+            vParams.AddInString("CodigoArticulo", valCodigoArticulo, 30);
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("SELECT * FROM Saw.LoteDeInventario");
+            SQL.AppendLine("WHERE ConsecutivoCompania = @ConsecutivoCompania");
+            SQL.AppendLine("AND Consecutivo = @Consecutivo");
+            SQL.AppendLine("AND CodigoArticulo = @CodigoArticulo");
+            return LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", -1);
+        }
+
         XElement ILoteDeInventarioPdn.FindByConsecutivoCompaniaCodigoArticulo(int valConsecutivoCompania, string valCodigoArticulo) {
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
@@ -203,44 +216,108 @@ namespace Galac.Saw.Brl.Inventario {
             vResult = new LibDatabase().ExistsRecord("Saw.LoteDeInventario", "CodigoLote", vParam.Get());
             return vResult;
         }
+        bool ILoteDeInventarioPdn.ExisteLoteDeInventario(int valConsecutivoCompania, string valCodigoArticulo, int valConsecutivoLoteDeInventario) {
+            bool vResult = false;
+            LibGpParams vParam = new LibGpParams();
+            vParam.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            vParam.AddInString("CodigoArticulo", valCodigoArticulo, 30);
+            vParam.AddInInteger("Consecutivo", valConsecutivoLoteDeInventario);
+            vResult = new LibDatabase().ExistsRecord("Saw.LoteDeInventario", "CodigoLote", vParam.Get());
+            return vResult;
+        }
 
-        bool ILoteDeInventarioPdn.ActualizarLote(IList<LoteDeInventario> valListaLote) {
-            QAdvSql insSql = new QAdvSql("");
+        bool ILoteDeInventarioPdn.ActualizarLote(IList<LoteDeInventario> valListaLote) {            
             bool vResult = true;
             if (valListaLote != null && valListaLote.Count() > 0) {
                 foreach (LoteDeInventario vItemLote in valListaLote) {
-                    StringBuilder vSqlUpdateLote = new StringBuilder();
-                    vSqlUpdateLote.AppendLine("UPDATE Saw.LoteDeInventario SET ");
-                    vSqlUpdateLote.AppendLine("Existencia = " + insSql.ToSqlValue(vItemLote.Existencia));
-                    vSqlUpdateLote.AppendLine(",NombreOperador = " + insSql.ToSqlValue(((CustomIdentity)System.Threading.Thread.CurrentPrincipal.Identity).Login));
-                    vSqlUpdateLote.AppendLine(",FechaUltimaModificacion = " + insSql.ToSqlValue(LibDate.Today()));
-                    vSqlUpdateLote.AppendLine(" WHERE ConsecutivoCompania = " + insSql.ToSqlValue(vItemLote.ConsecutivoCompania));
-                    vSqlUpdateLote.AppendLine(" AND Consecutivo = " + insSql.ToSqlValue(vItemLote.Consecutivo));
-                    vResult = new LibDatabase().Execute(vSqlUpdateLote.ToString()) > 0;
-                    if (vResult) {
-                        if (vItemLote.DetailLoteDeInventarioMovimiento != null && vItemLote.DetailLoteDeInventarioMovimiento.Count > 0) {
-                            foreach (LoteDeInventarioMovimiento vItemLoteMov in vItemLote.DetailLoteDeInventarioMovimiento) {
-                                LoteDeInventarioMovimiento vLoteMov = vItemLoteMov;
-                                StringBuilder vSqlInsertMovimiento = new StringBuilder();
-                                vSqlInsertMovimiento.AppendLine("INSERT INTO Saw.LoteDeInventarioMovimiento");
-                                vSqlInsertMovimiento.AppendLine("(ConsecutivoCompania, ConsecutivoLote, Consecutivo, Fecha, Modulo, Cantidad, ConsecutivoDocumentoOrigen, NumeroDocumentoOrigen, StatusDocumentoOrigen)");
-                                vSqlInsertMovimiento.AppendLine("VALUES(");
-                                vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(vLoteMov.ConsecutivoCompania) + ", ");
-                                vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(vLoteMov.ConsecutivoLote) + ", ");
-                                vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(new clsLoteDeInventarioMovimientoNav().ProximoConsecutivo(vItemLoteMov.ConsecutivoCompania, vItemLoteMov.ConsecutivoLote)) + ", ");
-                                vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(vLoteMov.Fecha) + ", ");
-                                vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(vLoteMov.ModuloAsDB) + ", ");
-                                vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(vLoteMov.Cantidad) + ", ");
-                                vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(vLoteMov.ConsecutivoDocumentoOrigen) + ", ");
-                                vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(vLoteMov.NumeroDocumentoOrigen) + ", ");
-                                vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(vLoteMov.StatusDocumentoOrigenAsDB));
-                                vSqlInsertMovimiento.AppendLine(")");
-                                vResult = new LibDatabase().Execute(vSqlInsertMovimiento.ToString()) > 0 && vResult;
-                            }
-                        }
+                    vResult = UpdateLote(vItemLote);
+                    if (vResult) {                        
+                        vResult = InsertDetail(vItemLote);
                     }
                 }
             }
+            return vResult;
+        }
+
+        bool ILoteDeInventarioPdn.ActualizarLoteYReversarMov(IList<LoteDeInventario> valListaLote, eOrigenLoteInv valOrigen, int valConsecutivoDocumentoOrigen, string valNumeroDocumentoOrigen, bool valSoloAnulados) {
+            bool vResult = true;
+            if (valListaLote != null && valListaLote.Count() > 0) {
+                foreach (LoteDeInventario vItemLote in valListaLote) {
+                    vResult = UpdateLote(vItemLote);
+                    if (vResult) {
+                        vResult = DeleteDetail(vItemLote, valOrigen, valConsecutivoDocumentoOrigen, valNumeroDocumentoOrigen, valSoloAnulados);
+                    }
+                }
+            }
+            return vResult;
+        }
+
+        private static bool UpdateLote(LoteDeInventario vItemLote) {
+            QAdvSql insSql = new QAdvSql("");
+            bool vResult;
+            StringBuilder vSqlUpdateLote = new StringBuilder();
+            vSqlUpdateLote.AppendLine("UPDATE Saw.LoteDeInventario SET ");
+            vSqlUpdateLote.AppendLine("Existencia = " + insSql.ToSqlValue(vItemLote.Existencia));
+            vSqlUpdateLote.AppendLine(",NombreOperador = " + insSql.ToSqlValue(((CustomIdentity)System.Threading.Thread.CurrentPrincipal.Identity).Login));
+            vSqlUpdateLote.AppendLine(",FechaUltimaModificacion = " + insSql.ToSqlValue(LibDate.Today()));
+            vSqlUpdateLote.AppendLine(" WHERE ConsecutivoCompania = " + insSql.ToSqlValue(vItemLote.ConsecutivoCompania));
+            vSqlUpdateLote.AppendLine(" AND Consecutivo = " + insSql.ToSqlValue(vItemLote.Consecutivo));
+            vResult = new LibDataScope().Execute(vSqlUpdateLote.ToString()) > 0;
+            return vResult;
+        }
+
+        private static bool InsertDetail(LoteDeInventario vItemLote) {
+            bool vResult = false;
+            QAdvSql insSql = new QAdvSql("");
+            if (vItemLote.DetailLoteDeInventarioMovimiento != null && vItemLote.DetailLoteDeInventarioMovimiento.Count > 0) {
+                foreach (LoteDeInventarioMovimiento vItemLoteMov in vItemLote.DetailLoteDeInventarioMovimiento) {
+                    LoteDeInventarioMovimiento vLoteMov = vItemLoteMov;
+                    StringBuilder vSqlInsertMovimiento = new StringBuilder();
+                    vSqlInsertMovimiento.AppendLine("INSERT INTO Saw.LoteDeInventarioMovimiento");
+                    vSqlInsertMovimiento.AppendLine("(ConsecutivoCompania, ConsecutivoLote, Consecutivo, Fecha, Modulo, Cantidad, ConsecutivoDocumentoOrigen, NumeroDocumentoOrigen, StatusDocumentoOrigen)");
+                    vSqlInsertMovimiento.AppendLine("VALUES(");
+                    vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(vLoteMov.ConsecutivoCompania) + ", ");
+                    vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(vLoteMov.ConsecutivoLote) + ", ");
+                    vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(new clsLoteDeInventarioMovimientoNav().ProximoConsecutivo(vItemLoteMov.ConsecutivoCompania, vItemLoteMov.ConsecutivoLote)) + ", ");
+                    vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(vLoteMov.Fecha) + ", ");
+                    vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(vLoteMov.ModuloAsDB) + ", ");
+                    vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(vLoteMov.Cantidad) + ", ");
+                    vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(vLoteMov.ConsecutivoDocumentoOrigen) + ", ");
+                    vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(vLoteMov.NumeroDocumentoOrigen) + ", ");
+                    vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(vLoteMov.StatusDocumentoOrigenAsDB));
+                    vSqlInsertMovimiento.AppendLine(")");                    
+                    vResult = new LibDataScope().ExecuteWithScope(vSqlInsertMovimiento.ToString()) > 0;
+                }
+            }
+
+            return vResult;
+        }
+
+        private static bool DeleteDetail(LoteDeInventario vItemLote, eOrigenLoteInv valOrigen, int valConsecutivoDocumentoOrigen, string valNumeroDocumentoOrigen, bool valSoloAnulados) {
+            LibGpParams vParams = new LibGpParams();
+            vParams.AddInInteger("ConsecutivoCompania", vItemLote.ConsecutivoCompania);
+            vParams.AddInInteger("ConsecutivoLote", vItemLote.Consecutivo);            
+            vParams.AddInEnum("Modulo", (int)valOrigen);
+            bool vResult = true;
+            QAdvSql insSql = new QAdvSql("");            
+            StringBuilder vSqlInsertMovimiento = new StringBuilder();
+            vSqlInsertMovimiento.AppendLine("DELETE Saw.LoteDeInventarioMovimiento");                    
+            vSqlInsertMovimiento.AppendLine(" WHERE ");
+            vSqlInsertMovimiento.AppendLine("ConsecutivoCompania = @ConsecutivoCompania");
+            vSqlInsertMovimiento.AppendLine(" AND ConsecutivoLote = @ConsecutivoLote");
+            vSqlInsertMovimiento.AppendLine(" AND Modulo = @Modulo");
+            if (valConsecutivoDocumentoOrigen == 0) {
+                vParams.AddInString("NumeroDocumentoOrigen", valNumeroDocumentoOrigen, 30);
+                vSqlInsertMovimiento.AppendLine(" AND NumeroDocumentoOrigen = @NumeroDocumentoOrigen");
+            } else {
+                vParams.AddInInteger("ConsecutivoDocumentoOrigen", valConsecutivoDocumentoOrigen);
+                vSqlInsertMovimiento.AppendLine(" AND ConsecutivoDocumentoOrigen = @ConsecutivoDocumentoOrigen");
+            }
+            if (valSoloAnulados) {
+                vParams.AddInEnum("StatusDocumentoOrigen", (int)eStatusDocOrigenLoteInv.Anulado);
+                vSqlInsertMovimiento.AppendLine(" AND StatusDocumentoOrigen = @StatusDocumentoOrigen");                
+            }
+            LibBusiness.ExecuteUpdateOrDelete(vSqlInsertMovimiento.ToString(), vParams.Get(), "", 0);
             return vResult;
         }
     } //End of class clsLoteDeInventarioNav

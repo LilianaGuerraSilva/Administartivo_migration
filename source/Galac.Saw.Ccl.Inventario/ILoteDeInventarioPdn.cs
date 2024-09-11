@@ -9,10 +9,13 @@ namespace Galac.Saw.Ccl.Inventario {
     public interface ILoteDeInventarioPdn : ILibPdn {
         #region Metodos Generados
         XElement FindByConsecutivoCompaniaCodigoLoteCodigoArticulo(int valConsecutivoCompania, string valCodigoLote, string valCodigoArticulo);
+        XElement FindByConsecutivoCompaniaConsecutivoLoteCodigoArticulo(int valConsecutivoCompania, int valCodigoLote, string valCodigoArticulo);
         XElement FindByConsecutivoCompaniaCodigoArticulo(int valConsecutivoCompania, string valCodigoArticulo);
         //LibResponse AgregarLote(IList<LoteDeInventario> valListaLote, bool valUsaDetalle);
         bool ActualizarLote(IList<LoteDeInventario> valListaLote);
         bool ExisteLoteDeInventario(int valConsecutivoCompania, string valCodigoArticulo, string valLoteDeInventario);
+        bool ExisteLoteDeInventario(int valConsecutivoCompania, string valCodigoArticulo, int valConsecutivoLoteDeInventario);
+        bool ActualizarLoteYReversarMov(IList<LoteDeInventario> valListaLote, eOrigenLoteInv valOrigen, int valConsecutivoDocumentoOrigen, string valNumeroDocumentoOrigen, bool valSoloAnulados);
         #endregion //Metodos Generados
 
 
