@@ -1,21 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using LibGalac.Aos.UI.Mvvm;
 using LibGalac.Aos.UI.Mvvm.Command;
 using LibGalac.Aos.UI.Mvvm.Messaging;
 using LibGalac.Aos.UI.Mvvm.Ribbon;
-using LibGalac.Aos.UI.Mvvm.Helpers;
-using LibGalac.Aos.Brl.Contracts;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Base.Report;
-using LibGalac.Aos.Catching;
 using LibGalac.Aos.ARRpt.Reports;
 using Galac.Saw.Brl.Inventario;
 using Galac.Saw.Brl.Inventario.Reportes;
 using Galac.Saw.Ccl.Inventario;
-using LibGalac.Aos.DefGen;
 
 namespace Galac.Saw.Uil.Inventario.ViewModel {
 
@@ -25,6 +19,12 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public override string ModuleName {
             get { return "Lote de Inventario"; }
         }
+
+        public RelayCommand InformesCommand {
+            get;
+            private set;
+        }
+
         #endregion //Propiedades
         #region Constructores
 
@@ -74,16 +74,18 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         protected override void InitializeCommands() {
             base.InitializeCommands();
+            InformesCommand = new RelayCommand(ExecuteInformesCommand, CanExecuteInformesCommand);
         }
 
 
 
         protected override void InitializeRibbon() {
             CanPrint = true;
-            base.InitializeRibbon(); 
+            base.InitializeRibbon();
             if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
                 RibbonData.RemoveRibbonControl("Administrar", "Insertar");
                 RibbonData.TabDataCollection[0].GroupDataCollection[1].AddRibbonControlData(CreateRibbonControlImprimirLista());
+                RibbonData.TabDataCollection[0].AddTabGroupData(CreateEspecialRibbonGroup());
             }
         }
 
@@ -99,9 +101,21 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             };
         }
 
+        private LibRibbonGroupData CreateEspecialRibbonGroup() {
+            LibRibbonGroupData vResult = new LibRibbonGroupData("Especial");
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                Label = "Informes",
+                Command = InformesCommand,
+                LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/report.png", UriKind.Relative),
+                ToolTipDescription = "Informes",
+                ToolTipTitle = "Informes"
+            });
+            return vResult;
+        }
+
 
         protected override void ExecuteCommandsRaiseCanExecuteChanged() {
-            base.ExecuteCommandsRaiseCanExecuteChanged();         
+            base.ExecuteCommandsRaiseCanExecuteChanged();
         }
         #endregion //Metodos Generados     
 
@@ -119,7 +133,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 throw;
             }
         }
-		
+
         protected override bool CanExecuteUpdateCommand() {
             return CurrentItem != null && LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 18), "Modificar");
         }
@@ -131,6 +145,21 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         protected override bool CanExecuteDeleteCommand() {
             return CurrentItem != null && LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 18), "Eliminar");
         }
-    } //End of class LoteDeInventarioMngViewModel
 
+        private bool CanExecuteInformesCommand() {
+            return CurrentItem != null && LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 18), "Informes");
+        }
+
+        private void ExecuteInformesCommand() {
+            try {
+                if (LibMessages.ReportsView.ShowReportsView(new Galac.Saw.Uil.Inventario.Reportes.clsLoteDeInventarioInformesViewModel(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()))) {
+                    DialogResult = true;
+                }
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
+            }
+        }
+    } //End of class LoteDeInventarioMngViewModel
 } //End of namespace Galac.Saw.Uil.Inventario
