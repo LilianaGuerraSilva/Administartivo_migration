@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:nsARRpt="clr-namespace:LibGalac.Aos.ARRpt;assembly=LibGalac.Aos.ARRpt"
     xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
-    d:DesignHeight="130"
+    d:DesignHeight="160"
     d:DesignWidth="280"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -23,6 +23,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -62,15 +63,31 @@
             SelectedItem="{Binding Path=CantidadAImprimir, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource ComboBoxStyle}" />
         <Label
-            Name="lblLineaDeProducto"
+            Name="lblOrdenarFecha"
             Grid.Row="2"
+            Grid.Column="0"
+            Content="Ordenar"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf
+            Name="cmbOrdenarFecha"
+            Grid.Row="2"
+            Grid.Column="1"
+            Width="150"
+            IsEnabled="{Binding Path=IsEnabled}"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding Path=ArrayOrdenarFecha}"
+            SelectedItem="{Binding Path=OrdenarFecha, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            Style="{StaticResource ComboBoxStyle}" />
+        <Label
+            Name="lblLineaDeProducto"
+            Grid.Row="3"
             Grid.Column="0"
             Content="Línea De Producto"
             Style="{StaticResource LabelPrompt}"
             Visibility="{Binding Path=IsVisibleLineadeProducto, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSSeekConnection
             Name="txtLineaDeProducto"
-            Grid.Row="2"
+            Grid.Row="3"
             Grid.Column="1"
             Width="150"
             Height="23"
@@ -82,14 +99,14 @@
             Visibility="{Binding Path=IsVisibleLineadeProducto, Converter={StaticResource booleanToVisibilityConverter}}" />
         <Label
             Name="lblArticulo"
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.Column="0"
             Content="Código del Artículo"
             Style="{StaticResource LabelPrompt}"
             Visibility="{Binding Path=IsVisibleArticulo, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSSeekConnection
             Name="txtArticulo"
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.Column="1"
             Width="150"
             Height="23"

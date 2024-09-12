@@ -16,6 +16,7 @@ using LibGalac.Aos.Uil;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using LibGalac.Aos.DefGen;
 using System.ComponentModel.DataAnnotations;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.Inventario.Reportes {
 
@@ -27,6 +28,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         private const string CodigoArticuloPropertyName = "CodigoArticulo";
         private const string IsVisibleArticuloPropertyName = "IsVisibleArticulo";
         private const string IsVisibleLineadeProductoPropertyName = "IsVisibleLineadeProducto";
+        private const string OrdenarFechaPropertyName = "OrdenarFecha";
         #endregion
         #region Variables
         private FkLineaDeProductoViewModel _ConexionLineaDeProducto = null;
@@ -34,11 +36,12 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         private string _CodigoArticulo;
         private string _LineaDeProducto;
         private eCantidadAImprimirArticulo _CantidadAImprimir;
+        private eOrdenarFecha _OrdenarFecha;
         private int _DiasParaVencerse;
         #endregion //Variables
         #region Propiedades
 
-        public override string DisplayName {
+        public override string DisplayName {            
             get { return "Artículos Por Vencer"; }
         }
 
@@ -72,6 +75,18 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
                     RaisePropertyChanged(CantidadAImprimirPropertyName);
                     RaisePropertyChanged(IsVisibleArticuloPropertyName);
                     RaisePropertyChanged(IsVisibleLineadeProductoPropertyName);
+                }
+            }
+        }
+
+        public eOrdenarFecha OrdenarFecha {
+            get {
+                return _OrdenarFecha;
+            }
+            set {
+                if (_OrdenarFecha != value) {
+                    _OrdenarFecha = value;
+                    RaisePropertyChanged(OrdenarFechaPropertyName);                   
                 }
             }
         }
@@ -110,6 +125,12 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
             }
         }
                
+        public eOrdenarFecha[] ArrayOrdenarFecha {
+            get {
+                return LibEnumHelper<eOrdenarFecha>.GetValuesInArray();
+            }
+        }
+
         public eCantidadAImprimirArticulo[] ArrayCantidadAImprimir {
             get {
                 return LibEnumHelper<eCantidadAImprimirArticulo>.GetValuesInArray();
