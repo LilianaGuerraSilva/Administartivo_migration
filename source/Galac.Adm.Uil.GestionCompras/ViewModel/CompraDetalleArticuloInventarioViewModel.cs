@@ -573,7 +573,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             LibSearchCriteria vDefaultCriteriaInventario = LibSearchCriteria.CreateCriteria("Codigo", CodigoArticulo);
             vDefaultCriteriaInventario.Add(LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania")), eLogicOperatorType.And);
             ConexionCodigoArticulo = Master.FirstConnectionRecordOrDefault<FkArticuloInventarioViewModel>("Articulo Inventario", vDefaultCriteriaInventario);
-            LibSearchCriteria vDefaultCriteriaLote = LibSearchCriteria.CreateCriteria("CodigoLote", CodigoLote);
+            LibSearchCriteria vDefaultCriteriaLote = LibSearchCriteria.CreateCriteria("Consecutivo", ConsecutivoLoteDeInventario);
             vDefaultCriteriaLote.Add(LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania")), eLogicOperatorType.And);
             ConexionLoteDeInventario = Master.FirstConnectionRecordOrDefault<FkLoteDeInventarioViewModel>("Lote de Inventario", vDefaultCriteriaLote);
         }
@@ -770,7 +770,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                     FechaDeElaboracion = LibDate.MinDateForDB();
                     FechaDeVencimiento = LibDate.MaxDateForDB();
                 } else {
-                    if (LibDate.F1IsLessThanF2(ConexionLoteDeInventario.FechaDeVencimiento, LibDate.Today())){
+                    if (TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento &&  LibDate.F1IsLessThanF2(ConexionLoteDeInventario.FechaDeVencimiento, LibDate.Today())){
                         LibMessages.MessageBox.Information(this, $"El Articulo:{CodigoArticulo} - {LibString.Left(DescripcionArticulo,15) + "..."} Lote: {ConexionLoteDeInventario.CodigoLote} venció el {ConexionLoteDeInventario.FechaDeVencimiento.ToString("dd/MM/yyyy")}.", ModuleName);
                     }
                     ConsecutivoLoteDeInventario = ConexionLoteDeInventario.Consecutivo;
