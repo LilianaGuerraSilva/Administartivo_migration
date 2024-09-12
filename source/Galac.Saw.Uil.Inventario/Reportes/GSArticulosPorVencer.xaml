@@ -1,4 +1,4 @@
-<UserControl
+ï»¿<UserControl
     x:Class="Galac.Saw.Uil.Inventario.Reportes.GSArticulosPorVencer"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -32,8 +32,9 @@
             Name="lblDiasParaVencerse"
             Grid.Row="0"
             Grid.Column="0"
-            Content="Días para vencerse"
+            Content="DÃ­as para vencerse"
             Style="{StaticResource LabelPrompt}" />
+			
         <nsWpfControls:GSNumericBoxWpf
             Name="txtDiasParaVencerse"
             Grid.Row="0"
@@ -82,7 +83,7 @@
             Name="lblArticulo"
             Grid.Row="3"
             Grid.Column="0"
-            Content="Artículo"
+            Content="ArtÃ­culo"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSSeekConnection
             Name="txtArticulo"
