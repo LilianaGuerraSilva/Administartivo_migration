@@ -112,9 +112,14 @@
     <Compile Include="clsNotaDeEntradaSalidaMenu.cs" />
     <Compile Include="clsTallaMenu.cs" />
     <Compile Include="clsVerificadorDePreciosMenu.cs" />
+    <Compile Include="Reportes\clsArticulosPorVencerViewModel.cs" />
     <Compile Include="Reportes\clsListadoDeArticulosBalanzaViewModel.cs" />
+    <Compile Include="Reportes\clsLoteDeInventarioInformesViewModel.cs" />
     <Compile Include="Reportes\clsNotaDeEntradaSalidaInformesViewModel.cs" />
     <Compile Include="Reportes\clsValoracionDeInventarioViewModel.cs" />
+    <Compile Include="Reportes\GSArticulosPorVencer.xaml.cs">
+      <DependentUpon>GSArticulosPorVencer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Reportes\GSListadoDeArticulosBalanza.xaml.cs">
       <DependentUpon>GSListadoDeArticulosBalanza.xaml</DependentUpon>
     </Compile>
@@ -200,6 +205,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Reportes\GSArticulosPorVencer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Reportes\GSListadoDePrecios.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -15,7 +15,7 @@ using LibGalac.Aos.DefGen;
 using Galac.Saw.Ccl.Inventario;
 
 namespace Galac.Saw.Dal.Inventario {
-    public class clsLoteDeInventarioDat: LibData, ILibDataMasterComponentWithSearch<IList<LoteDeInventario>, IList<LoteDeInventario>> {
+    public class clsLoteDeInventarioDat: LibData, ILibDataMasterComponentWithSearch<IList<LoteDeInventario>, IList<LoteDeInventario>>, ILibDataRpt {
         #region Variables
         LibTrn insTrn;
         LoteDeInventario _CurrentRecord;
@@ -507,6 +507,17 @@ namespace Galac.Saw.Dal.Inventario {
             return vResult;
         }
         #endregion //Miembros de ILibDataFKSearch
+
+        #region //Miembros de ILibDataRpt
+
+        System.Data.DataTable ILibDataRpt.GetDt(string valSqlStringCommand, int valCmdTimeout) {
+            return new LibDataReport().GetDataTableForReport(valSqlStringCommand, valCmdTimeout);
+        }
+
+        System.Data.DataTable ILibDataRpt.GetDt(string valSpName, StringBuilder valXmlParamsExpression, int valCmdTimeout) {
+            return new LibDataReport().GetDataTableForReport(valSpName, valXmlParamsExpression, valCmdTimeout);
+        }
+        #endregion ////Miembros de ILibDataRpt
         #endregion //Metodos Generados
 
 

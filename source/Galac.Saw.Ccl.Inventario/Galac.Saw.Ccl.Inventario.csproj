@@ -70,6 +70,7 @@
     <Compile Include="IFkTallaViewModel.cs" />
     <Compile Include="IAsignarBalanzaPdn.cs" />
     <Compile Include="AsignarBalanza.cs" />
+    <Compile Include="ILoteDeInventarioInformes.cs" />
     <Compile Include="ILoteDeInventarioPdn.cs" />
     <Compile Include="INotaDeEntradaSalidaInformes.cs" />
     <Compile Include="LoteDeInventario.cs" />

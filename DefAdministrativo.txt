@@ -4689,7 +4689,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 }
 
 
-{@M}LoteDeInventario = record //Multiarchivo=Compania, "Lote de Inventario",Componente=Inventario,Esquema=Saw,interop,GENERATE
+{@M}LoteDeInventario = record //Multiarchivo=Compania, "Lote de Inventario",Componente=Inventario,Esquema=Saw,interop,GenerateRptConfigurar,GenerateFrmInforme,GENERATE
    ConsecutivoCompania : LongInt;//HIDE
    Consecutivo 	       : LongInt;//HIDE,a
    CodigoLote          : Str30;//o,sugestConsecutive,g,"Código",search
@@ -4744,4 +4744,16 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	FechaDeVencimiento	: date;//"F. Vcto."
     {EndSeccion}    
 @GroupBy=NumeroDocumento
+}
+
+{@R LoteDeInventario} ArticulosPorVencer = Reporte //Multiarchivo=Compania,Componente=Inventario,"Lote de Inventario",GENERATE	
+	LineaProducto : section;
+	LineaDeProducto : Str30;"Linea De Producto"
+	Codigo : Str30;//"Código"
+	Descripcion : Str100;//"Descripción"
+	Existencia	: Decimal;"Existencia" 
+	Lote		: Str30;//"Lote"
+	FechaVencimiento : Date;"Fecha de Vencimiento"
+	DiasParaVencerse :	Int;//"Días para vencerse"   
+	{EndSeccion}  
 }
