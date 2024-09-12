@@ -240,6 +240,6 @@ namespace Galac.Saw.Ccl.Inventario {
     public enum eCantidadAImprimirArticulo {
         [LibEnumDescription("Todos Los Artículos")] Todos = 0,
         [LibEnumDescription("Un Artículo")] Articulo,
-        [LibEnumDescription("Una Linea De Producto")] LineaDeProducto        
+        [LibEnumDescription("Una Línea De Producto")] LineaDeProducto        
     }
 } //End of namespace namespace Galac.Saw.Ccl.Inventario

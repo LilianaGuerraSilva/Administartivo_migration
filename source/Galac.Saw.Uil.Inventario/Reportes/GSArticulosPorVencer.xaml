@@ -6,11 +6,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:nsARRpt="clr-namespace:LibGalac.Aos.ARRpt;assembly=LibGalac.Aos.ARRpt"
     xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
-    d:DesignHeight="150"
-    d:DesignWidth="250"
+    d:DesignHeight="130"
+    d:DesignWidth="280"
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -26,20 +27,18 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Label
             Name="lblDiasParaVencerse"
             Grid.Row="0"
             Grid.Column="0"
-            Content="Días para vencerse"
+            Content="Días para Vencerse"
             Style="{StaticResource LabelPrompt}" />
-			
         <nsWpfControls:GSNumericBoxWpf
             Name="txtDiasParaVencerse"
             Grid.Row="0"
             Grid.Column="1"
-            Width="120"
+            Width="150"
             BorderThickness="1"
             InputDataType="UInteger"
             IsEnabled="{Binding Path=IsEnabled}"
@@ -50,13 +49,13 @@
             Name="lblCantidadAImprimir"
             Grid.Row="1"
             Grid.Column="0"
-            Content="Cantidad AImprimir"
+            Content="Cantidad A Imprimir"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf
             Name="cmbCantidadAImprimir"
             Grid.Row="1"
             Grid.Column="1"
-            Width="120"
+            Width="150"
             IsEnabled="{Binding Path=IsEnabled}"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding Path=ArrayCantidadAImprimir}"
@@ -66,35 +65,39 @@
             Name="lblLineaDeProducto"
             Grid.Row="2"
             Grid.Column="0"
-            Content="Linea De Producto"
-            Style="{StaticResource LabelPrompt}" />
+            Content="Línea De Producto"
+            Style="{StaticResource LabelPrompt}"
+            Visibility="{Binding Path=IsVisibleLineadeProducto, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSSeekConnection
             Name="txtLineaDeProducto"
             Grid.Row="2"
             Grid.Column="1"
-            Width="120"
+            Width="150"
             Height="23"
             Margin="3"
             HorizontalAlignment="Left"
             ConnectionValue="{Binding Path=LineaDeProducto, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             IsEnabled="{Binding Path=IsEnabled}"
-            SearchCommand="{Binding Path=ChooseLineaDeProductoCommand}" />
+            SearchCommand="{Binding Path=ChooseLineaDeProductoCommand}"
+            Visibility="{Binding Path=IsVisibleLineadeProducto, Converter={StaticResource booleanToVisibilityConverter}}" />
         <Label
             Name="lblArticulo"
             Grid.Row="3"
             Grid.Column="0"
-            Content="Artículo"
-            Style="{StaticResource LabelPrompt}" />
+            Content="Código del Artículo"
+            Style="{StaticResource LabelPrompt}"
+            Visibility="{Binding Path=IsVisibleArticulo, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSSeekConnection
             Name="txtArticulo"
             Grid.Row="3"
             Grid.Column="1"
-            Width="120"
+            Width="150"
             Height="23"
             Margin="3"
             HorizontalAlignment="Left"
-            ConnectionValue="{Binding Path=Articulo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+            ConnectionValue="{Binding Path=CodigoArticulo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             IsEnabled="{Binding Path=IsEnabled}"
-            SearchCommand="{Binding Path=ChooseArticuloCommand}" />
+            SearchCommand="{Binding Path=ChooseCodigoArticuloCommand}"
+            Visibility="{Binding Path=IsVisibleArticulo, Converter={StaticResource booleanToVisibilityConverter}}" />
     </Grid>
 </UserControl>
