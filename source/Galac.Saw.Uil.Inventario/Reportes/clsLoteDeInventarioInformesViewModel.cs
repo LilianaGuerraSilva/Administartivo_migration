@@ -40,7 +40,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         private ILibRpt ConfigReportArticulosPorVencer(clsArticulosPorVencerViewModel valViewModel) {
             ILibRpt vResult = null;
             if (valViewModel != null) {
-                vResult = new Galac.Saw.Rpt.Inventario.clsArticulosPorVencer(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.LineaDeProducto, valViewModel.CodigoArticulo, valViewModel.DiasPorVencer) {
+                vResult = new Galac.Saw.Rpt.Inventario.clsArticulosPorVencer(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.LineaDeProducto, valViewModel.CodigoArticulo, valViewModel.DiasParaVencerse) {
                     Worker = Manager
                 };
             }

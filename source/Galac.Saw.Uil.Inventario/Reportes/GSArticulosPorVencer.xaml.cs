@@ -18,7 +18,7 @@ using LibGalac.Aos.UI.Wpf;
 using LibGalac.Aos.UI.Cib;
 using LibGalac.Aos.Uil;
 using System.Xml;
-namespace Galac..Uil.Inventario.Reportes {
+namespace Galac.Saw.Uil.Inventario.Reportes {
     /// <summary>
     /// Lógica de interacción para GSArticulosPorVencer
     /// </summary>
