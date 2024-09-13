@@ -114,7 +114,7 @@ namespace Galac.Adm.Rpt.GestionCompras{
             txtFechaDeElaboracion.Visible = false;
             lblFechaVenc.Visible = false;
             txtFechaDeVencimiento.Visible = false;
-            if (!LibString.IsNullOrEmpty(txtTipoArticuloInv.Text)) {
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento") && !LibString.IsNullOrEmpty(txtTipoArticuloInv.Text)) {
                 if (LibString.S1IsEqualToS2(txtTipoArticuloInv.Text, "6")) {
                     lblLote.Visible = true;
                     txtCodigoLote.Visible = true;
