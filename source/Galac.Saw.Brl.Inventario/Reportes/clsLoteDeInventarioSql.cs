@@ -43,6 +43,29 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
             vSql.AppendLine("ORDER BY" + (valOrdenarFecha == eOrdenarFecha.Ascendente ? "ASC" : "DESC"));
             return vSql.ToString();
         }
+		
+		public string SqlLoteDeInventarioVencidos(int valConsecutivoCompania, string valNombreLineaDeProducto, string valCodigoArticulo, eOrdenarFecha valOrdenarFecha) {
+            StringBuilder vSql = new StringBuilder();
+            QAdvSql insSql = new QAdvSql("");
+            string vSQLWhere = "";
+            vSql.AppendLine(" SELECT Art.Codigo AS CodigoArticulo, Art.Descripcion AS DescripcionArticulo, Art.LineaDeProducto, LI.Existencia AS Existencia, LI.CodigoLote AS LoteDeInventario, LI.FechaDeVencimiento AS FechaDeVencimiento,");
+            vSql.AppendLine(insSqlUtil.DateDiff("day", "LI.FechaDeVencimiento", insSql.ToSqlValue(LibDate.Today())) + " AS DiasVencido");
+            vSql.AppendLine(" FROM SAW.LoteDeInventario AS LI INNER JOIN ArticuloInventario AS Art ON");
+            vSql.AppendLine(" LI.ConsecutivoCompania = Art.ConsecutivoCompania AND LI.CodigoArticulo = Art.Codigo");
+            vSQLWhere = insSqlUtil.SqlIntValueWithAnd(vSQLWhere, "LI.ConsecutivoCompania", valConsecutivoCompania);
+            vSQLWhere = insSqlUtil.SqlEnumValueWithAnd(vSQLWhere, "Art.TipoArticuloInv", (int)eTipoArticuloInv.LoteFechadeVencimiento);
+            vSQLWhere = insSqlUtil.SqlIntValueWithOperators(vSQLWhere, "LI.Existencia", 0, "AND", ">");
+            vSQLWhere = vSQLWhere + " AND LI.FechaDeVencimiento < " + insSql.ToSqlValue(LibDate.Today());
+            if (!LibString.IsNullOrEmpty(valNombreLineaDeProducto)) {
+                vSQLWhere = vSQLWhere + " AND Art.LineaDeProducto = " + insSql.ToSqlValue(valNombreLineaDeProducto);
+            }
+            if (!LibString.IsNullOrEmpty(valCodigoArticulo)) {
+                vSQLWhere = vSQLWhere + " AND Art.Codigo = " + insSql.ToSqlValue(valCodigoArticulo);
+            }
+            vSql.AppendLine(" WHERE " + vSQLWhere);
+			vSql.AppendLine("ORDER BY LI.FechaDeVencimiento " + (valOrdenarFecha == eOrdenarFecha.Ascendente ? "ASC" : "DESC"));
+			return vSql.ToString();
+		}
         #endregion //Metodos Generados
     }
 } //End of namespace Galac.Saw.Brl.Inventario

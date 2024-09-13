@@ -17,19 +17,18 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using LibGalac.Aos.DefGen;
 using System.ComponentModel.DataAnnotations;
 using Galac.Saw.Lib;
-
 namespace Galac.Saw.Uil.Inventario.Reportes {
 
-    public class clsArticulosPorVencerViewModel : LibInputRptViewModelBase<LoteDeInventario> {
+    public class clsLoteDeInventarioVencidosViewModel : LibInputRptViewModelBase<LoteDeInventario> {
         #region Constantes
-        private const string DiasParaVencersePropertyName = "DiasParaVencerse";
         private const string CantidadAImprimirPropertyName = "CantidadAImprimir";
         private const string LineaDeProductoPropertyName = "LineaDeProducto";
         private const string CodigoArticuloPropertyName = "CodigoArticulo";
         private const string IsVisibleArticuloPropertyName = "IsVisibleArticulo";
         private const string IsVisibleLineadeProductoPropertyName = "IsVisibleLineadeProducto";
         private const string OrdenarFechaPropertyName = "OrdenarFecha";
-        #endregion
+
+        #endregion //Constantes
         #region Variables
         private FkLineaDeProductoViewModel _ConexionLineaDeProducto = null;
         private FkArticuloInventarioRptViewModel _ConexionArticulo = null;
@@ -37,41 +36,24 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         private string _LineaDeProducto;
         private eCantidadAImprimirArticulo _CantidadAImprimir;
         private eOrdenarFecha _OrdenarFecha;
-        private int _DiasParaVencerse;
-        #endregion //Variables
+        #endregion //Constantes
         #region Propiedades
 
-        public override string DisplayName {            
-            get { return "Artículos Por Vencer"; }
+        public override string DisplayName {
+            get { return "Articulo Vencidos"; }
         }
 
         public LibXmlMemInfo AppMemoryInfo { get; set; }
 
         public LibXmlMFC Mfc { get; set; }
 
-        public override bool IsSSRS { get { return false; } }
-              
-
-        [LibCustomValidation("DiasParaVencerseValidating")]
-        public int  DiasParaVencerse {
-            get {
-                return _DiasParaVencerse;
-            }
-            set {
-                if (_DiasParaVencerse != value) {
-                    _DiasParaVencerse = value;                   
-                    RaisePropertyChanged(DiasParaVencersePropertyName);
-                }
-            }
-        }
-                
         public eCantidadAImprimirArticulo CantidadAImprimir {
             get {
                 return _CantidadAImprimir;
             }
             set {
                 if (_CantidadAImprimir != value) {
-                    _CantidadAImprimir = value;                   
+                    _CantidadAImprimir = value;
                     RaisePropertyChanged(CantidadAImprimirPropertyName);
                     RaisePropertyChanged(IsVisibleArticuloPropertyName);
                     RaisePropertyChanged(IsVisibleLineadeProductoPropertyName);
@@ -86,7 +68,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
             set {
                 if (_OrdenarFecha != value) {
                     _OrdenarFecha = value;
-                    RaisePropertyChanged(OrdenarFechaPropertyName);                   
+                    RaisePropertyChanged(OrdenarFechaPropertyName);
                 }
             }
         }
@@ -94,7 +76,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         public int ConsecutivoLineaDeProducto { get; set; }
 
         [LibCustomValidation("LineaDeProductoValidating")]
-        public string  LineaDeProducto {
+        public string LineaDeProducto {
             get {
                 return _LineaDeProducto;
             }
@@ -116,7 +98,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
             }
             set {
                 if (_CodigoArticulo != value) {
-                    _CodigoArticulo = value;                    
+                    _CodigoArticulo = value;
                     RaisePropertyChanged(CodigoArticuloPropertyName);
                     if (LibString.IsNullOrEmpty(CodigoArticulo, true)) {
                         ConexionArticulo = null;
@@ -124,7 +106,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
                 }
             }
         }
-               
+
         public eOrdenarFecha[] ArrayOrdenarFecha {
             get {
                 return LibEnumHelper<eOrdenarFecha>.GetValuesInArray();
@@ -180,12 +162,17 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         public RelayCommand<string> ChooseCodigoArticuloCommand {
             get;
             private set;
-        }       
+        }
         #endregion //Propiedades
         #region Constructores
 
-        public clsArticulosPorVencerViewModel() {
-            DiasParaVencerse = 15;
+        public clsLoteDeInventarioVencidosViewModel() {
+            #region Codigo Ejemplo
+            /* Codigo de Ejemplo
+                FechaDesde = LibDate.AddsNMonths(LibDate.Today(), - 1, false);
+                FechaHasta = LibDate.Today();
+            */
+            #endregion //Codigo Ejemplo
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -193,18 +180,19 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         protected override ILibBusinessSearch GetBusinessComponent() {
             return new clsLoteDeInventarioNav();
         }
+
         protected override void InitializeCommands() {
             base.InitializeCommands();
             ChooseLineaDeProductoCommand = new RelayCommand<string>(ExecuteChooseLineaDeProductoCommand);
             ChooseCodigoArticuloCommand = new RelayCommand<string>(ExecuteChooseCodigoArticuloCommand);
-        }		
-        
+        }
+
         private void ExecuteChooseLineaDeProductoCommand(string valNombre) {
             try {
                 if (valNombre == null) {
                     valNombre = string.Empty;
                 }
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Nombre", valNombre);                
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Nombre", valNombre);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
                 ConexionLineaDeProducto = ChooseRecord<FkLineaDeProductoViewModel>("Línea de Producto", vDefaultCriteria, vFixedCriteria, "Nombre");
                 if (ConexionLineaDeProducto != null) {
@@ -230,9 +218,9 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
                 ConexionArticulo = ChooseRecord<FkArticuloInventarioRptViewModel>("Artículo Inventario", vDefaultCriteria, vFixedCriteria, string.Empty);
                 if (ConexionArticulo != null) {
-                    CodigoArticulo = ConexionArticulo.Codigo;                    
-                } else {                   
-                    CodigoArticulo = string.Empty;    
+                    CodigoArticulo = ConexionArticulo.Codigo;
+                } else {
+                    CodigoArticulo = string.Empty;
                 }
             } catch (System.AccessViolationException) {
                 throw;
@@ -244,7 +232,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         public bool IsVisibleArticulo {
             get {
                 return CantidadAImprimir == eCantidadAImprimirArticulo.Articulo;
-            }        
+            }
         }
 
         public bool IsVisibleLineadeProducto {
@@ -252,6 +240,8 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
                 return CantidadAImprimir == eCantidadAImprimirArticulo.LineaDeProducto;
             }
         }
+
+        public override bool IsSSRS { get { return false; } }
 
         private ValidationResult LineaDeProductoValidating() {
             ValidationResult vResult = ValidationResult.Success;
@@ -268,17 +258,28 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
             }
             return vResult;
         }
-
-        private ValidationResult DiasParaVencerseValidating() {
-            ValidationResult vResult = ValidationResult.Success;
-            if (DiasParaVencerse < 1 || DiasParaVencerse > 180) {
-                vResult = new ValidationResult("Los días para vencerse deben ser entre 1 y 180.");
-            }
-            return vResult;
-        }
         #endregion //Metodos Generados
+        /* Codigo de Ejemplo
 
-    } //End of class clsArticulosPorVencerViewModel
+        public eCantidadAImprimir CantidadAImprimir {
+            get {
+                return _CantidadAImprimir;
+            }
+            set {
+                if (_CantidadAImprimir != value) {
+                    _CantidadAImprimir = value;
+                    RaisePropertyChanged(CantidadAImprimirPropertyName);
+                }
+            }
+        }
+
+        public eCantidadAImprimir[] ECantidadAImprimir {
+            get {
+                return LibEnumHelper<eCantidadAImprimir>.GetValuesInArray();
+            }
+        }
+        */
+        
+    } //End of class clsLoteDeInventarioVencidosViewModel
 
 } //End of namespace Galac.Saw.Uil.Inventario
-

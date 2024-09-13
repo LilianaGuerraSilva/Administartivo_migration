@@ -75,6 +75,7 @@
     <Compile Include="clsArticulosPorVencer.cs" />
     <Compile Include="clsListadoDePrecios.cs" />
     <Compile Include="clsListdoDeArticulosBalanza.cs" />
+    <Compile Include="clsLoteDeInventarioVencidos.cs" />
     <Compile Include="clsNotaDeEntradaSalidaDeInventario.cs" />
     <Compile Include="clsValoracionDeInventario.cs" />
     <Compile Include="dsrArticulosPorVencer.cs">
@@ -94,6 +95,12 @@
     </Compile>
     <Compile Include="dsrListadoDeArticulosBalanza.Designer.cs">
       <DependentUpon>dsrListadoDeArticulosBalanza.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dsrLoteDeInventarioVencidos.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrLoteDeInventarioVencidos.Designer.cs">
+      <DependentUpon>dsrLoteDeInventarioVencidos.cs</DependentUpon>
     </Compile>
     <Compile Include="dsrNotaDeEntradaSalidaDeInventario.cs">
       <SubType>Component</SubType>
@@ -118,6 +125,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="dsrListadoDeArticulosBalanza.resx">
       <DependentUpon>dsrListadoDeArticulosBalanza.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dsrLoteDeInventarioVencidos.resx">
+      <DependentUpon>dsrLoteDeInventarioVencidos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="dsrNotaDeEntradaSalidaDeInventario.resx">
       <DependentUpon>dsrNotaDeEntradaSalidaDeInventario.cs</DependentUpon>
