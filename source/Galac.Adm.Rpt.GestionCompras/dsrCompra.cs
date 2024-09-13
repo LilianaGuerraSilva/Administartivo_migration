@@ -84,6 +84,12 @@ namespace Galac.Adm.Rpt.GestionCompras{
                 LibReport.ConfigFieldDec(this, "txtPrecio", string.Empty, "PrecioUnitario");
                 LibReport.ConfigFieldDec(this, "txtSubTotal", string.Empty, "SubTotal");
 
+                LibReport.ConfigFieldStr(this, "txtCodigoLote", string.Empty, "CodigoLote");                
+                LibReport.ConfigFieldDate(this, "txtFechaDeElaboracion", string.Empty, "FechaDeElaboracion", "dd/MM/yy");
+                LibReport.ConfigFieldDate(this, "txtFechaDeVencimiento", string.Empty, "FechaDeVencimiento", "dd/MM/yy");
+                LibReport.ConfigFieldStr(this, "txtTipoArticuloInv", string.Empty, "TipoArticuloInv");
+                
+
                 LibReport.ConfigFieldDec(this, "txtOtrosGastos", string.Empty, "TotalOtrosGastos");
                 LibReport.ConfigFieldDec(this, "txtTotal", string.Empty, "TotalCompra");
                 LibReport.ConfigFieldStr(this, "txtObservaciones", string.Empty, "Comentarios");
@@ -97,6 +103,42 @@ namespace Galac.Adm.Rpt.GestionCompras{
             }
             return false;
         }
+
+
         #endregion //Metodos Generados
+
+        private void Detail_Format(object sender, EventArgs e) {
+            if (!LibString.IsNullOrEmpty(txtTipoArticuloInv.Text)) {
+                if (LibString.S1IsEqualToS2(txtTipoArticuloInv.Text, "6")) {
+                    lblLote.Visible = true;
+                    txtCodigoLote.Visible = true;
+                    lblFechaElab.Visible = true;
+                    txtFechaDeElaboracion.Visible = true;
+                    lblFechaVenc.Visible = true;
+                    txtFechaDeVencimiento.Visible = true;
+                } else if (LibString.S1IsEqualToS2(txtTipoArticuloInv.Text, "5")) {
+                    lblLote.Visible = true;
+                    txtCodigoLote.Visible = true;
+                    lblFechaElab.Visible = false;
+                    txtFechaDeElaboracion.Visible = false;
+                    lblFechaVenc.Visible = false;
+                    txtFechaDeVencimiento.Visible = false;
+                } else {
+                    lblLote.Visible = false;
+                    txtCodigoLote.Visible = false;
+                    lblFechaElab.Visible = false;
+                    txtFechaDeElaboracion.Visible = false;
+                    lblFechaVenc.Visible = false;
+                    txtFechaDeVencimiento.Visible = false;
+                }
+            } else {
+                lblLote.Visible = false;
+                txtCodigoLote.Visible=false;
+                lblFechaElab.Visible=false;
+                txtFechaDeElaboracion.Visible=false;
+                lblFechaVenc.Visible=false;
+                txtFechaDeVencimiento.Visible=false;
+            }
+        }
     }
 }
