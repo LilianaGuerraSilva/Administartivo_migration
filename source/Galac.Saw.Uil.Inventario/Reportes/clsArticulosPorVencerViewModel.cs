@@ -89,9 +89,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
                     RaisePropertyChanged(OrdenarFechaPropertyName);                   
                 }
             }
-        }
-
-        public int ConsecutivoLineaDeProducto { get; set; }
+        }      
 
         [LibCustomValidation("LineaDeProductoValidating")]
         public string  LineaDeProducto {
@@ -149,8 +147,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
                 if (_ConexionLineaDeProducto == null) {
                     LineaDeProducto = string.Empty;
                 } else {
-                    LineaDeProducto = _ConexionLineaDeProducto.Nombre;
-                    ConsecutivoLineaDeProducto = _ConexionLineaDeProducto.Consecutivo;
+                    LineaDeProducto = _ConexionLineaDeProducto.Nombre;                  
                 }
             }
         }
@@ -208,8 +205,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
                 ConexionLineaDeProducto = ChooseRecord<FkLineaDeProductoViewModel>("Línea de Producto", vDefaultCriteria, vFixedCriteria, "Nombre");
                 if (ConexionLineaDeProducto != null) {
-                    LineaDeProducto = ConexionLineaDeProducto.Nombre;
-                    ConsecutivoLineaDeProducto = ConexionLineaDeProducto.Consecutivo;
+                    LineaDeProducto = ConexionLineaDeProducto.Nombre;                   
                 } else {
                     LineaDeProducto = string.Empty;
                 }

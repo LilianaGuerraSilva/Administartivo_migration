@@ -15,16 +15,20 @@ namespace Galac.Saw.Rpt.Inventario {
         private string LineaDeProducto { get; set; }
         private string CodigoArticulo { get; set; }
         private int DiasPorVencer { get; set; }
+        private eCantidadAImprimirArticulo CantidadAImprimirArticulo { get; set; }
+        private eOrdenarFecha OrdenarFecha { get; set; }
         protected DataTable Data { get; set; }
 
         #endregion //Propiedades
-        #region Constructores
+        #region Constructores             
 
-        public clsArticulosPorVencer(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, string initLineaDeProducto, string initCodigoArticulo, int initDiasPorVencer)
+        public clsArticulosPorVencer(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, string initLineaDeProducto, string initCodigoArticulo, int initDiasPorVencer, eCantidadAImprimirArticulo initCantidadAImprimirArticulo, eOrdenarFecha initOrdenarFecha)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
             LineaDeProducto = initLineaDeProducto;
             CodigoArticulo = initCodigoArticulo;
             DiasPorVencer = initDiasPorVencer;
+            OrdenarFecha = initOrdenarFecha;
+            CantidadAImprimirArticulo = initCantidadAImprimirArticulo;
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -41,6 +45,7 @@ namespace Galac.Saw.Rpt.Inventario {
             Dictionary<string, string> vParams = new Dictionary<string, string>();
             vParams.Add("NombreCompania", AppMemoryInfo.GlobalValuesGetString("Compania", "Nombre"));
             vParams.Add("TituloInforme", vTitulo);
+            vParams.Add("CantidadAImprimir",LibConvert.EnumToDbValue((int)CantidadAImprimirArticulo));
             #region Codigo Ejemplo
             /* Codigo de Ejemplo
                 vParams.Add("FechaInicialYFinal", string.Format("{0} al {1}", LibConvert.ToStr(FechaDesde, "dd/MM/yyyy"), LibConvert.ToStr(FechaHasta, "dd/MM/yyyy")));
@@ -55,7 +60,7 @@ namespace Galac.Saw.Rpt.Inventario {
             }
             WorkerReportProgress(30, "Obteniendo datos...");
             ILoteDeInventarioInformes vRpt = new Galac.Saw.Brl.Inventario.Reportes.clsLoteDeInventarioRpt() as ILoteDeInventarioInformes;
-            Data = vRpt.BuildArticulosPorVencer(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), LineaDeProducto, CodigoArticulo, DiasPorVencer);
+            Data = vRpt.BuildArticulosPorVencer(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), LineaDeProducto, CodigoArticulo, DiasPorVencer, OrdenarFecha);
         }
 
         public override void SendReportToDevice() {

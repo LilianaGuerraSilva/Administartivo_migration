@@ -32,11 +32,11 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
             return vResult;
         }
 
-        System.Data.DataTable ILoteDeInventarioInformes.BuildArticulosPorVencer(int valConsecutivoCompania, string valLineaDeProducto, string valCodigoArticulo, int valDiasPorVencer) {
+        System.Data.DataTable ILoteDeInventarioInformes.BuildArticulosPorVencer(int valConsecutivoCompania, string valLineaDeProducto, string valCodigoArticulo, int valDiasPorVencer, eOrdenarFecha valOrdenarFecha) {
             string vSql = "";
             clsLoteDeInventarioSql insLoteDeInventarioSql = new clsLoteDeInventarioSql();
             LibGalac.Aos.Base.ILibDataRpt insArticulosPorVencer = new Galac.Saw.Dal.Inventario.clsLoteDeInventarioDat();
-            vSql = insLoteDeInventarioSql.SqlArticulosPorVencer(valConsecutivoCompania, valLineaDeProducto, valCodigoArticulo, valDiasPorVencer);
+            vSql = insLoteDeInventarioSql.SqlArticulosPorVencer(valConsecutivoCompania, valLineaDeProducto, valCodigoArticulo, valDiasPorVencer, valOrdenarFecha);
             return insArticulosPorVencer.GetDt(vSql, 0);
         }
         #endregion //Metodos Generados

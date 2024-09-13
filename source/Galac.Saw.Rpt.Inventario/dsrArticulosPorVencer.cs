@@ -9,6 +9,8 @@ using System.Data;
 using LibGalac.Aos.ARRpt;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.DefGen;
+using LibGalac.Aos.Base.Report;
+
 namespace Galac.Saw.Rpt.Inventario {
     
     public partial class dsrArticulosPorVencer : DataDynamics.ActiveReports.ActiveReport {
@@ -42,6 +44,7 @@ namespace Galac.Saw.Rpt.Inventario {
                     LibReport.LoadLayout(this, vRpxPath);
                 }
             }
+            eCantidadAImprimir vCantidadAImprimir = (eCantidadAImprimir)LibConvert.DbValueToEnum(valParameters["CantidadAImprimir"]);
             if (LibReport.ConfigDataSource(this, valDataSource)) {
                 LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["NombreCompania"], string.Empty);
                 LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());
@@ -53,10 +56,8 @@ namespace Galac.Saw.Rpt.Inventario {
 				LibReport.ConfigFieldDec(this, "txtExistencia", string.Empty, "Existencia");
 				LibReport.ConfigFieldStr(this, "txtLote", string.Empty, "Lote");
 				LibReport.ConfigFieldDate(this, "txtFechaVencimiento", string.Empty, "FechaVencimiento", "dd/MM/yyyy");
-                LibReport.ConfigFieldInt(this, "txtDiasParaVencerse", string.Empty, "DiasParaVencerse");
-				
+                LibReport.ConfigFieldInt(this, "txtDiasParaVencerse", string.Empty, "DiasParaVencerse");				
 				LibReport.ConfigGroupHeader(this, "GHLineaDeProducto", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
-
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 return true;
             }
