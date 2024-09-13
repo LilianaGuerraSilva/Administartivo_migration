@@ -78,7 +78,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Producto es requerido.")]
-        [LibGridColum("Producto", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoArticulo", ConnectionSearchCommandName = "ChooseCodigoArticuloCommand", MaxWidth = 120)]
+        [LibGridColum("Producto", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoArticulo", ConnectionSearchCommandName = "ChooseCodigoArticuloCommand", MaxWidth = 120, ColumnOrder = 1)]
         public string CodigoArticulo {
             get {
                 return Model.CodigoArticulo;
@@ -111,7 +111,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
        
         [LibCustomValidation("CantidadValidating")]
-        [LibGridColum("Cantidad", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 90, ConditionalPropertyDecimalDigits = "DecimalDigits")]
+        [LibGridColum("Cantidad", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 90, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 3)]
         public decimal Cantidad {
             get {
                 return Model.Cantidad;
@@ -131,7 +131,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Precio Unitario es requerido.")]
-        [LibGridColum("Precio Unitario", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits")]
+        [LibGridColum("Precio Unitario", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 4)]
         public decimal PrecioUnitario {
             get {
                 return Model.PrecioUnitario;
@@ -146,7 +146,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
-        [LibGridColum("Sub Total", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits")]
+        [LibGridColum("Sub Total", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 5)]
         [LibCustomValidation ("SubTotalValidating")]
         public decimal SubTotal {
             get {
@@ -158,7 +158,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
-        [LibGridColum("Cantidad Disponible", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits")]
+        [LibGridColum("Cantidad Disponible", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 6)]
         public decimal CantidadRecibida {
             get {
                 return Model.CantidadRecibida;
@@ -171,7 +171,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 }
             }
         }
-        [LibGridColum("Porcentaje de Distribucion", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 150, ConditionalPropertyDecimalDigits = "DecimalDigits")]
+        [LibGridColum("Porcentaje de Distribucion", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 150, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 7)]
         public decimal PorcentajeDeDistribucion {
             get {
                 return Model.PorcentajeDeDistribucion;
@@ -185,7 +185,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 }
             }
         }
-        [LibGridColum("Monto de Distribución", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 150, ConditionalPropertyDecimalDigits = "DecimalDigits")]
+        [LibGridColum("Monto de Distribución", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 150, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 8)]
         public decimal MontoDistribucion {
             get {
                 return Model.MontoDistribucion;
@@ -213,7 +213,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
-        [LibGridColum("Costo Unitario", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits")]
+        [LibGridColum("Costo Unitario", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 9)]
         public decimal CostoUnitario {
             get {
                 if (Master.TipoDeDistribucion == eTipoDeDistribucion.ManualPorPorcentaje) {
@@ -413,7 +413,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
-        [LibGridColum("Seguro Pagado *", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits")]
+        [LibGridColum("Seguro Pagado *", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 10)]
         public decimal SeguroPagado {
             get {
                 return (SubTotal * (ValorSeguro / 100)) + TotalGastosSeguro;
@@ -457,6 +457,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         public eTipoDeArticulo TipoArticulo { get; set; }
         public decimal CantidadMaxima { get; set; }
 
+        [LibGridColum("Lote", MaxWidth = 120, ColumnOrder = 2)]
         [LibCustomValidation("LoteDeInventarioValidating")]        
         public string CodigoLote {
             get {
@@ -500,7 +501,8 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         }
 
         public bool IsVisbleLoteDeInventario {
-            get { return (ConexionCodigoArticulo != null) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.Lote); }
+            get { return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento") &&
+                    (ConexionCodigoArticulo != null) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.Lote); }
         }
 
         public bool IsEnabledLoteDeInventario {
@@ -508,11 +510,13 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         }
 
         public bool IsVisibleFechaLoteDeInventario {
-            get { return (ConexionCodigoArticulo != null) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento); }
+            get { return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento") &&
+                    (ConexionCodigoArticulo != null) && (ConexionLoteDeInventario != null) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento); }
         }
 
         public bool IsVisbleLabelLoteNuevo {
-            get { return (ConexionCodigoArticulo != null); }
+            get { return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento") &&
+                    (ConexionCodigoArticulo != null); }
         }
         public RelayCommand<string> ChooseLoteDeInventarioCommand {
             get;
@@ -592,7 +596,16 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania",Mfc.GetInt("Compania"));
                 vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("StatusdelArticulo ","0"),eLogicOperatorType.And);
                 vFixedCriteria.Add("TipoDeArticulo",eBooleanOperatorType.IdentityInequality,"2",eLogicOperatorType.And);
-                if(vAplicaProductoTerminado) {
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento")) {
+                    vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.UsaSerialRollo));
+                    vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.UsaTallaColorySerial));
+                    vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.UsaTallaColor));
+                    vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.UsaSerial));
+                } else {
+                    vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.Lote));
+                    vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.LoteFechadeVencimiento));
+                }
+                if (vAplicaProductoTerminado) {
                     //vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("TipoDeMercanciaProduccion", eTipoDeMercancia.NoAplica), eLogicOperatorType.Or);
                     //vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("TipoDeMercanciaProduccion", eTipoDeMercancia.MateriaPrima), eLogicOperatorType.And);
                     vFixedCriteria.Add("TipoDeMercanciaProduccion",eBooleanOperatorType.IdentityInequality,LibConvert.EnumToDbValue((int)eTipoDeMercancia.ProductoTerminado));
@@ -791,6 +804,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         private bool SePuedeEditarLote() {
             if ((Action == eAccionSR.Insertar)
+                && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento")
                 && (ConexionCodigoArticulo != null)
                 && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia)
                 && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.Lote)) {
@@ -821,6 +835,10 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             RaisePropertyChanged(() => IsEnabledLoteDeInventario);
             RaisePropertyChanged(() => IsVisibleFechaLoteDeInventario);
             RaisePropertyChanged(() => IsVisbleLabelLoteNuevo);
+        }
+
+        internal void CargarConexiones() {
+            ReloadRelatedConnections();
         }
     } //End of class CompraDetalleArticuloInventarioViewModel
 
