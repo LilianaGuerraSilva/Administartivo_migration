@@ -47,7 +47,7 @@ namespace Galac.Saw.Rpt.Inventario {
             Dictionary<string, string> vParams = new Dictionary<string, string>();
             vParams.Add("NombreCompania", AppMemoryInfo.GlobalValuesGetString("Compania", "Nombre"));
             vParams.Add("TituloInforme", vTitulo);
-            vParams.Add("DiasPorVencer", LibConvert.ToStr(DiasPorVencer) + " días");
+            vParams.Add("DiasPorVencer", "Artículos a vencerse en los proxímos " + LibConvert.ToStr(DiasPorVencer) + " días");
             vParams.Add("CantidadAImprimir",LibConvert.EnumToDbValue((int)CantidadAImprimirArticulo));
             #region Codigo Ejemplo
             /* Codigo de Ejemplo

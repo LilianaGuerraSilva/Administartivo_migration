@@ -45,7 +45,6 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblLote = new DataDynamics.ActiveReports.Label();
             this.lblFechaVencimiento = new DataDynamics.ActiveReports.Label();
             this.lblDiasParaVencerse = new DataDynamics.ActiveReports.Label();
-            this.lblDiasPorVencer = new DataDynamics.ActiveReports.Label();
             this.lblLineaDeProducto = new DataDynamics.ActiveReports.Label();
             this.txtDiasPorVencer = new DataDynamics.ActiveReports.TextBox();
             this.txtLineaDeProducto = new DataDynamics.ActiveReports.TextBox();
@@ -66,7 +65,6 @@ namespace Galac.Saw.Rpt.Inventario
             ((System.ComponentModel.ISupportInitialize)(this.lblLote)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaVencimiento)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblDiasParaVencerse)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblDiasPorVencer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblLineaDeProducto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDiasPorVencer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLineaDeProducto)).BeginInit();
@@ -212,7 +210,6 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblLote,
             this.lblFechaVencimiento,
             this.lblDiasParaVencerse,
-            this.lblDiasPorVencer,
             this.lblLineaDeProducto,
             this.txtDiasPorVencer,
             this.txtLineaDeProducto});
@@ -285,17 +282,6 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblDiasParaVencerse.Top = 0.156F;
             this.lblDiasParaVencerse.Width = 0.5634999F;
             // 
-            // lblDiasPorVencer
-            // 
-            this.lblDiasPorVencer.Height = 0.15625F;
-            this.lblDiasPorVencer.HyperLink = null;
-            this.lblDiasPorVencer.Left = 0F;
-            this.lblDiasPorVencer.Name = "lblDiasPorVencer";
-            this.lblDiasPorVencer.Style = "font-size: 8.25pt; font-weight: normal; ddo-char-set: 0";
-            this.lblDiasPorVencer.Text = "Artículos a vencerse en los proxímos";
-            this.lblDiasPorVencer.Top = 0F;
-            this.lblDiasPorVencer.Width = 1.958F;
-            // 
             // lblLineaDeProducto
             // 
             this.lblLineaDeProducto.Height = 0.15625F;
@@ -305,27 +291,27 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblLineaDeProducto.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.lblLineaDeProducto.Text = "Línea de Producto";
             this.lblLineaDeProducto.Top = 0.156F;
-            this.lblLineaDeProducto.Width = 1.063F;
+            this.lblLineaDeProducto.Width = 1.334F;
             // 
             // txtDiasPorVencer
             // 
             this.txtDiasPorVencer.Height = 0.15625F;
-            this.txtDiasPorVencer.Left = 1.958F;
+            this.txtDiasPorVencer.Left = 0F;
             this.txtDiasPorVencer.Name = "txtDiasPorVencer";
             this.txtDiasPorVencer.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.txtDiasPorVencer.Text = "txtDiasPorVencer";
             this.txtDiasPorVencer.Top = 0F;
-            this.txtDiasPorVencer.Width = 2.052F;
+            this.txtDiasPorVencer.Width = 4.01F;
             // 
             // txtLineaDeProducto
             // 
             this.txtLineaDeProducto.Height = 0.15625F;
-            this.txtLineaDeProducto.Left = 1.063F;
+            this.txtLineaDeProducto.Left = 1.334F;
             this.txtLineaDeProducto.Name = "txtLineaDeProducto";
             this.txtLineaDeProducto.Style = "font-size: 8.25pt; font-weight: normal; ddo-char-set: 0";
             this.txtLineaDeProducto.Text = "txtLineaDeProducto";
             this.txtLineaDeProducto.Top = 0.156F;
-            this.txtLineaDeProducto.Width = 2.947F;
+            this.txtLineaDeProducto.Width = 2.676F;
             // 
             // GFLineaDeProducto
             // 
@@ -365,7 +351,6 @@ namespace Galac.Saw.Rpt.Inventario
             ((System.ComponentModel.ISupportInitialize)(this.lblLote)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaVencimiento)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblDiasParaVencerse)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblDiasPorVencer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblLineaDeProducto)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDiasPorVencer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLineaDeProducto)).EndInit();
@@ -395,7 +380,6 @@ namespace Galac.Saw.Rpt.Inventario
         private DataDynamics.ActiveReports.Label lblDiasParaVencerse;
         private DataDynamics.ActiveReports.TextBox txtDiasParaVencerse;
         private DataDynamics.ActiveReports.GroupFooter GFLineaDeProducto;
-        private DataDynamics.ActiveReports.Label lblDiasPorVencer;
         private DataDynamics.ActiveReports.Label lblLineaDeProducto;
         private DataDynamics.ActiveReports.TextBox txtDiasPorVencer;
         private DataDynamics.ActiveReports.TextBox txtLineaDeProducto;
