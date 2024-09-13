@@ -37,10 +37,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
-        public new ObservableCollection<LibGridColumModel> VisibleColumns {
-            get;
-            private set;
-        }
+       
 
         public ObservableCollection<LibGridColumModel> VisibleColumnsParaDistribucionAutomatica {
             get;
@@ -75,7 +72,10 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             ////    RemoveColumnByDisplayMemberPath("MontoDistribucion");
             ////}
 
-            VisibleColumns = LibGridColumModel.GetGridColumsFromType(typeof(CompraDetalleArticuloInventarioViewModel));
+           // VisibleColumns = LibGridColumModel.GetGridColumsFromType(typeof(CompraDetalleArticuloInventarioViewModel));
+            if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento")) {                
+                RemoveColumnByDisplayMemberPath("CodigoLote");                
+            }
             VisibleColumnsParaDistribucionAutomatica = new ObservableCollection<LibGridColumModel>();
             VisibleColumnsParaDistribucionAutomatica.Add(new LibGridColumModel() { Header = "Codigo", IsReadOnly = true, IsForList = true, Type = eGridColumType.Generic, Alignment = eTextAlignment.Left, ModelType = typeof(CompraDetalleArticuloInventarioViewModel), DbMemberPath = "CodigoArticulo", DisplayMemberPath = "CodigoArticulo", Width = 120 });
             VisibleColumnsParaDistribucionAutomatica.Add(new LibGridColumModel() { Header = "Valor Fob", IsReadOnly = true, IsForList = true, Type = eGridColumType.Numeric, Alignment = eTextAlignment.Right, ModelType = typeof(CompraDetalleArticuloInventarioViewModel), DbMemberPath = "SubTotal", DisplayMemberPath = "SubTotal", Width = 120, ConditionalPropertyDecimalDigits = "DecimalDigits" });
@@ -159,7 +159,8 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         internal void ActualizaDetalleDesdeOrdenDeCompra(CompraViewModel valMaster, ObservableCollection<CompraDetalleArticuloInventario> valDetail, eAccionSR valAction) {
             foreach (var vItem in valDetail) {
                 var vViewModel = new CompraDetalleArticuloInventarioViewModel(valMaster, vItem, valAction);
-                vViewModel.InitializeViewModel(valAction);                
+                vViewModel.InitializeViewModel(valAction);
+                vViewModel.CargarConexiones();
                 Add(vViewModel);
             }
         }
