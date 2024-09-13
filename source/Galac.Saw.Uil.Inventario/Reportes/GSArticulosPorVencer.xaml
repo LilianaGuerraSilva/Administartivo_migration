@@ -66,7 +66,7 @@
             Name="lblOrdenarFecha"
             Grid.Row="2"
             Grid.Column="0"
-            Content="Ordenar"
+            Content="Ordenar Fecha Venc."
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf
             Name="cmbOrdenarFecha"
