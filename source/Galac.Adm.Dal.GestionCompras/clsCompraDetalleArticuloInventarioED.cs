@@ -333,6 +333,8 @@ namespace Galac.Adm.Dal.GestionCompras {
 			SQL.AppendLine("        CompraDetalleArticuloInventario.PorcentajeSeguro,");
             SQL.AppendLine("        CompraDetalleArticuloInventario.ConsecutivoLoteDeInventario,");
             SQL.AppendLine("        dbo.Gv_ArticuloInventario_B2.AlicuotaIva,");
+            SQL.AppendLine("        dbo.Gv_ArticuloInventario_B2.TipoArticuloInv,");
+            SQL.AppendLine("        CompraDetalleArticuloInventario.ConsecutivoLoteDeInventario,");
             SQL.AppendLine("        CompraDetalleArticuloInventario.fldTimeStamp");
             SQL.AppendLine("    FROM CompraDetalleArticuloInventario");
             SQL.AppendLine("    INNER JOIN dbo.Gv_ArticuloInventario_B2 ON " + DbSchema + ".CompraDetalleArticuloInventario.CodigoArticulo = dbo.Gv_ArticuloInventario_B2.CodigoCompuesto");

@@ -93,7 +93,7 @@ namespace Galac.Adm.Brl.GestionCompras {
                             PorcentajeDeDistribucion = vDetail.PorcentajeDeDistribucion,
                             PorcentajeSeguro = vDetail.PorcentajeSeguro,                             
                             DescripcionArticulo = vArticuloInventario.Descripcion,
-                            TipoArticuloInv = vArticuloInventario.TipoDeArticuloInv,
+                            TipoArticuloInvAsEnum = vArticuloInventario.TipoDeArticuloInv,
                             CodigoGrupo = vArticuloInventario.CodigoGrupo,
                             TipoDeAlicuota = vArticuloInventario.TipoDeAlicuota,
                             TipoDeArticulo  = vArticuloInventario.TipoDeArticulo,
