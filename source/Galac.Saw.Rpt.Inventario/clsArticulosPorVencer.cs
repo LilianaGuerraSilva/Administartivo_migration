@@ -8,6 +8,8 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Base.Report;
 using LibGalac.Aos.ARRpt;
 using Galac.Saw.Ccl.Inventario;
+using LibGalac.Aos.Catching;
+
 namespace Galac.Saw.Rpt.Inventario {
 
     public class clsArticulosPorVencer : LibRptBaseMfc {
@@ -45,6 +47,7 @@ namespace Galac.Saw.Rpt.Inventario {
             Dictionary<string, string> vParams = new Dictionary<string, string>();
             vParams.Add("NombreCompania", AppMemoryInfo.GlobalValuesGetString("Compania", "Nombre"));
             vParams.Add("TituloInforme", vTitulo);
+            vParams.Add("DiasPorVencer", LibConvert.ToStr(DiasPorVencer) + " días");
             vParams.Add("CantidadAImprimir",LibConvert.EnumToDbValue((int)CantidadAImprimirArticulo));
             #region Codigo Ejemplo
             /* Codigo de Ejemplo
@@ -66,11 +69,15 @@ namespace Galac.Saw.Rpt.Inventario {
         public override void SendReportToDevice() {
             WorkerReportProgress(90, "Configurando Informe...");
             Dictionary<string, string> vParams = GetConfigReportParameters();
-            dsrArticulosPorVencer vRpt = new dsrArticulosPorVencer();
-            if (vRpt.ConfigReport(Data, vParams)) {
-                LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsArticulosPorVencer.ReportName, true, ExportFileFormat, "", false);
+            dsrArticulosPorVencer vRpt = new dsrArticulosPorVencer();           
+            if (Data.Rows.Count >= 1) {
+                if (vRpt.ConfigReport(Data, vParams)) {
+                    LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsArticulosPorVencer.ReportName, true, ExportFileFormat, "", false);
+                }
+                WorkerReportProgress(100, "Finalizando...");
+            } else {
+                throw new GalacException("No Existen datos para mostrar", eExceptionManagementType.Alert);
             }
-            WorkerReportProgress(100, "Finalizando...");
         }
         #endregion //Metodos Generados
 

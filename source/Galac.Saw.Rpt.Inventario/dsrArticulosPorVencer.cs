@@ -12,7 +12,7 @@ using LibGalac.Aos.DefGen;
 using LibGalac.Aos.Base.Report;
 
 namespace Galac.Saw.Rpt.Inventario {
-    
+
     public partial class dsrArticulosPorVencer : DataDynamics.ActiveReports.ActiveReport {
         #region Variables
         private bool _UseExternalRpx;
@@ -34,7 +34,7 @@ namespace Galac.Saw.Rpt.Inventario {
         #region Metodos Generados
 
         public string ReportTitle() {
-            return "Lote de Inventario";
+            return "Artículos próximos a Vencer";
         }
 
         public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {
@@ -48,25 +48,24 @@ namespace Galac.Saw.Rpt.Inventario {
             if (LibReport.ConfigDataSource(this, valDataSource)) {
                 LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["NombreCompania"], string.Empty);
                 LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());
-                LibReport.ConfigLabel(this, "lblFechaInicialYFinal", valParameters["FechaInicialYFinal"]);
+                //LibReport.ConfigLabel(this, "lblFechaInicialYFinal", valParameters["FechaInicialYFinal"]);
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
-				LibReport.ConfigFieldStr(this, "txtCodigo", string.Empty, "Codigo");
-				LibReport.ConfigFieldStr(this, "txtDescripcion", string.Empty, "Descripcion");
-				LibReport.ConfigFieldDec(this, "txtExistencia", string.Empty, "Existencia");
-				LibReport.ConfigFieldStr(this, "txtLote", string.Empty, "Lote");
-				LibReport.ConfigFieldDate(this, "txtFechaVencimiento", string.Empty, "FechaVencimiento", "dd/MM/yyyy");
-                LibReport.ConfigFieldInt(this, "txtDiasParaVencerse", string.Empty, "DiasParaVencerse");				
-				LibReport.ConfigGroupHeader(this, "GHLineaDeProducto", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+                LibReport.ConfigFieldInt(this, "txtDiasPorVencer", valParameters["DiasPorVencer"], string.Empty);
+                LibReport.ConfigFieldStr(this, "txtLineaDeProducto", string.Empty, "LineaDeProducto");
+                LibReport.ConfigFieldStr(this, "txtCodigo", string.Empty, "Codigo");
+                LibReport.ConfigFieldStr(this, "txtDescripcion", string.Empty, "Descripcion");
+                LibReport.ConfigFieldDec(this, "txtExistencia", string.Empty, "Existencia");
+                LibReport.ConfigFieldStr(this, "txtLote", string.Empty, "Lote");
+                LibReport.ConfigFieldDate(this, "txtFechaVencimiento", string.Empty, "FechaDeVencimiento", "dd/MM/yyyy");
+                LibReport.ConfigFieldInt(this, "txtDiasParaVencerse", string.Empty, "DiasPorVencer");
+                LibReport.ConfigGroupHeader(this, "GHLineaDeProducto", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 return true;
             }
             return false;
         }
-        #endregion //Metodos Generados
-
-
+        #endregion //Metodos Generados       
     } //End of class dsrArticulosPorVencer
-
 } //End of namespace Galac.Saw.Rpt.Inventario
 

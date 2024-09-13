@@ -19,6 +19,7 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
             vSql.AppendLine("ArticuloInventario.Codigo, ");
             vSql.AppendLine("ArticuloInventario.Descripcion, ");
             vSql.AppendLine("ArticuloInventario.LineaDeProducto, ");
+            vSql.AppendLine("LoteDeInventario.CodigoLote AS lote, ");
             vSql.AppendLine("LoteDeInventario.Existencia, ");
             vSql.AppendLine("LoteDeInventario.FechaDeVencimiento, ");
             vSql.AppendLine(insSqlUtil.DateDiff("day", insSqlUtil.GetToday(), "LoteDeInventario.FechaDeVencimiento") + " AS DiasPorVencer");
@@ -40,7 +41,7 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
             if (LibString.Len(vSQLWhere) > 0) {
                 vSql.AppendLine(" WHERE " + vSQLWhere);
             }
-            vSql.AppendLine("ORDER BY" + (valOrdenarFecha == eOrdenarFecha.Ascendente ? "ASC" : "DESC"));
+            vSql.AppendLine("ORDER  BY FechaDeVencimiento " + (valOrdenarFecha == eOrdenarFecha.Ascendente ? "ASC" : "DESC"));
             return vSql.ToString();
         }
         #endregion //Metodos Generados
