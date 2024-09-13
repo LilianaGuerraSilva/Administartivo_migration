@@ -108,6 +108,12 @@ namespace Galac.Adm.Rpt.GestionCompras{
         #endregion //Metodos Generados
 
         private void Detail_Format(object sender, EventArgs e) {
+            lblLote.Visible = false;
+            txtCodigoLote.Visible = false;
+            lblFechaElab.Visible = false;
+            txtFechaDeElaboracion.Visible = false;
+            lblFechaVenc.Visible = false;
+            txtFechaDeVencimiento.Visible = false;
             if (!LibString.IsNullOrEmpty(txtTipoArticuloInv.Text)) {
                 if (LibString.S1IsEqualToS2(txtTipoArticuloInv.Text, "6")) {
                     lblLote.Visible = true;
@@ -118,26 +124,8 @@ namespace Galac.Adm.Rpt.GestionCompras{
                     txtFechaDeVencimiento.Visible = true;
                 } else if (LibString.S1IsEqualToS2(txtTipoArticuloInv.Text, "5")) {
                     lblLote.Visible = true;
-                    txtCodigoLote.Visible = true;
-                    lblFechaElab.Visible = false;
-                    txtFechaDeElaboracion.Visible = false;
-                    lblFechaVenc.Visible = false;
-                    txtFechaDeVencimiento.Visible = false;
-                } else {
-                    lblLote.Visible = false;
-                    txtCodigoLote.Visible = false;
-                    lblFechaElab.Visible = false;
-                    txtFechaDeElaboracion.Visible = false;
-                    lblFechaVenc.Visible = false;
-                    txtFechaDeVencimiento.Visible = false;
+                    txtCodigoLote.Visible = true;                  
                 }
-            } else {
-                lblLote.Visible = false;
-                txtCodigoLote.Visible=false;
-                lblFechaElab.Visible=false;
-                txtFechaDeElaboracion.Visible=false;
-                lblFechaVenc.Visible=false;
-                txtFechaDeVencimiento.Visible=false;
             }
         }
     }
