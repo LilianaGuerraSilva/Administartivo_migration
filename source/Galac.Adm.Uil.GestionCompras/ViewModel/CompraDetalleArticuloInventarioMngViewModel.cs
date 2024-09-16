@@ -58,7 +58,11 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             foreach (var vItem in initDetail) {
                 var vViewModel = new CompraDetalleArticuloInventarioViewModel(Master, vItem, initAction);
                 vViewModel.InitializeViewModel(initAction);
+                if (initAction == eAccionSR.ReImprimir) {
+                    vViewModel.CargarConexiones();
+                }
                 Add(vViewModel);
+                
             }
 
             //if (!Master.VieneDeOrdenDeCompra) {
