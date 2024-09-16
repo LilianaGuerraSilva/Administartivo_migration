@@ -47,8 +47,7 @@ namespace Galac.Saw.Rpt.Inventario {
             eCantidadAImprimir vCantidadAImprimir = (eCantidadAImprimir)LibConvert.DbValueToEnum(valParameters["CantidadAImprimir"]);
             if (LibReport.ConfigDataSource(this, valDataSource)) {
                 LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["NombreCompania"], string.Empty);
-                LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());
-                //LibReport.ConfigLabel(this, "lblFechaInicialYFinal", valParameters["FechaInicialYFinal"]);
+                LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());                
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
                 LibReport.ConfigFieldInt(this, "txtDiasPorVencer", valParameters["DiasPorVencer"], string.Empty);
@@ -60,6 +59,8 @@ namespace Galac.Saw.Rpt.Inventario {
                 LibReport.ConfigFieldDate(this, "txtFechaVencimiento", string.Empty, "FechaDeVencimiento", "dd/MM/yyyy");
                 LibReport.ConfigFieldInt(this, "txtDiasParaVencerse", string.Empty, "DiasPorVencer");
                 LibReport.ConfigGroupHeader(this, "GHLineaDeProducto", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+                
+                
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 return true;
             }

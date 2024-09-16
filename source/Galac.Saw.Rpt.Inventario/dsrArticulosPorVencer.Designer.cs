@@ -315,7 +315,7 @@ namespace Galac.Saw.Rpt.Inventario
             // 
             // GFLineaDeProducto
             // 
-            this.GFLineaDeProducto.Height = 0F;
+            this.GFLineaDeProducto.Height = 0.1875F;
             this.GFLineaDeProducto.Name = "GFLineaDeProducto";
             // 
             // dsrArticulosPorVencer
