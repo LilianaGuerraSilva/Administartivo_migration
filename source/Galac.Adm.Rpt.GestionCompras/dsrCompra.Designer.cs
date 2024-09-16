@@ -28,6 +28,13 @@ namespace Galac.Adm.Rpt.GestionCompras
             this.txtUnidad = new DataDynamics.ActiveReports.TextBox();
             this.txtPrecio = new DataDynamics.ActiveReports.TextBox();
             this.txtSubTotal = new DataDynamics.ActiveReports.TextBox();
+            this.txtCodigoLote = new DataDynamics.ActiveReports.TextBox();
+            this.lblLote = new DataDynamics.ActiveReports.Label();
+            this.lblFechaElab = new DataDynamics.ActiveReports.Label();
+            this.txtFechaDeElaboracion = new DataDynamics.ActiveReports.TextBox();
+            this.lblFechaVenc = new DataDynamics.ActiveReports.Label();
+            this.txtFechaDeVencimiento = new DataDynamics.ActiveReports.TextBox();
+            this.txtTipoArticuloInv = new DataDynamics.ActiveReports.TextBox();
             this.PageHeader = new DataDynamics.ActiveReports.PageHeader();
             this.txtNombreCompania = new DataDynamics.ActiveReports.TextBox();
             this.lblTituloInforme = new DataDynamics.ActiveReports.Label();
@@ -70,19 +77,19 @@ namespace Galac.Adm.Rpt.GestionCompras
             this.lbEnvia = new DataDynamics.ActiveReports.Label();
             this.lblObservaciones = new DataDynamics.ActiveReports.Label();
             this.txtObservaciones = new DataDynamics.ActiveReports.TextBox();
-            this.txtCodigoLote = new DataDynamics.ActiveReports.TextBox();
-            this.lblLote = new DataDynamics.ActiveReports.Label();
-            this.lblFechaElab = new DataDynamics.ActiveReports.Label();
-            this.txtFechaDeElaboracion = new DataDynamics.ActiveReports.TextBox();
-            this.lblFechaVenc = new DataDynamics.ActiveReports.Label();
-            this.txtFechaDeVencimiento = new DataDynamics.ActiveReports.TextBox();
-            this.txtTipoArticuloInv = new DataDynamics.ActiveReports.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.txtCodigoArticulo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDescripcion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCantidad)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtUnidad)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPrecio)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSubTotal)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCodigoLote)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblLote)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblFechaElab)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtFechaDeElaboracion)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblFechaVenc)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtFechaDeVencimiento)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTipoArticuloInv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreCompania)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTituloInforme)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNumero)).BeginInit();
@@ -121,13 +128,6 @@ namespace Galac.Adm.Rpt.GestionCompras
             ((System.ComponentModel.ISupportInitialize)(this.lbEnvia)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblObservaciones)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtObservaciones)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCodigoLote)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblLote)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblFechaElab)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtFechaDeElaboracion)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblFechaVenc)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtFechaDeVencimiento)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTipoArticuloInv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
@@ -210,6 +210,79 @@ namespace Galac.Adm.Rpt.GestionCompras
             this.txtSubTotal.Text = "txtSubTotal";
             this.txtSubTotal.Top = 0F;
             this.txtSubTotal.Width = 1.207988F;
+            // 
+            // txtCodigoLote
+            // 
+            this.txtCodigoLote.Height = 0.15625F;
+            this.txtCodigoLote.Left = 0.937F;
+            this.txtCodigoLote.Name = "txtCodigoLote";
+            this.txtCodigoLote.Style = "font-size: 8pt; text-align: left; ddo-char-set: 1";
+            this.txtCodigoLote.Text = "txtCodigoLote";
+            this.txtCodigoLote.Top = 0.16F;
+            this.txtCodigoLote.Width = 2.354F;
+            // 
+            // lblLote
+            // 
+            this.lblLote.Height = 0.15625F;
+            this.lblLote.HyperLink = null;
+            this.lblLote.Left = 0F;
+            this.lblLote.Name = "lblLote";
+            this.lblLote.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
+            this.lblLote.Text = "Lote";
+            this.lblLote.Top = 0.16F;
+            this.lblLote.Width = 0.937F;
+            // 
+            // lblFechaElab
+            // 
+            this.lblFechaElab.Height = 0.15625F;
+            this.lblFechaElab.HyperLink = null;
+            this.lblFechaElab.Left = 3.292F;
+            this.lblFechaElab.Name = "lblFechaElab";
+            this.lblFechaElab.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
+            this.lblFechaElab.Text = "Fecha Elab.";
+            this.lblFechaElab.Top = 0.16F;
+            this.lblFechaElab.Width = 0.812F;
+            // 
+            // txtFechaDeElaboracion
+            // 
+            this.txtFechaDeElaboracion.Height = 0.15625F;
+            this.txtFechaDeElaboracion.Left = 4.104F;
+            this.txtFechaDeElaboracion.Name = "txtFechaDeElaboracion";
+            this.txtFechaDeElaboracion.Style = "font-size: 8pt; text-align: left; ddo-char-set: 1";
+            this.txtFechaDeElaboracion.Text = "txtFechaDeElaboracion";
+            this.txtFechaDeElaboracion.Top = 0.16F;
+            this.txtFechaDeElaboracion.Width = 0.9370003F;
+            // 
+            // lblFechaVenc
+            // 
+            this.lblFechaVenc.Height = 0.15625F;
+            this.lblFechaVenc.HyperLink = null;
+            this.lblFechaVenc.Left = 5.042F;
+            this.lblFechaVenc.Name = "lblFechaVenc";
+            this.lblFechaVenc.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
+            this.lblFechaVenc.Text = "Fecha Venc.";
+            this.lblFechaVenc.Top = 0.16F;
+            this.lblFechaVenc.Width = 1.156F;
+            // 
+            // txtFechaDeVencimiento
+            // 
+            this.txtFechaDeVencimiento.Height = 0.15625F;
+            this.txtFechaDeVencimiento.Left = 6.198F;
+            this.txtFechaDeVencimiento.Name = "txtFechaDeVencimiento";
+            this.txtFechaDeVencimiento.Style = "font-size: 8pt; text-align: left; ddo-char-set: 1";
+            this.txtFechaDeVencimiento.Text = "txtFechaDeVencimiento";
+            this.txtFechaDeVencimiento.Top = 0.16F;
+            this.txtFechaDeVencimiento.Width = 1.208F;
+            // 
+            // txtTipoArticuloInv
+            // 
+            this.txtTipoArticuloInv.Height = 0.15625F;
+            this.txtTipoArticuloInv.Left = 0F;
+            this.txtTipoArticuloInv.Name = "txtTipoArticuloInv";
+            this.txtTipoArticuloInv.Style = "font-size: 8pt; text-align: left; ddo-char-set: 1";
+            this.txtTipoArticuloInv.Text = "txtTipoArticuloInv";
+            this.txtTipoArticuloInv.Top = 0.41F;
+            this.txtTipoArticuloInv.Width = 2.354F;
             // 
             // PageHeader
             // 
@@ -693,80 +766,6 @@ namespace Galac.Adm.Rpt.GestionCompras
             this.txtObservaciones.Top = 0.312F;
             this.txtObservaciones.Width = 5.041F;
             // 
-            // txtCodigoLote
-            // 
-            this.txtCodigoLote.Height = 0.15625F;
-            this.txtCodigoLote.Left = 0.937F;
-            this.txtCodigoLote.Name = "txtCodigoLote";
-            this.txtCodigoLote.Style = "font-size: 8pt; text-align: left; ddo-char-set: 1";
-            this.txtCodigoLote.Text = "txtCodigoLote";
-            this.txtCodigoLote.Top = 0.16F;
-            this.txtCodigoLote.Width = 2.354F;
-            // 
-            // lblLote
-            // 
-            this.lblLote.Height = 0.15625F;
-            this.lblLote.HyperLink = null;
-            this.lblLote.Left = 0F;
-            this.lblLote.Name = "lblLote";
-            this.lblLote.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
-            this.lblLote.Text = "Lote";
-            this.lblLote.Top = 0.16F;
-            this.lblLote.Width = 0.937F;
-            // 
-            // lblFechaElab
-            // 
-            this.lblFechaElab.Height = 0.15625F;
-            this.lblFechaElab.HyperLink = null;
-            this.lblFechaElab.Left = 3.292F;
-            this.lblFechaElab.Name = "lblFechaElab";
-            this.lblFechaElab.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
-            this.lblFechaElab.Text = "Fecha Elab.";
-            this.lblFechaElab.Top = 0.16F;
-            this.lblFechaElab.Width = 0.812F;
-            // 
-            // txtFechaDeElaboracion
-            // 
-            this.txtFechaDeElaboracion.Height = 0.15625F;
-            this.txtFechaDeElaboracion.Left = 4.104F;
-            this.txtFechaDeElaboracion.Name = "txtFechaDeElaboracion";
-            this.txtFechaDeElaboracion.Style = "font-size: 8pt; text-align: left; ddo-char-set: 1";
-            this.txtFechaDeElaboracion.Text = "txtFechaDeElaboracion";
-            this.txtFechaDeElaboracion.Top = 0.16F;
-            this.txtFechaDeElaboracion.Width = 0.9370003F;
-            // 
-            // lblFechaVenc
-            // 
-            this.lblFechaVenc.Height = 0.15625F;
-            this.lblFechaVenc.HyperLink = null;
-            this.lblFechaVenc.Left = 5.042F;
-            this.lblFechaVenc.Name = "lblFechaVenc";
-            this.lblFechaVenc.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
-            this.lblFechaVenc.Text = "Fecha Venc.";
-            this.lblFechaVenc.Top = 0.16F;
-            this.lblFechaVenc.Width = 1.156F;
-            // 
-            // txtFechaDeVencimiento
-            // 
-            this.txtFechaDeVencimiento.Height = 0.15625F;
-            this.txtFechaDeVencimiento.Left = 6.198F;
-            this.txtFechaDeVencimiento.Name = "txtFechaDeVencimiento";
-            this.txtFechaDeVencimiento.Style = "font-size: 8pt; text-align: left; ddo-char-set: 1";
-            this.txtFechaDeVencimiento.Text = "txtFechaDeVencimiento";
-            this.txtFechaDeVencimiento.Top = 0.16F;
-            this.txtFechaDeVencimiento.Width = 1.208F;
-            // 
-            // txtTipoArticuloInv
-            // 
-            this.txtTipoArticuloInv.Height = 0.15625F;
-            this.txtTipoArticuloInv.Left = 0F;
-            this.txtTipoArticuloInv.Name = "txtTipoArticuloInv";
-            this.txtTipoArticuloInv.Style = "font-size: 8pt; text-align: left; ddo-char-set: 1";
-            this.txtTipoArticuloInv.Text = "txtTipoArticuloInv";
-            this.txtTipoArticuloInv.Top = 0.41F;
-            this.txtTipoArticuloInv.Visible = false;
-            this.txtTipoArticuloInv.Width = 2.354F;
-            // 
             // dsrCompra
             // 
             this.MasterReport = false;
@@ -792,6 +791,13 @@ namespace Galac.Adm.Rpt.GestionCompras
             ((System.ComponentModel.ISupportInitialize)(this.txtUnidad)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPrecio)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSubTotal)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCodigoLote)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblLote)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblFechaElab)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtFechaDeElaboracion)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblFechaVenc)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtFechaDeVencimiento)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTipoArticuloInv)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreCompania)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTituloInforme)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNumero)).EndInit();
@@ -830,13 +836,6 @@ namespace Galac.Adm.Rpt.GestionCompras
             ((System.ComponentModel.ISupportInitialize)(this.lbEnvia)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblObservaciones)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtObservaciones)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCodigoLote)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblLote)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblFechaElab)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtFechaDeElaboracion)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblFechaVenc)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtFechaDeVencimiento)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTipoArticuloInv)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
