@@ -10,6 +10,7 @@ using LibGalac.Aos.ARRpt;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.DefGen;
 using LibGalac.Aos.Base.Report;
+using Galac.Saw.Ccl.Inventario;
 
 namespace Galac.Saw.Rpt.Inventario {
 
@@ -44,10 +45,10 @@ namespace Galac.Saw.Rpt.Inventario {
                     LibReport.LoadLayout(this, vRpxPath);
                 }
             }
-            eCantidadAImprimir vCantidadAImprimir = (eCantidadAImprimir)LibConvert.DbValueToEnum(valParameters["CantidadAImprimir"]);
+            eCantidadAImprimirArticulo vCantidadAImprimir = (eCantidadAImprimirArticulo)LibConvert.DbValueToEnum(valParameters["CantidadAImprimir"]);
             if (LibReport.ConfigDataSource(this, valDataSource)) {
                 LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["NombreCompania"], string.Empty);
-                LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());                
+                LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
                 LibReport.ConfigFieldInt(this, "txtDiasPorVencer", valParameters["DiasPorVencer"], string.Empty);
@@ -58,15 +59,19 @@ namespace Galac.Saw.Rpt.Inventario {
                 LibReport.ConfigFieldStr(this, "txtLote", string.Empty, "Lote");
                 LibReport.ConfigFieldDate(this, "txtFechaVencimiento", string.Empty, "FechaDeVencimiento", "dd/MM/yyyy");
                 LibReport.ConfigFieldInt(this, "txtDiasParaVencerse", string.Empty, "DiasPorVencer");
-                LibReport.ConfigGroupHeader(this, "GHLineaDeProducto", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
-                
-                
+                LibReport.ConfigSummaryField(this, "txtTotalExistenciaporVencer", "Existencia", SummaryFunc.Sum, "GHLineaDeProducto", SummaryRunning.Group, SummaryType.SubTotal);
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
+                if (vCantidadAImprimir != eCantidadAImprimirArticulo.LineaDeProducto) {
+                    LibReport.ChangeControlVisibility(this, "txtLineaDeProducto", false);
+                    LibReport.ChangeControlVisibility(this, "lblLineaDeProducto", false);
+                } else {
+                    LibReport.ConfigGroupHeader(this, "GHLineaDeProducto", "LineaDeProducto", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+                }
                 return true;
             }
             return false;
+            #endregion //Metodos Generados  
         }
-        #endregion //Metodos Generados       
     } //End of class dsrArticulosPorVencer
 } //End of namespace Galac.Saw.Rpt.Inventario
 

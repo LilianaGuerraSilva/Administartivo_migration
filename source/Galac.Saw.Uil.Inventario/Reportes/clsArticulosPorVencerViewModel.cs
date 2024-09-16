@@ -71,7 +71,15 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
             }
             set {
                 if (_CantidadAImprimir != value) {
-                    _CantidadAImprimir = value;                   
+                    _CantidadAImprimir = value;
+                    if (_CantidadAImprimir == eCantidadAImprimirArticulo.Todos) {
+                        LineaDeProducto = string.Empty;
+                        CodigoArticulo = string.Empty;
+                    } else if (_CantidadAImprimir == eCantidadAImprimirArticulo.Articulo) {
+                        LineaDeProducto = string.Empty;
+                    } else if (_CantidadAImprimir == eCantidadAImprimirArticulo.LineaDeProducto) {
+                        CodigoArticulo = string.Empty;
+                    }
                     RaisePropertyChanged(CantidadAImprimirPropertyName);
                     RaisePropertyChanged(IsVisibleArticuloPropertyName);
                     RaisePropertyChanged(IsVisibleLineadeProductoPropertyName);

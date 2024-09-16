@@ -49,6 +49,8 @@ namespace Galac.Saw.Rpt.Inventario
             this.txtDiasPorVencer = new DataDynamics.ActiveReports.TextBox();
             this.txtLineaDeProducto = new DataDynamics.ActiveReports.TextBox();
             this.GFLineaDeProducto = new DataDynamics.ActiveReports.GroupFooter();
+            this.txtTotalExistenciaporVencer = new DataDynamics.ActiveReports.TextBox();
+            this.lblTotalExistenciaporVencer = new DataDynamics.ActiveReports.Label();
             ((System.ComponentModel.ISupportInitialize)(this.txtCodigo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDescripcion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtExistencia)).BeginInit();
@@ -68,6 +70,8 @@ namespace Galac.Saw.Rpt.Inventario
             ((System.ComponentModel.ISupportInitialize)(this.lblLineaDeProducto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDiasPorVencer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLineaDeProducto)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalExistenciaporVencer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblTotalExistenciaporVencer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
@@ -76,9 +80,9 @@ namespace Galac.Saw.Rpt.Inventario
             this.Detail.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
             this.txtCodigo,
             this.txtDescripcion,
-            this.txtExistencia,
             this.txtDiasParaVencerse,
             this.txtLote,
+            this.txtExistencia,
             this.txtFechaVencimiento});
             this.Detail.Height = 0.15625F;
             this.Detail.Name = "Detail";
@@ -107,11 +111,11 @@ namespace Galac.Saw.Rpt.Inventario
             // txtExistencia
             // 
             this.txtExistencia.Height = 0.15625F;
-            this.txtExistencia.Left = 4.01F;
+            this.txtExistencia.Left = 5.239F;
             this.txtExistencia.Name = "txtExistencia";
             this.txtExistencia.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtExistencia.Text = "txtExistencia";
-            this.txtExistencia.Top = 1.490116E-08F;
+            this.txtExistencia.Top = 0F;
             this.txtExistencia.Width = 0.8959999F;
             // 
             // txtDiasParaVencerse
@@ -127,11 +131,11 @@ namespace Galac.Saw.Rpt.Inventario
             // txtLote
             // 
             this.txtLote.Height = 0.15625F;
-            this.txtLote.Left = 4.906F;
+            this.txtLote.Left = 4.01F;
             this.txtLote.Name = "txtLote";
             this.txtLote.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtLote.Text = "txtLote";
-            this.txtLote.Top = 1.490116E-08F;
+            this.txtLote.Top = 0F;
             this.txtLote.Width = 1.229F;
             // 
             // txtFechaVencimiento
@@ -139,7 +143,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.txtFechaVencimiento.Height = 0.15625F;
             this.txtFechaVencimiento.Left = 6.135F;
             this.txtFechaVencimiento.Name = "txtFechaVencimiento";
-            this.txtFechaVencimiento.Style = "font-size: 8pt; ddo-char-set: 1";
+            this.txtFechaVencimiento.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtFechaVencimiento.Text = "txtFechaVencimiento";
             this.txtFechaVencimiento.Top = 0F;
             this.txtFechaVencimiento.Width = 0.7389998F;
@@ -208,11 +212,11 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblDescripcion,
             this.lblExistencia,
             this.lblLote,
-            this.lblFechaVencimiento,
             this.lblDiasParaVencerse,
             this.lblLineaDeProducto,
             this.txtDiasPorVencer,
-            this.txtLineaDeProducto});
+            this.txtLineaDeProducto,
+            this.lblFechaVencimiento});
             this.GHLineaDeProducto.Height = 0.46825F;
             this.GHLineaDeProducto.Name = "GHLineaDeProducto";
             // 
@@ -242,7 +246,7 @@ namespace Galac.Saw.Rpt.Inventario
             // 
             this.lblExistencia.Height = 0.15625F;
             this.lblExistencia.HyperLink = null;
-            this.lblExistencia.Left = 4.01F;
+            this.lblExistencia.Left = 5.239F;
             this.lblExistencia.Name = "lblExistencia";
             this.lblExistencia.Style = "font-size: 8.25pt; font-weight: bold; text-align: right; ddo-char-set: 0";
             this.lblExistencia.Text = "Existencia";
@@ -253,7 +257,7 @@ namespace Galac.Saw.Rpt.Inventario
             // 
             this.lblLote.Height = 0.15625F;
             this.lblLote.HyperLink = null;
-            this.lblLote.Left = 4.906F;
+            this.lblLote.Left = 4.01F;
             this.lblLote.Name = "lblLote";
             this.lblLote.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.lblLote.Text = "Lote";
@@ -266,7 +270,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblFechaVencimiento.HyperLink = null;
             this.lblFechaVencimiento.Left = 6.135F;
             this.lblFechaVencimiento.Name = "lblFechaVencimiento";
-            this.lblFechaVencimiento.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
+            this.lblFechaVencimiento.Style = "font-size: 8.25pt; font-weight: bold; text-align: right; ddo-char-set: 0";
             this.lblFechaVencimiento.Text = "Fecha de Vencimiento";
             this.lblFechaVencimiento.Top = 0.156F;
             this.lblFechaVencimiento.Width = 0.7389998F;
@@ -315,8 +319,34 @@ namespace Galac.Saw.Rpt.Inventario
             // 
             // GFLineaDeProducto
             // 
+            this.GFLineaDeProducto.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
+            this.txtTotalExistenciaporVencer,
+            this.lblTotalExistenciaporVencer});
             this.GFLineaDeProducto.Height = 0.1875F;
             this.GFLineaDeProducto.Name = "GFLineaDeProducto";
+            // 
+            // txtTotalExistenciaporVencer
+            // 
+            this.txtTotalExistenciaporVencer.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Double;
+            this.txtTotalExistenciaporVencer.Height = 0.15625F;
+            this.txtTotalExistenciaporVencer.Left = 5.239F;
+            this.txtTotalExistenciaporVencer.Name = "txtTotalExistenciaporVencer";
+            this.txtTotalExistenciaporVencer.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtTotalExistenciaporVencer.Text = "txtExistencia";
+            this.txtTotalExistenciaporVencer.Top = 0F;
+            this.txtTotalExistenciaporVencer.Width = 0.896F;
+            // 
+            // lblTotalExistenciaporVencer
+            // 
+            this.lblTotalExistenciaporVencer.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Double;
+            this.lblTotalExistenciaporVencer.Height = 0.15625F;
+            this.lblTotalExistenciaporVencer.HyperLink = null;
+            this.lblTotalExistenciaporVencer.Left = 1.334F;
+            this.lblTotalExistenciaporVencer.Name = "lblTotalExistenciaporVencer";
+            this.lblTotalExistenciaporVencer.Style = "font-size: 8.25pt; font-weight: bold; text-align: right; ddo-char-set: 0";
+            this.lblTotalExistenciaporVencer.Text = "Total Existencia por Vencer";
+            this.lblTotalExistenciaporVencer.Top = 0F;
+            this.lblTotalExistenciaporVencer.Width = 3.905F;
             // 
             // dsrArticulosPorVencer
             // 
@@ -354,6 +384,8 @@ namespace Galac.Saw.Rpt.Inventario
             ((System.ComponentModel.ISupportInitialize)(this.lblLineaDeProducto)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDiasPorVencer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLineaDeProducto)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalExistenciaporVencer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblTotalExistenciaporVencer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -383,5 +415,7 @@ namespace Galac.Saw.Rpt.Inventario
         private DataDynamics.ActiveReports.Label lblLineaDeProducto;
         private DataDynamics.ActiveReports.TextBox txtDiasPorVencer;
         private DataDynamics.ActiveReports.TextBox txtLineaDeProducto;
+        private DataDynamics.ActiveReports.TextBox txtTotalExistenciaporVencer;
+        private DataDynamics.ActiveReports.Label lblTotalExistenciaporVencer;
     }
 }
