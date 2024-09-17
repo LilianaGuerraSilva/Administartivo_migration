@@ -272,7 +272,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         private ValidationResult ArticuloValidating() {
             ValidationResult vResult = ValidationResult.Success;
             if (LibString.IsNullOrEmpty(CodigoArticulo) && CantidadAImprimir == eCantidadAImprimirArticulo.Articulo) {
-                vResult = new ValidationResult("El Articulo es requerido.");
+                vResult = new ValidationResult("El Artículo es requerido.");
             }
             return vResult;
         }

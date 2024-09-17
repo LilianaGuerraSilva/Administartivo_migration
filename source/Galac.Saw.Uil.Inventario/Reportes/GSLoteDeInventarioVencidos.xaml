@@ -1,4 +1,4 @@
-<UserControl
+﻿<UserControl
     x:Class="Galac.Saw.Uil.Inventario.Reportes.GSLoteDeInventarioVencidos"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -64,7 +64,7 @@
             Name="lblLineaDeProducto"
             Grid.Row="2"
             Grid.Column="0"
-            Content="Linea De Producto"
+            Content="Línea De Producto"
             Style="{StaticResource LabelPrompt}"
             Visibility="{Binding Path=IsVisibleLineadeProducto, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSSeekConnection
@@ -83,7 +83,7 @@
             Name="lblArticulo"
             Grid.Row="3"
             Grid.Column="0"
-            Content="Codigo del Articulo"
+            Content="Código del Artículo"
             Style="{StaticResource LabelPrompt}"
             Visibility="{Binding Path=IsVisibleArticulo, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSSeekConnection
