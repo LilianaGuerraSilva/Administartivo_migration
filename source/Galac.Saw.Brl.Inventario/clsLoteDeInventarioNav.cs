@@ -61,6 +61,10 @@ namespace Galac.Saw.Brl.Inventario {
                     vPdnModule = new Galac.Saw.Brl.Inventario.clsArticuloInventarioNav();
                     vResult = vPdnModule.GetDataForList("Lote de Inventario", ref refXmlDocument, valXmlParamsExpression);
                     break;
+                case "Línea de Producto":
+                    vPdnModule = new Galac.Saw.Brl.Tablas.clsLineaDeProductoNav();
+                    vResult = vPdnModule.GetDataForList(valModule, ref refXmlDocument, valXmlParamsExpression);
+                    break;
                 default: throw new NotImplementedException();
             }
             return vResult;

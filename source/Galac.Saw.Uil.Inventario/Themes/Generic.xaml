@@ -46,4 +46,7 @@
     <DataTemplate DataType="{x:Type nsCSVM:LoteDeInventarioInsertarViewModel}">
         <nsCSV:GSLoteDeInventarioInsertarView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsArticulosPorVencerViewModel}">
+        <nsReportesView:GSArticulosPorVencer />
+    </DataTemplate>
 </ResourceDictionary>

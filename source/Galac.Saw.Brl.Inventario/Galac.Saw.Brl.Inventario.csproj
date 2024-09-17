@@ -101,6 +101,7 @@
     <Compile Include="Reportes\clsCategoriaRpt.cs" />
     <Compile Include="Reportes\clsColorRpt.cs" />
     <Compile Include="Reportes\clsLoteDeInventarioRpt.cs" />
+    <Compile Include="Reportes\clsLoteDeInventarioSql.cs" />
     <Compile Include="Reportes\clsNotaDeEntradaSalidaRpt.cs" />
     <Compile Include="Reportes\clsNotaDeEntradaSalidaSql.cs" />
     <Compile Include="Reportes\clsTallaRpt.cs" />
