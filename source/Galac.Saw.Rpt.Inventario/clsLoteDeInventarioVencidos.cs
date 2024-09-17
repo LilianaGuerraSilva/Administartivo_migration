@@ -8,9 +8,11 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Base.Report;
 using LibGalac.Aos.ARRpt;
 using Galac.Saw.Ccl.Inventario;
+using LibGalac.Aos.Catching;
+
 namespace Galac.Saw.Rpt.Inventario {
 
-    public class clsLoteDeInventarioVencidos: LibRptBaseMfc {
+    public class clsLoteDeInventarioVencidos : LibRptBaseMfc {
         #region Propiedades
 
         protected DataTable Data { get; set; }
@@ -43,12 +45,7 @@ namespace Galac.Saw.Rpt.Inventario {
             Dictionary<string, string> vParams = new Dictionary<string, string>();
             vParams.Add("NombreCompania", AppMemoryInfo.GlobalValuesGetString("Compania", "Nombre"));
             vParams.Add("TituloInforme", vTitulo);
-            vParams.Add("CantidadAImprimir", LibConvert.EnumToDbValue((int)CantidadAImprimirArticulo));
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-            vParams.Add("FechaInicialYFinal", string.Format("{0} al {1}", LibConvert.ToStr(FechaDesde, "dd/MM/yyyy"), LibConvert.ToStr(FechaHasta, "dd/MM/yyyy")));
-        */
-        #endregion //Codigo Ejemplo
+            vParams.Add("CantidadAImprimir", LibConvert.EnumToDbValue((int)CantidadAImprimirArticulo));            
             return vParams;
         }
 
@@ -65,13 +62,16 @@ namespace Galac.Saw.Rpt.Inventario {
             WorkerReportProgress(90, "Configurando Informe...");
             Dictionary<string, string> vParams = GetConfigReportParameters();
             dsrLoteDeInventarioVencidos vRpt = new dsrLoteDeInventarioVencidos();
-            if (vRpt.ConfigReport(Data, vParams)) {
-                LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsLoteDeInventarioVencidos.ReportName, true, ExportFileFormat, "", false);
+            if (Data.Rows.Count >= 1) {
+                if (vRpt.ConfigReport(Data, vParams)) {
+                    LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsLoteDeInventarioVencidos.ReportName, true, ExportFileFormat, "", false);
+                }
+                WorkerReportProgress(100, "Finalizando...");
+            } else {
+                throw new GalacException("No Existen datos para mostrar", eExceptionManagementType.Alert);
             }
-            WorkerReportProgress(100, "Finalizando...");
         }
         #endregion //Metodos Generados
-
 
     } //End of class clsLoteDeInventarioVencidos
 
