@@ -64,7 +64,7 @@
             Name="lblLineaDeProducto"
             Grid.Row="2"
             Grid.Column="0"
-            Content="Línea De Producto"
+            Content="Línea de Producto"
             Style="{StaticResource LabelPrompt}"
             Visibility="{Binding Path=IsVisibleLineadeProducto, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSSeekConnection

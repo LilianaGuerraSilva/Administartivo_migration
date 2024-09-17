@@ -54,7 +54,7 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
             vSql.AppendLine("LoteDeInventario.Existencia AS Existencia, ");
             vSql.AppendLine("LoteDeInventario.CodigoLote AS LoteDeInventario, ");
             vSql.AppendLine("LoteDeInventario.FechaDeVencimiento AS FechaDeVencimiento, ");
-            vSql.AppendLine(insUtilSql.DateDiff("day", insUtilSql.GetToday(), "LoteDeInventario.FechaDeVencimiento") + " AS DiasVencido ");
+            vSql.AppendLine(insUtilSql.DateDiff("day", "LoteDeInventario.FechaDeVencimiento", insUtilSql.GetToday()) + " AS DiasVencidos ");
             vSql.AppendLine("FROM Saw.LoteDeInventario INNER JOIN ArticuloInventario ON ");
             vSql.AppendLine("LoteDeInventario.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania ");
             vSql.AppendLine("AND LoteDeInventario.CodigoArticulo = ArticuloInventario.Codigo");
@@ -63,7 +63,7 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
             vSQLWhere = insUtilSql.SqlExpressionValueWithAnd(vSQLWhere, "LoteDeInventario.Existencia", "0", "AND", ">");
             vSQLWhere = insUtilSql.SqlExpressionValueWithAnd(vSQLWhere, "LoteDeInventario.FechaDeVencimiento", insUtilSql.GetToday(), "AND", "<");
             if (!LibString.IsNullOrEmpty(valNombreLineaDeProducto)) {
-                vSQLWhere = insUtilSql.SqlValueWithAnd(vSQLWhere, "LoteDeInventario.LineaDeProducto", valNombreLineaDeProducto);
+                vSQLWhere = insUtilSql.SqlValueWithAnd(vSQLWhere, "ArticuloInventario.LineaDeProducto", valNombreLineaDeProducto);
             }
             if (!LibString.IsNullOrEmpty(valCodigoArticulo)) {
                 vSQLWhere = insUtilSql.SqlValueWithAnd(vSQLWhere, "ArticuloInventario.Codigo", valCodigoArticulo);

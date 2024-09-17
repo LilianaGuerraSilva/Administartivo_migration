@@ -13,7 +13,7 @@ using LibGalac.Aos.Base.Report;
 using Galac.Saw.Ccl.Inventario;
 
 namespace Galac.Saw.Rpt.Inventario {
-    
+
     public partial class dsrLoteDeInventarioVencidos : DataDynamics.ActiveReports.ActiveReport {
         #region Variables
         private bool _UseExternalRpx;
@@ -35,7 +35,7 @@ namespace Galac.Saw.Rpt.Inventario {
         #region Metodos Generados
 
         public string ReportTitle() {
-            return "Articulo Vencidos";
+            return "Artículos Vencidos";
         }
 
         public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {
@@ -53,41 +53,25 @@ namespace Galac.Saw.Rpt.Inventario {
                 LibReport.ChangeControlVisibility(this, "lblFechaInicialYFinal", false);
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
-
-				LibReport.ConfigFieldStr(this, "txtCodigoArticulo", string.Empty, "CodigoArticulo");
-				LibReport.ConfigFieldStr(this, "txtDescripcionArticulo", string.Empty, "DescripcionArticulo");
-                LibReport.ConfigFieldDec(this, "txtCantidad", string.Empty, "Existencia");
+                LibReport.ConfigFieldStr(this, "txtCodigoArticulo", string.Empty, "CodigoArticulo");
+                LibReport.ConfigFieldStr(this, "txtDescripcionArticulo", string.Empty, "DescripcionArticulo");
+                LibReport.ConfigFieldDec(this, "txtExistencia", string.Empty, "Existencia");
                 LibReport.ConfigFieldStr(this, "txtLoteDeInventario", string.Empty, "LoteDeInventario");
-				LibReport.ConfigFieldDate(this, "txtFechaDeVencimiento", string.Empty, "FechaDeVencimiento", "dd/MM/yyyy");
-                LibReport.ConfigFieldStr(this, "txtDiasVencido", string.Empty, "DiasVencido");
-
-				if (vCantidadAImprimir == eCantidadAImprimirArticulo.Articulo) {
-                    LibReport.ConfigGroupHeader(this, "GHSecNota", "CodigoArticulo", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
-                    LibReport.ConfigLabel(this, "lblArticuloLinea", "Código");
-                    LibReport.ConfigFieldStr(this, "txtArticuloLinea", string.Empty, "CodigoArticulo");
-                    LibReport.ChangeControlVisibility(this, "lblArticuloLinea", true);
-                    LibReport.ChangeControlVisibility(this, "txtArticuloLinea", true);
-                } else if (vCantidadAImprimir == eCantidadAImprimirArticulo.LineaDeProducto) {
-                    LibReport.ConfigGroupHeader(this, "GHSecNota", "LineaDeProducto", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
-                    LibReport.ConfigLabel(this, "lblArticuloLinea", "Línea De Producto");
-                    LibReport.ConfigFieldStr(this, "txtArticuloLinea", string.Empty, "LineaDeProducto");
-                    LibReport.ChangeControlVisibility(this, "lblArticuloLinea", true);
-                    LibReport.ChangeControlVisibility(this, "txtArticuloLinea", true);
-                } else {
+                LibReport.ConfigFieldDate(this, "txtFechaDeVencimiento", string.Empty, "FechaDeVencimiento", "dd/MM/yyyy");
+                LibReport.ConfigFieldStr(this, "txtDiasVencidos", string.Empty, "DiasVencidos");
+                LibReport.ConfigSummaryField(this, "txtTotalExistenciaVencida", "Existencia", SummaryFunc.Sum, "GHLineaDeProducto", SummaryRunning.Group, SummaryType.SubTotal);
+                if (vCantidadAImprimir != eCantidadAImprimirArticulo.LineaDeProducto) {
                     LibReport.ChangeControlVisibility(this, "lblArticuloLinea", false);
                     LibReport.ChangeControlVisibility(this, "txtArticuloLinea", false);
-                }
-				
-                LibReport.ConfigGroupHeader(this, "GHSecDetalle", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+                } else {
+                    LibReport.ConfigGroupHeader(this, "GHLineaDeProducto", "LineaDeProducto", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+                }                
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 return true;
             }
             return false;
         }
         #endregion //Metodos Generados
-
-
     } //End of class dsrLoteDeInventarioVencidos
-
 } //End of namespace Galac.Saw.Rpt.Inventario
 

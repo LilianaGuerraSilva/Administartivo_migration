@@ -47,6 +47,8 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
 
         public LibXmlMFC Mfc { get; set; }
 
+        public override bool IsSSRS { get { return false; } }
+
         public eCantidadAImprimirArticulo CantidadAImprimir {
             get {
                 return _CantidadAImprimir;
@@ -54,6 +56,14 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
             set {
                 if (_CantidadAImprimir != value) {
                     _CantidadAImprimir = value;
+                    if (_CantidadAImprimir == eCantidadAImprimirArticulo.Articulo) {
+                        LineaDeProducto = string.Empty;
+                    } else if (_CantidadAImprimir == eCantidadAImprimirArticulo.LineaDeProducto) {
+                        CodigoArticulo = string.Empty;
+                    } else {
+                        LineaDeProducto = string.Empty;
+                        CodigoArticulo = string.Empty;
+                    }
                     RaisePropertyChanged(CantidadAImprimirPropertyName);
                     RaisePropertyChanged(IsVisibleArticuloPropertyName);
                     RaisePropertyChanged(IsVisibleLineadeProductoPropertyName);
@@ -166,13 +176,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         #endregion //Propiedades
         #region Constructores
 
-        public clsLoteDeInventarioVencidosViewModel() {
-            #region Codigo Ejemplo
-            /* Codigo de Ejemplo
-                FechaDesde = LibDate.AddsNMonths(LibDate.Today(), - 1, false);
-                FechaHasta = LibDate.Today();
-            */
-            #endregion //Codigo Ejemplo
+        public clsLoteDeInventarioVencidosViewModel() {           
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -239,9 +243,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
             get {
                 return CantidadAImprimir == eCantidadAImprimirArticulo.LineaDeProducto;
             }
-        }
-
-        public override bool IsSSRS { get { return false; } }
+        }    
 
         private ValidationResult LineaDeProductoValidating() {
             ValidationResult vResult = ValidationResult.Success;
