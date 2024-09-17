@@ -176,7 +176,8 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         #endregion //Propiedades
         #region Constructores
 
-        public clsLoteDeInventarioVencidosViewModel() {           
+        public clsLoteDeInventarioVencidosViewModel() {
+            OrdenarFecha = eOrdenarFecha.Descendente;
         }
         #endregion //Constructores
         #region Metodos Generados

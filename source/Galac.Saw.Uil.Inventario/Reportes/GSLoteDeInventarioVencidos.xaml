@@ -32,7 +32,7 @@
             Name="lblCantidadAImprimir"
             Grid.Row="0"
             Grid.Column="0"
-            Content="Cantidad A Imprimir"
+            Content="Cantidad a Imprimir"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf
             Name="cmbCantidadAImprimir"
