@@ -623,6 +623,7 @@
                             <nsWpfControls:GSDataGrid
                                 Name="dgArticulo"
                                 Grid.Row="2"
+                                Grid.ColumnSpan="2"
                                 Height="220"
                                 MinWidth="250"
                                 MinHeight="200"

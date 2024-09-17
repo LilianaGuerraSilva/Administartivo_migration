@@ -102,7 +102,7 @@ namespace Galac.Adm.Brl.GestionCompras {
 
         protected override void FillWithForeignInfo(ref IList<OrdenDeCompra> refData) {
             FillWithForeignInfoOrdenDeCompra(ref refData);
-            //FillWithForeignInfoOrdenDeCompraDetalleArticuloInventario(ref refData);
+            FillWithForeignInfoOrdenDeCompraDetalleArticuloInventario(ref refData);
         }
         #region OrdenDeCompra
 
@@ -223,7 +223,8 @@ namespace Galac.Adm.Brl.GestionCompras {
                             CostoUnitario = vDetail.CostoUnitario,
                             CantidadRecibida = vDetail.CantidadRecibida,
                             TipoArticuloInv = vArticuloInventario.TipoDeArticuloInv,
-                            CodigoGrupo = vArticuloInventario.CodigoGrupo
+                            CodigoGrupo = vArticuloInventario.CodigoGrupo,
+                            TipoArticuloInvStr = LibEnumHelper.GetDescription(vArticuloInventario.TipoDeArticuloInv)
                         }).ToList<OrdenDeCompraDetalleArticuloInventario>());
             }
         }
