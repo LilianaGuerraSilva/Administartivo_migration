@@ -15,8 +15,7 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
         public string SqlArticulosPorVencer(int valConsecutivoCompania, string valLineaDeProducto, string valCodigoArticulo, int valDiasPorVencer, eOrdenarFecha valOrdenarFecha) {
             StringBuilder vSql = new StringBuilder();
             string vSQLWhere = "";
-            vSql.AppendLine("SELECT ");
-            vSql.AppendLine("ArticuloInventario.Codigo, ");
+            vSql.AppendLine("SELECT ArticuloInventario.Codigo, ");
             vSql.AppendLine("ArticuloInventario.Descripcion, ");
             vSql.AppendLine("ArticuloInventario.LineaDeProducto, ");
             vSql.AppendLine("LoteDeInventario.CodigoLote AS lote, ");
@@ -30,14 +29,14 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
             vSQLWhere = insUtilSql.SqlIntValueWithAnd(vSQLWhere, "LoteDeInventario.ConsecutivoCompania", valConsecutivoCompania);
             vSQLWhere = insUtilSql.SqlEnumValueWithAnd(vSQLWhere, "ArticuloInventario.TipoArticuloInv", (int)eTipoArticuloInv.LoteFechadeVencimiento);
             vSQLWhere = insUtilSql.SqlIntValueWithOperators(vSQLWhere, insUtilSql.DateDiff("day", insUtilSql.GetToday(), "LoteDeInventario.FechaDeVencimiento"), valDiasPorVencer, "AND", "<=");
-            vSQLWhere = insUtilSql.SqlExpressionValueWithAnd(vSQLWhere, "LoteDeInventario.Existencia", "0", "AND", ">");
+            vSQLWhere = insUtilSql.SqlExpressionValueWithAnd(vSQLWhere, "LoteDeInventario.Existencia", "0", "AND", ">=");
             if (!LibString.IsNullOrEmpty(valCodigoArticulo)) {
                 vSQLWhere = insUtilSql.SqlValueWithAnd(vSQLWhere, "ArticuloInventario.Codigo", valCodigoArticulo);
             }
             if (!LibString.IsNullOrEmpty(valLineaDeProducto)) {
                 vSQLWhere = insUtilSql.SqlValueWithAnd(vSQLWhere, "ArticuloInventario.LineaDeProducto", valLineaDeProducto);
             }
-            vSQLWhere = insUtilSql.SqlExpressionValueWithAnd(vSQLWhere, "LoteDeInventario.FechaDeVencimiento", insUtilSql.GetToday(), "AND", ">");
+            vSQLWhere = insUtilSql.SqlExpressionValueWithAnd(vSQLWhere, "LoteDeInventario.FechaDeVencimiento", insUtilSql.GetToday(), "AND", ">=");
             if (LibString.Len(vSQLWhere) > 0) {
                 vSql.AppendLine(insUtilSql.WhereSql(vSQLWhere));
             }
@@ -48,7 +47,7 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
         public string SqlLoteDeInventarioVencidos(int valConsecutivoCompania, string valNombreLineaDeProducto, string valCodigoArticulo, eOrdenarFecha valOrdenarFecha) {
             StringBuilder vSql = new StringBuilder();
             string vSQLWhere = "";
-            vSql.AppendLine(" SELECT ArticuloInventario.Codigo AS CodigoArticulo,");
+            vSql.AppendLine("SELECT ArticuloInventario.Codigo AS CodigoArticulo, ");
             vSql.AppendLine("ArticuloInventario.Descripcion AS DescripcionArticulo, ");
             vSql.AppendLine("ArticuloInventario.LineaDeProducto, ");
             vSql.AppendLine("LoteDeInventario.Existencia AS Existencia, ");
@@ -61,6 +60,7 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
             vSQLWhere = insUtilSql.SqlIntValueWithAnd(vSQLWhere, "LoteDeInventario.ConsecutivoCompania", valConsecutivoCompania);
             vSQLWhere = insUtilSql.SqlEnumValueWithAnd(vSQLWhere, "ArticuloInventario.TipoArticuloInv", (int)eTipoArticuloInv.LoteFechadeVencimiento);
             vSQLWhere = insUtilSql.SqlExpressionValueWithAnd(vSQLWhere, "LoteDeInventario.Existencia", "0", "AND", ">");
+            vSQLWhere = insUtilSql.SqlIntValueWithOperators(vSQLWhere, insUtilSql.DateDiff("day", "LoteDeInventario.FechaDeVencimiento", insUtilSql.GetToday()), 1, "AND", ">=");
             vSQLWhere = insUtilSql.SqlExpressionValueWithAnd(vSQLWhere, "LoteDeInventario.FechaDeVencimiento", insUtilSql.GetToday(), "AND", "<");
             if (!LibString.IsNullOrEmpty(valNombreLineaDeProducto)) {
                 vSQLWhere = insUtilSql.SqlValueWithAnd(vSQLWhere, "ArticuloInventario.LineaDeProducto", valNombreLineaDeProducto);
@@ -69,7 +69,7 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
                 vSQLWhere = insUtilSql.SqlValueWithAnd(vSQLWhere, "ArticuloInventario.Codigo", valCodigoArticulo);
             }
             vSql.AppendLine(insUtilSql.WhereSql(vSQLWhere));
-            vSql.AppendLine("ORDER BY LoteDeInventario.FechaDeVencimiento " + (valOrdenarFecha == eOrdenarFecha.Ascendente ? "ASC" : "DESC"));
+            vSql.AppendLine("ORDER BY LoteDeInventario.FechaDeVencimiento " + (valOrdenarFecha == eOrdenarFecha.Ascendente ? "ASC" : "DESC"));            
             return vSql.ToString();
         }
         #endregion //Metodos Generados
