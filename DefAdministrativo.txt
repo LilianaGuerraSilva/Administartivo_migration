@@ -4723,7 +4723,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 }
 
 
-{@R NotaDeEntradaSalida}NotaDeEntradaSalidaDeInventario = Reporte //Multiarchivo=Compania,"Nota de Entrada/Salida de Inventario",GENERATE
+{@R NotaDeEntradaSalida}NotaDeEntradaSalidaDeInventario = Reporte //Multiarchivo=Compania,"Nota de Entrada/Salida de Inventario"
     SecNota: section;
 	NumeroDocumento      : str11;//"N° Documento"
 	TipodeOperacion      : Str30;//"Operación"
@@ -4746,7 +4746,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 @GroupBy=NumeroDocumento
 }
 
-{@R LoteDeInventario} ArticulosPorVencer = Reporte //Multiarchivo=Compania,Componente=Inventario,"Lote de Inventario",GENERATE	
+{@R LoteDeInventario} ArticulosPorVencer = Reporte //Multiarchivo=Compania,Componente=Inventario,"Lote de Inventario"	
 	LineaProducto : section;
 	LineaDeProducto : Str30;"Linea De Producto"
 	Codigo : Str30;//"Código"
@@ -4757,3 +4757,23 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	DiasParaVencerse :	Int;//"Días para vencerse"   
 	{EndSeccion}  
 }
+
+{@R LoteDeInventario} MovimientoDeLoteInventario = Reporte //Multiarchivo=Compania,Componente=Inventario,"Movimientos de Lote de Inventario",GENERATE	
+	secArticulo : section;
+	Articulo : Str100;//"Artículo" 
+	secLote : section;			
+	CodigoArticulo : Str50;//"Código Artículo" 
+	Lote : Str30;//"Lote"
+	FechaVencimiento : Date;//"Fecha de Vencimiento"
+	FechaElaboracion : Date;//"Fecha de Elaboracion"
+	{EndSeccion}  
+	Fecha : Date;//"Fecha"
+	TipoMovimiento : Str50;//"Tipo de Movimiento"
+	NroDocumento : Str30;//"Número de Documento"
+	ExistenciaInicial : Decimal;//"Existencia Inicial"
+	Entrada : Decimal;//"Entrada"
+	Salida : Decimal;//"Salida"	
+	{EndSeccion}  
+}
+
+

@@ -72,6 +72,17 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
             vSql.AppendLine("ORDER BY LoteDeInventario.FechaDeVencimiento " + (valOrdenarFecha == eOrdenarFecha.Ascendente ? "ASC" : "DESC"));            
             return vSql.ToString();
         }
+		
+		public string SqlMovimientoDeLoteInventario(int valConsecutivoCompania, string valLoteDeInventario, string valCodigoArticulo, DateTime valFechaInicial, DateTime valFechaFinal) {
+            StringBuilder vSql = new StringBuilder();
+			string vSQLWhere = "";
+			vSql.AppendLine(" FROM Saw.Gv_LoteDeInventario_B1");
+			vSQLWhere = new QAdvSql("").SqlIntValueWithAnd(vSQLWhere, "Saw.Gv_LoteDeInventario_B1.ConsecutivoCompania", valConsecutivoCompania);
+			if (LibString.Len(vSQLWhere) > 0) {
+				vSql.AppendLine(" WHERE " + vSQLWhere);
+			}
+			return vSql.ToString();
+		}
         #endregion //Metodos Generados
     }
 } //End of namespace Galac.Saw.Brl.Inventario
