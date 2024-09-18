@@ -42,21 +42,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
 
         public override bool IsSSRS { get { return false; } }
 
-        public string  CodigoLote {
-            get {
-                return _CodigoLote;
-            }
-            set {
-                if (_CodigoLote != value) {
-                    _CodigoLote = value;                  
-                    RaisePropertyChanged(CodigoLotePropertyName);
-                    if (LibString.IsNullOrEmpty(CodigoLote, true)) {
-                        ConexionCodigoLote = null;
-                    }
-                }
-            }
-        }
-
+        [LibRequired(ErrorMessage = "El Código del Artículo es requerido.")]
         public string  CodigoArticulo {
             get {
                 return _CodigoArticulo;
@@ -67,6 +53,22 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
                     RaisePropertyChanged(CodigoArticuloPropertyName);
                     if (LibString.IsNullOrEmpty(CodigoArticulo, true)) {
                         ConexionCodigoArticulo = null;
+                    }
+                }
+            }
+        }
+
+        [LibRequired(ErrorMessage = "El Lote es requerido.")]
+        public string CodigoLote {
+            get {
+                return _CodigoLote;
+            }
+            set {
+                if (_CodigoLote != value) {
+                    _CodigoLote = value;
+                    RaisePropertyChanged(CodigoLotePropertyName);
+                    if (LibString.IsNullOrEmpty(CodigoLote, true)) {
+                        ConexionCodigoLote = null;
                     }
                 }
             }
@@ -96,8 +98,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
                 }
             }
         }
-
-        [LibRequired(ErrorMessage = "El Lote es requerido.")]
+       
         public FkLoteDeInventarioViewModel ConexionCodigoLote {
             get {
                 return _ConexionCodigoLote;
@@ -113,7 +114,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
             }
         }
 
-        [LibRequired(ErrorMessage = "El Código del Artículo es requerido.")]
+        
         public FkArticuloInventarioRptViewModel ConexionCodigoArticulo {
             get {
                 return _ConexionCodigoArticulo;
