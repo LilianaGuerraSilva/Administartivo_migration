@@ -24,6 +24,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
             AppMemoryInfo = initAppMemInfo;
             Mfc = initMfc;
             AvailableReports.Add(new clsArticulosPorVencerViewModel());
+            AvailableReports.Add(new clsLoteDeInventarioVencidosViewModel());
             Title = "Informes de Lote de Inventario";
         }
         #endregion //Constructores
@@ -33,6 +34,9 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
             ILibRpt vResult = null;
             if (SelectedReport is clsArticulosPorVencerViewModel) {
                 vResult = ConfigReportArticulosPorVencer(SelectedReport as clsArticulosPorVencerViewModel);
+                
+            }else if(SelectedReport is clsLoteDeInventarioVencidosViewModel) {
+                vResult = ConfigReportArticulosVencidos(SelectedReport as clsLoteDeInventarioVencidosViewModel);
             }
             return vResult;
         }
@@ -40,7 +44,17 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         private ILibRpt ConfigReportArticulosPorVencer(clsArticulosPorVencerViewModel valViewModel) {
             ILibRpt vResult = null;
             if (valViewModel != null) {
-                vResult = new Galac.Saw.Rpt.Inventario.clsArticulosPorVencer(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.LineaDeProducto, valViewModel.CodigoArticulo, valViewModel.DiasParaVencerse, valViewModel.CantidadAImprimir, valViewModel.OrdenarFecha) {
+                vResult = new Rpt.Inventario.clsArticulosPorVencer(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.LineaDeProducto, valViewModel.CodigoArticulo, valViewModel.DiasParaVencerse, valViewModel.CantidadAImprimir, valViewModel.OrdenarFecha) {
+                    Worker = Manager
+                };
+            }
+            return vResult;
+        }
+
+        private ILibRpt ConfigReportArticulosVencidos(clsLoteDeInventarioVencidosViewModel valViewModel) {
+            ILibRpt vResult = null;
+            if (valViewModel != null) {
+                vResult = new Rpt.Inventario.clsLoteDeInventarioVencidos(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.LineaDeProducto, valViewModel.CodigoArticulo, valViewModel.CantidadAImprimir, valViewModel.OrdenarFecha) {
                     Worker = Manager
                 };
             }
