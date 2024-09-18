@@ -147,7 +147,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         private bool CanExecuteInformesCommand() {
-            return LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 18), "Informes");
+            return CurrentItem != null && LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 18), "Informes");
         }
 
         private void ExecuteInformesCommand() {
