@@ -35,8 +35,8 @@ namespace Galac.Saw.Rpt.Inventario {
             this.lblFechaInicialYFinal = new DataDynamics.ActiveReports.Label();
             this.PageFooter = new DataDynamics.ActiveReports.PageFooter();
             this.GHLineaDeProducto = new DataDynamics.ActiveReports.GroupHeader();
-            this.lblArticuloLinea = new DataDynamics.ActiveReports.Label();
-            this.txtArticuloLinea = new DataDynamics.ActiveReports.TextBox();
+            this.lblLineaDeProducto = new DataDynamics.ActiveReports.Label();
+            this.txtLineaDeProducto = new DataDynamics.ActiveReports.TextBox();
             this.lblCodigoArticulo = new DataDynamics.ActiveReports.Label();
             this.lblDescripcionArticulo = new DataDynamics.ActiveReports.Label();
             this.lblCantidad = new DataDynamics.ActiveReports.Label();
@@ -57,8 +57,8 @@ namespace Galac.Saw.Rpt.Inventario {
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaYHoraDeEmision)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTituloInforme)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaInicialYFinal)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblArticuloLinea)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtArticuloLinea)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblLineaDeProducto)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtLineaDeProducto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCodigoArticulo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblDescripcionArticulo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidad)).BeginInit();
@@ -216,8 +216,8 @@ namespace Galac.Saw.Rpt.Inventario {
             // GHLineaDeProducto
             // 
             this.GHLineaDeProducto.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
-            this.lblArticuloLinea,
-            this.txtArticuloLinea,
+            this.lblLineaDeProducto,
+            this.txtLineaDeProducto,
             this.lblCodigoArticulo,
             this.lblDescripcionArticulo,
             this.lblCantidad,
@@ -227,26 +227,26 @@ namespace Galac.Saw.Rpt.Inventario {
             this.GHLineaDeProducto.Height = 0.31225F;
             this.GHLineaDeProducto.Name = "GHLineaDeProducto";
             // 
-            // lblArticuloLinea
+            // lblLineaDeProducto
             // 
-            this.lblArticuloLinea.Height = 0.15625F;
-            this.lblArticuloLinea.HyperLink = null;
-            this.lblArticuloLinea.Left = 0F;
-            this.lblArticuloLinea.Name = "lblArticuloLinea";
-            this.lblArticuloLinea.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
-            this.lblArticuloLinea.Text = "Línea de Producto";
-            this.lblArticuloLinea.Top = 0F;
-            this.lblArticuloLinea.Width = 1.342F;
+            this.lblLineaDeProducto.Height = 0.15625F;
+            this.lblLineaDeProducto.HyperLink = null;
+            this.lblLineaDeProducto.Left = 0F;
+            this.lblLineaDeProducto.Name = "lblLineaDeProducto";
+            this.lblLineaDeProducto.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
+            this.lblLineaDeProducto.Text = "Línea de Producto";
+            this.lblLineaDeProducto.Top = 0F;
+            this.lblLineaDeProducto.Width = 1.342F;
             // 
-            // txtArticuloLinea
+            // txtLineaDeProducto
             // 
-            this.txtArticuloLinea.Height = 0.15625F;
-            this.txtArticuloLinea.Left = 1.342F;
-            this.txtArticuloLinea.Name = "txtArticuloLinea";
-            this.txtArticuloLinea.Style = "font-size: 8pt; ddo-char-set: 1";
-            this.txtArticuloLinea.Text = "txtArticuloLinea";
-            this.txtArticuloLinea.Top = 0F;
-            this.txtArticuloLinea.Width = 2.824F;
+            this.txtLineaDeProducto.Height = 0.15625F;
+            this.txtLineaDeProducto.Left = 1.342F;
+            this.txtLineaDeProducto.Name = "txtLineaDeProducto";
+            this.txtLineaDeProducto.Style = "font-size: 8pt; ddo-char-set: 1";
+            this.txtLineaDeProducto.Text = "txtLineaDeProducto";
+            this.txtLineaDeProducto.Top = 0F;
+            this.txtLineaDeProducto.Width = 2.824F;
             // 
             // lblCodigoArticulo
             // 
@@ -289,7 +289,7 @@ namespace Galac.Saw.Rpt.Inventario {
             this.lblFechaDeVencimiento.Name = "lblFechaDeVencimiento";
             this.lblFechaDeVencimiento.Style = "font-size: 8.25pt; font-weight: bold; text-align: right; ddo-char-set: 0";
             this.lblFechaDeVencimiento.Text = "Fecha de Vencimiento";
-            this.lblFechaDeVencimiento.Top = 0F;
+            this.lblFechaDeVencimiento.Top = 2.980232E-08F;
             this.lblFechaDeVencimiento.Width = 0.7189999F;
             // 
             // lblDiasVencidos
@@ -300,7 +300,7 @@ namespace Galac.Saw.Rpt.Inventario {
             this.lblDiasVencidos.Name = "lblDiasVencidos";
             this.lblDiasVencidos.Style = "font-size: 8.25pt; font-weight: bold; text-align: right; ddo-char-set: 0";
             this.lblDiasVencidos.Text = "Días Vencidos";
-            this.lblDiasVencidos.Top = 0F;
+            this.lblDiasVencidos.Top = 2.980232E-08F;
             this.lblDiasVencidos.Width = 0.6349998F;
             // 
             // lblLoteDeInventario
@@ -374,8 +374,8 @@ namespace Galac.Saw.Rpt.Inventario {
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaYHoraDeEmision)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTituloInforme)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaInicialYFinal)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblArticuloLinea)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtArticuloLinea)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblLineaDeProducto)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtLineaDeProducto)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCodigoArticulo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblDescripcionArticulo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidad)).EndInit();
@@ -405,8 +405,8 @@ namespace Galac.Saw.Rpt.Inventario {
         private DataDynamics.ActiveReports.TextBox txtLoteDeInventario;
         private DataDynamics.ActiveReports.TextBox txtFechaDeVencimiento;
         private DataDynamics.ActiveReports.TextBox txtExistencia;
-        private DataDynamics.ActiveReports.Label lblArticuloLinea;
-        private DataDynamics.ActiveReports.TextBox txtArticuloLinea;
+        private DataDynamics.ActiveReports.Label lblLineaDeProducto;
+        private DataDynamics.ActiveReports.TextBox txtLineaDeProducto;
         private DataDynamics.ActiveReports.TextBox txtDiasVencidos;
         private DataDynamics.ActiveReports.Label lblCodigoArticulo;
         private DataDynamics.ActiveReports.Label lblDescripcionArticulo;

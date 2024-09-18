@@ -59,10 +59,11 @@ namespace Galac.Saw.Rpt.Inventario {
                 LibReport.ConfigFieldStr(this, "txtLoteDeInventario", string.Empty, "LoteDeInventario");
                 LibReport.ConfigFieldDate(this, "txtFechaDeVencimiento", string.Empty, "FechaDeVencimiento", "dd/MM/yyyy");
                 LibReport.ConfigFieldStr(this, "txtDiasVencidos", string.Empty, "DiasVencidos");
+                LibReport.ConfigFieldStr(this, "txtLineaDeProducto", string.Empty, "LineaDeProducto");                
                 LibReport.ConfigSummaryField(this, "txtTotalExistenciaVencida", "Existencia", SummaryFunc.Sum, "GHLineaDeProducto", SummaryRunning.Group, SummaryType.SubTotal);
                 if (vCantidadAImprimir != eCantidadAImprimirArticulo.LineaDeProducto) {
-                    LibReport.ChangeControlVisibility(this, "lblArticuloLinea", false);
-                    LibReport.ChangeControlVisibility(this, "txtArticuloLinea", false);
+                    LibReport.ChangeControlVisibility(this, "lblLineaDeProducto", false);
+                    LibReport.ChangeControlVisibility(this, "txtLineaDeProducto", false);
                 } else {
                     LibReport.ConfigGroupHeader(this, "GHLineaDeProducto", "LineaDeProducto", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
                 }                
