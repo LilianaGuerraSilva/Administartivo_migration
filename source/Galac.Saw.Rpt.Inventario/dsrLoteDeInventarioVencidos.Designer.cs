@@ -287,7 +287,8 @@ namespace Galac.Saw.Rpt.Inventario {
             this.lblFechaDeVencimiento.HyperLink = null;
             this.lblFechaDeVencimiento.Left = 6.156F;
             this.lblFechaDeVencimiento.Name = "lblFechaDeVencimiento";
-            this.lblFechaDeVencimiento.Style = "font-size: 8.25pt; font-weight: bold; text-align: right; ddo-char-set: 0";
+            this.lblFechaDeVencimiento.Style = "font-size: 8.25pt; font-weight: bold; text-align: right; vertical-align: bottom; " +
+    "ddo-char-set: 0";
             this.lblFechaDeVencimiento.Text = "Fecha de Vencimiento";
             this.lblFechaDeVencimiento.Top = 2.980232E-08F;
             this.lblFechaDeVencimiento.Width = 0.7189999F;
@@ -298,7 +299,8 @@ namespace Galac.Saw.Rpt.Inventario {
             this.lblDiasVencidos.HyperLink = null;
             this.lblDiasVencidos.Left = 6.875F;
             this.lblDiasVencidos.Name = "lblDiasVencidos";
-            this.lblDiasVencidos.Style = "font-size: 8.25pt; font-weight: bold; text-align: right; ddo-char-set: 0";
+            this.lblDiasVencidos.Style = "font-size: 8.25pt; font-weight: bold; text-align: right; vertical-align: bottom; " +
+    "ddo-char-set: 0";
             this.lblDiasVencidos.Text = "Días Vencidos";
             this.lblDiasVencidos.Top = 2.980232E-08F;
             this.lblDiasVencidos.Width = 0.6349998F;
