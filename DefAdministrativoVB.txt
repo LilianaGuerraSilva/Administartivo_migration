@@ -646,7 +646,7 @@ MenuDeInformes : boolean;
    @PrimaryKey=NombreDelUsuario
 }
 
-{@S}Compania = Record //"Compañía",Female, CONTROLADORMULTIARCHIVO=ConsecutivoCompania,Generate
+{@S}Compania = Record //"Compañía",Female, CONTROLADORMULTIARCHIVO=ConsecutivoCompania
    ConsecutivoCompania      : LongInt;//o,HIDE,sugestConsecutive
    Codigo                   : Str4;  //u,g,o,"Código",sugestConsecutive,SEARCH
    Nombre                   : Str50; //u,g,o,SEARCH
@@ -2675,7 +2675,7 @@ MenuDeInformes : boolean;
    @PrimaryKey=ConsecutivoCompania,NumeroAutorizacion
 }	
 
-{@M}ConteoFisico = record //Multiarchivo=Compania,
+{@M}ConteoFisico = record //Multiarchivo=Compania, GENERATE
     ConsecutivoCompania    : Longint; //o,HIDE
     ConsecutivoConteo      : longint;//a,o,"Consecutivo Conteo", sugestConsecutive, u
     Fecha           	 	: unFecha;//O,G,"Fecha ",Search
@@ -2688,11 +2688,12 @@ MenuDeInformes : boolean;
     @PrimaryKey=ConsecutivoCompania,ConsecutivoConteo
 }
 
-{@D ConteoFisico}RenglonConteoFisico = record //Multiarchivo=Compania
+{@D ConteoFisico}RenglonConteoFisico = record //Multiarchivo=Compania, GENERATE
     ConsecutivoCompania     : Longint; //HIDE
     ConsecutivoConteo       : longint;//o,v
     ConsecutivoRenglon      : Longint; //o,v
     CodigoArticulo          : str15; //g,o,=ArticuloInventario.Codigo,"Código Inventario"
+    CodigoLote              : str30; //g
     ExistenciaEnElComputador: Double;//g
     ExistenciaFisica        : Double;//g
     Diferencia              : Double;//g
