@@ -42,7 +42,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         #region Propiedades
 
         public override string DisplayName {            
-            get { return "Artículos Por Vencer"; }
+            get { return "Artículos por Vencer"; }
         }
 
         public LibXmlMemInfo AppMemoryInfo { get; set; }
