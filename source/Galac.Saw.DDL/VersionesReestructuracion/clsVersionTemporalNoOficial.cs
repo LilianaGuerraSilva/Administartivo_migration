@@ -18,12 +18,13 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
 		public override bool UpdateToVersion() {
 			StartConnectionNoTransaction();
-			AgregarColumnasEnCompania();
+            AgregarColumnasEnCompania();
             CreacionDeParametros();
             CrearLoteDeInventario();
-			AjustesNotaEntradaSalida();
+            AjustesNotaEntradaSalida();
             AjustesRenglonFactura();
             AjustesRenglonCompra();
+            AjustesRenglonConteoFisico();
             DisposeConnectionNoTransaction();
 			return true;
 		}
@@ -107,6 +108,13 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             if (!ColumnExists("Adm.CompraDetalleArticuloInventario", "ConsecutivoLoteDeInventario")) {
                 AddColumnInteger("Adm.CompraDetalleArticuloInventario", "ConsecutivoLoteDeInventario", "", 0);
                 AddDefaultConstraint("Adm.CompraDetalleArticuloInventario", "d_ComDetArtInvCoLoIn", "0", "ConsecutivoLoteDeInventario");
+            }
+        }
+        private void AjustesRenglonConteoFisico()
+        {
+            if (!ColumnExists("RenglonConteoFisico", "CodigoLote"))
+            {
+                AddColumnString("RenglonConteoFisico", "CodigoLote", 30, "", "");
             }
         }
     }
