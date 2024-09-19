@@ -8,6 +8,7 @@ namespace Galac.Saw.Ccl.Inventario {
 
     public interface ILoteDeInventarioInformes {
         System.Data.DataTable BuildArticulosPorVencer(int valConsecutivoCompania, string valLineaDeProducto, string valCodigoArticulo, int valDiasPorVencer,eOrdenarFecha valOrdenarFecha);
+		System.Data.DataTable BuildLoteDeInventarioVencidos(int valConsecutivoCompania, string valLineaDeProducto, string valCodigoArticulo,eOrdenarFecha valOrdenarFecha);
     }
 } //End of namespace Galac.Saw.Ccl.Inventario
 
