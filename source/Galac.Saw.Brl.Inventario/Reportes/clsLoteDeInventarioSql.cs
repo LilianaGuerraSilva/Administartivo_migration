@@ -73,7 +73,7 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
             return vSql.ToString();
         }
 
-        private string SqlWhereMovimientoDeInventario(int valConsecutivoCompania, string valLoteDeInventario, string valCodigoArticulo, DateTime valFechaInicial, DateTime valFechaFinal, eTipodeOperacion valTipodeOperacion) {
+        private string SqlWhereMovimientoDeInventario(int valConsecutivoCompania, string valLoteDeInventario, string valCodigoArticulo, DateTime valFechaInicial, DateTime valFechaFinal, eTipodeOperacion valTipodeOperacion, bool valSqlMovFacturas) {
             string vSQLWhere = "";
             vSQLWhere = insUtilSql.SqlIntValueWithAnd(vSQLWhere, "LoteDeInventarioMovimiento.ConsecutivoCompania", valConsecutivoCompania);
             vSQLWhere = insUtilSql.SqlEnumValueWithAnd(vSQLWhere, "LoteDeInventarioMovimiento.TipoOperacion", (int)valTipodeOperacion);
@@ -81,15 +81,28 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
             vSQLWhere = insUtilSql.SqlValueWithAnd(vSQLWhere, "LoteDeInventario.CodigoLote", valLoteDeInventario);
             vSQLWhere = insUtilSql.SqlValueWithAnd(vSQLWhere, "LoteDeInventario.CodigoArticulo", valCodigoArticulo);
             vSQLWhere = insUtilSql.SqlDateValueBetween(vSQLWhere, "LoteDeInventarioMovimiento.Fecha", valFechaInicial, valFechaFinal);
+            if (valSqlMovFacturas) {
+                vSQLWhere = insUtilSql.SqlEnumValueWithAnd(vSQLWhere, "Factura.GeneradaPorNotaEntrega", (int)'0');
+                vSQLWhere = insUtilSql.SqlEnumValueWithAnd(vSQLWhere, "LoteDeInventarioMovimiento.Modulo", (int)eOrigenLoteInv.Factura);
+            } else {
+                vSQLWhere = insUtilSql.SqlEnumValueWithOperators(vSQLWhere, "LoteDeInventarioMovimiento.Modulo", (int)eOrigenLoteInv.Factura, "AND", "<>");
+            }
             vSQLWhere = insUtilSql.WhereSql(vSQLWhere);
             return vSQLWhere;
         }
-        private string SqlSelectMovimientoDeLoteInventario(string valSqlWhere) {
+
+        private string SqlSelectMovimientoDeLoteInventario(string valSqlWhere, bool valSqlMovFacturas, eTipodeOperacion valTipoOperacion) {
             string vTipoMovimiento = $"CASE WHEN Modulo={insUtilSql.EnumToSqlValue((int)eOrigenLoteInv.Factura)} THEN 'Factura' WHEN Modulo={insUtilSql.EnumToSqlValue((int)eOrigenLoteInv.NotaDeCredito)} THEN 'Nota de Crédito' WHEN Modulo={insUtilSql.EnumToSqlValue((int)eOrigenLoteInv.NotaDeDebito)} THEN 'Nota de Débito' WHEN Modulo={insUtilSql.EnumToSqlValue((int)eOrigenLoteInv.NotaDeEntrega)} THEN 'Nota de Entrega' WHEN Modulo={insUtilSql.EnumToSqlValue((int)eOrigenLoteInv.Produccion)} THEN 'Producción' WHEN Modulo={insUtilSql.EnumToSqlValue((int)eOrigenLoteInv.NotaEntradaSalida)} THEN 'Nota de Entrada/Salida' WHEN Modulo={insUtilSql.EnumToSqlValue((int)eOrigenLoteInv.Compra)} THEN 'Compra' WHEN Modulo={insUtilSql.EnumToSqlValue((int)eOrigenLoteInv.ConteoFisico)} THEN 'Conteo Físico' END AS TipoMovimiento, ";
             StringBuilder vSql = new StringBuilder();
-            vSql.AppendLine("SELECT Fecha AS FechaMovimiento,");
-            vSql.AppendLine("Cantidad AS Entrada,");
-            vSql.AppendLine("0 AS Salida,");
+            vSql.AppendLine("SELECT LoteDeInventarioMovimiento.Fecha AS FechaMovimiento,");
+            if (valTipoOperacion == eTipodeOperacion.EntradadeInventario) {
+                vSql.AppendLine("Cantidad AS Entrada,");
+                vSql.AppendLine("0 AS Salida,");
+
+            } else if (valTipoOperacion == eTipodeOperacion.SalidadeInventario) {
+                vSql.AppendLine("0 AS Entrada,");
+                vSql.AppendLine("Cantidad AS Salida,");
+            }
             vSql.AppendLine("NumeroDocumentoOrigen AS NroDocumento,");
             vSql.AppendLine(vTipoMovimiento);
             vSql.AppendLine("LoteDeInventario.CodigoLote AS Lote,");
@@ -104,17 +117,25 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
             vSql.AppendLine("LEFT JOIN ArticuloInventario ON");
             vSql.AppendLine("LoteDeInventario.CodigoArticulo = ArticuloInventario.Codigo AND");
             vSql.AppendLine("LoteDeInventario.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania");
+            if (valSqlMovFacturas) {
+                vSql.AppendLine("LEFT JOIN Factura ON ");
+                vSql.AppendLine("LoteDeInventarioMovimiento.NumeroDocumentoOrigen = Factura.Numero AND ");
+                vSql.AppendLine("LoteDeInventarioMovimiento.ConsecutivoCompania = Factura.ConsecutivoCompania ");
+            }
             vSql.AppendLine(valSqlWhere);
             return vSql.ToString();
         }
 
         public string SqlMovimientoDeLoteInventario(int valConsecutivoCompania, string valLoteDeInventario, string valCodigoArticulo, DateTime valFechaInicial, DateTime valFechaFinal) {
             StringBuilder vSql = new StringBuilder();
-            string vSQLWhere = SqlWhereMovimientoDeInventario(valConsecutivoCompania, valLoteDeInventario, valCodigoArticulo, valFechaInicial, valFechaFinal, eTipodeOperacion.EntradadeInventario);
-            vSql.AppendLine(SqlSelectMovimientoDeLoteInventario(vSQLWhere));
+            string vSQLWhere = SqlWhereMovimientoDeInventario(valConsecutivoCompania, valLoteDeInventario, valCodigoArticulo, valFechaInicial, valFechaFinal, eTipodeOperacion.EntradadeInventario, false);
+            vSql.AppendLine(SqlSelectMovimientoDeLoteInventario(vSQLWhere, false, eTipodeOperacion.EntradadeInventario));
             vSql.AppendLine("UNION");
-            vSQLWhere = SqlWhereMovimientoDeInventario(valConsecutivoCompania, valLoteDeInventario, valCodigoArticulo, valFechaInicial, valFechaFinal, eTipodeOperacion.SalidadeInventario);
-            vSql.AppendLine(SqlSelectMovimientoDeLoteInventario(vSQLWhere));           
+            vSQLWhere = SqlWhereMovimientoDeInventario(valConsecutivoCompania, valLoteDeInventario, valCodigoArticulo, valFechaInicial, valFechaFinal, eTipodeOperacion.SalidadeInventario, false);
+            vSql.AppendLine(SqlSelectMovimientoDeLoteInventario(vSQLWhere, false, eTipodeOperacion.SalidadeInventario));
+            vSql.AppendLine("UNION");
+            vSQLWhere = SqlWhereMovimientoDeInventario(valConsecutivoCompania, valLoteDeInventario, valCodigoArticulo, valFechaInicial, valFechaFinal, eTipodeOperacion.SalidadeInventario, true);
+            vSql.AppendLine(SqlSelectMovimientoDeLoteInventario(vSQLWhere, true, eTipodeOperacion.SalidadeInventario));
             vSql.AppendLine("ORDER BY LoteDeInventarioMovimiento.Fecha ASC");
             string vPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\InvMov.Sql";
             LibFile.WriteLineInFile(vPath, vSql.ToString(), false);
