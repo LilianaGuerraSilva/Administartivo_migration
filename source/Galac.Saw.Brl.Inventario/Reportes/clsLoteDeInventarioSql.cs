@@ -82,7 +82,7 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
             vSQLWhere = insUtilSql.SqlValueWithAnd(vSQLWhere, "LoteDeInventario.CodigoArticulo", valCodigoArticulo);
             vSQLWhere = insUtilSql.SqlDateValueBetween(vSQLWhere, "LoteDeInventarioMovimiento.Fecha", valFechaInicial, valFechaFinal);
             if (valSqlMovFacturas) {
-                vSQLWhere = insUtilSql.SqlEnumValueWithAnd(vSQLWhere, "Factura.GeneradaPorNotaEntrega", (int)'0');
+                vSQLWhere = insUtilSql.SqlEnumValueWithAnd(vSQLWhere, "Factura.GeneradaPorNotaEntrega", 0);
                 vSQLWhere = insUtilSql.SqlEnumValueWithAnd(vSQLWhere, "LoteDeInventarioMovimiento.Modulo", (int)eOrigenLoteInv.Factura);
             } else {
                 vSQLWhere = insUtilSql.SqlEnumValueWithOperators(vSQLWhere, "LoteDeInventarioMovimiento.Modulo", (int)eOrigenLoteInv.Factura, "AND", "<>");
