@@ -34,7 +34,7 @@ namespace Galac.Saw.Rpt.Inventario {
         #region Metodos Generados
 
         public string ReportTitle() {
-            return "Lote de Inventario";
+            return "Movimientos de Lote de Inventario";
         }
 
         public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {

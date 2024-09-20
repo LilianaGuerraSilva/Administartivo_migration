@@ -471,6 +471,7 @@ namespace Galac.Saw.Rpt.Inventario
             // 
             // txtTotalEntrada
             // 
+            this.txtTotalEntrada.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Double;
             this.txtTotalEntrada.Height = 0.15625F;
             this.txtTotalEntrada.Left = 4.989F;
             this.txtTotalEntrada.Name = "txtTotalEntrada";
@@ -481,6 +482,7 @@ namespace Galac.Saw.Rpt.Inventario
             // 
             // txtTotalSalida
             // 
+            this.txtTotalSalida.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Double;
             this.txtTotalSalida.Height = 0.156F;
             this.txtTotalSalida.Left = 6.228001F;
             this.txtTotalSalida.Name = "txtTotalSalida";
@@ -491,6 +493,7 @@ namespace Galac.Saw.Rpt.Inventario
             // 
             // lblTotales
             // 
+            this.lblTotales.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Double;
             this.lblTotales.Height = 0.15625F;
             this.lblTotales.HyperLink = null;
             this.lblTotales.Left = 3.593F;
