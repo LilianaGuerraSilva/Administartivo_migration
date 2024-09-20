@@ -39,14 +39,14 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblTituloInforme = new DataDynamics.ActiveReports.Label();
             this.lblFechaInicialYFinal = new DataDynamics.ActiveReports.Label();
             this.PageFooter = new DataDynamics.ActiveReports.PageFooter();
-            this.GHsecArticulo = new DataDynamics.ActiveReports.GroupHeader();
+            this.GHSecArticulo = new DataDynamics.ActiveReports.GroupHeader();
             this.lblArticulo = new DataDynamics.ActiveReports.Label();
             this.txtArticulo = new DataDynamics.ActiveReports.TextBox();
             this.txtCodigoArticulo = new DataDynamics.ActiveReports.TextBox();
-            this.GFsecArticulo = new DataDynamics.ActiveReports.GroupFooter();
+            this.GFSecArticulo = new DataDynamics.ActiveReports.GroupFooter();
             this.txtExistenciaFinal = new DataDynamics.ActiveReports.TextBox();
             this.lblExistenciaFinal = new DataDynamics.ActiveReports.Label();
-            this.GHsecLote = new DataDynamics.ActiveReports.GroupHeader();
+            this.GHSecLote = new DataDynamics.ActiveReports.GroupHeader();
             this.lblLote = new DataDynamics.ActiveReports.Label();
             this.lblTipoMovimiento = new DataDynamics.ActiveReports.Label();
             this.lblEntrada = new DataDynamics.ActiveReports.Label();
@@ -54,12 +54,12 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblFecha = new DataDynamics.ActiveReports.Label();
             this.lblNroDocumento = new DataDynamics.ActiveReports.Label();
             this.txtLote = new DataDynamics.ActiveReports.TextBox();
-            this.lblFechaElaboracion = new DataDynamics.ActiveReports.Label();
             this.txtFechaElaboracion = new DataDynamics.ActiveReports.TextBox();
             this.lblFechaVencimiento = new DataDynamics.ActiveReports.Label();
             this.txtFechaVencimiento = new DataDynamics.ActiveReports.TextBox();
             this.lblExistenciaInicial = new DataDynamics.ActiveReports.Label();
-            this.GFsecLote = new DataDynamics.ActiveReports.GroupFooter();
+            this.lblFechaElaboracion = new DataDynamics.ActiveReports.Label();
+            this.GFSecLote = new DataDynamics.ActiveReports.GroupFooter();
             this.txtTotalEntrada = new DataDynamics.ActiveReports.TextBox();
             this.txtTotalSalida = new DataDynamics.ActiveReports.TextBox();
             this.lblTotales = new DataDynamics.ActiveReports.Label();
@@ -86,11 +86,11 @@ namespace Galac.Saw.Rpt.Inventario
             ((System.ComponentModel.ISupportInitialize)(this.lblFecha)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblNroDocumento)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLote)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblFechaElaboracion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFechaElaboracion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaVencimiento)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFechaVencimiento)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblExistenciaInicial)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblFechaElaboracion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalEntrada)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalSalida)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotales)).BeginInit();
@@ -237,14 +237,14 @@ namespace Galac.Saw.Rpt.Inventario
             this.PageFooter.Height = 0F;
             this.PageFooter.Name = "PageFooter";
             // 
-            // GHsecArticulo
+            // GHSecArticulo
             // 
-            this.GHsecArticulo.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
+            this.GHSecArticulo.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
             this.lblArticulo,
             this.txtArticulo,
             this.txtCodigoArticulo});
-            this.GHsecArticulo.Height = 0.3333333F;
-            this.GHsecArticulo.Name = "GHsecArticulo";
+            this.GHSecArticulo.Height = 0.3333333F;
+            this.GHSecArticulo.Name = "GHSecArticulo";
             // 
             // lblArticulo
             // 
@@ -277,13 +277,14 @@ namespace Galac.Saw.Rpt.Inventario
             this.txtCodigoArticulo.Top = 0.177F;
             this.txtCodigoArticulo.Width = 1.572F;
             // 
-            // GFsecArticulo
+            // GFSecArticulo
             // 
-            this.GFsecArticulo.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
+            this.GFSecArticulo.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
             this.txtExistenciaFinal,
             this.lblExistenciaFinal});
-            this.GFsecArticulo.Height = 0.15625F;
-            this.GFsecArticulo.Name = "GFsecArticulo";
+            this.GFSecArticulo.Height = 0.15625F;
+            this.GFSecArticulo.Name = "GFSecArticulo";
+            this.GFSecArticulo.Format += new System.EventHandler(this.GFSecArticulo_Format);
             // 
             // txtExistenciaFinal
             // 
@@ -306,9 +307,9 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblExistenciaFinal.Top = 0F;
             this.lblExistenciaFinal.Width = 1.396F;
             // 
-            // GHsecLote
+            // GHSecLote
             // 
-            this.GHsecLote.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
+            this.GHSecLote.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
             this.lblLote,
             this.lblTipoMovimiento,
             this.lblEntrada,
@@ -322,8 +323,8 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblExistenciaInicial,
             this.txtExistenciaInicial,
             this.lblFechaElaboracion});
-            this.GHsecLote.Height = 0.625F;
-            this.GHsecLote.Name = "GHsecLote";
+            this.GHSecLote.Height = 0.625F;
+            this.GHSecLote.Name = "GHSecLote";
             // 
             // lblLote
             // 
@@ -406,17 +407,6 @@ namespace Galac.Saw.Rpt.Inventario
             this.txtLote.Top = 0F;
             this.txtLote.Width = 1.572F;
             // 
-            // lblFechaElaboracion
-            // 
-            this.lblFechaElaboracion.Height = 0.15625F;
-            this.lblFechaElaboracion.HyperLink = null;
-            this.lblFechaElaboracion.Left = 4.989F;
-            this.lblFechaElaboracion.Name = "lblFechaElaboracion";
-            this.lblFechaElaboracion.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
-            this.lblFechaElaboracion.Text = "Fecha de Elaboracion";
-            this.lblFechaElaboracion.Top = 0.156F;
-            this.lblFechaElaboracion.Width = 1.239F;
-            // 
             // txtFechaElaboracion
             // 
             this.txtFechaElaboracion.Height = 0.15625F;
@@ -459,14 +449,25 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblExistenciaInicial.Top = 0.312F;
             this.lblExistenciaInicial.Width = 1.239F;
             // 
-            // GFsecLote
+            // lblFechaElaboracion
             // 
-            this.GFsecLote.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
+            this.lblFechaElaboracion.Height = 0.15625F;
+            this.lblFechaElaboracion.HyperLink = null;
+            this.lblFechaElaboracion.Left = 4.989F;
+            this.lblFechaElaboracion.Name = "lblFechaElaboracion";
+            this.lblFechaElaboracion.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
+            this.lblFechaElaboracion.Text = "Fecha de Elaboracion";
+            this.lblFechaElaboracion.Top = 0.156F;
+            this.lblFechaElaboracion.Width = 1.239F;
+            // 
+            // GFSecLote
+            // 
+            this.GFSecLote.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
             this.txtTotalEntrada,
             this.txtTotalSalida,
             this.lblTotales});
-            this.GFsecLote.Height = 0.15625F;
-            this.GFsecLote.Name = "GFsecLote";
+            this.GFSecLote.Height = 0.15625F;
+            this.GFSecLote.Name = "GFSecLote";
             // 
             // txtTotalEntrada
             // 
@@ -506,11 +507,11 @@ namespace Galac.Saw.Rpt.Inventario
             this.PageSettings.PaperWidth = 8.5F;
             this.PrintWidth = 7.584333F;
             this.Sections.Add(this.PageHeader);
-            this.Sections.Add(this.GHsecArticulo);
-            this.Sections.Add(this.GHsecLote);
+            this.Sections.Add(this.GHSecArticulo);
+            this.Sections.Add(this.GHSecLote);
             this.Sections.Add(this.Detail);
-            this.Sections.Add(this.GFsecLote);
-            this.Sections.Add(this.GFsecArticulo);
+            this.Sections.Add(this.GFSecLote);
+            this.Sections.Add(this.GFSecArticulo);
             this.Sections.Add(this.PageFooter);
             this.StyleSheet.Add(new DDCssLib.StyleSheetRule("font-family: Arial; font-style: normal; text-decoration: none; font-weight: norma" +
             "l; font-size: 10pt; color: Black", "Normal"));
@@ -541,11 +542,11 @@ namespace Galac.Saw.Rpt.Inventario
             ((System.ComponentModel.ISupportInitialize)(this.lblFecha)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblNroDocumento)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLote)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblFechaElaboracion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFechaElaboracion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaVencimiento)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFechaVencimiento)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblExistenciaInicial)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblFechaElaboracion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalEntrada)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalSalida)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotales)).EndInit();
@@ -568,11 +569,11 @@ namespace Galac.Saw.Rpt.Inventario
         private DataDynamics.ActiveReports.Label lblTituloInforme;
         private DataDynamics.ActiveReports.Label lblFechaInicialYFinal;
         private DataDynamics.ActiveReports.PageFooter PageFooter;
-        private DataDynamics.ActiveReports.GroupHeader GHsecArticulo;
+        private DataDynamics.ActiveReports.GroupHeader GHSecArticulo;
         private DataDynamics.ActiveReports.Label lblArticulo;
         private DataDynamics.ActiveReports.TextBox txtArticulo;
-        private DataDynamics.ActiveReports.GroupFooter GFsecArticulo;
-        private DataDynamics.ActiveReports.GroupHeader GHsecLote;
+        private DataDynamics.ActiveReports.GroupFooter GFSecArticulo;
+        private DataDynamics.ActiveReports.GroupHeader GHSecLote;
         private DataDynamics.ActiveReports.TextBox txtCodigoArticulo;
         private DataDynamics.ActiveReports.Label lblLote;
         private DataDynamics.ActiveReports.TextBox txtLote;
@@ -586,7 +587,7 @@ namespace Galac.Saw.Rpt.Inventario
         private DataDynamics.ActiveReports.Label lblExistenciaInicial;
         private DataDynamics.ActiveReports.Label lblEntrada;
         private DataDynamics.ActiveReports.Label lblSalida;
-        private DataDynamics.ActiveReports.GroupFooter GFsecLote;
+        private DataDynamics.ActiveReports.GroupFooter GFSecLote;
         private DataDynamics.ActiveReports.Label lblExistenciaFinal;
         private DataDynamics.ActiveReports.TextBox txtExistenciaFinal;
         private DataDynamics.ActiveReports.TextBox txtTotalEntrada;

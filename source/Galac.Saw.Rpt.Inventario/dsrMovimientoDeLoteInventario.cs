@@ -9,6 +9,8 @@ using System.Data;
 using LibGalac.Aos.ARRpt;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.DefGen;
+using LibGalac.Aos.Base.Report;
+
 namespace Galac.Saw.Rpt.Inventario {
 
     public partial class dsrMovimientoDeLoteInventario : DataDynamics.ActiveReports.ActiveReport {
@@ -59,19 +61,26 @@ namespace Galac.Saw.Rpt.Inventario {
 				LibReport.ConfigFieldStr(this, "txtNroDocumento", string.Empty, "NroDocumento");
 				LibReport.ConfigFieldDec(this, "txtExistenciaInicial", string.Empty, "ExistenciaInicial");
 				LibReport.ConfigFieldDec(this, "txtEntrada", string.Empty, "Entrada");
-				LibReport.ConfigFieldDec(this, "txtSalida", string.Empty, "Salida");               
-                LibReport.ConfigGroupHeader(this, "GHsecArticulo", "CodigoArticulo", GroupKeepTogether.FirstDetail, RepeatStyle.None, true, NewPage.None);
-				LibReport.ConfigGroupHeader(this, "GHsecLote", "Lote", GroupKeepTogether.FirstDetail, RepeatStyle.None, true, NewPage.None);
-                LibReport.ConfigSummaryField(this, "txtTotalEntrada", "Entrada", SummaryFunc.DSum, "GHsecLote", SummaryRunning.All, SummaryType.SubTotal);
-                LibReport.ConfigSummaryField(this, "txtTotalSalida", "Salida", SummaryFunc.DSum, "GHsecLote", SummaryRunning.All, SummaryType.SubTotal);
+				LibReport.ConfigFieldDec(this, "txtSalida", string.Empty, "Salida");
+                //
+                LibReport.ConfigGroupHeader(this, "GHSecArticulo", "CodigoArticulo", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+                LibReport.ConfigGroupHeader(this, "GHSecLote", "Lote", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+                LibReport.ConfigSummaryField(this, "txtTotalEntrada", "Entrada", SummaryFunc.Sum, "GHSecLote", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txtTotalSalida", "Salida", SummaryFunc.Sum, "GHSecLote", SummaryRunning.Group, SummaryType.SubTotal);
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 return true;
             }
             return false;
         }
+
         #endregion //Metodos Generados
 
-
+        private void GFSecArticulo_Format(object sender, EventArgs e) {
+            decimal TotalSalida = LibImportData.ToDec(txtTotalSalida.Value.ToString());
+            decimal TotalEntrada = LibImportData.ToDec(txtTotalEntrada.Value.ToString());
+            decimal ExistenciaInicial = LibImportData.ToDec(txtExistenciaInicial.Value.ToString());
+            txtExistenciaFinal.Text = LibConvert.NumToString(ExistenciaInicial + TotalEntrada - LibMath.Abs(TotalSalida), 2);
+        }
     } //End of class dsrMovimientoDeLoteInventario
 
 } //End of namespace Galac.Saw.Rpt.Inventario
