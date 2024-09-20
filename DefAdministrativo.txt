@@ -4712,6 +4712,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
    Consecutivo           : LongInt;//HIDE,a
    Fecha                 : date;//g
    Modulo                : unOrigenLoteInv;//g,"Módulo"
+   TipoOperacion         : UnTipodeOperacion;//
    Cantidad              : Decimal;//g
    ConsecutivoDocumentoOrigen: LongInt;//HIDE
    NumeroDocumentoOrigen : Str30;//g,"Número Doc. Origen"
@@ -4758,7 +4759,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	{EndSeccion}  
 }
 
-{@R LoteDeInventario} MovimientoDeLoteInventario = Reporte //Multiarchivo=Compania,Componente=Inventario,"Movimientos de Lote de Inventario",GENERATE	
+{@R LoteDeInventario} MovimientoDeLoteInventario = Reporte //Multiarchivo=Compania,Componente=Inventario,"Movimientos de Lote de Inventario"	
 	secArticulo : section;
 	Articulo : Str100;//"Artículo" 
 	secLote : section;			

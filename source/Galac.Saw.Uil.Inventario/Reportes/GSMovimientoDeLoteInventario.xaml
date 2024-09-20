@@ -73,7 +73,7 @@
             Grid.Column="1"
             Width="120"
             IsEnabled="{Binding Path=IsEnabled}"
-            SelectedDate="{Binding Path=FechaIncial, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            SelectedDate="{Binding Path=FechaInicial, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource DatePickerStyle}" />
         <Label
             Name="lblFechaFinal"

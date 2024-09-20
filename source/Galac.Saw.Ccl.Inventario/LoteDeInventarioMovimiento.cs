@@ -16,6 +16,7 @@ namespace Galac.Saw.Ccl.Inventario {
         private int _Consecutivo;
         private DateTime _Fecha;
         private eOrigenLoteInv _Modulo;
+        private eTipodeOperacion _TipoOperacion;
         private decimal _Cantidad;
         private int _ConsecutivoDocumentoOrigen;
         private string _NumeroDocumentoOrigen;
@@ -64,6 +65,23 @@ namespace Galac.Saw.Ccl.Inventario {
 
         public string ModuloAsString {
             get { return LibEnumHelper.GetDescription(_Modulo); }
+        }
+
+        public eTipodeOperacion TipoOperacionAsEnum {
+            get { return _TipoOperacion; }
+            set { _TipoOperacion = value; }
+        }
+
+        public string TipoOperacion {
+            set { _TipoOperacion = (eTipodeOperacion)LibConvert.DbValueToEnum(value); }
+        }
+
+        public string TipoOperacionAsDB {
+            get { return LibConvert.EnumToDbValue((int) _TipoOperacion); }
+        }
+
+        public string TipoOperacionAsString {
+            get { return LibEnumHelper.GetDescription(_TipoOperacion); }
         }
 
         public decimal Cantidad {
@@ -125,6 +143,7 @@ namespace Galac.Saw.Ccl.Inventario {
             Consecutivo = 0;
             Fecha = LibDate.Today();
             ModuloAsEnum = eOrigenLoteInv.Factura;
+            TipoOperacionAsEnum = eTipodeOperacion.EntradadeInventario;
             Cantidad = 0;
             ConsecutivoDocumentoOrigen = 0;
             NumeroDocumentoOrigen = string.Empty;
@@ -138,6 +157,7 @@ namespace Galac.Saw.Ccl.Inventario {
             vResult.Consecutivo = _Consecutivo;
             vResult.Fecha = _Fecha;
             vResult.ModuloAsEnum = _Modulo;
+            vResult.TipoOperacionAsEnum = _TipoOperacion;
             vResult.Cantidad = _Cantidad;
             vResult.ConsecutivoDocumentoOrigen = _ConsecutivoDocumentoOrigen;
             vResult.NumeroDocumentoOrigen = _NumeroDocumentoOrigen;
@@ -151,6 +171,7 @@ namespace Galac.Saw.Ccl.Inventario {
                "\nConsecutivo = " + _Consecutivo.ToString() +
                "\nFecha = " + _Fecha.ToShortDateString() +
                "\nMódulo = " + _Modulo.ToString() +
+               "\nTipo Operacion = " + _TipoOperacion.ToString() +
                "\nCantidad = " + _Cantidad.ToString() +
                "\nConsecutivo Documento Origen = " + _ConsecutivoDocumentoOrigen.ToString() +
                "\nNúmero Doc. Origen = " + _NumeroDocumentoOrigen +

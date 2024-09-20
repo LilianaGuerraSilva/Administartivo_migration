@@ -45,29 +45,25 @@ namespace Galac.Saw.Rpt.Inventario {
             if (LibReport.ConfigDataSource(this, valDataSource)) {
                 LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["NombreCompania"], string.Empty);
                 LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());
-//              LibReport.ConfigLabel(this, "lblFechaInicialYFinal", valParameters["FechaInicialYFinal"]);
+                LibReport.ConfigLabel(this, "lblFechaInicialYFinal", valParameters["FechaInicialYFinal"]);
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
-
+                //
 				LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "Articulo");
 				LibReport.ConfigFieldStr(this, "txtCodigoArticulo", string.Empty, "CodigoArticulo");
 				LibReport.ConfigFieldStr(this, "txtLote", string.Empty, "Lote");
-//				LibReport.ConfigFieldDate(this, "txtFechaVencimiento", string.Empty, "FechaVencimiento", LibGalac.Aos.Base.Report.eDateOutputFormat.DateShort); esta sobrecarga no está en versión 5.0.2.0 de lib, temporalmente pasar formato directo
-				LibReport.ConfigFieldDate(this, "txtFechaVencimiento", string.Empty, "FechaVencimiento", "dd/MM/yyyy");
-//				LibReport.ConfigFieldDate(this, "txtFechaElaboracion", string.Empty, "FechaElaboracion", LibGalac.Aos.Base.Report.eDateOutputFormat.DateShort); esta sobrecarga no está en versión 5.0.2.0 de lib, temporalmente pasar formato directo
-				LibReport.ConfigFieldDate(this, "txtFechaElaboracion", string.Empty, "FechaElaboracion", "dd/MM/yyyy");
-//				LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", LibGalac.Aos.Base.Report.eDateOutputFormat.DateShort); esta sobrecarga no está en versión 5.0.2.0 de lib, temporalmente pasar formato directo
-				LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", "dd/MM/yyyy");
+				LibReport.ConfigFieldDate(this, "txtFechaVencimiento", string.Empty, "FechaDeVencimiento", "dd/MM/yyyy");
+				LibReport.ConfigFieldDate(this, "txtFechaElaboracion", string.Empty, "FechaDeElaboracion", "dd/MM/yyyy");
+				LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "FechaMovimiento", "dd/MM/yyyy");
 				LibReport.ConfigFieldStr(this, "txtTipoMovimiento", string.Empty, "TipoMovimiento");
 				LibReport.ConfigFieldStr(this, "txtNroDocumento", string.Empty, "NroDocumento");
 				LibReport.ConfigFieldDec(this, "txtExistenciaInicial", string.Empty, "ExistenciaInicial");
 				LibReport.ConfigFieldDec(this, "txtEntrada", string.Empty, "Entrada");
-				LibReport.ConfigFieldDec(this, "txtSalida", string.Empty, "Salida");
-
-
-				LibReport.ConfigGroupHeader(this, "GHsecArticulo", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
-				LibReport.ConfigGroupHeader(this, "GHsecLote", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
-
+				LibReport.ConfigFieldDec(this, "txtSalida", string.Empty, "Salida");               
+                LibReport.ConfigGroupHeader(this, "GHsecArticulo", "CodigoArticulo", GroupKeepTogether.FirstDetail, RepeatStyle.None, true, NewPage.None);
+				LibReport.ConfigGroupHeader(this, "GHsecLote", "Lote", GroupKeepTogether.FirstDetail, RepeatStyle.None, true, NewPage.None);
+                LibReport.ConfigSummaryField(this, "txtTotalEntrada", "Entrada", SummaryFunc.DSum, "GHsecLote", SummaryRunning.All, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txtTotalSalida", "Salida", SummaryFunc.DSum, "GHsecLote", SummaryRunning.All, SummaryType.SubTotal);
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 return true;
             }
