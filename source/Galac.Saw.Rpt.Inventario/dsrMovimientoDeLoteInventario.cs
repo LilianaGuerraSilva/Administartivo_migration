@@ -49,7 +49,7 @@ namespace Galac.Saw.Rpt.Inventario {
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
                 //
-				LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "Articulo");
+                LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "Articulo");
 				LibReport.ConfigFieldStr(this, "txtCodigoArticulo", string.Empty, "CodigoArticulo");
 				LibReport.ConfigFieldStr(this, "txtLote", string.Empty, "Lote");
 				LibReport.ConfigFieldDate(this, "txtFechaVencimiento", string.Empty, "FechaDeVencimiento", "dd/MM/yyyy");
