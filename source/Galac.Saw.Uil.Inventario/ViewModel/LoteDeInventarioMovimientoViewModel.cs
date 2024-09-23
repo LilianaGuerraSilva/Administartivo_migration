@@ -20,6 +20,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         #region Constantes
         public const string FechaPropertyName = "Fecha";
         public const string ModuloPropertyName = "Modulo";
+        public const string TipoOperacionPropertyName = "TipoOperacion";
         public const string CantidadPropertyName = "Cantidad";
         public const string NumeroDocumentoOrigenPropertyName = "NumeroDocumentoOrigen";
         public const string StatusDocumentoOrigenPropertyName = "StatusDocumentoOrigen";
@@ -92,6 +93,19 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
+        public eTipodeOperacion  TipoOperacion {
+            get {
+                return Model.TipoOperacionAsEnum;
+            }
+            set {
+                if (Model.TipoOperacionAsEnum != value) {
+                    Model.TipoOperacionAsEnum = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(TipoOperacionPropertyName);
+                }
+            }
+        }
+		
         [LibGridColum("Cantidad", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 1)]
         public decimal Cantidad {
             get {
@@ -148,6 +162,12 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public eOrigenLoteInv[] ArrayOrigenLoteInv {
             get {
                 return LibEnumHelper<eOrigenLoteInv>.GetValuesInArray();
+            }
+        }
+
+        public eTipodeOperacion[] ArrayTipodeOperacion {
+            get {
+                return LibEnumHelper<eTipodeOperacion>.GetValuesInArray();
             }
         }
 
