@@ -165,7 +165,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.txtExistenciaInicial.Name = "txtExistenciaInicial";
             this.txtExistenciaInicial.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtExistenciaInicial.Text = "txtExistenciaInicial";
-            this.txtExistenciaInicial.Top = 0.3139999F;
+            this.txtExistenciaInicial.Top = 0.5219999F;
             this.txtExistenciaInicial.Width = 1.239F;
             // 
             // PageHeader
@@ -326,7 +326,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblExistenciaInicial,
             this.txtExistenciaInicial,
             this.lblFechaElaboracion});
-            this.GHSecLote.Height = 0.47025F;
+            this.GHSecLote.Height = 0.6785833F;
             this.GHSecLote.Name = "GHSecLote";
             // 
             // lblLote
@@ -345,11 +345,11 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblTipoMovimiento.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblTipoMovimiento.Height = 0.15625F;
             this.lblTipoMovimiento.HyperLink = null;
-            this.lblTipoMovimiento.Left = 0.9770003F;
+            this.lblTipoMovimiento.Left = 0.9770001F;
             this.lblTipoMovimiento.Name = "lblTipoMovimiento";
             this.lblTipoMovimiento.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
             this.lblTipoMovimiento.Text = "Tipo de Movimiento";
-            this.lblTipoMovimiento.Top = 0.157F;
+            this.lblTipoMovimiento.Top = 0.365F;
             this.lblTipoMovimiento.Width = 1.312F;
             // 
             // lblEntrada
@@ -361,7 +361,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblEntrada.Name = "lblEntrada";
             this.lblEntrada.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblEntrada.Text = "Entrada";
-            this.lblEntrada.Top = 0.157F;
+            this.lblEntrada.Top = 0.365F;
             this.lblEntrada.Width = 1.239F;
             // 
             // lblSalida
@@ -373,7 +373,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblSalida.Name = "lblSalida";
             this.lblSalida.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblSalida.Text = "Salida";
-            this.lblSalida.Top = 0.15725F;
+            this.lblSalida.Top = 0.36525F;
             this.lblSalida.Width = 1.239F;
             // 
             // lblFecha
@@ -385,7 +385,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblFecha.Name = "lblFecha";
             this.lblFecha.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
             this.lblFecha.Text = "Fecha";
-            this.lblFecha.Top = 0.158F;
+            this.lblFecha.Top = 0.366F;
             this.lblFecha.Width = 1.115F;
             // 
             // lblNroDocumento
@@ -393,11 +393,11 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblNroDocumento.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblNroDocumento.Height = 0.313F;
             this.lblNroDocumento.HyperLink = null;
-            this.lblNroDocumento.Left = 2.384186E-07F;
+            this.lblNroDocumento.Left = 0F;
             this.lblNroDocumento.Name = "lblNroDocumento";
             this.lblNroDocumento.Style = "font-size: 8pt; font-weight: bold; vertical-align: bottom; ddo-char-set: 1";
             this.lblNroDocumento.Text = "Número del Documento";
-            this.lblNroDocumento.Top = 4.470348E-08F;
+            this.lblNroDocumento.Top = 0.208F;
             this.lblNroDocumento.Width = 0.9770003F;
             // 
             // txtLote
@@ -413,22 +413,22 @@ namespace Galac.Saw.Rpt.Inventario
             // txtFechaElaboracion
             // 
             this.txtFechaElaboracion.Height = 0.15625F;
-            this.txtFechaElaboracion.Left = 4.643001F;
+            this.txtFechaElaboracion.Left = 4.643F;
             this.txtFechaElaboracion.Name = "txtFechaElaboracion";
             this.txtFechaElaboracion.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtFechaElaboracion.Text = "txtFechaElaboracion";
-            this.txtFechaElaboracion.Top = 0F;
+            this.txtFechaElaboracion.Top = 0.052F;
             this.txtFechaElaboracion.Width = 1.239F;
             // 
             // lblFechaVencimiento
             // 
             this.lblFechaVencimiento.Height = 0.15625F;
             this.lblFechaVencimiento.HyperLink = null;
-            this.lblFechaVencimiento.Left = 0.9770024F;
+            this.lblFechaVencimiento.Left = 0.977002F;
             this.lblFechaVencimiento.Name = "lblFechaVencimiento";
             this.lblFechaVencimiento.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.lblFechaVencimiento.Text = "Fecha de Vencimiento";
-            this.lblFechaVencimiento.Top = 0F;
+            this.lblFechaVencimiento.Top = 0.052F;
             this.lblFechaVencimiento.Width = 1.312F;
             // 
             // txtFechaVencimiento
@@ -438,7 +438,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.txtFechaVencimiento.Name = "txtFechaVencimiento";
             this.txtFechaVencimiento.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtFechaVencimiento.Text = "txtFechaVencimiento";
-            this.txtFechaVencimiento.Top = 0.0002499968F;
+            this.txtFechaVencimiento.Top = 0.05225F;
             this.txtFechaVencimiento.Width = 1.115F;
             // 
             // lblExistenciaInicial
@@ -449,7 +449,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblExistenciaInicial.Name = "lblExistenciaInicial";
             this.lblExistenciaInicial.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblExistenciaInicial.Text = "Existencia Inicial";
-            this.lblExistenciaInicial.Top = 0.314F;
+            this.lblExistenciaInicial.Top = 0.522F;
             this.lblExistenciaInicial.Width = 1.239F;
             // 
             // lblFechaElaboracion
@@ -460,7 +460,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblFechaElaboracion.Name = "lblFechaElaboracion";
             this.lblFechaElaboracion.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.lblFechaElaboracion.Text = "Fecha de Elaboracion";
-            this.lblFechaElaboracion.Top = 0F;
+            this.lblFechaElaboracion.Top = 0.052F;
             this.lblFechaElaboracion.Width = 1.239F;
             // 
             // GFSecLote
