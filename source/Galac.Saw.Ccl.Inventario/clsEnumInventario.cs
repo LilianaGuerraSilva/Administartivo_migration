@@ -236,4 +236,16 @@ namespace Galac.Saw.Ccl.Inventario {
         [LibEnumDescription("Anulado")] Anulado
     }
 
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eCantidadAImprimirArticulo {
+        [LibEnumDescription("Todos Los Artículos")] Todos = 0,
+        [LibEnumDescription("Un Artículo")] Articulo,
+        [LibEnumDescription("Una Línea De Producto")] LineaDeProducto        
+    }
+
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eOrdenarFecha {
+        [LibEnumDescription("Ascendente")] Ascendente = 0,
+        [LibEnumDescription("Descendente")] Descendente,        
+    }
 } //End of namespace namespace Galac.Saw.Ccl.Inventario
