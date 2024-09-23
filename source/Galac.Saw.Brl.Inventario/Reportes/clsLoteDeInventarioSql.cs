@@ -150,7 +150,7 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
         private string SqlSelectMovimientoDeLoteInventario(string valSqlWhere, bool valSqlMovFacturas, eTipodeOperacion valTipoOperacion) {
             string vTipoMovimiento = $"CASE WHEN Modulo={insUtilSql.EnumToSqlValue((int)eOrigenLoteInv.Factura)} THEN 'Factura' WHEN Modulo={insUtilSql.EnumToSqlValue((int)eOrigenLoteInv.NotaDeCredito)} THEN 'Nota de Crédito' WHEN Modulo={insUtilSql.EnumToSqlValue((int)eOrigenLoteInv.NotaDeDebito)} THEN 'Nota de Débito' WHEN Modulo={insUtilSql.EnumToSqlValue((int)eOrigenLoteInv.NotaDeEntrega)} THEN 'Nota de Entrega' WHEN Modulo={insUtilSql.EnumToSqlValue((int)eOrigenLoteInv.Produccion)} THEN 'Producción' WHEN Modulo={insUtilSql.EnumToSqlValue((int)eOrigenLoteInv.NotaEntradaSalida)} THEN 'Nota de Entrada/Salida' WHEN Modulo={insUtilSql.EnumToSqlValue((int)eOrigenLoteInv.Compra)} THEN 'Compra' WHEN Modulo={insUtilSql.EnumToSqlValue((int)eOrigenLoteInv.ConteoFisico)} THEN 'Conteo Físico' END AS TipoMovimiento, ";
             StringBuilder vSql = new StringBuilder();
-            vSql.AppendLine("SELECT CTE_ExistenciaInicialTotal.ExistenciaInicial, ");            
+            vSql.AppendLine("SELECT ISNULL(CTE_ExistenciaInicialTotal.ExistenciaInicial,0) AS ExistenciaInicial, ");            
             if (valTipoOperacion == eTipodeOperacion.EntradadeInventario) {
                 vSql.AppendLine("Cantidad AS Entrada,");
                 vSql.AppendLine("0 AS Salida,");

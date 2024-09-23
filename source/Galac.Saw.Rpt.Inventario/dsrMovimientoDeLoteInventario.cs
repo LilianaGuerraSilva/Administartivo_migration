@@ -81,6 +81,10 @@ namespace Galac.Saw.Rpt.Inventario {
             decimal ExistenciaInicial = LibImportData.ToDec(txtExistenciaInicial.Value.ToString());
             txtExistenciaFinal.Text = LibConvert.NumToString(ExistenciaInicial + TotalEntrada - LibMath.Abs(TotalSalida), 2);
         }
+
+        private void GHSecArticulo_Format(object sender, EventArgs e) {
+            txtArticulo.Text = txtCodigoArticulo.Value + " - " + txtArticulo.Text;
+        }
     } //End of class dsrMovimientoDeLoteInventario
 
 } //End of namespace Galac.Saw.Rpt.Inventario
