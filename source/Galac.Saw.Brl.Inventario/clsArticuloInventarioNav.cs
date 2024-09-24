@@ -2183,5 +2183,27 @@ namespace Galac.Saw.Brl.Inventario {
             }
             return vResult;
         }
+
+        public decimal DisponibilidadDeArticulo(int valConsecutivoCompania, string valCodigoArticulo, int valConsecutivoLoteDeInventario) {
+            decimal vResult = 0;
+            StringBuilder SQL = new StringBuilder();
+            LibGpParams vParams = new LibGpParams();
+            string vTabla = string.Empty;
+            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            vParams.AddInString("CodigoArticulo", valCodigoArticulo, 30);
+            vParams.AddInInteger("Consecutivo", valConsecutivoLoteDeInventario);            
+
+            SQL.AppendLine(" SELECT CodigoArticulo, Existencia AS Disponibilidad");
+            SQL.AppendLine(" FROM Saw.LoteDeInventario ");            
+            SQL.AppendLine(" WHERE Saw.LoteDeInventario.CodigoArticulo = @CodigoArticulo ");
+            SQL.AppendLine(" AND Saw.LoteDeInventario.ConsecutivoCompania = @ConsecutivoCompania ");
+            SQL.AppendLine(" AND Saw.LoteDeInventario.Consecutivo = @Consecutivo ");
+
+            XElement xRecord = LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", 0);
+            if (xRecord != null) {
+                vResult = LibImportData.ToDec(LibXml.GetPropertyString(xRecord, "Disponibilidad"), 3);
+            }
+            return vResult;
+        }
     }
 } //End of namespace Galac.Saw.Brl.Inventario

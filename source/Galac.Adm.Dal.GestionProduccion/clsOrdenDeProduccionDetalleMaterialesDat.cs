@@ -49,6 +49,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vParams.AddInInteger("ConsecutivoOrdenDeProduccion", valRecord.ConsecutivoOrdenDeProduccion);
             vParams.AddInInteger("Consecutivo", valRecord.Consecutivo);
             vParams.AddInInteger("ConsecutivoAlmacen", valRecord.ConsecutivoAlmacen);
+            vParams.AddInInteger("ConsecutivoLoteDeInventario", valRecord.ConsecutivoLoteDeInventario);
             vParams.AddInString("CodigoArticulo", valRecord.CodigoArticulo, 30);
             vParams.AddInDecimal("Cantidad", valRecord.Cantidad, 8);
             vParams.AddInDecimal("CantidadReservadaInventario", valRecord.CantidadReservadaInventario, 8);
@@ -123,6 +124,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
                     new XElement("ConsecutivoOrdenDeProduccion", valMaster.Consecutivo),
                     new XElement("Consecutivo", vEntity.Consecutivo),
                     new XElement("ConsecutivoAlmacen", vEntity.ConsecutivoAlmacen),
+                    new XElement("ConsecutivoLoteDeInventario", vEntity.ConsecutivoLoteDeInventario),
                     new XElement("CodigoArticulo", vEntity.CodigoArticulo),
                     new XElement("Cantidad", vEntity.Cantidad),
                     new XElement("CantidadReservadaInventario", vEntity.CantidadReservadaInventario),

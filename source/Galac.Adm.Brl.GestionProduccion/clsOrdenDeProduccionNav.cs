@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using LibGalac.Aos.DefGen;
 using Galac.Comun.Brl.TablasGen;
 using Galac.Saw.Ccl.SttDef;
+using System.Diagnostics.Eventing.Reader;
 
 namespace Galac.Adm.Brl.GestionProduccion {
     public partial class clsOrdenDeProduccionNav : LibBaseNavMaster<IList<OrdenDeProduccion>, IList<OrdenDeProduccion>>, IOrdenDeProduccionPdn {
@@ -106,6 +107,10 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 case "Orden de Producción Artículo para reportes":
                     vResult = ArticuloGetDataForListRpt(ref refXmlDocument, valXmlParamsExpression);
                     break;
+                case "Lote de Inventario":
+                    vPdnModule = new Galac.Saw.Brl.Inventario.clsLoteDeInventarioNav();
+                    vResult = vPdnModule.GetDataForList("Orden de Producción", ref refXmlDocument, valXmlParamsExpression);
+                break;
                 default: throw new NotImplementedException();
             }
             return vResult;
@@ -426,7 +431,8 @@ namespace Galac.Adm.Brl.GestionProduccion {
         private LibResponse IniciarOrdenDeProduccion(IList<OrdenDeProduccion> refRecord) {
             LibResponse vResult = new LibResponse();
             if (refRecord[0].StatusOpAsEnum == eTipoStatusOrdenProduccion.Iniciada) {
-                if (VerificarExistenciaAlIniciar(refRecord[0])) {
+                if (VerificarExistenciaAlIniciar(refRecord[0])
+                    && VerificaAsignacionDeLote(refRecord[0], true)) {
                     using (TransactionScope vScope = LibBusiness.CreateScope()) {
                         vResult = base.UpdateRecord(refRecord, true, eAccionSR.Modificar);
                         vResult.Success = vResult.Success && ActualizaCantidadMateriales(refRecord[0], false).Success;
@@ -439,12 +445,16 @@ namespace Galac.Adm.Brl.GestionProduccion {
             }
             return vResult;
         }
-
         private bool VerificarExistenciaAlIniciar(OrdenDeProduccion valOrdenDeProduccion) {
             IArticuloInventarioPdn vArticuloPdn = new clsArticuloInventarioNav();
             foreach (OrdenDeProduccionDetalleMateriales vOrdenDeProduccionDetalleMateriales in valOrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales) {
                 if (vOrdenDeProduccionDetalleMateriales.TipoDeArticuloAsEnum == eTipoDeArticulo.Mercancia) {
-                    decimal vDisponibilidad = vArticuloPdn.DisponibilidadDeArticulo(vOrdenDeProduccionDetalleMateriales.ConsecutivoCompania, vOrdenDeProduccionDetalleMateriales.CodigoAlmacen, vOrdenDeProduccionDetalleMateriales.CodigoArticulo, 1, "", "");
+                    decimal vDisponibilidad = 0;
+                    if (vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote || vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento) {
+                        vDisponibilidad = vArticuloPdn.DisponibilidadDeArticulo(vOrdenDeProduccionDetalleMateriales.ConsecutivoCompania, vOrdenDeProduccionDetalleMateriales.CodigoArticulo, vOrdenDeProduccionDetalleMateriales.ConsecutivoLoteDeInventario);
+                    } else {
+                        vDisponibilidad = vArticuloPdn.DisponibilidadDeArticulo(vOrdenDeProduccionDetalleMateriales.ConsecutivoCompania, vOrdenDeProduccionDetalleMateriales.CodigoAlmacen, vOrdenDeProduccionDetalleMateriales.CodigoArticulo, 1, "", "");
+                    }
                     if (vDisponibilidad < vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario &&
                             (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PermitirSobregiro"))) {
                         throw new GalacValidationException("No hay suficiente existencia de algunos materiales para producir este inventario.");
@@ -453,6 +463,31 @@ namespace Galac.Adm.Brl.GestionProduccion {
             }
             return true;
         }
+
+
+
+        private bool VerificaAsignacionDeLote(OrdenDeProduccion valOrdenDeProduccion, bool valAlIniciar) {
+            if (valAlIniciar) {
+                foreach (OrdenDeProduccionDetalleMateriales vOrdenDeProduccionDetalleMateriales in valOrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales) {
+                    if (vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento || vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote) {
+                        if (vOrdenDeProduccionDetalleMateriales.ConsecutivoLoteDeInventario == 0) {
+                            throw new GalacValidationException("El articulo no tiene lote Asignado.");
+                        }
+                    }
+                }
+                return true;
+            } else {
+                foreach (OrdenDeProduccionDetalleArticulo vOrdenDeProduccionDetallArticulo in valOrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo ) {
+                    if (vOrdenDeProduccionDetallArticulo.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento || vOrdenDeProduccionDetallArticulo.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote) {
+                        if (vOrdenDeProduccionDetallArticulo.ConsecutivoLoteDeInventario == 0) {
+                            throw new GalacValidationException("El articulo no tiene lote Asignado.");
+                        }
+                    }
+                }
+                return true;
+            }
+        }
+
 
         private LibResponse AnularOrdenDeProduccion(IList<OrdenDeProduccion> refRecord) {
             LibResponse vResult = new LibResponse();
@@ -579,7 +614,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
                                     LibMath.RoundToNDecimals((vOrdenDeProduccionDetalleArticulo.CostoUnitario * valOrdenDeProduccion.CambioCostoProduccion), 2) : vOrdenDeProduccionDetalleArticulo.CostoUnitario,
                     CostoUnitarioME = valOrdenDeProduccion.CostoTerminadoCalculadoAPartirDeAsEnum == eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaExtranjera ?
                                     vOrdenDeProduccionDetalleArticulo.CostoUnitario : LibMath.RoundToNDecimals((vOrdenDeProduccionDetalleArticulo.CostoUnitario / valOrdenDeProduccion.CambioCostoProduccion), 2),
-                    TipoActualizacion = eTipoActualizacion.ExistenciayCosto,
+                    TipoActualizacion = eTipoActualizacion.Costo,
                     DetalleArticuloInventarioExistenciaSerial = new List<ArticuloInventarioExistenciaSerial>()
                 });
             }
@@ -652,6 +687,9 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 vRenglonNotaES.Serial = "0";
                 vRenglonNotaES.Rollo = "0";
                 vRenglonNotaES.CostoUnitario = vOrdenDeProduccionDetalleMateriales.CostoUnitarioArticuloInventario;
+                vRenglonNotaES.LoteDeInventario = vOrdenDeProduccionDetalleMateriales.CodigoLote;
+                vRenglonNotaES.TipoArticuloInvAsEnum = vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum;
+                vRenglonNotaES.NumeroDocumento = valOrdenDeProduccion.Codigo;
                 vNotaDeEntradaSalida.DetailRenglonNotaES.Add(vRenglonNotaES);
             }
 
@@ -664,7 +702,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
         private LibResponse CrearNotaDeEntradaSalidaAlCerrar(OrdenDeProduccion valOrdenDeProduccion) {
             NotaDeEntradaSalida vNotaDeEntrada = new NotaDeEntradaSalida();
             NotaDeEntradaSalida vNotaDeSalida = new NotaDeEntradaSalida();
-            string vNumeroDocumento = "";
+            string vNumeroDocumento = valOrdenDeProduccion.Codigo;
             vNotaDeEntrada.ConsecutivoCompania = valOrdenDeProduccion.ConsecutivoCompania;
             vNotaDeEntrada.NumeroDocumento = vNumeroDocumento;
             vNotaDeEntrada.TipodeOperacionAsEnum = eTipodeOperacion.EntradadeInventario;
@@ -698,13 +736,14 @@ namespace Galac.Adm.Brl.GestionProduccion {
                     ConsecutivoCompania = valOrdenDeProduccion.ConsecutivoCompania,
                     NumeroDocumento = vNumeroDocumento,
                     CodigoArticulo = vOrdenDeProduccionDetalleArticulo.CodigoArticulo,
-                    Cantidad = vOrdenDeProduccionDetalleArticulo.CantidadProducida,
-                    TipoArticuloInvAsEnum = eTipoArticuloInv.Simple,
+                    Cantidad = vOrdenDeProduccionDetalleArticulo.CantidadProducida,                    
                     Serial = "0",
                     Rollo = "0",
                     CostoUnitario = valOrdenDeProduccion.CostoTerminadoCalculadoAPartirDeAsEnum == eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaExtranjera ? LibMath.RoundToNDecimals((vOrdenDeProduccionDetalleArticulo.CostoUnitario * valOrdenDeProduccion.CambioCostoProduccion), 2) : vOrdenDeProduccionDetalleArticulo.CostoUnitario,
-                    CostoUnitarioME = valOrdenDeProduccion.CostoTerminadoCalculadoAPartirDeAsEnum == eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaExtranjera ? vOrdenDeProduccionDetalleArticulo.CostoUnitario : LibMath.RoundToNDecimals((vOrdenDeProduccionDetalleArticulo.CostoUnitario / valOrdenDeProduccion.CambioCostoProduccion), 2)
-                });
+                    CostoUnitarioME = valOrdenDeProduccion.CostoTerminadoCalculadoAPartirDeAsEnum == eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaExtranjera ? vOrdenDeProduccionDetalleArticulo.CostoUnitario : LibMath.RoundToNDecimals((vOrdenDeProduccionDetalleArticulo.CostoUnitario / valOrdenDeProduccion.CambioCostoProduccion), 2),
+                    LoteDeInventario = vOrdenDeProduccionDetalleArticulo.CodigoLote,
+                    TipoArticuloInvAsEnum = vOrdenDeProduccionDetalleArticulo.TipoArticuloInvAsEnum
+            });
             }
             foreach (var vOrdenDeProduccionDetalleMateriales in valOrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales) {
                 if (vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario < vOrdenDeProduccionDetalleMateriales.CantidadConsumida) {
