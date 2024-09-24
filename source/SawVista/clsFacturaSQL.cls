@@ -2188,7 +2188,7 @@ Public Function fSQLServiciosXVehiculos(ByVal valConsecutivoCompania As String, 
    vSql = vSql & "  Vehiculo ON factura.ConsecutivoCompania = Vehiculo.ConsecutivoCompania AND factura.ConsecutivoVehiculo = Vehiculo.Consecutivo INNER JOIN"
    vSql = vSql & "  SAW.Modelo ON Vehiculo.NombreModelo = SAW.Modelo.Nombre INNER JOIN"
    vSql = vSql & "  Color ON Vehiculo.ConsecutivoCompania = Color.ConsecutivoCompania AND Vehiculo.CodigoColor = Color.CodigoColor INNER JOIN"
-   vSql = vSql & "  Cliente ON Vehiculo.ConsecutivoCompania = Cliente.ConsecutivoCompania AND Vehiculo.CodigoCliente = Cliente.Codigo INNER JOIN"
+   vSql = vSql & "  Cliente ON Vehiculo.ConsecutivoCompania = Cliente.ConsecutivoCompania AND Vehiculo.CodigoCliente = Cliente.Codigo LEFT JOIN"
    vSql = vSql & "  camposDefFactura ON factura.ConsecutivoCompania = camposDefFactura.ConsecutivoCompania AND factura.Numero = camposDefFactura.NumeroFactura AND"
    vSql = vSql & "  factura.TipoDeDocumento = camposDefFactura.TipoDeDocumento INNER JOIN"
    vSql = vSql & "  ArticuloInventario ON renglonFactura.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania AND renglonFactura.Articulo = ArticuloInventario.Codigo"
