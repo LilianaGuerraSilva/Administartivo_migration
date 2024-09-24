@@ -4759,6 +4759,16 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	{EndSeccion}  
 }
 
+{@R LoteDeInventario}LoteDeInventarioVencidos = Reporte //Multiarchivo=Compania,"Articulo Vencidos", GENERATE
+	LineaProducto : section;
+	LineaDeProducto : Str30;"Linea De Producto"
+	CodigoArticulo		: Str30;//"Código"
+	DescripcionArticulo	: Str50;//"Descripción"
+	LoteDeInventario	: Str30;//"Lote de Inventario"
+	FechaDeVencimiento	: date;//"F. Vcto."
+	Cantidad		: decimal;//"Cantiad"
+    {EndSeccion}
+
 {@R LoteDeInventario} MovimientoDeLoteInventario = Reporte //Multiarchivo=Compania,Componente=Inventario,"Movimientos de Lote de Inventario"	
 	secArticulo : section;
 	Articulo : Str100;//"Artículo" 
