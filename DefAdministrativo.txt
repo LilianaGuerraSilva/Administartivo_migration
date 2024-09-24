@@ -4766,7 +4766,8 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	DescripcionArticulo	: Str50;//"Descripción"
 	LoteDeInventario	: Str30;//"Lote de Inventario"
 	FechaDeVencimiento	: date;//"F. Vcto."
-	Cantidad		: decimal;//"Cantiad"
+	Existencia		: decimal;//"Existencia"
+	DiasVencidos : Int;//"Días Vencidos"
     {EndSeccion}
 
 {@R LoteDeInventario} MovimientoDeLoteInventario = Reporte //Multiarchivo=Compania,Componente=Inventario,"Movimientos de Lote de Inventario"	
