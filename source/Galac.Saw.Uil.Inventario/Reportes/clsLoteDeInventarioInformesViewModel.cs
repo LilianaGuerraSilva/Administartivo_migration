@@ -25,6 +25,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
             Mfc = initMfc;
             AvailableReports.Add(new clsArticulosPorVencerViewModel());
             AvailableReports.Add(new clsLoteDeInventarioVencidosViewModel());
+		    AvailableReports.Add(new clsMovimientoDeLoteInventarioViewModel());
             Title = "Informes de Lote de Inventario";
         }
         #endregion //Constructores
@@ -35,8 +36,10 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
             if (SelectedReport is clsArticulosPorVencerViewModel) {
                 vResult = ConfigReportArticulosPorVencer(SelectedReport as clsArticulosPorVencerViewModel);
                 
-            }else if(SelectedReport is clsLoteDeInventarioVencidosViewModel) {
+            } else if(SelectedReport is clsLoteDeInventarioVencidosViewModel) {
                 vResult = ConfigReportArticulosVencidos(SelectedReport as clsLoteDeInventarioVencidosViewModel);
+            } else if (SelectedReport is clsMovimientoDeLoteInventarioViewModel) {
+                vResult = ConfigReportMovimientoDeLoteInventario(SelectedReport as clsMovimientoDeLoteInventarioViewModel);
             }
             return vResult;
         }
@@ -60,6 +63,16 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
             }
             return vResult;
         }
+
+        private ILibRpt ConfigReportMovimientoDeLoteInventario(clsMovimientoDeLoteInventarioViewModel valViewModel) {
+            ILibRpt vResult = null;
+            if (valViewModel != null) {
+                vResult = new Galac.Saw.Rpt.Inventario.clsMovimientoDeLoteInventario(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.CodigoArticulo, valViewModel.CodigoLote, valViewModel.FechaInicial, valViewModel.FechaFinal) {
+                    Worker = Manager
+                };
+            }
+            return vResult;
+        }				
         #endregion //Metodos Generados
 
 

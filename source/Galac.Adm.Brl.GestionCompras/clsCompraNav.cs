@@ -780,6 +780,7 @@ namespace Galac.Adm.Brl.GestionCompras {
             vLoteMov.ConsecutivoDocumentoOrigen = valItemCompra.Consecutivo;
             vLoteMov.NumeroDocumentoOrigen = valItemCompra.Numero;
             vLoteMov.StatusDocumentoOrigenAsEnum = vStatusDocOrigen;
+            vLoteMov.TipoOperacionAsEnum = eTipodeOperacion.EntradadeInventario;
             if (valAction.HasValue && valAction.Value == eAccionSR.Anular) {
                 vLote.Existencia -= vCant;
                 vLoteMov.Cantidad = -vCant;

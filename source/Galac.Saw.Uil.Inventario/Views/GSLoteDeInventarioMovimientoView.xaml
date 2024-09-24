@@ -22,6 +22,7 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -45,15 +46,30 @@
             Style="{StaticResource TextBoxInputStyle}"
             Text="{Binding Path=NumeroDocumentoOrigen, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         <Label
-            Name="lblCantidad"
+            Name="lblTipoOperacion"
             Grid.Row="0"
             Grid.Column="1"
+            Content="Tipo Operacion"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf
+            Name="cmbTipoOperacion"
+            Grid.Row="1"
+            Grid.Column="1"
+            Width="120"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding Path=ArrayTipodeOperacion}"
+            SelectedItem="{Binding Path=TipoOperacion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            Style="{StaticResource ComboBoxStyle}" />
+        <Label
+            Name="lblCantidad"
+            Grid.Row="0"
+            Grid.Column="2"
             Content="Cantidad"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSNumericBoxWpf
             Name="txtCantidad"
             Grid.Row="1"
-            Grid.Column="1"
+            Grid.Column="2"
             Width="120"
             BorderThickness="1"
             InputDataType="UDecimal"
@@ -64,13 +80,13 @@
         <Label
             Name="lblStatusDocumentoOrigen"
             Grid.Row="0"
-            Grid.Column="2"
+            Grid.Column="3"
             Content="Status"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf
             Name="cmbStatusDocumentoOrigen"
             Grid.Row="1"
-            Grid.Column="2"
+            Grid.Column="3"
             Width="120"
             IsEnabled="{Binding Path=IsEnabled}"
             IsSynchronizedWithCurrentItem="True"
@@ -80,13 +96,13 @@
         <Label
             Name="lblModulo"
             Grid.Row="0"
-            Grid.Column="3"
+            Grid.Column="4"
             Content="Módulo"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf
             Name="cmbModulo"
             Grid.Row="1"
-            Grid.Column="3"
+            Grid.Column="4"
             Width="120"
             IsEnabled="{Binding Path=IsEnabled}"
             IsSynchronizedWithCurrentItem="True"
@@ -96,13 +112,13 @@
         <Label
             Name="lblFecha"
             Grid.Row="0"
-            Grid.Column="4"
+            Grid.Column="5"
             Content="Fecha"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSDatePickerWpf
             Name="dtpFecha"
             Grid.Row="1"
-            Grid.Column="4"
+            Grid.Column="5"
             Width="120"
             IsEnabled="{Binding Path=IsEnabled}"
             SelectedDate="{Binding Path=Fecha, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"

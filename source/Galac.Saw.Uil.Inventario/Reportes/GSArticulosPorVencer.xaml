@@ -7,7 +7,7 @@
     xmlns:nsARRpt="clr-namespace:LibGalac.Aos.ARRpt;assembly=LibGalac.Aos.ARRpt"
     xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
     d:DesignHeight="160"
-    d:DesignWidth="290"
+    d:DesignWidth="320"
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -66,7 +66,7 @@
             Name="lblOrdenarFecha"
             Grid.Row="2"
             Grid.Column="0"
-            Content="Ordenar Fecha Venc."
+            Content="Ordenado por Fecha Venc."
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf
             Name="cmbOrdenarFecha"

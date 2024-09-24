@@ -45,6 +45,7 @@ namespace Galac.Saw.Brl.Inventario {
             vCurrentRecord.Consecutivo = 0;
             vCurrentRecord.Fecha = LibDate.Today();
             vCurrentRecord.ModuloAsEnum = eOrigenLoteInv.Factura;
+            vCurrentRecord.TipoOperacionAsEnum = eTipodeOperacion.EntradadeInventario;
             vCurrentRecord.Cantidad = 0;
             vCurrentRecord.ConsecutivoDocumentoOrigen = 0;
             vCurrentRecord.NumeroDocumentoOrigen = "";
@@ -74,6 +75,9 @@ namespace Galac.Saw.Brl.Inventario {
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("Modulo"), null))) {
                     vRecord.Modulo = vItem.Element("Modulo").Value;
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("TipoOperacion"), null))) {
+                    vRecord.TipoOperacion = vItem.Element("TipoOperacion").Value;
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("Cantidad"), null))) {
                     vRecord.Cantidad = LibConvert.ToDec(vItem.Element("Cantidad"));
