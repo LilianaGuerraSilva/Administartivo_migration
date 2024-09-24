@@ -47,6 +47,14 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
             vSql = insLoteDeInventarioSql.SqlLoteDeInventarioVencidos(valConsecutivoCompania, valLineaDeProducto, valCodigoArticulo, valOrdenarFecha);
             return insLoteDeInventarioVencidos.GetDt(vSql, 0);
         }
+
+        System.Data.DataTable ILoteDeInventarioInformes.BuildMovimientoDeLoteInventario(int valConsecutivoCompania, string valLoteDeInventario, string valCodigoArticulo, DateTime valFechaInicial, DateTime valFechaFinal) {
+            string vSql = "";
+            clsLoteDeInventarioSql insLoteDeInventarioSql = new clsLoteDeInventarioSql();
+            LibGalac.Aos.Base.ILibDataRpt insMovimientoDeLoteInventario = new Galac.Saw.Dal.Inventario.clsLoteDeInventarioDat();
+            vSql = insLoteDeInventarioSql.SqlMovimientoDeLoteInventario(valConsecutivoCompania, valLoteDeInventario, valCodigoArticulo, valFechaInicial, valFechaFinal);
+            return insMovimientoDeLoteInventario.GetDt(vSql, 0);
+        }		
         #endregion //Metodos Generados
     } //End of class clsLoteDeInventarioRpt
 } //End of namespace Galac.Saw.Brl.Inventario

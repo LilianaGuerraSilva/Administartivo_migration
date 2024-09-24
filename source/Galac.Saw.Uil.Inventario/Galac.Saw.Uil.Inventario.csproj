@@ -116,6 +116,7 @@
     <Compile Include="Reportes\clsLoteDeInventarioVencidosViewModel.cs" />
     <Compile Include="Reportes\clsListadoDeArticulosBalanzaViewModel.cs" />
     <Compile Include="Reportes\clsLoteDeInventarioInformesViewModel.cs" />
+    <Compile Include="Reportes\clsMovimientoDeLoteInventarioViewModel.cs" />
     <Compile Include="Reportes\clsNotaDeEntradaSalidaInformesViewModel.cs" />
     <Compile Include="Reportes\clsValoracionDeInventarioViewModel.cs" />
     <Compile Include="Reportes\GSArticulosPorVencer.xaml.cs">
@@ -132,7 +133,10 @@
       <DependentUpon>GSListadoDePrecios.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reportes\GSLoteDeInventarioVencidos.xaml.cs">
-	<DependentUpon>GSLoteDeInventarioVencidos.xaml</DependentUpon>
+      <DependentUpon>GSLoteDeInventarioVencidos.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSMovimientoDeLoteInventario.xaml.cs">
+      <DependentUpon>GSMovimientoDeLoteInventario.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reportes\GSValoracionDeInventario.xaml.cs">
       <DependentUpon>GSValoracionDeInventario.xaml</DependentUpon>
@@ -222,6 +226,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Reportes\GSListadoDeArticulosBalanza.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSMovimientoDeLoteInventario.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

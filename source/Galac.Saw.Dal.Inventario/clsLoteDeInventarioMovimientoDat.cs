@@ -44,6 +44,7 @@ namespace Galac.Saw.Dal.Inventario {
             vParams.AddInInteger("Consecutivo", valRecord.Consecutivo);
             vParams.AddInDateTime("Fecha", valRecord.Fecha);
             vParams.AddInEnum("Modulo", valRecord.ModuloAsDB);
+            vParams.AddInEnum("TipoOperacion", valRecord.TipoOperacionAsDB);
             vParams.AddInDecimal("Cantidad", valRecord.Cantidad, 2);
             vParams.AddInInteger("ConsecutivoDocumentoOrigen", valRecord.ConsecutivoDocumentoOrigen);
             vParams.AddInString("NumeroDocumentoOrigen", valRecord.NumeroDocumentoOrigen, 30);
@@ -116,6 +117,7 @@ namespace Galac.Saw.Dal.Inventario {
                     new XElement("Consecutivo", vEntity.Consecutivo),
                     new XElement("Fecha", vEntity.Fecha),
                     new XElement("Modulo", vEntity.ModuloAsDB),
+                    new XElement("TipoOperacion", vEntity.TipoOperacionAsDB),
                     new XElement("Cantidad", vEntity.Cantidad),
                     new XElement("ConsecutivoDocumentoOrigen", vEntity.ConsecutivoDocumentoOrigen),
                     new XElement("NumeroDocumentoOrigen", vEntity.NumeroDocumentoOrigen),

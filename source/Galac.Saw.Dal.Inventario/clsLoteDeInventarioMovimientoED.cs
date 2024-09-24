@@ -46,6 +46,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("Consecutivo" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnLotDeInvMovConsecutiv NOT NULL, ");
             SQL.AppendLine("Fecha" + InsSql.DateTypeForDb() + " CONSTRAINT d_LotDeInvMovFe DEFAULT (''), ");
             SQL.AppendLine("Modulo" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_LotDeInvMovMo DEFAULT ('0'), ");
+            SQL.AppendLine("TipoOperacion" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_LotDeInvMovTiOp DEFAULT ('0'), ");
             SQL.AppendLine("Cantidad" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_LotDeInvMovCa DEFAULT (0), ");
             SQL.AppendLine("ConsecutivoDocumentoOrigen" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT d_LotDeInvMovCoDoOr DEFAULT (0), ");
             SQL.AppendLine("NumeroDocumentoOrigen" + InsSql.VarCharTypeForDb(30) + " CONSTRAINT d_LotDeInvMovNuDoOr DEFAULT (''), ");
@@ -65,7 +66,7 @@ namespace Galac.Saw.Dal.Inventario {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("SELECT ConsecutivoCompania, ConsecutivoLote, Consecutivo, Fecha");
             SQL.AppendLine(", Modulo, " + DbSchema + ".Gv_EnumOrigenLoteInv.StrValue AS ModuloStr, Cantidad, ConsecutivoDocumentoOrigen, NumeroDocumentoOrigen");
-            SQL.AppendLine(", StatusDocumentoOrigen, " + DbSchema + ".Gv_EnumStatusDocOrigenLoteInv.StrValue AS StatusDocumentoOrigenStr");
+            SQL.AppendLine(", TipoOperacion, StatusDocumentoOrigen, " + DbSchema + ".Gv_EnumStatusDocOrigenLoteInv.StrValue AS StatusDocumentoOrigenStr");
             SQL.AppendLine(", LoteDeInventarioMovimiento.fldTimeStamp, CAST(LoteDeInventarioMovimiento.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".LoteDeInventarioMovimiento");
             SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumOrigenLoteInv");
@@ -85,6 +86,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@Fecha" + InsSql.DateTypeForDb() + " = '01/01/1900',");
             SQL.AppendLine("@Modulo" + InsSql.CharTypeForDb(1) + " = '0',");
+            SQL.AppendLine("@TipoOperacion" + InsSql.CharTypeForDb(1) + " = '0',");
             SQL.AppendLine("@Cantidad" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@ConsecutivoDocumentoOrigen" + InsSql.NumericTypeForDb(10, 0) + " = 0,");
             SQL.AppendLine("@NumeroDocumentoOrigen" + InsSql.VarCharTypeForDb(30) + " = '',");
@@ -107,6 +109,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("            Consecutivo,");
             SQL.AppendLine("            Fecha,");
             SQL.AppendLine("            Modulo,");
+            SQL.AppendLine("            TipoOperacion,");
             SQL.AppendLine("            Cantidad,");
             SQL.AppendLine("            ConsecutivoDocumentoOrigen,");
             SQL.AppendLine("            NumeroDocumentoOrigen,");
@@ -117,6 +120,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("            @Consecutivo,");
             SQL.AppendLine("            @Fecha,");
             SQL.AppendLine("            @Modulo,");
+            SQL.AppendLine("            @TipoOperacion,");
             SQL.AppendLine("            @Cantidad,");
             SQL.AppendLine("            @ConsecutivoDocumentoOrigen,");
             SQL.AppendLine("            @NumeroDocumentoOrigen,");
@@ -139,6 +143,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@Fecha" + InsSql.DateTypeForDb() + ",");
             SQL.AppendLine("@Modulo" + InsSql.CharTypeForDb(1) + ",");
+            SQL.AppendLine("@TipoOperacion" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@Cantidad" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@ConsecutivoDocumentoOrigen" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@NumeroDocumentoOrigen" + InsSql.VarCharTypeForDb(30) + ",");
@@ -170,6 +175,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("         UPDATE " + DbSchema + ".LoteDeInventarioMovimiento");
             SQL.AppendLine("            SET Fecha = @Fecha,");
             SQL.AppendLine("               Modulo = @Modulo,");
+            SQL.AppendLine("               TipoOperacion = @TipoOperacion,");
             SQL.AppendLine("               Cantidad = @Cantidad,");
             SQL.AppendLine("               ConsecutivoDocumentoOrigen = @ConsecutivoDocumentoOrigen,");
             SQL.AppendLine("               NumeroDocumentoOrigen = @NumeroDocumentoOrigen,");
@@ -285,6 +291,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("         Consecutivo,");
             SQL.AppendLine("         Fecha,");
             SQL.AppendLine("         Modulo,");
+            SQL.AppendLine("         TipoOperacion,");
             SQL.AppendLine("         Cantidad,");
             SQL.AppendLine("         ConsecutivoDocumentoOrigen,");
             SQL.AppendLine("         NumeroDocumentoOrigen,");
@@ -316,6 +323,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("        Consecutivo,");
             SQL.AppendLine("        Fecha,");
             SQL.AppendLine("        Modulo,");
+            SQL.AppendLine("        TipoOperacion,");
             SQL.AppendLine("        Cantidad,");
             SQL.AppendLine("        ConsecutivoDocumentoOrigen,");
             SQL.AppendLine("        NumeroDocumentoOrigen,");
@@ -373,6 +381,7 @@ namespace Galac.Saw.Dal.Inventario {
 			SQL.AppendLine("	        Consecutivo,");
 			SQL.AppendLine("	        Fecha,");
 			SQL.AppendLine("	        Modulo,");
+			SQL.AppendLine("	        TipoOperacion,");
 			SQL.AppendLine("	        Cantidad,");
 			SQL.AppendLine("	        ConsecutivoDocumentoOrigen,");
 			SQL.AppendLine("	        NumeroDocumentoOrigen,");
@@ -383,6 +392,7 @@ namespace Galac.Saw.Dal.Inventario {
 			SQL.AppendLine("	        Consecutivo,");
 			SQL.AppendLine("	        Fecha,");
 			SQL.AppendLine("	        Modulo,");
+			SQL.AppendLine("	        TipoOperacion,");
 			SQL.AppendLine("	        Cantidad,");
 			SQL.AppendLine("	        ConsecutivoDocumentoOrigen,");
 			SQL.AppendLine("	        NumeroDocumentoOrigen,");
@@ -392,6 +402,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("	        Consecutivo " + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("	        Fecha " + InsSql.DateTypeForDb() + ",");
             SQL.AppendLine("	        Modulo " + InsSql.CharTypeForDb(1) + ",");
+            SQL.AppendLine("	        TipoOperacion " + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("	        Cantidad " + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("	        ConsecutivoDocumentoOrigen " + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("	        NumeroDocumentoOrigen " + InsSql.VarCharTypeForDb(30) + ",");
@@ -416,6 +427,7 @@ namespace Galac.Saw.Dal.Inventario {
             bool vResult = false;
             LibViews insVistas = new LibViews();
             vResult = insVistas.Create(DbSchema + ".Gv_EnumOrigenLoteInv", LibTpvCreator.SqlViewStandardEnum(typeof(eOrigenLoteInv), InsSql), true, true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumTipodeOperacion", LibTpvCreator.SqlViewStandardEnum(typeof(eTipodeOperacion), InsSql), true, true);
             vResult = insVistas.Create(DbSchema + ".Gv_EnumStatusDocOrigenLoteInv", LibTpvCreator.SqlViewStandardEnum(typeof(eStatusDocOrigenLoteInv), InsSql), true, true);
             vResult = insVistas.Create(DbSchema + ".Gv_LoteDeInventarioMovimiento_B1", SqlViewB1(), true);
             insVistas.Dispose();
@@ -469,6 +481,7 @@ namespace Galac.Saw.Dal.Inventario {
             vResult = insSp.Drop(DbSchema + ".Gp_LoteDeInventarioMovimientoSelDet") && vResult;
             vResult = insVista.Drop(DbSchema + ".Gv_LoteDeInventarioMovimiento_B1") && vResult;
             vResult = insVista.Drop(DbSchema + ".Gv_EnumOrigenLoteInv") && vResult;
+            vResult = insVista.Drop(DbSchema + ".Gv_EnumTipodeOperacion") && vResult;
             vResult = insVista.Drop(DbSchema + ".Gv_EnumStatusDocOrigenLoteInv") && vResult;
             insSp.Dispose();
             insVista.Dispose();
