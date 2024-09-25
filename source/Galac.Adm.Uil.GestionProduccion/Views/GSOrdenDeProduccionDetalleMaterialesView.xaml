@@ -39,7 +39,7 @@
             Name="lblCodigoArticulo"
             Grid.Row="0"
             Grid.Column="0"
-            Content="CódigoXX"
+            Content="Código"
             Style="{StaticResource LabelPrompt}" />
         <Label
             Name="lneCodigoArticulo"

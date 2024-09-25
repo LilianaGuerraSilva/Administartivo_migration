@@ -297,6 +297,35 @@ namespace Galac.Adm.Brl.GestionProduccion {
                     new XElement("Consecutivo", valRecord.ConsecutivoLoteDeInventario)));
             return vXElement;
         }
+        
+        decimal IOrdenDeProduccionDetalleMaterialesPdn.BuscaExistenciaDeArticuloLote(int valConsecutivoCompania, string valCodigoArticulo, int valConsecutivoLoteDeInventario) {
+            decimal vResult = 0;
+            QAdvSql vSqlUtil = new QAdvSql("");
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("SELECT Existencia ");
+            vSql.AppendLine("FROM  Saw.LoteDeInventario ");
+            vSql.AppendLine("WHERE ConsecutivoCompania = " + vSqlUtil.ToSqlValue(valConsecutivoCompania));
+            vSql.AppendLine(" AND Consecutivo = " + vSqlUtil.ToSqlValue(valConsecutivoLoteDeInventario));
+            vSql.AppendLine(" AND CodigoArticulo = " + vSqlUtil.ToSqlValue(valCodigoArticulo));
+            XElement vXmlResult = LibBusiness.ExecuteSelect(vSql.ToString(), null, "", 0);
+            if (vXmlResult != null && vXmlResult.HasElements) {
+                string vCantidadStr = LibXml.GetPropertyString(vXmlResult, "Existencia");
+                vResult = LibImportData.ToDec(vCantidadStr);
+            }
+            return vResult;
+        }
+
+        internal XElement BuscaExistenciaDeArticulosPorLote(int valConsecutivoCompania, IList<OrdenDeProduccionDetalleMateriales> valData) {
+            XElement vXElementOut = new XElement("GpData");
+            //XElement vXElementIn = new XElement("GpResult");
+            foreach (OrdenDeProduccionDetalleMateriales vItem in valData) {
+                vXElementOut.Add(new XElement("GpResult", new XElement("CodigoArticulo", vItem.CodigoArticulo), new XElement("ConsecutivoLoteDeInventario", vItem.ConsecutivoLoteDeInventario )));
+            }
+            //vXElementOut.Add(vXElementIn);
+            IArticuloInventarioPdn insArticulo = new Galac.Saw.Brl.Inventario.clsArticuloInventarioNav();
+            XElement vXElementResult = insArticulo.DisponibilidadDeArticuloPorLote(valConsecutivoCompania, vXElementOut);
+            return vXElementResult;
+        }
 
     } //End of class clsOrdenDeProduccionDetalleMaterialesNav
 } //End of namespace Galac.Adm.Brl.GestionProduccion

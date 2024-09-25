@@ -392,7 +392,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         public bool IsVisibleFechaLoteDeInventario {
-            get { return IsVisbleLoteDeInventario && TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento; }
+            get { return IsVisbleLoteDeInventario && TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento && ConsecutivoLoteDeInventario != 0; }
         }
 
         public FkLoteDeInventarioViewModel ConexionLoteDeInventario {
@@ -483,19 +483,31 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("CodigoLote", valCodigoLote);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
                 vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("CodigoArticulo", CodigoArticulo), eLogicOperatorType.And);
-                ConexionLoteDeInventario = Master.ChooseRecord<FkLoteDeInventarioViewModel>("Lote de Inventario", vDefaultCriteria, vFixedCriteria, "FechaDeVencimiento, FechaDeElaboracion, CodigoLote");
-                if (ConexionLoteDeInventario == null) {
+                var ConexionLoteDeInventarioTmp = Master.ChooseRecord<FkLoteDeInventarioViewModel>("Lote de Inventario", vDefaultCriteria, vFixedCriteria, "FechaDeVencimiento, FechaDeElaboracion, CodigoLote");
+                if (ConexionLoteDeInventarioTmp == null) {
                     CodigoLote = string.Empty;
                     FechaDeElaboracion = LibDate.MinDateForDB();
                     FechaDeVencimiento = LibDate.MaxDateForDB();
                 } else {
+                    if (Master.DetailOrdenDeProduccionDetalleMateriales.Items != null &&
+                        Master.DetailOrdenDeProduccionDetalleMateriales.Items.Count(p => p.ConsecutivoLoteDeInventario == ConexionLoteDeInventarioTmp.Consecutivo) > 0) {
+                        LibMessages.MessageBox.Error(this, $"El Articulo:{ConexionLoteDeInventarioTmp.CodigoArticulo} - {LibString.Left(DescripcionArticulo, 15) + "..."} Lote: {ConexionLoteDeInventarioTmp.CodigoLote} ya esta ingresado en la lista.", ModuleName);
+                        return;
+                    }
+                    ConexionLoteDeInventario = ConexionLoteDeInventarioTmp;
                     if (TipoArticuloInvAsEnum  == eTipoArticuloInv.LoteFechadeVencimiento && LibDate.F1IsLessThanF2(ConexionLoteDeInventario.FechaDeVencimiento, LibDate.Today())) {
                         LibMessages.MessageBox.Information(this, $"El Articulo:{CodigoArticulo} - {LibString.Left(DescripcionArticulo, 15) + "..."} Lote: {ConexionLoteDeInventario.CodigoLote} venció el {ConexionLoteDeInventario.FechaDeVencimiento.ToString("dd/MM/yyyy")}.", ModuleName);
+                    }
+                    if ((ConexionLoteDeInventario.Existencia < CantidadReservadaInventario)
+                        && (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PermitirSobregiro"))) {
+                        AgregarNuevoDetalle();
                     }
                     ConsecutivoLoteDeInventario = ConexionLoteDeInventario.Consecutivo;
                     CodigoLote  = ConexionLoteDeInventario.CodigoLote;
                     FechaDeElaboracion = ConexionLoteDeInventario.FechaDeElaboracion;
                     FechaDeVencimiento = ConexionLoteDeInventario.FechaDeVencimiento;
+                    Existencia = ConexionLoteDeInventario.Existencia;
+                    RaisePropertyChanged(() => Existencia);
                 }
                 RaisePropertyChanged(() => IsVisbleLoteDeInventario);                
                 RaisePropertyChanged(() => IsVisibleFechaLoteDeInventario);                
@@ -504,6 +516,36 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
+        }
+
+        private void AgregarNuevoDetalle() {
+            CantidadReservadaInventario = ConexionLoteDeInventario.Existencia;
+            var CantidadReservadaEnLista = Master.DetailOrdenDeProduccionDetalleMateriales.Items.Where(p => p.CodigoArticulo == CodigoArticulo).Sum(q => q.CantidadReservadaInventario);
+            var newModel = new OrdenDeProduccionDetalleMateriales() {
+                ConsecutivoCompania = ConsecutivoCompania,
+                ConsecutivoOrdenDeProduccion = ConsecutivoOrdenDeProduccion,
+                ConsecutivoAlmacen = ConsecutivoAlmacen,
+                CodigoAlmacen = CodigoAlmacen,
+                NombreAlmacen = NombreAlmacen,
+                CodigoArticulo = CodigoArticulo,
+                DescripcionArticulo = DescripcionArticulo,
+                UnidadDeVenta = UnidadDeVenta,
+                Cantidad = Cantidad,
+                CantidadReservadaInventario = (Cantidad * Master.CantidadAProducir) - CantidadReservadaEnLista,
+                CantidadConsumida = CantidadConsumida,
+                CostoUnitarioArticuloInventario = CostoUnitarioArticuloInventario,
+                MontoSubtotal = MontoSubtotal,
+                AjustadoPostCierreAsBool = AjustadoPostCierre,
+                CantidadAjustada = CantidadAjustada,
+                TipoDeArticuloAsEnum = TipoDeArticulo,
+                TipoArticuloInvAsEnum = TipoArticuloInvAsEnum,
+                CodigoLote = "",
+                ConsecutivoLoteDeInventario = 0,
+                FechaDeElaboracion = LibDate.MinDateForDB(),
+                FechaDeVencimiento = LibDate.MinDateForDB(),
+            };
+            var newViewModel = new OrdenDeProduccionDetalleMaterialesViewModel(Master, newModel, Action);
+            Master.DetailOrdenDeProduccionDetalleMateriales.Items.Add(newViewModel);
         }
 
         private void RaisePropertyLote() {

@@ -19,5 +19,6 @@ namespace Galac.Saw.Ccl.Inventario {
         bool RecalcularExistencia(int valConsecutivoCompania, string valCodigoAlmacen, List<XElement> valListaDeArticulos);
         bool ExistenComprobantesDeCostoDeVentasPosteriores(int valConsecutivoCompania, DateTime valFecha);
         decimal DisponibilidadDeArticulo(int valConsecutivoCompania, string valCodigoArticulo, int valConsecutivoLoteDeInventario);
+        XElement DisponibilidadDeArticuloPorLote(int valConsecutivoCompania, XElement valDataArticulo);
     }
 }
