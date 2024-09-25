@@ -278,7 +278,7 @@ namespace Galac.Saw.Brl.Inventario {
                     LoteDeInventarioMovimiento vLoteMov = vItemLoteMov;
                     StringBuilder vSqlInsertMovimiento = new StringBuilder();
                     vSqlInsertMovimiento.AppendLine("INSERT INTO Saw.LoteDeInventarioMovimiento");
-                    vSqlInsertMovimiento.AppendLine("(ConsecutivoCompania, ConsecutivoLote, Consecutivo, Fecha, Modulo, Cantidad, ConsecutivoDocumentoOrigen, NumeroDocumentoOrigen, StatusDocumentoOrigen)");
+                    vSqlInsertMovimiento.AppendLine("(ConsecutivoCompania, ConsecutivoLote, Consecutivo, Fecha, Modulo, Cantidad, ConsecutivoDocumentoOrigen, NumeroDocumentoOrigen, StatusDocumentoOrigen, TipoOperacion)");
                     vSqlInsertMovimiento.AppendLine("VALUES(");
                     vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(vLoteMov.ConsecutivoCompania) + ", ");
                     vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(vLoteMov.ConsecutivoLote) + ", ");
@@ -288,7 +288,8 @@ namespace Galac.Saw.Brl.Inventario {
                     vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(vLoteMov.Cantidad) + ", ");
                     vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(vLoteMov.ConsecutivoDocumentoOrigen) + ", ");
                     vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(vLoteMov.NumeroDocumentoOrigen) + ", ");
-                    vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(vLoteMov.StatusDocumentoOrigenAsDB));
+                    vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(vLoteMov.StatusDocumentoOrigenAsDB) + ",");
+                    vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(vLoteMov.TipoOperacionAsDB));
                     vSqlInsertMovimiento.AppendLine(")");                    
                     vResult = new LibDataScope().ExecuteWithScope(vSqlInsertMovimiento.ToString()) > 0;
                 }

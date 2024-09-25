@@ -412,7 +412,7 @@ namespace Galac.Saw.Brl.Inventario {
                     vLoteMov.ConsecutivoDocumentoOrigen = 0;
                     vLoteMov.NumeroDocumentoOrigen = valItemNotaES.NumeroDocumento;
                     vLoteMov.StatusDocumentoOrigenAsEnum = vStatusDocOrigen;
-
+                    vLoteMov.TipoOperacionAsEnum = valItemNotaES.TipodeOperacionAsEnum;
                     vLote.Existencia += vCant;
                     vLote.DetailLoteDeInventarioMovimiento.Add(vLoteMov);
 
