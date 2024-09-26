@@ -3216,11 +3216,19 @@ Private Function fDistribuyeLaLineaDeArticulo(ByRef refLineaActual As String, By
             Case gConvert.enumerativoAChar(eTAI_Lote)
                .SetTipoArticuloInvStr gEnumProyecto.enumTipoArticuloInvToString(eTAI_Lote)
                .SetExistencia 0
-               LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
+               If Not gProyParametrosCompania.GetUsaLoteFechaDeVencimiento() Then
+                  texto = "Tipo de Mercancía no válido: Esta empresa no usa artículos del tipo " & gEnumProyecto.enumTipoArticuloInvToString(eTAI_Lote) & "*"
+                  ErrorAlTraducirLaLinea = ErrorAlTraducirLaLinea And True
+               End If
+               LineaDeErrores = LineaDeErrores & texto
             Case gConvert.enumerativoAChar(eTAI_LoteFechadeVencimiento)
                .SetTipoArticuloInvStr gEnumProyecto.enumTipoArticuloInvToString(eTAI_LoteFechadeVencimiento)
                .SetExistencia 0
-               LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
+               If Not gProyParametrosCompania.GetUsaLoteFechaDeVencimiento() Then
+                  texto = "Tipo de Mercancía no válido: Esta empresa no usa artículos del tipo " & gEnumProyecto.enumTipoArticuloInvToString(eTAI_LoteFechadeVencimiento) & "*"
+                  ErrorAlTraducirLaLinea = ErrorAlTraducirLaLinea Or True
+               End If
+               LineaDeErrores = LineaDeErrores & texto
             Case Else
                ErrorAlTraducirLaLinea = True
                texto = " ERROR Tipo de Articulo:* " & texto & "*"
