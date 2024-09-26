@@ -386,13 +386,17 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         public bool IsVisbleLoteDeInventario {
-            get { return (Master.Action == eAccionSR.Abrir || Master.Action == eAccionSR.Cerrar
-                    || Master.StatusOp == eTipoStatusOrdenProduccion.Iniciada)  
+            get { return (Master.Action == eAccionSR.Consultar || Master.Action == eAccionSR.Abrir ||
+                          Master.Action == eAccionSR.Anular || Master.Action == eAccionSR.Cerrar || Master.Action == eAccionSR.Custom)
                     && (TipoArticuloInvAsEnum == eTipoArticuloInv.Lote || TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento); }
         }
 
         public bool IsVisibleFechaLoteDeInventario {
             get { return IsVisbleLoteDeInventario && TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento && ConsecutivoLoteDeInventario != 0; }
+        }
+
+        public bool IsEnabledLoteDeInventario {
+            get { return IsEnabled && (Master.Action == eAccionSR.Abrir); }
         }
 
         public FkLoteDeInventarioViewModel ConexionLoteDeInventario {
@@ -490,13 +494,14 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     FechaDeVencimiento = LibDate.MaxDateForDB();
                 } else {
                     if (Master.DetailOrdenDeProduccionDetalleMateriales.Items != null &&
-                        Master.DetailOrdenDeProduccionDetalleMateriales.Items.Count(p => p.ConsecutivoLoteDeInventario == ConexionLoteDeInventarioTmp.Consecutivo) > 0) {
-                        LibMessages.MessageBox.Error(this, $"El Articulo:{ConexionLoteDeInventarioTmp.CodigoArticulo} - {LibString.Left(DescripcionArticulo, 15) + "..."} Lote: {ConexionLoteDeInventarioTmp.CodigoLote} ya esta ingresado en la lista.", ModuleName);
+                        Master.DetailOrdenDeProduccionDetalleMateriales.Items.Count(p => p.ConsecutivoLoteDeInventario == ConexionLoteDeInventarioTmp.Consecutivo
+                        && p.Consecutivo != Consecutivo) > 0) {
+                        LibMessages.MessageBox.Error(this, $"El Artículo: {ConexionLoteDeInventarioTmp.CodigoArticulo} - {LibString.Left(DescripcionArticulo, 15) + "..."} Lote: {ConexionLoteDeInventarioTmp.CodigoLote} ya está ingresado en la lista.", ModuleName);
                         return;
                     }
                     ConexionLoteDeInventario = ConexionLoteDeInventarioTmp;
                     if (TipoArticuloInvAsEnum  == eTipoArticuloInv.LoteFechadeVencimiento && LibDate.F1IsLessThanF2(ConexionLoteDeInventario.FechaDeVencimiento, LibDate.Today())) {
-                        LibMessages.MessageBox.Information(this, $"El Articulo:{CodigoArticulo} - {LibString.Left(DescripcionArticulo, 15) + "..."} Lote: {ConexionLoteDeInventario.CodigoLote} venció el {ConexionLoteDeInventario.FechaDeVencimiento.ToString("dd/MM/yyyy")}.", ModuleName);
+                        LibMessages.MessageBox.Information(this, $"El Artículo: {CodigoArticulo} - {LibString.Left(DescripcionArticulo, 15) + "..."} Lote: {ConexionLoteDeInventario.CodigoLote} venció el {ConexionLoteDeInventario.FechaDeVencimiento.ToString("dd/MM/yyyy")}.", ModuleName);
                     }
                     if ((ConexionLoteDeInventario.Existencia < CantidadReservadaInventario)
                         && (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PermitirSobregiro"))) {

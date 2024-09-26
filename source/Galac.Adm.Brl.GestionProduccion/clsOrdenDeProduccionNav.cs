@@ -471,7 +471,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 foreach (OrdenDeProduccionDetalleMateriales vOrdenDeProduccionDetalleMateriales in valOrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales) {
                     if (vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento || vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote) {
                         if (vOrdenDeProduccionDetalleMateriales.ConsecutivoLoteDeInventario == 0) {
-                            throw new GalacValidationException("El articulo no tiene lote Asignado.");
+                            throw new GalacValidationException("Hay artículos que no tienen lote asignado.");
                         }
                     }
                 }
@@ -480,7 +480,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 foreach (OrdenDeProduccionDetalleArticulo vOrdenDeProduccionDetallArticulo in valOrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo ) {
                     if (vOrdenDeProduccionDetallArticulo.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento || vOrdenDeProduccionDetallArticulo.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote) {
                         if (vOrdenDeProduccionDetallArticulo.ConsecutivoLoteDeInventario == 0) {
-                            throw new GalacValidationException("El articulo no tiene lote Asignado.");
+                            throw new GalacValidationException("Hay artículos que no tienen lote asignado.");
                         }
                     }
                 }

@@ -1380,13 +1380,18 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 if (Action == eAccionSR.Custom) {                   
                     if (DetailOrdenDeProduccionDetalleMateriales.Items
                         .Where(p=> (p.TipoArticuloInvAsEnum == Saw.Ccl.Inventario.eTipoArticuloInv.Lote || p.TipoArticuloInvAsEnum == Saw.Ccl.Inventario.eTipoArticuloInv.LoteFechadeVencimiento) && p.ConsecutivoLoteDeInventario == 0).Count() > 0) {
-                        throw new GalacValidationException("Hay Articulos que no tienen lote asignado");
+                        throw new GalacValidationException("Hay artículos que no tienen lote asignado.");
                     }
                     if (DetailOrdenDeProduccionDetalleMateriales.Items
                         .Where(q => q.TipoDeArticulo == Saw.Ccl.Inventario.eTipoDeArticulo.Mercancia && q.Existencia < q.CantidadReservadaInventario).Count() > 0) {
                         if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PermitirSobregiro")) {
                             throw new GalacValidationException("No hay suficiente existencia de algunos materiales para producir este inventario.");
                         }
+                    }
+                }else if (Action == eAccionSR.Cerrar) {
+                    if (DetailOrdenDeProduccionDetalleArticulo.Items
+                        .Where(p => (p.TipoArticuloInvAsEnum == Saw.Ccl.Inventario.eTipoArticuloInv.Lote || p.TipoArticuloInvAsEnum == Saw.Ccl.Inventario.eTipoArticuloInv.LoteFechadeVencimiento) && p.ConsecutivoLoteDeInventario == 0).Count() > 0) {
+                        throw new GalacValidationException("Hay artículos que no tienen lote asignado.");
                     }
                 }
             }

@@ -428,14 +428,17 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         public bool IsVisbleLoteDeInventario {
             get {
-                return (Master.Action == eAccionSR.Cerrar
-                    || (Master.Action == eAccionSR.Consultar && Master.StatusOp == eTipoStatusOrdenProduccion.Iniciada))
+                return ((Master.Action == eAccionSR.Cerrar) ||( Master.Action == eAccionSR.Consultar && Master.StatusOp == eTipoStatusOrdenProduccion.Cerrada))
                     && (TipoArticuloInvAsEnum == eTipoArticuloInv.Lote || TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento);
             }
         }
 
         public bool IsVisibleFechaLoteDeInventario {
             get { return IsVisbleLoteDeInventario && TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento && ConsecutivoLoteDeInventario != 0; }
+        }
+
+        public bool IsEnabledLoteDeInventario {
+            get { return IsEnabled; }
         }
 
         public FkLoteDeInventarioViewModel ConexionLoteDeInventario {
