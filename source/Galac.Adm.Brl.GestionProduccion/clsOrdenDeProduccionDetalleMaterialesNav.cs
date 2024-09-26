@@ -52,18 +52,35 @@ namespace Galac.Adm.Brl.GestionProduccion {
                                 }).Distinct();
             XElement vInfoConexionArticuloInventario = FindInfoArticuloInventario(refData);
             var vListArticuloInventario = (from vRecord in vInfoConexionArticuloInventario.Descendants("GpResult")
-                                           select new {
-                                               ConsecutivoCompania = LibConvert.ToInt(vRecord.Element("ConsecutivoCompania")),
-                                               Codigo = vRecord.Element("Codigo").Value,
-                                               Descripcion = vRecord.Element("Descripcion").Value,
-                                               LineaDeProducto = vRecord.Element("LineaDeProducto").Value,
-                                               StatusdelArticulo = vRecord.Element("StatusdelArticulo").Value,
-                                               TipoDeArticulo = (eTipoDeArticulo)LibConvert.DbValueToEnum(vRecord.Element("TipoDeArticulo").Value),
-                                               TipoArticuloInv = (eTipoArticuloInv)LibConvert.DbValueToEnum(vRecord.Element("TipoArticuloInv").Value),
-                                               Categoria = vRecord.Element("Categoria").Value,
-                                               UnidadDeVenta = vRecord.Element("UnidadDeVenta").Value,
-                                               AlicuotaIVA = vRecord.Element("AlicuotaIVA").Value
-                                           }).Distinct();
+                                      select new {
+                                          ConsecutivoCompania = LibConvert.ToInt(vRecord.Element("ConsecutivoCompania")),
+                                          Codigo = vRecord.Element("Codigo").Value,
+                                          Descripcion = vRecord.Element("Descripcion").Value,
+                                          LineaDeProducto = vRecord.Element("LineaDeProducto").Value,
+                                          StatusdelArticulo = vRecord.Element("StatusdelArticulo").Value,
+                                          TipoDeArticulo = (eTipoDeArticulo)LibConvert.DbValueToEnum(vRecord.Element("TipoDeArticulo").Value),
+                                          TipoArticuloInv = (eTipoArticuloInv)LibConvert.DbValueToEnum(vRecord.Element("TipoArticuloInv").Value),
+                                          Categoria = vRecord.Element("Categoria").Value,
+                                          UnidadDeVenta = vRecord.Element("UnidadDeVenta").Value,
+                                          AlicuotaIVA = vRecord.Element("AlicuotaIVA").Value
+                                      }).Distinct();
+
+            XElement vInfoConexionArticuloInventarioLote = FindInfoArticuloInventarioLote(refData);
+            if (vInfoConexionArticuloInventarioLote == null) {
+                vInfoConexionArticuloInventarioLote = new XElement("GpData",
+                    new XElement("GpResult", new XElement("ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"))
+                    , new XElement("Consecutivo", -1), new XElement("CodigoLote", ""), new XElement("FechaDeElaboracion", ""), new XElement("FechaDeVencimiento", "")));
+            }
+
+            var vListArticuloInventarioLote = (from vRecordLote in vInfoConexionArticuloInventarioLote.Descendants("GpResult")
+                                               select new {
+                                                   ConsecutivoCompania = LibConvert.ToInt(vRecordLote.Element("ConsecutivoCompania")),
+                                                   Consecutivo = LibConvert.ToInt(vRecordLote.Element("Consecutivo")),
+                                                   CodigoLote = vRecordLote.Element("CodigoLote").Value,
+                                                   FechaDeElaboracion = LibConvert.ToDate(vRecordLote.Element("FechaDeElaboracion").Value),
+                                                   FechaDeVencimiento = LibConvert.ToDate(vRecordLote.Element("FechaDeVencimiento").Value)
+                                               }).Distinct();
+
             foreach (OrdenDeProduccionDetalleMateriales vItem in refData) {
                 var vItemAlmacen = vListAlmacen.Where(p => p.ConsecutivoAlmacen == vItem.ConsecutivoAlmacen).Select(p => p).FirstOrDefault();
                 vItem.CodigoAlmacen = vItemAlmacen.CodigoAlmacen;
@@ -72,6 +89,11 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 vItem.DescripcionArticulo = vItemArticulo.Descripcion;
                 vItem.TipoDeArticuloAsEnum = vItemArticulo.TipoDeArticulo;
                 vItem.UnidadDeVenta = vItemArticulo.UnidadDeVenta;
+                var ItemLote = vListArticuloInventarioLote.Where(p => p.Consecutivo == vItem.ConsecutivoLoteDeInventario).FirstOrDefault();                
+                vItem.TipoArticuloInvAsEnum = vItemArticulo.TipoArticuloInv;
+                vItem.CodigoLote = ItemLote == null ? "" :ItemLote.CodigoLote;
+                vItem.FechaDeVencimiento = ItemLote == null ? LibDate.EmptyDate() : ItemLote.FechaDeVencimiento;
+                vItem.FechaDeElaboracion = ItemLote == null ? LibDate.EmptyDate() : ItemLote.FechaDeElaboracion;
             }
         }
 
@@ -147,6 +169,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
             vCurrentRecord.ConsecutivoOrdenDeProduccionDetalleArticulo = 0;
             vCurrentRecord.Consecutivo = 0;
             vCurrentRecord.ConsecutivoAlmacen = 0;
+            vCurrentRecord.ConsecutivoLoteDeInventario = 0;
             vCurrentRecord.CodigoArticulo = "";
             vCurrentRecord.Cantidad = 0;
             vCurrentRecord.CantidadReservadaInventario = 0;
@@ -181,6 +204,9 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("ConsecutivoAlmacen"), null))) {
                     vRecord.ConsecutivoAlmacen = LibConvert.ToInt(vItem.Element("ConsecutivoAlmacen"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("ConsecutivoLoteDeInventario"), null))) {
+                    vRecord.ConsecutivoLoteDeInventario = LibConvert.ToInt(vItem.Element("ConsecutivoLoteDeInventario"));
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CodigoArticulo"), null))) {
                     vRecord.CodigoArticulo = vItem.Element("CodigoArticulo").Value;
@@ -254,6 +280,53 @@ namespace Galac.Adm.Brl.GestionProduccion {
             }
             return vResult;
         }
+
+        private XElement FindInfoArticuloInventarioLote(IList<OrdenDeProduccionDetalleMateriales> valData) {
+            XElement vXElement = new XElement("GpData");
+            foreach (OrdenDeProduccionDetalleMateriales vItem in valData) {
+                vXElement.Add(FilterCompraDetalleArticuloInventarioByDistinctArticuloInventarioLote(vItem).Descendants("GpResult"));
+            }
+            ILibPdn insLoteDeInventario = new Galac.Saw.Brl.Inventario.clsLoteDeInventarioNav();
+            XElement vXElementResult = insLoteDeInventario.GetFk("Compra", ParametersGetFKArticuloInventarioForXmlSubSet(valData[0].ConsecutivoCompania, vXElement));
+            return vXElementResult;
+        }
+
+        private XElement FilterCompraDetalleArticuloInventarioByDistinctArticuloInventarioLote(OrdenDeProduccionDetalleMateriales valRecord) {
+            XElement vXElement = new XElement("GpData",
+                new XElement("GpResult",
+                    new XElement("Consecutivo", valRecord.ConsecutivoLoteDeInventario)));
+            return vXElement;
+        }
+        
+        decimal IOrdenDeProduccionDetalleMaterialesPdn.BuscaExistenciaDeArticuloLote(int valConsecutivoCompania, string valCodigoArticulo, int valConsecutivoLoteDeInventario) {
+            decimal vResult = 0;
+            QAdvSql vSqlUtil = new QAdvSql("");
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("SELECT Existencia ");
+            vSql.AppendLine("FROM  Saw.LoteDeInventario ");
+            vSql.AppendLine("WHERE ConsecutivoCompania = " + vSqlUtil.ToSqlValue(valConsecutivoCompania));
+            vSql.AppendLine(" AND Consecutivo = " + vSqlUtil.ToSqlValue(valConsecutivoLoteDeInventario));
+            vSql.AppendLine(" AND CodigoArticulo = " + vSqlUtil.ToSqlValue(valCodigoArticulo));
+            XElement vXmlResult = LibBusiness.ExecuteSelect(vSql.ToString(), null, "", 0);
+            if (vXmlResult != null && vXmlResult.HasElements) {
+                string vCantidadStr = LibXml.GetPropertyString(vXmlResult, "Existencia");
+                vResult = LibImportData.ToDec(vCantidadStr);
+            }
+            return vResult;
+        }
+
+        internal XElement BuscaExistenciaDeArticulosPorLote(int valConsecutivoCompania, IList<OrdenDeProduccionDetalleMateriales> valData) {
+            XElement vXElementOut = new XElement("GpData");
+            //XElement vXElementIn = new XElement("GpResult");
+            foreach (OrdenDeProduccionDetalleMateriales vItem in valData) {
+                vXElementOut.Add(new XElement("GpResult", new XElement("CodigoArticulo", vItem.CodigoArticulo), new XElement("ConsecutivoLoteDeInventario", vItem.ConsecutivoLoteDeInventario )));
+            }
+            //vXElementOut.Add(vXElementIn);
+            IArticuloInventarioPdn insArticulo = new Galac.Saw.Brl.Inventario.clsArticuloInventarioNav();
+            XElement vXElementResult = insArticulo.DisponibilidadDeArticuloPorLote(valConsecutivoCompania, vXElementOut);
+            return vXElementResult;
+        }
+
     } //End of class clsOrdenDeProduccionDetalleMaterialesNav
 } //End of namespace Galac.Adm.Brl.GestionProduccion
 

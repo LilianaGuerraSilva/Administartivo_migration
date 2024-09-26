@@ -2183,5 +2183,13 @@ namespace Galac.Saw.Brl.Inventario {
             }
             return vResult;
         }
+
+        public decimal DisponibilidadDeArticulo(int valConsecutivoCompania, string valCodigoArticulo, int valConsecutivoLoteDeInventario) {
+            return new clsLoteDeInventarioNav().DisponibilidadDeArticulo(valConsecutivoCompania, valCodigoArticulo, valConsecutivoLoteDeInventario);
+        }
+
+        public XElement DisponibilidadDeArticuloPorLote(int valConsecutivoCompania, XElement valDataArticulo) {
+            return new clsLoteDeInventarioNav().DisponibilidadDeArticuloPorLote(valConsecutivoCompania, valDataArticulo);
+        }
     }
 } //End of namespace Galac.Saw.Brl.Inventario
