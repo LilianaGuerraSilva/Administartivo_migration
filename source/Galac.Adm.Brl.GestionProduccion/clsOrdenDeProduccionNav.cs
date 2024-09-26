@@ -457,7 +457,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
                     }
                     if (vDisponibilidad < vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario &&
                             (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PermitirSobregiro"))) {
-                        throw new GalacValidationException("No hay suficiente existencia de algunos materiales para producir este inventario.");
+                        throw new GalacValidationException("No hay suficiente existencia de algunos insumos para producir esta orden.");
                     }
                 }
             }
@@ -542,11 +542,11 @@ namespace Galac.Adm.Brl.GestionProduccion {
                             vOrdenDeProduccionDetalleMateriales.CantidadConsumida > vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario) {
                             if (vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote || vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento) {
                                 if ((vOrdenDeProduccionDetalleMateriales.CantidadConsumida - vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario) > vDataExistenciaLote.Where(p => p.CodigoArticulo == vOrdenDeProduccionDetalleMateriales.CodigoArticulo && p.ConsecutivoLoteDeInventario == vOrdenDeProduccionDetalleMateriales.ConsecutivoLoteDeInventario).FirstOrDefault().Existencia) {
-                                    throw new GalacValidationException("No hay suficiente existencia de algunos materiales para producir este inventario. (" + vOrdenDeProduccionDetalleMateriales.CodigoArticulo + "-"  + vOrdenDeProduccionDetalleMateriales.CodigoLote + ")");
+                                    throw new GalacValidationException("No hay suficiente existencia de algunos insumos para producir esta orden. (" + vOrdenDeProduccionDetalleMateriales.CodigoArticulo + "-"  + vOrdenDeProduccionDetalleMateriales.CodigoLote + ")");
                                 }
                             } else {
                                 if ((vOrdenDeProduccionDetalleMateriales.CantidadConsumida - vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario) > vDataExistencia.Where(p => p.CodigoArticulo == vOrdenDeProduccionDetalleMateriales.CodigoArticulo && p.ConsecutivoAlmacen == vOrdenDeProduccionDetalleMateriales.ConsecutivoAlmacen).FirstOrDefault().Existencia) {
-                                    throw new GalacValidationException("No hay suficiente existencia de algunos materiales para producir este inventario. (" + vOrdenDeProduccionDetalleMateriales.CodigoArticulo + ")");
+                                    throw new GalacValidationException("No hay suficiente existencia de algunos insumos para producir esta orden. (" + vOrdenDeProduccionDetalleMateriales.CodigoArticulo + ")");
                                 }
                             }
                         }

@@ -1385,7 +1385,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     if (DetailOrdenDeProduccionDetalleMateriales.Items
                         .Where(q => q.TipoDeArticulo == Saw.Ccl.Inventario.eTipoDeArticulo.Mercancia && q.Existencia < q.CantidadReservadaInventario).Count() > 0) {
                         if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PermitirSobregiro")) {
-                            throw new GalacValidationException("No hay suficiente existencia de algunos materiales para producir este inventario.");
+                            throw new GalacValidationException("No hay suficiente existencia de algunos insumos para producir esta orden.");
                         }
                     }
                 }else if (Action == eAccionSR.Cerrar) {
