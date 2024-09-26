@@ -76,29 +76,36 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             if ((Master.Action == eAccionSR.Insertar) || (Master.Action == eAccionSR.Modificar) || (Master.Action == eAccionSR.Consultar) || (Master.Action == eAccionSR.Eliminar) || (Master.Action == eAccionSR.Anular)) {
                 foreach (var vItem in VisibleColumnsCpy) {
                     if (Master.StatusOp == eTipoStatusOrdenProduccion.Ingresada || Master.StatusOp == eTipoStatusOrdenProduccion.Iniciada || Master.StatusOp == eTipoStatusOrdenProduccion.Anulada) {
-                        if (VisibleColumns.Count > 6) {
-                            VisibleColumns.RemoveAt(6);
+                        if (VisibleColumns.Count > 7) {
+                            VisibleColumns.RemoveAt(7);
                         }
                     } else if (Master.StatusOp == eTipoStatusOrdenProduccion.Cerrada) {
-                        if (VisibleColumns.Count > 8) {
-                            VisibleColumns.RemoveAt(8);
+                        if (VisibleColumns.Count > 9) {
+                            VisibleColumns.RemoveAt(9);
                         }
-                    } else if (VisibleColumns.Count > 8) {
+                    } else if (VisibleColumns.Count > 9) {
+                        VisibleColumns.RemoveAt(9);
+                    }
+                }
+                
+                if (((Master.Action == eAccionSR.Insertar || Master.Action == eAccionSR.Modificar || (Master.Action == eAccionSR.Consultar)) && Master.StatusOp == eTipoStatusOrdenProduccion.Ingresada)){
+                    VisibleColumns.RemoveAt(2);
+                }
+            } else if (Master.Action == eAccionSR.Cerrar) {
+                foreach (var vItem in VisibleColumnsCpy) {
+                    if (VisibleColumns.Count > 8) {
                         VisibleColumns.RemoveAt(8);
                     }
                 }
-            } else if (Master.Action == eAccionSR.Cerrar) {
+            } else if (Master.Action == eAccionSR.Custom) {//Iniciar
                 foreach (var vItem in VisibleColumnsCpy) {
                     if (VisibleColumns.Count > 7) {
                         VisibleColumns.RemoveAt(7);
                     }
                 }
-            } else if (Master.Action == eAccionSR.Custom) {//Iniciar
-                foreach (var vItem in VisibleColumnsCpy) {
-                    if (VisibleColumns.Count > 6) {
-                        VisibleColumns.RemoveAt(6);
-                    }
-                }
+            }
+            if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento")) {
+                VisibleColumns.RemoveAt(2);
             }
         }
     } //End of class OrdenDeProduccionDetalleMaterialesMngViewModel

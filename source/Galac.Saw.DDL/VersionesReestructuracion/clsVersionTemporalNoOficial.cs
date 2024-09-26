@@ -25,6 +25,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             AjustesRenglonFactura();
             AjustesRenglonCompra();
             AjustesRenglonConteoFisico();
+            AjustesOrdenProduccion();
             DisposeConnectionNoTransaction();
 			return true;
 		}
@@ -110,11 +111,20 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
                 AddDefaultConstraint("Adm.CompraDetalleArticuloInventario", "d_ComDetArtInvCoLoIn", "0", "ConsecutivoLoteDeInventario");
             }
         }
-        private void AjustesRenglonConteoFisico()
-        {
-            if (!ColumnExists("RenglonConteoFisico", "CodigoLote"))
-            {
+        private void AjustesRenglonConteoFisico() {
+            if (!ColumnExists("RenglonConteoFisico", "CodigoLote")) {
                 AddColumnString("RenglonConteoFisico", "CodigoLote", 30, "", "");
+            }
+        }
+
+        private void AjustesOrdenProduccion() {
+            if (!ColumnExists("Adm.OrdenDeProduccionDetalleArticulo", "ConsecutivoLoteDeInventario")) {
+                AddColumnInteger("Adm.OrdenDeProduccionDetalleArticulo", "ConsecutivoLoteDeInventario", "", 0);
+                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtCoLo", "0", "ConsecutivoLoteDeInventario");
+            }
+            if (!ColumnExists("Adm.OrdenDeProduccionDetalleMateriales", "ConsecutivoLoteDeInventario")) {
+                AddColumnInteger("Adm.OrdenDeProduccionDetalleMateriales", "ConsecutivoLoteDeInventario", "", 0);
+                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "d_OrdDeProDetMatCoLo", "0", "ConsecutivoLoteDeInventario");
             }
         }
     }
