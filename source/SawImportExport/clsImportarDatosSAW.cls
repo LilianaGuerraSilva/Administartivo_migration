@@ -3213,7 +3213,15 @@ Private Function fDistribuyeLaLineaDeArticulo(ByRef refLineaActual As String, By
             Case gConvert.enumerativoAChar(eTAI_UsaTalla_ColorySerial)
                .SetTipoArticuloInvStr gEnumProyecto.enumTipoArticuloInvToString(eTAI_UsaTalla_ColorySerial)
                LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
-           Case Else
+            Case gConvert.enumerativoAChar(eTAI_Lote)
+               .SetTipoArticuloInvStr gEnumProyecto.enumTipoArticuloInvToString(eTAI_Lote)
+               .SetExistencia 0
+               LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
+            Case gConvert.enumerativoAChar(eTAI_LoteFechadeVencimiento)
+               .SetTipoArticuloInvStr gEnumProyecto.enumTipoArticuloInvToString(eTAI_LoteFechadeVencimiento)
+               .SetExistencia 0
+               LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
+            Case Else
                ErrorAlTraducirLaLinea = True
                texto = " ERROR Tipo de Articulo:* " & texto & "*"
                LineaDeErrores = LineaDeErrores & texto
