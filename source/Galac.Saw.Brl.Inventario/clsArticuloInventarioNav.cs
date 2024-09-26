@@ -2185,46 +2185,11 @@ namespace Galac.Saw.Brl.Inventario {
         }
 
         public decimal DisponibilidadDeArticulo(int valConsecutivoCompania, string valCodigoArticulo, int valConsecutivoLoteDeInventario) {
-            decimal vResult = 0;
-            StringBuilder SQL = new StringBuilder();
-            LibGpParams vParams = new LibGpParams();
-            string vTabla = string.Empty;
-            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
-            vParams.AddInString("CodigoArticulo", valCodigoArticulo, 30);
-            vParams.AddInInteger("Consecutivo", valConsecutivoLoteDeInventario);          
-
-            SQL.AppendLine(" SELECT CodigoArticulo, Existencia AS Disponibilidad");
-            SQL.AppendLine(" FROM Saw.LoteDeInventario ");            
-            SQL.AppendLine(" WHERE Saw.LoteDeInventario.CodigoArticulo = @CodigoArticulo ");
-            SQL.AppendLine(" AND Saw.LoteDeInventario.ConsecutivoCompania = @ConsecutivoCompania ");
-            SQL.AppendLine(" AND Saw.LoteDeInventario.Consecutivo = @Consecutivo ");
-
-            XElement xRecord = LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", 0);
-            if (xRecord != null) {
-                vResult = LibImportData.ToDec(LibXml.GetPropertyString(xRecord, "Disponibilidad"), 3);
-            }
-            return vResult;
+            return new clsLoteDeInventarioNav().DisponibilidadDeArticulo(valConsecutivoCompania, valCodigoArticulo, valConsecutivoLoteDeInventario);
         }
 
         public XElement DisponibilidadDeArticuloPorLote(int valConsecutivoCompania, XElement valDataArticulo) {
-            StringBuilder vSQL = new StringBuilder();
-            LibGpParams vParams = new LibGpParams();
-            QAdvSql InsSql = new QAdvSql("");
-            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
-            vParams.AddInXml("XmlData", valDataArticulo);
-            vSQL.AppendLine(" DECLARE @hdoc int ");
-            vSQL.AppendLine(" EXEC sp_xml_preparedocument @hdoc OUTPUT, @XmlData ");
-            vSQL.AppendLine("SELECT ");
-            vSQL.AppendLine("	 XmlDoc.CodigoArticulo, XmlDoc.ConsecutivoLoteDeInventario, ISNULL(Existencia, 0)  AS Cantidad  ");
-            vSQL.AppendLine("FROM   OPENXML(@hdoc, 'GpData/GpResult', 2) ");
-            vSQL.AppendLine(" WITH( ");
-            vSQL.AppendLine("	   ConsecutivoLoteDeInventario " + InsSql.NumericTypeForDb(10, 0) + ",");
-            vSQL.AppendLine("	   CodigoArticulo " + InsSql.VarCharTypeForDb(30) + ") AS XmlDoc");
-            vSQL.AppendLine(" LEFT JOIN Saw.LoteDeInventario ON XmlDoc.CodigoArticulo = Saw.LoteDeInventario.CodigoArticulo AND XmlDoc.ConsecutivoLoteDeInventario = Saw.LoteDeInventario.Consecutivo");
-            vSQL.AppendLine(" AND Saw.LoteDeInventario.ConsecutivoCompania = @ConsecutivoCompania ");
-            vSQL.AppendLine(" EXEC sp_xml_removedocument @hdoc");
-            XElement vData = LibBusiness.ExecuteSelect(vSQL.ToString(), vParams.Get(), "", 0);
-            return vData;
+            return new clsLoteDeInventarioNav().DisponibilidadDeArticuloPorLote(valConsecutivoCompania, valDataArticulo);
         }
     }
 } //End of namespace Galac.Saw.Brl.Inventario
