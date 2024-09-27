@@ -3996,6 +3996,7 @@ Public Function fSQLSearchArticulosParaElGridDeConteoFisico(ByVal valConsecutivo
    SQL = SQL & "    OR articuloInventario.TipoArticuloInv = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoArticuloInv.eTAI_Lote) & ")" & vbCrLf
    SQL = SQL & "AND " & vbCrLf
    SQL = SQL & " ArticuloInventario.StatusDelArticulo = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusArticulo.eSA_VIGENTE) & vbCrLf
+   SQL = SQL & " AND  Saw.LoteDeInventario.Existencia <> 0 " & vbCrLf
    SQL = SQL & " AND  ArticuloInventario.TipoDeArticulo = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeArticulo.eTD_MERCANCIA) & vbCrLf
    SQL = SQL & " AND ArticuloInventario.ConsecutivoCompania = " & valConsecutivoCompania
    fSQLSearchArticulosParaElGridDeConteoFisico = SQL
