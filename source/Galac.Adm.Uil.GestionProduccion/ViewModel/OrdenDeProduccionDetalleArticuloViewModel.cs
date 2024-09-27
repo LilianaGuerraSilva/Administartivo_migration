@@ -438,7 +438,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         public bool IsEnabledLoteDeInventario {
-            get { return IsEnabled; }
+            get { return Master.Action == eAccionSR.Cerrar; }
         }
 
         public FkLoteDeInventarioViewModel ConexionLoteDeInventario {
