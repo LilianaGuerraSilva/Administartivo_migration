@@ -7,6 +7,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using LibGalac.Aos.Base;
+using Galac.Saw.Ccl.Inventario;
 
 
 namespace Galac.Adm.Ccl.GestionProduccion {
@@ -17,6 +18,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         private int _ConsecutivoOrdenDeProduccion;
         private int _Consecutivo;
         private int _ConsecutivoAlmacen;
+        private int _ConsecutivoLoteDeInventario;
         private string _CodigoAlmacen;
         private string _NombreAlmacen;
         private string _CodigoArticulo;
@@ -32,6 +34,10 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         private decimal _PorcentajeCostoEstimado;
         private decimal _PorcentajeCostoCierre;
         private decimal _Costo;
+        private string _CodigoLote;
+        private eTipoArticuloInv _TipoArticuloInv;
+        private DateTime _FechaDeElaboracion;
+        private DateTime _FechaDeVencimiento;
         #endregion //Variables
         #region Propiedades
 
@@ -53,7 +59,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         public int ConsecutivoAlmacen {
             get { return _ConsecutivoAlmacen; }
             set { _ConsecutivoAlmacen = value; }
-        }
+        }       
 
         public string CodigoAlmacen {
             get { return _CodigoAlmacen; }
@@ -152,6 +158,34 @@ namespace Galac.Adm.Ccl.GestionProduccion {
                 OnPropertyChanged("Costo");
             }
         }
+
+        public int ConsecutivoLoteDeInventario {
+            get { return _ConsecutivoLoteDeInventario; }
+            set { _ConsecutivoLoteDeInventario = value; }
+        }
+
+        public string CodigoLote {
+            get { return _CodigoLote; }
+            set { _CodigoLote = value; }
+        }
+
+        public eTipoArticuloInv TipoArticuloInvAsEnum {
+            get { return _TipoArticuloInv; }
+            set { _TipoArticuloInv = value; }
+        }
+
+        public string TipoArticuloInv {
+            set { _TipoArticuloInv = (eTipoArticuloInv)LibConvert.DbValueToEnum(value); }
+        }
+
+        public DateTime FechaDeElaboracion {
+            get { return _FechaDeElaboracion; }
+            set { _FechaDeElaboracion = value; }
+        }
+        public DateTime FechaDeVencimiento {
+            get { return _FechaDeVencimiento; }
+            set { _FechaDeVencimiento = value; }
+        }
         #endregion //Propiedades
         #region Constructores
 
@@ -170,6 +204,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             ConsecutivoOrdenDeProduccion = 0;
             Consecutivo = 0;
             ConsecutivoAlmacen = 0;
+            ConsecutivoLoteDeInventario = 0;
             CodigoAlmacen = string.Empty;
             NombreAlmacen = string.Empty;
             CodigoArticulo = string.Empty;
@@ -193,6 +228,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             vResult.ConsecutivoOrdenDeProduccion = _ConsecutivoOrdenDeProduccion;
             vResult.Consecutivo = _Consecutivo;
             vResult.ConsecutivoAlmacen = _ConsecutivoAlmacen;
+            vResult.ConsecutivoLoteDeInventario = _ConsecutivoLoteDeInventario;
             vResult.CodigoAlmacen = _CodigoAlmacen;
             vResult.NombreAlmacen = _NombreAlmacen;
             vResult.CodigoArticulo = _CodigoArticulo;
@@ -216,6 +252,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
                "\nConsecutivo Orden De Produccion = " + _ConsecutivoOrdenDeProduccion.ToString() +
                "\nConsecutivo = " + _Consecutivo.ToString() +
                "\nConsecutivo Almacen = " + _ConsecutivoAlmacen.ToString() +
+               "\nConsecutivo Lote De Inventario = " + _ConsecutivoLoteDeInventario.ToString() +
                "\nCódigo de Artículo = " + _CodigoArticulo +
                "\nCantidad Original Lista = " + _CantidadOriginalLista.ToString() +
                "\nCantidad Solicitada = " + _CantidadSolicitada.ToString() +
