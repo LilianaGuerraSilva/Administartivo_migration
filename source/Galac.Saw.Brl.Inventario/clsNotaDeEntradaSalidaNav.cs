@@ -163,9 +163,8 @@ namespace Galac.Saw.Brl.Inventario {
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             vParams.AddInString("NumeroDocumento", vNumeroDocumento, 11);
             IList<NotaDeEntradaSalida> vDataEntradaSalida = _Db.GetData(eProcessMessageType.SpName, "NotaDeEntradaSalidaGET", vParams.Get(), true);
-            if (vDataEntradaSalida != null && vDataEntradaSalida.Count > 0) {
-                vDataEntradaSalida[0].StatusNotaEntradaSalidaAsEnum = eStatusNotaEntradaSalida.Anulada;
-                return UpdateRecord(vDataEntradaSalida, true, eAccionSR.Anular);
+            if (vDataEntradaSalida != null && vDataEntradaSalida.Count > 0) {               
+                return ((INotaDeEntradaSalidaPdn)this).AnularRecord(vDataEntradaSalida);
             }
             return new LibResponse();
         }
@@ -401,8 +400,12 @@ namespace Galac.Saw.Brl.Inventario {
             if (vLoteXElement != null && vLoteXElement.HasElements) {
                 LoteDeInventario vLote = new clsLoteDeInventarioNav().ParseToListEntity(vLoteXElement)[0];
                 if (vLote != null) {
-                    decimal vCant = (valItemNotaES.TipodeOperacionAsEnum == eTipodeOperacion.EntradadeInventario) ? valItemRenglonNotaES.Cantidad : valItemRenglonNotaES.Cantidad * -1;
+                    decimal vCant = (valItemNotaES.TipodeOperacionAsEnum == eTipodeOperacion.EntradadeInventario) ? valItemRenglonNotaES.Cantidad : valItemRenglonNotaES.Cantidad * -1;                    
                     eStatusDocOrigenLoteInv vStatusDocOrigen = (valItemNotaES.StatusNotaEntradaSalidaAsEnum == eStatusNotaEntradaSalida.Vigente) ? eStatusDocOrigenLoteInv.Vigente : eStatusDocOrigenLoteInv.Anulado;
+                    if (vStatusDocOrigen == eStatusDocOrigenLoteInv.Anulado &&
+                        valItemNotaES.GeneradoPorAsEnum == eTipoGeneradoPorNotaDeEntradaSalida.OrdenDeProduccion) {
+                        vCant = vCant * -1;
+                    }
                     LoteDeInventarioMovimiento vLoteMov = new LoteDeInventarioMovimiento();
                     vLoteMov.ConsecutivoCompania = valItemRenglonNotaES.ConsecutivoCompania;
                     vLoteMov.ConsecutivoLote = vLote.Consecutivo;

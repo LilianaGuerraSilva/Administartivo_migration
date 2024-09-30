@@ -407,8 +407,8 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("         CAST(OrdenDeProduccion.fldTimeStamp AS bigint) AS fldTimeStampBigint,");
             SQL.AppendLine("         OrdenDeProduccion.fldTimeStamp");
             SQL.AppendLine("      FROM " + DbSchema + ".OrdenDeProduccion");
-            SQL.AppendLine("             INNER JOIN Saw.Gv_Almacen_B1 AS AlmacenEntrada ON " + DbSchema + ".OrdenDeProduccion.ConsecutivoAlmacenProductoTerminado = AlmacenEntrada.Consecutivo");
-            SQL.AppendLine("             INNER JOIN Saw.Gv_Almacen_B1 AS AlmacenSalida ON " + DbSchema + ".OrdenDeProduccion.ConsecutivoAlmacenMateriales = AlmacenSalida.Consecutivo");
+            SQL.AppendLine("             INNER JOIN Saw.Gv_Almacen_B1 AS AlmacenEntrada ON  " + DbSchema + ".OrdenDeProduccion.ConsecutivoCompania = AlmacenEntrada.ConsecutivoCompania   AND " + DbSchema + ".OrdenDeProduccion.ConsecutivoAlmacenProductoTerminado = AlmacenEntrada.Consecutivo");
+            SQL.AppendLine("             INNER JOIN Saw.Gv_Almacen_B1 AS AlmacenSalida ON " + DbSchema + ".OrdenDeProduccion.ConsecutivoCompania = AlmacenSalida.ConsecutivoCompania AND "  + DbSchema + ".OrdenDeProduccion.ConsecutivoAlmacenMateriales = AlmacenSalida.Consecutivo");
             SQL.AppendLine("             INNER JOIN Gv_Moneda_B1 ON " + DbSchema + ".OrdenDeProduccion.CodigoMonedaCostoProduccion = Gv_Moneda_B1.Codigo");
             SQL.AppendLine("             INNER JOIN Adm.Gv_ListaDeMateriales_B1 ON " + DbSchema + ".OrdenDeProduccion.ConsecutivoListaDeMateriales = Adm.Gv_ListaDeMateriales_B1.Consecutivo");
             SQL.AppendLine("      WHERE OrdenDeProduccion.ConsecutivoCompania = @ConsecutivoCompania");

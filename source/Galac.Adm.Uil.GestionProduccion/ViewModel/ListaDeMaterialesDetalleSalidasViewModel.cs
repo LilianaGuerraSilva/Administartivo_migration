@@ -205,10 +205,17 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
-                vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("StatusdelArticulo ", eStatusArticulo.Vigente), eLogicOperatorType.And);
-                vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityEquality, eTipoArticuloInv.Simple, eLogicOperatorType.And);
+                vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("StatusdelArticulo ", eStatusArticulo.Vigente), eLogicOperatorType.And);                
                 vFixedCriteria.Add("TipoDeArticulo", eBooleanOperatorType.IdentityEquality, eTipoDeArticulo.Mercancia, eLogicOperatorType.And);
-                ConexionCodigoArticuloInventario = Master.ChooseRecord<FkArticuloInventarioViewModel>("Artículo Inventario", vDefaultCriteria, vFixedCriteria, string.Empty);
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento")) {
+                    vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.UsaSerialRollo));
+                    vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.UsaTallaColorySerial));
+                    vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.UsaTallaColor));
+                    vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.UsaSerial));
+                } else {
+                    vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityEquality, eTipoArticuloInv.Simple, eLogicOperatorType.And);
+                }
+                ConexionCodigoArticuloInventario = Master.ChooseRecord<FkArticuloInventarioViewModel>("Artículo Inventario", vDefaultCriteria, vFixedCriteria, string.Empty);                
                 if (ConexionCodigoArticuloInventario == null) {
                     CodigoArticuloInventario = string.Empty;
                     DescripcionArticuloInventario = string.Empty;
