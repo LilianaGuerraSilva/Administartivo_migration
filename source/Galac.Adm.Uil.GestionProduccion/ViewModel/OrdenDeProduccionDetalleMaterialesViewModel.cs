@@ -487,6 +487,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("CodigoLote", valCodigoLote);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
                 vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("CodigoArticulo", CodigoArticulo), eLogicOperatorType.And);
+                if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PermitirSobregiro")) {                    
+                    vFixedCriteria.Add("Existencia", eBooleanOperatorType.GreaterThan, 0, eLogicOperatorType.And);
+                }                
                 var ConexionLoteDeInventarioTmp = Master.ChooseRecord<FkLoteDeInventarioViewModel>("Lote de Inventario", vDefaultCriteria, vFixedCriteria, "FechaDeVencimiento, FechaDeElaboracion, CodigoLote");
                 if (ConexionLoteDeInventarioTmp == null) {
                     CodigoLote = string.Empty;
@@ -494,8 +497,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     FechaDeVencimiento = LibDate.MaxDateForDB();
                 } else {
                     if (Master.DetailOrdenDeProduccionDetalleMateriales.Items != null &&
-                        Master.DetailOrdenDeProduccionDetalleMateriales.Items.Count(p => p.ConsecutivoLoteDeInventario == ConexionLoteDeInventarioTmp.Consecutivo
-                        && p.Consecutivo != Consecutivo) > 0) {
+                        Master.DetailOrdenDeProduccionDetalleMateriales.Items.Count(p => p.ConsecutivoLoteDeInventario == ConexionLoteDeInventarioTmp.Consecutivo) > 0) {
                         LibMessages.MessageBox.Error(this, $"El Artículo: {ConexionLoteDeInventarioTmp.CodigoArticulo} - {LibString.Left(DescripcionArticulo, 15) + "..."} Lote: {ConexionLoteDeInventarioTmp.CodigoLote} ya está ingresado en la lista.", ModuleName);
                         return;
                     }
