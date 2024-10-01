@@ -2608,15 +2608,16 @@ MenuDeInformes : boolean;
 }
 
 {@D Compra}RenglonCompra = Record //Multiarchivo=Compania
-    ConsecutivoCompania	   : Longint; //o,HIDE
-    NumeroSecuencialCompra : Str10;   //o,HIDE
-    consecutivoRenglon	   : longint; //o,HIDE
-    CodigoArticulo         : str15; //g,o,=ArticuloInventario.Codigo,"Código Inventario"
-    Cantidad               : Double;//g,o
-    CostoUnitario          : double; //g,o
-    CantidadRecibida       : Double;
-    CodigoTalla            : Str03; // = ExistenciaporGrupo.CodigoTalla
-    CodigoColor            : Str03; // = ExistenciaporGrupo.CodigoColor
+    ConsecutivoCompania	   		: Longint; //o,HIDE
+    NumeroSecuencialCompra 		: Str10;   //o,HIDE
+    consecutivoRenglon	   		: longint; //o,HIDE
+    CodigoArticulo         		: str15; //g,o,=ArticuloInventario.Codigo,"Código Inventario"
+    Cantidad               		: Double;//g,o
+    CostoUnitario          		: double; //g,o
+    CantidadRecibida       		: Double;
+    CodigoTalla            		: Str03; // = ExistenciaporGrupo.CodigoTalla
+    CodigoColor            		: Str03; // = ExistenciaporGrupo.CodigoColor
+	ConsecutivoLoteDeInventario	: LongInt;//o,HIDE
     @PrimaryKey=ConsecutivoCompania,NumeroSecuencialCompra, ConsecutivoRenglon
 }
 {@D Compra}RenglonCompraXSerial = Record //Multiarchivo=Compania
