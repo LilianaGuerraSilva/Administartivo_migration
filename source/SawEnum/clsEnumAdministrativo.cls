@@ -240,6 +240,8 @@ Public Enum enum_SystemModules
    eSM_TransferenciaEntreCuentasBancarias
    eSM_RutaDeComercializacion
    eSM_GVentas
+   eSM_LoteDeInventario
+   eSM_LoteDeInventarioMovimiento
 End Enum
 
 Public Enum enum_DiaDeLaSemana

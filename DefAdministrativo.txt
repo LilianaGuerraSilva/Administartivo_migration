@@ -4529,6 +4529,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	PorcentajeCostoEstimado			: decimal;//g,"% Costo Est.",decimales=8
 	PorcentajeCostoCierre			: decimal;//g,"% Costo Cierre",decimales=8
 	Costo							: decimal;//g,"Costo",
+	ConsecutivoLoteDeInventario	: LongInt;//o,HIDE
 	@PrimaryKey=ConsecutivoCompania,ConsecutivoOrdenDeProduccion,Consecutivo
 }
 
@@ -4549,6 +4550,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	MontoSubtotal						: decimal;//a"CantidadConsumida * CostoUnitarioArticuloInventario"
 	AjustadoPostCierre					: boolean;//"Ajusta por Cierre"
 	CantidadAjustada					: decimal;//"Cantidad Ajustada",dv=0
+	ConsecutivoLoteDeInventario	: LongInt;//o,HIDE
 	@PrimaryKey=ConsecutivoCompania,ConsecutivoOrdenDeProduccion,Consecutivo
 }
 
