@@ -32,13 +32,15 @@ namespace Galac.Adm.Uil.Banco {
 				TransferenciaEntreCuentasBancariasMngViewModel vViewModel = new TransferenciaEntreCuentasBancariasMngViewModel();
 				vViewModel.ExecuteSearchAndInitLookAndFeel();
 				LibSearchView insFrmSearch = new LibSearchView(vViewModel);
-				if (valUseInterop == 0) {
-					insFrmSearch.Owner = System.Windows.Application.Current.MainWindow;
-					insFrmSearch.Show();
-				} else {
-					insFrmSearch.ShowDialog();
-				}
-			}
+                if (valUseInterop == 0) {
+                    insFrmSearch.Owner = System.Windows.Application.Current.MainWindow;
+                    insFrmSearch.Show();
+                } else if (valUseInterop == 1) {
+                    insFrmSearch.Show();
+                } else {
+                    insFrmSearch.ShowDialog();
+                }
+            }
 		}
 		public static bool ChooseFromInterop(ref XmlDocument refXmlDocument, List<LibSearchDefaultValues> valSearchCriteria, List<LibSearchDefaultValues> valFixedCriteria) {
 			return LibFKRetrievalHelper.ChooseRecord<FkTransferenciaEntreCuentasBancariasViewModel>("Transferencia entre Cuentas Bancarias", ref refXmlDocument, valSearchCriteria, valFixedCriteria, new clsTransferenciaEntreCuentasBancariasNav());

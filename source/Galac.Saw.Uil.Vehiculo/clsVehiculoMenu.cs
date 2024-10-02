@@ -17,6 +17,8 @@ namespace Galac.Saw.Uil.Vehiculo {
             if (valUseInterop == 0) {
                 insFrmSearch.Owner = System.Windows.Application.Current.MainWindow;
                 insFrmSearch.Show();
+            } else if (valUseInterop == 1) {
+                insFrmSearch.Show();
             } else {
                 insFrmSearch.ShowDialog();
             }

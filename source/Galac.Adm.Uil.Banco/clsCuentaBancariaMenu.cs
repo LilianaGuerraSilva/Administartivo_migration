@@ -28,11 +28,13 @@ namespace Galac.Adm.Uil.Banco {
 				CuentaBancariaMngViewModel vViewModel = new CuentaBancariaMngViewModel();
 				vViewModel.ExecuteSearchAndInitLookAndFeel();
 				LibSearchView insFrmSearch = new LibSearchView(vViewModel);
-				if (valUseInterop == 0) {
-					insFrmSearch.Owner = System.Windows.Application.Current.MainWindow;
-					insFrmSearch.Show();
-				} else {
-					insFrmSearch.ShowDialog();
+                if (valUseInterop == 0) {
+                    insFrmSearch.Owner = System.Windows.Application.Current.MainWindow;
+                    insFrmSearch.Show();
+                } else if (valUseInterop == 1) {
+                    insFrmSearch.Show();
+                } else {
+                    insFrmSearch.ShowDialog();
 				}
 			} catch (Exception) {
 				throw;
