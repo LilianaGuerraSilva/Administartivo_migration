@@ -58,3 +58,15 @@
 	path = bin/binComunAos
 	url = https://github.com/GalacSoftware/BinComunAos.git
 	branch = release/V2.62.2.4
+[submodule "source/ContabilidadVb"]
+	path = source/ContabilidadVb
+	url = https://github.com/GalacSoftware/ContabilidadVb.git
+	branch = feature/AbrirCerrarPeriodo
+[submodule "source/ContabiWrp"]
+	path = source/ContabiWrp
+	url = https://github.com/GalacSoftware/ContabiWrp.git
+	branch = feature/AbrirCerrarPeriodo
+[submodule "bin/binContabilidadAos"]
+	path = bin/binContabilidadAos
+	url = https://github.com/GalacSoftware/BinContabilidadAos.git
+	branch = feature/ExportarComprobantes
