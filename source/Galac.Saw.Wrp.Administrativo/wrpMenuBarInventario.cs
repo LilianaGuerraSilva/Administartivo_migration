@@ -35,7 +35,7 @@ namespace Galac.Saw.Wrp.MenuBar {
                 if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaModuloDeContabilidad")) {
                     LibGlobalValues.Instance.LoadMFCInfoFromAppMemInfo("Parametros", "ConsecutivoPeriodo");
                 }
-                LibMefBootstrapperForInterop vBootstrapper = new LibMefBootstrapperForInterop(true);
+                LibMefBootstrapperForInterop vBootstrapper = new LibMefBootstrapperForInterop(false);
                 LibInteropParameters vParams = new LibInteropParameters();
                 vParams.AdmittedComponents = ComponentsNavigationTab();
                 vParams.CurrentUserName = ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login;

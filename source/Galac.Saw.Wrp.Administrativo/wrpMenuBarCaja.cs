@@ -37,7 +37,7 @@ namespace Galac.Saw.Wrp.MenuBar {
                 bool EsUsuarioCajero = LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "EsUsuarioCajero"));
                 LibGlobalValues.Instance.LoadCompleteAppMemInfo(vfwCurrentParameters);
                 LibGlobalValues.Instance.LoadMFCInfoFromAppMemInfo("Compania", "ConsecutivoCompania");
-                LibMefBootstrapperForInterop vBootstrapper = new LibMefBootstrapperForInterop(true);
+                LibMefBootstrapperForInterop vBootstrapper = new LibMefBootstrapperForInterop(false);
                 LibInteropParameters vParams = new LibInteropParameters();
                 vParams.CurrentUserName = ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login;
                 vParams.CurrentCompanyName = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre");
