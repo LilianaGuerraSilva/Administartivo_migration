@@ -302,6 +302,50 @@ namespace Galac.Saw.Wrp.WinCont {
                 LibExceptionDisplay.Show(vEx);
             }
         }
+
+        void IWrpCuenta.CambiarNivelParaAsientosPeriodo(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
+            try {
+                CreateGlobalValues(vfwCurrentParameters);
+                ILibMenuMultiFile insMenu = new Galac.Contab.Uil.WinCont.clsCambiarNivelParaAsientosMenu();
+                insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1, LibGlobalValues.Instance.GVDictionary);
+            } catch(GalacException gEx) {
+                LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
+            } catch(Exception vEx) {
+                if(vEx is AccessViolationException) {
+                    throw;
+                }
+                LibExceptionDisplay.Show(vEx);
+            }
+        }
+
+        void IWrpCuenta.CambiarNivelParaImpresion(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
+            try {
+                CreateGlobalValues(vfwCurrentParameters);
+                ILibMenuMultiFile insMenu = new Galac.Contab.Uil.WinCont.clsCambiarNivelParaImpresionMenu();
+                insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1, LibGlobalValues.Instance.GVDictionary);
+            } catch(GalacException gEx) {
+                LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
+            } catch(Exception vEx) {
+                if(vEx is AccessViolationException) {
+                    throw;
+                }
+                LibExceptionDisplay.Show(vEx);
+            }
+        }
+        void IWrpCuenta.AbrirCerrarMes(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
+            try {
+                CreateGlobalValues(vfwCurrentParameters);
+                ILibMenuMultiFile insMenu = new Galac.Contab.Uil.WinCont.clsAbrirCerrarMesMenu();
+                insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1, LibGlobalValues.Instance.GVDictionary);
+            } catch(GalacException gEx) {
+                LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
+            } catch(Exception vEx) {
+                if(vEx is AccessViolationException) {
+                    throw;
+                }
+                LibExceptionDisplay.Show(vEx);
+            }
+        }
     } //End of class wrpCuenta  
 
 } //End of namespace Galac.Iva.Wrp.Cuenta
