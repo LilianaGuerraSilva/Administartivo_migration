@@ -187,7 +187,9 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
                     valCodigo = string.Empty;
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_ArticuloInventario_B1.Codigo", valCodigo);
-                vDefaultCriteria.Add(LibSearchCriteria.CreateCriteria("Gv_ArticuloInventario_B1.TipoArticuloInv", eTipoArticuloInv.LoteFechadeVencimiento), eLogicOperatorType.And);
+                LibSearchCriteria vDefaultCriteria2 = LibSearchCriteria.CreateCriteria("Gv_ArticuloInventario_B1.TipoArticuloInv", eTipoArticuloInv.Lote);
+                vDefaultCriteria2.Add(LibSearchCriteria.CreateCriteria("Gv_ArtiuloInventario_B1.TipoArticuloInv", eTipoArticuloInv.LoteFechadeVencimiento), eLogicOperatorType.Or);
+                vDefaultCriteria.Add(vDefaultCriteria2,eLogicOperatorType.And);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Gv_ArticuloInventario_B1.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
                 ConexionCodigoArticulo = ChooseRecord<FkArticuloInventarioRptViewModel>("Artículo Inventario", vDefaultCriteria, vFixedCriteria, string.Empty);
                 if (ConexionCodigoArticulo != null) {
