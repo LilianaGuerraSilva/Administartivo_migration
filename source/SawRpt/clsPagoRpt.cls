@@ -155,7 +155,7 @@ Public Function fConfigurarDatosDePagosEntreFechas(ByRef refRpt As DDActiveRepor
             gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "lbDescripcionPago", False
             gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "txtDescripcionPago", False
          End If
-         gUtilMargins.sAsignarMargenesGenerales refRpt, ddOLandscape
+         gUtilMargins.sAsignarMargenesParticularesYLosGrabaSiEsNecesario refRpt, "Pagos entre Fechas", True, gPrinter.GetTopMargin, True, gPrinter.GetLeftMargin, True, gPrinter.GetBottomMargin, True, gPrinter.GetRightMargin, True, ddOLandscape
          Call refRpt.AddNamedItem("gUtilReports", gUtilReports)
          exito = True
       End If
