@@ -97,7 +97,7 @@
             Name="lblModulo"
             Grid.Row="0"
             Grid.Column="4"
-            Content="Módulo"
+            Content="Módulo Origen"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf
             Name="cmbModulo"

@@ -79,7 +79,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Módulo", eGridColumType.Enum, PrintingMemberPath = "ModuloStr", ColumnOrder = 3, Width = 280)]
+        [LibGridColum("Módulo Origen", eGridColumType.Enum, PrintingMemberPath = "ModuloStr", ColumnOrder = 3, Width = 280)]
         public eOrigenLoteInv Modulo {
             get {
                 return Model.ModuloAsEnum;

@@ -304,7 +304,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         protected override void ExecuteAction() {
             if (Action == eAccionSR.Eliminar || Action == eAccionSR.Modificar) {
-                if (Action == eAccionSR.Modificar && TipoArticuloInv == eTipoArticuloInv.Lote) {
+                if (Action == eAccionSR.Modificar && (TipoArticuloInv == eTipoArticuloInv.Lote || Model.DetailLoteDeInventarioMovimiento.Count != 0)) {
                     LibMessages.MessageBox.Information(this, $"Solo se pueden {LibEnumHelper.GetDescription(Action)} Lotes tipo {LibEnumHelper.GetDescription(eTipoArticuloInv.LoteFechadeVencimiento)}.", ModuleName);
                 } else {
                     if (Model.DetailLoteDeInventarioMovimiento.Count != 0) {
