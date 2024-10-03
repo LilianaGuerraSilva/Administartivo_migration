@@ -11,9 +11,10 @@ using LibGalac.Aos.Brl;
 using LibGalac.Aos.Base.Dal;
 using Galac.Saw.Ccl.Inventario;
 using LibGalac.Aos.Dal;
+using LibGalac.Aos.Catching;
 
 namespace Galac.Saw.Brl.Inventario {
-    public partial class clsLoteDeInventarioNav: LibBaseNavMaster<IList<LoteDeInventario>, IList<LoteDeInventario>>, ILoteDeInventarioPdn {
+    public partial class clsLoteDeInventarioNav : LibBaseNavMaster<IList<LoteDeInventario>, IList<LoteDeInventario>>, ILoteDeInventarioPdn {
         #region Variables
         #endregion //Variables
         #region Propiedades
@@ -35,6 +36,18 @@ namespace Galac.Saw.Brl.Inventario {
                 default:
                     vResult = true;
                     break;
+            }
+            return vResult;
+        }
+
+        protected override bool CanBeChoosenForAction(IList<LoteDeInventario> refRecord, eAccionSR valAction) {
+            bool vResult = base.CanBeChoosenForAction(refRecord, valAction);
+            if (valAction == eAccionSR.Eliminar || valAction == eAccionSR.Modificar) {
+                if (valAction == eAccionSR.Modificar && !new clsLoteDeInventarioNav().SQLBuscaSiEsTipoLoteFeVcto(refRecord[0].ConsecutivoCompania, refRecord[0].CodigoArticulo)) {
+                    throw new GalacAlertException("Solo se pueden " + LibEnumHelper.GetDescription(valAction) + " los Lotes tipo " + LibEnumHelper.GetDescription(eTipoArticuloInv.LoteFechadeVencimiento) + ".");
+                } else if (valAction == eAccionSR.Eliminar && new clsLoteDeInventarioNav().DisponibilidadDeArticulo(refRecord[0].ConsecutivoCompania, refRecord[0].CodigoArticulo, refRecord[0].Consecutivo) > 0) {
+                    throw new GalacAlertException("Solo se pueden " + LibEnumHelper.GetDescription(valAction) + " Lotes que no hayan tenido movimientos.");
+                }
             }
             return vResult;
         }
@@ -84,7 +97,7 @@ namespace Galac.Saw.Brl.Inventario {
 
         private XElement FindInfoArticuloInventario(IList<LoteDeInventario> valData) {
             XElement vXElement = new XElement("GpData");
-            foreach(LoteDeInventario vItem in valData) {
+            foreach (LoteDeInventario vItem in valData) {
                 vXElement.Add(FilterLoteDeInventarioByDistinctArticuloInventario(vItem).Descendants("GpResult"));
             }
             ILibPdn insArticuloInventario = new Galac.Saw.Brl.Inventario.clsArticuloInventarioNav();
@@ -230,12 +243,12 @@ namespace Galac.Saw.Brl.Inventario {
             return vResult;
         }
 
-        bool ILoteDeInventarioPdn.ActualizarLote(IList<LoteDeInventario> valListaLote) {            
+        bool ILoteDeInventarioPdn.ActualizarLote(IList<LoteDeInventario> valListaLote) {
             bool vResult = true;
             if (valListaLote != null && valListaLote.Count() > 0) {
                 foreach (LoteDeInventario vItemLote in valListaLote) {
                     vResult = UpdateLote(vItemLote);
-                    if (vResult) {                        
+                    if (vResult) {
                         vResult = InsertDetail(vItemLote);
                     }
                 }
@@ -290,7 +303,7 @@ namespace Galac.Saw.Brl.Inventario {
                     vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(vLoteMov.NumeroDocumentoOrigen) + ", ");
                     vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(vLoteMov.StatusDocumentoOrigenAsDB) + ",");
                     vSqlInsertMovimiento.AppendLine(insSql.ToSqlValue(vLoteMov.TipoOperacionAsDB));
-                    vSqlInsertMovimiento.AppendLine(")");                    
+                    vSqlInsertMovimiento.AppendLine(")");
                     vResult = new LibDataScope().ExecuteWithScope(vSqlInsertMovimiento.ToString()) > 0;
                 }
             }
@@ -301,12 +314,12 @@ namespace Galac.Saw.Brl.Inventario {
         private static bool DeleteDetail(LoteDeInventario vItemLote, eOrigenLoteInv valOrigen, int valConsecutivoDocumentoOrigen, string valNumeroDocumentoOrigen, bool valSoloAnulados) {
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("ConsecutivoCompania", vItemLote.ConsecutivoCompania);
-            vParams.AddInInteger("ConsecutivoLote", vItemLote.Consecutivo);            
+            vParams.AddInInteger("ConsecutivoLote", vItemLote.Consecutivo);
             vParams.AddInEnum("Modulo", (int)valOrigen);
             bool vResult = true;
-            QAdvSql insSql = new QAdvSql("");            
+            QAdvSql insSql = new QAdvSql("");
             StringBuilder vSqlInsertMovimiento = new StringBuilder();
-            vSqlInsertMovimiento.AppendLine("DELETE Saw.LoteDeInventarioMovimiento");                    
+            vSqlInsertMovimiento.AppendLine("DELETE Saw.LoteDeInventarioMovimiento");
             vSqlInsertMovimiento.AppendLine(" WHERE ");
             vSqlInsertMovimiento.AppendLine("ConsecutivoCompania = @ConsecutivoCompania");
             vSqlInsertMovimiento.AppendLine(" AND ConsecutivoLote = @ConsecutivoLote");
@@ -320,7 +333,7 @@ namespace Galac.Saw.Brl.Inventario {
             }
             if (valSoloAnulados) {
                 vParams.AddInEnum("StatusDocumentoOrigen", (int)eStatusDocOrigenLoteInv.Anulado);
-                vSqlInsertMovimiento.AppendLine(" AND StatusDocumentoOrigen = @StatusDocumentoOrigen");                
+                vSqlInsertMovimiento.AppendLine(" AND StatusDocumentoOrigen = @StatusDocumentoOrigen");
             }
             LibBusiness.ExecuteUpdateOrDelete(vSqlInsertMovimiento.ToString(), vParams.Get(), "", 0);
             return vResult;
@@ -368,6 +381,28 @@ namespace Galac.Saw.Brl.Inventario {
             XElement vData = LibBusiness.ExecuteSelect(vSQL.ToString(), vParams.Get(), "", 0);
             return vData;
         }
+
+        internal bool SQLBuscaSiEsTipoLoteFeVcto(int valConsecutivoCompania, string valCodigoArticulo) {
+            bool vResult = false;
+            StringBuilder SQL = new StringBuilder();
+            LibGpParams vParams = new LibGpParams();
+            string vTabla = string.Empty;
+            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            vParams.AddInString("Codigo", valCodigoArticulo, 30);
+
+            SQL.AppendLine(" SELECT TipoArticuloInv AS TipoArticulo");
+            SQL.AppendLine(" FROM ArticuloInventario ");
+            SQL.AppendLine(" WHERE Codigo = @Codigo ");
+            SQL.AppendLine(" AND ConsecutivoCompania = @ConsecutivoCompania ");
+            SQL.AppendLine(" AND TipoArticuloInv = 5");
+
+            XElement xRecord = LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", 0);
+            if (xRecord != null) {
+                vResult = LibConvert.ToInt(LibXml.GetPropertyString(xRecord, "TipoArticulo")) > 0;
+            }
+            return vResult;
+        }
+
     } //End of class clsLoteDeInventarioNav
 
 } //End of namespace Galac.Saw.Brl.Inventario
