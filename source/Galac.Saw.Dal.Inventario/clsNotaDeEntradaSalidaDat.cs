@@ -544,6 +544,11 @@ namespace Galac.Saw.Dal.Inventario {
                 } else if (valAccion == eAccionSR.Anular && vItemNotaES.TipodeOperacionAsEnum != eTipodeOperacion.Retiro) {
                     outMensaje = "Solo se pueden Anular Operaciones de Retiro.";
                     return false;
+                } else if (valAccion == eAccionSR.Eliminar && ExistenNotasESDesdeImportacion(vItemNotaES.ConsecutivoCompania, vItemNotaES.CodigoLote)) {
+                    StringBuilder vMsg = new StringBuilder();
+                    vMsg.AppendLine($"No se puede eliminar la Nota de Entrada / Salida {vItemNotaES.NumeroDocumento}, la misma está asociada a un lote de importación.");
+                    outMensaje = vMsg.ToString();
+                    return false;
                 } else if (ExistenComprobantesDeCostoDeVentasPosteriores(vItemNotaES.ConsecutivoCompania, vItemNotaES.Fecha)) {
                     StringBuilder vMsg = new StringBuilder();
                     vMsg.AppendLine("Existe al menos un Comprobante de Costo de Venta posterior a la operación de " + LibEAccionSR.ToString(valAccion) + ".");
@@ -572,6 +577,18 @@ namespace Galac.Saw.Dal.Inventario {
                 }
             }
             return vResult;
+        }
+
+        private bool ExistenNotasESDesdeImportacion(int valConsecutivoCompania, string valCodigoLoteAdm) {
+            bool vResult = false;
+            LibDatabase insDb = new LibDatabase();
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("SELECT CodigoLote ");
+            vSql.AppendLine("FROM LoteAdm");
+            vSql.AppendLine("WHERE ConsecutivoCompania = " + insDb.InsSql.ToSqlValue(valConsecutivoCompania));
+            vSql.AppendLine("AND CodigoLote =" + insDb.InsSql.ToSqlValue(valCodigoLoteAdm));
+            vResult = insDb.RecordCountOfSql(vSql.ToString()) > 0;
+            return vResult;           
         }
 
         private bool HayAlMenosUnArtLoteFdV(NotaDeEntradaSalida valItemNotaES) {
