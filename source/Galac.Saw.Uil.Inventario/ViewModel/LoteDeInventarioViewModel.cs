@@ -92,7 +92,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Descripción", eGridColumType.Generic, MaxLength = 50, Width = 300, WidthForPrinting = 35, ColumnOrder = 1)]
+        [LibGridColum("Descripción", eGridColumType.Generic, MaxLength = 250, Width = 350, WidthForPrinting = 48, ColumnOrder = 1)]
         public string DescripcionArticulo {
             get {
                 return Model.DescripcionArticulo;
