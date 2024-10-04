@@ -150,7 +150,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Estatus", eGridColumType.Enum, Width = 80, PrintingMemberPath = "StatusLoteInvStr", WidthForPrinting = 10, ColumnOrder = 5)]
+        //[LibGridColum("Estatus", eGridColumType.Enum, Width = 80, PrintingMemberPath = "StatusLoteInvStr", WidthForPrinting = 10, ColumnOrder = 5)]
         public eStatusLoteDeInventario StatusLoteInv {
             get {
                 return Model.StatusLoteInvAsEnum;
@@ -234,7 +234,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         public bool IsVisibleStatus {
-            get { return Action != eAccionSR.Insertar; }
+            get { return false; }
         }
 
         public bool IsVisibleExistencia {
@@ -260,6 +260,12 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         public bool IsVisibleDetaillLoteDeInventario {
             get { return Action == eAccionSR.Consultar; }
+        }
+
+        public bool IsEnabledCodigo {
+            get {
+                return IsEnabled && Action != eAccionSR.Modificar;
+            }
         }
         #endregion //Propiedades
         #region Constructores
@@ -298,12 +304,16 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         protected override void ExecuteAction() {
             if (Action == eAccionSR.Eliminar || Action == eAccionSR.Modificar) {
-                if (Model.DetailLoteDeInventarioMovimiento.Count != 0) {
-                    LibMessages.MessageBox.Information(this, $"Solo se pueden {LibEnumHelper.GetDescription(Action)} Lotes que no hayan tenido movimientos.", ModuleName);
-                    CloseOnActionComplete = true;
-                    RaiseRequestCloseEvent();
-                    return;
+                if (Action == eAccionSR.Modificar && (TipoArticuloInv == eTipoArticuloInv.Lote || Model.DetailLoteDeInventarioMovimiento.Count != 0)) {
+                    LibMessages.MessageBox.Information(this, $"Solo se pueden {LibEnumHelper.GetDescription(Action)} los Lotes de Inventario del tipo {LibEnumHelper.GetDescription(eTipoArticuloInv.LoteFechadeVencimiento)} que no tengan movimientos.", ModuleName);
+                } else {
+                    if (Action == eAccionSR.Modificar && Model.DetailLoteDeInventarioMovimiento.Count != 0) {
+                        LibMessages.MessageBox.Information(this, $"Solo se pueden {LibEnumHelper.GetDescription(Action)} los Lotes de Inventario que no tengan movimientos.", ModuleName);
+                        CloseOnActionComplete = true;
+                        RaiseRequestCloseEvent();
+                    }
                 }
+                return;
             }
             base.ExecuteAction();
         }
