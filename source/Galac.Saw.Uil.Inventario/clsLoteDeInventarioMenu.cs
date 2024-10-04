@@ -31,7 +31,10 @@ namespace Galac.Saw.Uil.Inventario {
             return LibFKRetrievalHelper.ChooseRecord<FkLoteDeInventarioViewModel>("Lote de Inventario", ref refXmlDocument, valSearchCriteria, valFixedCriteria, new clsLoteDeInventarioNav(), "ConsecutivoCompania, FechaDeVencimiento, FechaDeElaboracion, Consecutivo", true);
         }
         #endregion //Metodos Generados
-
+        public static bool ChooseFromInteropForConteoFisico(ref XmlDocument refXmlDocument, List<LibSearchDefaultValues> valSearchCriteria, List<LibSearchDefaultValues> valFixedCriteria)
+        {
+            return LibFKRetrievalHelper.ChooseRecord<FkLoteDeInventarioConteoFisicoViewModel>("Lote de Inventario", ref refXmlDocument, valSearchCriteria, valFixedCriteria, new clsLoteDeInventarioNav(), "ConsecutivoCompania, FechaDeVencimiento, FechaDeElaboracion, Consecutivo", true);
+        }
 
     } //End of class clsLoteDeInventarioMenu
 
