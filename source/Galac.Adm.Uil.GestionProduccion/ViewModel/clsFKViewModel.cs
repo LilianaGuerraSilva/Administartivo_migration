@@ -56,7 +56,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public string Nombre { get; set; }
         [LibGridColum("Código Inventario a producir", Width = 400, IsForSearch = false)]
         public string CodigoArticuloInventario { get; set; }
-        [LibGridColum("Descripcion Articulo", Width = 400, IsForSearch = false)]
+        [LibGridColum("Descripción Artículo", Width = 400, IsForSearch = false)]
         public string DescripcionArticuloInventario { get; set; }
         public DateTime FechaCreacion { get; set; }
     }
