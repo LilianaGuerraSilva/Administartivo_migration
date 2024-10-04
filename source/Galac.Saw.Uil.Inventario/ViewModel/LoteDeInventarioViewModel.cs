@@ -305,10 +305,10 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         protected override void ExecuteAction() {
             if (Action == eAccionSR.Eliminar || Action == eAccionSR.Modificar) {
                 if (Action == eAccionSR.Modificar && (TipoArticuloInv == eTipoArticuloInv.Lote || Model.DetailLoteDeInventarioMovimiento.Count != 0)) {
-                    LibMessages.MessageBox.Information(this, $"Solo se pueden {LibEnumHelper.GetDescription(Action)} Lotes tipo {LibEnumHelper.GetDescription(eTipoArticuloInv.LoteFechadeVencimiento)}.", ModuleName);
+                    LibMessages.MessageBox.Information(this, $"Solo se pueden {LibEnumHelper.GetDescription(Action)} los Lotes de Inventario del tipo {LibEnumHelper.GetDescription(eTipoArticuloInv.LoteFechadeVencimiento)} que no tengan movimientos.", ModuleName);
                 } else {
-                    if (Model.DetailLoteDeInventarioMovimiento.Count != 0) {
-                        LibMessages.MessageBox.Information(this, $"Solo se pueden {LibEnumHelper.GetDescription(Action)} Lotes que no hayan tenido movimientos.", ModuleName);
+                    if (Action == eAccionSR.Modificar && Model.DetailLoteDeInventarioMovimiento.Count != 0) {
+                        LibMessages.MessageBox.Information(this, $"Solo se pueden {LibEnumHelper.GetDescription(Action)} los Lotes de Inventario que no tengan movimientos.", ModuleName);
                         CloseOnActionComplete = true;
                         RaiseRequestCloseEvent();
                     }
