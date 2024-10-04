@@ -3,20 +3,20 @@
 <Producto NombreExe="Saw" Pais="VE" Version="26.1" Siglas="Saw">
   <Proteccion>2401</Proteccion>
   <Libreria>
-    <LibGalacCI>2403</LibGalacCI>
-    <LibGalacRdpCI>2403</LibGalacRdpCI>
-    <LibGalacSecCI>2403</LibGalacSecCI>
-    <LibGalacXtmCI>2403</LibGalacXtmCI>
+    <LibGalacCI>2404</LibGalacCI>
+    <LibGalacRdpCI>2404</LibGalacRdpCI>
+    <LibGalacSecCI>2404</LibGalacSecCI>
+    <LibGalacXtmCI>2404</LibGalacXtmCI>
   </Libreria>
   <ComponentesCOM>
-    <SawEnum>2406</SawEnum>
-    <SawImportExport>2406</SawImportExport>
-    <SawMaquinaFiscal>2406</SawMaquinaFiscal>
-    <SawNav>2406</SawNav>
-    <SawRpt>2406</SawRpt>
-    <SawSP>2406</SawSP>
-    <SawTbls>2406</SawTbls>
-    <SawVista>2406</SawVista>    
+    <SawEnum>ND</SawEnum>
+    <SawImportExport>ND</SawImportExport>
+    <SawMaquinaFiscal>ND</SawMaquinaFiscal>
+    <SawNav>ND</SawNav>
+    <SawRpt>ND</SawRpt>
+    <SawSP>ND</SawSP>
+    <SawTbls>ND</SawTbls>
+    <SawVista>ND</SawVista>    
     <ContabRpt>2404</ContabRpt>
     <VMAX type="ocx" LiteralName="VMAX">4.00.0008</VMAX>
     <vmax3fpi LiteralName="vmax3fpi">1.0.0.8</vmax3fpi>
@@ -52,9 +52,9 @@
     <LibGalac.Aos.UI.Wpf>5.24.0.0</LibGalac.Aos.UI.Wpf>
     <LibGalac.Aos.UI.WpfControls>5.24.0.0</LibGalac.Aos.UI.WpfControls>
     <LibGalac.Aos.UI.WpfRD>5.24.2.1</LibGalac.Aos.UI.WpfRD>
-    <LibGalac.Aos.UI.Mvvm>5.24.1.0</LibGalac.Aos.UI.Mvvm>
+    <LibGalac.Aos.UI.Mvvm>5.24.2.4</LibGalac.Aos.UI.Mvvm>
     <LibGalac.Aos.UI.WpfBN>5.24.0.0</LibGalac.Aos.UI.WpfBN>
-    <LibGalac.Aos.Uil>5.24.1.0</LibGalac.Aos.Uil>
+    <LibGalac.Aos.Uil>5.24.2.4</LibGalac.Aos.Uil>
     <LibGalac.Aos.Brl.Usal>5.24.0.0</LibGalac.Aos.Brl.Usal>
     <LibGalac.Aos.Ccl.Usal>5.24.0.0</LibGalac.Aos.Ccl.Usal>
     <LibGalac.Aos.Dal.Usal>5.24.0.0</LibGalac.Aos.Dal.Usal>
@@ -81,7 +81,7 @@
     <LibGalac.Mtu>5.14.0.0</LibGalac.Mtu>
     <LibGalac.Mtu.UI>5.14.0.0</LibGalac.Mtu.UI>
 
-    <LibGalac.Aos.Brl.Settings>5.24.1.0</LibGalac.Aos.Brl.Settings>
+    <LibGalac.Aos.Brl.Settings>5.24.2.3</LibGalac.Aos.Brl.Settings>
     <LibGalac.Aos.Ccl.Settings>5.24.0.0</LibGalac.Aos.Ccl.Settings>
     <LibGalac.Aos.Dal.Settings>5.24.0.0</LibGalac.Aos.Dal.Settings>
     <LibGalac.Aos.Uil.Settings>5.24.0.0</LibGalac.Aos.Uil.Settings>
@@ -91,7 +91,7 @@
     <LibGalac.Aos.Dal.PASOnLine>5.24.0.0</LibGalac.Aos.Dal.PASOnLine>
     <LibGalac.Aos.Uil.PASOnLine>5.24.0.0</LibGalac.Aos.Uil.PASOnLine>
 
-    <LibGalac.Ssm>24.2.0.0</LibGalac.Ssm>
+    <LibGalac.Ssm>24.4.0.0</LibGalac.Ssm>
     <LibGalac.Ssm.IO>24.1.0.0</LibGalac.Ssm.IO>
     <LibGalac.Ssm.U>24.1.0.0</LibGalac.Ssm.U>
     <LibGalac.Ssm.Wrp.Saw>24.2.0.0</LibGalac.Ssm.Wrp.Saw>
