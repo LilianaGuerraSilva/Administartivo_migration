@@ -11,6 +11,7 @@ using LibGalac.Aos.UI.Wpf;
 using LibGalac.Aos.UI.Mvvm.Messaging;
 using LibGalac.Aos.Vbwa;
 using System.Reflection;
+using Galac.Adm.Uil.GestionProduccion;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.MenuBar {
 #elif IsExeBsS​
@@ -46,6 +47,7 @@ namespace Galac.Saw.Wrp.MenuBar {
                     vParams.MultiFielController1Value = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Periodo", "FechaApertura") + " - " + LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Periodo", "FechaCierre");
                 }
                 vBootstrapper.Components = ComponentsList();
+                OrdenDeProduccionMessagesHandler.RegisterMessages();
                 vBootstrapper.Run(vParams);
             } catch (AccessViolationException) {
                 throw;

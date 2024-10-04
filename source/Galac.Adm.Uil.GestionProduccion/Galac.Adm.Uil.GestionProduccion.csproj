@@ -96,6 +96,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OrdenDeProduccionMessagesHandler.cs" />
     <Compile Include="clsListaDeMaterialesMenu.cs" />
     <Compile Include="clsOrdenDeProduccionMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

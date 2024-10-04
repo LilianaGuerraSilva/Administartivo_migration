@@ -17,6 +17,7 @@ using Galac.Saw.Ccl.Inventario;
 using Galac.Saw.Lib;
 using System.Text;
 using Galac.Saw.Uil.Inventario.Reportes;
+using LibGalac.Aos.Brl;
 
 namespace Galac.Saw.Uil.Inventario.ViewModel {
     public class NotaDeEntradaSalidaViewModel : LibInputMasterViewModelMfc<NotaDeEntradaSalida> {
@@ -391,6 +392,15 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public RelayCommand<string> DeleteRenglonNotaESCommand {
             get { return DetailRenglonNotaES.DeleteCommand; }
         }
+
+        public RelayCommand ConsultarOrdenDeProduccionCommand {
+            get;
+            private set;
+        }
+
+        public bool IsVisibleConsultarOrdenDeProduccion {
+            get { return GeneradoPor == eTipoGeneradoPorNotaDeEntradaSalida.OrdenDeProduccion; }
+        }
         #endregion //Propiedades
         #region Constructores
         public NotaDeEntradaSalidaViewModel()
@@ -532,6 +542,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             ChooseNombreClienteCommand = new RelayCommand<string>(ExecuteChooseNombreClienteCommand);
             ChooseCodigoAlmacenCommand = new RelayCommand<string>(ExecuteChooseCodigoAlmacenCommand);
             ChooseNombreAlmacenCommand = new RelayCommand<string>(ExecuteChooseNombreAlmacenCommand);
+            ConsultarOrdenDeProduccionCommand = new RelayCommand(ExecuteConsultarOrdenDeProduccionCommand);
         }
 
         protected override void ReloadRelatedConnections() {
@@ -670,6 +681,40 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         //        insViewModel.ConfigReportNotaEntradaSalida(ConsecutivoCompania, NumeroDocumento);
         //    }
         //}
+
+        protected override void InitializeRibbon() {
+            base.InitializeRibbon();
+            if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
+                if (Action == eAccionSR.Consultar) {
+                    RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection.Insert(0,CreateAccionRibbonButton());
+                }
+            }
+        }
+
+        LibRibbonButtonData CreateAccionRibbonButton() {
+            LibRibbonButtonData vResult = new LibRibbonButtonData();
+            vResult.Label = "Ver Orden de Producción";
+            vResult.Command = ConsultarOrdenDeProduccionCommand;
+            vResult.LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/read.png", UriKind.Relative);
+            vResult.ToolTipDescription = "Ver Orden de Producción";
+            vResult.ToolTipTitle = "Ver Orden de Producción";
+            vResult.IsVisible = IsVisibleConsultarOrdenDeProduccion;
+            return vResult;
+        }
+
+        private void ExecuteConsultarOrdenDeProduccionCommand() {
+            try {
+                LibBusinessProcessMessage libBusinessProcessMessage = new LibBusinessProcessMessage();
+                libBusinessProcessMessage.Content = ConsecutivoDocumentoOrigen;
+                LibBusinessProcess.Call("ConsultarOrdenDeProduccion", libBusinessProcessMessage);                
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
+
+
     } //End of class NotaDeEntradaSalidaViewModel
 
 } //End of namespace Galac.Saw.Uil.Inventario

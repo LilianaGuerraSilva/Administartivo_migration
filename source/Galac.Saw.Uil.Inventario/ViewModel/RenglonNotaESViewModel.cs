@@ -188,8 +188,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 }
             }
         }
-
-        [LibGridColum("Fecha Elab.", eGridColumType.DatePicker, Width = 100)]
+      
         public DateTime FechaDeElaboracion {
             get {
                 return Model.FechaDeElaboracion;
@@ -202,8 +201,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 }
             }
         }
-
-        [LibGridColum("Fecha Vcto.", eGridColumType.DatePicker, Width = 100)]
+      
         public DateTime FechaDeVencimiento {
             get {
                 return Model.FechaDeVencimiento;
