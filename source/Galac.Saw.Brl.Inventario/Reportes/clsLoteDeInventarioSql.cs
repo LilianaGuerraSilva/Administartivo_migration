@@ -193,7 +193,7 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
 
         public string SqlMovimientoDeLoteInventario(int valConsecutivoCompania, string valLoteDeInventario, string valCodigoArticulo, DateTime valFechaInicial, DateTime valFechaFinal) {
             StringBuilder vSql = new StringBuilder();            
-            //Sql para Saldo Inicial
+            //Sql para Existencia Inicial
             vSql.AppendLine(SqlCte_MovInvetarioExistenciaInicial(valConsecutivoCompania, valLoteDeInventario, valCodigoArticulo, valFechaInicial, valFechaFinal));
             //
             vSql.AppendLine(SqlCte_SelectMovInvetarioAnulados(valConsecutivoCompania));
