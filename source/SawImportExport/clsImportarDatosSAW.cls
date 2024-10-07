@@ -85,6 +85,7 @@ Private vConsecutivoRenglon As Long
 Private vNombreOperador As String
 Private vConsecutivoAlmacen As String
 Private vAlicuotaIVA As String
+
 Private mEnumClaseDeTrabajoFactura As enum_ClaseDeTrabajoFacturaCotizacion
 Private mModuloAImportar As enum_EntidadAExportarOImportar
 Private EnumSystemModules As enum_SystemModules
@@ -212,9 +213,6 @@ Private mMontoIVAAlicuota1 As Currency
 Private mMontoIVAAlicuota2 As Currency
 Private mMontoIVAAlicuota3 As Currency
 Private vSerialMaquinaFiscal As String
-Private vLoteDeInventario  As String
-Private mValorDelCampoDeIdAnterior As String
-Private vErrorLoteInvFactura As Boolean
 'CXP
 Private mNumeroYCodigoProveedor As String
 'ARTICULOS DE INVENTARIO
@@ -1482,8 +1480,6 @@ Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByV
       .SetCampoExtraEnRenglonFactura2 vCampoExtraEnRenglonFactura2
       vArticulo = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
       .SetArticulo vArticulo
-      vLoteDeInventario = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-      .SetLoteDeInventario vLoteDeInventario
    End With
    With insFactura
       vCodigoMonedaDeCobro = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
@@ -1597,36 +1593,6 @@ Private Sub sVerificaSiHayErrorEnLaLineaValoresAjustables_FACTURA(ByRef ErrorAlT
                ErrorAlTraducirLaLinea = True
                LineaDeErrores = LineaDeErrores & ":::. Indicó un Código de Almacen  ==>" & vCodigoAlmacen & "<==   que no esta Almacenado en el Sistema. Se agregará con nombre igual al código si desea continuar con la importación.:::"
             End If
-         End If
-         If gProyParametrosCompania.GetUsaLoteFechaDeVencimiento Then
-            insArticuloInventario.fSearchByField "Codigo", vArticulo, False
-            If insArticuloInventario.GetTipoArticuloInvChar = gConvert.enumerativoAChar(eTAI_LoteFechadeVencimiento) Or insArticuloInventario.GetTipoArticuloInvChar = gConvert.enumerativoAChar(eTAI_Lote) Then
-               If gDbUtil.fRecordCountOfSql("SELECT Consecutivo FROM Saw.LoteDeInventario WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual & " AND CodigoLote = " & gUtilSQL.fSimpleSqlValue(vLoteDeInventario)) < 1 Then
-                  ErrorAlTraducirLaLinea = True
-                  LineaDeErrores = LineaDeErrores & ":::. El lote de Inventario  ==>" & vLoteDeInventario & "<==  no existe, El Documento no puede ser Importado.:::"
-               End If
-            Else
-               If vLoteDeInventario <> "" Then
-                  ErrorAlTraducirLaLinea = True
-                  LineaDeErrores = LineaDeErrores & ":::. Tipo de Mercancía no válido: Este artículo no es de tipo " & gEnumProyecto.enumTipoArticuloInvToString(eTAI_LoteFechadeVencimiento) & ".:::"
-               End If
-            End If
-         Else
-            If vLoteDeInventario <> "" Then
-               ErrorAlTraducirLaLinea = True
-               LineaDeErrores = LineaDeErrores & ":::. Tipo de Mercancía no válido: Esta empresa no usa artículos del tipo " & gEnumProyecto.enumTipoArticuloInvToString(eTAI_LoteFechadeVencimiento) & ".:::"
-            End If
-         End If
-         vErrorLoteInvFactura = vErrorLoteInvFactura Or ErrorAlTraducirLaLinea
-         If mValorDelCampoDeIdAnterior = mValorDelCampoDeId Then
-            ErrorAlTraducirLaLinea = vErrorLoteInvFactura
-         Else
-            If mValorDelCampoDeIdAnterior = "" Then
-               ErrorAlTraducirLaLinea = vErrorLoteInvFactura
-            Else
-               vErrorLoteInvFactura = False
-            End If
-            mValorDelCampoDeIdAnterior = mValorDelCampoDeId
          End If
       End If
       If gProyParametrosCompania.GetComisionesEnFacturaAsEnum = eCEF_SobreRenglones Or gProyParametrosCompania.GetComisionesEnFacturaAsEnum = eCEF_SobreTotalFacturayRenglones Then
@@ -3952,7 +3918,6 @@ Private Sub sChequeaLaIntegridadDeLosDatosConDetail(ByVal valSeparador As String
    mYaIngresoUnoMas = False
    mImportoRegistros = False
    valorDelIdMaster = ""
-   mValorDelCampoDeIdAnterior = ""
    Contador = 0
    Do Until EOF(FileNumberdeLectura)
       Line Input #FileNumberdeLectura, lineaActual
