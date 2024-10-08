@@ -12,6 +12,7 @@ using LibGalac.Aos.UI.Wpf;
 using LibGalac.Aos.Uil.Usal;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.Uil;
+using Galac.Adm.Uil.GestionProduccion;
 namespace Galac.Saw.Wrp.Inventario {
 
     [ClassInterface(ClassInterfaceType.None)]
@@ -32,7 +33,7 @@ namespace Galac.Saw.Wrp.Inventario {
         #region Miembros de IWrpMfVb
 
         void IWrpMfVb.Execute(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
-            try {
+            try {                
                 CreateGlobalValues(vfwCurrentParameters);
                 ILibMenu insMenu = new Galac.Saw.Uil.Inventario.clsNotaDeEntradaSalidaMenu();
                 insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1);
@@ -74,6 +75,7 @@ namespace Galac.Saw.Wrp.Inventario {
             try {
                 LibWrp.SetAppConfigToCurrentDomain(vfwPath);
                 LibGalac.Aos.Vbwa.LibWrpHelper.ConfigureRuntimeContext(vfwLogin, vfwPassword);
+                OrdenDeProduccionMessagesHandler.RegisterMessages();
             } catch (Exception vEx) {
                 if (vEx is AccessViolationException) {
                     throw;

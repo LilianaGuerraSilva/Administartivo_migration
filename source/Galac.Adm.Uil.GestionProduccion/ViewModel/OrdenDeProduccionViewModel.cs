@@ -1024,7 +1024,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 if (ConexionCodigoAlmacenProductoTerminado != null) {
                     Model.ConsecutivoAlmacenProductoTerminado = ConexionCodigoAlmacenProductoTerminado.Consecutivo;
                     CodigoAlmacenProductoTerminado = ConexionCodigoAlmacenProductoTerminado.Codigo;
-                    NombreAlmacenProductoTerminado = ConexionCodigoAlmacenProductoTerminado.NombreAlmacen;
+                    NombreAlmacenProductoTerminado = ConexionCodigoAlmacenProductoTerminado.NombreAlmacen;                    
                     ActualizaAlmacenenProductoTerminadoEnDetalles();
                 } else {
                     Model.ConsecutivoAlmacenProductoTerminado = 0;
@@ -1485,12 +1485,13 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
                 ConexionCodigoListaDeMateriales = ChooseRecord<FkListaDeMaterialesViewModel>("Lista de Materiales", vDefaultCriteria, vFixedCriteria, string.Empty);
-                if (ConexionCodigoListaDeMateriales != null) {
+                if (PuedoEscogerLista()) {
                     Model.ConsecutivoListaDeMateriales = ConexionCodigoListaDeMateriales.Consecutivo;
                     CodigoListaDeMateriales = ConexionCodigoListaDeMateriales.Codigo;
                     NombreListaDeMateriales = ConexionCodigoListaDeMateriales.Nombre;
                     CargarDetalles();
                 } else {
+                    ConexionCodigoListaDeMateriales = null;
                     Model.ConsecutivoListaDeMateriales = 0;
                     CodigoListaDeMateriales = string.Empty;
                     NombreListaDeMateriales = string.Empty;
@@ -1502,6 +1503,19 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
+        private bool PuedoEscogerLista() {
+            if (ConexionCodigoAlmacenMateriales == null) {
+                LibMessages.MessageBox.Alert(this, "Debe seleccionar el almacen de la lista de materiales", ModuleName);
+                return false;
+            } else if (_ConexionCodigoAlmacenProductoTerminado  == null) {
+                LibMessages.MessageBox.Alert(this, "Debe seleccionar el almacen de la lista de productos terminados", ModuleName);
+                return false;
+            } else if (ConexionCodigoListaDeMateriales == null) {
+                return false;
+            }
+            return true;
+        }
+
         private void CargarDetalles() {
             ObservableCollection<OrdenDeProduccionDetalleMateriales> vListInsumos = new ObservableCollection<OrdenDeProduccionDetalleMateriales>(((IOrdenDeProduccionPdn)GetBusinessComponent()).ObtenerDetalleInicialInsumos(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), Model.ConsecutivoListaDeMateriales, ConexionCodigoAlmacenMateriales.Consecutivo, CantidadAProducir));
             ObservableCollection<OrdenDeProduccionDetalleArticulo> vListSalidas = new ObservableCollection<OrdenDeProduccionDetalleArticulo>(((IOrdenDeProduccionPdn)GetBusinessComponent()).ObtenerDetalleInicialSalidas(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), ConexionCodigoAlmacenProductoTerminado.Consecutivo, Model.ConsecutivoListaDeMateriales, CantidadAProducir));
@@ -1510,7 +1524,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             Model.DetailOrdenDeProduccionDetalleMateriales = vListInsumos;
             Model.DetailOrdenDeProduccionDetalleArticulo = vListSalidas;
             ActualizaAlmacenenMaterialesEnDetalles();
-			BuscarExistencia();
+            BuscarExistencia();
             ActualizaTotalProcentajeDeCosto();
             VerDetalleCommand.RaiseCanExecuteChanged();
         }
