@@ -3909,7 +3909,8 @@ Public Function fSQLDelReporteConteoFisico(ByVal valConsecutivoCompania As Long,
 
    SQL = "SELECT conteoFisico.ConsecutivoConteo, articuloInventario.TipoArticuloInv, " & SqlStatus & ", "
    SQL = SQL & " ConteoFisico.CodigoAlmacen, almacen.NombreAlmacen, conteoFisico.SoloUnaLinea, articuloInventario.LineaDeProducto, renglonConteoFisico.CodigoArticulo,"
-   SQL = SQL & " ArticuloInventario.Descripcion, renglonConteoFisico.ExistenciaEnElComputador, renglonConteoFisico.ExistenciaFisica, renglonConteoFisico.Diferencia, RenglonConteoFisico.Serial, RenglonConteoFisico.Rollo"
+   SQL = SQL & " ArticuloInventario.Descripcion, renglonConteoFisico.ExistenciaEnElComputador, renglonConteoFisico.ExistenciaFisica, renglonConteoFisico.Diferencia, RenglonConteoFisico.Serial, RenglonConteoFisico.Rollo," & vbCrLf
+   SQL = SQL & " renglonConteoFisico.CodigoLote " & vbCrLf
    SQL = SQL & " FROM (almacen INNER JOIN conteoFisico ON (almacen.Codigo = conteoFisico.CodigoAlmacen) AND (almacen.ConsecutivoCompania = conteoFisico.ConsecutivoCompania)) "
    SQL = SQL & " INNER JOIN (articuloInventario INNER JOIN renglonConteoFisico ON (articuloInventario.ConsecutivoCompania = renglonConteoFisico.ConsecutivoCompania) "
    SQL = SQL & " AND (articuloInventario.Codigo = renglonConteoFisico.CodigoArticulo)) ON (conteoFisico.ConsecutivoConteo = renglonConteoFisico.ConsecutivoConteo) "
@@ -3919,7 +3920,8 @@ Public Function fSQLDelReporteConteoFisico(ByVal valConsecutivoCompania As Long,
    SQL = SQL & " SELECT conteoFisico.ConsecutivoConteo, articuloInventario.TipoArticuloInv, " & SqlStatus & ", "
    SQL = SQL & " ConteoFisico.CodigoAlmacen, almacen.NombreAlmacen, conteoFisico.SoloUnaLinea, articuloInventario.LineaDeProducto, renglonConteoFisico.CodigoArticulo, "
    SQL = SQL & " [ArticuloInventario].[descripcion]+' '+[Color].[DescripcionColor]+' '+[Talla].[DescripcionTalla] AS Descripcion, renglonConteoFisico.ExistenciaEnElComputador,"
-   SQL = SQL & " RenglonConteoFisico.ExistenciaFisica, renglonConteoFisico.Diferencia, RenglonConteoFisico.Serial, RenglonConteoFisico.Rollo "
+   SQL = SQL & " RenglonConteoFisico.ExistenciaFisica, renglonConteoFisico.Diferencia, RenglonConteoFisico.Serial, RenglonConteoFisico.Rollo, " & vbCrLf
+   SQL = SQL & " renglonConteoFisico.CodigoLote " & vbCrLf
    SQL = SQL & " FROM ((almacen INNER JOIN conteoFisico ON (almacen.ConsecutivoCompania = conteoFisico.ConsecutivoCompania) AND (almacen.Codigo = conteoFisico.CodigoAlmacen)) "
    SQL = SQL & " INNER JOIN renglonConteoFisico ON (conteoFisico.ConsecutivoCompania = renglonConteoFisico.ConsecutivoCompania) AND (conteoFisico.ConsecutivoConteo = renglonConteoFisico.ConsecutivoConteo)) "
    SQL = SQL & " INNER JOIN (((ExistenciaPorGrupo INNER JOIN articuloInventario ON (ExistenciaPorGrupo.CodigoArticulo = articuloInventario.Codigo) AND (ExistenciaPorGrupo.ConsecutivoCompania = articuloInventario.ConsecutivoCompania)) "
