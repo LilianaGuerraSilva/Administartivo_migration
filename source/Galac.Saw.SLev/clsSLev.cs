@@ -178,7 +178,7 @@ namespace Galac.Saw.SLev {
 
             #region Lote de Inventario
             vPermisos.Add(new CustomRole("Lote de Inventario", "Consultar", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Lote de Inventario", "Insertar", "Inventario", 4));
+            //vPermisos.Add(new CustomRole("Lote de Inventario", "Insertar", "Inventario", 4));
             vPermisos.Add(new CustomRole("Lote de Inventario", "Modificar", "Inventario", 4));
             vPermisos.Add(new CustomRole("Lote de Inventario", "Eliminar", "Inventario", 4));
             vPermisos.Add(new CustomRole("Lote de Inventario", "Informes", "Inventario", 4));
