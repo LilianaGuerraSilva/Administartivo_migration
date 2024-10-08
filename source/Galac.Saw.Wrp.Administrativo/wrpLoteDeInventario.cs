@@ -17,7 +17,7 @@ namespace Galac.Saw.Wrp.Inventario {
 
     [ClassInterface(ClassInterfaceType.None)]
 
-    public class wrpLoteDeInventario: System.EnterpriseServices.ServicedComponent, IWrpMfVb {
+    public class wrpLoteDeInventario: System.EnterpriseServices.ServicedComponent, IWrpLoteDeInventarioVb  {
         #region Variables
         string _Title = "Lote de Inventario";
         #endregion //Variables
@@ -32,7 +32,7 @@ namespace Galac.Saw.Wrp.Inventario {
         #region Metodos Generados
         #region Miembros de IWrpMfVb
 
-        void IWrpMfVb.Execute(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
+        void IWrpLoteDeInventarioVb.Execute(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
             try {
                 CreateGlobalValues(vfwCurrentParameters);
                 ILibMenu insMenu = new Galac.Saw.Uil.Inventario.clsLoteDeInventarioMenu();
@@ -47,7 +47,7 @@ namespace Galac.Saw.Wrp.Inventario {
             }
         }
 
-        string IWrpMfVb.Choose(string vfwParamInitializationList, string vfwParamFixedList) {
+        string IWrpLoteDeInventarioVb.Choose(string vfwParamInitializationList, string vfwParamFixedList) {
             string vResult = "";
             LibSearch insLibSearch = new LibSearch();
             List<LibSearchDefaultValues> vSearchValues = new List<LibSearchDefaultValues>();
@@ -71,7 +71,7 @@ namespace Galac.Saw.Wrp.Inventario {
             return "";
         }
 
-        void IWrpMfVb.InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath) {
+        void IWrpLoteDeInventarioVb.InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath) {
             try {
                 LibWrp.SetAppConfigToCurrentDomain(vfwPath);
                 LibGalac.Aos.Vbwa.LibWrpHelper.ConfigureRuntimeContext(vfwLogin, vfwPassword);
@@ -83,7 +83,7 @@ namespace Galac.Saw.Wrp.Inventario {
             }
         }
 
-        void IWrpMfVb.InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO, bool vfwUsePASOnLine) {
+        void IWrpLoteDeInventarioVb.InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO, bool vfwUsePASOnLine) {
             try {
                 string vLogicUnitDir = LibGalac.Aos.Cnf.LibAppSettings.ULS;
                 LibGalac.Aos.DefGen.LibDefGen.InitializeProgramInfo(vfwProgramInitials, vfwProgramVersion, vfwDbVersion, LibConvert.ToDate(vfwStrDateOfVersion), vfwStrHourOfVersion, "", vfwCountry, LibConvert.ToInt(vfwCMTO));
@@ -96,7 +96,7 @@ namespace Galac.Saw.Wrp.Inventario {
             }
         }
 
-        void IWrpMfVb.InitializeContext(string vfwInfo) {
+        void IWrpLoteDeInventarioVb.InitializeContext(string vfwInfo) {
             try {
                 LibGalac.Aos.DefGen.LibDefGen.Initialize(vfwInfo);
             } catch (Exception vEx) {
@@ -115,6 +115,29 @@ namespace Galac.Saw.Wrp.Inventario {
         }
         #endregion //Metodos Generados
 
+        string IWrpLoteDeInventarioVb.ChooseForConteoFisico(string vfwParamInitializationList, string vfwParamFixedList) {
+            string vResult = "";
+            LibSearch insLibSearch = new LibSearch();
+            List<LibSearchDefaultValues> vSearchValues = new List<LibSearchDefaultValues>();
+            List<LibSearchDefaultValues> vFixedValues = new List<LibSearchDefaultValues>();
+            try {
+                vSearchValues = insLibSearch.CreateListOfParameter(vfwParamInitializationList);
+                vFixedValues = insLibSearch.CreateListOfParameter(vfwParamFixedList);
+                System.Xml.XmlDocument vXmlDocument = null;
+                if (Galac.Saw.Uil.Inventario.clsLoteDeInventarioMenu.ChooseFromInteropForConteoFisico(ref vXmlDocument, vSearchValues, vFixedValues)) {
+                    vResult = vXmlDocument.InnerXml;
+                }
+                return vResult;
+            } catch (GalacException gEx) {
+                LibExceptionDisplay.Show(gEx, null, Title + " - Escoger");
+            } catch (Exception vEx) {
+                if (vEx is AccessViolationException) {
+                    throw;
+                }
+                LibExceptionDisplay.Show(vEx);
+            }
+            return "";
+        }
 
     } //End of class wrpLoteDeInventario
 

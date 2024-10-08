@@ -245,6 +245,22 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public eStatusLoteDeInventario StatusLoteInv { get; set; }
     }
 
+    public class FkLoteDeInventarioConteoFisicoViewModel : IFkLoteDeInventarioViewModel
+    {
+        public int ConsecutivoCompania { get; set; }
+        public int Consecutivo { get; set; }
+        [LibGridColum("Código de Artículo")]
+        public string CodigoArticulo { get; set; }
+        [LibGridColum("Código de Lote")]
+        public string CodigoLote { get; set; }
+        public DateTime FechaDeElaboracion { get; set; }
+        public DateTime FechaDeVencimiento { get; set; }
+        [LibGridColum("Existencia", eGridColumType.Numeric, Alignment = eTextAlignment.Right)]
+        public decimal Existencia { get; set; }
+        [LibGridColum("Status", eGridColumType.Enum, PrintingMemberPath = "StatusLoteInvStr", DbMemberPath = "Saw.Gv_LoteDeInventario_B1.StatusLoteInv", Width = 75)]
+        public eStatusLoteDeInventario StatusLoteInv { get; set; }
+    }
+
     public class ArtInvCamposDefiniblesGridColumnAttribute : LibGridColumAttribute {
         public ArtInvCamposDefiniblesGridColumnAttribute(string initHeader, int initOrdinalEntre1y5, int initColumnOrder = 0) : base(initHeader) {
             IsForList = false;
