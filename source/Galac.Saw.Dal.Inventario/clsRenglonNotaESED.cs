@@ -496,7 +496,7 @@ namespace Galac.Saw.Dal.Inventario {
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_RenglonNotaESUPD", SqlSpUpdParameters(), SqlSpUpd(), true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_RenglonNotaESDEL", SqlSpDelParameters(), SqlSpDel(), true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_RenglonNotaESGET", SqlSpGetParameters(), SqlSpGet(), true) && vResult;
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_RenglonNotaESSelDet", SqlSpSelDetailParameters(), SqlSpSelDetail(), false) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_RenglonNotaESSelDet", SqlSpSelDetailParameters(), SqlSpSelDetail(), true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_RenglonNotaESDelDet", SqlSpDelDetailParameters(), SqlSpDelDetail(), true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_RenglonNotaESInsDet", SqlSpInsDetailParameters(), SqlSpInsDetail(), true) && vResult;
             insSps.Dispose();
