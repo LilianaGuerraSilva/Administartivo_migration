@@ -40,10 +40,10 @@
     <Reference Include="Galac.Comun.Ccl.TablasGen">
       <HintPath>..\packages\Galac.Comun.Ccl.TablasGen.2.61.0\lib\Galac.Comun.Ccl.TablasGen.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Contab.Brl.WinCont, Version=2.61.3.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="Galac.Contab.Brl.WinCont">
       <HintPath>..\packages\Galac.Contab.Brl.WinCont.2.61.3\lib\Galac.Contab.Brl.WinCont.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Contab.Ccl.WinCont, Version=2.61.3.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="Galac.Contab.Ccl.WinCont">
       <HintPath>..\packages\Galac.Contab.Ccl.WinCont.2.61.3\lib\Galac.Contab.Ccl.WinCont.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Base">
