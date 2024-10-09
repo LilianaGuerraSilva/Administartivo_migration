@@ -129,11 +129,11 @@
     <Galac.Comun.Rpt.LeyCosto>2.61.0.0</Galac.Comun.Rpt.LeyCosto>
     <Galac.Comun.Uil.LeyCosto>2.61.0.0</Galac.Comun.Uil.LeyCosto>
 
-    <Galac.Contab.Ccl.WinCont>2.61.0.0</Galac.Contab.Ccl.WinCont>   
-    <Galac.Contab.Dal.WinCont>2.61.0.0</Galac.Contab.Dal.WinCont>     
-    <Galac.Contab.Brl.WinCont>2.61.0.0</Galac.Contab.Brl.WinCont>
+    <Galac.Contab.Ccl.WinCont>2.61.3.0</Galac.Contab.Ccl.WinCont>   
+    <Galac.Contab.Dal.WinCont>2.61.3.0</Galac.Contab.Dal.WinCont>     
+    <Galac.Contab.Brl.WinCont>2.61.3.0</Galac.Contab.Brl.WinCont>
     <Galac.Contab.Rpt.WinCont>2.61.0.0</Galac.Contab.Rpt.WinCont> 
-    <Galac.Contab.Uil.WinCont>2.61.0.0</Galac.Contab.Uil.WinCont> 	
+    <Galac.Contab.Uil.WinCont>2.61.3.0</Galac.Contab.Uil.WinCont> 	
     <Galac.Contab.RptOXml.Wincont>2.61.1.0</Galac.Contab.RptOXml.Wincont>
 
     <Galac.Contab.Ccl.Tablas>2.61.0.0</Galac.Contab.Ccl.Tablas>
