@@ -283,7 +283,7 @@ namespace Galac.Saw.Brl.Inventario {
                             }
                         }
                         if (vResult.Success) {
-                            ActualizaInformacionDeLoteDeInventario(vItem);
+                            ActualizaInformacionDeLoteDeInventario(vItem, true);
                         }
                     }
                 }
@@ -348,7 +348,7 @@ namespace Galac.Saw.Brl.Inventario {
                         }
                     }
                     if (vResult.Success) {
-                        ActualizaInformacionDeLoteDeInventario(vItem);
+                        ActualizaInformacionDeLoteDeInventario(vItem, true);
                     }
                 }
             }
@@ -366,7 +366,7 @@ namespace Galac.Saw.Brl.Inventario {
                         if (!HayExistenciaParaNotaDeSalidaDeInventario(vItem, out vCodigos)) {
                             vResult.AddError("No hay existencia suficiente de algunos ítems (" + vCodigos + ") en la Nota: " + vItem.NumeroDocumento + " para eliminar. El proceso será cancelado.");
                             return vResult;
-                        }
+                        }                        
                         vResult = base.DeleteRecord(vItemList);
                         if (vResult.Success) {
                             ActualizaExistenciaDeArticulos(vItem, eAccionSR.Eliminar);
@@ -378,24 +378,24 @@ namespace Galac.Saw.Brl.Inventario {
                         }
                     }
                     if (vResult.Success) {
-                        ActualizaInformacionDeLoteDeInventario(vItem);
+                        ActualizaInformacionDeLoteDeInventario(vItem, false);
                     }
                 }
             }
             return vResult;
         }
 
-        private void ActualizaInformacionDeLoteDeInventario(NotaDeEntradaSalida valItemNotaES) {
+        private void ActualizaInformacionDeLoteDeInventario(NotaDeEntradaSalida valItemNotaES, bool valAumentaCantidad) {
             foreach (RenglonNotaES vItemRenglon in valItemNotaES.DetailRenglonNotaES) {
                 if (vItemRenglon.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento || vItemRenglon.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote) {
                     if (((ILoteDeInventarioPdn)new clsLoteDeInventarioNav()).ExisteLoteDeInventario(vItemRenglon.ConsecutivoCompania, vItemRenglon.CodigoArticulo, vItemRenglon.LoteDeInventario)) {
-                        ActualizaLoteDeInventarioInsertaMovimientoDeLoteDeInventario(valItemNotaES, vItemRenglon);
+                        ActualizaLoteDeInventarioInsertaMovimientoDeLoteDeInventario(valItemNotaES, vItemRenglon, valAumentaCantidad);
                     }
                 }
             }
         }
 
-        private void ActualizaLoteDeInventarioInsertaMovimientoDeLoteDeInventario(NotaDeEntradaSalida valItemNotaES, RenglonNotaES valItemRenglonNotaES) {
+        private void ActualizaLoteDeInventarioInsertaMovimientoDeLoteDeInventario(NotaDeEntradaSalida valItemNotaES, RenglonNotaES valItemRenglonNotaES, bool valAumentaCantidad) {
             XElement vLoteXElement = ((ILoteDeInventarioPdn)new clsLoteDeInventarioNav()).FindByConsecutivoCompaniaCodigoLoteCodigoArticulo(valItemRenglonNotaES.ConsecutivoCompania, valItemRenglonNotaES.LoteDeInventario, valItemRenglonNotaES.CodigoArticulo);
             if (vLoteXElement != null && vLoteXElement.HasElements) {
                 LoteDeInventario vLote = new clsLoteDeInventarioNav().ParseToListEntity(vLoteXElement)[0];
@@ -406,11 +406,17 @@ namespace Galac.Saw.Brl.Inventario {
                         valItemNotaES.GeneradoPorAsEnum == eTipoGeneradoPorNotaDeEntradaSalida.OrdenDeProduccion) {
                         vCant = vCant * -1;
                     }
+                    vCant = (valAumentaCantidad) ? vCant : vCant * -1;
                     LoteDeInventarioMovimiento vLoteMov = new LoteDeInventarioMovimiento();
                     vLoteMov.ConsecutivoCompania = valItemRenglonNotaES.ConsecutivoCompania;
                     vLoteMov.ConsecutivoLote = vLote.Consecutivo;
                     vLoteMov.Fecha = valItemNotaES.Fecha;
-                    vLoteMov.ModuloAsEnum = eOrigenLoteInv.NotaEntradaSalida;
+                    if (valItemNotaES.GeneradoPorAsEnum == eTipoGeneradoPorNotaDeEntradaSalida.OrdenDeProduccion) {
+                        vLoteMov.ModuloAsEnum = eOrigenLoteInv.Produccion;
+                    } else {
+                        vLoteMov.ModuloAsEnum = eOrigenLoteInv.NotaEntradaSalida;
+                    }
+                    
                     vLoteMov.Cantidad = vCant;
                     vLoteMov.ConsecutivoDocumentoOrigen = 0;
                     vLoteMov.NumeroDocumentoOrigen = valItemNotaES.NumeroDocumento;

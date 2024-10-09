@@ -533,15 +533,7 @@ namespace Galac.Saw.Dal.Inventario {
             bool vResult = true;
             outMensaje = string.Empty;
             foreach (NotaDeEntradaSalida vItemNotaES in refRecord) {
-                if (HayAlMenosUnArtLoteFdV(vItemNotaES)) {
-                    StringBuilder vMsg = new StringBuilder();
-                    string vNotaReverso = (vItemNotaES.TipodeOperacionAsEnum == eTipodeOperacion.EntradadeInventario) ? LibEnumHelper.GetDescription(eTipodeOperacion.SalidadeInventario) : LibEnumHelper.GetDescription(eTipodeOperacion.EntradadeInventario);
-                    vMsg.AppendLine("Esta Nota de " + vItemNotaES.TipodeOperacionAsString + " contiene Artículos Lote o Lote/Fecha de Vencimiento.");
-                    vMsg.AppendLine();
-                    vMsg.AppendLine("No se puede " + LibEAccionSR.ToString(valAccion) + ". Debe ingresar una Nota de " + vNotaReverso + " para hacer el ajuste.");
-                    outMensaje = vMsg.ToString();
-                    return false;
-                } else if (valAccion == eAccionSR.Anular && vItemNotaES.TipodeOperacionAsEnum != eTipodeOperacion.Retiro) {
+                if (valAccion == eAccionSR.Anular && vItemNotaES.TipodeOperacionAsEnum != eTipodeOperacion.Retiro) {
                     outMensaje = "Solo se pueden Anular Operaciones de Retiro.";
                     return false;
                 } else if (valAccion == eAccionSR.Eliminar && ExistenNotasESDesdeImportacion(vItemNotaES.ConsecutivoCompania, vItemNotaES.CodigoLote)) {

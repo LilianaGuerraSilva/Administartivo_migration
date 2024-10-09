@@ -89,7 +89,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 int consecutivo = (int)result.Element("Consecutivo");
                 if (groupedResults.ContainsKey(consecutivo)) {
                     result.Element("CodigoArticuloInventario").Value =  groupedResults[consecutivo].CodigoArticuloInventario;
-                    result.Add(new XElement("DescripcionArticuloInventario", groupedResults[consecutivo].DescripcionArticuloInventario));
+                    result.Element("DescripcionArticuloInventario").Value = groupedResults[consecutivo].DescripcionArticuloInventario;
                 }
             }
             refXmlDocument = LibXml.ToXmlDocument(valData);
