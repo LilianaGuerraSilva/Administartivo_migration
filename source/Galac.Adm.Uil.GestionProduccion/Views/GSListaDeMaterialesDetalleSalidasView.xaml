@@ -12,6 +12,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -45,6 +46,14 @@
             IsEnabled="{Binding Path=IsEnabled}"
             Model="{Binding Path=ConexionCodigoArticuloInventario, Mode=TwoWay}"
             SearchCommand="{Binding Path=ChooseCodigoArticuloInventarioCommand}" />
+        <Label
+            Name="lneTipoDeArticuloInv"
+            Grid.Row="0"
+            Grid.Column="2"
+            HorizontalAlignment="Left"
+            Content="{Binding Path=TipoArticuloInvStr}"
+            Style="{StaticResource LabelStatusGreen}"
+            Visibility="{Binding Path=IsVisbleTipoArticuloInvStr, Converter={StaticResource booleanToVisibilityConverter}}" />
         <Label
             Name="lblDescripcionArticuloInventario"
             Grid.Row="1"

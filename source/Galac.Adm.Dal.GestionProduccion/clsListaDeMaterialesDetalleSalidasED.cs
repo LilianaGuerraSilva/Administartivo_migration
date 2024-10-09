@@ -290,6 +290,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("        Adm.ListaDeMaterialesDetalleSalidas.Cantidad,");
             SQL.AppendLine("        Adm.ListaDeMaterialesDetalleSalidas.PorcentajeDeCosto,");
             SQL.AppendLine("        dbo.ArticuloInventario.UnidadDeVenta AS UnidadDeVenta,");
+            SQL.AppendLine("        dbo.ArticuloInventario.TipoArticuloInv AS TipoArticuloInv,");
             SQL.AppendLine("        Adm.ListaDeMaterialesDetalleSalidas.fldTimeStamp");
             SQL.AppendLine("    FROM ListaDeMaterialesDetalleSalidas");
             SQL.AppendLine("    INNER JOIN dbo.ArticuloInventario ON dbo.ArticuloInventario.ConsecutivoCompania = Adm.ListaDeMaterialesDetalleSalidas.ConsecutivoCompania and  dbo.ArticuloInventario.Codigo = Adm.ListaDeMaterialesDetalleSalidas.CodigoArticuloInventario");

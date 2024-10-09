@@ -285,6 +285,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("        Adm.ListaDeMaterialesDetalleArticulo.CodigoArticuloInventario,");
             SQL.AppendLine("        dbo.ArticuloInventario.Descripcion AS DescripcionArticuloInventario,");
             SQL.AppendLine("        dbo.ArticuloInventario.TipoDeArticulo AS TipoDeArticulo,");
+            SQL.AppendLine("        dbo.ArticuloInventario.TipoArticuloInv AS TipoArticuloInv,");            
             SQL.AppendLine("        Adm.ListaDeMaterialesDetalleArticulo.Cantidad,");
             SQL.AppendLine("        dbo.ArticuloInventario.UnidadDeVenta AS UnidadDeVenta,");
             SQL.AppendLine("        Adm.ListaDeMaterialesDetalleArticulo.fldTimeStamp");

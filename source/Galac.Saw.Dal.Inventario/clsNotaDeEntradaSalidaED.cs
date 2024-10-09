@@ -394,7 +394,8 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("      " + DbSchema + ".Gv_NotaDeEntradaSalida_B1.CodigoLote,");
             SQL.AppendLine("      " + DbSchema + ".Gv_NotaDeEntradaSalida_B1.TipodeOperacion,");
             SQL.AppendLine("      " + DbSchema + ".Gv_NotaDeEntradaSalida_B1.Fecha,");
-            SQL.AppendLine("      " + DbSchema + ".Gv_NotaDeEntradaSalida_B1.Comentarios");
+            SQL.AppendLine("      " + DbSchema + ".Gv_NotaDeEntradaSalida_B1.Comentarios,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_NotaDeEntradaSalida_B1.GeneradoPor");
             SQL.AppendLine("      FROM " + DbSchema + ".Gv_NotaDeEntradaSalida_B1");
             SQL.AppendLine("      INNER JOIN dbo.Cliente ON  " + DbSchema + ".Gv_NotaDeEntradaSalida_B1.CodigoCliente = dbo.Cliente.codigo");
             SQL.AppendLine("      AND " + DbSchema + ".Gv_NotaDeEntradaSalida_B1.ConsecutivoCompania = dbo.Cliente.ConsecutivoCompania");            

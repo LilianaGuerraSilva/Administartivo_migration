@@ -157,6 +157,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 if (_ConexionCodigoArticuloInventario != value) {
                     _ConexionCodigoArticuloInventario = value;
                     RaisePropertyChanged(CodigoArticuloInventarioPropertyName);
+                    RaisePropertyChanged(() => IsVisbleTipoArticuloInvStr);
+                    RaisePropertyChanged(() => TipoArticuloInvStr);
                 }
                 if (_ConexionCodigoArticuloInventario == null) {
                     CodigoArticuloInventario = string.Empty;
@@ -167,6 +169,28 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public RelayCommand<string> ChooseCodigoArticuloInventarioCommand {
             get;
             private set;
+        }
+
+        public bool IsVisbleTipoArticuloInvStr {
+            get {
+                return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento") &&
+                    (!LibString.IsNullOrEmpty(CodigoArticuloInventario));
+            }
+        }
+
+        public eTipoArticuloInv TipoArticuloInvAsEnum {
+            get {
+                return Model.TipoArticuloInvAsEnum;
+            }
+            set {
+                if (Model.TipoArticuloInvAsEnum != value) {
+                    Model.TipoArticuloInvAsEnum = value;
+                }
+            }
+        }
+
+        public string TipoArticuloInvStr {
+            get { return LibEnumHelper.GetDescription(TipoArticuloInvAsEnum); }
         }
         #endregion //Propiedades
         #region Constructores
@@ -225,6 +249,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     CodigoArticuloInventario = ConexionCodigoArticuloInventario.Codigo;
                     DescripcionArticuloInventario = ConexionCodigoArticuloInventario.Descripcion;
                     UnidadDeVenta = ConexionCodigoArticuloInventario.UnidadDeVenta;
+                    TipoArticuloInvAsEnum = ConexionCodigoArticuloInventario.TipoArticuloInv;
+                    RaisePropertyChanged(() => IsVisbleTipoArticuloInvStr);
+                    RaisePropertyChanged(() => TipoArticuloInvStr);
                 }
             } catch (System.AccessViolationException) {
                 throw;
