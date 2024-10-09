@@ -54,3 +54,19 @@
 	path = bin/binContabilidadVb
 	url = https://github.com/GalacSoftware/BinContabilidadVb.git
 	branch = release/V2405
+[submodule "source/ContabilidadVb"]
+	path = source/ContabilidadVb
+	url = https://github.com/GalacSoftware/ContabilidadVb.git
+	branch = release/SawV26.2.0.0
+[submodule "source/ContabiWrp"]
+	path = source/ContabiWrp
+	url = https://github.com/GalacSoftware/ContabiWrp.git
+	branch = release/SawV26.2.0.0
+[submodule "source/IvaVb"]
+	path = source/IvaVb
+	url = https://github.com/GalacSoftware/IvaVb.git
+	branch = release/SawV26.2.0.0
+[submodule "source/vbaComun"]
+	path = source/vbaComun
+	url = https://github.com/GalacSoftware/vbaComun.git
+	branch = release/SawV26.2.0.0
