@@ -58,3 +58,15 @@
 	path = source/vbaComun
 	url = https://github.com/GalacSoftware/vbaComun.git
 	branch = release/SawV26.2.0.0
+[submodule "bin/binContabilidadAos"]
+	path = bin/binContabilidadAos
+	url = https://github.com/GalacSoftware/BinContabilidadAos.git
+	branch = release/V2.61.3.0
+[submodule "bin/binAdministrativoVb"]
+	path = bin/binAdministrativoVb
+	url = https://github.com/GalacSoftware/BinAdministrativoVB.git
+	branch = release/V2407
+[submodule "bin/binAdministrativoAos"]
+	path = bin/binAdministrativoAos
+	url = https://github.com/GalacSoftware/BinAdministrativoAos.git
+	branch = release/V26.2.0.0
