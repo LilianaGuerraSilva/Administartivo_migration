@@ -1060,6 +1060,7 @@ Public Function fConfigurarDatosDelReporteFormatoDeConteoFisico(ByRef refRpt As 
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtDescripcion", "", "Descripcion"
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtCantidadActual", "", "Cantidad", False, ddTXRight, formatoNDecimales
          gUtilReports.sDefaultConfigurationForLabels refRpt, "lblEnBlanco", ""
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCodigoLote", "", "CodigoLote"
          gUtilMargins.sAsignarMargenesGenerales refRpt, , NombreDelReporte
          Call refRpt.AddNamedItem("gUtilReports", gUtilReports)
          Call refRpt.AddNamedItem("gProyParametrosCompania", gProyParametrosCompania)
