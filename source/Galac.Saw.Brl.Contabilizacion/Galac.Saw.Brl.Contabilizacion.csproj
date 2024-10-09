@@ -38,13 +38,13 @@
       <HintPath>..\packages\Galac.Contab.Brl.Tablas.2.61.0\lib\Galac.Contab.Brl.Tablas.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Brl.WinCont">
-      <HintPath>..\packages\Galac.Contab.Brl.WinCont.2.61.0\lib\Galac.Contab.Brl.WinCont.dll</HintPath>
+      <HintPath>..\packages\Galac.Contab.Brl.WinCont.2.61.3\lib\Galac.Contab.Brl.WinCont.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Ccl.Tablas">
       <HintPath>..\packages\Galac.Contab.Ccl.Tablas.2.61.0\lib\Galac.Contab.Ccl.Tablas.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Ccl.WinCont">
-      <HintPath>..\packages\Galac.Contab.Ccl.WinCont.2.61.0\lib\Galac.Contab.Ccl.WinCont.dll</HintPath>
+      <HintPath>..\packages\Galac.Contab.Ccl.WinCont.2.61.3\lib\Galac.Contab.Ccl.WinCont.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Saw.Dal.Contabilizacion">
       <Name>Galac.Saw.Dal.Contabilizacion</Name>

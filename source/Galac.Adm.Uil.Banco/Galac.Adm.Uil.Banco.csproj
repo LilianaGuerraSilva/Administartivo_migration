@@ -46,8 +46,8 @@
     <Reference Include="Galac.Comun.Uil.TablasGen">
       <HintPath>..\packages\Galac.Comun.Uil.TablasGen.2.61.0\lib\Galac.Comun.Uil.TablasGen.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Contab.Ccl.WinCont">
-      <HintPath>..\packages\Galac.Contab.Ccl.WinCont.2.61.0\lib\Galac.Contab.Ccl.WinCont.dll</HintPath>
+    <Reference Include="Galac.Contab.Ccl.WinCont, Version=2.61.3.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Contab.Ccl.WinCont.2.61.3\lib\Galac.Contab.Ccl.WinCont.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.ARRpt">
       <HintPath>..\packages\LibGalac.Aos.ARRpt.5.24.1\lib\LibGalac.Aos.ARRpt.dll</HintPath>

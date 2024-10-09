@@ -41,11 +41,11 @@
     <Reference Include="LibGalac.Aos.Cnf">
       <HintPath>..\packages\LibGalac.Aos.Cnf.5.24.0\lib\LibGalac.Aos.Cnf.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.DefGen">
-      <HintPath>..\packages\LibGalac.Aos.DefGen.5.24.0\lib\LibGalac.Aos.DefGen.dll</HintPath>
+    <Reference Include="LibGalac.Aos.DefGen, Version=5.24.1.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.DefGen.5.24.1\lib\LibGalac.Aos.DefGen.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.UI.Mvvm">
-      <HintPath>..\packages\LibGalac.Aos.UI.Mvvm.5.24.0\lib\LibGalac.Aos.UI.Mvvm.dll</HintPath>
+    <Reference Include="LibGalac.Aos.UI.Mvvm, Version=5.24.2.4, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.UI.Mvvm.5.24.2.4\lib\LibGalac.Aos.UI.Mvvm.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.Wpf">
       <HintPath>..\packages\LibGalac.Aos.UI.Wpf.5.24.0\lib\LibGalac.Aos.UI.Wpf.dll</HintPath>
@@ -53,8 +53,8 @@
     <Reference Include="LibGalac.Aos.UI.WpfControls">
       <HintPath>..\packages\LibGalac.Aos.UI.WpfControls.5.24.0\lib\LibGalac.Aos.UI.WpfControls.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.UI.WpfRD">
-      <HintPath>..\packages\LibGalac.Aos.UI.WpfRD.5.24.1\lib\LibGalac.Aos.UI.WpfRD.dll</HintPath>
+    <Reference Include="LibGalac.Aos.UI.WpfRD, Version=5.24.2.1, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.UI.WpfRD.5.24.2.1\lib\LibGalac.Aos.UI.WpfRD.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>

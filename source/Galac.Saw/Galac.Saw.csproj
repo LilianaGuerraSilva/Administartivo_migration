@@ -64,7 +64,7 @@
       <HintPath>..\packages\Galac.Contab.Ccl.Tablas.2.61.0\lib\Galac.Contab.Ccl.Tablas.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Ccl.WinCont">
-      <HintPath>..\packages\Galac.Contab.Ccl.WinCont.2.61.0\lib\Galac.Contab.Ccl.WinCont.dll</HintPath>
+      <HintPath>..\packages\Galac.Contab.Ccl.WinCont.2.61.3\lib\Galac.Contab.Ccl.WinCont.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.SLev">
       <HintPath>..\packages\Galac.Contab.SLev.2.61.0\lib\Galac.Contab.SLev.dll</HintPath>

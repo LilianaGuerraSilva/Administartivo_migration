@@ -43,12 +43,6 @@
     <Reference Include="Galac.Comun.Brl.TablasLey">
       <HintPath>..\packages\Galac.Comun.Brl.TablasLey.2.61.0\lib\Galac.Comun.Brl.TablasLey.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Contab.Ccl.WinCont">
-      <HintPath>..\packages\Galac.Contab.Ccl.WinCont.2.61.0\lib\Galac.Contab.Ccl.WinCont.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Contab.Uil.WinCont">
-      <HintPath>..\packages\Galac.Contab.Uil.WinCont.2.61.0\lib\Galac.Contab.Uil.WinCont.dll</HintPath>
-    </Reference>
     <Reference Include="Galac.Comun.Ccl.TablasGen">
       <HintPath>..\packages\Galac.Comun.Ccl.TablasGen.2.61.0\lib\Galac.Comun.Ccl.TablasGen.dll</HintPath>
     </Reference>
@@ -60,6 +54,12 @@
     </Reference>
     <Reference Include="Galac.Comun.Uil.TablasLey">
       <HintPath>..\packages\Galac.Comun.Uil.TablasLey.2.61.0\lib\Galac.Comun.Uil.TablasLey.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Contab.Ccl.WinCont, Version=2.61.3.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Contab.Ccl.WinCont.2.61.3\lib\Galac.Contab.Ccl.WinCont.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Contab.Uil.WinCont, Version=2.61.3.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Contab.Uil.WinCont.2.61.3\lib\Galac.Contab.Uil.WinCont.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.ARRpt">
       <HintPath>..\packages\LibGalac.Aos.ARRpt.5.24.1\lib\LibGalac.Aos.ARRpt.dll</HintPath>
