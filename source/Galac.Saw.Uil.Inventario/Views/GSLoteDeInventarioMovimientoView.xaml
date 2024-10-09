@@ -7,7 +7,7 @@
     xmlns:nsVm="clr-namespace:Galac.Saw.Uil.Inventario.ViewModel"
     xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
     xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
-    Width="772">
+    Width="900">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -38,7 +38,7 @@
             Name="txtNumeroDocumentoOrigen"
             Grid.Row="1"
             Grid.Column="0"
-            Width="120"
+            Width="144"
             BorderThickness="1"
             InputDataType="Alfanumeric"
             IsEnabled="{Binding Path=IsEnabled}"
@@ -55,7 +55,7 @@
             Name="cmbTipoOperacion"
             Grid.Row="1"
             Grid.Column="1"
-            Width="120"
+            Width="144"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding Path=ArrayTipodeOperacion}"
             SelectedItem="{Binding Path=TipoOperacion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
@@ -70,7 +70,7 @@
             Name="txtCantidad"
             Grid.Row="1"
             Grid.Column="2"
-            Width="120"
+            Width="144"
             BorderThickness="1"
             InputDataType="UDecimal"
             IsEnabled="{Binding Path=IsEnabled}"
@@ -81,13 +81,13 @@
             Name="lblStatusDocumentoOrigen"
             Grid.Row="0"
             Grid.Column="3"
-            Content="Status"
+            Content="Status Doc. Origen"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf
             Name="cmbStatusDocumentoOrigen"
             Grid.Row="1"
             Grid.Column="3"
-            Width="120"
+            Width="144"
             IsEnabled="{Binding Path=IsEnabled}"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding Path=ArrayStatusDocOrigenLoteInv}"
@@ -97,13 +97,13 @@
             Name="lblModulo"
             Grid.Row="0"
             Grid.Column="4"
-            Content="Módulo"
+            Content="Módulo Origen"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf
             Name="cmbModulo"
             Grid.Row="1"
             Grid.Column="4"
-            Width="120"
+            Width="194"
             IsEnabled="{Binding Path=IsEnabled}"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding Path=ArrayOrigenLoteInv}"
@@ -119,7 +119,7 @@
             Name="dtpFecha"
             Grid.Row="1"
             Grid.Column="5"
-            Width="120"
+            Width="94"
             IsEnabled="{Binding Path=IsEnabled}"
             SelectedDate="{Binding Path=Fecha, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource DatePickerStyle}" />

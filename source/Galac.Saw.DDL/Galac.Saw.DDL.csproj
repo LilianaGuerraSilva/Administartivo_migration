@@ -63,10 +63,10 @@
       <HintPath>..\packages\Galac.Comun.Dal.TablasLey.2.61.0\lib\Galac.Comun.Dal.TablasLey.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Ccl.WinCont">
-      <HintPath>..\packages\Galac.Contab.Ccl.WinCont.2.61.1\lib\Galac.Contab.Ccl.WinCont.dll</HintPath>
+      <HintPath>..\packages\Galac.Contab.Ccl.WinCont.2.61.3\lib\Galac.Contab.Ccl.WinCont.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Dal.WinCont">
-      <HintPath>..\packages\Galac.Contab.Dal.WinCont.2.61.0\lib\Galac.Contab.Dal.WinCont.dll</HintPath>
+      <HintPath>..\packages\Galac.Contab.Dal.WinCont.2.61.3\lib\Galac.Contab.Dal.WinCont.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.TablasVbSinMigrar">
       <HintPath>..\packages\Galac.Contab.TablasVbSinMigrar.2.61.0\lib\Galac.Contab.TablasVbSinMigrar.dll</HintPath>

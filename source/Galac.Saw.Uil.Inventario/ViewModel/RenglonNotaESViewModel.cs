@@ -69,7 +69,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El Código del Artículo es requerido.")]
-        [LibGridColum("Cód. Articulo", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoArticulo", ConnectionSearchCommandName = "ChooseCodigoArticuloCommand", MaxWidth = 120)]
+        [LibGridColum("Cód. Articulo", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoArticulo", ConnectionSearchCommandName = "ChooseCodigoArticuloCommand", Width = 250)]
         public string CodigoArticulo {
             get {
                 return Model.CodigoArticulo;
@@ -100,7 +100,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibCustomValidation("CantidadValidating")]
-        [LibGridColum("Cantidad", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 100)]
+        [LibGridColum("Cantidad", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 150)]
         public decimal Cantidad {
             get {
                 return Model.Cantidad;
@@ -175,7 +175,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibCustomValidation("LoteDeInventarioValidating")]
-        [LibGridColum("Lote de Inventario", MaxLength = 50)]
+        [LibGridColum("Lote de Inventario", Width = 300)]
         public string LoteDeInventario {
             get {
                 return Model.LoteDeInventario;
@@ -188,8 +188,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 }
             }
         }
-
-        [LibGridColum("Fecha Elab.", eGridColumType.DatePicker, Width = 100)]
+      
         public DateTime FechaDeElaboracion {
             get {
                 return Model.FechaDeElaboracion;
@@ -202,8 +201,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 }
             }
         }
-
-        [LibGridColum("Fecha Vcto.", eGridColumType.DatePicker, Width = 100)]
+      
         public DateTime FechaDeVencimiento {
             get {
                 return Model.FechaDeVencimiento;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows;
+using Galac.Adm.Uil.GestionProduccion;
 using Galac.Saw.Ccl.Inventario;
 using Galac.Saw.DDL;
 using Galac.Saw.Properties;
@@ -56,6 +57,7 @@ namespace Galac.Saw {
             LibGalac.Aos.Uil.Settings.LibSettingsMessagesHandler.RegisterMessages();
             LibGalac.Aos.Uil.PASOnLine.LibPASOnLineHandler.RegisterMessages();
             InventarioMessagesHandler.RegisterMessages();
+            OrdenDeProduccionMessagesHandler.RegisterMessages();
 
         }
 

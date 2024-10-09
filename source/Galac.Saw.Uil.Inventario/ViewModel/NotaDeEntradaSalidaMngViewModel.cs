@@ -219,7 +219,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         private bool CanExecuteAnularCommand() {
-            return CurrentItem != null && LibSecurityManager.CurrentUserHasAccessTo(ModuleName, "Anular Retiro");// && CurrentItem.TipodeOperacion == eTipodeOperacion.Retiro;
+            return CurrentItem != null && LibSecurityManager.CurrentUserHasAccessTo(ModuleName, "Anular Retiro") && CurrentItem.GeneradoPor != eTipoGeneradoPorNotaDeEntradaSalida.OrdenDeProduccion ;// && CurrentItem.TipodeOperacion == eTipodeOperacion.Retiro;
         }
 
         private void ExecuteReImprimirCommand() {
@@ -236,6 +236,10 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         private bool CanExecuteReImprimirCommand() {
             return CurrentItem != null && LibSecurityManager.CurrentUserHasAccessTo(ModuleName, "Informes");
+        }
+
+        protected override bool CanExecuteDeleteCommand() {
+            return base.CanExecuteDeleteCommand() && CurrentItem.GeneradoPor != eTipoGeneradoPorNotaDeEntradaSalida.OrdenDeProduccion;
         }
 
     } //End of class NotaDeEntradaSalidaMngViewModel

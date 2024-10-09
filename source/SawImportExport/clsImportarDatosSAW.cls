@@ -1480,6 +1480,7 @@ Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByV
       .SetCampoExtraEnRenglonFactura2 vCampoExtraEnRenglonFactura2
       vArticulo = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
       .SetArticulo vArticulo
+      .SetLoteDeInventario ""
    End With
    With insFactura
       vCodigoMonedaDeCobro = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)

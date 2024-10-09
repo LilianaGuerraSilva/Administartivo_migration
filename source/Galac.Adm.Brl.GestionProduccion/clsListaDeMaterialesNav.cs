@@ -43,7 +43,56 @@ namespace Galac.Adm.Brl.GestionProduccion {
 
         bool ILibPdn.GetDataForList(string valCallingModule, ref XmlDocument refXmlDocument, StringBuilder valXmlParamsExpression) {
             ILibDataFKSearch instanciaDal = new Galac.Adm.Dal.GestionProduccion.clsListaDeMaterialesDat();
-            return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "Adm.Gp_ListaDeMaterialesSCH", valXmlParamsExpression);
+            switch (valCallingModule) {
+                case "Orden de Producción":
+                bool vResult = instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "Adm.Gp_ListaDeMaterialesSCH", valXmlParamsExpression);
+                BuscarCodigoYDescrionAProducir(ref refXmlDocument);
+                return vResult;
+                default:
+                return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "Adm.Gp_ListaDeMaterialesSCH", valXmlParamsExpression);
+            }
+
+        }
+
+        private void BuscarCodigoYDescrionAProducir(ref XmlDocument refXmlDocument) {
+            QAdvSql InsSql = new QAdvSql("");
+            XElement valData = LibXml.ToXElement(refXmlDocument);
+            XElement vXElement = new XElement("GpData",
+              from vEntity in valData.Descendants("GpResult")
+              select new XElement("GpResult", vEntity.Element("Consecutivo")));
+            StringBuilder vSQL = new StringBuilder();
+            vSQL.AppendLine(" DECLARE @hdoc int ");
+            vSQL.AppendLine(" EXEC sp_xml_preparedocument @hdoc OUTPUT, @XmlData ");
+            vSQL.AppendLine(" SELECT ConsecutivoListaDeMateriales, CodigoArticuloInventario, Descripcion ");
+            vSQL.AppendLine(" FROM Adm.ListaDeMaterialesDetalleSalidas INNER JOIN ArticuloInventario ON ");
+            vSQL.AppendLine(" ListaDeMaterialesDetalleSalidas.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania AND ");
+            vSQL.AppendLine(" ListaDeMaterialesDetalleSalidas.CodigoArticuloInventario = ArticuloInventario.Codigo ");
+            vSQL.AppendLine(" WHERE ListaDeMaterialesDetalleSalidas.ConsecutivoCompania = @ConsecutivoCompania");
+            vSQL.AppendLine(" AND  ConsecutivoListaDeMateriales IN ( ");
+            vSQL.AppendLine("     SELECT  Consecutivo ");
+            vSQL.AppendLine("     FROM OPENXML( @hdoc, 'GpData/GpResult',2) ");
+            vSQL.AppendLine("	 WITH (Consecutivo " + InsSql.NumericTypeForDb(10, 0) + ") AS XmlDocOfFK)");            
+            vSQL.AppendLine(" EXEC sp_xml_removedocument @hdoc");
+
+            LibGpParams vParams = new LibGpParams();
+            vParams.AddInInteger("ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
+            vParams.AddInXml("XmlData", vXElement);            
+            XElement vResult = LibBusiness.ExecuteSelect(vSQL.ToString(), vParams.Get(), "", 0);
+
+            var groupedResults = vResult.Elements("GpResult")
+            .GroupBy(x => (int)x.Element("ConsecutivoListaDeMateriales"))
+            .ToDictionary(g => g.Key, g => new{
+                CodigoArticuloInventario = string.Join("  |  ", g.Select(x => (string)x.Element("CodigoArticuloInventario"))),
+                DescripcionArticuloInventario = string.Join("  |  ", g.Select(x => (string)x.Element("Descripcion")))
+            });
+            foreach (var result in valData.Elements("GpResult")) {
+                int consecutivo = (int)result.Element("Consecutivo");
+                if (groupedResults.ContainsKey(consecutivo)) {
+                    result.Element("CodigoArticuloInventario").Value =  groupedResults[consecutivo].CodigoArticuloInventario;
+                    result.Element("DescripcionArticuloInventario").Value = groupedResults[consecutivo].DescripcionArticuloInventario;
+                }
+            }
+            refXmlDocument = LibXml.ToXmlDocument(valData);
         }
 
         System.Xml.Linq.XElement ILibPdn.GetFk(string valCallingModule, StringBuilder valParameters) {

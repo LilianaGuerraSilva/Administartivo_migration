@@ -65,7 +65,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibCustomValidation("FechaValidating")]
-        [LibGridColum("Fecha", eGridColumType.DatePicker, ColumnOrder = 4)]
+        [LibGridColum("Fecha", eGridColumType.DatePicker, ColumnOrder = 4, Width =90)]
         public DateTime Fecha {
             get {
                 return Model.Fecha;
@@ -79,7 +79,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Módulo", eGridColumType.Enum, PrintingMemberPath = "ModuloStr", ColumnOrder = 3)]
+        [LibGridColum("Módulo Origen", eGridColumType.Enum, PrintingMemberPath = "ModuloStr", ColumnOrder = 3, Width = 280)]
         public eOrigenLoteInv Modulo {
             get {
                 return Model.ModuloAsEnum;
@@ -106,7 +106,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 		
-        [LibGridColum("Cantidad", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 1)]
+        [LibGridColum("Cantidad", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 1, Width = 130)]
         public decimal Cantidad {
             get {
                 return Model.Cantidad;
@@ -131,7 +131,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Número Doc.", MaxLength = 30, ColumnOrder = 0)]
+        [LibGridColum("Número Doc.", MaxLength = 30, ColumnOrder = 0, Width = 144)]
         public string NumeroDocumentoOrigen {
             get {
                 return Model.NumeroDocumentoOrigen;
@@ -145,7 +145,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Status", eGridColumType.Enum, PrintingMemberPath = "StatusDocumentoOrigenStr", ColumnOrder = 2)]
+        [LibGridColum("Status Doc. Origen", eGridColumType.Enum, PrintingMemberPath = "StatusDocumentoOrigenStr", ColumnOrder = 2, Width = 144)]
         public eStatusDocOrigenLoteInv StatusDocumentoOrigen {
             get {
                 return Model.StatusDocumentoOrigenAsEnum;

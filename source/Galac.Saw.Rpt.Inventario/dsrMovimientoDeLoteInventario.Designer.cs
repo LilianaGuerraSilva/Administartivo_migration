@@ -42,18 +42,18 @@ namespace Galac.Saw.Rpt.Inventario
             this.GHSecArticulo = new DataDynamics.ActiveReports.GroupHeader();
             this.lblArticulo = new DataDynamics.ActiveReports.Label();
             this.txtArticulo = new DataDynamics.ActiveReports.TextBox();
+            this.lblLote = new DataDynamics.ActiveReports.Label();
+            this.txtLote = new DataDynamics.ActiveReports.TextBox();
             this.txtCodigoArticulo = new DataDynamics.ActiveReports.TextBox();
             this.GFSecArticulo = new DataDynamics.ActiveReports.GroupFooter();
             this.txtExistenciaFinal = new DataDynamics.ActiveReports.TextBox();
             this.lblExistenciaFinal = new DataDynamics.ActiveReports.Label();
             this.GHSecLote = new DataDynamics.ActiveReports.GroupHeader();
-            this.lblLote = new DataDynamics.ActiveReports.Label();
             this.lblTipoMovimiento = new DataDynamics.ActiveReports.Label();
             this.lblEntrada = new DataDynamics.ActiveReports.Label();
             this.lblSalida = new DataDynamics.ActiveReports.Label();
             this.lblFecha = new DataDynamics.ActiveReports.Label();
             this.lblNroDocumento = new DataDynamics.ActiveReports.Label();
-            this.txtLote = new DataDynamics.ActiveReports.TextBox();
             this.txtFechaElaboracion = new DataDynamics.ActiveReports.TextBox();
             this.lblFechaVencimiento = new DataDynamics.ActiveReports.Label();
             this.txtFechaVencimiento = new DataDynamics.ActiveReports.TextBox();
@@ -76,16 +76,16 @@ namespace Galac.Saw.Rpt.Inventario
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaInicialYFinal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblArticulo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtArticulo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblLote)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtLote)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCodigoArticulo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtExistenciaFinal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblExistenciaFinal)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblLote)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTipoMovimiento)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblEntrada)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblSalida)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFecha)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblNroDocumento)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtLote)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFechaElaboracion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaVencimiento)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFechaVencimiento)).BeginInit();
@@ -161,12 +161,12 @@ namespace Galac.Saw.Rpt.Inventario
             // txtExistenciaInicial
             // 
             this.txtExistenciaInicial.Height = 0.15625F;
-            this.txtExistenciaInicial.Left = 4.643001F;
+            this.txtExistenciaInicial.Left = 2.289F;
             this.txtExistenciaInicial.Name = "txtExistenciaInicial";
-            this.txtExistenciaInicial.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtExistenciaInicial.Style = "font-size: 8pt; text-align: left; ddo-char-set: 1";
             this.txtExistenciaInicial.Text = "txtExistenciaInicial";
-            this.txtExistenciaInicial.Top = 0.5219999F;
-            this.txtExistenciaInicial.Width = 1.239F;
+            this.txtExistenciaInicial.Top = 0.522F;
+            this.txtExistenciaInicial.Width = 1.115F;
             // 
             // PageHeader
             // 
@@ -271,6 +271,27 @@ namespace Galac.Saw.Rpt.Inventario
             this.txtArticulo.Top = 0.094F;
             this.txtArticulo.Width = 2.427001F;
             // 
+            // lblLote
+            // 
+            this.lblLote.Height = 0.15625F;
+            this.lblLote.HyperLink = null;
+            this.lblLote.Left = 3.404F;
+            this.lblLote.Name = "lblLote";
+            this.lblLote.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
+            this.lblLote.Text = "Lote";
+            this.lblLote.Top = 0.094F;
+            this.lblLote.Width = 1.239F;
+            // 
+            // txtLote
+            // 
+            this.txtLote.Height = 0.15625F;
+            this.txtLote.Left = 4.643001F;
+            this.txtLote.Name = "txtLote";
+            this.txtLote.Style = "font-size: 8pt; ddo-char-set: 1";
+            this.txtLote.Text = "txtLote";
+            this.txtLote.Top = 0.094F;
+            this.txtLote.Width = 1.239F;
+            // 
             // txtCodigoArticulo
             // 
             this.txtCodigoArticulo.Height = 0.15625F;
@@ -294,23 +315,23 @@ namespace Galac.Saw.Rpt.Inventario
             // txtExistenciaFinal
             // 
             this.txtExistenciaFinal.Height = 0.15625F;
-            this.txtExistenciaFinal.Left = 3.404F;
+            this.txtExistenciaFinal.Left = 2.289F;
             this.txtExistenciaFinal.Name = "txtExistenciaFinal";
-            this.txtExistenciaFinal.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
-            this.txtExistenciaFinal.Text = "lblExistenciaFinal";
-            this.txtExistenciaFinal.Top = 2.980232E-08F;
-            this.txtExistenciaFinal.Width = 1.239F;
+            this.txtExistenciaFinal.Style = "font-size: 8pt; text-align: left; ddo-char-set: 1";
+            this.txtExistenciaFinal.Text = "txtExistenciaFinal";
+            this.txtExistenciaFinal.Top = 0F;
+            this.txtExistenciaFinal.Width = 1.115F;
             // 
             // lblExistenciaFinal
             // 
             this.lblExistenciaFinal.Height = 0.15625F;
             this.lblExistenciaFinal.HyperLink = null;
-            this.lblExistenciaFinal.Left = 2.289001F;
+            this.lblExistenciaFinal.Left = 0.9770001F;
             this.lblExistenciaFinal.Name = "lblExistenciaFinal";
-            this.lblExistenciaFinal.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
+            this.lblExistenciaFinal.Style = "font-size: 8pt; font-weight: bold; text-align: left; ddo-char-set: 1";
             this.lblExistenciaFinal.Text = "Existencia Final";
             this.lblExistenciaFinal.Top = 0F;
-            this.lblExistenciaFinal.Width = 1.115F;
+            this.lblExistenciaFinal.Width = 1.312F;
             // 
             // GHSecLote
             // 
@@ -326,19 +347,8 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblExistenciaInicial,
             this.txtExistenciaInicial,
             this.lblFechaElaboracion});
-            this.GHSecLote.Height = 0.6785833F;
+            this.GHSecLote.Height = 0.67825F;
             this.GHSecLote.Name = "GHSecLote";
-            // 
-            // lblLote
-            // 
-            this.lblLote.Height = 0.15625F;
-            this.lblLote.HyperLink = null;
-            this.lblLote.Left = 3.404F;
-            this.lblLote.Name = "lblLote";
-            this.lblLote.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
-            this.lblLote.Text = "Lote";
-            this.lblLote.Top = 0.094F;
-            this.lblLote.Width = 1.239F;
             // 
             // lblTipoMovimiento
             // 
@@ -400,16 +410,6 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblNroDocumento.Top = 0.208F;
             this.lblNroDocumento.Width = 0.9770003F;
             // 
-            // txtLote
-            // 
-            this.txtLote.Height = 0.15625F;
-            this.txtLote.Left = 4.643001F;
-            this.txtLote.Name = "txtLote";
-            this.txtLote.Style = "font-size: 8pt; ddo-char-set: 1";
-            this.txtLote.Text = "txtLote";
-            this.txtLote.Top = 0.094F;
-            this.txtLote.Width = 1.239F;
-            // 
             // txtFechaElaboracion
             // 
             this.txtFechaElaboracion.Height = 0.15625F;
@@ -445,12 +445,12 @@ namespace Galac.Saw.Rpt.Inventario
             // 
             this.lblExistenciaInicial.Height = 0.15625F;
             this.lblExistenciaInicial.HyperLink = null;
-            this.lblExistenciaInicial.Left = 3.404F;
+            this.lblExistenciaInicial.Left = 0.9770001F;
             this.lblExistenciaInicial.Name = "lblExistenciaInicial";
-            this.lblExistenciaInicial.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
+            this.lblExistenciaInicial.Style = "font-size: 8pt; font-weight: bold; text-align: left; ddo-char-set: 1";
             this.lblExistenciaInicial.Text = "Existencia Inicial";
             this.lblExistenciaInicial.Top = 0.522F;
-            this.lblExistenciaInicial.Width = 1.239F;
+            this.lblExistenciaInicial.Width = 1.312F;
             // 
             // lblFechaElaboracion
             // 
@@ -538,16 +538,16 @@ namespace Galac.Saw.Rpt.Inventario
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaInicialYFinal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblArticulo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtArticulo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblLote)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtLote)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCodigoArticulo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtExistenciaFinal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblExistenciaFinal)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblLote)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTipoMovimiento)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblEntrada)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblSalida)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFecha)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblNroDocumento)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtLote)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFechaElaboracion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaVencimiento)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFechaVencimiento)).EndInit();
