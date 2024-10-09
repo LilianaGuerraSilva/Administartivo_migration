@@ -34,7 +34,7 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Galac.Contab.Brl.WinCont>
+    <Reference Include="Galac.Contab.Brl.WinCont">
       <HintPath>..\packages\Galac.Contab.Brl.WinCont.2.61.3\lib\Galac.Contab.Brl.WinCont.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Ccl.Tablas">
