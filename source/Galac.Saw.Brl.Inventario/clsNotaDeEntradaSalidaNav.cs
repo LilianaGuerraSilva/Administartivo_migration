@@ -411,7 +411,12 @@ namespace Galac.Saw.Brl.Inventario {
                     vLoteMov.ConsecutivoCompania = valItemRenglonNotaES.ConsecutivoCompania;
                     vLoteMov.ConsecutivoLote = vLote.Consecutivo;
                     vLoteMov.Fecha = valItemNotaES.Fecha;
-                    vLoteMov.ModuloAsEnum = eOrigenLoteInv.NotaEntradaSalida;
+                    if (valItemNotaES.GeneradoPorAsEnum == eTipoGeneradoPorNotaDeEntradaSalida.OrdenDeProduccion) {
+                        vLoteMov.ModuloAsEnum = eOrigenLoteInv.Produccion;
+                    } else {
+                        vLoteMov.ModuloAsEnum = eOrigenLoteInv.NotaEntradaSalida;
+                    }
+                    
                     vLoteMov.Cantidad = vCant;
                     vLoteMov.ConsecutivoDocumentoOrigen = 0;
                     vLoteMov.NumeroDocumentoOrigen = valItemNotaES.NumeroDocumento;
