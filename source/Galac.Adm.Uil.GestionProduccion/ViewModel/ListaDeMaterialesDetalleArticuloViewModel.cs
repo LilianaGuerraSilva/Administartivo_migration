@@ -143,6 +143,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 if (_ConexionCodigoArticuloInventario != value) {
                     _ConexionCodigoArticuloInventario = value;
                     RaisePropertyChanged(CodigoArticuloInventarioPropertyName);
+                    RaisePropertyChanged(() => IsVisbleTipoArticuloInvStr);
+                    RaisePropertyChanged(() => TipoArticuloInvStr);
                 }
                 if (_ConexionCodigoArticuloInventario == null) {
                     CodigoArticuloInventario = string.Empty;
@@ -159,6 +161,47 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public int DecimalDigits {
             get {
                 return 8;
+            }
+        }
+
+        public bool IsVisbleTipoArticuloInvStr {
+            get {
+                return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento") &&
+                    (!LibString.IsNullOrEmpty(CodigoArticuloInventario));
+            }
+        }
+
+        public eTipoArticuloInv TipoArticuloInvAsEnum {
+            get {
+                return Model.TipoArticuloInvAsEnum;
+            }
+            set {
+                if (Model.TipoArticuloInvAsEnum != value) {
+                    Model.TipoArticuloInvAsEnum = value;
+                }
+            }
+        }
+
+        public string TipoArticuloInvStr {
+            get {
+                if (Model.TipoDeArticuloAsEnum == eTipoDeArticulo.Mercancia) {
+                    return LibEnumHelper.GetDescription(TipoArticuloInvAsEnum);
+                } else if (Model.TipoDeArticuloAsEnum == eTipoDeArticulo.Servicio) {
+                    return LibEnumHelper.GetDescription(eTipoDeArticulo.Servicio);
+                } else {
+                    return "";
+                }
+            }
+        }
+
+        public eTipoDeArticulo TipoDeArticuloAsEnum {
+            get {
+                return Model.TipoDeArticuloAsEnum;
+            }
+            set {
+                if (Model.TipoDeArticuloAsEnum != value) {
+                    Model.TipoDeArticuloAsEnum = value;
+                }
             }
         }
 
@@ -219,11 +262,15 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 if (ConexionCodigoArticuloInventario == null) {
                     CodigoArticuloInventario = string.Empty;
                     DescripcionArticuloInventario = string.Empty;
-                    UnidadDeVenta = string.Empty;
+                    UnidadDeVenta = string.Empty;                    
                 } else {
                     CodigoArticuloInventario = ConexionCodigoArticuloInventario.Codigo;
                     DescripcionArticuloInventario = ConexionCodigoArticuloInventario.Descripcion;
                     UnidadDeVenta = ConexionCodigoArticuloInventario.UnidadDeVenta;
+                    TipoArticuloInvAsEnum = ConexionCodigoArticuloInventario.TipoArticuloInv;
+                    TipoDeArticuloAsEnum = ConexionCodigoArticuloInventario.TipoDeArticulo ;
+                    RaisePropertyChanged(() => IsVisbleTipoArticuloInvStr);
+                    RaisePropertyChanged(() => TipoArticuloInvStr);
                 }
             } catch (System.AccessViolationException) {
                 throw;
