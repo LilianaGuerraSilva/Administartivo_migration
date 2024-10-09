@@ -10,14 +10,6 @@
 	path = source/Lib/AosLib
 	url = https://github.com/GalacSoftware/AosLib.git
 	branch = release/5.24.1.0
-[submodule "bin/binAdministrativoAos"]
-	path = bin/binAdministrativoAos
-	url = https://github.com/GalacSoftware/BinAdministrativoAos.git
-	branch = release/V25.3.0.0
-[submodule "bin/binAdministrativoVb"]
-	path = bin/binAdministrativoVb
-	url = https://github.com/GalacSoftware/BinAdministrativoVB.git
-	branch = release/V2406
 [submodule "bin/binEsqNiif"]
 	path = bin/binEsqNiif
 	url = https://github.com/GalacSoftware/BinEsqNiif.git
@@ -30,10 +22,6 @@
 	path = bin/binComunAos
 	url = https://github.com/GalacSoftware/BinComunAos.git
 	branch = release/V2.62.2.4
-[submodule "bin/binContabilidadAos"]
-	path = bin/binContabilidadAos
-	url = https://github.com/GalacSoftware/BinContabilidadAos.git
-	branch = feature/ExportarComprobantes
 [submodule "bin/binLibVb"]
 	path = bin/binLibVb
 	url = https://github.com/GalacSoftware/BinLibVb.git
