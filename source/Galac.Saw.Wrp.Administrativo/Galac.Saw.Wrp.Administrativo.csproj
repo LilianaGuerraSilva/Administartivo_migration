@@ -146,6 +146,7 @@
     <Compile Include="IWrpIntegracionSawVb.cs" />
     <Compile Include="IWrpLibros.cs" />
     <Compile Include="IWrpImprentaDigitalVb.cs" />
+    <Compile Include="IWrpLoteDeInventarioVb.cs" />
     <Compile Include="IWrpRutaDeComercializacionVb.cs" />
     <Compile Include="IWrpOrdenDeProduccionVb.cs" />
     <Compile Include="IWrpTransferenciaEntreCuentasBancariasVb.cs" />
