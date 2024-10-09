@@ -1505,10 +1505,10 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         private bool PuedoEscogerLista() {
             if (ConexionCodigoAlmacenMateriales == null) {
-                LibMessages.MessageBox.Alert(this, "Debe seleccionar el almacen de la lista de materiales", ModuleName);
+                LibMessages.MessageBox.Alert(this, "Debe seleccionar el almacén de la lista de materiales.", ModuleName);
                 return false;
             } else if (_ConexionCodigoAlmacenProductoTerminado  == null) {
-                LibMessages.MessageBox.Alert(this, "Debe seleccionar el almacen de la lista de productos terminados", ModuleName);
+                LibMessages.MessageBox.Alert(this, "Debe seleccionar el almacén de la lista de productos terminados.", ModuleName);
                 return false;
             } else if (ConexionCodigoListaDeMateriales == null) {
                 return false;
