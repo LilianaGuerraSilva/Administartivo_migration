@@ -42,10 +42,6 @@
 	path = bin/binContabilidadVb
 	url = https://github.com/GalacSoftware/BinContabilidadVb.git
 	branch = release/V2405
-[submodule "source/ContabilidadVb"]
-	path = source/ContabilidadVb
-	url = https://github.com/GalacSoftware/ContabilidadVb.git
-	branch = release/SawV26.2.0.0
 [submodule "source/ContabiWrp"]
 	path = source/ContabiWrp
 	url = https://github.com/GalacSoftware/ContabiWrp.git
@@ -70,3 +66,7 @@
 	path = bin/binAdministrativoAos
 	url = https://github.com/GalacSoftware/BinAdministrativoAos.git
 	branch = release/V26.2.0.0
+[submodule "source/ContabilidadVb"]
+	path = source/ContabilidadVb
+	url = https://github.com/GalacSoftware/ContabilidadVb.git
+	branch = release/SawV26.2.0.0
