@@ -283,9 +283,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         protected override void InitializeLookAndFeel(LoteDeInventario valModel) {
             base.InitializeLookAndFeel(valModel);
-            //if (LibString.IsNullOrEmpty(CodigoLote, true)) {
-            //    CodigoLote = GenerarProximoCodigoLote();
-            //}
         }
 
         protected override LoteDeInventario FindCurrentRecord(LoteDeInventario valModel) {
@@ -302,34 +299,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             return new clsLoteDeInventarioNav();
         }
 
-        protected override void ExecuteAction() {
-            if (Action == eAccionSR.Eliminar || Action == eAccionSR.Modificar) {
-                if (Action == eAccionSR.Modificar && (TipoArticuloInv == eTipoArticuloInv.Lote || Model.DetailLoteDeInventarioMovimiento.Count != 0)) {
-                    LibMessages.MessageBox.Information(this, $"Solo se pueden {LibEnumHelper.GetDescription(Action)} los Lotes de Inventario del tipo {LibEnumHelper.GetDescription(eTipoArticuloInv.LoteFechadeVencimiento)} que no tengan movimientos.", ModuleName);
-                } else {
-                    if (Action == eAccionSR.Modificar && Model.DetailLoteDeInventarioMovimiento.Count != 0) {
-                        LibMessages.MessageBox.Information(this, $"Solo se pueden {LibEnumHelper.GetDescription(Action)} los Lotes de Inventario que no tengan movimientos.", ModuleName);
-                        CloseOnActionComplete = true;
-                        RaiseRequestCloseEvent();
-                    }
-                }
-                return;
-            }
-            base.ExecuteAction();
-        }
-
-        //private string GenerarProximoCodigoLote() {
-        //    string vResult = string.Empty;
-        //    XElement vResulset = GetBusinessComponent().QueryInfo(eProcessMessageType.Message, "ProximoCodigoLote", Mfc.GetIntAsParam("Compania"), false);
-        //    vResult = LibXml.GetPropertyString(vResulset, "CodigoLote");
-        //    return vResult;
-        //}
-
         protected override void InitializeDetails() {
             DetailLoteDeInventarioMovimiento = new LoteDeInventarioMovimientoMngViewModel(this, Model.DetailLoteDeInventarioMovimiento, Action);
-            //DetailLoteDeInventarioMovimiento.OnCreated += new EventHandler<SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel>>(DetailLoteDeInventarioMovimiento_OnCreated);
-            //DetailLoteDeInventarioMovimiento.OnUpdated += new EventHandler<SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel>>(DetailLoteDeInventarioMovimiento_OnUpdated);
-            //DetailLoteDeInventarioMovimiento.OnDeleted += new EventHandler<SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel>>(DetailLoteDeInventarioMovimiento_OnDeleted);
             DetailLoteDeInventarioMovimiento.OnSelectedItemChanged += new EventHandler<SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel>>(DetailLoteDeInventarioMovimiento_OnSelectedItemChanged);
         }
         #region LoteDeInventarioMovimiento
@@ -344,37 +315,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
-
-        //private void DetailLoteDeInventarioMovimiento_OnDeleted(object sender, SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel> e) {
-        //    try {
-        //        IsDirty = true;
-        //        Model.DetailLoteDeInventarioMovimiento.Remove(e.ViewModel.GetModel());
-        //    } catch (System.AccessViolationException) {
-        //        throw;
-        //    } catch (System.Exception vEx) {
-        //        LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
-        //    }
-        //}
-
-        //private void DetailLoteDeInventarioMovimiento_OnUpdated(object sender, SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel> e) {
-        //    try {
-        //        IsDirty = e.ViewModel.IsDirty;
-        //    } catch (System.AccessViolationException) {
-        //        throw;
-        //    } catch (System.Exception vEx) {
-        //        LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
-        //    }
-        //}
-
-        //private void DetailLoteDeInventarioMovimiento_OnCreated(object sender, SearchCollectionChangedEventArgs<LoteDeInventarioMovimientoViewModel> e) {
-        //    try {
-        //        Model.DetailLoteDeInventarioMovimiento.Add(e.ViewModel.GetModel());
-        //    } catch (System.AccessViolationException) {
-        //        throw;
-        //    } catch (System.Exception vEx) {
-        //        LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
-        //    }
-        //}
         #endregion //LoteDeInventarioMovimiento
 
         protected override void InitializeCommands() {

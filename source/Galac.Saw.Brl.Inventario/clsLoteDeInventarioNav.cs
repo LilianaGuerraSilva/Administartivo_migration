@@ -47,10 +47,10 @@ namespace Galac.Saw.Brl.Inventario {
                     foreach (LoteDeInventario vLoteDeInventario in refRecord) {
                         bool vEsTipoDeInvLoteFechaDeVcto = new clsLoteDeInventarioNav().EsTipoDeInventarioLoteFechaVencimiento(vLoteDeInventario.ConsecutivoCompania, vLoteDeInventario.CodigoArticulo);
                         bool vTieneMovimientos = new clsLoteDeInventarioNav().ExistenMovimientosDeInvetario(vLoteDeInventario.ConsecutivoCompania, vLoteDeInventario.CodigoArticulo, vLoteDeInventario.Consecutivo);
-                        if (valAction == eAccionSR.Modificar && (!vEsTipoDeInvLoteFechaDeVcto || vTieneMovimientos)) {
-                            throw new GalacAlertException("Solo se pueden " + LibEnumHelper.GetDescription(valAction) + " los Lotes de Inventario del tipo " + LibEnumHelper.GetDescription(eTipoArticuloInv.LoteFechadeVencimiento) + " que no tengan movimientos.");
+                        if (valAction == eAccionSR.Modificar && (!vEsTipoDeInvLoteFechaDeVcto || vTieneMovimientos)) {                            
+                            throw new GalacAlertException("No es posible " + LibEnumHelper.GetDescription(valAction) + " este lote. Solo se pueden " + LibEnumHelper.GetDescription(valAction) + " los lotes con fecha de vencimiento y sin movimientos.");
                         } else if (valAction == eAccionSR.Eliminar && vTieneMovimientos) {
-                            throw new GalacAlertException("Solo se pueden " + LibEnumHelper.GetDescription(valAction) + " los Lotes de Inventario que no tengan movimientos.");
+                            throw new GalacAlertException("No es posible " + LibEnumHelper.GetDescription(valAction) + " este lote. Solo se pueden " + LibEnumHelper.GetDescription(valAction) + " sin movimientos.");
                         }
                     }
                 }
