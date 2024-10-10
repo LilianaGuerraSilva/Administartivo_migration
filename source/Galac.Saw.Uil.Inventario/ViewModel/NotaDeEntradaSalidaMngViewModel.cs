@@ -83,6 +83,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         protected override void ExecuteCommandsRaiseCanExecuteChanged() {
             base.ExecuteCommandsRaiseCanExecuteChanged();
+            ReImprimirCommand.RaiseCanExecuteChanged();
+            AnularCommand.RaiseCanExecuteChanged();
             //InformesCommand.RaiseCanExecuteChanged();
         }
 
