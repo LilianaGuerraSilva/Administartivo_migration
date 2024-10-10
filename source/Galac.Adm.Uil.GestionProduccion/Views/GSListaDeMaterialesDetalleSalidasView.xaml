@@ -50,6 +50,7 @@
             Name="lneTipoDeArticuloInv"
             Grid.Row="0"
             Grid.Column="2"
+            Grid.ColumnSpan="2"
             HorizontalAlignment="Left"
             Content="{Binding Path=TipoArticuloInvStr}"
             Style="{StaticResource LabelStatusGreen}"
