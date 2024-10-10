@@ -264,7 +264,11 @@ namespace Galac.Saw.Dal.Inventario {
             LibResponse vResult = new LibResponse();
             string vErrorMessage = "";
             if (ValidateDetail(refRecord, eAccionSR.Modificar,out vErrorMessage)) {
-                if (UpdateDetail(refRecord)) {
+                if (refRecord.DetailLoteDeInventarioMovimiento.Count > 0) {
+                    if (UpdateDetail(refRecord)) {
+                        vResult = UpdateMaster(refRecord, valAction);
+                    }
+                } else {
                     vResult = UpdateMaster(refRecord, valAction);
                 }
             }
@@ -304,8 +308,10 @@ namespace Galac.Saw.Dal.Inventario {
             vResult = IsValidConsecutivo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo) && vResult;
             vResult = IsValidCodigoLote(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.CodigoLote, CurrentRecord.CodigoArticulo) && vResult;
             vResult = IsValidCodigoArticulo(valAction, CurrentRecord.CodigoArticulo) && vResult;
-            vResult = IsValidFechaDeElaboracion(valAction, CurrentRecord.FechaDeElaboracion, CurrentRecord.FechaDeVencimiento) && vResult;
-            vResult = IsValidFechaDeVencimiento(valAction, CurrentRecord.FechaDeVencimiento, CurrentRecord.FechaDeElaboracion) && vResult;
+            if (TipoArticuloInvEsLoteFecha(CurrentRecord.ConsecutivoCompania, CurrentRecord.CodigoArticulo)) {
+                vResult = IsValidFechaDeElaboracion(valAction, CurrentRecord.FechaDeElaboracion, CurrentRecord.FechaDeVencimiento) && vResult;
+                vResult = IsValidFechaDeVencimiento(valAction, CurrentRecord.FechaDeVencimiento, CurrentRecord.FechaDeElaboracion) && vResult;
+            }
             outErrorMessage = Information.ToString();
             return vResult;
         }
@@ -473,28 +479,13 @@ namespace Galac.Saw.Dal.Inventario {
         private bool ValidateDetail(LoteDeInventario valRecord, eAccionSR valAction, out string outErrorMessage) {
             bool vResult = true;
             outErrorMessage = "";
-            if (valRecord.DetailLoteDeInventarioMovimiento.Count > 0) {
-                vResult = vResult && ValidateDetailLoteDeInventarioMovimiento(valRecord, valAction, out outErrorMessage);
+            if ((valAction == eAccionSR.Modificar || valAction == eAccionSR.Eliminar) && valRecord.DetailLoteDeInventarioMovimiento.Count > 0) {                
+                outErrorMessage = "No es posible " + LibEnumHelper.GetDescription(valAction) + " este lote. Solo se pueden " + LibEnumHelper.GetDescription(valAction) + " los lotes con fecha de vencimiento y sin movimientos.";
+                vResult = false;
             }
             return vResult;
         }
 
-        private bool ValidateDetailLoteDeInventarioMovimiento(LoteDeInventario valRecord, eAccionSR valAction, out string outErrorMessage) {
-            bool vResult = true;
-            StringBuilder vSbErrorInfo = new StringBuilder();
-            int vNumeroDeLinea = 1;
-            outErrorMessage = string.Empty;
-            //foreach (LoteDeInventarioMovimiento vDetail in valRecord.DetailLoteDeInventarioMovimiento) {
-            //    bool vLineHasError = true;
-            //    //agregar validaciones
-            //    vResult = vResult && (!vLineHasError);
-            //    vNumeroDeLinea++;
-            //}
-            if (!vResult) {
-                outErrorMessage = "Lote De Inventario Movimiento"  + Environment.NewLine + vSbErrorInfo.ToString();
-            }
-            return vResult;
-        }
         #endregion //Validaciones
         #region Miembros de ILibDataFKSearch
         bool ILibDataFKSearch.ConnectFk(ref XmlDocument refResulset, eProcessMessageType valType, string valProcessMessage, StringBuilder valXmlParamsExpression) {
