@@ -50,7 +50,7 @@ namespace Galac.Saw.Brl.Inventario {
                         if (valAction == eAccionSR.Modificar && (!vEsTipoDeInvLoteFechaDeVcto || vTieneMovimientos)) {                            
                             throw new GalacAlertException("No es posible " + LibEnumHelper.GetDescription(valAction) + " este lote. Solo se pueden " + LibEnumHelper.GetDescription(valAction) + " los lotes con fecha de vencimiento y sin movimientos.");
                         } else if (valAction == eAccionSR.Eliminar && vTieneMovimientos) {
-                            throw new GalacAlertException("No es posible " + LibEnumHelper.GetDescription(valAction) + " este lote. Solo se pueden " + LibEnumHelper.GetDescription(valAction) + " sin movimientos.");
+                            throw new GalacAlertException("No es posible " + LibEnumHelper.GetDescription(valAction) + " este lote. Solo se pueden " + LibEnumHelper.GetDescription(valAction) + " lotes sin movimientos.");
                         }
                     }
                 }
