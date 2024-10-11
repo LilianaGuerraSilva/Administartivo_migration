@@ -113,7 +113,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         }
         private void AjustesRenglonConteoFisico() {
             if (!ColumnExists("RenglonConteoFisico", "CodigoLote")) {
-                AddColumnString("RenglonConteoFisico", "CodigoLote", 30, "", "");
+                AddColumnString("RenglonConteoFisico", "CodigoLote", 30,"", "");
+                AddDefaultConstraint("RenglonConteoFisico", "d_RenConFisCoLo", "''", "CodigoLote");
             }
         }
 
