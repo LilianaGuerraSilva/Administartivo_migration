@@ -49,7 +49,7 @@
             Name="lblTipoOperacion"
             Grid.Row="0"
             Grid.Column="1"
-            Content="Tipo Operación"
+            Content="Tipo de Operación"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf
             Name="cmbTipoOperacion"
