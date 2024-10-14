@@ -270,6 +270,14 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Galac.Adm.Uil.GestionProduccion\Galac.Adm.Uil.GestionProduccion.csproj">
+      <Project>{9901afda-4f43-4d66-8773-343946f12e0d}</Project>
+      <Name>Galac.Adm.Uil.GestionProduccion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Inventario\Galac.Saw.Ccl.Inventario.csproj">
+      <Project>{a28fb32d-b951-4d64-8feb-74a261425585}</Project>
+      <Name>Galac.Saw.Ccl.Inventario</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Ccl.SttDef\Galac.Saw.Ccl.SttDef.csproj">
       <Project>{82c458b1-c93b-46a9-b58c-63ecd3633861}</Project>
       <Name>Galac.Saw.Ccl.SttDef</Name>
@@ -281,6 +289,10 @@
     <ProjectReference Include="..\Galac.Saw.SLev\Galac.Saw.SLev.csproj">
       <Project>{a84d308c-d997-4550-800b-7c46e8cb02e3}</Project>
       <Name>Galac.Saw.SLev</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Uil.Inventario\Galac.Saw.Uil.Inventario.csproj">
+      <Project>{73fa7756-3070-4e0a-ad4e-1141f4f04696}</Project>
+      <Name>Galac.Saw.Uil.Inventario</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

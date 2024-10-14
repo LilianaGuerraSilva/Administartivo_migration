@@ -197,6 +197,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
                 } else {
                     CodigoArticulo = string.Empty;
                 }
+                CodigoLote = string.Empty;
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
