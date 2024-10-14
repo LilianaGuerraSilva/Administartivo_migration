@@ -16,7 +16,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid FocusManager.FocusedElement="{Binding ElementName=txtCodigoArticulo}">
+    <Grid FocusManager.FocusedElement="{Binding ElementName=dtpFechaIncial}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
@@ -28,14 +28,42 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Label
-            Name="lblCodigoArticulo"
+            Name="lblFechaIncial"
             Grid.Row="0"
+            Grid.Column="0"
+            Content="Fecha Inicial"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSDatePickerWpf
+            Name="dtpFechaIncial"
+            Grid.Row="0"
+            Grid.Column="1"
+            Width="120"
+            IsEnabled="{Binding Path=IsEnabled}"
+            SelectedDate="{Binding Path=FechaInicial, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            Style="{StaticResource DatePickerStyle}" />
+        <Label
+            Name="lblFechaFinal"
+            Grid.Row="1"
+            Grid.Column="0"
+            Content="Fecha Final"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSDatePickerWpf
+            Name="dtpFechaFinal"
+            Grid.Row="1"
+            Grid.Column="1"
+            Width="120"
+            IsEnabled="{Binding Path=IsEnabled}"
+            SelectedDate="{Binding Path=FechaFinal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            Style="{StaticResource DatePickerStyle}" />
+        <Label
+            Name="lblCodigoArticulo"
+            Grid.Row="2"
             Grid.Column="0"
             Content="Código Artículo"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSSeekConnection
             Name="txtCodigoArticulo"
-            Grid.Row="0"
+            Grid.Row="2"
             Grid.Column="1"
             Width="120"
             Height="23"
@@ -46,13 +74,13 @@
             SearchCommand="{Binding Path=ChooseCodigoArticuloCommand}" />
         <Label
             Name="lblCodigoLote"
-            Grid.Row="1"
+            Grid.Row="3"
             Grid.Column="0"
             Content="Código Lote"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSSeekConnection
             Name="txtCodigoLote"
-            Grid.Row="1"
+            Grid.Row="3"
             Grid.Column="1"
             Width="120"
             Height="23"
@@ -61,33 +89,5 @@
             ConnectionValue="{Binding Path=CodigoLote, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             IsEnabled="{Binding Path=IsEnabled}"
             SearchCommand="{Binding Path=ChooseCodigoLoteCommand}" />
-        <Label
-            Name="lblFechaIncial"
-            Grid.Row="2"
-            Grid.Column="0"
-            Content="Fecha Inicial"
-            Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSDatePickerWpf
-            Name="dtpFechaIncial"
-            Grid.Row="2"
-            Grid.Column="1"
-            Width="120"
-            IsEnabled="{Binding Path=IsEnabled}"
-            SelectedDate="{Binding Path=FechaInicial, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-            Style="{StaticResource DatePickerStyle}" />
-        <Label
-            Name="lblFechaFinal"
-            Grid.Row="3"
-            Grid.Column="0"
-            Content="Fecha Final"
-            Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSDatePickerWpf
-            Name="dtpFechaFinal"
-            Grid.Row="3"
-            Grid.Column="1"
-            Width="120"
-            IsEnabled="{Binding Path=IsEnabled}"
-            SelectedDate="{Binding Path=FechaFinal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-            Style="{StaticResource DatePickerStyle}" />
     </Grid>
 </UserControl>
