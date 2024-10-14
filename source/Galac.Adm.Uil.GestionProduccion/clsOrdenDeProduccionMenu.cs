@@ -55,6 +55,8 @@ namespace Galac.Adm.Uil.GestionProduccion {
                         , new XElement("StatusOp", (int)vViewModel.StatusOp)
                         , new XElement("FechaFinalizacion", LibConvert.ToStr(vViewModel.FechaFinalizacion, "dd/MM/yyyy"))
                         , new XElement("FechaDeAnulacion", LibConvert.ToStr(vViewModel.FechaAnulacion, "dd/MM/yyyy"))
+                        , new XElement("CodigoMonedaCostoProduccion", vViewModel.CodigoMonedaCostoProduccion)
+                        , new XElement("CambioCostoProduccion", LibConvert.ToStr(vViewModel.CambioCostoProduccion, 4))
                         ));
                 vResult = vXmlResult.ToString();
             }

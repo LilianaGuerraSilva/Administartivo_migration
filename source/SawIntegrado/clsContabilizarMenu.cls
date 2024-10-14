@@ -582,6 +582,15 @@ Private Sub sEjecutacontabilizarOrdenDeProduccion()
             Dim vNumero As String
             Dim vNroDocContabiliacion As String
             Dim vStatusOpInt As Integer
+            Dim vCodigoMonedaCostoProduccion As String
+            Dim vCambioCostoProduccion As Currency
+            
+            vCodigoMonedaCostoProduccion = gLibGalacDataParse.GetString(0, "CodigoMonedaCostoProduccion")
+            vCambioCostoProduccion = gConvert.fConvierteACurrency(gLibGalacDataParse.GetString(0, "CambioCostoProduccion"))
+            If gTexto.fS1EsIgualAS2(vCodigoMonedaCostoProduccion, gProyCompaniaActual.GetCodigoMoneda) Then
+               vCodigoMonedaCostoProduccion = ""
+               vCambioCostoProduccion = 0
+            End If
             vEsReverso = False
             vStatusOp = gLibGalacDataParse.GetString(0, "StatusOp")
             vStatusOpInt = gConvert.ConvierteAInteger(vStatusOp)
@@ -589,11 +598,7 @@ Private Sub sEjecutacontabilizarOrdenDeProduccion()
             If gTexto.fS1EsIgualAS2(vStatusOp, "2") Then 'Solo las OP Cerradas
                vNroDocContabiliacion = gConvert.enumerativoAChar(vStatusOpInt) & gTexto.fSeparadorStandardDeElementosString & gConvert.fConvierteAString(vConsecutivo)
                If insGenerarComprobanteNavigator.fValidaDocumento(True, Contabilizar, eCG_ORDEN_DE_PRODUCCION, vFecha, vNumero, False, False, eCG_ORDEN_DE_PRODUCCION, vConsecutivo) Then
-                  insGenerarComprobanteNavigator.sContabilizaDocumento True, Contabilizar, eCG_ORDEN_DE_PRODUCCION, vFecha, vNroDocContabiliacion, vEsReverso, False, -1, vConsecutivo, -1
-                  ' IAP Ojo Mayelin nunca me respondienton como hacer para que no me diera el msj el porcentaje total
-                  ' de costo estimado de los articulos a producir debe ser igual a 100 por lo que
-                  ' no pude incluir parametros, ojo moneda esta en gProyParametrosCompania.GetCodigoMonedaExtranjera mas
-                  ' tasa la debe devolver vdatos
+                  insGenerarComprobanteNavigator.sContabilizaDocumento True, Contabilizar, eCG_ORDEN_DE_PRODUCCION, vFecha, vNroDocContabiliacion, vEsReverso, False, -1, vConsecutivo, -1, vCodigoMonedaCostoProduccion, vCambioCostoProduccion
                End If
             End If
          End If
