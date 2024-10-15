@@ -15,10 +15,10 @@ using LibGalac.Aos.Cnf;
 using System.Data;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
-	class clsVersion6_77 : clsVersionARestructurar {
-		public clsVersion6_77(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
-		public override bool UpdateToVersion() {
-			StartConnectionNoTransaction();
+    class clsVersion6_77 : clsVersionARestructurar {
+        public clsVersion6_77(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
+        public override bool UpdateToVersion() {
+            StartConnectionNoTransaction();
             AgregarColumnasEnCompania();
             CreacionDeParametros();
             CrearLoteDeInventario();
@@ -27,9 +27,10 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             AjustesRenglonCompra();
             AjustesRenglonConteoFisico();
             AjustesOrdenProduccion();
+            AgregaParametroSuscripcionGVentas();
             DisposeConnectionNoTransaction();
-			return true;
-		}
+            return true;
+        }
 
         void CreacionDeParametros() {
             AgregarNuevoParametro("UsaLoteFechaDeVencimiento", "Inventario", 5, "5.1.- Inventario", 1, "", eTipoDeDatoParametros.String, "", 'N', "N");
@@ -113,7 +114,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         }
         private void AjustesRenglonConteoFisico() {
             if (!ColumnExists("RenglonConteoFisico", "CodigoLote")) {
-                AddColumnString("RenglonConteoFisico", "CodigoLote", 30,"", "");
+                AddColumnString("RenglonConteoFisico", "CodigoLote", 30, "", "");
                 AddDefaultConstraint("RenglonConteoFisico", "d_RenConFisCoLo", "''", "CodigoLote");
             }
         }
@@ -129,6 +130,11 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             }
             Execute("UPDATE Adm.OrdenDeProduccionDetalleArticulo  SET PorcentajeCostoEstimado = 100  WHERE PorcentajeCostoEstimado = 0");
             Execute("UPDATE Adm.OrdenDeProduccionDetalleArticulo  SET PorcentajeCostoCierre = 100    WHERE PorcentajeCostoCierre = 0");
+        }
+
+        private void AgregaParametroSuscripcionGVentas() {            
+            AgregarNuevoParametro("SerialConectorGVentas", "DatosGenerales", 1, "1.2.-General", 2, "", '2', "", 'S', "");
+            AgregarNuevoParametro("NumeroIDGVentas", "DatosGenerales", 1, "1.2.-General", 2, "", '2', "", 'N', "");
         }
     }
 }
