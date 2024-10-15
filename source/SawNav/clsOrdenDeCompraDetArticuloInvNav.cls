@@ -45,9 +45,6 @@ Public Sub sRestaurarDatos(ByVal valRecordSet As ADODB.Recordset, ByVal valConse
          vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@Cantidad", gConvert.fConvertStringToCurrency(valRecordSet("Cantidad").Value))
          vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@CostoUnitario", gConvert.fConvertStringToCurrency(valRecordSet("CostoUnitario").Value))
          vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@CantidadRecibida", gConvert.fConvertStringToCurrency(valRecordSet("CantidadRecibida").Value))
-         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeDeDistribucion", gConvert.fConvertStringToCurrency(valRecordSet("PorcentajeDeDistribucion").Value))
-         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@MontoDistribucion", gConvert.fConvertStringToCurrency(valRecordSet("MontoDistribucion").Value))
-         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeSeguro", gConvert.fConvertStringToCurrency(valRecordSet("PorcentajeSeguro").Value))
          insUtAdoCmd.fExecCmd vCmd
          Set vCmd = Nothing
       End If
