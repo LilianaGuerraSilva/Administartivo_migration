@@ -459,7 +459,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblFechaElaboracion.Left = 3.404002F;
             this.lblFechaElaboracion.Name = "lblFechaElaboracion";
             this.lblFechaElaboracion.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
-            this.lblFechaElaboracion.Text = "Fecha de Elaboracion";
+            this.lblFechaElaboracion.Text = "Fecha de Elaboración";
             this.lblFechaElaboracion.Top = 0.052F;
             this.lblFechaElaboracion.Width = 1.239F;
             // 
