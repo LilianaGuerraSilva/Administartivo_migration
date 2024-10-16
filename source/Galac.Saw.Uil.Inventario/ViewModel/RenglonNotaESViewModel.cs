@@ -242,8 +242,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
             set {
                 if (_ConexionCodigoArticulo != value) {
-                    _ConexionCodigoArticulo = value;
-                    DescripcionArticulo = _ConexionCodigoArticulo.Descripcion;
+                    _ConexionCodigoArticulo = value;                    
                     RaisePropertyChanged(CodigoArticuloPropertyName);
                     RaisePropertyChanged(() => DescripcionArticulo);
                     RaisePropertyChanged(() => Cantidad);
