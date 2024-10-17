@@ -907,6 +907,9 @@ namespace Galac.Saw.DDL {
             if (LibArray.Contains(valModulos, "LoteDeInventario")) {
                 vResult = vResult && new Galac.Saw.Dal.Inventario.clsLoteDeInventarioED().InstalarVistasYSps();
             }
+            if (LibArray.Contains(valModulos, "Contrato")) {
+                vResult = vResult && new Galac.Adm.Dal.Venta.clsContratoED().InstalarVistasYSps();
+            }
             return vResult;
         }
     }
