@@ -13,6 +13,7 @@ using Galac.Saw.Ccl.Tablas;
 using Galac.Saw.Lib;
 using LibGalac.Aos.Cnf;
 using System.Data;
+using LibGalac.Aos.DefGen;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
     class clsVersion6_77 : clsVersionARestructurar {
@@ -92,13 +93,15 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
                 vSql.AppendLine(", ImprentaDigitalClave= " + _insSql.ToSqlValue(vKeyValue));
                 vSql.AppendLine(" WHERE ConsecutivoCompania=" + _insSql.ToSqlValue(vConsecutivoCompania));
                 Execute(vSql.ToString(), 0);
-                //                
-                ConfigHelper.AddKeyToAppSettings("DIRECCIONURL", string.Empty);
-                ConfigHelper.AddKeyToAppSettings("CAMPOUSUARIO", string.Empty);
-                ConfigHelper.AddKeyToAppSettings("CAMPOCLAVE", string.Empty);
-                ConfigHelper.AddKeyToAppSettings("USUARIO", string.Empty);
-                ConfigHelper.AddKeyToAppSettings("CLAVE", string.Empty);
-                ConfigHelper.AddKeyToAppSettings("CLAVE-E", string.Empty);
+                //
+                if (!LibDefGen.IsRunningCloudMode()) {
+                    ConfigHelper.AddKeyToAppSettings("DIRECCIONURL", string.Empty);
+                    ConfigHelper.AddKeyToAppSettings("CAMPOUSUARIO", string.Empty);
+                    ConfigHelper.AddKeyToAppSettings("CAMPOCLAVE", string.Empty);
+                    ConfigHelper.AddKeyToAppSettings("USUARIO", string.Empty);
+                    ConfigHelper.AddKeyToAppSettings("CLAVE", string.Empty);
+                    ConfigHelper.AddKeyToAppSettings("CLAVE-E", string.Empty);
+                }
             }
         }
 
