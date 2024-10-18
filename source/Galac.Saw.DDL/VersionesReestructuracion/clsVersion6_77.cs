@@ -73,28 +73,28 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         }
 
         private void TrasladarDatosImprentaDigitalACompania() {
-            int vConsecutivoCompania;
-            StringBuilder vSql = new StringBuilder();
-            vSql.Append("SELECT ConsecutivoCompania FROM Comun.SettValueByCompany WHERE NameSettDefinition ='UsaImprentaDigital' AND Value= " + _insSql.ToSqlValue(true));
-            string vKeyValue = "";
-            DataSet vDataSet = ExecuteDataset(vSql.ToString(), 0);
-            vSql = new StringBuilder();
-            if (vDataSet != null && vDataSet.Tables[0].Rows.Count > 0) {
-                vConsecutivoCompania = LibConvert.ToInt(vDataSet.Tables[0].Rows[0]["ConsecutivoCompania"]);
-                vKeyValue = LibAppSettings.ReadAppSettingsKey("DIRECCIONURL");
-                vSql.AppendLine("UPDATE Compania SET ImprentaDigitalUrl= " + _insSql.ToSqlValue(vKeyValue));
-                vKeyValue = LibAppSettings.ReadAppSettingsKey("CAMPOUSUARIO");
-                vSql.AppendLine(", ImprentaDigitalNombreCampoUsuario= " + _insSql.ToSqlValue(vKeyValue));
-                vKeyValue = LibAppSettings.ReadAppSettingsKey("CAMPOCLAVE");
-                vSql.AppendLine(", ImprentaDigitalNombreCampoClave= " + _insSql.ToSqlValue(vKeyValue));
-                vKeyValue = LibAppSettings.ReadAppSettingsKey("USUARIO");
-                vSql.AppendLine(", ImprentaDigitalUsuario= " + _insSql.ToSqlValue(vKeyValue));
-                vKeyValue = LibAppSettings.ReadAppSettingsKey("CLAVE-E");
-                vSql.AppendLine(", ImprentaDigitalClave= " + _insSql.ToSqlValue(vKeyValue));
-                vSql.AppendLine(" WHERE ConsecutivoCompania=" + _insSql.ToSqlValue(vConsecutivoCompania));
-                Execute(vSql.ToString(), 0);
-                //
-                if (!LibDefGen.IsRunningCloudMode()) {
+            if (!LibDefGen.IsRunningCloudMode()) {
+                int vConsecutivoCompania;
+                StringBuilder vSql = new StringBuilder();
+                vSql.Append("SELECT ConsecutivoCompania FROM Comun.SettValueByCompany WHERE NameSettDefinition ='UsaImprentaDigital' AND Value= " + _insSql.ToSqlValue(true));
+                string vKeyValue = "";
+                DataSet vDataSet = ExecuteDataset(vSql.ToString(), 0);
+                vSql = new StringBuilder();
+                if (vDataSet != null && vDataSet.Tables[0].Rows.Count > 0) {
+                    vConsecutivoCompania = LibConvert.ToInt(vDataSet.Tables[0].Rows[0]["ConsecutivoCompania"]);
+                    vKeyValue = LibAppSettings.ReadAppSettingsKey("DIRECCIONURL");
+                    vSql.AppendLine("UPDATE Compania SET ImprentaDigitalUrl= " + _insSql.ToSqlValue(vKeyValue));
+                    vKeyValue = LibAppSettings.ReadAppSettingsKey("CAMPOUSUARIO");
+                    vSql.AppendLine(", ImprentaDigitalNombreCampoUsuario= " + _insSql.ToSqlValue(vKeyValue));
+                    vKeyValue = LibAppSettings.ReadAppSettingsKey("CAMPOCLAVE");
+                    vSql.AppendLine(", ImprentaDigitalNombreCampoClave= " + _insSql.ToSqlValue(vKeyValue));
+                    vKeyValue = LibAppSettings.ReadAppSettingsKey("USUARIO");
+                    vSql.AppendLine(", ImprentaDigitalUsuario= " + _insSql.ToSqlValue(vKeyValue));
+                    vKeyValue = LibAppSettings.ReadAppSettingsKey("CLAVE-E");
+                    vSql.AppendLine(", ImprentaDigitalClave= " + _insSql.ToSqlValue(vKeyValue));
+                    vSql.AppendLine(" WHERE ConsecutivoCompania=" + _insSql.ToSqlValue(vConsecutivoCompania));
+                    Execute(vSql.ToString(), 0);
+                    //
                     ConfigHelper.AddKeyToAppSettings("DIRECCIONURL", string.Empty);
                     ConfigHelper.AddKeyToAppSettings("CAMPOUSUARIO", string.Empty);
                     ConfigHelper.AddKeyToAppSettings("CAMPOCLAVE", string.Empty);
