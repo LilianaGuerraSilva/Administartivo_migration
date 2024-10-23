@@ -1038,7 +1038,7 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteTransferenciasEntreFechas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fConfigurarDatosDelReporteFormatoDeConteoFisico(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valNombreCompaniaParaInformes As String) As Boolean
+Public Function fConfigurarDatosDelReporteFormatoDeConteoFisico(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valNombreCompaniaParaInformes As String, ByVal valUsaLoteDeInventario As Boolean) As Boolean
    Dim nombreDelFileXML As String
    Dim NombreDelReporte As String
    Dim exito As Boolean
@@ -1060,6 +1060,8 @@ Public Function fConfigurarDatosDelReporteFormatoDeConteoFisico(ByRef refRpt As 
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtDescripcion", "", "Descripcion"
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtCantidadActual", "", "Cantidad", False, ddTXRight, formatoNDecimales
          gUtilReports.sDefaultConfigurationForLabels refRpt, "lblEnBlanco", ""
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCodigoLote", "", "CodigoLote"
+         gUtilReports.sDefaultConfigurationForCheckBox refRpt, "chkUsaCodigoLote", valUsaLoteDeInventario
          gUtilMargins.sAsignarMargenesGenerales refRpt, , NombreDelReporte
          Call refRpt.AddNamedItem("gUtilReports", gUtilReports)
          Call refRpt.AddNamedItem("gProyParametrosCompania", gProyParametrosCompania)
@@ -1097,6 +1099,7 @@ Public Function fConfigurarDatosDelReporteConteoFisico(ByRef refRpt As DDActiveR
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtLineaDeProducto", "", "LineaDeProducto"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCodigoArticulo", "", "CodigoArticulo"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtDescripcion", "", "Descripcion"
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCodigoLote", "", "CodigoLote"
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtExistenciaEnSistema", "", "ExistenciaEnElComputador", False, ddTXRight, formatoNDecimales
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtExistenciaFisica", "", "ExistenciaFisica", False, ddTXRight, formatoNDecimales
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtDiferencia", "", "Diferencia", False, ddTXRight, formatoNDecimales

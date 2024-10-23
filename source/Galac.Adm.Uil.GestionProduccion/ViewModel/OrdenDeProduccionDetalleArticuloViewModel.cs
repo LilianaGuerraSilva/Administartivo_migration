@@ -14,12 +14,15 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Adm.Brl.GestionProduccion;
 using Galac.Adm.Ccl.GestionProduccion;
+using Galac.Saw.Ccl.Inventario;
+using LibGalac.Aos.Brl;
+using Galac.Saw.Brl.Inventario;
 
 namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
     public class OrdenDeProduccionDetalleArticuloViewModel : LibInputDetailViewModelMfc<OrdenDeProduccionDetalleArticulo> {
 
         #region Constantes
-
+        private const string ConsecutivoLoteDeInventarioPropertyName = "ConsecutivoLoteDeInventario";
         private const string CodigoAlmacenPropertyName = "CodigoAlmacen";
         private const string NombreAlmacenPropertyName = "NombreAlmacen";
         private const string CodigoArticuloPropertyName = "CodigoArticulo";
@@ -37,7 +40,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         #endregion
 
         #region Variables
-
+        private FkLoteDeInventarioViewModel _ConexionLoteDeInventario = null;
 
         #endregion //Variables
 
@@ -91,6 +94,18 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
+        public int  ConsecutivoLoteDeInventario {
+            get {
+                return Model.ConsecutivoLoteDeInventario;
+            }
+            set {
+                if (Model.ConsecutivoLoteDeInventario != value) {
+                    Model.ConsecutivoLoteDeInventario = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(ConsecutivoLoteDeInventarioPropertyName);
+                }
+            }
+        }
         public string CodigoAlmacen {
             get {
                 return Model.CodigoAlmacen;
@@ -147,7 +162,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Unidad", eGridColumType.Generic, Width = 100, ColumnOrder = 2)]
+        [LibGridColum("Unidad", eGridColumType.Generic, Width = 100, ColumnOrder = 3)]
         public string UnidadDeVenta {
             get {
                 return Model.UnidadDeVenta;
@@ -161,7 +176,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Cantidad Original en Lista", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 3, Width =150)]
+        [LibGridColum("Cantidad Original en Lista", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 4, Width =150)]
         public decimal CantidadOriginalLista {
             get {
                 return Model.CantidadOriginalLista;
@@ -176,7 +191,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
 
-        [LibGridColum("Cantidad Solicitada", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 4, Width =120)]
+        [LibGridColum("Cantidad Solicitada", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 5, Width =120)]
         public decimal CantidadSolicitada {
             get {
                 return Model.CantidadSolicitada;
@@ -191,7 +206,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         [LibCustomValidation("PorcentajeCostoEstimadoValidating")]
-        [LibGridColum("% Costo Est.", eGridColumType.Numeric, ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 5, Width =80)]
+        [LibGridColum("% Costo Est.", eGridColumType.Numeric, ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 6, Width =80)]
         public decimal PorcentajeCostoEstimado {
             get {
                 return Model.PorcentajeCostoEstimado;
@@ -208,7 +223,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
 
         [LibCustomValidation("CantidadProducidaValidating")]
-        [LibGridColum("Cantidad Producida", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 6, Width =120)]
+        [LibGridColum("Cantidad Producida", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 7, Width =120)]
         public decimal CantidadProducida {
             get {
                 return Model.CantidadProducida;
@@ -223,7 +238,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         [LibCustomValidation("PorcentajeCostoCierreValidating")]
-        [LibGridColum("% Costo Cierre", eGridColumType.Numeric, ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 7, Width =90)]
+        [LibGridColum("% Costo Cierre", eGridColumType.Numeric, ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 8, Width =90)]
         public decimal PorcentajeCostoCierre {
             get {
                 return Model.PorcentajeCostoCierre;
@@ -238,7 +253,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Costo Unitario", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "2", ColumnOrder = 8, Width =120)]
+        [LibGridColum("Costo Unitario", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "2", ColumnOrder = 9, Width =120)]
         public decimal CostoUnitario {
             get {
                 return Model.CostoUnitario;
@@ -252,7 +267,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
 
 
-        [LibGridColum("Costo", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 9)]
+        [LibGridColum("Costo", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 10)]
         public decimal Costo {
             get {
                 return Model.Costo;
@@ -353,7 +368,97 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public bool IsEnabledCantidadProducida {
             get { return Master.Action == eAccionSR.Cerrar; }
         }
-        
+
+        [LibGridColum("Lote", MaxWidth = 120, ColumnOrder = 2)]
+        public string CodigoLote {
+            get {
+                return Model.CodigoLote;
+            }
+            set {
+                if (Model.CodigoLote != value) {
+                    Model.CodigoLote = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(() => CodigoLote);
+                }
+            }
+        }
+
+        public RelayCommand<string> ChooseLoteDeInventarioCommand {
+            get;
+            private set;
+        }
+
+        public DateTime FechaDeElaboracion {
+            get {
+                return Model.FechaDeElaboracion;
+            }
+            set {
+                if (Model.FechaDeElaboracion != value) {
+                    Model.FechaDeElaboracion = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(() => FechaDeElaboracion);
+                }
+            }
+        }
+        public DateTime FechaDeVencimiento {
+            get {
+                return Model.FechaDeVencimiento;
+            }
+            set {
+                if (Model.FechaDeVencimiento != value) {
+                    Model.FechaDeVencimiento = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(() => FechaDeVencimiento);
+                }
+            }
+        }
+
+
+        public eTipoArticuloInv TipoArticuloInvAsEnum {
+            get {
+                return Model.TipoArticuloInvAsEnum;
+            }
+            set {
+                if (Model.TipoArticuloInvAsEnum != value) {
+                    Model.TipoArticuloInvAsEnum = value;
+                    IsDirty = true;
+                }
+            }
+        }
+
+        public bool IsVisbleLoteDeInventario {
+            get {
+                return ((Master.Action == eAccionSR.Cerrar) ||( Master.Action == eAccionSR.Consultar && Master.StatusOp == eTipoStatusOrdenProduccion.Cerrada))
+                    && (TipoArticuloInvAsEnum == eTipoArticuloInv.Lote || TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento);
+            }
+        }
+
+        public bool IsVisibleFechaLoteDeInventario {
+            get { return IsVisbleLoteDeInventario && TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento && ConsecutivoLoteDeInventario != 0; }
+        }
+
+        public bool IsEnabledLoteDeInventario {
+            get { return Master.Action == eAccionSR.Cerrar; }
+        }
+
+        public FkLoteDeInventarioViewModel ConexionLoteDeInventario {
+            get {
+                return _ConexionLoteDeInventario;
+            }
+            set {
+                if (_ConexionLoteDeInventario != value) {
+                    _ConexionLoteDeInventario = value;
+                    if (_ConexionLoteDeInventario != null) {
+                        CodigoLote = _ConexionLoteDeInventario.CodigoLote;
+                        FechaDeElaboracion = _ConexionLoteDeInventario.FechaDeElaboracion;
+                        FechaDeVencimiento = _ConexionLoteDeInventario.FechaDeVencimiento;
+                        ConsecutivoLoteDeInventario = _ConexionLoteDeInventario.Consecutivo;
+                    }
+                    RaisePropertyLote();
+                }
+            }
+        }
+
         #endregion //Propiedades
 
         #region Constructores e Inicializadores
@@ -387,6 +492,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         protected override void InitializeCommands() {
             base.InitializeCommands();
+            ChooseLoteDeInventarioCommand = new RelayCommand<string>(ExecuteChooseLoteDeInventarioCommand);
         }
         #endregion //Constructores e Inicializadores
 
@@ -431,6 +537,51 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
+        private void ExecuteChooseLoteDeInventarioCommand(string valCodigoLote) {
+            try {
+                if (valCodigoLote == null) {
+                    valCodigoLote = string.Empty;
+                }
+                bool vInvocarCrear = true;
+                vInvocarCrear = vInvocarCrear && !LibString.IsNullOrEmpty(valCodigoLote, true);
+                vInvocarCrear = vInvocarCrear && !LibString.S1IsInS2("*", valCodigoLote);
+                vInvocarCrear = vInvocarCrear && !((ILoteDeInventarioPdn)new clsLoteDeInventarioNav()).ExisteLoteDeInventario(Mfc.GetInt("Compania"), CodigoArticulo, valCodigoLote);
+                if (vInvocarCrear) {
+                    LibBusinessProcessMessage libBusinessProcessMessage = new LibBusinessProcessMessage();
+                    libBusinessProcessMessage.Content = valCodigoLote + "|" + CodigoArticulo + "|" + (int)TipoArticuloInvAsEnum;
+                    LibBusinessProcess.Call("InsertarLoteInventarioDesdeModuloExterno", libBusinessProcessMessage);
+                    valCodigoLote = libBusinessProcessMessage.Result.ToString();
+                }
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("CodigoLote", valCodigoLote);
+                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
+                vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("CodigoArticulo", CodigoArticulo), eLogicOperatorType.And);
+                ConexionLoteDeInventario = Master.ChooseRecord<FkLoteDeInventarioViewModel>("Lote de Inventario", vDefaultCriteria, vFixedCriteria, "FechaDeVencimiento, FechaDeElaboracion, CodigoLote");
+                if (ConexionLoteDeInventario == null) {
+                    CodigoLote = string.Empty;
+                    FechaDeElaboracion = LibDate.MinDateForDB();
+                    FechaDeVencimiento = LibDate.MaxDateForDB();
+                } else {
+                    if (TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento && LibDate.F1IsLessThanF2(ConexionLoteDeInventario.FechaDeVencimiento, LibDate.Today())) {
+                        LibMessages.MessageBox.Information(this, $"El Articulo:{CodigoArticulo} - {LibString.Left(DescripcionArticulo, 15) + "..."} Lote: {ConexionLoteDeInventario.CodigoLote} venció el {ConexionLoteDeInventario.FechaDeVencimiento.ToString("dd/MM/yyyy")}.", ModuleName);
+                    }
+                    ConsecutivoLoteDeInventario = ConexionLoteDeInventario.Consecutivo;
+                    CodigoLote = ConexionLoteDeInventario.CodigoLote;
+                    FechaDeElaboracion = ConexionLoteDeInventario.FechaDeElaboracion;
+                    FechaDeVencimiento = ConexionLoteDeInventario.FechaDeVencimiento;
+                }
+                RaisePropertyChanged(() => IsVisbleLoteDeInventario);
+                RaisePropertyChanged(() => IsVisibleFechaLoteDeInventario);
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
+
+        private void RaisePropertyLote() {
+            RaisePropertyChanged(() => IsVisbleLoteDeInventario);
+            RaisePropertyChanged(() => IsVisibleFechaLoteDeInventario);
+        }
 
     } //End of class OrdenDeProduccionDetalleArticuloViewModel
 

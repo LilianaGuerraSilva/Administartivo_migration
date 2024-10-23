@@ -127,7 +127,7 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsGenerarComprobanteNavigator", "sDesglosaLosValoresDelRecordsetyColocaEnLasVariables", "Generar Comprobante", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Private Function fGeneraLosAsientosDelComprobante(ByVal Sql As String, ByRef refTotalDebe As Currency, ByRef refTotalHaber As Currency, ByVal valNumeroDeComprobante As String, ByVal valNoDocumentoOrigen As String, ByVal valGeneradoPor As enum_ComprobanteGeneradoPor, ByVal valFechaComprobante As Date, Optional ByVal valTipoDocumento As String, Optional ByVal valRegla As String) As Boolean
+Private Function fGeneraLosAsientosDelComprobante(ByVal Sql As String, ByRef refTotalDebe As Currency, ByRef refTotalHaber As Currency, ByVal valNumeroDeComprobante As String, ByVal valNoDocumentoOrigen As String, ByVal valGeneradoPor As enum_ComprobanteGeneradoPor, ByVal valFechaComprobante As Date, Optional ByVal valTipoDocumento As String, Optional ByVal valRegla As String, Optional ByVal valMoneda As String = "", Optional ByVal valTasaDeCambio As Currency = 0) As Boolean
    Dim vConsecutivoAsiento As Integer
    Dim varMontoDebe As Currency
    Dim varMontoHaber As Currency
@@ -181,7 +181,7 @@ Private Function fGeneraLosAsientosDelComprobante(ByVal Sql As String, ByRef ref
                      Or varTodosLosAsientosVienenEnCero Then
                      Continuar = asientoNavigator.fGeneraUnNuevoRecordDeAsiento(valNumeroDeComprobante, valFechaComprobante, varCuentaContable, varMontoDebe, varMontoHaber, varDescripcionAsiento, vConsecutivoAsiento, varCodigoAuxiliar, varCentroDeCostos, _
                            (gTexto.DfInStr(varDescripcionAsiento, "ANULACION") = 1) Or gProyParametrosWinCont.GetPermitirAsientosEnCero, True, False, varNumeroDeReferencia, fFechaReferenciaSegunModulo(valGeneradoPor, valFechaComprobante, mRecordSet), eTDA_NORMAL, False, _
-                           gDbUtil.getMinValueForDateType, "")
+                           gDbUtil.getMinValueForDateType, "", valMoneda, valTasaDeCambio)
                   End If
                   refTotalDebe = refTotalDebe + varMontoDebe
                   refTotalHaber = refTotalHaber + varMontoHaber
@@ -214,7 +214,7 @@ Private Function fGeneraLosAsientosDelComprobante(ByVal Sql As String, ByRef ref
          End If
          varDescripcionAsiento = gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valGeneradoPor) & " No. " & valNoDocumentoOrigen
          Continuar = asientoNavigator.fGeneraUnNuevoRecordDeAsiento(valNumeroDeComprobante, valFechaComprobante, gProyReglasDeContabilizacion.GetDiferenciaEnCambioyCalculo, varMontoDebe, varMontoHaber, _
-                           varDescripcionAsiento, vConsecutivoAsiento, "", "", False, True, False, "", valFechaComprobante, eTDA_NORMAL, False, gDbUtil.getMinValueForDateType, "")
+                           varDescripcionAsiento, vConsecutivoAsiento, "", "", False, True, False, "", valFechaComprobante, eTDA_NORMAL, False, gDbUtil.getMinValueForDateType, "", valMoneda, valTasaDeCambio)
          If Continuar Then
             vSeGeneroAlMenosUnAsiento = True
          End If
@@ -351,7 +351,7 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
 End Function
 
 Public Function fGeneraElComprobanteParaUnoOVariosDocumentos(ByVal valFechaDesde As Date, ByVal valFechaHasta As Date, ByVal valModuloAContabilizar As enum_ComprobanteGeneradoPor, ByVal valContabilizarSolo1Documento As Boolean, ByVal valNumeroDocumento As String, ByVal valEsUnReverso As Boolean, ByVal valElMasterYaExiste As Boolean, _
-      ByVal valGeneraElMovimientoBancario As Boolean, ByVal valTipoDocumento As Integer, ByVal valConsecutivoDocumentoOrigen As Long, ByVal valTipoAlicPorContIGTF As enum_TipoAlicPorContIGTF) As Boolean
+      ByVal valGeneraElMovimientoBancario As Boolean, ByVal valTipoDocumento As Integer, ByVal valConsecutivoDocumentoOrigen As Long, ByVal valTipoAlicPorContIGTF As enum_TipoAlicPorContIGTF, Optional ByVal valMoneda As String = "", Optional ByVal valTasaDeCambio As Currency = 0) As Boolean
    Dim ConExito As Boolean
    Dim numeroDecomprobante As String
    Dim DescripcionComprobante As String
@@ -402,7 +402,7 @@ Public Function fGeneraElComprobanteParaUnoOVariosDocumentos(ByVal valFechaDesde
          Set mRecordSet = Nothing
       End If
       If Sql <> "" Then
-         ConExito = fGeneraLosAsientosDelComprobante(Sql, TotalDebe, TotalHaber, numeroDecomprobante, NoDocumentoOrigen, valModuloAContabilizar, valFechaHasta, valTipoDocumento, valRegla)
+         ConExito = fGeneraLosAsientosDelComprobante(Sql, TotalDebe, TotalHaber, numeroDecomprobante, NoDocumentoOrigen, valModuloAContabilizar, valFechaHasta, valTipoDocumento, valRegla, valMoneda, valTasaDeCambio)
          If ConExito Then
             ConExito = fActualizaLosTotalesDelComprobante(TotalDebe, TotalHaber, numeroDecomprobante, False)
          End If
@@ -645,7 +645,7 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsGenerarComprobanteNavigator", "sDesContabilizar", "Generar Comprobante", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Public Sub sContabilizaDocumento(ByVal valConMensaje As Boolean, ByVal valAction As AccionSobreRecord, ByVal valModulo As enum_ComprobanteGeneradoPor, ByVal valFecha As Date, ByVal valNumero As String, ByVal valEsNotaDeCredito As Boolean, ByVal valGeneraElMovimientoBancario As Boolean, ByVal valTipoDocumento As Integer, ByVal valConsecutivoDoc As Long, ByVal valTipoAlicPorContIGTF As enum_TipoAlicPorContIGTF)
+Public Sub sContabilizaDocumento(ByVal valConMensaje As Boolean, ByVal valAction As AccionSobreRecord, ByVal valModulo As enum_ComprobanteGeneradoPor, ByVal valFecha As Date, ByVal valNumero As String, ByVal valEsNotaDeCredito As Boolean, ByVal valGeneraElMovimientoBancario As Boolean, ByVal valTipoDocumento As Integer, ByVal valConsecutivoDoc As Long, ByVal valTipoAlicPorContIGTF As enum_TipoAlicPorContIGTF, Optional ByVal valMoneda As String = "", Optional ByVal valTasaDeCambio As Currency = 0)
    Dim generarComprobanteNavigator As clsGenerarComprobanteNavigator
    Dim Continuar As Boolean
    Dim tipoDeContabilizacion As enum_TipoDeContabilizacion
@@ -710,7 +710,7 @@ Public Sub sContabilizaDocumento(ByVal valConMensaje As Boolean, ByVal valAction
             GoTo h_EXIT
          End If
       End If
-      If generarComprobanteNavigator.fGeneraElComprobanteParaUnoOVariosDocumentos(valFecha, valFecha, valModulo, True, valNumero, valEsNotaDeCredito, ElComprobanteYaExiste, valGeneraElMovimientoBancario, valTipoDocumento, valConsecutivoDoc, valTipoAlicPorContIGTF) Then
+      If generarComprobanteNavigator.fGeneraElComprobanteParaUnoOVariosDocumentos(valFecha, valFecha, valModulo, True, valNumero, valEsNotaDeCredito, ElComprobanteYaExiste, valGeneraElMovimientoBancario, valTipoDocumento, valConsecutivoDoc, valTipoAlicPorContIGTF, valMoneda, valTasaDeCambio) Then
          If (valConMensaje And Not gProyReglasDeContabilizacion.fEditaComprobanteDespuesDeInsertar(valModulo)) And gProyUsuarioActual.GetUsaContabilidad Then
             gMessage.exito "Contabilización del Documento No. " & valNumero & " del Módulo de " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModulo) & " ha sido realizada con éxito."
          End If
@@ -875,7 +875,7 @@ Private Function fConstruyeSQLsegunElModuloAContabilizar(ByVal valFechaDesde As 
          vSQL = insGenerarComprobanteSql.fSQLTransferenciaEntreCuentasEntreFechas(gProyCompaniaActual.GetConsecutivoCompania, gContPeriodoActual.GetConsecutivoPeriodo, vConjuntoDeRegistrosSinContabilizar, valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valTipoAlicPorContIGTF, vPorcentajeIGTF, gProyReglasDeContabilizacion.GetCuentaTransfCtasBancoDestino, gProyReglasDeContabilizacion.GetCuentaTransfCtasGastoComOrigen, gProyReglasDeContabilizacion.GetCuentaDebitoBancarioGasto, gProyReglasDeContabilizacion.GetCuentaTransfCtasBancoOrigen, gProyReglasDeContabilizacion.GetCuentaTransfCtasGastoComDestino, gProyReglasDeContabilizacion.GetCuentaCreditoBancarioGasto)
          refRegla = gProyReglasDeContabilizacion.GetCuentaTransfCtasBancoDestino
      Case eCG_ORDEN_DE_PRODUCCION:
-         vSQL = insGenerarComprobanteSql.fSQLOrdenDeProduccionEntreFechas(gProyCompaniaActual.GetConsecutivoCompania, vConjuntoDeRegistrosSinContabilizar, valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, gProyReglasDeContabilizacion.GetCuentaOrdenDeProduccionProductoTerminado, gProyReglasDeContabilizacion.GetCuentaOrdenDeProduccionMateriaPrima)
+         vSql = insGenerarComprobanteSql.fSQLOrdenDeProduccionEntreFechas(gProyCompaniaActual.GetConsecutivoCompania, vConjuntoDeRegistrosSinContabilizar, valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valConsecutivoDocumentoOrigen, gProyReglasDeContabilizacion.GetCuentaOrdenDeProduccionProductoTerminado, gProyReglasDeContabilizacion.GetCuentaOrdenDeProduccionMateriaPrima)
    End Select
    Set insArticulo = Nothing
    Set insComprobanteSQL = Nothing

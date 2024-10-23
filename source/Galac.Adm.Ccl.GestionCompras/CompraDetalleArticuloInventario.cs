@@ -28,6 +28,11 @@ namespace Galac.Adm.Ccl.GestionCompras {
         private decimal _PorcentajeArancel;
         private string _CodigoGrupo;
         private eTipoArticuloInv _TipoArticuloInv;
+        private int _ConsecutivoLoteDeInventario;
+        private string _CodigoLote;
+        private DateTime _FechaDeElaboracion;
+        private DateTime _FechaDeVencimiento;
+        private int _ConsecutivoLoteDeInventarioMov;
         #endregion //Variables
         #region Propiedades
 
@@ -127,10 +132,15 @@ namespace Galac.Adm.Ccl.GestionCompras {
             set { _CodigoGrupo = value; }
         }
 
-        public eTipoArticuloInv TipoArticuloInv {
+        public eTipoArticuloInv TipoArticuloInvAsEnum {
             get { return _TipoArticuloInv; }
             set { _TipoArticuloInv = value; }
         }
+
+        public string TipoArticuloInv {
+            set { _TipoArticuloInv = (eTipoArticuloInv)LibConvert.DbValueToEnum(value); }
+        }
+
 
         public int TipoDeAlicuota {
             get;
@@ -140,6 +150,22 @@ namespace Galac.Adm.Ccl.GestionCompras {
         public int TipoDeArticulo {
             get;
             set;
+        }
+        public int ConsecutivoLoteDeInventario {
+            get { return _ConsecutivoLoteDeInventario; }
+            set { _ConsecutivoLoteDeInventario = value; }
+        }
+        public string CodigoLote {
+            get { return _CodigoLote; }
+            set { _CodigoLote = value; }
+        }
+        public DateTime FechaDeElaboracion {
+            get { return _FechaDeElaboracion; }
+            set { _FechaDeElaboracion = value; }
+        }
+        public DateTime FechaDeVencimiento {
+            get { return _FechaDeVencimiento; }
+            set { _FechaDeVencimiento = value; }
         }
 
         #endregion //Propiedades
@@ -171,8 +197,8 @@ namespace Galac.Adm.Ccl.GestionCompras {
             PorcentajeSeguroLey = 0;
             PorcentajeArancel = 0;
             CodigoGrupo = string.Empty;
-            TipoArticuloInv = eTipoArticuloInv.Simple;
-
+            TipoArticuloInvAsEnum = eTipoArticuloInv.Simple;
+            ConsecutivoLoteDeInventario = 0;
         }
 
         public CompraDetalleArticuloInventario Clone() {

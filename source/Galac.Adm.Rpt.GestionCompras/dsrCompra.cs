@@ -84,6 +84,12 @@ namespace Galac.Adm.Rpt.GestionCompras{
                 LibReport.ConfigFieldDec(this, "txtPrecio", string.Empty, "PrecioUnitario");
                 LibReport.ConfigFieldDec(this, "txtSubTotal", string.Empty, "SubTotal");
 
+                LibReport.ConfigFieldStr(this, "txtCodigoLote", string.Empty, "CodigoLote");                
+                LibReport.ConfigFieldDate(this, "txtFechaDeElaboracion", string.Empty, "FechaDeElaboracion", "dd/MM/yy");
+                LibReport.ConfigFieldDate(this, "txtFechaDeVencimiento", string.Empty, "FechaDeVencimiento", "dd/MM/yy");
+                LibReport.ConfigFieldStr(this, "txtTipoArticuloInv", string.Empty, "TipoArticuloInv");
+                
+
                 LibReport.ConfigFieldDec(this, "txtOtrosGastos", string.Empty, "TotalOtrosGastos");
                 LibReport.ConfigFieldDec(this, "txtTotal", string.Empty, "TotalCompra");
                 LibReport.ConfigFieldStr(this, "txtObservaciones", string.Empty, "Comentarios");
@@ -97,6 +103,41 @@ namespace Galac.Adm.Rpt.GestionCompras{
             }
             return false;
         }
+
+
         #endregion //Metodos Generados
+
+        private void Detail_Format(object sender, EventArgs e) {
+            string vTipoArticuloInvValue = "0";
+            LibReport.ChangeControlVisibility(this, "txtCodigoLote", false);
+            LibReport.ChangeControlVisibility(this, "txtFechaDeElaboracion", false);
+            LibReport.ChangeControlVisibility(this, "txtFechaDeVencimiento", false);
+            LibReport.ChangeControlVisibility(this, "txtTipoArticuloInv", false);
+            LibReport.ChangeControlVisibility(this, "lblLote", false);
+            LibReport.ChangeControlVisibility(this, "lblFechaElab", false);
+            LibReport.ChangeControlVisibility(this, "lblFechaVenc", false);
+            for (int vNumSection = 0; vNumSection < this.Sections.Count; vNumSection++) {
+                for (int vNumControl = 0; vNumControl < this.Sections[vNumSection].Controls.Count; vNumControl++) {
+                    var name = this.Sections[vNumSection].Controls[vNumControl].Name;
+                    if (LibString.S1IsEqualToS2("txtTipoArticuloInv", name)) {                        
+                        var vControl = this.Sections[vNumSection].Controls[vNumControl] as DataDynamics.ActiveReports.TextBox;
+                        vTipoArticuloInvValue = vControl.Text;
+                    }
+                }
+            }
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento")) {
+                if (LibString.S1IsEqualToS2(vTipoArticuloInvValue, "5")) {
+                    LibReport.ChangeControlVisibility(this, "lblLote", true);
+                    LibReport.ChangeControlVisibility(this, "txtCodigoLote", true);
+                    LibReport.ChangeControlVisibility(this, "lblFechaElab", true);
+                    LibReport.ChangeControlVisibility(this, "txtFechaDeElaboracion", true);
+                    LibReport.ChangeControlVisibility(this, "lblFechaVenc", true);
+                    LibReport.ChangeControlVisibility(this, "txtFechaDeVencimiento", true);
+                } else if (LibString.S1IsEqualToS2(vTipoArticuloInvValue, "6")) {
+                    LibReport.ChangeControlVisibility(this, "lblLote", true);
+                    LibReport.ChangeControlVisibility(this, "txtCodigoLote", true);
+                }
+            }
+        }
     }
 }

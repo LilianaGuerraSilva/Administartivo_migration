@@ -1,0 +1,81 @@
+﻿<UserControl x:Class="Galac.Saw.Uil.Inventario.Views.GSLoteDeInventarioConsultaView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+             xmlns:nsVm="clr-namespace:Galac.Saw.Uil.Inventario.ViewModel"
+             Height="450" Width="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" MinWidth="569"  />
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label
+                Grid.Row="0"
+                Grid.Column="2"
+                Name="lblStatusArticuloVigente"
+                Style="{StaticResource LabelStatusGreen}"
+                Visibility="{Binding Path=IsVisibleStatusArticuloVigente}"
+                Content="VIGENTE" HorizontalAlignment="Left" Width="64" />
+            <Label
+                Grid.Row="0"
+                Grid.Column="2"
+                Name="lblStatusArticuloDesincorporado"
+                Style="{StaticResource LabelStatusRed}"
+                Visibility="{Binding Path=IsVisibleStatusArticuloVigente}"
+                Content="DESINCORPORADO" HorizontalAlignment="Left" Width="129" />
+            <Label 
+                Grid.Row="0"
+                Grid.Column="0"
+                Name="lblCodigoArticulo"
+                Content="Código" HorizontalAlignment="Left" Margin="1,1,0,0" VerticalAlignment="Top" Height="26" Width="49" RenderTransformOrigin="0.347,0.135"/>
+            <nsWpfControls:GSTextBoxWpf 
+                Grid.Row="0"
+                Grid.Column="1"
+                Name="txtCodigoArticulo"
+                Text="{Binding Path=CodigoArticulo}" 
+                HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="289" Margin="10,2,0,0"/>
+            <Label 
+                Grid.Column="0"
+                Grid.Row="1"
+                Name="lblDescripcion"
+                Content="Descripción" 
+                HorizontalAlignment="Left" Margin="1,2,0,0"  VerticalAlignment="Top" Height="26" Width="71"/>
+            <nsWpfControls:GSTextBoxWpf 
+                Grid.Column="1"
+                Grid.Row="1" 
+                Name="txtDescripcion"
+                Text="{Binding Path=Descripcion}" 
+                HorizontalAlignment="Left" Margin="10,2,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="93" Width="549"/>
+        </Grid>
+        <nsWpfControls:GSDataGrid
+            Grid.Row="1"
+            Name="dgDetailDetailOrdenDeProduccionDetalleMateriales"
+            ColumnsMap="{Binding Path=NoSeHacerEstaParte_CodigoLote_FechaElaboracion_FechaVencimiento_Existencia}"
+            HorizontalScrollBarVisibility="Auto"
+            IsReadOnly="True"
+            IsSynchronizedWithCurrentItem="True"
+            Style="{StaticResource GSDataGridStyle}"
+            />
+    </Grid>
+</UserControl>

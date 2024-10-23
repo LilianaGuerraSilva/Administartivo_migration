@@ -12,6 +12,7 @@ using Galac.Adm.Ccl.GestionCompras;
 using Galac.Saw.Brl.Inventario;
 using Galac.Saw.Ccl.Inventario;
 using LibGalac.Aos.Catching;
+using System.Security.Policy;
 
 namespace Galac.Adm.Brl.GestionCompras {
     public partial class clsCompraNav : LibBaseNavMaster<IList<Compra>, IList<Compra>>, ILibPdn, ICompraPdn {
@@ -83,6 +84,10 @@ namespace Galac.Adm.Brl.GestionCompras {
                     break;
                 case "OrdenDeCompra":
                     vPdnModule = new clsOrdenDeCompraNav();
+                    vResult = vPdnModule.GetDataForList("Compra", ref refXmlDocument, valXmlParamsExpression);
+                    break;
+                case "Lote de Inventario":
+                    vPdnModule = new Galac.Saw.Brl.Inventario.clsLoteDeInventarioNav();
                     vResult = vPdnModule.GetDataForList("Compra", ref refXmlDocument, valXmlParamsExpression);
                     break;
                 default: throw new NotImplementedException();
@@ -355,12 +360,17 @@ namespace Galac.Adm.Brl.GestionCompras {
             RegisterClient();
             IList<Compra> vList = new List<Compra>();
             vList.Add(valCompra);
-            LibResponse vResult = _Db.SpecializedUpdate(vList, false, LibEnumHelper.GetDescription(valAction));
-            if (vResult.Success) {
-                vResult = ActualizaCantidadArticuloInventario(valCompra, valAction == eAccionSR.Abrir);
-
+            using (TransactionScope vScope = LibBusiness.CreateScope()) {
+                LibResponse vResult = _Db.SpecializedUpdate(vList, false, LibEnumHelper.GetDescription(valAction));
+                if (vResult.Success) {
+                    vResult = ActualizaCantidadArticuloInventario(valCompra, valAction == eAccionSR.Abrir);
+                    ActualizaInformacionDeLoteDeInventario(valCompra, valAction == eAccionSR.Anular, valAction);
+                }
+                if (vResult.Success) { 
+                    vScope.Complete();
+                }
+                return vResult.Success;
             }
-            return vResult.Success;
         }
 
         private LibResponse ActualizaCantidadArticuloInventario(Compra valCompra, bool valAumentaCantidad) {
@@ -448,7 +458,9 @@ namespace Galac.Adm.Brl.GestionCompras {
                     if (refRecord[0].ConsecutivoOrdenDeCompra != 0) {
                         ActualizarOrdenDeCompra(refRecord, eAccionSR.Insertar );
                     }
-
+                    if (vResult.Success) {
+                       ActualizaInformacionDeLoteDeInventario(refRecord[0], true);
+                    }
                     if (vResult.Success) {
                         vScope.Complete();
                     }
@@ -466,6 +478,7 @@ namespace Galac.Adm.Brl.GestionCompras {
                 IList<Compra> vCompras = _Db.GetData(eProcessMessageType.SpName, "CompraGET", vParams.Get(), true);
                 if (vCompras != null && vCompras.Count > 0) {
                     vResult = ActualizaCantidadArticuloInventario(vCompras[0], false);
+                    ActualizaInformacionDeLoteDeInventario(vCompras[0], false);
                 } else {
                     throw new LibGalac.Aos.Catching.GalacConcurrencyException();
                 }
@@ -474,6 +487,9 @@ namespace Galac.Adm.Brl.GestionCompras {
                     if (vResult.Success && refRecord[0].StatusCompraAsEnum != eStatusCompra.Anulada) {
                         vResult = ActualizaCantidadArticuloInventario(refRecord[0], true);
                     }
+                }
+                if (vResult.Success) {
+                    ActualizaInformacionDeLoteDeInventario(refRecord[0], true);
                 }
                 if (vResult.Success) {
                     vScope.Complete();
@@ -486,8 +502,9 @@ namespace Galac.Adm.Brl.GestionCompras {
             LibResponse vResult = new LibResponse();
             using (TransactionScope vScope = LibBusiness.CreateScope()) {
                 if (refRecord[0].StatusCompraAsEnum != eStatusCompra.Anulada) {
-                    vResult = ActualizaCantidadArticuloInventario(refRecord[0], false);
+                    vResult = ActualizaCantidadArticuloInventario(refRecord[0], false);                    
                 }
+                ActualizaInformacionDeLoteDeInventario(refRecord[0], false);
                 vResult = base.DeleteRecord(refRecord);
 				if (vResult.Success) {
                 	string vNumero = refRecord[0].Numero;
@@ -497,7 +514,7 @@ namespace Galac.Adm.Brl.GestionCompras {
                 	new clsCxPNav().EliminarCxPDesdeCompra(refRecord[0].ConsecutivoCompania, vNumero, refRecord[0].CodigoProveedor);              
                     if (refRecord[0].ConsecutivoOrdenDeCompra != 0) {
                         ActualizarOrdenDeCompra(refRecord, eAccionSR.Eliminar);
-                    }
+                    }   
                 }
                 if (vResult.Success) {
                     vScope.Complete();
@@ -619,7 +636,6 @@ namespace Galac.Adm.Brl.GestionCompras {
                  && (Galac.Saw.Ccl.Inventario.eTipoDeMetodoDeCosteo) LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetEnum("Parametros", "MetodoDeCosteo") == Galac.Saw.Ccl.Inventario.eTipoDeMetodoDeCosteo.UltimoCosto ;
         }
 
-
         bool ICompraPdn.AjustaPreciosxCostos(bool valUsaFormulaAlterna, int valConsecutivoCompania, eRedondearPrecio valRedondearPrecio, ePrecioAjustar valPrecioAjustar, bool valEstablecerMargen, bool valPrecio1, bool valPrecio2, bool valPrecio3, bool valPrecio4, decimal valMargen1, decimal valMargen2, decimal valMargen3, decimal valMargen4, DateTime valFechaOperacion, string valNumeroOperacion, bool valMonedaLocal) {
             bool vResult = false;
             IArticuloInventarioPdn vPdn = new clsArticuloInventarioNav();
@@ -631,7 +647,6 @@ namespace Galac.Adm.Brl.GestionCompras {
         void ICompraPdn.ProcesaCostoPromedio(int valConsecutivoCompania, bool valVieneDeOperaciones, DateTime valFechaOperacion, string valCodigo, string valDocumento, string valOperacion) {
             
         }
-
 
         internal bool ExistenRegistroConOrdenDeCompra(int valConsecutivoCompania, int valConsecutivoOrdenDeCompra) {
             bool vResult = false;
@@ -649,9 +664,6 @@ namespace Galac.Adm.Brl.GestionCompras {
             return vResult;
         }
 
-
-
-
         void ICompraPdn.AsignarDetalleArticuloInventarioDesdeOrdenDeCompra(int valConsecutivoCompania, Compra valCompra, int valConsecutivoOrdenDeCompra) {
             OrdenDeCompra vOrdenDeCompra = new clsOrdenDeCompraNav().GetDataParaCompra(valConsecutivoCompania, valConsecutivoOrdenDeCompra);
             if (vOrdenDeCompra != null) {
@@ -664,7 +676,7 @@ namespace Galac.Adm.Brl.GestionCompras {
                             CantidadRecibida = vOrdenDeCompra.DetailOrdenDeCompraDetalleArticuloInventario [vIndex].Cantidad - vOrdenDeCompra.DetailOrdenDeCompraDetalleArticuloInventario [vIndex].CantidadRecibida,
                             DescripcionArticulo = vOrdenDeCompra.DetailOrdenDeCompraDetalleArticuloInventario [vIndex].DescripcionArticulo,
                             PrecioUnitario = vOrdenDeCompra.DetailOrdenDeCompraDetalleArticuloInventario [vIndex].CostoUnitario,
-                            TipoArticuloInv = vOrdenDeCompra.DetailOrdenDeCompraDetalleArticuloInventario [vIndex].TipoArticuloInv,
+                            TipoArticuloInvAsEnum = vOrdenDeCompra.DetailOrdenDeCompraDetalleArticuloInventario [vIndex].TipoArticuloInv,
                             CodigoGrupo = vOrdenDeCompra.DetailOrdenDeCompraDetalleArticuloInventario [vIndex].CodigoGrupo
                             , TipoDeAlicuota = vOrdenDeCompra.DetailOrdenDeCompraDetalleArticuloInventario [vIndex].TipoDeAlicuota
                             , TipoDeArticulo = vOrdenDeCompra.DetailOrdenDeCompraDetalleArticuloInventario [vIndex].TipoDeArticulo
@@ -708,7 +720,6 @@ namespace Galac.Adm.Brl.GestionCompras {
             new clsOrdenDeCompraNav().ActualizarOrdenDeCompraDesdeCompra(refRecord[0].ConsecutivoCompania, refRecord[0].ConsecutivoOrdenDeCompra, vData);
         }
 
-
         bool ICompraPdn.VerificaExistenciaEnOrdenDeCompra(int valConsecutivoCompania, int valConsecutivoOrdenDeCompra) {
             return new clsOrdenDeCompraNav().VerificaExistenciaEnOrdenDeCompra(valConsecutivoCompania, valConsecutivoOrdenDeCompra);
         }
@@ -732,6 +743,73 @@ namespace Galac.Adm.Brl.GestionCompras {
                 vResult = new clsCxPNav().VerificaSiExisteCxP(valCompra.ConsecutivoCompania,valCompra.Numero,valCompra.CodigoProveedor);
             }
             return vResult;
+        }
+
+        private void ActualizaInformacionDeLoteDeInventario(Compra valItemCompra, bool valAumentaCantidad, eAccionSR? valAction = null) {
+            foreach (CompraDetalleArticuloInventario vItemDetalle in valItemCompra.DetailCompraDetalleArticuloInventario) {
+                if (vItemDetalle.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento || vItemDetalle.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote) {
+                    if (((ILoteDeInventarioPdn)new clsLoteDeInventarioNav()).ExisteLoteDeInventario(vItemDetalle.ConsecutivoCompania, vItemDetalle.CodigoArticulo, vItemDetalle.ConsecutivoLoteDeInventario)) {
+                        ActualizaLoteDeInventarioMovimientoDeLoteDeInventario(valItemCompra, vItemDetalle, valAumentaCantidad, valAction);
+                    }
+                }
+            }
+        }
+
+        private void ActualizaLoteDeInventarioMovimientoDeLoteDeInventario(Compra valItemCompra, CompraDetalleArticuloInventario vItemDetalle,bool valAumentaCantidad, eAccionSR? valAction = null) {
+            XElement vLoteXElement = ((ILoteDeInventarioPdn)new clsLoteDeInventarioNav()).FindByConsecutivoCompaniaConsecutivoLoteCodigoArticulo(valItemCompra.ConsecutivoCompania, vItemDetalle.ConsecutivoLoteDeInventario, vItemDetalle.CodigoArticulo);
+            if (vLoteXElement != null && vLoteXElement.HasElements) {
+                LoteDeInventario vLote = LibParserHelper.ParseToItem<LoteDeInventario>(vLoteXElement.Elements().FirstOrDefault());                
+                if (vLote != null) {
+                    if (valAumentaCantidad) {
+                        AgregaMovimientoAlLoteDeInventario(valItemCompra, vItemDetalle, vLote, valAction);
+                    } else {
+                        QuitaMovimientoAlLoteDeInventario(valItemCompra, vItemDetalle, vLote, valAction);
+                    }
+                }
+            }
+        }
+
+        private static void AgregaMovimientoAlLoteDeInventario(Compra valItemCompra, CompraDetalleArticuloInventario vItemDetalle, LoteDeInventario vLote, eAccionSR? valAction = null) {
+            decimal vCant = vItemDetalle.Cantidad;
+            eStatusDocOrigenLoteInv vStatusDocOrigen = (valItemCompra.StatusCompraAsEnum == eStatusCompra.Vigente) ? eStatusDocOrigenLoteInv.Vigente : eStatusDocOrigenLoteInv.Anulado;
+            LoteDeInventarioMovimiento vLoteMov = new LoteDeInventarioMovimiento();
+            vLoteMov.ConsecutivoCompania = valItemCompra.ConsecutivoCompania;
+            vLoteMov.ConsecutivoLote = vLote.Consecutivo;
+            vLoteMov.Fecha = valItemCompra.Fecha;
+            vLoteMov.ModuloAsEnum = eOrigenLoteInv.Compra;            
+            vLoteMov.ConsecutivoDocumentoOrigen = valItemCompra.Consecutivo;
+            vLoteMov.NumeroDocumentoOrigen = valItemCompra.Numero;
+            vLoteMov.StatusDocumentoOrigenAsEnum = vStatusDocOrigen;
+            vLoteMov.TipoOperacionAsEnum = eTipodeOperacion.EntradadeInventario;
+            if (valAction.HasValue && valAction.Value == eAccionSR.Anular) {
+                vLote.Existencia -= vCant;
+                vLoteMov.Cantidad = -vCant;
+                vLoteMov.StatusDocumentoOrigenAsEnum = eStatusDocOrigenLoteInv.Anulado;
+            } else {
+                vLote.Existencia += vCant;
+                vLoteMov.Cantidad = vCant;
+            }            
+            vLote.DetailLoteDeInventarioMovimiento.Add(vLoteMov);
+            ILoteDeInventarioPdn vLotePnd = new clsLoteDeInventarioNav();
+            IList<LoteDeInventario> vListLote = new List<LoteDeInventario>();
+            vListLote.Add(vLote);
+            vLotePnd.ActualizarLote(vListLote);
+        }
+
+        private static void QuitaMovimientoAlLoteDeInventario(Compra valItemCompra, CompraDetalleArticuloInventario vItemDetalle, LoteDeInventario vLote, eAccionSR? valAction = null) {
+            decimal vCant = vItemDetalle.Cantidad;
+            eStatusDocOrigenLoteInv vStatusDocOrigen = (valItemCompra.StatusCompraAsEnum == eStatusCompra.Vigente) ? eStatusDocOrigenLoteInv.Vigente : eStatusDocOrigenLoteInv.Anulado;                                             
+            bool vSoloAnulados = false;
+            if (valAction.HasValue && valAction == eAccionSR.Abrir) {
+                vLote.Existencia += vCant;
+                vSoloAnulados = true;
+            } else {
+                vLote.Existencia -= vCant;
+            }
+            ILoteDeInventarioPdn vLotePnd = new clsLoteDeInventarioNav();
+            IList<LoteDeInventario> vListLote = new List<LoteDeInventario>();
+            vListLote.Add(vLote);
+            vLotePnd.ActualizarLoteYReversarMov(vListLote,eOrigenLoteInv.Compra, valItemCompra.Consecutivo, "", vSoloAnulados);
         }
     } //End of class clsCompraNav
 

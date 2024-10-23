@@ -143,6 +143,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 if (_ConexionCodigoArticuloInventario != value) {
                     _ConexionCodigoArticuloInventario = value;
                     RaisePropertyChanged(CodigoArticuloInventarioPropertyName);
+                    RaisePropertyChanged(() => IsVisbleTipoArticuloInvStr);
+                    RaisePropertyChanged(() => TipoArticuloInvStr);
                 }
                 if (_ConexionCodigoArticuloInventario == null) {
                     CodigoArticuloInventario = string.Empty;
@@ -159,6 +161,47 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public int DecimalDigits {
             get {
                 return 8;
+            }
+        }
+
+        public bool IsVisbleTipoArticuloInvStr {
+            get {
+                return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento") &&
+                    (!LibString.IsNullOrEmpty(CodigoArticuloInventario));
+            }
+        }
+
+        public eTipoArticuloInv TipoArticuloInvAsEnum {
+            get {
+                return Model.TipoArticuloInvAsEnum;
+            }
+            set {
+                if (Model.TipoArticuloInvAsEnum != value) {
+                    Model.TipoArticuloInvAsEnum = value;
+                }
+            }
+        }
+
+        public string TipoArticuloInvStr {
+            get {
+                if (Model.TipoDeArticuloAsEnum == eTipoDeArticulo.Mercancia) {
+                    return LibEnumHelper.GetDescription(TipoArticuloInvAsEnum);
+                } else if (Model.TipoDeArticuloAsEnum == eTipoDeArticulo.Servicio) {
+                    return LibEnumHelper.GetDescription(eTipoDeArticulo.Servicio);
+                } else {
+                    return "";
+                }
+            }
+        }
+
+        public eTipoDeArticulo TipoDeArticuloAsEnum {
+            get {
+                return Model.TipoDeArticuloAsEnum;
+            }
+            set {
+                if (Model.TipoDeArticuloAsEnum != value) {
+                    Model.TipoDeArticuloAsEnum = value;
+                }
             }
         }
 
@@ -205,18 +248,29 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_ArticuloInventario_B2.Codigo", valCodigo);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
-                vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("StatusdelArticulo ", eStatusArticulo.Vigente), eLogicOperatorType.And);
-                vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityEquality, eTipoArticuloInv.Simple, eLogicOperatorType.And);
+                vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("StatusdelArticulo ", eStatusArticulo.Vigente), eLogicOperatorType.And);                
                 vFixedCriteria.Add("TipoDeArticulo", eBooleanOperatorType.IdentityInequality, eTipoDeArticulo.ProductoCompuesto, eLogicOperatorType.And);
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento")) {
+                    vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.UsaSerialRollo));
+                    vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.UsaTallaColorySerial));
+                    vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.UsaTallaColor));
+                    vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.UsaSerial));
+                } else {
+                    vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityEquality, eTipoArticuloInv.Simple, eLogicOperatorType.And);
+                }
                 ConexionCodigoArticuloInventario = Master.ChooseRecord<FkArticuloInventarioViewModel>("Artículo Inventario", vDefaultCriteria, vFixedCriteria, string.Empty);
                 if (ConexionCodigoArticuloInventario == null) {
                     CodigoArticuloInventario = string.Empty;
                     DescripcionArticuloInventario = string.Empty;
-                    UnidadDeVenta = string.Empty;
+                    UnidadDeVenta = string.Empty;                    
                 } else {
                     CodigoArticuloInventario = ConexionCodigoArticuloInventario.Codigo;
                     DescripcionArticuloInventario = ConexionCodigoArticuloInventario.Descripcion;
                     UnidadDeVenta = ConexionCodigoArticuloInventario.UnidadDeVenta;
+                    TipoArticuloInvAsEnum = ConexionCodigoArticuloInventario.TipoArticuloInv;
+                    TipoDeArticuloAsEnum = ConexionCodigoArticuloInventario.TipoDeArticulo ;
+                    RaisePropertyChanged(() => IsVisbleTipoArticuloInvStr);
+                    RaisePropertyChanged(() => TipoArticuloInvStr);
                 }
             } catch (System.AccessViolationException) {
                 throw;

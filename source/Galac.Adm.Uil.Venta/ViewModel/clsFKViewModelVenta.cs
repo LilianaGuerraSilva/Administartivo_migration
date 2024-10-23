@@ -110,16 +110,23 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public decimal MePrecioConIva3 { get; set; }
         public decimal MePrecioSinIva4 { get; set; }
         public decimal MePrecioConIva4 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 1)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 1)]
         public string CampoDefinible1 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 2)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 2)]
         public string CampoDefinible2 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 3)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 3)]
         public string CampoDefinible3 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 4)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 4)]
         public string CampoDefinible4 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 5)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 5)]
         public string CampoDefinible5 { get; set; }
+        //[ArtInvCamposLoteFechaDeVencimientoGridColumn("Lote Inv.", "", 11)]
+        //public string CodigoLote { get; set; }
+        //[ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Elab.", "", 12)]
+        //public DateTime FechaDeElaboracion { get; set; }
+        //[ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Vcto.", "", 13)]
+        //public DateTime FechaDeVencimiento { get; set; }
+
 
     }
 
@@ -173,18 +180,22 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public decimal MePrecioConIva3 { get; set; }
         [LibGridColum("Me Precio Con IVA4", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.MePrecioConIva4", Width = 100, IsForSearch = false, Alignment = eTextAlignment.Right)]
         public decimal MePrecioConIva4 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 1)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 1)]
         public string CampoDefinible1 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 2)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 2)]
         public string CampoDefinible2 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 3)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 3)]
         public string CampoDefinible3 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 4)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 4)]
         public string CampoDefinible4 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 5)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 5)]
         public string CampoDefinible5 { get; set; }
-
-
+        //[ArtInvCamposLoteFechaDeVencimientoGridColumn("Lote Inv.", "", 11)]
+        //public string CodigoLote { get; set; }
+        //[ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Elab.", "", 12)]
+        //public DateTime FechaDeElaboracion { get; set; }
+        //[ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Vcto.", "", 13)]
+        //public DateTime FechaDeVencimiento { get; set; }
     }
 
     public class FkFacturaRapidaViewModel : IFkFacturaRapidaViewModel {

@@ -31,4 +31,28 @@
     <DataTemplate DataType="{x:Type nsCSVM:ImportarPreciosDeArticuloViewModel}">
         <nsCSV:GSImportarPreciosDeArticuloView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:NotaDeEntradaSalidaViewModel}">
+        <nsCSV:GSNotaDeEntradaSalidaView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:RenglonNotaESViewModel}">
+        <nsCSV:GSRenglonNotaESView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:LoteDeInventarioViewModel}">
+        <nsCSV:GSLoteDeInventarioView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:LoteDeInventarioMovimientoViewModel}">
+        <nsCSV:GSLoteDeInventarioMovimientoView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:LoteDeInventarioInsertarViewModel}">
+        <nsCSV:GSLoteDeInventarioInsertarView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsArticulosPorVencerViewModel}">
+        <nsReportesView:GSArticulosPorVencer />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsLoteDeInventarioVencidosViewModel}">
+        <nsReportesView:GSLoteDeInventarioVencidos />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsMovimientoDeLoteInventarioViewModel}">
+        <nsReportesView:GSMovimientoDeLoteInventario />
+    </DataTemplate>
 </ResourceDictionary>

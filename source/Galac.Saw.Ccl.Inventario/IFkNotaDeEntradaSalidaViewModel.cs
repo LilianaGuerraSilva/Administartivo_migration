@@ -12,8 +12,10 @@ namespace Galac.Saw.Ccl.Inventario {
           string CodigoCliente { get; set; }
           string NombreCliente { get; set; }
           string CodigoAlmacen { get; set; }
+          string NombreAlmacen { get; set; }
           DateTime Fecha { get; set; }
           string Comentarios { get; set; }
+          int ConsecutivoAlmacen { get; set; }
         #endregion //Propiedades
 
 

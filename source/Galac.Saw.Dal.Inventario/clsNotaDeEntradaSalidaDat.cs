@@ -13,9 +13,10 @@ using LibGalac.Aos.Catching;
 using LibGalac.Aos.Dal;
 using LibGalac.Aos.DefGen;
 using Galac.Saw.Ccl.Inventario;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Dal.Inventario {
-    public class clsNotaDeEntradaSalidaDat: LibData, ILibDataMasterComponentWithSearch<IList<NotaDeEntradaSalida>, IList<NotaDeEntradaSalida>> {
+    public class clsNotaDeEntradaSalidaDat: LibData, ILibDataMasterComponentWithSearch<IList<NotaDeEntradaSalida>, IList<NotaDeEntradaSalida>>, ILibDataRpt {
         #region Variables
         LibDataScope insTrn;
         NotaDeEntradaSalida _CurrentRecord;
@@ -47,12 +48,7 @@ namespace Galac.Saw.Dal.Inventario {
             vParams.AddInString("CodigoAlmacen", valRecord.CodigoAlmacen, 5);
             vParams.AddInDateTime("Fecha", valRecord.Fecha);
             vParams.AddInString("Comentarios", valRecord.Comentarios, 255);
-            if (LibDefGen.ProgramInfo.ProgramInitials == LibProduct.GetInitialsSaw()) {
-                vParams.AddInString("CodigoLote", valRecord.CodigoLote, 10);
-            } else if (LibDefGen.ProgramInfo.ProgramInitials == LibProduct.GetInitialsAdmEcuador()) {
-                vParams.AddInInteger("ConsecutivoCliente", valRecord.ConsecutivoCliente);
-                vParams.AddInInteger("NumeroLote", valRecord.NumeroLote);
-            }
+            vParams.AddInString("CodigoLote", valRecord.CodigoLote, 10);
             vParams.AddInEnum("StatusNotaEntradaSalida", valRecord.StatusNotaEntradaSalidaAsDB);
             vParams.AddInInteger("ConsecutivoAlmacen", valRecord.ConsecutivoAlmacen);
             vParams.AddInEnum("GeneradoPor", valRecord.GeneradoPorAsDB);
@@ -97,10 +93,11 @@ namespace Galac.Saw.Dal.Inventario {
             StringBuilder vSbInfo = new StringBuilder();
             string vErrMsg = "";
             LibDatabase insDB = new LibDatabase();
-            if (valAction == eAccionSR.Eliminar) {
-                if (vSbInfo.Length == 0) {
-                    vResult.Success = true;
+            if (valAction == eAccionSR.Eliminar || valAction == eAccionSR.Anular) {                
+                if (!PuedeSerEliminadaOAnuladaNotaDeESPorLoteFdV(refRecord, valAction, out vErrMsg)) {
+                    throw new GalacAlertException(vErrMsg);
                 }
+                vResult.Success = true;
             } else {
                 vResult.Success = true;
             }
@@ -202,7 +199,9 @@ namespace Galac.Saw.Dal.Inventario {
             throw new ProgrammerMissingCodeException();
         }
 
-       // [PrincipalPermission(SecurityAction.Demand, Role = "Nota de Entrada/Salida.Modificar")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Nota de Entrada/Salida.Modificar")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Nota de Entrada/Salida.Anular Retiro")]
+        //Agregar permisos de los módulos que crean NES: Producción, Compra
         LibResponse ILibDataMasterComponent<IList<NotaDeEntradaSalida>, IList<NotaDeEntradaSalida>>.Update(IList<NotaDeEntradaSalida> refRecord, bool valUseDetail, eAccionSR valAction) {
             LibResponse vResult = new LibResponse();
             try {
@@ -306,6 +305,35 @@ namespace Galac.Saw.Dal.Inventario {
             return vResult;
         }
 
+        private bool IsValidConsecutivoCompania(eAccionSR valAction, int valConsecutivoCompania, int valConsecutivo){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            if (valConsecutivoCompania <= 0) {
+                BuildValidationInfo(MsgRequiredField("Consecutivo Compania"));
+                vResult = false;
+            }
+            return vResult;
+        }
+
+        //private bool IsValidConsecutivo(eAccionSR valAction, int valConsecutivoCompania, int valConsecutivo){
+        //    bool vResult = true;
+        //    if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+        //        return true;
+        //    }
+        //    if (valConsecutivo == 0) {
+        //        BuildValidationInfo(MsgRequiredField("Consecutivo"));
+        //        vResult = false;
+        //    } else if (valAction == eAccionSR.Insertar) {
+        //        if (KeyExists(valConsecutivoCompania, valConsecutivo)) {
+        //            BuildValidationInfo(MsgFieldValueAlreadyExist("Consecutivo", valConsecutivo));
+        //            vResult = false;
+        //        }
+        //    }
+        //    return vResult;
+        //}
+
         private bool IsValidNumeroDocumento(eAccionSR valAction, int valConsecutivoCompania, string valNumeroDocumento){
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
@@ -405,6 +433,17 @@ namespace Galac.Saw.Dal.Inventario {
             return vResult;
         }
 
+        //private bool KeyExists(int valConsecutivoCompania, int valConsecutivo) {
+        //    bool vResult = false;
+        //    NotaDeEntradaSalida vRecordBusqueda = new NotaDeEntradaSalida();
+        //    vRecordBusqueda.ConsecutivoCompania = valConsecutivoCompania;
+        //    vRecordBusqueda.Consecutivo = valConsecutivo;
+        //    LibDatabase insDb = new LibDatabase();
+        //    vResult = insDb.ExistsRecord(DbSchema + ".NotaDeEntradaSalida", "ConsecutivoCompania", ParametrosClave(vRecordBusqueda, false, false));
+        //    insDb.Dispose();
+        //    return vResult;
+        //}
+
         private bool KeyExists(int valConsecutivoCompania, NotaDeEntradaSalida valRecordBusqueda) {
             bool vResult = false;
             valRecordBusqueda.ConsecutivoCompania = valConsecutivoCompania;
@@ -451,6 +490,10 @@ namespace Galac.Saw.Dal.Inventario {
                 //agregar validaciones
                 if (LibString.IsNullOrEmpty(vDetail.CodigoArticulo)) {
                     vSbErrorInfo.AppendLine("Línea " + vNumeroDeLinea.ToString() + ": No fue asignado el Código Inventario.");
+                } else if (vDetail.Cantidad <= 0) {
+                    vSbErrorInfo.AppendLine("Línea " + vNumeroDeLinea.ToString() + ": No fue asignado Cantidad.");
+                } else if (vDetail.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento && LibString.IsNullOrEmpty(vDetail.LoteDeInventario)) {
+                    vSbErrorInfo.AppendLine("Línea " + vNumeroDeLinea.ToString() + ": No fue asignado el Lote de Inventario.");
                 } else {
                     vLineHasError = false;
                 }
@@ -474,10 +517,86 @@ namespace Galac.Saw.Dal.Inventario {
             return vResult;
         }
         #endregion //Miembros de ILibDataFKSearch
+
+        #region //Miembros de ILibDataRpt
+        System.Data.DataTable ILibDataRpt.GetDt(string valSqlStringCommand, int valCmdTimeout) {
+            return new LibDataReport().GetDataTableForReport(valSqlStringCommand, valCmdTimeout);
+        }
+
+        System.Data.DataTable ILibDataRpt.GetDt(string valSpName, StringBuilder valXmlParamsExpression, int valCmdTimeout) {
+            return new LibDataReport().GetDataTableForReport(valSpName, valXmlParamsExpression, valCmdTimeout);
+        }
+        #endregion ////Miembros de ILibDataRpt
         #endregion //Metodos Generados
 
+        private bool PuedeSerEliminadaOAnuladaNotaDeESPorLoteFdV(IList<NotaDeEntradaSalida> refRecord, eAccionSR valAccion, out string outMensaje) {
+            bool vResult = true;
+            outMensaje = string.Empty;
+            foreach (NotaDeEntradaSalida vItemNotaES in refRecord) {
+                if (valAccion == eAccionSR.Anular && vItemNotaES.TipodeOperacionAsEnum != eTipodeOperacion.Retiro) {
+                    outMensaje = "Solo se pueden Anular Operaciones de Retiro.";
+                    return false;
+                } else if (valAccion == eAccionSR.Eliminar && ExistenNotasESDesdeImportacion(vItemNotaES.ConsecutivoCompania, vItemNotaES.CodigoLote)) {
+                    StringBuilder vMsg = new StringBuilder();
+                    vMsg.AppendLine($"No se puede eliminar la Nota de Entrada / Salida {vItemNotaES.NumeroDocumento}, la misma está asociada a un lote de importación.");
+                    outMensaje = vMsg.ToString();
+                    return false;
+                } else if (ExistenComprobantesDeCostoDeVentasPosteriores(vItemNotaES.ConsecutivoCompania, vItemNotaES.Fecha)) {
+                    StringBuilder vMsg = new StringBuilder();
+                    vMsg.AppendLine("Existe al menos un Comprobante de Costo de Venta posterior a la operación de " + LibEAccionSR.ToString(valAccion) + ".");
+                    vMsg.AppendLine();
+                    vMsg.AppendLine("Deberá abrir el Período y/o Eliminar el Comprobante para " + LibEAccionSR.ToString(valAccion) + " el documento.");
+                    outMensaje = vMsg.ToString();
+                }
+            }
+            return vResult;
+        }
+
+        private bool ExistenComprobantesDeCostoDeVentasPosteriores(int valConsecutivoCompania, DateTime valFecha) {
+            //duplicado en: IArticuloInventarioPdn.ExistenComprobantesDeCostoDeVentasPosteriores, no se invoca acá por estar en Brl (capa superior)
+            bool vResult = false;
+            bool vUsaContabilidad = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Compania", "UsaModuloDeContabilidad");
+            bool vUsaCostoPromedio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaCostoPromedio");
+            if (vUsaCostoPromedio && vUsaContabilidad) {
+                if (new clsLibSaw().EsValidaLaFechaParaContabilidad(valConsecutivoCompania, valFecha)) {
+                    LibDatabase insDb = new LibDatabase();
+                    StringBuilder vSql = new StringBuilder();
+                    vSql.AppendLine("SELECT COMPROBANTE.Numero FROM PERIODO INNER JOIN  COMPROBANTE ON periodo.ConsecutivoPeriodo = COMPROBANTE.ConsecutivoPeriodo ");
+                    vSql.AppendLine("WHERE PERIODO.ConsecutivoCompania = " + insDb.InsSql.ToSqlValue(valConsecutivoCompania));
+                    vSql.AppendLine("AND COMPROBANTE.GeneradoPor = " + insDb.InsSql.EnumToSqlValue((int)eComprobanteGeneradoPorVBSaw.eCG_INVENTARIO));
+                    vSql.AppendLine("AND COMPROBANTE.Fecha >= " + insDb.InsSql.ToSqlValue(valFecha));
+                    vResult = insDb.RecordCountOfSql(vSql.ToString()) > 0;
+                }
+            }
+            return vResult;
+        }
+
+        private bool ExistenNotasESDesdeImportacion(int valConsecutivoCompania, string valCodigoLoteAdm) {
+            bool vResult = false;
+            LibDatabase insDb = new LibDatabase();
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("SELECT CodigoLote ");
+            vSql.AppendLine("FROM LoteAdm");
+            vSql.AppendLine("WHERE ConsecutivoCompania = " + insDb.InsSql.ToSqlValue(valConsecutivoCompania));
+            vSql.AppendLine("AND CodigoLote =" + insDb.InsSql.ToSqlValue(valCodigoLoteAdm));
+            vResult = insDb.RecordCountOfSql(vSql.ToString()) > 0;
+            return vResult;           
+        }
+
+        private bool HayAlMenosUnArtLoteFdV(NotaDeEntradaSalida valItemNotaES) {
+            bool vResult;
+            LibDatabase insDb = new LibDatabase();
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("SELECT ConsecutivoRenglon FROM RenglonNotaES INNER JOIN ArticuloInventario ");
+            vSql.AppendLine("ON RenglonNotaES.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania ");
+            vSql.AppendLine("AND RenglonNotaES.CodigoArticulo = ArticuloInventario.Codigo ");
+            vSql.AppendLine("WHERE RenglonNotaES.ConsecutivoCompania = "+ insDb.InsSql.ToSqlValue(valItemNotaES.ConsecutivoCompania));
+            vSql.AppendLine("AND RenglonNotaES.NumeroDocumento = " + insDb.InsSql.ToSqlValue(valItemNotaES.NumeroDocumento));
+            vSql.AppendLine("AND ArticuloInventario.TipoDeArticulo = '0'");
+            vSql.AppendLine("AND (ArticuloInventario.TipoArticuloInv = '5' OR ArticuloInventario.TipoArticuloInv = '6')");
+            vResult = insDb.RecordCountOfSql(vSql.ToString()) > 0;
+            return vResult;
+        }
 
     } //End of class clsNotaDeEntradaSalidaDat
-
 } //End of namespace Galac.Saw.Dal.Inventario
-

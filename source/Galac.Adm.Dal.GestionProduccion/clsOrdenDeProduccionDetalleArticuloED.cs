@@ -45,6 +45,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("ConsecutivoOrdenDeProduccion" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnOrdDeProDetArtConsecutiv NOT NULL, ");
             SQL.AppendLine("Consecutivo" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnOrdDeProDetArtConsecutiv NOT NULL, ");
             SQL.AppendLine("ConsecutivoAlmacen" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnOrdDeProDetArtConsecutiv NOT NULL, ");
+            SQL.AppendLine("ConsecutivoLoteDeInventario" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT d_OrdDeProDetArtCoLoDeIn DEFAULT (0), ");
             SQL.AppendLine("CodigoArticulo" + InsSql.VarCharTypeForDb(30) + " CONSTRAINT nnOrdDeProDetArtCodigoArti NOT NULL, ");
             SQL.AppendLine("CantidadOriginalLista" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT d_OrdDeProDetArtCaOrLi DEFAULT (0), ");
             SQL.AppendLine("CantidadSolicitada" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT d_OrdDeProDetArtCaSo DEFAULT (0), ");
@@ -74,7 +75,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine(", OrdenDeProduccionDetalleArticulo.PorcentajeCostoEstimado, OrdenDeProduccionDetalleArticulo.PorcentajeCostoCierre, OrdenDeProduccionDetalleArticulo.Costo");
             SQL.AppendLine(", ArticuloInventario.Descripcion AS DescripcionArticulo");
             SQL.AppendLine(", ArticuloInventario.UnidadDeVenta AS UnidadDeVenta");
-            SQL.AppendLine(", Adm.OrdenDeProduccion.StatusOp AS StatusOp");
+            SQL.AppendLine(", Adm.OrdenDeProduccion.StatusOp AS StatusOp, OrdenDeProduccionDetalleArticulo.ConsecutivoLoteDeInventario");
             SQL.AppendLine(", OrdenDeProduccionDetalleArticulo.fldTimeStamp, CAST(OrdenDeProduccionDetalleArticulo.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".OrdenDeProduccionDetalleArticulo");
             SQL.AppendLine("INNER JOIN Adm.OrdenDeProduccion ON  " + DbSchema + ".OrdenDeProduccionDetalleArticulo.ConsecutivoOrdenDeProduccion = Adm.OrdenDeProduccion.Consecutivo");
@@ -92,6 +93,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("@ConsecutivoOrdenDeProduccion" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@ConsecutivoAlmacen" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@ConsecutivoLoteDeInventario" + InsSql.NumericTypeForDb(10, 0) + " = 0,");
             SQL.AppendLine("@CodigoArticulo" + InsSql.VarCharTypeForDb(30) + ",");
             SQL.AppendLine("@CantidadOriginalLista" + InsSql.DecimalTypeForDb(25, 8) + " = 0,");
             SQL.AppendLine("@CantidadSolicitada" + InsSql.DecimalTypeForDb(25, 8) + " = 0,");
@@ -119,6 +121,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("            ConsecutivoOrdenDeProduccion,");
             SQL.AppendLine("            Consecutivo,");
             SQL.AppendLine("            ConsecutivoAlmacen,");
+            SQL.AppendLine("            ConsecutivoLoteDeInventario,");
             SQL.AppendLine("            CodigoArticulo,");
             SQL.AppendLine("            CantidadOriginalLista,");
             SQL.AppendLine("            CantidadSolicitada,");
@@ -135,6 +138,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("            @ConsecutivoOrdenDeProduccion,");
             SQL.AppendLine("            @Consecutivo,");
             SQL.AppendLine("            @ConsecutivoAlmacen,");
+            SQL.AppendLine("            @ConsecutivoLoteDeInventario,");
             SQL.AppendLine("            @CodigoArticulo,");
             SQL.AppendLine("            @CantidadOriginalLista,");
             SQL.AppendLine("            @CantidadSolicitada,");
@@ -162,6 +166,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("@ConsecutivoOrdenDeProduccion" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@ConsecutivoAlmacen" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@ConsecutivoLoteDeInventario" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@CodigoArticulo" + InsSql.VarCharTypeForDb(30) + ",");
             SQL.AppendLine("@CantidadOriginalLista" + InsSql.DecimalTypeForDb(25, 8) + ",");
             SQL.AppendLine("@CantidadSolicitada" + InsSql.DecimalTypeForDb(25, 8) + ",");
@@ -198,6 +203,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("         BEGIN TRAN");
             SQL.AppendLine("         UPDATE " + DbSchema + ".OrdenDeProduccionDetalleArticulo");
             SQL.AppendLine("            SET ConsecutivoAlmacen = @ConsecutivoAlmacen,");
+            SQL.AppendLine("               ConsecutivoLoteDeInventario = @ConsecutivoLoteDeInventario,");
             SQL.AppendLine("               CodigoArticulo = @CodigoArticulo,");
             SQL.AppendLine("               CantidadOriginalLista = @CantidadOriginalLista,");
             SQL.AppendLine("               CantidadSolicitada = @CantidadSolicitada,");
@@ -319,6 +325,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("         ConsecutivoOrdenDeProduccion,");
             SQL.AppendLine("         Consecutivo,");
             SQL.AppendLine("         ConsecutivoAlmacen,");
+            SQL.AppendLine("         ConsecutivoLoteDeInventario,");
             SQL.AppendLine("         CodigoArticulo,");
             SQL.AppendLine("         CantidadOriginalLista,");
             SQL.AppendLine("         CantidadSolicitada,");
@@ -356,6 +363,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("        ConsecutivoOrdenDeProduccion,");
             SQL.AppendLine("        Consecutivo,");
             SQL.AppendLine("        ConsecutivoAlmacen,");
+            SQL.AppendLine("        ConsecutivoLoteDeInventario,");
             SQL.AppendLine("        CodigoArticulo,");
             SQL.AppendLine("        CantidadOriginalLista,");
             SQL.AppendLine("        CantidadSolicitada,");
@@ -417,6 +425,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
 			SQL.AppendLine("	        ConsecutivoOrdenDeProduccion,");
 			SQL.AppendLine("	        Consecutivo,");
 			SQL.AppendLine("	        ConsecutivoAlmacen,");
+			SQL.AppendLine("	        ConsecutivoLoteDeInventario,");
 			SQL.AppendLine("	        CodigoArticulo,");
 			SQL.AppendLine("	        CantidadOriginalLista,");
 			SQL.AppendLine("	        CantidadSolicitada,");
@@ -433,6 +442,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
 			SQL.AppendLine("	        @ConsecutivoOrdenDeProduccion,");
 			SQL.AppendLine("	        Consecutivo,");
 			SQL.AppendLine("	        ConsecutivoAlmacen,");
+			SQL.AppendLine("	        ConsecutivoLoteDeInventario,");
 			SQL.AppendLine("	        CodigoArticulo,");
 			SQL.AppendLine("	        CantidadOriginalLista,");
 			SQL.AppendLine("	        CantidadSolicitada,");
@@ -448,6 +458,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("	    WITH (");
             SQL.AppendLine("	        Consecutivo " + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("	        ConsecutivoAlmacen " + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("	        ConsecutivoLoteDeInventario " + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("	        CodigoArticulo " + InsSql.VarCharTypeForDb(30) + ",");
             SQL.AppendLine("	        CantidadOriginalLista " + InsSql.DecimalTypeForDb(25, 8) + ",");
             SQL.AppendLine("	        CantidadSolicitada " + InsSql.DecimalTypeForDb(25, 8) + ",");

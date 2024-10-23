@@ -135,16 +135,23 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         public decimal CantidadMinima { get; set; }
         public decimal MePrecioSinIva { get; set; }
         public decimal MePrecioConIva { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 1, 6)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 1, 6)]
         public string CampoDefinible1 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 2, 7)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 2, 7)]
         public string CampoDefinible2 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 3, 8)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 3, 8)]
         public string CampoDefinible3 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 4, 9)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 4, 9)]
         public string CampoDefinible4 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 5, 10)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 5, 10)]
         public string CampoDefinible5 { get; set; }
+        //[ArtInvCamposLoteFechaDeVencimientoGridColumn("Lote Inv.", "CodigoLote", 11)]
+        //public string CodigoLote { get; set; }
+        //[ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Elab.", "FechaDeElaboracion", 12)]
+        //public DateTime FechaDeElaboracion { get; set; }
+        //[ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Vcto.", "FechaDeVencimiento", 13)]
+        //public DateTime FechaDeVencimiento { get; set; }
+
     }
 
     public class FkAlmacenViewModel : IFkAlmacenViewModel {
@@ -290,5 +297,20 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         public string NombreMoneda { get; set; }
         public string CodigoCliente { get; set; }
         public string CodigoVendedor { get; set; }
+    }
+    public class FkLoteDeInventarioViewModel : IFkLoteDeInventarioViewModel {
+        public int ConsecutivoCompania { get; set; }
+        public int Consecutivo { get; set; }
+        [LibGridColum("Código de Lote")]
+        public string CodigoLote { get; set; }
+        public string CodigoArticulo { get; set; }
+        [LibGridColum("Fecha Elab.", eGridColumType.DatePicker, BindingStringFormat = "dd/MM/yyyy")]
+        public DateTime FechaDeElaboracion { get; set; }
+        [LibGridColum("Fecha Vcto.", eGridColumType.DatePicker, BindingStringFormat = "dd/MM/yyyy")]
+        public DateTime FechaDeVencimiento { get; set; }
+        [LibGridColum("Existencia", eGridColumType.Numeric, Alignment = eTextAlignment.Right)]
+        public decimal Existencia { get; set; }
+        [LibGridColum("Status", eGridColumType.Enum, PrintingMemberPath = "StatusLoteInvStr", DbMemberPath = "Saw.Gv_LoteDeInventario_B1.StatusLoteInv", Width = 75)]
+        public eStatusLoteDeInventario StatusLoteInv { get; set; }
     }
 }

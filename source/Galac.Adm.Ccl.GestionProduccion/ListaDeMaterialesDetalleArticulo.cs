@@ -20,6 +20,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         private decimal _Cantidad;
         private eTipoDeArticulo _TipoDeArticulo;
 		private string _UnidadDeVenta;
+        private eTipoArticuloInv _TipoArticuloInv;
         #endregion //Variables
         #region Propiedades
 
@@ -76,6 +77,14 @@ namespace Galac.Adm.Ccl.GestionProduccion {
                 _UnidadDeVenta = LibString.Mid(value, 0, 20);
                 OnPropertyChanged("UnidadDeVenta");
             }
+        }
+
+        public eTipoArticuloInv TipoArticuloInvAsEnum {
+            get { return _TipoArticuloInv; }
+            set { _TipoArticuloInv = value; }
+        }
+        public string TipoArticuloInv {
+            set { _TipoArticuloInv = (eTipoArticuloInv)LibConvert.DbValueToEnum(value); }
         }
         #endregion //Propiedades
         #region Constructores

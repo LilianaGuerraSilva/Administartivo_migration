@@ -38,7 +38,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
     public class FkClienteViewModel : IFkClienteViewModel {
         [LibGridColum("Código")]
         public string Codigo { get; set; }
-        [LibGridColum("Nombre", Width=300)]
+        [LibGridColum("Nombre", Width = 300)]
         public string Nombre { get; set; }
         [LibGridColum("N° R.I.F.")]
         public string NumeroRIF { get; set; }
@@ -69,12 +69,12 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
     public class FkTallaViewModel : IFkTallaViewModel {
         public int ConsecutivoCompania { get; set; }
         [LibGridColum("Código")]
-        public string CodigoTalla { get; set; }       
+        public string CodigoTalla { get; set; }
         [LibGridColum("Descripción")]
         public string DescripcionTalla { get; set; }
     }
 
-    public class FkLineaDeProductoViewModel: IFkLineaDeProductoViewModel   {
+    public class FkLineaDeProductoViewModel : IFkLineaDeProductoViewModel {
         public int ConsecutivoCompania { get; set; }
         public int Consecutivo { get; set; }
         [LibGridColum("Nombre de la Línea")]
@@ -86,12 +86,12 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         private decimal _PrecioConIVA;
         private decimal _MePrecioSinIva;
         private decimal _MePrecioConIva;
-        public int ConsecutivoCompania { get; set ; }
-        [LibGridColum("Código del Artículo")]
+        public int ConsecutivoCompania { get; set; }
+        [LibGridColum("Código del Artículo", DbMemberPath = "Gv_ArticuloInventario_B1.Codigo")]
         public string Codigo { get; set; }
-        [LibGridColum("Descripción")]
+        [LibGridColum("Descripción", DbMemberPath = "Gv_ArticuloInventario_B1.Descripcion")]
         public string Descripcion { get; set; }
-        [LibGridColum("PrecioSinIVA")]
+        [LibGridColum("Precio Sin IVA", Alignment = eTextAlignment.Right)]
         public decimal PrecioSinIVA {
             get { return _PrecioSinIVA; }
             set {
@@ -102,7 +102,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public decimal PrecioSinIVA2 { get; set; }
         public decimal PrecioSinIVA3 { get; set; }
         public decimal PrecioSinIVA4 { get; set; }
-        [LibGridColum("PrecioConIVA")]
+        [LibGridColum("Precio Con IVA", Alignment = eTextAlignment.Right)]
         public decimal PrecioConIVA {
             get { return _PrecioConIVA; }
             set {
@@ -116,11 +116,11 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public string LineaDeProducto { get; set; }
         public string Categoria { get; set; }
         public decimal Existencia { get; set; }
-        public int AlicuotaIva { get; set;  }
+        public int AlicuotaIva { get; set; }
         public decimal PorcentajeBaseImponible { get; set; }
         public eTipoDeArticulo TipoDeArticulo { get; set; }
         public eTipoArticuloInv TipoArticuloInv { get; set; }
-        public bool UsaBalanza {get;set;}
+        public bool UsaBalanza { get; set; }
         public decimal CostoUnitario { get; set; }
         public decimal Peso { get; set; }
         public string UnidadDeVenta { get; set; }
@@ -130,7 +130,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             Impuesto = PrecioConIVA - PrecioSinIVA;
         }
 
-        [LibGridColum("MePrecioSinIVA")]
+        [LibGridColum("Precio Sin IVA (ME)", Alignment = eTextAlignment.Right)]
         public decimal MePrecioSinIva {
             get { return _MePrecioSinIva; }
             set {
@@ -141,7 +141,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public decimal MePrecioSinIva2 { get; set; }
         public decimal MePrecioSinIva3 { get; set; }
         public decimal MePrecioSinIva4 { get; set; }
-        [LibGridColum("MePrecioConIVA")]
+        [LibGridColum("Precio Con IVA (ME)", Alignment = eTextAlignment.Right)]
         public decimal MePrecioConIva {
             get { return _MePrecioConIva; }
             set {
@@ -152,27 +152,32 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public decimal MePrecioConIva2 { get; set; }
         public decimal MePrecioConIva3 { get; set; }
         public decimal MePrecioConIva4 { get; set; }
-
         private void UpdateImpuestoMe() {
             ImpuestoMe = MePrecioConIva - MePrecioSinIva;
         }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 1)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 1)]
         public string CampoDefinible1 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 2)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 2)]
         public string CampoDefinible2 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 3)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 3)]
         public string CampoDefinible3 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 4)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 4)]
         public string CampoDefinible4 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 5)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 5)]
         public string CampoDefinible5 { get; set; }
+        //[ArtInvCamposLoteFechaDeVencimientoGridColumn("Lote Inv.", "CodigoLote", 11)]
+        //public string CodigoLote { get; set; }
+        //[ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Elab.", "FechaDeElaboracion", 12)]
+        //public DateTime FechaDeElaboracion { get; set; }
+        //[ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Vcto.", "FechaDeVencimiento", 13)]
+        //public DateTime FechaDeVencimiento { get; set; }
     }
 
-    public class FkArticuloInventarioRptViewModel:IFkArticuloInventarioViewModel {
-        public int ConsecutivoCompania { get; set; }        
-        [LibGridColum("Código del Artículo",DbMemberPath = "dbo.Gv_ArticuloInventario_B1.Codigo",Width = 150)]
+    public class FkArticuloInventarioRptViewModel : IFkArticuloInventarioViewModel {
+        public int ConsecutivoCompania { get; set; }
+        [LibGridColum("Código del Artículo", DbMemberPath = "dbo.Gv_ArticuloInventario_B1.Codigo", Width = 150)]
         public string Codigo { get; set; }
-        [LibGridColum("Descripción",DbMemberPath = "dbo.Gv_ArticuloInventario_B1.Descripcion",Width = 200)]
+        [LibGridColum("Descripción", DbMemberPath = "dbo.Gv_ArticuloInventario_B1.Descripcion", Width = 200)]
         public string Descripcion { get; set; }
         public decimal CostoUnitario { get; set; }
         public decimal PrecioConIVA { get; set; }
@@ -190,16 +195,23 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public string UnidadDeVenta { get; set; }
         public decimal MePrecioSinIva { get; set; }
         public decimal MePrecioConIva { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 1)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 1)]
         public string CampoDefinible1 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 2)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 2)]
         public string CampoDefinible2 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 3)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 3)]
         public string CampoDefinible3 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 4)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 4)]
         public string CampoDefinible4 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 5)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 5)]
         public string CampoDefinible5 { get; set; }
+        //[ArtInvCamposLoteFechaDeVencimientoGridColumn("Lote Inv.", "", 11)]
+        //public string CodigoLote { get; set; }
+        //[ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Elab.", "", 12)]
+        //public DateTime FechaDeElaboracion { get; set; }
+        //[ArtInvCamposLoteFechaDeVencimientoGridColumn("Fecha Vcto.", "", 13)]
+        //public DateTime FechaDeVencimiento { get; set; }
+
     }
 
     public class FkMonedaViewModel : IFkMonedaViewModel {
@@ -217,8 +229,40 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
     }
 
-    public class ArtInvCamposDefiniblesGridColumnAttribue : LibGridColumAttribute {
-        public ArtInvCamposDefiniblesGridColumnAttribue(string initHeader, int initOrdinalEntre1y5, int initColumnOrder = 0) : base(initHeader) {
+    public class FkLoteDeInventarioViewModel : IFkLoteDeInventarioViewModel {
+        public int ConsecutivoCompania { get; set; }
+        public int Consecutivo { get; set; }
+        [LibGridColum("Código de Lote")]
+        public string CodigoLote { get; set; }
+        public string CodigoArticulo { get; set; }
+        [LibGridColum("Fecha Elab.", eGridColumType.DatePicker, BindingStringFormat = "dd/MM/yyyy")]
+        public DateTime FechaDeElaboracion { get; set; }
+        [LibGridColum("Fecha Vcto.", eGridColumType.DatePicker, BindingStringFormat = "dd/MM/yyyy")]
+        public DateTime FechaDeVencimiento { get; set; }
+        [LibGridColum("Existencia", eGridColumType.Numeric, Alignment = eTextAlignment.Right)]
+        public decimal Existencia { get; set; }
+        [LibGridColum("Status", eGridColumType.Enum, PrintingMemberPath = "StatusLoteInvStr", DbMemberPath = "Saw.Gv_LoteDeInventario_B1.StatusLoteInv", Width = 75)]
+        public eStatusLoteDeInventario StatusLoteInv { get; set; }
+    }
+
+    public class FkLoteDeInventarioConteoFisicoViewModel : IFkLoteDeInventarioViewModel
+    {
+        public int ConsecutivoCompania { get; set; }
+        public int Consecutivo { get; set; }
+        [LibGridColum("Código de Artículo")]
+        public string CodigoArticulo { get; set; }
+        [LibGridColum("Código de Lote")]
+        public string CodigoLote { get; set; }
+        public DateTime FechaDeElaboracion { get; set; }
+        public DateTime FechaDeVencimiento { get; set; }
+        [LibGridColum("Existencia", eGridColumType.Numeric, Alignment = eTextAlignment.Right)]
+        public decimal Existencia { get; set; }
+        [LibGridColum("Status", eGridColumType.Enum, PrintingMemberPath = "StatusLoteInvStr", DbMemberPath = "Saw.Gv_LoteDeInventario_B1.StatusLoteInv", Width = 75)]
+        public eStatusLoteDeInventario StatusLoteInv { get; set; }
+    }
+
+    public class ArtInvCamposDefiniblesGridColumnAttribute : LibGridColumAttribute {
+        public ArtInvCamposDefiniblesGridColumnAttribute(string initHeader, int initOrdinalEntre1y5, int initColumnOrder = 0) : base(initHeader) {
             IsForList = false;
             IsForSearch = false;
             if (initOrdinalEntre1y5 >= 1 && initOrdinalEntre1y5 <= 5) {
@@ -262,4 +306,23 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
     }
+
+    //public class ArtInvCamposLoteFechaDeVencimientoGridColumnAttribute : LibGridColumAttribute {
+    //    public ArtInvCamposLoteFechaDeVencimientoGridColumnAttribute(string initHeader, string initDBPath, int initColumnOrder) : base(initHeader) {
+    //        if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento") && !LibString.IsNullOrEmpty(initHeader) && !LibString.IsNullOrEmpty(initDBPath)) {
+    //            IsForList = true;
+    //            IsForSearch = LibString.S1IsInS2("Lote", initHeader);
+    //            Header = initHeader;
+    //            DbMemberPath = initDBPath;
+    //            Type = LibString.S1IsInS2("Fecha", initHeader) ? eGridColumType.DatePicker : eGridColumType.Generic;
+    //            Width = 100;
+    //            ColumnOrder = initColumnOrder;
+    //            if (Type == eGridColumType.DatePicker) {
+    //                BindingStringFormat = "dd/MM/yyyy";
+    //            } else {
+    //                BindingStringFormat = "";
+    //            }
+    //        }
+    //    }
+    //}
 }

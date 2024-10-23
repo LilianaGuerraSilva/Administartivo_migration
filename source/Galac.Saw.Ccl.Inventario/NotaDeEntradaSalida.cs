@@ -22,11 +22,8 @@ namespace Galac.Saw.Ccl.Inventario {
         private string _CodigoAlmacen;
         private string _NombreAlmacen;
         private DateTime _Fecha;
-        private string _DescripcionArticulo;
         private string _Comentarios;
         private string _CodigoLote;
-        private int _ConsecutivoCliente;
-        private int _NumeroLote;
         private eStatusNotaEntradaSalida _StatusNotaEntradaSalida;
         private int _ConsecutivoAlmacen;
         private eTipoGeneradoPorNotaDeEntradaSalida _GeneradoPor;
@@ -92,11 +89,6 @@ namespace Galac.Saw.Ccl.Inventario {
             set { _Fecha = LibConvert.DateToDbValue(value); }
         }
 
-        public string DescripcionArticulo {
-            get { return _DescripcionArticulo; }
-            set { _DescripcionArticulo = LibString.Mid(value, 0, 255); }
-        }
-
         public string Comentarios {
             get { return _Comentarios; }
             set { _Comentarios = LibString.Mid(value, 0, 255); }
@@ -127,16 +119,6 @@ namespace Galac.Saw.Ccl.Inventario {
         public int ConsecutivoAlmacen {
             get { return _ConsecutivoAlmacen; }
             set { _ConsecutivoAlmacen = value; }
-        }
-
-        public int ConsecutivoCliente {
-            get { return _ConsecutivoCliente; }
-            set { _ConsecutivoCliente = value; }
-        }
-
-        public int NumeroLote {
-            get { return _NumeroLote; }
-            set { _NumeroLote = value; }
         }
 
         public eTipoGeneradoPorNotaDeEntradaSalida GeneradoPorAsEnum {
@@ -225,7 +207,6 @@ namespace Galac.Saw.Ccl.Inventario {
             CodigoAlmacen = string.Empty;
             NombreAlmacen = string.Empty;
             Fecha = LibDate.Today();
-            DescripcionArticulo = string.Empty;
             Comentarios = string.Empty;
             CodigoLote = string.Empty;
             StatusNotaEntradaSalidaAsEnum = eStatusNotaEntradaSalida.Vigente;
@@ -249,7 +230,6 @@ namespace Galac.Saw.Ccl.Inventario {
             vResult.CodigoAlmacen = _CodigoAlmacen;
             vResult.NombreAlmacen = _NombreAlmacen;
             vResult.Fecha = _Fecha;
-            vResult.DescripcionArticulo = _DescripcionArticulo;
             vResult.Comentarios = _Comentarios;
             vResult.CodigoLote = _CodigoLote;
             vResult.StatusNotaEntradaSalidaAsEnum = _StatusNotaEntradaSalida;

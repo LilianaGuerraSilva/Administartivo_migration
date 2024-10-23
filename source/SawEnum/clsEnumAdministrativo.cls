@@ -12,6 +12,8 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
+Private Const CM_FILE_NAME As String = "clsEnumAdministrativo"
+Private Const CM_MESSAGE_NAME As String = "Enumerativos del Administrativo"
 
 Public Enum menusDelSistemaAdministrativo
 ' Administrativo
@@ -238,6 +240,8 @@ Public Enum enum_SystemModules
    eSM_TransferenciaEntreCuentasBancarias
    eSM_RutaDeComercializacion
    eSM_GVentas
+   eSM_LoteDeInventario
+   eSM_LoteDeInventarioMovimiento
 End Enum
 
 Public Enum enum_DiaDeLaSemana
@@ -1257,6 +1261,8 @@ Public Enum enum_TipoArticuloInv
    eTAI_UsaSerial
    eTAI_UsaTalla_ColorySerial
    eTAI_UsaSerial_Rollo
+   eTAI_LoteFechadeVencimiento
+   eTAI_Lote
 End Enum
 
 Public Enum enum_AccionAlAnularFactDeMesesAnt
@@ -1715,20 +1721,28 @@ Public Enum enum_ProveedorImprentaDigital
    ePID_TheFactoryHKA
 End Enum
 
+Public Enum enum_StatusDocOrigenLoteInv
+   eSDOL_Vigente = 0
+   eSDOL_Anulado
+End Enum
+
+Public Enum enum_OrigenLoteInv
+   eOLI_Factura = 0
+   eOLI_NotaDeCredito
+   eOLI_NotaDeDebito
+   eOLI_NotaDeEntrega
+   eOLI_Produccion
+   eOLI_NotaEntradaSalida
+   eOLI_Compra
+   eOLI_ConteoFisico
+End Enum
+
 Public Function me_saw() As Long
    me_saw = 1
 End Function
 
 Public Function me_WinCont() As Long
    me_WinCont = 2
-End Function
-
-Private Function CM_FILE_NAME() As String
-   CM_FILE_NAME = "clsEnumAdministrativo"
-End Function
-
-Private Function CM_MESSAGE_NAME() As String
-   CM_MESSAGE_NAME = "Enumerativos del Administrativo"
 End Function
 
 Public Function enum_SystemModulesToStr(module As enum_SystemModules) As String
@@ -8569,12 +8583,13 @@ End Sub
 Public Function enumTipoArticuloInvToString(TipoArticuloInv As enum_TipoArticuloInv) As String
    Select Case TipoArticuloInv
       Case eTAI_Simple: enumTipoArticuloInvToString = "Simple"
-      Case eTAI_UsaTalla_Color: enumTipoArticuloInvToString = "Usa  Talla /Color"
-      Case eTAI_UsaSerial: enumTipoArticuloInvToString = "Usa  Serial"
-      Case eTAI_UsaTalla_ColorySerial: enumTipoArticuloInvToString = "Usa  Talla /Color y  Serial"
+      Case eTAI_UsaTalla_Color: enumTipoArticuloInvToString = "Usa Talla/Color"
+      Case eTAI_UsaSerial: enumTipoArticuloInvToString = "Usa Serial"
+      Case eTAI_UsaTalla_ColorySerial: enumTipoArticuloInvToString = "Usa Talla /Color y Serial"
       Case eTAI_UsaSerial_Rollo: enumTipoArticuloInvToString = "Usa Serial y Rollo"
-      Case Else
-         enumTipoArticuloInvToString = enumTipoArticuloInvToString(0)
+      Case eTAI_LoteFechadeVencimiento: enumTipoArticuloInvToString = "Lote / Fecha de Vto."
+      Case eTAI_Lote: enumTipoArticuloInvToString = "Lote"
+      Case Else: enumTipoArticuloInvToString = enumTipoArticuloInvToString(0)
    End Select
 End Function
 
@@ -8582,7 +8597,7 @@ Public Function strTipoArticuloInvToNum(ByVal TipoArticuloInv As String, Optiona
    Dim mEnum As enum_TipoArticuloInv
    Dim nCount As Integer
    nCount = 0
-   For mEnum = eTAI_Simple To eTAI_UsaSerial_Rollo
+   For mEnum = eTAI_Simple To eTAI_Lote
       If UCase(TipoArticuloInv) = UCase(enumTipoArticuloInvToString(mEnum)) Then
          strTipoArticuloInvToNum = nCount
          GoTo h_EXIT
@@ -8597,10 +8612,11 @@ h_EXIT:
    Exit Function
 End Function
 
-Public Sub FillComboBoxWithTipoArticuloInv(ByRef varComboBox As Object, Optional action As AccionSobreRecord = Abrir)
+Public Sub FillComboBoxWithTipoArticuloInv(ByRef varComboBox As Object, ByVal valAction As AccionSobreRecord, ByVal valUsaLoteFechaVcto As Boolean)
    Dim nCount As Integer
+   varComboBox.Clear
    nCount = 0
-   If action = Buscar Then
+   If valAction = Buscar Then
       varComboBox.Text = gDefGen.getSearchAllComboBox()
       varComboBox.List(nCount) = gDefGen.getSearchAllComboBox()
       nCount = nCount + 1
@@ -8608,17 +8624,23 @@ Public Sub FillComboBoxWithTipoArticuloInv(ByRef varComboBox As Object, Optional
       varComboBox.Text = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_Simple)
    End If
    varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_Simple)
-   nCount = nCount + 1
-   varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_UsaTalla_Color)
-   nCount = nCount + 1
-   varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_UsaSerial)
-   nCount = nCount + 1
-   varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_UsaTalla_ColorySerial)
-   nCount = nCount + 1
-   varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_UsaSerial_Rollo)
-   varComboBox.Width = 2280
-   'varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
-   varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
+   If valUsaLoteFechaVcto Then
+      nCount = nCount + 1
+      varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_LoteFechadeVencimiento)
+      nCount = nCount + 1
+      varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_Lote)
+   Else
+      nCount = nCount + 1
+      varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_UsaTalla_Color)
+      nCount = nCount + 1
+      varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_UsaSerial)
+      nCount = nCount + 1
+      varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_UsaTalla_ColorySerial)
+      nCount = nCount + 1
+      varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_UsaSerial_Rollo)
+   End If
+   varComboBox.Width = 2280 'varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
+   varComboBox.ListIndex = 0 'Se selecciona el valor por defecto
 End Sub
 
 Public Function fEnumTipoArticuloInvToStringInArray(Optional ByVal valPrepararParaSql As Boolean = False) As Variant
@@ -8632,10 +8654,10 @@ Public Function fEnumTipoArticuloInvToStringInArray(Optional ByVal valPrepararPa
    If valPrepararParaSql Then
       varCaracterDelimitador = "'"
    End If
-   varLimiteSuperior = enum_TipoArticuloInv.eTAI_UsaSerial_Rollo - enum_TipoArticuloInv.eTAI_Simple
+   varLimiteSuperior = enum_TipoArticuloInv.eTAI_Lote - enum_TipoArticuloInv.eTAI_Simple
    nCount = 0
    ReDim varArray(0 To varLimiteSuperior)
-   For varEnum = enum_TipoArticuloInv.eTAI_Simple To enum_TipoArticuloInv.eTAI_UsaSerial_Rollo
+   For varEnum = enum_TipoArticuloInv.eTAI_Simple To enum_TipoArticuloInv.eTAI_Lote
       varArray(nCount) = varCaracterDelimitador & enumTipoArticuloInvToString(varEnum) & varCaracterDelimitador
       nCount = nCount + 1
    Next
@@ -14098,4 +14120,47 @@ Public Function strProveedorImprentaDigitalToNum(ByVal ProveedorImprentaDigital 
    End If
 h_EXIT:
    Exit Function
+End Function
+
+Public Function fTipoDeDocumentoFacturaEnPlural(ByVal valTipoDocumento As enum_TipoDocumentoFactura) As String
+   Dim vTipoDocumentoEnPlural As String
+   On Error Resume Next
+   vTipoDocumentoEnPlural = gEnumProyecto.enumTipodocumentoFacturaToString(valTipoDocumento)
+   If valTipoDocumento = eTF_NOTADECREDITO Then
+      vTipoDocumentoEnPlural = "Notas de Crédito"
+   ElseIf valTipoDocumento = eTF_NOTADEDEBITO Then
+      vTipoDocumentoEnPlural = "Notas de Débito"
+   ElseIf valTipoDocumento = eTF_NOTAENTREGA Then
+      vTipoDocumentoEnPlural = "Notas de Entrega"
+   ElseIf valTipoDocumento = eTF_FACTURA Then
+      vTipoDocumentoEnPlural = "Facturas"
+   End If
+   fTipoDeDocumentoFacturaEnPlural = vTipoDocumentoEnPlural
+   On Error GoTo 0
+End Function
+
+Public Function fOrigenDeLotePorTipoDeDocumentoFactura(ByVal valTipoDoc As enum_TipoDocumentoFactura) As enum_OrigenLoteInv
+   Dim vResult As enum_OrigenLoteInv
+   On Error Resume Next
+   vResult = eOLI_Factura
+   If valTipoDoc = eTF_NOTADECREDITO Or valTipoDoc = eTF_NOTADECREDITOCOMPROBANTEFISCAL Then
+      vResult = eOLI_NotaDeCredito
+   ElseIf valTipoDoc = eTF_NOTADEDEBITO Then
+      vResult = eOLI_NotaDeDebito
+   ElseIf valTipoDoc = eTF_NOTAENTREGA Then
+      vResult = eOLI_NotaDeEntrega
+   End If
+   fOrigenDeLotePorTipoDeDocumentoFactura = vResult
+   On Error GoTo 0
+End Function
+
+Public Function fStatusDocOrigenLoteInvPorStatusFactura(ByVal valStatusDoc As enum_StatusFactura) As enum_StatusDocOrigenLoteInv
+   Dim vResult As enum_StatusDocOrigenLoteInv
+   On Error Resume Next
+   vResult = eSDOL_Vigente
+   If (valStatusDoc = eSF_ANULADA) Then
+      vResult = eSDOL_Anulado
+   End If
+   fStatusDocOrigenLoteInvPorStatusFactura = vResult
+   On Error GoTo 0
 End Function

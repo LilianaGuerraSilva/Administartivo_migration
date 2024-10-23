@@ -11,6 +11,7 @@ using LibGalac.Aos.Brl;
 using LibGalac.Aos.Base.Dal;
 using Galac.Adm.Ccl.GestionCompras;
 using Galac.Saw.Ccl.Inventario;
+using System.Security.Policy;
 
 namespace Galac.Adm.Brl.GestionCompras {
     public partial class clsCompraDetalleArticuloInventarioNav: LibBaseNavDetail<IList<CompraDetalleArticuloInventario>, IList<CompraDetalleArticuloInventario>> {
@@ -32,11 +33,12 @@ namespace Galac.Adm.Brl.GestionCompras {
         internal  void FillWithForeignInfo(ref IList<Compra> refData) {
             FillWithForeignInfoCompraDetalleArticuloInventario(ref refData);
         }
-        #region CompraDetalleArticuloInventario
-
+        #region CompraDetalleArticuloInventario       
         private void FillWithForeignInfoCompraDetalleArticuloInventario(ref IList<Compra> refData) {
             XElement vInfoConexionArticuloInventario = FindInfoArticuloInventario(refData);
-            var vListArticuloInventario = (from vRecord in vInfoConexionArticuloInventario.Descendants("GpResult")
+            XElement vInfoConexionArticuloInventarioLote = FindInfoArticuloInventarioLote(refData);
+            var vListArticuloInventario = (from vRecord in vInfoConexionArticuloInventario.Descendants("GpResult")                                           
+                                            
                                            select new {
                                                ConsecutivoCompania = LibConvert.ToInt(vRecord.Element("ConsecutivoCompania")),
                                                Codigo = vRecord.Element("Codigo").Value,
@@ -46,14 +48,37 @@ namespace Galac.Adm.Brl.GestionCompras {
                                                CodigoGrupo = vRecord.Element("CodigoGrupo").Value,
                                                TipoDeAlicuota = LibConvert.ToInt(vRecord.Element("AlicuotaIVA").Value),
                                                TipoDeArticulo = LibConvert.ToInt(vRecord.Element("TipoDeArticulo").Value)
+                                               
                                            }).Distinct();
+            if (vInfoConexionArticuloInventarioLote == null) {
+                vInfoConexionArticuloInventarioLote = new XElement("GpData", 
+                    new XElement("GpResult", new XElement("ConsecutivoCompania",LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"))
+                    , new XElement("Consecutivo", -1), new XElement("CodigoLote", ""), new XElement("FechaDeElaboracion",""), new XElement("FechaDeVencimiento", "")));
+            }
+                var vListArticuloInventarioLote = (from vRecordLote in vInfoConexionArticuloInventarioLote.Descendants("GpResult")
+                                                   select new {
+                                                       ConsecutivoCompania = LibConvert.ToInt(vRecordLote.Element("ConsecutivoCompania")),
+                                                       Consecutivo = LibConvert.ToInt(vRecordLote.Element("Consecutivo")),
+                                                       CodigoLote = vRecordLote.Element("CodigoLote").Value,
+                                                       FechaDeElaboracion = LibConvert.ToDate(vRecordLote.Element("FechaDeElaboracion").Value),
+                                                       FechaDeVencimiento = LibConvert.ToDate(vRecordLote.Element("FechaDeVencimiento").Value)
+                                                   }).Distinct();
+             
 
+
+
+
+            
             foreach (Compra vItem in refData) {
                 vItem.DetailCompraDetalleArticuloInventario =
                     new System.Collections.ObjectModel.ObservableCollection<CompraDetalleArticuloInventario>((
-                        from vDetail in vItem.DetailCompraDetalleArticuloInventario                        
+                        from vDetail in vItem.DetailCompraDetalleArticuloInventario
+                        join vLote in vListArticuloInventarioLote
+                                                           on vDetail.ConsecutivoLoteDeInventario 
+                                                           equals vLote.Consecutivo into joinedResults
+                        from joinresult in joinedResults.DefaultIfEmpty()
                         from vArticuloInventario in vListArticuloInventario
-                        where (vDetail.ConsecutivoCompania == vArticuloInventario.ConsecutivoCompania
+                        where (vDetail.ConsecutivoCompania == vArticuloInventario.ConsecutivoCompania                        
                         && (vDetail.CodigoArticulo == vArticuloInventario.Codigo || vDetail.CodigoArticulo == vArticuloInventario.CodigoCompuesto))
                       
                         select new CompraDetalleArticuloInventario {
@@ -68,11 +93,16 @@ namespace Galac.Adm.Brl.GestionCompras {
                             PorcentajeDeDistribucion = vDetail.PorcentajeDeDistribucion,
                             PorcentajeSeguro = vDetail.PorcentajeSeguro,                             
                             DescripcionArticulo = vArticuloInventario.Descripcion,
-                            TipoArticuloInv = vArticuloInventario.TipoDeArticuloInv,
+                            TipoArticuloInvAsEnum = vArticuloInventario.TipoDeArticuloInv,
                             CodigoGrupo = vArticuloInventario.CodigoGrupo,
                             TipoDeAlicuota = vArticuloInventario.TipoDeAlicuota,
-                            TipoDeArticulo  = vArticuloInventario.TipoDeArticulo
-                            , CostoUnitario = vDetail.PrecioUnitario
+                            TipoDeArticulo  = vArticuloInventario.TipoDeArticulo,
+                            CostoUnitario = vDetail.PrecioUnitario,
+                            ConsecutivoLoteDeInventario = vDetail.ConsecutivoLoteDeInventario,
+                            CodigoLote = !System.NullReferenceException.ReferenceEquals(joinresult, null)? joinresult.CodigoLote:"",
+                            FechaDeElaboracion = !System.NullReferenceException.ReferenceEquals(joinresult, null) ? joinresult.FechaDeElaboracion : LibDate.EmptyDate() ,  
+                           FechaDeVencimiento = !System.NullReferenceException.ReferenceEquals(joinresult, null) ? joinresult.FechaDeVencimiento : LibDate.EmptyDate()
+
                         }).ToList<CompraDetalleArticuloInventario>());
             }
         }
@@ -87,11 +117,29 @@ namespace Galac.Adm.Brl.GestionCompras {
             return vXElementResult;
         }
 
+        private XElement FindInfoArticuloInventarioLote(IList<Compra> valData) {
+            XElement vXElement = new XElement("GpData");
+            foreach (Compra vItem in valData) {
+                vXElement.Add(FilterCompraDetalleArticuloInventarioByDistinctArticuloInventarioLote(vItem).Descendants("GpResult"));
+            }
+            ILibPdn insLoteDeInventario = new Galac.Saw.Brl.Inventario.clsLoteDeInventarioNav();
+            XElement vXElementResult = insLoteDeInventario.GetFk("Compra", ParametersGetFKArticuloInventarioForXmlSubSet(valData[0].ConsecutivoCompania, vXElement));
+            return vXElementResult;
+        }
+
         private XElement FilterCompraDetalleArticuloInventarioByDistinctArticuloInventario(Compra valMaster) {
             XElement vXElement = new XElement("GpData",
                 from vEntity in valMaster.DetailCompraDetalleArticuloInventario.Distinct()
                 select new XElement("GpResult",
                     new XElement("Codigo", vEntity.CodigoArticulo)));
+            return vXElement;
+        }
+
+        private XElement FilterCompraDetalleArticuloInventarioByDistinctArticuloInventarioLote(Compra valMaster) {
+            XElement vXElement = new XElement("GpData",
+                from vEntity in valMaster.DetailCompraDetalleArticuloInventario.Distinct()
+                select new XElement("GpResult",
+                    new XElement("Consecutivo", vEntity.ConsecutivoLoteDeInventario)));
             return vXElement;
         }
 

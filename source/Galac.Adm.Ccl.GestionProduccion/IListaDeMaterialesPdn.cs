@@ -11,8 +11,8 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         XElement FindByConsecutivoCompaniaCodigo(int valConsecutivoCompania, string valCodigo);
         XElement FindByConsecutivoCompaniaNombre(int valConsecutivoCompania, string valNombre);
         string NombreParaMostrarListaDeMateriales();
-        bool ExisteListaDeMaterialesConEsteCodigo(int valConsecutivoCompania, string valCodigo);
-        bool ExisteListaDeMaterialesConEsteNombre(int valConsecutivoCompania, string valNombre);
+        //bool ExisteListaDeMaterialesConEsteCodigo(int valConsecutivoCompania, string valCodigo);
+        //bool ExisteListaDeMaterialesConEsteNombre(int valConsecutivoCompania, string valNombre);
 		#endregion //Metodos Generados
     } //End of class IListaDeMaterialesPdn
 

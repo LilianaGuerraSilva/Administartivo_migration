@@ -1,0 +1,285 @@
+﻿<UserControl
+    x:Class="Galac.Saw.Uil.Inventario.Views.GSNotaDeEntradaSalidaView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Views="clr-namespace:Galac.Saw.Uil.Inventario.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:nsVm="clr-namespace:Galac.Saw.Uil.Inventario.ViewModel"
+    xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+    Width="750">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" MinWidth="120" />
+            <ColumnDefinition Width="Auto" MinWidth="135" />
+            <ColumnDefinition Width="Auto" MinWidth="216" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label
+            x:Name="lblNumeroDocumento"
+            Grid.Row="0"
+            Grid.Column="0"
+            Height="24"
+            Margin="3,3,29,0"
+            HorizontalAlignment="Stretch"
+            Content="N° Documento"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSTextBoxWpf
+            x:Name="txtNumeroDocumento"
+            Grid.Row="0"
+            Grid.Column="1"
+            Height="Auto"
+            Margin="3,4,10,4"
+            HorizontalAlignment="Stretch"
+            nsWpf:LibFocusManager.FocusedPropertyName="NumeroDocumento"
+            nsWpf:LibFocusManager.IsFocused="True"
+            BorderThickness="1"
+            InputDataType="Alfanumeric"
+            IsEnabled="{Binding Path=NotaESIsEnabled}"
+            MaxLength="11"
+            Style="{StaticResource TextBoxInputStyle}"
+            Text="{Binding NumeroDocumento, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+        <Grid Grid.Row="0" Grid.Column="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Label
+                x:Name="lblFecha"
+                Grid.Row="0"
+                Grid.Column="0"
+                Width="45"
+                Height="24"
+                Margin="3,3,0,0"
+                HorizontalAlignment="Right"
+                Content="Fecha"
+                Style="{StaticResource LabelPrompt}" />
+            <nsWpfControls:GSDatePickerWpf
+                x:Name="dtpFecha"
+                Grid.Row="0"
+                Grid.Column="1"
+                Width="120"
+                Height="Auto"
+                Margin="3,4,0,4"
+                IsEnabled="{Binding Path=NotaESIsEnabled}"
+                SelectedDate="{Binding Fecha, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Style="{StaticResource DatePickerStyle}" />
+        </Grid>
+        <Label
+            x:Name="lblTipodeOperacion"
+            Grid.Row="1"
+            Grid.Column="0"
+            Height="24"
+            Margin="3,3,52,0"
+            HorizontalAlignment="Stretch"
+            Content="Operación"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf
+            x:Name="cmbTipodeOperacion"
+            Grid.Row="1"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            Height="Auto"
+            Margin="3,3,170,3"
+            HorizontalAlignment="Stretch"
+            IsEnabled="{Binding NotaESIsEnabled}"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding ArrayTipodeOperacion}"
+            SelectedItem="{Binding TipodeOperacion, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+            Style="{StaticResource ComboBoxStyle}" />
+        <Label
+            x:Name="lblCodigoCliente"
+            Grid.Row="2"
+            Grid.Column="0"
+            Height="24"
+            Margin="3,3,70,0"
+            HorizontalAlignment="Stretch"
+            Content="Cliente"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSSeekConnection
+            x:Name="txtCodigoCliente"
+            Grid.Row="2"
+            Grid.Column="1"
+            Height="25"
+            Margin="3,4,10,4"
+            ConnectionValue="{Binding CodigoCliente, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+            DisplayMemberPath="codigo"
+            IsEnabled="{Binding Path=NotaESIsEnabled}"
+            Model="{Binding ConexionCodigoCliente, Mode=TwoWay}"
+            SearchCommand="{Binding ChooseCodigoClienteCommand}" />
+        <nsWpfControls:GSSeekConnection
+            x:Name="txtNombreCliente"
+            Grid.Row="2"
+            Grid.Column="2"
+            Grid.ColumnSpan="2"
+            Width="332"
+            Height="25"
+            Margin="3,4,0,4"
+            HorizontalAlignment="Left"
+            ConnectionValue="{Binding NombreCliente, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+            DisplayMemberPath="nombre"
+            IsEnabled="{Binding Path=NotaESIsEnabled}"
+            Model="{Binding ConexionNombreCliente, Mode=TwoWay}"
+            SearchCommand="{Binding ChooseNombreClienteCommand}" />
+        <Label
+            x:Name="lblCodigoAlmacen"
+            Grid.Row="3"
+            Grid.Column="0"
+            Height="24"
+            Margin="3,3,60,0"
+            HorizontalAlignment="Stretch"
+            Content="Almacén"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSSeekConnection
+            x:Name="txtCodigoAlmacen"
+            Grid.Row="3"
+            Grid.Column="1"
+            Height="25"
+            Margin="3,4,10,0"
+            ConnectionValue="{Binding CodigoAlmacen, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+            DisplayMemberPath="Codigo"
+            IsEnabled="False"
+            Model="{Binding ConexionCodigoAlmacen, Mode=TwoWay}"
+            SearchCommand="{Binding ChooseCodigoAlmacenCommand}" />
+        <Label
+            x:Name="lneNombreAlmacen"
+            Grid.Row="3"
+            Grid.Column="2"
+            Grid.ColumnSpan="2"
+            Width="332"
+            Height="25"
+            Margin="3,3,0,0"
+            Content="{Binding NombreAlmacen}"
+            Style="{StaticResource LabelCalculatedField}" />
+        <Label
+            x:Name="lblComentarios"
+            Grid.Row="4"
+            Grid.Column="0"
+            Height="24"
+            Margin="3,3,39,0"
+            HorizontalAlignment="Stretch"
+            Content="Comentarios"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSTextBoxWpf
+            x:Name="txtComentarios"
+            Grid.Row="4"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Height="55"
+            Margin="3,3,0,3"
+            HorizontalAlignment="Stretch"
+            BorderThickness="1"
+            InputDataType="Alfanumeric"
+            IsEnabled="{Binding Path=NotaESIsEnabled}"
+            IsReadOnly="{Binding IsReadOnly}"
+            MaxLength="255"
+            Style="{StaticResource TextBoxInputStyle}"
+            Text="{Binding Comentarios, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+            VerticalScrollBarVisibility="Auto" />
+        <Label
+            x:Name="lneStatusNotaEntradaSalida"
+            Grid.Row="0"
+            Grid.Column="3"
+            Grid.ColumnSpan="2"
+            Content="{Binding StatusNotaEntradaSalidaStr}"
+            Style="{StaticResource LabelStatusBlue}" />
+        <ContentControl
+            Name="cntInicoRenglonNotaES"
+            Grid.Row="5"
+            Grid.Column="0"
+            Grid.ColumnSpan="4"
+            Width="730"
+            Margin="0,3">
+            <Grid Name="gdRenglonNotaES">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <ContentControl
+                    x:Name="cntRenglonNotaES"
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    Margin="0,0,0,5"
+                    Content="{Binding Path=DetailRenglonNotaES.SelectedItem}"
+                    Focusable="False"
+                    IsEnabled="{Binding Path=IsEnabled}" />
+                <Border
+                    Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    Height="25"
+                    Background="Transparent"
+                    BorderBrush="LightGray"
+                    BorderThickness="0,0,0,1"
+                    IsEnabled="{Binding Path=NotaESIsEnabled}">
+                    <StackPanel Orientation="Horizontal">
+                        <Button
+                            nsWpf:LibKeyboardListener.FocusTarget="{Binding ElementName=cntRenglonNotaES}"
+                            Command="{Binding Path=DetailRenglonNotaES.CreateCommand}"
+                            IsEnabled="{Binding Path=IsEnabled}"
+                            Style="{StaticResource MenuButtonStyle}"
+                            ToolTip="Nuevo">
+                            <Image Focusable="False" Source="/LibGalac.Aos.UI.WpfRD;component/Images/add.png" />
+                        </Button>
+                        <Button
+                            Command="{Binding Path=DetailRenglonNotaES.DeleteCommand}"
+                            IsEnabled="{Binding Path=IsEnabled}"
+                            Style="{StaticResource MenuButtonStyle}"
+                            ToolTip="Eliminar">
+                            <Image Focusable="False" Source="/LibGalac.Aos.UI.WpfRD;component/Images/delete.png" />
+                        </Button>
+                    </StackPanel>
+                </Border>
+                <nsWpfControls:GSDataGrid
+                    x:Name="dgRenglonNotaES"
+                    Grid.Row="2"
+                    Grid.ColumnSpan="4"
+                    Height="100"
+                    MinWidth="250"
+                    MinHeight="100"
+                    ColumnsMap="{Binding DetailRenglonNotaES.VisibleColumns}"
+                    Focusable="False"
+                    IsReadOnly="True"
+                    IsSynchronizedWithCurrentItem="True"
+                    ItemsSource="{Binding DetailRenglonNotaES.Items}"
+                    KeyboardNavigation.IsTabStop="False"
+                    SelectedIndex="{Binding DetailRenglonNotaES.SelectedIndex}"
+                    SelectedItem="{Binding DetailRenglonNotaES.SelectedItem, Mode=OneWayToSource}"
+                    Style="{StaticResource GSDataGridStyle}" />
+            </Grid>
+        </ContentControl>
+        <!--</ScrollViewer>-->
+    </Grid>
+</UserControl>

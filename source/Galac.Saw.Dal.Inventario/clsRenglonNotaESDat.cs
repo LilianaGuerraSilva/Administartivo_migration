@@ -41,13 +41,14 @@ namespace Galac.Saw.Dal.Inventario {
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
             vParams.AddInString("NumeroDocumento", valRecord.NumeroDocumento, 11);
             vParams.AddInInteger("ConsecutivoRenglon", valRecord.ConsecutivoRenglon);
-            vParams.AddInString("CodigoArticulo", valRecord.CodigoArticulo, 15);
+            vParams.AddInString("CodigoArticulo", valRecord.CodigoArticulo, 30);
             vParams.AddInDecimal("Cantidad", valRecord.Cantidad, 2);
             vParams.AddInEnum("TipoArticuloInv", valRecord.TipoArticuloInvAsDB);
             vParams.AddInString("Serial", valRecord.Serial, 50);
             vParams.AddInString("Rollo", valRecord.Rollo, 20);
             vParams.AddInDecimal("CostoUnitario", valRecord.CostoUnitario, 2);
             vParams.AddInDecimal("CostoUnitarioME", valRecord.CostoUnitarioME, 2);
+            vParams.AddInString("LoteDeInventario", valRecord.LoteDeInventario, 30);
             vResult = vParams.Get();
             return vResult;
         }
@@ -119,7 +120,8 @@ namespace Galac.Saw.Dal.Inventario {
                     new XElement("Serial", vEntity.Serial),
                     new XElement("Rollo", vEntity.Rollo),
                     new XElement("CostoUnitario", vEntity.CostoUnitario),
-                    new XElement("CostoUnitarioME", vEntity.CostoUnitarioME)));
+                    new XElement("CostoUnitarioME", vEntity.CostoUnitarioME),
+                    new XElement("LoteDeInventario", vEntity.LoteDeInventario)));
             return vXElement;
         }
         #region Miembros de ILibDataDetailComponent<IList<RenglonNotaES>, IList<RenglonNotaES>>
@@ -167,17 +169,16 @@ namespace Galac.Saw.Dal.Inventario {
         #region Validaciones
         protected override bool Validate(eAccionSR valAction, out string outErrorMessage) {
             bool vResult = true;
-            ClearValidationInfo();
+            ClearValidationInfo();            
             vResult = IsValidCodigoArticulo(valAction, CurrentRecord.CodigoArticulo);
-            vResult = IsValidCantidad(valAction, CurrentRecord.Cantidad) && vResult;
-            vResult = IsValidTipoArticuloInv(valAction, CurrentRecord.TipoArticuloInvAsEnum) && vResult;
+            vResult = IsValidLoteDeInventario(valAction, CurrentRecord.LoteDeInventario, CurrentRecord.TipoArticuloInvAsEnum) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
         }
 
         private bool IsValidCodigoArticulo(eAccionSR valAction, string valCodigoArticulo){
             bool vResult = true;
-            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar) || (valAction == eAccionSR.Anular)) {
                 return true;
             }
             valCodigoArticulo = LibString.Trim(valCodigoArticulo);
@@ -190,17 +191,33 @@ namespace Galac.Saw.Dal.Inventario {
 
         private bool IsValidCantidad(eAccionSR valAction, decimal valCantidad){
             bool vResult = true;
-            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar) || (valAction == eAccionSR.Anular)) {
                 return true;
             }
-            throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
+            if (valCantidad <= 0) {
+                BuildValidationInfo("El campo Cantidad debe ser mayor a cero (0).");
+                vResult = false;
+            }
             return vResult;
         }
 
-        private bool IsValidTipoArticuloInv(eAccionSR valAction, eTipoArticuloInv valTipoArticuloInv){
+        private bool IsValidLoteDeInventario(eAccionSR valAction, string valLoteDeInventario, eTipoArticuloInv valTipoArticuloInv) {
             bool vResult = true;
-            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar) || (valAction == eAccionSR.Anular)) {
                 return true;
+            }
+            if (valTipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || valTipoArticuloInv == eTipoArticuloInv.Lote) {
+                valLoteDeInventario = LibString.Trim(valLoteDeInventario);
+                if (LibString.IsNullOrEmpty(valLoteDeInventario, true)) {
+                    BuildValidationInfo(MsgRequiredField("Lote de Inventario"));
+                    vResult = false;
+                } else {
+                    LibDatabase insDb = new LibDatabase();
+                    if (!insDb.ExistsValue("Saw.LoteDeInventario", "CodigoLote", insDb.InsSql.ToSqlValue(valLoteDeInventario), true)) {
+                        BuildValidationInfo("El valor asignado al campo Lote De Inventario no existe, escoga nuevamente.");
+                        vResult = false;
+                    }
+                }
             }
             return vResult;
         }

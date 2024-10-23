@@ -272,6 +272,8 @@ namespace Galac.Saw.Brl.SttDef {
             insEntidad.EsSistemaParaIGAsBool = false;
             insEntidad.UsaNotaEntregaAsBool = false;
             insEntidad.SuscripcionGVentas = "1000";
+            insEntidad.NumeroIDGVentas = "";
+            insEntidad.SerialConectorGVentas = "";
             return insEntidad;
         }
         private void LlenaListado(GeneralStt valRecord, ref List<SettValueByCompany> valBusinessObject, int valConsecutivoCompania) {
@@ -284,6 +286,8 @@ namespace Galac.Saw.Brl.SttDef {
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.ValidarRifEnLaWebAsBool), "ValidarRifEnLaWeb", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaNotaEntregaAsBool), "UsaNotaEntrega", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(valRecord.SuscripcionGVentas, "SuscripcionGVentas", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(valRecord.SerialConectorGVentas, "SerialConectorGVentas", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(valRecord.NumeroIDGVentas, "NumeroIDGVentas", valConsecutivoCompania));
         }
 
         GeneralStt GetGeneralStt(List<SettValueByCompany> valListGetSettValueByCompany) {
@@ -299,6 +303,8 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.EsSistemaParaIGAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "EsSistemaParaIG"));
             vResult.UsaNotaEntregaAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaNotaEntrega"));
             vResult.SuscripcionGVentas = ValorSegunColumna(valListGetSettValueByCompany, "SuscripcionGVentas");
+            vResult.NumeroIDGVentas = ValorSegunColumna(valListGetSettValueByCompany, "NumeroIDGVentas");
+            vResult.SerialConectorGVentas = ValorSegunColumna(valListGetSettValueByCompany, "SerialConectorGVentas");
             return vResult;
         }
         #endregion // GeneralStt
@@ -962,6 +968,7 @@ namespace Galac.Saw.Brl.SttDef {
             insEntidad.SinonimoSerial = "Serial";
             insEntidad.SinonimoRollo = "Rollo";
             insEntidad.ImprimeSerialRolloLuegoDeDescripArticuloAsBool = false;
+            insEntidad.UsaLoteFechaDeVencimientoAsBool = false;
             return insEntidad;
         }
 
@@ -995,6 +1002,7 @@ namespace Galac.Saw.Brl.SttDef {
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.AvisoDeReservasvencidasAsBool), "AvisoDeReservasvencidas", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.VerificarStockAsBool), "VerificarStock", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.ImprimeSerialRolloLuegoDeDescripArticuloAsBool), "ImprimeSerialRolloLuegoDeDescripArticulo", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaLoteFechaDeVencimientoAsBool), "UsaLoteFechaDeVencimiento", valConsecutivoCompania));            
         }
         InventarioStt GetInventarioStt(List<SettValueByCompany> valListGetSettValueByCompany) {
             InventarioStt vResult = new InventarioStt();
@@ -1022,6 +1030,7 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.AvisoDeReservasvencidasAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "AvisoDeReservasvencidas"));
             vResult.VerificarStockAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "VerificarStock"));
             vResult.ImprimeSerialRolloLuegoDeDescripArticuloAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "ImprimeSerialRolloLuegoDeDescripArticulo"));
+            vResult.UsaLoteFechaDeVencimientoAsBool= LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaLoteFechaDeVencimiento"));
             return vResult;
         }
         #endregion // InventarioStt
@@ -2592,16 +2601,15 @@ namespace Galac.Saw.Brl.SttDef {
                 vContinuar = true;
             }
             if (vContinuar) {
-                clsImprentaDigitalSettings insIDStt = new clsImprentaDigitalSettings {
-                    DireccionURL = valUrl,
-                    CampoUsuario = vCampoUsuario,
-                    CampoClave = vCampoClave,
-                    Usuario = valUsuario,
-                    Clave = LibCryptography.SymEncryptDES(valClave)
+                clsImprentaDigitalSettings insIDStt = new clsImprentaDigitalSettings() {
+                    DireccionURL = LibString.Trim(valUrl),
+                    CampoUsuario = LibString.Trim(vCampoUsuario),
+                    CampoClave = LibString.Trim(vCampoClave),
+                    Usuario = LibString.Trim(valUsuario),
+                    Clave = LibString.Trim(LibCryptography.SymEncryptDES(valClave))
                 };
                 insIDStt.ActualizarValores();
             }
-
         }
 
         ObservableCollection<string> ISettValueByCompanyPdn.ListaDeUsuariosSupervisoresActivos() {
@@ -2619,7 +2627,7 @@ namespace Galac.Saw.Brl.SttDef {
             return vResult;
         }
 
-        bool ISettValueByCompanyPdn.EjecutaConexionConGVentas(int valConsecutivoCompania, string valParametroSuscripcionGVentas, string valSerialConectorGVentas, string valNombreCompaniaAdmin, string valNombreUsuarioOperaciones) {
+        bool ISettValueByCompanyPdn.EjecutaConexionConGVentas(int valConsecutivoCompania, string valParametroSuscripcionGVentas, string valSerialConectorGVentas, string valNombreCompaniaAdmin, string valNombreUsuarioOperaciones, eAccionSR valAction) {
             try {
                 bool vResult = false;
                 LibWebConnector.clsSuscripcion insSuscripcion = new LibWebConnector.clsSuscripcion();
@@ -2628,8 +2636,12 @@ namespace Galac.Saw.Brl.SttDef {
                 int vGuionSeparador = LibString.IndexOf(valNombreCompaniaAdmin, '|') + 1;
                 string vRIFCompaniaGVentas = LibString.Trim(LibString.SubString(valNombreCompaniaAdmin, vGuionSeparador + 1));
                 valNombreCompaniaAdmin = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre");
-                if (insSuscripcion.ActivarConexionGVentas(valConsecutivoCompania, valSerialConectorGVentas, vRIFCompaniaGVentas, valNombreCompaniaAdmin, valNombreUsuarioOperaciones, vDatabaseName, vServerName)) {
-                    ActualizaValoresEnAdministrativo(valConsecutivoCompania, valParametroSuscripcionGVentas, valSerialConectorGVentas, valNombreCompaniaAdmin);
+                if (insSuscripcion.ActivarDesactivarConexionGVentas(valConsecutivoCompania, valSerialConectorGVentas, vRIFCompaniaGVentas, valNombreCompaniaAdmin, valNombreUsuarioOperaciones, vDatabaseName, vServerName, valAction)) {
+                    if (valAction == eAccionSR.Activar) {
+                        ActualizaValoresEnAdministrativo(valConsecutivoCompania, valParametroSuscripcionGVentas, valSerialConectorGVentas, valNombreCompaniaAdmin, valAction);
+                    } else if (valAction == eAccionSR.Desactivar) {
+                        ActualizaValoresEnAdministrativo(valConsecutivoCompania, "", "", "", valAction);
+                    }
                     vResult = true;
                 }
                 return vResult;
@@ -2638,9 +2650,10 @@ namespace Galac.Saw.Brl.SttDef {
             }
         }
 
-        private void ActualizaValoresEnAdministrativo(int valConsecutivoCompania, string valParametroSuscripcionGVentas, string valSerialConectorGVentas, string valNumeroIDGVentas) {
+        private void ActualizaValoresEnAdministrativo(int valConsecutivoCompania, string valParametroSuscripcionGVentas, string valSerialConectorGVentas, string valNumeroIDGVentas, eAccionSR valAction) {
             QAdvSql insSql = new QAdvSql("");
-            string vSql = "UPDATE COMPANIA SET ConectadaConG360 = " + insSql.ToSqlValue(true) + " WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania);
+            string vActivaDesactivaCompania = (valAction == eAccionSR.Activar ? insSql.ToSqlValue(true) : insSql.ToSqlValue(false));
+            string vSql = "UPDATE COMPANIA SET ConectadaConG360 = " + vActivaDesactivaCompania + " WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania);
             LibBusiness.ExecuteUpdateOrDelete(vSql, null, "", 0);
             vSql = "UPDATE Comun.SettValueByCompany SET Value = " + insSql.ToSqlValue(valParametroSuscripcionGVentas) + " WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania) + " AND NameSettDefinition = " + insSql.ToSqlValue("SuscripcionGVentas");
             LibBusiness.ExecuteUpdateOrDelete(vSql, null, "", 0);
@@ -2650,5 +2663,28 @@ namespace Galac.Saw.Brl.SttDef {
             LibBusiness.ExecuteUpdateOrDelete(vSql, null, "", 0);
         }
 
+        bool ISettValueByCompanyPdn.ExistenArticulosMercanciaNoSimpleNoLoteFDV(int valConsecutivoCompania) {
+            bool vResult = false;
+            QAdvSql insSql = new QAdvSql("");
+            string vSql = "SELECT COUNT(*) AS CantidadArticulos FROM articuloInventario WHERE TipoDeArticulo = '0' AND TipoArticuloInv IN ('1', '2', '3', '4') AND ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania);
+            XElement vCountArtMercanciaNoSimpleNoLoteFdV = LibBusiness.ExecuteSelect(vSql, new StringBuilder(), string.Empty, 0);
+            if (vCountArtMercanciaNoSimpleNoLoteFdV != null) {
+                int vCount = LibConvert.ToInt(vCountArtMercanciaNoSimpleNoLoteFdV.Descendants().Select(s => s.Element("CantidadArticulos")).FirstOrDefault());
+                vResult = vCount > 0;
+            }
+            return vResult;
+        }
+
+        bool ISettValueByCompanyPdn.ExistenArticulosLoteFdV(int valConsecutivoCompania) {
+            bool vResult = false;
+            QAdvSql insSql = new QAdvSql("");
+            string vSql = "SELECT COUNT(*) AS CantidadArticulos FROM articuloInventario WHERE TipoDeArticulo = '0' AND TipoArticuloInv IN ('5') AND ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania);
+            XElement vCountArtMercanciaNoSimpleNoLoteFdV = LibBusiness.ExecuteSelect(vSql, new StringBuilder(), string.Empty, 0);
+            if (vCountArtMercanciaNoSimpleNoLoteFdV != null) {
+                int vCount = LibConvert.ToInt(vCountArtMercanciaNoSimpleNoLoteFdV.Descendants().Select(s => s.Element("CantidadArticulos")).FirstOrDefault());
+                vResult = vCount > 0;
+            }
+            return vResult;
+        }
     } //End of class clsSettValueByCompanyNav
 } //End of namespace Galac.Saw.Brl.PrdStt

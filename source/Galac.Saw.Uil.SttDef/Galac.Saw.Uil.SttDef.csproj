@@ -58,7 +58,7 @@
       <HintPath>..\packages\LibGalac.Aos.DefGen.5.24.1\lib\LibGalac.Aos.DefGen.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.Mvvm">
-      <HintPath>..\packages\LibGalac.Aos.UI.Mvvm.5.24.1\lib\LibGalac.Aos.UI.Mvvm.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.UI.Mvvm.5.24.2.4\lib\LibGalac.Aos.UI.Mvvm.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.Wpf">
       <HintPath>..\packages\LibGalac.Aos.UI.Wpf.5.24.0\lib\LibGalac.Aos.UI.Wpf.dll</HintPath>
@@ -70,7 +70,7 @@
       <HintPath>..\packages\LibGalac.Aos.UI.WpfRD.5.24.2.1\lib\LibGalac.Aos.UI.WpfRD.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Uil">
-      <HintPath>..\packages\LibGalac.Aos.Uil.5.24.1\lib\LibGalac.Aos.Uil.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Uil.5.24.2.4\lib\LibGalac.Aos.Uil.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Ssm.U">
       <HintPath>..\packages\LibGalac.Ssm.U.24.1.0\lib\LibGalac.Ssm.U.dll</HintPath>
@@ -454,6 +454,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Galac.Adm.Ccl.ImprentaDigital\Galac.Adm.Ccl.ImprentaDigital.csproj">
+      <Project>{09E94989-2C8C-457A-B6AF-1E529992F5CA}</Project>
+      <Name>Galac.Adm.Ccl.ImprentaDigital</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.LibWebConector\Galac.Saw.LibWebConnector.csproj">
       <Project>{08f52bb0-7708-4326-b74c-ac49629c8647}</Project>
       <Name>Galac.Saw.LibWebConnector</Name>

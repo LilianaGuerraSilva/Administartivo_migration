@@ -104,14 +104,14 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         protected override void InitializeRibbon() {
             base.InitializeRibbon();
-            if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
-                RibbonData.TabDataCollection[0].GroupDataCollection[0].AddRibbonControlData(CreateReinstallRibbonButtonData());
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-                RibbonData.TabDataCollection[0].AddTabGroupData(CreateSUPROCESOPARTICULARRibbonGroup());
-        */
-        #endregion //Codigo Ejemplo
-            }
+        //    if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
+        //        RibbonData.TabDataCollection[0].GroupDataCollection[0].AddRibbonControlData(CreateReinstallRibbonButtonData());
+        //#region Codigo Ejemplo
+        ///* Codigo de Ejemplo
+        //        RibbonData.TabDataCollection[0].AddTabGroupData(CreateSUPROCESOPARTICULARRibbonGroup());
+        //*/
+        //#endregion //Codigo Ejemplo
+        //    }
         }
 
         private LibRibbonButtonData CreateReinstallRibbonButtonData() {

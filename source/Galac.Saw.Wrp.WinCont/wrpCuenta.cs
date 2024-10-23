@@ -17,6 +17,7 @@ using LibGalac.Aos.Uil;
 using LibGalac.Aos.Vbwa;
 using Galac.Contab.Ccl.WinCont;
 using Galac.Contab.Brl.WinCont;
+using Galac.Contab.Uil.WinCont;
 using Galac.Contab.Core;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.WinCont {
@@ -199,7 +200,153 @@ namespace Galac.Saw.Wrp.WinCont {
             }
             return vResult;
         }
-    } //End of class wrpCuenta
+
+        string IWrpCuenta.EjecutaInformesEnExcel(string[] source, string PlantillaExcel, string ArchivoFinal, string NombreCortoCompania, string ArchivoSobreescribir, string mes, string year1, string year2, bool SobreEscribe, string[] HojasPlantillas) {
+            string vResult = string.Empty;
+            ICuentaPdn insPdn = new clsCuentaNav();
+
+            string vXmlResulset = insPdn.EjecutaInformesEnExcel(source, PlantillaExcel, ArchivoFinal, NombreCortoCompania, ArchivoSobreescribir, mes, year1, year2, SobreEscribe, HojasPlantillas);
+
+            if(vXmlResulset != null) {
+                vResult = vXmlResulset.ToString();
+            }
+            return vResult;
+        }
+        void IWrpCuenta.ExportarArchivoCuentas(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
+            try {
+                CreateGlobalValues(vfwCurrentParameters);
+                ILibMenuMultiFile insMenu = new Galac.Contab.Uil.WinCont.clsExportarCuentasMenu();
+                insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1, LibGlobalValues.Instance.GVDictionary);
+            } catch (GalacException gEx) {
+                LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
+            } catch (Exception vEx) {
+                if (vEx is AccessViolationException) {
+                    throw;
+                }
+                LibExceptionDisplay.Show(vEx);
+            }
+        }
+
+        void IWrpCuenta.ExportacionDeDatosParaAXI(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
+            try {
+                CreateGlobalValues(vfwCurrentParameters);
+                ILibMenuMultiFile insMenu = new Galac.Contab.Uil.WinCont.clsExportarDatosAxiMenu();
+                insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1, LibGlobalValues.Instance.GVDictionary);
+            } catch(GalacException gEx) {
+                LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
+            } catch(Exception vEx) {
+                if(vEx is AccessViolationException) {
+                    throw;
+                }
+                LibExceptionDisplay.Show(vEx);
+            }
+        }
+
+        //
+        void IWrpCuenta.ExportacionDeDatosParaISLR(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
+            try {
+                CreateGlobalValues(vfwCurrentParameters);
+                ILibMenuMultiFile insMenu = new Galac.Contab.Uil.WinCont.clsExportarDatosISLRMenu();
+                insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1, LibGlobalValues.Instance.GVDictionary);
+            } catch(GalacException gEx) {
+                LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
+            } catch(Exception vEx) {
+                if(vEx is AccessViolationException) {
+                    throw;
+                }
+                LibExceptionDisplay.Show(vEx);
+            }
+        }
+        void IWrpCuenta.ExportarComprobantes(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
+            try {
+                CreateGlobalValues(vfwCurrentParameters);
+                ILibMenuMultiFile insMenu = new Galac.Contab.Uil.WinCont.clsExportarComprobantesMenu();
+                insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1, LibGlobalValues.Instance.GVDictionary);
+            } catch(GalacException gEx) {
+                LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
+            } catch(Exception vEx) {
+                if(vEx is AccessViolationException) {
+                    throw;
+                }
+                LibExceptionDisplay.Show(vEx);
+            }
+        }
+
+        void IWrpCuenta.ReiniciarTablasDeReportes(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
+            try {
+                CreateGlobalValues(vfwCurrentParameters);
+                IReiniciarTablasTemporales insPdn = new clsReiniciarTablasTemporalesProceso();
+
+                insPdn.ReiniciarTablasTemporales();
+            } catch(GalacException gEx) {
+                LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
+            } catch(Exception vEx) {
+                if(vEx is AccessViolationException) {
+                    throw;
+                }
+                LibExceptionDisplay.Show(vEx);
+            }
+        }
+        void IWrpCuenta.CrearTablasDeReportesTMP(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
+            try {
+                CreateGlobalValues(vfwCurrentParameters);
+                IReiniciarTablasTemporales insPdn = new clsReiniciarTablasTemporalesProceso();
+
+                insPdn.CrearTablasTMP();
+            } catch(GalacException gEx) {
+                LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
+            } catch(Exception vEx) {
+                if(vEx is AccessViolationException) {
+                    throw;
+                }
+                LibExceptionDisplay.Show(vEx);
+            }
+        }
+
+        void IWrpCuenta.CambiarNivelParaAsientosPeriodo(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
+            try {
+                CreateGlobalValues(vfwCurrentParameters);
+                ILibMenuMultiFile insMenu = new Galac.Contab.Uil.WinCont.clsCambiarNivelParaAsientosMenu();
+                insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1, LibGlobalValues.Instance.GVDictionary);
+            } catch(GalacException gEx) {
+                LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
+            } catch(Exception vEx) {
+                if(vEx is AccessViolationException) {
+                    throw;
+                }
+                LibExceptionDisplay.Show(vEx);
+            }
+        }
+
+        void IWrpCuenta.CambiarNivelParaImpresion(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
+            try {
+                CreateGlobalValues(vfwCurrentParameters);
+                ILibMenuMultiFile insMenu = new Galac.Contab.Uil.WinCont.clsCambiarNivelParaImpresionMenu();
+                insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1, LibGlobalValues.Instance.GVDictionary);
+            } catch(GalacException gEx) {
+                LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
+            } catch(Exception vEx) {
+                if(vEx is AccessViolationException) {
+                    throw;
+                }
+                LibExceptionDisplay.Show(vEx);
+            }
+        }
+        void IWrpCuenta.AbrirCerrarMes(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
+            try {
+                CreateGlobalValues(vfwCurrentParameters);
+                ILibMenuMultiFile insMenu = new Galac.Contab.Uil.WinCont.clsAbrirCerrarMesMenu();
+                insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1, LibGlobalValues.Instance.GVDictionary);
+            } catch(GalacException gEx) {
+                LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
+            } catch(Exception vEx) {
+                if(vEx is AccessViolationException) {
+                    throw;
+                }
+                LibExceptionDisplay.Show(vEx);
+            }
+        }
+    } //End of class wrpCuenta  
 
 } //End of namespace Galac.Iva.Wrp.Cuenta
 

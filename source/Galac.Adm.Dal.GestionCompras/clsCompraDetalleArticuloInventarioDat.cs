@@ -48,6 +48,7 @@ namespace Galac.Adm.Dal.GestionCompras {
             vParams.AddInDecimal("PorcentajeDeDistribucion", valRecord.PorcentajeDeDistribucion, 2);
             vParams.AddInDecimal("MontoDistribucion", valRecord.MontoDistribucion, 2);
             vParams.AddInDecimal("PorcentajeSeguro", valRecord.PorcentajeSeguro, 2);
+            vParams.AddInInteger("ConsecutivoLoteDeInventario", valRecord.ConsecutivoLoteDeInventario);
             vResult = vParams.Get();
             return vResult;
         }
@@ -119,7 +120,8 @@ namespace Galac.Adm.Dal.GestionCompras {
                     new XElement("CantidadRecibida", vEntity.CantidadRecibida),
                     new XElement("PorcentajeDeDistribucion", vEntity.PorcentajeDeDistribucion),
                     new XElement("MontoDistribucion", vEntity.MontoDistribucion),
-                    new XElement("PorcentajeSeguro", vEntity.PorcentajeSeguro)));
+                    new XElement("PorcentajeSeguro", vEntity.PorcentajeSeguro),
+                    new XElement("ConsecutivoLoteDeInventario", vEntity.ConsecutivoLoteDeInventario)));
             return vXElement;
         }
         #region Miembros de ILibDataDetailComponent<IList<CompraDetalleArticuloInventario>, IList<CompraDetalleArticuloInventario>>

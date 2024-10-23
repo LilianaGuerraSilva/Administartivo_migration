@@ -309,6 +309,9 @@ namespace Galac.Saw.ViewModel {
                 new XElement("PorcentajePasajeAereo","50"),
                 new XElement("UsaPrecioSinIva","S"),
                 new XElement("CodigoAlmacen","UNICO"),
+                new XElement("ConsecutivoAlmacenGenerico", "1"),
+                new XElement("UsaAlmacen", "S"),
+                
                 new XElement("AplicarIVAEspecial","1"),
                 new XElement("AcumularItemsEnRenglonesDeFactura","N"),
                 new XElement("TipoDeNivelDePrecios","1"),
@@ -369,12 +372,15 @@ namespace Galac.Saw.ViewModel {
                 new XElement("ConsecutivoMunicipio","160"),
                 new XElement("CodigoMunicipio","VENLAR0003"),
                 new XElement("ModelosPlanillas","0"),
+                new XElement("CodigoAlmacenGenerico", "UNICO"),
+                new XElement("ConsecutivoAlmacenGenerico", "1"),
+                new XElement("UsaAlmacen", "S"),
                 new XElement("CantidadDeDecimales","3"),
                 new XElement("SesionEspecialPrecioSinIva","S"),
                 new XElement("SugerirNumeroDeOrdenDeCompra","N"),
                 new XElement("SesionEspecialModificarNumeroDigitosEnFactura","N"),
                 new XElement("OrigenDeLaRetencionISLR","1"),
-                new XElement("GenerarCxPDesdeCompra","S"),
+                new XElement("GenerarCxPDesdeCompra","N"),
                 new XElement("ConsecutivoCaja","2"),
                 new XElement("PorcentajeAlicuota1","16"),
                 new XElement("PorcentajeAlicuota2","8"),
@@ -403,9 +409,9 @@ namespace Galac.Saw.ViewModel {
                 new XElement("MuestraTipoComprobante", "S"),
                 new XElement("EsModuloDeProduccion", "S")),
             new XElement("Compania",
-                new XElement("Nombre","Prueba"),
-                new XElement("NumeroRif","J000001")));
-             LibGlobalValues.Instance.GetMfcInfo().Add("Compania", LibConvert.ToInt(""));
+                new XElement("Nombre", "Informática Tributaria, S.A."),
+                new XElement("NumeroRif", "J305125439")));
+             LibGlobalValues.Instance.GetMfcInfo().Add("Compania", LibConvert.ToInt("6"));
             return base.AddEspecialGlobalValues(valGlobalValuesElement);
         }
 

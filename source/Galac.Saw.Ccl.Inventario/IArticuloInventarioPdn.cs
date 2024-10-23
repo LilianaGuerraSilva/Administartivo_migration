@@ -17,5 +17,8 @@ namespace Galac.Saw.Ccl.Inventario {
         void ProcesaCostoPromedio(int valConsecutivoCompania, bool valVieneDeOperaciones, DateTime valFechaOperacion, string valCodigo, string valDocumento, string valOperacion);
         XElement DisponibilidadDeArticuloPorAlmacen(int valConsecutivoCompania, XElement valDataArticulo);
         bool RecalcularExistencia(int valConsecutivoCompania, string valCodigoAlmacen, List<XElement> valListaDeArticulos);
+        bool ExistenComprobantesDeCostoDeVentasPosteriores(int valConsecutivoCompania, DateTime valFecha);
+        decimal DisponibilidadDeArticulo(int valConsecutivoCompania, string valCodigoArticulo, int valConsecutivoLoteDeInventario);
+        XElement DisponibilidadDeArticuloPorLote(int valConsecutivoCompania, XElement valDataArticulo);
     }
 }

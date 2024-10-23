@@ -12,6 +12,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid FocusManager.FocusedElement="{Binding ElementName=txtCompaniaActualNombre}">
@@ -84,7 +85,8 @@
             Grid.Row="4"
             Grid.Column="0"
             Content="Serial del Conector"
-            Style="{StaticResource LabelPrompt}" />
+            Style="{StaticResource LabelPrompt}"
+            Visibility="{Binding Path=IsVisibleDatosEmpresa, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSTextBoxWpf
             Name="txtSerialConector"
             Grid.Row="4"
@@ -95,13 +97,15 @@
             MaxLength="36"
             Style="{StaticResource TextBoxInputStyle}"
             Text="{Binding Path=SerialConector, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-            VerticalScrollBarVisibility="Auto" />
+            VerticalScrollBarVisibility="Auto"
+            Visibility="{Binding Path=IsVisibleDatosEmpresa, Converter={StaticResource booleanToVisibilityConverter}}" />
         <Label
             Name="lblUsuarioDeOperaciones"
             Grid.Row="6"
             Grid.Column="0"
             Content="Usuario de Operaciones"
-            Style="{StaticResource LabelPrompt}" />
+            Style="{StaticResource LabelPrompt}"
+            Visibility="{Binding Path=IsVisibleDatosEmpresa, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSComboBoxWpf
             Name="cmbUsuarioDeOperaciones"
             Grid.Row="6"
@@ -110,6 +114,7 @@
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding Path=ListaUsuariosDeOperaciones}"
             SelectedItem="{Binding UsuarioDeOperaciones, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-            Style="{StaticResource ComboBoxStyle}" />
+            Style="{StaticResource ComboBoxStyle}"
+            Visibility="{Binding Path=IsVisibleDatosEmpresa, Converter={StaticResource booleanToVisibilityConverter}}" />
     </Grid>
 </UserControl>

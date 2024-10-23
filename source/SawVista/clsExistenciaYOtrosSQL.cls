@@ -218,45 +218,72 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
       "fSQLDelReporteCostoPorAlmacen", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fSQLDelReporteFormatoDeConteoFisico(ByVal valCodigoAlmacen As String, ByVal valLineaDeProductos As String, ByVal valCantidadAImprimirLineaDeProducto As String, ByVal valCantidadAImprimirAlmacen As String, ByVal valConsecutivoCompania As Long, ByRef gEnumReport As Object) As String
-   Dim sqlWhere As String
-   Dim SQL As String
+Public Function fSQLDelReporteFormatoDeConteoFisico(ByVal valCodigoAlmacen As String, ByVal valLineaDeProductos As String, ByVal valCantidadAImprimirLineaDeProducto As String, ByVal valCantidadAImprimirAlmacen As String, ByVal valConsecutivoCompania As Long, ByRef gEnumReport As Object, ByVal valNombreAlmacen As String) As String
+   Dim vSqlWhere As String
+   Dim vSql As String
    On Error GoTo h_ERROR
-   sqlWhere = sqlWhere & " WHERE " & "Almacen.ConsecutivoCompania" & _
+   vSqlWhere = vSqlWhere & " WHERE " & "Almacen.ConsecutivoCompania" & _
                " = " & valConsecutivoCompania
-   sqlWhere = sqlWhere & " AND " & "articuloInventario.TipoDeArticulo" & _
+   vSqlWhere = vSqlWhere & " AND articuloInventario.TipoArticuloInv " & _
+               " <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoArticuloInv.eTAI_Lote)
+   vSqlWhere = vSqlWhere & " AND articuloInventario.TipoArticuloInv " & _
+               " <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoArticuloInv.eTAI_LoteFechadeVencimiento)
+   vSqlWhere = vSqlWhere & " AND " & "articuloInventario.TipoDeArticulo" & _
                " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeArticulo.eTD_MERCANCIA)
-   sqlWhere = sqlWhere & " AND " & "articuloInventario.StatusdelArticulo" & _
+   vSqlWhere = vSqlWhere & " AND " & "articuloInventario.StatusdelArticulo" & _
                " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusArticulo.eSA_VIGENTE)
    If valCantidadAImprimirAlmacen = gEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
-      sqlWhere = sqlWhere & " AND " & "Almacen.Codigo" & _
+      vSqlWhere = vSqlWhere & " AND " & "Almacen.Codigo" & _
                   " = " & gUtilSQL.fSimpleSqlValue(Trim(valCodigoAlmacen))
    End If
    If valCantidadAImprimirLineaDeProducto = gEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
-      sqlWhere = sqlWhere & " AND " & "articuloInventario.LineaDeProducto" & _
+      vSqlWhere = vSqlWhere & " AND " & "articuloInventario.LineaDeProducto" & _
                   " = " & gUtilSQL.fSimpleSqlValue(Trim(valLineaDeProductos))
    End If
-      SQL = "SELECT ExistenciaPorAlmacen.CodigoArticulo, articuloInventario.Descripcion, articuloInventario.LineaDeProducto, almacen.Codigo AS CodigoAlmacen, "
-      SQL = SQL & " almacen.NombreAlmacen, existenciaPorAlmacen.Cantidad "
-      SQL = SQL & " FROM almacen INNER JOIN (articuloInventario INNER JOIN existenciaPorAlmacen ON (articuloInventario.Codigo = existenciaPorAlmacen.CodigoArticulo) "
-      SQL = SQL & " AND (articuloInventario.ConsecutivoCompania = existenciaPorAlmacen.ConsecutivoCompania)) ON (almacen.Codigo = existenciaPorAlmacen.CodigoAlmacen) "
-      SQL = SQL & " AND (almacen.ConsecutivoCompania = existenciaPorAlmacen.ConsecutivoCompania) "
-      SQL = SQL & sqlWhere
-      SQL = SQL & " UNION "
-      SQL = SQL & " SELECT ExistenciaPorAlmacen.CodigoArticulo, (articuloInventario.Descripcion+' '+Color.DescripcionColor+' '+Talla.DescripcionTalla)as Descripcion, articuloInventario.LineaDeProducto, almacen.Codigo AS CodigoAlmacen,"
-      SQL = SQL & " almacen.NombreAlmacen, existenciaPorAlmacen.Cantidad"
-      SQL = SQL & " FROM (almacen INNER JOIN existenciaPorAlmacen ON (almacen.Codigo = existenciaPorAlmacen.CodigoAlmacen) AND (almacen.ConsecutivoCompania = existenciaPorAlmacen.ConsecutivoCompania))"
-      SQL = SQL & " INNER JOIN (((ExistenciaPorGrupo INNER JOIN Talla ON (ExistenciaPorGrupo.ConsecutivoCompania = Talla.ConsecutivoCompania) AND (ExistenciaPorGrupo.CodigoTalla = Talla.CodigoTalla)) "
-      SQL = SQL & " INNER JOIN Color ON (ExistenciaPorGrupo.ConsecutivoCompania = Color.ConsecutivoCompania) AND (ExistenciaPorGrupo.CodigoColor = Color.CodigoColor)) "
-      SQL = SQL & " INNER JOIN articuloInventario ON (ExistenciaPorGrupo.ConsecutivoCompania = articuloInventario.ConsecutivoCompania) AND (ExistenciaPorGrupo.CodigoArticulo = articuloInventario.Codigo)) "
-      SQL = SQL & " ON (existenciaPorAlmacen.CodigoArticulo = (ExistenciaPorGrupo.CodigoArticulo+ExistenciaPorGrupo.CodigoColor+ExistenciaPorGRupo.codigoTalla)) "
-      SQL = SQL & " AND (existenciaPorAlmacen.ConsecutivoCompania = ExistenciaPorGrupo.ConsecutivoCompania)"
-      SQL = SQL & sqlWhere
-      SQL = SQL & " ORDER BY "
-      SQL = SQL & "CodigoAlmacen,"
-      SQL = SQL & "articuloInventario.LineaDeProducto,"
-      SQL = SQL & "ExistenciaPorAlmacen.CodigoArticulo"
-   fSQLDelReporteFormatoDeConteoFisico = SQL
+      vSql = "SELECT ExistenciaPorAlmacen.CodigoArticulo AS CodigoArticulo, articuloInventario.Descripcion, articuloInventario.LineaDeProducto, almacen.Codigo AS CodigoAlmacen, " & vbCrLf
+      vSql = vSql & " almacen.NombreAlmacen, existenciaPorAlmacen.Cantidad, " & vbCrLf
+      vSql = vSql & "   articuloInventario.TipoArticuloInv," & vbCrLf
+      vSql = vSql & "   " & gUtilSQL.fSimpleSqlValue("") & " AS CodigoLote" & vbCrLf
+      vSql = vSql & " FROM almacen INNER JOIN (articuloInventario INNER JOIN existenciaPorAlmacen ON (articuloInventario.Codigo = existenciaPorAlmacen.CodigoArticulo) " & vbCrLf
+      vSql = vSql & " AND (articuloInventario.ConsecutivoCompania = existenciaPorAlmacen.ConsecutivoCompania)) ON (almacen.Codigo = existenciaPorAlmacen.CodigoAlmacen) " & vbCrLf
+      vSql = vSql & " AND (almacen.ConsecutivoCompania = existenciaPorAlmacen.ConsecutivoCompania) " & vbCrLf
+      vSql = vSql & vSqlWhere & vbCrLf
+      vSql = vSql & " UNION " & vbCrLf
+      vSql = vSql & " SELECT ExistenciaPorAlmacen.CodigoArticulo AS CodigoArticulo, (articuloInventario.Descripcion+' '+Color.DescripcionColor+' '+Talla.DescripcionTalla)as Descripcion, articuloInventario.LineaDeProducto, almacen.Codigo AS CodigoAlmacen," & vbCrLf
+      vSql = vSql & " almacen.NombreAlmacen, existenciaPorAlmacen.Cantidad," & vbCrLf
+       vSql = vSql & "   articuloInventario.TipoArticuloInv," & vbCrLf
+      vSql = vSql & "   " & gUtilSQL.fSimpleSqlValue("") & " AS CodigoLote" & vbCrLf
+      vSql = vSql & " FROM (almacen INNER JOIN existenciaPorAlmacen ON (almacen.Codigo = existenciaPorAlmacen.CodigoAlmacen) AND (almacen.ConsecutivoCompania = existenciaPorAlmacen.ConsecutivoCompania))" & vbCrLf
+      vSql = vSql & " INNER JOIN (((ExistenciaPorGrupo INNER JOIN Talla ON (ExistenciaPorGrupo.ConsecutivoCompania = Talla.ConsecutivoCompania) AND (ExistenciaPorGrupo.CodigoTalla = Talla.CodigoTalla)) " & vbCrLf
+      vSql = vSql & " INNER JOIN Color ON (ExistenciaPorGrupo.ConsecutivoCompania = Color.ConsecutivoCompania) AND (ExistenciaPorGrupo.CodigoColor = Color.CodigoColor)) " & vbCrLf
+      vSql = vSql & " INNER JOIN articuloInventario ON (ExistenciaPorGrupo.ConsecutivoCompania = articuloInventario.ConsecutivoCompania) AND (ExistenciaPorGrupo.CodigoArticulo = articuloInventario.Codigo)) " & vbCrLf
+      vSql = vSql & " ON (existenciaPorAlmacen.CodigoArticulo = (ExistenciaPorGrupo.CodigoArticulo+ExistenciaPorGrupo.CodigoColor+ExistenciaPorGRupo.codigoTalla)) " & vbCrLf
+      vSql = vSql & " AND (existenciaPorAlmacen.ConsecutivoCompania = ExistenciaPorGrupo.ConsecutivoCompania)" & vbCrLf
+      vSql = vSql & vSqlWhere & vbCrLf
+      vSql = vSql & " UNION " & vbCrLf
+      vSql = vSql & "SELECT" & vbCrLf
+      vSql = vSql & "   articuloInventario.Codigo AS CodigoArticulo," & vbCrLf
+      vSql = vSql & "   articuloInventario.Descripcion AS Descripcion," & vbCrLf
+      vSql = vSql & "   articuloInventario.LineaDeProducto," & vbCrLf
+      vSql = vSql & "   " & gUtilSQL.fSimpleSqlValue(Trim(valCodigoAlmacen)) & " AS CodigoAlmacen," & vbCrLf
+      vSql = vSql & "   " & gUtilSQL.fSimpleSqlValue(Trim(valNombreAlmacen)) & " AS NombreAlmacen," & vbCrLf
+      vSql = vSql & "   Saw.LoteDeInventario.Existencia  AS Cantidad," & vbCrLf
+      vSql = vSql & "   articuloInventario.TipoArticuloInv," & vbCrLf
+      vSql = vSql & "   Saw.LoteDeInventario.CodigoLote AS CodigoLote" & vbCrLf
+      vSql = vSql & "FROM" & vbCrLf
+      vSql = vSql & "   articuloInventario" & vbCrLf
+      vSql = vSql & "   INNER JOIN Saw.LoteDeInventario" & vbCrLf
+      vSql = vSql & "      ON  articuloInventario.Codigo = Saw.LoteDeInventario.CodigoArticulo" & vbCrLf
+      vSql = vSql & "      AND articuloInventario.ConsecutivoCompania = Saw.LoteDeInventario.ConsecutivoCompania" & vbCrLf
+      vSql = vSql & "WHERE" & vbCrLf
+      vSql = vSql & "   articuloInventario.ConsecutivoCompania = " & valConsecutivoCompania & vbCrLf
+      vSql = vSql & "   AND articuloInventario.TipoDeArticulo = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeArticulo.eTD_MERCANCIA) & vbCrLf
+      vSql = vSql & "   AND articuloInventario.StatusdelArticulo = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusArticulo.eSA_VIGENTE) & vbCrLf
+      vSql = vSql & " ORDER BY " & vbCrLf
+      vSql = vSql & " CodigoAlmacen," & vbCrLf
+      vSql = vSql & " articuloInventario.LineaDeProducto," & vbCrLf
+      vSql = vSql & " CodigoArticulo"
+   fSQLDelReporteFormatoDeConteoFisico = vSql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _

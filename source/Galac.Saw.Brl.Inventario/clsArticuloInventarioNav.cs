@@ -50,10 +50,12 @@ namespace Galac.Saw.Brl.Inventario {
                 case "Compra":
                 case "Orden De Compra":
                 case "Lista de Materiales":
-                case "Orden de Producción":
+                case "Orden de Producción":               
                     return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "dbo.Gp_ArticuloInventarioCompraSCH", valXmlParamsExpression);
                 case "Punto de Venta Ubicación":
                     return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "dbo.Gp_ArticuloInventarioUbicacionSCH", valXmlParamsExpression);
+                case "Nota de Entrada/Salida":
+                case "Lote de Inventario":
                 default:
                     return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "dbo.Gp_ArticuloInventarioSCH", valXmlParamsExpression);
             }
@@ -66,6 +68,7 @@ namespace Galac.Saw.Brl.Inventario {
                 case "OrdenDeCompra":
                 case "Lista de Materiales":
                 case "Orden de Producción":
+                case "Lote De Inventario":
                     return instanciaDal.QueryInfo(eProcessMessageType.SpName, "dbo.Gp_ArticuloInventarioCompraGetFk", valParameters);
                 case "Punto de Venta Ubicación":
                     return instanciaDal.QueryInfo(eProcessMessageType.SpName, "dbo.Gp_ArticuloInventarioUbicacionGetFk", valParameters);
@@ -323,20 +326,17 @@ namespace Galac.Saw.Brl.Inventario {
                     var vArticulo = vDataArticulos.Where(p => p.CodigoArticulo == item.CodigoArticulo || p.CodigoArticuloCompuesto == item.CodigoArticulo).Select(p => p).FirstOrDefault();
                     if (item.TipoActualizacion == eTipoActualizacion.Existencia || item.TipoActualizacion == eTipoActualizacion.ExistenciayCosto) {
                         if (vArticulo.TipoArticulo != eTipoDeArticulo.Servicio) {
-                            if (vArticulo.TipoArticulo != eTipoDeArticulo.Servicio) {
-                                ActualizarExistenciaPorAlmacen(valConsecutivoCompania, item.CodigoAlmacen, item.CodigoArticulo, item.Cantidad, item.Ubicacion, item.ConsecutivoAlmacen);
-                            }
+                            ActualizarExistenciaPorAlmacen(valConsecutivoCompania, item.CodigoAlmacen, item.CodigoArticulo, item.Cantidad, item.Ubicacion, item.ConsecutivoAlmacen);
                             if (vArticulo.TipoArticuloInv == eTipoArticuloInv.UsaTallaColor) {
                                 ActualizarExistenciaPorGrupoTallaColor(valConsecutivoCompania, vArticulo.CodigoArticulo, vArticulo.CodigoGrupo, vArticulo.CodigoTalla, vArticulo.CodigoColor, item.Cantidad);
                             }
-                            if (vArticulo.TipoArticuloInv == eTipoArticuloInv.UsaSerial || vArticulo.TipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial
+                            if (vArticulo.TipoArticuloInv == eTipoArticuloInv.UsaSerial 
+                                || vArticulo.TipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial
                                 || vArticulo.TipoArticuloInv == eTipoArticuloInv.UsaSerialRollo) {
                                 ActualizarExistenciaPorGrupoSerial(valConsecutivoCompania, vArticulo.CodigoArticulo, vArticulo.CodigoGrupo, vArticulo.CodigoTalla, vArticulo.CodigoColor, item.DetalleArticuloInventarioExistenciaSerial, vArticulo.TipoArticuloInv);
 
                             }
-                            if (vArticulo.TipoArticulo != eTipoDeArticulo.Servicio) {
-                                ActualizarExistenciaArticuloInventario(valConsecutivoCompania, vArticulo.CodigoArticulo, item.Cantidad);
-                            }
+                            ActualizarExistenciaArticuloInventario(valConsecutivoCompania, vArticulo.CodigoArticulo, item.Cantidad);
                         }
                     }
                     if (item.TipoActualizacion == eTipoActualizacion.ExistenciayCosto || item.TipoActualizacion == eTipoActualizacion.Costo) {
@@ -427,6 +427,7 @@ namespace Galac.Saw.Brl.Inventario {
             vSQL.AppendLine(" IF @@ROWCOUNT = 0");
             vSQL.AppendLine(" INSERT INTO ExistenciaPorAlmacen(ConsecutivoCompania, CodigoAlmacen, CodigoArticulo, Cantidad, Ubicacion, ConsecutivoAlmacen)");
             vSQL.AppendLine(" VALUES( @ConsecutivoCompania, @CodigoAlmacen, @CodigoArticulo, @Cantidad, @Ubicacion, @ConsecutivoAlmacen)");
+
             LibBusiness.ExecuteUpdateOrDelete(vSQL.ToString(), vParams.Get(), "", 0);
         }
 
@@ -472,6 +473,7 @@ namespace Galac.Saw.Brl.Inventario {
             vParams.AddInDecimal("Existencia", valCantidad, 4);
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             vParams.AddInString("CodigoArticulo", valCodigoArticulo, 30);
+
             LibBusiness.ExecuteUpdateOrDelete(vSQL.ToString(), vParams.Get(), "", 0);
         }
 
@@ -2157,6 +2159,37 @@ namespace Galac.Saw.Brl.Inventario {
                 }
             }
             return vResult;
+        }
+
+        XElement IArticuloInventarioPdn.DisponibilidadDeArticuloPorAlmacen(int valConsecutivoCompania, XElement valDataArticulo) {
+            return new clsArticuloInventarioNav().DisponibilidadDeArticuloPorAlmacen(valConsecutivoCompania, valDataArticulo);
+        }
+
+        bool IArticuloInventarioPdn.ExistenComprobantesDeCostoDeVentasPosteriores(int valConsecutivoCompania, DateTime valFecha) {
+            //duplicado en: clsNotaDeEntradaSalidaDat.ExistenComprobantesDeCostoDeVentasPosteriores, no se invoca está por estar en Brl (capa superior)
+            bool vResult = false;
+            bool vUsaContabilidad = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Compania", "UsaModuloDeContabilidad");
+            bool vUsaCostoPromedio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaCostoPromedio");
+            if (vUsaCostoPromedio && vUsaContabilidad) {
+                if (new clsLibSaw().EsValidaLaFechaParaContabilidad(valConsecutivoCompania, valFecha)) {
+                    LibDatabase insDb = new LibDatabase();
+                    StringBuilder vSql = new StringBuilder();
+                    vSql.AppendLine("SELECT COMPROBANTE.Numero FROM PERIODO INNER JOIN  COMPROBANTE ON periodo.ConsecutivoPeriodo = COMPROBANTE.ConsecutivoPeriodo ");
+                    vSql.AppendLine("WHERE PERIODO.ConsecutivoCompania = " + insDb.InsSql.ToSqlValue(valConsecutivoCompania));
+                    vSql.AppendLine("AND COMPROBANTE.GeneradoPor = " + insDb.InsSql.EnumToSqlValue((int)eComprobanteGeneradoPorVBSaw.eCG_INVENTARIO));
+                    vSql.AppendLine("AND COMPROBANTE.Fecha >= " + insDb.InsSql.ToSqlValue(valFecha));
+                    vResult = insDb.RecordCountOfSql(vSql.ToString()) > 0;
+                }
+            }
+            return vResult;
+        }
+
+        public decimal DisponibilidadDeArticulo(int valConsecutivoCompania, string valCodigoArticulo, int valConsecutivoLoteDeInventario) {
+            return new clsLoteDeInventarioNav().DisponibilidadDeArticulo(valConsecutivoCompania, valCodigoArticulo, valConsecutivoLoteDeInventario);
+        }
+
+        public XElement DisponibilidadDeArticuloPorLote(int valConsecutivoCompania, XElement valDataArticulo) {
+            return new clsLoteDeInventarioNav().DisponibilidadDeArticuloPorLote(valConsecutivoCompania, valDataArticulo);
         }
     }
 } //End of namespace Galac.Saw.Brl.Inventario

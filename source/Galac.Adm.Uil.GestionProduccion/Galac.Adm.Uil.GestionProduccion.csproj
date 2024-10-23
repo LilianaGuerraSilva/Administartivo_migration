@@ -65,7 +65,7 @@
       <HintPath>..\packages\LibGalac.Aos.UI.Cib.5.24.0\lib\LibGalac.Aos.UI.Cib.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.Mvvm">
-      <HintPath>..\packages\LibGalac.Aos.UI.Mvvm.5.24.1\lib\LibGalac.Aos.UI.Mvvm.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.UI.Mvvm.5.24.2.4\lib\LibGalac.Aos.UI.Mvvm.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.Wpf">
       <HintPath>..\packages\LibGalac.Aos.UI.Wpf.5.24.0\lib\LibGalac.Aos.UI.Wpf.dll</HintPath>
@@ -77,7 +77,7 @@
       <HintPath>..\packages\LibGalac.Aos.UI.WpfRD.5.24.2.1\lib\LibGalac.Aos.UI.WpfRD.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Uil">
-      <HintPath>..\packages\LibGalac.Aos.Uil.5.24.1\lib\LibGalac.Aos.Uil.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Uil.5.24.2.4\lib\LibGalac.Aos.Uil.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
@@ -96,6 +96,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OrdenDeProduccionMessagesHandler.cs" />
     <Compile Include="clsListaDeMaterialesMenu.cs" />
     <Compile Include="clsOrdenDeProduccionMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -252,6 +253,10 @@
     <ProjectReference Include="..\Galac.Adm.Uil.Banco\Galac.Adm.Uil.Banco.csproj">
       <Project>{CEA20080-8BBE-4562-B30C-88A9B1E0218C}</Project>
       <Name>Galac.Adm.Uil.Banco</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.Inventario\Galac.Saw.Brl.Inventario.csproj">
+      <Project>{bbb05009-adca-47a1-9a3f-49421928f380}</Project>
+      <Name>Galac.Saw.Brl.Inventario</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Ccl.Inventario\Galac.Saw.Ccl.Inventario.csproj">
       <Project>{a28fb32d-b951-4d64-8feb-74a261425585}</Project>

@@ -399,25 +399,25 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             return vResult;
         }
 
-        private ValidationResult ExisteCodigoValidating() {
-            ValidationResult vResult = ValidationResult.Success;
-            if(Action == eAccionSR.Insertar && ((IListaDeMaterialesPdn)BusinessComponent).ExisteListaDeMaterialesConEsteNombre(ConsecutivoCompania, Nombre)) {
-                vResult = new ValidationResult("Ya existe una Lista con este Código.");
-            }
-            return vResult;
-        }
+        //private ValidationResult ExisteCodigoValidating() {
+        //    ValidationResult vResult = ValidationResult.Success;
+        //    if(Action == eAccionSR.Insertar && ((IListaDeMaterialesPdn)BusinessComponent).ExisteListaDeMaterialesConEsteNombre(ConsecutivoCompania, Nombre)) {
+        //        vResult = new ValidationResult("Ya existe una Lista con este Código.");
+        //    }
+        //    return vResult;
+        //}
 
-        private ValidationResult ExisteNombreValidating() {
-            ValidationResult vResult = ValidationResult.Success;
-            if(Action == eAccionSR.Insertar || Action == eAccionSR.Modificar) {
-                if(!LibString.S1IsEqualToS2(Nombre.Trim(), NombreTemp.Trim())) {
-                    vResult = ((IListaDeMaterialesPdn)BusinessComponent).ExisteListaDeMaterialesConEsteNombre(ConsecutivoCompania, Nombre) ?
-                        new ValidationResult("Ya existe una Lista con este Nombre.")
-                        : ValidationResult.Success;
-                }
-            }
-            return vResult;
-        }
+        //private ValidationResult ExisteNombreValidating() {
+        //    ValidationResult vResult = ValidationResult.Success;
+        //    if(Action == eAccionSR.Insertar || Action == eAccionSR.Modificar) {
+        //        if(!LibString.S1IsEqualToS2(Nombre.Trim(), NombreTemp.Trim())) {
+        //            vResult = ((IListaDeMaterialesPdn)BusinessComponent).ExisteListaDeMaterialesConEsteNombre(ConsecutivoCompania, Nombre) ?
+        //                new ValidationResult("Ya existe una Lista con este Nombre.")
+        //                : ValidationResult.Success;
+        //        }
+        //    }
+        //    return vResult;
+        //}
 
         private void ActualizaTotalCosto() {
             TotalPorcentajeDeCosto = DetailListaDeMaterialesDetalleSalidas.Items.Sum(s => s.PorcentajeDeCosto);

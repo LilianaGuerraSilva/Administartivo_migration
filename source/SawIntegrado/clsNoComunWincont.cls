@@ -50,6 +50,7 @@ Private Function fGetStrGeneradoPorOptionsWincont() As String
       strOpciones = strOpciones & gConvert.enumerativoAChar(varEnum)
    Next varEnum
    strOpciones = strOpciones & gConvert.enumerativoAChar(enum_ComprobanteGeneradoPor.eCG_RETIRO_ACTIVOFIJO)
+   strOpciones = strOpciones & gConvert.enumerativoAChar(enum_ComprobanteGeneradoPor.eCG_GANANCIA_PERDIDA_CAMBIARIA)
    fGetStrGeneradoPorOptionsWincont = strOpciones
 h_EXIT: On Error GoTo 0
    Exit Function

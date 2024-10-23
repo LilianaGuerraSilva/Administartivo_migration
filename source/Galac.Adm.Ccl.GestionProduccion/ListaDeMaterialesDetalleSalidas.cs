@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Text;
 using System.Xml;
 using LibGalac.Aos.Base;
+using Galac.Saw.Ccl.Inventario;
 
 namespace Galac.Adm.Ccl.GestionProduccion {
     [Serializable]
@@ -18,6 +19,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         private decimal _Cantidad;
         private string _UnidadDeVenta;
         private decimal _PorcentajeDeCosto;
+        private eTipoArticuloInv _TipoArticuloInv;
         #endregion //Variables
         #region Propiedades
 
@@ -70,6 +72,14 @@ namespace Galac.Adm.Ccl.GestionProduccion {
                 _PorcentajeDeCosto = value;
                 OnPropertyChanged("PorcentajeDeCosto");
             }
+        }
+
+        public eTipoArticuloInv TipoArticuloInvAsEnum {
+            get { return _TipoArticuloInv; }
+            set { _TipoArticuloInv = value; }
+        }
+        public string TipoArticuloInv {
+            set { _TipoArticuloInv = (eTipoArticuloInv)LibConvert.DbValueToEnum(value); }
         }
         #endregion //Propiedades
         #region Constructores

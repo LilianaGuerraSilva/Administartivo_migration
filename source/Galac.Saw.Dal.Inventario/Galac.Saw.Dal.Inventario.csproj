@@ -74,6 +74,10 @@
     <Compile Include="clsCategoriaED.cs" />
     <Compile Include="clsColorDat.cs" />
     <Compile Include="clsColorED.cs" />
+    <Compile Include="clsLoteDeInventarioDat.cs" />
+    <Compile Include="clsLoteDeInventarioED.cs" />
+    <Compile Include="clsLoteDeInventarioMovimientoDat.cs" />
+    <Compile Include="clsLoteDeInventarioMovimientoED.cs" />
     <Compile Include="clsNotaDeEntradaSalidaDat.cs" />
     <Compile Include="clsNotaDeEntradaSalidaED.cs" />
     <Compile Include="clsRenglonNotaESDat.cs" />
@@ -86,6 +90,10 @@
     <ProjectReference Include="..\Galac.Saw.Ccl.Inventario\Galac.Saw.Ccl.Inventario.csproj">
       <Project>{a28fb32d-b951-4d64-8feb-74a261425585}</Project>
       <Name>Galac.Saw.Ccl.Inventario</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Lib\Galac.Saw.Lib.csproj">
+      <Project>{b04e6942-e0b8-4ba2-90e7-fbf8a95ddc86}</Project>
+      <Name>Galac.Saw.Lib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
