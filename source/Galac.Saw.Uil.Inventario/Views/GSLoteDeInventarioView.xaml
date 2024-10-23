@@ -143,10 +143,12 @@
             Grid.Row="6"
             Grid.Column="0"
             Grid.ColumnSpan="6"
+            Width="900"
             Visibility="{Binding Path=IsVisibleDetaillLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}">
             <Grid Name="gdLotedeInventarioMovimiento">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -188,6 +190,7 @@
                 <nsWpfControls:GSDataGrid
                     x:Name="dgLotedeInventarioMovimiento"
                     Grid.Row="2"
+                    Grid.ColumnSpan="2"
                     Height="100"
                     MinWidth="900"
                     MinHeight="100"

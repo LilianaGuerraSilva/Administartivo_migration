@@ -289,11 +289,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                         TipoArticulo = ConexionCodigoArticulo.TipoDeArticulo;
                         Model.TipoDeAlicuota = LibConvert.ToInt(ConexionCodigoArticulo.AlicuotaIva);
                         Model.TipoDeArticulo = (int)ConexionCodigoArticulo.TipoDeArticulo;
-                        RaisePropertyChanged(() => TipoDeMercanciaStr);
-                        CodigoLote = string.Empty;
-                        FechaDeElaboracion = LibDate.MinDateForDB();
-                        FechaDeVencimiento = LibDate.MaxDateForDB();
-                        RaisePropertyChanged(() => CodigoLote);
+                        RaisePropertyChanged(() => TipoDeMercanciaStr);                        
                     }
                 }
                 if (_ConexionCodigoArticulo == null) {
@@ -633,6 +629,13 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                         IsEnabledCantidad = false;
                     } else {
                         IsEnabledCantidad = true;
+                    }
+                    if (ConexionLoteDeInventario != null && CodigoArticulo != ConexionLoteDeInventario.CodigoArticulo) {
+                        ConexionLoteDeInventario = null;
+                        CodigoLote = string.Empty;
+                        FechaDeElaboracion = LibDate.MinDateForDB();
+                        FechaDeVencimiento = LibDate.MaxDateForDB();
+                        RaisePropertyChanged(() => CodigoLote);
                     }
                 } else {
                     CodigoArticulo = string.Empty;

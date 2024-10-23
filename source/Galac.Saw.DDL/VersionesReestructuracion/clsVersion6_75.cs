@@ -82,10 +82,10 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 				} catch (Exception) {
                 }
 			}
-			if (AddColumnDecimal("Adm.OrdenDeProduccionDetalleArticulo", "PorcentajeCostoEstimado", 25, 8, "", 0)) {
+			if (AddColumnDecimal("Adm.OrdenDeProduccionDetalleArticulo", "PorcentajeCostoEstimado", 25, 8, "", 100)) {
 				AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtPoCoEs", "0", "PorcentajeCostoEstimado");
 			}
-			if (AddColumnDecimal("Adm.OrdenDeProduccionDetalleArticulo", "PorcentajeCostoCierre", 25, 8, "", 0)) {
+			if (AddColumnDecimal("Adm.OrdenDeProduccionDetalleArticulo", "PorcentajeCostoCierre", 25, 8, "", 100)) {
 				AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtPoCoCi", "0", "PorcentajeCostoCierre");
 			}
 			if (AddColumnDecimal("Adm.OrdenDeProduccionDetalleArticulo", "Costo", 25, 8, "", 0)) {

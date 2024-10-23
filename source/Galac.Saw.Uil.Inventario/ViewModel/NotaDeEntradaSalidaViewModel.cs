@@ -96,6 +96,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                     Model.CodigoCliente = value;
                     IsDirty = true;
                     RaisePropertyChanged(CodigoClientePropertyName);
+                    ExecuteChooseCodigoClienteCommand(CodigoCliente);
+                    RaisePropertyChanged(NombreAlmacenPropertyName);
                     if (LibString.IsNullOrEmpty(CodigoCliente, true)) {
                         ConexionCodigoCliente = null;
                     }
@@ -104,7 +106,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Nombre Cliente es requerido.")]
-        [LibGridColum("Nombre del Cliente", eGridColumType.Connection, ConnectionDisplayMemberPath = "nombre", ConnectionModelPropertyName = "NombreCliente", ConnectionSearchCommandName = "ChooseNombreClienteCommand", Width=150)]
+        [LibGridColum("Nombre del Cliente", eGridColumType.Connection, ConnectionDisplayMemberPath = "Nombre", ConnectionModelPropertyName = "NombreCliente", ConnectionSearchCommandName = "ChooseNombreClienteCommand", Width=150)]
         public string  NombreCliente {
             get {
                 return Model.NombreCliente;
@@ -113,7 +115,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 if (Model.NombreCliente != value) {
                     Model.NombreCliente = value;
                     IsDirty = true;
-                    RaisePropertyChanged(NombreClientePropertyName);
+                    RaisePropertyChanged(NombreClientePropertyName);                    
                     if (LibString.IsNullOrEmpty(NombreCliente, true)) {
                         ConexionNombreCliente = null;
                     }
@@ -422,6 +424,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
             if (Action == eAccionSR.Insertar) {//FASE 1 Lote/FdV: No se maneja almacén
                 CodigoAlmacen = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoAlmacenGenerico");
+                CodigoCliente = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoGenericoCliente");
             }
         }
 
