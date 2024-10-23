@@ -281,7 +281,9 @@ namespace Galac.Adm.Brl.GestionProduccion {
                             CodigoArticuloInventario = vDetail.CodigoArticuloInventario,
                             DescripcionArticuloInventario = vArticuloInventario.Descripcion,
                             Cantidad = vDetail.Cantidad,
-                            UnidadDeVenta = vArticuloInventario.UnidadDeVenta
+                            UnidadDeVenta = vArticuloInventario.UnidadDeVenta, 
+                            MermaNormal = vDetail.MermaNormal, 
+                            PorcentajeMermaNormal = vDetail.PorcentajeMermaNormal
                         }).ToList<ListaDeMaterialesDetalleArticulo>());
             }
         }
@@ -358,7 +360,9 @@ namespace Galac.Adm.Brl.GestionProduccion {
                             DescripcionArticuloInventario = vArticuloInventario.Descripcion,
                             Cantidad = vDetail.Cantidad,
                             UnidadDeVenta = vArticuloInventario.UnidadDeVenta,
-                            PorcentajeDeCosto = vDetail.PorcentajeDeCosto
+                            PorcentajeDeCosto = vDetail.PorcentajeDeCosto, 
+                            MermaNormal = vDetail.MermaNormal, 
+                            PorcentajeMermaNormal = vDetail.PorcentajeMermaNormal
                         }).ToList<ListaDeMaterialesDetalleSalidas>());
             }
         }

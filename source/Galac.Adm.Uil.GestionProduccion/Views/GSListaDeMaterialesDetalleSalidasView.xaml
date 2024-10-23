@@ -6,7 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:nsVm="clr-namespace:Galac.Adm.Uil.GestionProduccion.ViewModel"
     xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
-    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+    Width="910">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -26,6 +27,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Label
             Name="lblCodigoArticuloInventario"
@@ -37,7 +39,8 @@
             Name="txtCodigoArticuloInventario"
             Grid.Row="0"
             Grid.Column="1"
-            Width="200"
+            Grid.ColumnSpan="2"
+            Width="324"
             Height="23"
             Margin="3,3,0,4"
             HorizontalAlignment="Left"
@@ -66,8 +69,7 @@
             Grid.Row="1"
             Grid.Column="1"
             Grid.ColumnSpan="3"
-            Width="460"
-            Height="45"
+            Width="740"
             Margin="3,3,0,3"
             nsWpf:LibKeyboardListener.IgnoreEnterKeyLikeTab="True"
             AcceptsReturn="True"
@@ -98,6 +100,8 @@
             Name="lblPorcentajeDeCosto"
             Grid.Row="2"
             Grid.Column="2"
+            Width="55"
+            Margin="436,0,0,0"
             Content="% Costo"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSNumericBoxWpf
@@ -112,5 +116,48 @@
             MaxLength="30"
             Style="{StaticResource TextBoxInputStyle}"
             Value="{Binding Path=PorcentajeDeCosto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        <Label
+            Name="lblMermaNormal"
+            Grid.Row="3"
+            Grid.Column="0"
+            Width="156"
+            Content="Merma Normal (esperada)"
+            Style="{StaticResource LabelPrompt}"
+            Visibility="{Binding Path=IsVisibleManejaMerma, Converter={StaticResource booleanToVisibilityConverter}}" />
+        <nsWpfControls:GSNumericBoxWpf
+            Name="txtMermaNormal"
+            Grid.Row="3"
+            Grid.Column="1"
+            Width="120"
+            BorderThickness="1"
+            DecimalDigits="8"
+            InputDataType="UDecimal"
+            IsEnabled="{Binding Path=IsEnabled}"
+            MaxLength="30"
+            Style="{StaticResource TextBoxInputStyle}"
+            Visibility="{Binding Path=IsVisibleManejaMerma, Converter={StaticResource booleanToVisibilityConverter}}"
+            Value="{Binding Path=MermaNormal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        <Label
+            Name="lblPorcentajeMermaNormal"
+            Grid.Row="3"
+            Grid.Column="2"
+            Width="64"
+            Margin="427,0,0,0"
+            VerticalAlignment="Center"
+            Content="% Merma"
+            Style="{StaticResource LabelPrompt}"
+            Visibility="{Binding Path=IsVisibleManejaMerma, Converter={StaticResource booleanToVisibilityConverter}}" />
+        <nsWpfControls:GSNumericBoxWpf
+            Name="txtPorcentajeMermaNormal"
+            Grid.Row="3"
+            Grid.Column="3"
+            Width="120"
+            DecimalDigits="8"
+            InputDataType="UDecimal"
+            IsEnabled="{Binding Path=IsEnabled}"
+            MaxLength="30"
+            Style="{StaticResource TextBoxInputStyle}"
+            Visibility="{Binding Path=IsVisibleManejaMerma, Converter={StaticResource booleanToVisibilityConverter}}"
+            Value="{Binding Path=PorcentajeMermaNormal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
     </Grid>
 </UserControl>

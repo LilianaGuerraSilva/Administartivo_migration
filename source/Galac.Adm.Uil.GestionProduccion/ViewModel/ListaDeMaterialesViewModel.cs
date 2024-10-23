@@ -25,6 +25,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private const string CodigoPropertyName = "Codigo";
         private const string NombrePropertyName = "Nombre";
         private const string FechaCreacionPropertyName = "FechaCreacion";
+        private const string ManejaMermaPropertyName = "ManejaMerma";
         private const string NombreOperadorPropertyName = "NombreOperador";
         private const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
         private const string TotalPorcentajeCostoPropertyName = "TotalPorcentajeDeCosto";
@@ -131,6 +132,20 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
             }
         }
+		
+		public bool  ManejaMerma {
+            get {
+                return Model.ManejaMermaAsBool;
+            }
+            set {
+                if (Model.ManejaMermaAsBool != value) {
+                    Model.ManejaMermaAsBool = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(ManejaMermaPropertyName);
+                    RaisePropertyChanged(() => IsEnabledManejaMerma);
+                }
+            }
+        }
 
         public string NombreOperador {
             get {
@@ -217,6 +232,12 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     IsDirty = true;
                     RaisePropertyChanged(TotalPorcentajeCostoPropertyName);
                 }
+            }
+        }
+
+        public bool IsEnabledManejaMerma {
+            get {
+                return IsEnabled && Action == eAccionSR.Insertar && !ManejaMerma;
             }
         }
 

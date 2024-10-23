@@ -4215,7 +4215,8 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	Codigo: str30//o, search,g, "Código" 
 	Nombre: textArea//g,"Nombre" 
 	CodigoArticuloInventario: str30//HIDE, dv=''
-	FechaCreacion : unFecha;//O,G,"Fecha de Creación",search
+	FechaCreacion 	: unFecha;//O,G,"Fecha de Creación",search
+	ManejaMerma		: : boolean; //"Manejo de Merma"
 	NombreOperador: Str20// 
 	FechaUltimaModificacion: date;// 
 	@PrimaryKey=ConsecutivoCompania,Consecutivo 
@@ -4231,6 +4232,8 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	DescripcionArticuloInventario: str7000//g, logical, =ArticuloInventario.Descripcion,"Descripción" 
 	Cantidad: decimal//o,g,"Cantidad", decimales=8 
 	UnidadDeVenta: str20//g,logical,=ArticuloInventario.UnidadDeVenta,"Unidad de Venta"
+	MermaNormal: decimal//o,g,"Merma Normal (esperada)", decimales=8 
+	PorcentajeMermaNormal: decimal//o,g,"%Merma", decimales=8 
 	@PrimaryKey=ConsecutivoCompania, ConsecutivoListaDeMateriales,Consecutivo 
 } 
 
@@ -4243,6 +4246,8 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	Cantidad: decimal//o,g,"Cantidad", decimales=8 
 	UnidadDeVenta: Str20;//g,logical,=ArticuloInventario.UnidadDeVenta,"Unidad de Venta",logical 
 	PorcentajeDeCosto: decimal//o,g,"%Costo",decimales=4
+	MermaNormal: decimal//o,g,"Merma Normal (esperada)", decimales=8 
+	PorcentajeMermaNormal: decimal//o,g,"%Merma", decimales=8 
 	@PrimaryKey=ConsecutivoCompania, ConsecutivoListaDeMateriales,Consecutivo 
 } 
 

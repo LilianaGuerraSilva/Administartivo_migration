@@ -43,6 +43,8 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vParams.AddInInteger("Consecutivo", valRecord.Consecutivo);
             vParams.AddInString("CodigoArticuloInventario", valRecord.CodigoArticuloInventario, 30);
             vParams.AddInDecimal("Cantidad", valRecord.Cantidad, 8);
+            vParams.AddInDecimal("MermaNormal", valRecord.MermaNormal, 8);
+            vParams.AddInDecimal("PorcentajeMermaNormal", valRecord.PorcentajeMermaNormal, 8);
             vResult = vParams.Get();
             return vResult;
         }
@@ -109,7 +111,9 @@ namespace Galac.Adm.Dal.GestionProduccion {
                     new XElement("ConsecutivoListaDeMateriales", valMaster.Consecutivo),
                     new XElement("Consecutivo", vEntity.Consecutivo),
                     new XElement("CodigoArticuloInventario", vEntity.CodigoArticuloInventario),
-                    new XElement("Cantidad", vEntity.Cantidad)));
+                    new XElement("Cantidad", vEntity.Cantidad),
+                    new XElement("MermaNormal", vEntity.MermaNormal),
+                    new XElement("PorcentajeMermaNormal", vEntity.PorcentajeMermaNormal)));
             return vXElement;
         }
         #region Miembros de ILibDataDetailComponent<IList<ListaDeMaterialesDetalleArticulo>, IList<ListaDeMaterialesDetalleArticulo>>
@@ -160,6 +164,8 @@ namespace Galac.Adm.Dal.GestionProduccion {
             ClearValidationInfo();
             vResult = IsValidCodigoArticuloInventario(valAction, CurrentRecord.CodigoArticuloInventario);
             vResult = IsValidCantidad(valAction, CurrentRecord.Cantidad) && vResult;
+            vResult = IsValidMermaNormal(valAction, CurrentRecord.MermaNormal) && vResult;
+            vResult = IsValidPorcentajeMermaNormal(valAction, CurrentRecord.PorcentajeMermaNormal) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
         }
@@ -184,6 +190,24 @@ namespace Galac.Adm.Dal.GestionProduccion {
         }
 
         private bool IsValidCantidad(eAccionSR valAction, decimal valCantidad){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
+            return vResult;
+        }
+
+        private bool IsValidMermaNormal(eAccionSR valAction, decimal valMermaNormal){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
+            return vResult;
+        }
+
+        private bool IsValidPorcentajeMermaNormal(eAccionSR valAction, decimal valPorcentajeMermaNormal){
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;

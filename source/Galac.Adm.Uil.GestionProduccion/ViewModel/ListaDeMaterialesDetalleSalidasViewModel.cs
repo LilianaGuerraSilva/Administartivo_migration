@@ -24,7 +24,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public const string CantidadPropertyName = "Cantidad";
         public const string UnidadDeVentaPropertyName = "UnidadDeVenta";
         public const string PorcentajeDeCostoPropertyName = "PorcentajeDeCosto";
-        public const string PorcentajeDeCostoTotalPropertyName = "PorcentajeDeCostoTotal";
+        public const string MermaNormalPropertyName = "MermaNormal";
+        public const string PorcentajeMermaNormalPropertyName = "PorcentajeMermaNormal";
         
         #endregion
         #region Variables
@@ -69,7 +70,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Código Artículo", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoArticuloInventario", ConnectionSearchCommandName = "ChooseCodigoArticuloInventarioCommand", MaxWidth=100)]
+        [LibGridColum("Código Artículo", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoArticuloInventario", ConnectionSearchCommandName = "ChooseCodigoArticuloInventarioCommand", MaxWidth=130,ColumnOrder = 0)]
         public string  CodigoArticuloInventario {
             get {
                 return Model.CodigoArticuloInventario;
@@ -86,7 +87,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Descripción", eGridColumType.Connection, ConnectionDisplayMemberPath = "Descripcion", ConnectionModelPropertyName = "DescripcionArticuloInventario", ConnectionSearchCommandName = "ChooseDescripcionArticuloInventarioCommand", Width = 332, Trimming = System.Windows.TextTrimming.WordEllipsis)]
+        //[LibGridColum("Descripción", eGridColumType.Connection, ConnectionDisplayMemberPath = "Descripcion", ConnectionModelPropertyName = "DescripcionArticuloInventario", ConnectionSearchCommandName = "ChooseDescripcionArticuloInventarioCommand", Width = 250, Trimming = System.Windows.TextTrimming.WordEllipsis, ColumnOrder = 1)]
         public string  DescripcionArticuloInventario {
             get {
                 return Model.DescripcionArticuloInventario;
@@ -101,7 +102,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Cantidad es requerido.")]
-        [LibGridColum("          Cantidad", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", MaxWidth = 90)]
+        [LibGridColum("          Cantidad", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", MaxWidth = 130, ColumnOrder = 2)]
         public decimal  Cantidad {
             get {
                 return Model.Cantidad;
@@ -115,7 +116,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Unidad", eGridColumType.Connection, ConnectionDisplayMemberPath = "UnidadDeVenta", ConnectionModelPropertyName = "UnidadDeVenta", MaxWidth=80)]
+        [LibGridColum("Unidad", eGridColumType.Connection, ConnectionDisplayMemberPath = "UnidadDeVenta", ConnectionModelPropertyName = "UnidadDeVenta", MaxWidth=130, ColumnOrder = 3)]
         public string  UnidadDeVenta {
             get {
                 return Model.UnidadDeVenta;
@@ -130,7 +131,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         [LibCustomValidation("PorcentajeDeCostoValidating")]
-        [LibGridColum("          %Costo", eGridColumType.Numeric, Alignment = eTextAlignment.Right, MaxWidth = 80, ConditionalPropertyDecimalDigits = "DecimalDigits")]
+        [LibGridColum("          %Costo", eGridColumType.Numeric, Alignment = eTextAlignment.Right, MaxWidth = 130, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 6)]
         public decimal  PorcentajeDeCosto {
             get {
                 return Model.PorcentajeDeCosto;
@@ -140,6 +141,36 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Model.PorcentajeDeCosto = value;
                     IsDirty = true;
                     RaisePropertyChanged(PorcentajeDeCostoPropertyName);
+                }
+            }
+        }
+
+        [LibCustomValidation("MermaNormalValidating")]
+        [LibGridColum("Merma Normal (en Unidades)", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 220, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 5)]
+        public decimal  MermaNormal {
+            get {
+                return Model.MermaNormal;
+            }
+            set {
+                if (Model.MermaNormal != value) {
+                    Model.MermaNormal = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(MermaNormalPropertyName);
+                }
+            }
+        }
+
+        [LibCustomValidation("PorcentajeMermaNormalValidating")]
+        [LibGridColum("% Merma Normal", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 130, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 4)]
+        public decimal  PorcentajeMermaNormal {
+            get {
+                return Model.PorcentajeMermaNormal;
+            }
+            set {
+                if (Model.PorcentajeMermaNormal != value) {
+                    Model.PorcentajeMermaNormal = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(PorcentajeMermaNormalPropertyName);
                 }
             }
         }
@@ -273,6 +304,29 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
             return vResult;
         }
+
+        public bool IsVisibleManejaMerma {
+            get {
+                return Master.ManejaMerma;
+            }
+        }
+
+        private ValidationResult MermaNormalValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if ((Action == eAccionSR.Insertar || Action == eAccionSR.Modificar) && (MermaNormal >= 0)) {
+                return ValidationResult.Success;
+            }
+            return vResult;
+        }
+
+        private ValidationResult PorcentajeMermaNormalValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if ((Action == eAccionSR.Insertar || Action == eAccionSR.Modificar) && (PorcentajeMermaNormal >= 0 || PorcentajeMermaNormal <= 100)) {
+                return ValidationResult.Success;
+            }
+            return vResult;
+        }
+
         #endregion //Metodos Generados
     } //End of class ListaDeMaterialesDetalleSalidasViewModel
 
