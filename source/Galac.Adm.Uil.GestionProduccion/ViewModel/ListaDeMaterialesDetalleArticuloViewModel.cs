@@ -72,7 +72,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Código Artículo", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoArticuloInventario", ConnectionSearchCommandName = "ChooseCodigoArticuloInventarioCommand", Width = 130, ColumnOrder = 0)]
+        [LibGridColum("Código Artículo", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoArticuloInventario", ConnectionSearchCommandName = "ChooseCodigoArticuloInventarioCommand", Width = 150, ColumnOrder = 0)]
         public string CodigoArticuloInventario {
             get {
                 return Model.CodigoArticuloInventario;
@@ -118,7 +118,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Unidad", eGridColumType.Connection, ConnectionDisplayMemberPath = "UnidadDeVenta", ConnectionModelPropertyName = "UnidadDeVenta", MaxWidth=150, ColumnOrder = 2)]
+        [LibGridColum("Unidad", eGridColumType.Connection, ConnectionDisplayMemberPath = "UnidadDeVenta", ConnectionModelPropertyName = "UnidadDeVenta", Width = 190, ColumnOrder = 2)]
         public string  UnidadDeVenta {
             get {
                 return Model.UnidadDeVenta;
@@ -132,7 +132,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Merma Normal (en Unidades)", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 250, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 4)]
+        [LibGridColum("Merma Normal (en Unidades)", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 245, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 4)]
         [LibCustomValidation("MermaNormalValidating")]
         public decimal  MermaNormal {
             get {
@@ -143,12 +143,12 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Model.MermaNormal = value;
                     IsDirty = true;
                     RaisePropertyChanged(MermaNormalPropertyName);
+                    CalculaPorcentajeMerma();
                 }
             }
         }
-
         
-        [LibGridColum("% Merma Normal", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 150, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 3)]
+        [LibGridColum("% Merma Normal", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 160, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 3)]
         [LibCustomValidation("PorcentajeMermaNormalValidating")]
         public decimal  PorcentajeMermaNormal {
             get {
@@ -162,7 +162,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
             }
         }
-		
 
         public ListaDeMaterialesViewModel Master {
             get;
@@ -185,7 +184,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
             }
         }
-
         
         public RelayCommand<string> ChooseCodigoArticuloInventarioCommand {
             get;
@@ -242,6 +240,12 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public bool IsVisibleManejaMerma {
             get {
                 return Master.ManejaMerma;
+            }
+        }
+
+        public bool IsEnabledPorcentajeMermaNormal {
+            get {
+                return false;
             }
         }
         #endregion //Propiedades
@@ -322,22 +326,28 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             ValidationResult vResult = ValidationResult.Success;
             if ((Action == eAccionSR.Insertar || Action == eAccionSR.Modificar) && (MermaNormal >= 0)) {
                 return ValidationResult.Success;
+            } else {
+                vResult = new ValidationResult("La Merma Normal debe ser mayor o igual a 0. ");
             }
             return vResult;
         }
 
         private ValidationResult PorcentajeMermaNormalValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if ((Action == eAccionSR.Insertar || Action == eAccionSR.Modificar) && (PorcentajeMermaNormal >= 0 || PorcentajeMermaNormal <= 100)) {
+            if ((Action == eAccionSR.Insertar || Action == eAccionSR.Modificar) && (PorcentajeMermaNormal >= 0)) {
                 return ValidationResult.Success;
+            } else {
+                vResult = new ValidationResult("La Porcentaje de Merma Normal debe ser mayor o igual a 0.");
             }
             return vResult;
         }
-
+        private void CalculaPorcentajeMerma() {
+            PorcentajeMermaNormal = 0;
+            if ((Cantidad > 0) && (MermaNormal > 0)) {
+                PorcentajeMermaNormal = ((MermaNormal * 100) / Cantidad);
+            }
+        }
         #endregion //Metodos Generados
-
-
     } //End of class ListaDeMaterialesDetalleArticuloViewModel
-
 } //End of namespace Galac.Saw.Uil.Inventario
 

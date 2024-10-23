@@ -150,7 +150,7 @@
             BorderThickness="1"
             DecimalDigits="8"
             InputDataType="UDecimal"
-            IsEnabled="{Binding Path=IsEnabled}"
+            IsEnabled="{Binding Path=IsEnabledPorcentajeMermaNormal}"
             MaxLength="34"
             Style="{StaticResource TextBoxInputStyle}"
             Visibility="{Binding Path=IsVisibleManejaMerma, Converter={StaticResource booleanToVisibilityConverter}}"

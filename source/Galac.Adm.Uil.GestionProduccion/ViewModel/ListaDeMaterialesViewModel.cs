@@ -142,7 +142,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Model.ManejaMermaAsBool = value;
                     IsDirty = true;
                     RaisePropertyChanged(ManejaMermaPropertyName);
-                    RaisePropertyChanged(() => IsEnabledManejaMerma);
                 }
             }
         }
@@ -237,7 +236,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         public bool IsEnabledManejaMerma {
             get {
-                return IsEnabled && Action == eAccionSR.Insertar && !ManejaMerma;
+                return IsEnabled && Action == eAccionSR.Insertar;
             }
         }
 

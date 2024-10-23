@@ -405,6 +405,10 @@ namespace Galac.Adm.Brl.GestionProduccion {
             ValidaListasSalidas(refRecord);
             ValidaPorcentajeDeCosto(refRecord);
             ValidaTotalDePorcentajeCosto(refRecord);
+            ValidaPorcentajeMermaArticulos(refRecord);
+            ValidaPorcentajeMermaSalidas(refRecord);
+			ValidaMermaNormalArticulos(refRecord);
+			ValidaMermaNormalSalidas(refRecord);
             return base.UpdateRecord(refRecord, valUseDetail, valAction);
         }
 
@@ -413,6 +417,10 @@ namespace Galac.Adm.Brl.GestionProduccion {
             ValidaListasSalidas(refRecord);
             ValidaPorcentajeDeCosto(refRecord);
             ValidaTotalDePorcentajeCosto(refRecord);
+            ValidaPorcentajeMermaArticulos(refRecord);
+            ValidaPorcentajeMermaSalidas(refRecord);
+			ValidaMermaNormalArticulos(refRecord);
+			ValidaMermaNormalSalidas(refRecord);
             return base.InsertRecord(refRecord, valUseDetail);
         }
 
@@ -469,6 +477,38 @@ namespace Galac.Adm.Brl.GestionProduccion {
             if (Repetido.Count > 0) {
                 throw new LibGalac.Aos.Catching.GalacValidationException("En la lista de ítems de Salidas, existe al menos un artículo repetido.");
             }    
+        }
+
+        public void ValidaPorcentajeMermaArticulos(IList<ListaDeMateriales> refRecord) {
+            decimal PorcentajeMin = 0;
+            bool PorcentajeMenor = refRecord[0].DetailListaDeMaterialesDetalleArticulo.Count(x => x.PorcentajeMermaNormal < PorcentajeMin) > 0;
+            if (PorcentajeMenor) {
+                throw new LibGalac.Aos.Catching.GalacValidationException("El porcentaje de merma normal debe ser un valor igual o superior a 0.");
+            }
+        }
+
+        public void ValidaPorcentajeMermaSalidas(IList<ListaDeMateriales> refRecord) {
+            decimal PorcentajeMin = 0;
+            bool PorcentajeMenor = refRecord[0].DetailListaDeMaterialesDetalleSalidas.Count(x => x.PorcentajeMermaNormal < PorcentajeMin) > 0;
+            if (PorcentajeMenor) {
+                throw new LibGalac.Aos.Catching.GalacValidationException("El porcentaje de merma normal debe ser un valor igual o superior a 0.");
+            }
+        }
+
+        public void ValidaMermaNormalArticulos(IList<ListaDeMateriales> refRecord) {
+            decimal Cantidad = 0;
+            bool CantidadMenor = refRecord[0].DetailListaDeMaterialesDetalleArticulo.Count(x => x.MermaNormal < Cantidad) > 0;
+            if (CantidadMenor) {
+                throw new LibGalac.Aos.Catching.GalacValidationException("El cantidad merma normal debe ser un valor igual o superior a 0.");
+            }
+        }
+
+        public void ValidaMermaNormalSalidas(IList<ListaDeMateriales> refRecord) {
+            decimal Cantidad = 0;
+            bool CantidadMenor = refRecord[0].DetailListaDeMaterialesDetalleSalidas.Count(x => x.MermaNormal < Cantidad) > 0;
+            if (CantidadMenor) {
+                throw new LibGalac.Aos.Catching.GalacValidationException("El cantidad merma normal debe ser un valor igual o superior a 0.");
+            }
         }
         #endregion //Código Programador
 
