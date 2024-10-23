@@ -227,8 +227,6 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
@@ -287,26 +285,24 @@
                             <ContentControl
                                 Grid.Row="3"
                                 Grid.ColumnSpan="3"
-                                Width="910">
+                                Width="890">
                                 <Grid x:Name="gtTotalCosto" Margin="0,0,8,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" MinWidth="99" />
+                                        <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <Label
                                         Name="lblTotalCosto"
                                         Grid.Column="1"
-                                        Width="113"
-                                        Margin="707,0,0,0"
+                                        Margin="707,0,98,0"
                                         VerticalAlignment="Center"
                                         Content="Total %Costo:"
                                         Foreground="Black"
-                                        Style="{StaticResource LabelPrompt}" />
+                                        Style="{StaticResource LabelPrompt}" HorizontalAlignment="Stretch" />
                                     <nsWpfControls:GSNumericBoxWpf
                                         Name="txtSumTotalCosto"
                                         Grid.Column="1"
-                                        Width="99"
-                                        Margin="791,0,0,0"
+                                        Margin="797,0,7,0"
                                         VerticalAlignment="Center"
                                         BorderThickness="0,0,0,0"
                                         DecimalDigits="8"
@@ -314,7 +310,7 @@
                                         InputDataType="UDecimal"
                                         IsEnabled="True"
                                         Style="{StaticResource TextBoxInputStyle}"
-                                        Value="{Binding Path=TotalPorcentajeDeCosto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                                        Value="{Binding Path=TotalPorcentajeDeCosto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" />
                                 </Grid>
                             </ContentControl>
                         </Grid>

@@ -102,7 +102,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Cantidad es requerido.")]
-        [LibGridColum("          Cantidad", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", Width = 130, ColumnOrder = 1)]
+        [LibGridColum("Cantidad", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", Width = 130, ColumnOrder = 1)]
         public decimal  Cantidad {
             get {
                 return Model.Cantidad;
@@ -131,7 +131,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         [LibCustomValidation("PorcentajeDeCostoValidating")]
-        [LibGridColum("          %Costo", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 120, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 5)]
+        [LibGridColum("% Costo", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 120, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 5)]
         public decimal  PorcentajeDeCosto {
             get {
                 return Model.PorcentajeDeCosto;
@@ -162,7 +162,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         [LibCustomValidation("PorcentajeMermaNormalValidating")]
-        [LibGridColum("% Merma Normal", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 130, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 3)]
+        [LibGridColum("% Merma Normal", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 120, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 3)]
         public decimal  PorcentajeMermaNormal {
             get {
                 return Model.PorcentajeMermaNormal;
