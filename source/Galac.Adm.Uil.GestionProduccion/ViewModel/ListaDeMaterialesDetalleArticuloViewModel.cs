@@ -327,7 +327,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             if ((Action == eAccionSR.Insertar || Action == eAccionSR.Modificar) && (MermaNormal >= 0)) {
                 return ValidationResult.Success;
             } else {
-                vResult = new ValidationResult("La Merma Normal debe ser mayor o igual a 0. ");
+                vResult = new ValidationResult("La cantidad de merma normal (Insumos) debe ser igual o superior a 0. ");
             }
             return vResult;
         }
@@ -337,7 +337,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             if ((Action == eAccionSR.Insertar || Action == eAccionSR.Modificar) && (PorcentajeMermaNormal >= 0)) {
                 return ValidationResult.Success;
             } else {
-                vResult = new ValidationResult("La Porcentaje de Merma Normal debe ser mayor o igual a 0.");
+                vResult = new ValidationResult("El porcentaje de merma normal (Insumos) debe ser igual o superior a 0.");
             }
             return vResult;
         }
