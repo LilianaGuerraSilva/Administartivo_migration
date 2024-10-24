@@ -38,6 +38,7 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             vSql.AppendLine(vSqlUtil.ToSqlValue(valCantidadAProducir) + " AS CantidadAProducir, ");
             vSql.AppendLine(vSqlUtil.RoundToNDecimals(vSqlUtil.ToSqlValue(valCantidadAProducir) + " * ListaDeMaterialesDetalleSalidas.Cantidad", 8, "CantidadDetalleAProducir,"));
             vSql.AppendLine(vSqlUtil.RoundToNDecimals("CTE_CostoTotalInsumos.SumCostoTotal * ListaDeMaterialesDetalleSalidas.PorcentajeDeCosto / 100", 2, "CostoTotal,"));
+            vSql.AppendLine("ListaDeMateriales.ManejaMerma, ");
             vSql.AppendLine("ListaDeMaterialesDetalleSalidas.MermaNormal AS MermaNormalSalidas,");
             vSql.AppendLine("ListaDeMaterialesDetalleSalidas.PorcentajeMermaNormal AS PorcentajeMermaNormalSalidas ");
             vSql.AppendLine("FROM Adm.ListaDeMateriales ");

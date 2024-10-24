@@ -51,13 +51,13 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             _ListaMonedasDelReporte = valListaMonedasDelReporte;
             _MonedaDelInforme = valMonedaDelInforme;
             _TasaDeCambio = valTasaDeCambio;
-            if(_UseExternalRpx) {
+            if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
-                if(!LibString.IsNullOrEmpty(vRpxPath, true)) {
+                if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
                     LibReport.LoadLayout(this, vRpxPath);
                 }
             }
-            if(LibReport.ConfigDataSource(this, valDataSourceSalidas)) {
+            if (LibReport.ConfigDataSource(this, valDataSourceSalidas)) {
                 LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["NombreCompania"], "");
                 LibReport.ConfigFieldStr(this, "txtMoneda", valParameters["NombreMoneda"], string.Empty);
                 LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());
@@ -72,6 +72,9 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 LibReport.ConfigFieldDecWithNDecimal(this, "txtPorcentajeCosto", string.Empty, "PorcentajeDeCosto", 8);
                 LibReport.ConfigFieldDec(this, "txtCostoUnitario", string.Empty, "CostoUnitario");
                 LibReport.ConfigFieldDec(this, "txtCostoCalculado", string.Empty, "CostoTotal");
+                LibReport.ConfigFieldStr(this, "txtManejaMerma", string.Empty, "ManejaMerma");
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtMermaNormalSalidas", string.Empty, "MermaNormalSalidas", 8);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtPorcMermaNormalSalidas", string.Empty, "PorcentajeMermaNormalSalidas", 8);
                 LibReport.ConfigGroupHeader(this, "GHCodigoListaAProducir", "Codigo", GroupKeepTogether.FirstDetail, RepeatStyle.None, true, NewPage.None);
                 LibReport.ConfigGroupHeader(this, "GHMoneda", "Moneda", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.Before);
                 LibReport.ConfigGroupHeader(this, "GHSalidas", "Codigo", GroupKeepTogether.FirstDetail, RepeatStyle.None, true, NewPage.Before);

@@ -42,8 +42,8 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                     LibReport.LoadLayout(this, vRpxPath);
                 }
             }
-            if(LibReport.ConfigDataSource(this, valDataSource)) {                
-				LibReport.ConfigGroupHeader(this, "GHListaInsumos", "Codigo", GroupKeepTogether.None,  RepeatStyle.None, false, NewPage.None);                
+            if (LibReport.ConfigDataSource(this, valDataSource)) {
+                LibReport.ConfigGroupHeader(this, "GHListaInsumos", "Codigo", GroupKeepTogether.None, RepeatStyle.None, false, NewPage.None);
                 LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "ListaArticuloInsumos");
                 LibReport.ConfigFieldStr(this, "txtUnidades", string.Empty, "Unidades");
                 LibReport.ConfigFieldStr(this, "txtCodigo", string.Empty, "Codigo");
@@ -51,7 +51,9 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 LibReport.ConfigFieldDec(this, "txtCosto", string.Empty, "CostoUnitario");
                 LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidadAReservar", string.Empty, "CantidadAReservar", 8);
                 LibReport.ConfigFieldDec(this, "txtCostoTotal", string.Empty, "CostoTotal");
-                LibReport.ConfigFieldDec(this, "txtExistencia", string.Empty, "Existencia");                
+                LibReport.ConfigFieldDec(this, "txtExistencia", string.Empty, "Existencia");
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtMermaNormalInsumos", string.Empty, "MermaNormalInsumos", 8);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtPorcMermaNormalInsumos", string.Empty, "PorcentajeMermaNormalInsumos ", 8);
                 LibReport.ConfigSummaryField(this, "txtTotalCostoCalculado", "CostoTotal", SummaryFunc.Sum, "GHListaInsumos", SummaryRunning.Group, SummaryType.SubTotal);
                 return true;
             }
