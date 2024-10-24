@@ -4216,7 +4216,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	Nombre: textArea//g,"Nombre" 
 	CodigoArticuloInventario: str30//HIDE, dv=''
 	FechaCreacion 	: unFecha;//O,G,"Fecha de Creación",search
-	ManejaMerma		: : boolean; //"Manejo de Merma"
+	ManejaMerma		: boolean; //"Manejo de Merma"
 	NombreOperador: Str20// 
 	FechaUltimaModificacion: date;// 
 	@PrimaryKey=ConsecutivoCompania,Consecutivo 
