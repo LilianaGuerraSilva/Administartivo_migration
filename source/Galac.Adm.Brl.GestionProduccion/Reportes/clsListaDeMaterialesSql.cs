@@ -54,10 +54,7 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             if (valCantidadAImprimir == eCantidadAImprimir.One) {
                 vSql.AppendLine(" AND ListaDeMateriales.Codigo = " + vSqlUtil.ToSqlValue(valCodigoListaAProducir));
             }
-            vSql.AppendLine(" ORDER BY ListaDeMateriales.Codigo");
-            string vPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\dd.sql";
-            LibFile.WriteLineInFile(vPath, vSql.ToString(), false);
-
+            vSql.AppendLine(" ORDER BY ListaDeMateriales.Codigo");           
             return vSql.ToString();
         }
 
@@ -88,7 +85,8 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             vSql.AppendLine(vSqlUtil.RoundToNDecimals($"{vSqlUtil.ToSqlValue(valCantidadAProducir)} * Adm.ListaDeMaterialesDetalleArticulo.Cantidad", 8, "CantidadAReservar,"));
             vSql.AppendLine(vSqlCostoTotal);
             vSql.AppendLine("ListaDeMaterialesDetalleArticulo.MermaNormal AS MermaNormalInsumos,");
-            vSql.AppendLine("ListaDeMaterialesDetalleArticulo.PorcentajeMermaNormal AS PorcentajeMermaNormalInsumos ");
+            vSql.AppendLine("ListaDeMaterialesDetalleArticulo.PorcentajeMermaNormal AS PorcentajeMermaNormalInsumos, ");
+            vSql.AppendLine("ListaDeMateriales.ManejaMerma ");
             vSql.AppendLine("FROM Adm.ListaDeMateriales ");
             vSql.AppendLine("INNER JOIN Adm.ListaDeMaterialesDetalleArticulo ON ");
             vSql.AppendLine("ListaDeMateriales.ConsecutivoCompania = ListaDeMaterialesDetalleArticulo.ConsecutivoCompania AND ");
