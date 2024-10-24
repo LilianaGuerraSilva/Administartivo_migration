@@ -26,7 +26,9 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="122.17" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
@@ -52,9 +54,8 @@
             Grid.Row="0"
             Grid.Column="1"
             Grid.ColumnSpan="2"
-            Width="324"
-            Margin="3,3,0,4"
-            HorizontalAlignment="Left"
+            Width="295"
+            Margin="4,4,5,4"
             ConnectionValue="{Binding Path=CodigoArticuloInventario, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             DisplayMemberPath="Codigo"
             IsEnabled="{Binding Path=IsEnabled}"
@@ -74,9 +75,9 @@
             Name="txtDescripcionArticulo"
             Grid.Row="1"
             Grid.Column="1"
-            Grid.ColumnSpan="3"
-            Width="740"
-            Margin="4,5,0,5"
+            Grid.ColumnSpan="5"
+            Margin="4,4,0,5"
+            HorizontalAlignment="Stretch"
             nsWpf:LibKeyboardListener.IgnoreEnterKeyLikeTab="True"
             AcceptsReturn="True"
             IsReadOnly="True"
@@ -99,7 +100,8 @@
             Grid.Row="2"
             Grid.Column="1"
             Width="120"
-            Margin="4,4,0,4"
+            Margin="4,4,20,4"
+            HorizontalAlignment="Stretch"
             BorderThickness="1"
             DecimalDigits="{Binding Path=DecimalDigits}"
             InputDataType="UDecimal"
@@ -109,7 +111,8 @@
             Value="{Binding Path=Cantidad, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         <Label
             Name="lblMermaNormal"
-            Grid.Row="3"
+            Grid.Row="2"
+            Grid.Column="2"
             Width="156"
             Height="24"
             HorizontalAlignment="Center"
@@ -119,10 +122,11 @@
             Visibility="{Binding Path=IsVisibleManejaMerma, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSNumericBoxWpf
             Name="txtMermaNormal"
-            Grid.Row="3"
-            Grid.Column="1"
+            Grid.Row="2"
+            Grid.Column="3"
             Width="120"
-            Margin="4,4,0,4"
+            Margin="4,4,20,4"
+            HorizontalAlignment="Stretch"
             BorderThickness="1"
             DecimalDigits="8"
             InputDataType="UDecimal"
@@ -133,9 +137,10 @@
             Value="{Binding Path=MermaNormal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         <Label
             Name="lblPorcentajeMermaNormal"
-            Grid.Row="3"
-            Grid.Column="2"
+            Grid.Row="2"
+            Grid.Column="4"
             Height="24"
+            Margin="3,0,3,0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
             Content="% Merma"
@@ -143,10 +148,10 @@
             Visibility="{Binding Path=IsVisibleManejaMerma, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSNumericBoxWpf
             Name="txtPorcentajeMermaNormal"
-            Grid.Row="3"
-            Grid.Column="3"
+            Grid.Row="2"
+            Grid.Column="5"
             Width="120"
-            Margin="3,3,0,3"
+            Margin="4,4,0,5"
             BorderThickness="1"
             DecimalDigits="8"
             InputDataType="UDecimal"

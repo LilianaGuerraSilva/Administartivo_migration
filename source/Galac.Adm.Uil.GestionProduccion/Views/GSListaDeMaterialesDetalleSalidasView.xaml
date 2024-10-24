@@ -20,7 +20,11 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="122.17" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -31,8 +35,11 @@
         </Grid.RowDefinitions>
         <Label
             Name="lblCodigoArticuloInventario"
-            Grid.Row="0"
             Grid.Column="0"
+            Width="104"
+            Height="24"
+            Margin="3,0,0,0"
+            VerticalAlignment="Center"
             Content="Código Inventario"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSSeekConnection
@@ -40,10 +47,8 @@
             Grid.Row="0"
             Grid.Column="1"
             Grid.ColumnSpan="2"
-            Width="324"
-            Height="23"
-            Margin="3,3,0,4"
-            HorizontalAlignment="Left"
+            Width="295"
+            Margin="4,3,4,4"
             ConnectionValue="{Binding Path=CodigoArticuloInventario, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             DisplayMemberPath="Codigo"
             IsEnabled="{Binding Path=IsEnabled}"
@@ -52,8 +57,10 @@
         <Label
             Name="lneTipoDeArticuloInv"
             Grid.Row="0"
+            Grid.RowSpan="2"
             Grid.Column="2"
-            Grid.ColumnSpan="2"
+            Width="10"
+            Margin="0,0,0,30"
             HorizontalAlignment="Left"
             Content="{Binding Path=TipoArticuloInvStr}"
             Style="{StaticResource LabelStatusGreen}"
@@ -62,15 +69,19 @@
             Name="lblDescripcionArticuloInventario"
             Grid.Row="1"
             Grid.Column="0"
+            Width="116"
+            Height="24"
+            Margin="3,0,0,0"
+            VerticalAlignment="Center"
             Content="Descripción Artículo"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSTextAreaWpf
             Name="txtDescripcionArticuloInventario"
             Grid.Row="1"
             Grid.Column="1"
-            Grid.ColumnSpan="3"
-            Width="740"
-            Margin="3,3,0,3"
+            Grid.ColumnSpan="7"
+            Margin="4,3,0,4"
+            HorizontalAlignment="Stretch"
             nsWpf:LibKeyboardListener.IgnoreEnterKeyLikeTab="True"
             AcceptsReturn="True"
             IsReadOnly="True"
@@ -82,6 +93,10 @@
             Name="lblCantidad"
             Grid.Row="2"
             Grid.Column="0"
+            Width="58"
+            Height="24"
+            Margin="4,0,0,0"
+            VerticalAlignment="Center"
             Content="Cantidad"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSNumericBoxWpf
@@ -89,6 +104,7 @@
             Grid.Row="2"
             Grid.Column="1"
             Width="120"
+            Margin="4,4,0,6"
             BorderThickness="1"
             DecimalDigits="{Binding Path=DecimalDigits}"
             InputDataType="UDecimal"
@@ -99,16 +115,20 @@
         <Label
             Name="lblPorcentajeDeCosto"
             Grid.Row="2"
-            Grid.Column="2"
-            Width="55"
-            Margin="436,0,0,0"
+            Grid.Column="6"
+            Height="24"
+            Margin="0,0,0,0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
             Content="% Costo"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSNumericBoxWpf
             Name="txtPorcentajeDeCosto"
             Grid.Row="2"
-            Grid.Column="3"
-            Width="120"
+            Grid.Column="7"
+            Width="105"
+            Margin="4,4,0,5"
+            HorizontalAlignment="Center"
             BorderThickness="1"
             DecimalDigits="8"
             InputDataType="UDecimal"
@@ -118,17 +138,21 @@
             Value="{Binding Path=PorcentajeDeCosto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         <Label
             Name="lblMermaNormal"
-            Grid.Row="3"
-            Grid.Column="0"
-            Width="156"
+            Grid.Row="2"
+            Grid.Column="2"
+            Height="24"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
             Content="Merma Normal (esperada)"
             Style="{StaticResource LabelPrompt}"
             Visibility="{Binding Path=IsVisibleManejaMerma, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSNumericBoxWpf
             Name="txtMermaNormal"
-            Grid.Row="3"
-            Grid.Column="1"
+            Grid.Row="2"
+            Grid.Column="3"
             Width="120"
+            Margin="4,4,4,6"
+            HorizontalAlignment="Stretch"
             BorderThickness="1"
             DecimalDigits="8"
             InputDataType="UDecimal"
@@ -139,19 +163,23 @@
             Value="{Binding Path=MermaNormal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         <Label
             Name="lblPorcentajeMermaNormal"
-            Grid.Row="3"
-            Grid.Column="2"
-            Width="64"
-            Margin="427,0,0,0"
+            Grid.Row="2"
+            Grid.Column="4"
+            Width="62"
+            Height="24"
+            Margin="0,4,0,5"
+            HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
             Content="% Merma"
             Style="{StaticResource LabelPrompt}"
             Visibility="{Binding Path=IsVisibleManejaMerma, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSNumericBoxWpf
             Name="txtPorcentajeMermaNormal"
-            Grid.Row="3"
-            Grid.Column="3"
+            Grid.Row="2"
+            Grid.Column="5"
             Width="120"
+            Margin="5,4,5,6"
+            HorizontalAlignment="Stretch"
             DecimalDigits="8"
             InputDataType="UDecimal"
             IsEnabled="{Binding Path=IsEnabledPorcentajeMermaNormal}"

@@ -295,14 +295,16 @@
                                         Name="lblTotalCosto"
                                         Grid.Column="1"
                                         Margin="707,0,98,0"
+                                        HorizontalAlignment="Stretch"
                                         VerticalAlignment="Center"
                                         Content="Total %Costo:"
                                         Foreground="Black"
-                                        Style="{StaticResource LabelPrompt}" HorizontalAlignment="Stretch" />
+                                        Style="{StaticResource LabelPrompt}" />
                                     <nsWpfControls:GSNumericBoxWpf
                                         Name="txtSumTotalCosto"
                                         Grid.Column="1"
                                         Margin="797,0,7,0"
+                                        HorizontalAlignment="Stretch"
                                         VerticalAlignment="Center"
                                         BorderThickness="0,0,0,0"
                                         DecimalDigits="8"
@@ -310,7 +312,7 @@
                                         InputDataType="UDecimal"
                                         IsEnabled="True"
                                         Style="{StaticResource TextBoxInputStyle}"
-                                        Value="{Binding Path=TotalPorcentajeDeCosto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" />
+                                        Value="{Binding Path=TotalPorcentajeDeCosto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                                 </Grid>
                             </ContentControl>
                         </Grid>
