@@ -194,7 +194,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
-            throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
+            throw new ProgrammerMissingCodeException("La Cantidad debe ser mayor a 0");
             return vResult;
         }
 
@@ -203,7 +203,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
-            throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
+            throw new ProgrammerMissingCodeException("La cantidad de merma normal (Insumos) debe ser igual o superior a 0.");
             return vResult;
         }
 
@@ -212,7 +212,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
-            throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
+            throw new ProgrammerMissingCodeException("El porcentaje de merma normal (Insumos) debe ser igual o superior a 0.");
             return vResult;
         }
 

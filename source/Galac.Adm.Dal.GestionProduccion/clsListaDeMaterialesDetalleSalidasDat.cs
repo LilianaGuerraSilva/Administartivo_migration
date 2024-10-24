@@ -43,7 +43,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vParams.AddInInteger("Consecutivo", valRecord.Consecutivo);
             vParams.AddInString("CodigoArticuloInventario", valRecord.CodigoArticuloInventario, 30);
             vParams.AddInDecimal("Cantidad", valRecord.Cantidad, 8);
-            vParams.AddInDecimal("PorcentajeDeCosto", valRecord.PorcentajeDeCosto, 4);
+            vParams.AddInDecimal("PorcentajeDeCosto", valRecord.PorcentajeDeCosto, 8);
             vParams.AddInDecimal("MermaNormal", valRecord.MermaNormal, 8);
             vParams.AddInDecimal("PorcentajeMermaNormal", valRecord.PorcentajeMermaNormal, 8);
             vResult = vParams.Get();
@@ -217,7 +217,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
-            throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
+            throw new ProgrammerMissingCodeException("La cantidad de merma normal (Salidas) debe ser igual o superior a 0.");
             return vResult;
         }
 
@@ -226,7 +226,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
-            throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
+            throw new ProgrammerMissingCodeException("El porcentaje de merma normal (Salidas) debe ser igual o superior a 0.");
             return vResult;
         }
 
