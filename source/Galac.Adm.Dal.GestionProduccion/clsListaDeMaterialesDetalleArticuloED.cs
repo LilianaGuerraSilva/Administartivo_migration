@@ -46,6 +46,8 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("Consecutivo" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnLisDeMatDetArtConsecutiv NOT NULL, ");
             SQL.AppendLine("CodigoArticuloInventario" + InsSql.VarCharTypeForDb(30) + " CONSTRAINT d_LisDeMatDetArtCoArIn DEFAULT (''), ");
             SQL.AppendLine("Cantidad" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT nnLisDeMatDetArtCantidad NOT NULL, ");
+            SQL.AppendLine("MermaNormal" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT nnLisDeMatDetArtMermaNorma DEFAULT (0), ");
+            SQL.AppendLine("PorcentajeMermaNormal" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT nnLisDeMatDetArtPorcentaje DEFAULT (0), ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
             SQL.AppendLine("CONSTRAINT p_ListaDeMaterialesDetalleArticulo PRIMARY KEY CLUSTERED");
             SQL.AppendLine("(ConsecutivoCompania ASC, ConsecutivoListaDeMateriales ASC, Consecutivo ASC)");
@@ -63,7 +65,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
         private string SqlViewB1() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("SELECT ListaDeMaterialesDetalleArticulo.ConsecutivoCompania, ListaDeMaterialesDetalleArticulo.ConsecutivoListaDeMateriales, ListaDeMaterialesDetalleArticulo.Consecutivo, ListaDeMaterialesDetalleArticulo.CodigoArticuloInventario");
-            SQL.AppendLine(", ListaDeMaterialesDetalleArticulo.Cantidad");
+            SQL.AppendLine(", ListaDeMaterialesDetalleArticulo.Cantidad, ListaDeMaterialesDetalleArticulo.MermaNormal, ListaDeMaterialesDetalleArticulo.PorcentajeMermaNormal");
             SQL.AppendLine(", dbo.ArticuloInventario.Descripcion AS DescripcionArticuloInventario");
             SQL.AppendLine(", dbo.ArticuloInventario.UnidadDeVenta AS UnidadDeVenta");
             SQL.AppendLine(", ListaDeMaterialesDetalleArticulo.fldTimeStamp, CAST(ListaDeMaterialesDetalleArticulo.fldTimeStamp AS bigint) AS fldTimeStampBigint");
@@ -79,7 +81,9 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("@ConsecutivoListaDeMateriales" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@CodigoArticuloInventario" + InsSql.VarCharTypeForDb(30) + ",");
-            SQL.AppendLine("@Cantidad" + InsSql.DecimalTypeForDb(25, 8) + " = 0");
+            SQL.AppendLine("@Cantidad" + InsSql.DecimalTypeForDb(25, 8) + " = 0,");
+            SQL.AppendLine("@MermaNormal" + InsSql.DecimalTypeForDb(25, 8) + " = 0,");
+            SQL.AppendLine("@PorcentajeMermaNormal" + InsSql.DecimalTypeForDb(25, 8) + " = 0");
             return SQL.ToString();
         }
 
@@ -96,13 +100,17 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("            ConsecutivoListaDeMateriales,");
             SQL.AppendLine("            Consecutivo,");
             SQL.AppendLine("            CodigoArticuloInventario,");
-            SQL.AppendLine("            Cantidad)");
+            SQL.AppendLine("            Cantidad,");
+            SQL.AppendLine("            MermaNormal,");
+            SQL.AppendLine("            PorcentajeMermaNormal)");
             SQL.AppendLine("            VALUES(");
             SQL.AppendLine("            @ConsecutivoCompania,");
             SQL.AppendLine("            @ConsecutivoListaDeMateriales,");
             SQL.AppendLine("            @Consecutivo,");
             SQL.AppendLine("            @CodigoArticuloInventario,");
-            SQL.AppendLine("            @Cantidad)");
+            SQL.AppendLine("            @Cantidad,");
+            SQL.AppendLine("            @MermaNormal,");
+            SQL.AppendLine("            @PorcentajeMermaNormal)");
             SQL.AppendLine("            SET @ReturnValue = @@ROWCOUNT");
             SQL.AppendLine("        COMMIT TRAN");
             SQL.AppendLine("        RETURN @ReturnValue ");
@@ -120,6 +128,8 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@CodigoArticuloInventario" + InsSql.VarCharTypeForDb(30) + ",");
             SQL.AppendLine("@Cantidad" + InsSql.DecimalTypeForDb(25, 8) + ",");
+            SQL.AppendLine("@MermaNormal" + InsSql.DecimalTypeForDb(25, 8) + ",");
+            SQL.AppendLine("@PorcentajeMermaNormal" + InsSql.DecimalTypeForDb(25, 8) + ",");
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
             return SQL.ToString();
         }
@@ -145,7 +155,9 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("         BEGIN TRAN");
             SQL.AppendLine("         UPDATE " + DbSchema + ".ListaDeMaterialesDetalleArticulo");
             SQL.AppendLine("            SET CodigoArticuloInventario = @CodigoArticuloInventario,");
-            SQL.AppendLine("               Cantidad = @Cantidad");
+            SQL.AppendLine("               Cantidad = @Cantidad,");
+            SQL.AppendLine("               MermaNormal = @MermaNormal,");
+            SQL.AppendLine("               PorcentajeMermaNormal = @PorcentajeMermaNormal");
             SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
             SQL.AppendLine("               AND ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("               AND ConsecutivoListaDeMateriales = @ConsecutivoListaDeMateriales");
@@ -257,6 +269,8 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("         Consecutivo,");
             SQL.AppendLine("         CodigoArticuloInventario,");
             SQL.AppendLine("         Cantidad,");
+            SQL.AppendLine("         MermaNormal,");
+            SQL.AppendLine("         PorcentajeMermaNormal,");
             SQL.AppendLine("         CAST(fldTimeStamp AS bigint) AS fldTimeStampBigint,");
             SQL.AppendLine("         fldTimeStamp");
             SQL.AppendLine("      FROM " + DbSchema + ".ListaDeMaterialesDetalleArticulo");
@@ -287,6 +301,8 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("        dbo.ArticuloInventario.TipoDeArticulo AS TipoDeArticulo,");
             SQL.AppendLine("        dbo.ArticuloInventario.TipoArticuloInv AS TipoArticuloInv,");            
             SQL.AppendLine("        Adm.ListaDeMaterialesDetalleArticulo.Cantidad,");
+			SQL.AppendLine("        Adm.ListaDeMaterialesDetalleArticulo.MermaNormal,");
+            SQL.AppendLine("        Adm.ListaDeMaterialesDetalleArticulo.PorcentajeMermaNormal,");
             SQL.AppendLine("        dbo.ArticuloInventario.UnidadDeVenta AS UnidadDeVenta,");
             SQL.AppendLine("        Adm.ListaDeMaterialesDetalleArticulo.fldTimeStamp");
             SQL.AppendLine("    FROM ListaDeMaterialesDetalleArticulo");
@@ -339,18 +355,24 @@ namespace Galac.Adm.Dal.GestionProduccion {
 			SQL.AppendLine("	        ConsecutivoListaDeMateriales,");
 			SQL.AppendLine("	        Consecutivo,");
 			SQL.AppendLine("	        CodigoArticuloInventario,");
-			SQL.AppendLine("	        Cantidad)");
+			SQL.AppendLine("	        Cantidad,");
+			SQL.AppendLine("	        MermaNormal,");
+			SQL.AppendLine("	        PorcentajeMermaNormal)");
 		    SQL.AppendLine("	    SELECT ");
 			SQL.AppendLine("	        @ConsecutivoCompania,");
 			SQL.AppendLine("	        @ConsecutivoListaDeMateriales,");
 			SQL.AppendLine("	        Consecutivo,");
 			SQL.AppendLine("	        CodigoArticuloInventario,");
-			SQL.AppendLine("	        Cantidad");
+			SQL.AppendLine("	        Cantidad,");
+			SQL.AppendLine("	        MermaNormal,");
+			SQL.AppendLine("	        PorcentajeMermaNormal");
 		    SQL.AppendLine("	    FROM OPENXML( @hdoc, 'GpData/GpResult/GpDataListaDeMaterialesDetalleArticulo/GpDetailListaDeMaterialesDetalleArticulo',2) ");
             SQL.AppendLine("	    WITH (");
             SQL.AppendLine("	        Consecutivo " + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("	        CodigoArticuloInventario " + InsSql.VarCharTypeForDb(30) + ",");
-            SQL.AppendLine("	        Cantidad " + InsSql.DecimalTypeForDb(25, 8) + ") AS XmlDocDetailOfListaDeMateriales");
+            SQL.AppendLine("	        Cantidad " + InsSql.DecimalTypeForDb(25, 8) + ",");
+            SQL.AppendLine("	        MermaNormal " + InsSql.DecimalTypeForDb(25, 8) + ",");
+            SQL.AppendLine("	        PorcentajeMermaNormal " + InsSql.DecimalTypeForDb(25, 8) + ") AS XmlDocDetailOfListaDeMateriales");
             SQL.AppendLine("	    EXEC sp_xml_removedocument @hdoc");
             SQL.AppendLine("	    SET @ReturnValue = @@ROWCOUNT");
             SQL.AppendLine("	    RETURN @ReturnValue");

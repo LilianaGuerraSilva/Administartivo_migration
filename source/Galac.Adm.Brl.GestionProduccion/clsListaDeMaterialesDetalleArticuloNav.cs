@@ -150,6 +150,8 @@ namespace Galac.Adm.Brl.GestionProduccion {
             vCurrentRecord.Consecutivo = 0;
             vCurrentRecord.CodigoArticuloInventario = "";
             vCurrentRecord.Cantidad = 0;
+            vCurrentRecord.MermaNormal = 0;
+            vCurrentRecord.PorcentajeMermaNormal = 0;
             vLista.Add(vCurrentRecord);
             return instanciaDal.Insert(vLista).Success;
         }
@@ -175,6 +177,12 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("Cantidad"), null))) {
                     vRecord.Cantidad = LibConvert.ToDec(vItem.Element("Cantidad"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("MermaNormal"), null))) {
+                    vRecord.MermaNormal = LibConvert.ToDec(vItem.Element("MermaNormal"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("PorcentajeMermaNormal"), null))) {
+                    vRecord.PorcentajeMermaNormal = LibConvert.ToDec(vItem.Element("PorcentajeMermaNormal"));
                 }
                 vResult.Add(vRecord);
             }
