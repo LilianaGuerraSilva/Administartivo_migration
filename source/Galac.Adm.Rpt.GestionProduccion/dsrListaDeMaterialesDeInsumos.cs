@@ -54,6 +54,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 LibReport.ConfigFieldDec(this, "txtExistencia", string.Empty, "Existencia");
                 LibReport.ConfigFieldDecWithNDecimal(this, "txtMermaNormalInsumos", string.Empty, "MermaNormalInsumos", 8);
                 LibReport.ConfigFieldDecWithNDecimal(this, "txtPorcMermaNormalInsumos", string.Empty, "PorcentajeMermaNormalInsumos ", 8);
+                LibReport.ConfigFieldStr(this, "txtManejaMerma", string.Empty, "ManejaMerma");
                 LibReport.ConfigSummaryField(this, "txtTotalCostoCalculado", "CostoTotal", SummaryFunc.Sum, "GHListaInsumos", SummaryRunning.Group, SummaryType.SubTotal);
                 return true;
             }
