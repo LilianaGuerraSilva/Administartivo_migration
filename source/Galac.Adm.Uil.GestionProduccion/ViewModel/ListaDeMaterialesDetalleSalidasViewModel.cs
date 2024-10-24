@@ -161,7 +161,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibCustomValidation("PorcentajeMermaNormalValidating")]
         [LibGridColum("% Merma Normal", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 120, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 3)]
         public decimal  PorcentajeMermaNormal {
             get {
@@ -225,11 +224,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             get { return LibEnumHelper.GetDescription(TipoArticuloInvAsEnum); }
         }
 
-        public bool IsEnabledPorcentajeMermaNormal {
-            get {
-                return false;
-            }
-        }
         #endregion //Propiedades
         #region Constructores
         public ListaDeMaterialesDetalleSalidasViewModel()
@@ -312,7 +306,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             return vResult;
         }
 
-        public bool IsVisibleManejaMerma {
+        public bool IsVisibleCantidadMerma {
             get {
                 return Master.ManejaMerma;
             }
@@ -328,20 +322,10 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             return vResult;
         }
 
-        private ValidationResult PorcentajeMermaNormalValidating() {
-            ValidationResult vResult = ValidationResult.Success;
-            if ((Action == eAccionSR.Insertar || Action == eAccionSR.Modificar) && (PorcentajeMermaNormal >= 0)) {
-                return ValidationResult.Success;
-            } else {
-                vResult = new ValidationResult("El porcentaje de merma normal (Salidas) debe ser igual o superior a 0.");
-            }
-            return vResult;
-        }
-
         private void CalculaPorcentajeMerma() {
-            PorcentajeMermaNormal = 0;
-            if ((Cantidad > 0) && (MermaNormal > 0)) {
-                PorcentajeMermaNormal = ((MermaNormal * 100) / Cantidad);
+            decimal PorcentajeMermaNormal = 0;
+            if (Cantidad != 0) {
+                PorcentajeMermaNormal = LibMath.RoundToNDecimals(((MermaNormal * 100) / Cantidad), 8);
             }
         }
         #endregion //Metodos Generados

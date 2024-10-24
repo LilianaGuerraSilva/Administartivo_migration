@@ -145,7 +145,7 @@
             VerticalAlignment="Center"
             Content="Merma Normal (esperada)"
             Style="{StaticResource LabelPrompt}"
-            Visibility="{Binding Path=IsVisibleManejaMerma, Converter={StaticResource booleanToVisibilityConverter}}" />
+            Visibility="{Binding Path=IsVisibleCantidadMerma, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSNumericBoxWpf
             Name="txtMermaNormal"
             Grid.Row="2"
@@ -159,33 +159,7 @@
             IsEnabled="{Binding Path=IsEnabled}"
             MaxLength="30"
             Style="{StaticResource TextBoxInputStyle}"
-            Visibility="{Binding Path=IsVisibleManejaMerma, Converter={StaticResource booleanToVisibilityConverter}}"
+            Visibility="{Binding Path=IsVisibleCantidadMerma, Converter={StaticResource booleanToVisibilityConverter}}"
             Value="{Binding Path=MermaNormal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-        <Label
-            Name="lblPorcentajeMermaNormal"
-            Grid.Row="2"
-            Grid.Column="4"
-            Width="62"
-            Height="24"
-            Margin="0,4,0,5"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            Content="% Merma"
-            Style="{StaticResource LabelPrompt}"
-            Visibility="{Binding Path=IsVisibleManejaMerma, Converter={StaticResource booleanToVisibilityConverter}}" />
-        <nsWpfControls:GSNumericBoxWpf
-            Name="txtPorcentajeMermaNormal"
-            Grid.Row="2"
-            Grid.Column="5"
-            Width="120"
-            Margin="5,4,5,6"
-            HorizontalAlignment="Stretch"
-            DecimalDigits="8"
-            InputDataType="UDecimal"
-            IsEnabled="{Binding Path=IsEnabledPorcentajeMermaNormal}"
-            MaxLength="30"
-            Style="{StaticResource TextBoxInputStyle}"
-            Visibility="{Binding Path=IsVisibleManejaMerma, Converter={StaticResource booleanToVisibilityConverter}}"
-            Value="{Binding Path=PorcentajeMermaNormal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
     </Grid>
 </UserControl>
