@@ -144,6 +144,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     IsDirty = true;
                     RaisePropertyChanged(MermaNormalPropertyName);
                     CalculaPorcentajeMerma();
+                    RaisePropertyChanged(PorcentajeMermaNormalPropertyName);
                 }
             }
         }
@@ -326,7 +327,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         private void CalculaPorcentajeMerma() {
-            decimal PorcentajeMermaNormal = 0;
+            PorcentajeMermaNormal = 0;
             if (Cantidad != 0) {
                 PorcentajeMermaNormal = LibMath.RoundToNDecimals(((MermaNormal * 100) / Cantidad), 8);
             }
