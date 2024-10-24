@@ -193,8 +193,9 @@ namespace Galac.Adm.Dal.GestionProduccion {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
+            }else if (valCantidad < 0) {
+                throw new GalacValidationException("La Cantidad debe ser mayor a 0");
             }
-            throw new ProgrammerMissingCodeException("La Cantidad debe ser mayor a 0");
             return vResult;
         }
 
@@ -202,8 +203,9 @@ namespace Galac.Adm.Dal.GestionProduccion {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
+            }else if(valMermaNormal < 0){
+                throw new GalacValidationException("La cantidad de merma normal (Insumos) debe ser igual o superior a 0.");
             }
-            throw new ProgrammerMissingCodeException("La cantidad de merma normal (Insumos) debe ser igual o superior a 0.");
             return vResult;
         }
 
@@ -211,8 +213,9 @@ namespace Galac.Adm.Dal.GestionProduccion {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
+            }else if (valPorcentajeMermaNormal < 0) {
+                throw new GalacValidationException("El porcentaje de merma normal (Insumos) debe ser igual o superior a 0.");
             }
-            throw new ProgrammerMissingCodeException("El porcentaje de merma normal (Insumos) debe ser igual o superior a 0.");
             return vResult;
         }
 
