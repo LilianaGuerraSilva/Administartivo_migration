@@ -483,7 +483,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
             decimal PorcentajeMin = 0;
             bool PorcentajeMenor = refRecord[0].DetailListaDeMaterialesDetalleArticulo.Count(x => x.PorcentajeMermaNormal < PorcentajeMin) > 0;
             if (PorcentajeMenor) {
-                throw new LibGalac.Aos.Catching.GalacValidationException("El porcentaje de merma normal debe ser un valor igual o superior a 0.");
+                throw new LibGalac.Aos.Catching.GalacValidationException("El porcentaje de merma normal (Insumos) debe ser un valor igual o superior a 0.");
             }
         }
 
@@ -491,7 +491,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
             decimal PorcentajeMin = 0;
             bool PorcentajeMenor = refRecord[0].DetailListaDeMaterialesDetalleSalidas.Count(x => x.PorcentajeMermaNormal < PorcentajeMin) > 0;
             if (PorcentajeMenor) {
-                throw new LibGalac.Aos.Catching.GalacValidationException("El porcentaje de merma normal debe ser un valor igual o superior a 0.");
+                throw new LibGalac.Aos.Catching.GalacValidationException("El porcentaje de merma normal (Salidas) debe ser un valor igual o superior a 0.");
             }
         }
 
@@ -499,7 +499,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
             decimal Cantidad = 0;
             bool CantidadMenor = refRecord[0].DetailListaDeMaterialesDetalleArticulo.Count(x => x.MermaNormal < Cantidad) > 0;
             if (CantidadMenor) {
-                throw new LibGalac.Aos.Catching.GalacValidationException("El cantidad merma normal debe ser un valor igual o superior a 0.");
+                throw new LibGalac.Aos.Catching.GalacValidationException("El cantidad de merma normal (Insumos) debe ser un valor igual o superior a 0.");
             }
         }
 
@@ -507,7 +507,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
             decimal Cantidad = 0;
             bool CantidadMenor = refRecord[0].DetailListaDeMaterialesDetalleSalidas.Count(x => x.MermaNormal < Cantidad) > 0;
             if (CantidadMenor) {
-                throw new LibGalac.Aos.Catching.GalacValidationException("El cantidad merma normal debe ser un valor igual o superior a 0.");
+                throw new LibGalac.Aos.Catching.GalacValidationException("El cantidad de merma normal (Salidas) debe ser un valor igual o superior a 0.");
             }
         }
         #endregion //Código Programador
