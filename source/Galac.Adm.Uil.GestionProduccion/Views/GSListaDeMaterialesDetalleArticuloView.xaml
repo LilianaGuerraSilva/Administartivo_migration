@@ -6,7 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:nsVm="clr-namespace:Galac.Adm.Uil.GestionProduccion.ViewModel"
     xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
-    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+    Width="910">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -26,10 +27,13 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
-
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -38,18 +42,20 @@
         </Grid.RowDefinitions>
         <Label
             Name="lblCodigoArticuloInventario"
-            Grid.Row="0"
             Grid.Column="0"
+            Width="91"
+            Height="24"
+            Margin="3,0,0,0"
+            VerticalAlignment="Center"
             Content="Código Artículo"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSSeekConnection
             Name="txtCodigoArticuloInventario"
             Grid.Row="0"
             Grid.Column="1"
-            Width="280"
-            Height="23"
-            Margin="3"
-            HorizontalAlignment="Left"
+            Grid.ColumnSpan="2"
+            Width="295"
+            Margin="4,4,5,4"
             ConnectionValue="{Binding Path=CodigoArticuloInventario, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             DisplayMemberPath="Codigo"
             IsEnabled="{Binding Path=IsEnabled}"
@@ -59,7 +65,9 @@
             Name="lneTipoDeArticuloInv"
             Grid.Row="0"
             Grid.Column="2"
-            HorizontalAlignment="Left"
+            Width="10"
+            Margin="0,0,0,19"
+            HorizontalAlignment="Center"
             Content="{Binding Path=TipoArticuloInvStr}"
             Style="{StaticResource LabelStatusGreen}"
             Visibility="{Binding Path=IsVisbleTipoArticuloInvStr, Converter={StaticResource booleanToVisibilityConverter}}" />
@@ -67,9 +75,9 @@
             Name="txtDescripcionArticulo"
             Grid.Row="1"
             Grid.Column="1"
-            Grid.ColumnSpan="2"
-            Width="460"
-            Height="45"
+            Grid.ColumnSpan="5"
+            Margin="4,4,0,5"
+            HorizontalAlignment="Stretch"
             nsWpf:LibKeyboardListener.IgnoreEnterKeyLikeTab="True"
             AcceptsReturn="True"
             IsReadOnly="True"
@@ -81,6 +89,10 @@
             Name="lblCantidad"
             Grid.Row="2"
             Grid.Column="0"
+            Width="58"
+            Height="23"
+            Margin="3,0,0,0"
+            VerticalAlignment="Center"
             Content="Cantidad"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSNumericBoxWpf
@@ -88,6 +100,7 @@
             Grid.Row="2"
             Grid.Column="1"
             Width="120"
+            Margin="4,4,4,4"
             BorderThickness="1"
             DecimalDigits="{Binding Path=DecimalDigits}"
             InputDataType="UDecimal"
@@ -95,6 +108,31 @@
             MaxLength="34"
             Style="{StaticResource TextBoxInputStyle}"
             Value="{Binding Path=Cantidad, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        <Label
+            Name="lblMermaNormal"
+            Grid.Row="2"
+            Grid.Column="2"
+            Width="156"
+            Height="24"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Content="Merma Normal (esperada)"
+            Style="{StaticResource LabelPrompt}"
+            Visibility="{Binding Path=IsVisibleCantidadMerma, Converter={StaticResource booleanToVisibilityConverter}}" />
+        <nsWpfControls:GSNumericBoxWpf
+            Name="txtMermaNormal"
+            Grid.Row="2"
+            Grid.Column="3"
+            Width="120"
+            Margin="4,4,4,4"
+            BorderThickness="1"
+            DecimalDigits="8"
+            InputDataType="UDecimal"
+            IsEnabled="{Binding Path=IsEnabled}"
+            MaxLength="30"
+            Style="{StaticResource TextBoxInputStyle}"
+            Visibility="{Binding Path=IsVisibleCantidadMerma, Converter={StaticResource booleanToVisibilityConverter}}"
+            Value="{Binding Path=MermaNormal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
     </Grid>
 
 </UserControl>
