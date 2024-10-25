@@ -54,13 +54,39 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 LibReport.ConfigFieldDec(this, "txtExistencia", string.Empty, "Existencia");
                 LibReport.ConfigFieldDecWithNDecimal(this, "txtMermaNormalInsumos", string.Empty, "MermaNormalInsumos", 8);
                 LibReport.ConfigFieldDecWithNDecimal(this, "txtPorcMermaNormalInsumos", string.Empty, "PorcentajeMermaNormalInsumos ", 8);
-                LibReport.ConfigFieldStr(this, "txtManejaMerma", string.Empty, "ManejaMerma");
+                LibReport.ConfigFieldStr(this, "txtManejaMermaIns", string.Empty, "ManejaMerma");
                 LibReport.ConfigSummaryField(this, "txtTotalCostoCalculado", "CostoTotal", SummaryFunc.Sum, "GHListaInsumos", SummaryRunning.Group, SummaryType.SubTotal);
                 return true;
             }
             return false;
         }
-        #endregion //Metodos Generados
+
+        private void Detail_Format(object sender, EventArgs e) {
+            string vManejaMermaStr = "";            
+            for (int vNumSection = 0; vNumSection < this.Sections.Count; vNumSection++) {
+                for (int vNumControl = 0; vNumControl < this.Sections[vNumSection].Controls.Count; vNumControl++) {
+                    var name = this.Sections[vNumSection].Controls[vNumControl].Name;
+                    if (LibString.S1IsEqualToS2("txtManejaMermaIns", name)) {
+                        var vControl = this.Sections[vNumSection].Controls[vNumControl] as DataDynamics.ActiveReports.TextBox;
+                        vManejaMermaStr = vControl.Text;
+                    }
+                }
+            }
+            if (LibConvert.SNToBool(vManejaMermaStr)) {
+                lblPorcMermaNormalInsumos.Value = "Porc. Merma";
+                lblMermaNormalInsumos.Value = "Merma Normal";
+                LibReport.ChangeControlVisibility(this, "txtMermaNormalInsumos", true);
+                LibReport.ChangeControlVisibility(this, "txtPorcMermaNormalInsumos", true);
+            } else {
+                lblPorcMermaNormalInsumos.Value = "";
+                lblMermaNormalInsumos.Value = "";
+                LibReport.ChangeControlVisibility(this, "txtMermaNormalInsumos", false);
+                LibReport.ChangeControlVisibility(this, "txtPorcMermaNormalInsumos", false);
+            }
+
+
+        }
+        #endregion //Metodos Generados            
     } //End of class dsrListaDeMaterialesDeInsumos
 
 } //End of namespace Galac.Adm.Rpt.GestionProduccion

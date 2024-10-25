@@ -106,11 +106,27 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             }
         }
 
-        private void GHSalidas_Format(object sender, EventArgs e) {
-            if (LibConvert.SNToBool(this.txtManejaMerma.Text)) {
-
-            } else { 
-            
+        private void Detail_Format(object sender, EventArgs e) {
+            string vManejaMermaStr = "";
+            for (int vNumSection = 0; vNumSection < this.Sections.Count; vNumSection++) {
+                for (int vNumControl = 0; vNumControl < this.Sections[vNumSection].Controls.Count; vNumControl++) {
+                    var name = this.Sections[vNumSection].Controls[vNumControl].Name;
+                    if (LibString.S1IsEqualToS2("txtManejaMerma", name)) {
+                        var vControl = this.Sections[vNumSection].Controls[vNumControl] as DataDynamics.ActiveReports.TextBox;
+                        vManejaMermaStr = vControl.Text;                       
+                    }
+                }
+            }
+            if (LibConvert.SNToBool(vManejaMermaStr)) {
+                lblPorcMermaNormalSalidas.Text = "Porc. Merma";
+                lblMermaNormalSalidas.Text = "Merma Normal";
+                LibReport.ChangeControlVisibility(this, "txtMermaNormalSalidas", true);
+                LibReport.ChangeControlVisibility(this, "txtPorcMermaNormalSalidas", true);
+            } else {
+                lblPorcMermaNormalSalidas.Text = "";
+                lblMermaNormalSalidas.Text = "";
+                LibReport.ChangeControlVisibility(this, "txtMermaNormalSalidas", false);
+                LibReport.ChangeControlVisibility(this, "txtPorcMermaNormalSalidas", false);
             }
         }
     }
