@@ -39,7 +39,7 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             vSql.AppendLine(vSqlUtil.RoundToNDecimals(vSqlUtil.ToSqlValue(valCantidadAProducir) + " * ListaDeMaterialesDetalleSalidas.Cantidad", 8, "CantidadDetalleAProducir,"));
             vSql.AppendLine(vSqlUtil.RoundToNDecimals("CTE_CostoTotalInsumos.SumCostoTotal * ListaDeMaterialesDetalleSalidas.PorcentajeDeCosto / 100", 2, "CostoTotal,"));
             vSql.AppendLine("ListaDeMateriales.ManejaMerma, ");
-            vSql.AppendLine("ListaDeMaterialesDetalleSalidas.MermaNormal AS MermaNormalSalidas,");
+            vSql.AppendLine(vSqlUtil.RoundToNDecimals($"{vSqlUtil.ToSqlValue(valCantidadAProducir)} * Adm.ListaDeMaterialesDetalleSalidas.MermaNormal", 8, "MermaNormalSalidas,"));
             vSql.AppendLine("ListaDeMaterialesDetalleSalidas.PorcentajeMermaNormal AS PorcentajeMermaNormalSalidas ");
             vSql.AppendLine("FROM Adm.ListaDeMateriales ");
             vSql.AppendLine("INNER JOIN Adm.ListaDeMaterialesDetalleSalidas ON ");
@@ -83,8 +83,8 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             vSql.AppendLine("ArticuloInventario.Existencia, ");
             vSql.AppendLine("SUBSTRING(ArticuloInventario.UnidadDeVenta,1,10) AS Unidades, ");
             vSql.AppendLine(vSqlUtil.RoundToNDecimals($"{vSqlUtil.ToSqlValue(valCantidadAProducir)} * Adm.ListaDeMaterialesDetalleArticulo.Cantidad", 8, "CantidadAReservar,"));
-            vSql.AppendLine(vSqlCostoTotal);
-            vSql.AppendLine("ListaDeMaterialesDetalleArticulo.MermaNormal AS MermaNormalInsumos,");
+            vSql.AppendLine(vSqlCostoTotal);           
+            vSql.AppendLine(vSqlUtil.RoundToNDecimals($"{vSqlUtil.ToSqlValue(valCantidadAProducir)} * Adm.ListaDeMaterialesDetalleArticulo.MermaNormal", 8, "MermaNormalInsumos,"));
             vSql.AppendLine("ListaDeMaterialesDetalleArticulo.PorcentajeMermaNormal AS PorcentajeMermaNormalInsumos, ");
             vSql.AppendLine("ListaDeMateriales.ManejaMerma ");
             vSql.AppendLine("FROM Adm.ListaDeMateriales ");
