@@ -32,7 +32,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         public dsrListaDeMaterialesDeSalida(bool initUseExternalRpx, string initRpxFileName) {
             InitializeComponent();
             _UseExternalRpx = initUseExternalRpx;
-            if(_UseExternalRpx) {
+            if (_UseExternalRpx) {
                 _RpxFileName = initRpxFileName;
             }
         }
@@ -40,7 +40,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         #region Metodos Generados
         public string ReportTitle() {
             IListaDeMaterialesPdn insListaMateriales = new clsListaDeMaterialesNav();
-            if(!LibString.IsNullOrEmpty(insListaMateriales.NombreParaMostrarListaDeMateriales())) {
+            if (!LibString.IsNullOrEmpty(insListaMateriales.NombreParaMostrarListaDeMateriales())) {
                 return insListaMateriales.NombreParaMostrarListaDeMateriales() + " de Inventario a Producir";
             } else {
                 return "Lista De Materiales de Salida";
@@ -94,15 +94,23 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         #endregion
 
         private void PageFooter_Format(object sender, EventArgs e) {
-            if(LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[0]) || LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[1])) {
+            if (LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[0]) || LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[1])) {
                 this.txtNotaMonedaCambio.Value = "Los montos de los costos están expresados en " + txtMoneda.Text;
-            } else if(LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[2]) || LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[3])) {
+            } else if (LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[2]) || LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[3])) {
                 int vPos = LibString.IndexOf(_MonedaDelInforme, "expresado en");
-                if(vPos > 0) {
+                if (vPos > 0) {
                     string vPrimeraMoneda = LibString.Trim(LibString.SubString(_MonedaDelInforme, 0, vPos));
                     string vSegundaMoneda = LibString.SubString(_MonedaDelInforme, vPos + LibString.Len("expresado en "));
                     this.txtNotaMonedaCambio.Value = $"Los montos de los costos en {vPrimeraMoneda} están expresados en {vSegundaMoneda} a la tasa {LibConvert.NumToString(_TasaDeCambio, 4)}";
                 }
+            }
+        }
+
+        private void GHSalidas_Format(object sender, EventArgs e) {
+            if (LibConvert.SNToBool(this.txtManejaMerma.Text)) {
+
+            } else { 
+            
             }
         }
     }

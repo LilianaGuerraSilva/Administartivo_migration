@@ -498,6 +498,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblPorcMermaSalidas});
             this.GHSalidas.Height = 0.3232499F;
             this.GHSalidas.Name = "GHSalidas";
+            this.GHSalidas.Format += new System.EventHandler(this.GHSalidas_Format);
             // 
             // lblCostoUnitario
             // 
