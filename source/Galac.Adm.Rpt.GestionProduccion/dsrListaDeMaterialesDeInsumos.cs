@@ -24,7 +24,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         public dsrListaDeMaterialesDeInsumos(bool initUseExternalRpx, string initRpxFileName) {
             InitializeComponent();
             _UseExternalRpx = initUseExternalRpx;
-            if(_UseExternalRpx) {
+            if (_UseExternalRpx) {
                 _RpxFileName = initRpxFileName;
             }
         }
@@ -36,9 +36,9 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         }
 
         public bool ConfigReport(DataTable valDataSource) {
-            if(_UseExternalRpx) {
+            if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
-                if(!LibString.IsNullOrEmpty(vRpxPath, true)) {
+                if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
                     LibReport.LoadLayout(this, vRpxPath);
                 }
             }
@@ -62,7 +62,9 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         }
 
         private void Detail_Format(object sender, EventArgs e) {
-            string vManejaMermaStr = "";            
+            string vManejaMermaStr = "";
+            LibReport.ChangeControlVisibility(this, "txtMermaNormalInsumos", false);
+            LibReport.ChangeControlVisibility(this, "txtPorcMermaNormalInsumos", false);
             for (int vNumSection = 0; vNumSection < this.Sections.Count; vNumSection++) {
                 for (int vNumControl = 0; vNumControl < this.Sections[vNumSection].Controls.Count; vNumControl++) {
                     var name = this.Sections[vNumSection].Controls[vNumControl].Name;
@@ -72,22 +74,28 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                     }
                 }
             }
-            if (LibConvert.SNToBool(vManejaMermaStr)) {
-                lblPorcMermaNormalInsumos.Value = "Porc. Merma";
-                lblMermaNormalInsumos.Value = "Merma Normal";
+            if (LibConvert.SNToBool(vManejaMermaStr)) {               
                 LibReport.ChangeControlVisibility(this, "txtMermaNormalInsumos", true);
                 LibReport.ChangeControlVisibility(this, "txtPorcMermaNormalInsumos", true);
-            } else {
-                lblPorcMermaNormalInsumos.Value = "";
-                lblMermaNormalInsumos.Value = "";
+                LibReport.ChangeControlVisibility(this, "lblMermaNormalInsumos", true);
+                LibReport.ChangeControlVisibility(this, "lblPorcMermaNormalInsumos", true);
+                LibReport.ChangeControlVisibility(this, "lblMermaInsumosHide", false);
+                lblMermaNormalInsumos.Visible = true;
+                lblPorcMermaNormalInsumos.Visible = true;
+                lblMermaInsumosHide.Visible = false;
+
+            } else {               
                 LibReport.ChangeControlVisibility(this, "txtMermaNormalInsumos", false);
                 LibReport.ChangeControlVisibility(this, "txtPorcMermaNormalInsumos", false);
+                LibReport.ChangeControlVisibility(this, "lblMermaNormalInsumos", false);
+                LibReport.ChangeControlVisibility(this, "lblPorcMermaNormalInsumos", false);
+                LibReport.ChangeControlVisibility(this, "lblMermaInsumosHide", true);
+                lblMermaNormalInsumos.Visible = false;
+                lblPorcMermaNormalInsumos.Visible = false;
+                lblMermaInsumosHide.Visible = true;
             }
-
-
         }
-        #endregion //Metodos Generados            
+        #endregion //Metodos Generados                   
     } //End of class dsrListaDeMaterialesDeInsumos
-
 } //End of namespace Galac.Adm.Rpt.GestionProduccion
 

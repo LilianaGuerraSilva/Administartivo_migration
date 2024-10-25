@@ -42,15 +42,16 @@ namespace Galac.Adm.Rpt.GestionProduccion
             this.lblCostoTotal = new DataDynamics.ActiveReports.Label();
             this.lblExistencia = new DataDynamics.ActiveReports.Label();
             this.GHListaInsumos = new DataDynamics.ActiveReports.GroupHeader();
+            this.lblMermaInsumosHide = new DataDynamics.ActiveReports.Label();
             this.lblInsumos = new DataDynamics.ActiveReports.Label();
             this.lblUnidades = new DataDynamics.ActiveReports.Label();
             this.lblMermaNormalInsumos = new DataDynamics.ActiveReports.Label();
             this.lblPorcMermaNormalInsumos = new DataDynamics.ActiveReports.Label();
+            this.txtManejaMermaIns = new DataDynamics.ActiveReports.TextBox();
             this.GFListaInsumos = new DataDynamics.ActiveReports.GroupFooter();
             this.txtTotalCostoCalculado = new DataDynamics.ActiveReports.TextBox();
             this.lblTotalCosto = new DataDynamics.ActiveReports.Label();
             this.txtCodigo = new DataDynamics.ActiveReports.TextBox();
-            this.txtManejaMermaIns = new DataDynamics.ActiveReports.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.txtArticulo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCantidad)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCantidadAReservar)).BeginInit();
@@ -66,14 +67,15 @@ namespace Galac.Adm.Rpt.GestionProduccion
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadAReservar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCostoTotal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblExistencia)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblMermaInsumosHide)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblInsumos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblUnidades)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMermaNormalInsumos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblPorcMermaNormalInsumos)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtManejaMermaIns)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalCostoCalculado)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotalCosto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCodigo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtManejaMermaIns)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
@@ -266,6 +268,7 @@ namespace Galac.Adm.Rpt.GestionProduccion
             // GHListaInsumos
             // 
             this.GHListaInsumos.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
+            this.lblMermaInsumosHide,
             this.lblCantidad,
             this.lblDescripcionArticulo,
             this.lblCantidadAReservar,
@@ -275,9 +278,23 @@ namespace Galac.Adm.Rpt.GestionProduccion
             this.lblUnidades,
             this.lblExistencia,
             this.lblMermaNormalInsumos,
-            this.lblPorcMermaNormalInsumos});
+            this.lblPorcMermaNormalInsumos,
+            this.txtManejaMermaIns});
             this.GHListaInsumos.Height = 0.5002501F;
             this.GHListaInsumos.Name = "GHListaInsumos";
+            // 
+            // lblMermaInsumosHide
+            // 
+            this.lblMermaInsumosHide.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.lblMermaInsumosHide.Height = 0.167F;
+            this.lblMermaInsumosHide.HyperLink = null;
+            this.lblMermaInsumosHide.Left = 2.77F;
+            this.lblMermaInsumosHide.Name = "lblMermaInsumosHide";
+            this.lblMermaInsumosHide.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
+            this.lblMermaInsumosHide.Text = "";
+            this.lblMermaInsumosHide.Top = 0.3F;
+            this.lblMermaInsumosHide.Visible = false;
+            this.lblMermaInsumosHide.Width = 1.45F;
             // 
             // lblInsumos
             // 
@@ -326,13 +343,24 @@ namespace Galac.Adm.Rpt.GestionProduccion
             this.lblPorcMermaNormalInsumos.Top = 0.302F;
             this.lblPorcMermaNormalInsumos.Width = 0.71F;
             // 
+            // txtManejaMermaIns
+            // 
+            this.txtManejaMermaIns.CanGrow = false;
+            this.txtManejaMermaIns.Height = 0.167F;
+            this.txtManejaMermaIns.Left = 7.5F;
+            this.txtManejaMermaIns.MultiLine = false;
+            this.txtManejaMermaIns.Name = "txtManejaMermaIns";
+            this.txtManejaMermaIns.Style = "color: Black; font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtManejaMermaIns.Text = "txtManejaMermaIns";
+            this.txtManejaMermaIns.Top = 0.135F;
+            this.txtManejaMermaIns.Width = 0.74F;
+            // 
             // GFListaInsumos
             // 
             this.GFListaInsumos.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
             this.txtTotalCostoCalculado,
             this.lblTotalCosto,
-            this.txtCodigo,
-            this.txtManejaMermaIns});
+            this.txtCodigo});
             this.GFListaInsumos.Height = 0.323F;
             this.GFListaInsumos.Name = "GFListaInsumos";
             // 
@@ -370,18 +398,6 @@ namespace Galac.Adm.Rpt.GestionProduccion
             this.txtCodigo.Visible = false;
             this.txtCodigo.Width = 0.661F;
             // 
-            // txtManejaMermaIns
-            // 
-            this.txtManejaMermaIns.CanGrow = false;
-            this.txtManejaMermaIns.Height = 0.167F;
-            this.txtManejaMermaIns.Left = 0.771F;
-            this.txtManejaMermaIns.MultiLine = false;
-            this.txtManejaMermaIns.Name = "txtManejaMermaIns";
-            this.txtManejaMermaIns.Style = "color: Black; font-size: 8pt; text-align: right; ddo-char-set: 1";
-            this.txtManejaMermaIns.Text = "txtManejaMermaIns";
-            this.txtManejaMermaIns.Top = 0F;
-            this.txtManejaMermaIns.Width = 0.74F;
-            // 
             // dsrListaDeMaterialesDeInsumos
             // 
             this.MasterReport = false;
@@ -412,14 +428,15 @@ namespace Galac.Adm.Rpt.GestionProduccion
             ((System.ComponentModel.ISupportInitialize)(this.lblCantidadAReservar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCostoTotal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblExistencia)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblMermaInsumosHide)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblInsumos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblUnidades)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMermaNormalInsumos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblPorcMermaNormalInsumos)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtManejaMermaIns)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalCostoCalculado)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotalCosto)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCodigo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtManejaMermaIns)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -451,5 +468,6 @@ namespace Galac.Adm.Rpt.GestionProduccion
         private DataDynamics.ActiveReports.Label lblPorcMermaNormalInsumos;
         private DataDynamics.ActiveReports.TextBox txtPorcMermaNormalInsumos;
         private DataDynamics.ActiveReports.TextBox txtManejaMermaIns;
+        private DataDynamics.ActiveReports.Label lblMermaInsumosHide;
     }
 }

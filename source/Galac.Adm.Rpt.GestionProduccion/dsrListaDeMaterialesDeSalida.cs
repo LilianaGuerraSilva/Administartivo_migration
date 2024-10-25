@@ -117,16 +117,25 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                     }
                 }
             }
-            if (LibConvert.SNToBool(vManejaMermaStr)) {
-                lblPorcMermaNormalSalidas.Text = "Porc. Merma";
-                lblMermaNormalSalidas.Text = "Merma Normal";
+            
+            if (LibConvert.SNToBool(vManejaMermaStr)) {                                               
                 LibReport.ChangeControlVisibility(this, "txtMermaNormalSalidas", true);
                 LibReport.ChangeControlVisibility(this, "txtPorcMermaNormalSalidas", true);
-            } else {
-                lblPorcMermaNormalSalidas.Text = "";
-                lblMermaNormalSalidas.Text = "";
+                LibReport.ChangeControlVisibility(this, "lblMermaNormalSalidas", true);
+                LibReport.ChangeControlVisibility(this, "lblPorcMermaNormalSalidas", true);                             
+                LibReport.ChangeControlVisibility(this, "lblMermaSalidasHide", false);
+                lblMermaNormalSalidas.Visible = true;
+                lblPorcMermaNormalSalidas.Visible = true;
+                lblMermaSalidasHide.Visible = false;
+            } else {                
                 LibReport.ChangeControlVisibility(this, "txtMermaNormalSalidas", false);
                 LibReport.ChangeControlVisibility(this, "txtPorcMermaNormalSalidas", false);
+                LibReport.ChangeControlVisibility(this, "lblMermaNormalSalidas", false);
+                LibReport.ChangeControlVisibility(this, "lblPorcMermaNormalSalidas", false);                
+                LibReport.ChangeControlVisibility(this, "lblMermaSalidasHide", true);
+                lblMermaNormalSalidas.Visible = false;
+                lblPorcMermaNormalSalidas.Visible = false;
+                lblMermaSalidasHide.Visible = true;
             }
         }
     }
