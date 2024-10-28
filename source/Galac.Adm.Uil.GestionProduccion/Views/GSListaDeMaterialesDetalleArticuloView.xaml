@@ -29,13 +29,8 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -54,8 +49,7 @@
             Grid.Row="0"
             Grid.Column="1"
             Grid.ColumnSpan="2"
-            Width="295"
-            Margin="4,4,5,4"
+            Margin="4,4,200,4"
             ConnectionValue="{Binding Path=CodigoArticuloInventario, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             DisplayMemberPath="Codigo"
             IsEnabled="{Binding Path=IsEnabled}"
@@ -65,9 +59,11 @@
             Name="lneTipoDeArticuloInv"
             Grid.Row="0"
             Grid.Column="2"
-            Width="10"
-            Margin="0,0,0,19"
-            HorizontalAlignment="Center"
+            Grid.ColumnSpan="2"
+            Width="232"
+            Margin="0,4,160,4"
+            HorizontalAlignment="Right"
+            HorizontalContentAlignment="Left"
             Content="{Binding Path=TipoArticuloInvStr}"
             Style="{StaticResource LabelStatusGreen}"
             Visibility="{Binding Path=IsVisbleTipoArticuloInvStr, Converter={StaticResource booleanToVisibilityConverter}}" />
@@ -76,8 +72,9 @@
             Grid.Row="1"
             Grid.Column="1"
             Grid.ColumnSpan="5"
+            Width="688"
+            Height="50"
             Margin="4,4,0,5"
-            HorizontalAlignment="Stretch"
             nsWpf:LibKeyboardListener.IgnoreEnterKeyLikeTab="True"
             AcceptsReturn="True"
             IsReadOnly="True"

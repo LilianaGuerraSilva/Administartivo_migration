@@ -24,8 +24,6 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -47,8 +45,7 @@
             Grid.Row="0"
             Grid.Column="1"
             Grid.ColumnSpan="2"
-            Width="295"
-            Margin="4,3,4,4"
+            Margin="4,3,10,4"
             ConnectionValue="{Binding Path=CodigoArticuloInventario, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             DisplayMemberPath="Codigo"
             IsEnabled="{Binding Path=IsEnabled}"
@@ -57,21 +54,20 @@
         <Label
             Name="lneTipoDeArticuloInv"
             Grid.Row="0"
-            Grid.RowSpan="2"
-            Grid.Column="2"
-            Width="10"
-            Margin="0,0,0,30"
-            HorizontalAlignment="Left"
+            Grid.Column="3"
+            Grid.ColumnSpan="2"
+            Margin="4,4,0,5"
+            HorizontalContentAlignment="Left"
             Content="{Binding Path=TipoArticuloInvStr}"
             Style="{StaticResource LabelStatusGreen}"
-            Visibility="{Binding Path=IsVisbleTipoArticuloInvStr, Converter={StaticResource booleanToVisibilityConverter}}" />
+            Visibility="{Binding Path=IsVisbleTipoArticuloInvStr, Converter={StaticResource booleanToVisibilityConverter}}" HorizontalAlignment="Left" Width="244" />
         <Label
             Name="lblDescripcionArticuloInventario"
             Grid.Row="1"
             Grid.Column="0"
-            Width="116"
             Height="24"
             Margin="3,0,0,0"
+            HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
             Content="Descripción Artículo"
             Style="{StaticResource LabelPrompt}" />
@@ -80,8 +76,8 @@
             Grid.Row="1"
             Grid.Column="1"
             Grid.ColumnSpan="7"
+            Width="699"
             Margin="4,3,0,4"
-            HorizontalAlignment="Stretch"
             nsWpf:LibKeyboardListener.IgnoreEnterKeyLikeTab="True"
             AcceptsReturn="True"
             IsReadOnly="True"
@@ -95,7 +91,7 @@
             Grid.Column="0"
             Width="58"
             Height="24"
-            Margin="4,0,0,0"
+            Margin="3,0,0,0"
             VerticalAlignment="Center"
             Content="Cantidad"
             Style="{StaticResource LabelPrompt}" />
@@ -105,18 +101,17 @@
             Grid.Column="1"
             Width="120"
             Margin="4,4,11,6"
-            HorizontalAlignment="Right"
+            HorizontalAlignment="Left"
             BorderThickness="1"
             DecimalDigits="{Binding Path=DecimalDigits}"
             InputDataType="UDecimal"
             IsEnabled="{Binding Path=IsEnabled}"
-            MaxLength="34"
             Style="{StaticResource TextBoxInputStyle}"
             Value="{Binding Path=Cantidad, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         <Label
             Name="lblPorcentajeDeCosto"
             Grid.Row="2"
-            Grid.Column="6"
+            Grid.Column="4"
             Height="24"
             Margin="0,0,0,0"
             HorizontalAlignment="Stretch"
@@ -126,7 +121,7 @@
         <nsWpfControls:GSNumericBoxWpf
             Name="txtPorcentajeDeCosto"
             Grid.Row="2"
-            Grid.Column="7"
+            Grid.Column="5"
             Width="105"
             Margin="4,4,0,5"
             HorizontalAlignment="Center"
