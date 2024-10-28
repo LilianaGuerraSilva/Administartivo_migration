@@ -130,19 +130,19 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.txtArticulo.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtArticulo.Text = "txtArticulo";
             this.txtArticulo.Top = 0F;
-            this.txtArticulo.Width = 2.16F;
+            this.txtArticulo.Width = 1.77F;
             // 
             // txtUnidades
             // 
             this.txtUnidades.CanGrow = false;
             this.txtUnidades.Height = 0.167F;
-            this.txtUnidades.Left = 2.16F;
+            this.txtUnidades.Left = 1.77F;
             this.txtUnidades.MultiLine = false;
             this.txtUnidades.Name = "txtUnidades";
             this.txtUnidades.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtUnidades.Text = "txtUnidades";
             this.txtUnidades.Top = 0F;
-            this.txtUnidades.Width = 0.6100001F;
+            this.txtUnidades.Width = 0.49F;
             // 
             // txtPorcentajeCosto
             // 
@@ -198,13 +198,13 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             // 
             this.txtMermaNormalSalidas.CanGrow = false;
             this.txtMermaNormalSalidas.Height = 0.167F;
-            this.txtMermaNormalSalidas.Left = 2.77F;
+            this.txtMermaNormalSalidas.Left = 2.26F;
             this.txtMermaNormalSalidas.MultiLine = false;
             this.txtMermaNormalSalidas.Name = "txtMermaNormalSalidas";
             this.txtMermaNormalSalidas.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtMermaNormalSalidas.Text = "txtMermaNormalSalidas";
             this.txtMermaNormalSalidas.Top = 0F;
-            this.txtMermaNormalSalidas.Width = 0.74F;
+            this.txtMermaNormalSalidas.Width = 1.12F;
             // 
             // txtManejaMerma
             // 
@@ -223,13 +223,13 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             // 
             this.txtPorcMermaNormalSalidas.CanGrow = false;
             this.txtPorcMermaNormalSalidas.Height = 0.167F;
-            this.txtPorcMermaNormalSalidas.Left = 3.51F;
+            this.txtPorcMermaNormalSalidas.Left = 3.38F;
             this.txtPorcMermaNormalSalidas.MultiLine = false;
             this.txtPorcMermaNormalSalidas.Name = "txtPorcMermaNormalSalidas";
             this.txtPorcMermaNormalSalidas.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtPorcMermaNormalSalidas.Text = "txtPorcMermaNormalSalidas";
             this.txtPorcMermaNormalSalidas.Top = 0F;
-            this.txtPorcMermaNormalSalidas.Width = 0.7100003F;
+            this.txtPorcMermaNormalSalidas.Width = 0.84F;
             // 
             // PageHeader
             // 
@@ -385,19 +385,19 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblArticulo.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
             this.lblArticulo.Text = "Artículos a Producir";
             this.lblArticulo.Top = 0.156F;
-            this.lblArticulo.Width = 2.16F;
+            this.lblArticulo.Width = 1.77F;
             // 
             // lblUnidades
             // 
             this.lblUnidades.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblUnidades.Height = 0.167F;
             this.lblUnidades.HyperLink = null;
-            this.lblUnidades.Left = 2.16F;
+            this.lblUnidades.Left = 1.77F;
             this.lblUnidades.Name = "lblUnidades";
             this.lblUnidades.Style = "font-size: 8pt; font-weight: bold; text-align: left; ddo-char-set: 1";
             this.lblUnidades.Text = "Unidad";
             this.lblUnidades.Top = 0.156F;
-            this.lblUnidades.Width = 0.6100001F;
+            this.lblUnidades.Width = 0.49F;
             // 
             // lblPorcentajeCosto
             // 
@@ -535,13 +535,13 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblMermaSalidasHide.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblMermaSalidasHide.Height = 0.167F;
             this.lblMermaSalidasHide.HyperLink = null;
-            this.lblMermaSalidasHide.Left = 2.77F;
+            this.lblMermaSalidasHide.Left = 2.26F;
             this.lblMermaSalidasHide.Name = "lblMermaSalidasHide";
             this.lblMermaSalidasHide.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblMermaSalidasHide.Text = "";
             this.lblMermaSalidasHide.Top = 0.156F;
             this.lblMermaSalidasHide.Visible = false;
-            this.lblMermaSalidasHide.Width = 1.45F;
+            this.lblMermaSalidasHide.Width = 1.96F;
             // 
             // lblCostoUnitario
             // 
@@ -571,24 +571,24 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblMermaNormalSalidas.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblMermaNormalSalidas.Height = 0.167F;
             this.lblMermaNormalSalidas.HyperLink = null;
-            this.lblMermaNormalSalidas.Left = 2.77F;
+            this.lblMermaNormalSalidas.Left = 2.26F;
             this.lblMermaNormalSalidas.Name = "lblMermaNormalSalidas";
             this.lblMermaNormalSalidas.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblMermaNormalSalidas.Text = "Merma Normal";
             this.lblMermaNormalSalidas.Top = 0.156F;
-            this.lblMermaNormalSalidas.Width = 0.74F;
+            this.lblMermaNormalSalidas.Width = 1.12F;
             // 
             // lblPorcMermaNormalSalidas
             // 
             this.lblPorcMermaNormalSalidas.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblPorcMermaNormalSalidas.Height = 0.167F;
             this.lblPorcMermaNormalSalidas.HyperLink = null;
-            this.lblPorcMermaNormalSalidas.Left = 3.51F;
+            this.lblPorcMermaNormalSalidas.Left = 3.38F;
             this.lblPorcMermaNormalSalidas.Name = "lblPorcMermaNormalSalidas";
             this.lblPorcMermaNormalSalidas.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
-            this.lblPorcMermaNormalSalidas.Text = "Porc. Merma";
+            this.lblPorcMermaNormalSalidas.Text = "% Merma";
             this.lblPorcMermaNormalSalidas.Top = 0.156F;
-            this.lblPorcMermaNormalSalidas.Width = 0.7100003F;
+            this.lblPorcMermaNormalSalidas.Width = 0.84F;
             // 
             // GFSalidas
             // 
