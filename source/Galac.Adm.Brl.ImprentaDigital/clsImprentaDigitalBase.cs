@@ -40,11 +40,13 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public List<FacturaRapidaDetalle> DetalleFacturaImprentaDigital { get; set; }
         public eProveedorImprentaDigital ProveedorImprentaDigital { get; set; }
         public string CodigoMonedaME { get; private set; }
+        public string CodigoMonedaLocal { get; private set; }
+        public decimal CambioABolivares { get; private set; }
         public string Mensaje { get; set; }
         #endregion Propiedades
         public clsImprentaDigitalBase() {
 
-        }
+        }        
 
         public clsImprentaDigitalBase(eTipoDocumentoFactura initTipoDocumento, string initNumeroFactura) {
             LoginUser = new clsLoginUser();
@@ -53,6 +55,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
             ProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
             CodigoMonedaME = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
+            CodigoMonedaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaLocal");           
             clsImprentaDigitalSettings vImprentaDigitalSettings = new clsImprentaDigitalSettings();
             NumeroControl = string.Empty;
             Mensaje = string.Empty;
@@ -73,6 +76,22 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 default:
                     break;
             }
+        }
+
+        private decimal GetCambio() {
+            decimal vCambio = 1;
+            if (LibString.S1IsEqualToS2(FacturaImprentaDigital.CodigoMoneda, CodigoMonedaLocal)) {
+                Comun.Ccl.TablasGen.ICambioPdn insCambio = new Comun.Brl.TablasGen.clsCambioNav();
+                if (!insCambio.ExisteTasaDeCambioParaElDia(CodigoMonedaME, FacturaImprentaDigital.Fecha, out vCambio)) {
+                    vCambio = 1;
+                }
+            } else {
+                vCambio = FacturaImprentaDigital.CambioABolivares;
+                if (vCambio == 0) {
+                    vCambio = 1;
+                }
+            }
+            return vCambio;
         }
 
         private string SqlDatosDeDocumentoParaEmitir(ref StringBuilder refParametros) {
@@ -96,6 +115,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" ,factura.TipoDeVenta");
             vSql.AppendLine(" ,factura.TipoDeTransaccion");
             vSql.AppendLine(" ,factura.Talonario");
+            vSql.AppendLine(" ,ROUND(factura.MontoDescuento1,2) AS MontoDescuento1");
             vSql.AppendLine(" ,ROUND(factura.PorcentajeDescuento,2) AS PorcentajeDescuento");
             vSql.AppendLine(" ,ROUND(factura.CambioABolivares,4) AS CambioABolivares");
             vSql.AppendLine(" ,ROUND(factura.CambioMostrarTotalEnDivisas,4) AS CambioMostrarTotalEnDivisas");
@@ -125,6 +145,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" ,ROUND(factura.MontoIVAAlicuota3,2) AS MontoIVAAlicuota3");
             vSql.AppendLine(" ,ROUND(factura.AlicuotaIGTF,2) AS AlicuotaIGTF");
             vSql.AppendLine(" ,ROUND(factura.IGTFML,2) AS IGTFML");
+            vSql.AppendLine(" ,ROUND(factura.IGTFME,2) AS IGTFME");
             vSql.AppendLine(" ,ROUND(factura.BaseImponibleIGTF,2) AS BaseImponibleIGTF");
             vSql.AppendLine(" ,factura.UsarDireccionFiscal");
             vSql.AppendLine(" ,factura.NoDirDespachoAimprimir");
@@ -156,6 +177,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     FacturaImprentaDigital.TipoDeTransaccion = LibXml.GetPropertyString(vResult, "TipoDeTransaccion");
                     FacturaImprentaDigital.Talonario = LibXml.GetPropertyString(vResult, "Talonario");
                     FacturaImprentaDigital.PorcentajeDescuento = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "PorcentajeDescuento"));
+                    FacturaImprentaDigital.MontoDescuento1 = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "MontoDescuento1"));
                     FacturaImprentaDigital.CambioABolivares = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "CambioABolivares"));
                     FacturaImprentaDigital.CambioMostrarTotalEnDivisas = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "CambioMostrarTotalEnDivisas"));
                     FacturaImprentaDigital.TotalRenglones = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "TotalRenglones"));
@@ -183,10 +205,12 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     FacturaImprentaDigital.MontoIvaAlicuota3 = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "MontoIVAAlicuota3"));
                     FacturaImprentaDigital.AlicuotaIGTF = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "AlicuotaIGTF"));
                     FacturaImprentaDigital.IGTFML = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "IGTFML"));
+                    FacturaImprentaDigital.IGTFME = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "IGTFME"));
                     FacturaImprentaDigital.BaseImponibleIGTF = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "BaseImponibleIGTF"));
                     FacturaImprentaDigital.GeneradoPor = LibXml.GetPropertyString(vResult, "GeneradoPor");
                     FacturaImprentaDigital.UsarDireccionFiscalAsBool = LibImportData.SNToBool(LibXml.GetPropertyString(vResult, "UsarDireccionFiscal"));
                     FacturaImprentaDigital.NoDirDespachoAimprimir = FacturaImprentaDigital.UsarDireccionFiscalAsBool ? 0 : LibImportData.ToInt(LibXml.GetPropertyString(vResult, "NoDirDespachoAimprimir"));
+                    CambioABolivares = GetCambio();
                 } else {
                     throw new GalacException($"No existe un documento para enviar con el número {NumeroFactura} ", eExceptionManagementType.Controlled);
                 }
