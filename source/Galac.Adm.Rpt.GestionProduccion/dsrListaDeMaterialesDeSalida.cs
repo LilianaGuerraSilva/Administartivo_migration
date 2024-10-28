@@ -25,6 +25,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         private string[] _ListaMonedasDelReporte { get; set; }
         private string _MonedaDelInforme { get; set; }
         private decimal _TasaDeCambio { get; set; }
+        private bool _ManejaMerma = false;
         #endregion //Variables
         #region Constructor
         public dsrListaDeMaterialesDeSalida()
@@ -92,8 +93,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             vRpt.ConfigReport(valDataSourceInsumos);
             return vRpt;
         }
-        #endregion
-
+     
         private void PageFooter_Format(object sender, EventArgs e) {
             if (LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[0]) || LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[1])) {
                 this.txtNotaMonedaCambio.Value = "Los montos de los costos están expresados en " + txtMoneda.Text;
@@ -107,17 +107,28 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             }
         }
 
-        private void Detail_Format(object sender, EventArgs e) {            
-            bool vManejaMerma = LibConvert.SNToBool(txtManejaMerma.Value.ToString());
-            LibReport.ChangeControlVisibility(this, "txtMermaNormalSalidas", vManejaMerma);
-            LibReport.ChangeControlVisibility(this, "txtPorcMermaNormalSalidas", vManejaMerma);
+        private void Detail_Format(object sender, EventArgs e) {
+            if (!_ManejaMerma) {
+                txtUnidades.Left = txtCantidadAProducirDetalle.Left;
+                txtCantidadAProducirDetalle.Left = txtPorcMermaNormalSalidas.Left;
+                txtCantidadArticulos.Left = txtMermaNormalSalidas.Left;
+                txtArticulo.Width = txtUnidades.Left;
+            }
+            LibReport.ChangeControlVisibility(this, "txtMermaNormalSalidas", _ManejaMerma);
+            LibReport.ChangeControlVisibility(this, "txtPorcMermaNormalSalidas", _ManejaMerma);
         }
 
-        private void GHCodigoListaAProducir_Format(object sender, EventArgs e) {
-            bool vManejaMerma = LibConvert.SNToBool(this.txtManejaMerma.Value.ToString());
-            LibReport.ChangeControlVisibility(this, "lblMermaNormalSalidas", vManejaMerma);
-            LibReport.ChangeControlVisibility(this, "lblPorcMermaNormalSalidas", vManejaMerma);
-            LibReport.ChangeControlVisibility(this, "lblMermaSalidasHide", !vManejaMerma);
+        private void GHSalidas_Format(object sender, EventArgs e) {
+            _ManejaMerma = LibConvert.SNToBool(this.txtManejaMerma.Value.ToString());
+            if (!_ManejaMerma) {
+                lblUnidades.Left = lblCantidadAProducirDetalle.Left;
+                lblCantidadAProducirDetalle.Left = lblPorcMermaNormalSalidas.Left;
+                lblCantidadArticulos.Left = lblMermaNormalSalidas.Left;
+                lblArticulo.Width = lblUnidades.Left;
+            }
+            LibReport.ChangeControlVisibility(this, "lblMermaNormalSalidas", _ManejaMerma);
+            LibReport.ChangeControlVisibility(this, "lblPorcMermaNormalSalidas", _ManejaMerma);
         }
-    }
-}
+        #endregion //Metodos Generados   
+    } //End of class dsrListaDeMaterialesDeSalida
+} //End of namespace Galac.Adm.Rpt.GestionProduccion

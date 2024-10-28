@@ -15,6 +15,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         #region Variables
         private bool _UseExternalRpx;
         private static string _RpxFileName;
+        private bool _ManejaMerma = false;
         #endregion //Variables
         #region Constructores
         public dsrListaDeMaterialesDeInsumos()
@@ -61,17 +62,27 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             return false;
         }
 
-        private void Detail_Format(object sender, EventArgs e) {            
-            bool vManejaMerma = LibConvert.SNToBool(txtManejaMermaIns.Value.ToString());
-            LibReport.ChangeControlVisibility(this, "txtMermaNormalInsumos", vManejaMerma);
-            LibReport.ChangeControlVisibility(this, "txtPorcMermaNormalInsumos", vManejaMerma);
-        }                        
+        private void Detail_Format(object sender, EventArgs e) {
+            if (!_ManejaMerma) {
+                txtUnidades.Left = txtCantidadAReservar.Left;
+                txtCantidad.Left = txtMermaNormalInsumos.Left;
+                txtCantidadAReservar.Left = txtPorcMermaNormalInsumos.Left;
+                txtArticulo.Width = txtUnidades.Left;
+            }
+            LibReport.ChangeControlVisibility(this, "txtMermaNormalInsumos", _ManejaMerma);
+            LibReport.ChangeControlVisibility(this, "txtPorcMermaNormalInsumos", _ManejaMerma);
+        }
 
         private void GHListaInsumos_Format(object sender, EventArgs e) {
-            bool vManejaMerma = LibConvert.SNToBool(LibConvert.ToStr(txtManejaMermaIns.Value));
-            LibReport.ChangeControlVisibility(this, "lblMermaNormalInsumos", vManejaMerma);
-            LibReport.ChangeControlVisibility(this, "lblPorcMermaNormalInsumos", vManejaMerma);
-            LibReport.ChangeControlVisibility(this, "lblMermaInsumosHide", !vManejaMerma);
+            _ManejaMerma = LibConvert.SNToBool(LibConvert.ToStr(txtManejaMermaIns.Value));
+            if (!_ManejaMerma) {
+                lblUnidades.Left = lblCantidadAReservar.Left;
+                lblCantidad.Left = lblMermaNormalInsumos.Left;
+                lblCantidadAReservar.Left = lblPorcMermaNormalInsumos.Left;
+                lblDescripcionArticulo.Width = lblUnidades.Left;
+            }
+            LibReport.ChangeControlVisibility(this, "lblMermaNormalInsumos", _ManejaMerma);
+            LibReport.ChangeControlVisibility(this, "lblPorcMermaNormalInsumos", _ManejaMerma);
         }
         #endregion //Metodos Generados   
     } //End of class dsrListaDeMaterialesDeInsumos

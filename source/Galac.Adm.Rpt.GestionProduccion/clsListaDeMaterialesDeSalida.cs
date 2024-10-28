@@ -10,6 +10,7 @@ using LibGalac.Aos.ARRpt;
 using Galac.Adm.Ccl.GestionProduccion;
 using Galac.Saw.Lib;
 using LibGalac.Aos.Catching;
+using LibGalac.Aos.Dal;
 
 namespace Galac.Adm.Rpt.GestionProduccion {
 
@@ -68,10 +69,10 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 return;
             }
             WorkerReportProgress(30, "Obteniendo datos...");
-            int vConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");            
-            IListaDeMaterialesInformes vRpt = new Galac.Adm.Brl.GestionProduccion.Reportes.clsListaDeMaterialesRpt() as IListaDeMaterialesInformes;
+            int vConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");                
+            IListaDeMaterialesInformes vRpt = new Galac.Adm.Brl.GestionProduccion.Reportes.clsListaDeMaterialesRpt() as IListaDeMaterialesInformes;            
             DataListaSalida = vRpt.BuildListaDeMaterialesSalida(vConsecutivoCompania, CodigoListaAProducir, CantidadAImprimir, CantidadAProducir, MonedaDelInforme, TasaDeCambio, ListaMonedas);
-            DataListaInsumos = vRpt.BuildListaDeMaterialesInsumos(vConsecutivoCompania, CodigoListaAProducir, CantidadAImprimir, CantidadAProducir, MonedaDelInforme, TasaDeCambio, ListaMonedas);
+            DataListaInsumos = vRpt.BuildListaDeMaterialesInsumos(vConsecutivoCompania, CodigoListaAProducir, CantidadAImprimir, CantidadAProducir, MonedaDelInforme, TasaDeCambio, ListaMonedas); 
         }
 
         public override void SendReportToDevice() {
