@@ -222,7 +222,7 @@
                         Height="20"
                         VerticalAlignment="Top"
                         Header="Salidas">
-                        <Grid Name="gtSeccionListaDeMaterialesDetalleSalidas" Margin="0,0,5,0">
+                        <Grid Name="gtSeccionListaDeMaterialesDetalleSalidas" Margin="0,0,2,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />

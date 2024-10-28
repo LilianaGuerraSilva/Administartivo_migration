@@ -146,7 +146,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         [LibCustomValidation("MermaNormalValidating")]
-        [LibGridColum("Merma Normal (en Unidades)", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 250, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 4)]
+        [LibGridColum("Merma Normal (en Unidades)", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 250, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 3)]
         public decimal  MermaNormal {
             get {
                 return Model.MermaNormal;
@@ -162,7 +162,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("% Merma Normal", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 120, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 3)]
+        [LibGridColum("% Merma Normal", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 120, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 4)]
         public decimal  PorcentajeMermaNormal {
             get {
                 return Model.PorcentajeMermaNormal;
