@@ -213,9 +213,10 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.txtManejaMerma.Left = 0.698F;
             this.txtManejaMerma.MultiLine = false;
             this.txtManejaMerma.Name = "txtManejaMerma";
-            this.txtManejaMerma.Style = "color: Black; font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtManejaMerma.Style = "color: White; font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtManejaMerma.Text = "txtManejaMerma";
             this.txtManejaMerma.Top = 0F;
+            this.txtManejaMerma.Visible = false;
             this.txtManejaMerma.Width = 0.74F;
             // 
             // txtPorcMermaNormalSalidas
@@ -527,7 +528,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblMermaNormalSalidas,
             this.lblPorcMermaNormalSalidas});
             this.GHSalidas.Height = 0.3232499F;
-            this.GHSalidas.Name = "GHSalidas";            
+            this.GHSalidas.Name = "GHSalidas";
             // 
             // lblMermaSalidasHide
             // 

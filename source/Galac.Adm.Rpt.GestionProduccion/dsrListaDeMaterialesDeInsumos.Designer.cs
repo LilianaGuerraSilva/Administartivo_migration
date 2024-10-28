@@ -351,9 +351,10 @@ namespace Galac.Adm.Rpt.GestionProduccion
             this.txtManejaMermaIns.Left = 7.5F;
             this.txtManejaMermaIns.MultiLine = false;
             this.txtManejaMermaIns.Name = "txtManejaMermaIns";
-            this.txtManejaMermaIns.Style = "color: Black; font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtManejaMermaIns.Style = "color: White; font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtManejaMermaIns.Text = "txtManejaMermaIns";
             this.txtManejaMermaIns.Top = 0.135F;
+            this.txtManejaMermaIns.Visible = false;
             this.txtManejaMermaIns.Width = 0.74F;
             // 
             // GFListaInsumos
