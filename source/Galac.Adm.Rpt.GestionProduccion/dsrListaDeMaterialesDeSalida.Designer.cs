@@ -309,6 +309,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.txtCantidadAProducir});
             this.GHCodigoListaAProducir.Height = 0.1878333F;
             this.GHCodigoListaAProducir.Name = "GHCodigoListaAProducir";
+            this.GHCodigoListaAProducir.Format += new System.EventHandler(this.GHCodigoListaAProducir_Format);
             // 
             // lblListaDeMateriales
             // 
@@ -526,7 +527,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblMermaNormalSalidas,
             this.lblPorcMermaNormalSalidas});
             this.GHSalidas.Height = 0.3232499F;
-            this.GHSalidas.Name = "GHSalidas";
+            this.GHSalidas.Name = "GHSalidas";            
             // 
             // lblMermaSalidasHide
             // 

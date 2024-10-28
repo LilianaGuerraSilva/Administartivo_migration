@@ -282,6 +282,7 @@ namespace Galac.Adm.Rpt.GestionProduccion
             this.txtManejaMermaIns});
             this.GHListaInsumos.Height = 0.5002501F;
             this.GHListaInsumos.Name = "GHListaInsumos";
+            this.GHListaInsumos.Format += new System.EventHandler(this.GHListaInsumos_Format);
             // 
             // lblMermaInsumosHide
             // 

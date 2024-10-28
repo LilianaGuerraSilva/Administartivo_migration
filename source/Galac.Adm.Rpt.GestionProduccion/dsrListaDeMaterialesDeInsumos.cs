@@ -61,41 +61,19 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             return false;
         }
 
-        private void Detail_Format(object sender, EventArgs e) {
-            string vManejaMermaStr = "";
-            LibReport.ChangeControlVisibility(this, "txtMermaNormalInsumos", false);
-            LibReport.ChangeControlVisibility(this, "txtPorcMermaNormalInsumos", false);
-            for (int vNumSection = 0; vNumSection < this.Sections.Count; vNumSection++) {
-                for (int vNumControl = 0; vNumControl < this.Sections[vNumSection].Controls.Count; vNumControl++) {
-                    var name = this.Sections[vNumSection].Controls[vNumControl].Name;
-                    if (LibString.S1IsEqualToS2("txtManejaMermaIns", name)) {
-                        var vControl = this.Sections[vNumSection].Controls[vNumControl] as DataDynamics.ActiveReports.TextBox;
-                        vManejaMermaStr = vControl.Text;
-                    }
-                }
-            }
-            if (LibConvert.SNToBool(vManejaMermaStr)) {               
-                LibReport.ChangeControlVisibility(this, "txtMermaNormalInsumos", true);
-                LibReport.ChangeControlVisibility(this, "txtPorcMermaNormalInsumos", true);
-                LibReport.ChangeControlVisibility(this, "lblMermaNormalInsumos", true);
-                LibReport.ChangeControlVisibility(this, "lblPorcMermaNormalInsumos", true);
-                LibReport.ChangeControlVisibility(this, "lblMermaInsumosHide", false);
-                lblMermaNormalInsumos.Visible = true;
-                lblPorcMermaNormalInsumos.Visible = true;
-                lblMermaInsumosHide.Visible = false;
+        private void Detail_Format(object sender, EventArgs e) {            
+            bool vManejaMerma = LibConvert.SNToBool(txtManejaMermaIns.Value.ToString());
+            LibReport.ChangeControlVisibility(this, "txtMermaNormalInsumos", vManejaMerma);
+            LibReport.ChangeControlVisibility(this, "txtPorcMermaNormalInsumos", vManejaMerma);
+        }                        
 
-            } else {               
-                LibReport.ChangeControlVisibility(this, "txtMermaNormalInsumos", false);
-                LibReport.ChangeControlVisibility(this, "txtPorcMermaNormalInsumos", false);
-                LibReport.ChangeControlVisibility(this, "lblMermaNormalInsumos", false);
-                LibReport.ChangeControlVisibility(this, "lblPorcMermaNormalInsumos", false);
-                LibReport.ChangeControlVisibility(this, "lblMermaInsumosHide", true);
-                lblMermaNormalInsumos.Visible = false;
-                lblPorcMermaNormalInsumos.Visible = false;
-                lblMermaInsumosHide.Visible = true;
-            }
+        private void GHListaInsumos_Format(object sender, EventArgs e) {
+            bool vManejaMerma = LibConvert.SNToBool(LibConvert.ToStr(txtManejaMermaIns.Value));
+            LibReport.ChangeControlVisibility(this, "lblMermaNormalInsumos", vManejaMerma);
+            LibReport.ChangeControlVisibility(this, "lblPorcMermaNormalInsumos", vManejaMerma);
+            LibReport.ChangeControlVisibility(this, "lblMermaInsumosHide", !vManejaMerma);
         }
-        #endregion //Metodos Generados                   
+        #endregion //Metodos Generados   
     } //End of class dsrListaDeMaterialesDeInsumos
 } //End of namespace Galac.Adm.Rpt.GestionProduccion
 

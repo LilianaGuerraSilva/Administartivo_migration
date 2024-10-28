@@ -12,6 +12,7 @@ using LibGalac.Aos.ARRpt;
 using System.Data;
 using LibGalac.Aos.DefGen;
 using Galac.Saw.Lib;
+using System.Windows.Forms;
 
 namespace Galac.Adm.Rpt.GestionProduccion {
     /// <summary>
@@ -106,37 +107,17 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             }
         }
 
-        private void Detail_Format(object sender, EventArgs e) {
-            string vManejaMermaStr = "";
-            for (int vNumSection = 0; vNumSection < this.Sections.Count; vNumSection++) {
-                for (int vNumControl = 0; vNumControl < this.Sections[vNumSection].Controls.Count; vNumControl++) {
-                    var name = this.Sections[vNumSection].Controls[vNumControl].Name;
-                    if (LibString.S1IsEqualToS2("txtManejaMerma", name)) {
-                        var vControl = this.Sections[vNumSection].Controls[vNumControl] as DataDynamics.ActiveReports.TextBox;
-                        vManejaMermaStr = vControl.Text;                       
-                    }
-                }
-            }
-            
-            if (LibConvert.SNToBool(vManejaMermaStr)) {                                               
-                LibReport.ChangeControlVisibility(this, "txtMermaNormalSalidas", true);
-                LibReport.ChangeControlVisibility(this, "txtPorcMermaNormalSalidas", true);
-                LibReport.ChangeControlVisibility(this, "lblMermaNormalSalidas", true);
-                LibReport.ChangeControlVisibility(this, "lblPorcMermaNormalSalidas", true);                             
-                LibReport.ChangeControlVisibility(this, "lblMermaSalidasHide", false);
-                lblMermaNormalSalidas.Visible = true;
-                lblPorcMermaNormalSalidas.Visible = true;
-                lblMermaSalidasHide.Visible = false;
-            } else {                
-                LibReport.ChangeControlVisibility(this, "txtMermaNormalSalidas", false);
-                LibReport.ChangeControlVisibility(this, "txtPorcMermaNormalSalidas", false);
-                LibReport.ChangeControlVisibility(this, "lblMermaNormalSalidas", false);
-                LibReport.ChangeControlVisibility(this, "lblPorcMermaNormalSalidas", false);                
-                LibReport.ChangeControlVisibility(this, "lblMermaSalidasHide", true);
-                lblMermaNormalSalidas.Visible = false;
-                lblPorcMermaNormalSalidas.Visible = false;
-                lblMermaSalidasHide.Visible = true;
-            }
+        private void Detail_Format(object sender, EventArgs e) {            
+            bool vManejaMerma = LibConvert.SNToBool(txtManejaMerma.Value.ToString());
+            LibReport.ChangeControlVisibility(this, "txtMermaNormalSalidas", vManejaMerma);
+            LibReport.ChangeControlVisibility(this, "txtPorcMermaNormalSalidas", vManejaMerma);
+        }
+
+        private void GHCodigoListaAProducir_Format(object sender, EventArgs e) {
+            bool vManejaMerma = LibConvert.SNToBool(this.txtManejaMerma.Value.ToString());
+            LibReport.ChangeControlVisibility(this, "lblMermaNormalSalidas", vManejaMerma);
+            LibReport.ChangeControlVisibility(this, "lblPorcMermaNormalSalidas", vManejaMerma);
+            LibReport.ChangeControlVisibility(this, "lblMermaSalidasHide", !vManejaMerma);
         }
     }
 }
