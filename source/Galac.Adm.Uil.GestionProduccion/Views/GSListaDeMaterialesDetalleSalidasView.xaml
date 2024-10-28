@@ -54,13 +54,13 @@
         <Label
             Name="lneTipoDeArticuloInv"
             Grid.Row="0"
-            Grid.Column="2"
-            Grid.ColumnSpan="3"
-            Margin="180,4,7,5"
+            Grid.Column="3"
+            Grid.ColumnSpan="2"
+            Margin="4,4,0,5"
             HorizontalContentAlignment="Left"
             Content="{Binding Path=TipoArticuloInvStr}"
             Style="{StaticResource LabelStatusGreen}"
-            Visibility="{Binding Path=IsVisbleTipoArticuloInvStr, Converter={StaticResource booleanToVisibilityConverter}}" />
+            Visibility="{Binding Path=IsVisbleTipoArticuloInvStr, Converter={StaticResource booleanToVisibilityConverter}}" HorizontalAlignment="Left" Width="244" />
         <Label
             Name="lblDescripcionArticuloInventario"
             Grid.Row="1"
