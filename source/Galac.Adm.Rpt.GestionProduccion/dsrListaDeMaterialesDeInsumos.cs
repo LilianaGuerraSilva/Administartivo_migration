@@ -15,6 +15,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         #region Variables
         private bool _UseExternalRpx;
         private static string _RpxFileName;
+        private bool _ManejaMerma = false;
         #endregion //Variables
         #region Constructores
         public dsrListaDeMaterialesDeInsumos()
@@ -24,7 +25,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         public dsrListaDeMaterialesDeInsumos(bool initUseExternalRpx, string initRpxFileName) {
             InitializeComponent();
             _UseExternalRpx = initUseExternalRpx;
-            if(_UseExternalRpx) {
+            if (_UseExternalRpx) {
                 _RpxFileName = initRpxFileName;
             }
         }
@@ -36,14 +37,14 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         }
 
         public bool ConfigReport(DataTable valDataSource) {
-            if(_UseExternalRpx) {
+            if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
-                if(!LibString.IsNullOrEmpty(vRpxPath, true)) {
+                if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
                     LibReport.LoadLayout(this, vRpxPath);
                 }
             }
-            if(LibReport.ConfigDataSource(this, valDataSource)) {                
-				LibReport.ConfigGroupHeader(this, "GHListaInsumos", "Codigo", GroupKeepTogether.None,  RepeatStyle.None, false, NewPage.None);                
+            if (LibReport.ConfigDataSource(this, valDataSource)) {
+                LibReport.ConfigGroupHeader(this, "GHListaInsumos", "Codigo", GroupKeepTogether.None, RepeatStyle.None, false, NewPage.None);
                 LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "ListaArticuloInsumos");
                 LibReport.ConfigFieldStr(this, "txtUnidades", string.Empty, "Unidades");
                 LibReport.ConfigFieldStr(this, "txtCodigo", string.Empty, "Codigo");
@@ -51,14 +52,39 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 LibReport.ConfigFieldDec(this, "txtCosto", string.Empty, "CostoUnitario");
                 LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidadAReservar", string.Empty, "CantidadAReservar", 8);
                 LibReport.ConfigFieldDec(this, "txtCostoTotal", string.Empty, "CostoTotal");
-                LibReport.ConfigFieldDec(this, "txtExistencia", string.Empty, "Existencia");                
+                LibReport.ConfigFieldDec(this, "txtExistencia", string.Empty, "Existencia");
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtMermaNormalInsumos", string.Empty, "MermaNormalInsumos", 8);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtPorcMermaNormalInsumos", string.Empty, "PorcentajeMermaNormalInsumos ", 8);
+                LibReport.ConfigFieldStr(this, "txtManejaMermaIns", string.Empty, "ManejaMerma");
                 LibReport.ConfigSummaryField(this, "txtTotalCostoCalculado", "CostoTotal", SummaryFunc.Sum, "GHListaInsumos", SummaryRunning.Group, SummaryType.SubTotal);
                 return true;
             }
             return false;
         }
-        #endregion //Metodos Generados
-    } //End of class dsrListaDeMaterialesDeInsumos
 
+        private void Detail_Format(object sender, EventArgs e) {
+            if (!_ManejaMerma) {
+                txtUnidades.Left = txtCantidadAReservar.Left;
+                txtCantidad.Left = txtMermaNormalInsumos.Left;
+                txtCantidadAReservar.Left = txtPorcMermaNormalInsumos.Left;
+                txtArticulo.Width = txtUnidades.Left;
+            }
+            LibReport.ChangeControlVisibility(this, "txtMermaNormalInsumos", _ManejaMerma);
+            LibReport.ChangeControlVisibility(this, "txtPorcMermaNormalInsumos", _ManejaMerma);
+        }
+
+        private void GHListaInsumos_Format(object sender, EventArgs e) {
+            _ManejaMerma = LibConvert.SNToBool(LibConvert.ToStr(txtManejaMermaIns.Value));
+            if (!_ManejaMerma) {
+                lblUnidades.Left = lblCantidadAReservar.Left;
+                lblCantidad.Left = lblMermaNormalInsumos.Left;
+                lblCantidadAReservar.Left = lblPorcMermaNormalInsumos.Left;
+                lblDescripcionArticulo.Width = lblUnidades.Left;
+            }
+            LibReport.ChangeControlVisibility(this, "lblMermaNormalInsumos", _ManejaMerma);
+            LibReport.ChangeControlVisibility(this, "lblPorcMermaNormalInsumos", _ManejaMerma);
+        }
+        #endregion //Metodos Generados   
+    } //End of class dsrListaDeMaterialesDeInsumos
 } //End of namespace Galac.Adm.Rpt.GestionProduccion
 
