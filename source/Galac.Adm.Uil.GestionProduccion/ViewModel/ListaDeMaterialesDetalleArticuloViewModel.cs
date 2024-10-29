@@ -338,6 +338,10 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 PorcentajeMermaNormal = LibMath.RoundToNDecimals(((MermaNormal * 100) / Cantidad), 8);
             }
         }
+
+        internal void IsVisbleMermaArticulo() {
+            RaisePropertyChanged(() => IsVisibleCantidadMerma);
+        }
         #endregion //Metodos Generados
     } //End of class ListaDeMaterialesDetalleArticuloViewModel
 } //End of namespace Galac.Saw.Uil.Inventario

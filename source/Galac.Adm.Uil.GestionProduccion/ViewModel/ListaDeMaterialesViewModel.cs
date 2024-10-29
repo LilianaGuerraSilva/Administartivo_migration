@@ -142,6 +142,10 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Model.ManejaMermaAsBool = value;
                     IsDirty = true;
                     RaisePropertyChanged(ManejaMermaPropertyName);
+                    if (!Model.ManejaMermaAsBool) {
+                        LimpiaDetallePorNoManejarMerma();
+                    }
+                    ActivaDetalleMenejodeMerma();
                 }
             }
         }
@@ -460,6 +464,26 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
         #endregion //Metodos Generados
+
+        private void LimpiaDetallePorNoManejarMerma() {
+            foreach (var vItem in DetailListaDeMaterialesDetalleArticulo.Items) {
+                vItem.MermaNormal = 0;
+                vItem.PorcentajeMermaNormal = 0;
+            }
+            foreach (var vItem in DetailListaDeMaterialesDetalleSalidas.Items) {
+                vItem.MermaNormal = 0;
+                vItem.PorcentajeMermaNormal = 0;
+            }          
+        }
+		
+        private void ActivaDetalleMenejodeMerma() {
+            foreach (var vItem in DetailListaDeMaterialesDetalleArticulo.Items) {
+                vItem.IsVisbleMermaArticulo();
+            }
+            foreach (var vItem in DetailListaDeMaterialesDetalleSalidas.Items) {
+                vItem.IsVisbleMermaSalida();
+            }
+        }
 
     } //End of class ListaDeMaterialesViewModel
 
