@@ -315,10 +315,16 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         private ValidationResult MermaNormalValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if ((Action == eAccionSR.Insertar || Action == eAccionSR.Modificar) && (MermaNormal >= 0)) {
+            if (Master.ManejaMerma) {
+                if ((Action == eAccionSR.Insertar || Action == eAccionSR.Modificar) && (MermaNormal >= 0)) {
+                    return ValidationResult.Success;
+                } else {
+                    vResult = new ValidationResult("La cantidad de merma normal (Salidas) debe ser igual o superior a 0. ");
+                }
+            }else {
+                MermaNormal = 0;
+                PorcentajeMermaNormal = 0;
                 return ValidationResult.Success;
-            } else {
-                vResult = new ValidationResult("La cantidad de merma normal (Salidas) debe ser igual o superior a 0. ");
             }
             return vResult;
         }
@@ -328,6 +334,10 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             if (Cantidad != 0) {
                 PorcentajeMermaNormal = LibMath.RoundToNDecimals(((MermaNormal * 100) / Cantidad), 8);
             }
+        }
+
+        internal void IsVisbleMermaSalida() {
+            RaisePropertyChanged(() => IsVisibleCantidadMerma);
         }
         #endregion //Metodos Generados
     } //End of class ListaDeMaterialesDetalleSalidasViewModel

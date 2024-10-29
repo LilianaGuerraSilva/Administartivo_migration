@@ -56,27 +56,20 @@
             Grid.Row="0"
             Grid.Column="3"
             Grid.ColumnSpan="2"
+            Width="244"
             Margin="4,4,0,5"
+            HorizontalAlignment="Left"
             HorizontalContentAlignment="Left"
             Content="{Binding Path=TipoArticuloInvStr}"
             Style="{StaticResource LabelStatusGreen}"
-            Visibility="{Binding Path=IsVisbleTipoArticuloInvStr, Converter={StaticResource booleanToVisibilityConverter}}" HorizontalAlignment="Left" Width="244" />
-        <Label
-            Name="lblDescripcionArticuloInventario"
-            Grid.Row="1"
-            Grid.Column="0"
-            Height="24"
-            Margin="3,0,0,0"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            Content="Descripción Artículo"
-            Style="{StaticResource LabelPrompt}" />
+            Visibility="{Binding Path=IsVisbleTipoArticuloInvStr, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSTextAreaWpf
             Name="txtDescripcionArticuloInventario"
             Grid.Row="1"
             Grid.Column="1"
             Grid.ColumnSpan="7"
             Width="699"
+            Height="50"
             Margin="4,3,0,4"
             nsWpf:LibKeyboardListener.IgnoreEnterKeyLikeTab="True"
             AcceptsReturn="True"
