@@ -318,10 +318,16 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         private ValidationResult MermaNormalValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if ((Action == eAccionSR.Insertar || Action == eAccionSR.Modificar) && (MermaNormal >= 0)) {
-                return ValidationResult.Success;
+            if (Master.ManejaMerma) {
+                if ((Action == eAccionSR.Insertar || Action == eAccionSR.Modificar) && (MermaNormal >= 0)) {
+                    return ValidationResult.Success;
+                } else {
+                    vResult = new ValidationResult("La cantidad de merma normal (Insumos) debe ser igual o superior a 0. ");
+                }
             } else {
-                vResult = new ValidationResult("La cantidad de merma normal (Insumos) debe ser igual o superior a 0. ");
+                MermaNormal = 0;
+                PorcentajeMermaNormal= 0;
+                return ValidationResult.Success;
             }
             return vResult;
         }
