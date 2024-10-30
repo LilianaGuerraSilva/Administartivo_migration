@@ -30,7 +30,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSQLWhere = vSQLWhere + " AND factura.TipoDeDocumento IN ( " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) + ")";
             vSQLWhere = vSQLWhere + " AND (SAW.FormaDelCobro.TipoDePago  <> " + insSql.EnumToSqlValue((int)eTipoDeFormaDePago.VueltoEfectivo) + " AND SAW.FormaDelCobro.TipoDePago  <> " + insSql.EnumToSqlValue((int)eTipoDeFormaDePago.VueltoC2P) + ") ";
             vSQLWhere = insSql.SqlDateValueBetween(vSQLWhere, "factura.fecha", valFechaInicial, valFechaFinal);
-            vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.GeneraCobroDirecto", insSql.ToSqlValue("S"));            
+            vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.GeneraCobroDirecto", insSql.ToSqlValue("S"));
             if (valCantidadOperadorDeReporte == eCantidadAImprimir.One) {
                 vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "factura.NombreOperador", valNombreDelOperador);
             }
@@ -174,18 +174,18 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             string montoDepTranferencia = "SUM" + insSql.IIF(esDepTransferencia, montoRenglon, "0", true);
             string montoCheque = "SUM" + insSql.IIF(esCheque, montoRenglon, "0", true);
             string montoNotaDeCredito = "SUM" + insSql.IIF(esNotaDeCredito, montoRenglon, "0", true);
-            string monedasIguales = "renglonCobroDeFactura.CodigoMoneda" + insSql.ComparisonOp("=") + "factura.CodigoMoneda";            
+            string monedasIguales = "renglonCobroDeFactura.CodigoMoneda" + insSql.ComparisonOp("=") + "factura.CodigoMoneda";
             string montoVuelto = insSql.IIF(existeVuelto, "SUM(" + montoRenglon + ") - ROUND(factura.TotalFactura / MIN(renglonCobroDeFactura.CambioAMonedaLocal), 2)", "0", true);
             string montoPagadoSinConvertir = "SUM" + insSql.IIF(montoRenglon + menorA + "0", "0", montoRenglon, true);
-            string convEnRenglon = montoRenglon + " * " + insSql.IsNull("renglonCobroDeFactura.CambioAMonedaLocal", insSql.ToInt("1"));
+            string convEnRenglon = insSql.RoundToNDecimals(montoRenglon + " * " + insSql.IsNull("renglonCobroDeFactura.CambioAMonedaLocal", insSql.ToInt("1")), 2);
             string montoPagadoConvertido = "SUM" + insSql.IIF(convEnRenglon + " IS NULL " + insSql.LogicalOp("OR") + convEnRenglon + insSql.ComparisonOp("<") + "0", "0", convEnRenglon, true);
             string montoPagado = insSql.IIF(monedasIguales, montoPagadoSinConvertir, montoPagadoConvertido, true);
             string esCredito = "renglonCobroDeFactura.CodigoFormaDelCobro IS NULL AND factura.TotalFactura" + insSql.ComparisonOp("<>") + "0";
-            string montoEfectivoEnBs = "SUM" + insSql.IIF(esEfectivo, montoRenglon + " * " + cambioDelRenglon, "0", true);
-            string montoTarjetaEnBs = "SUM" + insSql.IIF(esTarjeta, montoRenglon + " * " + cambioDelRenglon, "0", true);
-            string montoDepTranferenciaEnBs = "SUM" + insSql.IIF(esDepTransferencia, montoRenglon + " * " + cambioDelRenglon, "0", true);
-            string montoChequeEnBs = "SUM" + insSql.IIF(esCheque, montoRenglon + " * " + cambioDelRenglon, "0", true);
-            string montoNotaDeCreditoEnBs = "SUM" + insSql.IIF(esNotaDeCredito, montoRenglon + " * " + cambioDelRenglon, "0", true);
+            string montoEfectivoEnBs = "SUM" + insSql.IIF(esEfectivo, insSql.RoundToNDecimals(montoRenglon + " * " + cambioDelRenglon, 2), "0", true);
+            string montoTarjetaEnBs = "SUM" + insSql.IIF(esTarjeta, insSql.RoundToNDecimals(montoRenglon + " * " + cambioDelRenglon, 2), "0", true);
+            string montoDepTranferenciaEnBs = "SUM" + insSql.IIF(esDepTransferencia, insSql.RoundToNDecimals(montoRenglon + " * " + cambioDelRenglon, 2), "0", true);
+            string montoChequeEnBs = "SUM" + insSql.IIF(esCheque, insSql.RoundToNDecimals(montoRenglon + " * " + cambioDelRenglon, 2), "0", true);
+            string montoNotaDeCreditoEnBs = "SUM" + insSql.IIF(esNotaDeCredito, insSql.RoundToNDecimals(montoRenglon + " * " + cambioDelRenglon, 2), "0", true);
             string montoCredito = insSql.IIF(esCredito, "factura.TotalFactura", "0", true);
             vSql.AppendLine(insSql.SetDateFormat());
             vSql.AppendLine("   SELECT");
@@ -249,7 +249,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	    , factura.TotalFactura");
             vSql.AppendLine("	    , factura.CambioMostrarTotalEnDivisas");
             vSql.AppendLine("       , MonedaDoc.Nombre");
-            vSql.AppendLine("       , MonedaRenglon.Nombre"); 
+            vSql.AppendLine("       , MonedaRenglon.Nombre");
             vSql.AppendLine("       , renglonCobroDeFactura.CodigoFormaDelCobro");
             vSql.AppendLine("   ORDER BY");
             vSql.AppendLine("       MonedaDoc.Nombre");
@@ -295,8 +295,8 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             string montoTotalAnticipo = "anticipo.MontoTotal";
             string montoUsadoAnticipo = "anticipo.MontoUsado";
             string cambioAnticipo = "anticipo.Cambio";
-            string montoTotalAnticipoBs = montoTotalAnticipo + " * " + cambioAnticipo;
-            string montoUsadoAnticipoBs = montoUsadoAnticipo + " * " + cambioAnticipo;
+            string montoTotalAnticipoBs = insSql.RoundToNDecimals(montoTotalAnticipo + " * " + cambioAnticipo, 2);
+            string montoUsadoAnticipoBs = insSql.RoundToNDecimals(montoUsadoAnticipo + " * " + cambioAnticipo, 2);
             #endregion CondicionalesAnticipo
 
             #region CondicionalesFactura
@@ -308,7 +308,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             string monedaCobro = insSql.IsNull("MonedaRenglon.Nombre", "MonedaDoc.Nombre");
             string esDepTransferencia = "SAW.FormaDelCobro.TipoDePago" + insSql.ComparisonOp("=") + insSql.EnumToSqlValue((int)eFormaDeCobro.Deposito);
             string esNotaDeCredito = montoRenglon + menorA + "0" + insSql.LogicalOp("OR") + " factura.TotalFactura" + menorA + "0";
-            string esAnticipoUsado = "SAW.FormaDelCobro.TipoDePago" + insSql.ComparisonOp("=") + insSql.EnumToSqlValue((int)eFormaDeCobro.Anticipo);            
+            string esAnticipoUsado = "SAW.FormaDelCobro.TipoDePago" + insSql.ComparisonOp("=") + insSql.EnumToSqlValue((int)eFormaDeCobro.Anticipo);
             string existeVuelto = "SUM(" + montoRenglon + ")" + mayorA + " ROUND(factura.TotalFactura / MIN(renglonCobroDeFactura.CambioAMonedaLocal), 2) AND factura.TotalFactura" + mayorA + "0";
             string montoEfectivo = "SUM" + insSql.IIF(esEfectivo, montoRenglon, "0", true);
             string montoTarjeta = "SUM" + insSql.IIF(esTarjeta, montoRenglon, "0", true);
@@ -316,8 +316,8 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             string montoCheque = "SUM" + insSql.IIF(esCheque, montoRenglon, "0", true);
             string montoAnticipoUsado = "SUM" + insSql.IIF(esAnticipoUsado, montoRenglon, "0", true);
             string montoNotaDeCredito = "SUM" + insSql.IIF(esNotaDeCredito, montoRenglon, "0", true);
-            string monedasIguales = "renglonCobroDeFactura.CodigoMoneda" + insSql.ComparisonOp("=") + "factura.CodigoMoneda";                        
-            string montoVuelto = insSql.IIF(existeVuelto, "SUM(" + montoRenglon + ") - ROUND(factura.TotalFactura / MIN(renglonCobroDeFactura.CambioAMonedaLocal), 2)", "0", true);            
+            string monedasIguales = "renglonCobroDeFactura.CodigoMoneda" + insSql.ComparisonOp("=") + "factura.CodigoMoneda";
+            string montoVuelto = insSql.IIF(existeVuelto, "SUM(" + montoRenglon + ") - ROUND(factura.TotalFactura / MIN(renglonCobroDeFactura.CambioAMonedaLocal), 2)", "0", true);
             string montoPagadoSinConvertir = "SUM" + insSql.IIF(montoRenglon + menorA + "0", "0", montoRenglon, true);
             string convEnRenglon = montoRenglon + " * " + insSql.IsNull("renglonCobroDeFactura.CambioAMonedaLocal", insSql.ToInt("1"));
             string montoPagadoConvertido = "SUM" + insSql.IIF(convEnRenglon + " IS NULL " + insSql.LogicalOp("OR") + convEnRenglon + menorA + "0", "0", convEnRenglon, true);
@@ -325,11 +325,11 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             string montoPagado = insSql.IIF(monedasIguales, montoPagadoSinConvertir, montoPagadoConvertido, true);
             string esCredito = "renglonCobroDeFactura.CodigoFormaDelCobro IS NULL" + insSql.LogicalOp("AND") + "factura.TotalFactura" + insSql.ComparisonOp("<>") + "0";
             string montoEfectivoEnBs = "SUM" + insSql.IIF(esEfectivo, montoRenglon + " * " + cambioDelRenglon, "0", true);
-            string montoTarjetaEnBs = "SUM" + insSql.IIF(esTarjeta, montoRenglon + " * " + cambioDelRenglon, "0", true);
-            string montoDepTranferenciaEnBs = "SUM" + insSql.IIF(esDepTransferencia, montoRenglon + " * " + cambioDelRenglon, "0", true);
-            string montoChequeEnBs = "SUM" + insSql.IIF(esCheque, montoRenglon + " * " + cambioDelRenglon, "0", true);
-            string montoAnticipoUsadoEnBs = "SUM" + insSql.IIF(esAnticipoUsado, montoRenglon + " * " + cambioDelRenglon, "0", true);
-            string montoNotaDeCreditoEnBs = "SUM" + insSql.IIF(esNotaDeCredito, montoRenglon + " * " + cambioDelRenglon, "0", true);
+            string montoTarjetaEnBs = "SUM" + insSql.IIF(esTarjeta, insSql.RoundToNDecimals(montoRenglon + " * " + cambioDelRenglon, 2), "0", true);
+            string montoDepTranferenciaEnBs = "SUM" + insSql.IIF(esDepTransferencia, insSql.RoundToNDecimals(montoRenglon + " * " + cambioDelRenglon, 2), "0", true);
+            string montoChequeEnBs = "SUM" + insSql.IIF(esCheque, insSql.RoundToNDecimals(montoRenglon + " * " + cambioDelRenglon, 2), "0", true);
+            string montoAnticipoUsadoEnBs = "SUM" + insSql.IIF(esAnticipoUsado, insSql.RoundToNDecimals(montoRenglon + " * " + cambioDelRenglon, 2), "0", true);
+            string montoNotaDeCreditoEnBs = "SUM" + insSql.IIF(esNotaDeCredito, insSql.RoundToNDecimals(montoRenglon + " * " + cambioDelRenglon, 2), "0", true);
             string montoCredito = insSql.IIF(esCredito, "factura.TotalFactura", "0", true);
             #endregion CondicionalesFactura
 
@@ -448,7 +448,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("       , MonedaRenglon.Nombre");
             vSql.AppendLine("       , MonedaRenglon.Codigo");
             vSql.AppendLine("       , renglonCobroDeFactura.CodigoFormaDelCobro");
-            vSql.AppendLine("   ORDER BY"); 
+            vSql.AppendLine("   ORDER BY");
             vSql.AppendLine("       NombreDelOperador");
             vSql.AppendLine("       , MonedaDoc");
             vSql.AppendLine("       , ConsecutivoCaja");
@@ -710,7 +710,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	HoraApertura, ");
             vSql.AppendLine("	HoraCierre, ");
             vSql.AppendLine("	Operador, ");
-            vSql.AppendLine("	NombreDelUsuario, ");            
+            vSql.AppendLine("	NombreDelUsuario, ");
             vSql.AppendLine("	Movimiento,");
             vSql.AppendLine("	MontoApertura, MontoAperturaME,");
             vSql.AppendLine("	MontoCierre, MontoCierreME,");
@@ -759,7 +759,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	HoraApertura, ");
             vSql.AppendLine("	HoraCierre, ");
             vSql.AppendLine("	Operador,");
-            vSql.AppendLine("	NombreDelUsuario,");            
+            vSql.AppendLine("	NombreDelUsuario,");
             vSql.AppendLine("	MontoApertura, MontoAperturaME,");
             vSql.AppendLine("	MontoCierre, MontoCierreME,");
             vSql.AppendLine("	Movimiento,");
@@ -775,7 +775,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("		CA.ConsecutivoCaja, ");
             vSql.AppendLine("		C.NombreCaja, ");
             vSql.AppendLine("		'(' + NombreDelUsuario + ') ' + Usr.FirstAndLastName AS Operador,");
-            vSql.AppendLine("		CA.NombreDelUsuario,");           
+            vSql.AppendLine("		CA.NombreDelUsuario,");
             vSql.AppendLine("		MontoApertura, MontoAperturaME,");
             vSql.AppendLine("		MontoCierre, MontoCierreME,");
             if (valEsPAraMonedaLocal) {
