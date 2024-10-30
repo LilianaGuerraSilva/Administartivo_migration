@@ -25,6 +25,11 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             private set;
         }
 
+        public RelayCommand RecalcularCommand {
+            get;
+            private set;
+        }
+
         #endregion //Propiedades
         #region Constructores
 
@@ -75,6 +80,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         protected override void InitializeCommands() {
             base.InitializeCommands();
             InformesCommand = new RelayCommand(ExecuteInformesCommand, CanExecuteInformesCommand);
+            RecalcularCommand = new RelayCommand(ExecuteRecalcularCommand, CanExecuteRecalcularCommand);
         }
 
 
@@ -109,6 +115,13 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/report.png", UriKind.Relative),
                 ToolTipDescription = "Informes",
                 ToolTipTitle = "Informes"
+            });
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                Label = "Recalcular Movimientos de Lote",
+                Command = RecalcularCommand,
+                LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/refresh.png", UriKind.Relative),
+                ToolTipDescription = "Recalcular Movimientos de Lote",
+                ToolTipTitle = "Recalcular Movimientos de Lote"
             });
             return vResult;
         }
@@ -147,7 +160,11 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         private bool CanExecuteInformesCommand() {
-            return CurrentItem != null && LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 18), "Informes");
+            return LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 18), "Informes");
+        }
+
+        private bool CanExecuteRecalcularCommand() {
+            return LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 18), "Recalcular");
         }
 
         private void ExecuteInformesCommand() {
@@ -158,7 +175,18 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
+                LibMessages.RaiseError.ShowError(vEx);
+            }
+        }
+
+        private void ExecuteRecalcularCommand() {
+            try {
+                RecalcularMovimientosDeInventarioViewModel vViewModel = new RecalcularMovimientosDeInventarioViewModel();
+                LibMessages.EditViewModel.ShowEditor(vViewModel);
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (Exception vEx) {
+                LibMessages.RaiseError.ShowError(vEx);
             }
         }
     } //End of class LoteDeInventarioMngViewModel

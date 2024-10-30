@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using LibGalac.Aos.Base;
-namespace Galac.Saw.Ccl.Inventario {
+using LibGalac.Aos.Base.Report;
 
+namespace Galac.Saw.Ccl.Inventario {
     public interface ILoteDeInventarioPdn : ILibPdn {
         #region Metodos Generados
         XElement FindByConsecutivoCompaniaCodigoLoteCodigoArticulo(int valConsecutivoCompania, string valCodigoLote, string valCodigoArticulo);
@@ -16,10 +17,7 @@ namespace Galac.Saw.Ccl.Inventario {
         bool ExisteLoteDeInventario(int valConsecutivoCompania, string valCodigoArticulo, string valLoteDeInventario);
         bool ExisteLoteDeInventario(int valConsecutivoCompania, string valCodigoArticulo, int valConsecutivoLoteDeInventario);
         bool ActualizarLoteYReversarMov(IList<LoteDeInventario> valListaLote, eOrigenLoteInv valOrigen, int valConsecutivoDocumentoOrigen, string valNumeroDocumentoOrigen, bool valSoloAnulados);
-        #endregion //Metodos Generados
-
-
+        bool RecalcularMovimientosDeLoteDeInventario(int valConsecutivoCompania, eCantidadAImprimir valCantidadArticulos, string valCodigoArticulo, eCantidadAImprimir valCantidadLineas, string valLineaDeProducto);
+        #endregion Metodos Generados
     } //End of class ILoteDeInventarioPdn
-
 } //End of namespace Galac.Saw.Ccl.Inventario
-
