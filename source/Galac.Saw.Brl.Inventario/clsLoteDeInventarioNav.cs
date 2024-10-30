@@ -888,12 +888,12 @@ namespace Galac.Saw.Brl.Inventario {
             LibDatabase insDb = new LibDatabase();
             StringBuilder vSqlActualizaExistencia = new StringBuilder();
             StringBuilder vSqlSelectSum = new StringBuilder();
-            vSqlSelectSum.AppendLine("SELECT Saw.LoteDeInventarioMovimiento.Cantidad FROM Saw.LoteDeInventarioMovimiento");
+            vSqlSelectSum.AppendLine("SELECT ISNULL(SUM(Cantidad),0) FROM Saw.LoteDeInventarioMovimiento");
             vSqlSelectSum.AppendLine("WHERE Saw.LoteDeInventarioMovimiento.ConsecutivoCompania = Saw.LoteDeInventario.ConsecutivoCompania");
             vSqlSelectSum.AppendLine("AND Saw.LoteDeInventarioMovimiento.ConsecutivoLote = Saw.LoteDeInventario.Consecutivo");
 
             vSqlActualizaExistencia.AppendLine("UPDATE Saw.LoteDeInventario");
-            vSqlActualizaExistencia.AppendLine("SET Existencia = ISNULL(" + vSqlSelectSum + ",0)");
+            vSqlActualizaExistencia.AppendLine("SET Existencia = (" + vSqlSelectSum + " )");
             vSqlActualizaExistencia.AppendLine("WHERE Saw.LoteDeInventario.ConsecutivoCompania = " + insDb.InsSql.ToSqlValue(valConsecutivoCompania));
             vSqlActualizaExistencia.AppendLine("AND Saw.LoteDeInventario.Consecutivo = " + insDb.InsSql.ToSqlValue(valConsecutivoLote));
             insDb.Execute(vSqlActualizaExistencia.ToString());
@@ -903,13 +903,12 @@ namespace Galac.Saw.Brl.Inventario {
             LibDatabase insDb = new LibDatabase();
             StringBuilder vSqlActualizaExistenciaArticulo = new StringBuilder();
             StringBuilder vSqlSelectSum = new StringBuilder();
-            vSqlSelectSum.AppendLine("SELECT SUM(Existencia) FROM Saw.LoteDeInventario ");
+            vSqlSelectSum.AppendLine("SELECT ISNULL(SUM(Existencia), 0) FROM Saw.LoteDeInventario ");
             vSqlSelectSum.AppendLine("WHERE Saw.LoteDeInventario.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania");
             vSqlSelectSum.AppendLine("AND Saw.LoteDeInventario.CodigoArticulo = ArticuloInventario.Codigo ");
 
             vSqlActualizaExistenciaArticulo.AppendLine("UPDATE ArticuloInventario ");
-            vSqlActualizaExistenciaArticulo.AppendLine("SET Existencia = ");
-            vSqlActualizaExistenciaArticulo.AppendLine("ISNULL(" + vSqlSelectSum.ToString()  + ", 0)");
+            vSqlActualizaExistenciaArticulo.AppendLine("SET Existencia = ( " + vSqlSelectSum.ToString() + " )");
             vSqlActualizaExistenciaArticulo.AppendLine("WHERE ArticuloInventario.ConsecutivoCompania = " + insDb.InsSql.ToSqlValue(valConsecutivoCompania));
             vSqlActualizaExistenciaArticulo.AppendLine("AND ArticuloInventario.Codigo = " + insDb.InsSql.ToSqlValue(valCodigoArticulo));
             insDb.Execute(vSqlActualizaExistenciaArticulo.ToString());
