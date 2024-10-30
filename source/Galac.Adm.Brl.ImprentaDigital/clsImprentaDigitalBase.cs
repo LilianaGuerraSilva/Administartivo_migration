@@ -448,7 +448,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 XElement vResult = LibBusiness.ExecuteSelect(vSql, vParam, "", 0);
                 if (vResult != null && vResult.HasElements) {
                     FacturaImprentaDigital = new FacturaRapida();
-                    FacturaImprentaDigital.Talonario = ""; // Hay que revisar NO APLICA como serie
+                    FacturaImprentaDigital.Talonario = LibXml.GetPropertyString(vResult, "Talonario");
                     FacturaImprentaDigital.TipoDeDocumento = LibXml.GetPropertyString(vResult, "TipoDeDocumento");
                     FacturaImprentaDigital.NumeroControl = LibXml.GetPropertyString(vResult, "NumeroControl");
                     FacturaImprentaDigital.Numero = LibXml.GetPropertyString(vResult, "Numero");
