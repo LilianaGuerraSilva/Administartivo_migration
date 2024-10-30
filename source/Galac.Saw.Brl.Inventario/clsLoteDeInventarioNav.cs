@@ -494,7 +494,7 @@ namespace Galac.Saw.Brl.Inventario {
                                 vLote.DetailLoteDeInventarioMovimiento = vListMovimientos;
                                 InsertDetail(vLote);
                             }
-                            ActualizaExistenciaLote(vLote);
+                            ActualizaExistenciaLote(valConsecutivoCompania,vLote.Consecutivo);
                         }
                     }
                 }
@@ -884,33 +884,35 @@ namespace Galac.Saw.Brl.Inventario {
             return vResult;
         }
 
-        private static void ActualizaExistenciaLote(LoteDeInventario vItemLote) {
-            QAdvSql insSql = new QAdvSql("");
+        private static void ActualizaExistenciaLote(int valConsecutivoCompania, int valConsecutivoLote) {
             LibDatabase insDb = new LibDatabase();
-            if (vItemLote.DetailLoteDeInventarioMovimiento != null && vItemLote.DetailLoteDeInventarioMovimiento.Count > 0) {
-                foreach (LoteDeInventarioMovimiento vItemLoteMov in vItemLote.DetailLoteDeInventarioMovimiento) {
-                    LoteDeInventarioMovimiento vLoteMov = vItemLoteMov;
-                    StringBuilder vSqlActualizaExistencia = new StringBuilder();
-                    vSqlActualizaExistencia.AppendLine("UPDATE Saw.LoteDeInventario");
-                    vSqlActualizaExistencia.AppendLine("SET Existencia = " + insSql.ToSqlValue(vLoteMov.Cantidad));
-                    vSqlActualizaExistencia.AppendLine("WHERE ConsecutivoCompania = " + insSql.ToSqlValue(vLoteMov.ConsecutivoCompania) + "AND ");
-                    vSqlActualizaExistencia.AppendLine("Consecutivo = " + insSql.ToSqlValue(vLoteMov.ConsecutivoLote));
-                    insDb.Execute(vSqlActualizaExistencia.ToString());
-                }
-            }
+            StringBuilder vSqlActualizaExistencia = new StringBuilder();
+            StringBuilder vSqlSelectSum = new StringBuilder();
+            vSqlSelectSum.AppendLine("SELECT Saw.LoteDeInventarioMovimiento.Cantidad FROM Saw.LoteDeInventarioMovimiento");
+            vSqlSelectSum.AppendLine("WHERE Saw.LoteDeInventarioMovimiento.ConsecutivoCompania = Saw.LoteDeInventario.ConsecutivoCompania");
+            vSqlSelectSum.AppendLine("AND Saw.LoteDeInventarioMovimiento.ConsecutivoLote = Saw.LoteDeInventario.Consecutivo");
+
+            vSqlActualizaExistencia.AppendLine("UPDATE Saw.LoteDeInventario");
+            vSqlActualizaExistencia.AppendLine("SET Existencia = ISNULL(" + vSqlSelectSum + ",0)");
+            vSqlActualizaExistencia.AppendLine("WHERE Saw.LoteDeInventario.ConsecutivoCompania = " + insDb.InsSql.ToSqlValue(valConsecutivoCompania));
+            vSqlActualizaExistencia.AppendLine("AND Saw.LoteDeInventario.Consecutivo = " + insDb.InsSql.ToSqlValue(valConsecutivoLote));
+            insDb.Execute(vSqlActualizaExistencia.ToString());
         }
 
         private static void ActualizaExistenciaArticulo(int valConsecutivoCompania, string valCodigoArticulo) {
             LibDatabase insDb = new LibDatabase();
-            StringBuilder vSql = new StringBuilder();
-            vSql.AppendLine("UPDATE ArticuloInventario ");
-            vSql.AppendLine("SET Existencia = ");
-            vSql.AppendLine("( SELECT SUM (Existencia) FROM Saw.LoteDeInventario ");
-            vSql.AppendLine("WHERE Saw.LoteDeInventario.ConsecutivoCompania = " + insDb.InsSql.ToSqlValue(valConsecutivoCompania));
-            vSql.AppendLine("AND Saw.LoteDeInventario.CodigoArticulo = " + insDb.InsSql.ToSqlValue(valCodigoArticulo) + ")");
-            vSql.AppendLine("WHERE ArticuloInventario.ConsecutivoCompania = " + insDb.InsSql.ToSqlValue(valConsecutivoCompania));
-            vSql.AppendLine("AND ArticuloInventario.Codigo = " + insDb.InsSql.ToSqlValue(valCodigoArticulo));
-            insDb.Execute(vSql.ToString());
+            StringBuilder vSqlActualizaExistenciaArticulo = new StringBuilder();
+            StringBuilder vSqlSelectSum = new StringBuilder();
+            vSqlSelectSum.AppendLine("SELECT SUM(Existencia) FROM Saw.LoteDeInventario ");
+            vSqlSelectSum.AppendLine("WHERE Saw.LoteDeInventario.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania");
+            vSqlSelectSum.AppendLine("AND Saw.LoteDeInventario.CodigoArticulo = ArticuloInventario.Codigo ");
+
+            vSqlActualizaExistenciaArticulo.AppendLine("UPDATE ArticuloInventario ");
+            vSqlActualizaExistenciaArticulo.AppendLine("SET Existencia = ");
+            vSqlActualizaExistenciaArticulo.AppendLine("ISNULL(" + vSqlSelectSum.ToString()  + ", 0)");
+            vSqlActualizaExistenciaArticulo.AppendLine("WHERE ArticuloInventario.ConsecutivoCompania = " + insDb.InsSql.ToSqlValue(valConsecutivoCompania));
+            vSqlActualizaExistenciaArticulo.AppendLine("AND ArticuloInventario.Codigo = " + insDb.InsSql.ToSqlValue(valCodigoArticulo));
+            insDb.Execute(vSqlActualizaExistenciaArticulo.ToString());
         }
 
     } //End of class clsLoteDeInventarioNav
