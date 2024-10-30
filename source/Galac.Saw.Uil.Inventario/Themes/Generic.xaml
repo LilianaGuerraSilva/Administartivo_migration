@@ -56,6 +56,6 @@
         <nsReportesView:GSMovimientoDeLoteInventario />
     </DataTemplate>
     <DataTemplate DataType="{x:Type nsCSVM:RecalcularMovimientosDeInventarioViewModel}">
-        <nsReportesView:GSRecalcularMovimientosDeInventarioView />
+        <nsCSV:GSRecalcularMovimientosDeInventarioView />
     </DataTemplate>
 </ResourceDictionary>

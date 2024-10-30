@@ -14,14 +14,25 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Ccl.Inventario;
 using LibGalac.Aos.Base.Report;
+using Galac.Saw.Brl.Tablas;
+using LibGalac.Aos.Uil;
+using Galac.Saw.Brl.Inventario;
 
 namespace Galac.Saw.Uil.Inventario.ViewModel {
-    public class RecalcularMovimientosDeInventarioViewModel : LibInputViewModel<RecalcularMovimientosDeInventario> {
+    public class RecalcularMovimientosDeInventarioViewModel : LibGenericViewModel {
         #region Constantes
+        public const string LineaDeProductoPropertyName = "LineaDeProducto";
+        public const string CodigoArticuloPropertyName = "CodigoArticulo";
+
         #endregion
         #region Variables
         private FkArticuloInventarioViewModel _ConexionCodigoArticulo = null;
         private FkLineaDeProductoViewModel _ConexionLineaDeProducto = null;
+        private eCantidadAImprimir _ArticuloUnoTodos;
+        private string _CodigoArticulo;
+        private string _LineaDeProducto;
+        private eCantidadAImprimir _LineaDeProductoUnoTodos;
+        private RecalcularMovimientosDeInventario Model;
         #endregion //Variables
         #region Propiedades
 
@@ -30,23 +41,24 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         public eCantidadAImprimir ArticuloUnoTodos {
-            get { return Model.ArticuloUnoTodosAsEnum; }
+            get { return _ArticuloUnoTodos; }
             set {
-                if (Model.ArticuloUnoTodosAsEnum != value) {
-                    Model.ArticuloUnoTodosAsEnum = value;
-                    IsDirty = true;
+                if (_ArticuloUnoTodos != value) {
+                    _ArticuloUnoTodos = value;
                     RaisePropertyChanged(() => ArticuloUnoTodos);
+                    RaisePropertyChanged(CodigoArticuloPropertyName);
+                    RaisePropertyChanged("IsVisibleCodigoArticulo");
                 }
             }
         }
-
+        [LibCustomValidation("ArticuloValidating")]
+        [LibRequired(ErrorMessage = "El Artículo es requerido.")]
         public string CodigoArticulo {
-            get { return Model.CodigoArticulo; }
+            get { return _CodigoArticulo; }
             set {
-                if (Model.CodigoArticulo != value) {
-                    Model.CodigoArticulo = value;
-                    IsDirty = true;
-                    RaisePropertyChanged(() => CodigoArticulo);
+                if (_CodigoArticulo != value) {
+                    _CodigoArticulo = value;
+                    RaisePropertyChanged(CodigoArticuloPropertyName);
                     if (LibString.IsNullOrEmpty(CodigoArticulo, true)) {
                         ConexionCodigoArticulo = null;
                     }
@@ -55,23 +67,25 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         public eCantidadAImprimir LineaDeProductoUnoTodos {
-            get { return Model.LineaDeProductoUnoTodosAsEnum; }
+            get { return _LineaDeProductoUnoTodos; }
             set {
-                if (Model.LineaDeProductoUnoTodosAsEnum != value) {
-                    Model.LineaDeProductoUnoTodosAsEnum = value;
-                    IsDirty = true;
+                if (_LineaDeProductoUnoTodos != value) {
+                    _LineaDeProductoUnoTodos = value;
                     RaisePropertyChanged(() => LineaDeProductoUnoTodos);
+                    RaisePropertyChanged(LineaDeProductoPropertyName);
+                    RaisePropertyChanged("IsVisibleLineaDeProducto");
                 }
             }
         }
-
+        
+        [LibCustomValidation("LineaDeProductoValidating")]
+        [LibRequired(ErrorMessage ="Linea de Producto es Requerida")]
         public string LineaDeProducto {
             get { return Model.LineaDeProducto; }
             set {
                 if (Model.LineaDeProducto != value) {
                     Model.LineaDeProducto = value;
-                    IsDirty = true;
-                    RaisePropertyChanged(() => LineaDeProducto);
+                    RaisePropertyChanged(LineaDeProductoPropertyName);
                     if (LibString.IsNullOrEmpty(LineaDeProducto, true)) {
                         ConexionLineaDeProducto = null;
                     }
@@ -92,10 +106,12 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             set {
                 if (_ConexionCodigoArticulo != value) {
                     _ConexionCodigoArticulo = value;
-                    RaisePropertyChanged(() => CodigoArticulo);
+                    RaisePropertyChanged(CodigoArticuloPropertyName);
                 }
                 if (_ConexionCodigoArticulo == null) {
                     CodigoArticulo = string.Empty;
+                }else {
+                    CodigoArticulo = _ConexionCodigoArticulo.Codigo;
                 }
             }
         }
@@ -105,10 +121,12 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             set {
                 if (_ConexionLineaDeProducto != value) {
                     _ConexionLineaDeProducto = value;
-                    RaisePropertyChanged(() => LineaDeProducto);
+                    RaisePropertyChanged(LineaDeProductoPropertyName);
                 }
                 if (_ConexionLineaDeProducto == null) {
                     LineaDeProducto = string.Empty;
+                } else {
+                    LineaDeProducto = _ConexionLineaDeProducto.Nombre;
                 }
             }
         }
@@ -123,47 +141,87 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             private set;
         }
 
-        public bool IsVisibleCodigoArticulo { get { return ArticuloUnoTodos == eCantidadAImprimir.One; } }
-        public bool IsVisibleCantidadLineasDeProducto { get { return ArticuloUnoTodos == eCantidadAImprimir.All; } }
-        public bool IsVisibleLineaDeProducto { get { return LineaDeProductoUnoTodos == eCantidadAImprimir.One; } }
+        public RelayCommand RecalcularCommand {
+            get;
+            private set;
+        }
+
+        public bool IsVisibleCodigoArticulo { 
+            get {
+                bool IsVisible = false;
+                if (ArticuloUnoTodos == eCantidadAImprimir.One) {
+                    IsVisible = true;
+                }
+                return IsVisible;
+            } 
+        }
+
+        public bool IsVisibleLineaDeProducto { 
+            get { 
+                bool IsVisible = false;
+                if (LineaDeProductoUnoTodos == eCantidadAImprimir.One) {
+                    IsVisible = true;
+                }
+                return IsVisible; 
+            } 
+        }
         #endregion //Propiedades
         #region Constructores
-        public RecalcularMovimientosDeInventarioViewModel()
-            : this(new RecalcularMovimientosDeInventario(), eAccionSR.Insertar) {
-        }
-        public RecalcularMovimientosDeInventarioViewModel(RecalcularMovimientosDeInventario initModel, eAccionSR initAction) : base(initModel, initAction) {
-            //DefaultFocusedPropertyName = ArticuloUnoTodosPropertyName;
+        public RecalcularMovimientosDeInventarioViewModel() 
+            :base() {
+            Model = new RecalcularMovimientosDeInventario();
+            ArticuloUnoTodos = eCantidadAImprimir.All;
+            LineaDeProductoUnoTodos = eCantidadAImprimir.All;
+            CodigoArticulo = string.Empty;
+            LineaDeProducto = string.Empty;
         }
         #endregion //Constructores
         #region Metodos Generados
-
-        protected override void InitializeLookAndFeel(RecalcularMovimientosDeInventario valModel) {
-            base.InitializeLookAndFeel(valModel);
-        }
-
-        protected override RecalcularMovimientosDeInventario FindCurrentRecord(RecalcularMovimientosDeInventario valModel) {
-            if (valModel == null) {
-                return null;
-            }
-            LibGpParams vParams = new LibGpParams();
-            vParams.AddInEnum("ArticuloUnoTodos", LibConvert.EnumToDbValue((int)valModel.ArticuloUnoTodosAsEnum));
-            return BusinessComponent.GetData(eProcessMessageType.SpName, "RecalcularMovimientosDeInventarioGET", vParams.Get()).FirstOrDefault();
-        }
-
-        protected override ILibBusinessComponentWithSearch<IList<RecalcularMovimientosDeInventario>, IList<RecalcularMovimientosDeInventario>> GetBusinessComponent() {
-            return null;
-        }
 
         protected override void InitializeCommands() {
             base.InitializeCommands();
             ChooseCodigoArticuloCommand = new RelayCommand<string>(ExecuteChooseCodigoArticuloCommand);
             ChooseLineaDeProductoCommand = new RelayCommand<string>(ExecuteChooseLineaDeProductoCommand);
+            RecalcularCommand = new RelayCommand(ExecuteRecalcularCommand, CanExecuteRecalcularCommand);
         }
 
-        protected override void ReloadRelatedConnections() {
-            base.ReloadRelatedConnections();
-            ConexionCodigoArticulo = FirstConnectionRecordOrDefault<FkArticuloInventarioViewModel>("Artículo Inventario", LibSearchCriteria.CreateCriteria("Codigo", CodigoArticulo));
-            ConexionLineaDeProducto = FirstConnectionRecordOrDefault<FkLineaDeProductoViewModel>("Linea De Producto", LibSearchCriteria.CreateCriteria("Nombre", LineaDeProducto));
+        private LibRibbonButtonData CreateExecuteActionRibbonButtonData() {
+            LibRibbonButtonData vButton = new LibRibbonButtonData() {
+                Label = "Recalcular",
+                Command = RecalcularCommand,
+                LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/refresh.png", UriKind.Relative),
+                ToolTipDescription = "Recalcular",
+                ToolTipTitle = "Recalcular",
+                IsVisible = true
+            };
+            return vButton;
+        }
+
+        protected override void InitializeRibbon() {
+            base.InitializeRibbon();
+            if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
+                RibbonData.RemoveRibbonControl("Administrar", "Insertar");
+                RibbonData.RemoveRibbonControl("Administrar", "Consultar");
+                RibbonData.RemoveRibbonControl("Administrar", "Eliminar");
+                RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection.Insert(0, CreateExecuteActionRibbonButtonData());
+            }
+        }
+
+        private bool CanExecuteRecalcularCommand() {
+            return true;
+        }
+
+        private void ExecuteRecalcularCommand() {
+            try {
+                ILoteDeInventarioPdn vPdn = new clsLoteDeInventarioNav();
+                if (vPdn.RecalcularMovimientosDeLoteDeInventario(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), ArticuloUnoTodos, CodigoArticulo, LineaDeProductoUnoTodos, LineaDeProducto)){
+                    LibMessages.MessageBox.Information(this, "Recalculo de Movimiento de Inventario culmino exitosamente.", ModuleName);
+                }
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (Exception vEx) {
+                LibMessages.RaiseError.ShowError(vEx);
+            }
         }
 
         private void ExecuteChooseCodigoArticuloCommand(string valCodigo) {
@@ -171,9 +229,9 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 if (valCodigo == null) {
                     valCodigo = string.Empty;
                 }
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
-                //LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
-                //ConexionCodigoArticulo = ChooseRecord<FkArticuloInventarioViewModel>("Artículo Inventario", vDefaultCriteria, vFixedCriteria, string.Empty);
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_ArticuloInventario_B1.Codigo", valCodigo);
+                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Gv_ArticuloInventario_B1.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
+                ConexionCodigoArticulo = LibFKRetrievalHelper.ChooseRecord<FkArticuloInventarioViewModel>("Articulo Inventario", vDefaultCriteria, vFixedCriteria, new clsArticuloInventarioNav(), string.Empty);
                 if (ConexionCodigoArticulo != null) {
                     CodigoArticulo = ConexionCodigoArticulo.Codigo;
                 } else {
@@ -186,14 +244,14 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        private void ExecuteChooseLineaDeProductoCommand(string valNombre) {
+        private void ExecuteChooseLineaDeProductoCommand(string valLineaDeProducto) {
             try {
-                if (valNombre == null) {
-                    valNombre = string.Empty;
+                if (valLineaDeProducto == null) {
+                    valLineaDeProducto = string.Empty;
                 }
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Nombre", valNombre);
-                //LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
-                //ConexionCodigoLineaDeProducto = ChooseRecord<FkLineaDeProductoViewModel>("Linea De Producto", vDefaultCriteria, vFixedCriteria, string.Empty);
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_LineaDeProducto_B1.Nombre", valLineaDeProducto);
+                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_LineaDeProducto_B1.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
+                ConexionLineaDeProducto = LibFKRetrievalHelper.ChooseRecord<FkLineaDeProductoViewModel>("Línea de Producto", vDefaultCriteria, vFixedCriteria, new clsLineaDeProductoNav(), string.Empty);
                 if (ConexionLineaDeProducto != null) {
                     LineaDeProducto = ConexionLineaDeProducto.Nombre;
                 } else {
@@ -204,6 +262,22 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
+        }
+
+        private ValidationResult ArticuloValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if (LibString.IsNullOrEmpty(CodigoArticulo) && ArticuloUnoTodos == eCantidadAImprimir.One) {
+                vResult = new ValidationResult("El Artículo es requerido.");
+            }
+            return vResult;
+        }
+
+        private ValidationResult LineaDeProductoValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if (LibString.IsNullOrEmpty(LineaDeProducto) && LineaDeProductoUnoTodos == eCantidadAImprimir.One) {
+                vResult = new ValidationResult("La Línea de producto es requerida.");
+            }
+            return vResult;
         }
         #endregion //Metodos Generados
 

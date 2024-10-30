@@ -116,8 +116,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 ToolTipDescription = "Informes",
                 ToolTipTitle = "Informes"
             });
-            vResult.ControlDataCollection.Add(new LibRibbonControlData() {
-                Label= "Recalcular Movimientos de Lote",
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                Label = "Recalcular Movimientos de Lote",
                 Command = RecalcularCommand,
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/refresh.png", UriKind.Relative),
                 ToolTipDescription = "Recalcular Movimientos de Lote",
@@ -164,7 +164,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         private bool CanExecuteRecalcularCommand() {
-            return LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 18), "Consulta");
+            return LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 18), "Recalcular");
         }
 
         private void ExecuteInformesCommand() {
@@ -181,7 +181,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         private void ExecuteRecalcularCommand() {
             try {
-
+                RecalcularMovimientosDeInventarioViewModel vViewModel = new RecalcularMovimientosDeInventarioViewModel();
+                LibMessages.EditViewModel.ShowEditor(vViewModel);
             } catch (System.AccessViolationException) {
                 throw;
             } catch (Exception vEx) {
