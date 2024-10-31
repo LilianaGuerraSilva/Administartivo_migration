@@ -484,21 +484,23 @@ namespace Galac.Saw.Brl.Inventario {
                 insDb.Execute(vSql.ToString());
 
                 XElement vRecordLote = LibBusiness.ExecuteSelect(SqlLotesPorArticulo(valConsecutivoCompania, valCodigoArticulo), new StringBuilder(), "", 0);
-                List<LoteDeInventario> vListLotes = ParseToListEntity(vRecordLote);
-                if (vListLotes != null) {
-                    foreach (LoteDeInventario vLote in vListLotes) {
-                        if (vLote != null) {
-                            XElement vRecord = LibBusiness.ExecuteSelect(SqlMovimientosDeInventarioDesdeModulos(valConsecutivoCompania, valCodigoArticulo, vLote.Consecutivo), new StringBuilder(), "", 0);
-                            if (vRecord != null) {
-                                ObservableCollection<LoteDeInventarioMovimiento> vListMovimientos = new clsLoteDeInventarioMovimientoNav().ParseToListObservableCollectionEntity(vRecord);
-                                vLote.DetailLoteDeInventarioMovimiento = vListMovimientos;
-                                InsertDetail(vLote);
+                if (vRecordLote != null) {
+                    List<LoteDeInventario> vListLotes = ParseToListEntity(vRecordLote);
+                    if (vListLotes != null) {
+                        foreach (LoteDeInventario vLote in vListLotes) {
+                            if (vLote != null) {
+                                XElement vRecord = LibBusiness.ExecuteSelect(SqlMovimientosDeInventarioDesdeModulos(valConsecutivoCompania, valCodigoArticulo, vLote.Consecutivo), new StringBuilder(), "", 0);
+                                if (vRecord != null) {
+                                    ObservableCollection<LoteDeInventarioMovimiento> vListMovimientos = new clsLoteDeInventarioMovimientoNav().ParseToListObservableCollectionEntity(vRecord);
+                                    vLote.DetailLoteDeInventarioMovimiento = vListMovimientos;
+                                    InsertDetail(vLote);
+                                }
+                                ActualizaExistenciaLote(valConsecutivoCompania, vLote.Consecutivo);
                             }
-                            ActualizaExistenciaLote(valConsecutivoCompania,vLote.Consecutivo);
                         }
                     }
+                    ActualizaExistenciaArticulo(valConsecutivoCompania, valCodigoArticulo);
                 }
-                ActualizaExistenciaArticulo(valConsecutivoCompania, valCodigoArticulo);
                 vResult = true;
             }
             return vResult;
