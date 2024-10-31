@@ -164,9 +164,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     vDocumentoJSON = clsConectorJson.LimpiaRegistrosTempralesEnJSON(vDocumentoJSON);
                     vRespuestaConector = _ConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Emision), _ConectorJson.Token, NumeroDocumento(), (int)TipoDeDocumento);
                     NumeroControl = vRespuestaConector.resultados.numeroControl;
-                    vResult = vRespuestaConector.Aprobado;
-                    string vPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\F_ID.json";
-                    LibFile.WriteLineInFile(vPath, vDocumentoJSON, false);                    
+                    vResult = vRespuestaConector.Aprobado;                                 
                     if (vResult) {
                         ActualizaNroControlYProveedorImprentaDigital();
                     } else {
@@ -343,8 +341,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 if (LibString.InStr(FacturaImprentaDigital.NumeroFacturaAfectada, "-") > 0) {
                     vObservaciones = "Nro.Fact.Afectada Original: " + FacturaImprentaDigital.NumeroFacturaAfectada + ". ";
                 }
-            }
-            vObservaciones += FacturaImprentaDigital.Numero;
+            }            
             vObservaciones += FacturaImprentaDigital.Observaciones;
 
             XElement vVarios = new XElement("root",
