@@ -47,7 +47,9 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                     _ArticuloUnoTodos = value;
                     RaisePropertyChanged(() => ArticuloUnoTodos);
                     RaisePropertyChanged(CodigoArticuloPropertyName);
-                    RaisePropertyChanged("IsVisibleCodigoArticulo");
+                    RaisePropertyChanged(() => IsVisibleCodigoArticulo);
+                    RaisePropertyChanged(() => IsVisibleCantidadLineasDeProducto);
+                    RaisePropertyChanged(() => IsVisibleLineaDeProducto);
                 }
             }
         }
@@ -73,7 +75,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                     _LineaDeProductoUnoTodos = value;
                     RaisePropertyChanged(() => LineaDeProductoUnoTodos);
                     RaisePropertyChanged(LineaDeProductoPropertyName);
-                    RaisePropertyChanged("IsVisibleLineaDeProducto");
+                    RaisePropertyChanged(() => IsVisibleLineaDeProducto);
                 }
             }
         }
@@ -146,24 +148,16 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             private set;
         }
 
-        public bool IsVisibleCodigoArticulo { 
-            get {
-                bool IsVisible = false;
-                if (ArticuloUnoTodos == eCantidadAImprimir.One) {
-                    IsVisible = true;
-                }
-                return IsVisible;
-            } 
+        public bool IsVisibleCodigoArticulo {
+            get { return (ArticuloUnoTodos == eCantidadAImprimir.One); }
+        }
+
+        public bool IsVisibleCantidadLineasDeProducto {
+            get { return (ArticuloUnoTodos == eCantidadAImprimir.All); }
         }
 
         public bool IsVisibleLineaDeProducto { 
-            get { 
-                bool IsVisible = false;
-                if (LineaDeProductoUnoTodos == eCantidadAImprimir.One) {
-                    IsVisible = true;
-                }
-                return IsVisible; 
-            } 
+            get { return IsVisibleCantidadLineasDeProducto && (LineaDeProductoUnoTodos == eCantidadAImprimir.One);} 
         }
         #endregion //Propiedades
         #region Constructores
@@ -215,7 +209,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             try {
                 ILoteDeInventarioPdn vPdn = new clsLoteDeInventarioNav();
                 if (vPdn.RecalcularMovimientosDeLoteDeInventario(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), ArticuloUnoTodos, CodigoArticulo, LineaDeProductoUnoTodos, LineaDeProducto)){
-                    LibMessages.MessageBox.Information(this, "Recalculo de Movimiento de Inventario culmino exitosamente.", ModuleName);
+                    LibMessages.MessageBox.Information(this, "Se culminó con éxito la actualización de Lotes de Inventario.", ModuleName);
                 }
                 DialogResult = true;
                 RaiseRequestCloseEvent();
