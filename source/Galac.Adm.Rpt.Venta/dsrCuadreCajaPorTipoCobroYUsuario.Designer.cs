@@ -523,7 +523,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMonedaDoc.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtMonedaDoc.Text = "txtMonedaDoc";
             this.txtMonedaDoc.Top = 0F;
-            this.txtMonedaDoc.Width = 1.34375F;
+            this.txtMonedaDoc.Width = 1.79F;
             // 
             // GFSecMonedaDoc
             // 
@@ -557,7 +557,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtNombreOperador.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtNombreOperador.Text = "txtNombreOperador";
             this.txtNombreOperador.Top = 0F;
-            this.txtNombreOperador.Width = 1.34375F;
+            this.txtNombreOperador.Width = 1.79F;
             // 
             // GFSecOperador
             // 
@@ -849,7 +849,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblConsecutivoCaja.Style = "font-size: 8.25pt; font-weight: bold; text-align: left; ddo-char-set: 0";
             this.lblConsecutivoCaja.Text = "Caja:";
             this.lblConsecutivoCaja.Top = 0F;
-            this.lblConsecutivoCaja.Width = 1.5F;
+            this.lblConsecutivoCaja.Width = 1.15F;
             // 
             // txtConsecutivoCaja
             // 
@@ -859,7 +859,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtConsecutivoCaja.Style = "font-size: 8pt; text-align: left; ddo-char-set: 1";
             this.txtConsecutivoCaja.Text = "txtConsecutivoCaja";
             this.txtConsecutivoCaja.Top = 0F;
-            this.txtConsecutivoCaja.Width = 1.34375F;
+            this.txtConsecutivoCaja.Width = 1.79F;
             // 
             // lblNombreCaja
             // 
@@ -870,7 +870,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblNombreCaja.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.lblNombreCaja.Text = "Nombre de Caja:";
             this.lblNombreCaja.Top = 0.15625F;
-            this.lblNombreCaja.Width = 1.5F;
+            this.lblNombreCaja.Width = 1.15F;
             // 
             // txtNombreCaja
             // 
@@ -879,8 +879,8 @@ namespace Galac.Adm.Rpt.Venta
             this.txtNombreCaja.Name = "txtNombreCaja";
             this.txtNombreCaja.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtNombreCaja.Text = "txtNombreCaja";
-            this.txtNombreCaja.Top = 0.15625F;
-            this.txtNombreCaja.Width = 1.34375F;
+            this.txtNombreCaja.Top = 0.156F;
+            this.txtNombreCaja.Width = 1.79F;
             // 
             // GFSecCaja
             // 
@@ -1182,8 +1182,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblMonedaCobro.HyperLink = null;
             this.lblMonedaCobro.Left = 0F;
             this.lblMonedaCobro.Name = "lblMonedaCobro";
-            this.lblMonedaCobro.Style = "background-color: Gainsboro; font-size: 8.25pt; font-weight: bold; ddo-char-set: " +
-    "0";
+            this.lblMonedaCobro.Style = "background-color: White; font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.lblMonedaCobro.Text = "Moneda Cobro:";
             this.lblMonedaCobro.Top = 0F;
             this.lblMonedaCobro.Width = 1.15F;
@@ -1193,10 +1192,10 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMonedaCobro.Height = 0.15625F;
             this.txtMonedaCobro.Left = 1.15F;
             this.txtMonedaCobro.Name = "txtMonedaCobro";
-            this.txtMonedaCobro.Style = "background-color: Gainsboro; font-size: 8pt; font-weight: bold; ddo-char-set: 1";
+            this.txtMonedaCobro.Style = "background-color: White; font-size: 8pt; font-weight: bold; ddo-char-set: 1";
             this.txtMonedaCobro.Text = "txtMonedaCobro";
             this.txtMonedaCobro.Top = 0F;
-            this.txtMonedaCobro.Width = 2.2F;
+            this.txtMonedaCobro.Width = 1.79F;
             // 
             // lblFecha
             // 
