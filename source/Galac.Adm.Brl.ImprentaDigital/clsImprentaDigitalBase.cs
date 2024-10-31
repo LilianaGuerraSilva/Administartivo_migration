@@ -75,8 +75,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             }
         }
 
-        private string SqlDatosDeDocumentoParaEmitir(ref StringBuilder refParametros) {
-			
+        private string SqlDatosDeDocumentoParaEmitir(ref StringBuilder refParametros) {			
             LibGpParams vParam = new LibGpParams();
             vParam.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
             vParam.AddInString("Numero", NumeroFactura, 11);
