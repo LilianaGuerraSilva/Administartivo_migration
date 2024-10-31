@@ -9,13 +9,12 @@ using System.Data;
 using LibGalac.Aos.ARRpt;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.DefGen;
-namespace Galac.Adm.Rpt.Venta
-{
+namespace Galac.Adm.Rpt.Venta {
     /// <summary>
     /// Summary description for dsrCuadreCajaPorTipoCobroYUsuario.
     /// </summary>
     public partial class dsrCuadreCajaPorTipoCobroYUsuario : DataDynamics.ActiveReports.ActiveReport {
-		#region Variables
+        #region Variables
         private bool _UseExternalRpx;
         private static string _RpxFileName;
         #endregion //Variables
@@ -32,11 +31,11 @@ namespace Galac.Adm.Rpt.Venta
         }
         #endregion //Constructores
         #region Metodos Generados
-		public string ReportTitle() {
+        public string ReportTitle() {
             return "Informe de Cuadre Caja por Tipo de Cobro Detallado y Usuario";
         }
-		
-		public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {
+
+        public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {
             string vNombreCompania = valParameters["NombreCompania"] + " - " + valParameters["RifCompania"];
             if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
@@ -50,29 +49,29 @@ namespace Galac.Adm.Rpt.Venta
                 LibReport.ConfigLabel(this, "lblFechaInicialYFinal", valParameters["FechaInicialYFinal"]);
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
-				LibReport.ConfigFieldStr(this, "txtNombreOperador", string.Empty, "NombreDelOperador");
+                LibReport.ConfigFieldStr(this, "txtNombreOperador", string.Empty, "NombreDelOperador");
                 LibReport.ConfigFieldInt(this, "txtConsecutivoCaja", string.Empty, "ConsecutivoCaja");
-				LibReport.ConfigFieldStr(this, "txtMonedaDoc", string.Empty, "MonedaDoc");
-				LibReport.ConfigFieldStr(this, "txtNombreCaja", string.Empty, "NombreCaja");
-				LibReport.ConfigFieldStr(this, "txtMonedaCobro", string.Empty, "MonedaCobro");
+                LibReport.ConfigFieldStr(this, "txtMonedaDoc", string.Empty, "MonedaDoc");
+                LibReport.ConfigFieldStr(this, "txtNombreCaja", string.Empty, "NombreCaja");
+                LibReport.ConfigFieldStr(this, "txtMonedaCobro", string.Empty, "MonedaCobro");
 
                 LibReport.ConfigFieldStr(this, "txtCodMonedaCobro", string.Empty, "CodMoneda");
 
                 LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", "dd/MM/yy");
-				LibReport.ConfigFieldStr(this, "txtNumeroDoc", string.Empty, "NumeroDoc");
-				LibReport.ConfigFieldStr(this, "txtNumeroCompFiscal", string.Empty, "NumFiscal");
-				LibReport.ConfigFieldStr(this, "txtNombreCliente", string.Empty, "NombreCliente");
-				LibReport.ConfigFieldDecWithNDecimal(this, "txtMontoDoc", string.Empty, "MontoDoc",2);
-				LibReport.ConfigFieldDecWithNDecimal(this, "txtEfectivo", string.Empty, "Efectivo",2);
-				LibReport.ConfigFieldDecWithNDecimal(this, "txtTarjeta", string.Empty, "Tarjeta",2);
-				LibReport.ConfigFieldDecWithNDecimal(this, "txtCheque", string.Empty, "Cheque",2);
-				LibReport.ConfigFieldDecWithNDecimal(this, "txtDepositoTransf", string.Empty, "Deposito",2);
-				LibReport.ConfigFieldDecWithNDecimal(this, "txtAntUsado", string.Empty, "AnticipoUsado",2);
-				LibReport.ConfigFieldDecWithNDecimal(this, "txtAntResta", string.Empty, "AnticipoRestante",2);
-				LibReport.ConfigFieldDecWithNDecimal(this, "txtPago", string.Empty, "MontoPagado",2);
-				LibReport.ConfigFieldDecWithNDecimal(this, "txtVuelto", string.Empty, "Vuelto",2);
-				LibReport.ConfigFieldDecWithNDecimal(this, "txtNotaDeCredito", string.Empty, "NotaDeCredito",2);
-				LibReport.ConfigFieldDecWithNDecimal(this, "txtVentaCredito", string.Empty, "VentaCredito",2);
+                LibReport.ConfigFieldStr(this, "txtNumeroDoc", string.Empty, "NumeroDoc");
+                LibReport.ConfigFieldStr(this, "txtNumeroCompFiscal", string.Empty, "NumFiscal");
+                LibReport.ConfigFieldStr(this, "txtRifCliente", string.Empty, "RifCliente");
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtMontoDoc", string.Empty, "MontoDoc", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtEfectivo", string.Empty, "Efectivo", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtTarjeta", string.Empty, "Tarjeta", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtCheque", string.Empty, "Cheque", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtDepositoTransf", string.Empty, "Deposito", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtAntUsado", string.Empty, "AnticipoUsado", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtAntResta", string.Empty, "AnticipoRestante", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtPago", string.Empty, "MontoPagado", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtVuelto", string.Empty, "Vuelto", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtNotaDeCredito", string.Empty, "NotaDeCredito", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtVentaCredito", string.Empty, "VentaCredito", 2);
                 #region Totales por moneda de cobro
                 LibReport.ConfigSummaryField(this, "txtTotalMontoDoc", "MontoDoc", SummaryFunc.Sum, "GHSecDocumento", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtTotalEfectivo", "Efectivo", SummaryFunc.Sum, "GHSecDocumento", SummaryRunning.Group, SummaryType.SubTotal);
@@ -136,35 +135,35 @@ namespace Galac.Adm.Rpt.Venta
                 #endregion Totales por Caja USD
 
                 #region Totales por Operador Bs
-                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalEfectivoOperadorBs", LibConvert.ToStr((decimal) 0), "", 2);
-                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalTarjetaOperadorBs", LibConvert.ToStr((decimal) 0), "", 2);
-                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalChequeOperadorBs", LibConvert.ToStr((decimal) 0), "", 2);
-                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalDepositoTransfOperadorBs", LibConvert.ToStr((decimal) 0), "", 2);
-                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalAnticipoUsadoOperadorBs", LibConvert.ToStr((decimal) 0), "", 2);
-                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalAnticipoRestaOperadorBs", LibConvert.ToStr((decimal) 0), "", 2);
-                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalPagoOperadorBs", LibConvert.ToStr((decimal) 0), "", 2);
-                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalVueltoOperadorBs", LibConvert.ToStr((decimal) 0), "", 2);
-                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalNotaDeCreditoOperadorBs", LibConvert.ToStr((decimal) 0), "", 2);
-                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalVentaCreditoOperadorBs", LibConvert.ToStr((decimal) 0), "", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalEfectivoOperadorBs", LibConvert.ToStr((decimal)0), "", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalTarjetaOperadorBs", LibConvert.ToStr((decimal)0), "", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalChequeOperadorBs", LibConvert.ToStr((decimal)0), "", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalDepositoTransfOperadorBs", LibConvert.ToStr((decimal)0), "", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalAnticipoUsadoOperadorBs", LibConvert.ToStr((decimal)0), "", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalAnticipoRestaOperadorBs", LibConvert.ToStr((decimal)0), "", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalPagoOperadorBs", LibConvert.ToStr((decimal)0), "", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalVueltoOperadorBs", LibConvert.ToStr((decimal)0), "", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalNotaDeCreditoOperadorBs", LibConvert.ToStr((decimal)0), "", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalVentaCreditoOperadorBs", LibConvert.ToStr((decimal)0), "", 2);
                 #endregion TotalesPorOperador Bs
 
                 #region Totales por Operador USD
-                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalEfectivoOperadorUSD", LibConvert.ToStr((decimal) 0), "", 2);
-                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalTarjetaOperadorUSD", LibConvert.ToStr((decimal) 0), "", 2);
-                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalChequeOperadorUSD", LibConvert.ToStr((decimal) 0), "", 2);
-                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalDepositoTransfOperadorUSD", LibConvert.ToStr((decimal) 0), "", 2);
-                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalAnticipoUsadoOperadorUSD", LibConvert.ToStr((decimal) 0), "", 2);
-                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalAnticipoRestaOperadorUSD", LibConvert.ToStr((decimal) 0), "", 2);
-                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalPagoOperadorUSD", LibConvert.ToStr((decimal) 0), "", 2);
-                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalVueltoOperadorUSD", LibConvert.ToStr((decimal) 0), "", 2);
-                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalNotaDeCreditoOperadorUSD", LibConvert.ToStr((decimal) 0), "", 2);
-                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalVentaCreditoOperadorUSD", LibConvert.ToStr((decimal) 0), "", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalEfectivoOperadorUSD", LibConvert.ToStr((decimal)0), "", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalTarjetaOperadorUSD", LibConvert.ToStr((decimal)0), "", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalChequeOperadorUSD", LibConvert.ToStr((decimal)0), "", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalDepositoTransfOperadorUSD", LibConvert.ToStr((decimal)0), "", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalAnticipoUsadoOperadorUSD", LibConvert.ToStr((decimal)0), "", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalAnticipoRestaOperadorUSD", LibConvert.ToStr((decimal)0), "", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalPagoOperadorUSD", LibConvert.ToStr((decimal)0), "", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalVueltoOperadorUSD", LibConvert.ToStr((decimal)0), "", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalNotaDeCreditoOperadorUSD", LibConvert.ToStr((decimal)0), "", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalVentaCreditoOperadorUSD", LibConvert.ToStr((decimal)0), "", 2);
                 #endregion TotalesPorOperador USD
 
                 LibReport.ConfigGroupHeader(this, "GHSecOperador", "NombreDelOperador", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.After);
-				LibReport.ConfigGroupHeader(this, "GHSecCaja", "ConsecutivoCaja", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
-				LibReport.ConfigGroupHeader(this, "GHSecMonedaDoc", "MonedaDoc", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
-				LibReport.ConfigGroupHeader(this, "GHSecDocumento", "MonedaCobro", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+                LibReport.ConfigGroupHeader(this, "GHSecCaja", "ConsecutivoCaja", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+                LibReport.ConfigGroupHeader(this, "GHSecMonedaDoc", "MonedaDoc", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+                LibReport.ConfigGroupHeader(this, "GHSecDocumento", "MonedaCobro", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
 
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Landscape);
                 return true;
@@ -215,7 +214,7 @@ namespace Galac.Adm.Rpt.Venta
         private decimal totalPagoUSDOperador;
         private decimal totalVueltoUSDOperador;
         private decimal totalNotaDeCreditoUSDOperador;
-        
+
 
 
         private void Detail_Format(object sender, EventArgs e) {
@@ -315,8 +314,7 @@ namespace Galac.Adm.Rpt.Venta
             }
         }
 
-        private void GFSecOperador_Format(object sender, EventArgs e)
-        {
+        private void GFSecOperador_Format(object sender, EventArgs e) {
             totalEfectivoBsOperador = 0;
             totalTarjetaBsOperador = 0;
             totalChequeBsOperador = 0;
@@ -338,8 +336,7 @@ namespace Galac.Adm.Rpt.Venta
             totalNotaDeCreditoUSDOperador = 0;
         }
 
-        private void GFSecCaja_Format(object sender, EventArgs e)
-        {
+        private void GFSecCaja_Format(object sender, EventArgs e) {
             totalEfectivoBsCaja = 0;
             totalTarjetaBsCaja = 0;
             totalChequeBsCaja = 0;
@@ -358,7 +355,7 @@ namespace Galac.Adm.Rpt.Venta
             totalAnticipoRestaUSDCaja = 0;
             totalPagoUSDCaja = 0;
             totalVueltoUSDCaja = 0;
-            totalNotaDeCreditoUSDCaja = 0;
-        }
+            totalNotaDeCreditoUSDCaja = 0;        }
+
     } //End of class dsrCuadreCajaPorTipoCobroYUsuario
 } //End of namespace Galac.Adm.Rpt.Venta
