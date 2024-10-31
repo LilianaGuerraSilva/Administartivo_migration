@@ -76,7 +76,7 @@
             Grid.Column="0"
             Content="Cantidad de Líneas"
             Style="{StaticResource LabelPrompt}"
-            Visibility="{Binding Path=IsVisibleCantidadLineasDeProducto}" />
+            Visibility="{Binding Path=IsVisibleCantidadLineasDeProducto, Converter={StaticResource boolToVisibilityConverter}}" />
         <nsWpfControls:GSComboBoxWpf
             Name="cmbLineaDeProductoUnoTodos"
             Grid.Row="2"
@@ -87,7 +87,7 @@
             ItemsSource="{Binding Path=ArrayCantidadLineaDeProductoAImprimir}"
             SelectedItem="{Binding Path=LineaDeProductoUnoTodos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource ComboBoxStyle}"
-            Visibility="{Binding Path=IsVisibleCantidadLineasDeProducto}" />
+            Visibility="{Binding Path=IsVisibleCantidadLineasDeProducto, Converter={StaticResource boolToVisibilityConverter}}" />
         <Label
             Name="lblLineaDeProducto"
             Grid.Row="3"
