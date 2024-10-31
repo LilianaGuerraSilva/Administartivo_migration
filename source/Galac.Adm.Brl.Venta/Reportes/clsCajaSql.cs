@@ -197,6 +197,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("   , factura.NumeroComprobanteFiscal AS NumFiscal");
             vSql.AppendLine("   , factura.Fecha AS Fecha");
             vSql.AppendLine("   , cliente.NumeroRIF AS RifCliente");
+            vSql.AppendLine("   , cliente.Nombre AS NombreCliente");
             vSql.AppendLine("   , factura.TotalFactura AS MontoDoc");
             if (valMonedaDeReporte == Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal) {
                 vSql.AppendLine("   , " + montoEfectivo + " AS Efectivo");
@@ -246,6 +247,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	    , factura.NumeroComprobanteFiscal");
             vSql.AppendLine("	    , factura.Fecha");
             vSql.AppendLine("	    , cliente.NumeroRIF");
+            vSql.AppendLine("	    , cliente.Nombre");
             vSql.AppendLine("	    , factura.TotalFactura");
             vSql.AppendLine("	    , factura.CambioMostrarTotalEnDivisas");
             vSql.AppendLine("       , MonedaDoc.Nombre");
@@ -259,6 +261,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("       , factura.Fecha");
             vSql.AppendLine("       , factura.Numero");
             vSql.AppendLine("       , cliente.NumeroRIF");
+            vSql.AppendLine("       , cliente.Nombre");
             return vSql.ToString();
         }
 
@@ -345,6 +348,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("    ," + insSql.ToSqlValue(string.Empty) + " AS NumFiscal");
             vSql.AppendLine("    , anticipo.Fecha AS Fecha");
             vSql.AppendLine("    , cliente.NumeroRIF AS RifCliente");
+            vSql.AppendLine("    , cliente.Nombre AS NombreCliente");
             if (valMonedaDeReporte == Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal) {
                 vSql.AppendLine("    ," + montoTotalAnticipo + " AS MontoDoc");
                 vSql.AppendLine("    ," + LibConvert.ToStr(0) + " AS Efectivo");
@@ -390,6 +394,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("   , factura.NumeroComprobanteFiscal AS NumFiscal");
             vSql.AppendLine("   , factura.Fecha AS Fecha");
             vSql.AppendLine("   , cliente.NumeroRIF AS RifCliente");
+            vSql.AppendLine("   , cliente.Nombre AS NombreCliente");
             vSql.AppendLine("   , factura.TotalFactura AS MontoDoc");
             if (valMonedaDeReporte == Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal) {
                 vSql.AppendLine("   , " + montoEfectivo + " AS Efectivo");
@@ -442,6 +447,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	    , factura.NumeroComprobanteFiscal");
             vSql.AppendLine("	    , factura.Fecha");
             vSql.AppendLine("	    , cliente.NumeroRIF");
+            vSql.AppendLine("       , cliente.Nombre");
             vSql.AppendLine("	    , factura.TotalFactura");
             vSql.AppendLine("	    , factura.CambioMostrarTotalEnDivisas");
             vSql.AppendLine("       , MonedaDoc.Nombre");
@@ -457,6 +463,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("       , Fecha");
             vSql.AppendLine("       , NumeroDoc");
             vSql.AppendLine("       , cliente.NumeroRIF");
+            vSql.AppendLine("       , cliente.Nombre");            
             return vSql.ToString();
         }
 

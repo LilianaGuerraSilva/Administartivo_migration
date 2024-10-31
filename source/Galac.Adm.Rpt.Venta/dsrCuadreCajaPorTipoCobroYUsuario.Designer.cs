@@ -42,6 +42,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtNotaDeCredito = new DataDynamics.ActiveReports.TextBox();
             this.txtVentaCredito = new DataDynamics.ActiveReports.TextBox();
             this.txtCodMonedacobro = new DataDynamics.ActiveReports.TextBox();
+            this.txtNombreCliente = new DataDynamics.ActiveReports.TextBox();
             this.PageHeader = new DataDynamics.ActiveReports.PageHeader();
             this.txtNombreCompania = new DataDynamics.ActiveReports.TextBox();
             this.txtNroDePagina = new DataDynamics.ActiveReports.TextBox();
@@ -154,6 +155,7 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtNotaDeCredito)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtVentaCredito)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCodMonedacobro)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNombreCliente)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreCompania)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNroDePagina)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaYHoraDeEmision)).BeginInit();
@@ -261,7 +263,8 @@ namespace Galac.Adm.Rpt.Venta
             this.txtVuelto,
             this.txtNotaDeCredito,
             this.txtVentaCredito,
-            this.txtCodMonedacobro});
+            this.txtCodMonedacobro,
+            this.txtNombreCliente});
             this.Detail.Height = 0.16F;
             this.Detail.Name = "Detail";
             this.Detail.Format += new System.EventHandler(this.Detail_Format);
@@ -427,6 +430,18 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCodMonedacobro.Top = 0.21875F;
             this.txtCodMonedacobro.Visible = false;
             this.txtCodMonedacobro.Width = 0.6500001F;
+            // 
+            // txtNombreCliente
+            // 
+            this.txtNombreCliente.CanGrow = false;
+            this.txtNombreCliente.Height = 0.15625F;
+            this.txtNombreCliente.Left = 1.98F;
+            this.txtNombreCliente.Name = "txtNombreCliente";
+            this.txtNombreCliente.Style = "color: White; font-size: 8pt; ddo-char-set: 1";
+            this.txtNombreCliente.Text = "txtNombreCliente";
+            this.txtNombreCliente.Top = 0.156F;
+            this.txtNombreCliente.Visible = false;
+            this.txtNombreCliente.Width = 0.6899998F;
             // 
             // PageHeader
             // 
@@ -1567,6 +1582,7 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtNotaDeCredito)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtVentaCredito)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCodMonedacobro)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNombreCliente)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreCompania)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNroDePagina)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaYHoraDeEmision)).EndInit();
@@ -1771,6 +1787,6 @@ namespace Galac.Adm.Rpt.Venta
         private DataDynamics.ActiveReports.TextBox txtTotalNotaDeCreditoOperadorUSD;
         private DataDynamics.ActiveReports.TextBox txtTotalVentaCreditoOperadorUSD;
         private DataDynamics.ActiveReports.TextBox txtCodMonedacobro;
-
+        private DataDynamics.ActiveReports.TextBox txtNombreCliente;
     }
 }

@@ -26,25 +26,49 @@ namespace Galac.Adm.Rpt.Venta
         {
             System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(dsrCuadreCajaPorTipoCobro));
             this.Detail = new DataDynamics.ActiveReports.Detail();
+            this.txtFecha = new DataDynamics.ActiveReports.TextBox();
+            this.txtNumeroFactura = new DataDynamics.ActiveReports.TextBox();
+            this.txtNumeroCompFiscal = new DataDynamics.ActiveReports.TextBox();
+            this.txtRifCliente = new DataDynamics.ActiveReports.TextBox();
+            this.txtMontoDoc = new DataDynamics.ActiveReports.TextBox();
+            this.txtEfectivo = new DataDynamics.ActiveReports.TextBox();
+            this.txtTarjeta = new DataDynamics.ActiveReports.TextBox();
+            this.txtCheque = new DataDynamics.ActiveReports.TextBox();
+            this.txtDepositoTransf = new DataDynamics.ActiveReports.TextBox();
+            this.txtCambioOperacion = new DataDynamics.ActiveReports.TextBox();
+            this.txtPago = new DataDynamics.ActiveReports.TextBox();
+            this.txtVuelto = new DataDynamics.ActiveReports.TextBox();
+            this.txtNotaDeCredito = new DataDynamics.ActiveReports.TextBox();
+            this.txtVentaCredito = new DataDynamics.ActiveReports.TextBox();
+            this.txtNombreCliente = new DataDynamics.ActiveReports.TextBox();
             this.PageHeader = new DataDynamics.ActiveReports.PageHeader();
-            this.PageFooter = new DataDynamics.ActiveReports.PageFooter();
-            this.GHSecMonedaDoc = new DataDynamics.ActiveReports.GroupHeader();
-            this.GFSecMonedaDoc = new DataDynamics.ActiveReports.GroupFooter();
-            this.GHSecCaja = new DataDynamics.ActiveReports.GroupHeader();
-            this.GFSecCaja = new DataDynamics.ActiveReports.GroupFooter();
-            this.GHSecDocumento = new DataDynamics.ActiveReports.GroupHeader();
-            this.GFSecDocumento = new DataDynamics.ActiveReports.GroupFooter();
             this.txtNombreCompania = new DataDynamics.ActiveReports.TextBox();
             this.txtNroDePagina = new DataDynamics.ActiveReports.TextBox();
             this.lblFechaYHoraDeEmision = new DataDynamics.ActiveReports.Label();
             this.lblTituloInforme = new DataDynamics.ActiveReports.Label();
             this.lblFechaInicialYFinal = new DataDynamics.ActiveReports.Label();
+            this.PageFooter = new DataDynamics.ActiveReports.PageFooter();
+            this.GHSecMonedaDoc = new DataDynamics.ActiveReports.GroupHeader();
             this.lblMonedaDoc = new DataDynamics.ActiveReports.Label();
             this.txtMonedaDoc = new DataDynamics.ActiveReports.TextBox();
+            this.GFSecMonedaDoc = new DataDynamics.ActiveReports.GroupFooter();
+            this.GHSecCaja = new DataDynamics.ActiveReports.GroupHeader();
             this.lblConsecutivoCaja = new DataDynamics.ActiveReports.Label();
             this.txtConsecutivoCaja = new DataDynamics.ActiveReports.TextBox();
             this.lblNombreCaja = new DataDynamics.ActiveReports.Label();
             this.txtNombreCaja = new DataDynamics.ActiveReports.TextBox();
+            this.GFSecCaja = new DataDynamics.ActiveReports.GroupFooter();
+            this.lblTotalesCaja = new DataDynamics.ActiveReports.Label();
+            this.txtTotalMontoDocCaja = new DataDynamics.ActiveReports.TextBox();
+            this.txtTotalEfectivoCaja = new DataDynamics.ActiveReports.TextBox();
+            this.txtTotalTarjetaCaja = new DataDynamics.ActiveReports.TextBox();
+            this.txtTotalChequeCaja = new DataDynamics.ActiveReports.TextBox();
+            this.txtTotalDepositoTransfCaja = new DataDynamics.ActiveReports.TextBox();
+            this.txtTotalPagoCaja = new DataDynamics.ActiveReports.TextBox();
+            this.txtTotalVueltoCaja = new DataDynamics.ActiveReports.TextBox();
+            this.txtTotalNotaDeCreditoCaja = new DataDynamics.ActiveReports.TextBox();
+            this.txtTotalVentaCreditoCaja = new DataDynamics.ActiveReports.TextBox();
+            this.GHSecDocumento = new DataDynamics.ActiveReports.GroupHeader();
             this.lblMonedaCobro = new DataDynamics.ActiveReports.Label();
             this.txtMonedaCobro = new DataDynamics.ActiveReports.TextBox();
             this.lblFecha = new DataDynamics.ActiveReports.Label();
@@ -61,20 +85,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblVuelto = new DataDynamics.ActiveReports.Label();
             this.lblNotaDeCredito = new DataDynamics.ActiveReports.Label();
             this.lblVentaCredito = new DataDynamics.ActiveReports.Label();
-            this.txtFecha = new DataDynamics.ActiveReports.TextBox();
-            this.txtNumeroFactura = new DataDynamics.ActiveReports.TextBox();
-            this.txtNumeroCompFiscal = new DataDynamics.ActiveReports.TextBox();
-            this.txtRifCliente = new DataDynamics.ActiveReports.TextBox();
-            this.txtMontoDoc = new DataDynamics.ActiveReports.TextBox();
-            this.txtEfectivo = new DataDynamics.ActiveReports.TextBox();
-            this.txtTarjeta = new DataDynamics.ActiveReports.TextBox();
-            this.txtCheque = new DataDynamics.ActiveReports.TextBox();
-            this.txtDepositoTransf = new DataDynamics.ActiveReports.TextBox();
-            this.txtCambioOperacion = new DataDynamics.ActiveReports.TextBox();
-            this.txtPago = new DataDynamics.ActiveReports.TextBox();
-            this.txtVuelto = new DataDynamics.ActiveReports.TextBox();
-            this.txtNotaDeCredito = new DataDynamics.ActiveReports.TextBox();
-            this.txtVentaCredito = new DataDynamics.ActiveReports.TextBox();
+            this.GFSecDocumento = new DataDynamics.ActiveReports.GroupFooter();
             this.lblTotalesMonedaCobro = new DataDynamics.ActiveReports.Label();
             this.txtTotalMontoDoc = new DataDynamics.ActiveReports.TextBox();
             this.txtTotalEfectivo = new DataDynamics.ActiveReports.TextBox();
@@ -85,16 +96,21 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalVuelto = new DataDynamics.ActiveReports.TextBox();
             this.txtTotalNotaDeCredito = new DataDynamics.ActiveReports.TextBox();
             this.txtTotalVentaCredito = new DataDynamics.ActiveReports.TextBox();
-            this.lblTotalesCaja = new DataDynamics.ActiveReports.Label();
-            this.txtTotalMontoDocCaja = new DataDynamics.ActiveReports.TextBox();
-            this.txtTotalEfectivoCaja = new DataDynamics.ActiveReports.TextBox();
-            this.txtTotalTarjetaCaja = new DataDynamics.ActiveReports.TextBox();
-            this.txtTotalChequeCaja = new DataDynamics.ActiveReports.TextBox();
-            this.txtTotalDepositoTransfCaja = new DataDynamics.ActiveReports.TextBox();
-            this.txtTotalPagoCaja = new DataDynamics.ActiveReports.TextBox();
-            this.txtTotalVueltoCaja = new DataDynamics.ActiveReports.TextBox();
-            this.txtTotalNotaDeCreditoCaja = new DataDynamics.ActiveReports.TextBox();
-            this.txtTotalVentaCreditoCaja = new DataDynamics.ActiveReports.TextBox();
+            ((System.ComponentModel.ISupportInitialize)(this.txtFecha)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNumeroFactura)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNumeroCompFiscal)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtRifCliente)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMontoDoc)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtEfectivo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTarjeta)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCheque)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDepositoTransf)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCambioOperacion)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPago)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtVuelto)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNotaDeCredito)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtVentaCredito)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNombreCliente)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreCompania)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNroDePagina)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaYHoraDeEmision)).BeginInit();
@@ -106,6 +122,16 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtConsecutivoCaja)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblNombreCaja)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreCaja)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblTotalesCaja)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoDocCaja)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalEfectivoCaja)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalTarjetaCaja)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalChequeCaja)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalDepositoTransfCaja)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalPagoCaja)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalVueltoCaja)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalNotaDeCreditoCaja)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalVentaCreditoCaja)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMonedaCobro)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMonedaCobro)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFecha)).BeginInit();
@@ -122,20 +148,6 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.lblVuelto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblNotaDeCredito)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblVentaCredito)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtFecha)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNumeroFactura)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNumeroCompFiscal)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtRifCliente)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtMontoDoc)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtEfectivo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTarjeta)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCheque)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtDepositoTransf)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCambioOperacion)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPago)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtVuelto)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNotaDeCredito)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtVentaCredito)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotalesMonedaCobro)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoDoc)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalEfectivo)).BeginInit();
@@ -146,16 +158,6 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalVuelto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalNotaDeCredito)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalVentaCredito)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblTotalesCaja)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoDocCaja)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTotalEfectivoCaja)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTotalTarjetaCaja)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTotalChequeCaja)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTotalDepositoTransfCaja)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTotalPagoCaja)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTotalVueltoCaja)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTotalNotaDeCreditoCaja)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTotalVentaCreditoCaja)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
@@ -175,9 +177,166 @@ namespace Galac.Adm.Rpt.Venta
             this.txtPago,
             this.txtVuelto,
             this.txtNotaDeCredito,
-            this.txtVentaCredito});
-            this.Detail.Height = 0.15625F;
+            this.txtVentaCredito,
+            this.txtNombreCliente});
+            this.Detail.Height = 0.1458333F;
             this.Detail.Name = "Detail";
+            // 
+            // txtFecha
+            // 
+            this.txtFecha.CanGrow = false;
+            this.txtFecha.Height = 0.15625F;
+            this.txtFecha.Left = 1.370907E-06F;
+            this.txtFecha.Name = "txtFecha";
+            this.txtFecha.Style = "font-size: 8pt; ddo-char-set: 1";
+            this.txtFecha.Text = "txtFecha";
+            this.txtFecha.Top = 0F;
+            this.txtFecha.Width = 0.5F;
+            // 
+            // txtNumeroFactura
+            // 
+            this.txtNumeroFactura.CanGrow = false;
+            this.txtNumeroFactura.Height = 0.15625F;
+            this.txtNumeroFactura.Left = 0.5000014F;
+            this.txtNumeroFactura.Name = "txtNumeroFactura";
+            this.txtNumeroFactura.Style = "font-size: 8pt; ddo-char-set: 1";
+            this.txtNumeroFactura.Text = "txtNumeroFactura";
+            this.txtNumeroFactura.Top = 0F;
+            this.txtNumeroFactura.Width = 0.7019986F;
+            // 
+            // txtNumeroCompFiscal
+            // 
+            this.txtNumeroCompFiscal.CanGrow = false;
+            this.txtNumeroCompFiscal.Height = 0.15625F;
+            this.txtNumeroCompFiscal.Left = 1.202F;
+            this.txtNumeroCompFiscal.Name = "txtNumeroCompFiscal";
+            this.txtNumeroCompFiscal.Style = "font-size: 8pt; ddo-char-set: 1";
+            this.txtNumeroCompFiscal.Text = "txtNumeroCompFiscal";
+            this.txtNumeroCompFiscal.Top = 0.0002499968F;
+            this.txtNumeroCompFiscal.Width = 0.6539999F;
+            // 
+            // txtRifCliente
+            // 
+            this.txtRifCliente.CanGrow = false;
+            this.txtRifCliente.Height = 0.15625F;
+            this.txtRifCliente.Left = 1.856F;
+            this.txtRifCliente.Name = "txtRifCliente";
+            this.txtRifCliente.Style = "font-size: 8pt; ddo-char-set: 1";
+            this.txtRifCliente.Text = "txtRifCliente";
+            this.txtRifCliente.Top = 0F;
+            this.txtRifCliente.Width = 0.7440007F;
+            // 
+            // txtMontoDoc
+            // 
+            this.txtMontoDoc.Height = 0.156F;
+            this.txtMontoDoc.Left = 3.3F;
+            this.txtMontoDoc.Name = "txtMontoDoc";
+            this.txtMontoDoc.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtMontoDoc.Text = "txtMontoDoc";
+            this.txtMontoDoc.Top = 0F;
+            this.txtMontoDoc.Width = 0.7F;
+            // 
+            // txtEfectivo
+            // 
+            this.txtEfectivo.Height = 0.156F;
+            this.txtEfectivo.Left = 4F;
+            this.txtEfectivo.Name = "txtEfectivo";
+            this.txtEfectivo.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtEfectivo.Text = "txtEfectivo";
+            this.txtEfectivo.Top = 0F;
+            this.txtEfectivo.Width = 0.7F;
+            // 
+            // txtTarjeta
+            // 
+            this.txtTarjeta.Height = 0.156F;
+            this.txtTarjeta.Left = 4.7F;
+            this.txtTarjeta.Name = "txtTarjeta";
+            this.txtTarjeta.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtTarjeta.Text = "txtTarjeta";
+            this.txtTarjeta.Top = 0F;
+            this.txtTarjeta.Width = 0.7F;
+            // 
+            // txtCheque
+            // 
+            this.txtCheque.Height = 0.156F;
+            this.txtCheque.Left = 5.400001F;
+            this.txtCheque.Name = "txtCheque";
+            this.txtCheque.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtCheque.Text = "txtCheque";
+            this.txtCheque.Top = 0F;
+            this.txtCheque.Width = 0.7F;
+            // 
+            // txtDepositoTransf
+            // 
+            this.txtDepositoTransf.Height = 0.156F;
+            this.txtDepositoTransf.Left = 6.1F;
+            this.txtDepositoTransf.Name = "txtDepositoTransf";
+            this.txtDepositoTransf.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtDepositoTransf.Text = "txtDepositoTransf";
+            this.txtDepositoTransf.Top = 0F;
+            this.txtDepositoTransf.Width = 0.7F;
+            // 
+            // txtCambioOperacion
+            // 
+            this.txtCambioOperacion.Height = 0.156F;
+            this.txtCambioOperacion.Left = 2.6F;
+            this.txtCambioOperacion.Name = "txtCambioOperacion";
+            this.txtCambioOperacion.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtCambioOperacion.Text = "txtCambioOperacion";
+            this.txtCambioOperacion.Top = 0F;
+            this.txtCambioOperacion.Width = 0.7F;
+            // 
+            // txtPago
+            // 
+            this.txtPago.Height = 0.156F;
+            this.txtPago.Left = 6.8F;
+            this.txtPago.Name = "txtPago";
+            this.txtPago.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtPago.Text = "txtPago";
+            this.txtPago.Top = 0F;
+            this.txtPago.Width = 0.7F;
+            // 
+            // txtVuelto
+            // 
+            this.txtVuelto.Height = 0.15625F;
+            this.txtVuelto.Left = 7.5F;
+            this.txtVuelto.Name = "txtVuelto";
+            this.txtVuelto.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtVuelto.Text = "txtVuelto";
+            this.txtVuelto.Top = 0F;
+            this.txtVuelto.Width = 0.8F;
+            // 
+            // txtNotaDeCredito
+            // 
+            this.txtNotaDeCredito.Height = 0.15625F;
+            this.txtNotaDeCredito.Left = 8.3F;
+            this.txtNotaDeCredito.Name = "txtNotaDeCredito";
+            this.txtNotaDeCredito.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtNotaDeCredito.Text = "txtNotaDeCredito";
+            this.txtNotaDeCredito.Top = 0F;
+            this.txtNotaDeCredito.Width = 0.8F;
+            // 
+            // txtVentaCredito
+            // 
+            this.txtVentaCredito.Height = 0.15625F;
+            this.txtVentaCredito.Left = 9.1F;
+            this.txtVentaCredito.Name = "txtVentaCredito";
+            this.txtVentaCredito.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtVentaCredito.Text = "txtVentaCredito";
+            this.txtVentaCredito.Top = 0F;
+            this.txtVentaCredito.Width = 0.8F;
+            // 
+            // txtNombreCliente
+            // 
+            this.txtNombreCliente.CanGrow = false;
+            this.txtNombreCliente.Height = 0.13525F;
+            this.txtNombreCliente.Left = 1.856F;
+            this.txtNombreCliente.Name = "txtNombreCliente";
+            this.txtNombreCliente.Style = "color: White; font-size: 8pt; ddo-char-set: 1";
+            this.txtNombreCliente.Text = "txtNombreCliente";
+            this.txtNombreCliente.Top = 0.302F;
+            this.txtNombreCliente.Visible = false;
+            this.txtNombreCliente.Width = 0.7440008F;
             // 
             // PageHeader
             // 
@@ -189,88 +348,6 @@ namespace Galac.Adm.Rpt.Venta
             this.lblFechaInicialYFinal});
             this.PageHeader.Height = 1F;
             this.PageHeader.Name = "PageHeader";
-            // 
-            // PageFooter
-            // 
-            this.PageFooter.Height = 0F;
-            this.PageFooter.Name = "PageFooter";
-            // 
-            // GHSecMonedaDoc
-            // 
-            this.GHSecMonedaDoc.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
-            this.lblMonedaDoc,
-            this.txtMonedaDoc});
-            this.GHSecMonedaDoc.Height = 0.16F;
-            this.GHSecMonedaDoc.Name = "GHSecMonedaDoc";
-            // 
-            // GFSecMonedaDoc
-            // 
-            this.GFSecMonedaDoc.Height = 0F;
-            this.GFSecMonedaDoc.Name = "GFSecMonedaDoc";
-            // 
-            // GHSecCaja
-            // 
-            this.GHSecCaja.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
-            this.lblConsecutivoCaja,
-            this.txtConsecutivoCaja,
-            this.lblNombreCaja,
-            this.txtNombreCaja});
-            this.GHSecCaja.Height = 0.32F;
-            this.GHSecCaja.Name = "GHSecCaja";
-            // 
-            // GFSecCaja
-            // 
-            this.GFSecCaja.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
-            this.lblTotalesCaja,
-            this.txtTotalMontoDocCaja,
-            this.txtTotalEfectivoCaja,
-            this.txtTotalTarjetaCaja,
-            this.txtTotalChequeCaja,
-            this.txtTotalDepositoTransfCaja,
-            this.txtTotalPagoCaja,
-            this.txtTotalVueltoCaja,
-            this.txtTotalNotaDeCreditoCaja,
-            this.txtTotalVentaCreditoCaja});
-            this.GFSecCaja.Height = 0.15625F;
-            this.GFSecCaja.Name = "GFSecCaja";
-            // 
-            // GHSecDocumento
-            // 
-            this.GHSecDocumento.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
-            this.lblMonedaCobro,
-            this.txtMonedaCobro,
-            this.lblFecha,
-            this.lblNumeroFactura,
-            this.lblNumeroCompFiscal,
-            this.lblRifCliente,
-            this.lblMontoDoc,
-            this.lblEfectivo,
-            this.lblTarjeta,
-            this.lblCheque,
-            this.lblDepositoTransf,
-            this.lblCambioOperacion,
-            this.lblPago,
-            this.lblVuelto,
-            this.lblNotaDeCredito,
-            this.lblVentaCredito});
-            this.GHSecDocumento.Height = 0.31225F;
-            this.GHSecDocumento.Name = "GHSecDocumento";
-            // 
-            // GFSecDocumento
-            // 
-            this.GFSecDocumento.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
-            this.lblTotalesMonedaCobro,
-            this.txtTotalMontoDoc,
-            this.txtTotalEfectivo,
-            this.txtTotalTarjeta,
-            this.txtTotalCheque,
-            this.txtTotalDepositoTransf,
-            this.txtTotalPago,
-            this.txtTotalVuelto,
-            this.txtTotalNotaDeCredito,
-            this.txtTotalVentaCredito});
-            this.GFSecDocumento.Height = 0.15625F;
-            this.GFSecDocumento.Name = "GFSecDocumento";
             // 
             // txtNombreCompania
             // 
@@ -325,6 +402,19 @@ namespace Galac.Adm.Rpt.Venta
             this.lblFechaInicialYFinal.Top = 0.312F;
             this.lblFechaInicialYFinal.Width = 7.5F;
             // 
+            // PageFooter
+            // 
+            this.PageFooter.Height = 0F;
+            this.PageFooter.Name = "PageFooter";
+            // 
+            // GHSecMonedaDoc
+            // 
+            this.GHSecMonedaDoc.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
+            this.lblMonedaDoc,
+            this.txtMonedaDoc});
+            this.GHSecMonedaDoc.Height = 0.16F;
+            this.GHSecMonedaDoc.Name = "GHSecMonedaDoc";
+            // 
             // lblMonedaDoc
             // 
             this.lblMonedaDoc.Height = 0.15625F;
@@ -345,6 +435,21 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMonedaDoc.Text = "txtMonedaDoc";
             this.txtMonedaDoc.Top = 0F;
             this.txtMonedaDoc.Width = 6.298F;
+            // 
+            // GFSecMonedaDoc
+            // 
+            this.GFSecMonedaDoc.Height = 0F;
+            this.GFSecMonedaDoc.Name = "GFSecMonedaDoc";
+            // 
+            // GHSecCaja
+            // 
+            this.GHSecCaja.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
+            this.lblConsecutivoCaja,
+            this.txtConsecutivoCaja,
+            this.lblNombreCaja,
+            this.txtNombreCaja});
+            this.GHSecCaja.Height = 0.32F;
+            this.GHSecCaja.Name = "GHSecCaja";
             // 
             // lblConsecutivoCaja
             // 
@@ -387,6 +492,165 @@ namespace Galac.Adm.Rpt.Venta
             this.txtNombreCaja.Text = "txtNombreCaja";
             this.txtNombreCaja.Top = 0.15625F;
             this.txtNombreCaja.Width = 6.298F;
+            // 
+            // GFSecCaja
+            // 
+            this.GFSecCaja.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
+            this.lblTotalesCaja,
+            this.txtTotalMontoDocCaja,
+            this.txtTotalEfectivoCaja,
+            this.txtTotalTarjetaCaja,
+            this.txtTotalChequeCaja,
+            this.txtTotalDepositoTransfCaja,
+            this.txtTotalPagoCaja,
+            this.txtTotalVueltoCaja,
+            this.txtTotalNotaDeCreditoCaja,
+            this.txtTotalVentaCreditoCaja});
+            this.GFSecCaja.Height = 0.15625F;
+            this.GFSecCaja.Name = "GFSecCaja";
+            // 
+            // lblTotalesCaja
+            // 
+            this.lblTotalesCaja.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.lblTotalesCaja.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.lblTotalesCaja.Height = 0.15625F;
+            this.lblTotalesCaja.HyperLink = null;
+            this.lblTotalesCaja.Left = 0F;
+            this.lblTotalesCaja.Name = "lblTotalesCaja";
+            this.lblTotalesCaja.Style = "font-size: 8.25pt; font-weight: bold; text-align: right; ddo-char-set: 0";
+            this.lblTotalesCaja.Text = "Total Caja:";
+            this.lblTotalesCaja.Top = 0F;
+            this.lblTotalesCaja.Width = 3.3F;
+            // 
+            // txtTotalMontoDocCaja
+            // 
+            this.txtTotalMontoDocCaja.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtTotalMontoDocCaja.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtTotalMontoDocCaja.Height = 0.15625F;
+            this.txtTotalMontoDocCaja.Left = 3.3F;
+            this.txtTotalMontoDocCaja.Name = "txtTotalMontoDocCaja";
+            this.txtTotalMontoDocCaja.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtTotalMontoDocCaja.Text = "txtTotalMontoDocCaja";
+            this.txtTotalMontoDocCaja.Top = 0F;
+            this.txtTotalMontoDocCaja.Width = 0.7F;
+            // 
+            // txtTotalEfectivoCaja
+            // 
+            this.txtTotalEfectivoCaja.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtTotalEfectivoCaja.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtTotalEfectivoCaja.Height = 0.15625F;
+            this.txtTotalEfectivoCaja.Left = 4F;
+            this.txtTotalEfectivoCaja.Name = "txtTotalEfectivoCaja";
+            this.txtTotalEfectivoCaja.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtTotalEfectivoCaja.Text = "txtTotalEfectivoCaja";
+            this.txtTotalEfectivoCaja.Top = 0F;
+            this.txtTotalEfectivoCaja.Width = 0.7F;
+            // 
+            // txtTotalTarjetaCaja
+            // 
+            this.txtTotalTarjetaCaja.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtTotalTarjetaCaja.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtTotalTarjetaCaja.Height = 0.15625F;
+            this.txtTotalTarjetaCaja.Left = 4.7F;
+            this.txtTotalTarjetaCaja.Name = "txtTotalTarjetaCaja";
+            this.txtTotalTarjetaCaja.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtTotalTarjetaCaja.Text = "txtTotalTarjetaCaja";
+            this.txtTotalTarjetaCaja.Top = 0F;
+            this.txtTotalTarjetaCaja.Width = 0.7F;
+            // 
+            // txtTotalChequeCaja
+            // 
+            this.txtTotalChequeCaja.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtTotalChequeCaja.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtTotalChequeCaja.Height = 0.15625F;
+            this.txtTotalChequeCaja.Left = 5.4F;
+            this.txtTotalChequeCaja.Name = "txtTotalChequeCaja";
+            this.txtTotalChequeCaja.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtTotalChequeCaja.Text = "txtTotalChequeCaja";
+            this.txtTotalChequeCaja.Top = 0F;
+            this.txtTotalChequeCaja.Width = 0.7F;
+            // 
+            // txtTotalDepositoTransfCaja
+            // 
+            this.txtTotalDepositoTransfCaja.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtTotalDepositoTransfCaja.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtTotalDepositoTransfCaja.Height = 0.15625F;
+            this.txtTotalDepositoTransfCaja.Left = 6.099998F;
+            this.txtTotalDepositoTransfCaja.Name = "txtTotalDepositoTransfCaja";
+            this.txtTotalDepositoTransfCaja.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtTotalDepositoTransfCaja.Text = "txtTotalDepositoTransfCaja";
+            this.txtTotalDepositoTransfCaja.Top = 0F;
+            this.txtTotalDepositoTransfCaja.Width = 0.7F;
+            // 
+            // txtTotalPagoCaja
+            // 
+            this.txtTotalPagoCaja.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtTotalPagoCaja.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtTotalPagoCaja.Height = 0.15625F;
+            this.txtTotalPagoCaja.Left = 6.799999F;
+            this.txtTotalPagoCaja.Name = "txtTotalPagoCaja";
+            this.txtTotalPagoCaja.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtTotalPagoCaja.Text = "txtTotalPagoCaja";
+            this.txtTotalPagoCaja.Top = 0F;
+            this.txtTotalPagoCaja.Width = 0.7F;
+            // 
+            // txtTotalVueltoCaja
+            // 
+            this.txtTotalVueltoCaja.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtTotalVueltoCaja.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtTotalVueltoCaja.Height = 0.15625F;
+            this.txtTotalVueltoCaja.Left = 7.5F;
+            this.txtTotalVueltoCaja.Name = "txtTotalVueltoCaja";
+            this.txtTotalVueltoCaja.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtTotalVueltoCaja.Text = "txtTotalVueltoCaja";
+            this.txtTotalVueltoCaja.Top = 0F;
+            this.txtTotalVueltoCaja.Width = 0.8F;
+            // 
+            // txtTotalNotaDeCreditoCaja
+            // 
+            this.txtTotalNotaDeCreditoCaja.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtTotalNotaDeCreditoCaja.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtTotalNotaDeCreditoCaja.Height = 0.15625F;
+            this.txtTotalNotaDeCreditoCaja.Left = 8.3F;
+            this.txtTotalNotaDeCreditoCaja.Name = "txtTotalNotaDeCreditoCaja";
+            this.txtTotalNotaDeCreditoCaja.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtTotalNotaDeCreditoCaja.Text = "txtTotalNotaDeCreditoCaja";
+            this.txtTotalNotaDeCreditoCaja.Top = 0F;
+            this.txtTotalNotaDeCreditoCaja.Width = 0.8F;
+            // 
+            // txtTotalVentaCreditoCaja
+            // 
+            this.txtTotalVentaCreditoCaja.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtTotalVentaCreditoCaja.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtTotalVentaCreditoCaja.Height = 0.15625F;
+            this.txtTotalVentaCreditoCaja.Left = 9.1F;
+            this.txtTotalVentaCreditoCaja.Name = "txtTotalVentaCreditoCaja";
+            this.txtTotalVentaCreditoCaja.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtTotalVentaCreditoCaja.Text = "txtTotalVentaCreditoCaja";
+            this.txtTotalVentaCreditoCaja.Top = 0F;
+            this.txtTotalVentaCreditoCaja.Width = 0.8F;
+            // 
+            // GHSecDocumento
+            // 
+            this.GHSecDocumento.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
+            this.lblMonedaCobro,
+            this.txtMonedaCobro,
+            this.lblFecha,
+            this.lblNumeroFactura,
+            this.lblNumeroCompFiscal,
+            this.lblRifCliente,
+            this.lblMontoDoc,
+            this.lblEfectivo,
+            this.lblTarjeta,
+            this.lblCheque,
+            this.lblDepositoTransf,
+            this.lblCambioOperacion,
+            this.lblPago,
+            this.lblVuelto,
+            this.lblNotaDeCredito,
+            this.lblVentaCredito});
+            this.GHSecDocumento.Height = 0.31225F;
+            this.GHSecDocumento.Name = "GHSecDocumento";
             // 
             // lblMonedaCobro
             // 
@@ -577,149 +841,21 @@ namespace Galac.Adm.Rpt.Venta
             this.lblVentaCredito.Top = 0.156F;
             this.lblVentaCredito.Width = 0.8F;
             // 
-            // txtFecha
+            // GFSecDocumento
             // 
-            this.txtFecha.CanGrow = false;
-            this.txtFecha.Height = 0.15625F;
-            this.txtFecha.Left = 1.370907E-06F;
-            this.txtFecha.Name = "txtFecha";
-            this.txtFecha.Style = "font-size: 8pt; ddo-char-set: 1";
-            this.txtFecha.Text = "txtFecha";
-            this.txtFecha.Top = 0F;
-            this.txtFecha.Width = 0.5F;
-            // 
-            // txtNumeroFactura
-            // 
-            this.txtNumeroFactura.CanGrow = false;
-            this.txtNumeroFactura.Height = 0.15625F;
-            this.txtNumeroFactura.Left = 0.5000014F;
-            this.txtNumeroFactura.Name = "txtNumeroFactura";
-            this.txtNumeroFactura.Style = "font-size: 8pt; ddo-char-set: 1";
-            this.txtNumeroFactura.Text = "txtNumeroFactura";
-            this.txtNumeroFactura.Top = 0F;
-            this.txtNumeroFactura.Width = 0.7019986F;
-            // 
-            // txtNumeroCompFiscal
-            // 
-            this.txtNumeroCompFiscal.CanGrow = false;
-            this.txtNumeroCompFiscal.Height = 0.15625F;
-            this.txtNumeroCompFiscal.Left = 1.202F;
-            this.txtNumeroCompFiscal.Name = "txtNumeroCompFiscal";
-            this.txtNumeroCompFiscal.Style = "font-size: 8pt; ddo-char-set: 1";
-            this.txtNumeroCompFiscal.Text = "txtNumeroCompFiscal";
-            this.txtNumeroCompFiscal.Top = 0.0002499968F;
-            this.txtNumeroCompFiscal.Width = 0.6539999F;
-            // 
-            // txtRifCliente
-            // 
-            this.txtRifCliente.CanGrow = false;
-            this.txtRifCliente.Height = 0.15625F;
-            this.txtRifCliente.Left = 1.856F;
-            this.txtRifCliente.Name = "txtRifCliente";
-            this.txtRifCliente.Style = "font-size: 8pt; ddo-char-set: 1";
-            this.txtRifCliente.Text = "txtRifCliente";
-            this.txtRifCliente.Top = 0F;
-            this.txtRifCliente.Width = 0.7440007F;
-            // 
-            // txtMontoDoc
-            // 
-            this.txtMontoDoc.Height = 0.156F;
-            this.txtMontoDoc.Left = 3.3F;
-            this.txtMontoDoc.Name = "txtMontoDoc";
-            this.txtMontoDoc.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
-            this.txtMontoDoc.Text = "txtMontoDoc";
-            this.txtMontoDoc.Top = 0F;
-            this.txtMontoDoc.Width = 0.7F;
-            // 
-            // txtEfectivo
-            // 
-            this.txtEfectivo.Height = 0.156F;
-            this.txtEfectivo.Left = 4F;
-            this.txtEfectivo.Name = "txtEfectivo";
-            this.txtEfectivo.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
-            this.txtEfectivo.Text = "txtEfectivo";
-            this.txtEfectivo.Top = 0F;
-            this.txtEfectivo.Width = 0.7F;
-            // 
-            // txtTarjeta
-            // 
-            this.txtTarjeta.Height = 0.156F;
-            this.txtTarjeta.Left = 4.7F;
-            this.txtTarjeta.Name = "txtTarjeta";
-            this.txtTarjeta.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
-            this.txtTarjeta.Text = "txtTarjeta";
-            this.txtTarjeta.Top = 0F;
-            this.txtTarjeta.Width = 0.7F;
-            // 
-            // txtCheque
-            // 
-            this.txtCheque.Height = 0.156F;
-            this.txtCheque.Left = 5.400001F;
-            this.txtCheque.Name = "txtCheque";
-            this.txtCheque.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
-            this.txtCheque.Text = "txtCheque";
-            this.txtCheque.Top = 0F;
-            this.txtCheque.Width = 0.7F;
-            // 
-            // txtDepositoTransf
-            // 
-            this.txtDepositoTransf.Height = 0.156F;
-            this.txtDepositoTransf.Left = 6.1F;
-            this.txtDepositoTransf.Name = "txtDepositoTransf";
-            this.txtDepositoTransf.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
-            this.txtDepositoTransf.Text = "txtDepositoTransf";
-            this.txtDepositoTransf.Top = 0F;
-            this.txtDepositoTransf.Width = 0.7F;
-            // 
-            // txtCambioOperacion
-            // 
-            this.txtCambioOperacion.Height = 0.156F;
-            this.txtCambioOperacion.Left = 2.6F;
-            this.txtCambioOperacion.Name = "txtCambioOperacion";
-            this.txtCambioOperacion.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
-            this.txtCambioOperacion.Text = "txtCambioOperacion";
-            this.txtCambioOperacion.Top = 0F;
-            this.txtCambioOperacion.Width = 0.7F;
-            // 
-            // txtPago
-            // 
-            this.txtPago.Height = 0.156F;
-            this.txtPago.Left = 6.8F;
-            this.txtPago.Name = "txtPago";
-            this.txtPago.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
-            this.txtPago.Text = "txtPago";
-            this.txtPago.Top = 0F;
-            this.txtPago.Width = 0.7F;
-            // 
-            // txtVuelto
-            // 
-            this.txtVuelto.Height = 0.15625F;
-            this.txtVuelto.Left = 7.5F;
-            this.txtVuelto.Name = "txtVuelto";
-            this.txtVuelto.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
-            this.txtVuelto.Text = "txtVuelto";
-            this.txtVuelto.Top = 0F;
-            this.txtVuelto.Width = 0.8F;
-            // 
-            // txtNotaDeCredito
-            // 
-            this.txtNotaDeCredito.Height = 0.15625F;
-            this.txtNotaDeCredito.Left = 8.3F;
-            this.txtNotaDeCredito.Name = "txtNotaDeCredito";
-            this.txtNotaDeCredito.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
-            this.txtNotaDeCredito.Text = "txtNotaDeCredito";
-            this.txtNotaDeCredito.Top = 0F;
-            this.txtNotaDeCredito.Width = 0.8F;
-            // 
-            // txtVentaCredito
-            // 
-            this.txtVentaCredito.Height = 0.15625F;
-            this.txtVentaCredito.Left = 9.1F;
-            this.txtVentaCredito.Name = "txtVentaCredito";
-            this.txtVentaCredito.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
-            this.txtVentaCredito.Text = "txtVentaCredito";
-            this.txtVentaCredito.Top = 0F;
-            this.txtVentaCredito.Width = 0.8F;
+            this.GFSecDocumento.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
+            this.lblTotalesMonedaCobro,
+            this.txtTotalMontoDoc,
+            this.txtTotalEfectivo,
+            this.txtTotalTarjeta,
+            this.txtTotalCheque,
+            this.txtTotalDepositoTransf,
+            this.txtTotalPago,
+            this.txtTotalVuelto,
+            this.txtTotalNotaDeCredito,
+            this.txtTotalVentaCredito});
+            this.GFSecDocumento.Height = 0.15625F;
+            this.GFSecDocumento.Name = "GFSecDocumento";
             // 
             // lblTotalesMonedaCobro
             // 
@@ -831,127 +967,6 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalVentaCredito.Top = 0F;
             this.txtTotalVentaCredito.Width = 0.8F;
             // 
-            // lblTotalesCaja
-            // 
-            this.lblTotalesCaja.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.lblTotalesCaja.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.lblTotalesCaja.Height = 0.15625F;
-            this.lblTotalesCaja.HyperLink = null;
-            this.lblTotalesCaja.Left = 0F;
-            this.lblTotalesCaja.Name = "lblTotalesCaja";
-            this.lblTotalesCaja.Style = "font-size: 8.25pt; font-weight: bold; text-align: right; ddo-char-set: 0";
-            this.lblTotalesCaja.Text = "Total Caja:";
-            this.lblTotalesCaja.Top = 0F;
-            this.lblTotalesCaja.Width = 3.3F;
-            // 
-            // txtTotalMontoDocCaja
-            // 
-            this.txtTotalMontoDocCaja.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtTotalMontoDocCaja.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtTotalMontoDocCaja.Height = 0.15625F;
-            this.txtTotalMontoDocCaja.Left = 3.3F;
-            this.txtTotalMontoDocCaja.Name = "txtTotalMontoDocCaja";
-            this.txtTotalMontoDocCaja.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
-            this.txtTotalMontoDocCaja.Text = "txtTotalMontoDocCaja";
-            this.txtTotalMontoDocCaja.Top = 0F;
-            this.txtTotalMontoDocCaja.Width = 0.7F;
-            // 
-            // txtTotalEfectivoCaja
-            // 
-            this.txtTotalEfectivoCaja.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtTotalEfectivoCaja.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtTotalEfectivoCaja.Height = 0.15625F;
-            this.txtTotalEfectivoCaja.Left = 4F;
-            this.txtTotalEfectivoCaja.Name = "txtTotalEfectivoCaja";
-            this.txtTotalEfectivoCaja.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
-            this.txtTotalEfectivoCaja.Text = "txtTotalEfectivoCaja";
-            this.txtTotalEfectivoCaja.Top = 0F;
-            this.txtTotalEfectivoCaja.Width = 0.7F;
-            // 
-            // txtTotalTarjetaCaja
-            // 
-            this.txtTotalTarjetaCaja.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtTotalTarjetaCaja.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtTotalTarjetaCaja.Height = 0.15625F;
-            this.txtTotalTarjetaCaja.Left = 4.7F;
-            this.txtTotalTarjetaCaja.Name = "txtTotalTarjetaCaja";
-            this.txtTotalTarjetaCaja.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
-            this.txtTotalTarjetaCaja.Text = "txtTotalTarjetaCaja";
-            this.txtTotalTarjetaCaja.Top = 0F;
-            this.txtTotalTarjetaCaja.Width = 0.7F;
-            // 
-            // txtTotalChequeCaja
-            // 
-            this.txtTotalChequeCaja.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtTotalChequeCaja.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtTotalChequeCaja.Height = 0.15625F;
-            this.txtTotalChequeCaja.Left = 5.4F;
-            this.txtTotalChequeCaja.Name = "txtTotalChequeCaja";
-            this.txtTotalChequeCaja.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
-            this.txtTotalChequeCaja.Text = "txtTotalChequeCaja";
-            this.txtTotalChequeCaja.Top = 0F;
-            this.txtTotalChequeCaja.Width = 0.7F;
-            // 
-            // txtTotalDepositoTransfCaja
-            // 
-            this.txtTotalDepositoTransfCaja.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtTotalDepositoTransfCaja.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtTotalDepositoTransfCaja.Height = 0.15625F;
-            this.txtTotalDepositoTransfCaja.Left = 6.099998F;
-            this.txtTotalDepositoTransfCaja.Name = "txtTotalDepositoTransfCaja";
-            this.txtTotalDepositoTransfCaja.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
-            this.txtTotalDepositoTransfCaja.Text = "txtTotalDepositoTransfCaja";
-            this.txtTotalDepositoTransfCaja.Top = 0F;
-            this.txtTotalDepositoTransfCaja.Width = 0.7F;
-            // 
-            // txtTotalPagoCaja
-            // 
-            this.txtTotalPagoCaja.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtTotalPagoCaja.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtTotalPagoCaja.Height = 0.15625F;
-            this.txtTotalPagoCaja.Left = 6.799999F;
-            this.txtTotalPagoCaja.Name = "txtTotalPagoCaja";
-            this.txtTotalPagoCaja.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
-            this.txtTotalPagoCaja.Text = "txtTotalPagoCaja";
-            this.txtTotalPagoCaja.Top = 0F;
-            this.txtTotalPagoCaja.Width = 0.7F;
-            // 
-            // txtTotalVueltoCaja
-            // 
-            this.txtTotalVueltoCaja.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtTotalVueltoCaja.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtTotalVueltoCaja.Height = 0.15625F;
-            this.txtTotalVueltoCaja.Left = 7.5F;
-            this.txtTotalVueltoCaja.Name = "txtTotalVueltoCaja";
-            this.txtTotalVueltoCaja.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
-            this.txtTotalVueltoCaja.Text = "txtTotalVueltoCaja";
-            this.txtTotalVueltoCaja.Top = 0F;
-            this.txtTotalVueltoCaja.Width = 0.8F;
-            // 
-            // txtTotalNotaDeCreditoCaja
-            // 
-            this.txtTotalNotaDeCreditoCaja.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtTotalNotaDeCreditoCaja.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtTotalNotaDeCreditoCaja.Height = 0.15625F;
-            this.txtTotalNotaDeCreditoCaja.Left = 8.3F;
-            this.txtTotalNotaDeCreditoCaja.Name = "txtTotalNotaDeCreditoCaja";
-            this.txtTotalNotaDeCreditoCaja.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
-            this.txtTotalNotaDeCreditoCaja.Text = "txtTotalNotaDeCreditoCaja";
-            this.txtTotalNotaDeCreditoCaja.Top = 0F;
-            this.txtTotalNotaDeCreditoCaja.Width = 0.8F;
-            // 
-            // txtTotalVentaCreditoCaja
-            // 
-            this.txtTotalVentaCreditoCaja.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtTotalVentaCreditoCaja.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtTotalVentaCreditoCaja.Height = 0.15625F;
-            this.txtTotalVentaCreditoCaja.Left = 9.1F;
-            this.txtTotalVentaCreditoCaja.Name = "txtTotalVentaCreditoCaja";
-            this.txtTotalVentaCreditoCaja.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
-            this.txtTotalVentaCreditoCaja.Text = "txtTotalVentaCreditoCaja";
-            this.txtTotalVentaCreditoCaja.Top = 0F;
-            this.txtTotalVentaCreditoCaja.Width = 0.8F;
-            // 
             // dsrCuadreCajaPorTipoCobro
             // 
             this.MasterReport = false;
@@ -973,6 +988,21 @@ namespace Galac.Adm.Rpt.Venta
             this.StyleSheet.Add(new DDCssLib.StyleSheetRule("font-family: Times New Roman; font-size: 14pt; font-weight: bold; font-style: ita" +
             "lic", "Heading2", "Normal"));
             this.StyleSheet.Add(new DDCssLib.StyleSheetRule("font-size: 13pt; font-weight: bold", "Heading3", "Normal"));
+            ((System.ComponentModel.ISupportInitialize)(this.txtFecha)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNumeroFactura)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNumeroCompFiscal)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtRifCliente)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMontoDoc)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtEfectivo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTarjeta)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCheque)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDepositoTransf)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCambioOperacion)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPago)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtVuelto)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNotaDeCredito)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtVentaCredito)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNombreCliente)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreCompania)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNroDePagina)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaYHoraDeEmision)).EndInit();
@@ -984,6 +1014,16 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtConsecutivoCaja)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblNombreCaja)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreCaja)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblTotalesCaja)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoDocCaja)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalEfectivoCaja)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalTarjetaCaja)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalChequeCaja)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalDepositoTransfCaja)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalPagoCaja)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalVueltoCaja)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalNotaDeCreditoCaja)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTotalVentaCreditoCaja)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMonedaCobro)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMonedaCobro)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFecha)).EndInit();
@@ -1000,20 +1040,6 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.lblVuelto)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblNotaDeCredito)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblVentaCredito)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtFecha)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNumeroFactura)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNumeroCompFiscal)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtRifCliente)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtMontoDoc)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtEfectivo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTarjeta)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCheque)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtDepositoTransf)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCambioOperacion)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPago)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtVuelto)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNotaDeCredito)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtVentaCredito)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotalesMonedaCobro)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoDoc)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalEfectivo)).EndInit();
@@ -1024,16 +1050,6 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalVuelto)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalNotaDeCredito)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalVentaCredito)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblTotalesCaja)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoDocCaja)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTotalEfectivoCaja)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTotalTarjetaCaja)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTotalChequeCaja)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTotalDepositoTransfCaja)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTotalPagoCaja)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTotalVueltoCaja)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTotalNotaDeCreditoCaja)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTotalVentaCreditoCaja)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -1109,15 +1125,6 @@ namespace Galac.Adm.Rpt.Venta
         private DataDynamics.ActiveReports.TextBox txtTotalVuelto;
         private DataDynamics.ActiveReports.TextBox txtTotalNotaDeCredito;
         private DataDynamics.ActiveReports.TextBox txtTotalVentaCredito;
-
-
-
-
-
-
-
-
-
-
+        private DataDynamics.ActiveReports.TextBox txtNombreCliente;
     }
 }

@@ -61,6 +61,7 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigFieldStr(this, "txtNumeroDoc", string.Empty, "NumeroDoc");
                 LibReport.ConfigFieldStr(this, "txtNumeroCompFiscal", string.Empty, "NumFiscal");
                 LibReport.ConfigFieldStr(this, "txtRifCliente", string.Empty, "RifCliente");
+                LibReport.ConfigFieldStr(this, "txtNombreCliente", string.Empty, "NombreCliente");
                 LibReport.ConfigFieldDecWithNDecimal(this, "txtMontoDoc", string.Empty, "MontoDoc", 2);
                 LibReport.ConfigFieldDecWithNDecimal(this, "txtEfectivo", string.Empty, "Efectivo", 2);
                 LibReport.ConfigFieldDecWithNDecimal(this, "txtTarjeta", string.Empty, "Tarjeta", 2);
