@@ -81,9 +81,16 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         private decimal GetCambio() {
             decimal vCambio = 1;
             if (LibString.S1IsEqualToS2(FacturaImprentaDigital.CodigoMoneda, CodigoMonedaLocal)) {
-                Comun.Ccl.TablasGen.ICambioPdn insCambio = new Comun.Brl.TablasGen.clsCambioNav();
-                if (!insCambio.ExisteTasaDeCambioParaElDia(CodigoMonedaME, FacturaImprentaDigital.Fecha, out vCambio)) {
-                    vCambio = 1;
+                if (LibString.S1IsEqualToS2(FacturaImprentaDigital.CodigoMoneda, FacturaImprentaDigital.CodigoMonedaDeCobro)) {
+                    Comun.Ccl.TablasGen.ICambioPdn insCambio = new Comun.Brl.TablasGen.clsCambioNav();
+                    if (!insCambio.ExisteTasaDeCambioParaElDia(CodigoMonedaME, FacturaImprentaDigital.Fecha, out vCambio)) {
+                        vCambio = 1;
+                    }
+                } else {
+                    vCambio = FacturaImprentaDigital.CambioMostrarTotalEnDivisas;
+                    if (vCambio == 0) {
+                        vCambio = 1;
+                    }
                 }
             } else {
                 vCambio = FacturaImprentaDigital.CambioABolivares;
