@@ -182,7 +182,10 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         private void ExecuteRecalcularCommand() {
             try {
                 RecalcularMovimientosDeInventarioViewModel vViewModel = new RecalcularMovimientosDeInventarioViewModel();
-                LibMessages.EditViewModel.ShowEditor(vViewModel);
+                bool vResult = LibMessages.EditViewModel.ShowEditor(vViewModel, true);
+                if (vResult) {
+                    SearchItems();
+                }
             } catch (System.AccessViolationException) {
                 throw;
             } catch (Exception vEx) {

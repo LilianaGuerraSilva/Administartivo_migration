@@ -217,6 +217,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 if (vPdn.RecalcularMovimientosDeLoteDeInventario(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), ArticuloUnoTodos, CodigoArticulo, LineaDeProductoUnoTodos, LineaDeProducto)){
                     LibMessages.MessageBox.Information(this, "Recalculo de Movimiento de Inventario culmino exitosamente.", ModuleName);
                 }
+                DialogResult = true;
+                RaiseRequestCloseEvent();
             } catch (System.AccessViolationException) {
                 throw;
             } catch (Exception vEx) {
