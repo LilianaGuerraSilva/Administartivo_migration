@@ -81,22 +81,21 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         private decimal GetCambio() {
             decimal vCambio = 1;
             if (LibString.S1IsEqualToS2(FacturaImprentaDigital.CodigoMoneda, CodigoMonedaLocal)) {
-                if (LibString.S1IsEqualToS2(FacturaImprentaDigital.CodigoMoneda, FacturaImprentaDigital.CodigoMonedaDeCobro)) {
-                    Comun.Ccl.TablasGen.ICambioPdn insCambio = new Comun.Brl.TablasGen.clsCambioNav();
-                    if (!insCambio.ExisteTasaDeCambioParaElDia(CodigoMonedaME, FacturaImprentaDigital.Fecha, out vCambio)) {
-                        vCambio = 1;
+                vCambio = FacturaImprentaDigital.CambioMostrarTotalEnDivisas;
+                if (vCambio == 1) {
+                    vCambio = FacturaImprentaDigital.CambioMonedaCXC;
+                    if (vCambio == 1) {
+                        Comun.Ccl.TablasGen.ICambioPdn insCambio = new Comun.Brl.TablasGen.clsCambioNav();
+                        if (!insCambio.ExisteTasaDeCambioParaElDia(CodigoMonedaME, FacturaImprentaDigital.Fecha, out vCambio)) {
+                            vCambio = 1;
+                        }
                     }
-                } else {
-                    vCambio = FacturaImprentaDigital.CambioMostrarTotalEnDivisas;
-                    if (vCambio == 0) {
-                        vCambio = 1;
-                    }
-                }
+                }                
             } else {
-                vCambio = FacturaImprentaDigital.CambioABolivares;
-                if (vCambio == 0) {
-                    vCambio = 1;
-                }
+                vCambio = FacturaImprentaDigital.CambioABolivares;                
+            }
+            if (vCambio == 0) {
+                vCambio = 1;
             }
             return vCambio;
         }
@@ -126,6 +125,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" ,ROUND(factura.PorcentajeDescuento,2) AS PorcentajeDescuento");
             vSql.AppendLine(" ,ROUND(factura.CambioABolivares,4) AS CambioABolivares");
             vSql.AppendLine(" ,ROUND(factura.CambioMostrarTotalEnDivisas,4) AS CambioMostrarTotalEnDivisas");
+            vSql.AppendLine(" ,ROUND(factura.CambioMonedaCXC,4) AS CambioMonedaCXC");
             vSql.AppendLine(" ,ROUND(factura.TotalRenglones,2) AS TotalRenglones");
             vSql.AppendLine(" ,ROUND(factura.TotalMontoExento,2) AS TotalMontoExento");
             vSql.AppendLine(" ,ROUND(factura.TotalBaseImponible,2) AS TotalBaseImponible");
@@ -187,6 +187,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     FacturaImprentaDigital.MontoDescuento1 = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "MontoDescuento1"));
                     FacturaImprentaDigital.CambioABolivares = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "CambioABolivares"));
                     FacturaImprentaDigital.CambioMostrarTotalEnDivisas = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "CambioMostrarTotalEnDivisas"));
+                    FacturaImprentaDigital.CambioMonedaCXC = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "CambioMonedaCXC"));
                     FacturaImprentaDigital.TotalRenglones = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "TotalRenglones"));
                     FacturaImprentaDigital.TotalMontoExento = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "TotalMontoExento"));
                     FacturaImprentaDigital.TotalBaseImponible = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "TotalBaseImponible"));
