@@ -50,6 +50,11 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                     RaisePropertyChanged(() => IsVisibleCodigoArticulo);
                     RaisePropertyChanged(() => IsVisibleCantidadLineasDeProducto);
                     RaisePropertyChanged(() => IsVisibleLineaDeProducto);
+                    if (ArticuloUnoTodos == eCantidadAImprimir.All) {
+                        CodigoArticulo = string.Empty;
+                        LineaDeProducto = string.Empty;
+                        LineaDeProductoUnoTodos = eCantidadAImprimir.All;
+                    }
                 }
             }
         }
@@ -76,6 +81,9 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                     RaisePropertyChanged(() => LineaDeProductoUnoTodos);
                     RaisePropertyChanged(LineaDeProductoPropertyName);
                     RaisePropertyChanged(() => IsVisibleLineaDeProducto);
+                    if (LineaDeProductoUnoTodos == eCantidadAImprimir.All) {
+                        LineaDeProducto = string.Empty;
+                    }
                 }
             }
         }
@@ -149,11 +157,11 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         public bool IsVisibleCodigoArticulo {
-            get { return (ArticuloUnoTodos == eCantidadAImprimir.One); }
+            get { return ArticuloUnoTodos == eCantidadAImprimir.One; }
         }
 
         public bool IsVisibleCantidadLineasDeProducto {
-            get { return (ArticuloUnoTodos == eCantidadAImprimir.All); }
+            get { return ArticuloUnoTodos == eCantidadAImprimir.All; }
         }
 
         public bool IsVisibleLineaDeProducto { 
