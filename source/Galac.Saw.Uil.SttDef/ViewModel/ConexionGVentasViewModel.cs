@@ -14,12 +14,9 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
-using Galac.Saw.Lib;
-using Galac.Saw.LibWebConnector;
 using System.Threading;
 using System.Collections.ObjectModel;
 using LibGalac.Aos.Cnf;
-using static Galac.Saw.LibWebConnector.clsSuscripcion;
 using System.Text;
 using System.Diagnostics.Eventing.Reader;
 using System.Security.Cryptography;
@@ -221,7 +218,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             if (LibString.IsNullOrEmpty(SuscripcionGVentas.TenantNombre, true)) {
                 ListaCompaniaGVentasNombres = new ObservableCollection<string>();
             } else {
-                ListaCompaniaGVentasNombres = new LibWebConnector.clsSuscripcion().GetCompaniaGVentas();
+                ListaCompaniaGVentasNombres = new clsSuscripcion().GetCompaniaGVentas();
                 if (mAction == eAccionSR.Desactivar) {
                     CompaniaGVentasNombres = ListaCompaniaGVentasNombres[0];
                 }

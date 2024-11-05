@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Galac.Saw.LibWebConnector {
     internal struct stUserLoginCnn {
@@ -27,6 +28,11 @@ namespace Galac.Saw.LibWebConnector {
 
         [JsonProperty("mensaje")]
         public string mensaje {
+            get; set;
+        }
+		
+        [JsonProperty("validaciones")]
+        public List<string> validaciones {
             get; set;
         }
 

@@ -14,7 +14,7 @@ using System.Threading;
 using Newtonsoft.Json;
 
 namespace Galac.Adm.Brl.ImprentaDigital {
-    public class ImprentaTheFactory : clsImprentaDigitalBase {
+    public class ImprentaNovus : clsImprentaDigitalBase {
 
         string _NumeroFactura;
         eTipoDocumentoFactura _TipoDeDocumento;
@@ -22,7 +22,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         string _TipoDeProveedor;
         clsConectorJson _ConectorJson;
 
-        public ImprentaTheFactory(eTipoDocumentoFactura initTipoDeDocumento, string initNumeroFactura) : base(initTipoDeDocumento, initNumeroFactura) {
+        public ImprentaNovus(eTipoDocumentoFactura initTipoDeDocumento, string initNumeroFactura) : base(initTipoDeDocumento, initNumeroFactura) {
             _NumeroFactura = initNumeroFactura;
             _TipoDeDocumento = initTipoDeDocumento;
             _TipoDeProveedor = "";//NORMAL Según catalogo No 2 del layout

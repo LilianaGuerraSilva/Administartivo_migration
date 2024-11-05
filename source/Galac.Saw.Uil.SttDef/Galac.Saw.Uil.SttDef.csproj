@@ -458,10 +458,6 @@
       <Project>{09E94989-2C8C-457A-B6AF-1E529992F5CA}</Project>
       <Name>Galac.Adm.Ccl.ImprentaDigital</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Galac.Saw.LibWebConector\Galac.Saw.LibWebConnector.csproj">
-      <Project>{08f52bb0-7708-4326-b74c-ac49629c8647}</Project>
-      <Name>Galac.Saw.LibWebConnector</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Galac.Adm.Brl.Banco\Galac.Adm.Brl.Banco.csproj">
       <Project>{a7b9fb1e-47a1-4a4f-aeb5-7aef55d39b11}</Project>
       <Name>Galac.Adm.Brl.Banco</Name>

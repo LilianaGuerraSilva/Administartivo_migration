@@ -20,9 +20,8 @@ using LibGalac.Aos.DefGen;
 using Galac.Saw.Ccl.Inventario;
 using LibGalac.Aos.Dal;
 using System.Collections.ObjectModel;
-using Galac.Saw.Lib;
 using LibGalac.Aos.Catching;
-using static Galac.Saw.LibWebConnector.clsSuscripcion;
+using static Galac.Saw.Brl.SttDef.clsSuscripcion;
 
 namespace Galac.Saw.Brl.SttDef {
     public partial class clsSettValueByCompanyNav: LibBaseNav<IList<SettValueByCompany>, IList<SettValueByCompany>>, ILibPdn, ISettValueByCompanyPdn {
@@ -167,7 +166,7 @@ namespace Galac.Saw.Brl.SttDef {
             string vWhere = "";
             StringBuilder vSql = new StringBuilder();
             try {
-                DatosSuscripcion vSuscripcion = new LibWebConnector.clsSuscripcion().GetCaracteristicaGVentas();
+                DatosSuscripcion vSuscripcion = new clsSuscripcion().GetCaracteristicaGVentas();
                 List<DatosSuscripcionCaracteristicas> vListaCaracteristicas = vSuscripcion.Caracteristicas;
                 string vListaCodigos = string.Join(";", vListaCaracteristicas.Select(s => s.Codigo));                
                 vSql.Append("UPDATE Comun.SettValueByCompany SET Value = " + insQAdvSql.ToSqlValue(vListaCodigos) + " WHERE NameSettDefinition = " + insQAdvSql.ToSqlValue("SuscripcionGVentas"));
@@ -2630,7 +2629,7 @@ namespace Galac.Saw.Brl.SttDef {
         bool ISettValueByCompanyPdn.EjecutaConexionConGVentas(int valConsecutivoCompania, string valParametroSuscripcionGVentas, string valSerialConectorGVentas, string valNombreCompaniaAdmin, string valNombreUsuarioOperaciones, eAccionSR valAction) {
             try {
                 bool vResult = false;
-                LibWebConnector.clsSuscripcion insSuscripcion = new LibWebConnector.clsSuscripcion();
+                clsSuscripcion insSuscripcion = new clsSuscripcion();
                 string vDatabaseName = LibServiceInfo.GetDatabaseName();
                 string vServerName = LibServiceInfo.GetServerName();
                 int vGuionSeparador = LibString.IndexOf(valNombreCompaniaAdmin, '|') + 1;
