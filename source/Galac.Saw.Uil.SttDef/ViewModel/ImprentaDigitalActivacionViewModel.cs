@@ -15,8 +15,8 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
 using System.Text;
-//using Galac.Adm.Ccl.ImprentaDigital;
-//using Galac.Saw.LibWebConnector;
+using Galac.Adm.Ccl.ImprentaDigital;
+using Galac.Saw.LibWebConnector;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class ImprentaDigitalActivacionViewModel : LibGenericViewModel {
@@ -219,21 +219,21 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         private void ExecuteProbarConexionCommand() {
-            //string vMensaje = string.Empty;
-            //string vCommand = (Proveedor == eProveedorImprentaDigital.TheFactoryHKA ? LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion) : "");
-            //clsConectorJson _ConectorJson = new clsConectorJson(new clsLoginUser() {
-            //    User = Usuario,
-            //    URL = Url,
-            //    Password = Clave
-            //});
-            //bool vResult = _ConectorJson.CheckConnection(ref vMensaje, vCommand);
-            //if (vResult) {
-            //    LibMessages.MessageBox.Information(this, "Conectado exitosamente a la Imprenta Digital " + Proveedor + ".", ModuleName);
-            //    ActivarButtonActions(true);
-            //} else {
-            //    LibMessages.MessageBox.Warning(this, "No se pudo conectar con la Imprenta Digital.\r\nPor favor verifique los datos de conexión e intente de nuevo.", ModuleName);
-            //    ActivarButtonActions(false);
-            //}
+            string vMensaje = string.Empty;
+            string vCommand = (Proveedor == eProveedorImprentaDigital.TheFactoryHKA ? LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion) : "");
+            clsConectorJson _ConectorJson = new clsConectorJson(new clsLoginUser() {
+                User = Usuario,
+                URL = Url,
+                Password = Clave
+            });
+            bool vResult = _ConectorJson.CheckConnection(ref vMensaje, vCommand);
+            if (vResult) {
+                LibMessages.MessageBox.Information(this, "Conectado exitosamente a la Imprenta Digital " + Proveedor + ".", ModuleName);
+                ActivarButtonActions(true);
+            } else {
+                LibMessages.MessageBox.Warning(this, "No se pudo conectar con la Imprenta Digital.\r\nPor favor verifique los datos de conexión e intente de nuevo.", ModuleName);
+                ActivarButtonActions(false);
+            }
         }
 
         private void ActivarButtonActions(bool valActivate) {
