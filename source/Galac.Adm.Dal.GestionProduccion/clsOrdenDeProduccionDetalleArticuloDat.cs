@@ -56,6 +56,11 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vParams.AddInDecimal("PorcentajeCostoEstimado", valRecord.PorcentajeCostoEstimado, 8);
             vParams.AddInDecimal("PorcentajeCostoCierre", valRecord.PorcentajeCostoCierre, 8);
             vParams.AddInDecimal("Costo", valRecord.Costo, 2);
+            vParams.AddInDecimal("PorcentajeMermaNormalOriginal", valRecord.PorcentajeMermaNormalOriginal, 8);
+            vParams.AddInDecimal("CantidadMermaNormal", valRecord.CantidadMermaNormal, 8);
+            vParams.AddInDecimal("PorcentajeMermaNormal", valRecord.PorcentajeMermaNormal, 8);
+            vParams.AddInDecimal("CantidadMermaAnormal", valRecord.CantidadMermaAnormal, 8);
+            vParams.AddInDecimal("PorcentajeMermaAnormal", valRecord.PorcentajeMermaAnormal, 8);
             vResult = vParams.Get();
             return vResult;
         }
@@ -134,7 +139,12 @@ namespace Galac.Adm.Dal.GestionProduccion {
                     new XElement("CantidadAjustada", vEntity.CantidadAjustada),
                     new XElement("PorcentajeCostoEstimado", vEntity.PorcentajeCostoEstimado),
                     new XElement("PorcentajeCostoCierre", vEntity.PorcentajeCostoCierre),
-                    new XElement("Costo", vEntity.Costo)));
+                    new XElement("Costo", vEntity.Costo),
+                    new XElement("PorcentajeMermaNormalOriginal", vEntity.PorcentajeMermaNormalOriginal),
+                    new XElement("CantidadMermaNormal", vEntity.CantidadMermaNormal),
+                    new XElement("PorcentajeMermaNormal", vEntity.PorcentajeMermaNormal),
+                    new XElement("CantidadMermaAnormal", vEntity.CantidadMermaAnormal),
+                    new XElement("PorcentajeMermaAnormal", vEntity.PorcentajeMermaAnormal)));
             return vXElement;
         }
         #region Miembros de ILibDataDetailComponent<IList<OrdenDeProduccionDetalleArticulo>, IList<OrdenDeProduccionDetalleArticulo>>
@@ -188,6 +198,11 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vResult = IsValidCantidadProducida(valAction, CurrentRecord.CantidadProducida) && vResult;
             vResult = IsValidPorcentajeCostoEstimado(valAction, CurrentRecord.PorcentajeCostoEstimado) && vResult;
             vResult = IsValidPorcentajeCostoCiere(valAction, CurrentRecord.PorcentajeCostoCierre) && vResult;
+			vResult = IsValidPorcentajeMermaNormalOriginal(valAction, CurrentRecord.PorcentajeMermaNormalOriginal) && vResult;
+            vResult = IsValidCantidadMermaNormal(valAction, CurrentRecord.CantidadMermaNormal) && vResult;
+            vResult = IsValidPorcentajeMermaNormal(valAction, CurrentRecord.PorcentajeMermaNormal) && vResult;
+            vResult = IsValidCantidadMermaAnormal(valAction, CurrentRecord.CantidadMermaAnormal) && vResult;
+            vResult = IsValidPorcentajeMermaAnormal(valAction, CurrentRecord.PorcentajeMermaAnormal) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
         }
@@ -234,6 +249,52 @@ namespace Galac.Adm.Dal.GestionProduccion {
                 BuildValidationInfo("El % Costo al Cierre debe ser mayor o igual a cero y menor o igual a 100.");
                 vResult = false;
             }
+            return vResult;
+        }
+		
+		
+		private bool IsValidPorcentajeMermaNormalOriginal(eAccionSR valAction, decimal valPorcentajeMermaNormalOriginal){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
+            return vResult;
+        }
+
+        private bool IsValidCantidadMermaNormal(eAccionSR valAction, decimal valCantidadMermaNormal){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
+            return vResult;
+        }
+
+        private bool IsValidPorcentajeMermaNormal(eAccionSR valAction, decimal valPorcentajeMermaNormal){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
+            return vResult;
+        }
+
+        private bool IsValidCantidadMermaAnormal(eAccionSR valAction, decimal valCantidadMermaAnormal){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
+            return vResult;
+        }
+
+        private bool IsValidPorcentajeMermaAnormal(eAccionSR valAction, decimal valPorcentajeMermaAnormal){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
             return vResult;
         }
 
