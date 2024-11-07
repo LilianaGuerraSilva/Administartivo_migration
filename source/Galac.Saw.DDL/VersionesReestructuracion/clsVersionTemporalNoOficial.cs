@@ -48,43 +48,43 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             AddColumnBoolean("Adm.OrdenDeProduccion", "ListaUsaMerma", "CONSTRAINT nnOrdDeProListaUsaMer NOT NULL", false);
 
             if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleArticulo", "PorcentajeMermaNormalOriginal", 25, 8, "", 0)) {
-                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "nnOrdDeProDetArtPorcentaje", "0", "PorcentajeMermaNormalOriginal");
+                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtPoMeNoOr", "0", "PorcentajeMermaNormalOriginal");
             }
 
             if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleArticulo", "CantidadMermaNormal", 25, 8, "", 0)) {
-                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "nnOrdDeProDetArtCantMeNor", "0", "CantidadMermaNormal");
+                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtCaMeNo", "0", "CantidadMermaNormal");
             }
 
             if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleArticulo", "PorcentajeMermaNormal", 25, 8, "", 0)) {
-                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "nnOrdDeProDetArtPorcMeNor", "0", "PorcentajeMermaNormal");
+                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtPoMeNo", "0", "PorcentajeMermaNormal");
             }
 
             if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleArticulo", "CantidadMermaAnormal", 25, 8, "", 0)) {
-                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "nnOrdDeProDetArtCantMeAnor", "0", "CantidadMermaAnormal");
+                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtCaMeAn", "0", "CantidadMermaAnormal");
             }
 
             if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleArticulo", "PorcentajeMermaAnormal", 25, 8, "", 0)) {
-                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "nnOrdDeProDetArtPorcMeAnor", "0", "PorcentajeMermaAnormal");
+                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtPoMeAn", "0", "PorcentajeMermaAnormal");
             }
 
             if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleMateriales", "PorcentajeMermaNormalOriginal", 25, 8, "", 0)) {
-                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "nnOrdDeProDetMatPorcentaje", "0", "PorcentajeMermaNormalOriginal");
+                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "d_OrdDeProDetMatPoMeNoOr", "0", "PorcentajeMermaNormalOriginal");
             }
 
             if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleMateriales", "CantidadMermaNormal", 25, 8, "", 0)) {
-                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "nnOrdDeProDetMatCantMeNor", "0", "CantidadMermaNormal");
+                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "d_OrdDeProDetMatCaMeNo", "0", "CantidadMermaNormal");
             }
 
             if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleMateriales", "PorcentajeMermaNormal", 25, 8, "", 0)) {
-                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "nnOrdDeProDetMatPorcMeNor", "0", "PorcentajeMermaNormal");
+                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "d_OrdDeProDetMatPoMeNo", "0", "PorcentajeMermaNormal");
             }
 
             if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleMateriales", "CantidadMermaAnormal", 25, 8, "", 0)) {
-                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "nnOrdDeProDetMatCantMeAnor", "0", "CantidadMermaAnormal");
+                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "d_OrdDeProDetMatCaMeAn", "0", "CantidadMermaAnormal");
             }
 
             if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleMateriales", "PorcentajeMermaAnormal", 25, 8, "", 0)) {
-                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "nnOrdDeProDetMatPorcMeAnor", "0", "PorcentajeMermaAnormal");
+                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "d_OrdDeProDetMatPoMeAn", "0", "PorcentajeMermaAnormal");
             }
         }
     }

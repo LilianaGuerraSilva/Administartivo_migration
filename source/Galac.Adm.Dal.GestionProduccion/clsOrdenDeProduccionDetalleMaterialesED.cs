@@ -54,11 +54,11 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("MontoSubtotal" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT d_OrdDeProDetMatMoSu DEFAULT (0), ");
             SQL.AppendLine("AjustadoPostCierre" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnOrdDeProDetMatAjustadoPo NOT NULL, ");
             SQL.AppendLine("CantidadAjustada" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT d_OrdDeProDetMatCaAj DEFAULT (0), ");
-            SQL.AppendLine("PorcentajeMermaNormalOriginal" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT nnOrdDeProDetMatPorcentaje DEFAULT (0), ");
-            SQL.AppendLine("CantidadMermaNormal" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT nnOrdDeProDetMatCantMeNor DEFAULT (0), ");
-            SQL.AppendLine("PorcentajeMermaNormal" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT nnOrdDeProDetMatPorcMeNor DEFAULT (0), ");
-            SQL.AppendLine("CantidadMermaAnormal" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT nnOrdDeProDetMatCantMeAnor DEFAULT (0), ");
-            SQL.AppendLine("PorcentajeMermaAnormal" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT nnOrdDeProDetMatPorcMeAnor DEFAULT (0), ");
+            SQL.AppendLine("PorcentajeMermaNormalOriginal" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT d_OrdDeProDetMatPoMeNoOr DEFAULT (0), ");
+            SQL.AppendLine("CantidadMermaNormal" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT d_OrdDeProDetMatCaMeNo DEFAULT (0), ");
+            SQL.AppendLine("PorcentajeMermaNormal" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT d_OrdDeProDetMatPoMeNo DEFAULT (0), ");
+            SQL.AppendLine("CantidadMermaAnormal" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT d_OrdDeProDetMatCaMeAn DEFAULT (0), ");
+            SQL.AppendLine("PorcentajeMermaAnormal" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT d_OrdDeProDetMatPoMeAn DEFAULT (0), ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
             SQL.AppendLine("CONSTRAINT p_OrdenDeProduccionDetalleMateriales PRIMARY KEY CLUSTERED");
             SQL.AppendLine("(ConsecutivoCompania ASC, ConsecutivoOrdenDeProduccion ASC, Consecutivo ASC)");
