@@ -313,6 +313,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("      " + DbSchema + ".Gv_ListaDeMateriales_B1.Nombre,");
             SQL.AppendLine("      " + DbSchema + ".Gv_ListaDeMateriales_B1.CodigoArticuloInventario,");            
             SQL.AppendLine("      " + DbSchema + ".Gv_ListaDeMateriales_B1.FechaCreacion,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_ListaDeMateriales_B1.ManejaMerma,");
             SQL.AppendLine("      ''COLPIVOTE'' AS ColControl,");
             SQL.AppendLine("      '''' AS DescripcionArticuloInventario,");
             SQL.AppendLine("      " + DbSchema + ".Gv_ListaDeMateriales_B1.ConsecutivoCompania,");
