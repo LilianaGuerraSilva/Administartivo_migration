@@ -12,26 +12,24 @@ using System.Collections.Generic;
 
 namespace Galac.Saw.LibWebConnector {
     public class clsConectorJsonTheFactory: clsConectorJson {
-        string strTipoDocumento;
-        ILoginUser _LoginUser;
-        string _Token;       
+        string strTipoDocumento;        
 
         public clsConectorJsonTheFactory(ILoginUser valloginUser) : base(valloginUser) {
-            _LoginUser = valloginUser;
-            _Token = string.Empty;
+            LoginUser = valloginUser;
+            Token = string.Empty;
         }
 
         public override bool CheckConnection(ref string refMensaje, string valComandoApi) {
             stPostResq vRequest = new stPostResq();
             try {
                 bool vResult = false;
-                string vJsonStr = FormatingJSON(_LoginUser);
+                string vJsonStr = FormatingJSON(LoginUser);
                 vRequest = SendPostJson(vJsonStr, valComandoApi, "");
                 refMensaje = vRequest.mensaje;
                 if (vRequest.Aprobado) {
-                    _Token = vRequest.token;
-                    _LoginUser.MessageResult = vRequest.mensaje;
-                    vResult = !LibString.IsNullOrEmpty(_Token);
+                    Token = vRequest.token;
+                    LoginUser.MessageResult = vRequest.mensaje;
+                    vResult = !LibString.IsNullOrEmpty(Token);
                 } else {
                     vResult = false;
                 }
@@ -51,7 +49,7 @@ namespace Galac.Saw.LibWebConnector {
                 strTipoDocumento = (valTipoDocumento == 8 ? "Nota de Entrega" : valTipoDocumento == 1 ? "Nota de Crédito" : valTipoDocumento == 2 ? "Nota de Débito" : "Factura");
                 strTipoDocumento = "La " + strTipoDocumento + " No. " + valNumeroDocumento;
                 HttpClient vHttpClient = new HttpClient();
-                vHttpClient.BaseAddress = new Uri(_LoginUser.URL);
+                vHttpClient.BaseAddress = new Uri(LoginUser.URL);
                 if (!LibString.IsNullOrEmpty(valToken)) {
                     vHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", valToken);
                 }

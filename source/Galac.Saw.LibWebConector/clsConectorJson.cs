@@ -12,17 +12,23 @@ using System.Collections.Generic;
 
 namespace Galac.Saw.LibWebConnector {
     public abstract class clsConectorJson {
-        string strTipoDocumento;
-        ILoginUser _LoginUser;
+        string strTipoDocumento;      
         string _Token;
         public string Token {
             get {
                 return _Token;
             }
+            internal set {
+                _Token = value;
+            }
+        }
+
+        internal ILoginUser LoginUser {
+            get;set;
         }
 
         public clsConectorJson(ILoginUser valloginUser) {
-            _LoginUser = valloginUser;
+            LoginUser = valloginUser;
             _Token = string.Empty;
         }
 

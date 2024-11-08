@@ -30,14 +30,14 @@ namespace Galac.Saw.LibWebConnector {
         public string mensaje {
             get; set;
         }
-		
+
         [JsonProperty("validaciones")]
         public List<string> validaciones {
             get; set;
         }
 
         [JsonProperty("resultado")]
-        public stRespuesta resultados { get; set; }
+        public stRespuestaTF resultados { get; set; }
 
         [JsonProperty("estado")]
         public stEstado estado { get; set; }
@@ -45,7 +45,7 @@ namespace Galac.Saw.LibWebConnector {
         public bool Aprobado { get; set; }
 
     }
-    public struct stRespuesta {
+    public struct stRespuestaTF {
         [JsonProperty("tipoDocumento")]
         public string tipoDocumento {
             get; set;
@@ -139,4 +139,10 @@ namespace Galac.Saw.LibWebConnector {
             get; set;
         }
     }
+
+    public struct stRespuestaNV {
+
+
+    }
+
 }

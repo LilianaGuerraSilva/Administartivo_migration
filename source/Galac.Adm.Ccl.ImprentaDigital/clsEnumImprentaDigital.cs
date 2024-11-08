@@ -41,8 +41,10 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
     }
 
     public enum eComandosPostNovus {
+        [LibEnumDescription("/Autenticacion/v3")]
+        Autenticacion = 0,
         [LibEnumDescription("/facturacion/v3")]
-        Emision = 0,
+        Emision,
         [LibEnumDescription("/Anulacion/v3")]
         Anular,
         [LibEnumDescription("/email/v3")]

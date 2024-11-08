@@ -12,29 +12,18 @@ using System.Collections.Generic;
 
 namespace Galac.Saw.LibWebConnector {
     public class clsConectorJsonNovus : clsConectorJson {
-        string strTipoDocumento;
-        ILoginUser _LoginUser;
-        string _Token;       
+        string strTipoDocumento;          
 
         public clsConectorJsonNovus(ILoginUser valloginUser) : base(valloginUser) {
-            _LoginUser = valloginUser;
-            _Token = string.Empty;
+            LoginUser = valloginUser;
+            Token = string.Empty;
         }
 
         public override bool CheckConnection(ref string refMensaje, string valComandoApi) {
             stPostResq vRequest = new stPostResq();
             try {
-                bool vResult = false;
-                string vJsonStr = FormatingJSON(_LoginUser);
-                vRequest = SendPostJson(vJsonStr, valComandoApi, "");
-                refMensaje = vRequest.mensaje;
-                if (vRequest.Aprobado) {
-                    _Token = vRequest.token;
-                    _LoginUser.MessageResult = vRequest.mensaje;
-                    vResult = !LibString.IsNullOrEmpty(_Token);
-                } else {
-                    vResult = false;
-                }
+                bool vResult = true;
+                Token = LoginUser.Password;                
                 return vResult;
             } catch (GalacException) {
                 throw;
@@ -51,7 +40,7 @@ namespace Galac.Saw.LibWebConnector {
                 strTipoDocumento = (valTipoDocumento == 8 ? "Nota de Entrega" : valTipoDocumento == 1 ? "Nota de Crédito" : valTipoDocumento == 2 ? "Nota de Débito" : "Factura");
                 strTipoDocumento = "La " + strTipoDocumento + " No. " + valNumeroDocumento;
                 HttpClient vHttpClient = new HttpClient();
-                vHttpClient.BaseAddress = new Uri(_LoginUser.URL);
+                vHttpClient.BaseAddress = new Uri(LoginUser.URL);
                 if (!LibString.IsNullOrEmpty(valToken)) {
                     vHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", valToken);
                 }
@@ -62,8 +51,8 @@ namespace Galac.Saw.LibWebConnector {
                 if (vHttpRespMsg.Result.StatusCode == System.Net.HttpStatusCode.OK) {
                     vHttpRespMsg.Result.EnsureSuccessStatusCode();
                 }
-                if (vHttpRespMsg.Result.Content is null || vHttpRespMsg.Result.Content.Headers.ContentType?.MediaType != "application/json") {
-                    throw new GalacException("Usuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.", eExceptionManagementType.Alert);
+                if (vHttpRespMsg.Result.Content is null ) {
+                    throw new Exception("Usuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.", eExceptionManagementType.Alert);
                 } else {
                     Task<string> HttpResq = vHttpRespMsg.Result.Content.ReadAsStringAsync();
                     HttpResq.Wait();
