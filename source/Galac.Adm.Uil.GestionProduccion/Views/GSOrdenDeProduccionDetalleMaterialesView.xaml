@@ -23,8 +23,7 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="97" />
-            <ColumnDefinition Width="126" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
@@ -88,6 +87,9 @@
             Name="lblFechaDeElaboracion"
             Grid.Row="2"
             Grid.Column="2"
+            Margin="0,0,7,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
             Content="Fecha Elab."
             Style="{StaticResource LabelPrompt}"
             Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource booleanToVisibilityConverter}}" />
@@ -120,17 +122,15 @@
             ContentStringFormat="dd/MM/yyyy"
             Style="{StaticResource LabelCalculatedField}"
             Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource booleanToVisibilityConverter}}" />
-
-
-
-
-
         <Label
             Name="lblCantidadReservadaInventario"
             Grid.Row="3"
             Grid.Column="2"
+            Width="110"
+            Margin="0,0,7,0"
             HorizontalAlignment="Right"
-            Content="Cantidad a Consumir"
+            VerticalAlignment="Center"
+            Content="Cant. a Consumir"
             Style="{StaticResource LabelPrompt}"
             Visibility="{Binding Path=IsVisibleCantidadReservadaInventario, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSNumericBoxWpf
@@ -151,7 +151,7 @@
             Grid.Row="3"
             Grid.Column="4"
             HorizontalAlignment="Right"
-            Content="Cantidad Consumida"
+            Content="Cant. Consumida"
             Style="{StaticResource LabelPrompt}"
             Visibility="{Binding Path=IsVisibleCantidadConsumida, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSNumericBoxWpf
@@ -173,8 +173,49 @@
             Grid.ColumnSpan="3"
             Content="{Binding Path=Master.LabelFormaDeCalcularCostosDeProduccion}"
             Style="{StaticResource LabelStatusRed}" />
-
-
-
+        <Label
+            Name="lblCantidadMermaNormal"
+            Grid.Row="4"
+            Grid.Column="2"
+            Content="Cant. Merma Normal"
+            Style="{StaticResource LabelPrompt}"
+            Visibility="{Binding Path=IsVisibleCantidadMermaNormal, Converter={StaticResource booleanToVisibilityConverter}}" />
+        <nsWpfControls:GSNumericBoxWpf
+            Name="txtCantidadMermaNormal"
+            Grid.Row="4"
+            Grid.Column="3"
+            Width="120"
+            Height="23"
+            Margin="0,3,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            BorderThickness="1"
+            DecimalDigits="8"
+            InputDataType="UDecimal"
+            IsEnabled="{Binding Path=IsEnabledMerma}"
+            MaxLength="34"
+            Style="{StaticResource TextBoxInputStyle}"
+            Visibility="{Binding Path=IsVisibleCantidadMermaNormal, Converter={StaticResource booleanToVisibilityConverter}}"
+            Value="{Binding Path=CantidadMermaNormal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        <Label
+            Name="lblCantidadMermaAnormal"
+            Grid.Row="4"
+            Grid.Column="4"
+            Content="Cant. Merma Anormal"
+            Style="{StaticResource LabelPrompt}"
+            Visibility="{Binding Path=IsVisibleCantidadMermaAnormal, Converter={StaticResource booleanToVisibilityConverter}}" />
+        <nsWpfControls:GSNumericBoxWpf
+            Name="txtCantidadMermaAnormal"
+            Grid.Row="4"
+            Grid.Column="5"
+            Width="120"
+            BorderThickness="1"
+            DecimalDigits="8"
+            InputDataType="UDecimal"
+            IsEnabled="{Binding Path=IsEnabledMerma}"
+            MaxLength="34"
+            Style="{StaticResource TextBoxInputStyle}"
+            Visibility="{Binding Path=IsVisibleCantidadMermaAnormal, Converter={StaticResource booleanToVisibilityConverter}}"
+            Value="{Binding Path=CantidadMermaAnormal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
     </Grid>
 </UserControl>

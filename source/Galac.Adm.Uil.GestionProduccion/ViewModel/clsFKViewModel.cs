@@ -59,6 +59,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         [LibGridColum("Descripción Artículo", Width = 400, IsForSearch = false)]
         public string DescripcionArticuloInventario { get; set; }
         public DateTime FechaCreacion { get; set; }
+        public bool ManejaMerma { get; set; }
     }
     public class FkListaDeMaterialesInformeViewModel : IFkListaDeMaterialesViewModel {
         public int ConsecutivoCompania { get; set; }
@@ -71,6 +72,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public string DescripcionArticuloInventario { get; set; }
         [LibGridColum("Fecha de Creación")]
         public DateTime FechaCreacion { get; set; }
+        public bool ManejaMerma { get; set; }
     }
     public class FkAlmacenViewModel : IFkAlmacenViewModel {
         public int ConsecutivoCompania { get; set; }
