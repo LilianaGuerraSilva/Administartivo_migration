@@ -58,6 +58,11 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vParams.AddInDecimal("MontoSubtotal", valRecord.MontoSubtotal, 2);
             vParams.AddInBoolean("AjustadoPostCierre", valRecord.AjustadoPostCierreAsBool);
             vParams.AddInDecimal("CantidadAjustada", valRecord.CantidadAjustada, 2);
+            vParams.AddInDecimal("PorcentajeMermaNormalOriginal", valRecord.PorcentajeMermaNormalOriginal, 8);
+            vParams.AddInDecimal("CantidadMermaNormal", valRecord.CantidadMermaNormal, 8);
+            vParams.AddInDecimal("PorcentajeMermaNormal", valRecord.PorcentajeMermaNormal, 8);
+            vParams.AddInDecimal("CantidadMermaAnormal", valRecord.CantidadMermaAnormal, 8);
+            vParams.AddInDecimal("PorcentajeMermaAnormal", valRecord.PorcentajeMermaAnormal, 8);
             vResult = vParams.Get();
             return vResult;
         }
@@ -132,7 +137,12 @@ namespace Galac.Adm.Dal.GestionProduccion {
                     new XElement("CostoUnitarioArticuloInventario", vEntity.CostoUnitarioArticuloInventario),
                     new XElement("MontoSubtotal", vEntity.MontoSubtotal),
                     new XElement("AjustadoPostCierre", LibConvert.BoolToSN(vEntity.AjustadoPostCierreAsBool)),
-                    new XElement("CantidadAjustada", vEntity.CantidadAjustada)));
+                    new XElement("CantidadAjustada", vEntity.CantidadAjustada),
+                    new XElement("PorcentajeMermaNormalOriginal", vEntity.PorcentajeMermaNormalOriginal),
+                    new XElement("CantidadMermaNormal", vEntity.CantidadMermaNormal),
+                    new XElement("PorcentajeMermaNormal", vEntity.PorcentajeMermaNormal),
+                    new XElement("CantidadMermaAnormal", vEntity.CantidadMermaAnormal),
+                    new XElement("PorcentajeMermaAnormal", vEntity.PorcentajeMermaAnormal)));
             return vXElement;
         }
         #region Miembros de ILibDataDetailComponent<IList<OrdenDeProduccionDetalleMateriales>, IList<OrdenDeProduccionDetalleMateriales>>
@@ -185,6 +195,11 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vResult = IsValidCodigoArticulo(valAction, CurrentRecord.CodigoArticulo) && vResult;
             vResult = IsValidCantidadReservadaInventario(valAction, CurrentRecord.CantidadReservadaInventario) && vResult;
             vResult = IsValidCantidadConsumida(valAction, CurrentRecord.CantidadConsumida) && vResult;
+            vResult = IsValidPorcentajeMermaNormalOriginal(valAction, CurrentRecord.PorcentajeMermaNormalOriginal) && vResult;
+            vResult = IsValidCantidadMermaNormal(valAction, CurrentRecord.CantidadMermaNormal) && vResult;
+            vResult = IsValidPorcentajeMermaNormal(valAction, CurrentRecord.PorcentajeMermaNormal) && vResult;
+            vResult = IsValidCantidadMermaAnormal(valAction, CurrentRecord.CantidadMermaAnormal) && vResult;
+            vResult = IsValidPorcentajeMermaAnormal(valAction, CurrentRecord.PorcentajeMermaAnormal) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
         }
@@ -244,6 +259,45 @@ namespace Galac.Adm.Dal.GestionProduccion {
             return vResult;
         }
 
+        private bool IsValidPorcentajeMermaNormalOriginal(eAccionSR valAction, decimal valPorcentajeMermaNormalOriginal){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            return vResult;
+        }
+
+        private bool IsValidCantidadMermaNormal(eAccionSR valAction, decimal valCantidadMermaNormal){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            return vResult;
+        }
+
+        private bool IsValidPorcentajeMermaNormal(eAccionSR valAction, decimal valPorcentajeMermaNormal){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            return vResult;
+        }
+
+        private bool IsValidCantidadMermaAnormal(eAccionSR valAction, decimal valCantidadMermaAnormal){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            return vResult;
+        }
+
+        private bool IsValidPorcentajeMermaAnormal(eAccionSR valAction, decimal valPorcentajeMermaAnormal){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            return vResult;
+        }
 
         private bool KeyExists(int valConsecutivoCompania, int valConsecutivoOrdenDeProduccion, int valConsecutivo) {
             bool vResult = false;
