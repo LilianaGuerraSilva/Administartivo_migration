@@ -27,7 +27,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             _NumeroFactura = initNumeroFactura;
             _TipoDeDocumento = initTipoDeDocumento;
             _TipoDeProveedor = "";//NORMAL Según catalogo No 2 del layout
-            _ConectorJson = new clsConectorJson(LoginUser);
+            _ConectorJson = new clsConectorJsonNovus(LoginUser);
         }
         #region Métodos Basicos
         public override bool SincronizarDocumento() {
@@ -56,7 +56,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             try {
                 bool vResult = false;
                 string vMensaje = string.Empty;
-                clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
+                clsConectorJson vConectorJson = new clsConectorJsonNovus(LoginUser);
                 bool vRepuestaConector = vConectorJson.CheckConnection(ref vMensaje, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion));
                 if (vRepuestaConector) {
                     string vDocumentoJSON = clsConectorJson.SerializeJSON(""); //Construir XML o JSON Con datos 
@@ -85,7 +85,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 }
                 stSolicitudDeConsulta vJsonDeConsulta = new stSolicitudDeConsulta() {
                     Serie = vSerie,
-                    TipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum),
+                    TipoDocumento = LibConvert.ToStr(GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum)),
                     NumeroDocumento = NumeroFactura
                 };
                 if (vChekConeccion) {
@@ -122,7 +122,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     if (!LibString.S1IsEqualToS2(EstatusDocumento, "Anulada")) {
                         stSolicitudDeAccion vSolicitudDeAnulacion = new stSolicitudDeAccion() {
                             Serie = vSerie,
-                            TipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum),
+                            TipoDocumento = LibConvert.ToStr(GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum)),
                             NumeroDocumento = NumeroFactura,
                             MotivoAnulacion = FacturaImprentaDigital.MotivoDeAnulacion
                         };
@@ -154,11 +154,11 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 string vMensaje = string.Empty;
                 stPostResq vRespuestaConector;
                 bool vChekConeccion;
-                if (LibString.IsNullOrEmpty(_ConectorJson.Token)) {
-                    vChekConeccion = _ConectorJson.CheckConnection(ref vMensaje, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion));
-                } else {
+                //if (LibString.IsNullOrEmpty(_ConectorJson.Token)) {
+                //    vChekConeccion = _ConectorJson.CheckConnection(ref vMensaje, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion));
+                //} else {
                     vChekConeccion = true;
-                }
+                //}
                 if (vChekConeccion) {
                     ConfigurarDocumento();
                     string vDocumentoJSON = vDocumentoDigital.ToString();
@@ -187,15 +187,16 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         #region Armar Documento Digital
         public override void ConfigurarDocumento() {
             base.ConfigurarDocumento();
-            JObject vJsonDoc = new JObject(GetCuerpoDocumento());
-            vJsonDoc.Add(new JObject("cuerpofactura", GetDetalleFactura()));
+            vDocumentoDigital = GetCuerpoDocumento();
+            vDocumentoDigital.Add("cuerpofactura",GetDetalleFactura());
+            vDocumentoDigital.Add("formasdepago",GetFormasPago());            
         }
         #endregion Construye  Documento
         #region Identificacion de Documento
 
         private string GeneraTrackingId() {
-            double vSeed = DateTime.Now.Millisecond / 1000;
-            double vNumberRnd = new Random((int)vSeed * int.MaxValue).NextDouble() * Math.Pow(10, 10);
+            int vSeed = DateTime.Now.Millisecond;
+            int vNumberRnd = new Random(vSeed).Next(1, 1000000000);
             return LibText.FillWithCharToLeft(LibConvert.ToStr(vNumberRnd), "0", 10);
         }
 
@@ -412,20 +413,22 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         #region formas de pago
         private JArray GetFormasPago() {
             // Discutir Funcionalidad
-            JArray vResult = new JArray("formasdepago");
+            JArray vResult = new JArray();
+            JObject vElement = new JObject();
             decimal vMonto;
             string vFormaDeCobro;
             if (FacturaImprentaDigital.BaseImponibleIGTF > 0) { // Pagos en ML
                 vFormaDeCobro = LibEnumHelper.GetDescription(FacturaImprentaDigital.FormaDeCobroAsEnum); //  == eTipoDeFormaDeCobro.Efectivo ? "Contado" : "Crédito";                
                 vMonto = LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura + FacturaImprentaDigital.IGTFML, 2));
-                vResult.Add(new JObject("forma", vFormaDeCobro));
-                vResult.Add(new JObject("valor", vMonto));
+                vElement.Add("forma", vFormaDeCobro);
+                vElement.Add("valor", vMonto);                
             } else {
                 vFormaDeCobro = LibEnumHelper.GetDescription(FacturaImprentaDigital.FormaDeCobroAsEnum); // == eTipoDeFormaDeCobro.Efectivo ? "Contado" : "Crédito";                
                 vMonto = LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura, 2));
-                vResult.Add(new JObject("forma", vFormaDeCobro));
-                vResult.Add(new JObject("valor", vMonto));
+                vElement.Add("forma", vFormaDeCobro);
+                vElement.Add("valor", vMonto);                
             }
+            vResult.Add(vElement);
             return vResult;
         }
         #endregion formas de pago
@@ -495,16 +498,33 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             if (DetalleFacturaImprentaDigital != null) {
                 if (DetalleFacturaImprentaDigital.Count > 0) {
                     foreach (FacturaRapidaDetalle vDetalle in DetalleFacturaImprentaDigital) {
-                        vDetalleFactura.Add(new JObject("codigo", vDetalle.Articulo));
-                        vDetalleFactura.Add(new JObject("descripcion", vDetalle.Articulo));
-                        vDetalleFactura.Add(new JObject("comentario", vDetalle.Articulo));
-                        vDetalleFactura.Add(new JObject("precio", vDetalle.PrecioSinIVA));
-                        vDetalleFactura.Add(new JObject("cantidad", vDetalle.Cantidad));
-                        vDetalleFactura.Add(new JObject("tasa", vDetalle.PorcentajeAlicuota));
-                        vDetalleFactura.Add(new JObject("impuesto", LibMath.RoundToNDecimals((vDetalle.PorcentajeAlicuota * vDetalle.PrecioSinIVA * vDetalle.Cantidad) / 100, 2), 2));
-                        vDetalleFactura.Add(new JObject("descuento", vDetalle.Descripcion));
-                        vDetalleFactura.Add(new JObject("exento", vDetalle.AlicuotaIvaAsEnum == eTipoDeAlicuota.Exento ? "true" : "false"));
-                        vDetalleFactura.Add(new JObject("monto", vDetalle.TotalRenglon));
+                        JObject vElement = new JObject();
+                        string vSerial = LibString.S1IsEqualToS2(vDetalle.Serial, "0") ? "" : vDetalle.Serial;
+                        string vRollo = LibString.S1IsEqualToS2(vDetalle.Rollo, "0") ? "" : vDetalle.Rollo;
+                        string vInfoAdicional = string.Empty;
+                        if (!LibString.IsNullOrEmpty(vSerial)) {
+                            vInfoAdicional = "Serial:" + vSerial;
+                        }
+                        if (!LibString.IsNullOrEmpty(vRollo)) {
+                            vInfoAdicional = vInfoAdicional + " Rollo:" + vRollo;
+                        }
+                        decimal vCantidad = (TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito && FacturaImprentaDigital.GeneradoPorAsEnum == eFacturaGeneradaPor.AjusteIGTF && vDetalle.Cantidad == 0) ? 1 : vDetalle.Cantidad;
+                        vElement.Add("codigo", vDetalle.Articulo);
+                        vElement.Add("descripcion", vDetalle.Descripcion);
+                        vElement.Add("comentario", vInfoAdicional);
+                        vElement.Add("precio", vDetalle.PrecioSinIVA);
+                        vElement.Add("cantidad", vCantidad);
+                        vElement.Add("tasa", vDetalle.PorcentajeAlicuota);
+                        vElement.Add("impuesto", LibMath.RoundToNDecimals((vDetalle.PorcentajeAlicuota * vDetalle.PrecioSinIVA * vDetalle.Cantidad) / 100, 2));
+                        decimal valorDescuento = LibMath.RoundToNDecimals((vDetalle.PorcentajeDescuento * vDetalle.PrecioSinIVA * vDetalle.Cantidad) / 100, 2);
+                        vElement.Add("descuento", valorDescuento);
+                        vElement.Add("exento", vDetalle.AlicuotaIvaAsEnum == eTipoDeAlicuota.Exento ? true : false);
+                        decimal vMontoItem = LibMath.RoundToNDecimals(vDetalle.PrecioSinIVA * vDetalle.Cantidad, 2) - valorDescuento;
+                        vElement.Add("monto", vMontoItem);
+                        decimal vIva = LibMath.RoundToNDecimals(vMontoItem * vDetalle.PorcentajeAlicuota / 100, 2);
+                        vElement.Add("iva", vIva);
+                        vElement.Add("monto_neto", vMontoItem + vIva);
+                        vDetalleFactura.Add(vElement);
                     }
                 }
             }
@@ -562,23 +582,23 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             return vResult;
         }
 
-        private string GetTipoDocumento(eTipoDocumentoFactura valTipoDocumento) {
-            string vResult = "";
+        private int GetTipoDocumento(eTipoDocumentoFactura valTipoDocumento) {
+            int vResult = 1;
             switch (valTipoDocumento) {
                 case eTipoDocumentoFactura.Factura:
-                    vResult = "1";
+                    vResult = 1;
                     break;
                 case eTipoDocumentoFactura.NotaDeCredito:
-                    vResult = "3";
+                    vResult = 3;
                     break;
                 case eTipoDocumentoFactura.NotaDeDebito:
-                    vResult = "2";
+                    vResult = 2;
                     break;
                 case eTipoDocumentoFactura.NotaEntrega:
-                    vResult = "4";
+                    vResult = 4;
                     break;
                 default:
-                    vResult = "1";
+                    vResult = 1;
                     break;
             }
             return vResult;

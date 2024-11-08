@@ -26,7 +26,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             _NumeroFactura = initNumeroFactura;
             _TipoDeDocumento = initTipoDeDocumento;
             _TipoDeProveedor = "";//NORMAL Según catalogo No 2 del layout
-            _ConectorJson = new clsConectorJson(LoginUser);
+            _ConectorJson = new clsConectorJsonTheFactory(LoginUser);
         }
         #region Métodos Basicos
         public override bool SincronizarDocumento() {
@@ -55,7 +55,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             try {
                 bool vResult = false;
                 string vMensaje = string.Empty;
-                clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
+                clsConectorJson vConectorJson = new clsConectorJsonTheFactory(LoginUser);
                 bool vRepuestaConector = vConectorJson.CheckConnection(ref vMensaje, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion));
                 if (vRepuestaConector) {
                     string vDocumentoJSON = clsConectorJson.SerializeJSON(""); //Construir XML o JSON Con datos 

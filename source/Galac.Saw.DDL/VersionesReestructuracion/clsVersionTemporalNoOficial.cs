@@ -19,6 +19,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		public override bool UpdateToVersion() {
 			StartConnectionNoTransaction();
 			CrearCampoManejaMerma();
+            AmpliarColumnaCompaniaImprentaDigitalClave();
             DisposeConnectionNoTransaction();
 			return true;
 		}
@@ -41,6 +42,10 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             if (AddColumnNumeric("Adm.ListaDeMaterialesDetalleSalidas", "PorcentajeMermaNormal", 25, 8, "", 0)) {
                 AddDefaultConstraint("Adm.ListaDeMaterialesDetalleSalidas", "nnLisDeMatDetSalPorcentaje", "0", "PorcentajeMermaNormal");
             }
+        }
+
+        private void AmpliarColumnaCompaniaImprentaDigitalClave() {            
+            ModifyLengthOfColumnString("Compania", "ImprentaDigitalClave", 1000, "");
         }
     }
 }

@@ -11,65 +11,17 @@ using System.Linq;
 using System.Collections.Generic;
 
 namespace Galac.Saw.LibWebConnector {
-    public abstract class clsConectorJson {
+    public class clsConectorJsonTheFactory: clsConectorJson {
         string strTipoDocumento;
         ILoginUser _LoginUser;
-        string _Token;
-        public string Token {
-            get {
-                return _Token;
-            }
-        }
+        string _Token;       
 
-        public clsConectorJson(ILoginUser valloginUser) {
+        public clsConectorJsonTheFactory(ILoginUser valloginUser) : base(valloginUser) {
             _LoginUser = valloginUser;
             _Token = string.Empty;
         }
 
-        public static string SerializeJSON(object valElemento) {
-            try {
-                string vResult = JsonConvert.SerializeObject(valElemento, Formatting.Indented);
-                return vResult;
-            } catch (JsonException) {
-                throw;
-            } catch (Exception) {
-                throw;
-            }
-        }
-
-        public static string LimpiaRegistrosTempralesEnJSON(string valDocJSon) {
-            string vResult = "";
-            JObject vResponse = JObject.Parse(valDocJSon);
-            RemoveItemArray(vResponse.SelectToken("documentoElectronico.encabezado.totales.formasPago"));
-            RemoveItemArray(vResponse.SelectToken("documentoElectronico.encabezado.comprador.correo"));
-            RemoveItemArray(vResponse.SelectToken("documentoElectronico.encabezado.comprador.telefono"));
-            RemoveItemArray(vResponse.SelectToken("documentoElectronico.detallesItems"));
-            RemoveItemArray(vResponse.SelectToken("documentoElectronico.InfoAdicional"));
-            vResult = vResponse.ToString(Formatting.Indented);
-            return vResult;
-        }
-
-        private static void RemoveItemArray(JToken valProperty) {
-            if (valProperty != null) {
-                valProperty.First().Remove();
-            }
-        }
-
-        public string FormatingJSON(ILoginUser valloginUser) {
-            string vResult = "";
-            stUserLoginCnn vUsrLgn = new stUserLoginCnn();
-            vUsrLgn.usuario = valloginUser.User;
-            vUsrLgn.clave = valloginUser.Password;
-            vResult = vResult.Replace(nameof(vUsrLgn.usuario), valloginUser.UserKey);
-            vResult = vResult.Replace(nameof(vUsrLgn.clave), valloginUser.PasswordKey);
-            vResult = SerializeJSON(vUsrLgn);
-            return vResult;
-        }
-
-        public abstract bool CheckConnection(ref string refMensaje, string valComandoApi);
-        public abstract stPostResq SendPostJson(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", int valTipoDocumento = 0);
-        /*
-        public bool CheckConnection11(ref string refMensaje, string valComandoApi) {
+        public override bool CheckConnection(ref string refMensaje, string valComandoApi) {
             stPostResq vRequest = new stPostResq();
             try {
                 bool vResult = false;
@@ -89,9 +41,9 @@ namespace Galac.Saw.LibWebConnector {
             } catch (Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Alert);
             }
-        }
+        }        
 
-        public stPostResq SendPostJson22(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", int valTipoDocumento = 0) {
+        public override stPostResq SendPostJson(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", int valTipoDocumento = 0) {
             string vResultMessage = "";
             string vMensajeDeValidacion = "";
             stPostResq infoReqs = new stPostResq();
@@ -152,6 +104,5 @@ namespace Galac.Saw.LibWebConnector {
             }
             return infoReqs;
         }
-        */
     }
 }

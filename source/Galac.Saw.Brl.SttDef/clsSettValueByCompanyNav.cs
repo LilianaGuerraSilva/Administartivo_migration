@@ -2591,20 +2591,22 @@ namespace Galac.Saw.Brl.SttDef {
             return vResult;
         }
 
-        void ISettValueByCompanyPdn.GuardarDatosImprentaDigitalAppSettings(eProveedorImprentaDigital valProveedor, string valUsuario, string valClave, string valUrl) {
-            string vCampoUsuario = string.Empty;
-            string vCampoClave = string.Empty;
+        void ISettValueByCompanyPdn.GuardarDatosImprentaDigitalAppSettings(eProveedorImprentaDigital valProveedor, string valUsuario, string valClave, string valUrl, string valCampoUsuario, string valCampoClave) {
             bool vContinuar = false;
-            if (valProveedor == eProveedorImprentaDigital.TheFactoryHKA) {
-                vCampoUsuario = "usuario";
-                vCampoClave = "clave";
-                vContinuar = true;
+            switch (valProveedor) {
+                case eProveedorImprentaDigital.TheFactoryHKA:
+                case eProveedorImprentaDigital.Novus:
+                    vContinuar = true;
+                    break;
+                default:
+                    vContinuar = false;
+                    break;
             }
             if (vContinuar) {
                 clsImprentaDigitalSettings insIDStt = new clsImprentaDigitalSettings() {
                     DireccionURL = LibString.Trim(valUrl),
-                    CampoUsuario = LibString.Trim(vCampoUsuario),
-                    CampoClave = LibString.Trim(vCampoClave),
+                    CampoUsuario = LibString.Trim(valCampoUsuario),
+                    CampoClave = LibString.Trim(valCampoClave),
                     Usuario = LibString.Trim(valUsuario),
                     Clave = LibString.Trim(LibCryptography.SymEncryptDES(valClave))
                 };

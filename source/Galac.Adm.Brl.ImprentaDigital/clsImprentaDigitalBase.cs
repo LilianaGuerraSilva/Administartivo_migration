@@ -65,11 +65,12 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             HoraAsignacion = string.Empty;
             switch (ProveedorImprentaDigital) {
                 case eProveedorImprentaDigital.TheFactoryHKA:
+                case eProveedorImprentaDigital.Novus:
                     LoginUser.URL = vImprentaDigitalSettings.DireccionURL;
                     LoginUser.User = vImprentaDigitalSettings.Usuario;
                     LoginUser.UserKey = vImprentaDigitalSettings.CampoUsuario;
                     LoginUser.Password = vImprentaDigitalSettings.Clave;
-                    LoginUser.PasswordKey = vImprentaDigitalSettings.CampoClave;
+                    LoginUser.PasswordKey = vImprentaDigitalSettings.CampoClave;                    
                     break;
                 case eProveedorImprentaDigital.NoAplica:
                     break;
