@@ -163,7 +163,8 @@ namespace Galac.Adm.Brl.GestionProduccion {
                                                   Codigo = vRecord.Element("Codigo").Value,
                                                   Nombre = vRecord.Element("Nombre").Value,
                                                   CodigoArticuloInventario = vRecord.Element("CodigoArticuloInventario").Value,
-                                                  FechaCreacion = vRecord.Element("FechaCreacion").Value
+                                                  FechaCreacion = vRecord.Element("FechaCreacion").Value,
+                                          		  ManejaMerma = vRecord.Element("ManejaMerma").Value
                                               }).Distinct();
             }
             foreach (OrdenDeProduccion vItem in refData) {
@@ -172,6 +173,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 vItem.NombreAlmacenProductoTerminado = vInfoAlmacenSalidas.Descendants("GpResult").Where(p => p.Element("Consecutivo").Value == vItem.ConsecutivoAlmacenProductoTerminado.ToString()).Select(p => p.Element("NombreAlmacen").Value).FirstOrDefault();
                 vItem.CodigoListaDeMateriales = vInfoConexionListaDeMateriales.Descendants("GpResult").Where(p => p.Element("Consecutivo").Value == vItem.ConsecutivoListaDeMateriales.ToString()).Select(p => p.Element("Codigo").Value).FirstOrDefault();
                 vItem.NombreListaDeMateriales = vInfoConexionListaDeMateriales.Descendants("GpResult").Where(p => p.Element("Consecutivo").Value == vItem.ConsecutivoListaDeMateriales.ToString()).Select(p => p.Element("Nombre").Value).FirstOrDefault();
+                vItem.ListaUsaMerma = vInfoConexionListaDeMateriales.Descendants("GpResult").Where(p => p.Element("Consecutivo").Value == vItem.ConsecutivoListaDeMateriales.ToString()).Select(p => p.Element("ManejaMerma").Value).FirstOrDefault();
             }
         }
 
@@ -812,7 +814,8 @@ namespace Galac.Adm.Brl.GestionProduccion {
                     CostoUnitarioArticuloInventario = 0,
                     CostoUnitarioMEArticuloInventario = 0,
                     MontoSubtotal = 0,
-                    TipoDeArticuloAsEnum = item.TipoDeArticuloAsEnum
+                    TipoDeArticuloAsEnum = item.TipoDeArticuloAsEnum,
+                    PorcentajeMermaNormalOriginal = item.PorcentajeMermaNormal
                 });
             }
             return vResult;
@@ -837,7 +840,8 @@ namespace Galac.Adm.Brl.GestionProduccion {
                     CantidadAjustada = 0,
                     PorcentajeCostoEstimado = item.PorcentajeDeCosto,
                     PorcentajeCostoCierre = item.PorcentajeDeCosto,
-                    Costo = 0
+                    Costo = 0,
+                    PorcentajeMermaNormalOriginal = item.PorcentajeMermaNormal
                 });
             }
             return vResult;

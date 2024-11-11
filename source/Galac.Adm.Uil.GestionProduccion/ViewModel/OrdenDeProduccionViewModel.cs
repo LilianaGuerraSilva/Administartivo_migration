@@ -51,6 +51,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private const string NombreListaDeMaterialesPropertyName = "NombreListaDeMateriales";
         private const string CantidadAProducirPropertyName = "CantidadAProducir";
         private const string CantidadProducidaPropertyName = "CantidadProducida";
+        private const string ListaUsaMermaPropertyName = "ListaUsaMerma";
         private const string NombreOperadorPropertyName = "NombreOperador";
         private const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
         private const string LabelFormaDeCalcularCostosDeProduccionPropertyName = "LabelFormaDeCalcularCostosDeProduccion";
@@ -433,6 +434,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     if (LibString.IsNullOrEmpty(CodigoListaDeMateriales, true)) {
                         ConexionCodigoListaDeMateriales = null;
                     }
+                    if (ConexionCodigoListaDeMateriales.ManejaMerma) {
+                        RaisePropertyChanged(ListaUsaMermaPropertyName);
+                    }
                 }
             }
         }
@@ -477,6 +481,19 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     IsDirty = true;
                     RaisePropertyChanged(CantidadProducidaPropertyName);
                     RecalcularCantidadProducida();
+                }
+            }
+        }
+
+        public bool  ListaUsaMerma {
+            get {
+                return Model.ListaUsaMermaAsBool;
+            }
+            set {
+                if (Model.ListaUsaMermaAsBool != value) {
+                    Model.ListaUsaMermaAsBool = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(ListaUsaMermaPropertyName);
                 }
             }
         }
@@ -586,6 +603,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 if (_ConexionCodigoListaDeMateriales != value) {
                     _ConexionCodigoListaDeMateriales = value;
                     RaisePropertyChanged(CodigoListaDeMaterialesPropertyName);
+                    ListaUsaMerma = _ConexionCodigoListaDeMateriales.ManejaMerma;
+                    RaisePropertyChanged(ListaUsaMermaPropertyName);
+                    RaisePropertyChanged(() => IsVisibleListaUsaMerma);
                 }
                 if (_ConexionCodigoListaDeMateriales == null) {
                     CodigoListaDeMateriales = string.Empty;
@@ -799,6 +819,11 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 } else {
                     return DetailOrdenDeProduccionDetalleArticulo.Items[0].IsVisibleFechaFinalizacion;
                 }
+            }
+        }
+
+        public bool IsVisibleListaUsaMerma {
+            get {   return ListaUsaMerma; 
             }
         }
 
@@ -1489,12 +1514,14 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Model.ConsecutivoListaDeMateriales = ConexionCodigoListaDeMateriales.Consecutivo;
                     CodigoListaDeMateriales = ConexionCodigoListaDeMateriales.Codigo;
                     NombreListaDeMateriales = ConexionCodigoListaDeMateriales.Nombre;
+					ListaUsaMerma = ConexionCodigoListaDeMateriales.ManejaMerma;
                     CargarDetalles();
                 } else {
                     ConexionCodigoListaDeMateriales = null;
                     Model.ConsecutivoListaDeMateriales = 0;
                     CodigoListaDeMateriales = string.Empty;
                     NombreListaDeMateriales = string.Empty;
+                    ListaUsaMerma = false;
                 }
             } catch (System.AccessViolationException) {
                 throw;

@@ -198,7 +198,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vResult = IsValidCantidadProducida(valAction, CurrentRecord.CantidadProducida) && vResult;
             vResult = IsValidPorcentajeCostoEstimado(valAction, CurrentRecord.PorcentajeCostoEstimado) && vResult;
             vResult = IsValidPorcentajeCostoCiere(valAction, CurrentRecord.PorcentajeCostoCierre) && vResult;
-			vResult = IsValidPorcentajeMermaNormalOriginal(valAction, CurrentRecord.PorcentajeMermaNormalOriginal) && vResult;
             vResult = IsValidCantidadMermaNormal(valAction, CurrentRecord.CantidadMermaNormal) && vResult;
             vResult = IsValidPorcentajeMermaNormal(valAction, CurrentRecord.PorcentajeMermaNormal) && vResult;
             vResult = IsValidCantidadMermaAnormal(valAction, CurrentRecord.CantidadMermaAnormal) && vResult;
@@ -251,44 +250,39 @@ namespace Galac.Adm.Dal.GestionProduccion {
             }
             return vResult;
         }
-		
-		
-		private bool IsValidPorcentajeMermaNormalOriginal(eAccionSR valAction, decimal valPorcentajeMermaNormalOriginal){
-            bool vResult = true;
-            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
-                return true;
-            }
-            return vResult;
-        }
 
         private bool IsValidCantidadMermaNormal(eAccionSR valAction, decimal valCantidadMermaNormal){
             bool vResult = true;
-            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
-                return true;
+            if ((valAction == eAccionSR.Cerrar) && valCantidadMermaNormal < 0) {
+                BuildValidationInfo("La Cantidad Merma Normal debe ser mayor igual a 0.");
+                vResult = false;
             }
             return vResult;
         }
 
         private bool IsValidPorcentajeMermaNormal(eAccionSR valAction, decimal valPorcentajeMermaNormal){
             bool vResult = true;
-            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
-                return true;
+            if ((valAction == eAccionSR.Cerrar) && valPorcentajeMermaNormal < 0) {
+                BuildValidationInfo("El Porcentaje de Merma Normal debe ser mayor igual a 0.");
+                vResult = false;
             }
             return vResult;
         }
 
         private bool IsValidCantidadMermaAnormal(eAccionSR valAction, decimal valCantidadMermaAnormal){
             bool vResult = true;
-            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
-                return true;
+            if ((valAction == eAccionSR.Cerrar) && valCantidadMermaAnormal < 0) {
+                BuildValidationInfo("La Cantidad Merma Anormal debe ser mayor igual a 0.");
+                vResult = false;
             }
             return vResult;
         }
 
         private bool IsValidPorcentajeMermaAnormal(eAccionSR valAction, decimal valPorcentajeMermaAnormal){
             bool vResult = true;
-            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
-                return true;
+            if ((valAction == eAccionSR.Cerrar) && valPorcentajeMermaAnormal < 0) {
+                BuildValidationInfo("El Porcentaje de Merma Anormal debe ser mayor igual a 0.");
+                vResult = false;
             }
             return vResult;
         }
