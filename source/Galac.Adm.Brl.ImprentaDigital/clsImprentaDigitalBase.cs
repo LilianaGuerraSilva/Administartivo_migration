@@ -18,6 +18,8 @@ using LibGalac.Aos.Brl;
 using LibGalac.Aos.Catching;
 using Galac.Saw.Lib;
 using Galac.Adm.Ccl.ImprentaDigital;
+using LibGalac.Aos.DefGen;
+using System.IO;
 
 namespace Galac.Adm.Brl.ImprentaDigital {
         
@@ -868,7 +870,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     break;
             }
             return vTipoCxc;
-        }
+        }      
 
         public abstract bool EnviarDocumento();
         public abstract bool AnularDocumento();
