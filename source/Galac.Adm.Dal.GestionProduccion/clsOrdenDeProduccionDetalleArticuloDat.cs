@@ -199,7 +199,9 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vResult = IsValidPorcentajeCostoEstimado(valAction, CurrentRecord.PorcentajeCostoEstimado) && vResult;
             vResult = IsValidPorcentajeCostoCiere(valAction, CurrentRecord.PorcentajeCostoCierre) && vResult;
             vResult = IsValidCantidadMermaNormal(valAction, CurrentRecord.CantidadMermaNormal) && vResult;
+            vResult = IsValidPorcentajeMermaNormal(valAction, CurrentRecord.PorcentajeMermaNormal) && vResult;
             vResult = IsValidCantidadMermaAnormal(valAction, CurrentRecord.CantidadMermaAnormal) && vResult;
+            vResult = IsValidPorcentajeMermaAnormal(valAction, CurrentRecord.PorcentajeMermaAnormal) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
         }
@@ -258,10 +260,28 @@ namespace Galac.Adm.Dal.GestionProduccion {
             return vResult;
         }
 
+        private bool IsValidPorcentajeMermaNormal(eAccionSR valAction, decimal valPorcentajeMermaNormal){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Cerrar) && valPorcentajeMermaNormal < 0) {
+                BuildValidationInfo("El Porcentaje de Merma Normal debe ser mayor igual a 0.");
+                vResult = false;
+            }
+            return vResult;
+        }
+
         private bool IsValidCantidadMermaAnormal(eAccionSR valAction, decimal valCantidadMermaAnormal){
             bool vResult = true;
             if ((valAction == eAccionSR.Cerrar) && valCantidadMermaAnormal < 0) {
                 BuildValidationInfo("La Cantidad Merma Anormal debe ser mayor igual a 0.");
+                vResult = false;
+            }
+            return vResult;
+        }
+
+        private bool IsValidPorcentajeMermaAnormal(eAccionSR valAction, decimal valPorcentajeMermaAnormal){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Cerrar) && valPorcentajeMermaAnormal < 0) {
+                BuildValidationInfo("El Porcentaje de Merma Anormal debe ser mayor igual a 0.");
                 vResult = false;
             }
             return vResult;
