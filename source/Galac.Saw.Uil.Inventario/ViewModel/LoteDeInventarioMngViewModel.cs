@@ -117,11 +117,11 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 ToolTipTitle = "Informes"
             });
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
-                Label = "Recalcular Movimientos de Lote",
+                Label = "Recalcular Existencia de Lote",
                 Command = RecalcularCommand,
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/refresh.png", UriKind.Relative),
-                ToolTipDescription = "Recalcular Movimientos de Lote",
-                ToolTipTitle = "Recalcular Movimientos de Lote"
+                ToolTipDescription = "Recalcular Existencia de Lote",
+                ToolTipTitle = "Recalcular Existencia de Lote"
             });
             return vResult;
         }
