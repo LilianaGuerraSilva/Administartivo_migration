@@ -37,7 +37,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         #region Propiedades
 
         public override string ModuleName {
-            get { return "Recalcular Movimientos de Inventario"; }
+            get { return "Recalcular Existencia de Lote"; }
         }
 
         public eCantidadAImprimir ArticuloUnoTodos {
