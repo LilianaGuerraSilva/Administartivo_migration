@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Xml.Linq;
 using Galac.Adm.Ccl.ImprentaDigital;
 using Galac.Adm.Ccl.Venta;
 using Galac.Saw.Ccl.SttDef;
@@ -10,9 +9,10 @@ using Galac.Saw.LibWebConnector;
 using Galac.Saw.Ccl.Cliente;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.Cnf;
-using System.Threading;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Text;
+using LibGalac.Aos.Base.Dal;
+using LibGalac.Aos.Brl;
 
 namespace Galac.Adm.Brl.ImprentaDigital {
     public class ImprentaNovus : clsImprentaDigitalBase {
@@ -176,6 +176,46 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
         }
+
+        public override bool EnviarDocumentoPorEmail(string valEmail) {
+            try {               
+                bool vResult = false;
+                string vMensaje = string.Empty;                
+                stPostResq vRespuestaConector = new stPostResq();
+                bool vChekConeccion = false;
+                if (LibString.IsNullOrEmpty(_ConectorJson.Token)) {
+                    vChekConeccion = _ConectorJson.CheckConnection(ref vMensaje, LibEnumHelper.GetDescription(eComandosPostNovus.Autenticacion));
+                } else {
+                    vChekConeccion = true;
+                }                               
+                if (!LibString.IsNullOrEmpty(FacturaImprentaDigital.NumeroControl)) {
+                    if (FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Emitida) {
+                        JObject JObjectDoc = new JObject {
+                            { "numerodocumento", FacturaImprentaDigital.NumeroControl },
+                            { "rif", LoginUser.User },
+                            { "email", valEmail }
+                        };
+                        string vDocumentoJSON = JObjectDoc.ToString();
+                        vRespuestaConector = _ConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostNovus.Email), _ConectorJson.Token);
+                        vResult = vRespuestaConector.Aprobado;
+                        Mensaje = vRespuestaConector.mensaje;
+                    } else {
+                        Mensaje = $"No se pudo Enviar la {FacturaImprentaDigital.TipoDeDocumentoAsString} por email.";
+                    }
+                } else {
+                    if (!LibString.IsNullOrEmpty(Mensaje)) {
+                        Mensaje = $"La {FacturaImprentaDigital.TipoDeDocumentoAsString} no pudo enviado por email.\r\n" + Mensaje;
+                    }
+                }
+                return vResult;
+            } catch (AggregateException gEx) {
+                throw new GalacException(gEx.InnerException.Message, eExceptionManagementType.Controlled);
+            } catch (GalacException) {
+                throw;
+            } catch (Exception vEx) {
+                throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
+            }
+        }
         #endregion Métodos Básicos
         #region Construcción de Documento
         #region Armar Documento Digital
@@ -186,7 +226,22 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vDocumentoDigital.Add("formasdepago",GetFormasPago());            
         }
         #endregion Construye  Documento
-        #region Identificacion de Documento
+        #region Identificacion de Documento      
+
+        private string ObtenerNumeroControlFacturaAfectada() {
+            string vResult = string.Empty;           
+            QAdvSql insSql = new QAdvSql("");
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("SELECT NumeroControl FROM Factura");
+            vSql.AppendLine("WHERE ConsecutivoCompania=" + FacturaImprentaDigital.ConsecutivoCompania);
+            vSql.AppendLine(" AND Numero = " + new QAdvSql("").ToSqlValue(FacturaImprentaDigital.NumeroFacturaAfectada));
+            vSql.AppendLine(" AND TipoDeDocumento = " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura));
+            var vDataResult = LibBusiness.ExecuteSelect(vSql.ToString(), null, "", 0);
+            if (vDataResult != null && vDataResult.HasElements) {
+                vResult = LibXml.GetPropertyString(vDataResult, "NumeroControl");
+            }
+            return vResult;
+        }
 
         private string GeneraTrackingId() {
             int vSeed = DateTime.Now.Millisecond;
@@ -207,30 +262,30 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 { "direccioncliente", ClienteImprentaDigital.Direccion },
                 { "telefonocliente", ClienteImprentaDigital.Telefono },
                 { "idtipodocumento", GetTipoDocumento(_TipoDeDocumento) },
-                { "subtotal", FacturaImprentaDigital.TotalRenglones },
-                { "exento", FacturaImprentaDigital.TotalMontoExento },
+                { "subtotal", LibMath.Abs(FacturaImprentaDigital.TotalRenglones) },
+                { "exento", LibMath.Abs(FacturaImprentaDigital.TotalMontoExento) },
                 { "tasag", FacturaImprentaDigital.PorcentajeAlicuota1 },
-                { "baseg", FacturaImprentaDigital.MontoGravableAlicuota1 },
-                { "impuestog", FacturaImprentaDigital.MontoIvaAlicuota1 },
+                { "baseg", LibMath.Abs(FacturaImprentaDigital.MontoGravableAlicuota1) },
+                { "impuestog", LibMath.Abs(FacturaImprentaDigital.MontoIvaAlicuota1) },
                 { "tasaa", FacturaImprentaDigital.PorcentajeAlicuota2 },
-                { "basea", FacturaImprentaDigital.MontoGravableAlicuota2 },
+                { "basea", LibMath.Abs(FacturaImprentaDigital.MontoGravableAlicuota2) },
                 { "impuestoa", FacturaImprentaDigital.MontoIvaAlicuota2 },
                 { "tasar", FacturaImprentaDigital.PorcentajeAlicuota3 },
-                { "baser", FacturaImprentaDigital.MontoGravableAlicuota3 },
+                { "baser", LibMath.Abs(FacturaImprentaDigital.MontoGravableAlicuota3) },
                 { "impuestor", FacturaImprentaDigital.MontoIvaAlicuota3 },
                 { "tasaigtf", FacturaImprentaDigital.AlicuotaIGTF },
-                { "baseigtf", FacturaImprentaDigital.BaseImponibleIGTF },
+                { "baseigtf", LibMath.Abs(FacturaImprentaDigital.BaseImponibleIGTF) },
                 { "impuestoigtf", FacturaImprentaDigital.IGTFML },
-                { "total", FacturaImprentaDigital.TotalFactura + FacturaImprentaDigital.IGTFML },
+                { "total", LibMath.Abs(FacturaImprentaDigital.TotalFactura + FacturaImprentaDigital.IGTFML) },
                 {"sendmail", 1}, // Siempre Envia Email
-                {"sucursal", ""}, // No Aplica
+                //{"sucursal", ""}, // No Aplica
                 {"numerointerno", FacturaImprentaDigital.Numero},
                 {"fecha_emision", FacturaImprentaDigital.Fecha},
                 {"moneda", FacturaImprentaDigital.CodigoMoneda == CodigoMonedaLocal ? "bs" : "usd"},
                 {"tasacambio", CambioABolivares},
                 {"observacion", FacturaImprentaDigital.Observaciones} };
             if (_TipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito || _TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito) {
-                vJsonDoc.Add("relacionado", FacturaImprentaDigital.NumeroFacturaAfectada);
+                vJsonDoc.Add("relacionado", ObtenerNumeroControlFacturaAfectada());
             }
             return vJsonDoc;
         }
@@ -284,9 +339,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                         string vSerial = LibString.S1IsEqualToS2(vDetalle.Serial, "0") ? "" : vDetalle.Serial;
                         string vRollo = LibString.S1IsEqualToS2(vDetalle.Rollo, "0") ? "" : vDetalle.Rollo;
                         string vInfoAdicional = string.Empty;
-                        decimal vCantidad = (TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito && FacturaImprentaDigital.GeneradoPorAsEnum == eFacturaGeneradaPor.AjusteIGTF && vDetalle.Cantidad == 0) ? 1 : vDetalle.Cantidad;
-                        decimal valorDescuento = LibMath.RoundToNDecimals((vDetalle.PorcentajeDescuento * vDetalle.PrecioSinIVA * vDetalle.Cantidad) / 100, 2);
-                        decimal vMontoItem = LibMath.RoundToNDecimals(vDetalle.PrecioSinIVA * vDetalle.Cantidad, 2) - valorDescuento;
+                        decimal vCantidad = (TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito && FacturaImprentaDigital.GeneradoPorAsEnum == eFacturaGeneradaPor.AjusteIGTF && vDetalle.Cantidad == 0) ? 1 : LibMath.Abs(vDetalle.Cantidad);
+                        decimal valorDescuento = LibMath.Abs(LibMath.RoundToNDecimals((vDetalle.PorcentajeDescuento * vDetalle.PrecioSinIVA * vDetalle.Cantidad) / 100, 2));
+                        decimal vMontoItem = LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.PrecioSinIVA * vDetalle.Cantidad, 2) - valorDescuento);
                         decimal vIva = LibMath.RoundToNDecimals(vMontoItem * vDetalle.PorcentajeAlicuota / 100, 2);
                         JObject vElement = new JObject() {
                         {"codigo", vDetalle.Articulo},
@@ -294,7 +349,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                         {"precio", vDetalle.PrecioSinIVA},
                         {"cantidad", vCantidad},
                         {"tasa", vDetalle.PorcentajeAlicuota},
-                        {"impuesto", LibMath.RoundToNDecimals((vDetalle.PorcentajeAlicuota * vDetalle.PrecioSinIVA * vDetalle.Cantidad) / 100, 2)},
+                        {"impuesto", LibMath.Abs(LibMath.RoundToNDecimals((vDetalle.PorcentajeAlicuota * vDetalle.PrecioSinIVA * vDetalle.Cantidad) / 100, 2))},
                         {"descuento", valorDescuento},
                         {"exento", vDetalle.AlicuotaIvaAsEnum == eTipoDeAlicuota.Exento ? true : false},
                         {"monto", vMontoItem},

@@ -444,7 +444,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" factura.GeneradaPorNotaEntrega,");
             vSql.AppendLine(" factura.EmitidaEnFacturaNumero,");
             vSql.AppendLine(" factura.ReservarMercancia,");
-            vSql.AppendLine(" factura.CodigoAlmacen ");
+            vSql.AppendLine(" factura.CodigoAlmacen, ");
+            vSql.AppendLine(" factura.CodigoCliente ");
             vSql.AppendLine(" FROM factura");
             vSql.AppendLine(" WHERE factura.ConsecutivoCompania = @ConsecutivoCompania ");
             vSql.AppendLine(" AND factura.Numero = @Numero ");
@@ -469,6 +470,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     FacturaImprentaDigital.ReservarMercanciaAsBool = LibConvert.SNToBool(LibXml.GetPropertyString(vResult, "ReservarMercancia"));
                     FacturaImprentaDigital.CodigoAlmacen = LibXml.GetPropertyString(vResult, "CodigoAlmacen");
                     FacturaImprentaDigital.EmitidaEnFacturaNumero = LibXml.GetPropertyString(vResult, "EmitidaEnFacturaNumero");
+                    FacturaImprentaDigital.CodigoCliente = LibXml.GetPropertyString(vResult, "CodigoCliente");
                 } else {
                     throw new GalacException("El Documento N° " + LibConvert.ToStr(NumeroFactura) + " no existe.", eExceptionManagementType.Controlled);
                 }
@@ -873,6 +875,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }      
 
         public abstract bool EnviarDocumento();
+        public abstract bool EnviarDocumentoPorEmail(string valEmail);
         public abstract bool AnularDocumento();
         public abstract bool EstadoDocumento();
         public abstract bool EstadoLoteDocumentos();

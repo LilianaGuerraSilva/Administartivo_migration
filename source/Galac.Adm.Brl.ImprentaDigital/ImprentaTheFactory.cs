@@ -182,6 +182,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
         }
+
+        public override bool EnviarDocumentoPorEmail(string valEmail) {
+            throw new NotImplementedException();
+        }
         #endregion Métodos Básicos
         #region Construcción de Documento
         #region Armar Documento Digital
