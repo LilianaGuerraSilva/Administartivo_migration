@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Text;
-using System.Net.Http;
 using Newtonsoft.Json;
-using System.Threading.Tasks;
 using LibGalac.Aos.Base;
-using LibGalac.Aos.Catching;
 using LibGalac.Aos.DefGen;
 using Newtonsoft.Json.Linq;
 using System.Linq;
-using System.Collections.Generic;
+using System.IO;
 
 namespace Galac.Saw.LibWebConnector {
-    public abstract class clsConectorJson {
-        string strTipoDocumento;      
+    public abstract class clsConectorJson {        
         string _Token;
         public string Token {
             get {
@@ -72,10 +67,23 @@ namespace Galac.Saw.LibWebConnector {
             return vResult;
         }
 
+        public void GeneraLogDeErrores(string vMensajeError, string valMensajeResultado, string valJSon) {
+            try {
+                string vPath = Path.Combine(LibDirectory.GetProgramFilesGalacDir(), Path.Combine(LibDefGen.ProgramInfo.ProgramInitials, "ImprentaDigital"));
+                if (!LibDirectory.DirExists(vPath)) {
+                    LibDirectory.CreateDir(vPath);
+                }
+                vPath = vPath + @"\ImprentaDigitalResult.txt";
+                LibFile.WriteLineInFile(vPath, vMensajeError + "\r\n" + valMensajeResultado + "\r\n" + valJSon, false);
+            } catch (Exception) {
+                throw;
+            }
+        }
+       
         public abstract bool CheckConnection(ref string refMensaje, string valComandoApi);
-        public abstract stPostResq SendPostJson(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", int valTipoDocumento = 0);
+        public abstract stPostResq SendPostJson(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", int valTipoDocumento = 0);        
         /*
-        public bool CheckConnection11(ref string refMensaje, string valComandoApi) {
+        public bool CheckConnection(ref string refMensaje, string valComandoApi) {
             stPostResq vRequest = new stPostResq();
             try {
                 bool vResult = false;

@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace Galac.Saw.LibWebConnector {
+    #region TheFactory
     internal struct stUserLoginCnn {
         public string usuario {
             get; set;
@@ -139,10 +141,42 @@ namespace Galac.Saw.LibWebConnector {
             get; set;
         }
     }
+    #endregion TheFactory    
+    /////////////////////////////////////////////////////////////////////////////////////////    
+    #region NOVUS
+    public struct stErrorRespuestaNV {
+        public string message { get; set; }
+        public string code { get; set; }
+    }
 
-    public struct stRespuestaNV {
-
+    public struct stDataRespuestaNV {
+        [JsonProperty("numerodocumento")]
+        public string numerodocumento { get; set; }
+        [JsonProperty("identificador")]
+        public string identificador { get; set; }
+        [JsonProperty("corelativo")]
+        public string corelativo { get; set; }
+        [JsonProperty("datetime")]
+        public DateTime datetime { get; set; }
+        [JsonProperty("fecha")]
+        public string fecha { get; set; }
+        [JsonProperty("hora")]
+        public string hora { get; set; }
 
     }
 
+
+    public struct stRespuestaNV {
+        [JsonProperty("success")]
+        public bool success { get; set; }
+        [JsonProperty("message")]
+        public string message { get; set; }
+        [JsonProperty("data")]
+        public Nullable<stDataRespuestaNV> data { get; set; }
+        [JsonProperty("error")]
+        public Nullable<stErrorRespuestaNV> error { get; set; }
+
+    }
+    #endregion NOVUS
 }
+

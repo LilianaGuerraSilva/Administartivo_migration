@@ -60,8 +60,8 @@ namespace Galac.Saw.LibWebConnector {
                 if (vHttpRespMsg.Result.StatusCode == System.Net.HttpStatusCode.OK) {
                     vHttpRespMsg.Result.EnsureSuccessStatusCode();
                 }
-                if (vHttpRespMsg.Result.Content is null || vHttpRespMsg.Result.Content.Headers.ContentType?.MediaType != "application/json") {
-                    throw new GalacException("Usuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.", eExceptionManagementType.Alert);
+                if (vHttpRespMsg.Result.Content is null) {
+                    throw new Exception("Usuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.");
                 } else {
                     Task<string> HttpResq = vHttpRespMsg.Result.Content.ReadAsStringAsync();
                     HttpResq.Wait();
@@ -85,20 +85,21 @@ namespace Galac.Saw.LibWebConnector {
                         throw new Exception(vMensajeDeValidacion);
                     }
                 }
-            } catch (AggregateException) {
-                infoReqs.Aprobado = false;
-                infoReqs.mensaje = "Falla de conexión con su Imprenta Digital.\r\nPor favor verifique los datos de conexión o servicio de internet.";
-            } catch (GalacException) {
-                throw;
+            } catch (AggregateException vEx) {
+                throw new Exception(vEx.InnerException.InnerException.Message);           
             } catch (Exception vEx) {
-                string vPath = LibDirectory.GetProgramFilesGalacDir() + "\\" + LibDefGen.ProgramInfo.ProgramInitials + "\\ImprentaDigital";
-                if (!LibDirectory.DirExists(vPath)) {
-                    LibDirectory.CreateDir(vPath);
-                }
-                vPath = vPath + @"\ImprentaDigitalResult.txt";
-                LibFile.WriteLineInFile(vPath, vEx.Message + "\r\n" + vResultMessage + "\r\n" + valJsonStr, false);
                 infoReqs.Aprobado = false;
-                infoReqs.mensaje = strTipoDocumento + " no pudo ser enviada a la Imprenta Digital, debe sincronizar el documento.";
+                infoReqs.mensaje = vEx.Message;
+                //string vPath = LibDirectory.GetProgramFilesGalacDir() + "\\" + LibDefGen.ProgramInfo.ProgramInitials + "\\ImprentaDigital";
+                //if (!LibDirectory.DirExists(vPath)) {
+                //    LibDirectory.CreateDir(vPath);
+                //}
+                //vPath = vPath + @"\ImprentaDigitalResult.txt";
+                //LibFile.WriteLineInFile(vPath, vEx.Message + "\r\n" + vResultMessage + "\r\n" + valJsonStr, false);
+                //infoReqs.Aprobado = false;
+                //infoReqs.mensaje = strTipoDocumento + " no pudo ser enviada a la Imprenta Digital, debe sincronizar el documento.";
+            } finally {
+                GeneraLogDeErrores(vMensajeDeValidacion, infoReqs.mensaje, valJsonStr);
             }
             return infoReqs;
         }

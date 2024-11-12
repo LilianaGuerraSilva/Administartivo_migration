@@ -5,37 +5,32 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
-using LibGalac.Aos.DefGen;
-using Newtonsoft.Json.Linq;
-using System.Linq;
-using System.Collections.Generic;
 
 namespace Galac.Saw.LibWebConnector {
     public class clsConectorJsonNovus : clsConectorJson {
-        string strTipoDocumento;          
+        string strTipoDocumento;
 
         public clsConectorJsonNovus(ILoginUser valloginUser) : base(valloginUser) {
             LoginUser = valloginUser;
             Token = string.Empty;
         }
 
-        public override bool CheckConnection(ref string refMensaje, string valComandoApi) {
-            stPostResq vRequest = new stPostResq();
+        public override bool CheckConnection(ref string refMensaje, string valComandoApi) {            
             try {
                 bool vResult = true;
-                Token = LoginUser.Password;                
+                Token = LoginUser.Password;
                 return vResult;
             } catch (GalacException) {
                 throw;
             } catch (Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Alert);
             }
-        }        
+        }
 
         public override stPostResq SendPostJson(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", int valTipoDocumento = 0) {
             string vResultMessage = "";
             string vMensajeDeValidacion = "";
-            stPostResq infoReqs = new stPostResq();
+            stPostResq vReqs = new stPostResq();
             try {
                 strTipoDocumento = (valTipoDocumento == 8 ? "Nota de Entrega" : valTipoDocumento == 1 ? "Nota de Crédito" : valTipoDocumento == 2 ? "Nota de Débito" : "Factura");
                 strTipoDocumento = "La " + strTipoDocumento + " No. " + valNumeroDocumento;
@@ -51,47 +46,49 @@ namespace Galac.Saw.LibWebConnector {
                 if (vHttpRespMsg.Result.StatusCode == System.Net.HttpStatusCode.OK) {
                     vHttpRespMsg.Result.EnsureSuccessStatusCode();
                 }
-                if (vHttpRespMsg.Result.Content is null ) {
-                    throw new Exception("Usuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.", eExceptionManagementType.Alert);
+                if (vHttpRespMsg.Result.Content is null) {
+                    throw new Exception("Usuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.");
                 } else {
                     Task<string> HttpResq = vHttpRespMsg.Result.Content.ReadAsStringAsync();
                     HttpResq.Wait();
-                    infoReqs = JsonConvert.DeserializeObject<stPostResq>(HttpResq.Result);
-                    List<string> listValidaciones = infoReqs.validaciones;
-                    if (listValidaciones != null) {
-                        vMensajeDeValidacion = string.Join(",", infoReqs.validaciones);
+                    stRespuestaNV vReqsNV = JsonConvert.DeserializeObject<stRespuestaNV>(HttpResq.Result.ToString());                   
+                    if (vReqsNV.success) {
+                        vReqs = new stPostResq() {
+                            Aprobado = vReqsNV.success,
+                            mensaje = vReqsNV.message,
+                            resultados = new stRespuestaTF() {
+                                numeroControl = vReqsNV.data.Value.numerodocumento,
+                                fechaAsignacion = vReqsNV.data.Value.fecha
+                            }
+                        };
+                        return vReqs;
+                    } else if (LibString.S1IsEqualToS2(vReqsNV.error.Value.code, "1")) {
+                        vReqs.mensaje = vReqsNV.error.Value.message + " \r\nPor favor verifique los datos de conexión con su Imprenta Digital.";
+                    } else if (LibString.S1IsEqualToS2(vReqsNV.error.Value.code, "2")) {
+                        vReqs.mensaje = vReqsNV.error.Value.message + " \r\nPor favor verifique los datos del documento.";
+                    } else if (LibString.S1IsEqualToS2(vReqsNV.error.Value.code, "3")) {
+                        vReqs.mensaje = vReqsNV.error.Value.message + " \r\nPor favor verifique los datos de conexión con su Imprenta Digital.";
+                    } else if (LibString.S1IsEqualToS2(vReqsNV.error.Value.code, "4")) {
+                        vReqs.mensaje = vReqsNV.error.Value.message + " \r\nPor favor verifique los datos del documento.";
+                    } else if (LibString.S1IsEqualToS2(vReqsNV.error.Value.code, "5")) {
+                        vReqs.mensaje = vReqsNV.error.Value.message + " \r\nPor favor verifique los datos del documento.";
+                    } else {
+                        vReqs.mensaje = vReqsNV.error.Value.message;
                     }
-                    if (LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {
-                        infoReqs.Aprobado = true;
-                    } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "403")) {
-                        infoReqs.mensaje = vMensajeDeValidacion + "\r\nUsuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.";
-                        infoReqs.Aprobado = false;
-                    } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "201")) {
-                        infoReqs.Aprobado = false;
-                        infoReqs.mensaje = vMensajeDeValidacion + "\r\n" + strTipoDocumento + " ya existe en la Imprenta Digital.";
-                    } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "203")) {
-                        infoReqs.Aprobado = false;
-                        infoReqs.mensaje = vMensajeDeValidacion + "\r\n" + strTipoDocumento + " no pudo ser enviado a la Imprenta Digital, debe sincronizar el documento.";
-                    } else if (!LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {
-                        throw new Exception(vMensajeDeValidacion);
-                    }
+                    vMensajeDeValidacion = vReqs.mensaje;
+                    GeneraLogDeErrores(vMensajeDeValidacion, vResultMessage, valJsonStr);
+                    throw new Exception(vMensajeDeValidacion);
                 }
-            } catch (AggregateException) {
-                infoReqs.Aprobado = false;
-                infoReqs.mensaje = "Falla de conexión con su Imprenta Digital.\r\nPor favor verifique los datos de conexión o servicio de internet.";
-            } catch (GalacException) {
-                throw;
+            } catch (AggregateException vEx) {
+                string vMensaje = vEx.InnerException.InnerException.Message;
+                if (vEx.InnerException.InnerException.HResultPublic() == -2146233079) {
+                    vMensaje = vMensaje + "\r\nRevise que URL del servicio sea la correcta, Revise su conexión a Internet";
+                }
+                throw new Exception(vMensaje);
             } catch (Exception vEx) {
-                string vPath = LibDirectory.GetProgramFilesGalacDir() + "\\" + LibDefGen.ProgramInfo.ProgramInitials + "\\ImprentaDigital";
-                if (!LibDirectory.DirExists(vPath)) {
-                    LibDirectory.CreateDir(vPath);
-                }
-                vPath = vPath + @"\ImprentaDigitalResult.txt";
-                LibFile.WriteLineInFile(vPath, vEx.Message + "\r\n" + vResultMessage + "\r\n" + valJsonStr, false);
-                infoReqs.Aprobado = false;
-                infoReqs.mensaje = strTipoDocumento + " no pudo ser enviada a la Imprenta Digital, debe sincronizar el documento.";
+                throw vEx;
             }
-            return infoReqs;
         }
+
     }
 }
