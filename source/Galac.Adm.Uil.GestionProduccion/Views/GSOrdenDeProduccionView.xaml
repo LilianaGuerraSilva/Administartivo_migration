@@ -368,13 +368,11 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Label
                     Name="lblCodigoListaDeMateriales"
@@ -400,8 +398,8 @@
                 <Label
                     Name="lneNombreListaDemateriales"
                     Grid.Column="2"
-                    Grid.ColumnSpan="3"
-                    Width="430"
+                    Grid.ColumnSpan="2"
+                    Width="340"
                     Height="27"
                     Margin="3,0,0,0"
                     VerticalAlignment="Center"
@@ -409,24 +407,24 @@
                     Style="{StaticResource LabelCalculatedField}" />
                 <Label
                     Grid.Column="0"
-                    Width="111"
                     Height="24"
-                    Margin="3,0,0,0"
+                    Margin="0,0,4,0"
+                    HorizontalAlignment="Stretch"
                     VerticalAlignment="Center"
                     Content="Lista de Materiales"
                     Style="{StaticResource LabelPrompt}" />
                 <Label
                     Name="lblCantidadSolicitada"
-                    Grid.Row="3"
-                    Width="116"
+                    Grid.Row="1"
                     Height="23"
-                    HorizontalAlignment="Center"
+                    Margin="0,0,4,0"
+                    HorizontalAlignment="Stretch"
                     VerticalAlignment="Center"
                     Content="Cantidad a Producir"
                     Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtCantidadSolicitada"
-                    Grid.Row="3"
+                    Grid.Row="1"
                     Grid.Column="1"
                     Width="120"
                     Margin="3,3,0,3"
@@ -439,22 +437,23 @@
                     Value="{Binding Path=CantidadAProducir, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <Label
                     Name="lblCantidadProdicida"
-                    Grid.Row="3"
-                    Grid.Column="3"
+                    Grid.Row="1"
+                    Grid.Column="2"
                     Width="120"
                     Height="23"
-                    Margin="3,0,0,0"
+                    Margin="0,0,3,0"
+                    HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Content="Cantidad Producida"
                     Style="{StaticResource LabelPrompt}"
                     Visibility="{Binding Path=IsVisbleCantidadProducida, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtCantidadProducida"
-                    Grid.Row="3"
-                    Grid.Column="4"
+                    Grid.Row="1"
+                    Grid.Column="3"
                     Width="120"
-                    Margin="0,3,0,3"
-                    HorizontalAlignment="Center"
+                    Margin="0,3,3,3"
+                    HorizontalAlignment="Right"
                     BorderThickness="1"
                     DecimalDigits="{Binding Path=DecimalDigits}"
                     InputDataType="UDecimal"
@@ -464,16 +463,14 @@
                     Visibility="{Binding Path=IsVisbleCantidadProducida, Converter={StaticResource booleanToVisibilityConverter}}"
                     Value="{Binding Path=CantidadProducida, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <Label
-                    Name="lblListaUsaMerma"
-                    Grid.Row="3"
-                    Grid.Column="2"
-                    Width="75"
-                    Height="23"
-                    Margin="0,0,3,0"
-                    HorizontalAlignment="Right"
+                    Name="lneListaUsaMerma"
+                    Grid.Column="4"
+                    Width="90"
+                    Height="24"
+                    HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Content="Usa Merma"
-                    Style="{StaticResource LabelPrompt}"
+                    Style="{StaticResource LabelStatusGreen}"
                     Visibility="{Binding Path=IsVisibleListaUsaMerma, Converter={StaticResource booleanToVisibilityConverter}}" />
             </Grid>
         </GroupBox>

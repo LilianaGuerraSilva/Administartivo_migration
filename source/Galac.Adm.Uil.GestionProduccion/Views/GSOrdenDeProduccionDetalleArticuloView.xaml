@@ -34,6 +34,7 @@
             <RowDefinition Height="30" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Label
@@ -130,8 +131,7 @@
         <Label
             Name="lblPorcentajeCostoEstimado"
             Grid.Row="3"
-            Grid.Column="2"
-            Margin="0,0,7,0"
+            Grid.Column="4"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
             Content="% Costo Est."
@@ -140,7 +140,7 @@
         <nsWpfControls:GSNumericBoxWpf
             Name="txtPorcentajeCostoEstimado"
             Grid.Row="3"
-            Grid.Column="3"
+            Grid.Column="5"
             Width="120"
             BorderThickness="1"
             DecimalDigits="8"
@@ -152,8 +152,8 @@
             Value="{Binding Path=PorcentajeCostoEstimado, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         <Label
             Name="lblCantidadProducida"
-            Grid.Row="3"
-            Grid.Column="4"
+            Grid.Row="4"
+            Grid.Column="2"
             Margin="0,0,7,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
@@ -162,8 +162,8 @@
             Visibility="{Binding Path=IsVisibleCantidadProducida, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSNumericBoxWpf
             Name="txtCantidadProducida"
-            Grid.Row="3"
-            Grid.Column="5"
+            Grid.Row="4"
+            Grid.Column="3"
             Width="120"
             BorderThickness="1"
             DecimalDigits="8"
@@ -175,16 +175,16 @@
             Value="{Binding Path=CantidadProducida, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         <Label
             Name="lblPorcentajeCostoCierre"
-            Grid.Row="3"
-            Grid.Column="6"
+            Grid.Row="4"
+            Grid.Column="4"
             HorizontalAlignment="Right"
             Content="% Costo Cierre"
             Style="{StaticResource LabelPrompt}"
             Visibility="{Binding Path=IsVisiblePorcentajeCostoCierre, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSNumericBoxWpf
             Name="txtPorcentajeCostoCierre"
-            Grid.Row="3"
-            Grid.Column="7"
+            Grid.Row="4"
+            Grid.Column="5"
             Width="120"
             BorderThickness="1"
             DecimalDigits="8"
@@ -196,7 +196,7 @@
             Value="{Binding Path=PorcentajeCostoCierre, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         <Label
             Name="lblCantidadMermaNormal"
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.Column="2"
             Margin="0,0,7,0"
             HorizontalAlignment="Right"
@@ -206,7 +206,7 @@
             Visibility="{Binding Path=IsVisibleCantidadMermaNormal, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSNumericBoxWpf
             Name="txtCantidadMermaNormal"
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.Column="3"
             Width="120"
             BorderThickness="1"
@@ -219,9 +219,8 @@
             Value="{Binding Path=CantidadMermaNormal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         <Label
             Name="lblCantidadMermaAnormal"
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.Column="4"
-            Margin="0,0,7,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
             Content="Cant. Merma Anormal"
@@ -229,7 +228,7 @@
             Visibility="{Binding Path=IsVisibleCantidadMermaAnormal, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSNumericBoxWpf
             Name="txtCantidadMermaAnormal"
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.Column="5"
             Width="120"
             BorderThickness="1"

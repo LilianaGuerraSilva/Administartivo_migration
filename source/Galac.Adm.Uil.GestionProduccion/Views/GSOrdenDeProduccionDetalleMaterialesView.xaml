@@ -32,6 +32,7 @@
             <RowDefinition Height="30" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Label
@@ -126,8 +127,6 @@
             Name="lblCantidadReservadaInventario"
             Grid.Row="3"
             Grid.Column="2"
-            Width="110"
-            Margin="0,0,7,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
             Content="Cant. a Consumir"
@@ -148,16 +147,16 @@
             Value="{Binding Path=CantidadReservadaInventario, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         <Label
             Name="lblCantidadConsumida"
-            Grid.Row="3"
-            Grid.Column="4"
+            Grid.Row="4"
+            Grid.Column="2"
             HorizontalAlignment="Right"
             Content="Cant. Consumida"
             Style="{StaticResource LabelPrompt}"
             Visibility="{Binding Path=IsVisibleCantidadConsumida, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSNumericBoxWpf
             Name="txtCantidadConsumida"
-            Grid.Row="3"
-            Grid.Column="5"
+            Grid.Row="4"
+            Grid.Column="3"
             Width="120"
             BorderThickness="1"
             DecimalDigits="8"
@@ -175,14 +174,14 @@
             Style="{StaticResource LabelStatusRed}" />
         <Label
             Name="lblCantidadMermaNormal"
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.Column="2"
             Content="Cant. Merma Normal"
             Style="{StaticResource LabelPrompt}"
             Visibility="{Binding Path=IsVisibleCantidadMermaNormal, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSNumericBoxWpf
             Name="txtCantidadMermaNormal"
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.Column="3"
             Width="120"
             Height="23"
@@ -199,14 +198,14 @@
             Value="{Binding Path=CantidadMermaNormal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         <Label
             Name="lblCantidadMermaAnormal"
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.Column="4"
             Content="Cant. Merma Anormal"
             Style="{StaticResource LabelPrompt}"
             Visibility="{Binding Path=IsVisibleCantidadMermaAnormal, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSNumericBoxWpf
             Name="txtCantidadMermaAnormal"
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.Column="5"
             Width="120"
             BorderThickness="1"
