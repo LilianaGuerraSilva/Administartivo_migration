@@ -269,13 +269,13 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 { "impuestog", LibMath.Abs(FacturaImprentaDigital.MontoIvaAlicuota1) },
                 { "tasaa", FacturaImprentaDigital.PorcentajeAlicuota2 },
                 { "basea", LibMath.Abs(FacturaImprentaDigital.MontoGravableAlicuota2) },
-                { "impuestoa", FacturaImprentaDigital.MontoIvaAlicuota2 },
+                { "impuestoa", LibMath.Abs(FacturaImprentaDigital.MontoIvaAlicuota2) },
                 { "tasar", FacturaImprentaDigital.PorcentajeAlicuota3 },
                 { "baser", LibMath.Abs(FacturaImprentaDigital.MontoGravableAlicuota3) },
-                { "impuestor", FacturaImprentaDigital.MontoIvaAlicuota3 },
+                { "impuestor", LibMath.Abs(FacturaImprentaDigital.MontoIvaAlicuota3) },
                 { "tasaigtf", FacturaImprentaDigital.AlicuotaIGTF },
                 { "baseigtf", LibMath.Abs(FacturaImprentaDigital.BaseImponibleIGTF) },
-                { "impuestoigtf", FacturaImprentaDigital.IGTFML },
+                { "impuestoigtf", LibMath.Abs(FacturaImprentaDigital.IGTFML) },
                 { "total", LibMath.Abs(FacturaImprentaDigital.TotalFactura + FacturaImprentaDigital.IGTFML) },
                 {"sendmail", 1}, // Siempre Envia Email
                 //{"sucursal", ""}, // No Aplica
@@ -340,16 +340,17 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                         string vRollo = LibString.S1IsEqualToS2(vDetalle.Rollo, "0") ? "" : vDetalle.Rollo;
                         string vInfoAdicional = string.Empty;
                         decimal vCantidad = (TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito && FacturaImprentaDigital.GeneradoPorAsEnum == eFacturaGeneradaPor.AjusteIGTF && vDetalle.Cantidad == 0) ? 1 : LibMath.Abs(vDetalle.Cantidad);
-                        decimal valorDescuento = LibMath.Abs(LibMath.RoundToNDecimals((vDetalle.PorcentajeDescuento * vDetalle.PrecioSinIVA * vDetalle.Cantidad) / 100, 2));
-                        decimal vMontoItem = LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.PrecioSinIVA * vDetalle.Cantidad, 2) - valorDescuento);
-                        decimal vIva = LibMath.RoundToNDecimals(vMontoItem * vDetalle.PorcentajeAlicuota / 100, 2);
+                        decimal vPorcentajeBaseImponible = vDetalle.PorcentajeBaseImponible == 0 ? 1 : vDetalle.PorcentajeBaseImponible;
+                        decimal valorDescuento = LibMath.Abs(LibMath.RoundToNDecimals((vDetalle.PorcentajeDescuento * vDetalle.PrecioSinIVA * vCantidad) / 100, 2));
+                        decimal vMontoItem = LibMath.Abs(vDetalle.TotalRenglon);
+                        decimal vIva = LibMath.RoundToNDecimals(vMontoItem * vDetalle.PorcentajeAlicuota / vPorcentajeBaseImponible, 2);
                         JObject vElement = new JObject() {
                         {"codigo", vDetalle.Articulo},
                         {"descripcion", vDetalle.Descripcion},
                         {"precio", vDetalle.PrecioSinIVA},
                         {"cantidad", vCantidad},
                         {"tasa", vDetalle.PorcentajeAlicuota},
-                        {"impuesto", LibMath.Abs(LibMath.RoundToNDecimals((vDetalle.PorcentajeAlicuota * vDetalle.PrecioSinIVA * vDetalle.Cantidad) / 100, 2))},
+                        {"impuesto", vIva},
                         {"descuento", valorDescuento},
                         {"exento", vDetalle.AlicuotaIvaAsEnum == eTipoDeAlicuota.Exento ? true : false},
                         {"monto", vMontoItem},
@@ -367,7 +368,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                         vDetalleFactura.Add(vElement);
                     }
                 }
-            }            
+            }
             return vDetalleFactura;
         }
         #endregion Detalle RenglonFactura      
