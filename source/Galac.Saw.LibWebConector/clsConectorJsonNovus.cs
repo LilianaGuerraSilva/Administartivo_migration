@@ -59,7 +59,7 @@ namespace Galac.Saw.LibWebConnector {
                             resultados = new stRespuestaTF() {
                                 numeroControl = vReqsNV.data.Value.numerodocumento,
                                 fechaAsignacion = vReqsNV.data.Value.fecha
-                            }
+                            }                            
                         };
                         return vReqs;
                     } else if (LibString.S1IsEqualToS2(vReqsNV.error.Value.code, "1")) {
@@ -75,8 +75,7 @@ namespace Galac.Saw.LibWebConnector {
                     } else {
                         vReqs.mensaje = vReqsNV.error.Value.message;
                     }
-                    vReqs.mensaje = vResultMessage + vReqs.mensaje;
-                    GeneraLogDeErrores(vReqs.mensaje, valJsonStr);
+                    GeneraLogDeErrores(vResultMessage + vReqs.mensaje, valJsonStr);
                     throw new Exception(vReqs.mensaje);
                 }
             } catch (AggregateException vEx) {
