@@ -15,7 +15,7 @@ namespace Galac.Saw.LibWebConnector {
             Token = string.Empty;
         }
 
-        public override bool CheckConnection(ref string refMensaje, string valComandoApi) {            
+        public override bool CheckConnection(ref string refMensaje, string valComandoApi) {
             try {
                 bool vResult = true;
                 Token = LoginUser.Password;
@@ -29,7 +29,7 @@ namespace Galac.Saw.LibWebConnector {
 
         public override stPostResq SendPostJson(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", int valTipoDocumento = 0) {
             string vResultMessage = "";
-            string vMensajeDeValidacion = "";
+            //string vMensajeDeValidacion = "";
             stPostResq vReqs = new stPostResq();
             try {
                 strTipoDocumento = (valTipoDocumento == 8 ? "Nota de Entrega" : valTipoDocumento == 1 ? "Nota de Crédito" : valTipoDocumento == 2 ? "Nota de Débito" : "Factura");
@@ -47,11 +47,11 @@ namespace Galac.Saw.LibWebConnector {
                     vHttpRespMsg.Result.EnsureSuccessStatusCode();
                 }
                 if (vHttpRespMsg.Result.Content is null) {
-                    throw new Exception("Usuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.");
+                    throw new Exception("Revise su conexión a Internet, Revise que la URL del servicio sea la correcta.");
                 } else {
                     Task<string> HttpResq = vHttpRespMsg.Result.Content.ReadAsStringAsync();
                     HttpResq.Wait();
-                    stRespuestaNV vReqsNV = JsonConvert.DeserializeObject<stRespuestaNV>(HttpResq.Result.ToString());                   
+                    stRespuestaNV vReqsNV = JsonConvert.DeserializeObject<stRespuestaNV>(HttpResq.Result.ToString());
                     if (vReqsNV.success) {
                         vReqs = new stPostResq() {
                             Aprobado = vReqsNV.success,
@@ -75,20 +75,19 @@ namespace Galac.Saw.LibWebConnector {
                     } else {
                         vReqs.mensaje = vReqsNV.error.Value.message;
                     }
-                    vMensajeDeValidacion = vReqs.mensaje;
-                    GeneraLogDeErrores(vMensajeDeValidacion, vResultMessage, valJsonStr);
-                    throw new Exception(vMensajeDeValidacion);
+                    vReqs.mensaje = vResultMessage + vReqs.mensaje;
+                    GeneraLogDeErrores(vReqs.mensaje, valJsonStr);
+                    throw new Exception(vReqs.mensaje);
                 }
             } catch (AggregateException vEx) {
                 string vMensaje = vEx.InnerException.InnerException.Message;
                 if (vEx.InnerException.InnerException.HResultPublic() == -2146233079) {
-                    vMensaje = vMensaje + "\r\nRevise que URL del servicio sea la correcta, Revise su conexión a Internet";
+                    vMensaje = vMensaje + "\r\nRevise su conexión a Internet, Revise que la URL del servicio sea la correcta.";
                 }
                 throw new Exception(vMensaje);
             } catch (Exception vEx) {
                 throw vEx;
             }
         }
-
     }
 }

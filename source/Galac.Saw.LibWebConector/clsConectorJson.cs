@@ -67,14 +67,14 @@ namespace Galac.Saw.LibWebConnector {
             return vResult;
         }
 
-        public void GeneraLogDeErrores(string vMensajeError, string valMensajeResultado, string valJSon) {
+        public void GeneraLogDeErrores(string valMensajeResultado, string valJSon) {
             try {
                 string vPath = Path.Combine(LibDirectory.GetProgramFilesGalacDir(), Path.Combine(LibDefGen.ProgramInfo.ProgramInitials, "ImprentaDigital"));
                 if (!LibDirectory.DirExists(vPath)) {
                     LibDirectory.CreateDir(vPath);
                 }
                 vPath = vPath + @"\ImprentaDigitalResult.txt";
-                LibFile.WriteLineInFile(vPath, vMensajeError + "\r\n" + valMensajeResultado + "\r\n" + valJSon, false);
+                LibFile.WriteLineInFile(vPath, valMensajeResultado + "\r\n" + valJSon, false);
             } catch (Exception) {
                 throw;
             }

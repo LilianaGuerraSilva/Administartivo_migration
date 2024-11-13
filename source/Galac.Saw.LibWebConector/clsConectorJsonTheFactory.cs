@@ -9,6 +9,7 @@ using LibGalac.Aos.DefGen;
 using Newtonsoft.Json.Linq;
 using System.Linq;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 
 namespace Galac.Saw.LibWebConnector {
     public class clsConectorJsonTheFactory: clsConectorJson {
@@ -61,7 +62,9 @@ namespace Galac.Saw.LibWebConnector {
                     vHttpRespMsg.Result.EnsureSuccessStatusCode();
                 }
                 if (vHttpRespMsg.Result.Content is null) {
-                    throw new Exception("Usuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.");
+                    throw new Exception("Revise su conexión a Internet, Revise que la URL del servicio sea la correcta.");
+                }else if (vHttpRespMsg.Result.StatusCode== System.Net.HttpStatusCode.Unauthorized) {
+                    throw new Exception(vHttpRespMsg.Result.ReasonPhrase+ "\r\nToken Expirado.");
                 } else {
                     Task<string> HttpResq = vHttpRespMsg.Result.Content.ReadAsStringAsync();
                     HttpResq.Wait();
@@ -72,6 +75,7 @@ namespace Galac.Saw.LibWebConnector {
                     }
                     if (LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {
                         infoReqs.Aprobado = true;
+                        return infoReqs;
                     } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "403")) {
                         infoReqs.mensaje = vMensajeDeValidacion + "\r\nUsuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.";
                         infoReqs.Aprobado = false;
@@ -80,28 +84,24 @@ namespace Galac.Saw.LibWebConnector {
                         infoReqs.mensaje = vMensajeDeValidacion + "\r\n" + strTipoDocumento + " ya existe en la Imprenta Digital.";
                     } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "203")) {
                         infoReqs.Aprobado = false;
-                        infoReqs.mensaje = vMensajeDeValidacion + "\r\n" + strTipoDocumento + " no pudo ser enviado a la Imprenta Digital, debe sincronizar el documento.";
-                    } else if (!LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {
-                        throw new Exception(vMensajeDeValidacion);
+                        infoReqs.mensaje = infoReqs.mensaje +".\r\n"+ vMensajeDeValidacion + "\r\n" + strTipoDocumento + " no pudo ser enviado a la Imprenta Digital, debe sincronizar el documento.";
+                    } else if (!LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {                        
+                        infoReqs.Aprobado = false;
+                        infoReqs.mensaje = vMensajeDeValidacion+ "\r\n." + strTipoDocumento + " no pudo ser enviado a la Imprenta Digital, debe sincronizar el documento.";
                     }
+                    infoReqs.mensaje = vResultMessage + infoReqs.mensaje;
+                    GeneraLogDeErrores(infoReqs.mensaje, valJsonStr);
+                    throw new Exception(infoReqs.mensaje);
                 }
             } catch (AggregateException vEx) {
-                throw new Exception(vEx.InnerException.InnerException.Message);           
+                string vMensaje = vEx.InnerException.InnerException.Message;
+                if (vEx.InnerException.InnerException.HResultPublic() == -2146233079) {
+                    vMensaje = vMensaje + "\r\nRevise su conexión a Internet, Revise que la URL del servicio sea la correcta.\r\nDebe sincronizar el documento.";
+                }
+                throw new Exception(vMensaje); throw new Exception(vEx.InnerException.InnerException.Message);           
             } catch (Exception vEx) {
-                infoReqs.Aprobado = false;
-                infoReqs.mensaje = vEx.Message;
-                //string vPath = LibDirectory.GetProgramFilesGalacDir() + "\\" + LibDefGen.ProgramInfo.ProgramInitials + "\\ImprentaDigital";
-                //if (!LibDirectory.DirExists(vPath)) {
-                //    LibDirectory.CreateDir(vPath);
-                //}
-                //vPath = vPath + @"\ImprentaDigitalResult.txt";
-                //LibFile.WriteLineInFile(vPath, vEx.Message + "\r\n" + vResultMessage + "\r\n" + valJsonStr, false);
-                //infoReqs.Aprobado = false;
-                //infoReqs.mensaje = strTipoDocumento + " no pudo ser enviada a la Imprenta Digital, debe sincronizar el documento.";
-            } finally {
-                GeneraLogDeErrores(vMensajeDeValidacion, infoReqs.mensaje, valJsonStr);
-            }
-            return infoReqs;
+                throw vEx;                
+            }            
         }
     }
 }
