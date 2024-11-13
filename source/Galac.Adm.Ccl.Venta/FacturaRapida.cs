@@ -120,6 +120,7 @@ namespace Galac.Adm.Ccl.Venta {
         private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private decimal _CambioMostrarTotalEnDivisas;
+        private decimal _CambioMonedaCXC;
         private string _CodigoMonedaDeCobro;
         private string _NombreMonedaDeCobro;
         private DateTime _FechaLimiteCambioAMonedaLocal;
@@ -917,6 +918,11 @@ namespace Galac.Adm.Ccl.Venta {
             set { _CambioMostrarTotalEnDivisas = value == 0 ? 1 : value; }
         }
 
+        public decimal CambioMonedaCXC {
+            get { return _CambioMonedaCXC; }
+            set { _CambioMonedaCXC = value == 0 ? 1 : value; }
+        }
+
         public string CodigoMonedaDeCobro {
             get { return _CodigoMonedaDeCobro; }
             set { _CodigoMonedaDeCobro = value; }
@@ -1097,6 +1103,7 @@ namespace Galac.Adm.Ccl.Venta {
             NombreOperador = string.Empty;
             FechaUltimaModificacion = LibDate.Today();
             CambioMostrarTotalEnDivisas = 1;
+            CambioMonedaCXC = 1;
             CodigoMonedaDeCobro = string.Empty;
             NombreMonedaDeCobro = string.Empty;
             FechaLimiteCambioAMonedaLocal = LibDate.Today();
@@ -1217,6 +1224,7 @@ namespace Galac.Adm.Ccl.Venta {
             vResult.AplicaDecretoIvaEspecialAsBool = _AplicaDecretoIvaEspecial;
             vResult.EsGeneradaPorPuntoDeVentaAsBool = _EsGeneradaPorPuntoDeVenta;
             vResult.CambioMostrarTotalEnDivisas = _CambioMostrarTotalEnDivisas;
+            vResult.CambioMonedaCXC = _CambioMonedaCXC;
             vResult.CodigoMonedaDeCobro = _CodigoMonedaDeCobro;
             vResult.NombreMonedaDeCobro = _NombreMonedaDeCobro;
             vResult.BaseImponibleIGTF = _BaseImponibleIGTF;
@@ -1343,6 +1351,7 @@ namespace Galac.Adm.Ccl.Venta {
                 "\nAplica Decreto Iva Especial = " + _AplicaDecretoIvaEspecial +
                 "\nEs Generada Por Punto De Venta = " + _EsGeneradaPorPuntoDeVenta +
                 "\nCambio Mostrar Total en Divisas = " + _CambioMostrarTotalEnDivisas +
+                "\nCambio Moneda CxC = " + _CambioMonedaCXC +                
                 "\nCodigo Moneda de Cobro = " + _CodigoMonedaDeCobro +
                 "\nBase Imponible IGTF = " + _BaseImponibleIGTF.ToString() +
                "\nI GTFML = " + _IGTFML.ToString() +
