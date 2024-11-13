@@ -849,6 +849,52 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             return vResult;
         }
 
+        public string NumeroDocumento() {
+            string vResult = FacturaImprentaDigital.Numero;
+            if (FacturaImprentaDigital.TipoDeDocumentoAsEnum == eTipoDocumentoFactura.Factura) {
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios")) {
+                    vResult = LibString.SubString(vResult, LibString.IndexOf(vResult, '.') + 1);
+                }
+            }
+            return vResult;
+        }
+
+        public string SerieDocumento() {
+            string vResult = string.Empty;
+            if (FacturaImprentaDigital.TipoDeDocumentoAsEnum == eTipoDocumentoFactura.Factura) {
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios")) {
+                    vResult = LibString.Left(FacturaImprentaDigital.Numero, LibString.IndexOf(FacturaImprentaDigital.Numero, '.'));
+                }
+            }
+            return vResult;
+        }
+
+        public string NumeroDocumentoFacturaAfectada() {
+            string vResult = LibString.Replace(FacturaImprentaDigital.NumeroFacturaAfectada, "-", "");
+            if (FacturaImprentaDigital.TipoDeDocumentoAsEnum != eTipoDocumentoFactura.Factura) {
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios")) {
+                    int vPosPunto = LibString.IndexOf(vResult, '.');
+                    if (vPosPunto >= 0) {
+                        vResult = LibString.SubString(vResult, vPosPunto + 1);
+                    }
+                }
+            }
+            return vResult;
+        }
+
+        public string SerieDocumentoFacturaAfectada() {
+            string vResult = "";
+            if (FacturaImprentaDigital.TipoDeDocumentoAsEnum != eTipoDocumentoFactura.Factura) {
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios")) {
+                    int vPosPunto = LibString.IndexOf(FacturaImprentaDigital.NumeroFacturaAfectada, '.');
+                    if (vPosPunto >= 0) {
+                        vResult = LibString.Left(FacturaImprentaDigital.NumeroFacturaAfectada, vPosPunto);
+                    }
+                }
+            }
+            return vResult;
+        }
+
         private eTipoDeTransaccion TipoDocumentoFacturaToTipoTransaccionCxC(eTipoDocumentoFactura valTipoDocumentoFactura) {
             eTipoDeTransaccion vTipoCxc = eTipoDeTransaccion.FACTURA;
             switch (valTipoDocumentoFactura) {
@@ -873,7 +919,6 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             }
             return vTipoCxc;
         }      
-
         public abstract bool EnviarDocumento();
         public abstract bool EnviarDocumentoPorEmail(string valEmail);
         public abstract bool AnularDocumento();
