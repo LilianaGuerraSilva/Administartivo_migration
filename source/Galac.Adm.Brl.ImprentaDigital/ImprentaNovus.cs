@@ -34,7 +34,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             try {
                 bool vResult = false;
                 ObtenerDatosDocumentoEmitido();
-                if (!LibString.IsNullOrEmpty(FacturaImprentaDigital.NumeroControl)) {
+                if (LibString.IsNullOrEmpty(FacturaImprentaDigital.NumeroControl)) {
                     if (FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Emitida) {
                         vResult = EnviarDocumento();
                     }
