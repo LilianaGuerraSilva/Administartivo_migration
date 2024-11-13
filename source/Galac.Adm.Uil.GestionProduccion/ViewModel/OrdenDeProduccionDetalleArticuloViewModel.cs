@@ -542,7 +542,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         public bool IsEnabledMerma {
-            get { return Master.Action == eAccionSR.Cerrar; }
+            get { return Master.Action == eAccionSR.Cerrar && (MermaTotalSalida >= 0); }
         }
 
         #endregion //Propiedades
@@ -704,7 +704,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         public void CantMermaNormal() {
-            if ((CantidadSolicitada - CantidadProducida) >= 0) {
+            if (MermaTotalSalida >= 0) {
                 CantidadMermaNormal = LibMath.RoundToNDecimals(CantidadSolicitada * (PorcentajeMermaNormalOriginal / 100),8);
                 PorcentajeMermaNormal = LibMath.RoundToNDecimals(CantidadMermaNormal * (100 / CantidadSolicitada),8);
             } else {
@@ -716,8 +716,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         public void CantMermaAnormal() {
-            if ((CantidadSolicitada - CantidadProducida) >= 0 && ((CantidadSolicitada - CantidadProducida) - CantidadMermaNormal) > 0) {
-                CantidadMermaAnormal = LibMath.RoundToNDecimals((CantidadProducida - CantidadSolicitada) - CantidadMermaNormal ,8);
+            if (MermaTotalSalida >= 0 && (MermaTotalSalida - CantidadMermaNormal) > 0) {
+                CantidadMermaAnormal = LibMath.RoundToNDecimals(MermaTotalSalida - CantidadMermaNormal, 8);
                 PorcentajeMermaAnormal = LibMath.RoundToNDecimals(CantidadMermaAnormal * (100 / CantidadSolicitada),8);
             } else {
                 CantidadMermaAnormal = 0;
@@ -726,6 +726,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             RaisePropertyChanged(CantidadMermaAnormalPropertyName);
             RaisePropertyChanged(() => IsEnabledMerma);
         }
+
+        decimal MermaTotalSalida { get { return CantidadSolicitada - CantidadProducida; } }
 
     } //End of class OrdenDeProduccionDetalleArticuloViewModel
 
