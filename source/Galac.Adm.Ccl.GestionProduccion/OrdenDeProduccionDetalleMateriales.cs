@@ -34,6 +34,11 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         private string _CodigoLote;
         private DateTime _FechaDeElaboracion;
         private DateTime _FechaDeVencimiento;
+		private decimal _PorcentajeMermaNormalOriginal;
+        private decimal _CantidadMermaNormal;
+        private decimal _PorcentajeMermaNormal;
+        private decimal _CantidadMermaAnormal;
+        private decimal _PorcentajeMermaAnormal;
         #endregion //Variables
         #region Propiedades
 
@@ -182,9 +187,46 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             get { return _FechaDeVencimiento; }
             set { _FechaDeVencimiento = value; }
         }
+		
+		public decimal PorcentajeMermaNormalOriginal {
+            get { return _PorcentajeMermaNormalOriginal; }
+            set { 
+                _PorcentajeMermaNormalOriginal = value;
+                OnPropertyChanged("PorcentajeMermaNormalOriginal");
+            }
+        }
 
+        public decimal CantidadMermaNormal {
+            get { return _CantidadMermaNormal; }
+            set { 
+                _CantidadMermaNormal = value;
+                OnPropertyChanged("CantidadMermaNormal");
+            }
+        }
 
+        public decimal PorcentajeMermaNormal {
+            get { return _PorcentajeMermaNormal; }
+            set { 
+                _PorcentajeMermaNormal = value;
+                OnPropertyChanged("PorcentajeMermaNormal");
+            }
+        }
 
+        public decimal CantidadMermaAnormal {
+            get { return _CantidadMermaAnormal; }
+            set { 
+                _CantidadMermaAnormal = value;
+                OnPropertyChanged("CantidadMermaAnormal");
+            }
+        }
+
+        public decimal PorcentajeMermaAnormal {
+            get { return _PorcentajeMermaAnormal; }
+            set { 
+                _PorcentajeMermaAnormal = value;
+                OnPropertyChanged("PorcentajeMermaAnormal");
+            }
+        }
         #endregion //Propiedades
         #region Constructores
 
@@ -218,6 +260,11 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             AjustadoPostCierreAsBool = false;
             CantidadAjustada = 0;
             TipoDeArticuloAsEnum = eTipoDeArticulo.Mercancia;
+            PorcentajeMermaNormalOriginal = 0;
+            CantidadMermaNormal = 0;
+            PorcentajeMermaNormal = 0;
+            CantidadMermaAnormal = 0;
+            PorcentajeMermaAnormal = 0;
         }
 
         public OrdenDeProduccionDetalleMateriales Clone() {
@@ -240,6 +287,11 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             vResult.MontoSubtotal = _MontoSubtotal;
             vResult.AjustadoPostCierreAsBool = _AjustadoPostCierre;
             vResult.CantidadAjustada = _CantidadAjustada;
+            vResult.PorcentajeMermaNormalOriginal = _PorcentajeMermaNormalOriginal;
+            vResult.CantidadMermaNormal = _CantidadMermaNormal;
+            vResult.PorcentajeMermaNormal = _PorcentajeMermaNormal;
+            vResult.CantidadMermaAnormal = _CantidadMermaAnormal;
+            vResult.PorcentajeMermaAnormal = _PorcentajeMermaAnormal;
             return vResult;
         }
 
@@ -257,7 +309,12 @@ namespace Galac.Adm.Ccl.GestionProduccion {
                "\nCosto Unitario En Moneda Extranjera Articulo Inventario = " + _CostoUnitarioMEArticuloInventario.ToString() +
                "\nMonto Subtotal = " + _MontoSubtotal.ToString() +
                "\nAjusta por Cierre = " + _AjustadoPostCierre +
-               "\nCantidad Ajustada = " + _CantidadAjustada.ToString();
+               "\nCantidad Ajustada = " + _CantidadAjustada.ToString() +
+               "\n%MermaOriginal = " + _PorcentajeMermaNormalOriginal.ToString() +
+               "\nMerma Normal = " + _CantidadMermaNormal.ToString() +
+               "\n%Merma Normal = " + _PorcentajeMermaNormal.ToString() +
+               "\nMerma Anormal = " + _CantidadMermaAnormal.ToString() +
+               "\n%MermaAnormal = " + _PorcentajeMermaAnormal.ToString();
         }
 
         #region Miembros de IEquatable<OrdenDeProduccionDetalleMateriales>

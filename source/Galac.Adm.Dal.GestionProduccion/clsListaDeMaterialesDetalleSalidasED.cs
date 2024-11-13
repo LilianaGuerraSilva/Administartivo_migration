@@ -47,8 +47,8 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("CodigoArticuloInventario" + InsSql.VarCharTypeForDb(30) + " CONSTRAINT d_LisDeMatDetSalCoArIn DEFAULT (''), ");
             SQL.AppendLine("Cantidad" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT nnLisDeMatDetSalCantidad NOT NULL, ");
             SQL.AppendLine("PorcentajeDeCosto" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT nnLisDeMatDetSalPorcentaje NOT NULL, ");
-            SQL.AppendLine("MermaNormal" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT nnLisDeMatDetSalMermaNorma DEFAULT (0), ");
-            SQL.AppendLine("PorcentajeMermaNormal" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT nnLisDeMatDetSalPorcentaje DEFAULT (0), ");
+            SQL.AppendLine("MermaNormal" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT d_LisDeMatDetSalMeNo DEFAULT (0), ");
+            SQL.AppendLine("PorcentajeMermaNormal" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT d_LisDeMatDetSalPoMeNo DEFAULT (0), ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
             SQL.AppendLine("CONSTRAINT p_ListaDeMaterialesDetalleSalidas PRIMARY KEY CLUSTERED");
             SQL.AppendLine("(ConsecutivoCompania ASC, ConsecutivoListaDeMateriales ASC, Consecutivo ASC)");

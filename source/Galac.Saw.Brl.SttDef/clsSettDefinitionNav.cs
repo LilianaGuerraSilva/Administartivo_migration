@@ -121,7 +121,7 @@ namespace Galac.Saw.Brl.SttDef {
             int vResult = 0;
             StringBuilder vSql = new StringBuilder();
             LibGpParams vParametro = new LibGpParams();
-            vSql.AppendLine("Select COUNT(*) AS Cantidad FROM Comun.Gv_SettDefinition_B1");
+            vSql.AppendLine("Select COUNT(*) AS Cantidad FROM Comun.Gv_SettDefinition_B1 WHERE Name NOT IN ('SolicitarIngresoDeTasaDeCambioAlEmitir')");
             ILibDataComponent<IList<SettDefinition>, IList<SettDefinition>> instanciaDal = new Galac.Saw.Dal.SttDef.clsSettDefinitionDat();
             XElement vResulset = instanciaDal.QueryInfo(eProcessMessageType.Query, vSql.ToString(), vParametro.Get());
             vResult = (from vRecord in vResulset.Descendants("GpResult")

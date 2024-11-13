@@ -74,8 +74,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             string vMensaje = string.Empty;
             bool vChekConeccion;
             string vDocumentoJSON;
-            try {
-                string vSerie = LibAppSettings.ReadAppSettingsKey("SERIE");
+            try {                
                 if (LibString.IsNullOrEmpty(_ConectorJson.Token)) {
                     ObtenerDatosDocumentoEmitido();
                     vChekConeccion = _ConectorJson.CheckConnection(ref vMensaje, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion));
@@ -83,9 +82,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     vChekConeccion = true;
                 }
                 stSolicitudDeConsulta vJsonDeConsulta = new stSolicitudDeConsulta() {
-                    Serie = vSerie,
+                    Serie = SerieDocumento(),
                     TipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum),
-                    NumeroDocumento = NumeroFactura
+                    NumeroDocumento = NumeroDocumento()
                 };
                 if (vChekConeccion) {
                     vDocumentoJSON = clsConectorJson.SerializeJSON(vJsonDeConsulta);//Construir XML o JSON Con datos 
@@ -109,8 +108,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }
 
         public override bool AnularDocumento() {
-            try {
-                string vSerie = LibAppSettings.ReadAppSettingsKey("SERIE");
+            try {               
                 bool vResult = false;
                 stPostResq vRespuestaConector = new stPostResq();
                 bool vDocumentoExiste = EstadoDocumento();
@@ -120,9 +118,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 if (vDocumentoExiste) {
                     if (!LibString.S1IsEqualToS2(EstatusDocumento, "Anulada")) {
                         stSolicitudDeAccion vSolicitudDeAnulacion = new stSolicitudDeAccion() {
-                            Serie = vSerie,
+                            Serie = SerieDocumento(),
                             TipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum),
-                            NumeroDocumento = NumeroFactura,
+                            NumeroDocumento = NumeroDocumento(),
                             MotivoAnulacion = FacturaImprentaDigital.MotivoDeAnulacion
                         };
                         string vDocumentoJSON = clsConectorJson.SerializeJSON(vSolicitudDeAnulacion); //Construir XML o JSON Con datos                         
@@ -205,33 +203,80 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vDocumentoDigital.Element("encabezado").Add(vTotales);
             vDocumentoDigital.Element("encabezado").Add(vTotalesME);
             vDocumentoDigital.Add(vDetalleFactura);
-            vDocumentoDigital.Add(vObservaciones);
+            vDocumentoDigital.Add(vObservaciones);           
         }
         #endregion Construye  Documento
         #region Identificacion de Documento
-        private XElement GetIdentificacionDocumento() {
-            string vSerie = LibAppSettings.ReadAppSettingsKey("SERIE");
+
+        private string NumeroDocumento() {
+            string vResult = FacturaImprentaDigital.Numero;
+            if (FacturaImprentaDigital.TipoDeDocumentoAsEnum == eTipoDocumentoFactura.Factura) {
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios")) {
+                    vResult = LibString.SubString(vResult, LibString.IndexOf(vResult, '.') + 1);
+                }
+            }
+            return vResult;
+        }
+
+
+        private string SerieDocumento() {
+            string vResult = string.Empty;
+            if (FacturaImprentaDigital.TipoDeDocumentoAsEnum == eTipoDocumentoFactura.Factura) {
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios")) {
+                    vResult = LibString.Left(FacturaImprentaDigital.Numero, LibString.IndexOf(FacturaImprentaDigital.Numero, '.'));
+                }
+            }
+            return vResult;
+        }
+
+        private string NumeroDocumentoFacturaAfectada() {
+            string vResult = LibString.Replace(FacturaImprentaDigital.NumeroFacturaAfectada, "-", "");
+            if (FacturaImprentaDigital.TipoDeDocumentoAsEnum != eTipoDocumentoFactura.Factura) {
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios")) {
+                    int vPosPunto = LibString.IndexOf(vResult, '.');
+                    if (vPosPunto >= 0) {
+                        vResult = LibString.SubString(vResult, vPosPunto + 1);
+                    }
+                }
+            }
+            return vResult;
+        }
+
+        private string SerieDocumentoFacturaAfectada() {
+            string vResult = "";
+            if (FacturaImprentaDigital.TipoDeDocumentoAsEnum != eTipoDocumentoFactura.Factura) {
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios")) {
+                    int vPosPunto = LibString.IndexOf(FacturaImprentaDigital.NumeroFacturaAfectada, '.');
+                    if (vPosPunto >= 0) {
+                        vResult = LibString.Left(FacturaImprentaDigital.NumeroFacturaAfectada, vPosPunto);
+                    }
+                }
+            }
+            return vResult;
+        }
+
+        private XElement GetIdentificacionDocumento() {            
             string vHoraEmision = LibConvert.ToStrOnlyForHour(LibConvert.ToDate(FacturaImprentaDigital.HoraModificacion), "hh:mm:ss tt");
             vHoraEmision = LibString.Replace(vHoraEmision, ". ", "");
             vHoraEmision = LibString.Replace(vHoraEmision, "\u00A0", ""); // Caracter No imprimible que agrega el formato de hora de Windows para alguna config regional
             vHoraEmision = LibString.Replace(vHoraEmision, ".", "");
             XElement vResult = new XElement("identificacionDocumento",
                     new XElement("TipoDocumento", GetTipoDocumento(_TipoDeDocumento)),
-                    new XElement("numeroDocumento", FacturaImprentaDigital.Numero),
+                    new XElement("numeroDocumento", NumeroDocumento()),
                     new XElement("tipoproveedor", _TipoDeProveedor),
                     new XElement("tipoTransaccion", GetTipoTransaccion(FacturaImprentaDigital.TipoDeTransaccionAsEnum)),
                     new XElement("fechaEmision", LibConvert.ToStr(FacturaImprentaDigital.Fecha)),
                     new XElement("horaEmision", vHoraEmision),
                     //new XElement("anulado", false),
                     new XElement("tipoDePago", GetTipoDePago(FacturaImprentaDigital.FormaDePagoAsEnum)),
-                    new XElement("serie", vSerie),
+                    new XElement("serie", SerieDocumento()),
                     new XElement("sucursal", ""),
                     new XElement("tipoDeVenta", LibEnumHelper.GetDescription(eTipoDeVenta.Interna)),
                     new XElement("moneda", FacturaImprentaDigital.CodigoMoneda));
             if (_TipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito || _TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito) {
                 vResult.Add(new XElement("fechaFacturaAfectada", LibConvert.ToStr(FacturaImprentaDigital.FechaDeFacturaAfectada)));
-                vResult.Add(new XElement("numeroFacturaAfectada", LibString.Replace(FacturaImprentaDigital.NumeroFacturaAfectada, "-","")));
-                vResult.Add(new XElement("serieFacturaAfectada", vSerie));
+                vResult.Add(new XElement("numeroFacturaAfectada", NumeroDocumentoFacturaAfectada()));
+                vResult.Add(new XElement("serieFacturaAfectada", SerieDocumentoFacturaAfectada()));
                 vResult.Add(new XElement("montoFacturaAfectada", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura, 2))));
                 vResult.Add(new XElement("comentarioFacturaAfectada", FacturaImprentaDigital.Observaciones));
             }

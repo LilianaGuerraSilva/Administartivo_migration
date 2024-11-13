@@ -10,6 +10,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
           int Consecutivo { get; set; }
           string Codigo { get; set; }
           DateTime FechaCreacion { get; set; }
+          bool ManejaMerma {  get; set; }
         #endregion //Propiedades
 
 
