@@ -63,15 +63,15 @@ namespace Galac.Saw.LibWebConnector {
                         };
                         return vReqs;
                     } else if (LibString.S1IsEqualToS2(vReqsNV.error.Value.code, "1")) {
-                        vReqs.mensaje = vReqsNV.error.Value.message + " \r\nPor favor verifique los datos de conexión con su Imprenta Digital.";
+                        vReqs.mensaje = vReqsNV.error.Value.message + ".\r\nPor favor verifique los datos de conexión con su Imprenta Digital.";
                     } else if (LibString.S1IsEqualToS2(vReqsNV.error.Value.code, "2")) {
-                        vReqs.mensaje = vReqsNV.error.Value.message + " \r\nPor favor verifique los datos del documento.";
+                        vReqs.mensaje = vReqsNV.error.Value.message + ".\r\nPor favor verifique los datos del documento.";
                     } else if (LibString.S1IsEqualToS2(vReqsNV.error.Value.code, "3")) {
-                        vReqs.mensaje = vReqsNV.error.Value.message + " \r\nPor favor verifique los datos de conexión con su Imprenta Digital.";
+                        vReqs.mensaje = vReqsNV.error.Value.message + ".\r\nPor favor verifique los datos de conexión con su Imprenta Digital.";
                     } else if (LibString.S1IsEqualToS2(vReqsNV.error.Value.code, "4")) {
-                        vReqs.mensaje = vReqsNV.error.Value.message + " \r\nPor favor verifique los datos del documento.";
+                        vReqs.mensaje = vReqsNV.error.Value.message + ".\r\nPor favor verifique los datos del documento.";
                     } else if (LibString.S1IsEqualToS2(vReqsNV.error.Value.code, "5")) {
-                        vReqs.mensaje = vReqsNV.error.Value.message + " \r\nPor favor verifique los datos del documento.";
+                        vReqs.mensaje = vReqsNV.error.Value.message + ".\r\nPor favor verifique los datos del documento.";
                     } else {
                         vReqs.mensaje = vReqsNV.error.Value.message;
                     }

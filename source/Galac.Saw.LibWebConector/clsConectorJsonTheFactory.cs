@@ -84,10 +84,10 @@ namespace Galac.Saw.LibWebConnector {
                         infoReqs.mensaje = vMensajeDeValidacion + "\r\n" + strTipoDocumento + " ya existe en la Imprenta Digital.";
                     } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "203")) {
                         infoReqs.Aprobado = false;
-                        infoReqs.mensaje = infoReqs.mensaje +".\r\n"+ vMensajeDeValidacion + "\r\n" + strTipoDocumento + " no pudo ser enviado a la Imprenta Digital, debe sincronizar el documento.";
+                        infoReqs.mensaje = infoReqs.mensaje +".\r\n"+ vMensajeDeValidacion + ".\r\n" + strTipoDocumento + " no pudo ser enviada a la Imprenta Digital, debe sincronizar el documento.";
                     } else if (!LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {                        
                         infoReqs.Aprobado = false;
-                        infoReqs.mensaje = vMensajeDeValidacion+ "\r\n." + strTipoDocumento + " no pudo ser enviado a la Imprenta Digital, debe sincronizar el documento.";
+                        infoReqs.mensaje = vMensajeDeValidacion+ "\r\n." + strTipoDocumento + " no pudo ser enviada a la Imprenta Digital, debe sincronizar el documento.";
                     }                    
                     GeneraLogDeErrores(vResultMessage + infoReqs.mensaje, valJsonStr);
                     throw new Exception(infoReqs.mensaje);
