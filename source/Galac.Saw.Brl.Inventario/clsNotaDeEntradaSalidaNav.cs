@@ -387,7 +387,7 @@ namespace Galac.Saw.Brl.Inventario {
 
         private void ActualizaInformacionDeLoteDeInventario(NotaDeEntradaSalida valItemNotaES, bool valAumentaCantidad) {
             foreach (RenglonNotaES vItemRenglon in valItemNotaES.DetailRenglonNotaES) {
-                if (vItemRenglon.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento || vItemRenglon.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote) {
+                if (vItemRenglon.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento || vItemRenglon.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote || vItemRenglon.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeElaboracion) {
                     if (((ILoteDeInventarioPdn)new clsLoteDeInventarioNav()).ExisteLoteDeInventario(vItemRenglon.ConsecutivoCompania, vItemRenglon.CodigoArticulo, vItemRenglon.LoteDeInventario)) {
                         ActualizaLoteDeInventarioInsertaMovimientoDeLoteDeInventario(valItemNotaES, vItemRenglon, valAumentaCantidad);
                     }

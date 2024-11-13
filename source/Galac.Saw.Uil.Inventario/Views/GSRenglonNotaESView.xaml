@@ -94,7 +94,7 @@
             ConnectionValue="{Binding Path=LoteDeInventario, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             SearchCommand="{Binding Path=ChooseLoteDeInventarioCommand}" />
             <Label 
-            Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" 
+            Visibility="{Binding Path=IsVisibleFechaDeElaboracionLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" 
             Grid.Row="3" 
             Grid.Column="2" 
             Name="lblFechaDeElaboracion" 
@@ -102,7 +102,7 @@
             Style="{StaticResource LabelPrompt}" />
             <Label
             x:Name="lneFechaDeElaboracion"
-            Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" 
+            Visibility="{Binding Path=IsVisibleFechaDeElaboracionLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" 
             Grid.Row="3" 
             Grid.Column="3" 
             Width="90"
@@ -112,7 +112,7 @@
             Style="{StaticResource LabelCalculatedField}" 
             Height="25" />
             <Label 
-            Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" 
+            Visibility="{Binding Path=IsVisibleFechaDeVencimientoLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" 
             Grid.Row="3" 
             Grid.Column="4" 
             Name="lblFechaDeVencimiento" 
@@ -120,7 +120,7 @@
             Style="{StaticResource LabelPrompt}" />
             <Label
             x:Name="lneFechaDeVencimiento"
-            Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" 
+            Visibility="{Binding Path=IsVisibleFechaDeVencimientoLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" 
             Grid.Row="3" 
             Grid.Column="5" 
             Width="90"

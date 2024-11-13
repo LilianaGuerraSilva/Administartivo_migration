@@ -223,7 +223,11 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             get { return (ConexionCodigoArticulo != null) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.Lote); }
         }
 
-        public bool IsVisibleFechaLoteDeInventario {
+        public bool IsVisibleFechaDeElaboracionLoteDeInventario {
+            get { return (ConexionCodigoArticulo != null) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeElaboracion); }
+        }
+
+        public bool IsVisibleFechaDeVencimientoLoteDeInventario {
             get { return (ConexionCodigoArticulo != null) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento); }
         }
 
@@ -327,7 +331,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 }
                 RaisePropertyChanged(() => IsVisbleLoteDeInventario);
                 RaisePropertyChanged(() => IsEnabledLoteDeInventario);
-                RaisePropertyChanged(() => IsVisibleFechaLoteDeInventario);
+                RaisePropertyChanged(() => IsVisibleFechaDeElaboracionLoteDeInventario);
+                RaisePropertyChanged(() => IsVisibleFechaDeVencimientoLoteDeInventario);
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
@@ -375,7 +380,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 }
                 RaisePropertyChanged(() => IsVisbleLoteDeInventario);
                 RaisePropertyChanged(() => IsEnabledLoteDeInventario);
-                RaisePropertyChanged(() => IsVisibleFechaLoteDeInventario);
+                RaisePropertyChanged(() => IsVisibleFechaDeElaboracionLoteDeInventario);
+                RaisePropertyChanged(() => IsVisibleFechaDeVencimientoLoteDeInventario);
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
@@ -387,7 +393,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             ValidationResult vResult = ValidationResult.Success;
             if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
-            } else if (TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || TipoArticuloInv == eTipoArticuloInv.Lote) {
+            } else if (TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || TipoArticuloInv == eTipoArticuloInv.Lote || TipoArticuloInv == eTipoArticuloInv.LoteFechadeElaboracion) {
                 if (LibString.IsNullOrEmpty(LoteDeInventario, true)) {
                     vResult = new ValidationResult("El Lote de Inventario no fue ingresado.");
                 } else if (Master.TipodeOperacion != eTipodeOperacion.EntradadeInventario) {
@@ -395,7 +401,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                         vResult = new ValidationResult("El Lote de Inventario es requerido y debe existir.");
                     }
                 }
-            } else if (TipoArticuloInv != eTipoArticuloInv.LoteFechadeVencimiento && TipoArticuloInv != eTipoArticuloInv.Lote) {
+            } else if (TipoArticuloInv != eTipoArticuloInv.LoteFechadeVencimiento && TipoArticuloInv != eTipoArticuloInv.Lote && TipoArticuloInv != eTipoArticuloInv.LoteFechadeElaboracion) {
                 LoteDeInventario = string.Empty;
                 FechaDeElaboracion = LibDate.MinDateForDB();
                 FechaDeVencimiento = LibDate.MaxDateForDB();
@@ -418,7 +424,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             if ((Action == eAccionSR.Insertar)
                 && (ConexionCodigoArticulo != null)
                 && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia)
-                && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.Lote)) {
+                && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.Lote || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeElaboracion)) {
                 return true;
             } else {
                 return false;
