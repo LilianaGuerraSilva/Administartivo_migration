@@ -112,7 +112,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 }
                 ObtenerDatosDocumentoEmitido();
                 if (!LibString.IsNullOrEmpty(FacturaImprentaDigital.NumeroControl)) {
-                    if (FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Emitida) {
+                    if (FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Anulada) {
                         JObject JObjectDoc = new JObject {
                             { "numerodocumento", FacturaImprentaDigital.NumeroControl },
                             { "observacion", FacturaImprentaDigital.MotivoDeAnulacion },
