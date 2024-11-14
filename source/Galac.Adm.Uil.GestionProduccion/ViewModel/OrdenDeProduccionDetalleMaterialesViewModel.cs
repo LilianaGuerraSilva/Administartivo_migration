@@ -492,7 +492,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         public bool IsEnabledMerma {
-            get { return Master.Action == eAccionSR.Cerrar && ((CantidadConsumida - CantidadReservadaInventario) >= 0); }
+            get { return Master.Action == eAccionSR.Cerrar && (MermaTotalInsumos >= 0); }
         }
 
         public bool IsVisibleCantidadMermaNormal {
@@ -689,7 +689,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         public void CantMermaNormal() {            
-            if ((CantidadConsumida - CantidadReservadaInventario) >= 0) {
+            if (MermaTotalInsumos >= 0) {
                 CantidadMermaNormal = LibMath.RoundToNDecimals(CantidadReservadaInventario * (PorcentajeMermaNormalOriginal / 100), 8);
                 PorcentajeMermaNormal = LibMath.RoundToNDecimals(CantidadMermaNormal * 100 / CantidadReservadaInventario, 8);
             } else {
@@ -701,9 +701,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         public void CantMermaAnormal() {
-            if ((CantidadConsumida - CantidadReservadaInventario) >= 0 && ((CantidadConsumida - CantidadReservadaInventario) - CantidadMermaNormal) > 0) {
-                CantidadMermaAnormal = (CantidadConsumida - CantidadReservadaInventario) - CantidadMermaNormal;
-                PorcentajeMermaAnormal = CantidadMermaAnormal * 100 / CantidadReservadaInventario;
+            if (MermaTotalInsumos >= 0 && (MermaTotalInsumos - CantidadMermaNormal) > 0) {
+                CantidadMermaAnormal = LibMath.RoundToNDecimals(MermaTotalInsumos - CantidadMermaNormal, 8);
+                PorcentajeMermaAnormal = LibMath.RoundToNDecimals(CantidadMermaAnormal * 100 / CantidadReservadaInventario, 8);
             } else {
                 CantidadMermaAnormal = 0;
                 PorcentajeMermaAnormal = 0;
@@ -711,6 +711,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             RaisePropertyChanged(CantidadMermaAnormalPropertyName);
             RaisePropertyChanged(() => IsEnabledMerma);
         }
+
+        decimal MermaTotalInsumos { get { return CantidadConsumida - CantidadReservadaInventario; } }
 
     } //End of class OrdenDeProduccionDetalleMaterialesViewModel
 
