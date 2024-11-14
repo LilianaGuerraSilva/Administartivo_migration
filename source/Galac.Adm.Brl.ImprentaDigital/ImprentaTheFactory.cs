@@ -181,7 +181,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             }
         }
 
-        public override bool EnviarDocumentoPorEmail(string valEmail) {
+        public override bool EnviarDocumentoPorEmail(string valNumeroControl, string valEmail) {
             throw new NotImplementedException();
         }
         #endregion Métodos Básicos

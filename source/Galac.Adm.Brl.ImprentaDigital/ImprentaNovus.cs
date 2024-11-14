@@ -175,36 +175,26 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             }
         }
 
-        public override bool EnviarDocumentoPorEmail(string valEmail) {
-            try {               
+        public override bool EnviarDocumentoPorEmail(string valNumeroControl, string valEmail) {
+            try {
                 bool vResult = false;
-                string vMensaje = string.Empty;                
+                string vMensaje = string.Empty;
                 stPostResq vRespuestaConector = new stPostResq();
                 bool vChekConeccion = false;
                 if (LibString.IsNullOrEmpty(_ConectorJson.Token)) {
                     vChekConeccion = _ConectorJson.CheckConnection(ref vMensaje, LibEnumHelper.GetDescription(eComandosPostNovus.Autenticacion));
                 } else {
                     vChekConeccion = true;
-                }                               
-                if (!LibString.IsNullOrEmpty(FacturaImprentaDigital.NumeroControl)) {
-                    if (FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Emitida) {
-                        JObject JObjectDoc = new JObject {
-                            { "numerodocumento", FacturaImprentaDigital.NumeroControl },
+                }
+                JObject JObjectDoc = new JObject {
+                            { "numerodocumento", valNumeroControl },
                             { "rif", LoginUser.User },
                             { "email", valEmail }
                         };
-                        string vDocumentoJSON = JObjectDoc.ToString();
-                        vRespuestaConector = _ConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostNovus.Email), _ConectorJson.Token);
-                        vResult = vRespuestaConector.Aprobado;
-                        Mensaje = vRespuestaConector.mensaje;
-                    } else {
-                        Mensaje = $"No se pudo Enviar la {FacturaImprentaDigital.TipoDeDocumentoAsString} por email.";
-                    }
-                } else {
-                    if (!LibString.IsNullOrEmpty(Mensaje)) {
-                        Mensaje = $"La {FacturaImprentaDigital.TipoDeDocumentoAsString} no pudo enviado por email.\r\n" + Mensaje;
-                    }
-                }
+                string vDocumentoJSON = JObjectDoc.ToString();
+                vRespuestaConector = _ConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostNovus.Email), _ConectorJson.Token);
+                vResult = vRespuestaConector.Aprobado;
+                Mensaje = vRespuestaConector.mensaje;
                 return vResult;
             } catch (AggregateException gEx) {
                 throw new GalacException(gEx.InnerException.Message, eExceptionManagementType.Controlled);

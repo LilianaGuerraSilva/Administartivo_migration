@@ -920,7 +920,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             return vTipoCxc;
         }      
         public abstract bool EnviarDocumento();
-        public abstract bool EnviarDocumentoPorEmail(string valEmail);
+        public abstract bool EnviarDocumentoPorEmail(string valNumeroControl,string valEmail);
         public abstract bool AnularDocumento();
         public abstract bool EstadoDocumento();
         public abstract bool EstadoLoteDocumentos();
