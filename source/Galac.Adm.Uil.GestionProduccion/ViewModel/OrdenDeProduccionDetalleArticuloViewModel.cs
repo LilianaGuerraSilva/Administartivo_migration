@@ -237,7 +237,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     IsDirty = true;
                     RaisePropertyChanged(CantidadProducidaPropertyName);
                     CantMermaNormal();
+                    CalcularPorcentajeMermaNormal();
                     CantMermaAnormal();
+                    CalcularPorcentajeMermaAnormal();
                 }
             }
         }
@@ -488,6 +490,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Model.CantidadMermaNormal = value;
                     IsDirty = true;
                     RaisePropertyChanged(CantidadMermaNormalPropertyName);
+                    CalcularPorcentajeMermaNormal();
                 }
             }
         }
@@ -524,6 +527,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Model.CantidadMermaAnormal = value;
                     IsDirty = true;
                     RaisePropertyChanged(CantidadMermaAnormalPropertyName);
+                    CalcularPorcentajeMermaAnormal();
                 }
             }
         }
@@ -565,7 +569,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             if (valAction == eAccionSR.Cerrar) {
                 CantidadProducida = CantidadSolicitada;
                 CantMermaNormal();
+                CalcularPorcentajeMermaNormal();
                 CantMermaAnormal();
+                CalcularPorcentajeMermaAnormal();
             }
             base.InitializeViewModel(valAction);
         }
@@ -706,24 +712,38 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public void CantMermaNormal() {
             if (MermaTotalSalida >= 0) {
                 CantidadMermaNormal = LibMath.RoundToNDecimals(CantidadSolicitada * (PorcentajeMermaNormalOriginal / 100),8);
-                PorcentajeMermaNormal = LibMath.RoundToNDecimals(CantidadMermaNormal * (100 / CantidadSolicitada),8);
             } else {
                 CantidadMermaNormal = 0;
-                PorcentajeMermaNormal = 0;
             }
             RaisePropertyChanged(CantidadMermaNormalPropertyName);
+            RaisePropertyChanged(() => IsEnabledMerma);
+        }
+
+        public void CalcularPorcentajeMermaNormal() {
+            if (MermaTotalSalida >= 0) {
+                PorcentajeMermaNormal = LibMath.RoundToNDecimals(CantidadMermaNormal * (100 / CantidadSolicitada), 8);
+            } else {
+                PorcentajeMermaNormal = 0;
+            }
             RaisePropertyChanged(() => IsEnabledMerma);
         }
 
         public void CantMermaAnormal() {
             if (MermaTotalSalida >= 0 && (MermaTotalSalida - CantidadMermaNormal) > 0) {
                 CantidadMermaAnormal = LibMath.RoundToNDecimals(MermaTotalSalida - CantidadMermaNormal, 8);
-                PorcentajeMermaAnormal = LibMath.RoundToNDecimals(CantidadMermaAnormal * (100 / CantidadSolicitada),8);
             } else {
                 CantidadMermaAnormal = 0;
-                PorcentajeMermaAnormal = 0;
             }
             RaisePropertyChanged(CantidadMermaAnormalPropertyName);
+            RaisePropertyChanged(() => IsEnabledMerma);
+        }
+
+        public void CalcularPorcentajeMermaAnormal() {
+            if (MermaTotalSalida >= 0 && (MermaTotalSalida - CantidadMermaNormal) > 0) {
+                PorcentajeMermaAnormal = LibMath.RoundToNDecimals(CantidadMermaAnormal * (100 / CantidadSolicitada), 8);
+            } else {
+                PorcentajeMermaAnormal = 0;
+            }
             RaisePropertyChanged(() => IsEnabledMerma);
         }
 
