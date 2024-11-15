@@ -509,78 +509,77 @@ namespace Galac.Adm.Brl.GestionProduccion {
         private LibResponse CerrarOrdenDeProduccion(IList<OrdenDeProduccion> refRecord) {
             LibResponse vResult = new LibResponse();
             if (refRecord != null && refRecord.Count > 0) {
-                if (refRecord[0].ListaUsaMermaAsBool) {
-                    if (!EsValidaLaInformacionDeMerma(refRecord[0])) {
-                        vResult.Success = false;
-                        return vResult;
-                    } else if (VerificaAsignacionDeLote(refRecord[0], false)) {
-                        vResult.Success = true;
-                        XElement vDataXmlArticulo = BuscarInfoDeCostoDeArticulos(refRecord[0].DetailOrdenDeProduccionDetalleMateriales);
-                        IList<OrdenDeProduccionDetalleMateriales> vList = new List<OrdenDeProduccionDetalleMateriales>();
+                if (refRecord[0].ListaUsaMermaAsBool && !EsValidaLaInformacionDeMerma(refRecord[0])) {
+                    vResult.Success = false;
+                    return vResult;
+                }
+                if (VerificaAsignacionDeLote(refRecord[0], false)) {
+                    vResult.Success = true;
+                    XElement vDataXmlArticulo = BuscarInfoDeCostoDeArticulos(refRecord[0].DetailOrdenDeProduccionDetalleMateriales);
+                    IList<OrdenDeProduccionDetalleMateriales> vList = new List<OrdenDeProduccionDetalleMateriales>();
 
-                        foreach (OrdenDeProduccionDetalleMateriales vDetailOrdenDeProduccionDetalleMateriales in refRecord[0].DetailOrdenDeProduccionDetalleMateriales) {
-                            vList.Add(vDetailOrdenDeProduccionDetalleMateriales);
-                        }
+                    foreach (OrdenDeProduccionDetalleMateriales vDetailOrdenDeProduccionDetalleMateriales in refRecord[0].DetailOrdenDeProduccionDetalleMateriales) {
+                        vList.Add(vDetailOrdenDeProduccionDetalleMateriales);
+                    }
 
-                        XElement vData = new clsOrdenDeProduccionDetalleMaterialesNav().BuscaExistenciaDeArticulos(refRecord[0].ConsecutivoCompania, vList);
-                        XElement vDataLote = new clsOrdenDeProduccionDetalleMaterialesNav().BuscaExistenciaDeArticulosPorLote(refRecord[0].ConsecutivoCompania, vList);
-                        string vFNCostoUnitario = (refRecord[0].CostoTerminadoCalculadoAPartirDeAsEnum == eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaLocal) ? "CostoUnitario" : "MeCostoUnitario";
-                        var vDataArticulo = vDataXmlArticulo.Descendants("GpResult").Select(p => new {
-                            CodigoArticulo = p.Element("Codigo").Value,
-                            CostoUnitario = LibConvert.ToDec(p.Element(vFNCostoUnitario)),
-                            Existencia = LibConvert.ToDec(p.Element("Existencia"))
-                        }).ToList();
-                        var vDataExistencia = vData.Descendants("GpResult").Select(p => new {
-                            Existencia = LibConvert.ToDec(p.Element("Cantidad"), 8),
-                            CodigoArticulo = p.Element("CodigoArticulo").Value,
-                            ConsecutivoAlmacen = LibConvert.ToInt(p.Element("ConsecutivoAlmacen"))
-                        }).ToList();
-                        var vDataExistenciaLote = vDataLote.Descendants("GpResult").Select(p => new {
-                            Existencia = LibConvert.ToDec(p.Element("Cantidad"), 8),
-                            CodigoArticulo = p.Element("CodigoArticulo").Value,
-                            ConsecutivoLoteDeInventario = LibConvert.ToInt(p.Element("ConsecutivoLoteDeInventario"))
-                        }).ToList();
-                        foreach (OrdenDeProduccionDetalleMateriales vOrdenDeProduccionDetalleMateriales in refRecord[0].DetailOrdenDeProduccionDetalleMateriales) {
-                            vOrdenDeProduccionDetalleMateriales.CostoUnitarioArticuloInventario = LibMath.RoundToNDecimals(vDataArticulo.Where(p => p.CodigoArticulo == vOrdenDeProduccionDetalleMateriales.CodigoArticulo).FirstOrDefault().CostoUnitario, 2);
-                            vOrdenDeProduccionDetalleMateriales.MontoSubtotal = LibMath.RoundToNDecimals(vOrdenDeProduccionDetalleMateriales.CostoUnitarioArticuloInventario * vOrdenDeProduccionDetalleMateriales.CantidadConsumida, 2);
-                            if (vOrdenDeProduccionDetalleMateriales.TipoDeArticuloAsEnum == eTipoDeArticulo.Mercancia &&
-                                (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PermitirSobregiro")) &&
-                                vOrdenDeProduccionDetalleMateriales.CantidadConsumida > vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario) {
-                                if (vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote || vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento) {
-                                    if ((vOrdenDeProduccionDetalleMateriales.CantidadConsumida - vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario) > vDataExistenciaLote.Where(p => p.CodigoArticulo == vOrdenDeProduccionDetalleMateriales.CodigoArticulo && p.ConsecutivoLoteDeInventario == vOrdenDeProduccionDetalleMateriales.ConsecutivoLoteDeInventario).FirstOrDefault().Existencia) {
-                                        throw new GalacValidationException("No hay suficiente existencia de algunos insumos para producir esta orden. (" + vOrdenDeProduccionDetalleMateriales.CodigoArticulo + "-" + vOrdenDeProduccionDetalleMateriales.CodigoLote + ")");
-                                    }
-                                } else {
-                                    if ((vOrdenDeProduccionDetalleMateriales.CantidadConsumida - vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario) > vDataExistencia.Where(p => p.CodigoArticulo == vOrdenDeProduccionDetalleMateriales.CodigoArticulo && p.ConsecutivoAlmacen == vOrdenDeProduccionDetalleMateriales.ConsecutivoAlmacen).FirstOrDefault().Existencia) {
-                                        throw new GalacValidationException("No hay suficiente existencia de algunos insumos para producir esta orden. (" + vOrdenDeProduccionDetalleMateriales.CodigoArticulo + ")");
-                                    }
+                    XElement vData = new clsOrdenDeProduccionDetalleMaterialesNav().BuscaExistenciaDeArticulos(refRecord[0].ConsecutivoCompania, vList);
+                    XElement vDataLote = new clsOrdenDeProduccionDetalleMaterialesNav().BuscaExistenciaDeArticulosPorLote(refRecord[0].ConsecutivoCompania, vList);
+                    string vFNCostoUnitario = (refRecord[0].CostoTerminadoCalculadoAPartirDeAsEnum == eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaLocal) ? "CostoUnitario" : "MeCostoUnitario";
+                    var vDataArticulo = vDataXmlArticulo.Descendants("GpResult").Select(p => new {
+                        CodigoArticulo = p.Element("Codigo").Value,
+                        CostoUnitario = LibConvert.ToDec(p.Element(vFNCostoUnitario)),
+                        Existencia = LibConvert.ToDec(p.Element("Existencia"))
+                    }).ToList();
+                    var vDataExistencia = vData.Descendants("GpResult").Select(p => new {
+                        Existencia = LibConvert.ToDec(p.Element("Cantidad"), 8),
+                        CodigoArticulo = p.Element("CodigoArticulo").Value,
+                        ConsecutivoAlmacen = LibConvert.ToInt(p.Element("ConsecutivoAlmacen"))
+                    }).ToList();
+                    var vDataExistenciaLote = vDataLote.Descendants("GpResult").Select(p => new {
+                        Existencia = LibConvert.ToDec(p.Element("Cantidad"), 8),
+                        CodigoArticulo = p.Element("CodigoArticulo").Value,
+                        ConsecutivoLoteDeInventario = LibConvert.ToInt(p.Element("ConsecutivoLoteDeInventario"))
+                    }).ToList();
+                    foreach (OrdenDeProduccionDetalleMateriales vOrdenDeProduccionDetalleMateriales in refRecord[0].DetailOrdenDeProduccionDetalleMateriales) {
+                        vOrdenDeProduccionDetalleMateriales.CostoUnitarioArticuloInventario = LibMath.RoundToNDecimals(vDataArticulo.Where(p => p.CodigoArticulo == vOrdenDeProduccionDetalleMateriales.CodigoArticulo).FirstOrDefault().CostoUnitario, 2);
+                        vOrdenDeProduccionDetalleMateriales.MontoSubtotal = LibMath.RoundToNDecimals(vOrdenDeProduccionDetalleMateriales.CostoUnitarioArticuloInventario * vOrdenDeProduccionDetalleMateriales.CantidadConsumida, 2);
+                        if (vOrdenDeProduccionDetalleMateriales.TipoDeArticuloAsEnum == eTipoDeArticulo.Mercancia &&
+                            (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PermitirSobregiro")) &&
+                            vOrdenDeProduccionDetalleMateriales.CantidadConsumida > vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario) {
+                            if (vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote || vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento) {
+                                if ((vOrdenDeProduccionDetalleMateriales.CantidadConsumida - vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario) > vDataExistenciaLote.Where(p => p.CodigoArticulo == vOrdenDeProduccionDetalleMateriales.CodigoArticulo && p.ConsecutivoLoteDeInventario == vOrdenDeProduccionDetalleMateriales.ConsecutivoLoteDeInventario).FirstOrDefault().Existencia) {
+                                    throw new GalacValidationException("No hay suficiente existencia de algunos insumos para producir esta orden. (" + vOrdenDeProduccionDetalleMateriales.CodigoArticulo + "-" + vOrdenDeProduccionDetalleMateriales.CodigoLote + ")");
+                                }
+                            } else {
+                                if ((vOrdenDeProduccionDetalleMateriales.CantidadConsumida - vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario) > vDataExistencia.Where(p => p.CodigoArticulo == vOrdenDeProduccionDetalleMateriales.CodigoArticulo && p.ConsecutivoAlmacen == vOrdenDeProduccionDetalleMateriales.ConsecutivoAlmacen).FirstOrDefault().Existencia) {
+                                    throw new GalacValidationException("No hay suficiente existencia de algunos insumos para producir esta orden. (" + vOrdenDeProduccionDetalleMateriales.CodigoArticulo + ")");
                                 }
                             }
                         }
-                        decimal vCostoTotal = refRecord[0].DetailOrdenDeProduccionDetalleMateriales.Sum(p => p.MontoSubtotal);
-
-                        foreach (OrdenDeProduccionDetalleArticulo vOrdenDeProduccionDetalleArticulo in refRecord[0].DetailOrdenDeProduccionDetalleArticulo) {
-                            vOrdenDeProduccionDetalleArticulo.MontoSubTotal = LibMath.RoundToNDecimals(vCostoTotal * (vOrdenDeProduccionDetalleArticulo.PorcentajeCostoCierre / 100), 2);
-                            if (vOrdenDeProduccionDetalleArticulo.CantidadProducida == 0) {
-                                vOrdenDeProduccionDetalleArticulo.CostoUnitario = 0;
-                            } else {
-                                vOrdenDeProduccionDetalleArticulo.CostoUnitario = LibMath.RoundToNDecimals(vOrdenDeProduccionDetalleArticulo.MontoSubTotal / vOrdenDeProduccionDetalleArticulo.CantidadProducida, 2);
-                            }
-                        }
-                        using (TransactionScope vScope = LibBusiness.CreateScope()) {
-                            vResult = base.UpdateRecord(refRecord, true, eAccionSR.Modificar);
-                            vResult.Success = vResult.Success && ActualizaCantidadyCostoPorCierre(refRecord[0]).Success;
-                            vResult.Success = vResult.Success && CrearNotaDeEntradaSalidaAlCerrar(refRecord[0]).Success;
-                            if (vResult.Success) {
-                                vScope.Complete();
-                            }
-                        }
-                    } else {
-                        vResult.Success = false;
-                        vResult.AddError("No se puede procesar la acción: cerrar");
                     }
+                    decimal vCostoTotal = refRecord[0].DetailOrdenDeProduccionDetalleMateriales.Sum(p => p.MontoSubtotal);
+
+                    foreach (OrdenDeProduccionDetalleArticulo vOrdenDeProduccionDetalleArticulo in refRecord[0].DetailOrdenDeProduccionDetalleArticulo) {
+                        vOrdenDeProduccionDetalleArticulo.MontoSubTotal = LibMath.RoundToNDecimals(vCostoTotal * (vOrdenDeProduccionDetalleArticulo.PorcentajeCostoCierre / 100), 2);
+                        if (vOrdenDeProduccionDetalleArticulo.CantidadProducida == 0) {
+                            vOrdenDeProduccionDetalleArticulo.CostoUnitario = 0;
+                        } else {
+                            vOrdenDeProduccionDetalleArticulo.CostoUnitario = LibMath.RoundToNDecimals(vOrdenDeProduccionDetalleArticulo.MontoSubTotal / vOrdenDeProduccionDetalleArticulo.CantidadProducida, 2);
+                        }
+                    }
+                    using (TransactionScope vScope = LibBusiness.CreateScope()) {
+                        vResult = base.UpdateRecord(refRecord, true, eAccionSR.Modificar);
+                        vResult.Success = vResult.Success && ActualizaCantidadyCostoPorCierre(refRecord[0]).Success;
+                        vResult.Success = vResult.Success && CrearNotaDeEntradaSalidaAlCerrar(refRecord[0]).Success;
+                        if (vResult.Success) {
+                            vScope.Complete();
+                        }
+                    }
+                } else {
+                    vResult.Success = false;
+                    vResult.AddError("No se puede procesar la acción: cerrar");
                 }
-                 }
+            }
             return vResult;
         }
 
