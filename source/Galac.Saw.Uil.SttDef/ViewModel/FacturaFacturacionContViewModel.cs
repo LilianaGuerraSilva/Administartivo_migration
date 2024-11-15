@@ -50,7 +50,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string NroDiasMantenerTasaCambioPropertyName = "NroDiasMantenerTasaCambio";
         private const string FechaInicioImprentaDigitalPropertyName = "FechaInicioImprentaDigital";
         public const string UsaMediosElectronicosDeCobroPropertyName = "UsaMediosElectronicosDeCobro";
-		#endregion
+        public const string UsaCreditoElectronicoPropertyName = "UsaCreditoElectronico";
+        public const string NombreCreditoElectronicoPropertyName = "NombreCreditoElectronico";
+        public const string DiasUsualesCreditoElectronicoPropertyName = "DiasUsualesCreditoElectronico";
+        public const string DiasMaximoCreditoElectronicoPropertyName = "DiasMaximoCreditoElectronico";
+        #endregion
 
         #region Variables
         private FkConceptoBancarioViewModel _ConexionConceptoBancarioCobroDirecto = null;
@@ -621,6 +625,56 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 if (_FechaInicioImprentaDigital != value) {
                     _FechaInicioImprentaDigital = value;
                     RaisePropertyChanged(FechaInicioImprentaDigitalPropertyName);
+                }
+            }
+        }
+
+        public bool UsaCreditoElectronico {
+            get {
+                return Model.UsaCreditoElectronicoAsBool;
+            }
+            set {
+                if (Model.UsaCreditoElectronicoAsBool != value) {
+                    Model.UsaCreditoElectronicoAsBool = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(UsaCreditoElectronicoPropertyName);
+                }
+            }
+        }
+        public string NombreCreditoElectronico {
+            get {
+                return Model.NombreCreditoElectronico;
+            }
+            set {
+                if (Model.NombreCreditoElectronico != value)
+                {
+                    Model.NombreCreditoElectronico = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(NombreCreditoElectronicoPropertyName);
+                }
+            }
+        }
+        public int DiasUsualesCreditoElectronico {
+            get {
+                return Model.DiasUsualesCreditoElectronico;
+            }
+            set {
+                if (Model.DiasUsualesCreditoElectronico != value) {
+                    Model.DiasUsualesCreditoElectronico = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(DiasUsualesCreditoElectronicoPropertyName);
+                }
+            }
+        }
+        public int DiasMaximoCreditoElectronico {
+            get {
+                return Model.DiasMaximoCreditoElectronico;
+            }
+            set {
+                if (Model.DiasMaximoCreditoElectronico != value) {
+                    Model.DiasMaximoCreditoElectronico = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(DiasMaximoCreditoElectronicoPropertyName);
                 }
             }
         }

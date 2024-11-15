@@ -48,6 +48,10 @@ namespace Galac.Saw.Ccl.SttDef {
         private bool _UsaListaDePrecioEnMonedaExtranjeraCXC;
         private int _NroDiasMantenerTasaCambio;
 		private bool _UsaMediosElectronicosDeCobro;
+        private bool _UsaCreditoElectronico;
+        private string _NombreCreditoElectronico;
+        private int _DiasUsualesCreditoElectronico;
+        private int _DiasMaximoCreditoElectronico;
         private long _fldTimeStamp;
         XmlDocument _datos;
         #endregion //Variables
@@ -280,6 +284,31 @@ namespace Galac.Saw.Ccl.SttDef {
         public string UsaMediosElectronicosDeCobro {
             set { _UsaMediosElectronicosDeCobro = LibConvert.SNToBool(value); }
         }
+        public bool UsaCreditoElectronicoAsBool { 
+            get { return _UsaCreditoElectronico; } 
+            set { _UsaCreditoElectronico = value; } 
+        }
+        public string UsaCreditoElectronico
+        {
+            set { _UsaCreditoElectronico = LibConvert.SNToBool(value); }
+        }
+
+        public string NombreCreditoElectronico
+        {
+            get { return _NombreCreditoElectronico; }
+            set { _NombreCreditoElectronico = value; }
+        }
+        public int DiasUsualesCreditoElectronico
+        {
+            get { return _DiasUsualesCreditoElectronico; }
+            set { _DiasUsualesCreditoElectronico = value; }
+        }
+
+        public int DiasMaximoCreditoElectronico
+        {
+            get { return _DiasMaximoCreditoElectronico; }
+            set { _DiasMaximoCreditoElectronico = value; }
+        }
 
         public long fldTimeStamp {
             get { return _fldTimeStamp; }
@@ -357,6 +386,10 @@ namespace Galac.Saw.Ccl.SttDef {
             vResult.UsaListaDePrecioEnMonedaExtranjeraCXCAsBool = _UsaListaDePrecioEnMonedaExtranjeraCXC;
             vResult.NroDiasMantenerTasaCambio = _NroDiasMantenerTasaCambio;
 			vResult.UsaMediosElectronicosDeCobroAsBool = _UsaMediosElectronicosDeCobro;
+            vResult.UsaCreditoElectronicoAsBool = _UsaCobroDirecto;
+            vResult.NombreCreditoElectronico =_NombreCreditoElectronico;
+            vResult.DiasUsualesCreditoElectronico = _DiasUsualesCreditoElectronico;
+            vResult.DiasMaximoCreditoElectronico  = _DiasMaximoCreditoElectronico;
             vResult.fldTimeStamp = _fldTimeStamp;
             return vResult;
         }
