@@ -641,7 +641,7 @@
                     Grid.Column="1"
                     HorizontalAlignment="Left"
                     IsChecked="{Binding Path=UsaCreditoElectronico}"
-                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsEnabled="{Binding Path=IsEnabledCreditoElectronico}"
                     Style="{StaticResource CheckBoxStyle}" />
                 <Label
                     Name="lblNombreParaCreditoElectronico"
@@ -656,7 +656,7 @@
                     BorderThickness="1"
                     InputDataType="String" 
                     InvalidCharacters="&quot;|°¬!#$%&amp;/()=?'¡¿¨'*+~{}^',:;@"
-                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsEnabled="{Binding Path=UsaCreditoElectronico}"
                     MaxLength="20"
                     Style="{StaticResource TextBoxInputStyle}"
                     Text="{Binding Path=NombreCreditoElectronico, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -674,7 +674,7 @@
                     BorderThickness="1"
                     DecimalDigits="2"
                     InputDataType="UInteger"
-                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsEnabled="{Binding Path=UsaCreditoElectronico}"
                     MaxLength="3"
                     Style="{StaticResource TextBoxInputStyle}"
                     UnitDigits="0"
@@ -693,7 +693,7 @@
                     BorderThickness="1"
                     DecimalDigits="2"
                     InputDataType="UInteger"
-                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsEnabled="{Binding Path=UsaCreditoElectronico}"
                     MaxLength="3"
                     Style="{StaticResource TextBoxInputStyle}"
                     UnitDigits="0"

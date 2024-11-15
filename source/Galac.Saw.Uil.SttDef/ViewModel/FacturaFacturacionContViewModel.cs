@@ -54,6 +54,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string NombreCreditoElectronicoPropertyName = "NombreCreditoElectronico";
         public const string DiasUsualesCreditoElectronicoPropertyName = "DiasUsualesCreditoElectronico";
         public const string DiasMaximoCreditoElectronicoPropertyName = "DiasMaximoCreditoElectronico";
+        public const string IsEnabledCreditoElectronicoPropertyName = "IsEnabledCreditoElectronico";
         #endregion
 
         #region Variables
@@ -314,6 +315,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                         CuentaBancariaCobroMultimoneda = string.Empty;
                         ConceptoBancarioCobroMultimoneda = string.Empty;
                         UsaMediosElectronicosDeCobro = false;
+                        UsaCreditoElectronico = false;
                     }
                     RaisePropertyChanged(UsaCobroDirectoEnMultimonedaPropertyName);
                     RaisePropertyChanged(ConceptoBancarioCobroMultimonedaPropertyName);
@@ -322,6 +324,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     RaisePropertyChanged(IsEnabledUsaCobroDirectoEnMultimonedaPropertyName);
                     RaisePropertyChanged(IsEnabledCuentaBancariaCobroMultimonedaPropertyName);
                     RaisePropertyChanged(IsEnabledConceptoBancarioCobroMultimonedaPropertyName);
+                    RaisePropertyChanged(UsaCreditoElectronicoPropertyName);
+                    RaisePropertyChanged(IsEnabledCreditoElectronicoPropertyName);
                 }
             }
         }
@@ -637,17 +641,23 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 if (Model.UsaCreditoElectronicoAsBool != value) {
                     Model.UsaCreditoElectronicoAsBool = value;
                     IsDirty = true;
+                    if (!Model.UsaCreditoElectronicoAsBool) {
+                        InicalizacionParametrosCreditoElectronico();
+                    }
                     RaisePropertyChanged(UsaCreditoElectronicoPropertyName);
+                    RaisePropertyChanged(NombreCreditoElectronicoPropertyName);
+                    RaisePropertyChanged(DiasUsualesCreditoElectronicoPropertyName);
+                    RaisePropertyChanged(DiasMaximoCreditoElectronicoPropertyName);
                 }
             }
         }
+        [LibCustomValidation("NombreCreditoElectronicoVacio")]
         public string NombreCreditoElectronico {
             get {
                 return Model.NombreCreditoElectronico;
             }
             set {
-                if (Model.NombreCreditoElectronico != value)
-                {
+                if (Model.NombreCreditoElectronico != value) {
                     Model.NombreCreditoElectronico = value;
                     IsDirty = true;
                     RaisePropertyChanged(NombreCreditoElectronicoPropertyName);
@@ -945,6 +955,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return IsEnabled && UsaCobroDirectoEnMultimoneda;
             }
         }
+        public bool IsEnabledCreditoElectronico {
+            get {
+                return IsEnabled && UsaCobroDirectoEnMultimoneda;
+            }
+        }
 
         private void OnStringParametrosComunesChanged(NotificationMessage<string> valMessage) {
             try {
@@ -985,6 +1000,25 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private DateTime FechaInicioServicioImprentaDigital() {
             return LibConvert.ToDate(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "FechaInicioImprentaDigital"));
         }
+        private ValidationResult NombreCreditoElectronicoVacio() {
+            ValidationResult vResult = ValidationResult.Success;
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+                return ValidationResult.Success;
+            }
+            else {
+                if (UsaCreditoElectronico && NombreCreditoElectronico.Length <= 0) {
+                    vResult = new ValidationResult($"Debe indicar un nombre de crédito electrónico \"{this.ModuleName} - Crédito Electrónico.");
+                }
+            }
+            return vResult;
+        }
+        private void InicalizacionParametrosCreditoElectronico () {
+            NombreCreditoElectronico = "Crédito Electrónico";
+            DiasUsualesCreditoElectronico = 14;
+            DiasMaximoCreditoElectronico = 14;
+
+        }
+
         #endregion //Metodos Generados
     } //End of class FacturaFacturacionContViewModel
 } //End of namespace Galac.Saw.Uil.SttDef
