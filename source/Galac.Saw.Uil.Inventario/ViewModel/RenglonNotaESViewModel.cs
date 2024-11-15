@@ -246,7 +246,12 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
             set {
                 if (_ConexionCodigoArticulo != value) {
-                    _ConexionCodigoArticulo = value;                    
+                    _ConexionCodigoArticulo = value;
+                    if (_ConexionCodigoArticulo != null) {
+                        CodigoArticulo = ConexionCodigoArticulo.CodigoCompuesto;
+                        DescripcionArticulo = ConexionCodigoArticulo.Descripcion;
+                        TipoArticuloInv = ConexionCodigoArticulo.TipoArticuloInv;
+                    }
                     RaisePropertyChanged(CodigoArticuloPropertyName);
                     RaisePropertyChanged(() => DescripcionArticulo);
                     RaisePropertyChanged(() => Cantidad);
@@ -304,8 +309,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
-            LibSearchCriteria vDefaultCriteriaInventario = LibSearchCriteria.CreateCriteria("Gv_ArticuloInventario_B1.Codigo", CodigoArticulo);
-            vDefaultCriteriaInventario.Add(LibSearchCriteria.CreateCriteria("Gv_ArticuloInventario_B1.ConsecutivoCompania", Mfc.GetInt("Compania")), eLogicOperatorType.And);
+            LibSearchCriteria vDefaultCriteriaInventario = LibSearchCriteria.CreateCriteria("CodigoCompuesto", CodigoArticulo);
+            vDefaultCriteriaInventario.Add(LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania")), eLogicOperatorType.And);
             ConexionCodigoArticulo = Master.FirstConnectionRecordOrDefault<FkArticuloInventarioViewModel>("Artículo Inventario", vDefaultCriteriaInventario);
             LibSearchCriteria vDefaultCriteriaLote = LibSearchCriteria.CreateCriteria("CodigoLote", LoteDeInventario);
             vDefaultCriteriaLote.Add(LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania")), eLogicOperatorType.And);
@@ -314,18 +319,19 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         private void ExecuteChooseCodigoArticuloCommand(string valCodigoArticulo) {
             try {
-                if (CodigoArticulo == null) {
-                    CodigoArticulo = string.Empty;
+                if (valCodigoArticulo == null) {
+                    valCodigoArticulo = string.Empty;
                 }
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_ArticuloInventario_B1.Codigo", valCodigoArticulo);
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("CodigoCompuesto", valCodigoArticulo);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
                 vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("TipoDeArticulo", LibConvert.EnumToDbValue((int)eTipoDeArticulo.Mercancia)), eLogicOperatorType.And);
+                vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("StatusdelArticulo ", LibConvert.EnumToDbValue((int)eStatusArticulo.Vigente)), eLogicOperatorType.And);
                 ConexionCodigoArticulo = Master.ChooseRecord<FkArticuloInventarioViewModel>("Artículo Inventario", vDefaultCriteria, vFixedCriteria, string.Empty);
                 if (ConexionCodigoArticulo == null) {
                     CodigoArticulo = string.Empty;
                     DescripcionArticulo = string.Empty;
                 } else {
-                    CodigoArticulo = ConexionCodigoArticulo.Codigo;
+                    CodigoArticulo = ConexionCodigoArticulo.CodigoCompuesto;
                     DescripcionArticulo = ConexionCodigoArticulo.Descripcion;
                     TipoArticuloInv = ConexionCodigoArticulo.TipoArticuloInv;
                 }
