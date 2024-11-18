@@ -11,6 +11,7 @@ using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Uil;
 using Galac.Saw.Reconv;
+using System.Linq;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class FacturaFacturacionContViewModel : LibInputViewModelMfc<FacturacionContinuacionStt> {
@@ -55,6 +56,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string DiasUsualesCreditoElectronicoPropertyName = "DiasUsualesCreditoElectronico";
         public const string DiasMaximoCreditoElectronicoPropertyName = "DiasMaximoCreditoElectronico";
         public const string IsEnabledCreditoElectronicoPropertyName = "IsEnabledCreditoElectronico";
+        public const string ParametrosBancoMonedaPropertyName = "ParametrosBancoMoneda";
         #endregion
 
         #region Variables
@@ -63,6 +65,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private FkConceptoBancarioViewModel _ConexionConceptoBancarioCobroMultimoneda = null;
         private FkCuentaBancariaViewModel _ConexionCuentaBancariaCobroMultimoneda = null;
         private DateTime _FechaInicioImprentaDigital;
+        private ParametersViewModel _ParametrosBancoMoneda;
         #endregion //Variables
 
         #region Propiedades
@@ -688,6 +691,17 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 }
             }
         }
+        public ParametersViewModel ParametrosViewModel {
+            get {
+                return _ParametrosBancoMoneda;
+            }
+            set {
+                if (_ParametrosBancoMoneda != value) {
+                    _ParametrosBancoMoneda = value;
+                    RaisePropertyChanged(ParametrosBancoMonedaPropertyName);
+                }
+            }
+        }
         #endregion //Propiedades
 
         #region Constructores
@@ -695,7 +709,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             : this(new FacturacionContinuacionStt(), eAccionSR.Insertar) {
         }
         public FacturaFacturacionContViewModel(FacturacionContinuacionStt initModel, eAccionSR initAction)
-            : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
+            : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo())
+        {
             DefaultFocusedPropertyName = UsarOtrosCargoDeFacturaPropertyName;
             LibMessages.Notification.Register<string>(this, OnStringParametrosComunesChanged);
         }
@@ -957,7 +972,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
         public bool IsEnabledCreditoElectronico {
             get {
-                return IsEnabled && UsaCobroDirectoEnMultimoneda;
+                var result = ParametrosViewModel.ModuleList.Where(w => w.DisplayName == "7 - Bancos").FirstOrDefault().Groups.Where(y => y.DisplayName == "7.2-Moneda").FirstOrDefault()
+                       .Content as BancosMonedaViewModel;
+                return IsEnabled && UsaCobroDirectoEnMultimoneda && result.UsaMonedaExtranjera && result.CodigoMonedaExtranjera == "USD";
             }
         }
 
@@ -1012,11 +1029,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
             return vResult;
         }
-        private void InicalizacionParametrosCreditoElectronico () {
+        private void InicalizacionParametrosCreditoElectronico() {
             NombreCreditoElectronico = "Crédito Electrónico";
             DiasUsualesCreditoElectronico = 14;
             DiasMaximoCreditoElectronico = 14;
-
         }
 
         #endregion //Metodos Generados
