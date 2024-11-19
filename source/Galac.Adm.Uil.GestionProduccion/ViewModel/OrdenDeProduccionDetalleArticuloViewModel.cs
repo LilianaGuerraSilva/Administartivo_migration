@@ -496,11 +496,11 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         public bool IsVisibleCantidadMermaNormal {
-            get { return Master.IsVisibleListaUsaMerma && (Master.Action == eAccionSR.Cerrar || (Master.Action == eAccionSR.Consultar && Master.StatusOp == eTipoStatusOrdenProduccion.Cerrada)); }
+            get { return Master.IsVisibleListaUsaMerma && (Master.Action == eAccionSR.Cerrar); }
         }
 
         public bool IsVisibleCantidadMermaAnormal {
-            get { return Master.IsVisibleListaUsaMerma && (Master.Action == eAccionSR.Cerrar || (Master.Action == eAccionSR.Consultar && Master.StatusOp == eTipoStatusOrdenProduccion.Cerrada)); }
+            get { return Master.IsVisibleListaUsaMerma && (Master.Action == eAccionSR.Cerrar); }
         }
 
         public decimal  PorcentajeMermaNormal {
