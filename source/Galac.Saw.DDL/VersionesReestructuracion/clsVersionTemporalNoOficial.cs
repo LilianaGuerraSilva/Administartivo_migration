@@ -1,26 +1,24 @@
-using System.Text;
-using LibGalac.Aos.Dal;
-using Galac.Saw.Ccl.Tablas;
-using Galac.Saw.Brl.Tablas;
-using System.ComponentModel.DataAnnotations;
 using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Base;
-using LibGalac.Aos.Brl;
-using System;
-using System.Data;
-using LibGalac.Aos.Cnf;
-using Galac.Saw.Lib;
-using LibGalac.Aos.DefGen;
 
-namespace Galac.Saw.DDL.VersionesReestructuracion {
+namespace Galac.Saw.DDL.VersionesReestructuracion
+{
 
-	class clsVersionTemporalNoOficial : clsVersionARestructurar {
+    class clsVersionTemporalNoOficial : clsVersionARestructurar {
 		public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
 		public override bool UpdateToVersion() {
 			StartConnectionNoTransaction();
+            CrearParametrosCreditoElectronico();
             DisposeConnectionNoTransaction();
 			return true;
 		}
 
+        private void CrearParametrosCreditoElectronico()
+        {
+            AgregarNuevoParametro("UsaCreditoEelectronico", "Factura", 2, "2.2.- Facturación (Continuación) ", 2, "", eTipoDeDatoParametros.String, "", 'N', "N");
+            AgregarNuevoParametro("NombreCreditoElectronico", "Factura", 2, "2.2.- Facturación (Continuación) ", 2, "", eTipoDeDatoParametros.String, "", 'N', "Crédito Electrónico");
+            AgregarNuevoParametro("DiasUsualesCreditoElectronico", "Factura", 2, "2.2.- Facturación (Continuación) ", 2, "", eTipoDeDatoParametros.Int, "", 'N', "14");
+            AgregarNuevoParametro("DiasMaximoCreditoElectronico", "Factura", 2, "2.2.- Facturación (Continuación) ", 2, "", eTipoDeDatoParametros.Int, "", 'N', "14");
+        }
     }
 }

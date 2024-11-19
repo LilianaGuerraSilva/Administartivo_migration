@@ -276,6 +276,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
             (ModuleList.Where(w => w.DisplayName == "7 - Bancos").FirstOrDefault().Groups.Where(y => y.DisplayName == "7.2-Moneda").FirstOrDefault()
                        .Content as BancosMonedaViewModel).ParametrosViewModel = this;
+            (ModuleList.Where(w => w.DisplayName == "2 - Factura").FirstOrDefault().Groups.Where(y => y.DisplayName == "2.2.- Facturación (Continuación)").FirstOrDefault()
+                       .Content as FacturaFacturacionContViewModel).ParametrosViewModel = this;
         }
 
         public static void Send<T>(string valPropertyName, T valValue) {
