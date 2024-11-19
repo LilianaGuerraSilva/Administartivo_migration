@@ -412,6 +412,10 @@ namespace Galac.Saw.Brl.SttDef {
             insEntidad.UsaListaDePrecioEnMonedaExtranjeraCXCAsBool = false;
             insEntidad.NroDiasMantenerTasaCambio = 0;
             insEntidad.UsaMediosElectronicosDeCobroAsBool = false;
+            insEntidad.UsaCreditoElectronicoAsBool = false;
+            insEntidad.NombreCreditoElectronico = "Crédito Electrónico";
+            insEntidad.DiasUsualesCreditoElectronico = 14;
+            insEntidad.DiasMaximoCreditoElectronico = 14;
             return insEntidad;
         }
         private void LlenaListado(FacturacionContinuacionStt valRecord, ref List<SettValueByCompany> valBusinessObject, int valConsecutivoCompania) {
@@ -439,6 +443,10 @@ namespace Galac.Saw.Brl.SttDef {
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaListaDePrecioEnMonedaExtranjeraCXCAsBool), "UsaListaDePrecioEnMonedaExtranjeraCXC", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.ToStr(valRecord.NroDiasMantenerTasaCambio), "NroDiasMantenerTasaCambio", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.ToStr(valRecord.UsaMediosElectronicosDeCobroAsBool), "UsaMediosElectronicosDeCobro", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaCreditoElectronicoAsBool), "UsuaCreditoElectronico", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(valRecord.NombreCreditoElectronico, "NombreCreditoElectronico", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(LibConvert.ToStr(valRecord.DiasUsualesCreditoElectronico), "DiasUsualesCreditoElectronico", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(LibConvert.ToStr(valRecord.DiasMaximoCreditoElectronico), "DiasMaximoCreditoElectronico", valConsecutivoCompania));
         }
         FacturacionContinuacionStt GetFacturacionContinuacionStt(List<SettValueByCompany> valListGetSettValueByCompany) {
             FacturacionContinuacionStt vResult = new FacturacionContinuacionStt();
@@ -468,6 +476,10 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.UsaListaDePrecioEnMonedaExtranjeraCXCAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaListaDePrecioEnMonedaExtranjeraCXC"));
             vResult.NroDiasMantenerTasaCambio = LibConvert.ToInt(ValorSegunColumna(valListGetSettValueByCompany, "NroDiasMantenerTasaCambio"));
             vResult.UsaMediosElectronicosDeCobroAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaMediosElectronicosDeCobro"));
+            vResult.UsaCreditoElectronicoAsBool  = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsuaCreditoElectronico"));
+            vResult.NombreCreditoElectronico = ValorSegunColumna(valListGetSettValueByCompany, "NombreCreditoElectronico");
+            vResult.DiasUsualesCreditoElectronico = LibConvert.ToInt( ValorSegunColumna(valListGetSettValueByCompany, "DiasUsualesCreditoElectronico"));
+            vResult.DiasMaximoCreditoElectronico = LibConvert.ToInt(ValorSegunColumna(valListGetSettValueByCompany, "DiasMaximoCreditoElectronico"));
             return vResult;
         }
 

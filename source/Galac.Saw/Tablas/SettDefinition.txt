@@ -73,6 +73,10 @@ UsaListaDePrecioEnMonedaExtranjera;Factura;2;2.2.- Facturación (Continuación) ;2
 UsaListaDePrecioEnMonedaExtranjeraCXC;Factura;2;2.1.- Facturación ;1;;Bool;;N
 SeMuestraTotalEnDivisas;Factura;2;2.2.- Facturación (Continuación) ;2;;Bool;;N
 UsaMediosElectronicosDeCobro;Factura;2;2.2.- Facturación (Continuación) ;2;;Bool;;N
+UsaCreditoEelectronico;Factura;2;2.2.- Facturación (Continuación) ;2;;Bool;;N
+NombreCreditoElectronico;Factura;2;2.2.- Facturación (Continuación) ;2;;String;;N
+DiasUsualesCreditoElectronico;Factura;2;2.2.- Facturación (Continuación) ;2;;int;;N
+DiasMaximoCreditoElectronico;Factura;2;2.2.- Facturación (Continuación) ;2;;int;;N
 NroDiasMantenerTasaCambio;Factura;2;2.1.- Facturación ;2;;Int;;N
 NumeroDeDigitosEnFactura;Factura;2;2.3.- Impresión de Factura;3;;int;;N
 CantidadDeCopiasDeLaFacturaAlImprimir;Factura;2;2.3.- Impresión de Factura;3;;int;;N

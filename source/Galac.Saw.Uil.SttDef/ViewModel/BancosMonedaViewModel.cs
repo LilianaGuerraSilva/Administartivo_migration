@@ -399,6 +399,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 if(LibString.IsNullOrEmpty(CodigoMonedaExtranjera)) {
                     vResult = new ValidationResult("El Campo " + ModuleName + "-> Nombre Moneda Extranjera, es Requerido.");
                 }
+                if (UsaMonedaExtranjera && CodigoMonedaExtranjera != "USD") {
+                    var result = ParametrosViewModel.ModuleList.Where(w => w.DisplayName == "2 - Factura").FirstOrDefault().Groups.Where(y => y.DisplayName == "2.2.- Facturación (Continuación)").FirstOrDefault()
+                        .Content as FacturaFacturacionContViewModel;
+                    result.UsaCreditoElectronico = false;
+                }
             }
             return vResult;
         }
