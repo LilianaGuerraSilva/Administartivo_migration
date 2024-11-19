@@ -46,13 +46,13 @@
                     Grid.Row="2"
                     Grid.Column="0"
                     Margin="0"
-                    Content="Usuario"
+                    Content="{Binding Path=CampoUsuario}"
                     Style="{StaticResource LabelPrompt}" />
                 <Label
                     Grid.Row="3"
                     Grid.Column="0"
                     Margin="0"
-                    Content="Clave"
+                    Content="{Binding Path=CampoClave}"
                     Style="{StaticResource LabelPrompt}" />
                 <Label
                     Grid.Row="0"
@@ -106,7 +106,7 @@
                     VerticalAlignment="Top"
                     BorderThickness="1"
                     IsReadOnly="{Binding Path=IsReadOnly}"
-                    MaxLength="100"
+                    MaxLength="1000"
                     Style="{StaticResource TextBoxInputStyle}"
                     Text="{Binding Path=Clave, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                     TextWrapping="Wrap"

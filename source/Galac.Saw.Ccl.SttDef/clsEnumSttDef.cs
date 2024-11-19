@@ -506,7 +506,8 @@ namespace Galac.Saw.Ccl.SttDef {
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eProveedorImprentaDigital {
         [LibEnumDescription("No Aplica")] NoAplica = 0,
-        [LibEnumDescription("The Factory HKA")] TheFactoryHKA
+        [LibEnumDescription("The Factory HKA")] TheFactoryHKA,
+        [LibEnumDescription("Novus")] Novus
     }
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
