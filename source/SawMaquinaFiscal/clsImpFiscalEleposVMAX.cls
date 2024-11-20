@@ -491,13 +491,14 @@ h_Error:
 Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAgregaLineaSeparacion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Private Function fFormaDeCobro(ByVal vFormaDeCobro) As String
+Private Function fFormaDeCobro(ByVal valFormaDeCobro As String, ByVal valDescripcionPagoCreditoElectronico As String) As String
    Dim vValorFinal As String
-   Select Case vFormaDeCobro
+   Select Case valFormaDeCobro
       Case "00001":    vValorFinal = "Efectivo"
       Case "00002":    vValorFinal = "Cheque"
       Case "00003":    vValorFinal = "Tarjeta"
       Case "00004":    vValorFinal = "Deposito"
+      Case "00015":    vValorFinal = valDescripcionPagoCreditoElectronico
       Case Else: vValorFinal = "Efectivo"
    End Select
    fFormaDeCobro = vValorFinal
@@ -510,7 +511,7 @@ Private Sub sFormaDePago(ByVal insDatosImprFiscal As clsDatosImprFiscal)
    Dim MontoCanceladoFormateado As String
    Dim vTotalFactura As String
    Dim vResult As Boolean
-   Dim FormaDeCobro As String
+   Dim vFormaDeCobro As String
    Dim vCodigoMoneda As String
    On Error GoTo h_Error
    Set rsFormaDePago = insDatosImprFiscal.GetFormaDePago
@@ -521,13 +522,13 @@ Private Sub sFormaDePago(ByVal insDatosImprFiscal As clsDatosImprFiscal)
          vMontoCancelado = gConvert.fConvierteAString(rsFormaDePago.Fields("Monto").Value)
          vMontoCancelado = Abs(vMontoCancelado)
          vCodigoMoneda = rsFormaDePago.Fields("CodigoMoneda").Value
-         FormaDeCobro = fFormaDeCobro(rsFormaDePago("CodigoFormaDelCobro").Value)
+         vFormaDeCobro = fFormaDeCobro(rsFormaDePago("CodigoFormaDelCobro").Value, insDatosImprFiscal.GetDescripcionPagoCreditoElectronico)
          If rsFormaDePago.RecordCount < 1 Then
              vResult = mVmax.PagoCF("Efectivo", vTotalFactura, 1)
          ElseIf insDatosImprFiscal.GetCodigoMonedaCompania = vCodigoMoneda Then
             MontoCanceladoFormateado = gConvert.fConvierteAString(vMontoCancelado)
             MontoCanceladoFormateado = fDarFormatoNumericoParaImpresion(MontoCanceladoFormateado, mEnterosParaPagos, mDecimalesParaMonto)
-            vResult = mVmax.PagoCF(FormaDeCobro, MontoCanceladoFormateado, 1)
+            vResult = mVmax.PagoCF(vFormaDeCobro, MontoCanceladoFormateado, 1)
          End If
          rsFormaDePago.MoveNext
       Loop
