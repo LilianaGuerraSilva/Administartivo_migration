@@ -59,7 +59,6 @@ Private mTotalAPagar As Currency
 Private mIGTFML As Currency
 Private mRegistroDeRetornoEnTxt As Boolean
 Private mListaVouchersDePago As String
-Private mDescripcionPagoCreditoElectronico As String
 
 Private Function CM_FILE_NAME() As String
    CM_FILE_NAME = "clsDatosImprFiscal"
@@ -483,10 +482,3 @@ Public Function GetListaVouchersDePago() As String
    GetListaVouchersDePago = mListaVouchersDePago
 End Function
 
-Public Sub SetDescripcionPagoCreditoElectronico(ByVal newDescripcionPagoCreditoElectronico As String)
-   mDescripcionPagoCreditoElectronico = newDescripcionPagoCreditoElectronico
-End Sub
-
-Public Function GetDescripcionPagoCreditoElectronico() As String
-   GetDescripcionPagoCreditoElectronico = mDescripcionPagoCreditoElectronico
-End Function
