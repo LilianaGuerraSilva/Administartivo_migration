@@ -435,6 +435,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 if (valAbrirConexion) {
                     AbrirConexion();
                 }
+				
                 vSerial = LibText.Space(20);
                 vRetorno = Bematech_FI_NumeroSerieMFD(ref vSerial);
                 vSerial = LibText.Trim(vSerial);
