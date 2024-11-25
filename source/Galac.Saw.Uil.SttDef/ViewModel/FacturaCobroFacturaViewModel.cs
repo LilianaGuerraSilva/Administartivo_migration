@@ -234,7 +234,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 if (Model.UsaCreditoElectronicoAsBool != value) {
                     Model.UsaCreditoElectronicoAsBool = value;
                     IsDirty = true;
-                    InicalizacionParametrosCreditoElectronico();
                     RaisePropertyChanged(UsaCreditoElectronicoPropertyName);
                     RaisePropertyChanged(NombreCreditoElectronicoPropertyName);
                     RaisePropertyChanged(DiasDeCreditoPorCuotaCreditoElectronicoPropertyName);
@@ -243,6 +242,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     RaisePropertyChanged(UsaClienteUnicoCreditoElectronicoPropertyName);
                     RaisePropertyChanged(CodigoClienteCreditoElectronicoPropertyName);
                     RaisePropertyChanged(GenerarUnaUnicaCuotaCreditoElectronicoPropertyName);
+                    InicalizacionParametrosCreditoElectronico();
                 }
             }
         }
@@ -358,6 +358,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
+        #region IsEnabled
         public bool IsEnabledEmitirDirecto {
             get { return IsEnabled && EmitirDirecto; }
         }
@@ -393,13 +394,34 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         public bool IsEnabledCreditoElectronico {
-            get {
-                var vBancosMonedaVM = ParametrosViewModel.ModuleList.Where(w => w.DisplayName == LibEnumHelper.GetDescription(eModulesLevelName.Bancos)).FirstOrDefault().Groups.Where(y => y.DisplayName == new BancosViewModel(null, eAccionSR.Consultar).ModuleName).FirstOrDefault().Content as BancosMonedaViewModel;
-                bool vCondiones = false; // UsaCobroDirectoEnMultimoneda && vBancosMonedaVM.UsaMonedaExtranjera && vBancosMonedaVM.CodigoMonedaExtranjera == "USD";
-                return IsEnabled && vCondiones;
+            get {                
+                return IsEnabled && UsaCobroDirectoEnMultimoneda && UsaMonedaExtranjera && CodigoMonedaExtranjera == "USD"; ;
             }
         }
+        public bool IsEnabledNombreCreditoElectronico {
+            get { return IsEnabled && IsEnabledCreditoElectronico; }
+        }
+        public bool IsEnabledDiasDeCreditoPorCuotaCreditoElectronico {
+            get { return IsEnabled && IsEnabledCreditoElectronico; }
+        }
+        public bool IsEnabledCantidadCuotasUsualesCreditoElectronico {
+            get { return IsEnabled && IsEnabledCreditoElectronico; }
+        }
+        public bool IsEnabledMaximaCantidadCuotasCreditoElectronico {
+            get { return IsEnabled && IsEnabledCreditoElectronico; }
+        }
+        public bool IsEnabledUsaClienteUnicoCreditoElectronico {
+            get { return IsEnabled && IsEnabledCreditoElectronico; }
+        }
+        public bool IsEnabledCodigoClienteCreditoElectronico {
+            get { return IsEnabled && IsEnabledCreditoElectronico && UsaClienteUnicoCreditoElectronico; }
+        }
+        public bool IsEnabledGenerarUnaUnicaCuotaCreditoElectronico {
+            get { return IsEnabled && UsaCreditoElectronico; }
+        }
+        #endregion IsEnabled
 
+        #region Fk Conexion
         public FkCuentaBancariaViewModel ConexionCuentaBancariaCobroDirecto {
             get {
                 return _ConexionCuentaBancariaCobroDirecto;
@@ -493,7 +515,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 				RaisePropertyChanged(CodigoClienteCreditoElectronicoPropertyName);
             }
         }
+        #endregion Fk Conexion
 
+        #region Choose
         public RelayCommand<string> ChooseCuentaBancariaCobroDirectoCommand {
             get;
             private set;
@@ -518,9 +542,23 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             get;
             private set;
         }
+        #endregion Choose
 
         #endregion //Propiedades
         #region Propiedades Externas
+        bool UsaMonedaExtranjera {
+            get {
+                var vBancosMonedaVM = ParametrosViewModel.ModuleList.Where(w => w.DisplayName == LibEnumHelper.GetDescription(eModulesLevelName.Bancos)).FirstOrDefault().Groups.Where(y => y.DisplayName == new BancosViewModel(null, eAccionSR.Consultar).ModuleName).FirstOrDefault().Content as BancosMonedaViewModel;
+                return vBancosMonedaVM.UsaMonedaExtranjera;
+            }
+        }
+
+        string CodigoMonedaExtranjera {
+            get {
+                var vBancosMonedaVM = ParametrosViewModel.ModuleList.Where(w => w.DisplayName == LibEnumHelper.GetDescription(eModulesLevelName.Bancos)).FirstOrDefault().Groups.Where(y => y.DisplayName == new BancosViewModel(null, eAccionSR.Consultar).ModuleName).FirstOrDefault().Content as BancosMonedaViewModel;
+                return vBancosMonedaVM.CodigoMonedaExtranjera;
+            }
+        }
         bool UsaListaDePrecioEnMonedaExtranjeraCXC {
             get {
                 var vFactContVM = ParametrosViewModel.ModuleList.Where(w => w.DisplayName == LibEnumHelper.GetDescription(eModulesLevelName.Factura)).FirstOrDefault().Groups.Where(y => y.DisplayName == new FacturaFacturacionContViewModel(null, eAccionSR.Consultar).ModuleName).FirstOrDefault().Content as FacturaFacturacionContViewModel;
