@@ -45,9 +45,11 @@ namespace Galac.Saw.LibWebConnector {
                 vResultMessage = vHttpRespMsg.Result.RequestMessage.ToString();
                 if (vHttpRespMsg.Result.StatusCode == System.Net.HttpStatusCode.OK) {
                     vHttpRespMsg.Result.EnsureSuccessStatusCode();
+                } else if (vHttpRespMsg.Result.StatusCode == System.Net.HttpStatusCode.NotFound) {
+                    throw new Exception($"Revise su conexión a Internet, Revise que la URL del servicio: {LoginUser.URL} sea la correcta.");
                 }
                 if (vHttpRespMsg.Result.Content is null) {
-                    throw new Exception("Revise su conexión a Internet, Revise que la URL del servicio sea la correcta.");
+                    throw new Exception($"Revise su conexión a Internet, Revise que la URL del servicio: {LoginUser.URL} sea la correcta.");
                 } else {
                     Task<string> HttpResq = vHttpRespMsg.Result.Content.ReadAsStringAsync();
                     HttpResq.Wait();
@@ -59,7 +61,7 @@ namespace Galac.Saw.LibWebConnector {
                             resultados = new stRespuestaTF() {
                                 numeroControl = vReqsNV.data.Value.numerodocumento,
                                 fechaAsignacion = vReqsNV.data.Value.fecha
-                            }                            
+                            }
                         };
                         return vReqs;
                     } else if (LibString.S1IsEqualToS2(vReqsNV.error.Value.code, "1")) {
@@ -81,7 +83,7 @@ namespace Galac.Saw.LibWebConnector {
             } catch (AggregateException vEx) {
                 string vMensaje = vEx.InnerException.InnerException.Message;
                 if (vEx.InnerException.InnerException.HResultPublic() == -2146233079) {
-                    vMensaje = vMensaje + "\r\nRevise su conexión a Internet, Revise que la URL del servicio sea la correcta.";
+                    vMensaje = vMensaje + $"\r\nRevise su conexión a Internet, Revise que la URL del servicio: {LoginUser.URL} sea la correcta.";
                 }
                 throw new Exception(vMensaje);
             } catch (Exception vEx) {
