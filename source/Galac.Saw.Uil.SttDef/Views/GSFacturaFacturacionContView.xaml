@@ -12,7 +12,6 @@
             <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
-
     <Grid
         Name="GVMain"
         Margin="3"
@@ -52,7 +51,7 @@
                     Name="lblForzarFechaFacturaAmesEspecifico"
                     Grid.Row="0"
                     Grid.Column="0"
-                    Content="Forzar Fecha Factura a mes Especifico......."
+                    Content="Forzar Fecha Factura a mes especifico......."
                     Style="{StaticResource LabelPrompt}" />
                 <CheckBox
                     Name="chkForzarFechaFacturaAmesEspecifico"
@@ -117,7 +116,7 @@
                     Name="lblUltimaFechaDeFacturacionHistorica"
                     Grid.Row="1"
                     Grid.Column="0"
-                    Content="Ultima Fecha de Facturación Histórica........."
+                    Content="Última Fecha de Facturación Histórica........."
                     IsEnabled="{Binding Path=IsEnabledUltimaFechaDeFacturacionHistorica}"
                     Style="{StaticResource LabelPrompt}"
                     Visibility="{Binding Path=IsChecked, ElementName=chkPermitirIncluirFacturacionHistorica}" />
@@ -183,7 +182,6 @@
                     <RowDefinition Height="417*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-
                     <ColumnDefinition Width="7*" />
                 </Grid.ColumnDefinitions>
 
@@ -191,7 +189,7 @@
                     Name="lblAccionAlAnularFactDeMesesAnt"
                     Grid.Row="0"
                     Grid.Column="0"
-                    Content="Acción al Anular Factura de Meses Anteriores"
+                    Content="Acción al Anular Factura de meses anteriores"
                     Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSComboBoxWpf
                     Name="cmbAccionAlAnularFactDeMesesAnt"
@@ -258,161 +256,6 @@
             </Grid>
         </GroupBox>
         <GroupBox
-            Grid.Row="1"
-            Grid.Column="1"
-            Margin="3"
-            Header="Cobro Directo"
-            Style="{StaticResource GroupBoxStyle}">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" MinWidth="140" />
-
-                </Grid.ColumnDefinitions>
-
-                <Label
-                    Name="lblEmitirDirecto"
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Content="Emitir Directo............................"
-                    Style="{StaticResource LabelPrompt}" />
-                <CheckBox
-                    Name="chkEmitirDirecto"
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    HorizontalAlignment="Left"
-                    IsChecked="{Binding Path=EmitirDirecto}"
-                    IsEnabled="{Binding Path=IsEnabled}"
-                    Style="{StaticResource CheckBoxStyle}" />
-                <Label
-                    Name="lblUsaCobroDirecto"
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    Content="Usa Cobro Directo...................."
-                    Style="{StaticResource LabelPrompt}" />
-                <CheckBox
-                    Name="chkUsaCobroDirecto"
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    HorizontalAlignment="Left"
-                    IsChecked="{Binding Path=UsaCobroDirecto}"
-                    IsEnabled="{Binding Path=IsEnabledEmitirDirecto}"
-                    Style="{StaticResource CheckBoxStyle}" />
-                <Label
-                    Name="lblUsaCobroDirectoMultimoneda"
-                    Grid.Row="2"
-                    Grid.Column="0"
-                    Content="Usa Cobro Directo en Multimoneda......"
-                    Style="{StaticResource LabelPrompt}" />
-                <CheckBox
-                    Name="chkUsaCobroDirectoMultimoneda"
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    Margin="3,8,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    IsChecked="{Binding Path=UsaCobroDirectoEnMultimoneda}"
-                    IsEnabled="{Binding Path=IsEnabledUsaCobroDirectoEnMultimoneda}"
-                    Style="{StaticResource CheckBoxStyle}" />
-                <Label
-                    Name="lblCuentaBancariaCobroDirecto"
-                    Grid.Row="3"
-                    Grid.Column="0"
-                    Content="Cuenta Bancaria Cobro Directo............"
-                    Style="{StaticResource LabelPrompt}" />
-                <nsWpfControls:GSSeekConnection
-                    Name="txtCuentaBancariaCobroDirecto"
-                    Grid.Row="3"
-                    Grid.Column="1"
-                    Height="23"
-                    Margin="3"
-                    HorizontalAlignment="Stretch"
-                    ConnectionValue="{Binding Path=CuentaBancariaCobroDirecto, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                    DisplayMemberPath="Codigo"
-                    IsEnabled="{Binding Path=IsEnabledCuentaBancariaCobroDirecto}"
-                    Model="{Binding Path=ConexionCuentaBancariaCobroDirecto, Mode=TwoWay}"
-                    SearchCommand="{Binding Path=ChooseCuentaBancariaCobroDirectoCommand}" />
-                <Label
-                    Name="lblUsaMediosElectronicosDeCobro"
-                    Grid.Row="4"
-                    Grid.Column="0"
-                    Content="Usa Medios Electrónicos de Cobro......."
-                    Style="{StaticResource LabelPrompt}" />
-                <CheckBox
-                    Name="chkUsaMediosElectronicosDeCobro"
-                    Grid.Row="4"
-                    Grid.Column="1"
-                    HorizontalAlignment="Left"
-                    IsChecked="{Binding Path=UsaMediosElectronicosDeCobro}"
-                    IsEnabled="{Binding Path=IsEnabledCuentaBancariaCobroMultimoneda}"
-                    Style="{StaticResource CheckBoxStyle}" />
-                <Label
-                    Name="lblConceptoBancarioCobroDirecto"
-                    Grid.Row="5"
-                    Grid.Column="0"
-                    Content="Concepto Bancario..................."
-                    Style="{StaticResource LabelPrompt}" />
-                <nsWpfControls:GSSeekConnection
-                    Name="txtConceptoBancarioCobroDirecto"
-                    Grid.Row="5"
-                    Grid.Column="1"
-                    Height="23"
-                    Margin="3"
-                    HorizontalAlignment="Stretch"
-                    ConnectionValue="{Binding Path=ConceptoBancarioCobroDirecto, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                    DisplayMemberPath="codigo"
-                    IsEnabled="{Binding Path=IsEnabledConceptoBancarioCobroDirecto}"
-                    Model="{Binding Path=ConexionConceptoBancarioCobroDirecto, Mode=TwoWay}"
-                    SearchCommand="{Binding Path=ChooseConceptoBancarioCobroDirectoCommand}" />
-                <Label
-                    Name="lblCuentaBancariaDivisa"
-                    Grid.Row="6"
-                    Grid.Column="0"
-                    Content="Cuenta Bancaria para Cobro en Multimoneda"
-                    Style="{StaticResource LabelPrompt}" />
-                <nsWpfControls:GSSeekConnection
-                    Name="txtCuentaBancariaDivisa"
-                    Grid.Row="6"
-                    Grid.Column="1"
-                    Height="23"
-                    Margin="3"
-                    HorizontalAlignment="Stretch"
-                    ConnectionValue="{Binding Path=CuentaBancariaCobroMultimoneda, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                    DisplayMemberPath="Codigo"
-                    IsEnabled="{Binding Path=IsEnabledCuentaBancariaCobroMultimoneda}"
-                    Model="{Binding Path=ConexionCuentaBancariaCobroMultimoneda, Mode=TwoWay}"
-                    SearchCommand="{Binding Path=ChooseCuentaBancariaCobroMultimonedaCommand}" />
-                <Label
-                    Name="lblConceptoBancarioDivisa"
-                    Grid.Row="7"
-                    Grid.Column="0"
-                    Content="Concepto Bancario para Cobro en Multimoneda"
-                    Style="{StaticResource LabelPrompt}" />
-                <nsWpfControls:GSSeekConnection
-                    Name="txtConceptoBancarioCobroMultimoneda"
-                    Grid.Row="7"
-                    Grid.Column="1"
-                    Height="23"
-                    Margin="3"
-                    HorizontalAlignment="Stretch"
-                    ConnectionValue="{Binding Path=ConceptoBancarioCobroMultimoneda, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                    DisplayMemberPath="codigo"
-                    IsEnabled="{Binding Path=IsEnabledConceptoBancarioCobroMultimoneda}"
-                    Model="{Binding Path=ConexionConceptoBancarioCobroMultimoneda, Mode=TwoWay}"
-                    SearchCommand="{Binding Path=ChooseConceptoBancarioCobroMultimonedaCommand}" />
-            </Grid>
-        </GroupBox>
-        <GroupBox
             Grid.Row="2"
             Grid.Column="1"
             Margin="3"
@@ -446,13 +289,13 @@
                     Visibility="Hidden" />
                 <Label
                     Name="lblMaximoDescuentoEnFactura"
-                    Grid.Row="1"
+                    Grid.Row="0"
                     Grid.Column="0"
                     Content="Máximo Descuento en Factura"
                     Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtMaximoDescuentoEnFactura"
-                    Grid.Row="1"
+                    Grid.Row="0"
                     Grid.Column="1"
                     HorizontalAlignment="Stretch"
                     BorderThickness="1"
@@ -470,7 +313,7 @@
             Grid.Row="3"
             Grid.Column="0"
             Margin="3"
-            Header="Bloquear Emisión Al Perder Conexión con la Impresora Fiscal"
+            Header="Bloquear Emisión al Perder Conexión con la Impresora Fiscal"
             Style="{StaticResource GroupBoxStyle}"
             Visibility="{Binding Path=isVisibleParaPeru, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid Width="376">
@@ -535,8 +378,8 @@
             </Grid>
         </GroupBox>
         <GroupBox
-            Grid.Row="4"
-            Grid.Column="0"
+            Grid.Row="1"
+            Grid.Column="1"
             Margin="3"
             Header="Facturación en Divisas"
             Style="{StaticResource GroupBoxStyle}">
@@ -594,7 +437,7 @@
                 <Label
                     Grid.Row="3"
                     Grid.Column="0"
-                    Content="Número Días A Mantener Tasa De Cambio ........................"
+                    Content="Número Días a mantener Tasa de Cambio ........................"
                     Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtNroDiasMantenerTasaCambio"
@@ -609,95 +452,6 @@
                     Style="{StaticResource TextBoxInputStyle}"
                     UnitDigits="0"
                     Value="{Binding Path=NroDiasMantenerTasaCambio, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-
-            </Grid>
-        </GroupBox>
-        <GroupBox
-            Grid.Row="4"
-            Grid.Column="1"
-            Margin="3"
-            Header="Crédito Electrónico"
-            Style="{StaticResource GroupBoxStyle}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Label
-                    Name="lblUsaCreditoElectronico"
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Content="Usar Crédito Electrónico .............................."
-                    Style="{StaticResource LabelPrompt}" />
-                <CheckBox
-                    Name="chkUsaCreditoElectronico"
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    HorizontalAlignment="Left"
-                    IsChecked="{Binding Path=UsaCreditoElectronico}"
-                    IsEnabled="{Binding Path=IsEnabledCreditoElectronico}"
-                    Style="{StaticResource CheckBoxStyle}" />
-                <Label
-                    Name="lblNombreParaCreditoElectronico"
-                    Grid.Row="1"
-                    Content="Nombre para Crédito Electrónico ................."
-                    Style="{StaticResource LabelPrompt}" />
-                <nsWpfControls:GSTextBoxWpf
-                    Name="txtNombreCreditoElectronico"
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    Width="200"
-                    BorderThickness="1"
-                    InputDataType="String" 
-                    InvalidCharacters="&quot;|°¬!#$%&amp;/()=?'¡¿¨'*+~{}^',:;@"
-                    IsEnabled="{Binding Path=UsaCreditoElectronico}"
-                    MaxLength="20"
-                    Style="{StaticResource TextBoxInputStyle}"
-                    Text="{Binding Path=NombreCreditoElectronico, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                <Label
-                    Name = "lblDiasUsualesDeCredito"
-                    Grid.Row="2"
-                    Grid.Column="0"
-                    Content="Días Usuales del Crédito ............................."
-                    Style="{StaticResource LabelPrompt}" />
-                <nsWpfControls:GSNumericBoxWpf
-                    Name="txtDiasUsualesDeCredito"
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    HorizontalAlignment="Stretch"
-                    BorderThickness="1"
-                    DecimalDigits="2"
-                    InputDataType="UInteger"
-                    IsEnabled="{Binding Path=UsaCreditoElectronico}"
-                    MaxLength="3"
-                    Style="{StaticResource TextBoxInputStyle}"
-                    UnitDigits="0"
-                    Value="{Binding Path=DiasUsualesCreditoElectronico, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                <Label
-                    Name="lblDiasMaximoDeCredito"
-                    Grid.Row="3"
-                    Grid.Column="0"
-                    Content="Días Máximos de Crédito ............................"
-                    Style="{StaticResource LabelPrompt}" />
-                <nsWpfControls:GSNumericBoxWpf
-                    Name="txtDiasMaximoDeCredito"
-                    Grid.Row="3"
-                    Grid.Column="1"
-                    HorizontalAlignment="Stretch"
-                    BorderThickness="1"
-                    DecimalDigits="2"
-                    InputDataType="UInteger"
-                    IsEnabled="{Binding Path=UsaCreditoElectronico}"
-                    MaxLength="3"
-                    Style="{StaticResource TextBoxInputStyle}"
-                    UnitDigits="0"
-                    Value="{Binding Path=DiasMaximoCreditoElectronico, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
 
             </Grid>
         </GroupBox>
