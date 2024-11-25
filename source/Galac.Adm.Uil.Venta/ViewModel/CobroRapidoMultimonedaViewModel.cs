@@ -18,9 +18,11 @@ using Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal;
 using Galac.Adm.Ccl.DispositivosExternos;
 using System.IO;
 using System.Text.RegularExpressions;
+using LibGalac.Aos.DefGen;
+using System.ComponentModel.DataAnnotations;
+using LibGalac.Aos.UI.Mvvm.Validation;
 
-namespace Galac.Adm.Uil.Venta.ViewModel
-{
+namespace Galac.Adm.Uil.Venta.ViewModel {
 
     internal class CobroCobroMediosElectonicosVPOS {
         internal decimal MontoTransaccion { get; set; }
@@ -56,10 +58,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel
         private const string IsVisibleCreditoElectronicoPropertyName = "IsVisibleCreditoElectronico";
         private const string NombreCreditoElectronicoPropertyName = "NombreCreditoElectronico";
         private const string CantidadCuotasUsualesCreditoElectronicoPropertyName = "CantidadCuotasUsualesCreditoElectronico";
-        private const string DiasMaximoCreditoElectronicoPropertyName = "DiasMaximoCreditoElectronico";
+        private const string DiasDeCreditoPorCuotaCreditoElectronicoPropertyName = "DiasDeCreditoPorCuotaCreditoElectronico";
         private const string MaximaCantidadCuotasCreditoElectronicoPropertyName = "MaximaCantidadCuotasCreditoElectronico";
-        private const string FechaVencimientoCreditoElectronicoPropertyName = "FechaVencimientoCreditoElectronico";
-        private const string FechaVencimientoCreditoElectronicoAsStringPropertyName = "FechaVencimientoCreditoElectronicoAsString";
+        private const string MontoCreditoElectronicoPropertyName = "MontoCreditoElectronico";
 
         private string _NombreDeMonedaLocal;
         private string _NombreDeMonedaDivisa;
@@ -116,10 +117,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel
         private bool _EsVueltoPagoMovil;
         private string _ListaVoucherMediosElectronicos;
         private bool _IsVisibleCreditoElectronico;
+        private string _NombreCreditoElectronico;
         private decimal _CantidadCuotasUsualesCreditoElectronico;
-        private decimal _DiasMaximoCreditoElectronico;
+        private decimal _DiasDeCreditoPorCuotaCreditoElectronico;
         private decimal _MaximaCantidadCuotasCreditoElectronico;
-        private DateTime _FechaVencimientoCreditoElectronico;
+        private decimal _MontoCreditoElectronico;
 
         #endregion
 
@@ -594,7 +596,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel
         public bool IsEnableVuelto {
             get {
                 decimal vTotalPagosML = EfectivoEnMonedaLocal + TarjetaUno + TarjetaDos + TotalMediosElectronicos + TransferenciaEnMonedaLocal;
-                decimal vTotalPagosME = EfectivoEnDivisas + TransferenciaEnDivisas + TotalMediosElectronicosME;
+                decimal vTotalPagosME = EfectivoEnDivisas + TransferenciaEnDivisas + TotalMediosElectronicosME + MontoCreditoElectronico;
                 if (VueltoEnMonedaLocal > 0 || VueltoEnDivisas > 0) { // Vuelto en exceso
                     return true;
                 } else if (vTotalPagosML > 0 || vTotalPagosME > 0) { // Vuelto en 0
@@ -679,6 +681,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel
                 RaisePropertyChanged(IsVisibleCreditoElectronicoPropertyName);
             }
         }
+        [LibCustomValidation("MaximaCuotaCreditoEelctronicoValidating")]
         public decimal CantidadCuotasUsualesCreditoElectronico {
             get { return _CantidadCuotasUsualesCreditoElectronico; }
             set {
@@ -686,11 +689,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel
                 RaisePropertyChanged(CantidadCuotasUsualesCreditoElectronicoPropertyName);
             }
         }
-        public decimal DiasMaximoCreditoElectronico {
-            get { return _DiasMaximoCreditoElectronico; }
+        public decimal DiasDeCreditoPorCuotaCreditoElectronico {
+            get { return _DiasDeCreditoPorCuotaCreditoElectronico; }
             set { 
-                _DiasMaximoCreditoElectronico = value;
-                RaisePropertyChanged(DiasMaximoCreditoElectronicoPropertyName);
+                _DiasDeCreditoPorCuotaCreditoElectronico = value;
+                RaisePropertyChanged(DiasDeCreditoPorCuotaCreditoElectronicoPropertyName);
             }
         }
         
@@ -702,17 +705,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel
             }
         }
 
-        public DateTime FechaVencimientoCreditoElectronico {
-            get { return _FechaVencimientoCreditoElectronico; }
-            set { 
-                _FechaVencimientoCreditoElectronico = value;
-                RaisePropertyChanged(FechaVencimientoCreditoElectronicoPropertyName);
-                RaisePropertyChanged(FechaVencimientoCreditoElectronicoAsStringPropertyName);
-            }
-        }
-
-        private string _NombreCreditoElectronico;
-
         public string NombreCreditoElectronico
         {
             get { return _NombreCreditoElectronico + ":"; }
@@ -720,6 +712,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel
                 _NombreCreditoElectronico = value;
                 RaisePropertyChanged(NombreCreditoElectronicoPropertyName);
             }
+        }
+        
+        public decimal MontoCreditoElectronico
+        {
+            get { return _MontoCreditoElectronico; }
+            set { _MontoCreditoElectronico = value; }
         }
 
         #endregion
@@ -1031,7 +1029,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel
         private bool SePuedeCobrar() {
             bool vResult;
             CalcularTotales();
-            TotalPagosME = LibMath.Abs(EfectivoEnDivisas) + LibMath.Abs(TransferenciaEnDivisas) + LibMath.Abs(TotalMediosElectronicosME) - LibMath.Abs(VueltoEnDivisas);
+            TotalPagosME = LibMath.Abs(EfectivoEnDivisas) + LibMath.Abs(TransferenciaEnDivisas) + LibMath.Abs(TotalMediosElectronicosME) + LibMath.Abs(MontoCreditoElectronico) - LibMath.Abs(VueltoEnDivisas);
             TotalPagosML = LibMath.Abs(EfectivoEnMonedaLocal) + LibMath.Abs(TarjetaUno) + LibMath.Abs(TarjetaDos) + LibMath.Abs(TotalMediosElectronicos) + LibMath.Abs(TransferenciaEnMonedaLocal) - LibMath.Abs(VueltoEnMonedaLocal + VueltoC2p);
             vResult = ((TotalPagosML == 0) && (MontoRestantePorPagar <= 0))
                    || ((TotalPagosME == 0) && (MontoRestantePorPagarEnDivisas <= 0));
@@ -1114,7 +1112,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel
         }
 
         public override void CalcularTotales() {
-            decimal TotalPagosMe = LibMath.Abs(EfectivoEnDivisas) + LibMath.Abs(TransferenciaEnDivisas) + LibMath.Abs(TotalMediosElectronicosME);
+            decimal TotalPagosMe = LibMath.Abs(EfectivoEnDivisas) + LibMath.Abs(TransferenciaEnDivisas) + LibMath.Abs(TotalMediosElectronicosME) + LibMath.Abs(MontoCreditoElectronico);
             decimal TotalPagosML = LibMath.Abs(EfectivoEnMonedaLocal) + LibMath.Abs(TarjetaUno) + LibMath.Abs(TarjetaDos) + LibMath.Abs(TotalMediosElectronicos) + LibMath.Abs(TransferenciaEnMonedaLocal);
             LimpiarVuelto(TotalPagosML, TotalPagosMe);
             TotalPagosML = TotalPagosML - (LibMath.Abs(VueltoEnMonedaLocal) + LibMath.Abs(VueltoC2p));
@@ -1203,6 +1201,20 @@ namespace Galac.Adm.Uil.Venta.ViewModel
                     });
                     vCobradoEnDivisasConvertido += LibMath.RoundToNDecimals(TransferenciaEnDivisas * CambioAMonedaLocal, 2);
                 }
+                if (MontoCreditoElectronico != 0) {
+                    vConsecutivoRenglon += 1;
+                    vRenglonesDeCobro.Add(new RenglonCobroDeFactura() {
+                        ConsecutivoCompania = ConsecutivoCompania,
+                        NumeroFactura = NumeroFactura,
+                        TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
+                        ConsecutivoRenglon = vConsecutivoRenglon,
+                        CodigoFormaDelCobro = "00015",
+                        Monto = MontoCreditoElectronico,
+                        CodigoMoneda = CodigoMonedaDivisa,
+                        CambioAMonedaLocal = CambioAMonedaLocal
+                    });
+                    vCobradoEnDivisasConvertido += LibMath.RoundToNDecimals(MontoCreditoElectronico * CambioAMonedaLocal, 2);
+                }
                 decimal vDiferencia = TotalAPagarML - vCobradoEnDivisasConvertido - LibMath.Abs(VueltoEnDivisas);
                 if (vCobradoEnDivisasConvertido != 0 && vDiferencia > 0) {
                     vConsecutivoRenglon += 1;
@@ -1241,6 +1253,19 @@ namespace Galac.Adm.Uil.Venta.ViewModel
                         ConsecutivoRenglon = vConsecutivoRenglon,
                         CodigoFormaDelCobro = "00001",
                         Monto = EfectivoEnDivisas,
+                        CodigoMoneda = CodigoMonedaDivisa,
+                        CambioAMonedaLocal = CambioAMonedaLocal
+                    });
+                }
+                if (MontoCreditoElectronico != 0) { // ESTE MONTO SIEMPRE ES EN DIVISAS
+                    vConsecutivoRenglon += 1;
+                    vRenglonesDeCobro.Add(new RenglonCobroDeFactura() {
+                        ConsecutivoCompania = ConsecutivoCompania,
+                        NumeroFactura = NumeroFactura,
+                        TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
+                        ConsecutivoRenglon = vConsecutivoRenglon,
+                        CodigoFormaDelCobro = "00015",
+                        Monto = MontoCreditoElectronico,
                         CodigoMoneda = CodigoMonedaDivisa,
                         CambioAMonedaLocal = CambioAMonedaLocal
                     });
@@ -1492,6 +1517,20 @@ namespace Galac.Adm.Uil.Venta.ViewModel
             IsVisibleCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaCreditoElectronico");
             NombreCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "NombreCreditoElectronico");
             CantidadCuotasUsualesCreditoElectronico  = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros", "CantidadCuotasUsualesCreditoElectronico");
+            MaximaCantidadCuotasCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros", "MaximaCantidadCuotasCreditoElectronico");
+        }
+        #endregion
+        #region Validaciones
+        private ValidationResult MaximaCuotaCreditoEelctronicoValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if (CantidadCuotasUsualesCreditoElectronico > MaximaCantidadCuotasCreditoElectronico ) {
+                vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram(this.ModuleName + "El número de cuotas es superior al máximo permitido. Ingrese un número menos cuotas para: " + NombreCreditoElectronico ));
+            }
+            if (IsVisibleCreditoElectronico && CantidadCuotasUsualesCreditoElectronico <= 0  && MontoCreditoElectronico > 0)
+            {
+                vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram(this.ModuleName + "El número de cuotas de : " + NombreCreditoElectronico + ", debe ser mayor a cero."));
+            }
+            return vResult;
         }
         #endregion
     }
