@@ -15,9 +15,6 @@
     <DataTemplate DataType="{x:Type nsCSVM:FacturaFacturacionContViewModel}">
         <nsCSV:GSFacturaFacturacionContView />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type nsCSVM:FacturaImpresionViewModel}">
-        <nsCSV:GSFacturaImpresionView />
-    </DataTemplate>
     <DataTemplate DataType="{x:Type nsCSVM:FacturaModeloFacturaViewModel}">
         <nsCSV:GSFacturaModeloFacturaView />
     </DataTemplate>
@@ -32,6 +29,9 @@
     </DataTemplate>
     <DataTemplate DataType="{x:Type nsCSVM:FacturaImprentaDigitalViewModel}">
         <nsCSV:GSFacturaImprentaDigitalView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:FacturaCobroFacturaViewModel}">
+        <nsCSV:GSFacturaCobroFacturaView />
     </DataTemplate>
     <DataTemplate DataType="{x:Type nsCSVM:CotizacionViewModel}">
         <nsCSV:GSCotizacionView />
