@@ -267,7 +267,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public int  DiasDeCreditoPorCuotaCreditoElectronico {
+        public int DiasDeCreditoPorCuotaCreditoElectronico {
             get {
                 return Model.DiasDeCreditoPorCuotaCreditoElectronico;
             }
@@ -280,8 +280,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        [LibCustomValidation("CantidadCuotasUsualesCreditoElectronicoValidating")]//TODO
-        public int  CantidadCuotasUsualesCreditoElectronico {
+        [LibCustomValidation("CantidadCuotasUsualesCreditoElectronicoValidating")]
+        public int CantidadCuotasUsualesCreditoElectronico {
             get {
                 return Model.CantidadCuotasUsualesCreditoElectronico;
             }
@@ -294,8 +294,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        [LibCustomValidation("MaximaCantidadCuotasCreditoElectronicoValidating")]//TODO
-        public int  MaximaCantidadCuotasCreditoElectronico {
+        [LibCustomValidation("MaximaCantidadCuotasCreditoElectronicoValidating")]
+        public int MaximaCantidadCuotasCreditoElectronico {
             get {
                 return Model.MaximaCantidadCuotasCreditoElectronico;
             }
@@ -308,7 +308,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public bool  UsaClienteUnicoCreditoElectronico {
+        public bool UsaClienteUnicoCreditoElectronico {
             get {
                 return Model.UsaClienteUnicoCreditoElectronicoAsBool;
             }
@@ -324,8 +324,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        [LibCustomValidation("CodigoClienteCreditoElectronicoValidating")]//TODO
-        public string  CodigoClienteCreditoElectronico {
+        [LibCustomValidation("CodigoClienteCreditoElectronicoValidating")]
+        public string CodigoClienteCreditoElectronico {
             get {
                 return Model.CodigoClienteCreditoElectronico;
             }
@@ -337,11 +337,12 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     if (LibString.IsNullOrEmpty(CodigoClienteCreditoElectronico, true)) {
                         ConexionCodigoClienteCreditoElectronico = null;
                     }
+                    RaisePropertyChanged(CodigoClienteCreditoElectronicoPropertyName);
                 }
             }
         }
 
-        public bool  GenerarUnaUnicaCuotaCreditoElectronico {
+        public bool GenerarUnaUnicaCuotaCreditoElectronico {
             get {
                 return Model.GenerarUnaUnicaCuotaCreditoElectronicoAsBool;
             }
@@ -354,7 +355,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-		private ParametersViewModel _ParametrosBancoMoneda;
+        private ParametersViewModel _ParametrosBancoMoneda;
         public ParametersViewModel ParametrosViewModel {
             get {
                 return _ParametrosBancoMoneda;
@@ -403,7 +404,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         public bool IsEnabledCreditoElectronico {
-            get {                
+            get {
                 return IsEnabled && UsaCobroDirectoEnMultimoneda && UsaMonedaExtranjera && CodigoMonedaExtranjera == "USD"; ;
             }
         }
@@ -514,14 +515,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             set {
                 if (_ConexionCodigoClienteCreditoElectronico != value) {
                     _ConexionCodigoClienteCreditoElectronico = value;
-					if (_ConexionCodigoClienteCreditoElectronico != null) {
-					    CodigoClienteCreditoElectronico = _ConexionCodigoClienteCreditoElectronico.Codigo;
-					}
+                    if (_ConexionCodigoClienteCreditoElectronico == null) {
+                        CodigoClienteCreditoElectronico = string.Empty;
+                    } else {
+                        CodigoClienteCreditoElectronico = _ConexionCodigoClienteCreditoElectronico.Codigo;
+                    }
+                    RaisePropertyChanged(CodigoClienteCreditoElectronicoPropertyName);
                 }
-                if (_ConexionCodigoClienteCreditoElectronico == null) {
-                    CodigoClienteCreditoElectronico = string.Empty;
-                }
-				RaisePropertyChanged(CodigoClienteCreditoElectronicoPropertyName);
             }
         }
         #endregion Fk Conexion
@@ -614,6 +614,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             ChooseCuentaBancariaCobroDirectoCommand = new RelayCommand<string>(ExecuteChooseCuentaBancariaCobroDirectoCommand);
             ChooseConceptoBancarioCobroMultimonedaCommand = new RelayCommand<string>(ExecuteChooseConceptoBancarioCobroMultimonedaCommand);
             ChooseCuentaBancariaCobroMultimonedaCommand = new RelayCommand<string>(ExecuteChooseCuentaBancariaCobroMultimonedaCommand);
+            ChooseCodigoClienteCreditoElectronicoCommand = new RelayCommand<string>(ExecuteChooseCodigoClienteCreditoElectronicoCommand);
         }
 
         protected override void ReloadRelatedConnections() {
@@ -622,6 +623,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             ConexionCuentaBancariaCobroDirecto = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkCuentaBancariaViewModel>("Cuenta Bancaria", LibSearchCriteria.CreateCriteria("Gv_CuentaBancaria_B1.Codigo", CuentaBancariaCobroDirecto), new clsSettValueByCompanyNav());
             ConexionConceptoBancarioCobroMultimoneda = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("codigo", ConceptoBancarioCobroMultimoneda), new clsSettValueByCompanyNav());
             ConexionCuentaBancariaCobroMultimoneda = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkCuentaBancariaViewModel>("Cuenta Bancaria", LibSearchCriteria.CreateCriteria("Gv_CuentaBancaria_B1.Codigo", CuentaBancariaCobroMultimoneda), new clsSettValueByCompanyNav());
+            ConexionCodigoClienteCreditoElectronico = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkClienteViewModel>("Cliente", LibSearchCriteria.CreateCriteria("Codigo", CodigoClienteCreditoElectronico), new clsSettValueByCompanyNav());
         }
 
         #region ExecuteChoose-Command
@@ -703,6 +705,22 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
+
+        private void ExecuteChooseCodigoClienteCreditoElectronicoCommand(string valCodigo) {
+            try {
+                if (valCodigo == null) {
+                    valCodigo = string.Empty;
+                }
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_Cliente_B1.Codigo", valCodigo);
+                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Gv_Cliente_B1.ConsecutivoCompania", LibConvert.ToStr(Mfc.GetInt("Compania")));
+                ConexionCodigoClienteCreditoElectronico = null;
+                ConexionCodigoClienteCreditoElectronico = LibFKRetrievalHelper.ChooseRecord<FkClienteViewModel>("Cliente", vDefaultCriteria, vFixedCriteria, string.Empty);
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
         #endregion //ExecuteChoose-Command
 
         private void ReloadCodigoGenericoCuentaBancaria() {
@@ -715,10 +733,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             ValidationResult vResult = ValidationResult.Success;
             if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
-            } else {
-                if (UsaCobroDirecto && UsaListaDePrecioEnMonedaExtranjeraCXC) {
-                    vResult = new ValidationResult($"No es posible activar los parámetros \"{this.ModuleName} - Generar CxC en Moneda Extranjera\" y \"{this.ModuleName} - Cobro Directo\" simultaneamente. Para hacer uso del parámetro \"Cobro Directo\", por favor desactive \"Generar CXC en Moneda Extranjera\".");
-                }
+            } else if (UsaCobroDirecto && UsaListaDePrecioEnMonedaExtranjeraCXC) {
+                vResult = new ValidationResult($"No es posible activar los parámetros \"{this.ModuleName} - Generar CxC en Moneda Extranjera\" y \"{this.ModuleName} - Cobro Directo\" simultaneamente. Para hacer uso del parámetro \"Cobro Directo\", por favor desactive \"Generar CXC en Moneda Extranjera\".");
             }
             return vResult;
         }
@@ -726,10 +742,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             ValidationResult vResult = ValidationResult.Success;
             if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
-            } else {
-                if (UsaCobroDirecto && LibString.IsNullOrEmpty(CuentaBancariaCobroDirecto)) {
-                    vResult = new ValidationResult(this.ModuleName + "-> Debe indicar una cuenta bancaria cobro directo");
-                }
+            } else if (UsaCobroDirecto && LibString.IsNullOrEmpty(CuentaBancariaCobroDirecto)) {
+                vResult = new ValidationResult(this.ModuleName + "-> Debe indicar una cuenta bancaria cobro directo");
             }
             return vResult;
         }
@@ -737,10 +751,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             ValidationResult vResult = ValidationResult.Success;
             if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
-            } else {
-                if (UsaCobroDirecto && LibString.IsNullOrEmpty(ConceptoBancarioCobroDirecto)) {
-                    vResult = new ValidationResult(this.ModuleName + "-> Debe indicar un Concepto Bancario de Cobro Directo");
-                }
+            } else if (UsaCobroDirecto && LibString.IsNullOrEmpty(ConceptoBancarioCobroDirecto)) {
+                vResult = new ValidationResult(this.ModuleName + "-> Debe indicar un Concepto Bancario de Cobro Directo");
             }
             return vResult;
         }
@@ -749,10 +761,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             ValidationResult vResult = ValidationResult.Success;
             if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
-            } else {
-                if (UsaCobroDirectoEnMultimoneda && LibString.IsNullOrEmpty(CuentaBancariaCobroMultimoneda)) {
-                    vResult = new ValidationResult(this.ModuleName + "-> Debe indicar una cuenta bancaria en moneda extranjera para Cobro en Multimoneda");
-                }
+            } else if (UsaCobroDirectoEnMultimoneda && LibString.IsNullOrEmpty(CuentaBancariaCobroMultimoneda)) {
+                vResult = new ValidationResult(this.ModuleName + "-> Debe indicar una cuenta bancaria en moneda extranjera para Cobro en Multimoneda");
             }
             return vResult;
         }
@@ -761,11 +771,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             ValidationResult vResult = ValidationResult.Success;
             if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
-            } else {
-                if (UsaCobroDirectoEnMultimoneda && LibString.IsNullOrEmpty(ConceptoBancarioCobroMultimoneda)) {
-                    vResult = new ValidationResult(this.ModuleName + "-> Debe indicar un Concepto Bancario de Cobro en Multimoneda");
-                }
-            }
+            } else if (UsaCobroDirectoEnMultimoneda && LibString.IsNullOrEmpty(ConceptoBancarioCobroMultimoneda)) {
+                vResult = new ValidationResult(this.ModuleName + "-> Debe indicar un Concepto Bancario de Cobro en Multimoneda");
+            }            
             return vResult;
         }
 
@@ -773,12 +781,42 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             ValidationResult vResult = ValidationResult.Success;
             if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
-            } else {
-                if (UsaCreditoElectronico && NombreCreditoElectronico.Length <= 0) {
-                    vResult = new ValidationResult($"Debe indicar un nombre de crédito electrónico \"{this.ModuleName} - Crédito Electrónico.");
-                }
+            } else if (UsaCreditoElectronico && NombreCreditoElectronico.Length <= 0) {
+                vResult = new ValidationResult($"Debe indicar un nombre de crédito electrónico \"{this.ModuleName} - Crédito Electrónico.");
             }
             return vResult;
+        }
+
+        private ValidationResult CantidadCuotasUsualesCreditoElectronicoValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+                return ValidationResult.Success;
+            } else if (UsaCreditoElectronico && (CantidadCuotasUsualesCreditoElectronico < 1 || CantidadCuotasUsualesCreditoElectronico > 100)) {
+                vResult = new ValidationResult($"Debe indicar una Cantidad de Cuotas para {NombreCreditoElectronico} válida.");
+            }
+            return vResult;
+        }
+
+        private ValidationResult MaximaCantidadCuotasCreditoElectronicoValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+                return ValidationResult.Success;
+            } else if (UsaCreditoElectronico && (MaximaCantidadCuotasCreditoElectronico < CantidadCuotasUsualesCreditoElectronico)) {
+                vResult = new ValidationResult($"Debe indicar una Máxima Cantidad de Cuotas para {NombreCreditoElectronico} válida.");
+            }
+            return vResult;
+        }
+
+        private ValidationResult CodigoClienteCreditoElectronicoValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+                return ValidationResult.Success;
+            } else if (UsaCreditoElectronico && UsaClienteUnicoCreditoElectronico && LibString.IsNullOrEmpty(CodigoClienteCreditoElectronico)) {
+                vResult = new ValidationResult($"Debe indicar un Código de Cliente genérico válido para {NombreCreditoElectronico}.");
+            }
+            
+            return vResult;
+
         }
         #endregion //Validating
 
