@@ -295,7 +295,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             return vNumeroRif;
         }
         #endregion Identificacion de Documento
-        
+
         #region formas de pago
         private JArray GetFormasPago() {
             // Discutir Funcionalidad
@@ -304,15 +304,17 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             decimal vMonto;
             string vFormaDeCobro;
             if (FacturaImprentaDigital.BaseImponibleIGTF > 0) { // Pagos en ML
-                vFormaDeCobro = LibEnumHelper.GetDescription(FacturaImprentaDigital.FormaDePagoAsEnum); 
-                vMonto = LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura + FacturaImprentaDigital.IGTFML, 2));
+                decimal vImpuestoIGTF = FacturaImprentaDigital.CodigoMoneda == CodigoMonedaLocal ? FacturaImprentaDigital.IGTFML : FacturaImprentaDigital.IGTFME;
+                vImpuestoIGTF = LibMath.Abs(vImpuestoIGTF);
+                vFormaDeCobro = LibEnumHelper.GetDescription(FacturaImprentaDigital.FormaDePagoAsEnum);
+                vMonto = LibMath.Abs(FacturaImprentaDigital.TotalFactura + vImpuestoIGTF);
                 vElement.Add("forma", vFormaDeCobro);
-                vElement.Add("valor", vMonto);                
+                vElement.Add("valor", vMonto);
             } else {
                 vFormaDeCobro = LibEnumHelper.GetDescription(FacturaImprentaDigital.FormaDePagoAsEnum);
-                vMonto = LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura, 2));
+                vMonto = LibMath.Abs(FacturaImprentaDigital.TotalFactura);
                 vElement.Add("forma", vFormaDeCobro);
-                vElement.Add("valor", vMonto);                
+                vElement.Add("valor", vMonto);
             }
             vResult.Add(vElement);
             return vResult;
