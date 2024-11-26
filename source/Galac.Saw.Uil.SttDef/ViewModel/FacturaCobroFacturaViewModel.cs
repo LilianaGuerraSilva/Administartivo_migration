@@ -242,6 +242,12 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     RaisePropertyChanged(UsaClienteUnicoCreditoElectronicoPropertyName);
                     RaisePropertyChanged(CodigoClienteCreditoElectronicoPropertyName);
                     RaisePropertyChanged(GenerarUnaUnicaCuotaCreditoElectronicoPropertyName);
+                    RaisePropertyChanged(() => IsEnabledNombreCreditoElectronico);
+                    RaisePropertyChanged(() => IsEnabledDiasDeCreditoPorCuotaCreditoElectronico);
+                    RaisePropertyChanged(() => IsEnabledCantidadCuotasUsualesCreditoElectronico);
+                    RaisePropertyChanged(() => IsEnabledMaximaCantidadCuotasCreditoElectronico);
+                    RaisePropertyChanged(() => IsEnabledUsaClienteUnicoCreditoElectronico);
+                    RaisePropertyChanged(() => IsEnabledGenerarUnaUnicaCuotaCreditoElectronico);
                     InicalizacionParametrosCreditoElectronico();
                 }
             }
@@ -311,6 +317,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     Model.UsaClienteUnicoCreditoElectronicoAsBool = value;
                     IsDirty = true;
                     RaisePropertyChanged(UsaClienteUnicoCreditoElectronicoPropertyName);
+                    RaisePropertyChanged(() => IsEnabledCodigoClienteCreditoElectronico);
+                    CodigoClienteCreditoElectronico = string.Empty;
+                    RaisePropertyChanged(CodigoClienteCreditoElectronicoPropertyName);
                 }
             }
         }
@@ -399,22 +408,22 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
         public bool IsEnabledNombreCreditoElectronico {
-            get { return IsEnabled && IsEnabledCreditoElectronico; }
+            get { return IsEnabled && UsaCreditoElectronico; }
         }
         public bool IsEnabledDiasDeCreditoPorCuotaCreditoElectronico {
-            get { return IsEnabled && IsEnabledCreditoElectronico; }
+            get { return IsEnabled && UsaCreditoElectronico; }
         }
         public bool IsEnabledCantidadCuotasUsualesCreditoElectronico {
-            get { return IsEnabled && IsEnabledCreditoElectronico; }
+            get { return IsEnabled && UsaCreditoElectronico; }
         }
         public bool IsEnabledMaximaCantidadCuotasCreditoElectronico {
-            get { return IsEnabled && IsEnabledCreditoElectronico; }
+            get { return IsEnabled && UsaCreditoElectronico; }
         }
         public bool IsEnabledUsaClienteUnicoCreditoElectronico {
-            get { return IsEnabled && IsEnabledCreditoElectronico; }
+            get { return IsEnabled && UsaCreditoElectronico; }
         }
         public bool IsEnabledCodigoClienteCreditoElectronico {
-            get { return IsEnabled && IsEnabledCreditoElectronico && UsaClienteUnicoCreditoElectronico; }
+            get { return IsEnabled && UsaCreditoElectronico && UsaClienteUnicoCreditoElectronico; }
         }
         public bool IsEnabledGenerarUnaUnicaCuotaCreditoElectronico {
             get { return IsEnabled && UsaCreditoElectronico; }
