@@ -241,6 +241,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             string vTipoIdentficacion = string.Empty;
             string vNumeroRif = DarFormatoYObtenerTipoIdentficacion(ClienteImprentaDigital, ref vTipoIdentficacion);
             decimal vImpuestoIGTF = FacturaImprentaDigital.CodigoMoneda == CodigoMonedaLocal ? FacturaImprentaDigital.IGTFML : FacturaImprentaDigital.IGTFME;
+            vImpuestoIGTF = LibMath.Abs(vImpuestoIGTF);
             JObject vJsonDoc = new JObject {
                 { "rif", LoginUser.User },
                 { "trackingid",  GeneraTrackingId() },
@@ -264,8 +265,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 { "impuestoa", LibMath.Abs(FacturaImprentaDigital.MontoIvaAlicuota3) },
                 { "tasaigtf", FacturaImprentaDigital.AlicuotaIGTF },
                 { "baseigtf", LibMath.Abs(FacturaImprentaDigital.BaseImponibleIGTF) },
-                { "impuestoigtf",  LibMath.Abs(vImpuestoIGTF) },
-                { "total", LibMath.Abs(FacturaImprentaDigital.TotalFactura + vImpuestoIGTF) },
+                { "impuestoigtf",  vImpuestoIGTF },
+                { "total", LibMath.Abs(FacturaImprentaDigital.TotalFactura) + vImpuestoIGTF },
                 {"sendmail", 1}, // Siempre Envia Email
                 //{"sucursal", ""}, // No Aplica
                 {"numerointerno", FacturaImprentaDigital.Numero},
