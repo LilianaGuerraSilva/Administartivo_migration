@@ -263,8 +263,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     RibbonData.TabDataCollection[0].AddTabGroupData(CreateAccionesRibbonGroup());
                 }
             }
-            (ModuleList.Where(w => w.DisplayName == LibEnumHelper.GetDescription(eModulesLevelName.Bancos)).FirstOrDefault().Groups.Where(y => y.DisplayName == "7.2-Moneda").FirstOrDefault().Content as BancosMonedaViewModel).ParametrosViewModel = this;
-            (ModuleList.Where(w => w.DisplayName == LibEnumHelper.GetDescription(eModulesLevelName.Factura)).FirstOrDefault().Groups.Where(y => y.DisplayName == "2.2.- Facturación (Continuación)").FirstOrDefault().Content as FacturaFacturacionContViewModel).ParametrosViewModel = this;
+            (ModuleList.Where(w => w.DisplayName == LibEnumHelper.GetDescription(eModulesLevelName.Bancos)).FirstOrDefault().Groups.Where(y => y.DisplayName == new BancosMonedaViewModel(null, eAccionSR.Consultar).ModuleName).FirstOrDefault().Content as BancosMonedaViewModel).ParametrosViewModel = this;
+            (ModuleList.Where(w => w.DisplayName == LibEnumHelper.GetDescription(eModulesLevelName.Factura)).FirstOrDefault().Groups.Where(y => y.DisplayName == new FacturaFacturacionContViewModel(null, eAccionSR.Consultar).ModuleName).FirstOrDefault().Content as FacturaFacturacionContViewModel).ParametrosViewModel = this;
+            (ModuleList.Where(w => w.DisplayName == LibEnumHelper.GetDescription(eModulesLevelName.Factura)).FirstOrDefault().Groups.Where(y => y.DisplayName == new FacturaCobroFacturaViewModel(null, eAccionSR.Consultar).ModuleName).FirstOrDefault().Content as FacturaCobroFacturaViewModel).ParametrosViewModel = this;
         }
 
         public static void Send<T>(string valPropertyName, T valValue) {
@@ -301,13 +302,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public override bool OnClosing() {
             IsClosing = true;
-            StopClosing = false;
+            StopClosing = false;            
             if (Action == eAccionSR.Modificar) {
                 if (IsDirty) {
                     string vMessage = string.Format("¿Desea guardar los cambios efectuados en {0}?", ModuleName);
                     bool vCanceled = false;
                     string vOption = LibMessages.MessageBox.RequestOption(this, vMessage, Title, new string[] { "Guardar", "No Guardar", "Cancelar" }, out vCanceled);
-                    if (LibString.S1IsEqualToS2(vOption, "Guardar")) {
+                    if (LibString.S1IsEqualToS2(vOption, "Guardar")) {                        
                         StopClosing = !IsValid;
                         ExecuteUpdateCommand();
                     } else if (LibString.S1IsEqualToS2(vOption, "No Guardar")) {
