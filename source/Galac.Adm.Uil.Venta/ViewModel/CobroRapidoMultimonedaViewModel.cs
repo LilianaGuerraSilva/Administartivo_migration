@@ -1506,6 +1506,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             TarjetaDos = 0;
             TransferenciaEnMonedaLocal = 0;
             TransferenciaEnDivisas = 0;
+            MontoCreditoElectronico = 0;
             VueltoEnMonedaLocal = 0;
             VueltoEnDivisas = 0;
             MontoRestantePorPagar = TotalFactura;
