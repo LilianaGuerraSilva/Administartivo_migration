@@ -15,6 +15,9 @@
     <DataTemplate DataType="{x:Type nsCSVM:FacturaFacturacionContViewModel}">
         <nsCSV:GSFacturaFacturacionContView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:FacturaImpresionViewModel}">
+        <nsCSV:GSFacturaImpresionView />
+    </DataTemplate>
     <DataTemplate DataType="{x:Type nsCSVM:FacturaModeloFacturaViewModel}">
         <nsCSV:GSFacturaModeloFacturaView />
     </DataTemplate>
@@ -60,6 +63,9 @@
     <DataTemplate DataType="{x:Type nsCSVM:InventarioMetodoCostoViewModel}">
         <nsCSV:GSInventarioMetodoCostoView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:VerificadorDePreciosViewModel}">
+        <nsCSV:GSVerificadorDePreciosView />
+    </DataTemplate>
     <DataTemplate DataType="{x:Type nsCSVM:InventarioProduccionViewModel}">
         <nsCSV:GSInventarioProduccionView />
     </DataTemplate>
@@ -78,6 +84,9 @@
     <DataTemplate DataType="{x:Type nsCSVM:CxPComprasPlanillaIVAViewModel}">
         <nsCSV:GSCxPComprasPlanillaIVAView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:CxPComprasImagenesComprobanteRetViewModel}">
+        <nsCSV:GSCxPComprasImagenesComprobanteRetViewModel />
+    </DataTemplate>
     <DataTemplate DataType="{x:Type nsCSVM:BancosViewModel}">
         <nsCSV:GSBancosView />
     </DataTemplate>
@@ -90,20 +99,14 @@
     <DataTemplate DataType="{x:Type nsCSVM:BancosMovimientoBancarioViewModel}">
         <nsCSV:GSBancosMovimientoBancarioView />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type nsCSVM:ParametersViewModel}">
-        <nsCSV:GSParametersView />
+    <DataTemplate DataType="{x:Type nsCSVM:BancosTransferenciaViewModel}">
+        <nsCSV:GSBancosTransferenciaView />
     </DataTemplate>
     <DataTemplate DataType="{x:Type nsCSVM:NotasDeEntregaViewModel}">
         <nsCSV:GSNotasDeEntregaView />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type nsCSVM:VerificadorDePreciosViewModel}">
-        <nsCSV:GSVerificadorDePreciosView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type nsCSVM:CxPComprasImagenesComprobanteRetViewModel}">
-        <nsCSV:GSCxPComprasImagenesComprobanteRetViewModel />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type nsCSVM:BancosTransferenciaViewModel}">
-        <nsCSV:GSBancosTransferenciaView />
+    <DataTemplate DataType="{x:Type nsCSVM:ParametersViewModel}">
+        <nsCSV:GSParametersView />
     </DataTemplate>
     <DataTemplate DataType="{x:Type nsCSVM:ImprentaDigitalActivacionViewModel}">
         <nsCSV:GSImprentaDigitalActivacion />
