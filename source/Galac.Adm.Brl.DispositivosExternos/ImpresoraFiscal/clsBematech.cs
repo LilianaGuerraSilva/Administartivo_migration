@@ -434,7 +434,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             try {
                 if (valAbrirConexion) {
                     AbrirConexion();
-                }
+                }				
                 vSerial = LibText.Space(20);
                 vRetorno = Bematech_FI_NumeroSerieMFD(ref vSerial);
                 vSerial = LibText.Trim(vSerial);
@@ -1238,6 +1238,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     break;
                 case "00006":
                     vResultado = "Transferencia";
+                    break;
+                case "00015":
+                    vResultado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "NombreCreditoElectronico");
                     break;
                 default:
                     vResultado = "Efectivo";

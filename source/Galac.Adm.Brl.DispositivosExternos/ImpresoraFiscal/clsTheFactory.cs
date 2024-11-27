@@ -983,6 +983,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     case "00003":
                         vResultado = "09";//Tarjeta
                         break;
+                    case "00015":
+                        vResultado = "15";//Crédito Electrónico
+                        break;
                     default:
                         vResultado = "01";
                         break;
@@ -997,6 +1000,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         break;
                     case "00003":
                         vResultado = "13";//Tarjeta
+                        break;
+                    case "00015":
+                        vResultado = "15";//Crédito Electrónico
                         break;
                     default:
                         vResultado = "01";
