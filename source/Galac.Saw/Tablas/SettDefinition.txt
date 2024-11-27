@@ -133,14 +133,14 @@ PrecioIncluyeIva;Factura;2;2.7.- Balanza - Etiqueta;7;;Bool;;N
 UsaImprentaDigital;Factura;2;2.8.- Imprenta Digital;8;;Bool;;N
 FechaInicioImprentaDigital;Factura;2;2.8.- Imprenta Digital;8;;Date;;N
 ProveedorImprentaDigital;Factura;2;2.8.- Imprenta Digital;8;;Enumerativo;;N
-EmitirDirecto;Factura;2;2.9.- Facturación (Continuación) ;2;;Bool;;N
-UsaCobroDirecto;Factura;2;2.9.- Facturación (Continuación) ;2;;Bool;;N
-UsaCobroDirectoEnMultimoneda;Factura;2;2.9.- Facturación (Continuación) ;2;;Bool;;N
-CuentaBancariaCobroDirecto;Factura;2;2.9.- Facturación (Continuación) ;2;;String;;N
-UsaMediosElectronicosDeCobro;Factura;2;2.9.- Facturación (Continuación) ;2;;Bool;;N
-ConceptoBancarioCobroDirecto;Factura;2;2.9.- Facturación (Continuación) ;2;;String;;N
-CuentaBancariaCobroMultimoneda;Factura;2;2.9.- Facturación (Continuación) ;2;;String;;N
-ConceptoBancarioCobroMultimoneda;Factura;2;2.9.- Facturación (Continuación) ;2;;String;;N
+EmitirDirecto;Factura;2;2.9.- Cobro de Factura;2;;Bool;;N
+UsaCobroDirecto;Factura;2;2.9.- Cobro de Factura;2;;Bool;;N
+UsaCobroDirectoEnMultimoneda;Factura;2;2.9.- Cobro de Factura;2;;Bool;;N
+CuentaBancariaCobroDirecto;Factura;2;2.9.- Cobro de Factura;2;;String;;N
+UsaMediosElectronicosDeCobro;Factura;2;2.9.- Cobro de Factura;2;;Bool;;N
+ConceptoBancarioCobroDirecto;Factura;2;2.9.- Cobro de Factura;2;;String;;N
+CuentaBancariaCobroMultimoneda;Factura;2;2.9.- Cobro de Factura;2;;String;;N
+ConceptoBancarioCobroMultimoneda;Factura;2;2.9.- Cobro de Factura;2;;String;;N
 UsaCreditoElectronico;Factura;2;2.9.- Cobro de Factura;2;;Bool;;N
 NombreCreditoElectronico;Factura;2;2.9.- Cobro de Factura;2;;String;;N
 DiasDeCreditoPorCuotaCreditoElectronico;Factura;2;2.9.- Cobro de Factura;2;;int;;N
