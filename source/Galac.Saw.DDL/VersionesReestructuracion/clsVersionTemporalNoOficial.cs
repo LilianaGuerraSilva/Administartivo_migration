@@ -1,5 +1,9 @@
 using Galac.Saw.Ccl.SttDef;
+using Galac.Saw.Ccl.Tablas;
 using LibGalac.Aos.Base;
+using LibGalac.Aos.Dal;
+using System;
+using System.Text;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
     class clsVersionTemporalNoOficial : clsVersionARestructurar {
@@ -7,8 +11,16 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         public override bool UpdateToVersion() {
             StartConnectionNoTransaction();
             ParametrosCreditoElectronico();
+            FormaDelCobro();
             DisposeConnectionNoTransaction();
             return true;
+        }
+
+        private void FormaDelCobro() {
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("INSERT INTO Saw.FormaDelCobro (Codigo, Nombre, TipoDePago) VALUES (");
+            vSql.AppendLine(InsSql.ToSqlValue(new LibDatabase().NextStrConsecutive("Saw.FormaDelCobro", "Codigo", "", true, 5)) + " , " + InsSql.ToSqlValue("Crédito Electrónico") + ", " + _insSql.EnumToSqlValue((int)eTipoDeFormaDePago.CreditoElectronico) + ")");
+            Execute(vSql.ToString());
         }
 
         private void ParametrosCreditoElectronico() {
