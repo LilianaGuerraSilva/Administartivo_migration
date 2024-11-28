@@ -24,8 +24,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string ProveedorPropertyName = "Proveedor";
         public const string UrlPropertyName = "Url";
         public const string UsuarioPropertyName = "Usuario";
-        public const string ClavePropertyName = "Clave";
-        public const string ExecuteEnabledPropertyName = "ExecuteEnabled";
+        public const string ClavePropertyName = "Clave";        
         #endregion
         #region variables
         private bool _ExecuteEnabled;
@@ -119,19 +118,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         protected override void InitializeLookAndFeel() {
             base.InitializeLookAndFeel();
             InicializaValores();
-        }
+        }       
 
-
-        public bool ExecuteEnabled {
-            get {
-                return _ExecuteEnabled;
-            }
-            set {
-                if (_ExecuteEnabled != value) {
-                    _ExecuteEnabled = value;
-                    RaisePropertyChanged(ExecuteEnabledPropertyName);
-                }
-            }
+        public bool IsVisbleByProveedorID {
+            get { return _ProveedorImprentaDigital == eProveedorImprentaDigital.TheFactoryHKA; }
         }
 
         private void ExecuteProbarConexionCommand() {
@@ -180,6 +170,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             _Clave = _clsImprentaDigitalSettings.Clave;
             _CampoUsuario = _clsImprentaDigitalSettings.CampoUsuario;
             _CampoClave = _clsImprentaDigitalSettings.CampoClave;
+            RaisePropertyChanged(() => IsVisbleByProveedorID);
         }
 
         #endregion //Metodos Generados
@@ -198,8 +189,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         private void ActivarButtonActions(bool valActivate) {
-            _ExecuteEnabled = valActivate;
-            RaisePropertyChanged(ExecuteEnabledPropertyName);
+            _ExecuteEnabled = valActivate;           
             GuardarCommand.RaiseCanExecuteChanged();            
         }
 

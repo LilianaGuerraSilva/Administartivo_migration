@@ -235,7 +235,8 @@
                     HorizontalAlignment="Left"
                     Command="{Binding Path=ProbarConexionCommand}"
                     Content="Probar Conexión"
-                    IsEnabled="{Binding Path=IsEnabled}" />
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    Visibility="{Binding Path=IsVisbleByProveedorID}" />
                 <nsWpfControls:GSTextBoxWpf
                     Name="txtFacturaT1"
                     Grid.Row="8"

@@ -121,7 +121,8 @@
                     Margin="55,5,-55,5"
                     Command="{Binding Path=ProbarConexionCommand}"
                     Content="Probar Conexión"
-                    IsEnabled="{Binding Path=IsEnabled}" />
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    Visibility="{Binding Path=IsVisbleByProveedorID}" />
             </Grid>
         </GroupBox>
     </Grid>
