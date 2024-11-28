@@ -794,7 +794,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else if (UsaCreditoElectronico && (CantidadCuotasUsualesCreditoElectronico < 1 || CantidadCuotasUsualesCreditoElectronico > 100)) {
-                vResult = new ValidationResult($"Debe indicar una Cantidad de Cuotas.");
+                vResult = new ValidationResult($"Debe indicar una Cantidad de Cuotas válida.");
             }
             return vResult;
         }
