@@ -269,6 +269,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
+        [LibCustomValidation("DiasDeCreditoPorCuotaCreditoElectronicoValidating")]
         public int DiasDeCreditoPorCuotaCreditoElectronico {
             get {
                 return Model.DiasDeCreditoPorCuotaCreditoElectronico;
@@ -817,7 +818,16 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 vResult = new ValidationResult($"Debe indicar un Código de Cliente genérico válido.");
             }
             return vResult;
+        }
 
+        private ValidationResult DiasDeCreditoPorCuotaCreditoElectronicoValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+                return ValidationResult.Success;
+            } else if (UsaCreditoElectronico && (DiasDeCreditoPorCuotaCreditoElectronico < 1 || DiasDeCreditoPorCuotaCreditoElectronico > 120)) {
+                vResult = new ValidationResult($"Debe indicar una cantidad de Días de Crédito válida.");
+            }
+            return vResult;
         }
         #endregion //Validating
 
