@@ -386,7 +386,7 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" MinWidth="30"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -404,7 +404,7 @@
                     Name="chkUsaListaDePrecioEnMonedaExtranjera"
                     Grid.Row="0"
                     Grid.Column="1"
-                    HorizontalAlignment="Left"
+                    HorizontalAlignment="Center"
                     IsChecked="{Binding Path=UsaListaDePrecioEnMonedaExtranjera}"
                     IsEnabled="{Binding Path=IsEnabled}"
                     Style="{StaticResource CheckBoxStyle}" />
@@ -417,7 +417,7 @@
                     Name="chkUsarListaDePreciosEnMonedaExtranjeraCXC"
                     Grid.Row="1"
                     Grid.Column="1"
-                    HorizontalAlignment="Left"
+                    HorizontalAlignment="Center"
                     IsChecked="{Binding Path=UsaListaDePrecioEnMonedaExtranjeraCXC}"
                     IsEnabled="{Binding Path=IsEnabled}"
                     Style="{StaticResource CheckBoxStyle}" />
@@ -430,7 +430,7 @@
                     Name="chkMostrarTotalEnDivisas"
                     Grid.Row="2"
                     Grid.Column="1"
-                    HorizontalAlignment="Left"
+                    HorizontalAlignment="Center"
                     IsChecked="{Binding SeMuestraTotalEnDivisas}"
                     IsEnabled="{Binding Path=IsEnabled}"
                     Style="{StaticResource CheckBoxStyle}" />
