@@ -794,7 +794,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else if (UsaCreditoElectronico && (CantidadCuotasUsualesCreditoElectronico < 1 || CantidadCuotasUsualesCreditoElectronico > 100)) {
-                vResult = new ValidationResult($"Debe indicar una Cantidad de Cuotas para válida {NombreCreditoElectronico}.");
+                vResult = new ValidationResult($"Debe indicar una Cantidad de Cuotas.");
             }
             return vResult;
         }
@@ -803,8 +803,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             ValidationResult vResult = ValidationResult.Success;
             if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
-            } else if (UsaCreditoElectronico && (MaximaCantidadCuotasCreditoElectronico < CantidadCuotasUsualesCreditoElectronico)) {
-                vResult = new ValidationResult($"Debe indicar una Máxima Cantidad de Cuotas válida para {NombreCreditoElectronico}.");
+            } else if (UsaCreditoElectronico && (MaximaCantidadCuotasCreditoElectronico < CantidadCuotasUsualesCreditoElectronico)) {                
+                vResult = new ValidationResult($"Debe indicar una Máxima Cantidad de Cuotas válida.");
             }
             return vResult;
         }
@@ -814,7 +814,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else if (UsaCreditoElectronico && UsaClienteUnicoCreditoElectronico && LibString.IsNullOrEmpty(CodigoClienteCreditoElectronico)) {
-                vResult = new ValidationResult($"Debe indicar un Código de Cliente genérico válido para {NombreCreditoElectronico}.");
+                vResult = new ValidationResult($"Debe indicar un Código de Cliente genérico válido.");
             }
             return vResult;
 
