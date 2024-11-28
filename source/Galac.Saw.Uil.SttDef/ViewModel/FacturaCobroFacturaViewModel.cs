@@ -248,6 +248,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     RaisePropertyChanged(() => IsEnabledCantidadCuotasUsualesCreditoElectronico);
                     RaisePropertyChanged(() => IsEnabledMaximaCantidadCuotasCreditoElectronico);
                     RaisePropertyChanged(() => IsEnabledUsaClienteUnicoCreditoElectronico);
+                    RaisePropertyChanged(() => IsEnabledCodigoClienteCreditoElectronico);
                     RaisePropertyChanged(() => IsEnabledGenerarUnaUnicaCuotaCreditoElectronico);
                     InicalizacionParametrosCreditoElectronico();
                 }
