@@ -17,18 +17,14 @@ using System.Collections.ObjectModel;
 using Galac.Saw.Brl.SttDef;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
-    public class ParametersViewModel: LibGenericViewModel {
+    public class ParametersViewModel : LibGenericViewModel {
         public const string ModuleListPropertyName = "ModuleList";
         private List<Module> _ModuleList;
 
-        public bool InitFirstTime {
-            get; set;
-        }
+        public bool InitFirstTime { get; set; }
 
         public override string ModuleName {
-            get {
-                return "Parámetros Administrativos";
-            }
+            get { return "Parámetros Administrativos"; }
         }
 
         public List<Module> ModuleList {
@@ -48,23 +44,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             private set;
         }
 
-        public bool StopClosing {
-            get;
-            set;
-        }
+        public bool StopClosing { get; set; }
 
-        public bool IsDirty {
-            get;
-            set;
-        }
+        public bool IsDirty { get; set; }
 
-        public eAccionSR Action {
-            get;
-            set;
-        }
+        public eAccionSR Action { get; set; }
 
         #region Constructores
-
         public ParametersViewModel(eAccionSR initAccionSR) {
             Action = initAccionSR;
             var vResult = GetModuleList(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
@@ -104,7 +90,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private object ParseGroupContentToViewModel(object valContent, eAccionSR eAccionSR) {
             object vResult = null;
             if (valContent != null) {
-
                 if (valContent is AnticipoStt) {
                     LibInputViewModelBase<AnticipoStt> vModel = new BancosAnticipoViewModel(valContent as AnticipoStt, eAccionSR);
                     vModel.InitializeViewModel(eAccionSR);
@@ -147,6 +132,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     vResult = vModel;
                 } else if (valContent is FacturacionContinuacionStt) {
                     LibInputViewModelBase<FacturacionContinuacionStt> vModel = new FacturaFacturacionContViewModel(valContent as FacturacionContinuacionStt, eAccionSR);
+                    vModel.InitializeViewModel(eAccionSR);
+                    vResult = vModel;
+                } else if (valContent is FacturaCobroFacturaStt) {
+                    LibInputViewModelBase<FacturaCobroFacturaStt> vModel = new FacturaCobroFacturaViewModel(valContent as FacturaCobroFacturaStt, eAccionSR);
                     vModel.InitializeViewModel(eAccionSR);
                     vResult = vModel;
                 } else if (valContent is FacturacionStt) {
@@ -274,10 +263,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     RibbonData.TabDataCollection[0].AddTabGroupData(CreateAccionesRibbonGroup());
                 }
             }
-            (ModuleList.Where(w => w.DisplayName == "7 - Bancos").FirstOrDefault().Groups.Where(y => y.DisplayName == "7.2-Moneda").FirstOrDefault()
-                       .Content as BancosMonedaViewModel).ParametrosViewModel = this;
-            (ModuleList.Where(w => w.DisplayName == "2 - Factura").FirstOrDefault().Groups.Where(y => y.DisplayName == "2.2.- Facturación (Continuación)").FirstOrDefault()
-                       .Content as FacturaFacturacionContViewModel).ParametrosViewModel = this;
+            (ModuleList.Where(w => w.DisplayName == LibEnumHelper.GetDescription(eModulesLevelName.Bancos)).FirstOrDefault().Groups.Where(y => y.DisplayName == new BancosMonedaViewModel(null, eAccionSR.Consultar).ModuleName).FirstOrDefault().Content as BancosMonedaViewModel).ParametrosViewModel = this;
+            (ModuleList.Where(w => w.DisplayName == LibEnumHelper.GetDescription(eModulesLevelName.Factura)).FirstOrDefault().Groups.Where(y => y.DisplayName == new FacturaFacturacionContViewModel(null, eAccionSR.Consultar).ModuleName).FirstOrDefault().Content as FacturaFacturacionContViewModel).ParametrosViewModel = this;
+            (ModuleList.Where(w => w.DisplayName == LibEnumHelper.GetDescription(eModulesLevelName.Factura)).FirstOrDefault().Groups.Where(y => y.DisplayName == new FacturaCobroFacturaViewModel(null, eAccionSR.Consultar).ModuleName).FirstOrDefault().Content as FacturaCobroFacturaViewModel).ParametrosViewModel = this;
         }
 
         public static void Send<T>(string valPropertyName, T valValue) {
@@ -314,13 +302,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public override bool OnClosing() {
             IsClosing = true;
-            StopClosing = false;
+            StopClosing = false;            
             if (Action == eAccionSR.Modificar) {
                 if (IsDirty) {
                     string vMessage = string.Format("¿Desea guardar los cambios efectuados en {0}?", ModuleName);
                     bool vCanceled = false;
                     string vOption = LibMessages.MessageBox.RequestOption(this, vMessage, Title, new string[] { "Guardar", "No Guardar", "Cancelar" }, out vCanceled);
-                    if (LibString.S1IsEqualToS2(vOption, "Guardar")) {
+                    if (LibString.S1IsEqualToS2(vOption, "Guardar")) {                        
                         StopClosing = !IsValid;
                         ExecuteUpdateCommand();
                     } else if (LibString.S1IsEqualToS2(vOption, "No Guardar")) {
