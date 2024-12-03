@@ -171,6 +171,7 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
         public const string CuentaOrdenDeProduccionMateriaPrimaPropertyName = "CuentaOrdenDeProduccionMateriaPrima";
         public const string OrdenDeProduccionTipoComprobantePropertyName = "OrdenDeProduccionTipoComprobante";
         public const string EditarComprobanteAfterInsertOrdenDeProduccionPropertyName = "EditarComprobanteAfterInsertOrdenDeProduccion";
+        public const string CuentaMermaAnormalPropertyName = "CuentaMermaAnormal";
         public const string NombreOperadorPropertyName = "NombreOperador";
         public const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
         public const string IsEnabledAgruparPorCuentaDeArticuloPropertyName = "IsEnabledAgruparPorCuentaDeArticulo";
@@ -256,6 +257,7 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
         private FkCuentaViewModel _ConexionCuentaOrdenDeProduccionProductoTerminado = null;
         private FkCuentaViewModel _ConexionCuentaOrdenDeProduccionMateriaPrima = null;
         private FkTipoDeComprobanteViewModel _ConexionOrdenDeProduccionTipoComprobante = null;
+        private FkCuentaViewModel _ConexionCuentaMermaAnormal = null;
         #endregion //Variables
         #region Propiedades
 
@@ -2261,6 +2263,22 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             }
         }
 
+        public string  CuentaMermaAnormal {
+            get {
+                return Model.CuentaMermaAnormal;
+            }
+            set {
+                if (Model.CuentaMermaAnormal != value) {
+                    Model.CuentaMermaAnormal = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(CuentaMermaAnormalPropertyName);
+                    if (LibString.IsNullOrEmpty(CuentaMermaAnormal, true)) {
+                        ConexionCuentaMermaAnormal = null;
+                    }
+                }
+            }
+        }
+
         public string  NombreOperador {
             get {
                 return Model.NombreOperador;
@@ -3896,6 +3914,21 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
                 }
             }
         }
+		
+		public FkCuentaViewModel ConexionCuentaMermaAnormal {
+            get {
+                return _ConexionCuentaMermaAnormal;
+            }
+            set {
+                if (_ConexionCuentaMermaAnormal != value) {
+                    _ConexionCuentaMermaAnormal = value;
+                    RaisePropertyChanged(CuentaMermaAnormalPropertyName);
+                }
+                if (_ConexionCuentaMermaAnormal == null) {
+                    CuentaMermaAnormal = string.Empty;
+                }
+            }
+        }
 
         public RelayCommand<string> ChooseCuentaIva1CreditoCommand {
             get;
@@ -4268,6 +4301,11 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             get;
             private set;
         }
+
+        public RelayCommand<string> ChooseCuentaMermaAnormalCommand {
+            get;
+            private set;
+        }
         #endregion //Propiedades
         #region Constructores
         public ReglasDeContabilizacionViewModel()
@@ -4385,6 +4423,7 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             ChooseCuentaOrdenDeProduccionProductoTerminadoCommand = new RelayCommand<string>(ExecuteChooseCuentaOrdenDeProduccionProductoTerminadoCommand);
             ChooseCuentaOrdenDeProduccionMateriaPrimaCommand = new RelayCommand<string>(ExecuteChooseCuentaOrdenDeProduccionMateriaPrimaCommand);
         	ChooseOrdenDeProduccionTipoComprobanteCommand = new RelayCommand<string>(ExecuteChooseOrdenDeProduccionTipoComprobanteCommand);
+            ChooseCuentaMermaAnormalCommand = new RelayCommand<string>(ExecuteChooseCuentaMermaAnormalCommand);
 		}
 
         private void ReloadRelatedConnectionsGeneral() {
@@ -4586,13 +4625,15 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             if(!LibString.IsNullOrEmpty(TransfCtasSigasTipoComprobante))
 			    ConexionTransfCtasSigasTipoComprobante = FirstConnectionRecordOrDefault<FkTipoDeComprobanteViewModel>("Tipo de Comprobante", LibSearchCriteria.CreateCriteria("Codigo", TransfCtasSigasTipoComprobante));
         }
-		private void ReloadRelatedConnectionsProduccion() {
-            if(!LibString.IsNullOrEmpty(CuentaOrdenDeProduccionProductoTerminado))
-				ConexionCuentaOrdenDeProduccionProductoTerminado = FirstConnectionRecordOrDefault<FkCuentaViewModel>("Cuenta", LibSearchCriteria.CreateCriteria("Codigo", CuentaOrdenDeProduccionProductoTerminado));
-            if(!LibString.IsNullOrEmpty(CuentaOrdenDeProduccionMateriaPrima))
+        private void ReloadRelatedConnectionsProduccion() {
+            if (!LibString.IsNullOrEmpty(CuentaOrdenDeProduccionProductoTerminado))
+                ConexionCuentaOrdenDeProduccionProductoTerminado = FirstConnectionRecordOrDefault<FkCuentaViewModel>("Cuenta", LibSearchCriteria.CreateCriteria("Codigo", CuentaOrdenDeProduccionProductoTerminado));
+            if (!LibString.IsNullOrEmpty(CuentaOrdenDeProduccionMateriaPrima))
                 ConexionCuentaOrdenDeProduccionMateriaPrima = FirstConnectionRecordOrDefault<FkCuentaViewModel>("Cuenta", LibSearchCriteria.CreateCriteria("Codigo", CuentaOrdenDeProduccionMateriaPrima));
-            if(!LibString.IsNullOrEmpty(OrdenDeProduccionTipoComprobante))
-                ConexionOrdenDeProduccionTipoComprobante = FirstConnectionRecordOrDefault<FkTipoDeComprobanteViewModel>("Tipo de Comprobante", LibSearchCriteria.CreateCriteria("Codigo", OrdenDeProduccionTipoComprobante));				
+            if (!LibString.IsNullOrEmpty(OrdenDeProduccionTipoComprobante))
+                ConexionOrdenDeProduccionTipoComprobante = FirstConnectionRecordOrDefault<FkTipoDeComprobanteViewModel>("Tipo de Comprobante", LibSearchCriteria.CreateCriteria("Codigo", OrdenDeProduccionTipoComprobante));
+            if (!LibString.IsNullOrEmpty(CuentaMermaAnormal))
+                ConexionCuentaMermaAnormal = FirstConnectionRecordOrDefault<FkCuentaViewModel>("Cuenta", LibSearchCriteria.CreateCriteria("Codigo", CuentaMermaAnormal));
         }
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
@@ -5793,6 +5834,29 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
                 LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
+
+        private void ExecuteChooseCuentaMermaAnormalCommand(string valCodigo) {
+            try {
+                if (valCodigo == null) {
+                    valCodigo = string.Empty;
+                }
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
+                LibSearchCriteria vFixedCriteria = SearchCriteriaConexionCuenta();
+                ConexionCuentaMermaAnormal = ChooseRecord<FkCuentaViewModel>("Cuenta", vDefaultCriteria, vFixedCriteria, string.Empty);
+                if (ConexionCuentaMermaAnormal != null) {
+                    CuentaMermaAnormal = ConexionCuentaMermaAnormal.Codigo;                   
+                } else {                   
+                    CuentaMermaAnormal = string.Empty;
+                }
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
+
+
+
         #endregion //Metodos Generados
 
         public string CuentaInventarioDescripcion { get; set; }
@@ -6090,7 +6154,7 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
                 LibMessages.MessageBox.Alert(null,"No se ha completado la selección de todas las cuentas","Advertencia");
 
             return base.UpdateRecord();
-        }
+        }			
 
         public bool TipoComprobanteVisible {
             get {

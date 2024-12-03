@@ -174,6 +174,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             vParams.AddInString("CuentaOrdenDeProduccionMateriaPrima", valRecord.CuentaOrdenDeProduccionMateriaPrima, 30);
             vParams.AddInString("OrdenDeProduccionTipoComprobante", valRecord.OrdenDeProduccionTipoComprobante, 2);
             vParams.AddInBoolean("EditarComprobanteAfterInsertOrdenDeProduccion", valRecord.EditarComprobanteAfterInsertOrdenDeProduccionAsBool);
+            vParams.AddInString("CuentaMermaAnormal", valRecord.CuentaMermaAnormal, 30);
             vParams.AddInString("NombreOperador", ((CustomIdentity) Thread.CurrentPrincipal.Identity).Login, 10);
             vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
             if (valAction == eAccionSR.Modificar) {
@@ -1777,6 +1778,24 @@ namespace Galac.Saw.Dal.Contabilizacion {
             return vResult;
         }
 
+        private bool IsValidCuentaMermaAnormal(eAccionSR valAction, string valCuentaMermaAnormal){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            valCuentaMermaAnormal = LibString.Trim(valCuentaMermaAnormal);
+            if (LibString.IsNullOrEmpty(valCuentaMermaAnormal , true)) {
+                BuildValidationInfo(MsgRequiredField("Cuenta Merma Anormal"));
+                vResult = false;
+            } else {
+                LibDatabase insDb = new LibDatabase();
+                if (!insDb.ExistsValue("dbo.Cuenta", "Codigo", insDb.InsSql.ToSqlValue(valCuentaMermaAnormal), true)) {
+                    BuildValidationInfo("El valor asignado al campo Cuenta Merma Anormal no existe, escoga nuevamente.");
+                    vResult = false;
+                }
+            }
+            return vResult;
+        }
         private bool KeyExists(int valConsecutivoCompania, string valNumero) {
             bool vResult = false;
             ReglasDeContabilizacion vRecordBusqueda = new ReglasDeContabilizacion();

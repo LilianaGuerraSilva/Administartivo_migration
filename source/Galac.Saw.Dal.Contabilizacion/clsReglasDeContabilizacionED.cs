@@ -174,7 +174,8 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("CuentaOrdenDeProduccionMateriaPrima" + InsSql.VarCharTypeForDb(30) + " CONSTRAINT d_RegDeConCuOrDePrMaPr DEFAULT (''), ");
             SQL.AppendLine("OrdenDeProduccionTipoComprobante" + InsSql.VarCharTypeForDb(2) + " CONSTRAINT d_RegDeConOrDePrTiCo DEFAULT (''), ");
             SQL.AppendLine("EditarComprobanteAfterInsertOrdenDeProduccion" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnRegDeConEditarComp NOT NULL, ");
-            SQL.AppendLine("NombreOperador" + InsSql.VarCharTypeForDb(20) + ", ");
+            SQL.AppendLine("CuentaMermaAnormal" + InsSql.VarCharTypeForDb(30) + " CONSTRAINT d_RegDeConCuMeAn DEFAULT (''), ");
+            SQL.AppendLine("NombreOperador" + InsSql.VarCharTypeForDb(10) + ", ");
             SQL.AppendLine("FechaUltimaModificacion" + InsSql.DateTypeForDb() + ", ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
             SQL.AppendLine("CONSTRAINT p_ReglasDeContabilizacion PRIMARY KEY CLUSTERED");
@@ -332,6 +333,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("@CuentaOrdenDeProduccionMateriaPrima" + InsSql.VarCharTypeForDb(30) + ",");
             SQL.AppendLine("@OrdenDeProduccionTipoComprobante" + InsSql.VarCharTypeForDb(2) + ",");
             SQL.AppendLine("@EditarComprobanteAfterInsertOrdenDeProduccion" + InsSql.CharTypeForDb(1) + " = 'N',");
+            SQL.AppendLine("@CuentaMermaAnormal" + InsSql.VarCharTypeForDb(30) + ",");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(20) + " = '',");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + " = '01/01/1900'");
             return SQL.ToString();
@@ -482,6 +484,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("            CuentaOrdenDeProduccionMateriaPrima,");
             SQL.AppendLine("            OrdenDeProduccionTipoComprobante,");
             SQL.AppendLine("            EditarComprobanteAfterInsertOrdenDeProduccion,");
+            SQL.AppendLine("            CuentaMermaAnormal,");
             SQL.AppendLine("            NombreOperador,");
             SQL.AppendLine("            FechaUltimaModificacion)");
             SQL.AppendLine("         VALUES(");
@@ -622,6 +625,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("            @CuentaOrdenDeProduccionMateriaPrima,");
             SQL.AppendLine("            @OrdenDeProduccionTipoComprobante,");
             SQL.AppendLine("            @EditarComprobanteAfterInsertOrdenDeProduccion,");
+            SQL.AppendLine("            @CuentaMermaAnormal,");
             SQL.AppendLine("            @NombreOperador,");
             SQL.AppendLine("            @FechaUltimaModificacion)");
             SQL.AppendLine("            SET @ReturnValue = @@ROWCOUNT");
@@ -773,6 +777,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("@CuentaOrdenDeProduccionMateriaPrima" + InsSql.VarCharTypeForDb(30) + ",");
             SQL.AppendLine("@OrdenDeProduccionTipoComprobante" + InsSql.VarCharTypeForDb(2) + ",");
             SQL.AppendLine("@EditarComprobanteAfterInsertOrdenDeProduccion" + InsSql.CharTypeForDb(1) + ",");
+            SQL.AppendLine("@CuentaMermaAnormal" + InsSql.VarCharTypeForDb(30) + ",");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(10) + ",");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + ",");
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
@@ -934,6 +939,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("               CuentaOrdenDeProduccionMateriaPrima = @CuentaOrdenDeProduccionMateriaPrima,");
             SQL.AppendLine("               OrdenDeProduccionTipoComprobante = @OrdenDeProduccionTipoComprobante,");
             SQL.AppendLine("               EditarComprobanteAfterInsertOrdenDeProduccion = @EditarComprobanteAfterInsertOrdenDeProduccion,");
+            SQL.AppendLine("               CuentaMermaAnormal = @CuentaMermaAnormal,");
             SQL.AppendLine("               NombreOperador = @NombreOperador,");
             SQL.AppendLine("               FechaUltimaModificacion = @FechaUltimaModificacion");
             SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
@@ -1116,6 +1122,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("         ReglasDeContabilizacion.CuentaOrdenDeProduccionMateriaPrima,");
             SQL.AppendLine("         ReglasDeContabilizacion.OrdenDeProduccionTipoComprobante,");
             SQL.AppendLine("         ReglasDeContabilizacion.EditarComprobanteAfterInsertOrdenDeProduccion,");
+            SQL.AppendLine("         ReglasDeContabilizacion.CuentaMermaAnormal,");
             SQL.AppendLine("         ReglasDeContabilizacion.NombreOperador,");
             SQL.AppendLine("         ReglasDeContabilizacion.FechaUltimaModificacion,");
             SQL.AppendLine("         CAST(ReglasDeContabilizacion.fldTimeStamp AS bigint) AS fldTimeStampBigint,");
@@ -1243,7 +1250,8 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaTransfCtasGastoComDestino,");
             SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaTransfCtasBancoOrigen,");
             SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaOrdenDeProduccionProductoTerminado,");
-            SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaOrdenDeProduccionMateriaPrima");
+            SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaOrdenDeProduccionMateriaPrima,");
+            SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaMermaAnormal");
             SQL.AppendLine("      FROM " + DbSchema + ".ReglasDeContabilizacion");
             SQL.AppendLine("   RETURN @@ROWCOUNT");
             SQL.AppendLine("END");

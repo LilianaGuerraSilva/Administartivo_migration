@@ -4584,14 +4584,16 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="20" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
                             <RowDefinition Height="22" />
                             <RowDefinition Height="22" />
                             <RowDefinition Height="22" />
                             <RowDefinition Height="22" />
                         </Grid.RowDefinitions>
                         <Border
-                            Grid.RowSpan="5"
+                            Grid.RowSpan="6"
                             Grid.Column="2"
                             Background="{x:Null}"
                             BorderBrush="{StaticResource NormalBorderBrush}"
@@ -4604,6 +4606,12 @@
                             BorderThickness="0,0,0,1" />
                         <Border
                             Grid.Row="2"
+                            Grid.ColumnSpan="3"
+                            Background="{x:Null}"
+                            BorderBrush="{StaticResource SolidBorderBrush}"
+                            BorderThickness="0,0,0,1" />
+                        <Border
+                            Grid.Row="4"
                             Grid.ColumnSpan="3"
                             Background="{x:Null}"
                             BorderBrush="{StaticResource SolidBorderBrush}"
@@ -4667,6 +4675,19 @@
                             Grid.Row="4"
                             Grid.Column="2"
                             Content="{Binding Path=CuentaOrdenDeProduccionMateriaPrimaDescripcion}" />
+                        <Label
+                            Name="lblCuentaMermaAnormal"
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            Content="Cuenta Merma Anormal"
+                            Style="{StaticResource LabelReglas}" />
+                        <nsWpfControls:GSSeekConnection
+                            Name="txtCuentaMermaAnormal"
+                            Grid.Row="5"
+                            Grid.Column="1"
+                            Width="150"
+                            HorizontalAlignment="Left"
+                            IsEnabled="{Binding Path=IsEnabled}" />
                     </Grid>
                 </GroupBox>
                 <Label

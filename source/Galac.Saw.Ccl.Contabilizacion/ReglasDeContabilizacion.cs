@@ -149,6 +149,7 @@ namespace Galac.Saw.Ccl.Contabilizacion {
         private string _CuentaOrdenDeProduccionMateriaPrima;
         private string _OrdenDeProduccionTipoComprobante;
         private bool _EditarComprobanteAfterInsertOrdenDeProduccion;
+        private string _CuentaMermaAnormal;
         private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;
@@ -1374,6 +1375,10 @@ namespace Galac.Saw.Ccl.Contabilizacion {
             set { _EditarComprobanteAfterInsertOrdenDeProduccion = LibConvert.SNToBool(value); }
         }
 
+        public string CuentaMermaAnormal {
+            get { return _CuentaMermaAnormal; }
+            set { _CuentaMermaAnormal = LibString.Mid(value, 0, 30); }
+        }
 
         public string NombreOperador {
             get { return _NombreOperador; }
@@ -1545,6 +1550,7 @@ namespace Galac.Saw.Ccl.Contabilizacion {
             CuentaOrdenDeProduccionMateriaPrima = string.Empty;
             OrdenDeProduccionTipoComprobante = string.Empty;
             EditarComprobanteAfterInsertOrdenDeProduccionAsBool = false;
+            CuentaMermaAnormal = string.Empty;
             NombreOperador = string.Empty;
             FechaUltimaModificacion = LibDate.Today();
             fldTimeStamp = 0;
@@ -1689,6 +1695,7 @@ namespace Galac.Saw.Ccl.Contabilizacion {
             vResult.CuentaOrdenDeProduccionMateriaPrima = _CuentaOrdenDeProduccionMateriaPrima;
             vResult.OrdenDeProduccionTipoComprobante = _OrdenDeProduccionTipoComprobante;
             vResult.EditarComprobanteAfterInsertOrdenDeProduccionAsBool = _EditarComprobanteAfterInsertOrdenDeProduccion;
+            vResult.CuentaMermaAnormal = _CuentaMermaAnormal;
             vResult.NombreOperador = _NombreOperador;
             vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
             vResult.fldTimeStamp = _fldTimeStamp;
