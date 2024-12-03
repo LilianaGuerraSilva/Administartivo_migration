@@ -4593,7 +4593,7 @@
                             <RowDefinition Height="22" />
                         </Grid.RowDefinitions>
                         <Border
-                            Grid.RowSpan="6"
+                            Grid.RowSpan="7"
                             Grid.Column="2"
                             Background="{x:Null}"
                             BorderBrush="{StaticResource NormalBorderBrush}"
@@ -4687,7 +4687,17 @@
                             Grid.Column="1"
                             Width="150"
                             HorizontalAlignment="Left"
-                            IsEnabled="{Binding Path=IsEnabled}" />
+                            ConnectionValue="{Binding Path=CuentaMermaAnormal, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                            DisplayMemberPath="Codigo"
+                            IsEnabled="{Binding Path=IsEnabled}"
+                            Model="{Binding Path=ConexionCuentaMermaAnormal, Mode=TwoWay}"
+                            SearchCommand="{Binding Path=ExecuteChooseCuentaMermaAnormalCommand}" />
+                        <Label
+                            Name="lblCuentaMermaAnormalDescripcion"
+                            Grid.Row="6"
+                            Grid.Column="1"
+                            Content="{Binding Path=CuentaMermaAnormalDescripcion}"
+                            Foreground="Black" />
                     </Grid>
                 </GroupBox>
                 <Label

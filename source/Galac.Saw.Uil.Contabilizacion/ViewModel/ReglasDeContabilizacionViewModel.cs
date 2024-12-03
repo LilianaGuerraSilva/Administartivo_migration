@@ -3922,10 +3922,17 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             set {
                 if (_ConexionCuentaMermaAnormal != value) {
                     _ConexionCuentaMermaAnormal = value;
+                    if (_ConexionCuentaMermaAnormal != null) {
+                        CuentaMermaAnormal = _ConexionCuentaMermaAnormal.Codigo;
+                        CuentaMermaAnormalDescripcion = _ConexionCuentaMermaAnormal.Descripcion;
+                    }
+                    RaisePropertyChanged(CuentaMermaAnormalDescripcionPropertyName);
                     RaisePropertyChanged(CuentaMermaAnormalPropertyName);
                 }
                 if (_ConexionCuentaMermaAnormal == null) {
                     CuentaMermaAnormal = string.Empty;
+                    CuentaMermaAnormalDescripcion = string.Empty;
+                    RaisePropertyChanged(CuentaMermaAnormalDescripcionPropertyName);
                 }
             }
         }
@@ -5919,6 +5926,7 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
         public string CuentaTransfCtasGastoComOrigenDescripcion { get; set; }
         public string CuentaOrdenDeProduccionProductoTerminadoDescripcion { get; set; }
         public string CuentaOrdenDeProduccionMateriaPrimaDescripcion { get; set; }
+        public string CuentaMermaAnormalDescripcion { get; set; }
 
         public const string CuentaIva1DebitoDescripcionPropertyName = "CuentaIva1DebitoDescripcion";
         public const string CuentaIva1CreditoDescripcionPropertyName = "CuentaIva1CreditoDescripcion";
@@ -5979,7 +5987,8 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
         public const string CuentaTransfCtasGastoComOrigenDescripcionPropertyName = "CuentaTransfCtasGastoComOrigenDescripcion";
         public const string CuentaOrdenDeProduccionProductoTerminadoDescripcionPropertyName = "CuentaOrdenDeProduccionProductoTerminadoDescripcion";
         public const string CuentaOrdenDeProduccionMateriaPrimaDescripcionPropertyName = "CuentaOrdenDeProduccionMateriaPrimaDescripcion";
-
+        public const string CuentaMermaAnormalDescripcionPropertyName = "CuentaMermaAnormalDescripcion";
+        
         private LibSearchCriteria SearchCriteriaConexionCuenta(string codigo) {
             LibSearchCriteria vSearchcriteria;
             vSearchcriteria = LibSearchCriteria.CreateCriteria("Codigo",codigo);
