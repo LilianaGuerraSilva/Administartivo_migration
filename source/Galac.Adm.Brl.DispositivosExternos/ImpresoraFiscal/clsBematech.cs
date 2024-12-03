@@ -857,6 +857,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         vResult = Bematech_FI_EfectuaFormaPagoDescripcionForma("Divisas", vTotalPagosMEConFormato, "");
                     } else {
                         vResult = Bematech_FI_IniciaCierreCuponIGTF("0");
+                        string vCodigoMonedaME = GetCodigoMonedaDePagoME(valDocumentoFiscal, vCodigoMoneda);
+                        Seguir = EnviarPagos(valDocumentoFiscal, vCodigoMonedaME);
                     }
                     Seguir = EnviarPagos(valDocumentoFiscal, vCodigoMoneda);
                 } else {
@@ -1195,6 +1197,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             } catch (Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
+        }
+
+        private string GetCodigoMonedaDePagoME(XElement valMedioDePago, string valCodigoMoneda) {
+            return valMedioDePago.Descendants("GpResultDetailRenglonCobro").FirstOrDefault(x => x.Element("CodigoMoneda")?.Value != valCodigoMoneda).Element("CodigoMoneda").Value.ToString() ?? "";            
         }
 
         private bool EnviarPagos(XElement valMedioDePago, string valCodigoMoneda) {
