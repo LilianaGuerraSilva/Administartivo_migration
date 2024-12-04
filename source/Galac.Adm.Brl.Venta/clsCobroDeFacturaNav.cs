@@ -63,14 +63,14 @@ namespace Galac.Adm.Brl.Venta {
             return vResult;
         }
 
-        public bool GenerarCobranzaYMovimientoBancarioDeCobroEnMultimoneda(int valConsecutivoCompania, string valNumeroFactura, eTipoDocumentoFactura valTipoDeDocumento, out IList<string> outListaDeCobranzasGeneradas) {
+        public bool GenerarCobranzaYMovimientoBancarioDeCobroEnMultimoneda(int valConsecutivoCompania, string valNumeroFactura, eTipoDocumentoFactura valTipoDeDocumento, out IList<string> outListaDeCobranzasGeneradas, string valNumeroCxC) {
             bool vResult = false;
             try {
                 List<string> vNumerosDeCobranzas = new List<string>();
                 List<MovimientoBancario> vMovimientosBancarios = new List<MovimientoBancario>();
                 XElement vDataFactura = BuscarDatosDeFactura(valConsecutivoCompania, valNumeroFactura, (int)valTipoDeDocumento);
                 XElement vDataRenglonCobro = BuscarDatosDeRenglonCobro(valConsecutivoCompania, valNumeroFactura, (int)valTipoDeDocumento);
-                XElement vDataCXC = BuscarDatosDeCXC(valConsecutivoCompania, valNumeroFactura, valTipoDeDocumento);
+                XElement vDataCXC = BuscarDatosDeCXC(valConsecutivoCompania, valNumeroCxC, valTipoDeDocumento);
                 if (valTipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito || valTipoDeDocumento == eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) {
                     string outNumeroCobranza = "";
                     eTipoDeTransaccion vTipoDeCxc = TipoDocumentoFacturaToTipoCxCConverter(valTipoDeDocumento);
@@ -134,7 +134,7 @@ namespace Galac.Adm.Brl.Venta {
             eTipoDeTransaccion vTipoCxc = TipoDocumentoFacturaToTipoCxCConverter(valTipoDeDocumento);
             vSQL.AppendLine("SELECT TipoCxc, MontoGravado, MontoIva,(MontoExento + MontoGravado + MontoIva) AS TotalCXC, CodigoMoneda , CambioABolivares FROM dbo.CxC WHERE Numero = @Numero AND TipoCxc = @TipoCxc AND ConsecutivoCompania = @ConsecutivoCompania");
             LibGpParams vParams = new LibGpParams();
-            vParams.AddInString("Numero", valNumeroFactura, 11);
+            vParams.AddInString("Numero", valNumeroFactura, 20);
             vParams.AddInEnum("TipoCxc", (int)vTipoCxc);
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             XElement vCxC = LibBusiness.ExecuteSelect(vSQL.ToString(), vParams.Get(), "", 0);

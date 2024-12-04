@@ -37,12 +37,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #endregion
 
         #region Metodos
-        public bool ImprimirFacturaFiscal(List<RenglonCobroDeFactura> valListDeCobro) {
+        public bool ImprimirFacturaFiscal(List<RenglonCobroDeFactura> valListDeCobro, XElement valDatosCreditoElectronico) {
             bool vResult = true;
             string vSerialMaquinaFiscal = "";
             string vComprobanteFiscal = "";
             try {
-                XElement xElementFacturaRapida = DarFormatoADatosDeFactura(insFactura, valListDeCobro);
+                XElement xElementFacturaRapida = DarFormatoADatosDeFactura(insFactura, valListDeCobro, valDatosCreditoElectronico);
                 if (vResult) {
                     vResult = false;
                     ImpresoraFiscalViewModel insImpresoraFiscalViewModel = new ImpresoraFiscalViewModel(_XmlDatosImprFiscal, xElementFacturaRapida, eTipoDocumentoFiscal.FacturaFiscal);
@@ -60,7 +60,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             return vResult;
         }      
 
-        private XElement DarFormatoADatosDeFactura(FacturaRapida valFactura, List<RenglonCobroDeFactura> valListDeCobro) {
+        private XElement DarFormatoADatosDeFactura(FacturaRapida valFactura, List<RenglonCobroDeFactura> valListDeCobro, XElement valDatosCreditoElectronico) {
             _MonedaLocalNav = new Saw.Lib.clsNoComunSaw();
             List<RenglonCobroDeFactura> vCloneListCobro = valListDeCobro.Select(t => t.Clone()).ToList();           
             XElement vResult = null;
@@ -103,6 +103,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 xElementFacturaRapida.Element("GpResult").Add(xTotalesEnDivisa);
             }
             xElementFacturaRapida.Element("GpResult").Add(xElementGpDataDetailRenglonCobro);
+            if (valDatosCreditoElectronico != null) {
+                xElementFacturaRapida.Element("GpResult").Add(valDatosCreditoElectronico);
+            }
             DarFormatoAFechasEnFactura(xElementFacturaRapida, insFactura);
             vResult = xElementFacturaRapida;
             return vResult;

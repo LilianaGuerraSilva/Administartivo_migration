@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using LibGalac.Aos.DefGen;
 using System.ComponentModel.DataAnnotations;
 using LibGalac.Aos.UI.Mvvm.Validation;
+using Galac.Comun.Ccl.TablasGen;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
 
@@ -859,7 +860,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         DialogResult = vRenglonCobro.InsertChildRenglonCobroDeFactura(ConsecutivoCompania, NumeroFactura, eTipoDocumentoFactura.ComprobanteFiscal, vListaDecobro).Success;
                         if (DialogResult) {
                             vListaDecobro.RemoveAll(x => x.CodigoFormaDelCobro == insRenglonCobroDeFacturaPdn.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoEfectivo) || x.CodigoFormaDelCobro == insRenglonCobroDeFacturaPdn.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoC2P));
-                            SeImprimio = ImprimirFacturaFiscal(vListaDecobro);
+                            XElement vDatosCreditoElectronico = DatosCreditoElectronico();
+                            SeImprimio = ImprimirFacturaFiscal(vListaDecobro, vDatosCreditoElectronico);
                             if (_ImprimirComprobante) {
                                 if (_EsVueltoPagoMovil) {
                                     if (XmlDatosImprFiscal != null) {
@@ -894,6 +896,24 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             } else {
                 LibMessages.MessageBox.Information(this, "Aun tiene un monto por pagar de " + SimboloMonedaLocal + "." + MontoRestantePorPagar
                     + " / " + SimboloDivisa + MontoRestantePorPagarEnDivisas, "Monto restante por pagar");
+            }
+
+            XElement DatosCreditoElectronico() {
+                XElement vResult = null;
+                var vUsarCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida", "UsaCreditoElectronico");
+                if (vUsarCreditoElectronico) { 
+                    var vCambioMostrarTotalEnDivisas = CambioAMonedaLocalParaMostrar;
+                    var vGenerarVariasCxC = ! LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida", "GenerarUnaUnicaCuotaCreditoElectronico");
+                    var vUsaClienteUnicoCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida", "UsaClienteUnicoCreditoElectronico");
+                    var vCodigoClienteCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("FacturaRapida", "CodigoClienteCreditoElectronico");
+                    vResult = new XElement("GpCobroElectronico", new XElement("GenerarVariasCxC", vGenerarVariasCxC));
+                    vResult.Add(new XElement("CodigoClienteCreditoElectronico", vCodigoClienteCreditoElectronico));
+                    vResult.Add(new XElement("CantidadCuotasCreditoElectronico", CantidadCuotasUsualesCreditoElectronico));
+                    vResult.Add(new XElement("MontoCreditoElectronico", MontoCreditoElectronico));
+                    vResult.Add(new XElement("UsaClienteUnicoCreditoElectronico", vUsaClienteUnicoCreditoElectronico));
+                    vResult.Add(new XElement("CambioAMonedaExtranjera", vCambioMostrarTotalEnDivisas));
+                }
+                return vResult;
             }
         }
 
@@ -1513,12 +1533,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             MontoRestantePorPagarEnDivisas = TotalFacturaEnDivisas;
             RaiseMoveFocus(EfectivoEnMonedaLocalPropertyName);
         }
-        private void InicializarValoresCreditoElectronico()
-        {
-            IsVisibleCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaCreditoElectronico");
-            NombreCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "NombreCreditoElectronico");
-            CantidadCuotasUsualesCreditoElectronico  = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros", "CantidadCuotasUsualesCreditoElectronico");
-            MaximaCantidadCuotasCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros", "MaximaCantidadCuotasCreditoElectronico");
+        private void InicializarValoresCreditoElectronico() {
+            IsVisibleCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida", "UsaCreditoElectronico");
+            NombreCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("FacturaRapida", "NombreCreditoElectronico");
+            CantidadCuotasUsualesCreditoElectronico  = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("FacturaRapida", "CantidadCuotasUsualesCreditoElectronico");
+            MaximaCantidadCuotasCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("FacturaRapida", "MaximaCantidadCuotasCreditoElectronico");
         }
         #endregion
         #region Validaciones
