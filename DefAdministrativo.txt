@@ -2366,9 +2366,9 @@ unStatusDocOrigenLoteInv = (Vigente, Anulado);//e,Componente=Inventario
         ContabPorLoteOrdenDeProduccion                : UnContabilizacionPorLote;//"Contabilizar Por Lote Orden De Producción"
         CuentaOrdenDeProduccionProductoTerminado      : Str30;//"Cuenta Producto Terminado",=Cuenta.Codigo
         CuentaOrdenDeProduccionMateriaPrima           : Str30;//"Cuenta Materia Prima",=Cuenta.Codigo
+	CuentaMermaAnormal			      : Str30;//"Cuenta Merma Anormal",=Cuenta.Codigo        
         OrdenDeProduccionTipoComprobante              : Str2;//"Siglas del Tipo de Comprobante",=TipoDeComprobante.Codigo
         EditarComprobanteAfterInsertOrdenDeProduccion : Boolean;//"Editar Inmediatamente el Comprobante Generado"
-		CuentaMermaAnormal     						  : Str30;//"Cuenta Merma Anormal",=Cuenta.Codigo        
     {EndSeccion}
 
     NombreOperador                              : Str10;//a
