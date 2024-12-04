@@ -6138,6 +6138,7 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             if (TabProduccionVisible) {
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaOrdenDeProduccionProductoTerminado);
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaOrdenDeProduccionMateriaPrima);
+                vResult = vResult || LibString.IsNullOrEmpty(CuentaMermaAnormal);
             }
             if (UsaVentasConIvaDiferido()) {
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaFacturacionIvaDiferido);

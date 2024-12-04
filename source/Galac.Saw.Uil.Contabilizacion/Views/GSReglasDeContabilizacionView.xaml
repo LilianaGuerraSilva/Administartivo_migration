@@ -4654,14 +4654,37 @@
                             Content="{Binding Path=CuentaOrdenDeProduccionProductoTerminadoDescripcion}"
                             Foreground="Black" />
                         <Label
-                            Name="lblCuentaOrdenDeProduccionMateriaPrima"
+                            Name="lblCuentaMermaAnormal"
                             Grid.Row="3"
+                            Grid.Column="0"
+                            Content="Cuenta Merma Anormal"
+                            Style="{StaticResource LabelReglas}" />
+                        <nsWpfControls:GSSeekConnection
+                            Name="txtCuentaMermaAnormal"
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Width="150"
+                            HorizontalAlignment="Left"
+                            ConnectionValue="{Binding Path=CuentaMermaAnormal, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                            DisplayMemberPath="Codigo"
+                            IsEnabled="{Binding Path=IsEnabled}"
+                            Model="{Binding Path=ConexionCuentaMermaAnormal, Mode=TwoWay}"
+                            SearchCommand="{Binding Path=ChooseCuentaMermaAnormalCommand}" />
+                        <Label
+                            Name="lblCuentaMermaAnormalDescripcion"
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            Content="{Binding Path=CuentaMermaAnormalDescripcion}"
+                            Foreground="Black" />
+                        <Label
+                            Name="lblCuentaOrdenDeProduccionMateriaPrima"
+                            Grid.Row="5"
                             Grid.Column="0"
                             Content="Cuenta Materiales"
                             Style="{StaticResource LabelReglas}" />
                         <nsWpfControls:GSSeekConnection
                             Name="txtCuentaOrdenDeProduccionMateriaPrima"
-                            Grid.Row="3"
+                            Grid.Row="5"
                             Grid.Column="2"
                             Width="150"
                             HorizontalAlignment="Left"
@@ -4672,32 +4695,9 @@
                             SearchCommand="{Binding Path=ChooseCuentaOrdenDeProduccionMateriaPrimaCommand}" />
                         <Label
                             Name="lblCuentaOrdenDeProduccionMateriaPrimaDescripcion"
-                            Grid.Row="4"
+                            Grid.Row="6"
                             Grid.Column="2"
                             Content="{Binding Path=CuentaOrdenDeProduccionMateriaPrimaDescripcion}" />
-                        <Label
-                            Name="lblCuentaMermaAnormal"
-                            Grid.Row="5"
-                            Grid.Column="0"
-                            Content="Cuenta Merma Anormal"
-                            Style="{StaticResource LabelReglas}" />
-                        <nsWpfControls:GSSeekConnection
-                            Name="txtCuentaMermaAnormal"
-                            Grid.Row="5"
-                            Grid.Column="1"
-                            Width="150"
-                            HorizontalAlignment="Left"
-                            ConnectionValue="{Binding Path=CuentaMermaAnormal, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                            DisplayMemberPath="Codigo"
-                            IsEnabled="{Binding Path=IsEnabled}"
-                            Model="{Binding Path=ConexionCuentaMermaAnormal, Mode=TwoWay}"
-                            SearchCommand="{Binding Path=ExecuteChooseCuentaMermaAnormalCommand}" />
-                        <Label
-                            Name="lblCuentaMermaAnormalDescripcion"
-                            Grid.Row="6"
-                            Grid.Column="1"
-                            Content="{Binding Path=CuentaMermaAnormalDescripcion}"
-                            Foreground="Black" />
                     </Grid>
                 </GroupBox>
                 <Label
