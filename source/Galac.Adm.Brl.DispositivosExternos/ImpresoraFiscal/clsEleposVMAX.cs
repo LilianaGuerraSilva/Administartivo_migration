@@ -251,7 +251,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 }
                 if (AbrirComprobanteFiscal(vDocumentoFiscal, false)) {
                     vResult = ImprimirTodosLosArticulos(vDocumentoFiscal, false);
-                    vResult &= EnviarPagos(vDocumentoFiscal);
+                    vResult &= ImprimirPagos(vDocumentoFiscal);
                     ImprmirCamposDefinibles(vDocumentoFiscal);
                     vResult &= mVMax.CerrarCF();
                 }
@@ -491,7 +491,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             return vMontoDescuentoTotal;
         }
 
-        private bool EnviarPagos(XElement valMedioDePago) {
+        private bool ImprimirPagos(XElement valMedioDePago) {
             string vMedioDePago = "";
             short vTipoPago = 1;
             decimal vBaseImponibleIGTF = 0;
@@ -521,21 +521,39 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         mVMax.PagoCF(ref vMedioDePago, ref vMontoME, ref vTipoPago);
                     }
                 } else {
+                    string VCodigoMonedaME = GetCodigoMonedaDePagoME(valMedioDePago, vCodigoMoneda);
+                    EnviarPagos(valMedioDePago, VCodigoMonedaME);
                     mVMax.SubTotal();
                 }
-                List<XElement> vNodos = valMedioDePago.Descendants("GpResultDetailRenglonCobro").Where(p => p.Element("CodigoMoneda").Value == vCodigoMoneda).ToList();
+                EnviarPagos(valMedioDePago, vCodigoMoneda);
+                return true;
+            } catch (GalacException vEx) {
+                throw new LibGalac.Aos.Catching.GalacException(vEx.Message, eExceptionManagementType.Controlled);
+            }
+        }
+
+        private string GetCodigoMonedaDePagoME(XElement valMedioDePago, string valCodigoMoneda) {
+            return valMedioDePago.Descendants("GpResultDetailRenglonCobro").FirstOrDefault(x => x.Element("CodigoMoneda")?.Value != valCodigoMoneda).Element("CodigoMoneda").Value.ToString() ?? "";
+        }
+
+        private bool EnviarPagos(XElement valMedioDePago, string valCodigoMoneda) {
+            string vMedioDePago = "";
+            string vMontoCancelado = "";           
+            short vTipoPago = 1;
+            try {
+                List<XElement> vNodos = valMedioDePago.Descendants("GpResultDetailRenglonCobro").Where(p => p.Element("CodigoMoneda").Value == valCodigoMoneda).ToList();
                 if (vNodos.Count > 0) {
                     foreach (XElement vXElement in vNodos) {
                         vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "CodigoFormaDelCobro"));
                         vMedioDePago = FormaDeCobro(vMedioDePago);
-                        vMontoME = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
-                        vMontoME = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMontoME, _EnterosParaMonto, _DecimalParaMonto);
-                        mVMax.PagoCF(ref vMedioDePago, ref vMontoME, ref vTipoPago);
+                        vMontoCancelado = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
+                        vMontoCancelado = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMontoCancelado, _EnterosParaMonto, _DecimalParaMonto);
+                        mVMax.PagoCF(ref vMedioDePago, ref vMontoCancelado, ref vTipoPago);
                     }
                 }
                 return true;
-            } catch (GalacException vEx) {
-                throw new LibGalac.Aos.Catching.GalacException(vEx.Message, eExceptionManagementType.Controlled);
+            } catch (Exception vEx) {
+                throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
         }
 
@@ -579,7 +597,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 }
                 if (AbrirComprobanteFiscal(vDocumentoFiscal, true)) {
                     vResult = ImprimirTodosLosArticulos(vDocumentoFiscal, true);
-                    vResult &= EnviarPagos(vDocumentoFiscal);
+                    vResult &= ImprimirPagos(vDocumentoFiscal);
                     vResult &= mVMax.CerrarCF();
                 }
 

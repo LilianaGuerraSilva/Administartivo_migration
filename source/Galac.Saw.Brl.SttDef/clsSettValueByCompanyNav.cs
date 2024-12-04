@@ -1891,7 +1891,7 @@ namespace Galac.Saw.Brl.SttDef {
             var vItems = from vData in vModules.Descendants("GpResult")
                          select vData;
             foreach (var vItem in vItems) {
-                if (LibConvert.ToInt(vItem.Element("LevelModule").Value) == 10) {
+                if (LibConvert.ToInt(vItem.Element("LevelModule").Value) == 9) {
                     continue;
                 }
                 Module vModule = new Module();
@@ -2039,7 +2039,6 @@ namespace Galac.Saw.Brl.SttDef {
         bool ISettValueByCompanyPdn.SpecializedUpdate(List<Module> valModules) {
             bool vResult = true;
             List<SettValueByCompany> vList = new List<SettValueByCompany>();
-
             foreach (Module vModule in valModules) {
                 foreach (Group vGroup in vModule.Groups) {
                     var vModel = LibReflection.GetPropertyValue(vGroup.Content, "Model", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
@@ -2047,7 +2046,6 @@ namespace Galac.Saw.Brl.SttDef {
                         .Where(p => p.CanRead);
                     foreach (var vProperty in vProperties) {
                         string vNameSettDefinition = vProperty.Name;
-
                         if (vNameSettDefinition == "GroupName" || vNameSettDefinition == "Module" ||
                             vNameSettDefinition == "fldTimeStamp" || vNameSettDefinition == "Datos" ||
                             vNameSettDefinition.LastIndexOf("AsString") > 0 ||

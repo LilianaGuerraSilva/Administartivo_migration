@@ -295,13 +295,18 @@ Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales
                   vMontoMEStr = fDarFormatoNumericoParaImpresion(vOtrosPagos, mEnterosParaIGTF, mDecimalesParaMonto)
                   mVmax.PagoCF vMedioPago, vMontoMEStr, 1
                End If
-            Else
+            Else ' Montos en ME sin IGTF
+               If Not insDatosImprFiscal.GetFormaDePago Is Nothing Then
+                  sFormaDePago insDatosImprFiscal, True
+               Else
+                  vResult = mVmax.PagoCF("Debito", vTotalFactura, 1)
+               End If
                vResult = mVmax.SubTotal()
             End If
             vTotalFactura = mVmax.TotalFactura
             If vTotalPagadoML > 0 Then
                If Not insDatosImprFiscal.GetFormaDePago Is Nothing Then
-                  sFormaDePago insDatosImprFiscal
+                  sFormaDePago insDatosImprFiscal, False
                Else
                   vResult = mVmax.PagoCF("Debito", vTotalFactura, 1)
                End If
@@ -504,7 +509,7 @@ Private Function fFormaDeCobro(ByVal valFormaDeCobro As String, ByVal valDescrip
    fFormaDeCobro = vValorFinal
 End Function
 
-Private Sub sFormaDePago(ByVal insDatosImprFiscal As clsDatosImprFiscal)
+Private Sub sFormaDePago(ByVal insDatosImprFiscal As clsDatosImprFiscal, ByVal valEsME As Boolean)
    Dim rsFormaDePago As ADODB.Recordset
    Dim formadePago As String
    Dim vMontoCancelado As Currency
@@ -524,7 +529,11 @@ Private Sub sFormaDePago(ByVal insDatosImprFiscal As clsDatosImprFiscal)
          vCodigoMoneda = rsFormaDePago.Fields("CodigoMoneda").Value
          vFormaDeCobro = fFormaDeCobro(rsFormaDePago("CodigoFormaDelCobro").Value, insDatosImprFiscal.GetDescripcionPagoCreditoElectronico)
          If rsFormaDePago.RecordCount < 1 Then
-             vResult = mVmax.PagoCF("Efectivo", vTotalFactura, 1)
+            vResult = mVmax.PagoCF("Efectivo", vTotalFactura, 1)
+         ElseIf insDatosImprFiscal.GetCodigoMonedaCompania <> vCodigoMoneda And valEsME Then
+            MontoCanceladoFormateado = gConvert.fConvierteAString(vMontoCancelado)
+            MontoCanceladoFormateado = fDarFormatoNumericoParaImpresion(MontoCanceladoFormateado, mEnterosParaPagos, mDecimalesParaMonto)
+            vResult = mVmax.PagoCF(vFormaDeCobro, MontoCanceladoFormateado, 1)
          ElseIf insDatosImprFiscal.GetCodigoMonedaCompania = vCodigoMoneda Then
             MontoCanceladoFormateado = gConvert.fConvierteAString(vMontoCancelado)
             MontoCanceladoFormateado = fDarFormatoNumericoParaImpresion(MontoCanceladoFormateado, mEnterosParaPagos, mDecimalesParaMonto)

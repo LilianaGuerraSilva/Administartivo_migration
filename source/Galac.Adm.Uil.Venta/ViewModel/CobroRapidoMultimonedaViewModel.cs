@@ -1533,6 +1533,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             MontoRestantePorPagarEnDivisas = TotalFacturaEnDivisas;
             RaiseMoveFocus(EfectivoEnMonedaLocalPropertyName);
         }
+		
         private void InicializarValoresCreditoElectronico() {
             IsVisibleCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida", "UsaCreditoElectronico");
             NombreCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("FacturaRapida", "NombreCreditoElectronico");
