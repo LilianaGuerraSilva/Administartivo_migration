@@ -900,12 +900,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
             XElement DatosCreditoElectronico() {
                 XElement vResult = null;
-                var vUsarCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida", "UsaCreditoElectronico");
+                var vUsarCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaCreditoElectronico");
                 if (vUsarCreditoElectronico) { 
                     var vCambioMostrarTotalEnDivisas = CambioAMonedaLocalParaMostrar;
-                    var vGenerarVariasCxC = ! LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida", "GenerarUnaUnicaCuotaCreditoElectronico");
-                    var vUsaClienteUnicoCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida", "UsaClienteUnicoCreditoElectronico");
-                    var vCodigoClienteCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("FacturaRapida", "CodigoClienteCreditoElectronico");
+                    var vGenerarVariasCxC = ! LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "GenerarUnaUnicaCuotaCreditoElectronico");
+                    var vUsaClienteUnicoCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaClienteUnicoCreditoElectronico");
+                    var vCodigoClienteCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoClienteCreditoElectronico");
                     vResult = new XElement("GpCobroElectronico", new XElement("GenerarVariasCxC", vGenerarVariasCxC));
                     vResult.Add(new XElement("CodigoClienteCreditoElectronico", vCodigoClienteCreditoElectronico));
                     vResult.Add(new XElement("CantidadCuotasCreditoElectronico", CantidadCuotasUsualesCreditoElectronico));
@@ -1535,10 +1535,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 		
         private void InicializarValoresCreditoElectronico() {
-            IsVisibleCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida", "UsaCreditoElectronico");
-            NombreCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("FacturaRapida", "NombreCreditoElectronico");
-            CantidadCuotasUsualesCreditoElectronico  = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("FacturaRapida", "CantidadCuotasUsualesCreditoElectronico");
-            MaximaCantidadCuotasCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("FacturaRapida", "MaximaCantidadCuotasCreditoElectronico");
+            IsVisibleCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaCreditoElectronico");
+            NombreCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "NombreCreditoElectronico");
+            CantidadCuotasUsualesCreditoElectronico  = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros", "CantidadCuotasUsualesCreditoElectronico");
+            MaximaCantidadCuotasCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros", "MaximaCantidadCuotasCreditoElectronico");
         }
         #endregion
         #region Validaciones
