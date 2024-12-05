@@ -107,7 +107,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
             xElementFacturaRapida.Element("GpResult").Add(xElementGpDataDetailRenglonCobro);
             if (valDatosCreditoElectronico != null) {
+                XElement vVieneDeCreditoElectronico = new XElement("VieneDeCreditoElectronico", LibConvert.BoolToSN(true));
+                xElementFacturaRapida.Element("GpResult").Add(vVieneDeCreditoElectronico);
                 xElementFacturaRapida.Element("GpResult").Add(valDatosCreditoElectronico);
+            } else {
+                XElement vVieneDeCreditoElectronico = new XElement("VieneDeCreditoElectronico", LibConvert.BoolToSN(true));
+                xElementFacturaRapida.Element("GpResult").Add(vVieneDeCreditoElectronico);
             }
             DarFormatoAFechasEnFactura(xElementFacturaRapida, insFactura);
             vResult = xElementFacturaRapida;

@@ -101,7 +101,6 @@ namespace Galac.Adm.Dal.Venta {
             string vNumeroCXC = vNumeroFactura;
             eStatusCXC vStatusCXC = eStatusCXC.CANCELADO;
             DateTime vFechaFactura = LibConvert.ToDate(LibXml.GetPropertyString(valData, "Fecha"));
-            DateTime vFechaDeVencimiento = LibConvert.ToDate(LibXml.GetPropertyString(valData, "FechaDeVencimiento").Substring(0,10));
             eTipoDeTransaccion vOrigenDocumento = eTipoDeTransaccion.TICKETMAQUINAREGISTRADORA;
             bool vSeRetuvoIva = false;
             bool vRefinanciado = false;
@@ -116,6 +115,8 @@ namespace Galac.Adm.Dal.Venta {
             string vCodigoLote = "0";
             string vCentroDeCostos = "";
             DateTime vFechaLimiteCambioAMonedaLocal = LibConvert.ToDate(LibXml.GetPropertyString(valData, "Fecha"));
+            bool vVieneDeCreditoElectronicoAsBool = LibConvert.SNToBool(LibXml.GetPropertyString(valData, "VieneDeCreditoElectronico"));
+
             vParams.AddReturn();
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             vParams.AddInString("NumeroCXC", vNumeroCXC, 20);
@@ -127,7 +128,7 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInEnum("OrigenDocumento", (int)vOrigenDocumento);
             vParams.AddInDateTime("Fecha", vFechaFactura);
             vParams.AddInDateTime("FechaCancelacion", vFechaFactura);
-            vParams.AddInDateTime("FechaVencimiento", vFechaDeVencimiento);
+            vParams.AddInDateTime("FechaVencimiento", vFechaFactura);
             vParams.AddInDecimal("MontoExento", vTotalMontoExento + vIGTF, 2);
             vParams.AddInDecimal("BaseImponible", vTotalBaseImponible, 2);
             vParams.AddInDecimal("MontoIva", vTotalMontoIva, 2);
@@ -148,6 +149,7 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInString("NumeroControl", vNumeroControl, 11);
             vParams.AddInString("ComprobanteFiscal", vComprobanteFiscal, 12);
             vParams.AddInDateTime("FechaLimiteCambioAMonedaLocal", vFechaLimiteCambioAMonedaLocal);
+            vParams.AddInBoolean("VieneDeCreditoElectronico", vVieneDeCreditoElectronicoAsBool);
             vResult = vParams.Get();
             return vResult;
         }
@@ -202,6 +204,7 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInString("CodigoMoneda", valRecord.CodigoMoneda, 4);
             vParams.AddInString("NumeroControl", valRecord.NumeroControl, 11);
             vParams.AddInString("NumeroComprobanteFiscal", valRecord.NumeroComprobanteFiscal, 12);
+            vParams.AddInBoolean("VieneDeCreditoElectronico", valRecord.VieneDeCreditoElectronicoAsBool);
             vParams.AddInString("NombreOperador", ((CustomIdentity) Thread.CurrentPrincipal.Identity).Login, 10);
             vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
             if (valAction == eAccionSR.Modificar) {
