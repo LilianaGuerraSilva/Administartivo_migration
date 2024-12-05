@@ -3592,6 +3592,7 @@ Public Sub sRestaurarDatos(ByVal valRecordSet As ADODB.Recordset, ByVal valConse
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@ContabPorLoteOrdenDeProduccion", 1, valRecordSet("ContabPorLoteOrdenDeProduccion").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CuentaOrdenDeProduccionProductoTerminado", 30, valRecordSet("CuentaOrdenDeProduccionProductoTerminado").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CuentaOrdenDeProduccionMateriaPrima", 30, valRecordSet("CuentaOrdenDeProduccionMateriaPrima").value)
+      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CuentaMermaAnormal", 30, valRecordSet("CuentaMermaAnormal").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@OrdenDeProduccionTipoComprobante", 2, valRecordSet("OrdenDeProduccionTipoComprobante").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@EditarComprobanteAfterInsertOrdenDeProduccion", 1, valRecordSet("EditarComprobanteAfterInsertOrdenDeProduccion").value)
 'revisar
