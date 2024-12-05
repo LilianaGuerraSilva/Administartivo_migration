@@ -240,7 +240,7 @@ namespace Galac.Adm.Brl.Venta {
                         int cuotas = 1;
                         string vNumeroCxC = string.Empty;
                         while (cuotas <= vNroCuotas) {
-                            vNumeroCxC = vNumeroFactura + "-" + cuotas.ToString().PadLeft(3, '0');
+                            vNumeroCxC = vNumeroFactura + "-" + cuotas.ToString().PadLeft(2, '0')+"/"+ vNroCuotas.ToString().PadLeft(2, '0');
                             var clonefacturadet = new XElement("GpData", xElementFacturaRapida.Descendants("GpResult"));
                             var vClonefacturadetRecord = clonefacturadet.Descendants("GpResult").First();
                             if (cuotas < vNroCuotas) {
@@ -254,7 +254,7 @@ namespace Galac.Adm.Brl.Venta {
                             vFechaCuota = DateTime.Today.AddDays(vDiasDeVencimientoCuotas).Date;
                         }
                     } else {
-                        vNumeroFactura = vNumeroFactura + "-0001";
+                        vNumeroFactura = vNumeroFactura + "-01/01";
                         clonefactura = new XElement("GpData", DatosFacturaRapidaCreditoFiscal(vClonefacturaRecord, vMontoCreditoElectronico, vNumeroFactura, CodigoClienteCreditoElectronico, true, true, vFechaCuota));
                         vResult = vResult && insCXC.Insert(valConsecutivoCompania, clonefactura);
                     }
