@@ -215,6 +215,7 @@ namespace Galac.Adm.Brl.Venta {
             bool vResult = true;
             var vRecords = clonefactura.Descendants("GpCobroElectronico");
             var vClonefacturaRecord = clonefactura.Descendants("GpResult").First();
+            int vDiasVencimiento = LibConvert.ToInt(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "DiasDeCreditoPorCuotaCreditoElectronico"));
             if (vRecords != null && vRecords.Any()) {
                 var vRecord = vRecords.First();
                 var vMontoCreditoElectronico = LibImportData.ToDec(vRecord.Element("MontoCreditoElectronico").Value,2);
@@ -222,36 +223,39 @@ namespace Galac.Adm.Brl.Venta {
                     var vNroCuotas = LibConvert.ToInt(vRecord.Element("CantidadCuotasCreditoElectronico").Value);
                     bool vGenerarVariasCxC = LibConvert.ToBool(vRecord.Element("GenerarVariasCxC").Value);
                     bool vUsaClienteCreditoElectronico = LibConvert.ToBool(vRecord.Element("UsaClienteUnicoCreditoElectronico").Value);
+                    string vCodigoCliente = LibConvert.ToStr(vClonefacturaRecord.Element("CodigoCliente").Value);
                     string CodigoClienteCreditoElectronico = vUsaClienteCreditoElectronico ?
                         LibConvert.ToStr(vRecord.Element("CodigoClienteCreditoElectronico").Value)
-                        : LibConvert.ToStr(vClonefacturaRecord.Element("CodigoCliente").Value);
+                        : vCodigoCliente;
                     var vNumeroFactura = LibXml.GetPropertyString(clonefactura, "Numero");
                     decimal vTasaDeCambio = LibImportData.ToDec(vRecord.Element("CambioAMonedaExtranjera").Value, 4);
                     var vMontoInicial = LibMath.RoundToNDecimals(LibImportData.ToDec(vClonefacturaRecord.Element("TotalFactura").Value, 2) - (vMontoCreditoElectronico * vTasaDeCambio), 2);
                     valNumeroFactura = vNumeroFactura + "-INI";
-                    clonefactura = new XElement("GpData", DatosFacturaRapidaCreditoFiscal(vClonefacturaRecord, vMontoInicial, valNumeroFactura, CodigoClienteCreditoElectronico, false));
+                    clonefactura = new XElement("GpData", DatosFacturaRapidaCreditoFiscal(vClonefacturaRecord, vMontoInicial, valNumeroFactura, vCodigoCliente, false, false, new DateTime()));
                     vResult = vResult && insCXC.Insert(valConsecutivoCompania, clonefactura);
+                    DateTime vFechaCuota = DateTime.Today.AddDays(vDiasVencimiento).Date;
                     if (vGenerarVariasCxC && vNroCuotas > 1) {
-                        var vMontoCxC = LibMath.RoundToNDecimals(vMontoCreditoElectronico / vNroCuotas, 2);
-                        var vCuotaFinal = vMontoCreditoElectronico - (vMontoCxC * (vNroCuotas - 1));
-                        var vNumeroDeCxc = vNroCuotas - 1;
-                        var cuotas = 1;
+                        decimal vMontoCxC = LibMath.RoundToNDecimals(vMontoCreditoElectronico / vNroCuotas, 2);
+                        decimal vCuotaFinal = vMontoCreditoElectronico - (vMontoCxC * (vNroCuotas - 1));
+                        int cuotas = 1;
+                        string vNumeroCxC = string.Empty;
                         while (cuotas <= vNroCuotas) {
-                            vNumeroFactura = vNumeroFactura + "-" + (cuotas - 1).ToString().PadLeft(3,'0');
+                            vNumeroCxC = vNumeroFactura + "-" + cuotas.ToString().PadLeft(3, '0');
                             var clonefacturadet = new XElement("GpData", xElementFacturaRapida.Descendants("GpResult"));
                             var vClonefacturadetRecord = clonefacturadet.Descendants("GpResult").First();
-                            clonefactura = new XElement("GpData", DatosFacturaRapidaCreditoFiscal(vClonefacturadetRecord, vMontoCxC, vNumeroFactura, CodigoClienteCreditoElectronico, true));
+                            if (cuotas < vNroCuotas) {
+                                clonefactura = new XElement("GpData", DatosFacturaRapidaCreditoFiscal(vClonefacturadetRecord, vMontoCxC, vNumeroCxC, CodigoClienteCreditoElectronico, true, true, vFechaCuota));
+                            } else {
+                                clonefactura = new XElement("GpData", DatosFacturaRapidaCreditoFiscal(vClonefacturadetRecord, vCuotaFinal, vNumeroCxC, CodigoClienteCreditoElectronico, true, true, vFechaCuota));
+                            }
                             vResult = vResult && insCXC.Insert(valConsecutivoCompania, clonefactura);
                             cuotas++;
+                            int vDiasDeVencimientoCuotas = vDiasVencimiento * cuotas;
+                            vFechaCuota = DateTime.Today.AddDays(vDiasDeVencimientoCuotas).Date;
                         }
-                        vNumeroFactura = vNumeroFactura + "-" + (vNroCuotas).ToString().PadLeft(3, '0');
-                        var clonefacturafinal = new XElement("GpData", xElementFacturaRapida.Descendants("GpResult"));
-                        var vClonefacturafinalRecord = clonefacturafinal.Descendants("GpResult").First();
-                        clonefactura = new XElement("GpData", DatosFacturaRapidaCreditoFiscal(clonefacturafinal, vCuotaFinal, vNumeroFactura + "-0" + vNroCuotas.ToString(), CodigoClienteCreditoElectronico, true));
-                        vResult = vResult && insCXC.Insert(valConsecutivoCompania, clonefactura);
                     } else {
                         vNumeroFactura = vNumeroFactura + "-0001";
-                        clonefactura = new XElement("GpData", DatosFacturaRapidaCreditoFiscal(vClonefacturaRecord, vMontoCreditoElectronico, vNumeroFactura, CodigoClienteCreditoElectronico, true));
+                        clonefactura = new XElement("GpData", DatosFacturaRapidaCreditoFiscal(vClonefacturaRecord, vMontoCreditoElectronico, vNumeroFactura, CodigoClienteCreditoElectronico, true, true, vFechaCuota));
                         vResult = vResult && insCXC.Insert(valConsecutivoCompania, clonefactura);
                     }
                 } else {
@@ -263,7 +267,8 @@ namespace Galac.Adm.Brl.Venta {
             }
             return vResult;
         }
-        private XElement DatosFacturaRapidaCreditoFiscal(XElement valCloneFacturaRapida, decimal valMontoCxC, string valNumeroFactura, string valCodigoCliente, bool valUsarMonedaExtranjera) {
+        private XElement DatosFacturaRapidaCreditoFiscal(XElement valCloneFacturaRapida, decimal valMontoCxC, string valNumeroFactura, string valCodigoCliente
+                , bool valUsarMonedaExtranjera , bool valCambiarFechaVencimiento, DateTime valFechaDeVencimiento) {
             var vProperty = valCloneFacturaRapida.Element("Numero");
             vProperty.Value = valNumeroFactura;
             vProperty = valCloneFacturaRapida.Element("TotalBaseImponible");
@@ -282,8 +287,10 @@ namespace Galac.Adm.Brl.Venta {
                 vProperty = valCloneFacturaRapida.Element("Moneda");
                 vProperty.Value = "Dólar";
             }
-            //vProperty = valCloneFacturaRapida.Element("FechaVencimiento");
-            //vProperty.Value = DateTime.Today.AddDays(1).Date.ToString("dd/MM/YYYY");
+            if (valCambiarFechaVencimiento) {
+                vProperty = valCloneFacturaRapida.Element("FechaDeVencimiento");
+                vProperty.Value = valFechaDeVencimiento.ToString("dd/MM/yyyy");
+            }
             return valCloneFacturaRapida;
         }
 
