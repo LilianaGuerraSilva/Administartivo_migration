@@ -120,13 +120,13 @@ namespace Galac.Saw.Wrp.Venta {
             return string.Empty;
         }
 
-        string IWrpCobroRapidoMultimoneda.GenerarCobranzaYMovimientoBancarioDeCobroEnMultimoneda(int valConsecutivoCompania, string valNumeroFactura, string valTipoDeDocumento, string vfwCurrentParameters) {
+        string IWrpCobroRapidoMultimoneda.GenerarCobranzaYMovimientoBancarioDeCobroEnMultimoneda(int valConsecutivoCompania, string valNumeroFactura, string valTipoDeDocumento, string vfwCurrentParameters, string valNumeroCxC) {
             try {
                 eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)LibConvert.DbValueToEnum(valTipoDeDocumento);
                 clsCobroDeFacturaNav vCobroFactura = new clsCobroDeFacturaNav();
                 IList<string> vListaDeCobranzasGeneradas = new List<string>();
                 CreateGlobalValues(vfwCurrentParameters);
-                vCobroFactura.GenerarCobranzaYMovimientoBancarioDeCobroEnMultimoneda(valConsecutivoCompania, valNumeroFactura, vTipoDeDocumento, out vListaDeCobranzasGeneradas);
+                vCobroFactura.GenerarCobranzaYMovimientoBancarioDeCobroEnMultimoneda(valConsecutivoCompania, valNumeroFactura, vTipoDeDocumento, out vListaDeCobranzasGeneradas, valNumeroCxC);
                 XElement vXmlCobranzasGeneradas = new XElement("GpData");
                 foreach (string Cobranza in vListaDeCobranzasGeneradas) {
                     vXmlCobranzasGeneradas.Add(new XElement("GpResult",

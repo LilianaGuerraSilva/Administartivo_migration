@@ -748,12 +748,12 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             bool vResult = true;
             decimal vTotalPagoME;
             decimal vTotalAPagar;
-            decimal vBIGTF;
+            //decimal vBIGTF;
             decimal vIGTFML;
             try {
                 vIGTFML = LibImportData.ToDec(LibXml.GetPropertyString(valMedioDePago, "IGTFML"));
                 vTotalAPagar = LibImportData.ToDec(LibXml.GetPropertyString(valMedioDePago, "TotalAPagar"));
-                vBIGTF = LibImportData.ToDec(LibXml.GetPropertyString(valMedioDePago, "BaseImponibleIGTF"));
+                //vBIGTF = LibImportData.ToDec(LibXml.GetPropertyString(valMedioDePago, "BaseImponibleIGTF"));
                 vCodigoMonedaBase = LibXml.GetPropertyString(valMedioDePago, "CodigoMoneda");
                 vTotalPagoME = LibImpresoraFiscalUtil.TotalMediosDePago(valMedioDePago.Descendants("GpResultDetailRenglonCobro"), vCodigoMonedaBase, true);
                 vTotalPagadoML = LibImpresoraFiscalUtil.TotalMediosDePago(valMedioDePago.Descendants("GpResultDetailRenglonCobro"), vCodigoMonedaBase, false);
@@ -784,28 +784,22 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                             vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
                             vNodosCount = 0;
                         } else { // EL Pago en ME es parcial
-                            vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vTotalPagoME.ToString("#.##"), _EnterosParaPagos, _DecimalesParaPagos);
-                            vCmd = "202" + vMonto;
-                            vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
+                            string vCodigoMonedaME = GetCodigoMonedaDePagoME(valMedioDePago, vCodigoMonedaBase);
+                            vResult= EnviarListaDePagos(valMedioDePago, vCodigoMonedaME);                                                       
                         }
                     }
-                    if (vNodosCount > 0) { // Pagos en ML
-                        foreach (XElement vXElement in vNodos) {
-                            vMonto = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
-                            vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "CodigoFormaDelCobro"));
-                            vFormatoDeCobro = FormaDeCobro(vMedioDePago);
-                            decimal vMontoDec = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
-                            vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto, _EnterosParaPagos, _DecimalesParaPagos);
-                            if ((vNodosCount == 1) && ((vMontoDec - vIGTFML) == vTotalFactura) && (vTotalPagoME == 0)) {
-                                vCmd = "1" + vFormatoDeCobro; //Un solo pago ML
-                            } else if (vNodosCount == 1 && (vTotalPagoME > 0)) {
-                                vCmd = "2" + vFormatoDeCobro + vMonto; //Pago Parcial  + Pago ME
-                            } else {
-                                vCmd = "2" + vFormatoDeCobro + vMonto; // Solo Pagos Parciales ML
-                            }
+                    if(vNodosCount > 0) { // Pagos en ML                             
+                        vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vTotalPagadoML.ToString("#.##"), _EnterosParaPagos, _DecimalesParaPagos);
+                        if((vNodosCount == 1) && ((vTotalPagadoML - vIGTFML) == vTotalFactura) && (vTotalPagoME == 0)) {
+                            vCmd = "1" + vFormatoDeCobro; //Un solo pago ML
                             vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
-                        }
-                    }
+                        } else if(vNodosCount == 1 && (vTotalPagoME > 0)) {
+                            vCmd = "2" + vFormatoDeCobro + vMonto; //Pago Parcial  + Pago ME
+                            vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
+                        } else {
+                            EnviarListaDePagos(valMedioDePago, vCodigoMonedaBase);                            
+                        }                       
+                    }                    
                     if (vTotalAPagar >= (vTotalPagoME + vTotalPagadoML)) {
                         if (vTotalPagoME > 0 && vTotalPagadoML > 0 && !vNoEsUnicaMoneda) {
                             if (vIGTFML > 0) {
@@ -841,6 +835,34 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 return vResult;
             } catch (Exception vEx) {
                 throw new LibGalac.Aos.Catching.GalacException("Imprimir Medio de Pago\r\n" + vEx.Message, eExceptionManagementType.Controlled);
+            }
+        }
+
+        private string GetCodigoMonedaDePagoME(XElement valMedioDePago, string valCodigoMoneda) {
+            return valMedioDePago.Descendants("GpResultDetailRenglonCobro").FirstOrDefault(x => x.Element("CodigoMoneda")?.Value != valCodigoMoneda).Element("CodigoMoneda").Value.ToString() ?? "";
+        }
+
+        private bool EnviarListaDePagos(XElement valMedioDePago, string valCodigoMoneda) {
+            string vMedioDePago = "";
+            string vMonto = "";
+            bool vResult = false;
+            string vCmd = string.Empty;
+            try {
+                List<XElement> vNodos = valMedioDePago.Descendants("GpResultDetailRenglonCobro").Where(p => p.Element("CodigoMoneda").Value == valCodigoMoneda).ToList();
+                if(vNodos.Count > 0) {
+                    foreach(XElement vXElement in vNodos) {
+                        vMonto = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
+                        vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "CodigoFormaDelCobro"));
+                        vMedioDePago = FormaDeCobro(vMedioDePago);
+                        vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto, _EnterosParaPagos, _DecimalesParaPagos);
+                        vCmd = "2" + vMedioDePago + vMonto;
+                        vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
+                        Thread.Sleep(5);
+                    }
+                }
+                return true;
+            } catch(Exception vEx) {
+                throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
         }
 

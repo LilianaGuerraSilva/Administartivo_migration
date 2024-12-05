@@ -101,6 +101,7 @@ namespace Galac.Adm.Dal.Venta {
             string vNumeroCXC = vNumeroFactura;
             eStatusCXC vStatusCXC = eStatusCXC.CANCELADO;
             DateTime vFechaFactura = LibConvert.ToDate(LibXml.GetPropertyString(valData, "Fecha"));
+            DateTime vFechaDeVencimiento = LibConvert.ToDate(LibXml.GetPropertyString(valData, "FechaDeVencimiento").Substring(0,10));
             eTipoDeTransaccion vOrigenDocumento = eTipoDeTransaccion.TICKETMAQUINAREGISTRADORA;
             bool vSeRetuvoIva = false;
             bool vRefinanciado = false;
@@ -126,7 +127,7 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInEnum("OrigenDocumento", (int)vOrigenDocumento);
             vParams.AddInDateTime("Fecha", vFechaFactura);
             vParams.AddInDateTime("FechaCancelacion", vFechaFactura);
-            vParams.AddInDateTime("FechaVencimiento", vFechaFactura);
+            vParams.AddInDateTime("FechaVencimiento", vFechaDeVencimiento);
             vParams.AddInDecimal("MontoExento", vTotalMontoExento + vIGTF, 2);
             vParams.AddInDecimal("BaseImponible", vTotalBaseImponible, 2);
             vParams.AddInDecimal("MontoIva", vTotalMontoIva, 2);
