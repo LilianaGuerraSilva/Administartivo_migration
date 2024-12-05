@@ -88,7 +88,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             xElementFacturaRapida.Element("GpResult").Add(xElementGpDataDetailRenglonFactura);
             XElement xElementGpDataDetailRenglonCobro = new XElement("GpDataDetailRenglonCobro");
             foreach (var renglon in vCloneListCobro.Where(x => x.CodigoMoneda != _MonedaLocalNav.InstanceMonedaLocalActual.GetHoyCodigoMoneda())) {
-                renglon.Monto = LibMath.RoundToNDecimals(renglon.Monto * renglon.CambioAMonedaLocal,2);
+                renglon.Monto = LibMath.RoundToNDecimals(renglon.Monto * renglon.CambioAMonedaLocal, 2);
+                if (LibString.S1IsEqualToS2(renglon.CodigoFormaDelCobro, "00015")) {
+                    renglon.CodigoMoneda = _MonedaLocalNav.InstanceMonedaLocalActual.GetHoyCodigoMoneda();
+                }
             }          
 
             foreach (var item in vCloneListCobro) {
