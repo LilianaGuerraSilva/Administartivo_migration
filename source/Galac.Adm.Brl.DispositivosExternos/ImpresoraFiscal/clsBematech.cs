@@ -1200,7 +1200,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         }
 
         private string GetCodigoMonedaDePagoME(XElement valMedioDePago, string valCodigoMoneda) {
-            return valMedioDePago.Descendants("GpResultDetailRenglonCobro").FirstOrDefault(x => x.Element("CodigoMoneda")?.Value != valCodigoMoneda).Element("CodigoMoneda").Value.ToString() ?? "";            
+            var result = valMedioDePago.Descendants("GpResultDetailRenglonCobro")
+                               .FirstOrDefault(x => x.Element("CodigoMoneda")?.Value != valCodigoMoneda);
+            return result?.Element("CodigoMoneda")?.Value ?? string.Empty;
         }
 
         private bool EnviarPagos(XElement valMedioDePago, string valCodigoMoneda) {

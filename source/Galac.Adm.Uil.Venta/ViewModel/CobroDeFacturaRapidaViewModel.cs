@@ -754,7 +754,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 clsRenglonCobroDeFacturaNav vRenglonCobro = new clsRenglonCobroDeFacturaNav();
                 DialogResult = vRenglonCobro.InsertChildRenglonCobroDeFactura(ConsecutivoCompania, NumeroFactura, eTipoDocumentoFactura.ComprobanteFiscal, ListDeCobro).Success;
                 if (DialogResult) {
-                    ImprimirFacturaFiscal(ListDeCobro);
+                    ImprimirFacturaFiscal(ListDeCobro, null);
                 }
                 RaiseRequestCloseEvent();
                 ListDeCobroMaster.Clear();
