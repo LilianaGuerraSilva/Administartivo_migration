@@ -175,7 +175,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("CuentaMermaAnormal" + InsSql.VarCharTypeForDb(30) + " CONSTRAINT d_RegDeConCuMeAn DEFAULT (''), ");
             SQL.AppendLine("OrdenDeProduccionTipoComprobante" + InsSql.VarCharTypeForDb(2) + " CONSTRAINT d_RegDeConOrDePrTiCo DEFAULT (''), ");
             SQL.AppendLine("EditarComprobanteAfterInsertOrdenDeProduccion" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnRegDeConEditarComp NOT NULL, ");
-            SQL.AppendLine("NombreOperador" + InsSql.VarCharTypeForDb(10) + ", ");
+            SQL.AppendLine("NombreOperador" + InsSql.VarCharTypeForDb(20) + ", ");
             SQL.AppendLine("FechaUltimaModificacion" + InsSql.DateTypeForDb() + ", ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
             SQL.AppendLine("CONSTRAINT p_ReglasDeContabilizacion PRIMARY KEY CLUSTERED");
