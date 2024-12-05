@@ -12,8 +12,13 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             StartConnectionNoTransaction();
             ParametrosCreditoElectronico();
             FormaDelCobro();
+            CxC();
             DisposeConnectionNoTransaction();
             return true;
+        }
+
+        private void CxC() {
+            AddColumnBoolean("CxC", "VieneDeCreditoElectronico", "CONSTRAINT nnCxCVieneDeCre NOT NULL", false);
         }
 
         private void FormaDelCobro() {

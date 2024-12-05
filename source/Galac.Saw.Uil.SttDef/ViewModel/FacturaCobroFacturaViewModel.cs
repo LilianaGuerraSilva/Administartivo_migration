@@ -836,9 +836,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             DiasDeCreditoPorCuotaCreditoElectronico = 14;
             CantidadCuotasUsualesCreditoElectronico = 6;
             MaximaCantidadCuotasCreditoElectronico = 6;
-            UsaClienteUnicoCreditoElectronico = true;
-            CodigoClienteCreditoElectronico = CodigoGenericoCliente;
-            GenerarUnaUnicaCuotaCreditoElectronico = true;
+            UsaClienteUnicoCreditoElectronico = false;
+            CodigoClienteCreditoElectronico = string.Empty;
+            GenerarUnaUnicaCuotaCreditoElectronico = false;
         }
 
     } //End of class FacturaCobroFacturaViewModel
