@@ -426,7 +426,7 @@ namespace Galac.Adm.Brl.Venta {
             string vCodigoCliente = LibXml.GetPropertyString(valDatosFactura, "CodigoCliente");
             int vConsecutivoCobrador = LibConvert.ToInt(LibXml.GetPropertyString(valDatosFactura, "ConsecutivoVendedor"));
             string vCodigoCobrador = LibXml.GetPropertyString(valDatosFactura, "CodigoVendedor");
-            string vNumeroFactura = LibXml.GetPropertyString(valDatosFactura, "Numero");
+            string vNumeroCxC = LibXml.GetPropertyString(valDataCxC, "Numero");
             int vTipoDeCXC = LibImportData.ToInt(LibXml.GetPropertyString(valDataCxC, "TipoCxc"));
             string vCodigoMonedaFactura = LibXml.GetPropertyString(valDataCxC, "CodigoMoneda");
             string vCodigoMonedaLocal = new Saw.Lib.clsNoComunSaw().InstanceMonedaLocalActual.GetHoyCodigoMoneda();
@@ -472,7 +472,7 @@ namespace Galac.Adm.Brl.Venta {
             if (vRenglonesEnDivisa != null) {
                 vCodigoMonedaCobranza = vRenglonesEnDivisa.Select(s => (string)s.Element("CodigoMoneda")).FirstOrDefault();
                 InsertarCobranza(CrearXmlDeDatosCobranza(valConsecutivoCompania, vFecha, vCodigoCliente, vConsecutivoCobrador, vCodigoCobrador, vCodigoMonedaCobranza, vRenglonesEnDivisa, ref refNumeroDeCobranza, out vTotalCobrado));
-                InsertarDocumentoCobrado(CrearXmlDeDatosDocumentoCobrado(valConsecutivoCompania, refNumeroDeCobranza, vNumeroFactura, vTotalFactura, vTotalFacturaEnDivisas, vCambioAMonedaLocal, vFecha, vTotalCobrado, valDataCxC, vCodigoMonedaCobranza, vTotalAbonadoMonedaLocal));
+                InsertarDocumentoCobrado(CrearXmlDeDatosDocumentoCobrado(valConsecutivoCompania, refNumeroDeCobranza, vNumeroCxC, vTotalFactura, vTotalFacturaEnDivisas, vCambioAMonedaLocal, vFecha, vTotalCobrado, valDataCxC, vCodigoMonedaCobranza, vTotalAbonadoMonedaLocal));
                 vNumeroDeCobranzas.Add(refNumeroDeCobranza);
                 vTotalPorCobrar = vTotalFactura - LibMath.RoundToNDecimals(vTotalCobrado * vCambioAMonedaLocal, 2);
             }
@@ -480,13 +480,13 @@ namespace Galac.Adm.Brl.Venta {
                 vCambioAMonedaLocal = 1;
                 vCodigoMonedaCobranza = new clsNoComunSaw().InstanceMonedaLocalActual.GetHoyCodigoMoneda();
                 InsertarCobranza(CrearXmlDeDatosCobranza(valConsecutivoCompania, vFecha, vCodigoCliente, vConsecutivoCobrador, vCodigoCobrador, vCodigoMonedaCobranza, vRenglonesEnMonedaLocal, ref refNumeroDeCobranza, out vTotalCobrado));
-                InsertarDocumentoCobrado(CrearXmlDeDatosDocumentoCobrado(valConsecutivoCompania, refNumeroDeCobranza, vNumeroFactura, vTotalFactura, vTotalFacturaEnDivisas, vCambioAMonedaLocal, vFecha, vTotalCobrado, valDataCxC, vCodigoMonedaCobranza));
+                InsertarDocumentoCobrado(CrearXmlDeDatosDocumentoCobrado(valConsecutivoCompania, refNumeroDeCobranza, vNumeroCxC, vTotalFactura, vTotalFacturaEnDivisas, vCambioAMonedaLocal, vFecha, vTotalCobrado, valDataCxC, vCodigoMonedaCobranza));
                 vNumeroDeCobranzas.Add(refNumeroDeCobranza);
             }
             if (vCodigoMonedaFactura == vCodigoMonedaLocal) {
-                ((ICXCPdn)new clsCXCNav()).CambiarStatusDeCxcACancelada(valConsecutivoCompania, vNumeroFactura, vTipoDeCXC, vTotalFactura);
+                ((ICXCPdn)new clsCXCNav()).CambiarStatusDeCxcACancelada(valConsecutivoCompania, vNumeroCxC, vTipoDeCXC, vTotalFactura);
             } else {
-                ((ICXCPdn)new clsCXCNav()).CambiarStatusDeCxcACancelada(valConsecutivoCompania, vNumeroFactura, vTipoDeCXC, vTotalFacturaEnDivisas);
+                ((ICXCPdn)new clsCXCNav()).CambiarStatusDeCxcACancelada(valConsecutivoCompania, vNumeroCxC, vTipoDeCXC, vTotalFacturaEnDivisas);
             }
             outNumerosDeCobranzas = vNumeroDeCobranzas;
         }

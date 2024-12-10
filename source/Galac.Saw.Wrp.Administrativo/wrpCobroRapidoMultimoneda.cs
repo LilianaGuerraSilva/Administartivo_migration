@@ -13,6 +13,8 @@ using Galac.Saw.Ccl.SttDef;
 using System.Xml.Linq;
 using Galac.Saw.Wrp.Venta;
 using Galac.Adm.Ccl.CajaChica;
+using LibGalac.Aos.Base.Dal;
+using LibGalac.Aos.Dal;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Venta {
 #elif IsExeBsS​
@@ -120,13 +122,17 @@ namespace Galac.Saw.Wrp.Venta {
             return string.Empty;
         }
 
-        string IWrpCobroRapidoMultimoneda.GenerarCobranzaYMovimientoBancarioDeCobroEnMultimoneda(int valConsecutivoCompania, string valNumeroFactura, string valTipoDeDocumento, string vfwCurrentParameters, string valNumeroCxC) {
+        string IWrpCobroRapidoMultimoneda.GenerarCobranzaYMovimientoBancarioDeCobroEnMultimoneda(int valConsecutivoCompania, string valNumeroFactura, string valTipoDeDocumento, string vfwCurrentParameters) {
             try {
                 eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)LibConvert.DbValueToEnum(valTipoDeDocumento);
                 clsCobroDeFacturaNav vCobroFactura = new clsCobroDeFacturaNav();
                 IList<string> vListaDeCobranzasGeneradas = new List<string>();
                 CreateGlobalValues(vfwCurrentParameters);
-                vCobroFactura.GenerarCobranzaYMovimientoBancarioDeCobroEnMultimoneda(valConsecutivoCompania, valNumeroFactura, vTipoDeDocumento, out vListaDeCobranzasGeneradas, valNumeroCxC);
+                string vNumeroCxC = valNumeroFactura;
+                if (ExisteCreditoElectronico(valConsecutivoCompania, valNumeroFactura, valTipoDeDocumento)) {
+                    vNumeroCxC += "-00INI";
+                }
+                vCobroFactura.GenerarCobranzaYMovimientoBancarioDeCobroEnMultimoneda(valConsecutivoCompania, valNumeroFactura, vTipoDeDocumento, out vListaDeCobranzasGeneradas, vNumeroCxC);
                 XElement vXmlCobranzasGeneradas = new XElement("GpData");
                 foreach (string Cobranza in vListaDeCobranzasGeneradas) {
                     vXmlCobranzasGeneradas.Add(new XElement("GpResult",
@@ -140,6 +146,14 @@ namespace Galac.Saw.Wrp.Venta {
                 LibExceptionDisplay.Show(vEx);
             }
             return string.Empty;
+        }
+
+        private bool ExisteCreditoElectronico(int valConsecutivoCompania,string valNumeroFactura,string valTipoDocumentoChr) {
+            QAdvSql insUtilSql = new QAdvSql("");
+            bool vResult = false;
+            string vSql = "SELECT * FROM renglonCobroDeFactura WHERE ConsecutivoCompania = " + valConsecutivoCompania + " AND NumeroFactura = " + insUtilSql.ToSqlValue(valNumeroFactura) + " AND TipoDeDocumento = " + insUtilSql.ToSqlValue(valTipoDocumentoChr) + " AND CodigoFormaDelCobro = '00015'";
+            vResult = new LibDatabase().RecordCountOfSql(vSql) > 0;
+            return vResult;
         }
 
         private LibGlobalValues CreateGlobalValues(string valCurrentParameters) {
