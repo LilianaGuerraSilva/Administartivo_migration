@@ -205,7 +205,7 @@ namespace Galac.Adm.Brl.Venta {
             if(LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros","UsaCobroDirectoEnMultimoneda")) && vResult) {               
                 clsCobroDeFacturaNav vCobroNav = new clsCobroDeFacturaNav();
                 IList<string> outCobranzasGeneradas= new  List<string>();
-                vCobroNav.GenerarCobranzaYMovimientoBancarioDeCobroEnMultimoneda(vConsecutivoCompania, vNumeroFactura, eTipoDocumentoFactura.ComprobanteFiscal, out outCobranzasGeneradas, vNumeroCxC);
+                vCobroNav.GenerarCobranzaYMovimientoBancarioDeCobroEnMultimoneda(vConsecutivoCompania, vNumeroFactura, eTipoDocumentoFactura.ComprobanteFiscal, out outCobranzasGeneradas);
             }
         }
 

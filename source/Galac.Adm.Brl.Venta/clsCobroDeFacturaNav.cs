@@ -63,7 +63,7 @@ namespace Galac.Adm.Brl.Venta {
             return vResult;
         }
 
-        public bool GenerarCobranzaYMovimientoBancarioDeCobroEnMultimoneda(int valConsecutivoCompania, string valNumeroFactura, eTipoDocumentoFactura valTipoDeDocumento, out IList<string> outListaDeCobranzasGeneradas, string valNumeroCxC) {
+        public bool GenerarCobranzaYMovimientoBancarioDeCobroEnMultimoneda(int valConsecutivoCompania, string valNumeroFactura, eTipoDocumentoFactura valTipoDeDocumento, out IList<string> outListaDeCobranzasGeneradas) {
             bool vResult = false;
             try {
                 List<string> vNumerosDeCobranzas = new List<string>();
