@@ -15,6 +15,7 @@ using LibGalac.Aos.DefGen;
 using Galac.Adm.Ccl.Venta;
 using Galac.Saw.Ccl.SttDef;
 using Galac.Saw.Lib;
+using System.Net.Security;
 
 namespace Galac.Adm.Dal.Venta {
     public class clsCXCDat: LibData, ILibDataMasterComponentWithSearch<IList<CxC>, IList<CxC>>, ILibDataRpt {
@@ -117,7 +118,9 @@ namespace Galac.Adm.Dal.Venta {
             string vCentroDeCostos = "";
             DateTime vFechaLimiteCambioAMonedaLocal = LibConvert.ToDate(LibXml.GetPropertyString(valData, "Fecha"));
             bool vVieneDeCreditoElectronicoAsBool = LibConvert.SNToBool(LibXml.GetPropertyString(valData, "VieneDeCreditoElectronico"));
-
+            if (vVieneDeCreditoElectronicoAsBool && !vNumeroCXC.Contains("INI")) {
+                vStatusCXC = eStatusCXC.PORCANCELAR;
+            }
             vParams.AddReturn();
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             vParams.AddInString("NumeroCXC", vNumeroCXC, 20);
@@ -157,7 +160,9 @@ namespace Galac.Adm.Dal.Venta {
 
         private decimal AsignarCambioABolivares(XElement valFactura) {
             decimal vCambioABolivares = 1;
-            if(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos")) {
+            string vCodigoMoneda = LibXml.GetPropertyString(valFactura, "CodigoMoneda");
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos") 
+                || vCodigoMoneda == LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera")) {
                 vCambioABolivares = LibImportData.ToDec(LibXml.GetPropertyString(valFactura, "CambioABolivares"), 2);
             }
             return vCambioABolivares;
