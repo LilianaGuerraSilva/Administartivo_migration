@@ -864,7 +864,7 @@ namespace Galac.Adm.Brl.Venta {
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("ConsecutivoCompania", LibImportData.ToInt(LibXml.GetPropertyString(valXmlDocumentoCobrado, "ConsecutivoCompania")));
             vParams.AddInString("NumeroCobranza", LibXml.GetPropertyString(valXmlDocumentoCobrado, "NumeroCobranza"), 12);
-            vParams.AddInString("NumeroDelDocumentoCobrado", LibXml.GetPropertyString(valXmlDocumentoCobrado, "NumeroDelDocumentoCobrado"), 12);
+            vParams.AddInString("NumeroDelDocumentoCobrado", LibXml.GetPropertyString(valXmlDocumentoCobrado, "NumeroDelDocumentoCobrado"), 20);
             vParams.AddInString("TipoDeDocumentoCobrado", LibXml.GetPropertyString(valXmlDocumentoCobrado, "TipoDeDocumentoCobrado"), 1);
             vParams.AddInDecimal("MontoOriginalRestanteAlDiaDelc", LibImportData.ToDec(LibXml.GetPropertyString(valXmlDocumentoCobrado, "MontoOriginalRestanteAlDiaDelc")), 2);
             vParams.AddInDecimal("MontoAbonado", LibImportData.ToDec(LibXml.GetPropertyString(valXmlDocumentoCobrado, "MontoAbonado")), 2);
