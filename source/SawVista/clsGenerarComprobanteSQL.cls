@@ -327,7 +327,8 @@ Public Function fSQLOrdenDeProduccionEntreFechas(ByVal valConsecutivoCompania As
    
    vSQL = vSQL & "; WITH CTE_MontoMerma AS ("
    vSQL = vSQL & " SELECT 'Insumos' AS Origen, OdP.Consecutivo, OdP_DetMateriales.Consecutivo AS ConsecutivoMateriales, "
-   vSQL = vSQL & " ROUND(SUM((CASE WHEN OdP_DetMateriales.CantidadMermaAnormal = 0 THEN 0 ELSE ((OdP_DetMateriales.MontoSubTotal * OdP_DetMateriales.CantidadMermaAnormal) / OdP_DetMateriales.CantidadConsumida) END)), 2) AS Monto"
+   vSQL = vSQL & " ROUND(SUM((CASE WHEN OdP_DetMateriales.CantidadMermaAnormal = 0 THEN 0 ELSE ((OdP_DetMateriales.MontoSubTotal * OdP_DetMateriales.CantidadMermaAnormal) / OdP_DetMateriales.CantidadConsumida) END)), 2) AS Monto, "
+   vSQL = vSQL & " '0' AS MontoSubTotal "
    vSQL = vSQL & " FROM Adm.OrdenDeProduccion AS OdP INNER JOIN Adm.OrdenDeProduccionDetalleMateriales AS OdP_DetMateriales ON OdP_DetMateriales.ConsecutivoCompania = OdP.ConsecutivoCompania AND OdP_DetMateriales.ConsecutivoOrdenDeProduccion = OdP.Consecutivo "
    vSQL = vSQL & " WHERE OdP.ConsecutivoCompania = " & valConsecutivoCompania
    If valEsUnReverso Then
@@ -340,7 +341,8 @@ Public Function fSQLOrdenDeProduccionEntreFechas(ByVal valConsecutivoCompania As
    vSQL = vSQL & " GROUP BY OdP.Consecutivo, OdP_DetMateriales.Consecutivo "
    vSQL = vSQL & " UNION "
    vSQL = vSQL & " SELECT 'Salidas' AS Origen, OdP.Consecutivo, OdP_DetArticulo.Consecutivo AS ConsecutivoArticulos, "
-   vSQL = vSQL & " ROUND(SUM((CASE WHEN OdP_DetArticulo.CantidadMermaAnormal = 0 THEN 0 ELSE ((OdP_DetArticulo.MontoSubTotal * OdP_DetArticulo.CantidadMermaAnormal) / OdP_DetArticulo.CantidadProducida) END)), 2) AS Monto"
+   vSQL = vSQL & " ROUND(SUM((CASE WHEN OdP_DetArticulo.CantidadMermaAnormal = 0 THEN 0 ELSE ((OdP_DetArticulo.MontoSubTotal * OdP_DetArticulo.CantidadMermaAnormal) / OdP_DetArticulo.CantidadProducida) END)), 2) AS Monto, "
+   vSQL = vSQL & " ROUND(OdP_DetArticulo.MontoSubTotal, 2) AS MontoSubTotal "
    vSQL = vSQL & " FROM Adm.OrdenDeProduccion AS OdP INNER JOIN Adm.OrdenDeProduccionDetalleArticulo AS OdP_DetArticulo ON OdP.ConsecutivoCompania = OdP_DetArticulo.ConsecutivoCompania AND OdP.Consecutivo = OdP_DetArticulo.ConsecutivoOrdenDeProduccion "
    vSQL = vSQL & " WHERE OdP.ConsecutivoCompania = " & valConsecutivoCompania
    If valEsUnReverso Then
@@ -350,12 +352,12 @@ Public Function fSQLOrdenDeProduccionEntreFechas(ByVal valConsecutivoCompania As
    End If
    vSQL = vSQL & " AND OdP.Consecutivo = " & valConsecutivoDocumentoOrigen
    vSQL = vSQL & " AND " & gUtilSQL.DfSQLDateValueBetween(vSqlFecha, valFechaDesde, valFechaHasta)
-   vSQL = vSQL & " GROUP BY OdP.Consecutivo, OdP_DetArticulo.Consecutivo ),"
+   vSQL = vSQL & " GROUP BY OdP.Consecutivo, OdP_DetArticulo.Consecutivo, OdP_DetArticulo.MontoSubTotal ),"
    vSQL = vSQL & " CTE_TotalMerma AS ("
-   vSQL = vSQL & " SELECT Consecutivo, SUM(Monto) AS MontoTotalMerma FROM CTE_MontoMerma GROUP BY Consecutivo )"
+   vSQL = vSQL & " SELECT Consecutivo, SUM(Monto) AS MontoTotalMerma, SUM(MontoSubTotal - Monto) AS MontoTotalSalida FROM CTE_MontoMerma GROUP BY Consecutivo )"
    
-   vSql = vSQL & " SELECT OdP.Consecutivo, "
-   vSql = vSql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, " ROUND(SUM((OdP_DetArticulo.MontoSubTotal - ISNULL(CTE_TotalMerma.MontoTotalMerma, 0) ) * " & vSqlCambio & " ),2 ) ", vCCProductoTerminado, False, "", valNoDocumentoOrigen, valDescripcionDelAsiento, "", False, "", -1)
+   vSql = vSql & " SELECT OdP.Consecutivo, "
+   vSql = vSql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, " ROUND(ISNULL(CTE_TotalMerma.MontoTotalSalida, 0)* " & vSqlCambio & " ,2 ) ", vCCProductoTerminado, False, "", valNoDocumentoOrigen, valDescripcionDelAsiento, "", False, "", -1)
       
    vSql = vSql & " FROM Adm.OrdenDeProduccion AS OdP INNER JOIN Adm.OrdenDeProduccionDetalleArticulo AS OdP_DetArticulo ON OdP.ConsecutivoCompania = OdP_DetArticulo.ConsecutivoCompania AND OdP.Consecutivo = OdP_DetArticulo.ConsecutivoOrdenDeProduccion"
    vSql = vSql & " INNER JOIN ArticuloInventario AS AI_Articulo ON OdP_DetArticulo.CodigoArticulo = AI_Articulo.Codigo AND OdP_DetArticulo.ConsecutivoCompania = AI_Articulo.ConsecutivoCompania"
@@ -369,8 +371,6 @@ Public Function fSQLOrdenDeProduccionEntreFechas(ByVal valConsecutivoCompania As
    
    vSql = vSql & " AND OdP.Consecutivo = " & valConsecutivoDocumentoOrigen
    vSql = vSql & " AND " & gUtilSQL.DfSQLDateValueBetween(vSqlFecha, valFechaDesde, valFechaHasta)
-   
-   vSql = vSql & " GROUP BY OdP.Consecutivo, AI_Articulo.CuentaInventario "
     
    vSql = vSql & " UNION "
    vSql = vSql & " SELECT OdP.Consecutivo, "
