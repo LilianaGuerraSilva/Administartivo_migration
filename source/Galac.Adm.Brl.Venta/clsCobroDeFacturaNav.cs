@@ -63,14 +63,14 @@ namespace Galac.Adm.Brl.Venta {
             return vResult;
         }
 
-        public bool GenerarCobranzaYMovimientoBancarioDeCobroEnMultimoneda(int valConsecutivoCompania, string valNumeroFactura, eTipoDocumentoFactura valTipoDeDocumento, out IList<string> outListaDeCobranzasGeneradas, string valNumeroCxC) {
+        public bool GenerarCobranzaYMovimientoBancarioDeCobroEnMultimoneda(int valConsecutivoCompania, string valNumeroFactura, eTipoDocumentoFactura valTipoDeDocumento, out IList<string> outListaDeCobranzasGeneradas) {
             bool vResult = false;
             try {
                 List<string> vNumerosDeCobranzas = new List<string>();
                 List<MovimientoBancario> vMovimientosBancarios = new List<MovimientoBancario>();
                 XElement vDataFactura = BuscarDatosDeFactura(valConsecutivoCompania, valNumeroFactura, (int)valTipoDeDocumento);
                 XElement vDataRenglonCobro = BuscarDatosDeRenglonCobro(valConsecutivoCompania, valNumeroFactura, (int)valTipoDeDocumento);
-                XElement vDataCXC = BuscarDatosDeCXC(valConsecutivoCompania, valNumeroCxC, valTipoDeDocumento);
+                XElement vDataCXC = BuscarDatosDeCXC(valConsecutivoCompania, valNumeroFactura, valTipoDeDocumento);
                 if (valTipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito || valTipoDeDocumento == eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) {
                     string outNumeroCobranza = "";
                     eTipoDeTransaccion vTipoDeCxc = TipoDocumentoFacturaToTipoCxCConverter(valTipoDeDocumento);
@@ -120,7 +120,7 @@ namespace Galac.Adm.Brl.Venta {
 
         private XElement BuscarDatosDeRenglonCobro(int valConsecutivoCompania, string valNumeroFactura, int valTipoDeDocumento) {
             StringBuilder vSQL = new StringBuilder();
-            vSQL.AppendLine("SELECT ConsecutivoRenglon, CodigoFormaDelCobro, Monto, CodigoMoneda, CambioAMonedaLocal FROM dbo.renglonCobroDeFactura WHERE NumeroFactura = @NumeroFactura AND TipoDeDocumento = @TipoDeDocumento AND ConsecutivoCompania = @ConsecutivoCompania");
+            vSQL.AppendLine("SELECT ConsecutivoRenglon, CodigoFormaDelCobro, Monto, CodigoMoneda, CambioAMonedaLocal FROM dbo.renglonCobroDeFactura WHERE NumeroFactura = @NumeroFactura AND TipoDeDocumento = @TipoDeDocumento AND ConsecutivoCompania = @ConsecutivoCompania AND CodigoFormaDelCobro <> '00015'");
             LibGpParams vParams = new LibGpParams();
             vParams.AddInString("NumeroFactura", valNumeroFactura, 11);
             vParams.AddInInteger("TipoDeDocumento", valTipoDeDocumento);
@@ -132,9 +132,9 @@ namespace Galac.Adm.Brl.Venta {
         private XElement BuscarDatosDeCXC(int valConsecutivoCompania, string valNumeroFactura, eTipoDocumentoFactura valTipoDeDocumento) {
             StringBuilder vSQL = new StringBuilder();
             eTipoDeTransaccion vTipoCxc = TipoDocumentoFacturaToTipoCxCConverter(valTipoDeDocumento);
-            vSQL.AppendLine("SELECT TipoCxc, MontoGravado, MontoIva,(MontoExento + MontoGravado + MontoIva) AS TotalCXC, CodigoMoneda , CambioABolivares FROM dbo.CxC WHERE Numero = @Numero AND TipoCxc = @TipoCxc AND ConsecutivoCompania = @ConsecutivoCompania");
+            vSQL.AppendLine("SELECT Numero, TipoCxc, MontoGravado, MontoIva,(MontoExento + MontoGravado + MontoIva) AS TotalCXC, CodigoMoneda , CambioABolivares FROM dbo.CxC WHERE NumeroDocumentoOrigen = @NumeroDocumentoOrigen AND TipoCxc = @TipoCxc AND ConsecutivoCompania = @ConsecutivoCompania AND VieneDeCreditoElectronico = 'N'");
             LibGpParams vParams = new LibGpParams();
-            vParams.AddInString("Numero", valNumeroFactura, 20);
+            vParams.AddInString("NumeroDocumentoOrigen", valNumeroFactura, 20);
             vParams.AddInEnum("TipoCxc", (int)vTipoCxc);
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             XElement vCxC = LibBusiness.ExecuteSelect(vSQL.ToString(), vParams.Get(), "", 0);
