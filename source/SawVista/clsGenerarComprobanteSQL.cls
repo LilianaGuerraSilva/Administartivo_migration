@@ -341,7 +341,7 @@ Public Function fSQLOrdenDeProduccionEntreFechas(ByVal valConsecutivoCompania As
    vSql = vSql & " GROUP BY OdP.Consecutivo, OdP_DetMateriales.Consecutivo "
    vSql = vSql & " UNION "
    vSql = vSql & " SELECT 'Salidas' AS Origen, OdP.Consecutivo, OdP_DetArticulo.Consecutivo AS ConsecutivoArticulos, "
-   vSql = vSql & " ROUND(SUM((CASE WHEN OdP_DetArticulo.CantidadConsumida = 0 THEN 0 ELSE ((OdP_DetArticulo.MontoSubTotal * OdP_DetArticulo.CantidadMermaAnormal) / OdP_DetArticulo.CantidadConsumida) END)), 2) AS Monto, "
+   vSql = vSql & " ROUND(SUM((CASE WHEN OdP_DetArticulo.CantidadProducida = 0 THEN 0 ELSE ((OdP_DetArticulo.MontoSubTotal * OdP_DetArticulo.CantidadMermaAnormal) / OdP_DetArticulo.CantidadProducida) END)), 2) AS Monto, "
    vSql = vSql & " ROUND(OdP_DetArticulo.MontoSubTotal, 2) AS MontoSubTotal "
    vSql = vSql & " FROM Adm.OrdenDeProduccion AS OdP INNER JOIN Adm.OrdenDeProduccionDetalleArticulo AS OdP_DetArticulo ON OdP.ConsecutivoCompania = OdP_DetArticulo.ConsecutivoCompania AND OdP.Consecutivo = OdP_DetArticulo.ConsecutivoOrdenDeProduccion "
    vSql = vSql & " WHERE OdP.ConsecutivoCompania = " & valConsecutivoCompania
