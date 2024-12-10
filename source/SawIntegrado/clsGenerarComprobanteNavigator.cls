@@ -2054,6 +2054,7 @@ Private Function fBuscaDescripcionDelComprobanteContableDePago(ByVal valNumeroDo
    Dim Sql As String
    On Error GoTo h_ERROR
    Set insPagoNavigator = New clsPagoNavigator
+   insPagoNavigator.SetCodigoMoneda ""
    insPagoNavigator.sBuscaDatosDelPagoParaDescripcionComprobante valNumeroDocumento, NumeroDeChequePago, NombreProveedorDelPago, DescripcionDelPago
    Set insPagoNavigator = Nothing
    DescripcionBuscada = "CH.No." & NumeroDeChequePago & "/" & gTexto.DfMid(NombreProveedorDelPago, 1, 20)
