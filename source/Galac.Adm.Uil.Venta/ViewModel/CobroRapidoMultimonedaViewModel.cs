@@ -1231,7 +1231,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         CodigoFormaDelCobro = "00015",
                         Monto = MontoCreditoElectronico,
                         CodigoMoneda = CodigoMonedaDivisa,
-                        CambioAMonedaLocal = CambioAMonedaLocal
+                        CambioAMonedaLocal = CambioAMonedaLocal,
+                        InfoAdicional = LibConvert.ToStr(CantidadCuotasUsualesCreditoElectronico, 0)
                     });
                     vCobradoEnDivisasConvertido += LibMath.RoundToNDecimals(MontoCreditoElectronico * CambioAMonedaLocal, 2);
                 }
@@ -1287,7 +1288,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         CodigoFormaDelCobro = "00015",
                         Monto = MontoCreditoElectronico,
                         CodigoMoneda = CodigoMonedaDivisa,
-                        CambioAMonedaLocal = CambioAMonedaLocal
+                        CambioAMonedaLocal = CambioAMonedaLocal,
+                        InfoAdicional = LibConvert.ToStr(CantidadCuotasUsualesCreditoElectronico, 0)
                     });
                 }
                 if (TarjetaUno != 0) {
