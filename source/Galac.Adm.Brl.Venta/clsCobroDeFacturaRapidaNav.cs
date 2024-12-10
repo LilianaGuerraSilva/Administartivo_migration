@@ -230,7 +230,7 @@ namespace Galac.Adm.Brl.Venta {
                     var vNumeroFactura = LibXml.GetPropertyString(vCloneFactura, "Numero");
                     decimal vTasaDeCambio = LibImportData.ToDec(vRecord.Element("CambioAMonedaExtranjera").Value, 4);
                     var vMontoInicial = LibMath.RoundToNDecimals(LibImportData.ToDec(vCloneFacturaRecord.Element("TotalFactura").Value, 2) - (vMontoCreditoElectronico * vTasaDeCambio), 2);
-                    refNumeroFactura = vNumeroFactura + "-INI";
+                    refNumeroFactura = vNumeroFactura + "-00INI";
                     vCloneFactura = new XElement("GpData", DatosFacturaRapidaCreditoElectronico(vCloneFacturaRecord, vMontoInicial, refNumeroFactura, vCodigoCliente, false, false, new DateTime()));
                     vResult = vResult && insCXC.Insert(valConsecutivoCompania, vCloneFactura);
                     DateTime vFechaFactura = LibConvert.ToDate(LibXml.GetPropertyString(vCloneFactura, "Fecha"));
