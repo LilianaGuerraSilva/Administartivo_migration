@@ -48,7 +48,7 @@ namespace Galac.Adm.Dal.Venta {
             vSql.AppendLine(" ,MontoExento, MontoGravado, MontoIva, MontoAbonado ");
             vSql.AppendLine(" ,Descripcion, Moneda, CambioAbolivares, CodigoCc, CentroDeCostos, SeRetuvoIva ");
             vSql.AppendLine(" ,NumeroDocumentoOrigen, RefinanciadoSn, NoAplicaParaLibroDeVentas, CodigoLote, CodigoMoneda ");
-            vSql.AppendLine(" ,NombreOperador, FechaUltimaModificacion, NumeroControl ,NumeroComprobanteFiscal, FechaLimiteCambioAMonedaLocal) ");
+            vSql.AppendLine(" ,NombreOperador, FechaUltimaModificacion, NumeroControl ,NumeroComprobanteFiscal, FechaLimiteCambioAMonedaLocal, VieneDeCreditoElectronico) ");
             vSql.AppendLine(" VALUES( " + "@ConsecutivoCompania");
             vSql.AppendLine(" , " + "@NumeroCXC");
             vSql.AppendLine(" , " + "@StatusCXC");
@@ -79,7 +79,8 @@ namespace Galac.Adm.Dal.Venta {
             vSql.AppendLine(" , " + "@FechaUltimaModificacion");
             vSql.AppendLine(" , " + "@NumeroControl");
             vSql.AppendLine(" , " + "@ComprobanteFiscal");
-            vSql.AppendLine(" , " + "@FechaLimiteCambioAMonedaLocal)");
+            vSql.AppendLine(" , " + "@FechaLimiteCambioAMonedaLocal");
+            vSql.AppendLine(" , " + "@VieneDeCreditoElectronico)");
             return vSql.ToString();
         }
 
