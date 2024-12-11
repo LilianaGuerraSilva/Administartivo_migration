@@ -21,6 +21,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			CrearCampoManejaMerma();
 			CrearCampoManejaMermaOP();
             AmpliarColumnaCompaniaImprentaDigitalClave();
+            AgregarReglaContabilizacionProduccionMermaAnormal();
             DisposeConnectionNoTransaction();
 			return true;
 		}
@@ -91,6 +92,13 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 
         private void AmpliarColumnaCompaniaImprentaDigitalClave() {            
             ModifyLengthOfColumnString("Compania", "ImprentaDigitalClave", 1000, "");
+        }
+
+        private void AgregarReglaContabilizacionProduccionMermaAnormal() {
+            if (AddColumnString("Saw.ReglasDeContabilizacion", "CuentaMermaAnormal", 30, "", "")) {
+                AddDefaultConstraint("Saw.ReglasDeContabilizacion", "d_RegDeConCuMeAn", _insSql.ToSqlValue(""), "CuentaMermaAnormal");
+            }
+
         }
     }
 }
