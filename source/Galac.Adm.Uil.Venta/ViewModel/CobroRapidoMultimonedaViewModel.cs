@@ -1553,11 +1553,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Validaciones
         private ValidationResult MaximaCuotaCreditoEelctronicoValidating() {
             ValidationResult vResult = ValidationResult.Success;
+            string vNombreCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "NombreCreditoElectronico");
             if (CantidadCuotasUsualesCreditoElectronico > MaximaCantidadCuotasCreditoElectronico ) {
-                vResult = new ValidationResult("El número de cuotas es superior al máximo permitido. Ingrese un número menor de cuotas para: " + NombreCreditoElectronico );
+                
+                vResult = new ValidationResult("La cantidad de cuotas " + CantidadCuotasUsualesCreditoElectronico  + " es superior al máximo permitido " + MaximaCantidadCuotasCreditoElectronico + " para: " + vNombreCreditoElectronico);
             }
             if (IsVisibleCreditoElectronico && CantidadCuotasUsualesCreditoElectronico <= 0  && MontoCreditoElectronico > 0) {
-                vResult = new ValidationResult("El número de cuotas de : " + NombreCreditoElectronico + ", debe ser mayor a cero.");
+                vResult = new ValidationResult("La cantidad de cuotas de : " + vNombreCreditoElectronico + ", debe ser mayor a cero.");
             }
             return vResult;
         }
