@@ -28,7 +28,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="35" />
                 </Grid.RowDefinitions>
                 <Label
                     Grid.Row="0"
@@ -121,7 +121,8 @@
                     Margin="55,5,-55,5"
                     Command="{Binding Path=ProbarConexionCommand}"
                     Content="Probar Conexión"
-                    IsEnabled="{Binding Path=IsEnabled}" />
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    Visibility="{Binding Path=IsVisbleByProveedorID, Converter={StaticResource booleanToVisibilityConverter}}" />
             </Grid>
         </GroupBox>
     </Grid>

@@ -29,8 +29,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string NotaDeCreditoPropertyName = "NotaDeCredito";
         public const string NotaDeDebitoPropertyName = "NotaDeDebito";
         public const string FechaDeInicioDeUsoPropertyName = "FechaDeInicioDeUso";
-        public const string ReajustarTalonariosDeFacturaPropertyName = "ReajustarTalonariosDeFactura";
-        public const string ExecuteEnabledPropertyName = "ExecuteEnabled";
+        public const string ReajustarTalonariosDeFacturaPropertyName = "ReajustarTalonariosDeFactura";        
         #endregion
         #region Propiedades
         bool _UsaDosTalonarios;
@@ -63,7 +62,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     RaisePropertyChanged(ProveedorPropertyName);
                     ActivarButtonActions(_Proveedor == eProveedorImprentaDigital.Novus);
                     CambiarValoresCamposID(_Proveedor);
-
+                    RaisePropertyChanged(() => IsVisbleByProveedorID);
                 }
             }
         }       
@@ -224,6 +223,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public bool IsVisibleReajustarTalonariosFactura {
             get { return _UsaFacturaPreNumeradaTalonario1; }
         }
+                    
+        public bool IsVisbleByProveedorID {
+            get { return Proveedor == eProveedorImprentaDigital.TheFactoryHKA; }
+        }
+
         #endregion //Propiedades
         #region Constructores 
         #endregion //Constructores
@@ -298,8 +302,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         private void ActivarButtonActions(bool valActivate) {
-            _ExecuteEnabled = valActivate;
-            RaisePropertyChanged(ExecuteEnabledPropertyName);
+            _ExecuteEnabled = valActivate;           
             GuardarCommand.RaiseCanExecuteChanged();
         }
 
