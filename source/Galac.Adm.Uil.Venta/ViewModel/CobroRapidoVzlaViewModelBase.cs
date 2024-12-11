@@ -114,6 +114,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 XElement vVieneDeCreditoElectronico = new XElement("VieneDeCreditoElectronico", LibConvert.BoolToSN(true));
                 xElementFacturaRapida.Element("GpResult").Add(vVieneDeCreditoElectronico);
             }
+            XElement vNumeroDocumentoOrigen = new XElement("NumeroDocumentoOrigen", valFactura.Numero);
+            xElementFacturaRapida.Element("GpResult").Add(vNumeroDocumentoOrigen);
             DarFormatoAFechasEnFactura(xElementFacturaRapida, insFactura);
             vResult = xElementFacturaRapida;
             return vResult;
