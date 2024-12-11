@@ -22,6 +22,7 @@ using LibGalac.Aos.DefGen;
 using System.ComponentModel.DataAnnotations;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Comun.Ccl.TablasGen;
+using LibGalac.Aos.Catching;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
 
@@ -832,6 +833,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         #region Comandos
         protected override void ExecuteCobrarCommand() {
+            MoveFocusIfNecessary();
+            if (!IsValid)
+            {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(new GalacValidationException(Error), ModuleName, ModuleName);
+                return;
+            }
             bool SeImprimio = true;
             IRenglonCobroDeFacturaPdn insRenglonCobroDeFacturaPdn = new clsRenglonCobroDeFacturaNav();
             if (MontoRestantePorPagar <= 0 || (MontoRestantePorPagar > 0 && MontoRestantePorPagarEnDivisas == 0)) {
@@ -1547,11 +1554,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private ValidationResult MaximaCuotaCreditoEelctronicoValidating() {
             ValidationResult vResult = ValidationResult.Success;
             if (CantidadCuotasUsualesCreditoElectronico > MaximaCantidadCuotasCreditoElectronico ) {
-                vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram(this.ModuleName + "El número de cuotas es superior al máximo permitido. Ingrese un número menos cuotas para: " + NombreCreditoElectronico ));
+                vResult = new ValidationResult("El número de cuotas es superior al máximo permitido. Ingrese un número menor de cuotas para: " + NombreCreditoElectronico );
             }
-            if (IsVisibleCreditoElectronico && CantidadCuotasUsualesCreditoElectronico <= 0  && MontoCreditoElectronico > 0)
-            {
-                vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram(this.ModuleName + "El número de cuotas de : " + NombreCreditoElectronico + ", debe ser mayor a cero."));
+            if (IsVisibleCreditoElectronico && CantidadCuotasUsualesCreditoElectronico <= 0  && MontoCreditoElectronico > 0) {
+                vResult = new ValidationResult("El número de cuotas de : " + NombreCreditoElectronico + ", debe ser mayor a cero.");
             }
             return vResult;
         }
