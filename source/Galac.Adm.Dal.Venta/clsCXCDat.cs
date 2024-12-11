@@ -121,6 +121,7 @@ namespace Galac.Adm.Dal.Venta {
             if (vVieneDeCreditoElectronicoAsBool && !vNumeroCXC.Contains("INI")) {
                 vStatusCXC = eStatusCXC.PORCANCELAR;
             }
+            string vNumeroDocumentoOrigen = LibXml.GetPropertyString(valData, "NumeroDocumentoOrigen");
             vParams.AddReturn();
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             vParams.AddInString("NumeroCXC", vNumeroCXC, 20);
@@ -143,7 +144,7 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInString("CodigoCC", vCodigoCC, 5);
             vParams.AddInString("CentroDeCostos", vCentroDeCostos, 40);
             vParams.AddInBoolean("SeRetuvoIva", vSeRetuvoIva);
-            vParams.AddInString("NumeroDocumentoOrigen", vNumeroFactura, 20);
+            vParams.AddInString("NumeroDocumentoOrigen", vNumeroDocumentoOrigen, 20);
             vParams.AddInBoolean("Refinanciado", vRefinanciado);
             vParams.AddInBoolean("AplicaParalibroDeVentas", vAplicaParalibroDeVentas);
             vParams.AddInString("CodigoLote", vCodigoLote, 10);
