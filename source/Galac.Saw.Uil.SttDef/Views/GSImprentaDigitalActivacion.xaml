@@ -38,7 +38,7 @@
                     <!--  3  -->
                     <RowDefinition Height="Auto" />
                     <!--  4  -->
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="40" />
                     <!--  5  -->
                     <RowDefinition Height="Auto" />
                     <!--  6  -->
@@ -236,7 +236,7 @@
                     Command="{Binding Path=ProbarConexionCommand}"
                     Content="Probar Conexión"
                     IsEnabled="{Binding Path=IsEnabled}"
-                    Visibility="{Binding Path=IsVisbleByProveedorID}" />
+                    Visibility="{Binding Path=IsVisbleByProveedorID, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <nsWpfControls:GSTextBoxWpf
                     Name="txtFacturaT1"
                     Grid.Row="8"

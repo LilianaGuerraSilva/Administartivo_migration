@@ -62,6 +62,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     RaisePropertyChanged(ProveedorPropertyName);
                     ActivarButtonActions(_Proveedor == eProveedorImprentaDigital.Novus);
                     CambiarValoresCamposID(_Proveedor);
+                    RaisePropertyChanged(() => IsVisbleByProveedorID);
                 }
             }
         }       

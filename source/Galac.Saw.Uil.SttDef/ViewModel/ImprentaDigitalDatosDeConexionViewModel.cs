@@ -47,6 +47,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public string Proveedor {
             get {
                 ActivarButtonActions(_ProveedorImprentaDigital == eProveedorImprentaDigital.Novus);
+                RaisePropertyChanged(() => IsVisbleByProveedorID);
                 return LibEnumHelper.GetDescription(_ProveedorImprentaDigital);
             }
         }
@@ -169,8 +170,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             _Usuario = _clsImprentaDigitalSettings.Usuario;
             _Clave = _clsImprentaDigitalSettings.Clave;
             _CampoUsuario = _clsImprentaDigitalSettings.CampoUsuario;
-            _CampoClave = _clsImprentaDigitalSettings.CampoClave;
-            RaisePropertyChanged(() => IsVisbleByProveedorID);
+            _CampoClave = _clsImprentaDigitalSettings.CampoClave;            
         }
 
         #endregion //Metodos Generados
