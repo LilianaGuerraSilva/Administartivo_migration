@@ -715,11 +715,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 RaisePropertyChanged(NombreCreditoElectronicoPropertyName);
             }
         }
-        
+        [LibCustomValidation("MontoCreditoElectronicoValidating")]
         public decimal MontoCreditoElectronico
         {
             get { return _MontoCreditoElectronico; }
-            set { _MontoCreditoElectronico = value; }
+            set { 
+                _MontoCreditoElectronico = value;
+                RaisePropertyChanged(MontoCreditoElectronicoPropertyName);
+            }
         }
 
         #endregion
@@ -1560,6 +1563,19 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
             if (IsVisibleCreditoElectronico && CantidadCuotasUsualesCreditoElectronico <= 0  && MontoCreditoElectronico > 0) {
                 vResult = new ValidationResult("La cantidad de cuotas de " + vNombreCreditoElectronico + ", debe ser mayor a cero.");
+            }
+            return vResult;
+        }
+        private ValidationResult MontoCreditoElectronicoValidating()
+        {
+            ValidationResult vResult = ValidationResult.Success;
+            string vNombreCreditoElectronico = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "NombreCreditoElectronico");
+            if (MontoCreditoElectronico >= TotalFacturaEnDivisas){
+
+                vResult = new ValidationResult("El monto de: " + vNombreCreditoElectronico +  " debe ser menor al total de la factura.");
+            }
+            if (IsVisibleCreditoElectronico && CantidadCuotasUsualesCreditoElectronico > 0 && MontoCreditoElectronico < 0) {
+                vResult = new ValidationResult("El monto de: " + vNombreCreditoElectronico + ", debe ser mayor a cero.");
             }
             return vResult;
         }
