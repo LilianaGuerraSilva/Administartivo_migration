@@ -99,6 +99,9 @@
     <Reference Include="LibGalac.Aos.Uil.Usal">
       <HintPath>..\packages\LibGalac.Aos.Uil.Usal.5.24.1\lib\LibGalac.Aos.Uil.Usal.dll</HintPath>
     </Reference>
+    <Reference Include="LibGalac.Ssm.U">
+      <HintPath>..\packages\LibGalac.Ssm.U.24.1.0\lib\LibGalac.Ssm.U.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />

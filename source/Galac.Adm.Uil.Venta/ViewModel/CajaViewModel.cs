@@ -674,7 +674,21 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         protected override void ExecuteAction() {
-            base.ExecuteAction();
+            bool vSePuede = false;
+            if (UsaMaquinaFiscal) {
+                vSePuede = new LibGalac.Ssm.U.LibRequestAdvancedOperation().AuthorizeProcess("Configurar Máquina Fiscal Prueba", "VE");
+                if (vSePuede) {
+                    base.ExecuteAction();
+                    LibMessages.MessageBox.Information(this, "Fui autorizado, puedo continuar.", "");
+                    //ExecuteCloseCommand();
+                } else {
+                    //Console.WriteLine("No fui autorizado.");
+                    LibMessages.MessageBox.Information(this, "No fui autorizado.", "");
+                }
+                
+            } else {
+                base.ExecuteAction();
+            }
             if (Model.ModeloDeMaquinaFiscalAsEnum == eImpresoraFiscal.BEMATECH_MP_4000_FI && _RegistroDeRetornoEnTxtOld != RegistroDeRetornoEnTxt) {
                 LibMessages.MessageBox.Information(this, "Los cambios surtirán efecto la próxima vez que Inicie Sesión en el Sistema.", ModuleName);
             }
@@ -803,12 +817,24 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         ValidationResult ComandoGavetaValidating() {
             ValidationResult vResult = ValidationResult.Success;
             if (UsaGaveta && (Comando == string.Empty)) {
-                return new ValidationResult("El comando no puede estar en blanco si se usa la gavata");
+                return new ValidationResult("El comando no puede estar en blanco si se usa la gaveta");
             } else {
                 return ValidationResult.Success;
             }
         }
 
+        ValidationResult EjemploPedirClaveEspecial() {
+            ValidationResult vResult = ValidationResult.Success;
+            bool vResult2 = new LibGalac.Ssm.U.LibRequestAdvancedOperation().AuthorizeProcess("Configurar Máquina Fiscal Prueba", "VE");
+            if (vResult2) {
+                //Console.WriteLine("Fui autorizado, puedo continuar");
+                return ValidationResult.Success;
+            } else {
+                //Console.WriteLine("No fui autorizado.");
+                return new ValidationResult("No fui autorizado.");
+            }
+            //Console.ReadLine();
+        }
         #endregion //Validations
 
         #region Metodos 
