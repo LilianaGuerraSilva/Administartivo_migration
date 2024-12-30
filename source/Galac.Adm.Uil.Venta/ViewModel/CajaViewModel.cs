@@ -54,7 +54,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         const string IsEnabledUsaGavetaPropertyName = "IsEnabledUsaGaveta";
         const string IsEnabledPuertoSerialPropertyName = "IsEnabledPuertoSerial";
         const string IsVisibleRegistroDeRetornoEnTxtPropertyName = "IsVisibleRegistroDeRetornoEnTxt";
-
         private Brl.DispositivosExternos.clsConexionPuertoSerial PuertoSerial;
         IImpresoraFiscalPdn insMaquinaFiscal;
         private bool _PuedeAbrirGaveta = false;
@@ -602,6 +601,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             LlenarEnumerativosTipoDeConexion();
             LlenarEnumerativosPuertosImpFiscal();
             _PuedeAbrirGaveta = UsaGaveta;
+
+            Model.FamiliaImpresoraPreConfiguradaAsEnum = Model.FamiliaImpresoraFiscalAsEnum;
+            Model.ModeloDeMaquinaPreconfiguradaAsEnum = Model.ModeloDeMaquinaFiscalAsEnum;
+            Model.TipoConexionPreconfiguradaAsEnum = Model.TipoConexionAsEnum;
+            Model.SerialDeMaquinaPreconfigurada = Model.SerialDeMaquinaFiscal;
+            Model.UltimoNumeroCompPreconfigurada = Model.UltimoNumeroCompFiscal;
+            Model.UltimoNumeroNCPreconfigurada = Model.UltimoNumeroCompFiscal;
         }
 
         protected override void InitializeRibbon() {
@@ -675,17 +681,20 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         protected override void ExecuteAction() {
             bool vSePuede = false;
-            if (UsaMaquinaFiscal) {
-                vSePuede = new LibGalac.Ssm.U.LibRequestAdvancedOperation().AuthorizeProcess("Configurar Máquina Fiscal Prueba", "VE");
+            if (UsaMaquinaFiscal && SeRequiereClaveEspecial(Action)) {
+                if (Action == eAccionSR.Insertar) {
+                    vSePuede = new LibGalac.Ssm.U.LibRequestAdvancedOperation().AuthorizeProcess("Configurar Máquina Fiscal", "VE");
+                    //vSePuede = true;
+                } else {
+                    vSePuede = new LibGalac.Ssm.U.LibRequestAdvancedOperation().AuthorizeProcess("Reconfigurar Máquina Fiscal", "VE");
+                    //vSePuede = true;
+                }
                 if (vSePuede) {
                     base.ExecuteAction();
-                    LibMessages.MessageBox.Information(this, "Fui autorizado, puedo continuar.", "");
-                    //ExecuteCloseCommand();
+                    //LibMessages.MessageBox.Information(this, "Autorización concedida.", "");
                 } else {
-                    //Console.WriteLine("No fui autorizado.");
-                    LibMessages.MessageBox.Information(this, "No fui autorizado.", "");
+                    LibMessages.MessageBox.Information(this, "No fue autorizado la configuración de la máquina fiscal.", "");
                 }
-                
             } else {
                 base.ExecuteAction();
             }
@@ -823,17 +832,21 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        ValidationResult EjemploPedirClaveEspecial() {
-            ValidationResult vResult = ValidationResult.Success;
-            bool vResult2 = new LibGalac.Ssm.U.LibRequestAdvancedOperation().AuthorizeProcess("Configurar Máquina Fiscal Prueba", "VE");
-            if (vResult2) {
-                //Console.WriteLine("Fui autorizado, puedo continuar");
-                return ValidationResult.Success;
+        private bool SeRequiereClaveEspecial(eAccionSR valAction) {
+            bool vOmitirClaveEspecial = true; 
+
+            if (valAction == eAccionSR.Insertar) {
+                vOmitirClaveEspecial = false;  
             } else {
-                //Console.WriteLine("No fui autorizado.");
-                return new ValidationResult("No fui autorizado.");
+
+                vOmitirClaveEspecial = vOmitirClaveEspecial && Model.FamiliaImpresoraPreConfiguradaAsEnum == Model.FamiliaImpresoraFiscalAsEnum;
+                vOmitirClaveEspecial = vOmitirClaveEspecial && Model.ModeloDeMaquinaPreconfiguradaAsEnum == Model.ModeloDeMaquinaFiscalAsEnum;
+                vOmitirClaveEspecial = vOmitirClaveEspecial && Model.TipoConexionPreconfiguradaAsEnum == Model.TipoConexionAsEnum;
+                vOmitirClaveEspecial = vOmitirClaveEspecial && Model.SerialDeMaquinaPreconfigurada == Model.SerialDeMaquinaFiscal;
+                vOmitirClaveEspecial = vOmitirClaveEspecial && Model.UltimoNumeroCompPreconfigurada == Model.UltimoNumeroCompFiscal;
+                vOmitirClaveEspecial = vOmitirClaveEspecial && Model.UltimoNumeroNCPreconfigurada == Model.UltimoNumeroCompFiscal;
             }
-            //Console.ReadLine();
+            return !vOmitirClaveEspecial;
         }
         #endregion //Validations
 

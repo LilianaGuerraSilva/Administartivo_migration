@@ -41,6 +41,12 @@ namespace Galac.Adm.Ccl.Venta {
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;        
         XmlDocument _datos;
+        private eFamiliaImpresoraFiscal _FamiliaImpresoraPreconfigurada;
+        private eImpresoraFiscal _ModeloDeMaquinaPreconfigurada;
+        private string _SerialDeMaquinaPreconfigurada;
+        private eTipoConexion _TipoConexionPreconfigurada;
+        private string _UltimoNumeroCompPreconfigurada;
+        private string _UltimoNumeroNCPreconfigurada;
         #endregion //Variables
         #region Propiedades
 
@@ -100,7 +106,6 @@ namespace Galac.Adm.Ccl.Venta {
             set { _PermitirAbrirSinSupervisor = LibConvert.SNToBool(value); }
         }
 
-
         public bool UsaAccesoRapidoAsBool {
             get { return _UsaAccesoRapido; }
             set { _UsaAccesoRapido = value; }
@@ -110,7 +115,6 @@ namespace Galac.Adm.Ccl.Venta {
             set { _UsaAccesoRapido = LibConvert.SNToBool(value); }
         }
 
-
         public bool UsaMaquinaFiscalAsBool {
             get { return _UsaMaquinaFiscal; }
             set { _UsaMaquinaFiscal = value; }
@@ -119,13 +123,12 @@ namespace Galac.Adm.Ccl.Venta {
         public string UsaMaquinaFiscal {
             set { _UsaMaquinaFiscal = LibConvert.SNToBool(value); }
         }
-
-
+        
         public eFamiliaImpresoraFiscal FamiliaImpresoraFiscalAsEnum {
             get { return _FamiliaImpresoraFiscal; }
             set { _FamiliaImpresoraFiscal = value; }
         }
-
+        
         public string FamiliaImpresoraFiscal {
             set { _FamiliaImpresoraFiscal = (eFamiliaImpresoraFiscal)LibConvert.DbValueToEnum(value); }
         }
@@ -142,7 +145,7 @@ namespace Galac.Adm.Ccl.Venta {
             get { return _ModeloDeMaquinaFiscal; }
             set { _ModeloDeMaquinaFiscal = value; }
         }
-
+        
         public string ModeloDeMaquinaFiscal {
             set { _ModeloDeMaquinaFiscal = (eImpresoraFiscal)LibConvert.DbValueToEnum(value); }
         }
@@ -159,12 +162,10 @@ namespace Galac.Adm.Ccl.Venta {
             get { return _SerialDeMaquinaFiscal; }
             set { _SerialDeMaquinaFiscal = LibString.Mid(value, 0, 15); }
         }
-
         public eTipoConexion TipoConexionAsEnum {
             get { return _TipoConexion; }
             set { _TipoConexion = value; }
         }
-
         public string TipoConexion {
             set { _TipoConexion = (eTipoConexion)LibConvert.DbValueToEnum(value); }
         }
@@ -202,17 +203,14 @@ namespace Galac.Adm.Ccl.Venta {
             set { _AbrirGavetaDeDinero = LibConvert.SNToBool(value); }
         }
 
-
         public string UltimoNumeroCompFiscal {
             get { return _UltimoNumeroCompFiscal; }
             set { _UltimoNumeroCompFiscal = LibString.Mid(value, 0, 12); }
         }
-
         public string UltimoNumeroNCFiscal {
             get { return _UltimoNumeroNCFiscal; }
             set { _UltimoNumeroNCFiscal = LibString.Mid(value, 0, 12); }
         }
-
         public string IpParaConexion {
             get { return _IpParaConexion; }
             set { _IpParaConexion = LibString.Mid(value, 0, 15); }
@@ -236,7 +234,6 @@ namespace Galac.Adm.Ccl.Venta {
         public string PermitirDescripcionDelArticuloExtendida {
             set { _PermitirDescripcionDelArticuloExtendida = LibConvert.SNToBool(value); }
         }
-
 
         public bool PermitirNombreDelClienteExtendidoAsBool {
             get { return _PermitirNombreDelClienteExtendido; }
@@ -289,6 +286,32 @@ namespace Galac.Adm.Ccl.Venta {
         public XmlDocument Datos {
             get { return _datos; }
             set { _datos = value; }
+        }
+
+        //Luis
+        public eFamiliaImpresoraFiscal FamiliaImpresoraPreConfiguradaAsEnum {
+            get { return _FamiliaImpresoraPreconfigurada; }
+            set { _FamiliaImpresoraPreconfigurada = value; }
+        }
+        public eImpresoraFiscal ModeloDeMaquinaPreconfiguradaAsEnum {
+            get { return _ModeloDeMaquinaPreconfigurada; }
+            set { _ModeloDeMaquinaPreconfigurada = value; }
+        }
+        public string SerialDeMaquinaPreconfigurada {
+            get { return _SerialDeMaquinaPreconfigurada; }
+            set { _SerialDeMaquinaPreconfigurada = LibString.Mid(value, 0, 15); }
+        }
+        public eTipoConexion TipoConexionPreconfiguradaAsEnum {
+            get { return _TipoConexionPreconfigurada; }
+            set { _TipoConexionPreconfigurada = value; }
+        }
+        public string UltimoNumeroCompPreconfigurada {
+            get { return _UltimoNumeroCompPreconfigurada; }
+            set { _UltimoNumeroCompPreconfigurada = LibString.Mid(value, 0, 12); }
+        }
+        public string UltimoNumeroNCPreconfigurada {
+            get { return _UltimoNumeroNCPreconfigurada; }
+            set { _UltimoNumeroNCPreconfigurada = LibString.Mid(value, 0, 12); }
         }
         #endregion //Propiedades
         #region Constructores
