@@ -41,6 +41,7 @@ namespace Galac.Adm.Ccl.Venta {
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;        
         XmlDocument _datos;
+        private bool _UsaMaquinaFiscalValorPrevio;
         private eFamiliaImpresoraFiscal _FamiliaImpresoraPreconfigurada;
         private eImpresoraFiscal _ModeloDeMaquinaPreconfigurada;
         private string _SerialDeMaquinaPreconfigurada;
@@ -289,6 +290,10 @@ namespace Galac.Adm.Ccl.Venta {
         }
 
         //Luis
+        public bool UsaMaquinaFiscalValorPrevioAsBool {
+            get { return _UsaMaquinaFiscalValorPrevio; }
+            set { _UsaMaquinaFiscalValorPrevio = value; }
+        }
         public eFamiliaImpresoraFiscal FamiliaImpresoraPreConfiguradaAsEnum {
             get { return _FamiliaImpresoraPreconfigurada; }
             set { _FamiliaImpresoraPreconfigurada = value; }

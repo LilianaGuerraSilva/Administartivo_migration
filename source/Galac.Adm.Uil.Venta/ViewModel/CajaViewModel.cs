@@ -602,6 +602,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             LlenarEnumerativosPuertosImpFiscal();
             _PuedeAbrirGaveta = UsaGaveta;
 
+            Model.UsaMaquinaFiscalValorPrevioAsBool = Model.UsaMaquinaFiscalAsBool;
             Model.FamiliaImpresoraPreConfiguradaAsEnum = Model.FamiliaImpresoraFiscalAsEnum;
             Model.ModeloDeMaquinaPreconfiguradaAsEnum = Model.ModeloDeMaquinaFiscalAsEnum;
             Model.TipoConexionPreconfiguradaAsEnum = Model.TipoConexionAsEnum;
@@ -833,12 +834,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         private bool SeRequiereClaveEspecial(eAccionSR valAction) {
-            bool vOmitirClaveEspecial = true; 
+            bool vOmitirClaveEspecial = true;
 
             if (valAction == eAccionSR.Insertar) {
-                vOmitirClaveEspecial = false;  
+                vOmitirClaveEspecial = false;
+            
             } else {
-
+                if ((Model.UsaMaquinaFiscalValorPrevioAsBool == false) && (Model.UsaMaquinaFiscalAsBool == true)) {
+                    vOmitirClaveEspecial = false;
+                }
                 vOmitirClaveEspecial = vOmitirClaveEspecial && Model.FamiliaImpresoraPreConfiguradaAsEnum == Model.FamiliaImpresoraFiscalAsEnum;
                 vOmitirClaveEspecial = vOmitirClaveEspecial && Model.ModeloDeMaquinaPreconfiguradaAsEnum == Model.ModeloDeMaquinaFiscalAsEnum;
                 vOmitirClaveEspecial = vOmitirClaveEspecial && Model.TipoConexionPreconfiguradaAsEnum == Model.TipoConexionAsEnum;
