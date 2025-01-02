@@ -18,6 +18,8 @@ using Galac.Adm.Ccl.DispositivosExternos;
 using Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal;
 using LibGalac.Aos.Catching;
 using Galac.Saw.Ccl.SttDef;
+using Galac.Saw.Ccl.Tablas;
+using Galac.Saw.Brl.Tablas;
 
 namespace Galac.Adm.Brl.Venta {
     public partial class clsCajaNav: LibBaseNav<IList<Caja>, IList<Caja>>, ICajaPdn {
@@ -286,6 +288,34 @@ namespace Galac.Adm.Brl.Venta {
             return vResult;
         }
         #endregion //Codigo Ejemplo
+        protected override LibResponse InsertRecord(IList<Caja> refRecord) {
+            LibResponse result = base.InsertRecord(refRecord);
+            IAuditoriaConfiguracionPdn insPdn = new clsAuditoriaConfiguracionNav();
+            if (result.Success) { //ojo si se empieza a insertar en lote hay que cambiar etso
+                var currentRecord = refRecord[0];
+                insPdn.Auditar("Configuración inicial"
+                        ,"INSERTAR"
+                        , string.Empty
+                        ,"ConsecutivoCaja:" + currentRecord.Consecutivo
+                            + ", Familia:" + currentRecord.FamiliaImpresoraFiscalAsString
+                            + ", Modelo:" + currentRecord.ModeloDeMaquinaFiscalAsString
+                            + ", Serial:" + currentRecord.SerialDeMaquinaFiscal
+                            + ", Tipo de conexión:" + currentRecord.TipoConexionAsString
+                            + ", Ultimo num. comp. fiscal:" + currentRecord.UltimoNumeroCompFiscal
+                            + ", Ultimo num. NC fiscal:" + currentRecord.UltimoNumeroNCFiscal
+                        );
+            }
+            return result;
+        }
+
+ //       protected override LibResponse UpdateRecord(IList<Caja> refRecord) {
+            
+ //           LibResponse result = base.UpdateRecord(refRecord);
+ //           if (result.Success) { //ojo si se empieza a insertar en lote hay que cambiar etso
+ //               throw new NotImplementedException();
+ //}
+ //           return result;
+ //       }
     } //End of class clsCajaNav
 } //End of namespace Galac.Adm.Brl.Venta
 
