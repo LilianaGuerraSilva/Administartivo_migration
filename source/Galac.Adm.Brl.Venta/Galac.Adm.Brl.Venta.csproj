@@ -80,6 +80,7 @@
     <Compile Include="clsActualizarArticuloInventarioNav.cs" />
     <Compile Include="clsCajaAperturaNav.cs" />
     <Compile Include="clsCajaNav.cs" />
+    <Compile Include="clsCajaProcesos.cs" />
     <Compile Include="clsClienteInsercionRapidaNav.cs" />
     <Compile Include="clsCobranzaNav.cs" />
     <Compile Include="clsCobroDeFacturaNav.cs" />

@@ -884,17 +884,27 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private void ExecuteAbrirCajaCommand() {
             bool vSePuede = false;
+            string vMensaje = string.Empty;
             try {
-                vSePuede = ValidarCajasAbiertas() && ValidarUsuarioAsignado();
+                vSePuede = ValidarCajasAbiertas() && ValidarUsuarioAsignado() && CajaEstaHomologada(Model.ConsecutivoCompania, Model.ConsecutivoCaja);
                 if (vSePuede) {
                     base.ExecuteAction();
                     LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue abierta con exito.", "");
                     ExecuteCloseCommand();
                 }
-
             } catch (Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
+        }
+
+        private bool CajaEstaHomologada(int valConsecutivoCompania, int valConsecutivo) {
+            string vMensaje = string.Empty;
+            ICajaPdn insCaja = new clsCajaNav();
+            bool vResul = insCaja.ImpresoraFiscalEstaHomologada(valConsecutivoCompania, valConsecutivo, ref vMensaje);
+            if (!vResul) {
+                LibMessages.MessageBox.Alert(this, vMensaje, "");
+            }
+            return vResul;
         }
 
         private void ExecuteCerrarCajaCommand() {

@@ -1,5 +1,4 @@
 ﻿using LibGalac.Aos.Base;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
@@ -16,14 +15,11 @@ namespace Galac.Adm.Brl.Venta {
         public const string UrlApiMFiscalPlataformaProduccion = "https://mfiscalapi.galac.com/api/estahomologada";
 
 
-        public bool SendMFiscalHomologada(string valFabricante, string valModelo) {
+        public bool SendMFiscalHomologada(string valFabicante, string valModelo) {
             bool vresult = false;
             string url = UrlApiMFiscalPlataformaQA;
-            var requestData = new RequestData {
-                Fabricante = valFabricante,
-                Modelo = valModelo
-            };
-             string json = "{\"Modelo\":\"" + valModelo + "\",\"Fabricante\":\"" + valFabricante + "\"}";
+           
+            string json = "{\"Fabricante\":\"" + valFabicante + "\",\"Modelo\":\"" + valModelo + "\"}";
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "POST";
@@ -38,8 +34,9 @@ namespace Galac.Adm.Brl.Venta {
                 using (HttpWebResponse response = (HttpWebResponse)request.GetResponse()) {
                     using (StreamReader reader = new StreamReader(response.GetResponseStream())) {
                         string result = reader.ReadToEnd();
-                        vresult = LibConvert.ToBool(result);
-                       // Console.WriteLine("Response: " + result);
+                        //vresult = LibConvert.ToBool(result);
+                        vresult = result.Contains("true");
+                        // Console.WriteLine("Response: " + result);
                     }
                 }
             } catch (WebException ex) {
