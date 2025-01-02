@@ -48,9 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuditoriaConfiguracion.cs" />
     <Compile Include="clsEnumTablas.cs" />
     <Compile Include="CondicionesDePago.cs" />
     <Compile Include="FormaDelCobro.cs" />
+    <Compile Include="IAuditoriaConfiguracionDat.cs" />
+    <Compile Include="IAuditoriaConfiguracionPdn.cs" />
     <Compile Include="ICondicionesDePagoPdn.cs" />
     <Compile Include="IFkCentrodeCostosViewModel.cs" />
     <Compile Include="IFkCondicionesDePagoViewModel.cs" />
