@@ -116,10 +116,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     if(refStatusPapel.Equals(eStatusImpresorasFiscales.ePocoPapel)) {
                         vResult = true;
                     } else if(refStatusPapel.Equals(eStatusImpresorasFiscales.eSinPapel) || refStatusPapel.Equals(eStatusImpresorasFiscales.eAtascoDePapel)) {
-                        throw new GalacAlertException("Papel agotado, favor reemplazar");
+                        throw new GalacAlertException("Papel agotado, favor reemplazar.");
                     }
                     if(!vSerialImpresoraFiscalInDB.Equals(vSerialImpresoraFiscalInConnection)) {
-                        throw new GalacAlertException("El serial de la maquina fiscal asignada a esta caja no corresponde, Revisar el dispositivo fiscal para continuar");
+                        throw new GalacAlertException("El serial de la máquina fiscal asignada a esta caja no corresponde. Revisar el dispositivo fiscal para continuar.");
                     }
                     if(!(FechaYHoraValidaEnImpresoraFiscal(vFechaYHoraInConnection,ref vMensaje))) {
                         vResult = true;
@@ -127,7 +127,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     }
                     vResult = true;
                 } else {
-                    throw new GalacAlertException("No se pudo conectar a la Impresora Fiscal, Revisar Conexiones");
+                    throw new GalacAlertException("No se pudo conectar a la Impresora Fiscal. Revisar Conexiones.");
                 }
                 return vResult;
             } catch(GalacException vEx) {
