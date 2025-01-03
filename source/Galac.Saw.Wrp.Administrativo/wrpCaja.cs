@@ -16,6 +16,7 @@ using Galac.Adm.Ccl.Venta;
 using Galac.Adm.Ccl.DispositivosExternos;
 using System.Xml.Linq;
 using Galac.Saw.Wrp.Venta;
+using Galac.Adm.Brl.Venta;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Venta {
 #elif IsExeBsS​
@@ -120,7 +121,7 @@ namespace Galac.Saw.Wrp.Venta {
         }
 
         bool IWrpCaja.InsertarCajaPorDefecto(int vfwConsecutivoCompania) {
-            ICajaPdn CajaNav = new Galac.Adm.Brl.Venta.clsCajaNav() as ICajaPdn;
+            ICajaPdn CajaNav = new clsCajaNav() as ICajaPdn;
             try {
                 return CajaNav.InsertarCajaPorDefecto(vfwConsecutivoCompania);
             } catch(GalacException vEx) {
@@ -131,7 +132,7 @@ namespace Galac.Saw.Wrp.Venta {
 
         bool IWrpCaja.AbrirGaveta(int valConsecutivoCompania,int valConsecutivoCaja) {
             bool vReturn = false;
-            ICajaPdn insCaja = new Galac.Adm.Brl.Venta.clsCajaNav();
+            ICajaPdn insCaja = new clsCajaNav();
             XElement vXMLCaja = null;
             insCaja.FindByConsecutivoCaja(valConsecutivoCompania,valConsecutivoCaja,"",ref vXMLCaja);
             bool vUsaGaveta = LibConvert.SNToBool(LibXml.GetPropertyString(vXMLCaja,"UsaGaveta"));
@@ -148,7 +149,7 @@ namespace Galac.Saw.Wrp.Venta {
 
         bool IWrpCaja.ActualizaUltimoNumComprobante(int valConsecutivoCompania,int valConsecutivoCaja,string valNumero,bool valEsNotaDeCredito) {
             bool vReturn = false;
-            ICajaPdn insCaja = new Galac.Adm.Brl.Venta.clsCajaNav();
+            ICajaPdn insCaja = new clsCajaNav();
             try {
                 vReturn = insCaja.ActualizaUltimoNumComprobante(valConsecutivoCompania,valConsecutivoCaja,valNumero,valEsNotaDeCredito);
                 return vReturn;
@@ -161,12 +162,23 @@ namespace Galac.Saw.Wrp.Venta {
         bool IWrpCaja.FindBySearchValues(int valConsecutivoCompania,int valConsecutivo,string valSqlWhere,ref string refXElement) {
             bool vResult = false;
             XElement xElementResult = null;
-            ICajaPdn insCaja = new Galac.Adm.Brl.Venta.clsCajaNav();                        
+            ICajaPdn insCaja = new clsCajaNav();                        
             vResult = insCaja.FindByConsecutivoCaja(valConsecutivoCompania,valConsecutivo,valSqlWhere,ref xElementResult);
             if(xElementResult != null) {
                 refXElement = xElementResult.ToString();                
             }
             return vResult;
+        }
+
+        string IWrpCaja.ValidateImpresoraFiscal(string vfwCurrentParameters) {
+            CreateGlobalValues(vfwCurrentParameters);
+            string vRefMensaje = string.Empty;
+            ICajaPdn insCaja = new clsCajaNav();
+            XElement vXmlDatosImprFiscal = insCaja.ValidateImpresoraFiscal(ref vRefMensaje);
+            if (!LibString.IsNullOrEmpty(vRefMensaje)) {
+                return vRefMensaje;
+            }
+            return "";
         }
         #endregion //Metodos Generados
     } //End of class wrpCaja
