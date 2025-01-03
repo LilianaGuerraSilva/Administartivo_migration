@@ -19,5 +19,6 @@ namespace Galac.Saw.Wrp.Venta {
         bool AbrirGaveta(int valConsecutivoCompania,int valConsecutivoCaja);
         bool ActualizaUltimoNumComprobante(int valConsecutivoCompania,int valConsecutivoCaja,string valNumero,bool valEsNotaDeCredito);
         bool FindBySearchValues(int valConsecutivoCompania, int valConsecutivo,string valSqlWhere,ref string refXElement);
+        string ValidateImpresoraFiscal(string vfwCurrentParameters);
     }
 }
