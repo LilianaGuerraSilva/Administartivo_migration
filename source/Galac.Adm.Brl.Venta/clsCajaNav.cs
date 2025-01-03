@@ -18,6 +18,8 @@ using Galac.Adm.Ccl.DispositivosExternos;
 using Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal;
 using LibGalac.Aos.Catching;
 using Galac.Saw.Ccl.SttDef;
+using Galac.Saw.Ccl.Tablas;
+using Galac.Saw.Brl.Tablas;
 
 namespace Galac.Adm.Brl.Venta {
     public partial class clsCajaNav: LibBaseNav<IList<Caja>, IList<Caja>>, ICajaPdn {
@@ -213,6 +215,10 @@ namespace Galac.Adm.Brl.Venta {
                     insCaja.FindByConsecutivoCaja(ConsecutivoCompania, CajaLocal, "", ref xmlCajaDat);
                     vImpresoraFiscal = InitializeImpresoraFiscal(xmlCajaDat, CajaLocal);
                     insMaquinaFiscalNav = new clsImpresoraFiscalNav(vImpresoraFiscal);
+                    if (!HomologadaSegunGaceta43032(ConsecutivoCompania, CajaLocal, ref refMensaje)) {
+                        xmlCajaDat = null;
+                        return xmlCajaDat;
+                    }
                     insMaquinaFiscalNav.SerialImpresoraFiscal = SerialMaquinaFiscal;
                     SeDetectoImpresoraFiscal = insMaquinaFiscalNav.DetectarImpresoraFiscal(ref refStatusPapel);
                     if (refStatusPapel.Equals(eStatusImpresorasFiscales.ePocoPapel)) {
@@ -228,6 +234,8 @@ namespace Galac.Adm.Brl.Venta {
                 return null;
             }
         }
+
+        
 
         void ICajaPdn.ActualizarRegistroDeMaquinaFiscal(eAccionSR valAccion, int valConsecutivoCompania, eImpresoraFiscal valModeloImpresoraFiscal, string valSerialMaquinaFiscal, string valUltimoNumeroComptbanteFiscal, string valNombreOperador) {
             StringBuilder Sql = new StringBuilder();
@@ -285,7 +293,71 @@ namespace Galac.Adm.Brl.Venta {
             vResult = LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParams.Get(), "", 0) != 0;
             return vResult;
         }
+
+        void BuscaFamiliaYModeloDeMaquinaFiscal(int valConsecutivoCompania, int valConsecutivo, ref string refFamilia, ref string refModelo) {
+            XElement xElement;
+            StringBuilder sql = new StringBuilder();
+            LibGpParams vParams = new LibGpParams();
+            string vFamilia = string.Empty;
+            string vModelo = string.Empty;
+            vParams.AddInInteger("Consecutivo", valConsecutivo);
+            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            sql.AppendLine(" SELECT FamiliaImpresoraFiscalStr AS FamiliaImpresoraFiscal, ModeloDeMaquinaFiscalStr AS ModeloDeMaquinaFiscal FROM Adm.Gv_Caja_B1");
+            sql.AppendLine(" WHERE Consecutivo = @Consecutivo");
+            sql.AppendLine(" AND ConsecutivoCompania = @ConsecutivoCompania");
+            xElement = LibBusiness.ExecuteSelect(sql.ToString(), vParams.Get(), string.Empty, 0);
+            if (xElement != null) {
+                refFamilia = LibXml.GetPropertyString(xElement, "FamiliaImpresoraFiscal");
+                refModelo = LibXml.GetPropertyString(xElement, "ModeloDeMaquinaFiscal");
+            }
+        }
+
+        public bool HomologadaSegunGaceta43032(int valConsecutivoCompania, int valConsecutivoCaja, ref string refMensaje) {
+            string vFamilia = string.Empty;
+            string vModelo = string.Empty;
+            refMensaje = string.Empty;
+            bool vResult = true;
+            BuscaFamiliaYModeloDeMaquinaFiscal(valConsecutivoCompania, valConsecutivoCaja, ref vFamilia, ref vModelo);
+            clsCajaProcesos insCajaProcesos = new clsCajaProcesos();
+            if (!insCajaProcesos.SendPostEstaHomologadaMaquinaFiscal(vFamilia, vModelo)) {
+                refMensaje = "La impresora fiscal " + vFamilia + ", modelo "+ vModelo + ", no se encuentra homologada.";
+                vResult = false;
+            }
+            return vResult;
+        }
+
+        bool ICajaPdn.ImpresoraFiscalEstaHomologada(int valConsecutivoCompania, int valConsecutivoCaja, ref string refMensaje) {
+            return HomologadaSegunGaceta43032(valConsecutivoCompania, valConsecutivoCaja, ref refMensaje);
+        }
         #endregion //Codigo Ejemplo
+        protected override LibResponse InsertRecord(IList<Caja> refRecord) {
+            LibResponse result = base.InsertRecord(refRecord);
+            IAuditoriaConfiguracionPdn insPdn = new clsAuditoriaConfiguracionNav();
+            if (result.Success) { //ojo si se empieza a insertar en lote hay que cambiar etso
+                var currentRecord = refRecord[0];
+                insPdn.Auditar("Configuración inicial"
+                        ,"INSERTAR"
+                        , string.Empty
+                        ,"ConsecutivoCaja:" + currentRecord.Consecutivo
+                            + ", Familia:" + currentRecord.FamiliaImpresoraFiscalAsString
+                            + ", Modelo:" + currentRecord.ModeloDeMaquinaFiscalAsString
+                            + ", Serial:" + currentRecord.SerialDeMaquinaFiscal
+                            + ", Tipo de conexión:" + currentRecord.TipoConexionAsString
+                            + ", Ultimo num. comp. fiscal:" + currentRecord.UltimoNumeroCompFiscal
+                            + ", Ultimo num. NC fiscal:" + currentRecord.UltimoNumeroNCFiscal
+                        );
+            }
+            return result;
+        }
+
+ //       protected override LibResponse UpdateRecord(IList<Caja> refRecord) {
+            
+ //           LibResponse result = base.UpdateRecord(refRecord);
+ //           if (result.Success) { //ojo si se empieza a insertar en lote hay que cambiar etso
+ //               throw new NotImplementedException();
+ //}
+ //           return result;
+ //       }
     } //End of class clsCajaNav
 } //End of namespace Galac.Adm.Brl.Venta
 
