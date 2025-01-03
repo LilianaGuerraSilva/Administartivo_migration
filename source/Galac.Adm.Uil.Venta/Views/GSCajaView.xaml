@@ -195,6 +195,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Label
                         Name="lblFamiliaDeMaquinaFiscal"
@@ -348,6 +349,26 @@
                         IsEnabled="{Binding Path=IsEnabled}"
                         Style="{StaticResource CheckBoxStyle}"
                         Visibility="{Binding Path=IsVisibleRegistroDeRetornoEnTxt, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    <Label
+                        Name="lblMotivoEliminacionOModificacion"
+                        Grid.Row="9"
+                        Grid.Column="0"
+                        Content="Motivo del cambio......"
+                        Style="{StaticResource LabelPrompt}"
+                        Visibility="{Binding Path=IsVisibleMotivoEliminacionOModificacion, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    <nsWpfControls:GSTextAreaWpf
+                        Name="txtMotivoEliminacionOModificacion"
+                        Grid.Row="9"
+                        Grid.Column="1"
+                        HorizontalAlignment="Stretch"
+                        BorderThickness="1"
+                        MaxLength="255"
+                        Height="60"
+                        VerticalScrollBarVisibility="Auto"
+                        Width="150"
+                        Style="{StaticResource TextBoxInputStyle}"
+                        Visibility="{Binding Path=IsVisibleMotivoEliminacionOModificacion, Converter={StaticResource booleanToVisibilityConverter}}"
+                        Text="{Binding Path=MotivoEliminacionOModificacion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                     <Label
                         Name="lblPermitirDescripcionDelArticuloExtendida"
                         Grid.Row="0"
