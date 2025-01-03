@@ -68,6 +68,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         string SerialDeMaquinaPreconfigurada;
         string UltimoNumeroCompPreconfigurada;
         string UltimoNumeroNCPreconfigurada;
+        string _MotivoEliminacionOModificacion;
         #endregion //Constantes y Variables
 
         #region Propiedades      
@@ -508,6 +509,18 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        [LibCustomValidation("MotivoEliminacionOModificacionValidating")]
+        public string MotivoEliminacionOModificacion {
+            get {
+                return _MotivoEliminacionOModificacion;
+            }
+            set {
+                if (_MotivoEliminacionOModificacion != value) {
+                    _MotivoEliminacionOModificacion = value;
+                    RaisePropertyChanged("MotivoEliminacionOModificacion");
+                }
+            }
+        }
 
         public bool IsVisibleParaEpson {
             get {
@@ -524,6 +537,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public bool IsVisibleImpresoraFiscal {
             get {
                 return UsaMaquinaFiscal;
+            }
+        }
+
+        public bool IsVisibleMotivoEliminacionOModificacion {
+            get {
+                return (UsaMaquinaFiscal && Action == eAccionSR.Modificar);
             }
         }
 
@@ -850,6 +869,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
             return !vOmitirClaveEspecial;
         }
+        ValidationResult MotivoEliminacionOModificacionValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if (UsaMaquinaFiscal && Action == eAccionSR.Modificar && LibString.IsNullOrEmpty(MotivoEliminacionOModificacion) && SeRequiereClaveEspecial()) {
+                return new ValidationResult("Se requiere indicar el Motivo del Cambio.");
+            } else {
+                return ValidationResult.Success;
+            }
+        }
+
         #endregion //Validations
 
         #region Metodos 
@@ -984,7 +1012,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 vAuditarMF = true;
             }
             if (vSePuede) {
-                vResult = vBussinessPdn.ActualizarYAuditarCambiosMF(vBusinessObject, vAuditarMF, "Configuración de Máquina Fiscal", LibEnumHelper.GetDescription(FamiliaImpresoraPreConfiguradaAsEnum), LibEnumHelper.GetDescription(ModeloDeMaquinaPreconfiguradaAsEnum), LibEnumHelper.GetDescription(TipoConexionPreconfiguradaAsEnum), SerialDeMaquinaPreconfigurada, UltimoNumeroCompPreconfigurada, UltimoNumeroNCPreconfigurada);
+                vResult = vBussinessPdn.ActualizarYAuditarCambiosMF(vBusinessObject, vAuditarMF, MotivoEliminacionOModificacion, LibEnumHelper.GetDescription(FamiliaImpresoraPreConfiguradaAsEnum), LibEnumHelper.GetDescription(ModeloDeMaquinaPreconfiguradaAsEnum), LibEnumHelper.GetDescription(TipoConexionPreconfiguradaAsEnum), SerialDeMaquinaPreconfigurada, UltimoNumeroCompPreconfigurada, UltimoNumeroNCPreconfigurada);
             } else {
                 vResult.Success = false;
                 LibMessages.MessageBox.Information(this, "No fue autorizado la configuración de la máquina fiscal.", "");
