@@ -298,7 +298,6 @@ namespace Galac.Adm.Brl.Venta {
             LibGpParams vParams = new LibGpParams();
             string vFamilia = string.Empty;
             string vModelo = string.Empty;
-            LibFile.WriteLineInFile(@"c:\test\ER.txt", valConsecutivoCompania.ToString() + "" + valConsecutivo.ToString(), true);
             vParams.AddInInteger("Consecutivo", valConsecutivo);
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             sql.AppendLine(" SELECT FamiliaImpresoraFiscalStr AS FamiliaImpresoraFiscal, ModeloDeMaquinaFiscalStr AS ModeloDeMaquinaFiscal FROM Adm.Gv_Caja_B1");
