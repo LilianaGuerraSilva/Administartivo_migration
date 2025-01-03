@@ -1,4 +1,5 @@
 ﻿using LibGalac.Aos.Base;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
@@ -15,38 +16,30 @@ namespace Galac.Adm.Brl.Venta {
         public const string UrlApiMFiscalPlataformaProduccion = "https://mfiscalapi.galac.com/api/estahomologada";
 
 
-        public bool SendMFiscalHomologada(string valFabicante, string valModelo) {
+        public bool SendPostEstaHomologadaMaquinaFiscal(string valFabricante, string valModelo) {
             bool vresult = false;
             string url = UrlApiMFiscalPlataformaQA;
-           
-            string json = "{\"Fabricante\":\"" + valFabicante + "\",\"Modelo\":\"" + valModelo + "\"}";
-
+            string json = "{\"Fabricante\":\"" + valFabricante + "\",\"Modelo\":\"" + valModelo + "\"}";
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "POST";
             request.ContentType = "application/json";
             request.ContentLength = json.Length;
-
-            using (StreamWriter writer = new StreamWriter(request.GetRequestStream())) {
-                writer.Write(json);
-            }
-
             try {
+                using (StreamWriter writer = new StreamWriter(request.GetRequestStream())) {
+                writer.Write(json);
+                }
                 using (HttpWebResponse response = (HttpWebResponse)request.GetResponse()) {
                     using (StreamReader reader = new StreamReader(response.GetResponseStream())) {
                         string result = reader.ReadToEnd();
-                        //vresult = LibConvert.ToBool(result);
-                        vresult = result.Contains("true");
-                        // Console.WriteLine("Response: " + result);
+                        JObject jsonObject = JObject.Parse(result);
+                        string success = jsonObject["success"].ToString();
+                        string code = jsonObject["code"].ToString();
+                        string message = jsonObject["message"].ToString();
+                        vresult = LibConvert.ToBool(success);
                     }
                 }
-            } catch (WebException ex) {
-                using (HttpWebResponse response = (HttpWebResponse)ex.Response) {
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream())) {
-                        string error = reader.ReadToEnd();
-                        vresult = false;
-                        //Console.WriteLine("Error: " + error);
-                    }
-                }
+            } catch (Exception) {
+                throw;
             }
             return vresult;
         }

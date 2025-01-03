@@ -213,7 +213,7 @@ namespace Galac.Adm.Brl.Venta {
                     insCaja.FindByConsecutivoCaja(ConsecutivoCompania, CajaLocal, "", ref xmlCajaDat);
                     vImpresoraFiscal = InitializeImpresoraFiscal(xmlCajaDat, CajaLocal);
                     insMaquinaFiscalNav = new clsImpresoraFiscalNav(vImpresoraFiscal);
-                    if (!HomologadaSegunG43032(ConsecutivoCompania, CajaLocal, ref refMensaje)) {
+                    if (!HomologadaSegunGaceta43032(ConsecutivoCompania, CajaLocal, ref refMensaje)) {
                         xmlCajaDat = null;
                         return xmlCajaDat;
                     }
@@ -311,14 +311,14 @@ namespace Galac.Adm.Brl.Venta {
             }
         }
 
-        public bool HomologadaSegunG43032(int valConsecutivoCompania, int valConsecutivoCaja, ref string refMensaje) {
+        public bool HomologadaSegunGaceta43032(int valConsecutivoCompania, int valConsecutivoCaja, ref string refMensaje) {
             string vFamilia = string.Empty;
             string vModelo = string.Empty;
             refMensaje = string.Empty;
             bool vResult = true;
             BuscaFamiliaYModeloDeMaquinaFiscal(valConsecutivoCompania, valConsecutivoCaja, ref vFamilia, ref vModelo);
             clsCajaProcesos insCajaProcesos = new clsCajaProcesos();
-            if (!insCajaProcesos.SendMFiscalHomologada(vFamilia, vModelo)) {
+            if (!insCajaProcesos.SendPostEstaHomologadaMaquinaFiscal(vFamilia, vModelo)) {
                 refMensaje = "La impresora fiscal " + vFamilia + ", modelo "+ vModelo + ", no se encuentra homologada.";
                 vResult = false;
             }
@@ -326,7 +326,7 @@ namespace Galac.Adm.Brl.Venta {
         }
 
         bool ICajaPdn.ImpresoraFiscalEstaHomologada(int valConsecutivoCompania, int valConsecutivoCaja, ref string refMensaje) {
-            return HomologadaSegunG43032(valConsecutivoCompania, valConsecutivoCaja, ref refMensaje);
+            return HomologadaSegunGaceta43032(valConsecutivoCompania, valConsecutivoCaja, ref refMensaje);
         }
         #endregion //Codigo Ejemplo
     } //End of class clsCajaNav
