@@ -26,6 +26,7 @@ using System.Windows;
 using Galac.Adm.Ccl.CajaChica;
 using Galac.Saw.Lib;
 using System.Threading;
+using System.Net.NetworkInformation;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
     public class CajaAperturaViewModel: LibInputViewModel<CajaApertura> {
@@ -884,9 +885,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private void ExecuteAbrirCajaCommand() {
             bool vSePuede = false;
-            string vMensaje = string.Empty;
             try {
-                vSePuede = ValidarCajasAbiertas() && ValidarUsuarioAsignado() && CajaEstaHomologada(Model.ConsecutivoCompania, Model.ConsecutivoCaja);
+                bool vCajaHomologada = true;
+                if (HayConexionAInternet()) {
+                    vCajaHomologada = CajaEstaHomologada(Model.ConsecutivoCompania, Model.ConsecutivoCaja);                  
+                } 
+                vSePuede = ValidarCajasAbiertas() && ValidarUsuarioAsignado() && vCajaHomologada;
                 if (vSePuede) {
                     base.ExecuteAction();
                     LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue abierta con exito.", "");
@@ -895,16 +899,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             } catch (Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
-        }
-
-        private bool CajaEstaHomologada(int valConsecutivoCompania, int valConsecutivo) {
-            string vMensaje = string.Empty;
-            ICajaPdn insCaja = new clsCajaNav();
-            bool vResul = insCaja.ImpresoraFiscalEstaHomologada(valConsecutivoCompania, valConsecutivo, ref vMensaje);
-            if (!vResul) {
-                LibMessages.MessageBox.Alert(this, vMensaje, "");
-            }
-            return vResul;
         }
 
         private void ExecuteCerrarCajaCommand() {
@@ -1220,6 +1214,29 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 }
             }
             return vResult;
+        }
+
+        private bool HayConexionAInternet() {
+            bool vResult = false;
+            try {
+                using (Ping ping = new Ping()) {
+                    PingReply reply = ping.Send("8.8.8.8", 3000); // Puedes usar cualquier IP conocida, como la de Google DNS
+                    vResult = reply.Status == IPStatus.Success;
+                }
+            } catch {
+                vResult = false;
+            }
+            return vResult;
+        }
+
+        private bool CajaEstaHomologada(int valConsecutivoCompania, int valConsecutivo) {
+            string vMensaje = string.Empty;
+            ICajaPdn insCaja = new clsCajaNav();
+            bool vResul = insCaja.ImpresoraFiscalEstaHomologada(valConsecutivoCompania, valConsecutivo, ref vMensaje);
+            if (!vResul) {
+                LibMessages.MessageBox.Alert(this, vMensaje, "");
+            }
+            return vResul;
         }
         #endregion //Metodos
 
