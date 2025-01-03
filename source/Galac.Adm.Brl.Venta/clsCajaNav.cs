@@ -213,10 +213,6 @@ namespace Galac.Adm.Brl.Venta {
                     insCaja.FindByConsecutivoCaja(ConsecutivoCompania, CajaLocal, "", ref xmlCajaDat);
                     vImpresoraFiscal = InitializeImpresoraFiscal(xmlCajaDat, CajaLocal);
                     insMaquinaFiscalNav = new clsImpresoraFiscalNav(vImpresoraFiscal);
-                    if (!HomologadaSegunGaceta43032(ConsecutivoCompania, CajaLocal, ref refMensaje)) {
-                        xmlCajaDat = null;
-                        return xmlCajaDat;
-                    }
                     insMaquinaFiscalNav.SerialImpresoraFiscal = SerialMaquinaFiscal;
                     SeDetectoImpresoraFiscal = insMaquinaFiscalNav.DetectarImpresoraFiscal(ref refStatusPapel);
                     if (refStatusPapel.Equals(eStatusImpresorasFiscales.ePocoPapel)) {
@@ -232,8 +228,6 @@ namespace Galac.Adm.Brl.Venta {
                 return null;
             }
         }
-
-        
 
         void ICajaPdn.ActualizarRegistroDeMaquinaFiscal(eAccionSR valAccion, int valConsecutivoCompania, eImpresoraFiscal valModeloImpresoraFiscal, string valSerialMaquinaFiscal, string valUltimoNumeroComptbanteFiscal, string valNombreOperador) {
             StringBuilder Sql = new StringBuilder();
