@@ -41,13 +41,6 @@ namespace Galac.Adm.Ccl.Venta {
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;        
         XmlDocument _datos;
-        private bool _UsaMaquinaFiscalValorPrevio;
-        private eFamiliaImpresoraFiscal _FamiliaImpresoraPreconfigurada;
-        private eImpresoraFiscal _ModeloDeMaquinaPreconfigurada;
-        private string _SerialDeMaquinaPreconfigurada;
-        private eTipoConexion _TipoConexionPreconfigurada;
-        private string _UltimoNumeroCompPreconfigurada;
-        private string _UltimoNumeroNCPreconfigurada;
         #endregion //Variables
         #region Propiedades
 
@@ -289,35 +282,6 @@ namespace Galac.Adm.Ccl.Venta {
             set { _datos = value; }
         }
 
-        //Luis
-        public bool UsaMaquinaFiscalValorPrevioAsBool {
-            get { return _UsaMaquinaFiscalValorPrevio; }
-            set { _UsaMaquinaFiscalValorPrevio = value; }
-        }
-        public eFamiliaImpresoraFiscal FamiliaImpresoraPreConfiguradaAsEnum {
-            get { return _FamiliaImpresoraPreconfigurada; }
-            set { _FamiliaImpresoraPreconfigurada = value; }
-        }
-        public eImpresoraFiscal ModeloDeMaquinaPreconfiguradaAsEnum {
-            get { return _ModeloDeMaquinaPreconfigurada; }
-            set { _ModeloDeMaquinaPreconfigurada = value; }
-        }
-        public string SerialDeMaquinaPreconfigurada {
-            get { return _SerialDeMaquinaPreconfigurada; }
-            set { _SerialDeMaquinaPreconfigurada = LibString.Mid(value, 0, 15); }
-        }
-        public eTipoConexion TipoConexionPreconfiguradaAsEnum {
-            get { return _TipoConexionPreconfigurada; }
-            set { _TipoConexionPreconfigurada = value; }
-        }
-        public string UltimoNumeroCompPreconfigurada {
-            get { return _UltimoNumeroCompPreconfigurada; }
-            set { _UltimoNumeroCompPreconfigurada = LibString.Mid(value, 0, 12); }
-        }
-        public string UltimoNumeroNCPreconfigurada {
-            get { return _UltimoNumeroNCPreconfigurada; }
-            set { _UltimoNumeroNCPreconfigurada = LibString.Mid(value, 0, 12); }
-        }
         #endregion //Propiedades
         #region Constructores
 

@@ -32,7 +32,7 @@ namespace Galac.Adm.Brl.Venta {
             get { return _SerialMaquinaFiscal; }
             set { _SerialMaquinaFiscal = value; }
         }
-
+                
         #endregion //Propiedades
         #region Constructores
 
@@ -235,8 +235,6 @@ namespace Galac.Adm.Brl.Venta {
             }
         }
 
-        
-
         void ICajaPdn.ActualizarRegistroDeMaquinaFiscal(eAccionSR valAccion, int valConsecutivoCompania, eImpresoraFiscal valModeloImpresoraFiscal, string valSerialMaquinaFiscal, string valUltimoNumeroComptbanteFiscal, string valNombreOperador) {
             StringBuilder Sql = new StringBuilder();
             LibGpParams vParam = new LibGpParams();
@@ -328,6 +326,32 @@ namespace Galac.Adm.Brl.Venta {
 
         bool ICajaPdn.ImpresoraFiscalEstaHomologada(int valConsecutivoCompania, int valConsecutivoCaja, ref string refMensaje) {
             return HomologadaSegunGaceta43032(valConsecutivoCompania, valConsecutivoCaja, ref refMensaje);
+        }
+
+        LibResponse ICajaPdn.ActualizarYAuditarCambiosMF(IList<Caja> refRecord, bool valAuditarMF, string valMotivoCambiosMaqFiscal, string valFamiliaOriginal, string valModeloOriginal, string valTipoDeConexionOriginal, string valSerialMFOriginal, string valUltNumComprobanteFiscalOriginal, string valUltNumNCFiscalOriginal) {
+            string strValoresOriginales = string.Empty;
+            string strValoresModidficados = string.Empty;
+
+            RegisterClient();
+            LibResponse result = base.UpdateRecord(refRecord);
+            if (result.Success && valAuditarMF) {
+                strValoresOriginales = "Fabricante: " + valFamiliaOriginal + ";";
+                strValoresOriginales = strValoresOriginales + "Modelo: " + valModeloOriginal + ";";
+                strValoresOriginales = strValoresOriginales + "Tipo de Conexión: " + valTipoDeConexionOriginal + ";";
+                strValoresOriginales = strValoresOriginales + "Serial: " + valSerialMFOriginal + ";";
+                strValoresOriginales = strValoresOriginales + "Últ.Núm.Comprobante Fiscal: " + valUltNumComprobanteFiscalOriginal + ";";
+                strValoresOriginales = strValoresOriginales + "Últ.Núm.Nota de Crédito: " + valUltNumNCFiscalOriginal + ";";
+
+                strValoresModidficados = "Fabricante: " + refRecord[0].FamiliaImpresoraFiscalAsString + ";";
+                strValoresModidficados = strValoresModidficados + "Modelo: " + refRecord[0].ModeloDeMaquinaFiscalAsString + ";";
+                strValoresModidficados = strValoresModidficados + "Tipo de Conexión: " + refRecord[0].TipoConexionAsString + ";";
+                strValoresModidficados = strValoresModidficados + "Serial: " + refRecord[0].SerialDeMaquinaFiscal + ";";
+                strValoresModidficados = strValoresModidficados + "Últ.Núm.Comprobante Fiscal: " + refRecord[0].UltimoNumeroCompFiscal + ";";
+                strValoresModidficados = strValoresModidficados + "Últ.Núm.Nota de Crédito: " + refRecord[0].UltimoNumeroNCFiscal + ";";
+
+                //throw new NotImplementedException();
+            }
+            return result;
         }
         #endregion //Codigo Ejemplo
         protected override LibResponse InsertRecord(IList<Caja> refRecord) {
