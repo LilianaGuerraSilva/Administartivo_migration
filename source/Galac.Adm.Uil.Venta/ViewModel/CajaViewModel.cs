@@ -22,7 +22,7 @@ using Galac.Saw.Lib;
 using LibGalac.Aos.Ccl.Usal;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
-    public class CajaViewModel: LibInputViewModel<Caja> {
+    public class CajaViewModel : LibInputViewModel<Caja> {
 
         #region Constantes y Variables
 
@@ -54,7 +54,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         const string IsEnabledUsaGavetaPropertyName = "IsEnabledUsaGaveta";
         const string IsEnabledPuertoSerialPropertyName = "IsEnabledPuertoSerial";
         const string IsVisibleRegistroDeRetornoEnTxtPropertyName = "IsVisibleRegistroDeRetornoEnTxt";
-
         private Brl.DispositivosExternos.clsConexionPuertoSerial PuertoSerial;
         IImpresoraFiscalPdn insMaquinaFiscal;
         private bool _PuedeAbrirGaveta = false;
@@ -62,6 +61,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         FkGUserViewModel _ConexionNombreDelOperador;
         bool _RegistroDeRetornoEnTxtOld;
 
+        bool UsaMaquinaFiscalValorPrevio;
+        eFamiliaImpresoraFiscal FamiliaImpresoraPreConfiguradaAsEnum;
+        eImpresoraFiscal ModeloDeMaquinaPreconfiguradaAsEnum;
+        eTipoConexion TipoConexionPreconfiguradaAsEnum;
+        string SerialDeMaquinaPreconfigurada;
+        string UltimoNumeroCompPreconfigurada;
+        string UltimoNumeroNCPreconfigurada;
         #endregion //Constantes y Variables
 
         #region Propiedades      
@@ -602,6 +608,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             LlenarEnumerativosTipoDeConexion();
             LlenarEnumerativosPuertosImpFiscal();
             _PuedeAbrirGaveta = UsaGaveta;
+
+            UsaMaquinaFiscalValorPrevio = Model.UsaMaquinaFiscalAsBool;
+            FamiliaImpresoraPreConfiguradaAsEnum = Model.FamiliaImpresoraFiscalAsEnum;
+            ModeloDeMaquinaPreconfiguradaAsEnum = Model.ModeloDeMaquinaFiscalAsEnum;
+            TipoConexionPreconfiguradaAsEnum = Model.TipoConexionAsEnum;
+            SerialDeMaquinaPreconfigurada = Model.SerialDeMaquinaFiscal;
+            UltimoNumeroCompPreconfigurada = Model.UltimoNumeroCompFiscal;
+            UltimoNumeroNCPreconfigurada = Model.UltimoNumeroCompFiscal;
         }
 
         protected override void InitializeRibbon() {
@@ -674,7 +688,22 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         protected override void ExecuteAction() {
-            base.ExecuteAction();
+            bool vSePuede = false;
+
+            if (Action == eAccionSR.Insertar) {
+                if (UsaMaquinaFiscal) {
+                    vSePuede = new LibGalac.Ssm.U.LibRequestAdvancedOperation().AuthorizeProcess("Configurar Máquina Fiscal", "VE");
+                } else {
+                    vSePuede = true;
+                }
+                if (vSePuede) {
+                    base.ExecuteAction();
+                } else {
+                    LibMessages.MessageBox.Information(this, "No fue autorizada la configuración de la máquina fiscal.", "");
+                }
+            } else { 
+                base.ExecuteAction();
+            }
             if (Model.ModeloDeMaquinaFiscalAsEnum == eImpresoraFiscal.BEMATECH_MP_4000_FI && _RegistroDeRetornoEnTxtOld != RegistroDeRetornoEnTxt) {
                 LibMessages.MessageBox.Information(this, "Los cambios surtirán efecto la próxima vez que Inicie Sesión en el Sistema.", ModuleName);
             }
@@ -803,12 +832,24 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         ValidationResult ComandoGavetaValidating() {
             ValidationResult vResult = ValidationResult.Success;
             if (UsaGaveta && (Comando == string.Empty)) {
-                return new ValidationResult("El comando no puede estar en blanco si se usa la gavata");
+                return new ValidationResult("El comando no puede estar en blanco si se usa la gaveta");
             } else {
                 return ValidationResult.Success;
             }
         }
 
+        private bool SeRequiereClaveEspecial() {
+            bool vOmitirClaveEspecial = true;
+
+            vOmitirClaveEspecial = vOmitirClaveEspecial && FamiliaImpresoraPreConfiguradaAsEnum == Model.FamiliaImpresoraFiscalAsEnum;
+            vOmitirClaveEspecial = vOmitirClaveEspecial && ModeloDeMaquinaPreconfiguradaAsEnum == Model.ModeloDeMaquinaFiscalAsEnum;
+            vOmitirClaveEspecial = vOmitirClaveEspecial && TipoConexionPreconfiguradaAsEnum == Model.TipoConexionAsEnum;
+            vOmitirClaveEspecial = vOmitirClaveEspecial && SerialDeMaquinaPreconfigurada == Model.SerialDeMaquinaFiscal;
+            vOmitirClaveEspecial = vOmitirClaveEspecial && UltimoNumeroCompPreconfigurada == Model.UltimoNumeroCompFiscal;
+            vOmitirClaveEspecial = vOmitirClaveEspecial && UltimoNumeroNCPreconfigurada == Model.UltimoNumeroCompFiscal;
+
+            return !vOmitirClaveEspecial;
+        }
         #endregion //Validations
 
         #region Metodos 
@@ -929,6 +970,28 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public void MoverFocoSiCambiaTab() {
             MoveFocusIfNecessary();
         }
+
+        protected override bool UpdateRecord() {
+            bool vSePuede = true;
+            bool vAuditarMF = false;
+            IList<Caja> vBusinessObject = new List<Caja>();
+            vBusinessObject.Add(Model);
+            ICajaPdn vBussinessPdn = new clsCajaNav();
+            LibResponse vResult = new LibResponse();
+
+            if (UsaMaquinaFiscal && SeRequiereClaveEspecial()) {
+                vSePuede = new LibGalac.Ssm.U.LibRequestAdvancedOperation().AuthorizeProcess("Reconfigurar Máquina Fiscal", "VE");
+                vAuditarMF = true;
+            }
+            if (vSePuede) {
+                vResult = vBussinessPdn.ActualizarYAuditarCambiosMF(vBusinessObject, vAuditarMF, "Configuración de Máquina Fiscal", LibEnumHelper.GetDescription(FamiliaImpresoraPreConfiguradaAsEnum), LibEnumHelper.GetDescription(ModeloDeMaquinaPreconfiguradaAsEnum), LibEnumHelper.GetDescription(TipoConexionPreconfiguradaAsEnum), SerialDeMaquinaPreconfigurada, UltimoNumeroCompPreconfigurada, UltimoNumeroNCPreconfigurada);
+            } else {
+                vResult.Success = false;
+                LibMessages.MessageBox.Information(this, "No fue autorizado la configuración de la máquina fiscal.", "");
+            }
+            return vResult.Success;
+        }
+
         #endregion
     } //End of class CajaViewModel
 } //End of namespace Galac.Adm.Uil.Venta
