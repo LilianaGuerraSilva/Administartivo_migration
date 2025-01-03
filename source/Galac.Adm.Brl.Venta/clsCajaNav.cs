@@ -32,7 +32,9 @@ namespace Galac.Adm.Brl.Venta {
             get { return _SerialMaquinaFiscal; }
             set { _SerialMaquinaFiscal = value; }
         }
-                
+
+        string ICajaPdn.SerialMaquinaFiscal { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         #endregion //Propiedades
         #region Constructores
 
@@ -40,7 +42,6 @@ namespace Galac.Adm.Brl.Venta {
         }
         #endregion //Constructores
         #region Metodos Generados
-
         protected override ILibDataComponentWithSearch<IList<Caja>, IList<Caja>> GetDataInstance() {
             return new Galac.Adm.Dal.Venta.clsCajaDat();
         }
@@ -307,14 +308,14 @@ namespace Galac.Adm.Brl.Venta {
         }
 
         public bool HomologadaSegunGaceta43032(int valConsecutivoCompania, int valConsecutivoCaja, ref string refMensaje) {
-            string vFamilia = string.Empty;
+            string vFabricante= string.Empty;
             string vModelo = string.Empty;
             refMensaje = string.Empty;
             bool vResult = true;
-            BuscaFamiliaYModeloDeMaquinaFiscal(valConsecutivoCompania, valConsecutivoCaja, ref vFamilia, ref vModelo);
+            BuscaFamiliaYModeloDeMaquinaFiscal(valConsecutivoCompania, valConsecutivoCaja, ref vFabricante, ref vModelo);
             clsCajaProcesos insCajaProcesos = new clsCajaProcesos();
-            if (!insCajaProcesos.SendPostEstaHomologadaMaquinaFiscal(vFamilia, vModelo)) {
-                refMensaje = "La impresora fiscal " + vFamilia + ", modelo "+ vModelo + ", no se encuentra homologada.";
+            if (!insCajaProcesos.SendPostEstaHomologadaMaquinaFiscal(vFabricante, vModelo)) {
+                refMensaje = "La impresora fiscal " + vFabricante + ", modelo "+ vModelo + ", no se encuentra homologada.";
                 vResult = false;
             }
             return vResult;
@@ -323,6 +324,8 @@ namespace Galac.Adm.Brl.Venta {
         bool ICajaPdn.ImpresoraFiscalEstaHomologada(int valConsecutivoCompania, int valConsecutivoCaja, ref string refMensaje) {
             return HomologadaSegunGaceta43032(valConsecutivoCompania, valConsecutivoCaja, ref refMensaje);
         }
+
+
 
         LibResponse ICajaPdn.ActualizarYAuditarCambiosMF(IList<Caja> refRecord, bool valAuditarMF, string valMotivoCambiosMaqFiscal, string valFamiliaOriginal, string valModeloOriginal, string valTipoDeConexionOriginal, string valSerialMFOriginal, string valUltNumComprobanteFiscalOriginal, string valUltNumNCFiscalOriginal) {
             string valoresOriginales = string.Empty;
@@ -355,6 +358,7 @@ namespace Galac.Adm.Brl.Venta {
         }
         #endregion //Codigo Ejemplo
         protected override LibResponse InsertRecord(IList<Caja> refRecord) {
+            RegisterClient();
             LibResponse result = base.InsertRecord(refRecord);
             IAuditoriaConfiguracionPdn insPdn = new clsAuditoriaConfiguracionNav();
             if (result.Success) { //ojo si se empieza a insertar en lote hay que cambiar etso
@@ -374,14 +378,19 @@ namespace Galac.Adm.Brl.Venta {
             return result;
         }
 
- //       protected override LibResponse UpdateRecord(IList<Caja> refRecord) {
-            
- //           LibResponse result = base.UpdateRecord(refRecord);
- //           if (result.Success) { //ojo si se empieza a insertar en lote hay que cambiar etso
- //               throw new NotImplementedException();
- //}
- //           return result;
- //       }
+        bool ICajaPdn.ImpresoraFiscalEstaHomologada(string valFabricante, string valModelo, ref string refMensaje) {
+            bool vResult = true;
+            clsCajaProcesos insCajaProcesos = new clsCajaProcesos();
+            if (!insCajaProcesos.SendPostEstaHomologadaMaquinaFiscal(valFabricante, valModelo)) {
+                refMensaje = "La impresora fiscal " + valFabricante + ", modelo " + valModelo + ", no se encuentra homologada.";
+                vResult = false;
+            }
+            return vResult;
+        }
+
+        
+
+
     } //End of class clsCajaNav
 } //End of namespace Galac.Adm.Brl.Venta
 

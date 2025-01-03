@@ -20,6 +20,7 @@ using LibGalac.Aos.UI.Wpf;
 using Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal;
 using Galac.Saw.Lib;
 using LibGalac.Aos.Ccl.Usal;
+using System.Net.NetworkInformation;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
     public class CajaViewModel : LibInputViewModel<Caja> {
@@ -707,22 +708,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         protected override void ExecuteAction() {
-            bool vSePuede = false;
-
-            if (Action == eAccionSR.Insertar) {
-                if (UsaMaquinaFiscal) {
-                    vSePuede = new LibGalac.Ssm.U.LibRequestAdvancedOperation().AuthorizeProcess("Configurar Máquina Fiscal", "VE");
-                } else {
-                    vSePuede = true;
-                }
-                if (vSePuede) {
-                    base.ExecuteAction();
-                } else {
-                    LibMessages.MessageBox.Information(this, "No fue autorizada la configuración de la máquina fiscal.", "");
-                }
-            } else { 
-                base.ExecuteAction();
-            }
+            base.ExecuteAction();
             if (Model.ModeloDeMaquinaFiscalAsEnum == eImpresoraFiscal.BEMATECH_MP_4000_FI && _RegistroDeRetornoEnTxtOld != RegistroDeRetornoEnTxt) {
                 LibMessages.MessageBox.Information(this, "Los cambios surtirán efecto la próxima vez que Inicie Sesión en el Sistema.", ModuleName);
             }
@@ -1008,7 +994,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             LibResponse vResult = new LibResponse();
 
             if (UsaMaquinaFiscal && SeRequiereClaveEspecial()) {
-                vSePuede = new LibGalac.Ssm.U.LibRequestAdvancedOperation().AuthorizeProcess("Reconfigurar Máquina Fiscal", "VE");
+                vSePuede = SeAutorizaElCambioEnLaConfiguracionDeLaCaja("Reconfigurar");
                 vAuditarMF = true;
             }
             if (vSePuede) {
@@ -1020,6 +1006,56 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             return vResult.Success;
         }
 
+        private bool HayConexionAInternet() {
+            bool vResult = false;
+            try {
+                using (Ping ping = new Ping()) {
+                    PingReply reply = ping.Send("8.8.8.8", 3000); // Puedes usar cualquier IP conocida, como la de Google DNS
+                    vResult = reply.Status == IPStatus.Success;
+                }
+            } catch {
+                vResult = false;
+            }
+            return vResult;
+        }
+
+        private bool MaquinaFiscalEstaHomologada() {
+            string vMensaje = string.Empty;
+            ICajaPdn insCaja = new clsCajaNav();
+            bool vResul = insCaja.ImpresoraFiscalEstaHomologada(Model.FamiliaImpresoraFiscalAsString, Model.ModeloDeMaquinaFiscalAsString, ref vMensaje);
+            if (!vResul) {
+                LibMessages.MessageBox.Alert(this, vMensaje, Title);
+            }
+            return vResul;
+        }
+
+        protected override bool CreateRecord() {
+            if (SeAutorizaElCambioEnLaConfiguracionDeLaCaja("Configurar")) {
+                return base.CreateRecord();
+            } else {
+                return false;
+            }
+        }
+
+        bool SeAutorizaElCambioEnLaConfiguracionDeLaCaja(string valAccionDeAutorizacionDeProceso) {
+            bool vSePuede = false;
+            if (UsaMaquinaFiscal) {
+                bool vTengoInternet = HayConexionAInternet();
+                bool vPedirClaveEspecial = false;
+                if (vTengoInternet) {
+                    vPedirClaveEspecial = MaquinaFiscalEstaHomologada();
+                }
+                if (vPedirClaveEspecial || !vTengoInternet) {
+                    vSePuede = new LibGalac.Ssm.U.LibRequestAdvancedOperation().AuthorizeProcess(valAccionDeAutorizacionDeProceso + " Máquina Fiscal", "VE");
+                    if (!vSePuede) {
+                        LibMessages.MessageBox.Information(this, "No fue autorizada la configuración de la máquina fiscal.", Title);
+                    }
+                }
+            } else {
+                vSePuede = true;
+            }
+            return vSePuede;
+        }
         #endregion
     } //End of class CajaViewModel
 } //End of namespace Galac.Adm.Uil.Venta
