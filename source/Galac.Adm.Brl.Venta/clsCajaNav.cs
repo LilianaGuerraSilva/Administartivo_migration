@@ -325,30 +325,30 @@ namespace Galac.Adm.Brl.Venta {
         }
 
         LibResponse ICajaPdn.ActualizarYAuditarCambiosMF(IList<Caja> refRecord, bool valAuditarMF, string valMotivoCambiosMaqFiscal, string valFamiliaOriginal, string valModeloOriginal, string valTipoDeConexionOriginal, string valSerialMFOriginal, string valUltNumComprobanteFiscalOriginal, string valUltNumNCFiscalOriginal) {
-            string strValoresOriginales = string.Empty;
-            string strValoresModidficados = string.Empty;
+            string valoresOriginales = string.Empty;
+            string valoresModificados = string.Empty;
             IAuditoriaConfiguracionPdn insPdn = new clsAuditoriaConfiguracionNav();
             RegisterClient();
             LibResponse result = base.UpdateRecord(refRecord);
             if (result.Success && valAuditarMF) {
-                strValoresOriginales = "Familia: " + valFamiliaOriginal + ";";
-                strValoresOriginales = strValoresOriginales + "Modelo: " + valModeloOriginal + ";";
-                strValoresOriginales = strValoresOriginales + "Serial: " + valSerialMFOriginal + ";";
-                strValoresOriginales = strValoresOriginales + "Tipo de Conexión: " + valTipoDeConexionOriginal + ";";
-                strValoresOriginales = strValoresOriginales + "Ultimo num. comp. fiscal: " + valUltNumComprobanteFiscalOriginal + ";";
-                strValoresOriginales = strValoresOriginales + "Ultimo num. NC fiscal: " + valUltNumNCFiscalOriginal + ";";
+                valoresOriginales = "Familia: " + valFamiliaOriginal + ";";
+                valoresOriginales = valoresOriginales + "Modelo: " + valModeloOriginal + ";";
+                valoresOriginales = valoresOriginales + "Serial: " + valSerialMFOriginal + ";";
+                valoresOriginales = valoresOriginales + "Tipo de Conexión: " + valTipoDeConexionOriginal + ";";
+                valoresOriginales = valoresOriginales + "Ultimo num. comp. fiscal: " + valUltNumComprobanteFiscalOriginal + ";";
+                valoresOriginales = valoresOriginales + "Ultimo num. NC fiscal: " + valUltNumNCFiscalOriginal + ";";
 
-                strValoresModidficados = "Familia: " + refRecord[0].FamiliaImpresoraFiscalAsString + ";";
-                strValoresModidficados = strValoresModidficados + "Modelo: " + refRecord[0].ModeloDeMaquinaFiscalAsString + ";";
-                strValoresModidficados = strValoresModidficados + "Serial: " + refRecord[0].SerialDeMaquinaFiscal + ";";
-                strValoresModidficados = strValoresModidficados + "Tipo de Conexión: " + refRecord[0].TipoConexionAsString + ";";
-                strValoresModidficados = strValoresModidficados + "Ultimo num. comp. fiscal: " + refRecord[0].UltimoNumeroCompFiscal + ";";
-                strValoresModidficados = strValoresModidficados + "Ultimo num. NC fiscal: " + refRecord[0].UltimoNumeroNCFiscal + ";";
+                valoresModificados = "Familia: " + refRecord[0].FamiliaImpresoraFiscalAsString + ";";
+                valoresModificados = valoresModificados + "Modelo: " + refRecord[0].ModeloDeMaquinaFiscalAsString + ";";
+                valoresModificados = valoresModificados + "Serial: " + refRecord[0].SerialDeMaquinaFiscal + ";";
+                valoresModificados = valoresModificados + "Tipo de Conexión: " + refRecord[0].TipoConexionAsString + ";";
+                valoresModificados = valoresModificados + "Ultimo num. comp. fiscal: " + refRecord[0].UltimoNumeroCompFiscal + ";";
+                valoresModificados = valoresModificados + "Ultimo num. NC fiscal: " + refRecord[0].UltimoNumeroNCFiscal + ";";
 
                 insPdn.Auditar(valMotivoCambiosMaqFiscal
                  , "MODIFICAR"
-                 , strValoresOriginales
-                 , strValoresModidficados
+                 , valoresOriginales
+                 , valoresModificados
                  );
             }
             return result;
