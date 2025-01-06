@@ -336,7 +336,7 @@ namespace Galac.Adm.Brl.Venta {
             if (result.Success && valAuditarMF) {
                 valoresOriginales = "ConsecutivoCaja: " + refRecord[0].Consecutivo + ",";
                 valoresOriginales = valoresOriginales + "NombreCaja: " + refRecord[0].NombreCaja + ",";
-                valoresOriginales = valoresOriginales + "Familia: " + valModeloOriginal + ",";
+                valoresOriginales = valoresOriginales + "Fabricante: " + valModeloOriginal + ",";
                 valoresOriginales = valoresOriginales + "Modelo: " + valModeloOriginal + ",";
                 valoresOriginales = valoresOriginales + "Serial: " + valSerialMFOriginal + ",";
                 valoresOriginales = valoresOriginales + "Tipo de Conexión: " + valTipoDeConexionOriginal + ",";
@@ -345,7 +345,7 @@ namespace Galac.Adm.Brl.Venta {
 
                 valoresModificados = "ConsecutivoCaja: " + refRecord[0].Consecutivo + ",";
                 valoresModificados = valoresModificados + "NombreCaja: " + refRecord[0].NombreCaja + ",";
-                valoresModificados = valoresModificados + "Familia: " + refRecord[0].FamiliaImpresoraFiscalAsString + ",";
+                valoresModificados = valoresModificados + "Fabricante: " + refRecord[0].FamiliaImpresoraFiscalAsString + ",";
                 valoresModificados = valoresModificados + "Modelo: " + refRecord[0].ModeloDeMaquinaFiscalAsString + ",";
                 valoresModificados = valoresModificados + "Serial: " + refRecord[0].SerialDeMaquinaFiscal + ",";
                 valoresModificados = valoresModificados + "Tipo de Conexión: " + refRecord[0].TipoConexionAsString + ",";
