@@ -22,11 +22,54 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         public override bool UpdateToVersion() {
             StartConnectionNoTransaction();
             CrearAuditoriaConfiguracion();
+            CrearParametroUsaMaquinaFiscal();
+            LimpiaParametroAccionAlAnularFactDeMesesAnt();
             DisposeConnectionNoTransaction();
             return true;
         }
         private void CrearAuditoriaConfiguracion() {
             new clsAuditoriaConfiguracionED().InstalarTabla();
         }
+        private void CrearParametroUsaMaquinaFiscal() {
+            StringBuilder vSql = new StringBuilder();
+            QAdvSql insSql = new QAdvSql("");
+
+            AgregarNuevoParametro("UsaMaquinaFiscal", "Factura", 2, "2.2.- Facturación (Continuación)", 1, "", eTipoDeDatoParametros.String, "", 'N', "N");
+
+            vSql.AppendLine("UPDATE Comun.SettValueByCompany");
+            vSql.AppendLine(" SET Value = " + insSql.ToSqlValue("S"));
+            vSql.AppendLine(" WHERE NameSettDefinition LIKE " + insSql.ToSqlValue("UsaMaquinaFiscal"));
+            vSql.AppendLine(" AND ConsecutivoCompania IN ");
+            vSql.AppendLine(" (SELECT DISTINCT ConsecutivoCompania FROM Adm.Caja ");
+            vSql.AppendLine(" WHERE UsaMaquinaFiscal = " + insSql.ToSqlValue("S") + ")");
+            Execute(vSql.ToString(), -1);
+        }
+
+        private void LimpiaParametroAccionAlAnularFactDeMesesAnt() {
+            StringBuilder vSql = new StringBuilder();
+            QAdvSql insSql = new QAdvSql("");
+
+            vSql.AppendLine("UPDATE Comun.SettValueByCompany");
+            vSql.AppendLine(" SET Value = " + insSql.ToSqlValue("2"));
+            vSql.AppendLine(" WHERE NameSettDefinition LIKE " + insSql.ToSqlValue("AccionAlAnularFactDeMesesAnt"));
+            Execute(vSql.ToString(), -1);
+        }
+
+        private void LimpiaParametroAccionAlAnularFactDeMesesAnt() {
+            StringBuilder vSql = new StringBuilder();
+            QAdvSql insSql = new QAdvSql("");
+
+            vSql.AppendLine("UPDATE Adm.Caja");
+            vSql.AppendLine(" SET SerialDeMaquinaFiscal = " + insSql.ToSqlValue(""));
+            vSql.AppendLine(" WHERE UsaMaquinaFiscal = " + insSql.ToSqlValue("N"));
+            vSql.AppendLine(" AND SerialDeMaquinaFiscal <> " + insSql.ToSqlValue(""));
+            Execute(vSql.ToString(), -1);
+            vSql.Clear();
+        }
+        /*
+              UPDATE Adm.Caja SET SerialDeMaquinaFiscal = ''
+              WHERE UsaMaquinaFiscal = 'N' AND SerialDeMaquinaFiscal <> ''
+        */
+
     }
 }
