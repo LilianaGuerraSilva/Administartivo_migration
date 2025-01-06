@@ -888,7 +888,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             try {
                 bool vCajaHomologada = true;
                 if (HayConexionAInternet()) {
-                    vCajaHomologada = CajaEstaHomologada(Model.ConsecutivoCompania, Model.ConsecutivoCaja);                  
+                    vCajaHomologada = MaquinaFiscalEstaHomologada(Model.ConsecutivoCompania, Model.ConsecutivoCaja, Model.NombreOperador, "Abrir Caja");                  
                 } 
                 vSePuede = ValidarCajasAbiertas() && ValidarUsuarioAsignado() && vCajaHomologada;
                 if (vSePuede) {
@@ -1229,10 +1229,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             return vResult;
         }
 
-        private bool CajaEstaHomologada(int valConsecutivoCompania, int valConsecutivo) {
+        private bool MaquinaFiscalEstaHomologada(int valConsecutivoCompania, int valConsecutivo, string valNombreOperador, string valAccionDeAutorizacionDeProceso) {
             string vMensaje = string.Empty;
             ICajaPdn insCaja = new clsCajaNav();
-            bool vResul = insCaja.ImpresoraFiscalEstaHomologada(valConsecutivoCompania, valConsecutivo, ref vMensaje);
+            bool vResul = insCaja.ImpresoraFiscalEstaHomologada(valConsecutivoCompania, valConsecutivo, valNombreOperador, valAccionDeAutorizacionDeProceso, ref vMensaje);
             if (!vResul) {
                 LibMessages.MessageBox.Alert(this, vMensaje, "");
             }

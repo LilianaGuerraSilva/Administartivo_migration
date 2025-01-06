@@ -289,7 +289,7 @@ namespace Galac.Adm.Brl.Venta {
             return vResult;
         }
 
-        void BuscaFamiliaYModeloDeMaquinaFiscal(int valConsecutivoCompania, int valConsecutivo, ref string refFamilia, ref string refModelo) {
+        void BuscaFamiliaYModeloDeMaquinaFiscal(int valConsecutivoCompania, int valConsecutivo, ref string refCajaNombre, ref string refFamilia, ref string refModelo, ref string refSerial) {
             XElement xElement;
             StringBuilder sql = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
@@ -297,36 +297,37 @@ namespace Galac.Adm.Brl.Venta {
             string vModelo = string.Empty;
             vParams.AddInInteger("Consecutivo", valConsecutivo);
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
-            sql.AppendLine(" SELECT FamiliaImpresoraFiscalStr AS FamiliaImpresoraFiscal, ModeloDeMaquinaFiscalStr AS ModeloDeMaquinaFiscal FROM Adm.Gv_Caja_B1");
+            sql.AppendLine(" SELECT NombreCaja AS CajaNombre, FamiliaImpresoraFiscalStr AS FamiliaImpresoraFiscal, ModeloDeMaquinaFiscalStr AS ModeloDeMaquinaFiscal, SerialDeMaquinaFiscal FROM Adm.Gv_Caja_B1");
             sql.AppendLine(" WHERE Consecutivo = @Consecutivo");
             sql.AppendLine(" AND ConsecutivoCompania = @ConsecutivoCompania");
             xElement = LibBusiness.ExecuteSelect(sql.ToString(), vParams.Get(), string.Empty, 0);
             if (xElement != null) {
+                refCajaNombre = LibXml.GetPropertyString(xElement, "CajaNombre");
                 refFamilia = LibXml.GetPropertyString(xElement, "FamiliaImpresoraFiscal");
                 refModelo = LibXml.GetPropertyString(xElement, "ModeloDeMaquinaFiscal");
+                refSerial = LibXml.GetPropertyString(xElement, "SerialDeMaquinaFiscal");
             }
         }
 
-        public bool HomologadaSegunGaceta43032(int valConsecutivoCompania, int valConsecutivoCaja, ref string refMensaje) {
+        public bool HomologadaSegunGaceta43032(int valConsecutivoCompania, int valConsecutivoCaja, string valNombreOperador, ref string refMensaje) {
             string vFabricante= string.Empty;
             string vModelo = string.Empty;
+            string vSerial = string.Empty;
+            string vCajaNombre = string.Empty;
             refMensaje = string.Empty;
             bool vResult = true;
-            BuscaFamiliaYModeloDeMaquinaFiscal(valConsecutivoCompania, valConsecutivoCaja, ref vFabricante, ref vModelo);
+            BuscaFamiliaYModeloDeMaquinaFiscal(valConsecutivoCompania, valConsecutivoCaja, ref vCajaNombre, ref vFabricante, ref vModelo, ref vSerial);
             clsCajaProcesos insCajaProcesos = new clsCajaProcesos();
-            if (!insCajaProcesos.SendPostEstaHomologadaMaquinaFiscal(vFabricante, vModelo)) {
+            if (!insCajaProcesos.SendPostEstaHomologadaMaquinaFiscal(vCajaNombre, vFabricante, vModelo,vSerial, valNombreOperador)) {
                 refMensaje = "La impresora fiscal " + vFabricante + ", modelo "+ vModelo + ", no se encuentra homologada.";
                 vResult = false;
             }
             return vResult;
         }
 
-        bool ICajaPdn.ImpresoraFiscalEstaHomologada(int valConsecutivoCompania, int valConsecutivoCaja, ref string refMensaje) {
-            return HomologadaSegunGaceta43032(valConsecutivoCompania, valConsecutivoCaja, ref refMensaje);
+        bool ICajaPdn.ImpresoraFiscalEstaHomologada(int valConsecutivoCompania, int valConsecutivoCaja, string valNombreOperador, ref string refMensaje) {
+            return HomologadaSegunGaceta43032(valConsecutivoCompania, valConsecutivoCaja, valNombreOperador, ref refMensaje);
         }
-
-
-
         LibResponse ICajaPdn.ActualizarYAuditarCambiosMF(IList<Caja> refRecord, bool valAuditarMF, string valMotivoCambiosMaqFiscal, string valFamiliaOriginal, string valModeloOriginal, string valTipoDeConexionOriginal, string valSerialMFOriginal, string valUltNumComprobanteFiscalOriginal, string valUltNumNCFiscalOriginal) {
             string valoresOriginales = string.Empty;
             string valoresModificados = string.Empty;
@@ -383,10 +384,10 @@ namespace Galac.Adm.Brl.Venta {
             return result;
         }
 
-        bool ICajaPdn.ImpresoraFiscalEstaHomologada(string valFabricante, string valModelo, ref string refMensaje) {
+        bool ICajaPdn.ImpresoraFiscalEstaHomologada(string valCajaNombre, string valFabricante, string valModelo, string valSerial, string valNombreOperador, string valAccionDeAutorizacionDeProceso, ref string refMensaje) {
             bool vResult = true;
             clsCajaProcesos insCajaProcesos = new clsCajaProcesos();
-            if (!insCajaProcesos.SendPostEstaHomologadaMaquinaFiscal(valFabricante, valModelo)) {
+            if (!insCajaProcesos.SendPostEstaHomologadaMaquinaFiscal(valCajaNombre, valFabricante, valModelo, valSerial, valNombreOperador)) {
                 refMensaje = "La impresora fiscal " + valFabricante + ", modelo " + valModelo + ", no se encuentra homologada.";
                 vResult = false;
             }

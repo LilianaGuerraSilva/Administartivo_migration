@@ -1019,10 +1019,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             return vResult;
         }
 
-        private bool MaquinaFiscalEstaHomologada() {
+        private bool MaquinaFiscalEstaHomologada(string valAccionDeAutorizacionDeProceso) {
             string vMensaje = string.Empty;
             ICajaPdn insCaja = new clsCajaNav();
-            bool vResul = insCaja.ImpresoraFiscalEstaHomologada(Model.FamiliaImpresoraFiscalAsString, Model.ModeloDeMaquinaFiscalAsString, ref vMensaje);
+            bool vResul = insCaja.ImpresoraFiscalEstaHomologada(Model.NombreCaja, Model.FamiliaImpresoraFiscalAsString, Model.ModeloDeMaquinaFiscalAsString, Model.SerialDeMaquinaFiscal, Model.NombreOperador, valAccionDeAutorizacionDeProceso,  ref vMensaje);
             if (!vResul) {
                 LibMessages.MessageBox.Alert(this, vMensaje, Title);
             }
@@ -1043,7 +1043,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 bool vTengoInternet = HayConexionAInternet();
                 bool vPedirClaveEspecial = false;
                 if (vTengoInternet) {
-                    vPedirClaveEspecial = MaquinaFiscalEstaHomologada();
+                    vPedirClaveEspecial = MaquinaFiscalEstaHomologada(valAccionDeAutorizacionDeProceso);
                 }
                 if (vPedirClaveEspecial || !vTengoInternet) {
                     vSePuede = new LibGalac.Ssm.U.LibRequestAdvancedOperation().AuthorizeProcess(valAccionDeAutorizacionDeProceso + " Máquina Fiscal", "VE");

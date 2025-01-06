@@ -1,4 +1,6 @@
 ﻿using LibGalac.Aos.Base;
+using LibGalac.Aos.Brl.Settings;
+using LibGalac.Aos.Ccl.Settings;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -16,10 +18,16 @@ namespace Galac.Adm.Brl.Venta {
         public const string UrlApiMFiscalPlataformaProduccion = "https://mfiscalapi.galac.com/api/estahomologada";
 
 
-        public bool SendPostEstaHomologadaMaquinaFiscal(string valFabricante, string valModelo) {
+        public bool SendPostEstaHomologadaMaquinaFiscal(string valCajaNombre, string valFabricante, string valModelo, string valSerial, string valOperador, string valAccionDeAutorizacionDeProceso) {
             bool vresult = false;
             string url = UrlApiMFiscalPlataformaQA;
-            string json = "{\"Fabricante\":\"" + valFabricante + "\",\"Modelo\":\"" + valModelo + "\"}";
+            string vIdFiscalCliente = IdFiscalCliente();
+            string vProgramInitials = LibGalac.Aos.DefGen.LibDefGen.ProgramInfo.ProgramInitials;
+            string vProgramVersion = LibGalac.Aos.DefGen.LibDefGen.ProgramInfo.ProgramVersion;
+            //string json = "{\"Fabricante\":\"" + valFabricante + "\",\"Modelo\":\"" + valModelo + "\"}";
+            //string json = "{\"IdFiscalCliente\":\"" + vIdFiscalCliente + "\",\"CajaNombre\":\"" + valCajaNombre + "\",\"Fabricante\":\"" + valFabricante + "\",\"Modelo\":\"" + valModelo + "\",\"Serial\":\"" + valSerial + "\",\"Operador\":\"" + valOperador + "\",\"ProgramInitials\":\"" + vProgramInitials + "\", \"ProgramVersion\":\"" + vProgramVersion + "\"}";
+            string json = "{\"Accion\":\"" + valAccionDeAutorizacionDeProceso + "\",\"IdFiscalCliente\":\"" + vIdFiscalCliente + "\",\"CajaNombre\":\"" + valCajaNombre + "\",\"Fabricante\":\"" + valFabricante + "\",\"Modelo\":\"" + valModelo + "\",\"Serial\":\"" + valSerial + "\",\"Operador\":\"" + valOperador + "\",\"ProgramInitials\":\"" + vProgramInitials + "\", \"ProgramVersion\":\"" + vProgramVersion + "\"}";
+
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "POST";
             request.ContentType = "application/json";
@@ -43,10 +51,11 @@ namespace Galac.Adm.Brl.Venta {
             }
             return vresult;
         }
-    }
 
-    public class RequestData {
-        public string Fabricante { get; set; }
-        public string Modelo { get; set; }
+        private string IdFiscalCliente() {
+            IParametersLibPdn vPdn = new LibParametersLibNav();
+            return vPdn.GetIdFiscal();
+        }
     }
+   
 }
