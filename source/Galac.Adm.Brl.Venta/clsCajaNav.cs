@@ -372,7 +372,7 @@ namespace Galac.Adm.Brl.Venta {
                         , string.Empty
                         ,"ConsecutivoCaja:" + currentRecord.Consecutivo
                             + ", NombreCaja:" + currentRecord.NombreCaja
-                            + ", Familia:" + currentRecord.FamiliaImpresoraFiscalAsString
+                            + ", Fabricante:" + currentRecord.FamiliaImpresoraFiscalAsString
                             + ", Modelo:" + currentRecord.ModeloDeMaquinaFiscalAsString
                             + ", Serial:" + currentRecord.SerialDeMaquinaFiscal
                             + ", Tipo de conexión:" + currentRecord.TipoConexionAsString
