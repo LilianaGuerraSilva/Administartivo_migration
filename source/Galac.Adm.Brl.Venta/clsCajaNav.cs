@@ -334,19 +334,23 @@ namespace Galac.Adm.Brl.Venta {
             RegisterClient();
             LibResponse result = base.UpdateRecord(refRecord);
             if (result.Success && valAuditarMF) {
-                valoresOriginales = "Familia: " + valFamiliaOriginal + ";";
-                valoresOriginales = valoresOriginales + "Modelo: " + valModeloOriginal + ";";
-                valoresOriginales = valoresOriginales + "Serial: " + valSerialMFOriginal + ";";
-                valoresOriginales = valoresOriginales + "Tipo de Conexión: " + valTipoDeConexionOriginal + ";";
-                valoresOriginales = valoresOriginales + "Ultimo num. comp. fiscal: " + valUltNumComprobanteFiscalOriginal + ";";
-                valoresOriginales = valoresOriginales + "Ultimo num. NC fiscal: " + valUltNumNCFiscalOriginal + ";";
+                valoresOriginales = "ConsecutivoCaja: " + refRecord[0].Consecutivo + ",";
+                valoresOriginales = valoresOriginales + "NombreCaja: " + refRecord[0].NombreCaja + ",";
+                valoresOriginales = valoresOriginales + "Familia: " + valModeloOriginal + ",";
+                valoresOriginales = valoresOriginales + "Modelo: " + valModeloOriginal + ",";
+                valoresOriginales = valoresOriginales + "Serial: " + valSerialMFOriginal + ",";
+                valoresOriginales = valoresOriginales + "Tipo de Conexión: " + valTipoDeConexionOriginal + ",";
+                valoresOriginales = valoresOriginales + "Último num. comp. fiscal: " + valUltNumComprobanteFiscalOriginal + ",";
+                valoresOriginales = valoresOriginales + "Último num. NC fiscal: " + valUltNumNCFiscalOriginal + ",";
 
-                valoresModificados = "Familia: " + refRecord[0].FamiliaImpresoraFiscalAsString + ";";
-                valoresModificados = valoresModificados + "Modelo: " + refRecord[0].ModeloDeMaquinaFiscalAsString + ";";
-                valoresModificados = valoresModificados + "Serial: " + refRecord[0].SerialDeMaquinaFiscal + ";";
-                valoresModificados = valoresModificados + "Tipo de Conexión: " + refRecord[0].TipoConexionAsString + ";";
-                valoresModificados = valoresModificados + "Ultimo num. comp. fiscal: " + refRecord[0].UltimoNumeroCompFiscal + ";";
-                valoresModificados = valoresModificados + "Ultimo num. NC fiscal: " + refRecord[0].UltimoNumeroNCFiscal + ";";
+                valoresModificados = "ConsecutivoCaja: " + refRecord[0].Consecutivo + ",";
+                valoresModificados = valoresModificados + "NombreCaja: " + refRecord[0].NombreCaja + ",";
+                valoresModificados = valoresModificados + "Familia: " + refRecord[0].FamiliaImpresoraFiscalAsString + ",";
+                valoresModificados = valoresModificados + "Modelo: " + refRecord[0].ModeloDeMaquinaFiscalAsString + ",";
+                valoresModificados = valoresModificados + "Serial: " + refRecord[0].SerialDeMaquinaFiscal + ",";
+                valoresModificados = valoresModificados + "Tipo de Conexión: " + refRecord[0].TipoConexionAsString + ",";
+                valoresModificados = valoresModificados + "Último num. comp. fiscal: " + refRecord[0].UltimoNumeroCompFiscal + ",";
+                valoresModificados = valoresModificados + "Último num. NC fiscal: " + refRecord[0].UltimoNumeroNCFiscal + ",";
 
                 insPdn.Auditar(valMotivoCambiosMaqFiscal
                  , "MODIFICAR"
@@ -367,12 +371,13 @@ namespace Galac.Adm.Brl.Venta {
                         ,"INSERTAR"
                         , string.Empty
                         ,"ConsecutivoCaja:" + currentRecord.Consecutivo
+                            + ", NombreCaja:" + currentRecord.NombreCaja
                             + ", Familia:" + currentRecord.FamiliaImpresoraFiscalAsString
                             + ", Modelo:" + currentRecord.ModeloDeMaquinaFiscalAsString
                             + ", Serial:" + currentRecord.SerialDeMaquinaFiscal
                             + ", Tipo de conexión:" + currentRecord.TipoConexionAsString
-                            + ", Ultimo num. comp. fiscal:" + currentRecord.UltimoNumeroCompFiscal
-                            + ", Ultimo num. NC fiscal:" + currentRecord.UltimoNumeroNCFiscal
+                            + ", Último num. comp. fiscal:" + currentRecord.UltimoNumeroCompFiscal
+                            + ", Último num. NC fiscal:" + currentRecord.UltimoNumeroNCFiscal
                         );
             }
             return result;
