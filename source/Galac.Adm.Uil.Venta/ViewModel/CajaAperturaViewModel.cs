@@ -886,11 +886,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private void ExecuteAbrirCajaCommand() {
             bool vSePuede = false;
             try {
-                bool vCajaHomologada = true;
+                bool vMaquinaFiscalHomologada = true;
                 if (HayConexionAInternet()) {
-                    vCajaHomologada = MaquinaFiscalEstaHomologada(Model.ConsecutivoCompania, Model.ConsecutivoCaja, Model.NombreOperador, "Abrir Caja");                  
+                    vMaquinaFiscalHomologada = MaquinaFiscalEstaHomologada(Model.ConsecutivoCompania, Model.ConsecutivoCaja, Model.NombreOperador, "Abrir Caja");                  
                 } 
-                vSePuede = ValidarCajasAbiertas() && ValidarUsuarioAsignado() && vCajaHomologada;
+                vSePuede = ValidarCajasAbiertas() && ValidarUsuarioAsignado() && vMaquinaFiscalHomologada;
                 if (vSePuede) {
                     base.ExecuteAction();
                     LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue abierta con exito.", "");
