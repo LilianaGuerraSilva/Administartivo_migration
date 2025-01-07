@@ -1,6 +1,8 @@
 ﻿using LibGalac.Aos.Base;
 using LibGalac.Aos.Brl.Settings;
 using LibGalac.Aos.Ccl.Settings;
+using LibGalac.Aos.Cnf;
+using LibGalac.Aos.Dal;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -14,18 +16,20 @@ using System.Threading.Tasks;
 
 namespace Galac.Adm.Brl.Venta {
     public class clsCajaProcesos {
-        public const string UrlApiMFiscalPlataformaQA = "https://localhost:51120/api/estahomologada";//"https://mfiscalapi-qa.galac.com/api/estahomologada";
-        public const string UrlApiMFiscalPlataformaProduccion = "https://mfiscalapi.galac.com/api/estahomologada";
+        //public const string UrlApiMFiscalPlataformaQA = "https://mfiscalapi-qa.galac.com:105/";
+        public const string UrlApiMFiscalPlataformaProduccion = "https://mfiscalapi.galac.com/";
 
 
         public bool SendPostEstaHomologadaMaquinaFiscal(string valCajaNombre, string valFabricante, string valModelo, string valSerial, string valOperador, string valAccionDeAutorizacionDeProceso) {
             bool vresult = false;
-            string url = UrlApiMFiscalPlataformaQA;
+            string url = UrlSegunPlataforma();
             string vIdFiscalCliente = IdFiscalCliente();
             string vProgramInitials = LibGalac.Aos.DefGen.LibDefGen.ProgramInfo.ProgramInitials;
             string vProgramVersion = LibGalac.Aos.DefGen.LibDefGen.ProgramInfo.ProgramVersion;
             //string json = "{\"Fabricante\":\"" + valFabricante + "\",\"Modelo\":\"" + valModelo + "\"}";
-            string json = "{\"Accion\":\"" + valAccionDeAutorizacionDeProceso + "\",\"IdFiscalCliente\":\"" + vIdFiscalCliente + "\",\"CajaNombre\":\"" + valCajaNombre + "\",\"Fabricante\":\"" + valFabricante + "\",\"Modelo\":\"" + valModelo + "\",\"Serial\":\"" + valSerial + "\",\"Operador\":\"" + valOperador + "\",\"ProgramInitials\":\"" + vProgramInitials + "\", \"ProgramVersion\":\"" + vProgramVersion + "\"}";
+            string json = "{\"Accion\":\"" + valAccionDeAutorizacionDeProceso + "\",\"IdFiscalCliente\":\"" + vIdFiscalCliente 
+                + "\",\"CajaNombre\":\"" + valCajaNombre + "\",\"Fabricante\":\"" + valFabricante + "\",\"Modelo\":\"" + valModelo + "\",\"Serial\":\"" + valSerial + "\",\"Operador\":\"" + valOperador 
+                + "\",\"ProgramInitials\":\"" + vProgramInitials + "\", \"ProgramVersion\":\"" + vProgramVersion + "\"}";
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "POST";
             request.ContentType = "application/json";
@@ -48,6 +52,25 @@ namespace Galac.Adm.Brl.Venta {
                 throw;
             }
             return vresult;
+        }
+
+        private string UrlSegunPlataforma() {
+            if (EstaActivoParametroDePrueba()) {
+                return ParametroUrlQA();
+            } else {
+                return UrlApiMFiscalPlataformaProduccion;
+            }
+        }
+
+        private string ParametroUrlQA() {
+            return LibAppSettings.ReadAppSettingsKey("UrlMFiscal");
+        }
+
+        public static bool EstaActivoParametroDePrueba() {
+            if (LibDate.F1IsEqualToF2(LibDate.Today(), LibConvert.ToDate(LibAppSettings.ReadAppSettingsKey("DEVQABACKDOOR")))) { 
+               return true;
+            }
+            return false;
         }
 
         private string IdFiscalCliente() {
