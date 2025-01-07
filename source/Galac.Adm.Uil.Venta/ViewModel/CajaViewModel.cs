@@ -34,7 +34,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         const string ComandoPropertyName = "Comando";
         const string PermitirAbrirSinSupervisorPropertyName = "PermitirAbrirSinSupervisor";
         const string UsaAccesoRapidoPropertyName = "UsaAccesoRapido";
-        const string UsaMaquinaFiscalPropertyName = "UsaMaquinaFiscal";
         const string FamiliaImpresoraFiscalPropertyName = "FamiliaImpresoraFiscal";
         const string ModeloDeMaquinaFiscalPropertyName = "ModeloDeMaquinaFiscal";
         const string SerialDeMaquinaFiscalPropertyName = "SerialDeMaquinaFiscal";
@@ -272,7 +271,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             set {
                 if (Model.UsaMaquinaFiscalAsBool != value) {
                     Model.UsaMaquinaFiscalAsBool = value;
-                    RaisePropertyChanged(UsaMaquinaFiscalPropertyName);
                     RaisePropertyChanged(SerialDeMaquinaFiscalPropertyName);
                 }
             }
@@ -490,7 +488,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        [LibGridColum("UsaMaquinaFiscal", eGridColumType.Generic, Header = "Usa Maquina Fiscal", IsForSearch = false, Alignment = eTextAlignment.Center, Width = 150)]
+        //[LibGridColum("UsaMaquinaFiscal", eGridColumType.Generic, Header = "Usa Maquina Fiscal", IsForSearch = false, Alignment = eTextAlignment.Center, Width = 150)]
         public string UsaMaquinaFiscalStr {
             get {
                 return Model.UsaMaquinaFiscalAsBool ? "\u2713" : "";
@@ -537,13 +535,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         public bool IsVisibleImpresoraFiscal {
             get {
-                return UsaMaquinaFiscal;
+                return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMaquinaFiscal");
             }
         }
 
         public bool IsVisibleMotivoEliminacionOModificacion {
             get {
-                return (UsaMaquinaFiscal && Action == eAccionSR.Modificar);
+                return (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMaquinaFiscal") && Action == eAccionSR.Modificar);
             }
         }
 
@@ -808,7 +806,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         ValidationResult SerialDeMaquinaFiscalValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if (UsaMaquinaFiscal && LibString.IsNullOrEmpty(SerialDeMaquinaFiscal)) {
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMaquinaFiscal") && LibString.IsNullOrEmpty(SerialDeMaquinaFiscal)) {
                 return new ValidationResult("El seríal de la maquína Fiscal es requerido");
             } else {
                 return ValidationResult.Success;
@@ -817,7 +815,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         ValidationResult ModeloDeMaquinaFiscalValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if (UsaMaquinaFiscal && LibString.Len(ModeloDeMaquinaFiscalStr) <= 1) {
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMaquinaFiscal") && LibString.Len(ModeloDeMaquinaFiscalStr) <= 1) {
                 return new ValidationResult("El Modelo de maquína Fiscal es requerido");
             } else {
                 return ValidationResult.Success;
@@ -827,7 +825,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         ValidationResult PuertoDeMaquinaFiscalValidating() {
             ValidationResult vResult = ValidationResult.Success;
             bool UseSamePorts = (Puerto == PuertoMaquinaFiscal);
-            if (UsaMaquinaFiscal && UsaGaveta && UseSamePorts) {
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMaquinaFiscal") && UsaGaveta && UseSamePorts) {
                 return new ValidationResult("El puerto de la gaveta y el de la Máquina Fiscal no pueden ser el mismo");
             } else {
                 return ValidationResult.Success;
@@ -857,7 +855,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
         ValidationResult MotivoEliminacionOModificacionValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if (UsaMaquinaFiscal && Action == eAccionSR.Modificar && LibString.IsNullOrEmpty(MotivoEliminacionOModificacion) && SeRequiereClaveEspecial()) {
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMaquinaFiscal") && Action == eAccionSR.Modificar && LibString.IsNullOrEmpty(MotivoEliminacionOModificacion) && SeRequiereClaveEspecial()) {
                 return new ValidationResult("Se requiere indicar el Motivo del Cambio.");
             } else {
                 return ValidationResult.Success;
@@ -993,7 +991,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             ICajaPdn vBussinessPdn = new clsCajaNav();
             LibResponse vResult = new LibResponse();
 
-            if (UsaMaquinaFiscal && SeRequiereClaveEspecial()) {
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMaquinaFiscal") && SeRequiereClaveEspecial()) {
                 vSePuede = SeAutorizaElCambioEnLaConfiguracionDeLaCaja("Reconfigurar");
                 vAuditarMF = true;
             }
@@ -1030,16 +1028,20 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         protected override bool CreateRecord() {
-            if (SeAutorizaElCambioEnLaConfiguracionDeLaCaja("Configurar")) {
-                return base.CreateRecord();
+            if (UsaMaquinaFiscal) {
+                if (SeAutorizaElCambioEnLaConfiguracionDeLaCaja("Configurar")) {
+                    return base.CreateRecord();
+                } else {
+                   return false;
+                }
             } else {
-                return false;
+                return base.CreateRecord();
             }
         }
 
         bool SeAutorizaElCambioEnLaConfiguracionDeLaCaja(string valAccionDeAutorizacionDeProceso) {
             bool vSePuede = false;
-            if (UsaMaquinaFiscal) {
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMaquinaFiscal")) {
                 bool vTengoInternet = HayConexionAInternet();
                 bool vPedirClaveEspecial = false;
                 if (vTengoInternet) {

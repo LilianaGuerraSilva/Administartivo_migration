@@ -328,7 +328,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
        public int Consecutivo { get; set; }
        [LibGridColum("NombreCaja",eGridColumType.Generic,Header = "Nombre")]
        public string NombreCaja { get; set; }   
-       public bool UsaMaquinaFiscal { get; set;}
        public bool UsaGaveta { get;  set; }      
        public ePuerto Puerto {get; set;}
        public string Comando {get; set;}
