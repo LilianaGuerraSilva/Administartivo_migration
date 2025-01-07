@@ -77,9 +77,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             vSql.AppendLine(" (ConsecutivoCompania, ConsecutivoAuditoria, VersionPrograma, FechayHora, Accion, Motivo, ConfiguracionOriginal, ConfiguracionNueva, NombreOperador, FechaUltimaModificacion)");
             vSql.AppendLine(" SELECT ConsecutivoCompania, ROW_NUMBER() OVER (PARTITION BY ConsecutivoCompania ORDER BY ConsecutivoCompania ASC), " + insSql.ToSqlValue("26.3") + ", ");
             vSql.AppendLine(_TodayAsSqlValue + ", " + insSql.ToSqlValue("REESTRUCTURACION") + ", " + insSql.ToSqlValue("Corrección Configuración Inicial") + ", ");
-            vSql.AppendLine(insSql.ToSqlValue("NombreCaja: ") + "+ NombreCaja + " + insSql.ToSqlValue("; UsaMaquinaFiscal: N; Serial: ") + "+ SerialDeMaquinaFiscal + ");
-            vSql.AppendLine(insSql.ToSqlValue("; Último num. comp. fiscal: ") + "+ UltimoNumeroCompFiscal + ");
-            vSql.AppendLine(insSql.ToSqlValue("; Último num. NC fiscal: ") + "+ UltimoNumeroNCFiscal, ");
+            vSql.AppendLine(insSql.ToSqlValue("NombreCaja: ") + "+ NombreCaja + " + insSql.ToSqlValue("; UsaMaquinaFiscal: N; Serial: ") + "+ SerialDeMaquinaFiscal, ");
             vSql.AppendLine(insSql.ToSqlValue("Serial: ") + ", ");
             vSql.AppendLine(" NombreOperador, ");
             vSql.AppendLine(_TodayAsSqlValue);
