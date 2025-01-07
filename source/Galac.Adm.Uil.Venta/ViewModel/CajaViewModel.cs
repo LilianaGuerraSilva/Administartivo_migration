@@ -1032,10 +1032,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         protected override bool CreateRecord() {
-            if (SeAutorizaElCambioEnLaConfiguracionDeLaCaja("Configurar")) {
-                return base.CreateRecord();
+            if (UsaMaquinaFiscal) {
+                if (SeAutorizaElCambioEnLaConfiguracionDeLaCaja("Configurar")) {
+                    return base.CreateRecord();
+                } else {
+                    return false;
+                }
             } else {
-                return false;
+                return base.CreateRecord();
             }
         }
 
