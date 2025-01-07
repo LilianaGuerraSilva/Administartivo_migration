@@ -72,12 +72,13 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         private void CorregirInconsistenciasEnCajasQueNoUtilizanMF() {
             StringBuilder vSql = new StringBuilder();
             QAdvSql insSql = new QAdvSql("");
+            String vVersionProgramaActual = LibDefGen.ProgramInfo.ProgramVersion;
 
             vSql.AppendLine("INSERT INTO Adm.AuditoriaConfiguracion ");
             vSql.AppendLine(" (ConsecutivoCompania, ConsecutivoAuditoria, VersionPrograma, FechayHora, Accion, Motivo, ConfiguracionOriginal, ConfiguracionNueva, NombreOperador, FechaUltimaModificacion)");
-            vSql.AppendLine(" SELECT ConsecutivoCompania, ROW_NUMBER() OVER (PARTITION BY ConsecutivoCompania ORDER BY ConsecutivoCompania ASC), " + insSql.ToSqlValue("26.3") + ", ");
+            vSql.AppendLine(" SELECT ConsecutivoCompania, ROW_NUMBER() OVER (PARTITION BY ConsecutivoCompania ORDER BY ConsecutivoCompania ASC), " + insSql.ToSqlValue(vVersionProgramaActual) + ", ");
             vSql.AppendLine(_TodayAsSqlValue + ", " + insSql.ToSqlValue("REESTRUCTURACION") + ", " + insSql.ToSqlValue("Corrección Configuración Inicial") + ", ");
-            vSql.AppendLine(insSql.ToSqlValue("NombreCaja: ") + "+ NombreCaja + " + insSql.ToSqlValue("; UsaMaquinaFiscal: N; Serial: ") + "+ SerialDeMaquinaFiscal, ");
+            vSql.AppendLine(insSql.ToSqlValue("NombreCaja: ") + "+ NombreCaja + " + insSql.ToSqlValue("; UsaMaquinaFiscal: N; Serial: ") + "+ SerialDeMaquinaFiscal + " + insSql.ToSqlValue("; Versión Programa: ") + "+" + insSql.ToSqlValue(ReadProgramCurrentVersion()) + ", ");
             vSql.AppendLine(insSql.ToSqlValue("Serial: ") + ", ");
             vSql.AppendLine(" NombreOperador, ");
             vSql.AppendLine(_TodayAsSqlValue);
@@ -86,7 +87,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             vSql.AppendLine(" AND SerialDeMaquinaFiscal <> " + insSql.ToSqlValue(""));
             Execute(vSql.ToString(), -1);
             vSql.Clear();
-
+            
             vSql.AppendLine("UPDATE Adm.Caja");
             vSql.AppendLine(" SET SerialDeMaquinaFiscal = " + insSql.ToSqlValue(""));
             vSql.AppendLine(" WHERE UsaMaquinaFiscal = " + insSql.ToSqlValue("N"));
@@ -94,5 +95,16 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             Execute(vSql.ToString(), -1);
         }
 
+        private string ReadProgramCurrentVersion() {
+            string vResult = "";
+            QAdvDb insDb = new QAdvDb();
+            string vSql = "SELECT fldVersionPrograma FROM dbo.Version WHERE fldSiglasPrograma = " + insDb.InsSql.ToSqlValue(LibDefGen.ProgramInfo.ProgramInitials);
+
+            object vValue = insDb.ExecuteScalar(vSql, 0, false);
+            if (vValue != null) {
+                vResult = vValue.ToString();
+            }
+            return vResult;
+        }
     }
 }
