@@ -64,7 +64,6 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Label
                         Name="lblNombreCaja"
@@ -156,21 +155,6 @@
                         IsChecked="{Binding Path=PermitirAbrirSinSupervisor}"
                         IsEnabled="{Binding Path=IsEnabledUsaGaveta}"
                         Style="{StaticResource CheckBoxStyle}" />
-                    <Label
-                        Name="lblUsaMaquinaFiscal"
-                        Grid.Row="6"
-                        Grid.Column="0"
-                        Content="Usa Máquina Fiscal ................................................"
-                        Style="{StaticResource LabelPrompt}"
-                        Visibility="{Binding Path=IsVisibleParaVenezuela, Converter={StaticResource booleanToVisibilityConverter}}" />
-                    <CheckBox
-                        Name="chkUsaMaquinaFiscal"
-                        Grid.Row="6"
-                        Grid.Column="1"
-                        IsChecked="{Binding Path=UsaMaquinaFiscal}"
-                        IsEnabled="{Binding Path=IsEnabledMaquinaFiscal}"
-                        Style="{StaticResource CheckBoxStyle}"
-                        Visibility="{Binding Path=IsVisibleParaVenezuela, Converter={StaticResource booleanToVisibilityConverter}}" />
                 </Grid>
             </TabItem>
             <TabItem
@@ -360,15 +344,15 @@
                         Name="txtMotivoEliminacionOModificacion"
                         Grid.Row="9"
                         Grid.Column="1"
+                        Width="150"
+                        Height="60"
                         HorizontalAlignment="Stretch"
                         BorderThickness="1"
                         MaxLength="255"
-                        Height="60"
-                        VerticalScrollBarVisibility="Auto"
-                        Width="150"
                         Style="{StaticResource TextBoxInputStyle}"
-                        Visibility="{Binding Path=IsVisibleMotivoEliminacionOModificacion, Converter={StaticResource booleanToVisibilityConverter}}"
-                        Text="{Binding Path=MotivoEliminacionOModificacion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                        Text="{Binding Path=MotivoEliminacionOModificacion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                        VerticalScrollBarVisibility="Auto"
+                        Visibility="{Binding Path=IsVisibleMotivoEliminacionOModificacion, Converter={StaticResource booleanToVisibilityConverter}}" />
                     <Label
                         Name="lblPermitirDescripcionDelArticuloExtendida"
                         Grid.Row="0"

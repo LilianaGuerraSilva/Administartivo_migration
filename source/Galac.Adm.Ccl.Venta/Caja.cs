@@ -115,7 +115,7 @@ namespace Galac.Adm.Ccl.Venta {
         }
 
         public string UsaMaquinaFiscal {
-            set { _UsaMaquinaFiscal = LibConvert.SNToBool(value); }
+            set { _UsaMaquinaFiscal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMaquinaFiscal"); }
         }
         
         public eFamiliaImpresoraFiscal FamiliaImpresoraFiscalAsEnum {
@@ -304,7 +304,7 @@ namespace Galac.Adm.Ccl.Venta {
             Comando = string.Empty;
             PermitirAbrirSinSupervisorAsBool = false;
             UsaAccesoRapidoAsBool = false;
-            UsaMaquinaFiscalAsBool = false;
+            UsaMaquinaFiscalAsBool = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMaquinaFiscal");
             FamiliaImpresoraFiscalAsEnum = eFamiliaImpresoraFiscal.EPSONPNP;
             ModeloDeMaquinaFiscalAsEnum = eImpresoraFiscal.EPSON_PF_220;
             SerialDeMaquinaFiscal = string.Empty;

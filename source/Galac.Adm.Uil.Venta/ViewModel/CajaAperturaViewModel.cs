@@ -911,7 +911,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     if (ConexionNombreCaja == null) {
                         LibMessages.MessageBox.Information(this, "La caja no pudo ser cerrada", "");
                     } else {
-                        if (ConexionNombreCaja.UsaMaquinaFiscal) {
+                        if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMaquinaFiscal")) {
                             ImprimirCierreX();
                         }
                         LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue Cerrada con exíto", "");
