@@ -146,6 +146,11 @@ namespace Galac.Adm.Brl.Venta {
                 SQL.AppendLine(" LEFT JOIN Adm.CajaApertura ON");
                 SQL.AppendLine(" CajaApertura.ConsecutivoCompania = Caja.ConsecutivoCompania ");
                 SQL.AppendLine(" AND CajaApertura.ConsecutivoCaja = Caja.Consecutivo ");
+                if (!LibString.IsNullOrEmpty(valSqlWhere)) {
+                    SQL.AppendLine(" INNER JOIN Comun.SettValueByCompany ON ");
+                    SQL.AppendLine(" Comun.SettValueByCompany.ConsecutivoCompania = Caja.ConsecutivoCompania AND ");
+                    SQL.AppendLine(" Comun.SettValueByCompany.NameSettDefinition = UsaMaquinaFiscal ");
+                }
                 SQL.AppendLine(" WHERE Caja.ConsecutivoCompania = @ConsecutivoCompania ");
                 SQL.AppendLine(" AND Caja.Consecutivo = @Consecutivo ");                
                 if (!LibString.IsNullOrEmpty(valSqlWhere)) {
@@ -393,10 +398,6 @@ namespace Galac.Adm.Brl.Venta {
             }
             return vResult;
         }
-
-        
-
-
     } //End of class clsCajaNav
 } //End of namespace Galac.Adm.Brl.Venta
 

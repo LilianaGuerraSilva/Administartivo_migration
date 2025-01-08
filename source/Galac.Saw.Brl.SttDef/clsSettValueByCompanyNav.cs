@@ -412,6 +412,7 @@ namespace Galac.Saw.Brl.SttDef {
             insEntidad.UsaListaDePrecioEnMonedaExtranjeraCXCAsBool = false;
             insEntidad.NroDiasMantenerTasaCambio = 0;
             insEntidad.UsaMediosElectronicosDeCobroAsBool = false;
+            insEntidad.UsaMaquinaFiscalAsBool = false;
             return insEntidad;
         }
         private void LlenaListado(FacturacionContinuacionStt valRecord, ref List<SettValueByCompany> valBusinessObject, int valConsecutivoCompania) {
@@ -439,6 +440,7 @@ namespace Galac.Saw.Brl.SttDef {
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaListaDePrecioEnMonedaExtranjeraCXCAsBool), "UsaListaDePrecioEnMonedaExtranjeraCXC", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.ToStr(valRecord.NroDiasMantenerTasaCambio), "NroDiasMantenerTasaCambio", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.ToStr(valRecord.UsaMediosElectronicosDeCobroAsBool), "UsaMediosElectronicosDeCobro", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaMaquinaFiscalAsBool), "UsaMaquinaFiscal", valConsecutivoCompania));
         }
         FacturacionContinuacionStt GetFacturacionContinuacionStt(List<SettValueByCompany> valListGetSettValueByCompany) {
             FacturacionContinuacionStt vResult = new FacturacionContinuacionStt();
@@ -468,6 +470,7 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.UsaListaDePrecioEnMonedaExtranjeraCXCAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaListaDePrecioEnMonedaExtranjeraCXC"));
             vResult.NroDiasMantenerTasaCambio = LibConvert.ToInt(ValorSegunColumna(valListGetSettValueByCompany, "NroDiasMantenerTasaCambio"));
             vResult.UsaMediosElectronicosDeCobroAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaMediosElectronicosDeCobro"));
+            vResult.UsaMaquinaFiscalAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaMaquinaFiscal"));
             return vResult;
         }
 
@@ -2682,6 +2685,18 @@ namespace Galac.Saw.Brl.SttDef {
             XElement vCountArtMercanciaNoSimpleNoLoteFdV = LibBusiness.ExecuteSelect(vSql, new StringBuilder(), string.Empty, 0);
             if (vCountArtMercanciaNoSimpleNoLoteFdV != null) {
                 int vCount = LibConvert.ToInt(vCountArtMercanciaNoSimpleNoLoteFdV.Descendants().Select(s => s.Element("CantidadArticulos")).FirstOrDefault());
+                vResult = vCount > 0;
+            }
+            return vResult;
+        }
+
+        bool ISettValueByCompanyPdn.ExisteCajaConMaquinaFiscal(int valConsecutivoCompania) {
+            bool vResult = false;
+            QAdvSql insSql = new QAdvSql("");
+            string vSql = "SELECT COUNT(*) AS CantidadMaquinaFiscal FROM Adm.Caja WHERE UsaMaquinaFiscal = 'S' AND  SerialDeMaquinaFiscal IS NOT NULL AND SerialDeMaquinaFiscal <> '' AND ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania);
+            XElement vCountMaquinaFiscal = LibBusiness.ExecuteSelect(vSql, new StringBuilder(), string.Empty, 0);
+            if (vCountMaquinaFiscal != null) {
+                int vCount = LibConvert.ToInt(vCountMaquinaFiscal.Descendants().Select(s => s.Element("CantidadMaquinaFiscal")).FirstOrDefault());
                 vResult = vCount > 0;
             }
             return vResult;
