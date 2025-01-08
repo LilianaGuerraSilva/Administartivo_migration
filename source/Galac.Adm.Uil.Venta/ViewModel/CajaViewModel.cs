@@ -1008,7 +1008,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             bool vResult = false;
             try {
                 using (Ping ping = new Ping()) {
-                    PingReply reply = ping.Send("8.8.8.8", 3000); // Puedes usar cualquier IP conocida, como la de Google DNS
+                    PingReply reply = ping.Send("8.8.8.8", 3000); // Se Puede usar cualquier IP conocida, como la de Google DNS
                     vResult = reply.Status == IPStatus.Success;
                 }
             } catch {
@@ -1017,10 +1017,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             return vResult;
         }
 
-        private bool MaquinaFiscalEstaHomologada() {
+        private bool MaquinaFiscalEstaHomologada(string valAccionDeAutorizacionDeProceso) {
             string vMensaje = string.Empty;
             ICajaPdn insCaja = new clsCajaNav();
-            bool vResul = insCaja.ImpresoraFiscalEstaHomologada(Model.FamiliaImpresoraFiscalAsString, Model.ModeloDeMaquinaFiscalAsString, ref vMensaje);
+            bool vResul = insCaja.ImpresoraFiscalEstaHomologada(Model.NombreCaja, Model.FamiliaImpresoraFiscalAsString, 
+                            Model.ModeloDeMaquinaFiscalAsString, Model.SerialDeMaquinaFiscal, Model.NombreOperador, 
+                            valAccionDeAutorizacionDeProceso,  ref vMensaje);
             if (!vResul) {
                 LibMessages.MessageBox.Alert(this, vMensaje, Title);
             }
@@ -1032,7 +1034,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 if (SeAutorizaElCambioEnLaConfiguracionDeLaCaja("Configurar")) {
                     return base.CreateRecord();
                 } else {
-                   return false;
+                    return false;
                 }
             } else {
                 return base.CreateRecord();
@@ -1042,10 +1044,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         bool SeAutorizaElCambioEnLaConfiguracionDeLaCaja(string valAccionDeAutorizacionDeProceso) {
             bool vSePuede = false;
             if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMaquinaFiscal")) {
-                bool vTengoInternet = HayConexionAInternet();
                 bool vPedirClaveEspecial = false;
+                bool vTengoInternet = HayConexionAInternet();
+                string vTextoAdicional = (!vTengoInternet) ? " Nota: No se logró verificar Homologación (SCI)" : string.Empty;
+                MotivoEliminacionOModificacion = MotivoEliminacionOModificacion + vTextoAdicional;
                 if (vTengoInternet) {
-                    vPedirClaveEspecial = MaquinaFiscalEstaHomologada();
+                    vPedirClaveEspecial = MaquinaFiscalEstaHomologada(valAccionDeAutorizacionDeProceso);
                 }
                 if (vPedirClaveEspecial || !vTengoInternet) {
                     vSePuede = new LibGalac.Ssm.U.LibRequestAdvancedOperation().AuthorizeProcess(valAccionDeAutorizacionDeProceso + " Máquina Fiscal", "VE");

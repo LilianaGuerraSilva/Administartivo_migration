@@ -888,14 +888,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             bool vSePuede = false;
             string vRefMensaje = "";
             try {
-                bool vCajaHomologada = true;
+                bool vMaquinaFiscalHomologada = true;
                 ICajaPdn InsCaja = new clsCajaNav();
                 _XmlDatosImprFiscal = InsCaja.ValidateImpresoraFiscal(ref vRefMensaje);
                 if (!LibString.IsNullOrEmpty(vRefMensaje)) {
                     LibMessages.MessageBox.Information(this, vRefMensaje, "");
                 } else if (HayConexionAInternet()) {
-                    vCajaHomologada = CajaEstaHomologada(Model.ConsecutivoCompania, Model.ConsecutivoCaja);
-                    vSePuede = ValidarCajasAbiertas() && ValidarUsuarioAsignado() && vCajaHomologada;
+                    vMaquinaFiscalHomologada = MaquinaFiscalEstaHomologada(Model.ConsecutivoCompania, Model.ConsecutivoCaja, Model.NombreOperador, "Abrir Caja");
+                    vSePuede = ValidarCajasAbiertas() && ValidarUsuarioAsignado() && vMaquinaFiscalHomologada;
                     if (vSePuede) {
                         base.ExecuteAction();
                         LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue abierta con exito.", "");
@@ -1236,10 +1236,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             return vResult;
         }
 
-        private bool CajaEstaHomologada(int valConsecutivoCompania, int valConsecutivo) {
+        private bool MaquinaFiscalEstaHomologada(int valConsecutivoCompania, int valConsecutivo, string valNombreOperador, string valAccionDeAutorizacionDeProceso) {
             string vMensaje = string.Empty;
             ICajaPdn insCaja = new clsCajaNav();
-            bool vResul = insCaja.ImpresoraFiscalEstaHomologada(valConsecutivoCompania, valConsecutivo, ref vMensaje);
+            bool vResul = insCaja.ImpresoraFiscalEstaHomologada(valConsecutivoCompania, valConsecutivo, valNombreOperador, valAccionDeAutorizacionDeProceso, ref vMensaje);
             if (!vResul) {
                 LibMessages.MessageBox.Alert(this, vMensaje, "");
             }
