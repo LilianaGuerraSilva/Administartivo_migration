@@ -25,7 +25,8 @@ namespace Galac.Adm.Brl.Venta {
             string vProgramInitials = LibGalac.Aos.DefGen.LibDefGen.ProgramInfo.ProgramInitials;
             string vProgramVersion = LibGalac.Aos.DefGen.LibDefGen.ProgramInfo.ProgramVersion;
             string json = "{\"Accion\":\"" + valAccionDeAutorizacionDeProceso + "\",\"IdFiscalCliente\":\"" + vIdFiscalCliente 
-                + "\",\"CajaNombre\":\"" + valCajaNombre + "\",\"Fabricante\":\"" + valFabricante + "\",\"Modelo\":\"" + valModelo + "\",\"Serial\":\"" + valSerial + "\",\"Operador\":\"" + valOperador 
+                + "\",\"CajaNombre\":\"" + valCajaNombre + "\",\"Fabricante\":\"" + valFabricante + "\",\"Modelo\":\"" 
+                + valModelo + "\",\"Serial\":\"" + valSerial + "\",\"Operador\":\"" + valOperador 
                 + "\",\"ProgramInitials\":\"" + vProgramInitials + "\", \"ProgramVersion\":\"" + vProgramVersion + "\"}";
           
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);

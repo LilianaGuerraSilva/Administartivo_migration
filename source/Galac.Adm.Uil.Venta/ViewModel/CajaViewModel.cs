@@ -1021,7 +1021,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             string vMensaje = string.Empty;
             ICajaPdn insCaja = new clsCajaNav();
             bool vResul = insCaja.ImpresoraFiscalEstaHomologada(Model.NombreCaja, Model.FamiliaImpresoraFiscalAsString, 
-                            Model.ModeloDeMaquinaFiscalAsString, Model.SerialDeMaquinaFiscal, Model.NombreOperador, 
+                            Model.ModeloDeMaquinaFiscalAsString, Model.SerialDeMaquinaFiscal,  
                             valAccionDeAutorizacionDeProceso,  ref vMensaje);
             if (!vResul) {
                 LibMessages.MessageBox.Alert(this, vMensaje, Title);

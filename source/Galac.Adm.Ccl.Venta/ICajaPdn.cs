@@ -20,9 +20,9 @@ namespace Galac.Adm.Ccl.Venta {
         bool ActualizaUltimoNumComprobante(int valConsecutivoCompania,int valConsecutivoCaja,string valNumero,bool valEsNotaDeCredito);
         void ActualizarRegistroDeMaquinaFiscal(eAccionSR valAccion,int valConsecutivoCompania,eImpresoraFiscal valModeloImpresoraFiscal,string valSerialMaquinaFiscal,string valUltimoNumeroComptbanteFiscal,string valNombreOperador);
         bool ActualizarCierreXEnFacturas(int valConsecutivoCompania,int valConsecutivoCaja, DateTime valFechaModificacion, string valHoraDesde,string valHoraHasta);
-        bool ImpresoraFiscalEstaHomologada(int valConsecutivoCompania, int valConsecutivoCaja, string valNombreOperador, string valAccionDeAutorizacionDeProceso, ref string refMensaje)     ;
+        bool ImpresoraFiscalEstaHomologada(int valConsecutivoCompania, int valConsecutivoCaja, string valAccionDeAutorizacionDeProceso, ref string refMensaje)     ;
         LibResponse ActualizarYAuditarCambiosMF(IList<Caja> refRecord, bool valAuditarMF, string valMotivoCambiosMaqFiscal, string valFamiliaOriginal, string valModeloOriginal, string valTipoDeConexionOriginal, string valSerialMFOriginal, string valUltNumComprobanteFiscalOriginal, string valUltNumNCFiscalOriginal);
-        bool ImpresoraFiscalEstaHomologada(string valCajaNombre, string valFabricante, string valModelo, string valSerial, string valNombreOperador, string valAccionDeAutorizacionDeProceso, ref string refMensaje);
+        bool ImpresoraFiscalEstaHomologada(string valCajaNombre, string valFabricante, string valModelo, string valSerial, string valAccionDeAutorizacionDeProceso, ref string refMensaje);
         #endregion //Metodos Generados
     } //End of class ICajaPdn
 } //End of namespace Galac.Adm.Ccl.Venta
