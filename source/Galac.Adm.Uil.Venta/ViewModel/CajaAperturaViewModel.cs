@@ -69,6 +69,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         const string TotalesMediosElectronicosPropertyName = "TotalesMediosElectronicos";
         const string TotalesMediosElectronicosMEPropertyName = "TotalesMediosElectronicosME";
         const string IsExpandedTotalesMediosElectronicosPropertyName = "IsExpandedTotalesMediosElectronicos";
+        private XElement _XmlDatosImprFiscal;
 
         private FkCajaViewModel _ConexionNombreCaja = null;
         private FkGUserViewModel _ConexionNombreDelUsuario = null;
@@ -885,17 +886,23 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private void ExecuteAbrirCajaCommand() {
             bool vSePuede = false;
+            string vRefMensaje = "";
             try {
                 bool vMaquinaFiscalHomologada = true;
-                if (HayConexionAInternet()) {
-                    vMaquinaFiscalHomologada = MaquinaFiscalEstaHomologada(Model.ConsecutivoCompania, Model.ConsecutivoCaja, Model.NombreOperador, "Abrir Caja");                  
+                ICajaPdn InsCaja = new clsCajaNav();
+                _XmlDatosImprFiscal = InsCaja.ValidateImpresoraFiscal(ref vRefMensaje);
+                if (!LibString.IsNullOrEmpty(vRefMensaje)) {
+                    LibMessages.MessageBox.Information(this, vRefMensaje, "");
+                } else if (HayConexionAInternet()) {
+                    vMaquinaFiscalHomologada = MaquinaFiscalEstaHomologada(Model.ConsecutivoCompania, Model.ConsecutivoCaja, Model.NombreOperador, "Abrir Caja");
+                    vSePuede = ValidarCajasAbiertas() && ValidarUsuarioAsignado() && vMaquinaFiscalHomologada;
+                    if (vSePuede) {
+                        base.ExecuteAction();
+                        LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue abierta con exito.", "");
+                        ExecuteCloseCommand();
+                    }
                 } 
-                vSePuede = ValidarCajasAbiertas() && ValidarUsuarioAsignado() && vMaquinaFiscalHomologada;
-                if (vSePuede) {
-                    base.ExecuteAction();
-                    LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue abierta con exito.", "");
-                    ExecuteCloseCommand();
-                }
+                
             } catch (Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
