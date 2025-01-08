@@ -257,6 +257,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     IsDirty = true;
                     RaisePropertyChanged(EmitirDirectoPropertyName);
                     RaisePropertyChanged(IsEnabledEmitirDirectoPropertyName);
+                    RaisePropertyChanged(IsEnabledUsaCobroDirectoPropertyName);
                     LibMessages.Notification.Send<bool>(Model.EmitirDirectoAsBool, EmitirDirectoPropertyName);
                 }
             }
@@ -535,7 +536,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnabledEmitirDirecto {
             get {
-                return IsEnabled && EmitirDirecto && !ExisteCajaRegistradoraConMaquinaFiscal();
+                return IsEnabled && !ExisteCajaRegistradoraConMaquinaFiscal();
             }
         }
 
