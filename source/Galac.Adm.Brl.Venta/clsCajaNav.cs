@@ -20,6 +20,7 @@ using LibGalac.Aos.Catching;
 using Galac.Saw.Ccl.SttDef;
 using Galac.Saw.Ccl.Tablas;
 using Galac.Saw.Brl.Tablas;
+using System.Threading;
 
 namespace Galac.Adm.Brl.Venta {
     public partial class clsCajaNav: LibBaseNav<IList<Caja>, IList<Caja>>, ICajaPdn {
@@ -314,24 +315,19 @@ namespace Galac.Adm.Brl.Venta {
             }
         }
 
-        public bool HomologadaSegunGaceta43032(int valConsecutivoCompania, int valConsecutivoCaja, string valNombreOperador, string valAccionDeAutorizacionDeProceso, ref string refMensaje) {
+        public bool HomologadaSegunGaceta43032(int valConsecutivoCompania, int valConsecutivoCaja, string valAccionDeAutorizacionDeProceso, ref string refMensaje) {
             string vFabricante= string.Empty;
             string vModelo = string.Empty;
             string vSerial = string.Empty;
             string vCajaNombre = string.Empty;
             refMensaje = string.Empty;
-            bool vResult = true;
             BuscaFamiliaYModeloDeMaquinaFiscal(valConsecutivoCompania, valConsecutivoCaja, ref vCajaNombre, ref vFabricante, ref vModelo, ref vSerial);
-            clsCajaProcesos insCajaProcesos = new clsCajaProcesos();
-            if (!insCajaProcesos.SendPostEstaHomologadaMaquinaFiscal(vCajaNombre, vFabricante, vModelo,vSerial, valNombreOperador, valAccionDeAutorizacionDeProceso)) {
-                refMensaje = "La impresora fiscal " + vFabricante + ", modelo "+ vModelo + ", no se encuentra homologada.";
-                vResult = false;
-            }
+            bool vResult = VerificaSiMaquinaFiscalEstaHomologada(vCajaNombre, vFabricante, vModelo,vSerial, valAccionDeAutorizacionDeProceso,ref refMensaje);
             return vResult;
         }
 
-        bool ICajaPdn.ImpresoraFiscalEstaHomologada(int valConsecutivoCompania, int valConsecutivoCaja, string valNombreOperador, string valAccionDeAutorizacionDeProceso, ref string refMensaje) {
-            return HomologadaSegunGaceta43032(valConsecutivoCompania, valConsecutivoCaja, valNombreOperador, valAccionDeAutorizacionDeProceso, ref refMensaje);
+        bool ICajaPdn.ImpresoraFiscalEstaHomologada(int valConsecutivoCompania, int valConsecutivoCaja,  string valAccionDeAutorizacionDeProceso, ref string refMensaje) {
+            return HomologadaSegunGaceta43032(valConsecutivoCompania, valConsecutivoCaja, valAccionDeAutorizacionDeProceso, ref refMensaje);
         }
         LibResponse ICajaPdn.ActualizarYAuditarCambiosMF(IList<Caja> refRecord, bool valAuditarMF, string valMotivoCambiosMaqFiscal, string valFamiliaOriginal, string valModeloOriginal, string valTipoDeConexionOriginal, string valSerialMFOriginal, string valUltNumComprobanteFiscalOriginal, string valUltNumNCFiscalOriginal) {
             string valoresOriginales = string.Empty;
@@ -389,15 +385,23 @@ namespace Galac.Adm.Brl.Venta {
             return result;
         }
 
-        bool ICajaPdn.ImpresoraFiscalEstaHomologada(string valCajaNombre, string valFabricante, string valModelo, string valSerial, string valNombreOperador, string valAccionDeAutorizacionDeProceso, ref string refMensaje) {
+        bool ICajaPdn.ImpresoraFiscalEstaHomologada(string valCajaNombre, string valFabricante, string valModelo, string valSerial, string valAccionDeAutorizacionDeProceso, ref string refMensaje) {
+            bool vResult = VerificaSiMaquinaFiscalEstaHomologada(valCajaNombre, valFabricante, valModelo, valSerial, valAccionDeAutorizacionDeProceso, ref refMensaje);
+            return vResult;
+        }
+        bool VerificaSiMaquinaFiscalEstaHomologada(string valCajaNombre, string valFabricante, string valModelo, string valSerial, string valAccionDeAutorizacionDeProceso, ref string refMensaje) {
             bool vResult = true;
             clsCajaProcesos insCajaProcesos = new clsCajaProcesos();
-            if (!insCajaProcesos.SendPostEstaHomologadaMaquinaFiscal(valCajaNombre, valFabricante, valModelo, valSerial, valNombreOperador, valAccionDeAutorizacionDeProceso)) {
+            if (!insCajaProcesos.SendPostEstaHomologadaMaquinaFiscal(valCajaNombre, valFabricante
+                , valModelo, valSerial
+                , ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login
+                , valAccionDeAutorizacionDeProceso)) {
                 refMensaje = "La impresora fiscal " + valFabricante + ", modelo " + valModelo + ", no se encuentra homologada.";
                 vResult = false;
             }
             return vResult;
         }
+
     } //End of class clsCajaNav
 } //End of namespace Galac.Adm.Brl.Venta
 

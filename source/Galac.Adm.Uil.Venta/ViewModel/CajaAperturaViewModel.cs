@@ -1239,7 +1239,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private bool MaquinaFiscalEstaHomologada(int valConsecutivoCompania, int valConsecutivo, string valNombreOperador, string valAccionDeAutorizacionDeProceso) {
             string vMensaje = string.Empty;
             ICajaPdn insCaja = new clsCajaNav();
-            bool vResul = insCaja.ImpresoraFiscalEstaHomologada(valConsecutivoCompania, valConsecutivo, valNombreOperador, valAccionDeAutorizacionDeProceso, ref vMensaje);
+            bool vResul = insCaja.ImpresoraFiscalEstaHomologada(valConsecutivoCompania, valConsecutivo,  valAccionDeAutorizacionDeProceso, ref vMensaje);
             if (!vResul) {
                 LibMessages.MessageBox.Alert(this, vMensaje, "");
             }
