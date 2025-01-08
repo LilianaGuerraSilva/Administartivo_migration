@@ -16,20 +16,18 @@ using System.Threading.Tasks;
 
 namespace Galac.Adm.Brl.Venta {
     public class clsCajaProcesos {
-        //public const string UrlApiMFiscalPlataformaQA = "https://mfiscalapi-qa.galac.com:105/";
         public const string UrlApiMFiscalPlataformaProduccion = "https://mfiscalapi.galac.com/";
-
 
         public bool SendPostEstaHomologadaMaquinaFiscal(string valCajaNombre, string valFabricante, string valModelo, string valSerial, string valOperador, string valAccionDeAutorizacionDeProceso) {
             bool vresult = false;
-            string url = UrlSegunPlataforma();
+            string url = UrlSegunPlataforma() + "api/estahomologada";
             string vIdFiscalCliente = IdFiscalCliente();
             string vProgramInitials = LibGalac.Aos.DefGen.LibDefGen.ProgramInfo.ProgramInitials;
             string vProgramVersion = LibGalac.Aos.DefGen.LibDefGen.ProgramInfo.ProgramVersion;
-            //string json = "{\"Fabricante\":\"" + valFabricante + "\",\"Modelo\":\"" + valModelo + "\"}";
             string json = "{\"Accion\":\"" + valAccionDeAutorizacionDeProceso + "\",\"IdFiscalCliente\":\"" + vIdFiscalCliente 
                 + "\",\"CajaNombre\":\"" + valCajaNombre + "\",\"Fabricante\":\"" + valFabricante + "\",\"Modelo\":\"" + valModelo + "\",\"Serial\":\"" + valSerial + "\",\"Operador\":\"" + valOperador 
                 + "\",\"ProgramInitials\":\"" + vProgramInitials + "\", \"ProgramVersion\":\"" + vProgramVersion + "\"}";
+          
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "POST";
             request.ContentType = "application/json";
