@@ -69,4 +69,4 @@
 [submodule "bin/binAdministrativoVb"]
 	path = bin/binAdministrativoVb
 	url = https://github.com/GalacSoftware/BinAdministrativoVB.git
-	branch = V2501
+	branch = release/V2501
