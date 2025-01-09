@@ -121,6 +121,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                         UsaCobroDirectoEnMultimoneda = false;
                         CuentaBancariaCobroMultimoneda = string.Empty;
                         ConceptoBancarioCobroMultimoneda = string.Empty;
+                        UsaMaquinaFiscal = false;
                     } else {
                         EmitirDirecto = true;
                         if (LibString.IsNullOrEmpty(CuentaBancariaCobroDirecto)) {
@@ -142,6 +143,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     RaisePropertyChanged(IsEnabledConceptoBancarioCobroMultimonedaPropertyName);
                     RaisePropertyChanged(IsEnabledCuentaBancariaCobroMultimonedaPropertyName);
                     RaisePropertyChanged(IsEnabledUsaMaquinaFiscalPropertyName);
+                    RaisePropertyChanged(UsaMaquinaFiscalPropertyName);
                     LibMessages.Notification.Send<bool>(Model.UsaCobroDirectoAsBool, UsaCobroDirectoPropertyName);
                 }
             }

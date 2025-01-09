@@ -50,7 +50,8 @@
         <TabControl
             Name="TabMain"
             Grid.Row="0"
-            Grid.Column="0">
+            Grid.Column="0"
+            Width="554">
             <TabItem Name="tabCajaRegistradora" Header="Caja Registradora">
                 <Grid Name="Caja">
                     <Grid.ColumnDefinitions>
@@ -68,7 +69,7 @@
                     <Label
                         Name="lblNombreCaja"
                         Grid.Column="0"
-                        Content="Nombre Caja ............................................................"
+                        Content="Nombre Caja"
                         Style="{StaticResource LabelPrompt}" />
                     <nsWpfControls:GSTextBoxWpf
                         Name="txtNombreCaja"
@@ -87,7 +88,7 @@
                         Name="lblUsaGaveta"
                         Grid.Row="1"
                         Grid.Column="0"
-                        Content="Usa Gaveta ..............................................................."
+                        Content="Usa Gaveta"
                         Style="{StaticResource LabelPrompt}" />
                     <CheckBox
                         Name="chkUsaGaveta"
@@ -99,7 +100,7 @@
                         Name="lblPuerto"
                         Grid.Row="2"
                         Grid.Column="0"
-                        Content="Puerto ........................................................................"
+                        Content="Puerto"
                         Style="{StaticResource LabelPrompt}" />
                     <nsWpfControls:GSComboBoxWpf
                         Name="cmbPuerto"
@@ -115,7 +116,7 @@
                         Name="lblComando"
                         Grid.Row="3"
                         Grid.Column="0"
-                        Content="Comando .................................................................."
+                        Content="Comando"
                         Style="{StaticResource LabelPrompt}" />
                     <nsWpfControls:GSTextBoxWpf
                         Name="txtComando"
@@ -132,7 +133,7 @@
                         Name="lblUsaAccesoRapido"
                         Grid.Row="4"
                         Grid.Column="0"
-                        Content="Usa Tecla de Acceso Rápido para Abrir Gaveta"
+                        Content="Usa tecla de acceso rápido para Abrir Gaveta"
                         Style="{StaticResource LabelPrompt}" />
                     <CheckBox
                         Name="chkUsaAccesoRapido"
@@ -145,7 +146,7 @@
                         Name="lblPermitirAbrirSinSupervisor"
                         Grid.Row="5"
                         Grid.Column="0"
-                        Content="Permitir Abrir Sin Supervisor.................................."
+                        Content="Permitir Abrir Sin Supervisor"
                         Style="{StaticResource LabelPrompt}"
                         Visibility="Visible" />
                     <CheckBox
@@ -185,7 +186,7 @@
                         Name="lblFamiliaDeMaquinaFiscal"
                         Grid.Row="0"
                         Grid.Column="0"
-                        Content="Fabricante ................................."
+                        Content="Fabricante"
                         Style="{StaticResource LabelPrompt}" />
                     <nsWpfControls:GSComboBoxWpf
                         Name="cmbFamiliaDeMaquinaFiscal"
@@ -202,7 +203,7 @@
                         Name="lblModeloDeMaquinaFiscal"
                         Grid.Row="1"
                         Grid.Column="0"
-                        Content="Modelo ......................................"
+                        Content="Modelo"
                         Style="{StaticResource LabelPrompt}" />
                     <nsWpfControls:GSComboBoxWpf
                         Name="cmbModeloDeMaquinaFiscal"
@@ -218,7 +219,7 @@
                         Name="lblTipoConexion"
                         Grid.Row="2"
                         Grid.Column="0"
-                        Content="Tipo de Conexión....................."
+                        Content="Tipo de Conexión"
                         Style="{StaticResource LabelPrompt}" />
                     <nsWpfControls:GSComboBoxWpf
                         Name="cmbTipoConexion"
@@ -234,7 +235,7 @@
                         Name="lblPuertoMaquinaFiscal"
                         Grid.Row="3"
                         Grid.Column="0"
-                        Content="Puerto ........................................"
+                        Content="Puerto"
                         Style="{StaticResource LabelPrompt}" />
                     <nsWpfControls:GSComboBoxWpf
                         Name="cmbPuertoMaquinaFiscal"
@@ -250,7 +251,7 @@
                         Name="lblAbrirGavetaDeDinero"
                         Grid.Row="4"
                         Grid.Column="0"
-                        Content="Abrir Gaveta de Dinero ..........."
+                        Content="Abrir Gaveta de dinero"
                         Style="{StaticResource LabelPrompt}" />
                     <CheckBox
                         Name="chkAbrirGavetaDeDinero"
@@ -264,7 +265,7 @@
                         Name="lblSerialDeMaquinaFiscal"
                         Grid.Row="5"
                         Grid.Column="0"
-                        Content="Serial .........................................."
+                        Content="Serial"
                         Style="{StaticResource LabelPrompt}" />
                     <nsWpfControls:GSTextBoxWpf
                         Name="txtSerialDeMaquinaFiscal"
@@ -283,7 +284,7 @@
                         Name="lblUltimoCompFiscal"
                         Grid.Row="6"
                         Grid.Column="0"
-                        Content="Último Núm. Comp Fiscal ......"
+                        Content="Último Núm. Comp Fiscal"
                         Style="{StaticResource LabelPrompt}" />
                     <nsWpfControls:GSTextBoxWpf
                         Name="txUltimoNumeroCompFiscal"
@@ -302,7 +303,7 @@
                         Name="lblUltimoNumeroNotaCredito"
                         Grid.Row="7"
                         Grid.Column="0"
-                        Content="Último Núm. Nota de Crédito ."
+                        Content="Último Núm. Nota de Crédito"
                         Style="{StaticResource LabelPrompt}" />
                     <nsWpfControls:GSTextBoxWpf
                         Name="txUltimoNumeroNCFiscal"
@@ -321,7 +322,7 @@
                         Name="lblRegistroDeRetornoEnTxt"
                         Grid.Row="8"
                         Grid.Column="0"
-                        Content="Registro de Retorno en Txt......"
+                        Content="Registro de Retorno en txt"
                         Style="{StaticResource LabelPrompt}"
                         Visibility="{Binding Path=IsVisibleRegistroDeRetornoEnTxt, Converter={StaticResource booleanToVisibilityConverter}}" />
                     <CheckBox
@@ -337,15 +338,17 @@
                         Name="lblMotivoEliminacionOModificacion"
                         Grid.Row="9"
                         Grid.Column="0"
-                        Content="Motivo del cambio......"
+                        Content="Motivo del cambio"
                         Style="{StaticResource LabelPrompt}"
                         Visibility="{Binding Path=IsVisibleMotivoEliminacionOModificacion, Converter={StaticResource booleanToVisibilityConverter}}" />
                     <nsWpfControls:GSTextAreaWpf
                         Name="txtMotivoEliminacionOModificacion"
                         Grid.Row="9"
                         Grid.Column="1"
-                        Width="150"
+                        Grid.ColumnSpan="2"
+                        Width="385"
                         Height="60"
+                        Margin="3,3,10,3"
                         HorizontalAlignment="Stretch"
                         BorderThickness="1"
                         MaxLength="255"
@@ -357,7 +360,7 @@
                         Name="lblPermitirDescripcionDelArticuloExtendida"
                         Grid.Row="0"
                         Grid.Column="2"
-                        Content="Permitir Descripción Del Artículo Extendida"
+                        Content="Permitir descripción extendida del artículo"
                         Style="{StaticResource LabelPrompt}"
                         Visibility="{Binding Path=IsVisibleParaEpson, Converter={StaticResource booleanToVisibilityConverter}}" />
                     <CheckBox
@@ -372,7 +375,7 @@
                         Name="lblPermitirNombreDelClienteExtendido"
                         Grid.Row="1"
                         Grid.Column="2"
-                        Content="Permitir Nombre Del Cliente Extendido ......"
+                        Content="Permitir nombre extendido del cliente"
                         Style="{StaticResource LabelPrompt}"
                         Visibility="{Binding Path=IsVisibleParaEpson, Converter={StaticResource booleanToVisibilityConverter}}" />
                     <CheckBox
@@ -388,7 +391,7 @@
                         Name="lblIpParaConexion"
                         Grid.Row="2"
                         Grid.Column="2"
-                        Content="Ip para Conexión ........................................"
+                        Content="Ip para Conexión"
                         Style="{StaticResource LabelPrompt}"
                         Visibility="{Binding Path=IsVisibleParaQPrint, Converter={StaticResource booleanToVisibilityConverter}}" />
                     <nsWpfControls:GSTextBoxWpf
@@ -407,7 +410,7 @@
                         Name="lblMascaraSubred"
                         Grid.Row="3"
                         Grid.Column="2"
-                        Content="Mascara de sub red ...................................."
+                        Content="Máscara de subred"
                         Style="{StaticResource LabelPrompt}"
                         Visibility="{Binding Path=IsVisibleParaQPrint, Converter={StaticResource booleanToVisibilityConverter}}" />
                     <nsWpfControls:GSTextBoxWpf
@@ -426,7 +429,7 @@
                         Name="lblGateway"
                         Grid.Row="4"
                         Grid.Column="2"
-                        Content="Gateway ....................................................."
+                        Content="Gateway"
                         Style="{StaticResource LabelPrompt}"
                         Visibility="{Binding Path=IsVisibleParaQPrint, Converter={StaticResource booleanToVisibilityConverter}}" />
                     <nsWpfControls:GSTextBoxWpf
