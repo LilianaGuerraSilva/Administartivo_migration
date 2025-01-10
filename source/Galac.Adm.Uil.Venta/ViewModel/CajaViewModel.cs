@@ -495,7 +495,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        [LibGridColum("ModeloDeMaquinaFiscal", eGridColumType.Generic, Header = "Modelo de Maquina Fiscal", IsForSearch = false, Alignment = eTextAlignment.Center, Width = 200)]
+        [LibGridColum("ModeloDeMaquinaFiscal", eGridColumType.Generic, Header = "Modelo de Impresora Fiscal", IsForSearch = false, Alignment = eTextAlignment.Center, Width = 200)]
         public string ModeloDeMaquinaFiscalStr {
             get {
                 return Model.UsaMaquinaFiscalAsBool ? LibEnumHelper.GetDescription(ModeloDeMaquinaFiscal) : "";
@@ -641,7 +641,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
                 RibbonData.TabDataCollection[0].AddTabGroupData(new LibRibbonGroupData("Gaveta"));
                 RibbonData.TabDataCollection[0].GroupDataCollection[1].AddRibbonControlData(CreateAbrirGavetaRibbonButtonData());
-                RibbonData.TabDataCollection[0].AddTabGroupData(new LibRibbonGroupData("Maquina Fiscal"));
+                RibbonData.TabDataCollection[0].AddTabGroupData(new LibRibbonGroupData("Impresora Fiscal"));
                 RibbonData.TabDataCollection[0].GroupDataCollection[2].AddRibbonControlData(CreateProbarConexionRibbonButtonData());
                 RibbonData.TabDataCollection[0].GroupDataCollection[2].AddRibbonControlData(CreateDigantosticarRibbonButtonData());
                 RibbonData.TabDataCollection[0].GroupDataCollection[2].AddRibbonControlData(CreateCancelarDocumentoRibbonButtonData());
