@@ -81,7 +81,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             if(valFechaHora.Date == vFechaActual) {
                 vResult = true;
             } else {
-                valMensaje = "La fecha del computador no corresponde con la fecha de la impresora fiscal\r\nSincronizar hora de los dispositivos\r\nFecha de la Maquina Fiscal:" + LibConvert.ToStr(valFechaHora.Date);
+                valMensaje = "La fecha del computador no corresponde con la fecha de la impresora fiscal\r\nSincronizar hora de los dispositivos\r\nFecha de la Impresora Fiscal:" + LibConvert.ToStr(valFechaHora.Date);
                 vResult = true;
             }
             return vResult;

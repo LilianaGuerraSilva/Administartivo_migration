@@ -1238,8 +1238,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private bool MaquinaFiscalEstaHomologada(int valConsecutivoCompania, int valConsecutivo, string valNombreOperador, string valAccionDeAutorizacionDeProceso) {
             string vMensaje = string.Empty;
-            ICajaPdn insCaja = new clsCajaNav();
-            bool vResul = insCaja.ImpresoraFiscalEstaHomologada(valConsecutivoCompania, valConsecutivo,  valAccionDeAutorizacionDeProceso, ref vMensaje);
+            clsCajaNav insCajaHomo = new clsCajaNav();
+            bool vResul = insCajaHomo.HomologadaSegunGaceta43032(valConsecutivoCompania, valConsecutivo, valAccionDeAutorizacionDeProceso, ref vMensaje);
             if (!vResul) {
                 LibMessages.MessageBox.Alert(this, vMensaje, "");
             }
