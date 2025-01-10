@@ -17,17 +17,13 @@ Private Const CM_FILE_NAME As String = "clsNotaDeEntradaSalidaTbl"
 Private Const CM_MESSAGE_NAME As String = "Nota de Entrada/Salida"
 Private Const GetGender = Enum_Gender.eg_Male
 
-Public Function GetTableName() As String
-   GetTableName = "NotaDeEntradaSalida"
-End Function
-
 Private Sub sAddForeignKeys()
    Dim usarSoloUnElementoEnLaRelacion As Boolean
    Dim deleteOnCascade As Boolean
    On Error GoTo h_ERROR
    usarSoloUnElementoEnLaRelacion = True
    deleteOnCascade = True
-   gDbUtil.AddForeignKeySegunTablaPrimaria "Cliente", GetTableName(), "Codigo", "CodigoCliente", Not usarSoloUnElementoEnLaRelacion, "ConsecutivoCompania", "ConsecutivoCompania", Not deleteOnCascade
+   gDbUtil.AddForeignKeySegunTablaPrimaria "Cliente", "NotaDeEntradaSalida", "Codigo", "CodigoCliente", Not usarSoloUnElementoEnLaRelacion, "ConsecutivoCompania", "ConsecutivoCompania", Not deleteOnCascade
    gDbUtil.Execute gDefDatabase.Conexion, "SET DATEFORMAT dmy  ALTER TABLE NotaDeEntradaSalida ADD CONSTRAINT fk_NotaDeEntradaSalidaAlma FOREIGN KEY (ConsecutivoCompania,ConsecutivoAlmacen) REFERENCES Saw.Almacen (ConsecutivoCompania,Consecutivo) ON UPDATE NO ACTION ON DELETE NO ACTION"
 h_EXIT: On Error GoTo 0
    Exit Sub
@@ -36,7 +32,7 @@ End Sub
 
 Private Sub sAddPrimaryKeyAndOtherConstrains()
    On Error GoTo h_ERROR
-   gDbUtil.Execute gDefDatabase.Conexion, "ALTER TABLE " & GetTableName() & "  add CONSTRAINT p_" & GetTableName() & " primary key (ConsecutivoCompania,NumeroDocumento)"
+   gDbUtil.Execute gDefDatabase.Conexion, "ALTER TABLE NotaDeEntradaSalida  add CONSTRAINT p_NotaDeEntradaSalida primary key (ConsecutivoCompania,NumeroDocumento)"
    sAddForeignKeys
 h_EXIT: On Error GoTo 0
    Exit Sub
@@ -45,9 +41,9 @@ End Sub
 
 Private Sub sAllowCeroLengthFields()
    On Error GoTo h_ERROR
-   gDbUtil.sModificarLaPropiedadPermitirLongitudCeroDelcampo GetTableName, "Comentarios"
-   gDbUtil.sModificarLaPropiedadPermitirLongitudCeroDelcampo GetTableName, "CodigoLote"
-   gDbUtil.sModificarLaPropiedadPermitirLongitudCeroDelcampo GetTableName, "NombreOperador"
+   gDbUtil.sModificarLaPropiedadPermitirLongitudCeroDelcampo "NotaDeEntradaSalida", "Comentarios"
+   gDbUtil.sModificarLaPropiedadPermitirLongitudCeroDelcampo "NotaDeEntradaSalida", "CodigoLote"
+   gDbUtil.sModificarLaPropiedadPermitirLongitudCeroDelcampo "NotaDeEntradaSalida", "NombreOperador"
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAllowCeroLengthFields", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -55,8 +51,8 @@ End Sub
 
 Private Sub sModifyOtherPropertiesOfFields()
    On Error GoTo h_ERROR
-   gDbUtil.sModificarLaPropiedadFormatDeLaFecha GetTableName, "Fecha", gDefDatabase.getDatabaseName, gDefDatabase.getPasswordBaseDeDatos
-   gDbUtil.sModificarLaPropiedadFormatDeLaFecha GetTableName, "FechaUltimaModificacion", gDefDatabase.getDatabaseName, gDefDatabase.getPasswordBaseDeDatos
+   gDbUtil.sModificarLaPropiedadFormatDeLaFecha "NotaDeEntradaSalida", "Fecha", gDefDatabase.getDatabaseName, gDefDatabase.getPasswordBaseDeDatos
+   gDbUtil.sModificarLaPropiedadFormatDeLaFecha "NotaDeEntradaSalida", "FechaUltimaModificacion", gDefDatabase.getDatabaseName, gDefDatabase.getPasswordBaseDeDatos
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sModifyOtherPropertiesOfFields", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -66,20 +62,20 @@ Public Function fCreateTable(ByVal valShowMessage As Boolean) As Boolean
    Dim SQL As String
    Dim insRenglonNotaES As clsRenglonNotaESTbl
    On Error GoTo h_ERROR
-   SQL = gUtilSQL.fCreateTable(GetTableName()) & " ( "
-   SQL = SQL & "ConsecutivoCompania " & gUtilSQL.getNumericTypeForDB(9, 0) & " CONSTRAINT nn" & GetTableName() & "Consecutiv NOT NULL, "
-   SQL = SQL & "NumeroDocumento " & gUtilSQL.getVarCharTypeForDB(11) & " CONSTRAINT nn" & GetTableName() & "NumeroDocu NOT NULL, "
+   SQL = gUtilSQL.fCreateTable("NotaDeEntradaSalida") & " ( "
+   SQL = SQL & "ConsecutivoCompania " & gUtilSQL.getNumericTypeForDB(9, 0) & " CONSTRAINT nnNotaDeEntradaSalidaConsecutiv NOT NULL, "
+   SQL = SQL & "NumeroDocumento " & gUtilSQL.getVarCharTypeForDB(11) & " CONSTRAINT nnNotaDeEntradaSalidaNumeroDocu NOT NULL, "
    SQL = SQL & "TipodeOperacion " & gUtilSQL.getCharTypeForDB(1) & ", "
    SQL = SQL & "CodigoCliente " & gUtilSQL.getVarCharTypeForDB(10) & ", "
    SQL = SQL & "CodigoAlmacen " & gUtilSQL.getVarCharTypeForDB(5) & ", "
-   SQL = SQL & "Fecha " & gUtilSQL.getDateTypeForDB() & " CONSTRAINT nn" & GetTableName() & "Fecha NOT NULL, "
+   SQL = SQL & "Fecha " & gUtilSQL.getDateTypeForDB() & " CONSTRAINT nnNotaDeEntradaSalidaFecha NOT NULL, "
    SQL = SQL & "Comentarios " & gUtilSQL.getVarCharTypeForDB(255) & ", "
    SQL = SQL & "CodigoLote " & gUtilSQL.getVarCharTypeForDB(10) & ", "
    SQL = SQL & "StatusNotaEntradaSalida" & gUtilSQL.getCharTypeForDB(1) & ", "
-   SQL = SQL & "ConsecutivoAlmacen" & gUtilSQL.getNumericTypeForDB(9, 0) & " CONSTRAINT nn" & GetTableName() & "Consecutiv NOT NULL, "
-   SQL = SQL & "GeneradoPor" & gUtilSQL.getCharTypeForDB(1) & " CONSTRAINT nn" & GetTableName() & "_NotDeEntSalGePo DEFAULT '0',"
-   SQL = SQL & "ConsecutivoDocumentoOrigen" & gUtilSQL.getNumericTypeForDB(9, 0) & " CONSTRAINT nn" & GetTableName() & "_NotDeEntSalCoDoOr DEFAULT (0), "
-   SQL = SQL & "TipoNotaProduccion" & gUtilSQL.getCharTypeForDB(1) & " CONSTRAINT nn" & GetTableName() & "_NotDeEntSalTiNoPr DEFAULT '0', "
+   SQL = SQL & "ConsecutivoAlmacen" & gUtilSQL.getNumericTypeForDB(9, 0) & " CONSTRAINT nnNotaDeEntradaSalidaConsecutiv NOT NULL, "
+   SQL = SQL & "GeneradoPor" & gUtilSQL.getCharTypeForDB(1) & " CONSTRAINT nnNotaDeEntradaSalida_NotDeEntSalGePo DEFAULT '0',"
+   SQL = SQL & "ConsecutivoDocumentoOrigen" & gUtilSQL.getNumericTypeForDB(9, 0) & " CONSTRAINT nnNotaDeEntradaSalida_NotDeEntSalCoDoOr DEFAULT (0), "
+   SQL = SQL & "TipoNotaProduccion" & gUtilSQL.getCharTypeForDB(1) & " CONSTRAINT nnNotaDeEntradaSalida_NotDeEntSalTiNoPr DEFAULT '0', "
    SQL = SQL & "NombreOperador " & gUtilSQL.getVarCharTypeForDB(10) & ", "
    SQL = SQL & "FechaUltimaModificacion " & gUtilSQL.getDateTypeForDB() & ", "
    SQL = SQL & gDefDatabase.getFN_TIMESTAMP() & " timestamp )"
@@ -107,7 +103,7 @@ Public Sub sDropTable()
    Set insRenglonNotaES = New clsRenglonNotaESTbl
    insRenglonNotaES.sDropTable
    Set insRenglonNotaES = Nothing
-   gDbUtil.ExecuteDropTable GetTableName, True
+   gDbUtil.ExecuteDropTable "NotaDeEntradaSalida", True
    gMessage.ProgrammerMessage "La Tabla '" & CM_MESSAGE_NAME & "' fue borrada exitosamente"
 h_EXIT: On Error GoTo 0
    Exit Sub

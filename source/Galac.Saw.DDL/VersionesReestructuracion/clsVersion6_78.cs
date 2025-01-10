@@ -26,85 +26,90 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             AjustarParametroUsaCobroDirecto();
             LimpiaParametroAccionAlAnularFactDeMesesAnt();
             CorregirInconsistenciasEnCajasQueNoUtilizanMF();
+            LimpiaParametroImprimirPrecioEnNotaES();
             DisposeConnectionNoTransaction();
             return true;
         }
+
         private void CrearAuditoriaConfiguracion() {
             new clsAuditoriaConfiguracionED().InstalarTabla();
         }
         private void CrearParametroUsaMaquinaFiscal() {
-            StringBuilder vSql = new StringBuilder();
-            QAdvSql insSql = new QAdvSql("");
+            StringBuilder vSql = new StringBuilder();            
 
             AgregarNuevoParametro("UsaMaquinaFiscal", "Factura", 2, "2.2.- Facturación (Continuación)", 1, "", eTipoDeDatoParametros.String, "", 'N', "N");
 
             vSql.AppendLine("UPDATE Comun.SettValueByCompany");
-            vSql.AppendLine(" SET Value = " + insSql.ToSqlValue("S"));
-            vSql.AppendLine(" WHERE NameSettDefinition LIKE " + insSql.ToSqlValue("UsaMaquinaFiscal"));
+            vSql.AppendLine(" SET Value = " + InsSql.ToSqlValue("S"));
+            vSql.AppendLine(" WHERE NameSettDefinition = " + InsSql.ToSqlValue("UsaMaquinaFiscal"));
             vSql.AppendLine(" AND ConsecutivoCompania IN ");
             vSql.AppendLine(" (SELECT DISTINCT ConsecutivoCompania FROM Adm.Caja ");
-            vSql.AppendLine(" WHERE UsaMaquinaFiscal = " + insSql.ToSqlValue("S") + ")");
-            Execute(vSql.ToString(), -1);
+            vSql.AppendLine(" WHERE UsaMaquinaFiscal = " + InsSql.ToSqlValue("S") + ")");
+            Execute(vSql.ToString(), 0);
         }
 
         private void AjustarParametroUsaCobroDirecto() {
             StringBuilder vSql = new StringBuilder();
-            QAdvSql insSql = new QAdvSql("");
-
+            
             vSql.AppendLine("UPDATE Comun.SettValueByCompany");
-            vSql.AppendLine(" SET Value = " + insSql.ToSqlValue("S"));
-            vSql.AppendLine(" WHERE NameSettDefinition LIKE " + insSql.ToSqlValue("UsaCobroDirecto"));
+            vSql.AppendLine(" SET Value = " + InsSql.ToSqlValue("S"));
+            vSql.AppendLine(" WHERE NameSettDefinition = " + InsSql.ToSqlValue("UsaCobroDirecto"));
             vSql.AppendLine(" AND ConsecutivoCompania IN ");
             vSql.AppendLine(" (SELECT DISTINCT ConsecutivoCompania FROM Adm.Caja ");
-            vSql.AppendLine(" WHERE UsaMaquinaFiscal = " + insSql.ToSqlValue("S") + ")");
-            Execute(vSql.ToString(), -1);
+            vSql.AppendLine(" WHERE UsaMaquinaFiscal = " + InsSql.ToSqlValue("S") + ")");
+            Execute(vSql.ToString(), 0);
         }
         private void LimpiaParametroAccionAlAnularFactDeMesesAnt() {
-            StringBuilder vSql = new StringBuilder();
-            QAdvSql insSql = new QAdvSql("");
+            StringBuilder vSql = new StringBuilder();            
 
             vSql.AppendLine("UPDATE Comun.SettValueByCompany");
-            vSql.AppendLine(" SET Value = " + insSql.ToSqlValue("2"));
-            vSql.AppendLine(" WHERE NameSettDefinition LIKE " + insSql.ToSqlValue("AccionAlAnularFactDeMesesAnt"));
-            Execute(vSql.ToString(), -1);
+            vSql.AppendLine(" SET Value = " + InsSql.ToSqlValue("2"));
+            vSql.AppendLine(" WHERE NameSettDefinition = " + InsSql.ToSqlValue("AccionAlAnularFactDeMesesAnt"));
+            Execute(vSql.ToString(), 0);
         }
 
         private void CorregirInconsistenciasEnCajasQueNoUtilizanMF() {
-            StringBuilder vSql = new StringBuilder();
-            QAdvSql insSql = new QAdvSql("");
+            StringBuilder vSql = new StringBuilder();            
             String vVersionProgramaActual = LibDefGen.ProgramInfo.ProgramVersion;
 
             vSql.AppendLine("INSERT INTO Adm.AuditoriaConfiguracion ");
             vSql.AppendLine(" (ConsecutivoCompania, ConsecutivoAuditoria, VersionPrograma, FechayHora, Accion, Motivo, ConfiguracionOriginal, ConfiguracionNueva, NombreOperador, FechaUltimaModificacion)");
-            vSql.AppendLine(" SELECT ConsecutivoCompania, ROW_NUMBER() OVER (PARTITION BY ConsecutivoCompania ORDER BY ConsecutivoCompania ASC), " + insSql.ToSqlValue(vVersionProgramaActual) + ", ");
-            vSql.AppendLine(_TodayAsSqlValue + ", " + insSql.ToSqlValue("REESTRUCTURACION") + ", " + insSql.ToSqlValue("Corrección Configuración Inicial") + ", ");
-            vSql.AppendLine(insSql.ToSqlValue("NombreCaja: ") + "+ NombreCaja + " + insSql.ToSqlValue("; UsaMaquinaFiscal: N; Serial: ") + "+ SerialDeMaquinaFiscal + " + insSql.ToSqlValue("; Versión Programa: ") + "+" + insSql.ToSqlValue(ReadProgramCurrentVersion()) + ", ");
-            vSql.AppendLine(insSql.ToSqlValue("Serial: ") + ", ");
+            vSql.AppendLine(" SELECT ConsecutivoCompania, ROW_NUMBER() OVER (PARTITION BY ConsecutivoCompania ORDER BY ConsecutivoCompania ASC), " + InsSql.ToSqlValue(vVersionProgramaActual) + ", ");
+            vSql.AppendLine(_TodayAsSqlValue + ", " + InsSql.ToSqlValue("REESTRUCTURACION") + ", " + InsSql.ToSqlValue("Corrección Configuración Inicial") + ", ");
+            vSql.AppendLine(InsSql.ToSqlValue("NombreCaja: ") + "+ NombreCaja + " + InsSql.ToSqlValue("; UsaMaquinaFiscal: N; Serial: ") + "+ SerialDeMaquinaFiscal + " + InsSql.ToSqlValue("; Versión Programa: ") + "+" + InsSql.ToSqlValue(ReadProgramCurrentVersion()) + ", ");
+            vSql.AppendLine(InsSql.ToSqlValue("Serial: ") + ", ");
             vSql.AppendLine(" NombreOperador, ");
             vSql.AppendLine(_TodayAsSqlValue);
             vSql.AppendLine(" FROM Adm.Caja");
-            vSql.AppendLine(" WHERE UsaMaquinaFiscal = " + insSql.ToSqlValue("N"));
-            vSql.AppendLine(" AND SerialDeMaquinaFiscal <> " + insSql.ToSqlValue(""));
+            vSql.AppendLine(" WHERE UsaMaquinaFiscal = " + InsSql.ToSqlValue("N"));
+            vSql.AppendLine(" AND SerialDeMaquinaFiscal <> " + InsSql.ToSqlValue(""));
             Execute(vSql.ToString(), -1);
             vSql.Clear();
             
             vSql.AppendLine("UPDATE Adm.Caja");
-            vSql.AppendLine(" SET SerialDeMaquinaFiscal = " + insSql.ToSqlValue(""));
-            vSql.AppendLine(" WHERE UsaMaquinaFiscal = " + insSql.ToSqlValue("N"));
-            vSql.AppendLine(" AND SerialDeMaquinaFiscal <> " + insSql.ToSqlValue(""));
-            Execute(vSql.ToString(), -1);
+            vSql.AppendLine(" SET SerialDeMaquinaFiscal = " + InsSql.ToSqlValue(""));
+            vSql.AppendLine(" WHERE UsaMaquinaFiscal = " + InsSql.ToSqlValue("N"));
+            vSql.AppendLine(" AND SerialDeMaquinaFiscal <> " + InsSql.ToSqlValue(""));
+            Execute(vSql.ToString(), 0);
         }
 
         private string ReadProgramCurrentVersion() {
-            string vResult = "";
-            QAdvDb insDb = new QAdvDb();
-            string vSql = "SELECT fldVersionPrograma FROM dbo.Version WHERE fldSiglasPrograma = " + insDb.InsSql.ToSqlValue(LibDefGen.ProgramInfo.ProgramInitials);
+            string vResult = "";            
+            string vSql = "SELECT fldVersionPrograma FROM dbo.Version WHERE fldSiglasPrograma = " + InsSql.ToSqlValue(LibDefGen.ProgramInfo.ProgramInitials);
 
-            object vValue = insDb.ExecuteScalar(vSql, 0, false);
+            object vValue = ExecuteScalar(vSql, 0);
             if (vValue != null) {
                 vResult = vValue.ToString();
             }
             return vResult;
+        }
+
+        private void LimpiaParametroImprimirPrecioEnNotaES() {
+            StringBuilder vSql = new StringBuilder();
+
+            vSql.AppendLine("UPDATE Comun.SettValueByCompany SET Value = " + InsSql.ToSqlValue(false));
+            vSql.AppendLine(" WHERE NameSettDefinition  " + InsSql.ToSqlValue("ImprimirNotaESconPrecio"));
+            Execute(vSql.ToString(), 0);
         }
     }
 }

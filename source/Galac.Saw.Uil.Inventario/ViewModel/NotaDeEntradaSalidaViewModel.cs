@@ -86,12 +86,12 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Código del Cliente", eGridColumType.Connection, ConnectionDisplayMemberPath = "codigo", ConnectionModelPropertyName = "CodigoCliente", ConnectionSearchCommandName = "ChooseCodigoClienteCommand", Width=120)]
         public string  CodigoCliente {
             get {
                 return Model.CodigoCliente;
             }
             set {
+
                 if (Model.CodigoCliente != value) {
                     Model.CodigoCliente = value;
                     IsDirty = true;
@@ -175,6 +175,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
+        [LibRequired(ErrorMessage = "El campo Comentario es requerido.")]
         public string  Comentarios {
             get {
                 return Model.Comentarios;
@@ -424,8 +425,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
             if (Action == eAccionSR.Insertar) {//FASE 1 Lote/FdV: No se maneja almacén
                 CodigoAlmacen = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoAlmacenGenerico");
-                CodigoCliente = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoGenericoCliente");
             }
+            CodigoCliente = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoGenericoCliente");
         }
 
         protected override NotaDeEntradaSalida FindCurrentRecord(NotaDeEntradaSalida valModel) {

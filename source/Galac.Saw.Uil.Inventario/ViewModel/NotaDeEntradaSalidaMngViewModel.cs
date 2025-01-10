@@ -77,6 +77,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
                 //RibbonData.TabDataCollection[0].AddTabGroupData(CreateInformesRibbonGroup());
                 RibbonData.RemoveRibbonControl("Administrar", "Modificar");
+                RibbonData.RemoveRibbonControl("Administrar", "Eliminar");
                 RibbonData.TabDataCollection[0].AddTabGroupData(CreateRibbonGroup());
             }
         }
@@ -241,7 +242,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         protected override bool CanExecuteDeleteCommand() {
-            return base.CanExecuteDeleteCommand() && CurrentItem.GeneradoPor != eTipoGeneradoPorNotaDeEntradaSalida.OrdenDeProduccion;
+            return false;
         }
 
     } //End of class NotaDeEntradaSalidaMngViewModel
