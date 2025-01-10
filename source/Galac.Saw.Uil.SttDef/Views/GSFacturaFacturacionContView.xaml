@@ -170,7 +170,7 @@
             Grid.Column="0"
             Margin="3,3,3,3"
             VerticalAlignment="Top"
-            Header="Usa Máquina Fiscal"
+            Header="Usa Impresora Fiscal"
             Style="{StaticResource GroupBoxStyle}">
             <Grid>
                 <Grid.RowDefinitions>
@@ -188,7 +188,7 @@
                     Width="295"
                     Margin="3,3,3,3"
                     VerticalAlignment="Stretch"
-                    Content="Usa Máquina Fiscal....................................................."
+                    Content="Usa Impresora Fiscal....................................................."
                     Style="{StaticResource LabelPrompt}" />
                 <CheckBox
                     Name="chkUsaMaquinaFiscal"

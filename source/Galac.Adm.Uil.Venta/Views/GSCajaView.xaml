@@ -160,7 +160,7 @@
             </TabItem>
             <TabItem
                 Name="tabMaquinaFiscal"
-                Header="Máquina Fiscal"
+                Header="Impresora Fiscal"
                 IsEnabled="{Binding Path=UsaMaquinaFiscal}"
                 Visibility="{Binding Path=IsVisibleParaVenezuela, Converter={StaticResource booleanToVisibilityConverter}}">
                 <Grid Name="MaquinaFiscal">
