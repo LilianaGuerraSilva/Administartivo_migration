@@ -343,7 +343,7 @@ namespace Galac.Adm.Rpt.Venta
 			this.lblMaquinaFiscal.Left = 3.499F;
 			this.lblMaquinaFiscal.Name = "lblMaquinaFiscal";
 			this.lblMaquinaFiscal.Style = "font-size: 8pt; font-weight: bold";
-			this.lblMaquinaFiscal.Text = "Máquina Fiscal";
+			this.lblMaquinaFiscal.Text = "Impresora Fiscal";
 			this.lblMaquinaFiscal.Top = 0.188F;
 			this.lblMaquinaFiscal.Width = 2.001F;
 			// 

@@ -361,7 +361,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
    
    public class FkMaquinaFiscalViewModel : IFkMaquinaFiscalViewModel {
         public int ConsecutivoCompania { get; set; }
-        [LibGridColum("Consecutivo Máquina Fiscal", DbMemberPath = "ConsecutivoMaquinaFiscal", Width = 9)]
+        [LibGridColum("Consecutivo Impresora Fiscal", DbMemberPath = "ConsecutivoMaquinaFiscal", Width = 9)]
         public string ConsecutivoMaquinaFiscal { get; set; }
         [LibGridColum("Descripción")]
         public string Descripcion { get; set; }

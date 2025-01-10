@@ -89,7 +89,7 @@ namespace Galac.Saw.Lib {
         [LibEnumDescription("Llamada")] Llamada,
         [LibEnumDescription("Lote Adm")] LoteAdm,
         [LibEnumDescription("Mail Fax")] MailFax,
-        [LibEnumDescription("Maquina Fiscal")] MaquinaFiscal,
+        [LibEnumDescription("Impresora Fiscal")] MaquinaFiscal,
         [LibEnumDescription("Marca Vehículo")] MarcaVehiculo,
         [LibEnumDescription("Modelo Vehículo")] ModeloVehiculo,
         [LibEnumDescription("Moneda")] Moneda,

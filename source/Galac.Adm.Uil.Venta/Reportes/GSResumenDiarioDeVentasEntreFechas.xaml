@@ -60,7 +60,7 @@
             Name="lblAgruparPorMaquinaFiscal"
             Grid.Row="2"
             Grid.Column="0"
-            Content="Agrupar por Máquina Fiscal"
+            Content="Agrupar por Impresora Fiscal"
             Style="{StaticResource LabelPrompt}" />
         <CheckBox
             Name="chkAgruparPorMaquinaFiscal"
@@ -91,7 +91,7 @@
             Name="lblConsecutivoMaquinaFiscal"
             Grid.Row="4"
             Grid.Column="0"
-            Content="Consecutivo Máquina Fiscal"
+            Content="Consecutivo Impresora Fiscal"
             Style="{StaticResource LabelPrompt}"
             Visibility="{Binding Path=AgruparPorMaquinaFiscal, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSSeekConnection

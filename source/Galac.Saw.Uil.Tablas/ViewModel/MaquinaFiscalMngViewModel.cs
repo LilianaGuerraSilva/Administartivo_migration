@@ -23,11 +23,11 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
         #region Propiedades
 
         public override string ModuleName {
-            get { return "Máquina Fiscal"; }
+            get { return "Impresora Fiscal"; }
         }
 
         public string ModuleNameEnSeguridad {
-            get { return "Máquina Fiscal"; }
+            get { return "Impresora Fiscal"; }
         }
 
         #region Codigo Ejemplo

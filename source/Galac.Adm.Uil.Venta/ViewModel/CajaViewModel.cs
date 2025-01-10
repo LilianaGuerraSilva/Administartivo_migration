@@ -807,7 +807,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         ValidationResult SerialDeMaquinaFiscalValidating() {
             ValidationResult vResult = ValidationResult.Success;
             if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMaquinaFiscal") && LibString.IsNullOrEmpty(SerialDeMaquinaFiscal)) {
-                return new ValidationResult("El seríal de la maquína Fiscal es requerido");
+                return new ValidationResult("El serial de la impresora Fiscal es requerido");
             } else {
                 return ValidationResult.Success;
             }
@@ -826,7 +826,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             ValidationResult vResult = ValidationResult.Success;
             bool UseSamePorts = (Puerto == PuertoMaquinaFiscal);
             if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMaquinaFiscal") && UsaGaveta && UseSamePorts) {
-                return new ValidationResult("El puerto de la gaveta y el de la Máquina Fiscal no pueden ser el mismo");
+                return new ValidationResult("El puerto de la gaveta y el de la Impresora Fiscal no pueden ser el mismo");
             } else {
                 return ValidationResult.Success;
             }
@@ -999,7 +999,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 vResult = vBussinessPdn.ActualizarYAuditarCambiosMF(vBusinessObject, vAuditarMF, MotivoEliminacionOModificacion, LibEnumHelper.GetDescription(FamiliaImpresoraPreConfiguradaAsEnum), LibEnumHelper.GetDescription(ModeloDeMaquinaPreconfiguradaAsEnum), LibEnumHelper.GetDescription(TipoConexionPreconfiguradaAsEnum), SerialDeMaquinaPreconfigurada, UltimoNumeroCompPreconfigurada, UltimoNumeroNCPreconfigurada);
             } else {
                 vResult.Success = false;
-                LibMessages.MessageBox.Information(this, "No fue autorizado la configuración de la máquina fiscal.", "");
+                LibMessages.MessageBox.Information(this, "No fue autorizado la configuración de la impresora fiscal.", "");
             }
             return vResult.Success;
         }
@@ -1052,9 +1052,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     vPedirClaveEspecial = MaquinaFiscalEstaHomologada(valAccionDeAutorizacionDeProceso);
                 }
                 if (vPedirClaveEspecial || !vTengoInternet) {
-                    vSePuede = new LibGalac.Ssm.U.LibRequestAdvancedOperation().AuthorizeProcess(valAccionDeAutorizacionDeProceso + " Máquina Fiscal", "VE");
+                    vSePuede = new LibGalac.Ssm.U.LibRequestAdvancedOperation().AuthorizeProcess(valAccionDeAutorizacionDeProceso + " Impresora Fiscal", "VE");
                     if (!vSePuede) {
-                        LibMessages.MessageBox.Information(this, "No fue autorizada la configuración de la máquina fiscal.", Title);
+                        LibMessages.MessageBox.Information(this, "No fue autorizada la configuración de la impresora fiscal.", Title);
                     }
                 }
             } else {
