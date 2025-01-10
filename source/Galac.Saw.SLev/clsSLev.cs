@@ -545,8 +545,8 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Máquina Fiscal
-            vPermisos.Add(new CustomRole("Máquina Fiscal", "Activar", "Tablas Generales", 10));
-            vPermisos.Add(new CustomRole("Máquina Fiscal", "Desactivar", "Tablas Generales", 10));
+            vPermisos.Add(new CustomRole("Impresora Fiscal", "Activar", "Tablas Generales", 10));
+            vPermisos.Add(new CustomRole("Impresora Fiscal", "Desactivar", "Tablas Generales", 10));
             #endregion
 
             #region Punto de Venta

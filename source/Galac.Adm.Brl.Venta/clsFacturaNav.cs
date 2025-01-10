@@ -68,7 +68,7 @@ namespace Galac.Adm.Brl.Venta {
                     vPdnModule = new Galac.Adm.Brl.Vendedor.clsVendedorNav();
                     vResult = vPdnModule.GetDataForList("Factura", ref refXmlDocument, valXmlParamsExpression);
                     break;
-                case "Máquina Fiscal":
+                case "Impresora Fiscal":
                     vPdnModule = new Galac.Saw.Brl.Tablas.clsMaquinaFiscalNav();
                     vResult = vPdnModule.GetDataForList("Factura", ref refXmlDocument, valXmlParamsExpression);
                     break;

@@ -119,7 +119,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         throw new GalacAlertException("Papel agotado, favor reemplazar.");
                     }
                     if(!vSerialImpresoraFiscalInDB.Equals(vSerialImpresoraFiscalInConnection)) {
-                        throw new GalacAlertException("El serial de la máquina fiscal asignada a esta caja no corresponde. Revisar el dispositivo fiscal para continuar.");
+                        throw new GalacAlertException("El serial de la impresora fiscal asignada a esta caja no corresponde. Revisar el dispositivo fiscal para continuar.");
                     }
                     if(!(FechaYHoraValidaEnImpresoraFiscal(vFechaYHoraInConnection,ref vMensaje))) {
                         vResult = true;

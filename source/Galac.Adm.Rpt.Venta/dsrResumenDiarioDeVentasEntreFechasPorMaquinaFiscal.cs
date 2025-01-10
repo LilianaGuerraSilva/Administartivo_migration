@@ -37,7 +37,7 @@ namespace Galac.Adm.Rpt.Venta
 
         #region Metodos Generados
         public string ReportTitle() {
-            return "Resumen Diario de Ventas entre Fechas por Máquina Fiscal";
+            return "Resumen Diario de Ventas entre Fechas por Impresora Fiscal";
         }
 
         public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {
