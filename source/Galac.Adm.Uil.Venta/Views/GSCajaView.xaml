@@ -346,7 +346,7 @@
                         Grid.Row="9"
                         Grid.Column="1"
                         Grid.ColumnSpan="2"
-                        Width="385"
+                        Width="365"
                         Height="60"
                         Margin="3,3,10,3"
                         HorizontalAlignment="Stretch"
