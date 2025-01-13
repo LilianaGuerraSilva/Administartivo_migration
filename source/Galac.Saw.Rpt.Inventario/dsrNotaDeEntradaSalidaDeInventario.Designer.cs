@@ -45,8 +45,6 @@ namespace Galac.Saw.Rpt.Inventario
             this.txtNumeroDocumento = new DataDynamics.ActiveReports.TextBox();
             this.lblTipodeOperacion = new DataDynamics.ActiveReports.Label();
             this.txtTipodeOperacion = new DataDynamics.ActiveReports.TextBox();
-            this.lblCodigoCliente = new DataDynamics.ActiveReports.Label();
-            this.txtCliente = new DataDynamics.ActiveReports.TextBox();
             this.lblCodigoAlmacen = new DataDynamics.ActiveReports.Label();
             this.txtAlmacen = new DataDynamics.ActiveReports.TextBox();
             this.lblFecha = new DataDynamics.ActiveReports.Label();
@@ -78,8 +76,6 @@ namespace Galac.Saw.Rpt.Inventario
             ((System.ComponentModel.ISupportInitialize)(this.txtNumeroDocumento)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTipodeOperacion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTipodeOperacion)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblCodigoCliente)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCliente)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCodigoAlmacen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAlmacen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFecha)).BeginInit();
@@ -260,8 +256,6 @@ namespace Galac.Saw.Rpt.Inventario
             this.txtNumeroDocumento,
             this.lblTipodeOperacion,
             this.txtTipodeOperacion,
-            this.lblCodigoCliente,
-            this.txtCliente,
             this.lblCodigoAlmacen,
             this.txtAlmacen,
             this.lblFecha,
@@ -276,7 +270,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblLoteDeInventario,
             this.lblFechaDeElaboracion,
             this.lblFechaDeVencimiento});
-            this.GHSecNota.Height = 1.10325F;
+            this.GHSecNota.Height = 1.00025F;
             this.GHSecNota.Name = "GHSecNota";
             // 
             // lblNumeroDocumento
@@ -321,27 +315,6 @@ namespace Galac.Saw.Rpt.Inventario
             this.txtTipodeOperacion.Top = 0.15625F;
             this.txtTipodeOperacion.Width = 4.25F;
             // 
-            // lblCodigoCliente
-            // 
-            this.lblCodigoCliente.Height = 0.15625F;
-            this.lblCodigoCliente.HyperLink = null;
-            this.lblCodigoCliente.Left = 0F;
-            this.lblCodigoCliente.Name = "lblCodigoCliente";
-            this.lblCodigoCliente.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
-            this.lblCodigoCliente.Text = "Cliente";
-            this.lblCodigoCliente.Top = 0.3125F;
-            this.lblCodigoCliente.Width = 1F;
-            // 
-            // txtCliente
-            // 
-            this.txtCliente.Height = 0.15625F;
-            this.txtCliente.Left = 1F;
-            this.txtCliente.Name = "txtCliente";
-            this.txtCliente.Style = "font-size: 8pt; ddo-char-set: 1";
-            this.txtCliente.Text = "txtCliente";
-            this.txtCliente.Top = 0.3125F;
-            this.txtCliente.Width = 6.5F;
-            // 
             // lblCodigoAlmacen
             // 
             this.lblCodigoAlmacen.Height = 0.15625F;
@@ -350,7 +323,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblCodigoAlmacen.Name = "lblCodigoAlmacen";
             this.lblCodigoAlmacen.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.lblCodigoAlmacen.Text = "Almacén";
-            this.lblCodigoAlmacen.Top = 0.469F;
+            this.lblCodigoAlmacen.Top = 0.312F;
             this.lblCodigoAlmacen.Width = 1F;
             // 
             // txtAlmacen
@@ -360,7 +333,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.txtAlmacen.Name = "txtAlmacen";
             this.txtAlmacen.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtAlmacen.Text = "txtAlmacen";
-            this.txtAlmacen.Top = 0.469F;
+            this.txtAlmacen.Top = 0.312F;
             this.txtAlmacen.Width = 6.5F;
             // 
             // lblFecha
@@ -392,7 +365,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblComentarios.Name = "lblComentarios";
             this.lblComentarios.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.lblComentarios.Text = "Comentarios";
-            this.lblComentarios.Top = 0.625F;
+            this.lblComentarios.Top = 0.468F;
             this.lblComentarios.Width = 1F;
             // 
             // txtComentarios
@@ -402,7 +375,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.txtComentarios.Name = "txtComentarios";
             this.txtComentarios.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtComentarios.Text = "txtComentarios";
-            this.txtComentarios.Top = 0.625F;
+            this.txtComentarios.Top = 0.468F;
             this.txtComentarios.Width = 6.5F;
             // 
             // lblStatusNotaEntradaSalida
@@ -435,7 +408,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblCodigoArticulo.Name = "lblCodigoArticulo";
             this.lblCodigoArticulo.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.lblCodigoArticulo.Text = "Código";
-            this.lblCodigoArticulo.Top = 0.937F;
+            this.lblCodigoArticulo.Top = 0.8340001F;
             this.lblCodigoArticulo.Width = 1F;
             // 
             // lblDescripcionArticulo
@@ -447,7 +420,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblDescripcionArticulo.Name = "lblDescripcionArticulo";
             this.lblDescripcionArticulo.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.lblDescripcionArticulo.Text = "Descripción";
-            this.lblDescripcionArticulo.Top = 0.937F;
+            this.lblDescripcionArticulo.Top = 0.8340001F;
             this.lblDescripcionArticulo.Width = 2.75F;
             // 
             // lblCantidad
@@ -459,7 +432,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblCantidad.Name = "lblCantidad";
             this.lblCantidad.Style = "font-size: 8.25pt; font-weight: bold; text-align: right; ddo-char-set: 0";
             this.lblCantidad.Text = "Cantidad";
-            this.lblCantidad.Top = 0.937F;
+            this.lblCantidad.Top = 0.8340001F;
             this.lblCantidad.Width = 1.25F;
             // 
             // lblLoteDeInventario
@@ -471,7 +444,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblLoteDeInventario.Name = "lblLoteDeInventario";
             this.lblLoteDeInventario.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.lblLoteDeInventario.Text = "Lote de Inventario";
-            this.lblLoteDeInventario.Top = 0.937F;
+            this.lblLoteDeInventario.Top = 0.8340001F;
             this.lblLoteDeInventario.Width = 1.5F;
             // 
             // lblFechaDeElaboracion
@@ -483,7 +456,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblFechaDeElaboracion.Name = "lblFechaDeElaboracion";
             this.lblFechaDeElaboracion.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.lblFechaDeElaboracion.Text = "F. Elab.";
-            this.lblFechaDeElaboracion.Top = 0.937F;
+            this.lblFechaDeElaboracion.Top = 0.8340001F;
             this.lblFechaDeElaboracion.Width = 0.5F;
             // 
             // lblFechaDeVencimiento
@@ -495,7 +468,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblFechaDeVencimiento.Name = "lblFechaDeVencimiento";
             this.lblFechaDeVencimiento.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.lblFechaDeVencimiento.Text = "F. Vcto.";
-            this.lblFechaDeVencimiento.Top = 0.937F;
+            this.lblFechaDeVencimiento.Top = 0.8340001F;
             this.lblFechaDeVencimiento.Width = 0.5F;
             // 
             // GFSecNota
@@ -536,8 +509,6 @@ namespace Galac.Saw.Rpt.Inventario
             ((System.ComponentModel.ISupportInitialize)(this.txtNumeroDocumento)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTipodeOperacion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTipodeOperacion)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblCodigoCliente)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCliente)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCodigoAlmacen)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAlmacen)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFecha)).EndInit();
@@ -570,8 +541,6 @@ namespace Galac.Saw.Rpt.Inventario
         private DataDynamics.ActiveReports.TextBox txtNumeroDocumento;
         private DataDynamics.ActiveReports.Label lblTipodeOperacion;
         private DataDynamics.ActiveReports.TextBox txtTipodeOperacion;
-        private DataDynamics.ActiveReports.Label lblCodigoCliente;
-        private DataDynamics.ActiveReports.TextBox txtCliente;
         private DataDynamics.ActiveReports.TextBox txtAlmacen;
         private DataDynamics.ActiveReports.Label lblFecha;
         private DataDynamics.ActiveReports.TextBox txtFecha;
