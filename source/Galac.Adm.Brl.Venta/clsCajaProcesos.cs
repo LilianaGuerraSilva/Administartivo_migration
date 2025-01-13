@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Galac.Adm.Brl.Venta {
     public class clsCajaProcesos {
-        public const string UrlApiMFiscalPlataformaProduccion = "https://mfiscalapi.galac.com/";
+        public const string UrlApiMFiscalPlataformaProduccion = "https://ifiscalapi.galac.com/";
 
         public bool SendPostEstaHomologadaMaquinaFiscal(string valCajaNombre, string valFabricante, string valModelo, string valSerial, string valOperador, string valAccionDeAutorizacionDeProceso) {
             bool vresult = false;
