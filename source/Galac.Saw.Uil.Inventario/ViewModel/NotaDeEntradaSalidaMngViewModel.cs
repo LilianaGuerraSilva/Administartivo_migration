@@ -30,8 +30,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         //}
 
         public RelayCommand AnularCommand { get; private set; }
-
         public RelayCommand ReImprimirCommand { get; private set; }
+        public RelayCommand ReversarCommand { get; private set; }
         #endregion //Propiedades
         #region Constructores
         public NotaDeEntradaSalidaMngViewModel() : base(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
@@ -70,6 +70,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             //InformesCommand = new RelayCommand(ExecuteInformesCommand, CanExecuteInformesCommand);
             AnularCommand = new RelayCommand(ExecuteAnularCommand, CanExecuteAnularCommand);
             ReImprimirCommand = new RelayCommand(ExecuteReImprimirCommand, CanExecuteReImprimirCommand);
+            ReversarCommand = new RelayCommand(ExecuteReversarCommand, CanExecuteReversarCommand);
         }
 
         protected override void InitializeRibbon() {
@@ -86,6 +87,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             base.ExecuteCommandsRaiseCanExecuteChanged();
             ReImprimirCommand.RaiseCanExecuteChanged();
             AnularCommand.RaiseCanExecuteChanged();
+            ReversarCommand.RaiseCanExecuteChanged();
             //InformesCommand.RaiseCanExecuteChanged();
         }
 
@@ -188,6 +190,15 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         private LibRibbonGroupData CreateRibbonGroup() {
             LibRibbonGroupData vResult = new LibRibbonGroupData("");
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                Label = "Reversar",
+                Command = ReversarCommand,
+                CommandParameter = eAccionSR.Reversar,
+                LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/report.png", UriKind.Relative),
+                ToolTipDescription = "Reversar Nota de Entrada/Salida",
+                ToolTipTitle = "Reversar Nota de Entrada/Salida"
+            });
+
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
                 Label = "Anular Retiro",
                 Command = AnularCommand,
                 CommandParameter = eAccionSR.Anular,
@@ -221,8 +232,27 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
+        private void ExecuteReversarCommand() {
+            try {
+                NotaDeEntradaSalidaViewModel vViewModel = CreateNewElement(CurrentItem.GetModel(), eAccionSR.Anular);
+                vViewModel.InitializeViewModel(eAccionSR.Reversar);
+                bool result = LibMessages.EditViewModel.ShowEditor(vViewModel);
+                if (result) {
+                    SearchItems();
+                }
+            } catch (AccessViolationException) {
+                throw;
+            } catch (Exception vEx) {
+                LibMessages.RaiseError.ShowError(vEx);
+            }
+        }
+
         private bool CanExecuteAnularCommand() {
             return CurrentItem != null && LibSecurityManager.CurrentUserHasAccessTo(ModuleName, "Anular Retiro") && CurrentItem.GeneradoPor != eTipoGeneradoPorNotaDeEntradaSalida.OrdenDeProduccion ;// && CurrentItem.TipodeOperacion == eTipodeOperacion.Retiro;
+        }
+
+        private bool CanExecuteReversarCommand() {
+            return CurrentItem != null && LibSecurityManager.CurrentUserHasAccessTo(ModuleName, "Insertar") && CurrentItem.GeneradoPor == eTipoGeneradoPorNotaDeEntradaSalida.Usuario;
         }
 
         private void ExecuteReImprimirCommand() {

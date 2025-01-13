@@ -13,11 +13,15 @@ using LibGalac.Aos.Uil.Usal;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.Uil;
 using Galac.Adm.Uil.GestionProduccion;
+using Galac.Saw.Wrp.Administrativo;
+using Galac.Saw.Ccl.Inventario;
+using Galac.Saw.Brl.Inventario;
+
 namespace Galac.Saw.Wrp.Inventario {
 
     [ClassInterface(ClassInterfaceType.None)]
 
-    public class wrpNotaDeEntradaSalida: System.EnterpriseServices.ServicedComponent, IWrpMfVb {
+    public class wrpNotaDeEntradaSalida: System.EnterpriseServices.ServicedComponent, IWrpNotaDeEntradaSalida {
         #region Variables
         string _Title = "Nota de Entrada/Salida";
         #endregion //Variables
@@ -113,6 +117,24 @@ namespace Galac.Saw.Wrp.Inventario {
             LibGlobalValues.Instance.LoadCompleteAppMemInfo(valCurrentParameters);
             LibGlobalValues.Instance.GetMfcInfo().Add("Compania", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania"));
             LibGlobalValues.Instance.GetMfcInfo().Add("Periodo", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Periodo", "ConsecutivoPeriodo"));
+        }
+
+        string IWrpNotaDeEntradaSalida.EjecutaProcesoDeReversar(int valConsecutivoCompania, string valNumeroDocumento) {
+            try {
+                LibResponse vResult = new LibResponse();
+                INotaDeEntradaSalidaPdn insNotaES = new clsNotaDeEntradaSalidaNav();
+                vResult = insNotaES.ReversarNotaES(valConsecutivoCompania, valNumeroDocumento);
+                if (vResult.Success) {
+                    return "";
+                } else {
+                    return vResult.GetInformation();
+                }
+            } catch (Exception vEx) {
+                if (vEx is AccessViolationException) {
+                    throw;
+                }
+                throw new GalacWrapperException(Title + " - EjecutaProcesoDeReversar", vEx);
+            }
         }
         #endregion //Metodos Generados
 

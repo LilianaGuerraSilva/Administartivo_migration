@@ -469,8 +469,8 @@ namespace Galac.Saw.Brl.Inventario {
             RegisterClient();
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             vParams.AddInString("NumeroDocumento", valNumeroDocumento, 11);
-            ILibBusinessMasterComponent<IList<NotaDeEntradaSalida>, IList<NotaDeEntradaSalida>> x = new clsNotaDeEntradaSalidaNav();
-            NotaDeEntradaSalida vNotaES = x.GetData(eProcessMessageType.SpName, "NotaDeEntradaSalidaGET", vParams.Get(), true).FirstOrDefault();
+            ILibBusinessMasterComponent<IList<NotaDeEntradaSalida>, IList<NotaDeEntradaSalida>> insNotaES = new clsNotaDeEntradaSalidaNav();
+            NotaDeEntradaSalida vNotaES = insNotaES.GetData(eProcessMessageType.SpName, "NotaDeEntradaSalidaGET", vParams.Get(), true).FirstOrDefault();
             if (vNotaES == null) {
                 vResult.AddError("No se encontró la información para la Nota de E/S: " + valNumeroDocumento);
                 return vResult;
@@ -508,7 +508,7 @@ namespace Galac.Saw.Brl.Inventario {
 
             List<NotaDeEntradaSalida> vListaNotaES = new List<NotaDeEntradaSalida>() { vNotaES };
 
-            vResult = x.DoAction(vListaNotaES, eAccionSR.Insertar, null, true);
+            vResult = insNotaES.DoAction(vListaNotaES, eAccionSR.Insertar, null, true);
 
             return vResult;
         }
