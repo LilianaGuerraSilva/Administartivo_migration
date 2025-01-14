@@ -108,7 +108,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             StringBuilder vSql = new StringBuilder();
 
             vSql.AppendLine("UPDATE Comun.SettValueByCompany SET Value = " + InsSql.ToSqlValue(false));
-            vSql.AppendLine(" WHERE NameSettDefinition  " + InsSql.ToSqlValue("ImprimirNotaESconPrecio"));
+            vSql.AppendLine(" WHERE NameSettDefinition  = " + InsSql.ToSqlValue("ImprimirNotaESconPrecio"));
             Execute(vSql.ToString(), 0);
         }
     }
