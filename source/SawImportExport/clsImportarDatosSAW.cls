@@ -3770,7 +3770,7 @@ Private Function fContinuaConProcesosDeInsercionDeArticulos(ByVal valTotalRegist
     Dim Continuar As Boolean
     Dim valNumeroNotaEntrada As String
     On Error GoTo h_ERROR
-    Continuar = insNotaDeEntrada.fInsertDesdeImportacionInventario(mConsecutivoCompaniaActual, gProyParametrosCompania.getCodigoGenericoCliente, gProyParametrosCompania.GetCodigoAlmacenGenerico, valDatosDeInventario, valTotalRegistro, mCodigoLote)
+    Continuar = insNotaDeEntrada.fInsertDesdeImportacionInventario(mConsecutivoCompaniaActual, gProyParametrosCompania.GetCodigoAlmacenGenerico, valDatosDeInventario, valTotalRegistro, mCodigoLote)
     If Continuar Then
        Continuar = insExistenciaNavigator.fInsertDesdeImportacionInventario(mConsecutivoCompaniaActual, valDatosDeInventario, valTotalRegistro)
     End If

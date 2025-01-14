@@ -55,10 +55,10 @@
     <LibGalac.Aos.UI.Mvvm>5.24.2.4</LibGalac.Aos.UI.Mvvm>
     <LibGalac.Aos.UI.WpfBN>5.24.0.0</LibGalac.Aos.UI.WpfBN>
     <LibGalac.Aos.Uil>5.24.2.4</LibGalac.Aos.Uil>
-    <LibGalac.Aos.Brl.Usal>5.24.0.0</LibGalac.Aos.Brl.Usal>
-    <LibGalac.Aos.Ccl.Usal>5.24.0.0</LibGalac.Aos.Ccl.Usal>
-    <LibGalac.Aos.Dal.Usal>5.24.0.0</LibGalac.Aos.Dal.Usal>
-    <LibGalac.Aos.Uil.Usal>5.24.1.0</LibGalac.Aos.Uil.Usal>
+    <LibGalac.Aos.Brl.Usal>5.24.24</LibGalac.Aos.Brl.Usal>
+    <LibGalac.Aos.Ccl.Usal>5.24.2.4</LibGalac.Aos.Ccl.Usal>
+    <LibGalac.Aos.Dal.Usal>5.24.2.4</LibGalac.Aos.Dal.Usal>
+    <LibGalac.Aos.Uil.Usal>5.24.2.4</LibGalac.Aos.Uil.Usal>
     <LibGalac.Aos.ARRpt>5.24.1.0</LibGalac.Aos.ARRpt>
     <LibGalac.Aos.ObRpt>5.24.0.0</LibGalac.Aos.ObRpt>
     <LibGalac.Aos.OXml>5.24.0.0</LibGalac.Aos.OXml>
@@ -89,7 +89,7 @@
     <LibGalac.Aos.Brl.PASOnLine>5.24.0.0</LibGalac.Aos.Brl.PASOnLine>
     <LibGalac.Aos.Ccl.PASOnLine>5.24.0.0</LibGalac.Aos.Ccl.PASOnLine>
     <LibGalac.Aos.Dal.PASOnLine>5.24.0.0</LibGalac.Aos.Dal.PASOnLine>
-    <LibGalac.Aos.Uil.PASOnLine>5.24.0.0</LibGalac.Aos.Uil.PASOnLine>
+    <LibGalac.Aos.Uil.PASOnLine>5.24.2.4</LibGalac.Aos.Uil.PASOnLine>
 
     <LibGalac.Ssm>24.4.0.0</LibGalac.Ssm>
     <LibGalac.Ssm.IO>24.1.0.0</LibGalac.Ssm.IO>
@@ -163,11 +163,11 @@
     <Galac.Saw.Rpt.Cliente>2.61.1.0</Galac.Saw.Rpt.Cliente>
     <Galac.Saw.Uil.Cliente>2.61.0.0</Galac.Saw.Uil.Cliente>
 
-    <Galac.Saw.Ccl.Inventario>2.61.2.0</Galac.Saw.Ccl.Inventario>
-    <Galac.Saw.Dal.Inventario>2.61.2.0</Galac.Saw.Dal.Inventario>
-    <Galac.Saw.Brl.Inventario>2.61.2.0</Galac.Saw.Brl.Inventario>
-    <Galac.Saw.Rpt.Inventario>2.61.2.0</Galac.Saw.Rpt.Inventario>
-    <Galac.Saw.Uil.Inventario>2.61.2.0</Galac.Saw.Uil.Inventario>
+    <Galac.Saw.Ccl.Inventario>2.61.3.0</Galac.Saw.Ccl.Inventario>
+    <Galac.Saw.Dal.Inventario>2.61.3.0</Galac.Saw.Dal.Inventario>
+    <Galac.Saw.Brl.Inventario>2.61.3.0</Galac.Saw.Brl.Inventario>
+    <Galac.Saw.Rpt.Inventario>2.61.3.0</Galac.Saw.Rpt.Inventario>
+    <Galac.Saw.Uil.Inventario>2.61.3.0</Galac.Saw.Uil.Inventario>
 
     <Galac.Saw.SLev>2.61.3.0</Galac.Saw.SLev>
     <Galac.Contab.SLev>2.61.0.0</Galac.Contab.SLev>

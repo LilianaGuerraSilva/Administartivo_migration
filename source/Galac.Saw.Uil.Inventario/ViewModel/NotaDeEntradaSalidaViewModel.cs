@@ -86,12 +86,12 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Código del Cliente", eGridColumType.Connection, ConnectionDisplayMemberPath = "codigo", ConnectionModelPropertyName = "CodigoCliente", ConnectionSearchCommandName = "ChooseCodigoClienteCommand", Width=120)]
         public string  CodigoCliente {
             get {
                 return Model.CodigoCliente;
             }
             set {
+
                 if (Model.CodigoCliente != value) {
                     Model.CodigoCliente = value;
                     IsDirty = true;
@@ -175,6 +175,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
+        [LibRequired(ErrorMessage = "El campo Comentario es requerido.")]
         public string  Comentarios {
             get {
                 return Model.Comentarios;
@@ -424,8 +425,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
             if (Action == eAccionSR.Insertar) {//FASE 1 Lote/FdV: No se maneja almacén
                 CodigoAlmacen = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoAlmacenGenerico");
-                CodigoCliente = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoGenericoCliente");
             }
+            CodigoCliente = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoGenericoCliente");
         }
 
         protected override NotaDeEntradaSalida FindCurrentRecord(NotaDeEntradaSalida valModel) {
@@ -467,13 +468,39 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                         vNotaDeEntradaSalida.Add(Model);
                         LibResponse vDialgoResult = vNotaDeEntradaSalidaNav.AnularRecord(vNotaDeEntradaSalida);
                         if (vDialgoResult.Success) {
-                            LibMessages.MessageBox.Information(this, String.Format("La Nota de Entrada {0} se anuló correctamente", Model.NumeroDocumento), "Información");
+                            LibMessages.MessageBox.Information(this, String.Format("La Nota de Entrada {0} se anuló correctamente.", Model.NumeroDocumento), "Información");
                         } else {
                             LibMessages.MessageBox.Information(this, vDialgoResult.GetInformation(), ModuleName);
                         }
                     }
                 } else {
-                    LibMessages.MessageBox.Information(this, "Sólo se pueden Anular las Notas de Retiro de Inventario", ModuleName);
+                    LibMessages.MessageBox.Information(this, "Sólo se pueden Anular las Notas de Retiro de Inventario.", ModuleName);
+                }
+                RaiseRequestCloseEvent();
+            } else if (Action.Equals(eAccionSR.Reversar)) {
+                CloseOnActionComplete = true;
+                if (Model.TipodeOperacionAsEnum != eTipodeOperacion.Retiro) {
+                    if (Model.GeneradoPorAsEnum == eTipoGeneradoPorNotaDeEntradaSalida.Usuario) {
+                        if (LibString.S1StartsWithS2(Model.Comentarios, "Reverso de la Nota E/S:")) {
+                            LibMessages.MessageBox.Information(this, "Esta Nota de E/S ya es un reverso y no puede ser reversada.", ModuleName);
+                        } else {
+                            if (LibMessages.MessageBox.YesNo(this, "¿Está seguro que desea reversar esta Nota de Entrada/Salida de Inventario?", ModuleName)) {
+                                INotaDeEntradaSalidaPdn vNotaDeEntradaSalidaNav = new clsNotaDeEntradaSalidaNav();
+                                IList<NotaDeEntradaSalida> vNotaDeEntradaSalida = new List<NotaDeEntradaSalida>();
+                                vNotaDeEntradaSalida.Add(Model);
+                                LibResponse vDialgoResult = vNotaDeEntradaSalidaNav.ReversarNotaES(Model.ConsecutivoCompania, Model.NumeroDocumento);
+                                if (vDialgoResult.Success) {
+                                    LibMessages.MessageBox.Information(this, String.Format("La Nota de Entrada/Salida de Inventario {0} se reversó correctamente.", Model.NumeroDocumento), "Información");
+                                } else {
+                                    LibMessages.MessageBox.Information(this, vDialgoResult.GetInformation(), ModuleName);
+                                }
+                            }
+                        }
+                    } else {
+                        LibMessages.MessageBox.Information(this, "Solo se pueden reversar las Notas de E/S ingresadas por Usuarios.", ModuleName);
+                    }
+                } else {
+                    LibMessages.MessageBox.Information(this, "El tipo de operación Retiro no puede ser reversado.", ModuleName);
                 }
                 RaiseRequestCloseEvent();
             } else if (Action == eAccionSR.ReImprimir) {
