@@ -180,7 +180,7 @@ namespace Galac.Adm.Uil.Venta {
         }
 
         private void NotificarQueFaltaDefinirParametrosBancarios() {
-            string vMensajeParametrosNoDefinidos = "No se han definido los parametros bancarios de Cobro Directo validos, Debe configurar y asignarlos para continuar";
+            string vMensajeParametrosNoDefinidos = "No se han definido los parámetros bancarios de Cobro Directo válidos. Debe configurar y asignarlos para continuar.";
             LibMessages.MessageBox.Information(this, vMensajeParametrosNoDefinidos, "Punto de Venta");
         }
 
