@@ -42,7 +42,7 @@
             Height="23" 
             Margin="3" 
             HorizontalAlignment="Left" 
-            Width="250" IsEnabled="{Binding Path=IsEnabled}"
+            Width="250" IsEnabled="{Binding Path=NotaESIsEnabled}"
             DisplayMemberPath="Descripcion"
             Model="{Binding Path=ConexionCodigoArticulo, Mode=TwoWay}"
             ConnectionValue="{Binding Path=CodigoArticulo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
@@ -68,7 +68,7 @@
             InputDataType="UDecimal" 
             MaxLength="28" 
             Width="150" 
-            IsEnabled="{Binding Path=IsEnabled}"
+            IsEnabled="{Binding Path=NotaESIsEnabled}"
             Value="{Binding Path=Cantidad, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
             BorderThickness="1" 
             DecimalDigits="4"/>

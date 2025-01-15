@@ -673,7 +673,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         public bool NotaESIsEnabled {
             get {
-                return IsEnabled && Action != eAccionSR.Anular && Action != eAccionSR.ReImprimir;
+                return IsEnabled && Action != eAccionSR.Anular && Action != eAccionSR.ReImprimir && Action != eAccionSR.Reversar;
             }
         }
 
