@@ -72,20 +72,21 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             StringBuilder vSql = new StringBuilder();            
             String vVersionProgramaActual = LibDefGen.ProgramInfo.ProgramVersion;
 
-            vSql.AppendLine("INSERT INTO Adm.AuditoriaConfiguracion ");
-            vSql.AppendLine(" (ConsecutivoCompania, ConsecutivoAuditoria, VersionPrograma, FechayHora, Accion, Motivo, ConfiguracionOriginal, ConfiguracionNueva, NombreOperador, FechaUltimaModificacion)");
-            vSql.AppendLine(" SELECT ConsecutivoCompania, ROW_NUMBER() OVER (PARTITION BY ConsecutivoCompania ORDER BY ConsecutivoCompania ASC), " + InsSql.ToSqlValue(vVersionProgramaActual) + ", ");
-            vSql.AppendLine(_TodayAsSqlValue + ", " + InsSql.ToSqlValue("REESTRUCTURACION") + ", " + InsSql.ToSqlValue("Corrección Configuración Inicial") + ", ");
-            vSql.AppendLine(InsSql.ToSqlValue("NombreCaja: ") + "+ NombreCaja + " + InsSql.ToSqlValue("; UsaMaquinaFiscal: N; Serial: ") + "+ SerialDeMaquinaFiscal + " + InsSql.ToSqlValue("; Versión Programa: ") + "+" + InsSql.ToSqlValue(ReadProgramCurrentVersion()) + ", ");
-            vSql.AppendLine(InsSql.ToSqlValue("Serial: ") + ", ");
-            vSql.AppendLine(" NombreOperador, ");
-            vSql.AppendLine(_TodayAsSqlValue);
-            vSql.AppendLine(" FROM Adm.Caja");
-            vSql.AppendLine(" WHERE UsaMaquinaFiscal = " + InsSql.ToSqlValue("N"));
-            vSql.AppendLine(" AND SerialDeMaquinaFiscal <> " + InsSql.ToSqlValue(""));
-            vSql.AppendLine(" AND VersionPrograma <> " + InsSql.ToSqlValue(vVersionProgramaActual));
-            Execute(vSql.ToString(), -1);
-            vSql.Clear();
+            if (!(RecordCountOfSql("SELECT * FROM Adm.AuditoriaConfiguracion WHERE VersionPrograma = " + InsSql.ToSqlValue(vVersionProgramaActual)) > 0)) {
+                vSql.AppendLine("INSERT INTO Adm.AuditoriaConfiguracion ");
+                vSql.AppendLine(" (ConsecutivoCompania, ConsecutivoAuditoria, VersionPrograma, FechayHora, Accion, Motivo, ConfiguracionOriginal, ConfiguracionNueva, NombreOperador, FechaUltimaModificacion)");
+                vSql.AppendLine(" SELECT ConsecutivoCompania, ROW_NUMBER() OVER (PARTITION BY ConsecutivoCompania ORDER BY ConsecutivoCompania ASC), " + InsSql.ToSqlValue(vVersionProgramaActual) + ", ");
+                vSql.AppendLine(_TodayAsSqlValue + ", " + InsSql.ToSqlValue("REESTRUCTURACION") + ", " + InsSql.ToSqlValue("Corrección Configuración Inicial") + ", ");
+                vSql.AppendLine(InsSql.ToSqlValue("NombreCaja: ") + " + CAST(NombreCaja AS varchar) + " + InsSql.ToSqlValue("; UsaMaquinaFiscal: N; Serial: ") + " + CAST(SerialDeMaquinaFiscal AS varchar) + " + InsSql.ToSqlValue("; Versión Programa: ") + " + CAST(" + InsSql.ToSqlValue(ReadProgramCurrentVersion()) + " AS varchar), ");
+                vSql.AppendLine(InsSql.ToSqlValue("Serial: ") + ", ");
+                vSql.AppendLine(" NombreOperador, ");
+                vSql.AppendLine(_TodayAsSqlValue);
+                vSql.AppendLine(" FROM Adm.Caja");
+                vSql.AppendLine(" WHERE UsaMaquinaFiscal = " + InsSql.ToSqlValue("N"));
+                vSql.AppendLine(" AND SerialDeMaquinaFiscal <> " + InsSql.ToSqlValue(""));
+                Execute(vSql.ToString(), -1);
+                vSql.Clear();
+            }
             
             vSql.AppendLine("UPDATE Adm.Caja");
             vSql.AppendLine(" SET SerialDeMaquinaFiscal = " + InsSql.ToSqlValue(""));
