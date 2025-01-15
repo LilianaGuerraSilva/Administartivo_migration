@@ -31,7 +31,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             return true;
         }
 
-        private void CrearAuditoriaConfiguracion() {
+        private void CrearAuditoriaConfiguracion() {            
             new clsAuditoriaConfiguracionED().InstalarTabla();
         }
         private void CrearParametroUsaMaquinaFiscal() {
@@ -83,6 +83,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             vSql.AppendLine(" FROM Adm.Caja");
             vSql.AppendLine(" WHERE UsaMaquinaFiscal = " + InsSql.ToSqlValue("N"));
             vSql.AppendLine(" AND SerialDeMaquinaFiscal <> " + InsSql.ToSqlValue(""));
+            vSql.AppendLine(" AND VersionPrograma <> " + InsSql.ToSqlValue(vVersionProgramaActual));
             Execute(vSql.ToString(), -1);
             vSql.Clear();
             
