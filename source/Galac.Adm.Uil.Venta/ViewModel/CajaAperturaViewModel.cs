@@ -888,30 +888,31 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             bool vSePuede = false;
             string vRefMensaje = "";
             try {
-                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMaquinaFiscal")) {
-                    bool vMaquinaFiscalHomologada = true;
-                    ICajaPdn InsCaja = new clsCajaNav();
-                    _XmlDatosImprFiscal = InsCaja.ValidateImpresoraFiscal(ref vRefMensaje);
-                    if (!LibString.IsNullOrEmpty(vRefMensaje)) {
-                        LibMessages.MessageBox.Information(this, vRefMensaje, "");
-                    } else if (HayConexionAInternet()) {
-                        vMaquinaFiscalHomologada = MaquinaFiscalEstaHomologada(Model.ConsecutivoCompania, Model.ConsecutivoCaja, Model.NombreOperador, "Abrir Caja");
-                        vSePuede = ValidarCajasAbiertas() && ValidarUsuarioAsignado() && vMaquinaFiscalHomologada;
-                        if (vSePuede) {
-                            base.ExecuteAction();
-                            LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue abierta con exito.", "");
-                            ExecuteCloseCommand();
+                bool vMaquinaFiscalHomologada = true;
+                ICajaPdn InsCaja = new clsCajaNav();
+                _XmlDatosImprFiscal = InsCaja.ValidateImpresoraFiscal(ref vRefMensaje);
+                if (!LibString.IsNullOrEmpty(vRefMensaje)) {
+                    LibMessages.MessageBox.Information(this, vRefMensaje, "");
+                } else {
+                    vSePuede = ValidarCajasAbiertas() && ValidarUsuarioAsignado();
+                    if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMaquinaFiscal")) {
+                        if (HayConexionAInternet()) {
+                            vMaquinaFiscalHomologada = MaquinaFiscalEstaHomologada(Model.ConsecutivoCompania, Model.ConsecutivoCaja, Model.NombreOperador, "Abrir Caja");
+                            vSePuede = vSePuede && vMaquinaFiscalHomologada;
                         }
                     }
-                } else {
-                    vSePuede = true;
-                }                
+                    if (vSePuede) {
+                        base.ExecuteAction();
+                        LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue abierta con exito.", "");
+                        ExecuteCloseCommand();
+                    }
+                }
             } catch (Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
 
-        private void ExecuteCerrarCajaCommand() {
+private void ExecuteCerrarCajaCommand() {
             bool vSePuede = false;
             try {
                 vSePuede = ValidarCajasAbiertas() && ValidarUsuarioAsignado();
