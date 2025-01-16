@@ -424,5 +424,12 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 return false;
             }
         }
+
+        public bool NotaESIsEnabled {
+            get {
+                return IsEnabled && Action != eAccionSR.Anular && Action != eAccionSR.ReImprimir && Action != eAccionSR.Reversar;
+            }
+        }
+
     } //End of class RenglonNotaESViewModel
 } //End of namespace Galac.Saw.Uil.Inventario

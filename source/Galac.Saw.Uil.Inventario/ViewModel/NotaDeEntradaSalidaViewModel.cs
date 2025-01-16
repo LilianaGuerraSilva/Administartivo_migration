@@ -105,8 +105,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibRequired(ErrorMessage = "El campo Nombre Cliente es requerido.")]
-        [LibGridColum("Nombre del Cliente", eGridColumType.Connection, ConnectionDisplayMemberPath = "Nombre", ConnectionModelPropertyName = "NombreCliente", ConnectionSearchCommandName = "ChooseNombreClienteCommand", Width=150)]
         public string  NombreCliente {
             get {
                 return Model.NombreCliente;
@@ -673,7 +671,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         public bool NotaESIsEnabled {
             get {
-                return IsEnabled && Action != eAccionSR.Anular && Action != eAccionSR.ReImprimir;
+                return IsEnabled && Action != eAccionSR.Anular && Action != eAccionSR.ReImprimir && Action != eAccionSR.Reversar;
             }
         }
 

@@ -175,8 +175,12 @@ namespace Galac.Saw.Wrp.Venta {
             string vRefMensaje = string.Empty;
             ICajaPdn insCaja = new clsCajaNav();
             XElement vXmlDatosImprFiscal = insCaja.ValidateImpresoraFiscal(ref vRefMensaje);
-            if (!LibString.IsNullOrEmpty(vRefMensaje)) {
-                return vRefMensaje;
+            if (!LibString.IsNullOrEmpty(vRefMensaje) || vXmlDatosImprFiscal == null) {
+                if (LibString.IsNullOrEmpty(vRefMensaje)) {
+                    return "No se cumplen las condiciones para el uso de la Impresora Fiscal.";
+                } else {
+                    return vRefMensaje;
+                }
             }
             return "";
         }
