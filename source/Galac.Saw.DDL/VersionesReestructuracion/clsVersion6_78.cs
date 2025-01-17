@@ -27,6 +27,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             LimpiaParametroAccionAlAnularFactDeMesesAnt();
             CorregirInconsistenciasEnCajasQueNoUtilizanMF();
             LimpiaParametroImprimirPrecioEnNotaES();
+            CorreccionDeDatosNullEnCliente();
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -111,6 +112,15 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 
             vSql.AppendLine("UPDATE Comun.SettValueByCompany SET Value = " + InsSql.ToSqlValue(false));
             vSql.AppendLine(" WHERE NameSettDefinition  = " + InsSql.ToSqlValue("ImprimirNotaESconPrecio"));
+            Execute(vSql.ToString(), 0);
+        }
+
+        private void CorreccionDeDatosNullEnCliente() {
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("UPDATE Cliente SET CuentaContableCxc = '', CuentaContableIngresos = '', CuentaContableAnticipo = '' ");
+            vSql.AppendLine("WHERE (Codigo = 'RD_Cliente' OR (Codigo = '000000000A' AND Nombre = 'OFICINA')) ");
+            vSql.AppendLine("AND (CuentaContableCxc IS NULL OR CuentaContableIngresos IS NULL OR CuentaContableAnticipo IS NULL)");
+
             Execute(vSql.ToString(), 0);
         }
     }
