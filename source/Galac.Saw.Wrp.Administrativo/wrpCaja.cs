@@ -17,6 +17,7 @@ using Galac.Adm.Ccl.DispositivosExternos;
 using System.Xml.Linq;
 using Galac.Saw.Wrp.Venta;
 using Galac.Adm.Brl.Venta;
+using System.Windows;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Venta {
 #elif IsExeBsS​
@@ -172,17 +173,9 @@ namespace Galac.Saw.Wrp.Venta {
 
         string IWrpCaja.ValidateImpresoraFiscal(string vfwCurrentParameters) {
             CreateGlobalValues(vfwCurrentParameters);
-            string vRefMensaje = string.Empty;
             ICajaPdn insCaja = new clsCajaNav();
-            XElement vXmlDatosImprFiscal = insCaja.ValidateImpresoraFiscal(ref vRefMensaje);
-            if (!LibString.IsNullOrEmpty(vRefMensaje) || vXmlDatosImprFiscal == null) {
-                if (LibString.IsNullOrEmpty(vRefMensaje)) {
-                    return "No se cumplen las condiciones para el uso de la Impresora Fiscal.";
-                } else {
-                    return vRefMensaje;
-                }
-            }
-            return "";
+            string vResult = insCaja.ValidaImpresoraFiscalVb();
+            return vResult;
         }
         #endregion //Metodos Generados
     } //End of class wrpCaja

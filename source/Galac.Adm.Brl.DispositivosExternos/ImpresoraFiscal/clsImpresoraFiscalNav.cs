@@ -87,7 +87,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             return vResult;
         }
 
-        public bool DetectarImpresoraFiscal(ref eStatusImpresorasFiscales refStatusPapel) {
+        public bool DetectarImpresoraFiscal(ref eStatusImpresorasFiscales refStatusPapel) {//Todo cambio se debe adaptar en DetectarImpresoraFiscalVb
             bool vResult = false;
             if(_ImpresoraFiscal == null) {
                 vResult = false;
@@ -100,7 +100,21 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             return vResult;
         }
 
-        private bool ComprobarEstadosDeImpresora(ref eStatusImpresorasFiscales refStatusPapel) {
+        public bool DetectarImpresoraFiscalVb(ref eStatusImpresorasFiscales refStatusPapel, ref string refErrorMessage) {//Todo cambio se debe adaptar en DetectarImpresoraFiscal
+            bool vResult = false;
+            refErrorMessage = "";
+            if (_ImpresoraFiscal == null) {
+                vResult = false;
+            } else if (_ImpresoraFiscal.AbrirConexion()) {
+                vResult = ComprobarEstadosDeImpresoraVb(ref refStatusPapel, ref refErrorMessage);
+                _ImpresoraFiscal.CerrarConexion();
+            } else {
+                refErrorMessage = "No se pudo conectar a la Impresora Fiscal. Revisar Conexiones. ";
+            }
+            return vResult;
+        }
+
+        private bool ComprobarEstadosDeImpresora(ref eStatusImpresorasFiscales refStatusPapel) {//Todo cambio se debe adaptar en ComprobarEstadosDeImpresoraVb
             bool vResult = false;
             string vSerialImpresoraFiscalInDB = "";
             string vSerialImpresoraFiscalInConnection = "";
@@ -131,6 +145,41 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 }
                 return vResult;
             } catch(GalacException vEx) {
+                throw vEx;
+            }
+        }
+
+        private bool ComprobarEstadosDeImpresoraVb(ref eStatusImpresorasFiscales refStatusPapel, ref string refMensaje) {//Todo cambio se debe adaptar en ComprobarEstadosDeImpresora
+            bool vResult = false;
+            string vSerialImpresoraFiscalInDB = "";
+            string vSerialImpresoraFiscalInConnection = "";
+            DateTime vFechaYHoraInConnection;
+            string vMensaje = "";
+
+            try {
+                if (_ImpresoraFiscal.ComprobarEstado()) {
+                    refStatusPapel = _ImpresoraFiscal.EstadoDelPapel(false);
+                    vSerialImpresoraFiscalInDB = SerialImpresoraFiscal;
+                    vSerialImpresoraFiscalInConnection = _ImpresoraFiscal.ObtenerSerial(false);
+                    vFechaYHoraInConnection = LibConvert.ToDate(_ImpresoraFiscal.ObtenerFechaYHora());
+                    if (refStatusPapel.Equals(eStatusImpresorasFiscales.ePocoPapel)) {
+                        vResult = true;
+                    } else if (refStatusPapel.Equals(eStatusImpresorasFiscales.eSinPapel) || refStatusPapel.Equals(eStatusImpresorasFiscales.eAtascoDePapel)) {
+                        refMensaje = "Papel agotado, favor reemplazar.";
+                    }
+                    if (!vSerialImpresoraFiscalInDB.Equals(vSerialImpresoraFiscalInConnection)) {
+                        refMensaje = "El serial de la impresora fiscal asignada a esta caja no corresponde. Revisar el dispositivo fiscal para continuar.";
+                    }
+                    if (!(FechaYHoraValidaEnImpresoraFiscal(vFechaYHoraInConnection, ref vMensaje))) {
+                        vResult = true;
+                        refMensaje = vMensaje;
+                    }
+                    vResult = true;
+                } else {
+                    refMensaje = "No se pudo conectar a la Impresora Fiscal. Revisar Conexiones.";
+                }
+                return vResult;
+            } catch (GalacException vEx) {
                 throw vEx;
             }
         }

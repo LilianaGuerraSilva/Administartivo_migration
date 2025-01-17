@@ -208,7 +208,7 @@ namespace Galac.Adm.Brl.Venta {
             return vImpresoraFiscal;
         }
 
-        XElement ICajaPdn.ValidateImpresoraFiscal(ref string refMensaje) {
+        XElement ICajaPdn.ValidateImpresoraFiscal(ref string refMensaje) {//Todo cambio se debe adaptar en ValidaImpresoraFiscalVb
             bool SeDetectoImpresoraFiscal = false;
             XElement xmlCajaDat = null;
             IImpresoraFiscalPdn vImpresoraFiscal = null;
@@ -236,6 +236,32 @@ namespace Galac.Adm.Brl.Venta {
                 refMensaje = vEx.Message;
                 return null;
             }
+        }
+
+        string ICajaPdn.ValidaImpresoraFiscalVb() { //Todo cambio se debe adaptar en ValidateImpresoraFiscal
+            string vResult = string.Empty;
+            try {
+                int vCajaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ConsecutivoCaja");
+                int vConsecutivoCompania = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("FacturaRapida", "ConsecutivoCompania");
+                if ((vCajaLocal != 0) && (vConsecutivoCompania > 0)) {
+                    eStatusImpresorasFiscales refStatusPapel = new eStatusImpresorasFiscales();
+                    XElement xmlCajaDat = null;
+                    ICajaPdn insCaja = new clsCajaNav();
+                    insCaja.FindByConsecutivoCaja(vConsecutivoCompania, vCajaLocal, "", ref xmlCajaDat);
+                    IImpresoraFiscalPdn vImpresoraFiscal = InitializeImpresoraFiscal(xmlCajaDat, vCajaLocal);
+                    clsImpresoraFiscalNav insIF = new clsImpresoraFiscalNav(vImpresoraFiscal);
+                    insIF.SerialImpresoraFiscal = SerialMaquinaFiscal;
+                    bool vSeDetectoImpresoraFiscal = insIF.DetectarImpresoraFiscalVb(ref refStatusPapel, ref vResult);
+                    if (!vSeDetectoImpresoraFiscal) {
+                        vResult +=  "\nNo se pudo detectar la impresora fiscal.";
+                    } else if (refStatusPapel.Equals(eStatusImpresorasFiscales.ePocoPapel)) {
+                        vResult += "\nLa impresora fiscal tiene poco papel.";
+                    }
+                }
+            } catch (GalacException vEx) {
+                vResult = vEx.Message;
+            }
+            return vResult;
         }
 
         void ICajaPdn.ActualizarRegistroDeMaquinaFiscal(eAccionSR valAccion, int valConsecutivoCompania, eImpresoraFiscal valModeloImpresoraFiscal, string valSerialMaquinaFiscal, string valUltimoNumeroComptbanteFiscal, string valNombreOperador) {

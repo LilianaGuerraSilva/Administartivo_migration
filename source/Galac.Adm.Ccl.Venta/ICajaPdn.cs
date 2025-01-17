@@ -16,6 +16,7 @@ namespace Galac.Adm.Ccl.Venta {
         bool FindByConsecutivoCaja(int valConsecutivoCompania,int valConsecutivoCaja, string vSqlWhere ,ref XElement refXElement);
         string BuscarModeloDeMaquinaFiscal(int valConsecutivoCompania,int valConsecutivoCaja);
         XElement ValidateImpresoraFiscal(ref string refMensaje);
+        string ValidaImpresoraFiscalVb();
         bool InsertarCajaPorDefecto(int valConsecutivoCompania);
         bool ActualizaUltimoNumComprobante(int valConsecutivoCompania,int valConsecutivoCaja,string valNumero,bool valEsNotaDeCredito);
         void ActualizarRegistroDeMaquinaFiscal(eAccionSR valAccion,int valConsecutivoCompania,eImpresoraFiscal valModeloImpresoraFiscal,string valSerialMaquinaFiscal,string valUltimoNumeroComptbanteFiscal,string valNombreOperador);
