@@ -251,17 +251,11 @@ namespace Galac.Adm.Brl.Venta {
                     IImpresoraFiscalPdn vImpresoraFiscal = InitializeImpresoraFiscal(xmlCajaDat, vCajaLocal);
                     clsImpresoraFiscalNav insIF = new clsImpresoraFiscalNav(vImpresoraFiscal);
                     insIF.SerialImpresoraFiscal = SerialMaquinaFiscal;
-                    LibFile.WriteLineInFile(@"C:\Temp\pasos.txt", "ValidaImpresoraFiscalVb-9", false);
                     bool vSeDetectoImpresoraFiscal = insIF.DetectarImpresoraFiscalVb(ref refStatusPapel, ref vResult);
-                    LibFile.WriteLineInFile(@"C:\Temp\pasos.txt", "ValidaImpresoraFiscalVb-10", true);
                     if (!vSeDetectoImpresoraFiscal) {
-                        LibFile.WriteLineInFile(@"C:\Temp\pasos.txt", "ValidaImpresoraFiscalVb-11", true);
                         vResult +=  "\nNo se pudo detectar la impresora fiscal.";
-                        LibFile.WriteLineInFile(@"C:\Temp\pasos.txt", "ValidaImpresoraFiscalVb-12", true);
                     } else if (refStatusPapel.Equals(eStatusImpresorasFiscales.ePocoPapel)) {
-                        LibFile.WriteLineInFile(@"C:\Temp\pasos.txt", "ValidaImpresoraFiscalVb-13", true);
                         vResult += "\nLa impresora fiscal tiene poco papel.";
-                        LibFile.WriteLineInFile(@"C:\Temp\pasos.txt", "ValidaImpresoraFiscalVb-14", true);
                     }
                 }
             } catch (GalacException vEx) {
