@@ -150,14 +150,15 @@ namespace Galac.Adm.Brl.Venta {
                 if (!LibString.IsNullOrEmpty(valSqlWhere)) {
                     SQL.AppendLine(" INNER JOIN Comun.SettValueByCompany ON ");
                     SQL.AppendLine(" Comun.SettValueByCompany.ConsecutivoCompania = Caja.ConsecutivoCompania AND ");
-                    SQL.AppendLine(" Comun.SettValueByCompany.NameSettDefinition = UsaMaquinaFiscal ");
+                    SQL.AppendLine(" Comun.SettValueByCompany.Value = UsaMaquinaFiscal ");
                 }
                 SQL.AppendLine(" WHERE Caja.ConsecutivoCompania = @ConsecutivoCompania ");
-                SQL.AppendLine(" AND Caja.Consecutivo = @Consecutivo ");                
+                SQL.AppendLine(" AND Caja.Consecutivo = @Consecutivo ");                                
                 if (!LibString.IsNullOrEmpty(valSqlWhere)) {
+                    SQL.AppendLine(" AND Comun.SettValueByCompany.NameSettDefinition = " + new QAdvSql("").ToSqlValue("UsaMaquinaFiscal"));
                     SQL.AppendLine(" AND " + valSqlWhere);
                 }
-                SQL.AppendLine(" ORDER BY CajaApertura.NombreDelUsuario ASC ");
+                SQL.AppendLine(" ORDER BY CajaApertura.NombreDelUsuario ASC ");                
                 XmlResult = LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", -1);
                 vResult = (XmlResult != null && XmlResult.HasElements);                
             } catch (Exception) {
