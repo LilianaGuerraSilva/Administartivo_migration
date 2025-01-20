@@ -17,11 +17,8 @@ using Galac.Adm.Ccl.DispositivosExternos;
 using System.Xml.Linq;
 using Galac.Saw.Wrp.Venta;
 using Galac.Adm.Brl.Venta;
-<<<<<<< Updated upstream
 using System.Windows;
-=======
 using Galac.Adm.Uil.Venta;
->>>>>>> Stashed changes
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Venta {
 #elif IsExeBsS​
