@@ -17,7 +17,11 @@ using Galac.Adm.Ccl.DispositivosExternos;
 using System.Xml.Linq;
 using Galac.Saw.Wrp.Venta;
 using Galac.Adm.Brl.Venta;
+<<<<<<< Updated upstream
 using System.Windows;
+=======
+using Galac.Adm.Uil.Venta;
+>>>>>>> Stashed changes
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Venta {
 #elif IsExeBsS​
@@ -83,6 +87,7 @@ namespace Galac.Saw.Wrp.Venta {
             try {
                 LibWrp.SetAppConfigToCurrentDomain(vfwPath);
                 LibGalac.Aos.Vbwa.LibWrpHelper.ConfigureRuntimeContext(vfwLogin,vfwPassword);
+                VentaMessagesHandler.RegisterMessages();
             } catch(Exception vEx) {
                 if(vEx is AccessViolationException) {
                     throw;

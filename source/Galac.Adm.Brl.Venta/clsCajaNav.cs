@@ -21,6 +21,8 @@ using Galac.Saw.Ccl.SttDef;
 using Galac.Saw.Ccl.Tablas;
 using Galac.Saw.Brl.Tablas;
 using System.Threading;
+using System.IO;
+using Galac.Saw.Ccl.Inventario;
 
 namespace Galac.Adm.Brl.Venta {
     public partial class clsCajaNav: LibBaseNav<IList<Caja>, IList<Caja>>, ICajaPdn {
@@ -418,14 +420,55 @@ namespace Galac.Adm.Brl.Venta {
         bool VerificaSiMaquinaFiscalEstaHomologada(string valCajaNombre, string valFabricante, string valModelo, string valSerial, string valAccionDeAutorizacionDeProceso, ref string refMensaje) {
             bool vResult = true;
             clsCajaProcesos insCajaProcesos = new clsCajaProcesos();
-            if (!insCajaProcesos.SendPostEstaHomologadaMaquinaFiscal(valCajaNombre, valFabricante
-                , valModelo, valSerial
-                , ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login
-                , valAccionDeAutorizacionDeProceso)) {
-                refMensaje = "La impresora fiscal " + valFabricante + ", modelo " + valModelo + ", no se encuentra homologada.";
-                vResult = false;
+            string vFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Galac Software", "Caja.txt");            
+
+            try {
+                if (!insCajaProcesos.SendPostEstaHomologadaMaquinaFiscal(valCajaNombre, valFabricante
+              , valModelo, valSerial
+              , ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login
+              , valAccionDeAutorizacionDeProceso)) {
+                    refMensaje = "La impresora fiscal " + valFabricante + ", modelo " + valModelo + ", no se encuentra homologada.";
+                    vResult = false;
+                }              
+                if (LibFile.FileExists(vFilePath)) {
+                    LibFile.DeleteFile(vFilePath);                    
+                }                
+                return vResult;
+            } catch (System.Net.WebException ex) when (ex.Status == System.Net.WebExceptionStatus.NameResolutionFailure) {
+                if (!LibFile.FileExists(vFilePath)) {
+                    if (!LibFile.ParentDirExists(vFilePath)) {
+                        LibFile.CreateDir(LibFile.DirectoryName(vFilePath));                        
+                    }
+                    using (StreamWriter writer = new StreamWriter(vFilePath)) {
+                        writer.Write(LibConvert.ToStr(FechaDeHoy(),"dd/MM/yyyy"));
+                    }
+                }
+                using (StreamReader reader = new StreamReader(vFilePath)) {
+                    string content = reader.ReadToEnd();
+                    DateTime vDateDate = DateTime.ParseExact(content, "dd/MM/yyyy", null);
+                    if (LibDate.F1IsGreaterThanF2(LibDate.AddDays(vDateDate, 5) , FechaDeHoy())) {
+                        LibBusinessProcessMessage libBusinessProcessMessage = new LibBusinessProcessMessage();
+                        libBusinessProcessMessage.Content = "MEnsaje 1 | Titulo ";
+                        LibBusinessProcess.Call("MensajeHomologacionCaja", libBusinessProcessMessage);
+                        
+                        return true;
+                    } else {
+                        throw;
+                    }
+                }
+            } catch (Exception ) {
+                throw; 
             }
-            return vResult;
+        }
+
+        private static DateTime FechaDeHoy() {
+            string value = LibAppSettings.ReadAppSettingsKey("FechaPrueba");
+            if (LibString.IsNullOrEmpty(value)) {
+                return DateTime.Now;
+            } else {
+                DateTime parsedDate = DateTime.ParseExact(value, "dd/MM/yyyy", null);
+                return parsedDate;
+            }
         }
 
     } //End of class clsCajaNav

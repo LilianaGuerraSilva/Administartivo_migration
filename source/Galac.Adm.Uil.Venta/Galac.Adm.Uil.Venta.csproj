@@ -118,6 +118,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="VentaMessagesHandler.cs" />
     <Compile Include="Reportes\clsCajaCerradaViewModel.cs" />
     <Compile Include="Reportes\clsCxCEntreFechasViewModel.cs" />
     <Compile Include="Reportes\GSCajaCerrada.xaml.cs">
