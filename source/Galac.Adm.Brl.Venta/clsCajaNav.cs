@@ -420,7 +420,7 @@ namespace Galac.Adm.Brl.Venta {
         bool VerificaSiMaquinaFiscalEstaHomologada(string valCajaNombre, string valFabricante, string valModelo, string valSerial, string valAccionDeAutorizacionDeProceso, ref string refMensaje) {
             bool vResult = true;
             clsCajaProcesos insCajaProcesos = new clsCajaProcesos();
-            string vFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Galac Software", "Caja.txt");            
+            string vFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Galac Software", "Caja.txt");
 
             try {
                 if (!insCajaProcesos.SendPostEstaHomologadaMaquinaFiscal(valCajaNombre, valFabricante
@@ -429,35 +429,36 @@ namespace Galac.Adm.Brl.Venta {
               , valAccionDeAutorizacionDeProceso)) {
                     refMensaje = "La impresora fiscal " + valFabricante + ", modelo " + valModelo + ", no se encuentra homologada.";
                     vResult = false;
-                }              
+                }
                 if (LibFile.FileExists(vFilePath)) {
-                    LibFile.DeleteFile(vFilePath);                    
-                }                
+                    LibFile.DeleteFile(vFilePath);
+                }
                 return vResult;
             } catch (System.Net.WebException ex) when (ex.Status == System.Net.WebExceptionStatus.NameResolutionFailure) {
                 if (!LibFile.FileExists(vFilePath)) {
                     if (!LibFile.ParentDirExists(vFilePath)) {
-                        LibFile.CreateDir(LibFile.DirectoryName(vFilePath));                        
+                        LibFile.CreateDir(LibFile.DirectoryName(vFilePath));
                     }
                     using (StreamWriter writer = new StreamWriter(vFilePath)) {
-                        writer.Write(LibConvert.ToStr(FechaDeHoy(),"dd/MM/yyyy"));
+                        writer.Write(LibConvert.ToStr(FechaDeHoy(), "dd/MM/yyyy"));
                     }
                 }
                 using (StreamReader reader = new StreamReader(vFilePath)) {
                     string content = reader.ReadToEnd();
                     DateTime vDateDate = DateTime.ParseExact(content, "dd/MM/yyyy", null);
-                    if (LibDate.F1IsGreaterThanF2(LibDate.AddDays(vDateDate, 5) , FechaDeHoy())) {
+                    if (LibDate.F1IsGreaterThanF2(LibDate.AddDays(vDateDate, 7), FechaDeHoy())) {
                         LibBusinessProcessMessage libBusinessProcessMessage = new LibBusinessProcessMessage();
-                        libBusinessProcessMessage.Content = "MEnsaje 1 | Titulo ";
+                        string vMensaje = "No se ha podido verificar si su impresora fiscal está homologada.\n";
+                        vMensaje += "Para solucionar este inconveniente, recomendamos revisar su conexión a internet.Tiene hasta el " + LibConvert.ToStr(vDateDate) + " para hacerlo.";
+                        libBusinessProcessMessage.Content = vMensaje + " | Validación de Impresora Fiscal Homologada ";
                         LibBusinessProcess.Call("MensajeHomologacionCaja", libBusinessProcessMessage);
-                        
                         return true;
                     } else {
                         throw;
                     }
                 }
-            } catch (Exception ) {
-                throw; 
+            } catch (Exception) {
+                throw;
             }
         }
 
