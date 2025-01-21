@@ -232,7 +232,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
 
         public bool ComprobarEstado() {
             bool vResult = false;
-            Thread.Sleep(250);
+            Thread.Sleep(50);
             vResult = _TfhkPrinter.StatusPort;
             return vResult;
         }
@@ -245,6 +245,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     AbrirConexion();
                 }
                 _Estado = _TfhkPrinter.GetS1PrinterData();
+                Thread.Sleep(5);
                 vSerial = _Estado.RegisteredMachineNumber;
                 if (valAbrirConexion) {
                     CerrarConexion();
@@ -293,14 +294,22 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
 
         public bool RealizarReporteZ() {
             bool vResult = false;
-            PrinterStatus PrStatus;
+            PrinterStatus vPrStatus; ;
+            int vStep = 1;
+            bool vParar = false;
             try {
                 if (AbrirConexion()) {
                     _TfhkPrinter.PrintZReport();
-                    do {
-                        PrStatus = _TfhkPrinter.GetPrinterStatus();
-                    } while (PrStatus.PrinterStatusCode != 4);
-                    Thread.Sleep(350);
+                    while (!vParar) {
+                        Thread.Sleep(1);
+                        vPrStatus = _TfhkPrinter.GetPrinterStatus();
+                        if (vPrStatus.PrinterStatusCode != 5 || vStep >= 150) {
+                            vParar = true;                            
+                            break;
+                        } else {                            
+                            vStep++;
+                        }
+                    }                    
                     vResult = true;
                     CerrarConexion();
                 }
@@ -334,6 +343,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     AbrirConexion();
                 }
                 _Estado = _TfhkPrinter.GetS1PrinterData();
+                Thread.Sleep(5);
                 vUltimaFactura = LibText.FillWithCharToLeft(LibConvert.ToStr(_Estado.LastInvoiceNumber), "0", 8);
                 if (valAbrirConexion) {
                     CerrarConexion();
@@ -352,6 +362,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     AbrirConexion();
                 }
                 _Estado = _TfhkPrinter.GetS1PrinterData();
+                Thread.Sleep(5);
                 vUltimoNotaCredito = LibText.FillWithCharToLeft(LibConvert.ToStr(_Estado.LastCreditNoteNumber), "0", 8);
                 if (valAbrirConexion) {
                     CerrarConexion();
@@ -376,26 +387,33 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         public string ObtenerUltimoNumeroReporteZ(bool valAbrirConexion) {
             string vUltimoNumero = "";
             ReportData insReportData;
-            S1PrinterData _Estados1;
-            PrinterStatus PrStatus;
+            S1PrinterData _StatusS1;
             bool vPrinterNotSupport = false;
             int vSteps = 0;
+            bool vParar = false;
             try {
                 if (valAbrirConexion || !_TfhkPrinter.StatusPort) {
                     AbrirConexion();
                 }
                 vPrinterNotSupport = PrinterNotSupport();
-
                 if (vPrinterNotSupport) {
-                    _Estados1 = _TfhkPrinter.GetS1PrinterData();
-                    vUltimoNumero = LibText.FillWithCharToLeft(LibConvert.ToStr(_Estados1.DailyClosureCounter), "0", 8);
+                    _StatusS1 = _TfhkPrinter.GetS1PrinterData();
+                    vUltimoNumero = LibText.FillWithCharToLeft(LibConvert.ToStr(_StatusS1.DailyClosureCounter), "0", 8);
                 } else {
-                    while (LibString.Len(vUltimoNumero) <= 0 || vSteps <= 10) {
+                    while (!vParar) {
                         insReportData = _TfhkPrinter.GetZReport();
                         vUltimoNumero = LibConvert.ToStr(insReportData.NumberOfLastZReport);
-                        vUltimoNumero = LibText.FillWithCharToLeft(vUltimoNumero, "0", 8);
-                        vSteps++;
+                        PrinterStatus vPrStatus = _TfhkPrinter.GetPrinterStatus();
+                        Thread.Sleep(1);
+                        if (LibString.Len(vUltimoNumero) > 1 && vPrStatus.PrinterStatusCode == 4) {
+                            vParar = true;                            
+                            break;
+                        } else {
+                            vSteps++;
+                            vParar = vSteps >= 10 || vPrStatus.PrinterStatusCode == 4;                            
+                        }
                     }
+                    vUltimoNumero = LibText.FillWithCharToLeft(vUltimoNumero, "0", 8);
                 }
                 if (valAbrirConexion) {
                     CerrarConexion();
@@ -574,6 +592,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vPrcDescuento;
             string vSerial;
             string vRollo;
+            int valCantidadDeArticulosProcesados = 0;
             try {
                 List<XElement> vRecord = valDocumentoFiscal.Descendants("GpResultDetailRenglonFactura").ToList();
                 foreach (XElement vXElement in vRecord) {
@@ -610,8 +629,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     } else {
                         vTipoTasa = DarFormatoAAlicuotaIva((eTipoDeAlicuota)LibConvert.DbValueToEnum(vTipoTasa));
                     }
+                    valCantidadDeArticulosProcesados++;
                     ImprimeSerialyRollo(vSerial, vRollo);
-                    if (!ImprimirArticuloVenta(vDescripcion, vCantidad, vMonto, vTipoTasa, vPrcDescuento, valIsNotaDeCredito)) {
+                    if (!ImprimirArticuloVenta(vDescripcion, vCantidad, vMonto, vTipoTasa, vPrcDescuento, valIsNotaDeCredito, valCantidadDeArticulosProcesados)) {
                         vEstatus &= false;
                         throw new Exception("Documento no impreso");
                     }
@@ -656,6 +676,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             }
             foreach (var vLineaCmd in vListaCMD) {
                 vResult &= _TfhkPrinter.SendCmd(vLineaCmd);
+                Thread.Sleep(5);
             }
             vResult &= EnviarPagos(valDocumentoFiscal);
             return vResult;
@@ -675,14 +696,16 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 }
             }
             return vResult;
-        }       
+        }
 
-        private bool ImprimirArticuloVenta(string valDescripcion, string valCantidad, string valPrecio, string valTipoTasa, string valPorcetajeDesRenglon, bool valEsDevolucion) {
-            bool vResult = true;
+        private bool ImprimirArticuloVenta(string valDescripcion, string valCantidad, string valPrecio, string valTipoTasa, string valPorcetajeDesRenglon, bool valEsDevolucion, int valCantidadItemsLeidos) {
+            bool vResult = false;
             string vCmd = "";
             string vSeparador = new string('\u007c', 2);
-
-            if (_ModeloSoportaComandosGenerales) {
+            int vReintentos = 0;
+            bool vParar = false;
+            _TfhkPrinter.SendCmdRetryAttempts = 3; // Reintentos de Envio
+            if (_ModeloSoportaComandosGenerales) {////////////////////////// Usa Nuevos Comandos Generales ////////////////////////////////////
                 valCantidad = DarFormatoNumericoParaComandosGenerales(valCantidad, _EnterosParaCantidad);
                 valPrecio = DarFormatoNumericoParaComandosGenerales(valPrecio, _EnterosParaMonto);
                 if (valEsDevolucion) {
@@ -693,14 +716,35 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vCmd = vCmd + valPrecio + vSeparador;
                 vCmd = vCmd + valCantidad + vSeparador;
                 vCmd = vCmd + LibText.Left(valDescripcion, 105);
-                vResult = _TfhkPrinter.SendCmd(vCmd);
-                Thread.Sleep(600);
+                while (!vParar) {
+                    vParar = _TfhkPrinter.SendCmd(vCmd);
+                    Thread.Sleep(1);
+                    S2PrinterData vS2Result = _TfhkPrinter.GetS2PrinterData();
+                    PrinterStatus vPStatus = _TfhkPrinter.GetPrinterStatus();
+                    if ((vPStatus.PrinterStatusCode == 5 && vPStatus.PrinterErrorCode == 0) || vS2Result.QuantityArticles == valCantidadItemsLeidos) {
+                        vParar = true;
+                        vResult = vParar;
+                        break;
+                    } else if (vPStatus.PrinterStatusCode != 5 || vPStatus.PrinterErrorCode != 0 || vReintentos < 3) {
+                        if (vS2Result.QuantityArticles < valCantidadItemsLeidos) {
+                            vReintentos++;
+                            vParar = false;
+                            continue;
+                        } else {
+                            vParar = true;
+                            vResult = vParar;
+                        }
+                    } else {
+                        vParar = true;
+                        vResult = vParar;
+                    }
+                }
                 if (LibConvert.ToInt(valPorcetajeDesRenglon) > 0) {
                     vCmd = "GP-*" + DarFormatoNumericoParaComandosGenerales(valPorcetajeDesRenglon, _EnterosParaDescuento);
                     vResult &= _TfhkPrinter.SendCmd(vCmd);
                 }
 
-            } else {
+            } else {////////////////////////// Usa Comandos Tradicionales ////////////////////////////////////
                 if (valEsDevolucion) {
                     vCmd = "d" + valTipoTasa;
                 } else {
@@ -709,8 +753,29 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vCmd = vCmd + valPrecio;
                 vCmd = vCmd + valCantidad;
                 vCmd = vCmd + LibText.Left(valDescripcion, 105);
-                vResult = _TfhkPrinter.SendCmd(vCmd);
-                Thread.Sleep(600);
+                while (!vParar) {
+                    vParar = _TfhkPrinter.SendCmd(vCmd);
+                    Thread.Sleep(1);
+                    S2PrinterData vS2Result = _TfhkPrinter.GetS2PrinterData();
+                    PrinterStatus vPStatus = _TfhkPrinter.GetPrinterStatus();
+                    if ((vPStatus.PrinterStatusCode == 5 && vPStatus.PrinterErrorCode == 0) || vS2Result.QuantityArticles == valCantidadItemsLeidos) {
+                        vParar = true;
+                        vResult = vParar;
+                        break;
+                    } else if (vPStatus.PrinterStatusCode != 5 || vPStatus.PrinterErrorCode != 0 || vReintentos < 3) {
+                        if (vS2Result.QuantityArticles < valCantidadItemsLeidos) {
+                            vReintentos++;
+                            vParar = false;
+                            continue;
+                        } else {
+                            vParar = true;
+                            vResult = vParar;
+                        }
+                    } else {
+                        vParar = true;
+                        vResult = vParar;
+                    }
+                }
                 if (LibConvert.ToInt(valPorcetajeDesRenglon) > 0) {
                     vCmd = "p-" + valPorcetajeDesRenglon;
                     vResult &= _TfhkPrinter.SendCmd(vCmd);
@@ -727,6 +792,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 foreach (XElement vRecord in vCamposDefinibles) {
                     vCmd = GetLineaDeTextoPie() + LibXml.GetElementValueOrEmpty(vRecord, "CampoDefinibleValue");
                     vResult |= _TfhkPrinter.SendCmd(vCmd);
+                    Thread.Sleep(1);
                     if (_LineaTextoAdicionalPie >= 10) {
                         break;
                     }
@@ -789,10 +855,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                             vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
                         }
                     }
-                    if (vNodosCount > 0) { // Pagos en ML
+                    if (vNodosCount > 0) { // Pagos en ML                                              
                         foreach (XElement vXElement in vNodos) {
                             vMonto = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
-                            vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "CodigoFormaDelCobro"));
+                            vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "CodigoFormaDelCobro"));                            
                             vFormatoDeCobro = FormaDeCobro(vMedioDePago);
                             decimal vMontoDec = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
                             vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto, _EnterosParaPagos, _DecimalesParaPagos);
@@ -804,6 +870,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                                 vCmd = "2" + vFormatoDeCobro + vMonto; // Solo Pagos Parciales ML
                             }
                             vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
+                            Thread.Sleep(1);
                         }
                     }
                     if (vTotalAPagar >= (vTotalPagoME + vTotalPagadoML)) {
@@ -831,6 +898,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                                 vCmd = "2" + vFormatoDeCobro + vMonto;
                             }
                             vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
+                            Thread.Sleep(1);
                         }
                     }
                 }
@@ -898,6 +966,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             }
             foreach (var vLineaCmd in vListaCMD) {
                 vResult &= _TfhkPrinter.SendCmd(vLineaCmd);
+                Thread.Sleep(1);
             }
             return vResult;
         }
@@ -973,8 +1042,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         private string FormaDeCobro(string valFormaDeCobro) {
             string vResultado = "";
             if (_ModelosAntiguos || _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125) {
-                switch (valFormaDeCobro) {
-                    case "00001"://Los textos de descripcion estan en la memoria de la impresora y se llaman a traves de su indice
+                //Los textos de descripcion estan en la memoria de la impresora y se llaman a traves de su indice
+                switch (valFormaDeCobro) { // Debe ser progamado en la IF
+                    case "00001":
                         vResultado = "01"; //Efectivo
                         break;
                     case "00002":
@@ -983,12 +1053,15 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     case "00003":
                         vResultado = "09";//Tarjeta
                         break;
+                    case "00006":
+                        vResultado = "06";//Transferencia
+                        break;                    
                     default:
                         vResultado = "01";
                         break;
                 }
             } else { // Nuevos Modelos
-                switch (valFormaDeCobro) {
+                switch (valFormaDeCobro) { //Debe ser progamado en la IF
                     case "00001":
                         vResultado = "01";//Efectivo
                         break;
@@ -996,8 +1069,11 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         vResultado = "07";//Cheque
                         break;
                     case "00003":
-                        vResultado = "13";//Tarjeta
+                        vResultado = "13";//Tarjeta 
                         break;
+                    case "00006":
+                        vResultado = "06";//Transferencia 
+                        break;                   
                     default:
                         vResultado = "01";
                         break;
