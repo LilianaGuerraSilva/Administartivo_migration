@@ -855,10 +855,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                             vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
                         }
                     }
-                    if (vNodosCount > 0) { // Pagos en ML
+                    if (vNodosCount > 0) { // Pagos en ML                                              
                         foreach (XElement vXElement in vNodos) {
                             vMonto = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
-                            vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "CodigoFormaDelCobro"));
+                            vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "CodigoFormaDelCobro"));                            
                             vFormatoDeCobro = FormaDeCobro(vMedioDePago);
                             decimal vMontoDec = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
                             vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto, _EnterosParaPagos, _DecimalesParaPagos);
@@ -1042,8 +1042,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         private string FormaDeCobro(string valFormaDeCobro) {
             string vResultado = "";
             if (_ModelosAntiguos || _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125) {
-                switch (valFormaDeCobro) {
-                    case "00001"://Los textos de descripcion estan en la memoria de la impresora y se llaman a traves de su indice
+                //Los textos de descripcion estan en la memoria de la impresora y se llaman a traves de su indice
+                switch (valFormaDeCobro) { // Debe ser progamado en la IF
+                    case "00001":
                         vResultado = "01"; //Efectivo
                         break;
                     case "00002":
@@ -1053,14 +1054,14 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         vResultado = "09";//Tarjeta
                         break;
                     case "00006":
-                        vResultado = "06";//Transferencia -> Debe ser progamado en la IF
+                        vResultado = "06";//Transferencia
                         break;                    
                     default:
                         vResultado = "01";
                         break;
                 }
             } else { // Nuevos Modelos
-                switch (valFormaDeCobro) {
+                switch (valFormaDeCobro) { //Debe ser progamado en la IF
                     case "00001":
                         vResultado = "01";//Efectivo
                         break;
@@ -1068,10 +1069,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         vResultado = "07";//Cheque
                         break;
                     case "00003":
-                        vResultado = "13";//Tarjeta
+                        vResultado = "13";//Tarjeta 
                         break;
                     case "00006":
-                        vResultado = "06";//Transferencia -> Debe ser progamado en la IF
+                        vResultado = "06";//Transferencia 
                         break;                   
                     default:
                         vResultado = "01";
