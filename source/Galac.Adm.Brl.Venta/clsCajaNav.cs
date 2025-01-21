@@ -446,10 +446,11 @@ namespace Galac.Adm.Brl.Venta {
                 using (StreamReader reader = new StreamReader(vFilePath)) {
                     string content = reader.ReadToEnd();
                     DateTime vDateDate = DateTime.ParseExact(content, "dd/MM/yyyy", null);
-                    if (LibDate.F1IsGreaterThanF2(LibDate.AddDays(vDateDate, 7), FechaDeHoy())) {
+                    DateTime vFechaTope = LibDate.AddDays(vDateDate, 7);
+                    if (LibDate.F1IsGreaterThanF2(vFechaTope, FechaDeHoy())) {
                         LibBusinessProcessMessage libBusinessProcessMessage = new LibBusinessProcessMessage();
                         string vMensaje = "No se ha podido verificar si su impresora fiscal está homologada.\n";
-                        vMensaje += "Para solucionar este inconveniente, recomendamos revisar su conexión a internet.Tiene hasta el " + LibConvert.ToStr(vDateDate) + " para hacerlo.";
+                        vMensaje += "Para solucionar este inconveniente, recomendamos revisar su conexión a internet. Tiene hasta el " + LibConvert.ToStr(vFechaTope) + " para hacerlo.";
                         libBusinessProcessMessage.Content = vMensaje + " | Validación de Impresora Fiscal Homologada ";
                         LibBusinessProcess.Call("MensajeHomologacionCaja", libBusinessProcessMessage);
                         return true;
