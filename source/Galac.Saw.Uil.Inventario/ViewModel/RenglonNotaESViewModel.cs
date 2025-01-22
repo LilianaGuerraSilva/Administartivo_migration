@@ -220,7 +220,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         public bool IsVisbleLoteDeInventario {
-            get { return (ConexionCodigoArticulo != null) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.Lote); }
+            get { return (ConexionCodigoArticulo != null) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.Lote || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeElaboracion); }
         }
 
         public bool IsVisibleFechaDeElaboracionLoteDeInventario {

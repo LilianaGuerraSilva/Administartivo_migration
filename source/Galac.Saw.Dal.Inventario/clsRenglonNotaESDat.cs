@@ -206,7 +206,7 @@ namespace Galac.Saw.Dal.Inventario {
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar) || (valAction == eAccionSR.Anular)) {
                 return true;
             }
-            if (valTipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || valTipoArticuloInv == eTipoArticuloInv.Lote || valTipoArticuloInv == eTipoArticuloInv.LoteFechadeElaboracion) {
+            if (valTipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || valTipoArticuloInv == eTipoArticuloInv.Lote || valTipoArticuloInv == eTipoArticuloInv.LoteFechadeElaboracion || valTipoArticuloInv == eTipoArticuloInv.LoteFechadeElaboracion) {
                 valLoteDeInventario = LibString.Trim(valLoteDeInventario);
                 if (LibString.IsNullOrEmpty(valLoteDeInventario, true)) {
                     BuildValidationInfo(MsgRequiredField("Lote de Inventario"));
