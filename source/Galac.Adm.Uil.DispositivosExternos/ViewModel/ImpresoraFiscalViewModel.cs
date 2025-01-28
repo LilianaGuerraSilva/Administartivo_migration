@@ -111,6 +111,8 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
 
         public void ImprimirDocumentoTask() {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            string vMensaje = string.Empty;
+            bool vSerialDistinto = false;
             Task vTask = Task.Factory.StartNew(() => {
                 _IsRunning = true;
                 if (insImpresoraFiscal.AbrirConexion()) {
@@ -121,8 +123,8 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
                         if (LibString.S1IsEqualToS2(SerialImpresoraFiscal, _SerialImpresoraFiscalDB)) {
                             SeImprimioDocumento = insImpresoraFiscalNav.ImprimirDocumentoFiscal(xData);
                         } else {
-                            LibMessages.MessageBox.Alert(null, "El serial de la impresora fiscal asignada a esta caja no corresponde. Revisar el dispositivo fiscal para continuar.", ModuleName);
                             SeImprimioDocumento = false;
+                            vSerialDistinto = true;                    
                         }
                     } else {
                         SeImprimioDocumento = false;
@@ -133,9 +135,12 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
             vTask.ContinueWith((t) => {
                 _IsRunning = false;
                 if (t.IsCompleted) {
+                    if (vSerialDistinto) {
+                        LibMessages.MessageBox.Alert(null, "El serial de la impresora fiscal asignada a esta caja no corresponde. Revisar el dispositivo fiscal para continuar.", ModuleName);
+                    }
                     CancelCommand.Execute(null);
                 } else {
-                    LibMessages.MessageBox.Alert(null, "Proceso Cancelado", "");
+                    LibMessages.MessageBox.Alert(null, "Proceso Cancelado", ModuleName);
                     CancelCommand.Execute(null);
                 }
             }, cancellationTokenSource.Token, TaskContinuationOptions.OnlyOnRanToCompletion, TaskScheduler.FromCurrentSynchronizationContext());
@@ -143,18 +148,18 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
                 _IsRunning = false;
                 CancelCommand.Execute(null);
                 if (t.Exception.InnerException != null) {
-                    LibMessages.MessageBox.Information(this, t.Exception.InnerException.Message, "Información");
+                    LibMessages.MessageBox.Information(this, t.Exception.InnerException.Message, ModuleName);
                 } else {
-                    LibMessages.MessageBox.Information(this, t.Exception.Message, "Información");
+                    LibMessages.MessageBox.Information(this, t.Exception.Message, ModuleName);
                 }
             }, cancellationTokenSource.Token, TaskContinuationOptions.OnlyOnCanceled, TaskScheduler.FromCurrentSynchronizationContext());
             vTask.ContinueWith((t) => {
                 _IsRunning = false;
                 CancelCommand.Execute(null);
                 if (t.Exception.InnerException != null) {
-                    LibMessages.MessageBox.Information(this, t.Exception.InnerException.Message, "Información");
+                    LibMessages.MessageBox.Information(this, t.Exception.InnerException.Message, ModuleName);
                 } else {
-                    LibMessages.MessageBox.Information(this, t.Exception.Message, "Información");
+                    LibMessages.MessageBox.Information(this, t.Exception.Message, ModuleName);
                 }
             }, cancellationTokenSource.Token, TaskContinuationOptions.OnlyOnFaulted, TaskScheduler.FromCurrentSynchronizationContext());
         }
