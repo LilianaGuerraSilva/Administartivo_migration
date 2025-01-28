@@ -341,15 +341,15 @@ namespace Galac.Adm.Brl.GestionCompras {
             if (!LibString.IsNullOrEmpty(valWhere)) {
                 vSqlWhere.AppendLine(valWhere);
             } else {
-                vSqlWhere.AppendLine("ArticuloInventario.ConsecutivoCompania=@ConsecutivoCompania");
+                vSqlWhere.AppendLine("ArticuloInventario.ConsecutivoCompania = @ConsecutivoCompania");
                 if (!LibString.IsNullOrEmpty(valLinea)) {
-                    vSqlWhere.AppendLine("AND ArticuloInventario.LineaDeProducto=@LineaDeProducto");
+                    vSqlWhere.AppendLine("AND ArticuloInventario.LineaDeProducto = @LineaDeProducto");
                 }
                 if (!LibString.IsNullOrEmpty(valMarca)) {
-                    vSqlWhere.AppendLine("AND ArticuloInventario.Marca=@Marca");
+                    vSqlWhere.AppendLine("AND ArticuloInventario.Marca = @Marca");
                 }
                 if (!LibString.IsNullOrEmpty(valCategoria)) {
-                    vSqlWhere.AppendLine("AND ArticuloInventario.Categoria=@Categoria");
+                    vSqlWhere.AppendLine("AND ArticuloInventario.Categoria = @Categoria");
                 }
                 if (!LibString.IsNullOrEmpty(valCodigoDesde) || !LibString.IsNullOrEmpty(valCodigoHasta)) {
                     if (!LibString.IsNullOrEmpty(valCodigoDesde) && !LibString.IsNullOrEmpty(valCodigoHasta)) {
@@ -362,9 +362,9 @@ namespace Galac.Adm.Brl.GestionCompras {
                 }
             }
             vSqlWhere.AppendLine("AND ArticuloInventario.Codigo NOT IN ");
-            vSqlWhere.AppendLine("(SELECT Adm.CargaInicial.CodigoArticulo FROM Adm.CargaInicial)");
-            vSqlWhere.AppendLine("AND ArticuloInventario.TipoDeArticulo=@TipoDeArticulo");
-            vSqlWhere.AppendLine("AND ArticuloInventario.StatusDelArticulo=@StatusArticulo");
+            vSqlWhere.AppendLine("(SELECT Adm.CargaInicial.CodigoArticulo FROM Adm.CargaInicial WHERE Adm.CargaInicial.ConsecutivoCompania = @ConsecutivoCompania)");
+            vSqlWhere.AppendLine("AND ArticuloInventario.TipoDeArticulo= @TipoDeArticulo");
+            vSqlWhere.AppendLine("AND ArticuloInventario.StatusDelArticulo= @StatusArticulo");
             vSqlWhere.AppendLine("AND IGV_ArticuloInvMovimiento.Fecha <= @FechaInicial");
             return vSqlWhere.ToString();
         }
