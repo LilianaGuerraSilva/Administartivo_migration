@@ -5,6 +5,7 @@ using System.Text;
 using LibGalac.Aos.Base.Report;
 using Galac.Adm.Ccl.Venta;
 using LibGalac.Aos.Base;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Brl.Venta.Reportes {
 
@@ -48,6 +49,14 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             ILibDataRpt insFacturacionPorUsuario = new Dal.Venta.clsFacturaDat();
             vSql = insFacturaSql.SqlFacturacionPorUsuario(valConsecutivoCompania, valFechaDesde, valFechaHasta, valNombreOperador, valMonedaDelReporte, valTipoTasaDeCambio, valIsInformeDetallado);
             return insFacturacionPorUsuario.GetDt(vSql, 0);
+        }
+
+        System.Data.DataTable IFacturaInformes.BuildFacturaBorradorGenerico(int valConsecutivoCompania, string valNumeroDocumento, eTipoDocumentoFactura valTipoDocumento, eStatusFactura valStatusDocumento, eTalonario valTalonario, eFormaDeOrdenarDetalleFactura valFormaDeOrdenarDetalleFactura, bool valImprimirFacturaConSubtotalesPorLineaDeProducto, string valCiudadCompania, string valNombreOperador) {
+            string vSql = "";
+            clsFacturaSql insFacturaSql = new clsFacturaSql();
+            ILibDataRpt insFacturaBorradorGenerico = new Dal.Venta.clsFacturaDat();
+            vSql = insFacturaSql.SqlFacturaBorradorGenerico(valConsecutivoCompania, valNumeroDocumento, valTipoDocumento, valStatusDocumento, valTalonario, eFormaDeOrdenarDetalleFactura.Comofuecargada, false, valCiudadCompania, valNombreOperador);
+            return insFacturaBorradorGenerico.GetDt(vSql, 0);
         }
         #endregion //Metodos Generados
 
