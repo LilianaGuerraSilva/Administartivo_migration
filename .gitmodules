@@ -66,3 +66,7 @@
 	path = bin/binAdministrativoVb
 	url = https://github.com/GalacSoftware/BinAdministrativoVB.git
 	branch = release/V2501
+[submodule "source/Lib/VbaLib"]
+	path = source/Lib/VbaLib
+	url = https://github.com/GalacSoftware/vbaLib.git
+	branch = master
