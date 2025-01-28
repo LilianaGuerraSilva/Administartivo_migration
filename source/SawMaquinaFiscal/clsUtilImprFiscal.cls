@@ -441,6 +441,7 @@ Public Function fGenerarXmlConDatosDeLaMaquinaFiscal(ByVal valDatosImpFiscal As 
    vXmlMaquinaFiscal = vXmlMaquinaFiscal & "<ModeloDeMaquinaFiscal>" & ModeloImprFiscal & "</ModeloDeMaquinaFiscal>" & vSaltoLinea
    vXmlMaquinaFiscal = vXmlMaquinaFiscal & "<PuertoMaquinaFiscal>" & vPuertoImpFiscal & "</PuertoMaquinaFiscal>" & vSaltoLinea
    vXmlMaquinaFiscal = vXmlMaquinaFiscal & "<TipoConexion>" & vTipoConexion & "</TipoConexion>" & vSaltoLinea
+   vXmlMaquinaFiscal = vXmlMaquinaFiscal & "<SerialDeMaquinaFiscal>" & valDatosImpFiscal.GetSerialImpresoraFiscal & "</SerialDeMaquinaFiscal>" & vSaltoLinea
    vXmlMaquinaFiscal = vXmlMaquinaFiscal & "<PuertoCom>1</PuertoCom>" & vSaltoLinea
    vXmlMaquinaFiscal = vXmlMaquinaFiscal & "<RegistroDeRetornoEnTxt>" & vRegistroDeRetornoEnTxt & "</RegistroDeRetornoEnTxt>" & vSaltoLinea
    vXmlMaquinaFiscal = vXmlMaquinaFiscal & "</GpResult>" & vSaltoLinea & "</GpData>"
