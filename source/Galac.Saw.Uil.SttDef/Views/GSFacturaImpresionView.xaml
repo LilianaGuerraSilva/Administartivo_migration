@@ -163,12 +163,14 @@
                 Style="{StaticResource CheckBoxStyle}" />
             <Label
                 Name="lblImprimirBorradorAlInsertarFactura"
+                Visibility="Collapsed"
                 Grid.Row="7"
                 Grid.Column="0"
                 Content="Imprimir el Borrador de Factura al Insertar................"
                 Style="{StaticResource LabelPrompt}" />
             <CheckBox
                 Name="chkImprimirBorradorAlInsertarFactura"
+                Visibility="Collapsed"
                 Grid.Row="7"
                 Grid.Column="1"
                 HorizontalAlignment="Left"

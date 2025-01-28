@@ -5,6 +5,8 @@ using LibGalac.Aos.UI.Wpf;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.Vbwa;
 using Galac.Saw.Wrp.VentaInformes;
+using Galac.Saw.Ccl.SttDef;
+using Galac.Adm.Ccl.Venta;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.VentaInformes {
 #elif IsExeBsS​
@@ -83,6 +85,21 @@ namespace Galac.Saw.Wrp.VentaInformes {
             LibGlobalValues.Instance.LoadCompleteAppMemInfo(valCurrentParameters);
             LibGlobalValues.Instance.GetMfcInfo().Add("Compania", LibConvert.ToInt(valCurrentMfc));
             return LibGlobalValues.Instance;
+        }
+
+        void IWrpInformesVb.BorradorDoc(string valNombreCompania, int valConsecutivoCompania, string valNumeroDocumento, int valTipoDocumento, int valStatusDocumento, int valTalonario, int valFormaDeOrdenarDetalleFactura, bool valImprimirFacturaConSubtotalesPorLineaDeProducto, string valCiudadCompania, string valNombreOperador) {
+            try {
+                Galac.Adm.Rpt.Venta.clsFacturaBorradorGenerico insFacturaRpt = new Adm.Rpt.Venta.clsFacturaBorradorGenerico(LibGalac.Aos.Base.Report.ePrintingDevice.Screen, eExportFileFormat.Pdf, valNombreCompania, valConsecutivoCompania, valNumeroDocumento, (eTipoDocumentoFactura)valTipoDocumento, (eStatusFactura)valStatusDocumento, (eTalonario)valTalonario, (eFormaDeOrdenarDetalleFactura)valFormaDeOrdenarDetalleFactura, valImprimirFacturaConSubtotalesPorLineaDeProducto, valCiudadCompania, valNombreOperador);
+                insFacturaRpt.RunReport();
+                insFacturaRpt.SendReportToDevice();
+            } catch (GalacException gEx) {
+                LibExceptionDisplay.Show(gEx, null, Title + " - Borrador");
+            } catch (Exception vEx) {
+                if (vEx is AccessViolationException) {
+                    throw;
+                }
+                LibExceptionDisplay.Show(vEx);
+            }
         }
         #endregion //Metodos Generados
     } //End of class wrpVentaInformes

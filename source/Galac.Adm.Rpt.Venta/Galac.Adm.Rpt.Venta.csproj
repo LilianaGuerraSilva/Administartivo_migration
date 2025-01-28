@@ -60,8 +60,14 @@
     <Reference Include="LibGalac.Aos.Brl">
       <HintPath>..\packages\LibGalac.Aos.Brl.5.24.2.3\lib\LibGalac.Aos.Brl.dll</HintPath>
     </Reference>
+    <Reference Include="LibGalac.Aos.Brl.PrnStt, Version=5.24.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.Brl.PrnStt.5.24.0\lib\LibGalac.Aos.Brl.PrnStt.dll</HintPath>
+    </Reference>
     <Reference Include="LibGalac.Aos.Catching">
       <HintPath>..\packages\LibGalac.Aos.Catching.5.24.0\lib\LibGalac.Aos.Catching.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Ccl.PrnStt, Version=5.24.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.Ccl.PrnStt.5.24.0\lib\LibGalac.Aos.Ccl.PrnStt.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Dal">
       <HintPath>..\packages\LibGalac.Aos.Dal.5.24.1\lib\LibGalac.Aos.Dal.dll</HintPath>
@@ -97,6 +103,7 @@
     <Compile Include="clsCxCEntreFechas.cs" />
     <Compile Include="clsCxCPendientesEntreFechas.cs" />
     <Compile Include="clsCxCPorCliente.cs" />
+    <Compile Include="clsFacturaBorradorGenerico.cs" />
     <Compile Include="clsFacturacionPorArticulo.cs" />
     <Compile Include="clsFacturacionPorUsuario.cs" />
     <Compile Include="clsNotaDeEntregaEntreFechasPorClienteDetallado.cs" />
@@ -204,6 +211,12 @@
     <Compile Include="dsrCxCPorCliente.Designer.cs">
       <DependentUpon>dsrCxCPorCliente.cs</DependentUpon>
     </Compile>
+    <Compile Include="dsrFacturaBorradorGenerico.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrFacturaBorradorGenerico.Designer.cs">
+      <DependentUpon>dsrFacturaBorradorGenerico.cs</DependentUpon>
+    </Compile>
     <Compile Include="dsrFacturacionPorArticuloDetallado.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -305,6 +318,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="dsrCxCPorCliente.resx">
       <DependentUpon>dsrCxCPorCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dsrFacturaBorradorGenerico.resx">
+      <DependentUpon>dsrFacturaBorradorGenerico.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="dsrFacturacionPorArticuloDetallado.resx">
       <DependentUpon>dsrFacturacionPorArticuloDetallado.cs</DependentUpon>
