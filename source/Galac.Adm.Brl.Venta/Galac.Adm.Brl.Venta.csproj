@@ -52,8 +52,8 @@
     <Reference Include="LibGalac.Aos.Brl.Settings">
       <HintPath>..\packages\LibGalac.Aos.Brl.Settings.5.24.2.3\lib\LibGalac.Aos.Brl.Settings.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.Brl.Usal">
-      <HintPath>..\packages\LibGalac.Aos.Brl.Usal.5.24.0\lib\LibGalac.Aos.Brl.Usal.dll</HintPath>
+    <Reference Include="LibGalac.Aos.Brl.Usal, Version=5.24.2.4, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.Brl.Usal.5.24.2.4\lib\LibGalac.Aos.Brl.Usal.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Catching">
       <HintPath>..\packages\LibGalac.Aos.Catching.5.24.0\lib\LibGalac.Aos.Catching.dll</HintPath>
@@ -61,8 +61,8 @@
     <Reference Include="LibGalac.Aos.Ccl.Settings">
       <HintPath>..\packages\LibGalac.Aos.Ccl.Settings.5.24.0\lib\LibGalac.Aos.Ccl.Settings.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.Ccl.Usal">
-      <HintPath>..\packages\LibGalac.Aos.Ccl.Usal.5.24.0\lib\LibGalac.Aos.Ccl.Usal.dll</HintPath>
+    <Reference Include="LibGalac.Aos.Ccl.Usal, Version=5.24.2.4, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.Ccl.Usal.5.24.2.4\lib\LibGalac.Aos.Ccl.Usal.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Cnf">
       <HintPath>..\packages\LibGalac.Aos.Cnf.5.24.0\lib\LibGalac.Aos.Cnf.dll</HintPath>
