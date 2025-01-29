@@ -23,6 +23,7 @@ using Galac.Saw.Brl.Tablas;
 using System.Threading;
 using System.IO;
 using Galac.Saw.Ccl.Inventario;
+using LibGalac.Aos.Dal;
 
 namespace Galac.Adm.Brl.Venta {
     public partial class clsCajaNav: LibBaseNav<IList<Caja>, IList<Caja>>, ICajaPdn {
@@ -462,6 +463,19 @@ namespace Galac.Adm.Brl.Venta {
             } catch (Exception) {
                 throw;
             }
+        }
+
+        bool ICajaPdn.SerialDeImpresoraEstaEnUso(int valConsecutivoCompania, int valConsecutivoCaja, string valSerialImpresoraFiscal) {
+            bool vResult = false;
+            QAdvSql vSqlUtil = new QAdvSql("");
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("SELECT * FROM Adm.Caja");
+            vSql.AppendLine(" WHERE ConsecutivoCompania = " + vSqlUtil.ToSqlValue(valConsecutivoCompania));
+            vSql.AppendLine(" AND Consecutivo <> " + vSqlUtil.ToSqlValue(valConsecutivoCaja));
+            vSql.AppendLine(" AND SerialDeMaquinaFiscal = " + vSqlUtil.ToSqlValue(valSerialImpresoraFiscal));
+            vSql.AppendLine(" AND UsaMaquinaFiscal = " + vSqlUtil.ToSqlValue(true));
+            vResult = new LibDatabase().RecordCountOfSql(vSql.ToString()) > 0;
+            return vResult;
         }
 
         private static DateTime FechaDeHoy() {

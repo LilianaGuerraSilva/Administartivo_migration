@@ -45,6 +45,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 XElement xElementFacturaRapida = DarFormatoADatosDeFactura(insFactura, valListDeCobro);
                 if (vResult) {
                     vResult = false;
+                    ICajaPdn insCaja = new clsCajaNav();
+                    int vCajaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ConsecutivoCaja");
+                    int vConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
+                    insCaja.FindByConsecutivoCaja(vConsecutivoCompania, vCajaLocal, "", ref _XmlDatosImprFiscal);
                     ImpresoraFiscalViewModel insImpresoraFiscalViewModel = new ImpresoraFiscalViewModel(_XmlDatosImprFiscal, xElementFacturaRapida, eTipoDocumentoFiscal.FacturaFiscal);
                     LibMessages.EditViewModel.ShowEditor(insImpresoraFiscalViewModel, true);
                     vSerialMaquinaFiscal = insImpresoraFiscalViewModel.SerialImpresoraFiscal;
