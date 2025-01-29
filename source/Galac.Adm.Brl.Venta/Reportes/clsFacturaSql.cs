@@ -240,11 +240,12 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("    " + insSql.ToSqlValue(valCiudadCompania) + " AS CiudadCia,");
             vSql.AppendLine("    Fact.NumeroFacturaAfectada, ");
             vSql.AppendLine("    Fact.FechaDeVencimiento, ");
-            vSql.AppendLine("    	Fact.CodigoMoneda AS CodigoMonedaFact,");
+            vSql.AppendLine("    Fact.CodigoMoneda AS CodigoMonedaFact,");
             vSql.AppendLine("    MonedaDoc.NombreMoneda AS MonedaDocumento, ");
             vSql.AppendLine("    SttByCia.CodigoMonedaLocal, ");
             vSql.AppendLine("    Fact.CondicionesDePago, ");
             vSql.AppendLine("    Fact.FormaDePago, ");
+            vSql.AppendLine("    (CASE Fact.FormaDePago WHEN '1' THEN 'CRÉDITO' ELSE 'CONTADO' END) AS FormaDePagoStr, ");
             vSql.AppendLine("	 Fact.NumeroPlanillaExportacion, ");
             #endregion Datos del Documento
             #region Datos del Cliente
