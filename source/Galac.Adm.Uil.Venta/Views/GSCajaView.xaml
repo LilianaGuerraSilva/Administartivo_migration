@@ -275,7 +275,7 @@
                         BorderThickness="1"
                         InputDataType="String"
                         InvalidCharacters="'/|!°#$%)\(=?¡¿}{_:,;'*+'¨~^`&amp;&#32;&quot;&lt;&gt;"
-                        IsEnabled="{Binding Path=IsEnabled}"
+                        IsEnabled="{Binding Path=IsEnabledSerialImpresoraFiscal}"
                         MaxLength="15"
                         Style="{StaticResource TextBoxInputStyle}"
                         Text="{Binding Path=SerialDeMaquinaFiscal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
