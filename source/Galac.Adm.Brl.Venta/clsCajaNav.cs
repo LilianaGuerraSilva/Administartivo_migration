@@ -465,7 +465,7 @@ namespace Galac.Adm.Brl.Venta {
             }
         }
 
-        bool ICajaPdn.SerialDeImpresoraNoFueUsado(int valConsecutivoCompania, int valConsecutivoCaja, string valSerialImpresoraFiscal) {
+        bool ICajaPdn.SerialDeImpresoraEstaEnUso(int valConsecutivoCompania, int valConsecutivoCaja, string valSerialImpresoraFiscal) {
             bool vResult = false;
             QAdvSql vSqlUtil = new QAdvSql("");
             StringBuilder vSql = new StringBuilder();
@@ -474,7 +474,7 @@ namespace Galac.Adm.Brl.Venta {
             vSql.AppendLine(" AND Consecutivo <> " + vSqlUtil.ToSqlValue(valConsecutivoCaja));
             vSql.AppendLine(" AND SerialDeMaquinaFiscal = " + vSqlUtil.ToSqlValue(valSerialImpresoraFiscal));
             vSql.AppendLine(" AND UsaMaquinaFiscal = " + vSqlUtil.ToSqlValue(true));
-            vResult = new LibDatabase().RecordCountOfSql(vSql.ToString()) == 0;
+            vResult = new LibDatabase().RecordCountOfSql(vSql.ToString()) > 0;
             return vResult;
         }
 
