@@ -120,6 +120,7 @@
     </Compile>
     <Compile Include="UIMefSettDefinition.cs" />
     <Compile Include="ViewModel\ConexionGVentasViewModel.cs" />
+    <Compile Include="ViewModel\FacturaCobroFacturaViewModel.cs" />
     <Compile Include="ViewModel\ImprentaDigitalActivacionViewModel.cs" />
     <Compile Include="ViewModel\BancosAnticipoViewModel.cs" />
     <Compile Include="ViewModel\BancosMonedaViewModel.cs" />
@@ -230,6 +231,9 @@
     </Compile>
     <Compile Include="Views\GSFacturaCamposDefiniblesView.xaml.cs">
       <DependentUpon>GSFacturaCamposDefiniblesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSFacturaCobroFacturaView.xaml.cs">
+      <DependentUpon>GSFacturaCobroFacturaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GSFacturaFacturacionContView.xaml.cs">
       <DependentUpon>GSFacturaFacturacionContView.xaml</DependentUpon>
@@ -385,6 +389,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GSFacturaCamposDefiniblesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSFacturaCobroFacturaView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

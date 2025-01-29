@@ -15,6 +15,7 @@ using LibGalac.Aos.DefGen;
 using Galac.Adm.Ccl.Venta;
 using Galac.Saw.Ccl.SttDef;
 using Galac.Saw.Lib;
+using System.Net.Security;
 
 namespace Galac.Adm.Dal.Venta {
     public class clsCXCDat: LibData, ILibDataMasterComponentWithSearch<IList<CxC>, IList<CxC>>, ILibDataRpt {
@@ -48,7 +49,7 @@ namespace Galac.Adm.Dal.Venta {
             vSql.AppendLine(" ,MontoExento, MontoGravado, MontoIva, MontoAbonado ");
             vSql.AppendLine(" ,Descripcion, Moneda, CambioAbolivares, CodigoCc, CentroDeCostos, SeRetuvoIva ");
             vSql.AppendLine(" ,NumeroDocumentoOrigen, RefinanciadoSn, NoAplicaParaLibroDeVentas, CodigoLote, CodigoMoneda ");
-            vSql.AppendLine(" ,NombreOperador, FechaUltimaModificacion, NumeroControl ,NumeroComprobanteFiscal, FechaLimiteCambioAMonedaLocal) ");
+            vSql.AppendLine(" ,NombreOperador, FechaUltimaModificacion, NumeroControl ,NumeroComprobanteFiscal, FechaLimiteCambioAMonedaLocal, VieneDeCreditoElectronico) ");
             vSql.AppendLine(" VALUES( " + "@ConsecutivoCompania");
             vSql.AppendLine(" , " + "@NumeroCXC");
             vSql.AppendLine(" , " + "@StatusCXC");
@@ -79,7 +80,8 @@ namespace Galac.Adm.Dal.Venta {
             vSql.AppendLine(" , " + "@FechaUltimaModificacion");
             vSql.AppendLine(" , " + "@NumeroControl");
             vSql.AppendLine(" , " + "@ComprobanteFiscal");
-            vSql.AppendLine(" , " + "@FechaLimiteCambioAMonedaLocal)");
+            vSql.AppendLine(" , " + "@FechaLimiteCambioAMonedaLocal");
+            vSql.AppendLine(" , " + "@VieneDeCreditoElectronico)");
             return vSql.ToString();
         }
 
@@ -115,6 +117,11 @@ namespace Galac.Adm.Dal.Venta {
             string vCodigoLote = "0";
             string vCentroDeCostos = "";
             DateTime vFechaLimiteCambioAMonedaLocal = LibConvert.ToDate(LibXml.GetPropertyString(valData, "Fecha"));
+            bool vVieneDeCreditoElectronicoAsBool = LibConvert.SNToBool(LibXml.GetPropertyString(valData, "VieneDeCreditoElectronico"));
+            if (vVieneDeCreditoElectronicoAsBool && !vNumeroCXC.Contains("INI")) {
+                vStatusCXC = eStatusCXC.PORCANCELAR;
+            }
+            string vNumeroDocumentoOrigen = LibXml.GetPropertyString(valData, "NumeroDocumentoOrigen");
             vParams.AddReturn();
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             vParams.AddInString("NumeroCXC", vNumeroCXC, 20);
@@ -137,7 +144,7 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInString("CodigoCC", vCodigoCC, 5);
             vParams.AddInString("CentroDeCostos", vCentroDeCostos, 40);
             vParams.AddInBoolean("SeRetuvoIva", vSeRetuvoIva);
-            vParams.AddInString("NumeroDocumentoOrigen", vNumeroFactura, 20);
+            vParams.AddInString("NumeroDocumentoOrigen", vNumeroDocumentoOrigen, 20);
             vParams.AddInBoolean("Refinanciado", vRefinanciado);
             vParams.AddInBoolean("AplicaParalibroDeVentas", vAplicaParalibroDeVentas);
             vParams.AddInString("CodigoLote", vCodigoLote, 10);
@@ -147,13 +154,16 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInString("NumeroControl", vNumeroControl, 11);
             vParams.AddInString("ComprobanteFiscal", vComprobanteFiscal, 12);
             vParams.AddInDateTime("FechaLimiteCambioAMonedaLocal", vFechaLimiteCambioAMonedaLocal);
+            vParams.AddInBoolean("VieneDeCreditoElectronico", vVieneDeCreditoElectronicoAsBool);
             vResult = vParams.Get();
             return vResult;
         }
 
         private decimal AsignarCambioABolivares(XElement valFactura) {
             decimal vCambioABolivares = 1;
-            if(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos")) {
+            string vCodigoMoneda = LibXml.GetPropertyString(valFactura, "CodigoMoneda");
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos") 
+                || vCodigoMoneda == LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera")) {
                 vCambioABolivares = LibImportData.ToDec(LibXml.GetPropertyString(valFactura, "CambioABolivares"), 2);
             }
             return vCambioABolivares;
@@ -201,6 +211,7 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInString("CodigoMoneda", valRecord.CodigoMoneda, 4);
             vParams.AddInString("NumeroControl", valRecord.NumeroControl, 11);
             vParams.AddInString("NumeroComprobanteFiscal", valRecord.NumeroComprobanteFiscal, 12);
+            vParams.AddInBoolean("VieneDeCreditoElectronico", valRecord.VieneDeCreditoElectronicoAsBool);
             vParams.AddInString("NombreOperador", ((CustomIdentity) Thread.CurrentPrincipal.Identity).Login, 10);
             vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
             if (valAction == eAccionSR.Modificar) {
