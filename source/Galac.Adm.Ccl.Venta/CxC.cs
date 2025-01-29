@@ -51,6 +51,7 @@ namespace Galac.Adm.Ccl.Venta {
         private string _CodigoMoneda;
         private string _NumeroControl;
         private string _NumeroComprobanteFiscal;
+        private bool _VieneDeCreditoElectronico;
         private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;
@@ -291,6 +292,15 @@ namespace Galac.Adm.Ccl.Venta {
             set { _NumeroComprobanteFiscal = LibString.Mid(value, 0, 12); }
         }
 
+        public bool VieneDeCreditoElectronicoAsBool {
+            get { return _VieneDeCreditoElectronico; }
+            set { _VieneDeCreditoElectronico = value; }
+        }
+
+        public string VieneDeCreditoElectronico {
+            set { _VieneDeCreditoElectronico = LibConvert.SNToBool(value); }
+        }
+
         public string NombreOperador {
             get { return _NombreOperador; }
             set { _NombreOperador = LibString.Mid(value, 0, 10); }
@@ -359,6 +369,7 @@ namespace Galac.Adm.Ccl.Venta {
             CodigoMoneda = string.Empty;
             NumeroControl = string.Empty;
             NumeroComprobanteFiscal = string.Empty;
+            VieneDeCreditoElectronicoAsBool = false;
             NombreOperador = string.Empty;
             FechaUltimaModificacion = LibDate.Today();
             fldTimeStamp = 0;
@@ -403,6 +414,7 @@ namespace Galac.Adm.Ccl.Venta {
             vResult.CodigoMoneda = _CodigoMoneda;
             vResult.NumeroControl = _NumeroControl;
             vResult.NumeroComprobanteFiscal = _NumeroComprobanteFiscal;
+            vResult.VieneDeCreditoElectronicoAsBool = _VieneDeCreditoElectronico;
             vResult.NombreOperador = _NombreOperador;
             vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
             vResult.fldTimeStamp = _fldTimeStamp;
@@ -445,6 +457,7 @@ namespace Galac.Adm.Ccl.Venta {
                "\nCodigo Moneda = " + _CodigoMoneda +
                "\nNúmero de Control = " + _NumeroControl +
                "\nNumero Comprobante Fiscal = " + _NumeroComprobanteFiscal +
+               "\nViene De Credito Electronico = " + _VieneDeCreditoElectronico +
                "\nNombre Operador = " + _NombreOperador +
                "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();
         }
