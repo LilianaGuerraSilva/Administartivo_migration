@@ -8615,7 +8615,7 @@ h_EXIT:
    Exit Function
 End Function
 
-Public Sub FillComboBoxWithTipoArticuloInv(ByRef varComboBox As Object, ByVal valAction As AccionSobreRecord)
+Public Sub FillComboWithTipoArticuloInv(ByRef varComboBox As Object, ByVal valAction As AccionSobreRecord, ByVal valUsaLoteFechaVcto As Boolean)
    Dim nCount As Integer
    varComboBox.Clear
    nCount = 0
@@ -8626,21 +8626,24 @@ Public Sub FillComboBoxWithTipoArticuloInv(ByRef varComboBox As Object, ByVal va
    Else
       varComboBox.Text = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_Simple)
    End If
-   varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_Simple)
-   nCount = nCount + 1
-   varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_UsaTalla_Color)
-   nCount = nCount + 1
-   varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_UsaSerial)
-   nCount = nCount + 1
-   varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_UsaTalla_ColorySerial)
-   nCount = nCount + 1
-   varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_UsaSerial_Rollo)
-   nCount = nCount + 1
-   varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_LoteFechadeVencimiento)
-   nCount = nCount + 1
-   varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_Lote)
-   nCount = nCount + 1
-   varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_LoteFechadeElaboracion)
+   If (valUsaLoteFechaVcto) Then
+      varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_LoteFechadeVencimiento)
+      nCount = nCount + 1
+      varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_Lote)
+      nCount = nCount + 1
+      varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_LoteFechadeElaboracion)
+   Else
+      varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_Simple)
+      nCount = nCount + 1
+      varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_UsaTalla_Color)
+      nCount = nCount + 1
+      varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_UsaSerial)
+      nCount = nCount + 1
+      varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_UsaTalla_ColorySerial)
+      nCount = nCount + 1
+      varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_UsaSerial_Rollo)
+      nCount = nCount + 1
+   End If
    varComboBox.Width = 2280 'varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
    varComboBox.ListIndex = 0 'Se selecciona el valor por defecto
 End Sub
