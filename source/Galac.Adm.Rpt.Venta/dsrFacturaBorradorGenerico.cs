@@ -69,12 +69,13 @@ namespace Galac.Adm.Rpt.Venta {
                     LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", eDateOutputFormat.DateLong);
                     LibReport.ConfigLabel(this, "lblNumeroFactura", "Número");
                     LibReport.ConfigFieldDate(this, "txtFechaDeVencimiento", string.Empty, "FechaDeVencimiento", eDateOutputFormat.DateLong);
+                    LibReport.ConfigFieldStr(this, "txtTipoDocumento", string.Empty, "TipoDocumentoStr");
                 } else {
                     LibReport.ConfigFieldStr(this, "txtNumeroFactura", "* * * * * * * * * *", string.Empty);
                     LibReport.ConfigFieldStr(this, "txtFecha", "dd/MM/aaaa", string.Empty);
                     LibReport.ConfigFieldStr(this, "txtFechaDeVencimiento", "dd/MM/aaaa", string.Empty);
+                    LibReport.ConfigFieldStr(this, "txtTipoDocumento", "* * * * * * * * * *", "");
                 }
-                LibReport.ConfigFieldStr(this, "txtTipoDocumento", string.Empty, "TipoDocumentoStr");
                 LibReport.ConfigFieldStr(this, "txtCiudadCia", string.Empty, "CiudadCia");
                 LibReport.ConfigFieldStr(this, "txtCodigoMonedaFact", string.Empty, "CodigoMonedaFact");
                 LibReport.ConfigFieldStr(this, "txtMonedaDoc", string.Empty, "MonedaDocumento");

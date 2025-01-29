@@ -725,7 +725,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtLoteDeInventario.Left = 1.251F;
             this.txtLoteDeInventario.Name = "txtLoteDeInventario";
             this.txtLoteDeInventario.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt";
-            this.txtLoteDeInventario.Tag = "No Movable";
+            this.txtLoteDeInventario.Tag = "";
             this.txtLoteDeInventario.Text = "txtLoteDeInventario";
             this.txtLoteDeInventario.Top = 0.468F;
             this.txtLoteDeInventario.Visible = false;
@@ -739,7 +739,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtFechaElab.Left = 3.324F;
             this.txtFechaElab.Name = "txtFechaElab";
             this.txtFechaElab.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt";
-            this.txtFechaElab.Tag = "No Movable";
+            this.txtFechaElab.Tag = "";
             this.txtFechaElab.Text = "txtFechaElab";
             this.txtFechaElab.Top = 0.468F;
             this.txtFechaElab.Visible = false;
@@ -753,7 +753,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtFechaVenc.Left = 4.054F;
             this.txtFechaVenc.Name = "txtFechaVenc";
             this.txtFechaVenc.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt";
-            this.txtFechaVenc.Tag = "No Movable";
+            this.txtFechaVenc.Tag = "";
             this.txtFechaVenc.Text = "txtFechaVenc";
             this.txtFechaVenc.Top = 0.468F;
             this.txtFechaVenc.Visible = false;
@@ -766,7 +766,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTipoArticulo.Left = 0F;
             this.txtTipoArticulo.Name = "txtTipoArticulo";
             this.txtTipoArticulo.Style = "color: White; font-family: Arial Narrow; font-size: 8.25pt";
-            this.txtTipoArticulo.Tag = "No Movable";
+            this.txtTipoArticulo.Tag = "";
             this.txtTipoArticulo.Text = "txtTipoArticulo";
             this.txtTipoArticulo.Top = 0.156F;
             this.txtTipoArticulo.Visible = false;
@@ -833,7 +833,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblContacto.Name = "lblContacto";
             this.lblContacto.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-" +
     "set: 1";
-            this.lblContacto.Tag = "Movable";
+            this.lblContacto.Tag = "";
             this.lblContacto.Text = "Atención";
             this.lblContacto.Top = 0.78F;
             this.lblContacto.Width = 0.75F;
@@ -845,7 +845,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtContacto.Left = 0.7500001F;
             this.txtContacto.Name = "txtContacto";
             this.txtContacto.Style = "color: Black; font-family: Arial; font-size: 8.25pt";
-            this.txtContacto.Tag = "Movable";
+            this.txtContacto.Tag = "";
             this.txtContacto.Text = "txtContacto";
             this.txtContacto.Top = 0.78F;
             this.txtContacto.Width = 3.2F;
@@ -859,7 +859,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtFecha.MultiLine = false;
             this.txtFecha.Name = "txtFecha";
             this.txtFecha.Style = "color: Black; font-family: Arial; font-size: 8.25pt; text-align: left";
-            this.txtFecha.Tag = "Movable";
+            this.txtFecha.Tag = "";
             this.txtFecha.Text = "txtFecha";
             this.txtFecha.Top = 0.156F;
             this.txtFecha.Width = 0.75F;
@@ -884,7 +884,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtNombreVendedor.MultiLine = false;
             this.txtNombreVendedor.Name = "txtNombreVendedor";
             this.txtNombreVendedor.Style = "color: Black; font-family: Arial; font-size: 8.25pt";
-            this.txtNombreVendedor.Tag = "Movable";
+            this.txtNombreVendedor.Tag = "";
             this.txtNombreVendedor.Text = "txtNombreVendedor";
             this.txtNombreVendedor.Top = 0.4679998F;
             this.txtNombreVendedor.Width = 2.65F;
@@ -898,7 +898,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblVendedor.Name = "lblVendedor";
             this.lblVendedor.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-" +
     "set: 1";
-            this.lblVendedor.Tag = "Movable";
+            this.lblVendedor.Tag = "";
             this.lblVendedor.Text = "Vendedor";
             this.lblVendedor.Top = 0.4679998F;
             this.lblVendedor.Width = 0.75F;
@@ -912,7 +912,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblNombreOperador.Name = "lblNombreOperador";
             this.lblNombreOperador.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-" +
     "set: 1";
-            this.lblNombreOperador.Tag = "Movable";
+            this.lblNombreOperador.Tag = "";
             this.lblNombreOperador.Text = "Envía";
             this.lblNombreOperador.Top = 0.3119999F;
             this.lblNombreOperador.Width = 0.75F;
@@ -923,7 +923,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtNombreOperador.Left = 4.85F;
             this.txtNombreOperador.Name = "txtNombreOperador";
             this.txtNombreOperador.Style = "color: Black; font-family: Arial; font-size: 8.25pt";
-            this.txtNombreOperador.Tag = "Movable";
+            this.txtNombreOperador.Tag = "";
             this.txtNombreOperador.Text = "txtNombreOperador";
             this.txtNombreOperador.Top = 0.3119999F;
             this.txtNombreOperador.Width = 2.65F;
@@ -936,7 +936,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCodigoVendedor.MultiLine = false;
             this.txtCodigoVendedor.Name = "txtCodigoVendedor";
             this.txtCodigoVendedor.Style = "color: Black; font-family: Arial; font-size: 8.25pt";
-            this.txtCodigoVendedor.Tag = "Movable";
+            this.txtCodigoVendedor.Tag = "";
             this.txtCodigoVendedor.Text = "txtCodigoVendedor";
             this.txtCodigoVendedor.Top = 0.4679998F;
             this.txtCodigoVendedor.Width = 0.75F;
@@ -963,7 +963,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblContactoDespacho.Name = "lblContactoDespacho";
             this.lblContactoDespacho.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-" +
     "set: 1";
-            this.lblContactoDespacho.Tag = "Movable";
+            this.lblContactoDespacho.Tag = "";
             this.lblContactoDespacho.Text = "Atención";
             this.lblContactoDespacho.Top = 0.4679998F;
             this.lblContactoDespacho.Width = 0.75F;
@@ -977,7 +977,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblCiudadDeDespacho.Name = "lblCiudadDeDespacho";
             this.lblCiudadDeDespacho.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-" +
     "set: 1";
-            this.lblCiudadDeDespacho.Tag = "Movable";
+            this.lblCiudadDeDespacho.Tag = "";
             this.lblCiudadDeDespacho.Text = "Ciudad";
             this.lblCiudadDeDespacho.Top = 0.3119999F;
             this.lblCiudadDeDespacho.Width = 0.75F;
@@ -988,7 +988,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtDireccionDeDespacho.Left = 0.7500001F;
             this.txtDireccionDeDespacho.Name = "txtDireccionDeDespacho";
             this.txtDireccionDeDespacho.Style = "color: Black; font-family: Arial; font-size: 8.25pt";
-            this.txtDireccionDeDespacho.Tag = "Movable";
+            this.txtDireccionDeDespacho.Tag = "";
             this.txtDireccionDeDespacho.Text = "txtDireccionDeDespacho";
             this.txtDireccionDeDespacho.Top = 0.156F;
             this.txtDireccionDeDespacho.Width = 6.75F;
@@ -1002,7 +1002,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblNroFacturaAfectada.Name = "lblNroFacturaAfectada";
             this.lblNroFacturaAfectada.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-" +
     "set: 1";
-            this.lblNroFacturaAfectada.Tag = "Movable";
+            this.lblNroFacturaAfectada.Tag = "";
             this.lblNroFacturaAfectada.Text = "N° Factura Afectada";
             this.lblNroFacturaAfectada.Top = 0.6240002F;
             this.lblNroFacturaAfectada.Width = 1.199F;
@@ -1016,7 +1016,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtNroFacturaAfectada.MultiLine = false;
             this.txtNroFacturaAfectada.Name = "txtNroFacturaAfectada";
             this.txtNroFacturaAfectada.Style = "color: Black; font-family: Arial; font-size: 8.25pt; text-align: left";
-            this.txtNroFacturaAfectada.Tag = "Movable";
+            this.txtNroFacturaAfectada.Tag = "";
             this.txtNroFacturaAfectada.Text = "txtNroFacturaAfectada";
             this.txtNroFacturaAfectada.Top = 0.6240002F;
             this.txtNroFacturaAfectada.Width = 2.752F;
@@ -1030,7 +1030,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblNroPlanillaExportacion.Name = "lblNroPlanillaExportacion";
             this.lblNroPlanillaExportacion.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-" +
     "set: 1";
-            this.lblNroPlanillaExportacion.Tag = "Movable";
+            this.lblNroPlanillaExportacion.Tag = "";
             this.lblNroPlanillaExportacion.Text = "N° Planilla Exportación";
             this.lblNroPlanillaExportacion.Top = 0.6240002F;
             this.lblNroPlanillaExportacion.Width = 1.65F;
@@ -1044,7 +1044,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtNroPlanillaExportacion.MultiLine = false;
             this.txtNroPlanillaExportacion.Name = "txtNroPlanillaExportacion";
             this.txtNroPlanillaExportacion.Style = "color: Black; font-family: Arial; font-size: 8.25pt; text-align: left";
-            this.txtNroPlanillaExportacion.Tag = "Movable";
+            this.txtNroPlanillaExportacion.Tag = "";
             this.txtNroPlanillaExportacion.Text = "txtNroPlanillaExportacion";
             this.txtNroPlanillaExportacion.Top = 0.6240002F;
             this.txtNroPlanillaExportacion.Width = 1.902F;
@@ -1058,7 +1058,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblCondicionesDePago.Name = "lblCondicionesDePago";
             this.lblCondicionesDePago.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; vertical-" +
     "align: middle; ddo-char-set: 1";
-            this.lblCondicionesDePago.Tag = "Movable";
+            this.lblCondicionesDePago.Tag = "";
             this.lblCondicionesDePago.Text = "Condiciones de Pago";
             this.lblCondicionesDePago.Top = 0.4680001F;
             this.lblCondicionesDePago.Width = 1.199F;
@@ -1071,7 +1071,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCondicionesDePago.Left = 1.199F;
             this.txtCondicionesDePago.Name = "txtCondicionesDePago";
             this.txtCondicionesDePago.Style = "color: Black; font-family: Arial; font-size: 8.25pt; vertical-align: middle";
-            this.txtCondicionesDePago.Tag = "Movable";
+            this.txtCondicionesDePago.Tag = "";
             this.txtCondicionesDePago.Text = "txtCondicionesDePago";
             this.txtCondicionesDePago.Top = 0.4680001F;
             this.txtCondicionesDePago.Width = 2.751F;
@@ -1085,7 +1085,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblFechaDeVencimiento.Name = "lblFechaDeVencimiento";
             this.lblFechaDeVencimiento.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; vertical-" +
     "align: middle; ddo-char-set: 1";
-            this.lblFechaDeVencimiento.Tag = "Movable";
+            this.lblFechaDeVencimiento.Tag = "";
             this.lblFechaDeVencimiento.Text = "F. Vcto.";
             this.lblFechaDeVencimiento.Top = 0.312F;
             this.lblFechaDeVencimiento.Width = 0.5F;
@@ -1098,7 +1098,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtFechaDeVencimiento.Left = 6.75F;
             this.txtFechaDeVencimiento.Name = "txtFechaDeVencimiento";
             this.txtFechaDeVencimiento.Style = "color: Black; font-family: Arial; font-size: 8.25pt; vertical-align: middle";
-            this.txtFechaDeVencimiento.Tag = "Movable";
+            this.txtFechaDeVencimiento.Tag = "";
             this.txtFechaDeVencimiento.Text = "txtFechaDeVencimiento";
             this.txtFechaDeVencimiento.Top = 0.312F;
             this.txtFechaDeVencimiento.Width = 0.75F;
@@ -1234,7 +1234,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtFormaDePago.Left = 5.598F;
             this.txtFormaDePago.Name = "txtFormaDePago";
             this.txtFormaDePago.Style = "color: Black; font-family: Arial; font-size: 8.25pt";
-            this.txtFormaDePago.Tag = "Movable";
+            this.txtFormaDePago.Tag = "";
             this.txtFormaDePago.Text = "txtFormaDePago";
             this.txtFormaDePago.Top = 0.468F;
             this.txtFormaDePago.Width = 1.902F;
@@ -1247,7 +1247,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblFormaDeCobro.Name = "lblFormaDeCobro";
             this.lblFormaDeCobro.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; vertical-" +
     "align: middle; ddo-char-set: 1";
-            this.lblFormaDeCobro.Tag = "Movable";
+            this.lblFormaDeCobro.Tag = "";
             this.lblFormaDeCobro.Text = "Forma de Cobro";
             this.lblFormaDeCobro.Top = 0.4680001F;
             this.lblFormaDeCobro.Width = 1.65F;
@@ -1300,7 +1300,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCiudadCia.MultiLine = false;
             this.txtCiudadCia.Name = "txtCiudadCia";
             this.txtCiudadCia.Style = "color: Black; font-family: Arial; font-size: 8.25pt; text-align: left";
-            this.txtCiudadCia.Tag = "Movable";
+            this.txtCiudadCia.Tag = "";
             this.txtCiudadCia.Text = "txtCiudadCia";
             this.txtCiudadCia.Top = 0.156F;
             this.txtCiudadCia.Width = 2.304F;
@@ -1353,7 +1353,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblDireccionDeDespacho.Name = "lblDireccionDeDespacho";
             this.lblDireccionDeDespacho.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-" +
     "set: 1";
-            this.lblDireccionDeDespacho.Tag = "Movable";
+            this.lblDireccionDeDespacho.Tag = "";
             this.lblDireccionDeDespacho.Text = "Dirección";
             this.lblDireccionDeDespacho.Top = 0.156F;
             this.lblDireccionDeDespacho.Width = 0.75F;
@@ -1364,7 +1364,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCiudadDeDespacho.Left = 0.7500001F;
             this.txtCiudadDeDespacho.Name = "txtCiudadDeDespacho";
             this.txtCiudadDeDespacho.Style = "color: Black; font-family: Arial; font-size: 8.25pt";
-            this.txtCiudadDeDespacho.Tag = "Movable";
+            this.txtCiudadDeDespacho.Tag = "";
             this.txtCiudadDeDespacho.Text = "txtCiudadDeDespacho";
             this.txtCiudadDeDespacho.Top = 0.3119999F;
             this.txtCiudadDeDespacho.Width = 2.6F;
@@ -1377,7 +1377,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtContactoDeDespacho.MultiLine = false;
             this.txtContactoDeDespacho.Name = "txtContactoDeDespacho";
             this.txtContactoDeDespacho.Style = "color: Black; font-family: Arial; font-size: 8.25pt";
-            this.txtContactoDeDespacho.Tag = "Movable";
+            this.txtContactoDeDespacho.Tag = "";
             this.txtContactoDeDespacho.Text = "txtContactoDeDespacho";
             this.txtContactoDeDespacho.Top = 0.4679998F;
             this.txtContactoDeDespacho.Width = 2.6F;
@@ -1396,7 +1396,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMontoDesc2.Name = "txtMontoDesc2";
             this.txtMontoDesc2.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtMontoDesc2.Tag = "No Movable";
+            this.txtMontoDesc2.Tag = "";
             this.txtMontoDesc2.Text = "txtMontoDesc2";
             this.txtMontoDesc2.Top = 0.781F;
             this.txtMontoDesc2.Width = 1.125F;
@@ -1410,7 +1410,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMontoDesc1.Name = "txtMontoDesc1";
             this.txtMontoDesc1.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtMontoDesc1.Tag = "No Movable";
+            this.txtMontoDesc1.Tag = "";
             this.txtMontoDesc1.Text = "txtMontoDesc1";
             this.txtMontoDesc1.Top = 0.62475F;
             this.txtMontoDesc1.Width = 1.125F;
@@ -1424,7 +1424,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMontoDesc2ME.Name = "txtMontoDesc2ME";
             this.txtMontoDesc2ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtMontoDesc2ME.Tag = "No Movable";
+            this.txtMontoDesc2ME.Tag = "";
             this.txtMontoDesc2ME.Text = "txtMontoDesc2Me";
             this.txtMontoDesc2ME.Top = 0.781F;
             this.txtMontoDesc2ME.Width = 1.125F;
@@ -1438,7 +1438,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMontoDesc1ME.Name = "txtMontoDesc1ME";
             this.txtMontoDesc1ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtMontoDesc1ME.Tag = "No Movable";
+            this.txtMontoDesc1ME.Tag = "";
             this.txtMontoDesc1ME.Text = "txtMontoDesc1ME";
             this.txtMontoDesc1ME.Top = 0.62475F;
             this.txtMontoDesc1ME.Width = 1.125F;
@@ -1453,7 +1453,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalRenglones.MultiLine = false;
             this.txtTotalRenglones.Name = "txtTotalRenglones";
             this.txtTotalRenglones.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right";
-            this.txtTotalRenglones.Tag = "No Movable";
+            this.txtTotalRenglones.Tag = "";
             this.txtTotalRenglones.Text = "txtTotalRenglones";
             this.txtTotalRenglones.Top = 0.4685F;
             this.txtTotalRenglones.Width = 1.125F;
@@ -1467,7 +1467,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalFactura.Name = "lblTotalFactura";
             this.lblTotalFactura.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblTotalFactura.Tag = "No Movable";
+            this.lblTotalFactura.Tag = "";
             this.lblTotalFactura.Text = "Total Factura";
             this.lblTotalFactura.Top = 1.7185F;
             this.lblTotalFactura.Width = 0.6757497F;
@@ -1479,7 +1479,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtObservaciones.Left = 1.251F;
             this.txtObservaciones.Name = "txtObservaciones";
             this.txtObservaciones.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt";
-            this.txtObservaciones.Tag = "Movable";
+            this.txtObservaciones.Tag = "";
             this.txtObservaciones.Text = "txtObservaciones";
             this.txtObservaciones.Top = 0F;
             this.txtObservaciones.Visible = false;
@@ -1493,7 +1493,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblObservaciones.Name = "lblObservaciones";
             this.lblObservaciones.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: bold; ve" +
     "rtical-align: middle; ddo-char-set: 1";
-            this.lblObservaciones.Tag = "Movable";
+            this.lblObservaciones.Tag = "";
             this.lblObservaciones.Text = "Observaciones";
             this.lblObservaciones.Top = 0F;
             this.lblObservaciones.Visible = false;
@@ -1508,7 +1508,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblMontoAbonado.Name = "lblMontoAbonado";
             this.lblMontoAbonado.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblMontoAbonado.Tag = "No Movable";
+            this.lblMontoAbonado.Tag = "";
             this.lblMontoAbonado.Text = "Monto Abonado";
             this.lblMontoAbonado.Top = 2.18725F;
             this.lblMontoAbonado.Width = 1.676F;
@@ -1522,7 +1522,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMontoDelAbono.Name = "txtMontoDelAbono";
             this.txtMontoDelAbono.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtMontoDelAbono.Tag = "No Movable";
+            this.txtMontoDelAbono.Tag = "";
             this.txtMontoDelAbono.Text = "txtMontoDelAbono";
             this.txtMontoDelAbono.Top = 2.18725F;
             this.txtMontoDelAbono.Width = 1.125F;
@@ -1536,7 +1536,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalFacturaMenosAbono.Name = "lblTotalFacturaMenosAbono";
             this.lblTotalFacturaMenosAbono.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblTotalFacturaMenosAbono.Tag = "No Movable";
+            this.lblTotalFacturaMenosAbono.Tag = "";
             this.lblTotalFacturaMenosAbono.Text = "Total Factura Menos Abono";
             this.lblTotalFacturaMenosAbono.Top = 2.3435F;
             this.lblTotalFacturaMenosAbono.Width = 1.676F;
@@ -1550,7 +1550,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalFacturaMenosAbono.Name = "txtTotalFacturaMenosAbono";
             this.txtTotalFacturaMenosAbono.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtTotalFacturaMenosAbono.Tag = "No Movable";
+            this.txtTotalFacturaMenosAbono.Tag = "";
             this.txtTotalFacturaMenosAbono.Text = "txtTotalFacturaMenosAbono";
             this.txtTotalFacturaMenosAbono.Top = 2.3435F;
             this.txtTotalFacturaMenosAbono.Width = 1.125F;
@@ -1564,7 +1564,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtSimboloMoneda.Name = "txtSimboloMoneda";
             this.txtSimboloMoneda.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtSimboloMoneda.Tag = "No Movable";
+            this.txtSimboloMoneda.Tag = "";
             this.txtSimboloMoneda.Text = "txtSimboloMoneda";
             this.txtSimboloMoneda.Top = 1.7185F;
             this.txtSimboloMoneda.Width = 0.9999995F;
@@ -1578,7 +1578,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalIVA.Name = "lblTotalIVA";
             this.lblTotalIVA.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblTotalIVA.Tag = "No Movable";
+            this.lblTotalIVA.Tag = "";
             this.lblTotalIVA.Text = "I.V.A.";
             this.lblTotalIVA.Top = 1.24975F;
             this.lblTotalIVA.Width = 0.2622504F;
@@ -1592,7 +1592,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtPorcentajeAlicuota1.Name = "txtPorcentajeAlicuota1";
             this.txtPorcentajeAlicuota1.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtPorcentajeAlicuota1.Tag = "No Movable";
+            this.txtPorcentajeAlicuota1.Tag = "";
             this.txtPorcentajeAlicuota1.Text = "txtPorcentajeAlicuota1";
             this.txtPorcentajeAlicuota1.Top = 1.24975F;
             this.txtPorcentajeAlicuota1.Width = 0.2969999F;
@@ -1606,7 +1606,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalDescuento.Name = "lblTotalDescuento";
             this.lblTotalDescuento.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblTotalDescuento.Tag = "No Movable";
+            this.lblTotalDescuento.Tag = "";
             this.lblTotalDescuento.Text = "% Descuento";
             this.lblTotalDescuento.Top = 0.62475F;
             this.lblTotalDescuento.Width = 0.6757497F;
@@ -1620,7 +1620,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblSubTotalDespuesDelDscto.Name = "lblSubTotalDespuesDelDscto";
             this.lblSubTotalDespuesDelDscto.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblSubTotalDespuesDelDscto.Tag = "No Movable";
+            this.lblSubTotalDespuesDelDscto.Tag = "";
             this.lblSubTotalDespuesDelDscto.Text = "Sub Total";
             this.lblSubTotalDespuesDelDscto.Top = 0.93725F;
             this.lblSubTotalDespuesDelDscto.Width = 1.676F;
@@ -1634,7 +1634,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtSubTotal.Name = "txtSubTotal";
             this.txtSubTotal.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtSubTotal.Tag = "No Movable";
+            this.txtSubTotal.Tag = "";
             this.txtSubTotal.Text = "txtSubTotal";
             this.txtSubTotal.Top = 0.93725F;
             this.txtSubTotal.Width = 1.125F;
@@ -1648,7 +1648,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblSimboloPorcentajeAlic1.Name = "lblSimboloPorcentajeAlic1";
             this.lblSimboloPorcentajeAlic1.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblSimboloPorcentajeAlic1.Tag = "No Movable";
+            this.lblSimboloPorcentajeAlic1.Tag = "";
             this.lblSimboloPorcentajeAlic1.Text = "%";
             this.lblSimboloPorcentajeAlic1.Top = 1.24975F;
             this.lblSimboloPorcentajeAlic1.Width = 0.1160002F;
@@ -1662,7 +1662,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalIVAAlicuota2.Name = "lblTotalIVAAlicuota2";
             this.lblTotalIVAAlicuota2.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblTotalIVAAlicuota2.Tag = "No Movable";
+            this.lblTotalIVAAlicuota2.Tag = "";
             this.lblTotalIVAAlicuota2.Text = "I.V.A.";
             this.lblTotalIVAAlicuota2.Top = 1.406F;
             this.lblTotalIVAAlicuota2.Width = 0.2622504F;
@@ -1676,7 +1676,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtPorcentajeAlicuota2.Name = "txtPorcentajeAlicuota2";
             this.txtPorcentajeAlicuota2.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtPorcentajeAlicuota2.Tag = "No Movable";
+            this.txtPorcentajeAlicuota2.Tag = "";
             this.txtPorcentajeAlicuota2.Text = "txtPorcentajeAlicuota2";
             this.txtPorcentajeAlicuota2.Top = 1.406F;
             this.txtPorcentajeAlicuota2.Width = 0.2969999F;
@@ -1690,7 +1690,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalIvaAlic2.Name = "txtTotalIvaAlic2";
             this.txtTotalIvaAlic2.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtTotalIvaAlic2.Tag = "No Movable";
+            this.txtTotalIvaAlic2.Tag = "";
             this.txtTotalIvaAlic2.Text = "txtTotalIvaAlic2";
             this.txtTotalIvaAlic2.Top = 1.406F;
             this.txtTotalIvaAlic2.Width = 1.125F;
@@ -1704,7 +1704,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalIVAAlicuota3.Name = "lblTotalIVAAlicuota3";
             this.lblTotalIVAAlicuota3.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblTotalIVAAlicuota3.Tag = "No Movable";
+            this.lblTotalIVAAlicuota3.Tag = "";
             this.lblTotalIVAAlicuota3.Text = "I.V.A.";
             this.lblTotalIVAAlicuota3.Top = 1.56225F;
             this.lblTotalIVAAlicuota3.Width = 0.2622504F;
@@ -1718,7 +1718,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtPorcentajeAlicuota3.Name = "txtPorcentajeAlicuota3";
             this.txtPorcentajeAlicuota3.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtPorcentajeAlicuota3.Tag = "No Movable";
+            this.txtPorcentajeAlicuota3.Tag = "";
             this.txtPorcentajeAlicuota3.Text = "txtPorcentajeAlicuota3";
             this.txtPorcentajeAlicuota3.Top = 1.56225F;
             this.txtPorcentajeAlicuota3.Width = 0.2969999F;
@@ -1732,7 +1732,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalIvaAlic3.Name = "txtTotalIvaAlic3";
             this.txtTotalIvaAlic3.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtTotalIvaAlic3.Tag = "No Movable";
+            this.txtTotalIvaAlic3.Tag = "";
             this.txtTotalIvaAlic3.Text = "txtTotalIvaAlic3";
             this.txtTotalIvaAlic3.Top = 1.56225F;
             this.txtTotalIvaAlic3.Width = 1.125F;
@@ -1746,7 +1746,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblSimboloPorcentajeAlic2.Name = "lblSimboloPorcentajeAlic2";
             this.lblSimboloPorcentajeAlic2.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblSimboloPorcentajeAlic2.Tag = "No Movable";
+            this.lblSimboloPorcentajeAlic2.Tag = "";
             this.lblSimboloPorcentajeAlic2.Text = "%";
             this.lblSimboloPorcentajeAlic2.Top = 1.406F;
             this.lblSimboloPorcentajeAlic2.Width = 0.1160002F;
@@ -1760,7 +1760,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblSimboloPorcentajeAlic3.Name = "lblSimboloPorcentajeAlic3";
             this.lblSimboloPorcentajeAlic3.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblSimboloPorcentajeAlic3.Tag = "No Movable";
+            this.lblSimboloPorcentajeAlic3.Tag = "";
             this.lblSimboloPorcentajeAlic3.Text = "%";
             this.lblSimboloPorcentajeAlic3.Top = 1.56225F;
             this.lblSimboloPorcentajeAlic3.Width = 0.1160002F;
@@ -1774,7 +1774,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblSubTotalRenglones.Name = "lblSubTotalRenglones";
             this.lblSubTotalRenglones.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblSubTotalRenglones.Tag = "No Movable";
+            this.lblSubTotalRenglones.Tag = "";
             this.lblSubTotalRenglones.Text = "Total Renglones";
             this.lblSubTotalRenglones.Top = 0.4685F;
             this.lblSubTotalRenglones.Width = 1.676F;
@@ -1788,7 +1788,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalIvaAlic1.Name = "txtTotalIvaAlic1";
             this.txtTotalIvaAlic1.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtTotalIvaAlic1.Tag = "No Movable";
+            this.txtTotalIvaAlic1.Tag = "";
             this.txtTotalIvaAlic1.Text = "txtTotalIvaAlic1";
             this.txtTotalIvaAlic1.Top = 1.24975F;
             this.txtTotalIvaAlic1.Width = 1.125F;
@@ -1802,7 +1802,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMontoGravableAlicuota1.Name = "txtMontoGravableAlicuota1";
             this.txtMontoGravableAlicuota1.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtMontoGravableAlicuota1.Tag = "No Movable";
+            this.txtMontoGravableAlicuota1.Tag = "";
             this.txtMontoGravableAlicuota1.Text = "txtMontoGravableAlicuota1";
             this.txtMontoGravableAlicuota1.Top = 1.24975F;
             this.txtMontoGravableAlicuota1.Width = 1F;
@@ -1816,7 +1816,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMontoGravableAlicuota2.Name = "txtMontoGravableAlicuota2";
             this.txtMontoGravableAlicuota2.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtMontoGravableAlicuota2.Tag = "No Movable";
+            this.txtMontoGravableAlicuota2.Tag = "";
             this.txtMontoGravableAlicuota2.Text = "txtMontoGravableAlicuota2";
             this.txtMontoGravableAlicuota2.Top = 1.406F;
             this.txtMontoGravableAlicuota2.Width = 1F;
@@ -1830,7 +1830,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMontoGravableAlicuota3.Name = "txtMontoGravableAlicuota3";
             this.txtMontoGravableAlicuota3.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtMontoGravableAlicuota3.Tag = "No Movable";
+            this.txtMontoGravableAlicuota3.Tag = "";
             this.txtMontoGravableAlicuota3.Text = "txtMontoGravableAlicuota3";
             this.txtMontoGravableAlicuota3.Top = 1.56225F;
             this.txtMontoGravableAlicuota3.Width = 1F;
@@ -1844,7 +1844,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtPorcentajeDesc1.Name = "txtPorcentajeDesc1";
             this.txtPorcentajeDesc1.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtPorcentajeDesc1.Tag = "No Movable";
+            this.txtPorcentajeDesc1.Tag = "";
             this.txtPorcentajeDesc1.Text = "txtPorcentajeDesc1";
             this.txtPorcentajeDesc1.Top = 0.62475F;
             this.txtPorcentajeDesc1.Width = 0.9999995F;
@@ -1858,7 +1858,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtPorcentajeDesc2.Name = "txtPorcentajeDesc2";
             this.txtPorcentajeDesc2.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtPorcentajeDesc2.Tag = "No Movable";
+            this.txtPorcentajeDesc2.Tag = "";
             this.txtPorcentajeDesc2.Text = "txtPorcentajeDesc2";
             this.txtPorcentajeDesc2.Top = 0.781F;
             this.txtPorcentajeDesc2.Width = 0.9999995F;
@@ -1872,7 +1872,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalDescuento2.Name = "lblTotalDescuento2";
             this.lblTotalDescuento2.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblTotalDescuento2.Tag = "No Movable";
+            this.lblTotalDescuento2.Tag = "";
             this.lblTotalDescuento2.Text = "% Descuento";
             this.lblTotalDescuento2.Top = 0.781F;
             this.lblTotalDescuento2.Width = 0.6757497F;
@@ -1886,7 +1886,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalExento.Name = "lblTotalExento";
             this.lblTotalExento.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblTotalExento.Tag = "No Movable";
+            this.lblTotalExento.Tag = "";
             this.lblTotalExento.Text = "Total Exento";
             this.lblTotalExento.Top = 1.0935F;
             this.lblTotalExento.Width = 1.676F;
@@ -1900,7 +1900,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalMontoExento.Name = "txtTotalMontoExento";
             this.txtTotalMontoExento.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtTotalMontoExento.Tag = "No Movable";
+            this.txtTotalMontoExento.Tag = "";
             this.txtTotalMontoExento.Text = "txtTotalMontoExento";
             this.txtTotalMontoExento.Top = 1.0935F;
             this.txtTotalMontoExento.Width = 1.125F;
@@ -1914,7 +1914,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalIvaAlic2ME.Name = "txtTotalIvaAlic2ME";
             this.txtTotalIvaAlic2ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtTotalIvaAlic2ME.Tag = "No Movable";
+            this.txtTotalIvaAlic2ME.Tag = "";
             this.txtTotalIvaAlic2ME.Text = "txtTotalIvaAlic2ME";
             this.txtTotalIvaAlic2ME.Top = 1.406F;
             this.txtTotalIvaAlic2ME.Width = 1.125F;
@@ -1928,7 +1928,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalIvaAlic3ME.Name = "txtTotalIvaAlic3ME";
             this.txtTotalIvaAlic3ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtTotalIvaAlic3ME.Tag = "No Movable";
+            this.txtTotalIvaAlic3ME.Tag = "";
             this.txtTotalIvaAlic3ME.Text = "txtTotalIvaAlic3ME";
             this.txtTotalIvaAlic3ME.Top = 1.56225F;
             this.txtTotalIvaAlic3ME.Width = 1.125F;
@@ -1942,7 +1942,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalIvaAlic1ME.Name = "txtTotalIvaAlic1ME";
             this.txtTotalIvaAlic1ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtTotalIvaAlic1ME.Tag = "No Movable";
+            this.txtTotalIvaAlic1ME.Tag = "";
             this.txtTotalIvaAlic1ME.Text = "txtTotalIvaAlic1ME";
             this.txtTotalIvaAlic1ME.Top = 1.24975F;
             this.txtTotalIvaAlic1ME.Width = 1.125F;
@@ -1956,7 +1956,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMontoGravableAlicuota1ME.Name = "txtMontoGravableAlicuota1ME";
             this.txtMontoGravableAlicuota1ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtMontoGravableAlicuota1ME.Tag = "No Movable";
+            this.txtMontoGravableAlicuota1ME.Tag = "";
             this.txtMontoGravableAlicuota1ME.Text = "txtMontoGravableAlicuota1ME";
             this.txtMontoGravableAlicuota1ME.Top = 1.24975F;
             this.txtMontoGravableAlicuota1ME.Width = 1F;
@@ -1970,7 +1970,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMontoGravableAlicuota2ME.Name = "txtMontoGravableAlicuota2ME";
             this.txtMontoGravableAlicuota2ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtMontoGravableAlicuota2ME.Tag = "No Movable";
+            this.txtMontoGravableAlicuota2ME.Tag = "";
             this.txtMontoGravableAlicuota2ME.Text = "txtMontoGravableAlicuota2ME";
             this.txtMontoGravableAlicuota2ME.Top = 1.406F;
             this.txtMontoGravableAlicuota2ME.Width = 1F;
@@ -1984,7 +1984,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMontoGravableAlicuota3ME.Name = "txtMontoGravableAlicuota3ME";
             this.txtMontoGravableAlicuota3ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtMontoGravableAlicuota3ME.Tag = "No Movable";
+            this.txtMontoGravableAlicuota3ME.Tag = "";
             this.txtMontoGravableAlicuota3ME.Text = "txtMontoGravableAlicuota3ME";
             this.txtMontoGravableAlicuota3ME.Top = 1.56225F;
             this.txtMontoGravableAlicuota3ME.Width = 1F;
@@ -1998,7 +1998,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalFacturaME.Name = "lblTotalFacturaME";
             this.lblTotalFacturaME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblTotalFacturaME.Tag = "No Movable";
+            this.lblTotalFacturaME.Tag = "";
             this.lblTotalFacturaME.Text = "Total Factura";
             this.lblTotalFacturaME.Top = 1.7185F;
             this.lblTotalFacturaME.Width = 0.6757501F;
@@ -2012,7 +2012,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalIVAME.Name = "lblTotalIVAME";
             this.lblTotalIVAME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblTotalIVAME.Tag = "No Movable";
+            this.lblTotalIVAME.Tag = "";
             this.lblTotalIVAME.Text = "I.V.A.";
             this.lblTotalIVAME.Top = 1.24975F;
             this.lblTotalIVAME.Width = 0.2622504F;
@@ -2026,7 +2026,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalIVAAlicuota2ME.Name = "lblTotalIVAAlicuota2ME";
             this.lblTotalIVAAlicuota2ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblTotalIVAAlicuota2ME.Tag = "No Movable";
+            this.lblTotalIVAAlicuota2ME.Tag = "";
             this.lblTotalIVAAlicuota2ME.Text = "I.V.A.";
             this.lblTotalIVAAlicuota2ME.Top = 1.406F;
             this.lblTotalIVAAlicuota2ME.Width = 0.2622504F;
@@ -2040,7 +2040,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalIVAAlicuota3ME.Name = "lblTotalIVAAlicuota3ME";
             this.lblTotalIVAAlicuota3ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblTotalIVAAlicuota3ME.Tag = "No Movable";
+            this.lblTotalIVAAlicuota3ME.Tag = "";
             this.lblTotalIVAAlicuota3ME.Text = "I.V.A.";
             this.lblTotalIVAAlicuota3ME.Top = 1.56225F;
             this.lblTotalIVAAlicuota3ME.Width = 0.2622504F;
@@ -2054,7 +2054,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalExentoME.Name = "lblTotalExentoME";
             this.lblTotalExentoME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblTotalExentoME.Tag = "No Movable";
+            this.lblTotalExentoME.Tag = "";
             this.lblTotalExentoME.Text = "Total Exento";
             this.lblTotalExentoME.Top = 1.0935F;
             this.lblTotalExentoME.Width = 1.676F;
@@ -2068,7 +2068,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtPorcentajeAlicuota1ME.Name = "txtPorcentajeAlicuota1ME";
             this.txtPorcentajeAlicuota1ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtPorcentajeAlicuota1ME.Tag = "No Movable";
+            this.txtPorcentajeAlicuota1ME.Tag = "";
             this.txtPorcentajeAlicuota1ME.Text = "txtPorcentajeAlicuota1ME";
             this.txtPorcentajeAlicuota1ME.Top = 1.24975F;
             this.txtPorcentajeAlicuota1ME.Width = 0.2969999F;
@@ -2082,7 +2082,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblSimboloPorcentajeAlic1ME.Name = "lblSimboloPorcentajeAlic1ME";
             this.lblSimboloPorcentajeAlic1ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblSimboloPorcentajeAlic1ME.Tag = "No Movable";
+            this.lblSimboloPorcentajeAlic1ME.Tag = "";
             this.lblSimboloPorcentajeAlic1ME.Text = "%";
             this.lblSimboloPorcentajeAlic1ME.Top = 1.24975F;
             this.lblSimboloPorcentajeAlic1ME.Width = 0.1160002F;
@@ -2096,7 +2096,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtPorcentajeAlicuota2ME.Name = "txtPorcentajeAlicuota2ME";
             this.txtPorcentajeAlicuota2ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtPorcentajeAlicuota2ME.Tag = "No Movable";
+            this.txtPorcentajeAlicuota2ME.Tag = "";
             this.txtPorcentajeAlicuota2ME.Text = "txtPorcentajeAlicuota2ME";
             this.txtPorcentajeAlicuota2ME.Top = 1.406F;
             this.txtPorcentajeAlicuota2ME.Width = 0.2969999F;
@@ -2110,7 +2110,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtPorcentajeAlicuota3ME.Name = "txtPorcentajeAlicuota3ME";
             this.txtPorcentajeAlicuota3ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtPorcentajeAlicuota3ME.Tag = "No Movable";
+            this.txtPorcentajeAlicuota3ME.Tag = "";
             this.txtPorcentajeAlicuota3ME.Text = "txtPorcentajeAlicuota3ME";
             this.txtPorcentajeAlicuota3ME.Top = 1.56225F;
             this.txtPorcentajeAlicuota3ME.Width = 0.2969999F;
@@ -2124,7 +2124,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblSimboloPorcentajeAlic2ME.Name = "lblSimboloPorcentajeAlic2ME";
             this.lblSimboloPorcentajeAlic2ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblSimboloPorcentajeAlic2ME.Tag = "No Movable";
+            this.lblSimboloPorcentajeAlic2ME.Tag = "";
             this.lblSimboloPorcentajeAlic2ME.Text = "%";
             this.lblSimboloPorcentajeAlic2ME.Top = 1.406F;
             this.lblSimboloPorcentajeAlic2ME.Width = 0.1160002F;
@@ -2138,7 +2138,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblSimboloPorcentajeAlic3ME.Name = "lblSimboloPorcentajeAlic3ME";
             this.lblSimboloPorcentajeAlic3ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblSimboloPorcentajeAlic3ME.Tag = "No Movable";
+            this.lblSimboloPorcentajeAlic3ME.Tag = "";
             this.lblSimboloPorcentajeAlic3ME.Text = "%";
             this.lblSimboloPorcentajeAlic3ME.Top = 1.56225F;
             this.lblSimboloPorcentajeAlic3ME.Width = 0.1160002F;
@@ -2152,7 +2152,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblPorcentajeDescuento1ME.Name = "lblPorcentajeDescuento1ME";
             this.lblPorcentajeDescuento1ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblPorcentajeDescuento1ME.Tag = "No Movable";
+            this.lblPorcentajeDescuento1ME.Tag = "";
             this.lblPorcentajeDescuento1ME.Text = "% Descuento";
             this.lblPorcentajeDescuento1ME.Top = 0.62475F;
             this.lblPorcentajeDescuento1ME.Width = 0.6757497F;
@@ -2166,7 +2166,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblSubTotalDespuesDelDsctoME.Name = "lblSubTotalDespuesDelDsctoME";
             this.lblSubTotalDespuesDelDsctoME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblSubTotalDespuesDelDsctoME.Tag = "No Movable";
+            this.lblSubTotalDespuesDelDsctoME.Tag = "";
             this.lblSubTotalDespuesDelDsctoME.Text = "Sub Total";
             this.lblSubTotalDespuesDelDsctoME.Top = 0.93725F;
             this.lblSubTotalDespuesDelDsctoME.Width = 1.676F;
@@ -2180,7 +2180,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalRenglonesMe.Name = "lblTotalRenglonesMe";
             this.lblTotalRenglonesMe.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblTotalRenglonesMe.Tag = "No Movable";
+            this.lblTotalRenglonesMe.Tag = "";
             this.lblTotalRenglonesMe.Text = "Total Renglones";
             this.lblTotalRenglonesMe.Top = 0.4685F;
             this.lblTotalRenglonesMe.Width = 1.676F;
@@ -2194,7 +2194,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblPorcentajeDescuento2ME.Name = "lblPorcentajeDescuento2ME";
             this.lblPorcentajeDescuento2ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblPorcentajeDescuento2ME.Tag = "No Movable";
+            this.lblPorcentajeDescuento2ME.Tag = "";
             this.lblPorcentajeDescuento2ME.Text = "% Descuento";
             this.lblPorcentajeDescuento2ME.Top = 0.781F;
             this.lblPorcentajeDescuento2ME.Width = 0.6757497F;
@@ -2208,7 +2208,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalMontoExentoME.Name = "txtTotalMontoExentoME";
             this.txtTotalMontoExentoME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtTotalMontoExentoME.Tag = "No Movable";
+            this.txtTotalMontoExentoME.Tag = "";
             this.txtTotalMontoExentoME.Text = "txtTotalMontoExentoME";
             this.txtTotalMontoExentoME.Top = 1.0935F;
             this.txtTotalMontoExentoME.Width = 1.125F;
@@ -2222,7 +2222,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalRenglonesME.MultiLine = false;
             this.txtTotalRenglonesME.Name = "txtTotalRenglonesME";
             this.txtTotalRenglonesME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right";
-            this.txtTotalRenglonesME.Tag = "No Movable";
+            this.txtTotalRenglonesME.Tag = "";
             this.txtTotalRenglonesME.Text = "txtTotalRenglonesME";
             this.txtTotalRenglonesME.Top = 0.4685F;
             this.txtTotalRenglonesME.Width = 1.125F;
@@ -2236,7 +2236,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblMontoAbonadoME.Name = "lblMontoAbonadoME";
             this.lblMontoAbonadoME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblMontoAbonadoME.Tag = "No Movable";
+            this.lblMontoAbonadoME.Tag = "";
             this.lblMontoAbonadoME.Text = "Monto Abonado";
             this.lblMontoAbonadoME.Top = 2.18725F;
             this.lblMontoAbonadoME.Width = 1.676F;
@@ -2250,7 +2250,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalFacturaMenosAbonoME.Name = "lblTotalFacturaMenosAbonoME";
             this.lblTotalFacturaMenosAbonoME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblTotalFacturaMenosAbonoME.Tag = "No Movable";
+            this.lblTotalFacturaMenosAbonoME.Tag = "";
             this.lblTotalFacturaMenosAbonoME.Text = "Total Factura Menos Abono";
             this.lblTotalFacturaMenosAbonoME.Top = 2.3435F;
             this.lblTotalFacturaMenosAbonoME.Width = 1.676F;
@@ -2264,7 +2264,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMontoDelAbonoME.Name = "txtMontoDelAbonoME";
             this.txtMontoDelAbonoME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtMontoDelAbonoME.Tag = "No Movable";
+            this.txtMontoDelAbonoME.Tag = "";
             this.txtMontoDelAbonoME.Text = "txtMontoDelAbonoME";
             this.txtMontoDelAbonoME.Top = 2.18725F;
             this.txtMontoDelAbonoME.Width = 1.125F;
@@ -2278,7 +2278,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalFacturaMenosAbonoME.Name = "txtTotalFacturaMenosAbonoME";
             this.txtTotalFacturaMenosAbonoME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtTotalFacturaMenosAbonoME.Tag = "No Movable";
+            this.txtTotalFacturaMenosAbonoME.Tag = "";
             this.txtTotalFacturaMenosAbonoME.Text = "txtTotalFacturaMenosAbonoME";
             this.txtTotalFacturaMenosAbonoME.Top = 2.3435F;
             this.txtTotalFacturaMenosAbonoME.Width = 1.125F;
@@ -2292,7 +2292,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtSubTotalME.Name = "txtSubTotalME";
             this.txtSubTotalME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtSubTotalME.Tag = "No Movable";
+            this.txtSubTotalME.Tag = "";
             this.txtSubTotalME.Text = "txtSubTotalME";
             this.txtSubTotalME.Top = 0.93725F;
             this.txtSubTotalME.Width = 1.125F;
@@ -2306,7 +2306,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtPorcentajeDesc1ME.Name = "txtPorcentajeDesc1ME";
             this.txtPorcentajeDesc1ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtPorcentajeDesc1ME.Tag = "No Movable";
+            this.txtPorcentajeDesc1ME.Tag = "";
             this.txtPorcentajeDesc1ME.Text = "txtPorcentajeDesc1ME";
             this.txtPorcentajeDesc1ME.Top = 0.62475F;
             this.txtPorcentajeDesc1ME.Width = 1.00025F;
@@ -2320,7 +2320,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtPorcentajeDesc2ME.Name = "txtPorcentajeDesc2ME";
             this.txtPorcentajeDesc2ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtPorcentajeDesc2ME.Tag = "No Movable";
+            this.txtPorcentajeDesc2ME.Tag = "";
             this.txtPorcentajeDesc2ME.Text = "txtPorcentajeDesc2Me";
             this.txtPorcentajeDesc2ME.Top = 0.781F;
             this.txtPorcentajeDesc2ME.Width = 1.00025F;
@@ -2338,7 +2338,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalFactura.Name = "txtTotalFactura";
             this.txtTotalFactura.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtTotalFactura.Tag = "No Movable";
+            this.txtTotalFactura.Tag = "";
             this.txtTotalFactura.Text = "txtTotalFactura";
             this.txtTotalFactura.Top = 1.7185F;
             this.txtTotalFactura.Width = 1.125F;
@@ -2354,7 +2354,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalFacturaME.Name = "txtTotalFacturaME";
             this.txtTotalFacturaME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtTotalFacturaME.Tag = "No Movable";
+            this.txtTotalFacturaME.Tag = "";
             this.txtTotalFacturaME.Text = "txtTotalFacturaME";
             this.txtTotalFacturaME.Top = 1.7185F;
             this.txtTotalFacturaME.Width = 1.125F;
@@ -2370,7 +2370,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblMontosME.Name = "lblMontosME";
             this.lblMontosME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: bold; te" +
     "xt-align: left; vertical-align: middle; ddo-char-set: 1";
-            this.lblMontosME.Tag = "No Movable";
+            this.lblMontosME.Tag = "";
             this.lblMontosME.Text = "Montos en";
             this.lblMontosME.Top = 0.156F;
             this.lblMontosME.Width = 0.6760001F;
@@ -2386,7 +2386,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblCambioME.Name = "lblCambioME";
             this.lblCambioME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: bold; te" +
     "xt-align: right; vertical-align: middle; ddo-char-set: 1";
-            this.lblCambioME.Tag = "No Movable";
+            this.lblCambioME.Tag = "";
             this.lblCambioME.Text = "Cambio a Bs.";
             this.lblCambioME.Top = 0.156F;
             this.lblCambioME.Width = 1.125F;
@@ -2402,7 +2402,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMonedaExtranjera.Name = "txtMonedaExtranjera";
             this.txtMonedaExtranjera.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: left; ver" +
     "tical-align: middle";
-            this.txtMonedaExtranjera.Tag = "No Movable";
+            this.txtMonedaExtranjera.Tag = "";
             this.txtMonedaExtranjera.Text = "txtMonedaExtranjera";
             this.txtMonedaExtranjera.Top = 0.156F;
             this.txtMonedaExtranjera.Width = 1F;
@@ -2418,7 +2418,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCambio.Name = "txtCambio";
             this.txtCambio.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtCambio.Tag = "No Movable";
+            this.txtCambio.Tag = "";
             this.txtCambio.Text = "txtCambio";
             this.txtCambio.Top = 0.156F;
             this.txtCambio.Width = 1F;
@@ -2432,7 +2432,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtSimboloMonedaExt.Name = "txtSimboloMonedaExt";
             this.txtSimboloMonedaExt.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtSimboloMonedaExt.Tag = "No Movable";
+            this.txtSimboloMonedaExt.Tag = "";
             this.txtSimboloMonedaExt.Text = "txtSimboloMonedaExt";
             this.txtSimboloMonedaExt.Top = 1.7185F;
             this.txtSimboloMonedaExt.Width = 1.00025F;
@@ -2446,7 +2446,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblIGTF.Name = "lblIGTF";
             this.lblIGTF.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblIGTF.Tag = "No Movable";
+            this.lblIGTF.Tag = "";
             this.lblIGTF.Text = "IGTF";
             this.lblIGTF.Top = 1.87475F;
             this.lblIGTF.Width = 0.2622504F;
@@ -2460,7 +2460,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtAlicuotaIGTF.Name = "txtAlicuotaIGTF";
             this.txtAlicuotaIGTF.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtAlicuotaIGTF.Tag = "No Movable";
+            this.txtAlicuotaIGTF.Tag = "";
             this.txtAlicuotaIGTF.Text = "txtAlicuotaIGTF";
             this.txtAlicuotaIGTF.Top = 1.87475F;
             this.txtAlicuotaIGTF.Width = 0.2969999F;
@@ -2474,7 +2474,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtIGTF.Name = "txtIGTF";
             this.txtIGTF.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtIGTF.Tag = "No Movable";
+            this.txtIGTF.Tag = "";
             this.txtIGTF.Text = "txtIGTF";
             this.txtIGTF.Top = 1.87475F;
             this.txtIGTF.Width = 1.125F;
@@ -2488,7 +2488,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblSimboloPorcentajeAlicIGTF.Name = "lblSimboloPorcentajeAlicIGTF";
             this.lblSimboloPorcentajeAlicIGTF.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblSimboloPorcentajeAlicIGTF.Tag = "No Movable";
+            this.lblSimboloPorcentajeAlicIGTF.Tag = "";
             this.lblSimboloPorcentajeAlicIGTF.Text = "%";
             this.lblSimboloPorcentajeAlicIGTF.Top = 1.87475F;
             this.lblSimboloPorcentajeAlicIGTF.Width = 0.1160002F;
@@ -2502,7 +2502,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtBaseImponibleIGTF.Name = "txtBaseImponibleIGTF";
             this.txtBaseImponibleIGTF.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtBaseImponibleIGTF.Tag = "No Movable";
+            this.txtBaseImponibleIGTF.Tag = "";
             this.txtBaseImponibleIGTF.Text = "txtBaseImponibleIGTF";
             this.txtBaseImponibleIGTF.Top = 1.87475F;
             this.txtBaseImponibleIGTF.Width = 1F;
@@ -2516,7 +2516,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtIGTFME.Name = "txtIGTFME";
             this.txtIGTFME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtIGTFME.Tag = "No Movable";
+            this.txtIGTFME.Tag = "";
             this.txtIGTFME.Text = "txtIGTFME";
             this.txtIGTFME.Top = 1.87475F;
             this.txtIGTFME.Width = 1.125F;
@@ -2530,7 +2530,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtBaseImponibleIGTFME.Name = "txtBaseImponibleIGTFME";
             this.txtBaseImponibleIGTFME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtBaseImponibleIGTFME.Tag = "No Movable";
+            this.txtBaseImponibleIGTFME.Tag = "";
             this.txtBaseImponibleIGTFME.Text = "txtBaseImponibleIGTFME";
             this.txtBaseImponibleIGTFME.Top = 1.87475F;
             this.txtBaseImponibleIGTFME.Width = 1F;
@@ -2544,7 +2544,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblIGTFME.Name = "lblIGTFME";
             this.lblIGTFME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblIGTFME.Tag = "No Movable";
+            this.lblIGTFME.Tag = "";
             this.lblIGTFME.Text = "IGTF";
             this.lblIGTFME.Top = 1.87475F;
             this.lblIGTFME.Width = 0.2622504F;
@@ -2558,7 +2558,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtAlicuotaIGTFME.Name = "txtAlicuotaIGTFME";
             this.txtAlicuotaIGTFME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtAlicuotaIGTFME.Tag = "No Movable";
+            this.txtAlicuotaIGTFME.Tag = "";
             this.txtAlicuotaIGTFME.Text = "txtAlicuotaIGTFME";
             this.txtAlicuotaIGTFME.Top = 1.87475F;
             this.txtAlicuotaIGTFME.Width = 0.2969999F;
@@ -2572,7 +2572,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblSimboloPorcentajeAlicIGTFME.Name = "lblSimboloPorcentajeAlicIGTFME";
             this.lblSimboloPorcentajeAlicIGTFME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblSimboloPorcentajeAlicIGTFME.Tag = "No Movable";
+            this.lblSimboloPorcentajeAlicIGTFME.Tag = "";
             this.lblSimboloPorcentajeAlicIGTFME.Text = "%";
             this.lblSimboloPorcentajeAlicIGTFME.Top = 1.87475F;
             this.lblSimboloPorcentajeAlicIGTFME.Width = 0.1160002F;
@@ -2586,7 +2586,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalFacturaMasIGTF.Name = "lblTotalFacturaMasIGTF";
             this.lblTotalFacturaMasIGTF.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblTotalFacturaMasIGTF.Tag = "No Movable";
+            this.lblTotalFacturaMasIGTF.Tag = "";
             this.lblTotalFacturaMasIGTF.Text = "Total Factura + IGTF";
             this.lblTotalFacturaMasIGTF.Top = 2.031F;
             this.lblTotalFacturaMasIGTF.Width = 1.676F;
@@ -2600,7 +2600,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalFacturaMasIGTFME.Name = "lblTotalFacturaMasIGTFME";
             this.lblTotalFacturaMasIGTFME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
     "text-align: left; vertical-align: middle";
-            this.lblTotalFacturaMasIGTFME.Tag = "No Movable";
+            this.lblTotalFacturaMasIGTFME.Tag = "";
             this.lblTotalFacturaMasIGTFME.Text = "Total Factura + IGTF";
             this.lblTotalFacturaMasIGTFME.Top = 2.031F;
             this.lblTotalFacturaMasIGTFME.Width = 1.676F;
@@ -2618,7 +2618,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalFacturaMasIGTF.Name = "txtTotalFacturaMasIGTF";
             this.txtTotalFacturaMasIGTF.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtTotalFacturaMasIGTF.Tag = "No Movable";
+            this.txtTotalFacturaMasIGTF.Tag = "";
             this.txtTotalFacturaMasIGTF.Text = "txtTotalFacturaMasIGTF";
             this.txtTotalFacturaMasIGTF.Top = 2.031F;
             this.txtTotalFacturaMasIGTF.Width = 1.125F;
@@ -2634,7 +2634,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalFacturaMasIGTFME.Name = "txtTotalFacturaMasIGTFME";
             this.txtTotalFacturaMasIGTFME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtTotalFacturaMasIGTFME.Tag = "No Movable";
+            this.txtTotalFacturaMasIGTFME.Tag = "";
             this.txtTotalFacturaMasIGTFME.Text = "txtTotalFacturaMasIGTFME";
             this.txtTotalFacturaMasIGTFME.Top = 2.031F;
             this.txtTotalFacturaMasIGTFME.Width = 1.125F;
@@ -2667,7 +2667,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMontoEnLetras.Name = "txtMontoEnLetras";
             this.txtMontoEnLetras.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; vertical-align: middl" +
     "e";
-            this.txtMontoEnLetras.Tag = "Movable";
+            this.txtMontoEnLetras.Tag = "";
             this.txtMontoEnLetras.Text = "txtMontoEnLetras";
             this.txtMontoEnLetras.Top = 0.156F;
             this.txtMontoEnLetras.Width = 7.237001F;
@@ -2681,7 +2681,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblNotasFinales.Name = "lblNotasFinales";
             this.lblNotasFinales.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: bold; ve" +
     "rtical-align: middle; ddo-char-set: 1";
-            this.lblNotasFinales.Tag = "Movable";
+            this.lblNotasFinales.Tag = "";
             this.lblNotasFinales.Text = "Notas Finales";
             this.lblNotasFinales.Top = 0.312F;
             this.lblNotasFinales.Visible = false;
@@ -2695,7 +2695,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtNotasFinales.Name = "txtNotasFinales";
             this.txtNotasFinales.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; vertical-align: middl" +
     "e";
-            this.txtNotasFinales.Tag = "Movable";
+            this.txtNotasFinales.Tag = "";
             this.txtNotasFinales.Text = "txtNotasFinales";
             this.txtNotasFinales.Top = 0.312F;
             this.txtNotasFinales.Visible = false;
@@ -2710,7 +2710,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalCantidad.Name = "lblTotalCantidad";
             this.lblTotalCantidad.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: bold; te" +
     "xt-align: right; vertical-align: middle; ddo-char-set: 1";
-            this.lblTotalCantidad.Tag = "Movable";
+            this.lblTotalCantidad.Tag = "";
             this.lblTotalCantidad.Text = "Total Cantidad";
             this.lblTotalCantidad.Top = 0F;
             this.lblTotalCantidad.Visible = false;
@@ -2724,7 +2724,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalCantidad.Name = "txtTotalCantidad";
             this.txtTotalCantidad.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; vertical-align: middl" +
     "e";
-            this.txtTotalCantidad.Tag = "Movable";
+            this.txtTotalCantidad.Tag = "";
             this.txtTotalCantidad.Text = "txtTotalCantidad";
             this.txtTotalCantidad.Top = 0F;
             this.txtTotalCantidad.Visible = false;
@@ -2738,7 +2738,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalItems.MultiLine = false;
             this.txtTotalItems.Name = "txtTotalItems";
             this.txtTotalItems.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt";
-            this.txtTotalItems.Tag = "No Movable";
+            this.txtTotalItems.Tag = "";
             this.txtTotalItems.Text = "txtTotalItems";
             this.txtTotalItems.Top = 0F;
             this.txtTotalItems.Visible = false;
@@ -2773,7 +2773,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtSubtotalLineaDeProducto.MultiLine = false;
             this.txtSubtotalLineaDeProducto.Name = "txtSubtotalLineaDeProducto";
             this.txtSubtotalLineaDeProducto.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right";
-            this.txtSubtotalLineaDeProducto.Tag = "No Movable";
+            this.txtSubtotalLineaDeProducto.Tag = "";
             this.txtSubtotalLineaDeProducto.Text = "txtSubtotalLineaDeProducto";
             this.txtSubtotalLineaDeProducto.Top = 0F;
             this.txtSubtotalLineaDeProducto.Width = 1.125F;
@@ -2788,7 +2788,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblSubTotalLineaDeProducto.Name = "lblSubTotalLineaDeProducto";
             this.lblSubTotalLineaDeProducto.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: bold; te" +
     "xt-align: right; ddo-char-set: 1";
-            this.lblSubTotalLineaDeProducto.Tag = "No Movable";
+            this.lblSubTotalLineaDeProducto.Tag = "";
             this.lblSubTotalLineaDeProducto.Text = "Subtotal";
             this.lblSubTotalLineaDeProducto.Top = 0F;
             this.lblSubTotalLineaDeProducto.Width = 0.73F;
@@ -2802,7 +2802,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtLineaDeProducto.Left = 4.054F;
             this.txtLineaDeProducto.Name = "txtLineaDeProducto";
             this.txtLineaDeProducto.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt";
-            this.txtLineaDeProducto.Tag = "No Movable";
+            this.txtLineaDeProducto.Tag = "";
             this.txtLineaDeProducto.Text = "txtLineaDeProducto";
             this.txtLineaDeProducto.Top = 0F;
             this.txtLineaDeProducto.Width = 2.2F;
@@ -2847,7 +2847,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCodigoArticulo.Left = 0.251F;
             this.txtCodigoArticulo.Name = "txtCodigoArticulo";
             this.txtCodigoArticulo.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt";
-            this.txtCodigoArticulo.Tag = "No Movable";
+            this.txtCodigoArticulo.Tag = "";
             this.txtCodigoArticulo.Text = "txtCodigoArticulo";
             this.txtCodigoArticulo.Top = 0F;
             this.txtCodigoArticulo.Width = 1F;
@@ -2860,7 +2860,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCantidad.MultiLine = false;
             this.txtCantidad.Name = "txtCantidad";
             this.txtCantidad.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right";
-            this.txtCantidad.Tag = "No Movable";
+            this.txtCantidad.Tag = "";
             this.txtCantidad.Text = "txtCantidad";
             this.txtCantidad.Top = 0F;
             this.txtCantidad.Width = 0.73F;
@@ -2872,7 +2872,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtDescripcion.Left = 1.251F;
             this.txtDescripcion.Name = "txtDescripcion";
             this.txtDescripcion.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt";
-            this.txtDescripcion.Tag = "No Movable";
+            this.txtDescripcion.Tag = "";
             this.txtDescripcion.Text = "txtDescripcion";
             this.txtDescripcion.Top = 0F;
             this.txtDescripcion.Width = 2.073F;
@@ -2885,7 +2885,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtPrecioUnitario.MultiLine = false;
             this.txtPrecioUnitario.Name = "txtPrecioUnitario";
             this.txtPrecioUnitario.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right";
-            this.txtPrecioUnitario.Tag = "No Movable";
+            this.txtPrecioUnitario.Tag = "";
             this.txtPrecioUnitario.Text = "txtPrecioUnitario";
             this.txtPrecioUnitario.Top = 0F;
             this.txtPrecioUnitario.Width = 0.75F;
@@ -2898,7 +2898,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalRenglon.MultiLine = false;
             this.txtTotalRenglon.Name = "txtTotalRenglon";
             this.txtTotalRenglon.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right";
-            this.txtTotalRenglon.Tag = "No Movable";
+            this.txtTotalRenglon.Tag = "";
             this.txtTotalRenglon.Text = "txtTotalRenglon";
             this.txtTotalRenglon.Top = 0F;
             this.txtTotalRenglon.Width = 1.125F;
@@ -2910,7 +2910,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtUnidadDeVenta.Left = 4.054F;
             this.txtUnidadDeVenta.Name = "txtUnidadDeVenta";
             this.txtUnidadDeVenta.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt";
-            this.txtUnidadDeVenta.Tag = "No Movable";
+            this.txtUnidadDeVenta.Tag = "";
             this.txtUnidadDeVenta.Text = "txtUnidadDeVenta";
             this.txtUnidadDeVenta.Top = 0F;
             this.txtUnidadDeVenta.Width = 0.75F;
@@ -3027,7 +3027,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtItem.MultiLine = false;
             this.txtItem.Name = "txtItem";
             this.txtItem.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt";
-            this.txtItem.Tag = "No Movable";
+            this.txtItem.Tag = "";
             this.txtItem.Text = "txtItem";
             this.txtItem.Top = 0F;
             this.txtItem.Width = 0.252F;
@@ -3040,7 +3040,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtExento.MultiLine = false;
             this.txtExento.Name = "txtExento";
             this.txtExento.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: center";
-            this.txtExento.Tag = "Movable";
+            this.txtExento.Tag = "";
             this.txtExento.Text = "E";
             this.txtExento.Top = 0F;
             this.txtExento.Width = 0.1300006F;
@@ -3053,7 +3053,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtPorcentajeDescuento.MultiLine = false;
             this.txtPorcentajeDescuento.Name = "txtPorcentajeDescuento";
             this.txtPorcentajeDescuento.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right";
-            this.txtPorcentajeDescuento.Tag = "No Movable";
+            this.txtPorcentajeDescuento.Tag = "";
             this.txtPorcentajeDescuento.Text = "txtPorcentajeDescuento";
             this.txtPorcentajeDescuento.Top = 0F;
             this.txtPorcentajeDescuento.Width = 0.3750005F;
@@ -3066,7 +3066,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtAlicuotaIVARenglon.MultiLine = false;
             this.txtAlicuotaIVARenglon.Name = "txtAlicuotaIVARenglon";
             this.txtAlicuotaIVARenglon.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right";
-            this.txtAlicuotaIVARenglon.Tag = "No Movable";
+            this.txtAlicuotaIVARenglon.Tag = "";
             this.txtAlicuotaIVARenglon.Text = "txtAlicuotaIVARenglon";
             this.txtAlicuotaIVARenglon.Top = 0F;
             this.txtAlicuotaIVARenglon.Width = 0.3249998F;
@@ -3078,7 +3078,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTipoMercancia.Left = 0F;
             this.txtTipoMercancia.Name = "txtTipoMercancia";
             this.txtTipoMercancia.Style = "color: White; font-family: Arial Narrow; font-size: 8.25pt";
-            this.txtTipoMercancia.Tag = "No Movable";
+            this.txtTipoMercancia.Tag = "";
             this.txtTipoMercancia.Text = "txtTipoMercancia";
             this.txtTipoMercancia.Top = 0.312F;
             this.txtTipoMercancia.Visible = false;
@@ -3092,7 +3092,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtSerial.Left = 3.324F;
             this.txtSerial.Name = "txtSerial";
             this.txtSerial.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt";
-            this.txtSerial.Tag = "No Movable";
+            this.txtSerial.Tag = "";
             this.txtSerial.Text = "txtSerial";
             this.txtSerial.Top = 0.156F;
             this.txtSerial.Visible = false;
@@ -3106,7 +3106,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtRollo.Left = 3.324F;
             this.txtRollo.Name = "txtRollo";
             this.txtRollo.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt";
-            this.txtRollo.Tag = "No Movable";
+            this.txtRollo.Tag = "";
             this.txtRollo.Text = "txtRollo";
             this.txtRollo.Top = 0.31225F;
             this.txtRollo.Visible = false;
@@ -3219,7 +3219,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCambioABolivares.Name = "txtCambioABolivares";
             this.txtCambioABolivares.Style = "color: White; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtCambioABolivares.Tag = "No Movable";
+            this.txtCambioABolivares.Tag = "";
             this.txtCambioABolivares.Text = "txtCambioABolivares";
             this.txtCambioABolivares.Top = 1.156F;
             this.txtCambioABolivares.Visible = false;
@@ -3234,7 +3234,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCambioTotalEnDivisas.Name = "txtCambioTotalEnDivisas";
             this.txtCambioTotalEnDivisas.Style = "color: White; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtCambioTotalEnDivisas.Tag = "No Movable";
+            this.txtCambioTotalEnDivisas.Tag = "";
             this.txtCambioTotalEnDivisas.Text = "txtCambioTotalEnDivisas";
             this.txtCambioTotalEnDivisas.Top = 1.3435F;
             this.txtCambioTotalEnDivisas.Visible = false;
@@ -3249,7 +3249,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCambioCxC.Name = "txtCambioCxC";
             this.txtCambioCxC.Style = "color: White; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtCambioCxC.Tag = "No Movable";
+            this.txtCambioCxC.Tag = "";
             this.txtCambioCxC.Text = "txtCambioCxC";
             this.txtCambioCxC.Top = 1.531F;
             this.txtCambioCxC.Visible = false;
@@ -3398,7 +3398,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtLblCampoDefArtInv5.Name = "txtLblCampoDefArtInv5";
             this.txtLblCampoDefArtInv5.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; text-alig" +
     "n: left; ddo-char-set: 1";
-            this.txtLblCampoDefArtInv5.Tag = "Movable";
+            this.txtLblCampoDefArtInv5.Tag = "";
             this.txtLblCampoDefArtInv5.Text = "txtLblCampoDefArtInv5";
             this.txtLblCampoDefArtInv5.Top = 0.937F;
             this.txtLblCampoDefArtInv5.Visible = false;
@@ -3414,7 +3414,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtLblCampoDefArtInv4.Name = "txtLblCampoDefArtInv4";
             this.txtLblCampoDefArtInv4.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; text-alig" +
     "n: left; ddo-char-set: 1";
-            this.txtLblCampoDefArtInv4.Tag = "Movable";
+            this.txtLblCampoDefArtInv4.Tag = "";
             this.txtLblCampoDefArtInv4.Text = "txtLblCampoDefArtInv4";
             this.txtLblCampoDefArtInv4.Top = 0.78075F;
             this.txtLblCampoDefArtInv4.Visible = false;
@@ -3430,7 +3430,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtLblCampoDefArtInv3.Name = "txtLblCampoDefArtInv3";
             this.txtLblCampoDefArtInv3.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; text-alig" +
     "n: left; ddo-char-set: 1";
-            this.txtLblCampoDefArtInv3.Tag = "Movable";
+            this.txtLblCampoDefArtInv3.Tag = "";
             this.txtLblCampoDefArtInv3.Text = "txtLblCampoDefArtInv3";
             this.txtLblCampoDefArtInv3.Top = 0.6245F;
             this.txtLblCampoDefArtInv3.Visible = false;
@@ -3446,7 +3446,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtLblCampoDefArtInv2.Name = "txtLblCampoDefArtInv2";
             this.txtLblCampoDefArtInv2.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; text-alig" +
     "n: left; ddo-char-set: 1";
-            this.txtLblCampoDefArtInv2.Tag = "Movable";
+            this.txtLblCampoDefArtInv2.Tag = "";
             this.txtLblCampoDefArtInv2.Text = "txtLblCampoDefArtInv2";
             this.txtLblCampoDefArtInv2.Top = 0.46825F;
             this.txtLblCampoDefArtInv2.Visible = false;
@@ -3462,7 +3462,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtLblCampoDefArtInv1.Name = "txtLblCampoDefArtInv1";
             this.txtLblCampoDefArtInv1.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; text-alig" +
     "n: left; ddo-char-set: 1";
-            this.txtLblCampoDefArtInv1.Tag = "Movable";
+            this.txtLblCampoDefArtInv1.Tag = "";
             this.txtLblCampoDefArtInv1.Text = "txtLblCampoDefArtInv1";
             this.txtLblCampoDefArtInv1.Top = 0.312F;
             this.txtLblCampoDefArtInv1.Visible = false;
@@ -3554,7 +3554,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtNombreCliente.Left = 2F;
             this.txtNombreCliente.Name = "txtNombreCliente";
             this.txtNombreCliente.Style = "color: Black; font-family: Arial; font-size: 8.25pt";
-            this.txtNombreCliente.Tag = "Movable";
+            this.txtNombreCliente.Tag = "";
             this.txtNombreCliente.Text = "txtNombreCliente";
             this.txtNombreCliente.Top = 0.156F;
             this.txtNombreCliente.Width = 5.5F;
@@ -3568,7 +3568,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblRIFDelCliente.Name = "lblRIFDelCliente";
             this.lblRIFDelCliente.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-" +
     "set: 1";
-            this.lblRIFDelCliente.Tag = "Movable";
+            this.lblRIFDelCliente.Tag = "";
             this.lblRIFDelCliente.Text = "N° R.I.F.";
             this.lblRIFDelCliente.Top = 0.312F;
             this.lblRIFDelCliente.Width = 0.75F;
@@ -3581,7 +3581,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtRIFCliente.MultiLine = false;
             this.txtRIFCliente.Name = "txtRIFCliente";
             this.txtRIFCliente.Style = "color: Black; font-family: Arial; font-size: 8.25pt; text-align: left";
-            this.txtRIFCliente.Tag = "Movable";
+            this.txtRIFCliente.Tag = "";
             this.txtRIFCliente.Text = "txtRIFCliente";
             this.txtRIFCliente.Top = 0.312F;
             this.txtRIFCliente.Width = 2.48F;
@@ -3595,7 +3595,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblDireccioDeEnvio.Name = "lblDireccioDeEnvio";
             this.lblDireccioDeEnvio.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-" +
     "set: 1";
-            this.lblDireccioDeEnvio.Tag = "Movable";
+            this.lblDireccioDeEnvio.Tag = "";
             this.lblDireccioDeEnvio.Text = "Dirección";
             this.lblDireccioDeEnvio.Top = 0.4680001F;
             this.lblDireccioDeEnvio.Width = 0.75F;
@@ -3609,7 +3609,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTelefonoDeEnvio.Name = "lblTelefonoDeEnvio";
             this.lblTelefonoDeEnvio.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-" +
     "set: 1";
-            this.lblTelefonoDeEnvio.Tag = "Movable";
+            this.lblTelefonoDeEnvio.Tag = "";
             this.lblTelefonoDeEnvio.Text = "Teléfono";
             this.lblTelefonoDeEnvio.Top = 0.624F;
             this.lblTelefonoDeEnvio.Width = 0.72F;
@@ -3621,7 +3621,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtDireccionCliente.Left = 0.75F;
             this.txtDireccionCliente.Name = "txtDireccionCliente";
             this.txtDireccionCliente.Style = "color: Black; font-family: Arial; font-size: 8.25pt";
-            this.txtDireccionCliente.Tag = "Movable";
+            this.txtDireccionCliente.Tag = "";
             this.txtDireccionCliente.Text = "txtDireccionCliente";
             this.txtDireccionCliente.Top = 0.4680001F;
             this.txtDireccionCliente.Width = 6.75F;
@@ -3634,7 +3634,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTelefonoCliente.MultiLine = false;
             this.txtTelefonoCliente.Name = "txtTelefonoCliente";
             this.txtTelefonoCliente.Style = "color: Black; font-family: Arial; font-size: 8.25pt; text-align: left";
-            this.txtTelefonoCliente.Tag = "Movable";
+            this.txtTelefonoCliente.Tag = "";
             this.txtTelefonoCliente.Text = "txtTelefonoCliente";
             this.txtTelefonoCliente.Top = 0.6240001F;
             this.txtTelefonoCliente.Width = 1.65F;
@@ -3646,7 +3646,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCiudadCliente.Left = 0.75F;
             this.txtCiudadCliente.Name = "txtCiudadCliente";
             this.txtCiudadCliente.Style = "color: Black; font-family: Arial; font-size: 8.25pt";
-            this.txtCiudadCliente.Tag = "Movable";
+            this.txtCiudadCliente.Tag = "";
             this.txtCiudadCliente.Text = "txtCiudadCliente";
             this.txtCiudadCliente.Top = 0.6240001F;
             this.txtCiudadCliente.Width = 2.48F;
@@ -3660,7 +3660,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblCiudad.Name = "lblCiudad";
             this.lblCiudad.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-" +
     "set: 1";
-            this.lblCiudad.Tag = "Movable";
+            this.lblCiudad.Tag = "";
             this.lblCiudad.Text = "Ciudad";
             this.lblCiudad.Top = 0.6240001F;
             this.lblCiudad.Width = 0.75F;
@@ -3673,7 +3673,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCodigoCliente.MultiLine = false;
             this.txtCodigoCliente.Name = "txtCodigoCliente";
             this.txtCodigoCliente.Style = "color: Black; font-family: Arial; font-size: 8.25pt";
-            this.txtCodigoCliente.Tag = "Movable";
+            this.txtCodigoCliente.Tag = "";
             this.txtCodigoCliente.Text = "txtCodigoCliente";
             this.txtCodigoCliente.Top = 0.156F;
             this.txtCodigoCliente.Width = 1.25F;
@@ -3687,7 +3687,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblEmail.Name = "lblEmail";
             this.lblEmail.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-" +
     "set: 1";
-            this.lblEmail.Tag = "Movable";
+            this.lblEmail.Tag = "";
             this.lblEmail.Text = "Email";
             this.lblEmail.Top = 0.312F;
             this.lblEmail.Width = 0.72F;
@@ -3699,7 +3699,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtEmailCliente.Left = 3.95F;
             this.txtEmailCliente.Name = "txtEmailCliente";
             this.txtEmailCliente.Style = "color: Black; font-family: Arial; font-size: 8.25pt";
-            this.txtEmailCliente.Tag = "Movable";
+            this.txtEmailCliente.Tag = "";
             this.txtEmailCliente.Text = "txtEmailCliente";
             this.txtEmailCliente.Top = 0.312F;
             this.txtEmailCliente.Width = 3.55F;
@@ -3725,7 +3725,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtFaxCliente.MultiLine = false;
             this.txtFaxCliente.Name = "txtFaxCliente";
             this.txtFaxCliente.Style = "color: Black; font-size: 8pt; text-align: left";
-            this.txtFaxCliente.Tag = "Movable";
+            this.txtFaxCliente.Tag = "";
             this.txtFaxCliente.Text = "txtFaxCliente";
             this.txtFaxCliente.Top = 0.624F;
             this.txtFaxCliente.Width = 1.5F;
@@ -3738,7 +3738,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblFaxDeEnvio.MultiLine = false;
             this.lblFaxDeEnvio.Name = "lblFaxDeEnvio";
             this.lblFaxDeEnvio.Style = "color: Black; font-size: 8.25pt; font-weight: bold; ddo-char-set: 1";
-            this.lblFaxDeEnvio.Tag = "Movable";
+            this.lblFaxDeEnvio.Tag = "";
             this.lblFaxDeEnvio.Text = "Fax";
             this.lblFaxDeEnvio.Top = 0.624F;
             this.lblFaxDeEnvio.Width = 0.3999999F;
@@ -3752,7 +3752,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblNombreDelCliente.Name = "lblNombreDelCliente";
             this.lblNombreDelCliente.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-" +
     "set: 1";
-            this.lblNombreDelCliente.Tag = "Movable";
+            this.lblNombreDelCliente.Tag = "";
             this.lblNombreDelCliente.Text = "Nombre";
             this.lblNombreDelCliente.Top = 0.156F;
             this.lblNombreDelCliente.Width = 0.75F;
@@ -3766,7 +3766,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtLblCampoDef1Cliente.Name = "txtLblCampoDef1Cliente";
             this.txtLblCampoDef1Cliente.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; text-alig" +
     "n: left; ddo-char-set: 1";
-            this.txtLblCampoDef1Cliente.Tag = "Movable";
+            this.txtLblCampoDef1Cliente.Tag = "";
             this.txtLblCampoDef1Cliente.Text = "txtLblCampoDef1Cliente";
             this.txtLblCampoDef1Cliente.Top = 0.78F;
             this.txtLblCampoDef1Cliente.Visible = false;
@@ -3780,7 +3780,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCampoDef1Cliente.MultiLine = false;
             this.txtCampoDef1Cliente.Name = "txtCampoDef1Cliente";
             this.txtCampoDef1Cliente.Style = "color: Black; font-size: 8pt; text-align: left";
-            this.txtCampoDef1Cliente.Tag = "Movable";
+            this.txtCampoDef1Cliente.Tag = "";
             this.txtCampoDef1Cliente.Text = "txtCampoDef1Cliente";
             this.txtCampoDef1Cliente.Top = 0.78F;
             this.txtCampoDef1Cliente.Width = 1.902F;
@@ -3821,7 +3821,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtNoDirDespachoAimprimir.MultiLine = false;
             this.txtNoDirDespachoAimprimir.Name = "txtNoDirDespachoAimprimir";
             this.txtNoDirDespachoAimprimir.Style = "color: White; font-family: Arial Narrow; font-size: 8.25pt";
-            this.txtNoDirDespachoAimprimir.Tag = "No Movable";
+            this.txtNoDirDespachoAimprimir.Tag = "";
             this.txtNoDirDespachoAimprimir.Text = "txtNoDirDespachoAimprimir";
             this.txtNoDirDespachoAimprimir.Top = 0.156F;
             this.txtNoDirDespachoAimprimir.Visible = false;
@@ -3835,7 +3835,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtZonaPostalDeDespacho.MultiLine = false;
             this.txtZonaPostalDeDespacho.Name = "txtZonaPostalDeDespacho";
             this.txtZonaPostalDeDespacho.Style = "color: Black; font-family: Arial; font-size: 8.25pt";
-            this.txtZonaPostalDeDespacho.Tag = "Movable";
+            this.txtZonaPostalDeDespacho.Tag = "";
             this.txtZonaPostalDeDespacho.Text = "txtZonaPostalDeDespacho";
             this.txtZonaPostalDeDespacho.Top = 0.3119999F;
             this.txtZonaPostalDeDespacho.Width = 0.75F;
@@ -3903,7 +3903,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCampoDefinible4.MultiLine = false;
             this.txtCampoDefinible4.Name = "txtCampoDefinible4";
             this.txtCampoDefinible4.Style = "color: Black; font-family: Arial; font-size: 8.25pt; text-align: left";
-            this.txtCampoDefinible4.Tag = "Movable";
+            this.txtCampoDefinible4.Tag = "";
             this.txtCampoDefinible4.Text = "txtCampoDefinible4";
             this.txtCampoDefinible4.Top = 0.6235001F;
             this.txtCampoDefinible4.Visible = false;
@@ -3918,7 +3918,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblSerialVIN.Name = "lblSerialVIN";
             this.lblSerialVIN.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-" +
     "set: 1";
-            this.lblSerialVIN.Tag = "Movable";
+            this.lblSerialVIN.Tag = "";
             this.lblSerialVIN.Text = "Serial VIN";
             this.lblSerialVIN.Top = 1.09325F;
             this.lblSerialVIN.Visible = false;
@@ -3933,7 +3933,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblModelo.Name = "lblModelo";
             this.lblModelo.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-" +
     "set: 1";
-            this.lblModelo.Tag = "Movable";
+            this.lblModelo.Tag = "";
             this.lblModelo.Text = "Modelo";
             this.lblModelo.Top = 0.937F;
             this.lblModelo.Visible = false;
@@ -3947,7 +3947,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtModelo.Left = 4.5F;
             this.txtModelo.Name = "txtModelo";
             this.txtModelo.Style = "color: Black; font-family: Arial; font-size: 8.25pt";
-            this.txtModelo.Tag = "Movable";
+            this.txtModelo.Tag = "";
             this.txtModelo.Text = "txtModelo";
             this.txtModelo.Top = 0.937F;
             this.txtModelo.Visible = false;
@@ -3961,7 +3961,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMarca.Left = 4.5F;
             this.txtMarca.Name = "txtMarca";
             this.txtMarca.Style = "color: Black; font-family: Arial; font-size: 8.25pt";
-            this.txtMarca.Tag = "Movable";
+            this.txtMarca.Tag = "";
             this.txtMarca.Text = "txtMarca";
             this.txtMarca.Top = 1.09325F;
             this.txtMarca.Visible = false;
@@ -3976,7 +3976,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblMarca.Name = "lblMarca";
             this.lblMarca.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-" +
     "set: 1";
-            this.lblMarca.Tag = "Movable";
+            this.lblMarca.Tag = "";
             this.lblMarca.Text = "Marca";
             this.lblMarca.Top = 1.09325F;
             this.lblMarca.Visible = false;
@@ -3991,7 +3991,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtSerialVIN.MultiLine = false;
             this.txtSerialVIN.Name = "txtSerialVIN";
             this.txtSerialVIN.Style = "color: Black; font-family: Arial; font-size: 8.25pt";
-            this.txtSerialVIN.Tag = "Movable";
+            this.txtSerialVIN.Tag = "";
             this.txtSerialVIN.Text = "txtSerialVIN";
             this.txtSerialVIN.Top = 1.09325F;
             this.txtSerialVIN.Visible = false;
@@ -4006,7 +4006,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblPlaca.Name = "lblPlaca";
             this.lblPlaca.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-" +
     "set: 1";
-            this.lblPlaca.Tag = "Movable";
+            this.lblPlaca.Tag = "";
             this.lblPlaca.Text = "Placa";
             this.lblPlaca.Top = 0.937F;
             this.lblPlaca.Visible = false;
@@ -4020,7 +4020,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtPlaca.Left = 0.75F;
             this.txtPlaca.Name = "txtPlaca";
             this.txtPlaca.Style = "color: Black; font-family: Arial; font-size: 8.25pt";
-            this.txtPlaca.Tag = "Movable";
+            this.txtPlaca.Tag = "";
             this.txtPlaca.Text = "txtPlaca";
             this.txtPlaca.Top = 0.937F;
             this.txtPlaca.Visible = false;
@@ -4035,7 +4035,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblColor.Name = "lblColor";
             this.lblColor.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-" +
     "set: 1";
-            this.lblColor.Tag = "Movable";
+            this.lblColor.Tag = "";
             this.lblColor.Text = "Color";
             this.lblColor.Top = 1.09325F;
             this.lblColor.Visible = false;
@@ -4050,7 +4050,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblNroPoliza.Name = "lblNroPoliza";
             this.lblNroPoliza.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-" +
     "set: 1";
-            this.lblNroPoliza.Tag = "Movable";
+            this.lblNroPoliza.Tag = "";
             this.lblNroPoliza.Text = "Nro. Poliza";
             this.lblNroPoliza.Top = 0.937F;
             this.lblNroPoliza.Visible = false;
@@ -4064,7 +4064,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtNumeroPoliza.Left = 6.375F;
             this.txtNumeroPoliza.Name = "txtNumeroPoliza";
             this.txtNumeroPoliza.Style = "color: Black; font-family: Arial; font-size: 8.25pt";
-            this.txtNumeroPoliza.Tag = "Movable";
+            this.txtNumeroPoliza.Tag = "";
             this.txtNumeroPoliza.Text = "txtNumeroPoliza";
             this.txtNumeroPoliza.Top = 0.937F;
             this.txtNumeroPoliza.Visible = false;
@@ -4078,7 +4078,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtSerialMotor.Left = 6.375F;
             this.txtSerialMotor.Name = "txtSerialMotor";
             this.txtSerialMotor.Style = "color: Black; font-family: Arial; font-size: 8.25pt";
-            this.txtSerialMotor.Tag = "Movable";
+            this.txtSerialMotor.Tag = "";
             this.txtSerialMotor.Text = "txtSerialMotor";
             this.txtSerialMotor.Top = 1.09325F;
             this.txtSerialMotor.Visible = false;
@@ -4093,7 +4093,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblSerialMotor.Name = "lblSerialMotor";
             this.lblSerialMotor.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-" +
     "set: 1";
-            this.lblSerialMotor.Tag = "Movable";
+            this.lblSerialMotor.Tag = "";
             this.lblSerialMotor.Text = "Serial Motor";
             this.lblSerialMotor.Top = 1.09325F;
             this.lblSerialMotor.Visible = false;
@@ -4108,7 +4108,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtColor.MultiLine = false;
             this.txtColor.Name = "txtColor";
             this.txtColor.Style = "color: Black; font-family: Arial; font-size: 8.25pt";
-            this.txtColor.Tag = "Movable";
+            this.txtColor.Tag = "";
             this.txtColor.Text = "txtColor";
             this.txtColor.Top = 1.09325F;
             this.txtColor.Visible = false;
@@ -4123,7 +4123,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblAno.Name = "lblAno";
             this.lblAno.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-" +
     "set: 1";
-            this.lblAno.Tag = "Movable";
+            this.lblAno.Tag = "";
             this.lblAno.Text = "Año";
             this.lblAno.Top = 0.937F;
             this.lblAno.Visible = false;
@@ -4137,7 +4137,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtAno.Left = 2.625F;
             this.txtAno.Name = "txtAno";
             this.txtAno.Style = "color: Black; font-family: Arial; font-size: 8.25pt";
-            this.txtAno.Tag = "Movable";
+            this.txtAno.Tag = "";
             this.txtAno.Text = "txtAno";
             this.txtAno.Top = 0.937F;
             this.txtAno.Visible = false;
@@ -4166,7 +4166,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCampoDefinible1.MultiLine = false;
             this.txtCampoDefinible1.Name = "txtCampoDefinible1";
             this.txtCampoDefinible1.Style = "color: Black; font-family: Arial; font-size: 8.25pt; text-align: left";
-            this.txtCampoDefinible1.Tag = "Movable";
+            this.txtCampoDefinible1.Tag = "";
             this.txtCampoDefinible1.Text = "txtCampoDefinible1";
             this.txtCampoDefinible1.Top = 0.1547499F;
             this.txtCampoDefinible1.Visible = false;
@@ -4181,7 +4181,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCampoDefinible2.MultiLine = false;
             this.txtCampoDefinible2.Name = "txtCampoDefinible2";
             this.txtCampoDefinible2.Style = "color: Black; font-family: Arial; font-size: 8.25pt; text-align: left";
-            this.txtCampoDefinible2.Tag = "Movable";
+            this.txtCampoDefinible2.Tag = "";
             this.txtCampoDefinible2.Text = "txtCampoDefinible2";
             this.txtCampoDefinible2.Top = 0.3110001F;
             this.txtCampoDefinible2.Visible = false;
@@ -4196,7 +4196,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCampoDefinible3.MultiLine = false;
             this.txtCampoDefinible3.Name = "txtCampoDefinible3";
             this.txtCampoDefinible3.Style = "color: Black; font-family: Arial; font-size: 8.25pt; text-align: left";
-            this.txtCampoDefinible3.Tag = "Movable";
+            this.txtCampoDefinible3.Tag = "";
             this.txtCampoDefinible3.Text = "txtCampoDefinible3";
             this.txtCampoDefinible3.Top = 0.4672501F;
             this.txtCampoDefinible3.Visible = false;
@@ -4211,7 +4211,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCampoDefinible5.MultiLine = false;
             this.txtCampoDefinible5.Name = "txtCampoDefinible5";
             this.txtCampoDefinible5.Style = "color: Black; font-family: Arial; font-size: 8.25pt; text-align: left";
-            this.txtCampoDefinible5.Tag = "Movable";
+            this.txtCampoDefinible5.Tag = "";
             this.txtCampoDefinible5.Text = "txtCampoDefinible5";
             this.txtCampoDefinible5.Top = 0.1559999F;
             this.txtCampoDefinible5.Visible = false;
@@ -4226,7 +4226,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCampoDefinible6.MultiLine = false;
             this.txtCampoDefinible6.Name = "txtCampoDefinible6";
             this.txtCampoDefinible6.Style = "color: Black; font-family: Arial; font-size: 8.25pt; text-align: left";
-            this.txtCampoDefinible6.Tag = "Movable";
+            this.txtCampoDefinible6.Tag = "";
             this.txtCampoDefinible6.Text = "txtCampoDefinible6";
             this.txtCampoDefinible6.Top = 0.3122499F;
             this.txtCampoDefinible6.Visible = false;
@@ -4241,7 +4241,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCampoDefinible7.MultiLine = false;
             this.txtCampoDefinible7.Name = "txtCampoDefinible7";
             this.txtCampoDefinible7.Style = "color: Black; font-family: Arial; font-size: 8.25pt; text-align: left";
-            this.txtCampoDefinible7.Tag = "Movable";
+            this.txtCampoDefinible7.Tag = "";
             this.txtCampoDefinible7.Text = "txtCampoDefinible7";
             this.txtCampoDefinible7.Top = 0.4669998F;
             this.txtCampoDefinible7.Visible = false;
@@ -4256,7 +4256,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCampoDefinible8.MultiLine = false;
             this.txtCampoDefinible8.Name = "txtCampoDefinible8";
             this.txtCampoDefinible8.Style = "color: Black; font-family: Arial; font-size: 8.25pt; text-align: left";
-            this.txtCampoDefinible8.Tag = "Movable";
+            this.txtCampoDefinible8.Tag = "";
             this.txtCampoDefinible8.Text = "txtCampoDefinible8";
             this.txtCampoDefinible8.Top = 0.6232498F;
             this.txtCampoDefinible8.Visible = false;
@@ -4271,7 +4271,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCampoDefinible9.MultiLine = false;
             this.txtCampoDefinible9.Name = "txtCampoDefinible9";
             this.txtCampoDefinible9.Style = "color: Black; font-family: Arial; font-size: 8.25pt; text-align: left";
-            this.txtCampoDefinible9.Tag = "Movable";
+            this.txtCampoDefinible9.Tag = "";
             this.txtCampoDefinible9.Text = "txtCampoDefinible9";
             this.txtCampoDefinible9.Top = 0.155F;
             this.txtCampoDefinible9.Visible = false;
@@ -4286,7 +4286,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCampoDefinible10.MultiLine = false;
             this.txtCampoDefinible10.Name = "txtCampoDefinible10";
             this.txtCampoDefinible10.Style = "color: Black; font-family: Arial; font-size: 8.25pt; text-align: left";
-            this.txtCampoDefinible10.Tag = "Movable";
+            this.txtCampoDefinible10.Tag = "";
             this.txtCampoDefinible10.Text = "txtCampoDefinible10";
             this.txtCampoDefinible10.Top = 0.31125F;
             this.txtCampoDefinible10.Visible = false;
@@ -4301,7 +4301,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCampoDefinible11.MultiLine = false;
             this.txtCampoDefinible11.Name = "txtCampoDefinible11";
             this.txtCampoDefinible11.Style = "color: Black; font-family: Arial; font-size: 8.25pt; text-align: left";
-            this.txtCampoDefinible11.Tag = "Movable";
+            this.txtCampoDefinible11.Tag = "";
             this.txtCampoDefinible11.Text = "txtCampoDefinible11";
             this.txtCampoDefinible11.Top = 0.4675F;
             this.txtCampoDefinible11.Visible = false;
@@ -4316,7 +4316,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCampoDefinible12.MultiLine = false;
             this.txtCampoDefinible12.Name = "txtCampoDefinible12";
             this.txtCampoDefinible12.Style = "color: Black; font-family: Arial; font-size: 8.25pt; text-align: left";
-            this.txtCampoDefinible12.Tag = "Movable";
+            this.txtCampoDefinible12.Tag = "";
             this.txtCampoDefinible12.Text = "txtCampoDefinible12";
             this.txtCampoDefinible12.Top = 0.62375F;
             this.txtCampoDefinible12.Visible = false;
@@ -4331,7 +4331,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtLblCampoDefinible4.Name = "txtLblCampoDefinible4";
             this.txtLblCampoDefinible4.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; text-alig" +
     "n: left; ddo-char-set: 1";
-            this.txtLblCampoDefinible4.Tag = "Movable";
+            this.txtLblCampoDefinible4.Tag = "";
             this.txtLblCampoDefinible4.Text = "txtLblCampoDefinible4";
             this.txtLblCampoDefinible4.Top = 0.6247501F;
             this.txtLblCampoDefinible4.Visible = false;
@@ -4346,7 +4346,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtLblCampoDefinible1.Name = "txtLblCampoDefinible1";
             this.txtLblCampoDefinible1.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; text-alig" +
     "n: left; ddo-char-set: 1";
-            this.txtLblCampoDefinible1.Tag = "Movable";
+            this.txtLblCampoDefinible1.Tag = "";
             this.txtLblCampoDefinible1.Text = "txtLblCampoDefinible1";
             this.txtLblCampoDefinible1.Top = 0.156F;
             this.txtLblCampoDefinible1.Visible = false;
@@ -4361,7 +4361,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtLblCampoDefinible2.Name = "txtLblCampoDefinible2";
             this.txtLblCampoDefinible2.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; text-alig" +
     "n: left; ddo-char-set: 1";
-            this.txtLblCampoDefinible2.Tag = "Movable";
+            this.txtLblCampoDefinible2.Tag = "";
             this.txtLblCampoDefinible2.Text = "txtLblCampoDefinible2";
             this.txtLblCampoDefinible2.Top = 0.3122501F;
             this.txtLblCampoDefinible2.Visible = false;
@@ -4376,7 +4376,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtLblCampoDefinible3.Name = "txtLblCampoDefinible3";
             this.txtLblCampoDefinible3.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; text-alig" +
     "n: left; ddo-char-set: 1";
-            this.txtLblCampoDefinible3.Tag = "Movable";
+            this.txtLblCampoDefinible3.Tag = "";
             this.txtLblCampoDefinible3.Text = "txtLblCampoDefinible3";
             this.txtLblCampoDefinible3.Top = 0.4685001F;
             this.txtLblCampoDefinible3.Visible = false;
@@ -4391,7 +4391,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtLblCampoDefinible5.Name = "txtLblCampoDefinible5";
             this.txtLblCampoDefinible5.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; text-alig" +
     "n: left; ddo-char-set: 1";
-            this.txtLblCampoDefinible5.Tag = "Movable";
+            this.txtLblCampoDefinible5.Tag = "";
             this.txtLblCampoDefinible5.Text = "txtLblCampoDefinible5";
             this.txtLblCampoDefinible5.Top = 0.158F;
             this.txtLblCampoDefinible5.Visible = false;
@@ -4406,7 +4406,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtLblCampoDefinible6.Name = "txtLblCampoDefinible6";
             this.txtLblCampoDefinible6.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; text-alig" +
     "n: left; ddo-char-set: 1";
-            this.txtLblCampoDefinible6.Tag = "Movable";
+            this.txtLblCampoDefinible6.Tag = "";
             this.txtLblCampoDefinible6.Text = "txtLblCampoDefinible6";
             this.txtLblCampoDefinible6.Top = 0.31425F;
             this.txtLblCampoDefinible6.Visible = false;
@@ -4421,7 +4421,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtLblCampoDefinible7.Name = "txtLblCampoDefinible7";
             this.txtLblCampoDefinible7.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; text-alig" +
     "n: left; ddo-char-set: 1";
-            this.txtLblCampoDefinible7.Tag = "Movable";
+            this.txtLblCampoDefinible7.Tag = "";
             this.txtLblCampoDefinible7.Text = "txtLblCampoDefinible7";
             this.txtLblCampoDefinible7.Top = 0.4689999F;
             this.txtLblCampoDefinible7.Visible = false;
@@ -4436,7 +4436,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtLblCampoDefinible8.Name = "txtLblCampoDefinible8";
             this.txtLblCampoDefinible8.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; text-alig" +
     "n: left; ddo-char-set: 1";
-            this.txtLblCampoDefinible8.Tag = "Movable";
+            this.txtLblCampoDefinible8.Tag = "";
             this.txtLblCampoDefinible8.Text = "txtLblCampoDefinible8";
             this.txtLblCampoDefinible8.Top = 0.6252499F;
             this.txtLblCampoDefinible8.Visible = false;
@@ -4451,7 +4451,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtLblCampoDefinible9.Name = "txtLblCampoDefinible9";
             this.txtLblCampoDefinible9.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; text-alig" +
     "n: left; ddo-char-set: 1";
-            this.txtLblCampoDefinible9.Tag = "Movable";
+            this.txtLblCampoDefinible9.Tag = "";
             this.txtLblCampoDefinible9.Text = "txtLblCampoDefinible9";
             this.txtLblCampoDefinible9.Top = 0.1559999F;
             this.txtLblCampoDefinible9.Visible = false;
@@ -4466,7 +4466,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtLblCampoDefinible10.Name = "txtLblCampoDefinible10";
             this.txtLblCampoDefinible10.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; text-alig" +
     "n: left; ddo-char-set: 1";
-            this.txtLblCampoDefinible10.Tag = "Movable";
+            this.txtLblCampoDefinible10.Tag = "";
             this.txtLblCampoDefinible10.Text = "txtLblCampoDefinible10";
             this.txtLblCampoDefinible10.Top = 0.3122499F;
             this.txtLblCampoDefinible10.Visible = false;
@@ -4481,7 +4481,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtLblCampoDefinible11.Name = "txtLblCampoDefinible11";
             this.txtLblCampoDefinible11.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; text-alig" +
     "n: left; ddo-char-set: 1";
-            this.txtLblCampoDefinible11.Tag = "Movable";
+            this.txtLblCampoDefinible11.Tag = "";
             this.txtLblCampoDefinible11.Text = "txtLblCampoDefinible11";
             this.txtLblCampoDefinible11.Top = 0.4684999F;
             this.txtLblCampoDefinible11.Visible = false;
@@ -4496,7 +4496,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtLblCampoDefinible12.Name = "txtLblCampoDefinible12";
             this.txtLblCampoDefinible12.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; text-alig" +
     "n: left; ddo-char-set: 1";
-            this.txtLblCampoDefinible12.Tag = "Movable";
+            this.txtLblCampoDefinible12.Tag = "";
             this.txtLblCampoDefinible12.Text = "txtLblCampoDefinible12";
             this.txtLblCampoDefinible12.Top = 0.6247499F;
             this.txtLblCampoDefinible12.Visible = false;
