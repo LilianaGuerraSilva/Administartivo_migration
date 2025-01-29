@@ -84,8 +84,8 @@ namespace Galac.Saw.Rpt.Inventario
         private void Detail_Format(object sender, EventArgs e) {
             try {
                 eTipoArticuloInv vTipoArtInv = (eTipoArticuloInv)LibConvert.DbValueToEnum(LibConvert.ToStr(this.txtTipoArticuloInv.Value));
-                txtLoteDeInventario.Visible = vTipoArtInv == eTipoArticuloInv.Lote || vTipoArtInv == eTipoArticuloInv.LoteFechadeVencimiento;
-                txtFechaDeElaboracion.Visible = vTipoArtInv == eTipoArticuloInv.LoteFechadeVencimiento;
+                txtLoteDeInventario.Visible = vTipoArtInv == eTipoArticuloInv.Lote || vTipoArtInv == eTipoArticuloInv.LoteFechadeVencimiento || vTipoArtInv == eTipoArticuloInv.LoteFechadeElaboracion;
+                txtFechaDeElaboracion.Visible = vTipoArtInv == eTipoArticuloInv.LoteFechadeVencimiento || vTipoArtInv == eTipoArticuloInv.LoteFechadeElaboracion;
                 txtFechaDeVencimiento.Visible = vTipoArtInv == eTipoArticuloInv.LoteFechadeVencimiento;
             } catch (Exception) {
                 throw;

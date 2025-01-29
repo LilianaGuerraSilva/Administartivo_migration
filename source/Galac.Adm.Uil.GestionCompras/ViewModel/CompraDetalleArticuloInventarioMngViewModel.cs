@@ -77,9 +77,9 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             ////}
 
            // VisibleColumns = LibGridColumModel.GetGridColumsFromType(typeof(CompraDetalleArticuloInventarioViewModel));
-            if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento")) {                
-                RemoveColumnByDisplayMemberPath("CodigoLote");                
-            }
+            //if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento")) {                
+            //    RemoveColumnByDisplayMemberPath("CodigoLote");                
+            //}
             VisibleColumnsParaDistribucionAutomatica = new ObservableCollection<LibGridColumModel>();
             VisibleColumnsParaDistribucionAutomatica.Add(new LibGridColumModel() { Header = "Codigo", IsReadOnly = true, IsForList = true, Type = eGridColumType.Generic, Alignment = eTextAlignment.Left, ModelType = typeof(CompraDetalleArticuloInventarioViewModel), DbMemberPath = "CodigoArticulo", DisplayMemberPath = "CodigoArticulo", Width = 120 });
             VisibleColumnsParaDistribucionAutomatica.Add(new LibGridColumModel() { Header = "Valor Fob", IsReadOnly = true, IsForList = true, Type = eGridColumType.Numeric, Alignment = eTextAlignment.Right, ModelType = typeof(CompraDetalleArticuloInventarioViewModel), DbMemberPath = "SubTotal", DisplayMemberPath = "SubTotal", Width = 120, ConditionalPropertyDecimalDigits = "DecimalDigits" });

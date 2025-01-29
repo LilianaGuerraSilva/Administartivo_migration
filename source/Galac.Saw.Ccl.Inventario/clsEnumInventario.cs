@@ -78,7 +78,8 @@ namespace Galac.Saw.Ccl.Inventario {
         [LibEnumDescription("Usa Talla/Color y Serial")] UsaTallaColorySerial,
         [LibEnumDescription("Usa Serial y Rollo")] UsaSerialRollo,
         [LibEnumDescription("Lote / Fecha de Vto.")] LoteFechadeVencimiento,
-        [LibEnumDescription("Lote")] Lote
+        [LibEnumDescription("Lote")] Lote,
+        [LibEnumDescription("Lote /Fecha de  Elab.")] LoteFechadeElaboracion
     }
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]

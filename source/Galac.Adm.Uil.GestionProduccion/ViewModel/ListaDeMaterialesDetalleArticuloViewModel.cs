@@ -198,8 +198,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         public bool IsVisbleTipoArticuloInvStr {
             get {
-                return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento") &&
-                    (!LibString.IsNullOrEmpty(CodigoArticuloInventario));
+                return (!LibString.IsNullOrEmpty(CodigoArticuloInventario));
             }
         }
 
