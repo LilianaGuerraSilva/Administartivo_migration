@@ -61,7 +61,7 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigFieldStr(this, "txtNombreCompania", valNombreCompania, string.Empty);
                 LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
-                LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGraphPrnSettings.PrintPageNumber, LibGraphPrnSettings.PrintEmitDate);
+                LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGraphPrnSettings.PrintPageNumber, false);
 
                 #region Datos del Documento
                 if (valStatusDocumento == eStatusFactura.Emitida) {//TODO:para después
@@ -79,7 +79,8 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigFieldStr(this, "txtCiudadCia", string.Empty, "CiudadCia");
                 LibReport.ConfigFieldStr(this, "txtCodigoMonedaFact", string.Empty, "CodigoMonedaFact");
                 LibReport.ConfigFieldStr(this, "txtMonedaDoc", string.Empty, "MonedaDocumento");
-                LibReport.ConfigFieldStr(this, "txtCodigoMonedaLocal", string.Empty, "CodigoMonedaLocal");                
+                LibReport.ConfigFieldStr(this, "txtCodigoMonedaLocal", string.Empty, "CodigoMonedaLocal");
+                LibReport.ConfigFieldStr(this, "txtCodigoMonedaExtranjera", string.Empty, "CodigoMonedaExtranjera");
                 LibReport.ConfigFieldStr(this, "txtNroFacturaAfectada", string.Empty, "NumeroFacturaAfectada");
                 LibReport.ConfigFieldStr(this, "txtCondicionesDePago", string.Empty, "CondicionesDePago");
                 LibReport.ConfigFieldStr(this, "txtFormaDePago", string.Empty, "FormaDePagoStr");
@@ -246,6 +247,10 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigFieldStr(this, "txtCambio", string.Empty, "");
 
                 #region ML
+                LibReport.ConfigFieldDec(this, "txtSimboloMonedaFact", string.Empty, "SimboloMonedaFact");
+                LibReport.ConfigFieldDec(this, "txtSimboloMonedaLocal", string.Empty, "SimboloMonedaLocal");
+                LibReport.ConfigFieldDec(this, "txtSimboloMonedaExtranjera", string.Empty, "SimboloMonedaExtranjera");
+
                 LibReport.ConfigFieldDec(this, "txtTotalRenglones", string.Empty, "TotalRenglones");
                 LibReport.ConfigFieldDec(this, "txtPorcentajeDesc1", string.Empty, "PorcentajeDesc1");
                 LibReport.ConfigFieldDec(this, "txtPorcentajeDesc2", string.Empty, "PorcentajeDesc2");
@@ -261,8 +266,7 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigFieldDec(this, "txtMontoGravableAlicuota3", string.Empty, "MontoGravableAlicuota3");
                 LibReport.ConfigFieldDec(this, "txtTotalIvaAlic1", string.Empty, "MontoIVAAlicuota1");
                 LibReport.ConfigFieldDec(this, "txtTotalIvaAlic2", string.Empty, "MontoIVAAlicuota2");
-                LibReport.ConfigFieldDec(this, "txtTotalIvaAlic3", string.Empty, "MontoIVAAlicuota3");
-                LibReport.ConfigFieldDec(this, "txtSimboloMoneda", string.Empty, "Simbolo");
+                LibReport.ConfigFieldDec(this, "txtTotalIvaAlic3", string.Empty, "MontoIVAAlicuota3");                
                 LibReport.ConfigFieldDec(this, "txtTotalFactura", string.Empty, "TotalFactura");
                 LibReport.ConfigFieldDec(this, "txtAlicuotaIGTF", string.Empty, "AlicuotaIGTF");
                 LibReport.ConfigFieldDec(this, "txtBaseImponibleIGTF", string.Empty, "BaseImponibleIGTF");
@@ -333,7 +337,9 @@ namespace Galac.Adm.Rpt.Venta {
             try {
                 decimal vCambio = CambioSegunTipoDocumento();
                 this.txtCambio.Text = LibConvert.NumToString(vCambio, 4);
+                this.txtSimbolo.Text = this.txtSimboloMonedaFact.Text;
                 if (LibString.S1IsEqualToS2(_CodigoMonedaDocumento, _CodigoMonedaLocal)) {//Convierte de ML a ME
+                    this.txtSimboloME.Text = this.txtSimboloMonedaExtranjera.Text;
                     this.txtTotalRenglonesME.Text = Divide(LibConvert.ToDec(this.txtTotalRenglones.Value), vCambio);
                     this.txtMontoDesc1ME.Text = Divide(LibConvert.ToDec(this.txtMontoDesc1.Value), vCambio);
                     this.txtMontoDesc2ME.Text = Divide(LibConvert.ToDec(this.txtMontoDesc2.Value), vCambio);
@@ -352,6 +358,7 @@ namespace Galac.Adm.Rpt.Venta {
                     this.txtMontoDelAbonoME.Text = Divide(LibConvert.ToDec(this.txtMontoDelAbono.Value), vCambio);
                     this.txtTotalFacturaMenosAbonoME.Text = Divide(LibConvert.ToDec(this.txtTotalFacturaMenosAbono.Value), vCambio);
                 } else {//Convierte de ME a ML
+                    this.txtSimboloME.Text = this.txtSimboloMonedaLocal.Text;
                     this.txtTotalRenglonesME.Text = Multiplica(LibConvert.ToDec(this.txtTotalRenglones.Value), vCambio);
                     this.txtMontoDesc1ME.Text = Multiplica(LibConvert.ToDec(this.txtMontoDesc1.Value), vCambio);
                     this.txtMontoDesc2ME.Text = Multiplica(LibConvert.ToDec(this.txtMontoDesc2.Value), vCambio);
