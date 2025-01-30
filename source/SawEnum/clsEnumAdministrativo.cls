@@ -8591,7 +8591,7 @@ Public Function enumTipoArticuloInvToString(TipoArticuloInv As enum_TipoArticulo
       Case eTAI_UsaSerial_Rollo: enumTipoArticuloInvToString = "Usa Serial y Rollo"
       Case eTAI_LoteFechadeVencimiento: enumTipoArticuloInvToString = "Lote / Fecha de Vto."
       Case eTAI_Lote: enumTipoArticuloInvToString = "Lote"
-      Case eTAI_LoteFechadeElaboracion: enumTipoArticuloInvToString = "Lote /Fecha de  Elab."
+      Case eTAI_LoteFechadeElaboracion: enumTipoArticuloInvToString = "Lote / Fecha de Elab."
       Case Else: enumTipoArticuloInvToString = enumTipoArticuloInvToString(0)
    End Select
 End Function
@@ -8615,7 +8615,7 @@ h_EXIT:
    Exit Function
 End Function
 
-Public Sub FillComboWithTipoArticuloInv(ByRef varComboBox As Object, ByVal valAction As AccionSobreRecord, ByVal valUsaLoteFechaVcto As Boolean)
+Public Sub FillComboBoxWithTipoArticuloInv(ByRef varComboBox As Object, ByVal valAction As AccionSobreRecord, ByVal valUsaLoteFechaVcto As Boolean)
    Dim nCount As Integer
    varComboBox.Clear
    nCount = 0
@@ -8626,14 +8626,15 @@ Public Sub FillComboWithTipoArticuloInv(ByRef varComboBox As Object, ByVal valAc
    Else
       varComboBox.Text = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_Simple)
    End If
-   If (valUsaLoteFechaVcto) Then
+   varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_Simple)
+   If valUsaLoteFechaVcto Then
+      nCount = nCount + 1
       varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_LoteFechadeVencimiento)
       nCount = nCount + 1
       varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_Lote)
       nCount = nCount + 1
       varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_LoteFechadeElaboracion)
    Else
-      varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_Simple)
       nCount = nCount + 1
       varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_UsaTalla_Color)
       nCount = nCount + 1
@@ -8642,7 +8643,6 @@ Public Sub FillComboWithTipoArticuloInv(ByRef varComboBox As Object, ByVal valAc
       varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_UsaTalla_ColorySerial)
       nCount = nCount + 1
       varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_UsaSerial_Rollo)
-      nCount = nCount + 1
    End If
    varComboBox.Width = 2280 'varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
    varComboBox.ListIndex = 0 'Se selecciona el valor por defecto
@@ -8662,7 +8662,7 @@ Public Function fEnumTipoArticuloInvToStringInArray(Optional ByVal valPrepararPa
    varLimiteSuperior = enum_TipoArticuloInv.eTAI_LoteFechadeElaboracion - enum_TipoArticuloInv.eTAI_Simple
    nCount = 0
    ReDim varArray(0 To varLimiteSuperior)
-   For varEnum = enum_TipoArticuloInv.eTAI_Simple To enum_TipoArticuloInv.eTAI_Lote
+   For varEnum = enum_TipoArticuloInv.eTAI_Simple To enum_TipoArticuloInv.eTAI_LoteFechadeElaboracion
       varArray(nCount) = varCaracterDelimitador & enumTipoArticuloInvToString(varEnum) & varCaracterDelimitador
       nCount = nCount + 1
    Next
