@@ -53,8 +53,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
         const string IsEnabledUsaGavetaPropertyName = "IsEnabledUsaGaveta";
         const string IsEnabledPuertoSerialPropertyName = "IsEnabledPuertoSerial";
-        const string IsVisibleRegistroDeRetornoEnTxtPropertyName = "IsVisibleRegistroDeRetornoEnTxt";
-        const string IsEnabledSerialImpresoraFiscalPropertyName = "IsEnabledSerialImpresoraFiscal";
+        const string IsVisibleRegistroDeRetornoEnTxtPropertyName = "IsVisibleRegistroDeRetornoEnTxt";        
         private Brl.DispositivosExternos.clsConexionPuertoSerial PuertoSerial;
         IImpresoraFiscalPdn insMaquinaFiscal;
         private bool _PuedeAbrirGaveta = false;
@@ -69,8 +68,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         string SerialDeMaquinaPreconfigurada;
         string UltimoNumeroCompPreconfigurada;
         string UltimoNumeroNCPreconfigurada;
-        string _MotivoEliminacionOModificacion;
-        bool _IsEnabledSerialImpresoraFiscal;
+        string _MotivoEliminacionOModificacion;        
         #endregion //Constantes y Variables
 
         #region Propiedades      
@@ -592,13 +590,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         public bool IsEnabledPuertoSerial {
             get { return IsEnabled && TipoConexion == eTipoConexion.PuertoSerial; }
-        }
-
-        public bool IsEnabledSerialImpresoraFiscal {
-            get {
-                return IsEnabled && _IsEnabledSerialImpresoraFiscal;
-            }
-        }
+        }        
 
         #endregion //Propiedades
 
@@ -640,9 +632,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             TipoConexionPreconfiguradaAsEnum = Model.TipoConexionAsEnum;
             SerialDeMaquinaPreconfigurada = Model.SerialDeMaquinaFiscal;
             UltimoNumeroCompPreconfigurada = Model.UltimoNumeroCompFiscal;
-            UltimoNumeroNCPreconfigurada = Model.UltimoNumeroCompFiscal;
-            _IsEnabledSerialImpresoraFiscal = true;
-            RaisePropertyChanged(() => IsEnabledSerialImpresoraFiscal);
+            UltimoNumeroNCPreconfigurada = Model.UltimoNumeroCompFiscal;           
         }
 
         protected override void InitializeRibbon() {
@@ -758,9 +748,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 insMaquinaFiscal = new Brl.DispositivosExternos.ImpresoraFiscal.clsImpresoraFiscalCreator().Crear(ImpresoraXmlFiscalData);
                 SerialDeMaquinaFiscal = insMaquinaFiscal.ObtenerSerial(true);
                 UltimoNumeroCompFiscal = LibText.FillWithCharToLeft(insMaquinaFiscal.ObtenerUltimoNumeroFactura(true), "0", 8);
-                UltimoNumeroNCFiscal = LibText.FillWithCharToLeft(insMaquinaFiscal.ObtenerUltimoNumeroNotaDeCredito(true), "0", 8);
-                _IsEnabledSerialImpresoraFiscal = false;
-                RaisePropertyChanged(() => IsEnabledSerialImpresoraFiscal);
+                UltimoNumeroNCFiscal = LibText.FillWithCharToLeft(insMaquinaFiscal.ObtenerUltimoNumeroNotaDeCredito(true), "0", 8);                
             } catch (GalacException vEx) {
                 LibExceptionDisplay.Show(vEx);
             }
