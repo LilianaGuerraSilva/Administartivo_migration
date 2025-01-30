@@ -89,6 +89,7 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigFieldDec(this, "txtCambioABolivares", "", "CambioABolivares");
                 LibReport.ConfigFieldDec(this, "txtCambioCxC", "", "CambioCxC");
                 LibReport.ConfigFieldDec(this, "txtCambioTotalEnDivisas", "", "CambioTotalEnDivisas");
+                LibReport.ConfigFieldDec(this, "txtCambioFechaDocumento", "", "CambioFechaDocumento");
                 #endregion Datos del Documento
 
                 #region Datos del Cliente
@@ -418,6 +419,9 @@ namespace Galac.Adm.Rpt.Venta {
                     if (vCambioTemp == 1) {
                         vCambioTemp = LibConvert.ToDec(this.txtCambioABolivares.Value);
                     }
+                }
+                if (vCambioTemp == 1) {
+                    vCambioTemp = LibConvert.ToDec(this.txtCambioFechaDocumento.Value);
                 }
             }
             vResult = vCambioTemp;
