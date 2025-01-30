@@ -136,7 +136,7 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
                 _IsRunning = false;
                 if (t.IsCompleted) {
                     if (vSerialDistinto) {
-                        LibMessages.MessageBox.Alert(null, "El serial de la Impresora Fiscal configurada en la caja actual no corresponde con el serial de la Impresora Fiscal conectado al computador.\r\n\r\nValide la Impresora Fiscal conectada o configure nuevamente la caja para continuar.", ModuleName);
+                        LibMessages.MessageBox.Alert(null, "El serial de la Impresora Fiscal configurada en la caja actual no corresponde con el serial de la Impresora Fiscal conectada al computador.\r\n\r\nValide la Impresora Fiscal conectada o configure nuevamente la caja para continuar.", ModuleName);
                     }
                     CancelCommand.Execute(null);
                 } else {
