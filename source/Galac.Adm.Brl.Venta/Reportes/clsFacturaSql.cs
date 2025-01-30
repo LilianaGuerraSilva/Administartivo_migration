@@ -251,6 +251,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("    (SELECT CTE_Moneda.Simbolo FROM CTE_Moneda WHERE CTE_Moneda.CodigoMoneda = SttByCia.CodigoMonedaLocal) AS SimboloMonedaLocal,");
             vSql.AppendLine("    SttByCia.CodigoMonedaExtranjera,");
             vSql.AppendLine("    (SELECT CTE_Moneda.Simbolo FROM CTE_Moneda WHERE CTE_Moneda.CodigoMoneda = SttByCia.CodigoMonedaExtranjera) AS SimboloMonedaExtranjera,");
+            vSql.AppendLine("    ISNULL((SELECT CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = SttByCia.CodigoMonedaExtranjera AND FechaDeVigencia = Fact.Fecha), 1) AS CambioFechaDocumento, ");
             vSql.AppendLine("    Fact.CondicionesDePago, ");
             vSql.AppendLine("    Fact.FormaDePago, ");
             vSql.AppendLine("    (CASE Fact.FormaDePago WHEN '1' THEN 'CRÉDITO' ELSE 'CONTADO' END) AS FormaDePagoStr, ");

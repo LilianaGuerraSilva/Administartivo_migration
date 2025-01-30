@@ -103,8 +103,8 @@
     <Reference Include="LibGalac.Aos.Uil">
       <HintPath>..\packages\LibGalac.Aos.Uil.5.24.2.4\lib\LibGalac.Aos.Uil.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.Uil.Usal">
-      <HintPath>..\packages\LibGalac.Aos.Uil.Usal.5.24.1\lib\LibGalac.Aos.Uil.Usal.dll</HintPath>
+    <Reference Include="LibGalac.Aos.Uil.Usal, Version=5.24.2.5, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.Uil.Usal.5.24.2.5\lib\LibGalac.Aos.Uil.Usal.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Vbwa">
       <HintPath>..\packages\LibGalac.Aos.Vbwa.5.24.1\lib\LibGalac.Aos.Vbwa.dll</HintPath>

@@ -53,7 +53,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
         const string IsEnabledUsaGavetaPropertyName = "IsEnabledUsaGaveta";
         const string IsEnabledPuertoSerialPropertyName = "IsEnabledPuertoSerial";
-        const string IsVisibleRegistroDeRetornoEnTxtPropertyName = "IsVisibleRegistroDeRetornoEnTxt";
+        const string IsVisibleRegistroDeRetornoEnTxtPropertyName = "IsVisibleRegistroDeRetornoEnTxt";        
         private Brl.DispositivosExternos.clsConexionPuertoSerial PuertoSerial;
         IImpresoraFiscalPdn insMaquinaFiscal;
         private bool _PuedeAbrirGaveta = false;
@@ -68,7 +68,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         string SerialDeMaquinaPreconfigurada;
         string UltimoNumeroCompPreconfigurada;
         string UltimoNumeroNCPreconfigurada;
-        string _MotivoEliminacionOModificacion;
+        string _MotivoEliminacionOModificacion;        
         #endregion //Constantes y Variables
 
         #region Propiedades      
@@ -590,7 +590,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         public bool IsEnabledPuertoSerial {
             get { return IsEnabled && TipoConexion == eTipoConexion.PuertoSerial; }
-        }
+        }        
 
         #endregion //Propiedades
 
@@ -626,14 +626,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             LlenarEnumerativosTipoDeConexion();
             LlenarEnumerativosPuertosImpFiscal();
             _PuedeAbrirGaveta = UsaGaveta;
-
             UsaMaquinaFiscalValorPrevio = Model.UsaMaquinaFiscalAsBool;
             FamiliaImpresoraPreConfiguradaAsEnum = Model.FamiliaImpresoraFiscalAsEnum;
             ModeloDeMaquinaPreconfiguradaAsEnum = Model.ModeloDeMaquinaFiscalAsEnum;
             TipoConexionPreconfiguradaAsEnum = Model.TipoConexionAsEnum;
             SerialDeMaquinaPreconfigurada = Model.SerialDeMaquinaFiscal;
             UltimoNumeroCompPreconfigurada = Model.UltimoNumeroCompFiscal;
-            UltimoNumeroNCPreconfigurada = Model.UltimoNumeroCompFiscal;
+            UltimoNumeroNCPreconfigurada = Model.UltimoNumeroCompFiscal;           
         }
 
         protected override void InitializeRibbon() {
@@ -749,7 +748,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 insMaquinaFiscal = new Brl.DispositivosExternos.ImpresoraFiscal.clsImpresoraFiscalCreator().Crear(ImpresoraXmlFiscalData);
                 SerialDeMaquinaFiscal = insMaquinaFiscal.ObtenerSerial(true);
                 UltimoNumeroCompFiscal = LibText.FillWithCharToLeft(insMaquinaFiscal.ObtenerUltimoNumeroFactura(true), "0", 8);
-                UltimoNumeroNCFiscal = LibText.FillWithCharToLeft(insMaquinaFiscal.ObtenerUltimoNumeroNotaDeCredito(true), "0", 8);
+                UltimoNumeroNCFiscal = LibText.FillWithCharToLeft(insMaquinaFiscal.ObtenerUltimoNumeroNotaDeCredito(true), "0", 8);                
             } catch (GalacException vEx) {
                 LibExceptionDisplay.Show(vEx);
             }
@@ -990,10 +989,16 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             vBusinessObject.Add(Model);
             ICajaPdn vBussinessPdn = new clsCajaNav();
             LibResponse vResult = new LibResponse();
-
-            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMaquinaFiscal") && SeRequiereClaveEspecial()) {
-                vSePuede = SeAutorizaElCambioEnLaConfiguracionDeLaCaja("Reconfigurar");
-                vAuditarMF = true;
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMaquinaFiscal")) {
+                if (!SerialDeImpresoraEstaEnUso()) {
+                    if (SeRequiereClaveEspecial()) {
+                        vSePuede = SeAutorizaElCambioEnLaConfiguracionDeLaCaja("Reconfigurar");
+                        vAuditarMF = true;
+                    }
+                } else {
+                    vSePuede = false;
+                    vResult.Success = vSePuede;
+                }
             }
             if (vSePuede) {
                 vResult = vBussinessPdn.ActualizarYAuditarCambiosMF(vBusinessObject, vAuditarMF, MotivoEliminacionOModificacion, LibEnumHelper.GetDescription(FamiliaImpresoraPreConfiguradaAsEnum), LibEnumHelper.GetDescription(ModeloDeMaquinaPreconfiguradaAsEnum), LibEnumHelper.GetDescription(TipoConexionPreconfiguradaAsEnum), SerialDeMaquinaPreconfigurada, UltimoNumeroCompPreconfigurada, UltimoNumeroNCPreconfigurada);
@@ -1020,9 +1025,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private bool MaquinaFiscalEstaHomologada(string valAccionDeAutorizacionDeProceso) {
             string vMensaje = string.Empty;
             ICajaPdn insCaja = new clsCajaNav();
-            bool vResul = insCaja.ImpresoraFiscalEstaHomologada(Model.NombreCaja, Model.FamiliaImpresoraFiscalAsString, 
-                            Model.ModeloDeMaquinaFiscalAsString, Model.SerialDeMaquinaFiscal,  
-                            valAccionDeAutorizacionDeProceso,  ref vMensaje);
+            bool vResul = insCaja.ImpresoraFiscalEstaHomologada(Model.NombreCaja, Model.FamiliaImpresoraFiscalAsString,
+                            Model.ModeloDeMaquinaFiscalAsString, Model.SerialDeMaquinaFiscal,
+                            valAccionDeAutorizacionDeProceso, ref vMensaje);
             if (!vResul) {
                 LibMessages.MessageBox.Alert(this, vMensaje, Title);
             }
@@ -1031,7 +1036,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         protected override bool CreateRecord() {
             if (UsaMaquinaFiscal) {
-                if (SeAutorizaElCambioEnLaConfiguracionDeLaCaja("Configurar")) {
+                if (!SerialDeImpresoraEstaEnUso() && SeAutorizaElCambioEnLaConfiguracionDeLaCaja("Configurar")) {
                     return base.CreateRecord();
                 } else {
                     return false;
@@ -1061,6 +1066,16 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 vSePuede = true;
             }
             return vSePuede;
+        }
+
+        private bool SerialDeImpresoraEstaEnUso() {
+            bool vResult;
+            ICajaPdn insCaja = new clsCajaNav();
+            vResult = insCaja.SerialDeImpresoraEstaEnUso(ConsecutivoCompania, Consecutivo, SerialDeMaquinaFiscal);
+            if (vResult) {
+                LibMessages.MessageBox.Alert(this, "Esta Impresora Fiscal ya está siendo usada en otra caja.\r\nNo puede ser asignada a más de una caja.", ModuleName);
+            }
+            return vResult;
         }
         #endregion
     } //End of class CajaViewModel
