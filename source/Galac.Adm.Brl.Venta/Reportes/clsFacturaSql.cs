@@ -206,11 +206,13 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("       NombreMonedaLocal,");
             vSql.AppendLine("       CodigoMonedaExtranjera,");
             vSql.AppendLine("       NombreMonedaExtranjera,");
+            vSql.AppendLine("       UsaCamposDefinibles,");
             vSql.AppendLine("       NombreCampoDefinible1, NombreCampoDefinible2, NombreCampoDefinible3, NombreCampoDefinible4, ");
             vSql.AppendLine("       NombreCampoDefinible5, NombreCampoDefinible6, NombreCampoDefinible7, NombreCampoDefinible8, ");
             vSql.AppendLine("       NombreCampoDefinible9, NombreCampoDefinible10, NombreCampoDefinible11, NombreCampoDefinible12, ");
             vSql.AppendLine("       NombreCampoDefinibleCliente1,");
-            vSql.AppendLine("       NombreCampoDefinibleInventario1, NombreCampoDefinibleInventario2, NombreCampoDefinibleInventario3, NombreCampoDefinibleInventario4, NombreCampoDefinibleInventario5");
+            vSql.AppendLine("       NombreCampoDefinibleInventario1, NombreCampoDefinibleInventario2, NombreCampoDefinibleInventario3, NombreCampoDefinibleInventario4, NombreCampoDefinibleInventario5,");
+            vSql.AppendLine("       UsaCamposExtrasEnRenglonFactura");
             vSql.AppendLine("FROM (");
             vSql.AppendLine("    SELECT Value, NameSettDefinition, ConsecutivoCompania");
             vSql.AppendLine("    FROM Comun.SettValueByCompany");
@@ -220,11 +222,13 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("        NombreMonedaLocal,");
             vSql.AppendLine("        CodigoMonedaExtranjera,");
             vSql.AppendLine("        NombreMonedaExtranjera,");
+            vSql.AppendLine("        UsaCamposDefinibles,");
             vSql.AppendLine("        NombreCampoDefinible1, NombreCampoDefinible2, NombreCampoDefinible3, NombreCampoDefinible4, ");
             vSql.AppendLine("        NombreCampoDefinible5, NombreCampoDefinible6, NombreCampoDefinible7, NombreCampoDefinible8, ");
             vSql.AppendLine("        NombreCampoDefinible9, NombreCampoDefinible10, NombreCampoDefinible11, NombreCampoDefinible12, ");
             vSql.AppendLine("        NombreCampoDefinibleCliente1,");
-            vSql.AppendLine("        NombreCampoDefinibleInventario1, NombreCampoDefinibleInventario2, NombreCampoDefinibleInventario3, NombreCampoDefinibleInventario4, NombreCampoDefinibleInventario5");
+            vSql.AppendLine("        NombreCampoDefinibleInventario1, NombreCampoDefinibleInventario2, NombreCampoDefinibleInventario3, NombreCampoDefinibleInventario4, NombreCampoDefinibleInventario5,");
+            vSql.AppendLine("        UsaCamposExtrasEnRenglonFactura");
             vSql.AppendLine("    )) AS PivotTable");
             vSql.AppendLine(") ");
             #endregion CTE_SttByCia
@@ -241,8 +245,12 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("    Fact.NumeroFacturaAfectada, ");
             vSql.AppendLine("    Fact.FechaDeVencimiento, ");
             vSql.AppendLine("    Fact.CodigoMoneda AS CodigoMonedaFact,");
+            vSql.AppendLine("    (SELECT CTE_Moneda.Simbolo FROM CTE_Moneda WHERE CTE_Moneda.CodigoMoneda = Fact.CodigoMoneda) AS SimboloMonedaFact,");
             vSql.AppendLine("    MonedaDoc.NombreMoneda AS MonedaDocumento, ");
             vSql.AppendLine("    SttByCia.CodigoMonedaLocal, ");
+            vSql.AppendLine("    (SELECT CTE_Moneda.Simbolo FROM CTE_Moneda WHERE CTE_Moneda.CodigoMoneda = SttByCia.CodigoMonedaLocal) AS SimboloMonedaLocal,");
+            vSql.AppendLine("    SttByCia.CodigoMonedaExtranjera,");
+            vSql.AppendLine("    (SELECT CTE_Moneda.Simbolo FROM CTE_Moneda WHERE CTE_Moneda.CodigoMoneda = SttByCia.CodigoMonedaExtranjera) AS SimboloMonedaExtranjera,");
             vSql.AppendLine("    Fact.CondicionesDePago, ");
             vSql.AppendLine("    Fact.FormaDePago, ");
             vSql.AppendLine("    (CASE Fact.FormaDePago WHEN '1' THEN 'CRÉDITO' ELSE 'CONTADO' END) AS FormaDePagoStr, ");
@@ -259,7 +267,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	 C.Fax AS FaxCliente,");
             vSql.AppendLine("	 C.Contacto,");
             vSql.AppendLine("	 ISNULL(SttByCia.NombreCampoDefinibleCliente1, '') AS NombreCampoDef1Cliente,");
-            vSql.AppendLine("	 C.CampoDefinible1 AS CampoDef1Cliente,");
+            vSql.AppendLine("	 ISNULL(C.CampoDefinible1, '') AS CampoDef1Cliente,");
             #endregion Datos del Cliente
             #region Datos de Despacho
             vSql.AppendLine("	 ISNULL(Fact.NoDirDespachoAimprimir, 0) AS NoDirDespachoAimprimir, ");
@@ -272,6 +280,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	 V.Nombre AS NombreVendedor,");
             #endregion Datos de Despacho
             #region Datos Adicionales
+            vSql.AppendLine("	 ISNULL(SttByCia.UsaCamposDefinibles, 'N') AS UsaCamposDefFact,");
             vSql.AppendLine("	 ISNULL(SttByCia.NombreCampoDefinible1, '') AS NombreCampoDef1,");
             vSql.AppendLine("	 ISNULL(SttByCia.NombreCampoDefinible2, '') AS NombreCampoDef2,");
             vSql.AppendLine("	 ISNULL(SttByCia.NombreCampoDefinible3, '') AS NombreCampoDef3,");
@@ -322,6 +331,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	 AI.CampoDefinible3 AS CampoDefArtInv3,");
             vSql.AppendLine("	 AI.CampoDefinible4 AS CampoDefArtInv4,");
             vSql.AppendLine("	 AI.CampoDefinible5 AS CampoDefArtInv5,");
+            vSql.AppendLine("	 ISNULL(SttByCia.UsaCamposExtrasEnRenglonFactura, 'N') AS UsaCamposExtrasRF,");
             vSql.AppendLine("	 ISNULL(RF.CampoExtraEnRenglonFactura1, '') AS CampoExtraEnRenglon1,");
             vSql.AppendLine("    ISNULL(RF.CampoExtraEnRenglonFactura2, '') AS CampoExtraEnRenglon2,");
             vSql.AppendLine("    ISNULL(RF.Serial, '') AS Serial,");
@@ -386,8 +396,8 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine();
             vSql.AppendLine("FROM");
             vSql.AppendLine("    Saw.NotaFinal AS NF1");
-            vSql.AppendLine("    RIGHT OUTER JOIN Saw.NotaFinal AS NF2");
-            vSql.AppendLine("    RIGHT OUTER JOIN factura AS Fact");
+            vSql.AppendLine("    RIGHT JOIN Saw.NotaFinal AS NF2");
+            vSql.AppendLine("    RIGHT JOIN factura AS Fact");
             vSql.AppendLine("    INNER JOIN renglonFactura AS RF ON Fact.ConsecutivoCompania = RF.ConsecutivoCompania");
             vSql.AppendLine("    AND Fact.Numero = RF.NumeroFactura");
             vSql.AppendLine("    AND Fact.TipoDeDocumento = RF.TipoDeDocumento");
@@ -399,9 +409,9 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("    AND RF.Articulo = AI.Codigo ON NF2.CodigoDeLaNota = Fact.CodigoNota2");
             vSql.AppendLine("    AND NF2.ConsecutivoCompania = Fact.ConsecutivoCompania ON NF1.CodigoDeLaNota = Fact.CodigoNota1");
             vSql.AppendLine("    AND NF1.ConsecutivoCompania = Fact.ConsecutivoCompania");
-            vSql.AppendLine("    LEFT OUTER JOIN Saw.LoteDeInventario AS LoteAI ON RF.LoteDeInventario = LoteAI.CodigoLote");
+            vSql.AppendLine("    LEFT JOIN Saw.LoteDeInventario AS LoteAI ON RF.LoteDeInventario = LoteAI.CodigoLote");
             vSql.AppendLine("    AND RF.Articulo = LoteAI.CodigoArticulo");
-            vSql.AppendLine("    LEFT OUTER JOIN ArticuloInventario AS PCAI");
+            vSql.AppendLine("    LEFT JOIN ArticuloInventario AS PCAI");
             vSql.AppendLine("    INNER JOIN ProductoCompuesto AS ProdComp ON PCAI.ConsecutivoCompania = ProdComp.ConsecutivoCompania");
             vSql.AppendLine("    AND PCAI.Codigo = ProdComp.CodigoConexionConElMaster");
             vSql.AppendLine("    AND PCAI.ConsecutivoCompania = ProdComp.ConsecutivoCompania");
@@ -417,10 +427,10 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("    AND AI.Codigo = ProdComp.CodigoConexionConElMaster");
             vSql.AppendLine("    AND AI.ConsecutivoCompania = ProdComp.ConsecutivoCompania");
             vSql.AppendLine("    AND AI.Codigo = ProdComp.CodigoConexionConElMaster");
-            vSql.AppendLine("    LEFT OUTER JOIN DireccionDeDespacho AS DirDespacho ON Fact.NoDirDespachoAimprimir = DirDespacho.ConsecutivoDireccion");
+            vSql.AppendLine("    LEFT JOIN DireccionDeDespacho AS DirDespacho ON Fact.NoDirDespachoAimprimir = DirDespacho.ConsecutivoDireccion");
             vSql.AppendLine("    AND Fact.ConsecutivoCompania = DirDespacho.ConsecutivoCompania");
             vSql.AppendLine("    AND Fact.CodigoCliente = DirDespacho.CodigoCliente");
-            vSql.AppendLine("    LEFT OUTER JOIN camposDefFactura AS CamposDef ON Fact.ConsecutivoCompania = CamposDef.ConsecutivoCompania");
+            vSql.AppendLine("    LEFT JOIN camposDefFactura AS CamposDef ON Fact.ConsecutivoCompania = CamposDef.ConsecutivoCompania");
             vSql.AppendLine("    AND Fact.Numero = CamposDef.NumeroFactura");
             vSql.AppendLine("    AND Fact.TipoDeDocumento = CamposDef.TipoDeDocumento");
             vSql.AppendLine("    INNER JOIN CTE_Moneda MonedaDoc ON Fact.CodigoMoneda = MonedaDoc.CodigoMoneda");

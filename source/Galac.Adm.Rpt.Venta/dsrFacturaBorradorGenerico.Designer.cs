@@ -101,7 +101,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMontoDelAbono = new DataDynamics.ActiveReports.TextBox();
             this.lblTotalFacturaMenosAbono = new DataDynamics.ActiveReports.Label();
             this.txtTotalFacturaMenosAbono = new DataDynamics.ActiveReports.TextBox();
-            this.txtSimboloMoneda = new DataDynamics.ActiveReports.TextBox();
+            this.txtSimbolo = new DataDynamics.ActiveReports.TextBox();
             this.lblTotalIVA = new DataDynamics.ActiveReports.Label();
             this.txtPorcentajeAlicuota1 = new DataDynamics.ActiveReports.TextBox();
             this.lblTotalDescuento = new DataDynamics.ActiveReports.Label();
@@ -162,7 +162,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblCambioME = new DataDynamics.ActiveReports.Label();
             this.txtMonedaExtranjera = new DataDynamics.ActiveReports.TextBox();
             this.txtCambio = new DataDynamics.ActiveReports.TextBox();
-            this.txtSimboloMonedaExt = new DataDynamics.ActiveReports.TextBox();
+            this.txtSimboloME = new DataDynamics.ActiveReports.TextBox();
             this.lblIGTF = new DataDynamics.ActiveReports.Label();
             this.txtAlicuotaIGTF = new DataDynamics.ActiveReports.TextBox();
             this.txtIGTF = new DataDynamics.ActiveReports.TextBox();
@@ -300,6 +300,10 @@ namespace Galac.Adm.Rpt.Venta
             this.txtLblCampoDefinible11 = new DataDynamics.ActiveReports.TextBox();
             this.txtLblCampoDefinible12 = new DataDynamics.ActiveReports.TextBox();
             this.GFDatosAdicionales = new DataDynamics.ActiveReports.GroupFooter();
+            this.txtCodigoMonedaExtranjera = new DataDynamics.ActiveReports.TextBox();
+            this.txtSimboloMonedaFact = new DataDynamics.ActiveReports.TextBox();
+            this.txtSimboloMonedaLocal = new DataDynamics.ActiveReports.TextBox();
+            this.txtSimboloMonedaExtranjera = new DataDynamics.ActiveReports.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.txtCodigoArticuloCompuesto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCantidadCompuesto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDescripcionCompuesto)).BeginInit();
@@ -373,7 +377,7 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoDelAbono)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotalFacturaMenosAbono)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalFacturaMenosAbono)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtSimboloMoneda)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSimbolo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotalIVA)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPorcentajeAlicuota1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotalDescuento)).BeginInit();
@@ -434,7 +438,7 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.lblCambioME)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMonedaExtranjera)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCambio)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtSimboloMonedaExt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSimboloME)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblIGTF)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAlicuotaIGTF)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtIGTF)).BeginInit();
@@ -556,6 +560,10 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtLblCampoDefinible10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLblCampoDefinible11)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLblCampoDefinible12)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCodigoMonedaExtranjera)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSimboloMonedaFact)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSimboloMonedaLocal)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSimboloMonedaExtranjera)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
@@ -1555,19 +1563,19 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalFacturaMenosAbono.Top = 2.3435F;
             this.txtTotalFacturaMenosAbono.Width = 1.125F;
             // 
-            // txtSimboloMoneda
+            // txtSimbolo
             // 
-            this.txtSimboloMoneda.CanGrow = false;
-            this.txtSimboloMoneda.Height = 0.15625F;
-            this.txtSimboloMoneda.Left = 5.375F;
-            this.txtSimboloMoneda.MultiLine = false;
-            this.txtSimboloMoneda.Name = "txtSimboloMoneda";
-            this.txtSimboloMoneda.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
+            this.txtSimbolo.CanGrow = false;
+            this.txtSimbolo.Height = 0.15625F;
+            this.txtSimbolo.Left = 5.375F;
+            this.txtSimbolo.MultiLine = false;
+            this.txtSimbolo.Name = "txtSimbolo";
+            this.txtSimbolo.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtSimboloMoneda.Tag = "";
-            this.txtSimboloMoneda.Text = "txtSimboloMoneda";
-            this.txtSimboloMoneda.Top = 1.7185F;
-            this.txtSimboloMoneda.Width = 0.9999995F;
+            this.txtSimbolo.Tag = "";
+            this.txtSimbolo.Text = "txtSimbolo";
+            this.txtSimbolo.Top = 1.7185F;
+            this.txtSimbolo.Width = 0.9999995F;
             // 
             // lblTotalIVA
             // 
@@ -2423,19 +2431,19 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCambio.Top = 0.156F;
             this.txtCambio.Width = 1F;
             // 
-            // txtSimboloMonedaExt
+            // txtSimboloME
             // 
-            this.txtSimboloMonedaExt.CanGrow = false;
-            this.txtSimboloMonedaExt.Height = 0.15625F;
-            this.txtSimboloMonedaExt.Left = 0.6755009F;
-            this.txtSimboloMonedaExt.MultiLine = false;
-            this.txtSimboloMonedaExt.Name = "txtSimboloMonedaExt";
-            this.txtSimboloMonedaExt.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
+            this.txtSimboloME.CanGrow = false;
+            this.txtSimboloME.Height = 0.15625F;
+            this.txtSimboloME.Left = 0.6755009F;
+            this.txtSimboloME.MultiLine = false;
+            this.txtSimboloME.Name = "txtSimboloME";
+            this.txtSimboloME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
-            this.txtSimboloMonedaExt.Tag = "";
-            this.txtSimboloMonedaExt.Text = "txtSimboloMonedaExt";
-            this.txtSimboloMonedaExt.Top = 1.7185F;
-            this.txtSimboloMonedaExt.Width = 1.00025F;
+            this.txtSimboloME.Tag = "";
+            this.txtSimboloME.Text = "txtSimboloME";
+            this.txtSimboloME.Top = 1.7185F;
+            this.txtSimboloME.Width = 1.00025F;
             // 
             // lblIGTF
             // 
@@ -3148,8 +3156,9 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCodigoMonedaLocal,
             this.txtCambioABolivares,
             this.txtCambioTotalEnDivisas,
-            this.txtCambioCxC});
-            this.GHDatosDelDocumento.Height = 0.8330833F;
+            this.txtCambioCxC,
+            this.txtCodigoMonedaExtranjera});
+            this.GHDatosDelDocumento.Height = 0.81225F;
             this.GHDatosDelDocumento.Name = "GHDatosDelDocumento";
             this.GHDatosDelDocumento.Format += new System.EventHandler(this.GHDatosDelDocumento_Format);
             // 
@@ -3200,7 +3209,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCodigoMonedaLocal.CanGrow = false;
             this.txtCodigoMonedaLocal.CanShrink = true;
             this.txtCodigoMonedaLocal.Height = 0.15625F;
-            this.txtCodigoMonedaLocal.Left = 0.263F;
+            this.txtCodigoMonedaLocal.Left = 0.252F;
             this.txtCodigoMonedaLocal.MultiLine = false;
             this.txtCodigoMonedaLocal.Name = "txtCodigoMonedaLocal";
             this.txtCodigoMonedaLocal.Style = "color: White; font-family: Arial; font-size: 8.25pt; text-align: left";
@@ -3269,7 +3278,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMontoDelAbono,
             this.lblTotalFacturaMenosAbono,
             this.txtTotalFacturaMenosAbono,
-            this.txtSimboloMoneda,
+            this.txtSimbolo,
             this.lblTotalIVA,
             this.txtPorcentajeAlicuota1,
             this.lblTotalDescuento,
@@ -3326,7 +3335,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtPorcentajeDesc2ME,
             this.txtTotalFactura,
             this.txtTotalFacturaME,
-            this.txtSimboloMonedaExt,
+            this.txtSimboloME,
             this.lblIGTF,
             this.txtAlicuotaIGTF,
             this.txtIGTF,
@@ -3345,7 +3354,10 @@ namespace Galac.Adm.Rpt.Venta
             this.lblMontosME,
             this.txtMonedaExtranjera,
             this.lblCambioME,
-            this.txtCambio});
+            this.txtCambio,
+            this.txtSimboloMonedaFact,
+            this.txtSimboloMonedaLocal,
+            this.txtSimboloMonedaExtranjera});
             this.GFDatosDelDocumento.Height = 2.49975F;
             this.GFDatosDelDocumento.KeepTogether = true;
             this.GFDatosDelDocumento.Name = "GFDatosDelDocumento";
@@ -4508,6 +4520,66 @@ namespace Galac.Adm.Rpt.Venta
             this.GFDatosAdicionales.Height = 0F;
             this.GFDatosAdicionales.Name = "GFDatosAdicionales";
             // 
+            // txtCodigoMonedaExtranjera
+            // 
+            this.txtCodigoMonedaExtranjera.CanGrow = false;
+            this.txtCodigoMonedaExtranjera.CanShrink = true;
+            this.txtCodigoMonedaExtranjera.Height = 0.15625F;
+            this.txtCodigoMonedaExtranjera.Left = 0.504F;
+            this.txtCodigoMonedaExtranjera.MultiLine = false;
+            this.txtCodigoMonedaExtranjera.Name = "txtCodigoMonedaExtranjera";
+            this.txtCodigoMonedaExtranjera.Style = "color: White; font-family: Arial; font-size: 8.25pt; text-align: left";
+            this.txtCodigoMonedaExtranjera.Tag = "";
+            this.txtCodigoMonedaExtranjera.Text = "txtCodigoMonedaLocal";
+            this.txtCodigoMonedaExtranjera.Top = 0F;
+            this.txtCodigoMonedaExtranjera.Visible = false;
+            this.txtCodigoMonedaExtranjera.Width = 0.252F;
+            // 
+            // txtSimboloMonedaFact
+            // 
+            this.txtSimboloMonedaFact.CanGrow = false;
+            this.txtSimboloMonedaFact.Height = 0.15625F;
+            this.txtSimboloMonedaFact.Left = 6.6F;
+            this.txtSimboloMonedaFact.MultiLine = false;
+            this.txtSimboloMonedaFact.Name = "txtSimboloMonedaFact";
+            this.txtSimboloMonedaFact.Style = "color: White; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
+    "rtical-align: middle";
+            this.txtSimboloMonedaFact.Tag = "";
+            this.txtSimboloMonedaFact.Text = "txtSimboloMonedaFact";
+            this.txtSimboloMonedaFact.Top = 0.156F;
+            this.txtSimboloMonedaFact.Visible = false;
+            this.txtSimboloMonedaFact.Width = 0.2969999F;
+            // 
+            // txtSimboloMonedaLocal
+            // 
+            this.txtSimboloMonedaLocal.CanGrow = false;
+            this.txtSimboloMonedaLocal.Height = 0.15625F;
+            this.txtSimboloMonedaLocal.Left = 6.904F;
+            this.txtSimboloMonedaLocal.MultiLine = false;
+            this.txtSimboloMonedaLocal.Name = "txtSimboloMonedaLocal";
+            this.txtSimboloMonedaLocal.Style = "color: White; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
+    "rtical-align: middle";
+            this.txtSimboloMonedaLocal.Tag = "";
+            this.txtSimboloMonedaLocal.Text = "txtSimboloMonedaLocal";
+            this.txtSimboloMonedaLocal.Top = 0.15625F;
+            this.txtSimboloMonedaLocal.Visible = false;
+            this.txtSimboloMonedaLocal.Width = 0.2969999F;
+            // 
+            // txtSimboloMonedaExtranjera
+            // 
+            this.txtSimboloMonedaExtranjera.CanGrow = false;
+            this.txtSimboloMonedaExtranjera.Height = 0.15625F;
+            this.txtSimboloMonedaExtranjera.Left = 7.201F;
+            this.txtSimboloMonedaExtranjera.MultiLine = false;
+            this.txtSimboloMonedaExtranjera.Name = "txtSimboloMonedaExtranjera";
+            this.txtSimboloMonedaExtranjera.Style = "color: White; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
+    "rtical-align: middle";
+            this.txtSimboloMonedaExtranjera.Tag = "";
+            this.txtSimboloMonedaExtranjera.Text = "txtSimboloMonedaExtranjera";
+            this.txtSimboloMonedaExtranjera.Top = 0.156F;
+            this.txtSimboloMonedaExtranjera.Visible = false;
+            this.txtSimboloMonedaExtranjera.Width = 0.2969999F;
+            // 
             // dsrFacturaBorradorGenerico
             // 
             this.MasterReport = false;
@@ -4617,7 +4689,7 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoDelAbono)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotalFacturaMenosAbono)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalFacturaMenosAbono)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtSimboloMoneda)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSimbolo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotalIVA)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPorcentajeAlicuota1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotalDescuento)).EndInit();
@@ -4678,7 +4750,7 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.lblCambioME)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMonedaExtranjera)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCambio)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtSimboloMonedaExt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSimboloME)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblIGTF)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAlicuotaIGTF)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtIGTF)).EndInit();
@@ -4800,6 +4872,10 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtLblCampoDefinible10)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLblCampoDefinible11)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLblCampoDefinible12)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCodigoMonedaExtranjera)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSimboloMonedaFact)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSimboloMonedaLocal)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSimboloMonedaExtranjera)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -4867,7 +4943,7 @@ namespace Galac.Adm.Rpt.Venta
         private DataDynamics.ActiveReports.TextBox txtMontoDelAbono;
         private DataDynamics.ActiveReports.Label lblTotalFacturaMenosAbono;
         private DataDynamics.ActiveReports.TextBox txtTotalFacturaMenosAbono;
-        private DataDynamics.ActiveReports.TextBox txtSimboloMoneda;
+        private DataDynamics.ActiveReports.TextBox txtSimbolo;
         private DataDynamics.ActiveReports.Label lblTotalIVA;
         private DataDynamics.ActiveReports.TextBox txtPorcentajeAlicuota1;
         private DataDynamics.ActiveReports.Label lblTotalDescuento;
@@ -4928,7 +5004,7 @@ namespace Galac.Adm.Rpt.Venta
         private DataDynamics.ActiveReports.Label lblCambioME;
         private DataDynamics.ActiveReports.TextBox txtMonedaExtranjera;
         private DataDynamics.ActiveReports.TextBox txtCambio;
-        private DataDynamics.ActiveReports.TextBox txtSimboloMonedaExt;
+        private DataDynamics.ActiveReports.TextBox txtSimboloME;
         private DataDynamics.ActiveReports.Label lblIGTF;
         private DataDynamics.ActiveReports.TextBox txtAlicuotaIGTF;
         private DataDynamics.ActiveReports.TextBox txtIGTF;
@@ -5080,5 +5156,9 @@ namespace Galac.Adm.Rpt.Venta
         private DataDynamics.ActiveReports.TextBox txtCambioABolivares;
         private DataDynamics.ActiveReports.TextBox txtCambioTotalEnDivisas;
         private DataDynamics.ActiveReports.TextBox txtCambioCxC;
+        private DataDynamics.ActiveReports.TextBox txtCodigoMonedaExtranjera;
+        private DataDynamics.ActiveReports.TextBox txtSimboloMonedaFact;
+        private DataDynamics.ActiveReports.TextBox txtSimboloMonedaLocal;
+        private DataDynamics.ActiveReports.TextBox txtSimboloMonedaExtranjera;
     }
 }
