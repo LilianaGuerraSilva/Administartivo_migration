@@ -420,12 +420,11 @@ namespace Galac.Adm.Rpt.Venta {
                         vCambioTemp = LibConvert.ToDec(this.txtCambioABolivares.Value);
                     }
                 }
-                if (vCambioTemp == 1) {
-                    vCambioTemp = LibConvert.ToDec(this.txtCambioFechaDocumento.Value);
-                }
             }
-            vResult = vCambioTemp;
-            if (vResult == 0) vResult = 1;
+            if ((vCambioTemp == 1)|| (vResult == 0)) {
+                vCambioTemp = LibConvert.ToDec(this.txtCambioFechaDocumento.Value);
+            }
+            vResult = vCambioTemp == 0 ? 1 : vCambioTemp;
             return vResult;
 
         }
