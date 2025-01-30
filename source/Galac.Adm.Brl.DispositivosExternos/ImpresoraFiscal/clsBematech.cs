@@ -434,7 +434,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             try {
                 if (valAbrirConexion) {
                     AbrirConexion();
-                }
+                }				
                 vSerial = LibText.Space(20);
                 vRetorno = Bematech_FI_NumeroSerieMFD(ref vSerial);
                 vSerial = LibText.Trim(vSerial);
@@ -857,6 +857,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         vResult = Bematech_FI_EfectuaFormaPagoDescripcionForma("Divisas", vTotalPagosMEConFormato, "");
                     } else {
                         vResult = Bematech_FI_IniciaCierreCuponIGTF("0");
+                        string vCodigoMonedaME = GetCodigoMonedaDePagoME(valDocumentoFiscal, vCodigoMoneda);
+                        Seguir = EnviarPagos(valDocumentoFiscal, vCodigoMonedaME);
                     }
                     Seguir = EnviarPagos(valDocumentoFiscal, vCodigoMoneda);
                 } else {
@@ -1197,6 +1199,12 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             }
         }
 
+        private string GetCodigoMonedaDePagoME(XElement valMedioDePago, string valCodigoMoneda) {
+            var result = valMedioDePago.Descendants("GpResultDetailRenglonCobro")
+                               .FirstOrDefault(x => x.Element("CodigoMoneda")?.Value != valCodigoMoneda);
+            return result?.Element("CodigoMoneda")?.Value ?? string.Empty;
+        }
+
         private bool EnviarPagos(XElement valMedioDePago, string valCodigoMoneda) {
             string vMedioDePago = "";
             string vMontoCancelado = "";
@@ -1238,6 +1246,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     break;
                 case "00006":
                     vResultado = "Transferencia";
+                    break;
+                case "00015":
+                    vResultado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "NombreCreditoElectronico");
                     break;
                 default:
                     vResultado = "Efectivo";

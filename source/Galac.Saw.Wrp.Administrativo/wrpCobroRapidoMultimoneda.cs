@@ -13,6 +13,8 @@ using Galac.Saw.Ccl.SttDef;
 using System.Xml.Linq;
 using Galac.Saw.Wrp.Venta;
 using Galac.Adm.Ccl.CajaChica;
+using LibGalac.Aos.Base.Dal;
+using LibGalac.Aos.Dal;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Venta {
 #elif IsExeBsS​
@@ -125,7 +127,7 @@ namespace Galac.Saw.Wrp.Venta {
                 eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)LibConvert.DbValueToEnum(valTipoDeDocumento);
                 clsCobroDeFacturaNav vCobroFactura = new clsCobroDeFacturaNav();
                 IList<string> vListaDeCobranzasGeneradas = new List<string>();
-                CreateGlobalValues(vfwCurrentParameters);
+                CreateGlobalValues(vfwCurrentParameters);                
                 vCobroFactura.GenerarCobranzaYMovimientoBancarioDeCobroEnMultimoneda(valConsecutivoCompania, valNumeroFactura, vTipoDeDocumento, out vListaDeCobranzasGeneradas);
                 XElement vXmlCobranzasGeneradas = new XElement("GpData");
                 foreach (string Cobranza in vListaDeCobranzasGeneradas) {
@@ -140,7 +142,7 @@ namespace Galac.Saw.Wrp.Venta {
                 LibExceptionDisplay.Show(vEx);
             }
             return string.Empty;
-        }
+        }        
 
         private LibGlobalValues CreateGlobalValues(string valCurrentParameters) {
             LibGlobalValues.Instance.LoadCompleteAppMemInfo(valCurrentParameters);
