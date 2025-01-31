@@ -46,10 +46,10 @@ namespace Galac.Saw.LibWebConnector {
                 if (vHttpRespMsg.Result.StatusCode == System.Net.HttpStatusCode.OK) {
                     vHttpRespMsg.Result.EnsureSuccessStatusCode();
                 } else if (vHttpRespMsg.Result.StatusCode == System.Net.HttpStatusCode.NotFound) {
-                    throw new Exception($"Revise su conexión a Internet y que la URL del servicio sea la correcta. URL actual: {LoginUser.URL}.");
+                    throw new Exception($"Revise su conexión a Internet y la URL del servicio.");
                 }
                 if (vHttpRespMsg.Result.Content is null) {
-                    throw new Exception($"Revise su conexión a Internet y que la URL del servicio sea la correcta. URL actual: {LoginUser.URL}.");
+                    throw new Exception($"Revise su conexión a Internet y la URL del servicio.");
                 } else {
                     Task<string> HttpResq = vHttpRespMsg.Result.Content.ReadAsStringAsync();
                     HttpResq.Wait();
@@ -65,11 +65,11 @@ namespace Galac.Saw.LibWebConnector {
                         };
                         return vReqs;
                     } else if (LibString.S1IsEqualToS2(vReqsNV.error.Value.code, "1")) {
-                        vReqs.mensaje = vReqsNV.error.Value.message + ".\r\nPor favor verifique los datos de conexión con su Imprenta Digital.";
+                        vReqs.mensaje = vReqsNV.error.Value.message + ".\r\nPor favor verifique los datos de conexión\r\ncon su Imprenta Digital.";
                     } else if (LibString.S1IsEqualToS2(vReqsNV.error.Value.code, "2")) {
                         vReqs.mensaje = vReqsNV.error.Value.message + ".\r\nPor favor verifique los datos del documento.";
                     } else if (LibString.S1IsEqualToS2(vReqsNV.error.Value.code, "3")) {
-                        vReqs.mensaje = vReqsNV.error.Value.message + ".\r\nPor favor verifique los datos de conexión con su Imprenta Digital.";
+                        vReqs.mensaje = vReqsNV.error.Value.message + ".\r\nPor favor verifique los datos de conexión\r\n con su Imprenta Digital.";
                     } else if (LibString.S1IsEqualToS2(vReqsNV.error.Value.code, "4")) {
                         vReqs.mensaje = vReqsNV.error.Value.message + ".\r\nPor favor verifique los datos del documento.";
                     } else if (LibString.S1IsEqualToS2(vReqsNV.error.Value.code, "5")) {
@@ -83,7 +83,7 @@ namespace Galac.Saw.LibWebConnector {
             } catch (AggregateException vEx) {
                 string vMensaje = vEx.InnerException.InnerException.Message;
                 if (vEx.InnerException.InnerException.HResultPublic() == -2146233079) {
-                    vMensaje = vMensaje + $"\r\nRevise su conexión a Internet y que la URL del servicio sea la correcta. URL actual: {LoginUser.URL}.";
+                    vMensaje = vMensaje + $"\r\nRevise su conexión a Internet y la URL del servicio.";
                 }
                 throw new Exception(vMensaje);
             } catch (Exception vEx) {
