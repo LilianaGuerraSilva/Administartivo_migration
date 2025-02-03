@@ -423,7 +423,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("     WHERE");
             SQL.AppendLine("       ArticuloInventario.TipoDeArticulo <> '2'");
             SQL.AppendLine("       AND ArticuloInventario.AlicuotaIva IN ('1', '0', '2', '3', '5', '4', '6', '7')");
-            SQL.AppendLine("       AND ArticuloInventario.TipoArticuloInv IN ('0', '5', '6')");
+            SQL.AppendLine("       AND ArticuloInventario.TipoArticuloInv IN ('0', '5', '6','7')");
             SQL.AppendLine("       AND ArticuloInventario.Codigo NOT IN ('RD_AliExenta  @', 'RD_AliGeneral @', 'RD_AliReducida@', 'RD_AliExtendida', 'RD_ComXPorcDeAlmacen @', 'RD_AliExentaNC @', 'RD_AliGeneralNC @', 'RD_AliReducidaNC @', 'RD_AliExtendidaNC @', 'ND-NC IGTF @')");
             return SQL.ToString();
 

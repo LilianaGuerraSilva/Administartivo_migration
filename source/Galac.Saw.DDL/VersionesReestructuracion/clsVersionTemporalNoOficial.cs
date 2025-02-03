@@ -94,6 +94,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             if (AddColumnString("Saw.ReglasDeContabilizacion", "CuentaMermaAnormal", 30, "", "")) {
                 AddDefaultConstraint("Saw.ReglasDeContabilizacion", "d_RegDeConCuMeAn", _insSql.ToSqlValue(""), "CuentaMermaAnormal");
             }
+        }
 
         private void CxC() {
             AddColumnBoolean("CxC", "VieneDeCreditoElectronico", "CONSTRAINT nnCxCVieneDeCre NOT NULL", false);

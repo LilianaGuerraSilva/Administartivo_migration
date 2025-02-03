@@ -1407,7 +1407,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             if (Action != eAccionSR.Contabilizar) {
                 if (Action == eAccionSR.Custom) {                   
                     if (DetailOrdenDeProduccionDetalleMateriales.Items
-                        .Where(p=> (p.TipoArticuloInvAsEnum == Saw.Ccl.Inventario.eTipoArticuloInv.Lote || p.TipoArticuloInvAsEnum == Saw.Ccl.Inventario.eTipoArticuloInv.LoteFechadeVencimiento) && p.ConsecutivoLoteDeInventario == 0).Count() > 0) {
+                        .Where(p=> (p.TipoArticuloInvAsEnum == Saw.Ccl.Inventario.eTipoArticuloInv.Lote 
+                        || p.TipoArticuloInvAsEnum == Saw.Ccl.Inventario.eTipoArticuloInv.LoteFechadeVencimiento
+                        || p.TipoArticuloInvAsEnum == Saw.Ccl.Inventario.eTipoArticuloInv.LoteFechadeElaboracion) && p.ConsecutivoLoteDeInventario == 0).Count() > 0) {
                         throw new GalacValidationException("Hay artículos que no tienen lote asignado.");
                     }
                     if (DetailOrdenDeProduccionDetalleMateriales.Items
@@ -1738,7 +1740,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private void BuscarExistencia() {
             IOrdenDeProduccionDetalleMaterialesPdn vOrdenDeProduccionDetalleMateriales = new clsOrdenDeProduccionDetalleMaterialesNav();
             foreach (OrdenDeProduccionDetalleMaterialesViewModel item in DetailOrdenDeProduccionDetalleMateriales.Items) {
-                if (item.TipoArticuloInvAsEnum == Saw.Ccl.Inventario.eTipoArticuloInv.Lote || item.TipoArticuloInvAsEnum == Saw.Ccl.Inventario.eTipoArticuloInv.LoteFechadeVencimiento) {
+                if (item.TipoArticuloInvAsEnum == Saw.Ccl.Inventario.eTipoArticuloInv.Lote 
+                    || item.TipoArticuloInvAsEnum == Saw.Ccl.Inventario.eTipoArticuloInv.LoteFechadeVencimiento
+                    || item.TipoArticuloInvAsEnum == Saw.Ccl.Inventario.eTipoArticuloInv.LoteFechadeElaboracion) {
                     item.Existencia = vOrdenDeProduccionDetalleMateriales.BuscaExistenciaDeArticuloLote(ConsecutivoCompania, item.CodigoArticulo, item.ConsecutivoLoteDeInventario);
                 } else {
                     item.Existencia = vOrdenDeProduccionDetalleMateriales.BuscaExistenciaDeArticulo(ConsecutivoCompania, item.CodigoArticulo, Model.ConsecutivoAlmacenMateriales);                    
