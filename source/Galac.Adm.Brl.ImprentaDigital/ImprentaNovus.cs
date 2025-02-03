@@ -386,6 +386,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vAlicuota.Add(eTipoDeAlicuota.Exento, "E");
             return vAlicuota[valAlicuotaEnum];
         }
+
         private string GetFormaDeCobro(eTipoDeFormaDeCobro valFormaDeCobro) {
             string vResult = string.Empty;
             switch (valFormaDeCobro) {
