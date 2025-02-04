@@ -152,8 +152,12 @@ namespace Galac.Saw.LibWebConnector {
     public struct stDataRespuestaNV {
         [JsonProperty("numerodocumento")]
         public string numerodocumento { get; set; }
+        [JsonProperty("numerointerno")]
+        public string numerointerno { get; set; }
         [JsonProperty("identificador")]
         public string identificador { get; set; }
+        [JsonProperty("documento")]
+        public string documento { get; set; }
         [JsonProperty("corelativo")]
         public string corelativo { get; set; }
         [JsonProperty("datetime")]

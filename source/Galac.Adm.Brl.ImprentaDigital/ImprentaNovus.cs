@@ -35,12 +35,12 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 bool vResult = false;
                 bool vDocumentoExiste = false;
                 if (LibString.IsNullOrEmpty(EstatusDocumento)) {
-                    vDocumentoExiste = EstadoDocumento();
+                vDocumentoExiste = EstadoDocumento();
                 }
                 if (vDocumentoExiste) { // Documento Existe en ID
                     vResult = base.SincronizarDocumento();
                 } else if (LibString.S1IsEqualToS2(CodigoRespuesta, "203")) { // Documento No Existe en ID
-                    vResult = EnviarDocumento();
+                vResult = EnviarDocumento();
                 }
                 return vResult;
             } catch (AggregateException gEx) {
@@ -84,7 +84,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 }
                 JObject vEstausJson = new JObject {
                      { "rif", LoginUser.User },
-                     { "tipo", 1 },
+                     { "tipo", 2 },
                     { "numerointerno", NumeroDocumento() }};
                 if (vChekConeccion) {
                     vDocumentoJSON = vEstausJson.ToString();
