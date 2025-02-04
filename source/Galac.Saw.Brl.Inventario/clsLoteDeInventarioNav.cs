@@ -47,9 +47,9 @@ namespace Galac.Saw.Brl.Inventario {
             if (vResult) {
                 if (valAction == eAccionSR.Eliminar || valAction == eAccionSR.Modificar) {
                     foreach (LoteDeInventario vLoteDeInventario in refRecord) {
-                        bool vEsTipoDeInvLoteFechaDeVcto = new clsLoteDeInventarioNav().EsTipoDeInventarioLoteFechaVencimiento(vLoteDeInventario.ConsecutivoCompania, vLoteDeInventario.CodigoArticulo);
+                        bool vEsTipoDeInvLoteFecha = new clsLoteDeInventarioNav().EsTipoDeInventarioLoteFecha(vLoteDeInventario.ConsecutivoCompania, vLoteDeInventario.CodigoArticulo);
                         bool vTieneMovimientos = new clsLoteDeInventarioNav().ExistenMovimientosDeInvetario(vLoteDeInventario.ConsecutivoCompania, vLoteDeInventario.CodigoArticulo, vLoteDeInventario.Consecutivo);
-                        if (valAction == eAccionSR.Modificar && (!vEsTipoDeInvLoteFechaDeVcto || vTieneMovimientos)) {                            
+                        if (valAction == eAccionSR.Modificar && (!vEsTipoDeInvLoteFecha || vTieneMovimientos)) {                            
                             throw new GalacAlertException("No es posible " + LibEnumHelper.GetDescription(valAction) + " este lote. Solo se pueden " + LibEnumHelper.GetDescription(valAction) + " los lotes con fecha de vencimiento y sin movimientos.");
                         } else if (valAction == eAccionSR.Eliminar && vTieneMovimientos) {
                             throw new GalacAlertException("No es posible " + LibEnumHelper.GetDescription(valAction) + " este lote. Solo se pueden " + LibEnumHelper.GetDescription(valAction) + " lotes sin movimientos.");
@@ -387,7 +387,7 @@ namespace Galac.Saw.Brl.Inventario {
             return vData;
         }
 
-        bool EsTipoDeInventarioLoteFechaVencimiento(int valConsecutivoCompania, string valCodigoArticulo) {
+        bool EsTipoDeInventarioLoteFecha(int valConsecutivoCompania, string valCodigoArticulo) {
             bool vResult = false;
             LibDatabase insDb = new LibDatabase();
             StringBuilder SQL = new StringBuilder();
