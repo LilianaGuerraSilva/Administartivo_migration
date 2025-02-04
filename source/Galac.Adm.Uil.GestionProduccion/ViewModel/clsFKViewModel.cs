@@ -10,6 +10,7 @@ using Galac.Saw.Uil.Inventario.ViewModel;
 namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
     public class FkArticuloInventarioViewModel : IFkArticuloInventarioViewModel {
         public int ConsecutivoCompania { get; set; }
+        public string CodigoCompuesto { get; set; }
         [LibGridColum("Código Articulo", DbMemberPath = "Gv_ArticuloInventario_B2.Codigo", Width = 180, ColumnOrder = 1)]
         public string Codigo { get; set; }
         [LibGridColum("Descripción", Width = 400, Trimming = System.Windows.TextTrimming.CharacterEllipsis, ColumnOrder = 2, DbMemberPath = "Gv_ArticuloInventario_B2.Descripcion")]

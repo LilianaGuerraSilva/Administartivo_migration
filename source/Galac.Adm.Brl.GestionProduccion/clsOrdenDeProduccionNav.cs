@@ -452,7 +452,9 @@ namespace Galac.Adm.Brl.GestionProduccion {
             foreach (OrdenDeProduccionDetalleMateriales vOrdenDeProduccionDetalleMateriales in valOrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales) {
                 if (vOrdenDeProduccionDetalleMateriales.TipoDeArticuloAsEnum == eTipoDeArticulo.Mercancia) {
                     decimal vDisponibilidad = 0;
-                    if (vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote || vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento) {
+                    if (vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote 
+                        || vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento 
+                        || vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeElaboracion) {
                         vDisponibilidad = vArticuloPdn.DisponibilidadDeArticulo(vOrdenDeProduccionDetalleMateriales.ConsecutivoCompania, vOrdenDeProduccionDetalleMateriales.CodigoArticulo, vOrdenDeProduccionDetalleMateriales.ConsecutivoLoteDeInventario);
                     } else {
                         vDisponibilidad = vArticuloPdn.DisponibilidadDeArticulo(vOrdenDeProduccionDetalleMateriales.ConsecutivoCompania, vOrdenDeProduccionDetalleMateriales.CodigoAlmacen, vOrdenDeProduccionDetalleMateriales.CodigoArticulo, 1, "", "");
@@ -471,7 +473,9 @@ namespace Galac.Adm.Brl.GestionProduccion {
         private bool VerificaAsignacionDeLote(OrdenDeProduccion valOrdenDeProduccion, bool valAlIniciar) {
             if (valAlIniciar) {
                 foreach (OrdenDeProduccionDetalleMateriales vOrdenDeProduccionDetalleMateriales in valOrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales) {
-                    if (vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento || vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote) {
+                    if (vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento 
+                        || vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote
+                        || vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeElaboracion) {
                         if (vOrdenDeProduccionDetalleMateriales.ConsecutivoLoteDeInventario == 0) {
                             throw new GalacValidationException("Hay artículos que no tienen lote asignado.");
                         }
@@ -480,7 +484,9 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 return true;
             } else {
                 foreach (OrdenDeProduccionDetalleArticulo vOrdenDeProduccionDetallArticulo in valOrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo ) {
-                    if (vOrdenDeProduccionDetallArticulo.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento || vOrdenDeProduccionDetallArticulo.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote) {
+                    if (vOrdenDeProduccionDetallArticulo.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento 
+                        || vOrdenDeProduccionDetallArticulo.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote
+                        || vOrdenDeProduccionDetallArticulo.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeElaboracion) {
                         if (vOrdenDeProduccionDetallArticulo.ConsecutivoLoteDeInventario == 0) {
                             throw new GalacValidationException("Hay artículos que no tienen lote asignado.");
                         }
@@ -546,7 +552,9 @@ namespace Galac.Adm.Brl.GestionProduccion {
                         if (vOrdenDeProduccionDetalleMateriales.TipoDeArticuloAsEnum == eTipoDeArticulo.Mercancia &&
                             (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PermitirSobregiro")) &&
                             vOrdenDeProduccionDetalleMateriales.CantidadConsumida > vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario) {
-                            if (vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote || vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento) {
+                            if (vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote 
+                                || vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento
+                                || vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeElaboracion) {
                                 if ((vOrdenDeProduccionDetalleMateriales.CantidadConsumida - vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario) > vDataExistenciaLote.Where(p => p.CodigoArticulo == vOrdenDeProduccionDetalleMateriales.CodigoArticulo && p.ConsecutivoLoteDeInventario == vOrdenDeProduccionDetalleMateriales.ConsecutivoLoteDeInventario).FirstOrDefault().Existencia) {
                                     throw new GalacValidationException("No hay suficiente existencia de algunos insumos para producir esta orden. (" + vOrdenDeProduccionDetalleMateriales.CodigoArticulo + "-" + vOrdenDeProduccionDetalleMateriales.CodigoLote + ")");
                                 }
