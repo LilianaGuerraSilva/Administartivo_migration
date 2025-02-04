@@ -396,7 +396,8 @@ namespace Galac.Saw.Brl.Inventario {
             SQL.AppendLine(" FROM ArticuloInventario ");
             SQL.AppendLine(" WHERE Codigo = " + insDb.InsSql.ToSqlValue(valCodigoArticulo));
             SQL.AppendLine(" AND ConsecutivoCompania = " + insDb.InsSql.ToSqlValue(valConsecutivoCompania));
-            SQL.AppendLine(" AND TipoArticuloInv = " + insDb.InsSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento));
+            SQL.AppendLine(" AND (TipoArticuloInv = " + insDb.InsSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento));
+            SQL.AppendLine(" OR TipoArticuloInv = " + insDb.InsSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeElaboracion) +") ");
 
             vResult = insDb.RecordCountOfSql(SQL.ToString()) > 0;
 
