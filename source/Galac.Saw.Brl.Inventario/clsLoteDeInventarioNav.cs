@@ -445,7 +445,7 @@ namespace Galac.Saw.Brl.Inventario {
             LibDatabase insDb = new LibDatabase();
             vSql.AppendLine("SELECT Codigo FROM ArticuloInventario ");
             vSql.AppendLine("WHERE ConsecutivoCompania = " + insDb.InsSql.ToSqlValue(valConsecutivoCompania));
-            vSql.AppendLine("AND TipoArticuloInv IN (" + insDb.InsSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insDb.InsSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ")");
+            vSql.AppendLine("AND TipoArticuloInv IN (" + insDb.InsSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insDb.InsSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ", " + insDb.InsSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeElaboracion) + ")");
             if (!LibString.IsNullOrEmpty(valLineaDeProducto)) {
                 vSql.AppendLine("AND LineaDeProducto = " + insDb.InsSql.ToSqlValue(valLineaDeProducto));
             }
@@ -544,7 +544,7 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.AppendLine("INNER JOIN Saw.LoteDeInventario LoteInv ON RNES.ConsecutivoCompania = LoteInv.ConsecutivoCompania AND RNES.LoteDeInventario = LoteInv.CodigoLote");
             vSql.AppendLine("INNER JOIN ArticuloInventario AI ON AI.ConsecutivoCompania = RNES.ConsecutivoCompania AND AI.Codigo = RNES.CodigoArticulo");
             vSql.AppendLine("WHERE NES.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ")");
+            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeElaboracion) + ")");
             vSql.AppendLine("AND AI.Codigo = " + insSql.ToSqlValue(valCodigoArticulo));
             vSql.AppendLine("AND NES.StatusNotaEntradaSalida = " + insSql.EnumToSqlValue((int)eStatusNotaEntradaSalida.Vigente));
             vSql.AppendLine("AND LoteInv.Consecutivo = " + insSql.ToSqlValue(valConseuctivoLote));
@@ -559,7 +559,7 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.AppendLine("INNER JOIN Saw.LoteDeInventario LoteInv ON RNES.ConsecutivoCompania = LoteInv.ConsecutivoCompania AND RNES.LoteDeInventario = LoteInv.CodigoLote");
             vSql.AppendLine("INNER JOIN ArticuloInventario AI ON AI.ConsecutivoCompania = RNES.ConsecutivoCompania AND AI.Codigo = RNES.CodigoArticulo");
             vSql.AppendLine("WHERE NES.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ")");
+            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeElaboracion) + ")");
             vSql.AppendLine("AND AI.Codigo = " + insSql.ToSqlValue(valCodigoArticulo));
             vSql.AppendLine("AND NES.StatusNotaEntradaSalida = " + insSql.EnumToSqlValue((int)eStatusNotaEntradaSalida.Anulada));
             vSql.AppendLine("AND LoteInv.Consecutivo = " + insSql.ToSqlValue(valConseuctivoLote));
@@ -573,7 +573,7 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.AppendLine("INNER JOIN Saw.LoteDeInventario LoteInv ON RNES.ConsecutivoCompania = LoteInv.ConsecutivoCompania AND RNES.LoteDeInventario = LoteInv.CodigoLote");
             vSql.AppendLine("INNER JOIN ArticuloInventario AI ON AI.ConsecutivoCompania = RNES.ConsecutivoCompania AND AI.Codigo = RNES.CodigoArticulo");
             vSql.AppendLine("WHERE NES.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ")");
+            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeElaboracion) + ")");
             vSql.AppendLine("AND AI.Codigo = " + insSql.ToSqlValue(valCodigoArticulo));
             vSql.AppendLine("AND NES.StatusNotaEntradaSalida = " + insSql.EnumToSqlValue((int)eStatusNotaEntradaSalida.Anulada));
             vSql.AppendLine("AND LoteInv.Consecutivo = " + insSql.ToSqlValue(valConseuctivoLote));
@@ -593,7 +593,7 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.AppendLine("INNER JOIN Saw.LoteDeInventario LoteInv ON RF.ConsecutivoCompania = LoteInv.ConsecutivoCompania AND RF.LoteDeInventario = LoteInv.CodigoLote");
             vSql.AppendLine("INNER JOIN ArticuloInventario AI ON AI.ConsecutivoCompania = RF.ConsecutivoCompania AND AI.Codigo = RF.Articulo");
             vSql.AppendLine("WHERE F.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ")");
+            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeElaboracion) + ")");
             vSql.AppendLine("AND AI.Codigo = " + insSql.ToSqlValue(valCodigoArticulo));
             vSql.AppendLine("AND F.TipoDeDocumento = '0' AND F.StatusFactura = '0'");
             vSql.AppendLine("AND LoteInv.Consecutivo = " + insSql.ToSqlValue(valConseuctivoLote));
@@ -608,7 +608,7 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.AppendLine("INNER JOIN Saw.LoteDeInventario LoteInv ON RF.ConsecutivoCompania = LoteInv.ConsecutivoCompania AND RF.LoteDeInventario = LoteInv.CodigoLote");
             vSql.AppendLine("INNER JOIN ArticuloInventario AI ON AI.ConsecutivoCompania = RF.ConsecutivoCompania AND AI.Codigo = RF.Articulo");
             vSql.AppendLine("WHERE F.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ")");
+            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeElaboracion) + ")");
             vSql.AppendLine("AND AI.Codigo = " + insSql.ToSqlValue(valCodigoArticulo));
             vSql.AppendLine("AND F.TipoDeDocumento = '0' AND F.StatusFactura = '1'");
             vSql.AppendLine("AND LoteInv.Consecutivo = " + insSql.ToSqlValue(valConseuctivoLote));
@@ -622,7 +622,7 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.AppendLine("INNER JOIN Saw.LoteDeInventario LoteInv ON RF.ConsecutivoCompania = LoteInv.ConsecutivoCompania AND RF.LoteDeInventario = LoteInv.CodigoLote");
             vSql.AppendLine("INNER JOIN ArticuloInventario AI ON AI.ConsecutivoCompania = RF.ConsecutivoCompania AND AI.Codigo = RF.Articulo");
             vSql.AppendLine("WHERE F.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ")");
+            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeElaboracion) + ")");
             vSql.AppendLine("AND AI.Codigo = " + insSql.ToSqlValue(valCodigoArticulo));
             vSql.AppendLine("AND F.TipoDeDocumento = '0' AND F.StatusFactura = '1'");
             vSql.AppendLine("AND LoteInv.Consecutivo = " + insSql.ToSqlValue(valConseuctivoLote));
@@ -642,7 +642,7 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.AppendLine("INNER JOIN Saw.LoteDeInventario LoteInv ON RF.ConsecutivoCompania = LoteInv.ConsecutivoCompania AND RF.LoteDeInventario = LoteInv.CodigoLote");
             vSql.AppendLine("INNER JOIN ArticuloInventario AI ON AI.ConsecutivoCompania = RF.ConsecutivoCompania AND AI.Codigo = RF.Articulo");
             vSql.AppendLine("WHERE F.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ")");
+            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeElaboracion) + ")");
             vSql.AppendLine("AND AI.Codigo = " + insSql.ToSqlValue(valCodigoArticulo));
             vSql.AppendLine("AND F.TipoDeDocumento = '1' AND F.StatusFactura = '0'");
             vSql.AppendLine("AND LoteInv.Consecutivo = " + insSql.ToSqlValue(valConseuctivoLote));
@@ -657,7 +657,7 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.AppendLine("INNER JOIN Saw.LoteDeInventario LoteInv ON RF.ConsecutivoCompania = LoteInv.ConsecutivoCompania AND RF.LoteDeInventario = LoteInv.CodigoLote");
             vSql.AppendLine("INNER JOIN ArticuloInventario AI ON AI.ConsecutivoCompania = RF.ConsecutivoCompania AND AI.Codigo = RF.Articulo");
             vSql.AppendLine("WHERE F.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ")");
+            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeElaboracion) + ")");
             vSql.AppendLine("AND AI.Codigo = " + insSql.ToSqlValue(valCodigoArticulo));
             vSql.AppendLine("AND F.TipoDeDocumento = '1' AND F.StatusFactura = '1'");
             vSql.AppendLine("AND LoteInv.Consecutivo = " + insSql.ToSqlValue(valConseuctivoLote));
@@ -671,7 +671,7 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.AppendLine("INNER JOIN Saw.LoteDeInventario LoteInv ON RF.ConsecutivoCompania = LoteInv.ConsecutivoCompania AND RF.LoteDeInventario = LoteInv.CodigoLote");
             vSql.AppendLine("INNER JOIN ArticuloInventario AI ON AI.ConsecutivoCompania = RF.ConsecutivoCompania AND AI.Codigo = RF.Articulo");
             vSql.AppendLine("WHERE F.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ")");
+            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeElaboracion) + ")");
             vSql.AppendLine("AND AI.Codigo = " + insSql.ToSqlValue(valCodigoArticulo));
             vSql.AppendLine("AND F.TipoDeDocumento = '1' AND F.StatusFactura = '1' ");
             vSql.AppendLine("AND LoteInv.Consecutivo = " + insSql.ToSqlValue(valConseuctivoLote));
@@ -691,7 +691,7 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.AppendLine("INNER JOIN Saw.LoteDeInventario LoteInv ON RF.ConsecutivoCompania = LoteInv.ConsecutivoCompania AND RF.LoteDeInventario = LoteInv.CodigoLote ");
             vSql.AppendLine("INNER JOIN ArticuloInventario AI ON AI.ConsecutivoCompania = RF.ConsecutivoCompania AND AI.Codigo = RF.Articulo");
             vSql.AppendLine("WHERE F.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ")");
+            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeElaboracion) + ")");
             vSql.AppendLine("AND AI.Codigo = " + insSql.ToSqlValue(valCodigoArticulo));
             vSql.AppendLine("AND F.TipoDeDocumento = '2' AND F.StatusFactura = '0'");
             vSql.AppendLine("AND LoteInv.Consecutivo = " + insSql.ToSqlValue(valConseuctivoLote));
@@ -706,7 +706,7 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.AppendLine("INNER JOIN Saw.LoteDeInventario LoteInv ON RF.ConsecutivoCompania = LoteInv.ConsecutivoCompania AND RF.LoteDeInventario = LoteInv.CodigoLote ");
             vSql.AppendLine("INNER JOIN ArticuloInventario AI ON AI.ConsecutivoCompania = RF.ConsecutivoCompania AND AI.Codigo = RF.Articulo");
             vSql.AppendLine("WHERE F.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ")");
+            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeElaboracion) + ")");
             vSql.AppendLine("AND AI.Codigo = " + insSql.ToSqlValue(valCodigoArticulo));
             vSql.AppendLine("AND F.TipoDeDocumento = '2' AND F.StatusFactura = '1'");
             vSql.AppendLine("AND LoteInv.Consecutivo = " + insSql.ToSqlValue(valConseuctivoLote));
@@ -720,7 +720,7 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.AppendLine("INNER JOIN Saw.LoteDeInventario LoteInv ON RF.ConsecutivoCompania = LoteInv.ConsecutivoCompania AND RF.LoteDeInventario = LoteInv.CodigoLote ");
             vSql.AppendLine("INNER JOIN ArticuloInventario AI ON AI.ConsecutivoCompania = RF.ConsecutivoCompania AND AI.Codigo = RF.Articulo");
             vSql.AppendLine("WHERE F.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ")");
+            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeElaboracion) + ")");
             vSql.AppendLine("AND AI.Codigo = " + insSql.ToSqlValue(valCodigoArticulo));
             vSql.AppendLine("AND F.TipoDeDocumento = '2' AND F.StatusFactura = '1'");
             vSql.AppendLine("AND LoteInv.Consecutivo = " + insSql.ToSqlValue(valConseuctivoLote));
@@ -740,7 +740,7 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.AppendLine("INNER JOIN Saw.LoteDeInventario LoteInv ON RF.ConsecutivoCompania = LoteInv.ConsecutivoCompania AND RF.LoteDeInventario = LoteInv.CodigoLote ");
             vSql.AppendLine("INNER JOIN ArticuloInventario AI ON AI.ConsecutivoCompania = RF.ConsecutivoCompania AND AI.Codigo = RF.Articulo");
             vSql.AppendLine("WHERE F.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ")");
+            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeElaboracion) + ")");
             vSql.AppendLine("AND AI.Codigo = " + insSql.ToSqlValue(valCodigoArticulo));
             vSql.AppendLine("AND F.TipoDeDocumento = '8' AND F.StatusFactura = '0'");
             vSql.AppendLine("AND LoteInv.Consecutivo = " + insSql.ToSqlValue(valConseuctivoLote));
@@ -755,7 +755,7 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.AppendLine("INNER JOIN Saw.LoteDeInventario LoteInv ON RF.ConsecutivoCompania = LoteInv.ConsecutivoCompania AND RF.LoteDeInventario = LoteInv.CodigoLote ");
             vSql.AppendLine("INNER JOIN ArticuloInventario AI ON AI.ConsecutivoCompania = RF.ConsecutivoCompania AND AI.Codigo = RF.Articulo");
             vSql.AppendLine("WHERE F.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ")");
+            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeElaboracion) + ")");
             vSql.AppendLine("AND AI.Codigo = " + insSql.ToSqlValue(valCodigoArticulo));
             vSql.AppendLine("AND F.TipoDeDocumento = '8' AND F.StatusFactura = '1'");
             vSql.AppendLine("AND LoteInv.Consecutivo = " + insSql.ToSqlValue(valConseuctivoLote));
@@ -769,7 +769,7 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.AppendLine("INNER JOIN Saw.LoteDeInventario LoteInv ON RF.ConsecutivoCompania = LoteInv.ConsecutivoCompania AND RF.LoteDeInventario = LoteInv.CodigoLote ");
             vSql.AppendLine("INNER JOIN ArticuloInventario AI ON AI.ConsecutivoCompania = RF.ConsecutivoCompania AND AI.Codigo = RF.Articulo");
             vSql.AppendLine("WHERE F.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ")");
+            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeElaboracion) + ")");
             vSql.AppendLine("AND AI.Codigo = " + insSql.ToSqlValue(valCodigoArticulo));
             vSql.AppendLine("AND F.TipoDeDocumento = '8' AND F.StatusFactura = '1' ");
             vSql.AppendLine("AND LoteInv.Consecutivo = " + insSql.ToSqlValue(valConseuctivoLote));
@@ -789,7 +789,7 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.AppendLine("INNER JOIN Saw.LoteDeInventario LoteInv ON CD.ConsecutivoCompania = LoteInv.ConsecutivoCompania AND CD.ConsecutivoLoteDeInventario = LoteInv.Consecutivo");
             vSql.AppendLine("INNER JOIN ArticuloInventario AI ON AI.ConsecutivoCompania = CD.ConsecutivoCompania AND AI.Codigo = CD.CodigoArticulo");
             vSql.AppendLine("WHERE C.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ")");
+            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeElaboracion) + ")");
             vSql.AppendLine("AND AI.Codigo = " + insSql.ToSqlValue(valCodigoArticulo));
             vSql.AppendLine("AND C.StatusCompra = '0'");
             vSql.AppendLine("AND LoteInv.Consecutivo = " + insSql.ToSqlValue(valConseuctivoLote));
@@ -804,7 +804,7 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.AppendLine("INNER JOIN Saw.LoteDeInventario LoteInv ON CD.ConsecutivoCompania = LoteInv.ConsecutivoCompania AND CD.ConsecutivoLoteDeInventario = LoteInv.Consecutivo");
             vSql.AppendLine("INNER JOIN ArticuloInventario AI ON AI.ConsecutivoCompania = CD.ConsecutivoCompania AND AI.Codigo = CD.CodigoArticulo");
             vSql.AppendLine("WHERE C.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ")");
+            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeElaboracion) + ")");
             vSql.AppendLine("AND AI.Codigo = " + insSql.ToSqlValue(valCodigoArticulo));
             vSql.AppendLine("AND C.StatusCompra = '1'");
             vSql.AppendLine("AND LoteInv.Consecutivo = " + insSql.ToSqlValue(valConseuctivoLote));
@@ -818,7 +818,7 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.AppendLine("INNER JOIN Saw.LoteDeInventario LoteInv ON CD.ConsecutivoCompania = LoteInv.ConsecutivoCompania AND CD.ConsecutivoLoteDeInventario = LoteInv.Consecutivo");
             vSql.AppendLine("INNER JOIN ArticuloInventario AI ON AI.ConsecutivoCompania = CD.ConsecutivoCompania AND AI.Codigo = CD.CodigoArticulo");
             vSql.AppendLine("WHERE C.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ")");
+            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeElaboracion) + ")");
             vSql.AppendLine("AND AI.Codigo = " + insSql.ToSqlValue(valCodigoArticulo));
             vSql.AppendLine("AND C.StatusCompra = '1'");
             vSql.AppendLine("AND LoteInv.Consecutivo = " + insSql.ToSqlValue(valConseuctivoLote));
@@ -837,7 +837,7 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.AppendLine("INNER JOIN Saw.LoteDeInventario LoteInv ON RCF.ConsecutivoCompania = LoteInv.ConsecutivoCompania AND RCF.CodigoLote = LoteInv.CodigoLote");
             vSql.AppendLine("INNER JOIN ArticuloInventario AI ON AI.ConsecutivoCompania = RCF.ConsecutivoCompania AND AI.Codigo = RCF.CodigoArticulo");
             vSql.AppendLine("WHERE CF.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ")");
+            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeElaboracion) + ")");
             vSql.AppendLine("AND AI.Codigo = " + insSql.ToSqlValue(valCodigoArticulo));
             vSql.AppendLine("AND CF.Status = '0'");
             vSql.AppendLine("AND LoteInv.Consecutivo = " + insSql.ToSqlValue(valConseuctivoLote));
@@ -851,7 +851,7 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.AppendLine("INNER JOIN Saw.LoteDeInventario LoteInv ON RCF.ConsecutivoCompania = LoteInv.ConsecutivoCompania AND RCF.CodigoLote = LoteInv.CodigoLote");
             vSql.AppendLine("INNER JOIN ArticuloInventario AI ON AI.ConsecutivoCompania = RCF.ConsecutivoCompania AND AI.Codigo = RCF.CodigoArticulo");
             vSql.AppendLine("WHERE CF.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ")");
+            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeElaboracion) + ")");
             vSql.AppendLine("AND AI.Codigo = " + insSql.ToSqlValue(valCodigoArticulo));
             vSql.AppendLine("AND CF.Status = '2'");
             vSql.AppendLine("AND LoteInv.Consecutivo = " + insSql.ToSqlValue(valConseuctivoLote));
@@ -865,7 +865,7 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.AppendLine("INNER JOIN Saw.LoteDeInventario LoteInv ON RCF.ConsecutivoCompania = LoteInv.ConsecutivoCompania AND RCF.CodigoLote = LoteInv.CodigoLote");
             vSql.AppendLine("INNER JOIN ArticuloInventario AI ON AI.ConsecutivoCompania = RCF.ConsecutivoCompania AND AI.Codigo = RCF.CodigoArticulo");
             vSql.AppendLine("WHERE CF.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ")");
+            vSql.AppendLine("AND AI.TipoArticuloInv IN (" + insSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ", " + insSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeElaboracion) + ")");
             vSql.AppendLine("AND AI.Codigo = " + insSql.ToSqlValue(valCodigoArticulo));
             vSql.AppendLine("AND CF.Status = '2' ");
             vSql.AppendLine("AND LoteInv.Consecutivo = " + insSql.ToSqlValue(valConseuctivoLote));
@@ -880,7 +880,7 @@ namespace Galac.Saw.Brl.Inventario {
             SQL.AppendLine(" SELECT TipoArticuloInv FROM ArticuloInventario ");
             SQL.AppendLine(" WHERE Codigo = " + insDb.InsSql.ToSqlValue(valCodigoArticulo));
             SQL.AppendLine(" AND ConsecutivoCompania = " + insDb.InsSql.ToSqlValue(valConsecutivoCompania));
-            SQL.AppendLine(" AND TipoArticuloInv IN (" + insDb.InsSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + "," + insDb.InsSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ")");
+            SQL.AppendLine(" AND TipoArticuloInv IN (" + insDb.InsSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + "," + insDb.InsSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insDb.InsSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeElaboracion) + ")");
 
             vResult = insDb.RecordCountOfSql(SQL.ToString()) > 0;
             return vResult;

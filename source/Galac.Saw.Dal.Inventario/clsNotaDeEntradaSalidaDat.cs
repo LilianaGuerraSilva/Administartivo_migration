@@ -492,7 +492,7 @@ namespace Galac.Saw.Dal.Inventario {
                     vSbErrorInfo.AppendLine("Línea " + vNumeroDeLinea.ToString() + ": No fue asignado el Código Inventario.");
                 } else if (vDetail.Cantidad <= 0) {
                     vSbErrorInfo.AppendLine("Línea " + vNumeroDeLinea.ToString() + ": No fue asignado Cantidad.");
-                } else if (vDetail.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento && LibString.IsNullOrEmpty(vDetail.LoteDeInventario)) {
+                } else if ((vDetail.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento || vDetail.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote || vDetail.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeElaboracion) && LibString.IsNullOrEmpty(vDetail.LoteDeInventario)) {
                     vSbErrorInfo.AppendLine("Línea " + vNumeroDeLinea.ToString() + ": No fue asignado el Lote de Inventario.");
                 } else {
                     vLineHasError = false;

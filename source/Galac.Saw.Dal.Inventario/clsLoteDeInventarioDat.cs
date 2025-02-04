@@ -419,7 +419,7 @@ namespace Galac.Saw.Dal.Inventario {
             vSql.AppendLine("SELECT Codigo FROM ArticuloInventario ");
             vSql.AppendLine("WHERE ConsecutivoCompania = " + insDb.InsSql.ToSqlValue(valConsecutivoCompania));
             vSql.AppendLine(" AND Codigo = " + insDb.InsSql.ToSqlValue(valCodigoArticulo));
-            vSql.AppendLine(" AND TipoArticuloInv = " + insDb.InsSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento));
+            vSql.AppendLine(" AND TipoArticuloInv IN (" + insDb.InsSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ", " + insDb.InsSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeElaboracion) + ")");
             vResult = insDb.RecordCountOfSql(vSql.ToString()) > 0;
             return vResult;
         }
