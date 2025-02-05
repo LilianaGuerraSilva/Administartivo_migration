@@ -504,7 +504,8 @@ namespace Galac.Saw.Brl.Contabilizacion {
             bool vResult = false;
             bool vEstancompletas;
             vEstancompletas = (!LibString.IsNullOrEmpty(LibString.Trim(insReglasDeContabilizacion.CuentaOrdenDeProduccionProductoTerminado)))
-                              && (!LibString.IsNullOrEmpty(LibString.Trim(insReglasDeContabilizacion.CuentaOrdenDeProduccionMateriaPrima)));
+                              && (!LibString.IsNullOrEmpty(LibString.Trim(insReglasDeContabilizacion.CuentaOrdenDeProduccionMateriaPrima)))
+                              && (!LibString.IsNullOrEmpty(LibString.Trim(insReglasDeContabilizacion.CuentaMermaAnormal)));
             vResult = vEstancompletas;
             return vResult;
         }

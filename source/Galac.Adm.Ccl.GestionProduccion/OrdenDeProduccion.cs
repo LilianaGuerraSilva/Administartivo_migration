@@ -43,6 +43,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         private string _NombreListaDeMateriales;
         private decimal _CantidadAProducir;
         private decimal _CantidadProducida;
+        private bool _ListaUsaMerma;
         private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;
@@ -225,6 +226,16 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             set { _CantidadProducida = value; }
         }
 
+        public bool ListaUsaMermaAsBool {
+            get { return _ListaUsaMerma; }
+            set { _ListaUsaMerma = value; }
+        }
+
+        public string ListaUsaMerma {
+            set { _ListaUsaMerma = LibConvert.SNToBool(value); }
+        }
+
+
         public string NombreOperador {
             get { return _NombreOperador; }
             set { _NombreOperador = LibString.Mid(value, 0, 20); }
@@ -299,6 +310,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             NombreListaDeMateriales = string.Empty;
             CantidadAProducir = 0;
             CantidadProducida = 0;
+            ListaUsaMermaAsBool = false;
             NombreOperador = string.Empty;
             FechaUltimaModificacion = LibDate.Today();
             fldTimeStamp = 0;
@@ -337,6 +349,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             vResult.NombreListaDeMateriales = _NombreListaDeMateriales;
             vResult.CantidadAProducir = _CantidadAProducir;
             vResult.CantidadProducida = _CantidadProducida;
+            vResult.ListaUsaMermaAsBool = _ListaUsaMerma;
             vResult.NombreOperador = _NombreOperador;
             vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
             vResult.fldTimeStamp = _fldTimeStamp;
@@ -366,6 +379,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
                "\nConsecutivo Lista De Materiales = " + _ConsecutivoListaDeMateriales.ToString() +
                "\nCantidad a Producir = " + _CantidadAProducir.ToString() +
                "\nCantidad Producida = " + _CantidadProducida.ToString() +
+			   "\nLista Usa Merma = " + _ListaUsaMerma +
                "\nNombre Operador = " + _NombreOperador +
                "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();
         }

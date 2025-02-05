@@ -167,10 +167,12 @@ Private mCuentaTransfCtasBancoDestino As String
 Private mCuentaTransfCtasGastoComOrigen As String
 Private mCuentaTransfCtasGastoComDestino As String
 Private mCuentaTransfCtasBancoOrigen As String
+'Orden De Produccion
 Private mContabIndividualOrdenDeProduccion As String
 Private mContabPorLoteOrdenDeProduccion As String
 Private mCuentaOrdenDeProduccionProductoTerminado As String
 Private mCuentaOrdenDeProduccionMateriaPrima As String
+Private mCuentaMermaAnormal As String
 'Final
 Private mNombreOperador As String
 Private mFechaUltimaModificacion As Date
@@ -379,6 +381,7 @@ Public Sub sClrRecord()
    SetContabPorLoteOrdenDeProduccionStr ""
    SetCuentaOrdenDeProduccionProductoTerminado ""
    SetCuentaOrdenDeProduccionMateriaPrima ""
+   SetCuentaMermaAnormal ""
 'Final
    SetNombreOperador gProyUsuarioActual.GetNombreDelUsuario
    SetFechaUltimaModificacion gUtilDate.getFechaDeHoy
@@ -1791,6 +1794,14 @@ Private Sub SetCuentaOrdenDeProduccionMateriaPrima(ByVal valNewValue As String)
    mCuentaOrdenDeProduccionMateriaPrima = gTexto.DfMid(valNewValue, 1, 30)
 End Sub
 
+Public Function GetCuentaMermaAnormal() As String
+   GetCuentaMermaAnormal = mCuentaMermaAnormal
+End Function
+
+Private Sub SetCuentaMermaAnormal(ByVal valNewValue As String)
+   mCuentaMermaAnormal = gTexto.DfMid(valNewValue, 1, 30)
+End Sub
+
 'Final
 Public Function GetNombreOperador() As String
    GetNombreOperador = mNombreOperador
@@ -2506,6 +2517,11 @@ Private Sub setValuesWithRS(Optional ByVal valRecordSet As ADODB.Recordset = Not
    If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaOrdenDeProduccionMateriaPrima") Then
       If Not IsNull(valRecordSet("CuentaOrdenDeProduccionMateriaPrima")) Then
          SetCuentaOrdenDeProduccionMateriaPrima valRecordSet("CuentaOrdenDeProduccionMateriaPrima")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaMermaAnormal") Then
+      If Not IsNull(valRecordSet("CuentaMermaAnormal")) Then
+         SetCuentaMermaAnormal valRecordSet("CuentaMermaAnormal")
       End If
    End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "NombreOperador") Then
@@ -3576,6 +3592,7 @@ Public Sub sRestaurarDatos(ByVal valRecordSet As ADODB.Recordset, ByVal valConse
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@ContabPorLoteOrdenDeProduccion", 1, valRecordSet("ContabPorLoteOrdenDeProduccion").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CuentaOrdenDeProduccionProductoTerminado", 30, valRecordSet("CuentaOrdenDeProduccionProductoTerminado").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CuentaOrdenDeProduccionMateriaPrima", 30, valRecordSet("CuentaOrdenDeProduccionMateriaPrima").value)
+      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CuentaMermaAnormal", 30, valRecordSet("CuentaMermaAnormal").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@OrdenDeProduccionTipoComprobante", 2, valRecordSet("OrdenDeProduccionTipoComprobante").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@EditarComprobanteAfterInsertOrdenDeProduccion", 1, valRecordSet("EditarComprobanteAfterInsertOrdenDeProduccion").value)
 'revisar
@@ -3872,6 +3889,7 @@ Private Function fLasCuentasDeOrdenDeProduccionEstanCompletas() As Boolean
    On Error GoTo h_ERROR
    vEstanCompletas = GetCuentaOrdenDeProduccionMateriaPrima <> ""
    vEstanCompletas = vEstanCompletas And GetCuentaOrdenDeProduccionProductoTerminado <> ""
+   vEstanCompletas = vEstanCompletas And GetCuentaMermaAnormal <> ""
    If gContPeriodoActual.GetTipoDeNumeracionAsEnum = eTN_TIPOMESCONSECUTIVO Then
       vEstanCompletas = vEstanCompletas And GetOrdenDeProduccionTipoComprobante <> ""
    End If

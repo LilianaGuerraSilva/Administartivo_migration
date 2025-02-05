@@ -44,6 +44,8 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vParams.AddInString("CodigoArticuloInventario", valRecord.CodigoArticuloInventario, 30);
             vParams.AddInDecimal("Cantidad", valRecord.Cantidad, 8);
             vParams.AddInDecimal("PorcentajeDeCosto", valRecord.PorcentajeDeCosto, 8);
+            vParams.AddInDecimal("MermaNormal", valRecord.MermaNormal, 8);
+            vParams.AddInDecimal("PorcentajeMermaNormal", valRecord.PorcentajeMermaNormal, 8);
             vResult = vParams.Get();
             return vResult;
         }
@@ -111,7 +113,9 @@ namespace Galac.Adm.Dal.GestionProduccion {
                     new XElement("Consecutivo", vEntity.Consecutivo),
                     new XElement("CodigoArticuloInventario", vEntity.CodigoArticuloInventario),
                     new XElement("Cantidad", vEntity.Cantidad),
-                    new XElement("PorcentajeDeCosto", vEntity.PorcentajeDeCosto)));
+                    new XElement("PorcentajeDeCosto", vEntity.PorcentajeDeCosto),
+                    new XElement("MermaNormal", vEntity.MermaNormal),
+                    new XElement("PorcentajeMermaNormal", vEntity.PorcentajeMermaNormal)));
             return vXElement;
         }
         #region Miembros de ILibDataDetailComponent<IList<ListaDeMaterialesDetalleSalidas>, IList<ListaDeMaterialesDetalleSalidas>>
@@ -163,6 +167,8 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vResult = IsValidCodigoArticuloInventario(valAction, CurrentRecord.CodigoArticuloInventario);
             vResult = IsValidCantidad(valAction, CurrentRecord.Cantidad) && vResult;
             vResult = IsValidPorcentajeDeCosto(valAction, CurrentRecord.PorcentajeDeCosto) && vResult;
+            vResult = IsValidMermaNormal(valAction, CurrentRecord.MermaNormal) && vResult;
+            vResult = IsValidPorcentajeMermaNormal(valAction, CurrentRecord.PorcentajeMermaNormal) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
         }
@@ -202,6 +208,26 @@ namespace Galac.Adm.Dal.GestionProduccion {
                 vResult = true;
             } else if (valPorcentajeDeCosto < 0 || valPorcentajeDeCosto >100) {
                 throw new GalacValidationException("El %Costo debe ser mayor igual a 0 y menor igual a 100");
+            }
+            return vResult;
+        }
+
+        private bool IsValidMermaNormal(eAccionSR valAction, decimal valMermaNormal){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }else if (valMermaNormal < 0) {
+                throw new GalacValidationException("La cantidad de merma normal (Salidas) debe ser igual o superior a 0.");
+            }
+            return vResult;
+        }
+
+        private bool IsValidPorcentajeMermaNormal(eAccionSR valAction, decimal valPorcentajeMermaNormal){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }else if(valPorcentajeMermaNormal < 0){
+                throw new GalacValidationException("El porcentaje de merma normal (Salidas) debe ser igual o superior a 0.");
             }
             return vResult;
         }

@@ -83,7 +83,7 @@
             Grid.Column="0"
             Content="Fecha de Elaboración"
             Style="{StaticResource LabelPrompt}"
-            Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" />
+            Visibility="{Binding Path=IsVisibleFechaDeElaboracionLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" />
         <nsWpfControls:GSDatePickerWpf
             Name="dtpFechaDeElaboracion"
             Grid.Row="2"
@@ -92,14 +92,14 @@
             IsEnabled="{Binding Path=IsEnabled}"
             SelectedDate="{Binding Path=FechaDeElaboracion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource DatePickerStyle}"
-            Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" />
+            Visibility="{Binding Path=IsVisibleFechaDeElaboracionLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" />
         <Label
             Name="lblFechaDeVencimiento"
             Grid.Row="3"
             Grid.Column="0"
             Content="Fecha de Vencimiento"
             Style="{StaticResource LabelPrompt}"
-            Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" />
+            Visibility="{Binding Path=IsVisibleFechaDeVencimientoLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" />
         <nsWpfControls:GSDatePickerWpf
             Name="dtpFechaDeVencimiento"
             Grid.Row="3"
@@ -108,7 +108,7 @@
             IsEnabled="{Binding Path=IsEnabled}"
             SelectedDate="{Binding Path=FechaDeVencimiento, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource DatePickerStyle}"
-            Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" />
+            Visibility="{Binding Path=IsVisibleFechaDeVencimientoLoteDeInventario, Converter={StaticResource boolToVisibilityConverter}}" />
         <Label
             Name="lblExistencia"
             Grid.Row="4"

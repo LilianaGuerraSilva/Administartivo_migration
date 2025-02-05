@@ -65,6 +65,7 @@
     <Compile Include="CobranzasStt.cs" />
     <Compile Include="ComisionesStt.cs" />
     <Compile Include="CompaniaStt.cs" />
+    <Compile Include="FacturaCobroFacturaStt.cs" />
     <Compile Include="FacturaImprentaDigitalStt.cs" />
     <Compile Include="ImagenesComprobantesRetencionStt.cs" />
     <Compile Include="ComprasStt.cs" />
@@ -75,8 +76,6 @@
     <Compile Include="FacturacionStt.cs" />
     <Compile Include="FacturaPuntoDeVentaStt.cs" />
     <Compile Include="GeneralStt.cs" />
-    <Compile Include="ImprentaDigitalActivacion.cs" />
-    <Compile Include="ImprentaDigitalDatosDeConexion.cs" />
     <Compile Include="ImpresiondeFacturaStt.cs" />
     <Compile Include="ProduccionStt.cs" />
     <Compile Include="InventarioStt.cs" />

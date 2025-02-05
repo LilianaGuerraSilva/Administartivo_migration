@@ -12,6 +12,7 @@ using LibGalac.Aos.ARRpt;
 using System.Data;
 using LibGalac.Aos.DefGen;
 using Galac.Saw.Lib;
+using System.Windows.Forms;
 
 namespace Galac.Adm.Rpt.GestionProduccion {
     /// <summary>
@@ -24,6 +25,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         private string[] _ListaMonedasDelReporte { get; set; }
         private string _MonedaDelInforme { get; set; }
         private decimal _TasaDeCambio { get; set; }
+        private bool _ManejaMerma = false;
         #endregion //Variables
         #region Constructor
         public dsrListaDeMaterialesDeSalida()
@@ -32,7 +34,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         public dsrListaDeMaterialesDeSalida(bool initUseExternalRpx, string initRpxFileName) {
             InitializeComponent();
             _UseExternalRpx = initUseExternalRpx;
-            if(_UseExternalRpx) {
+            if (_UseExternalRpx) {
                 _RpxFileName = initRpxFileName;
             }
         }
@@ -40,7 +42,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         #region Metodos Generados
         public string ReportTitle() {
             IListaDeMaterialesPdn insListaMateriales = new clsListaDeMaterialesNav();
-            if(!LibString.IsNullOrEmpty(insListaMateriales.NombreParaMostrarListaDeMateriales())) {
+            if (!LibString.IsNullOrEmpty(insListaMateriales.NombreParaMostrarListaDeMateriales())) {
                 return insListaMateriales.NombreParaMostrarListaDeMateriales() + " de Inventario a Producir";
             } else {
                 return "Lista De Materiales de Salida";
@@ -51,13 +53,13 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             _ListaMonedasDelReporte = valListaMonedasDelReporte;
             _MonedaDelInforme = valMonedaDelInforme;
             _TasaDeCambio = valTasaDeCambio;
-            if(_UseExternalRpx) {
+            if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
-                if(!LibString.IsNullOrEmpty(vRpxPath, true)) {
+                if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
                     LibReport.LoadLayout(this, vRpxPath);
                 }
             }
-            if(LibReport.ConfigDataSource(this, valDataSourceSalidas)) {
+            if (LibReport.ConfigDataSource(this, valDataSourceSalidas)) {
                 LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["NombreCompania"], "");
                 LibReport.ConfigFieldStr(this, "txtMoneda", valParameters["NombreMoneda"], string.Empty);
                 LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());
@@ -72,6 +74,9 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 LibReport.ConfigFieldDecWithNDecimal(this, "txtPorcentajeCosto", string.Empty, "PorcentajeDeCosto", 8);
                 LibReport.ConfigFieldDec(this, "txtCostoUnitario", string.Empty, "CostoUnitario");
                 LibReport.ConfigFieldDec(this, "txtCostoCalculado", string.Empty, "CostoTotal");
+                LibReport.ConfigFieldStr(this, "txtManejaMerma", string.Empty, "ManejaMerma");
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtMermaNormalSalidas", string.Empty, "MermaNormalSalidas", 8);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtPorcMermaNormalSalidas", string.Empty, "PorcentajeMermaNormalSalidas", 8);
                 LibReport.ConfigGroupHeader(this, "GHCodigoListaAProducir", "Codigo", GroupKeepTogether.FirstDetail, RepeatStyle.None, true, NewPage.None);
                 LibReport.ConfigGroupHeader(this, "GHMoneda", "Moneda", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.Before);
                 LibReport.ConfigGroupHeader(this, "GHSalidas", "Codigo", GroupKeepTogether.FirstDetail, RepeatStyle.None, true, NewPage.Before);
@@ -88,19 +93,42 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             vRpt.ConfigReport(valDataSourceInsumos);
             return vRpt;
         }
-        #endregion
-
+     
         private void PageFooter_Format(object sender, EventArgs e) {
-            if(LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[0]) || LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[1])) {
+            if (LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[0]) || LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[1])) {
                 this.txtNotaMonedaCambio.Value = "Los montos de los costos están expresados en " + txtMoneda.Text;
-            } else if(LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[2]) || LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[3])) {
+            } else if (LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[2]) || LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[3])) {
                 int vPos = LibString.IndexOf(_MonedaDelInforme, "expresado en");
-                if(vPos > 0) {
+                if (vPos > 0) {
                     string vPrimeraMoneda = LibString.Trim(LibString.SubString(_MonedaDelInforme, 0, vPos));
                     string vSegundaMoneda = LibString.SubString(_MonedaDelInforme, vPos + LibString.Len("expresado en "));
                     this.txtNotaMonedaCambio.Value = $"Los montos de los costos en {vPrimeraMoneda} están expresados en {vSegundaMoneda} a la tasa {LibConvert.NumToString(_TasaDeCambio, 4)}";
                 }
             }
         }
-    }
-}
+
+        private void Detail_Format(object sender, EventArgs e) {
+            if (!_ManejaMerma) {
+                txtUnidades.Left = txtCantidadAProducirDetalle.Left;
+                txtCantidadAProducirDetalle.Left = txtPorcMermaNormalSalidas.Left;
+                txtCantidadArticulos.Left = txtMermaNormalSalidas.Left;
+                txtArticulo.Width = txtUnidades.Left;
+            }
+            LibReport.ChangeControlVisibility(this, "txtMermaNormalSalidas", _ManejaMerma);
+            LibReport.ChangeControlVisibility(this, "txtPorcMermaNormalSalidas", _ManejaMerma);
+        }
+
+        private void GHSalidas_Format(object sender, EventArgs e) {
+            _ManejaMerma = LibConvert.SNToBool(this.txtManejaMerma.Value.ToString());
+            if (!_ManejaMerma) {
+                lblUnidades.Left = lblCantidadAProducirDetalle.Left;
+                lblCantidadAProducirDetalle.Left = lblPorcMermaNormalSalidas.Left;
+                lblCantidadArticulos.Left = lblMermaNormalSalidas.Left;
+                lblArticulo.Width = lblUnidades.Left;
+            }
+            LibReport.ChangeControlVisibility(this, "lblMermaNormalSalidas", _ManejaMerma);
+            LibReport.ChangeControlVisibility(this, "lblPorcMermaNormalSalidas", _ManejaMerma);
+        }
+        #endregion //Metodos Generados   
+    } //End of class dsrListaDeMaterialesDeSalida
+} //End of namespace Galac.Adm.Rpt.GestionProduccion

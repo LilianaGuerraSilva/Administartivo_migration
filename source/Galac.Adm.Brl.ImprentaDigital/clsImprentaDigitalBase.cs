@@ -18,6 +18,8 @@ using LibGalac.Aos.Brl;
 using LibGalac.Aos.Catching;
 using Galac.Saw.Lib;
 using Galac.Adm.Ccl.ImprentaDigital;
+using LibGalac.Aos.DefGen;
+using System.IO;
 
 namespace Galac.Adm.Brl.ImprentaDigital {
         
@@ -65,11 +67,12 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             HoraAsignacion = string.Empty;
             switch (ProveedorImprentaDigital) {
                 case eProveedorImprentaDigital.TheFactoryHKA:
+                case eProveedorImprentaDigital.Novus:
                     LoginUser.URL = vImprentaDigitalSettings.DireccionURL;
                     LoginUser.User = vImprentaDigitalSettings.Usuario;
                     LoginUser.UserKey = vImprentaDigitalSettings.CampoUsuario;
                     LoginUser.Password = vImprentaDigitalSettings.Clave;
-                    LoginUser.PasswordKey = vImprentaDigitalSettings.CampoClave;
+                    LoginUser.PasswordKey = vImprentaDigitalSettings.CampoClave;                    
                     break;
                 case eProveedorImprentaDigital.NoAplica:
                     break;
@@ -441,7 +444,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" factura.GeneradaPorNotaEntrega,");
             vSql.AppendLine(" factura.EmitidaEnFacturaNumero,");
             vSql.AppendLine(" factura.ReservarMercancia,");
-            vSql.AppendLine(" factura.CodigoAlmacen ");
+            vSql.AppendLine(" factura.CodigoAlmacen, ");
+            vSql.AppendLine(" factura.CodigoCliente ");
             vSql.AppendLine(" FROM factura");
             vSql.AppendLine(" WHERE factura.ConsecutivoCompania = @ConsecutivoCompania ");
             vSql.AppendLine(" AND factura.Numero = @Numero ");
@@ -466,6 +470,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     FacturaImprentaDigital.ReservarMercanciaAsBool = LibConvert.SNToBool(LibXml.GetPropertyString(vResult, "ReservarMercancia"));
                     FacturaImprentaDigital.CodigoAlmacen = LibXml.GetPropertyString(vResult, "CodigoAlmacen");
                     FacturaImprentaDigital.EmitidaEnFacturaNumero = LibXml.GetPropertyString(vResult, "EmitidaEnFacturaNumero");
+                    FacturaImprentaDigital.CodigoCliente = LibXml.GetPropertyString(vResult, "CodigoCliente");
                 } else {
                     throw new GalacException("El Documento N° " + LibConvert.ToStr(NumeroFactura) + " no existe.", eExceptionManagementType.Controlled);
                 }
@@ -844,6 +849,52 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             return vResult;
         }
 
+        public string NumeroDocumento() {
+            string vResult = FacturaImprentaDigital.Numero;
+            if (FacturaImprentaDigital.TipoDeDocumentoAsEnum == eTipoDocumentoFactura.Factura) {
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios")) {
+                    vResult = LibString.SubString(vResult, LibString.IndexOf(vResult, '.') + 1);
+                }
+            }
+            return vResult;
+        }
+
+        public string SerieDocumento() {
+            string vResult = string.Empty;
+            if (FacturaImprentaDigital.TipoDeDocumentoAsEnum == eTipoDocumentoFactura.Factura) {
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios")) {
+                    vResult = LibString.Left(FacturaImprentaDigital.Numero, LibString.IndexOf(FacturaImprentaDigital.Numero, '.'));
+                }
+            }
+            return vResult;
+        }
+
+        public string NumeroDocumentoFacturaAfectada() {
+            string vResult = LibString.Replace(FacturaImprentaDigital.NumeroFacturaAfectada, "-", "");
+            if (FacturaImprentaDigital.TipoDeDocumentoAsEnum != eTipoDocumentoFactura.Factura) {
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios")) {
+                    int vPosPunto = LibString.IndexOf(vResult, '.');
+                    if (vPosPunto >= 0) {
+                        vResult = LibString.SubString(vResult, vPosPunto + 1);
+                    }
+                }
+            }
+            return vResult;
+        }
+
+        public string SerieDocumentoFacturaAfectada() {
+            string vResult = "";
+            if (FacturaImprentaDigital.TipoDeDocumentoAsEnum != eTipoDocumentoFactura.Factura) {
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios")) {
+                    int vPosPunto = LibString.IndexOf(FacturaImprentaDigital.NumeroFacturaAfectada, '.');
+                    if (vPosPunto >= 0) {
+                        vResult = LibString.Left(FacturaImprentaDigital.NumeroFacturaAfectada, vPosPunto);
+                    }
+                }
+            }
+            return vResult;
+        }
+
         private eTipoDeTransaccion TipoDocumentoFacturaToTipoTransaccionCxC(eTipoDocumentoFactura valTipoDocumentoFactura) {
             eTipoDeTransaccion vTipoCxc = eTipoDeTransaccion.FACTURA;
             switch (valTipoDocumentoFactura) {
@@ -867,9 +918,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     break;
             }
             return vTipoCxc;
-        }
-
+        }      
         public abstract bool EnviarDocumento();
+        public abstract bool EnviarDocumentoPorEmail(string valNumeroControl,string valEmail);
         public abstract bool AnularDocumento();
         public abstract bool EstadoDocumento();
         public abstract bool EstadoLoteDocumentos();

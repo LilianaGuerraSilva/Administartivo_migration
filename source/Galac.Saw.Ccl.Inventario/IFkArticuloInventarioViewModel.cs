@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 namespace Galac.Saw.Ccl.Inventario {
 
     public interface IFkArticuloInventarioViewModel {
@@ -17,7 +18,6 @@ namespace Galac.Saw.Ccl.Inventario {
         decimal Existencia { get; set; }
         int AlicuotaIva { get; set; }
         decimal PorcentajeBaseImponible { get; set; }
-        //eStatusArticulo StatusdelArticulo { get; set; }
         eTipoDeArticulo TipoDeArticulo { get; set; }
         eTipoArticuloInv TipoArticuloInv { get; set; }
         bool UsaBalanza { get; set; }          
@@ -30,12 +30,6 @@ namespace Galac.Saw.Ccl.Inventario {
         string CampoDefinible3 { get; set; }
         string CampoDefinible4 { get; set; }
         string CampoDefinible5 { get; set; }
-        //string CodigoLote { get; set; }
-        //DateTime FechaDeElaboracion { get; set; }
-        //DateTime FechaDeVencimiento { get; set; }
         #endregion //Propiedades
-
     } //End of class IFkArticuloInventarioViewModel
-
 } //End of namespace Galac.Saw.Ccl.Inventario
-
