@@ -170,6 +170,7 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
             vSql.AppendLine("LoteDeInventario.CodigoLote AS Lote,");
             vSql.AppendLine("LoteDeInventario.CodigoArticulo,");
             vSql.AppendLine("ArticuloInventario.Descripcion AS Articulo,");
+            vSql.AppendLine("ArticuloInventario.TipoArticuloInv AS TipoArticuloInv,");
             vSql.AppendLine("LoteDeInventarioMovimiento.Fecha AS FechaMovimiento,");
             vSql.AppendLine("LoteDeInventario.FechaDeElaboracion,");
             vSql.AppendLine("LoteDeInventario.FechaDeVencimiento");
