@@ -20,7 +20,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         [DllImport("PNPDLL.dll")]
         public static extern string PFabrefiscal(string Razon, string RIF);
         [DllImport("PNPDLL.dll")]
-        public static extern string PFcomando(string comando);
+        public static extern string PFComando(string comando);
         [DllImport("PNPDLL.dll")]
         public static extern string PFtotal();
         [DllImport("PNPDLL.dll")]
@@ -838,7 +838,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         vMonto = "0";
                     }
                     vComando = _cmdCerrarFactura + _Separador + _cmdPagoParcialIGTF + _Separador + vMonto;
-                    vResult = PFcomando(vComando); // Aqui Aplica Cierre Parcial +  IGTF
+                    vResult = PFComando(vComando); // Aqui Aplica Cierre Parcial +  IGTF
                     vEstado &= CheckRequest(vResult, ref vMensaje);
                     if (vBaseImponibleIGTF > 0) {
                         vMedioDePago = "Divisas";
