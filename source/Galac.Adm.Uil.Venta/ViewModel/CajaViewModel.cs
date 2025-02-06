@@ -61,7 +61,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private bool _PuedeAbrirGaveta = false;
         FkCajaViewModel _ConexionNombreCaja;
         FkGUserViewModel _ConexionNombreDelOperador;
-        IAuditoriaConfiguracionPdn insAuditoriaConfiguracionPdn;
+        IAuditoriaConfiguracionPdn _AuditoriaConfiguracion;
         bool _RegistroDeRetornoEnTxtOld;
 
         bool UsaMaquinaFiscalValorPrevio;
@@ -617,7 +617,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
             PuertoSerial = new Brl.DispositivosExternos.clsConexionPuertoSerial();
             _RegistroDeRetornoEnTxtOld = RegistroDeRetornoEnTxt;
-            insAuditoriaConfiguracionPdn= new clsAuditoriaConfiguracionNav();
+            _AuditoriaConfiguracion = new clsAuditoriaConfiguracionNav();
         }
 
         protected override void InitializeLookAndFeel(Caja valModel) {
@@ -752,9 +752,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 insMaquinaFiscal = new Brl.DispositivosExternos.ImpresoraFiscal.clsImpresoraFiscalCreator().Crear(ImpresoraXmlFiscalData);
                 SerialDeMaquinaFiscal = insMaquinaFiscal.ObtenerSerial(true);
                 UltimoNumeroCompFiscal = LibText.FillWithCharToLeft(insMaquinaFiscal.ObtenerUltimoNumeroFactura(true), "0", 8);
-                UltimoNumeroNCFiscal = LibText.FillWithCharToLeft(insMaquinaFiscal.ObtenerUltimoNumeroNotaDeCredito(true), "0", 8);                
+                UltimoNumeroNCFiscal = LibText.FillWithCharToLeft(insMaquinaFiscal.ObtenerUltimoNumeroNotaDeCredito(true), "0", 8);
             } catch (GalacException vEx) {
-                insAuditoriaConfiguracionPdn.Auditar("Configurar Cajar", "Probar Conexión", "", vEx.Message);
+                _AuditoriaConfiguracion.Auditar(ModuleName + ":" + vEx.Message, "Configurar Cajar", "", "");
                 LibExceptionDisplay.Show(vEx);
             }
         }
