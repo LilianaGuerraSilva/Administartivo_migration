@@ -15,6 +15,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         private string _SerialImpresoraFiscal = "";
         private string _NumeroComprobanteFiscal = "";        
         IImpresoraFiscalPdn _ImpresoraFiscal;
+        Galac.Saw.Ccl.Tablas.IAuditoriaConfiguracionPdn _AuditoriaConfiguracion;
 
         #endregion variables
 
@@ -46,6 +47,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
 
         #region Constructor
         public clsImpresoraFiscalNav(IImpresoraFiscalPdn valImpresoraFiscal) {
+            _AuditoriaConfiguracion = new Galac.Saw.Brl.Tablas.clsAuditoriaConfiguracionNav();
             _ImpresoraFiscal = valImpresoraFiscal;
         }
       
@@ -95,7 +97,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vResult = ComprobarEstadosDeImpresora(ref refStatusPapel);
                 _ImpresoraFiscal.CerrarConexion();
             } else {
-                throw new GalacAlertException("No se pudo conectar a la Impresora Fiscal, Revisar Conexiones");
+                string vMensaje = "No se pudo conectar a la Impresora Fiscal, Revisar Conexiones";
+                _AuditoriaConfiguracion.Auditar("Impresora Fiscal", "Detectar Impresora Fiscal", "", vMensaje + "," + LibDate.CurrentHourAsStr);
+                throw new GalacAlertException(vMensaje);
             }
             return vResult;
         }
@@ -110,6 +114,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 _ImpresoraFiscal.CerrarConexion();
             } else {
                 refErrorMessage = "No se pudo conectar a la Impresora Fiscal. Revisar Conexiones. ";
+                _AuditoriaConfiguracion.Auditar("Impresora Fiscal", "Detectar Impresora Fiscal", "", refErrorMessage + "," + LibDate.CurrentHourAsStr);
             }
             return vResult;
         }
@@ -130,18 +135,25 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     if(refStatusPapel.Equals(eStatusImpresorasFiscales.ePocoPapel)) {
                         vResult = true;
                     } else if(refStatusPapel.Equals(eStatusImpresorasFiscales.eSinPapel) || refStatusPapel.Equals(eStatusImpresorasFiscales.eAtascoDePapel)) {
-                        throw new GalacAlertException("Papel agotado, favor reemplazar.");
+                        vMensaje = "Papel agotado, favor reemplazar.";
+                        _AuditoriaConfiguracion.Auditar("Impresora Fiscal", "Detectar Impresora Fiscal", "", vMensaje + "," + LibDate.CurrentHourAsStr);
+                        throw new GalacAlertException(vMensaje);
                     }
                     if(!vSerialImpresoraFiscalInDB.Equals(vSerialImpresoraFiscalInConnection)) {
-                        throw new GalacAlertException("El serial de la Impresora Fiscal configurada en la caja actual no corresponde con el serial de la Impresora Fiscal conectada al computador.\r\n\r\nValide la Impresora Fiscal conectada o configure nuevamente la caja para continuar.");
+                        vMensaje = "El serial de la Impresora Fiscal configurada en la caja actual no corresponde con el serial de la Impresora Fiscal conectada al computador.\r\n\r\nValide la Impresora Fiscal conectada o configure nuevamente la caja para continuar.";
+                        _AuditoriaConfiguracion.Auditar("Impresora Fiscal", "Detectar Impresora Fiscal", "", vMensaje + "," + LibDate.CurrentHourAsStr);
+                        throw new GalacAlertException(vMensaje);
                     }
                     if(!(FechaYHoraValidaEnImpresoraFiscal(vFechaYHoraInConnection,ref vMensaje))) {
                         vResult = true;
+                        _AuditoriaConfiguracion.Auditar("Impresora Fiscal", "Detectar Impresora Fiscal", "", vMensaje + "," + LibDate.CurrentHourAsStr);
                         throw new GalacAlertException(vMensaje);
                     }
                     vResult = true;
                 } else {
-                    throw new GalacAlertException("No se pudo conectar a la Impresora Fiscal. Revisar Conexiones.");
+                    vMensaje = "No se pudo conectar a la Impresora Fiscal. Revisar Conexiones.";
+                    _AuditoriaConfiguracion.Auditar("Impresora Fiscal", "Detectar Impresora Fiscal", "", vMensaje + "," + LibDate.CurrentHourAsStr);
+                    throw new GalacAlertException(vMensaje);
                 }
                 return vResult;
             } catch(GalacException vEx) {
@@ -166,17 +178,21 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         vResult = true;
                     } else if (refStatusPapel.Equals(eStatusImpresorasFiscales.eSinPapel) || refStatusPapel.Equals(eStatusImpresorasFiscales.eAtascoDePapel)) {
                         refMensaje = "Papel agotado, favor reemplazar.";
+                        _AuditoriaConfiguracion.Auditar("Impresora Fiscal", "Detectar Impresora Fiscal", "", refMensaje + "," + LibDate.CurrentHourAsStr);
                     }
                     if (!vSerialImpresoraFiscalInDB.Equals(vSerialImpresoraFiscalInConnection)) {
                         refMensaje = "El serial de la Impresora Fiscal configurada en la caja actual no corresponde con el serial de la Impresora Fiscal conectada al computador.\r\n\r\nValide la Impresora Fiscal conectada o configure nuevamente la caja para continuar.";
+                        _AuditoriaConfiguracion.Auditar("Impresora Fiscal", "Detectar Impresora Fiscal", "", refMensaje + "," + LibDate.CurrentHourAsStr);
                     }
                     if (!(FechaYHoraValidaEnImpresoraFiscal(vFechaYHoraInConnection, ref vMensaje))) {
                         vResult = true;
                         refMensaje = vMensaje;
+                        _AuditoriaConfiguracion.Auditar("Impresora Fiscal", "Detectar Impresora Fiscal", "", refMensaje + "," + LibDate.CurrentHourAsStr);
                     }
                     vResult = true;
                 } else {
                     refMensaje = "No se pudo conectar a la Impresora Fiscal. Revisar Conexiones.";
+                    _AuditoriaConfiguracion.Auditar("Impresora Fiscal", "Detectar Impresora Fiscal", "", refMensaje + "," + LibDate.CurrentHourAsStr);
                 }
                 return vResult;
             } catch (GalacException vEx) {

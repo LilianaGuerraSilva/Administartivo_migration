@@ -8,12 +8,14 @@ using System;
 using LibGalac.Aos.Catching;
 using System.Threading;
 using LibGalac.Aos.Base;
+using Galac.Saw.Ccl.Tablas;
 
 namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
     public class ImpresoraFiscalViewModel:LibGenericViewModel {
         #region Constantes
         public const string NumeroComprobantePropertyName = "NumeroComprobante";
         public const string SerialImpresoraFiscalPropertyName = "SerialImpresoraFiscal";
+        Galac.Saw.Ccl.Tablas.IAuditoriaConfiguracionPdn _AuditoriaConfiguracion;
         #endregion
 
         #region Variables
@@ -94,6 +96,7 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
             insImpresoraFiscal = vCreatorMaquinaFiscal.Crear(valXmlMaquinaFiscal);
             insImpresoraFiscalNav = new clsImpresoraFiscalNav(insImpresoraFiscal);
             _TipoDocumentoFiscal = valTipoDocumentoFiscal;
+            _AuditoriaConfiguracion = new Galac.Saw.Brl.Tablas.clsAuditoriaConfiguracionNav();
             _SerialImpresoraFiscalDB = LibXml.GetPropertyString(valXmlMaquinaFiscal, "SerialDeMaquinaFiscal");
             Title = "Imprimiendo " + LibEnumHelper.GetDescription(TipoDocumentoFiscal);
             if(_TipoDocumentoFiscal == eTipoDocumentoFiscal.FacturaFiscal || _TipoDocumentoFiscal == eTipoDocumentoFiscal.NotadeCredito) {
@@ -136,7 +139,9 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
                 _IsRunning = false;
                 if (t.IsCompleted) {
                     if (vSerialDistinto) {
-                        LibMessages.MessageBox.Alert(null, "El serial de la Impresora Fiscal configurada en la caja actual no corresponde con el serial de la Impresora Fiscal conectada al computador.\r\n\r\nValide la Impresora Fiscal conectada o configure nuevamente la caja para continuar.", ModuleName);
+                        string vMensajeSerial = "El serial de la Impresora Fiscal configurada en la caja actual no corresponde con el serial de la Impresora Fiscal conectada al computador.\r\n\r\nValide la Impresora Fiscal conectada o configure nuevamente la caja para continuar.";
+                        _AuditoriaConfiguracion.Auditar(ModuleName, "Imprimir Documento Fiscal", "", vMensaje + "," + LibDate.CurrentHourAsStr);
+                        LibMessages.MessageBox.Alert(null, vMensajeSerial, ModuleName);
                     }
                     CancelCommand.Execute(null);
                 } else {
