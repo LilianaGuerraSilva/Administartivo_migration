@@ -803,7 +803,6 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         private bool SePuedeEditarLote() {
             if ((Action == eAccionSR.Insertar)
-                && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento")
                 && (ConexionCodigoArticulo != null)
                 && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia)
                 && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.Lote || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeElaboracion)) {

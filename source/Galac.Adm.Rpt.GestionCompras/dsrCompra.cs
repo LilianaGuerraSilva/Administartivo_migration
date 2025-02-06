@@ -126,21 +126,20 @@ namespace Galac.Adm.Rpt.GestionCompras {
                     }
                 }
             }
-            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento")) {
-                if (LibString.S1IsEqualToS2(vTipoArticuloInvValue, vLoteFVencim) || LibString.S1IsEqualToS2(vTipoArticuloInvValue, vLoteFElabo)) {
-                    LibReport.ChangeControlVisibility(this, "lblLote", true);
-                    LibReport.ChangeControlVisibility(this, "txtCodigoLote", true);
-                    LibReport.ChangeControlVisibility(this, "lblFechaElab", true);
-                    LibReport.ChangeControlVisibility(this, "txtFechaDeElaboracion", true);
-                    if (LibString.S1IsEqualToS2(vTipoArticuloInvValue, vLoteFVencim)) {
-                        LibReport.ChangeControlVisibility(this, "lblFechaVenc", true);
-                        LibReport.ChangeControlVisibility(this, "txtFechaDeVencimiento", true);
-                    }
-                } else if (LibString.S1IsEqualToS2(vTipoArticuloInvValue, vLote)) {
-                    LibReport.ChangeControlVisibility(this, "lblLote", true);
-                    LibReport.ChangeControlVisibility(this, "txtCodigoLote", true);
+            if (LibString.S1IsEqualToS2(vTipoArticuloInvValue, vLoteFVencim) || LibString.S1IsEqualToS2(vTipoArticuloInvValue, vLoteFElabo)) {
+                LibReport.ChangeControlVisibility(this, "lblLote", true);
+                LibReport.ChangeControlVisibility(this, "txtCodigoLote", true);
+                LibReport.ChangeControlVisibility(this, "lblFechaElab", true);
+                LibReport.ChangeControlVisibility(this, "txtFechaDeElaboracion", true);
+                if (LibString.S1IsEqualToS2(vTipoArticuloInvValue, vLoteFVencim)) {
+                    LibReport.ChangeControlVisibility(this, "lblFechaVenc", true);
+                    LibReport.ChangeControlVisibility(this, "txtFechaDeVencimiento", true);
                 }
+            } else if (LibString.S1IsEqualToS2(vTipoArticuloInvValue, vLote)) {
+                LibReport.ChangeControlVisibility(this, "lblLote", true);
+                LibReport.ChangeControlVisibility(this, "txtCodigoLote", true);
             }
+            
         }
     }
 }
