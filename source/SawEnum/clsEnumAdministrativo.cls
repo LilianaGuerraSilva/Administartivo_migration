@@ -242,6 +242,7 @@ Public Enum enum_SystemModules
    eSM_GVentas
    eSM_LoteDeInventario
    eSM_LoteDeInventarioMovimiento
+   eSM_AuditoriaConfiguracion
 End Enum
 
 Public Enum enum_DiaDeLaSemana
@@ -1914,6 +1915,7 @@ Public Function enum_SystemModulesToStr(module As enum_SystemModules) As String
       Case eSM_TransferenciaEntreCuentasBancarias: enum_SystemModulesToStr = "Transferencia entre Cuentas Bancarias"
       Case eSM_RutaDeComercializacion: enum_SystemModulesToStr = "Ruta de Comercialización"
       Case eSM_GVentas: enum_SystemModulesToStr = "G-Ventas"
+      Case eSM_AuditoriaConfiguracion: enum_SystemModulesToStr = "Auditoria Configuración"
    End Select
 End Function
 

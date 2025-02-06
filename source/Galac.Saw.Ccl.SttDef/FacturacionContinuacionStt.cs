@@ -48,6 +48,7 @@ namespace Galac.Saw.Ccl.SttDef {
         private bool _UsaListaDePrecioEnMonedaExtranjeraCXC;
         private int _NroDiasMantenerTasaCambio;
 		private bool _UsaMediosElectronicosDeCobro;
+        private bool _UsaMaquinaFiscal;
         private long _fldTimeStamp;
         XmlDocument _datos;
         #endregion //Variables
@@ -281,6 +282,15 @@ namespace Galac.Saw.Ccl.SttDef {
             set { _UsaMediosElectronicosDeCobro = LibConvert.SNToBool(value); }
         }
 
+        public bool UsaMaquinaFiscalAsBool {
+            get { return _UsaMaquinaFiscal; }
+            set { _UsaMaquinaFiscal = value; }
+        }
+
+        public string UsaMaquinaFiscal {
+            set { _UsaMaquinaFiscal = LibConvert.SNToBool(value); }
+        }
+
         public long fldTimeStamp {
             get { return _fldTimeStamp; }
             set { _fldTimeStamp = value; }
@@ -290,6 +300,8 @@ namespace Galac.Saw.Ccl.SttDef {
             get { return _datos; }
             set { _datos = value; }
         }
+
+        
         #endregion //Propiedades
         #region Constructores
 
@@ -309,7 +321,7 @@ namespace Galac.Saw.Ccl.SttDef {
             PermitirIncluirFacturacionHistoricaAsBool = false;
             UltimaFechaDeFacturacionHistorica = LibDate.Today();
             GenerarCxCalEmitirUnaFacturaHistoricaAsBool = false;
-            AccionAlAnularFactDeMesesAntAsEnum = eAccionAlAnularFactDeMesesAnt.PermitirAnularSinChequear;
+            AccionAlAnularFactDeMesesAntAsEnum = eAccionAlAnularFactDeMesesAnt.NoPermitirAnular;
             UsarOtrosCargoDeFacturaAsBool = false;
             UsaCamposExtrasEnRenglonFacturaAsBool = false;
             EmitirDirectoAsBool = false;
@@ -328,6 +340,7 @@ namespace Galac.Saw.Ccl.SttDef {
             UsaListaDePrecioEnMonedaExtranjeraCXCAsBool = false;
             NroDiasMantenerTasaCambio = 0;
     		UsaMediosElectronicosDeCobroAsBool = false;
+            UsaMaquinaFiscalAsBool = false;
             fldTimeStamp = 0;
         }
 
@@ -357,6 +370,7 @@ namespace Galac.Saw.Ccl.SttDef {
             vResult.UsaListaDePrecioEnMonedaExtranjeraCXCAsBool = _UsaListaDePrecioEnMonedaExtranjeraCXC;
             vResult.NroDiasMantenerTasaCambio = _NroDiasMantenerTasaCambio;
 			vResult.UsaMediosElectronicosDeCobroAsBool = _UsaMediosElectronicosDeCobro;
+            vResult.UsaMaquinaFiscalAsBool = _UsaMaquinaFiscal;
             vResult.fldTimeStamp = _fldTimeStamp;
             return vResult;
         }
@@ -384,7 +398,8 @@ namespace Galac.Saw.Ccl.SttDef {
                "\nGenerar CxC En Moneda Extranjera = " + _UsaListaDePrecioEnMonedaExtranjeraCXC  +
                "\nMostrar Total En Bolívares Fuertes = " + _MostrarMtoTotalBsFEnObservaciones +
                "\nNumero De Dias a Mantener Tasa De Cambio = " + _NroDiasMantenerTasaCambio +
-			   "\nUsa Medios Electrónicos de Cobro = " + _UsaMediosElectronicosDeCobro;  
+			   "\nUsa Medios Electrónicos de Cobro = " + _UsaMediosElectronicosDeCobro +
+               "\nUsa Maquina Fiscal = " + _UsaMaquinaFiscal;  
         }
         #endregion //Metodos Generados
 

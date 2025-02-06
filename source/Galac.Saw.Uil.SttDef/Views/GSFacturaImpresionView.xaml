@@ -163,12 +163,14 @@
                 Style="{StaticResource CheckBoxStyle}" />
             <Label
                 Name="lblImprimirBorradorAlInsertarFactura"
+                Visibility="Collapsed"
                 Grid.Row="7"
                 Grid.Column="0"
                 Content="Imprimir el Borrador de Factura al Insertar................"
                 Style="{StaticResource LabelPrompt}" />
             <CheckBox
                 Name="chkImprimirBorradorAlInsertarFactura"
+                Visibility="Collapsed"
                 Grid.Row="7"
                 Grid.Column="1"
                 HorizontalAlignment="Left"
@@ -285,21 +287,6 @@
                 Style="{StaticResource TextBoxInputStyle}"
                 Text="{Binding Path=FormatoDeFechaTexto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                 Visibility="{Binding Path=IsVisibleFormatoFecha, Converter={StaticResource booleanToVisibilityConverter}}" />
-
-            <Label
-                Name="lblImprimirComprobanteFiscalEnContrato"
-                Grid.Row="14"
-                Grid.Column="0"
-                Content="Imprimir Comprobante Fiscal En Contrato................"
-                Style="{StaticResource LabelPrompt}" />
-            <CheckBox
-                Name="chkImprimirComprobanteFiscalEnContrato"
-                Grid.Row="14"
-                Grid.Column="1"
-                HorizontalAlignment="Left"
-                IsChecked="{Binding Path=ImprimirComprobanteFiscalEnContrato}"
-                IsEnabled="{Binding Path=IsEnabled}"
-                Style="{StaticResource CheckBoxStyle}" />
             <GroupBox
                 Grid.Row="15"
                 Grid.ColumnSpan="2"

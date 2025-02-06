@@ -33,7 +33,6 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Factura", "Eliminar", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Emitir", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Emitir Directo", "Principal", 1));
-            vPermisos.Add(new CustomRole("Factura", "Anular", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Insertar Copia", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Insertar Factura Borrador", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Insertar Factura Manual", "Principal", 1));
@@ -168,10 +167,9 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Almacén", "Eliminar", "Inventario", 4));
             #endregion
 
-            #region Nota Ent/Salida
+            #region Nota Entrada/Salida
             vPermisos.Add(new CustomRole("Nota de Entrada/Salida", "Consultar", "Inventario", 4));
             vPermisos.Add(new CustomRole("Nota de Entrada/Salida", "Insertar", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Nota de Entrada/Salida", "Eliminar", "Inventario", 4));
             vPermisos.Add(new CustomRole("Nota de Entrada/Salida", "Anular Retiro", "Inventario", 4));
             vPermisos.Add(new CustomRole("Nota de Entrada/Salida", "Informes", "Inventario", 4));
             #endregion
@@ -546,8 +544,8 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Máquina Fiscal
-            vPermisos.Add(new CustomRole("Máquina Fiscal", "Activar", "Tablas Generales", 10));
-            vPermisos.Add(new CustomRole("Máquina Fiscal", "Desactivar", "Tablas Generales", 10));
+            vPermisos.Add(new CustomRole("Impresora Fiscal", "Activar", "Tablas Generales", 10));
+            vPermisos.Add(new CustomRole("Impresora Fiscal", "Desactivar", "Tablas Generales", 10));
             #endregion
 
             #region Punto de Venta

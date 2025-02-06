@@ -100,7 +100,6 @@ namespace Galac.Adm.Ccl.Venta {
             set { _PermitirAbrirSinSupervisor = LibConvert.SNToBool(value); }
         }
 
-
         public bool UsaAccesoRapidoAsBool {
             get { return _UsaAccesoRapido; }
             set { _UsaAccesoRapido = value; }
@@ -110,22 +109,20 @@ namespace Galac.Adm.Ccl.Venta {
             set { _UsaAccesoRapido = LibConvert.SNToBool(value); }
         }
 
-
         public bool UsaMaquinaFiscalAsBool {
             get { return _UsaMaquinaFiscal; }
             set { _UsaMaquinaFiscal = value; }
         }
 
         public string UsaMaquinaFiscal {
-            set { _UsaMaquinaFiscal = LibConvert.SNToBool(value); }
+            set { _UsaMaquinaFiscal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMaquinaFiscal"); }
         }
-
-
+        
         public eFamiliaImpresoraFiscal FamiliaImpresoraFiscalAsEnum {
             get { return _FamiliaImpresoraFiscal; }
             set { _FamiliaImpresoraFiscal = value; }
         }
-
+        
         public string FamiliaImpresoraFiscal {
             set { _FamiliaImpresoraFiscal = (eFamiliaImpresoraFiscal)LibConvert.DbValueToEnum(value); }
         }
@@ -142,7 +139,7 @@ namespace Galac.Adm.Ccl.Venta {
             get { return _ModeloDeMaquinaFiscal; }
             set { _ModeloDeMaquinaFiscal = value; }
         }
-
+        
         public string ModeloDeMaquinaFiscal {
             set { _ModeloDeMaquinaFiscal = (eImpresoraFiscal)LibConvert.DbValueToEnum(value); }
         }
@@ -159,12 +156,10 @@ namespace Galac.Adm.Ccl.Venta {
             get { return _SerialDeMaquinaFiscal; }
             set { _SerialDeMaquinaFiscal = LibString.Mid(value, 0, 15); }
         }
-
         public eTipoConexion TipoConexionAsEnum {
             get { return _TipoConexion; }
             set { _TipoConexion = value; }
         }
-
         public string TipoConexion {
             set { _TipoConexion = (eTipoConexion)LibConvert.DbValueToEnum(value); }
         }
@@ -202,17 +197,14 @@ namespace Galac.Adm.Ccl.Venta {
             set { _AbrirGavetaDeDinero = LibConvert.SNToBool(value); }
         }
 
-
         public string UltimoNumeroCompFiscal {
             get { return _UltimoNumeroCompFiscal; }
             set { _UltimoNumeroCompFiscal = LibString.Mid(value, 0, 12); }
         }
-
         public string UltimoNumeroNCFiscal {
             get { return _UltimoNumeroNCFiscal; }
             set { _UltimoNumeroNCFiscal = LibString.Mid(value, 0, 12); }
         }
-
         public string IpParaConexion {
             get { return _IpParaConexion; }
             set { _IpParaConexion = LibString.Mid(value, 0, 15); }
@@ -236,7 +228,6 @@ namespace Galac.Adm.Ccl.Venta {
         public string PermitirDescripcionDelArticuloExtendida {
             set { _PermitirDescripcionDelArticuloExtendida = LibConvert.SNToBool(value); }
         }
-
 
         public bool PermitirNombreDelClienteExtendidoAsBool {
             get { return _PermitirNombreDelClienteExtendido; }
@@ -290,6 +281,7 @@ namespace Galac.Adm.Ccl.Venta {
             get { return _datos; }
             set { _datos = value; }
         }
+
         #endregion //Propiedades
         #region Constructores
 
@@ -312,7 +304,7 @@ namespace Galac.Adm.Ccl.Venta {
             Comando = string.Empty;
             PermitirAbrirSinSupervisorAsBool = false;
             UsaAccesoRapidoAsBool = false;
-            UsaMaquinaFiscalAsBool = false;
+            UsaMaquinaFiscalAsBool = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMaquinaFiscal");
             FamiliaImpresoraFiscalAsEnum = eFamiliaImpresoraFiscal.EPSONPNP;
             ModeloDeMaquinaFiscalAsEnum = eImpresoraFiscal.EPSON_PF_220;
             SerialDeMaquinaFiscal = string.Empty;

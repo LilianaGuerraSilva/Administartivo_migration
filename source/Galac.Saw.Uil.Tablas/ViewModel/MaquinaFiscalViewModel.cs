@@ -28,7 +28,7 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
         #region Propiedades
 
         public override string ModuleName {
-            get { return "Máquina Fiscal"; }
+            get { return "Impresora Fiscal"; }
         }
 
         public int  ConsecutivoCompania {

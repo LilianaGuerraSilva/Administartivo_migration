@@ -20,7 +20,7 @@ namespace Galac.Saw.Uil.Tablas {
         #region Propiedades
 
         public string Name {
-            get { return "Máquina Fiscal"; }
+            get { return "Impresora Fiscal"; }
         }
 
         public Uri Image {

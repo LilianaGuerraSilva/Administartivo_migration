@@ -19,12 +19,14 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
         #region Variables
         string _NumeroComprobante = "";
         string _SerialImpresoraFiscal = "";
+        string _SerialImpresoraFiscalDB = "";
         bool _SeImprimioDocumento = false;
         bool _IsRunning = false;
         IImpresoraFiscalPdn insImpresoraFiscal;
         clsImpresoraFiscalNav insImpresoraFiscalNav;
         eTipoDocumentoFiscal _TipoDocumentoFiscal;
         XElement xData;
+       
 
         #endregion Variables
 
@@ -92,6 +94,7 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
             insImpresoraFiscal = vCreatorMaquinaFiscal.Crear(valXmlMaquinaFiscal);
             insImpresoraFiscalNav = new clsImpresoraFiscalNav(insImpresoraFiscal);
             _TipoDocumentoFiscal = valTipoDocumentoFiscal;
+            _SerialImpresoraFiscalDB = LibXml.GetPropertyString(valXmlMaquinaFiscal, "SerialDeMaquinaFiscal");
             Title = "Imprimiendo " + LibEnumHelper.GetDescription(TipoDocumentoFiscal);
             if(_TipoDocumentoFiscal == eTipoDocumentoFiscal.FacturaFiscal || _TipoDocumentoFiscal == eTipoDocumentoFiscal.NotadeCredito) {
                 xData = valData;
@@ -105,16 +108,24 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
             NumeroComprobante = "";
         }
 
+
         public void ImprimirDocumentoTask() {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            string vMensaje = string.Empty;
+            bool vSerialDistinto = false;
             Task vTask = Task.Factory.StartNew(() => {
                 _IsRunning = true;
-                if(insImpresoraFiscal.AbrirConexion()) {
-                    if(insImpresoraFiscal.ComprobarEstado()) {
+                if (insImpresoraFiscal.AbrirConexion()) {
+                    if (insImpresoraFiscal.ComprobarEstado()) {
                         insImpresoraFiscalNav.LeerDatosDeImpresoraFiscal(_TipoDocumentoFiscal);
                         NumeroComprobante = insImpresoraFiscalNav.NumeroComprobanteFiscal;
                         SerialImpresoraFiscal = insImpresoraFiscalNav.SerialImpresoraFiscal;
-                        SeImprimioDocumento = insImpresoraFiscalNav.ImprimirDocumentoFiscal(xData);
+                        if (LibString.S1IsEqualToS2(SerialImpresoraFiscal, _SerialImpresoraFiscalDB)) {
+                            SeImprimioDocumento = insImpresoraFiscalNav.ImprimirDocumentoFiscal(xData);
+                        } else {
+                            SeImprimioDocumento = false;
+                            vSerialDistinto = true;                    
+                        }
                     } else {
                         SeImprimioDocumento = false;
                     }
@@ -123,31 +134,34 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
             });
             vTask.ContinueWith((t) => {
                 _IsRunning = false;
-                if(t.IsCompleted) {
+                if (t.IsCompleted) {
+                    if (vSerialDistinto) {
+                        LibMessages.MessageBox.Alert(null, "El serial de la Impresora Fiscal configurada en la caja actual no corresponde con el serial de la Impresora Fiscal conectada al computador.\r\n\r\nValide la Impresora Fiscal conectada o configure nuevamente la caja para continuar.", ModuleName);
+                    }
                     CancelCommand.Execute(null);
                 } else {
-                    LibMessages.MessageBox.Alert(null,"Proceso Cancelado","");
+                    LibMessages.MessageBox.Alert(null, "Proceso Cancelado", ModuleName);
                     CancelCommand.Execute(null);
                 }
-            },cancellationTokenSource.Token,TaskContinuationOptions.OnlyOnRanToCompletion,TaskScheduler.FromCurrentSynchronizationContext());
+            }, cancellationTokenSource.Token, TaskContinuationOptions.OnlyOnRanToCompletion, TaskScheduler.FromCurrentSynchronizationContext());
             vTask.ContinueWith((t) => {
                 _IsRunning = false;
                 CancelCommand.Execute(null);
-                if(t.Exception.InnerException != null) {
-                    LibMessages.MessageBox.Information(this,t.Exception.InnerException.Message,"Información");
+                if (t.Exception.InnerException != null) {
+                    LibMessages.MessageBox.Information(this, t.Exception.InnerException.Message, ModuleName);
                 } else {
-                    LibMessages.MessageBox.Information(this,t.Exception.Message,"Información");
+                    LibMessages.MessageBox.Information(this, t.Exception.Message, ModuleName);
                 }
-            },cancellationTokenSource.Token,TaskContinuationOptions.OnlyOnCanceled,TaskScheduler.FromCurrentSynchronizationContext());
+            }, cancellationTokenSource.Token, TaskContinuationOptions.OnlyOnCanceled, TaskScheduler.FromCurrentSynchronizationContext());
             vTask.ContinueWith((t) => {
                 _IsRunning = false;
                 CancelCommand.Execute(null);
-                if(t.Exception.InnerException != null) {
-                    LibMessages.MessageBox.Information(this,t.Exception.InnerException.Message,"Información");
+                if (t.Exception.InnerException != null) {
+                    LibMessages.MessageBox.Information(this, t.Exception.InnerException.Message, ModuleName);
                 } else {
-                    LibMessages.MessageBox.Information(this,t.Exception.Message,"Información");
+                    LibMessages.MessageBox.Information(this, t.Exception.Message, ModuleName);
                 }
-            },cancellationTokenSource.Token,TaskContinuationOptions.OnlyOnFaulted,TaskScheduler.FromCurrentSynchronizationContext());
+            }, cancellationTokenSource.Token, TaskContinuationOptions.OnlyOnFaulted, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         public void RealizarReporteZ() {

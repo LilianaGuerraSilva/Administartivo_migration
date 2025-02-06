@@ -50,7 +50,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string NroDiasMantenerTasaCambioPropertyName = "NroDiasMantenerTasaCambio";
         private const string FechaInicioImprentaDigitalPropertyName = "FechaInicioImprentaDigital";
         public const string UsaMediosElectronicosDeCobroPropertyName = "UsaMediosElectronicosDeCobro";
-		#endregion
+        public const string UsaMaquinaFiscalPropertyName = "UsaMaquinaFiscal";
+        public const string IsEnabledUsaMaquinaFiscalPropertyName = "IsEnabledUsaMaquinaFiscal";
+        #endregion
 
         #region Variables
         private FkConceptoBancarioViewModel _ConexionConceptoBancarioCobroDirecto = null;
@@ -119,6 +121,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                         UsaCobroDirectoEnMultimoneda = false;
                         CuentaBancariaCobroMultimoneda = string.Empty;
                         ConceptoBancarioCobroMultimoneda = string.Empty;
+                        UsaMaquinaFiscal = false;
                     } else {
                         EmitirDirecto = true;
                         if (LibString.IsNullOrEmpty(CuentaBancariaCobroDirecto)) {
@@ -139,6 +142,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     RaisePropertyChanged(ConceptoBancarioCobroMultimonedaPropertyName);
                     RaisePropertyChanged(IsEnabledConceptoBancarioCobroMultimonedaPropertyName);
                     RaisePropertyChanged(IsEnabledCuentaBancariaCobroMultimonedaPropertyName);
+                    RaisePropertyChanged(IsEnabledUsaMaquinaFiscalPropertyName);
+                    RaisePropertyChanged(UsaMaquinaFiscalPropertyName);
                     LibMessages.Notification.Send<bool>(Model.UsaCobroDirectoAsBool, UsaCobroDirectoPropertyName);
                 }
             }
@@ -254,6 +259,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     IsDirty = true;
                     RaisePropertyChanged(EmitirDirectoPropertyName);
                     RaisePropertyChanged(IsEnabledEmitirDirectoPropertyName);
+                    RaisePropertyChanged(IsEnabledUsaCobroDirectoPropertyName);
                     LibMessages.Notification.Send<bool>(Model.EmitirDirectoAsBool, EmitirDirectoPropertyName);
                 }
             }
@@ -532,13 +538,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnabledEmitirDirecto {
             get {
-                return IsEnabled && EmitirDirecto;
+                return IsEnabled && !ExisteCajaRegistradoraConMaquinaFiscal();
             }
         }
 
         public bool IsEnabledUsaCobroDirecto {
             get {
-                return IsEnabled && UsaCobroDirecto;
+                return IsEnabled && EmitirDirecto && !ExisteCajaRegistradoraConMaquinaFiscal();
             }
         }
 
@@ -561,6 +567,12 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public bool IsEnabledUsaCobroDirectoEnMultimoneda {
             get {
                 return IsEnabled && UsaCobroDirecto;
+            }
+        }
+
+        public bool IsEnabledUsaMaquinaFiscal {
+            get {
+                return IsEnabled && UsaCobroDirecto && !ExisteCajaRegistradoraConMaquinaFiscal();
             }
         }
 
@@ -621,6 +633,18 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 if (_FechaInicioImprentaDigital != value) {
                     _FechaInicioImprentaDigital = value;
                     RaisePropertyChanged(FechaInicioImprentaDigitalPropertyName);
+                }
+            }
+        }
+
+        public bool UsaMaquinaFiscal {
+            get {
+                return Model.UsaMaquinaFiscalAsBool;
+            }
+            set {
+                if (Model.UsaMaquinaFiscalAsBool != value) {
+                    Model.UsaMaquinaFiscalAsBool = value;
+                    RaisePropertyChanged(UsaMaquinaFiscalPropertyName);
                 }
             }
         }
@@ -711,6 +735,14 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
+        }
+
+        private bool ExisteCajaRegistradoraConMaquinaFiscal() {
+            bool vResult = false;
+            int vConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
+            ISettValueByCompanyPdn insParametrosByCompany = new clsSettValueByCompanyNav();
+            vResult = insParametrosByCompany.ExisteCajaConMaquinaFiscal(vConsecutivoCompania);
+            return vResult;
         }
 
         private void ExecuteChooseConceptoBancarioCobroMultimonedaCommand(string valcodigo) {

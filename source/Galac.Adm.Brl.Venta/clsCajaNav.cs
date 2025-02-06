@@ -18,6 +18,12 @@ using Galac.Adm.Ccl.DispositivosExternos;
 using Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal;
 using LibGalac.Aos.Catching;
 using Galac.Saw.Ccl.SttDef;
+using Galac.Saw.Ccl.Tablas;
+using Galac.Saw.Brl.Tablas;
+using System.Threading;
+using System.IO;
+using Galac.Saw.Ccl.Inventario;
+using LibGalac.Aos.Dal;
 
 namespace Galac.Adm.Brl.Venta {
     public partial class clsCajaNav: LibBaseNav<IList<Caja>, IList<Caja>>, ICajaPdn {
@@ -31,6 +37,8 @@ namespace Galac.Adm.Brl.Venta {
             set { _SerialMaquinaFiscal = value; }
         }
 
+        string ICajaPdn.SerialMaquinaFiscal { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         #endregion //Propiedades
         #region Constructores
 
@@ -38,7 +46,6 @@ namespace Galac.Adm.Brl.Venta {
         }
         #endregion //Constructores
         #region Metodos Generados
-
         protected override ILibDataComponentWithSearch<IList<Caja>, IList<Caja>> GetDataInstance() {
             return new Galac.Adm.Dal.Venta.clsCajaDat();
         }
@@ -143,12 +150,18 @@ namespace Galac.Adm.Brl.Venta {
                 SQL.AppendLine(" LEFT JOIN Adm.CajaApertura ON");
                 SQL.AppendLine(" CajaApertura.ConsecutivoCompania = Caja.ConsecutivoCompania ");
                 SQL.AppendLine(" AND CajaApertura.ConsecutivoCaja = Caja.Consecutivo ");
+                if (!LibString.IsNullOrEmpty(valSqlWhere)) {
+                    SQL.AppendLine(" INNER JOIN Comun.SettValueByCompany ON ");
+                    SQL.AppendLine(" Comun.SettValueByCompany.ConsecutivoCompania = Caja.ConsecutivoCompania AND ");
+                    SQL.AppendLine(" Comun.SettValueByCompany.Value = Caja.UsaMaquinaFiscal ");
+                    SQL.AppendLine(" AND Comun.SettValueByCompany.NameSettDefinition = " + new QAdvSql("").ToSqlValue("UsaMaquinaFiscal"));
+                }
                 SQL.AppendLine(" WHERE Caja.ConsecutivoCompania = @ConsecutivoCompania ");
-                SQL.AppendLine(" AND Caja.Consecutivo = @Consecutivo ");                
+                SQL.AppendLine(" AND Caja.Consecutivo = @Consecutivo ");                                
                 if (!LibString.IsNullOrEmpty(valSqlWhere)) {
                     SQL.AppendLine(" AND " + valSqlWhere);
                 }
-                SQL.AppendLine(" ORDER BY CajaApertura.NombreDelUsuario ASC ");
+                SQL.AppendLine(" ORDER BY CajaApertura.NombreDelUsuario ASC ");                
                 XmlResult = LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", -1);
                 vResult = (XmlResult != null && XmlResult.HasElements);                
             } catch (Exception) {
@@ -199,7 +212,7 @@ namespace Galac.Adm.Brl.Venta {
             return vImpresoraFiscal;
         }
 
-        XElement ICajaPdn.ValidateImpresoraFiscal(ref string refMensaje) {
+        XElement ICajaPdn.ValidateImpresoraFiscal(ref string refMensaje) {//Todo cambio se debe adaptar en ValidaImpresoraFiscalVb
             bool SeDetectoImpresoraFiscal = false;
             XElement xmlCajaDat = null;
             IImpresoraFiscalPdn vImpresoraFiscal = null;
@@ -227,6 +240,32 @@ namespace Galac.Adm.Brl.Venta {
                 refMensaje = vEx.Message;
                 return null;
             }
+        }
+
+        string ICajaPdn.ValidaImpresoraFiscalVb() { //Todo cambio se debe adaptar en ValidateImpresoraFiscal
+            string vResult = string.Empty;
+            try {
+                int vCajaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ConsecutivoCaja");
+                int vConsecutivoCompania = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("FacturaRapida", "ConsecutivoCompania");
+                if ((vCajaLocal != 0) && (vConsecutivoCompania > 0)) {
+                    eStatusImpresorasFiscales refStatusPapel = new eStatusImpresorasFiscales();
+                    XElement xmlCajaDat = null;
+                    ICajaPdn insCaja = new clsCajaNav();
+                    insCaja.FindByConsecutivoCaja(vConsecutivoCompania, vCajaLocal, "", ref xmlCajaDat);
+                    IImpresoraFiscalPdn vImpresoraFiscal = InitializeImpresoraFiscal(xmlCajaDat, vCajaLocal);
+                    clsImpresoraFiscalNav insIF = new clsImpresoraFiscalNav(vImpresoraFiscal);
+                    insIF.SerialImpresoraFiscal = SerialMaquinaFiscal;
+                    bool vSeDetectoImpresoraFiscal = insIF.DetectarImpresoraFiscalVb(ref refStatusPapel, ref vResult);
+                    if (!vSeDetectoImpresoraFiscal) {
+                        vResult +=  "\nNo se pudo detectar la impresora fiscal.";
+                    } else if (refStatusPapel.Equals(eStatusImpresorasFiscales.ePocoPapel)) {
+                        vResult += "\nLa impresora fiscal tiene poco papel.";
+                    }
+                }
+            } catch (GalacException vEx) {
+                vResult = vEx.Message;
+            }
+            return vResult;
         }
 
         void ICajaPdn.ActualizarRegistroDeMaquinaFiscal(eAccionSR valAccion, int valConsecutivoCompania, eImpresoraFiscal valModeloImpresoraFiscal, string valSerialMaquinaFiscal, string valUltimoNumeroComptbanteFiscal, string valNombreOperador) {
@@ -285,7 +324,170 @@ namespace Galac.Adm.Brl.Venta {
             vResult = LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParams.Get(), "", 0) != 0;
             return vResult;
         }
+
+        void BuscaFamiliaYModeloDeMaquinaFiscal(int valConsecutivoCompania, int valConsecutivo, ref string refCajaNombre, ref string refFamilia, ref string refModelo, ref string refSerial) {
+            XElement xElement;
+            StringBuilder sql = new StringBuilder();
+            LibGpParams vParams = new LibGpParams();
+            string vFamilia = string.Empty;
+            string vModelo = string.Empty;
+            vParams.AddInInteger("Consecutivo", valConsecutivo);
+            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            sql.AppendLine(" SELECT NombreCaja AS CajaNombre, FamiliaImpresoraFiscalStr AS FamiliaImpresoraFiscal, ModeloDeMaquinaFiscalStr AS ModeloDeMaquinaFiscal, SerialDeMaquinaFiscal FROM Adm.Gv_Caja_B1");
+            sql.AppendLine(" WHERE Consecutivo = @Consecutivo");
+            sql.AppendLine(" AND ConsecutivoCompania = @ConsecutivoCompania");
+            xElement = LibBusiness.ExecuteSelect(sql.ToString(), vParams.Get(), string.Empty, 0);
+            if (xElement != null) {
+                refCajaNombre = LibXml.GetPropertyString(xElement, "CajaNombre");
+                refFamilia = LibXml.GetPropertyString(xElement, "FamiliaImpresoraFiscal");
+                refModelo = LibXml.GetPropertyString(xElement, "ModeloDeMaquinaFiscal");
+                refSerial = LibXml.GetPropertyString(xElement, "SerialDeMaquinaFiscal");
+            }
+        }
+
+        public bool HomologadaSegunGaceta43032(int valConsecutivoCompania, int valConsecutivoCaja, string valAccionDeAutorizacionDeProceso, ref string refMensaje) {
+            string vFabricante= string.Empty;
+            string vModelo = string.Empty;
+            string vSerial = string.Empty;
+            string vCajaNombre = string.Empty;
+            refMensaje = string.Empty;
+            BuscaFamiliaYModeloDeMaquinaFiscal(valConsecutivoCompania, valConsecutivoCaja, ref vCajaNombre, ref vFabricante, ref vModelo, ref vSerial);
+            bool vResult = VerificaSiMaquinaFiscalEstaHomologada(vCajaNombre, vFabricante, vModelo,vSerial, valAccionDeAutorizacionDeProceso,ref refMensaje);
+            return vResult;
+        }
+
+        bool ICajaPdn.ImpresoraFiscalEstaHomologada(int valConsecutivoCompania, int valConsecutivoCaja,  string valAccionDeAutorizacionDeProceso, ref string refMensaje) {
+            return HomologadaSegunGaceta43032(valConsecutivoCompania, valConsecutivoCaja, valAccionDeAutorizacionDeProceso, ref refMensaje);
+        }
+        LibResponse ICajaPdn.ActualizarYAuditarCambiosMF(IList<Caja> refRecord, bool valAuditarMF, string valMotivoCambiosMaqFiscal, string valFamiliaOriginal, string valModeloOriginal, string valTipoDeConexionOriginal, string valSerialMFOriginal, string valUltNumComprobanteFiscalOriginal, string valUltNumNCFiscalOriginal) {
+            string valoresOriginales = string.Empty;
+            string valoresModificados = string.Empty;
+            IAuditoriaConfiguracionPdn insPdn = new clsAuditoriaConfiguracionNav();
+            RegisterClient();
+            LibResponse result = base.UpdateRecord(refRecord);
+            if (result.Success && valAuditarMF) {
+                valoresOriginales = "ConsecutivoCaja: " + refRecord[0].Consecutivo + ",";
+                valoresOriginales = valoresOriginales + "NombreCaja: " + refRecord[0].NombreCaja + ",";
+                valoresOriginales = valoresOriginales + "Fabricante: " + valModeloOriginal + ",";
+                valoresOriginales = valoresOriginales + "Modelo: " + valModeloOriginal + ",";
+                valoresOriginales = valoresOriginales + "Serial: " + valSerialMFOriginal + ",";
+                valoresOriginales = valoresOriginales + "Tipo de Conexión: " + valTipoDeConexionOriginal + ",";
+                valoresOriginales = valoresOriginales + "Último num. comp. fiscal: " + valUltNumComprobanteFiscalOriginal + ",";
+                valoresOriginales = valoresOriginales + "Último num. NC fiscal: " + valUltNumNCFiscalOriginal + ",";
+
+                valoresModificados = "ConsecutivoCaja: " + refRecord[0].Consecutivo + ",";
+                valoresModificados = valoresModificados + "NombreCaja: " + refRecord[0].NombreCaja + ",";
+                valoresModificados = valoresModificados + "Fabricante: " + refRecord[0].FamiliaImpresoraFiscalAsString + ",";
+                valoresModificados = valoresModificados + "Modelo: " + refRecord[0].ModeloDeMaquinaFiscalAsString + ",";
+                valoresModificados = valoresModificados + "Serial: " + refRecord[0].SerialDeMaquinaFiscal + ",";
+                valoresModificados = valoresModificados + "Tipo de Conexión: " + refRecord[0].TipoConexionAsString + ",";
+                valoresModificados = valoresModificados + "Último num. comp. fiscal: " + refRecord[0].UltimoNumeroCompFiscal + ",";
+                valoresModificados = valoresModificados + "Último num. NC fiscal: " + refRecord[0].UltimoNumeroNCFiscal + ",";
+
+                insPdn.Auditar(valMotivoCambiosMaqFiscal
+                 , "MODIFICAR"
+                 , valoresOriginales
+                 , valoresModificados
+                 );
+            }
+            return result;
+        }
         #endregion //Codigo Ejemplo
+        protected override LibResponse InsertRecord(IList<Caja> refRecord) {
+            RegisterClient();
+            LibResponse result = base.InsertRecord(refRecord);
+            IAuditoriaConfiguracionPdn insPdn = new clsAuditoriaConfiguracionNav();
+            if (result.Success) { //ojo si se empieza a insertar en lote hay que cambiar etso
+                var currentRecord = refRecord[0];
+                insPdn.Auditar("Configuración inicial"
+                        ,"INSERTAR"
+                        , string.Empty
+                        ,"ConsecutivoCaja:" + currentRecord.Consecutivo
+                            + ", NombreCaja:" + currentRecord.NombreCaja
+                            + ", Fabricante:" + currentRecord.FamiliaImpresoraFiscalAsString
+                            + ", Modelo:" + currentRecord.ModeloDeMaquinaFiscalAsString
+                            + ", Serial:" + currentRecord.SerialDeMaquinaFiscal
+                            + ", Tipo de conexión:" + currentRecord.TipoConexionAsString
+                            + ", Último num. comp. fiscal:" + currentRecord.UltimoNumeroCompFiscal
+                            + ", Último num. NC fiscal:" + currentRecord.UltimoNumeroNCFiscal
+                        );
+            }
+            return result;
+        }
+
+        bool ICajaPdn.ImpresoraFiscalEstaHomologada(string valCajaNombre, string valFabricante, string valModelo, string valSerial, string valAccionDeAutorizacionDeProceso, ref string refMensaje) {
+            bool vResult = VerificaSiMaquinaFiscalEstaHomologada(valCajaNombre, valFabricante, valModelo, valSerial, valAccionDeAutorizacionDeProceso, ref refMensaje);
+            return vResult;
+        }
+        bool VerificaSiMaquinaFiscalEstaHomologada(string valCajaNombre, string valFabricante, string valModelo, string valSerial, string valAccionDeAutorizacionDeProceso, ref string refMensaje) {
+            bool vResult = true;
+            clsCajaProcesos insCajaProcesos = new clsCajaProcesos();
+            string vFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Galac Software", "Caja.txt");
+
+            try {
+                if (!insCajaProcesos.SendPostEstaHomologadaMaquinaFiscal(valCajaNombre, valFabricante
+              , valModelo, valSerial
+              , ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login
+              , valAccionDeAutorizacionDeProceso)) {
+                    refMensaje = "La impresora fiscal " + valFabricante + ", modelo " + valModelo + ", no se encuentra homologada.";
+                    vResult = false;
+                }
+                if (LibFile.FileExists(vFilePath)) {
+                    LibFile.DeleteFile(vFilePath);
+                }
+                return vResult;
+            } catch (System.Net.WebException ex) when (ex.Status == System.Net.WebExceptionStatus.NameResolutionFailure) {
+                if (!LibFile.FileExists(vFilePath)) {
+                    if (!LibFile.ParentDirExists(vFilePath)) {
+                        LibFile.CreateDir(LibFile.DirectoryName(vFilePath));
+                    }
+                    using (StreamWriter writer = new StreamWriter(vFilePath)) {
+                        writer.Write(LibConvert.ToStr(FechaDeHoy(), "dd/MM/yyyy"));
+                    }
+                }
+                using (StreamReader reader = new StreamReader(vFilePath)) {
+                    string content = reader.ReadToEnd();
+                    DateTime vDateDate = DateTime.ParseExact(content, "dd/MM/yyyy", null);
+                    DateTime vFechaTope = LibDate.AddDays(vDateDate, 7);
+                    if (LibDate.F1IsGreaterThanF2(vFechaTope, FechaDeHoy())) {
+                        LibBusinessProcessMessage libBusinessProcessMessage = new LibBusinessProcessMessage();
+                        string vMensaje = "No se ha podido verificar si su impresora fiscal está homologada.\n";
+                        vMensaje += "Para solucionar este inconveniente, recomendamos revisar su conexión a internet. Tiene hasta el " + LibConvert.ToStr(vFechaTope) + " para hacerlo.";
+                        libBusinessProcessMessage.Content = vMensaje + " | Validación de Impresora Fiscal Homologada ";
+                        LibBusinessProcess.Call("MensajeHomologacionCaja", libBusinessProcessMessage);
+                        return true;
+                    } else {
+                        throw;
+                    }
+                }
+            } catch (Exception) {
+                throw;
+            }
+        }
+
+        bool ICajaPdn.SerialDeImpresoraEstaEnUso(int valConsecutivoCompania, int valConsecutivoCaja, string valSerialImpresoraFiscal) {
+            bool vResult = false;
+            QAdvSql vSqlUtil = new QAdvSql("");
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("SELECT * FROM Adm.Caja");
+            vSql.AppendLine(" WHERE ConsecutivoCompania = " + vSqlUtil.ToSqlValue(valConsecutivoCompania));
+            vSql.AppendLine(" AND Consecutivo <> " + vSqlUtil.ToSqlValue(valConsecutivoCaja));
+            vSql.AppendLine(" AND SerialDeMaquinaFiscal = " + vSqlUtil.ToSqlValue(valSerialImpresoraFiscal));
+            vSql.AppendLine(" AND UsaMaquinaFiscal = " + vSqlUtil.ToSqlValue(true));
+            vResult = new LibDatabase().RecordCountOfSql(vSql.ToString()) > 0;
+            return vResult;
+        }
+
+        private static DateTime FechaDeHoy() {
+            string value = LibAppSettings.ReadAppSettingsKey("FechaPrueba");
+            if (LibString.IsNullOrEmpty(value)) {
+                return DateTime.Now;
+            } else {
+                DateTime parsedDate = DateTime.ParseExact(value, "dd/MM/yyyy", null);
+                return parsedDate;
+            }
+        }
+
     } //End of class clsCajaNav
 } //End of namespace Galac.Adm.Brl.Venta
 
