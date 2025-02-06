@@ -63,6 +63,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.txtTotalEntrada = new DataDynamics.ActiveReports.TextBox();
             this.txtTotalSalida = new DataDynamics.ActiveReports.TextBox();
             this.lblTotales = new DataDynamics.ActiveReports.Label();
+            this.txtTipoDeArticuloInv = new DataDynamics.ActiveReports.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.txtFecha)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTipoMovimiento)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNroDocumento)).BeginInit();
@@ -94,6 +95,7 @@ namespace Galac.Saw.Rpt.Inventario
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalEntrada)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalSalida)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotales)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTipoDeArticuloInv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
@@ -244,7 +246,8 @@ namespace Galac.Saw.Rpt.Inventario
             this.txtArticulo,
             this.lblLote,
             this.txtLote,
-            this.txtCodigoArticulo});
+            this.txtCodigoArticulo,
+            this.txtTipoDeArticuloInv});
             this.GHSecArticulo.Height = 0.25025F;
             this.GHSecArticulo.Name = "GHSecArticulo";
             this.GHSecArticulo.Format += new System.EventHandler(this.GHSecArticulo_Format);
@@ -300,7 +303,6 @@ namespace Galac.Saw.Rpt.Inventario
             this.txtCodigoArticulo.Style = "color: White; font-size: 8pt; text-align: left; ddo-char-set: 1";
             this.txtCodigoArticulo.Text = "txtCodigoArticulo";
             this.txtCodigoArticulo.Top = 0.094F;
-            this.txtCodigoArticulo.Visible = false;
             this.txtCodigoArticulo.Width = 0.742F;
             // 
             // GFSecArticulo
@@ -349,6 +351,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblFechaElaboracion});
             this.GHSecLote.Height = 0.67825F;
             this.GHSecLote.Name = "GHSecLote";
+            this.GHSecLote.Format += new System.EventHandler(this.GHSecLote_Format);
             // 
             // lblTipoMovimiento
             // 
@@ -506,6 +509,17 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblTotales.Top = 0.0002500117F;
             this.lblTotales.Width = 1.115F;
             // 
+            // txtTipoDeArticuloInv
+            // 
+            this.txtTipoDeArticuloInv.Height = 0.15625F;
+            this.txtTipoDeArticuloInv.Left = 6.638F;
+            this.txtTipoDeArticuloInv.Name = "txtTipoDeArticuloInv";
+            this.txtTipoDeArticuloInv.Style = "color: Transparent; font-size: 8pt; text-align: left; ddo-char-set: 1";
+            this.txtTipoDeArticuloInv.Text = "txtTipoDeArticuloInv";
+            this.txtTipoDeArticuloInv.Top = 0.094F;
+            this.txtTipoDeArticuloInv.Visible = false;
+            this.txtTipoDeArticuloInv.Width = 0.4819998F;
+            // 
             // dsrMovimientoDeLoteInventario
             // 
             this.MasterReport = false;
@@ -556,6 +570,7 @@ namespace Galac.Saw.Rpt.Inventario
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalEntrada)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalSalida)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotales)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTipoDeArticuloInv)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -599,5 +614,6 @@ namespace Galac.Saw.Rpt.Inventario
         private DataDynamics.ActiveReports.TextBox txtTotalEntrada;
         private DataDynamics.ActiveReports.TextBox txtTotalSalida;
         private DataDynamics.ActiveReports.Label lblTotales;
+        private DataDynamics.ActiveReports.TextBox txtTipoDeArticuloInv;
     }
 }

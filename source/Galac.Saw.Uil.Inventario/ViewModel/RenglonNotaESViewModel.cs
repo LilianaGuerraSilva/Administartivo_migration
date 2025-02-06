@@ -367,7 +367,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                     FechaDeElaboracion = LibDate.MinDateForDB();
                     FechaDeVencimiento = LibDate.MaxDateForDB();
                 } else {
-                    if (LibDate.F1IsLessThanF2(ConexionLoteDeInventario.FechaDeVencimiento, LibDate.Today())){
+                    if (TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento && LibDate.F1IsLessThanF2(ConexionLoteDeInventario.FechaDeVencimiento, LibDate.Today())){
                         LibMessages.MessageBox.Information(this, $"El Articulo:{CodigoArticulo} - {LibString.Left(DescripcionArticulo, 15) + "..."} Lote: {ConexionLoteDeInventario.CodigoLote} venció el {ConexionLoteDeInventario.FechaDeVencimiento.ToString("dd/MM/yyyy")}.", ModuleName);
                     }
                     LoteDeInventario = ConexionLoteDeInventario.CodigoLote;

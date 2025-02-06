@@ -10,6 +10,7 @@ using LibGalac.Aos.ARRpt;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.DefGen;
 using LibGalac.Aos.Base.Report;
+using Galac.Saw.Ccl.Inventario;
 
 namespace Galac.Saw.Rpt.Inventario {
 
@@ -53,6 +54,7 @@ namespace Galac.Saw.Rpt.Inventario {
                 //
                 LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "Articulo");
 				LibReport.ConfigFieldStr(this, "txtCodigoArticulo", string.Empty, "CodigoArticulo");
+                LibReport.ConfigFieldStr(this, "txtTipoDeArticuloInv", string.Empty, "TipoArticuloInv");
 				LibReport.ConfigFieldStr(this, "txtLote", string.Empty, "Lote");
 				LibReport.ConfigFieldDate(this, "txtFechaVencimiento", string.Empty, "FechaDeVencimiento", "dd/MM/yyyy");
 				LibReport.ConfigFieldDate(this, "txtFechaElaboracion", string.Empty, "FechaDeElaboracion", "dd/MM/yyyy");
@@ -84,6 +86,15 @@ namespace Galac.Saw.Rpt.Inventario {
 
         private void GHSecArticulo_Format(object sender, EventArgs e) {
             txtArticulo.Text = txtCodigoArticulo.Value + " - " + txtArticulo.Text;
+        }
+
+        private void GHSecLote_Format(object sender, EventArgs e)
+        {
+            eTipoArticuloInv vTipoArtInv = (eTipoArticuloInv)LibConvert.DbValueToEnum(LibConvert.ToStr(this.txtTipoDeArticuloInv.Value));
+            this.txtFechaElaboracion.Visible = vTipoArtInv == eTipoArticuloInv.LoteFechadeVencimiento || vTipoArtInv == eTipoArticuloInv.LoteFechadeElaboracion;
+            this.lblFechaElaboracion.Visible = this.txtFechaElaboracion.Visible;
+            txtFechaVencimiento.Visible = vTipoArtInv == eTipoArticuloInv.LoteFechadeVencimiento;
+            this.lblFechaVencimiento.Visible = this.txtFechaVencimiento.Visible;
         }
     } //End of class dsrMovimientoDeLoteInventario
 
