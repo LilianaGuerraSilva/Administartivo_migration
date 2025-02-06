@@ -140,7 +140,7 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
                 if (t.IsCompleted) {
                     if (vSerialDistinto) {
                         string vMensajeSerial = "El serial de la Impresora Fiscal configurada en la caja actual no corresponde con el serial de la Impresora Fiscal conectada al computador.\r\n\r\nValide la Impresora Fiscal conectada o configure nuevamente la caja para continuar.";
-                        _AuditoriaConfiguracion.Auditar(ModuleName, "Imprimir Documento Fiscal", "", vMensaje + "," + LibDate.CurrentHourAsStr);
+                        _AuditoriaConfiguracion.Auditar(ModuleName + ":" + vMensaje, "Imprimir Documento Fiscal", "", "");
                         LibMessages.MessageBox.Alert(null, vMensajeSerial, ModuleName);
                     }
                     CancelCommand.Execute(null);

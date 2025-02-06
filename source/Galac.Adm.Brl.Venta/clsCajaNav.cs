@@ -239,8 +239,7 @@ namespace Galac.Adm.Brl.Venta {
                 }
                 return xmlCajaDat;
             } catch (GalacException vEx) {
-                refMensaje = vEx.Message;
-                insAuditoriaConfiguracionPdn.Auditar("Validar Impresora Fiscal", "Validar Impresora Fiscal", "", refMensaje + "," + LibDate.CurrentHourAsStr);
+                refMensaje = vEx.Message;                
                 return null;
             }
         }
@@ -270,8 +269,7 @@ namespace Galac.Adm.Brl.Venta {
                 }
 
             } catch (GalacException vEx) {
-                vResult = vEx.Message;
-                insAuditoriaConfiguracionPdn.Auditar("Validar Impresora Fiscal", "Validar Impresora Fiscal", "", vResult + "," + LibDate.CurrentHourAsStr);
+                vResult = vEx.Message;                
             }
             return vResult;
         }
