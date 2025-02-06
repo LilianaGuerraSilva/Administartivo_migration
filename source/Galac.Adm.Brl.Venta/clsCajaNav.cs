@@ -29,7 +29,7 @@ namespace Galac.Adm.Brl.Venta {
     public partial class clsCajaNav: LibBaseNav<IList<Caja>, IList<Caja>>, ICajaPdn {
         #region Variables
         string _SerialMaquinaFiscal = "";
-        IAuditoriaConfiguracionPdn insAuditoriaConfiguracionPdn;
+        IAuditoriaConfiguracionPdn _AuditoriaConfiguracion;
         #endregion //Variables
         #region Propiedades
 
@@ -44,7 +44,7 @@ namespace Galac.Adm.Brl.Venta {
         #region Constructores
 
         public clsCajaNav() {
-            insAuditoriaConfiguracionPdn = new clsAuditoriaConfiguracionNav();
+            _AuditoriaConfiguracion = new clsAuditoriaConfiguracionNav();
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -247,6 +247,7 @@ namespace Galac.Adm.Brl.Venta {
 
         string ICajaPdn.ValidaImpresoraFiscalVb() { //Todo cambio se debe adaptar en ValidateImpresoraFiscal
             string vResult = string.Empty;
+            bool vSeDetectoImpresoraFiscal = false;
             try {
                 int vCajaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ConsecutivoCaja");
                 int vConsecutivoCompania = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("FacturaRapida", "ConsecutivoCompania");
@@ -258,13 +259,16 @@ namespace Galac.Adm.Brl.Venta {
                     IImpresoraFiscalPdn vImpresoraFiscal = InitializeImpresoraFiscal(xmlCajaDat, vCajaLocal);
                     clsImpresoraFiscalNav insIF = new clsImpresoraFiscalNav(vImpresoraFiscal);
                     insIF.SerialImpresoraFiscal = SerialMaquinaFiscal;
-                    bool vSeDetectoImpresoraFiscal = insIF.DetectarImpresoraFiscalVb(ref refStatusPapel, ref vResult);
+                    vSeDetectoImpresoraFiscal = insIF.DetectarImpresoraFiscalVb(ref refStatusPapel, ref vResult);
                     if (!vSeDetectoImpresoraFiscal) {
-                        vResult +=  "\nNo se pudo detectar la impresora fiscal.";
+                        vResult += "\nNo se pudo detectar la impresora fiscal.";
+                        _AuditoriaConfiguracion.Auditar("Caja Registradora:" + vResult, "Validar Impresora Fiscal", "", "");
                     } else if (refStatusPapel.Equals(eStatusImpresorasFiscales.ePocoPapel)) {
                         vResult += "\nLa impresora fiscal tiene poco papel.";
+                        _AuditoriaConfiguracion.Auditar("Caja Registradora:" + vResult, "Validar Impresora Fiscal", "", "");
                     }
                 }
+
             } catch (GalacException vEx) {
                 vResult = vEx.Message;
                 insAuditoriaConfiguracionPdn.Auditar("Validar Impresora Fiscal", "Validar Impresora Fiscal", "", vResult + "," + LibDate.CurrentHourAsStr);
@@ -365,8 +369,7 @@ namespace Galac.Adm.Brl.Venta {
         }
         LibResponse ICajaPdn.ActualizarYAuditarCambiosMF(IList<Caja> refRecord, bool valAuditarMF, string valMotivoCambiosMaqFiscal, string valFamiliaOriginal, string valModeloOriginal, string valTipoDeConexionOriginal, string valSerialMFOriginal, string valUltNumComprobanteFiscalOriginal, string valUltNumNCFiscalOriginal) {
             string valoresOriginales = string.Empty;
-            string valoresModificados = string.Empty;
-            IAuditoriaConfiguracionPdn insPdn = new clsAuditoriaConfiguracionNav();
+            string valoresModificados = string.Empty;            
             RegisterClient();
             LibResponse result = base.UpdateRecord(refRecord);
             if (result.Success && valAuditarMF) {
@@ -388,7 +391,7 @@ namespace Galac.Adm.Brl.Venta {
                 valoresModificados = valoresModificados + "Último num. comp. fiscal: " + refRecord[0].UltimoNumeroCompFiscal + ",";
                 valoresModificados = valoresModificados + "Último num. NC fiscal: " + refRecord[0].UltimoNumeroNCFiscal + ",";
 
-                insPdn.Auditar(valMotivoCambiosMaqFiscal
+                _AuditoriaConfiguracion.Auditar(valMotivoCambiosMaqFiscal
                  , "MODIFICAR"
                  , valoresOriginales
                  , valoresModificados
