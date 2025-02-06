@@ -308,9 +308,12 @@ namespace Galac.Saw.Dal.Inventario {
             vResult = IsValidConsecutivo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo) && vResult;
             vResult = IsValidCodigoLote(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.CodigoLote, CurrentRecord.CodigoArticulo) && vResult;
             vResult = IsValidCodigoArticulo(valAction, CurrentRecord.CodigoArticulo) && vResult;
+            eTipoArticuloInv tipoArticuloInv = ObtenerTipoArticuloInv(CurrentRecord.ConsecutivoCompania, CurrentRecord.CodigoArticulo);
             if (TipoArticuloInvEsLoteFecha(CurrentRecord.ConsecutivoCompania, CurrentRecord.CodigoArticulo)) {
-                vResult = IsValidFechaDeElaboracion(valAction, CurrentRecord.FechaDeElaboracion, CurrentRecord.FechaDeVencimiento) && vResult;
-                vResult = IsValidFechaDeVencimiento(valAction, CurrentRecord.FechaDeVencimiento, CurrentRecord.FechaDeElaboracion) && vResult;
+                if (tipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento) {
+                    vResult = IsValidFechaDeElaboracion(valAction, CurrentRecord.FechaDeElaboracion, CurrentRecord.FechaDeVencimiento) && vResult;
+                    vResult = IsValidFechaDeVencimiento(valAction, CurrentRecord.FechaDeVencimiento, CurrentRecord.FechaDeElaboracion) && vResult;
+                }
             }
             outErrorMessage = Information.ToString();
             return vResult;
@@ -411,7 +414,17 @@ namespace Galac.Saw.Dal.Inventario {
             }
             return vResult;
         }
-
+		
+        private eTipoArticuloInv ObtenerTipoArticuloInv(int valConsecutivoCompania, string valCodigoArticulo) { 
+            LibDatabase insDb = new LibDatabase();
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("SELECT TipoArticuloInv FROM ArticuloInventario ");
+            vSql.AppendLine("WHERE ConsecutivoCompania = " + insDb.InsSql.ToSqlValue(valConsecutivoCompania));
+            vSql.AppendLine(" AND Codigo = " + insDb.InsSql.ToSqlValue(valCodigoArticulo));
+            var vResult = insDb.ExecuteScalar(vSql.ToString(),120,true,true);
+            return (eTipoArticuloInv)LibConvert.DbValueToEnum(vResult.ToString());
+        }
+		
         private bool TipoArticuloInvEsLoteFecha(int valConsecutivoCompania, string valCodigoArticulo) {
             bool vResult = false;
             LibDatabase insDb = new LibDatabase();
@@ -419,8 +432,8 @@ namespace Galac.Saw.Dal.Inventario {
             vSql.AppendLine("SELECT Codigo FROM ArticuloInventario ");
             vSql.AppendLine("WHERE ConsecutivoCompania = " + insDb.InsSql.ToSqlValue(valConsecutivoCompania));
             vSql.AppendLine(" AND Codigo = " + insDb.InsSql.ToSqlValue(valCodigoArticulo));
-            vSql.AppendLine(" AND TipoArticuloInv IN (" + insDb.InsSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ", " + insDb.InsSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeElaboracion) + ")");
-            vResult = insDb.RecordCountOfSql(vSql.ToString()) > 0;
+            vSql.AppendLine(" AND TipoArticuloInv = " + insDb.InsSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento));
+            vResult = insDb.RecordCountOfSql (vSql.ToString()) > 0;
             return vResult;
         }
 

@@ -436,7 +436,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public bool IsVisbleLoteDeInventario {
             get {
                 return ((Master.Action == eAccionSR.Cerrar) ||( Master.Action == eAccionSR.Consultar && Master.StatusOp == eTipoStatusOrdenProduccion.Cerrada))
-                    && (TipoArticuloInvAsEnum == eTipoArticuloInv.Lote || TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento);
+                    && (TipoArticuloInvAsEnum == eTipoArticuloInv.Lote 
+                    || TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento
+                    || TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeElaboracion);
             }
         }
 
