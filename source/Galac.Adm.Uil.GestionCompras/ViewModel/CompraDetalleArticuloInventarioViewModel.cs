@@ -508,7 +508,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             get { return (ConexionCodigoArticulo != null) && (ConexionLoteDeInventario != null) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeElaboracion); }
         }
 
-        public bool IsVisibleLoteDeInventarioFechaDeVencimeinto {
+        public bool IsVisibleLoteDeInventarioFechaDeVencimiento {
             get { return (ConexionCodigoArticulo != null) && (ConexionLoteDeInventario != null) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento);
             }
         }
@@ -593,9 +593,9 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento")) {
                     vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.UsaSerialRollo));
                     vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.UsaTallaColorySerial));
+                    vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.UsaTallaColor));
                     vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.UsaSerial));
                 } else {
-                    vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.UsaTallaColor));
                     vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.Lote));
                     vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.LoteFechadeVencimiento));
                     vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.LoteFechadeElaboracion));
@@ -603,13 +603,9 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 if (vAplicaProductoTerminado) {
                     vFixedCriteria.Add("TipoDeMercanciaProduccion", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoDeMercancia.ProductoTerminado));
                 }
-                ConexionCodigoArticulo = Master.ChooseRecord<FkArticuloInventarioViewModel>("Articulo Inventario", vDefaultCriteria, vFixedCriteria, string.Empty);
-                if (ConexionCodigoArticulo == null) {
-                    CodigoArticulo = string.Empty;
-                    DescripcionArticulo = string.Empty;
-                    PorcentajeSeguroLey = 0;
-                    PorcentajeArancel = 0;
-                } else {
+                ConexionCodigoArticulo = Master.ChooseRecord<FkArticuloInventarioViewModel>("Articulo Inventario",vDefaultCriteria,vFixedCriteria,string.Empty);
+
+                if (ConexionCodigoArticulo != null) {
                     if (LibDefGen.ProgramInfo.IsCountryPeru()) {
                         PrecioUnitario = ConexionCodigoArticulo.CostoUnitario;
                     }
@@ -637,6 +633,11 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                         FechaDeVencimiento = LibDate.MaxDateForDB();
                         RaisePropertyChanged(() => CodigoLote);
                     }
+                } else {
+                    CodigoArticulo = string.Empty;
+                    DescripcionArticulo = string.Empty;
+                    PorcentajeSeguroLey = 0;
+                    PorcentajeArancel = 0;
                 }
             } catch (System.AccessViolationException) {
                 throw;
@@ -790,7 +791,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 }
                 RaisePropertyChanged(() => IsVisbleLoteDeInventario);
                 RaisePropertyChanged(() => IsEnabledLoteDeInventario);
-                RaisePropertyChanged(() => IsVisibleLoteDeInventarioFechaDeVencimeinto);
+                RaisePropertyChanged(() => IsVisibleLoteDeInventarioFechaDeVencimiento);
                 RaisePropertyChanged(() => IsVisibleLoteDeInventarioFechaDeElaboracion);
                 RaisePropertyChanged(() => IsVisbleLabelLoteNuevo);
             } catch (System.AccessViolationException) {
@@ -817,7 +818,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return ValidationResult.Success;
             } else if (LibString.IsNullOrEmpty(CodigoLote, true) && (TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || TipoArticuloInv == eTipoArticuloInv.Lote || TipoArticuloInv == eTipoArticuloInv.LoteFechadeElaboracion)) {
                 vResult = new ValidationResult("El Lote de Inventario no fue ingresado.");
-            } else if (TipoArticuloInv != eTipoArticuloInv.LoteFechadeVencimiento && TipoArticuloInv != eTipoArticuloInv.Lote || TipoArticuloInv == eTipoArticuloInv.LoteFechadeElaboracion) {
+            } else if (TipoArticuloInv != eTipoArticuloInv.LoteFechadeVencimiento && TipoArticuloInv != eTipoArticuloInv.Lote && TipoArticuloInv != eTipoArticuloInv.LoteFechadeElaboracion) {
                 CodigoLote = string.Empty;
                 FechaDeElaboracion = LibDate.MinDateForDB();
                 FechaDeVencimiento = LibDate.MaxDateForDB();
@@ -828,8 +829,6 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         private void RaisePropertyLote() {
             RaisePropertyChanged(() => IsVisbleLoteDeInventario);
             RaisePropertyChanged(() => IsEnabledLoteDeInventario);
-            RaisePropertyChanged(() => IsVisibleLoteDeInventarioFechaDeVencimeinto);
-            RaisePropertyChanged(() => IsVisibleLoteDeInventarioFechaDeElaboracion);
             RaisePropertyChanged(() => IsVisbleLabelLoteNuevo);
         }
 
