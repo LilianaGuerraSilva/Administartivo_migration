@@ -29,6 +29,7 @@ namespace Galac.Adm.Brl.Venta {
     public partial class clsCajaNav: LibBaseNav<IList<Caja>, IList<Caja>>, ICajaPdn {
         #region Variables
         string _SerialMaquinaFiscal = "";
+        IAuditoriaConfiguracionPdn insAuditoriaConfiguracionPdn;
         #endregion //Variables
         #region Propiedades
 
@@ -43,6 +44,7 @@ namespace Galac.Adm.Brl.Venta {
         #region Constructores
 
         public clsCajaNav() {
+            insAuditoriaConfiguracionPdn = new clsAuditoriaConfiguracionNav();
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -238,6 +240,7 @@ namespace Galac.Adm.Brl.Venta {
                 return xmlCajaDat;
             } catch (GalacException vEx) {
                 refMensaje = vEx.Message;
+                insAuditoriaConfiguracionPdn.Auditar("Validar Impresora Fiscal", "Validar Impresora Fiscal", "", refMensaje + "," + LibDate.CurrentHourAsStr);
                 return null;
             }
         }
@@ -264,6 +267,7 @@ namespace Galac.Adm.Brl.Venta {
                 }
             } catch (GalacException vEx) {
                 vResult = vEx.Message;
+                insAuditoriaConfiguracionPdn.Auditar("Validar Impresora Fiscal", "Validar Impresora Fiscal", "", vResult + "," + LibDate.CurrentHourAsStr);
             }
             return vResult;
         }
