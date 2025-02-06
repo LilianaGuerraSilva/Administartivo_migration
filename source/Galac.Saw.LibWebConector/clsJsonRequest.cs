@@ -152,12 +152,8 @@ namespace Galac.Saw.LibWebConnector {
     public struct stDataRespuestaNV {
         [JsonProperty("numerodocumento")]
         public string numerodocumento { get; set; }
-        [JsonProperty("numerointerno")]
-        public string numerointerno { get; set; }
         [JsonProperty("identificador")]
         public string identificador { get; set; }
-        [JsonProperty("documento")]
-        public string documento { get; set; }
         [JsonProperty("corelativo")]
         public string corelativo { get; set; }
         [JsonProperty("datetime")]
@@ -177,6 +173,32 @@ namespace Galac.Saw.LibWebConnector {
         public string message { get; set; }
         [JsonProperty("data")]
         public Nullable<stDataRespuestaNV> data { get; set; }
+        [JsonProperty("error")]
+        public Nullable<stErrorRespuestaNV> error { get; set; }
+
+    }
+
+    public struct stDataRespuestaStatusNV {
+        [JsonProperty("numerodocumento")]
+        public string numerodocumento { get; set; }
+        [JsonProperty("numerointerno")]
+        public string numerointerno { get; set; }
+        [JsonProperty("fecha")]
+        public string fecha { get; set; }
+        [JsonProperty("documento")]
+        public string documento { get; set; }
+        [JsonProperty("iddocumento")]
+        public string iddocumento { get; set; }
+
+    }
+
+    public struct stRespuestaStatusNV {
+        [JsonProperty("success")]
+        public bool success { get; set; }
+        [JsonProperty("message")]
+        public string message { get; set; }
+        [JsonProperty("data")]
+        public stDataRespuestaStatusNV[] data { get; set; }
         [JsonProperty("error")]
         public Nullable<stErrorRespuestaNV> error { get; set; }
 
