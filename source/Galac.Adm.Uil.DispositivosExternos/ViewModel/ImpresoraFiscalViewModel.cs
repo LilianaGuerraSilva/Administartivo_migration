@@ -9,13 +9,14 @@ using LibGalac.Aos.Catching;
 using System.Threading;
 using LibGalac.Aos.Base;
 using Galac.Saw.Ccl.Tablas;
+using Galac.Saw.Ccl.Tablas;
 
 namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
     public class ImpresoraFiscalViewModel:LibGenericViewModel {
         #region Constantes
         public const string NumeroComprobantePropertyName = "NumeroComprobante";
         public const string SerialImpresoraFiscalPropertyName = "SerialImpresoraFiscal";
-        Galac.Saw.Ccl.Tablas.IAuditoriaConfiguracionPdn _AuditoriaConfiguracion;
+        IAuditoriaConfiguracionPdn _AuditoriaConfiguracion;
         #endregion
 
         #region Variables
@@ -196,7 +197,9 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
                     if(t.IsCompleted) {
                         CancelCommand.Execute(null);
                     } else {
-                        LibMessages.MessageBox.Alert(null,"Proceso Cancelado","");
+                        _Mensaje = "Proceso Cancelado";
+                        LibMessages.MessageBox.Alert(null, _Mensaje, ModuleName);
+                        _AuditoriaConfiguracion.Auditar(ModuleName + ":" + _Mensaje, "Imprimir Reporte Z", "", "");
                         CancelCommand.Execute(null);
                     }
                 },cancellationTokenSource.Token,TaskContinuationOptions.OnlyOnRanToCompletion,TaskScheduler.FromCurrentSynchronizationContext());

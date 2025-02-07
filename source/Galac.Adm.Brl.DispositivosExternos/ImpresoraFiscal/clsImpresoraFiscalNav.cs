@@ -8,6 +8,7 @@ using Galac.Saw.Ccl.SttDef;
 using Galac.Adm.Ccl.DispositivosExternos;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
+using Galac.Saw.Ccl.Tablas;
 
 namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
     public class clsImpresoraFiscalNav {
@@ -15,7 +16,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         private string _SerialImpresoraFiscal = "";
         private string _NumeroComprobanteFiscal = "";
         IImpresoraFiscalPdn _ImpresoraFiscal;
-        Galac.Saw.Ccl.Tablas.IAuditoriaConfiguracionPdn _AuditoriaConfiguracion;
+        IAuditoriaConfiguracionPdn _AuditoriaConfiguracion;
 
         #endregion variables
 
