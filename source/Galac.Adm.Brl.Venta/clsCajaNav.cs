@@ -245,8 +245,7 @@ namespace Galac.Adm.Brl.Venta {
         }
 
         string ICajaPdn.ValidaImpresoraFiscalVb() { //Todo cambio se debe adaptar en ValidateImpresoraFiscal
-            string vResult = string.Empty;
-            bool vSeDetectoImpresoraFiscal = false;
+            string vResult = string.Empty;            
             try {
                 int vCajaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ConsecutivoCaja");
                 int vConsecutivoCompania = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("FacturaRapida", "ConsecutivoCompania");
@@ -258,7 +257,7 @@ namespace Galac.Adm.Brl.Venta {
                     IImpresoraFiscalPdn vImpresoraFiscal = InitializeImpresoraFiscal(xmlCajaDat, vCajaLocal);
                     clsImpresoraFiscalNav insIF = new clsImpresoraFiscalNav(vImpresoraFiscal);
                     insIF.SerialImpresoraFiscal = SerialMaquinaFiscal;
-                    vSeDetectoImpresoraFiscal = insIF.DetectarImpresoraFiscalVb(ref refStatusPapel, ref vResult);
+                    bool vSeDetectoImpresoraFiscal = insIF.DetectarImpresoraFiscalVb(ref refStatusPapel, ref vResult);
                     if (!vSeDetectoImpresoraFiscal) {
                         vResult += "\nNo se pudo detectar la impresora fiscal.";                        
                     } else if (refStatusPapel.Equals(eStatusImpresorasFiscales.ePocoPapel)) {
