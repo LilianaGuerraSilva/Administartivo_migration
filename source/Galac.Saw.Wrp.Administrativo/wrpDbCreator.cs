@@ -254,6 +254,8 @@ namespace Galac.Saw.Wrp.DDL {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearRutaDeComercializacion();
             } else if (valTableName.Equals("GVentasDefiniciones", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearGVentasDefiniciones();
+            } else if (valTableName.Equals("otrosCargosDeFactura", StringComparison.CurrentCultureIgnoreCase)) {
+                vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearOtrosCargosDeFactura();
             } else if (valTableName.Equals("LoteDeInventario", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearLoteDeInventario();
             } else {

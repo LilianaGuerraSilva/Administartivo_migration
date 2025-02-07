@@ -63,11 +63,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         const string MontoAnticipoMEPropertyName = "MontoAnticipoME";
         const string MontoVueltoMEPropertyName = "MontoVueltoME";
         const string MontoZellePropertyName = "MontoZelle";
+        const string MontoCreditoElectronicoPropertyName = "MontoCreditoElectronico";
         const string NombreOperadorPropertyName = "NombreOperador";
         const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
         const string TotalesMediosElectronicosPropertyName = "TotalesMediosElectronicos";
         const string TotalesMediosElectronicosMEPropertyName = "TotalesMediosElectronicosME";
         const string IsExpandedTotalesMediosElectronicosPropertyName = "IsExpandedTotalesMediosElectronicos";
+        const string TotalesCreditoElectronicoMEPropertyName = "TotalesCreditoElectronico";
 
         private FkCajaViewModel _ConexionNombreCaja = null;
         private FkGUserViewModel _ConexionNombreDelUsuario = null;
@@ -81,6 +83,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         decimal _TotalesMediosElectronicos;
         decimal _TotalesMediosElectronicosME;
         bool _IsExpandedTotalesMediosElectronicos;
+        decimal _TotalesCreditoElectronico;
         #endregion //Constantes y Variables
 
         #region Propiedades
@@ -603,6 +606,18 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 }
             }
         }
+
+        public decimal MontoCreditoElectronico {
+            get {
+                return Model.MontoCreditoElectronico;
+            }
+            set {
+                if (Model.MontoCreditoElectronico != value) {
+                    Model.MontoCreditoElectronico = value;
+                    RaisePropertyChanged(MontoCreditoElectronicoPropertyName);
+                }
+            }
+        }
         public bool IsExpandedTotalesMediosElectronicos {
             get {
                 return _IsExpandedTotalesMediosElectronicos;
@@ -618,6 +633,18 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public bool IsEnabledTotalesMediosElectronicos {
             get {
                 return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMediosElectronicosDeCobro");
+            }
+        }
+
+        public bool IsVisibleTotalesCreditoElectronico {
+            get {
+                return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaCreditoElectronico");
+            }
+        }
+
+        public string IsNombreCreditoElectronico {
+            get {
+                return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "NombreCreditoElectronico");
             }
         }
 
@@ -675,6 +702,18 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 if (_TotalesMediosElectronicosME != value) {
                     _TotalesMediosElectronicosME = value;
                     RaisePropertyChanged(TotalesMediosElectronicosMEPropertyName);
+                }
+            }
+        }
+
+        public decimal TotalesCreditoElectronico {
+            get {
+                return _TotalesCreditoElectronico;
+            }
+            set {
+                if (_TotalesCreditoElectronico != value) {
+                    _TotalesCreditoElectronico = value;
+                    RaisePropertyChanged(TotalesCreditoElectronicoMEPropertyName);
                 }
             }
         }
@@ -1148,9 +1187,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 MontoAnticipoME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoAnticipoME"));
                 MontoVueltoME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoVueltoME"));
                 MontoZelle = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoZelle"));
+                MontoCreditoElectronico = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoCreditoElectronico"));
                 MontoCierreME = MontoAperturaME + MontoEfectivoME + MontoTarjetaME + MontoChequeME + MontoDepositoME + MontoAnticipoME + MontoVueltoME + MontoZelle;
                 TotalesMediosElectronicos = MontoPagoMovil + MontoC2P + MontoTarjetaMS + MontoTransferenciaMS + MontoDepositoMS;
                 TotalesMediosElectronicosME = MontoZelle;
+                TotalesCreditoElectronico = MontoCreditoElectronico;
             }
         }
 

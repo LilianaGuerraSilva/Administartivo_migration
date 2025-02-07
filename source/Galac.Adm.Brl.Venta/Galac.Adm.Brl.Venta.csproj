@@ -50,13 +50,13 @@
       <HintPath>..\packages\LibGalac.Aos.Brl.5.24.2.3\lib\LibGalac.Aos.Brl.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Brl.Usal">
-      <HintPath>..\packages\LibGalac.Aos.Brl.Usal.5.24.0\lib\LibGalac.Aos.Brl.Usal.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Brl.Usal.5.24.2.4\lib\LibGalac.Aos.Brl.Usal.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Catching">
       <HintPath>..\packages\LibGalac.Aos.Catching.5.24.0\lib\LibGalac.Aos.Catching.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Ccl.Usal">
-      <HintPath>..\packages\LibGalac.Aos.Ccl.Usal.5.24.0\lib\LibGalac.Aos.Ccl.Usal.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Ccl.Usal.5.24.2.4\lib\LibGalac.Aos.Ccl.Usal.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Cnf">
       <HintPath>..\packages\LibGalac.Aos.Cnf.5.24.0\lib\LibGalac.Aos.Cnf.dll</HintPath>

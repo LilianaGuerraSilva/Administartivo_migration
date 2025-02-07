@@ -101,7 +101,25 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
         public int ConsecutivoCompania { get; set; }
         public int Consecutivo { get; set; }
         public string Descripcion { get; set; }
-    }	
+    }
+
+    public class FkOtrosCargosDeFacturaViewModel: IFkOtrosCargosDeFacturaViewModel {
+        public int ConsecutivoCompania { get; set; }
+        [LibGridColum("Código del Cargo")]
+        public string Codigo { get; set; }
+        [LibGridColum("Descripción")]
+        public string Descripcion { get; set; }
+        [LibGridColum("Status")]
+        public eStatusOtrosCargosyDescuentosDeFactura Status { get; set; }
+        public eBaseCalculoOtrosCargosDeFactura SeCalculaEnBaseA { get; set; }
+        public eComoAplicaOtrosCargosDeFactura ComoAplicaAlTotalFactura { get; set; }
+        public decimal Monto { get; set; }
+        public decimal PorcentajeSobreBase { get; set; }
+        public decimal Sustraendo { get; set; }
+        public decimal PorcentajeComision { get; set; }
+        public bool ExcluirDeComision { get; set; }
+        public eBaseFormulaOtrosCargosDeFactura BaseFormula { get; set; }
+    }
 }
 
 

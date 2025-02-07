@@ -1,5 +1,6 @@
 using Galac.Saw.Ccl.SttDef;
 using Galac.Saw.Ccl.Tablas;
+using Galac.Saw.Dal.Tablas;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Dal;
 using System;
@@ -7,22 +8,24 @@ using System.Text;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
 
-    class clsVersionTemporalNoOficial : clsVersionARestructurar {
+    class clsVersionTemporalNoOficial: clsVersionARestructurar {
         public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
         public override bool UpdateToVersion() {
             StartConnectionNoTransaction();
-			CrearCampoManejaMerma();
-			CrearCampoManejaMermaOP();
+            CrearCampoManejaMerma();
+            CrearCampoManejaMermaOP();
             AmpliarColumnaCompaniaImprentaDigitalClave();
             AgregarReglaContabilizacionProduccionMermaAnormal();
             ParametrosCreditoElectronico();
             FormaDelCobro();
             CxC();
+            CrearOtrosCargosDeFactura();
+            CamposCreditoElectronicoEnCajaApertura();
             DisposeConnectionNoTransaction();
             return true;
         }
 
-		private void CrearCampoManejaMerma () {
+        private void CrearCampoManejaMerma() {
             AddColumnBoolean("Adm.ListaDeMateriales", "ManejaMerma", "CONSTRAINT nnLisDeMatManejaMerm NOT NULL", false);
 
             if (AddColumnNumeric("Adm.ListaDeMaterialesDetalleArticulo", "MermaNormal", 25, 8, "", 0)) {
@@ -86,7 +89,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             }
         }
 
-        private void AmpliarColumnaCompaniaImprentaDigitalClave() {            
+        private void AmpliarColumnaCompaniaImprentaDigitalClave() {
             ModifyLengthOfColumnString("Compania", "ImprentaDigitalClave", 1000, "");
         }
 
@@ -128,6 +131,16 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             MoverGroupName("ConceptoBancarioCobroDirecto", vGroupNameActual, vGroupNameNuevo, vLevelGroupNuevo);
             MoverGroupName("CuentaBancariaCobroMultimoneda", vGroupNameActual, vGroupNameNuevo, vLevelGroupNuevo);
             MoverGroupName("ConceptoBancarioCobroMultimoneda", vGroupNameActual, vGroupNameNuevo, vLevelGroupNuevo);
+        }
+
+        private void CrearOtrosCargosDeFactura() {
+            new clsOtrosCargosDeFacturaED().InstalarVistasYSps();
+        }
+
+        private void CamposCreditoElectronicoEnCajaApertura() {
+            if (AddColumnDecimal("Adm.CajaApertura", "MontoCreditoElectronico", 25, 4, "", 0)) {
+                AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoCrEl", "0", "MontoCreditoElectronico");
+            }
         }
     }
 }

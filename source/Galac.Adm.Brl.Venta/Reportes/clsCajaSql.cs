@@ -788,7 +788,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             if (valEsPAraMonedaLocal) {
                 vSql.AppendLine("		MontoEfectivo [01 - Efectivo], MontoTarjeta [02 - Tarjeta], MontoCheque [03 - Cheque], MontoDeposito [04 - Depósito], MontoAnticipo [05 - Anticipo], MontoVuelto [06 - Vuelto Efectivo], MontoVueltoPM [07 - Vuelto Pago Móvil], MontoTarjetaMS [08 - Tarjeta Medios Electrónicos],MontoC2P [09 - C2P],MontoTransferenciaMS [10 - Transferencia Medios Electrónicos],MontoPagoMovil [11 - Pago Móvil],MontoDepositoMS [12 - Depósito Medios Electrónicos], ");
             } else {
-                vSql.AppendLine("		MontoEfectivoME [01 - Efectivo], MontoTarjetaME [02 - Tarjeta], MontoChequeME [03 - Cheque], MontoDepositoME [04 - Depósito], MontoAnticipoME [05 - Anticipo], MontoVueltoME [06 - Vuelto Efectivo], MontoZelle [13 - Zelle], ");
+                vSql.AppendLine("		MontoEfectivoME [01 - Efectivo], MontoTarjetaME [02 - Tarjeta], MontoChequeME [03 - Cheque], MontoDepositoME [04 - Depósito], MontoAnticipoME [05 - Anticipo], MontoVueltoME [06 - Vuelto Efectivo], MontoZelle [13 - Zelle], MontoCreditoElectronico [14 - Crédito Electrónico], ");
             }
             vSql.AppendLine("		Fecha, ");
             vSql.AppendLine("		HoraApertura, ");
@@ -805,7 +805,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             if (valEsPAraMonedaLocal) {
                 vSql.AppendLine("	UNPIVOT (MontoML FOR Movimiento IN ([01 - Efectivo], [02 - Tarjeta], [03 - Cheque], [04 - Depósito], [05 - Anticipo], [06 - Vuelto Efectivo], [07 - Vuelto Pago Móvil], [08 - Tarjeta Medios Electrónicos], [09 - C2P], [10 - Transferencia Medios Electrónicos], [11 - Pago Móvil], [12 - Depósito Medios Electrónicos]))AS CajaAperturaPorOperadorML");
             } else {
-                vSql.AppendLine("	UNPIVOT (MontoME FOR Movimiento IN ([01 - Efectivo], [02 - Tarjeta], [03 - Cheque], [04 - Depósito], [05 - Anticipo], [06 - Vuelto Efectivo] ,[13 - Zelle]))AS CajaAperturaPorOperadorME");
+                vSql.AppendLine("	UNPIVOT (MontoME FOR Movimiento IN ([01 - Efectivo], [02 - Tarjeta], [03 - Cheque], [04 - Depósito], [05 - Anticipo], [06 - Vuelto Efectivo], [13 - Zelle], [14 - Crédito Electrónico]))AS CajaAperturaPorOperadorME");
             }
             return vSql.ToString();
         }

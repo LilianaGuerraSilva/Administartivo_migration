@@ -98,7 +98,7 @@
       <HintPath>..\packages\LibGalac.Aos.Uil.5.24.2.4\lib\LibGalac.Aos.Uil.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Uil.Usal">
-      <HintPath>..\packages\LibGalac.Aos.Uil.Usal.5.24.1\lib\LibGalac.Aos.Uil.Usal.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Uil.Usal.5.24.2.5\lib\LibGalac.Aos.Uil.Usal.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Vbwa">
       <HintPath>..\packages\LibGalac.Aos.Vbwa.5.24.1\lib\LibGalac.Aos.Vbwa.dll</HintPath>
@@ -147,6 +147,7 @@
     <Compile Include="IWrpLibros.cs" />
     <Compile Include="IWrpImprentaDigitalVb.cs" />
     <Compile Include="IWrpLoteDeInventarioVb.cs" />
+    <Compile Include="IWrpOtrosCargosDeFactura.cs" />
     <Compile Include="IWrpRutaDeComercializacionVb.cs" />
     <Compile Include="IWrpOrdenDeProduccionVb.cs" />
     <Compile Include="IWrpTransferenciaEntreCuentasBancariasVb.cs" />
@@ -163,6 +164,7 @@
     <Compile Include="wrpMenuBarCaja.cs" />
     <Compile Include="wrpMesesGenerados.cs" />
     <Compile Include="wrpNotaDeEntradaSalida.cs" />
+    <Compile Include="wrpOtrosCargosDeFactura.cs" />
     <Compile Include="wrpRutaDeComercializacion.cs" />
     <Compile Include="wrpTextosDinamicos.cs" />
     <Compile Include="wrpTransferenciaEntreCuentasBancarias.cs" />

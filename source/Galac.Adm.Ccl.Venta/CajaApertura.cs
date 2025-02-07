@@ -47,6 +47,7 @@ namespace Galac.Adm.Ccl.Venta {
         private decimal _MontoAnticipoME;
         private decimal _MontoVueltoME;
         private decimal _MontoZelle;
+        private decimal _MontoCreditoElectronico;
         private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;
@@ -234,6 +235,11 @@ namespace Galac.Adm.Ccl.Venta {
             set { _MontoZelle = value; }
         }
 
+        public decimal MontoCreditoElectronico {
+            get { return _MontoCreditoElectronico; }
+            set { _MontoCreditoElectronico = value; }
+        }
+
         public string NombreOperador {
             get { return _NombreOperador; }
             set { _NombreOperador = LibString.Mid(value, 0, 10); }
@@ -302,6 +308,7 @@ namespace Galac.Adm.Ccl.Venta {
             MontoAnticipoME = 0;
             MontoVueltoME = 0;
             MontoZelle = 0;
+            MontoCreditoElectronico = 0;
             NombreOperador = string.Empty;
             FechaUltimaModificacion = LibDate.Today();
             fldTimeStamp = 0;
@@ -344,6 +351,7 @@ namespace Galac.Adm.Ccl.Venta {
             vResult.MontoAnticipoME = _MontoAnticipoME;
             vResult.MontoVueltoME = _MontoVueltoME;
             vResult.MontoZelle = _MontoZelle;
+            vResult.MontoCreditoElectronico = _MontoCreditoElectronico;
             vResult.NombreOperador = _NombreOperador;
             vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
             vResult.fldTimeStamp = _fldTimeStamp;
@@ -384,6 +392,7 @@ namespace Galac.Adm.Ccl.Venta {
                "\nMonto Anticipo ME = " + _MontoAnticipoME.ToString() +
                "\nMonto Vuelto ME = " + _MontoVueltoME.ToString() +
                "\nMonto Zelle = " + _MontoZelle.ToString() +
+               "\nMonto Credito Electronico = " + _MontoCreditoElectronico.ToString() +
                "\nNombre Operador = " + _NombreOperador +
                "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();
         }
