@@ -29,15 +29,18 @@ namespace Galac.Saw.SLev {
             #region Factura
             vPermisos.Add(new CustomRole("Factura", "Consultar", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Insertar", "Principal", 1));
-            vPermisos.Add(new CustomRole("Factura", "Modificar", "Principal", 1));
-            vPermisos.Add(new CustomRole("Factura", "Eliminar", "Principal", 1));
+            vPermisos.Add(new CustomRole("Factura", "Modificar Borrador", "Principal", 1));
+            vPermisos.Add(new CustomRole("Factura", "Modificar Información de Campos Definibles", "Principal", 1));
+            vPermisos.Add(new CustomRole("Factura", "Corregir Número de Control", "Principal", 1));
+            vPermisos.Add(new CustomRole("Factura", "Eliminar Borrador", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Emitir", "Principal", 1));
+            vPermisos.Add(new CustomRole("Factura", "ReGenerar CxC", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Emitir Directo", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Insertar Copia", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Insertar Factura Borrador", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Insertar Factura Manual", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Insertar Venta con Débito Fiscal Diferido", "Principal", 1));
-            vPermisos.Add(new CustomRole("Factura", "Insertar Devolución / Reverso", "Principal", 1));
+            vPermisos.Add(new CustomRole("Factura", "Insertar Nota de Crédito por Devolución/Reverso", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Insertar Nota de Crédito", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Insertar Nota de Débito", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Ingresar Fecha de Entrega", "Principal", 1));
@@ -52,15 +55,15 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Factura", "Informes", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Otorgar Descuento", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Cobro Directo", "Principal", 1));
-            vPermisos.Add(new CustomRole("Factura", "Cambiar Descripción y Precio", "Principal", 1));
-            vPermisos.Add(new CustomRole("Factura", "Modificar Precio en Factura", "Principal", 1));
+            vPermisos.Add(new CustomRole("Factura", "Modificar Descripción y Precio al Insertar Borrador", "Principal", 1));
+            vPermisos.Add(new CustomRole("Factura", "Modificar Precio al Insertar Borrador", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Importar", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Exportar", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Reservar Mercancía", "Principal", 1));
-            vPermisos.Add(new CustomRole("Factura", "Modificar Vendedor en Factura Emitida", "Principal", 1));
-            vPermisos.Add(new CustomRole("Factura", "Reactivar Factura Anulada", "Principal", 1));
-            vPermisos.Add(new CustomRole("Factura", "Emisión sin Impresión Fiscal", "Principal", 1));
-            vPermisos.Add(new CustomRole("Factura", "Emitir y Cobrar sin Impresión Fiscal", "Principal", 1));
+            vPermisos.Add(new CustomRole("Factura", "Corregir Vendedor", "Principal", 1));
+            vPermisos.Add(new CustomRole("Factura", "Corregir Tipo de Cobro", "Principal", 1));
+            vPermisos.Add(new CustomRole("Factura", "Corregir falla de emisión Imp. Fiscal", "Principal", 1));
+            vPermisos.Add(new CustomRole("Factura", "Corregir falla de emisión Imp. Fiscal y Cobrar", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Sincronizar con Imprenta Digital", "Principal", 1));
             #endregion
 

@@ -29,6 +29,7 @@ namespace Galac.Adm.Brl.Venta {
     public partial class clsCajaNav: LibBaseNav<IList<Caja>, IList<Caja>>, ICajaPdn {
         #region Variables
         string _SerialMaquinaFiscal = "";
+        IAuditoriaConfiguracionPdn _AuditoriaConfiguracion;
         #endregion //Variables
         #region Propiedades
 
@@ -43,6 +44,7 @@ namespace Galac.Adm.Brl.Venta {
         #region Constructores
 
         public clsCajaNav() {
+            _AuditoriaConfiguracion = new clsAuditoriaConfiguracionNav();
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -237,13 +239,13 @@ namespace Galac.Adm.Brl.Venta {
                 }
                 return xmlCajaDat;
             } catch (GalacException vEx) {
-                refMensaje = vEx.Message;
+                refMensaje = vEx.Message;                
                 return null;
             }
         }
 
         string ICajaPdn.ValidaImpresoraFiscalVb() { //Todo cambio se debe adaptar en ValidateImpresoraFiscal
-            string vResult = string.Empty;
+            string vResult = string.Empty;            
             try {
                 int vCajaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ConsecutivoCaja");
                 int vConsecutivoCompania = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("FacturaRapida", "ConsecutivoCompania");
@@ -257,13 +259,14 @@ namespace Galac.Adm.Brl.Venta {
                     insIF.SerialImpresoraFiscal = SerialMaquinaFiscal;
                     bool vSeDetectoImpresoraFiscal = insIF.DetectarImpresoraFiscalVb(ref refStatusPapel, ref vResult);
                     if (!vSeDetectoImpresoraFiscal) {
-                        vResult +=  "\nNo se pudo detectar la impresora fiscal.";
+                        vResult += "\nNo se pudo detectar la impresora fiscal.";                        
                     } else if (refStatusPapel.Equals(eStatusImpresorasFiscales.ePocoPapel)) {
-                        vResult += "\nLa impresora fiscal tiene poco papel.";
+                        vResult += "\nLa impresora fiscal tiene poco papel.";                        
                     }
                 }
+
             } catch (GalacException vEx) {
-                vResult = vEx.Message;
+                vResult = vEx.Message;                
             }
             return vResult;
         }
@@ -361,8 +364,7 @@ namespace Galac.Adm.Brl.Venta {
         }
         LibResponse ICajaPdn.ActualizarYAuditarCambiosMF(IList<Caja> refRecord, bool valAuditarMF, string valMotivoCambiosMaqFiscal, string valFamiliaOriginal, string valModeloOriginal, string valTipoDeConexionOriginal, string valSerialMFOriginal, string valUltNumComprobanteFiscalOriginal, string valUltNumNCFiscalOriginal) {
             string valoresOriginales = string.Empty;
-            string valoresModificados = string.Empty;
-            IAuditoriaConfiguracionPdn insPdn = new clsAuditoriaConfiguracionNav();
+            string valoresModificados = string.Empty;            
             RegisterClient();
             LibResponse result = base.UpdateRecord(refRecord);
             if (result.Success && valAuditarMF) {
@@ -384,7 +386,7 @@ namespace Galac.Adm.Brl.Venta {
                 valoresModificados = valoresModificados + "Último num. comp. fiscal: " + refRecord[0].UltimoNumeroCompFiscal + ",";
                 valoresModificados = valoresModificados + "Último num. NC fiscal: " + refRecord[0].UltimoNumeroNCFiscal + ",";
 
-                insPdn.Auditar(valMotivoCambiosMaqFiscal
+                _AuditoriaConfiguracion.Auditar(valMotivoCambiosMaqFiscal
                  , "MODIFICAR"
                  , valoresOriginales
                  , valoresModificados

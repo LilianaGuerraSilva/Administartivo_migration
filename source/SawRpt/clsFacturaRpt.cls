@@ -680,7 +680,7 @@ Public Function fConfigurarDatosDelReporteFacturasOBorradoresEntreFechas(ByRef r
          If valUsaModuloDeContabilidad Then
             gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNComprobante", "", "NumeroComprobante"
          Else
-            gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "lbNComprobante", False
+            gUtilReports.sDefaultConfigurationForLabels refRpt, "lbNComprobante", ""
             gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "txtNComprobante", False
          End If
 
