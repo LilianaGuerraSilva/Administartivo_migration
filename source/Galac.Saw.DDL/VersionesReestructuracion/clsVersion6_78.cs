@@ -29,6 +29,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             LimpiaParametroImprimirPrecioEnNotaES();
             CorreccionDeDatosNullEnCliente();
             DisposeConnectionNoTransaction();
+            CambiarPermisosUsuarioFactura();
             return true;
         }
 
@@ -123,5 +124,23 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 
             Execute(vSql.ToString(), 0);
         }
+
+        private void CambiarPermisosUsuarioFactura() {
+            Execute(SqlUpdateParaCambiarNombrePermisoFactura("Modificar", "Modificar Borrador"));
+            Execute(SqlUpdateParaCambiarNombrePermisoFactura("Eliminar", "Eliminar Borrador"));
+            Execute(SqlUpdateParaCambiarNombrePermisoFactura("Insertar Devolución / Reverso", "Insertar Nota de Crédito por Devolución/Reverso"));
+            Execute(SqlUpdateParaCambiarNombrePermisoFactura("Cambiar Descripción y Precio", "Modificar Descripción y Precio al Insertar Borrador"));
+            Execute(SqlUpdateParaCambiarNombrePermisoFactura("Modificar Precio en Factura", "Modificar Precio al Insertar Borrador"));
+            Execute(SqlUpdateParaCambiarNombrePermisoFactura("Modificar Vendedor en Factura Emitida", "Corregir Vendedor"));
+            Execute(SqlUpdateParaCambiarNombrePermisoFactura("Emisión sin Impresión Fiscal", "Corregir falla de emisión Imp. Fiscal"));
+            Execute(SqlUpdateParaCambiarNombrePermisoFactura("Emitir y Cobrar sin Impresión Fiscal", "Corregir falla de emisión Imp. Fiscal y Cobrar"));
+        }
+
+        private string SqlUpdateParaCambiarNombrePermisoFactura(string valNombreViejo, string valNombreNuevo) {
+            string vSql = "UPDATE Lib.GUserSecurity SET ProjectAction = " + InsSql.ToSqlValue(valNombreNuevo) + " WHERE ProjectModule = 'Factura'  AND ProjectAction = " + InsSql.ToSqlValue(valNombreViejo);
+            return vSql;
+        }
+
+
     }
 }
