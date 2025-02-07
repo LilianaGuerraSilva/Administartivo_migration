@@ -95,6 +95,10 @@
       <Project>{3fbaca54-7fc5-4af8-a087-13ebbba543df}</Project>
       <Name>Galac.Adm.Dal.DispositivosExternos</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.Tablas\Galac.Saw.Brl.Tablas.csproj">
+      <Project>{893120cf-ed36-4227-bbfc-ef9e534b7f50}</Project>
+      <Name>Galac.Saw.Brl.Tablas</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Ccl.Inventario\Galac.Saw.Ccl.Inventario.csproj">
       <Project>{a28fb32d-b951-4d64-8feb-74a261425585}</Project>
       <Name>Galac.Saw.Ccl.Inventario</Name>
@@ -102,6 +106,10 @@
     <ProjectReference Include="..\Galac.Saw.Ccl.SttDef\Galac.Saw.Ccl.SttDef.csproj">
       <Project>{82c458b1-c93b-46a9-b58c-63ecd3633861}</Project>
       <Name>Galac.Saw.Ccl.SttDef</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Tablas\Galac.Saw.Ccl.Tablas.csproj">
+      <Project>{5bbc6220-f35e-4b5a-826e-cfece2eb3364}</Project>
+      <Name>Galac.Saw.Ccl.Tablas</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Lib\Galac.Saw.Lib.csproj">
       <Project>{b04e6942-e0b8-4ba2-90e7-fbf8a95ddc86}</Project>
