@@ -260,11 +260,9 @@ namespace Galac.Adm.Brl.Venta {
                     insIF.SerialImpresoraFiscal = SerialMaquinaFiscal;
                     vSeDetectoImpresoraFiscal = insIF.DetectarImpresoraFiscalVb(ref refStatusPapel, ref vResult);
                     if (!vSeDetectoImpresoraFiscal) {
-                        vResult += "\nNo se pudo detectar la impresora fiscal.";
-                        _AuditoriaConfiguracion.Auditar("Caja Registradora:" + vResult, "Validar Impresora Fiscal", "", "");
+                        vResult += "\nNo se pudo detectar la impresora fiscal.";                        
                     } else if (refStatusPapel.Equals(eStatusImpresorasFiscales.ePocoPapel)) {
-                        vResult += "\nLa impresora fiscal tiene poco papel.";
-                        _AuditoriaConfiguracion.Auditar("Caja Registradora:" + vResult, "Validar Impresora Fiscal", "", "");
+                        vResult += "\nLa impresora fiscal tiene poco papel.";                        
                     }
                 }
 
