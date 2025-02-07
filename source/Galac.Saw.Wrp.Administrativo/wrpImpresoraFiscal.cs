@@ -199,7 +199,23 @@ namespace Galac.Saw.Wrp.DispositivosExternos {
             } catch (Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, "Impresora Fiscal");
             }
-            return false;        }
+            return false;        
+        }
+
+        public bool ReimprimirDocumentoFiscal(string vfwXmlImpresoraFiscal, string vfwlDesde, string vfwlHasta, int vfwlTipoDocumento) {
+            try {
+                bool vReady = false;
+                string vTipoBusqueda = "0";
+                string vTipoDocumento = "0";
+                vTipoDocumento = vfwlTipoDocumento == 5 ? "0" : "1";
+                clsImpresoraFiscalMenu insImpresoraFiscalMenu = new clsImpresoraFiscalMenu();
+                vReady = insImpresoraFiscalMenu.ReimprimirDocumentoFiscal(vfwXmlImpresoraFiscal, vfwlDesde, vfwlHasta, vTipoDocumento, vTipoBusqueda);
+                return vReady;
+            } catch (Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, "Impresora Fiscal");
+            }
+            return false;
+        }
 
         #endregion //Miembros de IWrpVb    
     }

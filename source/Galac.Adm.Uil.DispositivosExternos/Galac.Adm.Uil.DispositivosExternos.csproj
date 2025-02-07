@@ -97,6 +97,7 @@
       <SubType>Code</SubType>
     </Compile>
     <AppDesigner Include="Properties\" />
+    <Compile Include="UIMefDispositivosExternosImprFiscal.cs" />
     <Compile Include="ViewModel\BalanzaMngViewModel.cs" />
     <Compile Include="ViewModel\BalanzaTomarPesoViewModel.cs" />
     <Compile Include="ViewModel\BalanzaViewModel.cs" />

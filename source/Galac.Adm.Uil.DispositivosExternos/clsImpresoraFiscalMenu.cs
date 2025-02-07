@@ -200,8 +200,21 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
             }
         }
 
-        public bool ReimprimirDocumentoFiscal(string valDesde,string valHasta,string valTipo) {
-            throw new NotImplementedException();
+        public bool ReimprimirDocumentoFiscal(string valDatosImpresoraFiscal, string valDesde, string valHasta, string valTipoDocumento, string valTipoBusqueda) {
+            try {
+                bool vResult = false;
+                valDatosImpresoraFiscal = LimpiarXmlAntesDeParsear(valDatosImpresoraFiscal);
+                XElement xmlImpresoraFiscal = LibXml.ToXElement(valDatosImpresoraFiscal);
+                clsImpresoraFiscalCreator vCreatorMaquinaFiscal = new clsImpresoraFiscalCreator();
+                IImpresoraFiscalPdn insIMaquinaFiscal = vCreatorMaquinaFiscal.Crear(xmlImpresoraFiscal);
+                eTipoDocumentoFiscal vTipoDocumento = (eTipoDocumentoFiscal)LibConvert.DbValueToEnum(valTipoDocumento);
+                eTipoDeBusqueda vTipoBusqueda = (eTipoDeBusqueda)LibConvert.DbValueToEnum(valTipoBusqueda);
+                vResult = insIMaquinaFiscal.ReimprimirDocumentoFiscal(valDesde, valHasta, vTipoDocumento, vTipoBusqueda);
+                insIMaquinaFiscal = null;
+                return vResult;
+            } catch (Exception) {
+                throw;
+            }
         }
 
         public bool ReimprimirDocumentoNoFiscal(string valDesde,string valHasta) {

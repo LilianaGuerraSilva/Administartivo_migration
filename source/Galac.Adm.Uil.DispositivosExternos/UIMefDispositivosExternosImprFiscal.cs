@@ -82,7 +82,7 @@ namespace Galac.Adm.Uil.DispositivosExternos {
             InitializeIfNecessary();
             try {
                 //_ImpresoraMenu.ImprimirNotaCredito(_ImprFile,_FacFile);
-                _ImpresoraMenu.ImprimirFacturaFiscal(_ImprFile,_FacFile);
+                _ImpresoraMenu.ReimprimirDocumentoFiscal(_ImprFile, "01/01/2023", "01/01/2023", "0", "1");
             } catch(Exception vEx) {
                 LibExceptionDisplay.Show(vEx);
             }
