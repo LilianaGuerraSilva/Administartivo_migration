@@ -21,6 +21,8 @@ using Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal;
 using Galac.Saw.Lib;
 using LibGalac.Aos.Ccl.Usal;
 using System.Net.NetworkInformation;
+using Galac.Saw.Ccl.Tablas;
+using Galac.Saw.Brl.Tablas;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
     public class CajaViewModel : LibInputViewModel<Caja> {
@@ -59,6 +61,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private bool _PuedeAbrirGaveta = false;
         FkCajaViewModel _ConexionNombreCaja;
         FkGUserViewModel _ConexionNombreDelOperador;
+        IAuditoriaConfiguracionPdn _AuditoriaConfiguracion;
         bool _RegistroDeRetornoEnTxtOld;
 
         bool UsaMaquinaFiscalValorPrevio;
@@ -614,6 +617,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
             PuertoSerial = new Brl.DispositivosExternos.clsConexionPuertoSerial();
             _RegistroDeRetornoEnTxtOld = RegistroDeRetornoEnTxt;
+            _AuditoriaConfiguracion = new clsAuditoriaConfiguracionNav();
         }
 
         protected override void InitializeLookAndFeel(Caja valModel) {
@@ -748,8 +752,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 insMaquinaFiscal = new Brl.DispositivosExternos.ImpresoraFiscal.clsImpresoraFiscalCreator().Crear(ImpresoraXmlFiscalData);
                 SerialDeMaquinaFiscal = insMaquinaFiscal.ObtenerSerial(true);
                 UltimoNumeroCompFiscal = LibText.FillWithCharToLeft(insMaquinaFiscal.ObtenerUltimoNumeroFactura(true), "0", 8);
-                UltimoNumeroNCFiscal = LibText.FillWithCharToLeft(insMaquinaFiscal.ObtenerUltimoNumeroNotaDeCredito(true), "0", 8);                
+                UltimoNumeroNCFiscal = LibText.FillWithCharToLeft(insMaquinaFiscal.ObtenerUltimoNumeroNotaDeCredito(true), "0", 8);
             } catch (GalacException vEx) {
+                _AuditoriaConfiguracion.Auditar(ModuleName + ":" + vEx.Message, "Configurar Cajar", "", "");
                 LibExceptionDisplay.Show(vEx);
             }
         }
