@@ -9,6 +9,7 @@ using Galac.Adm.Ccl.DispositivosExternos;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
 using Galac.Saw.Ccl.Tablas;
+using Galac.Saw.Brl.Tablas;
 
 namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
     public class clsImpresoraFiscalNav {
@@ -48,7 +49,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
 
         #region Constructor
         public clsImpresoraFiscalNav(IImpresoraFiscalPdn valImpresoraFiscal) {
-            _AuditoriaConfiguracion = new Galac.Saw.Brl.Tablas.clsAuditoriaConfiguracionNav();
+            _AuditoriaConfiguracion = new clsAuditoriaConfiguracionNav();
             _ImpresoraFiscal = valImpresoraFiscal;
         }
 

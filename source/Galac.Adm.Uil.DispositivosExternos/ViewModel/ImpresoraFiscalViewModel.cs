@@ -9,7 +9,7 @@ using LibGalac.Aos.Catching;
 using System.Threading;
 using LibGalac.Aos.Base;
 using Galac.Saw.Ccl.Tablas;
-using Galac.Saw.Ccl.Tablas;
+using Galac.Saw.Brl.Tablas;
 
 namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
     public class ImpresoraFiscalViewModel:LibGenericViewModel {
@@ -98,7 +98,7 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
             insImpresoraFiscal = vCreatorMaquinaFiscal.Crear(valXmlMaquinaFiscal);
             insImpresoraFiscalNav = new clsImpresoraFiscalNav(insImpresoraFiscal);
             _TipoDocumentoFiscal = valTipoDocumentoFiscal;
-            _AuditoriaConfiguracion = new Galac.Saw.Brl.Tablas.clsAuditoriaConfiguracionNav();
+            _AuditoriaConfiguracion = new clsAuditoriaConfiguracionNav();
             _SerialImpresoraFiscalDB = LibXml.GetPropertyString(valXmlMaquinaFiscal, "SerialDeMaquinaFiscal");
             Title = "Imprimiendo " + LibEnumHelper.GetDescription(TipoDocumentoFiscal);
             if(_TipoDocumentoFiscal == eTipoDocumentoFiscal.FacturaFiscal || _TipoDocumentoFiscal == eTipoDocumentoFiscal.NotadeCredito) {
