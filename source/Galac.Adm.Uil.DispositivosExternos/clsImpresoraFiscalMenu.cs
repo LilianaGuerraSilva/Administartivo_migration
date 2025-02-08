@@ -5,13 +5,14 @@ using System.Xml.Linq;
 using Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal;
 using LibGalac.Aos.UI.Mvvm.Messaging;
 using System.Linq;
+using System.Xml;
 
 namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
 
-    public class clsImpresoraFiscalMenu :ILibMenu {
+    public class clsImpresoraFiscalMenu : ILibMenu {
 
 
-        public void Ejecuta(eAccionSR valAction,int handler) {
+        public void Ejecuta(eAccionSR valAction, int handler) {
             throw new NotImplementedException();
         }
 
@@ -23,71 +24,71 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
             throw new NotImplementedException();
         }
 
-        public bool ImprimirFacturaFiscal(string valDatosImpresoraFiscal,string valDocumentoFiscal) {
+        public bool ImprimirFacturaFiscal(string valDatosImpresoraFiscal, string valDocumentoFiscal) {
             try {
                 bool vResult = false;
                 valDatosImpresoraFiscal = LimpiarXmlAntesDeParsear(valDatosImpresoraFiscal);
                 valDocumentoFiscal = LimpiarXmlAntesDeParsear(valDocumentoFiscal);
                 XElement xmlImpresoraFiscal = LibXml.ToXElement(valDatosImpresoraFiscal);
-                XElement xmlDocumentoFiscal = LibXml.ToXElement(valDocumentoFiscal);                                
-                ImpresoraFiscalViewModel insImpresoraFiscalViewModel = new ImpresoraFiscalViewModel(xmlImpresoraFiscal,xmlDocumentoFiscal,eTipoDocumentoFiscal.FacturaFiscal);
-                LibMessages.EditViewModel.ShowEditor(insImpresoraFiscalViewModel,true);                
-                vResult = insImpresoraFiscalViewModel.SeImprimioDocumento;                
+                XElement xmlDocumentoFiscal = LibXml.ToXElement(valDocumentoFiscal);
+                ImpresoraFiscalViewModel insImpresoraFiscalViewModel = new ImpresoraFiscalViewModel(xmlImpresoraFiscal, xmlDocumentoFiscal, eTipoDocumentoFiscal.FacturaFiscal);
+                LibMessages.EditViewModel.ShowEditor(insImpresoraFiscalViewModel, true);
+                vResult = insImpresoraFiscalViewModel.SeImprimioDocumento;
                 insImpresoraFiscalViewModel = null;
                 return vResult;
             } catch (Exception vEx) {
                 throw vEx;
-            }            
+            }
         }
 
-        public bool ImprimirNotaCredito(string valDatosImpresoraFiscal,string valDocumentoFiscal) {
+        public bool ImprimirNotaCredito(string valDatosImpresoraFiscal, string valDocumentoFiscal) {
             try {
                 bool vResult = false;
                 valDatosImpresoraFiscal = LimpiarXmlAntesDeParsear(valDatosImpresoraFiscal);
                 valDocumentoFiscal = LimpiarXmlAntesDeParsear(valDocumentoFiscal);
                 XElement xmlImpresoraFiscal = LibXml.ToXElement(valDatosImpresoraFiscal);
-                XElement xmlDocumentoFiscal = LibXml.ToXElement(valDocumentoFiscal);                                
-                ImpresoraFiscalViewModel insImpresoraFiscalViewModel = new ImpresoraFiscalViewModel(xmlImpresoraFiscal,xmlDocumentoFiscal,eTipoDocumentoFiscal.NotadeCredito);
-                LibMessages.EditViewModel.ShowEditor(insImpresoraFiscalViewModel,true);
-                vResult = insImpresoraFiscalViewModel.SeImprimioDocumento;                
+                XElement xmlDocumentoFiscal = LibXml.ToXElement(valDocumentoFiscal);
+                ImpresoraFiscalViewModel insImpresoraFiscalViewModel = new ImpresoraFiscalViewModel(xmlImpresoraFiscal, xmlDocumentoFiscal, eTipoDocumentoFiscal.NotadeCredito);
+                LibMessages.EditViewModel.ShowEditor(insImpresoraFiscalViewModel, true);
+                vResult = insImpresoraFiscalViewModel.SeImprimioDocumento;
                 insImpresoraFiscalViewModel = null;
                 return vResult;
-            } catch(Exception vEx) {                
+            } catch (Exception vEx) {
                 throw vEx;
             }
         }
 
-        public bool RealizarReporteX(bool valAbrirConexion,string valDatosImpresoraFiscal) {
+        public bool RealizarReporteX(bool valAbrirConexion, string valDatosImpresoraFiscal) {
             try {
                 bool vResult = false;
                 valDatosImpresoraFiscal = LimpiarXmlAntesDeParsear(valDatosImpresoraFiscal);
                 XElement xmlImpresoraFiscal = LibXml.ToXElement(valDatosImpresoraFiscal);
-                ImpresoraFiscalViewModel insImpresoraFiscalViewModel = new ImpresoraFiscalViewModel(xmlImpresoraFiscal,xmlImpresoraFiscal,eTipoDocumentoFiscal.ReporteX);
-                LibMessages.EditViewModel.ShowEditor(insImpresoraFiscalViewModel,true);
-                vResult = insImpresoraFiscalViewModel.SeImprimioDocumento;               
+                ImpresoraFiscalViewModel insImpresoraFiscalViewModel = new ImpresoraFiscalViewModel(xmlImpresoraFiscal, xmlImpresoraFiscal, eTipoDocumentoFiscal.ReporteX);
+                LibMessages.EditViewModel.ShowEditor(insImpresoraFiscalViewModel, true);
+                vResult = insImpresoraFiscalViewModel.SeImprimioDocumento;
                 insImpresoraFiscalViewModel = null;
                 return vResult;
-            } catch(Exception) {
+            } catch (Exception) {
                 throw;
             }
         }
 
-        public bool RealizarReporteZ(bool valAbrirConexion,string valDatosImpresoraFiscal) {
+        public bool RealizarReporteZ(bool valAbrirConexion, string valDatosImpresoraFiscal) {
             try {
                 bool vResult = false;
                 valDatosImpresoraFiscal = LimpiarXmlAntesDeParsear(valDatosImpresoraFiscal);
                 XElement xmlImpresoraFiscal = LibXml.ToXElement(valDatosImpresoraFiscal);
-                ImpresoraFiscalViewModel insImpresoraFiscalViewModel = new ImpresoraFiscalViewModel(xmlImpresoraFiscal,xmlImpresoraFiscal,eTipoDocumentoFiscal.ReporteZ);
-                LibMessages.EditViewModel.ShowEditor(insImpresoraFiscalViewModel,true);
-                vResult = insImpresoraFiscalViewModel.SeImprimioDocumento;              
+                ImpresoraFiscalViewModel insImpresoraFiscalViewModel = new ImpresoraFiscalViewModel(xmlImpresoraFiscal, xmlImpresoraFiscal, eTipoDocumentoFiscal.ReporteZ);
+                LibMessages.EditViewModel.ShowEditor(insImpresoraFiscalViewModel, true);
+                vResult = insImpresoraFiscalViewModel.SeImprimioDocumento;
                 insImpresoraFiscalViewModel = null;
                 return vResult;
-            } catch(Exception) {
+            } catch (Exception) {
                 throw;
             }
         }
 
-        public bool AnularDocumentoFiscal(string valDatosImpresoraFiscal,bool valAbrirConexion) {
+        public bool AnularDocumentoFiscal(string valDatosImpresoraFiscal, bool valAbrirConexion) {
             bool vResult = false;
             valDatosImpresoraFiscal = LimpiarXmlAntesDeParsear(valDatosImpresoraFiscal);
             XElement xmlImpresoraFiscal = LibXml.ToXElement(valDatosImpresoraFiscal);
@@ -108,42 +109,42 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
                 vFecha = insIMaquinaFiscal.ObtenerFechaYHora();
                 insIMaquinaFiscal = null;
                 return vFecha;
-            } catch(Exception) {
+            } catch (Exception) {
                 throw;
             }
         }
 
-        public string ObtenerSerial(bool valAbrirConexion,string valDatosImpresoraFiscal) {
+        public string ObtenerSerial(bool valAbrirConexion, string valDatosImpresoraFiscal) {
             try {
-                string vSerial = "";                
+                string vSerial = "";
                 valDatosImpresoraFiscal = LimpiarXmlAntesDeParsear(valDatosImpresoraFiscal);
                 XElement xmlImpresoraFiscal = LibXml.ToXElement(valDatosImpresoraFiscal);
                 clsImpresoraFiscalCreator vCreatorMaquinaFiscal = new clsImpresoraFiscalCreator();
                 IImpresoraFiscalPdn insIMaquinaFiscal = vCreatorMaquinaFiscal.Crear(xmlImpresoraFiscal);
-                vSerial= insIMaquinaFiscal.ObtenerSerial(true);
+                vSerial = insIMaquinaFiscal.ObtenerSerial(true);
                 insIMaquinaFiscal = null;
                 return vSerial;
-            } catch(Exception) {                
+            } catch (Exception) {
                 throw;
-            }            
+            }
         }
 
-        public string ObtenerUltimoNumeroFactura(bool valAbrirConexion,string valDatosImpresoraFiscal) {
+        public string ObtenerUltimoNumeroFactura(bool valAbrirConexion, string valDatosImpresoraFiscal) {
             try {
                 string vUltimaFactura = "";
                 valDatosImpresoraFiscal = LimpiarXmlAntesDeParsear(valDatosImpresoraFiscal);
                 XElement xmlImpresoraFiscal = LibXml.ToXElement(valDatosImpresoraFiscal);
                 clsImpresoraFiscalCreator vCreatorMaquinaFiscal = new clsImpresoraFiscalCreator();
                 IImpresoraFiscalPdn insIMaquinaFiscal = vCreatorMaquinaFiscal.Crear(xmlImpresoraFiscal);
-                vUltimaFactura= insIMaquinaFiscal.ObtenerUltimoNumeroFactura(true);
+                vUltimaFactura = insIMaquinaFiscal.ObtenerUltimoNumeroFactura(true);
                 insIMaquinaFiscal = null;
                 return vUltimaFactura;
-            } catch(Exception) {                
+            } catch (Exception) {
                 throw;
-            }            
+            }
         }
 
-        public string ObtenerUltimoNumeroNotaDeCredito(bool valAbrirConexion,string valDatosImpresoraFiscal) {
+        public string ObtenerUltimoNumeroNotaDeCredito(bool valAbrirConexion, string valDatosImpresoraFiscal) {
             try {
                 string vUltimoNC = "";
                 valDatosImpresoraFiscal = LimpiarXmlAntesDeParsear(valDatosImpresoraFiscal);
@@ -153,12 +154,12 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
                 vUltimoNC = insIMaquinaFiscal.ObtenerUltimoNumeroNotaDeCredito(true);
                 insIMaquinaFiscal = null;
                 return vUltimoNC;
-            } catch(Exception) {                
+            } catch (Exception) {
                 throw;
             }
         }
 
-        public string ObtenerUltimoNumeroReporteZ(bool valAbrirConexion,string valDatosImpresoraFiscal) {
+        public string ObtenerUltimoNumeroReporteZ(bool valAbrirConexion, string valDatosImpresoraFiscal) {
             try {
                 string vUltimoZ = "";
                 valDatosImpresoraFiscal = LimpiarXmlAntesDeParsear(valDatosImpresoraFiscal);
@@ -168,9 +169,9 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
                 vUltimoZ = insIMaquinaFiscal.ObtenerUltimoNumeroReporteZ(true);
                 insIMaquinaFiscal = null;
                 return vUltimoZ;
-            } catch(Exception) {                
+            } catch (Exception) {
                 throw;
-            }            
+            }
         }
 
         public bool ImprimirDocumentoNoFiscal(string vfwXmlImpresoraFiscal, string valListaVoucherDePago, string valDescripcion) {
@@ -181,7 +182,7 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
                 clsImpresoraFiscalCreator vCreatorMaquinaFiscal = new clsImpresoraFiscalCreator();
                 IImpresoraFiscalPdn insMaquinaFiscal = vCreatorMaquinaFiscal.Crear(xmlImpresoraFiscal);
                 string[] arrListaVoucher = LibString.Split(valListaVoucherDePago, ",");
-                if (arrListaVoucher != null && arrListaVoucher.Count() > 0) {                    
+                if (arrListaVoucher != null && arrListaVoucher.Count() > 0) {
                     foreach (string vVoucher in arrListaVoucher) {
                         if (!LibString.IsNullOrEmpty(vVoucher)) {
                             if (LibFile.FileExists(vVoucher)) {
@@ -200,11 +201,24 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
             }
         }
 
-        public bool ReimprimirDocumentoFiscal(string valDesde,string valHasta,string valTipo) {
-            throw new NotImplementedException();
+        public bool ReimprimirDocumentoFiscal(string valDatosImpresoraFiscal, string valDesde, string valHasta, eTipoDocumentoFiscal valTipoDocumento, string valTipoBusqueda) {
+            try {
+                bool vResult = false;                
+                eTipoDeBusqueda vTipoBusqueda = (eTipoDeBusqueda)LibConvert.DbValueToEnum(valTipoBusqueda);
+                valDatosImpresoraFiscal = LimpiarXmlAntesDeParsear(valDatosImpresoraFiscal);
+                XElement xmlImpresoraFiscal = LibXml.ToXElement(valDatosImpresoraFiscal);
+                XElement xmlDocumentoFiscal = new XElement("GpData");
+                ImpresoraFiscalViewModel insImpresoraFiscalViewModel = new ImpresoraFiscalViewModel(xmlImpresoraFiscal, xmlDocumentoFiscal, valTipoDocumento, true, valDesde, valHasta);
+                LibMessages.EditViewModel.ShowEditor(insImpresoraFiscalViewModel, true);
+                vResult = insImpresoraFiscalViewModel.SeImprimioDocumento;
+                insImpresoraFiscalViewModel = null;
+                return vResult;
+            } catch (Exception vEx) {
+                throw vEx;
+            }
         }
 
-        public bool ReimprimirDocumentoNoFiscal(string valDesde,string valHasta) {
+        public bool ReimprimirDocumentoNoFiscal(string valDesde, string valHasta) {
             throw new NotImplementedException();
         }
 

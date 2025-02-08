@@ -785,14 +785,12 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             throw new NotImplementedException();
         }
 
-        bool IImpresoraFiscalPdn.ReimprimirDocumentoFiscal(string valDesde,string valHasta,string valTipo) {
+        bool IImpresoraFiscalPdn.ReimprimirDocumentoFiscal(string valDesde, string valHasta, eTipoDocumentoFiscal valTipoDocumento, eTipoDeBusqueda valTipoDeBusqueda) {
             bool vResult = false;
             string vTipoOperacion = "";
-            string vCmd = "";
-            eTipoDocumentoFiscal TipoDeDocumento = (eTipoDocumentoFiscal)LibConvert.DbValueToEnum(valTipo);
-
+            string vCmd = "";            
             try {
-                switch(TipoDeDocumento) {
+                switch(valTipoDocumento) {
                 case eTipoDocumentoFiscal.FacturaFiscal:
                     vTipoOperacion = "F";
                     break;

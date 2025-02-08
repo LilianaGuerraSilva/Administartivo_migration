@@ -1083,15 +1083,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         }
 
         string FormatoParaFechaDeReportes(string valFecha) {
-            string vResult;
-            string Dia = "";
-            string Mes = "";
-            string Ano = "";
-
-            Dia = LibString.SubString(valFecha, 0, 2);
-            Mes = LibString.SubString(valFecha, 3, 2);
-            Ano = LibString.SubString(valFecha, 8, 2);
-            vResult = "0" + Ano + Mes + Dia;
+            string vResult;          
+            DateTime vFecha = LibImportData.ToDate(valFecha);
+            vResult = "0" + vFecha.ToString("yyMMdd");
             return vResult;
         }
 
@@ -1099,44 +1093,26 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             short vModo = 0;
             short vTipo = 1;
             return true;
-        }
-
-
-        private bool ReimprimirNotaDeCredito(string valNumeroNotaDeCredito) {
-            short vModo = 0;
-            short vTipo = 1;
-            return true;
-        }
-
-        private bool ReimprimirReporteZ(string valNumeroReporteZ) {
-            short vModo = 0;
-            short vTipo = 2;
-            return true;
-        }
-
-        private bool ReimprimirReporteX(string valNumeroReporteX) {
-            short vModo = 0;
-            short vTipo = 4;
-            return true;
-        }
+        }       
 
         bool IImpresoraFiscalPdn.ReimprimirDocumentoNoFiscal(string valDesde, string valHasta) {
             throw new NotImplementedException();
         }
 
-        bool IImpresoraFiscalPdn.ReimprimirDocumentoFiscal(string valDesde, string valHasta, string valTipo) {
+        bool IImpresoraFiscalPdn.ReimprimirDocumentoFiscal(string valDesde, string valHasta, eTipoDocumentoFiscal valTipoDocumento, eTipoDeBusqueda valTipoDeBusqueda) {
             bool vResult = false;
             string vTipoOperacion = "";
             string vCmd = "";
-            eTipoDocumentoFiscal TipoDeDocumento = (eTipoDocumentoFiscal)LibConvert.DbValueToEnum(valTipo);
-
             try {
-                switch (TipoDeDocumento) {
+                switch (valTipoDocumento) {
                     case eTipoDocumentoFiscal.FacturaFiscal:
                         vTipoOperacion = "F";
                         break;
                     case eTipoDocumentoFiscal.NotadeCredito:
                         vTipoOperacion = "C";
+                        break;
+                    case eTipoDocumentoFiscal.NotadeDebito:
+                        vTipoOperacion = "D";
                         break;
                     case eTipoDocumentoFiscal.ReporteX:
                         vTipoOperacion = "X";
@@ -1145,25 +1121,31 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         vTipoOperacion = "Z";
                         break;
                 }
-
-                if (LibDate.IsValidTextForDate(valDesde) && LibDate.IsValidTextForDate(valHasta)) {
-                    valDesde = FormatoParaFechaDeReportes(valDesde);
-                    valHasta = FormatoParaFechaDeReportes(valHasta);
-                } else if (LibConvert.IsNumeric(valDesde) && LibConvert.IsNumeric(valHasta)) {
-                    valDesde = LibString.SubString(valDesde, 0, 6);
-                    valDesde = LibText.FillWithCharToLeft(valDesde, "0", 7);
-                    valHasta = LibString.SubString(valHasta, 0, 6);
-                    valHasta = LibText.FillWithCharToLeft(valHasta, "0", 7);
-                } else {
-                    throw new GalacException("Los Datos de Entrada son Incorrectos para Número o Fecha\r\n", eExceptionManagementType.Controlled);
+                switch (valTipoDeBusqueda) {
+                    case eTipoDeBusqueda.NumeroDocumento:
+                        valDesde = LibString.SubString(valDesde, 0, 6);
+                        valDesde = LibText.FillWithCharToLeft(valDesde, "0", 7);
+                        valHasta = LibString.SubString(valHasta, 0, 6);
+                        valHasta = LibText.FillWithCharToLeft(valHasta, "0", 7);
+                        vCmd = "R" + vTipoOperacion + valDesde + valHasta;
+                        break;
+                    case eTipoDeBusqueda.RangoDeFecha:
+                        vTipoOperacion = LibText.LCase(vTipoOperacion);
+                        valDesde = FormatoParaFechaDeReportes(valDesde);
+                        valHasta = FormatoParaFechaDeReportes(valHasta);
+                        vCmd = "R" + vTipoOperacion + valDesde + valHasta;
+                        break;
+                    case eTipoDeBusqueda.NumeroRif:
+                        valDesde = "K" + valDesde;
+                        vCmd = "R" + valDesde;
+                        break;
                 }
                 AbrirConexion();
-                vCmd = "U4" + vTipoOperacion + valDesde + valHasta;
                 vResult = _TfhkPrinter.SendCmd(vCmd);
                 CerrarConexion();
                 return vResult;
             } catch (Exception vEx) {
-                throw;
+                throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
         }
 

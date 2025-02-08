@@ -221,6 +221,17 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             }
         }
 
+        public bool ReimprimirDocumentoFiscal(eTipoDocumentoFiscal valTipoDocumento, string valDesde, string valHasta) {
+            bool vResult = false;
+            try {
+                vResult = _ImpresoraFiscal.ReimprimirDocumentoFiscal(valDesde, valHasta, valTipoDocumento, eTipoDeBusqueda.NumeroDocumento);
+                return vResult;
+            } catch (GalacAlertException vEx) {
+                _AuditoriaConfiguracion.Auditar("Impresora Fiscal:" + vEx.Message, "Reimprimir Documento", "", "");
+                throw vEx;
+            }
+        }
+
         public bool ImprimirReporteZ() {
             bool vResult = false;
             try {
