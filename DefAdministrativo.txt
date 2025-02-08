@@ -4790,4 +4790,11 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	{EndSeccion}  
 }
 
-
+{@S}Escalada = Record // male
+   Id 	       : Guid;//HIDE,a,sugestConsecutive
+   Escalada41  : Int;//o
+   Escalada32   : date;//a
+   Escalada73  : str20; //a
+   Escalada100 : str255;
+@PrimaryKey=Id
+}
