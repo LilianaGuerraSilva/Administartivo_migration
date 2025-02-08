@@ -15,6 +15,8 @@ using LibGalac.Aos.Uil;
 using LibGalac.Aos.Vbwa;
 using Galac.Adm.Uil.DispositivosExternos.ViewModel;
 using Galac.Saw.Wrp.DispositivosExternos;
+using Galac.Saw.Ccl.SttDef;
+using Galac.Adm.Ccl.DispositivosExternos;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.DispositivosExternos {
 #elif IsExeBsS​
@@ -23,7 +25,7 @@ namespace Galac.SawBsS.Wrp.DispositivosExternos {
 namespace Galac.Saw.Wrp.DispositivosExternos {
 #endif
     [ClassInterface(ClassInterfaceType.None)]
-    public class wrpImpresoraFiscal:System.EnterpriseServices.ServicedComponent, IWrpImpresoraFisaclVb {
+    public class wrpImpresoraFiscal : System.EnterpriseServices.ServicedComponent, IWrpImpresoraFisaclVb {
 
         #region Variables
         string _Title = "Impresora Fiscal";
@@ -37,47 +39,47 @@ namespace Galac.Saw.Wrp.DispositivosExternos {
 
         #region Miembros de IWrpBalanzaVb
 
-        void IWrpImpresoraFisaclVb.InitializeComponent(string vfwLogin,string vfwPassword,string vfwPath) {
+        void IWrpImpresoraFisaclVb.InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath) {
             try {
                 LibWrp.SetAppConfigToCurrentDomain(vfwPath);
-                LibWrpHelper.ConfigureRuntimeContext(vfwLogin,vfwPassword);
-            } catch(Exception vEx) {
-                if(vEx is AccessViolationException) {
+                LibWrpHelper.ConfigureRuntimeContext(vfwLogin, vfwPassword);
+            } catch (Exception vEx) {
+                if (vEx is AccessViolationException) {
                     throw;
                 }
-                throw new GalacWrapperException(Title + " - Inicializar",vEx);
+                throw new GalacWrapperException(Title + " - Inicializar", vEx);
             }
         }
 
-        void IWrpImpresoraFisaclVb.InitializeDefProg(string vfwProgramInitials,string vfwProgramVersion,string vfwDbVersion,string vfwStrDateOfVersion,string vfwStrHourOfVersion,string vfwValueSpecialCharacteristic,string vfwCountry,string vfwCMTO,bool vfwUsePASOnLine) {
+        void IWrpImpresoraFisaclVb.InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO, bool vfwUsePASOnLine) {
             try {
                 string vLogicUnitDir = LibGalac.Aos.Cnf.LibAppSettings.ULS;
-                LibGalac.Aos.DefGen.LibDefGen.InitializeProgramInfo(vfwProgramInitials,vfwProgramVersion,vfwDbVersion,LibConvert.ToDate(vfwStrDateOfVersion),vfwStrHourOfVersion,"",vfwCountry,LibConvert.ToInt(vfwCMTO));
-                LibGalac.Aos.DefGen.LibDefGen.InitializeWorkPaths("",vLogicUnitDir,LibApp.AppPath(),LibGalac.Aos.DefGen.LibDefGen.ProgramInfo.ProgramInitials);
-            } catch(Exception vEx) {
-                if(vEx is AccessViolationException) {
+                LibGalac.Aos.DefGen.LibDefGen.InitializeProgramInfo(vfwProgramInitials, vfwProgramVersion, vfwDbVersion, LibConvert.ToDate(vfwStrDateOfVersion), vfwStrHourOfVersion, "", vfwCountry, LibConvert.ToInt(vfwCMTO));
+                LibGalac.Aos.DefGen.LibDefGen.InitializeWorkPaths("", vLogicUnitDir, LibApp.AppPath(), LibGalac.Aos.DefGen.LibDefGen.ProgramInfo.ProgramInitials);
+            } catch (Exception vEx) {
+                if (vEx is AccessViolationException) {
                     throw;
                 }
-                throw new GalacWrapperException(Title + " - Inicializar",vEx);
+                throw new GalacWrapperException(Title + " - Inicializar", vEx);
             }
         }
 
         void IWrpImpresoraFisaclVb.InitializeContext(string vfwInfo) {
             try {
                 LibGalac.Aos.DefGen.LibDefGen.Initialize(vfwInfo);
-            } catch(Exception vEx) {
-                if(vEx is System.AccessViolationException) {
+            } catch (Exception vEx) {
+                if (vEx is System.AccessViolationException) {
                     throw;
                 }
-                throw new GalacWrapperException(Title + " - Inicialización",vEx);
+                throw new GalacWrapperException(Title + " - Inicialización", vEx);
             }
 
-        }                                 
+        }
 
-        private LibGlobalValues CreateGlobalValues(string valCurrentMfc,string valCurrentParameters) {
+        private LibGlobalValues CreateGlobalValues(string valCurrentMfc, string valCurrentParameters) {
             LibGlobalValues insGV = new LibGlobalValues();
             insGV.LoadCompleteAppMemInfo(valCurrentParameters);
-            ((LibXmlMFC)insGV.GVDictionary[LibGlobalValues.NameMFCInfo]).Add("Compania",LibConvert.ToInt(valCurrentMfc));
+            ((LibXmlMFC)insGV.GVDictionary[LibGlobalValues.NameMFCInfo]).Add("Compania", LibConvert.ToInt(valCurrentMfc));
             return insGV;
         }
 
@@ -86,10 +88,10 @@ namespace Galac.Saw.Wrp.DispositivosExternos {
             try {
                 string vSerial = "";
                 clsImpresoraFiscalMenu insImpresoraFiscalMenu = new clsImpresoraFiscalMenu();
-                vSerial = insImpresoraFiscalMenu.ObtenerSerial(true,vfwImpresoraFiscal);
+                vSerial = insImpresoraFiscalMenu.ObtenerSerial(true, vfwImpresoraFiscal);
                 return vSerial;
-            } catch(Exception vEx) {                
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx,"Impresora Fiscal");
+            } catch (Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, "Impresora Fiscal");
             }
             return "";
         }
@@ -98,10 +100,10 @@ namespace Galac.Saw.Wrp.DispositivosExternos {
             try {
                 string vUltimaFactura = "";
                 clsImpresoraFiscalMenu insImpresoraFiscalMenu = new clsImpresoraFiscalMenu();
-                vUltimaFactura = insImpresoraFiscalMenu.ObtenerUltimoNumeroFactura(true,vfwImpresoraFiscal);
+                vUltimaFactura = insImpresoraFiscalMenu.ObtenerUltimoNumeroFactura(true, vfwImpresoraFiscal);
                 return vUltimaFactura;
-            } catch(Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx,"Impresora Fiscal");
+            } catch (Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, "Impresora Fiscal");
             }
             return "";
         }
@@ -110,10 +112,10 @@ namespace Galac.Saw.Wrp.DispositivosExternos {
             try {
                 string vUltimaNC = "";
                 clsImpresoraFiscalMenu insImpresoraFiscalMenu = new clsImpresoraFiscalMenu();
-                vUltimaNC = insImpresoraFiscalMenu.ObtenerUltimoNumeroNotaDeCredito(true,vfwImpresoraFiscal);
+                vUltimaNC = insImpresoraFiscalMenu.ObtenerUltimoNumeroNotaDeCredito(true, vfwImpresoraFiscal);
                 return vUltimaNC;
-            } catch(Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx,"Impresora Fiscal");
+            } catch (Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, "Impresora Fiscal");
             }
             return "";
         }
@@ -122,10 +124,10 @@ namespace Galac.Saw.Wrp.DispositivosExternos {
             try {
                 string vUltimoRptZ = "";
                 clsImpresoraFiscalMenu insImpresoraFiscalMenu = new clsImpresoraFiscalMenu();
-                vUltimoRptZ = insImpresoraFiscalMenu.ObtenerUltimoNumeroReporteZ(true,vfwImpresoraFiscal);
+                vUltimoRptZ = insImpresoraFiscalMenu.ObtenerUltimoNumeroReporteZ(true, vfwImpresoraFiscal);
                 return vUltimoRptZ;
-            } catch(Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx,"Impresora Fiscal");
+            } catch (Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, "Impresora Fiscal");
             }
             return "";
         }
@@ -134,58 +136,58 @@ namespace Galac.Saw.Wrp.DispositivosExternos {
             try {
                 bool vReady = false;
                 clsImpresoraFiscalMenu insImpresoraFiscalMenu = new clsImpresoraFiscalMenu();
-                vReady = insImpresoraFiscalMenu.RealizarReporteX(true,vfwImpresoraFiscal);
+                vReady = insImpresoraFiscalMenu.RealizarReporteX(true, vfwImpresoraFiscal);
                 return vReady;
-            } catch(Exception vEx) {                
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx,"Impresora Fiscal");
+            } catch (Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, "Impresora Fiscal");
             }
             return false;
         }
 
-        bool IWrpImpresoraFisaclVb.AnularDocumentoFiscal(string vfwImpresoraFiscal,bool vfwAbrirConexion) {
+        bool IWrpImpresoraFisaclVb.AnularDocumentoFiscal(string vfwImpresoraFiscal, bool vfwAbrirConexion) {
             try {
                 bool vReady = false;
                 clsImpresoraFiscalMenu insImpresoraFiscalMenu = new clsImpresoraFiscalMenu();
-                vReady = insImpresoraFiscalMenu.AnularDocumentoFiscal(vfwImpresoraFiscal,vfwAbrirConexion);
+                vReady = insImpresoraFiscalMenu.AnularDocumentoFiscal(vfwImpresoraFiscal, vfwAbrirConexion);
                 return vReady;
-            } catch(Exception vEx) {               
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx,"Impresora Fiscal");
+            } catch (Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, "Impresora Fiscal");
             }
             return false;
         }
 
-        bool IWrpImpresoraFisaclVb.ImprimirVenta(string vfwImpresoraFiscal,string vfwXmlDocumentoFiscal,ref string NumDocument) {
+        bool IWrpImpresoraFisaclVb.ImprimirVenta(string vfwImpresoraFiscal, string vfwXmlDocumentoFiscal, ref string NumDocument) {
             try {
-                bool vReady = false;        
+                bool vReady = false;
                 clsImpresoraFiscalMenu insImpresoraFiscalMenu = new clsImpresoraFiscalMenu();
-                vReady = insImpresoraFiscalMenu.ImprimirFacturaFiscal(vfwImpresoraFiscal,vfwXmlDocumentoFiscal);
+                vReady = insImpresoraFiscalMenu.ImprimirFacturaFiscal(vfwImpresoraFiscal, vfwXmlDocumentoFiscal);
                 return vReady;
-            } catch(Exception vEx) {                
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx,"Impresora Fiscal");
+            } catch (Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, "Impresora Fiscal");
             }
             return false;
         }
 
-        bool IWrpImpresoraFisaclVb.ImprimirNotaDeCredito(string vfwImpresoraFiscal,string vfwXmlDocumentoFiscal,ref string NumDocumento) {
+        bool IWrpImpresoraFisaclVb.ImprimirNotaDeCredito(string vfwImpresoraFiscal, string vfwXmlDocumentoFiscal, ref string NumDocumento) {
             try {
-                bool vReady = false;                
+                bool vReady = false;
                 clsImpresoraFiscalMenu insImpresoraFiscalMenu = new clsImpresoraFiscalMenu();
-                vReady = insImpresoraFiscalMenu.ImprimirNotaCredito(vfwImpresoraFiscal,vfwXmlDocumentoFiscal);
+                vReady = insImpresoraFiscalMenu.ImprimirNotaCredito(vfwImpresoraFiscal, vfwXmlDocumentoFiscal);
                 return vReady;
-            } catch(Exception vEx) {               
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx,"Impresora Fiscal");
+            } catch (Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, "Impresora Fiscal");
             }
             return false;
         }
 
-        bool IWrpImpresoraFisaclVb.RealizarCierreZ(string vfwImpresoraFiscal,ref string NumDocumento) {
+        bool IWrpImpresoraFisaclVb.RealizarCierreZ(string vfwImpresoraFiscal, ref string NumDocumento) {
             try {
-                bool vReady = false;              
+                bool vReady = false;
                 clsImpresoraFiscalMenu insImpresoraFiscalMenu = new clsImpresoraFiscalMenu();
-                vReady = insImpresoraFiscalMenu.RealizarReporteZ(true,vfwImpresoraFiscal);
+                vReady = insImpresoraFiscalMenu.RealizarReporteZ(true, vfwImpresoraFiscal);
                 return vReady;
-            } catch(Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx,"Impresora Fiscal");
+            } catch (Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, "Impresora Fiscal");
             }
             return false;
         }
@@ -199,15 +201,14 @@ namespace Galac.Saw.Wrp.DispositivosExternos {
             } catch (Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, "Impresora Fiscal");
             }
-            return false;        
+            return false;
         }
 
-         bool IWrpImpresoraFisaclVb.ReimprimirDocumentoFiscal(string vfwXmlImpresoraFiscal, string vfwlDesde, string vfwlHasta, int vfwlTipoDocumento) {
+        bool IWrpImpresoraFisaclVb.ReimprimirDocumentoFiscal(string vfwXmlImpresoraFiscal, string vfwlDesde, string vfwlHasta, int vfwlTipoDocumento) {
             try {
                 bool vReady = false;
                 string vTipoBusqueda = "0";
-                string vTipoDocumento = "0";
-                vTipoDocumento = vfwlTipoDocumento == 5 ? "0" : "1";
+                eTipoDocumentoFiscal vTipoDocumento = (eTipoDocumentoFactura)vfwlTipoDocumento == eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal ? eTipoDocumentoFiscal.NotadeCredito : eTipoDocumentoFiscal.FacturaFiscal;
                 clsImpresoraFiscalMenu insImpresoraFiscalMenu = new clsImpresoraFiscalMenu();
                 vReady = insImpresoraFiscalMenu.ReimprimirDocumentoFiscal(vfwXmlImpresoraFiscal, vfwlDesde, vfwlHasta, vTipoDocumento, vTipoBusqueda);
                 return vReady;
@@ -216,7 +217,6 @@ namespace Galac.Saw.Wrp.DispositivosExternos {
             }
             return false;
         }
-
         #endregion //Miembros de IWrpVb    
     }
 }

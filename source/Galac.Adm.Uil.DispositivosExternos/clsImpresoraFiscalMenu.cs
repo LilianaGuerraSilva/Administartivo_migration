@@ -201,15 +201,14 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
             }
         }
 
-        public bool ReimprimirDocumentoFiscal(string valDatosImpresoraFiscal, string valDesde, string valHasta, string valTipoDocumento, string valTipoBusqueda) {
+        public bool ReimprimirDocumentoFiscal(string valDatosImpresoraFiscal, string valDesde, string valHasta, eTipoDocumentoFiscal valTipoDocumento, string valTipoBusqueda) {
             try {
-                bool vResult = false;
-                eTipoDocumentoFiscal vTipoDocumento = (eTipoDocumentoFiscal)LibConvert.DbValueToEnum(valTipoDocumento);
+                bool vResult = false;                
                 eTipoDeBusqueda vTipoBusqueda = (eTipoDeBusqueda)LibConvert.DbValueToEnum(valTipoBusqueda);
                 valDatosImpresoraFiscal = LimpiarXmlAntesDeParsear(valDatosImpresoraFiscal);
                 XElement xmlImpresoraFiscal = LibXml.ToXElement(valDatosImpresoraFiscal);
                 XElement xmlDocumentoFiscal = new XElement("GpData");
-                ImpresoraFiscalViewModel insImpresoraFiscalViewModel = new ImpresoraFiscalViewModel(xmlImpresoraFiscal, xmlDocumentoFiscal, vTipoDocumento, true, valDesde, valHasta);
+                ImpresoraFiscalViewModel insImpresoraFiscalViewModel = new ImpresoraFiscalViewModel(xmlImpresoraFiscal, xmlDocumentoFiscal, valTipoDocumento, true, valDesde, valHasta);
                 LibMessages.EditViewModel.ShowEditor(insImpresoraFiscalViewModel, true);
                 vResult = insImpresoraFiscalViewModel.SeImprimioDocumento;
                 insImpresoraFiscalViewModel = null;
