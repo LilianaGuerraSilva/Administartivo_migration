@@ -60,6 +60,7 @@
     <Compile Include="CobroDeFacturaRapidaDepositoTransfDetalle.cs" />
     <Compile Include="Contrato.cs" />
     <Compile Include="CxC.cs" />
+    <Compile Include="Escalada.cs" />
     <Compile Include="Factura.cs" />
     <Compile Include="IActualizarArticuloInventarioPdn.cs" />
     <Compile Include="ICajaAperturaPdn.cs" />
