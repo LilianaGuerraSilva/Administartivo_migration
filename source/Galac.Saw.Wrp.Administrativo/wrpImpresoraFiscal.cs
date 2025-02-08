@@ -202,7 +202,7 @@ namespace Galac.Saw.Wrp.DispositivosExternos {
             return false;        
         }
 
-        public bool ReimprimirDocumentoFiscal(string vfwXmlImpresoraFiscal, string vfwlDesde, string vfwlHasta, int vfwlTipoDocumento) {
+         bool IWrpImpresoraFisaclVb.ReimprimirDocumentoFiscal(string vfwXmlImpresoraFiscal, string vfwlDesde, string vfwlHasta, int vfwlTipoDocumento) {
             try {
                 bool vReady = false;
                 string vTipoBusqueda = "0";
