@@ -53,6 +53,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	Caja.Consecutivo AS ConsecutivoCaja");
             vSql.AppendLine("	, Caja.NombreCaja");
             vSql.AppendLine("	, factura.Fecha");
+            vSql.AppendLine("	, factura.HoraModificacion");
             vSql.AppendLine("	, factura.NombreOperador AS NombreDelOperador");
             vSql.AppendLine("   , MonedaDoc.NombreMoneda AS NombreMoneda");
             vSql.AppendLine("   , " + esFacturaNoCobrada + " AS TipoDeDocumento");
@@ -95,6 +96,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	, Caja.NombreCaja");
             vSql.AppendLine("	, factura.TipoDeDocumento");
             vSql.AppendLine("	, factura.Fecha");
+            vSql.AppendLine("	, factura.HoraModificacion");
             vSql.AppendLine("	, factura.NombreOperador");
             vSql.AppendLine("   , factura.Moneda");
             vSql.AppendLine("	, factura.Numero");
