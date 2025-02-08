@@ -15,6 +15,7 @@ using LibGalac.Aos.Cnf;
 using System.Data;
 using LibGalac.Aos.DefGen;
 using Galac.Saw.Dal.Tablas;
+using Galac.Adm.Dal.Venta;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
     class clsVersion6_78 : clsVersionARestructurar {
@@ -30,6 +31,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             CorreccionDeDatosNullEnCliente();
             DisposeConnectionNoTransaction();
             CambiarPermisosUsuarioFactura();
+            CrearEscalada();
             return true;
         }
 
@@ -129,7 +131,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             Execute(SqlUpdateParaCambiarNombrePermisoFactura("Modificar", "Modificar Borrador"));
             Execute(SqlUpdateParaCambiarNombrePermisoFactura("Eliminar", "Eliminar Borrador"));
             Execute(SqlUpdateParaCambiarNombrePermisoFactura("Insertar Devolución / Reverso", "Insertar Nota de Crédito por Devolución/Reverso"));
-            Execute(SqlUpdateParaCambiarNombrePermisoFactura("Cambiar Descripción y Precio", "Modificar Descripción y Precio al Insertar Borrador"));
+            Execute(SqlUpdateParaCambiarNombrePermisoFactura("Cambiar Descripción y Precio", "Editar Borrador: Descripción y Precio"));
             Execute(SqlUpdateParaCambiarNombrePermisoFactura("Modificar Precio en Factura", "Modificar Precio al Insertar Borrador"));
             Execute(SqlUpdateParaCambiarNombrePermisoFactura("Modificar Vendedor en Factura Emitida", "Corregir Vendedor"));
             Execute(SqlUpdateParaCambiarNombrePermisoFactura("Emisión sin Impresión Fiscal", "Corregir falla de emisión Imp. Fiscal"));
@@ -140,7 +142,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             string vSql = "UPDATE Lib.GUserSecurity SET ProjectAction = " + InsSql.ToSqlValue(valNombreNuevo) + " WHERE ProjectModule = 'Factura'  AND ProjectAction = " + InsSql.ToSqlValue(valNombreViejo);
             return vSql;
         }
-
+        private void CrearEscalada() {
+            new clsEscaladaED().InstalarTabla();
+        }
 
     }
 }
