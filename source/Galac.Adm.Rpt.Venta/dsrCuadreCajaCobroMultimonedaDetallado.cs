@@ -14,10 +14,22 @@ namespace Galac.Adm.Rpt.Venta {
     /// <summary>
     /// Summary description for dsrCuadreCajaCobroMultimonedaDetallado.
     /// </summary>
-    public partial class dsrCuadreCajaCobroMultimonedaDetallado:DataDynamics.ActiveReports.ActiveReport {
+    public partial class dsrCuadreCajaCobroMultimonedaDetallado: DataDynamics.ActiveReports.ActiveReport {
         #region Variables
         private bool _UseExternalRpx;
         private static string _RpxFileName;
+        private decimal subTotalPorTipoDeDocumento = 0;
+        private decimal subTotalDocumentoMonedaLocal = 0;
+        private decimal subTotalDocumentoMonedaExt = 0;
+        private decimal TotalCajaMonedaLocal = 0;
+        private decimal TotalCajaMonedaExt = 0;
+        private decimal totalEfectivoMonedaLocal = 0;
+        private decimal totalDepositoMonedaLocal = 0;
+        private decimal totalOtrosMonedaLocal = 0;
+        private decimal totalTarjetaMonedaLocal = 0;
+        private decimal totalEfectivoMonedaExt = 0;
+        private decimal totalTransferenciaMonedaExt = 0;
+        private string vCodigoMonedaDeFormaCobro = string.Empty;
         #endregion //Variables
         #region Propiedades
         private Galac.Comun.Ccl.TablasGen.IMonedaLocalActual vMonedaLocal = new Galac.Comun.Brl.TablasGen.clsMonedaLocalActual();
@@ -39,7 +51,7 @@ namespace Galac.Adm.Rpt.Venta {
         #endregion //Constructores
         #region Metodos Generados
         public string ReportTitle() {
-            return "Informe de Cuadre de Caja con Cobro Multimoneda";
+            return "Informe de Cuadre de Caja con Cobro Multimoneda (Cierre del Día)";
         }
         public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {
             bool incluirTotalesPorFormaDeCobro = LibConvert.SNToBool(valParameters["TotalesTipoDeCobro"]);
@@ -63,6 +75,7 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigFieldStr(this, "txtNombreMoneda", string.Empty, "NombreMoneda");
                 LibReport.ConfigFieldStr(this, "txtTipoDeDocumento", string.Empty, "TipoDeDocumento");
                 LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", "dd/MM/yyyy");
+                LibReport.ConfigFieldDate(this, "txtHora", string.Empty, "HoraModificacion", "hh:mm");
                 LibReport.ConfigFieldStr(this, "txtNumero", string.Empty, "Numero");
                 LibReport.ConfigFieldStr(this, "txtNumeroComprobanteFiscal", string.Empty, "NumeroComprobanteFiscal");
                 LibReport.ConfigFieldStr(this, "txtSimboloMonedaDoc", string.Empty, "SimboloMonedaDoc");
@@ -74,14 +87,14 @@ namespace Galac.Adm.Rpt.Venta {
                 if (enMonedaOriginal) {
                     LibReport.ConfigFieldDecWithNDecimal(this, "txtCambioDeOperacion", string.Empty, "TasaOperacion", 2);
                 } else {
-                    lblNumeroComprobanteFiscal.Width = (float) 3.73;
+                    lblNumeroComprobanteFiscal.Width = (float)3.73;
                     LibReport.ChangeControlVisibility(this, "txtCambioDeOperacion", false);
                     LibReport.ChangeControlVisibility(this, "lblCambioDeOperacion", false);
-                    lblMonto.Width = (float) 1;
-                    LibReport.ChangeControlLocation(this, "lblMonto", (float) 4.73, (float) 0.04);
-                    LibReport.ChangeControlLocation(this, "txtMonto", (float) 4.73, (float) 0);
-                    LibReport.ChangeControlLocation(this, "lblSubTotalCobro", (float) 3.73, (float) 0.02);
-                    LibReport.ChangeControlLocation(this, "txtSubTotalCobro", (float) 4.73, (float) 0.02);
+                    TxtMonto1.Width = (float)1;
+                    LibReport.ChangeControlLocation(this, "lblMonto", (float)4.73, (float)0.04);
+                    LibReport.ChangeControlLocation(this, "txtMonto", (float)4.73, (float)0);
+                    LibReport.ChangeControlLocation(this, "lblSubTotalCobro", (float)3.73, (float)0.02);
+                    LibReport.ChangeControlLocation(this, "txtSubTotalCobro", (float)4.73, (float)0.02);
                     LibReport.ConfigFieldDecWithNDecimal(this, "txtCambioABolivares", LibConvert.ToStr(1), "CambioABolivares", 2);
                     LibReport.ConfigFieldStr(this, "txtCambioABolivaresSimbolo", string.Empty, "SimboloFormaDeCobro");
                     LibReport.ChangeControlVisibility(this, "lblCambioABolivares", true);
@@ -92,8 +105,7 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigSummaryField(this, "txtSubTotalCobro", "Monto", SummaryFunc.Sum, "GHSecCobro", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigFieldDecWithNDecimal(this, "txtSubTotalDocumentosCobrado", string.Empty, "", 2);
                 LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalCaja", string.Empty, "", 2);
-                if (incluirTotalesPorFormaDeCobro)
-                {
+                if (incluirTotalesPorFormaDeCobro) {
                     LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalEfectivoMonedaLocal", string.Empty, "", 2);
                     LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalTarjetaMonedaLocal", string.Empty, "", 2);
                     LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalDepositoMonedaLocal", string.Empty, "", 2);
@@ -138,10 +150,10 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigFieldDecWithNDecimal(this, "txtSubTotalMonedaLocal", string.Empty, "", 2);
                 LibReport.ConfigFieldDecWithNDecimal(this, "txtSubTotalMonedaExt", string.Empty, "", 2);
                 #region Simbolos
-                LibARReport.ConfigLabel(this, "lblSubTotalSimboloMonedaLocal", vMonedaLocal.GetHoySimboloMoneda());
-                LibARReport.ConfigLabel(this, "lblSubTotalSimboloMonedaExt", SimboloMonedaExtranjera);
-                LibARReport.ConfigLabel(this, "lblTotalCajaSimboloMonedaLocal", vMonedaLocal.GetHoySimboloMoneda());
-                LibARReport.ConfigLabel(this, "lblTotalCajaSimboloMonedaExt", SimboloMonedaExtranjera);
+                LibReport.ConfigFieldStr(this, "txtLblSubTotalSimboloMonedaLocal", vMonedaLocal.GetHoySimboloMoneda(), string.Empty);
+                LibReport.ConfigFieldStr(this, "txtLblSubTotalSimboloMonedaExt", SimboloMonedaExtranjera, string.Empty);
+                LibReport.ConfigFieldStr(this, "txtLblTotalCajaSimboloMonedaLocal", vMonedaLocal.GetHoySimboloMoneda(), string.Empty);
+                LibReport.ConfigFieldStr(this, "txtLblTotalCajaSimboloMonedaExt", SimboloMonedaExtranjera, string.Empty);
                 LibARReport.ConfigLabel(this, "lblEfectivoSimboloMonedaLocal", vMonedaLocal.GetHoySimboloMoneda());
                 LibARReport.ConfigLabel(this, "lblTarjetaSimboloMonedaLocal", vMonedaLocal.GetHoySimboloMoneda());
                 LibARReport.ConfigLabel(this, "lblDepositoSimboloMonedaLocal", vMonedaLocal.GetHoySimboloMoneda());
@@ -161,24 +173,6 @@ namespace Galac.Adm.Rpt.Venta {
         }
         #endregion //Metodos Generados
 
-        private void dsrCuadreCajaCobroMultimonedaDetallado_ReportStart(object sender, EventArgs e)
-        {
-
-        }
-
-        private decimal subTotalPorTipoDeDocumento = 0;
-        private decimal subTotalDocumentoMonedaLocal = 0;
-        private decimal subTotalDocumentoMonedaExt = 0;
-        private decimal TotalCajaMonedaLocal = 0;
-        private decimal TotalCajaMonedaExt = 0;
-        private decimal totalEfectivoMonedaLocal= 0;
-        private decimal totalDepositoMonedaLocal = 0;
-        private decimal totalOtrosMonedaLocal = 0;
-        private decimal totalTarjetaMonedaLocal = 0;
-        private decimal totalEfectivoMonedaExt = 0;
-        private decimal totalTransferenciaMonedaExt = 0;
-        private string vCodigoMonedaDeFormaCobro = string.Empty;
-
         private void GHSecDocumento_Format(object sender, EventArgs e) {
             subTotalPorTipoDeDocumento = 0;
         }
@@ -196,7 +190,7 @@ namespace Galac.Adm.Rpt.Venta {
         }
 
         private void GHSecOperador_Format(object sender, EventArgs e) {
-            totalEfectivoMonedaLocal= 0;
+            totalEfectivoMonedaLocal = 0;
             totalTarjetaMonedaLocal = 0;
             totalDepositoMonedaLocal = 0;
             totalOtrosMonedaLocal = 0;
@@ -210,12 +204,12 @@ namespace Galac.Adm.Rpt.Venta {
         }
 
         private void Detail_Format(object sender, EventArgs e) {
-            eFormaDeCobro codFormaCobro = (eFormaDeCobro) LibConvert.DbValueToEnum(txtNombreTipoDeCobro.Text);
+            eFormaDeCobro codFormaCobro = (eFormaDeCobro)LibConvert.DbValueToEnum(txtNombreTipoDeCobro.Text);
             txtNombreTipoDeCobro.Text = codFormaCobro.GetDescription(0).ToUpper();
             string vCodigoMonedaLocal = vMonedaLocal.GetHoyCodigoMoneda();
             if (LibString.S1IsEqualToS2(vCodigoMonedaDeFormaCobro, vCodigoMonedaLocal)) {
                 if (codFormaCobro == eFormaDeCobro.Efectivo) {
-                    totalEfectivoMonedaLocal+= LibConvert.ToDec(txtMonto.Text);
+                    totalEfectivoMonedaLocal += LibConvert.ToDec(txtMonto.Text);
                     txtTotalEfectivoMonedaLocal.Text = LibConvert.ToStr(totalEfectivoMonedaLocal);
                     subTotalDocumentoMonedaLocal += LibConvert.ToDec(txtMonto.Text);
                 } else if (codFormaCobro == eFormaDeCobro.Tarjeta) {
@@ -239,7 +233,7 @@ namespace Galac.Adm.Rpt.Venta {
                     totalTransferenciaMonedaExt += LibConvert.ToDec(txtMonto.Text);
                     txtTotalTransferenciaMonedaExt.Text = LibConvert.ToStr(totalTransferenciaMonedaExt);
                     subTotalDocumentoMonedaExt += LibConvert.ToDec(txtMonto.Text);
-                } 
+                }
             }
             txtSubTotalMonedaLocal.Text = LibConvert.ToStr(subTotalDocumentoMonedaLocal);
             txtSubTotalMonedaExt.Text = LibConvert.ToStr(subTotalDocumentoMonedaExt);
@@ -255,10 +249,10 @@ namespace Galac.Adm.Rpt.Venta {
             if (vCodigoMonedaDeFormaCobro == string.Empty) {
                 LibARReport.ChangeSectionPropertiesVisibleAndHeight(this, "GHSecCobro", false, 0);
                 LibARReport.ChangeSectionPropertiesVisibleAndHeight(this, "GFSecCobro", false, 0);
-                LibARReport.ChangeSectionPropertiesVisibleAndHeight(this, "Detail", false, 0); 
+                LibARReport.ChangeSectionPropertiesVisibleAndHeight(this, "Detail", false, 0);
             } else {
-                LibARReport.ChangeSectionPropertiesVisibleAndHeight(this, "GHSecCobro", true,(float) 0.229);
-                LibARReport.ChangeSectionPropertiesVisibleAndHeight(this, "GFSecCobro", true,(float) 0.208);
+                LibARReport.ChangeSectionPropertiesVisibleAndHeight(this, "GHSecCobro", true, (float)0.229);
+                LibARReport.ChangeSectionPropertiesVisibleAndHeight(this, "GFSecCobro", true, (float)0.208);
                 LibARReport.ChangeSectionPropertiesVisibleAndHeight(this, "Detail", true, (float)0.188);
             }
         }
