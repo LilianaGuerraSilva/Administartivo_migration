@@ -10,6 +10,7 @@ using LibGalac.Aos.DefGen;
 using System.ComponentModel.Composition;
 using System.Collections.ObjectModel;
 using Galac.Contab.Ccl.WinCont;
+using Galac.Adm.Dal.Venta;
 
 namespace Galac.Saw.DDL {
     /// <summary>
@@ -652,7 +653,9 @@ namespace Galac.Saw.DDL {
         public bool CrearAuditoriaConfiguracion() {
             return new Galac.Saw.Dal.Tablas.clsAuditoriaConfiguracionED().InstalarTabla();
         }
-
+        public bool CrearEscalada() {
+            return new clsEscaladaED().InstalarTabla();
+        }
         public bool CrearVistasYProcedimientos(string[] valModulos) {
             bool vResult = true;
             if (LibArray.Contains(valModulos, "Usuario")) {

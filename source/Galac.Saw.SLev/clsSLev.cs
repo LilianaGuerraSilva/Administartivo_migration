@@ -55,8 +55,8 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Factura", "Informes", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Otorgar Descuento", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Cobro Directo", "Principal", 1));
-            vPermisos.Add(new CustomRole("Factura", "Modificar Descripción y Precio al Insertar Borrador", "Principal", 1));
-            vPermisos.Add(new CustomRole("Factura", "Modificar Precio al Insertar Borrador", "Principal", 1));
+            vPermisos.Add(new CustomRole("Factura", "Modificar Descripción y Precio en Borrador", "Principal", 1));
+            vPermisos.Add(new CustomRole("Factura", "Modificar Precio en Borrador", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Importar", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Exportar", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Reservar Mercancía", "Principal", 1));
