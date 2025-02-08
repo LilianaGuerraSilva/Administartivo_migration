@@ -480,7 +480,6 @@ End Function
 Private Function fGenerarDatosDelClienteParaXml(ByVal valRIF As String, ByVal valRazonSocial As String, ByVal valDireccion As String, ByVal valTelefono As String, ByVal valObservacion As String) As String
    Dim vDatosDelCliente As String
    Dim vSiguienteLinea As String
-
    On Error GoTo h_Error
    vSiguienteLinea = vbCrLf
    vDatosDelCliente = "<NombreCliente>" & fCaracteresXMLValidosEnDatosImprFiscal(valRazonSocial) & "</NombreCliente>" & vSiguienteLinea & _
