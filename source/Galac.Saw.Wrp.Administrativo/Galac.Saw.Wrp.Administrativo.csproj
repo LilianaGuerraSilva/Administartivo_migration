@@ -103,6 +103,9 @@
     <Reference Include="LibGalac.Aos.Vbwa">
       <HintPath>..\packages\LibGalac.Aos.Vbwa.5.24.1\lib\LibGalac.Aos.Vbwa.dll</HintPath>
     </Reference>
+    <Reference Include="LibGalac.Aos.Wrp.Saw">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Wrp.Saw.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -152,7 +155,9 @@
     <Compile Include="IWrpOrdenDeProduccionVb.cs" />
     <Compile Include="IWrpTransferenciaEntreCuentasBancariasVb.cs" />
     <Compile Include="IWrpVendedorVb.cs" />
+    <Compile Include="IWrpVenta.cs" />
     <Compile Include="IWrpVerificadorDePrecios.cs" />
+    <Compile Include="wrpVenta.cs" />
     <Compile Include="wrpAnticipoInformes.cs" />
     <Compile Include="wrpCaja.cs" />
     <Compile Include="wrpCajaApertura.cs" />
@@ -161,6 +166,7 @@
     <Compile Include="wrpImprentaDigital.cs" />
     <Compile Include="wrpInformacionGVentas.cs" />
     <Compile Include="wrpLoteDeInventario.cs" />
+    <Compile Include="wrpMenuBarAudiEnte.cs" />
     <Compile Include="wrpMenuBarCaja.cs" />
     <Compile Include="wrpMesesGenerados.cs" />
     <Compile Include="wrpNotaDeEntradaSalida.cs" />
