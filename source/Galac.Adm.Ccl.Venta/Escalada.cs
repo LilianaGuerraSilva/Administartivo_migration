@@ -16,6 +16,8 @@ namespace Galac.Adm.Ccl.Venta {
         private int _Escalada41;
         private DateTime _Escalada32;
         private string _Escalada73;
+        private string _Escalada24;
+        private string _Escalada85;
         private string _Escalada100;
         private long _fldTimeStamp;
         XmlDocument _datos;
@@ -39,7 +41,17 @@ namespace Galac.Adm.Ccl.Venta {
 
         public string Escalada73 {
             get { return _Escalada73; }
-            set { _Escalada73 = LibString.Mid(value, 0, 20); }
+            set { _Escalada73 = LibString.Mid(value, 0, 40); }
+        }
+
+        public string Escalada24 {
+            get { return _Escalada24; }
+            set { _Escalada24 = LibString.Mid(value, 0, 40); }
+        }
+
+        public string Escalada85 {
+            get { return _Escalada85; }
+            set { _Escalada85 = LibString.Mid(value, 0, 30); }
         }
 
         public string Escalada100 {
@@ -74,6 +86,8 @@ namespace Galac.Adm.Ccl.Venta {
             Escalada41 = 0;
             Escalada32 = LibDate.Today();
             Escalada73 = string.Empty;
+            Escalada24 = string.Empty;
+            Escalada85 = string.Empty;
             Escalada100 = string.Empty;
             fldTimeStamp = 0;
         }
@@ -84,6 +98,8 @@ namespace Galac.Adm.Ccl.Venta {
             vResult.Escalada41 = _Escalada41;
             vResult.Escalada32 = _Escalada32;
             vResult.Escalada73 = _Escalada73;
+            vResult.Escalada24 = _Escalada24;
+            vResult.Escalada85 = _Escalada85;
             vResult.Escalada100 = _Escalada100;
             vResult.fldTimeStamp = _fldTimeStamp;
             return vResult;
@@ -94,6 +110,8 @@ namespace Galac.Adm.Ccl.Venta {
                "\nEscalada 41 = " + _Escalada41.ToString() +
                "\nEscalada 32 = " + _Escalada32.ToShortDateString() +
                "\nEscalada 73 = " + _Escalada73 +
+               "\nEscalada 24 = " + _Escalada24 +
+               "\nEscalada 85 = " + _Escalada85 +
                "\nEscalada 100 = " + _Escalada100;
         }
         #endregion //Metodos Generados
