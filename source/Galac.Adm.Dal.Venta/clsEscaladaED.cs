@@ -44,7 +44,9 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("Id" + InsSql.GuidTypeForDb() + ", ");
             SQL.AppendLine("Escalada41" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnEscEscalada41 NOT NULL, ");
             SQL.AppendLine("Escalada32" + InsSql.DateTypeForDb() + " CONSTRAINT d_EscEs32 DEFAULT (''), ");
-            SQL.AppendLine("Escalada73" + InsSql.VarCharTypeForDb(20) + " CONSTRAINT d_EscEs73 DEFAULT (''), ");
+            SQL.AppendLine("Escalada73" + InsSql.VarCharTypeForDb(40) + " CONSTRAINT d_EscEs73 DEFAULT (''), ");
+            SQL.AppendLine("Escalada24" + InsSql.VarCharTypeForDb(40) + " CONSTRAINT d_EscEs24 DEFAULT (''), ");
+            SQL.AppendLine("Escalada85" + InsSql.VarCharTypeForDb(30) + " CONSTRAINT d_EscEs85 DEFAULT (''), ");
             SQL.AppendLine("Escalada100" + InsSql.VarCharTypeForDb(255) + " CONSTRAINT d_EscEs10 DEFAULT (''), ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
             SQL.AppendLine("CONSTRAINT p_Escalada PRIMARY KEY CLUSTERED");
@@ -56,7 +58,7 @@ namespace Galac.Adm.Dal.Venta {
         private string SqlViewB1() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("SELECT Id, Escalada41, Escalada32, Escalada73");
-            SQL.AppendLine(", Escalada100");
+            SQL.AppendLine(", Escalada24, Escalada85, Escalada100");
             SQL.AppendLine(", Escalada.fldTimeStamp, CAST(Escalada.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".Escalada");
             return SQL.ToString();
@@ -68,7 +70,9 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@Id" + InsSql.GuidTypeForDb() + ",");
             SQL.AppendLine("@Escalada41" + InsSql.NumericTypeForDb(10, 0) + " = 0,");
             SQL.AppendLine("@Escalada32" + InsSql.DateTypeForDb() + " = '01/01/1900',");
-            SQL.AppendLine("@Escalada73" + InsSql.VarCharTypeForDb(20) + " = '',");
+            SQL.AppendLine("@Escalada73" + InsSql.VarCharTypeForDb(40) + " = '',");
+            SQL.AppendLine("@Escalada24" + InsSql.VarCharTypeForDb(40) + " = '',");
+            SQL.AppendLine("@Escalada85" + InsSql.VarCharTypeForDb(30) + " = '',");
             SQL.AppendLine("@Escalada100" + InsSql.VarCharTypeForDb(255) + " = ''");
             return SQL.ToString();
         }
@@ -85,12 +89,16 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            Escalada41,");
             SQL.AppendLine("            Escalada32,");
             SQL.AppendLine("            Escalada73,");
+            SQL.AppendLine("            Escalada24,");
+            SQL.AppendLine("            Escalada85,");
             SQL.AppendLine("            Escalada100)");
             SQL.AppendLine("            VALUES(");
             SQL.AppendLine("            @Id,");
             SQL.AppendLine("            @Escalada41,");
             SQL.AppendLine("            @Escalada32,");
             SQL.AppendLine("            @Escalada73,");
+            SQL.AppendLine("            @Escalada24,");
+            SQL.AppendLine("            @Escalada85,");
             SQL.AppendLine("            @Escalada100)");
             SQL.AppendLine("            SET @ReturnValue = @@ROWCOUNT");
             SQL.AppendLine("        COMMIT TRAN");
@@ -105,7 +113,9 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@Id" + InsSql.GuidTypeForDb() + ",");
             SQL.AppendLine("@Escalada41" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@Escalada32" + InsSql.DateTypeForDb() + ",");
-            SQL.AppendLine("@Escalada73" + InsSql.VarCharTypeForDb(20) + ",");
+            SQL.AppendLine("@Escalada73" + InsSql.VarCharTypeForDb(40) + ",");
+            SQL.AppendLine("@Escalada24" + InsSql.VarCharTypeForDb(40) + ",");
+            SQL.AppendLine("@Escalada85" + InsSql.VarCharTypeForDb(30) + ",");
             SQL.AppendLine("@Escalada100" + InsSql.VarCharTypeForDb(255) + ",");
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
             return SQL.ToString();
@@ -135,6 +145,8 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            SET Escalada41 = @Escalada41,");
             SQL.AppendLine("               Escalada32 = @Escalada32,");
             SQL.AppendLine("               Escalada73 = @Escalada73,");
+            SQL.AppendLine("               Escalada24 = @Escalada24,");
+            SQL.AppendLine("               Escalada85 = @Escalada85,");
             SQL.AppendLine("               Escalada100 = @Escalada100");
             SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
             SQL.AppendLine("               AND Id = @Id");
@@ -238,6 +250,8 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("         Escalada41,");
             SQL.AppendLine("         Escalada32,");
             SQL.AppendLine("         Escalada73,");
+            SQL.AppendLine("         Escalada24,");
+            SQL.AppendLine("         Escalada85,");
             SQL.AppendLine("         Escalada100,");
             SQL.AppendLine("         CAST(fldTimeStamp AS bigint) AS fldTimeStampBigint,");
             SQL.AppendLine("         fldTimeStamp");

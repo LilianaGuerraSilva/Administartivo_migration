@@ -41,7 +41,9 @@ namespace Galac.Adm.Dal.ComponenteNoEspecificado {
             vParams.AddInGuid("Id", valRecord.Id);
             vParams.AddInInteger("Escalada41", valRecord.Escalada41);
             vParams.AddInDateTime("Escalada32", valRecord.Escalada32);
-            vParams.AddInString("Escalada73", valRecord.Escalada73, 20);
+            vParams.AddInString("Escalada73", valRecord.Escalada73, 40);
+            vParams.AddInString("Escalada24", valRecord.Escalada24, 40);
+            vParams.AddInString("Escalada85", valRecord.Escalada85, 30);
             vParams.AddInString("Escalada100", valRecord.Escalada100, 255);
             if (valAction == eAccionSR.Modificar) {
                 vParams.AddInTimestamp("TimeStampAsInt", valRecord.fldTimeStamp);

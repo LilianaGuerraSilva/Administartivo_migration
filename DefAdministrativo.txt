@@ -4771,7 +4771,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	Existencia		: decimal;//"Existencia"
 	DiasVencidos : Int;//"Días Vencidos"
     {EndSeccion}
-
+}
 {@R LoteDeInventario} MovimientoDeLoteInventario = Reporte //Multiarchivo=Compania,Componente=Inventario,"Movimientos de Lote de Inventario"	
 	secArticulo : section;
 	Articulo : Str100;//"Artículo" 
@@ -4794,7 +4794,9 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
    Id 	       : Guid;//HIDE,a,sugestConsecutive
    Escalada41  : Int;//o
    Escalada32   : date;//a
-   Escalada73  : str20; //a
+   Escalada73  : str40; //a
+   Escalada24  : str40; //a
+   Escalada85  : str30; //a
    Escalada100 : str255;
 @PrimaryKey=Id
 }
