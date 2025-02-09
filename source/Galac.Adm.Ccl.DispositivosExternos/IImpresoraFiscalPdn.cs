@@ -24,7 +24,7 @@ namespace Galac.Adm.Ccl.DispositivosExternos {
         bool CancelarDocumentoFiscalEnImpresion(bool valAbrirConexion);
         string ObtenerFechaYHora();
         bool ReimprimirDocumentoNoFiscal(string valDesde,string valHasta);
-        bool ReimprimirDocumentoFiscal(string valDesde,string valHasta,string valTipo);
+        bool ReimprimirDocumentoFiscal(string valDesde,string valHasta, eTipoDocumentoFiscal valTipoDeDocumento, eTipoDeBusqueda vtipoDeBusqueda);
         IFDiagnostico RealizarDiagnostico(bool valAbrirPuerto = false);
         bool EstatusDeComunicacion(IFDiagnostico vDiagnostico);
         bool VersionDeControladores(IFDiagnostico vDiagnostico);

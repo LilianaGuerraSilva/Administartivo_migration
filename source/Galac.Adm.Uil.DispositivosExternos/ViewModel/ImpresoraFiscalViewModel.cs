@@ -26,6 +26,9 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
         bool _SeImprimioDocumento = false;
         bool _IsRunning = false;
         string _Mensaje = string.Empty;
+        bool _ReimprimeDocumento = false;
+        string _NumeroDesde = string.Empty;
+        string _NumeroHasta = string.Empty;
         IImpresoraFiscalPdn insImpresoraFiscal;
         clsImpresoraFiscalNav insImpresoraFiscalNav;
         eTipoDocumentoFiscal _TipoDocumentoFiscal;
@@ -52,7 +55,7 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
                     RaisePropertyChanged(NumeroComprobantePropertyName);
                 }
             }
-        }
+        }      
 
         public string SerialImpresoraFiscal {
             get {
@@ -93,7 +96,7 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
         #endregion //Propiedades
         #region Constructores
 
-        public ImpresoraFiscalViewModel(XElement valXmlMaquinaFiscal,XElement valData,eTipoDocumentoFiscal valTipoDocumentoFiscal) {
+        public ImpresoraFiscalViewModel(XElement valXmlMaquinaFiscal, XElement valData, eTipoDocumentoFiscal valTipoDocumentoFiscal, bool valReimprimeDocumento=false, string valNumeroDesde="", string valNumeroHasta="") {
             clsImpresoraFiscalCreator vCreatorMaquinaFiscal = new clsImpresoraFiscalCreator();
             insImpresoraFiscal = vCreatorMaquinaFiscal.Crear(valXmlMaquinaFiscal);
             insImpresoraFiscalNav = new clsImpresoraFiscalNav(insImpresoraFiscal);
@@ -101,8 +104,14 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
             _AuditoriaConfiguracion = new clsAuditoriaConfiguracionNav();
             _SerialImpresoraFiscalDB = LibXml.GetPropertyString(valXmlMaquinaFiscal, "SerialDeMaquinaFiscal");
             Title = "Imprimiendo " + LibEnumHelper.GetDescription(TipoDocumentoFiscal);
-            if(_TipoDocumentoFiscal == eTipoDocumentoFiscal.FacturaFiscal || _TipoDocumentoFiscal == eTipoDocumentoFiscal.NotadeCredito) {
-                xData = valData;
+            if (valReimprimeDocumento) {
+                _ReimprimeDocumento = valReimprimeDocumento;
+                _NumeroDesde = valNumeroDesde;
+                _NumeroHasta = valNumeroHasta;
+            } else {
+                if (_TipoDocumentoFiscal == eTipoDocumentoFiscal.FacturaFiscal || _TipoDocumentoFiscal == eTipoDocumentoFiscal.NotadeCredito) {
+                    xData = valData;
+                }
             }
         }
 
@@ -116,16 +125,20 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
 
         public void ImprimirDocumentoTask() {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();           
-            bool vSerialDistinto = false;
+            bool vSerialDistinto = false;           
             Task vTask = Task.Factory.StartNew(() => {
                 _IsRunning = true;
                 if (insImpresoraFiscal.AbrirConexion()) {
                     if (insImpresoraFiscal.ComprobarEstado()) {
-                        insImpresoraFiscalNav.LeerDatosDeImpresoraFiscal(_TipoDocumentoFiscal);
+                        insImpresoraFiscalNav.LeerDatosDeImpresoraFiscal(_TipoDocumentoFiscal);                       
                         NumeroComprobante = insImpresoraFiscalNav.NumeroComprobanteFiscal;
                         SerialImpresoraFiscal = insImpresoraFiscalNav.SerialImpresoraFiscal;
                         if (LibString.S1IsEqualToS2(SerialImpresoraFiscal, _SerialImpresoraFiscalDB)) {
-                            SeImprimioDocumento = insImpresoraFiscalNav.ImprimirDocumentoFiscal(xData);
+                            if (_ReimprimeDocumento) {
+                                SeImprimioDocumento = insImpresoraFiscalNav.ReimprimirDocumentoFiscal(_TipoDocumentoFiscal, _NumeroDesde, _NumeroHasta);
+                            } else {
+                                SeImprimioDocumento = insImpresoraFiscalNav.ImprimirDocumentoFiscal(xData);
+                            }                            
                         } else {
                             SeImprimioDocumento = false;
                             vSerialDistinto = true;                    

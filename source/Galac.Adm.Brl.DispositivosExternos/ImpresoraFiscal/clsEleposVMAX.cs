@@ -10,6 +10,7 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
 using Galac.Adm.Ccl.DispositivosExternos;
 using Galac.Saw.Ccl.Inventario;
+using Galac.Saw.Lib;
 
 namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
     public class clsEleposVMAX : IImpresoraFiscalPdn {
@@ -708,11 +709,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             return true;
         }
 
-        bool IImpresoraFiscalPdn.ReimprimirDocumentoFiscal(string valDesde, string valHasta, string valTipo) {
+        bool IImpresoraFiscalPdn.ReimprimirDocumentoFiscal(string valDesde, string valHasta, eTipoDocumentoFiscal valTipoDocumento, eTipoDeBusqueda valTipoDeBusqueda) {
             bool vResult = false;
-            eTipoDocumentoFiscal TipoDeDocumento = (eTipoDocumentoFiscal)LibConvert.DbValueToEnum(valTipo);
-
-            switch (TipoDeDocumento) {
+            switch (valTipoDocumento) {
                 case eTipoDocumentoFiscal.FacturaFiscal:
                     vResult = ReimprimirFactura(valDesde, valHasta);
                     break;
