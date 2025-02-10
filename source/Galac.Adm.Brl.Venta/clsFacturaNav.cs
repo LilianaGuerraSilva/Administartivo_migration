@@ -11,7 +11,6 @@ using LibGalac.Aos.Brl;
 using LibGalac.Aos.Base.Dal;
 using Galac.Adm.Ccl.Venta;
 using Galac.Adm.Ccl.CajaChica;
-using Microsoft.SqlServer.Server;
 using LibGalac.Aos.Dal;
 using Galac.Saw.Ccl.SttDef;
 
