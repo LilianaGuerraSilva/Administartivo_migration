@@ -103,13 +103,13 @@ namespace Galac.Saw.Wrp.Venta {
 
         void IWrpVenta.NotificaSiEsNecesario(string valActionStr, int valConsecutivoCompania, string valNumero, int valTipoDocumento) {
             try {
-                //StringBuilder vChisme = new StringBuilder();
-                //IFacturaPdn insFactura = new clsFacturaNav();
-                //vChisme.Append(insFactura.MensajeDeNotificacionSiEsNecesario(valActionStr, valConsecutivoCompania, valNumero, valTipoDocumento));
-                //if (!LibString.IsNullOrEmpty(vChisme.ToString())) {
-                //    ILibSendMessage wrpSaw = new wrpSendMessage();
-                //    wrpSaw.SendMailFromGalac("mayelin.sanchez@galac.com", "Notificación", vChisme.ToString(), "jorge.garcia@galac.com");
-                //}
+                StringBuilder vChisme = new StringBuilder();
+                IFacturaPdn insFactura = new clsFacturaNav();
+                vChisme.Append(insFactura.MensajeDeNotificacionSiEsNecesario(valActionStr, valConsecutivoCompania, valNumero, valTipoDocumento));
+                if (!LibString.IsNullOrEmpty(vChisme.ToString())) {
+                    ILibSendMessage wrpSaw = new wrpSendMessage();
+                    wrpSaw.SendMailFromGalac("mayelin.sanchez@galac.com", "Notificación", vChisme.ToString(), "jorge.garcia@galac.com");
+                }
             } catch (Exception vEx) {
                 if (vEx is System.AccessViolationException) {
                     throw;

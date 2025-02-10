@@ -460,6 +460,7 @@ namespace Galac.Adm.Brl.Venta {
             DateTime vFechaHasta = LibDate.AddDays(LibDate.DateFromMonthAndYear(LibDate.Today().Month, LibDate.Today().Year, true), -1);
             vSql.AppendLine("");
             //'Notas de Entregas Emitidas y no Generadas
+            vSql.AppendLine(insSql.SetDateFormat());
             vSql.AppendLine("SELECT Numero FROM Factura");
             vSql.AppendLine(" WHERE (EmitidaEnFacturaNumero = " + insSql.ToSqlValue("") + " OR EmitidaEnFacturaNumero IS NULL)");
             vSql.AppendLine(" AND Fecha  >= " + insSql.ToSqlValue(vFechaDesde));
