@@ -1123,9 +1123,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 }
                 switch (valTipoDeBusqueda) {
                     case eTipoDeBusqueda.NumeroDocumento:
-                        valDesde = LibString.SubString(valDesde, 0, 6);
+                        valDesde = LibText.Right(valDesde, 7);
                         valDesde = LibText.FillWithCharToLeft(valDesde, "0", 7);
-                        valHasta = LibString.SubString(valHasta, 0, 6);
+                        valHasta = LibString.Right(valHasta, 7);
                         valHasta = LibText.FillWithCharToLeft(valHasta, "0", 7);
                         vCmd = "R" + vTipoOperacion + valDesde + valHasta;
                         break;
