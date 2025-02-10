@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
-    public class AuditoriaEnteMngViewModel : LibMngViewModel<CiudadViewModel, Ciudad> {
+    public class AuditoriaEnteMngViewModel : LibMngViewModel<CiudadViewModel, Ciudad> {//acá está Ciudad por ser el model más simple
         #region Propiedades
         public override string ModuleName {
             get { return "Auditoría SENIAT"; }
@@ -37,5 +37,20 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         protected override ILibRpt GetReportForList(string valModuleName, ILibReportInfo valReportInfo, LibCollFieldFormatForGrid valFieldsFormat, LibGpParams valParams) {
             return null;
         }
+
+        protected override void InitializeCommands() {
+            base.InitializeCommands();
+            #region Codigo Ejemplo
+            /* Codigo de Ejemplo
+                SUPROCESOPARTICULARCommand = new RelayCommand(ExecuteSUPROCESOPARTICULARCommand, CanExecuteSUPROCESOPARTICULARCommand);
+            */
+            #endregion //Codigo Ejemplo
+        }
+        protected override void InitializeRibbon() {
+            base.InitializeRibbon();
+            if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
+            }
+        }
     }
 }
+

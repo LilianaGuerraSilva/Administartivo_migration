@@ -24,9 +24,9 @@ namespace Galac.Adm.Uil.Venta {
         public ObservableCollection<LibRibbonTabData> RibbonTabData {
             get {
                 if (_ViewModel == null) {
-                    return null; // _ViewModel.RibbonTabData.TabDataCollection;
-                } else { 
                     return null;
+                } else {
+                    return _ViewModel.RibbonData.TabDataCollection;
                 }
             }
         }

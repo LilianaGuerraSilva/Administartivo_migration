@@ -15,6 +15,7 @@ using LibGalac.Aos.Vbwa;
 using System.Reflection;
 using System.Xml;
 using LibGalac.Aos.DefGen;
+using Galac.Adm.Uil.Venta;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.MenuBar {
 #elif IsExeBsS​
@@ -99,8 +100,8 @@ namespace Galac.Saw.Wrp.MenuBar {
 
         #endregion IWrpMfMenuBarVb
 
-        private XElement ComponentsNavigationTab() {
-            XElement vResult = new XElement("Components", new XElement("UilComponents", new XElement("UilComponent", new XAttribute("Name", "UIMefParameters"), new XAttribute("Group", "Parametros"))));
+        private XElement ComponentsNavigationTab() {            
+            XElement vResult = new XElement("Components", new XElement("UilComponents", new XElement("UilComponent", new XAttribute("Name", "UIMefAudiEnte"), new XAttribute("Group", "Auditoría"))));
             return vResult;
         }
 
