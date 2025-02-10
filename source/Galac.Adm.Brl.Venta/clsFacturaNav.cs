@@ -11,9 +11,11 @@ using LibGalac.Aos.Brl;
 using LibGalac.Aos.Base.Dal;
 using Galac.Adm.Ccl.Venta;
 using Galac.Adm.Ccl.CajaChica;
+using LibGalac.Aos.Dal;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Brl.Venta {
-    public partial class clsFacturaNav : LibBaseNavMaster<IList<Factura>, IList<Factura>>, ILibPdn {
+    public partial class clsFacturaNav : LibBaseNavMaster<IList<Factura>, IList<Factura>>, IFacturaPdn {
         #region Variables
         #endregion //Variables
 
@@ -31,7 +33,7 @@ namespace Galac.Adm.Brl.Venta {
         }
 
         #region Miembros de ILibPdn
-        bool ILibPdn.CanBeChoosen(string valCallingModule, eAccionSR valAction, string valExtendedAction, XmlDocument valXmlRow) {
+        bool IFacturaPdn.CanBeChoosen(string valCallingModule, eAccionSR valAction, string valExtendedAction, XmlDocument valXmlRow) {
             bool vResult = false;
             //ILibDataFKSearch instanciaDal = new Galac.Adm.Dal.Venta.clsFacturaDat();
             switch (valCallingModule) {
@@ -42,16 +44,16 @@ namespace Galac.Adm.Brl.Venta {
             return vResult;
         }
 
-        bool ILibPdn.GetDataForList(string valCallingModule, ref XmlDocument refXmlDocument, StringBuilder valXmlParamsExpression) {
+        bool IFacturaPdn.GetDataForList(string valCallingModule, ref XmlDocument refXmlDocument, StringBuilder valXmlParamsExpression) {
             ILibDataFKSearch instanciaDal = new Dal.Venta.clsFacturaDat();
             return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "Adm.Gp_FacturaSCH", valXmlParamsExpression);
         }
 
-        XElement ILibPdn.GetFk(string valCallingModule, StringBuilder valParameters) {
+        XElement IFacturaPdn.GetFk(string valCallingModule, StringBuilder valParameters) {
             ILibDataMasterComponent<IList<Factura>, IList<Factura>> instanciaDal = new Galac.Adm.Dal.Venta.clsFacturaDat();
             return instanciaDal.QueryInfo(eProcessMessageType.SpName, "Adm.Gp_FacturaGetFk", valParameters);
         }
-        #endregion //Miembros de ILibPdn
+        #endregion //Miembros de IFacturaPdn
 
         protected override bool RetrieveListInfo(string valModule, ref XmlDocument refXmlDocument, StringBuilder valXmlParamsExpression) {
             bool vResult = false;
@@ -260,6 +262,7 @@ namespace Galac.Adm.Brl.Venta {
                     new XElement("Articulo", vEntity.Articulo)));
             return vXElement;
         }*/
+        #endregion //RenglonCobroDeFactura
 
         private StringBuilder ParametersGetFKArticuloInventarioForXmlSubSet(int valConsecutivoCompania, XElement valXElement) {
             StringBuilder vResult = new StringBuilder();
@@ -415,7 +418,65 @@ namespace Galac.Adm.Brl.Venta {
             }
             return vResult;
         }
-        #endregion //RenglonCobroDeFactura
+
+        string IFacturaPdn.MensajeDeNotificacionSiEsNecesario(string valActionStr, int valConsecutivoCompania, string valNumero, int valTipoDocumento) {
+            bool vExistenNESinFacturar = new LibDatabase().RecordCountOfSql(SqlExistenNotasEntregaSinFacturar(valConsecutivoCompania)) > 0;
+            if (vExistenNESinFacturar) {
+                StringBuilder vMensaje = new StringBuilder();
+                vMensaje.AppendLine(InformacionDelContribuyente(valConsecutivoCompania));
+
+                return "prueba de envío de correo";
+            } else {
+                return "";
+            }            
+        }
+
+        string InformacionDelContribuyente(int valConsecutivoCompania) {
+            QAdvSql insSql = new QAdvSql("");
+            StringBuilder vMensaje = new StringBuilder();   
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("SELECT Nombre, NumeroDeRif, Ciudad, Estado, Telefono1, CodArea1, TipoDeContribuyenteIva FROM COMPANIA WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
+            XElement vExlement = LibBusiness.ExecuteSelect(vSql.ToString(), new StringBuilder(), string.Empty, 0);
+            if (vExlement != null) {
+                vMensaje.AppendLine("Se ha detectado que el contribuyente: " + LibXml.GetPropertyString(vExlement, "Nombre") + " - RIF: " + LibXml.GetPropertyString(vExlement, "NumeroDeRif"));
+                vMensaje.Append("Domiciliado en la ciudad de " + LibXml.GetPropertyString(vExlement, "Ciudad") + " del estado " + LibXml.GetPropertyString(vExlement, "Estado"));
+                vMensaje.AppendLine(". Teléfono: (" + LibXml.GetPropertyString(vExlement, "CodArea1") + ") " + LibXml.GetPropertyString(vExlement, "Telefono1"));
+                vMensaje.AppendLine("Usuario del Sistema Administrativo de Gálac Software");
+                vMensaje.AppendLine("Tiene al menos un registro de Nota de Entrega de al menos el mes anterior al actual, que debería ser facturado.");
+                vMensaje.AppendLine();
+                vMensaje.AppendLine();
+                vMensaje.AppendLine("Información que se hace llegar al ente regulador en materia de impuesto para su conocimiento.");
+                vMensaje.AppendLine();
+                vMensaje.AppendLine("Correo automático generado desde la aplicación a través de una cuenta no monitoreada.");
+                vMensaje.AppendLine();
+            }
+            return vMensaje.ToString();
+        }
+
+        string SqlExistenNotasEntregaSinFacturar(int valConsecutivoCompania) {
+            QAdvSql insSql = new QAdvSql("");
+            StringBuilder vSql = new StringBuilder();
+            DateTime vFechaDesde = LibDate.DateFromMonthAndYear(1, 2005, true);
+            DateTime vFechaHasta = LibDate.AddDays(LibDate.DateFromMonthAndYear(LibDate.Today().Month, LibDate.Today().Year, true), -1);
+            vSql.AppendLine("");
+            //'Notas de Entregas Emitidas y no Generadas
+            vSql.AppendLine("SELECT Numero FROM Factura");
+            vSql.AppendLine(" WHERE (EmitidaEnFacturaNumero = " + insSql.ToSqlValue("") + " OR EmitidaEnFacturaNumero IS NULL)");
+            vSql.AppendLine(" AND Fecha  >= " + insSql.ToSqlValue(vFechaDesde));
+            vSql.AppendLine(" AND Fecha  <= " + insSql.ToSqlValue(vFechaHasta));
+            vSql.AppendLine(" AND StatusFactura = " + insSql.EnumToSqlValue((int)eStatusFactura.Emitida));
+            vSql.AppendLine(" AND TipoDeDocumento = " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaEntrega));
+            vSql.AppendLine(" AND ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
+            //'Facturas Generadas desde Notas de Entrega y no Emitidas
+            vSql.AppendLine(" UNION SELECT Numero FROM Factura");
+            vSql.AppendLine(" WHERE GeneradaPorNotaEntrega = " + insSql.EnumToSqlValue(1));//enum_FacturaGeneraNotaEntrega.eFGNE_Generada
+            vSql.AppendLine(" AND Fecha  >= " + insSql.ToSqlValue(vFechaDesde));
+            vSql.AppendLine(" AND Fecha  <= " + insSql.ToSqlValue(vFechaHasta));
+            vSql.AppendLine(" AND StatusFactura = " + insSql.EnumToSqlValue((int)eStatusFactura.Borrador));
+            vSql.AppendLine(" AND TipoDeDocumento = " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura));
+            vSql.AppendLine(" AND ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
+            return vSql.ToString();
+        }
 
         #endregion //Metodos Generados
 

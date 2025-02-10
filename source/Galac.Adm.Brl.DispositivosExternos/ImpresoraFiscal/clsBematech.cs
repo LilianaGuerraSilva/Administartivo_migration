@@ -74,7 +74,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         [DllImport("BemaFI32.dll")]
         public static extern int Bematech_FI_ContadorNotaDeCreditoMFD([MarshalAs(UnmanagedType.VBByRefStr)] ref string NumeroComprobante);
         [DllImport("BemaFI32.dll")]
-        public static extern int Bematech_FI_NumeroReducciones([MarshalAs(UnmanagedType.VBByRefStr)] ref string NumeroReducciones);
+        public static extern int Bematech_FI_NumeroReducciones([MarshalAs(UnmanagedType.VBByRefStr)] ref string NumeroReducciones);        
         #endregion
 
         #region Funciones de los Informes Fiscales
@@ -1244,56 +1244,50 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     break;
             }
             return vResultado;
-        }
-
-        public bool ReimprimirFactura(string valDesde, string valHasta) {
-            short vModo = 0;
-            short vTipo = 0;
-            return true;
-        }
-
-        public bool ReimprimirNotaDeCredito(string valDesde, string valHasta) {
-            short vModo = 0;
-            short vTipo = 1;
-            return true;
-        }
-
-        public bool ReimprimirReporteZ(string valDesde, string valHasta) {
-            short vModo = 0;
-            short vTipo = 2;
-            return true;
-        }
-
-        public bool ReimprimirReporteX(string valDesde, string valHasta) {
-            short vModo = 0;
-            short vTipo = 4;
-            return true;
-        }
-
-        public bool ReimprimirDocumentoNoFiscal(string valDesde, string valHasta) {
-            short vModo = 0;
-            short vTipo = 3;
-            return true;
-        }
-
+        }     
+              
         bool IImpresoraFiscalPdn.ReimprimirDocumentoFiscal(string valDesde, string valHasta, eTipoDocumentoFiscal valTipoDocumento, eTipoDeBusqueda valTipoDeBusqueda) {
-            bool vResult = false;            
-            switch (valTipoDocumento) {
-                case eTipoDocumentoFiscal.FacturaFiscal:
-                    vResult = ReimprimirFactura(valDesde, valHasta);
+            bool vEstatus = false;
+            int vResultado = 0;
+            string vTipoImpresion = string.Empty;
+            string vMensaje = string.Empty;
+            try {
+                switch(valTipoDeBusqueda) {
+                    case eTipoDeBusqueda.NumeroDocumento:
+                    vTipoImpresion = "2";
+                    valDesde = LibText.Right(valDesde, 6);
+                    valHasta = LibText.Right(valHasta, 6);
                     break;
-                case eTipoDocumentoFiscal.NotadeCredito:
-                    vResult = ReimprimirNotaDeCredito(valDesde, valHasta);
+                    case eTipoDeBusqueda.RangoDeFecha:
+                    vTipoImpresion = "1";
+                    valDesde = FormatoFecha(valDesde);
+                    valHasta = FormatoFecha(valHasta);
                     break;
-                case eTipoDocumentoFiscal.ReporteX:
-                    vResult = ReimprimirReporteX(valDesde, valHasta);
+                    case eTipoDeBusqueda.NumeroRif:
+                    vTipoImpresion = "0";
                     break;
-                case eTipoDocumentoFiscal.ReporteZ:
-                    vResult = ReimprimirReporteZ(valDesde, valHasta);
+                    default:
+                    vTipoImpresion = "2";
+                    valDesde = LibText.Right(valDesde, 6);
+                    valHasta = LibText.Right(valHasta, 6);
                     break;
+                }
+                vResultado = Bematech_FI_ImpresionCintaDetalle(vTipoImpresion, valDesde, valHasta, "0");
+                vEstatus = RevisarEstadoImpresora(ref vMensaje);
+                if(!vEstatus) {
+                    throw new GalacException("Error al reimprimir comprobante" + vMensaje, eExceptionManagementType.Controlled);
+                }
+                return vEstatus;
+            } catch(GalacException) {
+                throw;
             }
-            return vResult;
         }
+
+        private string FormatoFecha(string valFecha) {
+            DateTime dFecha=LibImportData.ToDate(valFecha);
+            return dFecha.ToString("ddMMyy");
+        }
+
 
         bool IImpresoraFiscalPdn.ReimprimirDocumentoNoFiscal(string valDesde, string valHasta) {
             throw new NotImplementedException();

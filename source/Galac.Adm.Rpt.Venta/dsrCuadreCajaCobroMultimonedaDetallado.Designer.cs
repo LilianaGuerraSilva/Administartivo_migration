@@ -371,18 +371,18 @@ namespace Galac.Adm.Rpt.Venta
             // 
             this.lblEfectivoMonedaLocal.Height = 0.15625F;
             this.lblEfectivoMonedaLocal.HyperLink = null;
-            this.lblEfectivoMonedaLocal.Left = 3.253F;
+            this.lblEfectivoMonedaLocal.Left = 0F;
             this.lblEfectivoMonedaLocal.Name = "lblEfectivoMonedaLocal";
             this.lblEfectivoMonedaLocal.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 0";
             this.lblEfectivoMonedaLocal.Text = "Efectivo";
             this.lblEfectivoMonedaLocal.Top = 0.156F;
-            this.lblEfectivoMonedaLocal.Width = 1.497F;
+            this.lblEfectivoMonedaLocal.Width = 1.5F;
             // 
             // lblEfectivoSimboloMonedaLocal
             // 
             this.lblEfectivoSimboloMonedaLocal.Height = 0.15625F;
             this.lblEfectivoSimboloMonedaLocal.HyperLink = null;
-            this.lblEfectivoSimboloMonedaLocal.Left = 4.75F;
+            this.lblEfectivoSimboloMonedaLocal.Left = 1.5F;
             this.lblEfectivoSimboloMonedaLocal.Name = "lblEfectivoSimboloMonedaLocal";
             this.lblEfectivoSimboloMonedaLocal.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 0";
             this.lblEfectivoSimboloMonedaLocal.Text = "BlblEfectivoSimboloMonedaLocal";
@@ -392,152 +392,152 @@ namespace Galac.Adm.Rpt.Venta
             // txtTotalEfectivoMonedaLocal
             // 
             this.txtTotalEfectivoMonedaLocal.Height = 0.15625F;
-            this.txtTotalEfectivoMonedaLocal.Left = 5F;
+            this.txtTotalEfectivoMonedaLocal.Left = 1.75F;
             this.txtTotalEfectivoMonedaLocal.Name = "txtTotalEfectivoMonedaLocal";
             this.txtTotalEfectivoMonedaLocal.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtTotalEfectivoMonedaLocal.Text = "txtTotalEfectivoMonedaLocal";
             this.txtTotalEfectivoMonedaLocal.Top = 0.156F;
-            this.txtTotalEfectivoMonedaLocal.Width = 2.5F;
+            this.txtTotalEfectivoMonedaLocal.Width = 1.5F;
             // 
             // lblTarjetaMonedaLocal
             // 
             this.lblTarjetaMonedaLocal.Height = 0.15625F;
             this.lblTarjetaMonedaLocal.HyperLink = null;
-            this.lblTarjetaMonedaLocal.Left = 3.253F;
+            this.lblTarjetaMonedaLocal.Left = 0F;
             this.lblTarjetaMonedaLocal.Name = "lblTarjetaMonedaLocal";
             this.lblTarjetaMonedaLocal.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 0";
             this.lblTarjetaMonedaLocal.Text = "Tarjeta";
-            this.lblTarjetaMonedaLocal.Top = 0.31225F;
-            this.lblTarjetaMonedaLocal.Width = 1.497F;
+            this.lblTarjetaMonedaLocal.Top = 0.312F;
+            this.lblTarjetaMonedaLocal.Width = 1.5F;
             // 
             // lblTarjetaSimboloMonedaLocal
             // 
             this.lblTarjetaSimboloMonedaLocal.Height = 0.15625F;
             this.lblTarjetaSimboloMonedaLocal.HyperLink = null;
-            this.lblTarjetaSimboloMonedaLocal.Left = 4.753F;
+            this.lblTarjetaSimboloMonedaLocal.Left = 1.5F;
             this.lblTarjetaSimboloMonedaLocal.Name = "lblTarjetaSimboloMonedaLocal";
             this.lblTarjetaSimboloMonedaLocal.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 0";
             this.lblTarjetaSimboloMonedaLocal.Text = "lblTarjetaSimboloMonedaLocal";
-            this.lblTarjetaSimboloMonedaLocal.Top = 0.31225F;
+            this.lblTarjetaSimboloMonedaLocal.Top = 0.312F;
             this.lblTarjetaSimboloMonedaLocal.Width = 0.25F;
             // 
             // txtTotalTarjetaMonedaLocal
             // 
             this.txtTotalTarjetaMonedaLocal.Height = 0.15625F;
-            this.txtTotalTarjetaMonedaLocal.Left = 5F;
+            this.txtTotalTarjetaMonedaLocal.Left = 1.75F;
             this.txtTotalTarjetaMonedaLocal.Name = "txtTotalTarjetaMonedaLocal";
             this.txtTotalTarjetaMonedaLocal.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtTotalTarjetaMonedaLocal.Text = "txtTotalTarjetaMonedaLocal";
-            this.txtTotalTarjetaMonedaLocal.Top = 0.31225F;
-            this.txtTotalTarjetaMonedaLocal.Width = 2.5F;
+            this.txtTotalTarjetaMonedaLocal.Top = 0.312F;
+            this.txtTotalTarjetaMonedaLocal.Width = 1.5F;
             // 
             // lblEfectivoMonedaExt
             // 
             this.lblEfectivoMonedaExt.Height = 0.15625F;
             this.lblEfectivoMonedaExt.HyperLink = null;
-            this.lblEfectivoMonedaExt.Left = 3.253F;
+            this.lblEfectivoMonedaExt.Left = 0F;
             this.lblEfectivoMonedaExt.Name = "lblEfectivoMonedaExt";
             this.lblEfectivoMonedaExt.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 0";
             this.lblEfectivoMonedaExt.Text = "Efectivo";
-            this.lblEfectivoMonedaExt.Top = 0.62475F;
-            this.lblEfectivoMonedaExt.Width = 1.497F;
+            this.lblEfectivoMonedaExt.Top = 0.6245F;
+            this.lblEfectivoMonedaExt.Width = 1.5F;
             // 
             // lblEfectivoSimboloMonedaExt
             // 
             this.lblEfectivoSimboloMonedaExt.Height = 0.15625F;
             this.lblEfectivoSimboloMonedaExt.HyperLink = null;
-            this.lblEfectivoSimboloMonedaExt.Left = 4.753F;
+            this.lblEfectivoSimboloMonedaExt.Left = 1.5F;
             this.lblEfectivoSimboloMonedaExt.Name = "lblEfectivoSimboloMonedaExt";
             this.lblEfectivoSimboloMonedaExt.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 0";
             this.lblEfectivoSimboloMonedaExt.Text = "lblEfectivoSimboloMonedaExt";
-            this.lblEfectivoSimboloMonedaExt.Top = 0.62475F;
+            this.lblEfectivoSimboloMonedaExt.Top = 0.6245F;
             this.lblEfectivoSimboloMonedaExt.Width = 0.25F;
             // 
             // txtTotalEfectivoMonedaExt
             // 
             this.txtTotalEfectivoMonedaExt.Height = 0.15625F;
-            this.txtTotalEfectivoMonedaExt.Left = 5F;
+            this.txtTotalEfectivoMonedaExt.Left = 1.75F;
             this.txtTotalEfectivoMonedaExt.Name = "txtTotalEfectivoMonedaExt";
             this.txtTotalEfectivoMonedaExt.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtTotalEfectivoMonedaExt.Text = "txtTotalEfectivoMonedaExt";
-            this.txtTotalEfectivoMonedaExt.Top = 0.6247501F;
-            this.txtTotalEfectivoMonedaExt.Width = 2.5F;
+            this.txtTotalEfectivoMonedaExt.Top = 0.6245001F;
+            this.txtTotalEfectivoMonedaExt.Width = 1.5F;
             // 
             // lblTransferenciaMonedaExt
             // 
             this.lblTransferenciaMonedaExt.Height = 0.15625F;
             this.lblTransferenciaMonedaExt.HyperLink = null;
-            this.lblTransferenciaMonedaExt.Left = 3.253F;
+            this.lblTransferenciaMonedaExt.Left = 0F;
             this.lblTransferenciaMonedaExt.Name = "lblTransferenciaMonedaExt";
             this.lblTransferenciaMonedaExt.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 0";
             this.lblTransferenciaMonedaExt.Text = "Transferencia";
-            this.lblTransferenciaMonedaExt.Top = 0.781F;
-            this.lblTransferenciaMonedaExt.Width = 1.497F;
+            this.lblTransferenciaMonedaExt.Top = 0.78075F;
+            this.lblTransferenciaMonedaExt.Width = 1.5F;
             // 
             // lblTransferenciaSimboloMonedaExt
             // 
             this.lblTransferenciaSimboloMonedaExt.Height = 0.15625F;
             this.lblTransferenciaSimboloMonedaExt.HyperLink = null;
-            this.lblTransferenciaSimboloMonedaExt.Left = 4.753F;
+            this.lblTransferenciaSimboloMonedaExt.Left = 1.5F;
             this.lblTransferenciaSimboloMonedaExt.Name = "lblTransferenciaSimboloMonedaExt";
             this.lblTransferenciaSimboloMonedaExt.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 0";
             this.lblTransferenciaSimboloMonedaExt.Text = "lblTransferenciaSimboloMonedaExt";
-            this.lblTransferenciaSimboloMonedaExt.Top = 0.781F;
+            this.lblTransferenciaSimboloMonedaExt.Top = 0.78075F;
             this.lblTransferenciaSimboloMonedaExt.Width = 0.25F;
             // 
             // txtTotalTransferenciaMonedaExt
             // 
             this.txtTotalTransferenciaMonedaExt.Height = 0.15625F;
-            this.txtTotalTransferenciaMonedaExt.Left = 5F;
+            this.txtTotalTransferenciaMonedaExt.Left = 1.75F;
             this.txtTotalTransferenciaMonedaExt.Name = "txtTotalTransferenciaMonedaExt";
             this.txtTotalTransferenciaMonedaExt.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtTotalTransferenciaMonedaExt.Text = "txtTotalTransferenciaMonedaExt";
-            this.txtTotalTransferenciaMonedaExt.Top = 0.7810001F;
-            this.txtTotalTransferenciaMonedaExt.Width = 2.5F;
+            this.txtTotalTransferenciaMonedaExt.Top = 0.7807501F;
+            this.txtTotalTransferenciaMonedaExt.Width = 1.5F;
             // 
             // lblDepositoMonedaLocal
             // 
             this.lblDepositoMonedaLocal.Height = 0.15625F;
             this.lblDepositoMonedaLocal.HyperLink = null;
-            this.lblDepositoMonedaLocal.Left = 3.253F;
+            this.lblDepositoMonedaLocal.Left = 0F;
             this.lblDepositoMonedaLocal.Name = "lblDepositoMonedaLocal";
             this.lblDepositoMonedaLocal.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 0";
-            this.lblDepositoMonedaLocal.Text = "Depósito/Transf";
-            this.lblDepositoMonedaLocal.Top = 0.4685F;
-            this.lblDepositoMonedaLocal.Width = 1.497F;
+            this.lblDepositoMonedaLocal.Text = "Depósito/Transferencia";
+            this.lblDepositoMonedaLocal.Top = 0.46825F;
+            this.lblDepositoMonedaLocal.Width = 1.5F;
             // 
             // lblDepositoSimboloMonedaLocal
             // 
             this.lblDepositoSimboloMonedaLocal.Height = 0.15625F;
             this.lblDepositoSimboloMonedaLocal.HyperLink = null;
-            this.lblDepositoSimboloMonedaLocal.Left = 4.753F;
+            this.lblDepositoSimboloMonedaLocal.Left = 1.5F;
             this.lblDepositoSimboloMonedaLocal.Name = "lblDepositoSimboloMonedaLocal";
             this.lblDepositoSimboloMonedaLocal.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 0";
             this.lblDepositoSimboloMonedaLocal.Text = "lblDepositoSimboloMonedaLocal";
-            this.lblDepositoSimboloMonedaLocal.Top = 0.4685F;
+            this.lblDepositoSimboloMonedaLocal.Top = 0.46825F;
             this.lblDepositoSimboloMonedaLocal.Width = 0.25F;
             // 
             // txtTotalDepositoMonedaLocal
             // 
             this.txtTotalDepositoMonedaLocal.Height = 0.15625F;
-            this.txtTotalDepositoMonedaLocal.Left = 5F;
+            this.txtTotalDepositoMonedaLocal.Left = 1.75F;
             this.txtTotalDepositoMonedaLocal.Name = "txtTotalDepositoMonedaLocal";
             this.txtTotalDepositoMonedaLocal.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtTotalDepositoMonedaLocal.Text = "txtTotalDepositoMonedaLocal";
-            this.txtTotalDepositoMonedaLocal.Top = 0.4685001F;
-            this.txtTotalDepositoMonedaLocal.Width = 2.5F;
+            this.txtTotalDepositoMonedaLocal.Top = 0.4682501F;
+            this.txtTotalDepositoMonedaLocal.Width = 1.5F;
             // 
             // lblTotalPorMonedaCobro
             // 
             this.lblTotalPorMonedaCobro.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblTotalPorMonedaCobro.Height = 0.15625F;
             this.lblTotalPorMonedaCobro.HyperLink = null;
-            this.lblTotalPorMonedaCobro.Left = 3.253F;
+            this.lblTotalPorMonedaCobro.Left = 0F;
             this.lblTotalPorMonedaCobro.Name = "lblTotalPorMonedaCobro";
             this.lblTotalPorMonedaCobro.Style = "font-size: 8pt; font-weight: bold; text-align: center; ddo-char-set: 0";
             this.lblTotalPorMonedaCobro.Text = "TOTALES DETALLADOS POR MONEDA DE COBRO";
             this.lblTotalPorMonedaCobro.Top = 0F;
-            this.lblTotalPorMonedaCobro.Width = 4.243F;
+            this.lblTotalPorMonedaCobro.Width = 3.25F;
             // 
             // GHSecCaja
             // 
@@ -631,7 +631,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtLblTotalCajaSimboloMonedaLocal.Height = 0.15625F;
             this.txtLblTotalCajaSimboloMonedaLocal.Left = 4.75F;
             this.txtLblTotalCajaSimboloMonedaLocal.Name = "txtLblTotalCajaSimboloMonedaLocal";
-            this.txtLblTotalCajaSimboloMonedaLocal.Style = "font-size: 8pt; font-weight: bold; text-align: left; ddo-char-set: 1";
+            this.txtLblTotalCajaSimboloMonedaLocal.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.txtLblTotalCajaSimboloMonedaLocal.Text = "txtLblTotalCajaSimboloMonedaLocal";
             this.txtLblTotalCajaSimboloMonedaLocal.Top = 0F;
             this.txtLblTotalCajaSimboloMonedaLocal.Width = 0.25F;
@@ -642,7 +642,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtLblTotalCajaSimboloMonedaExt.Height = 0.15625F;
             this.txtLblTotalCajaSimboloMonedaExt.Left = 6F;
             this.txtLblTotalCajaSimboloMonedaExt.Name = "txtLblTotalCajaSimboloMonedaExt";
-            this.txtLblTotalCajaSimboloMonedaExt.Style = "font-size: 8pt; font-weight: bold; text-align: left; ddo-char-set: 1";
+            this.txtLblTotalCajaSimboloMonedaExt.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.txtLblTotalCajaSimboloMonedaExt.Text = "txtLblTotalCajaSimboloMonedaExt";
             this.txtLblTotalCajaSimboloMonedaExt.Top = 0F;
             this.txtLblTotalCajaSimboloMonedaExt.Width = 0.25F;
