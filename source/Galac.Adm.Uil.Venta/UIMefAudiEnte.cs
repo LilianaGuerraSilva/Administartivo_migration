@@ -1,6 +1,8 @@
 ﻿using Galac.Adm.Uil.Venta.ViewModel;
+using Galac.Adm.Uil.Venta.Views;
 using LibGalac.Aos.UI.Contracts;
 using LibGalac.Aos.UI.Mvvm.Ribbon;
+using LibGalac.Aos.UI.Wpf.Views;
 using LibGalac.Aos.UI.WpfControls;
 using System;
 using System.Collections.Generic;
@@ -34,9 +36,7 @@ namespace Galac.Adm.Uil.Venta {
         public ContentControl View {
             get {
                 if (_View == null) {
-                    _View = new GSSearchView() {
-                        DataContext = _ViewModel
-                    };
+                    _View = new GSAuditoriaEnteView() { DataContext = _ViewModel };
                 }
                 return _View;
             }
@@ -61,7 +61,7 @@ namespace Galac.Adm.Uil.Venta {
             try {
                 if (!IsInitialized) {
                     IsInitialized = true;
-                    //_ViewModel = new SettDefinitionMngViewModel();
+                    _ViewModel = new AuditoriaEnteMngViewModel();                    
                 }
             } catch (System.AccessViolationException) {
                 throw;
@@ -74,7 +74,7 @@ namespace Galac.Adm.Uil.Venta {
             try {
                 InitializeIfNecessary();
                 if (_ViewModel != null) {
-                    _ViewModel.ExecuteSearchAndInitLookAndFeel();
+                    
                 }
             } catch (System.AccessViolationException) {
                 throw;

@@ -249,6 +249,9 @@
     <Compile Include="ViewModel\PagosElectronicosMngViewModel.cs" />
     <Compile Include="ViewModel\ValidacionZelleViewModel.cs" />
     <Compile Include="ViewModel\VueltoEfectivoViewModel.cs" />
+    <Compile Include="Views\GSAuditoriaEnteView.xaml.cs">
+      <DependentUpon>GSAuditoriaEnteView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GSBuscarPrecioDeArticuloView.xaml.cs">
       <DependentUpon>GSBuscarPrecioDeArticuloView.xaml</DependentUpon>
     </Compile>
@@ -395,6 +398,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\rsdGroupBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSAuditoriaEnteView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
