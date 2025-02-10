@@ -63,6 +63,7 @@
     <Compile Include="Escalada.cs" />
     <Compile Include="Factura.cs" />
     <Compile Include="IActualizarArticuloInventarioPdn.cs" />
+    <Compile Include="IAuditoriaConfiguracionInformes.cs" />
     <Compile Include="ICajaAperturaPdn.cs" />
     <Compile Include="ICajaInformes.cs" />
     <Compile Include="ICobranzaInformes.cs" />
