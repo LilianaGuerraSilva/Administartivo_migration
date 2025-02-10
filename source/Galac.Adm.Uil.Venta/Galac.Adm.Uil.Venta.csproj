@@ -118,6 +118,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Reportes\clsAuditoriaConfiguracionDeCajaViewModel.cs" />
+    <Compile Include="Reportes\clsEscaladaInformesViewModel.cs" />
+    <Compile Include="Reportes\GSAuditoriaConfiguracionDeCaja.xaml.cs">
+      <DependentUpon>GSAuditoriaConfiguracionDeCaja.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UIMefAudiEnte.cs" />
     <Compile Include="VentaMessagesHandler.cs" />
     <Compile Include="Reportes\clsCajaCerradaViewModel.cs" />
@@ -321,6 +326,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Reportes\GSAuditoriaConfiguracionDeCaja.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Reportes\GSCajaCerrada.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

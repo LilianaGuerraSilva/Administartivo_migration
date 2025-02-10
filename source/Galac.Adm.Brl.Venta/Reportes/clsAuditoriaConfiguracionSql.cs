@@ -8,27 +8,32 @@ using LibGalac.Aos.Base.Report;
 namespace Galac.Adm.Brl.Venta.Reportes {
     public class clsAuditoriaConfiguracionSql {
         #region Metodos Generados
-		public string SqlAuditoriaConfiguracionDeCaja(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta){
-            StringBuilder vSql = new StringBuilder();
+
+        QAdvSql insSql;
+
+		public clsAuditoriaConfiguracionSql() {
+			insSql = new QAdvSql("");
+		}
+
+		public string SqlAuditoriaConfiguracionDeCaja(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta) {
+			StringBuilder vSql = new StringBuilder();
 			string vSQLWhere = "";
-			vSql.AppendLine("SELECT adm.Gv_AuditoriaConfiguracion_B1.FechaYHora");
-			vSql.AppendLine(", adm.Gv_AuditoriaConfiguracion_B1.VersionPrograma");
-			vSql.AppendLine(", adm.Gv_AuditoriaConfiguracion_B1.Accion");
-			vSql.AppendLine(", adm.Gv_AuditoriaConfiguracion_B1.Motivo");
-			vSql.AppendLine(", adm.Gv_AuditoriaConfiguracion_B1.ConfiguracionOriginal");
-			vSql.AppendLine(", adm.Gv_AuditoriaConfiguracion_B1.ConfiguracionNueva");
-			vSql.AppendLine(", adm.Gv_AuditoriaConfiguracion_B1.NombreOperador");
-			vSql.AppendLine(" FROM adm.Gv_AuditoriaConfiguracion_B1");
-			vSQLWhere = new QAdvSql("").SqlIntValueWithAnd(vSQLWhere, "adm.Gv_AuditoriaConfiguracion_B1.ConsecutivoCompania", valConsecutivoCompania);
+            vSQLWhere=insSql.SqlIntValueWithAnd(vSQLWhere, "adm.AuditoriaConfiguracion.ConsecutivoCompania", valConsecutivoCompania);
+            vSQLWhere =insSql.SqlDateValueBetween(vSQLWhere, "adm.AuditoriaConfiguracion.FechaYHora", valFechaDesde, valFechaHasta);
+            vSql.AppendLine("SELECT adm.AuditoriaConfiguracion.FechaYHora");
+			vSql.AppendLine(", adm.AuditoriaConfiguracion.VersionPrograma");
+			vSql.AppendLine(", adm.AuditoriaConfiguracion.Accion");
+			vSql.AppendLine(", adm.AuditoriaConfiguracion.Motivo");
+			vSql.AppendLine(", adm.AuditoriaConfiguracion.ConfiguracionOriginal");
+			vSql.AppendLine(", adm.AuditoriaConfiguracion.ConfiguracionNueva");
+			vSql.AppendLine(", adm.AuditoriaConfiguracion.NombreOperador");
+			vSql.AppendLine(" FROM adm.AuditoriaConfiguracion");			
 			if (LibString.Len(vSQLWhere) > 0) {
 				vSql.AppendLine(" WHERE " + vSQLWhere);
 			}
 			return vSql.ToString();
 		}
         #endregion //Metodos Generados
-
-
     } //End of class clsAuditoriaConfiguracionSql
-
 } //End of namespace Galac.Saw.Brl.Venta
 

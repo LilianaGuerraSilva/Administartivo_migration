@@ -59,9 +59,6 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigFieldStr(this, "txtConfiguracionOriginal", string.Empty, "ConfiguracionOriginal");
                 LibReport.ConfigFieldStr(this, "txtConfiguracionNueva", string.Empty, "ConfiguracionNueva");
                 LibReport.ConfigFieldStr(this, "txtNombreOperador", string.Empty, "NombreOperador");
-
-
-
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 return true;
             }
