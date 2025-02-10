@@ -280,55 +280,61 @@ namespace Galac.Adm.Brl.Venta {
             LibGpParams vParams = new LibGpParams();
             string vNumeroFactura = LibXml.GetPropertyString(xElementFacturaRapida, "Numero");
             eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)LibConvert.DbValueToEnum(LibXml.GetPropertyString(xElementFacturaRapida, "TipoDeDocumento"));
-            string vFecha = LibXml.GetPropertyString(xElementFacturaRapida, "Fecha");
-            string vHoraDeModificacion = LibXml.GetPropertyString(xElementFacturaRapida, "HoraDeModificacion");
-            string vCodigoCliente = LibXml.GetPropertyString(xElementFacturaRapida, "CodigoCliente");
-            string vRifCliente = GetRifCliente(vCodigoCliente);
+            DateTime vFecha = LibConvert.ToDate(LibXml.GetPropertyString(xElementFacturaRapida, "Fecha"));
             string vTipoDeDocumentoFactura = LibConvert.ToStr((int)eTipoDocumentoFactura.ComprobanteFiscal);
-            string vNumeroDeControl = string.Empty;
-            decimal vMontoGravableAlicuota1 = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "MontoGravableAlicuota1"), 2);
-            decimal vMontoGravableAlicuota2 = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "MontoGravableAlicuota2"), 2);
-            decimal vMontoGravableAlicuota3 = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "MontoGravableAlicuota3"), 2);
-            decimal vMontoIvaAlicuota1 = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "MontoIvaAlicuota1"), 2);
-            decimal vMontoIvaAlicuota2 = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "MontoIvaAlicuota2"), 2);
-            decimal vMontoIvaAlicuota3 = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "MontoIvaAlicuota3"), 2);
-            decimal vTotalBaseImponible = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "TotalBaseImponible"), 2);
-            decimal vTotalRenglones = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "TotalRenglones"), 2);
-            decimal vTotalMontoIva = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "TotalIVA"), 2);
-            decimal vTotalFactura = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "TotalFactura"), 2);
-            decimal vTotalMontoExento = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "TotalMontoExento"), 2);
             Random rnd = new Random();
             string valueIni = LibConvert.ToStr(LibConvert.ToInt(rnd.Next(1, 100)));
             string valueLast = LibConvert.ToStr(LibConvert.ToInt(rnd.Next(1, 100)));
+            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            vParams.AddInEnum("TipoDeDocumento", (int)eTipoDocumentoFactura.ComprobanteFiscal);
+            vParams.AddInString("NumeroFactura", vNumeroFactura,11);
+            vParams.AddInDateTime("FechaFactura", vFecha);
+            StringBuilder vSqlFactura =
             vSql.AppendLine("set dateformat dmy");
             vSql.AppendLine("INSERT INTO Escalada");
-            vSql.AppendLine(" (Id, Escalada41, Escalada32, Escalada73, Escalada24, Escalada85, Escalada100) VALUES (NEWID()," + valConsecutivoCompania.ToString());
-            vSql.AppendLine(", " + vQAdvSql.ToSqlValue(vFecha));
+            vSql.AppendLine(" (Id, Escalada41, Escalada32, Escalada73, Escalada24, Escalada85, Escalada100) VALUES (NEWID(),@ConsecutivoCompania ");
+            vSql.AppendLine(", @FechaFactura");
             vSql.AppendLine(", " + vQAdvSql.ToSqlValue(valueIni + "##" + vNumeroFactura + vTipoDeDocumentoFactura + "@@" + valueLast));
             vSql.AppendLine(", " + vQAdvSql.ToSqlValue(valComprobanteFiscal));
             vSql.AppendLine(", " + vQAdvSql.ToSqlValue(""));
-            vSql.AppendLine(",  HASHBYTES('SHA2_256', " + vQAdvSql.ToSqlValue(valComprobanteFiscal + vTipoDeDocumento +
-                vFecha.ToString() + vHoraDeModificacion.ToString() + vRifCliente +
-                vNumeroDeControl + vMontoGravableAlicuota1.ToString() + vMontoGravableAlicuota2.ToString() + vMontoGravableAlicuota3.ToString() +
-                vMontoIvaAlicuota1.ToString() + vMontoIvaAlicuota2.ToString() + vMontoIvaAlicuota3.ToString() +
-                vTotalRenglones.ToString() + vTotalBaseImponible.ToString() + vTotalMontoIva.ToString() + vTotalFactura.ToString() + ")"));
-            vSql.AppendLine("))");
+            vSql.AppendLine(",  HASHBYTES('SHA2_256',( " +SqlFacturaParaVerificacion().ToString() +  ")))");
             bool vresult = LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParams.Get(), "", 0) >= 0;
 
         }
 
-        private string GetRifCliente(string valCodigo)
+        private StringBuilder SqlFacturaParaVerificacion()
         {
-            LibGpParams vParams = new LibGpParams();
-            vParams.AddInInteger("ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
-            vParams.AddInString("Codigo", valCodigo, 30);
-            StringBuilder SQL = new StringBuilder();
-            SQL.AppendLine("SELECT NumeroRIF FROM Cliente");
-            SQL.AppendLine("WHERE ConsecutivoCompania = @ConsecutivoCompania");
-            SQL.AppendLine("AND Codigo = @Codigo");
-            var vData = LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", -1);
-            var vRif = vData.Descendants().Where(t => t.Name == "NumeroRIF").Select(t => t.Value).First();
-            return vRif;
+            StringBuilder vSqlSb = new StringBuilder();
+            vSqlSb.AppendLine("SELECT TOP 1 CONCAT(");
+            vSqlSb.AppendLine("	CASE WHEN TipoDeDocumento = '5' OR TipoDeDocumento = '7' THEN");
+            vSqlSb.AppendLine("		factura.Numero");
+            vSqlSb.AppendLine("	ELSE");
+            vSqlSb.AppendLine("		factura.NumeroComprobanteFiscal");
+            vSqlSb.AppendLine("	END");
+            vSqlSb.AppendLine("	,TipoDeDocumento");
+            vSqlSb.AppendLine("	,Fecha");
+            vSqlSb.AppendLine("	, factura.HoraModificacion");
+            vSqlSb.AppendLine("	, Cliente.NumeroRIF,factura.NumeroControl");
+            vSqlSb.AppendLine("	, factura.MontoGravableAlicuota1");
+            vSqlSb.AppendLine("	, factura.MontoGravableAlicuota2");
+            vSqlSb.AppendLine("	, factura.MontoGravableAlicuota3");
+            vSqlSb.AppendLine("	, factura.MontoIVAAlicuota1");
+            vSqlSb.AppendLine("	, factura.MontoIVAAlicuota2");
+            vSqlSb.AppendLine("	, factura.MontoIVAAlicuota3");
+            vSqlSb.AppendLine("	, factura.TotalRenglones");
+            vSqlSb.AppendLine("	, factura.TotalBaseImponible");
+            vSqlSb.AppendLine("	, factura.TotalIVA");
+            vSqlSb.AppendLine("	, factura.TotalFactura");
+            vSqlSb.AppendLine("	)");
+            vSqlSb.AppendLine("FROM factura INNER JOIN Cliente ON factura.ConsecutivoCompania = Cliente.ConsecutivoCompania");
+            vSqlSb.AppendLine("AND factura.CodigoCliente = Cliente.Codigo");
+            vSqlSb.AppendLine("WHERE");
+            vSqlSb.AppendLine("Numero = @NumeroFactura");
+            vSqlSb.AppendLine("AND");
+            vSqlSb.AppendLine("TipoDeDocumento = @TipoDeDocumento");
+            vSqlSb.AppendLine("AND factura.ConsecutivoCompania = @ConsecutivoCompania");
+            vSqlSb.AppendLine("AND StatusFactura = '0'");
+            return vSqlSb;
         }
     } //End of class clsCobroDeFacturaRapidaNav
 
