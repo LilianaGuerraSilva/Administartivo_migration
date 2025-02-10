@@ -52,7 +52,7 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
 
                 //				LibReport.ConfigFieldDate(this, "txtFechaYHora", string.Empty, "FechaYHora", LibGalac.Aos.Base.Report.eDateOutputFormat.DateShort); esta sobrecarga no está en versión 5.0.2.0 de lib, temporalmente pasar formato directo
-                LibReport.ConfigFieldDate(this, "txtFechaYHora", string.Empty, "FechaYHora", "dd/MM/yyyy");
+                LibReport.ConfigFieldDate(this, "txtFechaYHora", string.Empty, "FechaYHora", "dd/MM/yyyy hh:mm");
                 LibReport.ConfigFieldStr(this, "txtVersionPrograma", string.Empty, "VersionPrograma");
                 LibReport.ConfigFieldStr(this, "txtAccion", string.Empty, "Accion");
                 LibReport.ConfigFieldStr(this, "txtMotivo", string.Empty, "Motivo");

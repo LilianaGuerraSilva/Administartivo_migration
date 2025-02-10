@@ -32,6 +32,8 @@ namespace Galac.Adm.Rpt.Venta
             this.txtConfiguracionOriginal = new DataDynamics.ActiveReports.TextBox();
             this.txtConfiguracionNueva = new DataDynamics.ActiveReports.TextBox();
             this.txtNombreOperador = new DataDynamics.ActiveReports.TextBox();
+            this.lblConfiguracionNueva = new DataDynamics.ActiveReports.Label();
+            this.lblConfiguracionOriginal = new DataDynamics.ActiveReports.Label();
             this.PageHeader = new DataDynamics.ActiveReports.PageHeader();
             this.txtNombreCompania = new DataDynamics.ActiveReports.TextBox();
             this.txtNroDePagina = new DataDynamics.ActiveReports.TextBox();
@@ -45,8 +47,6 @@ namespace Galac.Adm.Rpt.Venta
             this.lblFechaYHora = new DataDynamics.ActiveReports.Label();
             this.lblAccion = new DataDynamics.ActiveReports.Label();
             this.lblMotivo = new DataDynamics.ActiveReports.Label();
-            this.lblConfiguracionOriginal = new DataDynamics.ActiveReports.Label();
-            this.lblConfiguracionNueva = new DataDynamics.ActiveReports.Label();
             this.lblNombreOperador = new DataDynamics.ActiveReports.Label();
             this.GFNroVersion = new DataDynamics.ActiveReports.GroupFooter();
             ((System.ComponentModel.ISupportInitialize)(this.txtFechaYHora)).BeginInit();
@@ -55,6 +55,8 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtConfiguracionOriginal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtConfiguracionNueva)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreOperador)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblConfiguracionNueva)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblConfiguracionOriginal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreCompania)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNroDePagina)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaYHoraDeEmision)).BeginInit();
@@ -65,8 +67,6 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaYHora)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblAccion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMotivo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblConfiguracionOriginal)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblConfiguracionNueva)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblNombreOperador)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
@@ -79,8 +79,10 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMotivo,
             this.txtConfiguracionOriginal,
             this.txtConfiguracionNueva,
-            this.txtNombreOperador});
-            this.Detail.Height = 0.15625F;
+            this.txtNombreOperador,
+            this.lblConfiguracionNueva,
+            this.lblConfiguracionOriginal});
+            this.Detail.Height = 0.8299167F;
             this.Detail.Name = "Detail";
             // 
             // txtFechaYHora
@@ -91,47 +93,48 @@ namespace Galac.Adm.Rpt.Venta
             this.txtFechaYHora.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtFechaYHora.Text = "txtFechaYHora";
             this.txtFechaYHora.Top = 0F;
-            this.txtFechaYHora.Width = 1.0625F;
+            this.txtFechaYHora.Width = 1.25F;
             // 
             // txtAccion
             // 
-            this.txtAccion.Height = 0.15625F;
-            this.txtAccion.Left = 1.0625F;
+            this.txtAccion.Height = 0.32F;
+            this.txtAccion.Left = 1.25F;
             this.txtAccion.Name = "txtAccion";
-            this.txtAccion.Style = "font-size: 8pt; ddo-char-set: 1";
+            this.txtAccion.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
             this.txtAccion.Text = "txtAccion";
             this.txtAccion.Top = 0F;
             this.txtAccion.Width = 1.25F;
             // 
             // txtMotivo
             // 
-            this.txtMotivo.Height = 0.15625F;
-            this.txtMotivo.Left = 2.3125F;
+            this.txtMotivo.CanGrow = false;
+            this.txtMotivo.Height = 0.32F;
+            this.txtMotivo.Left = 2.5F;
             this.txtMotivo.Name = "txtMotivo";
             this.txtMotivo.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtMotivo.Text = "txtMotivo";
             this.txtMotivo.Top = 0F;
-            this.txtMotivo.Width = 15.9375F;
+            this.txtMotivo.Width = 4.949F;
             // 
             // txtConfiguracionOriginal
             // 
-            this.txtConfiguracionOriginal.Height = 0.15625F;
-            this.txtConfiguracionOriginal.Left = 18.25F;
+            this.txtConfiguracionOriginal.Height = 0.156F;
+            this.txtConfiguracionOriginal.Left = 2.5F;
             this.txtConfiguracionOriginal.Name = "txtConfiguracionOriginal";
             this.txtConfiguracionOriginal.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtConfiguracionOriginal.Text = "txtConfiguracionOriginal";
-            this.txtConfiguracionOriginal.Top = 0F;
-            this.txtConfiguracionOriginal.Width = 31.25F;
+            this.txtConfiguracionOriginal.Top = 0.476F;
+            this.txtConfiguracionOriginal.Width = 4.949F;
             // 
             // txtConfiguracionNueva
             // 
-            this.txtConfiguracionNueva.Height = 0.15625F;
-            this.txtConfiguracionNueva.Left = 49.5F;
+            this.txtConfiguracionNueva.Height = 0.156F;
+            this.txtConfiguracionNueva.Left = 2.5F;
             this.txtConfiguracionNueva.Name = "txtConfiguracionNueva";
             this.txtConfiguracionNueva.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtConfiguracionNueva.Text = "txtConfiguracionNueva";
-            this.txtConfiguracionNueva.Top = 0F;
-            this.txtConfiguracionNueva.Width = 31.25F;
+            this.txtConfiguracionNueva.Top = 0.32F;
+            this.txtConfiguracionNueva.Width = 4.949F;
             // 
             // txtNombreOperador
             // 
@@ -142,6 +145,28 @@ namespace Galac.Adm.Rpt.Venta
             this.txtNombreOperador.Text = "txtNombreOperador";
             this.txtNombreOperador.Top = 0F;
             this.txtNombreOperador.Width = 1.25F;
+            // 
+            // lblConfiguracionNueva
+            // 
+            this.lblConfiguracionNueva.Height = 0.16F;
+            this.lblConfiguracionNueva.HyperLink = null;
+            this.lblConfiguracionNueva.Left = 1.25F;
+            this.lblConfiguracionNueva.Name = "lblConfiguracionNueva";
+            this.lblConfiguracionNueva.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
+            this.lblConfiguracionNueva.Text = "Configuración Nueva";
+            this.lblConfiguracionNueva.Top = 0.32F;
+            this.lblConfiguracionNueva.Width = 1.25F;
+            // 
+            // lblConfiguracionOriginal
+            // 
+            this.lblConfiguracionOriginal.Height = 0.156F;
+            this.lblConfiguracionOriginal.HyperLink = null;
+            this.lblConfiguracionOriginal.Left = 1.25F;
+            this.lblConfiguracionOriginal.Name = "lblConfiguracionOriginal";
+            this.lblConfiguracionOriginal.Style = "color: Black; font-size: 8pt; font-weight: bold; ddo-char-set: 1";
+            this.lblConfiguracionOriginal.Text = "Configuración Original";
+            this.lblConfiguracionOriginal.Top = 0.476F;
+            this.lblConfiguracionOriginal.Width = 1.25F;
             // 
             // PageHeader
             // 
@@ -157,11 +182,11 @@ namespace Galac.Adm.Rpt.Venta
             // txtNombreCompania
             // 
             this.txtNombreCompania.Height = 0.156F;
-            this.txtNombreCompania.Left = 0.0625F;
+            this.txtNombreCompania.Left = 0F;
             this.txtNombreCompania.Name = "txtNombreCompania";
             this.txtNombreCompania.Style = "text-align: center";
             this.txtNombreCompania.Text = "txtNombreCompania";
-            this.txtNombreCompania.Top = 0.125F;
+            this.txtNombreCompania.Top = 0F;
             this.txtNombreCompania.Width = 4.09375F;
             // 
             // txtNroDePagina
@@ -178,33 +203,33 @@ namespace Galac.Adm.Rpt.Venta
             // 
             this.lblFechaYHoraDeEmision.Height = 0.156F;
             this.lblFechaYHoraDeEmision.HyperLink = null;
-            this.lblFechaYHoraDeEmision.Left = 0.0625F;
+            this.lblFechaYHoraDeEmision.Left = 0F;
             this.lblFechaYHoraDeEmision.Name = "lblFechaYHoraDeEmision";
             this.lblFechaYHoraDeEmision.Style = "font-size: 8.25pt; text-align: center";
             this.lblFechaYHoraDeEmision.Text = "lblFechaYHoraDeEmision";
-            this.lblFechaYHoraDeEmision.Top = 0.65625F;
+            this.lblFechaYHoraDeEmision.Top = 0.468F;
             this.lblFechaYHoraDeEmision.Width = 4.09375F;
             // 
             // lblTituloInforme
             // 
             this.lblTituloInforme.Height = 0.156F;
             this.lblTituloInforme.HyperLink = null;
-            this.lblTituloInforme.Left = 0.0625F;
+            this.lblTituloInforme.Left = 0F;
             this.lblTituloInforme.Name = "lblTituloInforme";
             this.lblTituloInforme.Style = "font-size: 8.25pt; text-align: center";
-            this.lblTituloInforme.Text = "Auditoría de Caja / Impresora Fiscal";
-            this.lblTituloInforme.Top = 0.328125F;
+            this.lblTituloInforme.Text = "Auditoria Configuracion de Caja";
+            this.lblTituloInforme.Top = 0.156F;
             this.lblTituloInforme.Width = 4.09375F;
             // 
             // lblFechaInicialYFinal
             // 
             this.lblFechaInicialYFinal.Height = 0.156F;
             this.lblFechaInicialYFinal.HyperLink = null;
-            this.lblFechaInicialYFinal.Left = 0.09375F;
+            this.lblFechaInicialYFinal.Left = 0F;
             this.lblFechaInicialYFinal.Name = "lblFechaInicialYFinal";
             this.lblFechaInicialYFinal.Style = "font-size: 8.25pt; text-align: center";
             this.lblFechaInicialYFinal.Text = "lblFechaInicialYFinal";
-            this.lblFechaInicialYFinal.Top = 0.46875F;
+            this.lblFechaInicialYFinal.Top = 0.312F;
             this.lblFechaInicialYFinal.Width = 4.09375F;
             // 
             // PageFooter
@@ -220,10 +245,8 @@ namespace Galac.Adm.Rpt.Venta
             this.lblFechaYHora,
             this.lblAccion,
             this.lblMotivo,
-            this.lblConfiguracionOriginal,
-            this.lblConfiguracionNueva,
             this.lblNombreOperador});
-            this.GHNroVersion.Height = 0.3125F;
+            this.GHNroVersion.Height = 0.3229167F;
             this.GHNroVersion.Name = "GHNroVersion";
             // 
             // lblVersionPrograma
@@ -235,17 +258,17 @@ namespace Galac.Adm.Rpt.Venta
             this.lblVersionPrograma.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.lblVersionPrograma.Text = "Version de Programa";
             this.lblVersionPrograma.Top = 0F;
-            this.lblVersionPrograma.Width = 1.6875F;
+            this.lblVersionPrograma.Width = 1.25F;
             // 
             // txtVersionPrograma
             // 
             this.txtVersionPrograma.Height = 0.15625F;
-            this.txtVersionPrograma.Left = 1.6875F;
+            this.txtVersionPrograma.Left = 1.25F;
             this.txtVersionPrograma.Name = "txtVersionPrograma";
             this.txtVersionPrograma.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtVersionPrograma.Text = "txtVersionPrograma";
             this.txtVersionPrograma.Top = 0F;
-            this.txtVersionPrograma.Width = 1.6875F;
+            this.txtVersionPrograma.Width = 1.25F;
             // 
             // lblFechaYHora
             // 
@@ -255,20 +278,20 @@ namespace Galac.Adm.Rpt.Venta
             this.lblFechaYHora.Left = 0F;
             this.lblFechaYHora.Name = "lblFechaYHora";
             this.lblFechaYHora.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
-            this.lblFechaYHora.Text = "Fecha y Hora";
-            this.lblFechaYHora.Top = 0.15625F;
-            this.lblFechaYHora.Width = 1.0625F;
+            this.lblFechaYHora.Text = "Fecha / Hora";
+            this.lblFechaYHora.Top = 0.156F;
+            this.lblFechaYHora.Width = 1.25F;
             // 
             // lblAccion
             // 
             this.lblAccion.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblAccion.Height = 0.15625F;
             this.lblAccion.HyperLink = null;
-            this.lblAccion.Left = 1.0625F;
+            this.lblAccion.Left = 1.25F;
             this.lblAccion.Name = "lblAccion";
             this.lblAccion.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
             this.lblAccion.Text = "Acción";
-            this.lblAccion.Top = 0.15625F;
+            this.lblAccion.Top = 0.156F;
             this.lblAccion.Width = 1.25F;
             // 
             // lblMotivo
@@ -276,36 +299,12 @@ namespace Galac.Adm.Rpt.Venta
             this.lblMotivo.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblMotivo.Height = 0.15625F;
             this.lblMotivo.HyperLink = null;
-            this.lblMotivo.Left = 2.3125F;
+            this.lblMotivo.Left = 2.5F;
             this.lblMotivo.Name = "lblMotivo";
             this.lblMotivo.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
             this.lblMotivo.Text = "Motivo";
-            this.lblMotivo.Top = 0.15625F;
-            this.lblMotivo.Width = 15.9375F;
-            // 
-            // lblConfiguracionOriginal
-            // 
-            this.lblConfiguracionOriginal.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.lblConfiguracionOriginal.Height = 0.15625F;
-            this.lblConfiguracionOriginal.HyperLink = null;
-            this.lblConfiguracionOriginal.Left = 18.25F;
-            this.lblConfiguracionOriginal.Name = "lblConfiguracionOriginal";
-            this.lblConfiguracionOriginal.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
-            this.lblConfiguracionOriginal.Text = "Configuración Original";
-            this.lblConfiguracionOriginal.Top = 0.15625F;
-            this.lblConfiguracionOriginal.Width = 31.25F;
-            // 
-            // lblConfiguracionNueva
-            // 
-            this.lblConfiguracionNueva.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.lblConfiguracionNueva.Height = 0.15625F;
-            this.lblConfiguracionNueva.HyperLink = null;
-            this.lblConfiguracionNueva.Left = 49.5F;
-            this.lblConfiguracionNueva.Name = "lblConfiguracionNueva";
-            this.lblConfiguracionNueva.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
-            this.lblConfiguracionNueva.Text = "Configuración Nueva";
-            this.lblConfiguracionNueva.Top = 0.15625F;
-            this.lblConfiguracionNueva.Width = 31.25F;
+            this.lblMotivo.Top = 0.156F;
+            this.lblMotivo.Width = 4.949F;
             // 
             // lblNombreOperador
             // 
@@ -347,6 +346,8 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtConfiguracionOriginal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtConfiguracionNueva)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreOperador)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblConfiguracionNueva)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblConfiguracionOriginal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreCompania)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNroDePagina)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaYHoraDeEmision)).EndInit();
@@ -357,8 +358,6 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaYHora)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblAccion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMotivo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblConfiguracionOriginal)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblConfiguracionNueva)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblNombreOperador)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
@@ -389,6 +388,7 @@ namespace Galac.Adm.Rpt.Venta
         private DataDynamics.ActiveReports.Label lblConfiguracionNueva;
         private DataDynamics.ActiveReports.Label lblNombreOperador;
         private DataDynamics.ActiveReports.GroupFooter GFNroVersion;
+
 
     }
 }

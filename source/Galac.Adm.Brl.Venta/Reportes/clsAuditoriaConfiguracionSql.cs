@@ -18,20 +18,21 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 		public string SqlAuditoriaConfiguracionDeCaja(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta) {
 			StringBuilder vSql = new StringBuilder();
 			string vSQLWhere = "";
-            vSQLWhere=insSql.SqlIntValueWithAnd(vSQLWhere, "adm.AuditoriaConfiguracion.ConsecutivoCompania", valConsecutivoCompania);
-            vSQLWhere =insSql.SqlDateValueBetween(vSQLWhere, "adm.AuditoriaConfiguracion.FechaYHora", valFechaDesde, valFechaHasta);
-            vSql.AppendLine("SELECT adm.AuditoriaConfiguracion.FechaYHora");
-			vSql.AppendLine(", adm.AuditoriaConfiguracion.VersionPrograma");
-			vSql.AppendLine(", adm.AuditoriaConfiguracion.Accion");
-			vSql.AppendLine(", adm.AuditoriaConfiguracion.Motivo");
-			vSql.AppendLine(", adm.AuditoriaConfiguracion.ConfiguracionOriginal");
-			vSql.AppendLine(", adm.AuditoriaConfiguracion.ConfiguracionNueva");
-			vSql.AppendLine(", adm.AuditoriaConfiguracion.NombreOperador");
+            vSQLWhere=insSql.SqlIntValueWithAnd(vSQLWhere, "ConsecutivoCompania", valConsecutivoCompania);
+            vSQLWhere =insSql.SqlDateValueBetween(vSQLWhere, "FechaYHora", valFechaDesde, valFechaHasta);
+            vSql.AppendLine("SELECT FechaYHora");
+			vSql.AppendLine(", VersionPrograma");
+			vSql.AppendLine(", Accion");
+			vSql.AppendLine(", Motivo");
+			vSql.AppendLine(", ConfiguracionOriginal");
+			vSql.AppendLine(", ConfiguracionNueva");
+			vSql.AppendLine(", NombreOperador");
 			vSql.AppendLine(" FROM adm.AuditoriaConfiguracion");			
 			if (LibString.Len(vSQLWhere) > 0) {
 				vSql.AppendLine(" WHERE " + vSQLWhere);
 			}
-			return vSql.ToString();
+			vSql.AppendLine(" ORDER BY FechaYHora, ConfiguracionOriginal, ConfiguracionNueva ASC");
+            return vSql.ToString();
 		}
         #endregion //Metodos Generados
     } //End of class clsAuditoriaConfiguracionSql
