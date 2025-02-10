@@ -28,10 +28,10 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />                    
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Alguna Informacion Importante.
-&#10;Otra Linea con iformacion para el usuario del seniat."  Grid.RowSpan="4" Margin="0,0,0,6" HorizontalAlignment="Left"  TextWrapping="Wrap" Style="{StaticResource TextBlockFeatureInfo}" />
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Auditoría del Servicio Nacional Integrado de Administración Aduanera y Tributaria SENIAT.
+&#10;&#10;Informes de comprobación y validación de auditorías automáticas del Sistema Administrativo."  Grid.RowSpan="2"  TextWrapping="Wrap" Style="{StaticResource TextBlockFeatureInfo}" FontSize="24" Grid.ColumnSpan="2" Width="1277" />
 
             </Grid>
         </GroupBox>
