@@ -10,7 +10,6 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Brl;
 using LibGalac.Aos.Base.Dal;
 using Galac.Adm.Ccl.Venta;
-using Galac.Saw.Brl.Tablas;
 using Galac.Adm.Brl.CAnticipo;
 using Galac.Adm.Ccl.CAnticipo;
 using LibGalac.Aos.Catching;
@@ -162,6 +161,7 @@ namespace Galac.Adm.Brl.Venta {
                     vNumeroFactura = insFacturaRapida.GenerarNumeroDeFactura(vConsecutivoCompania);
                     ActualizarCamposEnXmlFactura(xElementFacturaRapida, vNumeroFactura, valComprobanteFiscal, valSerialMaquinaFiscal);
                     vResult = insFacturaRapida.ActualizarFacturaEmitida(vConsecutivoCompania, xElementFacturaRapida, vNumeroBorrador, vNumeroParaResumen);
+                    InsertarDatosParaVerificar(vConsecutivoCompania, xElementFacturaRapida, valComprobanteFiscal);
                     vResult = vResult && insActualizarArticulo.DescontarExistencia(vConsecutivoCompania, vNumeroFactura, vCodigoAlmacen, eTipoDocumentoFactura.ComprobanteFiscal, vFechaFactura);
                     vResult = vResult && insActualizarArticulo.DescontarEnAlmacen(vConsecutivoCompania, vNumeroFactura, vCodigoAlmacen, eTipoDocumentoFactura.ComprobanteFiscal, vFechaFactura);
                     vResult = vResult && insActualizarArticulo.DescontarExistenciaProductoCompuesto(vConsecutivoCompania, vNumeroFactura, vCodigoAlmacen, eTipoDocumentoFactura.ComprobanteFiscal, vFechaFactura);
@@ -187,6 +187,7 @@ namespace Galac.Adm.Brl.Venta {
                             throw new GalacAlertException("Reintentando...");
                         }
                     }
+                    
                 }
             } catch (Exception vEx) {
                 _ContaforErrorPK++;
@@ -273,8 +274,62 @@ namespace Galac.Adm.Brl.Venta {
         }
         */
         #endregion //Codigo Ejemplo
+        private void InsertarDatosParaVerificar(int valConsecutivoCompania, XElement xElementFacturaRapida, string valComprobanteFiscal) {
+            StringBuilder vSql = new StringBuilder();
+            QAdvSql vQAdvSql = new QAdvSql("");
+            LibGpParams vParams = new LibGpParams();
+            string vNumeroFactura = LibXml.GetPropertyString(xElementFacturaRapida, "Numero");
+            eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)LibConvert.DbValueToEnum(LibXml.GetPropertyString(xElementFacturaRapida, "TipoDeDocumento"));
+            string vFecha = LibXml.GetPropertyString(xElementFacturaRapida, "Fecha");
+            string vHoraDeModificacion = LibXml.GetPropertyString(xElementFacturaRapida, "HoraDeModificacion");
+            string vCodigoCliente = LibXml.GetPropertyString(xElementFacturaRapida, "CodigoCliente");
+            string vRifCliente = GetRifCliente(vCodigoCliente);
+            string vTipoDeDocumentoFactura = LibConvert.ToStr((int)eTipoDocumentoFactura.ComprobanteFiscal);
+            string vNumeroDeControl = string.Empty;
+            decimal vMontoGravableAlicuota1 = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "MontoGravableAlicuota1"), 2);
+            decimal vMontoGravableAlicuota2 = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "MontoGravableAlicuota2"), 2);
+            decimal vMontoGravableAlicuota3 = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "MontoGravableAlicuota3"), 2);
+            decimal vMontoIvaAlicuota1 = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "MontoIvaAlicuota1"), 2);
+            decimal vMontoIvaAlicuota2 = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "MontoIvaAlicuota2"), 2);
+            decimal vMontoIvaAlicuota3 = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "MontoIvaAlicuota3"), 2);
+            decimal vTotalBaseImponible = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "TotalBaseImponible"), 2);
+            decimal vTotalRenglones = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "TotalRenglones"), 2);
+            decimal vTotalMontoIva = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "TotalIVA"), 2);
+            decimal vTotalFactura = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "TotalFactura"), 2);
+            decimal vTotalMontoExento = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "TotalMontoExento"), 2);
+            Random rnd = new Random();
+            string valueIni = LibConvert.ToStr(LibConvert.ToInt(rnd.Next(1, 100)));
+            string valueLast = LibConvert.ToStr(LibConvert.ToInt(rnd.Next(1, 100)));
+            vSql.AppendLine("set dateformat dmy");
+            vSql.AppendLine("INSERT INTO Escalada");
+            vSql.AppendLine(" (Id, Escalada41, Escalada32, Escalada73, Escalada24, Escalada85, Escalada100) VALUES (NEWID()," + valConsecutivoCompania.ToString());
+            vSql.AppendLine(", " + vQAdvSql.ToSqlValue(vFecha));
+            vSql.AppendLine(", " + vQAdvSql.ToSqlValue(valueIni + "##" + vNumeroFactura + vTipoDeDocumentoFactura + "@@" + valueLast));
+            vSql.AppendLine(", " + vQAdvSql.ToSqlValue(valComprobanteFiscal));
+            vSql.AppendLine(", " + vQAdvSql.ToSqlValue(""));
+            vSql.AppendLine(",  HASHBYTES('SHA2_256', " + vQAdvSql.ToSqlValue(valComprobanteFiscal + vTipoDeDocumento +
+                vFecha.ToString() + vHoraDeModificacion.ToString() + vRifCliente +
+                vNumeroDeControl + vMontoGravableAlicuota1.ToString() + vMontoGravableAlicuota2.ToString() + vMontoGravableAlicuota3.ToString() +
+                vMontoIvaAlicuota1.ToString() + vMontoIvaAlicuota2.ToString() + vMontoIvaAlicuota3.ToString() +
+                vTotalRenglones.ToString() + vTotalBaseImponible.ToString() + vTotalMontoIva.ToString() + vTotalFactura.ToString() + ")"));
+            vSql.AppendLine("))");
+            bool vresult = LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParams.Get(), "", 0) >= 0;
 
+        }
 
+        private string GetRifCliente(string valCodigo)
+        {
+            LibGpParams vParams = new LibGpParams();
+            vParams.AddInInteger("ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
+            vParams.AddInString("Codigo", valCodigo, 30);
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("SELECT NumeroRIF FROM Cliente");
+            SQL.AppendLine("WHERE ConsecutivoCompania = @ConsecutivoCompania");
+            SQL.AppendLine("AND Codigo = @Codigo");
+            var vData = LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", -1);
+            var vRif = vData.Descendants().Where(t => t.Name == "NumeroRIF").Select(t => t.Value).First();
+            return vRif;
+        }
     } //End of class clsCobroDeFacturaRapidaNav
 
 } //End of namespace Galac.Adm.Brl.Venta
