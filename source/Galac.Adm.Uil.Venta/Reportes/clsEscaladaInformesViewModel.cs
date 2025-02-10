@@ -41,11 +41,11 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 
         private ILibRpt ConfigReportFacturacionEntreFechasVerificacion(clsFacturacionEntreFechasVerificacionViewModel valViewModel) {
             ILibRpt vResult = null;
-            //if (valViewModel != null) {
-            //    vResult = new Rpt.Venta.clsFacturacionEntreFechasVerificado(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaDeInicio, valViewModel.FechaFinal) {
-            //        Worker = Manager
-            //        };
-            //}
+            if (valViewModel != null) {
+                vResult = new Rpt.Venta.clsFacturacionEntreFechasVerificado(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaDeInicio, valViewModel.FechaFinal) {
+                    Worker = Manager
+                    };
+            }
             return vResult;
         }
 

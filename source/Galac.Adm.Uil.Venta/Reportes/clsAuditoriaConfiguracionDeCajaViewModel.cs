@@ -43,7 +43,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         }
         
         public override string DisplayName {
-            get { return "Auditoría de Caja/Impresora Fiscal"; }
+            get { return "Auditoría de Caja / Impresora Fiscal"; }
         }
 
         public LibXmlMemInfo AppMemoryInfo { get; set; }
@@ -54,13 +54,9 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         #endregion //Propiedades
         #region Constructores
 
-        public clsAuditoriaConfiguracionDeCajaViewModel() {
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-            FechaDesde = LibDate.AddsNMonths(LibDate.Today(), - 1, false);
-            FechaHasta = LibDate.Today();
-        */
-        #endregion //Codigo Ejemplo
+        public clsAuditoriaConfiguracionDeCajaViewModel() {            
+            FechaDesde = LibDate.AddsNMonths(LibDate.Today(), -1, false);
+            FechaHasta = LibDate.Today();            
         }
         protected override ILibBusinessSearch GetBusinessComponent() {
             return (ILibBusinessSearch)new clsAuditoriaConfiguracionNav();
