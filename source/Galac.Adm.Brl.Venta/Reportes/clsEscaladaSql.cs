@@ -28,6 +28,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("Cliente.NumeroRIF, ");
             vSql.AppendLine("NumeroControl, MontoGravableAlicuota1, MontoGravableAlicuota2, MontoGravableAlicuota3, ");
             vSql.AppendLine("MontoIVAAlicuota1, MontoIVAAlicuota2, MontoIVAAlicuota3,");
+            vSql.AppendLine("TotalMontoExento,");
             vSql.AppendLine("TotalRenglones, TotalBaseImponible, TotalIVA, TotalFactura");
             vSql.AppendLine(")) AS Verificacion, Fecha, Numero, TipoDeDocumento, HoraModificacion AS 'Hora', factura.ConsecutivoCompania ");
             vSql.AppendLine("FROM factura INNER JOIN Cliente ON factura.ConsecutivoCompania = Cliente.ConsecutivoCompania ");
