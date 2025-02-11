@@ -34,7 +34,7 @@ namespace Galac.Adm.Rpt.Venta {
         #region Metodos Generados
 
         public string ReportTitle() {
-            return "Auditoria Configuracion de Caja";
+            return "Auditoría de Caja / Impresora Fiscal";
         }
 
         public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {
