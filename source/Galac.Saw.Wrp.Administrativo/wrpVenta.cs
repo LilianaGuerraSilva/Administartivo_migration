@@ -112,7 +112,7 @@ namespace Galac.Saw.Wrp.Venta {
                     if (LibDate.F1IsEqualToF2(LibDate.Today(), LibConvert.ToDate(LibAppSettings.ReadAppSettingsKey("DEVQABACKDOOR")))) {
                         wrpSaw.SendMailFromGalac("desasaw@galac.com", "Notificación", vChisme.ToString(), "juan.garcia@galac.com");
                     } else {
-                        //wrpSaw.SendMailFromGalac("controlfacturacion@seniat.gob.ve", "Notificación", vChisme.ToString(), "");
+                        wrpSaw.SendMailFromGalac("controlfacturacion@seniat.gob.ve", "Notificación", vChisme.ToString(), "");
                     }
                 }
             } catch (Exception vEx) {
