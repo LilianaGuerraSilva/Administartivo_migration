@@ -103,10 +103,10 @@ namespace Galac.Adm.Rpt.Venta
             this.txtNombreMonedaFormaDelCobro = new DataDynamics.ActiveReports.TextBox();
             this.txtTipodeCobro = new DataDynamics.ActiveReports.TextBox();
             this.TxtMonto1 = new DataDynamics.ActiveReports.TextBox();
+            this.txtLblCambioABolivares = new DataDynamics.ActiveReports.TextBox();
             this.GFSecCobro = new DataDynamics.ActiveReports.GroupFooter();
             this.lblSubTotalCobro = new DataDynamics.ActiveReports.Label();
             this.txtSubTotalCobro = new DataDynamics.ActiveReports.TextBox();
-            this.txtLblCambioABolivares = new DataDynamics.ActiveReports.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreTipoDeCobro)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMonto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCambioABolivares)).BeginInit();
@@ -171,9 +171,9 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreMonedaFormaDelCobro)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTipodeCobro)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtMonto1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtLblCambioABolivares)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblSubTotalCobro)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSubTotalCobro)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtLblCambioABolivares)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
@@ -994,6 +994,7 @@ namespace Galac.Adm.Rpt.Venta
             // 
             this.txtNombreMonedaFormaDelCobro.Border.BottomColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.txtNombreMonedaFormaDelCobro.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtNombreMonedaFormaDelCobro.CanGrow = false;
             this.txtNombreMonedaFormaDelCobro.Height = 0.15F;
             this.txtNombreMonedaFormaDelCobro.Left = 3.25F;
             this.txtNombreMonedaFormaDelCobro.Name = "txtNombreMonedaFormaDelCobro";
@@ -1007,6 +1008,7 @@ namespace Galac.Adm.Rpt.Venta
             // 
             this.txtTipodeCobro.Border.BottomColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.txtTipodeCobro.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtTipodeCobro.CanGrow = false;
             this.txtTipodeCobro.Height = 0.15F;
             this.txtTipodeCobro.Left = 0.7500001F;
             this.txtTipodeCobro.Name = "txtTipodeCobro";
@@ -1020,6 +1022,7 @@ namespace Galac.Adm.Rpt.Venta
             // 
             this.TxtMonto1.Border.BottomColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.TxtMonto1.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.TxtMonto1.CanGrow = false;
             this.TxtMonto1.Height = 0.15F;
             this.TxtMonto1.Left = 5F;
             this.TxtMonto1.Name = "TxtMonto1";
@@ -1028,6 +1031,20 @@ namespace Galac.Adm.Rpt.Venta
             this.TxtMonto1.Text = "Monto";
             this.TxtMonto1.Top = 0F;
             this.TxtMonto1.Width = 1F;
+            // 
+            // txtLblCambioABolivares
+            // 
+            this.txtLblCambioABolivares.Border.BottomColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.txtLblCambioABolivares.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtLblCambioABolivares.CanGrow = false;
+            this.txtLblCambioABolivares.Height = 0.15F;
+            this.txtLblCambioABolivares.Left = 4.364F;
+            this.txtLblCambioABolivares.Name = "txtLblCambioABolivares";
+            this.txtLblCambioABolivares.Style = "font-size: 8.25pt; font-weight: bold; text-align: right; vertical-align: top; whi" +
+    "te-space: nowrap; ddo-char-set: 1";
+            this.txtLblCambioABolivares.Text = "Cambio";
+            this.txtLblCambioABolivares.Top = 0F;
+            this.txtLblCambioABolivares.Width = 0.6359994F;
             // 
             // GFSecCobro
             // 
@@ -1059,19 +1076,6 @@ namespace Galac.Adm.Rpt.Venta
             this.txtSubTotalCobro.Text = "txtSubTotalCobro";
             this.txtSubTotalCobro.Top = 0F;
             this.txtSubTotalCobro.Width = 1F;
-            // 
-            // txtLblCambioABolivares
-            // 
-            this.txtLblCambioABolivares.Border.BottomColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.txtLblCambioABolivares.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.txtLblCambioABolivares.Height = 0.15F;
-            this.txtLblCambioABolivares.Left = 4.364F;
-            this.txtLblCambioABolivares.Name = "txtLblCambioABolivares";
-            this.txtLblCambioABolivares.Style = "font-size: 8.25pt; font-weight: bold; text-align: right; vertical-align: top; whi" +
-    "te-space: nowrap; ddo-char-set: 1";
-            this.txtLblCambioABolivares.Text = "Cambio";
-            this.txtLblCambioABolivares.Top = 0F;
-            this.txtLblCambioABolivares.Width = 0.6359994F;
             // 
             // dsrCuadreCajaCobroMultimonedaDetallado
             // 
@@ -1165,9 +1169,9 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreMonedaFormaDelCobro)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTipodeCobro)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtMonto1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtLblCambioABolivares)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblSubTotalCobro)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSubTotalCobro)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtLblCambioABolivares)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
