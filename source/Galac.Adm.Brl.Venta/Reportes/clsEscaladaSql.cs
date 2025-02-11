@@ -34,7 +34,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("FROM factura INNER JOIN Cliente ON factura.ConsecutivoCompania = Cliente.ConsecutivoCompania ");
             vSql.AppendLine("AND factura.CodigoCliente = Cliente.Codigo ");
             vSql.AppendLine("WHERE  StatusFactura = '0' ");
-            vSql.AppendLine("AND TipoDeDocumento <> '8' AND TipoDeDocumento <> '3')");
+            vSql.AppendLine("AND TipoDeDocumento <> '3')");
             vSql.AppendLine(", CTE_Verificacion AS(");
 
             vSql.AppendLine("SELECT");
