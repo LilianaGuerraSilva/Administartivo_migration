@@ -19,7 +19,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			StringBuilder vSql = new StringBuilder();
 			string vSQLWhere = "";
             vSQLWhere=insSql.SqlIntValueWithAnd(vSQLWhere, "ConsecutivoCompania", valConsecutivoCompania);
-            vSQLWhere =insSql.SqlDateValueBetween(vSQLWhere, "FechaYHora", valFechaDesde, valFechaHasta);
+			vSQLWhere += $" AND CAST(FechaYHora as date) >= CAST({insSql.ToSqlValue(valFechaDesde)} AS date) AND CAST(FechaYHora as date) <= CAST({insSql.ToSqlValue(valFechaHasta)} AS date)";
             vSql.AppendLine("SELECT FechaYHora");
 			vSql.AppendLine(", VersionPrograma");
 			vSql.AppendLine(", Accion");
