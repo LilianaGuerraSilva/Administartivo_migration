@@ -230,7 +230,7 @@ namespace Galac.Adm.Rpt.Venta {
                     totalEfectivoMonedaExt += LibConvert.ToDec(txtMonto.Text);
                     txtTotalEfectivoMonedaExt.Text = LibConvert.ToStr(totalEfectivoMonedaExt);
                     subTotalDocumentoMonedaExt += LibConvert.ToDec(txtMonto.Text);
-                } else if (codFormaCobro == eFormaDeCobro.Deposito) {
+                } else if (codFormaCobro == eFormaDeCobro.Deposito || codFormaCobro == eFormaDeCobro.DepositoMS) {
                     totalTransferenciaMonedaExt += LibConvert.ToDec(txtMonto.Text);
                     txtTotalTransferenciaMonedaExt.Text = LibConvert.ToStr(totalTransferenciaMonedaExt);
                     subTotalDocumentoMonedaExt += LibConvert.ToDec(txtMonto.Text);
