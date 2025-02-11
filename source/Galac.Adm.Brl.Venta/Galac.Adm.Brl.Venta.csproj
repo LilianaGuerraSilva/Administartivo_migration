@@ -103,6 +103,7 @@
     <Compile Include="clsCobroDeFacturaRapidaTarjetaNav.cs" />
     <Compile Include="clsContratoNav.cs" />
     <Compile Include="clsCXCNav.cs" />
+    <Compile Include="clsEscaladaNav.cs" />
     <Compile Include="clsFacturaNav.cs" />
     <Compile Include="clsFacturaRapidaDetalleNav.cs" />
     <Compile Include="clsFacturaRapidaNav.cs" />
@@ -119,6 +120,8 @@
     <Compile Include="Reportes\clsContratoSql.cs" />
     <Compile Include="Reportes\clsCxCRpt.cs" />
     <Compile Include="Reportes\clsCxCSql.cs" />
+    <Compile Include="Reportes\clsEscaladaRpt.cs" />
+    <Compile Include="Reportes\clsEscaladaSql.cs" />
     <Compile Include="Reportes\clsResumenDiarioDeVentasRpt.cs" />
     <Compile Include="Reportes\clsFacturaRpt.cs" />
     <Compile Include="Reportes\clsResumenDiarioDeVentasSql.cs" />

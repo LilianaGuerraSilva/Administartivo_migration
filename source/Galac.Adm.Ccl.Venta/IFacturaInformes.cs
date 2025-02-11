@@ -11,5 +11,6 @@ namespace Galac.Adm.Ccl.Venta {
         System.Data.DataTable BuildFacturacionPorUsuario(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, string valNombreOperador, Saw.Lib.eMonedaParaImpresion valMonedaDelReporte, Saw.Lib.eTasaDeCambioParaImpresion valTipoTasaDeCambio, bool valIsInformeDetallado);
         System.Data.DataTable BuildFacturaBorradorGenerico(int valConsecutivoCompania, string valNumeroDocumento, eTipoDocumentoFactura valTipoDocumento, eStatusFactura valStatusDocumento, eTalonario valTalonario, eFormaDeOrdenarDetalleFactura valFormaDeOrdenarDetalleFactura, bool valImprimirFacturaConSubtotalesPorLineaDeProducto, string valCiudadCompania, string valNombreOperador);
     }
+
 } //End of namespace Galac.Adm.Ccl.Venta
 

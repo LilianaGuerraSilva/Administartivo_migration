@@ -14,7 +14,7 @@ namespace Galac.Adm.Dal.Venta {
         #endregion //Propiedades
         #region Constructores
         public clsEscaladaED(): base(){
-            DbSchema = "Dbo";
+            DbSchema = "dbo";
         }
         #endregion //Constructores
         #region Metodos Generados

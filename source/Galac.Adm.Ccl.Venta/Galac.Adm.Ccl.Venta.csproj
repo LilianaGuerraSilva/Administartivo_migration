@@ -71,6 +71,7 @@
     <Compile Include="IContratoInformes.cs" />
     <Compile Include="ICxCInformes.cs" />
     <Compile Include="ICXCPdn.cs" />
+    <Compile Include="IEscaladaInformes.cs" />
     <Compile Include="IFkContratoViewModel.cs" />
     <Compile Include="IResumenDiarioDeVentasInformes.cs" />
     <Compile Include="IFacturaInformes.cs" />

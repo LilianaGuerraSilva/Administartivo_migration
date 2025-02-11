@@ -105,6 +105,7 @@
     <Compile Include="clsCxCPendientesEntreFechas.cs" />
     <Compile Include="clsCxCPorCliente.cs" />
     <Compile Include="clsFacturaBorradorGenerico.cs" />
+    <Compile Include="clsFacturacionEntreFechasVerificado.cs" />
     <Compile Include="clsFacturacionPorArticulo.cs" />
     <Compile Include="clsFacturacionPorUsuario.cs" />
     <Compile Include="clsNotaDeEntregaEntreFechasPorClienteDetallado.cs" />
@@ -224,6 +225,12 @@
     <Compile Include="dsrFacturaBorradorGenerico.Designer.cs">
       <DependentUpon>dsrFacturaBorradorGenerico.cs</DependentUpon>
     </Compile>
+    <Compile Include="dsrFacturacionEntreFechasVerificacion.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrFacturacionEntreFechasVerificacion.Designer.cs">
+      <DependentUpon>dsrFacturacionEntreFechasVerificacion.cs</DependentUpon>
+    </Compile>
     <Compile Include="dsrFacturacionPorArticuloDetallado.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -331,6 +338,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="dsrFacturaBorradorGenerico.resx">
       <DependentUpon>dsrFacturaBorradorGenerico.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dsrFacturacionEntreFechasVerificacion.resx">
+      <DependentUpon>dsrFacturacionEntreFechasVerificacion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="dsrFacturacionPorArticuloDetallado.resx">
       <DependentUpon>dsrFacturacionPorArticuloDetallado.cs</DependentUpon>
