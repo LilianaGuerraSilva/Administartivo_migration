@@ -747,7 +747,7 @@ namespace Galac.Adm.Brl.GestionCompras {
 
         private void ActualizaInformacionDeLoteDeInventario(Compra valItemCompra, bool valAumentaCantidad, eAccionSR? valAction = null) {
             foreach (CompraDetalleArticuloInventario vItemDetalle in valItemCompra.DetailCompraDetalleArticuloInventario) {
-                if (vItemDetalle.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento || vItemDetalle.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote) {
+                if (vItemDetalle.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento || vItemDetalle.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote || vItemDetalle.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeElaboracion) {
                     if (((ILoteDeInventarioPdn)new clsLoteDeInventarioNav()).ExisteLoteDeInventario(vItemDetalle.ConsecutivoCompania, vItemDetalle.CodigoArticulo, vItemDetalle.ConsecutivoLoteDeInventario)) {
                         ActualizaLoteDeInventarioMovimientoDeLoteDeInventario(valItemCompra, vItemDetalle, valAumentaCantidad, valAction);
                     }

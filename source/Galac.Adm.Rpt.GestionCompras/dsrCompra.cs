@@ -108,6 +108,7 @@ namespace Galac.Adm.Rpt.GestionCompras {
         #endregion //Metodos Generados
 
         private void Detail_Format(object sender, EventArgs e) {
+            string vLote = "6", vLoteFVencim = "5", vLoteFElabo = "7"; 
             string vTipoArticuloInvValue = "0";
             LibReport.ChangeControlVisibility(this, "txtCodigoLote", false);
             LibReport.ChangeControlVisibility(this, "txtFechaDeElaboracion", false);
@@ -125,17 +126,20 @@ namespace Galac.Adm.Rpt.GestionCompras {
                     }
                 }
             }
-            if (LibString.S1IsEqualToS2(vTipoArticuloInvValue, "5")) {
+            if (LibString.S1IsEqualToS2(vTipoArticuloInvValue, vLoteFVencim) || LibString.S1IsEqualToS2(vTipoArticuloInvValue, vLoteFElabo)) {
                 LibReport.ChangeControlVisibility(this, "lblLote", true);
                 LibReport.ChangeControlVisibility(this, "txtCodigoLote", true);
                 LibReport.ChangeControlVisibility(this, "lblFechaElab", true);
                 LibReport.ChangeControlVisibility(this, "txtFechaDeElaboracion", true);
-                LibReport.ChangeControlVisibility(this, "lblFechaVenc", true);
-                LibReport.ChangeControlVisibility(this, "txtFechaDeVencimiento", true);
-            } else if (LibString.S1IsEqualToS2(vTipoArticuloInvValue, "6")) {
+                if (LibString.S1IsEqualToS2(vTipoArticuloInvValue, vLoteFVencim)) {
+                    LibReport.ChangeControlVisibility(this, "lblFechaVenc", true);
+                    LibReport.ChangeControlVisibility(this, "txtFechaDeVencimiento", true);
+                }
+            } else if (LibString.S1IsEqualToS2(vTipoArticuloInvValue, vLote)) {
                 LibReport.ChangeControlVisibility(this, "lblLote", true);
                 LibReport.ChangeControlVisibility(this, "txtCodigoLote", true);
             }
+            
         }
     }
 }
