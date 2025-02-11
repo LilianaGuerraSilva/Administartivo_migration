@@ -945,6 +945,8 @@ private void ExecuteCerrarCajaCommand() {
                     insCajaApertura.AsignarCaja(ConsecutivoCaja);
                     LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue Asignada con exito.", "");
                     base.ExecuteAction();
+                    Saw.Ccl.Tablas.IAuditoriaConfiguracionPdn insAuditoriaConfiguracion = new Saw.Brl.Tablas.clsAuditoriaConfiguracionNav();
+                    insAuditoriaConfiguracion.Auditar($"Asignar Nuevo Operador: {NombreDelUsuario}", "Asignar Caja", "", "");
                     ExecuteCloseCommand();
                 } else {
                     LibMessages.MessageBox.Alert(this, "El nombre de la caja es requierido ", "");
