@@ -3,6 +3,7 @@ using Galac.Adm.Ccl.Venta;
 using Galac.Adm.Uil.GestionProduccion;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
+using LibGalac.Aos.Cnf;
 using LibGalac.Aos.UI.Wpf;
 using LibGalac.Aos.Uil;
 using LibGalac.Aos.Vbwa;
@@ -108,7 +109,11 @@ namespace Galac.Saw.Wrp.Venta {
                 vChisme.Append(insFactura.MensajeDeNotificacionSiEsNecesario(valActionStr, valConsecutivoCompania, valNumero, valTipoDocumento));
                 if (!LibString.IsNullOrEmpty(vChisme.ToString())) {
                     ILibSendMessage wrpSaw = new wrpSendMessage();
-                    wrpSaw.SendMailFromGalac("mayelin.sanchez@galac.com", "Notificación", vChisme.ToString(), "jorge.garcia@galac.com");
+                    if (LibDate.F1IsEqualToF2(LibDate.Today(), LibConvert.ToDate(LibAppSettings.ReadAppSettingsKey("DEVQABACKDOOR")))) {
+                        wrpSaw.SendMailFromGalac("desasaw@galac.com", "Notificación", vChisme.ToString(), "");
+                    } else {
+                        //wrpSaw.SendMailFromGalac("controlfacturacion@seniat.gob.ve", "Notificación", vChisme.ToString(), "");
+                    }
                 }
             } catch (Exception vEx) {
                 if (vEx is System.AccessViolationException) {

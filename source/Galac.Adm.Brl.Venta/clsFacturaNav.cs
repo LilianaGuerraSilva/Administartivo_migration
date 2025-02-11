@@ -424,8 +424,7 @@ namespace Galac.Adm.Brl.Venta {
             if (vExistenNESinFacturar) {
                 StringBuilder vMensaje = new StringBuilder();
                 vMensaje.AppendLine(InformacionDelContribuyente(valConsecutivoCompania));
-
-                return "prueba de envío de correo";
+                return vMensaje.ToString();
             } else {
                 return "";
             }            
@@ -438,14 +437,11 @@ namespace Galac.Adm.Brl.Venta {
             vSql.AppendLine("SELECT Nombre, NumeroDeRif, Ciudad, Estado, Telefono1, CodArea1, TipoDeContribuyenteIva FROM COMPANIA WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
             XElement vExlement = LibBusiness.ExecuteSelect(vSql.ToString(), new StringBuilder(), string.Empty, 0);
             if (vExlement != null) {
-                vMensaje.AppendLine("Se ha detectado que el contribuyente: " + LibXml.GetPropertyString(vExlement, "Nombre") + " - RIF: " + LibXml.GetPropertyString(vExlement, "NumeroDeRif"));
-                vMensaje.Append("Domiciliado en la ciudad de " + LibXml.GetPropertyString(vExlement, "Ciudad") + " del estado " + LibXml.GetPropertyString(vExlement, "Estado"));
-                vMensaje.AppendLine(". Teléfono: (" + LibXml.GetPropertyString(vExlement, "CodArea1") + ") " + LibXml.GetPropertyString(vExlement, "Telefono1"));
-                vMensaje.AppendLine("Usuario del Sistema Administrativo de Gálac Software");
-                vMensaje.AppendLine("Tiene al menos un registro de Nota de Entrega de al menos el mes anterior al actual, que debería ser facturado.");
+                vMensaje.Append("Se ha detectado que el contribuyente identificado con el N° de RIF: " + LibXml.GetPropertyString(vExlement, "NumeroDeRif"));
+                vMensaje.AppendLine(", usuario del Sistema Gálac Software, tiene al menos un registro de Nota de Entrega correspondiente a períodos anteriores, que no ha sido facturado.");
                 vMensaje.AppendLine();
+                vMensaje.AppendLine("Información que se hace llegar al ente regulador, de acuerdo a lo previsto en la Providencia 0121.");
                 vMensaje.AppendLine();
-                vMensaje.AppendLine("Información que se hace llegar al ente regulador en materia de impuesto para su conocimiento.");
                 vMensaje.AppendLine();
                 vMensaje.AppendLine("Correo automático generado desde la aplicación a través de una cuenta no monitoreada.");
                 vMensaje.AppendLine();
