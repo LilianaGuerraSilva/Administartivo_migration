@@ -452,7 +452,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTransferenciaMonedaExt.Left = 0F;
             this.lblTransferenciaMonedaExt.Name = "lblTransferenciaMonedaExt";
             this.lblTransferenciaMonedaExt.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 0";
-            this.lblTransferenciaMonedaExt.Text = "Transferencia";
+            this.lblTransferenciaMonedaExt.Text = "Depósito/Transferencia";
             this.lblTransferenciaMonedaExt.Top = 0.78075F;
             this.lblTransferenciaMonedaExt.Width = 1.5F;
             // 
