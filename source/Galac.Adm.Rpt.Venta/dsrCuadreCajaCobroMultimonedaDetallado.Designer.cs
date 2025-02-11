@@ -30,7 +30,6 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMonto = new DataDynamics.ActiveReports.TextBox();
             this.txtCambioABolivares = new DataDynamics.ActiveReports.TextBox();
             this.txtCambioABolivaresSimbolo = new DataDynamics.ActiveReports.TextBox();
-            this.lblCambioABolivares = new DataDynamics.ActiveReports.Label();
             this.PageHeader = new DataDynamics.ActiveReports.PageHeader();
             this.txtNombreCompania = new DataDynamics.ActiveReports.TextBox();
             this.txtNroDePagina = new DataDynamics.ActiveReports.TextBox();
@@ -107,11 +106,11 @@ namespace Galac.Adm.Rpt.Venta
             this.GFSecCobro = new DataDynamics.ActiveReports.GroupFooter();
             this.lblSubTotalCobro = new DataDynamics.ActiveReports.Label();
             this.txtSubTotalCobro = new DataDynamics.ActiveReports.TextBox();
+            this.txtLblCambioABolivares = new DataDynamics.ActiveReports.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreTipoDeCobro)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMonto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCambioABolivares)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCambioABolivaresSimbolo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblCambioABolivares)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreCompania)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNroDePagina)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaYHoraDeEmision)).BeginInit();
@@ -174,6 +173,7 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.TxtMonto1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblSubTotalCobro)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSubTotalCobro)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtLblCambioABolivares)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
@@ -183,9 +183,8 @@ namespace Galac.Adm.Rpt.Venta
             this.txtNombreTipoDeCobro,
             this.txtMonto,
             this.txtCambioABolivares,
-            this.txtCambioABolivaresSimbolo,
-            this.lblCambioABolivares});
-            this.Detail.Height = 0.1458333F;
+            this.txtCambioABolivaresSimbolo});
+            this.Detail.Height = 0.15625F;
             this.Detail.Name = "Detail";
             this.Detail.Format += new System.EventHandler(this.Detail_Format);
             // 
@@ -197,7 +196,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtNombreTipoDeCobro.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtNombreTipoDeCobro.Text = "txtNombreTipoDeCobro";
             this.txtNombreTipoDeCobro.Top = 0F;
-            this.txtNombreTipoDeCobro.Width = 4.25F;
+            this.txtNombreTipoDeCobro.Width = 3.264F;
             // 
             // txtMonto
             // 
@@ -212,39 +211,22 @@ namespace Galac.Adm.Rpt.Venta
             // txtCambioABolivares
             // 
             this.txtCambioABolivares.Height = 0.15625F;
-            this.txtCambioABolivares.Left = 7.999001F;
+            this.txtCambioABolivares.Left = 4.364F;
             this.txtCambioABolivares.Name = "txtCambioABolivares";
-            this.txtCambioABolivares.Style = "color: White; font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtCambioABolivares.Style = "color: Black; font-size: 8pt; text-align: center; ddo-char-set: 1";
             this.txtCambioABolivares.Text = "txtCambioABolivares";
             this.txtCambioABolivares.Top = 0F;
-            this.txtCambioABolivares.Visible = false;
-            this.txtCambioABolivares.Width = 0.4379997F;
+            this.txtCambioABolivares.Width = 0.6359997F;
             // 
             // txtCambioABolivaresSimbolo
             // 
             this.txtCambioABolivaresSimbolo.Height = 0.15625F;
-            this.txtCambioABolivaresSimbolo.Left = 8.552F;
+            this.txtCambioABolivaresSimbolo.Left = 4.014F;
             this.txtCambioABolivaresSimbolo.Name = "txtCambioABolivaresSimbolo";
-            this.txtCambioABolivaresSimbolo.Style = "color: White; font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtCambioABolivaresSimbolo.Style = "color: Black; font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtCambioABolivaresSimbolo.Text = "txtCambioABolivaresSimbolo";
             this.txtCambioABolivaresSimbolo.Top = 0F;
-            this.txtCambioABolivaresSimbolo.Visible = false;
             this.txtCambioABolivaresSimbolo.Width = 0.35F;
-            // 
-            // lblCambioABolivares
-            // 
-            this.lblCambioABolivares.Border.BottomColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblCambioABolivares.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.lblCambioABolivares.Height = 0.15625F;
-            this.lblCambioABolivares.HyperLink = null;
-            this.lblCambioABolivares.Left = 9.024F;
-            this.lblCambioABolivares.Name = "lblCambioABolivares";
-            this.lblCambioABolivares.Style = "color: White; font-size: 8.25pt; font-weight: bold; text-align: right; ddo-char-s" +
-    "et: 0";
-            this.lblCambioABolivares.Text = "Cambio";
-            this.lblCambioABolivares.Top = 0F;
-            this.lblCambioABolivares.Visible = false;
-            this.lblCambioABolivares.Width = 0.4579997F;
             // 
             // PageHeader
             // 
@@ -364,7 +346,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblDepositoSimboloMonedaLocal,
             this.txtTotalDepositoMonedaLocal,
             this.lblTotalPorMonedaCobro});
-            this.GFSecOperador.Height = 0.9372501F;
+            this.GFSecOperador.Height = 0.9370001F;
             this.GFSecOperador.Name = "GFSecOperador";
             // 
             // lblEfectivoMonedaLocal
@@ -387,17 +369,17 @@ namespace Galac.Adm.Rpt.Venta
             this.lblEfectivoSimboloMonedaLocal.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 0";
             this.lblEfectivoSimboloMonedaLocal.Text = "BlblEfectivoSimboloMonedaLocal";
             this.lblEfectivoSimboloMonedaLocal.Top = 0.156F;
-            this.lblEfectivoSimboloMonedaLocal.Width = 0.25F;
+            this.lblEfectivoSimboloMonedaLocal.Width = 0.3050001F;
             // 
             // txtTotalEfectivoMonedaLocal
             // 
             this.txtTotalEfectivoMonedaLocal.Height = 0.15625F;
-            this.txtTotalEfectivoMonedaLocal.Left = 1.75F;
+            this.txtTotalEfectivoMonedaLocal.Left = 1.805F;
             this.txtTotalEfectivoMonedaLocal.Name = "txtTotalEfectivoMonedaLocal";
             this.txtTotalEfectivoMonedaLocal.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtTotalEfectivoMonedaLocal.Text = "txtTotalEfectivoMonedaLocal";
             this.txtTotalEfectivoMonedaLocal.Top = 0.156F;
-            this.txtTotalEfectivoMonedaLocal.Width = 1.5F;
+            this.txtTotalEfectivoMonedaLocal.Width = 1.445F;
             // 
             // lblTarjetaMonedaLocal
             // 
@@ -419,17 +401,17 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTarjetaSimboloMonedaLocal.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 0";
             this.lblTarjetaSimboloMonedaLocal.Text = "lblTarjetaSimboloMonedaLocal";
             this.lblTarjetaSimboloMonedaLocal.Top = 0.312F;
-            this.lblTarjetaSimboloMonedaLocal.Width = 0.25F;
+            this.lblTarjetaSimboloMonedaLocal.Width = 0.3050001F;
             // 
             // txtTotalTarjetaMonedaLocal
             // 
             this.txtTotalTarjetaMonedaLocal.Height = 0.15625F;
-            this.txtTotalTarjetaMonedaLocal.Left = 1.75F;
+            this.txtTotalTarjetaMonedaLocal.Left = 1.805F;
             this.txtTotalTarjetaMonedaLocal.Name = "txtTotalTarjetaMonedaLocal";
             this.txtTotalTarjetaMonedaLocal.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtTotalTarjetaMonedaLocal.Text = "txtTotalTarjetaMonedaLocal";
             this.txtTotalTarjetaMonedaLocal.Top = 0.312F;
-            this.txtTotalTarjetaMonedaLocal.Width = 1.5F;
+            this.txtTotalTarjetaMonedaLocal.Width = 1.445F;
             // 
             // lblEfectivoMonedaExt
             // 
@@ -449,19 +431,19 @@ namespace Galac.Adm.Rpt.Venta
             this.lblEfectivoSimboloMonedaExt.Left = 1.5F;
             this.lblEfectivoSimboloMonedaExt.Name = "lblEfectivoSimboloMonedaExt";
             this.lblEfectivoSimboloMonedaExt.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 0";
-            this.lblEfectivoSimboloMonedaExt.Text = "lblEfectivoSimboloMonedaExt";
+            this.lblEfectivoSimboloMonedaExt.Text = "$/Bs.";
             this.lblEfectivoSimboloMonedaExt.Top = 0.6245F;
-            this.lblEfectivoSimboloMonedaExt.Width = 0.25F;
+            this.lblEfectivoSimboloMonedaExt.Width = 0.3050001F;
             // 
             // txtTotalEfectivoMonedaExt
             // 
             this.txtTotalEfectivoMonedaExt.Height = 0.15625F;
-            this.txtTotalEfectivoMonedaExt.Left = 1.75F;
+            this.txtTotalEfectivoMonedaExt.Left = 1.805F;
             this.txtTotalEfectivoMonedaExt.Name = "txtTotalEfectivoMonedaExt";
             this.txtTotalEfectivoMonedaExt.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtTotalEfectivoMonedaExt.Text = "txtTotalEfectivoMonedaExt";
             this.txtTotalEfectivoMonedaExt.Top = 0.6245001F;
-            this.txtTotalEfectivoMonedaExt.Width = 1.5F;
+            this.txtTotalEfectivoMonedaExt.Width = 1.445F;
             // 
             // lblTransferenciaMonedaExt
             // 
@@ -483,17 +465,17 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTransferenciaSimboloMonedaExt.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 0";
             this.lblTransferenciaSimboloMonedaExt.Text = "lblTransferenciaSimboloMonedaExt";
             this.lblTransferenciaSimboloMonedaExt.Top = 0.78075F;
-            this.lblTransferenciaSimboloMonedaExt.Width = 0.25F;
+            this.lblTransferenciaSimboloMonedaExt.Width = 0.3050001F;
             // 
             // txtTotalTransferenciaMonedaExt
             // 
             this.txtTotalTransferenciaMonedaExt.Height = 0.15625F;
-            this.txtTotalTransferenciaMonedaExt.Left = 1.75F;
+            this.txtTotalTransferenciaMonedaExt.Left = 1.805F;
             this.txtTotalTransferenciaMonedaExt.Name = "txtTotalTransferenciaMonedaExt";
             this.txtTotalTransferenciaMonedaExt.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtTotalTransferenciaMonedaExt.Text = "txtTotalTransferenciaMonedaExt";
             this.txtTotalTransferenciaMonedaExt.Top = 0.7807501F;
-            this.txtTotalTransferenciaMonedaExt.Width = 1.5F;
+            this.txtTotalTransferenciaMonedaExt.Width = 1.445F;
             // 
             // lblDepositoMonedaLocal
             // 
@@ -515,17 +497,17 @@ namespace Galac.Adm.Rpt.Venta
             this.lblDepositoSimboloMonedaLocal.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 0";
             this.lblDepositoSimboloMonedaLocal.Text = "lblDepositoSimboloMonedaLocal";
             this.lblDepositoSimboloMonedaLocal.Top = 0.46825F;
-            this.lblDepositoSimboloMonedaLocal.Width = 0.25F;
+            this.lblDepositoSimboloMonedaLocal.Width = 0.3050001F;
             // 
             // txtTotalDepositoMonedaLocal
             // 
             this.txtTotalDepositoMonedaLocal.Height = 0.15625F;
-            this.txtTotalDepositoMonedaLocal.Left = 1.75F;
+            this.txtTotalDepositoMonedaLocal.Left = 1.805F;
             this.txtTotalDepositoMonedaLocal.Name = "txtTotalDepositoMonedaLocal";
             this.txtTotalDepositoMonedaLocal.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtTotalDepositoMonedaLocal.Text = "txtTotalDepositoMonedaLocal";
             this.txtTotalDepositoMonedaLocal.Top = 0.4682501F;
-            this.txtTotalDepositoMonedaLocal.Width = 1.5F;
+            this.txtTotalDepositoMonedaLocal.Width = 1.445F;
             // 
             // lblTotalPorMonedaCobro
             // 
@@ -950,23 +932,23 @@ namespace Galac.Adm.Rpt.Venta
             // txtSimboloMonedaDoc
             // 
             this.txtSimboloMonedaDoc.Height = 0.15625F;
-            this.txtSimboloMonedaDoc.Left = 8.139F;
+            this.txtSimboloMonedaDoc.Left = 6F;
             this.txtSimboloMonedaDoc.Name = "txtSimboloMonedaDoc";
-            this.txtSimboloMonedaDoc.Style = "color: White; font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtSimboloMonedaDoc.Style = "color: Black; font-size: 8.25pt; font-weight: bold; text-align: right; ddo-char-s" +
+    "et: 0";
             this.txtSimboloMonedaDoc.Text = "txtSimboloMonedaDoc";
             this.txtSimboloMonedaDoc.Top = 0F;
-            this.txtSimboloMonedaDoc.Visible = false;
-            this.txtSimboloMonedaDoc.Width = 0.3472222F;
+            this.txtSimboloMonedaDoc.Width = 0.2499999F;
             // 
             // txtTotalFactura
             // 
             this.txtTotalFactura.Height = 0.15625F;
-            this.txtTotalFactura.Left = 6F;
+            this.txtTotalFactura.Left = 6.25F;
             this.txtTotalFactura.Name = "txtTotalFactura";
             this.txtTotalFactura.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtTotalFactura.Text = "txtTotalFactura";
             this.txtTotalFactura.Top = 0F;
-            this.txtTotalFactura.Width = 1.5F;
+            this.txtTotalFactura.Width = 1.25F;
             // 
             // txtHora
             // 
@@ -990,8 +972,9 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCodMonedaCobro,
             this.txtNombreMonedaFormaDelCobro,
             this.txtTipodeCobro,
-            this.TxtMonto1});
-            this.GHSecCobro.Height = 0.1666665F;
+            this.TxtMonto1,
+            this.txtLblCambioABolivares});
+            this.GHSecCobro.Height = 0.1774168F;
             this.GHSecCobro.Name = "GHSecCobro";
             this.GHSecCobro.Format += new System.EventHandler(this.GHSecCobro_Format);
             // 
@@ -1014,11 +997,11 @@ namespace Galac.Adm.Rpt.Venta
             this.txtNombreMonedaFormaDelCobro.Height = 0.15F;
             this.txtNombreMonedaFormaDelCobro.Left = 3.25F;
             this.txtNombreMonedaFormaDelCobro.Name = "txtNombreMonedaFormaDelCobro";
-            this.txtNombreMonedaFormaDelCobro.Style = "font-size: 8.25pt; font-weight: bold; vertical-align: top; white-space: nowrap; d" +
-    "do-char-set: 1";
+            this.txtNombreMonedaFormaDelCobro.Style = "font-size: 8.25pt; font-weight: bold; text-align: right; vertical-align: top; whi" +
+    "te-space: nowrap; ddo-char-set: 1";
             this.txtNombreMonedaFormaDelCobro.Text = "txtNombreMonedaFormaDelCobro";
             this.txtNombreMonedaFormaDelCobro.Top = 0F;
-            this.txtNombreMonedaFormaDelCobro.Width = 1.75F;
+            this.txtNombreMonedaFormaDelCobro.Width = 1.114F;
             // 
             // txtTipodeCobro
             // 
@@ -1077,12 +1060,25 @@ namespace Galac.Adm.Rpt.Venta
             this.txtSubTotalCobro.Top = 0F;
             this.txtSubTotalCobro.Width = 1F;
             // 
+            // txtLblCambioABolivares
+            // 
+            this.txtLblCambioABolivares.Border.BottomColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.txtLblCambioABolivares.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.txtLblCambioABolivares.Height = 0.15F;
+            this.txtLblCambioABolivares.Left = 4.364F;
+            this.txtLblCambioABolivares.Name = "txtLblCambioABolivares";
+            this.txtLblCambioABolivares.Style = "font-size: 8.25pt; font-weight: bold; text-align: right; vertical-align: top; whi" +
+    "te-space: nowrap; ddo-char-set: 1";
+            this.txtLblCambioABolivares.Text = "Cambio";
+            this.txtLblCambioABolivares.Top = 0F;
+            this.txtLblCambioABolivares.Width = 0.6359994F;
+            // 
             // dsrCuadreCajaCobroMultimonedaDetallado
             // 
             this.MasterReport = false;
             this.PageSettings.PaperHeight = 11F;
             this.PageSettings.PaperWidth = 8.5F;
-            this.PrintWidth = 7.625F;
+            this.PrintWidth = 7.729167F;
             this.Script = "\r\n";
             this.Sections.Add(this.PageHeader);
             this.Sections.Add(this.GHSecOperador);
@@ -1109,7 +1105,6 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtMonto)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCambioABolivares)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCambioABolivaresSimbolo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblCambioABolivares)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreCompania)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNroDePagina)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaYHoraDeEmision)).EndInit();
@@ -1172,6 +1167,7 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.TxtMonto1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblSubTotalCobro)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSubTotalCobro)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtLblCambioABolivares)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -1244,7 +1240,6 @@ namespace Galac.Adm.Rpt.Venta
         private DataDynamics.ActiveReports.TextBox txtSubTotalCobro;
         private DataDynamics.ActiveReports.TextBox txtCambioABolivares;
         private DataDynamics.ActiveReports.TextBox txtCambioABolivaresSimbolo;
-        private DataDynamics.ActiveReports.Label lblCambioABolivares;
         private DataDynamics.ActiveReports.Label lblDepositoMonedaLocal;
         private DataDynamics.ActiveReports.Label lblDepositoSimboloMonedaLocal;
         private DataDynamics.ActiveReports.TextBox txtTotalDepositoMonedaLocal;
@@ -1259,5 +1254,6 @@ namespace Galac.Adm.Rpt.Venta
         private DataDynamics.ActiveReports.TextBox txtLblTotalCajaSimboloMonedaLocal;
         private DataDynamics.ActiveReports.TextBox txtLblTotalCajaSimboloMonedaExt;
         private DataDynamics.ActiveReports.TextBox txtTotalCajaen;
+        private DataDynamics.ActiveReports.TextBox txtLblCambioABolivares;
     }
 }
