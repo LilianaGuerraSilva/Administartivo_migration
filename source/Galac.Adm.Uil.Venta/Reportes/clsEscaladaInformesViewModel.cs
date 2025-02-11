@@ -22,6 +22,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             AppMemoryInfo = initAppMemInfo;
             Mfc = initMfc;
             AvailableReports.Add(new clsFacturacionEntreFechasVerificacionViewModel());
+            AvailableReports.Add(new clsAuditoriaConfiguracionDeCajaViewModel());
             Title = "Informes de Auditoría";
         }
         #endregion //Constructores
@@ -32,6 +33,9 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             if (SelectedReport is clsFacturacionEntreFechasVerificacionViewModel) {
                 vResult = ConfigReportFacturacionEntreFechasVerificacion(SelectedReport as clsFacturacionEntreFechasVerificacionViewModel);
             }
+            if (SelectedReport is clsAuditoriaConfiguracionDeCajaViewModel) {
+                vResult = ConfigReportclsAuditoriaConfiguracionDeCaja(SelectedReport as clsAuditoriaConfiguracionDeCajaViewModel);
+            }
             return vResult;
         }
 
@@ -41,6 +45,16 @@ namespace Galac.Adm.Uil.Venta.Reportes {
                 vResult = new Rpt.Venta.clsFacturacionEntreFechasVerificado(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaDeInicio, valViewModel.FechaFinal) {
                     Worker = Manager
                     };
+            }
+            return vResult;
+        }
+		
+		private ILibRpt ConfigReportclsAuditoriaConfiguracionDeCaja(clsAuditoriaConfiguracionDeCajaViewModel valViewModel) {
+            ILibRpt vResult = null;
+            if (valViewModel != null) {
+                vResult = new Rpt.Venta.clsAuditoriaConfiguracionDeCaja(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaDesde, valViewModel.FechaHasta) {
+                    Worker = Manager
+                };
             }
             return vResult;
         }
