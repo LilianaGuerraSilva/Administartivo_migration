@@ -21,7 +21,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         public clsEscaladaInformesViewModel(LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc) {
             AppMemoryInfo = initAppMemInfo;
             Mfc = initMfc;
-            AvailableReports.Add(new clsFacturacionEntreFechasVerificacionViewModel());
+            //AvailableReports.Add(new clsFacturacionEntreFechasVerificacionViewModel());
             AvailableReports.Add(new clsAuditoriaConfiguracionDeCajaViewModel());
             Title = "Informes de Auditoría";
         }
@@ -30,24 +30,24 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 
         protected override ILibRpt ConfigReport() {
             ILibRpt vResult = null;
-            if (SelectedReport is clsFacturacionEntreFechasVerificacionViewModel) {
-                vResult = ConfigReportFacturacionEntreFechasVerificacion(SelectedReport as clsFacturacionEntreFechasVerificacionViewModel);
-            }
+            //if (SelectedReport is clsFacturacionEntreFechasVerificacionViewModel) {
+            //    vResult = ConfigReportFacturacionEntreFechasVerificacion(SelectedReport as clsFacturacionEntreFechasVerificacionViewModel);
+            //}
             if (SelectedReport is clsAuditoriaConfiguracionDeCajaViewModel) {
                 vResult = ConfigReportclsAuditoriaConfiguracionDeCaja(SelectedReport as clsAuditoriaConfiguracionDeCajaViewModel);
             }
             return vResult;
         }
 
-        private ILibRpt ConfigReportFacturacionEntreFechasVerificacion(clsFacturacionEntreFechasVerificacionViewModel valViewModel) {
-            ILibRpt vResult = null;
-            if (valViewModel != null) {
-                vResult = new Rpt.Venta.clsFacturacionEntreFechasVerificado(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaDeInicio, valViewModel.FechaFinal) {
-                    Worker = Manager
-                    };
-            }
-            return vResult;
-        }
+        //private ILibRpt ConfigReportFacturacionEntreFechasVerificacion(clsFacturacionEntreFechasVerificacionViewModel valViewModel) {
+        //    ILibRpt vResult = null;
+        //    if (valViewModel != null) {
+        //        vResult = new Rpt.Venta.clsFacturacionEntreFechasVerificado(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaDeInicio, valViewModel.FechaFinal) {
+        //            Worker = Manager
+        //            };
+        //    }
+        //    return vResult;
+        //}
 
         private ILibRpt ConfigReportclsAuditoriaConfiguracionDeCaja(clsAuditoriaConfiguracionDeCajaViewModel valViewModel) {
             ILibRpt vResult = null;
