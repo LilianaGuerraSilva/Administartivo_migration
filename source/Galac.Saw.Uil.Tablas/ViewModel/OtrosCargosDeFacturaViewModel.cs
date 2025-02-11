@@ -24,7 +24,7 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
         public const string CodigoPropertyName = "Codigo";
         public const string DescripcionPropertyName = "Descripcion";
         public const string StatusPropertyName = "Status";
-        public const string SeCalculaEnBaseAPropertyName = "SeCalculaEnBaseA";
+        public const string SeCalculaEnBaseaPropertyName = "SeCalculaEnBasea";
         public const string MontoPropertyName = "Monto";
         public const string BaseFormulaPropertyName = "BaseFormula";
         public const string PorcentajeSobreBasePropertyName = "PorcentajeSobreBase";
@@ -39,7 +39,7 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
         public const string IsEnabledExcluirDeComisionPropertyName = "IsEnabledExcluirDeComision";
         public const string IsVisibleMontoPropertyName = "IsVisibleMonto";
         public const string IsVisibleBaseFormulaPropertyName = "IsVisibleBaseFormula";
-        public const string IsVisibleSeCalculaEnBaseAPropertyName = "IsVisibleSeCalculaEnBaseA";
+        public const string IsVisibleSeCalculaEnBaseaPropertyName = "IsVisibleSeCalculaEnBasea";
         public const string IsEnabledCuentaContableOtrosCargosPropertyName = "IsEnabledCuentaContableOtrosCargos";
         public const string IsVisibleEtiquetaFormulaPropertyName = "IsVisibleEtiquetaFormula";
 
@@ -108,17 +108,17 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
             }
         }
 
-        public eBaseCalculoOtrosCargosDeFactura  SeCalculaEnBaseA {
+        public eBaseCalculoOtrosCargosDeFactura  SeCalculaEnBasea {
             get {
-                return Model.SeCalculaEnBaseAAsEnum;
+                return Model.SeCalculaEnBaseaAsEnum;
             }
             set {
-                if (Model.SeCalculaEnBaseAAsEnum != value) {
-                    Model.SeCalculaEnBaseAAsEnum = value;
+                if (Model.SeCalculaEnBaseaAsEnum != value) {
+                    Model.SeCalculaEnBaseaAsEnum = value;
                     IsDirty = true;
-                    RaisePropertyChanged(SeCalculaEnBaseAPropertyName);
+                    RaisePropertyChanged(SeCalculaEnBaseaPropertyName);
                     RaisePropertyChanged(IsVisibleMontoPropertyName);
-                    RaisePropertyChanged(IsVisibleSeCalculaEnBaseAPropertyName);
+                    RaisePropertyChanged(IsVisibleSeCalculaEnBaseaPropertyName);
                     RaisePropertyChanged(IsVisibleEtiquetaFormulaPropertyName);
                 }
             }
@@ -372,7 +372,7 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
         public bool IsVisibleMonto {
             get {
                 bool vResult = false;
-                if ((SeCalculaEnBaseA == eBaseCalculoOtrosCargosDeFactura.IndicarMonto)) {
+                if ((SeCalculaEnBasea == eBaseCalculoOtrosCargosDeFactura.IndicarMonto)) {
                     vResult = true;
                 }
                 return vResult;
@@ -382,24 +382,24 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
         public bool IsVisibleEtiquetaFormula {
             get {
                 bool vResult = true;
-                if ((SeCalculaEnBaseA != eBaseCalculoOtrosCargosDeFactura.Formula)) {
+                if ((SeCalculaEnBasea != eBaseCalculoOtrosCargosDeFactura.Formula)) {
                     vResult = false;
                 }
                 return vResult;
             }
         }
 
-        public bool IsVisibleSeCalculaEnBaseA {
+        public bool IsVisibleSeCalculaEnBasea {
             get {
                 bool vResult = true;
-                if ((SeCalculaEnBaseA == eBaseCalculoOtrosCargosDeFactura.IndicarMonto)) {
+                if ((SeCalculaEnBasea == eBaseCalculoOtrosCargosDeFactura.IndicarMonto)) {
                     vResult = false;
                     RaisePropertyChanged(BaseFormulaPropertyName);
                     RaisePropertyChanged(SustraendoPropertyName);
                     RaisePropertyChanged(PorcentajeSobreBasePropertyName);
                     RaisePropertyChanged(IsVisibleEtiquetaFormulaPropertyName);
                     RaisePropertyChanged(IsVisibleMontoPropertyName);
-                } else if ((SeCalculaEnBaseA == eBaseCalculoOtrosCargosDeFactura.MontoFijo)) {
+                } else if ((SeCalculaEnBasea == eBaseCalculoOtrosCargosDeFactura.MontoFijo)) {
                     vResult = false;
                     RaisePropertyChanged(BaseFormulaPropertyName);
                     RaisePropertyChanged(SustraendoPropertyName);
@@ -425,7 +425,7 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
 
         private ValidationResult PorcentajeSobreBaseValidating()    {
             ValidationResult vResult = ValidationResult.Success;
-            if (SeCalculaEnBaseA == eBaseCalculoOtrosCargosDeFactura.Formula && (PorcentajeSobreBase < 0) || (PorcentajeSobreBase > 1000)) {
+            if (SeCalculaEnBasea == eBaseCalculoOtrosCargosDeFactura.Formula && (PorcentajeSobreBase < 0) || (PorcentajeSobreBase > 1000)) {
                 vResult = new ValidationResult("El Porcentaje a Aplicar Sobre la Base seleccionada debe ser mayor a 0 y menor igual a 1000");
             } else {
                 return ValidationResult.Success;

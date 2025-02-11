@@ -16,7 +16,7 @@ namespace Galac.Saw.Ccl.Tablas {
         private string _Codigo;
         private string _Descripcion;
         private eStatusOtrosCargosyDescuentosDeFactura _Status;
-        private eBaseCalculoOtrosCargosDeFactura _SeCalculaEnBaseA;
+        private eBaseCalculoOtrosCargosDeFactura _SeCalculaEnBasea;
         private decimal _Monto;
         private eBaseFormulaOtrosCargosDeFactura _BaseFormula;
         private decimal _PorcentajeSobreBase;
@@ -64,21 +64,21 @@ namespace Galac.Saw.Ccl.Tablas {
             get { return LibEnumHelper.GetDescription(_Status); }
         }
 
-        public eBaseCalculoOtrosCargosDeFactura SeCalculaEnBaseAAsEnum {
-            get { return _SeCalculaEnBaseA; }
-            set { _SeCalculaEnBaseA = value; }
+        public eBaseCalculoOtrosCargosDeFactura SeCalculaEnBaseaAsEnum {
+            get { return _SeCalculaEnBasea; }
+            set { _SeCalculaEnBasea = value; }
         }
 
-        public string SeCalculaEnBaseA {
-            set { _SeCalculaEnBaseA = (eBaseCalculoOtrosCargosDeFactura)LibConvert.DbValueToEnum(value); }
+        public string SeCalculaEnBasea {
+            set { _SeCalculaEnBasea = (eBaseCalculoOtrosCargosDeFactura)LibConvert.DbValueToEnum(value); }
         }
 
-        public string SeCalculaEnBaseAAsDB {
-            get { return LibConvert.EnumToDbValue((int) _SeCalculaEnBaseA); }
+        public string SeCalculaEnBaseaAsDB {
+            get { return LibConvert.EnumToDbValue((int) _SeCalculaEnBasea); }
         }
 
-        public string SeCalculaEnBaseAAsString {
-            get { return LibEnumHelper.GetDescription(_SeCalculaEnBaseA); }
+        public string SeCalculaEnBaseaAsString {
+            get { return LibEnumHelper.GetDescription(_SeCalculaEnBasea); }
         }
 
         public decimal Monto {
@@ -187,7 +187,7 @@ namespace Galac.Saw.Ccl.Tablas {
             Codigo = string.Empty;
             Descripcion = string.Empty;
             StatusAsEnum = eStatusOtrosCargosyDescuentosDeFactura.Vigente;
-            SeCalculaEnBaseAAsEnum = eBaseCalculoOtrosCargosDeFactura.Formula;
+            SeCalculaEnBaseaAsEnum = eBaseCalculoOtrosCargosDeFactura.Formula;
             Monto = 0;
             BaseFormulaAsEnum = eBaseFormulaOtrosCargosDeFactura.SubTotal;
             PorcentajeSobreBase = 0;
@@ -207,7 +207,7 @@ namespace Galac.Saw.Ccl.Tablas {
             vResult.Codigo = _Codigo;
             vResult.Descripcion = _Descripcion;
             vResult.StatusAsEnum = _Status;
-            vResult.SeCalculaEnBaseAAsEnum = _SeCalculaEnBaseA;
+            vResult.SeCalculaEnBaseaAsEnum = _SeCalculaEnBasea;
             vResult.Monto = _Monto;
             vResult.BaseFormulaAsEnum = _BaseFormula;
             vResult.PorcentajeSobreBase = _PorcentajeSobreBase;
@@ -227,7 +227,7 @@ namespace Galac.Saw.Ccl.Tablas {
                "\nCódigo del Cargo = " + _Codigo +
                "\nDescripción = " + _Descripcion +
                "\nStatus = " + _Status.ToString() +
-               "\nSe Calcula en Base A = " + _SeCalculaEnBaseA.ToString() +
+               "\nSe Calcula en Base A = " + _SeCalculaEnBasea.ToString() +
                "\nMonto = " + _Monto.ToString() +
                "\nBase Formula = " + _BaseFormula.ToString() +
                "\nPorcentaje Sobre Base = " + _PorcentajeSobreBase.ToString() +

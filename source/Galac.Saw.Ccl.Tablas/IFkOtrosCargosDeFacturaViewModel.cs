@@ -10,7 +10,7 @@ namespace Galac.Saw.Ccl.Tablas {
         string Codigo { get; set; }
         string Descripcion { get; set; }
         eStatusOtrosCargosyDescuentosDeFactura Status { get; set; }
-        eBaseCalculoOtrosCargosDeFactura SeCalculaEnBaseA { get; set; }
+        eBaseCalculoOtrosCargosDeFactura SeCalculaEnBasea { get; set; }
         eComoAplicaOtrosCargosDeFactura ComoAplicaAlTotalFactura { get; set; }
         decimal Monto { get; set; }
         decimal PorcentajeSobreBase {  get; set; }

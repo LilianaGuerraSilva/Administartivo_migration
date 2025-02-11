@@ -111,7 +111,7 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
         public string Descripcion { get; set; }
         [LibGridColum("Status")]
         public eStatusOtrosCargosyDescuentosDeFactura Status { get; set; }
-        public eBaseCalculoOtrosCargosDeFactura SeCalculaEnBaseA { get; set; }
+        public eBaseCalculoOtrosCargosDeFactura SeCalculaEnBasea { get; set; }
         public eComoAplicaOtrosCargosDeFactura ComoAplicaAlTotalFactura { get; set; }
         public decimal Monto { get; set; }
         public decimal PorcentajeSobreBase { get; set; }

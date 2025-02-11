@@ -67,7 +67,7 @@ namespace Galac.Saw.Dal.Tablas {
         private string SqlViewB1() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("SELECT ConsecutivoCompania, Codigo, Descripcion, Status, " + DbSchema + ".Gv_EnumStatusOtrosCargosyDescuentosDeFactura.StrValue AS StatusStr");
-            SQL.AppendLine(", SeCalculaEnBasea, " + DbSchema + ".Gv_EnumBaseCalculoOtrosCargosDeFactura.StrValue AS SeCalculaEnBaseAStr, Monto, BaseFormula, " + DbSchema + ".Gv_EnumBaseFormulaOtrosCargosDeFactura.StrValue AS BaseFormulaStr, PorcentajeSobreBase");
+            SQL.AppendLine(", SeCalculaEnBasea, " + DbSchema + ".Gv_EnumBaseCalculoOtrosCargosDeFactura.StrValue AS SeCalculaEnBaseaStr, Monto, BaseFormula, " + DbSchema + ".Gv_EnumBaseFormulaOtrosCargosDeFactura.StrValue AS BaseFormulaStr, PorcentajeSobreBase");
             SQL.AppendLine(", Sustraendo, ComoAplicaAlTotalFactura, " + DbSchema + ".Gv_EnumComoAplicaOtrosCargosDeFactura.StrValue AS ComoAplicaAlTotalFacturaStr, CuentaContableOtrosCargos, PorcentajeComision");
             SQL.AppendLine(", ExcluirDeComision, NombreOperador, FechaUltimaModificacion");
             SQL.AppendLine(", otrosCargosDeFactura.fldTimeStamp, CAST(otrosCargosDeFactura.fldTimeStamp AS bigint) AS fldTimeStampBigint");
@@ -76,7 +76,7 @@ namespace Galac.Saw.Dal.Tablas {
             SQL.AppendLine("ON " + DbSchema + ".otrosCargosDeFactura.Status COLLATE MODERN_SPANISH_CS_AS");
             SQL.AppendLine(" = " + DbSchema + ".Gv_EnumStatusOtrosCargosyDescuentosDeFactura.DbValue");
             SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumBaseCalculoOtrosCargosDeFactura");
-            SQL.AppendLine("ON " + DbSchema + ".otrosCargosDeFactura.SeCalculaEnBaseA COLLATE MODERN_SPANISH_CS_AS");
+            SQL.AppendLine("ON " + DbSchema + ".otrosCargosDeFactura.SeCalculaEnBasea COLLATE MODERN_SPANISH_CS_AS");
             SQL.AppendLine(" = " + DbSchema + ".Gv_EnumBaseCalculoOtrosCargosDeFactura.DbValue");
             SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumBaseFormulaOtrosCargosDeFactura");
             SQL.AppendLine("ON " + DbSchema + ".otrosCargosDeFactura.BaseFormula COLLATE MODERN_SPANISH_CS_AS");

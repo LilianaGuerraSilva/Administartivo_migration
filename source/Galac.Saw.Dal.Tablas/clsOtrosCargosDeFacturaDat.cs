@@ -41,7 +41,7 @@ namespace Galac.Saw.Dal.Tablas {
             vParams.AddInString("Codigo", valRecord.Codigo, 15);
             vParams.AddInString("Descripcion", valRecord.Descripcion, 255);
             vParams.AddInEnum("Status", valRecord.StatusAsDB);
-            vParams.AddInEnum("SeCalculaEnBaseA", valRecord.SeCalculaEnBaseAAsDB);
+            vParams.AddInEnum("SeCalculaEnBasea", valRecord.SeCalculaEnBaseaAsDB);
             vParams.AddInDecimal("Monto", valRecord.Monto, 2);
             vParams.AddInEnum("BaseFormula", valRecord.BaseFormulaAsDB);
             vParams.AddInDecimal("PorcentajeSobreBase", valRecord.PorcentajeSobreBase, 2);

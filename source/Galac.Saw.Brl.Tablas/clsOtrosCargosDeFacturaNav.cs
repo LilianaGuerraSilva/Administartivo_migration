@@ -83,7 +83,7 @@ namespace Galac.Saw.Brl.Tablas {
             vCurrentRecord.Codigo = "";
             vCurrentRecord.Descripcion = "";
             vCurrentRecord.StatusAsEnum = eStatusOtrosCargosyDescuentosDeFactura.Vigente;
-            vCurrentRecord.SeCalculaEnBaseAAsEnum = eBaseCalculoOtrosCargosDeFactura.Formula;
+            vCurrentRecord.SeCalculaEnBaseaAsEnum = eBaseCalculoOtrosCargosDeFactura.Formula;
             vCurrentRecord.Monto = 0;
             vCurrentRecord.BaseFormulaAsEnum = eBaseFormulaOtrosCargosDeFactura.SubTotal;
             vCurrentRecord.PorcentajeSobreBase = 0;
@@ -117,8 +117,8 @@ namespace Galac.Saw.Brl.Tablas {
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("Status"), null))) {
                     vRecord.Status = vItem.Element("Status").Value;
                 }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("SeCalculaEnBaseA"), null))) {
-                    vRecord.SeCalculaEnBaseA = vItem.Element("SeCalculaEnBaseA").Value;
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("SeCalculaEnBasea"), null))) {
+                    vRecord.SeCalculaEnBasea = vItem.Element("SeCalculaEnBasea").Value;
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("Monto"), null))) {
                     vRecord.Monto = LibConvert.ToDec(vItem.Element("Monto"));

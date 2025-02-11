@@ -133,7 +133,7 @@
                     <ColumnDefinition Width="Auto" MinWidth="200" />
                 </Grid.ColumnDefinitions>
                 <Label
-                    Name="lblSeCalculaEnBaseA"
+                    Name="lblSeCalculaEnBasea"
                     Grid.Column="0"
                     Height="24"
                     Margin="3,0,0,0"
@@ -142,7 +142,7 @@
                     Content="Se Calcula en base a"
                     Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSComboBoxWpf
-                    Name="cmbSeCalculaEnBaseA"
+                    Name="cmbSeCalculaEnBasea"
                     Grid.Row="0"
                     Grid.Column="1"
                     Width="245"
@@ -150,7 +150,7 @@
                     IsEnabled="{Binding Path=IsEnabled}"
                     IsSynchronizedWithCurrentItem="True"
                     ItemsSource="{Binding Path=ArrayBaseCalculoOtrosCargosDeFactura}"
-                    SelectedItem="{Binding Path=SeCalculaEnBaseA, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedItem="{Binding Path=SeCalculaEnBasea, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                     Style="{StaticResource ComboBoxStyle}" />
                 <Label
                     Name="lblBaseFormula"
@@ -162,7 +162,7 @@
                     VerticalAlignment="Center"
                     Content="Base Fórmula"
                     Style="{StaticResource LabelPrompt}"
-                    Visibility="{Binding Path=IsVisibleSeCalculaEnBaseA, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    Visibility="{Binding Path=IsVisibleSeCalculaEnBasea, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <nsWpfControls:GSComboBoxWpf
                     Name="cmbBaseFormula"
                     Grid.Row="1"
@@ -174,7 +174,7 @@
                     ItemsSource="{Binding Path=ArrayBaseFormulaOtrosCargosDeFactura}"
                     SelectedItem="{Binding Path=BaseFormula, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                     Style="{StaticResource ComboBoxStyle}"
-                    Visibility="{Binding Path=IsVisibleSeCalculaEnBaseA, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    Visibility="{Binding Path=IsVisibleSeCalculaEnBasea, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <Label
                     Name="lblMonto"
                     Grid.Row="1"
@@ -209,7 +209,7 @@
                     VerticalAlignment="Center"
                     Content="Porcentaje Sobre Base"
                     Style="{StaticResource LabelPrompt}"
-                    Visibility="{Binding Path=IsVisibleSeCalculaEnBaseA, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    Visibility="{Binding Path=IsVisibleSeCalculaEnBasea, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtPorcentajeSobreBase"
                     Grid.Row="2"
@@ -222,7 +222,7 @@
                     IsEnabled="{Binding Path=IsEnabled}"
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
-                    Visibility="{Binding Path=IsVisibleSeCalculaEnBaseA, Converter={StaticResource booleanToVisibilityConverter}}"
+                    Visibility="{Binding Path=IsVisibleSeCalculaEnBasea, Converter={StaticResource booleanToVisibilityConverter}}"
                     Value="{Binding Path=PorcentajeSobreBase, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <Label
                     Name="lblSustraendo"
@@ -234,7 +234,7 @@
                     VerticalAlignment="Center"
                     Content="Sustraendo"
                     Style="{StaticResource LabelPrompt}"
-                    Visibility="{Binding Path=IsVisibleSeCalculaEnBaseA, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    Visibility="{Binding Path=IsVisibleSeCalculaEnBasea, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtSustraendo"
                     Grid.Row="3"
@@ -246,7 +246,7 @@
                     IsEnabled="{Binding Path=IsEnabled}"
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
-                    Visibility="{Binding Path=IsVisibleSeCalculaEnBaseA, Converter={StaticResource booleanToVisibilityConverter}}"
+                    Visibility="{Binding Path=IsVisibleSeCalculaEnBasea, Converter={StaticResource booleanToVisibilityConverter}}"
                     Value="{Binding Path=Sustraendo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <Label
                     Name="lbletiquetaformula"
