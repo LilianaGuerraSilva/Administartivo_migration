@@ -111,6 +111,12 @@
         <nsCSV:GSValidacionZelleView />
     </DataTemplate>
     <DataTemplate DataType="{x:Type nsReportesView:clsCxCEntreFechasViewModel}">
-        <nsReportesView:GSCxCEntreFechas/>
+        <nsReportesView:GSCxCEntreFechas />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsAuditoriaConfiguracionDeCajaViewModel}">
+        <nsReportesView:GSAuditoriaConfiguracionDeCaja />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsFacturacionEntreFechasVerificacionViewModel}">
+        <nsReportesView:GSFacturacionEntreFechasVerificacion />
     </DataTemplate>
 </ResourceDictionary>

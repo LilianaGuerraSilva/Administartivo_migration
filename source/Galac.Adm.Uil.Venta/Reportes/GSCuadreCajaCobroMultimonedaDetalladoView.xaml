@@ -7,7 +7,7 @@
     xmlns:nsARRpt="clr-namespace:LibGalac.Aos.ARRpt;assembly=LibGalac.Aos.ARRpt"
     xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
     xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
-    Width="400">
+    Width="380">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -68,7 +68,8 @@
             Name="cmbMoneda"
             Grid.Row="2"
             Grid.Column="1"
-            Width="200"
+            Width="147"
+            Margin="3,3,0,4"
             IsEnabled="{Binding Path=IsEnabled}"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding Path=MonedaDeReporte}"
@@ -84,7 +85,8 @@
             Name="cmbCantidadAImprimir"
             Grid.Row="3"
             Grid.Column="1"
-            Width="200"
+            Width="147"
+            Margin="3,3,0,3"
             IsEnabled="{Binding Path=IsEnabled}"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding Path=ArrayCantidadOperadorDeReporte}"
@@ -101,9 +103,9 @@
             Name="txtNombreDelUsuario"
             Grid.Row="4"
             Grid.Column="1"
-            Width="200"
+            Width="147"
             Height="23"
-            Margin="3"
+            Margin="3,4,0,3"
             HorizontalAlignment="Left"
             ConnectionValue="{Binding Path=NombreDelUsuario, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             DisplayMemberPath="Codigo"

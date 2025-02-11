@@ -14,7 +14,7 @@ namespace Galac.Adm.Dal.Venta {
         #endregion //Propiedades
         #region Constructores
         public clsEscaladaED(): base(){
-            DbSchema = "Dbo";
+            DbSchema = "dbo";
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -47,7 +47,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("Escalada73" + InsSql.VarCharTypeForDb(40) + " CONSTRAINT d_EscEs73 DEFAULT (''), ");
             SQL.AppendLine("Escalada24" + InsSql.VarCharTypeForDb(40) + " CONSTRAINT d_EscEs24 DEFAULT (''), ");
             SQL.AppendLine("Escalada85" + InsSql.VarCharTypeForDb(30) + " CONSTRAINT d_EscEs85 DEFAULT (''), ");
-            SQL.AppendLine("Escalada100" + InsSql.VarCharTypeForDb(255) + " CONSTRAINT d_EscEs10 DEFAULT (''), ");
+            SQL.AppendLine("Escalada100 varbinary(255) CONSTRAINT d_EscEs10 DEFAULT 0x00, ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
             SQL.AppendLine("CONSTRAINT p_Escalada PRIMARY KEY CLUSTERED");
             SQL.AppendLine("(Id ASC)");

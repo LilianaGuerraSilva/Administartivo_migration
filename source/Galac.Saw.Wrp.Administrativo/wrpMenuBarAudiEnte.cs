@@ -16,6 +16,7 @@ using System.Reflection;
 using System.Xml;
 using LibGalac.Aos.DefGen;
 using Galac.Adm.Uil.Venta;
+using Galac.Adm.Uil.Venta.Reportes;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.MenuBar {
 #elif IsExeBsS​
@@ -41,14 +42,16 @@ namespace Galac.Saw.Wrp.MenuBar {
                 if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaModuloDeContabilidad")) {
                     LibGlobalValues.Instance.LoadMFCInfoFromAppMemInfo("Periodo", "ConsecutivoPeriodo");
                 }
-                LibMefBootstrapperForInterop vBootstrapper = new LibMefBootstrapperForInterop(true);
-                LibInteropParameters vParams = new LibInteropParameters();
-                vParams.AdmittedComponents = ComponentsNavigationTab();
-                vParams.CurrentUserName = ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login;
-                vParams.CurrentCompanyName = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre");
-                vParams.ProgramImagePath = new System.Uri("/Images/Fondo Saw.jpg", System.UriKind.Relative);
-                vBootstrapper.Components = ComponentsList();
-                vBootstrapper.Run(vParams);
+                //LibMefBootstrapperForInterop vBootstrapper = new LibMefBootstrapperForInterop(true);
+                //LibInteropParameters vParams = new LibInteropParameters();
+                //vParams.AdmittedComponents = ComponentsNavigationTab();
+                //vParams.CurrentUserName = ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login;
+                //vParams.CurrentCompanyName = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre");
+                //vParams.ProgramImagePath = new System.Uri("/Images/Fondo Saw.jpg", System.UriKind.Relative);
+                //vBootstrapper.Components = ComponentsList();
+                //vBootstrapper.Run(vParams);
+                if (LibMessages.ReportsView.ShowReportsView(new clsEscaladaInformesViewModel(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()))) {
+                }
             } catch (AccessViolationException) {
                 throw;
             } catch (ReflectionTypeLoadException vEx) {

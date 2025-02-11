@@ -4800,3 +4800,29 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
    Escalada100 : str255;
 @PrimaryKey=Id
 }
+
+{@S}AuditoriaConfiguracion = record //Multiarchivo=Compania,"Auditoria Configuracion", Componente=Venta, Esquema=Adm,EsquemaBD=adm,GenerateRptConfigurar,GenerateFrmInforme,interop,GENERATE
+	ConsecutivoCompania		: LongInt;//
+	ConsecutivoAuditoria		: LongInt;//
+	VersionPrograma		: Str10;//
+	FechayHora		: date;//dv=getdate()
+	Accion		: Str20;//dv=''
+	Motivo		: TextArea;//dv=''
+	ConfiguracionOriginal		: Str500;//
+	ConfiguracionNueva		: Str500;//
+	NombreOperador		: Str10;//a
+	FechaUltimaModificacion	: date;//a
+	@PrimaryKey=ConsecutivoCompania,ConsecutivoAuditoria,VersionPrograma
+}
+
+{@R AuditoriaConfiguracion}AuditoriaConfiguracionDeCaja = Reporte//Multiarchivo=Compania,"Auditoria Configuracion de Caja",Componente=Venta,Esquema=Adm,Generate
+	NroVersion			: Section;	//"NroVersion"
+	VersionPrograma	: Str10;	//"Version de Programa"
+	{EndSeccion}	
+	FechaYHora	:	date;//"Fecha y Hora"	
+	Accion	:	Str20;//"Acción"
+	Motivo	:	Str255;//"Motivo"	
+	ConfiguracionOriginal	:	Str500;//"Configuración Original"
+	ConfiguracionNueva	:	Str500;//"Configuración Nueva"
+	NombreOperador : Str10;//"NombreOperador"	
+}

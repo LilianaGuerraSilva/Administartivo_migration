@@ -10,6 +10,7 @@ using LibGalac.Aos.ARRpt;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.DefGen;
 using Galac.Adm.Ccl.Venta;
+using System.Runtime.CompilerServices;
 namespace Galac.Adm.Rpt.Venta {
     /// <summary>
     /// Summary description for dsrCuadreCajaCobroMultimonedaDetallado.
@@ -85,22 +86,17 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigFieldStr(this, "txtNombreTipoDeCobro", string.Empty, "TipoDeCobro");
                 LibReport.ConfigFieldDec(this, "txtMonto", string.Empty, "Monto");
                 if (enMonedaOriginal) {
-                    LibReport.ConfigFieldDecWithNDecimal(this, "txtCambioDeOperacion", string.Empty, "TasaOperacion", 2);
+                    LibReport.ConfigFieldDecWithNDecimal(this, "txtCambioDeOperacion", string.Empty, "TasaOperacion", 4);                    
+                    LibReport.ConfigFieldDecWithNDecimal(this, "txtCambioABolivares", LibConvert.ToStr(1), "", 4);
+                    LibReport.ConfigFieldStr(this, "txtCambioABolivaresSimbolo", string.Empty, "");
+                    LibReport.ChangeControlVisibility(this, "txtCambioABolivares", false);
+                    LibReport.ConfigFieldStr(this, "txtLblCambioABolivares", string.Empty, " ");
+                    LibReport.ChangeControlVisibility(this, "txtCambioABolivaresSimbolo", false);
                 } else {
-                    lblNumeroComprobanteFiscal.Width = (float)3.73;
                     LibReport.ChangeControlVisibility(this, "txtCambioDeOperacion", false);
-                    LibReport.ChangeControlVisibility(this, "lblCambioDeOperacion", false);
-                    TxtMonto1.Width = (float)1;
-                    LibReport.ChangeControlLocation(this, "lblMonto", (float)4.73, (float)0.04);
-                    LibReport.ChangeControlLocation(this, "txtMonto", (float)4.73, (float)0);
-                    LibReport.ChangeControlLocation(this, "lblSubTotalCobro", (float)3.73, (float)0.02);
-                    LibReport.ChangeControlLocation(this, "txtSubTotalCobro", (float)4.73, (float)0.02);
-                    LibReport.ConfigFieldDecWithNDecimal(this, "txtCambioABolivares", LibConvert.ToStr(1), "CambioABolivares", 2);
+                    LibReport.ConfigLabel(this, "lblCambioDeOperacion","");
+                    LibReport.ConfigFieldDecWithNDecimal(this, "txtCambioABolivares", LibConvert.ToStr(1), "CambioABolivares", 4);
                     LibReport.ConfigFieldStr(this, "txtCambioABolivaresSimbolo", string.Empty, "SimboloFormaDeCobro");
-                    LibReport.ChangeControlVisibility(this, "lblCambioABolivares", true);
-                    LibReport.ChangeControlVisibility(this, "txtCambioABolivares", true);
-                    LibReport.ConfigFieldStr(this, "txtCambioABolivaresSimbolo", string.Empty, "SimboloFormaDeCobro");
-                    LibReport.ChangeControlVisibility(this, "txtCambioABolivaresSimbolo", true);
                 }
                 LibReport.ConfigSummaryField(this, "txtSubTotalCobro", "Monto", SummaryFunc.Sum, "GHSecCobro", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigFieldDecWithNDecimal(this, "txtSubTotalDocumentosCobrado", string.Empty, "", 2);
@@ -157,8 +153,13 @@ namespace Galac.Adm.Rpt.Venta {
                 LibARReport.ConfigLabel(this, "lblEfectivoSimboloMonedaLocal", vMonedaLocal.GetHoySimboloMoneda());
                 LibARReport.ConfigLabel(this, "lblTarjetaSimboloMonedaLocal", vMonedaLocal.GetHoySimboloMoneda());
                 LibARReport.ConfigLabel(this, "lblDepositoSimboloMonedaLocal", vMonedaLocal.GetHoySimboloMoneda());
-                LibARReport.ConfigLabel(this, "lblEfectivoSimboloMonedaExt", SimboloMonedaExtranjera);
-                LibARReport.ConfigLabel(this, "lblTransferenciaSimboloMonedaExt", SimboloMonedaExtranjera);
+                if (enMonedaOriginal) {
+                    LibARReport.ConfigLabel(this, "lblEfectivoSimboloMonedaExt", SimboloMonedaExtranjera);
+                    LibARReport.ConfigLabel(this, "lblTransferenciaSimboloMonedaExt", SimboloMonedaExtranjera);
+                } else {
+                    LibARReport.ConfigLabel(this, "lblEfectivoSimboloMonedaExt", SimboloMonedaExtranjera + "/" + vMonedaLocal.GetHoySimboloMoneda());
+                    LibARReport.ConfigLabel(this, "lblTransferenciaSimboloMonedaExt", SimboloMonedaExtranjera + "/" + vMonedaLocal.GetHoySimboloMoneda());
+                }
                 #endregion
                 LibReport.ConfigGroupHeader(this, "GHSecOperador", "NombreDelOperador", GroupKeepTogether.FirstDetail, RepeatStyle.None, true, NewPage.None);
                 LibReport.ConfigGroupHeader(this, "GHSecCaja", "ConsecutivoCaja", GroupKeepTogether.FirstDetail, RepeatStyle.None, true, NewPage.None);

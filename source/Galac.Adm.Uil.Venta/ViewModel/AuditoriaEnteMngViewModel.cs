@@ -1,4 +1,5 @@
-﻿using Galac.Comun.Uil.TablasGen.ViewModel;
+﻿using Galac.Adm.Uil.Venta.Reportes;
+using Galac.Comun.Uil.TablasGen.ViewModel;
 using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Base.Report;
@@ -65,11 +66,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             return true;
         }
         private void ExecuteViewInfoCommand() {
-            try {                
+            try {
+                if (LibMessages.ReportsView.ShowReportsView(new clsEscaladaInformesViewModel(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()))) {
+                    bool DialogResult = true;
+                }
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
-                LibMessages.RaiseError.ShowError(vEx, ModuleName);
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
             }
         }
     }
