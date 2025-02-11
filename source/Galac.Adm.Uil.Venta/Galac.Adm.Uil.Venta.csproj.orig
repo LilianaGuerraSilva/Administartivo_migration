@@ -118,14 +118,17 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Reportes\clsAuditoriaConfiguracionDeCajaViewModel.cs" />
+<<<<<<< HEAD
     <Compile Include="Reportes\clsEscaladaInformesViewModel.cs" />
     <Compile Include="Reportes\clsFacturacionEntreFechasVerificacionViewModel.cs" />
-    <Compile Include="Reportes\GSAuditoriaConfiguracionDeCaja.xaml.cs">
-      <DependentUpon>GSAuditoriaConfiguracionDeCaja.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Reportes\GSFacturacionEntreFechasVerificacion.xaml.cs">
       <DependentUpon>GSFacturacionEntreFechasVerificacion.xaml</DependentUpon>
+=======
+    <Compile Include="Reportes\clsAuditoriaConfiguracionDeCajaViewModel.cs" />
+    <Compile Include="Reportes\clsEscaladaInformesViewModel.cs" />
+    <Compile Include="Reportes\GSAuditoriaConfiguracionDeCaja.xaml.cs">
+      <DependentUpon>GSAuditoriaConfiguracionDeCaja.xaml</DependentUpon>
+>>>>>>> release/V27.0.0.0
     </Compile>
     <Compile Include="UIMefAudiEnte.cs" />
     <Compile Include="VentaMessagesHandler.cs" />
