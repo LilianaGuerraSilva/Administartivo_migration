@@ -47,6 +47,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("WHEN '2' THEN 'Nota de Débito' ");
             vSql.AppendLine("WHEN '5' THEN 'Comprobante Fiscal' ");
             vSql.AppendLine("WHEN '7' THEN 'Nota de Crédito Comprobante Fiscal' ");
+            vSql.AppendLine("WHEN '8' THEN 'Nota de Entrega' ");
             vSql.AppendLine("ELSE 'No Definido' END, ");
 
             vSql.AppendLine("Escalada.Escalada41 AS 'ConsecutivoCompania', Escalada.Escalada24, ");
