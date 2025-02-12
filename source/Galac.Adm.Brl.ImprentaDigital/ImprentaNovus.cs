@@ -88,7 +88,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     { "numerointerno", NumeroDocumento() }};
                 if (vChekConeccion) {
                     vDocumentoJSON = vEstausJson.ToString();
-                    vRespuestaConector = _ConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostNovus.EstadoDocumento), _ConectorJson.Token, NumeroDocumento(), (int)TipoDeDocumento);
+                    vRespuestaConector = _ConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostNovus.EstadoDocumento), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
                     Mensaje = vRespuestaConector.mensaje;
                 } else {
                     Mensaje = vMensaje;
@@ -165,7 +165,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 if (vChekConeccion) {
                     ConfigurarDocumento();
                     string vDocumentoJSON = vDocumentoDigital.ToString();
-                    vRespuestaConector = _ConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostNovus.Emision), _ConectorJson.Token, NumeroDocumento(), (int)TipoDeDocumento);
+                    vRespuestaConector = _ConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostNovus.Emision), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
                     NumeroControl = vRespuestaConector.resultados.numeroControl;
                     vResult = vRespuestaConector.Aprobado;
                     if (vResult) {

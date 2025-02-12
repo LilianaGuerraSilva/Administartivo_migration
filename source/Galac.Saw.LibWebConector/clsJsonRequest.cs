@@ -161,8 +161,7 @@ namespace Galac.Saw.LibWebConnector {
         [JsonProperty("fecha")]
         public string fecha { get; set; }
         [JsonProperty("hora")]
-        public string hora { get; set; }
-
+        public string hora { get; set; }        
     }
 
 
@@ -172,9 +171,9 @@ namespace Galac.Saw.LibWebConnector {
         [JsonProperty("message")]
         public string message { get; set; }
         [JsonProperty("data")]
-        public Nullable<stDataRespuestaNV> data { get; set; }
-        [JsonProperty("error")]
-        public Nullable<stErrorRespuestaNV> error { get; set; }
+        public stDataRespuestaNV? data { get; set; }
+        [JsonProperty("error")]        
+        public stErrorRespuestaNV? error { get; set; }
 
     }
 
@@ -187,8 +186,8 @@ namespace Galac.Saw.LibWebConnector {
         public string fecha { get; set; }
         [JsonProperty("documento")]
         public string documento { get; set; }
-        [JsonProperty("iddocumento")]
-        public string iddocumento { get; set; }
+        [JsonProperty("idtipodocumento")]
+        public string idtipodocumento { get; set; }
 
     }
 
@@ -198,10 +197,9 @@ namespace Galac.Saw.LibWebConnector {
         [JsonProperty("message")]
         public string message { get; set; }
         [JsonProperty("data")]
-        public stDataRespuestaStatusNV[] data { get; set; }
+        public stDataRespuestaStatusNV?[] data { get; set; }
         [JsonProperty("error")]
-        public Nullable<stErrorRespuestaNV> error { get; set; }
-
+        public stErrorRespuestaNV? error { get; set; }
     }
     #endregion NOVUS
 }

@@ -10,10 +10,11 @@ using Newtonsoft.Json.Linq;
 using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Saw.LibWebConnector {
-    public class clsConectorJsonTheFactory: clsConectorJson {
-        string strTipoDocumento;        
+    public class clsConectorJsonTheFactory : clsConectorJson {
+        string strTipoDocumento;
 
         public clsConectorJsonTheFactory(ILoginUser valloginUser) : base(valloginUser) {
             LoginUser = valloginUser;
@@ -25,7 +26,7 @@ namespace Galac.Saw.LibWebConnector {
             try {
                 bool vResult = false;
                 string vJsonStr = FormatingJSON(LoginUser);
-                vRequest = SendPostJson(vJsonStr, valComandoApi, "");
+                vRequest = SendPostJson(vJsonStr, valComandoApi, "", "");
                 refMensaje = vRequest.mensaje;
                 if (vRequest.Aprobado) {
                     Token = vRequest.token;
@@ -40,14 +41,14 @@ namespace Galac.Saw.LibWebConnector {
             } catch (Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Alert);
             }
-        }        
+        }
 
-        public override stPostResq SendPostJson(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", int valTipoDocumento = 0) {
+        public override stPostResq SendPostJson(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", eTipoDocumentoFactura valTipoDocumento = eTipoDocumentoFactura.NoAsignado) {
             string vResultMessage = "";
             string vMensajeDeValidacion = "";
             stPostResq infoReqs = new stPostResq();
             try {
-                strTipoDocumento = (valTipoDocumento == 8 ? "Nota de Entrega" : valTipoDocumento == 1 ? "Nota de Crédito" : valTipoDocumento == 2 ? "Nota de Débito" : "Factura");
+                strTipoDocumento = LibEnumHelper.GetDescription(valTipoDocumento);
                 strTipoDocumento = "La " + strTipoDocumento + " No. " + valNumeroDocumento;
                 HttpClient vHttpClient = new HttpClient();
                 vHttpClient.BaseAddress = new Uri(LoginUser.URL);
@@ -63,8 +64,8 @@ namespace Galac.Saw.LibWebConnector {
                 }
                 if (vHttpRespMsg.Result.Content is null) {
                     throw new Exception("Revise su conexión a Internet, Revise que la URL del servicio sea la correcta.");
-                }else if (vHttpRespMsg.Result.StatusCode== System.Net.HttpStatusCode.Unauthorized) {
-                    throw new Exception(vHttpRespMsg.Result.ReasonPhrase+ "\r\nToken Expirado.");
+                } else if (vHttpRespMsg.Result.StatusCode == System.Net.HttpStatusCode.Unauthorized) {
+                    throw new Exception(vHttpRespMsg.Result.ReasonPhrase + "\r\nToken Expirado.");
                 } else {
                     Task<string> HttpResq = vHttpRespMsg.Result.Content.ReadAsStringAsync();
                     HttpResq.Wait();
@@ -84,11 +85,11 @@ namespace Galac.Saw.LibWebConnector {
                         infoReqs.mensaje = vMensajeDeValidacion + "\r\n" + strTipoDocumento + " ya existe en la Imprenta Digital.";
                     } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "203")) {
                         infoReqs.Aprobado = false;
-                        infoReqs.mensaje = infoReqs.mensaje +".\r\n"+ vMensajeDeValidacion + ".\r\n" + strTipoDocumento + " no pudo ser enviada a la Imprenta Digital, debe sincronizar el documento.";
-                    } else if (!LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {                        
+                        infoReqs.mensaje = infoReqs.mensaje + ".\r\n" + vMensajeDeValidacion + ".\r\n" + strTipoDocumento + " no pudo ser enviada a la Imprenta Digital, debe sincronizar el documento.";
+                    } else if (!LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {
                         infoReqs.Aprobado = false;
-                        infoReqs.mensaje = vMensajeDeValidacion+ "\r\n." + strTipoDocumento + " no pudo ser enviada a la Imprenta Digital, debe sincronizar el documento.";
-                    }                    
+                        infoReqs.mensaje = vMensajeDeValidacion + "\r\n." + strTipoDocumento + " no pudo ser enviada a la Imprenta Digital, debe sincronizar el documento.";
+                    }
                     GeneraLogDeErrores(vResultMessage + infoReqs.mensaje, valJsonStr);
                     throw new Exception(infoReqs.mensaje);
                 }
@@ -97,10 +98,10 @@ namespace Galac.Saw.LibWebConnector {
                 if (vEx.InnerException.InnerException.HResultPublic() == -2146233079) {
                     vMensaje = vMensaje + "\r\nRevise su conexión a Internet, Revise que la URL del servicio sea la correcta.\r\nDebe sincronizar el documento.";
                 }
-                throw new Exception(vMensaje); throw new Exception(vEx.InnerException.InnerException.Message);           
+                throw new Exception(vMensaje); throw new Exception(vEx.InnerException.InnerException.Message);
             } catch (Exception vEx) {
-                throw vEx;                
-            }            
+                throw vEx;
+            }
         }
     }
 }

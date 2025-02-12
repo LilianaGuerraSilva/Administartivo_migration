@@ -5,6 +5,9 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
+using Galac.Adm.Ccl.ImprentaDigital;
+using Galac.Saw.Ccl.SttDef;
+using System.Linq;
 
 namespace Galac.Saw.LibWebConnector {
     public class clsConectorJsonNovus : clsConectorJson {
@@ -27,12 +30,12 @@ namespace Galac.Saw.LibWebConnector {
             }
         }
 
-        public override stPostResq SendPostJson(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", int valTipoDocumento = 0) {
+        public override stPostResq SendPostJson(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", eTipoDocumentoFactura valTipoDocumento = eTipoDocumentoFactura.NoAsignado) {
             string vResultMessage = "";
-            //string vMensajeDeValidacion = "";
             stPostResq vReqs = new stPostResq();
+            stRespuestaNV vReqNV = new stRespuestaNV();            
             try {
-                strTipoDocumento = (valTipoDocumento == 8 ? "Nota de Entrega" : valTipoDocumento == 1 ? "Nota de Crédito" : valTipoDocumento == 2 ? "Nota de Débito" : "Factura");
+                strTipoDocumento = LibEnumHelper.GetDescription(valTipoDocumento);
                 strTipoDocumento = "La " + strTipoDocumento + " No. " + valNumeroDocumento;
                 HttpClient vHttpClient = new HttpClient();
                 vHttpClient.BaseAddress = new Uri(LoginUser.URL);
@@ -53,29 +56,35 @@ namespace Galac.Saw.LibWebConnector {
                 } else {
                     Task<string> HttpResq = vHttpRespMsg.Result.Content.ReadAsStringAsync();
                     HttpResq.Wait();
-                    stRespuestaNV vReqsNV = JsonConvert.DeserializeObject<stRespuestaNV>(HttpResq.Result.ToString());
-                    if (vReqsNV.success) {
+                    if (LibString.S1IsEqualToS2(valComandoApi, eComandosPostNovus.EstadoDocumento.GetDescription())) {
+                        vReqNV = ConvertSimpleRequestNV(HttpResq.Result.ToString(), valTipoDocumento);
+                    } else {
+                        vReqNV = JsonConvert.DeserializeObject<stRespuestaNV>(HttpResq.Result.ToString());
+                    }
+                    if (vReqNV.success) {
                         vReqs = new stPostResq() {
-                            Aprobado = vReqsNV.success,
-                            mensaje = vReqsNV.message,
+                            Aprobado = vReqNV.success,
+                            mensaje = vReqNV.message,
                             resultados = new stRespuestaTF() {
-                                numeroControl = vReqsNV.data.Value.numerodocumento,
-                                fechaAsignacion = vReqsNV.data.Value.fecha
+                                numeroControl = vReqNV.data.Value.numerodocumento,
+                                fechaAsignacion = vReqNV.data.Value.fecha
                             }
                         };
                         return vReqs;
-                    } else if (LibString.S1IsEqualToS2(vReqsNV.error.Value.code, "1")) {
-                        vReqs.mensaje = vReqsNV.error.Value.message + ".\r\nPor favor verifique los datos de conexión\r\ncon su Imprenta Digital.";
-                    } else if (LibString.S1IsEqualToS2(vReqsNV.error.Value.code, "2")) {
-                        vReqs.mensaje = vReqsNV.error.Value.message + ".\r\nPor favor verifique los datos del documento.";
-                    } else if (LibString.S1IsEqualToS2(vReqsNV.error.Value.code, "3")) {
-                        vReqs.mensaje = vReqsNV.error.Value.message + ".\r\nPor favor verifique los datos de conexión\r\n con su Imprenta Digital.";
-                    } else if (LibString.S1IsEqualToS2(vReqsNV.error.Value.code, "4")) {
-                        vReqs.mensaje = vReqsNV.error.Value.message + ".\r\nPor favor verifique los datos del documento.";
-                    } else if (LibString.S1IsEqualToS2(vReqsNV.error.Value.code, "5")) {
-                        vReqs.mensaje = vReqsNV.error.Value.message + ".\r\nPor favor verifique los datos del documento.";
+                    } else if (vReqNV.error.Value.code == null) {
+                        vReqs.mensaje = vReqNV.error.Value.message;
+                    } else if (LibString.S1IsEqualToS2(vReqNV.error.Value.code, "1")) {
+                        vReqs.mensaje = vReqNV.error.Value.message + ".\r\nPor favor verifique los datos de conexión\r\ncon su Imprenta Digital.";
+                    } else if (LibString.S1IsEqualToS2(vReqNV.error.Value.code, "2")) {
+                        vReqs.mensaje = vReqNV.error.Value.message + ".\r\nPor favor verifique los datos del documento.";
+                    } else if (LibString.S1IsEqualToS2(vReqNV.error.Value.code, "3")) {
+                        vReqs.mensaje = vReqNV.error.Value.message + ".\r\nPor favor verifique los datos de conexión\r\n con su Imprenta Digital.";
+                    } else if (LibString.S1IsEqualToS2(vReqNV.error.Value.code, "4")) {
+                        vReqs.mensaje = vReqNV.error.Value.message + ".\r\nPor favor verifique los datos del documento.";
+                    } else if (LibString.S1IsEqualToS2(vReqNV.error.Value.code, "5")) {
+                        vReqs.mensaje = vReqNV.error.Value.message + ".\r\nPor favor verifique los datos del documento.";
                     } else {
-                        vReqs.mensaje = vReqsNV.error.Value.message;
+                        vReqs.mensaje = vReqNV.error.Value.message;
                     }
                     GeneraLogDeErrores(vResultMessage + vReqs.mensaje, valJsonStr);
                     throw new Exception(vReqs.mensaje);
@@ -88,6 +97,53 @@ namespace Galac.Saw.LibWebConnector {
                 throw new Exception(vMensaje);
             } catch (Exception vEx) {
                 throw vEx;
+            }
+        }
+
+        private stRespuestaNV ConvertSimpleRequestNV(string valHttpResq, eTipoDocumentoFactura valTipoDocumento) {
+            stRespuestaNV vResult = new stRespuestaNV();
+            string vTipoDocumentoNV = GetTipoDocumentoNV(valTipoDocumento);
+            stRespuestaStatusNV vReqStNV = JsonConvert.DeserializeObject<stRespuestaStatusNV>(valHttpResq);
+            if (vReqStNV.success) {
+                stDataRespuestaStatusNV stDataNV = vReqStNV.data.Where(x => {
+                    return x.Value.idtipodocumento == vTipoDocumentoNV;
+                }).FirstOrDefault().Value;
+                vResult = new stRespuestaNV() {
+                    success = vReqStNV.success,
+                    message = vReqStNV.message,
+                    data = new stDataRespuestaNV() {
+                        numerodocumento = stDataNV.numerodocumento,
+                        fecha = stDataNV.fecha
+                    }
+                };
+            } else {
+                string vMensaje = vReqStNV.error.Value.message;
+                int vPos =LibString.IndexOf(vMensaje,".");
+                if (vPos > 0) {
+                    vMensaje = LibString.InsertAt(vMensaje, " en el servicio de imprenta", vPos);
+                }
+                vResult=new stRespuestaNV() {
+                    success = vReqStNV.success,                    
+                    error = new stErrorRespuestaNV() {                        
+                        message = vMensaje
+                    }   
+                };
+            }
+            return vResult;
+        }
+
+        private string GetTipoDocumentoNV(eTipoDocumentoFactura valTipoDocumento) {
+            switch (valTipoDocumento) {
+                case eTipoDocumentoFactura.Factura:
+                    return "1";
+                case eTipoDocumentoFactura.NotaDeDebito:
+                    return "2";
+                case eTipoDocumentoFactura.NotaDeCredito:
+                    return "3";
+                case eTipoDocumentoFactura.NotaEntrega:
+                    return "4";
+                default:
+                    return "1";
             }
         }
     }
