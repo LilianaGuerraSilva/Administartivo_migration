@@ -118,8 +118,7 @@ namespace Galac.Saw.Wrp.Venta {
             } catch (Exception vEx) {
                 if (vEx is System.AccessViolationException) {
                     throw;
-                }
-                throw new GalacWrapperException(Title + " - Notificación", vEx);
+                }                
             }
         }
     }
