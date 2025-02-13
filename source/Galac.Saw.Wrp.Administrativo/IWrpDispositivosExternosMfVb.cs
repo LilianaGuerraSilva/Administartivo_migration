@@ -21,11 +21,13 @@ namespace Galac.Saw.Wrp.DispositivosExternos
         string ObtenerSerialMaquinaFiscal(string vfwXmlImpresoraFiscal);
         string ObtenerUltimoNumeroFacturaImpresa(string vfwXmlImpresoraFiscal);
         string ObtenerUltimoNumeroNotaDeCreditoImpresa(string vfwXmlImpresoraFiscal);
+        string ObtenerUltimoNumeroNotaDeDebitoImpresa(string vfwXmlImpresoraFiscal);
         string ObtenerUltimoNumeroReporteZ(string vfwXmlImpresoraFiscal);
         bool RealizarCierreZ(string vfwXmlImpresoraFiscal,ref string NumDocumento);
         bool RealizarCierreX(string vfwXmlImpresoraFiscal);
         bool ImprimirVenta(string vfwXmlImpresoraFiscal, string vfwXmlDocumentoFiscal,ref string NumDocumento);
         bool ImprimirNotaDeCredito(string vfwXmlImpresoraFiscal, string vfwXmlDocumentoFiscal,ref string NumDocumento);
+        bool ImprimirNotaDeDebito(string vfwXmlImpresoraFiscal, string vfwXmlDocumentoFiscal, ref string NumDocumento);
         bool AnularDocumentoFiscal(string vfwXmlImpresoraFiscal, bool vfwXmlAbrirConexion);
         bool ImprimirDocumentoNoFiscal(string vfwXmlImpresoraFiscal, string valListaVoucherDePago, string valDescripcion);
         bool ReimprimirDocumentoFiscal(string vfwXmlImpresoraFiscal, string vfwlDesde, string vfwlHasta, int vfwlTipoDocumento);

@@ -120,6 +120,18 @@ namespace Galac.Saw.Wrp.DispositivosExternos {
             return "";
         }
 
+        string IWrpImpresoraFisaclVb.ObtenerUltimoNumeroNotaDeDebitoImpresa(string vfwImpresoraFiscal) {
+            try {
+                string vUltimaNC = "";
+                clsImpresoraFiscalMenu insImpresoraFiscalMenu = new clsImpresoraFiscalMenu();
+                vUltimaNC = insImpresoraFiscalMenu.ObtenerUltimoNumeroNotaDeDebito(true, vfwImpresoraFiscal);
+                return vUltimaNC;
+            } catch (Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, "Impresora Fiscal");
+            }
+            return "";
+        }
+
         string IWrpImpresoraFisaclVb.ObtenerUltimoNumeroReporteZ(string vfwImpresoraFiscal) {
             try {
                 string vUltimoRptZ = "";
@@ -173,6 +185,18 @@ namespace Galac.Saw.Wrp.DispositivosExternos {
                 bool vReady = false;
                 clsImpresoraFiscalMenu insImpresoraFiscalMenu = new clsImpresoraFiscalMenu();
                 vReady = insImpresoraFiscalMenu.ImprimirNotaCredito(vfwImpresoraFiscal, vfwXmlDocumentoFiscal);
+                return vReady;
+            } catch (Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, "Impresora Fiscal");
+            }
+            return false;
+        }
+
+        bool IWrpImpresoraFisaclVb.ImprimirNotaDeDebito(string vfwImpresoraFiscal, string vfwXmlDocumentoFiscal, ref string NumDocumento) {
+            try {
+                bool vReady = false;
+                clsImpresoraFiscalMenu insImpresoraFiscalMenu = new clsImpresoraFiscalMenu();
+                vReady = insImpresoraFiscalMenu.ImprimirNotaDebito(vfwImpresoraFiscal, vfwXmlDocumentoFiscal);
                 return vReady;
             } catch (Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, "Impresora Fiscal");
