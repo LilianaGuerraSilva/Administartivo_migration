@@ -1379,8 +1379,8 @@ Public Function fSQLNroComprobanteFiscalEnCXC(ByVal valPorCompania As Boolean, O
    On Error GoTo h_ERROR
    vSqlWhere = "(" & gUtilSQL.fSQLEnumValueWithAnd("", "factura.TipoDeDocumento", enum_TipoDocumentoFactura.eTF_COMPROBANTEFISCAL)
    vSqlWhere = vSqlWhere & " OR " & gUtilSQL.fSQLEnumValueWithAnd("", "factura.TipoDeDocumento", enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL)
-   vSqlWhere = vSqlWhere & " OR " & gUtilSQL.fSQLEnumValueWithAnd("", "factura.TipoDeDocumento", enum_TipoDocumentoFactura.eTF_NOTADEDEBITOCOMPROBANTEFISCAL)
-   vSqlWhere = vSqlWhere & " OR " & gUtilSQL.fSQLEnumValueWithAnd(vSqlWhere, "factura.STATUSFACTURA", enum_StatusFactura.eSF_EMITIDA) & ")"
+   vSqlWhere = vSqlWhere & " OR " & gUtilSQL.fSQLEnumValueWithAnd("", "factura.TipoDeDocumento", enum_TipoDocumentoFactura.eTF_NOTADEDEBITOCOMPROBANTEFISCAL) & ")"
+   vSqlWhere = gUtilSQL.fSQLEnumValueWithAnd(vSqlWhere, "factura.STATUSFACTURA", enum_StatusFactura.eSF_EMITIDA)
    If (valPorCompania) Then
       vSqlWhere = gUtilSQL.fSQLNumberValueWithAnd(vSqlWhere, "factura.ConsecutivoCompania", valConsecutivoCompania)
    End If
