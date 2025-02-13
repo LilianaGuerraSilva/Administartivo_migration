@@ -103,8 +103,8 @@
     <Reference Include="LibGalac.Aos.Vbwa">
       <HintPath>..\packages\LibGalac.Aos.Vbwa.5.24.1\lib\LibGalac.Aos.Vbwa.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.Wrp.Saw">
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Wrp.Saw.dll</HintPath>
+    <Reference Include="LibGalac.Aos.Wrp.Saw, Version=5.24.1.2, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.Wrp.Saw.5.24.1.2\lib\LibGalac.Aos.Wrp.Saw.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
