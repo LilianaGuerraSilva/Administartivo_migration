@@ -516,9 +516,13 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         private string LimpiarCaracteresNoValidos(string valInput) {
             string vResult = "";
-            valInput = LibString.Trim(valInput);
-            System.Text.RegularExpressions.Regex vListInvalidChars = new System.Text.RegularExpressions.Regex("[´|`|~|^|¨|'|\n|\r|\t]", System.Text.RegularExpressions.RegexOptions.Compiled);
-            vResult = vListInvalidChars.Replace(valInput, "");
+            if (!LibString.IsNullOrEmpty(valInput)) {
+                valInput = LibString.Trim(valInput);
+                System.Text.RegularExpressions.Regex vListInvalidChars = new System.Text.RegularExpressions.Regex("[´|`|~|^|¨|'|\n|\r|\t]", System.Text.RegularExpressions.RegexOptions.Compiled);
+                vResult = vListInvalidChars.Replace(valInput, "");
+                vListInvalidChars = new System.Text.RegularExpressions.Regex("(?i)tot..");
+                vResult = vListInvalidChars.Replace(vResult, "");
+            }
             return vResult;
         }
 
