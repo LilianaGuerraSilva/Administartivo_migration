@@ -17,7 +17,7 @@
     <UilComponent Name="UIMefCAnticipoAnticipo" Module="Administrativo" SubModule="Anticipo" />
     <UilComponent Name="UIMefInventarioNotaDeEntradaSalida" Module="Administrativo" SubModule="Inventario" />
     <UilComponent Name="UIMefInventarioLoteDeInventario" Module="Administrativo" SubModule="Inventario" />
-    
+    <UilComponent Name="UIMefAudiEnte" Module="Administrativo" SubModule="Auditoría SENIAT" />
 
     <!--<UilComponent Name="UIMefCliente" Module="Administrativo" PathOfModuleImage="/Images/Saw.ico"/>
 
