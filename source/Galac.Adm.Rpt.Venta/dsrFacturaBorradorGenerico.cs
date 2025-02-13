@@ -378,6 +378,11 @@ namespace Galac.Adm.Rpt.Venta {
                     this.txtMontoDelAbonoME.Text = Multiplica(LibConvert.ToDec(this.txtMontoDelAbono.Value), vCambio);
                     this.txtTotalFacturaMenosAbonoME.Text = Multiplica(LibConvert.ToDec(this.txtTotalFacturaMenosAbono.Value), vCambio);
                 }
+                decimal vDiferencia = LibConvert.ToDec(this.txtPorcentajeAlicuota3.Text) - LibConvert.ToDec(this.txtPorcentajeAlicuota1.Text);
+                string vPorcentajesAlicGenMasAlicAdic = this.txtPorcentajeAlicuota1.Text + "% + " + LibConvert.NumToString(vDiferencia, 2) + "%";
+                txtPorcentajesAlicGenMasAlicAdic.Text = vPorcentajesAlicGenMasAlicAdic;
+                txtPorcentajesAlicGenMasAlicAdicME.Text = vPorcentajesAlicGenMasAlicAdic;
+
             } catch (Exception) {
                 throw;
             }
