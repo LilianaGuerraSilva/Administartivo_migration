@@ -304,6 +304,7 @@ Public Enum enum_TipoDeTransaccion
    eTD_OTROS
    eTD_NOTADECREDITOCOMPROBANTEFISCAL
    eTD_LETRADECAMBIO
+   eTD_NOTADEDEBITOCOMPROBANTEFISCAL
 End Enum
 
 Public Enum enum_OrigenFacturacionOManual
@@ -378,6 +379,7 @@ Public Enum enum_TipoDocumentoFactura
    eTF_BOLETA
    eTF_NOTADECREDITOCOMPROBANTEFISCAL
    eTF_NOTAENTREGA
+   eTF_NOTADEDEBITOCOMPROBANTEFISCAL
 End Enum
 
 Public Enum enum_FormaDePago
