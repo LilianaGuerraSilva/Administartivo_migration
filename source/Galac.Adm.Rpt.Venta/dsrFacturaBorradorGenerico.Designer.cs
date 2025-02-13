@@ -115,7 +115,6 @@ namespace Galac.Adm.Rpt.Venta
             this.txtPorcentajeAlicuota3 = new DataDynamics.ActiveReports.TextBox();
             this.txtTotalIvaAlic3 = new DataDynamics.ActiveReports.TextBox();
             this.lblSimboloPorcentajeAlic2 = new DataDynamics.ActiveReports.Label();
-            this.lblSimboloPorcentajeAlic3 = new DataDynamics.ActiveReports.Label();
             this.lblSubTotalRenglones = new DataDynamics.ActiveReports.Label();
             this.txtTotalIvaAlic1 = new DataDynamics.ActiveReports.TextBox();
             this.txtMontoGravableAlicuota1 = new DataDynamics.ActiveReports.TextBox();
@@ -142,7 +141,6 @@ namespace Galac.Adm.Rpt.Venta
             this.txtPorcentajeAlicuota2ME = new DataDynamics.ActiveReports.TextBox();
             this.txtPorcentajeAlicuota3ME = new DataDynamics.ActiveReports.TextBox();
             this.lblSimboloPorcentajeAlic2ME = new DataDynamics.ActiveReports.Label();
-            this.lblSimboloPorcentajeAlic3ME = new DataDynamics.ActiveReports.Label();
             this.lblPorcentajeDescuento1ME = new DataDynamics.ActiveReports.Label();
             this.lblSubTotalDespuesDelDsctoME = new DataDynamics.ActiveReports.Label();
             this.lblTotalRenglonesMe = new DataDynamics.ActiveReports.Label();
@@ -222,11 +220,14 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCambioTotalEnDivisas = new DataDynamics.ActiveReports.TextBox();
             this.txtCambioCxC = new DataDynamics.ActiveReports.TextBox();
             this.txtCodigoMonedaExtranjera = new DataDynamics.ActiveReports.TextBox();
+            this.txtCambioFechaDocumento = new DataDynamics.ActiveReports.TextBox();
             this.GFDatosDelDocumento = new DataDynamics.ActiveReports.GroupFooter();
             this.lblTotales = new DataDynamics.ActiveReports.Label();
             this.txtSimboloMonedaFact = new DataDynamics.ActiveReports.TextBox();
             this.txtSimboloMonedaLocal = new DataDynamics.ActiveReports.TextBox();
             this.txtSimboloMonedaExtranjera = new DataDynamics.ActiveReports.TextBox();
+            this.txtPorcentajesAlicGenMasAlicAdic = new DataDynamics.ActiveReports.TextBox();
+            this.txtPorcentajesAlicGenMasAlicAdicME = new DataDynamics.ActiveReports.TextBox();
             this.GHTitulos = new DataDynamics.ActiveReports.GroupHeader();
             this.txtLblCampoDefArtInv5 = new DataDynamics.ActiveReports.TextBox();
             this.txtLblCampoDefArtInv4 = new DataDynamics.ActiveReports.TextBox();
@@ -304,7 +305,6 @@ namespace Galac.Adm.Rpt.Venta
             this.txtLblCampoDefinible11 = new DataDynamics.ActiveReports.TextBox();
             this.txtLblCampoDefinible12 = new DataDynamics.ActiveReports.TextBox();
             this.GFDatosAdicionales = new DataDynamics.ActiveReports.GroupFooter();
-            this.txtCambioFechaDocumento = new DataDynamics.ActiveReports.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.txtCodigoArticuloCompuesto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCantidadCompuesto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDescripcionCompuesto)).BeginInit();
@@ -392,7 +392,6 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtPorcentajeAlicuota3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalIvaAlic3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblSimboloPorcentajeAlic2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblSimboloPorcentajeAlic3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblSubTotalRenglones)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalIvaAlic1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoGravableAlicuota1)).BeginInit();
@@ -419,7 +418,6 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtPorcentajeAlicuota2ME)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPorcentajeAlicuota3ME)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblSimboloPorcentajeAlic2ME)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblSimboloPorcentajeAlic3ME)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblPorcentajeDescuento1ME)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblSubTotalDespuesDelDsctoME)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotalRenglonesMe)).BeginInit();
@@ -492,10 +490,13 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtCambioTotalEnDivisas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCambioCxC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCodigoMonedaExtranjera)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCambioFechaDocumento)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotales)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSimboloMonedaFact)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSimboloMonedaLocal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSimboloMonedaExtranjera)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPorcentajesAlicGenMasAlicAdic)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPorcentajesAlicGenMasAlicAdicME)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLblCampoDefArtInv5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLblCampoDefArtInv4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLblCampoDefArtInv3)).BeginInit();
@@ -565,7 +566,6 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtLblCampoDefinible10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLblCampoDefinible11)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLblCampoDefinible12)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCambioFechaDocumento)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
@@ -1401,57 +1401,57 @@ namespace Galac.Adm.Rpt.Venta
             // 
             this.txtMontoDesc2.CanGrow = false;
             this.txtMontoDesc2.Height = 0.15625F;
-            this.txtMontoDesc2.Left = 6.375F;
+            this.txtMontoDesc2.Left = 6.5F;
             this.txtMontoDesc2.MultiLine = false;
             this.txtMontoDesc2.Name = "txtMontoDesc2";
             this.txtMontoDesc2.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtMontoDesc2.Tag = "";
             this.txtMontoDesc2.Text = "txtMontoDesc2";
-            this.txtMontoDesc2.Top = 0.781F;
-            this.txtMontoDesc2.Width = 1.125F;
+            this.txtMontoDesc2.Top = 0.7805001F;
+            this.txtMontoDesc2.Width = 1F;
             // 
             // txtMontoDesc1
             // 
             this.txtMontoDesc1.CanGrow = false;
             this.txtMontoDesc1.Height = 0.15625F;
-            this.txtMontoDesc1.Left = 6.375F;
+            this.txtMontoDesc1.Left = 6.5F;
             this.txtMontoDesc1.MultiLine = false;
             this.txtMontoDesc1.Name = "txtMontoDesc1";
             this.txtMontoDesc1.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtMontoDesc1.Tag = "";
             this.txtMontoDesc1.Text = "txtMontoDesc1";
-            this.txtMontoDesc1.Top = 0.62475F;
-            this.txtMontoDesc1.Width = 1.125F;
+            this.txtMontoDesc1.Top = 0.6242501F;
+            this.txtMontoDesc1.Width = 1F;
             // 
             // txtMontoDesc2ME
             // 
             this.txtMontoDesc2ME.CanGrow = false;
             this.txtMontoDesc2ME.Height = 0.15625F;
-            this.txtMontoDesc2ME.Left = 1.67625F;
+            this.txtMontoDesc2ME.Left = 2.063F;
             this.txtMontoDesc2ME.MultiLine = false;
             this.txtMontoDesc2ME.Name = "txtMontoDesc2ME";
             this.txtMontoDesc2ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtMontoDesc2ME.Tag = "";
             this.txtMontoDesc2ME.Text = "txtMontoDesc2Me";
-            this.txtMontoDesc2ME.Top = 0.781F;
-            this.txtMontoDesc2ME.Width = 1.125F;
+            this.txtMontoDesc2ME.Top = 0.7795F;
+            this.txtMontoDesc2ME.Width = 1F;
             // 
             // txtMontoDesc1ME
             // 
             this.txtMontoDesc1ME.CanGrow = false;
             this.txtMontoDesc1ME.Height = 0.15625F;
-            this.txtMontoDesc1ME.Left = 1.67625F;
+            this.txtMontoDesc1ME.Left = 2.063F;
             this.txtMontoDesc1ME.MultiLine = false;
             this.txtMontoDesc1ME.Name = "txtMontoDesc1ME";
             this.txtMontoDesc1ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtMontoDesc1ME.Tag = "";
             this.txtMontoDesc1ME.Text = "txtMontoDesc1ME";
-            this.txtMontoDesc1ME.Top = 0.62475F;
-            this.txtMontoDesc1ME.Width = 1.125F;
+            this.txtMontoDesc1ME.Top = 0.62325F;
+            this.txtMontoDesc1ME.Width = 1F;
             // 
             // txtTotalRenglones
             // 
@@ -1459,28 +1459,29 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalRenglones.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtTotalRenglones.CanGrow = false;
             this.txtTotalRenglones.Height = 0.15625F;
-            this.txtTotalRenglones.Left = 6.375F;
+            this.txtTotalRenglones.Left = 6.5F;
             this.txtTotalRenglones.MultiLine = false;
             this.txtTotalRenglones.Name = "txtTotalRenglones";
-            this.txtTotalRenglones.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right";
+            this.txtTotalRenglones.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
+    "rtical-align: top";
             this.txtTotalRenglones.Tag = "";
             this.txtTotalRenglones.Text = "txtTotalRenglones";
-            this.txtTotalRenglones.Top = 0.4685F;
-            this.txtTotalRenglones.Width = 1.125F;
+            this.txtTotalRenglones.Top = 0.468F;
+            this.txtTotalRenglones.Width = 1F;
             // 
             // lblTotalFactura
             // 
             this.lblTotalFactura.Height = 0.15625F;
             this.lblTotalFactura.HyperLink = null;
-            this.lblTotalFactura.Left = 4.699251F;
+            this.lblTotalFactura.Left = 4.438F;
             this.lblTotalFactura.MultiLine = false;
             this.lblTotalFactura.Name = "lblTotalFactura";
             this.lblTotalFactura.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblTotalFactura.Tag = "";
             this.lblTotalFactura.Text = "Total Factura";
             this.lblTotalFactura.Top = 1.7185F;
-            this.lblTotalFactura.Width = 0.6757497F;
+            this.lblTotalFactura.Width = 1.062F;
             // 
             // txtObservaciones
             // 
@@ -1513,67 +1514,67 @@ namespace Galac.Adm.Rpt.Venta
             // 
             this.lblMontoAbonado.Height = 0.15625F;
             this.lblMontoAbonado.HyperLink = null;
-            this.lblMontoAbonado.Left = 4.699F;
+            this.lblMontoAbonado.Left = 4.438F;
             this.lblMontoAbonado.MultiLine = false;
             this.lblMontoAbonado.Name = "lblMontoAbonado";
             this.lblMontoAbonado.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblMontoAbonado.Tag = "";
             this.lblMontoAbonado.Text = "Monto Abonado";
             this.lblMontoAbonado.Top = 2.18725F;
-            this.lblMontoAbonado.Width = 1.676F;
+            this.lblMontoAbonado.Width = 2.062F;
             // 
             // txtMontoDelAbono
             // 
             this.txtMontoDelAbono.CanGrow = false;
             this.txtMontoDelAbono.Height = 0.15625F;
-            this.txtMontoDelAbono.Left = 6.375F;
+            this.txtMontoDelAbono.Left = 6.5F;
             this.txtMontoDelAbono.MultiLine = false;
             this.txtMontoDelAbono.Name = "txtMontoDelAbono";
             this.txtMontoDelAbono.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtMontoDelAbono.Tag = "";
             this.txtMontoDelAbono.Text = "txtMontoDelAbono";
-            this.txtMontoDelAbono.Top = 2.18725F;
-            this.txtMontoDelAbono.Width = 1.125F;
+            this.txtMontoDelAbono.Top = 2.18675F;
+            this.txtMontoDelAbono.Width = 1F;
             // 
             // lblTotalFacturaMenosAbono
             // 
             this.lblTotalFacturaMenosAbono.Height = 0.15625F;
             this.lblTotalFacturaMenosAbono.HyperLink = null;
-            this.lblTotalFacturaMenosAbono.Left = 4.699F;
+            this.lblTotalFacturaMenosAbono.Left = 4.438F;
             this.lblTotalFacturaMenosAbono.MultiLine = false;
             this.lblTotalFacturaMenosAbono.Name = "lblTotalFacturaMenosAbono";
             this.lblTotalFacturaMenosAbono.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblTotalFacturaMenosAbono.Tag = "";
             this.lblTotalFacturaMenosAbono.Text = "Total Factura Menos Abono";
             this.lblTotalFacturaMenosAbono.Top = 2.3435F;
-            this.lblTotalFacturaMenosAbono.Width = 1.676F;
+            this.lblTotalFacturaMenosAbono.Width = 2.062F;
             // 
             // txtTotalFacturaMenosAbono
             // 
             this.txtTotalFacturaMenosAbono.CanGrow = false;
             this.txtTotalFacturaMenosAbono.Height = 0.15625F;
-            this.txtTotalFacturaMenosAbono.Left = 6.375F;
+            this.txtTotalFacturaMenosAbono.Left = 6.5F;
             this.txtTotalFacturaMenosAbono.MultiLine = false;
             this.txtTotalFacturaMenosAbono.Name = "txtTotalFacturaMenosAbono";
             this.txtTotalFacturaMenosAbono.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtTotalFacturaMenosAbono.Tag = "";
             this.txtTotalFacturaMenosAbono.Text = "txtTotalFacturaMenosAbono";
-            this.txtTotalFacturaMenosAbono.Top = 2.3435F;
-            this.txtTotalFacturaMenosAbono.Width = 1.125F;
+            this.txtTotalFacturaMenosAbono.Top = 2.343F;
+            this.txtTotalFacturaMenosAbono.Width = 1F;
             // 
             // txtSimbolo
             // 
             this.txtSimbolo.CanGrow = false;
             this.txtSimbolo.Height = 0.15625F;
-            this.txtSimbolo.Left = 5.375F;
+            this.txtSimbolo.Left = 5.5F;
             this.txtSimbolo.MultiLine = false;
             this.txtSimbolo.Name = "txtSimbolo";
             this.txtSimbolo.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtSimbolo.Tag = "";
             this.txtSimbolo.Text = "txtSimbolo";
             this.txtSimbolo.Top = 1.7185F;
@@ -1583,11 +1584,11 @@ namespace Galac.Adm.Rpt.Venta
             // 
             this.lblTotalIVA.Height = 0.15625F;
             this.lblTotalIVA.HyperLink = null;
-            this.lblTotalIVA.Left = 4.69975F;
+            this.lblTotalIVA.Left = 4.438F;
             this.lblTotalIVA.MultiLine = false;
             this.lblTotalIVA.Name = "lblTotalIVA";
             this.lblTotalIVA.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblTotalIVA.Tag = "";
             this.lblTotalIVA.Text = "I.V.A.";
             this.lblTotalIVA.Top = 1.24975F;
@@ -1597,81 +1598,81 @@ namespace Galac.Adm.Rpt.Venta
             // 
             this.txtPorcentajeAlicuota1.CanGrow = false;
             this.txtPorcentajeAlicuota1.Height = 0.15625F;
-            this.txtPorcentajeAlicuota1.Left = 4.962F;
+            this.txtPorcentajeAlicuota1.Left = 4.7F;
             this.txtPorcentajeAlicuota1.MultiLine = false;
             this.txtPorcentajeAlicuota1.Name = "txtPorcentajeAlicuota1";
             this.txtPorcentajeAlicuota1.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtPorcentajeAlicuota1.Tag = "";
             this.txtPorcentajeAlicuota1.Text = "txtPorcentajeAlicuota1";
             this.txtPorcentajeAlicuota1.Top = 1.24975F;
-            this.txtPorcentajeAlicuota1.Width = 0.2969999F;
+            this.txtPorcentajeAlicuota1.Width = 0.6839999F;
             // 
             // lblTotalDescuento
             // 
             this.lblTotalDescuento.Height = 0.15625F;
             this.lblTotalDescuento.HyperLink = null;
-            this.lblTotalDescuento.Left = 4.699251F;
+            this.lblTotalDescuento.Left = 4.438F;
             this.lblTotalDescuento.MultiLine = false;
             this.lblTotalDescuento.Name = "lblTotalDescuento";
             this.lblTotalDescuento.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblTotalDescuento.Tag = "";
             this.lblTotalDescuento.Text = "% Descuento";
             this.lblTotalDescuento.Top = 0.62475F;
-            this.lblTotalDescuento.Width = 0.6757497F;
+            this.lblTotalDescuento.Width = 1.062F;
             // 
             // lblSubTotalDespuesDelDscto
             // 
             this.lblSubTotalDespuesDelDscto.Height = 0.15625F;
             this.lblSubTotalDespuesDelDscto.HyperLink = null;
-            this.lblSubTotalDespuesDelDscto.Left = 4.699F;
+            this.lblSubTotalDespuesDelDscto.Left = 4.438F;
             this.lblSubTotalDespuesDelDscto.MultiLine = false;
             this.lblSubTotalDespuesDelDscto.Name = "lblSubTotalDespuesDelDscto";
             this.lblSubTotalDespuesDelDscto.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblSubTotalDespuesDelDscto.Tag = "";
             this.lblSubTotalDespuesDelDscto.Text = "Sub Total";
             this.lblSubTotalDespuesDelDscto.Top = 0.93725F;
-            this.lblSubTotalDespuesDelDscto.Width = 1.676F;
+            this.lblSubTotalDespuesDelDscto.Width = 2.063F;
             // 
             // txtSubTotal
             // 
             this.txtSubTotal.CanGrow = false;
             this.txtSubTotal.Height = 0.15625F;
-            this.txtSubTotal.Left = 6.375F;
+            this.txtSubTotal.Left = 6.5F;
             this.txtSubTotal.MultiLine = false;
             this.txtSubTotal.Name = "txtSubTotal";
             this.txtSubTotal.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtSubTotal.Tag = "";
             this.txtSubTotal.Text = "txtSubTotal";
-            this.txtSubTotal.Top = 0.93725F;
-            this.txtSubTotal.Width = 1.125F;
+            this.txtSubTotal.Top = 0.9367501F;
+            this.txtSubTotal.Width = 1F;
             // 
             // lblSimboloPorcentajeAlic1
             // 
             this.lblSimboloPorcentajeAlic1.Height = 0.15625F;
             this.lblSimboloPorcentajeAlic1.HyperLink = null;
-            this.lblSimboloPorcentajeAlic1.Left = 5.259F;
+            this.lblSimboloPorcentajeAlic1.Left = 5.385F;
             this.lblSimboloPorcentajeAlic1.MultiLine = false;
             this.lblSimboloPorcentajeAlic1.Name = "lblSimboloPorcentajeAlic1";
             this.lblSimboloPorcentajeAlic1.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblSimboloPorcentajeAlic1.Tag = "";
             this.lblSimboloPorcentajeAlic1.Text = "%";
-            this.lblSimboloPorcentajeAlic1.Top = 1.24975F;
+            this.lblSimboloPorcentajeAlic1.Top = 1.25F;
             this.lblSimboloPorcentajeAlic1.Width = 0.1160002F;
             // 
             // lblTotalIVAAlicuota2
             // 
             this.lblTotalIVAAlicuota2.Height = 0.15625F;
             this.lblTotalIVAAlicuota2.HyperLink = null;
-            this.lblTotalIVAAlicuota2.Left = 4.69975F;
+            this.lblTotalIVAAlicuota2.Left = 4.438F;
             this.lblTotalIVAAlicuota2.MultiLine = false;
             this.lblTotalIVAAlicuota2.Name = "lblTotalIVAAlicuota2";
             this.lblTotalIVAAlicuota2.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblTotalIVAAlicuota2.Tag = "";
             this.lblTotalIVAAlicuota2.Text = "I.V.A.";
             this.lblTotalIVAAlicuota2.Top = 1.406F;
@@ -1681,151 +1682,138 @@ namespace Galac.Adm.Rpt.Venta
             // 
             this.txtPorcentajeAlicuota2.CanGrow = false;
             this.txtPorcentajeAlicuota2.Height = 0.15625F;
-            this.txtPorcentajeAlicuota2.Left = 4.962F;
+            this.txtPorcentajeAlicuota2.Left = 4.7F;
             this.txtPorcentajeAlicuota2.MultiLine = false;
             this.txtPorcentajeAlicuota2.Name = "txtPorcentajeAlicuota2";
             this.txtPorcentajeAlicuota2.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtPorcentajeAlicuota2.Tag = "";
             this.txtPorcentajeAlicuota2.Text = "txtPorcentajeAlicuota2";
             this.txtPorcentajeAlicuota2.Top = 1.406F;
-            this.txtPorcentajeAlicuota2.Width = 0.2969999F;
+            this.txtPorcentajeAlicuota2.Width = 0.6839999F;
             // 
             // txtTotalIvaAlic2
             // 
             this.txtTotalIvaAlic2.CanGrow = false;
             this.txtTotalIvaAlic2.Height = 0.15625F;
-            this.txtTotalIvaAlic2.Left = 6.375F;
+            this.txtTotalIvaAlic2.Left = 6.5F;
             this.txtTotalIvaAlic2.MultiLine = false;
             this.txtTotalIvaAlic2.Name = "txtTotalIvaAlic2";
             this.txtTotalIvaAlic2.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtTotalIvaAlic2.Tag = "";
             this.txtTotalIvaAlic2.Text = "txtTotalIvaAlic2";
-            this.txtTotalIvaAlic2.Top = 1.406F;
-            this.txtTotalIvaAlic2.Width = 1.125F;
+            this.txtTotalIvaAlic2.Top = 1.4055F;
+            this.txtTotalIvaAlic2.Width = 1F;
             // 
             // lblTotalIVAAlicuota3
             // 
             this.lblTotalIVAAlicuota3.Height = 0.15625F;
             this.lblTotalIVAAlicuota3.HyperLink = null;
-            this.lblTotalIVAAlicuota3.Left = 4.69975F;
+            this.lblTotalIVAAlicuota3.Left = 4.438F;
             this.lblTotalIVAAlicuota3.MultiLine = false;
             this.lblTotalIVAAlicuota3.Name = "lblTotalIVAAlicuota3";
             this.lblTotalIVAAlicuota3.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblTotalIVAAlicuota3.Tag = "";
             this.lblTotalIVAAlicuota3.Text = "I.V.A.";
-            this.lblTotalIVAAlicuota3.Top = 1.56225F;
+            this.lblTotalIVAAlicuota3.Top = 1.562F;
             this.lblTotalIVAAlicuota3.Width = 0.2622504F;
             // 
             // txtPorcentajeAlicuota3
             // 
             this.txtPorcentajeAlicuota3.CanGrow = false;
             this.txtPorcentajeAlicuota3.Height = 0.15625F;
-            this.txtPorcentajeAlicuota3.Left = 4.962F;
+            this.txtPorcentajeAlicuota3.Left = 7F;
             this.txtPorcentajeAlicuota3.MultiLine = false;
             this.txtPorcentajeAlicuota3.Name = "txtPorcentajeAlicuota3";
-            this.txtPorcentajeAlicuota3.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
+            this.txtPorcentajeAlicuota3.Style = "color: White; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
             this.txtPorcentajeAlicuota3.Tag = "";
             this.txtPorcentajeAlicuota3.Text = "txtPorcentajeAlicuota3";
-            this.txtPorcentajeAlicuota3.Top = 1.56225F;
-            this.txtPorcentajeAlicuota3.Width = 0.2969999F;
+            this.txtPorcentajeAlicuota3.Top = 0.156F;
+            this.txtPorcentajeAlicuota3.Visible = false;
+            this.txtPorcentajeAlicuota3.Width = 0.125F;
             // 
             // txtTotalIvaAlic3
             // 
             this.txtTotalIvaAlic3.CanGrow = false;
             this.txtTotalIvaAlic3.Height = 0.15625F;
-            this.txtTotalIvaAlic3.Left = 6.375F;
+            this.txtTotalIvaAlic3.Left = 6.5F;
             this.txtTotalIvaAlic3.MultiLine = false;
             this.txtTotalIvaAlic3.Name = "txtTotalIvaAlic3";
             this.txtTotalIvaAlic3.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtTotalIvaAlic3.Tag = "";
             this.txtTotalIvaAlic3.Text = "txtTotalIvaAlic3";
-            this.txtTotalIvaAlic3.Top = 1.56225F;
-            this.txtTotalIvaAlic3.Width = 1.125F;
+            this.txtTotalIvaAlic3.Top = 1.56175F;
+            this.txtTotalIvaAlic3.Width = 1F;
             // 
             // lblSimboloPorcentajeAlic2
             // 
             this.lblSimboloPorcentajeAlic2.Height = 0.15625F;
             this.lblSimboloPorcentajeAlic2.HyperLink = null;
-            this.lblSimboloPorcentajeAlic2.Left = 5.259F;
+            this.lblSimboloPorcentajeAlic2.Left = 5.385F;
             this.lblSimboloPorcentajeAlic2.MultiLine = false;
             this.lblSimboloPorcentajeAlic2.Name = "lblSimboloPorcentajeAlic2";
             this.lblSimboloPorcentajeAlic2.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblSimboloPorcentajeAlic2.Tag = "";
             this.lblSimboloPorcentajeAlic2.Text = "%";
             this.lblSimboloPorcentajeAlic2.Top = 1.406F;
             this.lblSimboloPorcentajeAlic2.Width = 0.1160002F;
             // 
-            // lblSimboloPorcentajeAlic3
-            // 
-            this.lblSimboloPorcentajeAlic3.Height = 0.15625F;
-            this.lblSimboloPorcentajeAlic3.HyperLink = null;
-            this.lblSimboloPorcentajeAlic3.Left = 5.259F;
-            this.lblSimboloPorcentajeAlic3.MultiLine = false;
-            this.lblSimboloPorcentajeAlic3.Name = "lblSimboloPorcentajeAlic3";
-            this.lblSimboloPorcentajeAlic3.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
-            this.lblSimboloPorcentajeAlic3.Tag = "";
-            this.lblSimboloPorcentajeAlic3.Text = "%";
-            this.lblSimboloPorcentajeAlic3.Top = 1.56225F;
-            this.lblSimboloPorcentajeAlic3.Width = 0.1160002F;
-            // 
             // lblSubTotalRenglones
             // 
             this.lblSubTotalRenglones.Height = 0.15625F;
             this.lblSubTotalRenglones.HyperLink = null;
-            this.lblSubTotalRenglones.Left = 4.699F;
+            this.lblSubTotalRenglones.Left = 4.438F;
             this.lblSubTotalRenglones.MultiLine = false;
             this.lblSubTotalRenglones.Name = "lblSubTotalRenglones";
             this.lblSubTotalRenglones.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblSubTotalRenglones.Tag = "";
             this.lblSubTotalRenglones.Text = "Total Renglones";
             this.lblSubTotalRenglones.Top = 0.4685F;
-            this.lblSubTotalRenglones.Width = 1.676F;
+            this.lblSubTotalRenglones.Width = 2.063F;
             // 
             // txtTotalIvaAlic1
             // 
             this.txtTotalIvaAlic1.CanGrow = false;
             this.txtTotalIvaAlic1.Height = 0.15625F;
-            this.txtTotalIvaAlic1.Left = 6.375F;
+            this.txtTotalIvaAlic1.Left = 6.5F;
             this.txtTotalIvaAlic1.MultiLine = false;
             this.txtTotalIvaAlic1.Name = "txtTotalIvaAlic1";
             this.txtTotalIvaAlic1.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtTotalIvaAlic1.Tag = "";
             this.txtTotalIvaAlic1.Text = "txtTotalIvaAlic1";
-            this.txtTotalIvaAlic1.Top = 1.24975F;
-            this.txtTotalIvaAlic1.Width = 1.125F;
+            this.txtTotalIvaAlic1.Top = 1.24925F;
+            this.txtTotalIvaAlic1.Width = 1F;
             // 
             // txtMontoGravableAlicuota1
             // 
             this.txtMontoGravableAlicuota1.CanGrow = false;
             this.txtMontoGravableAlicuota1.Height = 0.15625F;
-            this.txtMontoGravableAlicuota1.Left = 5.375F;
+            this.txtMontoGravableAlicuota1.Left = 5.501F;
             this.txtMontoGravableAlicuota1.MultiLine = false;
             this.txtMontoGravableAlicuota1.Name = "txtMontoGravableAlicuota1";
             this.txtMontoGravableAlicuota1.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtMontoGravableAlicuota1.Tag = "";
             this.txtMontoGravableAlicuota1.Text = "txtMontoGravableAlicuota1";
-            this.txtMontoGravableAlicuota1.Top = 1.24975F;
+            this.txtMontoGravableAlicuota1.Top = 1.25F;
             this.txtMontoGravableAlicuota1.Width = 1F;
             // 
             // txtMontoGravableAlicuota2
             // 
             this.txtMontoGravableAlicuota2.CanGrow = false;
             this.txtMontoGravableAlicuota2.Height = 0.15625F;
-            this.txtMontoGravableAlicuota2.Left = 5.375F;
+            this.txtMontoGravableAlicuota2.Left = 5.501F;
             this.txtMontoGravableAlicuota2.MultiLine = false;
             this.txtMontoGravableAlicuota2.Name = "txtMontoGravableAlicuota2";
             this.txtMontoGravableAlicuota2.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtMontoGravableAlicuota2.Tag = "";
             this.txtMontoGravableAlicuota2.Text = "txtMontoGravableAlicuota2";
             this.txtMontoGravableAlicuota2.Top = 1.406F;
@@ -1835,11 +1823,11 @@ namespace Galac.Adm.Rpt.Venta
             // 
             this.txtMontoGravableAlicuota3.CanGrow = false;
             this.txtMontoGravableAlicuota3.Height = 0.15625F;
-            this.txtMontoGravableAlicuota3.Left = 5.375F;
+            this.txtMontoGravableAlicuota3.Left = 5.5F;
             this.txtMontoGravableAlicuota3.MultiLine = false;
             this.txtMontoGravableAlicuota3.Name = "txtMontoGravableAlicuota3";
             this.txtMontoGravableAlicuota3.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtMontoGravableAlicuota3.Tag = "";
             this.txtMontoGravableAlicuota3.Text = "txtMontoGravableAlicuota3";
             this.txtMontoGravableAlicuota3.Top = 1.56225F;
@@ -1849,25 +1837,25 @@ namespace Galac.Adm.Rpt.Venta
             // 
             this.txtPorcentajeDesc1.CanGrow = false;
             this.txtPorcentajeDesc1.Height = 0.15625F;
-            this.txtPorcentajeDesc1.Left = 5.375001F;
+            this.txtPorcentajeDesc1.Left = 5.5F;
             this.txtPorcentajeDesc1.MultiLine = false;
             this.txtPorcentajeDesc1.Name = "txtPorcentajeDesc1";
             this.txtPorcentajeDesc1.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtPorcentajeDesc1.Tag = "";
             this.txtPorcentajeDesc1.Text = "txtPorcentajeDesc1";
-            this.txtPorcentajeDesc1.Top = 0.62475F;
+            this.txtPorcentajeDesc1.Top = 0.625F;
             this.txtPorcentajeDesc1.Width = 0.9999995F;
             // 
             // txtPorcentajeDesc2
             // 
             this.txtPorcentajeDesc2.CanGrow = false;
             this.txtPorcentajeDesc2.Height = 0.15625F;
-            this.txtPorcentajeDesc2.Left = 5.375001F;
+            this.txtPorcentajeDesc2.Left = 5.5F;
             this.txtPorcentajeDesc2.MultiLine = false;
             this.txtPorcentajeDesc2.Name = "txtPorcentajeDesc2";
             this.txtPorcentajeDesc2.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtPorcentajeDesc2.Tag = "";
             this.txtPorcentajeDesc2.Text = "txtPorcentajeDesc2";
             this.txtPorcentajeDesc2.Top = 0.781F;
@@ -1877,126 +1865,126 @@ namespace Galac.Adm.Rpt.Venta
             // 
             this.lblTotalDescuento2.Height = 0.15625F;
             this.lblTotalDescuento2.HyperLink = null;
-            this.lblTotalDescuento2.Left = 4.699251F;
+            this.lblTotalDescuento2.Left = 4.438F;
             this.lblTotalDescuento2.MultiLine = false;
             this.lblTotalDescuento2.Name = "lblTotalDescuento2";
             this.lblTotalDescuento2.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblTotalDescuento2.Tag = "";
             this.lblTotalDescuento2.Text = "% Descuento";
             this.lblTotalDescuento2.Top = 0.781F;
-            this.lblTotalDescuento2.Width = 0.6757497F;
+            this.lblTotalDescuento2.Width = 1.063F;
             // 
             // lblTotalExento
             // 
             this.lblTotalExento.Height = 0.15625F;
             this.lblTotalExento.HyperLink = null;
-            this.lblTotalExento.Left = 4.699F;
+            this.lblTotalExento.Left = 4.438F;
             this.lblTotalExento.MultiLine = false;
             this.lblTotalExento.Name = "lblTotalExento";
             this.lblTotalExento.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblTotalExento.Tag = "";
             this.lblTotalExento.Text = "Total Exento";
             this.lblTotalExento.Top = 1.0935F;
-            this.lblTotalExento.Width = 1.676F;
+            this.lblTotalExento.Width = 2.063F;
             // 
             // txtTotalMontoExento
             // 
             this.txtTotalMontoExento.CanGrow = false;
             this.txtTotalMontoExento.Height = 0.15625F;
-            this.txtTotalMontoExento.Left = 6.375F;
+            this.txtTotalMontoExento.Left = 6.5F;
             this.txtTotalMontoExento.MultiLine = false;
             this.txtTotalMontoExento.Name = "txtTotalMontoExento";
             this.txtTotalMontoExento.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtTotalMontoExento.Tag = "";
             this.txtTotalMontoExento.Text = "txtTotalMontoExento";
-            this.txtTotalMontoExento.Top = 1.0935F;
-            this.txtTotalMontoExento.Width = 1.125F;
+            this.txtTotalMontoExento.Top = 1.093F;
+            this.txtTotalMontoExento.Width = 1F;
             // 
             // txtTotalIvaAlic2ME
             // 
             this.txtTotalIvaAlic2ME.CanGrow = false;
             this.txtTotalIvaAlic2ME.Height = 0.15625F;
-            this.txtTotalIvaAlic2ME.Left = 1.67625F;
+            this.txtTotalIvaAlic2ME.Left = 2.063F;
             this.txtTotalIvaAlic2ME.MultiLine = false;
             this.txtTotalIvaAlic2ME.Name = "txtTotalIvaAlic2ME";
             this.txtTotalIvaAlic2ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtTotalIvaAlic2ME.Tag = "";
             this.txtTotalIvaAlic2ME.Text = "txtTotalIvaAlic2ME";
-            this.txtTotalIvaAlic2ME.Top = 1.406F;
-            this.txtTotalIvaAlic2ME.Width = 1.125F;
+            this.txtTotalIvaAlic2ME.Top = 1.4045F;
+            this.txtTotalIvaAlic2ME.Width = 1F;
             // 
             // txtTotalIvaAlic3ME
             // 
             this.txtTotalIvaAlic3ME.CanGrow = false;
             this.txtTotalIvaAlic3ME.Height = 0.15625F;
-            this.txtTotalIvaAlic3ME.Left = 1.67625F;
+            this.txtTotalIvaAlic3ME.Left = 2.063F;
             this.txtTotalIvaAlic3ME.MultiLine = false;
             this.txtTotalIvaAlic3ME.Name = "txtTotalIvaAlic3ME";
             this.txtTotalIvaAlic3ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtTotalIvaAlic3ME.Tag = "";
             this.txtTotalIvaAlic3ME.Text = "txtTotalIvaAlic3ME";
-            this.txtTotalIvaAlic3ME.Top = 1.56225F;
-            this.txtTotalIvaAlic3ME.Width = 1.125F;
+            this.txtTotalIvaAlic3ME.Top = 1.56075F;
+            this.txtTotalIvaAlic3ME.Width = 1F;
             // 
             // txtTotalIvaAlic1ME
             // 
             this.txtTotalIvaAlic1ME.CanGrow = false;
             this.txtTotalIvaAlic1ME.Height = 0.15625F;
-            this.txtTotalIvaAlic1ME.Left = 1.67625F;
+            this.txtTotalIvaAlic1ME.Left = 2.063F;
             this.txtTotalIvaAlic1ME.MultiLine = false;
             this.txtTotalIvaAlic1ME.Name = "txtTotalIvaAlic1ME";
             this.txtTotalIvaAlic1ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtTotalIvaAlic1ME.Tag = "";
             this.txtTotalIvaAlic1ME.Text = "txtTotalIvaAlic1ME";
-            this.txtTotalIvaAlic1ME.Top = 1.24975F;
-            this.txtTotalIvaAlic1ME.Width = 1.125F;
+            this.txtTotalIvaAlic1ME.Top = 1.24825F;
+            this.txtTotalIvaAlic1ME.Width = 1F;
             // 
             // txtMontoGravableAlicuota1ME
             // 
             this.txtMontoGravableAlicuota1ME.CanGrow = false;
             this.txtMontoGravableAlicuota1ME.Height = 0.15625F;
-            this.txtMontoGravableAlicuota1ME.Left = 0.6755009F;
+            this.txtMontoGravableAlicuota1ME.Left = 1.063F;
             this.txtMontoGravableAlicuota1ME.MultiLine = false;
             this.txtMontoGravableAlicuota1ME.Name = "txtMontoGravableAlicuota1ME";
             this.txtMontoGravableAlicuota1ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtMontoGravableAlicuota1ME.Tag = "";
             this.txtMontoGravableAlicuota1ME.Text = "txtMontoGravableAlicuota1ME";
-            this.txtMontoGravableAlicuota1ME.Top = 1.24975F;
+            this.txtMontoGravableAlicuota1ME.Top = 1.248F;
             this.txtMontoGravableAlicuota1ME.Width = 1F;
             // 
             // txtMontoGravableAlicuota2ME
             // 
             this.txtMontoGravableAlicuota2ME.CanGrow = false;
             this.txtMontoGravableAlicuota2ME.Height = 0.15625F;
-            this.txtMontoGravableAlicuota2ME.Left = 0.6755009F;
+            this.txtMontoGravableAlicuota2ME.Left = 1.063F;
             this.txtMontoGravableAlicuota2ME.MultiLine = false;
             this.txtMontoGravableAlicuota2ME.Name = "txtMontoGravableAlicuota2ME";
             this.txtMontoGravableAlicuota2ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtMontoGravableAlicuota2ME.Tag = "";
             this.txtMontoGravableAlicuota2ME.Text = "txtMontoGravableAlicuota2ME";
-            this.txtMontoGravableAlicuota2ME.Top = 1.406F;
+            this.txtMontoGravableAlicuota2ME.Top = 1.40425F;
             this.txtMontoGravableAlicuota2ME.Width = 1F;
             // 
             // txtMontoGravableAlicuota3ME
             // 
             this.txtMontoGravableAlicuota3ME.CanGrow = false;
             this.txtMontoGravableAlicuota3ME.Height = 0.15625F;
-            this.txtMontoGravableAlicuota3ME.Left = 0.6755009F;
+            this.txtMontoGravableAlicuota3ME.Left = 1.063F;
             this.txtMontoGravableAlicuota3ME.MultiLine = false;
             this.txtMontoGravableAlicuota3ME.Name = "txtMontoGravableAlicuota3ME";
             this.txtMontoGravableAlicuota3ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtMontoGravableAlicuota3ME.Tag = "";
             this.txtMontoGravableAlicuota3ME.Text = "txtMontoGravableAlicuota3ME";
-            this.txtMontoGravableAlicuota3ME.Top = 1.56225F;
+            this.txtMontoGravableAlicuota3ME.Top = 1.5605F;
             this.txtMontoGravableAlicuota3ME.Width = 1F;
             // 
             // lblTotalFacturaME
@@ -2007,11 +1995,11 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalFacturaME.MultiLine = false;
             this.lblTotalFacturaME.Name = "lblTotalFacturaME";
             this.lblTotalFacturaME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblTotalFacturaME.Tag = "";
             this.lblTotalFacturaME.Text = "Total Factura";
             this.lblTotalFacturaME.Top = 1.7185F;
-            this.lblTotalFacturaME.Width = 0.6757501F;
+            this.lblTotalFacturaME.Width = 1.06275F;
             // 
             // lblTotalIVAME
             // 
@@ -2021,7 +2009,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalIVAME.MultiLine = false;
             this.lblTotalIVAME.Name = "lblTotalIVAME";
             this.lblTotalIVAME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblTotalIVAME.Tag = "";
             this.lblTotalIVAME.Text = "I.V.A.";
             this.lblTotalIVAME.Top = 1.24975F;
@@ -2035,7 +2023,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalIVAAlicuota2ME.MultiLine = false;
             this.lblTotalIVAAlicuota2ME.Name = "lblTotalIVAAlicuota2ME";
             this.lblTotalIVAAlicuota2ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblTotalIVAAlicuota2ME.Tag = "";
             this.lblTotalIVAAlicuota2ME.Text = "I.V.A.";
             this.lblTotalIVAAlicuota2ME.Top = 1.406F;
@@ -2049,7 +2037,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalIVAAlicuota3ME.MultiLine = false;
             this.lblTotalIVAAlicuota3ME.Name = "lblTotalIVAAlicuota3ME";
             this.lblTotalIVAAlicuota3ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblTotalIVAAlicuota3ME.Tag = "";
             this.lblTotalIVAAlicuota3ME.Text = "I.V.A.";
             this.lblTotalIVAAlicuota3ME.Top = 1.56225F;
@@ -2059,15 +2047,15 @@ namespace Galac.Adm.Rpt.Venta
             // 
             this.lblTotalExentoME.Height = 0.15625F;
             this.lblTotalExentoME.HyperLink = null;
-            this.lblTotalExentoME.Left = 0.0002503991F;
+            this.lblTotalExentoME.Left = 0F;
             this.lblTotalExentoME.MultiLine = false;
             this.lblTotalExentoME.Name = "lblTotalExentoME";
             this.lblTotalExentoME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblTotalExentoME.Tag = "";
             this.lblTotalExentoME.Text = "Total Exento";
-            this.lblTotalExentoME.Top = 1.0935F;
-            this.lblTotalExentoME.Width = 1.676F;
+            this.lblTotalExentoME.Top = 1.094F;
+            this.lblTotalExentoME.Width = 2.063F;
             // 
             // txtPorcentajeAlicuota1ME
             // 
@@ -2077,81 +2065,68 @@ namespace Galac.Adm.Rpt.Venta
             this.txtPorcentajeAlicuota1ME.MultiLine = false;
             this.txtPorcentajeAlicuota1ME.Name = "txtPorcentajeAlicuota1ME";
             this.txtPorcentajeAlicuota1ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtPorcentajeAlicuota1ME.Tag = "";
             this.txtPorcentajeAlicuota1ME.Text = "txtPorcentajeAlicuota1ME";
             this.txtPorcentajeAlicuota1ME.Top = 1.24975F;
-            this.txtPorcentajeAlicuota1ME.Width = 0.2969999F;
+            this.txtPorcentajeAlicuota1ME.Width = 0.6839999F;
             // 
             // lblSimboloPorcentajeAlic1ME
             // 
             this.lblSimboloPorcentajeAlic1ME.Height = 0.15625F;
             this.lblSimboloPorcentajeAlic1ME.HyperLink = null;
-            this.lblSimboloPorcentajeAlic1ME.Left = 0.5595008F;
+            this.lblSimboloPorcentajeAlic1ME.Left = 0.947F;
             this.lblSimboloPorcentajeAlic1ME.MultiLine = false;
             this.lblSimboloPorcentajeAlic1ME.Name = "lblSimboloPorcentajeAlic1ME";
             this.lblSimboloPorcentajeAlic1ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblSimboloPorcentajeAlic1ME.Tag = "";
             this.lblSimboloPorcentajeAlic1ME.Text = "%";
-            this.lblSimboloPorcentajeAlic1ME.Top = 1.24975F;
+            this.lblSimboloPorcentajeAlic1ME.Top = 1.25F;
             this.lblSimboloPorcentajeAlic1ME.Width = 0.1160002F;
             // 
             // txtPorcentajeAlicuota2ME
             // 
             this.txtPorcentajeAlicuota2ME.CanGrow = false;
             this.txtPorcentajeAlicuota2ME.Height = 0.15625F;
-            this.txtPorcentajeAlicuota2ME.Left = 0.2625008F;
+            this.txtPorcentajeAlicuota2ME.Left = 0.263F;
             this.txtPorcentajeAlicuota2ME.MultiLine = false;
             this.txtPorcentajeAlicuota2ME.Name = "txtPorcentajeAlicuota2ME";
             this.txtPorcentajeAlicuota2ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtPorcentajeAlicuota2ME.Tag = "";
             this.txtPorcentajeAlicuota2ME.Text = "txtPorcentajeAlicuota2ME";
             this.txtPorcentajeAlicuota2ME.Top = 1.406F;
-            this.txtPorcentajeAlicuota2ME.Width = 0.2969999F;
+            this.txtPorcentajeAlicuota2ME.Width = 0.6839999F;
             // 
             // txtPorcentajeAlicuota3ME
             // 
             this.txtPorcentajeAlicuota3ME.CanGrow = false;
             this.txtPorcentajeAlicuota3ME.Height = 0.15625F;
-            this.txtPorcentajeAlicuota3ME.Left = 0.2625008F;
+            this.txtPorcentajeAlicuota3ME.Left = 6.875F;
             this.txtPorcentajeAlicuota3ME.MultiLine = false;
             this.txtPorcentajeAlicuota3ME.Name = "txtPorcentajeAlicuota3ME";
-            this.txtPorcentajeAlicuota3ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
+            this.txtPorcentajeAlicuota3ME.Style = "color: White; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
     "rtical-align: middle";
             this.txtPorcentajeAlicuota3ME.Tag = "";
             this.txtPorcentajeAlicuota3ME.Text = "txtPorcentajeAlicuota3ME";
-            this.txtPorcentajeAlicuota3ME.Top = 1.56225F;
-            this.txtPorcentajeAlicuota3ME.Width = 0.2969999F;
+            this.txtPorcentajeAlicuota3ME.Top = 0.156F;
+            this.txtPorcentajeAlicuota3ME.Visible = false;
+            this.txtPorcentajeAlicuota3ME.Width = 0.125F;
             // 
             // lblSimboloPorcentajeAlic2ME
             // 
             this.lblSimboloPorcentajeAlic2ME.Height = 0.15625F;
             this.lblSimboloPorcentajeAlic2ME.HyperLink = null;
-            this.lblSimboloPorcentajeAlic2ME.Left = 0.5595008F;
+            this.lblSimboloPorcentajeAlic2ME.Left = 0.947F;
             this.lblSimboloPorcentajeAlic2ME.MultiLine = false;
             this.lblSimboloPorcentajeAlic2ME.Name = "lblSimboloPorcentajeAlic2ME";
             this.lblSimboloPorcentajeAlic2ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblSimboloPorcentajeAlic2ME.Tag = "";
             this.lblSimboloPorcentajeAlic2ME.Text = "%";
-            this.lblSimboloPorcentajeAlic2ME.Top = 1.406F;
+            this.lblSimboloPorcentajeAlic2ME.Top = 1.405F;
             this.lblSimboloPorcentajeAlic2ME.Width = 0.1160002F;
-            // 
-            // lblSimboloPorcentajeAlic3ME
-            // 
-            this.lblSimboloPorcentajeAlic3ME.Height = 0.15625F;
-            this.lblSimboloPorcentajeAlic3ME.HyperLink = null;
-            this.lblSimboloPorcentajeAlic3ME.Left = 0.5595008F;
-            this.lblSimboloPorcentajeAlic3ME.MultiLine = false;
-            this.lblSimboloPorcentajeAlic3ME.Name = "lblSimboloPorcentajeAlic3ME";
-            this.lblSimboloPorcentajeAlic3ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
-            this.lblSimboloPorcentajeAlic3ME.Tag = "";
-            this.lblSimboloPorcentajeAlic3ME.Text = "%";
-            this.lblSimboloPorcentajeAlic3ME.Top = 1.56225F;
-            this.lblSimboloPorcentajeAlic3ME.Width = 0.1160002F;
             // 
             // lblPorcentajeDescuento1ME
             // 
@@ -2161,39 +2136,39 @@ namespace Galac.Adm.Rpt.Venta
             this.lblPorcentajeDescuento1ME.MultiLine = false;
             this.lblPorcentajeDescuento1ME.Name = "lblPorcentajeDescuento1ME";
             this.lblPorcentajeDescuento1ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblPorcentajeDescuento1ME.Tag = "";
             this.lblPorcentajeDescuento1ME.Text = "% Descuento";
             this.lblPorcentajeDescuento1ME.Top = 0.62475F;
-            this.lblPorcentajeDescuento1ME.Width = 0.6757497F;
+            this.lblPorcentajeDescuento1ME.Width = 1.06275F;
             // 
             // lblSubTotalDespuesDelDsctoME
             // 
             this.lblSubTotalDespuesDelDsctoME.Height = 0.15625F;
             this.lblSubTotalDespuesDelDsctoME.HyperLink = null;
-            this.lblSubTotalDespuesDelDsctoME.Left = 0.0002503991F;
+            this.lblSubTotalDespuesDelDsctoME.Left = 0F;
             this.lblSubTotalDespuesDelDsctoME.MultiLine = false;
             this.lblSubTotalDespuesDelDsctoME.Name = "lblSubTotalDespuesDelDsctoME";
             this.lblSubTotalDespuesDelDsctoME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblSubTotalDespuesDelDsctoME.Tag = "";
             this.lblSubTotalDespuesDelDsctoME.Text = "Sub Total";
-            this.lblSubTotalDespuesDelDsctoME.Top = 0.93725F;
-            this.lblSubTotalDespuesDelDsctoME.Width = 1.676F;
+            this.lblSubTotalDespuesDelDsctoME.Top = 0.936F;
+            this.lblSubTotalDespuesDelDsctoME.Width = 2.063F;
             // 
             // lblTotalRenglonesMe
             // 
             this.lblTotalRenglonesMe.Height = 0.15625F;
             this.lblTotalRenglonesMe.HyperLink = null;
-            this.lblTotalRenglonesMe.Left = 2.910383E-11F;
+            this.lblTotalRenglonesMe.Left = 0F;
             this.lblTotalRenglonesMe.MultiLine = false;
             this.lblTotalRenglonesMe.Name = "lblTotalRenglonesMe";
             this.lblTotalRenglonesMe.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblTotalRenglonesMe.Tag = "";
             this.lblTotalRenglonesMe.Text = "Total Renglones";
-            this.lblTotalRenglonesMe.Top = 0.4685F;
-            this.lblTotalRenglonesMe.Width = 1.676F;
+            this.lblTotalRenglonesMe.Top = 0.469F;
+            this.lblTotalRenglonesMe.Width = 2.063F;
             // 
             // lblPorcentajeDescuento2ME
             // 
@@ -2203,136 +2178,137 @@ namespace Galac.Adm.Rpt.Venta
             this.lblPorcentajeDescuento2ME.MultiLine = false;
             this.lblPorcentajeDescuento2ME.Name = "lblPorcentajeDescuento2ME";
             this.lblPorcentajeDescuento2ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblPorcentajeDescuento2ME.Tag = "";
             this.lblPorcentajeDescuento2ME.Text = "% Descuento";
             this.lblPorcentajeDescuento2ME.Top = 0.781F;
-            this.lblPorcentajeDescuento2ME.Width = 0.6757497F;
+            this.lblPorcentajeDescuento2ME.Width = 1.06275F;
             // 
             // txtTotalMontoExentoME
             // 
             this.txtTotalMontoExentoME.CanGrow = false;
             this.txtTotalMontoExentoME.Height = 0.15625F;
-            this.txtTotalMontoExentoME.Left = 1.67625F;
+            this.txtTotalMontoExentoME.Left = 2.063F;
             this.txtTotalMontoExentoME.MultiLine = false;
             this.txtTotalMontoExentoME.Name = "txtTotalMontoExentoME";
             this.txtTotalMontoExentoME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtTotalMontoExentoME.Tag = "";
             this.txtTotalMontoExentoME.Text = "txtTotalMontoExentoME";
-            this.txtTotalMontoExentoME.Top = 1.0935F;
-            this.txtTotalMontoExentoME.Width = 1.125F;
+            this.txtTotalMontoExentoME.Top = 1.092F;
+            this.txtTotalMontoExentoME.Width = 1F;
             // 
             // txtTotalRenglonesME
             // 
             this.txtTotalRenglonesME.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtTotalRenglonesME.CanGrow = false;
             this.txtTotalRenglonesME.Height = 0.15625F;
-            this.txtTotalRenglonesME.Left = 1.67625F;
+            this.txtTotalRenglonesME.Left = 2.063F;
             this.txtTotalRenglonesME.MultiLine = false;
             this.txtTotalRenglonesME.Name = "txtTotalRenglonesME";
-            this.txtTotalRenglonesME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right";
+            this.txtTotalRenglonesME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
+    "rtical-align: top";
             this.txtTotalRenglonesME.Tag = "";
             this.txtTotalRenglonesME.Text = "txtTotalRenglonesME";
-            this.txtTotalRenglonesME.Top = 0.4685F;
-            this.txtTotalRenglonesME.Width = 1.125F;
+            this.txtTotalRenglonesME.Top = 0.467F;
+            this.txtTotalRenglonesME.Width = 1F;
             // 
             // lblMontoAbonadoME
             // 
             this.lblMontoAbonadoME.Height = 0.15625F;
             this.lblMontoAbonadoME.HyperLink = null;
-            this.lblMontoAbonadoME.Left = 0.0002499223F;
+            this.lblMontoAbonadoME.Left = 0.0002499819F;
             this.lblMontoAbonadoME.MultiLine = false;
             this.lblMontoAbonadoME.Name = "lblMontoAbonadoME";
             this.lblMontoAbonadoME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblMontoAbonadoME.Tag = "";
             this.lblMontoAbonadoME.Text = "Monto Abonado";
-            this.lblMontoAbonadoME.Top = 2.18725F;
-            this.lblMontoAbonadoME.Width = 1.676F;
+            this.lblMontoAbonadoME.Top = 2.18525F;
+            this.lblMontoAbonadoME.Width = 2.063F;
             // 
             // lblTotalFacturaMenosAbonoME
             // 
             this.lblTotalFacturaMenosAbonoME.Height = 0.15625F;
             this.lblTotalFacturaMenosAbonoME.HyperLink = null;
-            this.lblTotalFacturaMenosAbonoME.Left = 0.0002499223F;
+            this.lblTotalFacturaMenosAbonoME.Left = 0.0002499819F;
             this.lblTotalFacturaMenosAbonoME.MultiLine = false;
             this.lblTotalFacturaMenosAbonoME.Name = "lblTotalFacturaMenosAbonoME";
             this.lblTotalFacturaMenosAbonoME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblTotalFacturaMenosAbonoME.Tag = "";
             this.lblTotalFacturaMenosAbonoME.Text = "Total Factura Menos Abono";
-            this.lblTotalFacturaMenosAbonoME.Top = 2.3435F;
-            this.lblTotalFacturaMenosAbonoME.Width = 1.676F;
+            this.lblTotalFacturaMenosAbonoME.Top = 2.3415F;
+            this.lblTotalFacturaMenosAbonoME.Width = 2.063F;
             // 
             // txtMontoDelAbonoME
             // 
             this.txtMontoDelAbonoME.CanGrow = false;
             this.txtMontoDelAbonoME.Height = 0.15625F;
-            this.txtMontoDelAbonoME.Left = 1.67625F;
+            this.txtMontoDelAbonoME.Left = 2.063F;
             this.txtMontoDelAbonoME.MultiLine = false;
             this.txtMontoDelAbonoME.Name = "txtMontoDelAbonoME";
             this.txtMontoDelAbonoME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtMontoDelAbonoME.Tag = "";
             this.txtMontoDelAbonoME.Text = "txtMontoDelAbonoME";
-            this.txtMontoDelAbonoME.Top = 2.18725F;
-            this.txtMontoDelAbonoME.Width = 1.125F;
+            this.txtMontoDelAbonoME.Top = 2.18575F;
+            this.txtMontoDelAbonoME.Width = 1F;
             // 
             // txtTotalFacturaMenosAbonoME
             // 
             this.txtTotalFacturaMenosAbonoME.CanGrow = false;
             this.txtTotalFacturaMenosAbonoME.Height = 0.15625F;
-            this.txtTotalFacturaMenosAbonoME.Left = 1.67625F;
+            this.txtTotalFacturaMenosAbonoME.Left = 2.063F;
             this.txtTotalFacturaMenosAbonoME.MultiLine = false;
             this.txtTotalFacturaMenosAbonoME.Name = "txtTotalFacturaMenosAbonoME";
             this.txtTotalFacturaMenosAbonoME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtTotalFacturaMenosAbonoME.Tag = "";
             this.txtTotalFacturaMenosAbonoME.Text = "txtTotalFacturaMenosAbonoME";
-            this.txtTotalFacturaMenosAbonoME.Top = 2.3435F;
-            this.txtTotalFacturaMenosAbonoME.Width = 1.125F;
+            this.txtTotalFacturaMenosAbonoME.Top = 2.342F;
+            this.txtTotalFacturaMenosAbonoME.Width = 1F;
             // 
             // txtSubTotalME
             // 
             this.txtSubTotalME.CanGrow = false;
             this.txtSubTotalME.Height = 0.15625F;
-            this.txtSubTotalME.Left = 1.67625F;
+            this.txtSubTotalME.Left = 2.063F;
             this.txtSubTotalME.MultiLine = false;
             this.txtSubTotalME.Name = "txtSubTotalME";
             this.txtSubTotalME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtSubTotalME.Tag = "";
             this.txtSubTotalME.Text = "txtSubTotalME";
-            this.txtSubTotalME.Top = 0.93725F;
-            this.txtSubTotalME.Width = 1.125F;
+            this.txtSubTotalME.Top = 0.93575F;
+            this.txtSubTotalME.Width = 1F;
             // 
             // txtPorcentajeDesc1ME
             // 
             this.txtPorcentajeDesc1ME.CanGrow = false;
             this.txtPorcentajeDesc1ME.Height = 0.15625F;
-            this.txtPorcentajeDesc1ME.Left = 0.6760001F;
+            this.txtPorcentajeDesc1ME.Left = 1.063F;
             this.txtPorcentajeDesc1ME.MultiLine = false;
             this.txtPorcentajeDesc1ME.Name = "txtPorcentajeDesc1ME";
             this.txtPorcentajeDesc1ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtPorcentajeDesc1ME.Tag = "";
             this.txtPorcentajeDesc1ME.Text = "txtPorcentajeDesc1ME";
-            this.txtPorcentajeDesc1ME.Top = 0.62475F;
+            this.txtPorcentajeDesc1ME.Top = 0.623F;
             this.txtPorcentajeDesc1ME.Width = 1.00025F;
             // 
             // txtPorcentajeDesc2ME
             // 
             this.txtPorcentajeDesc2ME.CanGrow = false;
             this.txtPorcentajeDesc2ME.Height = 0.15625F;
-            this.txtPorcentajeDesc2ME.Left = 0.6760001F;
+            this.txtPorcentajeDesc2ME.Left = 1.063F;
             this.txtPorcentajeDesc2ME.MultiLine = false;
             this.txtPorcentajeDesc2ME.Name = "txtPorcentajeDesc2ME";
             this.txtPorcentajeDesc2ME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtPorcentajeDesc2ME.Tag = "";
             this.txtPorcentajeDesc2ME.Text = "txtPorcentajeDesc2Me";
-            this.txtPorcentajeDesc2ME.Top = 0.781F;
+            this.txtPorcentajeDesc2ME.Top = 0.7820001F;
             this.txtPorcentajeDesc2ME.Width = 1.00025F;
             // 
             // txtTotalFactura
@@ -2343,15 +2319,15 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalFactura.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtTotalFactura.CanGrow = false;
             this.txtTotalFactura.Height = 0.15625F;
-            this.txtTotalFactura.Left = 6.375F;
+            this.txtTotalFactura.Left = 6.5F;
             this.txtTotalFactura.MultiLine = false;
             this.txtTotalFactura.Name = "txtTotalFactura";
             this.txtTotalFactura.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtTotalFactura.Tag = "";
             this.txtTotalFactura.Text = "txtTotalFactura";
-            this.txtTotalFactura.Top = 1.7185F;
-            this.txtTotalFactura.Width = 1.125F;
+            this.txtTotalFactura.Top = 1.718F;
+            this.txtTotalFactura.Width = 1F;
             // 
             // txtTotalFacturaME
             // 
@@ -2360,14 +2336,14 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalFacturaME.Border.TopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.txtTotalFacturaME.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtTotalFacturaME.Height = 0.15625F;
-            this.txtTotalFacturaME.Left = 1.67625F;
+            this.txtTotalFacturaME.Left = 2.063F;
             this.txtTotalFacturaME.Name = "txtTotalFacturaME";
             this.txtTotalFacturaME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtTotalFacturaME.Tag = "";
             this.txtTotalFacturaME.Text = "txtTotalFacturaME";
-            this.txtTotalFacturaME.Top = 1.7185F;
-            this.txtTotalFacturaME.Width = 1.125F;
+            this.txtTotalFacturaME.Top = 1.717F;
+            this.txtTotalFacturaME.Width = 1F;
             // 
             // lblMontosME
             // 
@@ -2383,7 +2359,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblMontosME.Tag = "";
             this.lblMontosME.Text = "Montos en";
             this.lblMontosME.Top = 0.156F;
-            this.lblMontosME.Width = 0.6760001F;
+            this.lblMontosME.Width = 1.063F;
             // 
             // lblCambioME
             // 
@@ -2391,7 +2367,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblCambioME.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblCambioME.Height = 0.15625F;
             this.lblCambioME.HyperLink = null;
-            this.lblCambioME.Left = 1.676F;
+            this.lblCambioME.Left = 2.063F;
             this.lblCambioME.MultiLine = false;
             this.lblCambioME.Name = "lblCambioME";
             this.lblCambioME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: bold; te" +
@@ -2399,7 +2375,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblCambioME.Tag = "";
             this.lblCambioME.Text = "Cambio a Bs.";
             this.lblCambioME.Top = 0.156F;
-            this.lblCambioME.Width = 1.125F;
+            this.lblCambioME.Width = 1F;
             // 
             // txtMonedaExtranjera
             // 
@@ -2407,7 +2383,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMonedaExtranjera.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtMonedaExtranjera.CanGrow = false;
             this.txtMonedaExtranjera.Height = 0.15625F;
-            this.txtMonedaExtranjera.Left = 0.6760001F;
+            this.txtMonedaExtranjera.Left = 1.063F;
             this.txtMonedaExtranjera.MultiLine = false;
             this.txtMonedaExtranjera.Name = "txtMonedaExtranjera";
             this.txtMonedaExtranjera.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: left; ver" +
@@ -2423,7 +2399,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCambio.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtCambio.CanGrow = false;
             this.txtCambio.Height = 0.15625F;
-            this.txtCambio.Left = 2.801F;
+            this.txtCambio.Left = 3.063F;
             this.txtCambio.MultiLine = false;
             this.txtCambio.Name = "txtCambio";
             this.txtCambio.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
@@ -2437,25 +2413,25 @@ namespace Galac.Adm.Rpt.Venta
             // 
             this.txtSimboloME.CanGrow = false;
             this.txtSimboloME.Height = 0.15625F;
-            this.txtSimboloME.Left = 0.6755009F;
+            this.txtSimboloME.Left = 1.063F;
             this.txtSimboloME.MultiLine = false;
             this.txtSimboloME.Name = "txtSimboloME";
             this.txtSimboloME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtSimboloME.Tag = "";
             this.txtSimboloME.Text = "txtSimboloME";
-            this.txtSimboloME.Top = 1.7185F;
+            this.txtSimboloME.Top = 1.71675F;
             this.txtSimboloME.Width = 1.00025F;
             // 
             // lblIGTF
             // 
             this.lblIGTF.Height = 0.15625F;
             this.lblIGTF.HyperLink = null;
-            this.lblIGTF.Left = 4.699749F;
+            this.lblIGTF.Left = 4.438F;
             this.lblIGTF.MultiLine = false;
             this.lblIGTF.Name = "lblIGTF";
             this.lblIGTF.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblIGTF.Tag = "";
             this.lblIGTF.Text = "IGTF";
             this.lblIGTF.Top = 1.87475F;
@@ -2465,53 +2441,53 @@ namespace Galac.Adm.Rpt.Venta
             // 
             this.txtAlicuotaIGTF.CanGrow = false;
             this.txtAlicuotaIGTF.Height = 0.15625F;
-            this.txtAlicuotaIGTF.Left = 4.962F;
+            this.txtAlicuotaIGTF.Left = 4.7F;
             this.txtAlicuotaIGTF.MultiLine = false;
             this.txtAlicuotaIGTF.Name = "txtAlicuotaIGTF";
             this.txtAlicuotaIGTF.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtAlicuotaIGTF.Tag = "";
             this.txtAlicuotaIGTF.Text = "txtAlicuotaIGTF";
-            this.txtAlicuotaIGTF.Top = 1.87475F;
-            this.txtAlicuotaIGTF.Width = 0.2969999F;
+            this.txtAlicuotaIGTF.Top = 1.875F;
+            this.txtAlicuotaIGTF.Width = 0.6839999F;
             // 
             // txtIGTF
             // 
             this.txtIGTF.CanGrow = false;
             this.txtIGTF.Height = 0.15625F;
-            this.txtIGTF.Left = 6.375F;
+            this.txtIGTF.Left = 6.5F;
             this.txtIGTF.MultiLine = false;
             this.txtIGTF.Name = "txtIGTF";
             this.txtIGTF.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtIGTF.Tag = "";
             this.txtIGTF.Text = "txtIGTF";
-            this.txtIGTF.Top = 1.87475F;
-            this.txtIGTF.Width = 1.125F;
+            this.txtIGTF.Top = 1.87425F;
+            this.txtIGTF.Width = 1F;
             // 
             // lblSimboloPorcentajeAlicIGTF
             // 
             this.lblSimboloPorcentajeAlicIGTF.Height = 0.15625F;
             this.lblSimboloPorcentajeAlicIGTF.HyperLink = null;
-            this.lblSimboloPorcentajeAlicIGTF.Left = 5.259F;
+            this.lblSimboloPorcentajeAlicIGTF.Left = 5.384F;
             this.lblSimboloPorcentajeAlicIGTF.MultiLine = false;
             this.lblSimboloPorcentajeAlicIGTF.Name = "lblSimboloPorcentajeAlicIGTF";
             this.lblSimboloPorcentajeAlicIGTF.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblSimboloPorcentajeAlicIGTF.Tag = "";
             this.lblSimboloPorcentajeAlicIGTF.Text = "%";
-            this.lblSimboloPorcentajeAlicIGTF.Top = 1.87475F;
+            this.lblSimboloPorcentajeAlicIGTF.Top = 1.874F;
             this.lblSimboloPorcentajeAlicIGTF.Width = 0.1160002F;
             // 
             // txtBaseImponibleIGTF
             // 
             this.txtBaseImponibleIGTF.CanGrow = false;
             this.txtBaseImponibleIGTF.Height = 0.15625F;
-            this.txtBaseImponibleIGTF.Left = 5.375F;
+            this.txtBaseImponibleIGTF.Left = 5.5F;
             this.txtBaseImponibleIGTF.MultiLine = false;
             this.txtBaseImponibleIGTF.Name = "txtBaseImponibleIGTF";
             this.txtBaseImponibleIGTF.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtBaseImponibleIGTF.Tag = "";
             this.txtBaseImponibleIGTF.Text = "txtBaseImponibleIGTF";
             this.txtBaseImponibleIGTF.Top = 1.87475F;
@@ -2521,28 +2497,28 @@ namespace Galac.Adm.Rpt.Venta
             // 
             this.txtIGTFME.CanGrow = false;
             this.txtIGTFME.Height = 0.15625F;
-            this.txtIGTFME.Left = 1.67625F;
+            this.txtIGTFME.Left = 2.063F;
             this.txtIGTFME.MultiLine = false;
             this.txtIGTFME.Name = "txtIGTFME";
             this.txtIGTFME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtIGTFME.Tag = "";
             this.txtIGTFME.Text = "txtIGTFME";
-            this.txtIGTFME.Top = 1.87475F;
-            this.txtIGTFME.Width = 1.125F;
+            this.txtIGTFME.Top = 1.87325F;
+            this.txtIGTFME.Width = 1F;
             // 
             // txtBaseImponibleIGTFME
             // 
             this.txtBaseImponibleIGTFME.CanGrow = false;
             this.txtBaseImponibleIGTFME.Height = 0.15625F;
-            this.txtBaseImponibleIGTFME.Left = 0.6755009F;
+            this.txtBaseImponibleIGTFME.Left = 1.063F;
             this.txtBaseImponibleIGTFME.MultiLine = false;
             this.txtBaseImponibleIGTFME.Name = "txtBaseImponibleIGTFME";
             this.txtBaseImponibleIGTFME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtBaseImponibleIGTFME.Tag = "";
             this.txtBaseImponibleIGTFME.Text = "txtBaseImponibleIGTFME";
-            this.txtBaseImponibleIGTFME.Top = 1.87475F;
+            this.txtBaseImponibleIGTFME.Top = 1.873F;
             this.txtBaseImponibleIGTFME.Width = 1F;
             // 
             // lblIGTFME
@@ -2553,7 +2529,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblIGTFME.MultiLine = false;
             this.lblIGTFME.Name = "lblIGTFME";
             this.lblIGTFME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblIGTFME.Tag = "";
             this.lblIGTFME.Text = "IGTF";
             this.lblIGTFME.Top = 1.87475F;
@@ -2567,39 +2543,39 @@ namespace Galac.Adm.Rpt.Venta
             this.txtAlicuotaIGTFME.MultiLine = false;
             this.txtAlicuotaIGTFME.Name = "txtAlicuotaIGTFME";
             this.txtAlicuotaIGTFME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtAlicuotaIGTFME.Tag = "";
             this.txtAlicuotaIGTFME.Text = "txtAlicuotaIGTFME";
             this.txtAlicuotaIGTFME.Top = 1.87475F;
-            this.txtAlicuotaIGTFME.Width = 0.2969999F;
+            this.txtAlicuotaIGTFME.Width = 0.6844993F;
             // 
             // lblSimboloPorcentajeAlicIGTFME
             // 
             this.lblSimboloPorcentajeAlicIGTFME.Height = 0.15625F;
             this.lblSimboloPorcentajeAlicIGTFME.HyperLink = null;
-            this.lblSimboloPorcentajeAlicIGTFME.Left = 0.5595008F;
+            this.lblSimboloPorcentajeAlicIGTFME.Left = 0.947F;
             this.lblSimboloPorcentajeAlicIGTFME.MultiLine = false;
             this.lblSimboloPorcentajeAlicIGTFME.Name = "lblSimboloPorcentajeAlicIGTFME";
             this.lblSimboloPorcentajeAlicIGTFME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblSimboloPorcentajeAlicIGTFME.Tag = "";
             this.lblSimboloPorcentajeAlicIGTFME.Text = "%";
-            this.lblSimboloPorcentajeAlicIGTFME.Top = 1.87475F;
+            this.lblSimboloPorcentajeAlicIGTFME.Top = 1.873F;
             this.lblSimboloPorcentajeAlicIGTFME.Width = 0.1160002F;
             // 
             // lblTotalFacturaMasIGTF
             // 
             this.lblTotalFacturaMasIGTF.Height = 0.15625F;
             this.lblTotalFacturaMasIGTF.HyperLink = null;
-            this.lblTotalFacturaMasIGTF.Left = 4.699F;
+            this.lblTotalFacturaMasIGTF.Left = 4.438F;
             this.lblTotalFacturaMasIGTF.MultiLine = false;
             this.lblTotalFacturaMasIGTF.Name = "lblTotalFacturaMasIGTF";
             this.lblTotalFacturaMasIGTF.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblTotalFacturaMasIGTF.Tag = "";
             this.lblTotalFacturaMasIGTF.Text = "Total Factura + IGTF";
             this.lblTotalFacturaMasIGTF.Top = 2.031F;
-            this.lblTotalFacturaMasIGTF.Width = 1.676F;
+            this.lblTotalFacturaMasIGTF.Width = 2.062F;
             // 
             // lblTotalFacturaMasIGTFME
             // 
@@ -2609,11 +2585,11 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalFacturaMasIGTFME.MultiLine = false;
             this.lblTotalFacturaMasIGTFME.Name = "lblTotalFacturaMasIGTFME";
             this.lblTotalFacturaMasIGTFME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; font-weight: normal; " +
-    "text-align: left; vertical-align: middle";
+    "text-align: left; vertical-align: top";
             this.lblTotalFacturaMasIGTFME.Tag = "";
             this.lblTotalFacturaMasIGTFME.Text = "Total Factura + IGTF";
-            this.lblTotalFacturaMasIGTFME.Top = 2.031F;
-            this.lblTotalFacturaMasIGTFME.Width = 1.676F;
+            this.lblTotalFacturaMasIGTFME.Top = 2.029F;
+            this.lblTotalFacturaMasIGTFME.Width = 2.063F;
             // 
             // txtTotalFacturaMasIGTF
             // 
@@ -2623,15 +2599,15 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalFacturaMasIGTF.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtTotalFacturaMasIGTF.CanGrow = false;
             this.txtTotalFacturaMasIGTF.Height = 0.15625F;
-            this.txtTotalFacturaMasIGTF.Left = 6.375F;
+            this.txtTotalFacturaMasIGTF.Left = 6.5F;
             this.txtTotalFacturaMasIGTF.MultiLine = false;
             this.txtTotalFacturaMasIGTF.Name = "txtTotalFacturaMasIGTF";
             this.txtTotalFacturaMasIGTF.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtTotalFacturaMasIGTF.Tag = "";
             this.txtTotalFacturaMasIGTF.Text = "txtTotalFacturaMasIGTF";
-            this.txtTotalFacturaMasIGTF.Top = 2.031F;
-            this.txtTotalFacturaMasIGTF.Width = 1.125F;
+            this.txtTotalFacturaMasIGTF.Top = 2.0305F;
+            this.txtTotalFacturaMasIGTF.Width = 1F;
             // 
             // txtTotalFacturaMasIGTFME
             // 
@@ -2640,14 +2616,14 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalFacturaMasIGTFME.Border.TopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.txtTotalFacturaMasIGTFME.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtTotalFacturaMasIGTFME.Height = 0.15625F;
-            this.txtTotalFacturaMasIGTFME.Left = 1.67625F;
+            this.txtTotalFacturaMasIGTFME.Left = 2.063F;
             this.txtTotalFacturaMasIGTFME.Name = "txtTotalFacturaMasIGTFME";
             this.txtTotalFacturaMasIGTFME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
+    "rtical-align: top";
             this.txtTotalFacturaMasIGTFME.Tag = "";
             this.txtTotalFacturaMasIGTFME.Text = "txtTotalFacturaMasIGTFME";
-            this.txtTotalFacturaMasIGTFME.Top = 2.031F;
-            this.txtTotalFacturaMasIGTFME.Width = 1.125F;
+            this.txtTotalFacturaMasIGTFME.Top = 2.0295F;
+            this.txtTotalFacturaMasIGTFME.Width = 1F;
             // 
             // GHTotales
             // 
@@ -3282,6 +3258,21 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCodigoMonedaExtranjera.Visible = false;
             this.txtCodigoMonedaExtranjera.Width = 0.252F;
             // 
+            // txtCambioFechaDocumento
+            // 
+            this.txtCambioFechaDocumento.CanGrow = false;
+            this.txtCambioFechaDocumento.Height = 0.15625F;
+            this.txtCambioFechaDocumento.Left = 0F;
+            this.txtCambioFechaDocumento.MultiLine = false;
+            this.txtCambioFechaDocumento.Name = "txtCambioFechaDocumento";
+            this.txtCambioFechaDocumento.Style = "color: White; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
+    "rtical-align: middle";
+            this.txtCambioFechaDocumento.Tag = "";
+            this.txtCambioFechaDocumento.Text = "txtCambioFechaDocumento";
+            this.txtCambioFechaDocumento.Top = 1.7185F;
+            this.txtCambioFechaDocumento.Visible = false;
+            this.txtCambioFechaDocumento.Width = 1F;
+            // 
             // GFDatosDelDocumento
             // 
             this.GFDatosDelDocumento.CanShrink = true;
@@ -3310,7 +3301,6 @@ namespace Galac.Adm.Rpt.Venta
             this.txtPorcentajeAlicuota3,
             this.txtTotalIvaAlic3,
             this.lblSimboloPorcentajeAlic2,
-            this.lblSimboloPorcentajeAlic3,
             this.lblSubTotalRenglones,
             this.txtTotalIvaAlic1,
             this.txtMontoGravableAlicuota1,
@@ -3337,7 +3327,6 @@ namespace Galac.Adm.Rpt.Venta
             this.txtPorcentajeAlicuota2ME,
             this.txtPorcentajeAlicuota3ME,
             this.lblSimboloPorcentajeAlic2ME,
-            this.lblSimboloPorcentajeAlic3ME,
             this.lblPorcentajeDescuento1ME,
             this.lblSubTotalDespuesDelDsctoME,
             this.lblTotalRenglonesMe,
@@ -3375,8 +3364,10 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCambio,
             this.txtSimboloMonedaFact,
             this.txtSimboloMonedaLocal,
-            this.txtSimboloMonedaExtranjera});
-            this.GFDatosDelDocumento.Height = 2.49975F;
+            this.txtSimboloMonedaExtranjera,
+            this.txtPorcentajesAlicGenMasAlicAdic,
+            this.txtPorcentajesAlicGenMasAlicAdicME});
+            this.GFDatosDelDocumento.Height = 2.50025F;
             this.GFDatosDelDocumento.KeepTogether = true;
             this.GFDatosDelDocumento.Name = "GFDatosDelDocumento";
             this.GFDatosDelDocumento.Format += new System.EventHandler(this.GFDatosDelDocumento_Format);
@@ -3398,7 +3389,7 @@ namespace Galac.Adm.Rpt.Venta
             // 
             this.txtSimboloMonedaFact.CanGrow = false;
             this.txtSimboloMonedaFact.Height = 0.15625F;
-            this.txtSimboloMonedaFact.Left = 6.6F;
+            this.txtSimboloMonedaFact.Left = 7.125F;
             this.txtSimboloMonedaFact.MultiLine = false;
             this.txtSimboloMonedaFact.Name = "txtSimboloMonedaFact";
             this.txtSimboloMonedaFact.Style = "color: White; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
@@ -3407,13 +3398,13 @@ namespace Galac.Adm.Rpt.Venta
             this.txtSimboloMonedaFact.Text = "txtSimboloMonedaFact";
             this.txtSimboloMonedaFact.Top = 0.156F;
             this.txtSimboloMonedaFact.Visible = false;
-            this.txtSimboloMonedaFact.Width = 0.2969999F;
+            this.txtSimboloMonedaFact.Width = 0.125F;
             // 
             // txtSimboloMonedaLocal
             // 
             this.txtSimboloMonedaLocal.CanGrow = false;
             this.txtSimboloMonedaLocal.Height = 0.15625F;
-            this.txtSimboloMonedaLocal.Left = 6.904F;
+            this.txtSimboloMonedaLocal.Left = 7.25F;
             this.txtSimboloMonedaLocal.MultiLine = false;
             this.txtSimboloMonedaLocal.Name = "txtSimboloMonedaLocal";
             this.txtSimboloMonedaLocal.Style = "color: White; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
@@ -3422,13 +3413,13 @@ namespace Galac.Adm.Rpt.Venta
             this.txtSimboloMonedaLocal.Text = "txtSimboloMonedaLocal";
             this.txtSimboloMonedaLocal.Top = 0.15625F;
             this.txtSimboloMonedaLocal.Visible = false;
-            this.txtSimboloMonedaLocal.Width = 0.2969999F;
+            this.txtSimboloMonedaLocal.Width = 0.125F;
             // 
             // txtSimboloMonedaExtranjera
             // 
             this.txtSimboloMonedaExtranjera.CanGrow = false;
             this.txtSimboloMonedaExtranjera.Height = 0.15625F;
-            this.txtSimboloMonedaExtranjera.Left = 7.201F;
+            this.txtSimboloMonedaExtranjera.Left = 7.375F;
             this.txtSimboloMonedaExtranjera.MultiLine = false;
             this.txtSimboloMonedaExtranjera.Name = "txtSimboloMonedaExtranjera";
             this.txtSimboloMonedaExtranjera.Style = "color: White; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
@@ -3437,7 +3428,35 @@ namespace Galac.Adm.Rpt.Venta
             this.txtSimboloMonedaExtranjera.Text = "txtSimboloMonedaExtranjera";
             this.txtSimboloMonedaExtranjera.Top = 0.156F;
             this.txtSimboloMonedaExtranjera.Visible = false;
-            this.txtSimboloMonedaExtranjera.Width = 0.2969999F;
+            this.txtSimboloMonedaExtranjera.Width = 0.125F;
+            // 
+            // txtPorcentajesAlicGenMasAlicAdic
+            // 
+            this.txtPorcentajesAlicGenMasAlicAdic.CanGrow = false;
+            this.txtPorcentajesAlicGenMasAlicAdic.Height = 0.15625F;
+            this.txtPorcentajesAlicGenMasAlicAdic.Left = 4.7F;
+            this.txtPorcentajesAlicGenMasAlicAdic.MultiLine = false;
+            this.txtPorcentajesAlicGenMasAlicAdic.Name = "txtPorcentajesAlicGenMasAlicAdic";
+            this.txtPorcentajesAlicGenMasAlicAdic.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
+    "rtical-align: top";
+            this.txtPorcentajesAlicGenMasAlicAdic.Tag = "";
+            this.txtPorcentajesAlicGenMasAlicAdic.Text = "txtPorcentajesAlicGenMasAlicAdic";
+            this.txtPorcentajesAlicGenMasAlicAdic.Top = 1.562F;
+            this.txtPorcentajesAlicGenMasAlicAdic.Width = 0.8007492F;
+            // 
+            // txtPorcentajesAlicGenMasAlicAdicME
+            // 
+            this.txtPorcentajesAlicGenMasAlicAdicME.CanGrow = false;
+            this.txtPorcentajesAlicGenMasAlicAdicME.Height = 0.15625F;
+            this.txtPorcentajesAlicGenMasAlicAdicME.Left = 0.2620001F;
+            this.txtPorcentajesAlicGenMasAlicAdicME.MultiLine = false;
+            this.txtPorcentajesAlicGenMasAlicAdicME.Name = "txtPorcentajesAlicGenMasAlicAdicME";
+            this.txtPorcentajesAlicGenMasAlicAdicME.Style = "color: Black; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; te" +
+    "xt-justify: auto; vertical-align: top";
+            this.txtPorcentajesAlicGenMasAlicAdicME.Tag = "";
+            this.txtPorcentajesAlicGenMasAlicAdicME.Text = "txtPorcentajesAlicGenMasAlicAdicME";
+            this.txtPorcentajesAlicGenMasAlicAdicME.Top = 1.562F;
+            this.txtPorcentajesAlicGenMasAlicAdicME.Width = 0.8007492F;
             // 
             // GHTitulos
             // 
@@ -4572,27 +4591,12 @@ namespace Galac.Adm.Rpt.Venta
             this.GFDatosAdicionales.Height = 0F;
             this.GFDatosAdicionales.Name = "GFDatosAdicionales";
             // 
-            // txtCambioFechaDocumento
-            // 
-            this.txtCambioFechaDocumento.CanGrow = false;
-            this.txtCambioFechaDocumento.Height = 0.15625F;
-            this.txtCambioFechaDocumento.Left = 0F;
-            this.txtCambioFechaDocumento.MultiLine = false;
-            this.txtCambioFechaDocumento.Name = "txtCambioFechaDocumento";
-            this.txtCambioFechaDocumento.Style = "color: White; font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ve" +
-    "rtical-align: middle";
-            this.txtCambioFechaDocumento.Tag = "";
-            this.txtCambioFechaDocumento.Text = "txtCambioFechaDocumento";
-            this.txtCambioFechaDocumento.Top = 1.7185F;
-            this.txtCambioFechaDocumento.Visible = false;
-            this.txtCambioFechaDocumento.Width = 1F;
-            // 
             // dsrFacturaBorradorGenerico
             // 
             this.MasterReport = false;
             this.PageSettings.PaperHeight = 11F;
             this.PageSettings.PaperWidth = 8.5F;
-            this.PrintWidth = 7.500001F;
+            this.PrintWidth = 8.958334F;
             this.Sections.Add(this.PageHeader);
             this.Sections.Add(this.GHDatosDelDocumento);
             this.Sections.Add(this.GHDatosDelCliente);
@@ -4710,7 +4714,6 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtPorcentajeAlicuota3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalIvaAlic3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblSimboloPorcentajeAlic2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblSimboloPorcentajeAlic3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblSubTotalRenglones)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalIvaAlic1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoGravableAlicuota1)).EndInit();
@@ -4737,7 +4740,6 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtPorcentajeAlicuota2ME)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPorcentajeAlicuota3ME)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblSimboloPorcentajeAlic2ME)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblSimboloPorcentajeAlic3ME)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblPorcentajeDescuento1ME)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblSubTotalDespuesDelDsctoME)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotalRenglonesMe)).EndInit();
@@ -4810,10 +4812,13 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtCambioTotalEnDivisas)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCambioCxC)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCodigoMonedaExtranjera)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCambioFechaDocumento)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotales)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSimboloMonedaFact)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSimboloMonedaLocal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSimboloMonedaExtranjera)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPorcentajesAlicGenMasAlicAdic)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPorcentajesAlicGenMasAlicAdicME)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLblCampoDefArtInv5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLblCampoDefArtInv4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLblCampoDefArtInv3)).EndInit();
@@ -4883,7 +4888,6 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtLblCampoDefinible10)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLblCampoDefinible11)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLblCampoDefinible12)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCambioFechaDocumento)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -4965,7 +4969,6 @@ namespace Galac.Adm.Rpt.Venta
         private DataDynamics.ActiveReports.TextBox txtPorcentajeAlicuota3;
         private DataDynamics.ActiveReports.TextBox txtTotalIvaAlic3;
         private DataDynamics.ActiveReports.Label lblSimboloPorcentajeAlic2;
-        private DataDynamics.ActiveReports.Label lblSimboloPorcentajeAlic3;
         private DataDynamics.ActiveReports.Label lblSubTotalRenglones;
         private DataDynamics.ActiveReports.TextBox txtTotalIvaAlic1;
         private DataDynamics.ActiveReports.TextBox txtMontoGravableAlicuota1;
@@ -4992,7 +4995,6 @@ namespace Galac.Adm.Rpt.Venta
         private DataDynamics.ActiveReports.TextBox txtPorcentajeAlicuota2ME;
         private DataDynamics.ActiveReports.TextBox txtPorcentajeAlicuota3ME;
         private DataDynamics.ActiveReports.Label lblSimboloPorcentajeAlic2ME;
-        private DataDynamics.ActiveReports.Label lblSimboloPorcentajeAlic3ME;
         private DataDynamics.ActiveReports.Label lblPorcentajeDescuento1ME;
         private DataDynamics.ActiveReports.Label lblSubTotalDespuesDelDsctoME;
         private DataDynamics.ActiveReports.Label lblTotalRenglonesMe;
@@ -5169,5 +5171,7 @@ namespace Galac.Adm.Rpt.Venta
         private DataDynamics.ActiveReports.TextBox txtSimboloMonedaLocal;
         private DataDynamics.ActiveReports.TextBox txtSimboloMonedaExtranjera;
         private DataDynamics.ActiveReports.TextBox txtCambioFechaDocumento;
+        private DataDynamics.ActiveReports.TextBox txtPorcentajesAlicGenMasAlicAdic;
+        private DataDynamics.ActiveReports.TextBox txtPorcentajesAlicGenMasAlicAdicME;
     }
 }
