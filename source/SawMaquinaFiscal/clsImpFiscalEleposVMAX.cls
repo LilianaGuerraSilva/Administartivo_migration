@@ -200,7 +200,7 @@ Private Function fCalcularMontoDescuento(ByVal valMonto As Currency, ByVal valPo
    fCalcularMontoDescuento = vResultado
 End Function
 
-Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales, insDatosImprFiscal As clsDatosImprFiscal, ByVal valEsNotaDeCredito, ByRef refReady As Boolean)
+Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales, insDatosImprFiscal As clsDatosImprFiscal, ByRef refReady As Boolean)
       Dim rsDatosArticulo As ADODB.Recordset
       Dim vAlicuotas As String
       Dim vTipoTasa As enum_TipoDeAlicuota
@@ -230,10 +230,12 @@ Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales
       Dim vCantidadCaracteres As Integer
       Dim vCaracteresEspacio As String
       Dim vMontoMEStr As String
+      Dim vEsNotaDeCredito As Boolean
       On Error GoTo h_Error
+      vEsNotaDeCredito = (insDatosImprFiscal.GetTipoDocumentoAsEnum = eTF_NOTADECREDITOCOMPROBANTEFISCAL)
       Set rsDatosArticulo = insDatosImprFiscal.GetItems
       If (sAbreCF(insDatosImprFiscal.GetPuertoImpresoraFiscal)) Then
-         If fImprimeDatosClientes(insDatosImprFiscal, valEsNotaDeCredito) Then
+         If fImprimeDatosClientes(insDatosImprFiscal, vEsNotaDeCredito) Then
             vResult = True
             vPorcetajeDesTotal = insDatosImprFiscal.GetPorcentajeDeDescuento
             If Not rsDatosArticulo.BOF And Not rsDatosArticulo.EOF Then
@@ -257,7 +259,7 @@ Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales
                   vSerial = gUtilImprFiscal.fCadenaCaracteresValidos(rsDatosArticulo.Fields("Serial"), 100)
                   vRollo = gUtilImprFiscal.fCadenaCaracteresValidos(rsDatosArticulo.Fields("Rollo"), 100)
                   sAgregaLineaSeparacion
-                  If Not fVenta(vDescripcion, vCantidadFormateada, vPrecioFormateado, vAlicuotas, valEsNotaDeCredito, vMontoDescuentoFormateado) Then
+                  If Not fVenta(vDescripcion, vCantidadFormateada, vPrecioFormateado, vAlicuotas, vEsNotaDeCredito, vMontoDescuentoFormateado) Then
                      fCancelaCuponFiscal False, insDatosImprFiscal.GetPuertoImpresoraFiscal
                      mVmax.CerrarPuerto
                      GoTo h_Error

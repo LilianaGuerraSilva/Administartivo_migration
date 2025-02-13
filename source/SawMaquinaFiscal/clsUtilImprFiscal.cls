@@ -277,6 +277,19 @@ h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sImprimeNotaDeCreditoComprobanteFiscal", CM_FILE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
+
+Public Sub sImprimeNotaDeDebitoComprobanteFiscal(ByRef refDatosImprFiscal As Object, ByRef Ready As Boolean)
+   Dim insfrmImpresionFiscal As frmImpresorasFiscales
+   On Error GoTo h_Error
+   Set insfrmImpresionFiscal = New frmImpresorasFiscales
+   refDatosImprFiscal.SetEstado Enum_EstadoImpresionFiscal.eEIF_IMPRIMIR_NOTA_DE_DEBITO
+   insfrmImpresionFiscal.sInitLookAndFeelAndSetValues refDatosImprFiscal, Ready
+   Set insfrmImpresionFiscal = Nothing
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sImprimeNotaDeDebitoComprobanteFiscal", CM_FILE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
+
 Public Sub sVerificaVigenciaDeAlicuota(ByRef refDatosImprFiscal As Object, ByRef Ready As Boolean, ByVal gAdmAlicuotaIvaActual As Object)
    Dim insfrmImpresionFiscal As frmImpresorasFiscales
    On Error GoTo h_Error
@@ -366,13 +379,8 @@ Public Function fGenerarXmlConDatosDeLaVenta(ByVal valDatosImprFiscal As clsDato
    vDatosDeCamposDefinibles = ""
    vUsaCamposDefinibles = valDatosImprFiscal.GetImprimeCamposDefinibles
    vTotalFactura = gConvert.fConvierteAString(Abs(valDatosImprFiscal.GetTotalFactura))
-   If valDatosImprFiscal.GetEsNotaDeCredito Then
-      vTipoDocumento = enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL
-   Else
-      vTipoDocumento = enum_TipoDocumentoFactura.eTF_COMPROBANTEFISCAL
-   End If
    vXmlDatosDeLaVenta = "<GpData>" & vSiguienteLinea & "<GpResult>"
-   vDatosDelDocumento = fGenerarDatosDelDocumentoParaXml(vTipoDocumento, valDatosImprFiscal.GetNumeroTicket, valDatosImprFiscal.GetSerialImpresoraFiscal, valDatosImprFiscal.GetFechaFacturaAfectada, valDatosImprFiscal.GetHoraModificacion, vTotalFactura, valDatosImprFiscal.GetTotalesMonedaExtranjera, valDatosImprFiscal.GetBaseImponibleIGTF, valDatosImprFiscal.GetTotalAPagar, valDatosImprFiscal.GetIGTFML, valDatosImprFiscal.GetCodigoMonedaCompania)
+   vDatosDelDocumento = fGenerarDatosDelDocumentoParaXml(gConvert.enumerativoAChar(valDatosImprFiscal.GetTipoDocumentoAsEnum), valDatosImprFiscal.GetNumeroTicket, valDatosImprFiscal.GetSerialImpresoraFiscal, valDatosImprFiscal.GetFechaFacturaAfectada, valDatosImprFiscal.GetHoraModificacion, vTotalFactura, valDatosImprFiscal.GetTotalesMonedaExtranjera, valDatosImprFiscal.GetBaseImponibleIGTF, valDatosImprFiscal.GetTotalAPagar, valDatosImprFiscal.GetIGTFML, valDatosImprFiscal.GetCodigoMonedaCompania)
    vDatosDelCliente = fGenerarDatosDelClienteParaXml(valDatosImprFiscal.GetNumeroRIFCliente, valDatosImprFiscal.GetNombreCliente, valDatosImprFiscal.GetDireccion, valDatosImprFiscal.GetTelefono, valDatosImprFiscal.GetObservaciones)
    vDatosDeLosProductos = fGenerarDatosDeLosProductosParaXml(valDatosImprFiscal.GetItems)
    vDatosDeLosPagos = fGenerarDatosDeLosPagosParaXml(valDatosImprFiscal)

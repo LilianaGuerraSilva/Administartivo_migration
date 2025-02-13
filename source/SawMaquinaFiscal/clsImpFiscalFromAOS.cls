@@ -15,18 +15,9 @@ Attribute VB_Ext_KEY = "SavedWithClassBuilder6" ,"Yes"
 Attribute VB_Ext_KEY = "Top_Level" ,"Yes"
 Option Explicit
 Dim insclsUtilImprFiscal As clsUtilImprFiscal
-
-Private Function CM_FILE_NAME() As String
-   CM_FILE_NAME = "clsImpFiscalFromAOS"
-End Function
-
-Private Function CM_MESSAGE_NAME() As String
-   CM_MESSAGE_NAME = "Impresora Fiscal From AOS"
-End Function
-
-Private Function GetGender() As Enum_Gender
-   GetGender = eg_Female
-End Function
+Private Const CM_FILE_NAME As String = "clsImpFiscalFromAOS"
+Private Const CM_MESSAGE_NAME As String = "Impresora Fiscal From AOS"
+Private Const GetGender = Enum_Gender.eg_Female
 
 Private Function fWrpImpresoraFiscalName() As String
    fWrpImpresoraFiscalName = "Galac.Saw.Wrp.DispositivosExternos.wrpImpresoraFiscal"
@@ -55,10 +46,10 @@ h_EXIT: On Error GoTo 0
    Exit Function
 h_Error:
    fSerialMemoriaFiscal = ""
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSerialMemoriaFiscal", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSerialMemoriaFiscal", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fUltimoNumeroMemoriaFiscal(ByVal valDatosInsImprFiscal As clsDatosImprFiscal, ByVal valEsNotaDeCredito As Boolean, ByRef refComandoEjecutado) As String
+Public Function fUltimoNumeroMemoriaFiscal(ByVal valDatosInsImprFiscal As clsDatosImprFiscal, ByRef refComandoEjecutado) As String
    Dim vNumeroDocumento As String
    Dim vResultado As Boolean
    Dim objWrapper  As Object
@@ -67,8 +58,10 @@ Public Function fUltimoNumeroMemoriaFiscal(ByVal valDatosInsImprFiscal As clsDat
    Set objWrapper = CreateObject(fWrpImpresoraFiscalName)
    objWrapper.InitializeComponent gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword, gWorkPaths.fAppPath & gDefProg.GetConfigFileName
    objWrapper.InitializeDefProg gDefProg.GetSiglasDelPrograma, gDefProg.GetVersionDelPrograma, gDefProg.GetVersionBaseDeDatos, gConvert.dateToString(gDefProg.GetFechaDeLaVersion), gConvert.dateToString(gDefProg.GetFechaDeLaVersion), "", "", gConvert.fConvierteAString(1), False
-   If valEsNotaDeCredito Then
+   If valDatosInsImprFiscal.GetTipoDocumentoAsEnum = enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL Then
       vNumeroDocumento = objWrapper.ObtenerUltimoNumeroNotaDeCreditoImpresa(insclsUtilImprFiscal.fGenerarXmlConDatosDeLaMaquinaFiscal(valDatosInsImprFiscal))
+   ElseIf valDatosInsImprFiscal.GetTipoDocumentoAsEnum = enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL Then
+      vNumeroDocumento = objWrapper.ObtenerUltimoNumeroNotaDeDebitoImpresa(insclsUtilImprFiscal.fGenerarXmlConDatosDeLaMaquinaFiscal(valDatosInsImprFiscal))
    Else
       vNumeroDocumento = objWrapper.ObtenerUltimoNumeroFacturaImpresa(insclsUtilImprFiscal.fGenerarXmlConDatosDeLaMaquinaFiscal(valDatosInsImprFiscal))
    End If
@@ -86,7 +79,7 @@ h_EXIT: On Error GoTo 0
    Exit Function
 h_Error:
    refComandoEjecutado = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fUltimoNumeroMemoriaFiscal", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fUltimoNumeroMemoriaFiscal", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fObtenerUltimoNumeroDeReporteZ(ByVal valInsDatosImprFiscal As clsDatosImprFiscal) As String
@@ -106,7 +99,7 @@ h_EXIT:    On Error GoTo 0
    Exit Function
 h_Error:
    fObtenerUltimoNumeroDeReporteZ = ""
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fObtenerUltimoNumeroDeReporteZ", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fObtenerUltimoNumeroDeReporteZ", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Sub sCierreX(ByVal valInsDatosImprFiscal As clsDatosImprFiscal, ByRef refComandoProcesado As Boolean)
@@ -123,7 +116,7 @@ h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error:
    refComandoProcesado = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sCierreX", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sCierreX", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Sub sCierreZ(ByVal valDatosImpFiscal As clsDatosImprFiscal, ByRef refReady As Boolean, ByRef refLasNumZ As String)
@@ -140,7 +133,7 @@ h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error:
    refReady = False
-Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sCierreZ", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sCierreZ", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Sub sImprimeVentaArticulo(ByVal valDatosImprFiscal As clsDatosImprFiscal, ByRef refReady As Boolean)
@@ -159,7 +152,7 @@ h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error:
    refReady = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sImprimeVentaArticulo", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sImprimeVentaArticulo", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Sub sImprimeNotaDeCredito(ByVal valDatosImprFiscal As clsDatosImprFiscal, ByRef refReady As Boolean)
@@ -176,7 +169,24 @@ Public Sub sImprimeNotaDeCredito(ByVal valDatosImprFiscal As clsDatosImprFiscal,
    Set insclsUtilImprFiscal = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sImprimeNotaDeCredito", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sImprimeNotaDeCredito", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
+
+Public Sub sImprimeNotaDeDebito(ByVal valDatosImprFiscal As clsDatosImprFiscal, ByRef refReady As Boolean)
+   Dim objWrapper  As Object
+   Dim vNumDocumento As String
+   On Error GoTo h_Error
+   Set objWrapper = CreateObject(fWrpImpresoraFiscalName)
+   Set insclsUtilImprFiscal = New clsUtilImprFiscal
+   objWrapper.InitializeComponent gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword, gWorkPaths.fAppPath & gDefProg.GetConfigFileName
+   objWrapper.InitializeDefProg gDefProg.GetSiglasDelPrograma, gDefProg.GetVersionDelPrograma, gDefProg.GetVersionBaseDeDatos, gConvert.dateToString(gDefProg.GetFechaDeLaVersion), gConvert.dateToString(gDefProg.GetFechaDeLaVersion), "", "", gConvert.fConvierteAString(1), False
+   refReady = objWrapper.ImprimirNotaDeDebito(insclsUtilImprFiscal.fGenerarXmlConDatosDeLaMaquinaFiscal(valDatosImprFiscal), insclsUtilImprFiscal.fGenerarXmlConDatosDeLaVenta(valDatosImprFiscal), vNumDocumento)
+   valDatosImprFiscal.SetUltimoNumeroFiscal vNumDocumento
+   Set objWrapper = Nothing
+   Set insclsUtilImprFiscal = Nothing
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sImprimeNotaDeDebito", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Function fCancelaCuponFiscal(ByVal insDatosImprFiscal As clsDatosImprFiscal) As Boolean
@@ -195,7 +205,7 @@ h_EXIT: On Error GoTo 0
    Exit Function
 h_Error:
    fCancelaCuponFiscal = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fCancelaCuponFiscal", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fCancelaCuponFiscal", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Sub ImprimeComprobanteNoFiscal(ByVal valDatosImprFiscal As clsDatosImprFiscal, ByRef refReady As Boolean)
@@ -211,5 +221,5 @@ Public Sub ImprimeComprobanteNoFiscal(ByVal valDatosImprFiscal As clsDatosImprFi
    Set insclsUtilImprFiscal = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "ImprimeComprobanteNoFiscal", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "ImprimeComprobanteNoFiscal", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
