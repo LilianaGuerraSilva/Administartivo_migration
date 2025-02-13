@@ -21,7 +21,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("SET DATEFORMAT 'DMY'; ");
             vSql.AppendLine("WITH CTE_Factura AS( ");
             vSql.AppendLine("SELECT HASHBYTES('SHA2_256', ");
-            vSql.AppendLine("CONCAT(CASE WHEN TipoDeDocumento = '5' OR TipoDeDocumento = '7'");
+            vSql.AppendLine("CONCAT(CASE WHEN TipoDeDocumento = '5' OR TipoDeDocumento = '7' OR TipoDeDocumento = '9' ");
             vSql.AppendLine("THEN factura.Numero ELSE ");
             vSql.AppendLine("factura.NumeroComprobanteFiscal END,");
             vSql.AppendLine("TipoDeDocumento, Fecha, HoraModificacion, ");
@@ -48,6 +48,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("WHEN '5' THEN 'Comprobante Fiscal' ");
             vSql.AppendLine("WHEN '7' THEN 'Nota de Crédito Comprobante Fiscal' ");
             vSql.AppendLine("WHEN '8' THEN 'Nota de Entrega' ");
+            vSql.AppendLine("WHEN '9' THEN 'Nota de Débito Comprobante Fiscal' ");
             vSql.AppendLine("ELSE 'No Definido' END, ");
 
             vSql.AppendLine("Escalada.Escalada41 AS 'ConsecutivoCompania', Escalada.Escalada24, ");
