@@ -1139,11 +1139,13 @@ Private Function fSqlVentasDetalladoSeccionUnion(ByVal valEsTipoResumenDiario As
    vSql = vSql & " Cxc ON CxC.ConsecutivoCompania = factura.ConsecutivoCompania AND "
    vSql = vSql & " CxC.NumeroDocumentoOrigen = factura.Numero AND "
    vSql = vSql & " CxC.CodigoCliente = factura.CodigoCliente"
-   vSql = vSql & " AND Cxc.TipoCxc = (CASE Factura.TipoDeDocumento WHEN '0' THEN '0' ELSE"
-   vSql = vSql & " (CASE Factura.TipoDeDocumento WHEN '1' THEN '3' ELSE"
-   vSql = vSql & " (CASE Factura.TipoDeDocumento WHEN '2' THEN '4' ELSE"
-   vSql = vSql & " (CASE Factura.TipoDeDocumento WHEN '5' THEN '8' ELSE"
-   vSql = vSql & " (CASE Factura.TipoDeDocumento WHEN '7' THEN '<' END)END) END) END) END)"
+   vSql = vSql & " AND Cxc.TipoCxc = (CASE Factura.TipoDeDocumento "
+   vSql = vSql & " WHEN '0' THEN '0' " 'Factura
+   vSql = vSql & " WHEN '1' THEN '3' " 'NC
+   vSql = vSql & " WHEN '2' THEN '4' " 'ND
+   vSql = vSql & " WHEN '5' THEN '8' " 'CF
+   vSql = vSql & " WHEN '7' THEN '<' " 'NC-CF
+   vSql = vSql & " WHEN '9' THEN '>' END)" 'ND-CF
    vSql = vSql & " LEFT JOIN IGV_RetencionDocumentoCobrado ON"
    vSql = vSql & " CxC.ConsecutivoCompania = IGV_RetencionDocumentoCobrado.ConsecutivoCompania AND"
    vSql = vSql & " Cxc.Numero = IGV_RetencionDocumentoCobrado.NumeroDelDocumentoCobrado AND"
