@@ -213,6 +213,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 string CampoTipoDeDocumento = LibText.CleanSpacesToBothSides(LibXml.GetPropertyString(valData, "GpResult", "TipoDeDocumento"));
                 eTipoDocumentoFactura valTipoDocumento = (eTipoDocumentoFactura)LibConvert.DbValueToEnum(CampoTipoDeDocumento);
                 switch (valTipoDocumento) {
+                    case eTipoDocumentoFactura.ComprobanteFiscal:
+                        vResult = _ImpresoraFiscal.ImprimirFacturaFiscal(valData, valTipoDocumento);
+                        break;
                     case eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal:
                         vResult = _ImpresoraFiscal.ImprimirNotaCredito(valData, valTipoDocumento);
                         break;
@@ -220,8 +223,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         vResult = _ImpresoraFiscal.ImprimirNotaDebito(valData, valTipoDocumento);
                         break;
                     default:
-                        vResult = _ImpresoraFiscal.ImprimirFacturaFiscal(valData, valTipoDocumento);
-                        break;
+                        throw new NotImplementedException();
                 }
                 return vResult;
             } catch (GalacAlertException vEx) {
