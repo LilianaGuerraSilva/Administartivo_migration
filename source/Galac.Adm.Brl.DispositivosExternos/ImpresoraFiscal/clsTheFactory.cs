@@ -18,6 +18,7 @@ using Galac.Adm.Ccl.DispositivosExternos;
 using Galac.Saw.Ccl.Inventario;
 using System.Reflection;
 using LibGalac.Aos.Cnf;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
     public class clsTheFactory: IImpresoraFiscalPdn {
@@ -350,7 +351,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 }
                 return vUltimaFactura;
             } catch (Exception vEx) {
-                throw new LibGalac.Aos.Catching.GalacException("Obtener último Numero de factura\r\n" + vEx.Message, eExceptionManagementType.Controlled);
+                throw new LibGalac.Aos.Catching.GalacException("Obtener último número de Factura\r\n" + vEx.Message, eExceptionManagementType.Controlled);
             }
         }
 
@@ -369,9 +370,29 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 }
                 return vUltimoNotaCredito;
             } catch (Exception vEx) {
-                throw new LibGalac.Aos.Catching.GalacException("Obtener último Numero de Nota de Crédito\r\n" + vEx.Message, eExceptionManagementType.Controlled);
+                throw new LibGalac.Aos.Catching.GalacException("Obtener último número de Nota de Crédito\r\n" + vEx.Message, eExceptionManagementType.Controlled);
             }
         }
+
+        public string ObtenerUltimoNumeroNotaDeDebito(bool valAbrirConexion) {
+            string vUltimoNotaDebito = "";
+            S1PrinterData _Estado;
+            try {
+                if (valAbrirConexion || !_TfhkPrinter.StatusPort) {
+                    AbrirConexion();
+                }
+                _Estado = _TfhkPrinter.GetS1PrinterData();
+                Thread.Sleep(5);
+                vUltimoNotaDebito = LibText.FillWithCharToLeft(LibConvert.ToStr(_Estado.LastDebitNoteNumber), "0", 8);
+                if (valAbrirConexion) {
+                    CerrarConexion();
+                }
+                return vUltimoNotaDebito;
+            } catch (Exception vEx) {
+                throw new LibGalac.Aos.Catching.GalacException("Obtener último número de Nota de Débito\r\n" + vEx.Message, eExceptionManagementType.Controlled);
+            }
+        }
+
 
         private bool PrinterNotSupport() {
             bool vResult = false;
@@ -459,7 +480,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             }
         }
 
-        private string DarFormatoAAlicuotaIva(eTipoDeAlicuota valTipoAlicuota) {
+        private string DarFormatoAlicuotaIvaFactura(eTipoDeAlicuota valTipoAlicuota) {
             string vValorFinal = "";
             if (!_ModeloSoportaComandosGenerales) {
                 switch (valTipoAlicuota) {
@@ -480,12 +501,12 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         break;
                 }
             } else {
-                vValorFinal = DarFormatoAAlicuotaIvaNC(valTipoAlicuota);
+                vValorFinal = DarFormatoAlicuotaIvaGeneral(valTipoAlicuota);
             }
             return vValorFinal;
         }
 
-        private string DarFormatoAAlicuotaIvaNC(eTipoDeAlicuota valTipoAlicuota) {
+        private string DarFormatoAlicuotaIvaGeneral(eTipoDeAlicuota valTipoAlicuota) {
             string vValorFinal = "";
             switch (valTipoAlicuota) {
                 case eTipoDeAlicuota.Exento:
@@ -505,7 +526,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     break;
             }
             return vValorFinal;
-        }
+        }       
 
         private string DarFormatoNumericoParaComandosGenerales(string valNumero, int valCantidadEnteros) {
             string vResult = "";
@@ -513,7 +534,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             return vResult;
         }
 
-        public bool ImprimirNotaCredito(XElement valDocumentoFiscal) {
+        public bool ImprimirNotaCredito(XElement valDocumentoFiscal, eTipoDocumentoFactura valTipoDocumento) {
             string vDireccion = LibXml.GetPropertyString(valDocumentoFiscal, "DireccionCliente");
             string vRif = LibXml.GetPropertyString(valDocumentoFiscal, "NumeroRIF");
             string vRazonSocial = LibXml.GetPropertyString(valDocumentoFiscal, "NombreCliente");
@@ -524,7 +545,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             DateTime vFecha = LibConvert.ToDate(LibXml.GetPropertyString(valDocumentoFiscal, "Fecha"));
             string vFechaSt = LibConvert.ToStr(vFecha, "dd/MM/yyyy");
             string vHora = LibXml.GetPropertyString(valDocumentoFiscal, "HoraModificacion");
-            bool vResult = false;
+            bool vResult = false;            
             try {
                 List<XElement> vCamposDefinibles = valDocumentoFiscal.Descendants("GpResultDetailCamposDefinibles").ToList();
                 _ExtenderLineasAdicionales = LibString.Len(LibXml.GetPropertyString(valDocumentoFiscal, "TotalMonedaExtranjera")) > 0 || vCamposDefinibles.Count > 0;
@@ -533,7 +554,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 }
                 AjustarFormatosNumericosSegunModelo();
                 if (AbrirNotaDeCredito(vRazonSocial, vRif, vDireccion, vTelefono, vObservaciones, vNumeroComprobante, vSerialMaquina, vFechaSt, vHora)) {
-                    vResult = ImprimirTodosLosArticulos(valDocumentoFiscal, true);
+                    vResult = ImprimirTodosLosArticulos(valDocumentoFiscal, valTipoDocumento);
                     vResult &= CerrarComprobanteFiscal(valDocumentoFiscal, true);
                 }
                 if (_TfhkPrinter.StatusPort) {
@@ -547,13 +568,13 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             return vResult;
         }
 
-        public bool ImprimirFacturaFiscal(XElement valDocumentoFiscal) {
+        public bool ImprimirFacturaFiscal(XElement valDocumentoFiscal, eTipoDocumentoFactura valTipoDocumento) {
             string vDireccion = LibXml.GetPropertyString(valDocumentoFiscal, "DireccionCliente");
             string vRif = LibXml.GetPropertyString(valDocumentoFiscal, "NumeroRIF");
             string vRazonSocial = LibXml.GetPropertyString(valDocumentoFiscal, "NombreCliente");
             string vTelefono = LibXml.GetPropertyString(valDocumentoFiscal, "TelefonoCliente");
             string vObservaciones = LibXml.GetPropertyString(valDocumentoFiscal, "Observaciones");
-            string vTotalesEnDivisa = LibXml.GetPropertyString(valDocumentoFiscal, "TotalMonedaExtranjera");
+            string vTotalesEnDivisa = LibXml.GetPropertyString(valDocumentoFiscal, "TotalMonedaExtranjera");            
             if (LibString.IsNullOrEmpty(vTotalesEnDivisa)) {
                 _NumeroDeLineasDeTotalesEnDivisas = 0;
             } else {
@@ -568,7 +589,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 }
                 AjustarFormatosNumericosSegunModelo();
                 if (AbrirComprobanteFiscal(vRazonSocial, vRif, vDireccion, vTelefono, vObservaciones)) {
-                    vResult = ImprimirTodosLosArticulos(valDocumentoFiscal, false);
+                    vResult = ImprimirTodosLosArticulos(valDocumentoFiscal, valTipoDocumento);
                     vResult &= CerrarComprobanteFiscal(valDocumentoFiscal, false);
                 }
                 if (_TfhkPrinter.StatusPort) {
@@ -582,7 +603,41 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             return vResult;
         }
 
-        private bool ImprimirTodosLosArticulos(XElement valDocumentoFiscal, bool valIsNotaDeCredito) {
+        public bool ImprimirNotaDebito(XElement valDocumentoFiscal, eTipoDocumentoFactura valTipoDocumento) {
+            string vDireccion = LibXml.GetPropertyString(valDocumentoFiscal, "DireccionCliente");
+            string vRif = LibXml.GetPropertyString(valDocumentoFiscal, "NumeroRIF");
+            string vRazonSocial = LibXml.GetPropertyString(valDocumentoFiscal, "NombreCliente");
+            string vTelefono = LibXml.GetPropertyString(valDocumentoFiscal, "TelefonoCliente");
+            string vObservaciones = LibXml.GetPropertyString(valDocumentoFiscal, "Observaciones");
+            string vNumeroComprobante = LibXml.GetPropertyString(valDocumentoFiscal, "NumeroComprobanteFiscal");
+            string vSerialMaquina = LibXml.GetPropertyString(valDocumentoFiscal, "SerialMaquinaFiscal");
+            DateTime vFecha = LibConvert.ToDate(LibXml.GetPropertyString(valDocumentoFiscal, "Fecha"));
+            string vFechaSt = LibConvert.ToStr(vFecha, "dd/MM/yyyy");
+            string vHora = LibXml.GetPropertyString(valDocumentoFiscal, "HoraModificacion");           
+            bool vResult = false;
+            try {
+                List<XElement> vCamposDefinibles = valDocumentoFiscal.Descendants("GpResultDetailCamposDefinibles").ToList();
+                _ExtenderLineasAdicionales = LibString.Len(LibXml.GetPropertyString(valDocumentoFiscal, "TotalMonedaExtranjera")) > 0 || vCamposDefinibles.Count > 0;
+                if (!_TfhkPrinter.StatusPort) {
+                    AbrirConexion();
+                }
+                AjustarFormatosNumericosSegunModelo();
+                if (AbrirNotaDeCredito(vRazonSocial, vRif, vDireccion, vTelefono, vObservaciones, vNumeroComprobante, vSerialMaquina, vFechaSt, vHora)) {
+                    vResult = ImprimirTodosLosArticulos(valDocumentoFiscal, valTipoDocumento);
+                    vResult &= CerrarComprobanteFiscal(valDocumentoFiscal, true);
+                }
+                if (_TfhkPrinter.StatusPort) {
+                    CerrarConexion();
+                }
+                Thread.Sleep(250);
+            } catch (Exception vEx) {
+                vResult = false;
+                throw vEx;
+            }
+            return vResult;
+        }
+
+        private bool ImprimirTodosLosArticulos(XElement valDocumentoFiscal, eTipoDocumentoFactura valTipoDocumento) {
             bool vEstatus = true;
             string vDescripcion;
             string vCodigo;
@@ -624,14 +679,18 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         default:
                             break;
                     }
-                    if (valIsNotaDeCredito) {
-                        vTipoTasa = DarFormatoAAlicuotaIvaNC((eTipoDeAlicuota)LibConvert.DbValueToEnum(vTipoTasa));
-                    } else {
-                        vTipoTasa = DarFormatoAAlicuotaIva((eTipoDeAlicuota)LibConvert.DbValueToEnum(vTipoTasa));
+                    switch (valTipoDocumento) {
+                        case eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal:
+                        case eTipoDocumentoFactura.NotaDeDebitoComprobanteFiscal:
+                            vTipoTasa = DarFormatoAlicuotaIvaGeneral((eTipoDeAlicuota)LibConvert.DbValueToEnum(vTipoTasa));
+                            break;                            
+                        default:
+                            vTipoTasa = DarFormatoAlicuotaIvaFactura((eTipoDeAlicuota)LibConvert.DbValueToEnum(vTipoTasa));
+                            break;
                     }
                     valCantidadDeArticulosProcesados++;
                     ImprimeSerialyRollo(vSerial, vRollo);
-                    if (!ImprimirArticuloVenta(vDescripcion, vCantidad, vMonto, vTipoTasa, vPrcDescuento, valIsNotaDeCredito, valCantidadDeArticulosProcesados)) {
+                    if (!ImprimirArticuloVenta(vDescripcion, vCantidad, vMonto, vTipoTasa, vPrcDescuento, valTipoDocumento, valCantidadDeArticulosProcesados)) {
                         vEstatus &= false;
                         throw new Exception("Documento no impreso");
                     }
@@ -698,7 +757,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             return vResult;
         }
 
-        private bool ImprimirArticuloVenta(string valDescripcion, string valCantidad, string valPrecio, string valTipoTasa, string valPorcetajeDesRenglon, bool valEsDevolucion, int valCantidadItemsLeidos) {
+        private bool ImprimirArticuloVenta(string valDescripcion, string valCantidad, string valPrecio, string valTipoTasa, string valPorcetajeDesRenglon, eTipoDocumentoFactura valTipoDocumentoFactura, int valCantidadItemsLeidos) {
             bool vResult = false;
             string vCmd = "";
             string vSeparador = new string('\u007c', 2);
@@ -708,10 +767,16 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             if (_ModeloSoportaComandosGenerales) {////////////////////////// Usa Nuevos Comandos Generales ////////////////////////////////////
                 valCantidad = DarFormatoNumericoParaComandosGenerales(valCantidad, _EnterosParaCantidad);
                 valPrecio = DarFormatoNumericoParaComandosGenerales(valPrecio, _EnterosParaMonto);
-                if (valEsDevolucion) {
-                    vCmd = "GC+" + valTipoTasa;
-                } else {
-                    vCmd = "GF+" + valTipoTasa;
+                switch (valTipoDocumentoFactura) {
+                    case eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal:
+                        vCmd = "GC+" + valTipoTasa;
+                        break;
+                    case eTipoDocumentoFactura.NotaDeDebitoComprobanteFiscal:
+                        vCmd = "GD+" + valTipoTasa;
+                        break;
+                    default:
+                        vCmd = "GF+" + valTipoTasa;
+                        break;
                 }
                 vCmd = vCmd + valPrecio + vSeparador;
                 vCmd = vCmd + valCantidad + vSeparador;
@@ -745,10 +810,16 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 }
 
             } else {////////////////////////// Usa Comandos Tradicionales ////////////////////////////////////
-                if (valEsDevolucion) {
-                    vCmd = "d" + valTipoTasa;
-                } else {
-                    vCmd = valTipoTasa;
+                switch (valTipoDocumentoFactura) {
+                    case eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal:
+                        vCmd = "d" + valTipoTasa;
+                        break;
+                    case eTipoDocumentoFactura.NotaDeDebitoComprobanteFiscal:
+                        vCmd = "'" + valTipoTasa;
+                        break;
+                    default:
+                        vCmd = valTipoTasa;
+                        break;
                 }
                 vCmd = vCmd + valPrecio;
                 vCmd = vCmd + valCantidad;
@@ -1087,13 +1158,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             DateTime vFecha = LibImportData.ToDate(valFecha);
             vResult = "0" + vFecha.ToString("yyMMdd");
             return vResult;
-        }
-
-        private bool ReimprimirFacturaFiscal(string valNumeroNotaDeCredito) {
-            short vModo = 0;
-            short vTipo = 1;
-            return true;
-        }       
+        }            
 
         bool IImpresoraFiscalPdn.ReimprimirDocumentoNoFiscal(string valDesde, string valHasta) {
             throw new NotImplementedException();

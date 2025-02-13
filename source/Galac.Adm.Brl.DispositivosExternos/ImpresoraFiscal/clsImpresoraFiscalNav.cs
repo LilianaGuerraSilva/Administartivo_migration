@@ -65,6 +65,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 case eTipoDocumentoFiscal.NotadeCredito:
                     NumeroComprobanteFiscal = _ImpresoraFiscal.ObtenerUltimoNumeroNotaDeCredito(false);
                     break;
+                case eTipoDocumentoFiscal.NotadeDebito:
+                    NumeroComprobanteFiscal = _ImpresoraFiscal.ObtenerUltimoNumeroNotaDeDebito(false);
+                    break;
                 case eTipoDocumentoFiscal.ReporteZ:
                     NumeroComprobanteFiscal = _ImpresoraFiscal.ObtenerUltimoNumeroReporteZ(false);
                     break;
@@ -208,11 +211,19 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             bool vResult = false;
             try {
                 string CampoTipoDeDocumento = LibText.CleanSpacesToBothSides(LibXml.GetPropertyString(valData, "GpResult", "TipoDeDocumento"));
-                eTipoDocumentoFactura TipoDocumento = (eTipoDocumentoFactura)LibConvert.DbValueToEnum(CampoTipoDeDocumento);
-                if (TipoDocumento.Equals(eTipoDocumentoFactura.ComprobanteFiscal)) {
-                    vResult = _ImpresoraFiscal.ImprimirFacturaFiscal(valData);
-                } else {
-                    vResult = _ImpresoraFiscal.ImprimirNotaCredito(valData);
+                eTipoDocumentoFactura valTipoDocumento = (eTipoDocumentoFactura)LibConvert.DbValueToEnum(CampoTipoDeDocumento);
+                switch (valTipoDocumento) {
+                    case eTipoDocumentoFactura.ComprobanteFiscal:
+                        vResult = _ImpresoraFiscal.ImprimirFacturaFiscal(valData, valTipoDocumento);
+                        break;
+                    case eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal:
+                        vResult = _ImpresoraFiscal.ImprimirNotaCredito(valData, valTipoDocumento);
+                        break;
+                    case eTipoDocumentoFactura.NotaDeDebitoComprobanteFiscal:
+                        vResult = _ImpresoraFiscal.ImprimirNotaDebito(valData, valTipoDocumento);
+                        break;
+                    default:
+                        throw new NotImplementedException();
                 }
                 return vResult;
             } catch (GalacAlertException vEx) {

@@ -2978,6 +2978,7 @@ Private Function fSqlCteFacturaMonedaLocal(ByVal valConsecutivoCompania As Long,
    vSqlWhere = vSqlWhere & " OR Factura.TipoDeDocumento = " & gUtilSQL.fSimpleSqlValue(enum_TipoDocumentoFactura.eTF_NOTADEDEBITO)
    vSqlWhere = vSqlWhere & " OR Factura.TipoDeDocumento = " & gUtilSQL.fSimpleSqlValue(enum_TipoDocumentoFactura.eTF_COMPROBANTEFISCAL)
    vSqlWhere = vSqlWhere & " OR Factura.TipoDeDocumento = " & gUtilSQL.fSimpleSqlValue(enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL)
+   vSqlWhere = vSqlWhere & " OR Factura.TipoDeDocumento = " & gUtilSQL.fSimpleSqlValue(enum_TipoDocumentoFactura.eTF_NOTADEDEBITOCOMPROBANTEFISCAL)
    vSqlWhere = gUtilSQL.fSQLNumberValueWithAnd("(" & vSqlWhere & ")", "factura.ConsecutivoCompania", valConsecutivoCompania)
    vSqlWhere = gUtilSQL.fSQLEnumValueWithAnd(vSqlWhere, "Factura.StatusFactura", enum_StatusFactura.eSF_EMITIDA)
    vSqlWhere = gUtilSQL.fSQLEnumValueWithAnd(vSqlWhere, "ArticuloInventario.TipoDeArticulo", enum_TipoDeArticulo.eTD_MERCANCIA)

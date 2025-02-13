@@ -289,7 +289,7 @@ Public Enum enum_StatusDocumento
    eSD_REFINANCIADO
 End Enum
 
-Public Enum enum_TipoDeTransaccion
+Public Enum enum_TipoDeTransaccion 'Este enumerativo debe ser exactamente igual a su contraparte en c#
    eTD_FACTURA = 0
    eTD_GIRO
    eTD_CHEQUEDEVUELTO
@@ -369,7 +369,7 @@ Public Enum enum_StatusFactura
    eSF_BORRADOR
 End Enum
 
-Public Enum enum_TipoDocumentoFactura
+Public Enum enum_TipoDocumentoFactura 'Este enumerativo debe ser exactamente igual a su contraparte en c#
    eTF_FACTURA = 0
    eTF_NOTADECREDITO
    eTF_NOTADEDEBITO

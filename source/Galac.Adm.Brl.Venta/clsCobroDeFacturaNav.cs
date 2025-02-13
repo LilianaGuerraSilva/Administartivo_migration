@@ -209,6 +209,9 @@ namespace Galac.Adm.Brl.Venta {
                 case eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal:
                     vTipoCxc = eTipoDeTransaccion.NOTADECREDITOCOMPROBANTEFISCAL;
                     break;
+                case eTipoDocumentoFactura.NotaDeDebitoComprobanteFiscal:
+                    vTipoCxc = eTipoDeTransaccion.NOTADEDEBITOCOMPROBANTEFISCAL;
+                    break;
             }
             return vTipoCxc;
         }

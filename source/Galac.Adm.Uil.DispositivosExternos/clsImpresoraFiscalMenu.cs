@@ -58,6 +58,23 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
             }
         }
 
+        public bool ImprimirNotaDebito(string valDatosImpresoraFiscal, string valDocumentoFiscal) {
+            try {
+                bool vResult = false;
+                valDatosImpresoraFiscal = LimpiarXmlAntesDeParsear(valDatosImpresoraFiscal);
+                valDocumentoFiscal = LimpiarXmlAntesDeParsear(valDocumentoFiscal);
+                XElement xmlImpresoraFiscal = LibXml.ToXElement(valDatosImpresoraFiscal);
+                XElement xmlDocumentoFiscal = LibXml.ToXElement(valDocumentoFiscal);
+                ImpresoraFiscalViewModel insImpresoraFiscalViewModel = new ImpresoraFiscalViewModel(xmlImpresoraFiscal, xmlDocumentoFiscal, eTipoDocumentoFiscal.NotadeDebito);
+                LibMessages.EditViewModel.ShowEditor(insImpresoraFiscalViewModel, true);
+                vResult = insImpresoraFiscalViewModel.SeImprimioDocumento;
+                insImpresoraFiscalViewModel = null;
+                return vResult;
+            } catch (Exception vEx) {
+                throw vEx;
+            }
+        }
+
         public bool RealizarReporteX(bool valAbrirConexion, string valDatosImpresoraFiscal) {
             try {
                 bool vResult = false;
@@ -152,6 +169,21 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
                 clsImpresoraFiscalCreator vCreatorMaquinaFiscal = new clsImpresoraFiscalCreator();
                 IImpresoraFiscalPdn insIMaquinaFiscal = vCreatorMaquinaFiscal.Crear(xmlImpresoraFiscal);
                 vUltimoNC = insIMaquinaFiscal.ObtenerUltimoNumeroNotaDeCredito(true);
+                insIMaquinaFiscal = null;
+                return vUltimoNC;
+            } catch (Exception) {
+                throw;
+            }
+        }
+
+        public string ObtenerUltimoNumeroNotaDeDebito(bool valAbrirConexion, string valDatosImpresoraFiscal) {
+            try {
+                string vUltimoNC = "";
+                valDatosImpresoraFiscal = LimpiarXmlAntesDeParsear(valDatosImpresoraFiscal);
+                XElement xmlImpresoraFiscal = LibXml.ToXElement(valDatosImpresoraFiscal);
+                clsImpresoraFiscalCreator vCreatorMaquinaFiscal = new clsImpresoraFiscalCreator();
+                IImpresoraFiscalPdn insIMaquinaFiscal = vCreatorMaquinaFiscal.Crear(xmlImpresoraFiscal);
+                vUltimoNC = insIMaquinaFiscal.ObtenerUltimoNumeroNotaDeDebito(true);
                 insIMaquinaFiscal = null;
                 return vUltimoNC;
             } catch (Exception) {
