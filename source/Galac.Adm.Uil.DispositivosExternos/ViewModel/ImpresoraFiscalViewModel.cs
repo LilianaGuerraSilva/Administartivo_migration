@@ -109,7 +109,7 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
                 _NumeroDesde = valNumeroDesde;
                 _NumeroHasta = valNumeroHasta;
             } else {
-                if (_TipoDocumentoFiscal == eTipoDocumentoFiscal.FacturaFiscal || _TipoDocumentoFiscal == eTipoDocumentoFiscal.NotadeCredito) {
+                if (_TipoDocumentoFiscal == eTipoDocumentoFiscal.FacturaFiscal || _TipoDocumentoFiscal == eTipoDocumentoFiscal.NotadeCredito || _TipoDocumentoFiscal == eTipoDocumentoFiscal.NotadeDebito) {
                     xData = valData;
                 }
             }

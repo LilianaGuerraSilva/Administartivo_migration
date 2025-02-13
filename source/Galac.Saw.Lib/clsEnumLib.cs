@@ -363,6 +363,10 @@ namespace Galac.Saw.Lib {
         [LibEnumDescription("OTROS")]
         OTROS,
         [LibEnumDescription("NOTA DE CREDITO DE COMPROBANTE FISCAL")]
-        NOTADECREDITOCOMPROBANTEFISCAL
+        NOTADECREDITOCOMPROBANTEFISCAL,
+        [LibEnumDescription("LETRA DE CAMBIO")]
+        LETRADECAMBIO,
+        [LibEnumDescription("NOTA DE DEBITO DE COMPROBANTE FISCAL")]
+        NOTADEDEBITOCOMPROBANTEFISCAL
     }
 }

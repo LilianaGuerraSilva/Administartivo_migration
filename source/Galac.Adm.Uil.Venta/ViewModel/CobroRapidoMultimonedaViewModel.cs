@@ -1401,9 +1401,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     IsEnabledEfectivoDivisa = false;
                     RibbonData.RemoveRibbonGroup("Medios electrónicos");
                     break;
-                case eTipoDocumentoFactura.NotaEntrega:
-                    break;
-                case eTipoDocumentoFactura.Todos:
+                case eTipoDocumentoFactura.NotaEntrega:                    
                     break;
                 default:
                     break;

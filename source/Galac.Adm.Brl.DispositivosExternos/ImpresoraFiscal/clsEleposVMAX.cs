@@ -11,6 +11,7 @@ using LibGalac.Aos.Catching;
 using Galac.Adm.Ccl.DispositivosExternos;
 using Galac.Saw.Ccl.Inventario;
 using Galac.Saw.Lib;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
     public class clsEleposVMAX : IImpresoraFiscalPdn {
@@ -204,6 +205,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 throw new GalacException("Último Numero Nota de Crédito", eExceptionManagementType.Controlled);
             }
         }
+				
+        public string ObtenerUltimoNumeroNotaDeDebito(bool valAbrirConexion) {
+            throw new NotImplementedException();
+        }
 
         public string ObtenerUltimoNumeroReporteZ(bool valAbrirConexion) {
             string vUltimoNumeroReporteZ = "";
@@ -243,7 +248,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             }
         }
 
-        public bool ImprimirFacturaFiscal(XElement vDocumentoFiscal) {
+        public bool ImprimirFacturaFiscal(XElement vDocumentoFiscal, eTipoDocumentoFactura valTipoDocumento) {
 
             bool vResult = false;
             try {
@@ -568,7 +573,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             return vResultado;
         }
 
-        public bool ImprimirNotaCredito(XElement vDocumentoFiscal) {
+        public bool ImprimirNotaCredito(XElement vDocumentoFiscal, eTipoDocumentoFactura valTipoDocumento) {
             bool vResult = false;
             try {
 
@@ -588,6 +593,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
 
             }
             return vResult;
+        }
+
+        public bool ImprimirNotaDebito(XElement valDocumentoFiscal, eTipoDocumentoFactura valTipoDocumento) {
+            throw new NotImplementedException();
         }
 
         private bool CheckStatus(string valEstatus, ref string refMensaje) {
