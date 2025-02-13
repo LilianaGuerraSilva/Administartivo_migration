@@ -519,6 +519,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             valInput = LibString.Trim(valInput);
             System.Text.RegularExpressions.Regex vListInvalidChars = new System.Text.RegularExpressions.Regex("[´|`|~|^|¨|'|\n|\r|\t]", System.Text.RegularExpressions.RegexOptions.Compiled);
             vResult = vListInvalidChars.Replace(valInput, "");
+            vListInvalidChars = new System.Text.RegularExpressions.Regex("Total", System.Text.RegularExpressions.RegexOptions.None);
+            vResult = vListInvalidChars.Replace(valInput, "");
             return vResult;
         }
 
