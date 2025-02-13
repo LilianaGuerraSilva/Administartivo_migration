@@ -2317,6 +2317,7 @@ Public Function enumTipoDeCxCToString(ByVal tipodeCuenta As enum_TipoDeTransacci
       Case eTD_LIQUIDACIONDECOMPRA: enumTipoDeCxCToString = "Liquidación de Compra"
       Case eTD_OTROS: enumTipoDeCxCToString = "Otros"
       Case eTD_NOTADECREDITOCOMPROBANTEFISCAL: enumTipoDeCxCToString = "Nota de Crédito Comprobante Fiscal"
+      Case eTD_NOTADEDEBITOCOMPROBANTEFISCAL: enumTipoDeCxCToString = "Nota de Débito Comprobante Fiscal"
       Case Else: enumTipoDeCxCToString = enumTipoDeCxCToString(0)
       End Select
 End Function
@@ -2325,7 +2326,7 @@ Public Function strTipoDeCxCToNum(ByVal tipodeCuenta As String, Optional ByVal s
    Dim mEnum As enum_TipoDeTransaccion
    Dim nCount As Integer
    nCount = 0
-   For mEnum = eTD_FACTURA To eTD_NOTADECREDITOCOMPROBANTEFISCAL
+   For mEnum = eTD_FACTURA To eTD_NOTADEDEBITOCOMPROBANTEFISCAL
    If UCase(tipodeCuenta) = UCase(enumTipoDeCxCToString(mEnum)) Then
       strTipoDeCxCToNum = nCount
       GoTo h_EXIT
@@ -2343,7 +2344,7 @@ Public Function strTipoDeCxCToSiglasToString(ByVal tipodeCuenta As String) As St
    Dim mEnum As enum_TipoDeTransaccion
    Dim nCount As Integer
    nCount = 0
-   For mEnum = eTD_FACTURA To eTD_NOTADECREDITOCOMPROBANTEFISCAL
+   For mEnum = eTD_FACTURA To eTD_NOTADEDEBITOCOMPROBANTEFISCAL
       If UCase(tipodeCuenta) = UCase(enumTipoDeCxCToSiglas(mEnum)) Then
          strTipoDeCxCToSiglasToString = enumTipoDeCxCToString(mEnum)
          GoTo h_EXIT
@@ -2357,7 +2358,7 @@ Public Function strTipoDeCxCToNumToSiglas(ByVal tipodeCuenta As String) As Integ
    Dim mEnum As enum_TipoDeTransaccion
    Dim nCount As Integer
    nCount = 0
-   For mEnum = eTD_FACTURA To eTD_NOTADECREDITOCOMPROBANTEFISCAL
+   For mEnum = eTD_FACTURA To eTD_NOTADEDEBITOCOMPROBANTEFISCAL
    If UCase(tipodeCuenta) = UCase(enumTipoDeCxCToSiglas(mEnum)) Then
       strTipoDeCxCToNumToSiglas = nCount
       GoTo h_EXIT
@@ -2373,7 +2374,7 @@ Public Function strTipoDeCxCToNumBoolean(ByVal tipodeCuenta As String) As Boolea
    Dim mEnum As enum_TipoDeTransaccion
    Dim nCount As Integer
    esUnTipoDeCxC = False
-   For mEnum = eTD_FACTURA To eTD_NOTADECREDITOCOMPROBANTEFISCAL
+   For mEnum = eTD_FACTURA To eTD_NOTADEDEBITOCOMPROBANTEFISCAL
    If UCase(tipodeCuenta) = UCase(enumTipoDeCxCToString(mEnum)) Then
       esUnTipoDeCxC = True
       GoTo h_EXIT
@@ -2398,6 +2399,7 @@ Select Case tipoDocumentoCxC
       Case eTD_LIQUIDACIONDECOMPRA: enumTipoDeCxCToSiglas = "L/C"
       Case eTD_OTROS: enumTipoDeCxCToSiglas = "OTR"
       Case eTD_NOTADECREDITOCOMPROBANTEFISCAL: enumTipoDeCxCToSiglas = "N/C-CF"
+      Case eTD_NOTADEDEBITOCOMPROBANTEFISCAL: enumTipoDeCxCToSiglas = "N/D-CF"
       Case Else: enumTipoDeCxCToSiglas = enumTipoDeCxCToSiglas(0)
    End Select
 End Function
@@ -2824,6 +2826,7 @@ Public Function enumTipodocumentoFacturaToString(ByVal tipodocumentoFactura As e
       Case eTF_BOLETA: enumTipodocumentoFacturaToString = "Boleta"
       Case eTF_NOTADECREDITOCOMPROBANTEFISCAL: enumTipodocumentoFacturaToString = "Nota de Crédito Comprobante Fiscal"
       Case eTF_NOTAENTREGA: enumTipodocumentoFacturaToString = "Nota de Entrega"
+      Case eTF_NOTADEDEBITOCOMPROBANTEFISCAL: enumTipodocumentoFacturaToString = "Nota de Débito Comprobante Fiscal"
       Case Else: enumTipodocumentoFacturaToString = enumTipodocumentoFacturaToString(0)
       End Select
 End Function
@@ -2873,6 +2876,8 @@ Public Sub FillComboBoxWithTipodocumentoFactura(ByRef varComboBox As Object, Opt
    varComboBox.List(nCount) = enumTipodocumentoFacturaToString(enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL)
    nCount = nCount + 1
    varComboBox.List(nCount) = enumTipodocumentoFacturaToString(enum_TipoDocumentoFactura.eTF_NOTAENTREGA)
+   nCount = nCount + 1
+   varComboBox.List(nCount) = enumTipodocumentoFacturaToString(enum_TipoDocumentoFactura.eTF_NOTADEDEBITOCOMPROBANTEFISCAL)
    varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
    varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
 End Sub
@@ -6530,6 +6535,7 @@ Public Function enumTipoDocumentoFacturaToSiglas(tipoDocumento As enum_TipoDocum
       Case eTF_BOLETA: enumTipoDocumentoFacturaToSiglas = "BL"
       Case eTF_NOTADECREDITOCOMPROBANTEFISCAL: enumTipoDocumentoFacturaToSiglas = "N/C-CF"
       Case eTF_NOTAENTREGA: enumTipoDocumentoFacturaToSiglas = "NE"
+      Case eTF_NOTADEDEBITOCOMPROBANTEFISCAL: enumTipoDocumentoFacturaToSiglas = "N/D-CF"
       Case Else: enumTipoDocumentoFacturaToSiglas = enumTipoDocumentoFacturaToSiglas(0)
    End Select
 End Function
@@ -14149,7 +14155,7 @@ Public Function fOrigenDeLotePorTipoDeDocumentoFactura(ByVal valTipoDoc As enum_
    vResult = eOLI_Factura
    If valTipoDoc = eTF_NOTADECREDITO Or valTipoDoc = eTF_NOTADECREDITOCOMPROBANTEFISCAL Then
       vResult = eOLI_NotaDeCredito
-   ElseIf valTipoDoc = eTF_NOTADEDEBITO Then
+   ElseIf valTipoDoc = eTF_NOTADEDEBITO Or valTipoDoc = eTF_NOTADEDEBITOCOMPROBANTEFISCAL Then
       vResult = eOLI_NotaDeDebito
    ElseIf valTipoDoc = eTF_NOTAENTREGA Then
       vResult = eOLI_NotaDeEntrega
