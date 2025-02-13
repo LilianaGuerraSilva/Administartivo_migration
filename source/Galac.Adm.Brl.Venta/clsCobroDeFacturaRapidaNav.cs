@@ -306,7 +306,7 @@ namespace Galac.Adm.Brl.Venta {
         {
             StringBuilder vSqlSb = new StringBuilder();
             vSqlSb.AppendLine("SELECT TOP 1 CONCAT(");
-            vSqlSb.AppendLine("	CASE WHEN TipoDeDocumento = '5' OR TipoDeDocumento = '7' THEN");
+            vSqlSb.AppendLine("	CASE WHEN TipoDeDocumento = '5' OR TipoDeDocumento = '7' OR TipoDeDocumento = '9' THEN");
             vSqlSb.AppendLine("		factura.Numero");
             vSqlSb.AppendLine("	ELSE");
             vSqlSb.AppendLine("		factura.NumeroComprobanteFiscal");
