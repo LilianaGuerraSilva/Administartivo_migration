@@ -231,9 +231,9 @@ namespace Galac.Saw.Ccl.SttDef {
         [LibEnumDescription("Nota de Crédito Comprobante Fiscal")]
         NotaDeCreditoComprobanteFiscal,
         [LibEnumDescription("Nota de Entrega")]
-        NotaEntrega,
-        [LibEnumDescription("Todos")]
-        Todos
+        NotaEntrega,        
+        [LibEnumDescription("Nota de Débito Comprobante Fiscal")]
+        NotaDeDebitoComprobanteFiscal
     }
 
 
