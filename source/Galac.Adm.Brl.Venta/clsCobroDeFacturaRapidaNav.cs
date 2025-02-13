@@ -321,6 +321,7 @@ namespace Galac.Adm.Brl.Venta {
             vSqlSb.AppendLine("	, factura.MontoIVAAlicuota1");
             vSqlSb.AppendLine("	, factura.MontoIVAAlicuota2");
             vSqlSb.AppendLine("	, factura.MontoIVAAlicuota3");
+            vSqlSb.AppendLine("	, factura.TotalMontoExento");
             vSqlSb.AppendLine("	, factura.TotalRenglones");
             vSqlSb.AppendLine("	, factura.TotalBaseImponible");
             vSqlSb.AppendLine("	, factura.TotalIVA");

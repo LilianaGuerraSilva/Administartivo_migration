@@ -28,12 +28,13 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("Cliente.NumeroRIF, ");
             vSql.AppendLine("NumeroControl, MontoGravableAlicuota1, MontoGravableAlicuota2, MontoGravableAlicuota3, ");
             vSql.AppendLine("MontoIVAAlicuota1, MontoIVAAlicuota2, MontoIVAAlicuota3,");
+            vSql.AppendLine("TotalMontoExento,");
             vSql.AppendLine("TotalRenglones, TotalBaseImponible, TotalIVA, TotalFactura");
             vSql.AppendLine(")) AS Verificacion, Fecha, Numero, TipoDeDocumento, HoraModificacion AS 'Hora', factura.ConsecutivoCompania ");
             vSql.AppendLine("FROM factura INNER JOIN Cliente ON factura.ConsecutivoCompania = Cliente.ConsecutivoCompania ");
             vSql.AppendLine("AND factura.CodigoCliente = Cliente.Codigo ");
             vSql.AppendLine("WHERE  StatusFactura = '0' ");
-            vSql.AppendLine("AND TipoDeDocumento <> '8' AND TipoDeDocumento <> '3')");
+            vSql.AppendLine("AND TipoDeDocumento <> '3')");
             vSql.AppendLine(", CTE_Verificacion AS(");
 
             vSql.AppendLine("SELECT");
@@ -46,6 +47,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("WHEN '2' THEN 'Nota de Débito' ");
             vSql.AppendLine("WHEN '5' THEN 'Comprobante Fiscal' ");
             vSql.AppendLine("WHEN '7' THEN 'Nota de Crédito Comprobante Fiscal' ");
+            vSql.AppendLine("WHEN '8' THEN 'Nota de Entrega' ");
             vSql.AppendLine("ELSE 'No Definido' END, ");
 
             vSql.AppendLine("Escalada.Escalada41 AS 'ConsecutivoCompania', Escalada.Escalada24, ");
