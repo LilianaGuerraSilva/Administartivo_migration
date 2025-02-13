@@ -311,7 +311,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             #region GH Detail -> Renglón Factura
             vSql.AppendLine("    RF.ConsecutivoRenglon,");
             vSql.AppendLine("    RF.Articulo,");
-            vSql.AppendLine("	 RF.Descripcion,");
+            vSql.AppendLine("	 REPLACE(RF.Descripcion, 'total', 'tot..') AS Descripcion,");
             vSql.AppendLine("	 RF.Cantidad,");
             vSql.AppendLine("	 AI.UnidadDeVenta,");
             vSql.AppendLine("	 AI.UnidadDeVentaSecundaria,");
@@ -361,7 +361,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	 ISNULL(NF1.Descripcion, '') + ' ' + ISNULL(NF2.Descripcion, '') AS NotasFinales,");
             #endregion GFTotales
             #region GFTitulos
-            vSql.AppendLine("    ISNULL(Fact.Observaciones, '') AS Observaciones,");
+            vSql.AppendLine("    REPLACE(ISNULL(Fact.Observaciones, ''), 'total', 'tot..') AS Observaciones,");
             #endregion GFTitulos
             #region ML
             vSql.AppendLine("	 (CASE WHEN Fact.CodigoMoneda = SttByCia.CodigoMonedaLocal THEN SttByCia.NombreMonedaExtranjera ELSE Fact.Moneda END) AS MonedaExtranjera,");
