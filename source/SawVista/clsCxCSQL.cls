@@ -1377,27 +1377,20 @@ Public Function fSQLNroComprobanteFiscalEnCXC(ByVal valPorCompania As Boolean, O
    Dim vSql As String
    Dim vSqlWhere  As String
    On Error GoTo h_ERROR
-   
-   vSqlWhere = gUtilSQL.fSQLEnumValueWithAnd("", "factura.TipoDeDocumento", enum_TipoDocumentoFactura.eTF_COMPROBANTEFISCAL)
-   vSqlWhere = "(" & vSqlWhere & " OR " & gUtilSQL.fSQLEnumValueWithAnd("", "factura.TipoDeDocumento", enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL) & ")"
-   vSqlWhere = gUtilSQL.fSQLEnumValueWithAnd(vSqlWhere, "factura.STATUSFACTURA", enum_StatusFactura.eSF_EMITIDA)
-   
+   vSqlWhere = "(" & gUtilSQL.fSQLEnumValueWithAnd("", "factura.TipoDeDocumento", enum_TipoDocumentoFactura.eTF_COMPROBANTEFISCAL)
+   vSqlWhere = vSqlWhere & " OR " & gUtilSQL.fSQLEnumValueWithAnd("", "factura.TipoDeDocumento", enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL)
+   vSqlWhere = vSqlWhere & " OR " & gUtilSQL.fSQLEnumValueWithAnd("", "factura.TipoDeDocumento", enum_TipoDocumentoFactura.eTF_NOTADEDEBITOCOMPROBANTEFISCAL)
+   vSqlWhere = vSqlWhere & " OR " & gUtilSQL.fSQLEnumValueWithAnd(vSqlWhere, "factura.STATUSFACTURA", enum_StatusFactura.eSF_EMITIDA) & ")"
    If (valPorCompania) Then
-    vSqlWhere = gUtilSQL.fSQLNumberValueWithAnd(vSqlWhere, "factura.ConsecutivoCompania", valConsecutivoCompania)
+      vSqlWhere = gUtilSQL.fSQLNumberValueWithAnd(vSqlWhere, "factura.ConsecutivoCompania", valConsecutivoCompania)
    End If
    
-  vSqlWhere = gUtilSQL.getWhereSQL(vSqlWhere)
- 
-  vSql = " UPDATE CxC "
-  vSql = vSql & " SET "
-  vSql = vSql & " CxC.NumeroComprobanteFiscal = factura.NumeroComprobanteFiscal"
-  vSql = vSql & " FROM factura"
-  vSql = vSql & " INNER JOIN  CxC ON"
-  vSql = vSql & " factura.ConsecutivoCompania =  CxC.ConsecutivoCompania AND "
-  vSql = vSql & " factura.Numero = CxC.NumeroDocumentoOrigen AND "
-  vSql = vSql & ftipoCXC() & " = Cxc.TipoCxC "
-  vSql = vSql & vSqlWhere
-  fSQLNroComprobanteFiscalEnCXC = vSql
+   vSql = " UPDATE CxC  SET CxC.NumeroComprobanteFiscal = factura.NumeroComprobanteFiscal"
+   vSql = vSql & " FROM factura INNER JOIN  CxC ON"
+   vSql = vSql & " factura.ConsecutivoCompania =  CxC.ConsecutivoCompania AND factura.Numero = CxC.NumeroDocumentoOrigen AND "
+   vSql = vSql & ftipoCXC() & " = Cxc.TipoCxC "
+   vSql = vSql & gUtilSQL.getWhereSQL(vSqlWhere)
+   fSQLNroComprobanteFiscalEnCXC = vSql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLNroComprobanteFiscalEnCXC", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -1450,12 +1443,14 @@ Private Function ftipoCXC() As String
    vCadenaComparacion = vCadenaComparacion & vSeparador & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_FACTURA)
    vCadenaComparacion = vCadenaComparacion & vSeparador & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTADECREDITO)
    vCadenaComparacion = vCadenaComparacion & vSeparador & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTADEDEBITO)
+   vCadenaComparacion = vCadenaComparacion & vSeparador & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTADEDEBITOCOMPROBANTEFISCAL)
    
    vCadenaResultadoStr = gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_TICKETMAQUINAREGISTRADORA)
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_NOTADECREDITOCOMPROBANTEFISCAL)
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_FACTURA)
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_NOTADECREDITO)
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_NOTADEDEBITO)
+   vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_NOTADEDEBITOCOMPROBANTEFISCAL)
    vSql = gUtilSQL.DfSQLCaseIf("factura.TipoDeDocumento", vCadenaComparacion, vCadenaResultadoStr, gTexto.fSeparadorStandardDeElementosString, "=", "")
    Set gEnumProyecto = Nothing
    ftipoCXC = vSql
@@ -1596,6 +1591,7 @@ Public Function fSQLSearchCxCPendientes(ByVal valConsecutivoCompania As Long, By
       Sql = Sql & " WHEN factura.TipoDeDocumento" & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_BOLETA) & " THEN " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_BOLETADEVENTA)
       Sql = Sql & " WHEN factura.TipoDeDocumento" & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL) & " THEN " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_NOTADECREDITOCOMPROBANTEFISCAL)
       Sql = Sql & " WHEN factura.TipoDeDocumento" & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTAENTREGA) & " THEN " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_NOTAENTREGA)
+      Sql = Sql & " WHEN factura.TipoDeDocumento" & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTADEDEBITOCOMPROBANTEFISCAL) & " THEN " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_NOTADEDEBITOCOMPROBANTEFISCAL)
       Sql = Sql & " END "
       Sql = Sql & " AND cxC.ConsecutivoCompania = factura.ConsecutivoCompania "
       

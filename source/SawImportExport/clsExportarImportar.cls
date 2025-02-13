@@ -843,7 +843,8 @@ Private Function fSQLExportarRenglonCobroDeFacturas() As String
    SQL = SQL & " AND (factura.StatusFactura <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_BORRADOR) & ")"
    SQL = SQL & " AND (factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_FACTURA) & " OR "
    SQL = SQL & " factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_COMPROBANTEFISCAL)
-   SQL = SQL & "OR factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL) & ")"
+   SQL = SQL & "OR factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL)
+   SQL = SQL & "OR factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTADEDEBITOCOMPROBANTEFISCAL) & ")"
    If mIsEntreFechas Then
       SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("factura.fecha", mFechaInicial, mFechaFinal) & ")"
    End If
