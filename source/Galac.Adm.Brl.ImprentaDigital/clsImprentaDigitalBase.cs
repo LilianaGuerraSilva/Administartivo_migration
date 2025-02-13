@@ -520,7 +520,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 valInput = LibString.Trim(valInput);
                 System.Text.RegularExpressions.Regex vListInvalidChars = new System.Text.RegularExpressions.Regex("[´|`|~|^|¨|'|\n|\r|\t]", System.Text.RegularExpressions.RegexOptions.Compiled);
                 vResult = vListInvalidChars.Replace(valInput, "");
-                vListInvalidChars = new System.Text.RegularExpressions.Regex("(?i)total");
+                vListInvalidChars = new System.Text.RegularExpressions.Regex("(?i)tot..");
                 vResult = vListInvalidChars.Replace(vResult, "");
             }
             return vResult;
