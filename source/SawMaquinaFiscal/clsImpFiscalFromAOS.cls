@@ -60,7 +60,7 @@ Public Function fUltimoNumeroMemoriaFiscal(ByVal valDatosInsImprFiscal As clsDat
    objWrapper.InitializeDefProg gDefProg.GetSiglasDelPrograma, gDefProg.GetVersionDelPrograma, gDefProg.GetVersionBaseDeDatos, gConvert.dateToString(gDefProg.GetFechaDeLaVersion), gConvert.dateToString(gDefProg.GetFechaDeLaVersion), "", "", gConvert.fConvierteAString(1), False
    If valDatosInsImprFiscal.GetTipoDocumentoAsEnum = enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL Then
       vNumeroDocumento = objWrapper.ObtenerUltimoNumeroNotaDeCreditoImpresa(insclsUtilImprFiscal.fGenerarXmlConDatosDeLaMaquinaFiscal(valDatosInsImprFiscal))
-   ElseIf valDatosInsImprFiscal.GetTipoDocumentoAsEnum = enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL Then
+   ElseIf valDatosInsImprFiscal.GetTipoDocumentoAsEnum = enum_TipoDocumentoFactura.eTF_NOTADEDEBITOCOMPROBANTEFISCAL Then
       vNumeroDocumento = objWrapper.ObtenerUltimoNumeroNotaDeDebitoImpresa(insclsUtilImprFiscal.fGenerarXmlConDatosDeLaMaquinaFiscal(valDatosInsImprFiscal))
    Else
       vNumeroDocumento = objWrapper.ObtenerUltimoNumeroFacturaImpresa(insclsUtilImprFiscal.fGenerarXmlConDatosDeLaMaquinaFiscal(valDatosInsImprFiscal))
