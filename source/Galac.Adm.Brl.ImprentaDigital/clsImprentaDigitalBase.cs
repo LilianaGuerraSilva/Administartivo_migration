@@ -112,7 +112,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" ,factura.Fecha");
             vSql.AppendLine(" ,factura.HoraModificacion");
             vSql.AppendLine(" ,factura.FechaDeFacturaAfectada");
-            vSql.AppendLine(" ,factura.Observaciones");
+            vSql.AppendLine(" ,REPLACE(factura.Observaciones, 'total', 'tot..') AS Observaciones");
             vSql.AppendLine(" ,factura.CodigoMoneda AS MonedaDelDocumento");
             vSql.AppendLine(" ,factura.CodigoMonedaDeCobro AS MonedaDelCobro");
             vSql.AppendLine(" ,factura.StatusFactura");
@@ -237,7 +237,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine("SELECT ");
             vSql.AppendLine(" ConsecutivoRenglon");
             vSql.AppendLine(" ,Articulo");
-            vSql.AppendLine(" ,Descripcion");
+            vSql.AppendLine(" ,REPLACE(Descripcion, 'total', 'tot..') AS Descripcion");
             vSql.AppendLine(" ,ROUND(Cantidad,2) AS Cantidad");
             vSql.AppendLine(" ,ROUND(PrecioSinIVA,2) AS PrecioSinIVA");
             vSql.AppendLine(" ,ROUND(PrecioConIVA,2) AS PrecioConIVA ");
@@ -520,8 +520,6 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 valInput = LibString.Trim(valInput);
                 System.Text.RegularExpressions.Regex vListInvalidChars = new System.Text.RegularExpressions.Regex("[´|`|~|^|¨|'|\n|\r|\t]", System.Text.RegularExpressions.RegexOptions.Compiled);
                 vResult = vListInvalidChars.Replace(valInput, "");
-                vListInvalidChars = new System.Text.RegularExpressions.Regex("(?i)total");
-                vResult = vListInvalidChars.Replace(vResult, "tot..");
             }
             return vResult;
         }
