@@ -38,7 +38,7 @@ Public Sub sEjecutarAccion(ByVal valAction As AccionSobreRecord, ByVal valEntida
    Set insExportar = New clsExportarDatos
    Set insImportarDatos = New clsImportarDatosSAW
    If valEsFacturaBorradores Then
-      Borradores = "Borradores de "
+      Borradores = "Documentos en Espera de "
    Else
       Borradores = ""
    End If
@@ -58,7 +58,7 @@ Public Sub sEjecutarAccion(ByVal valAction As AccionSobreRecord, ByVal valEntida
         insExportar.sExportarLosDatosAlFile valNombreArchivoRenglonCobro, valExtension, fSQLExportarRenglonCobroDeFacturas, refProgressBar
       End If
       refExito = True
-      gMessage.exito "¡Se ha exportado el modulo de " & Borradores & gEnumProyecto.enumEntidadAExportarOImportarToString(valEntidad) & " con exito!"
+      gMessage.exito "¡Se ha exportado el módulo de " & Borradores & gEnumProyecto.enumEntidadAExportarOImportarToString(valEntidad) & " con exito!"
    Else
       insImportarDatos.sImportarModulosSaw valNombreArchivo, valExtension, refProgressBar, refExito, valEntidad, NumFilasVector, lblporcentaje, refCallingWindow, valEsFacturaBorradores, valGenerarCxCalImportar, reftxtProgreso
    End If
