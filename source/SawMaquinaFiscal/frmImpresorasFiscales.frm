@@ -1960,10 +1960,6 @@ h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
 End Sub
 
 Private Sub sEfectuaNotaDeDebito(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, ByVal valPuerto As String, ByVal valTipoConexion As enum_TipoConexion, ByVal valIp As String, ByVal valCajaNumero As String)
-   Dim insImpFiscalBMC As clsUtilImpFiscalBMC
-   Dim insImpFiscalQPrintMF As clsImpFiscalQPrint
-   Dim insImprFiscalFactory As clsImpFiscalFamFactory
-   Dim insImpFiscalEleposVMAX As clsImpFiscalEleposVMAX
    Dim insImpFiscalFromAOS As clsImpFiscalFromAOS
    On Error GoTo h_Error
    If insDatosImprFiscal.GetUsarModoDotNet Then
