@@ -166,7 +166,7 @@
                 Visibility="Collapsed"
                 Grid.Row="7"
                 Grid.Column="0"
-                Content="Imprimir el Borrador de Factura al Insertar................"
+                Content="Imprimir Factura en Espera al Insertar................"
                 Style="{StaticResource LabelPrompt}" />
             <CheckBox
                 Name="chkImprimirBorradorAlInsertarFactura"
