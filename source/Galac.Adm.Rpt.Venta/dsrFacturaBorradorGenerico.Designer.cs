@@ -830,7 +830,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTituloInforme.Left = 0F;
             this.lblTituloInforme.Name = "lblTituloInforme";
             this.lblTituloInforme.Style = "color: Black; font-size: 8.25pt; text-align: center";
-            this.lblTituloInforme.Text = "Borrador NO FISCAL de Documento";
+            this.lblTituloInforme.Text = "Documento en Espera - NO FISCAL";
             this.lblTituloInforme.Top = 0.171625F;
             this.lblTituloInforme.Width = 4.09375F;
             // 
@@ -960,7 +960,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblNumeroFactura.Name = "lblNumeroFactura";
             this.lblNumeroFactura.Style = "color: Black; font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-" +
     "set: 1";
-            this.lblNumeroFactura.Text = "Borrador";
+            this.lblNumeroFactura.Text = "En Espera";
             this.lblNumeroFactura.Top = 0.156F;
             this.lblNumeroFactura.Width = 0.75F;
             // 

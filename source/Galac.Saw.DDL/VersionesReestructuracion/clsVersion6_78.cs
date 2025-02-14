@@ -128,11 +128,11 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         }
 
         private void CambiarPermisosUsuarioFactura() {
-            Execute(SqlUpdateParaCambiarNombrePermisoFactura("Modificar", "Modificar Borrador"));
-            Execute(SqlUpdateParaCambiarNombrePermisoFactura("Eliminar", "Eliminar Borrador"));
+            Execute(SqlUpdateParaCambiarNombrePermisoFactura("Modificar", "Modificar Documento en Espera"));
+            Execute(SqlUpdateParaCambiarNombrePermisoFactura("Eliminar", "Eliminar Documento en Espera"));
             Execute(SqlUpdateParaCambiarNombrePermisoFactura("Insertar Devolución / Reverso", "Insertar Nota de Crédito por Devolución/Reverso"));
-            Execute(SqlUpdateParaCambiarNombrePermisoFactura("Cambiar Descripción y Precio", "Modificar Descripción y Precio en Borrador"));
-            Execute(SqlUpdateParaCambiarNombrePermisoFactura("Modificar Precio en Factura", "Modificar Precio en Borrador"));
+            Execute(SqlUpdateParaCambiarNombrePermisoFactura("Cambiar Descripción y Precio", "Modificar Descripción y Precio de Doc. en Espera"));
+            Execute(SqlUpdateParaCambiarNombrePermisoFactura("Modificar Precio en Factura", "Modificar Precio de Doc. en Espera"));
             Execute(SqlUpdateParaCambiarNombrePermisoFactura("Modificar Vendedor en Factura Emitida", "Corregir Vendedor"));
             Execute(SqlUpdateParaCambiarNombrePermisoFactura("Emisión sin Impresión Fiscal", "Corregir falla de emisión Imp. Fiscal"));
             Execute(SqlUpdateParaCambiarNombrePermisoFactura("Emitir y Cobrar sin Impresión Fiscal", "Corregir falla de emisión Imp. Fiscal y Cobrar"));
