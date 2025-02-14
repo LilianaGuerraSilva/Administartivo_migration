@@ -2836,7 +2836,7 @@ Public Function strTipodocumentoFacturaToNum(ByVal tipodocumentoFactura As Strin
    Dim mEnum As enum_TipoDocumentoFactura
    Dim nCount As Integer
    nCount = 0
-   For mEnum = eTF_FACTURA To eTF_NOTAENTREGA
+   For mEnum = eTF_FACTURA To eTF_NOTADEDEBITOCOMPROBANTEFISCAL
    If UCase(tipodocumentoFactura) = UCase(enumTipodocumentoFacturaToString(mEnum)) Then
       strTipodocumentoFacturaToNum = nCount
       GoTo h_EXIT
