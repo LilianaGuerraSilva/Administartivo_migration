@@ -269,7 +269,7 @@ Public Function GetTipoDocumentoAsEnum() As enum_TipoDocumentoFactura
 End Function
 
 Public Function GetEsNotaDeCredito() As Boolean
-   GetEsNotaDeCredito = (mTipoDocumento <> eTF_COMPROBANTEFISCAL)
+   GetEsNotaDeCredito = (mTipoDocumento = eTF_NOTADECREDITOCOMPROBANTEFISCAL)
 End Function
 
 Public Sub SetPuerto(ByVal newPuerto As String)
