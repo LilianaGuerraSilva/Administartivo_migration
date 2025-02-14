@@ -2771,7 +2771,7 @@ Public Function enumStatusFacturaToString(ByVal statusFactura As enum_StatusFact
    Select Case statusFactura
       Case eSF_EMITIDA: enumStatusFacturaToString = "Emitida"
       Case eSF_ANULADA: enumStatusFacturaToString = "Anulada"
-      Case eSF_BORRADOR: enumStatusFacturaToString = "Borrador"
+      Case eSF_BORRADOR: enumStatusFacturaToString = "En Espera"
       Case Else: enumStatusFacturaToString = enumStatusFacturaToString(0)
    End Select
 End Function
@@ -3020,7 +3020,7 @@ Public Function StatusFacturaStringToEnum(ByVal valStatusFactura As String) As e
       StatusFacturaStringToEnum = eSF_EMITIDA
    ElseIf UCase(valStatusFactura) = UCase("Anulada") Then
       StatusFacturaStringToEnum = eSF_ANULADA
-   ElseIf UCase(valStatusFactura) = UCase("Borrador") Then
+   ElseIf UCase(valStatusFactura) = UCase("En Espera") Then
       StatusFacturaStringToEnum = eSF_BORRADOR
    Else
       StatusFacturaStringToEnum = eSF_BORRADOR
