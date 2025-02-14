@@ -29,15 +29,15 @@ namespace Galac.Saw.SLev {
             #region Factura
             vPermisos.Add(new CustomRole("Factura", "Consultar", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Insertar", "Principal", 1));
-            vPermisos.Add(new CustomRole("Factura", "Modificar Borrador", "Principal", 1));
+            vPermisos.Add(new CustomRole("Factura", "Modificar Documento en Espera", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Modificar Información de Campos Definibles", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Corregir Número de Control", "Principal", 1));
-            vPermisos.Add(new CustomRole("Factura", "Eliminar Borrador", "Principal", 1));
+            vPermisos.Add(new CustomRole("Factura", "Eliminar Documento en Espera", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Emitir", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "ReGenerar CxC", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Emitir Directo", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Insertar Copia", "Principal", 1));
-            vPermisos.Add(new CustomRole("Factura", "Insertar Factura Borrador", "Principal", 1));
+            vPermisos.Add(new CustomRole("Factura", "Insertar Factura en Espera", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Insertar Factura Manual", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Insertar Venta con Débito Fiscal Diferido", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Insertar Nota de Crédito por Devolución/Reverso", "Principal", 1));
@@ -55,8 +55,8 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Factura", "Informes", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Otorgar Descuento", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Cobro Directo", "Principal", 1));
-            vPermisos.Add(new CustomRole("Factura", "Modificar Descripción y Precio en Borrador", "Principal", 1));
-            vPermisos.Add(new CustomRole("Factura", "Modificar Precio en Borrador", "Principal", 1));
+            vPermisos.Add(new CustomRole("Factura", "Modificar Descripción y Precio de Doc. en Espera", "Principal", 1));
+            vPermisos.Add(new CustomRole("Factura", "Modificar Precio de Doc. en Espera", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Importar", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Exportar", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Reservar Mercancía", "Principal", 1));
@@ -94,7 +94,7 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Control Despacho", "Modificar", "Principal", 1));
             vPermisos.Add(new CustomRole("Control Despacho", "Eliminar", "Principal", 1));
             vPermisos.Add(new CustomRole("Control Despacho", "Anular", "Principal", 1));
-            vPermisos.Add(new CustomRole("Control Despacho", "Generar Borrador de Factura", "Principal", 1));
+            vPermisos.Add(new CustomRole("Control Despacho", "Generar Factura en Espera", "Principal", 1));
             vPermisos.Add(new CustomRole("Control Despacho", "Informes", "Principal", 1));
             #endregion
 
