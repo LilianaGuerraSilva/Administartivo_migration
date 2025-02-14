@@ -380,7 +380,7 @@ Public Function fGenerarXmlConDatosDeLaVenta(ByVal valDatosImprFiscal As clsDato
    vUsaCamposDefinibles = valDatosImprFiscal.GetImprimeCamposDefinibles
    vTotalFactura = gConvert.fConvierteAString(Abs(valDatosImprFiscal.GetTotalFactura))
    vXmlDatosDeLaVenta = "<GpData>" & vSiguienteLinea & "<GpResult>"
-   vDatosDelDocumento = fGenerarDatosDelDocumentoParaXml(gConvert.enumerativoAChar(valDatosImprFiscal.GetTipoDocumentoAsEnum), valDatosImprFiscal.GetNumeroTicket, valDatosImprFiscal.GetSerialImpresoraFiscal, valDatosImprFiscal.GetFechaFacturaAfectada, valDatosImprFiscal.GetHoraModificacion, vTotalFactura, valDatosImprFiscal.GetTotalesMonedaExtranjera, valDatosImprFiscal.GetBaseImponibleIGTF, valDatosImprFiscal.GetTotalAPagar, valDatosImprFiscal.GetIGTFML, valDatosImprFiscal.GetCodigoMonedaCompania)
+   vDatosDelDocumento = fGenerarDatosDelDocumentoParaXml(valDatosImprFiscal.GetTipoDocumentoAsEnum, valDatosImprFiscal.GetNumeroTicket, valDatosImprFiscal.GetSerialImpresoraFiscal, valDatosImprFiscal.GetFechaFacturaAfectada, valDatosImprFiscal.GetHoraModificacion, vTotalFactura, valDatosImprFiscal.GetTotalesMonedaExtranjera, valDatosImprFiscal.GetBaseImponibleIGTF, valDatosImprFiscal.GetTotalAPagar, valDatosImprFiscal.GetIGTFML, valDatosImprFiscal.GetCodigoMonedaCompania)
    vDatosDelCliente = fGenerarDatosDelClienteParaXml(valDatosImprFiscal.GetNumeroRIFCliente, valDatosImprFiscal.GetNombreCliente, valDatosImprFiscal.GetDireccion, valDatosImprFiscal.GetTelefono, valDatosImprFiscal.GetObservaciones)
    vDatosDeLosProductos = fGenerarDatosDeLosProductosParaXml(valDatosImprFiscal.GetItems)
    vDatosDeLosPagos = fGenerarDatosDeLosPagosParaXml(valDatosImprFiscal)
@@ -466,7 +466,7 @@ Private Function fGenerarDatosDelDocumentoParaXml(ByVal valTipoDocumento As enum
    Dim vSiguienteLinea As String
    On Error GoTo h_Error
    vSiguienteLinea = vbCrLf
-   vDatosDelDocumento = vSiguienteLinea & "<TipoDeDocumento>" & gConvert.enumerativoAChar(valTipoDocumento) & "</TipoDeDocumento>" & vSiguienteLinea & _
+   vDatosDelDocumento = "<TipoDeDocumento>" & gConvert.enumerativoAChar(valTipoDocumento) & "</TipoDeDocumento>" & vSiguienteLinea & _
                         "<NumeroComprobanteFiscal>" & valNumeroComprobanteFiscal & "</NumeroComprobanteFiscal>" & vSiguienteLinea & _
                         "<SerialMaquinaFiscal>" & valSerialMaquina & "</SerialMaquinaFiscal>" & vSiguienteLinea & _
                         "<Fecha>" & valFechaDocumento & "</Fecha>" & vSiguienteLinea & _

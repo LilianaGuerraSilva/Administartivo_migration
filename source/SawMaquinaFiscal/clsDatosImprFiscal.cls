@@ -102,7 +102,7 @@ Private Sub sClrRecord()
     mDireccion = ""
     mHoraModificacion = ""
     mFecha = ""
-    mTipoDocumento = enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL
+    mTipoDocumento = enum_TipoDocumentoFactura.eTF_COMPROBANTEFISCAL
     mPuerto = ""
     mPuertoImpresoraFiscal = ""
     mImprimeDireccionAlFinalDelComprobanteFiscal = True
