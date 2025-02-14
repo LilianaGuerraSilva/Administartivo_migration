@@ -6510,10 +6510,10 @@ Public Function fenumTipoDocumentoFacturaToStringInArray(Optional ByVal valPrepa
    If valPrepararParaSql Then
       varCaracterDelimitador = "'"
    End If
-   varLimiteSuperior = enum_TipoDocumentoFactura.eTF_NOTAENTREGA - enum_TipoDocumentoFactura.eTF_FACTURA
+   varLimiteSuperior = enum_TipoDocumentoFactura.eTF_NOTADEDEBITOCOMPROBANTEFISCAL - enum_TipoDocumentoFactura.eTF_FACTURA
    nCount = 0
    ReDim varArray(0 To varLimiteSuperior)
-   For varEnum = eTF_FACTURA To eTF_NOTAENTREGA
+   For varEnum = eTF_FACTURA To eTF_NOTADEDEBITOCOMPROBANTEFISCAL
       If valConSiglas = False Then
       varArray(nCount) = varCaracterDelimitador & enumTipodocumentoFacturaToString(varEnum) & varCaracterDelimitador
       Else
@@ -9923,7 +9923,7 @@ Public Function fSiglasTipoDocumentoFacturaToEnum(ByVal tipodocumentoFactura As 
    Dim mEnum As enum_TipoDocumentoFactura
    Dim nCount As Integer
    nCount = 0
-   For mEnum = eTF_FACTURA To eTF_NOTAENTREGA
+   For mEnum = eTF_FACTURA To eTF_NOTADEDEBITOCOMPROBANTEFISCAL
    If UCase(tipodocumentoFactura) = UCase(enumTipoDocumentoFacturaToSiglas(mEnum)) Then
       fSiglasTipoDocumentoFacturaToEnum = nCount
       GoTo h_EXIT
