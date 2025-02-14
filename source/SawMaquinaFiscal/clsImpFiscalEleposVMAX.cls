@@ -200,7 +200,7 @@ Private Function fCalcularMontoDescuento(ByVal valMonto As Currency, ByVal valPo
    fCalcularMontoDescuento = vResultado
 End Function
 
-Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales, insDatosImprFiscal As clsDatosImprFiscal, ByVal valEsNotaDeCredito, ByRef refReady As Boolean)
+Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales, insDatosImprFiscal As clsDatosImprFiscal, ByRef refReady As Boolean)
       Dim rsDatosArticulo As ADODB.Recordset
       Dim vAlicuotas As String
       Dim vTipoTasa As enum_TipoDeAlicuota
@@ -230,10 +230,12 @@ Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales
       Dim vCantidadCaracteres As Integer
       Dim vCaracteresEspacio As String
       Dim vMontoMEStr As String
+      Dim vEsNotaDeCredito As Boolean
       On Error GoTo h_Error
+      vEsNotaDeCredito = (insDatosImprFiscal.GetTipoDocumentoAsEnum = eTF_NOTADECREDITOCOMPROBANTEFISCAL)
       Set rsDatosArticulo = insDatosImprFiscal.GetItems
       If (sAbreCF(insDatosImprFiscal.GetPuertoImpresoraFiscal)) Then
-         If fImprimeDatosClientes(insDatosImprFiscal, valEsNotaDeCredito) Then
+         If fImprimeDatosClientes(insDatosImprFiscal) Then
             vResult = True
             vPorcetajeDesTotal = insDatosImprFiscal.GetPorcentajeDeDescuento
             If Not rsDatosArticulo.BOF And Not rsDatosArticulo.EOF Then
@@ -257,7 +259,7 @@ Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales
                   vSerial = gUtilImprFiscal.fCadenaCaracteresValidos(rsDatosArticulo.Fields("Serial"), 100)
                   vRollo = gUtilImprFiscal.fCadenaCaracteresValidos(rsDatosArticulo.Fields("Rollo"), 100)
                   sAgregaLineaSeparacion
-                  If Not fVenta(vDescripcion, vCantidadFormateada, vPrecioFormateado, vAlicuotas, valEsNotaDeCredito, vMontoDescuentoFormateado) Then
+                  If Not fVenta(vDescripcion, vCantidadFormateada, vPrecioFormateado, vAlicuotas, vEsNotaDeCredito, vMontoDescuentoFormateado) Then
                      fCancelaCuponFiscal False, insDatosImprFiscal.GetPuertoImpresoraFiscal
                      mVmax.CerrarPuerto
                      GoTo h_Error
@@ -308,7 +310,7 @@ Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales
             End If
          End If
          vTotales = insDatosImprFiscal.GetTotalesMonedaExtranjera
-         If gTexto.DfLen(vTotales) > 0 And Not insDatosImprFiscal.GetEsNotaDeCredito Then
+         If gTexto.DfLen(vTotales) > 0 And Not vEsNotaDeCredito Then
             vList = gTexto.fConvertCadenaEnArray(vTotales, vbNewLine)
             If UBound(vList) > 0 Then
                For vCount = LBound(vList) To UBound(vList)
@@ -403,7 +405,7 @@ Private Function fDarFormatoAlicuotaIva(ByVal valTipoAlicuota As enum_TipoDeAlic
    fDarFormatoAlicuotaIva = vResult
 End Function
 
-Private Function fImprimeDatosClientes(ByVal insDatosImprFiscal As clsDatosImprFiscal, ByVal valEsNotaDeCredito As Boolean) As Boolean
+Private Function fImprimeDatosClientes(ByVal insDatosImprFiscal As clsDatosImprFiscal) As Boolean
    Dim vResult As Boolean
    Dim vTipo As String
    Dim vRazonSocial As String
@@ -420,13 +422,15 @@ Private Function fImprimeDatosClientes(ByVal insDatosImprFiscal As clsDatosImprF
    Dim vHora As String
    Dim vMin As String
    Dim vSubstring As String
+   Dim vEsNotaDeCredito As Boolean
          
    On Error GoTo h_Error
+   vEsNotaDeCredito = insDatosImprFiscal.GetEsNotaDeCredito
    vRazonSocial = gUtilImprFiscal.fCadenaCaracteresValidos(insDatosImprFiscal.GetNombreCliente, 100)
    vRif = insDatosImprFiscal.GetNumeroRIFCliente
    vDireccion = gUtilImprFiscal.fCadenaCaracteresValidos("Direccion: " & insDatosImprFiscal.GetDireccion, 100)
    vObservaciones = gUtilImprFiscal.fCadenaCaracteresValidos("Observaciones: " & insDatosImprFiscal.GetObservaciones, 100)
-   If valEsNotaDeCredito Then
+   If vEsNotaDeCredito Then
       vTipo = "D"
       vNumFactura = insDatosImprFiscal.GetNumeroTicket
       vSerialMaquinaFiscal = insDatosImprFiscal.GetSerialImpresoraFiscal
