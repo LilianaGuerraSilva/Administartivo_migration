@@ -830,7 +830,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTituloInforme.Left = 0F;
             this.lblTituloInforme.Name = "lblTituloInforme";
             this.lblTituloInforme.Style = "color: Black; font-size: 8.25pt; text-align: center";
-            this.lblTituloInforme.Text = "En Espera NO FISCAL de Documento";
+            this.lblTituloInforme.Text = "Documento en Espera - NO FISCAL de Documento";
             this.lblTituloInforme.Top = 0.171625F;
             this.lblTituloInforme.Width = 4.09375F;
             // 
