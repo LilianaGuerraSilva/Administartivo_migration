@@ -7,8 +7,8 @@ using LibGalac.Aos.Cnf;
 using LibGalac.Aos.UI.Wpf;
 using LibGalac.Aos.Uil;
 using LibGalac.Aos.Vbwa;
-using LibGalac.Aos.Wrp;
-using LibGalac.Aos.Wrp.Saw;
+//using LibGalac.Aos.Wrp;
+//using LibGalac.Aos.Wrp.Saw;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -108,12 +108,12 @@ namespace Galac.Saw.Wrp.Venta {
                 IFacturaPdn insFactura = new clsFacturaNav();
                 vChisme.Append(insFactura.MensajeDeNotificacionSiEsNecesario(valActionStr, valConsecutivoCompania, valNumero, valTipoDocumento));
                 if (!LibString.IsNullOrEmpty(vChisme.ToString())) {
-                    ILibSendMessage wrpSaw = new wrpSendMessage();
-                    if (LibDate.F1IsEqualToF2(LibDate.Today(), LibConvert.ToDate(LibAppSettings.ReadAppSettingsKey("DEVQABACKDOOR")))) {
-                        wrpSaw.SendMailFromGalac("desasaw@galac.com", "Notificación", vChisme.ToString(), "juan.garcia@galac.com");
-                    } else {
-                        wrpSaw.SendMailFromGalac("controlfacturacion@seniat.gob.ve", "Notificación", vChisme.ToString(), "");
-                    }
+                    //ILibSendMessage wrpSaw = new wrpSendMessage();
+                    //if (LibDate.F1IsEqualToF2(LibDate.Today(), LibConvert.ToDate(LibAppSettings.ReadAppSettingsKey("DEVQABACKDOOR")))) {
+                    //    wrpSaw.SendMailFromGalac("desasaw@galac.com", "Notificación", vChisme.ToString(), "juan.garcia@galac.com");
+                    //} else {
+                    //    wrpSaw.SendMailFromGalac("controlfacturacion@seniat.gob.ve", "Notificación", vChisme.ToString(), "");
+                    //}
                 }
             } catch (Exception vEx) {
                 if (vEx is System.AccessViolationException) {

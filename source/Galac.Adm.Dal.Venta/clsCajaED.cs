@@ -5,6 +5,8 @@ using LibGalac.Aos.Dal;
 using LibGalac.Aos.Dal.Contracts;
 using Galac.Adm.Ccl.Venta;
 using Galac.Adm.Ccl.DispositivosExternos;
+using LibGalac.Aos.Base.Dal;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Dal.Venta {
     [LibMefDalComponentMetadata(typeof(clsCajaED))]
@@ -523,19 +525,21 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@Numero" + InsSql.VarCharTypeForDb(12) + ",");
-            SQL.AppendLine("@EsNotaDeCredito" + InsSql.VarCharTypeForDb(1));
+            SQL.AppendLine("@TipoDocumento" + InsSql.VarCharTypeForDb(1));
             return SQL.ToString();
         }
 
         private string SqlSpActualizaUltimoNumComprobante() {
             StringBuilder SQL = new StringBuilder();
+            QAdvSql insSqlUtil = new QAdvSql("");
             SQL.AppendLine("BEGIN");
             SQL.AppendLine("DECLARE @ReturnValue " + InsSql.NumericTypeForDb(10, 0) + "");
             SQL.AppendLine("UPDATE Adm.Caja");
-            SQL.AppendLine("SET  UltimoNumeroCompFiscal = CASE WHEN @EsNotaDeCredito ='S' THEN UltimoNumeroCompFiscal ELSE @Numero END,");
-            SQL.AppendLine("     UltimoNumeroNCFiscal   = CASE WHEN @EsNotaDeCredito ='S' THEN @Numero ELSE  UltimoNumeroNCFiscal END");
-            SQL.AppendLine("	 WHERE Consecutivo = @Consecutivo AND");
-            SQL.AppendLine("	 ConsecutivoCompania = @ConsecutivoCompania");
+            SQL.AppendLine($"SET  UltimoNumeroCompFiscal = CASE WHEN @TipoDocumento ={insSqlUtil.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal)} THEN UltimoNumeroCompFiscal ELSE @Numero END,");
+            SQL.AppendLine($"     UltimoNumeroNCFiscal   = CASE WHEN @TipoDocumento ={insSqlUtil.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal)} THEN @Numero ELSE  UltimoNumeroNCFiscal END");
+            SQL.AppendLine($"     UltimoNumeroNDFiscal   = CASE WHEN @TipoDocumento ={insSqlUtil.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeDebitoComprobanteFiscal)} THEN @Numero ELSE  UltimoNumeroNDFiscal END");
+            SQL.AppendLine("	  WHERE Consecutivo = @Consecutivo AND");
+            SQL.AppendLine("	  ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine(" SET @ReturnValue =  @@ROWCOUNT ");
             SQL.AppendLine(" RETURN @ReturnValue ");
             SQL.AppendLine("END");

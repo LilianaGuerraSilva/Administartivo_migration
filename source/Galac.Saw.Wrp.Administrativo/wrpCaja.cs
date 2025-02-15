@@ -150,13 +150,13 @@ namespace Galac.Saw.Wrp.Venta {
             return vReturn;
         }
 
-        bool IWrpCaja.ActualizaUltimoNumComprobante(int valConsecutivoCompania,int valConsecutivoCaja,string valNumero,bool valEsNotaDeCredito) {
+        bool IWrpCaja.ActualizaUltimoNumComprobante(int valConsecutivoCompania, int valConsecutivoCaja, string valNumero, string valTipoDocumento) {
             bool vReturn = false;
             ICajaPdn insCaja = new clsCajaNav();
             try {
-                vReturn = insCaja.ActualizaUltimoNumComprobante(valConsecutivoCompania,valConsecutivoCaja,valNumero,valEsNotaDeCredito);
+                vReturn = insCaja.ActualizaUltimoNumComprobante(valConsecutivoCompania, valConsecutivoCaja, valNumero, valTipoDocumento);
                 return vReturn;
-            } catch(Exception vEx) {
+            } catch (Exception vEx) {
                 LibExceptionDisplay.Show(vEx);
             }
             return vReturn;

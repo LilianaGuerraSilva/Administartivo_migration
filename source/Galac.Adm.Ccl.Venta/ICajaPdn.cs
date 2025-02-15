@@ -18,7 +18,7 @@ namespace Galac.Adm.Ccl.Venta {
         XElement ValidateImpresoraFiscal(ref string refMensaje);
         string ValidaImpresoraFiscalVb();
         bool InsertarCajaPorDefecto(int valConsecutivoCompania);
-        bool ActualizaUltimoNumComprobante(int valConsecutivoCompania,int valConsecutivoCaja,string valNumero,bool valEsNotaDeCredito);
+        bool ActualizaUltimoNumComprobante(int valConsecutivoCompania,int valConsecutivoCaja,string valNumero,string valTipoDocumento);
         void ActualizarRegistroDeMaquinaFiscal(eAccionSR valAccion,int valConsecutivoCompania,eImpresoraFiscal valModeloImpresoraFiscal,string valSerialMaquinaFiscal,string valUltimoNumeroComptbanteFiscal,string valNombreOperador);
         bool ActualizarCierreXEnFacturas(int valConsecutivoCompania,int valConsecutivoCaja, DateTime valFechaModificacion, string valHoraDesde,string valHoraHasta);
         bool ImpresoraFiscalEstaHomologada(int valConsecutivoCompania, int valConsecutivoCaja, string valAccionDeAutorizacionDeProceso, ref string refMensaje)     ;

@@ -190,13 +190,13 @@ namespace Galac.Adm.Brl.Venta {
             return vModelo;
         }
 
-        bool ICajaPdn.ActualizaUltimoNumComprobante(int valConsecutivoCompania, int valConsecutivoCaja, string valNumero, bool valEsNotaDeCredito) {
+        bool ICajaPdn.ActualizaUltimoNumComprobante(int valConsecutivoCompania, int valConsecutivoCaja, string valNumero, string valTipoDocumento) {
             LibGpParams vParams = new LibGpParams();
             bool vResult = false;
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             vParams.AddInInteger("Consecutivo", valConsecutivoCaja);
             vParams.AddInString("Numero", valNumero, 12);
-            vParams.AddInBoolean("EsNotaDeCredito", false);
+            vParams.AddInString("TipoDocumento", valTipoDocumento, 1);
             vResult = new Galac.Adm.Dal.Venta.clsCajaDat().ActualizaUltimoNumComprobante(vParams.Get());
             return vResult;
         }
