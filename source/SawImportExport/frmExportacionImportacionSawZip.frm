@@ -812,7 +812,7 @@ Private Sub sVerificaValoresParaBorradoresFactura(ByVal Index As Integer, ByRef 
 On Error GoTo h_ERROR
     If Index = CM_OPT_chkModuloDeBorradoresDeFacturas Then
         refEsFacturaBorradores = True
-        refBorradorFacturaStr = " Borradores"
+        refBorradorFacturaStr = " Documentos en Espera"
     Else
         refEsFacturaBorradores = False
         refBorradorFacturaStr = ""

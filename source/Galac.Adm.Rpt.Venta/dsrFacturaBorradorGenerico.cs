@@ -46,7 +46,7 @@ namespace Galac.Adm.Rpt.Venta {
         #region Metodos Generados
 
         public string ReportTitle() {
-            return "Borrador NO FISCAL de Documento";
+            return "Documento en Espera NO FISCAL";
         }
 
         public bool ConfigReport(DataTable valDataSource, string valNombreCompania, int valConsecutivoCompania, string valNumeroDocumento, eTipoDocumentoFactura valTipoDocumento, eStatusFactura valStatusDocumento, bool valImprimirFacturaConSubtotalesPorLineaDeProducto, bool valDetalleProdCompFactura) {
