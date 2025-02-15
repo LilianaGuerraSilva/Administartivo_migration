@@ -228,13 +228,27 @@ namespace Galac.Saw.Wrp.DispositivosExternos {
             return false;
         }
 
-        bool IWrpImpresoraFisaclVb.ReimprimirDocumentoFiscal(string vfwXmlImpresoraFiscal, string vfwlDesde, string vfwlHasta, int vfwlTipoDocumento) {
+        bool IWrpImpresoraFisaclVb.ReimprimirDocumentoFiscal(string vfwXmlImpresoraFiscal, string vfwlDesde, string vfwlHasta, string vfwlTipoDocumento) {
             try {
                 bool vReady = false;
                 string vTipoBusqueda = "0";
-                eTipoDocumentoFiscal vTipoDocumento = (eTipoDocumentoFactura)vfwlTipoDocumento == eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal ? eTipoDocumentoFiscal.NotadeCredito : eTipoDocumentoFiscal.FacturaFiscal;
+                eTipoDocumentoFactura vTipoDocumentoFactura = (eTipoDocumentoFactura)LibConvert.DbValueToEnum(vfwlTipoDocumento);  
+                eTipoDocumentoFiscal vTipoDocumentoIF=new eTipoDocumentoFiscal();
+                switch (vTipoDocumentoFactura) {
+                    case eTipoDocumentoFactura.ComprobanteFiscal:
+                        vTipoDocumentoIF = eTipoDocumentoFiscal.FacturaFiscal;
+                        break;
+                    case eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal:
+                        vTipoDocumentoIF = eTipoDocumentoFiscal.NotadeCredito;
+                        break;
+                    case eTipoDocumentoFactura.NotaDeDebitoComprobanteFiscal:
+                        vTipoDocumentoIF = eTipoDocumentoFiscal.NotadeDebito;
+                        break;
+                    default:
+                        break;
+                }
                 clsImpresoraFiscalMenu insImpresoraFiscalMenu = new clsImpresoraFiscalMenu();
-                vReady = insImpresoraFiscalMenu.ReimprimirDocumentoFiscal(vfwXmlImpresoraFiscal, vfwlDesde, vfwlHasta, vTipoDocumento, vTipoBusqueda);
+                vReady = insImpresoraFiscalMenu.ReimprimirDocumentoFiscal(vfwXmlImpresoraFiscal, vfwlDesde, vfwlHasta, vTipoDocumentoIF, vTipoBusqueda);
                 return vReady;
             } catch (Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, "Impresora Fiscal");
