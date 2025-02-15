@@ -32,6 +32,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             DisposeConnectionNoTransaction();
             CambiarPermisosUsuarioFactura();
             CrearEscalada();
+            AgregarColumnaNDCaja();
             return true;
         }
 
@@ -148,6 +149,12 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         }
         private void CrearEscalada() {
             new clsEscaladaED().InstalarTabla();
+        }
+
+        private void AgregarColumnaNDCaja() {
+            if (AddColumnString("Adm.Caja", "UltimoNumeroNDFiscal", 12, "", "")) {
+                AddDefaultConstraint("Adm.Caja", "d_CajUlNuND", "''", "UltimoNumeroNDFiscal");
+            }
         }
 
     }

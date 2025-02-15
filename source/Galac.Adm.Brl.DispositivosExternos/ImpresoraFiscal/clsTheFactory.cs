@@ -815,7 +815,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         vCmd = "d" + valTipoTasa;
                         break;
                     case eTipoDocumentoFactura.NotaDeDebitoComprobanteFiscal:
-                        vCmd = "'" + valTipoTasa;
+                        vCmd = "`" + valTipoTasa;
                         break;
                     default:
                         vCmd = valTipoTasa;

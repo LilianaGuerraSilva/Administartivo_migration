@@ -474,6 +474,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             get {
                 return (TipoDeDocumento == eTipoDocumentoFactura.Factura
                             || TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito
+                            || TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebitoComprobanteFiscal
                             || TipoDeDocumento == eTipoDocumentoFactura.ComprobanteFiscal
                             || TipoDeDocumento == eTipoDocumentoFactura.Boleta)
                     && ((VueltoEnMonedaLocal + VueltoEnDivisas) != 0);
@@ -556,7 +557,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private bool IsVisibleSeccionIGTF {
             get {
-                return _TipoDeContribuyenteIVA == eTipoDeContribuyenteDelIva.ContribuyenteEspecial && (TipoDeDocumento == eTipoDocumentoFactura.Factura || TipoDeDocumento == eTipoDocumentoFactura.ComprobanteFiscal);
+                return _TipoDeContribuyenteIVA == eTipoDeContribuyenteDelIva.ContribuyenteEspecial && (TipoDeDocumento == eTipoDocumentoFactura.Factura || TipoDeDocumento == eTipoDocumentoFactura.ComprobanteFiscal || TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebitoComprobanteFiscal);
             }
         }
 
@@ -654,9 +655,16 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private List<CobroCobroMediosElectonicosVPOS> ListaCobroCobroMediosElectonicosVPOS { get; set; }
 
+        bool _IsVisibleTotalMediosElectronicos;
         public bool IsVisibleTotalMediosElectronicos {
             get {
-                return true;
+                return _IsVisibleTotalMediosElectronicos;
+            }
+            set {
+                if (_IsVisibleTotalMediosElectronicos != value) {
+                    _IsVisibleTotalMediosElectronicos = value;
+                    RaisePropertyChanged(IsVisibleTotalMediosElectronicosPropertyName);
+                }
             }
         }
 
@@ -1348,6 +1356,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         private void DeshabilitarControlesSegunTipoDeDocumento(eTipoDocumentoFactura valTipoDeDocumento) {
+            IsVisibleTotalMediosElectronicos = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMediosElectronicosDeCobro");
             switch (valTipoDeDocumento) {
                 case eTipoDocumentoFactura.Factura:
                     IsVisibleSeccionEfectivo = "Visible";
@@ -1371,7 +1380,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     IsVisibleSeccionTarjeta = "Visible";
                     IsVisibleSeccionTransferencia = "Visible";
                     IsEnabledEfectivoDivisa = true;
-                    RibbonData.RemoveRibbonGroup("Medios electrónicos");
+                    if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMediosElectronicosDeCobro")) {
+                        RibbonData.RemoveRibbonGroup("Medios electrónicos");
+                    }
                     break;
                 case eTipoDocumentoFactura.ResumenDiarioDeVentas:
                     break;
@@ -1400,6 +1411,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     EfectivoEnMonedaLocal = TotalFactura;
                     IsEnabledEfectivoDivisa = false;
                     RibbonData.RemoveRibbonGroup("Medios electrónicos");
+                    break;
+                case eTipoDocumentoFactura.NotaDeDebitoComprobanteFiscal:
+                    IsVisibleSeccionEfectivo = "Visible";
+                    IsVisibleSeccionTarjeta = "Visible";
+                    IsVisibleSeccionTransferencia = "Visible";
+                    IsEnabledEfectivoDivisa = true;
+                    if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMediosElectronicosDeCobro")) {
+                        RibbonData.RemoveRibbonGroup("Medios electrónicos");
+                    }
                     break;
                 case eTipoDocumentoFactura.NotaEntrega:                    
                     break;
