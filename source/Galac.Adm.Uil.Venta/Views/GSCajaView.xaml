@@ -181,6 +181,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Label
                         Name="lblFamiliaDeMaquinaFiscal"
@@ -319,15 +320,36 @@
                         Text="{Binding Path=UltimoNumeroNCFiscal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                         TextAlignment="Right" />
                     <Label
-                        Name="lblRegistroDeRetornoEnTxt"
+                        Name="lblUltimoNumeroNotaDebito"
                         Grid.Row="8"
+                        Grid.Column="0"
+                        Content="Último Núm. Nota de Débito"
+                        Style="{StaticResource LabelPrompt}"
+                        Visibility="{Binding Path=IsVisibleParaTFHK, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    <nsWpfControls:GSTextBoxWpf
+                        Name="txUltimoNumeroNDFiscal"
+                        Grid.Row="8"
+                        Grid.Column="1"
+                        HorizontalAlignment="Stretch"
+                        BorderThickness="1"
+                        InputDataType="Alfanumeric"
+                        IsEnabled="{Binding Path=IsEnabled}"
+                        IsReadOnly="True"
+                        MaxLength="15"
+                        Style="{StaticResource TextBoxInputStyle}"
+                        Text="{Binding Path=UltimoNumeroNDFiscal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                        TextAlignment="Right"
+                        Visibility="{Binding Path=IsVisibleParaTFHK, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    <Label
+                        Name="lblRegistroDeRetornoEnTxt"
+                        Grid.Row="9"
                         Grid.Column="0"
                         Content="Registro de Retorno en txt"
                         Style="{StaticResource LabelPrompt}"
                         Visibility="{Binding Path=IsVisibleRegistroDeRetornoEnTxt, Converter={StaticResource booleanToVisibilityConverter}}" />
                     <CheckBox
                         Name="chkRegistroDeRetornoEnTxt"
-                        Grid.Row="8"
+                        Grid.Row="9"
                         Grid.Column="1"
                         HorizontalAlignment="Left"
                         IsChecked="{Binding Path=RegistroDeRetornoEnTxt}"
@@ -336,14 +358,14 @@
                         Visibility="{Binding Path=IsVisibleRegistroDeRetornoEnTxt, Converter={StaticResource booleanToVisibilityConverter}}" />
                     <Label
                         Name="lblMotivoEliminacionOModificacion"
-                        Grid.Row="9"
+                        Grid.Row="10"
                         Grid.Column="0"
                         Content="Motivo del cambio"
                         Style="{StaticResource LabelPrompt}"
                         Visibility="{Binding Path=IsVisibleMotivoEliminacionOModificacion, Converter={StaticResource booleanToVisibilityConverter}}" />
                     <nsWpfControls:GSTextAreaWpf
                         Name="txtMotivoEliminacionOModificacion"
-                        Grid.Row="9"
+                        Grid.Row="10"
                         Grid.Column="1"
                         Grid.ColumnSpan="2"
                         Width="365"
