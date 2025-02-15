@@ -183,6 +183,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     RaisePropertyChanged(FamiliaImpresoraFiscalPropertyName);
                     RaisePropertyChanged(UsarModoDotNetPropertyName);
                     RaisePropertyChanged(IsVisibleRegistroDeRetornoEnTxtPropertyName);
+                    RaisePropertyChanged(() => IsVisibleParaTFHK);
                 }
             }
         }
