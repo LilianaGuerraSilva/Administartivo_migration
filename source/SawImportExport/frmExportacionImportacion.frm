@@ -266,7 +266,7 @@ Public Sub sInitLookAndFeel(ByVal valAction As AccionSobreRecord, ByVal valEntid
    mEntidad = valEntidad
    mEsFacturaBorradores = valEsFacturaBorradores
    If mEsFacturaBorradores Then
-      vLabelBorrador = " Borradores"
+      vLabelBorrador = " Documentos en Espera"
    Else
       vLabelBorrador = ""
    End If
