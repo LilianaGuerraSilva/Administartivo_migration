@@ -129,6 +129,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         }
 
         private void CambiarPermisosUsuarioFactura() {
+            Execute(SqlUpdateParaCambiarNombrePermisoFactura("Insertar Factura Borrador", "Insertar Factura en Espera"));
             Execute(SqlUpdateParaCambiarNombrePermisoFactura("Modificar Borrador", "Modificar Documento en Espera"));
             Execute(SqlUpdateParaCambiarNombrePermisoFactura("Modificar", "Modificar Documento en Espera"));
             Execute(SqlUpdateParaCambiarNombrePermisoFactura("Eliminar Borrador", "Eliminar Documento en Espera"));
