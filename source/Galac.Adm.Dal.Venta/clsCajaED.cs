@@ -536,8 +536,8 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("DECLARE @ReturnValue " + InsSql.NumericTypeForDb(10, 0) + "");
             SQL.AppendLine("UPDATE Adm.Caja");
             SQL.AppendLine($"SET  UltimoNumeroCompFiscal = CASE WHEN @TipoDocumento ={insSqlUtil.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal)} THEN UltimoNumeroCompFiscal ELSE @Numero END,");
-            SQL.AppendLine($"     UltimoNumeroNCFiscal   = CASE WHEN @TipoDocumento ={insSqlUtil.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal)} THEN @Numero ELSE  UltimoNumeroNCFiscal END");
-            SQL.AppendLine($"     UltimoNumeroNDFiscal   = CASE WHEN @TipoDocumento ={insSqlUtil.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeDebitoComprobanteFiscal)} THEN @Numero ELSE  UltimoNumeroNDFiscal END");
+            SQL.AppendLine($"     UltimoNumeroNCFiscal   = CASE WHEN @TipoDocumento ={insSqlUtil.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal)} THEN @Numero ELSE UltimoNumeroNCFiscal END,");
+            SQL.AppendLine($"     UltimoNumeroNDFiscal   = CASE WHEN @TipoDocumento ={insSqlUtil.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeDebitoComprobanteFiscal)} THEN @Numero ELSE UltimoNumeroNDFiscal END");
             SQL.AppendLine("	  WHERE Consecutivo = @Consecutivo AND");
             SQL.AppendLine("	  ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine(" SET @ReturnValue =  @@ROWCOUNT ");
