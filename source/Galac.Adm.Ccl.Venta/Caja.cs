@@ -29,6 +29,7 @@ namespace Galac.Adm.Ccl.Venta {
         private bool _AbrirGavetaDeDinero;
         private string _UltimoNumeroCompFiscal;
         private string _UltimoNumeroNCFiscal;
+        private string _UltimoNumeroNDFiscal;
         private string _IpParaConexion;
         private string _MascaraSubred;
         private string _Gateway;
@@ -205,6 +206,12 @@ namespace Galac.Adm.Ccl.Venta {
             get { return _UltimoNumeroNCFiscal; }
             set { _UltimoNumeroNCFiscal = LibString.Mid(value, 0, 12); }
         }
+
+        public string UltimoNumeroNDFiscal {
+            get { return _UltimoNumeroNDFiscal; }
+            set { _UltimoNumeroNDFiscal = LibString.Mid(value, 0, 12); }
+        }
+
         public string IpParaConexion {
             get { return _IpParaConexion; }
             set { _IpParaConexion = LibString.Mid(value, 0, 15); }
@@ -313,6 +320,7 @@ namespace Galac.Adm.Ccl.Venta {
             AbrirGavetaDeDineroAsBool = false;
             UltimoNumeroCompFiscal = string.Empty;
             UltimoNumeroNCFiscal = string.Empty;
+            UltimoNumeroNDFiscal = string.Empty;
             IpParaConexion = string.Empty;
             MascaraSubred = string.Empty;
             Gateway = string.Empty;
@@ -347,6 +355,7 @@ namespace Galac.Adm.Ccl.Venta {
             vResult.IpParaConexion = _IpParaConexion;
             vResult.MascaraSubred = _MascaraSubred;
             vResult.Gateway = _Gateway;
+            vResult.NumeroFactura = _NumeroFactura;
             vResult.PermitirDescripcionDelArticuloExtendidaAsBool = _PermitirDescripcionDelArticuloExtendida;
             vResult.PermitirNombreDelClienteExtendidoAsBool = _PermitirNombreDelClienteExtendido;
             vResult.UsarModoDotNetAsBool = _UsarModoDotNet;
@@ -375,6 +384,7 @@ namespace Galac.Adm.Ccl.Venta {
                 "\nAbrir Gaveta De Dinero = " + _AbrirGavetaDeDinero +
                "\nUltimo Numero Comp Fiscal = " + _UltimoNumeroCompFiscal +
                "\nUltimo Numero NCFiscal = " + _UltimoNumeroNCFiscal +
+               "\nUltimo Numero NDFiscal = " + _UltimoNumeroNDFiscal +
                "\nIp Para Conexion = " + _IpParaConexion +
                "\nMascara Subred = " + _MascaraSubred +
                "\nGateway = " + _Gateway +

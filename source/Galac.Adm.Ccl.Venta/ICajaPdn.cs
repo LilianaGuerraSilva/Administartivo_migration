@@ -22,7 +22,7 @@ namespace Galac.Adm.Ccl.Venta {
         void ActualizarRegistroDeMaquinaFiscal(eAccionSR valAccion,int valConsecutivoCompania,eImpresoraFiscal valModeloImpresoraFiscal,string valSerialMaquinaFiscal,string valUltimoNumeroComptbanteFiscal,string valNombreOperador);
         bool ActualizarCierreXEnFacturas(int valConsecutivoCompania,int valConsecutivoCaja, DateTime valFechaModificacion, string valHoraDesde,string valHoraHasta);
         bool ImpresoraFiscalEstaHomologada(int valConsecutivoCompania, int valConsecutivoCaja, string valAccionDeAutorizacionDeProceso, ref string refMensaje)     ;
-        LibResponse ActualizarYAuditarCambiosMF(IList<Caja> refRecord, bool valAuditarMF, string valMotivoCambiosMaqFiscal, string valFamiliaOriginal, string valModeloOriginal, string valTipoDeConexionOriginal, string valSerialMFOriginal, string valUltNumComprobanteFiscalOriginal, string valUltNumNCFiscalOriginal);
+        LibResponse ActualizarYAuditarCambiosMF(IList<Caja> refRecord, bool valAuditarMF, string valMotivoCambiosMaqFiscal, string valFamiliaOriginal, string valModeloOriginal, string valTipoDeConexionOriginal, string valSerialMFOriginal, string valUltNumComprobanteFiscalOriginal, string valUltNumNCFiscalOriginal, string valUltNumNDFiscalOriginal);
         bool ImpresoraFiscalEstaHomologada(string valCajaNombre, string valFabricante, string valModelo, string valSerial, string valAccionDeAutorizacionDeProceso, ref string refMensaje);
         bool SerialDeImpresoraEstaEnUso(int valConsecutivoCompania,int valConsecutivoCaja, string valSerialImpresoraFiscal);
         #endregion //Metodos Generados
