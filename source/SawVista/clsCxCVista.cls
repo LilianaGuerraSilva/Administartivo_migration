@@ -189,8 +189,7 @@ Public Function fSqlViewVentasFactura() As String
    vSql = vSql & vbCrLf & " FROM factura LEFT JOIN" & vbCrLf
    vSql = vSql & vbCrLf & " IGV_RetencionDocumentoCobrado ON factura.ConsecutivoCompania = IGV_RetencionDocumentoCobrado.ConsecutivoCompania AND" & vbCrLf
    vSql = vSql & vbCrLf & " factura.Numero = IGV_RetencionDocumentoCobrado.NumeroDocumentoOrigen AND" & vbCrLf
-   vSql = vSql & vbCrLf & " (CASE Factura.TipoDeDocumento WHEN '0' THEN '0' ELSE (CASE Factura.TipoDeDocumento WHEN '1' THEN '3' ELSE (CASE Factura.TipoDeDocumento WHEN '2' THEN" & vbCrLf
-   vSql = vSql & vbCrLf & " '4' END) END) END) = IGV_RetencionDocumentoCobrado.TipoDeDocumentoCobrado " & vbCrLf
+   vSql = vSql & vbCrLf & " (CASE Factura.TipoDeDocumento WHEN '0' THEN '0' WHEN '1' THEN '3' WHEN '2' THEN '4' END) = IGV_RetencionDocumentoCobrado.TipoDeDocumentoCobrado " & vbCrLf
    vSql = vSql & vbCrLf & " LEFT JOIN Comun.AlicuotaImpuestoEspecial ON Factura.Fecha BETWEEN Comun.AlicuotaImpuestoEspecial.FechaDesde AND Comun.AlicuotaImpuestoEspecial.FechaHasta AND" & vbCrLf
    vSql = vSql & vbCrLf & " Factura.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & " AND Factura.PorcentajeAlicuota1 = Comun.AlicuotaImpuestoEspecial.Alicuota" & vbCrLf
    vSql = vSql & vbCrLf & " WHERE factura.TipoDeDocumento <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
@@ -566,7 +565,7 @@ Public Function fSqlViewBaseimponibleAlicuotasVentasResumenDeVentas() As String
    vSql = vSql & " SUM(factura.MontoIVAAlicuota3) AS MontoIvaAlicuota3,"
    vSql = vSql & " dbo.factura.SerialMaquinaFiscal, dbo.factura.Fecha,"
    vSql = vSql & " (CASE factura.TipoDeVenta WHEN '3' THEN '0' WHEN '0' THEN '4' ELSE factura.TipoDeVenta END) AS TipoDeVenta, "
-   vSql = vSql & " MAX(CASE WHEN Factura.TipoDeVenta = '3' OR Factura.TipoDeVenta = '0' THEN IVG_RetencionesVentas.NumeroComprobanteRetIva ELSE '0'END) AS NumeroComprobanteRetIva,"
+   vSql = vSql & " MAX(CASE WHEN Factura.TipoDeVenta = '3' OR Factura.TipoDeVenta = '0' THEN IVG_RetencionesVentas.NumeroComprobanteRetIva ELSE '0' END) AS NumeroComprobanteRetIva,"
    vSql = vSql & " MAX(CASE WHEN Factura.TipoDeVenta = '3' OR Factura.TipoDeVenta = '0' THEN IVG_RetencionesVentas.MontoIvaRetenido ELSE '0' END) AS MontoIvaRetenido,"
    vSql = vSql & " MAX(CASE WHEN Factura.TipoDeVenta = '3' OR Factura.TipoDeVenta = '0' THEN IVG_RetencionesVentas.FechaComprobanteRetIva ELSE '' END) as FechaComprobanteRetIva,"
    vSql = vSql & " SUM(factura.BaseImponibleIGTF) AS BaseImponibleIGTF,"
@@ -577,10 +576,10 @@ Public Function fSqlViewBaseimponibleAlicuotasVentasResumenDeVentas() As String
    vSql = vSql & " IVG_RetencionesVentas.NumeroDocumentoOrigen = factura.Numero"
    vSql = vSql & " AND IVG_RetencionesVentas.CodigoCliente = factura.CodigoCliente"
    vSql = vSql & " AND IVG_RetencionesVentas.Fecha = factura.Fecha"
-   vSql = vSql & " AND IVG_RetencionesVentas.TipoDeDocumentoCobrado = (CASE Factura.TipoDeDocumento WHEN '5' THEN '8' ELSE (CASE Factura.TipoDeDocumento WHEN '7' THEN '<'  END) END)"
+   vSql = vSql & " AND IVG_RetencionesVentas.TipoDeDocumentoCobrado = (CASE Factura.TipoDeDocumento WHEN '5' THEN '8' WHEN '7' THEN '<' WHEN '9' THEN '>' END)"
    vSql = vSql & " AND IVG_RetencionesVentas.ConsecutivoCompania  = factura.ConsecutivoCompania"
    vSql = vSql & " Where (dbo.factura.StatusFactura = 0)"
-   vSql = vSql & " AND(dbo.factura.TipoDeDocumento = '5' OR dbo.factura.TipoDeDocumento = '7')"
+   vSql = vSql & " AND(dbo.factura.TipoDeDocumento = '5' OR dbo.factura.TipoDeDocumento = '7' OR dbo.factura.TipoDeDocumento = '9')"
    vSql = vSql & " GROUP BY dbo.factura.ConsecutivoCompania, dbo.factura.SerialMaquinaFiscal, dbo.factura.Fecha,"
    vSql = vSql & " dbo.factura.NumeroParaResumen , dbo.factura.TipoDeVenta, dbo.factura.TipoDeDocumento"
    fSqlViewBaseimponibleAlicuotasVentasResumenDeVentas = vSql
@@ -1041,7 +1040,7 @@ Private Function fSqlVentasDetalladoSeccionUnion(ByVal valEsTipoResumenDiario As
    If valEsTipoResumenDiario Then
       vSql = vSql & " Factura.NumeroDesde  AS Numero ,"
    Else
-      vSql = vSql & " (CASE WHEN Factura.TipoDeDocumento ='5' or Factura.TipoDeDocumento ='7' THEN factura.NumeroComprobanteFiscal ELSE factura.Numero END )  AS Numero ,"
+      vSql = vSql & " (CASE WHEN Factura.TipoDeDocumento ='5' or Factura.TipoDeDocumento ='7' or Factura.TipoDeDocumento ='9' THEN factura.NumeroComprobanteFiscal ELSE factura.Numero END )  AS Numero ,"
    End If
    vSql = vSql & "(SELECT codTipoDeVentaIVA FROM IGV_EnumTipoDeVentaIva WHERE DbValue = factura.TipoDeVenta COLLATE Modern_Spanish_CS_AS ) AS TipoDeVenta , "
    vSql = vSql & "(SELECT CodTipoDocumentoSawIva FROM IGV_EnumTipoDocumentoIvaFactura WHERE DbValue = factura.TipoDeDocumento COLLATE Modern_Spanish_CS_AS) AS TipoDeDocumento, "
@@ -1104,7 +1103,7 @@ Private Function fSqlVentasDetalladoSeccionUnion(ByVal valEsTipoResumenDiario As
    vSql = vSql & " factura.PorcentajeAlicuota1 AS PorcentajeIvaAlicuotaGeneral,"
    vSql = vSql & " factura.PorcentajeAlicuota2 AS PorcentajeIvaAlicuota2,"
    vSql = vSql & " factura.PorcentajeAlicuota3 AS PorcentajeIvaAlicuota3,"
-   vSql = vSql & " (CASE WHEN Factura.TipoDeDocumento ='5' or Factura.TipoDeDocumento ='7' THEN SerialMaquinaFiscal ELSE (CASE Factura.Talonario WHEN '0' THEN '1' ELSE '2'  END ) END )  AS ConsecutivoTalonario,"
+   vSql = vSql & " (CASE WHEN Factura.TipoDeDocumento ='5' or Factura.TipoDeDocumento ='7' or Factura.TipoDeDocumento ='9' THEN SerialMaquinaFiscal ELSE (CASE Factura.Talonario WHEN '0' THEN '1' ELSE '2'  END ) END )  AS ConsecutivoTalonario,"
    vSql = vSql & " '' AS NumeroResumenDiario,"
    vSql = vSql & " 'N' AS EsCuentaDeTercero,"
    vSql = vSql & " 'N' AS MontosConvertido, 0 AS MontoIvaPercibido,"
