@@ -194,6 +194,7 @@ Public Function fSqlViewVentasFactura() As String
    vSql = vSql & vbCrLf & " Factura.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & " AND Factura.PorcentajeAlicuota1 = Comun.AlicuotaImpuestoEspecial.Alicuota" & vbCrLf
    vSql = vSql & vbCrLf & " WHERE factura.TipoDeDocumento <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
    vSql = vSql & vbCrLf & " AND factura.TipoDeDocumento <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_COMPROBANTEFISCAL)
+   vSql = vSql & vbCrLf & " AND factura.TipoDeDocumento <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTAENTREGA)
    vSql = vSql & vbCrLf & " AND factura.TipoDeDocumento <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL)
    vSql = vSql & vbCrLf & " AND factura.TipoDeDocumento <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTADEDEBITOCOMPROBANTEFISCAL)
    vSql = vSql & vbCrLf & " AND Factura.StatusFactura <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_BORRADOR)
@@ -347,6 +348,7 @@ Public Function fSqlViewVentasResumen() As String
    vSql = vSql & vbCrLf & " Factura.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & " AND Factura.PorcentajeAlicuota1 = Comun.AlicuotaImpuestoEspecial.Alicuota " & vbCrLf
    vSql = vSql & vbCrLf & " WHERE factura.TipoDeDocumento <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
    vSql = vSql & vbCrLf & " AND factura.TipoDeDocumento <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_FACTURA)
+   vSql = vSql & vbCrLf & " AND factura.TipoDeDocumento <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTAENTREGA)
    vSql = vSql & vbCrLf & " AND factura.TipoDeDocumento <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTADECREDITO)
    vSql = vSql & vbCrLf & " AND factura.TipoDeDocumento <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTADEDEBITO)
    vSql = vSql & vbCrLf & " AND Factura.StatusFactura <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_BORRADOR)
@@ -597,8 +599,7 @@ Public Function fSqlViewCxCHistoricoClientes() As String
    Dim sqlCaseMontoCobrado As String
    On Error GoTo h_ERROR
    Set gEnumProyecto = New clsEnumAdministrativo
-   sqlCaseMontoCobrado = "(cobranza.StatusCobranza = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCobranza.eSC_ANULADA) & _
-               " OR cobranza.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeDocumentoCobranza.eTDDC_CobranzaPorAplicacionDeRetencion) & ")"
+   sqlCaseMontoCobrado = "(cobranza.StatusCobranza = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCobranza.eSC_ANULADA) & " OR cobranza.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeDocumentoCobranza.eTDDC_CobranzaPorAplicacionDeRetencion) & ")"
    Sql = "SELECT "
    Sql = Sql & "cxC.ConsecutivoCompania, "
    Sql = Sql & "cxC.CodigoCliente AS Codigo, "
@@ -615,8 +616,7 @@ Public Function fSqlViewCxCHistoricoClientes() As String
    Sql = Sql & "cobranza.Numero AS NumeroCobranza, "
    Sql = Sql & "cobranza.Fecha AS FechaCobranza, "
    Sql = Sql & gUtilSQL.fSimpleSqlValue("Cuentas por Cobrar") & " AS TituloTipoReporte, "
-   Sql = Sql & gUtilSQL.getIIF("cobranza.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeDocumentoCobranza.eTDDC_CobranzaPorAplicacionDeRetencion), _
-                  gUtilSQL.fSimpleSqlValue("Cobro(*)"), gUtilSQL.fSimpleSqlValue("Cobro"), True) & " AS TipoDocumentoDetalle,"
+   Sql = Sql & gUtilSQL.getIIF("cobranza.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeDocumentoCobranza.eTDDC_CobranzaPorAplicacionDeRetencion), gUtilSQL.fSimpleSqlValue("Cobro(*)"), gUtilSQL.fSimpleSqlValue("Cobro"), True) & " AS TipoDocumentoDetalle,"
    Sql = Sql & gUtilSQL.getIIF(sqlCaseMontoCobrado, "0", "DocumentoCobrado.MontoAbonadoEnMonedaOriginal") & " AS MontoCobrado, "
    Sql = Sql & "documentoCobrado.CambioAMonedaDeCobranza AS CambioMonedaCobranza, "
    Sql = Sql & "documentoCobrado.CambioAMonedaLocal AS CambioALocalDesdeMonedaCxC, "
@@ -851,6 +851,7 @@ Public Function fSqlViewVentasFacturaAgrupado() As String
    vSql = vSql & " IGV_FacturaBase.ConsecutivoCompania = CobranzaFactura.ConsecutivoCompania" & vbCrLf
    vSql = vSql & " WHERE IGV_FacturaBase.TipoDeDocumentoFactura <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
    vSql = vSql & " AND IGV_FacturaBase.TipoDeDocumentoFactura <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_COMPROBANTEFISCAL)
+   vSql = vSql & " AND IGV_FacturaBase.TipoDeDocumentoFactura <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTAENTREGA)
    vSql = vSql & " AND IGV_FacturaBase.TipoDeDocumentoFactura <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL)
    vSql = vSql & " AND IGV_FacturaBase.TipoDeDocumentoFactura <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTADEDEBITOCOMPROBANTEFISCAL)
    vSql = vSql & " AND IGV_FacturaBase.StatusFactura <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_BORRADOR)
@@ -1173,6 +1174,7 @@ Private Function fSqlVentasDetalladoSeccionUnion(ByVal valEsTipoResumenDiario As
       vSql = vSql & " WHERE (Factura.StatusFactura = '" & gConvert.enumerativoAChar(enum_StatusFactura.eSF_EMITIDA) & "'"
       vSql = vSql & " OR Factura.StatusFactura = '" & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA) & "')"
    End If
+   vSql = vSql & " AND Factura.TipoDeDocumento <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTAENTREGA)
 h_EXIT:     On Error GoTo 0
    fSqlVentasDetalladoSeccionUnion = vSql
    Exit Function
