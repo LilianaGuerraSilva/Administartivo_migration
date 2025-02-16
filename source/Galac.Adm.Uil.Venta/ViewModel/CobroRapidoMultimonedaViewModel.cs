@@ -515,7 +515,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             get {                
                 decimal vTotalPagosME = LibMath.RoundToNDecimals((EfectivoEnDivisas + TransferenciaEnDivisas + TotalMediosElectronicosME) * CambioAMonedaLocal, 2);
                 vTotalPagosME = IsVisibleSeccionIGTF ? vTotalPagosME : 0;
-                return (TipoDeDocumento == eTipoDocumentoFactura.Factura || TipoDeDocumento == eTipoDocumentoFactura.ComprobanteFiscal) ? LibMath.RoundToNDecimals(System.Math.Min(TotalFactura, vTotalPagosME), 2) : 0;
+                return (TipoDeDocumento == eTipoDocumentoFactura.Factura || TipoDeDocumento == eTipoDocumentoFactura.ComprobanteFiscal || TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebitoComprobanteFiscal) ? LibMath.RoundToNDecimals(System.Math.Min(TotalFactura, vTotalPagosME), 2) : 0;
             }
         }
 
@@ -601,7 +601,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         public bool IsVisibleVuelto {
             get {
-                return TipoDeDocumento == eTipoDocumentoFactura.Factura || TipoDeDocumento == eTipoDocumentoFactura.ComprobanteFiscal;
+                return TipoDeDocumento == eTipoDocumentoFactura.Factura || TipoDeDocumento == eTipoDocumentoFactura.ComprobanteFiscal || TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebitoComprobanteFiscal;
             }
         }
 
