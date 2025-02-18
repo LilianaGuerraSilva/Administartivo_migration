@@ -48,6 +48,8 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         [LibEnumDescription("/Anulacion/v3")]
         Anular,
         [LibEnumDescription("/email/v3")]
-        Email
+        Email,
+        [LibEnumDescription("/facturacion/status")]
+        EstadoDocumento
     }
 } //End of namespace namespace Galac.Saw.Ccl.ImprentaDigital

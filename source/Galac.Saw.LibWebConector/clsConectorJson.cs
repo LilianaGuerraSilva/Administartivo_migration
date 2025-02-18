@@ -5,9 +5,10 @@ using LibGalac.Aos.DefGen;
 using Newtonsoft.Json.Linq;
 using System.Linq;
 using System.IO;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Saw.LibWebConnector {
-    public abstract class clsConectorJson {        
+    public abstract class clsConectorJson {
         string _Token;
         public string Token {
             get {
@@ -19,7 +20,7 @@ namespace Galac.Saw.LibWebConnector {
         }
 
         internal ILoginUser LoginUser {
-            get;set;
+            get; set;
         }
 
         public clsConectorJson(ILoginUser valloginUser) {
@@ -79,8 +80,8 @@ namespace Galac.Saw.LibWebConnector {
                 throw;
             }
         }
-       
+
         public abstract bool CheckConnection(ref string refMensaje, string valComandoApi);
-        public abstract stPostResq SendPostJson(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", int valTipoDocumento = 0);              
+        public abstract stPostResq SendPostJson(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", eTipoDocumentoFactura valTipoDocumento = eTipoDocumentoFactura.NoAsignado);
     }
 }
