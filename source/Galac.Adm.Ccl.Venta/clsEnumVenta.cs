@@ -175,7 +175,7 @@ namespace Galac.Adm.Ccl.Venta {
         [LibEnumDescription("Depósito Medios Electrónicos", Index = 0)]
         [LibEnumDescription("00014", Index = 1)]
         DepositoMS,
-		[LibEnumDescription("Crédito Electrónico", Index = 0)]
+        [LibEnumDescription("Crédito Electrónico", Index = 0)]
         [LibEnumDescription("00015", Index = 1)]
         CreditoElectronico
     }      
