@@ -156,6 +156,8 @@ namespace Galac.Saw.LibWebConnector {
         public string identificador { get; set; }
         [JsonProperty("corelativo")]
         public string corelativo { get; set; }
+        [JsonProperty("documento")]
+        public string documento { get; set; }
         [JsonProperty("datetime")]
         public DateTime datetime { get; set; }
         [JsonProperty("fecha")]
@@ -169,7 +171,7 @@ namespace Galac.Saw.LibWebConnector {
         [JsonProperty("success")]
         public bool success { get; set; }
         [JsonProperty("message")]
-        public string message { get; set; }
+        public string message { get; set; }        
         [JsonProperty("data")]
         public stDataRespuestaNV? data { get; set; }
         [JsonProperty("error")]        

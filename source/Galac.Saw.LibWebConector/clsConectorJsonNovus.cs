@@ -64,11 +64,13 @@ namespace Galac.Saw.LibWebConnector {
                     if (vReqNV.success) {
                         vReqs = new stPostResq() {
                             Aprobado = vReqNV.success,
-                            mensaje = vReqNV.message,
+                            mensaje = vReqNV.message ?? string.Empty,
                             resultados = new stRespuestaTF() {
+                                Estado = !LibString.IsNullOrEmpty(vReqNV.data.Value.numerodocumento) ? "Enviado" : "No Existe",
+                                tipoDocumento = vReqNV.data.Value.documento,
                                 numeroControl = vReqNV.data.Value.numerodocumento,
                                 fechaAsignacion = vReqNV.data.Value.fecha
-                            }
+                            },
                         };
                         return vReqs;
                     } else if (vReqNV.error.Value.code == null) {
@@ -104,29 +106,29 @@ namespace Galac.Saw.LibWebConnector {
             stRespuestaNV vResult = new stRespuestaNV();
             string vTipoDocumentoNV = GetTipoDocumentoNV(valTipoDocumento);
             stRespuestaStatusNV vReqStNV = JsonConvert.DeserializeObject<stRespuestaStatusNV>(valHttpResq);
-            if (vReqStNV.success) {
+            if(vReqStNV.success) {
                 stDataRespuestaStatusNV stDataNV = vReqStNV.data.Where(x => {
                     return x.Value.idtipodocumento == vTipoDocumentoNV;
                 }).FirstOrDefault().Value;
                 vResult = new stRespuestaNV() {
                     success = vReqStNV.success,
-                    message = vReqStNV.message,
-                    data = new stDataRespuestaNV() {
+                    message = vReqStNV.message ?? string.Empty,
+                    data = new stDataRespuestaNV {
                         numerodocumento = stDataNV.numerodocumento,
-                        fecha = stDataNV.fecha
+                        fecha = stDataNV.fecha,
+                        documento = stDataNV.documento
                     }
                 };
             } else {
                 string vMensaje = vReqStNV.error.Value.message;
-                int vPos =LibString.IndexOf(vMensaje,".");
-                if (vPos > 0) {
+                int vPos = LibString.IndexOf(vMensaje, ".");
+                if(vPos > 0) {
                     vMensaje = LibString.InsertAt(vMensaje, " en el servicio de imprenta", vPos);
                 }
-                vResult=new stRespuestaNV() {
-                    success = vReqStNV.success,                    
-                    error = new stErrorRespuestaNV() {                        
+                vResult = new stRespuestaNV() {
+                    error = new stErrorRespuestaNV {
                         message = vMensaje
-                    }   
+                    }
                 };
             }
             return vResult;

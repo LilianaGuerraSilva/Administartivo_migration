@@ -34,8 +34,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             try {
                 bool vResult = false;
                 bool vDocumentoExiste = false;
-                if (LibString.IsNullOrEmpty(EstatusDocumento)) {
-                vDocumentoExiste = EstadoDocumento();
+                if(LibString.IsNullOrEmpty(EstatusDocumento)) {
+                    vDocumentoExiste = EstadoDocumento();
                 }
                 if (vDocumentoExiste) { // Documento Existe en ID
                     vResult = base.SincronizarDocumento();
@@ -76,7 +76,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             bool vChekConeccion;
             string vDocumentoJSON;
             try {
-                if (LibString.IsNullOrEmpty(_ConectorJson.Token)) {
+                if(LibString.IsNullOrEmpty(_ConectorJson.Token)) {
                     ObtenerDatosDocumentoEmitido();
                     vChekConeccion = _ConectorJson.CheckConnection(ref vMensaje, LibEnumHelper.GetDescription(eComandosPostNovus.Autenticacion));
                 } else {
@@ -86,7 +86,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                      { "rif", LoginUser.User },
                      { "tipo", 2 },
                     { "numerointerno", NumeroDocumento() }};
-                if (vChekConeccion) {
+                if(vChekConeccion) {
                     vDocumentoJSON = vEstausJson.ToString();
                     vRespuestaConector = _ConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostNovus.EstadoDocumento), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
                     Mensaje = vRespuestaConector.mensaje;
@@ -94,16 +94,16 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     Mensaje = vMensaje;
                 }
                 return vRespuestaConector.Aprobado;
-            } catch (GalacException) {
+            } catch(GalacException) {
                 throw;
-            } catch (Exception vEx) {
+            } catch(Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             } finally {
                 CodigoRespuesta = vRespuestaConector.codigo ?? string.Empty;
-                EstatusDocumento = vRespuestaConector.estado.estadoDocumento ?? string.Empty;
-                NumeroControl = vRespuestaConector.estado.numeroControl ?? string.Empty;
-                FechaAsignacion = LibString.IsNullOrEmpty(vRespuestaConector.estado.fechaAsignacion) ? LibDate.MinDateForDB() : LibConvert.ToDate(vRespuestaConector.estado.fechaAsignacion);
-                HoraAsignacion = vRespuestaConector.estado.horaAsignacion ?? string.Empty;
+                EstatusDocumento = vRespuestaConector.resultados.Estado ?? string.Empty;
+                NumeroControl = vRespuestaConector.resultados.numeroControl ?? string.Empty;
+                FechaAsignacion = LibString.IsNullOrEmpty(vRespuestaConector.resultados.fechaAsignacion) ? LibDate.MinDateForDB() : LibConvert.ToDate(vRespuestaConector.resultados.fechaAsignacion);
+                HoraAsignacion = LibConvert.ToShortTimeStr(FechaAsignacion);
             }
         }
 
