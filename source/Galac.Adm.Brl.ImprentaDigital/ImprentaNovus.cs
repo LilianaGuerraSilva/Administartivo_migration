@@ -37,17 +37,17 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 if(LibString.IsNullOrEmpty(EstatusDocumento)) {
                     vDocumentoExiste = EstadoDocumento();
                 }
-                if (vDocumentoExiste) { // Documento Existe en ID
+                if(vDocumentoExiste) { // Documento Existe en ID
                     vResult = base.SincronizarDocumento();
-                } else if (LibString.S1IsEqualToS2(CodigoRespuesta, "203")) { // Documento No Existe en ID
-                vResult = EnviarDocumento();
+                } else if(LibString.S1IsEqualToS2(EstatusDocumento, "El documento No Existe en el servicio")) { // Documento No Existe en ID
+                    vResult = EnviarDocumento();
                 }
                 return vResult;
-            } catch (AggregateException gEx) {
+            } catch(AggregateException gEx) {
                 throw new GalacException(gEx.InnerException.Message, eExceptionManagementType.Controlled);
-            } catch (GalacException) {
+            } catch(GalacException) {
                 throw;
-            } catch (Exception vEx) {
+            } catch(Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
         }

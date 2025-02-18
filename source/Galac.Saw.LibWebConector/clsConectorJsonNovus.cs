@@ -70,11 +70,18 @@ namespace Galac.Saw.LibWebConnector {
                                 tipoDocumento = vReqNV.data.Value.documento,
                                 numeroControl = vReqNV.data.Value.numerodocumento,
                                 fechaAsignacion = vReqNV.data.Value.fecha
-                            },
+                            }
                         };
                         return vReqs;
-                    } else if (vReqNV.error.Value.code == null) {
-                        vReqs.mensaje = vReqNV.error.Value.message;
+                    } else if (vReqNV.error.Value.code == null && !LibString.IsNullOrEmpty(vReqNV.error.Value.message)) {
+                        vReqs = new stPostResq() {
+                            Aprobado = vReqNV.success,
+                            mensaje = vReqNV.message ?? string.Empty,
+                            resultados = new stRespuestaTF() {
+                                Estado = "El documento No Existe en el servicio",                                                               
+                            }
+                        };                       
+                        return vReqs;
                     } else if (LibString.S1IsEqualToS2(vReqNV.error.Value.code, "1")) {
                         vReqs.mensaje = vReqNV.error.Value.message + ".\r\nPor favor verifique los datos de conexión\r\ncon su Imprenta Digital.";
                     } else if (LibString.S1IsEqualToS2(vReqNV.error.Value.code, "2")) {
@@ -126,6 +133,7 @@ namespace Galac.Saw.LibWebConnector {
                     vMensaje = LibString.InsertAt(vMensaje, " en el servicio de imprenta", vPos);
                 }
                 vResult = new stRespuestaNV() {
+                    message="No Encontrado",                    
                     error = new stErrorRespuestaNV {
                         message = vMensaje
                     }
