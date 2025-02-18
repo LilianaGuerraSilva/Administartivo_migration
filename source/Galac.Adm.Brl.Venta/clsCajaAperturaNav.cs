@@ -234,7 +234,6 @@ namespace Galac.Adm.Brl.Venta {
             vSql.AppendLine("ISNULL(SUM(MontoZelle),0) AS MontoZelle, ");
             vSql.AppendLine("ISNULL(SUM(MontoCreditoElectronico),0) AS MontoCreditoElectronico ");
             vSql.AppendLine(" FROM CTE_MontoCierre ");
-            LibFile.WriteLineInFile(@"C:\Users\Public\Downloads\Query.txt", vSql.ToString());
             refResult = LibBusiness.ExecuteSelect(vSql.ToString(), new LibGpParams().Get(), "", -1);
             return vReq = (refResult.Descendants("GpResult").Count() > 0);
         }

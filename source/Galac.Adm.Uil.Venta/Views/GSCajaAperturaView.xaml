@@ -249,7 +249,9 @@
             Name="Detalle"
             Grid.Row="4"
             Grid.Column="0"
-            Visibility="{Binding Path=ShowDetalle, Converter={StaticResource booleanToVisibilityConverter}}" HorizontalAlignment="Left" Width="696">
+            Width="696"
+            HorizontalAlignment="Left"
+            Visibility="{Binding Path=ShowDetalle, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="357" />
                 <ColumnDefinition Width="Auto" />
@@ -300,9 +302,12 @@
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
                 Width="693"
+                Height="24"
+                Margin="3,0,0,0"
+                VerticalAlignment="Center"
                 HorizontalContentAlignment="Center"
                 Content="Totales por Forma de Pago"
-                Style="{StaticResource LabelPrompt}" VerticalAlignment="Center" Height="24" Margin="3,0,0,0">
+                Style="{StaticResource LabelPrompt}">
                 <Label.Background>
                     <LinearGradientBrush MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" EndPoint="0.5,1">
                         <GradientStop Color="Black" />
@@ -316,9 +321,12 @@
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
                 Width="693"
+                Height="24"
+                Margin="3,0,0,0"
+                VerticalAlignment="Center"
                 HorizontalContentAlignment="Center"
                 Content="Vueltos"
-                Style="{StaticResource LabelPrompt}" VerticalAlignment="Center" Height="24" Margin="3,0,0,0">
+                Style="{StaticResource LabelPrompt}">
                 <Label.Background>
                     <LinearGradientBrush MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" EndPoint="0.5,1">
                         <GradientStop Color="Black" />
@@ -330,13 +338,18 @@
                 Name="lblMontoEfectivo"
                 Grid.Row="1"
                 Grid.Column="0"
+                Width="53"
+                Height="23"
+                Margin="3,0,0,0"
+                VerticalAlignment="Center"
                 Content="Efectivo"
-                Style="{StaticResource LabelPrompt}" Height="23" Margin="3,0,0,0" VerticalAlignment="Center" Width="53" />
+                Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoEfectivo"
                 Grid.Row="1"
                 Grid.Column="1"
                 Width="150"
+                Margin="3,3,0,3"
                 Background="White"
                 BorderThickness="0"
                 DecimalDigits="2"
@@ -345,12 +358,14 @@
                 IsReadOnly="True"
                 IsUndoEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
-                Value="{Binding Path=MontoEfectivo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Margin="3,3,0,3" />
+                Value="{Binding Path=MontoEfectivo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoEfectivoME"
                 Grid.Row="1"
                 Grid.Column="2"
                 Width="150"
+                Margin="0,3,0,3"
+                HorizontalAlignment="Center"
                 Background="White"
                 BorderThickness="0"
                 DecimalDigits="2"
@@ -359,18 +374,23 @@
                 IsReadOnly="True"
                 IsUndoEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
-                Value="{Binding Path=MontoEfectivoME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Margin="0,3,0,3" />
+                Value="{Binding Path=MontoEfectivoME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <Label
                 Name="lblMontoTarjeta"
                 Grid.Row="2"
                 Grid.Column="0"
+                Width="53"
+                Height="24"
+                Margin="3,0,0,0"
+                VerticalAlignment="Center"
                 Content="Tarjetas"
-                Style="{StaticResource LabelPrompt}" Height="24" Margin="3,0,0,0" VerticalAlignment="Center" Width="53" />
+                Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoTarjeta"
                 Grid.Row="2"
                 Grid.Column="1"
                 Width="150"
+                Margin="3,3,0,4"
                 Background="White"
                 BorderThickness="0"
                 DecimalDigits="2"
@@ -379,12 +399,14 @@
                 IsReadOnly="True"
                 IsUndoEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
-                Value="{Binding Path=MontoTarjeta, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Margin="3,3,0,4" />
+                Value="{Binding Path=MontoTarjeta, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoTarjetaME"
                 Grid.Row="2"
                 Grid.Column="2"
                 Width="150"
+                Margin="0,3,0,4"
+                HorizontalAlignment="Center"
                 Background="White"
                 BorderThickness="0"
                 DecimalDigits="2"
@@ -393,18 +415,23 @@
                 IsReadOnly="True"
                 IsUndoEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
-                Value="{Binding Path=MontoTarjetaME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Margin="0,3,0,4" />
+                Value="{Binding Path=MontoTarjetaME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <Label
                 Name="lblMontoCheque"
                 Grid.Row="3"
                 Grid.Column="0"
+                Width="58"
+                Height="23"
+                Margin="3,0,0,0"
+                VerticalAlignment="Center"
                 Content="Cheques"
-                Style="{StaticResource LabelPrompt}" Height="23" Margin="3,0,0,0" VerticalAlignment="Center" Width="58" />
+                Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoCheque"
                 Grid.Row="3"
                 Grid.Column="1"
                 Width="150"
+                Margin="3,3,0,3"
                 Background="White"
                 BorderThickness="0"
                 DecimalDigits="2"
@@ -413,12 +440,14 @@
                 IsReadOnly="True"
                 IsUndoEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
-                Value="{Binding Path=MontoCheque, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Margin="3,3,0,3" />
+                Value="{Binding Path=MontoCheque, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoChequeME"
                 Grid.Row="3"
                 Grid.Column="2"
                 Width="150"
+                Margin="0,3,0,3"
+                HorizontalAlignment="Center"
                 Background="White"
                 BorderThickness="0"
                 DecimalDigits="2"
@@ -427,18 +456,23 @@
                 IsReadOnly="True"
                 IsUndoEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
-                Value="{Binding Path=MontoChequeME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Margin="0,3,0,3" />
+                Value="{Binding Path=MontoChequeME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <Label
                 Name="lblMontoDeposito"
                 Grid.Row="4"
                 Grid.Column="0"
+                Width="63"
+                Height="24"
+                Margin="3,0,0,0"
+                VerticalAlignment="Center"
                 Content="Depósitos"
-                Style="{StaticResource LabelPrompt}" Height="24" Margin="3,0,0,0" VerticalAlignment="Center" Width="63" />
+                Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoDeposito"
                 Grid.Row="4"
                 Grid.Column="1"
                 Width="150"
+                Margin="3,4,0,3"
                 Background="White"
                 BorderThickness="0"
                 DecimalDigits="2"
@@ -447,12 +481,14 @@
                 IsReadOnly="True"
                 IsUndoEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
-                Value="{Binding Path=MontoDeposito, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Margin="3,4,0,3" />
+                Value="{Binding Path=MontoDeposito, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoDepositoME"
                 Grid.Row="4"
                 Grid.Column="2"
                 Width="150"
+                Margin="0,4,0,3"
+                HorizontalAlignment="Center"
                 Background="White"
                 BorderThickness="0"
                 DecimalDigits="2"
@@ -461,18 +497,23 @@
                 IsReadOnly="True"
                 IsUndoEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
-                Value="{Binding Path=MontoDepositoME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Margin="0,4,0,3" />
+                Value="{Binding Path=MontoDepositoME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <Label
                 Name="lblMontoAnticipo"
                 Grid.Row="5"
                 Grid.Column="0"
+                Width="59"
+                Height="24"
+                Margin="3,0,0,0"
+                VerticalAlignment="Center"
                 Content="Anticipos"
-                Style="{StaticResource LabelPrompt}" Height="24" Margin="3,0,0,0" VerticalAlignment="Center" Width="59" />
+                Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoAnticipo"
                 Grid.Row="5"
                 Grid.Column="1"
                 Width="150"
+                Margin="3,3,0,4"
                 Background="White"
                 BorderThickness="0"
                 DecimalDigits="2"
@@ -481,12 +522,14 @@
                 IsReadOnly="True"
                 IsUndoEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
-                Value="{Binding Path=MontoAnticipo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Margin="3,3,0,4" />
+                Value="{Binding Path=MontoAnticipo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoAnticipoME"
                 Grid.Row="5"
                 Grid.Column="2"
                 Width="150"
+                Margin="0,3,0,4"
+                HorizontalAlignment="Center"
                 Background="White"
                 BorderThickness="0"
                 DecimalDigits="2"
@@ -495,17 +538,22 @@
                 IsReadOnly="True"
                 IsUndoEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
-                Value="{Binding Path=MontoAnticipoME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Margin="0,3,0,4" />
+                Value="{Binding Path=MontoAnticipoME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <Label
                 Grid.Row="6"
                 Grid.Column="0"
-                Content="{Binding Path=IsNombreCreditoElectronico, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                Width="300"
+                Height="24"
+                Margin="3,2,0,0"
+                Content="{Binding Path=IsNombreCreditoElectronico}"
                 Style="{StaticResource LabelPrompt}"
-                Visibility="{Binding Path=IsVisibleTotalesCreditoElectronico, Converter={StaticResource booleanToVisibilityConverter}}" Height="10" Margin="3,2,0,0" Width="10" />
+                Visibility="{Binding Path=IsVisibleTotalesCreditoElectronico, Converter={StaticResource booleanToVisibilityConverter}}" />
             <nsWpfControls:GSNumericBoxWpf
                 Grid.Row="6"
                 Grid.Column="2"
                 Width="150"
+                Margin="0,2,0,3"
+                HorizontalAlignment="Center"
                 Background="White"
                 BorderThickness="0"
                 DecimalDigits="2"
@@ -515,16 +563,19 @@
                 IsUndoEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
                 Visibility="{Binding Path=IsVisibleTotalesCreditoElectronico, Converter={StaticResource booleanToVisibilityConverter}}"
-                Value="{Binding Path=TotalesCreditoElectronico, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Margin="0,2,0,3" />
+                Value="{Binding Path=TotalesCreditoElectronico, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <Label
                 Grid.Row="7"
                 Grid.Column="0"
+                Width="117"
+                Margin="3,3,0,0"
                 Content="Medios Electrónicos"
-                Style="{StaticResource LabelPrompt}" Height="22" Margin="3,3,0,0" Width="117" />
+                Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSNumericBoxWpf
                 Grid.Row="7"
                 Grid.Column="1"
                 Width="150"
+                Margin="3,3,0,0"
                 Background="White"
                 BorderThickness="0"
                 DecimalDigits="2"
@@ -533,11 +584,13 @@
                 IsReadOnly="True"
                 IsUndoEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
-                Value="{Binding Path=TotalesMediosElectronicos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Margin="3,3,0,26" />
+                Value="{Binding Path=TotalesMediosElectronicos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <nsWpfControls:GSNumericBoxWpf
                 Grid.Row="7"
                 Grid.Column="2"
                 Width="150"
+                Margin="0,3,0,0"
+                HorizontalAlignment="Center"
                 Background="White"
                 BorderThickness="0"
                 DecimalDigits="2"
@@ -546,8 +599,11 @@
                 IsReadOnly="True"
                 IsUndoEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
-                Value="{Binding Path=TotalesMediosElectronicosME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Margin="0,3,0,26" />
-            <Grid Grid.Row="7" Grid.ColumnSpan="3" Margin="0,29,0,0" Grid.RowSpan="2">
+                Value="{Binding Path=TotalesMediosElectronicosME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+            <Grid
+                Grid.Row="8"
+                Grid.ColumnSpan="3"
+                Margin="0,0,0,0">
                 <Expander
                     BorderBrush="DarkGray"
                     BorderThickness="1"
@@ -572,6 +628,7 @@
                             <ColumnDefinition Width="54" />
                             <ColumnDefinition Width="126" />
                             <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -590,10 +647,9 @@
                             Style="{StaticResource LabelPrompt}" />
                         <nsWpfControls:GSNumericBoxWpf
                             Grid.Row="0"
-                            Grid.Column="2"
-                            Grid.ColumnSpan="2"
+                            Grid.Column="4"
                             Width="150"
-                            Margin="3,3,0,4"
+                            Margin="56,3,0,4"
                             Background="White"
                             BorderThickness="0"
                             DecimalDigits="2"
@@ -613,10 +669,9 @@
                             Style="{StaticResource LabelPrompt}" />
                         <nsWpfControls:GSNumericBoxWpf
                             Grid.Row="1"
-                            Grid.Column="2"
-                            Grid.ColumnSpan="2"
+                            Grid.Column="4"
                             Width="150"
-                            Margin="3,3,0,3"
+                            Margin="56,3,0,3"
                             Background="White"
                             BorderThickness="0"
                             DecimalDigits="2"
@@ -636,10 +691,9 @@
                             Style="{StaticResource LabelPrompt}" />
                         <nsWpfControls:GSNumericBoxWpf
                             Grid.Row="2"
-                            Grid.Column="2"
-                            Grid.ColumnSpan="2"
+                            Grid.Column="4"
                             Width="150"
-                            Margin="3,3,0,4"
+                            Margin="56,3,0,4"
                             Background="White"
                             BorderThickness="0"
                             DecimalDigits="2"
@@ -659,10 +713,9 @@
                             Style="{StaticResource LabelPrompt}" />
                         <nsWpfControls:GSNumericBoxWpf
                             Grid.Row="3"
-                            Grid.Column="2"
-                            Grid.ColumnSpan="2"
+                            Grid.Column="4"
                             Width="150"
-                            Margin="3,3,0,3"
+                            Margin="56,3,0,3"
                             Background="White"
                             BorderThickness="0"
                             DecimalDigits="2"
@@ -682,10 +735,9 @@
                             Style="{StaticResource LabelPrompt}" />
                         <nsWpfControls:GSNumericBoxWpf
                             Grid.Row="4"
-                            Grid.Column="2"
-                            Grid.ColumnSpan="2"
+                            Grid.Column="4"
                             Width="150"
-                            Margin="3,3,0,3"
+                            Margin="56,2,0,4"
                             Background="White"
                             BorderThickness="0"
                             DecimalDigits="2"
@@ -705,10 +757,10 @@
                             Style="{StaticResource LabelPrompt}" />
                         <nsWpfControls:GSNumericBoxWpf
                             Grid.Row="5"
-                            Grid.Column="2"
+                            Grid.Column="6"
                             Grid.ColumnSpan="2"
                             Width="150"
-                            Margin="3,3,0,3"
+                            Margin="20,3,0,3"
                             Background="White"
                             BorderThickness="0"
                             DecimalDigits="2"
@@ -725,13 +777,18 @@
                 Name="lblMontoVuelto"
                 Grid.Row="11"
                 Grid.Column="0"
+                Width="53"
+                Height="23"
+                Margin="3,0,0,0"
+                VerticalAlignment="Center"
                 Content="Efectivo"
-                Style="{StaticResource LabelPrompt}" Height="23" Margin="3,0,0,0" VerticalAlignment="Center" Width="53" />
+                Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoVuelto"
                 Grid.Row="11"
                 Grid.Column="1"
                 Width="150"
+                Margin="3,3,0,3"
                 Background="White"
                 BorderThickness="0"
                 DecimalDigits="2"
@@ -740,12 +797,14 @@
                 IsReadOnly="True"
                 IsUndoEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
-                Value="{Binding Path=MontoVuelto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Margin="3,3,0,3" />
+                Value="{Binding Path=MontoVuelto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoVueltoME"
                 Grid.Row="11"
                 Grid.Column="2"
                 Width="150"
+                Margin="0,3,0,3"
+                HorizontalAlignment="Center"
                 Background="White"
                 BorderThickness="0"
                 DecimalDigits="2"
@@ -754,18 +813,23 @@
                 IsReadOnly="True"
                 IsUndoEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
-                Value="{Binding Path=MontoVueltoME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Margin="0,3,0,3" />
+                Value="{Binding Path=MontoVueltoME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <Label
                 Name="lblMontoVueltoPM"
                 Grid.Row="12"
                 Grid.Column="0"
+                Width="69"
+                Height="24"
+                Margin="3,0,0,0"
+                VerticalAlignment="Center"
                 Content="Pago Móvil"
-                Style="{StaticResource LabelPrompt}" Height="24" Margin="3,0,0,0" VerticalAlignment="Center" Width="69" />
+                Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoVueltoPM"
                 Grid.Row="12"
                 Grid.Column="1"
                 Width="150"
+                Margin="3,4,0,3"
                 Background="White"
                 BorderThickness="0"
                 DecimalDigits="2"
@@ -774,7 +838,7 @@
                 IsReadOnly="True"
                 IsUndoEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
-                Value="{Binding Path=MontoVueltoPM, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Margin="3,4,0,3" />
+                Value="{Binding Path=MontoVueltoPM, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <Line
                 Name="linTotal"
                 Grid.Row="13"
@@ -790,13 +854,18 @@
                 Name="lblMontoCierre"
                 Grid.Row="13"
                 Grid.Column="0"
+                Width="43"
+                Height="23"
+                Margin="3,0,0,0"
+                VerticalAlignment="Center"
                 Content="Cierre"
-                Style="{StaticResource LabelPrompt}" Height="23" Margin="3,0,0,0" VerticalAlignment="Center" Width="43" />
+                Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoCierre"
                 Grid.Row="13"
                 Grid.Column="1"
                 Width="150"
+                Margin="3,3,0,3"
                 Background="White"
                 BorderThickness="0"
                 DecimalDigits="2"
@@ -805,13 +874,16 @@
                 IsReadOnly="True"
                 IsUndoEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
-                Value="{Binding Path=MontoCierre, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Margin="3,3,0,3" />
+                Value="{Binding Path=MontoCierre, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoCierreME"
                 Grid.Row="13"
                 Grid.Column="2"
                 Width="150"
-                Margin="0,3,0,3"
+                Height="23"
+                Margin="0,3,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
                 Background="White"
                 BorderThickness="0"
                 DecimalDigits="2"
@@ -820,13 +892,14 @@
                 IsReadOnly="True"
                 IsUndoEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
-                Value="{Binding Path=MontoCierreME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" />
+                Value="{Binding Path=MontoCierreME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
         <Grid
             Name="Pie"
-            Grid.Row="14"
+            Grid.Row="5"
+            Grid.RowSpan="2"
             Grid.Column="0"
-            Margin="0,0,67,0">
+            Margin="0,0,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />

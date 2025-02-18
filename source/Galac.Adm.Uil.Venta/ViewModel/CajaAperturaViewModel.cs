@@ -28,7 +28,7 @@ using Galac.Saw.Lib;
 using System.Threading;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
-    public class CajaAperturaViewModel: LibInputViewModel<CajaApertura> {
+    public class CajaAperturaViewModel: LibInputViewModelMfc<CajaApertura> {
 
         #region Constantes y Variables
         const string NombreCajaPropertyName = "NombreCaja";
@@ -644,7 +644,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         public string IsNombreCreditoElectronico {
             get {
-                return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "NombreCreditoElectronico");
+                string vNombreCredito = "";
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaCreditoElectronico")) {
+                    vNombreCredito = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "NombreCreditoElectronico");
+                }
+                return vNombreCredito;
             }
         }
 
@@ -718,7 +722,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-
         private string ObtenerCajaAsignada() {
             string vCajaLocal = "";
             vCajaLocal = LibAppSettings.ReadAppSettingsKey("CAJALOCAL-" + ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login);
@@ -776,7 +779,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         public CajaAperturaViewModel(CajaApertura initModel, eAccionSR initAction)
-            : base(initModel, initAction) {
+            : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(),LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = NombreCajaPropertyName;
             Model.ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
             if (insCajaApertura == null) {
@@ -835,6 +838,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         protected override void InitializeLookAndFeel(CajaApertura valModel) {
+            Model.ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
             base.InitializeLookAndFeel(valModel);
             switch (Action) {
                 case eAccionSR.Insertar:
@@ -1188,7 +1192,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 MontoVueltoME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoVueltoME"));
                 MontoZelle = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoZelle"));
                 MontoCreditoElectronico = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoCreditoElectronico"));
-                MontoCierreME = MontoAperturaME + MontoEfectivoME + MontoTarjetaME + MontoChequeME + MontoDepositoME + MontoAnticipoME + MontoVueltoME + MontoZelle;
+                MontoCierreME = MontoAperturaME + MontoEfectivoME + MontoTarjetaME + MontoChequeME + MontoDepositoME + MontoAnticipoME + MontoVueltoME + MontoZelle + MontoCreditoElectronico;
                 TotalesMediosElectronicos = MontoPagoMovil + MontoC2P + MontoTarjetaMS + MontoTransferenciaMS + MontoDepositoMS;
                 TotalesMediosElectronicosME = MontoZelle;
                 TotalesCreditoElectronico = MontoCreditoElectronico;
