@@ -545,7 +545,7 @@
                 Width="300"
                 Height="24"
                 Margin="3,2,0,0"
-                Content="{Binding Path=IsNombreCreditoElectronico}"
+                Content="{Binding Path=NombreCreditoElectronico}"
                 Style="{StaticResource LabelPrompt}"
                 Visibility="{Binding Path=IsVisibleTotalesCreditoElectronico, Converter={StaticResource booleanToVisibilityConverter}}" />
             <nsWpfControls:GSNumericBoxWpf

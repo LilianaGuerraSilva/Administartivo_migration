@@ -642,13 +642,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public string IsNombreCreditoElectronico {
+        public string NombreCreditoElectronico {
             get {
-                string vNombreCredito = "";
-                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaCreditoElectronico")) {
-                    vNombreCredito = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "NombreCreditoElectronico");
-                }
-                return vNombreCredito;
+                return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "NombreCreditoElectronico");
             }
         }
 
