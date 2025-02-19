@@ -21,5 +21,5 @@ namespace Galac.Saw.Ccl.Tablas {
         #endregion //Propiedades
     } //End of class IFkOtrosCargosDeFacturaViewModel
 
-} //End of namespace Galac.Dbo.Ccl.Tablas
+} //End of namespace Galac.Saw.Ccl.Tablas
 
