@@ -62,15 +62,15 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
 
     #region Comandos Unidigital
     public enum eComandosPostUnidigital {
-        [LibEnumDescription("/Autenticacion/v3")]
+        [LibEnumDescription("/user/login")]
         Autenticacion = 0,
-        [LibEnumDescription("/facturacion/v3")]
+        [LibEnumDescription("/documents/createandapprove")]
         Emision,
-        [LibEnumDescription("/Anulacion/v3")]
+        [LibEnumDescription("/documents/anulled")]
         Anular,
-        [LibEnumDescription("/email/v3")]
+        [LibEnumDescription("/documents/notified")]
         Email,
-        [LibEnumDescription("/facturacion/status")]
+        [LibEnumDescription("/documents/searchbynumber")]
         EstadoDocumento
     }
     #endregion Comandos Unidigital
