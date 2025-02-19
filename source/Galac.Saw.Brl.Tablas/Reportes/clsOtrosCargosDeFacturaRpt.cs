@@ -36,5 +36,5 @@ namespace Galac.Saw.Ccl.Tablas.Reportes {
 
     } //End of class clsOtrosCargosDeFacturaRpt
 
-} //End of namespace GGalac.Saw.Ccl.Tablas
+} //End of namespace Galac.Saw.Ccl.Tablas
 

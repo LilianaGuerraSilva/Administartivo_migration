@@ -285,5 +285,5 @@ namespace Galac.Saw.Dal.Tablas {
 
     } //End of class clsOtrosCargosDeFacturaDat
 
-} //End of namespace Galac.Dbo.Dal.Tablas
+} //End of namespace Galac.Saw.Dal.Tablas
 
