@@ -14,7 +14,10 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         NoDomiciliado, 
         [LibEnumDescription("No Residenciado")]
         NoResidenciado
-	} 
+	}
+
+    #region Comandos Thefactory HKA
+
 
     [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eComandosPostTheFactoryHKA {
@@ -40,6 +43,9 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         RastrearCorreo
     }
 
+    #endregion Comandos Thefactory HKA
+
+    #region Comandos Novus
     public enum eComandosPostNovus {
         [LibEnumDescription("/Autenticacion/v3")]
         Autenticacion = 0,
@@ -52,4 +58,22 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         [LibEnumDescription("/facturacion/status")]
         EstadoDocumento
     }
+    #endregion Comandos Novus
+
+    #region Comandos Unidigital
+    public enum eComandosPostUnidigital {
+        [LibEnumDescription("/Autenticacion/v3")]
+        Autenticacion = 0,
+        [LibEnumDescription("/facturacion/v3")]
+        Emision,
+        [LibEnumDescription("/Anulacion/v3")]
+        Anular,
+        [LibEnumDescription("/email/v3")]
+        Email,
+        [LibEnumDescription("/facturacion/status")]
+        EstadoDocumento
+    }
+    #endregion Comandos Unidigital
+
+
 } //End of namespace namespace Galac.Saw.Ccl.ImprentaDigital
