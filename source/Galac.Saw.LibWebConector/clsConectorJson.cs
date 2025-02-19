@@ -1,27 +1,38 @@
 ﻿using System;
-using System.Text;
-using System.Net.Http;
 using Newtonsoft.Json;
-using System.Threading.Tasks;
 using LibGalac.Aos.Base;
-using LibGalac.Aos.Catching;
 using LibGalac.Aos.DefGen;
 using Newtonsoft.Json.Linq;
 using System.Linq;
+using System.IO;
+using Galac.Saw.Ccl.SttDef;
+using Galac.Adm.Ccl.ImprentaDigital;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Galac.Saw.LibWebConnector {
-    public class clsConectorJson {
-        string strTipoDocumento;
-        ILoginUser _LoginUser;
+    public abstract class clsConectorJson {
         string _Token;
         public string Token {
             get {
                 return _Token;
             }
+            internal set {
+                _Token = value;
+            }
+        }
+
+        internal ILoginUser LoginUser {
+            get; set;
+        }
+
+        internal string PostRequest {
+            get; private set;
         }
 
         public clsConectorJson(ILoginUser valloginUser) {
-            _LoginUser = valloginUser;
+            LoginUser = valloginUser;
             _Token = string.Empty;
         }
 
@@ -29,9 +40,9 @@ namespace Galac.Saw.LibWebConnector {
             try {
                 string vResult = JsonConvert.SerializeObject(valElemento, Formatting.Indented);
                 return vResult;
-            } catch (JsonException) {
+            } catch(JsonException) {
                 throw;
-            } catch (Exception) {
+            } catch(Exception) {
                 throw;
             }
         }
@@ -49,12 +60,12 @@ namespace Galac.Saw.LibWebConnector {
         }
 
         private static void RemoveItemArray(JToken valProperty) {
-            if (valProperty != null) {
+            if(valProperty != null) {
                 valProperty.First().Remove();
             }
         }
 
-        private string FormatingJSON(ILoginUser valloginUser) {
+        public string FormatingJSON(ILoginUser valloginUser) {
             string vResult = "";
             stUserLoginCnn vUsrLgn = new stUserLoginCnn();
             vUsrLgn.usuario = valloginUser.User;
@@ -65,81 +76,50 @@ namespace Galac.Saw.LibWebConnector {
             return vResult;
         }
 
-        public bool CheckConnection(ref string refMensaje, string valComandoApi) {
-            stPostResq vRequest = new stPostResq();
+        public void GeneraLogDeErrores(string valMensajeResultado, string valJSon) {
             try {
-                bool vResult = false;
-                string vJsonStr = FormatingJSON(_LoginUser);
-                vRequest = SendPostJson(vJsonStr, valComandoApi, "");
-                refMensaje = vRequest.mensaje;
-                if (vRequest.Aprobado) {
-                    _Token = vRequest.token;
-                    _LoginUser.MessageResult = vRequest.mensaje;
-                    vResult = !LibString.IsNullOrEmpty(_Token);
-                } else {
-                    vResult = false;
+                string vPath = Path.Combine(LibDirectory.GetProgramFilesGalacDir(), Path.Combine(LibDefGen.ProgramInfo.ProgramInitials, "ImprentaDigital"));
+                if(!LibDirectory.DirExists(vPath)) {
+                    LibDirectory.CreateDir(vPath);
                 }
-                return vResult;
-            } catch (GalacException) {
+                vPath = vPath + @"\ImprentaDigitalResult.txt";
+                LibFile.WriteLineInFile(vPath, valMensajeResultado + "\r\n" + valJSon, false);
+            } catch(Exception) {
                 throw;
-            } catch (Exception vEx) {
-                throw new GalacException(vEx.Message, eExceptionManagementType.Alert);
             }
         }
 
-        public stPostResq SendPostJson(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", int valTipoDocumento = 0) {
+        public abstract bool CheckConnection(ref string refMensaje, string valComandoApi);
+        public bool SendPostJson(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", eTipoDocumentoFactura valTipoDocumento = eTipoDocumentoFactura.NoAsignado) {
             string vResultMessage = "";
-            stPostResq infoReqs = new stPostResq();
             try {
-                strTipoDocumento = (valTipoDocumento == 8 ? "Nota de Entrega" : valTipoDocumento == 1 ? "Nota de Crédito" : valTipoDocumento == 2 ? "Nota de Débito" : "Factura");
+                string strTipoDocumento = LibEnumHelper.GetDescription(valTipoDocumento);
                 strTipoDocumento = "La " + strTipoDocumento + " No. " + valNumeroDocumento;
                 HttpClient vHttpClient = new HttpClient();
-                vHttpClient.BaseAddress = new Uri(_LoginUser.URL);
-                if (!LibString.IsNullOrEmpty(valToken)) {
+                vHttpClient.BaseAddress = new Uri(LoginUser.URL);
+                if(!LibString.IsNullOrEmpty(valToken)) {
                     vHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", valToken);
                 }
                 HttpContent vContent = new StringContent(valJsonStr, Encoding.UTF8, "application/json");
                 Task<HttpResponseMessage> vHttpRespMsg = vHttpClient.PostAsync(valComandoApi, vContent);
                 vHttpRespMsg.Wait();
                 vResultMessage = vHttpRespMsg.Result.RequestMessage.ToString();
-                vHttpRespMsg.Result.EnsureSuccessStatusCode();
-                if (vHttpRespMsg.Result.Content is null || vHttpRespMsg.Result.Content.Headers.ContentType?.MediaType != "application/json") {
-                    throw new GalacException("Usuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.", eExceptionManagementType.Alert);
+                if(vHttpRespMsg.Result.StatusCode == System.Net.HttpStatusCode.OK) {
+                    vHttpRespMsg.Result.EnsureSuccessStatusCode();
+                } else if(vHttpRespMsg.Result.StatusCode == System.Net.HttpStatusCode.NotFound) {
+                    throw new Exception($"Revise su conexión a Internet y la URL del servicio.");
+                }
+                if(vHttpRespMsg.Result.Content is null) {
+                    throw new Exception($"Revise su conexión a Internet y la URL del servicio.");
                 } else {
                     Task<string> HttpResq = vHttpRespMsg.Result.Content.ReadAsStringAsync();
                     HttpResq.Wait();
-                    infoReqs = JsonConvert.DeserializeObject<stPostResq>(HttpResq.Result);
-                    if (LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {
-                        infoReqs.Aprobado = true;
-                    } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "403")) {
-                        infoReqs.mensaje = "Usuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.";
-                        infoReqs.Aprobado = false;
-                    } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "201")) {
-                        infoReqs.Aprobado = false;
-                        infoReqs.mensaje = strTipoDocumento + " ya existe en la Imprenta Digital.";
-                    } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "203")) {
-                        infoReqs.Aprobado = false;
-                        infoReqs.mensaje = strTipoDocumento + " no se encontró en la Imprenta Digital, debe sincronizar el documento.";
-                    } else if (!LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {
-                        throw new Exception();
-                    }
+                    PostRequest = HttpResq.Result.ToString();
+                    return true;
                 }
-            } catch (AggregateException) {
-                infoReqs.Aprobado = false;
-                infoReqs.mensaje = "Falla de conexión con su Imprenta Digital.\r\nPor favor verifique los datos de conexión o servicio de internet.";
-            } catch (GalacException) {
-                throw;
-            } catch (Exception vEx) {
-                string vPath = LibDirectory.GetProgramFilesGalacDir() + "\\" + LibDefGen.ProgramInfo.ProgramInitials + "\\ImprentaDigital";
-                if (!LibDirectory.DirExists(vPath)) {
-                    LibDirectory.CreateDir(vPath);
-                }
-                vPath = vPath + @"\ImprentaDigitalResult.txt";
-                LibFile.WriteLineInFile(vPath, vEx.Message + "\r\n" + vResultMessage + "\r\n" + valJsonStr, false);
-                infoReqs.Aprobado = false;
-                infoReqs.mensaje = strTipoDocumento + " no pudo ser enviada a la Imprenta Digital, debe sincronizar el documento.";
+            } catch(Exception vEx) {
+                throw vEx;
             }
-            return infoReqs;
         }
     }
 }

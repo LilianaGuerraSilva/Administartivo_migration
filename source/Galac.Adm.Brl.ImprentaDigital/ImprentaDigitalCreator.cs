@@ -15,6 +15,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             switch (valProveedorImprenta) {                
                 case eProveedorImprentaDigital.TheFactoryHKA:
                     return new ImprentaTheFactory(valTipoDocumentoFactura, valNumeroFactura);
+                case eProveedorImprentaDigital.Novus:
+                    return new ImprentaNovus(valTipoDocumentoFactura, valNumeroFactura);
+                case eProveedorImprentaDigital.Unidigital:
+                    return new ImprentaNovus(valTipoDocumentoFactura, valNumeroFactura);
                 default:
                     throw new GalacException("Proveedor de Imprenta Digital aún no implementado.", eExceptionManagementType.Controlled);
             }

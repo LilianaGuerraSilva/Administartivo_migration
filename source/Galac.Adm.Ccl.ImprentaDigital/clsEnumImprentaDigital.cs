@@ -40,6 +40,16 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         RastrearCorreo
     }
 
-
-
+    public enum eComandosPostNovus {
+        [LibEnumDescription("/Autenticacion/v3")]
+        Autenticacion = 0,
+        [LibEnumDescription("/facturacion/v3")]
+        Emision,
+        [LibEnumDescription("/Anulacion/v3")]
+        Anular,
+        [LibEnumDescription("/email/v3")]
+        Email,
+        [LibEnumDescription("/facturacion/status")]
+        EstadoDocumento
+    }
 } //End of namespace namespace Galac.Saw.Ccl.ImprentaDigital
