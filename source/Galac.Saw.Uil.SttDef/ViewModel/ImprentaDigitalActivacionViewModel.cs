@@ -17,6 +17,7 @@ using Galac.Saw.Ccl.SttDef;
 using System.Text;
 using Galac.Adm.Ccl.ImprentaDigital;
 using Galac.Saw.LibWebConnector;
+using System.Collections.ObjectModel;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class ImprentaDigitalActivacionViewModel : LibGenericViewModel {
@@ -196,9 +197,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public eProveedorImprentaDigital[] ArrayProveedorImprentaDigital {
-            get { return LibEnumHelper<eProveedorImprentaDigital>.GetValuesInArray(); }
-        }
+		public ObservableCollection<eProveedorImprentaDigital> ListaProveedorImprentaDigital { get; set; }
 
         public RelayCommand ProbarConexionCommand {
             get;
@@ -237,6 +236,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             base.InitializeLookAndFeel();
             _CampoClave = "Clave";
             _CampoUsuario = "Usuario";
+            ListaProveedorImprentaDigital = new ObservableCollection<eProveedorImprentaDigital> {
+                eProveedorImprentaDigital.TheFactoryHKA,
+                eProveedorImprentaDigital.Novus
+            };
         }
 
         protected override void InitializeCommands() {
