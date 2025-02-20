@@ -68,6 +68,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             switch (ProveedorImprentaDigital) {
                 case eProveedorImprentaDigital.TheFactoryHKA:
                 case eProveedorImprentaDigital.Novus:
+                case eProveedorImprentaDigital.Unidigital:
                     LoginUser.URL = vImprentaDigitalSettings.DireccionURL;
                     LoginUser.User = vImprentaDigitalSettings.Usuario;
                     LoginUser.UserKey = vImprentaDigitalSettings.CampoUsuario;
@@ -586,6 +587,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine("UPDATE factura ");
             vSql.AppendLine("SET NumeroControl = " + insUtilSql.ToSqlValue(NumeroControl));
             vSql.AppendLine(", ProveedorImprentaDigital = " + insUtilSql.EnumToSqlValue((int)ProveedorImprentaDigital));
+            vSql.AppendLine(", HoraModificacion = " + insUtilSql.ToSqlValue(HoraAsignacion));
             vSql.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania ");
             vSql.AppendLine(" AND Numero = @NumeroFactura");
             vSql.AppendLine(" AND TipoDeDocumento = @TipoDeDocumento ");
