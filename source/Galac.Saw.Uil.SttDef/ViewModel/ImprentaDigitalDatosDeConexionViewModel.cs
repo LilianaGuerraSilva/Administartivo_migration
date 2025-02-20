@@ -145,7 +145,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     _ConectorJson = new clsConectorJsonUnidigital(new clsLoginUser() {
                         User = Usuario,
                         URL = Url,
-                        Password = Clave
+                        Password = Clave,
+                        UserKey = CampoUsuario,
+                        PasswordKey = CampoClave
                     });
                     vResult = _ConectorJson.CheckConnection(ref vMensaje, vCommand);
                     break;
@@ -177,7 +179,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         private void InicializaValores() {
-            _ProveedorImprentaDigital = (eProveedorImprentaDigital)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ProveedorImprentaDigital");
+            _ProveedorImprentaDigital = (eProveedorImprentaDigital)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ProveedorImprentaDigital");                        
             clsImprentaDigitalSettings _clsImprentaDigitalSettings = new clsImprentaDigitalSettings();
             _Url = _clsImprentaDigitalSettings.DireccionURL;
             _Usuario = _clsImprentaDigitalSettings.Usuario;

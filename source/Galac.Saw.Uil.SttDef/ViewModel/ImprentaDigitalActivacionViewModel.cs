@@ -237,8 +237,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             _CampoClave = "Clave";
             _CampoUsuario = "Usuario";
             ListaProveedorImprentaDigital = new ObservableCollection<eProveedorImprentaDigital> {
+                eProveedorImprentaDigital.NoAplica,
                 eProveedorImprentaDigital.TheFactoryHKA,
-                eProveedorImprentaDigital.Novus
+                eProveedorImprentaDigital.Novus,
+                eProveedorImprentaDigital.Unidigital
             };
         }
 

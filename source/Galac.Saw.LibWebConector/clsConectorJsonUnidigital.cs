@@ -23,7 +23,7 @@ namespace Galac.Saw.LibWebConnector {
             stPostResq vRequest = new stPostResq();
             try {
                 bool vResult = false;
-                string vJsonStr = FormatingJSON(LoginUser);
+                string vJsonStr = GetJsonUser(LoginUser, eProveedorImprentaDigital.Unidigital);
                 vRequest = SendPostJsonUD(vJsonStr, valComandoApi,"", "");
                 refMensaje = vRequest.mensaje;
                 if(vRequest.Aprobado) {

@@ -10,6 +10,7 @@ using Galac.Adm.Ccl.ImprentaDigital;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
 
 namespace Galac.Saw.LibWebConnector {
     public abstract class clsConectorJson {
@@ -65,14 +66,16 @@ namespace Galac.Saw.LibWebConnector {
             }
         }
 
-        public string FormatingJSON(ILoginUser valloginUser) {
+        public string GetJsonUser(ILoginUser valloginUser, eProveedorImprentaDigital valProveedorImprentaDigital) {
             string vResult = "";
-            stUserLoginCnn vUsrLgn = new stUserLoginCnn();
-            vUsrLgn.usuario = valloginUser.User;
-            vUsrLgn.clave = valloginUser.Password;
-            vResult = vResult.Replace(nameof(vUsrLgn.usuario), valloginUser.UserKey);
-            vResult = vResult.Replace(nameof(vUsrLgn.clave), valloginUser.PasswordKey);
-            vResult = SerializeJSON(vUsrLgn);
+            string vPassword = valloginUser.Password;
+            if(valProveedorImprentaDigital == eProveedorImprentaDigital.Unidigital) {
+                vPassword = ComputeSha256Hash(vPassword);
+            }
+            JObject vLoginUser = new JObject {
+                        {valloginUser.UserKey, valloginUser.User},
+                        {valloginUser.PasswordKey, vPassword}};
+            vResult = vLoginUser.ToString();
             return vResult;
         }
 
@@ -86,6 +89,17 @@ namespace Galac.Saw.LibWebConnector {
                 LibFile.WriteLineInFile(vPath, valMensajeResultado + "\r\n" + valJSon, false);
             } catch(Exception) {
                 throw;
+            }
+        }
+
+        private string ComputeSha256Hash(string rawData) {
+            using(SHA512 sha256Hash = SHA512.Create()) {
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(rawData));
+                StringBuilder builder = new StringBuilder();
+                for(int i = 0; i < bytes.Length; i++) {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString();
             }
         }
 
