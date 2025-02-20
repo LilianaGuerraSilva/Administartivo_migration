@@ -115,7 +115,7 @@ Public Function fCreateTable(ByVal valShowMessage As Boolean) As Boolean
    SQL = SQL & "ImprentaDigitalNombreCampoUsuario" & gUtilSQL.getVarCharTypeForDB(50) & " Constraint ImDiCUsr Default '', "
    SQL = SQL & "ImprentaDigitalNombreCampoClave" & gUtilSQL.getVarCharTypeForDB(50) & " Constraint ImDiCCla Default '', "
    SQL = SQL & "ImprentaDigitalUsuario" & gUtilSQL.getVarCharTypeForDB(100) & " Constraint ImDiUsr Default '', "
-   SQL = SQL & "ImprentaDigitalClave" & gUtilSQL.getVarCharTypeForDB(500) & " Constraint ImDiClv Default '', "
+   SQL = SQL & "ImprentaDigitalClave" & gUtilSQL.getVarCharTypeForDB(1000) & " Constraint ImDiClv Default '', "
    SQL = SQL & "NombreOperador " & gUtilSQL.getVarCharTypeForDB(10) & ", "
    SQL = SQL & "FechaUltimaModificacion " & gUtilSQL.getDateTypeForDB() & ", "
    SQL = SQL & gDefDatabase.getFN_TIMESTAMP() & " timestamp )"

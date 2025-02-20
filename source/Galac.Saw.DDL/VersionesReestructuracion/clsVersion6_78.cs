@@ -33,6 +33,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             CambiarPermisosUsuarioFactura();
             CrearEscalada();
             AgregarColumnaNDCaja();
+            AmpliarColumnaCompaniaImprentaDigitalClave();
             return true;
         }
 
@@ -156,6 +157,10 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             if (AddColumnString("Adm.Caja", "UltimoNumeroNDFiscal", 12, "", "")) {
                 AddDefaultConstraint("Adm.Caja", "d_CajUlNuND", "''", "UltimoNumeroNDFiscal");
             }
+        }
+
+        private void AmpliarColumnaCompaniaImprentaDigitalClave() {
+            ModifyLengthOfColumnString("Compania", "ImprentaDigitalClave", 1000, "");
         }
 
     }
