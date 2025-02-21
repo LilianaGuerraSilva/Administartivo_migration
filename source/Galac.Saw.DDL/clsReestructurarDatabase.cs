@@ -174,6 +174,7 @@ namespace Galac.Saw.DDL {
             vResult = vResult && new Galac.Adm.Dal.Venta.clsContratoED().InstalarVistasYSps();
 			vResult = vResult && new Galac.Adm.Dal.Banco.clsTransferenciaEntreCuentasBancariasED().InstalarVistasYSps();
             vResult = vResult && new Galac.Saw.Dal.Inventario.clsLoteDeInventarioED().InstalarVistasYSps();
+            vResult = vResult && new Galac.Saw.Dal.Tablas.clsAuditoriaConfiguracionED().InstalarVistasYSps();
             vResult = vResult && CrearVistasDeCompatibilidad();
             return vResult;
         }
@@ -183,6 +184,7 @@ namespace Galac.Saw.DDL {
             vResult = vResult && BorrarVistasDeCompatibilidad();
             vResult = vResult && BorrarVistasDeContabilidad();
             //ORGANICEN EL ORDEN DE ELIMINACION DE VISTAS Y SPS POR DEPENDENCIAS, ESTA DESORDENADO
+            vResult = vResult && new Galac.Saw.Dal.Tablas.clsAuditoriaConfiguracionED().BorrarVistasYSps();
             vResult = vResult && new Galac.Saw.Dal.Inventario.clsLoteDeInventarioED().BorrarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.Banco.clsTransferenciaEntreCuentasBancariasED().BorrarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.Venta.clsContratoED().BorrarVistasYSps();
@@ -741,6 +743,9 @@ namespace Galac.Saw.DDL {
                 }
                 if (HasToUpgradeToVersion("6.77")) {
                     vResult = vResult && new clsVersion6_77(_CurrentDataBaseName).UpdateToVersion();
+                }
+                if (HasToUpgradeToVersion("6.78")) {
+                    vResult = vResult && new clsVersion6_78(_CurrentDataBaseName).UpdateToVersion();
                 }
                 vResult = vResult && new clsVersionTemporalNoOficial(_CurrentDataBaseName).UpdateToVersion();
                 //vResult = vResult && CreateLostFields();

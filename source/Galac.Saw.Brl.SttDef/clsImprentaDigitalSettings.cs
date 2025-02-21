@@ -45,7 +45,7 @@ namespace Galac.Saw.Brl.SttDef {
         }
 
         public string Clave {
-            get { return LibString.IsNullOrEmpty(_Clave) ? "" : LibCryptography.SymDecryptDES(_Clave); }
+            get { return LibCryptography.SymDecryptDES(_Clave); }
             set { _Clave = value; }
         }
         #endregion //Propiedades

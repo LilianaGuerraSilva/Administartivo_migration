@@ -10,7 +10,7 @@ namespace Galac.Adm.Ccl.Venta {
         Emitida = 0,
         [LibEnumDescription("Anulada")]
         Anulada,
-        [LibEnumDescription("Borrador")]
+        [LibEnumDescription("En Espera")]
         Borrador
     }
 

@@ -160,7 +160,7 @@
             Grid.Column="2"
             Content="Fecha Elab."
             Style="{StaticResource LabelPrompt}"
-            Visibility="{Binding Path=IsVisibleLoteDeInventarioFechaDeElaboracion, Converter={StaticResource booleanToVisibilityConverter}}" />
+            Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource booleanToVisibilityConverter}}" />
         <Label
             x:Name="lneFechaDeElaboracion"
             Grid.Row="2"
@@ -171,14 +171,14 @@
             Content="{Binding FechaDeElaboracion}"
             ContentStringFormat="dd/MM/yyyy"
             Style="{StaticResource LabelCalculatedField}"
-            Visibility="{Binding Path=IsVisibleLoteDeInventarioFechaDeElaboracion, Converter={StaticResource booleanToVisibilityConverter}}" />
+            Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource booleanToVisibilityConverter}}" />
         <Label
             Name="lblFechaDeVencimiento"
             Grid.Row="2"
             Grid.Column="4"
             Content="Fecha Vcto."
             Style="{StaticResource LabelPrompt}"
-            Visibility="{Binding Path=IsVisibleLoteDeInventarioFechaDeVencimeinto, Converter={StaticResource booleanToVisibilityConverter}}" />
+            Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource booleanToVisibilityConverter}}" />
         <Label
             x:Name="lneFechaDeVencimiento"
             Grid.Row="2"
@@ -189,7 +189,7 @@
             Content="{Binding FechaDeVencimiento}"
             ContentStringFormat="dd/MM/yyyy"
             Style="{StaticResource LabelCalculatedField}"
-            Visibility="{Binding Path=IsVisibleLoteDeInventarioFechaDeVencimeinto, Converter={StaticResource booleanToVisibilityConverter}}" />
+            Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource booleanToVisibilityConverter}}" />
         <Grid Grid.Row="3" Grid.ColumnSpan="6">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />

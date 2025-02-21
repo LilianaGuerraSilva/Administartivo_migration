@@ -161,8 +161,6 @@ Private Function fGeneraLosAsientosDelComprobante(ByVal Sql As String, ByRef ref
          varTodosLosAsientosVienenEnCero = True
       ElseIf valGeneradoPor = eCG_MOVIMIENTO_BANCARIO Or valGeneradoPor = eCG_COBRANZA Or valGeneradoPor = eCG_PAGOS Then
          varTodosLosAsientosVienenEnCero = Not fHayAlMenosUnMontoDistintoDeCero(mRecordSet)
-      ElseIf valGeneradoPor = eCG_ORDEN_DE_PRODUCCION And gProyParametrosWinCont.GetPermitirAsientosEnCero Then
-         varTodosLosAsientosVienenEnCero = True
       Else
          varTodosLosAsientosVienenEnCero = False
       End If
@@ -877,7 +875,7 @@ Private Function fConstruyeSQLsegunElModuloAContabilizar(ByVal valFechaDesde As 
          vSQL = insGenerarComprobanteSql.fSQLTransferenciaEntreCuentasEntreFechas(gProyCompaniaActual.GetConsecutivoCompania, gContPeriodoActual.GetConsecutivoPeriodo, vConjuntoDeRegistrosSinContabilizar, valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valTipoAlicPorContIGTF, vPorcentajeIGTF, gProyReglasDeContabilizacion.GetCuentaTransfCtasBancoDestino, gProyReglasDeContabilizacion.GetCuentaTransfCtasGastoComOrigen, gProyReglasDeContabilizacion.GetCuentaDebitoBancarioGasto, gProyReglasDeContabilizacion.GetCuentaTransfCtasBancoOrigen, gProyReglasDeContabilizacion.GetCuentaTransfCtasGastoComDestino, gProyReglasDeContabilizacion.GetCuentaCreditoBancarioGasto)
          refRegla = gProyReglasDeContabilizacion.GetCuentaTransfCtasBancoDestino
      Case eCG_ORDEN_DE_PRODUCCION:
-         vSql = insGenerarComprobanteSql.fSQLOrdenDeProduccionEntreFechas(gProyCompaniaActual.GetConsecutivoCompania, vConjuntoDeRegistrosSinContabilizar, valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valConsecutivoDocumentoOrigen, gProyReglasDeContabilizacion.GetCuentaOrdenDeProduccionProductoTerminado, gProyReglasDeContabilizacion.GetCuentaOrdenDeProduccionMateriaPrima, gProyReglasDeContabilizacion.GetCuentaMermaAnormal)
+         vSql = insGenerarComprobanteSql.fSQLOrdenDeProduccionEntreFechas(gProyCompaniaActual.GetConsecutivoCompania, vConjuntoDeRegistrosSinContabilizar, valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valConsecutivoDocumentoOrigen, gProyReglasDeContabilizacion.GetCuentaOrdenDeProduccionProductoTerminado, gProyReglasDeContabilizacion.GetCuentaOrdenDeProduccionMateriaPrima)
    End Select
    Set insArticulo = Nothing
    Set insComprobanteSQL = Nothing
@@ -2054,7 +2052,6 @@ Private Function fBuscaDescripcionDelComprobanteContableDePago(ByVal valNumeroDo
    Dim Sql As String
    On Error GoTo h_ERROR
    Set insPagoNavigator = New clsPagoNavigator
-   insPagoNavigator.SetCodigoMoneda ""
    insPagoNavigator.sBuscaDatosDelPagoParaDescripcionComprobante valNumeroDocumento, NumeroDeChequePago, NombreProveedorDelPago, DescripcionDelPago
    Set insPagoNavigator = Nothing
    DescripcionBuscada = "CH.No." & NumeroDeChequePago & "/" & gTexto.DfMid(NombreProveedorDelPago, 1, 20)

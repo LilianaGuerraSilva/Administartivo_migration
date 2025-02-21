@@ -47,7 +47,7 @@ namespace Galac.Saw.Ccl.SttDef {
 
         public string Clave {
             get { return _Clave; }
-            set { _Clave = LibString.Mid(value, 0, 1000); }
+            set { _Clave = LibString.Mid(value, 0, 100); }
         }
         #endregion //Propiedades
         #region Constructores

@@ -61,7 +61,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         eFamiliaImpresoraFiscal _FamImprFiscal;
 
         public override string ModuleName {
-            get { return "Diagnóstico Máquina Fiscal"; }
+            get { return "Diagnóstico Impresora Fiscal"; }
         }
 
         public RelayCommand DiagnosticoCommand {

@@ -48,7 +48,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 
         #region Propiedades
         public override string DisplayName {
-            get { return "Cuadre de Caja con Cobro Multimoneda"; }
+            get { return "Cuadre de Caja con Cobro Multimoneda (Cierre del Día)"; }
         }
 
         public LibXmlMemInfo AppMemoryInfo { get; set; }

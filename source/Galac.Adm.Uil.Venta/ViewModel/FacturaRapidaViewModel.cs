@@ -3208,7 +3208,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             vMensaje3.AppendLine(". El proceso de facturación será cancelado.");
 
             if (Numero != string.Empty) {
-                vMensaje3.AppendLine(" La factura de tipo Borrador que tuvo el problema es la número : " + Numero + ".");
+                vMensaje3.AppendLine(" La factura en espera que presentó el problema corresponde al número : " + Numero + ".");
             }
             if (valTipoDeArticulo == (int)eTipoDeArticulo.Servicio) {
                 vResult = true;

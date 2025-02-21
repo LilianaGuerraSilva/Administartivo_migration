@@ -1711,19 +1711,19 @@ Private Sub sVerificaSiHayErrorEnLaLinea_FACTURA(ByVal valLineaActual As Long, B
          Case gEnumProyecto.enumStatusFacturaToStringSiglas(eSF_EMITIDA):
             If valEsFacturaBorradores Then
                ErrorAlTraducirLaLinea = True
-               LineaDeErrores = LineaDeErrores & ":::. ERROR El Status de la Factura  ==>" & gEnumProyecto.enumStatusFacturaToString(eSF_EMITIDA) & "<==   no es válido para la importación de Borradores de Facturas. Para importar facturas emitidas deberá hacerlo a través del modulo para importar Facturas Historicas.:::"
+               LineaDeErrores = LineaDeErrores & ":::. ERROR El Status de la Factura  ==>" & gEnumProyecto.enumStatusFacturaToString(eSF_EMITIDA) & "<==   no es válido para la importación de Facturas en Espera. Para importar facturas emitidas deberá hacerlo a través del módulo para importar Facturas Históricas.:::"
                GoTo h_EXIT
             End If
          Case gEnumProyecto.enumStatusFacturaToStringSiglas(eSF_ANULADA):
             If valEsFacturaBorradores Then
                ErrorAlTraducirLaLinea = True
-               LineaDeErrores = LineaDeErrores & ":::. ERROR El Status de la Factura  ==>" & gEnumProyecto.enumStatusFacturaToString(eSF_ANULADA) & "<==   no es válido para la importación de Borradores de Facturas. Para importar facturas anuladas deberá hacerlo a través del modulo para importar Facturas Historicas.:::"
+               LineaDeErrores = LineaDeErrores & ":::. ERROR El Status de la Factura  ==>" & gEnumProyecto.enumStatusFacturaToString(eSF_ANULADA) & "<==   no es válido para la importación de Facturas en Espera. Para importar facturas anuladas deberá hacerlo a través del módulo para importar Facturas Históricas.:::"
                GoTo h_EXIT
             End If
          Case gEnumProyecto.enumStatusFacturaToStringSiglas(eSF_BORRADOR):
             If Not valEsFacturaBorradores Then
                ErrorAlTraducirLaLinea = True
-               LineaDeErrores = LineaDeErrores & ":::. ERROR El Status de la Factura  ==>" & gEnumProyecto.enumStatusFacturaToString(eSF_BORRADOR) & "<==   no es válido para la importación de Facturas Historicas. Para importar borradores de facturas deberá hacerlo a través del modulo para importar Borradores de Facturas.:::"
+               LineaDeErrores = LineaDeErrores & ":::. ERROR El Status de la Factura  ==>" & gEnumProyecto.enumStatusFacturaToString(eSF_BORRADOR) & "<==   no es válido para la importación de Facturas Históricas. Para importar facturas en espera deberá hacerlo a través del módulo para importar Facturas en Espera.:::"
                GoTo h_EXIT
             End If
          Case Else:
@@ -3770,7 +3770,7 @@ Private Function fContinuaConProcesosDeInsercionDeArticulos(ByVal valTotalRegist
     Dim Continuar As Boolean
     Dim valNumeroNotaEntrada As String
     On Error GoTo h_ERROR
-    Continuar = insNotaDeEntrada.fInsertDesdeImportacionInventario(mConsecutivoCompaniaActual, gProyParametrosCompania.getCodigoGenericoCliente, gProyParametrosCompania.GetCodigoAlmacenGenerico, valDatosDeInventario, valTotalRegistro, mCodigoLote)
+    Continuar = insNotaDeEntrada.fInsertDesdeImportacionInventario(mConsecutivoCompaniaActual, gProyParametrosCompania.GetCodigoAlmacenGenerico, valDatosDeInventario, valTotalRegistro, mCodigoLote)
     If Continuar Then
        Continuar = insExistenciaNavigator.fInsertDesdeImportacionInventario(mConsecutivoCompaniaActual, valDatosDeInventario, valTotalRegistro)
     End If
@@ -3835,7 +3835,7 @@ Public Sub sImportarModulosSaw(ByVal valNombreDelArchivo As String, ByVal valExt
                 If gProyParametrosCompania.GetUsaImprentaDigital Then
                     mSeImportaComoHistorica = False
                 Else
-                    mSeImportaComoHistorica = gMessage.YesNoMessage("¿Desea Importar los Borradores de Factura como Históricos?", "Importar Borradores Factura")
+                    mSeImportaComoHistorica = gMessage.YesNoMessage("¿Desea Importar las Factura en Espera como Históricas?", "Importar Factura en Espera")
                 End If
             End If
             sChequeaLaIntegridadDeLosDatosSaw FileErrorNumber, Separador, ErrorDeTraduccion, refProgressBar, valNombreDelArchivo, valEsFacturaBorradores
@@ -3861,7 +3861,7 @@ Public Sub sImportarModulosSaw(ByVal valNombreDelArchivo As String, ByVal valExt
    Else
       reftxtProgreso.Text = ""
       EnumSystemModules = fEntidadToEnumSystemModules
-      gMessage.Advertencia "No existe el archivo del modulo de " & gEnumProyecto.enum_SystemModulesToStr(EnumSystemModules) & " que especificó en la ruta para la importación."
+      gMessage.Advertencia "No existe el archivo del módulo de " & gEnumProyecto.enum_SystemModulesToStr(EnumSystemModules) & " que especificó en la ruta para la importación."
    End If
    If Not exito Then
       reftxtProgreso.Text = ""
@@ -4237,7 +4237,7 @@ Private Function fPreparaLosDatosConDetalleEImporta(ByVal valSeparador As String
    borrador = ""
    refErrorDeTraduccion = False
    If valEsFacturaBorradores Then
-      borrador = "Borradores de "
+      borrador = "Documentos en Espera de "
    End If
    vContinuar = True
    If NumeroDeLineaActual > 0 Then
@@ -4384,7 +4384,7 @@ Private Sub sManejoDeMensajes(ByVal valTotalRegistro As Long, ByVal valNumeroReg
    Dim vMsg As String
    On Error GoTo h_ERROR
    If valEsFacturaBorradores Then
-      msgFacturaBorrador = "Borradores de "
+      msgFacturaBorrador = "Documentos en Espera de "
    Else
       msgFacturaBorrador = ""
    End If

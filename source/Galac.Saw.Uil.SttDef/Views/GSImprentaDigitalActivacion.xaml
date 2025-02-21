@@ -38,7 +38,7 @@
                     <!--  3  -->
                     <RowDefinition Height="Auto" />
                     <!--  4  -->
-                    <RowDefinition Height="40" />
+                    <RowDefinition Height="Auto" />
                     <!--  5  -->
                     <RowDefinition Height="Auto" />
                     <!--  6  -->
@@ -97,13 +97,13 @@
                     Grid.Row="3"
                     Grid.Column="0"
                     Margin="0"
-                    Content="{Binding Path=CampoUsuario}"
+                    Content="Usuario"
                     Style="{StaticResource LabelPrompt}" />
                 <Label
                     Grid.Row="4"
                     Grid.Column="0"
                     Margin="0"
-                    Content="{Binding Path=CampoClave}"
+                    Content="Clave"
                     Style="{StaticResource LabelPrompt}" />
                 <Label
                     Grid.Row="6"
@@ -235,8 +235,7 @@
                     HorizontalAlignment="Left"
                     Command="{Binding Path=ProbarConexionCommand}"
                     Content="Probar Conexión"
-                    IsEnabled="{Binding Path=IsEnabled}"
-                    Visibility="{Binding Path=IsVisbleByProveedorID, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    IsEnabled="{Binding Path=IsEnabled}" />
                 <nsWpfControls:GSTextBoxWpf
                     Name="txtFacturaT1"
                     Grid.Row="8"

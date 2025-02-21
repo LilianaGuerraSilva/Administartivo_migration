@@ -163,8 +163,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
                                                   Codigo = vRecord.Element("Codigo").Value,
                                                   Nombre = vRecord.Element("Nombre").Value,
                                                   CodigoArticuloInventario = vRecord.Element("CodigoArticuloInventario").Value,
-                                                  FechaCreacion = vRecord.Element("FechaCreacion").Value,
-                                          		  ManejaMerma = vRecord.Element("ManejaMerma").Value
+                                                  FechaCreacion = vRecord.Element("FechaCreacion").Value
                                               }).Distinct();
             }
             foreach (OrdenDeProduccion vItem in refData) {
@@ -173,7 +172,6 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 vItem.NombreAlmacenProductoTerminado = vInfoAlmacenSalidas.Descendants("GpResult").Where(p => p.Element("Consecutivo").Value == vItem.ConsecutivoAlmacenProductoTerminado.ToString()).Select(p => p.Element("NombreAlmacen").Value).FirstOrDefault();
                 vItem.CodigoListaDeMateriales = vInfoConexionListaDeMateriales.Descendants("GpResult").Where(p => p.Element("Consecutivo").Value == vItem.ConsecutivoListaDeMateriales.ToString()).Select(p => p.Element("Codigo").Value).FirstOrDefault();
                 vItem.NombreListaDeMateriales = vInfoConexionListaDeMateriales.Descendants("GpResult").Where(p => p.Element("Consecutivo").Value == vItem.ConsecutivoListaDeMateriales.ToString()).Select(p => p.Element("Nombre").Value).FirstOrDefault();
-                vItem.ListaUsaMerma = vInfoConexionListaDeMateriales.Descendants("GpResult").Where(p => p.Element("Consecutivo").Value == vItem.ConsecutivoListaDeMateriales.ToString()).Select(p => p.Element("ManejaMerma").Value).FirstOrDefault();
             }
         }
 
@@ -452,9 +450,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
             foreach (OrdenDeProduccionDetalleMateriales vOrdenDeProduccionDetalleMateriales in valOrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales) {
                 if (vOrdenDeProduccionDetalleMateriales.TipoDeArticuloAsEnum == eTipoDeArticulo.Mercancia) {
                     decimal vDisponibilidad = 0;
-                    if (vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote 
-                        || vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento 
-                        || vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeElaboracion) {
+                    if (vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote || vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento) {
                         vDisponibilidad = vArticuloPdn.DisponibilidadDeArticulo(vOrdenDeProduccionDetalleMateriales.ConsecutivoCompania, vOrdenDeProduccionDetalleMateriales.CodigoArticulo, vOrdenDeProduccionDetalleMateriales.ConsecutivoLoteDeInventario);
                     } else {
                         vDisponibilidad = vArticuloPdn.DisponibilidadDeArticulo(vOrdenDeProduccionDetalleMateriales.ConsecutivoCompania, vOrdenDeProduccionDetalleMateriales.CodigoAlmacen, vOrdenDeProduccionDetalleMateriales.CodigoArticulo, 1, "", "");
@@ -473,9 +469,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
         private bool VerificaAsignacionDeLote(OrdenDeProduccion valOrdenDeProduccion, bool valAlIniciar) {
             if (valAlIniciar) {
                 foreach (OrdenDeProduccionDetalleMateriales vOrdenDeProduccionDetalleMateriales in valOrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales) {
-                    if (vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento 
-                        || vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote
-                        || vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeElaboracion) {
+                    if (vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento || vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote) {
                         if (vOrdenDeProduccionDetalleMateriales.ConsecutivoLoteDeInventario == 0) {
                             throw new GalacValidationException("Hay artículos que no tienen lote asignado.");
                         }
@@ -484,9 +478,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 return true;
             } else {
                 foreach (OrdenDeProduccionDetalleArticulo vOrdenDeProduccionDetallArticulo in valOrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo ) {
-                    if (vOrdenDeProduccionDetallArticulo.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento 
-                        || vOrdenDeProduccionDetallArticulo.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote
-                        || vOrdenDeProduccionDetallArticulo.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeElaboracion) {
+                    if (vOrdenDeProduccionDetallArticulo.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento || vOrdenDeProduccionDetallArticulo.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote) {
                         if (vOrdenDeProduccionDetallArticulo.ConsecutivoLoteDeInventario == 0) {
                             throw new GalacValidationException("Hay artículos que no tienen lote asignado.");
                         }
@@ -515,11 +507,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
         private LibResponse CerrarOrdenDeProduccion(IList<OrdenDeProduccion> refRecord) {
             LibResponse vResult = new LibResponse();
             if (refRecord != null && refRecord.Count > 0) {
-                if (refRecord[0].ListaUsaMermaAsBool && !EsValidaLaInformacionDeMerma(refRecord[0])) {
-                    vResult.Success = false;
-                    return vResult;
-                }
-                if (VerificaAsignacionDeLote(refRecord[0], false)) {
+                if (VerificaAsignacionDeLote(refRecord[0], false)){
                     vResult.Success = true;
                     XElement vDataXmlArticulo = BuscarInfoDeCostoDeArticulos(refRecord[0].DetailOrdenDeProduccionDetalleMateriales);
                     IList<OrdenDeProduccionDetalleMateriales> vList = new List<OrdenDeProduccionDetalleMateriales>();
@@ -552,11 +540,9 @@ namespace Galac.Adm.Brl.GestionProduccion {
                         if (vOrdenDeProduccionDetalleMateriales.TipoDeArticuloAsEnum == eTipoDeArticulo.Mercancia &&
                             (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PermitirSobregiro")) &&
                             vOrdenDeProduccionDetalleMateriales.CantidadConsumida > vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario) {
-                            if (vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote 
-                                || vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento
-                                || vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeElaboracion) {
+                            if (vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote || vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento) {
                                 if ((vOrdenDeProduccionDetalleMateriales.CantidadConsumida - vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario) > vDataExistenciaLote.Where(p => p.CodigoArticulo == vOrdenDeProduccionDetalleMateriales.CodigoArticulo && p.ConsecutivoLoteDeInventario == vOrdenDeProduccionDetalleMateriales.ConsecutivoLoteDeInventario).FirstOrDefault().Existencia) {
-                                    throw new GalacValidationException("No hay suficiente existencia de algunos insumos para producir esta orden. (" + vOrdenDeProduccionDetalleMateriales.CodigoArticulo + "-" + vOrdenDeProduccionDetalleMateriales.CodigoLote + ")");
+                                    throw new GalacValidationException("No hay suficiente existencia de algunos insumos para producir esta orden. (" + vOrdenDeProduccionDetalleMateriales.CodigoArticulo + "-"  + vOrdenDeProduccionDetalleMateriales.CodigoLote + ")");
                                 }
                             } else {
                                 if ((vOrdenDeProduccionDetalleMateriales.CantidadConsumida - vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario) > vDataExistencia.Where(p => p.CodigoArticulo == vOrdenDeProduccionDetalleMateriales.CodigoArticulo && p.ConsecutivoAlmacen == vOrdenDeProduccionDetalleMateriales.ConsecutivoAlmacen).FirstOrDefault().Existencia) {
@@ -586,8 +572,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 } else {
                     vResult.Success = false;
                     vResult.AddError("No se puede procesar la acción: cerrar");
-                }
-            }
+                } }
             return vResult;
         }
 
@@ -603,6 +588,32 @@ namespace Galac.Adm.Brl.GestionProduccion {
             vResult.Success = true;
             IArticuloInventarioPdn vArticuloPdn = new clsArticuloInventarioNav();
             List<ArticuloInventarioExistencia> vList = new List<ArticuloInventarioExistencia>();
+            decimal vCantidad = 0;
+            //foreach (OrdenDeProduccionDetalleMateriales vOrdenDeProduccionDetalleMateriales in valOrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales) {
+            //    if (vOrdenDeProduccionDetalleMateriales.TipoDeArticuloAsEnum == eTipoDeArticulo.Mercancia) {
+            //        vCantidad = vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario;
+            //        bool vAgregar = false;
+            //        if (vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario < vOrdenDeProduccionDetalleMateriales.CantidadConsumida) {
+            //            vCantidad = (vOrdenDeProduccionDetalleMateriales.CantidadConsumida - vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario) * -1;
+            //            vAgregar = true;
+            //        } else if (vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario > vOrdenDeProduccionDetalleMateriales.CantidadConsumida) {
+            //            vCantidad = vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario - vOrdenDeProduccionDetalleMateriales.CantidadConsumida;
+            //            vAgregar = true;
+            //        }
+            //        if (vAgregar) {
+            //            vList.Add(new ArticuloInventarioExistencia() {
+            //                ConsecutivoCompania = vOrdenDeProduccionDetalleMateriales.ConsecutivoCompania,
+            //                CodigoAlmacen = vOrdenDeProduccionDetalleMateriales.CodigoAlmacen,
+            //                CodigoArticulo = vOrdenDeProduccionDetalleMateriales.CodigoArticulo,
+            //                Cantidad = LibMath.RoundToNDecimals(vCantidad, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "CantidadDeDecimales")),
+            //                Ubicacion = "",
+            //                ConsecutivoAlmacen = vOrdenDeProduccionDetalleMateriales.ConsecutivoAlmacen,
+            //                TipoActualizacion = eTipoActualizacion.Existencia,
+            //                DetalleArticuloInventarioExistenciaSerial = new List<ArticuloInventarioExistenciaSerial>()
+            //            });
+            //        }
+            //    }
+            //}
             foreach (OrdenDeProduccionDetalleArticulo vOrdenDeProduccionDetalleArticulo in valOrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo) {
                 vList.Add(new ArticuloInventarioExistencia() {
                     ConsecutivoCompania = vOrdenDeProduccionDetalleArticulo.ConsecutivoCompania,
@@ -801,8 +812,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
                     CostoUnitarioArticuloInventario = 0,
                     CostoUnitarioMEArticuloInventario = 0,
                     MontoSubtotal = 0,
-                    TipoDeArticuloAsEnum = item.TipoDeArticuloAsEnum,
-                    PorcentajeMermaNormalOriginal = item.PorcentajeMermaNormal
+                    TipoDeArticuloAsEnum = item.TipoDeArticuloAsEnum
                 });
             }
             return vResult;
@@ -827,33 +837,11 @@ namespace Galac.Adm.Brl.GestionProduccion {
                     CantidadAjustada = 0,
                     PorcentajeCostoEstimado = item.PorcentajeDeCosto,
                     PorcentajeCostoCierre = item.PorcentajeDeCosto,
-                    Costo = 0,
-                    PorcentajeMermaNormalOriginal = item.PorcentajeMermaNormal
+                    Costo = 0
                 });
             }
             return vResult;
         }
-
-        private bool EsValidaLaInformacionDeMerma(OrdenDeProduccion valOrdenDeProduccion) {
-            bool vResult = true;
-            foreach (var vOrdenDeProduccionDetalleMateriales in valOrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales) {
-                if ((vOrdenDeProduccionDetalleMateriales.CantidadConsumida - vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario) > 0) {
-                    if ((vOrdenDeProduccionDetalleMateriales.CantidadMermaNormal + vOrdenDeProduccionDetalleMateriales.CantidadMermaAnormal) > (vOrdenDeProduccionDetalleMateriales.CantidadConsumida - vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario)) {
-                        throw new GalacValidationException("No se puede registrar una merma en Insumos superior a " + LibConvert.ToStr((vOrdenDeProduccionDetalleMateriales.CantidadConsumida - vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario), 8) + " " + vOrdenDeProduccionDetalleMateriales.UnidadDeVenta + " para el artículo " + vOrdenDeProduccionDetalleMateriales.CodigoArticulo + ".");
-                    }
-                }
-            }
-
-            foreach (var vOrdenDeProduccionDetalleArticulos in valOrdenDeProduccion.DetailOrdenDeProduccionDetalleArticulo) {
-                if ((vOrdenDeProduccionDetalleArticulos.CantidadSolicitada - vOrdenDeProduccionDetalleArticulos.CantidadProducida) > 0) {
-                    if ((vOrdenDeProduccionDetalleArticulos.CantidadMermaNormal + vOrdenDeProduccionDetalleArticulos.CantidadMermaAnormal) > (vOrdenDeProduccionDetalleArticulos.CantidadSolicitada - vOrdenDeProduccionDetalleArticulos.CantidadProducida)) {
-                        throw new GalacValidationException("No se puede registrar una merma en Salidas superior a " + LibConvert.ToStr((vOrdenDeProduccionDetalleArticulos.CantidadSolicitada - vOrdenDeProduccionDetalleArticulos.CantidadProducida), 8) + " " + vOrdenDeProduccionDetalleArticulos.UnidadDeVenta + " para el artículo " + vOrdenDeProduccionDetalleArticulos.CodigoArticulo + ".");
-                    }
-                }
-            }
-            return vResult;
-        }
-
     } //End of class clsOrdenDeProduccionNav
 
 } //End of namespace Galac.Adm.Brl.GestionProduccion

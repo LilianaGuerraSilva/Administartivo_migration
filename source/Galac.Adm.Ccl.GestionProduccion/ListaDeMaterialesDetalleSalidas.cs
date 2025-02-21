@@ -20,8 +20,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         private string _UnidadDeVenta;
         private decimal _PorcentajeDeCosto;
         private eTipoArticuloInv _TipoArticuloInv;
-        private decimal _MermaNormal;
-        private decimal _PorcentajeMermaNormal;
         #endregion //Variables
         #region Propiedades
 
@@ -83,22 +81,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         public string TipoArticuloInv {
             set { _TipoArticuloInv = (eTipoArticuloInv)LibConvert.DbValueToEnum(value); }
         }
-		
-		public decimal MermaNormal {
-            get { return _MermaNormal; }
-            set { 
-                _MermaNormal = value;
-                OnPropertyChanged("MermaNormal");
-            }
-        }
-
-        public decimal PorcentajeMermaNormal {
-            get { return _PorcentajeMermaNormal; }
-            set { 
-                _PorcentajeMermaNormal = value;
-                OnPropertyChanged("PorcentajeMermaNormal");
-            }
-        }
         #endregion //Propiedades
         #region Constructores
 
@@ -121,8 +103,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             Cantidad = 0;
             UnidadDeVenta = string.Empty;
             PorcentajeDeCosto = 0;
-            MermaNormal = 0;
-            PorcentajeMermaNormal = 0;
         }
 
         public ListaDeMaterialesDetalleSalidas Clone() {
@@ -135,8 +115,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             vResult.Cantidad = _Cantidad;
             vResult.UnidadDeVenta = _UnidadDeVenta;
             vResult.PorcentajeDeCosto = _PorcentajeDeCosto;
-            vResult.MermaNormal = _MermaNormal;
-            vResult.PorcentajeMermaNormal = _PorcentajeMermaNormal;
             return vResult;
         }
 
@@ -146,9 +124,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
                "\nConsecutivo = " + _Consecutivo.ToString() +
                "\nCódigo Inventario = " + _CodigoArticuloInventario +
                "\nCantidad = " + _Cantidad.ToString() +
-               "\n%Costo = " + _PorcentajeDeCosto.ToString() +
-               "\nMerma Normal (esperada) = " + _MermaNormal.ToString() +
-               "\n%Merma = " + _PorcentajeMermaNormal.ToString();
+               "\n%Costo = " + _PorcentajeDeCosto.ToString();
         }
 
         #region Miembros de IEquatable<ListaDeMaterialesDetalleSalidas>

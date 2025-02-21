@@ -200,7 +200,7 @@ Private Function fCalcularMontoDescuento(ByVal valMonto As Currency, ByVal valPo
    fCalcularMontoDescuento = vResultado
 End Function
 
-Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales, insDatosImprFiscal As clsDatosImprFiscal, ByVal valEsNotaDeCredito, ByRef refReady As Boolean)
+Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales, insDatosImprFiscal As clsDatosImprFiscal, ByRef refReady As Boolean)
       Dim rsDatosArticulo As ADODB.Recordset
       Dim vAlicuotas As String
       Dim vTipoTasa As enum_TipoDeAlicuota
@@ -230,10 +230,12 @@ Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales
       Dim vCantidadCaracteres As Integer
       Dim vCaracteresEspacio As String
       Dim vMontoMEStr As String
+      Dim vEsNotaDeCredito As Boolean
       On Error GoTo h_Error
+      vEsNotaDeCredito = (insDatosImprFiscal.GetTipoDocumentoAsEnum = eTF_NOTADECREDITOCOMPROBANTEFISCAL)
       Set rsDatosArticulo = insDatosImprFiscal.GetItems
       If (sAbreCF(insDatosImprFiscal.GetPuertoImpresoraFiscal)) Then
-         If fImprimeDatosClientes(insDatosImprFiscal, valEsNotaDeCredito) Then
+         If fImprimeDatosClientes(insDatosImprFiscal) Then
             vResult = True
             vPorcetajeDesTotal = insDatosImprFiscal.GetPorcentajeDeDescuento
             If Not rsDatosArticulo.BOF And Not rsDatosArticulo.EOF Then
@@ -257,7 +259,7 @@ Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales
                   vSerial = gUtilImprFiscal.fCadenaCaracteresValidos(rsDatosArticulo.Fields("Serial"), 100)
                   vRollo = gUtilImprFiscal.fCadenaCaracteresValidos(rsDatosArticulo.Fields("Rollo"), 100)
                   sAgregaLineaSeparacion
-                  If Not fVenta(vDescripcion, vCantidadFormateada, vPrecioFormateado, vAlicuotas, valEsNotaDeCredito, vMontoDescuentoFormateado) Then
+                  If Not fVenta(vDescripcion, vCantidadFormateada, vPrecioFormateado, vAlicuotas, vEsNotaDeCredito, vMontoDescuentoFormateado) Then
                      fCancelaCuponFiscal False, insDatosImprFiscal.GetPuertoImpresoraFiscal
                      mVmax.CerrarPuerto
                      GoTo h_Error
@@ -295,25 +297,20 @@ Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales
                   vMontoMEStr = fDarFormatoNumericoParaImpresion(vOtrosPagos, mEnterosParaIGTF, mDecimalesParaMonto)
                   mVmax.PagoCF vMedioPago, vMontoMEStr, 1
                End If
-            Else ' Montos en ME sin IGTF
-               If Not insDatosImprFiscal.GetFormaDePago Is Nothing Then
-                  sFormaDePago insDatosImprFiscal, True
-               Else
-                  vResult = mVmax.PagoCF("Debito", vTotalFactura, 1)
-               End If
+            Else
                vResult = mVmax.SubTotal()
             End If
             vTotalFactura = mVmax.TotalFactura
             If vTotalPagadoML > 0 Then
                If Not insDatosImprFiscal.GetFormaDePago Is Nothing Then
-                  sFormaDePago insDatosImprFiscal, False
+                  sFormaDePago insDatosImprFiscal
                Else
                   vResult = mVmax.PagoCF("Debito", vTotalFactura, 1)
                End If
             End If
          End If
          vTotales = insDatosImprFiscal.GetTotalesMonedaExtranjera
-         If gTexto.DfLen(vTotales) > 0 And Not insDatosImprFiscal.GetEsNotaDeCredito Then
+         If gTexto.DfLen(vTotales) > 0 And Not vEsNotaDeCredito Then
             vList = gTexto.fConvertCadenaEnArray(vTotales, vbNewLine)
             If UBound(vList) > 0 Then
                For vCount = LBound(vList) To UBound(vList)
@@ -408,7 +405,7 @@ Private Function fDarFormatoAlicuotaIva(ByVal valTipoAlicuota As enum_TipoDeAlic
    fDarFormatoAlicuotaIva = vResult
 End Function
 
-Private Function fImprimeDatosClientes(ByVal insDatosImprFiscal As clsDatosImprFiscal, ByVal valEsNotaDeCredito As Boolean) As Boolean
+Private Function fImprimeDatosClientes(ByVal insDatosImprFiscal As clsDatosImprFiscal) As Boolean
    Dim vResult As Boolean
    Dim vTipo As String
    Dim vRazonSocial As String
@@ -425,13 +422,15 @@ Private Function fImprimeDatosClientes(ByVal insDatosImprFiscal As clsDatosImprF
    Dim vHora As String
    Dim vMin As String
    Dim vSubstring As String
+   Dim vEsNotaDeCredito As Boolean
          
    On Error GoTo h_Error
+   vEsNotaDeCredito = insDatosImprFiscal.GetEsNotaDeCredito
    vRazonSocial = gUtilImprFiscal.fCadenaCaracteresValidos(insDatosImprFiscal.GetNombreCliente, 100)
    vRif = insDatosImprFiscal.GetNumeroRIFCliente
    vDireccion = gUtilImprFiscal.fCadenaCaracteresValidos("Direccion: " & insDatosImprFiscal.GetDireccion, 100)
    vObservaciones = gUtilImprFiscal.fCadenaCaracteresValidos("Observaciones: " & insDatosImprFiscal.GetObservaciones, 100)
-   If valEsNotaDeCredito Then
+   If vEsNotaDeCredito Then
       vTipo = "D"
       vNumFactura = insDatosImprFiscal.GetNumeroTicket
       vSerialMaquinaFiscal = insDatosImprFiscal.GetSerialImpresoraFiscal
@@ -496,27 +495,26 @@ h_Error:
 Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAgregaLineaSeparacion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Private Function fFormaDeCobro(ByVal valFormaDeCobro As String, ByVal valDescripcionPagoCreditoElectronico As String) As String
+Private Function fFormaDeCobro(ByVal vFormaDeCobro) As String
    Dim vValorFinal As String
-   Select Case valFormaDeCobro
+   Select Case vFormaDeCobro
       Case "00001":    vValorFinal = "Efectivo"
       Case "00002":    vValorFinal = "Cheque"
       Case "00003":    vValorFinal = "Tarjeta"
       Case "00004":    vValorFinal = "Deposito"
-      Case "00015":    vValorFinal = valDescripcionPagoCreditoElectronico
       Case Else: vValorFinal = "Efectivo"
    End Select
    fFormaDeCobro = vValorFinal
 End Function
 
-Private Sub sFormaDePago(ByVal insDatosImprFiscal As clsDatosImprFiscal, ByVal valEsME As Boolean)
+Private Sub sFormaDePago(ByVal insDatosImprFiscal As clsDatosImprFiscal)
    Dim rsFormaDePago As ADODB.Recordset
    Dim formadePago As String
    Dim vMontoCancelado As Currency
    Dim MontoCanceladoFormateado As String
    Dim vTotalFactura As String
    Dim vResult As Boolean
-   Dim vFormaDeCobro As String
+   Dim FormaDeCobro As String
    Dim vCodigoMoneda As String
    On Error GoTo h_Error
    Set rsFormaDePago = insDatosImprFiscal.GetFormaDePago
@@ -527,17 +525,13 @@ Private Sub sFormaDePago(ByVal insDatosImprFiscal As clsDatosImprFiscal, ByVal v
          vMontoCancelado = gConvert.fConvierteAString(rsFormaDePago.Fields("Monto").Value)
          vMontoCancelado = Abs(vMontoCancelado)
          vCodigoMoneda = rsFormaDePago.Fields("CodigoMoneda").Value
-         vFormaDeCobro = fFormaDeCobro(rsFormaDePago("CodigoFormaDelCobro").Value, insDatosImprFiscal.GetDescripcionPagoCreditoElectronico)
+         FormaDeCobro = fFormaDeCobro(rsFormaDePago("CodigoFormaDelCobro").Value)
          If rsFormaDePago.RecordCount < 1 Then
-            vResult = mVmax.PagoCF("Efectivo", vTotalFactura, 1)
-         ElseIf insDatosImprFiscal.GetCodigoMonedaCompania <> vCodigoMoneda And valEsME Then
-            MontoCanceladoFormateado = gConvert.fConvierteAString(vMontoCancelado)
-            MontoCanceladoFormateado = fDarFormatoNumericoParaImpresion(MontoCanceladoFormateado, mEnterosParaPagos, mDecimalesParaMonto)
-            vResult = mVmax.PagoCF(vFormaDeCobro, MontoCanceladoFormateado, 1)
+             vResult = mVmax.PagoCF("Efectivo", vTotalFactura, 1)
          ElseIf insDatosImprFiscal.GetCodigoMonedaCompania = vCodigoMoneda Then
             MontoCanceladoFormateado = gConvert.fConvierteAString(vMontoCancelado)
             MontoCanceladoFormateado = fDarFormatoNumericoParaImpresion(MontoCanceladoFormateado, mEnterosParaPagos, mDecimalesParaMonto)
-            vResult = mVmax.PagoCF(vFormaDeCobro, MontoCanceladoFormateado, 1)
+            vResult = mVmax.PagoCF(FormaDeCobro, MontoCanceladoFormateado, 1)
          End If
          rsFormaDePago.MoveNext
       Loop

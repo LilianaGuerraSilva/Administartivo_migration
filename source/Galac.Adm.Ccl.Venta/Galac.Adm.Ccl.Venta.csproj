@@ -39,8 +39,8 @@
     <Reference Include="LibGalac.Aos.Catching">
       <HintPath>..\packages\LibGalac.Aos.Catching.5.24.0\lib\LibGalac.Aos.Catching.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.Uil.Usal">
-      <HintPath>..\packages\LibGalac.Aos.Uil.Usal.5.24.1\lib\LibGalac.Aos.Uil.Usal.dll</HintPath>
+    <Reference Include="LibGalac.Aos.Uil.Usal, Version=5.24.2.5, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.Uil.Usal.5.24.2.5\lib\LibGalac.Aos.Uil.Usal.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -60,8 +60,10 @@
     <Compile Include="CobroDeFacturaRapidaDepositoTransfDetalle.cs" />
     <Compile Include="Contrato.cs" />
     <Compile Include="CxC.cs" />
+    <Compile Include="Escalada.cs" />
     <Compile Include="Factura.cs" />
     <Compile Include="IActualizarArticuloInventarioPdn.cs" />
+    <Compile Include="IAuditoriaConfiguracionInformes.cs" />
     <Compile Include="ICajaAperturaPdn.cs" />
     <Compile Include="ICajaInformes.cs" />
     <Compile Include="ICobranzaInformes.cs" />
@@ -69,6 +71,7 @@
     <Compile Include="IContratoInformes.cs" />
     <Compile Include="ICxCInformes.cs" />
     <Compile Include="ICXCPdn.cs" />
+    <Compile Include="IEscaladaInformes.cs" />
     <Compile Include="IFkContratoViewModel.cs" />
     <Compile Include="IResumenDiarioDeVentasInformes.cs" />
     <Compile Include="IFacturaInformes.cs" />
@@ -76,6 +79,7 @@
     <Compile Include="IFkCajaAperturaViewModel.cs" />
     <Compile Include="IFkCajaViewModel.cs" />
     <Compile Include="IFkCxCViewModel.cs" />
+    <Compile Include="IFkEscaladaViewModel.cs" />
     <Compile Include="IFkFacturaViewModel.cs" />
     <Compile Include="IMovimientoBancarioPuntoDeVentaPdn.cs" />
     <Compile Include="INotaDeEntregaInformes.cs" />
