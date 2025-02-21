@@ -103,7 +103,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 if(vRespuestaConector.data != null) {
                     NumeroControl = vRespuestaConector.data.Value.numerodocumento ?? string.Empty;
                     FechaAsignacion = LibString.IsNullOrEmpty(vRespuestaConector.data.Value.fecha) ? LibDate.MinDateForDB() : LibConvert.ToDate(vRespuestaConector.data.Value.fecha);
-                    HoraAsignacion = LibConvert.ToStr(FechaAsignacion, "hh:mm");
+                    HoraAsignacion = vRespuestaConector.data.Value.hora;
                 }
             }
         }
@@ -152,6 +152,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             }
         }
 
+
+
         public override bool EnviarDocumento() {
             try {
                 bool vResult = false;
@@ -169,7 +171,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     vRespuestaConector = ((clsConectorJsonNovus)_ConectorJson).SendPostJsonNV(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostNovus.Emision), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
                     vResult = vRespuestaConector.success;
                     if(vResult) {
-                        NumeroControl = vRespuestaConector.data.Value.documento;
+                        NumeroControl = vRespuestaConector.data.Value.numerodocumento;
+                        HoraAsignacion = vRespuestaConector.data.Value.hora;
                         ActualizaNroControlYProveedorImprentaDigital();
                     } else {
                         Mensaje = vRespuestaConector.message;

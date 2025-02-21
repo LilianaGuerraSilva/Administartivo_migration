@@ -74,8 +74,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             string vMensaje = string.Empty;
             bool vChekConeccion;
             string vDocumentoJSON;
-            try {                
-                if (LibString.IsNullOrEmpty(_ConectorJson.Token)) {
+            try {
+                if(LibString.IsNullOrEmpty(_ConectorJson.Token)) {
                     ObtenerDatosDocumentoEmitido();
                     vChekConeccion = _ConectorJson.CheckConnection(ref vMensaje, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion));
                 } else {
@@ -86,7 +86,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     TipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum),
                     NumeroDocumento = NumeroDocumento()
                 };
-                if (vChekConeccion) {
+                if(vChekConeccion) {
                     vDocumentoJSON = clsConectorJson.SerializeJSON(vJsonDeConsulta);//Construir XML o JSON Con datos                                                                                    
                     vRespuestaConector = ((clsConectorJsonTheFactory)_ConectorJson).SendPostJsonTF(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoDocumento), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
                     Mensaje = vRespuestaConector.mensaje;
@@ -94,16 +94,18 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     Mensaje = vMensaje;
                 }
                 return vRespuestaConector.Aprobado;
-            } catch (GalacException) {
+            } catch(GalacException) {
                 throw;
-            } catch (Exception vEx) {
+            } catch(Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             } finally {
                 CodigoRespuesta = vRespuestaConector.codigo ?? string.Empty;
-                EstatusDocumento = vRespuestaConector.estado.estadoDocumento ?? string.Empty;
-                NumeroControl = vRespuestaConector.estado.numeroControl ?? string.Empty;
-                FechaAsignacion = LibString.IsNullOrEmpty(vRespuestaConector.estado.fechaAsignacion) ? LibDate.MinDateForDB() : LibConvert.ToDate(vRespuestaConector.estado.fechaAsignacion);
-                HoraAsignacion = vRespuestaConector.estado.horaAsignacion ?? string.Empty;
+                if(!vRespuestaConector.Aprobado) {
+                    EstatusDocumento = vRespuestaConector.estado.estadoDocumento ?? string.Empty;
+                    NumeroControl = vRespuestaConector.estado.numeroControl ?? string.Empty;
+                    FechaAsignacion = LibString.IsNullOrEmpty(vRespuestaConector.estado.fechaAsignacion) ? LibDate.MinDateForDB() : LibConvert.ToDate(vRespuestaConector.estado.fechaAsignacion);
+                    HoraAsignacion = vRespuestaConector.estado.horaAsignacion ?? string.Empty;
+                }
             }
         }
 
@@ -163,6 +165,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     vRespuestaConector = ((clsConectorJsonTheFactory)_ConectorJson).SendPostJsonTF(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Emision), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
                     vResult = vRespuestaConector.Aprobado;
                     if(vResult) {
+                        HoraAsignacion = vRespuestaConector.resultados.horaAsignacion;
                         NumeroControl = vRespuestaConector.resultados.numeroControl;
                         ActualizaNroControlYProveedorImprentaDigital();
                     } else {

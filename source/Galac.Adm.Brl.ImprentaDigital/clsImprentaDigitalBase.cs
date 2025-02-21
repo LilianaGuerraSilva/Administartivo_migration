@@ -581,6 +581,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             LibGpParams vParams = new LibGpParams();
             QAdvSql insUtilSql = new QAdvSql("");
             StringBuilder vSql = new StringBuilder();
+            HoraAsignacion = FormatoHora(HoraAsignacion);            
             vParams.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
             vParams.AddInString("NumeroFactura", NumeroFactura, 11);
             vParams.AddInEnum("TipoDeDocumento", (int)TipoDeDocumento);
@@ -922,7 +923,20 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     break;
             }
             return vTipoCxc;
-        }      
+        }
+
+        string FormatoHora(string valHora) {
+            string vResult = string.Empty;
+            int vPosCorte = LibString.IndexOf(valHora, ":");
+            if(vPosCorte < 2) {
+                vResult = "00:00";
+            } else if(!LibString.IsNullOrEmpty(valHora)) {
+                vResult = LibString.Left(valHora, 2) + ":" + LibString.SubString(valHora, vPosCorte, 2);
+            }
+            return vResult;
+        }
+
+
         public abstract bool EnviarDocumento();
         public abstract bool EnviarDocumentoPorEmail(string valNumeroControl,string valEmail);
         public abstract bool AnularDocumento();
