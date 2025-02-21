@@ -165,7 +165,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     vRespuestaConector = ((clsConectorJsonTheFactory)_ConectorJson).SendPostJsonTF(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Emision), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
                     vResult = vRespuestaConector.Aprobado;
                     if(vResult) {
-                        HoraAsignacion = vRespuestaConector.resultados.horaAsignacion;
+                        HoraAsignacion = vRespuestaConector.resultados.fechaAsignacionNumeroControl;
                         NumeroControl = vRespuestaConector.resultados.numeroControl;
                         ActualizaNroControlYProveedorImprentaDigital();
                     } else {
