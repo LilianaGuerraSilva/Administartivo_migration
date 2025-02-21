@@ -33,17 +33,21 @@ namespace Galac.Saw.Brl.SttDef {
         #region Constructores
         public clsSettValueByCompanyNav() {
         }
+
         #endregion //Constructores
         #region Metodos Generados
         protected override ILibDataComponentWithSearch<IList<SettValueByCompany>, IList<SettValueByCompany>> GetDataInstance() {
             return new Galac.Saw.Dal.SttDef.clsSettValueByCompanyDat();
         }
         #region Miembros de ILibPdn
+
         bool ILibPdn.CanBeChoosen(string valCallingModule, eAccionSR valAction, string valExtendedAction, XmlDocument valXmlRow) {
             bool vResult = false;
             //ILibDataFKSearch instanciaDal = new Galac.Saw.Dal.SttDef.clsSettValueByCompanyDat();
             switch (valCallingModule) {
-                default: vResult = true; break;
+                default:
+                    vResult = true;
+                    break;
             }
             return vResult;
         }
@@ -157,7 +161,6 @@ namespace Galac.Saw.Brl.SttDef {
             }
             return vResult;
         }
-
         string ISettValueByCompanyPdn.ListadoParametros(int valConsecutivoCompania) {
             string vResult = "";
             QAdvSql insQAdvSql = new QAdvSql("");
@@ -258,6 +261,7 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.BaseDeCalculoParaAlicuotaEspecialAsEnum = (eBaseCalculoParaAlicuotaEspecial)LibConvert.DbValueToEnum(ValorSegunColumna(valListGetSettValueByCompany, "BaseDeCalculoParaAlicuotaEspecial"));
             return vResult;
         }
+
         #endregion //CompaniaStt
         #region  GeneralStt
         private GeneralStt GeneralSttPorDefecto() {
@@ -387,6 +391,11 @@ namespace Galac.Saw.Brl.SttDef {
         #region FacturacionContinuacionStt
         private FacturacionContinuacionStt FacturacionContinuacionSttPorDefecto(int valConsecutivoCompania) {
             FacturacionContinuacionStt insEntidad = new FacturacionContinuacionStt();
+            insEntidad.CuentaBancariaCobroDirecto = GetCuentaBancariaPorDefecto();
+            insEntidad.ConceptoBancarioCobroDirecto = GetConceptoBancario("COBRO_DIRECTO_DE_FACT");
+            insEntidad.CuentaBancariaCobroMultimoneda = "";
+            insEntidad.ConceptoBancarioCobroMultimoneda = "";
+            insEntidad.EmitirDirectoAsBool = false;
             insEntidad.UsarOtrosCargoDeFacturaAsBool = false;
             insEntidad.ForzarFechaFacturaAmesEspecificoAsBool = false;
             insEntidad.MesFacturacionEnCursoAsEnum = eMes.Enero;
@@ -397,10 +406,13 @@ namespace Galac.Saw.Brl.SttDef {
             insEntidad.MaximoDescuentoEnFactura = 100;
             insEntidad.PermitirDobleDescuentoEnFacturaAsBool = false;
             insEntidad.MostrarMtoTotalBsFEnObservacionesAsBool = false;
+            insEntidad.UsaCobroDirectoEnMultimonedaAsBool = false;
             insEntidad.SeMuestraTotalEnDivisasAsBool = false;
             insEntidad.UsaListaDePrecioEnMonedaExtranjeraAsBool = false;
             insEntidad.UsaListaDePrecioEnMonedaExtranjeraCXCAsBool = false;
             insEntidad.NroDiasMantenerTasaCambio = 0;
+            insEntidad.UsaMediosElectronicosDeCobroAsBool = false;
+            insEntidad.UsaMaquinaFiscalAsBool = false;
             return insEntidad;
         }
         private void LlenaListado(FacturacionContinuacionStt valRecord, ref List<SettValueByCompany> valBusinessObject, int valConsecutivoCompania) {
@@ -412,6 +424,13 @@ namespace Galac.Saw.Brl.SttDef {
             valBusinessObject.Add(ConvierteValor(valRecord.AccionAlAnularFactDeMesesAntAsDB, "AccionAlAnularFactDeMesesAnt", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsarOtrosCargoDeFacturaAsBool), "UsarOtrosCargoDeFactura", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaCamposExtrasEnRenglonFacturaAsBool), "UsaCamposExtrasEnRenglonFactura", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.EmitirDirectoAsBool), "EmitirDirecto", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaCobroDirectoAsBool), "UsaCobroDirecto", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaCobroDirectoEnMultimonedaAsBool), "UsaCobroDirectoEnMultimoneda", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(valRecord.CuentaBancariaCobroDirecto, "CuentaBancariaCobroDirecto", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(valRecord.ConceptoBancarioCobroDirecto, "ConceptoBancarioCobroDirecto", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(valRecord.CuentaBancariaCobroMultimoneda, "CuentaBancariaCobroMultimoneda", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(valRecord.ConceptoBancarioCobroMultimoneda, "ConceptoBancarioCobroMultimoneda", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.PermitirDobleDescuentoEnFacturaAsBool), "PermitirDobleDescuentoEnFactura", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.ToStr(valRecord.MaximoDescuentoEnFactura), "MaximoDescuentoEnFactura", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.ToStr(valRecord.BloquearEmisionAsDB), "BloquearEmision", valConsecutivoCompania));
@@ -420,6 +439,8 @@ namespace Galac.Saw.Brl.SttDef {
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaListaDePrecioEnMonedaExtranjeraAsBool), "UsaListaDePrecioEnMonedaExtranjera", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaListaDePrecioEnMonedaExtranjeraCXCAsBool), "UsaListaDePrecioEnMonedaExtranjeraCXC", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.ToStr(valRecord.NroDiasMantenerTasaCambio), "NroDiasMantenerTasaCambio", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(LibConvert.ToStr(valRecord.UsaMediosElectronicosDeCobroAsBool), "UsaMediosElectronicosDeCobro", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaMaquinaFiscalAsBool), "UsaMaquinaFiscal", valConsecutivoCompania));
         }
         FacturacionContinuacionStt GetFacturacionContinuacionStt(List<SettValueByCompany> valListGetSettValueByCompany) {
             FacturacionContinuacionStt vResult = new FacturacionContinuacionStt();
@@ -433,6 +454,13 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.AccionAlAnularFactDeMesesAntAsEnum = (eAccionAlAnularFactDeMesesAnt)LibConvert.DbValueToEnum(ValorSegunColumna(valListGetSettValueByCompany, "AccionAlAnularFactDeMesesAnt"));
             vResult.UsarOtrosCargoDeFacturaAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsarOtrosCargoDeFactura"));
             vResult.UsaCamposExtrasEnRenglonFacturaAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaCamposExtrasEnRenglonFactura"));
+            vResult.EmitirDirectoAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "EmitirDirecto"));
+            vResult.UsaCobroDirectoAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaCobroDirecto"));
+            vResult.UsaCobroDirectoEnMultimonedaAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaCobroDirectoEnMultimoneda"));
+            vResult.CuentaBancariaCobroDirecto = ValorSegunColumna(valListGetSettValueByCompany, "CuentaBancariaCobroDirecto");
+            vResult.ConceptoBancarioCobroDirecto = ValorSegunColumna(valListGetSettValueByCompany, "ConceptoBancarioCobroDirecto");
+            vResult.CuentaBancariaCobroMultimoneda = ValorSegunColumna(valListGetSettValueByCompany, "CuentaBancariaCobroMultimoneda");
+            vResult.ConceptoBancarioCobroMultimoneda = ValorSegunColumna(valListGetSettValueByCompany, "ConceptoBancarioCobroMultimoneda");
             vResult.PermitirDobleDescuentoEnFacturaAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "PermitirDobleDescuentoEnFactura"));
             vResult.MaximoDescuentoEnFactura = LibConvert.ToDec(ValorSegunColumna(valListGetSettValueByCompany, "MaximoDescuentoEnFactura", true));
             vResult.BloquearEmisionAsEnum = (eBloquearEmision)LibConvert.DbValueToEnum(ValorSegunColumna(valListGetSettValueByCompany, "BloquearEmision"));
@@ -441,75 +469,12 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.UsaListaDePrecioEnMonedaExtranjeraAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaListaDePrecioEnMonedaExtranjera"));
             vResult.UsaListaDePrecioEnMonedaExtranjeraCXCAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaListaDePrecioEnMonedaExtranjeraCXC"));
             vResult.NroDiasMantenerTasaCambio = LibConvert.ToInt(ValorSegunColumna(valListGetSettValueByCompany, "NroDiasMantenerTasaCambio"));
-            return vResult;
-        }
-        #endregion //FacturacionContinuacionStt
-        #region FacturaCobroFactura
-        private FacturaCobroFacturaStt FacturaCobroFacturaPorDefecto(int valConsecutivoCompania) {
-            FacturaCobroFacturaStt insEntidad = new FacturaCobroFacturaStt();
-            insEntidad.CuentaBancariaCobroDirecto = GetCuentaBancariaPorDefecto();
-            insEntidad.ConceptoBancarioCobroDirecto = GetConceptoBancario("COBRO_DIRECTO_DE_FACT");
-            insEntidad.CuentaBancariaCobroMultimoneda = "";
-            insEntidad.ConceptoBancarioCobroMultimoneda = "";
-            insEntidad.EmitirDirectoAsBool = false;
-            insEntidad.UsaCobroDirectoEnMultimonedaAsBool = false;
-            insEntidad.UsaMediosElectronicosDeCobroAsBool = false;
-            
-            insEntidad.UsaCreditoElectronicoAsBool = false;
-            insEntidad.NombreCreditoElectronico = "Crédito Electrónico";
-            insEntidad.DiasDeCreditoPorCuotaCreditoElectronico = 14;
-            insEntidad.CantidadCuotasUsualesCreditoElectronico = 6;
-            insEntidad.MaximaCantidadCuotasCreditoElectronico = 12;
-            insEntidad.UsaClienteUnicoCreditoElectronicoAsBool = true;
-            insEntidad.CodigoClienteCreditoElectronico = GetCodigoClientePorDefecto(valConsecutivoCompania);
-            insEntidad.GenerarUnaUnicaCuotaCreditoElectronicoAsBool = false;
-            return insEntidad;
-
-        }
-        private void LlenaListado(FacturaCobroFacturaStt valRecord, ref List<SettValueByCompany> valBusinessObject, int valConsecutivoCompania) {
-            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.EmitirDirectoAsBool), "EmitirDirecto", valConsecutivoCompania));
-            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaCobroDirectoAsBool), "UsaCobroDirecto", valConsecutivoCompania));
-            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaCobroDirectoEnMultimonedaAsBool), "UsaCobroDirectoEnMultimoneda", valConsecutivoCompania));
-            valBusinessObject.Add(ConvierteValor(valRecord.CuentaBancariaCobroDirecto, "CuentaBancariaCobroDirecto", valConsecutivoCompania));
-            valBusinessObject.Add(ConvierteValor(valRecord.ConceptoBancarioCobroDirecto, "ConceptoBancarioCobroDirecto", valConsecutivoCompania));
-            valBusinessObject.Add(ConvierteValor(valRecord.CuentaBancariaCobroMultimoneda, "CuentaBancariaCobroMultimoneda", valConsecutivoCompania));
-            valBusinessObject.Add(ConvierteValor(valRecord.ConceptoBancarioCobroMultimoneda, "ConceptoBancarioCobroMultimoneda", valConsecutivoCompania));
-            valBusinessObject.Add(ConvierteValor(LibConvert.ToStr(valRecord.UsaMediosElectronicosDeCobroAsBool), "UsaMediosElectronicosDeCobro", valConsecutivoCompania));
-
-            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaCreditoElectronicoAsBool), "UsaCreditoElectronico", valConsecutivoCompania));
-            valBusinessObject.Add(ConvierteValor(valRecord.NombreCreditoElectronico, "NombreCreditoElectronico", valConsecutivoCompania));
-            valBusinessObject.Add(ConvierteValor(LibConvert.ToStr(valRecord.DiasDeCreditoPorCuotaCreditoElectronico), "DiasDeCreditoPorCuotaCreditoElectronico", valConsecutivoCompania));
-            valBusinessObject.Add(ConvierteValor(LibConvert.ToStr(valRecord.CantidadCuotasUsualesCreditoElectronico), "CantidadCuotasUsualesCreditoElectronico", valConsecutivoCompania));
-            valBusinessObject.Add(ConvierteValor(LibConvert.ToStr(valRecord.MaximaCantidadCuotasCreditoElectronico), "MaximaCantidadCuotasCreditoElectronico", valConsecutivoCompania));            
-            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaClienteUnicoCreditoElectronicoAsBool), "UsaClienteUnicoCreditoElectronico", valConsecutivoCompania));
-            valBusinessObject.Add(ConvierteValor(valRecord.CodigoClienteCreditoElectronico, "CodigoClienteCreditoElectronico", valConsecutivoCompania));
-            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.GenerarUnaUnicaCuotaCreditoElectronicoAsBool), "GenerarUnaUnicaCuotaCreditoElectronico", valConsecutivoCompania));            
-        }
-        FacturaCobroFacturaStt GetFacturaCobroFacturaStt(List<SettValueByCompany> valListGetSettValueByCompany) {
-            FacturaCobroFacturaStt vResult = new FacturaCobroFacturaStt();
-            vResult.Module = GetModuleSegunColumna(valListGetSettValueByCompany, "EmitirDirecto");
-            vResult.GroupName = GetGroupNameSegunColumna(valListGetSettValueByCompany, "EmitirDirecto");
-
-            vResult.EmitirDirectoAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "EmitirDirecto"));
-            vResult.UsaCobroDirectoAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaCobroDirecto"));
-            vResult.UsaCobroDirectoEnMultimonedaAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaCobroDirectoEnMultimoneda"));
-            vResult.CuentaBancariaCobroDirecto = ValorSegunColumna(valListGetSettValueByCompany, "CuentaBancariaCobroDirecto");
-            vResult.ConceptoBancarioCobroDirecto = ValorSegunColumna(valListGetSettValueByCompany, "ConceptoBancarioCobroDirecto");
-            vResult.CuentaBancariaCobroMultimoneda = ValorSegunColumna(valListGetSettValueByCompany, "CuentaBancariaCobroMultimoneda");
-            vResult.ConceptoBancarioCobroMultimoneda = ValorSegunColumna(valListGetSettValueByCompany, "ConceptoBancarioCobroMultimoneda");
             vResult.UsaMediosElectronicosDeCobroAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaMediosElectronicosDeCobro"));
-
-            vResult.UsaCreditoElectronicoAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaCreditoElectronico"));
-            vResult.NombreCreditoElectronico = ValorSegunColumna(valListGetSettValueByCompany, "NombreCreditoElectronico");
-            vResult.DiasDeCreditoPorCuotaCreditoElectronico = LibConvert.ToInt(ValorSegunColumna(valListGetSettValueByCompany, "DiasDeCreditoPorCuotaCreditoElectronico"));
-            vResult.CantidadCuotasUsualesCreditoElectronico = LibConvert.ToInt(ValorSegunColumna(valListGetSettValueByCompany, "CantidadCuotasUsualesCreditoElectronico"));
-            vResult.MaximaCantidadCuotasCreditoElectronico = LibConvert.ToInt(ValorSegunColumna(valListGetSettValueByCompany, "MaximaCantidadCuotasCreditoElectronico"));            
-            vResult.UsaClienteUnicoCreditoElectronicoAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaClienteUnicoCreditoElectronico"));
-            vResult.CodigoClienteCreditoElectronico = ValorSegunColumna(valListGetSettValueByCompany, "CodigoClienteCreditoElectronico");
-            vResult.GenerarUnaUnicaCuotaCreditoElectronicoAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "GenerarUnaUnicaCuotaCreditoElectronico"));            
+            vResult.UsaMaquinaFiscalAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaMaquinaFiscal"));
             return vResult;
         }
-        #endregion //FacturaCobroFactura
+
+        #endregion // FacturacionStt
         #region ImpresiondeFacturaStt
         private ImpresiondeFacturaStt ImpresiondeFacturaSttPorDefecto() {
             ImpresiondeFacturaStt insEntidad = new ImpresiondeFacturaStt();
@@ -544,6 +509,7 @@ namespace Galac.Saw.Brl.SttDef {
             valBusinessObject.Add(ConvierteValor(valRecord.NombrePlantillaAnexoSeriales, "NombrePlantillaAnexoSeriales", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.ImprimirComprobanteFiscalEnContratoAsBool), "ImprimirComprobanteFiscalEnContrato", valConsecutivoCompania));
         }
+
         ImpresiondeFacturaStt GetImpresiondeFacturaStt(List<SettValueByCompany> valListGetSettValueByCompany) {
             ImpresiondeFacturaStt vResult = new ImpresiondeFacturaStt();
             vResult.Module = GetModuleSegunColumna(valListGetSettValueByCompany, "NumeroDeDigitosEnFactura");
@@ -669,6 +635,7 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.NombreCampoDefinible12 = ValorSegunColumna(valListGetSettValueByCompany, "NombreCampoDefinible12");
             return vResult;
         }
+
         #endregion // CamposDefiniblesStt
         #region FacturaPuntoDeVenta
         private FacturaPuntoDeVentaStt FacturaPuntoDeVentaSttPorDefecto() {
@@ -1371,6 +1338,7 @@ namespace Galac.Saw.Brl.SttDef {
 
         #endregion //  ImagenesComprobantesRetencionStt
         #region  ImagenesComprobantesRetencionStt
+
         private ImagenesComprobantesRetencionStt ImagenesComprobantesRetencionSttPorDefecto() {
             ImagenesComprobantesRetencionStt insEntidad = new ImagenesComprobantesRetencionStt();
             insEntidad.NombreFirma = string.Empty;
@@ -1608,6 +1576,7 @@ namespace Galac.Saw.Brl.SttDef {
         }
 
         #endregion // TransferenciaBancariaStt
+
         #region  ProcesosStt
         ProcesosStt ProcesosSttPorDefecto(int valConsecutivoCompania) {
             ProcesosStt insEntidad = new ProcesosStt();
@@ -1628,6 +1597,7 @@ namespace Galac.Saw.Brl.SttDef {
             return vResult;
         }
         #endregion //  ProcesosStt
+
         #region  NotaEntregaStt
         NotaEntregaStt NotaEntregaSttPorDefecto(int valConsecutivoCompania) {
             NotaEntregaStt insEntidad = new NotaEntregaStt();
@@ -1669,6 +1639,7 @@ namespace Galac.Saw.Brl.SttDef {
             return vResult;
         }
         #endregion //  NotaEntregaStt
+
         #region Valores Por defecto
         private int GetConsecutivoBeneficiarioPorDefecto(int valConsecutivoCompania) {
             int vResult = 0;
@@ -1729,6 +1700,7 @@ namespace Galac.Saw.Brl.SttDef {
             return vResult;
         }
         #endregion //Valores Por defecto
+
         #region VerificadorDePreciosStt
         VerificadorDePreciosStt VerificadorDePreciosSttPorDefecto(int valConsecutivoCompania) {
             VerificadorDePreciosStt insEntidad = new VerificadorDePreciosStt();
@@ -1766,6 +1738,7 @@ namespace Galac.Saw.Brl.SttDef {
             return vResult;
         }
         #endregion //  VerificadorDePreciosStt
+
         #region ProduccionStt
         private ProduccionStt ProduccionSttPorDefecto(int valConsecutivoCompania) {
             ProduccionStt insEntidad = new ProduccionStt();
@@ -1784,6 +1757,7 @@ namespace Galac.Saw.Brl.SttDef {
             return vResult;
         }
         #endregion // ProduccionStt
+
         public SettValueByCompany ConvierteValor(string Value, string valNameSettDefinition, int valConsecutivoCompania) {
             SettValueByCompany vResult = new SettValueByCompany();
             vResult.ConsecutivoCompania = valConsecutivoCompania;
@@ -1798,8 +1772,6 @@ namespace Galac.Saw.Brl.SttDef {
             LlenaListado(GeneralSttPorDefecto(), ref vResult, valConsecutivoCompania);
             LlenaListado(FacturacionSttPorDefecto(), ref vResult, valConsecutivoCompania);
             LlenaListado(FacturacionContinuacionSttPorDefecto(valConsecutivoCompania), ref vResult, valConsecutivoCompania);
-            LlenaListado(FacturaCobroFacturaPorDefecto(valConsecutivoCompania), ref vResult, valConsecutivoCompania);
-            LlenaListado(FacturaCobroFacturaPorDefecto(valConsecutivoCompania), ref vResult, valConsecutivoCompania);
             LlenaListado(ImpresiondeFacturaSttPorDefecto(), ref vResult, valConsecutivoCompania);
             LlenaListado(ModeloDeFacturaSttPorDefecto(), ref vResult, valConsecutivoCompania);
             LlenaListado(CamposDefiniblesSttPorDefecto(), ref vResult, valConsecutivoCompania);
@@ -1857,7 +1829,6 @@ namespace Galac.Saw.Brl.SttDef {
             insParametros.ParametrosCotizacionStt = GetCotizacionStt(vListGetSettValueByCompany);
             insParametros.ParametrosCxPProveedorPagosStt = GetCxPProveedorPagosStt(vListGetSettValueByCompany);
             insParametros.ParametrosFacturacionContinuacionStt = GetFacturacionContinuacionStt(vListGetSettValueByCompany);
-            insParametros.ParametrosFacturaCobroFacturaStt = GetFacturaCobroFacturaStt(vListGetSettValueByCompany);
             insParametros.ParametrosFacturacionStt = GetFacturacionStt(vListGetSettValueByCompany);
             insParametros.ParametrosFacturaImprentaDigitalStt = GetFacturaImprentaDigitalStt(vListGetSettValueByCompany);
             insParametros.ParametrosGeneralStt = GetGeneralStt(vListGetSettValueByCompany);
@@ -1923,7 +1894,6 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.Add(GetCotizacionStt(vListGetSettValueByCompany));
             vResult.Add(GetCxPProveedorPagosStt(vListGetSettValueByCompany));
             vResult.Add(GetFacturacionContinuacionStt(vListGetSettValueByCompany));
-            vResult.Add(GetFacturaCobroFacturaStt(vListGetSettValueByCompany));
             vResult.Add(GetFacturacionStt(vListGetSettValueByCompany));
             vResult.Add(GetFacturaImprentaDigitalStt(vListGetSettValueByCompany));
             if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsPuntoDeVenta")) {
@@ -1949,7 +1919,7 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.Add(GetRetencionIVAStt(vListGetSettValueByCompany));
             vResult.Add(GetVendedorStt(vListGetSettValueByCompany));
             vResult.Add(GetImagenesComprobantesRetencionStt(vListGetSettValueByCompany));
-            vResult.Add(GetProduccionStt(vListGetSettValueByCompany));            
+            vResult.Add(GetProduccionStt(vListGetSettValueByCompany));
             return vResult;
         }
 
@@ -2039,6 +2009,7 @@ namespace Galac.Saw.Brl.SttDef {
         bool ISettValueByCompanyPdn.SpecializedUpdate(List<Module> valModules) {
             bool vResult = true;
             List<SettValueByCompany> vList = new List<SettValueByCompany>();
+
             foreach (Module vModule in valModules) {
                 foreach (Group vGroup in vModule.Groups) {
                     var vModel = LibReflection.GetPropertyValue(vGroup.Content, "Model", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
@@ -2046,6 +2017,7 @@ namespace Galac.Saw.Brl.SttDef {
                         .Where(p => p.CanRead);
                     foreach (var vProperty in vProperties) {
                         string vNameSettDefinition = vProperty.Name;
+
                         if (vNameSettDefinition == "GroupName" || vNameSettDefinition == "Module" ||
                             vNameSettDefinition == "fldTimeStamp" || vNameSettDefinition == "Datos" ||
                             vNameSettDefinition.LastIndexOf("AsString") > 0 ||
@@ -2084,7 +2056,9 @@ namespace Galac.Saw.Brl.SttDef {
             return new DateTime(lticks);
         }
 
-        bool ISettValueByCompanyPdn.SePuedeModificarParametrosDeConciliacion() {            return true;        }
+        bool ISettValueByCompanyPdn.SePuedeModificarParametrosDeConciliacion() {
+            return true;
+        }
 
 
         string ISettValueByCompanyPdn.GeneraPriemraBoleta(int valConsecutivoCompania, int valPrimerDocumento) {
@@ -2101,15 +2075,22 @@ namespace Galac.Saw.Brl.SttDef {
 
         }
 
-        int ISettValueByCompanyPdn.DefaultLongitudCodigoCliente() {            return 10;        }
+        int ISettValueByCompanyPdn.DefaultLongitudCodigoCliente() {
+            return 10;
+        }
 
-        int ISettValueByCompanyPdn.DefaultLongitudCodigoProveedor() {            return 10;        }
+        int ISettValueByCompanyPdn.DefaultLongitudCodigoProveedor() {
+            return 10;
+        }
 
-        int ISettValueByCompanyPdn.DefaultLongitudCodigoVendedor() {            return 5;        }
+        int ISettValueByCompanyPdn.DefaultLongitudCodigoVendedor() {
+            return 5;
+        }
 
         bool ISettValueByCompanyPdn.ActualizaValoresMonedaLocal(int valConsecutivoCompania, string valCodigoMonedaLocal, string valNombreMonedaLocal, string valSimboloMonedaLocal, decimal valMontoAPartirDelCualEnviarAvisoDeuda) {
             bool vResult = false;
             if (valConsecutivoCompania > 0) {
+
                 ILibDataComponent<IList<SettValueByCompany>, IList<SettValueByCompany>> instanciaDal = GetDataInstance();
                 List<SettValueByCompany> vListRecord = new List<SettValueByCompany>();
                 SettValueByCompany vRecord = new SettValueByCompany();
@@ -2139,6 +2120,7 @@ namespace Galac.Saw.Brl.SttDef {
         bool ISettValueByCompanyPdn.ActualizaValorEnDondeRetenerIVA(int valConsecutivoCompania, string valDondeRetenerIVA) {
             bool vResult = false;
             if (valConsecutivoCompania > 0) {
+
                 ILibDataComponent<IList<SettValueByCompany>, IList<SettValueByCompany>> instanciaDal = GetDataInstance();
                 List<SettValueByCompany> vListRecord = new List<SettValueByCompany>();
                 SettValueByCompany vRecord = new SettValueByCompany();
@@ -2153,6 +2135,7 @@ namespace Galac.Saw.Brl.SttDef {
             return vResult;
         }
 
+
         bool ISettValueByCompanyPdn.ResetFechaDeInicioContabilizacion(int valConsecutivoCompania, DateTime valFechaDeInicioContabilizacion) {
             ILibDataComponent<IList<SettValueByCompany>, IList<SettValueByCompany>> instanciaDal = GetDataInstance();
             List<SettValueByCompany> vListRecord = new List<SettValueByCompany>();
@@ -2165,6 +2148,7 @@ namespace Galac.Saw.Brl.SttDef {
 
             return instanciaDal.SpecializedUpdate(vListRecord, "ActualizaValor").Success;
         }
+
 
         bool ISettValueByCompanyPdn.SttUsaVendedor(int valConsecutivoCompania, string valCodigoVendedor) {
             decimal vResult = 0;
@@ -2217,7 +2201,10 @@ namespace Galac.Saw.Brl.SttDef {
                 vWhere = insQAdvSql.SqlValueWithAnd("", "Comun.Gv_MunicipioCiudad_B1.Consecutivo", LibConvert.ToStr(valConsecutivoMunicipio));
                 vWhere = insQAdvSql.SqlValueWithAnd(vWhere, "Comun.Gv_MunicipioCiudad_B1.NombreCiudad", valNombreCiudad);
                 vWhere = insQAdvSql.WhereSql(vWhere);
-                vSql.Append(" SELECT Consecutivo FROM Comun.Gv_MunicipioCiudad_B1 ");
+                vSql.Append(" SELECT ");
+                vSql.Append(" Consecutivo");
+                vSql.Append(" FROM ");
+                vSql.Append(" Comun.Gv_MunicipioCiudad_B1 ");
                 vSql.Append(vWhere);
                 LibGpParams insParams = new LibGpParams();
                 ILibDataComponent<IList<SettValueByCompany>, IList<SettValueByCompany>> instanciaDal = GetDataInstance();
@@ -2279,7 +2266,8 @@ namespace Galac.Saw.Brl.SttDef {
             StringBuilder vSql = new StringBuilder();
             LibGpParams vParametros = new LibGpParams();
             vParametros.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
-            vSql.AppendLine("DELETE FROM Comun.SettValueByCompany WHERE ConsecutivoCompania = @ConsecutivoCompania");
+            vSql.AppendLine("DELETE FROM Comun.SettValueByCompany ");
+            vSql.AppendLine("WHERE ConsecutivoCompania = @ConsecutivoCompania");
             vResult = LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParametros.Get(), string.Empty, 0) >= 0;
             return vResult;
         }
@@ -2606,22 +2594,20 @@ namespace Galac.Saw.Brl.SttDef {
             return vResult;
         }
 
-        void ISettValueByCompanyPdn.GuardarDatosImprentaDigitalAppSettings(eProveedorImprentaDigital valProveedor, string valUsuario, string valClave, string valUrl, string valCampoUsuario, string valCampoClave) {
+        void ISettValueByCompanyPdn.GuardarDatosImprentaDigitalAppSettings(eProveedorImprentaDigital valProveedor, string valUsuario, string valClave, string valUrl) {
+            string vCampoUsuario = string.Empty;
+            string vCampoClave = string.Empty;
             bool vContinuar = false;
-            switch (valProveedor) {
-                case eProveedorImprentaDigital.TheFactoryHKA:
-                case eProveedorImprentaDigital.Novus:
-                    vContinuar = true;
-                    break;
-                default:
-                    vContinuar = false;
-                    break;
+            if (valProveedor == eProveedorImprentaDigital.TheFactoryHKA) {
+                vCampoUsuario = "usuario";
+                vCampoClave = "clave";
+                vContinuar = true;
             }
             if (vContinuar) {
                 clsImprentaDigitalSettings insIDStt = new clsImprentaDigitalSettings() {
                     DireccionURL = LibString.Trim(valUrl),
-                    CampoUsuario = LibString.Trim(valCampoUsuario),
-                    CampoClave = LibString.Trim(valCampoClave),
+                    CampoUsuario = LibString.Trim(vCampoUsuario),
+                    CampoClave = LibString.Trim(vCampoClave),
                     Usuario = LibString.Trim(valUsuario),
                     Clave = LibString.Trim(LibCryptography.SymEncryptDES(valClave))
                 };
@@ -2699,6 +2685,18 @@ namespace Galac.Saw.Brl.SttDef {
             XElement vCountArtMercanciaNoSimpleNoLoteFdV = LibBusiness.ExecuteSelect(vSql, new StringBuilder(), string.Empty, 0);
             if (vCountArtMercanciaNoSimpleNoLoteFdV != null) {
                 int vCount = LibConvert.ToInt(vCountArtMercanciaNoSimpleNoLoteFdV.Descendants().Select(s => s.Element("CantidadArticulos")).FirstOrDefault());
+                vResult = vCount > 0;
+            }
+            return vResult;
+        }
+
+        bool ISettValueByCompanyPdn.ExisteCajaConMaquinaFiscal(int valConsecutivoCompania) {
+            bool vResult = false;
+            QAdvSql insSql = new QAdvSql("");
+            string vSql = "SELECT COUNT(*) AS CantidadMaquinaFiscal FROM Adm.Caja WHERE UsaMaquinaFiscal = 'S' AND  SerialDeMaquinaFiscal IS NOT NULL AND SerialDeMaquinaFiscal <> '' AND ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania);
+            XElement vCountMaquinaFiscal = LibBusiness.ExecuteSelect(vSql, new StringBuilder(), string.Empty, 0);
+            if (vCountMaquinaFiscal != null) {
+                int vCount = LibConvert.ToInt(vCountMaquinaFiscal.Descendants().Select(s => s.Element("CantidadMaquinaFiscal")).FirstOrDefault());
                 vResult = vCount > 0;
             }
             return vResult;

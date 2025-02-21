@@ -89,7 +89,7 @@ namespace Galac.Saw.Lib {
         [LibEnumDescription("Llamada")] Llamada,
         [LibEnumDescription("Lote Adm")] LoteAdm,
         [LibEnumDescription("Mail Fax")] MailFax,
-        [LibEnumDescription("Maquina Fiscal")] MaquinaFiscal,
+        [LibEnumDescription("Impresora Fiscal")] MaquinaFiscal,
         [LibEnumDescription("Marca Vehículo")] MarcaVehiculo,
         [LibEnumDescription("Modelo Vehículo")] ModeloVehiculo,
         [LibEnumDescription("Moneda")] Moneda,
@@ -363,6 +363,10 @@ namespace Galac.Saw.Lib {
         [LibEnumDescription("OTROS")]
         OTROS,
         [LibEnumDescription("NOTA DE CREDITO DE COMPROBANTE FISCAL")]
-        NOTADECREDITOCOMPROBANTEFISCAL
+        NOTADECREDITOCOMPROBANTEFISCAL,
+        [LibEnumDescription("LETRA DE CAMBIO")]
+        LETRADECAMBIO,
+        [LibEnumDescription("NOTA DE DEBITO DE COMPROBANTE FISCAL")]
+        NOTADEDEBITOCOMPROBANTEFISCAL
     }
 }

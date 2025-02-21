@@ -59,7 +59,6 @@ namespace Galac.Saw.Rpt.Inventario
                 LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", eDateOutputFormat.DateLong);
                 LibReport.ConfigFieldStr(this, "txtTipodeOperacion", string.Empty, "TipodeOperacionStr");
                 LibReport.ConfigFieldStr(this, "txtStatusNotaEntradaSalida", string.Empty, "StatusNotaEntradaSalidaStr");
-                LibReport.ConfigFieldStr(this, "txtCliente", string.Empty, "CodigoNombreCliente");
 				LibReport.ConfigFieldStr(this, "txtAlmacen", string.Empty, "CodigoNombreAlmacen");
 				LibReport.ConfigFieldStr(this, "txtComentarios", string.Empty, "Comentarios");
 				LibReport.ConfigFieldStr(this, "txtCodigoArticulo", string.Empty, "CodigoArticulo");
@@ -84,8 +83,8 @@ namespace Galac.Saw.Rpt.Inventario
         private void Detail_Format(object sender, EventArgs e) {
             try {
                 eTipoArticuloInv vTipoArtInv = (eTipoArticuloInv)LibConvert.DbValueToEnum(LibConvert.ToStr(this.txtTipoArticuloInv.Value));
-                txtLoteDeInventario.Visible = vTipoArtInv == eTipoArticuloInv.Lote || vTipoArtInv == eTipoArticuloInv.LoteFechadeVencimiento || vTipoArtInv == eTipoArticuloInv.LoteFechadeElaboracion;
-                txtFechaDeElaboracion.Visible = vTipoArtInv == eTipoArticuloInv.LoteFechadeVencimiento || vTipoArtInv == eTipoArticuloInv.LoteFechadeElaboracion;
+                txtLoteDeInventario.Visible = vTipoArtInv == eTipoArticuloInv.Lote || vTipoArtInv == eTipoArticuloInv.LoteFechadeVencimiento;
+                txtFechaDeElaboracion.Visible = vTipoArtInv == eTipoArticuloInv.LoteFechadeVencimiento;
                 txtFechaDeVencimiento.Visible = vTipoArtInv == eTipoArticuloInv.LoteFechadeVencimiento;
             } catch (Exception) {
                 throw;

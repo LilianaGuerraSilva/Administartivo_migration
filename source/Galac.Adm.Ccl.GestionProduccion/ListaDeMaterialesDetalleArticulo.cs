@@ -21,8 +21,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         private eTipoDeArticulo _TipoDeArticulo;
 		private string _UnidadDeVenta;
         private eTipoArticuloInv _TipoArticuloInv;
-		private decimal _MermaNormal;
-        private decimal _PorcentajeMermaNormal;
         #endregion //Variables
         #region Propiedades
 
@@ -88,22 +86,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         public string TipoArticuloInv {
             set { _TipoArticuloInv = (eTipoArticuloInv)LibConvert.DbValueToEnum(value); }
         }
-		
-		public decimal MermaNormal {
-            get { return _MermaNormal; }
-            set { 
-                _MermaNormal = value;
-                OnPropertyChanged("MermaNormal");
-            }
-        }
-
-        public decimal PorcentajeMermaNormal {
-            get { return _PorcentajeMermaNormal; }
-            set { 
-                _PorcentajeMermaNormal = value;
-                OnPropertyChanged("PorcentajeMermaNormal");
-            }
-        }
         #endregion //Propiedades
         #region Constructores
 
@@ -125,8 +107,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             DescripcionArticuloInventario = string.Empty;
             Cantidad = 0;
             UnidadDeVenta = string.Empty;
-            MermaNormal = 0;
-            PorcentajeMermaNormal = 0;
         }
 
         public ListaDeMaterialesDetalleArticulo Clone() {
@@ -138,8 +118,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             vResult.DescripcionArticuloInventario = _DescripcionArticuloInventario;
             vResult.Cantidad = _Cantidad;
             vResult.UnidadDeVenta = _UnidadDeVenta;
-            vResult.MermaNormal = _MermaNormal;
-            vResult.PorcentajeMermaNormal = _PorcentajeMermaNormal;
             return vResult;
         }
 
@@ -148,9 +126,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
                "\nConsecutivo Lista De Materiales = " + _ConsecutivoListaDeMateriales.ToString() +
                "\nConsecutivo = " + _Consecutivo.ToString() +
                "\nCódigo Inventario = " + _CodigoArticuloInventario +
-               "\nCantidad = " + _Cantidad.ToString() +
-               "\nMerma Normal (esperada) = " + _MermaNormal.ToString() +
-               "\n%Merma = " + _PorcentajeMermaNormal.ToString();
+               "\nCantidad = " + _Cantidad.ToString();
         }
 
         #region Miembros de IEquatable<ListaDeMaterialesDetalleArticulo>

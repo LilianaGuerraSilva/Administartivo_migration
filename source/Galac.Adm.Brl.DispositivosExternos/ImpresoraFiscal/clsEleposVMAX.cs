@@ -10,6 +10,8 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
 using Galac.Adm.Ccl.DispositivosExternos;
 using Galac.Saw.Ccl.Inventario;
+using Galac.Saw.Lib;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
     public class clsEleposVMAX : IImpresoraFiscalPdn {
@@ -203,6 +205,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 throw new GalacException("Último Numero Nota de Crédito", eExceptionManagementType.Controlled);
             }
         }
+				
+        public string ObtenerUltimoNumeroNotaDeDebito(bool valAbrirConexion) {
+            throw new NotImplementedException();
+        }
 
         public string ObtenerUltimoNumeroReporteZ(bool valAbrirConexion) {
             string vUltimoNumeroReporteZ = "";
@@ -242,7 +248,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             }
         }
 
-        public bool ImprimirFacturaFiscal(XElement vDocumentoFiscal) {
+        public bool ImprimirFacturaFiscal(XElement vDocumentoFiscal, eTipoDocumentoFactura valTipoDocumento) {
 
             bool vResult = false;
             try {
@@ -251,7 +257,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 }
                 if (AbrirComprobanteFiscal(vDocumentoFiscal, false)) {
                     vResult = ImprimirTodosLosArticulos(vDocumentoFiscal, false);
-                    vResult &= ImprimirPagos(vDocumentoFiscal);
+                    vResult &= EnviarPagos(vDocumentoFiscal);
                     ImprmirCamposDefinibles(vDocumentoFiscal);
                     vResult &= mVMax.CerrarCF();
                 }
@@ -491,7 +497,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             return vMontoDescuentoTotal;
         }
 
-        private bool ImprimirPagos(XElement valMedioDePago) {
+        private bool EnviarPagos(XElement valMedioDePago) {
             string vMedioDePago = "";
             short vTipoPago = 1;
             decimal vBaseImponibleIGTF = 0;
@@ -521,41 +527,21 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         mVMax.PagoCF(ref vMedioDePago, ref vMontoME, ref vTipoPago);
                     }
                 } else {
-                    string VCodigoMonedaME = GetCodigoMonedaDePagoME(valMedioDePago, vCodigoMoneda);
-                    EnviarPagos(valMedioDePago, VCodigoMonedaME);
                     mVMax.SubTotal();
                 }
-                EnviarPagos(valMedioDePago, vCodigoMoneda);
-                return true;
-            } catch (GalacException vEx) {
-                throw new LibGalac.Aos.Catching.GalacException(vEx.Message, eExceptionManagementType.Controlled);
-            }
-        }
-
-        private string GetCodigoMonedaDePagoME(XElement valMedioDePago, string valCodigoMoneda) {
-            var result = valMedioDePago.Descendants("GpResultDetailRenglonCobro")
-                               .FirstOrDefault(x => x.Element("CodigoMoneda")?.Value != valCodigoMoneda);
-            return result?.Element("CodigoMoneda")?.Value ?? string.Empty;
-        }
-
-        private bool EnviarPagos(XElement valMedioDePago, string valCodigoMoneda) {
-            string vMedioDePago = "";
-            string vMontoCancelado = "";           
-            short vTipoPago = 1;
-            try {
-                List<XElement> vNodos = valMedioDePago.Descendants("GpResultDetailRenglonCobro").Where(p => p.Element("CodigoMoneda").Value == valCodigoMoneda).ToList();
+                List<XElement> vNodos = valMedioDePago.Descendants("GpResultDetailRenglonCobro").Where(p => p.Element("CodigoMoneda").Value == vCodigoMoneda).ToList();
                 if (vNodos.Count > 0) {
                     foreach (XElement vXElement in vNodos) {
                         vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "CodigoFormaDelCobro"));
                         vMedioDePago = FormaDeCobro(vMedioDePago);
-                        vMontoCancelado = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
-                        vMontoCancelado = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMontoCancelado, _EnterosParaMonto, _DecimalParaMonto);
-                        mVMax.PagoCF(ref vMedioDePago, ref vMontoCancelado, ref vTipoPago);
+                        vMontoME = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
+                        vMontoME = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMontoME, _EnterosParaMonto, _DecimalParaMonto);
+                        mVMax.PagoCF(ref vMedioDePago, ref vMontoME, ref vTipoPago);
                     }
                 }
                 return true;
-            } catch (Exception vEx) {
-                throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
+            } catch (GalacException vEx) {
+                throw new LibGalac.Aos.Catching.GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
         }
 
@@ -580,9 +566,6 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 case "00006":
                     vResultado = "Transferencia";
                     break;
-                case "00015":
-                    vResultado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "NombreCreditoElectronico");
-                    break;
                 default:
                     vResultado = "Efectivo";
                     break;
@@ -590,7 +573,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             return vResultado;
         }
 
-        public bool ImprimirNotaCredito(XElement vDocumentoFiscal) {
+        public bool ImprimirNotaCredito(XElement vDocumentoFiscal, eTipoDocumentoFactura valTipoDocumento) {
             bool vResult = false;
             try {
 
@@ -599,7 +582,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 }
                 if (AbrirComprobanteFiscal(vDocumentoFiscal, true)) {
                     vResult = ImprimirTodosLosArticulos(vDocumentoFiscal, true);
-                    vResult &= ImprimirPagos(vDocumentoFiscal);
+                    vResult &= EnviarPagos(vDocumentoFiscal);
                     vResult &= mVMax.CerrarCF();
                 }
 
@@ -610,6 +593,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
 
             }
             return vResult;
+        }
+
+        public bool ImprimirNotaDebito(XElement valDocumentoFiscal, eTipoDocumentoFactura valTipoDocumento) {
+            throw new NotImplementedException();
         }
 
         private bool CheckStatus(string valEstatus, ref string refMensaje) {
@@ -731,11 +718,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             return true;
         }
 
-        bool IImpresoraFiscalPdn.ReimprimirDocumentoFiscal(string valDesde, string valHasta, string valTipo) {
+        bool IImpresoraFiscalPdn.ReimprimirDocumentoFiscal(string valDesde, string valHasta, eTipoDocumentoFiscal valTipoDocumento, eTipoDeBusqueda valTipoDeBusqueda) {
             bool vResult = false;
-            eTipoDocumentoFiscal TipoDeDocumento = (eTipoDocumentoFiscal)LibConvert.DbValueToEnum(valTipo);
-
-            switch (TipoDeDocumento) {
+            switch (valTipoDocumento) {
                 case eTipoDocumentoFiscal.FacturaFiscal:
                     vResult = ReimprimirFactura(valDesde, valHasta);
                     break;

@@ -249,17 +249,12 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             set {
                 if (_TipoArticuloInv != value) {
                     _TipoArticuloInv = value;
-                    RaisePropertyChanged(() => IsVisibleFechaDeElaboracionLoteDeInventario);
-                    RaisePropertyChanged(() => IsVisibleFechaDeVencimientoLoteDeInventario);
+                    RaisePropertyChanged(() => IsVisibleFechaLoteDeInventario);
                 }
             }
         }
 
-        public bool IsVisibleFechaDeElaboracionLoteDeInventario {
-            get { return TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || TipoArticuloInv == eTipoArticuloInv.LoteFechadeElaboracion; }
-        }
-
-        public bool IsVisibleFechaDeVencimientoLoteDeInventario {
+        public bool IsVisibleFechaLoteDeInventario {
             get { return TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento; }
         }
 
@@ -361,7 +356,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if (TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || TipoArticuloInv == eTipoArticuloInv.LoteFechadeElaboracion) {
+                if (TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento) {
                     if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaDeElaboracion, false, Action)) {
                         vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha de Elaboración"));
                     } else if (LibDate.F1IsGreaterThanF2(FechaDeElaboracion, FechaDeVencimiento)) {

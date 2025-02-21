@@ -37,14 +37,18 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #endregion
 
         #region Metodos
-        public bool ImprimirFacturaFiscal(List<RenglonCobroDeFactura> valListDeCobro, XElement valDatosCreditoElectronico) {
+        public bool ImprimirFacturaFiscal(List<RenglonCobroDeFactura> valListDeCobro) {
             bool vResult = true;
             string vSerialMaquinaFiscal = "";
             string vComprobanteFiscal = "";
             try {
-                XElement xElementFacturaRapida = DarFormatoADatosDeFactura(insFactura, valListDeCobro, valDatosCreditoElectronico);
+                XElement xElementFacturaRapida = DarFormatoADatosDeFactura(insFactura, valListDeCobro);
                 if (vResult) {
                     vResult = false;
+                    ICajaPdn insCaja = new clsCajaNav();
+                    int vCajaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ConsecutivoCaja");
+                    int vConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
+                    insCaja.FindByConsecutivoCaja(vConsecutivoCompania, vCajaLocal, "", ref _XmlDatosImprFiscal);
                     ImpresoraFiscalViewModel insImpresoraFiscalViewModel = new ImpresoraFiscalViewModel(_XmlDatosImprFiscal, xElementFacturaRapida, eTipoDocumentoFiscal.FacturaFiscal);
                     LibMessages.EditViewModel.ShowEditor(insImpresoraFiscalViewModel, true);
                     vSerialMaquinaFiscal = insImpresoraFiscalViewModel.SerialImpresoraFiscal;
@@ -60,7 +64,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             return vResult;
         }      
 
-        private XElement DarFormatoADatosDeFactura(FacturaRapida valFactura, List<RenglonCobroDeFactura> valListDeCobro, XElement valDatosCreditoElectronico) {
+        private XElement DarFormatoADatosDeFactura(FacturaRapida valFactura, List<RenglonCobroDeFactura> valListDeCobro) {
             _MonedaLocalNav = new Saw.Lib.clsNoComunSaw();
             List<RenglonCobroDeFactura> vCloneListCobro = valListDeCobro.Select(t => t.Clone()).ToList();           
             XElement vResult = null;
@@ -88,10 +92,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             xElementFacturaRapida.Element("GpResult").Add(xElementGpDataDetailRenglonFactura);
             XElement xElementGpDataDetailRenglonCobro = new XElement("GpDataDetailRenglonCobro");
             foreach (var renglon in vCloneListCobro.Where(x => x.CodigoMoneda != _MonedaLocalNav.InstanceMonedaLocalActual.GetHoyCodigoMoneda())) {
-                renglon.Monto = LibMath.RoundToNDecimals(renglon.Monto * renglon.CambioAMonedaLocal, 2);
-                if (LibString.S1IsEqualToS2(renglon.CodigoFormaDelCobro, "00015")) {
-                    renglon.CodigoMoneda = _MonedaLocalNav.InstanceMonedaLocalActual.GetHoyCodigoMoneda();
-                }
+                renglon.Monto = LibMath.RoundToNDecimals(renglon.Monto * renglon.CambioAMonedaLocal,2);
             }          
 
             foreach (var item in vCloneListCobro) {
@@ -106,17 +107,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 xElementFacturaRapida.Element("GpResult").Add(xTotalesEnDivisa);
             }
             xElementFacturaRapida.Element("GpResult").Add(xElementGpDataDetailRenglonCobro);
-            if (valDatosCreditoElectronico != null) {
-                decimal vMontoCreditoElectronico = LibImportData.ToDec(LibXml.GetPropertyString(valDatosCreditoElectronico, "MontoCreditoElectronico"));
-                XElement vVieneDeCreditoElectronico = new XElement("VieneDeCreditoElectronico", LibConvert.BoolToSN(vMontoCreditoElectronico > 0));
-                xElementFacturaRapida.Element("GpResult").Add(vVieneDeCreditoElectronico);
-                xElementFacturaRapida.Element("GpResult").Add(valDatosCreditoElectronico);
-            } else {
-                XElement vVieneDeCreditoElectronico = new XElement("VieneDeCreditoElectronico", LibConvert.BoolToSN(false));
-                xElementFacturaRapida.Element("GpResult").Add(vVieneDeCreditoElectronico);
-            }
-            XElement vNumeroDocumentoOrigen = new XElement("NumeroDocumentoOrigen", valFactura.Numero);
-            xElementFacturaRapida.Element("GpResult").Add(vNumeroDocumentoOrigen);
             DarFormatoAFechasEnFactura(xElementFacturaRapida, insFactura);
             vResult = xElementFacturaRapida;
             return vResult;

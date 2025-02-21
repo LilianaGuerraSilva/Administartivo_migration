@@ -79,6 +79,8 @@
     <Compile Include="clsContratoDat.cs" />
     <Compile Include="clsContratoED.cs" />
     <Compile Include="clsCXCDat.cs" />
+    <Compile Include="clsEscaladaDat.cs" />
+    <Compile Include="clsEscaladaED.cs" />
     <Compile Include="clsFacturaDat.cs" />
     <Compile Include="clsFacturaRapidaDat.cs" />
     <Compile Include="clsFacturaRapidaDetalleDat.cs" />

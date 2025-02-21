@@ -664,6 +664,7 @@ Public Sub sInitLookAndFeelAndSetValues(ByRef refDatosImprFiscal As clsDatosImpr
       Case Enum_EstadoImpresionFiscal.eEIF_OBTENER_SERIAL: sObtenerSerialImpresoraFiscal insDatosImprFiscal.GetImpresoraFiscal, insDatosImprFiscal.GetPuertoImpresoraFiscal, insDatosImprFiscal.GetTipoConexion, insDatosImprFiscal.GetIp, insDatosImprFiscal.GetCajaNumero
       Case Enum_EstadoImpresionFiscal.eEIF_IMPRIMIR_VENTA: sEfectuaVenta insDatosImprFiscal.GetImpresoraFiscal, insDatosImprFiscal.GetPuertoImpresoraFiscal, insDatosImprFiscal.GetTipoConexion, insDatosImprFiscal.GetIp, insDatosImprFiscal.GetCajaNumero
       Case Enum_EstadoImpresionFiscal.eEIF_IMPRIMIR_NOTA_DE_CREDITO: sEfectuaNotaDeCredito insDatosImprFiscal.GetImpresoraFiscal, insDatosImprFiscal.GetPuertoImpresoraFiscal, insDatosImprFiscal.GetTipoConexion, insDatosImprFiscal.GetIp, insDatosImprFiscal.GetCajaNumero
+      Case Enum_EstadoImpresionFiscal.eEIF_IMPRIMIR_NOTA_DE_DEBITO: sEfectuaNotaDeDebito insDatosImprFiscal.GetImpresoraFiscal, insDatosImprFiscal.GetPuertoImpresoraFiscal, insDatosImprFiscal.GetTipoConexion, insDatosImprFiscal.GetIp, insDatosImprFiscal.GetCajaNumero
       Case Enum_EstadoImpresionFiscal.eEIF_OBTENER_ULTIMO_NUMERO_FISCAL: sObtenerUltimoNumeroFiscal insDatosImprFiscal.GetImpresoraFiscal, refReady, insDatosImprFiscal.GetPuertoImpresoraFiscal, insDatosImprFiscal.GetTipoConexion, insDatosImprFiscal.GetIp, insDatosImprFiscal.GetCajaNumero
       Case Enum_EstadoImpresionFiscal.eEIF_CANCELA_CUPON_FISCAL: sCancelaCuponFiscal insDatosImprFiscal.GetImpresoraFiscal, refReady, insDatosImprFiscal.GetPuertoImpresoraFiscal, refDatosImprFiscal.GetTipoConexion
       Case Enum_EstadoImpresionFiscal.eEIF_VERIFICA_ALICUOTA_VIGENTE: sVerificaVigenciaDeLaAlicuota insDatosImprFiscal.GetImpresoraFiscal, refReady, gAdmAlicuotaIvaActual, insDatosImprFiscal.GetPuertoImpresoraFiscal
@@ -1668,7 +1669,7 @@ Private Sub sObtenerUltimoNumeroFiscal(ByVal valImpresoraFiscal As Enum_Impresor
    
    If insDatosImprFiscal.GetUsarModoDotNet Then
    Set insImpFiscalFromAOS = New clsImpFiscalFromAOS
-        NumeroCupon = insImpFiscalFromAOS.fUltimoNumeroMemoriaFiscal(insDatosImprFiscal, insDatosImprFiscal.GetEsNotaDeCredito, mReady)
+        NumeroCupon = insImpFiscalFromAOS.fUltimoNumeroMemoriaFiscal(insDatosImprFiscal, mReady)
    Set insImpFiscalFromAOS = Nothing
    Else
     Select Case valImpresoraFiscal
@@ -1881,7 +1882,7 @@ Private Sub sEfectuaVenta(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, B
        Case eIF_ELEPOS_VMAX_220_F, eIF_ELEPOS_VMAX_300, eIF_ELEPOS_VMAX_580
          Set insImpFiscalEleposVMAX = New clsImpFiscalEleposVMAX
          insImpFiscalEleposVMAX.InitializeValues obVMAX
-         insImpFiscalEleposVMAX.sImprimeVentaArticulo valImpresoraFiscal, insDatosImprFiscal, False, mReady
+         insImpFiscalEleposVMAX.sImprimeVentaArticulo valImpresoraFiscal, insDatosImprFiscal, mReady
          Set insImpFiscalEleposVMAX = Nothing
     End Select
       If mReady Then
@@ -1947,7 +1948,7 @@ Private Sub sEfectuaNotaDeCredito(ByVal valImpresoraFiscal As Enum_ImpresorasFis
          Case eIF_ELEPOS_VMAX_220_F, eIF_ELEPOS_VMAX_300, eIF_ELEPOS_VMAX_580
            Set insImpFiscalEleposVMAX = New clsImpFiscalEleposVMAX
            insImpFiscalEleposVMAX.InitializeValues obVMAX
-           insImpFiscalEleposVMAX.sImprimeVentaArticulo valImpresoraFiscal, insDatosImprFiscal, True, mReady
+           insImpFiscalEleposVMAX.sImprimeVentaArticulo valImpresoraFiscal, insDatosImprFiscal, mReady
            Set insImpFiscalEleposVMAX = Nothing
        End Select
       sCerrarVenta valImpresoraFiscal, valPuerto
@@ -1956,6 +1957,22 @@ h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
          "sEfectuaNotaDeCredito", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
+
+Private Sub sEfectuaNotaDeDebito(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, ByVal valPuerto As String, ByVal valTipoConexion As enum_TipoConexion, ByVal valIp As String, ByVal valCajaNumero As String)
+   Dim insImpFiscalFromAOS As clsImpFiscalFromAOS
+   On Error GoTo h_Error
+   If insDatosImprFiscal.GetUsarModoDotNet Then
+      Set insImpFiscalFromAOS = New clsImpFiscalFromAOS
+         insImpFiscalFromAOS.sImprimeNotaDeDebito insDatosImprFiscal, mReady
+      Set insImpFiscalFromAOS = Nothing
+   Else
+      gMessage.Warning "Proceso no esta Implementado"
+   End If
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
+         "sEfectuaNotaDeDebito", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sCerrarVenta(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, valPuerto As String)

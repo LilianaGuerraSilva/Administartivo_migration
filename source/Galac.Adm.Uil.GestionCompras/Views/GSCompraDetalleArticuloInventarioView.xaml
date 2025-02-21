@@ -160,7 +160,7 @@
             Grid.Column="2"
             Content="Fecha Elab."
             Style="{StaticResource LabelPrompt}"
-            Visibility="{Binding Path=IsVisibleLoteDeInventarioFechaDeElaboracion, Converter={StaticResource booleanToVisibilityConverter}}" />
+            Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource booleanToVisibilityConverter}}" />
         <Label
             x:Name="lneFechaDeElaboracion"
             Grid.Row="2"
@@ -171,7 +171,7 @@
             Content="{Binding FechaDeElaboracion}"
             ContentStringFormat="dd/MM/yyyy"
             Style="{StaticResource LabelCalculatedField}"
-            Visibility="{Binding Path=IsVisibleLoteDeInventarioFechaDeElaboracion, Converter={StaticResource booleanToVisibilityConverter}}" />
+            Visibility="{Binding Path=IsVisibleFechaLoteDeInventario, Converter={StaticResource booleanToVisibilityConverter}}" />
         <Label
             Name="lblFechaDeVencimiento"
             Grid.Row="2"

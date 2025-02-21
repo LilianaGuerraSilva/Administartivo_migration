@@ -47,7 +47,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("Nombre" + InsSql.VarCharTypeForDb(255) + " CONSTRAINT d_LisDeMatNo DEFAULT (''), ");
             SQL.AppendLine("CodigoArticuloInventario" + InsSql.VarCharTypeForDb(30) + " CONSTRAINT d_LisDeMatCoArIn DEFAULT (''), ");
             SQL.AppendLine("FechaCreacion" + InsSql.DateTypeForDb() + " CONSTRAINT nnLisDeMatFechaCreac NOT NULL, ");
-            SQL.AppendLine("ManejaMerma" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnLisDeMatManejaMerm NOT NULL, ");
             SQL.AppendLine("NombreOperador" + InsSql.VarCharTypeForDb(20) + ", ");
             SQL.AppendLine("FechaUltimaModificacion" + InsSql.DateTypeForDb() + ", ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
@@ -62,7 +61,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
         private string SqlViewB1() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("SELECT ListaDeMateriales.ConsecutivoCompania, ListaDeMateriales.Consecutivo, ListaDeMateriales.Codigo, ListaDeMateriales.Nombre");
-            SQL.AppendLine(", ListaDeMateriales.CodigoArticuloInventario, ListaDeMateriales.FechaCreacion, ListaDeMateriales.ManejaMerma, ListaDeMateriales.NombreOperador, ListaDeMateriales.FechaUltimaModificacion");
+            SQL.AppendLine(", ListaDeMateriales.CodigoArticuloInventario, ListaDeMateriales.FechaCreacion, ListaDeMateriales.NombreOperador, ListaDeMateriales.FechaUltimaModificacion");
             SQL.AppendLine(", ListaDeMateriales.fldTimeStamp, CAST(ListaDeMateriales.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".ListaDeMateriales");
             return SQL.ToString();
@@ -77,7 +76,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("@Nombre" + InsSql.VarCharTypeForDb(255) + " = '',");
             SQL.AppendLine("@CodigoArticuloInventario" + InsSql.VarCharTypeForDb(30) + " = '',");
             SQL.AppendLine("@FechaCreacion" + InsSql.DateTypeForDb() + " = '01/01/1900',");
-            SQL.AppendLine("@ManejaMerma" + InsSql.CharTypeForDb(1) + " = 'N',");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(20) + " = '',");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + " = '01/01/1900'");
             return SQL.ToString();
@@ -99,7 +97,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("            Nombre,");
             SQL.AppendLine("            CodigoArticuloInventario,");
             SQL.AppendLine("            FechaCreacion,");
-            SQL.AppendLine("            ManejaMerma,");
             SQL.AppendLine("            NombreOperador,");
             SQL.AppendLine("            FechaUltimaModificacion)");
             SQL.AppendLine("            VALUES(");
@@ -109,7 +106,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("            @Nombre,");
             SQL.AppendLine("            @CodigoArticuloInventario,");
             SQL.AppendLine("            @FechaCreacion,");
-            SQL.AppendLine("            @ManejaMerma,");
             SQL.AppendLine("            @NombreOperador,");
             SQL.AppendLine("            @FechaUltimaModificacion)");
             SQL.AppendLine("            SET @ReturnValue = @@ROWCOUNT");
@@ -131,7 +127,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("@Nombre" + InsSql.VarCharTypeForDb(255) + ",");
             SQL.AppendLine("@CodigoArticuloInventario" + InsSql.VarCharTypeForDb(30) + ",");
             SQL.AppendLine("@FechaCreacion" + InsSql.DateTypeForDb() + ",");
-            SQL.AppendLine("@ManejaMerma" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(20) + ",");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + ",");
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
@@ -163,7 +158,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("               Nombre = @Nombre,");
             SQL.AppendLine("               CodigoArticuloInventario = @CodigoArticuloInventario,");
             SQL.AppendLine("               FechaCreacion = @FechaCreacion,");
-            SQL.AppendLine("               ManejaMerma = @ManejaMerma,");
             SQL.AppendLine("               NombreOperador = @NombreOperador,");
             SQL.AppendLine("               FechaUltimaModificacion = @FechaUltimaModificacion");
             SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
@@ -274,7 +268,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("         ListaDeMateriales.Nombre,");
             SQL.AppendLine("         ListaDeMateriales.CodigoArticuloInventario,");
             SQL.AppendLine("         ListaDeMateriales.FechaCreacion,");
-            SQL.AppendLine("         ListaDeMateriales.ManejaMerma,");
             SQL.AppendLine("         ListaDeMateriales.NombreOperador,");
             SQL.AppendLine("         ListaDeMateriales.FechaUltimaModificacion,");
             SQL.AppendLine("         CAST(ListaDeMateriales.fldTimeStamp AS bigint) AS fldTimeStampBigint,");
@@ -313,7 +306,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("      " + DbSchema + ".Gv_ListaDeMateriales_B1.Nombre,");
             SQL.AppendLine("      " + DbSchema + ".Gv_ListaDeMateriales_B1.CodigoArticuloInventario,");            
             SQL.AppendLine("      " + DbSchema + ".Gv_ListaDeMateriales_B1.FechaCreacion,");
-            SQL.AppendLine("      " + DbSchema + ".Gv_ListaDeMateriales_B1.ManejaMerma,");
             SQL.AppendLine("      ''COLPIVOTE'' AS ColControl,");
             SQL.AppendLine("      '''' AS DescripcionArticuloInventario,");
             SQL.AppendLine("      " + DbSchema + ".Gv_ListaDeMateriales_B1.ConsecutivoCompania,");

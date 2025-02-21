@@ -38,11 +38,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         private eTipoArticuloInv _TipoArticuloInv;
         private DateTime _FechaDeElaboracion;
         private DateTime _FechaDeVencimiento;
-		private decimal _PorcentajeMermaNormalOriginal;
-        private decimal _CantidadMermaNormal;
-        private decimal _PorcentajeMermaNormal;
-        private decimal _CantidadMermaAnormal;
-        private decimal _PorcentajeMermaAnormal;
         #endregion //Variables
         #region Propiedades
 
@@ -191,46 +186,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             get { return _FechaDeVencimiento; }
             set { _FechaDeVencimiento = value; }
         }
-		
-		public decimal PorcentajeMermaNormalOriginal {
-            get { return _PorcentajeMermaNormalOriginal; }
-            set { 
-                _PorcentajeMermaNormalOriginal = value;
-                OnPropertyChanged("PorcentajeMermaNormalOriginal");
-            }
-        }
-
-        public decimal CantidadMermaNormal {
-            get { return _CantidadMermaNormal; }
-            set { 
-                _CantidadMermaNormal = value;
-                OnPropertyChanged("CantidadMermaNormal");
-            }
-        }
-
-        public decimal PorcentajeMermaNormal {
-            get { return _PorcentajeMermaNormal; }
-            set { 
-                _PorcentajeMermaNormal = value;
-                OnPropertyChanged("PorcentajeMermaNormal");
-            }
-        }
-
-        public decimal CantidadMermaAnormal {
-            get { return _CantidadMermaAnormal; }
-            set { 
-                _CantidadMermaAnormal = value;
-                OnPropertyChanged("CantidadMermaAnormal");
-            }
-        }
-
-        public decimal PorcentajeMermaAnormal {
-            get { return _PorcentajeMermaAnormal; }
-            set { 
-                _PorcentajeMermaAnormal = value;
-                OnPropertyChanged("PorcentajeMermaAnormal");
-            }
-        }
         #endregion //Propiedades
         #region Constructores
 
@@ -265,11 +220,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             PorcentajeCostoEstimado = 0;
             PorcentajeCostoCierre = 0;
             Costo = 0;
-            PorcentajeMermaNormalOriginal = 0;
-            CantidadMermaNormal = 0;
-            PorcentajeMermaNormal = 0;
-            CantidadMermaAnormal = 0;
-            PorcentajeMermaAnormal = 0;
         }
 
         public OrdenDeProduccionDetalleArticulo Clone() {
@@ -294,11 +244,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             vResult.PorcentajeCostoEstimado = _PorcentajeCostoEstimado;
             vResult.PorcentajeCostoCierre = _PorcentajeCostoCierre;
             vResult.Costo = _Costo;
-            vResult.PorcentajeMermaNormalOriginal = _PorcentajeMermaNormalOriginal;
-            vResult.CantidadMermaNormal = _CantidadMermaNormal;
-            vResult.PorcentajeMermaNormal = _PorcentajeMermaNormal;
-            vResult.CantidadMermaAnormal = _CantidadMermaAnormal;
-            vResult.PorcentajeMermaAnormal = _PorcentajeMermaAnormal;
             return vResult;
         }
 
@@ -318,12 +263,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
                "\nCantidad Ajustada = " + _CantidadAjustada.ToString() +
                "\n% Costo Est. = " + _PorcentajeCostoEstimado.ToString() +
                "\n% Costo Cierre = " + _PorcentajeCostoCierre.ToString() +
-               "\nCosto = " + _Costo.ToString() +
-               "\n%MermaOriginal = " + _PorcentajeMermaNormalOriginal.ToString() +
-               "\nMerma Normal = " + _CantidadMermaNormal.ToString() +
-               "\n%Merma Normal = " + _PorcentajeMermaNormal.ToString() +
-               "\nMerma Anormal = " + _CantidadMermaAnormal.ToString() +
-               "\n%MermaAnormal = " + _PorcentajeMermaAnormal.ToString();
+               "\nCosto = " + _Costo.ToString();
         }
 
         #region Miembros de IEquatable<OrdenDeProduccionDetalleArticulo>

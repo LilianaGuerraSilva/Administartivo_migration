@@ -101,8 +101,10 @@ namespace Galac.Saw.Brl.Inventario {
             vLista.Add(vCurrentRecord);
             return instanciaDal.Insert(vLista).Success;
         }
+        */
+        #endregion //Codigo Ejemplo
 
-        private List<RenglonNotaES> ParseToListEntity(XElement valXmlEntity) {
+        internal List<RenglonNotaES> ParseToListEntity(XElement valXmlEntity) {
             List<RenglonNotaES> vResult = new List<RenglonNotaES>();
             var vEntity = from vRecord in valXmlEntity.Descendants("GpResult")
                           select vRecord;
@@ -146,8 +148,6 @@ namespace Galac.Saw.Brl.Inventario {
             }
             return vResult;
         }
-        */
-        #endregion //Codigo Ejemplo
 
 
     } //End of class clsRenglonNotaESNav

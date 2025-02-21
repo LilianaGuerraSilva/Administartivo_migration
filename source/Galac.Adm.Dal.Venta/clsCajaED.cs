@@ -5,6 +5,8 @@ using LibGalac.Aos.Dal;
 using LibGalac.Aos.Dal.Contracts;
 using Galac.Adm.Ccl.Venta;
 using Galac.Adm.Ccl.DispositivosExternos;
+using LibGalac.Aos.Base.Dal;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Dal.Venta {
     [LibMefDalComponentMetadata(typeof(clsCajaED))]
@@ -60,6 +62,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("AbrirGavetaDeDinero" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnCajAbrirGavet NOT NULL, ");
             SQL.AppendLine("UltimoNumeroCompFiscal" + InsSql.VarCharTypeForDb(12) + " CONSTRAINT d_CajUlNuCoFi DEFAULT (''), ");
             SQL.AppendLine("UltimoNumeroNCFiscal" + InsSql.VarCharTypeForDb(12) + " CONSTRAINT d_CajUlNuNC DEFAULT (''), ");
+            SQL.AppendLine("UltimoNumeroNDFiscal" + InsSql.VarCharTypeForDb(12) + " CONSTRAINT d_CajUlNuND DEFAULT (''), ");
             SQL.AppendLine("IpParaConexion" + InsSql.VarCharTypeForDb(15) + " CONSTRAINT d_CajIpPaCo DEFAULT (''), ");
             SQL.AppendLine("MascaraSubred" + InsSql.VarCharTypeForDb(15) + " CONSTRAINT d_CajMaSu DEFAULT (''), ");
             SQL.AppendLine("Gateway" + InsSql.VarCharTypeForDb(15) + " CONSTRAINT d_CajGa DEFAULT (''), ");
@@ -81,7 +84,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("SELECT ConsecutivoCompania, Consecutivo, NombreCaja, UsaGaveta");
             SQL.AppendLine(", Puerto, " + DbSchema + ".Gv_EnumPuerto.StrValue AS PuertoStr, Comando, PermitirAbrirSinSupervisor, UsaAccesoRapido");
             SQL.AppendLine(", UsaMaquinaFiscal, FamiliaImpresoraFiscal, " + DbSchema + ".Gv_EnumFamiliaImpresoraFiscal.StrValue AS FamiliaImpresoraFiscalStr, ModeloDeMaquinaFiscal, " + DbSchema + ".Gv_EnumImpresoraFiscal.StrValue AS ModeloDeMaquinaFiscalStr, SerialDeMaquinaFiscal");
-            SQL.AppendLine(", PuertoMaquinaFiscal, " + DbSchema + ".Gv_EnumPuerto.StrValue AS PuertoMaquinaFiscalStr, AbrirGavetaDeDinero, UltimoNumeroCompFiscal, UltimoNumeroNCFiscal,TipoConexion, " + DbSchema + ".Gv_EnumTipoConexion.StrValue AS TipoConexionStr ");
+            SQL.AppendLine(", PuertoMaquinaFiscal, " + DbSchema + ".Gv_EnumPuerto.StrValue AS PuertoMaquinaFiscalStr, AbrirGavetaDeDinero, UltimoNumeroCompFiscal, UltimoNumeroNCFiscal, UltimoNumeroNDFiscal, TipoConexion, " + DbSchema + ".Gv_EnumTipoConexion.StrValue AS TipoConexionStr ");
             SQL.AppendLine(", IpParaConexion, MascaraSubred, Gateway, PermitirDescripcionDelArticuloExtendida");
             SQL.AppendLine(", PermitirNombreDelClienteExtendido, UsarModoDotNet, RegistroDeRetornoEnTxt, NombreOperador, FechaUltimaModificacion");
             SQL.AppendLine(", Caja.fldTimeStamp, CAST(Caja.fldTimeStamp AS bigint) AS fldTimeStampBigint");
@@ -123,6 +126,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@AbrirGavetaDeDinero" + InsSql.CharTypeForDb(1) + " = 'N',");
             SQL.AppendLine("@UltimoNumeroCompFiscal" + InsSql.VarCharTypeForDb(12) + " = '',");
             SQL.AppendLine("@UltimoNumeroNCFiscal" + InsSql.VarCharTypeForDb(12) + " = '',");
+            SQL.AppendLine("@UltimoNumeroNDFiscal" + InsSql.VarCharTypeForDb(12) + " = '',");
             SQL.AppendLine("@IpParaConexion" + InsSql.VarCharTypeForDb(15) + " = '',");
             SQL.AppendLine("@MascaraSubred" + InsSql.VarCharTypeForDb(15) + " = '',");
             SQL.AppendLine("@Gateway" + InsSql.VarCharTypeForDb(15) + " = '',");
@@ -161,6 +165,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            AbrirGavetaDeDinero,");
             SQL.AppendLine("            UltimoNumeroCompFiscal,");
             SQL.AppendLine("            UltimoNumeroNCFiscal,");
+            SQL.AppendLine("            UltimoNumeroNDFiscal,");
             SQL.AppendLine("            IpParaConexion,");
             SQL.AppendLine("            MascaraSubred,");
             SQL.AppendLine("            Gateway,");
@@ -188,6 +193,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            @AbrirGavetaDeDinero,");
             SQL.AppendLine("            @UltimoNumeroCompFiscal,");
             SQL.AppendLine("            @UltimoNumeroNCFiscal,");
+            SQL.AppendLine("            @UltimoNumeroNDFiscal,");
             SQL.AppendLine("            @IpParaConexion,");
             SQL.AppendLine("            @MascaraSubred,");
             SQL.AppendLine("            @Gateway,");
@@ -226,6 +232,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@AbrirGavetaDeDinero" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@UltimoNumeroCompFiscal" + InsSql.VarCharTypeForDb(12) + ",");
             SQL.AppendLine("@UltimoNumeroNCFiscal" + InsSql.VarCharTypeForDb(12) + ",");
+            SQL.AppendLine("@UltimoNumeroNDFiscal" + InsSql.VarCharTypeForDb(12) + ",");
             SQL.AppendLine("@IpParaConexion" + InsSql.VarCharTypeForDb(15) + ",");
             SQL.AppendLine("@MascaraSubred" + InsSql.VarCharTypeForDb(15) + ",");
             SQL.AppendLine("@Gateway" + InsSql.VarCharTypeForDb(15) + ",");
@@ -274,6 +281,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("               AbrirGavetaDeDinero = @AbrirGavetaDeDinero,");
             SQL.AppendLine("               UltimoNumeroCompFiscal = @UltimoNumeroCompFiscal,");
             SQL.AppendLine("               UltimoNumeroNCFiscal = @UltimoNumeroNCFiscal,");
+            SQL.AppendLine("               UltimoNumeroNDFiscal = @UltimoNumeroNDFiscal,");
             SQL.AppendLine("               IpParaConexion = @IpParaConexion,");
             SQL.AppendLine("               MascaraSubred = @MascaraSubred,");
             SQL.AppendLine("               Gateway = @Gateway,");
@@ -402,6 +410,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("         AbrirGavetaDeDinero,");
             SQL.AppendLine("         UltimoNumeroCompFiscal,");
             SQL.AppendLine("         UltimoNumeroNCFiscal,");
+            SQL.AppendLine("         UltimoNumeroNDFiscal,");
             SQL.AppendLine("         IpParaConexion,");
             SQL.AppendLine("         MascaraSubred,");
             SQL.AppendLine("         Gateway,");
@@ -463,6 +472,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("      AbrirGavetaDeDinero,");
             SQL.AppendLine("      UltimoNumeroCompFiscal,");
             SQL.AppendLine("      UltimoNumeroNCFiscal,");
+            SQL.AppendLine("      UltimoNumeroNDFiscal,");
             SQL.AppendLine("      IpParaConexion,");
             SQL.AppendLine("      MascaraSubred,");
             SQL.AppendLine("      Gateway,");
@@ -515,19 +525,21 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@Numero" + InsSql.VarCharTypeForDb(12) + ",");
-            SQL.AppendLine("@EsNotaDeCredito" + InsSql.VarCharTypeForDb(1));
+            SQL.AppendLine("@TipoDocumento" + InsSql.VarCharTypeForDb(1));
             return SQL.ToString();
         }
 
         private string SqlSpActualizaUltimoNumComprobante() {
             StringBuilder SQL = new StringBuilder();
+            QAdvSql insSqlUtil = new QAdvSql("");
             SQL.AppendLine("BEGIN");
             SQL.AppendLine("DECLARE @ReturnValue " + InsSql.NumericTypeForDb(10, 0) + "");
             SQL.AppendLine("UPDATE Adm.Caja");
-            SQL.AppendLine("SET  UltimoNumeroCompFiscal = CASE WHEN @EsNotaDeCredito ='S' THEN UltimoNumeroCompFiscal ELSE @Numero END,");
-            SQL.AppendLine("     UltimoNumeroNCFiscal   = CASE WHEN @EsNotaDeCredito ='S' THEN @Numero ELSE  UltimoNumeroNCFiscal END");
-            SQL.AppendLine("	 WHERE Consecutivo = @Consecutivo AND");
-            SQL.AppendLine("	 ConsecutivoCompania = @ConsecutivoCompania");
+            SQL.AppendLine($"SET  UltimoNumeroCompFiscal = CASE WHEN @TipoDocumento ={insSqlUtil.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal)} THEN @Numero ELSE UltimoNumeroCompFiscal END,");
+            SQL.AppendLine($"     UltimoNumeroNCFiscal   = CASE WHEN @TipoDocumento ={insSqlUtil.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal)} THEN @Numero ELSE UltimoNumeroNCFiscal END,");
+            SQL.AppendLine($"     UltimoNumeroNDFiscal   = CASE WHEN @TipoDocumento ={insSqlUtil.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeDebitoComprobanteFiscal)} THEN @Numero ELSE UltimoNumeroNDFiscal END");
+            SQL.AppendLine("	  WHERE Consecutivo = @Consecutivo AND");
+            SQL.AppendLine("	  ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine(" SET @ReturnValue =  @@ROWCOUNT ");
             SQL.AppendLine(" RETURN @ReturnValue ");
             SQL.AppendLine("END");

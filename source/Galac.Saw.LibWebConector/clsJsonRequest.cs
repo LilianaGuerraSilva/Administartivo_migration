@@ -1,9 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 
 namespace Galac.Saw.LibWebConnector {
-    #region TheFactory
     internal struct stUserLoginCnn {
         public string usuario {
             get; set;
@@ -33,13 +30,8 @@ namespace Galac.Saw.LibWebConnector {
             get; set;
         }
 
-        [JsonProperty("validaciones")]
-        public List<string> validaciones {
-            get; set;
-        }
-
         [JsonProperty("resultado")]
-        public stRespuestaTF resultados { get; set; }
+        public stRespuesta resultados { get; set; }
 
         [JsonProperty("estado")]
         public stEstado estado { get; set; }
@@ -47,7 +39,7 @@ namespace Galac.Saw.LibWebConnector {
         public bool Aprobado { get; set; }
 
     }
-    public struct stRespuestaTF {
+    public struct stRespuesta {
         [JsonProperty("tipoDocumento")]
         public string tipoDocumento {
             get; set;
@@ -141,6 +133,7 @@ namespace Galac.Saw.LibWebConnector {
             get; set;
         }
     }
+<<<<<<< HEAD
     #endregion TheFactory    
     /////////////////////////////////////////////////////////////////////////////////////////    
     #region NOVUS
@@ -204,5 +197,6 @@ namespace Galac.Saw.LibWebConnector {
         public stErrorRespuestaNV? error { get; set; }
     }
     #endregion NOVUS
+=======
+>>>>>>> master
 }
-
