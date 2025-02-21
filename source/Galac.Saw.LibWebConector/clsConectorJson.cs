@@ -8,34 +8,16 @@ using LibGalac.Aos.Catching;
 using LibGalac.Aos.DefGen;
 using Newtonsoft.Json.Linq;
 using System.Linq;
-<<<<<<< HEAD
-using System.IO;
-using Galac.Saw.Ccl.SttDef;
-
-namespace Galac.Saw.LibWebConnector {
-    public abstract class clsConectorJson {
-=======
 
 namespace Galac.Saw.LibWebConnector {
     public class clsConectorJson {
         string strTipoDocumento;
         ILoginUser _LoginUser;
->>>>>>> master
         string _Token;
         public string Token {
             get {
                 return _Token;
             }
-<<<<<<< HEAD
-            internal set {
-                _Token = value;
-            }
-        }
-
-        internal ILoginUser LoginUser {
-            get; set;
-=======
->>>>>>> master
         }
 
         public clsConectorJson(ILoginUser valloginUser) {
@@ -159,11 +141,5 @@ namespace Galac.Saw.LibWebConnector {
             }
             return infoReqs;
         }
-<<<<<<< HEAD
-
-        public abstract bool CheckConnection(ref string refMensaje, string valComandoApi);
-        public abstract stPostResq SendPostJson(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", eTipoDocumentoFactura valTipoDocumento = eTipoDocumentoFactura.NoAsignado);
-=======
->>>>>>> master
     }
 }
