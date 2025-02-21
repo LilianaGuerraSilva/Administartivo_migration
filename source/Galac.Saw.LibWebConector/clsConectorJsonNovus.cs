@@ -35,11 +35,11 @@ namespace Galac.Saw.LibWebConnector {
             try {
                 strTipoDocumento = LibEnumHelper.GetDescription(valTipoDocumento);
                 strTipoDocumento = "La " + strTipoDocumento + " No. " + valNumeroDocumento;
-                base.SendPostJson(valJsonStr, valComandoApi, valToken, valNumeroDocumento, valTipoDocumento);
+                string vPostRequest = ExecutePostJson(valJsonStr, valComandoApi, valToken, valNumeroDocumento, valTipoDocumento);
                 if(LibString.S1IsEqualToS2(valComandoApi, eComandosPostNovus.EstadoDocumento.GetDescription())) {
-                    vReqNV = ConvertSimpleRequestNV(PostRequest, valTipoDocumento);
+                    vReqNV = ConvertSimpleRequestNV(vPostRequest, valTipoDocumento);
                 } else {
-                    vReqNV = JsonConvert.DeserializeObject<stRespuestaNV>(PostRequest);
+                    vReqNV = JsonConvert.DeserializeObject<stRespuestaNV>(vPostRequest);
                 }
                 if(vReqNV.success) {                    
                     return vReqNV;

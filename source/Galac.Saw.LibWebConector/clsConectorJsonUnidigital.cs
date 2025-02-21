@@ -44,8 +44,8 @@ namespace Galac.Saw.LibWebConnector {
         public stPostResq SendPostJsonUD(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", eTipoDocumentoFactura valTipoDocumento = eTipoDocumentoFactura.NoAsignado) {                      
             try {
                 string vMensajeDeValidacion = string.Empty;
-                base.SendPostJson(valJsonStr, valComandoApi, valToken, valNumeroDocumento, valTipoDocumento);
-                stPostResq infoReqs = JsonConvert.DeserializeObject<stPostResq>(PostRequest);
+                string vPostRequest = ExecutePostJson(valJsonStr, valComandoApi, valToken, valNumeroDocumento, valTipoDocumento);
+                stPostResq infoReqs = JsonConvert.DeserializeObject<stPostResq>(vPostRequest);
                 List<string> listValidaciones = infoReqs.validaciones;
                 if (listValidaciones != null) {
                     vMensajeDeValidacion = string.Join(",", infoReqs.validaciones);

@@ -11,6 +11,10 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
+using Castle.MicroKernel.Registration;
+using Castle.Windsor;
+using System.Reflection;
+using Castle.Windsor.Installer;
 
 namespace Galac.Saw.LibWebConnector {
     public abstract class clsConectorJson {
@@ -26,11 +30,7 @@ namespace Galac.Saw.LibWebConnector {
 
         internal ILoginUser LoginUser {
             get; set;
-        }
-
-        internal string PostRequest {
-            get; private set;
-        }
+        }       
 
         public clsConectorJson(ILoginUser valloginUser) {
             LoginUser = valloginUser;
@@ -104,36 +104,41 @@ namespace Galac.Saw.LibWebConnector {
         }
 
         public abstract bool CheckConnection(ref string refMensaje, string valComandoApi);
-        public bool SendPostJson(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", eTipoDocumentoFactura valTipoDocumento = eTipoDocumentoFactura.NoAsignado) {
-            string vResultMessage = "";
+        public string ExecutePostJson(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", eTipoDocumentoFactura valTipoDocumento = eTipoDocumentoFactura.NoAsignado) {
             try {
+                string vResult = string.Empty;
                 string strTipoDocumento = LibEnumHelper.GetDescription(valTipoDocumento);
                 strTipoDocumento = "La " + strTipoDocumento + " No. " + valNumeroDocumento;
-                HttpClient vHttpClient = new HttpClient();
-                vHttpClient.BaseAddress = new Uri(LoginUser.URL);
-                if(!LibString.IsNullOrEmpty(valToken)) {
-                    vHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", valToken);
-                }
-                HttpContent vContent = new StringContent(valJsonStr, Encoding.UTF8, "application/json");
-                Task<HttpResponseMessage> vHttpRespMsg = vHttpClient.PostAsync(valComandoApi, vContent);
-                vHttpRespMsg.Wait();
-                vResultMessage = vHttpRespMsg.Result.RequestMessage.ToString();
-                if(vHttpRespMsg.Result.StatusCode == System.Net.HttpStatusCode.OK) {
-                    vHttpRespMsg.Result.EnsureSuccessStatusCode();
-                } else if(vHttpRespMsg.Result.StatusCode == System.Net.HttpStatusCode.NotFound) {
-                    throw new Exception($"Revise su conexión a Internet y la URL del servicio.");
-                }
-                if(vHttpRespMsg.Result.Content is null) {
-                    throw new Exception($"Revise su conexión a Internet y la URL del servicio.");
-                } else {
-                    Task<string> HttpResq = vHttpRespMsg.Result.Content.ReadAsStringAsync();
-                    HttpResq.Wait();
-                    PostRequest = HttpResq.Result.ToString();
-                    return true;
-                }
+                var vContainer = new WindsorContainer();
+                vContainer.Install(FromAssembly.Containing<WindsorInstaller>());
+                var myService = vContainer.Resolve<ILibHttp>();
+                vResult = myService.HttpExecutePost(valJsonStr, LoginUser.URL, valComandoApi, valToken);               
+                return vResult;
             } catch(Exception vEx) {
                 throw vEx;
             }
         }
     }
+
+    #region Clase de Inicializacion del Windsor No Borrar
+    public class WindsorInstaller : IWindsorInstaller {
+        public void Install(IWindsorContainer container, Castle.MicroKernel.SubSystems.Configuration.IConfigurationStore store) {
+            string appPath = AppDomain.CurrentDomain.BaseDirectory;
+            var dllFiles = Directory.GetFiles(appPath, "Galac.Saw.LibHttp.dll");
+            foreach(var dll in dllFiles) {
+                try {
+                    var assembly = Assembly.LoadFrom(dll);
+                    container.Register(
+                        Classes.FromAssembly(assembly)
+                               .BasedOn<ILibHttp>()
+                               .WithService.FromInterface()
+                               .LifestyleTransient()
+                    );
+                } catch(Exception ex) {
+                    Console.WriteLine($"No se pudo cargar la DLL: {dll}. Error: {ex.Message}");
+                }
+            }
+        }
+    }
+    #endregion Clase de Inicializacion del Windsor
 }

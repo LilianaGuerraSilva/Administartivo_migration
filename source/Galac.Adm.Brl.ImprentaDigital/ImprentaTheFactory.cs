@@ -53,14 +53,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         public override bool EstadoLoteDocumentos() {
             try {
-                bool vResult = false;
-                string vMensaje = string.Empty;
-                clsConectorJson vConectorJson = new clsConectorJsonTheFactory(LoginUser);
-                bool vRepuestaConector = vConectorJson.CheckConnection(ref vMensaje, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion));
-                if (vRepuestaConector) {
-                    string vDocumentoJSON = clsConectorJson.SerializeJSON(""); //Construir XML o JSON Con datos 
-                    var vReq = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoLote), vConectorJson.Token);
-                }
+                bool vResult = false;                
                 return vResult;
             } catch (GalacException) {
                 throw;
