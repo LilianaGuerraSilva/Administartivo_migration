@@ -361,7 +361,9 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if (TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || TipoArticuloInv == eTipoArticuloInv.LoteFechadeElaboracion) {
+                if (TipoArticuloInv == eTipoArticuloInv.Lote) {
+                    FechaDeElaboracion = LibDate.MaxDateForDB();
+                } else if (TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || TipoArticuloInv == eTipoArticuloInv.LoteFechadeElaboracion) {
                     if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaDeElaboracion, false, Action)) {
                         vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha de Elaboración"));
                     } else if (LibDate.F1IsGreaterThanF2(FechaDeElaboracion, FechaDeVencimiento)) {
@@ -381,7 +383,9 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if (TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento) {
+                if (TipoArticuloInv == eTipoArticuloInv.Lote || TipoArticuloInv == eTipoArticuloInv.LoteFechadeElaboracion) {
+                    FechaDeVencimiento = LibDate.MaxDateForDB();
+                } else if (TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento) {
                     if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaDeVencimiento, false, Action)) {
                         vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha de Vencimiento"));
                     } else if (LibDate.F1IsGreaterThanF2(FechaDeElaboracion, FechaDeVencimiento)) {

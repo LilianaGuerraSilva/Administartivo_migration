@@ -131,8 +131,8 @@ namespace Galac.Saw.Ccl.Inventario {
             Consecutivo = 0;
             CodigoLote = string.Empty;
             CodigoArticulo = string.Empty;
-            FechaDeElaboracion = LibDate.Today();
-            FechaDeVencimiento = LibDate.Today();
+            FechaDeElaboracion = LibDate.MaxDateForDB();
+            FechaDeVencimiento = LibDate.MaxDateForDB();
             Existencia = 0;
             StatusLoteInvAsEnum = eStatusLoteDeInventario.Vigente;
             DescripcionArticulo = string.Empty;

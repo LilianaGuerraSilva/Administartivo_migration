@@ -289,6 +289,10 @@
       <Project>{6ccb893a-b5c6-48f7-95b5-d9f456e4938a}</Project>
       <Name>Galac.Saw.Ccl.Integracion</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Inventario\Galac.Saw.Ccl.Inventario.csproj">
+      <Project>{a28fb32d-b951-4d64-8feb-74a261425585}</Project>
+      <Name>Galac.Saw.Ccl.Inventario</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Ccl.SttDef\Galac.Saw.Ccl.SttDef.csproj">
       <Project>{82c458b1-c93b-46a9-b58c-63ecd3633861}</Project>
       <Name>Galac.Saw.Ccl.SttDef</Name>
