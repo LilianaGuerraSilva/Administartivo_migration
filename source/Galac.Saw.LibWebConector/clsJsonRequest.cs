@@ -63,13 +63,13 @@ namespace Galac.Saw.LibWebConnector {
             get; set;
         }
 
-        [JsonProperty("fechaAsignacion")]
-        public string fechaAsignacion {
+        [JsonProperty("fechaAsignacionNumeroControl")]
+        public string fechaAsignacionNumeroControl {
             get; set;
         }
 
-        [JsonProperty("horaAsignacion")]
-        public string horaAsignacion {
+        [JsonProperty("horaAsignacionNumeroControl")]
+        public string horaAsignacionNumeroControl {
             get; set;
         }
 
