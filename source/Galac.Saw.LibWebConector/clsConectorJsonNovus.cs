@@ -57,6 +57,8 @@ namespace Galac.Saw.LibWebConnector {
                     vReqNV.message = vReqNV.error.Value.message + ".\r\nPor favor verifique los datos del documento.";
                 } else if(LibString.S1IsEqualToS2(vReqNV.error.Value.code, "5")) {
                     vReqNV.message = vReqNV.error.Value.message + ".\r\nPor favor verifique los datos del documento.";
+                } else if(LibString.S1IsEqualToS2(vReqNV.error.Value.code, "11")) {
+                    vReqNV.message = vReqNV.error.Value.message + ".\r\nPor favor verifique los datos del documento.";
                 } else {
                     vReqNV.message = vReqNV.error.Value.message;
                 }
@@ -82,7 +84,7 @@ namespace Galac.Saw.LibWebConnector {
                 }).FirstOrDefault().Value;
                 vResult = new stRespuestaNV() {
                     success = vReqStNV.success,
-                    message = vReqStNV.message ?? string.Empty,
+                    message = vReqStNV.message ?? "Enviada",
                     data = new stDataRespuestaNV {
                         numerodocumento = stDataNV.numerodocumento,
                         fecha = stDataNV.fecha,
