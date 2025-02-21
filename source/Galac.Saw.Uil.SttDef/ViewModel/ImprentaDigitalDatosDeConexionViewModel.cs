@@ -136,7 +136,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     _ConectorJson = new clsConectorJsonTheFactory(new clsLoginUser() {
                         User = Usuario,
                         URL = Url,
-                        Password = Clave
+                        Password = Clave,
+                        UserKey = CampoUsuario,
+                        PasswordKey = CampoClave
                     });
                     vResult = _ConectorJson.CheckConnection(ref vMensaje, vCommand);
                     break;

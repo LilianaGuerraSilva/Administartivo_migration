@@ -931,7 +931,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             if(vPosCorte < 2) {
                 vResult = "00:00";
             } else if(!LibString.IsNullOrEmpty(valHora)) {
-                vResult = LibString.Left(valHora, 2) + ":" + LibString.SubString(valHora, vPosCorte, 2);
+                vResult = LibString.Left(valHora, 2) + ":" + LibString.SubString(valHora, vPosCorte + 1, 2);
             }
             return vResult;
         }
