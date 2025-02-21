@@ -60,7 +60,7 @@ namespace Galac.Adm.Uil.Venta.Views {
 
         private void tabMaquinaFiscal_RoutedEventHandler(object sender,RoutedEventArgs e) {
             var vViewModel = ((CajaViewModel)DataContext);
-            if(vViewModel.UsaMaquinaFiscal) {
+            if(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMaquinaFiscal")) {
                 vViewModel.EnableParaMaquinaFiscal = true;
                 vViewModel.DiagnosticarCommand.RaiseCanExecuteChanged();
                 vViewModel.CancelarDocumentoCommand.RaiseCanExecuteChanged();
@@ -71,7 +71,7 @@ namespace Galac.Adm.Uil.Venta.Views {
 
         private void tabCajaRegistradora_RoutedEventHandler(object sender,RoutedEventArgs e) {
             var vViewModel = ((CajaViewModel)DataContext);           
-            if(vViewModel.UsaMaquinaFiscal) {
+            if(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMaquinaFiscal")) {
                 vViewModel.EnableParaMaquinaFiscal = false;
                 vViewModel.DiagnosticarCommand.RaiseCanExecuteChanged();
                 vViewModel.CancelarDocumentoCommand.RaiseCanExecuteChanged();

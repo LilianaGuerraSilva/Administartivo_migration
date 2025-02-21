@@ -11,21 +11,26 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
-namespace Galac.Saw.Uil.SttDef.Views {
+using LibGalac.Aos.Base;
+using LibGalac.Aos.Base.Report;
+using LibGalac.Aos.Catching;
+using LibGalac.Aos.UI.Wpf;
+using LibGalac.Aos.Uil;
+using System.Xml;
+namespace Galac.Adm.Uil.Venta.Reportes {
     /// <summary>
-    /// Interaction logic for GSFacturaCobroFacturaView.xaml
+    /// Lógica de interacción para GSAuditoriaConfiguracionDeCaja
     /// </summary>
-    public partial class GSFacturaCobroFacturaView: UserControl {
+    public partial class GSAuditoriaConfiguracionDeCaja : UserControl {
         #region Constructores
 
-        public GSFacturaCobroFacturaView() {
+        public GSAuditoriaConfiguracionDeCaja() {
             InitializeComponent();
         }
         #endregion //Constructores
 
 
-    } //End of class GSFacturaCobroFacturaView.xaml
+    } //End of class GSAuditoriaConfiguracionDeCaja.xaml
 
-} //End of namespace Galac.Saw.Uil.SttDef
+} //End of namespace Galac.Saw.Uil.Venta
 

@@ -28,7 +28,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="35" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Label
                     Grid.Row="0"
@@ -46,13 +46,13 @@
                     Grid.Row="2"
                     Grid.Column="0"
                     Margin="0"
-                    Content="{Binding Path=CampoUsuario}"
+                    Content="Usuario"
                     Style="{StaticResource LabelPrompt}" />
                 <Label
                     Grid.Row="3"
                     Grid.Column="0"
                     Margin="0"
-                    Content="{Binding Path=CampoClave}"
+                    Content="Clave"
                     Style="{StaticResource LabelPrompt}" />
                 <Label
                     Grid.Row="0"
@@ -106,7 +106,7 @@
                     VerticalAlignment="Top"
                     BorderThickness="1"
                     IsReadOnly="{Binding Path=IsReadOnly}"
-                    MaxLength="1000"
+                    MaxLength="100"
                     Style="{StaticResource TextBoxInputStyle}"
                     Text="{Binding Path=Clave, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                     TextWrapping="Wrap"
@@ -121,8 +121,7 @@
                     Margin="55,5,-55,5"
                     Command="{Binding Path=ProbarConexionCommand}"
                     Content="Probar Conexión"
-                    IsEnabled="{Binding Path=IsEnabled}"
-                    Visibility="{Binding Path=IsVisbleByProveedorID, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    IsEnabled="{Binding Path=IsEnabled}" />
             </Grid>
         </GroupBox>
     </Grid>

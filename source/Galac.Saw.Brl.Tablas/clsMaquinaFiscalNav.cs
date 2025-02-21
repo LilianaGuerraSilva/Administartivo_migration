@@ -57,7 +57,7 @@ namespace Galac.Saw.Brl.Tablas {
         protected override bool RetrieveListInfo(string valModule, ref XmlDocument refXmlDocument, StringBuilder valXmlParamsExpression) {
             bool vResult = false;
             switch (valModule) {
-                case "Máquina Fiscal":
+                case "Impresora Fiscal":
                     vResult = ((ILibPdn)this).GetDataForList(valModule, ref refXmlDocument, valXmlParamsExpression);
                     break;
                 default: throw new NotImplementedException();

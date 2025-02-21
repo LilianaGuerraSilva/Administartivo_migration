@@ -64,7 +64,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("ConsecutivoListaDeMateriales" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnOrdDeProConsecutiv NOT NULL, ");
             SQL.AppendLine("CantidadAProducir" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT nnOrdDeProCantidadAP NOT NULL, ");
             SQL.AppendLine("CantidadProducida" + InsSql.DecimalTypeForDb(25, 8) + " CONSTRAINT nnOrdDeProCantidadPr NOT NULL, ");
-			SQL.AppendLine("ListaUsaMerma" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnOrdDeProListaUsaMer NOT NULL, ");
             SQL.AppendLine("NombreOperador" + InsSql.VarCharTypeForDb(20) + ", ");
             SQL.AppendLine("FechaUltimaModificacion" + InsSql.DateTypeForDb() + ", ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
@@ -89,7 +88,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine(", OrdenDeProduccion.FechaInicio, OrdenDeProduccion.FechaFinalizacion, OrdenDeProduccion.FechaAnulacion, OrdenDeProduccion.FechaAjuste");
             SQL.AppendLine(", OrdenDeProduccion.AjustadaPostCierre, OrdenDeProduccion.Observacion, OrdenDeProduccion.MotivoDeAnulacion, OrdenDeProduccion.NumeroDecimales");
             SQL.AppendLine(", OrdenDeProduccion.CostoTerminadoCalculadoAPartirDe, " + DbSchema + ".Gv_EnumFormaDeCalcularCostoTerminado.StrValue AS CostoTerminadoCalculadoAPartirDeStr, OrdenDeProduccion.CodigoMonedaCostoProduccion, OrdenDeProduccion.CambioCostoProduccion, OrdenDeProduccion.ConsecutivoListaDeMateriales");
-            SQL.AppendLine(", OrdenDeProduccion.CantidadAProducir, OrdenDeProduccion.CantidadProducida, OrdenDeProduccion.ListaUsaMerma, OrdenDeProduccion.NombreOperador, OrdenDeProduccion.FechaUltimaModificacion");
+            SQL.AppendLine(", OrdenDeProduccion.CantidadAProducir, OrdenDeProduccion.CantidadProducida, OrdenDeProduccion.NombreOperador, OrdenDeProduccion.FechaUltimaModificacion");
             SQL.AppendLine(", OrdenDeProduccion.fldTimeStamp, CAST(OrdenDeProduccion.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".OrdenDeProduccion");
             SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumTipoStatusOrdenProduccion");
@@ -126,7 +125,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("@ConsecutivoListaDeMateriales" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@CantidadAProducir" + InsSql.DecimalTypeForDb(25, 8) + " = 0,");
             SQL.AppendLine("@CantidadProducida" + InsSql.DecimalTypeForDb(25, 8) + " = 0,");
-            SQL.AppendLine("@ListaUsaMerma" + InsSql.CharTypeForDb(1) + " = 'N',");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(10) + " = '',");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + " = '01/01/1900'");
             return SQL.ToString();
@@ -164,7 +162,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("            ConsecutivoListaDeMateriales,");
             SQL.AppendLine("            CantidadAProducir,");
             SQL.AppendLine("            CantidadProducida,");
-			SQL.AppendLine("            ListaUsaMerma,");
             SQL.AppendLine("            NombreOperador,");
             SQL.AppendLine("            FechaUltimaModificacion)");
             SQL.AppendLine("            VALUES(");
@@ -190,7 +187,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("            @ConsecutivoListaDeMateriales,");
             SQL.AppendLine("            @CantidadAProducir,");
             SQL.AppendLine("            @CantidadProducida,");
-			SQL.AppendLine("            @ListaUsaMerma,");
             SQL.AppendLine("            @NombreOperador,");
             SQL.AppendLine("            @FechaUltimaModificacion)");
             SQL.AppendLine("            SET @ReturnValue = @@ROWCOUNT");
@@ -227,7 +223,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("@ConsecutivoListaDeMateriales" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@CantidadAProducir" + InsSql.DecimalTypeForDb(25, 8) + ",");
             SQL.AppendLine("@CantidadProducida" + InsSql.DecimalTypeForDb(25, 8) + ",");
-			SQL.AppendLine("@ListaUsaMerma" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(10) + ",");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + ",");
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
@@ -274,7 +269,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("               ConsecutivoListaDeMateriales = @ConsecutivoListaDeMateriales,");
             SQL.AppendLine("               CantidadAProducir = @CantidadAProducir,");
             SQL.AppendLine("               CantidadProducida = @CantidadProducida,");
-            SQL.AppendLine("               ListaUsaMerma = @ListaUsaMerma,");
             SQL.AppendLine("               NombreOperador = @NombreOperador,");
             SQL.AppendLine("               FechaUltimaModificacion = @FechaUltimaModificacion");
             SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
@@ -408,7 +402,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("         Gv_ListaDeMateriales_B1.Nombre AS NombreListaDeMateriales,");
             SQL.AppendLine("         OrdenDeProduccion.CantidadAProducir,");
             SQL.AppendLine("         OrdenDeProduccion.CantidadProducida,");
-            SQL.AppendLine("         OrdenDeProduccion.ListaUsaMerma,");
             SQL.AppendLine("         OrdenDeProduccion.NombreOperador,");
             SQL.AppendLine("         OrdenDeProduccion.FechaUltimaModificacion,");
             SQL.AppendLine("         CAST(OrdenDeProduccion.fldTimeStamp AS bigint) AS fldTimeStampBigint,");

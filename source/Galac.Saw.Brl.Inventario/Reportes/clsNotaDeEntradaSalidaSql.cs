@@ -29,7 +29,6 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
 			vSql.AppendLine("	(CASE NES.StatusNotaEntradaSalida ");
 			vSql.AppendLine("		WHEN '1' THEN 'Anulada' ");
 			vSql.AppendLine("		ELSE 'Vigente' END) AS StatusNotaEntradaSalidaStr,");
-			vSql.AppendLine("	NES.CodigoCliente + ' - ' + Cli.Nombre AS CodigoNombreCliente,");
 			vSql.AppendLine("	NES.CodigoAlmacen + ' - ' + Alm.NombreAlmacen AS CodigoNombreAlmacen,");
 			vSql.AppendLine("	NES.Comentarios,");
 			vSql.AppendLine("	RNES.CodigoArticulo,");
@@ -41,8 +40,7 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
 			vSql.AppendLine("	ISNULL(LI.FechaDeVencimiento, '') AS FechaDeVencimiento");
 			vSql.AppendLine("FROM NotaDeEntradaSalida NES INNER JOIN RenglonNotaES RNES ON NES.ConsecutivoCompania = RNES.ConsecutivoCompania AND NES.NumeroDocumento = RNES.NumeroDocumento");
 			vSql.AppendLine("	INNER JOIN ArticuloInventario AI ON RNES.ConsecutivoCompania = AI.ConsecutivoCompania AND RNES.CodigoArticulo = AI.Codigo");
-			vSql.AppendLine("	INNER JOIN Saw.Almacen Alm ON NES.ConsecutivoCompania = Alm.ConsecutivoCompania AND NES.ConsecutivoAlmacen = Alm.Consecutivo");
-			vSql.AppendLine("	INNER JOIN Cliente Cli ON NES.ConsecutivoCompania = Cli.ConsecutivoCompania AND NES.CodigoCliente = Cli.Codigo");
+			vSql.AppendLine("	INNER JOIN Saw.Almacen Alm ON NES.ConsecutivoCompania = Alm.ConsecutivoCompania AND NES.ConsecutivoAlmacen = Alm.Consecutivo");			
 			vSql.AppendLine("	LEFT JOIN Saw.LoteDeInventario LI ON RNES.ConsecutivoCompania = LI.ConsecutivoCompania AND RNES.CodigoArticulo = LI.CodigoArticulo AND RNES.LoteDeInventario = LI.CodigoLote");
 			vSql.AppendLine("WHERE ");
 			vSql.AppendLine("	NES.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));

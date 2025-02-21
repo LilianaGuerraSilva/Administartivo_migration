@@ -10,6 +10,8 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Brl;
 using LibGalac.Aos.Base.Dal;
 using Galac.Saw.Ccl.Inventario;
+using System.Security.Policy;
+using LibGalac.Aos.Dal;
 
 namespace Galac.Saw.Brl.Inventario {
     public partial class clsNotaDeEntradaSalidaNav : LibBaseNavMaster<IList<NotaDeEntradaSalida>, IList<NotaDeEntradaSalida>>, INotaDeEntradaSalidaPdn {
@@ -387,7 +389,7 @@ namespace Galac.Saw.Brl.Inventario {
 
         private void ActualizaInformacionDeLoteDeInventario(NotaDeEntradaSalida valItemNotaES, bool valAumentaCantidad) {
             foreach (RenglonNotaES vItemRenglon in valItemNotaES.DetailRenglonNotaES) {
-                if (vItemRenglon.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento || vItemRenglon.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote || vItemRenglon.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeElaboracion) {
+                if (vItemRenglon.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento || vItemRenglon.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote) {
                     if (((ILoteDeInventarioPdn)new clsLoteDeInventarioNav()).ExisteLoteDeInventario(vItemRenglon.ConsecutivoCompania, vItemRenglon.CodigoArticulo, vItemRenglon.LoteDeInventario)) {
                         ActualizaLoteDeInventarioInsertaMovimientoDeLoteDeInventario(valItemNotaES, vItemRenglon, valAumentaCantidad);
                     }
@@ -457,6 +459,70 @@ namespace Galac.Saw.Brl.Inventario {
             Ccl.SttDef.ePermitirSobregiro vParametroPermitirSobregiro = (Ccl.SttDef.ePermitirSobregiro)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetEnum("FacturaRapida", "PermitirSobregiro");
             return vParametroPermitirSobregiro == Ccl.SttDef.ePermitirSobregiro.PermitirSobregiro || vParametroPermitirSobregiro == Ccl.SttDef.ePermitirSobregiro.NoChequearExistencia;
         }
-        
+
+
+        [PrincipalPermission(SecurityAction.Demand, Role = "Nota de Entrada/Salida.Insertar")]
+        LibResponse INotaDeEntradaSalidaPdn.ReversarNotaES(int valConsecutivoCompania, string valNumeroDocumento) {
+            LibResponse vResult = new LibResponse();
+            LibGpParams vParams = new LibGpParams();
+            string vComentario = "Reverso de la Nota E/S: " + valNumeroDocumento;
+            RegisterClient();
+            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            vParams.AddInString("NumeroDocumento", valNumeroDocumento, 11);
+            ILibBusinessMasterComponent<IList<NotaDeEntradaSalida>, IList<NotaDeEntradaSalida>> insNotaES = new clsNotaDeEntradaSalidaNav();
+            NotaDeEntradaSalida vNotaES = insNotaES.GetData(eProcessMessageType.SpName, "NotaDeEntradaSalidaGET", vParams.Get(), true).FirstOrDefault();
+            if (vNotaES == null) {
+                vResult.AddError("No se encontró la información para la Nota de E/S: " + valNumeroDocumento);
+                return vResult;
+            }
+            if (vNotaES.TipodeOperacionAsEnum == eTipodeOperacion.Retiro) {
+                vResult.AddError("El tipo de operación Retiro no puede ser reversado.");
+                return vResult;
+            }
+            if (vNotaES.GeneradoPorAsEnum != eTipoGeneradoPorNotaDeEntradaSalida.Usuario) {
+                vResult.AddError("Solo se pueden reversar las Notas de E/S ingresadas por Usuarios.");
+                return vResult;
+            }
+            if (vNotaES.StatusNotaEntradaSalidaAsEnum != eStatusNotaEntradaSalida.Vigente) {
+                vResult.AddError("Solo se pueden reversar las Notas de E/S con status Vigente.");
+                return vResult;
+            }
+            if (LibString.S1StartsWithS2(vNotaES.Comentarios, "Reverso de la Nota E/S:")) {
+                vResult.AddError("Esta Nota de E/S ya es un reverso y no puede ser reversada.");
+                return vResult;
+            }
+            if (ExiteReversoParaEstaNota(valConsecutivoCompania, vComentario)) {
+                vResult.AddError("Ya existe un reverso para esta Nota de E/S");
+                return vResult;
+            }
+            string vNextNumero;
+            LibGpParams vParms = new LibGpParams();
+            vParms.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            XElement vResulset = _Db.QueryInfo(eProcessMessageType.Message, "ProximoNumeroDocumento", vParms.Get());
+            vNextNumero = LibXml.GetPropertyString(vResulset, "NumeroDocumento");
+
+            vNotaES.NumeroDocumento = vNextNumero;
+            vNotaES.Comentarios = vComentario;
+            vNotaES.TipodeOperacionAsEnum = vNotaES.TipodeOperacionAsEnum == eTipodeOperacion.EntradadeInventario ? eTipodeOperacion.SalidadeInventario : eTipodeOperacion.EntradadeInventario;
+            vNotaES.Fecha = LibDate.Today();
+
+            List<NotaDeEntradaSalida> vListaNotaES = new List<NotaDeEntradaSalida>() { vNotaES };
+
+            vResult = insNotaES.DoAction(vListaNotaES, eAccionSR.Insertar, null, true);
+
+            return vResult;
+        }
+
+        private bool ExiteReversoParaEstaNota(int valConsecutivoCompania, string valComentario) {
+            bool vResult = false;
+            QAdvSql insSql = new QAdvSql("");
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendFormat("SELECT * FROM NotaDeEntradaSalida WHERE ");
+            vSql.AppendFormat(" ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
+            vSql.AppendFormat(" AND Comentarios LIKE " + insSql.ToSqlValue(valComentario + "%"));
+            
+            vResult = (new LibDatabase().RecordCountOfSql(vSql.ToString()) > 0);
+            return vResult;
+        }
     } //End of class clsNotaDeEntradaSalidaNav
 } //End of namespace Galac.Saw.Brl.Inventario

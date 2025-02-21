@@ -187,7 +187,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 				LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("ConsecutivoMaquinaFiscal", valNombre);
 				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania",LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
 				ConexionConsecutivoMaquinaFiscal = null;
-				ConexionConsecutivoMaquinaFiscal = ChooseRecord<FkMaquinaFiscalViewModel>("Máquina Fiscal", vDefaultCriteria, vFixedCriteria, string.Empty);
+				ConexionConsecutivoMaquinaFiscal = ChooseRecord<FkMaquinaFiscalViewModel>("Impresora Fiscal", vDefaultCriteria, vFixedCriteria, string.Empty);
 			}
 			catch (AccessViolationException) {
 				throw;
@@ -234,7 +234,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 		{
 			ValidationResult vResult = ValidationResult.Success;
 			if (LibString.IsNullOrEmpty(ConsecutivoMaquinaFiscal) && CantidadAImprimir == eCantidadAImprimir.One) {
-				vResult = new ValidationResult("El consecutivo de la Máquina Fiscal no puede estar en blanco");
+				vResult = new ValidationResult("El consecutivo de la Impresora Fiscal no puede estar en blanco");
 			}
 			return vResult;
 		}

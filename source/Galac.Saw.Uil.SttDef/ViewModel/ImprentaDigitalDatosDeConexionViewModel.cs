@@ -24,16 +24,15 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string ProveedorPropertyName = "Proveedor";
         public const string UrlPropertyName = "Url";
         public const string UsuarioPropertyName = "Usuario";
-        public const string ClavePropertyName = "Clave";        
+        public const string ClavePropertyName = "Clave";
+        public const string ExecuteEnabledPropertyName = "ExecuteEnabled";
         #endregion
         #region variables
         private bool _ExecuteEnabled;
         eProveedorImprentaDigital _ProveedorImprentaDigital;
         string _Url;
         string _Usuario;
-        string _Clave;
-        string _CampoUsuario;
-        string _CampoClave;
+        string _Clave;        
         #endregion
 
         #region Propiedades
@@ -46,8 +45,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public string Proveedor {
             get {
-                ActivarButtonActions(_ProveedorImprentaDigital == eProveedorImprentaDigital.Novus);
-                RaisePropertyChanged(() => IsVisbleByProveedorID);
                 return LibEnumHelper.GetDescription(_ProveedorImprentaDigital);
             }
         }
@@ -87,15 +84,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 }
             }
         }
-       
-        public string CampoUsuario {
-            get { return LibString.ToTitleCase(_CampoUsuario); }            
-        }
-
-        public string CampoClave {
-            get { return LibString.ToTitleCase(_CampoClave); }            
-        }
-
         public RelayCommand GuardarCommand {
             get;
             private set;
@@ -111,7 +99,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         #endregion //Constructores
         #region Metodos Generados
         protected override void InitializeCommands() {
-            base.InitializeCommands();            
+            base.InitializeCommands();
+            
             GuardarCommand = new RelayCommand(ExecuteGuardarCommand, CanExecuteGuardarCommand);
             ProbarConexionCommand = new RelayCommand(ExecuteProbarConexionCommand);
         }
@@ -119,27 +108,30 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         protected override void InitializeLookAndFeel() {
             base.InitializeLookAndFeel();
             InicializaValores();
-        }       
+        }
 
-        public bool IsVisbleByProveedorID {
-            get { return _ProveedorImprentaDigital == eProveedorImprentaDigital.TheFactoryHKA; }
+
+        public bool ExecuteEnabled {
+            get {
+                return _ExecuteEnabled;
+            }
+            set {
+                if (_ExecuteEnabled != value) {
+                    _ExecuteEnabled = value;
+                    RaisePropertyChanged(ExecuteEnabledPropertyName);
+                }
+            }
         }
 
         private void ExecuteProbarConexionCommand() {
             string vMensaje = string.Empty;
-            string vCommand = string.Empty;
-            bool vResult = false;
-            if (_ProveedorImprentaDigital == eProveedorImprentaDigital.TheFactoryHKA) {
-                vCommand = LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion);
-                clsConectorJson _ConectorJson = new clsConectorJsonTheFactory(new clsLoginUser() {
-                    User = Usuario,
-                    URL = Url,
-                    Password = Clave
-                });
-                vResult = _ConectorJson.CheckConnection(ref vMensaje, vCommand);
-            } else {
-                vResult = true;
-            }
+            string vCommand = _ProveedorImprentaDigital== eProveedorImprentaDigital.TheFactoryHKA? LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion) : "";
+            clsConectorJson _ConectorJson = new clsConectorJson(new clsLoginUser() {
+                User = Usuario,
+                URL = Url,
+                Password = Clave
+            });
+            bool vResult = _ConectorJson.CheckConnection(ref vMensaje, vCommand);
             if (vResult) {
                 LibMessages.MessageBox.Information(this, "Conectado exitosamente a la Imprenta Digital " + Proveedor + ".", ModuleName);
                 ActivarButtonActions(true);
@@ -169,8 +161,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             _Url = _clsImprentaDigitalSettings.DireccionURL;
             _Usuario = _clsImprentaDigitalSettings.Usuario;
             _Clave = _clsImprentaDigitalSettings.Clave;
-            _CampoUsuario = _clsImprentaDigitalSettings.CampoUsuario;
-            _CampoClave = _clsImprentaDigitalSettings.CampoClave;            
         }
 
         #endregion //Metodos Generados
@@ -179,7 +169,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             if (LibString.IsNullOrEmpty(Usuario) || LibString.IsNullOrEmpty(Clave)) {
                 LibMessages.MessageBox.ValidationError(this, "Los campos Usuario y Clave son obligatorios.", ModuleName);
             } else {
-                ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).GuardarDatosImprentaDigitalAppSettings(_ProveedorImprentaDigital, Usuario, Clave, Url, CampoUsuario, CampoClave);
+                ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).GuardarDatosImprentaDigitalAppSettings(_ProveedorImprentaDigital, Usuario, Clave, Url);
                 RaiseRequestCloseEvent();
             }
         }
@@ -189,7 +179,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         private void ActivarButtonActions(bool valActivate) {
-            _ExecuteEnabled = valActivate;           
+            _ExecuteEnabled = valActivate;
+            RaisePropertyChanged(ExecuteEnabledPropertyName);
             GuardarCommand.RaiseCanExecuteChanged();            
         }
 

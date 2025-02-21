@@ -278,11 +278,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return IsEnabled && UsaMonedaExtranjera && AppMemoryInfo.GlobalValuesGetBool("Parametros", "EsUsuarioSupervisor");
             }
         }
-
         public ParametersViewModel ParametrosViewModel {
             get { return _ParametrosViewModel; }
-            set { _ParametrosViewModel = value;
-            }
+            set { _ParametrosViewModel = value; }
         }
 
 
@@ -395,15 +393,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private ValidationResult CodigoMonedaExtranjeraValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if (LibString.IsNullOrEmpty(CodigoMonedaExtranjera)) {
+                if(LibString.IsNullOrEmpty(CodigoMonedaExtranjera)) {
                     vResult = new ValidationResult("El Campo " + ModuleName + "-> Nombre Moneda Extranjera, es Requerido.");
-                }
-                if (UsaMonedaExtranjera && CodigoMonedaExtranjera != "USD") {
-                    var result = ParametrosViewModel.ModuleList.Where(w => w.DisplayName == LibEnumHelper.GetDescription(eModulesLevelName.Factura)).FirstOrDefault().Groups.Where(y => y.DisplayName == new FacturaCobroFacturaViewModel(null, eAccionSR.Consultar).ModuleName).FirstOrDefault().Content as FacturaCobroFacturaViewModel;
-                    result.UsaCreditoElectronico = false;
                 }
             }
             return vResult;
@@ -419,10 +413,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 vResponse.AppendLine($"Para usar el parámetro {this.ModuleName} - Usar Divisa como Moneda Principal de Ingreso de Datos, debe ajustar los siguientes parámetros previamente:");
                 vResponse.AppendLine();
                 FacturaFacturacionContViewModel vFacturaFacturacionContViewModel = ParametrosViewModel.ModuleList[1].Groups[1].Content as FacturaFacturacionContViewModel;
-                FacturaCobroFacturaViewModel vFacturaCobroFacturaViewModel = ParametrosViewModel.ModuleList[1].Groups[8].Content as FacturaCobroFacturaViewModel;
                 BancosAnticipoViewModel vBancosAnticipoViewModel = ParametrosViewModel.ModuleList[6].Groups[2].Content as BancosAnticipoViewModel;
-                bool vUsaCobroDirecto = vFacturaCobroFacturaViewModel.UsaCobroDirecto;
-                bool vUsaCobroMultimoneda = vFacturaCobroFacturaViewModel.UsaCobroDirectoEnMultimoneda;
+                bool vUsaCobroDirecto = vFacturaFacturacionContViewModel.UsaCobroDirecto;
+                bool vUsaCobroMultimoneda = vFacturaFacturacionContViewModel.UsaCobroDirectoEnMultimoneda;
                 bool vUsaListaDePrecioEnMonedaExtranjera = vFacturaFacturacionContViewModel.UsaListaDePrecioEnMonedaExtranjera;
                 bool vMostrarTotalEnDivisa = vFacturaFacturacionContViewModel.SeMuestraTotalEnDivisas;
                 FkCuentaBancariaViewModel vCuentaBancariaGenericaAnticipo = vBancosAnticipoViewModel.ConexionCuentaBancariaAnticipo;

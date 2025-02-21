@@ -46,7 +46,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vParams.AddInString("Nombre", valRecord.Nombre, 255);
             vParams.AddInString("CodigoArticuloInventario", valRecord.CodigoArticuloInventario, 30);
             vParams.AddInDateTime("FechaCreacion", valRecord.FechaCreacion);
-            vParams.AddInBoolean("ManejaMerma", valRecord.ManejaMermaAsBool);
             vParams.AddInString("NombreOperador", ((CustomIdentity) Thread.CurrentPrincipal.Identity).Login, 10);
             vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
             if (valAction == eAccionSR.Modificar) {

@@ -231,9 +231,9 @@ namespace Galac.Saw.Ccl.SttDef {
         [LibEnumDescription("Nota de Crédito Comprobante Fiscal")]
         NotaDeCreditoComprobanteFiscal,
         [LibEnumDescription("Nota de Entrega")]
-        NotaEntrega,
-        [LibEnumDescription("Todos")]
-        Todos
+        NotaEntrega,        
+        [LibEnumDescription("Nota de Débito Comprobante Fiscal")]
+        NotaDeDebitoComprobanteFiscal
     }
 
 
@@ -506,8 +506,7 @@ namespace Galac.Saw.Ccl.SttDef {
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eProveedorImprentaDigital {
         [LibEnumDescription("No Aplica")] NoAplica = 0,
-        [LibEnumDescription("The Factory HKA")] TheFactoryHKA,
-        [LibEnumDescription("Novus")] Novus
+        [LibEnumDescription("The Factory HKA")] TheFactoryHKA
     }
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
@@ -518,15 +517,4 @@ namespace Galac.Saw.Ccl.SttDef {
         [LibEnumDescription("Talonario 4")] Talonario4 //Esto no se escoge, es para uso interno, especialmente de Imprenta Digital 30/10/2023
     }
 
-    public enum eModulesLevelName {//No se guarda, es para se comparado con lo que viene en el archivo de SettDefinition
-        [LibEnumDescription("1 - DatosGenerales")] DatosGenerales = 0,
-        [LibEnumDescription("2 - Factura")] Factura,
-        [LibEnumDescription("3 - Cotización")] Cotización,
-        [LibEnumDescription("4 - CXC/Cobranzas")] CXCCobranzas,
-        [LibEnumDescription("5 - Inventario")] Inventario,
-        [LibEnumDescription("6 - CxP/Compras")] CxPCompras,
-        [LibEnumDescription("7 - Bancos")] Bancos,
-        [LibEnumDescription("8 - NotasDeEntrega")] NotasDeEntrega,
-        [LibEnumDescription("9 - Proceso")] Proceso
-    }
 } //End of namespace namespace Galac.Saw.Ccl.SttDef

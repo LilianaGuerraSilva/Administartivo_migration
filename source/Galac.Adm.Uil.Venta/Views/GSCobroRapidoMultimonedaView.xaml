@@ -379,10 +379,12 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
@@ -443,7 +445,7 @@
                     Foreground="Black"
                     Style="{StaticResource LabelPrompt}" />
                 <Label
-                    Grid.Row="5"
+                    Grid.Row="4"
                     Grid.Column="0"
                     Margin="2"
                     HorizontalAlignment="Left"
@@ -532,7 +534,7 @@
                     Value="{Binding Path=TransferenciaEnMonedaLocal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtTotalMediosElectronicos"
-                    Grid.Row="5"
+                    Grid.Row="4"
                     Grid.Column="1"
                     Margin="8,2"
                     HorizontalAlignment="Stretch"
@@ -578,7 +580,7 @@
                     Value="{Binding Path=TransferenciaEnDivisas, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtTotalMediosElectronicosME"
-                    Grid.Row="5"
+                    Grid.Row="4"
                     Grid.Column="2"
                     Margin="8,2"
                     HorizontalAlignment="Stretch"
@@ -592,80 +594,6 @@
                     Style="{StaticResource TextBoxInputStyle}"
                     Visibility="{Binding Path=IsVisibleTotalMediosElectronicos, Converter={StaticResource booleanToVisibilityConverter}}"
                     Value="{Binding Path=TotalMediosElectronicosME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                <Label
-                    Grid.Row="4"
-                    Grid.Column="0"
-                    Margin="2"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Stretch"
-                    VerticalContentAlignment="Center"
-                    Content="{Binding Path=NombreCreditoElectronico}"
-                    FontFamily="Calibri"
-                    FontSize="18"
-                    FontStyle="Normal"
-                    FontWeight="Bold"
-                    Foreground="Black"
-                    Style="{StaticResource LabelPrompt}"
-                    Visibility="{Binding Path=IsVisibleCreditoElectronico, Converter={StaticResource booleanToVisibilityConverter}}" />
-                <Grid Grid.Row="4" Grid.Column="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label
-                        Name="lblCuotas"
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Height="34"
-                        Margin="6,1,1,1"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left"
-                        VerticalContentAlignment="Center"
-                        Content="Cuotas:"
-                        FontFamily="Calibri"
-                        FontSize="14"
-                        FontStyle="Normal"
-                        FontWeight="Bold"
-                        Foreground="Blue"
-                        Style="{StaticResource LabelPrompt}" 
-                        Visibility="{Binding Path=IsVisibleCreditoElectronico, Converter={StaticResource booleanToVisibilityConverter}}"
-                        />
-                    <nsWpfControls:GSNumericBoxWpf
-                        Name="txtCuotas"
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Margin="1,1,8,1"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Right"
-                        DecimalDigits="0"
-                        FontSize="14"
-                        InputDataType="Integer"
-                        IsEnabled="True"
-                        IsTabStop="False"
-                        MaxLength="4"
-                        Style="{StaticResource TextBoxInputStyle}"
-                        Visibility="{Binding Path=IsVisibleCreditoElectronico, Converter={StaticResource booleanToVisibilityConverter}}"
-                        Value="{Binding Path=CantidadCuotasUsualesCreditoElectronico, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                </Grid>
-                <nsWpfControls:GSNumericBoxWpf
-                    Name="txtMontoCreditoElectronico"
-                    Grid.Row="4"
-                    Grid.Column="2"
-                    Margin="8,2"
-                    HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Right"
-                    DecimalDigits="{Binding Path=DecimalDigits}"
-                    FontSize="18"
-                    InputDataType="Decimal"
-                    MaxLength="28"
-                    Style="{StaticResource TextBoxInputStyle}"
-                    TabIndex="6"
-                    Value="{Binding Path=MontoCreditoElectronico, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
-                    Visibility="{Binding Path=IsVisibleCreditoElectronico, Converter={StaticResource booleanToVisibilityConverter}}"
-                    />
             </Grid>
         </GroupBox>
         <GroupBox

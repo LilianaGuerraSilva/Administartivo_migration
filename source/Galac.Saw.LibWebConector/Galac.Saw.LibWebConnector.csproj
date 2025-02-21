@@ -70,8 +70,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="clsConectorJsonNovus.cs" />
-    <Compile Include="clsConectorJsonTheFactory.cs" />
     <Compile Include="clsConectorJson.cs" />
     <Compile Include="clsJsonRequest.cs" />
     <Compile Include="clsLoginUser.cs" />

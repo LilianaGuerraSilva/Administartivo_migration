@@ -31,7 +31,7 @@ Private mTelefono As String
 Private mDireccion As String
 Private mHoraModificacion As String
 Private mFecha As String
-Private mEsNotaDeCredito As Boolean
+Private mTipoDocumento As enum_TipoDocumentoFactura
 Private mPuerto As String
 Private mPuertoImpresoraFiscal As String
 Private mImprimeDireccionAlFinalDelComprobanteFiscal As Boolean
@@ -59,7 +59,6 @@ Private mTotalAPagar As Currency
 Private mIGTFML As Currency
 Private mRegistroDeRetornoEnTxt As Boolean
 Private mListaVouchersDePago As String
-Private mDescripcionPagoCreditoElectronico As String
 
 Private Function CM_FILE_NAME() As String
    CM_FILE_NAME = "clsDatosImprFiscal"
@@ -103,7 +102,7 @@ Private Sub sClrRecord()
     mDireccion = ""
     mHoraModificacion = ""
     mFecha = ""
-    mEsNotaDeCredito = True
+    mTipoDocumento = enum_TipoDocumentoFactura.eTF_COMPROBANTEFISCAL
     mPuerto = ""
     mPuertoImpresoraFiscal = ""
     mImprimeDireccionAlFinalDelComprobanteFiscal = True
@@ -261,13 +260,18 @@ Public Function GetFecha() As String
    GetFecha = mFecha
 End Function
 
-Public Sub SetEsNotaDeCredito(ByVal newEsNotaDeCredito As Boolean)
-   mEsNotaDeCredito = newEsNotaDeCredito
+Public Sub SetTipoDocumentoAsEnum(ByVal newTipoDocumento As enum_TipoDocumentoFactura)
+   mTipoDocumento = newTipoDocumento
 End Sub
 
-Public Function GetEsNotaDeCredito() As Boolean
-   GetEsNotaDeCredito = mEsNotaDeCredito
+Public Function GetTipoDocumentoAsEnum() As enum_TipoDocumentoFactura
+   GetTipoDocumentoAsEnum = mTipoDocumento
 End Function
+
+Public Function GetEsNotaDeCredito() As Boolean
+   GetEsNotaDeCredito = (mTipoDocumento = eTF_NOTADECREDITOCOMPROBANTEFISCAL)
+End Function
+
 Public Sub SetPuerto(ByVal newPuerto As String)
    mPuerto = newPuerto
 End Sub
@@ -483,10 +487,3 @@ Public Function GetListaVouchersDePago() As String
    GetListaVouchersDePago = mListaVouchersDePago
 End Function
 
-Public Sub SetDescripcionPagoCreditoElectronico(ByVal newDescripcionPagoCreditoElectronico As String)
-   mDescripcionPagoCreditoElectronico = newDescripcionPagoCreditoElectronico
-End Sub
-
-Public Function GetDescripcionPagoCreditoElectronico() As String
-   GetDescripcionPagoCreditoElectronico = mDescripcionPagoCreditoElectronico
-End Function

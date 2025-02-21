@@ -87,7 +87,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         private decimal _MePrecioSinIva;
         private decimal _MePrecioConIva;
         public int ConsecutivoCompania { get; set; }
-        public string CodigoCompuesto { get; set; }
         [LibGridColum("Código del Artículo", DbMemberPath = "Gv_ArticuloInventario_B1.Codigo")]
         public string Codigo { get; set; }
         [LibGridColum("Descripción", DbMemberPath = "Gv_ArticuloInventario_B1.Descripcion")]
@@ -176,7 +175,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
     public class FkArticuloInventarioRptViewModel : IFkArticuloInventarioViewModel {
         public int ConsecutivoCompania { get; set; }
-        public string CodigoCompuesto { get; set; }
         [LibGridColum("Código del Artículo", DbMemberPath = "dbo.Gv_ArticuloInventario_B1.Codigo", Width = 150)]
         public string Codigo { get; set; }
         [LibGridColum("Descripción", DbMemberPath = "dbo.Gv_ArticuloInventario_B1.Descripcion", Width = 200)]

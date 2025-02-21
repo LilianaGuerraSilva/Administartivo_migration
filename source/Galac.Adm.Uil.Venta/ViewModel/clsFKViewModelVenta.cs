@@ -328,7 +328,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
        public int Consecutivo { get; set; }
        [LibGridColum("NombreCaja",eGridColumType.Generic,Header = "Nombre")]
        public string NombreCaja { get; set; }   
-       public bool UsaMaquinaFiscal { get; set;}
        public bool UsaGaveta { get;  set; }      
        public ePuerto Puerto {get; set;}
        public string Comando {get; set;}
@@ -362,7 +361,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
    
    public class FkMaquinaFiscalViewModel : IFkMaquinaFiscalViewModel {
         public int ConsecutivoCompania { get; set; }
-        [LibGridColum("Consecutivo Máquina Fiscal", DbMemberPath = "ConsecutivoMaquinaFiscal", Width = 9)]
+        [LibGridColum("Consecutivo Impresora Fiscal", DbMemberPath = "ConsecutivoMaquinaFiscal", Width = 9)]
         public string ConsecutivoMaquinaFiscal { get; set; }
         [LibGridColum("Descripción")]
         public string Descripcion { get; set; }

@@ -1,9 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 
 namespace Galac.Saw.LibWebConnector {
-    #region TheFactory
     internal struct stUserLoginCnn {
         public string usuario {
             get; set;
@@ -33,13 +30,8 @@ namespace Galac.Saw.LibWebConnector {
             get; set;
         }
 
-        [JsonProperty("validaciones")]
-        public List<string> validaciones {
-            get; set;
-        }
-
         [JsonProperty("resultado")]
-        public stRespuestaTF resultados { get; set; }
+        public stRespuesta resultados { get; set; }
 
         [JsonProperty("estado")]
         public stEstado estado { get; set; }
@@ -47,7 +39,7 @@ namespace Galac.Saw.LibWebConnector {
         public bool Aprobado { get; set; }
 
     }
-    public struct stRespuestaTF {
+    public struct stRespuesta {
         [JsonProperty("tipoDocumento")]
         public string tipoDocumento {
             get; set;
@@ -141,42 +133,4 @@ namespace Galac.Saw.LibWebConnector {
             get; set;
         }
     }
-    #endregion TheFactory    
-    /////////////////////////////////////////////////////////////////////////////////////////    
-    #region NOVUS
-    public struct stErrorRespuestaNV {
-        public string message { get; set; }
-        public string code { get; set; }
-    }
-
-    public struct stDataRespuestaNV {
-        [JsonProperty("numerodocumento")]
-        public string numerodocumento { get; set; }
-        [JsonProperty("identificador")]
-        public string identificador { get; set; }
-        [JsonProperty("corelativo")]
-        public string corelativo { get; set; }
-        [JsonProperty("datetime")]
-        public DateTime datetime { get; set; }
-        [JsonProperty("fecha")]
-        public string fecha { get; set; }
-        [JsonProperty("hora")]
-        public string hora { get; set; }
-
-    }
-
-
-    public struct stRespuestaNV {
-        [JsonProperty("success")]
-        public bool success { get; set; }
-        [JsonProperty("message")]
-        public string message { get; set; }
-        [JsonProperty("data")]
-        public Nullable<stDataRespuestaNV> data { get; set; }
-        [JsonProperty("error")]
-        public Nullable<stErrorRespuestaNV> error { get; set; }
-
-    }
-    #endregion NOVUS
 }
-

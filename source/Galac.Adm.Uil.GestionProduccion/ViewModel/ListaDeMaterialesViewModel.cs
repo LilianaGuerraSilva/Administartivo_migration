@@ -25,7 +25,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private const string CodigoPropertyName = "Codigo";
         private const string NombrePropertyName = "Nombre";
         private const string FechaCreacionPropertyName = "FechaCreacion";
-        private const string ManejaMermaPropertyName = "ManejaMerma";
         private const string NombreOperadorPropertyName = "NombreOperador";
         private const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
         private const string TotalPorcentajeCostoPropertyName = "TotalPorcentajeDeCosto";
@@ -132,23 +131,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
             }
         }
-		
-		public bool  ManejaMerma {
-            get {
-                return Model.ManejaMermaAsBool;
-            }
-            set {
-                if (Model.ManejaMermaAsBool != value) {
-                    Model.ManejaMermaAsBool = value;
-                    IsDirty = true;
-                    RaisePropertyChanged(ManejaMermaPropertyName);
-                    if (!Model.ManejaMermaAsBool) {
-                        LimpiaDetallePorNoManejarMerma();
-                    }
-                    ActivaDetalleMenejodeMerma();
-                }
-            }
-        }
 
         public string NombreOperador {
             get {
@@ -235,12 +217,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     IsDirty = true;
                     RaisePropertyChanged(TotalPorcentajeCostoPropertyName);
                 }
-            }
-        }
-
-        public bool IsEnabledManejaMerma {
-            get {
-                return IsEnabled && Action == eAccionSR.Insertar;
             }
         }
 
@@ -464,26 +440,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
         #endregion //Metodos Generados
-
-        private void LimpiaDetallePorNoManejarMerma() {
-            foreach (var vItem in DetailListaDeMaterialesDetalleArticulo.Items) {
-                vItem.MermaNormal = 0;
-                vItem.PorcentajeMermaNormal = 0;
-            }
-            foreach (var vItem in DetailListaDeMaterialesDetalleSalidas.Items) {
-                vItem.MermaNormal = 0;
-                vItem.PorcentajeMermaNormal = 0;
-            }          
-        }
-		
-        private void ActivaDetalleMenejodeMerma() {
-            foreach (var vItem in DetailListaDeMaterialesDetalleArticulo.Items) {
-                vItem.IsVisbleMermaArticulo();
-            }
-            foreach (var vItem in DetailListaDeMaterialesDetalleSalidas.Items) {
-                vItem.IsVisbleMermaSalida();
-            }
-        }
 
     } //End of class ListaDeMaterialesViewModel
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,16 +12,20 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Galac.Saw.Uil.Inventario.Views
-{
+namespace Galac.Adm.Uil.Venta.Views {
     /// <summary>
-    /// Interaction logic for GSRecalcularMovimientosDeInventarioView.xaml
+    /// Interaction logic for GSAuditoriaEnteView.xaml
     /// </summary>
-    public partial class GSRecalcularMovimientosDeInventarioView : UserControl
-    {
-        public GSRecalcularMovimientosDeInventarioView()
-        {
+    public partial class GSAuditoriaEnteView : UserControl {
+        #region Constructores
+
+        public GSAuditoriaEnteView() {
             InitializeComponent();
         }
-    }
-}
+        #endregion //Constructores
+
+
+    } //End of class GSAuditoriaEnteView.xaml
+
+} //End of namespace Galac.Adm.Uil.Venta
+

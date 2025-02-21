@@ -9,7 +9,6 @@ namespace Galac.Adm.Ccl.Venta {
         #region Propiedades
         int ConsecutivoCompania { get; set; }
         int Consecutivo { get; set; }
-        bool UsaMaquinaFiscal { get; set; }
         string NombreCaja { get; set; }
         bool UsaGaveta { get; set; }      
         ePuerto Puerto { get; set; }

@@ -4,17 +4,17 @@ using LibGalac.Aos.Base;
 
 namespace Galac.Adm.Ccl.ImprentaDigital {
 
-    [TypeConverter(typeof(LibEnumTypeConverter))]
-    public enum eTipoProveedorImprentaDigital {
+	[TypeConverter(typeof(LibEnumTypeConverter))]
+	public enum eTipoProveedorImprentaDigital {
         [LibEnumDescription("Normal")]
-        Normal = 0,
+        Normal = 0, 
         [LibEnumDescription("Sin Rif")]
-        SinRif,
+        SinRif, 
         [LibEnumDescription("No Domiciliado")]
-        NoDomiciliado,
+        NoDomiciliado, 
         [LibEnumDescription("No Residenciado")]
         NoResidenciado
-    }
+	} 
 
     [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eComandosPostTheFactoryHKA {
@@ -40,14 +40,6 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         RastrearCorreo
     }
 
-    public enum eComandosPostNovus {
-        [LibEnumDescription("/Autenticacion/v3")]
-        Autenticacion = 0,
-        [LibEnumDescription("/facturacion/v3")]
-        Emision,
-        [LibEnumDescription("/Anulacion/v3")]
-        Anular,
-        [LibEnumDescription("/email/v3")]
-        Email
-    }
+
+
 } //End of namespace namespace Galac.Saw.Ccl.ImprentaDigital

@@ -179,11 +179,6 @@ namespace Galac.Adm.Brl.GestionProduccion {
             vCurrentRecord.MontoSubtotal = 0;
             vCurrentRecord.AjustadoPostCierreAsBool = false;
             vCurrentRecord.CantidadAjustada = 0;
-            vCurrentRecord.PorcentajeMermaNormalOriginal = 0;
-            vCurrentRecord.CantidadMermaNormal = 0;
-            vCurrentRecord.PorcentajeMermaNormal = 0;
-            vCurrentRecord.CantidadMermaAnormal = 0;
-            vCurrentRecord.PorcentajeMermaAnormal = 0;
             vLista.Add(vCurrentRecord);
             return instanciaDal.Insert(vLista).Success;
         }
@@ -239,21 +234,6 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CantidadAjustada"), null))) {
                     vRecord.CantidadAjustada = LibConvert.ToDec(vItem.Element("CantidadAjustada"));
-                }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("PorcentajeMermaNormalOriginal"), null))) {
-                    vRecord.PorcentajeMermaNormalOriginal = LibConvert.ToDec(vItem.Element("PorcentajeMermaNormalOriginal"));
-                }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CantidadMermaNormal"), null))) {
-                    vRecord.CantidadMermaNormal = LibConvert.ToDec(vItem.Element("CantidadMermaNormal"));
-                }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("PorcentajeMermaNormal"), null))) {
-                    vRecord.PorcentajeMermaNormal = LibConvert.ToDec(vItem.Element("PorcentajeMermaNormal"));
-                }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CantidadMermaAnormal"), null))) {
-                    vRecord.CantidadMermaAnormal = LibConvert.ToDec(vItem.Element("CantidadMermaAnormal"));
-                }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("PorcentajeMermaAnormal"), null))) {
-                    vRecord.PorcentajeMermaAnormal = LibConvert.ToDec(vItem.Element("PorcentajeMermaAnormal"));
                 }
                 vResult.Add(vRecord);
             }

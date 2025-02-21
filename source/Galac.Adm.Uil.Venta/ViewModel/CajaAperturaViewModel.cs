@@ -26,6 +26,7 @@ using System.Windows;
 using Galac.Adm.Ccl.CajaChica;
 using Galac.Saw.Lib;
 using System.Threading;
+using System.Net.NetworkInformation;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
     public class CajaAperturaViewModel: LibInputViewModel<CajaApertura> {
@@ -68,6 +69,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         const string TotalesMediosElectronicosPropertyName = "TotalesMediosElectronicos";
         const string TotalesMediosElectronicosMEPropertyName = "TotalesMediosElectronicosME";
         const string IsExpandedTotalesMediosElectronicosPropertyName = "IsExpandedTotalesMediosElectronicos";
+        private XElement _XmlDatosImprFiscal;
 
         private FkCajaViewModel _ConexionNombreCaja = null;
         private FkGUserViewModel _ConexionNombreDelUsuario = null;
@@ -884,20 +886,33 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private void ExecuteAbrirCajaCommand() {
             bool vSePuede = false;
+            string vRefMensaje = "";
             try {
-                vSePuede = ValidarCajasAbiertas() && ValidarUsuarioAsignado();
-                if (vSePuede) {
-                    base.ExecuteAction();
-                    LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue abierta con exito.", "");
-                    ExecuteCloseCommand();
+                bool vMaquinaFiscalHomologada = true;
+                ICajaPdn InsCaja = new clsCajaNav();
+                _XmlDatosImprFiscal = InsCaja.ValidateImpresoraFiscal(ref vRefMensaje);
+                if (!LibString.IsNullOrEmpty(vRefMensaje)) {
+                    LibMessages.MessageBox.Information(this, vRefMensaje, "");
+                } else {
+                    vSePuede = ValidarCajasAbiertas() && ValidarUsuarioAsignado();
+                    if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMaquinaFiscal")) {
+                        if (HayConexionAInternet()) {
+                            vMaquinaFiscalHomologada = MaquinaFiscalEstaHomologada(Model.ConsecutivoCompania, Model.ConsecutivoCaja, Model.NombreOperador, "Abrir Caja");
+                            vSePuede = vSePuede && vMaquinaFiscalHomologada;
+                        }
+                    }
+                    if (vSePuede) {
+                        base.ExecuteAction();
+                        LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue abierta con exito.", "");
+                        ExecuteCloseCommand();
+                    }
                 }
-
             } catch (Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
 
-        private void ExecuteCerrarCajaCommand() {
+private void ExecuteCerrarCajaCommand() {
             bool vSePuede = false;
             try {
                 vSePuede = ValidarCajasAbiertas() && ValidarUsuarioAsignado();
@@ -907,7 +922,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     if (ConexionNombreCaja == null) {
                         LibMessages.MessageBox.Information(this, "La caja no pudo ser cerrada", "");
                     } else {
-                        if (ConexionNombreCaja.UsaMaquinaFiscal) {
+                        if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMaquinaFiscal")) {
                             ImprimirCierreX();
                         }
                         LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue Cerrada con exíto", "");
@@ -930,6 +945,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     insCajaApertura.AsignarCaja(ConsecutivoCaja);
                     LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue Asignada con exito.", "");
                     base.ExecuteAction();
+                    Saw.Ccl.Tablas.IAuditoriaConfiguracionPdn insAuditoriaConfiguracion = new Saw.Brl.Tablas.clsAuditoriaConfiguracionNav();
+                    insAuditoriaConfiguracion.Auditar($"Asignar Nuevo Operador: {NombreDelUsuario}", "Asignar Caja", "", "");
                     ExecuteCloseCommand();
                 } else {
                     LibMessages.MessageBox.Alert(this, "El nombre de la caja es requierido ", "");
@@ -1210,6 +1227,29 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 }
             }
             return vResult;
+        }
+
+        private bool HayConexionAInternet() {
+            bool vResult = false;
+            try {
+                using (Ping ping = new Ping()) {
+                    PingReply reply = ping.Send("8.8.8.8", 3000); // Puedes usar cualquier IP conocida, como la de Google DNS
+                    vResult = reply.Status == IPStatus.Success;
+                }
+            } catch {
+                vResult = false;
+            }
+            return vResult;
+        }
+
+        private bool MaquinaFiscalEstaHomologada(int valConsecutivoCompania, int valConsecutivo, string valNombreOperador, string valAccionDeAutorizacionDeProceso) {
+            string vMensaje = string.Empty;
+            clsCajaNav insCajaHomo = new clsCajaNav();
+            bool vResul = insCajaHomo.HomologadaSegunGaceta43032(valConsecutivoCompania, valConsecutivo, valAccionDeAutorizacionDeProceso, ref vMensaje);
+            if (!vResul) {
+                LibMessages.MessageBox.Alert(this, vMensaje, "");
+            }
+            return vResul;
         }
         #endregion //Metodos
 

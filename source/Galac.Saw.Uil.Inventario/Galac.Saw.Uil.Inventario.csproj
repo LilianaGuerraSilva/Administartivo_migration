@@ -42,10 +42,6 @@
     <Reference Include="Galac.Comun.Uil.TablasGen">
       <HintPath>..\packages\Galac.Comun.Uil.TablasGen.2.61.0\lib\Galac.Comun.Uil.TablasGen.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Saw.Reconv">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\Galac.Saw.Reconv.dll</HintPath>
-    </Reference>
     <Reference Include="LibGalac.Aos.ARRpt">
       <HintPath>..\packages\LibGalac.Aos.ARRpt.5.24.1\lib\LibGalac.Aos.ARRpt.dll</HintPath>
     </Reference>
@@ -168,7 +164,6 @@
     <Compile Include="ViewModel\LoteDeInventarioInsertarViewModel.cs" />
     <Compile Include="ViewModel\NotaDeEntradaSalidaMngViewModel.cs" />
     <Compile Include="ViewModel\NotaDeEntradaSalidaViewModel.cs" />
-    <Compile Include="ViewModel\RecalcularMovimientosDeInventarioViewModel.cs" />
     <Compile Include="ViewModel\RenglonNotaESMngViewModel.cs" />
     <Compile Include="ViewModel\RenglonNotaESViewModel.cs" />
     <Compile Include="ViewModel\TallaMngViewModel.cs" />
@@ -201,9 +196,6 @@
     </Compile>
     <Compile Include="Views\GSNotaDeEntradaSalidaView.xaml.cs">
       <DependentUpon>GSNotaDeEntradaSalidaView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\GSRecalcularMovimientosDeInventarioView.xaml.cs">
-      <DependentUpon>GSRecalcularMovimientosDeInventarioView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GSRenglonNotaESView.xaml.cs">
       <DependentUpon>GSRenglonNotaESView.xaml</DependentUpon>
@@ -280,10 +272,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\GSRecalcularMovimientosDeInventarioView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\GSRenglonNotaESView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -332,6 +320,10 @@
     <ProjectReference Include="..\Galac.Saw.Lib\Galac.Saw.Lib.csproj">
       <Project>{b04e6942-e0b8-4ba2-90e7-fbf8a95ddc86}</Project>
       <Name>Galac.Saw.Lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Reconvert\Galac.Saw.Reconv.csproj">
+      <Project>{bf877c20-f113-46f1-b3f5-42cbbd123908}</Project>
+      <Name>Galac.Saw.Reconv</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Rpt.Inventario\Galac.Saw.Rpt.Inventario.csproj">
       <Project>{ad96dfba-cca7-445b-822e-d40c2fd13a48}</Project>
