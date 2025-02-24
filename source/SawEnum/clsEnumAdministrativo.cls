@@ -1141,6 +1141,7 @@ Public Enum enum_TipoDeFormaDePago
    eTDA_TRANSFERENCIA_MS
    eTDA_C2P
    eTDA_DEPOSITOMS
+   eTDA_CREDITO_ELECTRONICO
 End Enum
 
 Public Enum enum_PuertoSerial
@@ -1266,6 +1267,7 @@ Public Enum enum_TipoArticuloInv
    eTAI_UsaSerial_Rollo
    eTAI_LoteFechadeVencimiento
    eTAI_Lote
+   eTAI_LoteFechadeElaboracion
 End Enum
 
 Public Enum enum_AccionAlAnularFactDeMesesAnt
@@ -1723,6 +1725,7 @@ End Enum
 Public Enum enum_ProveedorImprentaDigital
    ePID_NoAplica = 0
    ePID_TheFactoryHKA
+   ePID_Novus
 End Enum
 
 Public Enum enum_StatusDocOrigenLoteInv
@@ -8600,6 +8603,7 @@ Public Function enumTipoArticuloInvToString(TipoArticuloInv As enum_TipoArticulo
       Case eTAI_UsaSerial_Rollo: enumTipoArticuloInvToString = "Usa Serial y Rollo"
       Case eTAI_LoteFechadeVencimiento: enumTipoArticuloInvToString = "Lote / Fecha de Vto."
       Case eTAI_Lote: enumTipoArticuloInvToString = "Lote"
+      Case eTAI_LoteFechadeElaboracion: enumTipoArticuloInvToString = "Lote / Fecha de Elab."
       Case Else: enumTipoArticuloInvToString = enumTipoArticuloInvToString(0)
    End Select
 End Function
@@ -8608,7 +8612,7 @@ Public Function strTipoArticuloInvToNum(ByVal TipoArticuloInv As String, Optiona
    Dim mEnum As enum_TipoArticuloInv
    Dim nCount As Integer
    nCount = 0
-   For mEnum = eTAI_Simple To eTAI_Lote
+   For mEnum = eTAI_Simple To eTAI_LoteFechadeElaboracion
       If UCase(TipoArticuloInv) = UCase(enumTipoArticuloInvToString(mEnum)) Then
          strTipoArticuloInvToNum = nCount
          GoTo h_EXIT
@@ -8640,6 +8644,8 @@ Public Sub FillComboBoxWithTipoArticuloInv(ByRef varComboBox As Object, ByVal va
       varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_LoteFechadeVencimiento)
       nCount = nCount + 1
       varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_Lote)
+      nCount = nCount + 1
+      varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_LoteFechadeElaboracion)
    Else
       nCount = nCount + 1
       varComboBox.List(nCount) = enumTipoArticuloInvToString(enum_TipoArticuloInv.eTAI_UsaTalla_Color)
@@ -8665,10 +8671,10 @@ Public Function fEnumTipoArticuloInvToStringInArray(Optional ByVal valPrepararPa
    If valPrepararParaSql Then
       varCaracterDelimitador = "'"
    End If
-   varLimiteSuperior = enum_TipoArticuloInv.eTAI_Lote - enum_TipoArticuloInv.eTAI_Simple
+   varLimiteSuperior = enum_TipoArticuloInv.eTAI_LoteFechadeElaboracion - enum_TipoArticuloInv.eTAI_Simple
    nCount = 0
    ReDim varArray(0 To varLimiteSuperior)
-   For varEnum = enum_TipoArticuloInv.eTAI_Simple To enum_TipoArticuloInv.eTAI_Lote
+   For varEnum = enum_TipoArticuloInv.eTAI_Simple To enum_TipoArticuloInv.eTAI_LoteFechadeElaboracion
       varArray(nCount) = varCaracterDelimitador & enumTipoArticuloInvToString(varEnum) & varCaracterDelimitador
       nCount = nCount + 1
    Next
@@ -9247,6 +9253,7 @@ Public Function enumTipoDeFormaDePagoToString(tipoDeFormaDePago As enum_TipoDeFo
       Case eTDA_TRANSFERENCIA_MS: enumTipoDeFormaDePagoToString = "Transferencia Medios Electrónicos"
       Case eTDA_C2P: enumTipoDeFormaDePagoToString = "C2P"
       Case eTDA_DEPOSITOMS: enumTipoDeFormaDePagoToString = "Depósito Medios Electrónicos"
+      Case eTDA_CREDITO_ELECTRONICO: enumTipoDeFormaDePagoToString = "Crédito Electrónico"
       Case Else: enumTipoDeFormaDePagoToString = enumTipoDeFormaDePagoToString(0)
    End Select
 End Function
@@ -9255,7 +9262,7 @@ Public Function strTipoDeFormaDePagoToNum(ByVal tipoDeFormaDePago As String, Opt
    Dim mEnum As enum_TipoDeFormaDePago
    Dim nCount As Integer
    nCount = 0
-   For mEnum = eTDA_EFECTIVO To eTDA_DEPOSITOMS
+   For mEnum = eTDA_EFECTIVO To eTDA_CREDITO_ELECTRONICO
       If UCase(tipoDeFormaDePago) = UCase(enumTipoDeFormaDePagoToString(mEnum)) Then
          strTipoDeFormaDePagoToNum = nCount
          GoTo h_EXIT
@@ -9306,6 +9313,8 @@ Public Sub FillComboBoxWithTipoDeFormaDePago(ByRef varComboBox As Object, Option
    varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_C2P)
    nCount = nCount + 1
    varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_DEPOSITOMS)
+   nCount = nCount + 1
+   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_CREDITO_ELECTRONICO)
    varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
    varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
 End Sub
@@ -9747,6 +9756,15 @@ Public Function enumTipoDeFormaDePagoToStringSiglas(tipoDeFormaDePago As enum_Ti
       Case eTDA_CHEQUE: enumTipoDeFormaDePagoToStringSiglas = "CHE"
       Case eTDA_DEPOSITO: enumTipoDeFormaDePagoToStringSiglas = "DEP"
       Case eTDA_ANTICIPO: enumTipoDeFormaDePagoToStringSiglas = "ANT"
+      Case eTDA_VUELTO_EFECTIVO: enumTipoDeFormaDePagoToStringSiglas = "VTE"
+      Case eTDA_VUELTO_C2P: enumTipoDeFormaDePagoToStringSiglas = "VCP"
+      Case eTDA_TARJETA_MS: enumTipoDeFormaDePagoToStringSiglas = "TMS"
+      Case eTDA_ZELLE: enumTipoDeFormaDePagoToStringSiglas = "ZEL"
+      Case eTDA_PAGO_MOVIL: enumTipoDeFormaDePagoToStringSiglas = "PM"
+      Case eTDA_TRANSFERENCIA_MS: enumTipoDeFormaDePagoToStringSiglas = "TMS"
+      Case eTDA_C2P: enumTipoDeFormaDePagoToStringSiglas = "C2P"
+      Case eTDA_DEPOSITOMS: enumTipoDeFormaDePagoToStringSiglas = "DMS"
+      Case eTDA_CREDITO_ELECTRONICO: enumTipoDeFormaDePagoToStringSiglas = "CRE"
       Case Else: enumTipoDeFormaDePagoToStringSiglas = enumTipoDeFormaDePagoToStringSiglas(0)
    End Select
 End Function
@@ -9847,7 +9865,7 @@ Public Function fSiglasTipoDeFormaDePagoToEnum(ByVal tipoDeFormaDePago As String
    Dim mEnum As enum_TipoDeFormaDePago
    Dim nCount As Integer
    nCount = 0
-   For mEnum = eTDA_EFECTIVO To eTDA_ANTICIPO
+   For mEnum = eTDA_EFECTIVO To eTDA_CREDITO_ELECTRONICO
       If UCase(tipoDeFormaDePago) = UCase(enumTipoDeFormaDePagoToStringSiglas(mEnum)) Then
          fSiglasTipoDeFormaDePagoToEnum = nCount
          GoTo h_EXIT
@@ -10325,10 +10343,10 @@ Public Function fenumTipoFormaDePagoToStringInArray(Optional ByVal valPrepararPa
    If valPrepararParaSql Then
       varCaracterDelimitador = "'"
    End If
-   varLimiteSuperior = enum_TipoDeFormaDePago.eTDA_ANTICIPO - enum_TipoDeFormaDePago.eTDA_EFECTIVO
+   varLimiteSuperior = enum_TipoDeFormaDePago.eTDA_CREDITO_ELECTRONICO - enum_TipoDeFormaDePago.eTDA_EFECTIVO
    nCount = 0
    ReDim varArray(0 To varLimiteSuperior)
-   For varEnum = eTDA_EFECTIVO To eTDA_ANTICIPO
+   For varEnum = eTDA_EFECTIVO To eTDA_CREDITO_ELECTRONICO
       varArray(nCount) = varCaracterDelimitador & enumTipoDeFormaDePagoToString(varEnum) & varCaracterDelimitador
       nCount = nCount + 1
    Next
@@ -14111,6 +14129,7 @@ Public Function enumProveedorImprentaDigitalToString(ProveedorImprentaDigital As
    Select Case ProveedorImprentaDigital
       Case ePID_NoAplica: enumProveedorImprentaDigitalToString = "No Aplica"
       Case ePID_TheFactoryHKA: enumProveedorImprentaDigitalToString = "The Factory HKA"
+      Case ePID_Novus: enumProveedorImprentaDigitalToString = "Novus"
       Case Else
          enumProveedorImprentaDigitalToString = enumProveedorImprentaDigitalToString(0)
    End Select
@@ -14120,7 +14139,7 @@ Public Function strProveedorImprentaDigitalToNum(ByVal ProveedorImprentaDigital 
    Dim mEnum As enum_ProveedorImprentaDigital
    Dim nCount As Integer
    nCount = 0
-   For mEnum = ePID_NoAplica To ePID_TheFactoryHKA
+   For mEnum = ePID_NoAplica To ePID_Novus
       If UCase(ProveedorImprentaDigital) = UCase(enumProveedorImprentaDigitalToString(mEnum)) Then
          strProveedorImprentaDigitalToNum = nCount
          GoTo h_EXIT

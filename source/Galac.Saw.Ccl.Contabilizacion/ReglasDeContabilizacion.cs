@@ -149,6 +149,7 @@ namespace Galac.Saw.Ccl.Contabilizacion {
         private string _CuentaOrdenDeProduccionMateriaPrima;
         private string _OrdenDeProduccionTipoComprobante;
         private bool _EditarComprobanteAfterInsertOrdenDeProduccion;
+        private string _CuentaMermaAnormal;
         private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;
@@ -1360,6 +1361,11 @@ namespace Galac.Saw.Ccl.Contabilizacion {
             set { _CuentaOrdenDeProduccionMateriaPrima = LibString.Mid(value, 0, 30); }
         }
 
+        public string CuentaMermaAnormal {
+            get { return _CuentaMermaAnormal; }
+            set { _CuentaMermaAnormal = LibString.Mid(value, 0, 30); }
+        }
+
         public string OrdenDeProduccionTipoComprobante {
             get { return _OrdenDeProduccionTipoComprobante; }
             set { _OrdenDeProduccionTipoComprobante = LibString.Mid(value, 0, 2); }
@@ -1543,6 +1549,7 @@ namespace Galac.Saw.Ccl.Contabilizacion {
             ContabPorLoteOrdenDeProduccionAsEnum = eContabilizacionPorLote.Diaria;
             CuentaOrdenDeProduccionProductoTerminado = string.Empty;
             CuentaOrdenDeProduccionMateriaPrima = string.Empty;
+            CuentaMermaAnormal = string.Empty;
             OrdenDeProduccionTipoComprobante = string.Empty;
             EditarComprobanteAfterInsertOrdenDeProduccionAsBool = false;
             NombreOperador = string.Empty;
@@ -1687,6 +1694,7 @@ namespace Galac.Saw.Ccl.Contabilizacion {
             vResult.ContabPorLoteOrdenDeProduccionAsEnum = _ContabPorLoteOrdenDeProduccion;
             vResult.CuentaOrdenDeProduccionProductoTerminado = _CuentaOrdenDeProduccionProductoTerminado;
             vResult.CuentaOrdenDeProduccionMateriaPrima = _CuentaOrdenDeProduccionMateriaPrima;
+            vResult.CuentaMermaAnormal = _CuentaMermaAnormal;
             vResult.OrdenDeProduccionTipoComprobante = _OrdenDeProduccionTipoComprobante;
             vResult.EditarComprobanteAfterInsertOrdenDeProduccionAsBool = _EditarComprobanteAfterInsertOrdenDeProduccion;
             vResult.NombreOperador = _NombreOperador;

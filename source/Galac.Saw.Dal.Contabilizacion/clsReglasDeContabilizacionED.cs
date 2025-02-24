@@ -172,6 +172,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("ContabPorLoteOrdenDeProduccion" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_RegDeConCoPoLoOrDePr DEFAULT ('0'), ");
             SQL.AppendLine("CuentaOrdenDeProduccionProductoTerminado" + InsSql.VarCharTypeForDb(30) + " CONSTRAINT d_RegDeConCuOrDePrPrTe DEFAULT (''), ");
             SQL.AppendLine("CuentaOrdenDeProduccionMateriaPrima" + InsSql.VarCharTypeForDb(30) + " CONSTRAINT d_RegDeConCuOrDePrMaPr DEFAULT (''), ");
+            SQL.AppendLine("CuentaMermaAnormal" + InsSql.VarCharTypeForDb(30) + " CONSTRAINT d_RegDeConCuMeAn DEFAULT (''), ");
             SQL.AppendLine("OrdenDeProduccionTipoComprobante" + InsSql.VarCharTypeForDb(2) + " CONSTRAINT d_RegDeConOrDePrTiCo DEFAULT (''), ");
             SQL.AppendLine("EditarComprobanteAfterInsertOrdenDeProduccion" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnRegDeConEditarComp NOT NULL, ");
             SQL.AppendLine("NombreOperador" + InsSql.VarCharTypeForDb(20) + ", ");
@@ -330,6 +331,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("@ContabPorLoteOrdenDeProduccion" + InsSql.CharTypeForDb(1) + " = '0',");
             SQL.AppendLine("@CuentaOrdenDeProduccionProductoTerminado" + InsSql.VarCharTypeForDb(30) + ",");
             SQL.AppendLine("@CuentaOrdenDeProduccionMateriaPrima" + InsSql.VarCharTypeForDb(30) + ",");
+            SQL.AppendLine("@CuentaMermaAnormal" + InsSql.VarCharTypeForDb(30) + ",");
             SQL.AppendLine("@OrdenDeProduccionTipoComprobante" + InsSql.VarCharTypeForDb(2) + ",");
             SQL.AppendLine("@EditarComprobanteAfterInsertOrdenDeProduccion" + InsSql.CharTypeForDb(1) + " = 'N',");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(20) + " = '',");
@@ -480,6 +482,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("            ContabPorLoteOrdenDeProduccion,");
             SQL.AppendLine("            CuentaOrdenDeProduccionProductoTerminado,");
             SQL.AppendLine("            CuentaOrdenDeProduccionMateriaPrima,");
+            SQL.AppendLine("            CuentaMermaAnormal,");
             SQL.AppendLine("            OrdenDeProduccionTipoComprobante,");
             SQL.AppendLine("            EditarComprobanteAfterInsertOrdenDeProduccion,");
             SQL.AppendLine("            NombreOperador,");
@@ -620,6 +623,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("            @ContabPorLoteOrdenDeProduccion,");
             SQL.AppendLine("            @CuentaOrdenDeProduccionProductoTerminado,");
             SQL.AppendLine("            @CuentaOrdenDeProduccionMateriaPrima,");
+            SQL.AppendLine("            @CuentaMermaAnormal,");
             SQL.AppendLine("            @OrdenDeProduccionTipoComprobante,");
             SQL.AppendLine("            @EditarComprobanteAfterInsertOrdenDeProduccion,");
             SQL.AppendLine("            @NombreOperador,");
@@ -771,6 +775,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("@ContabPorLoteOrdenDeProduccion" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@CuentaOrdenDeProduccionProductoTerminado" + InsSql.VarCharTypeForDb(30) + ",");
             SQL.AppendLine("@CuentaOrdenDeProduccionMateriaPrima" + InsSql.VarCharTypeForDb(30) + ",");
+            SQL.AppendLine("@CuentaMermaAnormal" + InsSql.VarCharTypeForDb(30) + ",");
             SQL.AppendLine("@OrdenDeProduccionTipoComprobante" + InsSql.VarCharTypeForDb(2) + ",");
             SQL.AppendLine("@EditarComprobanteAfterInsertOrdenDeProduccion" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(10) + ",");
@@ -932,6 +937,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("               ContabPorLoteOrdenDeProduccion = @ContabPorLoteOrdenDeProduccion,");
             SQL.AppendLine("               CuentaOrdenDeProduccionProductoTerminado = @CuentaOrdenDeProduccionProductoTerminado,");
             SQL.AppendLine("               CuentaOrdenDeProduccionMateriaPrima = @CuentaOrdenDeProduccionMateriaPrima,");
+            SQL.AppendLine("               CuentaMermaAnormal = @CuentaMermaAnormal,");
             SQL.AppendLine("               OrdenDeProduccionTipoComprobante = @OrdenDeProduccionTipoComprobante,");
             SQL.AppendLine("               EditarComprobanteAfterInsertOrdenDeProduccion = @EditarComprobanteAfterInsertOrdenDeProduccion,");
             SQL.AppendLine("               NombreOperador = @NombreOperador,");
@@ -1114,6 +1120,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("         ReglasDeContabilizacion.ContabPorLoteOrdenDeProduccion,");
             SQL.AppendLine("         ReglasDeContabilizacion.CuentaOrdenDeProduccionProductoTerminado,");
             SQL.AppendLine("         ReglasDeContabilizacion.CuentaOrdenDeProduccionMateriaPrima,");
+            SQL.AppendLine("         ReglasDeContabilizacion.CuentaMermaAnormal,");
             SQL.AppendLine("         ReglasDeContabilizacion.OrdenDeProduccionTipoComprobante,");
             SQL.AppendLine("         ReglasDeContabilizacion.EditarComprobanteAfterInsertOrdenDeProduccion,");
             SQL.AppendLine("         ReglasDeContabilizacion.NombreOperador,");
@@ -1243,7 +1250,8 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaTransfCtasGastoComDestino,");
             SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaTransfCtasBancoOrigen,");
             SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaOrdenDeProduccionProductoTerminado,");
-            SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaOrdenDeProduccionMateriaPrima");
+            SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaOrdenDeProduccionMateriaPrima,");
+            SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaMermaAnormal");
             SQL.AppendLine("      FROM " + DbSchema + ".ReglasDeContabilizacion");
             SQL.AppendLine("   RETURN @@ROWCOUNT");
             SQL.AppendLine("END");

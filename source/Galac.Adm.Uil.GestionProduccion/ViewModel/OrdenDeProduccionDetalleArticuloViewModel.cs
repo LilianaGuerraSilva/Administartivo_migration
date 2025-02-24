@@ -37,6 +37,11 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private const string PorcentajeCostoCierrePropertyName = "PorcentajeCostoCierre";
         private const string CostoPropertyName = "Costo";
         private decimal _TotalPorcentajeCosto;
+        private const string PorcentajeMermaNormalOriginalPropertyName = "PorcentajeMermaNormalOriginal";
+        private const string CantidadMermaNormalPropertyName = "CantidadMermaNormal";
+        private const string PorcentajeMermaNormalPropertyName = "PorcentajeMermaNormal";
+        private const string CantidadMermaAnormalPropertyName = "CantidadMermaAnormal";
+        private const string PorcentajeMermaAnormalPropertyName = "PorcentajeMermaAnormal";
         #endregion
 
         #region Variables
@@ -147,7 +152,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Descripción", eGridColumType.Generic, Width = 220,ColumnOrder = 1)]
         public string DescripcionArticulo {
             get {
                 return Model.DescripcionArticulo;
@@ -162,7 +166,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Unidad", eGridColumType.Generic, Width = 100, ColumnOrder = 3)]
+        [LibGridColum("Unidad", eGridColumType.Generic, Width = 80, ColumnOrder = 2)]
         public string UnidadDeVenta {
             get {
                 return Model.UnidadDeVenta;
@@ -176,7 +180,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Cantidad Original en Lista", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 4, Width =150)]
+        [LibGridColum("Cant. Original en Lista", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 3, Width =130)]
         public decimal CantidadOriginalLista {
             get {
                 return Model.CantidadOriginalLista;
@@ -191,7 +195,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
 
-        [LibGridColum("Cantidad Solicitada", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 5, Width =120)]
+        [LibGridColum("Cant. Solicitada", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 4, Width =100)]
         public decimal CantidadSolicitada {
             get {
                 return Model.CantidadSolicitada;
@@ -206,7 +210,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         [LibCustomValidation("PorcentajeCostoEstimadoValidating")]
-        [LibGridColum("% Costo Est.", eGridColumType.Numeric, ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 6, Width =80)]
+        [LibGridColum("% Costo Est.", eGridColumType.Numeric, ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 5, Width =110)]
         public decimal PorcentajeCostoEstimado {
             get {
                 return Model.PorcentajeCostoEstimado;
@@ -223,7 +227,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
 
         [LibCustomValidation("CantidadProducidaValidating")]
-        [LibGridColum("Cantidad Producida", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 7, Width =120)]
+        [LibGridColum("Cant. Producida", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits", ColumnOrder = 6, Width =110)]
         public decimal CantidadProducida {
             get {
                 return Model.CantidadProducida;
@@ -233,12 +237,16 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Model.CantidadProducida = value;
                     IsDirty = true;
                     RaisePropertyChanged(CantidadProducidaPropertyName);
+                    CantMermaNormal();
+                    CalcularPorcentajeMermaNormal();
+                    CantMermaAnormal();
+                    CalcularPorcentajeMermaAnormal();
                 }
             }
         }
 
         [LibCustomValidation("PorcentajeCostoCierreValidating")]
-        [LibGridColum("% Costo Cierre", eGridColumType.Numeric, ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 8, Width =90)]
+        [LibGridColum("% Costo Cierre", eGridColumType.Numeric, ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 7, Width =100)]
         public decimal PorcentajeCostoCierre {
             get {
                 return Model.PorcentajeCostoCierre;
@@ -253,7 +261,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Costo Unitario", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "2", ColumnOrder = 9, Width =120)]
+        [LibGridColum("Costo Unitario", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "2", ColumnOrder = 10, Width =120)]
         public decimal CostoUnitario {
             get {
                 return Model.CostoUnitario;
@@ -267,7 +275,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
 
 
-        [LibGridColum("Costo", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 10)]
+        [LibGridColum("Costo", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ColumnOrder = 11)]
         public decimal Costo {
             get {
                 return Model.Costo;
@@ -369,7 +377,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             get { return Master.Action == eAccionSR.Cerrar; }
         }
 
-        [LibGridColum("Lote", MaxWidth = 120, ColumnOrder = 2)]
+        [LibGridColum("Lote", MaxWidth = 120, ColumnOrder = 1)]
         public string CodigoLote {
             get {
                 return Model.CodigoLote;
@@ -429,7 +437,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public bool IsVisbleLoteDeInventario {
             get {
                 return ((Master.Action == eAccionSR.Cerrar) ||( Master.Action == eAccionSR.Consultar && Master.StatusOp == eTipoStatusOrdenProduccion.Cerrada))
-                    && (TipoArticuloInvAsEnum == eTipoArticuloInv.Lote || TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento);
+                    && (TipoArticuloInvAsEnum == eTipoArticuloInv.Lote 
+                    || TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento
+                    || TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeElaboracion);
             }
         }
 
@@ -458,6 +468,89 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
             }
         }
+		
+        public decimal  PorcentajeMermaNormalOriginal {
+            get {
+                return Model.PorcentajeMermaNormalOriginal;
+            }
+            set {
+                if (Model.PorcentajeMermaNormalOriginal != value) {
+                    Model.PorcentajeMermaNormalOriginal = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(PorcentajeMermaNormalOriginalPropertyName);
+                }
+            }
+        }
+
+        [LibCustomValidation("CantidadMermaNormalValidating")]
+        [LibGridColum("Cant. Merma Normal", eGridColumType.Numeric, ColumnOrder = 8, ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, Width = 130)]
+        public decimal  CantidadMermaNormal {
+            get {
+                return Model.CantidadMermaNormal;
+            }
+            set {
+                if (Model.CantidadMermaNormal != value) {
+                    Model.CantidadMermaNormal = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(CantidadMermaNormalPropertyName);
+                    CalcularPorcentajeMermaNormal();
+                }
+            }
+        }
+
+        public bool IsVisibleCantidadMermaNormal {
+            get { return Master.IsVisibleListaUsaMerma && (Master.Action == eAccionSR.Cerrar); }
+        }
+
+        public bool IsVisibleCantidadMermaAnormal {
+            get { return Master.IsVisibleListaUsaMerma && (Master.Action == eAccionSR.Cerrar); }
+        }
+
+        public decimal  PorcentajeMermaNormal {
+            get {
+                return Model.PorcentajeMermaNormal;
+            }
+            set {
+                if (Model.PorcentajeMermaNormal != value) {
+                    Model.PorcentajeMermaNormal = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(PorcentajeMermaNormalPropertyName);
+                }
+            }
+        }
+
+        [LibCustomValidation("CantidadMermaAnormalValidating")]
+        [LibGridColum("Cant. Merma Anormal", eGridColumType.Numeric, ColumnOrder = 9, Alignment = eTextAlignment.Right, Width = 130, ConditionalPropertyDecimalDigits = "DecimalDigits")]
+        public decimal  CantidadMermaAnormal {
+            get {
+                return Model.CantidadMermaAnormal;
+            }
+            set {
+                if (Model.CantidadMermaAnormal != value) {
+                    Model.CantidadMermaAnormal = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(CantidadMermaAnormalPropertyName);
+                    CalcularPorcentajeMermaAnormal();
+                }
+            }
+        }
+
+        public decimal  PorcentajeMermaAnormal {
+            get {
+                return Model.PorcentajeMermaAnormal;
+            }
+            set {
+                if (Model.PorcentajeMermaAnormal != value) {
+                    Model.PorcentajeMermaAnormal = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(PorcentajeMermaAnormalPropertyName);
+                }
+            }
+        }
+
+        public bool IsEnabledMerma {
+            get { return Master.Action == eAccionSR.Cerrar && (MermaTotalSalida >= 0); }
+        }
 
         #endregion //Propiedades
 
@@ -478,6 +571,10 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public override void InitializeViewModel(eAccionSR valAction) {
             if (valAction == eAccionSR.Cerrar) {
                 CantidadProducida = CantidadSolicitada;
+                CantMermaNormal();
+                CalcularPorcentajeMermaNormal();
+                CantMermaAnormal();
+                CalcularPorcentajeMermaAnormal();
             }
             base.InitializeViewModel(valAction);
         }
@@ -537,6 +634,38 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
+        private ValidationResult CantidadMermaNormalValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if (Master.ListaUsaMerma) {
+                if (Master.Action == eAccionSR.Cerrar && CantidadMermaNormal < 0) {
+                    return new ValidationResult("La Cantidad Merma Normal debe ser mayor igual a 0.");
+                }
+            } else {
+                PorcentajeMermaNormalOriginal = 0;
+                CantidadMermaNormal = 0;
+                PorcentajeMermaNormal = 0;
+                CantidadMermaAnormal = 0;
+                PorcentajeMermaAnormal = 0;
+            }
+            return vResult;
+        }
+
+        private ValidationResult CantidadMermaAnormalValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if (Master.ListaUsaMerma) {
+                if (Master.Action == eAccionSR.Cerrar && CantidadMermaAnormal < 0) {
+                    return new ValidationResult("La Cantidad Merma Anormal debe ser mayor igual a 0.");
+                }
+            } else {
+                PorcentajeMermaNormalOriginal = 0;
+                CantidadMermaNormal = 0;
+                PorcentajeMermaNormal = 0;
+                CantidadMermaAnormal = 0;
+                PorcentajeMermaAnormal = 0;
+            }
+            return vResult;
+        }
+
         private void ExecuteChooseLoteDeInventarioCommand(string valCodigoLote) {
             try {
                 if (valCodigoLote == null) {
@@ -582,6 +711,46 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             RaisePropertyChanged(() => IsVisbleLoteDeInventario);
             RaisePropertyChanged(() => IsVisibleFechaLoteDeInventario);
         }
+
+        public void CantMermaNormal() {
+            if (MermaTotalSalida >= 0) {
+                CantidadMermaNormal = LibMath.RoundToNDecimals(CantidadSolicitada * (PorcentajeMermaNormalOriginal / 100),8);
+            } else {
+                CantidadMermaNormal = 0;
+            }
+            RaisePropertyChanged(CantidadMermaNormalPropertyName);
+            RaisePropertyChanged(() => IsEnabledMerma);
+        }
+
+        public void CalcularPorcentajeMermaNormal() {
+            if (MermaTotalSalida >= 0) {
+                PorcentajeMermaNormal = LibMath.RoundToNDecimals(CantidadMermaNormal * (100 / CantidadSolicitada), 8);
+            } else {
+                PorcentajeMermaNormal = 0;
+            }
+            RaisePropertyChanged(() => IsEnabledMerma);
+        }
+
+        public void CantMermaAnormal() {
+            if (MermaTotalSalida >= 0 && (MermaTotalSalida - CantidadMermaNormal) > 0) {
+                CantidadMermaAnormal = LibMath.RoundToNDecimals(MermaTotalSalida - CantidadMermaNormal, 8);
+            } else {
+                CantidadMermaAnormal = 0;
+            }
+            RaisePropertyChanged(CantidadMermaAnormalPropertyName);
+            RaisePropertyChanged(() => IsEnabledMerma);
+        }
+
+        public void CalcularPorcentajeMermaAnormal() {
+            if (MermaTotalSalida >= 0 && (MermaTotalSalida - CantidadMermaNormal) > 0) {
+                PorcentajeMermaAnormal = LibMath.RoundToNDecimals(CantidadMermaAnormal * (100 / CantidadSolicitada), 8);
+            } else {
+                PorcentajeMermaAnormal = 0;
+            }
+            RaisePropertyChanged(() => IsEnabledMerma);
+        }
+
+        decimal MermaTotalSalida { get { return CantidadSolicitada - CantidadProducida; } }
 
     } //End of class OrdenDeProduccionDetalleArticuloViewModel
 

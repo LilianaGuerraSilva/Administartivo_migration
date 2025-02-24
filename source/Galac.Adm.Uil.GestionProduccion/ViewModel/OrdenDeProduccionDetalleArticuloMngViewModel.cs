@@ -79,18 +79,28 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                         if (VisibleColumns.Count > 6) {
                             VisibleColumns.RemoveAt(6);
                         }
-                    } else if (Master.StatusOp == eTipoStatusOrdenProduccion.Cerrada) {
-                        if (VisibleColumns.Count > 9) {
-                            VisibleColumns.RemoveAt(9);
+                    } else if (Master.Action == eAccionSR.Consultar && Master.StatusOp == eTipoStatusOrdenProduccion.Cerrada) {
+                        if (VisibleColumns.Count > 10 && Master.ListaUsaMerma) {
+                            VisibleColumns.RemoveAt(10);
+                        } else if (VisibleColumns.Count > 8 && !Master.ListaUsaMerma) {
+                            VisibleColumns.RemoveAt(8);
                         }
                     } else if (VisibleColumns.Count > 8) {
                         VisibleColumns.RemoveAt(8);
                     }
                 }
             } else if (Master.Action == eAccionSR.Cerrar) {
+                if (Master.ListaUsaMerma) {
                 foreach (var vItem in VisibleColumnsCpy) {
+                        if (VisibleColumns.Count > 10) {
+                            VisibleColumns.RemoveAt(10);
+                        }
+                    }
+                } else {
+                    foreach (var vItem in VisibleColumnsCpy) {
                     if (VisibleColumns.Count > 8) {
                         VisibleColumns.RemoveAt(8);
+                        }
                     }
                 }
             } else if (Master.Action == eAccionSR.Custom) {//Iniciar

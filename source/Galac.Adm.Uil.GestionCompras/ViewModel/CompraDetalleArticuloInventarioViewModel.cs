@@ -497,8 +497,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         }
 
         public bool IsVisbleLoteDeInventario {
-            get { return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento") &&
-                    (ConexionCodigoArticulo != null) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.Lote); }
+            get { return (ConexionCodigoArticulo != null) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.Lote || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeElaboracion); }
         }
 
         public bool IsEnabledLoteDeInventario {
@@ -515,8 +514,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         }
 
         public bool IsVisbleLabelLoteNuevo {
-            get { return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento") &&
-                    (ConexionCodigoArticulo != null); }
+            get { return (ConexionCodigoArticulo != null) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.Lote || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeElaboracion); }
         }
         public RelayCommand<string> ChooseLoteDeInventarioCommand {
             get;
@@ -550,7 +548,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         public CompraDetalleArticuloInventarioViewModel(CompraViewModel initMaster, CompraDetalleArticuloInventario initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             Master = initMaster;
-            IsEnabledCantidad = initModel.TipoArticuloInvAsEnum == eTipoArticuloInv.Simple || initModel.TipoArticuloInvAsEnum == eTipoArticuloInv.UsaTallaColor || initModel.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento || initModel.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote;
+            IsEnabledCantidad = initModel.TipoArticuloInvAsEnum == eTipoArticuloInv.Simple || initModel.TipoArticuloInvAsEnum == eTipoArticuloInv.UsaTallaColor || initModel.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento || initModel.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote || initModel.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeElaboracion;
             TipoArticuloInv = initModel.TipoArticuloInvAsEnum;
             CodigoGrupo = initModel.TipoArticuloInvAsEnum == eTipoArticuloInv.UsaSerial || initModel.TipoArticuloInvAsEnum == eTipoArticuloInv.UsaSerialRollo ? "0" : initModel.CodigoGrupo;
         }
@@ -592,10 +590,10 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 }
 
                 vAplicaProductoTerminado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Compania","ProductoTerminado");
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("CodigoCompuesto",valCodigo);
-                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania",Mfc.GetInt("Compania"));
-                vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("StatusdelArticulo ","0"),eLogicOperatorType.And);
-                vFixedCriteria.Add("TipoDeArticulo",eBooleanOperatorType.IdentityInequality,"2",eLogicOperatorType.And);
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("CodigoCompuesto", valCodigo);
+                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
+                vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("StatusdelArticulo ", LibConvert.EnumToDbValue((int)eStatusArticulo.Vigente)), eLogicOperatorType.And);
+                vFixedCriteria.Add("TipoDeArticulo", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoDeArticulo.ProductoCompuesto), eLogicOperatorType.And);
                 if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento")) {
                     vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.UsaSerialRollo));
                     vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.UsaTallaColorySerial));
@@ -604,11 +602,10 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 } else {
                     vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.Lote));
                     vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.LoteFechadeVencimiento));
+                    vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoArticuloInv.LoteFechadeElaboracion));
                 }
                 if (vAplicaProductoTerminado) {
-                    //vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("TipoDeMercanciaProduccion", eTipoDeMercancia.NoAplica), eLogicOperatorType.Or);
-                    //vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("TipoDeMercanciaProduccion", eTipoDeMercancia.MateriaPrima), eLogicOperatorType.And);
-                    vFixedCriteria.Add("TipoDeMercanciaProduccion",eBooleanOperatorType.IdentityInequality,LibConvert.EnumToDbValue((int)eTipoDeMercancia.ProductoTerminado));
+                    vFixedCriteria.Add("TipoDeMercanciaProduccion", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoDeMercancia.ProductoTerminado));
                 }
                 ConexionCodigoArticulo = Master.ChooseRecord<FkArticuloInventarioViewModel>("Articulo Inventario",vDefaultCriteria,vFixedCriteria,string.Empty);
 
@@ -624,8 +621,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                             Master.DetailCompraDetalleArticuloInventario.QuitarArticuloConSerialRepetido();
                             return;
                         } else {
-                            BuscarSerialLote(ConexionCodigoArticulo.Codigo,ConexionCodigoArticulo.CodigoGrupo,ConexionCodigoArticulo.CodigoCompuesto,ConexionCodigoArticulo.TipoArticuloInv,false);
-
+                            BuscarSerialLote(ConexionCodigoArticulo.Codigo, ConexionCodigoArticulo.CodigoGrupo, ConexionCodigoArticulo.CodigoCompuesto, ConexionCodigoArticulo.TipoArticuloInv, false);
                         }
                         IsEnabledCantidad = false;
                     } else {
@@ -808,10 +804,9 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         private bool SePuedeEditarLote() {
             if ((Action == eAccionSR.Insertar)
-                && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento")
                 && (ConexionCodigoArticulo != null)
                 && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia)
-                && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.Lote)) {
+                && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.Lote || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeElaboracion)) {
                 return true;
             } else {
                 return false;

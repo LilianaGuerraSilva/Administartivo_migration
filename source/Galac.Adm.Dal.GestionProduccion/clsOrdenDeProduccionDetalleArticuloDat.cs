@@ -56,6 +56,11 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vParams.AddInDecimal("PorcentajeCostoEstimado", valRecord.PorcentajeCostoEstimado, 8);
             vParams.AddInDecimal("PorcentajeCostoCierre", valRecord.PorcentajeCostoCierre, 8);
             vParams.AddInDecimal("Costo", valRecord.Costo, 2);
+            vParams.AddInDecimal("PorcentajeMermaNormalOriginal", valRecord.PorcentajeMermaNormalOriginal, 8);
+            vParams.AddInDecimal("CantidadMermaNormal", valRecord.CantidadMermaNormal, 8);
+            vParams.AddInDecimal("PorcentajeMermaNormal", valRecord.PorcentajeMermaNormal, 8);
+            vParams.AddInDecimal("CantidadMermaAnormal", valRecord.CantidadMermaAnormal, 8);
+            vParams.AddInDecimal("PorcentajeMermaAnormal", valRecord.PorcentajeMermaAnormal, 8);
             vResult = vParams.Get();
             return vResult;
         }
@@ -134,7 +139,12 @@ namespace Galac.Adm.Dal.GestionProduccion {
                     new XElement("CantidadAjustada", vEntity.CantidadAjustada),
                     new XElement("PorcentajeCostoEstimado", vEntity.PorcentajeCostoEstimado),
                     new XElement("PorcentajeCostoCierre", vEntity.PorcentajeCostoCierre),
-                    new XElement("Costo", vEntity.Costo)));
+                    new XElement("Costo", vEntity.Costo),
+                    new XElement("PorcentajeMermaNormalOriginal", vEntity.PorcentajeMermaNormalOriginal),
+                    new XElement("CantidadMermaNormal", vEntity.CantidadMermaNormal),
+                    new XElement("PorcentajeMermaNormal", vEntity.PorcentajeMermaNormal),
+                    new XElement("CantidadMermaAnormal", vEntity.CantidadMermaAnormal),
+                    new XElement("PorcentajeMermaAnormal", vEntity.PorcentajeMermaAnormal)));
             return vXElement;
         }
         #region Miembros de ILibDataDetailComponent<IList<OrdenDeProduccionDetalleArticulo>, IList<OrdenDeProduccionDetalleArticulo>>
@@ -188,6 +198,10 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vResult = IsValidCantidadProducida(valAction, CurrentRecord.CantidadProducida) && vResult;
             vResult = IsValidPorcentajeCostoEstimado(valAction, CurrentRecord.PorcentajeCostoEstimado) && vResult;
             vResult = IsValidPorcentajeCostoCiere(valAction, CurrentRecord.PorcentajeCostoCierre) && vResult;
+            vResult = IsValidCantidadMermaNormal(valAction, CurrentRecord.CantidadMermaNormal) && vResult;
+            vResult = IsValidPorcentajeMermaNormal(valAction, CurrentRecord.PorcentajeMermaNormal) && vResult;
+            vResult = IsValidCantidadMermaAnormal(valAction, CurrentRecord.CantidadMermaAnormal) && vResult;
+            vResult = IsValidPorcentajeMermaAnormal(valAction, CurrentRecord.PorcentajeMermaAnormal) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
         }
@@ -232,6 +246,42 @@ namespace Galac.Adm.Dal.GestionProduccion {
             bool vResult = true;
             if (valAction == eAccionSR.Cerrar && (valPorcentajeCostoCierre < 0 || valPorcentajeCostoCierre > 100)) {
                 BuildValidationInfo("El % Costo al Cierre debe ser mayor o igual a cero y menor o igual a 100.");
+                vResult = false;
+            }
+            return vResult;
+        }
+
+        private bool IsValidCantidadMermaNormal(eAccionSR valAction, decimal valCantidadMermaNormal){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Cerrar) && valCantidadMermaNormal < 0) {
+                BuildValidationInfo("La Cantidad Merma Normal debe ser mayor igual a 0.");
+                vResult = false;
+            }
+            return vResult;
+        }
+
+        private bool IsValidPorcentajeMermaNormal(eAccionSR valAction, decimal valPorcentajeMermaNormal){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Cerrar) && valPorcentajeMermaNormal < 0) {
+                BuildValidationInfo("El Porcentaje de Merma Normal debe ser mayor igual a 0.");
+                vResult = false;
+            }
+            return vResult;
+        }
+
+        private bool IsValidCantidadMermaAnormal(eAccionSR valAction, decimal valCantidadMermaAnormal){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Cerrar) && valCantidadMermaAnormal < 0) {
+                BuildValidationInfo("La Cantidad Merma Anormal debe ser mayor igual a 0.");
+                vResult = false;
+            }
+            return vResult;
+        }
+
+        private bool IsValidPorcentajeMermaAnormal(eAccionSR valAction, decimal valPorcentajeMermaAnormal){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Cerrar) && valPorcentajeMermaAnormal < 0) {
+                BuildValidationInfo("El Porcentaje de Merma Anormal debe ser mayor igual a 0.");
                 vResult = false;
             }
             return vResult;

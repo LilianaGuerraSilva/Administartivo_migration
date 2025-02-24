@@ -20,6 +20,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         private string _Nombre;
         private string _CodigoArticuloInventario;
         private DateTime _FechaCreacion;
+        private bool _ManejaMerma;
         private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;
@@ -57,6 +58,15 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         public DateTime FechaCreacion {
             get { return _FechaCreacion; }
             set { _FechaCreacion = LibConvert.DateToDbValue(value); }
+        }
+
+        public bool ManejaMermaAsBool {
+            get { return _ManejaMerma; }
+            set { _ManejaMerma = value; }
+        }
+
+        public string ManejaMerma {
+            set { _ManejaMerma = LibConvert.SNToBool(value); }
         }
 
         public string NombreOperador {
@@ -110,6 +120,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             Nombre = string.Empty;
             CodigoArticuloInventario = string.Empty;
             FechaCreacion = LibDate.Today();
+            ManejaMermaAsBool = false;
             NombreOperador = string.Empty;
             FechaUltimaModificacion = LibDate.Today();
             fldTimeStamp = 0;
@@ -125,6 +136,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             vResult.Nombre = _Nombre;
             vResult.CodigoArticuloInventario = _CodigoArticuloInventario;
             vResult.FechaCreacion = _FechaCreacion;
+            vResult.ManejaMermaAsBool = _ManejaMerma;
             vResult.NombreOperador = _NombreOperador;
             vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
             vResult.fldTimeStamp = _fldTimeStamp;
@@ -137,6 +149,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
                "\nCódigo = " + _Codigo +
                "\nNombre = " + _Nombre +
                "\nFecha de Creación = " + _FechaCreacion.ToShortDateString() +
+               "\nManejo de Merma = " + _ManejaMerma +
                "\nNombre Operador = " + _NombreOperador +
                "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();
         }

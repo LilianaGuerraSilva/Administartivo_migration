@@ -164,6 +164,7 @@
     <Compile Include="ViewModel\LoteDeInventarioInsertarViewModel.cs" />
     <Compile Include="ViewModel\NotaDeEntradaSalidaMngViewModel.cs" />
     <Compile Include="ViewModel\NotaDeEntradaSalidaViewModel.cs" />
+    <Compile Include="ViewModel\RecalcularMovimientosDeInventarioViewModel.cs" />
     <Compile Include="ViewModel\RenglonNotaESMngViewModel.cs" />
     <Compile Include="ViewModel\RenglonNotaESViewModel.cs" />
     <Compile Include="ViewModel\TallaMngViewModel.cs" />
@@ -196,6 +197,9 @@
     </Compile>
     <Compile Include="Views\GSNotaDeEntradaSalidaView.xaml.cs">
       <DependentUpon>GSNotaDeEntradaSalidaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSRecalcularMovimientosDeInventarioView.xaml.cs">
+      <DependentUpon>GSRecalcularMovimientosDeInventarioView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GSRenglonNotaESView.xaml.cs">
       <DependentUpon>GSRenglonNotaESView.xaml</DependentUpon>
@@ -271,6 +275,10 @@
     <Page Include="Views\GSNotaDeEntradaSalidaView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSRecalcularMovimientosDeInventarioView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GSRenglonNotaESView.xaml">
       <Generator>MSBuild:Compile</Generator>

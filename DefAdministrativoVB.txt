@@ -3003,6 +3003,7 @@ MenuDeInformes : boolean;
     ContabPorLoteOrdenDeProduccion              : UnContabilizacionPorLote;
     CuentaOrdenDeProduccionProductoTerminado    : Str30; //=cuenta.codigo
     CuentaOrdenDeProduccionMateriaPrima         : Str30; //=cuenta.codigo
+    CuentaMermaAnormal  	                : Str30;//=Cuenta.Codigo        
     OrdenDeProduccionTipoComprobante            : str2:
 
 //Final

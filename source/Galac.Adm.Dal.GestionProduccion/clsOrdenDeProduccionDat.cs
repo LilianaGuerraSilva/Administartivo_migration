@@ -64,6 +64,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vParams.AddInInteger("ConsecutivoListaDeMateriales", valRecord.ConsecutivoListaDeMateriales);
             vParams.AddInDecimal("CantidadAProducir", valRecord.CantidadAProducir, 8);
             vParams.AddInDecimal("CantidadProducida", valRecord.CantidadProducida, 8);
+			vParams.AddInBoolean("ListaUsaMerma", valRecord.ListaUsaMermaAsBool);
             vParams.AddInString("NombreOperador", ((CustomIdentity) Thread.CurrentPrincipal.Identity).Login, 10);
             vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
             if (valAction == eAccionSR.Modificar) {

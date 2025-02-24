@@ -32,22 +32,26 @@ namespace Galac.Saw.Ccl.SttDef {
         private eAccionAlAnularFactDeMesesAnt _AccionAlAnularFactDeMesesAnt;
         private bool _UsarOtrosCargoDeFactura;
         private bool _UsaCamposExtrasEnRenglonFactura;
-        private bool _EmitirDirecto;
-        private bool _UsaCobroDirecto;
-        private bool _UsaCobroDirectoEnMultimoneda;
-        private string _CuentaBancariaCobroDirecto;
-        private string _ConceptoBancarioCobroDirecto;
+        //private bool _EmitirDirecto;
+        //private bool _UsaCobroDirecto;
+        //private bool _UsaCobroDirectoEnMultimoneda;
+        //private string _CuentaBancariaCobroDirecto;
+        //private string _ConceptoBancarioCobroDirecto;
         private bool _PermitirDobleDescuentoEnFactura;
         private decimal _MaximoDescuentoEnFactura;
         private eBloquearEmision _BloquearEmision;
         private bool _MostrarMtoTotalBsFEnObservaciones;
-        private string _CuentaBancariaCobroMultimoneda;
-        private string _ConceptoBancarioCobroMultimoneda;
+        //private string _CuentaBancariaCobroMultimoneda;
+        //private string _ConceptoBancarioCobroMultimoneda;
         private bool _SeMuestraTotalEnDivisas;
         private bool _UsaListaDePrecioEnMonedaExtranjera;
         private bool _UsaListaDePrecioEnMonedaExtranjeraCXC;
         private int _NroDiasMantenerTasaCambio;
-		private bool _UsaMediosElectronicosDeCobro;
+        //private bool _UsaMediosElectronicosDeCobro;
+        //private bool _UsaCreditoElectronico;
+        //private string _NombreCreditoElectronico;
+        //private int _DiasUsualesCreditoElectronico;
+        //private int _DiasMaximoCreditoElectronico;
         private bool _UsaMaquinaFiscal;
         private long _fldTimeStamp;
         XmlDocument _datos;
@@ -143,32 +147,32 @@ namespace Galac.Saw.Ccl.SttDef {
         }
 
 
-        public bool EmitirDirectoAsBool {
-            get { return _EmitirDirecto; }
-            set { _EmitirDirecto = value; }
-        }
+        //public bool EmitirDirectoAsBool {
+        //    get { return _EmitirDirecto; }
+        //    set { _EmitirDirecto = value; }
+        //}
 
-        public string EmitirDirecto {
-            set { _EmitirDirecto = LibConvert.SNToBool(value); }
-        }
+        //public string EmitirDirecto {
+        //    set { _EmitirDirecto = LibConvert.SNToBool(value); }
+        //}
 
-        public bool UsaCobroDirectoAsBool {
-            get { return _UsaCobroDirecto; }
-            set { _UsaCobroDirecto = value; }
-        }
+        //public bool UsaCobroDirectoAsBool {
+        //    get { return _UsaCobroDirecto; }
+        //    set { _UsaCobroDirecto = value; }
+        //}
 
-        public string UsaCobroDirecto {
-            set { _UsaCobroDirecto = LibConvert.SNToBool(value); }
-        }
+        //public string UsaCobroDirecto {
+        //    set { _UsaCobroDirecto = LibConvert.SNToBool(value); }
+        //}
 
-        public bool UsaCobroDirectoEnMultimonedaAsBool {
-            get { return _UsaCobroDirectoEnMultimoneda; }
-            set { _UsaCobroDirectoEnMultimoneda = value; }
-        }
+        //public bool UsaCobroDirectoEnMultimonedaAsBool {
+        //    get { return _UsaCobroDirectoEnMultimoneda; }
+        //    set { _UsaCobroDirectoEnMultimoneda = value; }
+        //}
 
-        public string UsaCobroDirectoEnMultimoneda {
-            set { _UsaCobroDirectoEnMultimoneda = LibConvert.SNToBool(value); }
-        }
+        //public string UsaCobroDirectoEnMultimoneda {
+        //    set { _UsaCobroDirectoEnMultimoneda = LibConvert.SNToBool(value); }
+        //}
 		
         public bool SeMuestraTotalEnDivisasAsBool {
             get { return _SeMuestraTotalEnDivisas; }
@@ -179,26 +183,25 @@ namespace Galac.Saw.Ccl.SttDef {
             set { _SeMuestraTotalEnDivisas = LibConvert.SNToBool(value); }
         }
 
+        //public string CuentaBancariaCobroDirecto {
+        //    get { return _CuentaBancariaCobroDirecto; }
+        //    set { _CuentaBancariaCobroDirecto = LibString.Mid(value, 0, 5); }
+        //}
 
-        public string CuentaBancariaCobroDirecto {
-            get { return _CuentaBancariaCobroDirecto; }
-            set { _CuentaBancariaCobroDirecto = LibString.Mid(value, 0, 5); }
-        }
+        //public string ConceptoBancarioCobroDirecto {
+        //    get { return _ConceptoBancarioCobroDirecto; }
+        //    set { _ConceptoBancarioCobroDirecto = LibString.Mid(value, 0, 8); }
+        //}
 
-        public string ConceptoBancarioCobroDirecto {
-            get { return _ConceptoBancarioCobroDirecto; }
-            set { _ConceptoBancarioCobroDirecto = LibString.Mid(value, 0, 8); }
-        }
+        //public string CuentaBancariaCobroMultimoneda {
+        //    get { return _CuentaBancariaCobroMultimoneda; }
+        //    set { _CuentaBancariaCobroMultimoneda = LibString.Mid(value, 0, 5); }
+        //}
 
-        public string CuentaBancariaCobroMultimoneda {
-            get { return _CuentaBancariaCobroMultimoneda; }
-            set { _CuentaBancariaCobroMultimoneda = LibString.Mid(value, 0, 5); }
-        }
-
-        public string ConceptoBancarioCobroMultimoneda {
-            get { return _ConceptoBancarioCobroMultimoneda; }
-            set { _ConceptoBancarioCobroMultimoneda = LibString.Mid(value, 0, 8); }
-        }
+        //public string ConceptoBancarioCobroMultimoneda {
+        //    get { return _ConceptoBancarioCobroMultimoneda; }
+        //    set { _ConceptoBancarioCobroMultimoneda = LibString.Mid(value, 0, 8); }
+        //}
 
         public bool PermitirDobleDescuentoEnFacturaAsBool {
             get { return _PermitirDobleDescuentoEnFactura; }
@@ -242,45 +245,57 @@ namespace Galac.Saw.Ccl.SttDef {
         }
 
         public bool UsaListaDePrecioEnMonedaExtranjeraAsBool {
-            get {
-                return _UsaListaDePrecioEnMonedaExtranjera;
-            }
-            set {
-                _UsaListaDePrecioEnMonedaExtranjera = value;
-            }
+            get { return _UsaListaDePrecioEnMonedaExtranjera; }
+            set { _UsaListaDePrecioEnMonedaExtranjera = value; }
         }
+
         public string UsaListaDePrecioEnMonedaExtranjera {
-            set {
-                _UsaListaDePrecioEnMonedaExtranjera = LibConvert.SNToBool(value);
-            }
+            set { _UsaListaDePrecioEnMonedaExtranjera = LibConvert.SNToBool(value); }
         }
 
         public bool UsaListaDePrecioEnMonedaExtranjeraCXCAsBool {
-            get {
-                return _UsaListaDePrecioEnMonedaExtranjeraCXC;
-            }
-            set {
-                _UsaListaDePrecioEnMonedaExtranjeraCXC = value;
-            }
+            get { return _UsaListaDePrecioEnMonedaExtranjeraCXC; }
+            set { _UsaListaDePrecioEnMonedaExtranjeraCXC = value; }
         }
 
         public int NroDiasMantenerTasaCambio {
-            get {
-                return _NroDiasMantenerTasaCambio;
-            }
-            set {
-                _NroDiasMantenerTasaCambio = value;
-            }
-        }
-		
-		public bool UsaMediosElectronicosDeCobroAsBool {
-            get { return _UsaMediosElectronicosDeCobro; }
-            set { _UsaMediosElectronicosDeCobro = value; }
+            get { return _NroDiasMantenerTasaCambio; }
+            set { _NroDiasMantenerTasaCambio = value; }
         }
 
-        public string UsaMediosElectronicosDeCobro {
-            set { _UsaMediosElectronicosDeCobro = LibConvert.SNToBool(value); }
-        }
+        //public bool UsaMediosElectronicosDeCobroAsBool {
+        //          get { return _UsaMediosElectronicosDeCobro; }
+        //          set { _UsaMediosElectronicosDeCobro = value; }
+        //      }
+
+        //      public string UsaMediosElectronicosDeCobro {
+        //          set { _UsaMediosElectronicosDeCobro = LibConvert.SNToBool(value); }
+        //      }
+        //      public bool UsaCreditoElectronicoAsBool { 
+        //          get { return _UsaCreditoElectronico; } 
+        //          set { _UsaCreditoElectronico = value; } 
+        //      }
+        //      public string UsaCreditoElectronico
+        //      {
+        //          set { _UsaCreditoElectronico = LibConvert.SNToBool(value); }
+        //      }
+
+        //      public string NombreCreditoElectronico
+        //      {
+        //          get { return _NombreCreditoElectronico; }
+        //          set { _NombreCreditoElectronico = value; }
+        //      }
+        //      public int DiasUsualesCreditoElectronico
+        //      {
+        //          get { return _DiasUsualesCreditoElectronico; }
+        //          set { _DiasUsualesCreditoElectronico = value; }
+        //      }
+
+        //      public int DiasMaximoCreditoElectronico
+        //      {
+        //          get { return _DiasMaximoCreditoElectronico; }
+        //          set { _DiasMaximoCreditoElectronico = value; }
+        //      }
 
         public bool UsaMaquinaFiscalAsBool {
             get { return _UsaMaquinaFiscal; }
@@ -300,11 +315,8 @@ namespace Galac.Saw.Ccl.SttDef {
             get { return _datos; }
             set { _datos = value; }
         }
-
-        
         #endregion //Propiedades
         #region Constructores
-
         public FacturacionContinuacionStt() {
             Clear();
         }
@@ -324,13 +336,13 @@ namespace Galac.Saw.Ccl.SttDef {
             AccionAlAnularFactDeMesesAntAsEnum = eAccionAlAnularFactDeMesesAnt.NoPermitirAnular;
             UsarOtrosCargoDeFacturaAsBool = false;
             UsaCamposExtrasEnRenglonFacturaAsBool = false;
-            EmitirDirectoAsBool = false;
-            UsaCobroDirectoAsBool = false;
-            UsaCobroDirectoEnMultimonedaAsBool = false;
-            CuentaBancariaCobroDirecto = "";
-            ConceptoBancarioCobroDirecto = "";
-            CuentaBancariaCobroMultimoneda = "";
-            ConceptoBancarioCobroMultimoneda = "";
+            //EmitirDirectoAsBool = false;
+            //UsaCobroDirectoAsBool = false;
+            //UsaCobroDirectoEnMultimonedaAsBool = false;
+            //CuentaBancariaCobroDirecto = "";
+            //ConceptoBancarioCobroDirecto = "";
+            //CuentaBancariaCobroMultimoneda = "";
+            //ConceptoBancarioCobroMultimoneda = "";
             PermitirDobleDescuentoEnFacturaAsBool = false;
             MaximoDescuentoEnFactura = 0;
             BloquearEmisionAsEnum = eBloquearEmision.NoBloquear;
@@ -339,7 +351,7 @@ namespace Galac.Saw.Ccl.SttDef {
             UsaListaDePrecioEnMonedaExtranjeraAsBool = false;
             UsaListaDePrecioEnMonedaExtranjeraCXCAsBool = false;
             NroDiasMantenerTasaCambio = 0;
-    		UsaMediosElectronicosDeCobroAsBool = false;
+            //UsaMediosElectronicosDeCobroAsBool = false;
             UsaMaquinaFiscalAsBool = false;
             fldTimeStamp = 0;
         }
@@ -354,13 +366,13 @@ namespace Galac.Saw.Ccl.SttDef {
             vResult.AccionAlAnularFactDeMesesAntAsEnum = _AccionAlAnularFactDeMesesAnt;
             vResult.UsarOtrosCargoDeFacturaAsBool = _UsarOtrosCargoDeFactura;
             vResult.UsaCamposExtrasEnRenglonFacturaAsBool = _UsaCamposExtrasEnRenglonFactura;
-            vResult.EmitirDirectoAsBool = _EmitirDirecto;
-            vResult.UsaCobroDirectoAsBool = _UsaCobroDirecto;
-            vResult.UsaCobroDirectoEnMultimonedaAsBool = _UsaCobroDirectoEnMultimoneda;
-            vResult.CuentaBancariaCobroDirecto = _CuentaBancariaCobroDirecto;
-            vResult.ConceptoBancarioCobroDirecto = _ConceptoBancarioCobroDirecto;
-            vResult.CuentaBancariaCobroMultimoneda = _CuentaBancariaCobroMultimoneda;
-            vResult.ConceptoBancarioCobroMultimoneda = _ConceptoBancarioCobroMultimoneda;
+            //vResult.EmitirDirectoAsBool = _EmitirDirecto;
+            //vResult.UsaCobroDirectoAsBool = _UsaCobroDirecto;
+            //vResult.UsaCobroDirectoEnMultimonedaAsBool = _UsaCobroDirectoEnMultimoneda;
+            //vResult.CuentaBancariaCobroDirecto = _CuentaBancariaCobroDirecto;
+            //vResult.ConceptoBancarioCobroDirecto = _ConceptoBancarioCobroDirecto;
+            //vResult.CuentaBancariaCobroMultimoneda = _CuentaBancariaCobroMultimoneda;
+            //vResult.ConceptoBancarioCobroMultimoneda = _ConceptoBancarioCobroMultimoneda;
             vResult.PermitirDobleDescuentoEnFacturaAsBool = _PermitirDobleDescuentoEnFactura;
             vResult.MaximoDescuentoEnFactura = _MaximoDescuentoEnFactura;
 			vResult.BloquearEmisionAsEnum = _BloquearEmision;
@@ -369,7 +381,11 @@ namespace Galac.Saw.Ccl.SttDef {
             vResult.UsaListaDePrecioEnMonedaExtranjeraAsBool = _UsaListaDePrecioEnMonedaExtranjera;
             vResult.UsaListaDePrecioEnMonedaExtranjeraCXCAsBool = _UsaListaDePrecioEnMonedaExtranjeraCXC;
             vResult.NroDiasMantenerTasaCambio = _NroDiasMantenerTasaCambio;
-			vResult.UsaMediosElectronicosDeCobroAsBool = _UsaMediosElectronicosDeCobro;
+            //vResult.UsaMediosElectronicosDeCobroAsBool = _UsaMediosElectronicosDeCobro;
+            //         vResult.UsaCreditoElectronicoAsBool = _UsaCobroDirecto;
+            //         vResult.NombreCreditoElectronico =_NombreCreditoElectronico;
+            //         vResult.DiasUsualesCreditoElectronico = _DiasUsualesCreditoElectronico;
+            //         vResult.DiasMaximoCreditoElectronico  = _DiasMaximoCreditoElectronico;
             vResult.UsaMaquinaFiscalAsBool = _UsaMaquinaFiscal;
             vResult.fldTimeStamp = _fldTimeStamp;
             return vResult;
@@ -384,13 +400,6 @@ namespace Galac.Saw.Ccl.SttDef {
                "\nAcción Al Anular Factura de Meses Anteriores = " + _AccionAlAnularFactDeMesesAnt.ToString() +
                "\nUsar Otros Cargo de Factura ..... = " + _UsarOtrosCargoDeFactura +
                "\nUsar campos Extras en el Detalle de Fac = " + _UsaCamposExtrasEnRenglonFactura +
-               "\nEmitir Directo = " + _EmitirDirecto +
-               "\nUsa Cobro Directo = " + _UsaCobroDirecto +
-               "\nUsa Cobro Directo en Multimoneda = " + _UsaCobroDirectoEnMultimoneda +
-               "\nCuenta Bancaria Cobro Directo = " + _CuentaBancariaCobroDirecto +
-               "\nConcepto Bancario = " + _ConceptoBancarioCobroDirecto +
-               "\nCuenta Bancaria Cobro Directo = " + _CuentaBancariaCobroMultimoneda +
-               "\nConcepto Bancario = " + _ConceptoBancarioCobroMultimoneda +
                "\nUsar Doble Descuento = " + _PermitirDobleDescuentoEnFactura +
                "\nMáximo de Descuento .... = " + _MaximoDescuentoEnFactura.ToString() +
                "\nSe muestra total en Divisas .... = " + _SeMuestraTotalEnDivisas +
@@ -398,7 +407,6 @@ namespace Galac.Saw.Ccl.SttDef {
                "\nGenerar CxC En Moneda Extranjera = " + _UsaListaDePrecioEnMonedaExtranjeraCXC  +
                "\nMostrar Total En Bolívares Fuertes = " + _MostrarMtoTotalBsFEnObservaciones +
                "\nNumero De Dias a Mantener Tasa De Cambio = " + _NroDiasMantenerTasaCambio +
-			   "\nUsa Medios Electrónicos de Cobro = " + _UsaMediosElectronicosDeCobro +
                "\nUsa Maquina Fiscal = " + _UsaMaquinaFiscal;  
         }
         #endregion //Metodos Generados

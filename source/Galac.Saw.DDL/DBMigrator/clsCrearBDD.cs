@@ -151,8 +151,7 @@ namespace Galac.Saw.DbMigrator {
             if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Vendedor")) {
                 vResult = vResult && CrearVendedor();
             }
-            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Escalada"))
-            {
+            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Escalada")) {
                 vResult = vResult && CrearEscalada();
             }
             CrearGVentasDefiniciones();

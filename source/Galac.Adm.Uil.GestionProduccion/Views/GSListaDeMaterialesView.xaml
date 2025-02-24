@@ -7,7 +7,8 @@
     xmlns:nsV="clr-namespace:Galac.Adm.Uil.GestionProduccion.Views"
     xmlns:nsVm="clr-namespace:Galac.Adm.Uil.GestionProduccion.ViewModel"
     xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
-    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+    Width="952">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -36,13 +37,15 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <!--  aqui los groupbox  -->
         <Label
             Name="lblFechaCreacion"
-            Grid.Row="0"
-            Grid.Column="0"
+            Height="24"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
             Content="Fecha de Creación"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSDatePickerWpf
@@ -63,7 +66,7 @@
             Name="txtCodigo"
             Grid.Row="1"
             Grid.Column="1"
-            Width="170"
+            Width="264"
             Margin="3,3,0,3"
             nsWpf:LibFocusManager.FocusedPropertyName="Codigo"
             nsWpf:LibFocusManager.IsFocused="True"
@@ -83,9 +86,9 @@
             Name="txtNombre"
             Grid.Row="2"
             Grid.Column="1"
-            Width="582"
             Height="45"
-            Margin="3,3,0,3"
+            Margin="3,3,-4,3"
+            HorizontalAlignment="Stretch"
             nsWpf:LibKeyboardListener.IgnoreEnterKeyLikeTab="True"
             AcceptsReturn="True"
             InvalidCharacters="&quot;|@°¬!#$%&amp;/()=?'¡¿¨;,:*+~&lt;&gt;^''{}"
@@ -105,17 +108,31 @@
             Name="txtArticuloPrincipalAProducirDescripcion"
             Grid.Row="3"
             Grid.Column="1"
-            Width="582"
             Height="70"
-            Margin="3,22,0,3"
+            Margin="3,22,-4,3"
+            HorizontalAlignment="Stretch"
             IsEnabled="False"
             IsReadOnly="{Binding Path=IsReadOnly}"
             MaxLength="255"
             Style="{StaticResource TextBoxInputStyle}"
             Text="{Binding Path=CodigoDescripcionArticuloPrincipalProducir, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             VerticalScrollBarVisibility="Auto" />
+        <Label
+            Name="lblManejaMerma"
+            Grid.Row="4"
+            Grid.Column="0"
+            Content="Manejo de Merma"
+            Style="{StaticResource LabelPrompt}" />
+        <CheckBox
+            Name="chkManejaMerma"
+            Grid.Row="4"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            IsChecked="{Binding Path=ManejaMerma}"
+            IsEnabled="{Binding Path=IsEnabledManejaMerma}"
+            Style="{StaticResource CheckBoxStyle}" />
         <!--  aqui llamado al detalle  -->
-        <Grid Grid.Row="4" Grid.ColumnSpan="2">
+        <Grid Grid.Row="5" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -125,14 +142,16 @@
             </Grid.RowDefinitions>
             <ScrollViewer
                 Grid.ColumnSpan="2"
-                Margin="3,3,-95,3"
+                Width="930"
+                Margin="3,3,0,3"
+                HorizontalAlignment="Left"
                 VerticalScrollBarVisibility="Auto">
                 <TabControl
                     Name="tbcArticulos"
                     Grid.Row="0"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
-                    Width="700"
+                    Width="920"
                     Margin="3">
                     <TabItem Name="tbiSeccionListaDeMaterialesDetalleArticuloInventario" Header="Insumos">
                         <Grid Name="gtSeccionListaDeMaterialesDetalleArticuloInventario">
@@ -182,10 +201,11 @@
                             <nsWpfControls:GSDataGrid
                                 Name="dgDetailListaMateriales"
                                 Grid.Row="2"
-                                Grid.ColumnSpan="2"
+                                Grid.ColumnSpan="4"
                                 Height="220"
                                 MinWidth="250"
                                 MinHeight="200"
+                                Margin="0,0,5,0"
                                 ColumnsMap="{Binding Path=DetailListaDeMaterialesDetalleArticulo.VisibleColumns}"
                                 Focusable="False"
                                 IsReadOnly="True"
@@ -202,8 +222,9 @@
                         Height="20"
                         VerticalAlignment="Top"
                         Header="Salidas">
-                        <Grid Name="gtSeccionListaDeMaterialesDetalleSalidas">
+                        <Grid Name="gtSeccionListaDeMaterialesDetalleSalidas" Margin="0,0,2,0">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
@@ -249,7 +270,7 @@
                             <nsWpfControls:GSDataGrid
                                 Name="dgDetailListaMaterialesSalidas"
                                 Grid.Row="2"
-                                Grid.ColumnSpan="2"
+                                Grid.ColumnSpan="4"
                                 MinWidth="250"
                                 MinHeight="200"
                                 ColumnsMap="{Binding Path=DetailListaDeMaterialesDetalleSalidas.VisibleColumns}"
@@ -261,17 +282,20 @@
                                 SelectedIndex="{Binding Path=DetailListaDeMaterialesDetalleSalidas.SelectedIndex}"
                                 SelectedItem="{Binding Path=DetailListaDeMaterialesDetalleSalidas.SelectedItem, Mode=OneWayToSource}"
                                 Style="{StaticResource GSDataGridStyle}" />
-                            <ContentControl Grid.Row="3" Grid.ColumnSpan="2">
-                                <Grid x:Name="gtTotalCosto" Width="690">
+                            <ContentControl
+                                Grid.Row="3"
+                                Grid.ColumnSpan="3"
+                                Width="890">
+                                <Grid x:Name="gtTotalCosto" Margin="0,0,8,0">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="587" />
-                                        <ColumnDefinition Width="Auto" MinWidth="99" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <Label
                                         Name="lblTotalCosto"
-                                        Width="87"
-                                        Height="24"
-                                        Margin="500,0,0,0"
+                                        Grid.Column="1"
+                                        Margin="707,0,98,0"
+                                        HorizontalAlignment="Stretch"
                                         VerticalAlignment="Center"
                                         Content="Total %Costo:"
                                         Foreground="Black"
@@ -279,13 +303,9 @@
                                     <nsWpfControls:GSNumericBoxWpf
                                         Name="txtSumTotalCosto"
                                         Grid.Column="1"
-                                        Width="99"
-                                        Height="24"
-                                        Margin="3,0,0,0"
-                                        HorizontalAlignment="Right"
+                                        Margin="797,0,7,0"
+                                        HorizontalAlignment="Stretch"
                                         VerticalAlignment="Center"
-                                        HorizontalContentAlignment="Right"
-                                        VerticalContentAlignment="Center"
                                         BorderThickness="0,0,0,0"
                                         DecimalDigits="8"
                                         HorizontalScrollBarVisibility="Auto"

@@ -33,6 +33,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         string _Url;
         string _Usuario;
         string _Clave;        
+        string _CampoUsuario;
+        string _CampoClave;
         #endregion
 
         #region Propiedades
@@ -45,6 +47,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public string Proveedor {
             get {
+                ActivarButtonActions(_ProveedorImprentaDigital == eProveedorImprentaDigital.Novus);
+                RaisePropertyChanged(() => IsVisbleByProveedorID);
                 return LibEnumHelper.GetDescription(_ProveedorImprentaDigital);
             }
         }
@@ -84,6 +88,15 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 }
             }
         }
+       
+        public string CampoUsuario {
+            get { return LibString.ToTitleCase(_CampoUsuario); }            
+        }
+
+        public string CampoClave {
+            get { return LibString.ToTitleCase(_CampoClave); }            
+        }
+
         public RelayCommand GuardarCommand {
             get;
             private set;
@@ -110,6 +123,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             InicializaValores();
         }
 
+        public bool IsVisbleByProveedorID {
+            get { return _ProveedorImprentaDigital == eProveedorImprentaDigital.TheFactoryHKA; }
+        }
 
         public bool ExecuteEnabled {
             get {
@@ -125,13 +141,19 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private void ExecuteProbarConexionCommand() {
             string vMensaje = string.Empty;
-            string vCommand = _ProveedorImprentaDigital== eProveedorImprentaDigital.TheFactoryHKA? LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion) : "";
-            clsConectorJson _ConectorJson = new clsConectorJson(new clsLoginUser() {
-                User = Usuario,
-                URL = Url,
-                Password = Clave
-            });
-            bool vResult = _ConectorJson.CheckConnection(ref vMensaje, vCommand);
+            string vCommand = string.Empty;
+            bool vResult = false;
+            if (_ProveedorImprentaDigital == eProveedorImprentaDigital.TheFactoryHKA) {
+                vCommand = LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion);
+                clsConectorJson _ConectorJson = new clsConectorJsonTheFactory(new clsLoginUser() {
+                    User = Usuario,
+                    URL = Url,
+                    Password = Clave
+                });
+                vResult = _ConectorJson.CheckConnection(ref vMensaje, vCommand);
+            } else {
+                vResult = true;
+            }
             if (vResult) {
                 LibMessages.MessageBox.Information(this, "Conectado exitosamente a la Imprenta Digital " + Proveedor + ".", ModuleName);
                 ActivarButtonActions(true);
@@ -161,6 +183,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             _Url = _clsImprentaDigitalSettings.DireccionURL;
             _Usuario = _clsImprentaDigitalSettings.Usuario;
             _Clave = _clsImprentaDigitalSettings.Clave;
+            _CampoUsuario = _clsImprentaDigitalSettings.CampoUsuario;
+            _CampoClave = _clsImprentaDigitalSettings.CampoClave;            
         }
 
         #endregion //Metodos Generados
@@ -169,7 +193,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             if (LibString.IsNullOrEmpty(Usuario) || LibString.IsNullOrEmpty(Clave)) {
                 LibMessages.MessageBox.ValidationError(this, "Los campos Usuario y Clave son obligatorios.", ModuleName);
             } else {
-                ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).GuardarDatosImprentaDigitalAppSettings(_ProveedorImprentaDigital, Usuario, Clave, Url);
+                ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).GuardarDatosImprentaDigitalAppSettings(_ProveedorImprentaDigital, Usuario, Clave, Url, CampoUsuario, CampoClave);
                 RaiseRequestCloseEvent();
             }
         }

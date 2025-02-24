@@ -2365,6 +2365,7 @@ unStatusDocOrigenLoteInv = (Vigente, Anulado);//e,Componente=Inventario
         ContabPorLoteOrdenDeProduccion                : UnContabilizacionPorLote;//"Contabilizar Por Lote Orden De Producción"
         CuentaOrdenDeProduccionProductoTerminado      : Str30;//"Cuenta Producto Terminado",=Cuenta.Codigo
         CuentaOrdenDeProduccionMateriaPrima           : Str30;//"Cuenta Materia Prima",=Cuenta.Codigo
+	CuentaMermaAnormal			      : Str30;//"Cuenta Merma Anormal",=Cuenta.Codigo        
         OrdenDeProduccionTipoComprobante              : Str2;//"Siglas del Tipo de Comprobante",=TipoDeComprobante.Codigo
         EditarComprobanteAfterInsertOrdenDeProduccion : Boolean;//"Editar Inmediatamente el Comprobante Generado"
     {EndSeccion}
@@ -4217,6 +4218,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	Nombre: textArea//g,"Nombre" 
 	CodigoArticuloInventario: str30//HIDE, dv=''
 	FechaCreacion : unFecha;//O,G,"Fecha de Creación",search
+	ManejaMerma		: boolean; //"Manejo de Merma"
 	NombreOperador: Str20// 
 	FechaUltimaModificacion: date;// 
 	@PrimaryKey=ConsecutivoCompania,Consecutivo 
@@ -4232,6 +4234,8 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	DescripcionArticuloInventario: str7000//g, logical, =ArticuloInventario.Descripcion,"Descripción" 
 	Cantidad: decimal//o,g,"Cantidad", decimales=8 
 	UnidadDeVenta: str20//g,logical,=ArticuloInventario.UnidadDeVenta,"Unidad de Venta"
+	MermaNormal: decimal//g,"Merma Normal (esperada)", decimales=8,dv=0
+	PorcentajeMermaNormal: decimal//g,"%Merma", decimales=8,dv=0
 	@PrimaryKey=ConsecutivoCompania, ConsecutivoListaDeMateriales,Consecutivo 
 } 
 
@@ -4244,6 +4248,8 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	Cantidad: decimal//o,g,"Cantidad", decimales=8 
 	UnidadDeVenta: Str20;//g,logical,=ArticuloInventario.UnidadDeVenta,"Unidad de Venta",logical 
 	PorcentajeDeCosto: decimal//o,g,"%Costo",decimales=4
+	MermaNormal: decimal//g,"Merma Normal (esperada)", decimales=8,dv=0
+	PorcentajeMermaNormal: decimal//g,"%Merma", decimales=8,dv=0 
 	@PrimaryKey=ConsecutivoCompania, ConsecutivoListaDeMateriales,Consecutivo 
 } 
 
@@ -4505,6 +4511,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	NombreListaDeMateriales				: textArea;//o,logical,=ListaDeMateriales.Nombre
 	CantidadAProducir					: decimal;//o,"Cantidad a Producir",decimales=8
 	CantidadProducida					: decimal;//o,"Cantidad Producida",decimales=8
+	ListaUsaMerma						: boolean;// logical,o,=ListaDeMateriales.ManejaMerma, "Usa Merma"
 	NombreOperador						: Str10;//a
 	FechaUltimaModificacion				: date;//a
 	@PrimaryKey=ConsecutivoCompania,Consecutivo
@@ -4531,6 +4538,11 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	PorcentajeCostoCierre			: decimal;//g,"% Costo Cierre",decimales=8
 	Costo							: decimal;//g,"Costo",
 	ConsecutivoLoteDeInventario	: LongInt;//o,HIDE
+	PorcentajeMermaNormalOriginal   : decimal//g,"%MermaOriginal", decimales=8,dv=0
+	CantidadMermaNormal             : decimal//g,"Merma Normal", decimales=8,dv=0
+	PorcentajeMermaNormal			: decimal//g,"%Merma Normal", decimales=8,dv=0
+	CantidadMermaAnormal			: decimal//g,"Merma Anormal", decimales=8,dv=0
+	PorcentajeMermaAnormal			: decimal//g,"%MermaAnormal", decimales=8,dv=0
 	@PrimaryKey=ConsecutivoCompania,ConsecutivoOrdenDeProduccion,Consecutivo
 }
 
@@ -4552,6 +4564,11 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	AjustadoPostCierre					: boolean;//"Ajusta por Cierre"
 	CantidadAjustada					: decimal;//"Cantidad Ajustada",dv=0
 	ConsecutivoLoteDeInventario	: LongInt;//o,HIDE
+	PorcentajeMermaNormalOriginal       : decimal//g,"%MermaOriginal", decimales=8,dv=0
+	CantidadMermaNormal                 : decimal//g,"Merma Normal", decimales=8,dv=0
+	PorcentajeMermaNormal               : decimal//g,"%Merma Normal", decimales=8,dv=0
+	CantidadMermaAnormal                : decimal//g,"Merma Anormal", decimales=8,dv=0
+	PorcentajeMermaAnormal              : decimal//g,"%MermaAnormal", decimales=8,dv=0
 	@PrimaryKey=ConsecutivoCompania,ConsecutivoOrdenDeProduccion,Consecutivo
 }
 
@@ -4762,7 +4779,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	{EndSeccion}  
 }
 
-{@R LoteDeInventario}LoteDeInventarioVencidos = Reporte //Multiarchivo=Compania,"Articulo Vencidos", GENERATE
+{@R LoteDeInventario}LoteDeInventarioVencidos = Reporte //Multiarchivo=Compania,"Articulo Vencidos"
 	LineaProducto : section;
 	LineaDeProducto : Str30;"Linea De Producto"
 	CodigoArticulo		: Str30;//"Código"
@@ -4802,7 +4819,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 @PrimaryKey=Id
 }
 
-{@S}AuditoriaConfiguracion = record //Multiarchivo=Compania,"Auditoria Configuracion", Componente=Venta, Esquema=Adm,EsquemaBD=adm,GenerateRptConfigurar,GenerateFrmInforme,interop,GENERATE
+{@S}AuditoriaConfiguracion = record //Multiarchivo=Compania,"Auditoria Configuracion", Componente=Venta, Esquema=Adm,EsquemaBD=adm,GenerateRptConfigurar,GenerateFrmInforme,interop
 	ConsecutivoCompania		: LongInt;//
 	ConsecutivoAuditoria		: LongInt;//
 	VersionPrograma		: Str10;//
@@ -4816,7 +4833,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	@PrimaryKey=ConsecutivoCompania,ConsecutivoAuditoria,VersionPrograma
 }
 
-{@R AuditoriaConfiguracion}AuditoriaConfiguracionDeCaja = Reporte//Multiarchivo=Compania,"Auditoria Configuracion de Caja",Componente=Venta,Esquema=Adm,Generate
+{@R AuditoriaConfiguracion}AuditoriaConfiguracionDeCaja = Reporte//Multiarchivo=Compania,"Auditoria Configuracion de Caja",Componente=Venta,Esquema=Adm
 	NroVersion			: Section;	//"NroVersion"
 	VersionPrograma	: Str10;	//"Version de Programa"
 	{EndSeccion}	

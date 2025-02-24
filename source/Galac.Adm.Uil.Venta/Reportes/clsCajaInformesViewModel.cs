@@ -37,7 +37,6 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             AvailableReports.Add(new clsCajaCerradaViewModel());
             Mfc = initMfc;
             Title = "Informes de Caja";
-            FilterWidth = 390;
         }
         #endregion //Constructores
         #region Metodos Generados

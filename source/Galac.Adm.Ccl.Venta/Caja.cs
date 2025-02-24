@@ -202,6 +202,7 @@ namespace Galac.Adm.Ccl.Venta {
             get { return _UltimoNumeroCompFiscal; }
             set { _UltimoNumeroCompFiscal = LibString.Mid(value, 0, 12); }
         }
+
         public string UltimoNumeroNCFiscal {
             get { return _UltimoNumeroNCFiscal; }
             set { _UltimoNumeroNCFiscal = LibString.Mid(value, 0, 12); }

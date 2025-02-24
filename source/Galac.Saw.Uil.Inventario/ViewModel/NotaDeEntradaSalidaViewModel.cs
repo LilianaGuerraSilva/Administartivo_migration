@@ -91,7 +91,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 return Model.CodigoCliente;
             }
             set {
-
                 if (Model.CodigoCliente != value) {
                     Model.CodigoCliente = value;
                     IsDirty = true;

@@ -389,7 +389,7 @@ namespace Galac.Saw.Brl.Inventario {
 
         private void ActualizaInformacionDeLoteDeInventario(NotaDeEntradaSalida valItemNotaES, bool valAumentaCantidad) {
             foreach (RenglonNotaES vItemRenglon in valItemNotaES.DetailRenglonNotaES) {
-                if (vItemRenglon.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento || vItemRenglon.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote) {
+                if (vItemRenglon.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento || vItemRenglon.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote || vItemRenglon.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeElaboracion) {
                     if (((ILoteDeInventarioPdn)new clsLoteDeInventarioNav()).ExisteLoteDeInventario(vItemRenglon.ConsecutivoCompania, vItemRenglon.CodigoArticulo, vItemRenglon.LoteDeInventario)) {
                         ActualizaLoteDeInventarioInsertaMovimientoDeLoteDeInventario(valItemNotaES, vItemRenglon, valAumentaCantidad);
                     }
@@ -459,7 +459,6 @@ namespace Galac.Saw.Brl.Inventario {
             Ccl.SttDef.ePermitirSobregiro vParametroPermitirSobregiro = (Ccl.SttDef.ePermitirSobregiro)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetEnum("FacturaRapida", "PermitirSobregiro");
             return vParametroPermitirSobregiro == Ccl.SttDef.ePermitirSobregiro.PermitirSobregiro || vParametroPermitirSobregiro == Ccl.SttDef.ePermitirSobregiro.NoChequearExistencia;
         }
-
 
         [PrincipalPermission(SecurityAction.Demand, Role = "Nota de Entrada/Salida.Insertar")]
         LibResponse INotaDeEntradaSalidaPdn.ReversarNotaES(int valConsecutivoCompania, string valNumeroDocumento) {

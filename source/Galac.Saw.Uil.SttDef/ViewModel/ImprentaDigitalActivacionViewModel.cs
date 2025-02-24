@@ -38,6 +38,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         bool _UsaNCPreNumerada;
         bool _UsaNDPreNumerada;
         bool _ExecuteEnabled;
+        string _CampoUsuario;
+        string _CampoClave;
         public override string ModuleName {
             get { return "Activación de Imprenta Digital"; }
         }
@@ -58,6 +60,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     _Proveedor= value;
                     IsDirty = true;
                     RaisePropertyChanged(ProveedorPropertyName);
+                    ActivarButtonActions(_Proveedor == eProveedorImprentaDigital.Novus);
+                    CambiarValoresCamposID(_Proveedor);
+                    RaisePropertyChanged(() => IsVisbleByProveedorID);
                 }
             }
         }
@@ -97,6 +102,32 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     _Clave = value;
                     IsDirty = true;
                     RaisePropertyChanged(ClavePropertyName);
+                }
+            }
+        }
+
+        public string CampoUsuario {
+            get {
+                return LibString.ToTitleCase(_CampoUsuario);
+            }
+            set {
+                if (_CampoUsuario != value) {
+                    _CampoUsuario = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(()=> CampoUsuario);
+                }
+            }
+        }
+
+        public string CampoClave {
+            get {
+                return LibString.ToTitleCase(_CampoClave);
+            }
+            set {
+                if (_CampoClave != value) {
+                    _CampoClave = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(() => CampoClave);
                 }
             }
         }
@@ -192,10 +223,21 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public bool IsVisibleReajustarTalonariosFactura {
             get { return _UsaFacturaPreNumeradaTalonario1; }
         }
+                    
+        public bool IsVisbleByProveedorID {
+            get { return Proveedor == eProveedorImprentaDigital.TheFactoryHKA; }
+        }
+
         #endregion //Propiedades
         #region Constructores 
         #endregion //Constructores
         #region Metodos Generados
+
+        protected override void InitializeLookAndFeel() {
+            base.InitializeLookAndFeel();
+            _CampoClave = "Clave";
+            _CampoUsuario = "Usuario";
+        }
 
         protected override void InitializeCommands() {
             base.InitializeCommands();
@@ -219,20 +261,43 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         private void ExecuteProbarConexionCommand() {
+            bool vResult;
             string vMensaje = string.Empty;
-            string vCommand = (Proveedor == eProveedorImprentaDigital.TheFactoryHKA ? LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion) : "");
-            clsConectorJson _ConectorJson = new clsConectorJson(new clsLoginUser() {
-                User = Usuario,
-                URL = Url,
-                Password = Clave
-            });
-            bool vResult = _ConectorJson.CheckConnection(ref vMensaje, vCommand);
+            string vCommand=string.Empty;
+            if (Proveedor == eProveedorImprentaDigital.TheFactoryHKA) {
+                vCommand = LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion);
+                clsConectorJson _ConectorJson = new clsConectorJsonTheFactory(new clsLoginUser() {
+                    User = Usuario,
+                    URL = Url,
+                    Password = Clave
+                });
+                vResult = _ConectorJson.CheckConnection(ref vMensaje, vCommand);
+            } else {
+                vResult = true;
+            }
             if (vResult) {
                 LibMessages.MessageBox.Information(this, "Conectado exitosamente a la Imprenta Digital " + Proveedor + ".", ModuleName);
                 ActivarButtonActions(true);
             } else {
                 LibMessages.MessageBox.Warning(this, "No se pudo conectar con la Imprenta Digital.\r\nPor favor verifique los datos de conexión e intente de nuevo.", ModuleName);
                 ActivarButtonActions(false);
+            }
+        }
+
+        private void CambiarValoresCamposID(eProveedorImprentaDigital valProveedor) {
+            switch (valProveedor) {
+                case eProveedorImprentaDigital.TheFactoryHKA:
+                    CampoClave = "clave";
+                    CampoUsuario = "usuario";
+                    break;
+                case eProveedorImprentaDigital.Novus:
+                    CampoClave = "token";
+                    CampoUsuario = "rif";
+                    break;
+                default:
+                    CampoClave = "clave";
+                    CampoUsuario = "usuario";
+                    break;
             }
         }
 
@@ -326,7 +391,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private void ConfigurarImprentaDigital() {            
             ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).ConfigurarImprentaDigital(Proveedor, FechaDeInicioDeUso);
-            ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).GuardarDatosImprentaDigitalAppSettings(Proveedor, Usuario, Clave, Url);
+            ((ISettValueByCompanyPdn)new clsSettValueByCompanyNav()).GuardarDatosImprentaDigitalAppSettings(Proveedor, Usuario, Clave, Url, CampoUsuario, CampoClave);
         }
 
         private void MoverDocumentosFactura(eTipoDocumentoFactura valTipoDocFactura, eTalonario valTalonarioOrigen, eTalonario valTalonarioDestino) {

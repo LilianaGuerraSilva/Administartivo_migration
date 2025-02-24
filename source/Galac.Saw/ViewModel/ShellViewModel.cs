@@ -404,6 +404,7 @@ namespace Galac.Saw.ViewModel {
                 new XElement("UsaImprentaDigital", "S"),
                 new XElement("FechaInicioImprentaDigital", "01/01/2000"),
                 new XElement("ProveedorImprentaDigital", "1"),
+                new XElement("UsaLoteFechaDeVencimiento", "S"),
                 new XElement("EsUsuarioSupervisor","S")),
             new XElement("ReglasDeContabilizacion",
                 new XElement("MuestraTipoComprobante", "S"),

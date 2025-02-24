@@ -51,6 +51,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private const string NombreListaDeMaterialesPropertyName = "NombreListaDeMateriales";
         private const string CantidadAProducirPropertyName = "CantidadAProducir";
         private const string CantidadProducidaPropertyName = "CantidadProducida";
+        private const string ListaUsaMermaPropertyName = "ListaUsaMerma";
         private const string NombreOperadorPropertyName = "NombreOperador";
         private const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
         private const string LabelFormaDeCalcularCostosDeProduccionPropertyName = "LabelFormaDeCalcularCostosDeProduccion";
@@ -433,6 +434,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     if (LibString.IsNullOrEmpty(CodigoListaDeMateriales, true)) {
                         ConexionCodigoListaDeMateriales = null;
                     }
+                    if (ConexionCodigoListaDeMateriales.ManejaMerma) {
+                        RaisePropertyChanged(ListaUsaMermaPropertyName);
+                    }
                 }
             }
         }
@@ -477,6 +481,19 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     IsDirty = true;
                     RaisePropertyChanged(CantidadProducidaPropertyName);
                     RecalcularCantidadProducida();
+                }
+            }
+        }
+
+        public bool  ListaUsaMerma {
+            get {
+                return Model.ListaUsaMermaAsBool;
+            }
+            set {
+                if (Model.ListaUsaMermaAsBool != value) {
+                    Model.ListaUsaMermaAsBool = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(ListaUsaMermaPropertyName);
                 }
             }
         }
@@ -586,6 +603,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 if (_ConexionCodigoListaDeMateriales != value) {
                     _ConexionCodigoListaDeMateriales = value;
                     RaisePropertyChanged(CodigoListaDeMaterialesPropertyName);
+                    ListaUsaMerma = _ConexionCodigoListaDeMateriales.ManejaMerma;
+                    RaisePropertyChanged(ListaUsaMermaPropertyName);
+                    RaisePropertyChanged(() => IsVisibleListaUsaMerma);
                 }
                 if (_ConexionCodigoListaDeMateriales == null) {
                     CodigoListaDeMateriales = string.Empty;
@@ -802,6 +822,11 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
+        public bool IsVisibleListaUsaMerma {
+            get {   return ListaUsaMerma; 
+            }
+        }
+
         [LibCustomValidation("TotalPorcentajeDeCostoValidating")]
         public decimal TotalPorcentajeDeCosto {
             get {
@@ -971,7 +996,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         protected override void ExecuteProcessAfterAction() {
             base.ExecuteProcessAfterAction();
+            if (Action == eAccionSR.Insertar) {
             CantidadAProducir = 0;
+            }
         }
 
         private LibRibbonButtonData CreateAccionRibbonGroup() {
@@ -1379,7 +1406,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             if (Action != eAccionSR.Contabilizar) {
                 if (Action == eAccionSR.Custom) {                   
                     if (DetailOrdenDeProduccionDetalleMateriales.Items
-                        .Where(p=> (p.TipoArticuloInvAsEnum == Saw.Ccl.Inventario.eTipoArticuloInv.Lote || p.TipoArticuloInvAsEnum == Saw.Ccl.Inventario.eTipoArticuloInv.LoteFechadeVencimiento) && p.ConsecutivoLoteDeInventario == 0).Count() > 0) {
+                        .Where(p=> (p.TipoArticuloInvAsEnum == Saw.Ccl.Inventario.eTipoArticuloInv.Lote 
+                        || p.TipoArticuloInvAsEnum == Saw.Ccl.Inventario.eTipoArticuloInv.LoteFechadeVencimiento
+                        || p.TipoArticuloInvAsEnum == Saw.Ccl.Inventario.eTipoArticuloInv.LoteFechadeElaboracion) && p.ConsecutivoLoteDeInventario == 0).Count() > 0) {
                         throw new GalacValidationException("Hay artículos que no tienen lote asignado.");
                     }
                     if (DetailOrdenDeProduccionDetalleMateriales.Items
@@ -1489,12 +1518,14 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Model.ConsecutivoListaDeMateriales = ConexionCodigoListaDeMateriales.Consecutivo;
                     CodigoListaDeMateriales = ConexionCodigoListaDeMateriales.Codigo;
                     NombreListaDeMateriales = ConexionCodigoListaDeMateriales.Nombre;
+					ListaUsaMerma = ConexionCodigoListaDeMateriales.ManejaMerma;
                     CargarDetalles();
                 } else {
                     ConexionCodigoListaDeMateriales = null;
                     Model.ConsecutivoListaDeMateriales = 0;
                     CodigoListaDeMateriales = string.Empty;
                     NombreListaDeMateriales = string.Empty;
+                    ListaUsaMerma = false;
                 }
             } catch (System.AccessViolationException) {
                 throw;
@@ -1708,7 +1739,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private void BuscarExistencia() {
             IOrdenDeProduccionDetalleMaterialesPdn vOrdenDeProduccionDetalleMateriales = new clsOrdenDeProduccionDetalleMaterialesNav();
             foreach (OrdenDeProduccionDetalleMaterialesViewModel item in DetailOrdenDeProduccionDetalleMateriales.Items) {
-                if (item.TipoArticuloInvAsEnum == Saw.Ccl.Inventario.eTipoArticuloInv.Lote || item.TipoArticuloInvAsEnum == Saw.Ccl.Inventario.eTipoArticuloInv.LoteFechadeVencimiento) {
+                if (item.TipoArticuloInvAsEnum == Saw.Ccl.Inventario.eTipoArticuloInv.Lote 
+                    || item.TipoArticuloInvAsEnum == Saw.Ccl.Inventario.eTipoArticuloInv.LoteFechadeVencimiento
+                    || item.TipoArticuloInvAsEnum == Saw.Ccl.Inventario.eTipoArticuloInv.LoteFechadeElaboracion) {
                     item.Existencia = vOrdenDeProduccionDetalleMateriales.BuscaExistenciaDeArticuloLote(ConsecutivoCompania, item.CodigoArticulo, item.ConsecutivoLoteDeInventario);
                 } else {
                     item.Existencia = vOrdenDeProduccionDetalleMateriales.BuscaExistenciaDeArticulo(ConsecutivoCompania, item.CodigoArticulo, Model.ConsecutivoAlmacenMateriales);                    

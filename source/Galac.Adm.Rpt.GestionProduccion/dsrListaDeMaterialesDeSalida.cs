@@ -24,6 +24,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         private string[] _ListaMonedasDelReporte { get; set; }
         private string _MonedaDelInforme { get; set; }
         private decimal _TasaDeCambio { get; set; }
+        private bool _ManejaMerma = false;
         #endregion //Variables
         #region Constructor
         public dsrListaDeMaterialesDeSalida()
@@ -72,6 +73,9 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 LibReport.ConfigFieldDecWithNDecimal(this, "txtPorcentajeCosto", string.Empty, "PorcentajeDeCosto", 8);
                 LibReport.ConfigFieldDec(this, "txtCostoUnitario", string.Empty, "CostoUnitario");
                 LibReport.ConfigFieldDec(this, "txtCostoCalculado", string.Empty, "CostoTotal");
+                LibReport.ConfigFieldStr(this, "txtManejaMerma", string.Empty, "ManejaMerma");
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtMermaNormalSalidas", string.Empty, "MermaNormalSalidas", 8);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtPorcMermaNormalSalidas", string.Empty, "PorcentajeMermaNormalSalidas", 8);
                 LibReport.ConfigGroupHeader(this, "GHCodigoListaAProducir", "Codigo", GroupKeepTogether.FirstDetail, RepeatStyle.None, true, NewPage.None);
                 LibReport.ConfigGroupHeader(this, "GHMoneda", "Moneda", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.Before);
                 LibReport.ConfigGroupHeader(this, "GHSalidas", "Codigo", GroupKeepTogether.FirstDetail, RepeatStyle.None, true, NewPage.Before);
@@ -88,7 +92,6 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             vRpt.ConfigReport(valDataSourceInsumos);
             return vRpt;
         }
-        #endregion
 
         private void PageFooter_Format(object sender, EventArgs e) {
             if(LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[0]) || LibString.S1IsEqualToS2(_MonedaDelInforme, _ListaMonedasDelReporte[1])) {
@@ -102,5 +105,29 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 }
             }
         }
-    }
-}
+
+        private void Detail_Format(object sender, EventArgs e) {
+            if (!_ManejaMerma) {
+                txtUnidades.Left = txtCantidadAProducirDetalle.Left;
+                txtCantidadAProducirDetalle.Left = txtPorcMermaNormalSalidas.Left;
+                txtCantidadArticulos.Left = txtMermaNormalSalidas.Left;
+                txtArticulo.Width = txtUnidades.Left;
+            }
+            LibReport.ChangeControlVisibility(this, "txtMermaNormalSalidas", _ManejaMerma);
+            LibReport.ChangeControlVisibility(this, "txtPorcMermaNormalSalidas", _ManejaMerma);
+        }
+
+        private void GHSalidas_Format(object sender, EventArgs e) {
+            _ManejaMerma = LibConvert.SNToBool(this.txtManejaMerma.Value.ToString());
+            if (!_ManejaMerma) {
+                lblUnidades.Left = lblCantidadAProducirDetalle.Left;
+                lblCantidadAProducirDetalle.Left = lblPorcMermaNormalSalidas.Left;
+                lblCantidadArticulos.Left = lblMermaNormalSalidas.Left;
+                lblArticulo.Width = lblUnidades.Left;
+            }
+            LibReport.ChangeControlVisibility(this, "lblMermaNormalSalidas", _ManejaMerma);
+            LibReport.ChangeControlVisibility(this, "lblPorcMermaNormalSalidas", _ManejaMerma);
+        }
+        #endregion //Metodos Generados   
+    } //End of class dsrListaDeMaterialesDeSalida
+} //End of namespace Galac.Adm.Rpt.GestionProduccion
