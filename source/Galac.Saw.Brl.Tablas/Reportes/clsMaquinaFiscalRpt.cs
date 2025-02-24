@@ -19,7 +19,7 @@ namespace Galac.Saw.Brl.Tablas.Reportes {
 
         public clsMaquinaFiscalRpt() {
             _PropertiesForReportList = new Dictionary<string, Dictionary<string, string>>();
-            _PropertiesForReportList.Add("Máquina Fiscal", MaquinaFiscalInfo());
+            _PropertiesForReportList.Add("Impresora Fiscal", MaquinaFiscalInfo());
         }
         #endregion //Constructores
         #region Metodos Generados

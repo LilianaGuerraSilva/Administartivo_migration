@@ -10,6 +10,7 @@ using LibGalac.Aos.DefGen;
 using System.ComponentModel.Composition;
 using System.Collections.ObjectModel;
 using Galac.Contab.Ccl.WinCont;
+using Galac.Adm.Dal.Venta;
 
 namespace Galac.Saw.DDL {
     /// <summary>
@@ -653,6 +654,13 @@ namespace Galac.Saw.DDL {
             return new Galac.Saw.Dal.Tablas.clsOtrosCargosDeFacturaED().InstalarTabla();
         }
 
+        public bool CrearAuditoriaConfiguracion() {
+            return new Galac.Saw.Dal.Tablas.clsAuditoriaConfiguracionED().InstalarTabla();
+        }
+        public bool CrearEscalada() {
+            return new clsEscaladaED().InstalarTabla();
+        }
+
         public bool CrearVistasYProcedimientos(string[] valModulos) {
             bool vResult = true;
             if (LibArray.Contains(valModulos, "Usuario")) {
@@ -916,6 +924,9 @@ namespace Galac.Saw.DDL {
             }
             if (LibArray.Contains(valModulos, "otrosCargosDeFactura")) {
                 vResult = vResult && new Galac.Saw.Dal.Tablas.clsOtrosCargosDeFacturaED().InstalarVistasYSps();
+            }
+			if (LibArray.Contains(valModulos, "AuditoriaConfiguracion")) {
+                vResult = vResult && new Galac.Saw.Dal.Tablas.clsAuditoriaConfiguracionED().InstalarVistasYSps();
             }
             return vResult;
         }

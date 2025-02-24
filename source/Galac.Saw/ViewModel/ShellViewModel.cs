@@ -410,9 +410,9 @@ namespace Galac.Saw.ViewModel {
                 new XElement("MuestraTipoComprobante", "S"),
                 new XElement("EsModuloDeProduccion", "S")),
             new XElement("Compania",
-                new XElement("Nombre", "Cobro directo Multimoneda"),
-                new XElement("NumeroRif", "J454152555")));
-             LibGlobalValues.Instance.GetMfcInfo().Add("Compania", LibConvert.ToInt("3"));
+                new XElement("Nombre", "Informática Tributaria, S.A."),
+                new XElement("NumeroRif", "J305125439")));
+             LibGlobalValues.Instance.GetMfcInfo().Add("Compania", LibConvert.ToInt("6"));
             return base.AddEspecialGlobalValues(valGlobalValuesElement);
         }
 

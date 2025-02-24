@@ -248,6 +248,8 @@ namespace Galac.Saw.Wrp.DDL {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearCajaRegistradora();
             } else if (valTableName.Equals("Vendedor", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearVendedor();
+            } else if (valTableName.Equals("Escalada", StringComparison.CurrentCultureIgnoreCase)) { 
+                vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearEscalada();
             } else if (valTableName.Equals("TransferenciaEntreCuentasBancarias", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearTransferenciaEntreCuentasBancarias();
             } else if (valTableName.Equals("RutaDeComercializacion", StringComparison.CurrentCultureIgnoreCase)) {
@@ -258,6 +260,8 @@ namespace Galac.Saw.Wrp.DDL {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearOtrosCargosDeFactura();
             } else if (valTableName.Equals("LoteDeInventario", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearLoteDeInventario();
+            } else if (valTableName.Equals("AuditoriaConfiguracion", StringComparison.CurrentCultureIgnoreCase)) {
+                vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearAuditoriaConfiguracion();
             } else {
                 throw new NotImplementedException("Aún no ha sido implementada la creación de la Tabla " + valTableName + " y sus objetos asociados.");
             }

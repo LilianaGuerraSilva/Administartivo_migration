@@ -17,10 +17,10 @@ Private Const CM_FILE_NAME As String = "clsNotaESSQL"
 Private Const CM_MESSAGE_NAME As String = "Nota ES SQL"
 Private Const GetGender = Enum_Gender.eg_Male
 
-Public Function fSQLDelReporteNotasDeESEntreFechas(ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valFiltrarPorCliente As Boolean, ByVal valNombreCliente As String) As String
+Public Function fSQLDelReporteNotasDeESEntreFechas(ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date) As String
    Dim gEnumProyecto As clsEnumAdministrativo
    Dim Sql As String
-   Dim vSQLWhere As String
+   Dim vSqlWhere As String
    Dim insArticuloVista As clsArticuloInvVista
    On Error GoTo h_ERROR
    Set gEnumProyecto = New clsEnumAdministrativo
@@ -29,10 +29,7 @@ Public Function fSQLDelReporteNotasDeESEntreFechas(ByVal valConsecutivoCompania 
    vSqlWhere = gUtilSQL.fSQLValueDatesBetween("", "notaDeEntradaSalida.Fecha", valFechaInicial, valFechaFinal)
    vSqlWhere = gUtilSQL.fSQLEnumValueWithAnd(vSqlWhere, "StatusNotaEntradaSalida", enum_StatusNotaEntradaSalida.eSNES_Vigente)
    vSqlWhere = vSqlWhere & " AND notaDeEntradaSalida.ConsecutivoCompania = " & valConsecutivoCompania
-   If (valFiltrarPorCliente) Then
-      vSqlWhere = vSqlWhere & " AND notaDeEntradaSalida.CodigoCliente = (SELECT Codigo FROM cliente WHERE Nombre='" & valNombreCliente & "' AND consecutivoCompania=" & valConsecutivoCompania & ")"
-   End If
-   vSQLWhere = gUtilSQL.getWhereSQL(vSQLWhere)
+   vSqlWhere = gUtilSQL.getWhereSQL(vSqlWhere)
    
    Sql = "SELECT "
    Sql = Sql & "notaDeEntradaSalida.Fecha, "
@@ -112,7 +109,7 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fsqlListaDePreciosME", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fsqlReporteNotaEntradaSalida(ByVal valConsecutivoCompania As Long, ByVal valNumeroDocumento As String, ByVal valUsaListaDePreciosME As Boolean, ByVal valCambioABolivares As Currency) As String
+Public Function fsqlReporteNotaEntradaSalida(ByVal valConsecutivoCompania As Long, ByVal valNumeroDocumento As String) As String
    Dim Sql As String
    On Error GoTo h_ERROR
    Sql = "SELECT NotaDeEntradaSalida.NumeroDocumento, "
@@ -127,13 +124,7 @@ Public Function fsqlReporteNotaEntradaSalida(ByVal valConsecutivoCompania As Lon
    Sql = Sql & "renglonNotaES.TipoArticuloInv, "
    Sql = Sql & "renglonNotaES.Serial, "
    Sql = Sql & "RenglonNotaES.Rollo, "
-   Sql = Sql & "renglonNotaES.ConsecutivoRenglon, "
-   If (valUsaListaDePreciosME) Then
-      Sql = Sql & fSqlListaDePreciosME(gUtilSQL.fNumToStrSQL(valCambioABolivares))
-   Else
-      Sql = Sql & "articuloInventario.PrecioSinIva, "
-      Sql = Sql & "articuloInventario.PrecioConIva "
-   End If
+   Sql = Sql & "renglonNotaES.ConsecutivoRenglon "
    
    Sql = Sql & " FROM NotaDeEntradaSalida INNER JOIN RenglonNotaES "
    Sql = Sql & "  ON NotaDeEntradaSalida.ConsecutivoCompania = RenglonNotaES.ConsecutivoCompania "
@@ -150,13 +141,6 @@ Public Function fsqlReporteNotaEntradaSalida(ByVal valConsecutivoCompania As Lon
    Sql = Sql & " AND NotaDeEntradaSalida.NumeroDocumento = " & gUtilSQL.fSimpleSqlValue(valNumeroDocumento)
    Sql = Sql & " AND NotaDeEntradaSalida.NumeroDocumento = renglonNotaES.NumeroDocumento"
 
-'   Sql = Sql & " GROUP BY NotaDeEntradaSalida.NumeroDocumento, NotaDeEntradaSalida.Fecha, NotaDeEntradaSalida.CodigoAlmacen, NotaDeEntradaSalida.CodigoCliente, NotaDeEntradaSalida.TipodeOperacion, "
-'   Sql = Sql & " NotaDeEntradaSalida.Comentarios, renglonNotaES.CodigoArticulo, renglonNotaES.Cantidad, articuloInventario.Descripcion, renglonNotaES.TipoArticuloInv, RenglonNotaES.Serial, RenglonNotaES.Rollo, renglonNotaES.consecutivorenglon, "
-'   Sql = Sql & " articuloInventario.PrecioSinIva, articuloInventario.PrecioConIva"
-'   If (valUsaListaDePreciosME) Then
-'      Sql = Sql & ", CamposMonedaExtranjera.MePrecioSinIva "
-'      Sql = Sql & ", CamposMonedaExtranjera.MEPrecioConIva "
-'   End If
    Sql = Sql & " UNION"
    Sql = Sql & " SELECT NotaDeEntradaSalida.NumeroDocumento, "
    Sql = Sql & "NotaDeEntradaSalida.Fecha, "
@@ -170,13 +154,7 @@ Public Function fsqlReporteNotaEntradaSalida(ByVal valConsecutivoCompania As Lon
    Sql = Sql & "renglonNotaES.TipoArticuloInv, "
    Sql = Sql & "renglonNotaES.Serial, "
    Sql = Sql & "RenglonNotaES.Rollo, "
-   Sql = Sql & "renglonNotaES.consecutivorenglon, "
-   If (valUsaListaDePreciosME) Then
-      Sql = Sql & fSqlListaDePreciosME(gUtilSQL.fNumToStrSQL(valCambioABolivares))
-   Else
-      Sql = Sql & "articuloInventario.PrecioSinIva, "
-      Sql = Sql & "articuloInventario.PrecioConIva "
-   End If
+   Sql = Sql & "renglonNotaES.consecutivorenglon "
    
    Sql = Sql & " FROM NotaDeEntradaSalida INNER JOIN RenglonNotaES INNER JOIN ExistenciaPorGrupo LEFT JOIN Saw.Talla "
    Sql = Sql & "  ON ExistenciaPorGrupo.ConsecutivoCompania = Saw.Talla.ConsecutivoCompania "
@@ -199,12 +177,6 @@ Public Function fsqlReporteNotaEntradaSalida(ByVal valConsecutivoCompania As Lon
    Sql = Sql & " WHERE NotaDeEntradaSalida.ConsecutivoCompania = " & valConsecutivoCompania
    Sql = Sql & " AND NotaDeEntradaSalida.NumeroDocumento = " & gUtilSQL.fSimpleSqlValue(valNumeroDocumento)
    Sql = Sql & " AND NotaDeEntradaSalida.NumeroDocumento = renglonNotaES.NumeroDocumento"
-'   Sql = Sql & " GROUP BY NotaDeEntradaSalida.NumeroDocumento, NotaDeEntradaSalida.Fecha, NotaDeEntradaSalida.CodigoAlmacen, NotaDeEntradaSalida.CodigoCliente, NotaDeEntradaSalida.TipodeOperacion, NotaDeEntradaSalida.Comentarios, renglonNotaES.CodigoArticulo, renglonNotaES.Cantidad, articuloInventario.Descripcion, Color.DescripcionColor, Talla.DescripcionTalla, renglonNotaES.TipoArticuloInv, RenglonNotaES.Serial, RenglonNotaES.Rollo, renglonNotaES.consecutivorenglon, "
-'   Sql = Sql & " articuloInventario.PrecioSinIva, articuloInventario.PrecioConIva"
-'   If (valUsaListaDePreciosME) Then
-'      Sql = Sql & ", CamposMonedaExtranjera.MePrecioSinIva "
-'      Sql = Sql & ", CamposMonedaExtranjera.MEPrecioConIva "
-'   End If
    
    Sql = Sql & " ORDER BY  NotaDeEntradaSalida.NumeroDocumento, renglonNotaES.CodigoArticulo"
 h_EXIT: On Error GoTo 0

@@ -159,17 +159,18 @@ namespace Galac.Adm.Brl.Venta {
             vNumeroBorrador = LibXml.GetPropertyString(xElementFacturaRapida, "Numero");
             vCodigoCliente = LibXml.GetPropertyString(xElementFacturaRapida, "CodigoCliente");
             vCodigoMoneda = LibXml.GetPropertyString(xElementFacturaRapida, "CodigoMoneda");
-            
+
             try {
                 using (System.Transactions.TransactionScope vScope = LibBusiness.CreateScope()) {
                     vNumeroParaResumen = insFacturaRapida.SiguienteNumeroParaResumen(vConsecutivoCompania, xElementFacturaRapida, valSerialMaquinaFiscal);
                     vNumeroFactura = insFacturaRapida.GenerarNumeroDeFactura(vConsecutivoCompania);
                     ActualizarCamposEnXmlFactura(xElementFacturaRapida, vNumeroFactura, valComprobanteFiscal, valSerialMaquinaFiscal);
                     vResult = insFacturaRapida.ActualizarFacturaEmitida(vConsecutivoCompania, xElementFacturaRapida, vNumeroBorrador, vNumeroParaResumen);
+                    InsertarDatosParaVerificar(vConsecutivoCompania, xElementFacturaRapida, valComprobanteFiscal);
                     vResult = vResult && insActualizarArticulo.DescontarExistencia(vConsecutivoCompania, vNumeroFactura, vCodigoAlmacen, eTipoDocumentoFactura.ComprobanteFiscal, vFechaFactura);
                     vResult = vResult && insActualizarArticulo.DescontarEnAlmacen(vConsecutivoCompania, vNumeroFactura, vCodigoAlmacen, eTipoDocumentoFactura.ComprobanteFiscal, vFechaFactura);
                     vResult = vResult && insActualizarArticulo.DescontarExistenciaProductoCompuesto(vConsecutivoCompania, vNumeroFactura, vCodigoAlmacen, eTipoDocumentoFactura.ComprobanteFiscal, vFechaFactura);
-                    vResult = vResult && insActualizarArticulo.DescontarEnAlmacenProductoCompuesto(vConsecutivoCompania, vNumeroFactura, vCodigoAlmacen, eTipoDocumentoFactura.ComprobanteFiscal, vFechaFactura);                    
+                    vResult = vResult && insActualizarArticulo.DescontarEnAlmacenProductoCompuesto(vConsecutivoCompania, vNumeroFactura, vCodigoAlmacen, eTipoDocumentoFactura.ComprobanteFiscal, vFechaFactura);
                     vResult = vResult && GenararCxCDeAcuerdoAParametros(xElementFacturaRapida, valComprobanteFiscal, valSerialMaquinaFiscal, vConsecutivoCompania);
                     if(!LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros","UsaCobroDirectoEnMultimoneda")) && vResult) {
                         vNumeroCobranza = insCobranza.GenerarProximoNumeroCobranza(vConsecutivoCompania);
@@ -191,6 +192,7 @@ namespace Galac.Adm.Brl.Venta {
                             throw new GalacAlertException("Reintentando...");
                         }
                     }
+                    
                 }
             } catch (Exception vEx) {
                 _ContaforErrorPK++;
@@ -280,7 +282,6 @@ namespace Galac.Adm.Brl.Venta {
             vProperty = valCloneFacturaRapida.Element("TotalMontoExento");
             vProperty.Value = valMontoCxC.ToString();
             vProperty = valCloneFacturaRapida.Element("CodigoCliente");
-
             vProperty.Value = valCodigoCliente;
             if (valUsarMonedaExtranjera) {
                 vProperty = valCloneFacturaRapida.Element("CodigoMoneda");
@@ -301,10 +302,8 @@ namespace Galac.Adm.Brl.Venta {
                 vProperty = valCloneFacturaRapida.Element("FechaDeVencimiento");
                 vProperty.Value = valFechaDeVencimiento.ToString("dd/MM/yyyy");
             }
-            
             return valCloneFacturaRapida;
         }
-
         private void ActualizarCamposEnXmlFactura(XElement valXmlFactura, string valNumerofactura, string valNumeroComporbanteFiscal, string valSerialMaquinaFiscal) {
             if (valXmlFactura != null) {
                 var vRecords = valXmlFactura.Descendants("GpResult");
@@ -378,8 +377,69 @@ namespace Galac.Adm.Brl.Venta {
         }
         */
         #endregion //Codigo Ejemplo
+        private void InsertarDatosParaVerificar(int valConsecutivoCompania, XElement xElementFacturaRapida, string valComprobanteFiscal) {
+            StringBuilder vSql = new StringBuilder();
+            QAdvSql vQAdvSql = new QAdvSql("");
+            LibGpParams vParams = new LibGpParams();
+            string vNumeroFactura = LibXml.GetPropertyString(xElementFacturaRapida, "Numero");
+            eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)LibConvert.DbValueToEnum(LibXml.GetPropertyString(xElementFacturaRapida, "TipoDeDocumento"));
+            DateTime vFecha = LibConvert.ToDate(LibXml.GetPropertyString(xElementFacturaRapida, "Fecha"));
+            string vTipoDeDocumentoFactura = LibConvert.ToStr((int)eTipoDocumentoFactura.ComprobanteFiscal);
+            Random rnd = new Random();
+            string valueIni = LibConvert.ToStr(LibConvert.ToInt(rnd.Next(1, 100)));
+            string valueLast = LibConvert.ToStr(LibConvert.ToInt(rnd.Next(1, 100)));
+            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            vParams.AddInEnum("TipoDeDocumento", (int)eTipoDocumentoFactura.ComprobanteFiscal);
+            vParams.AddInString("NumeroFactura", vNumeroFactura,11);
+            vParams.AddInDateTime("FechaFactura", vFecha);
+            StringBuilder vSqlFactura =
+            vSql.AppendLine("set dateformat dmy");
+            vSql.AppendLine("INSERT INTO Escalada");
+            vSql.AppendLine(" (Id, Escalada41, Escalada32, Escalada73, Escalada24, Escalada85, Escalada100) VALUES (NEWID(),@ConsecutivoCompania ");
+            vSql.AppendLine(", @FechaFactura");
+            vSql.AppendLine(", " + vQAdvSql.ToSqlValue(valueIni + "##" + vNumeroFactura + vTipoDeDocumentoFactura + "@@" + valueLast));
+            vSql.AppendLine(", " + vQAdvSql.ToSqlValue(valComprobanteFiscal));
+            vSql.AppendLine(", " + vQAdvSql.ToSqlValue(""));
+            vSql.AppendLine(",  HASHBYTES('SHA2_256',( " +SqlFacturaParaVerificacion().ToString() +  ")))");
+            bool vresult = LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParams.Get(), "", 0) >= 0;
 
+        }
 
+        private StringBuilder SqlFacturaParaVerificacion()
+        {
+            StringBuilder vSqlSb = new StringBuilder();
+            vSqlSb.AppendLine("SELECT TOP 1 CONCAT(");
+            vSqlSb.AppendLine("	CASE WHEN TipoDeDocumento = '5' OR TipoDeDocumento = '7' OR TipoDeDocumento = '9' THEN");
+            vSqlSb.AppendLine("		factura.Numero");
+            vSqlSb.AppendLine("	ELSE");
+            vSqlSb.AppendLine("		factura.NumeroComprobanteFiscal");
+            vSqlSb.AppendLine("	END");
+            vSqlSb.AppendLine("	,TipoDeDocumento");
+            vSqlSb.AppendLine("	,Fecha");
+            vSqlSb.AppendLine("	, factura.HoraModificacion");
+            vSqlSb.AppendLine("	, Cliente.NumeroRIF,factura.NumeroControl");
+            vSqlSb.AppendLine("	, factura.MontoGravableAlicuota1");
+            vSqlSb.AppendLine("	, factura.MontoGravableAlicuota2");
+            vSqlSb.AppendLine("	, factura.MontoGravableAlicuota3");
+            vSqlSb.AppendLine("	, factura.MontoIVAAlicuota1");
+            vSqlSb.AppendLine("	, factura.MontoIVAAlicuota2");
+            vSqlSb.AppendLine("	, factura.MontoIVAAlicuota3");
+            vSqlSb.AppendLine("	, factura.TotalMontoExento");
+            vSqlSb.AppendLine("	, factura.TotalRenglones");
+            vSqlSb.AppendLine("	, factura.TotalBaseImponible");
+            vSqlSb.AppendLine("	, factura.TotalIVA");
+            vSqlSb.AppendLine("	, factura.TotalFactura");
+            vSqlSb.AppendLine("	)");
+            vSqlSb.AppendLine("FROM factura INNER JOIN Cliente ON factura.ConsecutivoCompania = Cliente.ConsecutivoCompania");
+            vSqlSb.AppendLine("AND factura.CodigoCliente = Cliente.Codigo");
+            vSqlSb.AppendLine("WHERE");
+            vSqlSb.AppendLine("Numero = @NumeroFactura");
+            vSqlSb.AppendLine("AND");
+            vSqlSb.AppendLine("TipoDeDocumento = @TipoDeDocumento");
+            vSqlSb.AppendLine("AND factura.ConsecutivoCompania = @ConsecutivoCompania");
+            vSqlSb.AppendLine("AND StatusFactura = '0'");
+            return vSqlSb;
+        }
     } //End of class clsCobroDeFacturaRapidaNav
 
 } //End of namespace Galac.Adm.Brl.Venta

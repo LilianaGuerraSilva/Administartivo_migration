@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsAuditoriaConfiguracionNav.cs" />
     <Compile Include="clsCondicionesDePagoNav.cs" />
     <Compile Include="clsFormaDelCobroNav.cs" />
     <Compile Include="clsImpuestoBancarioImpExp.cs" />

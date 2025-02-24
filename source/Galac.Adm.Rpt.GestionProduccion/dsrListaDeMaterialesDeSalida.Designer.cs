@@ -117,9 +117,6 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.Detail.Height = 0.1876667F;
             this.Detail.Name = "Detail";
             this.Detail.Format += new System.EventHandler(this.Detail_Format);
-            // 
-            // txtManejaMerma
-            // 
             this.txtManejaMerma.CanGrow = false;
             this.txtManejaMerma.Height = 0.167F;
             this.txtManejaMerma.Left = 0F;
@@ -204,9 +201,6 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.txtCostoUnitario.Text = "txtUnitario";
             this.txtCostoUnitario.Top = 0F;
             this.txtCostoUnitario.Width = 1.25F;
-            // 
-            // txtMermaNormalSalidas
-            // 
             this.txtMermaNormalSalidas.CanGrow = false;
             this.txtMermaNormalSalidas.Height = 0.167F;
             this.txtMermaNormalSalidas.Left = 4.5F;
@@ -216,9 +210,6 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.txtMermaNormalSalidas.Text = "txtMermaNormalSalidas";
             this.txtMermaNormalSalidas.Top = 0F;
             this.txtMermaNormalSalidas.Width = 1F;
-            // 
-            // txtPorcMermaNormalSalidas
-            // 
             this.txtPorcMermaNormalSalidas.CanGrow = false;
             this.txtPorcMermaNormalSalidas.Height = 0.167F;
             this.txtPorcMermaNormalSalidas.Left = 5.5F;
@@ -307,7 +298,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblCantidadAProducir,
             this.txtCantidadAProducir});
             this.GHCodigoListaAProducir.Height = 0.1878333F;
-            this.GHCodigoListaAProducir.Name = "GHCodigoListaAProducir";            
+            this.GHCodigoListaAProducir.Name = "GHCodigoListaAProducir";
             // 
             // lblListaDeMateriales
             // 
@@ -550,8 +541,6 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblCostoEstimado.Top = 0F;
             this.lblCostoEstimado.Width = 2.499999F;
             // 
-            // lblMermaNormalSalidas
-            // 
             this.lblMermaNormalSalidas.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblMermaNormalSalidas.Height = 0.167F;
             this.lblMermaNormalSalidas.HyperLink = null;
@@ -561,9 +550,6 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblMermaNormalSalidas.Text = "Merma Normal";
             this.lblMermaNormalSalidas.Top = 0.156F;
             this.lblMermaNormalSalidas.Width = 1F;
-            // 
-            // lblPorcMermaNormalSalidas
-            // 
             this.lblPorcMermaNormalSalidas.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblPorcMermaNormalSalidas.Height = 0.167F;
             this.lblPorcMermaNormalSalidas.HyperLink = null;
@@ -573,7 +559,6 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblPorcMermaNormalSalidas.Text = "% Merma";
             this.lblPorcMermaNormalSalidas.Top = 0.156F;
             this.lblPorcMermaNormalSalidas.Width = 1F;
-            // 
             // GFSalidas
             // 
             this.GFSalidas.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {

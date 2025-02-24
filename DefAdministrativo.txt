@@ -2182,8 +2182,7 @@ unStatusDocOrigenLoteInv = (Vigente, Anulado);//e,Componente=Inventario
 //  La definicion de periodo, se hace solo para que el narrador no se queje porque falta el record
 
 
-
-{@S}ReglasDeContabilizacion = Record//Multiarchivo=Compania,Componente=Contabilizacion,Esquema=Saw,interop,UNICO,"Reglas de Contabilización",Generate
+{@S}ReglasDeContabilizacion = Record//Multiarchivo=Compania,Componente=Contabilizacion,Esquema=Saw,interop,UNICO,"Reglas de Contabilización"
     ConsecutivoCompania                         : LongInt;//o,v,HIDE
     Numero                                      : Str11;//u,o,g,sugestconsecutive,"Número",HIDE
           
@@ -2623,7 +2622,7 @@ unStatusDocOrigenLoteInv = (Vigente, Anulado);//e,Componente=Inventario
 	@PrimaryKey = Codigo
 }
 
-{@S}Caja = Record //Multiarchivo=Compania, "Caja", Componente=Venta, Esquema=Adm, EsquemaBD=Adm
+{@S}Caja = Record //Multiarchivo=Compania, "Caja", Componente=Venta, Esquema=Adm, EsquemaBD=Adm,Generate
 	ConsecutivoCompania	: LongInt;//o,HIDE
 	Consecutivo   		: LongInt;//u,o,a,sugestconsecutive
 	NombreCaja			: Str60;//o,SEARCH
@@ -2641,6 +2640,7 @@ unStatusDocOrigenLoteInv = (Vigente, Anulado);//e,Componente=Inventario
 	AbrirGavetaDeDinero			: Boolean;
 	UltimoNumeroCompFiscal		: Str12;//
 	UltimoNumeroNCFiscal        : Str12;//
+	UltimoNumeroNDFiscal        : Str12;//
 	IpParaConexion				: Str15;//
 	MascaraSubred				: Str15;//
 	Gateway						: Str15;//
@@ -3339,7 +3339,7 @@ unStatusDocOrigenLoteInv = (Vigente, Anulado);//e,Componente=Inventario
 }  
 }
 
-{@M}ArticuloInventario = Record//Multiarchivo=Compania, "Artículo Inventario", Componente=Inventario,Esquema=Saw, GenerateRptConfigurar,GenerateFrmInforme
+{@M}ArticuloInventario = Record//Multiarchivo=Compania, "Artículo Inventario", Componente=Inventario,Esquema=Saw, GenerateRptConfigurar,GenerateFrmInforme,GENERATE
     ConsecutivoCompania: Longint; //HIDE
     Codigo	       : str15;//O,g,"Código del Artículo",Search
     Descripcion        : TextArea;//g,"Descripción",Search,o
@@ -4211,13 +4211,13 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 }
 
 
-{@M}ListaDeMateriales = record //Multiarchivo=Compania, "Lista de Materiales", Componente=GestionProduccion, Esquema=Adm, EsquemaBD=Adm,interop,GenerateRptConfigurar, GenerateFrmInforme
+{@M}ListaDeMateriales = record //Multiarchivo=Compania, "Lista de Materiales", Componente=GestionProduccion, Esquema=Adm, EsquemaBD=Adm,interop,GenerateRptConfigurar, GenerateFrmInforme     
 	ConsecutivoCompania: Longint//HIDE 
 	Consecutivo: LongInt;//HIDE,Consecutive 
 	Codigo: str30//o, search,g, "Código" 
 	Nombre: textArea//g,"Nombre" 
 	CodigoArticuloInventario: str30//HIDE, dv=''
-	FechaCreacion 	: unFecha;//O,G,"Fecha de Creación",search
+	FechaCreacion : unFecha;//O,G,"Fecha de Creación",search
 	ManejaMerma		: boolean; //"Manejo de Merma"
 	NombreOperador: Str20// 
 	FechaUltimaModificacion: date;// 
@@ -4239,7 +4239,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	@PrimaryKey=ConsecutivoCompania, ConsecutivoListaDeMateriales,Consecutivo 
 } 
 
-{@D ListaDeMateriales} ListaDeMaterialesDetalleSalidas = record //Multiarchivo=Compania, "Salidas", Componente=GestionProduccion, Esquema=Adm, EsquemaBD=Adm
+{@D ListaDeMateriales} ListaDeMaterialesDetalleSalidas = record //Multiarchivo=Compania, "Salidas", Componente=GestionProduccion, Esquema=Adm, EsquemaBD=Adm  
 	ConsecutivoCompania: Longint//HIDE 
 	ConsecutivoListaDeMateriales: Longint//HIDE 
 	Consecutivo: Longint//HIDE 
@@ -4517,7 +4517,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	@PrimaryKey=ConsecutivoCompania,Consecutivo
 }
 
-{@D OrdenDeProduccion}OrdenDeProduccionDetalleArticulo = Record//Multiarchivo=Compania,"Salida",Esquema=Adm,Componente=GestionProduccion,EsquemaBD=Adm,GENERATE
+{@D OrdenDeProduccion}OrdenDeProduccionDetalleArticulo = Record//Multiarchivo=Compania,"Salida",Esquema=Adm,Componente=GestionProduccion,EsquemaBD=Adm
 	ConsecutivoCompania				: LongInt;//HIDE
 	ConsecutivoOrdenDeProduccion	: LongInt;//HIDE,o
 	Consecutivo						: LongInt;//HIDE,o
@@ -4537,7 +4537,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	PorcentajeCostoEstimado			: decimal;//g,"% Costo Est.",decimales=8
 	PorcentajeCostoCierre			: decimal;//g,"% Costo Cierre",decimales=8
 	Costo							: decimal;//g,"Costo",
-	ConsecutivoLoteDeInventario	    : LongInt;//o,HIDE
+	ConsecutivoLoteDeInventario	: LongInt;//o,HIDE
 	PorcentajeMermaNormalOriginal   : decimal//g,"%MermaOriginal", decimales=8,dv=0
 	CantidadMermaNormal             : decimal//g,"Merma Normal", decimales=8,dv=0
 	PorcentajeMermaNormal			: decimal//g,"%Merma Normal", decimales=8,dv=0
@@ -4546,7 +4546,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	@PrimaryKey=ConsecutivoCompania,ConsecutivoOrdenDeProduccion,Consecutivo
 }
 
-{@D OrdenDeProduccion}OrdenDeProduccionDetalleMateriales = Record//Multiarchivo=Compania,"Insumos",Componente=GestionProduccion,EsquemaBD=Adm,GENERATE
+{@D OrdenDeProduccion}OrdenDeProduccionDetalleMateriales = Record//Multiarchivo=Compania,"Insumos",Componente=GestionProduccion,EsquemaBD=Adm
 	ConsecutivoCompania					: LongInt;//HIDE
 	ConsecutivoOrdenDeProduccion		: LongInt;//HIDE,o
 	Consecutivo							: LongInt;//HIDE,o
@@ -4709,7 +4709,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 }
 
 
-{@M}LoteDeInventario = record //Multiarchivo=Compania, "Lote de Inventario",Componente=Inventario,Esquema=Saw,interop,GenerateRptConfigurar,GenerateFrmInforme
+{@M}LoteDeInventario = record //Multiarchivo=Compania, "Lote de Inventario",Componente=Inventario,Esquema=Saw,interop,GenerateRptConfigurar,GenerateFrmInforme,GENERATE
    ConsecutivoCompania : LongInt;//HIDE
    Consecutivo 	       : LongInt;//HIDE,a
    CodigoLote          : Str30;//o,sugestConsecutive,g,"Código",search
@@ -4726,7 +4726,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 @UniqueKey=ConsecutivoCompania,CodigoLote,CodigoArticulo
 }
 
-{@D LoteDeInventario}LoteDeInventarioMovimiento = record//Multiarchivo=Compania,Componente=Inventario,Esquema=Saw,interop,GenerateRptConfigurar,GenerateFrmInforme
+{@D LoteDeInventario}LoteDeInventarioMovimiento = record//Multiarchivo=Compania,Componente=Inventario,Esquema=Saw,interop,GenerateRptConfigurar,GenerateFrmInforme,GENERATE
    ConsecutivoCompania   : LongInt;//HIDE
    ConsecutivoLote       : LongInt;//HIDE,a
    Consecutivo           : LongInt;//HIDE,a
@@ -4767,45 +4767,80 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 @GroupBy=NumeroDocumento
 }
 
-//{@R LoteDeInventario} ArticulosPorVencer = Reporte //Multiarchivo=Compania,Componente=Inventario,"Lote de Inventario"	
-//	LineaProducto : section;
-//	LineaDeProducto : Str30;"Linea De Producto"
-//	Codigo : Str30;//"Código"
-//	Descripcion : Str100;//"Descripción"
-//	Existencia	: Decimal;"Existencia" 
-//	Lote		: Str30;//"Lote"
-//	FechaVencimiento : Date;"Fecha de Vencimiento"
-//	DiasParaVencerse :	Int;//"Días para vencerse"   
-//	{EndSeccion}  
-//}
-//
-//{@R LoteDeInventario}LoteDeInventarioVencidos = Reporte //Multiarchivo=Compania,"Articulo Vencidos"
-//	LineaProducto : section;
-//	LineaDeProducto : Str30;"Linea De Producto"
-//	CodigoArticulo		: Str30;//"Código"
-//	DescripcionArticulo	: Str50;//"Descripción"
-//	LoteDeInventario	: Str30;//"Lote de Inventario"
-//	FechaDeVencimiento	: date;//"F. Vcto."
-//	Existencia		: decimal;//"Existencia"
-//	DiasVencidos : Int;//"Días Vencidos"
-//    {EndSeccion}
-//
-//{@R LoteDeInventario} MovimientoDeLoteInventario = Reporte //Multiarchivo=Compania,Componente=Inventario,"Movimientos de Lote de Inventario"	
-//	secArticulo : section;
-//	Articulo : Str100;//"Artículo" 
-//	secLote : section;			
-//	CodigoArticulo : Str50;//"Código Artículo" 
-//	Lote : Str30;//"Lote"
-//	FechaVencimiento : Date;//"Fecha de Vencimiento"
-//	FechaElaboracion : Date;//"Fecha de Elaboracion"
-//	{EndSeccion}  
-//	Fecha : Date;//"Fecha"
-//	TipoMovimiento : Str50;//"Tipo de Movimiento"
-//	NroDocumento : Str30;//"Número de Documento"
-//	ExistenciaInicial : Decimal;//"Existencia Inicial"
-//	Entrada : Decimal;//"Entrada"
-//	Salida : Decimal;//"Salida"	
-//	{EndSeccion}  
-//}
+{@R LoteDeInventario} ArticulosPorVencer = Reporte //Multiarchivo=Compania,Componente=Inventario,"Lote de Inventario"	
+	LineaProducto : section;
+	LineaDeProducto : Str30;"Linea De Producto"
+	Codigo : Str30;//"Código"
+	Descripcion : Str100;//"Descripción"
+	Existencia	: Decimal;"Existencia" 
+	Lote		: Str30;//"Lote"
+	FechaVencimiento : Date;"Fecha de Vencimiento"
+	DiasParaVencerse :	Int;//"Días para vencerse"   
+	{EndSeccion}  
+}
 
+{@R LoteDeInventario}LoteDeInventarioVencidos = Reporte //Multiarchivo=Compania,"Articulo Vencidos"
+	LineaProducto : section;
+	LineaDeProducto : Str30;"Linea De Producto"
+	CodigoArticulo		: Str30;//"Código"
+	DescripcionArticulo	: Str50;//"Descripción"
+	LoteDeInventario	: Str30;//"Lote de Inventario"
+	FechaDeVencimiento	: date;//"F. Vcto."
+	Existencia		: decimal;//"Existencia"
+	DiasVencidos : Int;//"Días Vencidos"
+    {EndSeccion}
+}
+{@R LoteDeInventario} MovimientoDeLoteInventario = Reporte //Multiarchivo=Compania,Componente=Inventario,"Movimientos de Lote de Inventario"	
+	secArticulo : section;
+	Articulo : Str100;//"Artículo" 
+	secLote : section;			
+	CodigoArticulo : Str50;//"Código Artículo" 
+	Lote : Str30;//"Lote"
+	FechaVencimiento : Date;//"Fecha de Vencimiento"
+	FechaElaboracion : Date;//"Fecha de Elaboracion"
+	{EndSeccion}  
+	Fecha : Date;//"Fecha"
+	TipoMovimiento : Str50;//"Tipo de Movimiento"
+	NroDocumento : Str30;//"Número de Documento"
+	ExistenciaInicial : Decimal;//"Existencia Inicial"
+	Entrada : Decimal;//"Entrada"
+	Salida : Decimal;//"Salida"	
+	{EndSeccion}  
+}
 
+{@S}Escalada = Record // male
+   Id 	       : Guid;//HIDE,a,sugestConsecutive
+   Escalada41  : Int;//o
+   Escalada32   : date;//a
+   Escalada73  : str40; //a
+   Escalada24  : str40; //a
+   Escalada85  : str30; //a
+   Escalada100 : str255;
+@PrimaryKey=Id
+}
+
+{@S}AuditoriaConfiguracion = record //Multiarchivo=Compania,"Auditoria Configuracion", Componente=Venta, Esquema=Adm,EsquemaBD=adm,GenerateRptConfigurar,GenerateFrmInforme,interop
+	ConsecutivoCompania		: LongInt;//
+	ConsecutivoAuditoria		: LongInt;//
+	VersionPrograma		: Str10;//
+	FechayHora		: date;//dv=getdate()
+	Accion		: Str20;//dv=''
+	Motivo		: TextArea;//dv=''
+	ConfiguracionOriginal		: Str500;//
+	ConfiguracionNueva		: Str500;//
+	NombreOperador		: Str10;//a
+	FechaUltimaModificacion	: date;//a
+	@PrimaryKey=ConsecutivoCompania,ConsecutivoAuditoria,VersionPrograma
+}
+
+{@R AuditoriaConfiguracion}AuditoriaConfiguracionDeCaja = Reporte//Multiarchivo=Compania,"Auditoria Configuracion de Caja",Componente=Venta,Esquema=Adm
+	NroVersion			: Section;	//"NroVersion"
+	VersionPrograma	: Str10;	//"Version de Programa"
+	{EndSeccion}	
+	FechaYHora	:	date;//"Fecha y Hora"	
+	Accion	:	Str20;//"Acción"
+	Motivo	:	Str255;//"Motivo"	
+	ConfiguracionOriginal	:	Str500;//"Configuración Original"
+	ConfiguracionNueva	:	Str500;//"Configuración Nueva"
+	NombreOperador : Str10;//"NombreOperador"	
+}

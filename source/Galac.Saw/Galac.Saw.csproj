@@ -54,6 +54,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Galac.Adm.Uil.Venta">
+      <HintPath>..\..\bin\Galac.Adm.Uil.Venta.dll</HintPath>
+    </Reference>
     <Reference Include="Galac.Comun.Brl.TablasGen">
       <HintPath>..\packages\Galac.Comun.Brl.TablasGen.2.61.0\lib\Galac.Comun.Brl.TablasGen.dll</HintPath>
     </Reference>

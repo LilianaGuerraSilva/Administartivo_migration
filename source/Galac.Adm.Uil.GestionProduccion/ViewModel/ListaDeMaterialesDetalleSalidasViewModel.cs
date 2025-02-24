@@ -223,7 +223,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public string TipoArticuloInvStr {
             get { return LibEnumHelper.GetDescription(TipoArticuloInvAsEnum); }
         }
-
         #endregion //Propiedades
         #region Constructores
         public ListaDeMaterialesDetalleSalidasViewModel()

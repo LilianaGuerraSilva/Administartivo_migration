@@ -42,10 +42,6 @@
     <Reference Include="Galac.Comun.Uil.TablasGen">
       <HintPath>..\packages\Galac.Comun.Uil.TablasGen.2.61.0\lib\Galac.Comun.Uil.TablasGen.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Saw.Reconv">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\Galac.Saw.Reconv.dll</HintPath>
-    </Reference>
     <Reference Include="LibGalac.Aos.ARRpt">
       <HintPath>..\packages\LibGalac.Aos.ARRpt.5.24.1\lib\LibGalac.Aos.ARRpt.dll</HintPath>
     </Reference>
@@ -82,9 +78,8 @@
     <Reference Include="LibGalac.Aos.Uil">
       <HintPath>..\packages\LibGalac.Aos.Uil.5.24.2.4\lib\LibGalac.Aos.Uil.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.Uil.Usal, Version=5.24.1.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\LibGalac.Aos.Uil.Usal.dll</HintPath>
+    <Reference Include="LibGalac.Aos.Uil.Usal, Version=5.24.2.5, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.Uil.Usal.5.24.2.5\lib\LibGalac.Aos.Uil.Usal.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -333,6 +328,10 @@
     <ProjectReference Include="..\Galac.Saw.Lib\Galac.Saw.Lib.csproj">
       <Project>{b04e6942-e0b8-4ba2-90e7-fbf8a95ddc86}</Project>
       <Name>Galac.Saw.Lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Reconvert\Galac.Saw.Reconv.csproj">
+      <Project>{bf877c20-f113-46f1-b3f5-42cbbd123908}</Project>
+      <Name>Galac.Saw.Reconv</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Rpt.Inventario\Galac.Saw.Rpt.Inventario.csproj">
       <Project>{ad96dfba-cca7-445b-822e-d40c2fd13a48}</Project>

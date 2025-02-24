@@ -62,6 +62,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsAuditoriaConfiguracionDat.cs" />
+    <Compile Include="clsAuditoriaConfiguracionED.cs" />
     <Compile Include="clsCondicionesDePagoDat.cs" />
     <Compile Include="clsCondicionesDePagoED.cs" />
     <Compile Include="clsFormaDelCobroDat.cs" />

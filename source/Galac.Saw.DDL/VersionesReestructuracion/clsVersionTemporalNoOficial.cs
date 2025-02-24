@@ -5,6 +5,13 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Dal;
 using System;
 using System.Text;
+using Galac.Saw.Brl.Tablas;
+using System.ComponentModel.DataAnnotations;
+using LibGalac.Aos.Brl;
+using System.Data;
+using LibGalac.Aos.Cnf;
+using Galac.Saw.Lib;
+using LibGalac.Aos.DefGen;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
 

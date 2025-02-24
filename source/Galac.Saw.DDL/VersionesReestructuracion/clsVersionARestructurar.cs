@@ -9,19 +9,19 @@ using System.Xml;
 
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
-    abstract class clsVersionARestructurar : QAdvReest {
-        public string _TodayAsSqlValue { get; set; }
+    abstract class clsVersionARestructurar : QAdvReest{
+        public string _TodayAsSqlValue {get; set;}
         public string _CurrentDataBaseName { get; set; }
         public string _VersionDataBase { get; set; }
 
         public abstract bool UpdateToVersion();
 
-        public clsVersionARestructurar(string valCurrentDataBaseName) {
+        public clsVersionARestructurar(string valCurrentDataBaseName){
             _TodayAsSqlValue = InsSql.ToSqlValue(LibDate.Today());
-            _CurrentDataBaseName = valCurrentDataBaseName;
+            _CurrentDataBaseName=valCurrentDataBaseName;
         }
-
-        public bool AgregarNuevoParametro(string valNombre, string valModulo, int valNivelModulo, string valNombreDelGrupo, int valNivelDelGrupo, string valEtiqueta, char valTipoDeDato, string valReglasValidacion, char valEsParaTodasLasEmpresas, string valValorPorDefecto) {
+        
+        public bool AgregarNuevoParametro(string valNombre,string valModulo, int valNivelModulo, string valNombreDelGrupo, int valNivelDelGrupo, string valEtiqueta, char valTipoDeDato, string valReglasValidacion, char valEsParaTodasLasEmpresas, string valValorPorDefecto){
             bool vResult = true;
             IList<int> vLstCompanias;
             try {
@@ -33,7 +33,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
                     }
                 }
                 return vResult;
-            } catch (Exception vEx) {
+            } catch(Exception vEx) {
                 throw vEx;
             }
         }
@@ -42,7 +42,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             bool vResult = true;
             IList<int> vLstCompanias;
             try {
-                AgregarDefinicionDeParametro(valNombre, valModulo, valNivelModulo, valNombreDelGrupo, valNivelDelGrupo, valEtiqueta, LibConvert.ToChar(LibConvert.EnumToDbValue((int)valTipoDeDato)), valReglasValidacion, valEsParaTodasLasEmpresas);
+                AgregarDefinicionDeParametro(valNombre, valModulo, valNivelModulo, valNombreDelGrupo, valNivelDelGrupo, valEtiqueta, LibConvert.ToChar(LibConvert.EnumToDbValue((int)valTipoDeDato)) , valReglasValidacion, valEsParaTodasLasEmpresas);
                 vLstCompanias = ObtenerTodosLosConsecutivosDeLasCompanias();
                 if (vLstCompanias != null) {
                     foreach (int vCompania in vLstCompanias) {
@@ -55,7 +55,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             }
         }
 
-        private bool AgregarDefinicionDeParametro(string valNombre, string valModulo, int valNivelModulo, string valNombreDelGrupo, int valNivelDelGrupo, string valEtiqueta, char valTipoDeDato, string valReglasValidacion, char valEsParaTodasLasEmpresas) {
+        private bool AgregarDefinicionDeParametro(string valNombre,string valModulo, int valNivelModulo, string valNombreDelGrupo, int valNivelDelGrupo, string valEtiqueta, char valTipoDeDato, string valReglasValidacion, char valEsParaTodasLasEmpresas) {
             bool vResult = false;
             try {
                 if (!ExisteLaDefinicionDelParametro(valNombre)) {
@@ -79,7 +79,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
                     #endregion Insertar Definicion Parametros
                 }
                 return vResult;
-            } catch (Exception vException) {
+            } catch(Exception vException) {
                 throw vException;
             }
         }
@@ -92,11 +92,11 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
                 vSqlExisteValorDelParametro.AppendLine("SELECT * FROM Comun.SettValueByCompany WHERE NameSettDefinition='" + valNombre + "' AND ConsecutivoCompania=" + valConsecutivoCompania);
                 System.Data.DataSet vDSValorDelParametro = ExecuteDataset(vSqlExisteValorDelParametro.ToString(), -1);
                 #endregion Verificar Definicion Parametros
-                if (vDSValorDelParametro != null && vDSValorDelParametro.Tables != null && vDSValorDelParametro.Tables[0] != null && vDSValorDelParametro.Tables[0].Rows.Count <= 0) {
+                if(vDSValorDelParametro != null && vDSValorDelParametro.Tables != null && vDSValorDelParametro.Tables[0] != null && vDSValorDelParametro.Tables[0].Rows.Count <= 0) {
                     vResult = false;
                 }
                 return vResult;
-            } catch (Exception vEx) {
+            } catch(Exception vEx) {
                 throw vEx;
             }
         }
@@ -113,11 +113,11 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
                     vResult = false;
                 }
                 return vResult;
-            } catch (Exception vEx) {
+            } catch(Exception vEx) {
                 throw vEx;
             }
         }
-
+        
         private bool AgregarValorParametroPorCompania(int valConsecutivoCompania, string valNameSettDefinition, string valValor) {
             bool vResult = false;
             try {
@@ -136,7 +136,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
                     vResult = true;
                 }
                 return vResult;
-            } catch (Exception vEx) {
+            } catch(Exception vEx) {
                 throw vEx;
             }
         }
@@ -154,10 +154,10 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             }
             return vResult;
         }
-
+    
         IList<int> CompaniaToList(XElement valItem) {
             IList<int> vDetailList = new List<int>();
-            foreach (XElement vItemDetail in valItem.Descendants("GpResult")) {
+            foreach(XElement vItemDetail in valItem.Descendants("GpResult")) {
                 vDetailList.Add(LibConvert.ToInt(vItemDetail.Element("ConsecutivoCompania")));
             }
             return vDetailList;
@@ -165,15 +165,15 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 
         public bool CreateViewAndSP(string valModulo) {
             bool vResult = false;
-            try {
+            try{
                 string[] vModulo = new string[1];
                 vModulo[0] = valModulo;
                 if (valModulo != null && !valModulo.Trim().Equals("")) {
                     clsCrearDatabase insBdd = new clsCrearDatabase();
                     insBdd.CrearVistasYProcedimientos(vModulo);
                 }
-                vResult = true;
-            } catch (Exception e) {
+                vResult=true;
+            }catch(Exception e){
                 throw e;
             }
             return vResult;

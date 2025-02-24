@@ -93,9 +93,6 @@ namespace Galac.Adm.Rpt.GestionProduccion
             this.Detail.Height = 0.167F;
             this.Detail.Name = "Detail";
             this.Detail.Format += new System.EventHandler(this.Detail_Format);
-            // 
-            // txtManejaMermaIns
-            // 
             this.txtManejaMermaIns.CanGrow = false;
             this.txtManejaMermaIns.Height = 0.167F;
             this.txtManejaMermaIns.Left = 0F;
@@ -181,8 +178,6 @@ namespace Galac.Adm.Rpt.GestionProduccion
             this.txtExistencia.Top = 0F;
             this.txtExistencia.Width = 1F;
             // 
-            // txtMermaNormalInsumos
-            // 
             this.txtMermaNormalInsumos.CanGrow = false;
             this.txtMermaNormalInsumos.Height = 0.167F;
             this.txtMermaNormalInsumos.Left = 4.5F;
@@ -192,9 +187,6 @@ namespace Galac.Adm.Rpt.GestionProduccion
             this.txtMermaNormalInsumos.Text = "txtMermaNormalInsumos";
             this.txtMermaNormalInsumos.Top = 0F;
             this.txtMermaNormalInsumos.Width = 1F;
-            // 
-            // txtPorcMermaNormalInsumos
-            // 
             this.txtPorcMermaNormalInsumos.CanGrow = false;
             this.txtPorcMermaNormalInsumos.Height = 0.167F;
             this.txtPorcMermaNormalInsumos.Left = 5.5F;
@@ -204,7 +196,6 @@ namespace Galac.Adm.Rpt.GestionProduccion
             this.txtPorcMermaNormalInsumos.Text = "txtPorcMermaNormalInsumos";
             this.txtPorcMermaNormalInsumos.Top = 0F;
             this.txtPorcMermaNormalInsumos.Width = 1F;
-            // 
             // lblDescripcionArticulo
             // 
             this.lblDescripcionArticulo.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
@@ -316,9 +307,6 @@ namespace Galac.Adm.Rpt.GestionProduccion
             this.lblUnidades.Text = "Unidad";
             this.lblUnidades.Top = 0.301F;
             this.lblUnidades.Width = 1F;
-            // 
-            // lblMermaNormalInsumos
-            // 
             this.lblMermaNormalInsumos.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblMermaNormalInsumos.Height = 0.167F;
             this.lblMermaNormalInsumos.HyperLink = null;
@@ -328,9 +316,6 @@ namespace Galac.Adm.Rpt.GestionProduccion
             this.lblMermaNormalInsumos.Text = "Merma Normal";
             this.lblMermaNormalInsumos.Top = 0.301F;
             this.lblMermaNormalInsumos.Width = 1F;
-            // 
-            // lblPorcMermaNormalInsumos
-            // 
             this.lblPorcMermaNormalInsumos.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblPorcMermaNormalInsumos.Height = 0.167F;
             this.lblPorcMermaNormalInsumos.HyperLink = null;

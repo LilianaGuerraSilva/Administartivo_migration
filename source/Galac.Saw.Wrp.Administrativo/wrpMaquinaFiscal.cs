@@ -25,7 +25,7 @@ namespace Galac.Saw.Wrp.Tablas {
 
     public class wrpMaquinaFiscal: System.EnterpriseServices.ServicedComponent, IWrpMfVb {
         #region Variables
-        string _Title = "Maquina Fiscal";
+        string _Title = "Impresora Fiscal";
         #endregion //Variables
         #region Propiedades
 

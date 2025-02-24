@@ -27,17 +27,18 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             string vSQLWhere = "";
             vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.StatusFactura", insSql.EnumToSqlValue((int)eStatusFactura.Emitida));
             vSQLWhere = vSQLWhere + " AND factura.ConsecutivoCaja" + " <> " + LibConvert.ToStr(vConsecutivoCajaGenerica);
-            vSQLWhere = vSQLWhere + " AND factura.TipoDeDocumento IN ( " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) + ")";
+            vSQLWhere = vSQLWhere + " AND factura.TipoDeDocumento IN ( " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeDebito) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeDebitoComprobanteFiscal) + ")";
             vSQLWhere = vSQLWhere + " AND (SAW.FormaDelCobro.TipoDePago  <> " + insSql.EnumToSqlValue((int)eTipoDeFormaDePago.VueltoEfectivo) + " AND SAW.FormaDelCobro.TipoDePago  <> " + insSql.EnumToSqlValue((int)eTipoDeFormaDePago.VueltoC2P) + ") ";
             vSQLWhere = insSql.SqlDateValueBetween(vSQLWhere, "factura.fecha", valFechaInicial, valFechaFinal);
-            vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.GeneraCobroDirecto", insSql.ToSqlValue("S"));
+            vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.GeneraCobroDirecto", insSql.ToSqlValue("S"));            
             if (valCantidadOperadorDeReporte == eCantidadAImprimir.One) {
                 vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "factura.NombreOperador", valNombreDelOperador);
             }
             vSQLWhere = insSql.SqlIntValueWithAnd(vSQLWhere, "factura.ConsecutivoCompania", valConsecutivoCompania);
             string esFacturaValida = insSql.IIF("renglonCobroDeFactura.Monto IS NULL AND (factura.TotalFactura) > 0", "(factura.TotalFactura)", insSql.ToInt("0"), true);
             string esNotaDeCredito = insSql.IIF("factura.TipoDeDocumento IN (" + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) + ")", insSql.ToSqlValue("NOTAS DE CRÉDITO/DEVOLUCIONES"), insSql.ToSqlValue(string.Empty), false);
-            string esFacturaCobrada = insSql.IIF("factura.TipoDeDocumento IN (" + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + ")", insSql.ToSqlValue("FACTURAS COBRADAS"), esNotaDeCredito, false);
+            string esNotaDeDebitoOesNotaDeCredito = insSql.IIF("factura.TipoDeDocumento IN (" + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeDebito) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeDebitoComprobanteFiscal) + ")", insSql.ToSqlValue("NOTAS DE DÉBITO"), esNotaDeCredito, false);
+            string esFacturaCobrada = insSql.IIF("factura.TipoDeDocumento IN (" + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + ")", insSql.ToSqlValue("FACTURAS COBRADAS"), esNotaDeDebitoOesNotaDeCredito, false);
             string esFacturaNoCobrada = insSql.IIF("SUM" + esFacturaValida + insSql.ComparisonOp(">") + insSql.ToInt("0") + "AND factura.TipoDeDocumento IN (" + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + ")", insSql.ToSqlValue("FACTURAS NO COBRADAS"), esFacturaCobrada, true);
             vSql.AppendLine(insSql.SetDateFormat());
             vSql.AppendLine(" ;WITH CTE_MonedasActivas(CodMoneda, NombreMoneda, SimboloMoneda)");
@@ -53,6 +54,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	Caja.Consecutivo AS ConsecutivoCaja");
             vSql.AppendLine("	, Caja.NombreCaja");
             vSql.AppendLine("	, factura.Fecha");
+            vSql.AppendLine("	, factura.HoraModificacion");
             vSql.AppendLine("	, factura.NombreOperador AS NombreDelOperador");
             vSql.AppendLine("   , MonedaDoc.NombreMoneda AS NombreMoneda");
             vSql.AppendLine("   , " + esFacturaNoCobrada + " AS TipoDeDocumento");
@@ -95,6 +97,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	, Caja.NombreCaja");
             vSql.AppendLine("	, factura.TipoDeDocumento");
             vSql.AppendLine("	, factura.Fecha");
+            vSql.AppendLine("	, factura.HoraModificacion");
             vSql.AppendLine("	, factura.NombreOperador");
             vSql.AppendLine("   , factura.Moneda");
             vSql.AppendLine("	, factura.Numero");
@@ -717,7 +720,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	HoraApertura, ");
             vSql.AppendLine("	HoraCierre, ");
             vSql.AppendLine("	Operador, ");
-            vSql.AppendLine("	NombreDelUsuario, ");
+            vSql.AppendLine("	NombreDelUsuario, ");            
             vSql.AppendLine("	Movimiento,");
             vSql.AppendLine("	MontoApertura, MontoAperturaME,");
             vSql.AppendLine("	MontoCierre, MontoCierreME,");
@@ -767,7 +770,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	HoraApertura, ");
             vSql.AppendLine("	HoraCierre, ");
             vSql.AppendLine("	Operador,");
-            vSql.AppendLine("	NombreDelUsuario,");
+            vSql.AppendLine("	NombreDelUsuario,");            
             vSql.AppendLine("	MontoApertura, MontoAperturaME,");
             vSql.AppendLine("	MontoCierre, MontoCierreME,");
             vSql.AppendLine("	Movimiento,");
@@ -783,7 +786,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("		CA.ConsecutivoCaja, ");
             vSql.AppendLine("		C.NombreCaja, ");
             vSql.AppendLine("		'(' + NombreDelUsuario + ') ' + Usr.FirstAndLastName AS Operador,");
-            vSql.AppendLine("		CA.NombreDelUsuario,");
+            vSql.AppendLine("		CA.NombreDelUsuario,");           
             vSql.AppendLine("		MontoApertura, MontoAperturaME,");
             vSql.AppendLine("		MontoCierre, MontoCierreME,");
             if (valEsPAraMonedaLocal) {

@@ -513,9 +513,6 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
-        public bool IsVisbleLabelLoteNuevo {
-            get { return (ConexionCodigoArticulo != null) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.Lote || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeElaboracion); }
-        }
         public RelayCommand<string> ChooseLoteDeInventarioCommand {
             get;
             private set;
@@ -581,11 +578,15 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         }
         private void ExecuteChooseCodigoArticuloCommand(string valCodigo) {
             bool vAplicaProductoTerminado = false;
+            //clsArticuloInventarioED clsArticuloInventarioED = new clsArticuloInventarioED();
+            //clsArticuloInventarioED.BorrarVistasYSps();
+            //clsArticuloInventarioED.InstalarVistasYSps();
             try {
-                if (valCodigo == null) {
+                if(valCodigo == null) {
                     valCodigo = string.Empty;
                 }
-                vAplicaProductoTerminado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Compania", "ProductoTerminado");
+
+                vAplicaProductoTerminado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Compania","ProductoTerminado");
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("CodigoCompuesto", valCodigo);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
                 vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("StatusdelArticulo ", LibConvert.EnumToDbValue((int)eStatusArticulo.Vigente)), eLogicOperatorType.And);
@@ -606,17 +607,14 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 ConexionCodigoArticulo = Master.ChooseRecord<FkArticuloInventarioViewModel>("Articulo Inventario",vDefaultCriteria,vFixedCriteria,string.Empty);
 
                 if (ConexionCodigoArticulo != null) {
-                    if (LibDefGen.ProgramInfo.IsCountryPeru()) {
-                        PrecioUnitario = ConexionCodigoArticulo.CostoUnitario;
-                    }
-                    if (ConexionCodigoArticulo.TipoArticuloInv == Saw.Ccl.Inventario.eTipoArticuloInv.UsaSerial ||
+                    if(ConexionCodigoArticulo.TipoArticuloInv == Saw.Ccl.Inventario.eTipoArticuloInv.UsaSerial ||
                         ConexionCodigoArticulo.TipoArticuloInv == Saw.Ccl.Inventario.eTipoArticuloInv.UsaSerialRollo ||
                         ConexionCodigoArticulo.TipoArticuloInv == Saw.Ccl.Inventario.eTipoArticuloInv.UsaTallaColorySerial) {
-                        if (ConexionCodigoArticulo.TipoArticuloInv == Saw.Ccl.Inventario.eTipoArticuloInv.UsaSerial ||
+                        if(ConexionCodigoArticulo.TipoArticuloInv == Saw.Ccl.Inventario.eTipoArticuloInv.UsaSerial ||
                             ConexionCodigoArticulo.TipoArticuloInv == Saw.Ccl.Inventario.eTipoArticuloInv.UsaSerialRollo) {
                             ConexionCodigoArticulo.CodigoGrupo = "0";
                         }
-                        if (BuscarCodigoRepetidoEnElGrid(ConexionCodigoArticulo.Codigo)) {
+                        if(BuscarCodigoRepetidoEnElGrid(ConexionCodigoArticulo.Codigo)) {
                             Master.DetailCompraDetalleArticuloInventario.QuitarArticuloConSerialRepetido();
                             return;
                         } else {
@@ -639,10 +637,10 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                     PorcentajeSeguroLey = 0;
                     PorcentajeArancel = 0;
                 }
-            } catch (System.AccessViolationException) {
+            } catch(System.AccessViolationException) {
                 throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            } catch(System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx,ModuleName);
             }
         }
 
@@ -659,7 +657,6 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
-        
         #endregion //Metodos Generados
         private bool BuscarCodigoRepetidoEnElGrid(string valCodigo) {
             return Master.BuscarCodigoRepetidoEnElGrid(valCodigo);
@@ -793,7 +790,6 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 RaisePropertyChanged(() => IsEnabledLoteDeInventario);
                 RaisePropertyChanged(() => IsVisibleLoteDeInventarioFechaDeVencimiento);
                 RaisePropertyChanged(() => IsVisibleLoteDeInventarioFechaDeElaboracion);
-                RaisePropertyChanged(() => IsVisbleLabelLoteNuevo);
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
@@ -829,7 +825,6 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         private void RaisePropertyLote() {
             RaisePropertyChanged(() => IsVisbleLoteDeInventario);
             RaisePropertyChanged(() => IsEnabledLoteDeInventario);
-            RaisePropertyChanged(() => IsVisbleLabelLoteNuevo);
         }
 
         internal void CargarConexiones() {

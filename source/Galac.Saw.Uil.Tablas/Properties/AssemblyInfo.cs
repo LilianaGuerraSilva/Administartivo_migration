@@ -38,5 +38,5 @@ using System.Windows;
     ResourceDictionaryLocation.ExternalAssembly, //where theme specific resource dictionaries are located 
     ResourceDictionaryLocation.SourceAssembly //where the generic resource dictionary is located 
 )]
-[assembly: AssemblyVersion("2.61.1.*")]
-[assembly: AssemblyFileVersion("2.61.1.9999")]
+[assembly: AssemblyVersion("2.61.2.*")]
+[assembly: AssemblyFileVersion("2.61.2.9999")]

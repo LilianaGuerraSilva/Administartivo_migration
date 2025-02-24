@@ -98,6 +98,8 @@
     </Reference>
     <Reference Include="LibGalac.Aos.Uil.Usal">
       <HintPath>..\packages\LibGalac.Aos.Uil.Usal.5.24.2.5\lib\LibGalac.Aos.Uil.Usal.dll</HintPath>
+    <Reference Include="LibGalac.Ssm.U">
+      <HintPath>..\packages\LibGalac.Ssm.U.24.1.0\lib\LibGalac.Ssm.U.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -115,6 +117,17 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Reportes\clsAuditoriaConfiguracionDeCajaViewModel.cs" />
+    <Compile Include="Reportes\clsEscaladaInformesViewModel.cs" />
+    <Compile Include="Reportes\clsFacturacionEntreFechasVerificacionViewModel.cs" />
+    <Compile Include="Reportes\GSAuditoriaConfiguracionDeCaja.xaml.cs">
+      <DependentUpon>GSAuditoriaConfiguracionDeCaja.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSFacturacionEntreFechasVerificacion.xaml.cs">
+      <DependentUpon>GSFacturacionEntreFechasVerificacion.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UIMefAudiEnte.cs" />
+    <Compile Include="VentaMessagesHandler.cs" />
     <Compile Include="Reportes\clsCajaCerradaViewModel.cs" />
     <Compile Include="Reportes\clsCxCEntreFechasViewModel.cs" />
     <Compile Include="Reportes\GSCajaCerrada.xaml.cs">
@@ -124,6 +137,7 @@
       <DependentUpon>GSCxCEntreFechas.xaml</DependentUpon>
     </Compile>
     <Compile Include="UIMefVentaPagosElectronicos.cs" />
+    <Compile Include="ViewModel\AuditoriaEnteMngViewModel.cs" />
     <Compile Include="ViewModel\BuscarUbicacionDeArticuloViewModel.cs" />
     <Compile Include="clsCajaAperturaMenu.cs" />
     <Compile Include="clsCajaMenu.cs" />
@@ -243,6 +257,9 @@
     <Compile Include="ViewModel\PagosElectronicosMngViewModel.cs" />
     <Compile Include="ViewModel\ValidacionZelleViewModel.cs" />
     <Compile Include="ViewModel\VueltoEfectivoViewModel.cs" />
+    <Compile Include="Views\GSAuditoriaEnteView.xaml.cs">
+      <DependentUpon>GSAuditoriaEnteView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GSBuscarPrecioDeArticuloView.xaml.cs">
       <DependentUpon>GSBuscarPrecioDeArticuloView.xaml</DependentUpon>
     </Compile>
@@ -312,6 +329,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Reportes\GSAuditoriaConfiguracionDeCaja.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Reportes\GSCajaCerrada.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -368,6 +389,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Reportes\GSFacturacionEntreFechasVerificacion.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Reportes\GSFacturacionPorArticulo.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -389,6 +414,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\rsdGroupBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSAuditoriaEnteView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

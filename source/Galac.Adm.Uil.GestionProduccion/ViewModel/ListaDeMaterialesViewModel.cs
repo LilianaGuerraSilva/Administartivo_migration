@@ -243,7 +243,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 return IsEnabled && Action == eAccionSR.Insertar;
             }
         }
-
         #endregion //Propiedades
 
         #region Constructores e Inicializadores
@@ -484,7 +483,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 vItem.IsVisbleMermaSalida();
             }
         }
-
     } //End of class ListaDeMaterialesViewModel
 
 } //End of namespace Galac.Adm.Uil.GestionProduccion

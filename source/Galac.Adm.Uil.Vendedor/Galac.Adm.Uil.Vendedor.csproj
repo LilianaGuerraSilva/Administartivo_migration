@@ -39,14 +39,6 @@
     <Reference Include="Galac.Comun.Uil.TablasGen">
       <HintPath>..\packages\Galac.Comun.Uil.TablasGen.2.61.0\lib\Galac.Comun.Uil.TablasGen.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Saw.Ccl.Tablas">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\Galac.Saw.Ccl.Tablas.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Lib">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\Galac.Saw.Lib.dll</HintPath>
-    </Reference>
     <Reference Include="LibGalac.Aos.ARRpt">
       <HintPath>..\packages\LibGalac.Aos.ARRpt.5.24.1\lib\LibGalac.Aos.ARRpt.dll</HintPath>
     </Reference>
@@ -141,6 +133,14 @@
     <ProjectReference Include="..\Galac.Saw.Ccl.SttDef\Galac.Saw.Ccl.SttDef.csproj">
       <Project>{82C458B1-C93B-46A9-B58C-63ECD3633861}</Project>
       <Name>Galac.Saw.Ccl.SttDef</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Tablas\Galac.Saw.Ccl.Tablas.csproj">
+      <Project>{5bbc6220-f35e-4b5a-826e-cfece2eb3364}</Project>
+      <Name>Galac.Saw.Ccl.Tablas</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Lib\Galac.Saw.Lib.csproj">
+      <Project>{b04e6942-e0b8-4ba2-90e7-fbf8a95ddc86}</Project>
+      <Name>Galac.Saw.Lib</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Uil.Tablas\Galac.Saw.Uil.Tablas.csproj">
       <Project>{005FABDF-508B-4757-8A54-BE3603405283}</Project>

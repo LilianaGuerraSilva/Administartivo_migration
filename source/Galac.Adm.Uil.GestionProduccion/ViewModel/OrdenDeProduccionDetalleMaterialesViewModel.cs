@@ -573,7 +573,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 return vResult;
             }
         }
-
+        
         private ValidationResult CantidadMermaNormalValidating() {
             ValidationResult vResult = ValidationResult.Success;
             if (Master.ListaUsaMerma) {
@@ -607,7 +607,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 return vResult;
             }
         }
-
 
         private void ExecuteChooseLoteDeInventarioCommand(string valCodigoLote) {
             try {

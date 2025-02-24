@@ -242,6 +242,7 @@ Public Enum enum_SystemModules
    eSM_GVentas
    eSM_LoteDeInventario
    eSM_LoteDeInventarioMovimiento
+   eSM_AuditoriaConfiguracion
 End Enum
 
 Public Enum enum_DiaDeLaSemana
@@ -288,7 +289,7 @@ Public Enum enum_StatusDocumento
    eSD_REFINANCIADO
 End Enum
 
-Public Enum enum_TipoDeTransaccion
+Public Enum enum_TipoDeTransaccion 'Este enumerativo debe ser exactamente igual a su contraparte en c#
    eTD_FACTURA = 0
    eTD_GIRO
    eTD_CHEQUEDEVUELTO
@@ -303,6 +304,7 @@ Public Enum enum_TipoDeTransaccion
    eTD_OTROS
    eTD_NOTADECREDITOCOMPROBANTEFISCAL
    eTD_LETRADECAMBIO
+   eTD_NOTADEDEBITOCOMPROBANTEFISCAL
 End Enum
 
 Public Enum enum_OrigenFacturacionOManual
@@ -367,7 +369,7 @@ Public Enum enum_StatusFactura
    eSF_BORRADOR
 End Enum
 
-Public Enum enum_TipoDocumentoFactura
+Public Enum enum_TipoDocumentoFactura 'Este enumerativo debe ser exactamente igual a su contraparte en c#
    eTF_FACTURA = 0
    eTF_NOTADECREDITO
    eTF_NOTADEDEBITO
@@ -377,6 +379,7 @@ Public Enum enum_TipoDocumentoFactura
    eTF_BOLETA
    eTF_NOTADECREDITOCOMPROBANTEFISCAL
    eTF_NOTAENTREGA
+   eTF_NOTADEDEBITOCOMPROBANTEFISCAL
 End Enum
 
 Public Enum enum_FormaDePago
@@ -1355,6 +1358,7 @@ Public Enum Enum_EstadoImpresionFiscal
    eEIF_ASIGNAR_CONFIGURACION
    eEIF_CORTAR_PAPEL
    eEIF_IMPRIME_DOCUMENTO_NOFISCAL
+   eEIF_IMPRIMIR_NOTA_DE_DEBITO
 End Enum
 
 Public Enum enum_TipoDocumentoIdentificacionPeru
@@ -1917,6 +1921,7 @@ Public Function enum_SystemModulesToStr(module As enum_SystemModules) As String
       Case eSM_TransferenciaEntreCuentasBancarias: enum_SystemModulesToStr = "Transferencia entre Cuentas Bancarias"
       Case eSM_RutaDeComercializacion: enum_SystemModulesToStr = "Ruta de Comercialización"
       Case eSM_GVentas: enum_SystemModulesToStr = "G-Ventas"
+      Case eSM_AuditoriaConfiguracion: enum_SystemModulesToStr = "Auditoria Configuración"
    End Select
 End Function
 
@@ -2316,6 +2321,7 @@ Public Function enumTipoDeCxCToString(ByVal tipodeCuenta As enum_TipoDeTransacci
       Case eTD_LIQUIDACIONDECOMPRA: enumTipoDeCxCToString = "Liquidación de Compra"
       Case eTD_OTROS: enumTipoDeCxCToString = "Otros"
       Case eTD_NOTADECREDITOCOMPROBANTEFISCAL: enumTipoDeCxCToString = "Nota de Crédito Comprobante Fiscal"
+      Case eTD_NOTADEDEBITOCOMPROBANTEFISCAL: enumTipoDeCxCToString = "Nota de Débito Comprobante Fiscal"
       Case Else: enumTipoDeCxCToString = enumTipoDeCxCToString(0)
       End Select
 End Function
@@ -2324,7 +2330,7 @@ Public Function strTipoDeCxCToNum(ByVal tipodeCuenta As String, Optional ByVal s
    Dim mEnum As enum_TipoDeTransaccion
    Dim nCount As Integer
    nCount = 0
-   For mEnum = eTD_FACTURA To eTD_NOTADECREDITOCOMPROBANTEFISCAL
+   For mEnum = eTD_FACTURA To eTD_NOTADEDEBITOCOMPROBANTEFISCAL
    If UCase(tipodeCuenta) = UCase(enumTipoDeCxCToString(mEnum)) Then
       strTipoDeCxCToNum = nCount
       GoTo h_EXIT
@@ -2342,7 +2348,7 @@ Public Function strTipoDeCxCToSiglasToString(ByVal tipodeCuenta As String) As St
    Dim mEnum As enum_TipoDeTransaccion
    Dim nCount As Integer
    nCount = 0
-   For mEnum = eTD_FACTURA To eTD_NOTADECREDITOCOMPROBANTEFISCAL
+   For mEnum = eTD_FACTURA To eTD_NOTADEDEBITOCOMPROBANTEFISCAL
       If UCase(tipodeCuenta) = UCase(enumTipoDeCxCToSiglas(mEnum)) Then
          strTipoDeCxCToSiglasToString = enumTipoDeCxCToString(mEnum)
          GoTo h_EXIT
@@ -2356,7 +2362,7 @@ Public Function strTipoDeCxCToNumToSiglas(ByVal tipodeCuenta As String) As Integ
    Dim mEnum As enum_TipoDeTransaccion
    Dim nCount As Integer
    nCount = 0
-   For mEnum = eTD_FACTURA To eTD_NOTADECREDITOCOMPROBANTEFISCAL
+   For mEnum = eTD_FACTURA To eTD_NOTADEDEBITOCOMPROBANTEFISCAL
    If UCase(tipodeCuenta) = UCase(enumTipoDeCxCToSiglas(mEnum)) Then
       strTipoDeCxCToNumToSiglas = nCount
       GoTo h_EXIT
@@ -2372,7 +2378,7 @@ Public Function strTipoDeCxCToNumBoolean(ByVal tipodeCuenta As String) As Boolea
    Dim mEnum As enum_TipoDeTransaccion
    Dim nCount As Integer
    esUnTipoDeCxC = False
-   For mEnum = eTD_FACTURA To eTD_NOTADECREDITOCOMPROBANTEFISCAL
+   For mEnum = eTD_FACTURA To eTD_NOTADEDEBITOCOMPROBANTEFISCAL
    If UCase(tipodeCuenta) = UCase(enumTipoDeCxCToString(mEnum)) Then
       esUnTipoDeCxC = True
       GoTo h_EXIT
@@ -2397,6 +2403,7 @@ Select Case tipoDocumentoCxC
       Case eTD_LIQUIDACIONDECOMPRA: enumTipoDeCxCToSiglas = "L/C"
       Case eTD_OTROS: enumTipoDeCxCToSiglas = "OTR"
       Case eTD_NOTADECREDITOCOMPROBANTEFISCAL: enumTipoDeCxCToSiglas = "N/C-CF"
+      Case eTD_NOTADEDEBITOCOMPROBANTEFISCAL: enumTipoDeCxCToSiglas = "N/D-CF"
       Case Else: enumTipoDeCxCToSiglas = enumTipoDeCxCToSiglas(0)
    End Select
 End Function
@@ -2767,7 +2774,7 @@ Public Function enumStatusFacturaToString(ByVal statusFactura As enum_StatusFact
    Select Case statusFactura
       Case eSF_EMITIDA: enumStatusFacturaToString = "Emitida"
       Case eSF_ANULADA: enumStatusFacturaToString = "Anulada"
-      Case eSF_BORRADOR: enumStatusFacturaToString = "Borrador"
+      Case eSF_BORRADOR: enumStatusFacturaToString = "En Espera"
       Case Else: enumStatusFacturaToString = enumStatusFacturaToString(0)
    End Select
 End Function
@@ -2823,6 +2830,7 @@ Public Function enumTipodocumentoFacturaToString(ByVal tipodocumentoFactura As e
       Case eTF_BOLETA: enumTipodocumentoFacturaToString = "Boleta"
       Case eTF_NOTADECREDITOCOMPROBANTEFISCAL: enumTipodocumentoFacturaToString = "Nota de Crédito Comprobante Fiscal"
       Case eTF_NOTAENTREGA: enumTipodocumentoFacturaToString = "Nota de Entrega"
+      Case eTF_NOTADEDEBITOCOMPROBANTEFISCAL: enumTipodocumentoFacturaToString = "Nota de Débito Comprobante Fiscal"
       Case Else: enumTipodocumentoFacturaToString = enumTipodocumentoFacturaToString(0)
       End Select
 End Function
@@ -2831,7 +2839,7 @@ Public Function strTipodocumentoFacturaToNum(ByVal tipodocumentoFactura As Strin
    Dim mEnum As enum_TipoDocumentoFactura
    Dim nCount As Integer
    nCount = 0
-   For mEnum = eTF_FACTURA To eTF_NOTAENTREGA
+   For mEnum = eTF_FACTURA To eTF_NOTADEDEBITOCOMPROBANTEFISCAL
    If UCase(tipodocumentoFactura) = UCase(enumTipodocumentoFacturaToString(mEnum)) Then
       strTipodocumentoFacturaToNum = nCount
       GoTo h_EXIT
@@ -2872,6 +2880,8 @@ Public Sub FillComboBoxWithTipodocumentoFactura(ByRef varComboBox As Object, Opt
    varComboBox.List(nCount) = enumTipodocumentoFacturaToString(enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL)
    nCount = nCount + 1
    varComboBox.List(nCount) = enumTipodocumentoFacturaToString(enum_TipoDocumentoFactura.eTF_NOTAENTREGA)
+   nCount = nCount + 1
+   varComboBox.List(nCount) = enumTipodocumentoFacturaToString(enum_TipoDocumentoFactura.eTF_NOTADEDEBITOCOMPROBANTEFISCAL)
    varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
    varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
 End Sub
@@ -3013,7 +3023,7 @@ Public Function StatusFacturaStringToEnum(ByVal valStatusFactura As String) As e
       StatusFacturaStringToEnum = eSF_EMITIDA
    ElseIf UCase(valStatusFactura) = UCase("Anulada") Then
       StatusFacturaStringToEnum = eSF_ANULADA
-   ElseIf UCase(valStatusFactura) = UCase("Borrador") Then
+   ElseIf UCase(valStatusFactura) = UCase("En Espera") Then
       StatusFacturaStringToEnum = eSF_BORRADOR
    Else
       StatusFacturaStringToEnum = eSF_BORRADOR
@@ -6503,10 +6513,10 @@ Public Function fenumTipoDocumentoFacturaToStringInArray(Optional ByVal valPrepa
    If valPrepararParaSql Then
       varCaracterDelimitador = "'"
    End If
-   varLimiteSuperior = enum_TipoDocumentoFactura.eTF_NOTAENTREGA - enum_TipoDocumentoFactura.eTF_FACTURA
+   varLimiteSuperior = enum_TipoDocumentoFactura.eTF_NOTADEDEBITOCOMPROBANTEFISCAL - enum_TipoDocumentoFactura.eTF_FACTURA
    nCount = 0
    ReDim varArray(0 To varLimiteSuperior)
-   For varEnum = eTF_FACTURA To eTF_NOTAENTREGA
+   For varEnum = eTF_FACTURA To eTF_NOTADEDEBITOCOMPROBANTEFISCAL
       If valConSiglas = False Then
       varArray(nCount) = varCaracterDelimitador & enumTipodocumentoFacturaToString(varEnum) & varCaracterDelimitador
       Else
@@ -6529,6 +6539,7 @@ Public Function enumTipoDocumentoFacturaToSiglas(tipoDocumento As enum_TipoDocum
       Case eTF_BOLETA: enumTipoDocumentoFacturaToSiglas = "BL"
       Case eTF_NOTADECREDITOCOMPROBANTEFISCAL: enumTipoDocumentoFacturaToSiglas = "N/C-CF"
       Case eTF_NOTAENTREGA: enumTipoDocumentoFacturaToSiglas = "NE"
+      Case eTF_NOTADEDEBITOCOMPROBANTEFISCAL: enumTipoDocumentoFacturaToSiglas = "N/D-CF"
       Case Else: enumTipoDocumentoFacturaToSiglas = enumTipoDocumentoFacturaToSiglas(0)
    End Select
 End Function
@@ -9930,7 +9941,7 @@ Public Function fSiglasTipoDocumentoFacturaToEnum(ByVal tipodocumentoFactura As 
    Dim mEnum As enum_TipoDocumentoFactura
    Dim nCount As Integer
    nCount = 0
-   For mEnum = eTF_FACTURA To eTF_NOTAENTREGA
+   For mEnum = eTF_FACTURA To eTF_NOTADEDEBITOCOMPROBANTEFISCAL
    If UCase(tipodocumentoFactura) = UCase(enumTipoDocumentoFacturaToSiglas(mEnum)) Then
       fSiglasTipoDocumentoFacturaToEnum = nCount
       GoTo h_EXIT
@@ -11210,6 +11221,8 @@ Public Function enumEstadoImpresionFiscalToString(ByVal EstadoImpresionFiscal As
       Case eEIF_CIERRE_Z: enumEstadoImpresionFiscalToString = "Cierre Z"
       Case eEIF_OBTENER_SERIAL: enumEstadoImpresionFiscalToString = "Obtener Serial"
       Case eEIF_IMPRIMIR_VENTA: enumEstadoImpresionFiscalToString = "Imprimir Venta"
+      Case eEIF_IMPRIMIR_NOTA_DE_CREDITO: enumEstadoImpresionFiscalToString = "Imprimir Nota de Crédito"
+      Case eEIF_IMPRIMIR_NOTA_DE_DEBITO: enumEstadoImpresionFiscalToString = "Imprimir Nota de Débito"
       Case eEIF_OBTENER_ULTIMO_REPORTE_Z: enumEstadoImpresionFiscalToString = "Obtener Reporte Z"
       Case eEIF_IMPRIME_DOCUMENTO_NOFISCAL: enumEstadoImpresionFiscalToString = "Imprime Documenton no Fiscal"
       Case Else: enumEstadoImpresionFiscalToString = enumEstadoImpresionFiscalToString(0)
@@ -11220,7 +11233,7 @@ Public Function strEstadoImpresionFiscalToNum(ByVal EstadoImpresionFiscal As Str
    Dim mEnum As Enum_EstadoImpresionFiscal
    Dim nCount As Integer
    nCount = 0
-   For mEnum = Enum_EstadoImpresionFiscal.eEIF_VERIFICANDO_CONEXION_CON_IMPRESORA To Enum_EstadoImpresionFiscal.eEIF_IMPRIME_DOCUMENTO_NOFISCAL
+   For mEnum = Enum_EstadoImpresionFiscal.eEIF_VERIFICANDO_CONEXION_CON_IMPRESORA To Enum_EstadoImpresionFiscal.eEIF_IMPRIMIR_NOTA_DE_DEBITO
       If UCase(EstadoImpresionFiscal) = UCase(enumEstadoImpresionFiscalToString(mEnum)) Then
          strEstadoImpresionFiscalToNum = nCount
          GoTo h_EXIT
@@ -14164,7 +14177,7 @@ Public Function fOrigenDeLotePorTipoDeDocumentoFactura(ByVal valTipoDoc As enum_
    vResult = eOLI_Factura
    If valTipoDoc = eTF_NOTADECREDITO Or valTipoDoc = eTF_NOTADECREDITOCOMPROBANTEFISCAL Then
       vResult = eOLI_NotaDeCredito
-   ElseIf valTipoDoc = eTF_NOTADEDEBITO Then
+   ElseIf valTipoDoc = eTF_NOTADEDEBITO Or valTipoDoc = eTF_NOTADEDEBITOCOMPROBANTEFISCAL Then
       vResult = eOLI_NotaDeDebito
    ElseIf valTipoDoc = eTF_NOTAENTREGA Then
       vResult = eOLI_NotaDeEntrega

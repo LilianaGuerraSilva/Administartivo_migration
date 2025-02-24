@@ -17,7 +17,7 @@ using System.Collections.ObjectModel;
 using Galac.Saw.Brl.SttDef;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
-    public class ParametersViewModel : LibGenericViewModel {
+    public class ParametersViewModel: LibGenericViewModel {
         public const string ModuleListPropertyName = "ModuleList";
         private List<Module> _ModuleList;
 
@@ -90,6 +90,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private object ParseGroupContentToViewModel(object valContent, eAccionSR eAccionSR) {
             object vResult = null;
             if (valContent != null) {
+
                 if (valContent is AnticipoStt) {
                     LibInputViewModelBase<AnticipoStt> vModel = new BancosAnticipoViewModel(valContent as AnticipoStt, eAccionSR);
                     vModel.InitializeViewModel(eAccionSR);
@@ -302,13 +303,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public override bool OnClosing() {
             IsClosing = true;
-            StopClosing = false;            
+            StopClosing = false;
             if (Action == eAccionSR.Modificar) {
                 if (IsDirty) {
                     string vMessage = string.Format("¿Desea guardar los cambios efectuados en {0}?", ModuleName);
                     bool vCanceled = false;
                     string vOption = LibMessages.MessageBox.RequestOption(this, vMessage, Title, new string[] { "Guardar", "No Guardar", "Cancelar" }, out vCanceled);
-                    if (LibString.S1IsEqualToS2(vOption, "Guardar")) {                        
+                    if (LibString.S1IsEqualToS2(vOption, "Guardar")) {
                         StopClosing = !IsValid;
                         ExecuteUpdateCommand();
                     } else if (LibString.S1IsEqualToS2(vOption, "No Guardar")) {

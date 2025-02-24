@@ -997,9 +997,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         protected override void ExecuteProcessAfterAction() {
             base.ExecuteProcessAfterAction();
             if (Action == eAccionSR.Insertar) {
-                CantidadAProducir = 0;
+            CantidadAProducir = 0;
             }
-            
         }
 
         private LibRibbonButtonData CreateAccionRibbonGroup() {

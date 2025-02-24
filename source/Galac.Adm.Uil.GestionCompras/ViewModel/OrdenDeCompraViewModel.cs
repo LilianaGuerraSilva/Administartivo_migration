@@ -703,7 +703,8 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         protected override void InitializeLookAndFeel(OrdenDeCompra valModel) {
             base.InitializeLookAndFeel(valModel);
             string vCodigoMonedaSegunModulo = string.Empty;
-            if(LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"))) {
+            bool vIsClosingOriginal = IsClosing;
+            if (LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"))) {
                 vCodigoMonedaSegunModulo = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
             } else {
                 vCodigoMonedaSegunModulo = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
@@ -715,6 +716,9 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 if (TipoModulo == eTipoCompra.Importacion) {
                     vCodigoMonedaSegunModulo = "USD";
                 }
+                if (vIsClosingOriginal) {
+                    IsClosing = false;
+                }
                 ConexionCodigoMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", vCodigoMonedaSegunModulo));
                 CodigoMoneda = ConexionCodigoMoneda.Codigo;
                 Moneda = ConexionCodigoMoneda.Nombre;
@@ -723,6 +727,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                     LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Saw.Gv_Almacen_B1.Codigo", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoAlmacenPorDefecto"));
                     vDefaultCriteria.Add(LibSearchCriteria.CreateCriteria("Saw.Gv_Almacen_B1.ConsecutivoCompania", Mfc.GetInt("Compania")), eLogicOperatorType.And);
                 }
+                IsClosing = vIsClosingOriginal;
                 AsignaTasaDelDia(CodigoMoneda);
             }
             vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());

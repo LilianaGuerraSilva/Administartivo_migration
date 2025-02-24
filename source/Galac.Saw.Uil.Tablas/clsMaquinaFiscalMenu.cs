@@ -36,7 +36,7 @@ namespace Galac.Saw.Uil.Tablas {
         }
 
         public static bool ChooseFromInterop(ref XmlDocument refXmlDocument, List<LibSearchDefaultValues> valSearchCriteria, List<LibSearchDefaultValues> valFixedCriteria) {
-            return LibFKRetrievalHelper.ChooseRecord<FkMaquinaFiscalViewModel>("Máquina Fiscal", ref refXmlDocument, valSearchCriteria, valFixedCriteria, new clsMaquinaFiscalNav());
+            return LibFKRetrievalHelper.ChooseRecord<FkMaquinaFiscalViewModel>("Impresora Fiscal", ref refXmlDocument, valSearchCriteria, valFixedCriteria, new clsMaquinaFiscalNav());
         }
         #endregion //Miembros de ILibMenu
         #endregion //Metodos Generados

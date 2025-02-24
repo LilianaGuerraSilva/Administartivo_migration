@@ -1690,7 +1690,7 @@ Private Sub sEjecutaAnalisisDeVencimiento()
    TituloFecha = "Del " & gConvert.dateToString(dtpFechaInicial) & " al " & gConvert.dateToString(dtpFechaFinal)
    monedaOrig = Not (cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, gProyParametros.GetNombreMonedaLocal))
    If insAdmPropAnalisisVenc.fBuscaValoresDeLasPropAnalisisVencActual Then
-      If insConfigurar.fConfiguraLasSeccionesDelReporteDeAnalisisDeVencimiento(reporte, SqlDelReporte, detallado, "", insAdmPropAnalisisVenc.GetPrimerVencimiento, insAdmPropAnalisisVenc.GetSegundoVencimiento, insAdmPropAnalisisVenc.GetTercerVencimiento, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gEnumReport.getMensajesDeMonedaParaInformes(eMM_CambioOriginal), monedaOrig, False, txtCodigoVendedor.Text, txtNombreVendedor.Text) Then
+      If insConfigurar.fConfiguraLasSeccionesDelReporteDeAnalisisDeVencimiento(reporte, SqlDelReporte, detallado, TituloFecha, insAdmPropAnalisisVenc.GetPrimerVencimiento, insAdmPropAnalisisVenc.GetSegundoVencimiento, insAdmPropAnalisisVenc.GetTercerVencimiento, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gEnumReport.getMensajesDeMonedaParaInformes(eMM_CambioOriginal), monedaOrig, False, txtCodigoVendedor.Text, txtNombreVendedor.Text) Then
          gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, Titulo
       End If
    End If

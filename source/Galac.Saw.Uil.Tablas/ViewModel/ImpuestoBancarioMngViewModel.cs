@@ -85,6 +85,8 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
             if(RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
                 RibbonData.TabDataCollection[0].GroupDataCollection[0].AddRibbonControlData(CreateReinstallRibbonButtonData());                
                 RibbonData.RemoveRibbonControl("Administrar","Modificar");
+                RibbonData.RemoveRibbonControl("Administrar", "Eliminar");
+                RibbonData.RemoveRibbonControl("Administrar", "Insertar");
                 RibbonData.RemoveRibbonControl("Consultas","Imprimir Lista");
             }
         }

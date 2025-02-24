@@ -29,7 +29,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string NotaDeCreditoPropertyName = "NotaDeCredito";
         public const string NotaDeDebitoPropertyName = "NotaDeDebito";
         public const string FechaDeInicioDeUsoPropertyName = "FechaDeInicioDeUso";
-        public const string ReajustarTalonariosDeFacturaPropertyName = "ReajustarTalonariosDeFactura";        
+        public const string ReajustarTalonariosDeFacturaPropertyName = "ReajustarTalonariosDeFactura";
         #endregion
         #region Propiedades
         bool _UsaDosTalonarios;
@@ -39,7 +39,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         bool _ExecuteEnabled;
         string _CampoUsuario;
         string _CampoClave;
-
         public override string ModuleName {
             get { return "Activación de Imprenta Digital"; }
         }
@@ -57,7 +56,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             get { return _Proveedor; }
             set {
                 if (_Proveedor != value) {
-                    _Proveedor = value;
+                    _Proveedor= value;
                     IsDirty = true;
                     RaisePropertyChanged(ProveedorPropertyName);
                     ActivarButtonActions(_Proveedor == eProveedorImprentaDigital.Novus);
@@ -65,7 +64,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     RaisePropertyChanged(() => IsVisbleByProveedorID);
                 }
             }
-        }       
+        }
 
         string _Url;
         [LibCustomValidation("UrlValidating")]
@@ -302,7 +301,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         private void ActivarButtonActions(bool valActivate) {
-            _ExecuteEnabled = valActivate;           
+            _ExecuteEnabled = valActivate;
             GuardarCommand.RaiseCanExecuteChanged();
         }
 

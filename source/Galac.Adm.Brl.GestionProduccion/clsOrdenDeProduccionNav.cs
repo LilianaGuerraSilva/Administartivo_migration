@@ -519,7 +519,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
                     vResult.Success = false;
                     return vResult;
                 }
-                if (VerificaAsignacionDeLote(refRecord[0], false)) {
+                if (VerificaAsignacionDeLote(refRecord[0], false)){
                     vResult.Success = true;
                     XElement vDataXmlArticulo = BuscarInfoDeCostoDeArticulos(refRecord[0].DetailOrdenDeProduccionDetalleMateriales);
                     IList<OrdenDeProduccionDetalleMateriales> vList = new List<OrdenDeProduccionDetalleMateriales>();
@@ -556,7 +556,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
                                 || vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento
                                 || vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeElaboracion) {
                                 if ((vOrdenDeProduccionDetalleMateriales.CantidadConsumida - vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario) > vDataExistenciaLote.Where(p => p.CodigoArticulo == vOrdenDeProduccionDetalleMateriales.CodigoArticulo && p.ConsecutivoLoteDeInventario == vOrdenDeProduccionDetalleMateriales.ConsecutivoLoteDeInventario).FirstOrDefault().Existencia) {
-                                    throw new GalacValidationException("No hay suficiente existencia de algunos insumos para producir esta orden. (" + vOrdenDeProduccionDetalleMateriales.CodigoArticulo + "-" + vOrdenDeProduccionDetalleMateriales.CodigoLote + ")");
+                                    throw new GalacValidationException("No hay suficiente existencia de algunos insumos para producir esta orden. (" + vOrdenDeProduccionDetalleMateriales.CodigoArticulo + "-"  + vOrdenDeProduccionDetalleMateriales.CodigoLote + ")");
                                 }
                             } else {
                                 if ((vOrdenDeProduccionDetalleMateriales.CantidadConsumida - vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario) > vDataExistencia.Where(p => p.CodigoArticulo == vOrdenDeProduccionDetalleMateriales.CodigoArticulo && p.ConsecutivoAlmacen == vOrdenDeProduccionDetalleMateriales.ConsecutivoAlmacen).FirstOrDefault().Existencia) {
