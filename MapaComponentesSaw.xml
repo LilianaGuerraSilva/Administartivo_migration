@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--Mapa de Componentes de la Version del Producto-->
-<Producto NombreExe="Saw" Pais="VE" Version="27.0" Siglas="Saw">
+<Producto NombreExe="Saw" Pais="VE" Version="30.0" Siglas="Saw">
   <Proteccion>2401</Proteccion>
   <Libreria>
     <LibGalacCI>2404</LibGalacCI>
@@ -229,7 +229,7 @@
     <Galac.Adm.Ccl.ImprentaDigital>2.61.0.0</Galac.Adm.Ccl.ImprentaDigital>
     <Galac.Adm.Brl.ImprentaDigital>2.61.2.0</Galac.Adm.Brl.ImprentaDigital>    
     <Galac.Saw.LibWebConnector>2.61.1.0</Galac.Saw.LibWebConnector>		    
-    <Galac.Saw.Galac.Saw.LibHttp>2.61.1.0</Galac.Saw.Galac.Saw.LibHttp>		    
+    <Galac.Saw.LibHttp>2.61.1.0</Galac.Saw.LibHttp>		    
     	
     <Galac.Adm.Ccl.CAnticipo>2.61.1.0</Galac.Adm.Ccl.CAnticipo>
     <Galac.Adm.Dal.CAnticipo>2.61.1.0</Galac.Adm.Dal.CAnticipo>
@@ -259,12 +259,12 @@
     <pnpdll>10.2.1.22</pnpdll>
     <FpCtrl>2.3.1.5</FpCtrl>	
     <Newtonsoft.Json>13.0.3.27908</Newtonsoft.Json>
-    <System.Net.Http>4.2.0.0</System.Net.Http>
+    <System.Net.Http>4.8.9037.0</System.Net.Http>
     <System.Net.Http.WebRequest>1.0.0.0</System.Net.Http.WebRequest>	
     <RibbonControlsLibrary>4.0.0.11019</RibbonControlsLibrary>
     <Microsoft.Windows.Shell>3.5.41019.1</Microsoft.Windows.Shell>  
     <MaterialSkin>1.0.0.0</MaterialSkin>	
-    <Castle.windsor>3</Castle.windsor>
-    <Castle.Core>3.3.0</Castle.Core>
+    <Castle.windsor>3.4.0.2481</Castle.windsor>
+    <Castle.Core>3.3.0.2287</Castle.Core>
   </ComponentesAOS>
 </Producto>
