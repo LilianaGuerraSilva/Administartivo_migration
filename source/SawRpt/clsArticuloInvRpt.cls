@@ -1100,6 +1100,8 @@ Public Function fConfigurarDatosDelReporteConteoFisico(ByRef refRpt As DDActiveR
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCodigoArticulo", "", "CodigoArticulo"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtDescripcion", "", "Descripcion"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCodigoLote", "", "CodigoLote"
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtFechaDeElaboracion", "", "FechaDeElaboracion"
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtFechaDeVencimiento", "", "FechaDeVencimiento"
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtExistenciaEnSistema", "", "ExistenciaEnElComputador", False, ddTXRight, formatoNDecimales
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtExistenciaFisica", "", "ExistenciaFisica", False, ddTXRight, formatoNDecimales
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtDiferencia", "", "Diferencia", False, ddTXRight, formatoNDecimales
