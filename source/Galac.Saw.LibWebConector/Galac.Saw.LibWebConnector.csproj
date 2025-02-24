@@ -70,6 +70,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsConectorJsonNovus.cs" />
+    <Compile Include="clsConectorJsonTheFactory.cs" />
     <Compile Include="clsConectorJson.cs" />
     <Compile Include="clsJsonRequest.cs" />
     <Compile Include="clsLoginUser.cs" />
@@ -81,6 +83,10 @@
     <ProjectReference Include="..\Galac.Adm.Ccl.ImprentaDigital\Galac.Adm.Ccl.ImprentaDigital.csproj">
       <Project>{09e94989-2c8c-457a-b6af-1e529992f5ca}</Project>
       <Name>Galac.Adm.Ccl.ImprentaDigital</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.SttDef\Galac.Saw.Ccl.SttDef.csproj">
+      <Project>{82c458b1-c93b-46a9-b58c-63ecd3633861}</Project>
+      <Name>Galac.Saw.Ccl.SttDef</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

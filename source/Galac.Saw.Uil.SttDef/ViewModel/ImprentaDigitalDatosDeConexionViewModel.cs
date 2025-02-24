@@ -25,7 +25,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string UrlPropertyName = "Url";
         public const string UsuarioPropertyName = "Usuario";
         public const string ClavePropertyName = "Clave";
-        public const string ExecuteEnabledPropertyName = "ExecuteEnabled";
         #endregion
         #region variables
         private bool _ExecuteEnabled;
@@ -127,18 +126,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             get { return _ProveedorImprentaDigital == eProveedorImprentaDigital.TheFactoryHKA; }
         }
 
-        public bool ExecuteEnabled {
-            get {
-                return _ExecuteEnabled;
-            }
-            set {
-                if (_ExecuteEnabled != value) {
-                    _ExecuteEnabled = value;
-                    RaisePropertyChanged(ExecuteEnabledPropertyName);
-                }
-            }
-        }
-
         private void ExecuteProbarConexionCommand() {
             string vMensaje = string.Empty;
             string vCommand = string.Empty;
@@ -204,7 +191,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private void ActivarButtonActions(bool valActivate) {
             _ExecuteEnabled = valActivate;
-            RaisePropertyChanged(ExecuteEnabledPropertyName);
             GuardarCommand.RaiseCanExecuteChanged();            
         }
 

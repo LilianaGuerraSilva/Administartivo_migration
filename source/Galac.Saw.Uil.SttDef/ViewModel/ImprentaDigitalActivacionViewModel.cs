@@ -30,7 +30,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string NotaDeDebitoPropertyName = "NotaDeDebito";
         public const string FechaDeInicioDeUsoPropertyName = "FechaDeInicioDeUso";
         public const string ReajustarTalonariosDeFacturaPropertyName = "ReajustarTalonariosDeFactura";
-        public const string ExecuteEnabledPropertyName = "ExecuteEnabled";
         #endregion
         #region Propiedades
         bool _UsaDosTalonarios;
@@ -303,7 +302,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private void ActivarButtonActions(bool valActivate) {
             _ExecuteEnabled = valActivate;
-            RaisePropertyChanged(ExecuteEnabledPropertyName);
             GuardarCommand.RaiseCanExecuteChanged();
         }
 
