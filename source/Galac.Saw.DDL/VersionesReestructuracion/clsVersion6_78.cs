@@ -34,6 +34,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             CrearEscalada();
             AgregarColumnaNDCaja();
             AmpliarColumnaCompaniaImprentaDigitalClave();
+            AgregarColumnaImprentaGUIDFactura();
             return true;
         }
 
@@ -163,5 +164,10 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             ModifyLengthOfColumnString("Compania", "ImprentaDigitalClave", 1000, "");
         }
 
+        private void AgregarColumnaImprentaGUIDFactura() {           
+            if (AddColumnString("factura", "ImprentaDigitalGUIDE", 50, "", "")) {
+                AddDefaultConstraint("factura", "ImDigGuid", "''", "ImprentaDigitalGUID");                  
+            }
+        }
     }
 }
