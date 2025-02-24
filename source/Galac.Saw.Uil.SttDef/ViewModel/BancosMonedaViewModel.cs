@@ -281,8 +281,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public ParametersViewModel ParametrosViewModel {
             get { return _ParametrosViewModel; }
-            set { _ParametrosViewModel = value;
-            }
+            set { _ParametrosViewModel = value; }
         }
 
 
@@ -395,10 +394,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private ValidationResult CodigoMonedaExtranjeraValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if (LibString.IsNullOrEmpty(CodigoMonedaExtranjera)) {
+                if(LibString.IsNullOrEmpty(CodigoMonedaExtranjera)) {
                     vResult = new ValidationResult("El Campo " + ModuleName + "-> Nombre Moneda Extranjera, es Requerido.");
                 }
                 if (UsaMonedaExtranjera && CodigoMonedaExtranjera != "USD") {

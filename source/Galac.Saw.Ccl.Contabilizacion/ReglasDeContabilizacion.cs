@@ -164,22 +164,22 @@ namespace Galac.Saw.Ccl.Contabilizacion {
 
         public string Numero {
             get { return _Numero; }
-            set { _Numero = LibString.Mid(value, 0, 11); }
+            set { _Numero = LibString.Mid(value,0,11); }
         }
 
         public string CuentaIva1Credito {
             get { return _CuentaIva1Credito; }
-            set { _CuentaIva1Credito = LibString.Mid(value, 0, 30); }
+            set { _CuentaIva1Credito = LibString.Mid(value,0,30); }
         }
 
         public string CuentaIva1Debito {
             get { return _CuentaIva1Debito; }
-            set { _CuentaIva1Debito = LibString.Mid(value, 0, 30); }
+            set { _CuentaIva1Debito = LibString.Mid(value,0,30); }
         }
 
         public string CuentaRetencionIva {
             get { return _CuentaRetencionIva; }
-            set { _CuentaRetencionIva = LibString.Mid(value, 0, 30); }
+            set { _CuentaRetencionIva = LibString.Mid(value,0,30); }
         }
 
         public eDondeEfectuoContabilizacionRetIVA DondeContabilizarRetIvaAsEnum {
@@ -201,12 +201,12 @@ namespace Galac.Saw.Ccl.Contabilizacion {
 
         public string DiferenciaEnCambioyCalculo {
             get { return _DiferenciaEnCambioyCalculo; }
-            set { _DiferenciaEnCambioyCalculo = LibString.Mid(value, 0, 30); }
+            set { _DiferenciaEnCambioyCalculo = LibString.Mid(value,0,30); }
         }
 
         public string CuentaDiferenciaCambiaria {
             get { return _CuentaDiferenciaCambiaria; }
-            set { _CuentaDiferenciaCambiaria = LibString.Mid(value, 0, 30); }
+            set { _CuentaDiferenciaCambiaria = LibString.Mid(value,0,30); }
         }
 
         public eTipoDeContabilizacion TipoContabilizacionCxCAsEnum {
@@ -262,17 +262,17 @@ namespace Galac.Saw.Ccl.Contabilizacion {
 
         public string CuentaCxCClientes {
             get { return _CuentaCxCClientes; }
-            set { _CuentaCxCClientes = LibString.Mid(value, 0, 30); }
+            set { _CuentaCxCClientes = LibString.Mid(value,0,30); }
         }
 
         public string CuentaCxCIngresos {
             get { return _CuentaCxCIngresos; }
-            set { _CuentaCxCIngresos = LibString.Mid(value, 0, 30); }
+            set { _CuentaCxCIngresos = LibString.Mid(value,0,30); }
         }
 
         public string CxCTipoComprobante {
             get { return _CxCTipoComprobante; }
-            set { _CxCTipoComprobante = LibString.Mid(value, 0, 2); }
+            set { _CxCTipoComprobante = LibString.Mid(value,0,2); }
         }
 
         public bool EditarComprobanteAfterInsertCxCAsBool {
@@ -338,22 +338,22 @@ namespace Galac.Saw.Ccl.Contabilizacion {
 
         public string CuentaCxPGasto {
             get { return _CuentaCxPGasto; }
-            set { _CuentaCxPGasto = LibString.Mid(value, 0, 30); }
+            set { _CuentaCxPGasto = LibString.Mid(value,0,30); }
         }
 
         public string CuentaCxPProveedores {
             get { return _CuentaCxPProveedores; }
-            set { _CuentaCxPProveedores = LibString.Mid(value, 0, 30); }
+            set { _CuentaCxPProveedores = LibString.Mid(value,0,30); }
         }
 
         public string CuentaRetencionImpuestoMunicipal {
             get { return _CuentaRetencionImpuestoMunicipal; }
-            set { _CuentaRetencionImpuestoMunicipal = LibString.Mid(value, 0, 30); }
+            set { _CuentaRetencionImpuestoMunicipal = LibString.Mid(value,0,30); }
         }
 
         public string CxPTipoComprobante {
             get { return _CxPTipoComprobante; }
-            set { _CxPTipoComprobante = LibString.Mid(value, 0, 2); }
+            set { _CxPTipoComprobante = LibString.Mid(value,0,2); }
         }
 
         public bool EditarComprobanteAfterInsertCxPAsBool {
@@ -419,52 +419,52 @@ namespace Galac.Saw.Ccl.Contabilizacion {
 
         public string CuentaCobranzaCobradoEnEfectivo {
             get { return _CuentaCobranzaCobradoEnEfectivo; }
-            set { _CuentaCobranzaCobradoEnEfectivo = LibString.Mid(value, 0, 30); }
+            set { _CuentaCobranzaCobradoEnEfectivo = LibString.Mid(value,0,30); }
         }
 
         public string CuentaCobranzaCobradoEnCheque {
             get { return _CuentaCobranzaCobradoEnCheque; }
-            set { _CuentaCobranzaCobradoEnCheque = LibString.Mid(value, 0, 30); }
+            set { _CuentaCobranzaCobradoEnCheque = LibString.Mid(value,0,30); }
         }
 
         public string CuentaCobranzaCobradoEnTarjeta {
             get { return _CuentaCobranzaCobradoEnTarjeta; }
-            set { _CuentaCobranzaCobradoEnTarjeta = LibString.Mid(value, 0, 30); }
+            set { _CuentaCobranzaCobradoEnTarjeta = LibString.Mid(value,0,30); }
         }
 
         public string cuentaCobranzaRetencionISLR {
             get { return _cuentaCobranzaRetencionISLR; }
-            set { _cuentaCobranzaRetencionISLR = LibString.Mid(value, 0, 30); }
+            set { _cuentaCobranzaRetencionISLR = LibString.Mid(value,0,30); }
         }
 
         public string cuentaCobranzaRetencionIVA {
             get { return _cuentaCobranzaRetencionIVA; }
-            set { _cuentaCobranzaRetencionIVA = LibString.Mid(value, 0, 30); }
+            set { _cuentaCobranzaRetencionIVA = LibString.Mid(value,0,30); }
         }
 
         public string CuentaCobranzaOtros {
             get { return _CuentaCobranzaOtros; }
-            set { _CuentaCobranzaOtros = LibString.Mid(value, 0, 30); }
+            set { _CuentaCobranzaOtros = LibString.Mid(value,0,30); }
         }
 
         public string CuentaCobranzaCxCClientes {
             get { return _CuentaCobranzaCxCClientes; }
-            set { _CuentaCobranzaCxCClientes = LibString.Mid(value, 0, 30); }
+            set { _CuentaCobranzaCxCClientes = LibString.Mid(value,0,30); }
         }
 
         public string CuentaCobranzaCobradoAnticipo {
             get { return _CuentaCobranzaCobradoAnticipo; }
-            set { _CuentaCobranzaCobradoAnticipo = LibString.Mid(value, 0, 30); }
+            set { _CuentaCobranzaCobradoAnticipo = LibString.Mid(value,0,30); }
         }
 
         public string CuentaCobranzaIvaDiferido {
             get { return _CuentaCobranzaIvaDiferido; }
-            set { _CuentaCobranzaIvaDiferido = LibString.Mid(value, 0, 30); }
+            set { _CuentaCobranzaIvaDiferido = LibString.Mid(value,0,30); }
         }
 
         public string CobranzaTipoComprobante {
             get { return _CobranzaTipoComprobante; }
-            set { _CobranzaTipoComprobante = LibString.Mid(value, 0, 2); }
+            set { _CobranzaTipoComprobante = LibString.Mid(value,0,2); }
         }
 
         public bool EditarComprobanteAfterInsertCobranzaAsBool {
@@ -540,32 +540,32 @@ namespace Galac.Saw.Ccl.Contabilizacion {
 
         public string CuentaPagosCxPProveedores {
             get { return _CuentaPagosCxPProveedores; }
-            set { _CuentaPagosCxPProveedores = LibString.Mid(value, 0, 30); }
+            set { _CuentaPagosCxPProveedores = LibString.Mid(value,0,30); }
         }
 
         public string CuentaPagosRetencionISLR {
             get { return _CuentaPagosRetencionISLR; }
-            set { _CuentaPagosRetencionISLR = LibString.Mid(value, 0, 30); }
+            set { _CuentaPagosRetencionISLR = LibString.Mid(value,0,30); }
         }
 
         public string CuentaPagosOtros {
             get { return _CuentaPagosOtros; }
-            set { _CuentaPagosOtros = LibString.Mid(value, 0, 30); }
+            set { _CuentaPagosOtros = LibString.Mid(value,0,30); }
         }
 
         public string CuentaPagosBanco {
             get { return _CuentaPagosBanco; }
-            set { _CuentaPagosBanco = LibString.Mid(value, 0, 30); }
+            set { _CuentaPagosBanco = LibString.Mid(value,0,30); }
         }
 
         public string CuentaPagosPagadoAnticipo {
             get { return _CuentaPagosPagadoAnticipo; }
-            set { _CuentaPagosPagadoAnticipo = LibString.Mid(value, 0, 30); }
+            set { _CuentaPagosPagadoAnticipo = LibString.Mid(value,0,30); }
         }
 
         public string PagoTipoComprobante {
             get { return _PagoTipoComprobante; }
-            set { _PagoTipoComprobante = LibString.Mid(value, 0, 2); }
+            set { _PagoTipoComprobante = LibString.Mid(value,0,2); }
         }
 
         public bool EditarComprobanteAfterInsertPagosAsBool {
@@ -641,27 +641,27 @@ namespace Galac.Saw.Ccl.Contabilizacion {
 
         public string CuentaFacturacionCxCClientes {
             get { return _CuentaFacturacionCxCClientes; }
-            set { _CuentaFacturacionCxCClientes = LibString.Mid(value, 0, 30); }
+            set { _CuentaFacturacionCxCClientes = LibString.Mid(value,0,30); }
         }
 
         public string CuentaFacturacionMontoTotalFactura {
             get { return _CuentaFacturacionMontoTotalFactura; }
-            set { _CuentaFacturacionMontoTotalFactura = LibString.Mid(value, 0, 30); }
+            set { _CuentaFacturacionMontoTotalFactura = LibString.Mid(value,0,30); }
         }
 
         public string CuentaFacturacionCargos {
             get { return _CuentaFacturacionCargos; }
-            set { _CuentaFacturacionCargos = LibString.Mid(value, 0, 30); }
+            set { _CuentaFacturacionCargos = LibString.Mid(value,0,30); }
         }
 
         public string CuentaFacturacionDescuentos {
             get { return _CuentaFacturacionDescuentos; }
-            set { _CuentaFacturacionDescuentos = LibString.Mid(value, 0, 30); }
+            set { _CuentaFacturacionDescuentos = LibString.Mid(value,0,30); }
         }
 
         public string CuentaFacturacionIvaDiferido {
             get { return _CuentaFacturacionIvaDiferido; }
-            set { _CuentaFacturacionIvaDiferido = LibString.Mid(value, 0, 30); }
+            set { _CuentaFacturacionIvaDiferido = LibString.Mid(value,0,30); }
         }
 
         public bool ContabilizarPorArticuloAsBool {
@@ -696,7 +696,7 @@ namespace Galac.Saw.Ccl.Contabilizacion {
 
         public string FacturaTipoComprobante {
             get { return _FacturaTipoComprobante; }
-            set { _FacturaTipoComprobante = LibString.Mid(value, 0, 2); }
+            set { _FacturaTipoComprobante = LibString.Mid(value,0,2); }
         }
 
         public bool EditarComprobanteAfterInsertFacturaAsBool {
@@ -762,12 +762,12 @@ namespace Galac.Saw.Ccl.Contabilizacion {
 
         public string CuentaRDVtasCaja {
             get { return _CuentaRDVtasCaja; }
-            set { _CuentaRDVtasCaja = LibString.Mid(value, 0, 30); }
+            set { _CuentaRDVtasCaja = LibString.Mid(value,0,30); }
         }
 
         public string CuentaRDVtasMontoTotal {
             get { return _CuentaRDVtasMontoTotal; }
-            set { _CuentaRDVtasMontoTotal = LibString.Mid(value, 0, 30); }
+            set { _CuentaRDVtasMontoTotal = LibString.Mid(value,0,30); }
         }
 
         public bool ContabilizarPorArticuloRDVtasAsBool {
@@ -853,27 +853,27 @@ namespace Galac.Saw.Ccl.Contabilizacion {
 
         public string CuentaMovBancarioGasto {
             get { return _CuentaMovBancarioGasto; }
-            set { _CuentaMovBancarioGasto = LibString.Mid(value, 0, 30); }
+            set { _CuentaMovBancarioGasto = LibString.Mid(value,0,30); }
         }
 
         public string CuentaMovBancarioBancosHaber {
             get { return _CuentaMovBancarioBancosHaber; }
-            set { _CuentaMovBancarioBancosHaber = LibString.Mid(value, 0, 30); }
+            set { _CuentaMovBancarioBancosHaber = LibString.Mid(value,0,30); }
         }
 
         public string CuentaMovBancarioBancosDebe {
             get { return _CuentaMovBancarioBancosDebe; }
-            set { _CuentaMovBancarioBancosDebe = LibString.Mid(value, 0, 30); }
+            set { _CuentaMovBancarioBancosDebe = LibString.Mid(value,0,30); }
         }
 
         public string CuentaMovBancarioIngresos {
             get { return _CuentaMovBancarioIngresos; }
-            set { _CuentaMovBancarioIngresos = LibString.Mid(value, 0, 30); }
+            set { _CuentaMovBancarioIngresos = LibString.Mid(value,0,30); }
         }
 
         public string MovimientoBancarioTipoComprobante {
             get { return _MovimientoBancarioTipoComprobante; }
-            set { _MovimientoBancarioTipoComprobante = LibString.Mid(value, 0, 2); }
+            set { _MovimientoBancarioTipoComprobante = LibString.Mid(value,0,2); }
         }
 
         public bool EditarComprobanteAfterInsertMovBanAsBool {
@@ -888,22 +888,22 @@ namespace Galac.Saw.Ccl.Contabilizacion {
 
         public string CuentaDebitoBancarioGasto {
             get { return _CuentaDebitoBancarioGasto; }
-            set { _CuentaDebitoBancarioGasto = LibString.Mid(value, 0, 30); }
+            set { _CuentaDebitoBancarioGasto = LibString.Mid(value,0,30); }
         }
 
         public string CuentaDebitoBancarioBancos {
             get { return _CuentaDebitoBancarioBancos; }
-            set { _CuentaDebitoBancarioBancos = LibString.Mid(value, 0, 30); }
+            set { _CuentaDebitoBancarioBancos = LibString.Mid(value,0,30); }
         }
 
         public string CuentaCreditoBancarioGasto {
             get { return _CuentaCreditoBancarioGasto; }
-            set { _CuentaCreditoBancarioGasto = LibString.Mid(value, 0, 30); }
+            set { _CuentaCreditoBancarioGasto = LibString.Mid(value,0,30); }
         }
 
         public string CuentaCreditoBancarioBancos {
             get { return _CuentaCreditoBancarioBancos; }
-            set { _CuentaCreditoBancarioBancos = LibString.Mid(value, 0, 30); }
+            set { _CuentaCreditoBancarioBancos = LibString.Mid(value,0,30); }
         }
 
         public bool EditarComprobanteAfterInsertImpTraBanAsBool {
@@ -969,37 +969,37 @@ namespace Galac.Saw.Ccl.Contabilizacion {
 
         public string CuentaAnticipoCaja {
             get { return _CuentaAnticipoCaja; }
-            set { _CuentaAnticipoCaja = LibString.Mid(value, 0, 30); }
+            set { _CuentaAnticipoCaja = LibString.Mid(value,0,30); }
         }
 
         public string CuentaAnticipoCobrado {
             get { return _CuentaAnticipoCobrado; }
-            set { _CuentaAnticipoCobrado = LibString.Mid(value, 0, 30); }
+            set { _CuentaAnticipoCobrado = LibString.Mid(value,0,30); }
         }
 
         public string CuentaAnticipoOtrosIngresos {
             get { return _CuentaAnticipoOtrosIngresos; }
-            set { _CuentaAnticipoOtrosIngresos = LibString.Mid(value, 0, 30); }
+            set { _CuentaAnticipoOtrosIngresos = LibString.Mid(value,0,30); }
         }
 
         public string CuentaAnticipoPagado {
             get { return _CuentaAnticipoPagado; }
-            set { _CuentaAnticipoPagado = LibString.Mid(value, 0, 30); }
+            set { _CuentaAnticipoPagado = LibString.Mid(value,0,30); }
         }
 
         public string CuentaAnticipoBanco {
             get { return _CuentaAnticipoBanco; }
-            set { _CuentaAnticipoBanco = LibString.Mid(value, 0, 30); }
+            set { _CuentaAnticipoBanco = LibString.Mid(value,0,30); }
         }
 
         public string CuentaAnticipoOtrosEgresos {
             get { return _CuentaAnticipoOtrosEgresos; }
-            set { _CuentaAnticipoOtrosEgresos = LibString.Mid(value, 0, 30); }
+            set { _CuentaAnticipoOtrosEgresos = LibString.Mid(value,0,30); }
         }
 
         public string AnticipoTipoComprobante {
             get { return _AnticipoTipoComprobante; }
-            set { _AnticipoTipoComprobante = LibString.Mid(value, 0, 2); }
+            set { _AnticipoTipoComprobante = LibString.Mid(value,0,2); }
         }
 
         public bool EditarComprobanteAfterInsertAnticipoAsBool {
@@ -1031,12 +1031,12 @@ namespace Galac.Saw.Ccl.Contabilizacion {
 
         public string CuentaCostoDeVenta {
             get { return _CuentaCostoDeVenta; }
-            set { _CuentaCostoDeVenta = LibString.Mid(value, 0, 30); }
+            set { _CuentaCostoDeVenta = LibString.Mid(value,0,30); }
         }
 
         public string CuentaInventario {
             get { return _CuentaInventario; }
-            set { _CuentaInventario = LibString.Mid(value, 0, 30); }
+            set { _CuentaInventario = LibString.Mid(value,0,30); }
         }
 
         public bool AgruparPorCuentaDeArticuloInvenAsBool {
@@ -1051,7 +1051,7 @@ namespace Galac.Saw.Ccl.Contabilizacion {
 
         public string InventarioTipoComprobante {
             get { return _InventarioTipoComprobante; }
-            set { _InventarioTipoComprobante = LibString.Mid(value, 0, 2); }
+            set { _InventarioTipoComprobante = LibString.Mid(value,0,2); }
         }
 
         public bool EditarComprobanteAfterInsertInventarioAsBool {
@@ -1100,17 +1100,17 @@ namespace Galac.Saw.Ccl.Contabilizacion {
 
         public string CtaDePagosSueldos {
             get { return _CtaDePagosSueldos; }
-            set { _CtaDePagosSueldos = LibString.Mid(value, 0, 30); }
+            set { _CtaDePagosSueldos = LibString.Mid(value,0,30); }
         }
 
         public string CtaDePagosSueldosBanco {
             get { return _CtaDePagosSueldosBanco; }
-            set { _CtaDePagosSueldosBanco = LibString.Mid(value, 0, 30); }
+            set { _CtaDePagosSueldosBanco = LibString.Mid(value,0,30); }
         }
 
         public string PagosSueldosTipoComprobante {
             get { return _PagosSueldosTipoComprobante; }
-            set { _PagosSueldosTipoComprobante = LibString.Mid(value, 0, 2); }
+            set { _PagosSueldosTipoComprobante = LibString.Mid(value,0,2); }
         }
 
         public bool EditarComprobanteDePagosSueldosAsBool {
@@ -1152,27 +1152,27 @@ namespace Galac.Saw.Ccl.Contabilizacion {
 
         public string CuentaCajaChicaGasto {
             get { return _CuentaCajaChicaGasto; }
-            set { _CuentaCajaChicaGasto = LibString.Mid(value, 0, 30); }
+            set { _CuentaCajaChicaGasto = LibString.Mid(value,0,30); }
         }
 
         public string CuentaCajaChicaBancoHaber {
             get { return _CuentaCajaChicaBancoHaber; }
-            set { _CuentaCajaChicaBancoHaber = LibString.Mid(value, 0, 30); }
+            set { _CuentaCajaChicaBancoHaber = LibString.Mid(value,0,30); }
         }
 
         public string CuentaCajaChicaBancoDebe {
             get { return _CuentaCajaChicaBancoDebe; }
-            set { _CuentaCajaChicaBancoDebe = LibString.Mid(value, 0, 30); }
+            set { _CuentaCajaChicaBancoDebe = LibString.Mid(value,0,30); }
         }
 
         public string CuentaCajaChicaBanco {
             get { return _CuentaCajaChicaBanco; }
-            set { _CuentaCajaChicaBanco = LibString.Mid(value, 0, 30); }
+            set { _CuentaCajaChicaBanco = LibString.Mid(value,0,30); }
         }
 
         public string SiglasTipoComprobanteCajaChica {
             get { return _SiglasTipoComprobanteCajaChica; }
-            set { _SiglasTipoComprobanteCajaChica = LibString.Mid(value, 0, 2); }
+            set { _SiglasTipoComprobanteCajaChica = LibString.Mid(value,0,2); }
         }
 
         public bool EditarComprobanteAfterInsertCajaChicaAsBool {
@@ -1214,22 +1214,22 @@ namespace Galac.Saw.Ccl.Contabilizacion {
 
         public string CuentaRendicionesGasto {
             get { return _CuentaRendicionesGasto; }
-            set { _CuentaRendicionesGasto = LibString.Mid(value, 0, 30); }
+            set { _CuentaRendicionesGasto = LibString.Mid(value,0,30); }
         }
 
         public string CuentaRendicionesBanco {
             get { return _CuentaRendicionesBanco; }
-            set { _CuentaRendicionesBanco = LibString.Mid(value, 0, 30); }
+            set { _CuentaRendicionesBanco = LibString.Mid(value,0,30); }
         }
 
         public string CuentaRendicionesAnticipos {
             get { return _CuentaRendicionesAnticipos; }
-            set { _CuentaRendicionesAnticipos = LibString.Mid(value, 0, 30); }
+            set { _CuentaRendicionesAnticipos = LibString.Mid(value,0,30); }
         }
 
         public string SiglasTipoComprobanteRendiciones {
             get { return _SiglasTipoComprobanteRendiciones; }
-            set { _SiglasTipoComprobanteRendiciones = LibString.Mid(value, 0, 2); }
+            set { _SiglasTipoComprobanteRendiciones = LibString.Mid(value,0,2); }
         }
 
         public eTipoDeContabilizacion TipoContabilizacionTransfCtasAsEnum {
@@ -1240,7 +1240,7 @@ namespace Galac.Saw.Ccl.Contabilizacion {
             set { _TipoContabilizacionTransfCtas = (eTipoDeContabilizacion)LibConvert.DbValueToEnum(value); }
         }
         public string TipoContabilizacionTransfCtasAsDB {
-            get { return LibConvert.EnumToDbValue((int)_TipoContabilizacionTransfCtas); }
+            get { return LibConvert.EnumToDbValue((int) _TipoContabilizacionTransfCtas); }
         }
         public string TipoContabilizacionTransfCtasAsString {
             get { return LibEnumHelper.GetDescription(_TipoContabilizacionTransfCtas); }
@@ -1253,7 +1253,7 @@ namespace Galac.Saw.Ccl.Contabilizacion {
             set { _ContabIndividualTransfCtas = (eContabilizacionIndividual)LibConvert.DbValueToEnum(value); }
         }
         public string ContabIndividualTransfCtasAsDB {
-            get { return LibConvert.EnumToDbValue((int)_ContabIndividualTransfCtas); }
+            get { return LibConvert.EnumToDbValue((int) _ContabIndividualTransfCtas); }
         }
         public string ContabIndividualTransfCtasAsString {
             get { return LibEnumHelper.GetDescription(_ContabIndividualTransfCtas); }
@@ -1266,7 +1266,7 @@ namespace Galac.Saw.Ccl.Contabilizacion {
             set { _ContabPorLoteTransfCtas = (eContabilizacionPorLote)LibConvert.DbValueToEnum(value); }
         }
         public string ContabPorLoteTransfCtasAsDB {
-            get { return LibConvert.EnumToDbValue((int)_ContabPorLoteTransfCtas); }
+            get { return LibConvert.EnumToDbValue((int) _ContabPorLoteTransfCtas); }
         }
         public string ContabPorLoteTransfCtasAsString {
             get { return LibEnumHelper.GetDescription(_ContabPorLoteTransfCtas); }
@@ -1310,7 +1310,7 @@ namespace Galac.Saw.Ccl.Contabilizacion {
         }
 
         public string TipoContabilizacionOrdenDeProduccionAsDB {
-            get { return LibConvert.EnumToDbValue((int)_TipoContabilizacionOrdenDeProduccion); }
+            get { return LibConvert.EnumToDbValue((int) _TipoContabilizacionOrdenDeProduccion); }
         }
 
         public string TipoContabilizacionOrdenDeProduccionAsString {
@@ -1327,7 +1327,7 @@ namespace Galac.Saw.Ccl.Contabilizacion {
         }
 
         public string ContabIndividualOrdenDeProduccionAsDB {
-            get { return LibConvert.EnumToDbValue((int)_ContabIndividualOrdenDeProduccion); }
+            get { return LibConvert.EnumToDbValue((int) _ContabIndividualOrdenDeProduccion); }
         }
 
         public string ContabIndividualOrdenDeProduccionAsString {
@@ -1344,7 +1344,7 @@ namespace Galac.Saw.Ccl.Contabilizacion {
         }
 
         public string ContabPorLoteOrdenDeProduccionAsDB {
-            get { return LibConvert.EnumToDbValue((int)_ContabPorLoteOrdenDeProduccion); }
+            get { return LibConvert.EnumToDbValue((int) _ContabPorLoteOrdenDeProduccion); }
         }
 
         public string ContabPorLoteOrdenDeProduccionAsString {
@@ -1383,7 +1383,7 @@ namespace Galac.Saw.Ccl.Contabilizacion {
 
         public string NombreOperador {
             get { return _NombreOperador; }
-            set { _NombreOperador = LibString.Mid(value, 0, 10); }
+            set { _NombreOperador = LibString.Mid(value,0,10); }
         }
 
         public DateTime FechaUltimaModificacion {

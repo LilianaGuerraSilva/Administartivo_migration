@@ -60,18 +60,14 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public bool  ImprimirNotaESconPrecio {
+        public bool ImprimirNotaESconPrecio {
             get {
-                return Model.ImprimirNotaESconPrecioAsBool;
+                return false;
             }
             set {
-                if (Model.ImprimirNotaESconPrecioAsBool != value) {
-                    Model.ImprimirNotaESconPrecioAsBool = value;
-                    IsDirty = true;
-                    RaisePropertyChanged(ImprimirNotaESconPrecioPropertyName);
-                    RaisePropertyChanged(IsEnabledImpresionDePlanillaPropertyName);                    
-                }
+                Model.ImprimirNotaESconPrecioAsBool = false;
             }
+
         }
 
         [LibCustomValidation("NombrePlantillaNotaEntradaSalidaValidating")]
@@ -109,7 +105,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnabledImpresionDePlanilla {
             get {
-                return IsEnabled && ImprimirNotaESconPrecio;
+                return false;
             }
         }
         #endregion //Propiedades

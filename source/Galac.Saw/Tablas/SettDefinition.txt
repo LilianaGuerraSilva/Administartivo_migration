@@ -56,6 +56,7 @@ PermitirIncluirFacturacionHistorica;Factura;2;2.2.- Facturación (Continuación) ;
 UltimaFechaDeFacturacionHistorica;Factura;2;2.2.- Facturación (Continuación) ;2;;Date;;N
 GenerarCxCalEmitirUnaFacturaHistorica;Factura;2;2.2.- Facturación (Continuación) ;2;;Bool;;N
 AccionAlAnularFactDeMesesAnt;Factura;2;2.2.- Facturación (Continuación) ;2;;Enumerativo;;N
+UsaMaquinaFiscal;Factura;2;2.2.- Facturación (Continuación) ;2;;Bool;;N
 UsarOtrosCargoDeFactura;Factura;2;2.2.- Facturación (Continuación) ;2;;Bool;;N
 UsaCamposExtrasEnRenglonFactura;Factura;2;2.2.- Facturación (Continuación) ;2;;Bool;;N
 PermitirDobleDescuentoEnFactura;Factura;2;2.2.- Facturación (Continuación) ;2;;Bool;;N

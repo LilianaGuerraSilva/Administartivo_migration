@@ -51,10 +51,10 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             vSql.AppendLine("INNER JOIN CTE_CostoTotalInsumos ON ");
             vSql.AppendLine("ListaDeMateriales.Consecutivo = CTE_CostoTotalInsumos.Consecutivo ");
             vSql.AppendLine("WHERE ListaDeMateriales.ConsecutivoCompania =  " + vSqlUtil.ToSqlValue(valConsecutivoCompania));
-            if (valCantidadAImprimir == eCantidadAImprimir.One) {
+            if(valCantidadAImprimir == eCantidadAImprimir.One) {
                 vSql.AppendLine(" AND ListaDeMateriales.Codigo = " + vSqlUtil.ToSqlValue(valCodigoListaAProducir));
             }
-            vSql.AppendLine(" ORDER BY ListaDeMateriales.Codigo");           
+            vSql.AppendLine(" ORDER BY ListaDeMateriales.Codigo");
             return vSql.ToString();
         }
 
@@ -83,7 +83,7 @@ namespace Galac.Adm.Brl.GestionProduccion.Reportes {
             vSql.AppendLine("ArticuloInventario.Existencia, ");
             vSql.AppendLine("SUBSTRING(ArticuloInventario.UnidadDeVenta,1,10) AS Unidades, ");
             vSql.AppendLine(vSqlUtil.RoundToNDecimals($"{vSqlUtil.ToSqlValue(valCantidadAProducir)} * Adm.ListaDeMaterialesDetalleArticulo.Cantidad", 8, "CantidadAReservar,"));
-            vSql.AppendLine(vSqlCostoTotal);           
+            vSql.AppendLine(vSqlCostoTotal);
             vSql.AppendLine(vSqlUtil.RoundToNDecimals($"{vSqlUtil.ToSqlValue(valCantidadAProducir)} * Adm.ListaDeMaterialesDetalleArticulo.MermaNormal", 8, "MermaNormalInsumos,"));
             vSql.AppendLine("ListaDeMaterialesDetalleArticulo.PorcentajeMermaNormal AS PorcentajeMermaNormalInsumos, ");
             vSql.AppendLine("ListaDeMateriales.ManejaMerma ");

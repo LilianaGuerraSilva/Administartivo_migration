@@ -313,6 +313,7 @@ namespace Galac.Saw.Brl.Inventario {
                     vResult = new LibDataScope().ExecuteWithScope(vSqlInsertMovimiento.ToString()) > 0;
                 }
             }
+
             return vResult;
         }
 

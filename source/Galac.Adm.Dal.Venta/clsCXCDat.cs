@@ -15,7 +15,6 @@ using LibGalac.Aos.DefGen;
 using Galac.Adm.Ccl.Venta;
 using Galac.Saw.Ccl.SttDef;
 using Galac.Saw.Lib;
-using System.Net.Security;
 
 namespace Galac.Adm.Dal.Venta {
     public class clsCXCDat: LibData, ILibDataMasterComponentWithSearch<IList<CxC>, IList<CxC>>, ILibDataRpt {

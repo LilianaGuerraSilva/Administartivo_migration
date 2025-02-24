@@ -311,9 +311,23 @@ namespace Galac.Adm.Ccl.DispositivosExternos {
         FacturaFiscal = 0,
         [LibEnumDescription("Nota de Crédito")]
         NotadeCredito,
+        [LibEnumDescription("Nota de Débito")]
+        NotadeDebito,
         [LibEnumDescription("Reporte Z")]
         ReporteZ,
         [LibEnumDescription("Reporte X")]
         ReporteX,
-    }     
+    }
+
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipoDeBusqueda {
+        [LibEnumDescription("Número de Documento")]
+        NumeroDocumento = 0,
+        [LibEnumDescription("Rango de Fecha")]
+        RangoDeFecha,
+        [LibEnumDescription("Número de Rif")]
+        NumeroRif       
+    }
 } //End of namespace namespace Galac.Saw.Ccl.DispositivosExternos
+
+

@@ -93,7 +93,7 @@ namespace Galac.Saw.Dal.Inventario {
             StringBuilder vSbInfo = new StringBuilder();
             string vErrMsg = "";
             LibDatabase insDB = new LibDatabase();
-            if (valAction == eAccionSR.Eliminar || valAction == eAccionSR.Anular) {                
+            if (valAction == eAccionSR.Eliminar || valAction == eAccionSR.Anular || valAction == eAccionSR.Reversar) {
                 if (!PuedeSerEliminadaOAnuladaNotaDeESPorLoteFdV(refRecord, valAction, out vErrMsg)) {
                     throw new GalacAlertException(vErrMsg);
                 }
@@ -536,9 +536,9 @@ namespace Galac.Saw.Dal.Inventario {
                 if (valAccion == eAccionSR.Anular && vItemNotaES.TipodeOperacionAsEnum != eTipodeOperacion.Retiro) {
                     outMensaje = "Solo se pueden Anular Operaciones de Retiro.";
                     return false;
-                } else if (valAccion == eAccionSR.Eliminar && ExistenNotasESDesdeImportacion(vItemNotaES.ConsecutivoCompania, vItemNotaES.CodigoLote)) {
+                } else if ((valAccion == eAccionSR.Reversar || valAccion == eAccionSR.Eliminar) && ExistenNotasESDesdeImportacion(vItemNotaES.ConsecutivoCompania, vItemNotaES.CodigoLote)) {
                     StringBuilder vMsg = new StringBuilder();
-                    vMsg.AppendLine($"No se puede eliminar la Nota de Entrada / Salida {vItemNotaES.NumeroDocumento}, la misma está asociada a un lote de importación.");
+                    vMsg.AppendLine($"No se puede " + LibEAccionSR.ToString(valAccion) + " la Nota de Entrada/Salida " + vItemNotaES.NumeroDocumento + ", la misma está asociada a un lote de importación.");
                     outMensaje = vMsg.ToString();
                     return false;
                 } else if (ExistenComprobantesDeCostoDeVentasPosteriores(vItemNotaES.ConsecutivoCompania, vItemNotaES.Fecha)) {

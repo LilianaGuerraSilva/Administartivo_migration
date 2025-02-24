@@ -15,6 +15,8 @@ using LibGalac.Aos.Vbwa;
 using System.Reflection;
 using System.Xml;
 using LibGalac.Aos.DefGen;
+using Galac.Saw.Uil.Inventario;
+using Galac.Adm.Uil.Venta;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.MenuBar {
 #elif IsExeBsS​
@@ -44,6 +46,7 @@ namespace Galac.Saw.Wrp.MenuBar {
                 vParams.ProgramImagePath = new System.Uri("/Images/Fondo Saw.jpg", System.UriKind.Relative);
                 vParams.AdmittedComponents = ComponentsNavigationTab(EsUsuarioCajero);
                 vBootstrapper.Components = ComponentsList();
+                VentaMessagesHandler.RegisterMessages();
                 vBootstrapper.Run(vParams);
             } catch (AccessViolationException) {
                 throw;

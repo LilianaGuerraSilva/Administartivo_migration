@@ -25,16 +25,12 @@ Public Function fCreateProjectEnumViews(ByVal valShowMessage As Boolean, ByVal v
    Set insLibViews = New clsUtilViews
    vResult = True
 'vResult = vResult And insLibViews.fCreateView(GetViewNameX(), fSqlViewX(), valShowMessage, valWithEncryption)
-'El orden de estas debe ser dependiendo más de las referencias y dependencias
-'que se usen que si es o no la más nueva
    vResult = vResult And insLibViews.fCreateView(GetViewNameEnumTipoDeTransaccion(), fSqlViewEnumTipoDeTransaccion, valShowMessage, valWithEncryption)
    vResult = vResult And insLibViews.fCreateView(GetViewNameEnumTipoDocumentoIdentificacion(), fSqlViewEnumTipoDocumentoIdentificacion, valShowMessage, valWithEncryption)
    vResult = vResult And insLibViews.fCreateView(GetViewNameEnumTipoDocumentoDeFactura(), fSqlViewEnumTipoDocumentoDeFactura, valShowMessage, valWithEncryption)
    vResult = vResult And insLibViews.fCreateView(GetViewNameEnumTipoDocumentoIva, fSqlViewEnumTipoDocumentoIva, valShowMessage, valWithEncryption)
-' Libro de Ventas Nelson
    vResult = vResult And insLibViews.fCreateView(GetViewNameEnumTipoDocumentoIvaFactura, fSqlViewEnumTipoDocumentoIvaFactura, valShowMessage, valWithEncryption)
    vResult = vResult And insLibViews.fCreateView(GetViewNameEnumTipoDeVentaIVA, fSqlTipoDeVentaIVA, valShowMessage, valWithEncryption)
-' Libro de Ventas Nelson
    vResult = vResult And insLibViews.fCreateView(GetViewNameEnumTipoFormaDeCobro(), fSqlViewEnumTipoFormaDeCobro, valShowMessage, valWithEncryption)
    If vResult And valShowMessage Then
       gMessage.exito "Se Crearon con Exito las Vistas de Enumerativos"
@@ -54,12 +50,9 @@ Public Function fDropProjectViews(ByVal valShowMessage As Boolean) As Boolean
    Set insLibViews = New clsUtilViews
    vResult = True
 'vResult = vResult And insLibViews.fDropView(GetViewNameX(), valShowMessage)
-'El orden de estas debe ser inverso al orden de fCreateProjectViews
    vResult = vResult And insLibViews.fDropView(GetViewNameEnumTipoFormaDeCobro, valShowMessage)
-   ' Libro de Ventas Nelson
    vResult = vResult And insLibViews.fDropView(GetViewNameEnumTipoDeVentaIVA, valShowMessage)
    vResult = vResult And insLibViews.fDropView(GetViewNameEnumTipoDocumentoIvaFactura, valShowMessage)
-   ' Libro de Ventas Nelson
    vResult = vResult And insLibViews.fDropView(GetViewNameEnumTipoDocumentoIva, valShowMessage)
    vResult = vResult And insLibViews.fDropView(GetViewNameEnumTipoDocumentoDeFactura, valShowMessage)
    vResult = vResult And insLibViews.fDropView(GetViewNameEnumTipoDocumentoIdentificacion, valShowMessage)
@@ -107,15 +100,15 @@ Private Function fSqlViewEnumTipoDocumentoIdentificacion() As String
    vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.EnumTipoDocumentoIdentificacionPeruToCodigoPeru(eTDIP_PASAPORTE))
    vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.EnumTipoDocumentoIdentificacionPeruToCodigoPeru(eTDIP_OTROS_TIPOS_DE_DOCUMENTOS))
    
-   vSQL = "SELECT "
-   vSQL = vSQL & "IntValue AS EnumValue, "
-   vSQL = vSQL & "DbValue, "
-   vSQL = vSQL & gUtilSQL.DfSQLCaseIf("IntValue", vCadenaComparacion, vCadenaResultadoStr, gTexto.fSeparadorStandardDeElementosString, "=", "StrTipoDocumentoIdentificacion") & ", "
-   vSQL = vSQL & gUtilSQL.DfSQLCaseIf("IntValue", vCadenaComparacion, vCadenaResultadoCod, gTexto.fSeparadorStandardDeElementosString, "=", "CodPeruTipoDocumentoIdentificacion")
-   vSQL = vSQL & " FROM Lib.EnumBase "
-   vSQL = vSQL & " WHERE IntValue < 5 "
-   vSQL = vSQL & " ORDER BY IntValue"
-   fSqlViewEnumTipoDocumentoIdentificacion = vSQL
+   vSql = "SELECT "
+   vSql = vSql & "IntValue AS EnumValue, "
+   vSql = vSql & "DbValue, "
+   vSql = vSql & gUtilSQL.DfSQLCaseIf("IntValue", vCadenaComparacion, vCadenaResultadoStr, gTexto.fSeparadorStandardDeElementosString, "=", "StrTipoDocumentoIdentificacion") & ", "
+   vSql = vSql & gUtilSQL.DfSQLCaseIf("IntValue", vCadenaComparacion, vCadenaResultadoCod, gTexto.fSeparadorStandardDeElementosString, "=", "CodPeruTipoDocumentoIdentificacion")
+   vSql = vSql & " FROM Lib.EnumBase "
+   vSql = vSql & " WHERE IntValue < 5 "
+   vSql = vSql & " ORDER BY IntValue"
+   fSqlViewEnumTipoDocumentoIdentificacion = vSql
 h_EXIT:     On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlViewEnumTipoDocumentoIdentificacion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -138,29 +131,39 @@ Private Function fSqlViewEnumTipoDeTransaccion() As String
    
    vCadenaComparacion = gConvert.fConvierteAString(enum_TipoDeTransaccion.eTD_FACTURA)
    vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDeTransaccion.eTD_GIRO)
+   vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDeTransaccion.eTD_CHEQUEDEVUELTO)
    vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDeTransaccion.eTD_NOTADECREDITO)
    vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDeTransaccion.eTD_NOTADEDEBITO)
    vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDeTransaccion.eTD_NOTAENTREGA)
-   vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDeTransaccion.eTD_CHEQUEDEVUELTO)
+   vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDeTransaccion.eTD_NOASIGNADO)
    vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDeTransaccion.eTD_BOLETADEVENTA)
    vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDeTransaccion.eTD_TICKETMAQUINAREGISTRADORA)
    vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDeTransaccion.eTD_RECIBOPORHONORARIOS)
    vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDeTransaccion.eTD_LIQUIDACIONDECOMPRA)
    vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDeTransaccion.eTD_OTROS)
-   
+   vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDeTransaccion.eTD_NOTADECREDITOCOMPROBANTEFISCAL)
+   vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDeTransaccion.eTD_LETRADECAMBIO)
+   'vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDeTransaccion.)eTD_NOTADEDEBITOCOMPROBANTEFISCAL) este es el else
+
    vCadenaResultadoStr = gUtilSQL.fSimpleSqlValue(insEnum.enumTipoDeCxCToString(enum_TipoDeTransaccion.eTD_FACTURA))
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.enumTipoDeCxCToString(enum_TipoDeTransaccion.eTD_GIRO))
+   vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.enumTipoDeCxCToString(enum_TipoDeTransaccion.eTD_CHEQUEDEVUELTO))
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.enumTipoDeCxCToString(enum_TipoDeTransaccion.eTD_NOTADECREDITO))
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.enumTipoDeCxCToString(enum_TipoDeTransaccion.eTD_NOTADEDEBITO))
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.enumTipoDeCxCToString(enum_TipoDeTransaccion.eTD_NOTAENTREGA))
-   vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.enumTipoDeCxCToString(enum_TipoDeTransaccion.eTD_CHEQUEDEVUELTO))
+   vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.enumTipoDeCxCToString(enum_TipoDeTransaccion.eTD_NOASIGNADO))
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.enumTipoDeCxCToString(enum_TipoDeTransaccion.eTD_BOLETADEVENTA))
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.enumTipoDeCxCToString(enum_TipoDeTransaccion.eTD_TICKETMAQUINAREGISTRADORA))
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.enumTipoDeCxCToString(enum_TipoDeTransaccion.eTD_RECIBOPORHONORARIOS))
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.enumTipoDeCxCToString(enum_TipoDeTransaccion.eTD_LIQUIDACIONDECOMPRA))
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.enumTipoDeCxCToString(enum_TipoDeTransaccion.eTD_OTROS))
+   vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.enumTipoDeCxCToString(enum_TipoDeTransaccion.eTD_NOTADECREDITOCOMPROBANTEFISCAL))
+   vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.enumTipoDeCxCToString(enum_TipoDeTransaccion.eTD_LETRADECAMBIO))
+   vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.enumTipoDeCxCToString(enum_TipoDeTransaccion.eTD_NOTADEDEBITOCOMPROBANTEFISCAL))
+   
    
    vCadenaResultadoCod = gUtilSQL.fSimpleSqlValue(insEnum.EnumTipoDocumentoToCodigoPeru(eTD_FACTURA))
+   vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue("N/A")
    vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue("N/A")
    vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.EnumTipoDocumentoToCodigoPeru(eTD_NOTADECREDITO))
    vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.EnumTipoDocumentoToCodigoPeru(eTD_NOTADEDEBITO))
@@ -171,16 +174,19 @@ Private Function fSqlViewEnumTipoDeTransaccion() As String
    vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.EnumTipoDocumentoToCodigoPeru(eTD_RECIBOPORHONORARIOS))
    vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.EnumTipoDocumentoToCodigoPeru(eTD_LIQUIDACIONDECOMPRA))
    vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.EnumTipoDocumentoToCodigoPeru(eTD_OTROS))
+   vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.EnumTipoDocumentoToCodigoPeru(eTD_NOTADECREDITOCOMPROBANTEFISCAL))
+   vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.EnumTipoDocumentoToCodigoPeru(eTD_LETRADECAMBIO))
+   vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.EnumTipoDocumentoToCodigoPeru(eTD_NOTADEDEBITOCOMPROBANTEFISCAL))
    
-   vSQL = "SELECT "
-   vSQL = vSQL & "IntValue AS EnumValue, "
-   vSQL = vSQL & "DbValue, "
-   vSQL = vSQL & gUtilSQL.DfSQLCaseIf("IntValue", vCadenaComparacion, vCadenaResultadoStr, gTexto.fSeparadorStandardDeElementosString, "=", "StrTipoTransaccion") & ", "
-   vSQL = vSQL & gUtilSQL.DfSQLCaseIf("IntValue", vCadenaComparacion, vCadenaResultadoCod, gTexto.fSeparadorStandardDeElementosString, "=", "CodPeruTipoTransaccion")
-   vSQL = vSQL & " FROM Lib.EnumBase "
-   vSQL = vSQL & " WHERE IntValue < 11"
-   vSQL = vSQL & " ORDER BY IntValue"
-   fSqlViewEnumTipoDeTransaccion = vSQL
+   vSql = "SELECT "
+   vSql = vSql & "IntValue AS EnumValue, "
+   vSql = vSql & "DbValue, "
+   vSql = vSql & gUtilSQL.DfSQLCaseIf("IntValue", vCadenaComparacion, vCadenaResultadoStr, gTexto.fSeparadorStandardDeElementosString, "=", "StrTipoTransaccion") & ", "
+   vSql = vSql & gUtilSQL.DfSQLCaseIf("IntValue", vCadenaComparacion, vCadenaResultadoCod, gTexto.fSeparadorStandardDeElementosString, "=", "CodPeruTipoTransaccion")
+   vSql = vSql & " FROM Lib.EnumBase "
+   vSql = vSql & " WHERE IntValue < 15"
+   vSql = vSql & " ORDER BY IntValue"
+   fSqlViewEnumTipoDeTransaccion = vSql
 h_EXIT:     On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlViewEnumTipoDeTransaccion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -208,6 +214,10 @@ Private Function fSqlViewEnumTipoDocumentoDeFactura() As String
    vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDocumentoFactura.eTF_NOASIGNADO)
    vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDocumentoFactura.eTF_COMPROBANTEFISCAL)
    vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDocumentoFactura.eTF_BOLETA)
+   vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL)
+   vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDocumentoFactura.eTF_NOTAENTREGA)
+   'vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDocumentoFactura.eTF_NOTADEDEBITOCOMPROBANTEFISCAL) 'este es el else
+
    
    vCadenaResultadoStr = gUtilSQL.fSimpleSqlValue(insEnum.enumTipodocumentoFacturaToString(enum_TipoDocumentoFactura.eTF_FACTURA))
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.enumTipodocumentoFacturaToString(enum_TipoDocumentoFactura.eTF_NOTADECREDITO))
@@ -216,6 +226,10 @@ Private Function fSqlViewEnumTipoDocumentoDeFactura() As String
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.enumTipodocumentoFacturaToString(enum_TipoDocumentoFactura.eTF_NOASIGNADO))
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.enumTipodocumentoFacturaToString(enum_TipoDocumentoFactura.eTF_COMPROBANTEFISCAL))
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.enumTipodocumentoFacturaToString(enum_TipoDocumentoFactura.eTF_BOLETA))
+   vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.enumTipodocumentoFacturaToString(enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL))
+   vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.enumTipodocumentoFacturaToString(enum_TipoDocumentoFactura.eTF_NOTAENTREGA))
+   vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.enumTipodocumentoFacturaToString(enum_TipoDocumentoFactura.eTF_NOTADEDEBITOCOMPROBANTEFISCAL))
+
    
    vCadenaResultadoCod = gUtilSQL.fSimpleSqlValue(insEnum.EnumTipoDocumentoToCodigoPeru(eTD_FACTURA))
    vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.EnumTipoDocumentoToCodigoPeru(eTD_NOTADECREDITO))
@@ -224,16 +238,20 @@ Private Function fSqlViewEnumTipoDocumentoDeFactura() As String
    vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue("N/A")
    vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue("N/A")
    vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.EnumTipoDocumentoToCodigoPeru(eTD_BOLETADEVENTA))
+   vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.EnumTipoDocumentoToCodigoPeru(eTF_NOTADECREDITOCOMPROBANTEFISCAL))
+   vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.EnumTipoDocumentoToCodigoPeru(eTF_NOTAENTREGA))
+   vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.EnumTipoDocumentoToCodigoPeru(eTF_NOTADEDEBITOCOMPROBANTEFISCAL))
+
    
-   vSQL = "SELECT "
-   vSQL = vSQL & "IntValue AS EnumValue, "
-   vSQL = vSQL & "DbValue, "
-   vSQL = vSQL & gUtilSQL.DfSQLCaseIf("IntValue", vCadenaComparacion, vCadenaResultadoStr, gTexto.fSeparadorStandardDeElementosString, "=", "StrTipoDocumentoFactura") & ", "
-   vSQL = vSQL & gUtilSQL.DfSQLCaseIf("IntValue", vCadenaComparacion, vCadenaResultadoCod, gTexto.fSeparadorStandardDeElementosString, "=", "CodPeruTipoDocumentoFactura")
-   vSQL = vSQL & " FROM Lib.EnumBase "
-   vSQL = vSQL & " WHERE IntValue < 7"
-   vSQL = vSQL & " ORDER BY IntValue"
-   fSqlViewEnumTipoDocumentoDeFactura = vSQL
+   vSql = "SELECT "
+   vSql = vSql & "IntValue AS EnumValue, "
+   vSql = vSql & "DbValue, "
+   vSql = vSql & gUtilSQL.DfSQLCaseIf("IntValue", vCadenaComparacion, vCadenaResultadoStr, gTexto.fSeparadorStandardDeElementosString, "=", "StrTipoDocumentoFactura") & ", "
+   vSql = vSql & gUtilSQL.DfSQLCaseIf("IntValue", vCadenaComparacion, vCadenaResultadoCod, gTexto.fSeparadorStandardDeElementosString, "=", "CodPeruTipoDocumentoFactura")
+   vSql = vSql & " FROM Lib.EnumBase "
+   vSql = vSql & " WHERE IntValue < 10"
+   vSql = vSql & " ORDER BY IntValue"
+   fSqlViewEnumTipoDocumentoDeFactura = vSql
 h_EXIT:     On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlViewEnumTipoDocumentoDeFactura", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -265,6 +283,9 @@ Private Function fSqlViewEnumTipoDocumentoIva() As String
    vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDeTransaccion.eTD_RECIBOPORHONORARIOS)
    vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDeTransaccion.eTD_LIQUIDACIONDECOMPRA)
    vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDeTransaccion.eTD_OTROS)
+   vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDeTransaccion.eTD_NOTADECREDITOCOMPROBANTEFISCAL)
+   vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDeTransaccion.eTD_LETRADECAMBIO)
+   'vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDeTransaccion.eTD_NOTADEDEBITOCOMPROBANTEFISCAL) este es el else
 
 
    vCadenaResultadoStr = gUtilSQL.fSimpleSqlValue(insEnum.enumTipoDocumentoIvaToString(enum_TipoDocumentoIVA.eTD_TD_FACTURA))
@@ -276,9 +297,13 @@ Private Function fSqlViewEnumTipoDocumentoIva() As String
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue("N/A")
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue("N/A")
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue("N/A")
-    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue("N/A")
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue("N/A")
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue("N/A")
+   vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue("N/A")
+   vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.enumTipoDocumentoIvaToString(enum_TipoDocumentoIVA.eTD_TD_NOTADECREDITO))
+   vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue("N/A")
+   vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.enumTipoDocumentoIvaToString(enum_TipoDocumentoIVA.eTD_TD_NOTADEDEBITO))
+   
 
    vCadenaResultadoCod = gUtilSQL.fSimpleSqlValue(enum_TipoDocumentoIVA.eTD_TD_FACTURA)
    vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue("0")
@@ -289,21 +314,23 @@ Private Function fSqlViewEnumTipoDocumentoIva() As String
    vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue("0")
    vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue("0")
    vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue("0")
- '  vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue(enum_TipoDocumentoIVA.eTD_TD_RESUMENDIARIODEVENTAS)
    vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue("0")
    vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue("0")
    vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue("0")
+   vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue(enum_TipoDocumentoIVA.eTD_TD_NOTADECREDITO)
+   vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue("0")
+   vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue(enum_TipoDocumentoIVA.eTD_TD_NOTADEDEBITO)
 
 
-   vSQL = "SELECT "
-   vSQL = vSQL & "IntValue AS EnumValue, "
-   vSQL = vSQL & "DbValue, "
-   vSQL = vSQL & gUtilSQL.DfSQLCaseIf("IntValue", vCadenaComparacion, vCadenaResultadoStr, gTexto.fSeparadorStandardDeElementosString, "=", "StrTipoDocumentoFacturaSawIva") & ", "
-   vSQL = vSQL & gUtilSQL.DfSQLCaseIf("IntValue", vCadenaComparacion, vCadenaResultadoCod, gTexto.fSeparadorStandardDeElementosString, "=", "CodTipoDocumentoFacturaSawIva")
-   vSQL = vSQL & " FROM Lib.EnumBase "
-   vSQL = vSQL & " WHERE IntValue < 13"
-   vSQL = vSQL & " ORDER BY IntValue"
-   fSqlViewEnumTipoDocumentoIva = vSQL
+   vSql = "SELECT "
+   vSql = vSql & "IntValue AS EnumValue, "
+   vSql = vSql & "DbValue, "
+   vSql = vSql & gUtilSQL.DfSQLCaseIf("IntValue", vCadenaComparacion, vCadenaResultadoStr, gTexto.fSeparadorStandardDeElementosString, "=", "StrTipoDocumentoFacturaSawIva") & ", "
+   vSql = vSql & gUtilSQL.DfSQLCaseIf("IntValue", vCadenaComparacion, vCadenaResultadoCod, gTexto.fSeparadorStandardDeElementosString, "=", "CodTipoDocumentoFacturaSawIva")
+   vSql = vSql & " FROM Lib.EnumBase "
+   vSql = vSql & " WHERE IntValue < 15"
+   vSql = vSql & " ORDER BY IntValue"
+   fSqlViewEnumTipoDocumentoIva = vSql
 h_EXIT:     On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlViewEnumTipoDocumentoIva", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -331,34 +358,43 @@ Private Function fSqlViewEnumTipoDocumentoIvaFactura() As String
    vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDocumentoFactura.eTF_NOASIGNADO)
    vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDocumentoFactura.eTF_COMPROBANTEFISCAL)
    vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDocumentoFactura.eTF_BOLETA)
+   vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL)
+   vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDocumentoFactura.eTF_NOTAENTREGA)
+   'vCadenaComparacion = vCadenaComparacion & vSeparador & gConvert.fConvierteAString(enum_TipoDocumentoFactura.eTF_NOTADEDEBITOCOMPROBANTEFISCAL) no se coloca porque es el else
+   
 
    vCadenaResultadoStr = gUtilSQL.fSimpleSqlValue(insEnum.enumTipoDocumentoIvaToString(enum_TipoDocumentoIVA.eTD_TD_FACTURA))
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.enumTipoDocumentoIvaToString(enum_TipoDocumentoIVA.eTD_TD_NOTADECREDITO))
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.enumTipoDocumentoIvaToString(enum_TipoDocumentoIVA.eTD_TD_NOTADEDEBITO))
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue(insEnum.enumTipoDocumentoIvaToString(enum_TipoDocumentoIVA.eTD_TD_RESUMENDIARIODEVENTAS))
-   vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue("N/A")
+   vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue("N/A") 'enum_TipoDocumentoFactura.eTF_NOASIGNADO
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue("Comprobante Fiscal")
-   vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue("N/A")
+   vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue("N/A") 'enum_TipoDocumentoFactura.eTF_BOLETA
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue("Nota de Credito Comprobante Fiscal")
+   vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue("N/A") 'enum_TipoDocumentoFactura.eTF_NOTAENTREGA
+   vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue("Nota de Debito Comprobante Fiscal")
 
    vCadenaResultadoCod = gUtilSQL.fSimpleSqlValue(enum_TipoDocumentoIVA.eTD_TD_FACTURA)
    vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue(enum_TipoDocumentoIVA.eTD_TD_NOTADECREDITO)
    vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue(enum_TipoDocumentoIVA.eTD_TD_NOTADEDEBITO)
    vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue(enum_TipoDocumentoIVA.eTD_TD_RESUMENDIARIODEVENTAS)
-   vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue("0")
+   vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue("0") 'enum_TipoDocumentoFactura.eTF_NOASIGNADO
    vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue(enum_TipoDocumentoIVA.eTD_TD_RESUMENDIARIODEVENTAS)
-   vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue("0")
-   vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue(enum_TipoDocumentoIVA.eTD_TD_RESUMENDIARIODEVENTAS)
+   vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue("0") 'enum_TipoDocumentoFactura.eTF_BOLETA
+   vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue(enum_TipoDocumentoIVA.eTD_TD_RESUMENDIARIODEVENTAS) 'enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL
+   vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue("0") 'enum_TipoDocumentoFactura.eTF_NOTAENTREGA
+   vCadenaResultadoCod = vCadenaResultadoCod & vSeparador & gUtilSQL.fSimpleSqlValue(enum_TipoDocumentoIVA.eTD_TD_RESUMENDIARIODEVENTAS) 'enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL
 
-   vSQL = "SELECT "
-   vSQL = vSQL & "IntValue AS EnumValue, "
-   vSQL = vSQL & "DbValue, "
-   vSQL = vSQL & gUtilSQL.DfSQLCaseIf("IntValue", vCadenaComparacion, vCadenaResultadoStr, gTexto.fSeparadorStandardDeElementosString, "=", "StrTipoDocumentoSawIva") & ", "
-   vSQL = vSQL & gUtilSQL.DfSQLCaseIf("IntValue", vCadenaComparacion, vCadenaResultadoCod, gTexto.fSeparadorStandardDeElementosString, "=", "CodTipoDocumentoSawIva")
-   vSQL = vSQL & " FROM Lib.EnumBase "
-   vSQL = vSQL & " WHERE IntValue < 8"
-   vSQL = vSQL & " ORDER BY IntValue"
-   fSqlViewEnumTipoDocumentoIvaFactura = vSQL
+   vSql = "SELECT "
+   vSql = vSql & "IntValue AS EnumValue, "
+   vSql = vSql & "DbValue, "
+   vSql = vSql & gUtilSQL.DfSQLCaseIf("IntValue", vCadenaComparacion, vCadenaResultadoStr, gTexto.fSeparadorStandardDeElementosString, "=", "StrTipoDocumentoSawIva") & ", "
+   vSql = vSql & gUtilSQL.DfSQLCaseIf("IntValue", vCadenaComparacion, vCadenaResultadoCod, gTexto.fSeparadorStandardDeElementosString, "=", "CodTipoDocumentoSawIva")
+   vSql = vSql & " FROM Lib.EnumBase "
+   vSql = vSql & " WHERE IntValue < 10"
+   vSql = vSql & " ORDER BY IntValue"
+
+   fSqlViewEnumTipoDocumentoIvaFactura = vSql
 h_EXIT:     On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlViewEnumTipoDocumentoIvaFactura", _

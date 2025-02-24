@@ -32,13 +32,6 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Label
@@ -114,42 +107,8 @@
             SelectedItem="{Binding TipodeOperacion, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
             Style="{StaticResource ComboBoxStyle}" />
         <Label
-            x:Name="lblCodigoCliente"
-            Grid.Row="2"
-            Grid.Column="0"
-            Height="24"
-            Margin="3,3,70,0"
-            HorizontalAlignment="Stretch"
-            Content="Cliente"
-            Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSSeekConnection
-            x:Name="txtCodigoCliente"
-            Grid.Row="2"
-            Grid.Column="1"
-            Height="25"
-            Margin="3,4,10,4"
-            ConnectionValue="{Binding CodigoCliente, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-            DisplayMemberPath="codigo"
-            IsEnabled="{Binding Path=NotaESIsEnabled}"
-            Model="{Binding ConexionCodigoCliente, Mode=TwoWay}"
-            SearchCommand="{Binding ChooseCodigoClienteCommand}" />
-        <nsWpfControls:GSSeekConnection
-            x:Name="txtNombreCliente"
-            Grid.Row="2"
-            Grid.Column="2"
-            Grid.ColumnSpan="2"
-            Width="332"
-            Height="25"
-            Margin="3,4,0,4"
-            HorizontalAlignment="Left"
-            ConnectionValue="{Binding NombreCliente, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-            DisplayMemberPath="nombre"
-            IsEnabled="{Binding Path=NotaESIsEnabled}"
-            Model="{Binding ConexionNombreCliente, Mode=TwoWay}"
-            SearchCommand="{Binding ChooseNombreClienteCommand}" />
-        <Label
             x:Name="lblCodigoAlmacen"
-            Grid.Row="3"
+            Grid.Row="2"
             Grid.Column="0"
             Height="24"
             Margin="3,3,60,0"
@@ -158,7 +117,7 @@
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSSeekConnection
             x:Name="txtCodigoAlmacen"
-            Grid.Row="3"
+            Grid.Row="2"
             Grid.Column="1"
             Height="25"
             Margin="3,4,10,0"
@@ -169,7 +128,7 @@
             SearchCommand="{Binding ChooseCodigoAlmacenCommand}" />
         <Label
             x:Name="lneNombreAlmacen"
-            Grid.Row="3"
+            Grid.Row="2"
             Grid.Column="2"
             Grid.ColumnSpan="2"
             Width="332"
@@ -179,7 +138,7 @@
             Style="{StaticResource LabelCalculatedField}" />
         <Label
             x:Name="lblComentarios"
-            Grid.Row="4"
+            Grid.Row="3"
             Grid.Column="0"
             Height="24"
             Margin="3,3,39,0"
@@ -188,7 +147,7 @@
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSTextBoxWpf
             x:Name="txtComentarios"
-            Grid.Row="4"
+            Grid.Row="3"
             Grid.Column="1"
             Grid.ColumnSpan="3"
             Height="55"
@@ -211,7 +170,7 @@
             Style="{StaticResource LabelStatusBlue}" />
         <ContentControl
             Name="cntInicoRenglonNotaES"
-            Grid.Row="5"
+            Grid.Row="4"
             Grid.Column="0"
             Grid.ColumnSpan="4"
             Width="730"

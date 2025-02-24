@@ -24,14 +24,14 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string ProveedorPropertyName = "Proveedor";
         public const string UrlPropertyName = "Url";
         public const string UsuarioPropertyName = "Usuario";
-        public const string ClavePropertyName = "Clave";        
+        public const string ClavePropertyName = "Clave";
         #endregion
         #region variables
         private bool _ExecuteEnabled;
         eProveedorImprentaDigital _ProveedorImprentaDigital;
         string _Url;
         string _Usuario;
-        string _Clave;
+        string _Clave;        
         string _CampoUsuario;
         string _CampoClave;
         #endregion
@@ -111,7 +111,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         #endregion //Constructores
         #region Metodos Generados
         protected override void InitializeCommands() {
-            base.InitializeCommands();            
+            base.InitializeCommands();
+            
             GuardarCommand = new RelayCommand(ExecuteGuardarCommand, CanExecuteGuardarCommand);
             ProbarConexionCommand = new RelayCommand(ExecuteProbarConexionCommand);
         }
@@ -119,7 +120,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         protected override void InitializeLookAndFeel() {
             base.InitializeLookAndFeel();
             InicializaValores();
-        }       
+        }
 
         public bool IsVisbleByProveedorID {
             get { return _ProveedorImprentaDigital == eProveedorImprentaDigital.TheFactoryHKA; }
@@ -189,7 +190,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         private void ActivarButtonActions(bool valActivate) {
-            _ExecuteEnabled = valActivate;           
+            _ExecuteEnabled = valActivate;
             GuardarCommand.RaiseCanExecuteChanged();            
         }
 

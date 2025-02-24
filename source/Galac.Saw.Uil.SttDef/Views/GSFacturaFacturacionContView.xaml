@@ -46,12 +46,11 @@
                     <ColumnDefinition Width="2*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-
                 <Label
                     Name="lblForzarFechaFacturaAmesEspecifico"
                     Grid.Row="0"
                     Grid.Column="0"
-                    Content="Forzar Fecha Factura a mes especifico......."
+                    Content="Forzar Fecha Factura a mes Especifico......."
                     Style="{StaticResource LabelPrompt}" />
                 <CheckBox
                     Name="chkForzarFechaFacturaAmesEspecifico"
@@ -155,7 +154,6 @@
                             Text="Factura como para Nota de Crédito y Nota de Débitos." />
                     </StackPanel>
                 </Border>
-
                 <CheckBox
                     Name="chkGenerarCxCalEmitirUnaFacturaHistorica"
                     Grid.Row="2"
@@ -164,47 +162,41 @@
                     IsChecked="{Binding Path=GenerarCxCalEmitirUnaFacturaHistorica}"
                     IsEnabled="{Binding Path=IsEnabled}"
                     Style="{StaticResource CheckBoxStyle}" />
-
-
             </Grid>
         </GroupBox>
         <GroupBox
             Grid.Row="2"
             Grid.Column="0"
-            Margin="3"
-            Header="Anular Documentos Asociados a Factura"
+            Margin="3,3,3,3"
+            VerticalAlignment="Top"
+            Header="Usa Impresora Fiscal"
             Style="{StaticResource GroupBoxStyle}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="417*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="7*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-
                 <Label
-                    Name="lblAccionAlAnularFactDeMesesAnt"
+                    Name="lblUsaMaquinaFiscal"
                     Grid.Row="0"
                     Grid.Column="0"
-                    Content="Acción al Anular Factura de meses anteriores"
+                    Width="295"
+                    Margin="3,3,3,3"
+                    VerticalAlignment="Stretch"
+                    Content="Usa Impresora Fiscal....................................................."
                     Style="{StaticResource LabelPrompt}" />
-                <nsWpfControls:GSComboBoxWpf
-                    Name="cmbAccionAlAnularFactDeMesesAnt"
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    Width="200"
-                    Margin="3"
-                    HorizontalAlignment="Right"
-                    IsEnabled="{Binding Path=IsEnabled}"
-                    IsSynchronizedWithCurrentItem="True"
-                    ItemsSource="{Binding Path=ArrayAccionAlAnularFactDeMesesAnt}"
-                    SelectedItem="{Binding Path=AccionAlAnularFactDeMesesAnt, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                    Style="{StaticResource ComboBoxStyle}" />
-
+                <CheckBox
+                    Name="chkUsaMaquinaFiscal"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="25,0,0,0"
+                    IsChecked="{Binding Path=UsaMaquinaFiscal}"
+                    IsEnabled="{Binding Path=IsEnabledUsaMaquinaFiscal}"
+                    Style="{StaticResource CheckBoxStyle}" />
             </Grid>
         </GroupBox>
         <GroupBox
@@ -313,7 +305,7 @@
             Grid.Row="3"
             Grid.Column="0"
             Margin="3"
-            Header="Bloquear Emisión al Perder Conexión con la Impresora Fiscal"
+            Header="Bloquear Emisión Al Perder Conexión con la Impresora Fiscal"
             Style="{StaticResource GroupBoxStyle}"
             Visibility="{Binding Path=isVisibleParaPeru, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid Width="376">

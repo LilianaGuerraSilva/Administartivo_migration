@@ -97,11 +97,14 @@
     <Reference Include="LibGalac.Aos.Uil">
       <HintPath>..\packages\LibGalac.Aos.Uil.5.24.2.4\lib\LibGalac.Aos.Uil.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.Uil.Usal">
-      <HintPath>..\packages\LibGalac.Aos.Uil.Usal.5.24.1\lib\LibGalac.Aos.Uil.Usal.dll</HintPath>
+    <Reference Include="LibGalac.Aos.Uil.Usal, Version=5.24.2.5, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.Uil.Usal.5.24.2.5\lib\LibGalac.Aos.Uil.Usal.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Vbwa">
       <HintPath>..\packages\LibGalac.Aos.Vbwa.5.24.1\lib\LibGalac.Aos.Vbwa.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Wrp.Saw, Version=5.24.1.2, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.Wrp.Saw.5.24.1.2\lib\LibGalac.Aos.Wrp.Saw.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -147,11 +150,14 @@
     <Compile Include="IWrpLibros.cs" />
     <Compile Include="IWrpImprentaDigitalVb.cs" />
     <Compile Include="IWrpLoteDeInventarioVb.cs" />
+    <Compile Include="IWrpNotaDeEntradaSalida.cs" />
     <Compile Include="IWrpRutaDeComercializacionVb.cs" />
     <Compile Include="IWrpOrdenDeProduccionVb.cs" />
     <Compile Include="IWrpTransferenciaEntreCuentasBancariasVb.cs" />
     <Compile Include="IWrpVendedorVb.cs" />
+    <Compile Include="IWrpVenta.cs" />
     <Compile Include="IWrpVerificadorDePrecios.cs" />
+    <Compile Include="wrpVenta.cs" />
     <Compile Include="wrpAnticipoInformes.cs" />
     <Compile Include="wrpCaja.cs" />
     <Compile Include="wrpCajaApertura.cs" />
@@ -160,6 +166,7 @@
     <Compile Include="wrpImprentaDigital.cs" />
     <Compile Include="wrpInformacionGVentas.cs" />
     <Compile Include="wrpLoteDeInventario.cs" />
+    <Compile Include="wrpMenuBarAudiEnte.cs" />
     <Compile Include="wrpMenuBarCaja.cs" />
     <Compile Include="wrpMesesGenerados.cs" />
     <Compile Include="wrpNotaDeEntradaSalida.cs" />
@@ -270,6 +277,10 @@
     <ProjectReference Include="..\Galac.Adm.Ccl.Venta\Galac.Adm.Ccl.Venta.csproj">
       <Project>{f6be19ab-c04f-44fe-b68f-62bc8cc4cdb0}</Project>
       <Name>Galac.Adm.Ccl.Venta</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Rpt.Venta\Galac.Adm.Rpt.Venta.csproj">
+      <Project>{f8e98879-0458-41b6-b914-5f2c5cc28351}</Project>
+      <Name>Galac.Adm.Rpt.Venta</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Adm.Uil.Banco\Galac.Adm.Uil.Banco.csproj">
       <Project>{cea20080-8bbe-4562-b30c-88a9b1e0218c}</Project>
@@ -385,6 +396,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

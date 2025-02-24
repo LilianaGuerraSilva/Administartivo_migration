@@ -40,6 +40,7 @@ namespace Galac.Saw.Ccl.SttDef {
         bool EjecutaConexionConGVentas(int valConsecutivoCompania, string valParametroSuscripcionGVentas, string valSerialConectorGVentas, string valNombreCompaniaGVentas, string valNombreUsuarioOperaciones, eAccionSR valAction);
         bool ExistenArticulosMercanciaNoSimpleNoLoteFDV(int valConsecutivoCompania);
         bool ExistenArticulosLoteFdV(int valConsecutivoCompania);
+        bool ExisteCajaConMaquinaFiscal(int valConsecutivoCompania);
     }
 }
 

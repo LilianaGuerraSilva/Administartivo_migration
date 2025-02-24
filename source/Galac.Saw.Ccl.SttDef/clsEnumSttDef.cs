@@ -14,18 +14,6 @@ namespace Galac.Saw.Ccl.SttDef {
         PERMITIR_SIEMPRE
     }
 
-
-    //[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-    //public enum eTipoDePrefijo {
-    //    [LibEnumDescription("Sin Prefijo")]
-    //    SinPrefijo = 0,
-    //    [LibEnumDescription("Año")]
-    //    Ano,
-    //    [LibEnumDescription("Indicar")]
-    //    Indicar
-    //}
-
-
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eCantidadDeDecimales {
         [LibEnumDescription("Dos")]
@@ -231,9 +219,9 @@ namespace Galac.Saw.Ccl.SttDef {
         [LibEnumDescription("Nota de Crédito Comprobante Fiscal")]
         NotaDeCreditoComprobanteFiscal,
         [LibEnumDescription("Nota de Entrega")]
-        NotaEntrega,
-        [LibEnumDescription("Todos")]
-        Todos
+        NotaEntrega,        
+        [LibEnumDescription("Nota de Débito Comprobante Fiscal")]
+        NotaDeDebitoComprobanteFiscal
     }
 
 

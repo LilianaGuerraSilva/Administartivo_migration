@@ -134,7 +134,7 @@ namespace Galac.Saw.DbMigrator {
                     vSqlSb.AppendLine(SqlInsertSecLevel(vName,"Factura","Emitir Directo",TheUserHasAccessToOption(vLevels,(int)NivelesUsuarioOld.ADM_EMITIR_DIRECTO),vFunctionalGroup,vFunctionalGroupLevel));
                     vSqlSb.AppendLine(SqlInsertSecLevel(vName,"Factura","Anular",TheUserHasAccessToOption(vLevels,(int)NivelesUsuarioOld.ADM_ANULAR),vFunctionalGroup,vFunctionalGroupLevel));
                     vSqlSb.AppendLine(SqlInsertSecLevel(vName,"Factura","Insertar Copia",TheUserHasAccessToOption(vLevels,(int)NivelesUsuarioOld.ADM_INSERTAR_COPIA),vFunctionalGroup,vFunctionalGroupLevel));
-                    vSqlSb.AppendLine(SqlInsertSecLevel(vName,"Factura","Insertar Factura Borrador",TheUserHasAccessToOption(vLevels,(int)NivelesUsuarioOld.ADM_INSERTAR_FACTURA_BORRADOR),vFunctionalGroup,vFunctionalGroupLevel));
+                    vSqlSb.AppendLine(SqlInsertSecLevel(vName,"Factura","Insertar Factura en Espera",TheUserHasAccessToOption(vLevels,(int)NivelesUsuarioOld.ADM_INSERTAR_FACTURA_BORRADOR),vFunctionalGroup,vFunctionalGroupLevel));
                     vSqlSb.AppendLine(SqlInsertSecLevel(vName,"Factura","Insertar Factura Manual",TheUserHasAccessToOption(vLevels,(int)NivelesUsuarioOld.ADM_INSERTAR_MANUAL),vFunctionalGroup,vFunctionalGroupLevel));
                     vSqlSb.AppendLine(SqlInsertSecLevel(vName,"Factura","Insertar Devolución / Reverso",TheUserHasAccessToOption(vLevels,(int)NivelesUsuarioOld.ADM_INSERTAR_REVERSO),vFunctionalGroup,vFunctionalGroupLevel));
                     vSqlSb.AppendLine(SqlInsertSecLevel(vName,"Factura","Insertar Nota de Crédito",TheUserHasAccessToOption(vLevels,(int)NivelesUsuarioOld.ADM_INSERTAR_NOTA_CREDITO),vFunctionalGroup,vFunctionalGroupLevel));

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Xml.Linq;
 using Galac.Adm.Ccl.ImprentaDigital;
 using Galac.Adm.Ccl.Venta;
@@ -26,7 +28,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             _NumeroFactura = initNumeroFactura;
             _TipoDeDocumento = initTipoDeDocumento;
             _TipoDeProveedor = "";//NORMAL Según catalogo No 2 del layout
-            _ConectorJson = new clsConectorJsonTheFactory(LoginUser);
+            _ConectorJson = new clsConectorJson(LoginUser);
         }
         #region Métodos Basicos
         public override bool SincronizarDocumento() {
@@ -55,7 +57,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             try {
                 bool vResult = false;
                 string vMensaje = string.Empty;
-                clsConectorJson vConectorJson = new clsConectorJsonTheFactory(LoginUser);
+                clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
                 bool vRepuestaConector = vConectorJson.CheckConnection(ref vMensaje, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion));
                 if (vRepuestaConector) {
                     string vDocumentoJSON = clsConectorJson.SerializeJSON(""); //Construir XML o JSON Con datos 
@@ -124,7 +126,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                             MotivoAnulacion = FacturaImprentaDigital.MotivoDeAnulacion
                         };
                         string vDocumentoJSON = clsConectorJson.SerializeJSON(vSolicitudDeAnulacion); //Construir XML o JSON Con datos                         
-                        vRespuestaConector = (stPostResq)_ConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Anular), _ConectorJson.Token);
+                        vRespuestaConector = _ConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Anular), _ConectorJson.Token);
                         vResult = vRespuestaConector.Aprobado;
                         Mensaje = vRespuestaConector.mensaje;
                     } else {
@@ -162,7 +164,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     vDocumentoJSON = clsConectorJson.LimpiaRegistrosTempralesEnJSON(vDocumentoJSON);
                     vRespuestaConector = _ConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Emision), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
                     NumeroControl = vRespuestaConector.resultados.numeroControl;
-                    vResult = vRespuestaConector.Aprobado;
+                    vResult = vRespuestaConector.Aprobado;                                 
                     if (vResult) {
                         ActualizaNroControlYProveedorImprentaDigital();
                     } else {
@@ -206,7 +208,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vDocumentoDigital.Add(vObservaciones);           
         }
         #endregion Construye  Documento
-        #region Identificacion de Documento       
+        #region Identificacion de Documento
 
         private XElement GetIdentificacionDocumento() {            
             string vHoraEmision = LibConvert.ToStrOnlyForHour(LibConvert.ToDate(FacturaImprentaDigital.HoraModificacion), "hh:mm:ss tt");

@@ -29,7 +29,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             get;
             private set;
         }
-
         #endregion //Propiedades
         #region Constructores
 

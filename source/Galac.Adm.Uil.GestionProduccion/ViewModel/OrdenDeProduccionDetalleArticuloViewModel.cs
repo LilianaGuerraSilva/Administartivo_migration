@@ -46,6 +46,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         #region Variables
         private FkLoteDeInventarioViewModel _ConexionLoteDeInventario = null;
+
         #endregion //Variables
 
         #region Propiedades
