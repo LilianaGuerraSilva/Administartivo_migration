@@ -71,8 +71,7 @@
             Grid.Column="5"
             HorizontalAlignment="Left"
             Content="{Binding Path=TipoDeMercanciaStr}"
-            Style="{StaticResource LabelStatusGreen}"
-            Visibility="{Binding Path=IsVisbleLabelLoteNuevo, Converter={StaticResource booleanToVisibilityConverter}}" />
+            Style="{StaticResource LabelStatusGreen}" />
         <Label
             Name="lblCantidad"
             Grid.Row="1"

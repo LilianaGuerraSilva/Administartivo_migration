@@ -513,9 +513,6 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
-        public bool IsVisbleLabelLoteNuevo {
-            get { return (ConexionCodigoArticulo != null) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.Lote || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeElaboracion); }
-        }
         public RelayCommand<string> ChooseLoteDeInventarioCommand {
             get;
             private set;
@@ -660,7 +657,6 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
-        
         #endregion //Metodos Generados
         private bool BuscarCodigoRepetidoEnElGrid(string valCodigo) {
             return Master.BuscarCodigoRepetidoEnElGrid(valCodigo);
@@ -794,7 +790,6 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 RaisePropertyChanged(() => IsEnabledLoteDeInventario);
                 RaisePropertyChanged(() => IsVisibleLoteDeInventarioFechaDeVencimiento);
                 RaisePropertyChanged(() => IsVisibleLoteDeInventarioFechaDeElaboracion);
-                RaisePropertyChanged(() => IsVisbleLabelLoteNuevo);
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
@@ -830,7 +825,6 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         private void RaisePropertyLote() {
             RaisePropertyChanged(() => IsVisbleLoteDeInventario);
             RaisePropertyChanged(() => IsEnabledLoteDeInventario);
-            RaisePropertyChanged(() => IsVisbleLabelLoteNuevo);
         }
 
         internal void CargarConexiones() {
