@@ -2870,7 +2870,7 @@ MenuDeInformes : boolean;
 }
 
 
-{@S}ReglasDeContabilizacion = Record //Female,Multiarchivo=Compania,Generate
+{@S}ReglasDeContabilizacion = Record //Female,Multiarchivo=Compania
     ConsecutivoCompania : LongInt;//o,v
     Numero              : Str11;//u,o,g,sugestconsecutive,"Número",HIDE
     EditarComprobanteAfterInsert       : Boolean; 
@@ -3005,6 +3005,7 @@ MenuDeInformes : boolean;
     CuentaOrdenDeProduccionMateriaPrima         : Str30; //=cuenta.codigo
     CuentaMermaAnormal  	                : Str30;//=Cuenta.Codigo        
     OrdenDeProduccionTipoComprobante            : str2:
+
 //Final
     NombreOperador: Str10; //a
     FechaUltimaModificacion: date;//a

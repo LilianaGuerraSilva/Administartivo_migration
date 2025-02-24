@@ -16,8 +16,6 @@
             <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
-
-
     <GroupBox Header="" Style="{StaticResource GroupBoxStyle}">
         <Grid FocusManager.FocusedElement="{Binding ElementName=chkImprimirNotaESconPrecio}">
             <Grid.ColumnDefinitions>
@@ -31,8 +29,6 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-
-
             <Label
                 Name="lblImprimirReporteAlIngresarNotaEntradaSalida"
                 Grid.Row="0"
@@ -80,11 +76,7 @@
                 VerticalAlignment="Center"
                 Command="{Binding Path=ChooseTemplateCommandImpresion}"
                 IsEnabled="{Binding Path=IsEnabledImpresionDePlanilla}">
-                ...
             </Button>
-
-
-
             <Label
                 Name="lblNombrePlantillaCodigoDeBarras"
                 Grid.Row="2"
@@ -115,25 +107,7 @@
                 VerticalAlignment="Center"
                 Command="{Binding Path=ChooseTemplateCommandCodBarra}"
                 IsEnabled="{Binding Path=IsEnabled}">
-                ...
             </Button>
-            <Label
-                Name="lblImprimirNotaESconPrecio"
-                Grid.Row="3"
-                Grid.Column="0"
-                Content="Imprimir Precio de los Artículos en el comprobante de Nota de Entrada / Salida al Insertar"
-                Style="{StaticResource LabelPrompt}" />
-
-            <CheckBox
-                Name="chkImprimirNotaESconPrecio"
-                Grid.Row="3"
-                Grid.Column="1"
-                HorizontalAlignment="Left"
-                IsChecked="{Binding Path=ImprimirNotaESconPrecio}"
-                IsEnabled="{Binding Path=IsEnabled}"
-                Style="{StaticResource CheckBoxStyle}"
-                Visibility="{Binding Path=IsVisibleDatosNotaEntradaSalida, Converter={StaticResource booleanToVisibilityConverter}}" />
-
         </Grid>
     </GroupBox>
 </UserControl>

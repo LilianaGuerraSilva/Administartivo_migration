@@ -54,7 +54,6 @@ namespace Galac.Saw.Brl.Inventario {
             vLista.Add(vCurrentRecord);
             return instanciaDal.Insert(vLista).Success;
         }
-                
         */
         #endregion //Codigo Ejemplo
         internal List<LoteDeInventarioMovimiento> ParseToListEntity(XElement valXmlEntity) {

@@ -50,11 +50,11 @@ namespace Galac.Saw.Brl.Inventario {
                 case "Compra":
                 case "Orden De Compra":
                 case "Lista de Materiales":
-                case "Orden de Producción":
-                case "Nota de Entrada/Salida":
+                case "Orden de Producción":               
                     return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "dbo.Gp_ArticuloInventarioCompraSCH", valXmlParamsExpression);
                 case "Punto de Venta Ubicación":
                     return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "dbo.Gp_ArticuloInventarioUbicacionSCH", valXmlParamsExpression);
+                case "Nota de Entrada/Salida":
                 case "Lote de Inventario":
                 default:
                     return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "dbo.Gp_ArticuloInventarioSCH", valXmlParamsExpression);
@@ -93,6 +93,31 @@ namespace Galac.Saw.Brl.Inventario {
                     vPdnModule = new Galac.Comun.Brl.TablasGen.clsMonedaNav();
                     vResult = vPdnModule.GetDataForList("Articulo Inventario", ref refXmlDocument, valXmlParamsExpression);
                     break;
+                    //case "Categoria":
+                    //    vPdnModule = new Galac.Saw.Brl.Inventario.clsCategoriaNav();
+                    //    vResult = vPdnModule.GetDataForList("Articulo Inventario", ref refXmlDocument, valXmlParamsExpression);
+                    //    break;
+                    //case "Unidad De Venta":
+                    //    vPdnModule = new Galac.Saw.Brl.Tablas.clsUnidadDeVentaNav();
+                    //    vResult = vPdnModule.GetDataForList("Articulo Inventario", ref refXmlDocument, valXmlParamsExpression);
+                    //    break;
+                    //case "Articulo Inventario":
+                    //    vPdnModule = new Galac.Saw.Brl.Inventario.clsArticuloInventarioNav();
+                    //    vResult = vPdnModule.GetDataForList("Articulo Inventario", ref refXmlDocument, valXmlParamsExpression);
+                    //    break;
+                    //case "Grupo Talla Color":
+                    //    vPdnModule = new Galac.dbo.Brl.ComponenteNoEspecificado.clsGrupoTallaColorNav();
+                    //    vResult = vPdnModule.GetDataForList("Articulo Inventario", ref refXmlDocument, valXmlParamsExpression);
+                    //    break;
+                    //case "Talla":
+                    //    vPdnModule = new Galac.Saw.Brl.Inventario.clsTallaNav();
+                    //    vResult = vPdnModule.GetDataForList("Articulo Inventario", ref refXmlDocument, valXmlParamsExpression);
+                    //    break;
+                    //case "Color":
+                    //    vPdnModule = new Galac.Saw.Brl.Inventario.clsColorNav();
+                    //    vResult = vPdnModule.GetDataForList("Articulo Inventario", ref refXmlDocument, valXmlParamsExpression);
+                    //    break;
+                    //    default: throw new NotImplementedException();
             }
             return vResult;
         }

@@ -69,7 +69,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             set { _ManejaMerma = LibConvert.SNToBool(value); }
         }
 
-
         public string NombreOperador {
             get { return _NombreOperador; }
             set { _NombreOperador = LibString.Mid(value, 0, 20); }

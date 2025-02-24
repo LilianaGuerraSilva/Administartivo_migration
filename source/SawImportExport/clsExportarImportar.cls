@@ -38,7 +38,7 @@ Public Sub sEjecutarAccion(ByVal valAction As AccionSobreRecord, ByVal valEntida
    Set insExportar = New clsExportarDatos
    Set insImportarDatos = New clsImportarDatosSAW
    If valEsFacturaBorradores Then
-      Borradores = "Borradores de "
+      Borradores = "Documentos en Espera de "
    Else
       Borradores = ""
    End If
@@ -58,7 +58,7 @@ Public Sub sEjecutarAccion(ByVal valAction As AccionSobreRecord, ByVal valEntida
         insExportar.sExportarLosDatosAlFile valNombreArchivoRenglonCobro, valExtension, fSQLExportarRenglonCobroDeFacturas, refProgressBar
       End If
       refExito = True
-      gMessage.exito "¡Se ha exportado el modulo de " & Borradores & gEnumProyecto.enumEntidadAExportarOImportarToString(valEntidad) & " con exito!"
+      gMessage.exito "¡Se ha exportado el módulo de " & Borradores & gEnumProyecto.enumEntidadAExportarOImportarToString(valEntidad) & " con exito!"
    Else
       insImportarDatos.sImportarModulosSaw valNombreArchivo, valExtension, refProgressBar, refExito, valEntidad, NumFilasVector, lblporcentaje, refCallingWindow, valEsFacturaBorradores, valGenerarCxCalImportar, reftxtProgreso
    End If
@@ -843,7 +843,8 @@ Private Function fSQLExportarRenglonCobroDeFacturas() As String
    SQL = SQL & " AND (factura.StatusFactura <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_BORRADOR) & ")"
    SQL = SQL & " AND (factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_FACTURA) & " OR "
    SQL = SQL & " factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_COMPROBANTEFISCAL)
-   SQL = SQL & "OR factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL) & ")"
+   SQL = SQL & "OR factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL)
+   SQL = SQL & "OR factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTADEDEBITOCOMPROBANTEFISCAL) & ")"
    If mIsEntreFechas Then
       SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("factura.fecha", mFechaInicial, mFechaFinal) & ")"
    End If

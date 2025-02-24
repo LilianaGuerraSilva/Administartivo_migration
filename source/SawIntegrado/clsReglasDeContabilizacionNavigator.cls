@@ -1801,7 +1801,6 @@ End Function
 Private Sub SetCuentaMermaAnormal(ByVal valNewValue As String)
    mCuentaMermaAnormal = gTexto.DfMid(valNewValue, 1, 30)
 End Sub
-
 'Final
 Public Function GetNombreOperador() As String
    GetNombreOperador = mNombreOperador

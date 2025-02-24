@@ -9,7 +9,7 @@ using System.Data;
 using LibGalac.Aos.ARRpt;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.DefGen;
-namespace Galac.Adm.Rpt.GestionCompras {
+namespace Galac.Adm.Rpt.GestionCompras{
     /// <summary>
     /// Summary description for dsrCompra.
     /// </summary>
@@ -20,7 +20,7 @@ namespace Galac.Adm.Rpt.GestionCompras {
         #endregion //Variables
         #region Constructores
 
-        public dsrCompra()
+        public dsrCompra() 
             : this(false, string.Empty) {
         }
 
@@ -39,7 +39,7 @@ namespace Galac.Adm.Rpt.GestionCompras {
         }
 
         public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {
-            string vNumeroDeOrdenDeCompra = "";
+            string vNumeroDeOrdenDeCompra ="";
             if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
                 if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
@@ -58,11 +58,11 @@ namespace Galac.Adm.Rpt.GestionCompras {
                     LibReport.ChangeControlVisibility(this, "txtNit", false);
                 }
 
-                if (LibString.IsNullOrEmpty(vNumeroDeOrdenDeCompra)) {
-                    LibReport.ChangeControlVisibility(this, "txtNumeroOrdenDeCompra", false);
-                    LibReport.ChangeControlVisibility(this, "lblNumeroOrdenDeCompra", false);
-                } else {
-                    LibReport.ConfigFieldStr(this, "txtNumeroOrdenDeCompra", vNumeroDeOrdenDeCompra, string.Empty);
+                if(LibString.IsNullOrEmpty(vNumeroDeOrdenDeCompra)) {
+                    LibReport.ChangeControlVisibility(this,"txtNumeroOrdenDeCompra",false);
+                    LibReport.ChangeControlVisibility(this,"lblNumeroOrdenDeCompra",false);
+                } else {                   
+                    LibReport.ConfigFieldStr(this,"txtNumeroOrdenDeCompra",vNumeroDeOrdenDeCompra,string.Empty);
                 }
                 //LibReport.ConfigLabel(this, "lblDireccionCompania", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros","DireccionCompania"));
 
@@ -84,11 +84,11 @@ namespace Galac.Adm.Rpt.GestionCompras {
                 LibReport.ConfigFieldDec(this, "txtPrecio", string.Empty, "PrecioUnitario");
                 LibReport.ConfigFieldDec(this, "txtSubTotal", string.Empty, "SubTotal");
 
-                LibReport.ConfigFieldStr(this, "txtCodigoLote", string.Empty, "CodigoLote");
+                LibReport.ConfigFieldStr(this, "txtCodigoLote", string.Empty, "CodigoLote");                
                 LibReport.ConfigFieldDate(this, "txtFechaDeElaboracion", string.Empty, "FechaDeElaboracion", "dd/MM/yy");
                 LibReport.ConfigFieldDate(this, "txtFechaDeVencimiento", string.Empty, "FechaDeVencimiento", "dd/MM/yy");
                 LibReport.ConfigFieldStr(this, "txtTipoArticuloInv", string.Empty, "TipoArticuloInv");
-
+                
 
                 LibReport.ConfigFieldDec(this, "txtOtrosGastos", string.Empty, "TotalOtrosGastos");
                 LibReport.ConfigFieldDec(this, "txtTotal", string.Empty, "TotalCompra");
@@ -96,9 +96,9 @@ namespace Galac.Adm.Rpt.GestionCompras {
                 LibReport.ConfigLabel(this, "lbEnvia", ((CustomIdentity)System.Threading.Thread.CurrentPrincipal.Identity).Login);
 
                 LibReport.ConfigGroupHeader(this, "GHSecCompra", "Numero", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.After);
-
+               
                 LibReport.AddNoDataEvent(this);
-                LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
+                LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);                
                 return true;
             }
             return false;
@@ -120,7 +120,7 @@ namespace Galac.Adm.Rpt.GestionCompras {
             for (int vNumSection = 0; vNumSection < this.Sections.Count; vNumSection++) {
                 for (int vNumControl = 0; vNumControl < this.Sections[vNumSection].Controls.Count; vNumControl++) {
                     var name = this.Sections[vNumSection].Controls[vNumControl].Name;
-                    if (LibString.S1IsEqualToS2("txtTipoArticuloInv", name)) {
+                    if (LibString.S1IsEqualToS2("txtTipoArticuloInv", name)) {                        
                         var vControl = this.Sections[vNumSection].Controls[vNumControl] as DataDynamics.ActiveReports.TextBox;
                         vTipoArticuloInvValue = vControl.Text;
                     }

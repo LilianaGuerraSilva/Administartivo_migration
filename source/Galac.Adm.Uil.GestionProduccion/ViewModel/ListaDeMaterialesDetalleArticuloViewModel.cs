@@ -184,6 +184,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
             }
         }
+
         
         public RelayCommand<string> ChooseCodigoArticuloInventarioCommand {
             get;
@@ -344,3 +345,4 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         #endregion //Metodos Generados
     } //End of class ListaDeMaterialesDetalleArticuloViewModel
 } //End of namespace Galac.Saw.Uil.Inventario
+

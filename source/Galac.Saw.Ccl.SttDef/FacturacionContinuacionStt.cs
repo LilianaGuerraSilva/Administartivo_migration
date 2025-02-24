@@ -23,7 +23,6 @@ namespace Galac.Saw.Ccl.SttDef {
             get { return _Module; }
             set { _Module = value; }
         }
-
         #region Variables
         private bool _ForzarFechaFacturaAmesEspecifico;
         private eMes _MesFacturacionEnCurso;
@@ -53,6 +52,7 @@ namespace Galac.Saw.Ccl.SttDef {
         //private string _NombreCreditoElectronico;
         //private int _DiasUsualesCreditoElectronico;
         //private int _DiasMaximoCreditoElectronico;
+        private bool _UsaMaquinaFiscal;
         private long _fldTimeStamp;
         XmlDocument _datos;
         #endregion //Variables
@@ -78,7 +78,7 @@ namespace Galac.Saw.Ccl.SttDef {
         }
 
         public string MesFacturacionEnCursoAsDB {
-            get { return LibConvert.EnumToDbValue((int)_MesFacturacionEnCurso); }
+            get { return LibConvert.EnumToDbValue((int) _MesFacturacionEnCurso); }
         }
 
         public string MesFacturacionEnCursoAsString {
@@ -120,7 +120,7 @@ namespace Galac.Saw.Ccl.SttDef {
         }
 
         public string AccionAlAnularFactDeMesesAntAsDB {
-            get { return LibConvert.EnumToDbValue((int)_AccionAlAnularFactDeMesesAnt); }
+            get { return LibConvert.EnumToDbValue((int) _AccionAlAnularFactDeMesesAnt); }
         }
 
         public string AccionAlAnularFactDeMesesAntAsString {
@@ -173,6 +173,15 @@ namespace Galac.Saw.Ccl.SttDef {
         //public string UsaCobroDirectoEnMultimoneda {
         //    set { _UsaCobroDirectoEnMultimoneda = LibConvert.SNToBool(value); }
         //}
+		
+        public bool SeMuestraTotalEnDivisasAsBool {
+            get { return _SeMuestraTotalEnDivisas; }
+            set { _SeMuestraTotalEnDivisas = value; }
+        }
+
+        public string SeMuestraTotalEnDivisas {
+            set { _SeMuestraTotalEnDivisas = LibConvert.SNToBool(value); }
+        }
 
         //public string CuentaBancariaCobroDirecto {
         //    get { return _CuentaBancariaCobroDirecto; }
@@ -219,13 +228,13 @@ namespace Galac.Saw.Ccl.SttDef {
         }
 
         public string BloquearEmisionAsDB {
-            get { return LibConvert.EnumToDbValue((int)_BloquearEmision); }
+            get { return LibConvert.EnumToDbValue((int) _BloquearEmision); }
         }
 
         public string BloquearEmisionAsString {
             get { return LibEnumHelper.GetDescription(_BloquearEmision); }
         }
-
+		
         public bool MostrarMtoTotalBsFEnObservacionesAsBool {
             get { return _MostrarMtoTotalBsFEnObservaciones; }
             set { _MostrarMtoTotalBsFEnObservaciones = value; }
@@ -233,15 +242,6 @@ namespace Galac.Saw.Ccl.SttDef {
 
         public string MostrarMtoTotalBsFEnObservaciones {
             set { _MostrarMtoTotalBsFEnObservaciones = LibConvert.SNToBool(value); }
-        }
-
-        public bool SeMuestraTotalEnDivisasAsBool {
-            get { return _SeMuestraTotalEnDivisas; }
-            set { _SeMuestraTotalEnDivisas = value; }
-        }
-
-        public string SeMuestraTotalEnDivisas {
-            set { _SeMuestraTotalEnDivisas = LibConvert.SNToBool(value); }
         }
 
         public bool UsaListaDePrecioEnMonedaExtranjeraAsBool {
@@ -297,6 +297,15 @@ namespace Galac.Saw.Ccl.SttDef {
         //          set { _DiasMaximoCreditoElectronico = value; }
         //      }
 
+        public bool UsaMaquinaFiscalAsBool {
+            get { return _UsaMaquinaFiscal; }
+            set { _UsaMaquinaFiscal = value; }
+        }
+
+        public string UsaMaquinaFiscal {
+            set { _UsaMaquinaFiscal = LibConvert.SNToBool(value); }
+        }
+
         public long fldTimeStamp {
             get { return _fldTimeStamp; }
             set { _fldTimeStamp = value; }
@@ -324,7 +333,7 @@ namespace Galac.Saw.Ccl.SttDef {
             PermitirIncluirFacturacionHistoricaAsBool = false;
             UltimaFechaDeFacturacionHistorica = LibDate.Today();
             GenerarCxCalEmitirUnaFacturaHistoricaAsBool = false;
-            AccionAlAnularFactDeMesesAntAsEnum = eAccionAlAnularFactDeMesesAnt.PermitirAnularSinChequear;
+            AccionAlAnularFactDeMesesAntAsEnum = eAccionAlAnularFactDeMesesAnt.NoPermitirAnular;
             UsarOtrosCargoDeFacturaAsBool = false;
             UsaCamposExtrasEnRenglonFacturaAsBool = false;
             //EmitirDirectoAsBool = false;
@@ -343,6 +352,7 @@ namespace Galac.Saw.Ccl.SttDef {
             UsaListaDePrecioEnMonedaExtranjeraCXCAsBool = false;
             NroDiasMantenerTasaCambio = 0;
             //UsaMediosElectronicosDeCobroAsBool = false;
+            UsaMaquinaFiscalAsBool = false;
             fldTimeStamp = 0;
         }
 
@@ -365,7 +375,7 @@ namespace Galac.Saw.Ccl.SttDef {
             //vResult.ConceptoBancarioCobroMultimoneda = _ConceptoBancarioCobroMultimoneda;
             vResult.PermitirDobleDescuentoEnFacturaAsBool = _PermitirDobleDescuentoEnFactura;
             vResult.MaximoDescuentoEnFactura = _MaximoDescuentoEnFactura;
-            vResult.BloquearEmisionAsEnum = _BloquearEmision;
+			vResult.BloquearEmisionAsEnum = _BloquearEmision;
             vResult.MostrarMtoTotalBsFEnObservacionesAsBool = _MostrarMtoTotalBsFEnObservaciones;
             vResult.SeMuestraTotalEnDivisasAsBool = _SeMuestraTotalEnDivisas;
             vResult.UsaListaDePrecioEnMonedaExtranjeraAsBool = _UsaListaDePrecioEnMonedaExtranjera;
@@ -376,26 +386,28 @@ namespace Galac.Saw.Ccl.SttDef {
             //         vResult.NombreCreditoElectronico =_NombreCreditoElectronico;
             //         vResult.DiasUsualesCreditoElectronico = _DiasUsualesCreditoElectronico;
             //         vResult.DiasMaximoCreditoElectronico  = _DiasMaximoCreditoElectronico;
+            vResult.UsaMaquinaFiscalAsBool = _UsaMaquinaFiscal;
             vResult.fldTimeStamp = _fldTimeStamp;
             return vResult;
         }
 
         public override string ToString() {
-            return "Forzar fecha Factura a mes específico ... = " + _ForzarFechaFacturaAmesEspecifico +
-                "\nMes Facturacion En Curso = " + _MesFacturacionEnCurso.ToString() +
-                "\nPermitir incluir Facturación Histórica .... = " + _PermitirIncluirFacturacionHistorica +
-                "\nUltima fecha de Facturación Histórica ... = " + _UltimaFechaDeFacturacionHistorica.ToShortDateString() +
-                "\nGenerarCxCalEmitirUnaFacturaHistorica = " + _GenerarCxCalEmitirUnaFacturaHistorica +
-                "\nAcción Al Anular Factura de Meses Anteriores = " + _AccionAlAnularFactDeMesesAnt.ToString() +
-                "\nUsar Otros Cargo de Factura ..... = " + _UsarOtrosCargoDeFactura +
-                "\nUsar campos Extras en el Detalle de Fac = " + _UsaCamposExtrasEnRenglonFactura +
-                "\nUsar Doble Descuento = " + _PermitirDobleDescuentoEnFactura +
-                "\nMáximo de Descuento .... = " + _MaximoDescuentoEnFactura.ToString() +
-                "\nSe muestra total en Divisas .... = " + _SeMuestraTotalEnDivisas +
-                "\nUsar Lista De Precios En Moneda Extranjera = " + _UsaListaDePrecioEnMonedaExtranjera +
-                "\nGenerar CxC En Moneda Extranjera = " + _UsaListaDePrecioEnMonedaExtranjeraCXC +
-                "\nMostrar Total En Bolívares Fuertes = " + _MostrarMtoTotalBsFEnObservaciones +
-                "\nNumero De Dias a Mantener Tasa De Cambio = " + _NroDiasMantenerTasaCambio;
+           return "Forzar fecha Factura a mes específico ... = " + _ForzarFechaFacturaAmesEspecifico +
+               "\nMes Facturacion En Curso = " + _MesFacturacionEnCurso.ToString() +
+               "\nPermitir incluir Facturación Histórica .... = " + _PermitirIncluirFacturacionHistorica +
+               "\nUltima fecha de Facturación Histórica ... = " + _UltimaFechaDeFacturacionHistorica.ToShortDateString() +
+               "\nGenerarCxCalEmitirUnaFacturaHistorica = " + _GenerarCxCalEmitirUnaFacturaHistorica +
+               "\nAcción Al Anular Factura de Meses Anteriores = " + _AccionAlAnularFactDeMesesAnt.ToString() +
+               "\nUsar Otros Cargo de Factura ..... = " + _UsarOtrosCargoDeFactura +
+               "\nUsar campos Extras en el Detalle de Fac = " + _UsaCamposExtrasEnRenglonFactura +
+               "\nUsar Doble Descuento = " + _PermitirDobleDescuentoEnFactura +
+               "\nMáximo de Descuento .... = " + _MaximoDescuentoEnFactura.ToString() +
+               "\nSe muestra total en Divisas .... = " + _SeMuestraTotalEnDivisas +
+               "\nUsar Lista De Precios En Moneda Extranjera = " + _UsaListaDePrecioEnMonedaExtranjera +
+               "\nGenerar CxC En Moneda Extranjera = " + _UsaListaDePrecioEnMonedaExtranjeraCXC  +
+               "\nMostrar Total En Bolívares Fuertes = " + _MostrarMtoTotalBsFEnObservaciones +
+               "\nNumero De Dias a Mantener Tasa De Cambio = " + _NroDiasMantenerTasaCambio +
+               "\nUsa Maquina Fiscal = " + _UsaMaquinaFiscal;  
         }
         #endregion //Metodos Generados
 
@@ -403,3 +415,4 @@ namespace Galac.Saw.Ccl.SttDef {
     } //End of class FacturacionContinuacionStt
 
 } //End of namespace Galac.Saw.Ccl.SttDef
+

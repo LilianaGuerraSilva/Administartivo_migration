@@ -31,6 +31,7 @@ namespace Galac.Adm.Uil.DispositivosExternos.Views {
             switch(vTipoDocumentoFisca) {
                 case eTipoDocumentoFiscal.FacturaFiscal:              
                 case eTipoDocumentoFiscal.NotadeCredito:
+                case eTipoDocumentoFiscal.NotadeDebito:
                 ((ImpresoraFiscalViewModel)DataContext).ImprimirDocumentoTask();
                 break;
                 case eTipoDocumentoFiscal.ReporteZ:

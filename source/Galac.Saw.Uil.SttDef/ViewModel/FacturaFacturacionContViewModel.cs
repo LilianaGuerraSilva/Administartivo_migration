@@ -15,6 +15,7 @@ using System.Linq;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class FacturaFacturacionContViewModel : LibInputViewModelMfc<FacturacionContinuacionStt> {
+
         #region Constantes
         public const string UsarOtrosCargoDeFacturaPropertyName = "UsarOtrosCargoDeFactura";
         public const string UltimaFechaDeFacturacionHistoricaPropertyName = "UltimaFechaDeFacturacionHistorica";
@@ -56,6 +57,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         //public const string DiasMaximoCreditoElectronicoPropertyName = "DiasMaximoCreditoElectronico";
         //public const string IsEnabledCreditoElectronicoPropertyName = "IsEnabledCreditoElectronico";
         public const string ParametrosBancoMonedaPropertyName = "ParametrosBancoMoneda";
+        public const string UsaMaquinaFiscalPropertyName = "UsaMaquinaFiscal";
+        public const string IsEnabledUsaMaquinaFiscalPropertyName = "IsEnabledUsaMaquinaFiscal";
         #endregion
         #region Variables
         //private FkConceptoBancarioViewModel _ConexionConceptoBancarioCobroDirecto = null;
@@ -144,6 +147,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         //            RaisePropertyChanged(ConceptoBancarioCobroMultimonedaPropertyName);
         //            RaisePropertyChanged(IsEnabledConceptoBancarioCobroMultimonedaPropertyName);
         //            RaisePropertyChanged(IsEnabledCuentaBancariaCobroMultimonedaPropertyName);
+//                    RaisePropertyChanged(IsEnabledUsaMaquinaFiscalPropertyName);
+//                    RaisePropertyChanged(UsaMaquinaFiscalPropertyName);
         //            LibMessages.Notification.Send<bool>(Model.UsaCobroDirectoAsBool, UsaCobroDirectoPropertyName);
         //        }
         //    }
@@ -571,6 +576,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         //    }
         //}
 
+        public bool IsEnabledUsaMaquinaFiscal {
+            get { return IsEnabled && UsaCobroDirecto && !ExisteCajaRegistradoraConMaquinaFiscal(); }
+        }
+
         public bool isVisibleParaPeru {
             get {
                 bool vResult = true;
@@ -625,6 +634,18 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 if (_FechaInicioImprentaDigital != value) {
                     _FechaInicioImprentaDigital = value;
                     RaisePropertyChanged(FechaInicioImprentaDigitalPropertyName);
+                }
+            }
+        }
+
+        public bool UsaMaquinaFiscal {
+            get {
+                return Model.UsaMaquinaFiscalAsBool;
+            }
+            set {
+                if (Model.UsaMaquinaFiscalAsBool != value) {
+                    Model.UsaMaquinaFiscalAsBool = value;
+                    RaisePropertyChanged(UsaMaquinaFiscalPropertyName);
                 }
             }
         }
@@ -708,6 +729,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         //}
 
         #endregion //Propiedades
+
         #region Constructores
         public FacturaFacturacionContViewModel()
             : this(new FacturacionContinuacionStt(), eAccionSR.Insertar) {
@@ -1014,5 +1036,15 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         #endregion //Validating
 
+        private bool ExisteCajaRegistradoraConMaquinaFiscal() {
+            bool vResult = false;
+            int vConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
+            ISettValueByCompanyPdn insParametrosByCompany = new clsSettValueByCompanyNav();
+            vResult = insParametrosByCompany.ExisteCajaConMaquinaFiscal(vConsecutivoCompania);
+            return vResult;
+        }
+
     } //End of class FacturaFacturacionContViewModel
 } //End of namespace Galac.Saw.Uil.SttDef
+
+

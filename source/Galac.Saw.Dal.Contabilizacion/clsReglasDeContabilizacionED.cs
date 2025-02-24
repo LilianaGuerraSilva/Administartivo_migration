@@ -6,7 +6,7 @@ using LibGalac.Aos.Dal.Contracts;
 using Galac.Saw.Ccl.Contabilizacion;
 namespace Galac.Saw.Dal.Contabilizacion {
     [LibMefDalComponentMetadata(typeof(clsReglasDeContabilizacionED))]
-    public class clsReglasDeContabilizacionED : LibED, ILibMefDalComponent {
+    public class clsReglasDeContabilizacionED:LibED, ILibMefDalComponent {
         #region Variables
         #endregion //Variables
         #region Propiedades
@@ -36,8 +36,8 @@ namespace Galac.Saw.Dal.Contabilizacion {
 
         private string SqlCreateTable() {
             StringBuilder SQL = new StringBuilder();
-            SQL.AppendLine(InsSql.CreateTable("ReglasDeContabilizacion", DbSchema) + " ( ");
-            SQL.AppendLine("ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnRegDeConConsecutiv NOT NULL, ");
+            SQL.AppendLine(InsSql.CreateTable("ReglasDeContabilizacion",DbSchema) + " ( ");
+            SQL.AppendLine("ConsecutivoCompania" + InsSql.NumericTypeForDb(10,0) + " CONSTRAINT nnRegDeConConsecutiv NOT NULL, ");
             SQL.AppendLine("Numero" + InsSql.VarCharTypeForDb(11) + " CONSTRAINT nnRegDeConNumero NOT NULL, ");
             SQL.AppendLine("DiferenciaEnCambioyCalculo" + InsSql.VarCharTypeForDb(30) + " CONSTRAINT d_RegDeConDiferencia DEFAULT (''), ");
             SQL.AppendLine("CuentaIva1Credito" + InsSql.VarCharTypeForDb(30) + " , ");
@@ -158,7 +158,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("CuentaRendicionesBanco" + InsSql.VarCharTypeForDb(30) + " CONSTRAINT d_RegDeConCuReBa DEFAULT (''), ");
             SQL.AppendLine("CuentaRendicionesAnticipos" + InsSql.VarCharTypeForDb(30) + " CONSTRAINT d_RegDeConCuReAn DEFAULT (''), ");
             SQL.AppendLine("MostrarDesglosadoRendiciones" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnRegDeConMostrarDes NOT NULL, ");
-            SQL.AppendLine("TipoContabilizacionTransfCtas" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_RegDeConTiCoTrCt DEFAULT ('0'), ");
+			SQL.AppendLine("TipoContabilizacionTransfCtas" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_RegDeConTiCoTrCt DEFAULT ('0'), ");
             SQL.AppendLine("ContabIndividualTransfCtas" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_RegDeConCoInTrCt DEFAULT ('1'), ");
             SQL.AppendLine("ContabPorLoteTransfCtas" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_RegDeConCoPoLoTrCt DEFAULT ('0'), ");
             SQL.AppendLine("CuentaTransfCtasBancoDestino" + InsSql.VarCharTypeForDb(30) + " CONSTRAINT d_RegDeConCuTrCtBaDe DEFAULT (''), ");
@@ -196,7 +196,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
 
         private string SqlSpInsParameters() {
             StringBuilder SQL = new StringBuilder();
-            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10,0) + ",");
             SQL.AppendLine("@Numero" + InsSql.VarCharTypeForDb(11) + ",");
             SQL.AppendLine("@DiferenciaEnCambioyCalculo" + InsSql.VarCharTypeForDb(30) + ",");
             SQL.AppendLine("@CuentaIva1Credito" + InsSql.VarCharTypeForDb(30) + ",");
@@ -342,7 +342,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("BEGIN");
             SQL.AppendLine("   SET NOCOUNT ON;");
-            SQL.AppendLine("   DECLARE @ReturnValue " + InsSql.NumericTypeForDb(10, 0) + "");
+            SQL.AppendLine("   DECLARE @ReturnValue " + InsSql.NumericTypeForDb(10,0) + "");
             SQL.AppendLine("	IF EXISTS(SELECT ConsecutivoCompania FROM Compania WHERE ConsecutivoCompania = @ConsecutivoCompania)");
             SQL.AppendLine("	BEGIN");
             SQL.AppendLine("        BEGIN TRAN");
@@ -640,7 +640,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
 
         private string SqlSpUpdParameters() {
             StringBuilder SQL = new StringBuilder();
-            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10,0) + ",");
             SQL.AppendLine("@Numero" + InsSql.VarCharTypeForDb(11) + ",");
             SQL.AppendLine("@DiferenciaEnCambioyCalculo" + InsSql.VarCharTypeForDb(30) + ",");
             SQL.AppendLine("@CuentaIva1Credito" + InsSql.VarCharTypeForDb(30) + ",");
@@ -789,7 +789,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("   SET NOCOUNT ON;");
             SQL.AppendLine("   DECLARE @CurrentTimeStamp timestamp");
             SQL.AppendLine("   DECLARE @ValidationMsg " + InsSql.VarCharTypeForDb(1500) + " --No puede ser más");
-            SQL.AppendLine("   DECLARE @ReturnValue " + InsSql.NumericTypeForDb(10, 0) + "");
+            SQL.AppendLine("   DECLARE @ReturnValue " + InsSql.NumericTypeForDb(10,0) + "");
             //SQL.AppendLine("--DECLARE @CanBeChanged bit");
             SQL.AppendLine("   SET @ReturnValue = -1");
             SQL.AppendLine("   SET @ValidationMsg = ''");
@@ -975,7 +975,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
 
         private string SqlSpGetParameters() {
             StringBuilder SQL = new StringBuilder();
-            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0));//+ ",");
+            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10,0));//+ ",");
             //SQL.AppendLine("@Numero" + InsSql.VarCharTypeForDb(11));
             return SQL.ToString();
         }
@@ -1172,7 +1172,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
 
         private string SqlSpGetFKParameters() {
             StringBuilder SQL = new StringBuilder();
-            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0));
+            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10,0));
             return SQL.ToString();
         }
 
@@ -1259,60 +1259,60 @@ namespace Galac.Saw.Dal.Contabilizacion {
         }
         #endregion //Queries
         bool CrearTabla() {
-            bool vResult = insDbo.Create(DbSchema + ".ReglasDeContabilizacion", SqlCreateTable(), false, eDboType.Tabla);
+            bool vResult = insDbo.Create(DbSchema + ".ReglasDeContabilizacion",SqlCreateTable(),false,eDboType.Tabla);
             return vResult;
         }
         bool CrearVistas() {
             bool vResult = false;
             LibViews insVistas = new LibViews();
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumDondeEfectuoContabilizacionRetIVA", LibTpvCreator.SqlViewStandardEnum(typeof(eDondeEfectuoContabilizacionRetIVA), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumTipoDeContabilizacion", LibTpvCreator.SqlViewStandardEnum(typeof(eTipoDeContabilizacion), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionIndividual", LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionIndividual), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionPorLote", LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionPorLote), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumTipoDeContabilizacion", LibTpvCreator.SqlViewStandardEnum(typeof(eTipoDeContabilizacion), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionIndividual", LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionIndividual), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionPorLote", LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionPorLote), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumTipoDeContabilizacion", LibTpvCreator.SqlViewStandardEnum(typeof(eTipoDeContabilizacion), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionIndividual", LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionIndividual), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionPorLote", LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionPorLote), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumTipoDeContabilizacion", LibTpvCreator.SqlViewStandardEnum(typeof(eTipoDeContabilizacion), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionIndividual", LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionIndividual), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionPorLote", LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionPorLote), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumTipoDeContabilizacion", LibTpvCreator.SqlViewStandardEnum(typeof(eTipoDeContabilizacion), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionIndividual", LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionIndividual), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionPorLote", LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionPorLote), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumTipoDeContabilizacion", LibTpvCreator.SqlViewStandardEnum(typeof(eTipoDeContabilizacion), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionIndividual", LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionIndividual), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionPorLote", LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionPorLote), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumTipoDeContabilizacion", LibTpvCreator.SqlViewStandardEnum(typeof(eTipoDeContabilizacion), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionIndividual", LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionIndividual), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionPorLote", LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionPorLote), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumTipoDeContabilizacion", LibTpvCreator.SqlViewStandardEnum(typeof(eTipoDeContabilizacion), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionIndividual", LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionIndividual), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionPorLote", LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionPorLote), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumTipoDeContabilizacion", LibTpvCreator.SqlViewStandardEnum(typeof(eTipoDeContabilizacion), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionIndividual", LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionIndividual), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionIndividual", LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionIndividual), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionIndividual", LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionIndividual), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionPorLote", LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionPorLote), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_ReglasDeContabilizacion_B1", SqlViewB1(), true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumDondeEfectuoContabilizacionRetIVA",LibTpvCreator.SqlViewStandardEnum(typeof(eDondeEfectuoContabilizacionRetIVA),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumTipoDeContabilizacion",LibTpvCreator.SqlViewStandardEnum(typeof(eTipoDeContabilizacion),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionIndividual",LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionIndividual),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionPorLote",LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionPorLote),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumTipoDeContabilizacion",LibTpvCreator.SqlViewStandardEnum(typeof(eTipoDeContabilizacion),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionIndividual",LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionIndividual),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionPorLote",LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionPorLote),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumTipoDeContabilizacion",LibTpvCreator.SqlViewStandardEnum(typeof(eTipoDeContabilizacion),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionIndividual",LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionIndividual),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionPorLote",LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionPorLote),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumTipoDeContabilizacion",LibTpvCreator.SqlViewStandardEnum(typeof(eTipoDeContabilizacion),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionIndividual",LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionIndividual),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionPorLote",LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionPorLote),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumTipoDeContabilizacion",LibTpvCreator.SqlViewStandardEnum(typeof(eTipoDeContabilizacion),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionIndividual",LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionIndividual),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionPorLote",LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionPorLote),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumTipoDeContabilizacion",LibTpvCreator.SqlViewStandardEnum(typeof(eTipoDeContabilizacion),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionIndividual",LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionIndividual),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionPorLote",LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionPorLote),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumTipoDeContabilizacion",LibTpvCreator.SqlViewStandardEnum(typeof(eTipoDeContabilizacion),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionIndividual",LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionIndividual),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionPorLote",LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionPorLote),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumTipoDeContabilizacion",LibTpvCreator.SqlViewStandardEnum(typeof(eTipoDeContabilizacion),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionIndividual",LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionIndividual),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionPorLote",LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionPorLote),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumTipoDeContabilizacion",LibTpvCreator.SqlViewStandardEnum(typeof(eTipoDeContabilizacion),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionIndividual",LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionIndividual),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionIndividual",LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionIndividual),InsSql),true,true);
+			vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionIndividual",LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionIndividual),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumContabilizacionPorLote",LibTpvCreator.SqlViewStandardEnum(typeof(eContabilizacionPorLote),InsSql),true,true);
+            vResult = insVistas.Create(DbSchema + ".Gv_ReglasDeContabilizacion_B1",SqlViewB1(),true);
             insVistas.Dispose();
             return vResult;
         }
         bool CrearProcedimientos() {
             bool vResult = false;
             LibStoredProc insSps = new LibStoredProc();
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ReglasDeContabilizacionINS", SqlSpInsParameters(), SqlSpIns(), true);
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ReglasDeContabilizacionUPD", SqlSpUpdParameters(), SqlSpUpd(), true) && vResult;
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ReglasDeContabilizacionGET", SqlSpGetParameters(), SqlSpGet(), true) && vResult;
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ReglasDeContabilizacionSCH", SqlSpSearchParameters(), SqlSpSearch(), true) && vResult;
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ReglasDeContabilizacionGetFk", SqlSpGetFKParameters(), SqlSpGetFK(), true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ReglasDeContabilizacionINS",SqlSpInsParameters(),SqlSpIns(),true);
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ReglasDeContabilizacionUPD",SqlSpUpdParameters(),SqlSpUpd(),true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ReglasDeContabilizacionGET",SqlSpGetParameters(),SqlSpGet(),true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ReglasDeContabilizacionSCH",SqlSpSearchParameters(),SqlSpSearch(),true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ReglasDeContabilizacionGetFk",SqlSpGetFKParameters(),SqlSpGetFK(),true) && vResult;
             insSps.Dispose();
             return vResult;
         }
         public bool InstalarTabla() {
             bool vResult = false;
-            if (CrearTabla()) {
+            if(CrearTabla()) {
                 CrearVistas();
                 CrearProcedimientos();
                 vResult = true;
@@ -1322,7 +1322,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
 
         public bool InstalarVistasYSps() {
             bool vResult = false;
-            if (insDbo.Exists(DbSchema + ".ReglasDeContabilizacion", eDboType.Tabla)) {
+            if(insDbo.Exists(DbSchema + ".ReglasDeContabilizacion",eDboType.Tabla)) {
                 CrearVistas();
                 CrearProcedimientos();
                 vResult = true;

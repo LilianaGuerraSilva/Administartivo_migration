@@ -14,170 +14,48 @@ Attribute VB_Exposed = True
 Option Explicit
 Private Const CM_FILE_NAME As String = "clsFacturaRpt"
 Private Const CM_MESSAGE_NAME As String = "Configurar Reportes Factura"
+Private Const GetGender = Enum_Gender.eg_Male
 
-Private Function GetGender() As Enum_Gender
-   GetGender = eg_Male
-End Function
-
-Private Function CM_RPT_FACTURAS_O_BORRADORES_ENTRE_FECHAS_CONTACTO() As Integer
-   CM_RPT_FACTURAS_O_BORRADORES_ENTRE_FECHAS_CONTACTO = 14
-End Function
-
-Private Function CM_RPT_FACTURAS_O_BORRADORES_ENTRE_FECHAS_MONTO_ORIGINAL() As Integer
-   CM_RPT_FACTURAS_O_BORRADORES_ENTRE_FECHAS_MONTO_ORIGINAL = 15
-End Function
-
-Private Function CM_RPT_FACTURAS_ENTRE_FECHAS_POR_TIPO_ARTICULO_MONTO() As Integer
-   CM_RPT_FACTURAS_ENTRE_FECHAS_POR_TIPO_ARTICULO_MONTO = 32
-End Function
-
-Private Function CM_RPT_FACTURACION_POR_ARTICULO_Y_POR_VENDEDOR_DETALLADO() As Integer
-   CM_RPT_FACTURACION_POR_ARTICULO_Y_POR_VENDEDOR_DETALLADO = 33
-End Function
-
-Private Function CM_RPT_FACTURACION_POR_ARTICULO_Y_POR_VENDEDOR_RESUMIDO() As Integer
-   CM_RPT_FACTURACION_POR_ARTICULO_Y_POR_VENDEDOR_RESUMIDO = 34
-End Function
-
-Private Function CM_RPT_FACTURACION_POR_ARTICULO_Y_POR_VENDEDOR_RESUMIDO_ARTICULO() As Integer
-   CM_RPT_FACTURACION_POR_ARTICULO_Y_POR_VENDEDOR_RESUMIDO_ARTICULO = 35
-End Function
-
-Private Function CM_RPT_INFORME_DE_NOTAS_DE_CREDITO_ASOCIADAS_A_FACTURAS() As Integer
-   CM_RPT_INFORME_DE_NOTAS_DE_CREDITO_ASOCIADAS_A_FACTURAS = 40
-End Function
-
-Private Function CM_RPT_INFORME_DE_FACTURACION_CON_OTROS_CARGOS_Y_DESCUENTOS() As Integer
-   CM_RPT_INFORME_DE_FACTURACION_CON_OTROS_CARGOS_Y_DESCUENTOS = 41
-End Function
-
-Private Function CM_RPT_FACTURAS_ENTRE_FECHAS_X_CONDICION_PAGO() As Integer
-   CM_RPT_FACTURAS_ENTRE_FECHAS_X_CONDICION_PAGO = 44
-End Function
-
-Private Function CM_RPT_DIRECCIONES_DE_DESPACHO_X_FACTURA() As Integer
-   CM_RPT_DIRECCIONES_DE_DESPACHO_X_FACTURA = 45
-End Function
-
-Private Function CM_RPT_FACTURAS_O_BORRADORES_ENTRE_FECHAS_CONTACTO_X_VENDEDOR() As Integer
-   CM_RPT_FACTURAS_O_BORRADORES_ENTRE_FECHAS_CONTACTO_X_VENDEDOR = 46
-End Function
-
-Private Function CM_RPT_FACTURAS_O_BORRADORES_ENTRE_FECHAS_MONTO_ORIGINAL_X_VENDEDOR() As Integer
-   CM_RPT_FACTURAS_O_BORRADORES_ENTRE_FECHAS_MONTO_ORIGINAL_X_VENDEDOR = 47
-End Function
-
-Private Function CM_RPT_FACTURAS_X_DIA() As Integer
-   CM_RPT_FACTURAS_X_DIA = 48
-End Function
-
-Private Function CM_RPT_NOTAS_DE_CREDITO_ENTRE_FECHAS_POR_VENDEDOR() As Integer
-   CM_RPT_NOTAS_DE_CREDITO_ENTRE_FECHAS_POR_VENDEDOR = 49
-End Function
-
-Private Function CM_RPT_FACTURAS_ENTRE_FECHAS_POR_TIPO_ARTICULO_MUESTRA_MONTO() As Integer
-   CM_RPT_FACTURAS_ENTRE_FECHAS_POR_TIPO_ARTICULO_MUESTRA_MONTO = 50
-End Function
-
-Private Function CM_RPT_RESUMEN_DIARIO_ENTRE_FECHAS() As Integer
-   CM_RPT_RESUMEN_DIARIO_ENTRE_FECHAS = 0
-End Function
-
-Private Function CM_RPT_RESUMEN_DIARIO_ENTRE_FECHAS_POR_MAQUINA_FISCAL() As Integer
-   CM_RPT_RESUMEN_DIARIO_ENTRE_FECHAS_POR_MAQUINA_FISCAL = 1
-End Function
-
-Private Function CM_RPT_SERVICIOS_POR_VEHICULO() As Integer
-   CM_RPT_SERVICIOS_POR_VEHICULO = 51
-End Function
-
-Private Function CM_RPT_SERVICIOS_DE_VEHICULOS_POR_CATEGORIA() As Integer
-   CM_RPT_SERVICIOS_DE_VEHICULOS_POR_CATEGORIA = 52
-End Function
-
-Private Function CM_RPT_HORAS_POR_SERVICIO() As Integer
-   CM_RPT_HORAS_POR_SERVICIO = 53
-End Function
-
-Private Function CM_RPT_COMISION_DE_SERVICIO() As Integer
-   CM_RPT_COMISION_DE_SERVICIO = 54
-End Function
-
-Private Function CM_RPT_LISTADO_DE_VEHICULOS() As Integer
-   CM_RPT_LISTADO_DE_VEHICULOS = 55
-End Function
-
-Private Function CM_RPT_FACTURA_ENTRE_FECHAS_CON_COSTOS_POR_ARTICULO() As Integer
-   CM_RPT_FACTURA_ENTRE_FECHAS_CON_COSTOS_POR_ARTICULO = 56
-End Function
-
-Private Function CM_RPT_FACTURA_ENTRE_FECHAS_POR_CATEGORIA() As Integer
-   CM_RPT_FACTURA_ENTRE_FECHAS_POR_CATEGORIA = 57
-End Function
-
-Private Function CM_RPT_FACTURA_ENTRE_FECHAS_POR_CATEGORIA_MUESTRA_MONTO() As Integer
-   CM_RPT_FACTURA_ENTRE_FECHAS_POR_CATEGORIA_MUESTRA_MONTO = 58
-End Function
-
-Private Function CM_RPT_FACTURA_ENTRE_FECHAS_POR_LINEA() As Integer
-   CM_RPT_FACTURA_ENTRE_FECHAS_POR_LINEA = 59
-End Function
-
-Private Function CM_RPT_FACTURA_ENTRE_FECHAS_POR_CATEGORIA_MONTO_IVA() As Integer
-   CM_RPT_FACTURA_ENTRE_FECHAS_POR_CATEGORIA_MONTO_IVA = 60
-End Function
-
-Private Function CM_RPT_FACTURAS_ENTRE_FECHAS_CON_SERIAL() As Integer
-   CM_RPT_FACTURAS_ENTRE_FECHAS_CON_SERIAL = 61
-End Function
-
-Private Function CM_RPT_FACTURAS_POR_TALONARIO() As Integer
-   CM_RPT_FACTURAS_POR_TALONARIO = 62
-End Function
-
-Private Function CM_RPT_FACTURAS_ENTRE_FECHA_POR_CAMPOS_DEFINIBLES() As Integer
-   CM_RPT_FACTURAS_ENTRE_FECHA_POR_CAMPOS_DEFINIBLES = 63
-End Function
-
-Private Function CM_RPT_FACTURAS_ENTRE_FECHAS_X_CAMPOS_DEFINIBLES_CONTACTO() As Integer
-   CM_RPT_FACTURAS_ENTRE_FECHAS_X_CAMPOS_DEFINIBLES_CONTACTO = 64
-End Function
-
-Private Function CM_RPT_FACTURAS_ENTRE_FECHAS_X_CAMPOS_DEFINIBLES_MONTO_ORIGINAL() As Integer
-   CM_RPT_FACTURAS_ENTRE_FECHAS_X_CAMPOS_DEFINIBLES_MONTO_ORIGINAL = 65
-End Function
-
-Private Function CM_RPT_FACTURAS_ENTRE_FECHAS_X_CAMPOS_DEFINIBLES_CONTACTO_X_VENDEDOR() As Integer
-   CM_RPT_FACTURAS_ENTRE_FECHAS_X_CAMPOS_DEFINIBLES_CONTACTO_X_VENDEDOR = 66
-End Function
-
-Private Function CM_RPT_FACTURAS_ENTRE_FECHAS_X_CAMPOS_DEFINIBLES_MONTO_ORIGINAL_X_VENDEDOR() As Integer
-   CM_RPT_FACTURAS_ENTRE_FECHAS_X_CAMPOS_DEFINIBLES_MONTO_ORIGINAL_X_VENDEDOR = 67
-End Function
-
-Private Function CM_RPT_FACTURAS_O_BORRADORES_ENTRE_FECHAS_CONTACTO_X_CLIENTE() As Integer
-   CM_RPT_FACTURAS_O_BORRADORES_ENTRE_FECHAS_CONTACTO_X_CLIENTE = 68
-End Function
-
-Private Function CM_RPT_FACTURAS_O_BORRADORES_ENTRE_FECHAS_MONTO_ORIGINAL_X_CLIENTE() As Integer
-   CM_RPT_FACTURAS_O_BORRADORES_ENTRE_FECHAS_MONTO_ORIGINAL_X_CLIENTE = 69
-End Function
-
-Private Function CM_RPT_FACTURA_ENTRE_FECHAS_CON_COSTOS_SEGUN_LEY_POR_ARTICULO() As Integer
-   CM_RPT_FACTURA_ENTRE_FECHAS_CON_COSTOS_SEGUN_LEY_POR_ARTICULO = 70
-End Function
-
-Private Function CM_RPT_FACTURACION_POR_ARTICULO_Y_POR_ALMACEN() As Integer
-   CM_RPT_FACTURACION_POR_ARTICULO_Y_POR_ALMACEN = 71
-End Function
-
-Private Function CM_RPT_FACTURACION_POR_ARTICULO_Y_POR_ALMACEN_RESUMIDO() As Integer
-   CM_RPT_FACTURACION_POR_ARTICULO_Y_POR_ALMACEN_RESUMIDO = 72
-End Function
-
-Private Function CM_RPT_INFORME_IGTF_CON_OTROS_CARGOS_FACTURA() As Integer
-   CM_RPT_INFORME_IGTF_CON_OTROS_CARGOS_FACTURA = 73
-End Function
+Private Const CM_RPT_FACTURAS_O_BORRADORES_ENTRE_FECHAS_CONTACTO As Integer = 14
+Private Const CM_RPT_FACTURAS_O_BORRADORES_ENTRE_FECHAS_MONTO_ORIGINAL As Integer = 15
+Private Const CM_RPT_FACTURAS_ENTRE_FECHAS_POR_TIPO_ARTICULO_MONTO As Integer = 32
+Private Const CM_RPT_FACTURACION_POR_ARTICULO_Y_POR_VENDEDOR_DETALLADO As Integer = 33
+Private Const CM_RPT_FACTURACION_POR_ARTICULO_Y_POR_VENDEDOR_RESUMIDO As Integer = 34
+Private Const CM_RPT_FACTURACION_POR_ARTICULO_Y_POR_VENDEDOR_RESUMIDO_ARTICULO As Integer = 35
+Private Const CM_RPT_INFORME_DE_NOTAS_DE_CREDITO_ASOCIADAS_A_FACTURAS As Integer = 40
+Private Const CM_RPT_INFORME_DE_FACTURACION_CON_OTROS_CARGOS_Y_DESCUENTOS As Integer = 41
+Private Const CM_RPT_FACTURAS_ENTRE_FECHAS_X_CONDICION_PAGO As Integer = 44
+Private Const CM_RPT_DIRECCIONES_DE_DESPACHO_X_FACTURA As Integer = 45
+Private Const CM_RPT_FACTURAS_O_BORRADORES_ENTRE_FECHAS_CONTACTO_X_VENDEDOR As Integer = 46
+Private Const CM_RPT_FACTURAS_O_BORRADORES_ENTRE_FECHAS_MONTO_ORIGINAL_X_VENDEDOR As Integer = 47
+Private Const CM_RPT_FACTURAS_X_DIA As Integer = 48
+Private Const CM_RPT_NOTAS_DE_CREDITO_ENTRE_FECHAS_POR_VENDEDOR As Integer = 49
+Private Const CM_RPT_FACTURAS_ENTRE_FECHAS_POR_TIPO_ARTICULO_MUESTRA_MONTO As Integer = 50
+Private Const CM_RPT_RESUMEN_DIARIO_ENTRE_FECHAS As Integer = 0
+Private Const CM_RPT_RESUMEN_DIARIO_ENTRE_FECHAS_POR_MAQUINA_FISCAL As Integer = 1
+Private Const CM_RPT_SERVICIOS_POR_VEHICULO As Integer = 51
+Private Const CM_RPT_SERVICIOS_DE_VEHICULOS_POR_CATEGORIA As Integer = 52
+Private Const CM_RPT_HORAS_POR_SERVICIO As Integer = 53
+Private Const CM_RPT_COMISION_DE_SERVICIO As Integer = 54
+Private Const CM_RPT_LISTADO_DE_VEHICULOS As Integer = 55
+Private Const CM_RPT_FACTURA_ENTRE_FECHAS_CON_COSTOS_POR_ARTICULO As Integer = 56
+Private Const CM_RPT_FACTURA_ENTRE_FECHAS_POR_CATEGORIA As Integer = 57
+Private Const CM_RPT_FACTURA_ENTRE_FECHAS_POR_CATEGORIA_MUESTRA_MONTO As Integer = 58
+Private Const CM_RPT_FACTURA_ENTRE_FECHAS_POR_LINEA As Integer = 59
+Private Const CM_RPT_FACTURA_ENTRE_FECHAS_POR_CATEGORIA_MONTO_IVA As Integer = 60
+Private Const CM_RPT_FACTURAS_ENTRE_FECHAS_CON_SERIAL As Integer = 61
+Private Const CM_RPT_FACTURAS_POR_TALONARIO As Integer = 62
+Private Const CM_RPT_FACTURAS_ENTRE_FECHA_POR_CAMPOS_DEFINIBLES As Integer = 63
+Private Const CM_RPT_FACTURAS_ENTRE_FECHAS_X_CAMPOS_DEFINIBLES_CONTACTO As Integer = 64
+Private Const CM_RPT_FACTURAS_ENTRE_FECHAS_X_CAMPOS_DEFINIBLES_MONTO_ORIGINAL As Integer = 65
+Private Const CM_RPT_FACTURAS_ENTRE_FECHAS_X_CAMPOS_DEFINIBLES_CONTACTO_X_VENDEDOR As Integer = 66
+Private Const CM_RPT_FACTURAS_ENTRE_FECHAS_X_CAMPOS_DEFINIBLES_MONTO_ORIGINAL_X_VENDEDOR As Integer = 67
+Private Const CM_RPT_FACTURAS_O_BORRADORES_ENTRE_FECHAS_CONTACTO_X_CLIENTE As Integer = 68
+Private Const CM_RPT_FACTURAS_O_BORRADORES_ENTRE_FECHAS_MONTO_ORIGINAL_X_CLIENTE As Integer = 69
+Private Const CM_RPT_FACTURA_ENTRE_FECHAS_CON_COSTOS_SEGUN_LEY_POR_ARTICULO As Integer = 70
+Private Const CM_RPT_FACTURACION_POR_ARTICULO_Y_POR_ALMACEN As Integer = 71
+Private Const CM_RPT_FACTURACION_POR_ARTICULO_Y_POR_ALMACEN_RESUMIDO As Integer = 72
+Private Const CM_RPT_INFORME_IGTF_CON_OTROS_CARGOS_FACTURA As Integer = 73
 
 Private Function fNombreFileDeImpresionDelReporteDeFactura(ByVal valReporte As Integer, Optional ByVal valTalonario As enum_Talonario = enum_Talonario.eTa_TALONARIO1) As String
    Dim nombreFileXML As String
@@ -231,7 +109,7 @@ Private Function fNombreFileDeImpresionDelReporteDeFactura(ByVal valReporte As I
    End If
 h_EXIT:   On Error GoTo 0
    Exit Function
-h_ERROR:   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fNombreFileDeImpresionDelReporteDeFactura", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR:   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fNombreFileDeImpresionDelReporteDeFactura", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fNombreFileDeImpresionDelReporteDeResumenDiario(ByVal valReporte As Integer, _
@@ -250,7 +128,7 @@ Private Function fNombreFileDeImpresionDelReporteDeResumenDiario(ByVal valReport
    End If
 h_EXIT:   On Error GoTo 0
    Exit Function
-h_ERROR:   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fNombreFileDeImpresionDelReporteDeResumenDiario", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR:   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fNombreFileDeImpresionDelReporteDeResumenDiario", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fNombreDelReporteDeResumenDiario(ByVal valReporte As Integer) As String
@@ -263,7 +141,7 @@ Private Function fNombreDelReporteDeResumenDiario(ByVal valReporte As Integer) A
 h_EXIT:   On Error GoTo 0
    Exit Function
 h_ERROR:   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-           "fNombreDelReporteDeResumenDiario", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+           "fNombreDelReporteDeResumenDiario", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fNombreDelReporteDeFactura(ByVal valReporte As Integer) As String
@@ -293,7 +171,7 @@ Private Function fNombreDelReporteDeFactura(ByVal valReporte As Integer) As Stri
 h_EXIT:   On Error GoTo 0
    Exit Function
 h_ERROR:   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-           "fNombreDelReporteDeFactura", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+           "fNombreDelReporteDeFactura", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfigurarDatosDelReporteFacturacionPorCondicionesDePago(ByRef refRpt As DDActiveReports2.ActiveReport, _
@@ -782,6 +660,7 @@ Public Function fConfigurarDatosDelReporteFacturasOBorradoresEntreFechas(ByRef r
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtMoneda", "", "Moneda"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtTipoDocumento", "", "TipoDeDocumentoStr"
          gUtilReports.sDefaultConfigurationForDateFields refRpt, "txtFecha", "", "Fecha", eFT_DATE
+         gUtilReports.sDefaultConfigurationForDateFields refRpt, "txtHora", "", "HoraModificacion", eFT_HOUR
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNumero", "", "Numero"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNombreCliente", "", "Nombre"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCodigoCliente", "", "CodigoCliente"
@@ -789,22 +668,20 @@ Public Function fConfigurarDatosDelReporteFacturasOBorradoresEntreFechas(ByRef r
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtContacto", "", "Contacto"
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtBaseImponible", "", "TotalBaseImponible"
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtMontoIVA", "", "TotalIVA"
-'nelson
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtMontoExento", "", "TotalMontoExento"
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotal", "", "TotalFactura"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtStatus", "", "StatusFactura"
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalMontoOriginal", "", ""
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalBaseImponible", "", ""
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalMontoIVA", "", ""
-'nelson
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalMontoExento", "", ""
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalTotal", "", ""
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtOtrosCargos", "", "OtrosCargos"
-         If Not valUsaModuloDeContabilidad Then
-            gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "lbNComprobante", False
-            gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "txtNComprobante", False
-         Else
+         If valUsaModuloDeContabilidad Then
             gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNComprobante", "", "NumeroComprobante"
+         Else
+            gUtilReports.sDefaultConfigurationForLabels refRpt, "lbNComprobante", ""
+            gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "txtNComprobante", False
          End If
 
          If valEmiteCobroDirecto Then
@@ -1036,7 +913,7 @@ Public Function fConfigurarDatosDelReporteNotasDeCreditoEntreFechasPorVendedor(B
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fConfigurarDatosDelReporteNotasDeCreditoEntreFechasPorVendedor = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteNotasDeCreditoEntreFechasPorVendedor", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteNotasDeCreditoEntreFechasPorVendedor", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfigurarDatosDelReporteFacturaEntreFechasConCostosSegunLeyPorArticulo(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valfechaInicio As Date, ByVal valFechaFinal As Date, ByVal valNombreCompaniaParaInformes As String, ByVal valMaxGanancia As Currency) As Boolean
@@ -1104,7 +981,7 @@ Public Function fConfigurarDatosDelReporteFacturaEntreFechasConCostosSegunLeyPor
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fConfigurarDatosDelReporteFacturaEntreFechasConCostosSegunLeyPorArticulo = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteFacturaEntreFechasConCostosPorArticulo", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteFacturaEntreFechasConCostosPorArticulo", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfigurarDatosDelReporteFacturaEntreFechasConCostosPorArticulo(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valfechaInicio As Date, ByVal valFechaFinal As Date, ByVal valNombreCompaniaParaInformes As String) As Boolean
@@ -1167,7 +1044,7 @@ Public Function fConfigurarDatosDelReporteFacturaEntreFechasConCostosPorArticulo
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fConfigurarDatosDelReporteFacturaEntreFechasConCostosPorArticulo = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteFacturaEntreFechasConCostosPorArticulo", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteFacturaEntreFechasConCostosPorArticulo", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfigurarDatosDelReporteServiciosXVehiculo(ByRef refRpt As DDActiveReports2.ActiveReport, _
@@ -1217,7 +1094,7 @@ Public Function fConfigurarDatosDelReporteServiciosXVehiculo(ByRef refRpt As DDA
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fConfigurarDatosDelReporteServiciosXVehiculo = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteServiciosXVehiculo", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteServiciosXVehiculo", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfigurarDatosDelReporteServiciosDeVehiculosXCategoria(ByRef refRpt As DDActiveReports2.ActiveReport, _
@@ -1255,7 +1132,7 @@ Public Function fConfigurarDatosDelReporteServiciosDeVehiculosXCategoria(ByRef r
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fConfigurarDatosDelReporteServiciosDeVehiculosXCategoria = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteServiciosDeVehiculosXCategoria", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteServiciosDeVehiculosXCategoria", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfigurarDatosDelReporteHorasDeServicio(ByRef refRpt As DDActiveReports2.ActiveReport, _
@@ -1298,7 +1175,7 @@ Public Function fConfigurarDatosDelReporteHorasDeServicio(ByRef refRpt As DDActi
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fConfigurarDatosDelReporteHorasDeServicio = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteHorasDeServicio", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteHorasDeServicio", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfigurarDatosDelReporteComisionDeServicios(ByRef refRpt As DDActiveReports2.ActiveReport, _
@@ -1345,7 +1222,7 @@ Public Function fConfigurarDatosDelReporteComisionDeServicios(ByRef refRpt As DD
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fConfigurarDatosDelReporteComisionDeServicios = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteComisionDeServicios", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteComisionDeServicios", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfigurarDatosDelListadoDeVehiculosPorPropietario(ByRef refRpt As DDActiveReports2.ActiveReport, _
@@ -1386,7 +1263,7 @@ Public Function fConfigurarDatosDelListadoDeVehiculosPorPropietario(ByRef refRpt
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fConfigurarDatosDelListadoDeVehiculosPorPropietario = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelListadoDeVehiculosPorPropietario", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelListadoDeVehiculosPorPropietario", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfigurarDatosDelReporteFacturasPorCategoria(ByRef refRpt As DDActiveReports2.ActiveReport, _
@@ -1682,7 +1559,7 @@ Public Function fConfigurarDatosDelReporteFacturasPorTalonario(ByRef refRpt As D
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fConfigurarDatosDelReporteFacturasPorTalonario = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteFacturasPorTalonario", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteFacturasPorTalonario", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfigurarDatosDelReporteFacturasEntreFechasPorCamposDefinibles(ByRef refRpt As DDActiveReports2.ActiveReport, _

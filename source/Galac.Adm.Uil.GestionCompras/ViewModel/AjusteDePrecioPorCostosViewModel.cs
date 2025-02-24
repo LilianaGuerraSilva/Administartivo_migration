@@ -790,7 +790,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             bool vMonedaLocal = EsMonedaLocal;
             ICompraPdn vPdn = new clsCompraNav();
             if (vPdn.AjustaPreciosxCostos(UsaFormulaAlterna, LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), RedondearPrecio, PrecioAjustar, EstablecerMargen, NivelDePrecio == eNivelDePrecio.Todos || NivelDePrecio == eNivelDePrecio.Nivel1, NivelDePrecio == eNivelDePrecio.Todos || NivelDePrecio == eNivelDePrecio.Nivel2, NivelDePrecio == eNivelDePrecio.Todos || NivelDePrecio == eNivelDePrecio.Nivel3, NivelDePrecio == eNivelDePrecio.Todos || NivelDePrecio == eNivelDePrecio.Nivel4, Margen1, Margen2, Margen3, Margen4, _FechaOperacion, _NumeroOperacion, vMonedaLocal)) {
-                LibMessages.MessageBox.Information(this, "Todos los precios de los Artículos fueron actualizados!" + Environment.NewLine + "Recuerde modificar los datos en los borradores de las facturas.", ModuleName);
+                LibMessages.MessageBox.Information(this, "Todos los precios de los Artículos fueron actualizados!" + Environment.NewLine + "Recuerde modificar los datos en las facturas en espera.", ModuleName);
             }
         } 
     } //End of class CompraSerialRolloViewModel

@@ -45,6 +45,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 XElement xElementFacturaRapida = DarFormatoADatosDeFactura(insFactura, valListDeCobro, valDatosCreditoElectronico);
                 if (vResult) {
                     vResult = false;
+                    ICajaPdn insCaja = new clsCajaNav();
+                    int vCajaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ConsecutivoCaja");
+                    int vConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
+                    insCaja.FindByConsecutivoCaja(vConsecutivoCompania, vCajaLocal, "", ref _XmlDatosImprFiscal);
                     ImpresoraFiscalViewModel insImpresoraFiscalViewModel = new ImpresoraFiscalViewModel(_XmlDatosImprFiscal, xElementFacturaRapida, eTipoDocumentoFiscal.FacturaFiscal);
                     LibMessages.EditViewModel.ShowEditor(insImpresoraFiscalViewModel, true);
                     vSerialMaquinaFiscal = insImpresoraFiscalViewModel.SerialImpresoraFiscal;
@@ -88,7 +92,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             xElementFacturaRapida.Element("GpResult").Add(xElementGpDataDetailRenglonFactura);
             XElement xElementGpDataDetailRenglonCobro = new XElement("GpDataDetailRenglonCobro");
             foreach (var renglon in vCloneListCobro.Where(x => x.CodigoMoneda != _MonedaLocalNav.InstanceMonedaLocalActual.GetHoyCodigoMoneda())) {
-                renglon.Monto = LibMath.RoundToNDecimals(renglon.Monto * renglon.CambioAMonedaLocal, 2);
+                renglon.Monto = LibMath.RoundToNDecimals(renglon.Monto * renglon.CambioAMonedaLocal,2);
                 if (LibString.S1IsEqualToS2(renglon.CodigoFormaDelCobro, "00015")) {
                     renglon.CodigoMoneda = _MonedaLocalNav.InstanceMonedaLocalActual.GetHoyCodigoMoneda();
                 }

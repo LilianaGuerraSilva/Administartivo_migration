@@ -200,7 +200,7 @@ Private Function fCalcularMontoDescuento(ByVal valMonto As Currency, ByVal valPo
    fCalcularMontoDescuento = vResultado
 End Function
 
-Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales, insDatosImprFiscal As clsDatosImprFiscal, ByVal valEsNotaDeCredito, ByRef refReady As Boolean)
+Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales, insDatosImprFiscal As clsDatosImprFiscal, ByRef refReady As Boolean)
       Dim rsDatosArticulo As ADODB.Recordset
       Dim vAlicuotas As String
       Dim vTipoTasa As enum_TipoDeAlicuota
@@ -295,7 +295,7 @@ Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales
                   vMontoMEStr = fDarFormatoNumericoParaImpresion(vOtrosPagos, mEnterosParaIGTF, mDecimalesParaMonto)
                   mVmax.PagoCF vMedioPago, vMontoMEStr, 1
                End If
-            Else ' Montos en ME sin IGTF
+            Else
                If Not insDatosImprFiscal.GetFormaDePago Is Nothing Then
                   sFormaDePago insDatosImprFiscal, True
                Else
@@ -306,14 +306,14 @@ Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales
             vTotalFactura = mVmax.TotalFactura
             If vTotalPagadoML > 0 Then
                If Not insDatosImprFiscal.GetFormaDePago Is Nothing Then
-                  sFormaDePago insDatosImprFiscal, False
+                  sFormaDePago insDatosImprFiscal
                Else
                   vResult = mVmax.PagoCF("Debito", vTotalFactura, 1)
                End If
             End If
          End If
          vTotales = insDatosImprFiscal.GetTotalesMonedaExtranjera
-         If gTexto.DfLen(vTotales) > 0 And Not insDatosImprFiscal.GetEsNotaDeCredito Then
+         If gTexto.DfLen(vTotales) > 0 And Not vEsNotaDeCredito Then
             vList = gTexto.fConvertCadenaEnArray(vTotales, vbNewLine)
             If UBound(vList) > 0 Then
                For vCount = LBound(vList) To UBound(vList)
@@ -408,7 +408,7 @@ Private Function fDarFormatoAlicuotaIva(ByVal valTipoAlicuota As enum_TipoDeAlic
    fDarFormatoAlicuotaIva = vResult
 End Function
 
-Private Function fImprimeDatosClientes(ByVal insDatosImprFiscal As clsDatosImprFiscal, ByVal valEsNotaDeCredito As Boolean) As Boolean
+Private Function fImprimeDatosClientes(ByVal insDatosImprFiscal As clsDatosImprFiscal) As Boolean
    Dim vResult As Boolean
    Dim vTipo As String
    Dim vRazonSocial As String
@@ -425,13 +425,15 @@ Private Function fImprimeDatosClientes(ByVal insDatosImprFiscal As clsDatosImprF
    Dim vHora As String
    Dim vMin As String
    Dim vSubstring As String
+   Dim vEsNotaDeCredito As Boolean
          
    On Error GoTo h_Error
+   vEsNotaDeCredito = insDatosImprFiscal.GetEsNotaDeCredito
    vRazonSocial = gUtilImprFiscal.fCadenaCaracteresValidos(insDatosImprFiscal.GetNombreCliente, 100)
    vRif = insDatosImprFiscal.GetNumeroRIFCliente
    vDireccion = gUtilImprFiscal.fCadenaCaracteresValidos("Direccion: " & insDatosImprFiscal.GetDireccion, 100)
    vObservaciones = gUtilImprFiscal.fCadenaCaracteresValidos("Observaciones: " & insDatosImprFiscal.GetObservaciones, 100)
-   If valEsNotaDeCredito Then
+   If vEsNotaDeCredito Then
       vTipo = "D"
       vNumFactura = insDatosImprFiscal.GetNumeroTicket
       vSerialMaquinaFiscal = insDatosImprFiscal.GetSerialImpresoraFiscal
@@ -529,7 +531,7 @@ Private Sub sFormaDePago(ByVal insDatosImprFiscal As clsDatosImprFiscal, ByVal v
          vCodigoMoneda = rsFormaDePago.Fields("CodigoMoneda").Value
          vFormaDeCobro = fFormaDeCobro(rsFormaDePago("CodigoFormaDelCobro").Value, insDatosImprFiscal.GetDescripcionPagoCreditoElectronico)
          If rsFormaDePago.RecordCount < 1 Then
-            vResult = mVmax.PagoCF("Efectivo", vTotalFactura, 1)
+             vResult = mVmax.PagoCF("Efectivo", vTotalFactura, 1)
          ElseIf insDatosImprFiscal.GetCodigoMonedaCompania <> vCodigoMoneda And valEsME Then
             MontoCanceladoFormateado = gConvert.fConvierteAString(vMontoCancelado)
             MontoCanceladoFormateado = fDarFormatoNumericoParaImpresion(MontoCanceladoFormateado, mEnterosParaPagos, mDecimalesParaMonto)

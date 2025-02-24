@@ -414,7 +414,7 @@ namespace Galac.Saw.Dal.Inventario {
             }
             return vResult;
         }
-		
+
         private eTipoArticuloInv ObtenerTipoArticuloInv(int valConsecutivoCompania, string valCodigoArticulo) { 
             LibDatabase insDb = new LibDatabase();
             StringBuilder vSql = new StringBuilder();
@@ -433,7 +433,7 @@ namespace Galac.Saw.Dal.Inventario {
             vSql.AppendLine("WHERE ConsecutivoCompania = " + insDb.InsSql.ToSqlValue(valConsecutivoCompania));
             vSql.AppendLine(" AND Codigo = " + insDb.InsSql.ToSqlValue(valCodigoArticulo));
             vSql.AppendLine(" AND TipoArticuloInv = " + insDb.InsSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento));
-            vResult = insDb.RecordCountOfSql (vSql.ToString()) > 0;
+            vResult = insDb.RecordCountOfSql(vSql.ToString()) > 0;
             return vResult;
         }
 

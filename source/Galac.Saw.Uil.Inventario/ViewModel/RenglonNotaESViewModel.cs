@@ -246,7 +246,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
             set {
                 if (_ConexionCodigoArticulo != value) {
-                    _ConexionCodigoArticulo = value;
+                    _ConexionCodigoArticulo = value;                    
                     if (_ConexionCodigoArticulo != null) {
                         CodigoArticulo = ConexionCodigoArticulo.CodigoCompuesto;
                         DescripcionArticulo = ConexionCodigoArticulo.Descripcion;
@@ -436,5 +436,12 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 return false;
             }
         }
+
+        public bool NotaESIsEnabled {
+            get {
+                return IsEnabled && Action != eAccionSR.Anular && Action != eAccionSR.ReImprimir && Action != eAccionSR.Reversar;
+            }
+        }
+
     } //End of class RenglonNotaESViewModel
 } //End of namespace Galac.Saw.Uil.Inventario
