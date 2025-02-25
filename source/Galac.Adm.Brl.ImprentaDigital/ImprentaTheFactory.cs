@@ -63,7 +63,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }
 
         public override bool EstadoDocumento() {
-            stPostResq vRespuestaConector = new stPostResq();
+            stRespuestaTF vRespuestaConector = new stRespuestaTF();
             string vMensaje = string.Empty;
             bool vChekConeccion;
             string vDocumentoJSON;
@@ -105,7 +105,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public override bool AnularDocumento() {
             try {               
                 bool vResult = false;
-                stPostResq vRespuestaConector = new stPostResq();
+                stRespuestaTF vRespuestaConector = new stRespuestaTF();
                 bool vDocumentoExiste = EstadoDocumento();
                 if (LibString.IsNullOrEmpty(EstatusDocumento)) {
                     vDocumentoExiste = EstadoDocumento();
@@ -144,7 +144,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             try {
                 bool vResult = false;
                 string vMensaje = string.Empty;
-                stPostResq vRespuestaConector;
+                stRespuestaTF vRespuestaConector;
                 bool vChekConeccion;
                 if(LibString.IsNullOrEmpty(_ConectorJson.Token)) {
                     vChekConeccion = _ConectorJson.CheckConnection(ref vMensaje, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion));

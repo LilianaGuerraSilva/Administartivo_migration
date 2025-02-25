@@ -30,6 +30,8 @@ namespace Galac.Saw.LibHttp {
                     vHttpRespMsg.EnsureSuccessStatusCode();
                 } else if(vHttpRespMsg.StatusCode == System.Net.HttpStatusCode.NotFound) {
                     throw new Exception($"{vResult} Revise su conexión a Internet y la URL del servicio.");
+                } else if(vHttpRespMsg.StatusCode == System.Net.HttpStatusCode.BadGateway) {
+                    throw new Exception($"{vResult} Revise su conexión a Internet y la URL del servicio.");
                 }
                 if(vHttpRespMsg.Content is null) {
                     throw new Exception($"{vResult}Revise su conexión a Internet y la URL del servicio.");
