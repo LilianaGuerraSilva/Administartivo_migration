@@ -26,7 +26,7 @@ Begin VB.Form frmInformesDeCXP
       ForeColor       =   &H00A84439&
       Height          =   372
       Left            =   3480
-      TabIndex        =   58
+      TabIndex        =   56
       Top             =   3720
       Width           =   4410
    End
@@ -37,14 +37,14 @@ Begin VB.Form frmInformesDeCXP
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   3480
-      TabIndex        =   56
+      TabIndex        =   54
       Top             =   1560
       Width           =   3855
       Begin VB.ComboBox cmbStatus 
          Height          =   315
          HelpContextID   =   1
          Left            =   840
-         TabIndex        =   16
+         TabIndex        =   15
          Top             =   0
          Width           =   1474
       End
@@ -56,7 +56,7 @@ Begin VB.Form frmInformesDeCXP
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   0
-         TabIndex        =   57
+         TabIndex        =   55
          Top             =   60
          Width           =   780
       End
@@ -68,7 +68,7 @@ Begin VB.Form frmInformesDeCXP
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   3480
-      TabIndex        =   29
+      TabIndex        =   28
       Top             =   4440
       Width           =   2235
    End
@@ -76,14 +76,14 @@ Begin VB.Form frmInformesDeCXP
       BackColor       =   &H00F3F3F3&
       Height          =   570
       Left            =   3495
-      TabIndex        =   52
+      TabIndex        =   50
       Top             =   3645
       Visible         =   0   'False
       Width           =   4815
       Begin VB.ComboBox cmbResumenDeLibros 
          Height          =   315
          Left            =   1575
-         TabIndex        =   28
+         TabIndex        =   27
          Top             =   135
          Width           =   1335
       End
@@ -95,7 +95,7 @@ Begin VB.Form frmInformesDeCXP
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   180
-         TabIndex        =   53
+         TabIndex        =   51
          Top             =   195
          Width           =   1095
       End
@@ -107,7 +107,7 @@ Begin VB.Form frmInformesDeCXP
       ForeColor       =   &H00A84439&
       Height          =   240
       Left            =   3480
-      TabIndex        =   25
+      TabIndex        =   24
       Top             =   3360
       Width           =   3015
    End
@@ -117,33 +117,33 @@ Begin VB.Form frmInformesDeCXP
       ForeColor       =   &H00808080&
       Height          =   915
       Left            =   3495
-      TabIndex        =   47
+      TabIndex        =   45
       Top             =   495
       Width           =   2115
       Begin MSComCtl2.DTPicker dtpFechaFinal 
          Height          =   255
          Left            =   660
-         TabIndex        =   12
+         TabIndex        =   11
          Top             =   540
          Width           =   1335
          _ExtentX        =   2355
          _ExtentY        =   450
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   87293955
+         Format          =   136904707
          CurrentDate     =   36978
       End
       Begin MSComCtl2.DTPicker dtpFechaInicial 
          Height          =   255
          Left            =   660
-         TabIndex        =   11
+         TabIndex        =   10
          Top             =   180
          Width           =   1335
          _ExtentX        =   2355
          _ExtentY        =   450
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   87293955
+         Format          =   136904707
          CurrentDate     =   36978
       End
       Begin VB.Label lblFechaFinal 
@@ -154,7 +154,7 @@ Begin VB.Form frmInformesDeCXP
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   180
-         TabIndex        =   49
+         TabIndex        =   47
          Top             =   600
          Width           =   330
       End
@@ -166,7 +166,7 @@ Begin VB.Form frmInformesDeCXP
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   180
-         TabIndex        =   48
+         TabIndex        =   46
          Top             =   240
          Width           =   405
       End
@@ -177,13 +177,13 @@ Begin VB.Form frmInformesDeCXP
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   3495
-      TabIndex        =   50
+      TabIndex        =   48
       Top             =   555
       Width           =   4455
       Begin VB.ComboBox cmbOrdenadoPor 
          Height          =   315
          Left            =   1050
-         TabIndex        =   15
+         TabIndex        =   14
          Top             =   0
          Width           =   1575
       End
@@ -195,7 +195,7 @@ Begin VB.Form frmInformesDeCXP
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   0
-         TabIndex        =   51
+         TabIndex        =   49
          Top             =   60
          Width           =   975
       End
@@ -206,7 +206,7 @@ Begin VB.Form frmInformesDeCXP
       ForeColor       =   &H00808080&
       Height          =   915
       Left            =   7560
-      TabIndex        =   35
+      TabIndex        =   33
       Top             =   1380
       Width           =   1395
       Begin VB.OptionButton optDetallado 
@@ -216,7 +216,7 @@ Begin VB.Form frmInformesDeCXP
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   120
-         TabIndex        =   18
+         TabIndex        =   17
          Top             =   240
          Width           =   1155
       End
@@ -227,7 +227,7 @@ Begin VB.Form frmInformesDeCXP
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   120
-         TabIndex        =   19
+         TabIndex        =   18
          Top             =   615
          Width           =   1155
       End
@@ -238,14 +238,14 @@ Begin VB.Form frmInformesDeCXP
       ForeColor       =   &H00808080&
       Height          =   615
       Left            =   3495
-      TabIndex        =   41
+      TabIndex        =   39
       Top             =   495
       Width           =   2235
       Begin VB.TextBox txtMes 
          Height          =   285
          Left            =   120
          MaxLength       =   2
-         TabIndex        =   14
+         TabIndex        =   13
          Top             =   240
          Width           =   495
       End
@@ -253,7 +253,7 @@ Begin VB.Form frmInformesDeCXP
          Height          =   285
          Left            =   675
          MaxLength       =   4
-         TabIndex        =   13
+         TabIndex        =   12
          Top             =   240
          Width           =   735
       End
@@ -264,13 +264,13 @@ Begin VB.Form frmInformesDeCXP
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   3495
-      TabIndex        =   44
+      TabIndex        =   42
       Top             =   1965
       Width           =   5655
       Begin VB.ComboBox CmbCantidadAImprimir 
          Height          =   315
          Left            =   1665
-         TabIndex        =   20
+         TabIndex        =   19
          Top             =   0
          Width           =   1575
       End
@@ -282,7 +282,7 @@ Begin VB.Form frmInformesDeCXP
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   0
-         TabIndex        =   45
+         TabIndex        =   43
          Top             =   60
          Width           =   1605
       End
@@ -294,7 +294,7 @@ Begin VB.Form frmInformesDeCXP
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   3480
-      TabIndex        =   23
+      TabIndex        =   22
       Top             =   2640
       Width           =   2235
    End
@@ -305,14 +305,14 @@ Begin VB.Form frmInformesDeCXP
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   3495
-      TabIndex        =   37
+      TabIndex        =   35
       Top             =   2910
       Visible         =   0   'False
       Width           =   3015
       Begin VB.ComboBox cmbMonedaDeLosReportes 
          Height          =   315
          Left            =   645
-         TabIndex        =   24
+         TabIndex        =   23
          Top             =   0
          Width           =   1755
       End
@@ -324,7 +324,7 @@ Begin VB.Form frmInformesDeCXP
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   0
-         TabIndex        =   39
+         TabIndex        =   37
          Top             =   60
          Width           =   585
       End
@@ -335,7 +335,7 @@ Begin VB.Form frmInformesDeCXP
       ForeColor       =   &H00808080&
       Height          =   915
       Left            =   6570
-      TabIndex        =   36
+      TabIndex        =   34
       Top             =   2910
       Width           =   1515
       Begin VB.OptionButton optTasaDeCambio 
@@ -346,7 +346,7 @@ Begin VB.Form frmInformesDeCXP
          Height          =   195
          Index           =   1
          Left            =   120
-         TabIndex        =   27
+         TabIndex        =   26
          Top             =   615
          Width           =   1215
       End
@@ -358,7 +358,7 @@ Begin VB.Form frmInformesDeCXP
          Height          =   195
          Index           =   0
          Left            =   120
-         TabIndex        =   26
+         TabIndex        =   25
          Top             =   240
          Width           =   1215
       End
@@ -369,7 +369,7 @@ Begin VB.Form frmInformesDeCXP
       CausesValidation=   0   'False
       Height          =   375
       Left            =   3195
-      TabIndex        =   32
+      TabIndex        =   31
       Top             =   5220
       Width           =   1335
    End
@@ -377,7 +377,7 @@ Begin VB.Form frmInformesDeCXP
       Caption         =   "&Pantalla"
       Height          =   375
       Left            =   1680
-      TabIndex        =   31
+      TabIndex        =   30
       Top             =   5220
       Width           =   1335
    End
@@ -385,7 +385,7 @@ Begin VB.Form frmInformesDeCXP
       Caption         =   "&Impresora"
       Height          =   375
       Left            =   120
-      TabIndex        =   30
+      TabIndex        =   29
       Top             =   5220
       Width           =   1335
    End
@@ -394,7 +394,7 @@ Begin VB.Form frmInformesDeCXP
       ForeColor       =   &H80000010&
       Height          =   5055
       Left            =   120
-      TabIndex        =   34
+      TabIndex        =   32
       Top             =   120
       Width           =   3255
       Begin VB.OptionButton optInformesDeCxP 
@@ -406,8 +406,8 @@ Begin VB.Form frmInformesDeCXP
          Height          =   195
          Index           =   12
          Left            =   120
-         TabIndex        =   7
-         Top             =   2820
+         TabIndex        =   6
+         Top             =   2580
          Width           =   2955
       End
       Begin VB.OptionButton optInformesDeCxP 
@@ -419,8 +419,8 @@ Begin VB.Form frmInformesDeCXP
          Height          =   195
          Index           =   11
          Left            =   120
-         TabIndex        =   6
-         Top             =   2505
+         TabIndex        =   5
+         Top             =   2250
          Width           =   2955
       End
       Begin VB.OptionButton optInformesDeCxP 
@@ -433,7 +433,7 @@ Begin VB.Form frmInformesDeCXP
          Index           =   10
          Left            =   120
          TabIndex        =   2
-         Top             =   1245
+         Top             =   1269
          Width           =   2955
       End
       Begin VB.OptionButton optInformesDeCxP 
@@ -446,7 +446,7 @@ Begin VB.Form frmInformesDeCXP
          Index           =   9
          Left            =   120
          TabIndex        =   4
-         Top             =   1875
+         Top             =   1923
          Width           =   2955
       End
       Begin VB.OptionButton optInformesDeCxP 
@@ -458,7 +458,7 @@ Begin VB.Form frmInformesDeCXP
          Height          =   195
          Index           =   8
          Left            =   120
-         TabIndex        =   10
+         TabIndex        =   9
          Top             =   4200
          Width           =   2955
       End
@@ -471,8 +471,8 @@ Begin VB.Form frmInformesDeCXP
          Height          =   195
          Index           =   7
          Left            =   120
-         TabIndex        =   9
-         Top             =   3840
+         TabIndex        =   8
+         Top             =   3825
          Width           =   2955
       End
       Begin VB.OptionButton optInformesDeCxP 
@@ -498,20 +498,7 @@ Begin VB.Form frmInformesDeCXP
          Index           =   0
          Left            =   120
          TabIndex        =   1
-         Top             =   930
-         Width           =   2955
-      End
-      Begin VB.OptionButton optInformesDeCxP 
-         Alignment       =   1  'Right Justify
-         BackColor       =   &H00F3F3F3&
-         Caption         =   "Libro de Compras .............................."
-         CausesValidation=   0   'False
-         ForeColor       =   &H00A84439&
-         Height          =   195
-         Index           =   2
-         Left            =   120
-         TabIndex        =   5
-         Top             =   2190
+         Top             =   942
          Width           =   2955
       End
       Begin VB.OptionButton optInformesDeCxP 
@@ -523,8 +510,8 @@ Begin VB.Form frmInformesDeCXP
          Height          =   195
          Index           =   3
          Left            =   120
-         TabIndex        =   8
-         Top             =   3510
+         TabIndex        =   7
+         Top             =   3450
          Width           =   2955
       End
       Begin VB.OptionButton optInformesDeCxP 
@@ -537,7 +524,7 @@ Begin VB.Form frmInformesDeCXP
          Index           =   4
          Left            =   120
          TabIndex        =   3
-         Top             =   1560
+         Top             =   1596
          Width           =   2955
       End
       Begin VB.Label lblTitulosInformes 
@@ -556,8 +543,8 @@ Begin VB.Form frmInformesDeCXP
          Height          =   255
          Index           =   1
          Left            =   120
-         TabIndex        =   55
-         Top             =   3135
+         TabIndex        =   53
+         Top             =   3015
          Width           =   2955
       End
       Begin VB.Label lblTitulosInformes 
@@ -576,7 +563,7 @@ Begin VB.Form frmInformesDeCXP
          Height          =   255
          Index           =   0
          Left            =   120
-         TabIndex        =   54
+         TabIndex        =   52
          Top             =   240
          Width           =   2955
       End
@@ -588,20 +575,20 @@ Begin VB.Form frmInformesDeCXP
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   3495
-      TabIndex        =   40
+      TabIndex        =   38
       Top             =   2280
       Width           =   5655
       Begin VB.TextBox txtCodigo 
          Height          =   285
          Left            =   615
-         TabIndex        =   21
+         TabIndex        =   20
          Top             =   60
          Width           =   1335
       End
       Begin VB.TextBox txtNombreDeProveedor 
          Height          =   285
          Left            =   2010
-         TabIndex        =   22
+         TabIndex        =   21
          Top             =   60
          Width           =   3615
       End
@@ -613,18 +600,10 @@ Begin VB.Form frmInformesDeCXP
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   0
-         TabIndex        =   42
+         TabIndex        =   40
          Top             =   60
          Width           =   555
       End
-   End
-   Begin VB.CommandButton cmdExportarAXLS 
-      Caption         =   "&Exportar a XLS"
-      Height          =   375
-      Left            =   4740
-      TabIndex        =   33
-      Top             =   5220
-      Width           =   1335
    End
    Begin VB.Frame frameAnalisisDeVencimiento 
       BackColor       =   &H00F3F3F3&
@@ -633,13 +612,13 @@ Begin VB.Form frmInformesDeCXP
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   3480
-      TabIndex        =   43
+      TabIndex        =   41
       Top             =   1440
       Width           =   5655
       Begin VB.ComboBox cmbAnalisisDeVencimientoPor 
          Height          =   315
          Left            =   2040
-         TabIndex        =   17
+         TabIndex        =   16
          Top             =   0
          Width           =   1815
       End
@@ -651,7 +630,7 @@ Begin VB.Form frmInformesDeCXP
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   0
-         TabIndex        =   46
+         TabIndex        =   44
          Top             =   60
          Width           =   1980
       End
@@ -673,7 +652,7 @@ Begin VB.Form frmInformesDeCXP
       ForeColor       =   &H000040C0&
       Height          =   300
       Left            =   3495
-      TabIndex        =   38
+      TabIndex        =   36
       Top             =   120
       Width           =   2340
    End
@@ -704,8 +683,8 @@ Private mDondeImprimir As enum_DondeImprimir
 Private Const GetGender As Integer = eg_Male
 Private Const CM_FILE_NAME As String = "frmInformesDeCXP"
 Private Const CM_MESSAGE_NAME As String = "Informes De CxP"
+
 Private Const OPT_ANALISIS_DE_VENCIMIENTO As Integer = 0
-Private Const OPT_LIBRO_DE_COMPRAS As Integer = 2
 Private Const OPT_ESTADO_DE_CUENTA As Integer = 3
 Private Const OPT_ANALISIS_CxP_HISTORICO As Integer = 4
 Private Const OPT_CxP_PENDIENTE_ENTRE_FECHAS As Integer = 5
@@ -714,6 +693,9 @@ Private Const OPT_LISTA_DE_PROVEEDORES As Integer = 7
 Private Const OPT_PROVEEDORES_SIN_MOVIMIENTOS As Integer = 8
 Private Const OPT_ANALISIS_DE_VENCIMIENTO_A_UNA_FECHA As Integer = 9
 Private Const OPT_ANALISIS_DE_VENCIMIENTO_ENTRE_FECHA As Integer = 10
+Private Const OPT_RET_IVA_EN_CxP As Integer = 11
+Private Const OPT_CXP_SIN_RET As Integer = 12
+
 
 Private Sub sCheckForSpecialKeys(ByVal valKeyCode As Integer, ByVal valShift As Integer)
    On Error GoTo h_ERROR
@@ -758,15 +740,6 @@ Private Sub cmbResumenDeLibros_Validate(Cancel As Boolean)
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmbResumenDeLibros_Validate", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-
-Private Sub cmdExportarAXLS_Click()
-   On Error GoTo h_ERROR
-   mDondeImprimir = eDI_XLS
-   sEjecutaElInformeSeleccionado
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdExportarAXLS_Click", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub cmdGrabar_Click()
@@ -827,6 +800,7 @@ Public Sub sInitLookAndFeel()
    mInformeSeleccionado = OPT_CxP_PENDIENTE_ENTRE_FECHAS
    optTasaDeCambio(0).Value = True
    sInitDefaultValues
+   sInicializaParaUsuarioSeniatSiAplica
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInitLookAndFeel", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -856,7 +830,6 @@ Private Sub Form_Unload(Cancel As Integer)
    Set insFechaDeLosInformes = New clsFechasDeLosInformesNav
    insFechaDeLosInformes.sGrabasLasFechasDeInformes dtpFechaInicial.Value, dtpFechaFinal.Value, gProyUsuarioActual.GetNombreDelUsuario
    Set insFechaDeLosInformes = Nothing
-
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "Form_Unload", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -868,7 +841,6 @@ Private Sub optInformesDeCxP_Click(Index As Integer)
    sOcultarTodosLosCampos
    Select Case mInformeSeleccionado
       Case OPT_ANALISIS_DE_VENCIMIENTO: sActivarCamposDeAnalisisDeVencimiento
-      Case OPT_LIBRO_DE_COMPRAS: sActivarCamposDeLibroDeCompras
       Case OPT_ESTADO_DE_CUENTA: sActivarCamposDeEstadoDeCuenta
       Case OPT_ANALISIS_CxP_HISTORICO: sActivarCamposDeAnalisisHistoricoCXP
       Case OPT_CxP_PENDIENTE_ENTRE_FECHAS: sActivarCamposDeCXPPendientesEntreFechas
@@ -919,7 +891,6 @@ Private Sub sEjecutaElInformeSeleccionado()
    On Error GoTo h_ERROR
    Select Case mInformeSeleccionado
       Case OPT_ANALISIS_DE_VENCIMIENTO: sEjecutaAnalisisDeVencimiento
-      Case OPT_LIBRO_DE_COMPRAS: sEjecutaElLibroDeCompras
       Case OPT_ESTADO_DE_CUENTA: sEjecutaEstadoDeCuenta
       Case OPT_ANALISIS_CxP_HISTORICO: sEjecutaAnalisisCxPHistorico
       Case OPT_CxP_PENDIENTE_ENTRE_FECHAS: sEjecutaCXPPendientesEntreFechas 'dll sql y rpt
@@ -1044,8 +1015,7 @@ End Sub
 
 Private Sub optDetallado_KeyPress(KeyAscii As Integer)
    On Error GoTo h_ERROR
-   If gAPI.sfEnterLikeTab(Me, KeyAscii) Then
-   End If
+   gAPI.sfEnterLikeTab Me, KeyAscii
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "optDetallado_KeyPress()", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -1061,8 +1031,7 @@ End Sub
 
 Private Sub optResumido_KeyPress(KeyAscii As Integer)
    On Error GoTo h_ERROR
-   If gAPI.sfEnterLikeTab(Me, KeyAscii) Then
-   End If
+   gAPI.sfEnterLikeTab Me, KeyAscii
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "optResumido_KeyPress()", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -1078,28 +1047,10 @@ End Sub
 
 Private Sub cmbAnalisisDeVencimientoPor_KeyPress(KeyAscii As Integer)
    On Error GoTo h_ERROR
-   If gAPI.sfEnterLikeTab(Me, KeyAscii) Then
-   End If
+   gAPI.sfEnterLikeTab Me, KeyAscii
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmbAnalisisDeVencimientoPor_KeyPress()", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-
-Private Sub sActivarCamposDeLibroDeCompras()
-   On Error GoTo h_ERROR
-   lblDatosDelInforme.Caption = "Datos del Informe - Libro de Compras"
-   frameMesAno.Visible = True
-   txtMes.Text = gConvert.fConvierteAString(Month(gDefgen.fGetValorDeFechaParaInicializarCampo))
-   txtAno.Text = gConvert.fConvierteAString(Year(gDefgen.fGetValorDeFechaParaInicializarCampo))
-   cmdExportarAXLS.Visible = True
-   If Not gProyCompaniaActual.fElTipoDeContribuyenteEsFormal Then
-      chkMostrarInformeDeProrrateo.Visible = True
-      pnlEmitirResumenParaVentas.Visible = True
-      ChkSepararRetenciones.Visible = True
-   End If
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, " sActivarCamposDeLibroDeCompras", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub txtAno_GotFocus()
@@ -1111,7 +1062,7 @@ h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Desc
 End Sub
 
 Private Sub txtAno_KeyDown(KeyCode As Integer, Shift As Integer)
-  On Error GoTo h_ERROR
+   On Error GoTo h_ERROR
    sCheckForSpecialKeys KeyCode, Shift
 h_EXIT: On Error GoTo 0
    Exit Sub
@@ -1120,8 +1071,7 @@ End Sub
 
 Private Sub txtAno_KeyPress(KeyAscii As Integer)
    On Error GoTo h_ERROR
-   If gAPI.EsUnCaracterAsciiValidoParaCampoTipoIntegerSoloPositivo(KeyAscii) Then
-   End If
+   gAPI.EsUnCaracterAsciiValidoParaCampoTipoIntegerSoloPositivo KeyAscii
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtAno_KeyPress", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -1157,8 +1107,7 @@ End Sub
 
 Private Sub txtMes_KeyPress(KeyAscii As Integer)
    On Error GoTo h_ERROR
-   If gAPI.EsUnCaracterAsciiValidoParaCampoTipoIntegerSoloPositivo(KeyAscii) Then
-   End If
+   gAPI.EsUnCaracterAsciiValidoParaCampoTipoIntegerSoloPositivo KeyAscii
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtMes_KeyPress", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -1187,22 +1136,6 @@ Private Sub txtMes_KeyDown(KeyCode As Integer, Shift As Integer)
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtMes_KeyDown", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-
-Private Sub sEjecutaElLibroDeCompras()
-   On Error GoTo h_ERROR
-   If Trim(txtMes.Text) = "" Then
-      sShowMessageForRequiredFields "Mes", txtMes
-   ElseIf Trim(txtAno.Text) = "" Then
-      sShowMessageForRequiredFields "Año", txtAno
-   ElseIf mDondeImprimir = eDI_XLS Then
-      sEjecutaLibroDeComprasEnXLS
-   Else
-      sEjecutaLibroDeCompras
-   End If
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaElLibroDeCompras", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub txtNombreDeProveedor_GotFocus()
@@ -1493,7 +1426,6 @@ Private Sub sOcultarTodosLosCampos()
    frameInforme.Visible = False
    frameOrdenadoPor.Visible = False
    chkCambiandodePagina.Visible = False
-   cmdExportarAXLS.Visible = False
    chkMostrarInformeDeProrrateo.Visible = False
    pnlEmitirResumenParaVentas.Visible = False
    chkTotalizarPorMes.Visible = False
@@ -1605,68 +1537,6 @@ h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlListadoDeProveedoresSinMovimientos", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-
-Private Sub sEjecutaLibroDeCompras()
-   Dim SqlDelReporte As String
-   Dim reporteLibroDeCompras As DDActiveReports2.ActiveReport
-   Dim porcentajeDeProrrateo As Currency
-   Dim mMostrarInformedeVentas As Boolean
-   Dim insCxPDsr As clsCxPDsr
-   Dim insLibrosVentasYComprasSQL As clsLibrosVentasYComprasSQL
-   On Error GoTo h_ERROR
-   Set insLibrosVentasYComprasSQL = New clsLibrosVentasYComprasSQL
-   Set insCxPDsr = New clsCxPDsr
-   mMostrarInformedeVentas = False
-   If cmbResumenDeLibros.Text = gEnumProyecto.enumResumenDeLibrosToString(eRDL_VENTAS_Y_COMPRAS) Then
-      mMostrarInformedeVentas = True
-   End If
-   insFacturaNav.setClaseDeTrabajo eCTFC_Factura
-   SqlDelReporte = insLibrosVentasYComprasSQL.fSQLLibroDeComprasNAlicuotas(gProyCompaniaActual.GetConsecutivoCompania, txtMes.Text, txtAno.Text, gMonedaLocalActual, dtpFechaInicial.Value, dtpFechaFinal.Value)
-   porcentajeDeProrrateo = insFacturaNav.fPorcentajeProrrateo(dtpFechaInicial.Value, dtpFechaFinal.Value, txtMes.Text, txtAno.Text)
-   Set reporteLibroDeCompras = insCxPDsr.fConfigurarDsrLibroDeComprasNAlicuotas(SqlDelReporte, txtMes.Text, txtAno.Text, porcentajeDeProrrateo, gConvert.ConvertByteToBoolean(chkMostrarInformeDeProrrateo.Value), mMostrarInformedeVentas, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), insFacturaNav, gProyCompaniaActual, gEnumProyecto, insNoComunSawIva, insRptFactura, gGlobalization, gAdmAlicuotaIvaActual, dtpFechaInicial.Value, dtpFechaFinal.Value, 0, 0)
-   gUtilReports.sMostrarOImprimirReporte reporteLibroDeCompras, 1, mDondeImprimir, ""
-   Set reporteLibroDeCompras = Nothing
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaLibroDeCompras", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-
-Private Sub sEjecutaLibroDeComprasEnXLS()
-   Dim nombreXLS As String
-   Dim SeCreoElArchivo As Boolean
-   Dim AlicSeparadas As Boolean
-   Dim varRepetirTitulos As Boolean
-   Dim varSepararRetenciones As Boolean
-   Dim vScale As Integer
-   Dim mAplicaContribuyenteEspecial As Boolean
-   Dim vFechaDateHasta As Date
-   Dim vFechaDateDesde As Date
-   On Error GoTo h_ERROR
-   nombreXLS = fNombreDelArchivo("Libro de Compras XLS")
-   vScale = 40
-   If txtMes.Text = "" Or txtAno.Text = "" Then
-      sShowMessageForRequiredFields "Mes", txtMes
-      GoTo h_EXIT
-   Else
-      vFechaDateDesde = gUtilDate.fObtenLaFechaAPartirDelMesYAnoAplicacion(txtMes.Text, txtAno.Text, True)
-      vFechaDateHasta = gUtilDate.fObtenLaFechaAPartirDelMesYAnoAplicacion(txtMes.Text, txtAno.Text, False)
-      AlicSeparadas = True
-      varRepetirTitulos = False 'chkRepetirTitulos.value = Checked
-      varSepararRetenciones = ChkSepararRetenciones.Value = Checked
-      mAplicaContribuyenteEspecial = (gProyCompaniaActual.GetTipoDeContribuyenteIVAStr = gEnumProyecto.enumTipoDeContribuyenteIvaToString(eTD_ESPECIAL))
-      SeCreoElArchivo = fCreaElArchivoDeExportacion(nombreXLS)
-      insComunSawIvaSqls.sEjecutaLibroDeComprasEnXLS txtMes.Text, txtAno.Text, txtMes.Text, txtAno, nombreXLS, nombreXLS, Me.hWnd, SeCreoElArchivo, varSepararRetenciones, True, vFechaDateDesde, vFechaDateHasta, mAplicaContribuyenteEspecial, False, vScale
-  End If
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR:
-   If Err.Number = 5018 Then
-      gMessage.Advertencia "El archivo " & nombreXLS & "  se encuentra actualmente abierto, cierrelo y exportelo nuevamente."
-      Err.Clear
-   Else
-      Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaLibroDeComprasEnXLS", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
-   End If
-End Sub
 
 Private Sub sActivarCamposDeAnalisisDeVencimientoAUnaFecha()
    On Error GoTo h_ERROR
@@ -1782,13 +1652,6 @@ h_ERROR:
    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSeCreaElArchivoDeExportacion", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Private Function OPT_RET_IVA_EN_CxP() As Integer
-   OPT_RET_IVA_EN_CxP = 11
-End Function
-Private Function OPT_CXP_SIN_RET() As Integer
-   OPT_CXP_SIN_RET = 12
-End Function
-
 Private Sub sActivarCamposDeRetencionesIVAenCxP()
    On Error GoTo h_ERROR
    lblDatosDelInforme.Caption = "Datos del Informe - Retenciones de IVA en CxP"
@@ -1851,17 +1714,7 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaProveedoresSinMovimientos", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Public Sub sLoadObjectValues(ByVal valCompaniaActual As Object, _
-                              ByVal valProveedor As Object, _
-                              ByVal valRptInformesEspecialesConfigurar As Object, _
-                              ByVal valAdmPropAnalisisVenc As Object, _
-                              ByVal valConexionesSawAOS As Object, _
-                              ByVal valCxP As Object, _
-                              ByVal valAnticipo As Object, _
-                              ByVal valFactura As Object, _
-                              ByVal valNoComunSawIva As Object, _
-                              ByVal valRptFactura As Object, _
-                              ByVal valComunSawIvaSqls As Object)
+Public Sub sLoadObjectValues(ByVal valCompaniaActual As Object, ByVal valProveedor As Object, ByVal valRptInformesEspecialesConfigurar As Object, ByVal valAdmPropAnalisisVenc As Object, ByVal valConexionesSawAOS As Object, ByVal valCxP As Object, ByVal valAnticipo As Object, ByVal valFactura As Object, ByVal valNoComunSawIva As Object, ByVal valRptFactura As Object, ByVal valComunSawIvaSqls As Object)
    On Error GoTo h_ERROR
    Set gProyCompaniaActual = valCompaniaActual
    Set insProveedorNav = valProveedor
@@ -1880,4 +1733,25 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sLoadObjectValues", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
+Private Sub sInicializaParaUsuarioSeniatSiAplica()
+   Dim vCantidadTotal As Integer
+   Dim i As Integer
+   On Error Resume Next
+   If gProyUsuarioActual.GetEsUsuarioSENIAT Then
+      vCantidadTotal = optInformesDeCxP.UBound
+      For i = 0 To vCantidadTotal
+         optInformesDeCxP(i).Enabled = False
+         optInformesDeCxP(i).Visible = False
+      Next
+      optInformesDeCxP(OPT_RET_IVA_EN_CxP).Enabled = True
+      optInformesDeCxP(OPT_RET_IVA_EN_CxP).Visible = True
+      optInformesDeCxP(OPT_CxP_PENDIENTE_ENTRE_FECHAS).Enabled = True
+      optInformesDeCxP(OPT_CxP_PENDIENTE_ENTRE_FECHAS).Visible = True
+      gAPI.ssSetFocus optInformesDeCxP(OPT_RET_IVA_EN_CxP)
+      lblTitulosInformes(1).Visible = False
+   End If
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInicializaParaUsuarioSeniatSiAplica", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
 
