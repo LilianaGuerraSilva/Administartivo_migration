@@ -39,7 +39,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 }
                 if(vDocumentoExiste) { // Documento Existe en ID
                     vResult = base.SincronizarDocumento();
-                } else if(LibString.S1IsEqualToS2(EstatusDocumento, "Este registro no se encuentra en el servicio de imprenta.")) { // Documento No Existe en ID
+                } else if(LibString.S1IsEqualToS2(EstatusDocumento, "No se encontró el documento solicitado.")) { // Documento No Existe en ID
                     vResult = EnviarDocumento();
                 }
                 return vResult;

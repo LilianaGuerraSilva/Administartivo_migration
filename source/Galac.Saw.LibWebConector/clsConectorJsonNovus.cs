@@ -79,26 +79,32 @@ namespace Galac.Saw.LibWebConnector {
             string vTipoDocumentoNV = GetTipoDocumentoNV(valTipoDocumento);
             stRespuestaStatusNV vReqStNV = JsonConvert.DeserializeObject<stRespuestaStatusNV>(valHttpResq);
             if(vReqStNV.success) {
-                stDataRespuestaStatusNV stDataNV = vReqStNV.data.Where(x => {
-                    return x.Value.idtipodocumento == vTipoDocumentoNV;
-                }).FirstOrDefault().Value;
-                vResult = new stRespuestaNV() {
-                    success = vReqStNV.success,
-                    message = vReqStNV.message ?? "Enviada",
-                    data = new stDataRespuestaNV {
-                        numerodocumento = stDataNV.numerodocumento,
-                        fecha = stDataNV.fecha,
-                        documento = stDataNV.documento
-                    }
-                };
-            } else {
-                string vMensaje = vReqStNV.error.Value.message;
-                int vPos = LibString.IndexOf(vMensaje, ".");
-                if(vPos > 0) {
-                    vMensaje = LibString.InsertAt(vMensaje, " en el servicio de imprenta", vPos);
+                stDataRespuestaStatusNV? stDataNV = vReqStNV.data
+                    .Where(x => x.HasValue && x.Value.idtipodocumento == vTipoDocumentoNV)
+                    .FirstOrDefault();
+                if(stDataNV.HasValue) {
+                    vResult = new stRespuestaNV() {
+                        success = vReqStNV.success,
+                        message = vReqStNV.message ?? "Enviada",
+                        data = new stDataRespuestaNV {
+                            numerodocumento = stDataNV.Value.numerodocumento,
+                            fecha = stDataNV.Value.fecha,
+                            documento = stDataNV.Value.documento
+                        }
+                    };
+                } else {
+                    vResult = new stRespuestaNV() {
+                        success = false,
+                        message = "No Enviada",
+                        error=new stErrorRespuestaNV { 
+                            message= "No se encontró el documento solicitado."
+                        }
+                    };
                 }
+            } else {
+                string vMensaje = vReqStNV.error.Value.message ?? "Error desconocido";                
                 vResult = new stRespuestaNV() {
-                    message="No Encontrado",                    
+                    message = "Error desconocido",
                     error = new stErrorRespuestaNV {
                         message = vMensaje
                     }
