@@ -39,7 +39,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 }
                 if(vDocumentoExiste) { // Documento Existe en ID
                     vResult = base.SincronizarDocumento();
-                } else if(LibString.S1IsEqualToS2(EstatusDocumento, "Este registro no se encuentra en el servicio de imprenta.")) { // Documento No Existe en ID
+                } else if(LibString.S1IsInS2("Este registro no se encuentra.", EstatusDocumento)) { // Documento No Existe en ID
                     vResult = EnviarDocumento();
                 }
                 return vResult;
@@ -96,7 +96,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 if(vRespuestaConector.data != null) {
                     NumeroControl = vRespuestaConector.data.Value.numerodocumento ?? string.Empty;
                     FechaAsignacion = LibString.IsNullOrEmpty(vRespuestaConector.data.Value.fecha) ? LibDate.MinDateForDB() : LibConvert.ToDate(vRespuestaConector.data.Value.fecha);
-                    HoraAsignacion = vRespuestaConector.data.Value.hora;
+                    HoraAsignacion = LibConvert.ToStrOnlyForHour(FechaAsignacion, "hh:mm");
                 }
             }
         }

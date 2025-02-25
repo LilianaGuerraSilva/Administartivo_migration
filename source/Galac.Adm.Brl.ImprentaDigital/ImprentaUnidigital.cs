@@ -64,7 +64,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }
 
         public override bool EstadoDocumento() {
-            stPostResq vRespuestaConector = new stPostResq();
+            stRespuestaUD vRespuestaConector = new stRespuestaUD();
             string vMensaje = string.Empty;
             bool vChekConeccion;
             string vDocumentoJSON;
@@ -93,10 +93,12 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             } finally {
                 CodigoRespuesta = vRespuestaConector.codigo ?? string.Empty;
-                EstatusDocumento = vRespuestaConector.estado.estadoDocumento ?? string.Empty;
-                NumeroControl = vRespuestaConector.estado.numeroControl ?? string.Empty;
-                FechaAsignacion = LibString.IsNullOrEmpty(vRespuestaConector.estado.fechaAsignacion) ? LibDate.MinDateForDB() : LibConvert.ToDate(vRespuestaConector.estado.fechaAsignacion);
-                HoraAsignacion = vRespuestaConector.estado.horaAsignacion ?? string.Empty;
+                if(!vRespuestaConector.Aprobado) {
+                    EstatusDocumento = vRespuestaConector.estado.estadoDocumento ?? string.Empty;
+                    NumeroControl = vRespuestaConector.estado.numeroControl ?? string.Empty;
+                    FechaAsignacion = LibString.IsNullOrEmpty(vRespuestaConector.estado.fechaAsignacion) ? LibDate.MinDateForDB() : LibConvert.ToDate(vRespuestaConector.estado.fechaAsignacion);
+                    HoraAsignacion = vRespuestaConector.estado.horaAsignacion ?? string.Empty;
+                }
             }
         }
 
@@ -105,15 +107,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 string vMensaje = string.Empty;
                 bool vResult = false;
                 bool vChekConeccion;
-                stPostResq vRespuestaConector = new stPostResq();
+                stRespuestaUD vRespuestaConector = new stRespuestaUD();
                 bool vDocumentoExiste = EstadoDocumento();
                 if (LibString.IsNullOrEmpty(EstatusDocumento)) {
                     vDocumentoExiste = EstadoDocumento();
-                }
-                if (LibString.IsNullOrEmpty(_ConectorJson.Token)) {
-                    vChekConeccion = _ConectorJson.CheckConnection(ref vMensaje, LibEnumHelper.GetDescription(eComandosPostUnidigital.Autenticacion));
-                } else {
-                    vChekConeccion = true;
                 }
                 ObtenerDatosDocumentoEmitido();
                 if (!LibString.IsNullOrEmpty(FacturaImprentaDigital.NumeroControl)) {
@@ -148,7 +145,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             try {
                 bool vResult = false;
                 string vMensaje = string.Empty;
-                stPostResq vRespuestaConector;
+                stRespuestaUD vRespuestaConector;
                 bool vChekConeccion;
                 if (LibString.IsNullOrEmpty(_ConectorJson.Token)) {
                     vChekConeccion = _ConectorJson.CheckConnection(ref vMensaje, LibEnumHelper.GetDescription(eComandosPostUnidigital.Autenticacion));
@@ -159,7 +156,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     ConfigurarDocumento();
                     string vDocumentoJSON = vDocumentoDigital.ToString();                    
                     vRespuestaConector = ((clsConectorJsonUnidigital)_ConectorJson).SendPostJsonUD(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostUnidigital.Emision), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
-                    NumeroControl = vRespuestaConector.resultados.numeroControl;
+                    //NumeroControl = vRespuestaConector.resultados.numeroControl;
                     vResult = vRespuestaConector.Aprobado;
                     if (vResult) {
                         ActualizaNroControlYProveedorImprentaDigital();
@@ -183,7 +180,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             try {
                 bool vResult = false;
                 string vMensaje = string.Empty;
-                stPostResq vRespuestaConector = new stPostResq();
+                stRespuestaUD vRespuestaConector = new stRespuestaUD();
                 bool vChekConeccion = false;
                 if (LibString.IsNullOrEmpty(_ConectorJson.Token)) {
                     vChekConeccion = _ConectorJson.CheckConnection(ref vMensaje, LibEnumHelper.GetDescription(eComandosPostUnidigital.Autenticacion));
