@@ -4775,7 +4775,7 @@ End Function
 Public Function fQueryCompra(ByVal valConsecutivoCompania As Long, ByVal valConsecutivoAlmacen As Long, ByVal valCodigoArticulo As String, ByVal valTipoArticuloInv As enum_TipoArticuloInv, ByVal valSerial As String, ByVal valRollo As String) As String
    Dim SQL As String
    On Error GoTo h_ERROR
-   If valTipoArticuloInv = eTAI_Simple Or valTipoArticuloInv = eTAI_UsaTalla_Color Then
+   If valTipoArticuloInv = eTAI_Simple Or valTipoArticuloInv = eTAI_UsaTalla_Color Or valTipoArticuloInv = eTAI_Lote Or valTipoArticuloInv = eTAI_LoteFechadeVencimiento Or valTipoArticuloInv = eTAI_LoteFechadeElaboracion Then
       SQL = "SELECT ISNULL(SUM(CompraDetalleArticuloInventario.Cantidad) , 0) AS SumCantidad"
       SQL = SQL & " FROM Adm.Compra INNER JOIN Adm.CompraDetalleArticuloInventario"
       SQL = SQL & " ON Compra.Consecutivo = CompraDetalleArticuloInventario.ConsecutivoCompra"
