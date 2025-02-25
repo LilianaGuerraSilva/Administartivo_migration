@@ -50,11 +50,11 @@ namespace Galac.Saw.Brl.Inventario {
                 case "Compra":
                 case "Orden De Compra":
                 case "Lista de Materiales":
-                case "Orden de Producción":               
+                case "Orden de Producción":
+                case "Nota de Entrada/Salida":
                     return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "dbo.Gp_ArticuloInventarioCompraSCH", valXmlParamsExpression);
                 case "Punto de Venta Ubicación":
                     return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "dbo.Gp_ArticuloInventarioUbicacionSCH", valXmlParamsExpression);
-                case "Nota de Entrada/Salida":
                 case "Lote de Inventario":
                 default:
                     return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "dbo.Gp_ArticuloInventarioSCH", valXmlParamsExpression);
@@ -323,7 +323,7 @@ namespace Galac.Saw.Brl.Inventario {
                     TipoArticulo = (eTipoDeArticulo)LibConvert.DbValueToEnum(p.Element("TipoDeArticulo"))
                 });
                 foreach (var item in valList) {
-                    var vArticulo = vDataArticulos.Where(p => p.CodigoArticulo == item.CodigoArticulo || p.CodigoArticuloCompuesto == item.CodigoArticulo).Select(p => p).FirstOrDefault();
+                    var vArticulo = vDataArticulos.Where(p => p.CodigoArticulo == item.CodigoArticulo || $"{p.CodigoArticulo}{p.CodigoColor}{p.CodigoTalla}" == item.CodigoArticulo).Select(p => p).FirstOrDefault();
                     if (item.TipoActualizacion == eTipoActualizacion.Existencia || item.TipoActualizacion == eTipoActualizacion.ExistenciayCosto) {
                         if (vArticulo.TipoArticulo != eTipoDeArticulo.Servicio) {
                             ActualizarExistenciaPorAlmacen(valConsecutivoCompania, item.CodigoAlmacen, item.CodigoArticulo, item.Cantidad, item.Ubicacion, item.ConsecutivoAlmacen);
@@ -334,7 +334,6 @@ namespace Galac.Saw.Brl.Inventario {
                                 || vArticulo.TipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial
                                 || vArticulo.TipoArticuloInv == eTipoArticuloInv.UsaSerialRollo) {
                                 ActualizarExistenciaPorGrupoSerial(valConsecutivoCompania, vArticulo.CodigoArticulo, vArticulo.CodigoGrupo, vArticulo.CodigoTalla, vArticulo.CodigoColor, item.DetalleArticuloInventarioExistenciaSerial, vArticulo.TipoArticuloInv);
-
                             }
                             ActualizarExistenciaArticuloInventario(valConsecutivoCompania, vArticulo.CodigoArticulo, item.Cantidad);
                         }
