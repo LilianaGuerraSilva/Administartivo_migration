@@ -96,7 +96,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 if(vRespuestaConector.data != null) {
                     NumeroControl = vRespuestaConector.data.Value.numerodocumento ?? string.Empty;
                     FechaAsignacion = LibString.IsNullOrEmpty(vRespuestaConector.data.Value.fecha) ? LibDate.MinDateForDB() : LibConvert.ToDate(vRespuestaConector.data.Value.fecha);
-                    HoraAsignacion = vRespuestaConector.data.Value.hora;
+                    HoraAsignacion = LibConvert.ToStrOnlyForHour(FechaAsignacion, "hh:mm");
                 }
             }
         }
