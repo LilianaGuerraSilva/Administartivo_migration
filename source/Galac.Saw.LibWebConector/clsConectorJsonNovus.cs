@@ -97,7 +97,7 @@ namespace Galac.Saw.LibWebConnector {
                         success = false,
                         message = "No Enviada",
                         error=new stErrorRespuestaNV { 
-                            message= "No se encontró el documento solicitado."
+                            message= "Este registro no se encuentra."
                         }
                     };
                 }
