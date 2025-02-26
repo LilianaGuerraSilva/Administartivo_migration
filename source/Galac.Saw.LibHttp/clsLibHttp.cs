@@ -23,7 +23,7 @@ namespace Galac.Saw.LibHttp {
                     Version = HttpVersion.Version11,
                     Content = vContent
                 };
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls | SecurityProtocolType.Tls13;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
                 HttpResponseMessage vHttpRespMsg = vHttpClient.SendAsync(request).Result;
                 vResult = vHttpRespMsg.RequestMessage.ToString();
                 if(vHttpRespMsg.StatusCode == System.Net.HttpStatusCode.OK) {
