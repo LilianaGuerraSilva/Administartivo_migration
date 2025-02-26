@@ -161,7 +161,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 LibMessages.MessageBox.Information(this, "Conectado exitosamente a la Imprenta Digital " + Proveedor + ".", ModuleName);
                 ActivarButtonActions(true);
             } else {
-                LibMessages.MessageBox.Warning(this, "No se pudo conectar con la Imprenta Digital.\r\nPor favor verifique los datos de conexión e intente de nuevo.", ModuleName);
+                LibMessages.MessageBox.Warning(this, $"{vMensaje}.\r\nPor favor verifique los datos de conexión e intente de nuevo.", ModuleName);
                 ActivarButtonActions(false);
             }
         }
