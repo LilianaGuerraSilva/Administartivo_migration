@@ -316,9 +316,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     CampoClave = "token";
                     CampoUsuario = "rif";
                     break;
-                case eProveedorImprentaDigital.Unidigital:
-                    CampoClave = "UserName";
-                    CampoUsuario = "Password";
+                case eProveedorImprentaDigital.Unidigital:                    
+                    CampoClave = "Password";
+                    CampoUsuario = "UserName";
                     break;
                 default:
                     CampoClave = "clave";
