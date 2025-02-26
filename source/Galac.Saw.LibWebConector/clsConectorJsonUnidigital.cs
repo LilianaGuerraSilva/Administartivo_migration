@@ -33,6 +33,7 @@ namespace Galac.Saw.LibWebConnector {
                     vResult = vRequest.Aprobado;
                     Token=vRequest.token;
                 } else {
+                    LoginUser.MessageResult = vRequest.mensaje;
                     vResult = false;
                 }
                 return vResult;
@@ -52,15 +53,18 @@ namespace Galac.Saw.LibWebConnector {
                 if(LibString.S1IsEqualToS2(eComandosPostUnidigital.Autenticacion.GetDescription(), valComandoApi)) {
                     infoReqs.token = LibXml.GetPropertyString(xmlReq, "accessToken");
                     infoReqs.Aprobado = !LibString.IsNullOrEmpty(infoReqs.token);
+                    if(!infoReqs.Aprobado) {
+                        infoReqs.codigo = xmlReq.Descendants("errors").FirstOrDefault().Descendants("code").FirstOrDefault().Value;
+                        infoReqs.mensaje = xmlReq.Descendants("errors").FirstOrDefault().Descendants("message").FirstOrDefault().Value;
+                    }
                 } else {
 
                 }
                 if(infoReqs.Aprobado) {
                     infoReqs.mensaje = "Succes";
                     return infoReqs;
-                } else if(LibString.S1IsEqualToS2(infoReqs.codigo, "403")) {
-                    infoReqs.mensaje = vMensajeDeValidacion + "\r\nUsuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.";
-                    infoReqs.Aprobado = false;
+                } else if(LibString.S1IsEqualToS2(infoReqs.codigo, "0000")) {
+                    return infoReqs;
                 } else if(LibString.S1IsEqualToS2(infoReqs.codigo, "201")) {
                     infoReqs.Aprobado = false;
                     infoReqs.mensaje = vMensajeDeValidacion + "\r\n" + strTipoDocumento + " ya existe en la Imprenta Digital.";
