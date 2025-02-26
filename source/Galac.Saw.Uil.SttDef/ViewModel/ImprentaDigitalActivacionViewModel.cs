@@ -283,8 +283,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     vResult = _ConectorJson.CheckConnection(ref vMensaje, vCommand);
                     break;
                 case eProveedorImprentaDigital.Unidigital:
-                    vCommand = LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion);
-                    _ConectorJson = new clsConectorJsonTheFactory(new clsLoginUser() {
+                    vCommand = LibEnumHelper.GetDescription(eComandosPostUnidigital.Autenticacion);
+                    _ConectorJson = new clsConectorJsonUnidigital(new clsLoginUser() {
                         User = Usuario,
                         URL = Url,
                         Password = Clave,
