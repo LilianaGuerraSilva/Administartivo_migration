@@ -41,7 +41,11 @@
     <Xceed.Compression.v5.3>5.3.13327.9020</Xceed.Compression.v5.3>
     <Xceed.FileSystem.v5.3>5.3.13327.9020</Xceed.FileSystem.v5.3>
     <Xceed.Zip.v5.3>5.3.13327.9020</Xceed.Zip.v5.3>
-  </ComponentesNET>
+    <Castle.windsor>3.4.0.0</Castle.windsor>
+    <Castle.Core>3.3.0.0</Castle.Core>
+    <System.Net.Http>4.2.0.0</System.Net.Http>
+    <Galac.Saw.Galac.Saw.LibHttp>2.61.1.0</Galac.Saw.Galac.Saw.LibHttp>		    
+</ComponentesNET>
   <ComponentesAOS>
     <LibGalac.Aos.Base>5.24.0.0</LibGalac.Aos.Base>
     <LibGalac.Aos.Brl>5.24.2.3</LibGalac.Aos.Brl>
@@ -196,7 +200,7 @@
     <Galac.Adm.Uil.Vendedor>2.61.1.0</Galac.Adm.Uil.Vendedor>
 
     <Galac.Adm.Ccl.Banco>2.61.0.0</Galac.Adm.Ccl.Banco>
-    <Galac.Adm.Dal.Banco>2.61.0.0</Galac.Adm.Dal.Banco>
+    <Galac.Adm.Dal.Banco>2.61.1.0</Galac.Adm.Dal.Banco>
     <Galac.Adm.Brl.Banco>2.61.0.0</Galac.Adm.Brl.Banco>
     <Galac.Adm.Rpt.Banco>2.61.0.0</Galac.Adm.Rpt.Banco>
     <Galac.Adm.Uil.Banco>2.61.1.0</Galac.Adm.Uil.Banco>
@@ -229,7 +233,6 @@
     <Galac.Adm.Ccl.ImprentaDigital>2.61.0.0</Galac.Adm.Ccl.ImprentaDigital>
     <Galac.Adm.Brl.ImprentaDigital>2.61.2.0</Galac.Adm.Brl.ImprentaDigital>    
     <Galac.Saw.LibWebConnector>2.61.1.0</Galac.Saw.LibWebConnector>		    
-    <Galac.Saw.LibHttp>2.61.1.0</Galac.Saw.LibHttp>		    
     	
     <Galac.Adm.Ccl.CAnticipo>2.61.1.0</Galac.Adm.Ccl.CAnticipo>
     <Galac.Adm.Dal.CAnticipo>2.61.1.0</Galac.Adm.Dal.CAnticipo>

@@ -625,8 +625,8 @@ namespace Galac.Adm.Dal.Banco {
 			vSQL.AppendLine("      + ' = ComprobantePeriodo.NoDocumentoOrigen ");
 			vSQL.AppendLine("      AND ComprobantePeriodo.GeneradoPor = ' + QUOTENAME('O','''') + '");
 			vSQL.AppendLine("      AND ComprobantePeriodo.ConsecutivoCompania = " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.ConsecutivoCompania");
-			vSQL.AppendLine("      AND ComprobantePeriodo.FechaAperturaDelPeriodo < " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Fecha");
-			vSQL.AppendLine("      AND ComprobantePeriodo.FechaCierreDelPeriodo   > " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Fecha");
+			vSQL.AppendLine("      AND ComprobantePeriodo.FechaAperturaDelPeriodo <= " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Fecha");
+			vSQL.AppendLine("      AND ComprobantePeriodo.FechaCierreDelPeriodo   >= " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Fecha");
 
 			vSQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
 			vSQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE ' + @SQLWhere + ' AND ComprobantePeriodo.ConsecutivoDocOrigen IS NULL '  ");
