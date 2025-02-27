@@ -15,7 +15,7 @@ using System.Xml.Linq;
 namespace Galac.Saw.LibWebConnector {
     public class clsConectorJsonUnidigital : clsConectorJson {
         string strTipoDocumento;
-
+        public string StrongeId { get; private set; }       
         public clsConectorJsonUnidigital(ILoginUser valloginUser) : base(valloginUser) {
             LoginUser = valloginUser;
             Token = string.Empty;
@@ -26,12 +26,13 @@ namespace Galac.Saw.LibWebConnector {
             try {
                 bool vResult = false;
                 string vJsonStr = GetJsonUser(LoginUser, eProveedorImprentaDigital.Unidigital);
-                vRequest = SendPostJsonUD(vJsonStr, valComandoApi,"", "");
+                vRequest = SendPostJsonUD(vJsonStr, valComandoApi, "", "");
                 refMensaje = vRequest.mensaje;
-                if(vRequest.Aprobado) {                    
+                if(vRequest.Aprobado) {
                     LoginUser.MessageResult = vRequest.mensaje;
                     vResult = vRequest.Aprobado;
-                    Token=vRequest.token;
+                    Token = vRequest.token;
+                    StrongeId = vRequest.strongId;
                 } else {
                     LoginUser.MessageResult = vRequest.mensaje;
                     vResult = false;
@@ -53,12 +54,21 @@ namespace Galac.Saw.LibWebConnector {
                 if(LibString.S1IsEqualToS2(eComandosPostUnidigital.Autenticacion.GetDescription(), valComandoApi)) {
                     infoReqs.token = LibXml.GetPropertyString(xmlReq, "accessToken");
                     infoReqs.Aprobado = !LibString.IsNullOrEmpty(infoReqs.token);
-                    if(!infoReqs.Aprobado) {
+                    if(infoReqs.Aprobado) {
+                        infoReqs.strongId = xmlReq.Descendants("series").FirstOrDefault().Descendants("strongId").FirstOrDefault().Value;
+                    } else {
                         infoReqs.codigo = xmlReq.Descendants("errors").FirstOrDefault().Descendants("code").FirstOrDefault().Value;
                         infoReqs.mensaje = xmlReq.Descendants("errors").FirstOrDefault().Descendants("message").FirstOrDefault().Value;
                     }
                 } else {
-
+                    bool vOut = true;
+                    infoReqs.Aprobado = !bool.Parse(LibXml.GetPropertyString(xmlReq, "hasErrors"));
+                    if(infoReqs.Aprobado) {
+                        infoReqs.IDGUID = xmlReq.Descendants("GpResult").FirstOrDefault()?.Descendants("result").FirstOrDefault().Value ?? "";
+                    } else {
+                        infoReqs.codigo = xmlReq.Descendants("errors").FirstOrDefault().Descendants("code").FirstOrDefault().Value;
+                        infoReqs.mensaje = xmlReq.Descendants("errors").FirstOrDefault().Descendants("message").FirstOrDefault().Value;
+                    }
                 }
                 if(infoReqs.Aprobado) {
                     infoReqs.mensaje = "Succes";
