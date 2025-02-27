@@ -13,6 +13,7 @@ using Newtonsoft.Json.Linq;
 using System.Text;
 using LibGalac.Aos.Base.Dal;
 using LibGalac.Aos.Brl;
+using System.Globalization;
 
 namespace Galac.Adm.Brl.ImprentaDigital {
     public class ImprentaNovus : clsImprentaDigitalBase {
@@ -247,6 +248,13 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             return LibText.FillWithCharToLeft(LibConvert.ToStr(vNumberRnd), "0", 10);
         }
 
+        private string GetFechaHoraEmision(DateTime valFecha, string valHora) {
+            string vDateFormat = "yyyy-MM-dd HH:mm:ss";
+            string vResult = LibConvert.ToStr(valFecha, "dd-MM-yyyy") + " " + valHora;
+            DateTime vTimeISO8601 = LibConvert.ToDate(vResult);
+            return vTimeISO8601.ToString(vDateFormat, CultureInfo.InvariantCulture);
+        }
+
         private JObject GetCuerpoDocumento() {
             string vTipoIdentficacion = string.Empty;
             string vNumeroRif = DarFormatoYObtenerTipoIdentficacion(ClienteImprentaDigital, ref vTipoIdentficacion);
@@ -280,7 +288,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 {"sendmail", 1}, // Siempre Envia Email
                 //{"sucursal", ""}, // No Aplica
                 {"numerointerno", FacturaImprentaDigital.Numero},
-                {"fecha_emision", FacturaImprentaDigital.Fecha},
+                {"fecha_emision",GetFechaHoraEmision(FacturaImprentaDigital.Fecha,FacturaImprentaDigital.HoraModificacion) },
                 {"moneda", FacturaImprentaDigital.CodigoMoneda == CodigoMonedaLocal ? "bs" : "usd"},
                 {"tasacambio", CambioABolivares},
                 {"observacion", FacturaImprentaDigital.Observaciones} };
@@ -341,7 +349,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                         string vSerial = LibString.S1IsEqualToS2(vDetalle.Serial, "0") ? "" : vDetalle.Serial;
                         string vRollo = LibString.S1IsEqualToS2(vDetalle.Rollo, "0") ? "" : vDetalle.Rollo;
                         string vInfoAdicional = string.Empty;
-                        decimal vCantidad = (TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito && FacturaImprentaDigital.GeneradoPorAsEnum == eFacturaGeneradaPor.AjusteIGTF && vDetalle.Cantidad == 0) ? 1 : LibMath.Abs(vDetalle.Cantidad);
+                        decimal vCantidad = ((TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito || TipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito) && FacturaImprentaDigital.GeneradoPorAsEnum == eFacturaGeneradaPor.AjusteIGTF && vDetalle.Cantidad == 0) ? 1 : LibMath.Abs(vDetalle.Cantidad);
                         decimal vPorcentajeBaseImponible = vDetalle.PorcentajeBaseImponible == 0 ? 1 : vDetalle.PorcentajeBaseImponible;
                         decimal valorDescuento = LibMath.Abs(LibMath.RoundToNDecimals((vDetalle.PorcentajeDescuento * vDetalle.PrecioSinIVA * vCantidad) / 100, 2));
                         decimal vMontoItem = LibMath.Abs(vDetalle.TotalRenglon);

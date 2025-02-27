@@ -224,10 +224,20 @@ namespace Galac.Saw.LibWebConnector {
         [JsonProperty("mensaje")]
         public string mensaje {
             get; set;
-        }       
+        }
+
+        [JsonProperty("strongId")]
+        public string strongId {
+            get; set;
+        }
 
         [JsonProperty("estado")]
         public stEstado estado {
+            get; set;
+        }
+
+        [JsonProperty("ImprentaDigitalGUID")]
+        public string IDGUID {
             get; set;
         }
 

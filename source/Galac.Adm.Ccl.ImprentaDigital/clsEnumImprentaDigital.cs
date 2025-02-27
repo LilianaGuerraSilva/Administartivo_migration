@@ -71,9 +71,9 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         [LibEnumDescription("/documents/notified")]
         Email,
         [LibEnumDescription("/documents/searchbynumber")]
-        EstadoDocumento
+        EstadoDocumento,
+        [LibEnumDescription("/documents?strongId=")]
+        ObtenerNroControl
     }
     #endregion Comandos Unidigital
-
-
 } //End of namespace namespace Galac.Saw.Ccl.ImprentaDigital
