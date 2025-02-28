@@ -237,7 +237,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             #region Datos del Documento
             vSql.AppendLine("    Fact.Numero, ");
             vSql.AppendLine("    Fact.TipoDeDocumento,");
-            vSql.AppendLine("    (CASE Fact.TipoDeDocumento WHEN '0' THEN 'Factura' WHEN '1' THEN 'Nota de Cr閐ito' WHEN '2' THEN 'Nota de D閎ito' WHEN '3' THEN 'Resumen Diario de Ventas' WHEN '4' THEN 'NO ASIGNADO' WHEN '5' THEN 'Comprobante Fiscal' WHEN '6' THEN 'BOLETA' WHEN '7' THEN 'Nota de Cr閐ito Comprobante Fiscal' WHEN '8' THEN 'Nota de Entrega' ELSE 'NO ASIGNADO'  END) AS TipoDocumentoStr,");
+            vSql.AppendLine("    (CASE Fact.TipoDeDocumento WHEN '0' THEN 'Factura' WHEN '1' THEN 'Nota de Cr茅dito' WHEN '2' THEN 'Nota de D茅bito' WHEN '3' THEN 'Resumen Diario de Ventas' WHEN '4' THEN 'NO ASIGNADO' WHEN '5' THEN 'Comprobante Fiscal' WHEN '6' THEN 'BOLETA' WHEN '7' THEN 'Nota de Cr茅dito Comprobante Fiscal' WHEN '8' THEN 'Nota de Entrega' ELSE 'NO ASIGNADO'  END) AS TipoDocumentoStr,");
             vSql.AppendLine("    Fact.StatusFactura,");
             vSql.AppendLine("    (CASE Fact.StatusFactura WHEN '2' THEN 'BORRADOR' WHEN '1' THEN 'ANULADO' ELSE 'EMITIDO' END) AS StatusFacturaStr,");
             vSql.AppendLine("    Fact.Fecha, ");
@@ -254,7 +254,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("    ISNULL((SELECT CambioAMonedaLocal FROM Comun.Cambio WHERE CodigoMoneda = SttByCia.CodigoMonedaExtranjera AND FechaDeVigencia = Fact.Fecha), 1) AS CambioFechaDocumento, ");
             vSql.AppendLine("    Fact.CondicionesDePago, ");
             vSql.AppendLine("    Fact.FormaDePago, ");
-            vSql.AppendLine("    (CASE Fact.FormaDePago WHEN '1' THEN 'CR蒁ITO' ELSE 'CONTADO' END) AS FormaDePagoStr, ");
+            vSql.AppendLine("    (CASE Fact.FormaDePago WHEN '1' THEN 'CR脡DITO' ELSE 'CONTADO' END) AS FormaDePagoStr, ");
             vSql.AppendLine("	 Fact.NumeroPlanillaExportacion, ");
             #endregion Datos del Documento
             #region Datos del Cliente
@@ -308,7 +308,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("    ISNULL(CamposDef.CampoDefinible11, '') AS CampoDefinible11,");
             vSql.AppendLine("    ISNULL(CamposDef.CampoDefinible12, '') AS CampoDefinible12,");
             #endregion Datos Adicionales
-            #region GH Detail -> Rengl髇 Factura
+            #region GH Detail -> Rengl贸n Factura
             vSql.AppendLine("    RF.ConsecutivoRenglon,");
             vSql.AppendLine("    RF.Articulo,");
             vSql.AppendLine("	 REPLACE(RF.Descripcion, 'total', 'tot..') AS Descripcion,");
@@ -340,7 +340,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("    ISNULL(LoteAI.CodigoLote, '') AS LoteDeInventario,");
             vSql.AppendLine("    ISNULL(LoteAI.FechaDeElaboracion, '') AS FechaElab,");
             vSql.AppendLine("    ISNULL(LoteAI.FechaDeVencimiento, '') AS FechaVenc,");
-            #endregion GH Detail -> Rengl髇 Factura
+            #endregion GH Detail -> Rengl贸n Factura
             #region Detail -> Detalle Producto Compuesto
             vSql.AppendLine("    ISNULL(ProdComp.CodigoArticulo, '') AS CodigoArticuloCompuesto,");
             vSql.AppendLine("    ISNULL(PCAI.Descripcion, '') AS DescripcionCompuesto,");
@@ -354,9 +354,9 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("    ISNULL(PCAI.CampoDefinible4, '') AS CampoDefArtInvCompuesto4,");
             vSql.AppendLine("    ISNULL(PCAI.CampoDefinible5, '') AS CampoDefArtInvCompuesto5,");
             #endregion Detail -> Detalle Producto Compuesto
-            #region Subtotal por l韓ea de producto
+            #region Subtotal por l铆nea de producto
             vSql.AppendLine("    AI.LineaDeProducto,");
-            #endregion Subtotal por l韓ea de producto
+            #endregion Subtotal por l铆nea de producto
             #region GFTotales
             vSql.AppendLine("	 ISNULL(NF1.Descripcion, '') + ' ' + ISNULL(NF2.Descripcion, '') AS NotasFinales,");
             #endregion GFTotales
@@ -456,7 +456,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
         }
         #endregion //Metodos Generados
 
-        #region C骴igo Programador
+        #region C贸digo Programador
         private string SqlCambioParaReportesDeFactura(bool valIsInMonedaLocal, bool valIsInTasaDelDia) {
             string vSqlCambio;
             if (valIsInMonedaLocal) {
@@ -523,7 +523,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.Append(vSqlWhere + ")");
             return vSql.ToString();
         }
-        #endregion //C骴igo Programador
+        #endregion //C贸digo Programador
 
     } //End of class clsFacturaSql
 

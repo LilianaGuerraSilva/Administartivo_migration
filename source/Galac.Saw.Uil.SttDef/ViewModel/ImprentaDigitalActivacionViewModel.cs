@@ -17,6 +17,7 @@ using Galac.Saw.Ccl.SttDef;
 using System.Text;
 using Galac.Adm.Ccl.ImprentaDigital;
 using Galac.Saw.LibWebConnector;
+using System.Collections.ObjectModel;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class ImprentaDigitalActivacionViewModel : LibGenericViewModel {
@@ -29,7 +30,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string NotaDeCreditoPropertyName = "NotaDeCredito";
         public const string NotaDeDebitoPropertyName = "NotaDeDebito";
         public const string FechaDeInicioDeUsoPropertyName = "FechaDeInicioDeUso";
-        public const string ReajustarTalonariosDeFacturaPropertyName = "ReajustarTalonariosDeFactura";
+        public const string ReajustarTalonariosDeFacturaPropertyName = "ReajustarTalonariosDeFactura";        
         #endregion
         #region Propiedades
         bool _UsaDosTalonarios;
@@ -39,6 +40,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         bool _ExecuteEnabled;
         string _CampoUsuario;
         string _CampoClave;
+
         public override string ModuleName {
             get { return "Activación de Imprenta Digital"; }
         }
@@ -56,7 +58,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             get { return _Proveedor; }
             set {
                 if (_Proveedor != value) {
-                    _Proveedor= value;
+                    _Proveedor = value;
                     IsDirty = true;
                     RaisePropertyChanged(ProveedorPropertyName);
                     ActivarButtonActions(_Proveedor == eProveedorImprentaDigital.Novus);
@@ -64,7 +66,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     RaisePropertyChanged(() => IsVisbleByProveedorID);
                 }
             }
-        }
+        }       
 
         string _Url;
         [LibCustomValidation("UrlValidating")]
@@ -195,9 +197,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public eProveedorImprentaDigital[] ArrayProveedorImprentaDigital {
-            get { return LibEnumHelper<eProveedorImprentaDigital>.GetValuesInArray(); }
-        }
+		public ObservableCollection<eProveedorImprentaDigital> ListaProveedorImprentaDigital { get; set; }
 
         public RelayCommand ProbarConexionCommand {
             get;
@@ -224,7 +224,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
                     
         public bool IsVisbleByProveedorID {
-            get { return Proveedor == eProveedorImprentaDigital.TheFactoryHKA; }
+            get { return Proveedor == eProveedorImprentaDigital.TheFactoryHKA || Proveedor == eProveedorImprentaDigital.Unidigital; }
         }
 
         #endregion //Propiedades
@@ -236,6 +236,12 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             base.InitializeLookAndFeel();
             _CampoClave = "Clave";
             _CampoUsuario = "Usuario";
+            ListaProveedorImprentaDigital = new ObservableCollection<eProveedorImprentaDigital> {
+                eProveedorImprentaDigital.NoAplica,
+                eProveedorImprentaDigital.TheFactoryHKA,
+                eProveedorImprentaDigital.Novus,
+                eProveedorImprentaDigital.Unidigital
+            };
         }
 
         protected override void InitializeCommands() {
@@ -263,28 +269,45 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             bool vResult;
             string vMensaje = string.Empty;
             string vCommand=string.Empty;
-            if (Proveedor == eProveedorImprentaDigital.TheFactoryHKA) {
-                vCommand = LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion);
-                clsConectorJson _ConectorJson = new clsConectorJsonTheFactory(new clsLoginUser() {
-                    User = Usuario,
-                    URL = Url,
-                    Password = Clave
-                });
-                vResult = _ConectorJson.CheckConnection(ref vMensaje, vCommand);
-            } else {
-                vResult = true;
-            }
+            clsConectorJson _ConectorJson = null;
+            switch(Proveedor) {
+                case eProveedorImprentaDigital.TheFactoryHKA:
+                    vCommand = LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion);
+                    _ConectorJson = new clsConectorJsonTheFactory(new clsLoginUser() {
+                        User = Usuario,
+                        URL = Url,
+                        Password = Clave,
+                        UserKey = CampoUsuario,
+                        PasswordKey = CampoClave
+                    });
+                    vResult = _ConectorJson.CheckConnection(ref vMensaje, vCommand);
+                    break;
+                case eProveedorImprentaDigital.Unidigital:
+                    vCommand = LibEnumHelper.GetDescription(eComandosPostUnidigital.Autenticacion);
+                    _ConectorJson = new clsConectorJsonUnidigital(new clsLoginUser() {
+                        User = Usuario,
+                        URL = Url,
+                        Password = Clave,
+                        UserKey = CampoUsuario,
+                        PasswordKey = CampoClave
+                    });
+                    vResult = _ConectorJson.CheckConnection(ref vMensaje, vCommand);
+                    break;
+                default:
+                    vResult = true;
+                    break;
+            }            
             if (vResult) {
                 LibMessages.MessageBox.Information(this, "Conectado exitosamente a la Imprenta Digital " + Proveedor + ".", ModuleName);
                 ActivarButtonActions(true);
             } else {
-                LibMessages.MessageBox.Warning(this, "No se pudo conectar con la Imprenta Digital.\r\nPor favor verifique los datos de conexión e intente de nuevo.", ModuleName);
+                LibMessages.MessageBox.Warning(this, $"{vMensaje}.\r\nPor favor verifique los datos de conexión e intente de nuevo.", ModuleName);
                 ActivarButtonActions(false);
             }
         }
 
         private void CambiarValoresCamposID(eProveedorImprentaDigital valProveedor) {
-            switch (valProveedor) {
+            switch(valProveedor) {
                 case eProveedorImprentaDigital.TheFactoryHKA:
                     CampoClave = "clave";
                     CampoUsuario = "usuario";
@@ -292,6 +315,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 case eProveedorImprentaDigital.Novus:
                     CampoClave = "token";
                     CampoUsuario = "rif";
+                    break;
+                case eProveedorImprentaDigital.Unidigital:                    
+                    CampoClave = "Password";
+                    CampoUsuario = "UserName";
                     break;
                 default:
                     CampoClave = "clave";
@@ -301,7 +328,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         private void ActivarButtonActions(bool valActivate) {
-            _ExecuteEnabled = valActivate;
+            _ExecuteEnabled = valActivate;           
             GuardarCommand.RaiseCanExecuteChanged();
         }
 

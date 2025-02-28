@@ -68,11 +68,12 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             switch (ProveedorImprentaDigital) {
                 case eProveedorImprentaDigital.TheFactoryHKA:
                 case eProveedorImprentaDigital.Novus:
+                case eProveedorImprentaDigital.Unidigital:
                     LoginUser.URL = vImprentaDigitalSettings.DireccionURL;
                     LoginUser.User = vImprentaDigitalSettings.Usuario;
                     LoginUser.UserKey = vImprentaDigitalSettings.CampoUsuario;
                     LoginUser.Password = vImprentaDigitalSettings.Clave;
-                    LoginUser.PasswordKey = vImprentaDigitalSettings.CampoClave;
+                    LoginUser.PasswordKey = vImprentaDigitalSettings.CampoClave;                    
                     break;
                 case eProveedorImprentaDigital.NoAplica:
                     break;
@@ -580,12 +581,14 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             LibGpParams vParams = new LibGpParams();
             QAdvSql insUtilSql = new QAdvSql("");
             StringBuilder vSql = new StringBuilder();
+            HoraAsignacion = FormatoHora(HoraAsignacion);            
             vParams.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
             vParams.AddInString("NumeroFactura", NumeroFactura, 11);
             vParams.AddInEnum("TipoDeDocumento", (int)TipoDeDocumento);
             vSql.AppendLine("UPDATE factura ");
             vSql.AppendLine("SET NumeroControl = " + insUtilSql.ToSqlValue(NumeroControl));
             vSql.AppendLine(", ProveedorImprentaDigital = " + insUtilSql.EnumToSqlValue((int)ProveedorImprentaDigital));
+            vSql.AppendLine(", HoraModificacion = " + insUtilSql.ToSqlValue(HoraAsignacion));
             vSql.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania ");
             vSql.AppendLine(" AND Numero = @NumeroFactura");
             vSql.AppendLine(" AND TipoDeDocumento = @TipoDeDocumento ");
@@ -920,7 +923,20 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     break;
             }
             return vTipoCxc;
-        }      
+        }
+
+        string FormatoHora(string valHora) {
+            string vResult = string.Empty;
+            int vPosCorte = LibString.IndexOf(valHora, ":");
+            if(vPosCorte < 2) {
+                vResult = "00:00";
+            } else if(!LibString.IsNullOrEmpty(valHora)) {
+                vResult = LibString.Left(valHora, 2) + ":" + LibString.SubString(valHora, vPosCorte + 1, 2);
+            }
+            return vResult;
+        }
+
+
         public abstract bool EnviarDocumento();
         public abstract bool EnviarDocumentoPorEmail(string valNumeroControl,string valEmail);
         public abstract bool AnularDocumento();
