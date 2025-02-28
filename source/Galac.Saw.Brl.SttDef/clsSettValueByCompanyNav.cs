@@ -2572,9 +2572,11 @@ namespace Galac.Saw.Brl.SttDef {
             vSql.AppendLine(" WHERE (ConsecutivoCompania = " + insSql.ToSqlValue(vConsecutivoCompania) + ") AND (NameSettDefinition = " + insSql.ToSqlValue("ProveedorImprentaDigital") + " )");
             LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), (new LibGpParams()).Get(), string.Empty, 0);
 
-            string vNumeroDeDigitosEnFactura = "11";
+            string vNumeroDeDigitosEnFactura = "10";
             if (valProveedorImprentaDigital == eProveedorImprentaDigital.TheFactoryHKA) {
                 vNumeroDeDigitosEnFactura = "8";
+            }else if (valProveedorImprentaDigital == eProveedorImprentaDigital.Novus || valProveedorImprentaDigital == eProveedorImprentaDigital.Unidigital) {
+                vNumeroDeDigitosEnFactura = "10";
             }
             vSql.AppendLine("UPDATE Comun.SettValueByCompany");
             vSql.AppendLine("   SET Value = " + insSql.ToSqlValue(vNumeroDeDigitosEnFactura));
@@ -2625,6 +2627,7 @@ namespace Galac.Saw.Brl.SttDef {
             switch (valProveedor) {
                 case eProveedorImprentaDigital.TheFactoryHKA:
                 case eProveedorImprentaDigital.Novus:
+                case eProveedorImprentaDigital.Unidigital:
                     vContinuar = true;
                     break;
                 default:

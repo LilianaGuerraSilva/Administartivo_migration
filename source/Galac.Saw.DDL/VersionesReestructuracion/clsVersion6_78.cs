@@ -33,6 +33,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             CambiarPermisosUsuarioFactura();
             CrearEscalada();
             AgregarColumnaNDCaja();
+            AmpliarColumnaCompaniaImprentaDigitalClave();
+            AgregarColumnaImprentaGUIDFactura();
             return true;
         }
 
@@ -158,5 +160,14 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             }
         }
 
+        private void AmpliarColumnaCompaniaImprentaDigitalClave() {
+            ModifyLengthOfColumnString("Compania", "ImprentaDigitalClave", 1000, "");
+        }
+
+        private void AgregarColumnaImprentaGUIDFactura() {           
+            if (AddColumnString("factura", "ImprentaDigitalGUID", 50, "", "")) {
+                AddDefaultConstraint("factura", "ImDigGuid", "''", "ImprentaDigitalGUID");                  
+            }
+        }
     }
 }

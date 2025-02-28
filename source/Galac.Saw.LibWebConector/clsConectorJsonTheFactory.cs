@@ -22,13 +22,13 @@ namespace Galac.Saw.LibWebConnector {
         }
 
         public override bool CheckConnection(ref string refMensaje, string valComandoApi) {
-            stPostResq vRequest = new stPostResq();
+            stRespuestaTF vRequest = new stRespuestaTF();
             try {
                 bool vResult = false;
-                string vJsonStr = FormatingJSON(LoginUser);
-                vRequest = SendPostJson(vJsonStr, valComandoApi, "", "");
+                string vJsonStr = GetJsonUser(LoginUser, eProveedorImprentaDigital.TheFactoryHKA);
+                vRequest = SendPostJsonTF(vJsonStr, valComandoApi, "", "");
                 refMensaje = vRequest.mensaje;
-                if (vRequest.Aprobado) {
+                if(vRequest.Aprobado) {
                     Token = vRequest.token;
                     LoginUser.MessageResult = vRequest.mensaje;
                     vResult = !LibString.IsNullOrEmpty(Token);
@@ -36,70 +36,46 @@ namespace Galac.Saw.LibWebConnector {
                     vResult = false;
                 }
                 return vResult;
-            } catch (GalacException) {
+            } catch(GalacException) {
                 throw;
-            } catch (Exception vEx) {
+            } catch(Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Alert);
             }
         }
 
-        public override stPostResq SendPostJson(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", eTipoDocumentoFactura valTipoDocumento = eTipoDocumentoFactura.NoAsignado) {
-            string vResultMessage = "";
-            string vMensajeDeValidacion = "";
-            stPostResq infoReqs = new stPostResq();
+        public stRespuestaTF SendPostJsonTF(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", eTipoDocumentoFactura valTipoDocumento = eTipoDocumentoFactura.NoAsignado) {            
             try {
-                strTipoDocumento = LibEnumHelper.GetDescription(valTipoDocumento);
-                strTipoDocumento = "La " + strTipoDocumento + " No. " + valNumeroDocumento;
-                HttpClient vHttpClient = new HttpClient();
-                vHttpClient.BaseAddress = new Uri(LoginUser.URL);
-                if (!LibString.IsNullOrEmpty(valToken)) {
-                    vHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", valToken);
+                string vMensajeDeValidacion = string.Empty;
+                string vPostRequest =  ExecutePostJson(valJsonStr, valComandoApi, valToken, valNumeroDocumento, valTipoDocumento);
+                stRespuestaTF infoReqs = JsonConvert.DeserializeObject<stRespuestaTF>(vPostRequest);
+                List<string> listValidaciones = infoReqs.validaciones;
+                if (listValidaciones != null) {
+                    vMensajeDeValidacion = string.Join(",", infoReqs.validaciones);
                 }
-                HttpContent vContent = new StringContent(valJsonStr, Encoding.UTF8, "application/json");
-                Task<HttpResponseMessage> vHttpRespMsg = vHttpClient.PostAsync(valComandoApi, vContent);
-                vHttpRespMsg.Wait();
-                vResultMessage = vHttpRespMsg.Result.RequestMessage.ToString();
-                if (vHttpRespMsg.Result.StatusCode == System.Net.HttpStatusCode.OK) {
-                    vHttpRespMsg.Result.EnsureSuccessStatusCode();
+                if (LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {
+                     infoReqs.Aprobado = true;
+                    return infoReqs;
+                } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "403")) {
+                    infoReqs.mensaje = vMensajeDeValidacion + "\r\nUsuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.";
+                    infoReqs.Aprobado = false;
+                } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "201")) {
+                    infoReqs.Aprobado = false;
+                    infoReqs.mensaje = vMensajeDeValidacion + "\r\n" + strTipoDocumento + " ya existe en la Imprenta Digital.";
+                } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "203")) {
+                    infoReqs.Aprobado = false;
+                    infoReqs.mensaje = infoReqs.mensaje + ".\r\n" + vMensajeDeValidacion + ".\r\n" + strTipoDocumento + " no pudo ser enviada a la Imprenta Digital, debe sincronizar el documento.";
+                } else if (!LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {
+                    infoReqs.Aprobado = false;
+                    infoReqs.mensaje = vMensajeDeValidacion + "\r\n." + strTipoDocumento + " no pudo ser enviada a la Imprenta Digital, debe sincronizar el documento.";
                 }
-                if (vHttpRespMsg.Result.Content is null) {
-                    throw new Exception("Revise su conexión a Internet, Revise que la URL del servicio sea la correcta.");
-                } else if (vHttpRespMsg.Result.StatusCode == System.Net.HttpStatusCode.Unauthorized) {
-                    throw new Exception(vHttpRespMsg.Result.ReasonPhrase + "\r\nToken Expirado.");
-                } else {
-                    Task<string> HttpResq = vHttpRespMsg.Result.Content.ReadAsStringAsync();
-                    HttpResq.Wait();
-                    infoReqs = JsonConvert.DeserializeObject<stPostResq>(HttpResq.Result);
-                    List<string> listValidaciones = infoReqs.validaciones;
-                    if (listValidaciones != null) {
-                        vMensajeDeValidacion = string.Join(",", infoReqs.validaciones);
-                    }
-                    if (LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {
-                        infoReqs.Aprobado = true;
-                        return infoReqs;
-                    } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "403")) {
-                        infoReqs.mensaje = vMensajeDeValidacion + "\r\nUsuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.";
-                        infoReqs.Aprobado = false;
-                    } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "201")) {
-                        infoReqs.Aprobado = false;
-                        infoReqs.mensaje = vMensajeDeValidacion + "\r\n" + strTipoDocumento + " ya existe en la Imprenta Digital.";
-                    } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "203")) {
-                        infoReqs.Aprobado = false;
-                        infoReqs.mensaje = infoReqs.mensaje + ".\r\n" + vMensajeDeValidacion + ".\r\n" + strTipoDocumento + " no pudo ser enviada a la Imprenta Digital, debe sincronizar el documento.";
-                    } else if (!LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {
-                        infoReqs.Aprobado = false;
-                        infoReqs.mensaje = vMensajeDeValidacion + "\r\n." + strTipoDocumento + " no pudo ser enviada a la Imprenta Digital, debe sincronizar el documento.";
-                    }
-                    GeneraLogDeErrores(vResultMessage + infoReqs.mensaje, valJsonStr);
-                    throw new Exception(infoReqs.mensaje);
-                }
-            } catch (AggregateException vEx) {
+                return infoReqs;
+            } catch(AggregateException vEx) {
                 string vMensaje = vEx.InnerException.InnerException.Message;
-                if (vEx.InnerException.InnerException.HResultPublic() == -2146233079) {
+                if(vEx.InnerException.InnerException.HResultPublic() == -2146233079) {
                     vMensaje = vMensaje + "\r\nRevise su conexión a Internet, Revise que la URL del servicio sea la correcta.\r\nDebe sincronizar el documento.";
-                }
-                throw new Exception(vMensaje); throw new Exception(vEx.InnerException.InnerException.Message);
-            } catch (Exception vEx) {
+                }                
+                throw new Exception(vEx.InnerException.InnerException.Message);
+            } catch(Exception vEx) {
                 throw vEx;
             }
         }
