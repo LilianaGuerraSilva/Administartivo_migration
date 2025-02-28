@@ -569,7 +569,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
             LibSearchCriteria vDefaultCriteriaInventario = new LibSearchCriteria();
-            if (TipoArticuloInv == eTipoArticuloInv.UsaTallaColor) {
+            if (TipoArticuloInv == eTipoArticuloInv.UsaTallaColor || TipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial) {
                 vDefaultCriteriaInventario = LibSearchCriteria.CreateCriteria("CodigoCompuesto", CodigoArticulo);
             } else {
                 vDefaultCriteriaInventario = LibSearchCriteria.CreateCriteria("Codigo", CodigoArticulo);

@@ -358,8 +358,6 @@ namespace Galac.Saw.Brl.Inventario {
                 vDefaultValue = " ";
             }
             StringBuilder vSQL = new StringBuilder();
-            vSQL.AppendLine("DELETE FROM ExistenciaPorGrupo  WHERE ConsecutivoCompania = @ConsecutivoCompania AND CodigoArticulo = @CodigoArticulo AND Serial = @Serial AND Rollo = @Rollo");
-            LibBusiness.ExecuteUpdateOrDelete(vSQL.ToString(), vParams.Get(), "", 0);
             foreach (var itemSerial in valListArticuloInventarioExistenciaSerial) {
                 vParams = new LibGpParams();
                 vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
@@ -373,7 +371,11 @@ namespace Galac.Saw.Brl.Inventario {
                 vParams.AddInDateTime("Fecha", LibDate.Today());
                 vParams.AddInString("Ubicacion", " ", 100);
                 vSQL = new StringBuilder();
-                vSQL.AppendLine("UPDATE ExistenciaPorGrupo  SET Existencia = Existencia + @Existencia WHERE ConsecutivoCompania = @ConsecutivoCompania AND CodigoArticulo = @CodigoArticulo AND Serial = @Serial AND Rollo = @Rollo");
+                if (valTipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial) {
+                    vSQL.AppendLine("UPDATE ExistenciaPorGrupo  SET Existencia = Existencia + @Existencia WHERE ConsecutivoCompania = @ConsecutivoCompania AND CodigoArticulo = @CodigoArticulo AND CodigoTalla = @CodigoTalla AND CodigoColor = @CodigoColor AND Serial = @Serial AND Rollo = @Rollo");
+                } else {
+                    vSQL.AppendLine("UPDATE ExistenciaPorGrupo  SET Existencia = Existencia + @Existencia WHERE ConsecutivoCompania = @ConsecutivoCompania AND CodigoArticulo = @CodigoArticulo AND Serial = @Serial AND Rollo = @Rollo");
+                }
                 vSQL.AppendLine(" IF @@ROWCOUNT = 0");
                 vSQL.AppendLine(" INSERT INTO ExistenciaPorGrupo(ConsecutivoCompania, CodigoArticulo, CodigoGrupo, CodigoTalla, CodigoColor, Existencia, Serial, Rollo, CantReservada, Fecha, Ubicacion)");
                 vSQL.AppendLine(" VALUES( @ConsecutivoCompania, @CodigoArticulo, @CodigoGrupo, @CodigoTalla, @CodigoColor, @Existencia, @Serial, @Rollo, 0 , @Fecha, @Ubicacion)");
@@ -392,11 +394,12 @@ namespace Galac.Saw.Brl.Inventario {
             vParams.AddInString("CodigoRollo", valArticuloInventarioExistenciaSerial.CodigoRollo, 20);
             vParams.AddInDecimal("Cantidad", valArticuloInventarioExistenciaSerial.Cantidad, 4);
             vParams.AddInInteger("ConsecutivoAlmacen", valArticuloInventarioExistenciaSerial.ConsecutivoAlmacen);
+            vParams.AddInString("Ubicacion", " ", 100);
             StringBuilder vSQL = new StringBuilder();
             vSQL.AppendLine("UPDATE RenglonExistenciaAlmacen  SET Cantidad = Cantidad + @Cantidad WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoAlmacen = @ConsecutivoAlmacen AND CodigoArticulo = @CodigoArticulo AND CodigoSerial = @CodigoSerial AND CodigoRollo = @CodigoRollo");
             vSQL.AppendLine(" IF @@ROWCOUNT = 0");
-            vSQL.AppendLine(" INSERT INTO RenglonExistenciaAlmacen(ConsecutivoCompania, CodigoAlmacen, CodigoArticulo, ConsecutivoRenglon, CodigoSerial, CodigoRollo , Cantidad ,ConsecutivoAlmacen)");
-            vSQL.AppendLine(" VALUES(@ConsecutivoCompania, @CodigoAlmacen, @CodigoArticulo, @ConsecutivoRenglon, @CodigoSerial, @CodigoRollo , @Cantidad ,@ConsecutivoAlmacen)");
+            vSQL.AppendLine(" INSERT INTO RenglonExistenciaAlmacen (ConsecutivoCompania, CodigoAlmacen, CodigoArticulo, ConsecutivoRenglon, CodigoSerial, CodigoRollo, Cantidad, ConsecutivoAlmacen, Ubicacion)");
+            vSQL.AppendLine(" VALUES(@ConsecutivoCompania, @CodigoAlmacen, @CodigoArticulo, @ConsecutivoRenglon, @CodigoSerial, @CodigoRollo, @Cantidad, @ConsecutivoAlmacen, @Ubicacion)");
             LibBusiness.ExecuteUpdateOrDelete(vSQL.ToString(), vParams.Get(), "", 0);
         }
 
