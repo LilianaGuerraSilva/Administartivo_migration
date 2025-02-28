@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Gálac Software")]
 [assembly: AssemblyProduct("Galac.Saw.LibHttp")]
-[assembly: AssemblyCopyright("\"Gálac Software Copyright © 2025")]
+[assembly: AssemblyCopyright("Gálac Software Copyright © 2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]

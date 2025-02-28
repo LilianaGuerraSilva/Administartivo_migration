@@ -283,8 +283,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     vResult = _ConectorJson.CheckConnection(ref vMensaje, vCommand);
                     break;
                 case eProveedorImprentaDigital.Unidigital:
-                    vCommand = LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion);
-                    _ConectorJson = new clsConectorJsonTheFactory(new clsLoginUser() {
+                    vCommand = LibEnumHelper.GetDescription(eComandosPostUnidigital.Autenticacion);
+                    _ConectorJson = new clsConectorJsonUnidigital(new clsLoginUser() {
                         User = Usuario,
                         URL = Url,
                         Password = Clave,
@@ -301,7 +301,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 LibMessages.MessageBox.Information(this, "Conectado exitosamente a la Imprenta Digital " + Proveedor + ".", ModuleName);
                 ActivarButtonActions(true);
             } else {
-                LibMessages.MessageBox.Warning(this, "No se pudo conectar con la Imprenta Digital.\r\nPor favor verifique los datos de conexión e intente de nuevo.", ModuleName);
+                LibMessages.MessageBox.Warning(this, $"{vMensaje}.\r\nPor favor verifique los datos de conexión e intente de nuevo.", ModuleName);
                 ActivarButtonActions(false);
             }
         }
@@ -316,9 +316,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     CampoClave = "token";
                     CampoUsuario = "rif";
                     break;
-                case eProveedorImprentaDigital.Unidigital:
-                    CampoClave = "UserName";
-                    CampoUsuario = "Password";
+                case eProveedorImprentaDigital.Unidigital:                    
+                    CampoClave = "Password";
+                    CampoUsuario = "UserName";
                     break;
                 default:
                     CampoClave = "clave";

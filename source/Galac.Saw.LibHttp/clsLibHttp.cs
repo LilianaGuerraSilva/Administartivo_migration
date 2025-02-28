@@ -23,13 +23,16 @@ namespace Galac.Saw.LibHttp {
                     Version = HttpVersion.Version11,
                     Content = vContent
                 };
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls | SecurityProtocolType.Tls13;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
                 HttpResponseMessage vHttpRespMsg = vHttpClient.SendAsync(request).Result;
                 vResult = vHttpRespMsg.RequestMessage.ToString();
                 if(vHttpRespMsg.StatusCode == System.Net.HttpStatusCode.OK) {
                     vHttpRespMsg.EnsureSuccessStatusCode();
                 } else if(vHttpRespMsg.StatusCode == System.Net.HttpStatusCode.NotFound) {
-                    throw new Exception($"{vResult} Revise su conexión a Internet y la URL del servicio.");
+                    throw new Exception($"{vHttpRespMsg.StatusCode.ToString()}\r\nRevise su conexión a Internet y la URL del servicio.");
+                } else if(vHttpRespMsg.StatusCode == System.Net.HttpStatusCode.BadGateway) {
+                    throw new Exception($"{vHttpRespMsg.StatusCode.ToString()}\r\nRevise su conexión a Internet y la URL del servicio.");
+                } else if(vHttpRespMsg.StatusCode == System.Net.HttpStatusCode.BadRequest) {                                        
                 }
                 if(vHttpRespMsg.Content is null) {
                     throw new Exception($"{vResult}Revise su conexión a Internet y la URL del servicio.");
@@ -44,6 +47,41 @@ namespace Galac.Saw.LibHttp {
             } catch(Exception vEx) {
                 throw vEx;
             }
-        }
+        }      
+
+        string ILibHttp.HttpExecuteGet(string valContent, string valUrl, string valComandoApi) {
+            try {
+                string vResult = string.Empty;
+                HttpClient vHttpClient = new HttpClient();
+                vHttpClient.BaseAddress = new Uri(valUrl);
+                var request = new HttpRequestMessage(HttpMethod.Get, valUrl + valComandoApi + valContent) {
+                    Version = HttpVersion.Version11
+                };
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+                HttpResponseMessage vHttpRespMsg = vHttpClient.SendAsync(request).Result;
+                vResult = vHttpRespMsg.RequestMessage.ToString();
+                if(vHttpRespMsg.StatusCode == System.Net.HttpStatusCode.OK) {
+                    vHttpRespMsg.EnsureSuccessStatusCode();
+                } else if(vHttpRespMsg.StatusCode == System.Net.HttpStatusCode.NotFound) {
+                    throw new Exception($"{vHttpRespMsg.StatusCode.ToString()}\r\nRevise su conexión a Internet y la URL del servicio.");
+                } else if(vHttpRespMsg.StatusCode == System.Net.HttpStatusCode.BadGateway) {
+                    throw new Exception($"{vHttpRespMsg.StatusCode.ToString()}\r\nRevise su conexión a Internet y la URL del servicio.");
+                } else if(vHttpRespMsg.StatusCode == System.Net.HttpStatusCode.BadRequest) {
+                }
+                if(vHttpRespMsg.Content is null) {
+                    throw new Exception($"{vResult}Revise su conexión a Internet y la URL del servicio.");
+                } else {
+                    Task<string> HttpResq = vHttpRespMsg.Content.ReadAsStringAsync();
+                    HttpResq.Wait();
+                    vResult = HttpResq.Result.ToString();
+                    return vResult;
+                }
+            } catch(HttpRequestException rex) {
+                throw new Exception(rex.Message);
+            } catch(Exception vEx) {
+                throw vEx;
+            }
+        }       
+
     }
 }

@@ -22,7 +22,7 @@ namespace Galac.Saw.LibWebConnector {
         }
 
         public override bool CheckConnection(ref string refMensaje, string valComandoApi) {
-            stPostResq vRequest = new stPostResq();
+            stRespuestaTF vRequest = new stRespuestaTF();
             try {
                 bool vResult = false;
                 string vJsonStr = GetJsonUser(LoginUser, eProveedorImprentaDigital.TheFactoryHKA);
@@ -43,11 +43,11 @@ namespace Galac.Saw.LibWebConnector {
             }
         }
 
-        public stPostResq SendPostJsonTF(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", eTipoDocumentoFactura valTipoDocumento = eTipoDocumentoFactura.NoAsignado) {            
+        public stRespuestaTF SendPostJsonTF(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", eTipoDocumentoFactura valTipoDocumento = eTipoDocumentoFactura.NoAsignado) {            
             try {
                 string vMensajeDeValidacion = string.Empty;
                 string vPostRequest =  ExecutePostJson(valJsonStr, valComandoApi, valToken, valNumeroDocumento, valTipoDocumento);
-                stPostResq infoReqs = JsonConvert.DeserializeObject<stPostResq>(vPostRequest);
+                stRespuestaTF infoReqs = JsonConvert.DeserializeObject<stRespuestaTF>(vPostRequest);
                 List<string> listValidaciones = infoReqs.validaciones;
                 if (listValidaciones != null) {
                     vMensajeDeValidacion = string.Join(",", infoReqs.validaciones);

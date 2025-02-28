@@ -12,7 +12,7 @@ namespace Galac.Saw.LibWebConnector {
             get; set;
         }
     }
-    public struct stPostResq {
+    public struct stRespuestaTF {
         [JsonProperty("token")]
         public string token {
             get; set;
@@ -39,7 +39,7 @@ namespace Galac.Saw.LibWebConnector {
         }
 
         [JsonProperty("resultado")]
-        public stRespuestaTF resultados { get; set; }
+        public stResultadoTF resultados { get; set; }
 
         [JsonProperty("estado")]
         public stEstado estado { get; set; }
@@ -47,7 +47,7 @@ namespace Galac.Saw.LibWebConnector {
         public bool Aprobado { get; set; }
 
     }
-    public struct stRespuestaTF {
+    public struct stResultadoTF {
         [JsonProperty("tipoDocumento")]
         public string tipoDocumento {
             get; set;
@@ -204,5 +204,53 @@ namespace Galac.Saw.LibWebConnector {
         public stErrorRespuestaNV? error { get; set; }
     }
     #endregion NOVUS
-}
+    #region UNIDIGITAL	   
+    public struct stRespuestaUD {
+        [JsonProperty("token")]
+        public string token {
+            get; set;
+        }
+
+        [JsonProperty("expiracion")]
+        public string expiracion {
+            get; set;
+        }
+
+        [JsonProperty("codigo")]
+        public string codigo {
+            get; set;
+        }
+
+        [JsonProperty("mensaje")]
+        public string mensaje {
+            get; set;
+        }
+
+        [JsonProperty("strongId")]
+        public string strongId {
+            get; set;
+        }
+
+        [JsonProperty("estado")]
+        public stEstado estado {
+            get; set;
+        }
+
+        [JsonProperty("ImprentaDigitalGUID")]
+        public string IDGUID {
+            get; set;
+        }
+
+        public bool Aprobado {
+            get; set;
+        }
+
+    }
+
+
+
+
+
+        #endregion UNIDIGITAL
+    }
 
