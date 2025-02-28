@@ -24,14 +24,14 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string ProveedorPropertyName = "Proveedor";
         public const string UrlPropertyName = "Url";
         public const string UsuarioPropertyName = "Usuario";
-        public const string ClavePropertyName = "Clave";
+        public const string ClavePropertyName = "Clave";        
         #endregion
         #region variables
         private bool _ExecuteEnabled;
         eProveedorImprentaDigital _ProveedorImprentaDigital;
         string _Url;
         string _Usuario;
-        string _Clave;        
+        string _Clave;
         string _CampoUsuario;
         string _CampoClave;
         #endregion
@@ -111,8 +111,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         #endregion //Constructores
         #region Metodos Generados
         protected override void InitializeCommands() {
-            base.InitializeCommands();
-            
+            base.InitializeCommands();            
             GuardarCommand = new RelayCommand(ExecuteGuardarCommand, CanExecuteGuardarCommand);
             ProbarConexionCommand = new RelayCommand(ExecuteProbarConexionCommand);
         }
@@ -120,32 +119,49 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         protected override void InitializeLookAndFeel() {
             base.InitializeLookAndFeel();
             InicializaValores();
-        }
+        }       
 
         public bool IsVisbleByProveedorID {
-            get { return _ProveedorImprentaDigital == eProveedorImprentaDigital.TheFactoryHKA; }
+            get { return _ProveedorImprentaDigital == eProveedorImprentaDigital.TheFactoryHKA || _ProveedorImprentaDigital == eProveedorImprentaDigital.Unidigital; }
         }
 
         private void ExecuteProbarConexionCommand() {
             string vMensaje = string.Empty;
             string vCommand = string.Empty;
             bool vResult = false;
-            if (_ProveedorImprentaDigital == eProveedorImprentaDigital.TheFactoryHKA) {
-                vCommand = LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion);
-                clsConectorJson _ConectorJson = new clsConectorJsonTheFactory(new clsLoginUser() {
-                    User = Usuario,
-                    URL = Url,
-                    Password = Clave
-                });
-                vResult = _ConectorJson.CheckConnection(ref vMensaje, vCommand);
-            } else {
-                vResult = true;
-            }
-            if (vResult) {
+            clsConectorJson _ConectorJson = null;
+            switch(_ProveedorImprentaDigital) {
+                case eProveedorImprentaDigital.TheFactoryHKA:
+                    vCommand = LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion);
+                    _ConectorJson = new clsConectorJsonTheFactory(new clsLoginUser() {
+                        User = Usuario,
+                        URL = Url,
+                        Password = Clave,
+                        UserKey = CampoUsuario,
+                        PasswordKey = CampoClave
+                    });
+                    vResult = _ConectorJson.CheckConnection(ref vMensaje, vCommand);
+                    break;
+                case eProveedorImprentaDigital.Unidigital:
+                    vCommand = LibEnumHelper.GetDescription(eComandosPostUnidigital.Autenticacion);
+                    _ConectorJson = new clsConectorJsonUnidigital(new clsLoginUser() {
+                        User = Usuario,
+                        URL = Url,
+                        Password = Clave,
+                        UserKey = CampoUsuario,
+                        PasswordKey = CampoClave
+                    });
+                    vResult = _ConectorJson.CheckConnection(ref vMensaje, vCommand);
+                    break;
+                default:
+                    vResult = true;
+                    break;
+            }           
+            if(vResult) {
                 LibMessages.MessageBox.Information(this, "Conectado exitosamente a la Imprenta Digital " + Proveedor + ".", ModuleName);
                 ActivarButtonActions(true);
             } else {
-                LibMessages.MessageBox.Warning(this, "No se pudo conectar con la Imprenta Digital.\r\nPor favor verifique los datos de conexión e intente de nuevo.", ModuleName);
+                LibMessages.MessageBox.Warning(this, $"{vMensaje}.\r\nPor favor verifique los datos de conexión e intente de nuevo.", ModuleName);
                 ActivarButtonActions(false);
             }
         }
@@ -165,7 +181,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         private void InicializaValores() {
-            _ProveedorImprentaDigital = (eProveedorImprentaDigital)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ProveedorImprentaDigital");
+            _ProveedorImprentaDigital = (eProveedorImprentaDigital)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ProveedorImprentaDigital");                        
             clsImprentaDigitalSettings _clsImprentaDigitalSettings = new clsImprentaDigitalSettings();
             _Url = _clsImprentaDigitalSettings.DireccionURL;
             _Usuario = _clsImprentaDigitalSettings.Usuario;
@@ -190,7 +206,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         private void ActivarButtonActions(bool valActivate) {
-            _ExecuteEnabled = valActivate;
+            _ExecuteEnabled = valActivate;           
             GuardarCommand.RaiseCanExecuteChanged();            
         }
 
