@@ -112,27 +112,27 @@ Public Function fConfigurarDatosDePagosEntreFechas(ByRef refRpt As DDActiveRepor
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtMontoCheque", "", "MontoCheque"
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalAnticipos", "", "TotalAnticipo"
          
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtCambio", "", "Cambio"
+         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtCambio", "", "Cambio", , , "#,##0.##00"
          
-         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalOtros", "TotalOtros", eSF_SUM, "GHMoneda", eSR_GROUP, eST_GRAND_TOTAL
-         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalRetencion", "TotalRetenido", eSF_SUM, "GHMoneda", eSR_GROUP, eST_GRAND_TOTAL
-         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalRetencionIVA", "TotalRetenidoIva", eSF_SUM, "GHMoneda", eSR_GROUP, eST_GRAND_TOTAL
-         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalRetencionMunicipal", "TotalRetImpMunicipal", eSF_SUM, "GHMoneda", eSR_GROUP, eST_GRAND_TOTAL
-         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalMontoCheque", "MontoCheque", eSF_SUM, "GHMoneda", eSR_GROUP, eST_GRAND_TOTAL
-         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalAnticipos", "TotalAnticipo", eSF_SUM, "GHMoneda", eSR_GROUP, eST_GRAND_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalOtros", "TotalOtros", eSF_SUM, "GHMoneda", eSR_GROUP, eST_SUB_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalRetencion", "TotalRetenido", eSF_SUM, "GHMoneda", eSR_GROUP, eST_SUB_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalRetencionIVA", "TotalRetenidoIva", eSF_SUM, "GHMoneda", eSR_GROUP, eST_SUB_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalRetencionMunicipal", "TotalRetImpMunicipal", eSF_SUM, "GHMoneda", eSR_GROUP, eST_SUB_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalMontoCheque", "MontoCheque", eSF_SUM, "GHMoneda", eSR_GROUP, eST_SUB_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalAnticipos", "TotalAnticipo", eSF_SUM, "GHMoneda", eSR_GROUP, eST_SUB_TOTAL
          
-         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalOtrosProv", "TotalOtros", eSF_SUM, "GHProveedor", eSR_GROUP, eST_GRAND_TOTAL
-         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalRetencionProv", "TotalRetenido", eSF_SUM, "GHProveedor", eSR_GROUP, eST_GRAND_TOTAL
-         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalRetencionIVAProv", "TotalRetenidoIva", eSF_SUM, "GHProveedor", eSR_GROUP, eST_GRAND_TOTAL
-         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalRetencionMunicipalProv", "TotalRetImpMunicipal", eSF_SUM, "GHProveedor", eSR_GROUP, eST_GRAND_TOTAL
-         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalMontoChequeProv", "MontoCheque", eSF_SUM, "GHProveedor", eSR_GROUP, eST_GRAND_TOTAL
-         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalAnticiposProv", "TotalAnticipo", eSF_SUM, "GHProveedor", eSR_GROUP, eST_GRAND_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalOtrosProv", "TotalOtros", eSF_SUM, "GHProveedor", eSR_GROUP, eST_SUB_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalRetencionProv", "TotalRetenido", eSF_SUM, "GHProveedor", eSR_GROUP, eST_SUB_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalRetencionIVAProv", "TotalRetenidoIva", eSF_SUM, "GHProveedor", eSR_GROUP, eST_SUB_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalRetencionMunicipalProv", "TotalRetImpMunicipal", eSF_SUM, "GHProveedor", eSR_GROUP, eST_SUB_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalMontoChequeProv", "MontoCheque", eSF_SUM, "GHProveedor", eSR_GROUP, eST_SUB_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalAnticiposProv", "TotalAnticipo", eSF_SUM, "GHProveedor", eSR_GROUP, eST_SUB_TOTAL
          
          gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHMoneda", "Moneda", ddGrpFirstDetail, ddRepeatAll, True, ddNPNone
          If valUnaPaginaPorProveedor Then
-            gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHProveedor", "", ddGrpAll, ddRepeatOnPage, True, ddNPBefore
+            gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHProveedor", "CodigoProveedor", ddGrpAll, ddRepeatOnPage, True, ddNPBefore
          Else
-            gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHProveedor", "", ddGrpAll, ddRepeatOnPage, True, ddNPNone
+            gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHProveedor", "CodigoProveedor", ddGrpAll, ddRepeatOnPage, True, ddNPNone
          End If
          
          If valReporteEnMonedaLocal Then
@@ -141,11 +141,11 @@ Public Function fConfigurarDatosDePagosEntreFechas(ByRef refRpt As DDActiveRepor
          Else
             gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "lblLeyendaDeTasaDeCambio", False
          End If
-         If Not UsaModuloDeContabilidad Then
+         If UsaModuloDeContabilidad Then
+            gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNComprobante", "", "ComprobanteContable"
+         Else
             gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "lbNComprobante", False
             gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "txtNComprobante", False
-         Else
-            gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNComprobante", "", "ComprobanteContable"
          End If
          If MostrarObservaciones Then
             gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtdescripcionPago", "", "descripcionPago"

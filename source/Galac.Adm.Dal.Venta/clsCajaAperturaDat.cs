@@ -76,6 +76,7 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInDecimal("MontoAnticipoME", valRecord.MontoAnticipoME, 4);
             vParams.AddInDecimal("MontoVueltoME", valRecord.MontoVueltoME, 4);
             vParams.AddInDecimal("MontoZelle", valRecord.MontoZelle, 4);
+            vParams.AddInDecimal("MontoCreditoElectronico", valRecord.MontoCreditoElectronico, 4);
             vParams.AddInString("NombreOperador",((CustomIdentity)Thread.CurrentPrincipal.Identity).Login,10);
             vParams.AddInDateTime("FechaUltimaModificacion",LibDate.Today());
             if(valAction == eAccionSR.Modificar) {

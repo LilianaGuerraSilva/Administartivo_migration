@@ -174,7 +174,10 @@ namespace Galac.Adm.Ccl.Venta {
         C2P,
         [LibEnumDescription("Depósito Medios Electrónicos", Index = 0)]
         [LibEnumDescription("00014", Index = 1)]
-        DepositoMS
+        DepositoMS,
+        [LibEnumDescription("Crédito Electrónico", Index = 0)]
+        [LibEnumDescription("00015", Index = 1)]
+        CreditoElectronico
     }      
 
     [TypeConverter(typeof(LibEnumTypeConverter))]

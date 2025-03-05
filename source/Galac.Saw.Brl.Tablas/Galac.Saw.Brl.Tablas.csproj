@@ -68,6 +68,7 @@
     <Compile Include="clsLineaDeProductoNav.cs" />
     <Compile Include="clsMaquinaFiscalNav.cs" />
     <Compile Include="clsNotaFinalNav.cs" />
+    <Compile Include="clsOtrosCargosDeFacturaNav.cs" />
     <Compile Include="clsPropAnalisisVencNav.cs" />
     <Compile Include="clsRutaDeComercializacionNav.cs" />
     <Compile Include="clsTipoProveedorNav.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Reportes\clsLineaDeProductoRpt.cs" />
     <Compile Include="Reportes\clsMaquinaFiscalRpt.cs" />
     <Compile Include="Reportes\clsNotaFinalRpt.cs" />
+    <Compile Include="Reportes\clsOtrosCargosDeFacturaRpt.cs" />
     <Compile Include="Reportes\clsPropAnalisisVencRpt.cs" />
     <Compile Include="Reportes\clsRutaDeComercializacionRpt.cs" />
     <Compile Include="Reportes\clsTipoProveedorRpt.cs" />

@@ -97,13 +97,13 @@
     <Reference Include="LibGalac.Aos.Uil">
       <HintPath>..\packages\LibGalac.Aos.Uil.5.24.2.4\lib\LibGalac.Aos.Uil.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.Uil.Usal, Version=5.24.2.5, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="LibGalac.Aos.Uil.Usal">
       <HintPath>..\packages\LibGalac.Aos.Uil.Usal.5.24.2.5\lib\LibGalac.Aos.Uil.Usal.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Vbwa">
       <HintPath>..\packages\LibGalac.Aos.Vbwa.5.24.1\lib\LibGalac.Aos.Vbwa.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.Wrp.Saw, Version=5.24.1.2, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="LibGalac.Aos.Wrp.Saw">
       <HintPath>..\packages\LibGalac.Aos.Wrp.Saw.5.24.1.2\lib\LibGalac.Aos.Wrp.Saw.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
@@ -150,6 +150,7 @@
     <Compile Include="IWrpLibros.cs" />
     <Compile Include="IWrpImprentaDigitalVb.cs" />
     <Compile Include="IWrpLoteDeInventarioVb.cs" />
+    <Compile Include="IWrpOtrosCargosDeFactura.cs" />
     <Compile Include="IWrpNotaDeEntradaSalida.cs" />
     <Compile Include="IWrpRutaDeComercializacionVb.cs" />
     <Compile Include="IWrpOrdenDeProduccionVb.cs" />
@@ -170,6 +171,7 @@
     <Compile Include="wrpMenuBarCaja.cs" />
     <Compile Include="wrpMesesGenerados.cs" />
     <Compile Include="wrpNotaDeEntradaSalida.cs" />
+    <Compile Include="wrpOtrosCargosDeFactura.cs" />
     <Compile Include="wrpRutaDeComercializacion.cs" />
     <Compile Include="wrpTextosDinamicos.cs" />
     <Compile Include="wrpTransferenciaEntreCuentasBancarias.cs" />
