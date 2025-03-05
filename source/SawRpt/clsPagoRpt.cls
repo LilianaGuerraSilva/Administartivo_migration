@@ -112,7 +112,7 @@ Public Function fConfigurarDatosDePagosEntreFechas(ByRef refRpt As DDActiveRepor
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtMontoCheque", "", "MontoCheque"
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalAnticipos", "", "TotalAnticipo"
          
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtCambio", "", "Cambio"
+         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtCambio", "", "Cambio", , , "#,##0.##00"
          
          gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalOtros", "TotalOtros", eSF_SUM, "GHMoneda", eSR_GROUP, eST_SUB_TOTAL
          gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalRetencion", "TotalRetenido", eSF_SUM, "GHMoneda", eSR_GROUP, eST_SUB_TOTAL
