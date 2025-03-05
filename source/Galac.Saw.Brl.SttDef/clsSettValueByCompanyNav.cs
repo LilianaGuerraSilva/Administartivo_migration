@@ -2701,5 +2701,13 @@ namespace Galac.Saw.Brl.SttDef {
             }
             return vResult;
         }
+        string ISettValueByCompanyPdn.VersionHomologada(string valVesionActual) {
+            try {
+                LibWebConnector.clsComprobarVersion  insComprobarVersion = new LibWebConnector.clsComprobarVersion();
+                return insComprobarVersion.ObtenerVersionHomologada();
+            } catch (Exception vEx) {
+                throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
+            }
+        }
     } //End of class clsSettValueByCompanyNav
 } //End of namespace Galac.Saw.Brl.PrdStt
