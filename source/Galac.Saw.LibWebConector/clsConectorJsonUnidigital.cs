@@ -30,8 +30,10 @@ namespace Galac.Saw.LibWebConnector {
                 if(!vRequest.hasErrors) {                                      
                     Token = vRequest.token;
                     StrongeId = vRequest.StrongeID;
+                    vResult = true;
                 } else {
-                    LoginUser.MessageResult = string.Join("\r\n", vRequest.errors);
+                    LoginUser.MessageResult = string.Join("\r\n", vRequest.errors.FirstOrDefault().message);
+                    refMensaje = LoginUser.MessageResult;
                     vResult = false;
                 }
                 return vResult;
@@ -51,9 +53,9 @@ namespace Galac.Saw.LibWebConnector {
                     stRespuestaLoginUD LoginReqs = JsonConvert.DeserializeObject<stRespuestaLoginUD>(vPostRequest);
                     infoReqs.token = LoginReqs.accessToken;
                     infoReqs.hasErrors = LibString.IsNullOrEmpty(infoReqs.token);
-                    infoReqs.StrongeID = LoginReqs.series.FirstOrDefault().strongId;
                     if(infoReqs.hasErrors) {
                         infoReqs = new stRespuestaGlobalUD {
+                            hasErrors=true,
                             errors = new errors[] {
                                 new errors {
                                     code = LoginReqs.errors.FirstOrDefault().code,
@@ -62,6 +64,8 @@ namespace Galac.Saw.LibWebConnector {
                                 }
                             }
                         };
+                    } else {
+                        infoReqs.StrongeID = LoginReqs.series.FirstOrDefault().strongId;
                     }
                 } else if(LibString.S1IsEqualToS2(eComandosPostUnidigital.Emision.GetDescription(), valComandoApi)) {
 
