@@ -292,9 +292,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 {"moneda", FacturaImprentaDigital.CodigoMoneda == CodigoMonedaLocal ? "bs" : "usd"},
                 {"tasacambio", CambioABolivares},
                 {"observacion", FacturaImprentaDigital.Observaciones} };
-            if (_TipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito || _TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito) {
+            if(_TipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito || _TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito) {
                 vJsonDoc.Add("relacionado", ObtenerNumeroControlFacturaAfectada());
-            }
+            }           
             return vJsonDoc;
         }
 

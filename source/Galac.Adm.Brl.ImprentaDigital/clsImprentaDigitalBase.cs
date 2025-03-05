@@ -160,6 +160,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" ,ROUND(factura.BaseImponibleIGTF,2) AS BaseImponibleIGTF");
             vSql.AppendLine(" ,factura.UsarDireccionFiscal");
             vSql.AppendLine(" ,factura.NoDirDespachoAimprimir");
+            vSql.AppendLine(" ,factura.ImprentaDigitalGUID");
             vSql.AppendLine(" FROM factura");
             vSql.AppendLine(" WHERE factura.ConsecutivoCompania = @ConsecutivoCompania ");
             vSql.AppendLine(" AND factura.Numero = @Numero ");
@@ -447,7 +448,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" factura.EmitidaEnFacturaNumero,");
             vSql.AppendLine(" factura.ReservarMercancia,");
             vSql.AppendLine(" factura.CodigoAlmacen, ");
-            vSql.AppendLine(" factura.CodigoCliente ");
+            vSql.AppendLine(" factura.CodigoCliente, ");
+            vSql.AppendLine(" ISNULL(factura.ImprentaDigitalGUID,'') AS ImprentaDigitalGUID");
             vSql.AppendLine(" FROM factura");
             vSql.AppendLine(" WHERE factura.ConsecutivoCompania = @ConsecutivoCompania ");
             vSql.AppendLine(" AND factura.Numero = @Numero ");
@@ -473,6 +475,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     FacturaImprentaDigital.CodigoAlmacen = LibXml.GetPropertyString(vResult, "CodigoAlmacen");
                     FacturaImprentaDigital.EmitidaEnFacturaNumero = LibXml.GetPropertyString(vResult, "EmitidaEnFacturaNumero");
                     FacturaImprentaDigital.CodigoCliente = LibXml.GetPropertyString(vResult, "CodigoCliente");
+                    FacturaImprentaDigital.ImprentaDigitalGUID = LibXml.GetPropertyString(vResult, "ImprentaDigitalGUID");
                 } else {
                     throw new GalacException("El Documento N° " + LibConvert.ToStr(NumeroFactura) + " no existe.", eExceptionManagementType.Controlled);
                 }
