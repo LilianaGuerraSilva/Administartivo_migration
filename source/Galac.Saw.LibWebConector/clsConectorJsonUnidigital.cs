@@ -54,18 +54,11 @@ namespace Galac.Saw.LibWebConnector {
                     infoReqs.token = LoginReqs.accessToken;
                     infoReqs.hasErrors = LibString.IsNullOrEmpty(infoReqs.token);
                     if(infoReqs.hasErrors) {
-                        infoReqs = new stRespuestaGlobalUD {
-                            hasErrors=true,
-                            errors = new errors[] {
-                                new errors {
-                                    code = LoginReqs.errors.FirstOrDefault().code,
-                                    message = LoginReqs.errors.FirstOrDefault().message,
-                                    extra = LoginReqs.errors.FirstOrDefault().extra
-                                }
-                            }
-                        };
+                        infoReqs.hasErrors = true;
+                        infoReqs.errors = LoginReqs.errors;                        
                     } else {
                         infoReqs.StrongeID = LoginReqs.series.FirstOrDefault().strongId;
+                        infoReqs.token = LoginReqs.accessToken;
                     }
                 } else if(LibString.S1IsEqualToS2(eComandosPostUnidigital.Emision.GetDescription(), valComandoApi)) {
 
