@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsComprobarVersion.cs" />
     <Compile Include="clsConectorJson.cs" />
     <Compile Include="clsJsonRequest.cs" />
     <Compile Include="clsLoginUser.cs" />

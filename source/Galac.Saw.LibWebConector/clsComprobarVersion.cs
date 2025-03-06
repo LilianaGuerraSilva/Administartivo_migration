@@ -1,6 +1,6 @@
 ﻿using LibGalac.Aos.Base;
+using LibGalac.Aos.Cnf;
 using Newtonsoft.Json;
-using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -14,7 +14,7 @@ namespace Galac.Saw.LibWebConnector {
         private static readonly HttpClient client = new HttpClient();
 
         public  string ObtenerToken() {
-            var url = "https://apiversionqa.galac.com:9543/authorize/Token";
+            var url =  GetUrlApiVersion() + "/authorize/Token";
             var json = "{\"username\": \"userGalac\", \"password\": \"galac20.\"}";
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             try {
@@ -30,8 +30,6 @@ namespace Galac.Saw.LibWebConnector {
 
             }
             catch (HttpRequestException e) {
-                // Manejo de errores
-                //Console.WriteLine($"Error al obtener el token: {e.Message}");
                 return null;
             }
         }
@@ -48,12 +46,11 @@ namespace Galac.Saw.LibWebConnector {
                 vMensaje = LibString.SubString(vMensaje, vCorte + 2);
                 vCorte = LibString.IndexOf(vMensaje, ",");
                 vMensaje = LibString.SubString(vMensaje, 0, vCorte - 1);
-                //refMensaje = vMensaje;
             }
             return HttpResq.Result.ToString();
         }
         public string ObtenerVersion(string token) {
-            var url = "https://apiversionqa.galac.com:9543/api/Version";
+            var url = GetUrlApiVersion() + "/api/Version";
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             try {
                 Task<HttpResponseMessage> responseTask = client.GetAsync(url);
@@ -65,8 +62,6 @@ namespace Galac.Saw.LibWebConnector {
                 return responseBody.Result;
             }
             catch (HttpRequestException e) {
-                // Manejo de errores
-                Console.WriteLine($"Error al obtener la versión: {e.Message}");
                 return null;
             }
         }
@@ -76,6 +71,17 @@ namespace Galac.Saw.LibWebConnector {
                 return ObtenerVersion(token);
             }
             return null;
+        }
+        private string GetUrlApiVersion()        {
+            string vUrlApiVersion = LibAppSettings.ReadAppSettingsKey("URLAPIVERSION");
+            if (LibString.IsNullOrEmpty(vUrlApiVersion))            { 
+                vUrlApiVersion = "https://apiversion.galac.com:9544";
+            }
+            // Validar y limpiar el último carácter si es '/'
+            if (vUrlApiVersion.EndsWith("/")) {
+                vUrlApiVersion = vUrlApiVersion.TrimEnd('/');
+            }
+            return vUrlApiVersion;
         }
     }
 }
