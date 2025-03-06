@@ -43,24 +43,24 @@ namespace Galac.Saw.LibWebConnector {
                 }
                 if(vReqNV.success) {                    
                     return vReqNV;
-                } else if(vReqNV.error.Value.code == null && !LibString.IsNullOrEmpty(vReqNV.error.Value.message)) {
+                } else if(vReqNV.errorNV.Value.codeNV == null && !LibString.IsNullOrEmpty(vReqNV.errorNV.Value.messageNV)) {
                     vReqNV.success = false;
-                    vReqNV.message = vReqNV.error.Value.message;
+                    vReqNV.messageNV = vReqNV.errorNV.Value.messageNV;
                     return vReqNV;
-                } else if(LibString.S1IsEqualToS2(vReqNV.error.Value.code, "1")) {
-                    vReqNV.message = vReqNV.error.Value.message + ".\r\nPor favor verifique los datos de conexión\r\ncon su Imprenta Digital.";
-                } else if(LibString.S1IsEqualToS2(vReqNV.error.Value.code, "2")) {
-                    vReqNV.message = vReqNV.error.Value.message + ".\r\nPor favor verifique los datos del documento.";
-                } else if(LibString.S1IsEqualToS2(vReqNV.error.Value.code, "3")) {
-                    vReqNV.message = vReqNV.error.Value.message + ".\r\nPor favor verifique los datos de conexión\r\n con su Imprenta Digital.";
-                } else if(LibString.S1IsEqualToS2(vReqNV.error.Value.code, "4")) {
-                    vReqNV.message = vReqNV.error.Value.message + ".\r\nPor favor verifique los datos del documento.";
-                } else if(LibString.S1IsEqualToS2(vReqNV.error.Value.code, "5")) {
-                    vReqNV.message = vReqNV.error.Value.message + ".\r\nPor favor verifique los datos del documento.";
-                } else if(LibString.S1IsEqualToS2(vReqNV.error.Value.code, "11")) {
-                    vReqNV.message = vReqNV.error.Value.message + ".\r\nPor favor verifique los datos del documento.";
+                } else if(LibString.S1IsEqualToS2(vReqNV.errorNV.Value.codeNV, "1")) {
+                    vReqNV.messageNV = vReqNV.errorNV.Value.messageNV + ".\r\nPor favor verifique los datos de conexión\r\ncon su Imprenta Digital.";
+                } else if(LibString.S1IsEqualToS2(vReqNV.errorNV.Value.codeNV, "2")) {
+                    vReqNV.messageNV = vReqNV.errorNV.Value.messageNV + ".\r\nPor favor verifique los datos del documento.";
+                } else if(LibString.S1IsEqualToS2(vReqNV.errorNV.Value.codeNV, "3")) {
+                    vReqNV.messageNV = vReqNV.errorNV.Value.messageNV + ".\r\nPor favor verifique los datos de conexión\r\n con su Imprenta Digital.";
+                } else if(LibString.S1IsEqualToS2(vReqNV.errorNV.Value.codeNV, "4")) {
+                    vReqNV.messageNV = vReqNV.errorNV.Value.messageNV + ".\r\nPor favor verifique los datos del documento.";
+                } else if(LibString.S1IsEqualToS2(vReqNV.errorNV.Value.codeNV, "5")) {
+                    vReqNV.messageNV = vReqNV.errorNV.Value.messageNV + ".\r\nPor favor verifique los datos del documento.";
+                } else if(LibString.S1IsEqualToS2(vReqNV.errorNV.Value.codeNV, "11")) {
+                    vReqNV.messageNV = vReqNV.errorNV.Value.messageNV + ".\r\nPor favor verifique los datos del documento.";
                 } else {
-                    vReqNV.message = vReqNV.error.Value.message;
+                    vReqNV.messageNV = vReqNV.errorNV.Value.messageNV;
                 }
                 return vReqNV;
             } catch(AggregateException vEx) {
@@ -79,14 +79,14 @@ namespace Galac.Saw.LibWebConnector {
             string vTipoDocumentoNV = GetTipoDocumentoNV(valTipoDocumento);
             stRespuestaStatusNV vReqStNV = JsonConvert.DeserializeObject<stRespuestaStatusNV>(valHttpResq);
             if(vReqStNV.success) {
-                stDataRespuestaStatusNV? stDataNV = vReqStNV.data
+                stDataRespuestaStatusNV? stDataNV = vReqStNV.dataNV
                     .Where(x => x.HasValue && x.Value.idtipodocumento == vTipoDocumentoNV)
                     .FirstOrDefault();
                 if(stDataNV.HasValue) {
                     vResult = new stRespuestaNV() {
                         success = vReqStNV.success,
-                        message = vReqStNV.message ?? "Enviada",
-                        data = new stDataRespuestaNV {
+                        messageNV = vReqStNV.messageNV ?? "Enviada",
+                        dataNV = new stDataRespuestaNV {
                             numerodocumento = stDataNV.Value.numerodocumento,
                             fecha = stDataNV.Value.fecha,
                             documento = stDataNV.Value.documento
@@ -95,18 +95,18 @@ namespace Galac.Saw.LibWebConnector {
                 } else {
                     vResult = new stRespuestaNV() {
                         success = false,
-                        message = "No Enviada",
-                        error=new stErrorRespuestaNV { 
-                            message= "Este registro no se encuentra."
+                        messageNV = "No Enviada",
+                        errorNV=new stErrorRespuestaNV {
+                            messageNV = "Este registro no se encuentra."
                         }
                     };
                 }
             } else {
-                string vMensaje = vReqStNV.error.Value.message ?? "Error desconocido";                
+                string vMensaje = vReqStNV.errorNV.Value.messageNV ?? "error desconocido";                
                 vResult = new stRespuestaNV() {
-                    message = "Error desconocido",
-                    error = new stErrorRespuestaNV {
-                        message = vMensaje
+                    messageNV = "Error desconocido",
+                    errorNV = new stErrorRespuestaNV {
+                        messageNV = vMensaje
                     }
                 };
             }
