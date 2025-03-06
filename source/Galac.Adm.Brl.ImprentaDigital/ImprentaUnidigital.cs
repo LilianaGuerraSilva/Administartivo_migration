@@ -67,7 +67,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }
 
         public override bool EstadoDocumento() {
-            stRespuestaGlobalUD vRespuestaConector = new stRespuestaGlobalUD();
+            stRespuestaUD vRespuestaConector = new stRespuestaUD();
             string vMensaje = string.Empty;
             bool vChekConeccion;
             try {
@@ -116,7 +116,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             try {
                 bool vResult = false;
                 string vMensaje = string.Empty;
-                stRespuestaGlobalUD vRespuestaConector;
+                stRespuestaUD vRespuestaConector;
                 bool vChekConeccion;
                 if(LibString.IsNullOrEmpty(_ConectorJson.Token)) {
                     vChekConeccion = _ConectorJson.CheckConnection(ref vMensaje, LibEnumHelper.GetDescription(eComandosPostUnidigital.Autenticacion));
@@ -133,7 +133,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     if(vResult) {
                         ActualizaGUIDYProveedorImprentaDigital(vGUID);
                     } else {
-                        //Mensaje = vRespuestaConector.mensaje;
+                        Mensaje = vRespuestaConector.Message;
                     }
                 } else {
                     Mensaje = vMensaje;
@@ -170,7 +170,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             try {
                 bool vResult = false;
                 string vMensaje = string.Empty;
-                stRespuestaGlobalUD vRespuestaConector = new stRespuestaGlobalUD();
+                stRespuestaUD vRespuestaConector = new stRespuestaUD();
                 bool vChekConeccion = false;
                 if(LibString.IsNullOrEmpty(_ConectorJson.Token)) {
                     vChekConeccion = _ConectorJson.CheckConnection(ref vMensaje, LibEnumHelper.GetDescription(eComandosPostUnidigital.Autenticacion));

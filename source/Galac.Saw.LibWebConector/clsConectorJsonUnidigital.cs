@@ -22,7 +22,7 @@ namespace Galac.Saw.LibWebConnector {
         }
 
         public override bool CheckConnection(ref string refMensaje, string valComandoApi) {
-            stRespuestaGlobalUD vRequest = new stRespuestaGlobalUD();
+            stRespuestaUD vRequest = new stRespuestaUD();
             try {
                 bool vResult = false;
                 string vJsonStr = GetJsonUser(LoginUser, eProveedorImprentaDigital.Unidigital);
@@ -44,31 +44,42 @@ namespace Galac.Saw.LibWebConnector {
             }
         }
 
-        public stRespuestaGlobalUD SendPostJsonUD(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", eTipoDocumentoFactura valTipoDocumento = eTipoDocumentoFactura.NoAsignado) {
+        public stRespuestaUD SendPostJsonUD(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", eTipoDocumentoFactura valTipoDocumento = eTipoDocumentoFactura.NoAsignado) {
             try {
                 string vMensajeDeValidacion = string.Empty;
                 string vPostRequest = ExecutePostJson(valJsonStr, valComandoApi, valToken, valNumeroDocumento, valTipoDocumento);
-                stRespuestaGlobalUD infoReqs = new stRespuestaGlobalUD();
+                stRespuestaUD infoReqs = new stRespuestaUD();
                 if(LibString.S1IsEqualToS2(eComandosPostUnidigital.Autenticacion.GetDescription(), valComandoApi)) {
                     stRespuestaLoginUD LoginReqs = JsonConvert.DeserializeObject<stRespuestaLoginUD>(vPostRequest);
                     infoReqs.token = LoginReqs.accessToken;
                     infoReqs.hasErrors = LibString.IsNullOrEmpty(infoReqs.token);
                     if(infoReqs.hasErrors) {
                         infoReqs.hasErrors = true;
-                        infoReqs.errors = LoginReqs.errors;                        
+                        infoReqs.errors = LoginReqs.errors;
                     } else {
                         infoReqs.StrongeID = LoginReqs.series.FirstOrDefault().strongId;
                         infoReqs.token = LoginReqs.accessToken;
                     }
                 } else if(LibString.S1IsEqualToS2(eComandosPostUnidigital.Emision.GetDescription(), valComandoApi)) {
-
-
+                    stRespuestaEnvioUD infoReqEnvio = JsonConvert.DeserializeObject<stRespuestaEnvioUD>(vPostRequest);
+                    if(infoReqs.hasErrors) {
+                        infoReqs.Exitoso = false;
+                        infoReqs.Message = infoReqEnvio.errors[0].message;
+                        infoReqs.Codigo= infoReqEnvio.errors[0].code;
+                        return infoReqs;
+                    } else {                        
+                        infoReqs.Exitoso = !infoReqs.hasErrors;
+                        infoReqs.information= infoReqEnvio.information;
+                        infoReqs.StrongeID = infoReqEnvio.result;
+                    }
                 } else if(LibString.S1IsEqualToS2(eComandosPostUnidigital.EstadoDocumento.GetDescription(), valComandoApi)) {
-                    infoReqs.Exitoso = !infoReqs.hasErrors;
-                    if(infoReqs.Exitoso) {
-
+                    infoReqs = JsonConvert.DeserializeObject<stRespuestaUD>(vPostRequest);
+                    if(infoReqs.hasErrors) {
+                        infoReqs.Exitoso = false;
+                        return infoReqs;
                     } else {
-
+                        infoReqs.Exitoso = !infoReqs.hasErrors;
+                        infoReqs.StrongeID = infoReqs.result.FirstOrDefault();
                     }
                 } else {
 
