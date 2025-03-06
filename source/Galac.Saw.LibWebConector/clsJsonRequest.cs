@@ -152,10 +152,10 @@ namespace Galac.Saw.LibWebConnector {
     /////////////////////////////////////////////////////////////////////////////////////////    
     #region NOVUS
     public struct stErrorRespuestaNV {
-        public string message {
+        public string messageNV {
             get; set;
         }
-        public string code {
+        public string codeNV {
             get; set;
         }
     }
@@ -178,7 +178,7 @@ namespace Galac.Saw.LibWebConnector {
             get; set;
         }
         [JsonProperty("datetime")]
-        public DateTime datetime {
+        public DateTime datetimeNV {
             get; set;
         }
         [JsonProperty("fecha")]
@@ -191,22 +191,21 @@ namespace Galac.Saw.LibWebConnector {
         }
     }
 
-
     public struct stRespuestaNV {
         [JsonProperty("success")]
         public bool success {
             get; set;
         }
         [JsonProperty("message")]
-        public string message {
+        public string messageNV {
             get; set;
         }
         [JsonProperty("data")]
-        public stDataRespuestaNV? data {
+        public stDataRespuestaNV? dataNV {
             get; set;
         }
         [JsonProperty("error")]
-        public stErrorRespuestaNV? error {
+        public stErrorRespuestaNV? errorNV {
             get; set;
         }
 
@@ -242,15 +241,15 @@ namespace Galac.Saw.LibWebConnector {
             get; set;
         }
         [JsonProperty("message")]
-        public string message {
+        public string messageNV {
             get; set;
         }
         [JsonProperty("data")]
-        public stDataRespuestaStatusNV?[] data {
+        public stDataRespuestaStatusNV?[] dataNV {
             get; set;
         }
         [JsonProperty("error")]
-        public stErrorRespuestaNV? error {
+        public stErrorRespuestaNV? errorNV {
             get; set;
         }
     }
@@ -264,6 +263,7 @@ namespace Galac.Saw.LibWebConnector {
         public bool hasErrors {
             get; set;
         }
+        
         public string Message {
             get; set;
         }
@@ -273,7 +273,7 @@ namespace Galac.Saw.LibWebConnector {
         public string Codigo {
             get; set;
         }
-        public string token {
+        public string tokenUD {
             get; set;
         }
         public string[] result {
@@ -292,10 +292,12 @@ namespace Galac.Saw.LibWebConnector {
     }   
 
     public struct errorsUD {
-        public string code {
+        [JsonProperty("code")]
+        public string codeUD {
             get; set;
         }
-        public string message {
+        [JsonProperty("message")]
+        public string messageUD {
             get; set;
         }
         public string extra {
@@ -326,7 +328,8 @@ namespace Galac.Saw.LibWebConnector {
         public string[] information {
             get; set;
         }
-        public errorsUD[] errors {
+        [JsonProperty("errors")]
+        public errorsUD[] errorsUD {
             get; set;
         }
 
@@ -357,7 +360,8 @@ namespace Galac.Saw.LibWebConnector {
         public string result {
             get; set;
         }
-        public envioErrorsUD[] errors {
+        [JsonProperty("errors")]
+        public envioErrorsUD[] errorsUD {
             get; set;
         }
         public string[] information {
@@ -380,13 +384,15 @@ namespace Galac.Saw.LibWebConnector {
         public string documentType {
             get; set;
         }
-        public int number {
+        [JsonProperty("number")]
+        public int numberUD {
             get; set;
         }
         public string fiscalRegistry {
             get; set;
         }
-        public string name {
+        [JsonProperty("name")]
+        public string nameUD {
             get; set;
         }
         public DateTime emissionDateAndTime {
@@ -395,7 +401,9 @@ namespace Galac.Saw.LibWebConnector {
         public string address {
             get; set;
         }
-        public string currency {
+
+        [JsonProperty("currency")]
+        public string currencyUD {
             get; set;
         }
 
@@ -403,10 +411,13 @@ namespace Galac.Saw.LibWebConnector {
         public internalErrorErrorEnviarUD[] ErroresInternos {
             get; set;
         }
-        public string message {
+
+        [JsonProperty("message")]
+        public string messageUD {
             get; set;
         }
-        public string code {
+        [JsonProperty("code")]
+        public string codeUD {
             get; set;
         }
         public string extra {
@@ -415,7 +426,6 @@ namespace Galac.Saw.LibWebConnector {
         public string batch {
             get; set;
         }
-
     }
 
     public struct internalErrorErrorEnviarUD {

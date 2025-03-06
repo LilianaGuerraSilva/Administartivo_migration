@@ -28,11 +28,11 @@ namespace Galac.Saw.LibWebConnector {
                 string vJsonStr = GetJsonUser(LoginUser, eProveedorImprentaDigital.Unidigital);
                 vRequest = SendPostJsonUD(vJsonStr, valComandoApi, "", "");                
                 if(!vRequest.hasErrors) {                                      
-                    Token = vRequest.token;
+                    Token = vRequest.tokenUD;
                     StrongeId = vRequest.StrongeID;
                     vResult = true;
                 } else {
-                    LoginUser.MessageResult = string.Join("\r\n", vRequest.errors.FirstOrDefault().message);
+                    LoginUser.MessageResult = string.Join("\r\n", vRequest.errors.FirstOrDefault().messageUD);
                     refMensaje = LoginUser.MessageResult;
                     vResult = false;
                 }
@@ -51,21 +51,21 @@ namespace Galac.Saw.LibWebConnector {
                 stRespuestaUD infoReqs = new stRespuestaUD();
                 if(LibString.S1IsEqualToS2(eComandosPostUnidigital.Autenticacion.GetDescription(), valComandoApi)) {
                     stRespuestaLoginUD LoginReqs = JsonConvert.DeserializeObject<stRespuestaLoginUD>(vPostRequest);
-                    infoReqs.token = LoginReqs.accessToken;
-                    infoReqs.hasErrors = LibString.IsNullOrEmpty(infoReqs.token);
+                    infoReqs.tokenUD = LoginReqs.accessToken;
+                    infoReqs.hasErrors = LibString.IsNullOrEmpty(infoReqs.tokenUD);
                     if(infoReqs.hasErrors) {
                         infoReqs.hasErrors = true;
-                        infoReqs.errors = LoginReqs.errors;
+                        infoReqs.errors = LoginReqs.errorsUD;
                     } else {
                         infoReqs.StrongeID = LoginReqs.series.FirstOrDefault().strongId;
-                        infoReqs.token = LoginReqs.accessToken;
+                        infoReqs.tokenUD = LoginReqs.accessToken;
                     }
                 } else if(LibString.S1IsEqualToS2(eComandosPostUnidigital.Emision.GetDescription(), valComandoApi)) {
                     stRespuestaEnvioUD infoReqEnvio = JsonConvert.DeserializeObject<stRespuestaEnvioUD>(vPostRequest);
                     if(infoReqs.hasErrors) {
                         infoReqs.Exitoso = false;
-                        infoReqs.Message = infoReqEnvio.errors[0].message;
-                        infoReqs.Codigo= infoReqEnvio.errors[0].code;
+                        infoReqs.Message = infoReqEnvio.errorsUD[0].messageUD;
+                        infoReqs.Codigo= infoReqEnvio.errorsUD[0].codeUD;
                         return infoReqs;
                     } else {                        
                         infoReqs.Exitoso = !infoReqs.hasErrors;
