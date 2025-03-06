@@ -32,6 +32,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             DisposeConnectionNoTransaction();
             CambiarPermisosUsuarioFactura();
             CrearEscalada();
+            AgregarColumnaNDCaja();
+            AmpliarColumnaCompaniaImprentaDigitalClave();
+            AgregarColumnaImprentaGUIDFactura();
             return true;
         }
 
@@ -128,6 +131,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         }
 
         private void CambiarPermisosUsuarioFactura() {
+            Execute(SqlUpdateParaCambiarNombrePermisoFactura("Insertar Factura Borrador", "Insertar Factura en Espera"));
             Execute(SqlUpdateParaCambiarNombrePermisoFactura("Modificar Borrador", "Modificar Documento en Espera"));
             Execute(SqlUpdateParaCambiarNombrePermisoFactura("Modificar", "Modificar Documento en Espera"));
             Execute(SqlUpdateParaCambiarNombrePermisoFactura("Eliminar Borrador", "Eliminar Documento en Espera"));
@@ -150,5 +154,20 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             new clsEscaladaED().InstalarTabla();
         }
 
+        private void AgregarColumnaNDCaja() {
+            if (AddColumnString("Adm.Caja", "UltimoNumeroNDFiscal", 12, "", "")) {
+                AddDefaultConstraint("Adm.Caja", "d_CajUlNuND", "''", "UltimoNumeroNDFiscal");
+            }
+        }
+
+        private void AmpliarColumnaCompaniaImprentaDigitalClave() {
+            ModifyLengthOfColumnString("Compania", "ImprentaDigitalClave", 1000, "");
+        }
+
+        private void AgregarColumnaImprentaGUIDFactura() {           
+            if (AddColumnString("factura", "ImprentaDigitalGUID", 50, "", "")) {
+                AddDefaultConstraint("factura", "ImDigGuid", "''", "ImprentaDigitalGUID");                  
+            }
+        }
     }
 }

@@ -1,27 +1,39 @@
 ﻿using System;
-using System.Text;
-using System.Net.Http;
 using Newtonsoft.Json;
-using System.Threading.Tasks;
 using LibGalac.Aos.Base;
-using LibGalac.Aos.Catching;
 using LibGalac.Aos.DefGen;
 using Newtonsoft.Json.Linq;
 using System.Linq;
+using System.IO;
+using Galac.Saw.Ccl.SttDef;
+using Galac.Adm.Ccl.ImprentaDigital;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using System.Security.Cryptography;
+using Castle.MicroKernel.Registration;
+using Castle.Windsor;
+using System.Reflection;
+using Castle.Windsor.Installer;
 
 namespace Galac.Saw.LibWebConnector {
-    public class clsConectorJson {
-        string strTipoDocumento;
-        ILoginUser _LoginUser;
+    public abstract class clsConectorJson {
         string _Token;
         public string Token {
             get {
                 return _Token;
             }
+            internal set {
+                _Token = value;
+            }
         }
 
+        internal ILoginUser LoginUser {
+            get; set;
+        }       
+
         public clsConectorJson(ILoginUser valloginUser) {
-            _LoginUser = valloginUser;
+            LoginUser = valloginUser;
             _Token = string.Empty;
         }
 
@@ -29,9 +41,9 @@ namespace Galac.Saw.LibWebConnector {
             try {
                 string vResult = JsonConvert.SerializeObject(valElemento, Formatting.Indented);
                 return vResult;
-            } catch (JsonException) {
+            } catch(JsonException) {
                 throw;
-            } catch (Exception) {
+            } catch(Exception) {
                 throw;
             }
         }
@@ -49,97 +61,84 @@ namespace Galac.Saw.LibWebConnector {
         }
 
         private static void RemoveItemArray(JToken valProperty) {
-            if (valProperty != null) {
+            if(valProperty != null) {
                 valProperty.First().Remove();
             }
         }
 
-        private string FormatingJSON(ILoginUser valloginUser) {
+        public string GetJsonUser(ILoginUser valloginUser, eProveedorImprentaDigital valProveedorImprentaDigital) {
             string vResult = "";
-            stUserLoginCnn vUsrLgn = new stUserLoginCnn();
-            vUsrLgn.usuario = valloginUser.User;
-            vUsrLgn.clave = valloginUser.Password;
-            vResult = vResult.Replace(nameof(vUsrLgn.usuario), valloginUser.UserKey);
-            vResult = vResult.Replace(nameof(vUsrLgn.clave), valloginUser.PasswordKey);
-            vResult = SerializeJSON(vUsrLgn);
+            string vPassword = valloginUser.Password;
+            if(valProveedorImprentaDigital == eProveedorImprentaDigital.Unidigital) {
+                vPassword = ComputeSha256Hash(vPassword);
+            }
+            JObject vLoginUser = new JObject {
+                        {valloginUser.UserKey, valloginUser.User},
+                        {valloginUser.PasswordKey, vPassword}};
+            vResult = vLoginUser.ToString();
             return vResult;
         }
 
-        public bool CheckConnection(ref string refMensaje, string valComandoApi) {
-            stPostResq vRequest = new stPostResq();
+        public void GeneraLogDeErrores(string valMensajeResultado, string valJSon) {
             try {
-                bool vResult = false;
-                string vJsonStr = FormatingJSON(_LoginUser);
-                vRequest = SendPostJson(vJsonStr, valComandoApi, "");
-                refMensaje = vRequest.mensaje;
-                if (vRequest.Aprobado) {
-                    _Token = vRequest.token;
-                    _LoginUser.MessageResult = vRequest.mensaje;
-                    vResult = !LibString.IsNullOrEmpty(_Token);
-                } else {
-                    vResult = false;
-                }
-                return vResult;
-            } catch (GalacException) {
-                throw;
-            } catch (Exception vEx) {
-                throw new GalacException(vEx.Message, eExceptionManagementType.Alert);
-            }
-        }
-
-        public stPostResq SendPostJson(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", int valTipoDocumento = 0) {
-            string vResultMessage = "";
-            stPostResq infoReqs = new stPostResq();
-            try {
-                strTipoDocumento = (valTipoDocumento == 8 ? "Nota de Entrega" : valTipoDocumento == 1 ? "Nota de Crédito" : valTipoDocumento == 2 ? "Nota de Débito" : "Factura");
-                strTipoDocumento = "La " + strTipoDocumento + " No. " + valNumeroDocumento;
-                HttpClient vHttpClient = new HttpClient();
-                vHttpClient.BaseAddress = new Uri(_LoginUser.URL);
-                if (!LibString.IsNullOrEmpty(valToken)) {
-                    vHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", valToken);
-                }
-                HttpContent vContent = new StringContent(valJsonStr, Encoding.UTF8, "application/json");
-                Task<HttpResponseMessage> vHttpRespMsg = vHttpClient.PostAsync(valComandoApi, vContent);
-                vHttpRespMsg.Wait();
-                vResultMessage = vHttpRespMsg.Result.RequestMessage.ToString();
-                vHttpRespMsg.Result.EnsureSuccessStatusCode();
-                if (vHttpRespMsg.Result.Content is null || vHttpRespMsg.Result.Content.Headers.ContentType?.MediaType != "application/json") {
-                    throw new GalacException("Usuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.", eExceptionManagementType.Alert);
-                } else {
-                    Task<string> HttpResq = vHttpRespMsg.Result.Content.ReadAsStringAsync();
-                    HttpResq.Wait();
-                    infoReqs = JsonConvert.DeserializeObject<stPostResq>(HttpResq.Result);
-                    if (LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {
-                        infoReqs.Aprobado = true;
-                    } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "403")) {
-                        infoReqs.mensaje = "Usuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.";
-                        infoReqs.Aprobado = false;
-                    } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "201")) {
-                        infoReqs.Aprobado = false;
-                        infoReqs.mensaje = strTipoDocumento + " ya existe en la Imprenta Digital.";
-                    } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "203")) {
-                        infoReqs.Aprobado = false;
-                        infoReqs.mensaje = strTipoDocumento + " no se encontró en la Imprenta Digital, debe sincronizar el documento.";
-                    } else if (!LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {
-                        throw new Exception();
-                    }
-                }
-            } catch (AggregateException) {
-                infoReqs.Aprobado = false;
-                infoReqs.mensaje = "Falla de conexión con su Imprenta Digital.\r\nPor favor verifique los datos de conexión o servicio de internet.";
-            } catch (GalacException) {
-                throw;
-            } catch (Exception vEx) {
-                string vPath = LibDirectory.GetProgramFilesGalacDir() + "\\" + LibDefGen.ProgramInfo.ProgramInitials + "\\ImprentaDigital";
-                if (!LibDirectory.DirExists(vPath)) {
+                string vPath = Path.Combine(LibDirectory.GetProgramFilesGalacDir(), Path.Combine(LibDefGen.ProgramInfo.ProgramInitials, "ImprentaDigital"));
+                if(!LibDirectory.DirExists(vPath)) {
                     LibDirectory.CreateDir(vPath);
                 }
                 vPath = vPath + @"\ImprentaDigitalResult.txt";
-                LibFile.WriteLineInFile(vPath, vEx.Message + "\r\n" + vResultMessage + "\r\n" + valJsonStr, false);
-                infoReqs.Aprobado = false;
-                infoReqs.mensaje = strTipoDocumento + " no pudo ser enviada a la Imprenta Digital, debe sincronizar el documento.";
+                LibFile.WriteLineInFile(vPath, valMensajeResultado + "\r\n" + valJSon, false);
+            } catch(Exception) {
+                throw;
             }
-            return infoReqs;
+        }
+
+        private string ComputeSha256Hash(string rawData) {
+            using(SHA512 sha256Hash = SHA512.Create()) {
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(rawData));
+                StringBuilder builder = new StringBuilder();
+                for(int i = 0; i < bytes.Length; i++) {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString();
+            }
+        }
+
+        public abstract bool CheckConnection(ref string refMensaje, string valComandoApi);
+        public string ExecutePostJson(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", eTipoDocumentoFactura valTipoDocumento = eTipoDocumentoFactura.NoAsignado) {
+            try {
+                string vResult = string.Empty;
+                string strTipoDocumento = LibEnumHelper.GetDescription(valTipoDocumento);
+                strTipoDocumento = "La " + strTipoDocumento + " No. " + valNumeroDocumento;
+                var vContainer = new WindsorContainer();
+                vContainer.Install(FromAssembly.Containing<WindsorInstaller>());
+                var myService = vContainer.Resolve<ILibHttp>();
+                vResult = myService.HttpExecutePost(valJsonStr, LoginUser.URL, valComandoApi, valToken);               
+                return vResult;
+            } catch(Exception vEx) {
+                throw vEx;
+            }
         }
     }
+
+    #region Clase de Inicializacion del Windsor No Borrar
+    public class WindsorInstaller : IWindsorInstaller {
+        public void Install(IWindsorContainer container, Castle.MicroKernel.SubSystems.Configuration.IConfigurationStore store) {
+            string appPath = AppDomain.CurrentDomain.BaseDirectory;
+            var dllFiles = Directory.GetFiles(appPath, "Galac.Saw.LibHttp.dll");
+            foreach(var dll in dllFiles) {
+                try {
+                    var assembly = Assembly.LoadFrom(dll);
+                    container.Register(
+                        Classes.FromAssembly(assembly)
+                               .BasedOn<ILibHttp>()
+                               .WithService.FromInterface()
+                               .LifestyleTransient()
+                    );
+                } catch(Exception ex) {
+                    Console.WriteLine($"No se pudo cargar la DLL: {dll}. Error: {ex.Message}");
+                }
+            }
+        }
+    }
+    #endregion Clase de Inicializacion del Windsor
 }

@@ -2621,7 +2621,7 @@ unStatusDocOrigenLoteInv = (Vigente, Anulado);//e,Componente=Inventario
 	@PrimaryKey = Codigo
 }
 
-{@S}Caja = Record //Multiarchivo=Compania, "Caja", Componente=Venta, Esquema=Adm, EsquemaBD=Adm
+{@S}Caja = Record //Multiarchivo=Compania, "Caja", Componente=Venta, Esquema=Adm, EsquemaBD=Adm,Generate
 	ConsecutivoCompania	: LongInt;//o,HIDE
 	Consecutivo   		: LongInt;//u,o,a,sugestconsecutive
 	NombreCaja			: Str60;//o,SEARCH
@@ -2639,6 +2639,7 @@ unStatusDocOrigenLoteInv = (Vigente, Anulado);//e,Componente=Inventario
 	AbrirGavetaDeDinero			: Boolean;
 	UltimoNumeroCompFiscal		: Str12;//
 	UltimoNumeroNCFiscal        : Str12;//
+	UltimoNumeroNDFiscal        : Str12;//
 	IpParaConexion				: Str15;//
 	MascaraSubred				: Str15;//
 	Gateway						: Str15;//

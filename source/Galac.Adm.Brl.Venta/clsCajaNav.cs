@@ -114,6 +114,7 @@ namespace Galac.Adm.Brl.Venta {
                 vCurrentRecord.AbrirGavetaDeDineroAsBool = false;
                 vCurrentRecord.UltimoNumeroCompFiscal = "";
                 vCurrentRecord.UltimoNumeroNCFiscal = "";
+				vCurrentRecord.UltimoNumeroNDFiscal = "";
                 vCurrentRecord.IpParaConexion = "";
                 vCurrentRecord.MascaraSubred = "";
                 vCurrentRecord.Gateway = "";
@@ -145,7 +146,7 @@ namespace Galac.Adm.Brl.Venta {
                 SQL.AppendLine(" Caja.Consecutivo, NombreCaja,UsaGaveta,Puerto,Comando,PermitirAbrirSinSupervisor,");
                 SQL.AppendLine(" UsaAccesoRapido, UsaMaquinaFiscal, FamiliaImpresoraFiscal, ModeloDeMaquinaFiscal,");
                 SQL.AppendLine(" SerialDeMaquinaFiscal, PuertoMaquinaFiscal, AbrirGavetaDeDinero, UltimoNumeroCompFiscal,");
-                SQL.AppendLine(" UltimoNumeroNCFiscal ,TipoConexion, IpParaConexion, MascaraSubred,");
+                SQL.AppendLine(" UltimoNumeroNCFiscal, UltimoNumeroNDFiscal ,TipoConexion, IpParaConexion, MascaraSubred,");
                 SQL.AppendLine(" Gateway, PermitirDescripcionDelArticuloExtendida, PermitirNombreDelClienteExtendido, ");
                 SQL.AppendLine(" UsarModoDotNet, RegistroDeRetornoEnTxt,  CONVERT(varchar,Caja.FechaUltimaModificacion,101) AS FechaUltimaModificacion ");
                 SQL.AppendLine(" FROM Adm.Caja ");
@@ -189,13 +190,13 @@ namespace Galac.Adm.Brl.Venta {
             return vModelo;
         }
 
-        bool ICajaPdn.ActualizaUltimoNumComprobante(int valConsecutivoCompania, int valConsecutivoCaja, string valNumero, bool valEsNotaDeCredito) {
+        bool ICajaPdn.ActualizaUltimoNumComprobante(int valConsecutivoCompania, int valConsecutivoCaja, string valNumero, string valTipoDocumento) {
             LibGpParams vParams = new LibGpParams();
             bool vResult = false;
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             vParams.AddInInteger("Consecutivo", valConsecutivoCaja);
             vParams.AddInString("Numero", valNumero, 12);
-            vParams.AddInBoolean("EsNotaDeCredito", false);
+            vParams.AddInString("TipoDocumento", valTipoDocumento, 1);
             vResult = new Galac.Adm.Dal.Venta.clsCajaDat().ActualizaUltimoNumComprobante(vParams.Get());
             return vResult;
         }
@@ -362,7 +363,7 @@ namespace Galac.Adm.Brl.Venta {
         bool ICajaPdn.ImpresoraFiscalEstaHomologada(int valConsecutivoCompania, int valConsecutivoCaja,  string valAccionDeAutorizacionDeProceso, ref string refMensaje) {
             return HomologadaSegunGaceta43032(valConsecutivoCompania, valConsecutivoCaja, valAccionDeAutorizacionDeProceso, ref refMensaje);
         }
-        LibResponse ICajaPdn.ActualizarYAuditarCambiosMF(IList<Caja> refRecord, bool valAuditarMF, string valMotivoCambiosMaqFiscal, string valFamiliaOriginal, string valModeloOriginal, string valTipoDeConexionOriginal, string valSerialMFOriginal, string valUltNumComprobanteFiscalOriginal, string valUltNumNCFiscalOriginal) {
+        LibResponse ICajaPdn.ActualizarYAuditarCambiosMF(IList<Caja> refRecord, bool valAuditarMF, string valMotivoCambiosMaqFiscal, string valFamiliaOriginal, string valModeloOriginal, string valTipoDeConexionOriginal, string valSerialMFOriginal, string valUltNumComprobanteFiscalOriginal, string valUltNumNCFiscalOriginal, string valUltNumNDFiscalOriginal) {
             string valoresOriginales = string.Empty;
             string valoresModificados = string.Empty;            
             RegisterClient();
@@ -376,7 +377,7 @@ namespace Galac.Adm.Brl.Venta {
                 valoresOriginales = valoresOriginales + "Tipo de Conexión: " + valTipoDeConexionOriginal + ",";
                 valoresOriginales = valoresOriginales + "Último num. comp. fiscal: " + valUltNumComprobanteFiscalOriginal + ",";
                 valoresOriginales = valoresOriginales + "Último num. NC fiscal: " + valUltNumNCFiscalOriginal + ",";
-
+				valoresOriginales = valoresOriginales + "Último num. ND fiscal: " + valUltNumNDFiscalOriginal + ",";
                 valoresModificados = "ConsecutivoCaja: " + refRecord[0].Consecutivo + ",";
                 valoresModificados = valoresModificados + "NombreCaja: " + refRecord[0].NombreCaja + ",";
                 valoresModificados = valoresModificados + "Fabricante: " + refRecord[0].FamiliaImpresoraFiscalAsString + ",";
@@ -412,6 +413,7 @@ namespace Galac.Adm.Brl.Venta {
                             + ", Tipo de conexión:" + currentRecord.TipoConexionAsString
                             + ", Último num. comp. fiscal:" + currentRecord.UltimoNumeroCompFiscal
                             + ", Último num. NC fiscal:" + currentRecord.UltimoNumeroNCFiscal
+							+ ", Último num. ND fiscal:" + currentRecord.UltimoNumeroNDFiscal
                         );
             }
             return result;

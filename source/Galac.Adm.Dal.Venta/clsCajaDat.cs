@@ -54,6 +54,7 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInBoolean("AbrirGavetaDeDinero", valRecord.AbrirGavetaDeDineroAsBool);
             vParams.AddInString("UltimoNumeroCompFiscal", valRecord.UltimoNumeroCompFiscal, 12);
             vParams.AddInString("UltimoNumeroNCFiscal", valRecord.UltimoNumeroNCFiscal, 12);
+            vParams.AddInString("UltimoNumeroNDFiscal", valRecord.UltimoNumeroNDFiscal, 12);
             vParams.AddInString("IpParaConexion", valRecord.IpParaConexion, 15);
             vParams.AddInString("MascaraSubred", valRecord.MascaraSubred, 15);
             vParams.AddInString("Gateway", valRecord.Gateway, 15);

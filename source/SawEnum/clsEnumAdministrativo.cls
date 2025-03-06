@@ -1723,6 +1723,8 @@ End Enum
 Public Enum enum_ProveedorImprentaDigital
    ePID_NoAplica = 0
    ePID_TheFactoryHKA
+   ePID_Novus
+   ePID_Unidigital
 End Enum
 
 Public Enum enum_StatusDocOrigenLoteInv
@@ -14111,6 +14113,8 @@ Public Function enumProveedorImprentaDigitalToString(ProveedorImprentaDigital As
    Select Case ProveedorImprentaDigital
       Case ePID_NoAplica: enumProveedorImprentaDigitalToString = "No Aplica"
       Case ePID_TheFactoryHKA: enumProveedorImprentaDigitalToString = "The Factory HKA"
+      Case ePID_Novus: enumProveedorImprentaDigitalToString = "Novus"
+      Case ePID_Unidigital: enumProveedorImprentaDigitalToString = "Unidigital"
       Case Else
          enumProveedorImprentaDigitalToString = enumProveedorImprentaDigitalToString(0)
    End Select
@@ -14120,7 +14124,7 @@ Public Function strProveedorImprentaDigitalToNum(ByVal ProveedorImprentaDigital 
    Dim mEnum As enum_ProveedorImprentaDigital
    Dim nCount As Integer
    nCount = 0
-   For mEnum = ePID_NoAplica To ePID_TheFactoryHKA
+   For mEnum = ePID_NoAplica To ePID_Unidigital
       If UCase(ProveedorImprentaDigital) = UCase(enumProveedorImprentaDigitalToString(mEnum)) Then
          strProveedorImprentaDigitalToNum = nCount
          GoTo h_EXIT

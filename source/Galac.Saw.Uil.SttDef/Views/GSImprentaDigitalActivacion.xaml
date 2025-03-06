@@ -38,7 +38,7 @@
                     <!--  3  -->
                     <RowDefinition Height="Auto" />
                     <!--  4  -->
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="40" />
                     <!--  5  -->
                     <RowDefinition Height="Auto" />
                     <!--  6  -->
@@ -97,13 +97,13 @@
                     Grid.Row="3"
                     Grid.Column="0"
                     Margin="0"
-                    Content="Usuario"
+                    Content="{Binding Path=CampoUsuario}"
                     Style="{StaticResource LabelPrompt}" />
                 <Label
                     Grid.Row="4"
                     Grid.Column="0"
                     Margin="0"
-                    Content="Clave"
+                    Content="{Binding Path=CampoClave}"
                     Style="{StaticResource LabelPrompt}" />
                 <Label
                     Grid.Row="6"
@@ -174,7 +174,7 @@
                     HorizontalAlignment="Stretch"
                     IsEnabled="{Binding Path=IsEnabled}"
                     IsSynchronizedWithCurrentItem="True"
-                    ItemsSource="{Binding Path=ArrayProveedorImprentaDigital}"
+                    ItemsSource="{Binding Path=ListaProveedorImprentaDigital}"
                     SelectedItem="{Binding Path=Proveedor, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                     Style="{StaticResource ComboBoxStyle}" />
                 <nsWpfControls:GSTextBoxWpf
@@ -235,7 +235,8 @@
                     HorizontalAlignment="Left"
                     Command="{Binding Path=ProbarConexionCommand}"
                     Content="Probar Conexión"
-                    IsEnabled="{Binding Path=IsEnabled}" />
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    Visibility="{Binding Path=IsVisbleByProveedorID, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <nsWpfControls:GSTextBoxWpf
                     Name="txtFacturaT1"
                     Grid.Row="8"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--Mapa de Componentes de la Version del Producto-->
-<Producto NombreExe="Saw" Pais="VE" Version="27.0" Siglas="Saw">
+<Producto NombreExe="Saw" Pais="VE" Version="30.0" Siglas="Saw">
   <Proteccion>2401</Proteccion>
   <Libreria>
     <LibGalacCI>2404</LibGalacCI>
@@ -41,7 +41,11 @@
     <Xceed.Compression.v5.3>5.3.13327.9020</Xceed.Compression.v5.3>
     <Xceed.FileSystem.v5.3>5.3.13327.9020</Xceed.FileSystem.v5.3>
     <Xceed.Zip.v5.3>5.3.13327.9020</Xceed.Zip.v5.3>
-  </ComponentesNET>
+    <Castle.windsor>3.4.0.2481</Castle.windsor>
+    <Castle.Core>3.3.0.2287</Castle.Core>
+    <System.Net.Http>4.8.9037.0</System.Net.Http>
+    <Galac.Saw.Galac.Saw.LibHttp>2.61.1.0</Galac.Saw.Galac.Saw.LibHttp>		    
+</ComponentesNET>
   <ComponentesAOS>
     <LibGalac.Aos.Base>5.24.0.0</LibGalac.Aos.Base>
     <LibGalac.Aos.Brl>5.24.2.3</LibGalac.Aos.Brl>
@@ -76,7 +80,7 @@
     <LibGalac.Aos.Brl.IdFiscal>5.24.0.0</LibGalac.Aos.Brl.IdFiscal>
     <LibGalac.Aos.Dal.IdFiscal>5.24.0.0</LibGalac.Aos.Dal.IdFiscal>
     <LibGalac.Aos.Uil.IdFiscal>5.24.0.0</LibGalac.Aos.Uil.IdFiscal>
-    <LibGalac.Aos.Wrp.Saw>5.24.1.0</LibGalac.Aos.Wrp.Saw>
+    <LibGalac.Aos.Wrp.Saw>5.24.1.2</LibGalac.Aos.Wrp.Saw>
 
     <LibGalac.Mtu>5.14.0.0</LibGalac.Mtu>
     <LibGalac.Mtu.UI>5.14.0.0</LibGalac.Mtu.UI>
@@ -196,7 +200,7 @@
     <Galac.Adm.Uil.Vendedor>2.61.1.0</Galac.Adm.Uil.Vendedor>
 
     <Galac.Adm.Ccl.Banco>2.61.0.0</Galac.Adm.Ccl.Banco>
-    <Galac.Adm.Dal.Banco>2.61.0.0</Galac.Adm.Dal.Banco>
+    <Galac.Adm.Dal.Banco>2.61.1.0</Galac.Adm.Dal.Banco>
     <Galac.Adm.Brl.Banco>2.61.0.0</Galac.Adm.Brl.Banco>
     <Galac.Adm.Rpt.Banco>2.61.0.0</Galac.Adm.Rpt.Banco>
     <Galac.Adm.Uil.Banco>2.61.1.0</Galac.Adm.Uil.Banco>
@@ -208,10 +212,10 @@
     <Galac.Adm.Rpt.CajaChica>2.61.1.0</Galac.Adm.Rpt.CajaChica>
     <Galac.Adm.Uil.CajaChica>2.61.2.0</Galac.Adm.Uil.CajaChica>
 
-    <Galac.Adm.Ccl.DispositivosExternos>2.61.0.0</Galac.Adm.Ccl.DispositivosExternos>
-    <Galac.Adm.Dal.DispositivosExternos>2.61.0.0</Galac.Adm.Dal.DispositivosExternos>
+    <Galac.Adm.Ccl.DispositivosExternos>2.61.3.0</Galac.Adm.Ccl.DispositivosExternos>
+    <Galac.Adm.Dal.DispositivosExternos>2.61.3.0</Galac.Adm.Dal.DispositivosExternos>
     <Galac.Adm.Brl.DispositivosExternos>2.61.3.0</Galac.Adm.Brl.DispositivosExternos>
-    <Galac.Adm.Uil.DispositivosExternos>2.61.0.0</Galac.Adm.Uil.DispositivosExternos>    
+    <Galac.Adm.Uil.DispositivosExternos>2.61.3.0</Galac.Adm.Uil.DispositivosExternos>    
 
     <Galac.Adm.Ccl.GestionProduccion>2.61.2.0</Galac.Adm.Ccl.GestionProduccion>
     <Galac.Adm.Dal.GestionProduccion>2.61.2.0</Galac.Adm.Dal.GestionProduccion>
@@ -258,10 +262,12 @@
     <pnpdll>10.2.1.22</pnpdll>
     <FpCtrl>2.3.1.5</FpCtrl>	
     <Newtonsoft.Json>13.0.3.27908</Newtonsoft.Json>
-    <System.Net.Http>1.0.0.0</System.Net.Http>
+    <System.Net.Http>4.8.9037.0</System.Net.Http>
     <System.Net.Http.WebRequest>1.0.0.0</System.Net.Http.WebRequest>	
     <RibbonControlsLibrary>4.0.0.11019</RibbonControlsLibrary>
     <Microsoft.Windows.Shell>3.5.41019.1</Microsoft.Windows.Shell>  
     <MaterialSkin>1.0.0.0</MaterialSkin>	
+    <Castle.windsor>3.4.0.2481</Castle.windsor>
+    <Castle.Core>3.3.0.2287</Castle.Core>
   </ComponentesAOS>
 </Producto>

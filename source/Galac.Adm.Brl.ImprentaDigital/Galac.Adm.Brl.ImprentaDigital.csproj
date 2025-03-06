@@ -66,6 +66,8 @@
   <ItemGroup>
     <Compile Include="clsImprentaDigitalBase.cs" />
     <Compile Include="ImprentaDigitalCreator.cs" />
+    <Compile Include="ImprentaUnidigital.cs" />
+    <Compile Include="ImprentaNovus.cs" />
     <Compile Include="ImprentaTheFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
