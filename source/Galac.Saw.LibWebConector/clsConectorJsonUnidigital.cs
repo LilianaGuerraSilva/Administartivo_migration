@@ -62,7 +62,7 @@ namespace Galac.Saw.LibWebConnector {
                     }
                 } else if(LibString.S1IsEqualToS2(eComandosPostUnidigital.Emision.GetDescription(), valComandoApi)) {
                     stRespuestaEnvioUD infoReqEnvio = JsonConvert.DeserializeObject<stRespuestaEnvioUD>(vPostRequest);
-                    if(infoReqs.hasErrors) {
+                    if(infoReqEnvio.hasErrors) {
                         infoReqs.Exitoso = false;
                         infoReqs.MessageUD = infoReqEnvio.errorsUD[0].messageUD;
                         infoReqs.Codigo= infoReqEnvio.errorsUD[0].codeUD;
@@ -70,7 +70,7 @@ namespace Galac.Saw.LibWebConnector {
                     } else {                        
                         infoReqs.Exitoso = !infoReqs.hasErrors;
                         infoReqs.information= infoReqEnvio.information;
-                        infoReqs.StrongeID = infoReqEnvio.result;
+                        infoReqs.StrongeID = infoReqEnvio.result ?? "";
                     }
                 } else if(LibString.S1IsEqualToS2(eComandosPostUnidigital.EstadoDocumento.GetDescription(), valComandoApi)) {
                     infoReqs = JsonConvert.DeserializeObject<stRespuestaUD>(vPostRequest);
