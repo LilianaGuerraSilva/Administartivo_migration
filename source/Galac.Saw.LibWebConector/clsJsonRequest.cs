@@ -257,88 +257,41 @@ namespace Galac.Saw.LibWebConnector {
     #endregion NOVUS
     /////////////////////////////////////////////////////////////////////////////////////////    
     #region UNIDIGITAL	
-    public struct stRespuestaGlobalUD {
-
+    public struct stRespuestaUD {
         public bool Exitoso {
             get; set;
         }
-
         public bool hasErrors {
             get; set;
         }
-
+        public string Message {
+            get; set;
+        }
         public string StrongeID {
             get; set;
         }
-
         public string Codigo {
             get; set;
         }
-
         public string token {
             get; set;
-        }       
-        public result[] result {
+        }
+        public string[] result {
+            get; set;
+        }
+        public errorsUD[] errors {
+            get; set;
+        }
+        public string[] success {
+            get; set;
+        }
+        public string[] information {
             get; set;
         }
 
-        public errors[] errors {
-            get; set;
-        }
+    }   
 
-        public success[] success {
-            get; set;
-        }
-
-        public information[] information {
-            get; set;
-        }
-
-    }
-
-    public struct result {
-        public string a {
-            get; set;
-        }
-
-        public string b {
-            get; set;
-        }
-        public string c {
-            get; set;
-        }
-
-    }
-
-    public struct success {
-        public string a {
-            get; set;
-        }
-
-        public string b {
-            get; set;
-        }
-        public string c {
-            get; set;
-        }
-
-    }
-
-    public struct information {
-        public string a {
-            get; set;
-        }
-
-        public string b {
-            get; set;
-        }
-        public string c {
-            get; set;
-        }
-
-    }
-
-    public struct errors {
+    public struct errorsUD {
         public string code {
             get; set;
         }
@@ -350,7 +303,6 @@ namespace Galac.Saw.LibWebConnector {
         }
 
     }
-
 
     public struct stRespuestaLoginUD {
         [JsonProperty("userName")]
@@ -365,22 +317,22 @@ namespace Galac.Saw.LibWebConnector {
         public string refreshToken {
             get; set;
         }
-        public series[] series {
+        public seriesUD[] series {
             get; set;
         }
-        public templates[] templates {
+        public templatesUD[] templates {
             get; set;
         }
         public string[] information {
             get; set;
         }
-        public errors[] errors {
+        public errorsUD[] errors {
             get; set;
-        }   
+        }
 
     }
 
-    public struct series {
+    public struct seriesUD {
         public string name {
             get; set;
         }
@@ -389,7 +341,7 @@ namespace Galac.Saw.LibWebConnector {
         }
     }
 
-    public struct templates {
+    public struct templatesUD {
         public string name {
             get; set;
         }
@@ -400,6 +352,82 @@ namespace Galac.Saw.LibWebConnector {
             get; set;
         }
     }
-    #endregion UNIDIGITAL
-}
 
+    public struct stRespuestaEnvioUD {
+        public string result {
+            get; set;
+        }
+        public envioErrorsUD[] errors {
+            get; set;
+        }
+        public string[] information {
+            get; set;
+        }        
+        public string[] success {
+            get; set;
+        }
+        public bool hasErrors {
+            get; set;
+        }
+
+    }
+
+    public struct envioErrorsUD {
+
+        public int internalPosition {
+            get; set;
+        }
+        public string documentType {
+            get; set;
+        }
+        public int number {
+            get; set;
+        }
+        public string fiscalRegistry {
+            get; set;
+        }
+        public string name {
+            get; set;
+        }
+        public DateTime emissionDateAndTime {
+            get; set;
+        }
+        public string address {
+            get; set;
+        }
+        public string currency {
+            get; set;
+        }
+
+        [JsonProperty("errors")]
+        public internalErrorErrorEnviarUD[] ErroresInternos {
+            get; set;
+        }
+        public string message {
+            get; set;
+        }
+        public string code {
+            get; set;
+        }
+        public string extra {
+            get; set;
+        }
+        public string batch {
+            get; set;
+        }
+
+    }
+
+    public struct internalErrorErrorEnviarUD {
+        public string errorType {
+            get; set;
+        }
+        public string whatIsEval {
+            get; set;
+        }
+        public string errorMessage {
+            get; set;
+        }
+    }
+        #endregion UNIDIGITAL    
+}
