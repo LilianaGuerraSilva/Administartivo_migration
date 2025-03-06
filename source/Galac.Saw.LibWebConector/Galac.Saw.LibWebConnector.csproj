@@ -80,6 +80,7 @@
     <Compile Include="clsConectorJsonUnidigital.cs" />
     <Compile Include="clsConectorJsonNovus.cs" />
     <Compile Include="clsConectorJsonTheFactory.cs" />
+    <Compile Include="clsComprobarVersion.cs" />
     <Compile Include="clsConectorJson.cs" />
     <Compile Include="clsJsonRequest.cs" />
     <Compile Include="clsLoginUser.cs" />

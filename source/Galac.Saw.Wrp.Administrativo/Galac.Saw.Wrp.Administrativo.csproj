@@ -157,6 +157,7 @@
     <Compile Include="IWrpVendedorVb.cs" />
     <Compile Include="IWrpVenta.cs" />
     <Compile Include="IWrpVerificadorDePrecios.cs" />
+    <Compile Include="IWrpVersionApi.cs" />
     <Compile Include="wrpVenta.cs" />
     <Compile Include="wrpAnticipoInformes.cs" />
     <Compile Include="wrpCaja.cs" />
@@ -235,6 +236,7 @@
     <Compile Include="wrpUsuario.cs" />
     <Compile Include="wrpVehiculo.cs" />
     <Compile Include="wrpVerificadorDePrecios.cs" />
+    <Compile Include="wrpVersionApi.cs" />
     <Compile Include="wrpZonaCobranza.cs" />
   </ItemGroup>
   <ItemGroup>
