@@ -263,8 +263,9 @@ namespace Galac.Saw.LibWebConnector {
         public bool hasErrors {
             get; set;
         }
-        
-        public string Message {
+
+        [JsonProperty("Message")]
+        public string MessageUD {
             get; set;
         }
         public string StrongeID {
@@ -279,7 +280,9 @@ namespace Galac.Saw.LibWebConnector {
         public string[] result {
             get; set;
         }
-        public errorsUD[] errors {
+
+        [JsonProperty("errors")]
+        public errorsUD[] errorsUD {
             get; set;
         }
         public string[] success {
@@ -319,10 +322,14 @@ namespace Galac.Saw.LibWebConnector {
         public string refreshToken {
             get; set;
         }
-        public seriesUD[] series {
+
+        [JsonProperty("series")]
+        public seriesUD[] seriesUD {
             get; set;
         }
-        public templatesUD[] templates {
+
+        [JsonProperty("templates")]
+        public templatesUD[] templatesUD {
             get; set;
         }
         public string[] information {

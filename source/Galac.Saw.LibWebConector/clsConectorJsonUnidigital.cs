@@ -32,7 +32,7 @@ namespace Galac.Saw.LibWebConnector {
                     StrongeId = vRequest.StrongeID;
                     vResult = true;
                 } else {
-                    LoginUser.MessageResult = string.Join("\r\n", vRequest.errors.FirstOrDefault().messageUD);
+                    LoginUser.MessageResult = string.Join("\r\n", vRequest.errorsUD.FirstOrDefault().messageUD);
                     refMensaje = LoginUser.MessageResult;
                     vResult = false;
                 }
@@ -55,16 +55,16 @@ namespace Galac.Saw.LibWebConnector {
                     infoReqs.hasErrors = LibString.IsNullOrEmpty(infoReqs.tokenUD);
                     if(infoReqs.hasErrors) {
                         infoReqs.hasErrors = true;
-                        infoReqs.errors = LoginReqs.errorsUD;
+                        infoReqs.errorsUD = LoginReqs.errorsUD;
                     } else {
-                        infoReqs.StrongeID = LoginReqs.series.FirstOrDefault().strongId;
+                        infoReqs.StrongeID = LoginReqs.seriesUD.FirstOrDefault().strongId;
                         infoReqs.tokenUD = LoginReqs.accessToken;
                     }
                 } else if(LibString.S1IsEqualToS2(eComandosPostUnidigital.Emision.GetDescription(), valComandoApi)) {
                     stRespuestaEnvioUD infoReqEnvio = JsonConvert.DeserializeObject<stRespuestaEnvioUD>(vPostRequest);
                     if(infoReqs.hasErrors) {
                         infoReqs.Exitoso = false;
-                        infoReqs.Message = infoReqEnvio.errorsUD[0].messageUD;
+                        infoReqs.MessageUD = infoReqEnvio.errorsUD[0].messageUD;
                         infoReqs.Codigo= infoReqEnvio.errorsUD[0].codeUD;
                         return infoReqs;
                     } else {                        

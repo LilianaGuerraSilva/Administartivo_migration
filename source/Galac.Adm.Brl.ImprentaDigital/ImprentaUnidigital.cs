@@ -133,7 +133,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     if(vResult) {
                         ActualizaGUIDYProveedorImprentaDigital(vGUID);
                     } else {
-                        Mensaje = vRespuestaConector.Message;
+                        Mensaje = vRespuestaConector.MessageUD;
                     }
                 } else {
                     Mensaje = vMensaje;
