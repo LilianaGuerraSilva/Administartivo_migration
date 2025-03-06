@@ -42,7 +42,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 if(vDocumentoExiste) { // Documento Existe en ID
                     ActualizaGUIDYProveedorImprentaDigital(_StrongeID);
                     vResult = base.SincronizarDocumento();
-                } else if(LibString.S1IsEqualToS2(CodigoRespuesta, "203")) { // Documento No Existe en ID
+                } else if(!vDocumentoExiste && LibString.S1IsEqualToS2(CodigoRespuesta, "203")) { // Documento No Existe en ID
                     vResult = EnviarDocumento();
                 }
                 return vResult;
@@ -83,13 +83,13 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                             { "Number", 10 },
                             { "Serie", "0" },
                             { "DocumentType",GetTipoDocumento( FacturaImprentaDigital.TipoDeDocumentoAsEnum) }};
-                        //vRespuestaConector = ((clsConectorJsonUnidigital)_ConectorJson).SendPostJsonUD(IdDocumento.ToString(), LibEnumHelper.GetDescription(eComandosPostUnidigital.EstadoDocumento), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
-                        //Mensaje = vRespuestaConector.mensaje;
+                        vRespuestaConector = ((clsConectorJsonUnidigital)_ConectorJson).SendPostJsonUD(IdDocumento.ToString(), LibEnumHelper.GetDescription(eComandosPostUnidigital.EstadoDocumento), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
+                        Mensaje = vRespuestaConector.MessageUD;
                     } else if(!LibString.IsNullOrEmpty(FacturaImprentaDigital.ImprentaDigitalGUID) && LibString.IsNullOrEmpty(FacturaImprentaDigital.NumeroControl)) {
                         //vRespuestaConector = ((clsConectorJsonUnidigital)_ConectorJson).SendGetJsonUD(FacturaImprentaDigital.ImprentaDigitalGUID, LibEnumHelper.GetDescription(eComandosPostUnidigital.EstadoDocumento), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
-                        //Mensaje = vRespuestaConector.mensaje;
+                        //Mensaje = vRespuestaConector.mensajeUD;
                     } else {
-                        //vRespuestaConector.Aprobado = true;
+                        vRespuestaConector.Exitoso = true;
                         Mensaje = "Enviada";
                     }
                 } else {
