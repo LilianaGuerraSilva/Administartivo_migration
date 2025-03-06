@@ -2706,7 +2706,7 @@ namespace Galac.Saw.Brl.SttDef {
             }
             return vResult;
         }
-        string ISettValueByCompanyPdn.VersionHomologada(string valVesionActual) {
+        string ISettValueByCompanyPdn.VersionHomologada() {
             try {
                 LibWebConnector.clsComprobarVersion  insComprobarVersion = new LibWebConnector.clsComprobarVersion();
                 return insComprobarVersion.ObtenerVersionHomologada();

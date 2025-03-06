@@ -21,7 +21,7 @@ namespace Galac.Saw.Wrp.Administrativo {
             try {
                 StringBuilder vMensajeHologacion = new StringBuilder();
                 ISettValueByCompanyPdn insSettValueByCompanyNav = new clsSettValueByCompanyNav();
-                var jsonString = insSettValueByCompanyNav.VersionHomologada(valVersionActual);
+                var jsonString = insSettValueByCompanyNav.VersionHomologada();
                 JObject json = JObject.Parse(jsonString);
                 var versionhomologada = json["value"].Value<string>();
                 vMensajeHologacion.AppendLine("Está utilizando una versión desactualizada del sistema que ya NO ESTÁ homologada por el SENIAT.");
