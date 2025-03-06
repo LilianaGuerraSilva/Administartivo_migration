@@ -509,6 +509,91 @@ namespace Galac.Saw.LibWebConnector {
         }
     }
 
+    public struct stRespuestaStatusGUIDUD {
+        public stResultStatusGUID[] result {
+            get; set;
+        }
+        [JsonProperty("errors")]
+        public errorsUD[] errorsUD {
+            get; set;
+        }
+        public string[] information {
+            get; set;
+        }
+        public string[] success {
+            get; set;
+        }
+        public bool hasErrors {
+            get; set;
+        }
+    }
+
+    public struct stResultStatusGUID {
+        public string strongId {
+            get; set;
+        }
+        public string codeName {
+            get; set;
+        }
+        public string serieStrongId {
+            get; set;
+        }
+        [JsonProperty("serie")]
+        public string serieUD {
+            get; set;
+        }
+        [JsonProperty("numberUD")]
+        public int number {
+            get; set;
+        }
+        public string fiscalRegistry {
+            get; set;
+        }
+        [JsonProperty("name")]
+        public string nameUD {
+            get; set;
+        }
+        [JsonProperty("currency")]
+        public string currencyUD {
+            get; set;
+        }
+        public decimal exemptAmount {
+            get; set;
+        }
+        public decimal taxBase {
+            get; set;
+        }
+        public decimal taxBaseReduced {
+            get; set;
+        }
+        public decimal taxAmount {
+            get; set;
+        }
+        public decimal total {
+            get; set;
+        }
+        public decimal igtfBaseAmount {
+            get; set;
+        }
+        public decimal igtfAmount {
+            get; set;
+        }
+        public decimal grandTotal {
+            get; set;
+        }
+        public string controlNumber {
+            get; set;
+        }
+        public string batchStrongId {
+            get; set;
+        }
+        [JsonProperty("status")]
+        public string statusUD {
+            get; set;
+        }
+    }
+
+
 
     #endregion UNIDIGITAL    
 }

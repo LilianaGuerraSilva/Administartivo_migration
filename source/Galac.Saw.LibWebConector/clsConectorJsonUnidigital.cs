@@ -119,15 +119,28 @@ namespace Galac.Saw.LibWebConnector {
                 string vPostRequest = ExecutePostJson(valJsonStr, valComandoApi, valToken, valNumeroDocumento, valTipoDocumento);
                 stRespuestaUD infoReqs = new stRespuestaUD();
                 if(LibString.S1IsEqualToS2(eComandosPostUnidigital.EstadoDocumento.GetDescription(), valComandoApi)) {
-                    stRespuestaLoginUD LoginReqs = JsonConvert.DeserializeObject<stRespuestaLoginUD>(vPostRequest);
-                    infoReqs.tokenUD = LoginReqs.accessToken;
-                    infoReqs.hasErrors = LibString.IsNullOrEmpty(infoReqs.tokenUD);
-                    if(infoReqs.hasErrors) {
-                        infoReqs.hasErrors = true;
-                        infoReqs.errorsUD = LoginReqs.errorsUD;
+                    stRespuestaStatusGUIDUD infoReqStatus = JsonConvert.DeserializeObject<stRespuestaStatusGUIDUD>(vPostRequest);
+                    infoReqs = JsonConvert.DeserializeObject<stRespuestaUD>(vPostRequest);
+                    if(infoReqStatus.hasErrors) {
+                        infoReqs.Exitoso = false;
+                        infoReqs.MessageUD = infoReqStatus.errorsUD[0].messageUD;
+                        infoReqs.Codigo = infoReqStatus.errorsUD[0].codeUD;
+                        infoReqs.StrongeID = string.Empty;
+                        return infoReqs;
                     } else {
-                        infoReqs.StrongeID = LoginReqs.seriesUD.FirstOrDefault().strongId;
-                        infoReqs.tokenUD = LoginReqs.accessToken;
+                        infoReqs.Exitoso = !infoReqStatus.hasErrors;
+                        if(infoReqStatus.result != null && infoReqStatus.result.Count() > 0) {
+                            infoReqs.StrongeID = infoReqStatus.result[0].strongId;
+                            infoReqs.NumeroControl = infoReqStatus.result[0].controlNumber;
+                            infoReqs.TipoDocumento = infoReqStatus.result[0].codeName;                            
+                        } else {
+                            infoReqs.StrongeID = string.Empty;
+                            infoReqs.NumeroControl = string.Empty;
+                            infoReqs.TipoDocumento = string.Empty;
+                            infoReqs.MessageUD = "documento no existe en el servicio";
+                            infoReqs.Exitoso = false;
+                            infoReqs.Codigo = "203";
+                        }
                     }
                 } else {
 
