@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 
@@ -39,12 +40,18 @@ namespace Galac.Saw.LibWebConnector {
         }
 
         [JsonProperty("resultado")]
-        public stResultadoTF resultados { get; set; }
+        public stResultadoTF resultados {
+            get; set;
+        }
 
         [JsonProperty("estado")]
-        public stEstado estado { get; set; }
+        public stEstado estado {
+            get; set;
+        }
 
-        public bool Aprobado { get; set; }
+        public bool Aprobado {
+            get; set;
+        }
 
     }
     public struct stResultadoTF {
@@ -145,112 +152,299 @@ namespace Galac.Saw.LibWebConnector {
     /////////////////////////////////////////////////////////////////////////////////////////    
     #region NOVUS
     public struct stErrorRespuestaNV {
-        public string message { get; set; }
-        public string code { get; set; }
+        public string messageNV {
+            get; set;
+        }
+        public string codeNV {
+            get; set;
+        }
     }
 
     public struct stDataRespuestaNV {
         [JsonProperty("numerodocumento")]
-        public string numerodocumento { get; set; }
+        public string numerodocumento {
+            get; set;
+        }
         [JsonProperty("identificador")]
-        public string identificador { get; set; }
+        public string identificador {
+            get; set;
+        }
         [JsonProperty("corelativo")]
-        public string corelativo { get; set; }
+        public string corelativo {
+            get; set;
+        }
         [JsonProperty("documento")]
-        public string documento { get; set; }
+        public string documento {
+            get; set;
+        }
         [JsonProperty("datetime")]
-        public DateTime datetime { get; set; }
+        public DateTime datetimeNV {
+            get; set;
+        }
         [JsonProperty("fecha")]
-        public string fecha { get; set; }
+        public string fecha {
+            get; set;
+        }
         [JsonProperty("hora")]
-        public string hora { get; set; }        
+        public string hora {
+            get; set;
+        }
     }
-
 
     public struct stRespuestaNV {
         [JsonProperty("success")]
-        public bool success { get; set; }
+        public bool success {
+            get; set;
+        }
         [JsonProperty("message")]
-        public string message { get; set; }        
+        public string messageNV {
+            get; set;
+        }
         [JsonProperty("data")]
-        public stDataRespuestaNV? data { get; set; }
-        [JsonProperty("error")]        
-        public stErrorRespuestaNV? error { get; set; }
+        public stDataRespuestaNV? dataNV {
+            get; set;
+        }
+        [JsonProperty("error")]
+        public stErrorRespuestaNV? errorNV {
+            get; set;
+        }
 
     }
 
     public struct stDataRespuestaStatusNV {
         [JsonProperty("numerodocumento")]
-        public string numerodocumento { get; set; }
+        public string numerodocumento {
+            get; set;
+        }
         [JsonProperty("numerointerno")]
-        public string numerointerno { get; set; }
+        public string numerointerno {
+            get; set;
+        }
         [JsonProperty("fecha")]
-        public string fecha { get; set; }
+        public string fecha {
+            get; set;
+        }
         [JsonProperty("documento")]
-        public string documento { get; set; }
+        public string documento {
+            get; set;
+        }
         [JsonProperty("idtipodocumento")]
-        public string idtipodocumento { get; set; }
+        public string idtipodocumento {
+            get; set;
+        }
 
     }
 
     public struct stRespuestaStatusNV {
         [JsonProperty("success")]
-        public bool success { get; set; }
+        public bool success {
+            get; set;
+        }
         [JsonProperty("message")]
-        public string message { get; set; }
+        public string messageNV {
+            get; set;
+        }
         [JsonProperty("data")]
-        public stDataRespuestaStatusNV?[] data { get; set; }
+        public stDataRespuestaStatusNV?[] dataNV {
+            get; set;
+        }
         [JsonProperty("error")]
-        public stErrorRespuestaNV? error { get; set; }
+        public stErrorRespuestaNV? errorNV {
+            get; set;
+        }
     }
     #endregion NOVUS
-    #region UNIDIGITAL	   
+    /////////////////////////////////////////////////////////////////////////////////////////    
+    #region UNIDIGITAL	
     public struct stRespuestaUD {
-        [JsonProperty("token")]
-        public string token {
+        public bool Exitoso {
+            get; set;
+        }
+        public bool hasErrors {
             get; set;
         }
 
-        [JsonProperty("expiracion")]
-        public string expiracion {
+        [JsonProperty("Message")]
+        public string MessageUD {
+            get; set;
+        }
+        public string StrongeID {
+            get; set;
+        }
+        public string Codigo {
+            get; set;
+        }
+        public string tokenUD {
+            get; set;
+        }
+        public string[] result {
             get; set;
         }
 
-        [JsonProperty("codigo")]
-        public string codigo {
+        [JsonProperty("errors")]
+        public errorsUD[] errorsUD {
+            get; set;
+        }
+        public string[] success {
+            get; set;
+        }
+        public string[] information {
             get; set;
         }
 
-        [JsonProperty("mensaje")]
-        public string mensaje {
+    }   
+
+    public struct errorsUD {
+        [JsonProperty("code")]
+        public string codeUD {
+            get; set;
+        }
+        [JsonProperty("message")]
+        public string messageUD {
+            get; set;
+        }
+        public string extra {
             get; set;
         }
 
-        [JsonProperty("strongId")]
+    }
+
+    public struct stRespuestaLoginUD {
+        [JsonProperty("userName")]
+        public string userName {
+            get; set;
+        }
+        [JsonProperty("accessToken")]
+        public string accessToken {
+            get; set;
+        }
+        [JsonProperty("refreshToken")]
+        public string refreshToken {
+            get; set;
+        }
+
+        [JsonProperty("series")]
+        public seriesUD[] seriesUD {
+            get; set;
+        }
+
+        [JsonProperty("templates")]
+        public templatesUD[] templatesUD {
+            get; set;
+        }
+        public string[] information {
+            get; set;
+        }
+        [JsonProperty("errors")]
+        public errorsUD[] errorsUD {
+            get; set;
+        }
+
+    }
+
+    public struct seriesUD {
+        public string name {
+            get; set;
+        }
         public string strongId {
             get; set;
         }
+    }
 
-        [JsonProperty("estado")]
-        public stEstado estado {
+    public struct templatesUD {
+        public string name {
             get; set;
         }
-
-        [JsonProperty("ImprentaDigitalGUID")]
-        public string IDGUID {
+        public string description {
             get; set;
         }
+        public string created {
+            get; set;
+        }
+    }
 
-        public bool Aprobado {
+    public struct stRespuestaEnvioUD {
+        public string result {
+            get; set;
+        }
+        [JsonProperty("errors")]
+        public envioErrorsUD[] errorsUD {
+            get; set;
+        }
+        public string[] information {
+            get; set;
+        }        
+        public string[] success {
+            get; set;
+        }
+        public bool hasErrors {
             get; set;
         }
 
     }
 
+    public struct envioErrorsUD {
 
+        public int internalPosition {
+            get; set;
+        }
+        public string documentType {
+            get; set;
+        }
+        [JsonProperty("number")]
+        public int numberUD {
+            get; set;
+        }
+        public string fiscalRegistry {
+            get; set;
+        }
+        [JsonProperty("name")]
+        public string nameUD {
+            get; set;
+        }
+        public DateTime emissionDateAndTime {
+            get; set;
+        }
+        public string address {
+            get; set;
+        }
 
+        [JsonProperty("currency")]
+        public string currencyUD {
+            get; set;
+        }
 
+        [JsonProperty("errors")]
+        public internalErrorErrorEnviarUD[] ErroresInternos {
+            get; set;
+        }
 
-        #endregion UNIDIGITAL
+        [JsonProperty("message")]
+        public string messageUD {
+            get; set;
+        }
+        [JsonProperty("code")]
+        public string codeUD {
+            get; set;
+        }
+        public string extra {
+            get; set;
+        }
+        public string batch {
+            get; set;
+        }
     }
 
+    public struct internalErrorErrorEnviarUD {
+        public string errorType {
+            get; set;
+        }
+        public string whatIsEval {
+            get; set;
+        }
+        public string errorMessage {
+            get; set;
+        }
+    }
+        #endregion UNIDIGITAL    
+}

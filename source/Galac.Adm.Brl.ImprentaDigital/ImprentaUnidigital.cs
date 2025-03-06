@@ -40,6 +40,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     vDocumentoExiste = EstadoDocumento();
                 }
                 if(vDocumentoExiste) { // Documento Existe en ID
+                    ActualizaGUIDYProveedorImprentaDigital(_StrongeID);
                     vResult = base.SincronizarDocumento();
                 } else if(LibString.S1IsEqualToS2(CodigoRespuesta, "203")) { // Documento No Existe en ID
                     vResult = EnviarDocumento();
@@ -69,7 +70,6 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             stRespuestaUD vRespuestaConector = new stRespuestaUD();
             string vMensaje = string.Empty;
             bool vChekConeccion;
-            string vDocumentoJSON;
             try {
                 if(LibString.IsNullOrEmpty(_ConectorJson.Token)) {
                     ObtenerDatosDocumentoEmitido();
@@ -77,33 +77,40 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 } else {
                     vChekConeccion = true;
                 }
-                JObject vEstausJson = new JObject {
-                     { "rif", LoginUser.User },
-                     { "tipo", 2 },
-                    { "numerointerno", NumeroDocumento()+1 }};
                 if(vChekConeccion) {
-                    vDocumentoJSON = vEstausJson.ToString();
-                    vRespuestaConector = ((clsConectorJsonUnidigital)_ConectorJson).SendPostJsonUD(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostUnidigital.EstadoDocumento), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
-                    Mensaje = vRespuestaConector.mensaje;
+                    if(LibString.IsNullOrEmpty(FacturaImprentaDigital.ImprentaDigitalGUID) && LibString.IsNullOrEmpty(FacturaImprentaDigital.NumeroControl)) {
+                        JObject IdDocumento = new JObject {
+                            { "Number", 10 },
+                            { "Serie", "0" },
+                            { "DocumentType",GetTipoDocumento( FacturaImprentaDigital.TipoDeDocumentoAsEnum) }};
+                        //vRespuestaConector = ((clsConectorJsonUnidigital)_ConectorJson).SendPostJsonUD(IdDocumento.ToString(), LibEnumHelper.GetDescription(eComandosPostUnidigital.EstadoDocumento), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
+                        //Mensaje = vRespuestaConector.mensaje;
+                    } else if(!LibString.IsNullOrEmpty(FacturaImprentaDigital.ImprentaDigitalGUID) && LibString.IsNullOrEmpty(FacturaImprentaDigital.NumeroControl)) {
+                        //vRespuestaConector = ((clsConectorJsonUnidigital)_ConectorJson).SendGetJsonUD(FacturaImprentaDigital.ImprentaDigitalGUID, LibEnumHelper.GetDescription(eComandosPostUnidigital.EstadoDocumento), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
+                        //Mensaje = vRespuestaConector.mensaje;
+                    } else {
+                        //vRespuestaConector.Aprobado = true;
+                        Mensaje = "Enviada";
+                    }
                 } else {
                     Mensaje = vMensaje;
                 }
-                return vRespuestaConector.Aprobado;
+                return vRespuestaConector.Exitoso;
             } catch(GalacException) {
                 throw;
             } catch(Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             } finally {
-                CodigoRespuesta = vRespuestaConector.codigo ?? string.Empty;
-                if(!vRespuestaConector.Aprobado) {
-                    EstatusDocumento = vRespuestaConector.estado.estadoDocumento ?? string.Empty;
-                    NumeroControl = vRespuestaConector.estado.numeroControl ?? string.Empty;
-                    FechaAsignacion = LibString.IsNullOrEmpty(vRespuestaConector.estado.fechaAsignacion) ? LibDate.MinDateForDB() : LibConvert.ToDate(vRespuestaConector.estado.fechaAsignacion);
-                    HoraAsignacion = vRespuestaConector.estado.horaAsignacion ?? string.Empty;
-                }
+                //CodigoRespuesta = vRespuestaConector.codigo ?? string.Empty;
+                //_StrongeID = vRespuestaConector.IDGUID;
+                //if(vRespuestaConector.Aprobado) {
+                //    EstatusDocumento = vRespuestaConector.estado.estadoDocumento ?? string.Empty;
+                //    NumeroControl = vRespuestaConector.estado.numeroControl ?? string.Empty;
+                //    FechaAsignacion = LibString.IsNullOrEmpty(vRespuestaConector.estado.fechaAsignacion) ? LibDate.MinDateForDB() : LibConvert.ToDate(vRespuestaConector.estado.fechaAsignacion);
+                //    HoraAsignacion = LibConvert.ToStr(FechaAsignacion, "hh:mm");
+                //}
             }
         }
-
 
         public override bool EnviarDocumento() {
             try {
@@ -121,12 +128,12 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     ConfigurarDocumento();
                     string vDocumentoJSON = vDocumentoDigital.ToString();
                     vRespuestaConector = ((clsConectorJsonUnidigital)_ConectorJson).SendPostJsonUD(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostUnidigital.Emision), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
-                    string vGUID = vRespuestaConector.IDGUID;
-                    vResult = vRespuestaConector.Aprobado;
+                    string vGUID = vRespuestaConector.StrongeID;
+                    vResult = vRespuestaConector.Exitoso;
                     if(vResult) {
                         ActualizaGUIDYProveedorImprentaDigital(vGUID);
                     } else {
-                        Mensaje = vRespuestaConector.mensaje;
+                        Mensaje = vRespuestaConector.MessageUD;
                     }
                 } else {
                     Mensaje = vMensaje;
@@ -177,8 +184,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                         };
                 string vDocumentoJSON = JObjectDoc.ToString();
                 vRespuestaConector = ((clsConectorJsonUnidigital)_ConectorJson).SendPostJsonUD(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostUnidigital.Email), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
-                vResult = vRespuestaConector.Aprobado;
-                Mensaje = vRespuestaConector.mensaje;
+                //vResult = vRespuestaConector.Aprobado;
+                //Mensaje = vRespuestaConector.mensaje;
                 return vResult;
             } catch(AggregateException gEx) {
                 throw new GalacException(gEx.InnerException.Message, eExceptionManagementType.Controlled);
@@ -220,7 +227,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             JObject vJsonDoc = new JObject {
                 { "SerieStrongId",_StrongeID },
                 { "DocumentType", GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum) },
-                { "Number", FacturaImprentaDigital.Numero },
+                { "Number", LibConvert.ToInt(NumeroDocumento()) },
                 { "EmissionDateAndTime", GetFechaHoraEmision(FacturaImprentaDigital.Fecha,FacturaImprentaDigital.HoraModificacion) },
                 { "Name", ClienteImprentaDigital.Nombre},
                 { "FiscalRegistry",DarFormatoIdentficacionCliente(ClienteImprentaDigital.NumeroRIF) },
@@ -273,7 +280,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 //{ "ShippingAddress", "" }
             };
             if(FacturaImprentaDigital.TipoDeDocumentoAsEnum == eTipoDocumentoFactura.NotaDeCredito || FacturaImprentaDigital.TipoDeDocumentoAsEnum == eTipoDocumentoFactura.NotaDeDebito) {
-                vJsonDoc.Add("AffectedDocumentNumber", FacturaImprentaDigital.NumeroFacturaAfectada);
+                vJsonDoc.Add("AffectedDocumentNumber", LibConvert.ToInt(FacturaImprentaDigital.NumeroFacturaAfectada));
             }
             return vJsonDoc;
         }
