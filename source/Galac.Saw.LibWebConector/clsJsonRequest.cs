@@ -351,7 +351,8 @@ namespace Galac.Saw.LibWebConnector {
     }
  
     public struct seriesUD {
-        public string name {
+        [JsonProperty("name")]
+        public string nameUD {
             get; set;
         }
         public string strongId {
