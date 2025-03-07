@@ -449,6 +449,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" factura.ReservarMercancia,");
             vSql.AppendLine(" factura.CodigoAlmacen, ");
             vSql.AppendLine(" factura.CodigoCliente, ");
+            vSql.AppendLine(" factura.HoraModificacion, ");            
             vSql.AppendLine(" ISNULL(factura.ImprentaDigitalGUID,'') AS ImprentaDigitalGUID");
             vSql.AppendLine(" FROM factura");
             vSql.AppendLine(" WHERE factura.ConsecutivoCompania = @ConsecutivoCompania ");
@@ -476,6 +477,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     FacturaImprentaDigital.EmitidaEnFacturaNumero = LibXml.GetPropertyString(vResult, "EmitidaEnFacturaNumero");
                     FacturaImprentaDigital.CodigoCliente = LibXml.GetPropertyString(vResult, "CodigoCliente");
                     FacturaImprentaDigital.ImprentaDigitalGUID = LibXml.GetPropertyString(vResult, "ImprentaDigitalGUID");
+                    FacturaImprentaDigital.HoraModificacion = LibXml.GetPropertyString(vResult, "HoraModificacion");
                 } else {
                     throw new GalacException("El Documento N° " + LibConvert.ToStr(NumeroFactura) + " no existe.", eExceptionManagementType.Controlled);
                 }
@@ -591,8 +593,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vParams.AddInEnum("TipoDeDocumento", (int)TipoDeDocumento);
             vSql.AppendLine("UPDATE factura ");
             vSql.AppendLine("SET NumeroControl = " + insUtilSql.ToSqlValue(NumeroControl));
-            vSql.AppendLine(", ProveedorImprentaDigital = " + insUtilSql.EnumToSqlValue((int)ProveedorImprentaDigital));
-            vSql.AppendLine(", HoraModificacion = " + insUtilSql.ToSqlValue(HoraAsignacion));
+            vSql.AppendLine(", ProveedorImprentaDigital = " + insUtilSql.EnumToSqlValue((int)ProveedorImprentaDigital));           
             vSql.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania ");
             vSql.AppendLine(" AND Numero = @NumeroFactura");
             vSql.AppendLine(" AND TipoDeDocumento = @TipoDeDocumento ");

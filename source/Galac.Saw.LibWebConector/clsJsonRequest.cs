@@ -510,7 +510,7 @@ namespace Galac.Saw.LibWebConnector {
     }
 
     public struct stRespuestaStatusGUIDUD {
-        public stResultStatusGUID[] result {
+        public stResultStatusGUID? result {
             get; set;
         }
         [JsonProperty("errors")]
@@ -542,7 +542,7 @@ namespace Galac.Saw.LibWebConnector {
         public string serieUD {
             get; set;
         }
-        [JsonProperty("numberUD")]
+        [JsonProperty("number")]
         public int number {
             get; set;
         }

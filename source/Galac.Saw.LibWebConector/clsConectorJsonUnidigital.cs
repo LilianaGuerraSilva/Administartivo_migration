@@ -74,8 +74,7 @@ namespace Galac.Saw.LibWebConnector {
                         infoReqs.StrongeID = infoReqEnvio.result ?? "";
                     }
                 } else if(LibString.S1IsEqualToS2(eComandosPostUnidigital.EstadoDocumento.GetDescription(), valComandoApi)) {
-                    stRespuestaStatusUD infoReqStatus = JsonConvert.DeserializeObject<stRespuestaStatusUD>(vPostRequest);
-                    infoReqs = JsonConvert.DeserializeObject<stRespuestaUD>(vPostRequest);
+                    stRespuestaStatusUD infoReqStatus = JsonConvert.DeserializeObject<stRespuestaStatusUD>(vPostRequest);                    
                     if(infoReqStatus.hasErrors) {
                         infoReqs.Exitoso = false;
                         infoReqs.MessageUD = infoReqStatus.errorsUD[0].messageUD;
@@ -89,6 +88,8 @@ namespace Galac.Saw.LibWebConnector {
                             infoReqs.NumeroControl = infoReqStatus.result[0].controlUD;
                             infoReqs.TipoDocumento = infoReqStatus.result[0].documentType;
                             infoReqs.FechaAsignacion = infoReqStatus.result[0].emissionDate;
+                            infoReqs.Codigo = "200";
+                            infoReqs.MessageUD = "Enviada";
                         } else {
                             infoReqs.StrongeID = string.Empty;
                             infoReqs.NumeroControl = string.Empty;
@@ -113,14 +114,13 @@ namespace Galac.Saw.LibWebConnector {
             }
         }
 
-        public stRespuestaUD SendGetJsonUD(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", eTipoDocumentoFactura valTipoDocumento = eTipoDocumentoFactura.NoAsignado) {
+        public stRespuestaUD SendGetJsonUD(string valContent, string valComandoApi, string valToken, string valNumeroDocumento = "", eTipoDocumentoFactura valTipoDocumento = eTipoDocumentoFactura.NoAsignado) {
             try {
                 string vMensajeDeValidacion = string.Empty;
-                string vPostRequest = ExecutePostJson(valJsonStr, valComandoApi, valToken, valNumeroDocumento, valTipoDocumento);
+                string vPostRequest = ExecuteGetJson(valContent, valComandoApi, valToken, valNumeroDocumento, valTipoDocumento);
                 stRespuestaUD infoReqs = new stRespuestaUD();
-                if(LibString.S1IsEqualToS2(eComandosPostUnidigital.EstadoDocumento.GetDescription(), valComandoApi)) {
+                if(LibString.S1IsEqualToS2(eComandosPostUnidigital.ObtenerNroControl.GetDescription(), valComandoApi)) {
                     stRespuestaStatusGUIDUD infoReqStatus = JsonConvert.DeserializeObject<stRespuestaStatusGUIDUD>(vPostRequest);
-                    infoReqs = JsonConvert.DeserializeObject<stRespuestaUD>(vPostRequest);
                     if(infoReqStatus.hasErrors) {
                         infoReqs.Exitoso = false;
                         infoReqs.MessageUD = infoReqStatus.errorsUD[0].messageUD;
@@ -129,10 +129,12 @@ namespace Galac.Saw.LibWebConnector {
                         return infoReqs;
                     } else {
                         infoReqs.Exitoso = !infoReqStatus.hasErrors;
-                        if(infoReqStatus.result != null && infoReqStatus.result.Count() > 0) {
-                            infoReqs.StrongeID = infoReqStatus.result[0].strongId;
-                            infoReqs.NumeroControl = infoReqStatus.result[0].controlNumber;
-                            infoReqs.TipoDocumento = infoReqStatus.result[0].codeName;                            
+                        if(infoReqStatus.result != null) {
+                            infoReqs.StrongeID = infoReqStatus.result.Value.strongId;
+                            infoReqs.NumeroControl = infoReqStatus.result.Value.controlNumber;
+                            infoReqs.TipoDocumento = infoReqStatus.result.Value.codeName;
+                            infoReqs.MessageUD = "enviado";
+                            infoReqs.Codigo = "200";                           
                         } else {
                             infoReqs.StrongeID = string.Empty;
                             infoReqs.NumeroControl = string.Empty;
