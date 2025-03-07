@@ -263,7 +263,15 @@ namespace Galac.Saw.LibWebConnector {
         public bool hasErrors {
             get; set;
         }
-
+        public string NumeroControl {
+            get; set;
+        }
+        public string TipoDocumento {
+            get; set;
+        }
+        public string FechaAsignacion {
+            get; set;
+        }
         [JsonProperty("Message")]
         public string MessageUD {
             get; set;
@@ -341,9 +349,10 @@ namespace Galac.Saw.LibWebConnector {
         }
 
     }
-
+ 
     public struct seriesUD {
-        public string name {
+        [JsonProperty("name")]
+        public string nameUD {
             get; set;
         }
         public string strongId {
@@ -352,7 +361,8 @@ namespace Galac.Saw.LibWebConnector {
     }
 
     public struct templatesUD {
-        public string name {
+        [JsonProperty("name")]
+        public string nameUD {
             get; set;
         }
         public string description {
@@ -446,5 +456,146 @@ namespace Galac.Saw.LibWebConnector {
             get; set;
         }
     }
-        #endregion UNIDIGITAL    
+
+    public struct stRespuestaStatusUD {
+        public stResultStatusUD[] result {
+            get; set;
+        }
+        [JsonProperty("errors")]
+        public errorsUD[] errorsUD {
+            get; set;
+        }
+        public string[] information {
+            get; set;
+        }
+        public string[] success {
+            get; set;
+        }
+        public bool hasErrors {
+            get; set;
+        }
+    }
+
+    public struct stResultStatusUD {
+        public string strongId {
+            get; set;
+        }
+        [JsonProperty("control")]
+        public string controlUD {
+            get; set;
+        }
+        [JsonProperty("number")]
+        public string numberUD {
+            get; set;
+        }
+        public string emissionDate {
+            get; set;
+        }
+        public string documentType {
+            get; set;
+        }
+        [JsonProperty("name")]
+        public string nameUD {
+            get; set;
+        }
+        public decimal total {
+            get; set;
+        }
+
+        [JsonProperty("currency")]
+        public string currencyUD {
+            get; set;
+        }
+        public bool annulled {
+            get; set;
+        }
+    }
+
+    public struct stRespuestaStatusGUIDUD {
+        public stResultStatusGUID? result {
+            get; set;
+        }
+        [JsonProperty("errors")]
+        public errorsUD[] errorsUD {
+            get; set;
+        }
+        public string[] information {
+            get; set;
+        }
+        public string[] success {
+            get; set;
+        }
+        public bool hasErrors {
+            get; set;
+        }
+    }
+
+    public struct stResultStatusGUID {
+        public string strongId {
+            get; set;
+        }
+        public string codeName {
+            get; set;
+        }
+        public string serieStrongId {
+            get; set;
+        }
+        [JsonProperty("serie")]
+        public string serieUD {
+            get; set;
+        }
+        [JsonProperty("number")]
+        public int numberUD {
+            get; set;
+        }
+        public string fiscalRegistry {
+            get; set;
+        }
+        [JsonProperty("name")]
+        public string nameUD {
+            get; set;
+        }
+        [JsonProperty("currency")]
+        public string currencyUD {
+            get; set;
+        }
+        public decimal exemptAmount {
+            get; set;
+        }
+        public decimal taxBase {
+            get; set;
+        }
+        public decimal taxBaseReduced {
+            get; set;
+        }
+        public decimal taxAmount {
+            get; set;
+        }
+        public decimal total {
+            get; set;
+        }
+        public decimal igtfBaseAmount {
+            get; set;
+        }
+        public decimal igtfAmount {
+            get; set;
+        }
+        public decimal grandTotal {
+            get; set;
+        }
+        public string controlNumber {
+            get; set;
+        }
+        public string batchStrongId {
+            get; set;
+        }
+        [JsonProperty("status")]
+        public string statusUD {
+            get; set;
+        }
+    }
+
+
+
+    #endregion UNIDIGITAL    
 }

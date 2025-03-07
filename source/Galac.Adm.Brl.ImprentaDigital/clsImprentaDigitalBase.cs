@@ -449,6 +449,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" factura.ReservarMercancia,");
             vSql.AppendLine(" factura.CodigoAlmacen, ");
             vSql.AppendLine(" factura.CodigoCliente, ");
+            vSql.AppendLine(" factura.HoraModificacion, ");            
             vSql.AppendLine(" ISNULL(factura.ImprentaDigitalGUID,'') AS ImprentaDigitalGUID");
             vSql.AppendLine(" FROM factura");
             vSql.AppendLine(" WHERE factura.ConsecutivoCompania = @ConsecutivoCompania ");
@@ -476,6 +477,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     FacturaImprentaDigital.EmitidaEnFacturaNumero = LibXml.GetPropertyString(vResult, "EmitidaEnFacturaNumero");
                     FacturaImprentaDigital.CodigoCliente = LibXml.GetPropertyString(vResult, "CodigoCliente");
                     FacturaImprentaDigital.ImprentaDigitalGUID = LibXml.GetPropertyString(vResult, "ImprentaDigitalGUID");
+                    FacturaImprentaDigital.HoraModificacion = LibXml.GetPropertyString(vResult, "HoraModificacion");
                 } else {
                     throw new GalacException("El Documento N° " + LibConvert.ToStr(NumeroFactura) + " no existe.", eExceptionManagementType.Controlled);
                 }
@@ -585,7 +587,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             LibGpParams vParams = new LibGpParams();
             QAdvSql insUtilSql = new QAdvSql("");
             StringBuilder vSql = new StringBuilder();
-            HoraAsignacion = FormatoHora(HoraAsignacion);            
+            HoraAsignacion = FormatoHora(HoraAsignacion);
             vParams.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
             vParams.AddInString("NumeroFactura", NumeroFactura, 11);
             vParams.AddInEnum("TipoDeDocumento", (int)TipoDeDocumento);

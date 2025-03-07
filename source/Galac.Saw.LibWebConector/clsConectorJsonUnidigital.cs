@@ -65,21 +65,39 @@ namespace Galac.Saw.LibWebConnector {
                     if(infoReqEnvio.hasErrors) {
                         infoReqs.Exitoso = false;
                         infoReqs.MessageUD = infoReqEnvio.errorsUD[0].messageUD;
-                        infoReqs.Codigo= infoReqEnvio.errorsUD[0].codeUD;
+                        infoReqs.Codigo = infoReqEnvio.errorsUD[0].codeUD;
+                        infoReqs.StrongeID = string.Empty;
                         return infoReqs;
-                    } else {                        
-                        infoReqs.Exitoso = !infoReqs.hasErrors;
-                        infoReqs.information= infoReqEnvio.information;
+                    } else {
+                        infoReqs.Exitoso = !infoReqEnvio.hasErrors;
+                        infoReqs.information = infoReqEnvio.information;
                         infoReqs.StrongeID = infoReqEnvio.result ?? "";
                     }
                 } else if(LibString.S1IsEqualToS2(eComandosPostUnidigital.EstadoDocumento.GetDescription(), valComandoApi)) {
-                    infoReqs = JsonConvert.DeserializeObject<stRespuestaUD>(vPostRequest);
-                    if(infoReqs.hasErrors) {
+                    stRespuestaStatusUD infoReqStatus = JsonConvert.DeserializeObject<stRespuestaStatusUD>(vPostRequest);                    
+                    if(infoReqStatus.hasErrors) {
                         infoReqs.Exitoso = false;
+                        infoReqs.MessageUD = infoReqStatus.errorsUD[0].messageUD;
+                        infoReqs.Codigo = infoReqStatus.errorsUD[0].codeUD;
+                        infoReqs.StrongeID = string.Empty;
                         return infoReqs;
                     } else {
-                        infoReqs.Exitoso = !infoReqs.hasErrors;
-                        infoReqs.StrongeID = infoReqs.result.FirstOrDefault();
+                        infoReqs.Exitoso = !infoReqStatus.hasErrors;
+                        if(infoReqStatus.result != null && infoReqStatus.result.Count() > 0) {                        
+                            infoReqs.StrongeID = infoReqStatus.result[0].strongId;
+                            infoReqs.NumeroControl = infoReqStatus.result[0].controlUD;
+                            infoReqs.TipoDocumento = infoReqStatus.result[0].documentType;
+                            infoReqs.FechaAsignacion = infoReqStatus.result[0].emissionDate;
+                            infoReqs.Codigo = "200";
+                            infoReqs.MessageUD = "Enviada";
+                        } else {
+                            infoReqs.StrongeID = string.Empty;
+                            infoReqs.NumeroControl = string.Empty;
+                            infoReqs.TipoDocumento = string.Empty;
+                            infoReqs.MessageUD = "documento no existe en el servicio";
+                            infoReqs.Exitoso = false;
+                            infoReqs.Codigo = "203";
+                        }
                     }
                 } else {
 
@@ -90,72 +108,58 @@ namespace Galac.Saw.LibWebConnector {
                 if(vEx.InnerException.InnerException.HResultPublic() == -2146233079) {
                     vMensaje = vMensaje + "\r\nRevise su conexión a Internet, Revise que la URL del servicio sea la correcta.\r\nDebe sincronizar el documento.";
                 }
-                throw new Exception(vEx.InnerException.InnerException.Message);
+                throw new Exception(vMensaje + "\r\n" + vEx.InnerException.InnerException.Message);
             } catch(Exception vEx) {
                 throw vEx;
             }
         }
 
-        //public stRespuestaUD SendGetJsonUD(string valContent, string valComandoApi, string valToken, string valNumeroDocumento = "", eTipoDocumentoFactura valTipoDocumento = eTipoDocumentoFactura.NoAsignado) {
-        //    try {
-        //        string vMensajeDeValidacion = string.Empty;
-        //        string vPostRequest = ExecutePostJson(valContent, valComandoApi, valToken, valNumeroDocumento, valTipoDocumento);               
-        //        //stRespuestaUD infoReqs = new stRespuestaUD();
-        //        if(LibString.S1IsEqualToS2(eComandosPostUnidigital.Autenticacion.GetDescription(), valComandoApi)) {
-        //            infoReqs.token = LibXml.GetPropertyString(xmlReq, "accessToken");
-        //            infoReqs.Aprobado = !LibString.IsNullOrEmpty(infoReqs.token);
-        //            if(infoReqs.Aprobado) {
-        //                infoReqs.strongId = xmlReq.Descendants("series").FirstOrDefault().Descendants("strongId").FirstOrDefault().Value;
-        //            } else {
-        //                infoReqs.codigo = xmlReq.Descendants("errors").FirstOrDefault().Descendants("code").FirstOrDefault().Value;
-        //                infoReqs.mensaje = xmlReq.Descendants("errors").FirstOrDefault().Descendants("message").FirstOrDefault().Value;
-        //            }
-        //        } else {
-        //            bool vOut = true;
-        //            infoReqs.Aprobado = !bool.TryParse(LibXml.GetPropertyString(xmlReq, "hasErrors"), out vOut);
-        //            if(infoReqs.Aprobado) {
-        //                infoReqs.IDGUID = xmlReq.Descendants("GpResult").FirstOrDefault()?.Descendants("result")?.FirstOrDefault().Value ?? "";
-        //            } else {
-        //                infoReqs.codigo = xmlReq.Descendants("errors").FirstOrDefault()?.Descendants("code")?.FirstOrDefault().Value ?? "";
-        //                infoReqs.mensaje = xmlReq.Descendants("errors").FirstOrDefault()?.Descendants("message")?.FirstOrDefault().Value ?? "";
-        //            }
-        //        }
-        //        if(infoReqs.Aprobado) {
-        //            infoReqs.mensaje = "Succes";
-        //            return infoReqs;
-        //        } else if(LibString.S1IsEqualToS2(infoReqs.codigo, "0000")) {
-        //            return infoReqs;
-        //        } else if(LibString.S1IsEqualToS2(infoReqs.codigo, "201")) {
-        //            infoReqs.Aprobado = false;
-        //            infoReqs.mensaje = vMensajeDeValidacion + "\r\n" + strTipoDocumento + " ya existe en la Imprenta Digital.";
-        //        } else if(LibString.S1IsEqualToS2(infoReqs.codigo, "203")) {
-        //            infoReqs.Aprobado = false;
-        //            infoReqs.mensaje = infoReqs.mensaje + ".\r\n" + vMensajeDeValidacion + ".\r\n" + strTipoDocumento + " no pudo ser enviada a la Imprenta Digital, debe sincronizar el documento.";
-        //        } else if(!LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {
-        //            infoReqs.Aprobado = false;
-        //            infoReqs.mensaje = vMensajeDeValidacion + "\r\n." + strTipoDocumento + " no pudo ser enviada a la Imprenta Digital, debe sincronizar el documento.";
-        //        }
-        //        return infoReqs;
-        //    } catch(AggregateException vEx) {
-        //        string vMensaje = vEx.InnerException.InnerException.Message;
-        //        if(vEx.InnerException.InnerException.HResultPublic() == -2146233079) {
-        //            vMensaje = vMensaje + "\r\nRevise su conexión a Internet, Revise que la URL del servicio sea la correcta.\r\nDebe sincronizar el documento.";
-        //        }
-        //        throw new Exception(vEx.InnerException.InnerException.Message);
-        //    } catch(Exception vEx) {
-        //        throw vEx;
-        //    }
-        //}
+        public stRespuestaUD SendGetJsonUD(string valContent, string valComandoApi, string valToken, string valNumeroDocumento = "", eTipoDocumentoFactura valTipoDocumento = eTipoDocumentoFactura.NoAsignado) {
+            try {
+                string vMensajeDeValidacion = string.Empty;
+                string vPostRequest = ExecuteGetJson(valContent, valComandoApi, valToken, valNumeroDocumento, valTipoDocumento);
+                stRespuestaUD infoReqs = new stRespuestaUD();
+                if(LibString.S1IsEqualToS2(eComandosPostUnidigital.ObtenerNroControl.GetDescription(), valComandoApi)) {
+                    stRespuestaStatusGUIDUD infoReqStatus = JsonConvert.DeserializeObject<stRespuestaStatusGUIDUD>(vPostRequest);
+                    if(infoReqStatus.hasErrors) {
+                        infoReqs.Exitoso = false;
+                        infoReqs.MessageUD = infoReqStatus.errorsUD[0].messageUD;
+                        infoReqs.Codigo = infoReqStatus.errorsUD[0].codeUD;
+                        infoReqs.StrongeID = string.Empty;
+                        return infoReqs;
+                    } else {
+                        infoReqs.Exitoso = !infoReqStatus.hasErrors;
+                        if(infoReqStatus.result != null) {
+                            infoReqs.StrongeID = infoReqStatus.result.Value.strongId;
+                            infoReqs.NumeroControl = infoReqStatus.result.Value.controlNumber;
+                            infoReqs.TipoDocumento = infoReqStatus.result.Value.codeName;
+                            infoReqs.MessageUD = "enviado";
+                            infoReqs.Codigo = "200";                           
+                        } else {
+                            infoReqs.StrongeID = string.Empty;
+                            infoReqs.NumeroControl = string.Empty;
+                            infoReqs.TipoDocumento = string.Empty;
+                            infoReqs.MessageUD = "documento no existe en el servicio";
+                            infoReqs.Exitoso = false;
+                            infoReqs.Codigo = "203";
+                        }
+                    }
+                } else {
 
-        //private XElement ConvertXmlDocumentToXElement(XmlDocument xmlDoc) {
-        //    using(var nodeReader = new XmlNodeReader(xmlDoc)) {
-        //        nodeReader.MoveToContent();
-        //        return new XElement("GpData",XElement.Load(nodeReader));
-        //    }
-        //}
+                }
+                return infoReqs;
+            } catch(AggregateException vEx) {
+                string vMensaje = vEx.InnerException.InnerException.Message;
+                if(vEx.InnerException.InnerException.HResultPublic() == -2146233079) {
+                    vMensaje = vMensaje + "\r\nRevise su conexión a Internet, Revise que la URL del servicio sea la correcta.\r\nDebe sincronizar el documento.";
+                }
+                throw new Exception(vMensaje + "\r\n" + vEx.InnerException.InnerException.Message);
+            } catch(Exception vEx) {
+                throw vEx;
+            }
+        }
 
-       
-        private string GetTipoDocumentoNV(eTipoDocumentoFactura valTipoDocumento) {
+        private string GetTipoDocumentoUD(eTipoDocumentoFactura valTipoDocumento) {
             switch (valTipoDocumento) {
                 case eTipoDocumentoFactura.Factura:
                     return "1";

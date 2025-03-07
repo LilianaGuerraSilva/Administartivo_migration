@@ -30,7 +30,7 @@ namespace Galac.Saw.LibWebConnector {
 
         internal ILoginUser LoginUser {
             get; set;
-        }       
+        }
 
         public clsConectorJson(ILoginUser valloginUser) {
             LoginUser = valloginUser;
@@ -112,7 +112,22 @@ namespace Galac.Saw.LibWebConnector {
                 var vContainer = new WindsorContainer();
                 vContainer.Install(FromAssembly.Containing<WindsorInstaller>());
                 var myService = vContainer.Resolve<ILibHttp>();
-                vResult = myService.HttpExecutePost(valJsonStr, LoginUser.URL, valComandoApi, valToken);               
+                vResult = myService.HttpExecutePost(valJsonStr, LoginUser.URL, valComandoApi, valToken);
+                return vResult;
+            } catch(Exception vEx) {
+                throw vEx;
+            }
+        }
+		
+        public string ExecuteGetJson(string valContent, string valComandoApi, string valToken, string valNumeroDocumento = "", eTipoDocumentoFactura valTipoDocumento = eTipoDocumentoFactura.NoAsignado) {
+            try {
+                string vResult = string.Empty;
+                string strTipoDocumento = LibEnumHelper.GetDescription(valTipoDocumento);
+                strTipoDocumento = "La " + strTipoDocumento + " No. " + valNumeroDocumento;
+                var vContainer = new WindsorContainer();
+                vContainer.Install(FromAssembly.Containing<WindsorInstaller>());
+                var myService = vContainer.Resolve<ILibHttp>();
+                vResult = myService.HttpExecuteGet(valContent, LoginUser.URL, valComandoApi, valToken);
                 return vResult;
             } catch(Exception vEx) {
                 throw vEx;

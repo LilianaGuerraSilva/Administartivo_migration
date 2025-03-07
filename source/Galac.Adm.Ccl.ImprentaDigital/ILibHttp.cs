@@ -6,6 +6,6 @@ using System.Text;
 namespace Galac.Adm.Ccl.ImprentaDigital {
     public interface ILibHttp {
         string HttpExecutePost(string valJsonStr, string valUrl, string valComandoApi, string valToken);
-        string HttpExecuteGet(string valContent, string valUrl, string valComandoApi);
+        string HttpExecuteGet(string valContent, string valUrl, string valComandoApi, string valToken);
     }
 }
