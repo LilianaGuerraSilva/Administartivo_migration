@@ -587,13 +587,14 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             LibGpParams vParams = new LibGpParams();
             QAdvSql insUtilSql = new QAdvSql("");
             StringBuilder vSql = new StringBuilder();
-            HoraAsignacion = FormatoHora(HoraAsignacion);            
+            HoraAsignacion = FormatoHora(HoraAsignacion);
             vParams.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
             vParams.AddInString("NumeroFactura", NumeroFactura, 11);
             vParams.AddInEnum("TipoDeDocumento", (int)TipoDeDocumento);
             vSql.AppendLine("UPDATE factura ");
             vSql.AppendLine("SET NumeroControl = " + insUtilSql.ToSqlValue(NumeroControl));
-            vSql.AppendLine(", ProveedorImprentaDigital = " + insUtilSql.EnumToSqlValue((int)ProveedorImprentaDigital));           
+            vSql.AppendLine(", ProveedorImprentaDigital = " + insUtilSql.EnumToSqlValue((int)ProveedorImprentaDigital));
+            vSql.AppendLine(", HoraModificacion = " + insUtilSql.ToSqlValue(HoraAsignacion));
             vSql.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania ");
             vSql.AppendLine(" AND Numero = @NumeroFactura");
             vSql.AppendLine(" AND TipoDeDocumento = @TipoDeDocumento ");

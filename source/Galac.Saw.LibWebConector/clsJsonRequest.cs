@@ -361,7 +361,8 @@ namespace Galac.Saw.LibWebConnector {
     }
 
     public struct templatesUD {
-        public string name {
+        [JsonProperty("name")]
+        public string nameUD {
             get; set;
         }
         public string description {
@@ -544,7 +545,7 @@ namespace Galac.Saw.LibWebConnector {
             get; set;
         }
         [JsonProperty("number")]
-        public int number {
+        public int numberUD {
             get; set;
         }
         public string fiscalRegistry {

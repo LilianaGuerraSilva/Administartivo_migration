@@ -78,7 +78,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     vChekConeccion = true;
                 }
                 if(vChekConeccion) {
-                    if(LibString.IsNullOrEmpty(FacturaImprentaDigital.ImprentaDigitalGUID) && LibString.IsNullOrEmpty(FacturaImprentaDigital.NumeroControl)) {
+                    if(LibString.IsNullOrEmpty(FacturaImprentaDigital.ImprentaDigitalGUID) || LibString.IsNullOrEmpty(FacturaImprentaDigital.NumeroControl)) {
                         JObject IdDocumento = new JObject {
                             { "Number", NumeroDocumento() },
                             { "Serie", "0" },
