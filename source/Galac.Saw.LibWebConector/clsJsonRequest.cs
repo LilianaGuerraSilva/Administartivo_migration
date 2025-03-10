@@ -152,9 +152,11 @@ namespace Galac.Saw.LibWebConnector {
     /////////////////////////////////////////////////////////////////////////////////////////    
     #region NOVUS
     public struct stErrorRespuestaNV {
+        [JsonProperty("message")]
         public string messageNV {
             get; set;
         }
+        [JsonProperty("code")]
         public string codeNV {
             get; set;
         }
