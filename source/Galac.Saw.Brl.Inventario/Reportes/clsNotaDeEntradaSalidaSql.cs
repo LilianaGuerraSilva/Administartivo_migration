@@ -31,7 +31,6 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
 			vSql.AppendLine("	(CASE NES.StatusNotaEntradaSalida ");
 			vSql.AppendLine("		WHEN '1' THEN 'Anulada' ");
 			vSql.AppendLine("		ELSE 'Vigente' END) AS StatusNotaEntradaSalidaStr,");
-			vSql.AppendLine("	NES.CodigoCliente + ' - ' + Cli.Nombre AS CodigoNombreCliente,");
 			vSql.AppendLine("	NES.CodigoAlmacen + ' - ' + Alm.NombreAlmacen AS CodigoNombreAlmacen,");
 			vSql.AppendLine("	NES.Comentarios,");
 			vSql.AppendLine("	RNES.CodigoArticulo,");
@@ -65,7 +64,6 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
             vSql.AppendLine("	(CASE NES.StatusNotaEntradaSalida ");
             vSql.AppendLine("		WHEN '1' THEN 'Anulada' ");
             vSql.AppendLine("		ELSE 'Vigente' END) AS StatusNotaEntradaSalidaStr,");
-            vSql.AppendLine("	NES.CodigoCliente + ' - ' + Cli.Nombre AS CodigoNombreCliente,");
             vSql.AppendLine("	NES.CodigoAlmacen + ' - ' + Alm.NombreAlmacen AS CodigoNombreAlmacen,");
             vSql.AppendLine("	NES.Comentarios,");
             vSql.AppendLine("	RNES.CodigoArticulo,");
