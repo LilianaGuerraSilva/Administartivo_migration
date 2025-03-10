@@ -26,7 +26,8 @@ namespace Galac.Saw.Wrp.Administrativo {
                 var versionhomologada = json["value"].Value<string>();
                 vMensajeHologacion.AppendLine("Está utilizando una versión desactualizada del sistema que ya NO ESTÁ homologada por el SENIAT.");
                 vMensajeHologacion.AppendLine("Es importante que actualice a la versión " + versionhomologada + " que es la versión que actualmente está homologada por el SENIAT.");
-                vMensajeHologacion.AppendLine("No actualizar la versión le puede acarrear sanciones por incumplimiento de la Providencia Administrativa 00121 de fecha 19 / 12 / 2024, emitida por el SENIAT.");
+                vMensajeHologacion.AppendLine();
+                vMensajeHologacion.AppendLine("No actualizar la versión le puede acarrear sanciones por incumplimiento de la Providencia Administrativa 00121 de fecha 19/12/2024, emitida por el SENIAT.");
                 bool result = versionhomologada == valVersionActual;
                 if (!result) {
                     LibMessages.MessageBox.Alert(null, vMensajeHologacion.ToString(), "ADVERTENCIA - Validación de Versión Homologada por SENIAT");
