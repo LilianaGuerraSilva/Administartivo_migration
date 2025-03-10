@@ -77,6 +77,8 @@
     <Compile Include="clsMaquinaFiscalED.cs" />
     <Compile Include="clsNotaFinalDat.cs" />
     <Compile Include="clsNotaFinalED.cs" />
+    <Compile Include="clsOtrosCargosDeFacturaDat.cs" />
+    <Compile Include="clsOtrosCargosDeFacturaED.cs" />
     <Compile Include="clsPropAnalisisVencDat.cs" />
     <Compile Include="clsPropAnalisisVencED.cs" />
     <Compile Include="clsRutaDeComercializacionDat.cs" />

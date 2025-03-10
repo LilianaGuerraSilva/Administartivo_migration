@@ -7,6 +7,11 @@ using System;
 using System.Text;
 using LibGalac.Aos.Base.Dal;
 using System.Windows.Forms;
+using Galac.Saw.Dal.Tablas;
+using LibGalac.Aos.Base;
+using LibGalac.Aos.Dal;
+using System;
+using System.Text;
 using Galac.Saw.Brl.Tablas;
 using System.ComponentModel.DataAnnotations;
 using LibGalac.Aos.Brl;
@@ -17,23 +22,25 @@ using LibGalac.Aos.DefGen;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
 
-    class clsVersionTemporalNoOficial : clsVersionARestructurar {
+    class clsVersionTemporalNoOficial: clsVersionARestructurar {
         public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
         public override bool UpdateToVersion() {
             StartConnectionNoTransaction();
-			CrearCampoManejaMerma();
-			CrearCampoManejaMermaOP();
+            CrearCampoManejaMerma();
+            CrearCampoManejaMermaOP();
             AmpliarColumnaCompaniaImprentaDigitalClave();
             AgregarReglaContabilizacionProduccionMermaAnormal();
             ParametrosCreditoElectronico();
             FormaDelCobro();
             CxC();
             ActualizaArticulosLote_LoteFeVec();
+            CrearOtrosCargosDeFactura();
+            CamposCreditoElectronicoEnCajaApertura();
             DisposeConnectionNoTransaction();
             return true;
         }
 
-		private void CrearCampoManejaMerma () {
+        private void CrearCampoManejaMerma() {
             AddColumnBoolean("Adm.ListaDeMateriales", "ManejaMerma", "CONSTRAINT nnLisDeMatManejaMerm NOT NULL", false);
 
             if (AddColumnNumeric("Adm.ListaDeMaterialesDetalleArticulo", "MermaNormal", 25, 8, "", 0)) {
@@ -97,7 +104,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             }
         }
 
-        private void AmpliarColumnaCompaniaImprentaDigitalClave() {            
+        private void AmpliarColumnaCompaniaImprentaDigitalClave() {
             ModifyLengthOfColumnString("Compania", "ImprentaDigitalClave", 1000, "");
         }
 
@@ -141,6 +148,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             MoverGroupName("ConceptoBancarioCobroMultimoneda", vGroupNameActual, vGroupNameNuevo, vLevelGroupNuevo);
         }
 
+
         private void ActualizaArticulosLote_LoteFeVec() {
             StringBuilder vSql = new StringBuilder();
             vSql.AppendLine("UPDATE Saw.LoteDeInventario ");
@@ -152,6 +160,15 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             vSql.AppendLine("WHERE ArticuloInventario.TipoDeArticulo = " + InsSql.EnumToSqlValue((int)eTipoDeArticulo.Mercancia));
             vSql.AppendLine("AND ArticuloInventario.TipoArticuloInv = " + InsSql.EnumToSqlValue((int)eTipoArticuloInv.Lote));
             Execute(vSql.ToString());
+
+        private void CrearOtrosCargosDeFactura() {
+            new clsOtrosCargosDeFacturaED().InstalarVistasYSps();
+        }
+
+        private void CamposCreditoElectronicoEnCajaApertura() {
+            if (AddColumnDecimal("Adm.CajaApertura", "MontoCreditoElectronico", 25, 4, "", 0)) {
+                AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoCrEl", "0", "MontoCreditoElectronico");
+            }
         }
     }
 }

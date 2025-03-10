@@ -62,6 +62,7 @@
     <Compile Include="IFkLineaDeProductoViewModel.cs" />
     <Compile Include="IFkMaquinaFiscalViewModel.cs" />
     <Compile Include="IFkNotaFinalViewModel.cs" />
+    <Compile Include="IFkOtrosCargosDeFacturaViewModel.cs" />
     <Compile Include="IFkPropAnalisisVencViewModel.cs" />
     <Compile Include="IFkRutaDeComercializacionViewModel.cs" />
     <Compile Include="IFkTipoProveedorViewModel.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="LineaDeProducto.cs" />
     <Compile Include="MaquinaFiscal.cs" />
     <Compile Include="NotaFinal.cs" />
+    <Compile Include="OtrosCargosDeFactura.cs" />
     <Compile Include="PropAnalisisVenc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RutaDeComercializacion.cs" />

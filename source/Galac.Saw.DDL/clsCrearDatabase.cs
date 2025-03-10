@@ -650,12 +650,17 @@ namespace Galac.Saw.DDL {
             return new Galac.Saw.Dal.Inventario.clsLoteDeInventarioED().InstalarTabla();
         }
 
+        public bool CrearOtrosCargosDeFactura() {
+            return new Galac.Saw.Dal.Tablas.clsOtrosCargosDeFacturaED().InstalarTabla();
+        }
+
         public bool CrearAuditoriaConfiguracion() {
             return new Galac.Saw.Dal.Tablas.clsAuditoriaConfiguracionED().InstalarTabla();
         }
         public bool CrearEscalada() {
             return new clsEscaladaED().InstalarTabla();
         }
+
         public bool CrearVistasYProcedimientos(string[] valModulos) {
             bool vResult = true;
             if (LibArray.Contains(valModulos, "Usuario")) {
@@ -917,7 +922,10 @@ namespace Galac.Saw.DDL {
             if (LibArray.Contains(valModulos, "Contrato")) {
                 vResult = vResult && new Galac.Adm.Dal.Venta.clsContratoED().InstalarVistasYSps();
             }
-            if (LibArray.Contains(valModulos, "AuditoriaConfiguracion")) {
+            if (LibArray.Contains(valModulos, "otrosCargosDeFactura")) {
+                vResult = vResult && new Galac.Saw.Dal.Tablas.clsOtrosCargosDeFacturaED().InstalarVistasYSps();
+            }
+			if (LibArray.Contains(valModulos, "AuditoriaConfiguracion")) {
                 vResult = vResult && new Galac.Saw.Dal.Tablas.clsAuditoriaConfiguracionED().InstalarVistasYSps();
             }
             return vResult;

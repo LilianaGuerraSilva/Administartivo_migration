@@ -2478,7 +2478,6 @@ End Function
 Private Function fSQLOtrosCargosYDescuentosDeFacturaEntreFechas(ByVal valFechaDesde As Date, ByVal valFechaHasta As Date, ByVal valEsUnReverso As Boolean, ByVal valDescripcionDelAsiento As String, ByVal valContabilizarSolo1Documento As Boolean, ByVal valNoDocumentoOrigen As String, ByVal valContabilizacionPorArticulo As Boolean, ByVal valTipoDocumento As Integer)
    Dim insFactura As clsFacturaNavigator
    Dim insRenglonOtrosCargosFactura As clsRenglonOtrosCargosFacturaNav
-   Dim insOtrosCargosDeFactura As clsOtrosCargosDeFacturaNavigator
    Dim insCliente As clsClienteNavigator
    Dim Sql As String
    Dim SqlTasaDeCambio As String
@@ -2492,7 +2491,6 @@ Private Function fSQLOtrosCargosYDescuentosDeFacturaEntreFechas(ByVal valFechaDe
    Set insCliente = New clsClienteNavigator
    Set insFactura = New clsFacturaNavigator
    Set insRenglonOtrosCargosFactura = New clsRenglonOtrosCargosFacturaNav
-   Set insOtrosCargosDeFactura = New clsOtrosCargosDeFacturaNavigator
    insFactura.setClaseDeTrabajo eCTFC_Factura
    insRenglonOtrosCargosFactura.setClaseDeTrabajo eCTFC_Factura
    numeroFactura = gTexto.DfMid(valNoDocumentoOrigen, gTexto.DfInStr(valNoDocumentoOrigen, gTexto.fSeparadorStandardDeElementosString) + 1)
@@ -2507,10 +2505,10 @@ Private Function fSQLOtrosCargosYDescuentosDeFacturaEntreFechas(ByVal valFechaDe
 '  ESTAS INSTRUCCIONES SON PARA LOS CARGOS
    Sql = Sql & "SELECT 'CARGOS', "
    Sql = Sql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "SUM(ABS(" & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_TOTAL_RENGLON & ") * " & _
-                     SqlTasaDeCambio & ")", gUtilSQL.getIIF(gUtilSQL.DfSQLIsNull(insOtrosCargosDeFactura.GetTableName & ".CuentaContableOtrosCargos") & " OR " & _
-                     insOtrosCargosDeFactura.GetTableName & ".CuentaContableOtrosCargos = ''", _
+                     SqlTasaDeCambio & ")", gUtilSQL.getIIF(gUtilSQL.DfSQLIsNull("otrosCargosDeFactura" & ".CuentaContableOtrosCargos") & " OR " & _
+                     "otrosCargosDeFactura" & ".CuentaContableOtrosCargos = ''", _
                      gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaFacturacionCargos), _
-                     insOtrosCargosDeFactura.GetTableName & ".CuentaContableOtrosCargos", True), False, codigoDelAuxiliar, valNoDocumentoOrigen, "Cargos-" & valDescripcionDelAsiento, CondicionDeStatusAnulado, "") & ", "
+                     "otrosCargosDeFactura" & ".CuentaContableOtrosCargos", True), False, codigoDelAuxiliar, valNoDocumentoOrigen, "Cargos-" & valDescripcionDelAsiento, CondicionDeStatusAnulado, "") & ", "
    Sql = Sql & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
    If Not valContabilizacionPorArticulo Then
       Sql = Sql & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
@@ -2518,17 +2516,17 @@ Private Function fSQLOtrosCargosYDescuentosDeFacturaEntreFechas(ByVal valFechaDe
    Sql = Sql & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
    Sql = Sql & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
    Sql = Sql & " FROM " & insFactura.GetTableName & " INNER JOIN ("
-   Sql = Sql & insOtrosCargosDeFactura.GetTableName & " INNER JOIN "
+   Sql = Sql & "otrosCargosDeFactura" & " INNER JOIN "
    Sql = Sql & insRenglonOtrosCargosFactura.GetTableName
-   Sql = Sql & " ON (" & insOtrosCargosDeFactura.GetTableName & ".Codigo = " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_CODIGO_DE_CARGO
-   Sql = Sql & ") AND (" & insOtrosCargosDeFactura.GetTableName & ".ConsecutivoCompania = " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_CONSECUTIVO_COMPANIA
+   Sql = Sql & " ON (" & "otrosCargosDeFactura" & ".Codigo = " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_CODIGO_DE_CARGO
+   Sql = Sql & ") AND (" & "otrosCargosDeFactura" & ".ConsecutivoCompania = " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_CONSECUTIVO_COMPANIA
    Sql = Sql & ")) ON (" & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_CONSECUTIVO_COMPANIA & " = " & insFactura.GetTableName & "." & insFactura.getFN_CONSECUTIVO_COMPANIA
    Sql = Sql & " AND " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_NUMERO_FACTURA & " = " & insFactura.GetTableName & "." & insFactura.getFN_NUMERO
    Sql = Sql & " AND " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_TIPO_DE_DOCUMENTO & " = " & insFactura.GetTableName & "." & insFactura.getFN_TIPO_DE_DOCUMENTO & ")"
    Sql = Sql & " WHERE " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_CONSECUTIVO_COMPANIA & " = " & gProyCompaniaActual.GetConsecutivoCompania
    Sql = Sql & " AND " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_NUMERO_FACTURA & " = " & gUtilSQL.fSimpleSqlValue(numeroFactura)
    Sql = Sql & " AND " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_COMO_APLICA_AL_TOTAL_FACTURA & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_ComoAplicaOtrosCargosDeFactura.eCA_SUMA)
-   Sql = Sql & " GROUP BY " & insOtrosCargosDeFactura.GetTableName & ".CuentaContableOtrosCargos"
+   Sql = Sql & " GROUP BY " & "otrosCargosDeFactura" & ".CuentaContableOtrosCargos"
    If Not gProyReglasDeContabilizacion.GetAgruparPorCargosDescuentos Then
       Sql = Sql & ", "
       Sql = Sql & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_CONSECUTIVO_RENGLON
@@ -2536,10 +2534,10 @@ Private Function fSQLOtrosCargosYDescuentosDeFacturaEntreFechas(ByVal valFechaDe
 '  ESTAS INSTRUCCIONES SON PARA LOS DESCUENTOS
    Sql = Sql & " UNION ALL SELECT 'DESCUENTOS', "
    Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, "SUM(ABS(" & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_TOTAL_RENGLON & ") * " & _
-                     SqlTasaDeCambio & ")", gUtilSQL.getIIF(gUtilSQL.DfSQLIsNull(insOtrosCargosDeFactura.GetTableName & ".CuentaContableOtrosCargos") & " OR " & _
-                     insOtrosCargosDeFactura.GetTableName & "." _
+                     SqlTasaDeCambio & ")", gUtilSQL.getIIF(gUtilSQL.DfSQLIsNull("otrosCargosDeFactura" & ".CuentaContableOtrosCargos") & " OR " & _
+                     "otrosCargosDeFactura" & "." _
                      & "CuentaContableOtrosCargos = ''", gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaFacturacionDescuentos), _
-                     insOtrosCargosDeFactura.GetTableName & ".CuentaContableOtrosCargos", _
+                     "otrosCargosDeFactura" & ".CuentaContableOtrosCargos", _
                      True), False, codigoDelAuxiliar, valNoDocumentoOrigen, "Descuentos-" & valDescripcionDelAsiento, CondicionDeStatusAnulado, "") & ", "
    Sql = Sql & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
    If Not valContabilizacionPorArticulo Then
@@ -2548,11 +2546,11 @@ Private Function fSQLOtrosCargosYDescuentosDeFacturaEntreFechas(ByVal valFechaDe
    Sql = Sql & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
    Sql = Sql & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
    Sql = Sql & " FROM " & insFactura.GetTableName & " INNER JOIN ("
-   Sql = Sql & insOtrosCargosDeFactura.GetTableName & " INNER JOIN "
+   Sql = Sql & "otrosCargosDeFactura" & " INNER JOIN "
    Sql = Sql & insRenglonOtrosCargosFactura.GetTableName
-   Sql = Sql & " ON (" & insOtrosCargosDeFactura.GetTableName & ".Codigo" & _
+   Sql = Sql & " ON (" & "otrosCargosDeFactura" & ".Codigo" & _
                " = " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_CODIGO_DE_CARGO
-   Sql = Sql & ") AND (" & insOtrosCargosDeFactura.GetTableName & ".ConsecutivoCompania" & _
+   Sql = Sql & ") AND (" & "otrosCargosDeFactura" & ".ConsecutivoCompania" & _
                " = " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_CONSECUTIVO_COMPANIA
    Sql = Sql & ")) ON (" & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_CONSECUTIVO_COMPANIA _
              & " = " & insFactura.GetTableName & "." & insFactura.getFN_CONSECUTIVO_COMPANIA
@@ -2565,7 +2563,7 @@ Private Function fSQLOtrosCargosYDescuentosDeFacturaEntreFechas(ByVal valFechaDe
                             gUtilSQL.fSimpleSqlValue(numeroFactura)
    Sql = Sql & " AND " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_COMO_APLICA_AL_TOTAL_FACTURA & " = " & _
                          gUtilSQL.fSQLSimpleValueForEnum(enum_ComoAplicaOtrosCargosDeFactura.eCA_RESTA)
-   Sql = Sql & " GROUP BY " & insOtrosCargosDeFactura.GetTableName & "." & _
+   Sql = Sql & " GROUP BY " & "otrosCargosDeFactura" & "." & _
                   "CuentaContableOtrosCargos"
    If Not gProyReglasDeContabilizacion.GetAgruparPorCargosDescuentos Then
       Sql = Sql & ", "
@@ -2596,7 +2594,6 @@ Private Function fSQLOtrosCargosYDescuentosDeFacturaEntreFechas(ByVal valFechaDe
    Sql = Sql & " GROUP BY " & insFactura.GetTableName & "." & insFactura.getFN_CODIGO_CLIENTE
    Set insRenglonOtrosCargosFactura = Nothing
    Set insFactura = Nothing
-   Set insOtrosCargosDeFactura = Nothing
 h_EXIT:
    fSQLOtrosCargosYDescuentosDeFacturaEntreFechas = Sql
    On Error GoTo 0

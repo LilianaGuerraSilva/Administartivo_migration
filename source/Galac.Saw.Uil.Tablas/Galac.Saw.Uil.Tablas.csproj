@@ -34,6 +34,9 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Galac.Contab.Ccl.WinCont">
+      <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Ccl.WinCont.dll</HintPath>
+    </Reference>
     <Reference Include="LibGalac.Aos.ARRpt">
       <HintPath>..\packages\LibGalac.Aos.ARRpt.5.24.1\lib\LibGalac.Aos.ARRpt.dll</HintPath>
     </Reference>
@@ -87,6 +90,7 @@
     <Compile Include="clsLineaDeProductoMenu.cs" />
     <Compile Include="clsMaquinaFiscalMenu.cs" />
     <Compile Include="clsNotaFinalMenu.cs" />
+    <Compile Include="clsOtrosCargosDeFacturaMenu.cs" />
     <Compile Include="clsPropAnalisisVencMenu.cs" />
     <Compile Include="clsRutaDeComercializacionMenu.cs" />
     <Compile Include="clsTipoProveedorMenu.cs" />
@@ -103,6 +107,7 @@
     <Compile Include="UIMefTablasLineaDeProducto.cs" />
     <Compile Include="UIMefTablasMaquinaFiscal.cs" />
     <Compile Include="UIMefTablasNotaFinal.cs" />
+    <Compile Include="UIMefTablasOtrosCargosDeFactura.cs" />
     <Compile Include="UIMefTablasPropAnalisisVenc.cs" />
     <Compile Include="UIMefTablasRutaDeComercializacion.cs" />
     <Compile Include="UIMefTablasTipoProveedor.cs" />
@@ -122,6 +127,8 @@
     <Compile Include="ViewModel\MaquinaFiscalViewModel.cs" />
     <Compile Include="ViewModel\NotaFinalMngViewModel.cs" />
     <Compile Include="ViewModel\NotaFinalViewModel.cs" />
+    <Compile Include="ViewModel\OtrosCargosDeFacturaMngViewModel.cs" />
+    <Compile Include="ViewModel\OtrosCargosDeFacturaViewModel.cs" />
     <Compile Include="ViewModel\PropAnalisisVencMngViewModel.cs" />
     <Compile Include="ViewModel\PropAnalisisVencViewModel.cs" />
     <Compile Include="ViewModel\RutaDeComercializacionMngViewModel.cs" />
@@ -151,6 +158,9 @@
     </Compile>
     <Compile Include="Views\GSNotaFinalView.xaml.cs">
       <DependentUpon>GSNotaFinalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSOtrosCargosDeFacturaView.xaml.cs">
+      <DependentUpon>GSOtrosCargosDeFacturaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GSPropAnalisisVencView.xaml.cs">
       <DependentUpon>GSPropAnalisisVencView.xaml</DependentUpon>
@@ -199,6 +209,9 @@
     <Page Include="Views\GSNotaFinalView.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\GSOtrosCargosDeFacturaView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\GSPropAnalisisVencView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -231,6 +244,10 @@
     <ProjectReference Include="..\Galac.Saw.Ccl.Tablas\Galac.Saw.Ccl.Tablas.csproj">
       <Project>{5bbc6220-f35e-4b5a-826e-cfece2eb3364}</Project>
       <Name>Galac.Saw.Ccl.Tablas</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Uil.Contabilizacion\Galac.Saw.Uil.Contabilizacion.csproj">
+      <Project>{3361ECA9-4AD8-4C3B-AA47-4703B4BDF1C2}</Project>
+      <Name>Galac.Saw.Uil.Contabilizacion</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
