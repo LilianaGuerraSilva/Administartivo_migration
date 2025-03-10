@@ -1,5 +1,12 @@
 using Galac.Saw.Ccl.SttDef;
 using Galac.Saw.Ccl.Tablas;
+using LibGalac.Aos.Base;
+using LibGalac.Aos.Dal;
+using Galac.Saw.Ccl.Inventario;
+using System;
+using System.Text;
+using LibGalac.Aos.Base.Dal;
+using System.Windows.Forms;
 using Galac.Saw.Dal.Tablas;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Dal;
@@ -26,6 +33,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             ParametrosCreditoElectronico();
             FormaDelCobro();
             CxC();
+            ActualizaArticulosLote_LoteFeVec();
             CrearOtrosCargosDeFactura();
             CamposCreditoElectronicoEnCajaApertura();
             DisposeConnectionNoTransaction();
@@ -139,6 +147,19 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             MoverGroupName("CuentaBancariaCobroMultimoneda", vGroupNameActual, vGroupNameNuevo, vLevelGroupNuevo);
             MoverGroupName("ConceptoBancarioCobroMultimoneda", vGroupNameActual, vGroupNameNuevo, vLevelGroupNuevo);
         }
+
+
+        private void ActualizaArticulosLote_LoteFeVec() {
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("UPDATE Saw.LoteDeInventario ");
+            vSql.AppendLine("SET Saw.LoteDeInventario.FechaDeVencimiento = " + InsSql.ToSqlValue(LibDate.MaxDateForDB()));
+            vSql.AppendLine(", Saw.LoteDeInventario.FechaDeElaboracion = " + InsSql.ToSqlValue(LibDate.MaxDateForDB()));
+            vSql.AppendLine("FROM ArticuloInventario INNER JOIN Saw.LoteDeInventario ");
+            vSql.AppendLine("ON ArticuloInventario.ConsecutivoCompania = Saw.LoteDeInventario.ConsecutivoCompania ");
+            vSql.AppendLine("AND ArticuloInventario.Codigo = Saw.LoteDeInventario.CodigoArticulo");            
+            vSql.AppendLine("WHERE ArticuloInventario.TipoDeArticulo = " + InsSql.EnumToSqlValue((int)eTipoDeArticulo.Mercancia));
+            vSql.AppendLine("AND ArticuloInventario.TipoArticuloInv = " + InsSql.EnumToSqlValue((int)eTipoArticuloInv.Lote));
+            Execute(vSql.ToString());
 
         private void CrearOtrosCargosDeFactura() {
             new clsOtrosCargosDeFacturaED().InstalarVistasYSps();
