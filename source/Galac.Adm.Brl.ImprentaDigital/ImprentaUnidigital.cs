@@ -269,11 +269,12 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 { "TaxAmountSumptuaryVES", FacturaImprentaDigital.MontoIvaAlicuota3 },
                 { "TotalVES", GetMontoME(FacturaImprentaDigital.TotalFactura) },
                 { "IGTFBaseAmountVES", GetMontoME(FacturaImprentaDigital.BaseImponibleIGTF) },
-                { "IGTFAmountVES", GetMontoME(FacturaImprentaDigital.AlicuotaIGTF) },
-                { "GrandTotalVES", GetMontoME(FacturaImprentaDigital.TotalFactura+FacturaImprentaDigital.AlicuotaIGTF) },
-                { "AmountLettersVES", LibConvert.ToNumberInLetters(GetMontoME(FacturaImprentaDigital.TotalFactura+FacturaImprentaDigital.AlicuotaIGTF) ,false,"") },
+                { "IGTFAmountVES", GetMontoME(FacturaImprentaDigital.IGTFME) },
+                { "GrandTotalVES", GetMontoME(FacturaImprentaDigital.TotalFactura)+FacturaImprentaDigital.IGTFME },
+                { "AmountLettersVES", LibConvert.ToNumberInLetters(GetMontoME(FacturaImprentaDigital.TotalFactura)+FacturaImprentaDigital.IGTFME ,false,"") },
                 { "ExchangeRate", CambioABolivares },
-                { "Note1", FacturaImprentaDigital.Observaciones}
+                { "Note1", FacturaImprentaDigital.Observaciones},
+                { "ShippingAddress", InfoAdicionalClienteImprentaDigital.Direccion + ", " + InfoAdicionalClienteImprentaDigital.Ciudad }
                 //{ "SystemReference", "" }
                 //{ "Note2", "" },
                 //{ "Note3", "" },
