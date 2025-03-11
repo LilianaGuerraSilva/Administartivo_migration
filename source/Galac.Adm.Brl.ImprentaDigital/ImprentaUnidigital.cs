@@ -205,26 +205,11 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vDocumentoDigital.Add("Details", GetDetalleFactura());
         }
         #endregion Construye  Documento
-        #region Identificacion de Documento      
-
-        private string ObtenerNumeroControlFacturaAfectada() {
-            string vResult = string.Empty;
-            QAdvSql insSql = new QAdvSql("");
-            StringBuilder vSql = new StringBuilder();
-            vSql.AppendLine("SELECT NumeroControl FROM Factura");
-            vSql.AppendLine("WHERE ConsecutivoCompania=" + FacturaImprentaDigital.ConsecutivoCompania);
-            vSql.AppendLine(" AND Numero = " + new QAdvSql("").ToSqlValue(FacturaImprentaDigital.NumeroFacturaAfectada));
-            vSql.AppendLine(" AND TipoDeDocumento = " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura));
-            var vDataResult = LibBusiness.ExecuteSelect(vSql.ToString(), null, "", 0);
-            if(vDataResult != null && vDataResult.HasElements) {
-                vResult = LibXml.GetPropertyString(vDataResult, "NumeroControl");
-            }
-            return vResult;
-        }
+        #region Identificacion de Documento             
 
         private JObject GetCuerpoDocumento() {
-            //decimal vImpuestoIGTF = FacturaImprentaDigital.CodigoMoneda == CodigoMonedaLocal ? FacturaImprentaDigital.IGTFML : FacturaImprentaDigital.IGTFME;
-            //vImpuestoIGTF = LibMath.Abs(vImpuestoIGTF);
+            string vMonedaConversion = LibString.S1IsEqualToS2(FacturaImprentaDigital.CodigoMoneda, CodigoMonedaLocal) ? CodigoMonedaME : CodigoMonedaLocal;
+            vMonedaConversion = LibString.S1IsEqualToS2(vMonedaConversion, "VED") ? "VES" : vMonedaConversion;
             JObject vJsonDoc = new JObject {
                 { "SerieStrongId",_StrongeID },
                 { "DocumentType", GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum) },
@@ -255,7 +240,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 { "IGTFPercentage", FacturaImprentaDigital.AlicuotaIGTF },
                 { "GrandTotal",  LibMath.Abs(FacturaImprentaDigital.TotalFactura+FacturaImprentaDigital.IGTFML)},
                 { "AmountLetters", LibConvert.ToNumberInLetters(LibMath.Abs(FacturaImprentaDigital.TotalFactura)+FacturaImprentaDigital.IGTFML,false,"") },
-                { "ConversionCurrency",CodigoMonedaME =="VED" ? "VES":CodigoMonedaME },
+                { "ConversionCurrency",vMonedaConversion },
                 { "DiscountVES",GetMontoME( FacturaImprentaDigital.MontoDescuento1) } ,
                 { "ExemptAmountVES", GetMontoME( FacturaImprentaDigital.TotalMontoExento) },
                 { "TaxBaseVES",  GetMontoME( FacturaImprentaDigital.MontoGravableAlicuota1) },
