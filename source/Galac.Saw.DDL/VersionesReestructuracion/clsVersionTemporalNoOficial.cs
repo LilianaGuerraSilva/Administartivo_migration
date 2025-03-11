@@ -156,11 +156,11 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             vSql.AppendLine(", Saw.LoteDeInventario.FechaDeElaboracion = " + InsSql.ToSqlValue(LibDate.MaxDateForDB()));
             vSql.AppendLine("FROM ArticuloInventario INNER JOIN Saw.LoteDeInventario ");
             vSql.AppendLine("ON ArticuloInventario.ConsecutivoCompania = Saw.LoteDeInventario.ConsecutivoCompania ");
-            vSql.AppendLine("AND ArticuloInventario.Codigo = Saw.LoteDeInventario.CodigoArticulo");            
+            vSql.AppendLine("AND ArticuloInventario.Codigo = Saw.LoteDeInventario.CodigoArticulo");
             vSql.AppendLine("WHERE ArticuloInventario.TipoDeArticulo = " + InsSql.EnumToSqlValue((int)eTipoDeArticulo.Mercancia));
             vSql.AppendLine("AND ArticuloInventario.TipoArticuloInv = " + InsSql.EnumToSqlValue((int)eTipoArticuloInv.Lote));
             Execute(vSql.ToString());
-
+        }
         private void CrearOtrosCargosDeFactura() {
             new clsOtrosCargosDeFacturaED().InstalarVistasYSps();
         }
