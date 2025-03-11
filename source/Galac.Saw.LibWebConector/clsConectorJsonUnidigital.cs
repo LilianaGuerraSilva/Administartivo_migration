@@ -154,7 +154,7 @@ namespace Galac.Saw.LibWebConnector {
             } catch(AggregateException vEx) {
                 string vMensaje = vEx.InnerException.InnerException.Message;
                 if(vEx.InnerException.InnerException.HResultPublic() == -2146233079) {
-                    vMensaje = vMensaje + "\r\nRevise su conexión a Internet, Revise que la URL del servicio sea la correcta.";
+                    vMensaje = vMensaje + "\r\nRevise su conexión a Internet. Revise que la URL del servicio sea la correcta.";
                 }
                 throw new Exception(vMensaje + "\r\n" + vEx.InnerException.InnerException.Message);
             } catch(Exception vEx) {
