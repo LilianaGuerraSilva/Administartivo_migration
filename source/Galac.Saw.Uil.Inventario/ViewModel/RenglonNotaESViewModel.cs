@@ -15,6 +15,7 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.Inventario;
 using Galac.Saw.Ccl.Inventario;
 using System.Text;
+using System.Collections.ObjectModel;
 
 namespace Galac.Saw.Uil.Inventario.ViewModel {
     public class RenglonNotaESViewModel : LibInputDetailViewModelMfc<RenglonNotaES> {
@@ -218,19 +219,21 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public bool IsEnabledLoteDeInventario {
             get { return IsEnabled && SePuedeEditarLote(); }
         }
-
         public bool IsVisbleLoteDeInventario {
             get { return (ConexionCodigoArticulo != null) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.Lote || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeElaboracion); }
         }
-
         public bool IsVisibleFechaDeElaboracionLoteDeInventario {
             get { return (ConexionCodigoArticulo != null) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeElaboracion); }
         }
-
         public bool IsVisibleFechaDeVencimientoLoteDeInventario {
             get { return (ConexionCodigoArticulo != null) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento); }
         }
-
+        public bool IsVisibleSerial {
+            get { return (ConexionCodigoArticulo != null) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.UsaSerial  || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.UsaSerialRollo); }
+        }
+        public bool IsVisibleRollo {
+            get { return (ConexionCodigoArticulo != null) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.UsaSerialRollo); }
+        }
         public eTipoArticuloInv[] ArrayTipoArticuloInv {
             get { return LibEnumHelper<eTipoArticuloInv>.GetValuesInArray(); }
         }
@@ -246,9 +249,9 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
             set {
                 if (_ConexionCodigoArticulo != value) {
-                    _ConexionCodigoArticulo = value;                    
+                    _ConexionCodigoArticulo = value;
                     if (_ConexionCodigoArticulo != null) {
-                        CodigoArticulo = ConexionCodigoArticulo.Codigo;
+                        CodigoArticulo = ConexionCodigoArticulo.CodigoCompuesto;
                         DescripcionArticulo = ConexionCodigoArticulo.Descripcion;
                         TipoArticuloInv = ConexionCodigoArticulo.TipoArticuloInv;
                     }
@@ -309,29 +312,29 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
-            LibSearchCriteria vDefaultCriteriaInventario = LibSearchCriteria.CreateCriteria("Gv_ArticuloInventario_B1.Codigo", CodigoArticulo);
-            vDefaultCriteriaInventario.Add(LibSearchCriteria.CreateCriteria("Gv_ArticuloInventario_B1.ConsecutivoCompania", Mfc.GetInt("Compania")), eLogicOperatorType.And);
+            LibSearchCriteria vDefaultCriteriaInventario = LibSearchCriteria.CreateCriteria("CodigoCompuesto", CodigoArticulo);
+            vDefaultCriteriaInventario.Add(LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania")), eLogicOperatorType.And);
             ConexionCodigoArticulo = Master.FirstConnectionRecordOrDefault<FkArticuloInventarioViewModel>("Artículo Inventario", vDefaultCriteriaInventario);
             LibSearchCriteria vDefaultCriteriaLote = LibSearchCriteria.CreateCriteria("CodigoLote", LoteDeInventario);
             vDefaultCriteriaLote.Add(LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania")), eLogicOperatorType.And);
             ConexionLoteDeInventario = Master.FirstConnectionRecordOrDefault<FkLoteDeInventarioViewModel>("Lote de Inventario", vDefaultCriteriaLote);
         }
-
         private void ExecuteChooseCodigoArticuloCommand(string valCodigoArticulo) {
             try {
                 if (valCodigoArticulo == null) {
                     valCodigoArticulo = string.Empty;
                 }
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_ArticuloInventario_B1.Codigo", valCodigoArticulo);
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("CodigoCompuesto", valCodigoArticulo);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
                 vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("TipoDeArticulo", LibConvert.EnumToDbValue((int)eTipoDeArticulo.Mercancia)), eLogicOperatorType.And);
                 vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("StatusdelArticulo ", LibConvert.EnumToDbValue((int)eStatusArticulo.Vigente)), eLogicOperatorType.And);
+                //      vFixedCriteria.Add("TipoDeArticulo", eBooleanOperatorType.IdentityInequality, LibConvert.EnumToDbValue((int)eTipoDeArticulo.ProductoCompuesto), eLogicOperatorType.And);
                 ConexionCodigoArticulo = Master.ChooseRecord<FkArticuloInventarioViewModel>("Artículo Inventario", vDefaultCriteria, vFixedCriteria, string.Empty);
                 if (ConexionCodigoArticulo == null) {
                     CodigoArticulo = string.Empty;
                     DescripcionArticulo = string.Empty;
                 } else {
-                    CodigoArticulo = ConexionCodigoArticulo.Codigo;
+                    CodigoArticulo = ConexionCodigoArticulo.CodigoCompuesto;
                     DescripcionArticulo = ConexionCodigoArticulo.Descripcion;
                     TipoArticuloInv = ConexionCodigoArticulo.TipoArticuloInv;
                 }
@@ -339,6 +342,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 RaisePropertyChanged(() => IsEnabledLoteDeInventario);
                 RaisePropertyChanged(() => IsVisibleFechaDeElaboracionLoteDeInventario);
                 RaisePropertyChanged(() => IsVisibleFechaDeVencimientoLoteDeInventario);
+                RaisePropertyChanged(() => IsVisibleSerial);
+                RaisePropertyChanged(() => IsVisibleRollo);
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
@@ -436,7 +441,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 return false;
             }
         }
-
         public bool NotaESIsEnabled {
             get {
                 return IsEnabled && Action != eAccionSR.Anular && Action != eAccionSR.ReImprimir && Action != eAccionSR.Reversar;
