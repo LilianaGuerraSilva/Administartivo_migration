@@ -74,7 +74,7 @@ namespace Galac.Saw.LibWebConnector {
                         infoReqs.StrongeID = infoReqEnvio.result ?? "";
                     }
                 } else if(LibString.S1IsEqualToS2(eComandosPostUnidigital.EstadoDocumento.GetDescription(), valComandoApi)) {
-                    stRespuestaStatusUD infoReqStatus = JsonConvert.DeserializeObject<stRespuestaStatusUD>(vPostRequest);                    
+                    stRespuestaStatusUD infoReqStatus = JsonConvert.DeserializeObject<stRespuestaStatusUD>(vPostRequest);
                     if(infoReqStatus.hasErrors) {
                         infoReqs.Exitoso = false;
                         infoReqs.MessageUD = infoReqStatus.errorsUD[0].messageUD;
@@ -83,7 +83,7 @@ namespace Galac.Saw.LibWebConnector {
                         return infoReqs;
                     } else {
                         infoReqs.Exitoso = !infoReqStatus.hasErrors;
-                        if(infoReqStatus.result != null && infoReqStatus.result.Count() > 0) {                        
+                        if(infoReqStatus.result != null && infoReqStatus.result.Count() > 0) {
                             infoReqs.StrongeID = infoReqStatus.result[0].strongId;
                             infoReqs.NumeroControl = infoReqStatus.result[0].controlUD;
                             infoReqs.TipoDocumento = infoReqStatus.result[0].documentType;
@@ -106,9 +106,12 @@ namespace Galac.Saw.LibWebConnector {
             } catch(AggregateException vEx) {
                 string vMensaje = vEx.InnerException.InnerException.Message;
                 if(vEx.InnerException.InnerException.HResultPublic() == -2146233079) {
-                    vMensaje = vMensaje + "\r\nRevise su conexión a Internet, Revise que la URL del servicio sea la correcta.\r\nDebe sincronizar el documento.";
+                    vMensaje += "\r\nRevise su conexión a Internet. Valide que la URL del servicio sea la correcta.";
+                    if(LibString.S1IsEqualToS2(eComandosPostUnidigital.Emision.GetDescription(), valComandoApi) || LibString.S1IsEqualToS2(eComandosPostUnidigital.EstadoDocumento.GetDescription(), valComandoApi)) {
+                        vMensaje += "\r\nDebe sincronizar el documento.";
+                    }
                 }
-                throw new Exception(vMensaje + "\r\n" + vEx.InnerException.InnerException.Message);
+                throw new Exception(vMensaje);
             } catch(Exception vEx) {
                 throw vEx;
             }
@@ -151,7 +154,7 @@ namespace Galac.Saw.LibWebConnector {
             } catch(AggregateException vEx) {
                 string vMensaje = vEx.InnerException.InnerException.Message;
                 if(vEx.InnerException.InnerException.HResultPublic() == -2146233079) {
-                    vMensaje = vMensaje + "\r\nRevise su conexión a Internet, Revise que la URL del servicio sea la correcta.\r\nDebe sincronizar el documento.";
+                    vMensaje = vMensaje + "\r\nRevise su conexión a Internet. Valide que la URL del servicio sea la correcta.";
                 }
                 throw new Exception(vMensaje + "\r\n" + vEx.InnerException.InnerException.Message);
             } catch(Exception vEx) {
