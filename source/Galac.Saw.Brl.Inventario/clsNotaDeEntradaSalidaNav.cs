@@ -311,7 +311,7 @@ namespace Galac.Saw.Brl.Inventario {
                             Cantidad = vCantidad,
                             Ubicacion = "",
                             ConsecutivoAlmacen = valItemNotaES.ConsecutivoAlmacen,
-                            DetalleArticuloInventarioExistenciaSerial = new List<ArticuloInventarioExistenciaSerial>()
+                            DetalleArticuloInventarioExistenciaSerial = GeneraDetalleArticuloInventarioSerial(valItemNotaES.ConsecutivoCompania, vItem.CodigoArticulo, valItemNotaES.CodigoAlmacen, valItemNotaES.ConsecutivoAlmacen, vCantidad, vItem.Serial, vItem.Rollo, true)
                         });
                     }
                 }
@@ -523,5 +523,29 @@ namespace Galac.Saw.Brl.Inventario {
             vResult = (new LibDatabase().RecordCountOfSql(vSql.ToString()) > 0);
             return vResult;
         }
+        private List<ArticuloInventarioExistenciaSerial> GeneraDetalleArticuloInventarioSerial(int valConsecutivoCompania, string valCodigoArticulo, string valCodigoAlmacen, int valConsecutivoAlmacen, decimal valCantidad, string valSerial, string valRollo, bool valAumentaCantidad) {
+            List<ArticuloInventarioExistenciaSerial> vResult = new List<ArticuloInventarioExistenciaSerial>();
+            decimal vCantidad = 0;
+
+            vCantidad = valCantidad;
+            if (!valAumentaCantidad) {
+                vCantidad = vCantidad * -1;
+            }
+            ArticuloInventarioExistenciaSerial vArticuloInventarioExistenciaSerial = new ArticuloInventarioExistenciaSerial() {
+                ConsecutivoCompania = valConsecutivoCompania,
+                CodigoAlmacen = valCodigoAlmacen,
+                CodigoArticulo = valCodigoArticulo,
+                ConsecutivoRenglon = 0,
+                CodigoSerial = valSerial,
+                CodigoRollo = (!LibString.IsNullOrEmpty(valRollo) ? valRollo : "0"),
+                Cantidad = vCantidad,
+                Ubicacion = "",
+                ConsecutivoAlmacen = valConsecutivoAlmacen
+
+            };
+            vResult.Add(vArticuloInventarioExistenciaSerial);
+            return vResult;
+        }
+
     } //End of class clsNotaDeEntradaSalidaNav
 } //End of namespace Galac.Saw.Brl.Inventario

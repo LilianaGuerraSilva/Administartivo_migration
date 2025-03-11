@@ -93,31 +93,6 @@ namespace Galac.Saw.Brl.Inventario {
                     vPdnModule = new Galac.Comun.Brl.TablasGen.clsMonedaNav();
                     vResult = vPdnModule.GetDataForList("Articulo Inventario", ref refXmlDocument, valXmlParamsExpression);
                     break;
-                    //case "Categoria":
-                    //    vPdnModule = new Galac.Saw.Brl.Inventario.clsCategoriaNav();
-                    //    vResult = vPdnModule.GetDataForList("Articulo Inventario", ref refXmlDocument, valXmlParamsExpression);
-                    //    break;
-                    //case "Unidad De Venta":
-                    //    vPdnModule = new Galac.Saw.Brl.Tablas.clsUnidadDeVentaNav();
-                    //    vResult = vPdnModule.GetDataForList("Articulo Inventario", ref refXmlDocument, valXmlParamsExpression);
-                    //    break;
-                    //case "Articulo Inventario":
-                    //    vPdnModule = new Galac.Saw.Brl.Inventario.clsArticuloInventarioNav();
-                    //    vResult = vPdnModule.GetDataForList("Articulo Inventario", ref refXmlDocument, valXmlParamsExpression);
-                    //    break;
-                    //case "Grupo Talla Color":
-                    //    vPdnModule = new Galac.dbo.Brl.ComponenteNoEspecificado.clsGrupoTallaColorNav();
-                    //    vResult = vPdnModule.GetDataForList("Articulo Inventario", ref refXmlDocument, valXmlParamsExpression);
-                    //    break;
-                    //case "Talla":
-                    //    vPdnModule = new Galac.Saw.Brl.Inventario.clsTallaNav();
-                    //    vResult = vPdnModule.GetDataForList("Articulo Inventario", ref refXmlDocument, valXmlParamsExpression);
-                    //    break;
-                    //case "Color":
-                    //    vPdnModule = new Galac.Saw.Brl.Inventario.clsColorNav();
-                    //    vResult = vPdnModule.GetDataForList("Articulo Inventario", ref refXmlDocument, valXmlParamsExpression);
-                    //    break;
-                    //    default: throw new NotImplementedException();
             }
             return vResult;
         }
@@ -306,7 +281,6 @@ namespace Galac.Saw.Brl.Inventario {
             return xRecord;
         }
 
-
         bool IArticuloInventarioPdn.ActualizarExistencia(int valConsecutivoCompania, List<ArticuloInventarioExistencia> valList) {
             StringBuilder vSQL = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
@@ -324,6 +298,9 @@ namespace Galac.Saw.Brl.Inventario {
                 });
                 foreach (var item in valList) {
                     var vArticulo = vDataArticulos.Where(p => p.CodigoArticulo == item.CodigoArticulo || $"{p.CodigoArticulo}{p.CodigoColor}{p.CodigoTalla}" == item.CodigoArticulo).Select(p => p).FirstOrDefault();
+                    if (vArticulo == null) {
+                        vArticulo = vDataArticulos.Where(p => p.CodigoArticuloCompuesto == item.CodigoArticulo).Select(p => p).FirstOrDefault();
+                    }
                     if (item.TipoActualizacion == eTipoActualizacion.Existencia || item.TipoActualizacion == eTipoActualizacion.ExistenciayCosto) {
                         if (vArticulo.TipoArticulo != eTipoDeArticulo.Servicio) {
                             ActualizarExistenciaPorAlmacen(valConsecutivoCompania, item.CodigoAlmacen, item.CodigoArticulo, item.Cantidad, item.Ubicacion, item.ConsecutivoAlmacen);
@@ -358,6 +335,8 @@ namespace Galac.Saw.Brl.Inventario {
                 vDefaultValue = " ";
             }
             StringBuilder vSQL = new StringBuilder();
+            vSQL.AppendLine("DELETE FROM ExistenciaPorGrupo  WHERE ConsecutivoCompania = @ConsecutivoCompania AND CodigoArticulo = @CodigoArticulo AND CodigoTalla = @CodigoTalla AND CodigoColor = @CodigoColor AND Serial = '0' AND Rollo = '0' AND Existencia = 0");
+            LibBusiness.ExecuteUpdateOrDelete(vSQL.ToString(), vParams.Get(), "", 0);
             foreach (var itemSerial in valListArticuloInventarioExistenciaSerial) {
                 vParams = new LibGpParams();
                 vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
