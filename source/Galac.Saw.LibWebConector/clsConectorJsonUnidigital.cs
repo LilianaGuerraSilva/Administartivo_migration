@@ -107,7 +107,7 @@ namespace Galac.Saw.LibWebConnector {
                 string vMensaje = vEx.InnerException.InnerException.Message;
                 if(vEx.InnerException.InnerException.HResultPublic() == -2146233079) {
                     vMensaje += "\r\nRevise su conexión a Internet, Revise que la URL del servicio sea la correcta.";
-                    if(LibString.S1IsEqualToS2(eComandosPostUnidigital.Emision.GetDescription(), valComandoApi)) {
+                    if(LibString.S1IsEqualToS2(eComandosPostUnidigital.Emision.GetDescription(), valComandoApi) || LibString.S1IsEqualToS2(eComandosPostUnidigital.EstadoDocumento.GetDescription(), valComandoApi)) {
                         vMensaje += ",\r\nDebe sincronizar el documento.";
                     }
                 }
