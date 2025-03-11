@@ -348,7 +348,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
        public bool PermitirNombreDelClienteExtendido {get; set;}
        public bool UsarModoDotNet {get; set;}
        public string NombreOperador {get; set;}
-       public DateTime FechaUltimaModificacion {get; set;}      
+       public DateTime FechaUltimaModificacion {get; set;}
+       public bool UsaMaquinaFiscal { get; set; }
     } 	
 
    public class FkCajaAperturaViewModel : IFkCajaAperturaViewModel {        
