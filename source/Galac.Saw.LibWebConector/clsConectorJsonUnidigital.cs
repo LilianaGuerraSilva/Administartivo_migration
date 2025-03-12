@@ -15,7 +15,8 @@ using System.Xml.Linq;
 namespace Galac.Saw.LibWebConnector {
     public class clsConectorJsonUnidigital : clsConectorJson {
         string strTipoDocumento;
-        public string StrongeId { get; private set; }       
+        public string StrongeId { get; private set; }
+        public string SerieId { get; private set; }
         public clsConectorJsonUnidigital(ILoginUser valloginUser) : base(valloginUser) {
             LoginUser = valloginUser;
             Token = string.Empty;
@@ -30,6 +31,7 @@ namespace Galac.Saw.LibWebConnector {
                 if(!vRequest.hasErrors) {                                      
                     Token = vRequest.tokenUD;
                     StrongeId = vRequest.StrongeID;
+                    SerieId = vRequest.SerieID;
                     vResult = true;
                 } else {
                     LoginUser.MessageResult = string.Join("\r\n", vRequest.errorsUD.FirstOrDefault().messageUD);
@@ -59,6 +61,7 @@ namespace Galac.Saw.LibWebConnector {
                     } else {
                         infoReqs.StrongeID = LoginReqs.seriesUD.FirstOrDefault().strongId;
                         infoReqs.tokenUD = LoginReqs.accessToken;
+                        infoReqs.SerieID = LoginReqs.seriesUD[0].nameUD;
                     }
                 } else if(LibString.S1IsEqualToS2(eComandosPostUnidigital.Emision.GetDescription(), valComandoApi)) {
                     stRespuestaEnvioUD infoReqEnvio = JsonConvert.DeserializeObject<stRespuestaEnvioUD>(vPostRequest);
