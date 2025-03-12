@@ -23,8 +23,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         JObject vDocumentoDigital;
         string _TipoDeProveedor;
         clsConectorJson _ConectorJson;
-        string _StrongeID = "";        
-
+        string _StrongeID = "";
+        string _SerieID = "";
         public ImprentaUnidigital(eTipoDocumentoFactura initTipoDeDocumento, string initNumeroFactura) : base(initTipoDeDocumento, initNumeroFactura) {
             _NumeroFactura = initNumeroFactura;
             _TipoDeDocumento = initTipoDeDocumento;
@@ -74,6 +74,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 if(LibString.IsNullOrEmpty(_ConectorJson.Token)) {
                     ObtenerDatosDocumentoEmitido();
                     vChekConeccion = _ConectorJson.CheckConnection(ref vMensaje, LibEnumHelper.GetDescription(eComandosPostUnidigital.Autenticacion));
+                    _SerieID = ((clsConectorJsonUnidigital)_ConectorJson).SerieId;
                 } else {
                     vChekConeccion = true;
                 }
@@ -81,10 +82,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     if(LibString.IsNullOrEmpty(FacturaImprentaDigital.ImprentaDigitalGUID) || LibString.IsNullOrEmpty(FacturaImprentaDigital.NumeroControl)) {
                         JObject IdDocumento = new JObject {
                             { "Number", NumeroDocumento() },
-                            { "Serie", "0" },
+                            { "Serie",  _SerieID },
                             { "DocumentType",GetTipoDocumento( FacturaImprentaDigital.TipoDeDocumentoAsEnum) }};
                         vRespuestaConector = ((clsConectorJsonUnidigital)_ConectorJson).SendPostJsonUD(IdDocumento.ToString(), LibEnumHelper.GetDescription(eComandosPostUnidigital.EstadoDocumento), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
-                        Mensaje = vRespuestaConector.MessageUD;          
+                        Mensaje = vRespuestaConector.MessageUD;
                     } else if(!LibString.IsNullOrEmpty(FacturaImprentaDigital.ImprentaDigitalGUID) && LibString.IsNullOrEmpty(FacturaImprentaDigital.NumeroControl)) {
                         vRespuestaConector = ((clsConectorJsonUnidigital)_ConectorJson).SendGetJsonUD(FacturaImprentaDigital.ImprentaDigitalGUID, LibEnumHelper.GetDescription(eComandosPostUnidigital.ObtenerNroControl), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
                         Mensaje = vRespuestaConector.MessageUD;
@@ -106,11 +107,17 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 _StrongeID = vRespuestaConector.StrongeID;
                 if(vRespuestaConector.Exitoso) {
                     EstatusDocumento = vRespuestaConector.MessageUD ?? string.Empty;
-                    NumeroControl = vRespuestaConector.NumeroControl ?? string.Empty;
+                    NumeroControl = FormatoNumeroControl(vRespuestaConector.NumeroControl, _SerieID) ?? string.Empty;
                     FechaAsignacion = LibString.IsNullOrEmpty(vRespuestaConector.FechaAsignacion) ? LibDate.MinDateForDB() : LibConvert.ToDate(vRespuestaConector.FechaAsignacion);
                     HoraAsignacion = LibConvert.ToStr(FechaAsignacion, "hh:mm");
                 }
             }
+        }
+
+        private string FormatoNumeroControl(string valNumeroControl, string valSerie) {
+            string vResult = string.Empty;
+            vResult = LibString.Right("00" + valSerie, 2) + "-" + LibString.Right("00000000" + valNumeroControl, 8);
+            return vResult;
         }
 
         public override bool EnviarDocumento() {

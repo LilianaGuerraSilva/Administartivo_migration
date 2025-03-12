@@ -281,6 +281,11 @@ namespace Galac.Saw.LibWebConnector {
         public string StrongeID {
             get; set;
         }
+
+        public string SerieID {
+            get; set;
+        }
+
         public string Codigo {
             get; set;
         }
