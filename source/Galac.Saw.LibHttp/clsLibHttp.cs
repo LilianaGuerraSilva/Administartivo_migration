@@ -49,11 +49,14 @@ namespace Galac.Saw.LibHttp {
             }
         }      
 
-        string ILibHttp.HttpExecuteGet(string valContent, string valUrl, string valComandoApi) {
+        string ILibHttp.HttpExecuteGet(string valContent, string valUrl, string valComandoApi,string valToken) {
             try {
                 string vResult = string.Empty;
                 HttpClient vHttpClient = new HttpClient();
                 vHttpClient.BaseAddress = new Uri(valUrl);
+                if(!string.IsNullOrEmpty(valToken)) {
+                    vHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", valToken);
+                }                
                 var request = new HttpRequestMessage(HttpMethod.Get, valUrl + valComandoApi + valContent) {
                     Version = HttpVersion.Version11
                 };

@@ -128,6 +128,7 @@ namespace Galac.Adm.Ccl.Venta {
         private string _MotivoDeAnulacion;
         private long _fldTimeStamp;
         private decimal _TotalAPagar;
+        string _ImprentaDigitalGUID;
         private ObservableCollection<FacturaRapidaDetalle> _DetailFacturaRapidaDetalle;
         private ObservableCollection<RenglonCobroDeFactura> _DetailRenglonCobroDeFactura;
         private eFacturaGeneradaPor _GeneradoPor;
@@ -942,11 +943,21 @@ namespace Galac.Adm.Ccl.Venta {
             get { return _NumeroDiasMantenerCambioAMonedaLocal; }
             set { _NumeroDiasMantenerCambioAMonedaLocal = value; }
         }
+        
+        public string ImprentaDigitalGUID {
+            get { return _ImprentaDigitalGUID; }
+            set { _ImprentaDigitalGUID =value; }
+        }
 
         public string MotivoDeAnulacion {
-            get { return _MotivoDeAnulacion; }
-            set { _MotivoDeAnulacion = LibString.Mid(value, 0, 150); }
+            get {
+                return _MotivoDeAnulacion;
+            }
+            set {
+                _MotivoDeAnulacion = LibString.Mid(value, 0, 150);
+            }
         }
+
         public long fldTimeStamp {
             get { return _fldTimeStamp; }
             set { _fldTimeStamp = value; }

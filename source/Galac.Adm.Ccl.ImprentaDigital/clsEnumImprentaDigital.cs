@@ -70,7 +70,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         Anular,
         [LibEnumDescription("/documents/notified")]
         Email,
-        [LibEnumDescription("/documents/searchbynumber")]
+        [LibEnumDescription("/documents/searchbynumberandserie")]
         EstadoDocumento,
         [LibEnumDescription("/documents?strongId=")]
         ObtenerNroControl

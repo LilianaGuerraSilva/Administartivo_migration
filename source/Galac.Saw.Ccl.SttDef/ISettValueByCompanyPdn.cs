@@ -41,6 +41,7 @@ namespace Galac.Saw.Ccl.SttDef {
         bool ExistenArticulosMercanciaNoSimpleNoLoteFDV(int valConsecutivoCompania);
         bool ExistenArticulosLoteFdV(int valConsecutivoCompania);
         bool ExisteCajaConMaquinaFiscal(int valConsecutivoCompania);
+        string VersionHomologada();
     }
 }
 
