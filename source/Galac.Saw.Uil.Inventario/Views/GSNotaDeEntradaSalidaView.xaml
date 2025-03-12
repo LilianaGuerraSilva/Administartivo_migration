@@ -20,9 +20,9 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" MinWidth="120" />
-            <ColumnDefinition Width="Auto" MinWidth="135" />
-            <ColumnDefinition Width="Auto" MinWidth="216" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" MinWidth="140" />
+            <ColumnDefinition Width="Auto" MinWidth="100" />
+            <ColumnDefinition Width="100" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
@@ -39,7 +39,7 @@
             Grid.Row="0"
             Grid.Column="0"
             Height="24"
-            Margin="3,3,29,0"
+            Margin="3,3,9,0"
             HorizontalAlignment="Stretch"
             Content="N° Documento"
             Style="{StaticResource LabelPrompt}" />
@@ -58,7 +58,7 @@
             MaxLength="11"
             Style="{StaticResource TextBoxInputStyle}"
             Text="{Binding NumeroDocumento, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
-        <Grid Grid.Row="0" Grid.Column="2">
+        <Grid Grid.Row="0" Grid.Column="2" Margin="15,0,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -89,7 +89,7 @@
             Grid.Row="1"
             Grid.Column="0"
             Height="24"
-            Margin="3,3,52,0"
+            Margin="3,3,2,0"
             HorizontalAlignment="Stretch"
             Content="Operación"
             Style="{StaticResource LabelPrompt}" />
@@ -111,7 +111,7 @@
             Grid.Row="2"
             Grid.Column="0"
             Height="24"
-            Margin="3,3,60,0"
+            Margin="3,3,6,0"
             HorizontalAlignment="Stretch"
             Content="Almacén"
             Style="{StaticResource LabelPrompt}" />
@@ -131,30 +131,30 @@
             Grid.Row="2"
             Grid.Column="2"
             Grid.ColumnSpan="2"
-            Width="332"
+            Width="360"
             Height="25"
-            Margin="3,3,0,0"
+            Margin="3,0,0,0"
             Content="{Binding NombreAlmacen}"
-            Style="{StaticResource LabelCalculatedField}" />
+            Style="{StaticResource LabelCalculatedField}" VerticalAlignment="Center" />
         <Label
             x:Name="lblComentarios"
             Grid.Row="3"
             Grid.Column="0"
             Height="24"
-            Margin="3,3,39,0"
+            Margin="3,3,9,0"
             HorizontalAlignment="Stretch"
             Content="Comentarios"
             Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSTextBoxWpf
+        <nsWpfControls:GSTextAreaWpf
             x:Name="txtComentarios"
             Grid.Row="3"
             Grid.Column="1"
             Grid.ColumnSpan="3"
-            Height="55"
+            Width="607"
+            Height="35"
             Margin="3,3,0,3"
-            HorizontalAlignment="Stretch"
             BorderThickness="1"
-            InputDataType="Alfanumeric"
+            MaxLines="4"
             IsEnabled="{Binding Path=NotaESIsEnabled}"
             IsReadOnly="{Binding IsReadOnly}"
             MaxLength="255"
@@ -175,7 +175,7 @@
             Grid.ColumnSpan="4"
             Width="730"
             Margin="0,3">
-            <Grid Name="gdRenglonNotaES">
+            <Grid Name="gdRenglonNotaES" Margin="5,0,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
@@ -225,7 +225,7 @@
                     x:Name="dgRenglonNotaES"
                     Grid.Row="2"
                     Grid.ColumnSpan="4"
-                    Height="100"
+                    Height="150"
                     MinWidth="250"
                     MinHeight="100"
                     ColumnsMap="{Binding DetailRenglonNotaES.VisibleColumns}"

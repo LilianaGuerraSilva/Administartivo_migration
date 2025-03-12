@@ -21,7 +21,7 @@
         </Border.CacheMode>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="114" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -29,6 +29,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -41,18 +42,18 @@
             Name="txtCodigoArticulo" 
             Height="23" 
             Margin="3" 
-            HorizontalAlignment="Left" 
+            HorizontalAlignment="Left"            
             Width="250" IsEnabled="{Binding Path=IsEnabled}"
             DisplayMemberPath="Descripcion"
             Model="{Binding Path=ConexionCodigoArticulo, Mode=TwoWay}"
             ConnectionValue="{Binding Path=CodigoArticulo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-            SearchCommand="{Binding Path=ChooseCodigoArticuloCommand}" VerticalAlignment="Top" />
+            SearchCommand="{Binding Path=ChooseCodigoArticuloCommand}" VerticalAlignment="Center" />
             <nsWpfControls:GSTextBoxWpf 
             Grid.Row="1" 
             Grid.Column="1" 
             Grid.ColumnSpan="4" 
             Name="txtDescripcionArticulo" 
-            Height="40" 
+            Height="35" 
             Margin="3" 
             HorizontalAlignment="Left" 
             Width="400" 
@@ -86,7 +87,7 @@
             Grid.Column="1" 
             Name="txtLoteDeInventario" 
             Height="23" 
-            Margin="3" 
+            Margin="3,3" 
             HorizontalAlignment="Left" 
             Width="250"             
             DisplayMemberPath="CodigoLote"
@@ -138,6 +139,53 @@
             Content="{Binding Path=TipoDeMercanciaStr}" 
             Style="{StaticResource LabelStatusGreen}" 
             HorizontalAlignment="Left" />
+            <Label 
+                Visibility="{Binding IsVisibleSerial, Converter={StaticResource boolToVisibilityConverter}}" 
+                Grid.Row="4" 
+                Grid.Column="0"
+                x:Name="lblSerial" 
+                Content="Serial" 
+                Style="{StaticResource LabelPrompt}" HorizontalAlignment="Left" Margin="3,3,0,0" />
+            <nsWpfControls:GSTextBoxWpf
+                x:Name="txtSerial"
+                Visibility="{Binding IsVisibleSerial, Converter={StaticResource boolToVisibilityConverter}}" 
+                Grid.Row="4"
+                Grid.Column="1"
+                Margin="3,0,0,0"
+                Height="23" 
+                nsWpf:LibFocusManager.FocusedPropertyName="Serial"
+                nsWpf:LibFocusManager.IsFocused="True"
+                BorderThickness="1"
+                InputDataType="Alfanumeric"
+                IsEnabled="{Binding NotaESIsEnabled}"
+                MaxLength="50"
+                VerticalAlignment="Center"
+                Style="{StaticResource TextBoxInputStyle}"
+                Text="{Binding Serial, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Width="225" />
+            <Label 
+                Visibility="{Binding IsVisibleRollo, Converter={StaticResource boolToVisibilityConverter}}" 
+                Grid.Row="4" 
+                Grid.Column="2"
+                x:Name="lblRollo" 
+                Content="Rollo" 
+                Style="{StaticResource LabelPrompt}" Margin="3,3,0,0" />
+            <nsWpfControls:GSTextBoxWpf
+                x:Name="txtRollo"
+                Visibility="{Binding IsVisibleRollo, Converter={StaticResource boolToVisibilityConverter}}" 
+                Grid.Row="4"
+                Grid.Column="3"
+                Grid.ColumnSpan ="2"
+                Margin="3,0,0,0"
+                Height="23" 
+                nsWpf:LibFocusManager.FocusedPropertyName="Rollo"
+                nsWpf:LibFocusManager.IsFocused="True"
+                BorderThickness="1"
+                InputDataType="Alfanumeric"
+                IsEnabled="{Binding NotaESIsEnabled}"
+                MaxLength="50"
+                VerticalAlignment="Center"
+                Style="{StaticResource TextBoxInputStyle}"
+                Text="{Binding Rollo, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Width="160" />
         </Grid>
     </Border>
 </UserControl>
