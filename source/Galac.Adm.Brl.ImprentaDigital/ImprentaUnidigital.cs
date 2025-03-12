@@ -210,6 +210,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         private JObject GetCuerpoDocumento() {
             string vMonedaConversion = LibString.S1IsEqualToS2(FacturaImprentaDigital.CodigoMoneda, CodigoMonedaLocal) ? CodigoMonedaME : CodigoMonedaLocal;
             vMonedaConversion = LibString.S1IsEqualToS2(vMonedaConversion, "VED") ? "VES" : vMonedaConversion;
+            decimal vIGTFAmount = LibString.S1IsEqualToS2(FacturaImprentaDigital.CodigoMoneda, CodigoMonedaLocal) ? FacturaImprentaDigital.IGTFML : FacturaImprentaDigital.IGTFME;
+            decimal vIGTFAmountVes = LibString.S1IsEqualToS2(FacturaImprentaDigital.CodigoMoneda, CodigoMonedaLocal) ? FacturaImprentaDigital.IGTFME : FacturaImprentaDigital.IGTFML;
             JObject vJsonDoc = new JObject {
                 { "SerieStrongId",_StrongeID },
                 { "DocumentType", GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum) },
@@ -223,7 +225,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 { "PaymentType", FacturaImprentaDigital.FormaDePagoAsString },
                 { "Currency", FacturaImprentaDigital.CodigoMoneda == "VED" ? "VES": FacturaImprentaDigital.CodigoMoneda },
                 { "Discount",FacturaImprentaDigital.MontoDescuento1 },
-                { "PreviousBalance", FacturaImprentaDigital.MontoGravableAlicuota1 +FacturaImprentaDigital.MontoGravableAlicuota2 +FacturaImprentaDigital.MontoGravableAlicuota3 },
+                { "PreviousBalance", FacturaImprentaDigital.MontoGravableAlicuota1 +FacturaImprentaDigital.MontoGravableAlicuota2 + FacturaImprentaDigital.MontoGravableAlicuota3 },
                 { "ExemptAmount",LibMath.Abs( FacturaImprentaDigital.TotalMontoExento) },
                 { "TaxBase", LibMath.Abs(FacturaImprentaDigital.MontoGravableAlicuota1) },
                 { "TaxAmount",LibMath.Abs(FacturaImprentaDigital.MontoIvaAlicuota1) },
@@ -236,10 +238,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 { "TaxAmountSumptuary", LibMath.Abs(FacturaImprentaDigital.MontoIvaAlicuota3) },
                 { "Total", LibMath.Abs(FacturaImprentaDigital.TotalFactura)},
                 { "IGTFBaseAmount", FacturaImprentaDigital.BaseImponibleIGTF },
-                { "IGTFAmount", FacturaImprentaDigital.IGTFML },
+                { "IGTFAmount", vIGTFAmount },
                 { "IGTFPercentage", FacturaImprentaDigital.AlicuotaIGTF },
-                { "GrandTotal",  LibMath.Abs(FacturaImprentaDigital.TotalFactura+FacturaImprentaDigital.IGTFML)},
-                { "AmountLetters", LibConvert.ToNumberInLetters(LibMath.Abs(FacturaImprentaDigital.TotalFactura)+FacturaImprentaDigital.IGTFML,false,"") },
+                { "GrandTotal",  LibMath.Abs(FacturaImprentaDigital.TotalFactura + vIGTFAmount)},
+                { "AmountLetters", LibConvert.ToNumberInLetters(LibMath.Abs(FacturaImprentaDigital.TotalFactura) + vIGTFAmount,false,"") },
                 { "ConversionCurrency",vMonedaConversion },
                 { "DiscountVES",GetMontoME( FacturaImprentaDigital.MontoDescuento1) } ,
                 { "ExemptAmountVES", GetMontoME( FacturaImprentaDigital.TotalMontoExento) },
@@ -254,9 +256,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 { "TaxAmountSumptuaryVES", FacturaImprentaDigital.MontoIvaAlicuota3 },
                 { "TotalVES", GetMontoME(FacturaImprentaDigital.TotalFactura) },
                 { "IGTFBaseAmountVES", GetMontoME(FacturaImprentaDigital.BaseImponibleIGTF) },
-                { "IGTFAmountVES", FacturaImprentaDigital.IGTFME },
-                { "GrandTotalVES", GetMontoME(FacturaImprentaDigital.TotalFactura)+FacturaImprentaDigital.IGTFME },
-                { "AmountLettersVES", LibConvert.ToNumberInLetters(GetMontoME(FacturaImprentaDigital.TotalFactura)+FacturaImprentaDigital.IGTFME ,false,"") },
+                { "IGTFAmountVES",vIGTFAmountVes },
+                { "GrandTotalVES", GetMontoME(FacturaImprentaDigital.TotalFactura) + vIGTFAmountVes },
+                { "AmountLettersVES", LibConvert.ToNumberInLetters(GetMontoME(FacturaImprentaDigital.TotalFactura) + vIGTFAmountVes ,false,"") },
                 { "ExchangeRate", CambioABolivares },
                 { "Note1", FacturaImprentaDigital.Observaciones},
                 { "ShippingAddress", InfoAdicionalClienteImprentaDigital.Direccion + ", " + InfoAdicionalClienteImprentaDigital.Ciudad }

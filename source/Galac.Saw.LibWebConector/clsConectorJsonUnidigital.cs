@@ -63,15 +63,21 @@ namespace Galac.Saw.LibWebConnector {
                 } else if(LibString.S1IsEqualToS2(eComandosPostUnidigital.Emision.GetDescription(), valComandoApi)) {
                     stRespuestaEnvioUD infoReqEnvio = JsonConvert.DeserializeObject<stRespuestaEnvioUD>(vPostRequest);
                     if(infoReqEnvio.hasErrors) {
+                        stRespuestaErrorEnvioUD infoErrorReqEnvio = JsonConvert.DeserializeObject<stRespuestaErrorEnvioUD>(vPostRequest);
                         infoReqs.Exitoso = false;
-                        infoReqs.MessageUD = infoReqEnvio.errorsUD[0].messageUD;
-                        infoReqs.Codigo = infoReqEnvio.errorsUD[0].codeUD;
+                        string vErrorType = infoErrorReqEnvio.resultsUD.errorsUD[0].ErroresInternos[0].whatIsEval;
+                        if(LibString.S1IsEqualToS2("NumberMustBeUnique", vErrorType)) {
+                            infoReqs.MessageUD = "Este documento ya fue enviado a la imprenta.";
+                        } else {
+                            infoReqs.MessageUD = infoErrorReqEnvio.resultsUD.errorsUD[0].ErroresInternos[0].errorMessage;
+                        }
+                        infoReqs.Codigo = infoErrorReqEnvio.resultsUD.errorsUD[0].codeUD;
                         infoReqs.StrongeID = string.Empty;
                         return infoReqs;
                     } else {
                         infoReqs.Exitoso = !infoReqEnvio.hasErrors;
                         infoReqs.information = infoReqEnvio.information;
-                        infoReqs.StrongeID = infoReqEnvio.result ?? "";
+                        infoReqs.StrongeID = infoReqEnvio.resultsUD ?? "";
                     }
                 } else if(LibString.S1IsEqualToS2(eComandosPostUnidigital.EstadoDocumento.GetDescription(), valComandoApi)) {
                     stRespuestaStatusUD infoReqStatus = JsonConvert.DeserializeObject<stRespuestaStatusUD>(vPostRequest);
@@ -83,11 +89,11 @@ namespace Galac.Saw.LibWebConnector {
                         return infoReqs;
                     } else {
                         infoReqs.Exitoso = !infoReqStatus.hasErrors;
-                        if(infoReqStatus.result != null && infoReqStatus.result.Count() > 0) {
-                            infoReqs.StrongeID = infoReqStatus.result[0].strongId;
-                            infoReqs.NumeroControl = infoReqStatus.result[0].controlUD;
-                            infoReqs.TipoDocumento = infoReqStatus.result[0].documentType;
-                            infoReqs.FechaAsignacion = infoReqStatus.result[0].emissionDate;
+                        if(infoReqStatus.resultUD != null && infoReqStatus.resultUD.Count() > 0) {
+                            infoReqs.StrongeID = infoReqStatus.resultUD[0].strongId;
+                            infoReqs.NumeroControl = infoReqStatus.resultUD[0].controlUD;
+                            infoReqs.TipoDocumento = infoReqStatus.resultUD[0].documentType;
+                            infoReqs.FechaAsignacion = infoReqStatus.resultUD[0].emissionDate;
                             infoReqs.Codigo = "200";
                             infoReqs.MessageUD = "Enviada";
                         } else {
