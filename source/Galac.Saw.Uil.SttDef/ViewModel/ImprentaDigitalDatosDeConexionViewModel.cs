@@ -17,6 +17,7 @@ using Galac.Saw.Ccl.SttDef;
 using System.Text;
 using Galac.Saw.LibWebConnector;
 using Galac.Adm.Ccl.ImprentaDigital;
+using LibGalac.Aos.UI.Wpf;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     class ImprentaDigitalDatosDeConexionViewModel : LibGenericViewModel {
@@ -130,39 +131,43 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             string vCommand = string.Empty;
             bool vResult = false;
             clsConectorJson _ConectorJson = null;
-            switch(_ProveedorImprentaDigital) {
-                case eProveedorImprentaDigital.TheFactoryHKA:
-                    vCommand = LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion);
-                    _ConectorJson = new clsConectorJsonTheFactory(new clsLoginUser() {
-                        User = Usuario,
-                        URL = Url,
-                        Password = Clave,
-                        UserKey = CampoUsuario,
-                        PasswordKey = CampoClave
-                    });
-                    vResult = _ConectorJson.CheckConnection(ref vMensaje, vCommand);
-                    break;
-                case eProveedorImprentaDigital.Unidigital:
-                    vCommand = LibEnumHelper.GetDescription(eComandosPostUnidigital.Autenticacion);
-                    _ConectorJson = new clsConectorJsonUnidigital(new clsLoginUser() {
-                        User = Usuario,
-                        URL = Url,
-                        Password = Clave,
-                        UserKey = CampoUsuario,
-                        PasswordKey = CampoClave
-                    });
-                    vResult = _ConectorJson.CheckConnection(ref vMensaje, vCommand);
-                    break;
-                default:
-                    vResult = true;
-                    break;
-            }           
-            if(vResult) {
-                LibMessages.MessageBox.Information(this, "Conectado exitosamente a la Imprenta Digital " + Proveedor + ".", ModuleName);
-                ActivarButtonActions(true);
-            } else {
-                LibMessages.MessageBox.Warning(this, $"{vMensaje}.\r\nPor favor verifique los datos de conexión e intente de nuevo.", ModuleName);
-                ActivarButtonActions(false);
+            try {
+                switch(_ProveedorImprentaDigital) {
+                    case eProveedorImprentaDigital.TheFactoryHKA:
+                        vCommand = LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion);
+                        _ConectorJson = new clsConectorJsonTheFactory(new clsLoginUser() {
+                            User = Usuario,
+                            URL = Url,
+                            Password = Clave,
+                            UserKey = CampoUsuario,
+                            PasswordKey = CampoClave
+                        });
+                        vResult = _ConectorJson.CheckConnection(ref vMensaje, vCommand);
+                        break;
+                    case eProveedorImprentaDigital.Unidigital:
+                        vCommand = LibEnumHelper.GetDescription(eComandosPostUnidigital.Autenticacion);
+                        _ConectorJson = new clsConectorJsonUnidigital(new clsLoginUser() {
+                            User = Usuario,
+                            URL = Url,
+                            Password = Clave,
+                            UserKey = CampoUsuario,
+                            PasswordKey = CampoClave
+                        });
+                        vResult = _ConectorJson.CheckConnection(ref vMensaje, vCommand);
+                        break;
+                    default:
+                        vResult = true;
+                        break;
+                }
+                if(vResult) {
+                    LibMessages.MessageBox.Information(this, "Conectado exitosamente a la Imprenta Digital " + Proveedor + ".", ModuleName);
+                    ActivarButtonActions(true);
+                } else {
+                    LibMessages.MessageBox.Warning(this, $"{vMensaje}.\r\nPor favor verifique los datos de conexión e intente de nuevo.", ModuleName);
+                    ActivarButtonActions(false);
+                }
+            } catch(GalacException vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);            
             }
         }
 
