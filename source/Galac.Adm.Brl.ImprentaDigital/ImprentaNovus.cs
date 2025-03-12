@@ -83,7 +83,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 if(vChekConeccion) {
                     vDocumentoJSON = vEstausJson.ToString();
                     vRespuestaConector = ((clsConectorJsonNovus)_ConectorJson).SendPostJsonNV(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostNovus.EstadoDocumento), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
-                    Mensaje = vRespuestaConector.message;
+                    Mensaje = vRespuestaConector.messageNV;
                 } else {
                     Mensaje = vMensaje;
                 }
@@ -93,10 +93,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             } catch(Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             } finally {
-                EstatusDocumento = vRespuestaConector.message ?? string.Empty;
-                if(vRespuestaConector.data != null) {
-                    NumeroControl = vRespuestaConector.data.Value.numerodocumento ?? string.Empty;
-                    FechaAsignacion = LibString.IsNullOrEmpty(vRespuestaConector.data.Value.fecha) ? LibDate.MinDateForDB() : LibConvert.ToDate(vRespuestaConector.data.Value.fecha);
+                EstatusDocumento = vRespuestaConector.messageNV ?? string.Empty;
+                if(vRespuestaConector.dataNV != null) {
+                    NumeroControl = vRespuestaConector.dataNV.Value.numerodocumento ?? string.Empty;
+                    FechaAsignacion = LibString.IsNullOrEmpty(vRespuestaConector.dataNV.Value.fecha) ? LibDate.MinDateForDB() : LibConvert.ToDate(vRespuestaConector.dataNV.Value.fecha);
                     HoraAsignacion = LibConvert.ToStrOnlyForHour(FechaAsignacion, "hh:mm");
                 }
             }
@@ -127,7 +127,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                         };
                         vRespuestaConector = ((clsConectorJsonNovus)_ConectorJson).SendPostJsonNV(JObjectDoc.ToString(), LibEnumHelper.GetDescription(eComandosPostNovus.Anular), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);                        
                         vResult = vRespuestaConector.success;
-                        Mensaje = vRespuestaConector.message;
+                        Mensaje = vRespuestaConector.messageNV;
                     } else {
                         Mensaje = $"No se pudo anular la {FacturaImprentaDigital.TipoDeDocumentoAsString} en la Imprenta Digital, debe sincronizar el documento.";
                     }
@@ -165,11 +165,11 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     vRespuestaConector = ((clsConectorJsonNovus)_ConectorJson).SendPostJsonNV(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostNovus.Emision), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
                     vResult = vRespuestaConector.success;
                     if(vResult) {
-                        NumeroControl = vRespuestaConector.data.Value.numerodocumento;
-                        HoraAsignacion = vRespuestaConector.data.Value.hora;
+                        NumeroControl = vRespuestaConector.dataNV.Value.numerodocumento;
+                        HoraAsignacion = vRespuestaConector.dataNV.Value.hora;
                         ActualizaNroControlYProveedorImprentaDigital();
                     } else {
-                        Mensaje = vRespuestaConector.message;
+                        Mensaje = vRespuestaConector.messageNV;
                         throw new Exception(Mensaje);
                     }
                 } else {
@@ -205,7 +205,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 string vDocumentoJSON = JObjectDoc.ToString();
                 vRespuestaConector = ((clsConectorJsonNovus)_ConectorJson).SendPostJsonNV(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostNovus.Email), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);                                
                 vResult = vRespuestaConector.success;
-                Mensaje = vRespuestaConector.message;
+                Mensaje = vRespuestaConector.messageNV;
                 return vResult;
             } catch (AggregateException gEx) {
                 throw new GalacException(gEx.InnerException.Message, eExceptionManagementType.Controlled);
@@ -292,9 +292,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 {"moneda", FacturaImprentaDigital.CodigoMoneda == CodigoMonedaLocal ? "bs" : "usd"},
                 {"tasacambio", CambioABolivares},
                 {"observacion", FacturaImprentaDigital.Observaciones} };
-            if (_TipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito || _TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito) {
+            if(_TipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito || _TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito) {
                 vJsonDoc.Add("relacionado", ObtenerNumeroControlFacturaAfectada());
-            }
+            }           
             return vJsonDoc;
         }
 
