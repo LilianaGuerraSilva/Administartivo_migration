@@ -272,7 +272,7 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfiguraLasSeccionesDelReporteDeCxCxVendedor", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fConfiguraLasSeccionesDelReporteDeAnalisisDeVencimiento(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSQL As String, ByVal valDetallado As Boolean, ByVal valTituloFecha As String, ByVal valPrimerVencimiento As Long, ByVal valSegundoVencimiento As Long, ByVal valTercerVencimiento As Long, ByVal valNombreCompaniaParaInformes As String, ByVal valMensajesDeMonedaParaInformes As String, ByVal valMonedaOriginal As Boolean, ByVal valAgruparPorTipo As Boolean, Optional ByVal valCodigoVendedor As String, Optional ByVal valNombreVendedor As String) As Boolean
+Public Function fConfiguraLasSeccionesDelReporteDeAnalisisDeVencimiento(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSQL As String, ByVal valDetallado As Boolean, ByVal valTituloFecha As String, ByVal valPrimerVencimiento As Long, ByVal valSegundoVencimiento As Long, ByVal valTercerVencimiento As Long, ByVal valNombreCompaniaParaInformes As String, ByVal valMensajesDeMonedaParaInformes As String, ByVal valMonedaOriginal As Boolean, ByVal valAgruparPorTipo As Boolean, Optional ByVal valCodigoVendedor As String, Optional ByVal valNombreVendedor As String, Optional ByVal valFiltrarCredElectronico As String) As Boolean
    Dim exito As Boolean
    Dim nombreFileXML As String
    Dim NombreDelReporte As String
@@ -361,6 +361,14 @@ Public Function fConfiguraLasSeccionesDelReporteDeAnalisisDeVencimiento(ByRef re
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtGFTMto3Vto", "", ""
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtGFTMto4Vto", "", ""
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtGFTTotalCliente", "", ""
+         gUtilReports.sDefaultConfigurationForLabels refRpt, "lblNota", ""
+         If gProyParametrosCompania.GetUsaCreditoElectronico Then
+            If gTexto.S1yS2CoincidenEnLosPrimerosCaracteres(valFiltrarCredElectronico, "Solo") Then
+               gUtilReports.sDefaultConfigurationForLabels refRpt, "lblNota", "Este informe muestra únicamente las cuentas por cobrar generadas a través de " & gProyParametrosCompania.GetNombreCreditoElectronico
+            ElseIf gTexto.S1yS2CoincidenEnLosPrimerosCaracteres(valFiltrarCredElectronico, "Sin") Then
+               gUtilReports.sDefaultConfigurationForLabels refRpt, "lblNota", "Este informe excluye las cuentas por cobrar generadas por " & gProyParametrosCompania.GetNombreCreditoElectronico
+            End If
+         End If
          gUtilMargins.sAsignarMargenesGenerales refRpt, , NombreDelReporte
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtTipoDocumento", "", "Tipo"
          Call refRpt.AddNamedItem("gUtilReports", gUtilReports)
@@ -518,7 +526,7 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteAnalisisDeCxCHistorico", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fConfigurarDatosDelReporteAnalisisDeVencimientoEntreFechas(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valTotalizaPorMes As Boolean, ByVal valAgruparPorVendedor As Boolean, ByVal valNombreCompaniaParaInformes As String, ByVal valPrimerVencimiento As Long, ByVal valSegundoVencimiento As Long, ByVal valTercerVencimiento As Long, ByVal valMensajesDeMonedaParaInformes As String, ByVal valMonedaOriginal As Boolean, ByVal usarFiltroZonaCobranza As Boolean) As Boolean
+Public Function fConfigurarDatosDelReporteAnalisisDeVencimientoEntreFechas(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valTotalizaPorMes As Boolean, ByVal valAgruparPorVendedor As Boolean, ByVal valNombreCompaniaParaInformes As String, ByVal valPrimerVencimiento As Long, ByVal valSegundoVencimiento As Long, ByVal valTercerVencimiento As Long, ByVal valMensajesDeMonedaParaInformes As String, ByVal valMonedaOriginal As Boolean, ByVal usarFiltroZonaCobranza As Boolean, Optional ByVal valFiltrarCredElectronico As String) As Boolean
    Dim nombreDelFileXML As String
    Dim exito As Boolean
    On Error GoTo h_ERROR
@@ -596,6 +604,14 @@ Public Function fConfigurarDatosDelReporteAnalisisDeVencimientoEntreFechas(ByRef
          Else
             gUtilReports.sConfigurationForSectionPropertiesVisibleAndHeight refRpt, "GHMes", False
             gUtilReports.sConfigurationForSectionPropertiesVisibleAndHeight refRpt, "GFMes", False
+         End If
+         gUtilReports.sDefaultConfigurationForLabels refRpt, "lblNota", ""
+         If gProyParametrosCompania.GetUsaCreditoElectronico Then
+            If gTexto.S1yS2CoincidenEnLosPrimerosCaracteres(valFiltrarCredElectronico, "Solo") Then
+               gUtilReports.sDefaultConfigurationForLabels refRpt, "lblNota", "Este informe muestra únicamente las cuentas por cobrar generadas a través de " & gProyParametrosCompania.GetNombreCreditoElectronico
+            ElseIf gTexto.S1yS2CoincidenEnLosPrimerosCaracteres(valFiltrarCredElectronico, "Sin") Then
+               gUtilReports.sDefaultConfigurationForLabels refRpt, "lblNota", "Este informe excluye las cuentas por cobrar generadas por " & gProyParametrosCompania.GetNombreCreditoElectronico
+            End If
          End If
          gUtilMargins.sAsignarMargenesGenerales refRpt, ddOLandscape, fNombreDelReporteDeCxC(eCxCRpt_ANALISIS_DE_VENCIMIENTO_ENTRE_FECHAS)
          Call refRpt.AddNamedItem("gUtilReports", gUtilReports)

@@ -10,6 +10,34 @@ Begin VB.Form frmInformesDeCXC
    LinkTopic       =   "Form1"
    ScaleHeight     =   6540
    ScaleWidth      =   10995
+   Begin VB.Frame frameFiltradoCredElectronico 
+      BackColor       =   &H00F3F3F3&
+      Caption         =   "Frame1"
+      Height          =   630
+      Left            =   7080
+      TabIndex        =   92
+      Top             =   2830
+      Visible         =   0   'False
+      Width           =   3795
+      Begin VB.ComboBox cmbFiltroCredElectronico 
+         Enabled         =   0   'False
+         Height          =   315
+         Left            =   840
+         TabIndex        =   93
+         Top             =   240
+         Width           =   2895
+      End
+      Begin VB.Label lblFiltradoCredElectronico 
+         BackColor       =   &H00F3F3F3&
+         Caption         =   "Filtrar por"
+         ForeColor       =   &H00A84439&
+         Height          =   255
+         Left            =   120
+         TabIndex        =   94
+         Top             =   240
+         Width           =   735
+      End
+   End
    Begin VB.Frame frameFiltroZona 
       BackColor       =   &H00F3F3F3&
       BorderStyle     =   0  'None
@@ -19,7 +47,7 @@ Begin VB.Form frmInformesDeCXC
       TabIndex        =   87
       Top             =   4320
       Visible         =   0   'False
-      Width           =   8000
+      Width           =   4755
       Begin VB.ComboBox cmbFiltroZona 
          Enabled         =   0   'False
          Height          =   315
@@ -679,7 +707,7 @@ Begin VB.Form frmInformesDeCXC
          _ExtentY        =   556
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   97779715
+         Format          =   66387971
          CurrentDate     =   36978
       End
       Begin MSComCtl2.DTPicker dtpFechaInicial 
@@ -692,7 +720,7 @@ Begin VB.Form frmInformesDeCXC
          _ExtentY        =   556
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   97779715
+         Format          =   66387971
          CurrentDate     =   36978
       End
       Begin VB.Label lblFechaFinal 
@@ -922,8 +950,8 @@ Begin VB.Form frmInformesDeCXC
       BackColor       =   &H00F3F3F3&
       Caption         =   "Tasa de cambio"
       ForeColor       =   &H00808080&
-      Height          =   915
-      Left            =   5460
+      Height          =   1035
+      Left            =   5400
       TabIndex        =   65
       Top             =   2430
       Width           =   1635
@@ -956,11 +984,11 @@ Begin VB.Form frmInformesDeCXC
       BackColor       =   &H00F3F3F3&
       Caption         =   "Informe"
       ForeColor       =   &H00808080&
-      Height          =   915
-      Left            =   5460
+      Height          =   1035
+      Left            =   5400
       TabIndex        =   67
       Top             =   2430
-      Width           =   1635
+      Width           =   1575
       Begin VB.OptionButton optDetallado 
          Alignment       =   1  'Right Justify
          BackColor       =   &H00F3F3F3&
@@ -1626,7 +1654,7 @@ Private Sub sInitDefaultValues()
       txtCodigoDeCliente.Visible = False
    End If
    optInformeDeCxC(OPT_FACTURAS_SIN_CXC).Visible = gDefgen.GetElProgramaEstaEnModoAvanzado
-  
+   sFillComboBoxFiltrarCredElectronico
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInitDefaltValues", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -1651,6 +1679,12 @@ Private Sub sActivarCamposDeAnalisisDeVencimiento()
    frameCantidadAImprimir.Visible = True
    frameCantidadAImprimir.Top = 660
    frameVendedor.Visible = True
+   If gProyParametrosCompania.GetUsaCreditoElectronico Then
+      frameFiltradoCredElectronico.Visible = True
+      frameFiltradoCredElectronico.Caption = gProyParametrosCompania.GetNombreCreditoElectronico
+      lblFiltradoCredElectronico.Visible = True
+      cmbFiltroCredElectronico.Visible = True
+   End If
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeAnalisisDeVencimiento", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -1678,7 +1712,7 @@ Private Sub sEjecutaAnalisisDeVencimiento()
    End If
    Set insConfigurar = New clsCxCRpt
    Set reporte = New DDActiveReports2.ActiveReport
-   SqlDelReporte = insCxcSQL.fConstruirSQLDelReporteAnalisisDeVencimiento(txtCodigoVendedor.Text, CmbCantidadAImprimir.Text, CmbZonaCobranza.Text, cmbAnalisisDeVencimientoPor.Text, gProyCompaniaActual.GetConsecutivoCompania, cmbMonedaDeLosReportes.Text, gProyParametros.GetNombreMonedaLocal, insAdmPropAnalisisVenc, gUltimaTasaDeCambio, gMonedaLocalActual)
+   SqlDelReporte = insCxcSQL.fConstruirSQLDelReporteAnalisisDeVencimiento(txtCodigoVendedor.Text, CmbCantidadAImprimir.Text, CmbZonaCobranza.Text, cmbAnalisisDeVencimientoPor.Text, gProyCompaniaActual.GetConsecutivoCompania, cmbMonedaDeLosReportes.Text, gProyParametros.GetNombreMonedaLocal, insAdmPropAnalisisVenc, gUltimaTasaDeCambio, gMonedaLocalActual, cmbFiltroCredElectronico.Text, gProyParametrosCompania)
    detallado = optDetallado.Value
    Titulo = "Análisis de Vencimiento de Cuentas por Cobrar - "
    If detallado Then
@@ -1690,7 +1724,7 @@ Private Sub sEjecutaAnalisisDeVencimiento()
    TituloFecha = "Del " & gConvert.dateToString(dtpFechaInicial) & " al " & gConvert.dateToString(dtpFechaFinal)
    monedaOrig = Not (cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, gProyParametros.GetNombreMonedaLocal))
    If insAdmPropAnalisisVenc.fBuscaValoresDeLasPropAnalisisVencActual Then
-      If insConfigurar.fConfiguraLasSeccionesDelReporteDeAnalisisDeVencimiento(reporte, SqlDelReporte, detallado, TituloFecha, insAdmPropAnalisisVenc.GetPrimerVencimiento, insAdmPropAnalisisVenc.GetSegundoVencimiento, insAdmPropAnalisisVenc.GetTercerVencimiento, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gEnumReport.getMensajesDeMonedaParaInformes(eMM_CambioOriginal), monedaOrig, False, txtCodigoVendedor.Text, txtNombreVendedor.Text) Then
+      If insConfigurar.fConfiguraLasSeccionesDelReporteDeAnalisisDeVencimiento(reporte, SqlDelReporte, detallado, TituloFecha, insAdmPropAnalisisVenc.GetPrimerVencimiento, insAdmPropAnalisisVenc.GetSegundoVencimiento, insAdmPropAnalisisVenc.GetTercerVencimiento, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gEnumReport.getMensajesDeMonedaParaInformes(eMM_CambioOriginal), monedaOrig, False, txtCodigoVendedor.Text, txtNombreVendedor.Text, cmbFiltroCredElectronico.Text) Then
          gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, Titulo
       End If
    End If
@@ -1872,6 +1906,7 @@ Private Sub sOcultaTodosLosCampos()
    frameAgruparInformeCXC.Visible = False
    frameContacto.Visible = False
    frameFiltroZona.Visible = False
+   frameFiltradoCredElectronico.Visible = False
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sOcultaTodosLosCampos", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -2060,6 +2095,12 @@ Private Sub sActivarCamposDeAnalisisDeVencimientoEntreFechas()
    frameAnalisisDeVencimientoPor.Visible = True
    frameMoneda.Visible = True
    frameFiltroZona.Visible = True
+   If gProyParametrosCompania.GetUsaCreditoElectronico Then
+      frameFiltradoCredElectronico.Visible = True
+      frameFiltradoCredElectronico.Caption = gProyParametrosCompania.GetNombreCreditoElectronico
+      lblFiltradoCredElectronico.Visible = True
+      cmbFiltroCredElectronico.Visible = True
+   End If
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeAnalisisDeVencimientoEntreFechas", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -2081,12 +2122,12 @@ Private Sub sEjecutaAnalisisDeVencimientoEntreFechas()
    End If
    Set insConfigurar = New clsCxCRpt
    Set reporte = New DDActiveReports2.ActiveReport
-   SqlDelReporte = insCxcSQL.fSQLDelReporteAnalisisDeVencimientoEntreFechas(chkAgruparPorVendedor.Value, cmbAnalisisDeVencimientoPor.Text, cmbMonedaDeLosReportes.Text, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyParametros.GetNombreMonedaLocal, gProyCompaniaActual.GetConsecutivoCompania, insAdmPropAnalisisVenc, gUltimaTasaDeCambio, gMonedaLocalActual, gConvert.ConvertByteToBoolean(chkFiltroZona.Value), cmbFiltroZona.Text)
+   SqlDelReporte = insCxcSQL.fSQLDelReporteAnalisisDeVencimientoEntreFechas(chkAgruparPorVendedor.Value, cmbAnalisisDeVencimientoPor.Text, cmbMonedaDeLosReportes.Text, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyParametros.GetNombreMonedaLocal, gProyCompaniaActual.GetConsecutivoCompania, insAdmPropAnalisisVenc, gUltimaTasaDeCambio, gMonedaLocalActual, gConvert.ConvertByteToBoolean(chkFiltroZona.Value), cmbFiltroZona.Text, cmbFiltroCredElectronico.Text, gProyParametrosCompania)
    monedaOriginal = Not (cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, gProyParametros.GetNombreMonedaLocal))
    totalizarPorMes = (chkTotalizarPorMes.Value = vbChecked)
    agruparPorVendedor = (chkAgruparPorVendedor.Value = vbChecked)
    If insAdmPropAnalisisVenc.fBuscaValoresDeLasPropAnalisisVencActual Then
-      If insConfigurar.fConfigurarDatosDelReporteAnalisisDeVencimientoEntreFechas(reporte, SqlDelReporte, dtpFechaInicial, dtpFechaFinal, totalizarPorMes, agruparPorVendedor, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), insAdmPropAnalisisVenc.GetPrimerVencimiento, insAdmPropAnalisisVenc.GetSegundoVencimiento, insAdmPropAnalisisVenc.GetTercerVencimiento, MensajesDeMonedaParaInformes = gEnumReport.getMensajesDeMonedaParaInformes(eMM_CambioOriginal), monedaOriginal, gConvert.ConvertByteToBoolean(chkFiltroZona.Value)) Then
+      If insConfigurar.fConfigurarDatosDelReporteAnalisisDeVencimientoEntreFechas(reporte, SqlDelReporte, dtpFechaInicial, dtpFechaFinal, totalizarPorMes, agruparPorVendedor, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), insAdmPropAnalisisVenc.GetPrimerVencimiento, insAdmPropAnalisisVenc.GetSegundoVencimiento, insAdmPropAnalisisVenc.GetTercerVencimiento, MensajesDeMonedaParaInformes = gEnumReport.getMensajesDeMonedaParaInformes(eMM_CambioOriginal), monedaOriginal, gConvert.ConvertByteToBoolean(chkFiltroZona.Value), cmbFiltroCredElectronico.Text) Then
       gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Análisis de Vencimiento entre Fechas"
       End If
    End If
@@ -2353,16 +2394,7 @@ h_EXIT:    On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAsignaCodigoVendedorFromConexionUsuario", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Public Sub sLoadObjectValues(ByVal valCompaniaActual As Object, _
-                                                   ByVal valVendedor As Object, _
-                                                      ByVal vaCliente As Object, _
-                                                         ByVal valPropAnalisisVencNav As Object, _
-                                                            ByVal valCamposDefFacturaNav As Object, _
-                                                               ByVal valARExportExcel As Object, _
-                                                                  ByVal valFacturaNav As Object, _
-                                                                     ByVal valRptInformesEspecialesConfigurar As Object, _
-                                                                      ByVal valConexionesSawAOS As Object)
-                                                            
+Public Sub sLoadObjectValues(ByVal valCompaniaActual As Object, ByVal valVendedor As Object, ByVal vaCliente As Object, ByVal valPropAnalisisVencNav As Object, ByVal valCamposDefFacturaNav As Object, ByVal valARExportExcel As Object, ByVal valFacturaNav As Object, ByVal valRptInformesEspecialesConfigurar As Object, ByVal valConexionesSawAOS As Object)
 On Error GoTo h_ERROR
    Set gProyCompaniaActual = valCompaniaActual
    Set insVendedor = valVendedor
@@ -2379,4 +2411,15 @@ h_EXIT: On Error GoTo 0
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sLoadObjectValues", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
+Private Sub sFillComboBoxFiltrarCredElectronico()
+   On Error GoTo h_ERROR
+   cmbFiltroCredElectronico.Enabled = True
+   cmbFiltroCredElectronico.AddItem "Todos"
+   cmbFiltroCredElectronico.AddItem "Solo " & gProyParametrosCompania.GetNombreCreditoElectronico
+   cmbFiltroCredElectronico.AddItem "Sin " & gProyParametrosCompania.GetNombreCreditoElectronico
+   cmbFiltroCredElectronico.ListIndex = 0
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sFillComboBoxFiltrarCredElectronico", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
 
