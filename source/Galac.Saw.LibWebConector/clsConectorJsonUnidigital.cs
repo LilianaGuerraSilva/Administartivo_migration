@@ -11,6 +11,9 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
+using Newtonsoft.Json.Linq;
+using System.Diagnostics.Eventing.Reader;
+
 
 namespace Galac.Saw.LibWebConnector {
     public class clsConectorJsonUnidigital : clsConectorJson {
@@ -64,13 +67,16 @@ namespace Galac.Saw.LibWebConnector {
                         infoReqs.SerieID = LoginReqs.seriesUD[0].nameUD;
                     }
                 } else if(LibString.S1IsEqualToS2(eComandosPostUnidigital.Emision.GetDescription(), valComandoApi)) {
-                    stRespuestaEnvioUD infoReqEnvio = JsonConvert.DeserializeObject<stRespuestaEnvioUD>(vPostRequest);
-                    if(infoReqEnvio.hasErrors) {
+                    JObject vJObject = JObject.Parse(vPostRequest);                    
+                    bool vHasErrors = bool.Parse(vJObject["hasErrors"].ToString());                   
+                    if(vHasErrors) {
                         stRespuestaErrorEnvioUD infoErrorReqEnvio = JsonConvert.DeserializeObject<stRespuestaErrorEnvioUD>(vPostRequest);
                         infoReqs.Exitoso = false;
                         string vErrorType = infoErrorReqEnvio.resultsUD.errorsUD[0].ErroresInternos[0].whatIsEval;
                         if(LibString.S1IsEqualToS2("NumberMustBeUnique", vErrorType)) {
-                            infoReqs.MessageUD = "Este documento ya fue enviado a la imprenta.";
+                            infoReqs.MessageUD = "Este documento ya fue enviado a la Imprenta Digital.";
+                        } else if(LibString.S1IsEqualToS2("AffectedDocumentMustExist", vErrorType)) {
+                            infoReqs.MessageUD = "La fecha de emisión del documento actual NO puede ser menor a la fecha de emisión del documento afectado.";
                         } else {
                             infoReqs.MessageUD = infoErrorReqEnvio.resultsUD.errorsUD[0].ErroresInternos[0].errorMessage;
                         }
@@ -78,6 +84,7 @@ namespace Galac.Saw.LibWebConnector {
                         infoReqs.StrongeID = string.Empty;
                         return infoReqs;
                     } else {
+                        stRespuestaEnvioUD infoReqEnvio = JsonConvert.DeserializeObject<stRespuestaEnvioUD>(vPostRequest);
                         infoReqs.Exitoso = !infoReqEnvio.hasErrors;
                         infoReqs.information = infoReqEnvio.information;
                         infoReqs.StrongeID = infoReqEnvio.resultsUD ?? "";

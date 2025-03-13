@@ -284,10 +284,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         private decimal GetMontoME(decimal valMonto) {
             decimal vResult = 0;
             valMonto=LibMath.Abs(valMonto); 
-            if(LibString.S1IsEqualToS2(FacturaImprentaDigital.CodigoMoneda, CodigoMonedaME)) {
-                vResult = LibMath.RoundToNDecimals(valMonto * CambioABolivares, 2);
-            } else {
+            if(LibString.S1IsEqualToS2(FacturaImprentaDigital.CodigoMoneda, CodigoMonedaLocal)) {
                 vResult = LibMath.RoundToNDecimals(valMonto / CambioABolivares, 2);
+            } else {
+                vResult = LibMath.RoundToNDecimals(valMonto * CambioABolivares, 2);
             }
             return vResult;
         }
