@@ -23,8 +23,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         JObject vDocumentoDigital;
         string _TipoDeProveedor;
         clsConectorJson _ConectorJson;
-        string _StrongeID = "";        
-
+        string _StrongeID = "";
+        string _SerieID = "";
         public ImprentaUnidigital(eTipoDocumentoFactura initTipoDeDocumento, string initNumeroFactura) : base(initTipoDeDocumento, initNumeroFactura) {
             _NumeroFactura = initNumeroFactura;
             _TipoDeDocumento = initTipoDeDocumento;
@@ -74,6 +74,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 if(LibString.IsNullOrEmpty(_ConectorJson.Token)) {
                     ObtenerDatosDocumentoEmitido();
                     vChekConeccion = _ConectorJson.CheckConnection(ref vMensaje, LibEnumHelper.GetDescription(eComandosPostUnidigital.Autenticacion));
+                    _SerieID = ((clsConectorJsonUnidigital)_ConectorJson).SerieId;
                 } else {
                     vChekConeccion = true;
                 }
@@ -81,10 +82,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     if(LibString.IsNullOrEmpty(FacturaImprentaDigital.ImprentaDigitalGUID) || LibString.IsNullOrEmpty(FacturaImprentaDigital.NumeroControl)) {
                         JObject IdDocumento = new JObject {
                             { "Number", NumeroDocumento() },
-                            { "Serie", "0" },
+                            { "Serie",  _SerieID },
                             { "DocumentType",GetTipoDocumento( FacturaImprentaDigital.TipoDeDocumentoAsEnum) }};
                         vRespuestaConector = ((clsConectorJsonUnidigital)_ConectorJson).SendPostJsonUD(IdDocumento.ToString(), LibEnumHelper.GetDescription(eComandosPostUnidigital.EstadoDocumento), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
-                        Mensaje = vRespuestaConector.MessageUD;          
+                        Mensaje = vRespuestaConector.MessageUD;
                     } else if(!LibString.IsNullOrEmpty(FacturaImprentaDigital.ImprentaDigitalGUID) && LibString.IsNullOrEmpty(FacturaImprentaDigital.NumeroControl)) {
                         vRespuestaConector = ((clsConectorJsonUnidigital)_ConectorJson).SendGetJsonUD(FacturaImprentaDigital.ImprentaDigitalGUID, LibEnumHelper.GetDescription(eComandosPostUnidigital.ObtenerNroControl), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
                         Mensaje = vRespuestaConector.MessageUD;
@@ -106,11 +107,17 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 _StrongeID = vRespuestaConector.StrongeID;
                 if(vRespuestaConector.Exitoso) {
                     EstatusDocumento = vRespuestaConector.MessageUD ?? string.Empty;
-                    NumeroControl = vRespuestaConector.NumeroControl ?? string.Empty;
+                    NumeroControl = FormatoNumeroControl(vRespuestaConector.NumeroControl, _SerieID) ?? string.Empty;
                     FechaAsignacion = LibString.IsNullOrEmpty(vRespuestaConector.FechaAsignacion) ? LibDate.MinDateForDB() : LibConvert.ToDate(vRespuestaConector.FechaAsignacion);
                     HoraAsignacion = LibConvert.ToStr(FechaAsignacion, "hh:mm");
                 }
             }
+        }
+
+        private string FormatoNumeroControl(string valNumeroControl, string valSerie) {
+            string vResult = string.Empty;
+            vResult = LibString.Right("00" + valSerie, 2) + "-" + LibString.Right("00000000" + valNumeroControl, 8);
+            return vResult;
         }
 
         public override bool EnviarDocumento() {
@@ -210,6 +217,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         private JObject GetCuerpoDocumento() {
             string vMonedaConversion = LibString.S1IsEqualToS2(FacturaImprentaDigital.CodigoMoneda, CodigoMonedaLocal) ? CodigoMonedaME : CodigoMonedaLocal;
             vMonedaConversion = LibString.S1IsEqualToS2(vMonedaConversion, "VED") ? "VES" : vMonedaConversion;
+            decimal vIGTFAmount = LibString.S1IsEqualToS2(FacturaImprentaDigital.CodigoMoneda, CodigoMonedaLocal) ? FacturaImprentaDigital.IGTFML : FacturaImprentaDigital.IGTFME;
+            decimal vIGTFAmountVes = LibString.S1IsEqualToS2(FacturaImprentaDigital.CodigoMoneda, CodigoMonedaLocal) ? FacturaImprentaDigital.IGTFME : FacturaImprentaDigital.IGTFML;
             JObject vJsonDoc = new JObject {
                 { "SerieStrongId",_StrongeID },
                 { "DocumentType", GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum) },
@@ -223,7 +232,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 { "PaymentType", FacturaImprentaDigital.FormaDePagoAsString },
                 { "Currency", FacturaImprentaDigital.CodigoMoneda == "VED" ? "VES": FacturaImprentaDigital.CodigoMoneda },
                 { "Discount",FacturaImprentaDigital.MontoDescuento1 },
-                { "PreviousBalance", FacturaImprentaDigital.MontoGravableAlicuota1 +FacturaImprentaDigital.MontoGravableAlicuota2 +FacturaImprentaDigital.MontoGravableAlicuota3 },
+                { "PreviousBalance", FacturaImprentaDigital.MontoGravableAlicuota1 +FacturaImprentaDigital.MontoGravableAlicuota2 + FacturaImprentaDigital.MontoGravableAlicuota3 },
                 { "ExemptAmount",LibMath.Abs( FacturaImprentaDigital.TotalMontoExento) },
                 { "TaxBase", LibMath.Abs(FacturaImprentaDigital.MontoGravableAlicuota1) },
                 { "TaxAmount",LibMath.Abs(FacturaImprentaDigital.MontoIvaAlicuota1) },
@@ -236,10 +245,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 { "TaxAmountSumptuary", LibMath.Abs(FacturaImprentaDigital.MontoIvaAlicuota3) },
                 { "Total", LibMath.Abs(FacturaImprentaDigital.TotalFactura)},
                 { "IGTFBaseAmount", FacturaImprentaDigital.BaseImponibleIGTF },
-                { "IGTFAmount", FacturaImprentaDigital.IGTFML },
+                { "IGTFAmount", vIGTFAmount },
                 { "IGTFPercentage", FacturaImprentaDigital.AlicuotaIGTF },
-                { "GrandTotal",  LibMath.Abs(FacturaImprentaDigital.TotalFactura+FacturaImprentaDigital.IGTFML)},
-                { "AmountLetters", LibConvert.ToNumberInLetters(LibMath.Abs(FacturaImprentaDigital.TotalFactura)+FacturaImprentaDigital.IGTFML,false,"") },
+                { "GrandTotal",  LibMath.Abs(FacturaImprentaDigital.TotalFactura + vIGTFAmount)},
+                { "AmountLetters", LibConvert.ToNumberInLetters(LibMath.Abs(FacturaImprentaDigital.TotalFactura) + vIGTFAmount,false,"") },
                 { "ConversionCurrency",vMonedaConversion },
                 { "DiscountVES",GetMontoME( FacturaImprentaDigital.MontoDescuento1) } ,
                 { "ExemptAmountVES", GetMontoME( FacturaImprentaDigital.TotalMontoExento) },
@@ -254,9 +263,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 { "TaxAmountSumptuaryVES", FacturaImprentaDigital.MontoIvaAlicuota3 },
                 { "TotalVES", GetMontoME(FacturaImprentaDigital.TotalFactura) },
                 { "IGTFBaseAmountVES", GetMontoME(FacturaImprentaDigital.BaseImponibleIGTF) },
-                { "IGTFAmountVES", FacturaImprentaDigital.IGTFME },
-                { "GrandTotalVES", GetMontoME(FacturaImprentaDigital.TotalFactura)+FacturaImprentaDigital.IGTFME },
-                { "AmountLettersVES", LibConvert.ToNumberInLetters(GetMontoME(FacturaImprentaDigital.TotalFactura)+FacturaImprentaDigital.IGTFME ,false,"") },
+                { "IGTFAmountVES",vIGTFAmountVes },
+                { "GrandTotalVES", GetMontoME(FacturaImprentaDigital.TotalFactura) + vIGTFAmountVes },
+                { "AmountLettersVES", LibConvert.ToNumberInLetters(GetMontoME(FacturaImprentaDigital.TotalFactura) + vIGTFAmountVes ,false,"") },
                 { "ExchangeRate", CambioABolivares },
                 { "Note1", FacturaImprentaDigital.Observaciones},
                 { "ShippingAddress", InfoAdicionalClienteImprentaDigital.Direccion + ", " + InfoAdicionalClienteImprentaDigital.Ciudad }
@@ -275,10 +284,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         private decimal GetMontoME(decimal valMonto) {
             decimal vResult = 0;
             valMonto=LibMath.Abs(valMonto); 
-            if(LibString.S1IsEqualToS2(FacturaImprentaDigital.CodigoMoneda, CodigoMonedaME)) {
-                vResult = LibMath.RoundToNDecimals(valMonto * CambioABolivares, 2);
-            } else {
+            if(LibString.S1IsEqualToS2(FacturaImprentaDigital.CodigoMoneda, CodigoMonedaLocal)) {
                 vResult = LibMath.RoundToNDecimals(valMonto / CambioABolivares, 2);
+            } else {
+                vResult = LibMath.RoundToNDecimals(valMonto * CambioABolivares, 2);
             }
             return vResult;
         }
