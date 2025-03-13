@@ -124,6 +124,8 @@ Private Sub sEjecutaAccionInterop(ByVal valAccion As AccionSobreRecord)
         vParametros = vParametros & "<ServerVersionIs2008OrHigher>" & gConvert.ConvertBooleanToString(insLibServerProperty.fSqlServerVersionIs2008OrHigher) & "</ServerVersionIs2008OrHigher>"
         vParametros = vParametros & "<UsarVentasConIvaDiferido>" & gConvert.ConvertBooleanToString(gProyParametrosCompania.GetUsarVentasConIvaDiferido) & "</UsarVentasConIvaDiferido>"
         vParametros = vParametros & "<EsModuloDeProduccion>" & gConvert.ConvertBooleanToString(gProyParametros.fEsModuloDeProduccion) & "</EsModuloDeProduccion>"
+        vParametros = vParametros & "<UsaCreditoElectronico>" & gConvert.ConvertBooleanToString(gProyParametrosCompania.GetUsaCreditoElectronico) & "</UsaCreditoElectronico>"
+        vParametros = vParametros & "<NombreCreditoElectronico>" & gConvert.fConvierteAString(gProyParametrosCompania.GetNombreCreditoElectronico) & "</NombreCreditoElectronico>"
         vParametros = vParametros & "</ReglasDeContabilizacion></GpData>"
         objWrapper.InitializeComponent gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword, gWorkPaths.fAppPath & gDefProg.GetConfigFileName
         objWrapper.InitializeDefProg gDefProg.GetSiglasDelPrograma, gDefProg.GetVersionDelPrograma, gDefProg.GetVersionBaseDeDatos, gConvert.dateToString(gDefProg.GetFechaDeLaVersion), gConvert.dateToString(gDefProg.GetFechaDeLaVersion), gDefgen.GetValorDeLaCaracteristicaEspecial, gDefProg.GetPais, gConvert.fConvierteAString(1), gDefProg.GetAllowUseOfPASOnLine
@@ -136,7 +138,7 @@ Private Sub sEjecutaAccionInterop(ByVal valAccion As AccionSobreRecord)
     Set objWrapper = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionMenu", "sEjecutaAccion", "Reglas De Contabilización", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionMenu", "sEjecutaAccionInterop", "Reglas De Contabilización", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function sDesactivaLosTipoComprobanteQueTenganRecordsAsociados(ByVal valTipoDeComprobante As String) As Boolean

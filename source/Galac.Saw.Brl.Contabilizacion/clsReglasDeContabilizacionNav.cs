@@ -305,6 +305,7 @@ namespace Galac.Saw.Brl.Contabilizacion {
         bool fLasCuentasDeFacturacionEstanCompletas(ReglasDeContabilizacion insReglasDeContabilizacion) {
             bool vResult = true;
             if((LibString.IsNullOrEmpty(LibString.Trim(insReglasDeContabilizacion.CuentaFacturacionCxCClientes)))
+                 || (LibString.IsNullOrEmpty(LibString.Trim(insReglasDeContabilizacion.CuentaFacturacionCxCCreditoElectronico)))
                  || (LibString.IsNullOrEmpty(LibString.Trim(insReglasDeContabilizacion.CuentaFacturacionMontoTotalFactura)))
                  || (LibString.IsNullOrEmpty(LibString.Trim(insReglasDeContabilizacion.CuentaFacturacionCargos)))
                  || (LibString.IsNullOrEmpty(LibString.Trim(insReglasDeContabilizacion.CuentaFacturacionDescuentos)))

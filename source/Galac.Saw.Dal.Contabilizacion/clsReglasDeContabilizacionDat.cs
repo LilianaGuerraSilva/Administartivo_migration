@@ -86,6 +86,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             vParams.AddInEnum("ContabIndividualFacturacion",valRecord.ContabIndividualFacturacionAsDB);
             vParams.AddInEnum("ContabPorLoteFacturacion",valRecord.ContabPorLoteFacturacionAsDB);
             vParams.AddInString("CuentaFacturacionCxCClientes",valRecord.CuentaFacturacionCxCClientes,30);
+            vParams.AddInString("CuentaFacturacionCxCCreditoElectronico", valRecord.CuentaFacturacionCxCCreditoElectronico, 30);
             vParams.AddInString("CuentaFacturacionMontoTotalFactura",valRecord.CuentaFacturacionMontoTotalFactura,30);
             vParams.AddInString("CuentaFacturacionCargos",valRecord.CuentaFacturacionCargos,30);
             vParams.AddInString("CuentaFacturacionDescuentos",valRecord.CuentaFacturacionDescuentos,30);
@@ -475,6 +476,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             }
             return vResult;
         }
+
         private bool IsValidCuentaCxCIngresos(eAccionSR valAction,string valCuentaCxCIngresos) {
             bool vResult = true;
             if((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
@@ -902,6 +904,25 @@ namespace Galac.Saw.Dal.Contabilizacion {
                 LibDatabase insDb = new LibDatabase();
                 if(!insDb.ExistsValue("dbo.Cuenta","Codigo",insDb.InsSql.ToSqlValue(valCuentaFacturacionCxCClientes),true)) {
                     BuildValidationInfo("El valor asignado al campo CxC Clientes no existe, escoga nuevamente.");
+                    vResult = false;
+                }
+            }
+            return vResult;
+        }
+
+        private bool IsValidCuentaFacturacionCxCCreditoElectronico(eAccionSR valAction, string valCuentaFacturacionCxCCreditoElectronico) {
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            valCuentaFacturacionCxCCreditoElectronico = LibString.Trim(valCuentaFacturacionCxCCreditoElectronico);
+            if (LibString.IsNullOrEmpty(valCuentaFacturacionCxCCreditoElectronico, true)) {
+                BuildValidationInfo(MsgRequiredField("CxC Crédito Electrónico"));
+                vResult = false;
+            } else {
+                LibDatabase insDb = new LibDatabase();
+                if (!insDb.ExistsValue("dbo.Cuenta", "Codigo", insDb.InsSql.ToSqlValue(valCuentaFacturacionCxCCreditoElectronico), true)) {
+                    BuildValidationInfo("El valor asignado al campo CxC Crédito Electrónico no existe, escoga nuevamente.");
                     vResult = false;
                 }
             }
