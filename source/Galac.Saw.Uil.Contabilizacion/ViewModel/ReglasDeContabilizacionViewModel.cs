@@ -80,6 +80,7 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
         public const string ContabIndividualFacturacionPropertyName = "ContabIndividualFacturacion";
         public const string ContabPorLoteFacturacionPropertyName = "ContabPorLoteFacturacion";
         public const string CuentaFacturacionCxCClientesPropertyName = "CuentaFacturacionCxCClientes";
+        public const string CuentaFacturacionCxCCreditoElectronicoPropertyName = "CuentaFacturacionCxCCreditoElectronico";
         public const string CuentaFacturacionMontoTotalFacturaPropertyName = "CuentaFacturacionMontoTotalFactura";
         public const string CuentaFacturacionCargosPropertyName = "CuentaFacturacionCargos";
         public const string CuentaFacturacionDescuentosPropertyName = "CuentaFacturacionDescuentos";
@@ -211,6 +212,7 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
         private FkCuentaViewModel _ConexionCuentaCajaChicaCxPProveedores = null;
         private FkTipoDeComprobanteViewModel _ConexionPagoTipoComprobante = null;
         private FkCuentaViewModel _ConexionCuentaFacturacionCxCClientes = null;
+        private FkCuentaViewModel _ConexionCuentaFacturacionCxCCreditoElectronico = null;
         private FkCuentaViewModel _ConexionCuentaFacturacionMontoTotalFactura = null;
         private FkCuentaViewModel _ConexionCuentaFacturacionCargos = null;
         private FkCuentaViewModel _ConexionCuentaFacturacionDescuentos = null;
@@ -1033,6 +1035,22 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
                     RaisePropertyChanged(CuentaFacturacionCxCClientesPropertyName);
                     if(LibString.IsNullOrEmpty(CuentaFacturacionCxCClientes,true)) {
                         ConexionCuentaFacturacionCxCClientes = null;
+                    }
+                }
+            }
+        }
+
+        public string CuentaFacturacionCxCCreditoElectronico {
+            get {
+                return Model.CuentaFacturacionCxCCreditoElectronico;
+            }
+            set {
+                if (Model.CuentaFacturacionCxCCreditoElectronico != value) {
+                    Model.CuentaFacturacionCxCCreditoElectronico = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(CuentaFacturacionCxCCreditoElectronicoPropertyName);
+                    if (LibString.IsNullOrEmpty(CuentaFacturacionCxCCreditoElectronico, true)) {
+                        ConexionCuentaFacturacionCxCCreditoElectronico = null;
                     }
                 }
             }
@@ -2463,6 +2481,28 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
                     CuentaCxCClientes = string.Empty;
                     CuentaCxCClientesDescripcion = string.Empty;
                     RaisePropertyChanged(CuentaCxCClientesDescripcionPropertyName);
+                }
+            }
+        }
+
+        public FkCuentaViewModel ConexionCuentaFacturacionCxCCreditoElectronico {
+            get {
+                return _ConexionCuentaFacturacionCxCCreditoElectronico;
+            }
+            set {
+                if (_ConexionCuentaFacturacionCxCCreditoElectronico != value) {
+                    _ConexionCuentaFacturacionCxCCreditoElectronico = value;
+                    if (ConexionCuentaFacturacionCxCCreditoElectronico != null) {
+                        CuentaFacturacionCxCCreditoElectronico = ConexionCuentaFacturacionCxCCreditoElectronico.Codigo;
+                        CuentaFacturacionCxCCreditoElectronicoDescripcion = ConexionCuentaFacturacionCxCCreditoElectronico.Descripcion;
+                    }
+                    RaisePropertyChanged(CuentaFacturacionCxCCreditoElectronicoPropertyName);
+                    RaisePropertyChanged(CuentaFacturacionCxCCreditoElectronicoDescripcionPropertyName);
+                }
+                if (ConexionCuentaFacturacionCxCCreditoElectronico == null) {
+                    CuentaFacturacionCxCCreditoElectronico = string.Empty;
+                    CuentaFacturacionCxCCreditoElectronicoDescripcion = string.Empty;
+                    RaisePropertyChanged(CuentaFacturacionCxCCreditoElectronicoDescripcionPropertyName);
                 }
             }
         }
@@ -4082,6 +4122,10 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             get;
             private set;
         }
+        public RelayCommand<string> ChooseCuentaFacturacionCxCCreditoElectronicoCommand {
+            get;
+            private set;
+        }
 
         public RelayCommand<string> ChooseCuentaFacturacionMontoTotalFacturaCommand {
             get;
@@ -4383,6 +4427,7 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             ChooseCuentaPagosPagadoAnticipoCommand = new RelayCommand<string>(ExecuteChooseCuentaPagosPagadoAnticipoCommand);
             ChoosePagoTipoComprobanteCommand = new RelayCommand<string>(ExecuteChoosePagoTipoComprobanteCommand);
             ChooseCuentaFacturacionCxCClientesCommand = new RelayCommand<string>(ExecuteChooseCuentaFacturacionCxCClientesCommand);
+            ChooseCuentaFacturacionCxCCreditoElectronicoCommand = new RelayCommand<string>(ExecuteChooseCuentaFacturacionCxCCreditoElectronicoCommand);
             ChooseCuentaFacturacionMontoTotalFacturaCommand = new RelayCommand<string>(ExecuteChooseCuentaFacturacionMontoTotalFacturaCommand);
             ChooseCuentaFacturacionCargosCommand = new RelayCommand<string>(ExecuteChooseCuentaFacturacionCargosCommand);
             ChooseCuentaFacturacionDescuentosCommand = new RelayCommand<string>(ExecuteChooseCuentaFacturacionDescuentosCommand);
@@ -4449,7 +4494,9 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
         private void ReloadRelatedConnectionsCxC() {
             if(!LibString.IsNullOrEmpty(CuentaCxCClientes))
                 ConexionCuentaCxCClientes = FirstConnectionRecordOrDefault<FkCuentaViewModel>("Cuenta",SearchCriteriaConexionCuenta(CuentaCxCClientes));
-            if(!LibString.IsNullOrEmpty(CuentaCxCIngresos))
+            if (!LibString.IsNullOrEmpty(CuentaFacturacionCxCCreditoElectronico))
+                ConexionCuentaFacturacionCxCCreditoElectronico = FirstConnectionRecordOrDefault<FkCuentaViewModel>("Cuenta", SearchCriteriaConexionCuenta(CuentaFacturacionCxCCreditoElectronico));
+            if (!LibString.IsNullOrEmpty(CuentaCxCIngresos))
                 ConexionCuentaCxCIngresos = FirstConnectionRecordOrDefault<FkCuentaViewModel>("Cuenta",SearchCriteriaConexionCuenta(CuentaCxCIngresos));
 
             if(!LibString.IsNullOrEmpty(CxCTipoComprobante))
@@ -4752,6 +4799,22 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
                 throw;
             } catch(System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx,ModuleName);
+            }
+        }
+
+        private void ExecuteChooseCuentaFacturacionCxCCreditoElectronicoCommand(string valCodigo) {
+            try {
+                if (valCodigo == null) {
+                    valCodigo = string.Empty;
+                }
+                ConexionCuentaFacturacionCxCCreditoElectronico = null;
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", AjustaCodigoCuenta(valCodigo));
+                LibSearchCriteria vFixedCriteria = SearchCriteriaConexionCuenta();
+                ConexionCuentaFacturacionCxCCreditoElectronico = ChooseRecord<FkCuentaViewModel>("Cuenta", vDefaultCriteria, vFixedCriteria, string.Empty);
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
 
@@ -5896,6 +5959,7 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
         public string CuentaAnticipoOtrosEgresosDescripcion { get; set; }
         public string CuentaAnticipoBancoDescripcion { get; set; }
         public string CuentaFacturacionCxCClientesDescripcion { get; set; }
+        public string CuentaFacturacionCxCCreditoElectronicoDescripcion { get; set; }
         public string CuentaFacturacionDescuentosDescripcion { get; set; }
         public string CuentaFacturacionIvaDiferidoDescripcion { get; set; }
         public string CuentaFacturacionCargosDescripcion { get; set; }
@@ -5958,6 +6022,7 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
         public const string CuentaAnticipoOtrosEgresosDescripcionPropertyName = "CuentaAnticipoOtrosEgresosDescripcion";
         public const string CuentaAnticipoBancoDescripcionPropertyName = "CuentaAnticipoBancoDescripcion";
         public const string CuentaFacturacionCxCClientesDescripcionPropertyName = "CuentaFacturacionCxCClientesDescripcion";
+        public const string CuentaFacturacionCxCCreditoElectronicoDescripcionPropertyName = "CuentaFacturacionCxCCreditoElectronicoDescripcion";
         public const string CuentaFacturacionDescuentosDescripcionPropertyName = "CuentaFacturacionDescuentosDescripcion";
         public const string CuentaFacturacionIvaDiferidoDescripcionPropertyName = "CuentaFacturacionIvaDiferidoDescripcion";
         public const string CuentaFacturacionCargosDescripcionPropertyName = "CuentaFacturacionCargosDescripcion";
@@ -6066,6 +6131,17 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
                 return IsEnabled && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("ReglasDeContabilizacion","EsContribuyenteEspecial");
             }
         }
+        public bool IsEnabledCuentaFacturacionCxCCreditoElectronico {
+            get {
+                return IsEnabled && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("ReglasDeContabilizacion", "UsaCreditoElectronico");
+            }
+        }
+
+        public string NombreCreditoElectronico {
+            get {
+                return "CxC " + LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("ReglasDeContabilizacion", "NombreCreditoElectronico");
+            }
+        }
 
         private bool CuentasNulasVacias() {
             bool vResult = false;
@@ -6110,6 +6186,7 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             vResult = vResult || LibString.IsNullOrEmpty(CuentaAnticipoOtrosEgresos);
             vResult = vResult || LibString.IsNullOrEmpty(CuentaAnticipoBanco);
             vResult = vResult || LibString.IsNullOrEmpty(CuentaFacturacionCxCClientes);
+            vResult = vResult || LibString.IsNullOrEmpty(CuentaFacturacionCxCCreditoElectronico);
             vResult = vResult || LibString.IsNullOrEmpty(CuentaFacturacionDescuentos);
             vResult = vResult || LibString.IsNullOrEmpty(CuentaFacturacionCargos);
             vResult = vResult || LibString.IsNullOrEmpty(CuentaCreditoBancarioGasto);

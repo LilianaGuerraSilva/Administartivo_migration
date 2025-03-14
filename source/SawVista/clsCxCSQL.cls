@@ -1069,7 +1069,7 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLDelReporteCxCconDescripcion", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fConstruirSQLDelReporteAnalisisDeVencimiento(ByVal valcodigoVendedor As String, ByVal valCantidadAImprimir As String, ByVal valZonaCobranza As String, ByVal valAnalisisDeVencimientoPor As String, ByVal valConsecutivoCompania As String, ByVal valMonedaDeLosReportes As String, ByVal valNombreMonedaLocal As String, ByRef InsAdmPropAnalisisVenc As Object, ByRef gUltimaTasaDeCambio As Object, ByRef gMonedaLocalActual As Object) As String
+Public Function fConstruirSQLDelReporteAnalisisDeVencimiento(ByVal valcodigoVendedor As String, ByVal valCantidadAImprimir As String, ByVal valZonaCobranza As String, ByVal valAnalisisDeVencimientoPor As String, ByVal valConsecutivoCompania As String, ByVal valMonedaDeLosReportes As String, ByVal valNombreMonedaLocal As String, ByRef InsAdmPropAnalisisVenc As Object, ByRef gUltimaTasaDeCambio As Object, ByRef gMonedaLocalActual As Object, ByVal valFiltrarCredElectronico As String, ByVal valUsaCreditoElectronico As Boolean) As String
    Dim Sql As String
    Dim sqlMtoRestante As String
    Dim sqlDateDiff As String
@@ -1080,13 +1080,8 @@ Public Function fConstruirSQLDelReporteAnalisisDeVencimiento(ByVal valcodigoVend
    Set gEnumReport = New clsEnumReport
    Sql = ""
    If InsAdmPropAnalisisVenc.fBuscaValoresDeLasPropAnalisisVencActual Then
-      sqlMtoRestante = "((" & "cxC.MontoExento" & _
-                        " + " & "cxC.MontoGravado" & _
-                        " + " & "cxC.MontoIVA" & _
-                        ") - " & "cxC.MontoAbonado)"
-      sqlMtoTotal = "(" & "cxC.MontoExento" & _
-                        " + " & "cxC.MontoGravado" & _
-                        " + " & "cxC.MontoIVA)"
+      sqlMtoRestante = "((" & "cxC.MontoExento + " & "cxC.MontoGravado + " & "cxC.MontoIVA) - " & "cxC.MontoAbonado)"
+      sqlMtoTotal = "(" & "cxC.MontoExento + " & "cxC.MontoGravado + " & "cxC.MontoIVA)"
       sqlCambio = "cxC.CambioABolivares"
       sqlMonedaReporte = "cxC.Moneda"
       If valMonedaDeLosReportes = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, valNombreMonedaLocal) Then
@@ -1097,11 +1092,7 @@ Public Function fConstruirSQLDelReporteAnalisisDeVencimiento(ByVal valcodigoVend
          sqlMonedaReporte = gUtilSQL.fSimpleSqlValue(valNombreMonedaLocal)
       End If
       sqlDateDiff = gUtilSQL.getDateDiff("d", "cxC.FechaVencimiento", gUtilSQL.fDateToSQLValue(gUtilDate.getFechaDeHoy))
-      Sql = "SELECT "
-      Sql = Sql & "cliente.ZonaDeCobranza, "
-      Sql = Sql & "cxC.CodigoCliente, "
-      Sql = Sql & "cliente.Nombre, "
-      Sql = Sql & "cxC.Moneda, "
+      Sql = "SELECT cliente.ZonaDeCobranza, cxC.CodigoCliente, cliente.Nombre, cxC.Moneda, "
       Sql = Sql & sqlMonedaReporte & " AS MonedaReporte, "
       Sql = Sql & gUtilSQL.getIIF(sqlDateDiff & " <= 0 ", sqlMtoRestante, "0", True) & " AS MtoNoVencido, "
       Sql = Sql & gUtilSQL.getIIF(sqlDateDiff & " > 0 AND " & sqlDateDiff & " <= " & InsAdmPropAnalisisVenc.GetPrimerVencimiento, sqlMtoRestante, "0", True) & " AS Mto1Vto, "
@@ -1113,36 +1104,26 @@ Public Function fConstruirSQLDelReporteAnalisisDeVencimiento(ByVal valcodigoVend
       Sql = Sql & InsAdmPropAnalisisVenc.GetTercerVencimiento & " AS Vto3, "
       Sql = Sql & sqlDateDiff & " AS DiasVencidos, "
       Sql = Sql & sqlMtoRestante & " AS MtoRestante, "
-      Sql = Sql & "cxC.FechaVencimiento, "
-      Sql = Sql & "cxC.Numero, "
-      Sql = Sql & "cxC.Fecha, "
+      Sql = Sql & "cxC.FechaVencimiento, cxC.Numero, cxC.Fecha, "
       Sql = Sql & sqlMtoTotal & " AS MtoTotal"
-      Sql = Sql & " FROM " & "cxC INNER JOIN "
-      Sql = Sql & "cliente ON "
-      Sql = Sql & "cxC.ConsecutivoCompania" & _
-                  " = " & "cliente.ConsecutivoCompania"
-      Sql = Sql & " AND "
-      Sql = Sql & "cxC.CodigoCliente" & _
-                  " = " & "cliente.Codigo "
-      Sql = Sql & " WHERE "
-      Sql = Sql & "cxC.ConsecutivoCompania" & _
-                  " = " & valConsecutivoCompania
-      Sql = Sql & " AND (" & "cxC.Status" & _
-                  " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_ABONADO) & _
-                  " OR " & "cxC.Status" & _
-                  " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_PORCANCELAR) & ")"
-      If valCantidadAImprimir = gEnumReport.enumCantidadAImprimirToString(eCI_uno) And _
-         Len(valcodigoVendedor) > 0 Then
-         Sql = Sql & " AND " & "cxC.CodigoVendedor" & _
-                     " = " & gUtilSQL.fSimpleSqlValue(valcodigoVendedor)
+      Sql = Sql & " FROM cxC INNER JOIN cliente ON "
+      Sql = Sql & "cxC.ConsecutivoCompania = cliente.ConsecutivoCompania AND cxC.CodigoCliente = cliente.Codigo"
+      Sql = Sql & " WHERE cxC.ConsecutivoCompania = " & valConsecutivoCompania
+      Sql = Sql & " AND (cxC.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_ABONADO) & " OR cxC.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_PORCANCELAR) & ")"
+      If valCantidadAImprimir = gEnumReport.enumCantidadAImprimirToString(eCI_uno) And Len(valcodigoVendedor) > 0 Then
+         Sql = Sql & " AND cxC.CodigoVendedor = " & gUtilSQL.fSimpleSqlValue(valcodigoVendedor)
       End If
       If valZonaCobranza <> "TODAS" Then
-         Sql = Sql & " AND " & "cliente.ZonaDeCobranza" & _
-                     " = " & gUtilSQL.fSimpleSqlValue(valZonaCobranza)
+         Sql = Sql & " AND cliente.ZonaDeCobranza = " & gUtilSQL.fSimpleSqlValue(valZonaCobranza)
       End If
-      Sql = Sql & " ORDER BY "
-      Sql = Sql & "MonedaReporte, "
-      Sql = Sql & "cliente.ZonaDeCobranza, "
+      If valUsaCreditoElectronico Then
+         If gTexto.S1yS2CoincidenEnLosPrimerosCaracteres(valFiltrarCredElectronico, "Solo") Then
+            Sql = Sql & " AND cxC.VieneDeCreditoElectronico = " & gUtilSQL.fBooleanToSqlValue(True)
+         ElseIf gTexto.S1yS2CoincidenEnLosPrimerosCaracteres(valFiltrarCredElectronico, "Sin") Then
+            Sql = Sql & " AND cxC.VieneDeCreditoElectronico = " & gUtilSQL.fBooleanToSqlValue(False)
+         End If
+      End If
+      Sql = Sql & " ORDER BY MonedaReporte, cliente.ZonaDeCobranza, "
       If valAnalisisDeVencimientoPor = gEnumReport.enumReporteOrdenadoPorToString(enum_ReporteOrdenadoPor.eRO_Nombre) Then
          Sql = Sql & "cliente.Nombre, "
       Else
@@ -1284,7 +1265,7 @@ h_ERROR: Sql = ""
    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLDelReporteAnalisisDeVencimiento", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fSQLDelReporteAnalisisDeVencimientoEntreFechas(ByVal valAgruparPorVendedor As Boolean, ByVal valAnalisisDeVencimientoPor As String, ByVal valMonedaDeLosReportes As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valNombreMonedaLocal As String, ByVal valConsecutivoCompania As Long, ByRef InsAdmPropAnalisisVenc As Object, ByRef gUltimaTasaDeCambio As Object, ByRef gMonedaLocalActual As Object, ByVal usarFiltroZonaCobranza As Boolean, ByVal FiltroPorTipo As String) As String
+Public Function fSQLDelReporteAnalisisDeVencimientoEntreFechas(ByVal valAgruparPorVendedor As Boolean, ByVal valAnalisisDeVencimientoPor As String, ByVal valMonedaDeLosReportes As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valNombreMonedaLocal As String, ByVal valConsecutivoCompania As Long, ByRef InsAdmPropAnalisisVenc As Object, ByRef gUltimaTasaDeCambio As Object, ByRef gMonedaLocalActual As Object, ByVal usarFiltroZonaCobranza As Boolean, ByVal FiltroPorTipo As String, ByVal valFiltrarCredElectronico As String, ByVal valUsaCreditoElectronico As Boolean) As String
    Dim Sql As String
    Dim sqlMtoRestante As String
    Dim sqlDateDiff As String
@@ -1318,9 +1299,7 @@ Public Function fSQLDelReporteAnalisisDeVencimientoEntreFechas(ByVal valAgruparP
       Sql = Sql & sqlMonedaReporte & " AS MonedaReporte, "
       Sql = Sql & gUtilSQL.fMonth(sqlFecha, "") & " AS Mes, "
       Sql = Sql & gUtilSQL.fYear(sqlFecha, "") & " AS Ano, "
-      Sql = Sql & "CxC.CodigoCliente, "
-      Sql = Sql & "cliente.Nombre AS NombreCliente, "
-      Sql = Sql & "CxC.Numero, "
+      Sql = Sql & "CxC.CodigoCliente, cliente.Nombre AS NombreCliente, CxC.Numero, "
       Sql = Sql & sqlFecha & ", "
       Sql = Sql & "CxC.FechaVencimiento, "
       Sql = Sql & sqlDateDiff & " AS DiasVencidos, "
@@ -1333,28 +1312,29 @@ Public Function fSQLDelReporteAnalisisDeVencimientoEntreFechas(ByVal valAgruparP
       Sql = Sql & gUtilSQL.getIIF(sqlDateDiff & " > " & InsAdmPropAnalisisVenc.GetTercerVencimiento, sqlMtoRestante, "0", True) & " AS Mto4Vto, "
       Sql = Sql & sqlMtoRestante & " AS MtoTotal"
       Sql = Sql & " FROM " & "vendedor INNER JOIN ("
-      Sql = Sql & "cliente INNER JOIN " & "CxC ON ("
-      Sql = Sql & "cliente.Codigo = " & "CxC.CodigoCliente"
-      Sql = Sql & ") AND (" & "cliente.ConsecutivoCompania = " & "CxC.ConsecutivoCompania"
-      Sql = Sql & ")) ON (" & "vendedor.Codigo = " & "CxC.CodigoVendedor"
-      Sql = Sql & ") AND (" & "vendedor.ConsecutivoCompania = " & "CxC.ConsecutivoCompania)"
-      Sql = Sql & " WHERE " & "CxC.ConsecutivoCompania = " & valConsecutivoCompania
-      Sql = Sql & " AND (" & "CxC.Status" & _
-                  " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_ABONADO) & _
-                  " OR " & "CxC.Status" & _
-                  " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_PORCANCELAR) & ")"
-   If usarFiltroZonaCobranza Then
-      If FiltroPorTipo <> "TODAS" Then
-         Sql = Sql & "AND Cliente.ZonaDeCobranza='" & FiltroPorTipo & "' "
+      Sql = Sql & "cliente INNER JOIN CxC ON (cliente.Codigo = CxC.CodigoCliente)"
+      Sql = Sql & " AND (cliente.ConsecutivoCompania = CxC.ConsecutivoCompania)) ON (vendedor.Codigo = CxC.CodigoVendedor) "
+      Sql = Sql & " AND (vendedor.ConsecutivoCompania = CxC.ConsecutivoCompania)"
+      Sql = Sql & " WHERE CxC.ConsecutivoCompania = " & valConsecutivoCompania
+      Sql = Sql & " AND (" & "CxC.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_ABONADO)
+      Sql = Sql & " OR " & "CxC.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_PORCANCELAR) & ")"
+      If usarFiltroZonaCobranza Then
+         If FiltroPorTipo <> "TODAS" Then
+            Sql = Sql & "AND Cliente.ZonaDeCobranza='" & FiltroPorTipo & "' "
+         End If
       End If
-   End If
-   
       Sql = Sql & " AND " & gUtilSQL.DfSQLDateValueBetween("CxC.Fecha", valFechaInicial, valFechaFinal)
+      If valUsaCreditoElectronico Then
+         If gTexto.S1yS2CoincidenEnLosPrimerosCaracteres(valFiltrarCredElectronico, "Solo") Then
+            Sql = Sql & " AND cxC.VieneDeCreditoElectronico = " & gUtilSQL.fBooleanToSqlValue(True)
+         ElseIf gTexto.S1yS2CoincidenEnLosPrimerosCaracteres(valFiltrarCredElectronico, "Sin") Then
+            Sql = Sql & " AND cxC.VieneDeCreditoElectronico = " & gUtilSQL.fBooleanToSqlValue(False)
+         End If
+      End If
       Sql = Sql & " ORDER BY "
       If usarFiltroZonaCobranza Then
          Sql = Sql & " Cliente.ZonaDeCobranza, "
       End If
-     
       If valAgruparPorVendedor = True Then
          Sql = Sql & "vendedor.Codigo, "
       End If

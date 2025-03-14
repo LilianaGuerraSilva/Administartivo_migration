@@ -36,6 +36,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             ActualizaArticulosLote_LoteFeVec();
             CrearOtrosCargosDeFactura();
             CamposCreditoElectronicoEnCajaApertura();
+            AgregaColumnasReglasDeContabilizacionCxCCreditoElectronico();
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -168,6 +169,12 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         private void CamposCreditoElectronicoEnCajaApertura() {
             if (AddColumnDecimal("Adm.CajaApertura", "MontoCreditoElectronico", 25, 4, "", 0)) {
                 AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoCrEl", "0", "MontoCreditoElectronico");
+            }
+        }
+
+        private void AgregaColumnasReglasDeContabilizacionCxCCreditoElectronico() {
+            if (AddColumnString("Saw.ReglasDeContabilizacion", "CuentaFacturacionCxCCreditoElectronico", 30, "", "")) {
+                AddDefaultConstraint("Saw.ReglasDeContabilizacion", "d_RegDeConCuFacCxCCreEle", _insSql.ToSqlValue(""), "CuentaFacturacionCxCCreditoElectronico");
             }
         }
     }

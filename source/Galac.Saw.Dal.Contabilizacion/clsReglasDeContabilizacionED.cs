@@ -86,6 +86,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("ContabIndividualFacturacion" + InsSql.CharTypeForDb(1) + " , ");
             SQL.AppendLine("ContabPorLoteFacturacion" + InsSql.CharTypeForDb(1) + " , ");
             SQL.AppendLine("CuentaFacturacionCxCClientes" + InsSql.VarCharTypeForDb(30) + " , ");
+            SQL.AppendLine("CuentaFacturacionCxCCreditoElectronico" + InsSql.VarCharTypeForDb(30) + " CONSTRAINT d_RegDeConCuFacCxCCreEle DEFAULT (''), ");
             SQL.AppendLine("CuentaFacturacionMontoTotalFactura" + InsSql.VarCharTypeForDb(30) + " , ");
             SQL.AppendLine("CuentaFacturacionCargos" + InsSql.VarCharTypeForDb(30) + " , ");
             SQL.AppendLine("CuentaFacturacionDescuentos" + InsSql.VarCharTypeForDb(30) + " , ");
@@ -245,6 +246,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("@ContabIndividualFacturacion" + InsSql.CharTypeForDb(1) + " = '0',");
             SQL.AppendLine("@ContabPorLoteFacturacion" + InsSql.CharTypeForDb(1) + " = '0',");
             SQL.AppendLine("@CuentaFacturacionCxCClientes" + InsSql.VarCharTypeForDb(30) + ",");
+            SQL.AppendLine("@CuentaFacturacionCxCCreditoElectronico" + InsSql.VarCharTypeForDb(30) + ",");
             SQL.AppendLine("@CuentaFacturacionMontoTotalFactura" + InsSql.VarCharTypeForDb(30) + ",");
             SQL.AppendLine("@CuentaFacturacionCargos" + InsSql.VarCharTypeForDb(30) + ",");
             SQL.AppendLine("@CuentaFacturacionDescuentos" + InsSql.VarCharTypeForDb(30) + ",");
@@ -396,6 +398,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("            ContabIndividualFacturacion,");
             SQL.AppendLine("            ContabPorLoteFacturacion,");
             SQL.AppendLine("            CuentaFacturacionCxCClientes,");
+            SQL.AppendLine("            CuentaFacturacionCxCCreditoElectronico,");
             SQL.AppendLine("            CuentaFacturacionMontoTotalFactura,");
             SQL.AppendLine("            CuentaFacturacionCargos,");
             SQL.AppendLine("            CuentaFacturacionDescuentos,");
@@ -537,6 +540,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("            @ContabIndividualFacturacion,");
             SQL.AppendLine("            @ContabPorLoteFacturacion,");
             SQL.AppendLine("            @CuentaFacturacionCxCClientes,");
+            SQL.AppendLine("            @CuentaFacturacionCxCCreditoElectronico,");
             SQL.AppendLine("            @CuentaFacturacionMontoTotalFactura,");
             SQL.AppendLine("            @CuentaFacturacionCargos,");
             SQL.AppendLine("            @CuentaFacturacionDescuentos,");
@@ -689,6 +693,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("@ContabIndividualFacturacion" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@ContabPorLoteFacturacion" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@CuentaFacturacionCxCClientes" + InsSql.VarCharTypeForDb(30) + ",");
+            SQL.AppendLine("@CuentaFacturacionCxCCreditoElectronico" + InsSql.VarCharTypeForDb(30) + ",");
             SQL.AppendLine("@CuentaFacturacionMontoTotalFactura" + InsSql.VarCharTypeForDb(30) + ",");
             SQL.AppendLine("@CuentaFacturacionCargos" + InsSql.VarCharTypeForDb(30) + ",");
             SQL.AppendLine("@CuentaFacturacionDescuentos" + InsSql.VarCharTypeForDb(30) + ",");
@@ -851,6 +856,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("               ContabIndividualFacturacion = @ContabIndividualFacturacion,");
             SQL.AppendLine("               ContabPorLoteFacturacion = @ContabPorLoteFacturacion,");
             SQL.AppendLine("               CuentaFacturacionCxCClientes = @CuentaFacturacionCxCClientes,");
+            SQL.AppendLine("               CuentaFacturacionCxCCreditoElectronico = @CuentaFacturacionCxCCreditoElectronico,");
             SQL.AppendLine("               CuentaFacturacionMontoTotalFactura = @CuentaFacturacionMontoTotalFactura,");
             SQL.AppendLine("               CuentaFacturacionCargos = @CuentaFacturacionCargos,");
             SQL.AppendLine("               CuentaFacturacionDescuentos = @CuentaFacturacionDescuentos,");
@@ -1034,6 +1040,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("         ReglasDeContabilizacion.ContabIndividualFacturacion,");
             SQL.AppendLine("         ReglasDeContabilizacion.ContabPorLoteFacturacion,");
             SQL.AppendLine("         ReglasDeContabilizacion.CuentaFacturacionCxCClientes,");
+            SQL.AppendLine("         ReglasDeContabilizacion.CuentaFacturacionCxCCreditoElectronico,");
             SQL.AppendLine("         ReglasDeContabilizacion.CuentaFacturacionMontoTotalFactura,");
             SQL.AppendLine("         ReglasDeContabilizacion.CuentaFacturacionCargos,");
             SQL.AppendLine("         ReglasDeContabilizacion.CuentaFacturacionDescuentos,");
@@ -1211,6 +1218,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaPagosBanco,");
             SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaPagosPagadoAnticipo,");
             SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaFacturacionCxCClientes,");
+            SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaFacturacionCxCCreditoElectronico,");
             SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaFacturacionMontoTotalFactura,");
             SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaFacturacionCargos,");
             SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaFacturacionDescuentos,");
