@@ -132,10 +132,7 @@ namespace Galac.Saw.LibWebConnector {
             } catch(Exception vEx) {
                 throw vEx;
             }
-        }
-
-        public abstract bool CheckConnection(ref string refMensaje, string valComandoApi);
-        public abstract stPostResq SendPostJson(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", eTipoDocumentoFactura valTipoDocumento = eTipoDocumentoFactura.NoAsignado);
+        }     
     }
 
     #region Clase de Inicializacion del Windsor No Borrar

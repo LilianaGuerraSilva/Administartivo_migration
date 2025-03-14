@@ -281,6 +281,11 @@ namespace Galac.Saw.LibWebConnector {
         public string StrongeID {
             get; set;
         }
+
+        public string SerieID {
+            get; set;
+        }
+
         public string Codigo {
             get; set;
         }
@@ -302,7 +307,7 @@ namespace Galac.Saw.LibWebConnector {
             get; set;
         }
 
-    }   
+    }
 
     public struct errorsUD {
         [JsonProperty("code")]
@@ -351,7 +356,7 @@ namespace Galac.Saw.LibWebConnector {
         }
 
     }
- 
+
     public struct seriesUD {
         [JsonProperty("name")]
         public string nameUD {
@@ -376,16 +381,17 @@ namespace Galac.Saw.LibWebConnector {
     }
 
     public struct stRespuestaEnvioUD {
-        public string result {
+        [JsonProperty("result")]
+        public string resultsUD {
             get; set;
         }
         [JsonProperty("errors")]
-        public envioErrorsUD[] errorsUD {
+        public errorsUD[] errorsUD {
             get; set;
         }
         public string[] information {
             get; set;
-        }        
+        }
         public string[] success {
             get; set;
         }
@@ -395,8 +401,39 @@ namespace Galac.Saw.LibWebConnector {
 
     }
 
-    public struct envioErrorsUD {
+    public struct stRespuestaErrorEnvioUD {
+        [JsonProperty("result")]
+        public envioResultsUD resultsUD {
+            get; set;
+        }
+        [JsonProperty("errors")]
+        public errorsUD[] errorsUD {
+            get; set;
+        }
+        public string[] information {
+            get; set;
+        }
+        public string[] success {
+            get; set;
+        }
+        public bool hasErrors {
+            get; set;
+        }
 
+    }
+
+    public struct envioResultsUD {
+        [JsonProperty("result")]
+        public string resultUD {
+            get; set;
+        }
+        [JsonProperty("errors")]
+        public ErrorsenvioUD[] errorsUD {
+            get; set;
+        }
+    }
+
+    public struct ErrorsenvioUD {
         public int internalPosition {
             get; set;
         }
@@ -427,7 +464,7 @@ namespace Galac.Saw.LibWebConnector {
         }
 
         [JsonProperty("errors")]
-        public internalErrorErrorEnviarUD[] ErroresInternos {
+        public internalErrorEnvioUD[] ErroresInternos {
             get; set;
         }
 
@@ -447,7 +484,7 @@ namespace Galac.Saw.LibWebConnector {
         }
     }
 
-    public struct internalErrorErrorEnviarUD {
+    public struct internalErrorEnvioUD {
         public string errorType {
             get; set;
         }
@@ -460,7 +497,8 @@ namespace Galac.Saw.LibWebConnector {
     }
 
     public struct stRespuestaStatusUD {
-        public stResultStatusUD[] result {
+        [JsonProperty("result")]
+        public stResultStatusUD[] resultUD {
             get; set;
         }
         [JsonProperty("errors")]
@@ -596,8 +634,5 @@ namespace Galac.Saw.LibWebConnector {
             get; set;
         }
     }
-
-
-
     #endregion UNIDIGITAL    
 }
