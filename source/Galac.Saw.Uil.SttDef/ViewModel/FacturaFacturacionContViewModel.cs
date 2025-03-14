@@ -114,7 +114,12 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         //[LibCustomValidation("CobroDirectoValidating")]
-        //public bool UsaCobroDirecto {
+        public bool UsaCobroDirecto {
+            get {
+                var vFactContVM = ParametrosViewModel.ModuleList.Where(w => w.DisplayName == LibEnumHelper.GetDescription(eModulesLevelName.Factura)).FirstOrDefault().Groups.Where(y => y.DisplayName == new FacturaCobroFacturaViewModel(null, eAccionSR.Consultar).ModuleName).FirstOrDefault().Content as FacturaCobroFacturaViewModel;
+                return vFactContVM.UsaCobroDirecto;
+            }
+        }
         //    get {
         //        return Model.UsaCobroDirectoAsBool;
         //    }
@@ -578,8 +583,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnabledUsaMaquinaFiscal {
             get {
-                var vFactContVM = ParametrosViewModel.ModuleList.Where(w => w.DisplayName == LibEnumHelper.GetDescription(eModulesLevelName.Factura)).FirstOrDefault().Groups.Where(y => y.DisplayName == new FacturaCobroFacturaViewModel(null, eAccionSR.Consultar).ModuleName).FirstOrDefault().Content as FacturaCobroFacturaViewModel;
-                    return IsEnabled && vFactContVM.UsaCobroDirecto && !ExisteCajaRegistradoraConMaquinaFiscal(); 
+                 return IsEnabled && UsaCobroDirecto && !ExisteCajaRegistradoraConMaquinaFiscal(); 
             }
         }
 

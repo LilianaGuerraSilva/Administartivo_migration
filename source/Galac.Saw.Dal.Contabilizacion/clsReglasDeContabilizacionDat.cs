@@ -916,10 +916,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
                 return true;
             }
             valCuentaFacturacionCxCCreditoElectronico = LibString.Trim(valCuentaFacturacionCxCCreditoElectronico);
-            if (LibString.IsNullOrEmpty(valCuentaFacturacionCxCCreditoElectronico, true)) {
-                BuildValidationInfo(MsgRequiredField("CxC Crédito Electrónico"));
-                vResult = false;
-            } else {
+            if (!LibString.IsNullOrEmpty(valCuentaFacturacionCxCCreditoElectronico, true)) {
                 LibDatabase insDb = new LibDatabase();
                 if (!insDb.ExistsValue("dbo.Cuenta", "Codigo", insDb.InsSql.ToSqlValue(valCuentaFacturacionCxCCreditoElectronico), true)) {
                     BuildValidationInfo("El valor asignado al campo CxC Crédito Electrónico no existe, escoga nuevamente.");

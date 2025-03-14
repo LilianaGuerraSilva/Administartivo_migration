@@ -2802,7 +2802,7 @@ End Function
 Private Function fLasCuentasDeFacturacionEstanCompletas() As Boolean
    Dim EstanCompletas As Boolean
    On Error GoTo h_ERROR
-   EstanCompletas = GetCuentaFacturacionCxCClientes <> "" And GetCuentaFacturacionMontoTotalFactura <> "" And GetCuentaFacturacionCargos <> "" And GetCuentaFacturacionDescuentos <> "" And GetCuentaFacturacionCxCCreditoElectronico <> ""
+   EstanCompletas = GetCuentaFacturacionCxCClientes <> "" And GetCuentaFacturacionMontoTotalFactura <> "" And GetCuentaFacturacionCargos <> "" And GetCuentaFacturacionDescuentos <> ""
    If gProyParametrosCompania.GetUsarVentasConIvaDiferido Then
       EstanCompletas = EstanCompletas And GetCuentaFacturacionIvaDiferido <> ""
    End If

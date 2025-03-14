@@ -1069,7 +1069,7 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLDelReporteCxCconDescripcion", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fConstruirSQLDelReporteAnalisisDeVencimiento(ByVal valcodigoVendedor As String, ByVal valCantidadAImprimir As String, ByVal valZonaCobranza As String, ByVal valAnalisisDeVencimientoPor As String, ByVal valConsecutivoCompania As String, ByVal valMonedaDeLosReportes As String, ByVal valNombreMonedaLocal As String, ByRef InsAdmPropAnalisisVenc As Object, ByRef gUltimaTasaDeCambio As Object, ByRef gMonedaLocalActual As Object, ByVal valFiltrarCredElectronico As String, ByVal gProyParametrosCompania As Object) As String
+Public Function fConstruirSQLDelReporteAnalisisDeVencimiento(ByVal valcodigoVendedor As String, ByVal valCantidadAImprimir As String, ByVal valZonaCobranza As String, ByVal valAnalisisDeVencimientoPor As String, ByVal valConsecutivoCompania As String, ByVal valMonedaDeLosReportes As String, ByVal valNombreMonedaLocal As String, ByRef InsAdmPropAnalisisVenc As Object, ByRef gUltimaTasaDeCambio As Object, ByRef gMonedaLocalActual As Object, ByVal valFiltrarCredElectronico As String, ByVal valUsaCreditoElectronico As Boolean) As String
    Dim Sql As String
    Dim sqlMtoRestante As String
    Dim sqlDateDiff As String
@@ -1116,7 +1116,7 @@ Public Function fConstruirSQLDelReporteAnalisisDeVencimiento(ByVal valcodigoVend
       If valZonaCobranza <> "TODAS" Then
          Sql = Sql & " AND cliente.ZonaDeCobranza = " & gUtilSQL.fSimpleSqlValue(valZonaCobranza)
       End If
-      If gProyParametrosCompania.GetUsaCreditoElectronico Then
+      If valUsaCreditoElectronico Then
          If gTexto.S1yS2CoincidenEnLosPrimerosCaracteres(valFiltrarCredElectronico, "Solo") Then
             Sql = Sql & " AND cxC.VieneDeCreditoElectronico = " & gUtilSQL.fBooleanToSqlValue(True)
          ElseIf gTexto.S1yS2CoincidenEnLosPrimerosCaracteres(valFiltrarCredElectronico, "Sin") Then
@@ -1265,7 +1265,7 @@ h_ERROR: Sql = ""
    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLDelReporteAnalisisDeVencimiento", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fSQLDelReporteAnalisisDeVencimientoEntreFechas(ByVal valAgruparPorVendedor As Boolean, ByVal valAnalisisDeVencimientoPor As String, ByVal valMonedaDeLosReportes As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valNombreMonedaLocal As String, ByVal valConsecutivoCompania As Long, ByRef InsAdmPropAnalisisVenc As Object, ByRef gUltimaTasaDeCambio As Object, ByRef gMonedaLocalActual As Object, ByVal usarFiltroZonaCobranza As Boolean, ByVal FiltroPorTipo As String, ByVal valFiltrarCredElectronico As String, ByVal gProyParametrosCompania As Object) As String
+Public Function fSQLDelReporteAnalisisDeVencimientoEntreFechas(ByVal valAgruparPorVendedor As Boolean, ByVal valAnalisisDeVencimientoPor As String, ByVal valMonedaDeLosReportes As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valNombreMonedaLocal As String, ByVal valConsecutivoCompania As Long, ByRef InsAdmPropAnalisisVenc As Object, ByRef gUltimaTasaDeCambio As Object, ByRef gMonedaLocalActual As Object, ByVal usarFiltroZonaCobranza As Boolean, ByVal FiltroPorTipo As String, ByVal valFiltrarCredElectronico As String, ByVal valUsaCreditoElectronico As Boolean) As String
    Dim Sql As String
    Dim sqlMtoRestante As String
    Dim sqlDateDiff As String
@@ -1324,7 +1324,7 @@ Public Function fSQLDelReporteAnalisisDeVencimientoEntreFechas(ByVal valAgruparP
          End If
       End If
       Sql = Sql & " AND " & gUtilSQL.DfSQLDateValueBetween("CxC.Fecha", valFechaInicial, valFechaFinal)
-      If gProyParametrosCompania.GetUsaCreditoElectronico Then
+      If valUsaCreditoElectronico Then
          If gTexto.S1yS2CoincidenEnLosPrimerosCaracteres(valFiltrarCredElectronico, "Solo") Then
             Sql = Sql & " AND cxC.VieneDeCreditoElectronico = " & gUtilSQL.fBooleanToSqlValue(True)
          ElseIf gTexto.S1yS2CoincidenEnLosPrimerosCaracteres(valFiltrarCredElectronico, "Sin") Then

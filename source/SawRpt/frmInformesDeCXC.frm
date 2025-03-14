@@ -1712,7 +1712,7 @@ Private Sub sEjecutaAnalisisDeVencimiento()
    End If
    Set insConfigurar = New clsCxCRpt
    Set reporte = New DDActiveReports2.ActiveReport
-   SqlDelReporte = insCxcSQL.fConstruirSQLDelReporteAnalisisDeVencimiento(txtCodigoVendedor.Text, CmbCantidadAImprimir.Text, CmbZonaCobranza.Text, cmbAnalisisDeVencimientoPor.Text, gProyCompaniaActual.GetConsecutivoCompania, cmbMonedaDeLosReportes.Text, gProyParametros.GetNombreMonedaLocal, insAdmPropAnalisisVenc, gUltimaTasaDeCambio, gMonedaLocalActual, cmbFiltroCredElectronico.Text, gProyParametrosCompania)
+   SqlDelReporte = insCxcSQL.fConstruirSQLDelReporteAnalisisDeVencimiento(txtCodigoVendedor.Text, CmbCantidadAImprimir.Text, CmbZonaCobranza.Text, cmbAnalisisDeVencimientoPor.Text, gProyCompaniaActual.GetConsecutivoCompania, cmbMonedaDeLosReportes.Text, gProyParametros.GetNombreMonedaLocal, insAdmPropAnalisisVenc, gUltimaTasaDeCambio, gMonedaLocalActual, gAPI.SelectedElementInComboBoxToString(cmbFiltroCredElectronico), gProyParametrosCompania.GetUsaCreditoElectronico)
    detallado = optDetallado.Value
    Titulo = "Análisis de Vencimiento de Cuentas por Cobrar - "
    If detallado Then
@@ -1724,7 +1724,7 @@ Private Sub sEjecutaAnalisisDeVencimiento()
    TituloFecha = "Del " & gConvert.dateToString(dtpFechaInicial) & " al " & gConvert.dateToString(dtpFechaFinal)
    monedaOrig = Not (cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, gProyParametros.GetNombreMonedaLocal))
    If insAdmPropAnalisisVenc.fBuscaValoresDeLasPropAnalisisVencActual Then
-      If insConfigurar.fConfiguraLasSeccionesDelReporteDeAnalisisDeVencimiento(reporte, SqlDelReporte, detallado, TituloFecha, insAdmPropAnalisisVenc.GetPrimerVencimiento, insAdmPropAnalisisVenc.GetSegundoVencimiento, insAdmPropAnalisisVenc.GetTercerVencimiento, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gEnumReport.getMensajesDeMonedaParaInformes(eMM_CambioOriginal), monedaOrig, False, txtCodigoVendedor.Text, txtNombreVendedor.Text, cmbFiltroCredElectronico.Text) Then
+      If insConfigurar.fConfiguraLasSeccionesDelReporteDeAnalisisDeVencimiento(reporte, SqlDelReporte, detallado, TituloFecha, insAdmPropAnalisisVenc.GetPrimerVencimiento, insAdmPropAnalisisVenc.GetSegundoVencimiento, insAdmPropAnalisisVenc.GetTercerVencimiento, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gEnumReport.getMensajesDeMonedaParaInformes(eMM_CambioOriginal), monedaOrig, False, txtCodigoVendedor.Text, txtNombreVendedor.Text, gAPI.SelectedElementInComboBoxToString(cmbFiltroCredElectronico)) Then
          gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, Titulo
       End If
    End If
@@ -2122,12 +2122,12 @@ Private Sub sEjecutaAnalisisDeVencimientoEntreFechas()
    End If
    Set insConfigurar = New clsCxCRpt
    Set reporte = New DDActiveReports2.ActiveReport
-   SqlDelReporte = insCxcSQL.fSQLDelReporteAnalisisDeVencimientoEntreFechas(chkAgruparPorVendedor.Value, cmbAnalisisDeVencimientoPor.Text, cmbMonedaDeLosReportes.Text, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyParametros.GetNombreMonedaLocal, gProyCompaniaActual.GetConsecutivoCompania, insAdmPropAnalisisVenc, gUltimaTasaDeCambio, gMonedaLocalActual, gConvert.ConvertByteToBoolean(chkFiltroZona.Value), cmbFiltroZona.Text, cmbFiltroCredElectronico.Text, gProyParametrosCompania)
+   SqlDelReporte = insCxcSQL.fSQLDelReporteAnalisisDeVencimientoEntreFechas(chkAgruparPorVendedor.Value, cmbAnalisisDeVencimientoPor.Text, cmbMonedaDeLosReportes.Text, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyParametros.GetNombreMonedaLocal, gProyCompaniaActual.GetConsecutivoCompania, insAdmPropAnalisisVenc, gUltimaTasaDeCambio, gMonedaLocalActual, gConvert.ConvertByteToBoolean(chkFiltroZona.Value), cmbFiltroZona.Text, gAPI.SelectedElementInComboBoxToString(cmbFiltroCredElectronico), gProyParametrosCompania.GetUsaCreditoElectronico)
    monedaOriginal = Not (cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, gProyParametros.GetNombreMonedaLocal))
    totalizarPorMes = (chkTotalizarPorMes.Value = vbChecked)
    agruparPorVendedor = (chkAgruparPorVendedor.Value = vbChecked)
    If insAdmPropAnalisisVenc.fBuscaValoresDeLasPropAnalisisVencActual Then
-      If insConfigurar.fConfigurarDatosDelReporteAnalisisDeVencimientoEntreFechas(reporte, SqlDelReporte, dtpFechaInicial, dtpFechaFinal, totalizarPorMes, agruparPorVendedor, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), insAdmPropAnalisisVenc.GetPrimerVencimiento, insAdmPropAnalisisVenc.GetSegundoVencimiento, insAdmPropAnalisisVenc.GetTercerVencimiento, MensajesDeMonedaParaInformes = gEnumReport.getMensajesDeMonedaParaInformes(eMM_CambioOriginal), monedaOriginal, gConvert.ConvertByteToBoolean(chkFiltroZona.Value), cmbFiltroCredElectronico.Text) Then
+      If insConfigurar.fConfigurarDatosDelReporteAnalisisDeVencimientoEntreFechas(reporte, SqlDelReporte, dtpFechaInicial, dtpFechaFinal, totalizarPorMes, agruparPorVendedor, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), insAdmPropAnalisisVenc.GetPrimerVencimiento, insAdmPropAnalisisVenc.GetSegundoVencimiento, insAdmPropAnalisisVenc.GetTercerVencimiento, MensajesDeMonedaParaInformes = gEnumReport.getMensajesDeMonedaParaInformes(eMM_CambioOriginal), monedaOriginal, gConvert.ConvertByteToBoolean(chkFiltroZona.Value), gAPI.SelectedElementInComboBoxToString(cmbFiltroCredElectronico)) Then
       gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Análisis de Vencimiento entre Fechas"
       End If
    End If
