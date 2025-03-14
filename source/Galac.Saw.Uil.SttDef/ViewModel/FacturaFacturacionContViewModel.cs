@@ -577,7 +577,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         //}
 
         public bool IsEnabledUsaMaquinaFiscal {
-            get { return IsEnabled && UsaCobroDirecto && !ExisteCajaRegistradoraConMaquinaFiscal(); }
+            get {
+                var vFactContVM = ParametrosViewModel.ModuleList.Where(w => w.DisplayName == LibEnumHelper.GetDescription(eModulesLevelName.Factura)).FirstOrDefault().Groups.Where(y => y.DisplayName == new FacturaCobroFacturaViewModel(null, eAccionSR.Consultar).ModuleName).FirstOrDefault().Content as FacturaCobroFacturaViewModel;
+                    return IsEnabled && vFactContVM.UsaCobroDirecto && !ExisteCajaRegistradoraConMaquinaFiscal(); 
+            }
         }
 
         public bool isVisibleParaPeru {
