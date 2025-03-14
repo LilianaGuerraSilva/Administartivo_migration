@@ -15,6 +15,7 @@
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdButton.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -114,7 +115,8 @@
             Margin="3,3,6,0"
             HorizontalAlignment="Stretch"
             Content="Almacén"
-            Style="{StaticResource LabelPrompt}" />
+            Style="{StaticResource LabelPrompt}"
+            Visibility="{Binding Path=IsVisibleAlmacen, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSSeekConnection
             x:Name="txtCodigoAlmacen"
             Grid.Row="2"
@@ -123,9 +125,10 @@
             Margin="3,4,10,0"
             ConnectionValue="{Binding CodigoAlmacen, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             DisplayMemberPath="Codigo"
-            IsEnabled="False"
+            IsEnabled="True"
             Model="{Binding ConexionCodigoAlmacen, Mode=TwoWay}"
-            SearchCommand="{Binding ChooseCodigoAlmacenCommand}" />
+            SearchCommand="{Binding ChooseCodigoAlmacenCommand}"
+            Visibility="{Binding Path=IsVisibleAlmacen, Converter={StaticResource booleanToVisibilityConverter}}" />
         <Label
             x:Name="lneNombreAlmacen"
             Grid.Row="2"
@@ -135,7 +138,8 @@
             Height="25"
             Margin="3,0,0,0"
             Content="{Binding NombreAlmacen}"
-            Style="{StaticResource LabelCalculatedField}" VerticalAlignment="Center" />
+            Style="{StaticResource LabelCalculatedField}" VerticalAlignment="Center"
+            Visibility="{Binding Path=IsVisibleAlmacen, Converter={StaticResource booleanToVisibilityConverter}}" />
         <Label
             x:Name="lblComentarios"
             Grid.Row="3"

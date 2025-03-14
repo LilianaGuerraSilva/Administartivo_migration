@@ -138,7 +138,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 List<string> vErrors = base.BuildValidationErrors().ToList();
                 
                     if (!string.IsNullOrWhiteSpace(DetailCompraDetalleSerialRollo.Error)) {
-                        vErrors.Add(string.Format("Detalle Movimientos de Fecha: \n{0}", DetailCompraDetalleSerialRollo.Error));
+                        vErrors.Add(string.Format("Detalle Serial y Rollo: \n{0}", DetailCompraDetalleSerialRollo.Error));
                     }
                 
                 string vResult = string.Join(Environment.NewLine, vErrors.ToArray());

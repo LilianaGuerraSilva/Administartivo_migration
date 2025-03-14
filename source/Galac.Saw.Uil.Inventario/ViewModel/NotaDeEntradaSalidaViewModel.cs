@@ -740,8 +740,9 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
-
-
+        public bool IsVisibleAlmacen {
+            get { return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaAlmacen");}
+        }
     } //End of class NotaDeEntradaSalidaViewModel
 
 } //End of namespace Galac.Saw.Uil.Inventario

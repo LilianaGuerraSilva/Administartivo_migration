@@ -69,7 +69,7 @@
             InputDataType="UDecimal" 
             MaxLength="28" 
             Width="150" 
-            IsEnabled="{Binding Path=IsEnabled}"
+            IsEnabled="{Binding Path=SePuedeEditarCantidad}"
             Value="{Binding Path=Cantidad, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
             BorderThickness="1" 
             DecimalDigits="4"/>
@@ -161,7 +161,7 @@
                 MaxLength="50"
                 VerticalAlignment="Center"
                 Style="{StaticResource TextBoxInputStyle}"
-                Text="{Binding Serial, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Width="225" />
+                Text="{Binding Path=Serial, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Width="225"/>
             <Label 
                 Visibility="{Binding IsVisibleRollo, Converter={StaticResource boolToVisibilityConverter}}" 
                 Grid.Row="4" 
