@@ -130,8 +130,9 @@ Private Function fSpParametersINS() As String
    vResult = vResult & "         @TotalDetraccion decimal(25,5) = 0," & vbCrLf
    vResult = vResult & "         @StatusDetraccion char(1) = '0'," & vbCrLf
    vResult = vResult & "         @ConsecutivoMovimiento int = 0," & vbCrLf
+   vResult = vResult & "   	 @NumeroControl varchar(11) = ''," & vbCrLf
+   vResult = vResult & "   	 @VieneDeCreditoElectronico char(1) = 'N'," & vbCrLf
    vResult = vResult & "         @NombreOperador " & gUtilSQL.getVarCharTypeForDB(10) & vbCrLf
-   vResult = vResult & "   @NumeroControl varchar(11) = ''," & vbCrLf
     fSpParametersINS = vResult
 h_EXIT:  On Error GoTo 0
    Exit Function
@@ -181,6 +182,7 @@ Private Function fStatementsSpINS() As String
    vResult = vResult & "         StatusDetraccion," & vbCrLf
    vResult = vResult & "         ConsecutivoMovimiento," & vbCrLf
    vResult = vResult & "         NumeroControl," & vbCrLf
+   vResult = vResult & "         VieneDeCreditoElectronico," & vbCrLf
    vResult = vResult & "         NombreOperador," & vbCrLf
    vResult = vResult & "         FechaUltimaModificacion" & vbCrLf
    vResult = vResult & "      )VALUES(" & vbCrLf
@@ -220,6 +222,7 @@ Private Function fStatementsSpINS() As String
    vResult = vResult & "         @StatusDetraccion," & vbCrLf
    vResult = vResult & "         @ConsecutivoMovimiento," & vbCrLf
    vResult = vResult & "         @NumeroControl," & vbCrLf
+   vResult = vResult & "         @VieneDeCreditoElectronico," & vbCrLf
    vResult = vResult & "         @NombreOperador," & vbCrLf
    vResult = vResult & "         @FechaUltimaModificacion" & vbCrLf
    vResult = vResult & "      )" & vbCrLf
@@ -299,6 +302,7 @@ Private Function fSpParametersUPD() As String
    vResult = vResult & "   @StatusDetraccion char(1) = NULL," & vbCrLf
    vResult = vResult & "   @ConsecutivoMovimiento int = NULL," & vbCrLf
    vResult = vResult & "   @NumeroControl varchar(11) = NULL," & vbCrLf
+   vResult = vResult & "   @VieneDeCreditoElectronico char(1) = NULL," & vbCrLf
    vResult = vResult & "         @NombreOperador " & gUtilSQL.getVarCharTypeForDB(10) & " = NULL" & vbCrLf
     fSpParametersUPD = vResult
 h_EXIT:  On Error GoTo 0
@@ -342,6 +346,7 @@ Private Function fStatementsSpUPD() As String
    vResult = vResult & "   DECLARE @Ori_TotalDetraccion " & gUtilSQL.getNumericTypeForDB(12, 2) & vbCrLf
    vResult = vResult & "   DECLARE @Ori_StatusDetraccion " & gUtilSQL.getVarCharTypeForDB(1) & vbCrLf
    vResult = vResult & "   DECLARE @Ori_ConsecutivoMovimiento " & gUtilSQL.getNumericTypeForDB(9, 0) & vbCrLf
+   vResult = vResult & "   DECLARE @Ori_VieneDeCreditoElectronico " & gUtilSQL.getVarCharTypeForDB(1) & vbCrLf
    vResult = vResult & "   DECLARE @Ori_NombreOperador " & gUtilSQL.getVarCharTypeForDB(10) & vbCrLf
    vResult = vResult & "   DECLARE @Ori_TimeStamp timestamp" & vbCrLf
    vResult = vResult & "   DECLARE @Up_Status " & gUtilSQL.getCharTypeForDB(1) & vbCrLf
@@ -377,6 +382,7 @@ Private Function fStatementsSpUPD() As String
    vResult = vResult & "   DECLARE @Up_StatusDetraccion " & gUtilSQL.getVarCharTypeForDB(1) & vbCrLf
    vResult = vResult & "   DECLARE @Up_ConsecutivoMovimiento " & gUtilSQL.getNumericTypeForDB(9, 0) & vbCrLf
    vResult = vResult & "   DECLARE @Up_NumeroControl " & gUtilSQL.getVarCharTypeForDB(11) & vbCrLf
+   vResult = vResult & "   DECLARE @Up_VieneDeCreditoElectronico " & gUtilSQL.getVarCharTypeForDB(1) & vbCrLf
    vResult = vResult & "   DECLARE @Up_NombreOperador " & gUtilSQL.getVarCharTypeForDB(10) & vbCrLf
    vResult = vResult & "   DECLARE @FechaUltimaModificacion " & gUtilSQL.getDateTypeForDB() & vbCrLf
    vResult = vResult & "   BEGIN TRAN" & vbCrLf
@@ -414,6 +420,7 @@ Private Function fStatementsSpUPD() As String
    vResult = vResult & "          @Ori_StatusDetraccion = StatusDetraccion," & vbCrLf
    vResult = vResult & "          @Ori_ConsecutivoMovimiento = ConsecutivoMovimiento," & vbCrLf
    vResult = vResult & "          @Ori_NumeroControl = NumeroControl," & vbCrLf
+   vResult = vResult & "          @Ori_VieneDeCreditoElectronico = VieneDeCreditoElectronico," & vbCrLf
    vResult = vResult & "         @Ori_NombreOperador = NombreOperador," & vbCrLf
    vResult = vResult & "         @Ori_TimeStamp = fldTimeStamp" & vbCrLf
    vResult = vResult & "      FROM CxC" & vbCrLf
@@ -551,6 +558,10 @@ Private Function fStatementsSpUPD() As String
    vResult = vResult & "      SET @Up_NumeroControl = @Ori_NumeroControl" & vbCrLf
    vResult = vResult & "   ELSE" & vbCrLf
    vResult = vResult & "      SET @Up_NumeroControl = @NumeroControl" & vbCrLf
+   vResult = vResult & "   IF @VieneDeCreditoElectronico is null" & vbCrLf
+   vResult = vResult & "      SET @Up_VieneDeCreditoElectronico = @Ori_VieneDeCreditoElectronico" & vbCrLf
+   vResult = vResult & "   ELSE" & vbCrLf
+   vResult = vResult & "      SET @Up_VieneDeCreditoElectronico = @VieneDeCreditoElectronico" & vbCrLf
    vResult = vResult & "   IF @NombreOperador IS NULL" & vbCrLf
    vResult = vResult & "      SET @Up_NombreOperador = @Ori_NombreOperador" & vbCrLf
    vResult = vResult & "   ELSE" & vbCrLf
@@ -591,6 +602,7 @@ Private Function fStatementsSpUPD() As String
    vResult = vResult & "         StatusDetraccion = @Up_StatusDetraccion," & vbCrLf
    vResult = vResult & "         ConsecutivoMovimiento = @Up_ConsecutivoMovimiento," & vbCrLf
    vResult = vResult & "         NumeroControl = @Up_NumeroControl," & vbCrLf
+   vResult = vResult & "         VieneDeCreditoElectronico = @Up_VieneDeCreditoElectronico," & vbCrLf
    vResult = vResult & "      NombreOperador = @Up_NombreOperador," & vbCrLf
    vResult = vResult & "      FechaUltimaModificacion = @FechaUltimaModificacion" & vbCrLf
    vResult = vResult & "   WHERE ConsecutivoCompania = @ConsecutivoCompania" & vbCrLf

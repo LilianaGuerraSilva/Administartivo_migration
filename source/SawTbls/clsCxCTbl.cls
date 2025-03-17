@@ -120,6 +120,7 @@ Public Function fCreateTable(ByVal valShowMessage As Boolean) As Boolean
    SQL = SQL & "NumeroControl" & gUtilSQL.getVarCharTypeForDB(11) & ", "
    SQL = SQL & "NumeroComprobanteFiscal" & gUtilSQL.getVarCharTypeForDB(12) & ", "
    SQL = SQL & "FechaLimiteCambioAMonedaLocal" & gUtilSQL.getDateTypeForDB() & ", "
+   SQL = SQL & "VieneDeCreditoElectronico" & gUtilSQL.getCharTypeForDB(1) & " CONSTRAINT nn" & GetTableName() & "nnCxCVieneDeCre NOT NULL, "
    SQL = SQL & "NombreOperador " & gUtilSQL.getVarCharTypeForDB(10) & ", "
    SQL = SQL & "FechaUltimaModificacion " & gUtilSQL.getDateTypeForDB() & ", "
    SQL = SQL & gDefDatabase.getFN_TIMESTAMP() & " timestamp )"
