@@ -903,6 +903,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 case "00006":
                     vResultado = "Transferencia";
                     break;
+                case "00015":
+                    vResultado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "NombreCreditoElectronico");
+                    break;
                 default:
                     vResultado = "Efectivo";
                     break;

@@ -44,7 +44,7 @@
     <Castle.windsor>3.4.0.2481</Castle.windsor>
     <Castle.Core>3.3.0.2287</Castle.Core>
     <System.Net.Http>4.8.9037.0</System.Net.Http>
-    <Galac.Saw.Galac.Saw.LibHttp>2.61.1.0</Galac.Saw.Galac.Saw.LibHttp>		    
+    <Galac.Saw.LibHttp>2.61.1.0</Galac.Saw.LibHttp>		    
 </ComponentesNET>
   <ComponentesAOS>
     <LibGalac.Aos.Base>5.24.0.0</LibGalac.Aos.Base>
