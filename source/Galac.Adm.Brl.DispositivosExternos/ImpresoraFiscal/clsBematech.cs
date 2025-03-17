@@ -845,7 +845,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vVersionFirmware;
             decimal vIGTF = 0;
             string vObservIGTF = "";
-            try {
+            try {                
                 vVersionFirmware = GetFirmwareVersion();
                 vIGTF = LibImportData.ToDec(LibXml.GetPropertyString(valDocumentoFiscal, "IGTFML"));
                 vImprimeDireccionALFinalDeLaFactura = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida", "ImprimeDireccionAlFinalDelComprobanteFiscal");
@@ -1247,6 +1247,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     break;
                 case "00006":
                     vResultado = "Transferencia";
+                    break;
+                case "00015":
+                    vResultado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "NombreCreditoElectronico");
                     break;
                 default:
                     vResultado = "Efectivo";

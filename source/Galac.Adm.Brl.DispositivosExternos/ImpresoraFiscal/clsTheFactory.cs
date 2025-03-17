@@ -1126,7 +1126,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         break;
                     case "00006":
                         vResultado = "06";//Transferencia
-                        break;                    
+                        break;  
+					case "00015":
+                        vResultado = "15";//Crédito Electrónico
+                        break;                  
                     default:
                         vResultado = "01";
                         break;
@@ -1144,7 +1147,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         break;
                     case "00006":
                         vResultado = "06";//Transferencia 
-                        break;                   
+                        break;
+                    case "00015":
+                        vResultado = "15";//Crédito Electrónico
+                        break;
                     default:
                         vResultado = "01";
                         break;
