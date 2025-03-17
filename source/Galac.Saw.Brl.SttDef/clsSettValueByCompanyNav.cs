@@ -1011,7 +1011,6 @@ namespace Galac.Saw.Brl.SttDef {
             insEntidad.SinonimoSerial = "Serial";
             insEntidad.SinonimoRollo = "Rollo";
             insEntidad.ImprimeSerialRolloLuegoDeDescripArticuloAsBool = false;
-            insEntidad.UsaLoteFechaDeVencimientoAsBool = false;
             return insEntidad;
         }
 
@@ -1045,7 +1044,6 @@ namespace Galac.Saw.Brl.SttDef {
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.AvisoDeReservasvencidasAsBool), "AvisoDeReservasvencidas", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.VerificarStockAsBool), "VerificarStock", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.ImprimeSerialRolloLuegoDeDescripArticuloAsBool), "ImprimeSerialRolloLuegoDeDescripArticulo", valConsecutivoCompania));
-            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaLoteFechaDeVencimientoAsBool), "UsaLoteFechaDeVencimiento", valConsecutivoCompania));            
         }
         InventarioStt GetInventarioStt(List<SettValueByCompany> valListGetSettValueByCompany) {
             InventarioStt vResult = new InventarioStt();
@@ -1073,7 +1071,6 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.AvisoDeReservasvencidasAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "AvisoDeReservasvencidas"));
             vResult.VerificarStockAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "VerificarStock"));
             vResult.ImprimeSerialRolloLuegoDeDescripArticuloAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "ImprimeSerialRolloLuegoDeDescripArticulo"));
-            vResult.UsaLoteFechaDeVencimientoAsBool= LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaLoteFechaDeVencimiento"));
             return vResult;
         }
         #endregion // InventarioStt

@@ -39,45 +39,21 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" MinWidth="218" />
                     <ColumnDefinition Width="Auto" MinWidth="106" />
-                    <ColumnDefinition Width="Auto" MinWidth="171" />
-                    <ColumnDefinition Width="Auto" MinWidth="246" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Label
-                    Name="lblUsaLoteFechaDeVencimiento"
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Content="Usar Lote/Fecha de Vencimiento"
-                    Style="{StaticResource LabelPrompt}" Height="24" Margin="3,3,0,0" Width="188" />
-                <CheckBox
-                    Name="chkUsaLoteFechaDeVencimiento"
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    HorizontalAlignment="Left"
-                    IsChecked="{Binding Path=UsaLoteFechaDeVencimiento}"
-                    IsEnabled="{Binding Path=IsEnabledUsaLoteFechaDeVencimiento}"
-                    Style="{StaticResource CheckBoxStyle}" Height="14" Margin="15,8,0,8" Width="16" />
-                <TextBlock
-                    Name="lblNotaLoteFechaVcto"
-                    Text="Nota: Al activar Lote/Fecha de Vencimiento, no se podrán usar los Artículos Tipo de Mercancía: Serial, Rollo, Talla/Color. Tampoco se podrá hacer uso de Almacén."
-                    Grid.Row="1"
-                    Grid.ColumnSpan="2"
-                    Grid.Column="0" Foreground="#FFC00000"
-                    Width="315" TextWrapping="WrapWithOverflow" HorizontalAlignment="Left" Margin="10,0,0,0"
-                    />
-                <Label
                     Name="lblCantidadDeDecimales"
                     Grid.Row="0"
-                    Grid.Column="2"
+                    Grid.Column="0"
                     Content="Cantidad de Decimales"
                     Style="{StaticResource LabelPrompt}" Height="24" Margin="3,3,0,0" Width="166" />
                 <nsWpfControls:GSComboBoxWpf
                     Name="cmbCantidadDeDecimales"
                     Grid.Row="0"
-                    Grid.Column="3"
+                    Grid.Column="1"
                     Width="120"
                     IsEnabled="{Binding Path=IsEnabled}"
                     IsSynchronizedWithCurrentItem="True"
