@@ -159,16 +159,12 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 if (Model.UsaAlmacenAsBool != value) {
                     Model.UsaAlmacenAsBool = value;
                     IsDirty = true;
-                    if (value) {
-                        UsaLoteFechaDeVencimiento = false;
-                        RaisePropertyChanged(() => UsaLoteFechaDeVencimiento);
-                    } else { 
+                    if (!value) {
                         ActivarFacturacionPorAlmacen = false;
                     }
                     RaisePropertyChanged(UsaAlmacenPropertyName);
                     RaisePropertyChanged(IsEnabledDatosAlmacenPropertyName);
                     RaisePropertyChanged(() => IsEnabledUsalAlmacen);
-                    RaisePropertyChanged(() => IsEnabledUsaLoteFechaDeVencimiento);
                 }
             }
         }
@@ -361,23 +357,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
            
         }
 
-        public bool UsaLoteFechaDeVencimiento {
-            get { return Model.UsaLoteFechaDeVencimientoAsBool; }
-            set {
-                if (Model.UsaLoteFechaDeVencimientoAsBool != value) {
-                    Model.UsaLoteFechaDeVencimientoAsBool = value;
-                    IsDirty = true;
-                    RaisePropertyChanged(() => UsaLoteFechaDeVencimiento);
-                    if (value) {
-                        UsaAlmacen = false;
-                        RaisePropertyChanged(() => UsaAlmacen);
-                    }
-                    RaisePropertyChanged(() => IsEnabledUsalAlmacen);
-                    RaisePropertyChanged(() => IsEnabledUsaLoteFechaDeVencimiento);
-                }
-            }
-        }
-
         public ePermitirSobregiro[] ArrayPermitirSobregiro {
             get {
                 return LibEnumHelper<ePermitirSobregiro>.GetValuesInArray();
@@ -413,7 +392,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnabledUsalAlmacen {
             get {
-                return IsEnabled && !UsaLoteFechaDeVencimiento && !LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsEmprendedor");
+                return IsEnabled && !LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsEmprendedor");
             }
         }
 		
@@ -429,11 +408,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public bool IsEnabledUsaLoteFechaDeVencimiento {
-            get {
-                return IsEnabled && !UsaAlmacen && SePuedeModificarUsaLoteFechaDeVencimiento();
-            }
-        }
         #endregion //Propiedades
         #region Constructores
         public InventarioViewModel()
@@ -494,18 +468,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        private bool SePuedeModificarUsaLoteFechaDeVencimiento() {
-            int vConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
-            bool vSePuedeModificarUsaLoteFechaDeVencimiento = true;
-            ISettValueByCompanyPdn insParametrosByCompany = new clsSettValueByCompanyNav();
-            if (UsaLoteFechaDeVencimiento) {
-                vSePuedeModificarUsaLoteFechaDeVencimiento = !insParametrosByCompany.ExistenArticulosLoteFdV(vConsecutivoCompania);
-            } else {
-                vSePuedeModificarUsaLoteFechaDeVencimiento = !insParametrosByCompany.ExistenArticulosMercanciaNoSimpleNoLoteFDV(vConsecutivoCompania);
-            }
-            
-            return vSePuedeModificarUsaLoteFechaDeVencimiento;
-        }
 
         #endregion //Metodos Generados
     } //End of class InventarioViewModel

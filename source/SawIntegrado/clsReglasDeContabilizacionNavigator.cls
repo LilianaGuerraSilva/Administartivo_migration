@@ -110,6 +110,7 @@ Private mManejarDiferenciaCambiariaEnPagos As Boolean
 Private mContabIndividualFacturacion As String
 Private mContabPorLoteFacturacion As String
 Private mCuentaFacturacionCxCClientes As String
+Private mCuentaFacturacionCxCCreditoElectronico As String
 Private mCuentaFacturacionMontoTotalFactura As String
 Private mCuentaFacturacionCargos As String
 Private mCuentaFacturacionDescuentos As String
@@ -319,6 +320,7 @@ Public Sub sClrRecord()
    SetContabIndividualFacturacionStr ""
    SetContabPorLoteFacturacionStr ""
    SetCuentaFacturacionCxCClientes ""
+   SetCuentaFacturacionCxCCreditoElectronico ""
    SetCuentaFacturacionMontoTotalFactura ""
    SetCuentaFacturacionCargos ""
    SetCuentaFacturacionDescuentos ""
@@ -1354,6 +1356,14 @@ Private Sub SetCuentaFacturacionCxCClientes(ByVal valNewValue As String)
    mCuentaFacturacionCxCClientes = gTexto.DfMid(valNewValue, 1, 30)
 End Sub
 
+Public Function GetCuentaFacturacionCxCCreditoElectronico() As String
+   GetCuentaFacturacionCxCCreditoElectronico = mCuentaFacturacionCxCCreditoElectronico
+End Function
+
+Private Sub SetCuentaFacturacionCxCCreditoElectronico(ByVal valNewValue As String)
+   mCuentaFacturacionCxCCreditoElectronico = gTexto.DfMid(valNewValue, 1, 30)
+End Sub
+
 Public Function GetCuentaFacturacionMontoTotalFactura() As String
    GetCuentaFacturacionMontoTotalFactura = mCuentaFacturacionMontoTotalFactura
 End Function
@@ -2246,6 +2256,11 @@ Private Sub setValuesWithRS(Optional ByVal valRecordSet As ADODB.Recordset = Not
    If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaFacturacionCxCclientes") Then
       If Not IsNull(valRecordSet("CuentaFacturacionCxCclientes")) Then
          SetCuentaFacturacionCxCClientes valRecordSet("CuentaFacturacionCxCclientes")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaFacturacionCxCCreditoElectronico") Then
+      If Not IsNull(valRecordSet("CuentaFacturacionCxCCreditoElectronico")) Then
+         SetCuentaFacturacionCxCClientes valRecordSet("CuentaFacturacionCxCCreditoElectronico")
       End If
    End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaFacturacionMontoTotalFactura") Then
@@ -3225,6 +3240,12 @@ Public Function fImprimeReglasDeContabilizacion() As Boolean
       Else
          gUtilReports.sDefaultConfigurationForLabels rptReporteReglas, "lblCuentaFacturacionCxCClientesDescripcion", ""
       End If
+      gUtilReports.sDefaultConfigurationForLabels rptReporteReglas, "lblCuentaFacturacionCxCCreditoElectronico", gProyReglasDeContabilizacion.GetCuentaFacturacionCxCCreditoElectronico
+      If insCuenta.fSearchCuentaByCodigo(gProyReglasDeContabilizacion.GetCuentaFacturacionCxCCreditoElectronico, True) Then
+         gUtilReports.sDefaultConfigurationForLabels rptReporteReglas, "lblCuentaFacturacionCxCCreditoElectronico", insCuenta.GetDescripcion
+      Else
+         gUtilReports.sDefaultConfigurationForLabels rptReporteReglas, "lblCuentaFacturacionCxCCreditoElectronico", ""
+      End If
       gUtilReports.sDefaultConfigurationForLabels rptReporteReglas, "lblCuentaFacturacionDescuentos", gProyReglasDeContabilizacion.GetCuentaFacturacionDescuentos
       If insCuenta.fSearchCuentaByCodigo(gProyReglasDeContabilizacion.GetCuentaFacturacionDescuentos, True) Then
          gUtilReports.sDefaultConfigurationForLabels rptReporteReglas, "lblCuentaFacturacionDescuentosDescripcion", insCuenta.GetDescripcion
@@ -3505,6 +3526,7 @@ Public Sub sRestaurarDatos(ByVal valRecordSet As ADODB.Recordset, ByVal valConse
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@ContabIndividualFacturacion", 1, valRecordSet("ContabIndividualFacturacion").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@ContabPorLoteFacturacion", 1, valRecordSet("ContabPorLoteFacturacion").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CuentaFacturacionCxCClientes", 30, valRecordSet("CuentaFacturacionCxCClientes").value)
+      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CuentaFacturacionCxCCreditoElectronico", 30, valRecordSet("CuentaFacturacionCxCCreditoElectronico").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CuentaFacturacionMontoTotalFactura", 30, valRecordSet("CuentaFacturacionMontoTotalFactura").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CuentaFacturacionCargos", 30, valRecordSet("CuentaFacturacionCargos").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CuentaFacturacionDescuentos", 30, valRecordSet("CuentaFacturacionDescuentos").value)
@@ -3783,6 +3805,7 @@ Private Function fGetListaCuentasAVerificar() As String
    vCuentasAVerificar = vCuentasAVerificar & gTexto.fSeparadorStandardDeElementosString & GetCuentaPagosBanco
    'Facturacion
    vCuentasAVerificar = vCuentasAVerificar & gTexto.fSeparadorStandardDeElementosString & GetCuentaFacturacionCxCClientes
+   vCuentasAVerificar = vCuentasAVerificar & gTexto.fSeparadorStandardDeElementosString & GetCuentaFacturacionCxCCreditoElectronico
    vCuentasAVerificar = vCuentasAVerificar & gTexto.fSeparadorStandardDeElementosString & GetCuentaFacturacionMontoTotalFactura
    vCuentasAVerificar = vCuentasAVerificar & gTexto.fSeparadorStandardDeElementosString & GetCuentaFacturacionCargos
    vCuentasAVerificar = vCuentasAVerificar & gTexto.fSeparadorStandardDeElementosString & GetCuentaFacturacionDescuentos

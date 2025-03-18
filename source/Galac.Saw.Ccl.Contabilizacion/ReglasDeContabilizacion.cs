@@ -65,6 +65,7 @@ namespace Galac.Saw.Ccl.Contabilizacion {
         private eContabilizacionIndividual _ContabIndividualFacturacion;
         private eContabilizacionPorLote _ContabPorLoteFacturacion;
         private string _CuentaFacturacionCxCClientes;
+        private string _CuentaFacturacionCxCCreditoElectronico;
         private string _CuentaFacturacionMontoTotalFactura;
         private string _CuentaFacturacionCargos;
         private string _CuentaFacturacionDescuentos;
@@ -642,6 +643,11 @@ namespace Galac.Saw.Ccl.Contabilizacion {
         public string CuentaFacturacionCxCClientes {
             get { return _CuentaFacturacionCxCClientes; }
             set { _CuentaFacturacionCxCClientes = LibString.Mid(value,0,30); }
+        }
+
+        public string CuentaFacturacionCxCCreditoElectronico {
+            get { return _CuentaFacturacionCxCCreditoElectronico; }
+            set { _CuentaFacturacionCxCCreditoElectronico = LibString.Mid(value, 0, 30); }
         }
 
         public string CuentaFacturacionMontoTotalFactura {
@@ -1467,6 +1473,7 @@ namespace Galac.Saw.Ccl.Contabilizacion {
             ContabIndividualFacturacionAsEnum = eContabilizacionIndividual.Inmediata;
             ContabPorLoteFacturacionAsEnum = eContabilizacionPorLote.Diaria;
             CuentaFacturacionCxCClientes = string.Empty;
+            CuentaFacturacionCxCCreditoElectronico = string.Empty;
             CuentaFacturacionMontoTotalFactura = string.Empty;
             CuentaFacturacionCargos = string.Empty;
             CuentaFacturacionDescuentos = string.Empty;
@@ -1612,6 +1619,7 @@ namespace Galac.Saw.Ccl.Contabilizacion {
             vResult.ContabIndividualFacturacionAsEnum = _ContabIndividualFacturacion;
             vResult.ContabPorLoteFacturacionAsEnum = _ContabPorLoteFacturacion;
             vResult.CuentaFacturacionCxCClientes = _CuentaFacturacionCxCClientes;
+            vResult.CuentaFacturacionCxCCreditoElectronico = _CuentaFacturacionCxCCreditoElectronico;
             vResult.CuentaFacturacionMontoTotalFactura = _CuentaFacturacionMontoTotalFactura;
             vResult.CuentaFacturacionCargos = _CuentaFacturacionCargos;
             vResult.CuentaFacturacionDescuentos = _CuentaFacturacionDescuentos;

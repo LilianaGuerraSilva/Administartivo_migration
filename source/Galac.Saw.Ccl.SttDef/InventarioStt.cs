@@ -37,7 +37,6 @@ namespace Galac.Saw.Ccl.SttDef {
         private bool _AvisoDeReservasvencidas;
         private bool _VerificarStock;
         private bool _ImprimeSerialRolloLuegoDeDescripArticulo;
-        private bool _UsaLoteFechaDeVencimiento;
         private long _fldTimeStamp;
         XmlDocument _datos;
         #endregion //Variables
@@ -230,15 +229,6 @@ namespace Galac.Saw.Ccl.SttDef {
             set { _ImprimeSerialRolloLuegoDeDescripArticulo = LibConvert.SNToBool(value); }
         }
 
-        public bool UsaLoteFechaDeVencimientoAsBool {
-            get { return _UsaLoteFechaDeVencimiento; }
-            set { _UsaLoteFechaDeVencimiento = value; }
-        }
-
-        public string UsaLoteFechaDeVencimiento {
-            set { _UsaLoteFechaDeVencimiento = LibConvert.SNToBool(value); }
-        }
-        
 
         public long fldTimeStamp {
             get { return _fldTimeStamp; }
