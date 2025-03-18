@@ -2260,7 +2260,7 @@ Private Sub setValuesWithRS(Optional ByVal valRecordSet As ADODB.Recordset = Not
    End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaFacturacionCxCCreditoElectronico") Then
       If Not IsNull(valRecordSet("CuentaFacturacionCxCCreditoElectronico")) Then
-         SetCuentaFacturacionCxCClientes valRecordSet("CuentaFacturacionCxCCreditoElectronico")
+         SetCuentaFacturacionCxCCreditoElectronico valRecordSet("CuentaFacturacionCxCCreditoElectronico")
       End If
    End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaFacturacionMontoTotalFactura") Then
@@ -3869,6 +3869,7 @@ Private Sub sBuscarCuentaUsaAuxiliar(ByVal valXmlCuentas As String)
    setCuentaFacturacionCxCClientesUsaAuxiliares insLibWincont.fExisteElValorDelElementoEnElXML(vDOM, "Codigo", GetCuentaFacturacionCxCClientes)
    setCuentaFacturacionCargosUsaAuxiliares insLibWincont.fExisteElValorDelElementoEnElXML(vDOM, "Codigo", GetCuentaFacturacionCargos)
    setCuentaFacturacionDescuentosUsaAuxiliares insLibWincont.fExisteElValorDelElementoEnElXML(vDOM, "Codigo", GetCuentaFacturacionDescuentos)
+   SetCuentaFacturacionCxCCreditoElectronico insLibWincont.fExisteElValorDelElementoEnElXML(vDOM, "Codigo", GetCuentaFacturacionCxCCreditoElectronico)
    'Mov Bancario
    setCuentaMovBancarioGastoUsaAuxiliares insLibWincont.fExisteElValorDelElementoEnElXML(vDOM, "Codigo", GetCuentaMovBancarioGasto)
    setCuentaMovBancarioBancosHaberUsaAuxiliares insLibWincont.fExisteElValorDelElementoEnElXML(vDOM, "Codigo", GetCuentaMovBancarioBancosHaber)
