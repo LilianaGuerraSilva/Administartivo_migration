@@ -37,6 +37,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             CrearOtrosCargosDeFactura();
             CamposCreditoElectronicoEnCajaApertura();
             AgregaColumnasReglasDeContabilizacionCxCCreditoElectronico();
+            AgregaLoteEnExistenciaPorAlmacen();
+            ReestructuraRenglonesArticulosTipoLoteEnExistenciaPorAlmacen();
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -181,6 +183,18 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             if (AddColumnString("Saw.ReglasDeContabilizacion", "CuentaFacturacionCxCCreditoElectronico", 30, "", "")) {
                 AddDefaultConstraint("Saw.ReglasDeContabilizacion", "d_RegDeConCuFacCxCCreEle", _insSql.ToSqlValue(""), "CuentaFacturacionCxCCreditoElectronico");
             }
+        }
+		
+        private void AgregaLoteEnExistenciaPorAlmacen() {
+            if (!ColumnExists("dbo.ExistenciaPorAlmacen", "ConsecutivoLoteDeInventario")) {
+                AddColumnInteger("dbo.ExistenciaPorAlmacen", "ConsecutivoLoteDeInventario", "d_ExisXAlmConsLotInv DEFAULT (0)", 0);
+                AddUniqueKey("dbo.ExistenciaPorAlmacen", "ConsecutivoCompania,ConsecutivoAlmacen,CodigoArticulo,ConsecutivoLoteDeInventario", "ExistenciaPorAlmacenLote");
+            }
+        }
+
+        private void ReestructuraRenglonesArticulosTipoLoteEnExistenciaPorAlmacen() {
+            // Pendiente por realizar
+            //
         }
     }
 }
