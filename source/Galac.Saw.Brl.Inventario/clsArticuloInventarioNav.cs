@@ -328,6 +328,8 @@ namespace Galac.Saw.Brl.Inventario {
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             vParams.AddInString("CodigoArticulo", valCodigoArticulo, 30);
+            vParams.AddInString("CodigoTalla", (!LibString.IsNullOrEmpty(valCodigoTalla)) ? valCodigoTalla : string.Empty, 3);
+            vParams.AddInString("CodigoColor", (!LibString.IsNullOrEmpty(valCodigoColor)) ? valCodigoColor : string.Empty, 3);
             vParams.AddInString("Serial", "0", 50);
             vParams.AddInString("Rollo", "0", 20);
             string vDefaultValue = string.Empty;
