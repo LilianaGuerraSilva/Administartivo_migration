@@ -120,10 +120,15 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         }
 
         private void FormaDelCobro() {
-            StringBuilder vSql = new StringBuilder();
-            vSql.AppendLine("INSERT INTO Saw.FormaDelCobro (Codigo, Nombre, TipoDePago) VALUES (");
-            vSql.AppendLine(InsSql.ToSqlValue(new LibDatabase().NextStrConsecutive("Saw.FormaDelCobro", "Codigo", "", true, 5)) + " , " + InsSql.ToSqlValue("Crédito Electrónico") + ", " + _insSql.EnumToSqlValue((int)eTipoDeFormaDePago.CreditoElectronico) + ")");
-            Execute(vSql.ToString());
+            StringBuilder vSQL = new StringBuilder();
+            vSQL.AppendLine("SELECT Codigo FROM SAW.FormaDelCobro");
+            if (RecordCountOfSql(vSQL.ToString()) <= 0) {
+                string vNextCodigo = "";
+                vNextCodigo = new LibGalac.Aos.Dal.LibDatabase("").NextStrConsecutive("SAW.FormaDelCobro", "Codigo", "", true, 5);
+                vSQL.Clear();
+                vSQL.AppendLine("INSERT INTO SAW.FormaDelCobro (Codigo, Nombre, TipoDePago) VALUES (" + InsSql.ToSqlValue(vNextCodigo) + ", " + InsSql.ToSqlValue("Crédito Electrónico") + ", " + _insSql.EnumToSqlValue((int)eTipoDeFormaDePago.CreditoElectronico) + ")");
+                Execute(vSQL.ToString(), 0);
+            }
         }
 
         private void ParametrosCreditoElectronico() {
