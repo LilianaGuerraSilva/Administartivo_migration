@@ -328,6 +328,8 @@ namespace Galac.Saw.Brl.Inventario {
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             vParams.AddInString("CodigoArticulo", valCodigoArticulo, 30);
+            vParams.AddInString("CodigoTalla", valCodigoTalla, 3);
+            vParams.AddInString("CodigoColor", valCodigoColor, 3);
             vParams.AddInString("Serial", "0", 50);
             vParams.AddInString("Rollo", "0", 20);
             string vDefaultValue = string.Empty;
@@ -345,8 +347,8 @@ namespace Galac.Saw.Brl.Inventario {
                 vParams.AddInString("CodigoTalla", (!LibString.IsNullOrEmpty(valCodigoTalla)) ? valCodigoTalla : vDefaultValue, 3);
                 vParams.AddInString("CodigoColor", (!LibString.IsNullOrEmpty(valCodigoColor)) ? valCodigoColor : vDefaultValue, 3);
                 vParams.AddInDecimal("Existencia", itemSerial.Cantidad, 4);
-                vParams.AddInString("Serial", itemSerial.CodigoSerial, 50);
-                vParams.AddInString("Rollo", itemSerial.CodigoRollo, 20);
+                vParams.AddInString("Serial", LibString.Trim(itemSerial.CodigoSerial), 50);
+                vParams.AddInString("Rollo", LibString.Trim(itemSerial.CodigoRollo), 20);
                 vParams.AddInDateTime("Fecha", LibDate.Today());
                 vParams.AddInString("Ubicacion", " ", 100);
                 vSQL = new StringBuilder();
@@ -369,8 +371,8 @@ namespace Galac.Saw.Brl.Inventario {
             vParams.AddInString("CodigoAlmacen", valArticuloInventarioExistenciaSerial.CodigoAlmacen, 5);
             vParams.AddInString("CodigoArticulo", valArticuloInventarioExistenciaSerial.CodigoArticulo, 30);
             vParams.AddInInteger("ConsecutivoRenglon", valArticuloInventarioExistenciaSerial.ConsecutivoRenglon);
-            vParams.AddInString("CodigoSerial", valArticuloInventarioExistenciaSerial.CodigoSerial, 50);
-            vParams.AddInString("CodigoRollo", valArticuloInventarioExistenciaSerial.CodigoRollo, 20);
+            vParams.AddInString("CodigoSerial", LibString.Trim(valArticuloInventarioExistenciaSerial.CodigoSerial), 50);
+            vParams.AddInString("CodigoRollo", LibString.Trim(valArticuloInventarioExistenciaSerial.CodigoRollo), 20);
             vParams.AddInDecimal("Cantidad", valArticuloInventarioExistenciaSerial.Cantidad, 4);
             vParams.AddInInteger("ConsecutivoAlmacen", valArticuloInventarioExistenciaSerial.ConsecutivoAlmacen);
             vParams.AddInString("Ubicacion", " ", 100);

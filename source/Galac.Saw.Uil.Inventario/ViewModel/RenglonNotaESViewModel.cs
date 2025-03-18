@@ -232,7 +232,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             get { return (ConexionCodigoArticulo != null) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.UsaSerial  || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.UsaSerialRollo); }
         }
         public bool IsVisibleRollo {
-            get { return (ConexionCodigoArticulo != null) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.UsaSerialRollo); }
+            get { return (ConexionCodigoArticulo != null) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.UsaSerialRollo); }
         }
         public eTipoArticuloInv[] ArrayTipoArticuloInv {
             get { return LibEnumHelper<eTipoArticuloInv>.GetValuesInArray(); }
@@ -337,6 +337,9 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                     CodigoArticulo = ConexionCodigoArticulo.CodigoCompuesto;
                     DescripcionArticulo = ConexionCodigoArticulo.Descripcion;
                     TipoArticuloInv = ConexionCodigoArticulo.TipoArticuloInv;
+                    if (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.UsaSerial) {
+                        Cantidad = 1;
+                    }
                 }
                 RaisePropertyChanged(() => IsVisbleLoteDeInventario);
                 RaisePropertyChanged(() => IsEnabledLoteDeInventario);
@@ -344,6 +347,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 RaisePropertyChanged(() => IsVisibleFechaDeVencimientoLoteDeInventario);
                 RaisePropertyChanged(() => IsVisibleSerial);
                 RaisePropertyChanged(() => IsVisibleRollo);
+                RaisePropertyChanged(() => SePuedeEditarCantidad);
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
@@ -445,6 +449,9 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             get {
                 return IsEnabled && Action != eAccionSR.Anular && Action != eAccionSR.ReImprimir && Action != eAccionSR.Reversar;
             }
+        }
+        public bool SePuedeEditarCantidad {
+            get { return IsEnabled && Action == eAccionSR.Insertar && ConexionCodigoArticulo != null && ConexionCodigoArticulo.TipoArticuloInv != eTipoArticuloInv.UsaSerial; }
         }
 
     } //End of class RenglonNotaESViewModel

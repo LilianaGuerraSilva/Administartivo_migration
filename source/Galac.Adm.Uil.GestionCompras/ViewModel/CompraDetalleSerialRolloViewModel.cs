@@ -204,7 +204,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if (IsVisibleRollo && LibString.IsNullOrEmpty(Rollo)) {
+                if (IsVisibleRollo && (LibString.IsNullOrEmpty(Rollo) || LibString.Len(LibString.Trim(Rollo)) == 0)) {
                     vResult = new ValidationResult("El campo " + SinonimoRollo + " es requerido.");
                 }
             }
