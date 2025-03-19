@@ -877,7 +877,7 @@ Private Function fConstruyeSQLsegunElModuloAContabilizar(ByVal valFechaDesde As 
          vSQL = insGenerarComprobanteSql.fSQLTransferenciaEntreCuentasEntreFechas(gProyCompaniaActual.GetConsecutivoCompania, gContPeriodoActual.GetConsecutivoPeriodo, vConjuntoDeRegistrosSinContabilizar, valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valTipoAlicPorContIGTF, vPorcentajeIGTF, gProyReglasDeContabilizacion.GetCuentaTransfCtasBancoDestino, gProyReglasDeContabilizacion.GetCuentaTransfCtasGastoComOrigen, gProyReglasDeContabilizacion.GetCuentaDebitoBancarioGasto, gProyReglasDeContabilizacion.GetCuentaTransfCtasBancoOrigen, gProyReglasDeContabilizacion.GetCuentaTransfCtasGastoComDestino, gProyReglasDeContabilizacion.GetCuentaCreditoBancarioGasto)
          refRegla = gProyReglasDeContabilizacion.GetCuentaTransfCtasBancoDestino
      Case eCG_ORDEN_DE_PRODUCCION:
-         vSql = insGenerarComprobanteSql.fSQLOrdenDeProduccionEntreFechas(gProyCompaniaActual.GetConsecutivoCompania, vConjuntoDeRegistrosSinContabilizar, valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valConsecutivoDocumentoOrigen, gProyReglasDeContabilizacion.GetCuentaOrdenDeProduccionProductoTerminado, gProyReglasDeContabilizacion.GetCuentaOrdenDeProduccionMateriaPrima, gProyReglasDeContabilizacion.GetCuentaMermaAnormal)
+         vSQL = insGenerarComprobanteSql.fSQLOrdenDeProduccionEntreFechas(gProyCompaniaActual.GetConsecutivoCompania, vConjuntoDeRegistrosSinContabilizar, valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valConsecutivoDocumentoOrigen, gProyReglasDeContabilizacion.GetCuentaOrdenDeProduccionProductoTerminado, gProyReglasDeContabilizacion.GetCuentaOrdenDeProduccionMateriaPrima, gProyReglasDeContabilizacion.GetCuentaMermaAnormal)
    End Select
    Set insArticulo = Nothing
    Set insComprobanteSQL = Nothing
@@ -1818,51 +1818,55 @@ End Function
 
 Private Function fSQLFacturasEntreFechas(ByVal valFechaDesde As Date, ByVal valFechaHasta As Date, ByVal valEsUnReverso As Boolean, ByVal valDescripcionDelAsiento As String, ByVal valContabilizarSolo1Documento As Boolean, ByVal valNoDocumentoOrigen As String, ByVal valTipoDocumento As Integer) As String
    Dim insFactura As clsFacturaNavigator
-   Dim ConjuntoDeFacturasSinContabilizar As String
+   Dim vConjuntoDeFacturasSinContabilizar As String
    Dim DebeOhaber As String
-   Dim ColocarAuxiliar As Boolean
-   Dim codigoDelAuxiliar As String
-   Dim Sql As String
-   Dim CodigoCuentaIVA As String
-   Dim CodigoCuentaIVAUsaAuxiliar As Boolean
-   Dim SqlMontoCargosMenosDescuentos  As String
-   Dim SqlTasaDeCambio As String
-   Dim CondicionDeStatusAnulado As String
-   Dim varCodigoCliente As String
-   Dim varAuxiliarCxC As Boolean
-   Dim varSQLCuentaContableCliente As String
-   Dim numeroReferencia As String
-   Dim varCodigoCentroDeCosto As String
+   Dim vColocarAuxiliar As Boolean
+   Dim vCodigoDelAuxiliar As String
+   Dim vSQL As String
+   Dim vCodigoCuentaIVA As String
+   Dim vCodigoCuentaIVAUsaAuxiliar As Boolean
+   Dim vMontoCargosMenosDescuentos  As String
+   Dim vTasaDeCambio As String
+   Dim vCondicionDeStatusAnulado As String
+   Dim vCodigoCliente As String
+   Dim vAuxiliarCxC As Boolean
+   Dim vAuxiliarCE As Boolean
+   Dim vCuentaContableCliente As String
+   Dim vNumeroReferencia As String
+   Dim vCodigoCentroDeCosto As String
    Dim vNumeroFactura As String
    Dim vAplicaDiferimiento As Boolean
    Dim vUsaContabilizacionMensualPorLote As Boolean
    Dim vCodigoCuentaIGTF As String
    Dim vSqlCuentaFacturacionMontoTotalFactura As String
+   Dim vMontoCuentaCliente As String
+   Dim vSqlCxCCE As String
+   Dim vCuentaContableCE As String
    On Error GoTo h_ERROR
    Set insFactura = New clsFacturaNavigator
    vUsaContabilizacionMensualPorLote = (gProyReglasDeContabilizacion.GetTipoContabilizacionFacturacionAsEnum = eTD_POR_LOTE And gProyReglasDeContabilizacion.GetContabPorLoteFacturacionAsEnum = eCP_MENSUAL)
    insFactura.setClaseDeTrabajo eCTFC_Factura
-   CodigoCuentaIVA = ""
-   varCodigoCliente = fBuscaCodClienteSegunModulo(valNoDocumentoOrigen, eCG_FACTURA, valTipoDocumento)
-   varAuxiliarCxC = fElClienteManejaAuxiliar(varCodigoCliente, eCG_FACTURA, gProyReglasDeContabilizacion.eTC_ReglaCliCxC, valTipoDocumento)
-   CondicionDeStatusAnulado = gUtilSQL.fFirst("factura.StatusFactura", "NONE") & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA)
-   SqlTasaDeCambio = "factura.CambioABolivares"
-   numeroReferencia = valNoDocumentoOrigen
+   vCodigoCuentaIVA = ""
+   vCodigoCliente = fBuscaCodClienteSegunModulo(valNoDocumentoOrigen, eCG_FACTURA, valTipoDocumento)
+   vAuxiliarCxC = fElClienteManejaAuxiliar(vCodigoCliente, eCG_FACTURA, gProyReglasDeContabilizacion.eTC_ReglaCliCxC, valTipoDocumento)
+   vCondicionDeStatusAnulado = gUtilSQL.fFirst("factura.StatusFactura", "NONE") & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA)
+   vTasaDeCambio = "factura.CambioABolivares"
+   vNumeroReferencia = valNoDocumentoOrigen
    If valContabilizarSolo1Documento Then
-      gTexto.ReemplazaCaracteresEnElString numeroReferencia, vbTab, "-"
+      gTexto.ReemplazaCaracteresEnElString vNumeroReferencia, vbTab, "-"
    End If
-   ConjuntoDeFacturasSinContabilizar = fSQLConjuntoRecordsDeContabilizacion1oMasDocumentos(eCG_FACTURA, valContabilizarSolo1Documento, valNoDocumentoOrigen, valFechaDesde, valFechaHasta, valTipoDocumento)
-   If ConjuntoDeFacturasSinContabilizar = "" Then
+   vConjuntoDeFacturasSinContabilizar = fSQLConjuntoRecordsDeContabilizacion1oMasDocumentos(eCG_FACTURA, valContabilizarSolo1Documento, valNoDocumentoOrigen, valFechaDesde, valFechaHasta, valTipoDocumento)
+   If vConjuntoDeFacturasSinContabilizar = "" Then
       GoTo h_EXIT
    End If
-   varSQLCuentaContableCliente = gUtilSQL.getIIF(gUtilSQL.fFirst("cliente.CuentaContableCxC", "NONE") & " <> ''", gUtilSQL.fFirst("cliente.CuentaContableCxC", "NONE"), gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaFacturacionCxCClientes))
-   codigoDelAuxiliar = "factura.CodigoCliente"
+   vCuentaContableCliente = gUtilSQL.getIIF(gUtilSQL.fFirst("cliente.CuentaContableCxC", "NONE") & " = ''", gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaFacturacionCxCClientes), gUtilSQL.fFirst("cliente.CuentaContableCxC", "NONE"))
+   vCodigoDelAuxiliar = "factura.CodigoCliente"
    If (gProyCompaniaActual.GetUsaCentroDeCostos And gProyParametrosCompania.GetAsociarCentroDeCostos = eFDACDC_PorAlmacen) Then
-      varCodigoCentroDeCosto = "Almacen.CodigoCc"
+      vCodigoCentroDeCosto = "Almacen.CodigoCc"
    ElseIf (gProyCompaniaActual.GetUsaCentroDeCostos And gProyParametrosCompania.GetAsociarCentroDeCostos = eFDACDC_PorLineaDeProducto) Then
-      varCodigoCentroDeCosto = "LineaProd.CentroDeCosto"
+      vCodigoCentroDeCosto = "LineaProd.CentroDeCosto"
    Else
-      varCodigoCentroDeCosto = ""
+      vCodigoCentroDeCosto = ""
    End If
    vNumeroFactura = gTexto.DfMid(valNoDocumentoOrigen, gTexto.DfInStr(valNoDocumentoOrigen, gTexto.fSeparadorStandardDeElementosString) + 1)
    If insFactura.fSearchByNumeroTipoDocumento(vNumeroFactura, valTipoDocumento, False, True, False, True) Then
@@ -1870,50 +1874,72 @@ Private Function fSQLFacturasEntreFechas(ByVal valFechaDesde As Date, ByVal valF
       If (valTipoDocumento = enum_TipoDocumentoFactura.eTF_NOTADECREDITO) Or (valTipoDocumento = enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL) Then
          vAplicaDiferimiento = insFactura.GetEsDiferida Or fEsNotaCreditoDeFacturaConDiferimiento(insFactura.GetNumeroFacturaAfectada, valTipoDocumento)
       End If
-      CodigoCuentaIVA = fEscogeCuentaDeIVASiEsDebitoOcredito(fCambiaDebeHaberSiEsUnReverso("HABER", valEsUnReverso), eTD_ALICUOTAGENERAL, eCG_FACTURA, CodigoCuentaIVAUsaAuxiliar, vAplicaDiferimiento)
+      vCodigoCuentaIVA = fEscogeCuentaDeIVASiEsDebitoOcredito(fCambiaDebeHaberSiEsUnReverso("HABER", valEsUnReverso), eTD_ALICUOTAGENERAL, eCG_FACTURA, vCodigoCuentaIVAUsaAuxiliar, vAplicaDiferimiento)
    End If
    vCodigoCuentaIGTF = gProyReglasDeContabilizacion.GetCuentaCreditoBancarioGasto
    vSqlCuentaFacturacionMontoTotalFactura = gUtilSQL.getIIF(gUtilSQL.fFirst("cliente.CuentaContableIngresos", "NONE") & " = ''", gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaFacturacionMontoTotalFactura), gUtilSQL.fFirst("cliente.CuentaContableIngresos", "NONE"), True)
    
-   Sql = "SELECT factura.CodigoCliente, "
-   Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, "SUM(" & gUtilSQL.fRoundNDecimales("factura.TotalFactura * " & SqlTasaDeCambio, 2) & " + factura.IGTFML)", varSQLCuentaContableCliente, varAuxiliarCxC, codigoDelAuxiliar, numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, varCodigoCentroDeCosto) & ", "
-   Sql = Sql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "SUM(" & gUtilSQL.fRoundNDecimales("factura.TotalIVA * " & SqlTasaDeCambio, 2) & ")", CodigoCuentaIVA, CodigoCuentaIVAUsaAuxiliar, codigoDelAuxiliar, numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, varCodigoCentroDeCosto) & ", "
-   Sql = Sql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "SUM(" & gUtilSQL.fRoundNDecimales("((factura.TotalFactura - factura.TotalIVA) * " & SqlTasaDeCambio & ")", 2) & ")", vSqlCuentaFacturacionMontoTotalFactura, gProyReglasDeContabilizacion.getCuentaFacturacionMontoTotalFacturaUsaAuxiliares, codigoDelAuxiliar, numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, varCodigoCentroDeCosto) & " ,"
-   Sql = Sql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "SUM(Factura.IGTFML)", vCodigoCuentaIGTF, False, "", numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, "") & ", "
-   Sql = Sql & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", varCodigoCentroDeCosto)
-   Sql = Sql & " FROM factura INNER JOIN cliente ON factura.ConsecutivoCompania = cliente.ConsecutivoCompania AND factura.CodigoCliente = cliente.Codigo"
-   If (gProyCompaniaActual.GetUsaCentroDeCostos And gProyParametrosCompania.GetAsociarCentroDeCostos = eFDACDC_PorAlmacen) Then
-      Sql = Sql & " INNER JOIN Saw.Almacen AS Almacen ON cliente.ConsecutivoCompania = Almacen.ConsecutivoCompania AND factura.CodigoAlmacen = Almacen.Codigo"
-   ElseIf (gProyCompaniaActual.GetUsaCentroDeCostos And gProyParametrosCompania.GetAsociarCentroDeCostos = eFDACDC_PorLineaDeProducto) Then
-      Sql = Sql & " INNER JOIN renglonFactura ON factura.ConsecutivoCompania = renglonFactura.ConsecutivoCompania AND factura.Numero = renglonFactura.NumeroFactura AND factura.TipoDeDocumento = renglonFactura.TipoDeDocumento"
-      Sql = Sql & " INNER JOIN ArticuloInventario ON renglonFactura.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania AND renglonFactura.Articulo = ArticuloInventario.Codigo"
-      Sql = Sql & " INNER JOIN Adm.LineaDeProducto AS LineaProd ON articuloInventario.ConsecutivoCompania = LineaProd.ConsecutivoCompania AND articuloInventario.LineaDeProducto = LineaProd.Nombre"
+   vMontoCuentaCliente = "SUM(" & gUtilSQL.fRoundNDecimales("factura.TotalFactura * " & vTasaDeCambio, 2) & " + factura.IGTFML)"
+   If gProyParametrosCompania.GetUsaCreditoElectronico Then
+      vCuentaContableCE = gProyReglasDeContabilizacion.GetCuentaFacturacionCxCCreditoElectronico
+      vAuxiliarCE = False
+      If vCuentaContableCE = "" Then
+         vCuentaContableCE = gProyReglasDeContabilizacion.GetCuentaFacturacionCxCClientes
+         vAuxiliarCE = vAuxiliarCxC
+      End If
+      vCuentaContableCE = gUtilSQL.getIIF(gUtilSQL.fFirst("cliente.CuentaContableCxC", "NONE") & " = ''", gUtilSQL.fSimpleSqlValue(vCuentaContableCE), gUtilSQL.fFirst("cliente.CuentaContableCxC", "NONE"))
+      vSqlCxCCE = "(SELECT " & gUtilSQL.fRoundNDecimales("(CxC.MontoExento + CxC.MontoGravado + CxC.MontoIva) * CxC.CambioAbolivares", 2)
+      vSqlCxCCE = vSqlCxCCE & " FROM cxC WHERE CxC.ConsecutivoCompania = factura.ConsecutivoCompania "
+      vSqlCxCCE = vSqlCxCCE & " AND CxC.Origen = " & gUtilSQL.fSQLSimpleValueForEnum(enum_OrigenFacturacionOManual.eOF_FACTURA)
+      vSqlCxCCE = vSqlCxCCE & " AND CxC.VieneDeCreditoElectronico = " & gUtilSQL.fBooleanToSqlValue(True)
+      vSqlCxCCE = vSqlCxCCE & " AND CxC.NumeroDocumentoOrigen = factura.Numero AND CxC.CodigoCliente = factura.CodigoCliente AND CxC.TipoCxc = " & fSqlCaseTipoDocumentoFacturaToTipoDeTransaccionCxC("factura.TipoDeDocumento") & ")"
+      
+      vMontoCuentaCliente = vMontoCuentaCliente & " - SUM(" & vSqlCxCCE & ")"
    End If
-   Sql = Sql & " WHERE factura.ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
-   Sql = Sql & " AND factura.StatusFactura = "
-   If valEsUnReverso Then
-      Sql = Sql & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA)
+   
+   vSQL = "SELECT factura.CodigoCliente, "
+   vSQL = vSQL & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, vMontoCuentaCliente, vCuentaContableCliente, vAuxiliarCxC, vCodigoDelAuxiliar, vNumeroReferencia, valDescripcionDelAsiento, vCondicionDeStatusAnulado, vCodigoCentroDeCosto) & ", "
+   vSQL = vSQL & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "SUM(" & gUtilSQL.fRoundNDecimales("factura.TotalIVA * " & vTasaDeCambio, 2) & ")", vCodigoCuentaIVA, vCodigoCuentaIVAUsaAuxiliar, vCodigoDelAuxiliar, vNumeroReferencia, valDescripcionDelAsiento, vCondicionDeStatusAnulado, vCodigoCentroDeCosto) & ", "
+   vSQL = vSQL & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "SUM(" & gUtilSQL.fRoundNDecimales("((factura.TotalFactura - factura.TotalIVA) * " & vTasaDeCambio & ")", 2) & ")", vSqlCuentaFacturacionMontoTotalFactura, gProyReglasDeContabilizacion.getCuentaFacturacionMontoTotalFacturaUsaAuxiliares, vCodigoDelAuxiliar, vNumeroReferencia, valDescripcionDelAsiento, vCondicionDeStatusAnulado, vCodigoCentroDeCosto) & " ,"
+   vSQL = vSQL & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "SUM(Factura.IGTFML)", vCodigoCuentaIGTF, False, "", vNumeroReferencia, valDescripcionDelAsiento, vCondicionDeStatusAnulado, "") & ", "
+   If gProyParametrosCompania.GetUsaCreditoElectronico Then
+      vSQL = vSQL & fAgregaUnaCuentaAlSQL("DEBE", False, vMontoCuentaCliente, vCuentaContableCE, False, "", "", "", "", vCodigoCentroDeCosto)
    Else
-      Sql = Sql & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA)
+      vSQL = vSQL & fAgregaUnaCuentaAlSQL("", False, "0", "", vAuxiliarCxC, vCodigoDelAuxiliar, vNumeroReferencia, valDescripcionDelAsiento, vCondicionDeStatusAnulado, vCodigoCentroDeCosto)
+   End If
+   vSQL = vSQL & " FROM factura INNER JOIN cliente ON factura.ConsecutivoCompania = cliente.ConsecutivoCompania AND factura.CodigoCliente = cliente.Codigo"
+   If (gProyCompaniaActual.GetUsaCentroDeCostos And gProyParametrosCompania.GetAsociarCentroDeCostos = eFDACDC_PorAlmacen) Then
+      vSQL = vSQL & " INNER JOIN Saw.Almacen AS Almacen ON cliente.ConsecutivoCompania = Almacen.ConsecutivoCompania AND factura.CodigoAlmacen = Almacen.Codigo"
+   ElseIf (gProyCompaniaActual.GetUsaCentroDeCostos And gProyParametrosCompania.GetAsociarCentroDeCostos = eFDACDC_PorLineaDeProducto) Then
+      vSQL = vSQL & " INNER JOIN renglonFactura ON factura.ConsecutivoCompania = renglonFactura.ConsecutivoCompania AND factura.Numero = renglonFactura.NumeroFactura AND factura.TipoDeDocumento = renglonFactura.TipoDeDocumento"
+      vSQL = vSQL & " INNER JOIN ArticuloInventario ON renglonFactura.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania AND renglonFactura.Articulo = ArticuloInventario.Codigo"
+      vSQL = vSQL & " INNER JOIN Adm.LineaDeProducto AS LineaProd ON articuloInventario.ConsecutivoCompania = LineaProd.ConsecutivoCompania AND articuloInventario.LineaDeProducto = LineaProd.Nombre"
+   End If
+   vSQL = vSQL & " WHERE factura.ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
+   vSQL = vSQL & " AND factura.StatusFactura = "
+   If valEsUnReverso Then
+      vSQL = vSQL & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA)
+   Else
+      vSQL = vSQL & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA)
    End If
    If vUsaContabilizacionMensualPorLote Then
-      Sql = Sql & " AND factura.Numero IN (" & ConjuntoDeFacturasSinContabilizar & ")"
+      vSQL = vSQL & " AND factura.Numero IN (" & vConjuntoDeFacturasSinContabilizar & ")"
    Else
-      Sql = Sql & " AND factura.TipoDeDocumento" & gUtilSQL.CharConcat & "'" & gTexto.fSeparadorStandardDeElementosString & "'" & gUtilSQL.CharConcat & "factura.Numero IN (" & ConjuntoDeFacturasSinContabilizar & ")"
+      vSQL = vSQL & " AND factura.TipoDeDocumento" & gUtilSQL.CharConcat & "'" & gTexto.fSeparadorStandardDeElementosString & "'" & gUtilSQL.CharConcat & "factura.Numero IN (" & vConjuntoDeFacturasSinContabilizar & ")"
    End If
-   Sql = Sql & " AND (" & gUtilSQL.DfSQLDateValueBetween("factura.Fecha", valFechaDesde, valFechaHasta) & ")"
-   Sql = Sql & " AND factura.TipoDeDocumento <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
-   Sql = Sql & " GROUP BY factura.CodigoCliente"
+   vSQL = vSQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("factura.Fecha", valFechaDesde, valFechaHasta) & ")"
+   vSQL = vSQL & " AND factura.TipoDeDocumento <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
+   vSQL = vSQL & " GROUP BY factura.CodigoCliente"
    If gProyCompaniaActual.GetUsaCentroDeCostos And gProyParametrosCompania.GetAsociarCentroDeCostos <> eFDACDC_NoAsociar Then
-        Sql = Sql & ", " & varCodigoCentroDeCosto
+        vSQL = vSQL & ", " & vCodigoCentroDeCosto
    End If
    If gProyParametrosCompania.GetUsarOtrosCargoDeFactura Then
-      Sql = Sql & " UNION ALL "
-      Sql = Sql & fSQLOtrosCargosYDescuentosDeFacturaEntreFechas(valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, False, valTipoDocumento)
+      vSQL = vSQL & " UNION ALL "
+      vSQL = vSQL & fSQLOtrosCargosYDescuentosDeFacturaEntreFechas(valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, False, valTipoDocumento)
    End If
    Set insFactura = Nothing
 h_EXIT:
-   fSQLFacturasEntreFechas = Sql
+   fSQLFacturasEntreFechas = vSQL
    On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsGenerarComprobanteNavigator", "fSQLFacturasEntreFechas", "Generar Comprobante", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -2328,274 +2354,254 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
 End Function
 
 Private Function fSQLFacturasEntreFechasPorArticulo(ByVal valFechaDesde As Date, ByVal valFechaHasta As Date, ByVal valEsUnReverso As Boolean, ByVal valDescripcionDelAsiento As String, ByVal valContabilizarSolo1Documento As Boolean, ByVal valNoDocumentoOrigen As String, ByVal valTipoDocumento As Integer) As String
-   Dim ConjuntoDeFacturasSinContabilizar As String
-   Dim DebeOhaber As String
-   Dim ColocarAuxiliar As Boolean
-   Dim codigoDelAuxiliar As String
-   Dim Sql As String
-   Dim CodigoCuentaIVA As String
-   Dim CodigoCuentaIVAUsaAuxiliar As Boolean
-   Dim SqlMontoCargosMenosDescuentos  As String
-   Dim SqlTasaDeCambio As String
-   Dim CondicionDeStatusAnulado As String
-   Dim varCodigoCliente As String
-   Dim varAuxiliarCxC As Boolean
-   Dim varSQLCuentaContableCliente As String
-   Dim sqlMtoRenglon As String
+   Dim vConjuntoDeFacturasSinContabilizar As String
+   Dim vColocarAuxiliar As Boolean
+   Dim vCodigoDelAuxiliar As String
+   Dim vSQL As String
+   Dim vCodigoCuentaIVA As String
+   Dim vCodigoCuentaIVAUsaAuxiliar As Boolean
+   Dim vSqlMontoCargosMenosDescuentos  As String
+   Dim vSqlTasaDeCambio As String
+   Dim vCondicionDeStatusAnulado As String
+   Dim vCodigoCliente As String
+   Dim vAuxiliarCxC As Boolean
+   Dim vAuxiliarCE As Boolean
+   Dim vCuentaContableCliente As String
+   Dim vMtoRenglon As String
    Dim insFactura As clsFacturaNavigator
-   Dim numeroReferencia As String
-   Dim varCodigoCentroDeCosto As String
-   Dim varCuentaContaDescFac As String
-   Dim sqlMtoRenglonConDcto As String
-   Dim sqlMtoRenglonConCase As String
-   Dim numeroFactura As String
+   Dim vNumeroReferencia As String
+   Dim vCodigoCentroDeCosto As String
+   Dim vCuentaContaDescFac As String
+   Dim vMtoRenglonConDcto As String
+   Dim vMtoRenglonConCase As String
+   Dim vNumeroFactura As String
    Dim vCodigoCuentaIGTF As String
-   Dim vSqlCuentaContableArtInv As String
-   Dim vSqlCuentaFacturacionMontoTotalFactura As String
-   Dim vSqlCuentaContableIngresosCliente As String
+   Dim vCuentaContableArtInv As String
+   Dim vCuentaFacturacionMontoTotalFactura As String
+   Dim vCuentaContableIngresosCliente As String
+   Dim vMontoCuentaCliente As String
+   Dim vSqlCxCCE As String
+   Dim vCuentaContableCE As String
    On Error GoTo h_ERROR
    Set insFactura = New clsFacturaNavigator
    insFactura.setClaseDeTrabajo eCTFC_Factura
-   CodigoCuentaIVA = ""
-   varCodigoCentroDeCosto = ""
-   varCodigoCliente = fBuscaCodClienteSegunModulo(valNoDocumentoOrigen, eCG_FACTURA, valTipoDocumento)
-   varAuxiliarCxC = fElClienteManejaAuxiliar(varCodigoCliente, eCG_FACTURA, gProyReglasDeContabilizacion.eTC_ReglaCliCxC, valTipoDocumento)
-   CondicionDeStatusAnulado = gUtilSQL.fFirst("factura.StatusFactura", "NONE") & " = " & gUtilSQL.fSimpleSqlValue(gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA))
-   SqlTasaDeCambio = "factura.CambioABolivares"
-   ConjuntoDeFacturasSinContabilizar = fSQLConjuntoRecordsDeContabilizacion1oMasDocumentos(eCG_FACTURA, valContabilizarSolo1Documento, valNoDocumentoOrigen, valFechaDesde, valFechaHasta, valTipoDocumento)
+   vCodigoCuentaIVA = ""
+   vCodigoCentroDeCosto = ""
+   vCodigoCliente = fBuscaCodClienteSegunModulo(valNoDocumentoOrigen, eCG_FACTURA, valTipoDocumento)
+   vAuxiliarCxC = fElClienteManejaAuxiliar(vCodigoCliente, eCG_FACTURA, gProyReglasDeContabilizacion.eTC_ReglaCliCxC, valTipoDocumento)
+   vCondicionDeStatusAnulado = gUtilSQL.fFirst("factura.StatusFactura", "NONE") & " = " & gUtilSQL.fSimpleSqlValue(gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA))
+   vSqlTasaDeCambio = "factura.CambioABolivares"
+   vConjuntoDeFacturasSinContabilizar = fSQLConjuntoRecordsDeContabilizacion1oMasDocumentos(eCG_FACTURA, valContabilizarSolo1Documento, valNoDocumentoOrigen, valFechaDesde, valFechaHasta, valTipoDocumento)
    
-   If ConjuntoDeFacturasSinContabilizar = "" Then
+   If vConjuntoDeFacturasSinContabilizar = "" Then
       GoTo h_EXIT
    End If
-   varSQLCuentaContableCliente = gUtilSQL.getIIF(gUtilSQL.fFirst("cliente.CuentaContableCxC", "NONE") & " <> ''", gUtilSQL.fFirst("cliente.CuentaContableCxC", "NONE"), gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaFacturacionCxCClientes))
-   codigoDelAuxiliar = "factura.CodigoCliente"
+   vCuentaContableCliente = gUtilSQL.getIIF(gUtilSQL.fFirst("cliente.CuentaContableCxC", "NONE") & " <> ''", gUtilSQL.fFirst("cliente.CuentaContableCxC", "NONE"), gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaFacturacionCxCClientes))
+   vCodigoDelAuxiliar = "factura.CodigoCliente"
    
    If (gProyCompaniaActual.GetUsaCentroDeCostos And gProyParametrosCompania.GetAsociarCentroDeCostos = eFDACDC_PorAlmacen) Then
-      varCodigoCentroDeCosto = "Almacen.CodigoCc"
+      vCodigoCentroDeCosto = "Almacen.CodigoCc"
    End If
-   varCuentaContaDescFac = gProyReglasDeContabilizacion.GetCuentaFacturacionDescuentos
+   vCuentaContaDescFac = gProyReglasDeContabilizacion.GetCuentaFacturacionDescuentos
    vCodigoCuentaIGTF = gProyReglasDeContabilizacion.GetCuentaCreditoBancarioGasto
-   numeroFactura = gTexto.DfMid(valNoDocumentoOrigen, gTexto.DfInStr(valNoDocumentoOrigen, gTexto.fSeparadorStandardDeElementosString) + 1)
-   If insFactura.fSearchByNumeroTipoDocumento(numeroFactura, valTipoDocumento, False, True, False, True) Then
-      CodigoCuentaIVA = fEscogeCuentaDeIVASiEsDebitoOcredito(fCambiaDebeHaberSiEsUnReverso("HABER", valEsUnReverso), eTD_ALICUOTAGENERAL, eCG_FACTURA, CodigoCuentaIVAUsaAuxiliar, insFactura.GetEsOriginalmenteDiferida)
+   vNumeroFactura = gTexto.DfMid(valNoDocumentoOrigen, gTexto.DfInStr(valNoDocumentoOrigen, gTexto.fSeparadorStandardDeElementosString) + 1)
+   If insFactura.fSearchByNumeroTipoDocumento(vNumeroFactura, valTipoDocumento, False, True, False, True) Then
+      vCodigoCuentaIVA = fEscogeCuentaDeIVASiEsDebitoOcredito(fCambiaDebeHaberSiEsUnReverso("HABER", valEsUnReverso), eTD_ALICUOTAGENERAL, eCG_FACTURA, vCodigoCuentaIVAUsaAuxiliar, insFactura.GetEsOriginalmenteDiferida)
    End If
    '  ESTAS INSTRUCCIONES SON PARA CONTABLIZAR EL TOTAL FACTURA POR ARTÍCULO
-   sqlMtoRenglon = "(renglonFactura.PrecioSinIVA * renglonFactura.Cantidad) "
-   sqlMtoRenglon = "(" & sqlMtoRenglon & " * ( 1 - (renglonFactura.PorcentajeDescuento / 100)))"
-   sqlMtoRenglon = "(" & sqlMtoRenglon & " * ( 1 - (factura.PorcentajeDescuento / 100)))"
-   sqlMtoRenglon = gUtilSQL.fRoundNDecimales(sqlMtoRenglon & " * " & SqlTasaDeCambio, 2)
-   sqlMtoRenglonConDcto = "(renglonFactura.PrecioSinIVA * renglonFactura.Cantidad) "
-   sqlMtoRenglonConDcto = "(" & sqlMtoRenglonConDcto & " * ( 1 - renglonFactura.PorcentajeDescuento / 100))"
-   sqlMtoRenglonConDcto = gUtilSQL.fRoundNDecimales(sqlMtoRenglonConDcto & " * " & SqlTasaDeCambio, 2)
-   sqlMtoRenglonConCase = gUtilSQL.getIIF("SUM(factura.MontoDescuento1) > 0", "SUM(" & sqlMtoRenglonConDcto & ")", "SUM(" & sqlMtoRenglon & ")", True)
+   vMtoRenglon = "(renglonFactura.PrecioSinIVA * renglonFactura.Cantidad) "
+   vMtoRenglon = "(" & vMtoRenglon & " * ( 1 - (renglonFactura.PorcentajeDescuento / 100)))"
+   vMtoRenglon = "(" & vMtoRenglon & " * ( 1 - (factura.PorcentajeDescuento / 100)))"
+   vMtoRenglon = gUtilSQL.fRoundNDecimales(vMtoRenglon & " * " & vSqlTasaDeCambio, 2)
+   vMtoRenglonConDcto = "(renglonFactura.PrecioSinIVA * renglonFactura.Cantidad) "
+   vMtoRenglonConDcto = "(" & vMtoRenglonConDcto & " * ( 1 - renglonFactura.PorcentajeDescuento / 100))"
+   vMtoRenglonConDcto = gUtilSQL.fRoundNDecimales(vMtoRenglonConDcto & " * " & vSqlTasaDeCambio, 2)
+   vMtoRenglonConCase = gUtilSQL.getIIF("SUM(factura.MontoDescuento1) > 0", "SUM(" & vMtoRenglonConDcto & ")", "SUM(" & vMtoRenglon & ")", True)
    
-   vSqlCuentaFacturacionMontoTotalFactura = gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaFacturacionMontoTotalFactura)
-   vSqlCuentaContableIngresosCliente = gUtilSQL.fFirst("cliente.CuentaContableIngresos", "NONE")
-   vSqlCuentaContableArtInv = gUtilSQL.getIIF("ISNULL(articuloInventario.CuentaContableIngreso, '') = ''", gUtilSQL.getIIF(vSqlCuentaContableIngresosCliente & " = ''", vSqlCuentaFacturacionMontoTotalFactura, vSqlCuentaContableIngresosCliente, True), "articuloInventario.CuentaContableIngreso", True)
+   vCuentaFacturacionMontoTotalFactura = gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaFacturacionMontoTotalFactura)
+   vCuentaContableIngresosCliente = gUtilSQL.fFirst("cliente.CuentaContableIngresos", "NONE")
+   vCuentaContableArtInv = gUtilSQL.getIIF("ISNULL(articuloInventario.CuentaContableIngreso, '') = ''", gUtilSQL.getIIF(vCuentaContableIngresosCliente & " = ''", vCuentaFacturacionMontoTotalFactura, vCuentaContableIngresosCliente, True), "articuloInventario.CuentaContableIngreso", True)
    
-   Sql = "SELECT factura.CodigoCliente, "
-   If (gProyCompaniaActual.GetUsaCentroDeCostos And gProyParametrosCompania.GetAsociarCentroDeCostos = eFDACDC_PorLineaDeProducto) Then
-      Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, "SUM(" & gUtilSQL.fRoundNDecimales("factura.TotalFactura * " & SqlTasaDeCambio, 2) & " + factura.IGTFML )", varSQLCuentaContableCliente, varAuxiliarCxC, codigoDelAuxiliar, numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, "") & ", "
-      Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, "SUM(" & gUtilSQL.fRoundNDecimales("factura.MontoDescuento1 * " & SqlTasaDeCambio, 2) & ")", varCuentaContaDescFac, varAuxiliarCxC, codigoDelAuxiliar, numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, "") & ", "
-      Sql = Sql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "SUM(" & gUtilSQL.fRoundNDecimales("factura.TotalIVA * " & SqlTasaDeCambio, 2) & ")", CodigoCuentaIVA, CodigoCuentaIVAUsaAuxiliar, codigoDelAuxiliar, numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, "") & ", "
-      Sql = Sql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "SUM(Factura.IGTFML)", vCodigoCuentaIGTF, False, "", numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, "")
+   vMontoCuentaCliente = "SUM(" & gUtilSQL.fRoundNDecimales("factura.TotalFactura * " & vSqlTasaDeCambio, 2) & " + factura.IGTFML )"
+   If gProyParametrosCompania.GetUsaCreditoElectronico Then
+      vCuentaContableCE = gProyReglasDeContabilizacion.GetCuentaFacturacionCxCCreditoElectronico
+      vAuxiliarCE = False
+      If vCuentaContableCE = "" Then
+         vCuentaContableCE = gProyReglasDeContabilizacion.GetCuentaFacturacionCxCClientes
+         vAuxiliarCE = vAuxiliarCxC
+      End If
+      vCuentaContableCE = gUtilSQL.getIIF(gUtilSQL.fFirst("cliente.CuentaContableCxC", "NONE") & " = ''", gUtilSQL.fSimpleSqlValue(vCuentaContableCE), gUtilSQL.fFirst("cliente.CuentaContableCxC", "NONE"))
+      vSqlCxCCE = "(SELECT " & gUtilSQL.fRoundNDecimales("(CxC.MontoExento + CxC.MontoGravado + CxC.MontoIva) * CxC.CambioAbolivares", 2)
+      vSqlCxCCE = vSqlCxCCE & " FROM cxC WHERE CxC.ConsecutivoCompania = factura.ConsecutivoCompania "
+      vSqlCxCCE = vSqlCxCCE & " AND CxC.Origen = " & gUtilSQL.fSQLSimpleValueForEnum(enum_OrigenFacturacionOManual.eOF_FACTURA)
+      vSqlCxCCE = vSqlCxCCE & " AND CxC.VieneDeCreditoElectronico = " & gUtilSQL.fBooleanToSqlValue(True)
+      vSqlCxCCE = vSqlCxCCE & " AND CxC.NumeroDocumentoOrigen = factura.Numero AND CxC.CodigoCliente = factura.CodigoCliente AND CxC.TipoCxc = " & fSqlCaseTipoDocumentoFacturaToTipoDeTransaccionCxC("factura.TipoDeDocumento") & ")"
+      
+      vMontoCuentaCliente = vMontoCuentaCliente & " - SUM(" & vSqlCxCCE & ")"
+   End If
+   
+   vSQL = "SELECT factura.CodigoCliente, "
+   vSQL = vSQL & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, vMontoCuentaCliente, vCuentaContableCliente, vAuxiliarCxC, vCodigoDelAuxiliar, vNumeroReferencia, valDescripcionDelAsiento, vCondicionDeStatusAnulado, vCodigoCentroDeCosto) & ", "
+   vSQL = vSQL & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, "SUM(" & gUtilSQL.fRoundNDecimales("factura.MontoDescuento1 * " & vSqlTasaDeCambio, 2) & ")", vCuentaContaDescFac, vAuxiliarCxC, vCodigoDelAuxiliar, vNumeroReferencia, valDescripcionDelAsiento, vCondicionDeStatusAnulado, vCodigoCentroDeCosto) & ", "
+   vSQL = vSQL & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "SUM(" & gUtilSQL.fRoundNDecimales("factura.TotalIVA * " & vSqlTasaDeCambio, 2) & ")", vCodigoCuentaIVA, vCodigoCuentaIVAUsaAuxiliar, vCodigoDelAuxiliar, vNumeroReferencia, valDescripcionDelAsiento, vCondicionDeStatusAnulado, vCodigoCentroDeCosto) & ", "
+   vSQL = vSQL & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "SUM(Factura.IGTFML)", vCodigoCuentaIGTF, False, "", vNumeroReferencia, valDescripcionDelAsiento, vCondicionDeStatusAnulado, vCodigoCentroDeCosto)
+   If gProyParametrosCompania.GetUsaCreditoElectronico Then
+      vSQL = vSQL & fAgregaUnaCuentaAlSQL("DEBE", False, vMontoCuentaCliente, vCuentaContableCE, False, "", "", "", "", vCodigoCentroDeCosto)
    Else
-      Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, "SUM(" & gUtilSQL.fRoundNDecimales("factura.TotalFactura * " & SqlTasaDeCambio, 2) & " + factura.IGTFML )", varSQLCuentaContableCliente, varAuxiliarCxC, codigoDelAuxiliar, numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, varCodigoCentroDeCosto) & ", "
-      Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, "SUM(" & gUtilSQL.fRoundNDecimales("factura.MontoDescuento1 * " & SqlTasaDeCambio, 2) & ")", varCuentaContaDescFac, varAuxiliarCxC, codigoDelAuxiliar, numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, varCodigoCentroDeCosto) & ", "
-      Sql = Sql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "SUM(" & gUtilSQL.fRoundNDecimales("factura.TotalIVA * " & SqlTasaDeCambio, 2) & ")", CodigoCuentaIVA, CodigoCuentaIVAUsaAuxiliar, codigoDelAuxiliar, numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, varCodigoCentroDeCosto) & ", "
-      Sql = Sql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "SUM(Factura.IGTFML)", vCodigoCuentaIGTF, False, "", numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, varCodigoCentroDeCosto)
+      vSQL = vSQL & fAgregaUnaCuentaAlSQL("", False, "0", "", "", "", "", "", "", "")
    End If
-   Sql = Sql & " FROM factura INNER JOIN cliente"
-   Sql = Sql & " ON factura.ConsecutivoCompania = cliente.ConsecutivoCompania"
-   Sql = Sql & " AND factura.CodigoCliente = cliente.Codigo"
+   
+   vSQL = vSQL & " FROM factura INNER JOIN cliente"
+   vSQL = vSQL & " ON factura.ConsecutivoCompania = cliente.ConsecutivoCompania"
+   vSQL = vSQL & " AND factura.CodigoCliente = cliente.Codigo"
    If (gProyCompaniaActual.GetUsaCentroDeCostos And gProyParametrosCompania.GetAsociarCentroDeCostos = eFDACDC_PorAlmacen) Then
-      Sql = Sql & " INNER JOIN Almacen ON cliente.ConsecutivoCompania = Almacen.ConsecutivoCompania AND factura.CodigoAlmacen = Almacen.Codigo "
+      vSQL = vSQL & " INNER JOIN Almacen ON cliente.ConsecutivoCompania = Almacen.ConsecutivoCompania AND factura.CodigoAlmacen = Almacen.Codigo "
    End If
-   Sql = Sql & " WHERE factura.ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
-   Sql = Sql & " AND factura.StatusFactura = "
+   vSQL = vSQL & " WHERE factura.ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
+   vSQL = vSQL & " AND factura.StatusFactura = "
    If valEsUnReverso Then
-      Sql = Sql & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA)
+      vSQL = vSQL & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA)
    Else
-      Sql = Sql & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA)
+      vSQL = vSQL & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA)
    End If
-   Sql = Sql & " AND factura.TipoDeDocumento" & gUtilSQL.CharConcat & "'" & gTexto.fSeparadorStandardDeElementosString & "'" & gUtilSQL.CharConcat & "factura.Numero IN (" & ConjuntoDeFacturasSinContabilizar & ")"
-   Sql = Sql & " AND " & gUtilSQL.DfSQLDateValueBetween("factura.Fecha", valFechaDesde, valFechaHasta)
-   Sql = Sql & " GROUP BY factura.CodigoCliente"
+   vSQL = vSQL & " AND factura.TipoDeDocumento" & gUtilSQL.CharConcat & "'" & gTexto.fSeparadorStandardDeElementosString & "'" & gUtilSQL.CharConcat & "factura.Numero IN (" & vConjuntoDeFacturasSinContabilizar & ")"
+   vSQL = vSQL & " AND " & gUtilSQL.DfSQLDateValueBetween("factura.Fecha", valFechaDesde, valFechaHasta)
+   vSQL = vSQL & " GROUP BY factura.CodigoCliente"
    If (gProyCompaniaActual.GetUsaCentroDeCostos And gProyParametrosCompania.GetAsociarCentroDeCostos = eFDACDC_PorAlmacen) Then
-        Sql = Sql & ", " & varCodigoCentroDeCosto
+      vSQL = vSQL & ", " & vCodigoCentroDeCosto
    End If
    
    If (gProyCompaniaActual.GetUsaCentroDeCostos And gProyParametrosCompania.GetAsociarCentroDeCostos = eFDACDC_PorLineaDeProducto) Then
-      varCodigoCentroDeCosto = "LineaProd.CentroDeCosto"
+      vCodigoCentroDeCosto = "LineaProd.CentroDeCosto"
    ElseIf (gProyCompaniaActual.GetUsaCentroDeCostos And gProyParametrosCompania.GetAsociarCentroDeCostos = eFDACDC_PorAlmacen) Then
-      varCodigoCentroDeCosto = "Almacen.CodigoCc"
-   End If
-   Sql = Sql & " UNION ALL SELECT 'ARTICULOINVENTARIO', "
-   Sql = Sql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, sqlMtoRenglonConCase, vSqlCuentaContableArtInv, False, "", numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, varCodigoCentroDeCosto) & ", "
-   Sql = Sql & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", varCodigoCentroDeCosto) & ", "
-   Sql = Sql & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", varCodigoCentroDeCosto) & ", "
-   Sql = Sql & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", varCodigoCentroDeCosto)
-   
-   Sql = Sql & " FROM factura INNER JOIN renglonFactura ON factura.ConsecutivoCompania = renglonFactura.ConsecutivoCompania AND factura.Numero = renglonFactura.NumeroFactura AND factura.TipoDeDocumento = renglonFactura.TipoDeDocumento"
-   Sql = Sql & " INNER JOIN Cliente ON factura.ConsecutivoCompania = Cliente.ConsecutivoCompania AND factura.CodigoCliente = Cliente.Codigo"
-   Sql = Sql & " INNER JOIN ArticuloInventario ON renglonFactura.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania AND renglonFactura.Articulo = ArticuloInventario.Codigo"
-   If (gProyCompaniaActual.GetUsaCentroDeCostos And gProyParametrosCompania.GetAsociarCentroDeCostos = eFDACDC_PorAlmacen) Then
-      Sql = Sql & " INNER JOIN Saw.Almacen AS Almacen ON factura.ConsecutivoCompania = Almacen.ConsecutivoCompania AND factura.CodigoAlmacen = Almacen.Codigo"
-   ElseIf (gProyCompaniaActual.GetUsaCentroDeCostos And gProyParametrosCompania.GetAsociarCentroDeCostos = eFDACDC_PorLineaDeProducto) Then
-      Sql = Sql & " INNER JOIN Adm.LineaDeProducto AS LineaProd ON articuloInventario.ConsecutivoCompania = LineaProd.ConsecutivoCompania AND articuloInventario.LineaDeProducto = LineaProd.Nombre"
-   End If
-   
-   Sql = Sql & " WHERE factura.ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
-   Sql = Sql & " AND factura.StatusFactura = "
-   If valEsUnReverso Then
-      Sql = Sql & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA)
+      vCodigoCentroDeCosto = "Almacen.CodigoCc"
    Else
-      Sql = Sql & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA)
+      vCodigoCentroDeCosto = ""
    End If
-   Sql = Sql & " AND factura.TipoDeDocumento" & gUtilSQL.CharConcat & "'" & gTexto.fSeparadorStandardDeElementosString & "'" & gUtilSQL.CharConcat & "factura.Numero IN (" & ConjuntoDeFacturasSinContabilizar & ")"
-   Sql = Sql & " AND " & gUtilSQL.DfSQLDateValueBetween("factura.Fecha", valFechaDesde, valFechaHasta)
-   Sql = Sql & " AND factura.TipoDeDocumento <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
-   Sql = Sql & " GROUP BY "
-   Sql = Sql & " articuloInventario.CuentaContableIngreso"
+   vSQL = vSQL & " UNION ALL SELECT 'ARTICULOINVENTARIO', "
+   vSQL = vSQL & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, vMtoRenglonConCase, vCuentaContableArtInv, False, "", vNumeroReferencia, valDescripcionDelAsiento, vCondicionDeStatusAnulado, vCodigoCentroDeCosto) & ", "
+   vSQL = vSQL & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "") & ", "
+   vSQL = vSQL & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "") & ", "
+   vSQL = vSQL & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "") & ", "
+   vSQL = vSQL & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
+   
+   vSQL = vSQL & " FROM factura INNER JOIN renglonFactura ON factura.ConsecutivoCompania = renglonFactura.ConsecutivoCompania AND factura.Numero = renglonFactura.NumeroFactura AND factura.TipoDeDocumento = renglonFactura.TipoDeDocumento"
+   vSQL = vSQL & " INNER JOIN Cliente ON factura.ConsecutivoCompania = Cliente.ConsecutivoCompania AND factura.CodigoCliente = Cliente.Codigo"
+   vSQL = vSQL & " INNER JOIN ArticuloInventario ON renglonFactura.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania AND renglonFactura.Articulo = ArticuloInventario.Codigo"
+   If (gProyCompaniaActual.GetUsaCentroDeCostos And gProyParametrosCompania.GetAsociarCentroDeCostos = eFDACDC_PorAlmacen) Then
+      vSQL = vSQL & " INNER JOIN Saw.Almacen AS Almacen ON factura.ConsecutivoCompania = Almacen.ConsecutivoCompania AND factura.CodigoAlmacen = Almacen.Codigo"
+   ElseIf (gProyCompaniaActual.GetUsaCentroDeCostos And gProyParametrosCompania.GetAsociarCentroDeCostos = eFDACDC_PorLineaDeProducto) Then
+      vSQL = vSQL & " INNER JOIN Adm.LineaDeProducto AS LineaProd ON articuloInventario.ConsecutivoCompania = LineaProd.ConsecutivoCompania AND articuloInventario.LineaDeProducto = LineaProd.Nombre"
+   End If
+   
+   vSQL = vSQL & " WHERE factura.ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
+   vSQL = vSQL & " AND factura.StatusFactura = "
+   If valEsUnReverso Then
+      vSQL = vSQL & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA)
+   Else
+      vSQL = vSQL & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA)
+   End If
+   vSQL = vSQL & " AND factura.TipoDeDocumento" & gUtilSQL.CharConcat & "'" & gTexto.fSeparadorStandardDeElementosString & "'" & gUtilSQL.CharConcat & "factura.Numero IN (" & vConjuntoDeFacturasSinContabilizar & ")"
+   vSQL = vSQL & " AND " & gUtilSQL.DfSQLDateValueBetween("factura.Fecha", valFechaDesde, valFechaHasta)
+   vSQL = vSQL & " AND factura.TipoDeDocumento <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
+   vSQL = vSQL & " GROUP BY "
+   vSQL = vSQL & " articuloInventario.CuentaContableIngreso"
     If (gProyCompaniaActual.GetUsaCentroDeCostos And (gProyParametrosCompania.GetAsociarCentroDeCostos <> eFDACDC_NoAsociar)) Then
-        Sql = Sql & ", " & varCodigoCentroDeCosto
+        vSQL = vSQL & ", " & vCodigoCentroDeCosto
    End If
    If Not (gProyReglasDeContabilizacion.GetAgruparPorCuentaDeArticulo Or gProyParametrosCompania.GetAsociarCentroDeCostos = eFDACDC_PorLineaDeProducto) Then
-      Sql = Sql & ", renglonFactura.ConsecutivoRenglon"
+      vSQL = vSQL & ", renglonFactura.ConsecutivoRenglon"
    End If
    If gProyParametrosCompania.GetUsarOtrosCargoDeFactura Then
-      Sql = Sql & " UNION ALL "
-      Sql = Sql & fSQLOtrosCargosYDescuentosDeFacturaEntreFechas(valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, True, valTipoDocumento)
+      vSQL = vSQL & " UNION ALL "
+      vSQL = vSQL & fSQLOtrosCargosYDescuentosDeFacturaEntreFechas(valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, True, valTipoDocumento)
    End If
    Set insFactura = Nothing
 h_EXIT:
-   fSQLFacturasEntreFechasPorArticulo = Sql
+   fSQLFacturasEntreFechasPorArticulo = vSQL
    On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsGenerarComprobanteNavigator", "fSQLFacturasEntreFechasPorArticulo", "Generar Comprobante", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fSQLOtrosCargosYDescuentosDeFacturaEntreFechas(ByVal valFechaDesde As Date, ByVal valFechaHasta As Date, ByVal valEsUnReverso As Boolean, ByVal valDescripcionDelAsiento As String, ByVal valContabilizarSolo1Documento As Boolean, ByVal valNoDocumentoOrigen As String, ByVal valContabilizacionPorArticulo As Boolean, ByVal valTipoDocumento As Integer)
-   Dim insFactura As clsFacturaNavigator
-   Dim insRenglonOtrosCargosFactura As clsRenglonOtrosCargosFacturaNav
-   Dim insCliente As clsClienteNavigator
-   Dim Sql As String
-   Dim SqlTasaDeCambio As String
-   Dim codigoDelAuxiliar As String
-   Dim CondicionDeStatusAnulado As String
-   Dim varCodigoCliente As String
-   Dim varAuxiliarCxC As Boolean
-   Dim varSQLCuentaContableCliente As String
-   Dim numeroFactura  As String
+   Dim vSQL As String
+   Dim vTasaDeCambio As String
+   Dim vCodigoDelAuxiliar As String
+   Dim vCondicionDeStatusAnulado As String
+   Dim vCodigoCliente As String
+   Dim vAuxiliarCxC As Boolean
+   Dim vCuentaContableCliente As String
+   Dim vNumeroFactura  As String
    On Error GoTo h_ERROR
-   Set insCliente = New clsClienteNavigator
-   Set insFactura = New clsFacturaNavigator
-   Set insRenglonOtrosCargosFactura = New clsRenglonOtrosCargosFacturaNav
-   insFactura.setClaseDeTrabajo eCTFC_Factura
-   insRenglonOtrosCargosFactura.setClaseDeTrabajo eCTFC_Factura
-   numeroFactura = gTexto.DfMid(valNoDocumentoOrigen, gTexto.DfInStr(valNoDocumentoOrigen, gTexto.fSeparadorStandardDeElementosString) + 1)
-   varCodigoCliente = fBuscaCodClienteSegunModulo(valNoDocumentoOrigen, eCG_FACTURA, valTipoDocumento)
-   varAuxiliarCxC = fElClienteManejaAuxiliar(varCodigoCliente, eCG_FACTURA, gProyReglasDeContabilizacion.eTC_ReglaCliCxC, valTipoDocumento)
-   SqlTasaDeCambio = insFactura.GetTableName & "." & insFactura.getFN_CAMBIO_ABOLIVARES
-   codigoDelAuxiliar = insFactura.GetTableName & "." & insFactura.getFN_CODIGO_CLIENTE
-   CondicionDeStatusAnulado = gUtilSQL.fFirst(insFactura.GetTableName & "." & insFactura.getFN_STATUS_FACTURA, "NONE") & " = " & _
-                              gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA)
-   varSQLCuentaContableCliente = gUtilSQL.getIIF(gUtilSQL.fFirst(insCliente.GetTableName & ".CuentaContableCxC", "NONE") & " <> ''", gUtilSQL.fFirst(insCliente.GetTableName & ".CuentaContableCxC", "NONE"), gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaFacturacionCxCClientes), True)
-   codigoDelAuxiliar = insFactura.GetTableName & "." & insFactura.getFN_CODIGO_CLIENTE
+   vNumeroFactura = gTexto.DfMid(valNoDocumentoOrigen, gTexto.DfInStr(valNoDocumentoOrigen, gTexto.fSeparadorStandardDeElementosString) + 1)
+   vCodigoCliente = fBuscaCodClienteSegunModulo(valNoDocumentoOrigen, eCG_FACTURA, valTipoDocumento)
+   vAuxiliarCxC = fElClienteManejaAuxiliar(vCodigoCliente, eCG_FACTURA, gProyReglasDeContabilizacion.eTC_ReglaCliCxC, valTipoDocumento)
+   vTasaDeCambio = "factura.CambioABolivares"
+   vCodigoDelAuxiliar = "factura.CodigoCliente"
+   vCondicionDeStatusAnulado = gUtilSQL.fFirst("factura.StatusFactura", "NONE") & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA)
+   vCuentaContableCliente = gUtilSQL.getIIF(gUtilSQL.fFirst("cliente.CuentaContableCxC", "NONE") & " <> ''", gUtilSQL.fFirst("cliente.CuentaContableCxC", "NONE"), gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaFacturacionCxCClientes), True)
+   vCodigoDelAuxiliar = "factura.CodigoCliente"
 '  ESTAS INSTRUCCIONES SON PARA LOS CARGOS
-   Sql = Sql & "SELECT 'CARGOS', "
-   Sql = Sql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "SUM(ABS(" & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_TOTAL_RENGLON & ") * " & _
-                     SqlTasaDeCambio & ")", gUtilSQL.getIIF(gUtilSQL.DfSQLIsNull("otrosCargosDeFactura" & ".CuentaContableOtrosCargos") & " OR " & _
-                     "otrosCargosDeFactura" & ".CuentaContableOtrosCargos = ''", _
-                     gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaFacturacionCargos), _
-                     "otrosCargosDeFactura" & ".CuentaContableOtrosCargos", True), False, codigoDelAuxiliar, valNoDocumentoOrigen, "Cargos-" & valDescripcionDelAsiento, CondicionDeStatusAnulado, "") & ", "
-   Sql = Sql & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
+   vSQL = vSQL & "SELECT 'CARGOS', "
+   vSQL = vSQL & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "SUM(ABS(renglonDetalleDeOtrosCargosFactura.TotalRenglon) * " & vTasaDeCambio & ")", gUtilSQL.getIIF(gUtilSQL.DfSQLIsNull("otrosCargosDeFactura.CuentaContableOtrosCargos") & " OR otrosCargosDeFactura.CuentaContableOtrosCargos = ''", gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaFacturacionCargos), "otrosCargosDeFactura.CuentaContableOtrosCargos", True), False, vCodigoDelAuxiliar, valNoDocumentoOrigen, "Cargos-" & valDescripcionDelAsiento, vCondicionDeStatusAnulado, "") & ", "
+   vSQL = vSQL & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
    If Not valContabilizacionPorArticulo Then
-      Sql = Sql & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
+      vSQL = vSQL & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
    End If
-   Sql = Sql & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
-   Sql = Sql & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
-   Sql = Sql & " FROM " & insFactura.GetTableName & " INNER JOIN ("
-   Sql = Sql & "otrosCargosDeFactura" & " INNER JOIN "
-   Sql = Sql & insRenglonOtrosCargosFactura.GetTableName
-   Sql = Sql & " ON (" & "otrosCargosDeFactura" & ".Codigo = " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_CODIGO_DE_CARGO
-   Sql = Sql & ") AND (" & "otrosCargosDeFactura" & ".ConsecutivoCompania = " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_CONSECUTIVO_COMPANIA
-   Sql = Sql & ")) ON (" & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_CONSECUTIVO_COMPANIA & " = " & insFactura.GetTableName & "." & insFactura.getFN_CONSECUTIVO_COMPANIA
-   Sql = Sql & " AND " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_NUMERO_FACTURA & " = " & insFactura.GetTableName & "." & insFactura.getFN_NUMERO
-   Sql = Sql & " AND " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_TIPO_DE_DOCUMENTO & " = " & insFactura.GetTableName & "." & insFactura.getFN_TIPO_DE_DOCUMENTO & ")"
-   Sql = Sql & " WHERE " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_CONSECUTIVO_COMPANIA & " = " & gProyCompaniaActual.GetConsecutivoCompania
-   Sql = Sql & " AND " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_NUMERO_FACTURA & " = " & gUtilSQL.fSimpleSqlValue(numeroFactura)
-   Sql = Sql & " AND " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_COMO_APLICA_AL_TOTAL_FACTURA & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_ComoAplicaOtrosCargosDeFactura.eCA_SUMA)
-   Sql = Sql & " GROUP BY " & "otrosCargosDeFactura" & ".CuentaContableOtrosCargos"
+   vSQL = vSQL & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
+   vSQL = vSQL & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
+   vSQL = vSQL & " FROM factura INNER JOIN otrosCargosDeFactura INNER JOIN renglonDetalleDeOtrosCargosFactura"
+   vSQL = vSQL & " ON otrosCargosDeFactura.Codigo = renglonDetalleDeOtrosCargosFactura.CodigoDeCargo AND otrosCargosDeFactura.ConsecutivoCompania = renglonDetalleDeOtrosCargosFactura.ConsecutivoCompania"
+   vSQL = vSQL & " ON renglonDetalleDeOtrosCargosFactura.ConsecutivoCompania = factura.ConsecutivoCompania AND renglonDetalleDeOtrosCargosFactura.NumeroFactura = factura.Numero AND renglonDetalleDeOtrosCargosFactura.TipoDeDocumento = factura.TipoDeDocumento"
+   vSQL = vSQL & " WHERE renglonDetalleDeOtrosCargosFactura.ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
+   vSQL = vSQL & " AND renglonDetalleDeOtrosCargosFactura.NumeroFactura = " & gUtilSQL.fSimpleSqlValue(vNumeroFactura)
+   vSQL = vSQL & " AND renglonDetalleDeOtrosCargosFactura.ComoAplicaAlTotalFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_ComoAplicaOtrosCargosDeFactura.eCA_SUMA)
+   vSQL = vSQL & " GROUP BY otrosCargosDeFactura.CuentaContableOtrosCargos"
    If Not gProyReglasDeContabilizacion.GetAgruparPorCargosDescuentos Then
-      Sql = Sql & ", "
-      Sql = Sql & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_CONSECUTIVO_RENGLON
+      vSQL = vSQL & ", renglonDetalleDeOtrosCargosFactura.ConsecutivoRenglon"
    End If
 '  ESTAS INSTRUCCIONES SON PARA LOS DESCUENTOS
-   Sql = Sql & " UNION ALL SELECT 'DESCUENTOS', "
-   Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, "SUM(ABS(" & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_TOTAL_RENGLON & ") * " & _
-                     SqlTasaDeCambio & ")", gUtilSQL.getIIF(gUtilSQL.DfSQLIsNull("otrosCargosDeFactura" & ".CuentaContableOtrosCargos") & " OR " & _
-                     "otrosCargosDeFactura" & "." _
-                     & "CuentaContableOtrosCargos = ''", gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaFacturacionDescuentos), _
-                     "otrosCargosDeFactura" & ".CuentaContableOtrosCargos", _
-                     True), False, codigoDelAuxiliar, valNoDocumentoOrigen, "Descuentos-" & valDescripcionDelAsiento, CondicionDeStatusAnulado, "") & ", "
-   Sql = Sql & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
+   vSQL = vSQL & " UNION ALL SELECT 'DESCUENTOS', "
+   vSQL = vSQL & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, "SUM(ABS(renglonDetalleDeOtrosCargosFactura.TotalRenglon) * " & vTasaDeCambio & ")", gUtilSQL.getIIF(gUtilSQL.DfSQLIsNull("otrosCargosDeFactura.CuentaContableOtrosCargos") & " OR " & "otrosCargosDeFactura." & "CuentaContableOtrosCargos = ''", gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaFacturacionDescuentos), "otrosCargosDeFactura.CuentaContableOtrosCargos", True), False, vCodigoDelAuxiliar, valNoDocumentoOrigen, "Descuentos-" & valDescripcionDelAsiento, vCondicionDeStatusAnulado, "") & ", "
+   vSQL = vSQL & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
    If Not valContabilizacionPorArticulo Then
-      Sql = Sql & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
+      vSQL = vSQL & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
    End If
-   Sql = Sql & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
-   Sql = Sql & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
-   Sql = Sql & " FROM " & insFactura.GetTableName & " INNER JOIN ("
-   Sql = Sql & "otrosCargosDeFactura" & " INNER JOIN "
-   Sql = Sql & insRenglonOtrosCargosFactura.GetTableName
-   Sql = Sql & " ON (" & "otrosCargosDeFactura" & ".Codigo" & _
-               " = " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_CODIGO_DE_CARGO
-   Sql = Sql & ") AND (" & "otrosCargosDeFactura" & ".ConsecutivoCompania" & _
-               " = " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_CONSECUTIVO_COMPANIA
-   Sql = Sql & ")) ON (" & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_CONSECUTIVO_COMPANIA _
-             & " = " & insFactura.GetTableName & "." & insFactura.getFN_CONSECUTIVO_COMPANIA
-   Sql = Sql & " AND " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_NUMERO_FACTURA _
-             & " = " & insFactura.GetTableName & "." & insFactura.getFN_NUMERO
-   Sql = Sql & " AND " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_TIPO_DE_DOCUMENTO _
-             & " = " & insFactura.GetTableName & "." & insFactura.getFN_TIPO_DE_DOCUMENTO & ")"
-   Sql = Sql & " WHERE " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_CONSECUTIVO_COMPANIA & " = " & gProyCompaniaActual.GetConsecutivoCompania
-   Sql = Sql & " AND " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_NUMERO_FACTURA & " = " & _
-                            gUtilSQL.fSimpleSqlValue(numeroFactura)
-   Sql = Sql & " AND " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_COMO_APLICA_AL_TOTAL_FACTURA & " = " & _
-                         gUtilSQL.fSQLSimpleValueForEnum(enum_ComoAplicaOtrosCargosDeFactura.eCA_RESTA)
-   Sql = Sql & " GROUP BY " & "otrosCargosDeFactura" & "." & _
-                  "CuentaContableOtrosCargos"
+   vSQL = vSQL & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
+   vSQL = vSQL & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
+   vSQL = vSQL & " FROM factura INNER JOIN otrosCargosDeFactura INNER JOIN renglonDetalleDeOtrosCargosFactura"
+   vSQL = vSQL & " ON otrosCargosDeFactura.Codigo = renglonDetalleDeOtrosCargosFactura.CodigoDeCargo"
+   vSQL = vSQL & " AND otrosCargosDeFactura.ConsecutivoCompania" & " = renglonDetalleDeOtrosCargosFactura.ConsecutivoCompania"
+   vSQL = vSQL & " ON renglonDetalleDeOtrosCargosFactura.ConsecutivoCompania" & " = factura.ConsecutivoCompania"
+   vSQL = vSQL & " AND renglonDetalleDeOtrosCargosFactura.NumeroFactura" & " = factura.Numero"
+   vSQL = vSQL & " AND renglonDetalleDeOtrosCargosFactura.TipoDeDocumento" & " = factura.TipoDeDocumento"
+   vSQL = vSQL & " WHERE renglonDetalleDeOtrosCargosFactura.ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
+   vSQL = vSQL & " AND renglonDetalleDeOtrosCargosFactura.NumeroFactura = " & gUtilSQL.fSimpleSqlValue(vNumeroFactura)
+   vSQL = vSQL & " AND renglonDetalleDeOtrosCargosFactura.ComoAplicaAlTotalFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_ComoAplicaOtrosCargosDeFactura.eCA_RESTA)
+   vSQL = vSQL & " GROUP BY otrosCargosDeFactura." & "CuentaContableOtrosCargos"
    If Not gProyReglasDeContabilizacion.GetAgruparPorCargosDescuentos Then
-      Sql = Sql & ", "
-      Sql = Sql & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_CONSECUTIVO_RENGLON
+      vSQL = vSQL & ", renglonDetalleDeOtrosCargosFactura.ConsecutivoRenglon"
    End If
 '  ESTAS INSTRUCCIONES SON PARA LOS CARGOS - DESCUENTOS
-   Sql = Sql & " UNION ALL SELECT 'CARGOSDESCUENTOS', "
-   Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, "SUM(" & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_TOTAL_RENGLON & " * " _
-               & SqlTasaDeCambio & ")", varSQLCuentaContableCliente, varAuxiliarCxC, codigoDelAuxiliar, valNoDocumentoOrigen, valDescripcionDelAsiento _
-               & "OtrosCargoDescuentos", CondicionDeStatusAnulado, "") & ", "
-   Sql = Sql & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
+   vSQL = vSQL & " UNION ALL SELECT 'CARGOSDESCUENTOS', "
+   vSQL = vSQL & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, "SUM(renglonDetalleDeOtrosCargosFactura.TotalRenglon * " & vTasaDeCambio & ")", vCuentaContableCliente, vAuxiliarCxC, vCodigoDelAuxiliar, valNoDocumentoOrigen, valDescripcionDelAsiento & "OtrosCargoDescuentos", vCondicionDeStatusAnulado, "") & ", "
+   vSQL = vSQL & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
    If Not valContabilizacionPorArticulo Then
-      Sql = Sql & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
+      vSQL = vSQL & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
    End If
-   Sql = Sql & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
-   Sql = Sql & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
-   Sql = Sql & " FROM " & insCliente.GetTableName & " INNER JOIN ("
-   Sql = Sql & insFactura.GetTableName & " INNER JOIN "
-   Sql = Sql & insRenglonOtrosCargosFactura.GetTableName & " ON ("
-   Sql = Sql & insFactura.GetTableName & "." & insFactura.getFN_NUMERO & " = " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_NUMERO_FACTURA
-   Sql = Sql & ") AND (" & insFactura.GetTableName & "." & insFactura.getFN_TIPO_DE_DOCUMENTO & " = " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_TIPO_DE_DOCUMENTO
-   Sql = Sql & ") AND (" & insFactura.GetTableName & "." & insFactura.getFN_CONSECUTIVO_COMPANIA & " = " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_CONSECUTIVO_COMPANIA
-   Sql = Sql & ")) ON (" & insCliente.GetTableName & ".Codigo = " & insFactura.GetTableName & "." & insFactura.getFN_CODIGO_CLIENTE
-   Sql = Sql & ") AND (" & insCliente.GetTableName & ".ConsecutivoCompania = " & insFactura.GetTableName & "." & insFactura.getFN_CONSECUTIVO_COMPANIA & ")"
-   Sql = Sql & " WHERE " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_CONSECUTIVO_COMPANIA & " = " & gProyCompaniaActual.GetConsecutivoCompania
-   Sql = Sql & " AND " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_NUMERO_FACTURA & " = " & gUtilSQL.fSimpleSqlValue(numeroFactura)
-   Sql = Sql & " AND " & insRenglonOtrosCargosFactura.GetTableName & "." & insRenglonOtrosCargosFactura.getFN_COMO_APLICA_AL_TOTAL_FACTURA & " <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_ComoAplicaOtrosCargosDeFactura.eCA_NO_APLICA_SOLO_INFORMATIVO)
-   Sql = Sql & " GROUP BY " & insFactura.GetTableName & "." & insFactura.getFN_CODIGO_CLIENTE
-   Set insRenglonOtrosCargosFactura = Nothing
-   Set insFactura = Nothing
+   vSQL = vSQL & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
+   vSQL = vSQL & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
+   vSQL = vSQL & " FROM cliente INNER JOIN factura INNER JOIN renglonDetalleDeOtrosCargosFactura "
+   vSQL = vSQL & " ON factura.Numero = renglonDetalleDeOtrosCargosFactura.NumeroFactura AND factura.TipoDeDocumento = renglonDetalleDeOtrosCargosFactura.TipoDeDocumento"
+   vSQL = vSQL & " AND factura.ConsecutivoCompania = renglonDetalleDeOtrosCargosFactura.ConsecutivoCompania ON cliente.Codigo = factura.CodigoCliente"
+   vSQL = vSQL & " AND cliente.ConsecutivoCompania = factura.ConsecutivoCompania"
+   vSQL = vSQL & " WHERE renglonDetalleDeOtrosCargosFactura.ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
+   vSQL = vSQL & " AND renglonDetalleDeOtrosCargosFactura.NumeroFactura = " & gUtilSQL.fSimpleSqlValue(vNumeroFactura)
+   vSQL = vSQL & " AND renglonDetalleDeOtrosCargosFactura.ComoAplicaAlTotalFactura <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_ComoAplicaOtrosCargosDeFactura.eCA_NO_APLICA_SOLO_INFORMATIVO)
+   vSQL = vSQL & " GROUP BY factura.CodigoCliente"
 h_EXIT:
-   fSQLOtrosCargosYDescuentosDeFacturaEntreFechas = Sql
+   fSQLOtrosCargosYDescuentosDeFacturaEntreFechas = vSQL
    On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsGenerarComprobanteNavigator", "fSQLOtrosCargosYDescuentosDeFacturaEntreFechas", "Generar Comprobante", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -4184,4 +4190,21 @@ h_EXIT: On Error GoTo 0
    fEsNotaCreditoDeFacturaConDiferimiento = vResult
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsGenerarComprobanteNavigator", "fEsNotaCreditoDeFacturaConDiferimiento", "Generar Comprobante", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+
+Private Function fSqlCaseTipoDocumentoFacturaToTipoDeTransaccionCxC(ByVal valCampoFacturaTipoDeDocumento) As String
+   Dim vResult As String
+   On Error GoTo h_ERROR
+   vResult = " (CASE " & valCampoFacturaTipoDeDocumento
+   vResult = vResult & " WHEN " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_FACTURA) & " THEN " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_FACTURA)
+   vResult = vResult & " WHEN " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTADECREDITO) & " THEN " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_NOTADECREDITO)
+   vResult = vResult & " WHEN " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTADEDEBITO) & " THEN " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_NOTADEDEBITO)
+   vResult = vResult & " WHEN " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_COMPROBANTEFISCAL) & " THEN " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_TICKETMAQUINAREGISTRADORA)
+   vResult = vResult & " WHEN " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL) & " THEN " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_NOTADECREDITOCOMPROBANTEFISCAL)
+   vResult = vResult & " WHEN " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTADEDEBITOCOMPROBANTEFISCAL) & " THEN " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_NOTADEDEBITOCOMPROBANTEFISCAL)
+   vResult = vResult & " ELSE '' END) "
+h_EXIT: On Error GoTo 0
+   fSqlCaseTipoDocumentoFacturaToTipoDeTransaccionCxC = vResult
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "fSqlCaseTipoDocumentoFacturaToTipoDeTransaccionCxC", "fEsNotaCreditoDeFacturaConDiferimiento", "Generar Comprobante", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
