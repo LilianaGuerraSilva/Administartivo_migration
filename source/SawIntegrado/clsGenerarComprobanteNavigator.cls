@@ -1888,13 +1888,15 @@ Private Function fSQLFacturasEntreFechas(ByVal valFechaDesde As Date, ByVal valF
          vAuxiliarCE = vAuxiliarCxC
       End If
       vCuentaContableCE = gUtilSQL.getIIF(gUtilSQL.fFirst("cliente.CuentaContableCxC", "NONE") & " = ''", gUtilSQL.fSimpleSqlValue(vCuentaContableCE), gUtilSQL.fFirst("cliente.CuentaContableCxC", "NONE"))
-      vSqlCxCCE = "(SELECT " & gUtilSQL.fRoundNDecimales("(CxC.MontoExento + CxC.MontoGravado + CxC.MontoIva) * CxC.CambioAbolivares", 2)
-      vSqlCxCCE = vSqlCxCCE & " FROM cxC WHERE CxC.ConsecutivoCompania = factura.ConsecutivoCompania "
-      vSqlCxCCE = vSqlCxCCE & " AND CxC.Origen = " & gUtilSQL.fSQLSimpleValueForEnum(enum_OrigenFacturacionOManual.eOF_FACTURA)
+      vSqlCxCCE = "(SELECT SUM(" & gUtilSQL.fRoundNDecimales("(CxC.MontoExento + CxC.MontoGravado + CxC.MontoIva) * CxC.CambioAbolivares", 2) & ")"
+      vSqlCxCCE = vSqlCxCCE & " FROM cxC  LEFT JOIN factura ON"
+      vSqlCxCCE = vSqlCxCCE & " CxC.ConsecutivoCompania = factura.ConsecutivoCompania "
+      vSqlCxCCE = vSqlCxCCE & " AND CxC.NumeroDocumentoOrigen = factura.Numero AND CxC.CodigoCliente = factura.CodigoCliente "
+      vSqlCxCCE = vSqlCxCCE & " WHERE CxC.Origen = " & gUtilSQL.fSQLSimpleValueForEnum(enum_OrigenFacturacionOManual.eOF_FACTURA)
       vSqlCxCCE = vSqlCxCCE & " AND CxC.VieneDeCreditoElectronico = " & gUtilSQL.fBooleanToSqlValue(True)
-      vSqlCxCCE = vSqlCxCCE & " AND CxC.NumeroDocumentoOrigen = factura.Numero AND CxC.CodigoCliente = factura.CodigoCliente AND CxC.TipoCxc = " & fSqlCaseTipoDocumentoFacturaToTipoDeTransaccionCxC("factura.TipoDeDocumento") & ")"
+      vSqlCxCCE = vSqlCxCCE & " AND CxC.TipoCxc = " & fSqlCaseTipoDocumentoFacturaToTipoDeTransaccionCxC("factura.TipoDeDocumento") & ")"
       
-      vMontoCuentaCliente = vMontoCuentaCliente & " - SUM(" & vSqlCxCCE & ")"
+      vMontoCuentaCliente = vMontoCuentaCliente & " - " & vSqlCxCCE
    End If
    
    vSQL = "SELECT factura.CodigoCliente, "
@@ -2431,13 +2433,15 @@ Private Function fSQLFacturasEntreFechasPorArticulo(ByVal valFechaDesde As Date,
          vAuxiliarCE = vAuxiliarCxC
       End If
       vCuentaContableCE = gUtilSQL.getIIF(gUtilSQL.fFirst("cliente.CuentaContableCxC", "NONE") & " = ''", gUtilSQL.fSimpleSqlValue(vCuentaContableCE), gUtilSQL.fFirst("cliente.CuentaContableCxC", "NONE"))
-      vSqlCxCCE = "(SELECT " & gUtilSQL.fRoundNDecimales("(CxC.MontoExento + CxC.MontoGravado + CxC.MontoIva) * CxC.CambioAbolivares", 2)
-      vSqlCxCCE = vSqlCxCCE & " FROM cxC WHERE CxC.ConsecutivoCompania = factura.ConsecutivoCompania "
-      vSqlCxCCE = vSqlCxCCE & " AND CxC.Origen = " & gUtilSQL.fSQLSimpleValueForEnum(enum_OrigenFacturacionOManual.eOF_FACTURA)
+      vSqlCxCCE = "(SELECT SUM(" & gUtilSQL.fRoundNDecimales("(CxC.MontoExento + CxC.MontoGravado + CxC.MontoIva) * CxC.CambioAbolivares", 2) & ")"
+      vSqlCxCCE = vSqlCxCCE & "FROM cxC LEFT JOIN factura ON "
+      vSqlCxCCE = vSqlCxCCE & " CxC.ConsecutivoCompania = factura.ConsecutivoCompania "
+      vSqlCxCCE = vSqlCxCCE & " AND CxC.NumeroDocumentoOrigen = factura.Numero AND CxC.CodigoCliente = factura.CodigoCliente "
+      vSqlCxCCE = vSqlCxCCE & " WHERE CxC.Origen = " & gUtilSQL.fSQLSimpleValueForEnum(enum_OrigenFacturacionOManual.eOF_FACTURA)
       vSqlCxCCE = vSqlCxCCE & " AND CxC.VieneDeCreditoElectronico = " & gUtilSQL.fBooleanToSqlValue(True)
-      vSqlCxCCE = vSqlCxCCE & " AND CxC.NumeroDocumentoOrigen = factura.Numero AND CxC.CodigoCliente = factura.CodigoCliente AND CxC.TipoCxc = " & fSqlCaseTipoDocumentoFacturaToTipoDeTransaccionCxC("factura.TipoDeDocumento") & ")"
+      vSqlCxCCE = vSqlCxCCE & " AND CxC.TipoCxc = " & fSqlCaseTipoDocumentoFacturaToTipoDeTransaccionCxC("factura.TipoDeDocumento") & ")"
       
-      vMontoCuentaCliente = vMontoCuentaCliente & " - SUM(" & vSqlCxCCE & ")"
+      vMontoCuentaCliente = vMontoCuentaCliente & " - " & vSqlCxCCE
    End If
    
    vSQL = "SELECT factura.CodigoCliente, "
