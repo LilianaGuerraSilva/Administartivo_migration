@@ -119,8 +119,10 @@ namespace Galac.Adm.Dal.Venta {
             bool vVieneDeCreditoElectronicoAsBool = LibConvert.SNToBool(LibXml.GetPropertyString(valData, "VieneDeCreditoElectronico"));
             if (vVieneDeCreditoElectronicoAsBool && !vNumeroCXC.Contains("INI")) {
                 vStatusCXC = eStatusCXC.PORCANCELAR;
+                vIGTF = 0;
+                vMontoAbonado = 0;
             }
-            string vNumeroDocumentoOrigen = LibXml.GetPropertyString(valData, "NumeroDocumentoOrigen");
+            string vNumeroDocumentoOrigen = LibXml.GetPropertyString(valData, "NumeroDocumentoOrigen");          
             vParams.AddReturn();
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             vParams.AddInString("NumeroCXC", vNumeroCXC, 20);
