@@ -38,6 +38,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             CamposCreditoElectronicoEnCajaApertura();
             AgregaColumnasReglasDeContabilizacionCxCCreditoElectronico();
             AgregarDefaultValueOtrosCargos();
+            CorrigeConstrainsGUIDNOtNullFactrua();
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -127,17 +128,17 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
                 string vNextCodigo = "";
                 vNextCodigo = new LibGalac.Aos.Dal.LibDatabase("").NextStrConsecutive("SAW.FormaDelCobro", "Codigo", "", true, 5);
                 vSQL.Clear();
-                vSQL.AppendLine("INSERT INTO SAW.FormaDelCobro (Codigo, Nombre, TipoDePago) VALUES (" + InsSql.ToSqlValue(vNextCodigo) + ", " + InsSql.ToSqlValue("Cr閐ito Electr髇ico") + ", " + _insSql.EnumToSqlValue((int)eTipoDeFormaDePago.CreditoElectronico) + ")");
+                vSQL.AppendLine("INSERT INTO SAW.FormaDelCobro (Codigo, Nombre, TipoDePago) VALUES (" + InsSql.ToSqlValue(vNextCodigo) + ", " + InsSql.ToSqlValue("Cr茅dito Electr贸nico") + ", " + _insSql.EnumToSqlValue((int)eTipoDeFormaDePago.CreditoElectronico) + ")");
                 Execute(vSQL.ToString(), 0);
             }
         }
 
         private void ParametrosCreditoElectronico() {
             string vGroupNameNuevo = "2.9.- Cobro de Factura";
-            string vGroupNameActual = "2.2.- Facturaci髇 (Continuaci髇) ";
+            string vGroupNameActual = "2.2.- Facturaci贸n (Continuaci贸n) ";
             int vLevelGroupNuevo = 9;
             AgregarNuevoParametro("UsaCreditoElectronico", "Factura", 2, vGroupNameNuevo, 9, "", eTipoDeDatoParametros.String, "", 'N', "N");
-            AgregarNuevoParametro("NombreCreditoElectronico", "Factura", 2, vGroupNameNuevo, 9, "", eTipoDeDatoParametros.String, "", 'N', "Cr閐ito Electr髇ico");
+            AgregarNuevoParametro("NombreCreditoElectronico", "Factura", 2, vGroupNameNuevo, 9, "", eTipoDeDatoParametros.String, "", 'N', "Cr茅dito Electr贸nico");
             AgregarNuevoParametro("DiasDeCreditoPorCuotaCreditoElectronico", "Factura", 2, vGroupNameNuevo, 9, "", eTipoDeDatoParametros.Int, "", 'N', "14");
             AgregarNuevoParametro("CantidadCuotasUsualesCreditoElectronico", "Factura", 2, vGroupNameNuevo, 9, "", eTipoDeDatoParametros.Int, "", 'N', "6");
             AgregarNuevoParametro("MaximaCantidadCuotasCreditoElectronico", "Factura", 2, vGroupNameNuevo, 9, "", eTipoDeDatoParametros.Int, "", 'N', "6");
@@ -212,6 +213,10 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             if (ColumnExists("dbo.otrosCargosDeFactura", "PorcentajeComision")) {
                 AddDefaultConstraint("dbo.otrosCargosDeFactura", "d_otrCarDeFacPoCo", "0", "PorcentajeComision");
             }
+        }
+
+        private void CorrigeConstrainsGUIDNOtNullFactrua() {
+            AddNotNullConstraint("factura", "ImprentaDigitalGUID", InsSql.VarCharTypeForDb(50));
         }
     }
 }
