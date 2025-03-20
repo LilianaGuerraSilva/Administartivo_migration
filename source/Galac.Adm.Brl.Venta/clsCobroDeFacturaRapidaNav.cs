@@ -214,7 +214,7 @@ namespace Galac.Adm.Brl.Venta {
         private bool GenararCxCDeAcuerdoAParametros(XElement xElementFacturaRapida, string valComprobanteFiscal, string valSerialMaquinaFiscal, int valConsecutivoCompania) {
             ICXCPdn insCXC = new clsCXCNav();
             var vCloneFactura = new XElement("GpData", xElementFacturaRapida.Descendants("GpResult"));
-            bool vResult = true;
+            bool vResult = true;			
             var vRecords = vCloneFactura.Descendants("GpCobroElectronico");
             var vCloneFacturaRecord = vCloneFactura.Descendants("GpResult").First();
             int vDiasVencimiento = LibConvert.ToInt(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "DiasDeCreditoPorCuotaCreditoElectronico"));
@@ -239,7 +239,7 @@ namespace Galac.Adm.Brl.Venta {
                     DateTime vFechaCuota = vFechaFactura.AddDays(vDiasVencimiento).Date;
                     if (vGenerarVariasCxC && vNroCuotas > 1) {
                         decimal vMontoCxC = LibMath.RoundToNDecimals(vMontoCreditoElectronico / vNroCuotas, 2);
-                        decimal vCuotaFinal = vMontoCreditoElectronico - (vMontoCxC * (vNroCuotas - 1));
+                        decimal vCuotaFinal = vMontoCreditoElectronico - LibMath.RoundToNDecimals(vMontoCxC * (vNroCuotas - 1), 2);
                         int vCuotas = 1;
                         string vNumeroCxC = string.Empty;
                         while (vCuotas <= vNroCuotas) {
