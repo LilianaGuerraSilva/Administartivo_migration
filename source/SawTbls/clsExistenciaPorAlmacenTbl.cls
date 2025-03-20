@@ -48,7 +48,6 @@ End Sub
 Private Sub sAddPrimaryKeyAndOtherConstrains()
    On Error GoTo h_ERROR
    gDbUtil.Execute gDefDatabase.Conexion, "ALTER TABLE " & GetTableName() & "  add CONSTRAINT p_" & GetTableName() & " primary key (" & "ConsecutivoCompania" & "," & "ConsecutivoAlmacen" & "," & "CodigoArticulo" & ")"
-   gDbUtil.fAddUniqueConstraint "ExistenciaPorAlmacen", "u_ExistenciaPorAlmacenLote", "ConsecutivoCompania, ConsecutivoAlmacen, CodigoArticulo, ConsecutivoLoteDeInventario"
    sAddForeignKeys
 h_EXIT: On Error GoTo 0
    Exit Sub
@@ -70,7 +69,6 @@ Public Function fCreateTable(ByVal valShowMessage As Boolean) As Boolean
    SQL = SQL & "Cantidad" & " " & gUtilSQL.getNumericTypeForDB(12, 2) & ", "
    SQL = SQL & "Ubicacion" & gUtilSQL.getVarCharTypeForDB(100) & ", "
    SQL = SQL & "ConsecutivoAlmacen" & gUtilSQL.getNumericTypeForDB(9, 0) & " CONSTRAINT nn" & GetTableName() & "Consecutiv NOT NULL, "
-   SQL = SQL & "ConsecutivoLoteDeInventario" & gUtilSQL.getNumericTypeForDB(12, 0) & " CONSTRAINT nn" & GetTableName() & "ConsecutivLot NULL DEFAULT (0), "
    SQL = SQL & gDefDatabase.getFN_TIMESTAMP() & " timestamp )"
    gDbUtil.Execute gDefDatabase.Conexion, SQL
    sAddPrimaryKeyAndOtherConstrains

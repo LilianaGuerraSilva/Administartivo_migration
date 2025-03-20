@@ -37,8 +37,6 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             CrearOtrosCargosDeFactura();
             CamposCreditoElectronicoEnCajaApertura();
             AgregaColumnasReglasDeContabilizacionCxCCreditoElectronico();
-            AgregaLoteEnExistenciaPorAlmacen();
-            ReestructuraRenglonesArticulosTipoLoteEnExistenciaPorAlmacen();
             AgregarDefaultValueOtrosCargos();
             DisposeConnectionNoTransaction();
             return true;
@@ -186,13 +184,6 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             }
         }
 		
-        private void AgregaLoteEnExistenciaPorAlmacen() {
-            if (!ColumnExists("dbo.ExistenciaPorAlmacen", "ConsecutivoLoteDeInventario")) {
-                AddColumnInteger("dbo.ExistenciaPorAlmacen", "ConsecutivoLoteDeInventario", "d_ExisXAlmConsLotInv DEFAULT (0)", 0);
-                AddUniqueKey("dbo.ExistenciaPorAlmacen", "ConsecutivoCompania,ConsecutivoAlmacen,CodigoArticulo,ConsecutivoLoteDeInventario", "ExistenciaPorAlmacenLote");
-            }
-        }
-
         private void AgregarDefaultValueOtrosCargos() {
             if (ColumnExists("dbo.otrosCargosDeFactura", "Status")) {
                 AddDefaultConstraint("dbo.otrosCargosDeFactura", "d_otrCarDeFacSt", "'0'", "Status");
@@ -221,11 +212,6 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             if (ColumnExists("dbo.otrosCargosDeFactura", "PorcentajeComision")) {
                 AddDefaultConstraint("dbo.otrosCargosDeFactura", "d_otrCarDeFacPoCo", "0", "PorcentajeComision");
             }
-        }
-
-        private void ReestructuraRenglonesArticulosTipoLoteEnExistenciaPorAlmacen() {
-            // Pendiente por realizar
-            //
         }
     }
 }
