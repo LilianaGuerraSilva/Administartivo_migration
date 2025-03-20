@@ -39,6 +39,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             AgregaColumnasReglasDeContabilizacionCxCCreditoElectronico();
             AgregaLoteEnExistenciaPorAlmacen();
             ReestructuraRenglonesArticulosTipoLoteEnExistenciaPorAlmacen();
+            AgregarDefaultValueOtrosCargos();
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -189,6 +190,36 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             if (!ColumnExists("dbo.ExistenciaPorAlmacen", "ConsecutivoLoteDeInventario")) {
                 AddColumnInteger("dbo.ExistenciaPorAlmacen", "ConsecutivoLoteDeInventario", "d_ExisXAlmConsLotInv DEFAULT (0)", 0);
                 AddUniqueKey("dbo.ExistenciaPorAlmacen", "ConsecutivoCompania,ConsecutivoAlmacen,CodigoArticulo,ConsecutivoLoteDeInventario", "ExistenciaPorAlmacenLote");
+            }
+        }
+
+        private void AgregarDefaultValueOtrosCargos() {
+            if (ColumnExists("dbo.otrosCargosDeFactura", "Status")) {
+                AddDefaultConstraint("dbo.otrosCargosDeFactura", "d_otrCarDeFacSt", "'0'", "Status");
+            }
+            if (ColumnExists("dbo.otrosCargosDeFactura", "SeCalculaEnBasea")) {
+                AddDefaultConstraint("dbo.otrosCargosDeFactura", "d_otrCarDeFacSeCaEnBa", "'0'", "SeCalculaEnBasea");
+            }
+            if (ColumnExists("dbo.otrosCargosDeFactura", "Monto")) {
+                AddDefaultConstraint("dbo.otrosCargosDeFactura", "d_otrCarDeFacMo", "0", "Monto");
+            }
+            if (ColumnExists("dbo.otrosCargosDeFactura", "BaseFormula")) {
+                AddDefaultConstraint("dbo.otrosCargosDeFactura", "d_otrCarDeFacBaFo", "'0'", "BaseFormula");
+            }
+            if (ColumnExists("dbo.otrosCargosDeFactura", "PorcentajeSobreBase")) {
+                AddDefaultConstraint("dbo.otrosCargosDeFactura", "d_otrCarDeFacPoSoBa", "0", "PorcentajeSobreBase");
+            }
+            if (ColumnExists("dbo.otrosCargosDeFactura", "Sustraendo")) {
+                AddDefaultConstraint("dbo.otrosCargosDeFactura", "d_otrCarDeFacSu", "0", "Sustraendo");
+            }
+            if (ColumnExists("dbo.otrosCargosDeFactura", "ComoAplicaAlTotalFactura")) {
+                AddDefaultConstraint("dbo.otrosCargosDeFactura", "d_otrCarDeFacCoApAlToFa", "'0'", "ComoAplicaAlTotalFactura");
+            }
+            if (ColumnExists("dbo.otrosCargosDeFactura", "CuentaContableOtrosCargos")) {
+                AddDefaultConstraint("dbo.otrosCargosDeFactura", "d_otrCarDeFacCuCoOtCa", _insSql.ToSqlValue(""), "CuentaContableOtrosCargos");
+            }
+            if (ColumnExists("dbo.otrosCargosDeFactura", "PorcentajeComision")) {
+                AddDefaultConstraint("dbo.otrosCargosDeFactura", "d_otrCarDeFacPoCo", "0", "PorcentajeComision");
             }
         }
 
