@@ -14,6 +14,8 @@ using Galac.Comun.Ccl.TablasGen;
 using System.Xml.Linq;
 using LibGalac.Aos.DefGen;
 using LibGalac.Ssm.U;
+using Galac.Saw.Lib;
+
 namespace Galac.Saw.Uil.SttDef.ViewModel {
 
     public class ParametersMngViewModel : LibGenericMngViewModel {
@@ -97,7 +99,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private bool CanExecuteActivarImprentaDigitalCommand() {
             bool vUsaDosTalonarios = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios");
-            bool vUsaNotaDeEntrega = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaNotaEntrega");
+            bool vUsaNotaDeEntrega = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaNotaEntrega"); 
             return !vUsaDosTalonarios && !vUsaNotaDeEntrega;
         }
 
@@ -174,6 +176,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         #endregion Execute--Command
+
 
         private LibRibbonGroupData CreateAccionesRibbonGroup() {
             LibRibbonGroupData vResult = new LibRibbonGroupData("Acciones");

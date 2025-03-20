@@ -14,6 +14,8 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
+using Galac.Saw.Lib;
+using System.Windows;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class DatosGeneralesViewModel : LibInputViewModelMfc<GeneralStt> {
@@ -127,18 +129,25 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
+        public bool EsFacturadorBasico {
+            get {
+                clsLibSaw inslibsaw = new clsLibSaw();
+                return inslibsaw.EsVersionFacturadorBasico();
+            }
+        }
+
         public eFormaDeOrdenarCodigos[] ArrayFormaDeOrdenarCodigosString {
             get {
                 return LibEnumHelper<eFormaDeOrdenarCodigos>.GetValuesInArray();
             }
         }
-
+        //johana
         public bool IsVisibleNotaEntrega {
             get {
                 if(LibString.IsNullOrEmpty(AppMemoryInfo.GlobalValuesGetString("Parametros", "EsPilotoNotaEntrega"))) {
                     return false;
                 } else {
-                    return AppMemoryInfo.GlobalValuesGetBool("Parametros", "EsPilotoNotaEntrega");
+                return AppMemoryInfo.GlobalValuesGetBool("Parametros", "EsPilotoNotaEntrega");
                 }
             }
         }
