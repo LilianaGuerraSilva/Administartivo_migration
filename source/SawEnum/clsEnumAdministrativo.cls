@@ -6423,12 +6423,19 @@ End Sub
 
 Public Function enum_menusDelSistemaAdministrativoToTitle(ByVal valMenu As menusDelSistemaAdministrativo) As String
    Select Case valMenu
-      Case me_PRINCIPALSAW: enum_menusDelSistemaAdministrativoToTitle = "Menú Principal - Factura / Cotización / Contrato"
+      Case me_PRINCIPALSAW:
+        If Not gDefGen.fHasAccessTo(148) Then
+           enum_menusDelSistemaAdministrativoToTitle = "Menú Principal - Factura / Cotización / Contrato"
+        Else
+           enum_menusDelSistemaAdministrativoToTitle = "Menú Principal - Factura"
+        End If
       Case me_CXC
             If GetEsSistemaAdmInterno Then
                enum_menusDelSistemaAdministrativoToTitle = "CxC / Cobranzas / Vendedor / Orden de Servicio"
-            Else
+            ElseIf Not gDefGen.fHasAccessTo(148) Then
                enum_menusDelSistemaAdministrativoToTitle = "CxC / Cobranzas / Vendedor"
+            Else
+               enum_menusDelSistemaAdministrativoToTitle = "Cliente / Vendedor"
             End If
       Case me_COMPANIA: enum_menusDelSistemaAdministrativoToTitle = "Empresa"
       Case me_TABLASSAW: enum_menusDelSistemaAdministrativoToTitle = "Mantenimiento de Tablas"
