@@ -131,7 +131,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool EsFacturadorBasico {
             get {
-                clsLibSaw inslibsaw = new clsLibSaw();
+                clsLibSaw inslibsaw = new clsLibSaw();      
                 return inslibsaw.EsVersionFacturadorBasico();
             }
         }
@@ -144,10 +144,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         //johana
         public bool IsVisibleNotaEntrega {
             get {
-                if(LibString.IsNullOrEmpty(AppMemoryInfo.GlobalValuesGetString("Parametros", "EsPilotoNotaEntrega"))) {
+                if(LibString.IsNullOrEmpty(AppMemoryInfo.GlobalValuesGetString("Parametros", "EsPilotoNotaEntrega"))|| EsFacturadorBasico) {
                     return false;
-                } else {
-                return AppMemoryInfo.GlobalValuesGetBool("Parametros", "EsPilotoNotaEntrega");
+                } 
+                else {
+                     return AppMemoryInfo.GlobalValuesGetBool("Parametros", "EsPilotoNotaEntrega");
                 }
             }
         }
