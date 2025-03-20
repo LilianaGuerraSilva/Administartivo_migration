@@ -40,6 +40,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             AgregaLoteEnExistenciaPorAlmacen();
             ReestructuraRenglonesArticulosTipoLoteEnExistenciaPorAlmacen();
             AgregarDefaultValueOtrosCargos();
+            CorrigeConstrainsGUIDNOtNullFactrua();
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -221,6 +222,10 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             if (ColumnExists("dbo.otrosCargosDeFactura", "PorcentajeComision")) {
                 AddDefaultConstraint("dbo.otrosCargosDeFactura", "d_otrCarDeFacPoCo", "0", "PorcentajeComision");
             }
+        }
+
+        private void CorrigeConstrainsGUIDNOtNullFactrua() {
+            AddNotNullConstraint("factura", "ImprentaDigitalGUID", InsSql.VarCharTypeForDb(50));
         }
 
         private void ReestructuraRenglonesArticulosTipoLoteEnExistenciaPorAlmacen() {
