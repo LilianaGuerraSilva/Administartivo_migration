@@ -149,11 +149,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 		
         private void InicializaFechas(LoteDeInventarioInsertarViewModel vViewModel) {
             if (vViewModel.Action == eAccionSR.Insertar) {
-                vViewModel.FechaDeElaboracion = LibDate.Today();
+                vViewModel.FechaDeElaboracion = vViewModel.TipoArticuloInv == eTipoArticuloInv.Lote ? LibDate.MaxDateForDB() : LibDate.Today();
                 vViewModel.FechaDeVencimiento = vViewModel.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento ? LibDate.Today() : LibDate.MaxDateForDB();
-                if (vViewModel.TipoArticuloInv == eTipoArticuloInv.Lote) {
-                    vViewModel.FechaDeElaboracion = LibDate.MaxDateForDB();
-                }
             }
         }
 
