@@ -288,6 +288,14 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         protected override void InitializeLookAndFeel(LoteDeInventario valModel) {
             base.InitializeLookAndFeel(valModel);
+            InicializaFechas();
+        }
+
+        private void InicializaFechas() {
+            if (Action == eAccionSR.Insertar) {
+                FechaDeElaboracion = TipoArticuloInv == eTipoArticuloInv.Lote ? LibDate.MaxDateForDB() : LibDate.Today();
+                FechaDeVencimiento = TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento ? LibDate.Today() : LibDate.MaxDateForDB();
+            }
         }
 
         protected override LoteDeInventario FindCurrentRecord(LoteDeInventario valModel) {

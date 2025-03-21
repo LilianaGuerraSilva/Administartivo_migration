@@ -139,10 +139,18 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 vViewModel.CodigoLote = initCodigoLote;
                 vViewModel.CodigoArticulo = initCodigoArticulo;
                 vViewModel.TipoArticuloInv = initTipoArticuloInv;
+                InicializaFechas(vViewModel);
                 bool vResult = LibMessages.EditViewModel.ShowEditor(vViewModel, true);
                 initCodigoLote = vViewModel.ReturnCodigoLote;
             } catch (Exception) {
                 throw;
+            }
+        }
+		
+        private void InicializaFechas(LoteDeInventarioInsertarViewModel vViewModel) {
+            if (vViewModel.Action == eAccionSR.Insertar) {
+                vViewModel.FechaDeElaboracion = vViewModel.TipoArticuloInv == eTipoArticuloInv.Lote ? LibDate.MaxDateForDB() : LibDate.Today();
+                vViewModel.FechaDeVencimiento = vViewModel.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento ? LibDate.Today() : LibDate.MaxDateForDB();
             }
         }
 
