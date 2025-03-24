@@ -14,6 +14,7 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class CXCCobranzasComisionesViewModel : LibInputViewModelMfc<ComisionesStt> {
@@ -127,7 +128,24 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
             return vResult;
         }
+        
+        public bool IsVisiblecmbFormaDeCalcularComisionesSobreCobranza {
+            get {
+                if(EsFacturadorBasico) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+        public bool EsFacturadorBasico {
+            get {
+                clsLibSaw inslibsaw = new clsLibSaw();
+                return inslibsaw.EsVersionFacturadorBasico();
+            }
+        }
         #endregion //Metodos Generados
+        
 
 
     } //End of class CXCCobranzasComisionesViewModel

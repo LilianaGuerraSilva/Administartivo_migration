@@ -12,6 +12,7 @@
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
                 <ResourceDictionary Source="/Galac.Saw.Uil.SttDef;component/Themes/rsdGroupBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -26,7 +27,7 @@
 
 
 
-        <GroupBox Style="{StaticResource GroupBoxStyle}" Header="" Margin="3" Grid.Column="0" Grid.Row="0">
+        <GroupBox Style="{StaticResource GroupBoxStyle}" Header="" Margin="3" Grid.Column="0" Grid.Row="0" Visibility="{Binding Path=IsVisibleBancos, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid Grid.Column="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -47,7 +48,7 @@
             </Grid>
         </GroupBox>
 
-        <GroupBox Style="{StaticResource GroupBoxStyle}" Header="Impuesto a las Transacciones Financieras" Margin="3" Grid.Column="0" Grid.Row="1">
+        <GroupBox Style="{StaticResource GroupBoxStyle}" Header="Impuesto a las Transacciones Financieras" Margin="3" Grid.Column="0" Grid.Row="1"  Visibility="{Binding Path=IsVisibleBancosIGTF, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid Grid.Column="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />

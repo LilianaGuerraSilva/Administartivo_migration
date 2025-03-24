@@ -4,6 +4,7 @@ using LibGalac.Aos.UI.Mvvm;
 using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.DefGen;
 using LibGalac.Aos.UI.Mvvm.Messaging;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class InventarioProduccionViewModel : LibInputViewModelMfc<ProduccionStt> {
@@ -78,6 +79,24 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private bool UsaMonedaExtranjera() {
             return LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaMonedaExtranjera"));
         }
+
+        public bool IsVisibleCalculoCosto {
+            get {
+                if(EsFacturadorBasico) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
+        public bool EsFacturadorBasico {
+            get {
+                clsLibSaw inslibsaw = new clsLibSaw();
+                return inslibsaw.EsVersionFacturadorBasico();
+            }
+        }
+        
         #endregion //Metodos Generados
     } //End of class InventarioProduccionViewModel
 } //End of namespace Galac.Comun.Uil.SttDef

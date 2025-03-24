@@ -15,6 +15,7 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Uil;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class CXCCobranzasViewModel : LibInputViewModelMfc<CobranzasStt> {
@@ -270,6 +271,118 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                }
             }
             return vResult;
+        }
+
+        public bool IsVisibleUsarZonaCobranza {
+            get {
+                if(EsFacturadorBasico) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+        
+        public bool IsVisibleNombrePlantillaCompobanteCobranza {
+            get {
+                if(EsFacturadorBasico) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
+        public bool IsVisiblelAsignarComisionDeVendedorEnCobranza {
+            get {
+                if(EsFacturadorBasico) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+        
+        public bool IsVisibleIsSugerirConsecutivoEnCobranzaUsarZonaCobranza {
+            get {
+                if(EsFacturadorBasico) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+        public bool IsVisibleBloquearNumeroCobranza {
+            get {
+                if(EsFacturadorBasico) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+        public bool IsVisibleConceptoReversoCobranza {
+            get {
+                if(EsFacturadorBasico) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
+        public bool IsVisibleImprimirCombrobanteAlIngresarCobranza {
+            get {
+                if(EsFacturadorBasico) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+        public bool IsVisibleAsignarComisionDeVendedorEnCobranza {
+            get {
+                if(EsFacturadorBasico) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
+        public bool IsVisibleTexto {
+            get {
+                if(EsFacturadorBasico) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+        public bool IsVisibleCambiarCobradorVendedor {
+            get {
+                if(EsFacturadorBasico) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+        
+        public bool IsVisibleSugerirConsecutivoEnCobranza {
+            get {
+                if(EsFacturadorBasico) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+        public bool EsFacturadorBasico {
+            get {
+                clsLibSaw inslibsaw = new clsLibSaw();
+                return inslibsaw.EsVersionFacturadorBasico();
+            }
         }
 
         #endregion //Metodos Generados

@@ -21,8 +21,8 @@
     </UserControl.Resources>
 
     <Grid Name="GVMain"  FocusManager.FocusedElement="{Binding ElementName=txtNombrePlantillaCotizacion}">
-        <GroupBox Style="{StaticResource GroupBoxStyle}" >
-          <Grid>
+        <GroupBox Style="{StaticResource GroupBoxStyle}" Header="" Visibility="{Binding Path=IsEnabledCotizacion, Converter={StaticResource boolToVisibilityConverter}}">
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />

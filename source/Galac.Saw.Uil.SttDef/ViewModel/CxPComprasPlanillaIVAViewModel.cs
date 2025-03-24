@@ -14,6 +14,7 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class CxPComprasPlanillaIVAViewModel : LibInputViewModelMfc<PlanillaDeIVAStt> {
@@ -129,6 +130,32 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         protected override ILibBusinessComponentWithSearch<IList<PlanillaDeIVAStt>, IList<PlanillaDeIVAStt>> GetBusinessComponent() {
             return null;
+        }
+
+        public bool IsVisiblePlanillaIVAContador {
+            get {
+                if(EsFacturadorBasico) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+        
+        public bool IsVisiblePlanillaIVAForma30 {
+            get {
+                if(EsFacturadorBasico) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+        public bool EsFacturadorBasico {
+            get {
+                clsLibSaw inslibsaw = new clsLibSaw();
+                return inslibsaw.EsVersionFacturadorBasico();
+            }
         }
         #endregion //Metodos Generados
 

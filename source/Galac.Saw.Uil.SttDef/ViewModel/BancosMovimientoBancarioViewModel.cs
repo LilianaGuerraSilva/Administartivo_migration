@@ -15,6 +15,7 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Uil;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class BancosMovimientoBancarioViewModel : LibInputViewModelMfc<MovimientoBancarioStt> {
@@ -473,6 +474,21 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             return vResult;
         }
 
+        public bool IsVisibleMovimientoBancario {
+            get {
+                if(EsFacturadorBasico) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+        public bool EsFacturadorBasico {
+            get {
+                clsLibSaw inslibsaw = new clsLibSaw();
+                return inslibsaw.EsVersionFacturadorBasico();
+            }
+        }
 
     } //End of class MovimientoBancarioSttViewModel
 
