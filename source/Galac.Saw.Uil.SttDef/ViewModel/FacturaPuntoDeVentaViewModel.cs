@@ -16,6 +16,7 @@ using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
 using Galac.Adm.Uil.Banco.ViewModel;
 using LibGalac.Aos.Uil;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class FacturaPuntoDeVentaViewModel : LibInputViewModelMfc<FacturaPuntoDeVentaStt> {
@@ -459,6 +460,34 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private bool UsaImprentaDigital() {
             return LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaImprentaDigital"));
         }
+
+        public bool EsFacturadorBasico {
+            get {
+                clsLibSaw inslibsaw = new clsLibSaw();
+                return inslibsaw.EsVersionFacturadorBasico();
+            }
+        }
+        
+        public bool IsVisibleCuentaBancariaCobroDirecto {
+            get {
+                if(EsFacturadorBasico) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
+        public bool IsVisibleConceptoBancarioCobroDirecto {
+            get {
+                if(EsFacturadorBasico) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
         #endregion //Metodos Generados
 
 

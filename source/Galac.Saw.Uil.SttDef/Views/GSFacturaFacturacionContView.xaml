@@ -205,7 +205,8 @@
             Grid.Column="1"
             Margin="3"
             Header="Otros Cargos / Campos Extra en Detalle"
-            Style="{StaticResource GroupBoxStyle}">
+            Style="{StaticResource GroupBoxStyle}"
+            Visibility="{Binding Path=IsVisibleOtrosCargosCamposExtraEnDetalle, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -223,7 +224,7 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Content="Usar Otros Cargo de Factura.................."
-                    Style="{StaticResource LabelPrompt}" />
+                    Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=IsUsarOtrosCargoDeFactura, Converter={StaticResource booleanToVisibilityConverter}}"/>
                 <CheckBox
                     Name="chkUsarOtrosCargoDeFactura"
                     Grid.Row="0"
@@ -231,13 +232,13 @@
                     HorizontalAlignment="Left"
                     IsChecked="{Binding Path=UsarOtrosCargoDeFactura}"
                     IsEnabled="{Binding Path=IsEnabled}"
-                    Style="{StaticResource CheckBoxStyle}" />
+                    Style="{StaticResource CheckBoxStyle}" Visibility="{Binding Path=IsUsarOtrosCargoDeFactura, Converter={StaticResource booleanToVisibilityConverter}}"/>
                 <Label
                     Name="lblUsaCamposExtrasEnRenglonFactura"
                     Grid.Row="1"
                     Grid.Column="0"
                     Content="Usa Campos Extras en Renglon Factura"
-                    Style="{StaticResource LabelPrompt}" />
+                    Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=IsUsarCamposExtrasEnRenglonFactura, Converter={StaticResource booleanToVisibilityConverter}}"/>
                 <CheckBox
                     Name="chkUsaCamposExtrasEnRenglonFactura"
                     Grid.Row="1"
@@ -245,7 +246,7 @@
                     HorizontalAlignment="Left"
                     IsChecked="{Binding Path=UsaCamposExtrasEnRenglonFactura}"
                     IsEnabled="{Binding Path=IsEnabledCamposExtrasEnRenglonFactura}"
-                    Style="{StaticResource CheckBoxStyle}" />
+                    Style="{StaticResource CheckBoxStyle}" Visibility="{Binding Path=IsUsarCamposExtrasEnRenglonFactura, Converter={StaticResource booleanToVisibilityConverter}}"/>
             </Grid>
         </GroupBox>
         <GroupBox

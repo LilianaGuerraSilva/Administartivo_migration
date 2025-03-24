@@ -153,6 +153,35 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
+        public bool IsVisibleEditarIVAenCxCCxP {
+            get {
+                if(EsFacturadorBasico) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
+        public bool IsVisibleImprimirComprobanteCxC {
+            get {
+                if(EsFacturadorBasico) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
+        public bool IsVisibleImprimirComprobanteDeCxP {
+            get {
+                if(EsFacturadorBasico) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
         public string PromptIVA {
             get {
                 return string.Format("Permitir Editar {0} en CxC y CxP..........................................................", AppMemoryInfo.GlobalValuesGetString("Parametros", "PromptIVA"));
@@ -172,16 +201,26 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public bool isVisibleParaPeru {
+        public bool isVisibleMultiplesAlicuotas {
            get {
               bool vResult = true;
               if (LibDefGen.ProgramInfo.IsCountryPeru()) {
                  vResult = false;
               }
-              return vResult;
+                return vResult;
            }
         }
 
+
+        public bool isVisibleRifEnLaWeb{
+            get {
+                bool vResult = true;
+                if(LibDefGen.ProgramInfo.IsCountryPeru() || EsFacturadorBasico) {
+                    vResult = false;
+                }
+                return vResult;
+            }
+        }
         public string CaptionValidarRifEnLaWeb {
            get {
               return string.Format("Validar {0} en la Web..............................................................................", AppMemoryInfo.GlobalValuesGetString("Parametros", "PromptRIF"));

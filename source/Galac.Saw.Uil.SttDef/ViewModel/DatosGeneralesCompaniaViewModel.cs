@@ -14,6 +14,7 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class DatosGeneralesCompaniaViewModel:LibInputViewModelMfc<CompaniaStt> {
@@ -332,7 +333,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsVisibleTipoNegocio {
             get {
-                if(LibString.IsNullOrEmpty(AppMemoryInfo.GlobalValuesGetString("Parametros","PuedeUsarTallerMecanico"))) {
+                if(LibString.IsNullOrEmpty(AppMemoryInfo.GlobalValuesGetString("Parametros","PuedeUsarTallerMecanico")) || EsFacturadorBasico) {
                     return false;
                 } else {
                     return AppMemoryInfo.GlobalValuesGetBool("Parametros","PuedeUsarTallerMecanico");
@@ -412,8 +413,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             get {
                 return false;
             }
+        } 
+        public bool EsFacturadorBasico {
+            get {
+                clsLibSaw inslibsaw = new clsLibSaw();
+                return inslibsaw.EsVersionFacturadorBasico();
+            }
         }
-
         #endregion //Propiedades
         #region Constructores
         public DatosGeneralesCompaniaViewModel()
