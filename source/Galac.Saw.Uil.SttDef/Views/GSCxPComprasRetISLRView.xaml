@@ -13,6 +13,7 @@
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
                 <ResourceDictionary Source="/Galac.Saw.Uil.SttDef;component/Themes/rsdGroupBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid FocusManager.FocusedElement="{Binding ElementName=chkUsaRetencion}">
@@ -28,7 +29,7 @@
             Grid.Row="0"
             Grid.Column="0"
             Header=""
-            Style="{StaticResource GroupBoxStyle}">
+            Style="{StaticResource GroupBoxStyle}" Visibility="{Binding Path=IsVisibleRetencionISLR, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -180,7 +181,7 @@
             Grid.Row="1"
             Grid.Column="0"
             Header="Representante Legal"
-            Style="{StaticResource GroupBoxStyle}">
+            Style="{StaticResource GroupBoxStyle}"  Visibility="{Binding Path=IsVisibleRepresentanteLegal, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />

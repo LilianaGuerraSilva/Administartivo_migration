@@ -13,6 +13,7 @@
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
                 <ResourceDictionary Source="/Galac.Saw.Uil.SttDef;component/Themes/rsdGroupBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid FocusManager.FocusedElement="{Binding ElementName=chkUsarBaseImponibleDiferenteA0Y100}">
@@ -34,7 +35,7 @@
             Grid.ColumnSpan="2"
             Margin="3"
             Header=""
-            Style="{StaticResource GroupBoxStyle}">
+            Style="{StaticResource GroupBoxStyle}" Visibility="{Binding Path=IsVisibleUsaLoteFechaDeVencimientCatDecimales, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" MinWidth="218" />
@@ -199,7 +200,7 @@
             Grid.Column="0"
             Margin="3"
             Header="Sinónimos"
-            Style="{StaticResource GroupBoxStyle}">
+            Style="{StaticResource GroupBoxStyle}" Visibility="{Binding Path=IsVisibleSinonimos, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -419,7 +420,7 @@
             Grid.Column="1"
             Margin="3"
             Header=""
-            Style="{StaticResource GroupBoxStyle}">
+            Style="{StaticResource GroupBoxStyle}" Visibility="{Binding Path=IsVisibleSinonimos, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" MinWidth="195" />
@@ -502,7 +503,7 @@
             Grid.ColumnSpan="2"
             Margin="3"
             Header=""
-            Style="{StaticResource GroupBoxStyle}">
+            Style="{StaticResource GroupBoxStyle}" Visibility="{Binding Path=IsVisibleBaseImpInsertarTrasnferencia, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />

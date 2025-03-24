@@ -26,7 +26,7 @@
             Grid.Row="0"
             Margin="3"
             Header=""
-            Style="{StaticResource GroupBoxStyle}">
+            Style="{StaticResource GroupBoxStyle}" Visibility="{Binding Path=IsVisibleMetodoCosto, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid FocusManager.FocusedElement="{Binding ElementName=cmbMetodoDeCosteo}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />

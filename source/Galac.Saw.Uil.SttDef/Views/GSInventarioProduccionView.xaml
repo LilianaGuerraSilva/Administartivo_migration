@@ -15,7 +15,7 @@
     <GroupBox
         Margin="3"
         Header="Cálculo de Costo"
-        Style="{StaticResource GroupBoxStyle}">
+        Style="{StaticResource GroupBoxStyle}"  Visibility="{Binding Path=IsVisibleCalculoCosto, Converter={StaticResource booleanToVisibilityConverter}}">
         <Grid FocusManager.FocusedElement="{Binding ElementName=cmbCalcularCostoDelArticuloTerminadoAPartirDe}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
