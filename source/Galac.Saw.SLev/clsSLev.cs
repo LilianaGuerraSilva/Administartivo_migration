@@ -6,6 +6,7 @@ using LibGalac.Aos.Base;
 using System.Net.NetworkInformation;
 using Galac.Comun.Uil.Dashboard;
 using LibGalac.Aos.DefGen;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.SLev {
     public class clsSLev {
@@ -14,7 +15,11 @@ namespace Galac.Saw.SLev {
         /// </summary>
         /// <param name="valLevel"></param>
         /// <returns></returns>
+        
         public List<CustomRole> PlantillaPermisos() {
+            clsLibSaw insLibSaw = new clsLibSaw();
+             bool EsVersionFacturadorBasico = !insLibSaw.EsVersionFacturadorBasico();
+            
             List<CustomRole> vPermisos = new List<CustomRole>();
 
             #region Compania
@@ -68,34 +73,40 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Nota de Entrega
-            vPermisos.Add(new CustomRole("Nota de Entrega", "Consultar", "Principal", 1));
-            vPermisos.Add(new CustomRole("Nota de Entrega", "Insertar", "Principal", 1));
-            vPermisos.Add(new CustomRole("Nota de Entrega", "Modificar", "Principal", 1));
-            vPermisos.Add(new CustomRole("Nota de Entrega", "Eliminar", "Principal", 1));
-            vPermisos.Add(new CustomRole("Nota de Entrega", "Anular", "Principal", 1));
-            vPermisos.Add(new CustomRole("Nota de Entrega", "Emitir", "Principal", 1));
-            vPermisos.Add(new CustomRole("Nota de Entrega", "Reimprimir", "Principal", 1));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Nota de Entrega", "Consultar", "Principal", 1));
+                vPermisos.Add(new CustomRole("Nota de Entrega", "Insertar", "Principal", 1));
+                vPermisos.Add(new CustomRole("Nota de Entrega", "Modificar", "Principal", 1));
+                vPermisos.Add(new CustomRole("Nota de Entrega", "Eliminar", "Principal", 1));
+                vPermisos.Add(new CustomRole("Nota de Entrega", "Anular", "Principal", 1));
+                vPermisos.Add(new CustomRole("Nota de Entrega", "Emitir", "Principal", 1));
+                vPermisos.Add(new CustomRole("Nota de Entrega", "Reimprimir", "Principal", 1));
+            }
             #endregion
 
             #region Cotizacion
-            vPermisos.Add(new CustomRole("Cotización", "Consultar", "Principal", 1));
-            vPermisos.Add(new CustomRole("Cotización", "Insertar", "Principal", 1));
-            vPermisos.Add(new CustomRole("Cotización", "Modificar", "Principal", 1));
-            vPermisos.Add(new CustomRole("Cotización", "Eliminar", "Principal", 1));
-            vPermisos.Add(new CustomRole("Cotización", "Informes", "Principal", 1));
-            vPermisos.Add(new CustomRole("Cotización", "Otorgar Descuento", "Principal", 1));
-            vPermisos.Add(new CustomRole("Cotización", "Reservar Mercancía", "Principal", 1));
-            vPermisos.Add(new CustomRole("Cotización", "Insertar Copia Cotizacion", "Principal", 1));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Cotización", "Consultar", "Principal", 1));
+                vPermisos.Add(new CustomRole("Cotización", "Insertar", "Principal", 1));
+                vPermisos.Add(new CustomRole("Cotización", "Modificar", "Principal", 1));
+                vPermisos.Add(new CustomRole("Cotización", "Eliminar", "Principal", 1));
+                vPermisos.Add(new CustomRole("Cotización", "Informes", "Principal", 1));
+                vPermisos.Add(new CustomRole("Cotización", "Otorgar Descuento", "Principal", 1));
+                vPermisos.Add(new CustomRole("Cotización", "Reservar Mercancía", "Principal", 1));
+                vPermisos.Add(new CustomRole("Cotización", "Insertar Copia Cotizacion", "Principal", 1));
+            }
             #endregion
 
             #region ControlDepacho
-            vPermisos.Add(new CustomRole("Control Despacho", "Consultar", "Principal", 1));
-            vPermisos.Add(new CustomRole("Control Despacho", "Insertar", "Principal", 1));
-            vPermisos.Add(new CustomRole("Control Despacho", "Modificar", "Principal", 1));
-            vPermisos.Add(new CustomRole("Control Despacho", "Eliminar", "Principal", 1));
-            vPermisos.Add(new CustomRole("Control Despacho", "Anular", "Principal", 1));
-            vPermisos.Add(new CustomRole("Control Despacho", "Generar Factura en Espera", "Principal", 1));
-            vPermisos.Add(new CustomRole("Control Despacho", "Informes", "Principal", 1));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Control Despacho", "Consultar", "Principal", 1));
+                vPermisos.Add(new CustomRole("Control Despacho", "Insertar", "Principal", 1));
+                vPermisos.Add(new CustomRole("Control Despacho", "Modificar", "Principal", 1));
+                vPermisos.Add(new CustomRole("Control Despacho", "Eliminar", "Principal", 1));
+                vPermisos.Add(new CustomRole("Control Despacho", "Anular", "Principal", 1));
+                vPermisos.Add(new CustomRole("Control Despacho", "Generar Factura en Espera", "Principal", 1));
+                vPermisos.Add(new CustomRole("Control Despacho", "Informes", "Principal", 1));
+            }
             #endregion
 
             #region Cliente
@@ -112,30 +123,34 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region CxC
-            vPermisos.Add(new CustomRole("CxC", "Consultar", "Cliente / CxC", 3));
-            vPermisos.Add(new CustomRole("CxC", "Insertar", "Cliente / CxC", 3));
-            vPermisos.Add(new CustomRole("CxC", "Modificar", "Cliente / CxC", 3));
-            vPermisos.Add(new CustomRole("CxC", "Eliminar", "Cliente / CxC", 3));
-            vPermisos.Add(new CustomRole("CxC", "Anular", "Cliente / CxC", 3));
-            vPermisos.Add(new CustomRole("CxC", "Reimprimir Comprobante CxC", "Cliente / CxC", 3));
-            vPermisos.Add(new CustomRole("CxC", "Informes de Libros", "Cliente / CxC", 3));
-            vPermisos.Add(new CustomRole("CxC", "Informes", "Cliente / CxC", 3));
-            vPermisos.Add(new CustomRole("CxC", "Importar", "Cliente / CxC", 3));
-            vPermisos.Add(new CustomRole("CxC", "Exportar", "Cliente / CxC", 3));
-            vPermisos.Add(new CustomRole("CxC", "Refinanciar", "Cliente / CxC", 3));
-            vPermisos.Add(new CustomRole("CxC", "Anular Refinanciamiento", "Cliente / CxC", 3));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("CxC", "Consultar", "Cliente / CxC", 3));
+                vPermisos.Add(new CustomRole("CxC", "Insertar", "Cliente / CxC", 3));
+                vPermisos.Add(new CustomRole("CxC", "Modificar", "Cliente / CxC", 3));
+                vPermisos.Add(new CustomRole("CxC", "Eliminar", "Cliente / CxC", 3));
+                vPermisos.Add(new CustomRole("CxC", "Anular", "Cliente / CxC", 3));
+                vPermisos.Add(new CustomRole("CxC", "Reimprimir Comprobante CxC", "Cliente / CxC", 3));
+                vPermisos.Add(new CustomRole("CxC", "Informes de Libros", "Cliente / CxC", 3));
+                vPermisos.Add(new CustomRole("CxC", "Informes", "Cliente / CxC", 3));
+                vPermisos.Add(new CustomRole("CxC", "Importar", "Cliente / CxC", 3));
+                vPermisos.Add(new CustomRole("CxC", "Exportar", "Cliente / CxC", 3));
+                vPermisos.Add(new CustomRole("CxC", "Refinanciar", "Cliente / CxC", 3));
+                vPermisos.Add(new CustomRole("CxC", "Anular Refinanciamiento", "Cliente / CxC", 3));
+            }
             #endregion
 
             #region Cobranza
-            vPermisos.Add(new CustomRole("Cobranza", "Consultar", "Cliente / CxC", 3));
-            vPermisos.Add(new CustomRole("Cobranza", "Insertar", "Cliente / CxC", 3));
-            vPermisos.Add(new CustomRole("Cobranza", "Modificar", "Cliente / CxC", 3));
-            vPermisos.Add(new CustomRole("Cobranza", "Anular", "Cliente / CxC", 3));
-            vPermisos.Add(new CustomRole("Cobranza", "Informes", "Cliente / CxC", 3));
-            vPermisos.Add(new CustomRole("Cobranza", "Distribuir Retención IVA", "Cliente / CxC", 3));
-            vPermisos.Add(new CustomRole("Cobranza", "Aplicar Ret. a Documento Cobrado", "Cliente / CxC", 3));
-            vPermisos.Add(new CustomRole("Cobranza", "Modificar Tasa de Cambio", "Cliente / CxC", 3));
-            vPermisos.Add(new CustomRole("Cobranza", "Buscar Tasa de Cambio Original de CxC", "Cliente / CxC", 3));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Cobranza", "Consultar", "Cliente / CxC", 3));
+                vPermisos.Add(new CustomRole("Cobranza", "Insertar", "Cliente / CxC", 3));
+                vPermisos.Add(new CustomRole("Cobranza", "Modificar", "Cliente / CxC", 3));
+                vPermisos.Add(new CustomRole("Cobranza", "Anular", "Cliente / CxC", 3));
+                vPermisos.Add(new CustomRole("Cobranza", "Informes", "Cliente / CxC", 3));
+                vPermisos.Add(new CustomRole("Cobranza", "Distribuir Retención IVA", "Cliente / CxC", 3));
+                vPermisos.Add(new CustomRole("Cobranza", "Aplicar Ret. a Documento Cobrado", "Cliente / CxC", 3));
+                vPermisos.Add(new CustomRole("Cobranza", "Modificar Tasa de Cambio", "Cliente / CxC", 3));
+                vPermisos.Add(new CustomRole("Cobranza", "Buscar Tasa de Cambio Original de CxC", "Cliente / CxC", 3));
+            }
             #endregion
 
             #region Artículo
@@ -178,22 +193,28 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Lote de Inventario
-            vPermisos.Add(new CustomRole("Lote de Inventario", "Consultar", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Lote de Inventario", "Modificar", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Lote de Inventario", "Eliminar", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Lote de Inventario", "Informes", "Inventario", 4));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Lote de Inventario", "Consultar", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Lote de Inventario", "Modificar", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Lote de Inventario", "Eliminar", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Lote de Inventario", "Informes", "Inventario", 4));
+            }
             #endregion Lote de Inventario
 
             #region Exist x Almacen
-            vPermisos.Add(new CustomRole("Existencia por Almacén", "Consultar", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Existencia por Almacén", "Informes", "Inventario", 4));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Existencia por Almacén", "Consultar", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Existencia por Almacén", "Informes", "Inventario", 4));
+            }
             #endregion
 
             #region Transferencia
-            vPermisos.Add(new CustomRole("Transferencia", "Consultar", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Transferencia", "Insertar", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Transferencia", "Eliminar", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Transferencia", "Informes", "Inventario", 4));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Transferencia", "Consultar", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Transferencia", "Insertar", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Transferencia", "Eliminar", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Transferencia", "Informes", "Inventario", 4));
+            }
             #endregion
 
             #region Vendedor
@@ -214,133 +235,159 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region CxP
-            vPermisos.Add(new CustomRole("CxP", "Consultar", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("CxP", "Insertar", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("CxP", "Modificar", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("CxP", "Eliminar", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("CxP", "Anular", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("CxP", "Reimprimir Comprobante CxP", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("CxP", "Informes de Libros", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("CxP", "Imprimir Comprobante de Ret. de IVA", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("CxP", "Insertar CxP Histórica", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("CxP", "Importar", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("CxP", "Exportar", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("CxP", "Insertar CxP por Cuenta de Terceros", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("CxP", "Reimprimir  Retenciones Municipales", "CxP / Vendedor", 5));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("CxP", "Consultar", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("CxP", "Insertar", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("CxP", "Modificar", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("CxP", "Eliminar", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("CxP", "Anular", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("CxP", "Reimprimir Comprobante CxP", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("CxP", "Informes de Libros", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("CxP", "Imprimir Comprobante de Ret. de IVA", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("CxP", "Insertar CxP Histórica", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("CxP", "Importar", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("CxP", "Exportar", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("CxP", "Insertar CxP por Cuenta de Terceros", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("CxP", "Reimprimir  Retenciones Municipales", "CxP / Vendedor", 5));
+            }
             #endregion
 
             #region Pago
-            vPermisos.Add(new CustomRole("Pago", "Consultar", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("Pago", "Insertar", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("Pago", "Anular", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("Pago", "Informes", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("Pago", "Insertar Pago Histórico", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("Pago", "Reimprimir Comprobante de Pago", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("Pago", "Reimprimir Comprobante de Retención", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("Pago", "Reimprimir Comprobante de Ret. de IVA", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("Pago", "Modificar Beneficiario Cheque", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("Pago", "Cambiar Código del Seniat en Pagos", "CxP / Vendedor", 5));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Pago", "Consultar", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("Pago", "Insertar", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("Pago", "Anular", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("Pago", "Informes", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("Pago", "Insertar Pago Histórico", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("Pago", "Reimprimir Comprobante de Pago", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("Pago", "Reimprimir Comprobante de Retención", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("Pago", "Reimprimir Comprobante de Ret. de IVA", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("Pago", "Modificar Beneficiario Cheque", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("Pago", "Cambiar Código del Seniat en Pagos", "CxP / Vendedor", 5));
+            }
             #endregion
 
             #region Proveedor
-            vPermisos.Add(new CustomRole("Proveedor", "Consultar", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("Proveedor", "Insertar", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("Proveedor", "Modificar", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("Proveedor", "Eliminar", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("Proveedor", "Informes", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("Proveedor", "Unificar", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("Proveedor", "Informes de Libros", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("Proveedor", "Importar", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("Proveedor", "Exportar", "CxP / Vendedor", 5));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Proveedor", "Consultar", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("Proveedor", "Insertar", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("Proveedor", "Modificar", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("Proveedor", "Eliminar", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("Proveedor", "Informes", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("Proveedor", "Unificar", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("Proveedor", "Informes de Libros", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("Proveedor", "Importar", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("Proveedor", "Exportar", "CxP / Vendedor", 5));
+            }
             #endregion
 
             #region Contrato
-            vPermisos.Add(new CustomRole("Contrato", "Consultar", "Principal", 1));
-            vPermisos.Add(new CustomRole("Contrato", "Insertar", "Principal", 1));
-            vPermisos.Add(new CustomRole("Contrato", "Modificar", "Principal", 1));
-            vPermisos.Add(new CustomRole("Contrato", "Eliminar", "Principal", 1));
-            vPermisos.Add(new CustomRole("Contrato", "Informes", "Principal", 1));
-            vPermisos.Add(new CustomRole("Contrato", "Extender", "Principal", 1));
-            vPermisos.Add(new CustomRole("Contrato", "Activar", "Principal", 1));
-            vPermisos.Add(new CustomRole("Contrato", "Desactivar", "Principal", 1));
-            vPermisos.Add(new CustomRole("Contrato", "Ajustar Fecha Contrato", "Principal", 1));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Contrato", "Consultar", "Principal", 1));
+                vPermisos.Add(new CustomRole("Contrato", "Insertar", "Principal", 1));
+                vPermisos.Add(new CustomRole("Contrato", "Modificar", "Principal", 1));
+                vPermisos.Add(new CustomRole("Contrato", "Eliminar", "Principal", 1));
+                vPermisos.Add(new CustomRole("Contrato", "Informes", "Principal", 1));
+                vPermisos.Add(new CustomRole("Contrato", "Extender", "Principal", 1));
+                vPermisos.Add(new CustomRole("Contrato", "Activar", "Principal", 1));
+                vPermisos.Add(new CustomRole("Contrato", "Desactivar", "Principal", 1));
+                vPermisos.Add(new CustomRole("Contrato", "Ajustar Fecha Contrato", "Principal", 1));
+            }
             #endregion
 
             #region Cuenta Bancaria
-            vPermisos.Add(new CustomRole("Cuenta Bancaria", "Consultar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Cuenta Bancaria", "Insertar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Cuenta Bancaria", "Modificar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Cuenta Bancaria", "Eliminar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Cuenta Bancaria", "Informes", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Cuenta Bancaria", "Recalcular", "Bancos", 8));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Cuenta Bancaria", "Consultar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Cuenta Bancaria", "Insertar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Cuenta Bancaria", "Modificar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Cuenta Bancaria", "Eliminar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Cuenta Bancaria", "Informes", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Cuenta Bancaria", "Recalcular", "Bancos", 8));
+            }
             #endregion
 
             #region Movimiento Bancario
-            vPermisos.Add(new CustomRole("Movimiento Bancario", "Consultar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Movimiento Bancario", "Insertar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Movimiento Bancario", "Modificar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Movimiento Bancario", "Eliminar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Movimiento Bancario", "Anular", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Movimiento Bancario", "Reimprimir", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Movimiento Bancario", "Informes", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Movimiento Bancario", "Reimprimir Cheque", "Bancos", 8));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Movimiento Bancario", "Consultar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Movimiento Bancario", "Insertar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Movimiento Bancario", "Modificar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Movimiento Bancario", "Eliminar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Movimiento Bancario", "Anular", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Movimiento Bancario", "Reimprimir", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Movimiento Bancario", "Informes", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Movimiento Bancario", "Reimprimir Cheque", "Bancos", 8));
+            }
             #endregion
 
             #region Transferencia entre Cuentas Bancarias
-            vPermisos.Add(new CustomRole("Transferencia entre Cuentas", "Consultar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Transferencia entre Cuentas", "Insertar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Transferencia entre Cuentas", "Anular", "Bancos", 8));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Transferencia entre Cuentas", "Consultar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Transferencia entre Cuentas", "Insertar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Transferencia entre Cuentas", "Anular", "Bancos", 8));
+            }
             #endregion
 
             #region Concepto Bancario
-            vPermisos.Add(new CustomRole("Concepto Bancario", "Consultar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Concepto Bancario", "Insertar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Concepto Bancario", "Modificar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Concepto Bancario", "Eliminar", "Bancos", 8));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Concepto Bancario", "Consultar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Concepto Bancario", "Insertar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Concepto Bancario", "Modificar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Concepto Bancario", "Eliminar", "Bancos", 8));
+            }
             #endregion
 
             #region Conciliacion
-            vPermisos.Add(new CustomRole("Conciliación", "Consultar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Conciliación", "Insertar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Conciliación", "Modificar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Conciliación", "Eliminar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Conciliación", "Informes", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Conciliación", "Cerrar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Conciliación", "Abrir", "Bancos", 8));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Conciliación", "Consultar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Conciliación", "Insertar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Conciliación", "Modificar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Conciliación", "Eliminar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Conciliación", "Informes", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Conciliación", "Cerrar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Conciliación", "Abrir", "Bancos", 8));
+            }
             #endregion
 
             #region Solicitudes de pago
-            vPermisos.Add(new CustomRole("Solicitudes de Pago", "Consultar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Solicitudes de Pago", "Insertar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Solicitudes de Pago", "Modificar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Solicitudes de Pago", "Eliminar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Solicitudes de Pago", "Informes", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Solicitudes de Pago", "Procesar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Solicitudes de Pago", "Anular", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Solicitudes de Pago", "Reimprimir Cheque", "Bancos", 8));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Solicitudes de Pago", "Consultar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Solicitudes de Pago", "Insertar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Solicitudes de Pago", "Modificar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Solicitudes de Pago", "Eliminar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Solicitudes de Pago", "Informes", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Solicitudes de Pago", "Procesar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Solicitudes de Pago", "Anular", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Solicitudes de Pago", "Reimprimir Cheque", "Bancos", 8));
+            }
             #endregion
 
             #region Beneficiario
-            vPermisos.Add(new CustomRole("Beneficiario", "Consultar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Beneficiario", "Insertar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Beneficiario", "Modificar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Beneficiario", "Eliminar", "Bancos", 8));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Beneficiario", "Consultar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Beneficiario", "Insertar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Beneficiario", "Modificar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Beneficiario", "Eliminar", "Bancos", 8));
+            }
             #endregion
 
             #region Integracion
-            vPermisos.Add(new CustomRole("Integracion", "Consultar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Integracion", "Insertar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Integracion", "Modificar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Integracion", "Eliminar", "Bancos", 8));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Integracion", "Consultar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Integracion", "Insertar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Integracion", "Modificar", "Bancos", 8));
+                vPermisos.Add(new CustomRole("Integracion", "Eliminar", "Bancos", 8));
+            }
             #endregion
 
             #region Compra
-            vPermisos.Add(new CustomRole("Compra", "Consultar", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Compra", "Insertar", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Compra", "Modificar", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Compra", "Eliminar", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Compra", "Anular", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Compra", "Informes", "Inventario", 4));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Compra", "Consultar", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Compra", "Insertar", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Compra", "Modificar", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Compra", "Eliminar", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Compra", "Anular", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Compra", "Informes", "Inventario", 4));
+            }
             #endregion
 
             #region Conteo Fisico
@@ -354,46 +401,58 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Catálogo General
-            vPermisos.Add(new CustomRole("Catálogo General", "Consultar", "Contabilidad", 7));
-            vPermisos.Add(new CustomRole("Catálogo General", "Insertar", "Contabilidad", 7));
-            vPermisos.Add(new CustomRole("Catálogo General", "Modificar", "Contabilidad", 7));
-            vPermisos.Add(new CustomRole("Catálogo General", "Eliminar", "Contabilidad", 7));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Catálogo General", "Consultar", "Contabilidad", 7));
+                vPermisos.Add(new CustomRole("Catálogo General", "Insertar", "Contabilidad", 7));
+                vPermisos.Add(new CustomRole("Catálogo General", "Modificar", "Contabilidad", 7));
+                vPermisos.Add(new CustomRole("Catálogo General", "Eliminar", "Contabilidad", 7));
+            }
             #endregion
 
             #region Plantilla Ret
-            vPermisos.Add(new CustomRole("Plantilla Ret", "Consultar", "Retenciones / Forma 30", 6));
-            vPermisos.Add(new CustomRole("Plantilla Ret", "Insertar", "Retenciones / Forma 30", 6));
-            vPermisos.Add(new CustomRole("Plantilla Ret", "Modificar", "Retenciones / Forma 30", 6));
-            vPermisos.Add(new CustomRole("Plantilla Ret", "Eliminar", "Retenciones / Forma 30", 6));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Plantilla Ret", "Consultar", "Retenciones / Forma 30", 6));
+                vPermisos.Add(new CustomRole("Plantilla Ret", "Insertar", "Retenciones / Forma 30", 6));
+                vPermisos.Add(new CustomRole("Plantilla Ret", "Modificar", "Retenciones / Forma 30", 6));
+                vPermisos.Add(new CustomRole("Plantilla Ret", "Eliminar", "Retenciones / Forma 30", 6));
+            }
             #endregion
 
             #region ARCV
-            vPermisos.Add(new CustomRole("ARCV", "Consultar", "Retenciones / Forma 30", 6));
-            vPermisos.Add(new CustomRole("ARCV", "Insertar", "Retenciones / Forma 30", 6));
-            vPermisos.Add(new CustomRole("ARCV", "Modificar", "Retenciones / Forma 30", 6));
-            vPermisos.Add(new CustomRole("ARCV", "Eliminar", "Retenciones / Forma 30", 6));
-            vPermisos.Add(new CustomRole("ARCV", "Reimprimir", "Retenciones / Forma 30", 6));
-            vPermisos.Add(new CustomRole("ARCV", "Generar", "Retenciones / Forma 30", 6));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("ARCV", "Consultar", "Retenciones / Forma 30", 6));
+                vPermisos.Add(new CustomRole("ARCV", "Insertar", "Retenciones / Forma 30", 6));
+                vPermisos.Add(new CustomRole("ARCV", "Modificar", "Retenciones / Forma 30", 6));
+                vPermisos.Add(new CustomRole("ARCV", "Eliminar", "Retenciones / Forma 30", 6));
+                vPermisos.Add(new CustomRole("ARCV", "Reimprimir", "Retenciones / Forma 30", 6));
+                vPermisos.Add(new CustomRole("ARCV", "Generar", "Retenciones / Forma 30", 6));
+            }
             #endregion
 
             #region Relacion Anual
-            vPermisos.Add(new CustomRole("Relación Anual", "Forma Impresa", "Retenciones / Forma 30", 6));
-            vPermisos.Add(new CustomRole("Relación Anual", "Medio Magnético", "Retenciones / Forma 30", 6));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Relación Anual", "Forma Impresa", "Retenciones / Forma 30", 6));
+                vPermisos.Add(new CustomRole("Relación Anual", "Medio Magnético", "Retenciones / Forma 30", 6));
+            }
             #endregion
 
             #region Planilla Forma 00030
-            vPermisos.Add(new CustomRole("Planilla Forma 00030", "Consultar", "Retenciones / Forma 30", 6));
-            vPermisos.Add(new CustomRole("Planilla Forma 00030", "Insertar", "Retenciones / Forma 30", 6));
-            vPermisos.Add(new CustomRole("Planilla Forma 00030", "Insertar Sustitutiva", "Retenciones / Forma 30", 6));
-            vPermisos.Add(new CustomRole("Planilla Forma 00030", "Modificar", "Retenciones / Forma 30", 6));
-            vPermisos.Add(new CustomRole("Planilla Forma 00030", "Eliminar", "Retenciones / Forma 30", 6));
-            vPermisos.Add(new CustomRole("Planilla Forma 00030", "Imprimir", "Retenciones / Forma 30", 6));
-            vPermisos.Add(new CustomRole("Planilla Forma 00030", "Borrador", "Retenciones / Forma 30", 6));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Planilla Forma 00030", "Consultar", "Retenciones / Forma 30", 6));
+                vPermisos.Add(new CustomRole("Planilla Forma 00030", "Insertar", "Retenciones / Forma 30", 6));
+                vPermisos.Add(new CustomRole("Planilla Forma 00030", "Insertar Sustitutiva", "Retenciones / Forma 30", 6));
+                vPermisos.Add(new CustomRole("Planilla Forma 00030", "Modificar", "Retenciones / Forma 30", 6));
+                vPermisos.Add(new CustomRole("Planilla Forma 00030", "Eliminar", "Retenciones / Forma 30", 6));
+                vPermisos.Add(new CustomRole("Planilla Forma 00030", "Imprimir", "Retenciones / Forma 30", 6));
+                vPermisos.Add(new CustomRole("Planilla Forma 00030", "Borrador", "Retenciones / Forma 30", 6));
+            }
             #endregion
 
             #region Tabla Retencion
-            vPermisos.Add(new CustomRole("Tabla Retención", "Consultar", "Retenciones / Forma 30", 6));
-            vPermisos.Add(new CustomRole("Tabla Retención", "Reinstalar", "Retenciones / Forma 30", 6));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Tabla Retención", "Consultar", "Retenciones / Forma 30", 6));
+                vPermisos.Add(new CustomRole("Tabla Retención", "Reinstalar", "Retenciones / Forma 30", 6));
+            }
             #endregion
 
             #region Lote Adm
@@ -411,25 +470,29 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Anticipo Cobrado
-            vPermisos.Add(new CustomRole("Anticipo Cobrado", "Consultar", "Cliente / CxC", 3));
-            vPermisos.Add(new CustomRole("Anticipo Cobrado", "Insertar", "Cliente / CxC", 3));
-            vPermisos.Add(new CustomRole("Anticipo Cobrado", "Modificar", "Cliente / CxC", 3));
-            vPermisos.Add(new CustomRole("Anticipo Cobrado", "Eliminar", "Cliente / CxC", 3));
-            vPermisos.Add(new CustomRole("Anticipo Cobrado", "Anular", "Cliente / CxC", 3));
-            vPermisos.Add(new CustomRole("Anticipo Cobrado", "Devolver", "Cliente / CxC", 3));
-            vPermisos.Add(new CustomRole("Anticipo Cobrado", "Reimprimir", "Cliente / CxC", 3));
-            vPermisos.Add(new CustomRole("Anticipo Cobrado", "Informes", "Cliente / CxC", 3));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Anticipo Cobrado", "Consultar", "Cliente / CxC", 3));
+                vPermisos.Add(new CustomRole("Anticipo Cobrado", "Insertar", "Cliente / CxC", 3));
+                vPermisos.Add(new CustomRole("Anticipo Cobrado", "Modificar", "Cliente / CxC", 3));
+                vPermisos.Add(new CustomRole("Anticipo Cobrado", "Eliminar", "Cliente / CxC", 3));
+                vPermisos.Add(new CustomRole("Anticipo Cobrado", "Anular", "Cliente / CxC", 3));
+                vPermisos.Add(new CustomRole("Anticipo Cobrado", "Devolver", "Cliente / CxC", 3));
+                vPermisos.Add(new CustomRole("Anticipo Cobrado", "Reimprimir", "Cliente / CxC", 3));
+                vPermisos.Add(new CustomRole("Anticipo Cobrado", "Informes", "Cliente / CxC", 3));
+            }
             #endregion
 
             #region Anticipo Pagado
-            vPermisos.Add(new CustomRole("Anticipo Pagado", "Consultar", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("Anticipo Pagado", "Insertar", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("Anticipo Pagado", "Modificar", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("Anticipo Pagado", "Eliminar", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("Anticipo Pagado", "Anular", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("Anticipo Pagado", "Devolver", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("Anticipo Pagado", "Reimprimir", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("Anticipo Pagado", "Informes", "CxP / Vendedor", 5));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Anticipo Pagado", "Consultar", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("Anticipo Pagado", "Insertar", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("Anticipo Pagado", "Modificar", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("Anticipo Pagado", "Eliminar", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("Anticipo Pagado", "Anular", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("Anticipo Pagado", "Devolver", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("Anticipo Pagado", "Reimprimir", "CxP / Vendedor", 5));
+                vPermisos.Add(new CustomRole("Anticipo Pagado", "Informes", "CxP / Vendedor", 5));
+            }
             #endregion
 
             #region Caja Registradora
@@ -446,24 +509,30 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Color
-            vPermisos.Add(new CustomRole("Color", "Consultar", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Color", "Insertar", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Color", "Modificar", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Color", "Eliminar", "Inventario", 4));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Color", "Consultar", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Color", "Insertar", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Color", "Modificar", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Color", "Eliminar", "Inventario", 4));
+            }
             #endregion
 
             #region Talla
-            vPermisos.Add(new CustomRole("Talla", "Consultar", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Talla", "Insertar", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Talla", "Modificar", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Talla", "Eliminar", "Inventario", 4));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Talla", "Consultar", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Talla", "Insertar", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Talla", "Modificar", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Talla", "Eliminar", "Inventario", 4));
+            }
             #endregion
 
             #region Grupo Talla/Color
-            vPermisos.Add(new CustomRole("Grupo Talla/Color", "Consultar", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Grupo Talla/Color", "Insertar", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Grupo Talla/Color", "Modificar", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Grupo Talla/Color", "Eliminar", "Inventario", 4));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Grupo Talla/Color", "Consultar", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Grupo Talla/Color", "Insertar", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Grupo Talla/Color", "Modificar", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Grupo Talla/Color", "Eliminar", "Inventario", 4));
+            }
             #endregion
 
             #region Cajero Factura
@@ -487,7 +556,9 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Cajero Caja
+            
             vPermisos.Add(new CustomRole("Cajero Caja", "Abrir Gaveta", "Opciones de Cajero", 9));
+            
             #endregion
 
             #region Usuario Tipo cajero
@@ -514,36 +585,44 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Vehiculos
-            vPermisos.Add(new CustomRole("Vehículo", "Consultar", "Vehículos", 11));
-            vPermisos.Add(new CustomRole("Vehículo", "Insertar", "Vehículos", 11));
-            vPermisos.Add(new CustomRole("Vehículo", "Modificar", "Vehículos", 11));
-            vPermisos.Add(new CustomRole("Vehículo", "Eliminar", "Vehículos", 11));
-            vPermisos.Add(new CustomRole("Vehículo", "Informes", "Vehículos", 11));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Vehículo", "Consultar", "Vehículos", 11));
+                vPermisos.Add(new CustomRole("Vehículo", "Insertar", "Vehículos", 11));
+                vPermisos.Add(new CustomRole("Vehículo", "Modificar", "Vehículos", 11));
+                vPermisos.Add(new CustomRole("Vehículo", "Eliminar", "Vehículos", 11));
+                vPermisos.Add(new CustomRole("Vehículo", "Informes", "Vehículos", 11));
+            }
             #endregion
 
             #region ModeloVehiculo
-            vPermisos.Add(new CustomRole("Modelo", "Consultar", "Vehículos", 11));
-            vPermisos.Add(new CustomRole("Modelo", "Insertar", "Vehículos", 11));
-            vPermisos.Add(new CustomRole("Modelo", "Modificar", "Vehículos", 11));
-            vPermisos.Add(new CustomRole("Modelo", "Eliminar", "Vehículos", 11));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Modelo", "Consultar", "Vehículos", 11));
+                vPermisos.Add(new CustomRole("Modelo", "Insertar", "Vehículos", 11));
+                vPermisos.Add(new CustomRole("Modelo", "Modificar", "Vehículos", 11));
+                vPermisos.Add(new CustomRole("Modelo", "Eliminar", "Vehículos", 11));
+            }
             #endregion
 
             #region MarcaVehiculo
-            vPermisos.Add(new CustomRole("Marca", "Consultar", "Vehículos", 11));
-            vPermisos.Add(new CustomRole("Marca", "Insertar", "Vehículos", 11));
-            vPermisos.Add(new CustomRole("Marca", "Modificar", "Vehículos", 11));
-            vPermisos.Add(new CustomRole("Marca", "Eliminar", "Vehículos", 11));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Marca", "Consultar", "Vehículos", 11));
+                vPermisos.Add(new CustomRole("Marca", "Insertar", "Vehículos", 11));
+                vPermisos.Add(new CustomRole("Marca", "Modificar", "Vehículos", 11));
+                vPermisos.Add(new CustomRole("Marca", "Eliminar", "Vehículos", 11));
+            }
             #endregion
 
             #region  Reposicion de Caja Chica
-            vPermisos.Add(new CustomRole("Reposicion de Caja Chica", "Consultar", "Caja chica", 12));
-            vPermisos.Add(new CustomRole("Reposicion de Caja Chica", "Insertar", "Caja chica", 12));
-            vPermisos.Add(new CustomRole("Reposicion de Caja Chica", "Modificar", "Caja chica", 12));
-            vPermisos.Add(new CustomRole("Reposicion de Caja Chica", "Eliminar", "Caja chica", 12));
-            vPermisos.Add(new CustomRole("Reposicion de Caja Chica", "Anular", "Caja chica", 12));
-            vPermisos.Add(new CustomRole("Reposicion de Caja Chica", "Cierre", "Caja chica", 12));
-            vPermisos.Add(new CustomRole("Reposicion de Caja Chica", "Informes", "Caja chica", 12));
-            vPermisos.Add(new CustomRole("Reposicion de Caja Chica", "Reimprimir Comprobante", "Caja chica", 12));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Reposicion de Caja Chica", "Consultar", "Caja chica", 12));
+                vPermisos.Add(new CustomRole("Reposicion de Caja Chica", "Insertar", "Caja chica", 12));
+                vPermisos.Add(new CustomRole("Reposicion de Caja Chica", "Modificar", "Caja chica", 12));
+                vPermisos.Add(new CustomRole("Reposicion de Caja Chica", "Eliminar", "Caja chica", 12));
+                vPermisos.Add(new CustomRole("Reposicion de Caja Chica", "Anular", "Caja chica", 12));
+                vPermisos.Add(new CustomRole("Reposicion de Caja Chica", "Cierre", "Caja chica", 12));
+                vPermisos.Add(new CustomRole("Reposicion de Caja Chica", "Informes", "Caja chica", 12));
+                vPermisos.Add(new CustomRole("Reposicion de Caja Chica", "Reimprimir Comprobante", "Caja chica", 12));
+            }
             #endregion
 
             #region Máquina Fiscal
@@ -567,61 +646,75 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Orden de Compra
-            vPermisos.Add(new CustomRole("Orden de Compra", "Consultar", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Orden de Compra", "Insertar", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Orden de Compra", "Modificar", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Orden de Compra", "Eliminar", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Orden de Compra", "Anular", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Orden de Compra", "Importar", "Inventario", 4));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Orden de Compra", "Consultar", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Orden de Compra", "Insertar", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Orden de Compra", "Modificar", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Orden de Compra", "Eliminar", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Orden de Compra", "Anular", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Orden de Compra", "Importar", "Inventario", 4));
+            }
 
             #endregion
 
             #region Carga Inicial
-            vPermisos.Add(new CustomRole("Carga Inicial", "Insertar", "Carga Inicial", 2));
-            vPermisos.Add(new CustomRole("Carga Inicial", "Modificar", "Carga Inicial", 2));
-            vPermisos.Add(new CustomRole("Carga Inicial", "Consultar", "Carga Inicial", 2));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Carga Inicial", "Insertar", "Carga Inicial", 2));
+                vPermisos.Add(new CustomRole("Carga Inicial", "Modificar", "Carga Inicial", 2));
+                vPermisos.Add(new CustomRole("Carga Inicial", "Consultar", "Carga Inicial", 2));
+            }
             #endregion
 
             #region Lotes de Contalbilidad
-            vPermisos.Add(new CustomRole("Lotes", "Consultar", "Mantenimiento", 2));
-            vPermisos.Add(new CustomRole("Lotes", "Modificar", "Mantenimiento", 2));
-            vPermisos.Add(new CustomRole("Lotes", "Eliminar", "Mantenimiento", 2));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Lotes", "Consultar", "Mantenimiento", 2));
+                vPermisos.Add(new CustomRole("Lotes", "Modificar", "Mantenimiento", 2));
+                vPermisos.Add(new CustomRole("Lotes", "Eliminar", "Mantenimiento", 2));
+            }
             #endregion
 
             #region Lista de Materiales 
-            vPermisos.Add(new CustomRole("Lista de Materiales", "Consultar", "Producción", 13));
-            vPermisos.Add(new CustomRole("Lista de Materiales", "Insertar", "Producción", 13));
-            vPermisos.Add(new CustomRole("Lista de Materiales", "Modificar", "Producción", 13));
-            vPermisos.Add(new CustomRole("Lista de Materiales", "Eliminar", "Producción", 13));
-            vPermisos.Add(new CustomRole("Lista de Materiales", "Informes", "Producción", 13));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Lista de Materiales", "Consultar", "Producción", 13));
+                vPermisos.Add(new CustomRole("Lista de Materiales", "Insertar", "Producción", 13));
+                vPermisos.Add(new CustomRole("Lista de Materiales", "Modificar", "Producción", 13));
+                vPermisos.Add(new CustomRole("Lista de Materiales", "Eliminar", "Producción", 13));
+                vPermisos.Add(new CustomRole("Lista de Materiales", "Informes", "Producción", 13));
+            }
             #endregion
 
             #region Orden de Produción 
-            vPermisos.Add(new CustomRole("Orden De Producción", "Consultar", "Producción", 13));
-            vPermisos.Add(new CustomRole("Orden De Producción", "Insertar", "Producción", 13));
-            vPermisos.Add(new CustomRole("Orden De Producción", "Modificar", "Producción", 13));
-            vPermisos.Add(new CustomRole("Orden De Producción", "Eliminar", "Producción", 13));
-            vPermisos.Add(new CustomRole("Orden De Producción", "Informes", "Producción", 13));
-            vPermisos.Add(new CustomRole("Orden De Producción", "Iniciar", "Producción", 13));
-            vPermisos.Add(new CustomRole("Orden De Producción", "Anular", "Producción", 13));
-            vPermisos.Add(new CustomRole("Orden De Producción", "Cerrar", "Producción", 13));
+            if (EsVersionFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Orden De Producción", "Consultar", "Producción", 13));
+                vPermisos.Add(new CustomRole("Orden De Producción", "Insertar", "Producción", 13));
+                vPermisos.Add(new CustomRole("Orden De Producción", "Modificar", "Producción", 13));
+                vPermisos.Add(new CustomRole("Orden De Producción", "Eliminar", "Producción", 13));
+                vPermisos.Add(new CustomRole("Orden De Producción", "Informes", "Producción", 13));
+                vPermisos.Add(new CustomRole("Orden De Producción", "Iniciar", "Producción", 13));
+                vPermisos.Add(new CustomRole("Orden De Producción", "Anular", "Producción", 13));
+                vPermisos.Add(new CustomRole("Orden De Producción", "Cerrar", "Producción", 13));
+            }
             #endregion
 
             #region Dashboard
-            try {
-                if (NetworkInterface.GetIsNetworkAvailable()) {
-                    List<Dashboard> vListaDB = clsDashboardProcess.GetDashboardListViaAPI(LibProduct.GetInitialsSaw());
-                    if (vListaDB != null && vListaDB.Count > 0) {
-                        foreach (Dashboard vItem in vListaDB) {
-                            vPermisos.Add(new CustomRole("Dashboard", vItem.nombre, "Dashboard", 15));
+            if (EsVersionFacturadorBasico) {
+                try {
+                    if (NetworkInterface.GetIsNetworkAvailable()) {
+                        List<Dashboard> vListaDB = clsDashboardProcess.GetDashboardListViaAPI(LibProduct.GetInitialsSaw());
+                        if (vListaDB != null && vListaDB.Count > 0) {
+                            foreach (Dashboard vItem in vListaDB) {
+                                vPermisos.Add(new CustomRole("Dashboard", vItem.nombre, "Dashboard", 15));
+                            }
                         }
                     }
+                } catch (Exception) {
                 }
-            } catch (Exception) {
             }
             #endregion Dashboard
 
             return vPermisos;
         }
+
+       
     }
 }

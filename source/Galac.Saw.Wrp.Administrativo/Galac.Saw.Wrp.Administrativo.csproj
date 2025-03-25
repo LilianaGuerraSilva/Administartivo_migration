@@ -364,6 +364,10 @@
       <Project>{9b7c2108-236b-4b69-849a-460f36b23363}</Project>
       <Name>Galac.Saw.DDL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Lib\Galac.Saw.Lib.csproj">
+      <Project>{b04e6942-e0b8-4ba2-90e7-fbf8a95ddc86}</Project>
+      <Name>Galac.Saw.Lib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Reconvert\Galac.Saw.Reconv.csproj">
       <Project>{bf877c20-f113-46f1-b3f5-42cbbd123908}</Project>
       <Name>Galac.Saw.Reconv</Name>

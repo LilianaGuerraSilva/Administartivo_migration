@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading;
 using Galac.Comun.Ccl.TablasGen;
 using System.Collections.ObjectModel;
+using System.Security.Cryptography;
 
 namespace Galac.Saw.Lib {
     public class clsLibSaw {
@@ -466,8 +467,7 @@ namespace Galac.Saw.Lib {
         }
 
         public bool EsVersionFacturadorBasico() {
-            return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsFacturadorBasico");
+            return LibGalac.Aos.DefGen.LibDefGen.HasAccessTo(148);
         }
-     
     }
 }
