@@ -6424,18 +6424,16 @@ End Sub
 Public Function enum_menusDelSistemaAdministrativoToTitle(ByVal valMenu As menusDelSistemaAdministrativo) As String
    Select Case valMenu
       Case me_PRINCIPALSAW:
-        If Not gDefGen.fHasAccessTo(148) Then
-           enum_menusDelSistemaAdministrativoToTitle = "Menú Principal - Factura / Cotización / Contrato"
-        Else
+        If gDefGen.fHasAccessTo(148) Then
            enum_menusDelSistemaAdministrativoToTitle = "Menú Principal - Factura"
+        Else
+           enum_menusDelSistemaAdministrativoToTitle = "Menú Principal - Factura / Cotización / Contrato"
         End If
       Case me_CXC
-            If GetEsSistemaAdmInterno Then
-               enum_menusDelSistemaAdministrativoToTitle = "CxC / Cobranzas / Vendedor / Orden de Servicio"
-            ElseIf Not gDefGen.fHasAccessTo(148) Then
-               enum_menusDelSistemaAdministrativoToTitle = "CxC / Cobranzas / Vendedor"
-            Else
+            If gDefGen.fHasAccessTo(148) Then
                enum_menusDelSistemaAdministrativoToTitle = "Cliente / Vendedor"
+            Else
+               enum_menusDelSistemaAdministrativoToTitle = "CxC / Cobranzas / Vendedor"
             End If
       Case me_COMPANIA: enum_menusDelSistemaAdministrativoToTitle = "Empresa"
       Case me_TABLASSAW: enum_menusDelSistemaAdministrativoToTitle = "Mantenimiento de Tablas"
@@ -6480,10 +6478,10 @@ Public Function enum_menusDelSistemaAdministrativoToTitle(ByVal valMenu As menus
       Case me_CAJA_CHICA_RENDICION: enum_menusDelSistemaAdministrativoToTitle = "Reposición de Caja Chica"
       Case me_ESTRUCTURA_COSTOS: enum_menusDelSistemaAdministrativoToTitle = "Estructura de Costos"
       Case me_CONVERSION_RESPALDO_LOTE
-         If Not gDefGen.fHasAccessTo(148) Then
-            enum_menusDelSistemaAdministrativoToTitle = "Conversión / Respaldar / Lote"
-         Else
+         If gDefGen.fHasAccessTo(148) Then
             enum_menusDelSistemaAdministrativoToTitle = "Respaldar / Lote"
+         Else
+            enum_menusDelSistemaAdministrativoToTitle = "Conversión / Respaldar / Lote"
          End If
       Case me_TABLASSAW_CONT: enum_menusDelSistemaAdministrativoToTitle = "Mantenimiento de Tablas Continuación"
       Case me_PRODUCCION: enum_menusDelSistemaAdministrativoToTitle = "Producción"
