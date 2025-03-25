@@ -464,5 +464,10 @@ namespace Galac.Saw.Lib {
             }
             return vResult;
         }
+
+        public bool EsVersionFacturadorBasico() {
+            return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsFacturadorBasico");
+        }
+     
     }
 }
