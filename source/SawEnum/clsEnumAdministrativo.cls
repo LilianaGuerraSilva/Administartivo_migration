@@ -4201,7 +4201,12 @@ End Sub
 Public Function enum_menusDelSistemaAdministrativoToStr(ByVal valMenu As menusDelSistemaAdministrativo) As String
    Select Case valMenu
       Case me_PRINCIPALSAW: enum_menusDelSistemaAdministrativoToStr = "Principal"
-      Case me_CXC: enum_menusDelSistemaAdministrativoToStr = "CxC y Cobranza"
+      Case me_CXC:
+         If gDefGen.fHasAccessTo(148) Then
+            enum_menusDelSistemaAdministrativoToStr = "Cliente y Vendedor"
+         Else
+            enum_menusDelSistemaAdministrativoToStr = "CxC y Cobranza"
+         End If
       Case me_COMPANIA: enum_menusDelSistemaAdministrativoToStr = "Empresa"
       Case me_TABLASSAW: enum_menusDelSistemaAdministrativoToStr = "Tablas"
       Case me_INVENTARIO: enum_menusDelSistemaAdministrativoToStr = "Inventario"
@@ -4223,6 +4228,12 @@ Public Function enum_menusDelSistemaAdministrativoToStr(ByVal valMenu As menusDe
       Case me_CONEXIONAXI: enum_menusDelSistemaAdministrativoToStr = "Ajuste por Inflación"
       Case me_CAJA_CHICA_RENDICION: enum_menusDelSistemaAdministrativoToStr = "Reposición de Caja Chica"
       Case me_ESTRUCTURA_COSTOS: enum_menusDelSistemaAdministrativoToStr = "Estructura de Costos"
+      Case me_CONVERSION_RESPALDO_LOTE:
+         If gDefGen.fHasAccessTo(148) Then
+            enum_menusDelSistemaAdministrativoToStr = "Respaldar y Lote"
+         Else
+            enum_menusDelSistemaAdministrativoToStr = "Conversión, Respaldar y Lote"
+         End If
       Case me_CONVERSION_RESPALDO_LOTE: enum_menusDelSistemaAdministrativoToStr = "Conversión, Respadar y Lote"
       Case me_TABLASSAW_CONT: enum_menusDelSistemaAdministrativoToStr = "Tablas Continuación"
       Case me_PRODUCCION: enum_menusDelSistemaAdministrativoToStr = "Producción"
