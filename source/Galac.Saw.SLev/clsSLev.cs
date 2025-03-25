@@ -18,7 +18,7 @@ namespace Galac.Saw.SLev {
         
         public List<CustomRole> PlantillaPermisos() {
             clsLibSaw insLibSaw = new clsLibSaw();
-             bool EsVersionFacturadorBasico = !insLibSaw.EsVersionFacturadorBasico();
+             bool DisponibleParaFacturadorBasico = !insLibSaw.EsVersionFacturadorBasico();
             
             List<CustomRole> vPermisos = new List<CustomRole>();
 
@@ -28,7 +28,9 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Compañía", "Modificar", "Compañía / Parámetros / Niveles de Precio", 2));
             vPermisos.Add(new CustomRole("Compañía", "Eliminar", "Compañía / Parámetros / Niveles de Precio", 2));
             vPermisos.Add(new CustomRole("Compañía", "Copiar Parámetros Administrativos", "Compañía / Parámetros / Niveles de Precio", 2));
-            vPermisos.Add(new CustomRole("Compañía", "Activar Conexión con G-Ventas", "Compañía / Parámetros / Niveles de Precio", 2));
+            if (DisponibleParaFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Compañía", "Activar Conexión con G-Ventas", "Compañía / Parámetros / Niveles de Precio", 2));
+            }
             #endregion
 
             #region Factura
@@ -53,8 +55,10 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Factura", "Insertar Nota de Crédito Histórica", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Insertar Nota de Débito Histórica", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Imprimir Orden De Despacho", "Principal", 1));
-            vPermisos.Add(new CustomRole("Factura", "Generar Factura desde Contrato", "Principal", 1));
-            vPermisos.Add(new CustomRole("Factura", "Generar Factura desde Cotización", "Principal", 1));
+            if (DisponibleParaFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Factura", "Generar Factura desde Contrato", "Principal", 1));
+                vPermisos.Add(new CustomRole("Factura", "Generar Factura desde Cotización", "Principal", 1));
+            }
             vPermisos.Add(new CustomRole("Factura", "Informes Gerenciales", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Informes de Libros", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Informes", "Principal", 1));
@@ -73,7 +77,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Nota de Entrega
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Nota de Entrega", "Consultar", "Principal", 1));
                 vPermisos.Add(new CustomRole("Nota de Entrega", "Insertar", "Principal", 1));
                 vPermisos.Add(new CustomRole("Nota de Entrega", "Modificar", "Principal", 1));
@@ -85,7 +89,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Cotizacion
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Cotización", "Consultar", "Principal", 1));
                 vPermisos.Add(new CustomRole("Cotización", "Insertar", "Principal", 1));
                 vPermisos.Add(new CustomRole("Cotización", "Modificar", "Principal", 1));
@@ -98,7 +102,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region ControlDepacho
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Control Despacho", "Consultar", "Principal", 1));
                 vPermisos.Add(new CustomRole("Control Despacho", "Insertar", "Principal", 1));
                 vPermisos.Add(new CustomRole("Control Despacho", "Modificar", "Principal", 1));
@@ -123,7 +127,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region CxC
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("CxC", "Consultar", "Cliente / CxC", 3));
                 vPermisos.Add(new CustomRole("CxC", "Insertar", "Cliente / CxC", 3));
                 vPermisos.Add(new CustomRole("CxC", "Modificar", "Cliente / CxC", 3));
@@ -140,7 +144,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Cobranza
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Cobranza", "Consultar", "Cliente / CxC", 3));
                 vPermisos.Add(new CustomRole("Cobranza", "Insertar", "Cliente / CxC", 3));
                 vPermisos.Add(new CustomRole("Cobranza", "Modificar", "Cliente / CxC", 3));
@@ -167,15 +171,21 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Artículo", "Autorizar Sobregiro", "Inventario", 4));
             vPermisos.Add(new CustomRole("Artículo", "Informes", "Inventario", 4));
             vPermisos.Add(new CustomRole("Artículo", "Insertar Art. por Porcentaje de Comisión", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Artículo", "Modificar Serial", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Artículo", "Modificar Rollo", "Inventario", 4));
+            if (DisponibleParaFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Artículo", "Modificar Serial", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Artículo", "Modificar Rollo", "Inventario", 4));
+            }
             vPermisos.Add(new CustomRole("Artículo", "Consultar Cortes", "Inventario", 4));
             vPermisos.Add(new CustomRole("Artículo", "Ajustar Precios por Costos", "Inventario", 4));
             vPermisos.Add(new CustomRole("Artículo", "Método de Costo", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Artículo", "Alerta Por Reservas", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Artículo", "Liberar Reservas", "Inventario", 4));
+            if (DisponibleParaFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Artículo", "Alerta Por Reservas", "Inventario", 4));
+                vPermisos.Add(new CustomRole("Artículo", "Liberar Reservas", "Inventario", 4));
+            }
             vPermisos.Add(new CustomRole("Artículo", "Ajuste de Gastos Admisibles", "Inventario", 4));
-            vPermisos.Add(new CustomRole("Artículo", "Informes Ley Costos", "Inventario", 4));
+            if (DisponibleParaFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Artículo", "Informes Ley Costos", "Inventario", 4));
+            }
             #endregion
 
             #region Almacen
@@ -193,7 +203,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Lote de Inventario
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Lote de Inventario", "Consultar", "Inventario", 4));
                 vPermisos.Add(new CustomRole("Lote de Inventario", "Modificar", "Inventario", 4));
                 vPermisos.Add(new CustomRole("Lote de Inventario", "Eliminar", "Inventario", 4));
@@ -202,14 +212,14 @@ namespace Galac.Saw.SLev {
             #endregion Lote de Inventario
 
             #region Exist x Almacen
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Existencia por Almacén", "Consultar", "Inventario", 4));
                 vPermisos.Add(new CustomRole("Existencia por Almacén", "Informes", "Inventario", 4));
             }
             #endregion
 
             #region Transferencia
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Transferencia", "Consultar", "Inventario", 4));
                 vPermisos.Add(new CustomRole("Transferencia", "Insertar", "Inventario", 4));
                 vPermisos.Add(new CustomRole("Transferencia", "Eliminar", "Inventario", 4));
@@ -223,7 +233,9 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Vendedor", "Modificar", "CxP / Vendedor", 5));
             vPermisos.Add(new CustomRole("Vendedor", "Eliminar", "CxP / Vendedor", 5));
             vPermisos.Add(new CustomRole("Vendedor", "Informes", "CxP / Vendedor", 5));
-            vPermisos.Add(new CustomRole("Vendedor", "ComisionXVencimiento", "CxP / Vendedor", 5));
+            if (DisponibleParaFacturadorBasico) {
+                vPermisos.Add(new CustomRole("Vendedor", "ComisionXVencimiento", "CxP / Vendedor", 5));
+            }
             vPermisos.Add(new CustomRole("Vendedor", "Importar", "CxP / Vendedor", 5));
             vPermisos.Add(new CustomRole("Vendedor", "Exportar", "CxP / Vendedor", 5));
             #endregion
@@ -235,7 +247,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region CxP
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("CxP", "Consultar", "CxP / Vendedor", 5));
                 vPermisos.Add(new CustomRole("CxP", "Insertar", "CxP / Vendedor", 5));
                 vPermisos.Add(new CustomRole("CxP", "Modificar", "CxP / Vendedor", 5));
@@ -253,7 +265,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Pago
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Pago", "Consultar", "CxP / Vendedor", 5));
                 vPermisos.Add(new CustomRole("Pago", "Insertar", "CxP / Vendedor", 5));
                 vPermisos.Add(new CustomRole("Pago", "Anular", "CxP / Vendedor", 5));
@@ -268,7 +280,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Proveedor
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Proveedor", "Consultar", "CxP / Vendedor", 5));
                 vPermisos.Add(new CustomRole("Proveedor", "Insertar", "CxP / Vendedor", 5));
                 vPermisos.Add(new CustomRole("Proveedor", "Modificar", "CxP / Vendedor", 5));
@@ -282,7 +294,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Contrato
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Contrato", "Consultar", "Principal", 1));
                 vPermisos.Add(new CustomRole("Contrato", "Insertar", "Principal", 1));
                 vPermisos.Add(new CustomRole("Contrato", "Modificar", "Principal", 1));
@@ -296,7 +308,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Cuenta Bancaria
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Cuenta Bancaria", "Consultar", "Bancos", 8));
                 vPermisos.Add(new CustomRole("Cuenta Bancaria", "Insertar", "Bancos", 8));
                 vPermisos.Add(new CustomRole("Cuenta Bancaria", "Modificar", "Bancos", 8));
@@ -307,7 +319,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Movimiento Bancario
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Movimiento Bancario", "Consultar", "Bancos", 8));
                 vPermisos.Add(new CustomRole("Movimiento Bancario", "Insertar", "Bancos", 8));
                 vPermisos.Add(new CustomRole("Movimiento Bancario", "Modificar", "Bancos", 8));
@@ -320,7 +332,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Transferencia entre Cuentas Bancarias
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Transferencia entre Cuentas", "Consultar", "Bancos", 8));
                 vPermisos.Add(new CustomRole("Transferencia entre Cuentas", "Insertar", "Bancos", 8));
                 vPermisos.Add(new CustomRole("Transferencia entre Cuentas", "Anular", "Bancos", 8));
@@ -328,7 +340,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Concepto Bancario
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Concepto Bancario", "Consultar", "Bancos", 8));
                 vPermisos.Add(new CustomRole("Concepto Bancario", "Insertar", "Bancos", 8));
                 vPermisos.Add(new CustomRole("Concepto Bancario", "Modificar", "Bancos", 8));
@@ -337,7 +349,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Conciliacion
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Conciliación", "Consultar", "Bancos", 8));
                 vPermisos.Add(new CustomRole("Conciliación", "Insertar", "Bancos", 8));
                 vPermisos.Add(new CustomRole("Conciliación", "Modificar", "Bancos", 8));
@@ -349,7 +361,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Solicitudes de pago
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Solicitudes de Pago", "Consultar", "Bancos", 8));
                 vPermisos.Add(new CustomRole("Solicitudes de Pago", "Insertar", "Bancos", 8));
                 vPermisos.Add(new CustomRole("Solicitudes de Pago", "Modificar", "Bancos", 8));
@@ -362,7 +374,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Beneficiario
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Beneficiario", "Consultar", "Bancos", 8));
                 vPermisos.Add(new CustomRole("Beneficiario", "Insertar", "Bancos", 8));
                 vPermisos.Add(new CustomRole("Beneficiario", "Modificar", "Bancos", 8));
@@ -371,7 +383,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Integracion
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Integracion", "Consultar", "Bancos", 8));
                 vPermisos.Add(new CustomRole("Integracion", "Insertar", "Bancos", 8));
                 vPermisos.Add(new CustomRole("Integracion", "Modificar", "Bancos", 8));
@@ -380,7 +392,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Compra
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Compra", "Consultar", "Inventario", 4));
                 vPermisos.Add(new CustomRole("Compra", "Insertar", "Inventario", 4));
                 vPermisos.Add(new CustomRole("Compra", "Modificar", "Inventario", 4));
@@ -401,7 +413,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Catálogo General
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Catálogo General", "Consultar", "Contabilidad", 7));
                 vPermisos.Add(new CustomRole("Catálogo General", "Insertar", "Contabilidad", 7));
                 vPermisos.Add(new CustomRole("Catálogo General", "Modificar", "Contabilidad", 7));
@@ -410,7 +422,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Plantilla Ret
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Plantilla Ret", "Consultar", "Retenciones / Forma 30", 6));
                 vPermisos.Add(new CustomRole("Plantilla Ret", "Insertar", "Retenciones / Forma 30", 6));
                 vPermisos.Add(new CustomRole("Plantilla Ret", "Modificar", "Retenciones / Forma 30", 6));
@@ -419,7 +431,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region ARCV
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("ARCV", "Consultar", "Retenciones / Forma 30", 6));
                 vPermisos.Add(new CustomRole("ARCV", "Insertar", "Retenciones / Forma 30", 6));
                 vPermisos.Add(new CustomRole("ARCV", "Modificar", "Retenciones / Forma 30", 6));
@@ -430,14 +442,14 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Relacion Anual
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Relación Anual", "Forma Impresa", "Retenciones / Forma 30", 6));
                 vPermisos.Add(new CustomRole("Relación Anual", "Medio Magnético", "Retenciones / Forma 30", 6));
             }
             #endregion
 
             #region Planilla Forma 00030
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Planilla Forma 00030", "Consultar", "Retenciones / Forma 30", 6));
                 vPermisos.Add(new CustomRole("Planilla Forma 00030", "Insertar", "Retenciones / Forma 30", 6));
                 vPermisos.Add(new CustomRole("Planilla Forma 00030", "Insertar Sustitutiva", "Retenciones / Forma 30", 6));
@@ -449,7 +461,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Tabla Retencion
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Tabla Retención", "Consultar", "Retenciones / Forma 30", 6));
                 vPermisos.Add(new CustomRole("Tabla Retención", "Reinstalar", "Retenciones / Forma 30", 6));
             }
@@ -470,7 +482,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Anticipo Cobrado
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Anticipo Cobrado", "Consultar", "Cliente / CxC", 3));
                 vPermisos.Add(new CustomRole("Anticipo Cobrado", "Insertar", "Cliente / CxC", 3));
                 vPermisos.Add(new CustomRole("Anticipo Cobrado", "Modificar", "Cliente / CxC", 3));
@@ -483,7 +495,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Anticipo Pagado
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Anticipo Pagado", "Consultar", "CxP / Vendedor", 5));
                 vPermisos.Add(new CustomRole("Anticipo Pagado", "Insertar", "CxP / Vendedor", 5));
                 vPermisos.Add(new CustomRole("Anticipo Pagado", "Modificar", "CxP / Vendedor", 5));
@@ -509,7 +521,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Color
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Color", "Consultar", "Inventario", 4));
                 vPermisos.Add(new CustomRole("Color", "Insertar", "Inventario", 4));
                 vPermisos.Add(new CustomRole("Color", "Modificar", "Inventario", 4));
@@ -518,7 +530,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Talla
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Talla", "Consultar", "Inventario", 4));
                 vPermisos.Add(new CustomRole("Talla", "Insertar", "Inventario", 4));
                 vPermisos.Add(new CustomRole("Talla", "Modificar", "Inventario", 4));
@@ -527,7 +539,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Grupo Talla/Color
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Grupo Talla/Color", "Consultar", "Inventario", 4));
                 vPermisos.Add(new CustomRole("Grupo Talla/Color", "Insertar", "Inventario", 4));
                 vPermisos.Add(new CustomRole("Grupo Talla/Color", "Modificar", "Inventario", 4));
@@ -585,7 +597,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Vehiculos
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Vehículo", "Consultar", "Vehículos", 11));
                 vPermisos.Add(new CustomRole("Vehículo", "Insertar", "Vehículos", 11));
                 vPermisos.Add(new CustomRole("Vehículo", "Modificar", "Vehículos", 11));
@@ -595,7 +607,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region ModeloVehiculo
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Modelo", "Consultar", "Vehículos", 11));
                 vPermisos.Add(new CustomRole("Modelo", "Insertar", "Vehículos", 11));
                 vPermisos.Add(new CustomRole("Modelo", "Modificar", "Vehículos", 11));
@@ -604,7 +616,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region MarcaVehiculo
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Marca", "Consultar", "Vehículos", 11));
                 vPermisos.Add(new CustomRole("Marca", "Insertar", "Vehículos", 11));
                 vPermisos.Add(new CustomRole("Marca", "Modificar", "Vehículos", 11));
@@ -613,7 +625,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region  Reposicion de Caja Chica
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Reposicion de Caja Chica", "Consultar", "Caja chica", 12));
                 vPermisos.Add(new CustomRole("Reposicion de Caja Chica", "Insertar", "Caja chica", 12));
                 vPermisos.Add(new CustomRole("Reposicion de Caja Chica", "Modificar", "Caja chica", 12));
@@ -646,7 +658,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Orden de Compra
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Orden de Compra", "Consultar", "Inventario", 4));
                 vPermisos.Add(new CustomRole("Orden de Compra", "Insertar", "Inventario", 4));
                 vPermisos.Add(new CustomRole("Orden de Compra", "Modificar", "Inventario", 4));
@@ -658,7 +670,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Carga Inicial
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Carga Inicial", "Insertar", "Carga Inicial", 2));
                 vPermisos.Add(new CustomRole("Carga Inicial", "Modificar", "Carga Inicial", 2));
                 vPermisos.Add(new CustomRole("Carga Inicial", "Consultar", "Carga Inicial", 2));
@@ -666,7 +678,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Lotes de Contalbilidad
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Lotes", "Consultar", "Mantenimiento", 2));
                 vPermisos.Add(new CustomRole("Lotes", "Modificar", "Mantenimiento", 2));
                 vPermisos.Add(new CustomRole("Lotes", "Eliminar", "Mantenimiento", 2));
@@ -674,7 +686,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Lista de Materiales 
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Lista de Materiales", "Consultar", "Producción", 13));
                 vPermisos.Add(new CustomRole("Lista de Materiales", "Insertar", "Producción", 13));
                 vPermisos.Add(new CustomRole("Lista de Materiales", "Modificar", "Producción", 13));
@@ -684,7 +696,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Orden de Produción 
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Orden De Producción", "Consultar", "Producción", 13));
                 vPermisos.Add(new CustomRole("Orden De Producción", "Insertar", "Producción", 13));
                 vPermisos.Add(new CustomRole("Orden De Producción", "Modificar", "Producción", 13));
@@ -697,7 +709,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Dashboard
-            if (EsVersionFacturadorBasico) {
+            if (DisponibleParaFacturadorBasico) {
                 try {
                     if (NetworkInterface.GetIsNetworkAvailable()) {
                         List<Dashboard> vListaDB = clsDashboardProcess.GetDashboardListViaAPI(LibProduct.GetInitialsSaw());
