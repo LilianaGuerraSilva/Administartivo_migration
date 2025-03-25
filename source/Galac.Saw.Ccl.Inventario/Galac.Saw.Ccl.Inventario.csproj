@@ -54,6 +54,7 @@
     <Compile Include="Categoria.cs" />
     <Compile Include="clsEnumInventario.cs" />
     <Compile Include="Color.cs" />
+    <Compile Include="ExistenciaPorAlmacenDetLoteInv.cs" />
     <Compile Include="IAlmacenPdn.cs" />
     <Compile Include="IArticuloInventarioInformes.cs" />
     <Compile Include="IArticuloInventarioPdn.cs" />
