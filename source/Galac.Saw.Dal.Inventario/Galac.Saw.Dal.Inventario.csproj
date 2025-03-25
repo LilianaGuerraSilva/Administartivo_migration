@@ -74,6 +74,7 @@
     <Compile Include="clsCategoriaED.cs" />
     <Compile Include="clsColorDat.cs" />
     <Compile Include="clsColorED.cs" />
+    <Compile Include="clsExistenciaPorAlmacenDetLoteInvED.cs" />
     <Compile Include="clsLoteDeInventarioDat.cs" />
     <Compile Include="clsLoteDeInventarioED.cs" />
     <Compile Include="clsLoteDeInventarioMovimientoDat.cs" />
