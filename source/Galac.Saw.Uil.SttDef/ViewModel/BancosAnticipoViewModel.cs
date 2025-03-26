@@ -579,23 +579,20 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         public bool IsVisibleBancosAnticipo {
-            get {
-                 return !mEsFacturadorBasico;
+            get { 
+                return !mEsFacturadorBasico;
             }
         }
 
         public bool IsVisibleBancosAnticipoCobrado {
             get {
-                if (mEsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
 
         public bool IsVisibleBancosAnticipoPagado {
-            get { return !mEsFacturadorBasico; }
+            get { 
+                return !mEsFacturadorBasico; }
         }
 
 

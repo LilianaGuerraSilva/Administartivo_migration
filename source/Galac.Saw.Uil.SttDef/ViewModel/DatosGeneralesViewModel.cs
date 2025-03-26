@@ -181,24 +181,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public bool isVisibleMultiplesAlicuotas {
-           get {
-              bool vResult = true;
-              if (LibDefGen.ProgramInfo.IsCountryPeru()) {
-                 vResult = false;
-              }
-                return vResult;
-           }
-        }
-
 
         public bool isVisibleRifEnLaWeb{
-            get {
-                bool vResult = true;
-                if (LibDefGen.ProgramInfo.IsCountryPeru() || mEsFacturadorBasico) {
-                    vResult = false;
-                }
-                return vResult;
+            get { return !mEsFacturadorBasico;
             }
         }
         public string CaptionValidarRifEnLaWeb {

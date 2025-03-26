@@ -36,8 +36,8 @@
 
             <Label Grid.Row="0" Grid.Column="0" Name="lblPermitirEditarIVAenCxCCxP" Content="{Binding Path=PromptIVA}" Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=IsVisibleEditarIVAenCxCCxP, Converter={StaticResource booleanToVisibilityConverter}}"/>
             <CheckBox Grid.Row="0" Grid.Column="1" Name="chkPermitirEditarIVAenCxCCxP" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=PermitirEditarIVAenCxCCxP}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}" Visibility="{Binding Path=IsVisibleNotaEntrega, Converter={StaticResource booleanToVisibilityConverter}}"/>
-            <Label Grid.Row="1" Grid.Column="0" Name="lblUsaMultiplesAlicuotas" Content="Usa Múltiples Alícuotas (Reducida / Extendida)....................................." Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=isVisibleMultiplesAlicuotas, Converter={StaticResource booleanToVisibilityConverter}}"/>
-            <CheckBox Grid.Row="1" Grid.Column="1" Name="chkUsaMultiplesAlicuotas" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=UsaMultiplesAlicuotas}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}" Visibility="{Binding Path=isVisibleMultiplesAlicuotas, Converter={StaticResource booleanToVisibilityConverter}}"/>
+            <Label Grid.Row="1" Grid.Column="0" Name="lblUsaMultiplesAlicuotas" Content="Usa Múltiples Alícuotas (Reducida / Extendida)....................................." Style="{StaticResource LabelPrompt}"/>
+            <CheckBox Grid.Row="1" Grid.Column="1" Name="chkUsaMultiplesAlicuotas" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=UsaMultiplesAlicuotas}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
             <Label Grid.Row="2" Grid.Column="0" Name="lblOrdenamientoDeCodigoString" Content="Forma de Ordenar Códigos de Tipo Texto (Aplica para Lista de Precio)" Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSComboBoxWpf Grid.Row="2" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbOrdenamientoDeCodigoString" Width="150"
                 IsSynchronizedWithCurrentItem="True"
