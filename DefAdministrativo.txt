@@ -1304,6 +1304,7 @@ unStatusDocOrigenLoteInv = (Vigente, Anulado);//e,Componente=Inventario
 }
 {@D ExistenciaPorAlmacen}RenglonExistenciaAlmacen = record //Multiarchivo=Compania;
        ConsecutivoCompania : Longint; //HIDE
+       CosecutivoAlmacen   : LongInt; //o,HIDE,=Almacen.Consecutivo
        CodigoAlmacen       : str5; //o,HIDE
        CodigoArticulo      : str30;//o,HIDE
        ConsecutivoRenglon  : Longint;//o,HIDE
@@ -1314,13 +1315,13 @@ unStatusDocOrigenLoteInv = (Vigente, Anulado);//e,Componente=Inventario
 @PrimaryKey=ConsecutivoCompania,CodigoAlmacen,CodigoArticulo,ConsecutivoRenglon
 }
 {@D ExistenciaPorAlmacen}ExistenciaPorAlmacenDetLoteInv = record //Multiarchivo=Compania,GENERATE
-       ConsecutivoCompania : Longint; //HIDE
-       CodigoAlmacen       : str5; //o,HIDE
-       CodigoArticulo      : str30;//o,HIDE
-       ConsecutivoLoteInventario  : Longint;//o,HIDE
+       ConsecutivoCompania : Longint; //HIDE,=Compania.Consecutivo
+       CosecutivoAlmacen   : Longint; //o,HIDE,=ExistenciaPorAlmacen.ConsecutivoAlmacen
+       CodigoArticulo      : str30;//o,HIDE,=ExistenciaPorAlmacen.CodigoArticulo
+       ConsecutivoLoteInventario  : Longint;//o,HIDE,= LoteDeInventario.Consecutivo
        Cantidad            : Double; //o,g
-       Ubicacion           : Str30;//"Ubicación"
-@PrimaryKey=ConsecutivoCompania,CodigoAlmacen,CodigoArticulo,ConsecutivoLoteInventario
+       Ubicacion           : Str100;//"Ubicación"
+@PrimaryKey=ConsecutivoCompania,CosecutivoAlmacen,CodigoArticulo,ConsecutivoLoteInventario
 }
 
 {@M}NotaDeEntradaSalida =  record //"Nota de Entrada/Salida",Multiarchivo=Compania, Componente=Inventario,Esquema=dbo,GenerateRptConfigurar,GenerateFrmInforme,interop,GENERATE
