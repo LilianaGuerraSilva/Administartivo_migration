@@ -21,6 +21,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class CxPComprasRetISLRViewModel:LibInputViewModelMfc<RetencionISLRStt> {
         #region Variables
         private FkCiudadViewModel _ConexionCiudad = null;
+        bool mEsFacturadorBasico;
         #endregion //Variables
         #region Constantes
         public const string NumeroRifrPropertyName = "NumeroRifr";
@@ -304,6 +305,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public CxPComprasRetISLRViewModel(RetencionISLRStt initModel,eAccionSR initAction)
             : base(initModel,initAction,LibGlobalValues.Instance.GetAppMemInfo(),LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = NumeroRifrPropertyName;
+            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
             // Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
@@ -417,31 +419,14 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsVisibleRetencionISLR {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
-
         public bool IsVisibleRepresentanteLegal {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
-        
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
-            }
-        }
-
 
     } //End of class CxPComprasRetISLRViewModel
 

@@ -31,6 +31,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         #endregion
         #region Variables
         private FkConceptoBancarioViewModel _ConexionConceptoReversoCobranza = null;
+        bool mEsFacturadorBasico;
         #endregion //Variables
         #region Propiedades
 
@@ -191,6 +192,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public CXCCobranzasViewModel(CobranzasStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = NombrePlantillaCompobanteCobranzaPropertyName;
+            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
             //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
@@ -275,113 +277,67 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsVisibleUsarZonaCobranza {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
-        
+
         public bool IsVisibleNombrePlantillaCompobanteCobranza {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
 
         public bool IsVisiblelAsignarComisionDeVendedorEnCobranza {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
-        
+
         public bool IsVisibleIsSugerirConsecutivoEnCobranzaUsarZonaCobranza {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
+
         public bool IsVisibleBloquearNumeroCobranza {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
+
         public bool IsVisibleConceptoReversoCobranza {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
 
         public bool IsVisibleImprimirCombrobanteAlIngresarCobranza {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
+
         public bool IsVisibleAsignarComisionDeVendedorEnCobranza {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
 
         public bool IsVisibleTexto {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
+
         public bool IsVisibleCambiarCobradorVendedor {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
-        
+
         public bool IsVisibleSugerirConsecutivoEnCobranza {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
+                return !mEsFacturadorBasico;
             }
         }
 

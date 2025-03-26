@@ -40,6 +40,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         #endregion
         #region Variables
         private FkAlmacenViewModel _ConexionCodigoAlmacenGenerico = null;
+        bool mEsFacturadorBasico;
         #endregion //Variables
         #region Propiedades
 
@@ -443,6 +444,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = SinonimoColorPropertyName;
             LibMessages.Notification.Send<eCantidadDeDecimales>(Model.CantidadDeDecimalesAsEnum, CantidadDeDecimalesPropertyName);
+            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
             //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
@@ -507,40 +509,19 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             return vSePuedeModificarUsaLoteFechaDeVencimiento;
         }
 
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
-            }
-        }
-
         public bool IsVisibleUsaLoteFechaDeVencimientCatDecimales {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
-
         public bool IsVisibleSinonimos {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
-        
         public bool IsVisibleBaseImpInsertarTrasnferencia {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
         #endregion //Metodos Generados

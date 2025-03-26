@@ -80,9 +80,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public CXCCobranzasComisionesViewModel(ComisionesStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = FormaDeCalcularComisionesSobreCobranzaPropertyName;
+            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
             //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
+        #region Variables
+        bool mEsFacturadorBasico;
+        #endregion
         #region Metodos Generados
 
         protected override void InitializeCommands() {
@@ -131,19 +135,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         
         public bool IsVisiblecmbFormaDeCalcularComisionesSobreCobranza {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
-            }
-        }
+
         #endregion //Metodos Generados
         
 

@@ -36,6 +36,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private FkConceptoBancarioViewModel _ConexionConceptoBancarioReversoAnticipoCobrado = null;
         private FkConceptoBancarioViewModel _ConexionConceptoBancarioReversoAnticipoPagado = null;
         private FkCuentaBancariaViewModel _ConexionCuentaBancariaAnticipo = null;
+        bool mEsFacturadorBasico;
         #endregion //Variables
         #region Propiedades
 
@@ -320,8 +321,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public BancosAnticipoViewModel(AnticipoStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = SugerirConsecutivoAnticipoPropertyName;
+            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
             //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
+
+        
         #endregion //Constructores
         #region Metodos Generados
 
@@ -576,17 +580,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsVisibleBancosAnticipo {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                 return !mEsFacturadorBasico;
             }
         }
 
         public bool IsVisibleBancosAnticipoCobrado {
             get {
-                if(EsFacturadorBasico) {
+                if (mEsFacturadorBasico) {
                     return false;
                 } else {
                     return true;
@@ -595,20 +595,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         public bool IsVisibleBancosAnticipoPagado {
-            get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
+            get { return !mEsFacturadorBasico; }
         }
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
-            }
-        }
+
 
     } //End of class AnticipoSttViewModel
 

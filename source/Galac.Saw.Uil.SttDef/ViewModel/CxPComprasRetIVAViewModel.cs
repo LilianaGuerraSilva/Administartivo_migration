@@ -278,10 +278,15 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public CxPComprasRetIVAViewModel()
             : this(new RetencionIVAStt(), eAccionSR.Insertar) {
         }
+        #region  Variables
+        bool mEsFacturadorBasico;
+        #endregion
+
         public CxPComprasRetIVAViewModel(RetencionIVAStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = EnDondeRetenerIVAPropertyName;
-           // Model.ConsecutivoCompania = Mfc.GetInt("Compania");
+            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
+            // Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -414,20 +419,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsVisibleRetencionIVA {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
 
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
-            }
-        }
 
     } //End of class CxPComprasRetIVAViewModel
 

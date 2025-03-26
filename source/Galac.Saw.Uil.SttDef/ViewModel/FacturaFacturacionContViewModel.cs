@@ -61,6 +61,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private FkConceptoBancarioViewModel _ConexionConceptoBancarioCobroMultimoneda = null;
         private FkCuentaBancariaViewModel _ConexionCuentaBancariaCobroMultimoneda = null;
         private DateTime _FechaInicioImprentaDigital;
+        bool mEsFacturadorBasico;
         #endregion //Variables
 
         #region Propiedades
@@ -659,6 +660,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = UsarOtrosCargoDeFacturaPropertyName;
             LibMessages.Notification.Register<string>(this, OnStringParametrosComunesChanged);
+            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
         }
         #endregion //Constructores
 
@@ -945,44 +947,22 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public bool EsFacturadorBasico {
+
+        public bool IsVisibleUsarCamposExtrasEnRenglonFactura {
             get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
+                return !mEsFacturadorBasico;
             }
         }
-
-        public bool IsUsarCamposExtrasEnRenglonFactura {
+        public bool IsVisibleUsarOtrosCargoDeFactura {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
-
-        public bool IsUsarOtrosCargoDeFactura {
-            get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
-
         public bool IsVisibleOtrosCargosCamposExtraEnDetalle {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
-
-
         public string PromptMostrarReconversionEnObservacion {
             get {
                 string vMensaje = "";

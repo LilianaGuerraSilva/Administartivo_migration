@@ -11,6 +11,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         #region Constantes
         public const string CalcularCostoDelArticuloTerminadoAPartirDePropertyName = "CalcularCostoDelArticuloTerminadoAPartirDe";
         #endregion
+
+        #region Variables
+        bool mEsFacturadorBasico;
+        #endregion
+
         #region Propiedades
         public override string ModuleName {
             get { return "5.5.- Producción"; }
@@ -53,6 +58,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public InventarioProduccionViewModel(ProduccionStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = CalcularCostoDelArticuloTerminadoAPartirDePropertyName;
+            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -82,18 +88,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsVisibleCalculoCosto {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
-
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
+                return !mEsFacturadorBasico;
             }
         }
         

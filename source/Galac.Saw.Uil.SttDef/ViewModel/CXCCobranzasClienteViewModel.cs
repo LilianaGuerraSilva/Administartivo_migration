@@ -38,6 +38,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         #endregion
         #region Variables
         private FkClienteViewModel _ConexionClienteGenerico = null;
+        bool mEsFacturadorBasico;
         #endregion //Variables
         #region Propiedades
 
@@ -264,18 +265,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsVisibleAvisoDeClienteConDeuda {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
-
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
+                return !mEsFacturadorBasico;
             }
         }
 
@@ -303,6 +293,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public CXCCobranzasClienteViewModel(ClienteStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = CodigoGenericoClientePropertyName;
+            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
             //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
@@ -363,7 +354,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         #endregion //Metodos Generados
-
 
     } //End of class CXCCobranzasClienteViewModel
 

@@ -49,7 +49,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string IsEnabledPlantillaFacturaOyDPropertyName = "IsEnabledPlantillaFacturaOyD";
         #endregion
         #region Variables
-        
+        bool mEsFacturadorBasico;
         #endregion //Variables
         #region Propiedades
 
@@ -278,13 +278,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
-            }
-        }
-
         public eTipoDePrefijo[] ArrayTipoDePrefijo {
             get {
                 return LibEnumHelper<eTipoDePrefijo>.GetValuesInArray();
@@ -408,14 +401,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 		
         public bool IsVisibleUsarOtrosCargoDeFactura {
             get {
-                if(!EsFacturadorBasico) {
-                    return UsaOtrosCyD;
-                } else {
-                    return false;
-                }
-            }
+				return !mEsFacturadorBasico;
+				}
         }
-        public bool UsaOtrosCyD {
+        public bool UsaOtrosCyD { 
             get {
                 return true;
             }
@@ -463,16 +452,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public bool IsVisibleNombrePlantilla {
+        public bool IsVisibleNombrePlantillaFormatoOtrosCargosYDescuentos {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
-
         #endregion //Propiedades
         #region Constructores
         public FacturaModeloFacturaViewModel()
@@ -481,6 +465,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public FacturaModeloFacturaViewModel(ModeloDeFacturaStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = UsarDosTalonariosPropertyName;
+            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
         }
         #endregion //Constructores
         #region Metodos Generados

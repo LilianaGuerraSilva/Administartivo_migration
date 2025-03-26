@@ -34,6 +34,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string IsEnabledPrefijoNotaEntregaPropertyName = "IsEnabledPrefijoNotaEntrega";
         #endregion
         #region Variables
+        bool mEsFacturadorBasico;
         #endregion //Variables
         #region Propiedades
 
@@ -269,6 +270,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public NotasDeEntregaViewModel(NotaEntregaStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = TipoPrefijoNotaEntregaPropertyName;
+            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -350,28 +352,15 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsVisibleNotasDePago {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
         public bool IsVisibleOrdenesDeDespacho {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
-            }
-        }
+
         #endregion //Metodos Generados
 
     } //End of class NotaEntregaSttViewModel

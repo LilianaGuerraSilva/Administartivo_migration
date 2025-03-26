@@ -470,27 +470,15 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         
         public bool IsVisibleCuentaBancariaCobroDirecto {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !EsFacturadorBasico;
             }
         }
-
         public bool IsVisibleConceptoBancarioCobroDirecto {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !EsFacturadorBasico;
             }
         }
-
         #endregion //Metodos Generados
-
-
     } //End of class FacturaPuntoDeVentaViewModel
 
 } //End of namespace Galac.Saw.Uil.SttDef

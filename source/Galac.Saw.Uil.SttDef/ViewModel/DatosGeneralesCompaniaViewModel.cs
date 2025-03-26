@@ -44,6 +44,23 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string BaseDeCalculoParaAlicuotaEspecialPropertyName = "BaseDeCalculoParaAlicuotaEspecial";
 
         #endregion
+
+        #region Variables
+        bool mEsFacturadorBasico;
+        #endregion
+
+        #region Constructores
+        public DatosGeneralesCompaniaViewModel()
+           : this(new CompaniaStt(), eAccionSR.Insertar) {
+        }
+        public DatosGeneralesCompaniaViewModel(CompaniaStt initModel, eAccionSR initAction)
+           : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
+            DefaultFocusedPropertyName = AutorellenaResumenDiarioPropertyName;
+            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
+            //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
+        }
+        #endregion //Constructores
+
         #region Propiedades
 
         public override string ModuleName {
@@ -333,7 +350,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsVisibleTipoNegocio {
             get {
-                if(LibString.IsNullOrEmpty(AppMemoryInfo.GlobalValuesGetString("Parametros","PuedeUsarTallerMecanico")) || EsFacturadorBasico) {
+                if(LibString.IsNullOrEmpty(AppMemoryInfo.GlobalValuesGetString("Parametros","PuedeUsarTallerMecanico")) || mEsFacturadorBasico) {
                     return false;
                 } else {
                     return AppMemoryInfo.GlobalValuesGetBool("Parametros","PuedeUsarTallerMecanico");
@@ -414,23 +431,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return false;
             }
         } 
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
-            }
-        }
         #endregion //Propiedades
-        #region Constructores
-        public DatosGeneralesCompaniaViewModel()
-           : this(new CompaniaStt(),eAccionSR.Insertar) {
-        }
-        public DatosGeneralesCompaniaViewModel(CompaniaStt initModel,eAccionSR initAction)
-           : base(initModel,initAction,LibGlobalValues.Instance.GetAppMemInfo(),LibGlobalValues.Instance.GetMfcInfo()) {
-            DefaultFocusedPropertyName = AutorellenaResumenDiarioPropertyName;
-            //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
-        }
-        #endregion //Constructores
+
         #region Metodos Generados
 
         protected override void InitializeLookAndFeel(CompaniaStt valModel) {

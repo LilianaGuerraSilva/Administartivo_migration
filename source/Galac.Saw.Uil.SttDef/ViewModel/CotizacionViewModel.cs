@@ -26,6 +26,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string DetalleProdCompCotizacionPropertyName = "DetalleProdCompCotizacion";
         public const string CampoCodigoAlternativoDeArticuloPropertyName = "CampoCodigoAlternativoDeArticulo";
         #endregion
+
+        #region Variables
+        bool mEsFacturadorBasico;
+        #endregion
         #region Propiedades
 
         public override string ModuleName {
@@ -129,6 +133,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public CotizacionViewModel(CotizacionStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = ValidarArticulosAlGenerarFacturaPropertyName;
+            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
             //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
@@ -180,28 +185,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             return vResult;
         }
 
-        public bool EsFacturadorBasico {
+        public bool IsVisibleCotizacion {
             get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
+                return !mEsFacturadorBasico;
             }
         }
-
-        public bool IsEnabledCotizacion {
-            get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
-
-
-
 
         #endregion //Metodos Generados
-
 
     } //End of class CotizacionViewModel
 

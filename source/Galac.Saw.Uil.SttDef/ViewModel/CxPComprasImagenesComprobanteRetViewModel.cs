@@ -98,7 +98,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             get;
             private set;
         }
-        #endregion //Propiedades      
+        #endregion //Propiedades 
+
+        #region Variables
+        bool mEsFacturadorBasico;
+        #endregion //Propiedades  
         #region Constructores
         public CxPComprasImagenesComprobanteRetViewModel()
             : this(new ImagenesComprobantesRetencionStt(),eAccionSR.Insertar) {
@@ -106,6 +110,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public CxPComprasImagenesComprobanteRetViewModel(ImagenesComprobantesRetencionStt initModel,eAccionSR initAction)
             : base(initModel,initAction,LibGlobalValues.Instance.GetAppMemInfo(),LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = NombreFirmaPropertyName;
+            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
             //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
@@ -272,20 +277,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         
         public bool IsVisibleImagenesDeComprobantes {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
 
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
-            }
-        }
         #endregion //Metodos Generados        
     } //End of class ImagenesComprobantesRetencionStt
 } //End of namespace Galac.Saw.Uil.SttDef

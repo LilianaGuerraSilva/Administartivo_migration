@@ -27,6 +27,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string CalculoAutomaticoDeCostoPropertyName = "CalculoAutomaticoDeCosto";
         public const string IsVisibleDetalleCostoPropertyName = "IsVisibleDetalleCosto";
         #endregion
+
+        #region Variables
+        bool mEsFacturadorBasico;
+        #endregion
+
         #region Propiedades
 
         public override string ModuleName {
@@ -132,29 +137,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         
         public bool IsVisibleMetodoCosto {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return (MetodoDeCosteo == eTipoDeMetodoDeCosteo.CostoPromedio);
-                }
-
+                return !mEsFacturadorBasico;
             }
         }
+
         public bool IsVisibleDetalleCosto {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return (MetodoDeCosteo == eTipoDeMetodoDeCosteo.CostoPromedio);
-                }
-                
-            }
-        }
-
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
+                return !mEsFacturadorBasico;
             }
         }
 
@@ -166,7 +155,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public InventarioMetodoCostoViewModel(MetododecostosStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = MetodoDeCosteoPropertyName;
-          // Model.ConsecutivoCompania = Mfc.GetInt("Compania");
+            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
+            // Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
         #region Metodos Generados

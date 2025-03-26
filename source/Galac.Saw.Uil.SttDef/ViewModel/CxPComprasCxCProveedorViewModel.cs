@@ -40,6 +40,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         #endregion
         #region Variables
         private FkConceptoBancarioViewModel _ConexionConceptoBancarioReversoDePago = null;
+        bool mEsFacturadorBasico;
         #endregion //Variables
         #region Propiedades
 
@@ -337,7 +338,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsVisibleRetieneImpuestoMunicipal {
             get {
-                if(EsFacturadorBasico) {
+                if (mEsFacturadorBasico) {
                     return false;
                 } else {
                     string vNombreCiudad = AppMemoryInfo.GlobalValuesGetString("Parametros", "Ciudad");
@@ -355,6 +356,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public CxPComprasCxCProveedorViewModel(CxPProveedorPagosStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = NombrePlantillaComprobanteDePagoPropertyName;
+            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
             //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
@@ -531,18 +533,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsVisibleCxPProveedorPagos {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
-
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
+                return !mEsFacturadorBasico;
             }
         }
 

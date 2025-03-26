@@ -37,6 +37,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private FkCuentaBancariaViewModel _ConexionCodigoGenericoCuentaBancaria = null;
         private FkConceptoBancarioViewModel _ConexionConceptoDebitoBancario = null;
         private FkConceptoBancarioViewModel _ConexionConceptoCreditoBancario = null;
+        bool mEsFacturadorBasico;
         #endregion //Variables
         #region Propiedades
 
@@ -269,6 +270,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public BancosViewModel(BancosStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = RedondeaMontoCreditoBancarioPropertyName;
+            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
             //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
@@ -404,29 +406,16 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsVisibleBancos {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
 
         public bool IsVisibleBancosIGTF {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        } 
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
+                return !mEsFacturadorBasico;
             }
         }
+
     } //End of class BancosViewModel
 
 } //End of namespace Galac.Saw.Uil.SttDef

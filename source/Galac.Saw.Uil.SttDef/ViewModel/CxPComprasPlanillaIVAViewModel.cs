@@ -103,13 +103,17 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
         #endregion //Propiedades
         #region Constructores
+        #region Variables
+        bool mEsFacturadorBasico;
+        #endregion
         public CxPComprasPlanillaIVAViewModel()
             : this(new PlanillaDeIVAStt(), eAccionSR.Insertar) {
         }
         public CxPComprasPlanillaIVAViewModel(PlanillaDeIVAStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = CedulaContadorPropertyName;
-           // Model.ConsecutivoCompania = Mfc.GetInt("Compania");
+            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
+            // Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -134,29 +138,15 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsVisiblePlanillaIVAContador {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
-        
         public bool IsVisiblePlanillaIVAForma30 {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
-            }
-        }
+
         #endregion //Metodos Generados
 
 

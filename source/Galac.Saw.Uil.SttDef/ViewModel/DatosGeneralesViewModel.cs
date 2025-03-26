@@ -129,12 +129,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();      
-                return inslibsaw.EsVersionFacturadorBasico();
-            }
-        }
 
         public eFormaDeOrdenarCodigos[] ArrayFormaDeOrdenarCodigosString {
             get {
@@ -144,7 +138,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         //johana
         public bool IsVisibleNotaEntrega {
             get {
-                if(LibString.IsNullOrEmpty(AppMemoryInfo.GlobalValuesGetString("Parametros", "EsPilotoNotaEntrega"))|| EsFacturadorBasico) {
+                if (LibString.IsNullOrEmpty(AppMemoryInfo.GlobalValuesGetString("Parametros", "EsPilotoNotaEntrega"))|| mEsFacturadorBasico) {
                     return false;
                 } 
                 else {
@@ -155,31 +149,17 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsVisibleEditarIVAenCxCCxP {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
-
         public bool IsVisibleImprimirComprobanteCxC {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
-
         public bool IsVisibleImprimirComprobanteDeCxP {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !mEsFacturadorBasico;
             }
         }
         public string PromptIVA {
@@ -215,7 +195,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public bool isVisibleRifEnLaWeb{
             get {
                 bool vResult = true;
-                if(LibDefGen.ProgramInfo.IsCountryPeru() || EsFacturadorBasico) {
+                if (LibDefGen.ProgramInfo.IsCountryPeru() || mEsFacturadorBasico) {
                     vResult = false;
                 }
                 return vResult;
@@ -238,8 +218,14 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public DatosGeneralesViewModel(GeneralStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = UsaMultiplesAlicuotasPropertyName;
+            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
         }
         #endregion //Constructores
+
+        #region Variables
+        bool mEsFacturadorBasico;
+        #endregion
+
         #region Metodos Generados
 
         protected override void InitializeLookAndFeel(GeneralStt valModel) {
