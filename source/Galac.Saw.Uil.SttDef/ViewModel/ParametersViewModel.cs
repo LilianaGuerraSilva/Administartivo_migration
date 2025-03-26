@@ -382,7 +382,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private bool ModuloEsValidoParaVersion(string displayName) {
 
             bool vResult = true;
-            List<string> vModulosNoVisibles = new List<string>() { "8 - NotasDeEntrega", "3.1.- Cotización" , "7.1.- Bancos", "7.3.- Anticipo", "7.4.- Movimiento Bancario", "7.5.- Transferencias Bancarias", "4.2.- Cobranzas", "4.3.- Comisiones", "5.3.- Método  de costos", "5.5.- Producción" , "6.1.- Compras",
+            List<string> vModulosNoVisibles = new List<string>() { "8 - NotasDeEntrega", "3.1.- Cotización" , "7.1.- Bancos", "7.3.- Anticipo", "7.4.- Movimiento Bancario", "7.5.- Transferencias Bancarias", "4.2.- Cobranzas", "4.3.- Comisiones", "5.3.- Método  de costos", "5.5.- Producción" ,"6 - CxP/Compras" ,"6.1.- Compras",
                                                                     "6.2.- CxP / Proveedor / Pagos","6.3.- Retención IVA","6.4.- Retención ISLR","6.5.- Planilla de IVA (Forma 30)","6.6.- Imágenes para Comprobantes","7.3.- Anticipo","7.4.- Movimiento Bancario","7.5.- Transferencia Bancaria"}; // Aqui colocar todos iten que no quieren que se muestren, es un poco manual
             clsLibSaw insLibSaw = new clsLibSaw();
             if(insLibSaw.EsFacturadorBasico()) {
