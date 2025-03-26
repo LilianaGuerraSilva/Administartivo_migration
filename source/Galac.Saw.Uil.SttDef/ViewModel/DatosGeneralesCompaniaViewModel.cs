@@ -53,6 +53,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public DatosGeneralesCompaniaViewModel()
            : this(new CompaniaStt(), eAccionSR.Insertar) {
         }
+
         public DatosGeneralesCompaniaViewModel(CompaniaStt initModel, eAccionSR initAction)
            : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = AutorellenaResumenDiarioPropertyName;
