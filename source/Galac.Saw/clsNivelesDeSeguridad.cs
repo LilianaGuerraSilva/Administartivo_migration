@@ -24,7 +24,7 @@ namespace Galac.Saw {
             }
             int vLastLevel = vPlantillaPermisologia.MaxGroupLevel();
             
-            if (!new clsLibSaw().EsVersionFacturadorBasico()) {
+            if (!new clsLibSaw().EsFacturadorBasico()) {
                 vLastLevel++;
                 Galac.Contab.SLev.clsSLev insNivelesWco = new Galac.Contab.SLev.clsSLev(true, true, false, true);
                 List<CustomRole> vPlantillaWco = insNivelesWco.PlantillaPermisosComun(vLastLevel);

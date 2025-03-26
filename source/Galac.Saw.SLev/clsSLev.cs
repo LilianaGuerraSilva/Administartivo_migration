@@ -18,7 +18,7 @@ namespace Galac.Saw.SLev {
         
         public List<CustomRole> PlantillaPermisos() {
             clsLibSaw insLibSaw = new clsLibSaw();
-             bool DisponibleParaFacturadorBasico = !insLibSaw.EsVersionFacturadorBasico();
+             bool DisponibleParaFacturadorBasico = !insLibSaw.EsFacturadorBasico();
             
             List<CustomRole> vPermisos = new List<CustomRole>();
 
