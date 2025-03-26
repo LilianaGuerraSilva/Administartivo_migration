@@ -6423,10 +6423,15 @@ End Sub
 
 Public Function enum_menusDelSistemaAdministrativoToTitle(ByVal valMenu As menusDelSistemaAdministrativo) As String
    Select Case valMenu
-      Case me_PRINCIPALSAW: enum_menusDelSistemaAdministrativoToTitle = "Menú Principal - Factura / Cotización / Contrato"
+      Case me_PRINCIPALSAW:
+        If gDefGen.fHasAccessTo(148) Then
+           enum_menusDelSistemaAdministrativoToTitle = "Menú Principal - Factura"
+        Else
+           enum_menusDelSistemaAdministrativoToTitle = "Menú Principal - Factura / Cotización / Contrato"
+        End If
       Case me_CXC
-            If GetEsSistemaAdmInterno Then
-               enum_menusDelSistemaAdministrativoToTitle = "CxC / Cobranzas / Vendedor / Orden de Servicio"
+            If gDefGen.fHasAccessTo(148) Then
+               enum_menusDelSistemaAdministrativoToTitle = "Cliente / Vendedor"
             Else
                enum_menusDelSistemaAdministrativoToTitle = "CxC / Cobranzas / Vendedor"
             End If
@@ -6472,7 +6477,12 @@ Public Function enum_menusDelSistemaAdministrativoToTitle(ByVal valMenu As menus
       Case me_CONEXIONAXI: enum_menusDelSistemaAdministrativoToTitle = "Ajuste por Inflación"
       Case me_CAJA_CHICA_RENDICION: enum_menusDelSistemaAdministrativoToTitle = "Reposición de Caja Chica"
       Case me_ESTRUCTURA_COSTOS: enum_menusDelSistemaAdministrativoToTitle = "Estructura de Costos"
-      Case me_CONVERSION_RESPALDO_LOTE: enum_menusDelSistemaAdministrativoToTitle = "Conversión / Respaldar / Lote"
+      Case me_CONVERSION_RESPALDO_LOTE
+         If gDefGen.fHasAccessTo(148) Then
+            enum_menusDelSistemaAdministrativoToTitle = "Respaldar / Lote"
+         Else
+            enum_menusDelSistemaAdministrativoToTitle = "Conversión / Respaldar / Lote"
+         End If
       Case me_TABLASSAW_CONT: enum_menusDelSistemaAdministrativoToTitle = "Mantenimiento de Tablas Continuación"
       Case me_PRODUCCION: enum_menusDelSistemaAdministrativoToTitle = "Producción"
       Case Else: enum_menusDelSistemaAdministrativoToTitle = enum_menusDelSistemaAdministrativoToTitle(0)
