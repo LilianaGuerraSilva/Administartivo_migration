@@ -8,7 +8,7 @@ namespace Galac.Saw.Ccl.Inventario {
     public class ExistenciaPorAlmacenDetLoteInv: IEquatable<ExistenciaPorAlmacenDetLoteInv>, INotifyPropertyChanged, ICloneable {
         #region Variables
         private int _ConsecutivoCompania;
-        private string _CodigoAlmacen;
+        private int _CosecutivoAlmacen;
         private string _CodigoArticulo;
         private int _ConsecutivoLoteInventario;
         private decimal _Cantidad;
@@ -21,9 +21,9 @@ namespace Galac.Saw.Ccl.Inventario {
             set { _ConsecutivoCompania = value; }
         }
 
-        public string CodigoAlmacen {
-            get { return _CodigoAlmacen; }
-            set { _CodigoAlmacen = LibString.Mid(value, 0, 5); }
+        public int CosecutivoAlmacen {
+            get { return _CosecutivoAlmacen; }
+            set { _CosecutivoAlmacen = value; }
         }
 
         public string CodigoArticulo {
@@ -46,7 +46,7 @@ namespace Galac.Saw.Ccl.Inventario {
 
         public string Ubicacion {
             get { return _Ubicacion; }
-            set { _Ubicacion = LibString.Mid(value, 0, 30); }
+            set { _Ubicacion = LibString.Mid(value, 0, 100); }
         }
         #endregion //Propiedades
         #region Constructores
@@ -63,7 +63,7 @@ namespace Galac.Saw.Ccl.Inventario {
 
         public void Clear() {
             ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
-            CodigoAlmacen = string.Empty;
+            CosecutivoAlmacen = 0;
             CodigoArticulo = string.Empty;
             ConsecutivoLoteInventario = 0;
             Cantidad = 0;
@@ -73,7 +73,7 @@ namespace Galac.Saw.Ccl.Inventario {
         public ExistenciaPorAlmacenDetLoteInv Clone() {
             ExistenciaPorAlmacenDetLoteInv vResult = new ExistenciaPorAlmacenDetLoteInv();
             vResult.ConsecutivoCompania = _ConsecutivoCompania;
-            vResult.CodigoAlmacen = _CodigoAlmacen;
+            vResult.CosecutivoAlmacen = _CosecutivoAlmacen;
             vResult.CodigoArticulo = _CodigoArticulo;
             vResult.ConsecutivoLoteInventario = _ConsecutivoLoteInventario;
             vResult.Cantidad = _Cantidad;
@@ -83,7 +83,7 @@ namespace Galac.Saw.Ccl.Inventario {
 
         public override string ToString() {
            return "Consecutivo Compania = " + _ConsecutivoCompania.ToString() +
-               "\nCodigo Almacen = " + _CodigoAlmacen +
+               "\nCosecutivo Almacen = " + _CosecutivoAlmacen.ToString() +
                "\nCodigo Articulo = " + _CodigoArticulo +
                "\nConsecutivo Lote Inventario = " + _ConsecutivoLoteInventario.ToString() +
                "\nCantidad = " + _Cantidad.ToString() +
