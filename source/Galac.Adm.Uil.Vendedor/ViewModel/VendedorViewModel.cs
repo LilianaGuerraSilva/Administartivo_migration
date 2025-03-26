@@ -14,6 +14,7 @@ using Galac.Adm.Ccl.Vendedor;
 using Galac.Saw.Ccl.SttDef;
 using System.Xml.Linq;
 using LibGalac.Aos.Uil;
+using Galac.Saw.Lib;
 
 namespace Galac.Adm.Uil.Vendedor.ViewModel {
     public class VendedorViewModel: LibInputMasterViewModelMfc<Ccl.Vendedor.Vendedor> {
@@ -815,7 +816,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public bool IsVisibleAsignacionDeComisiones {
             get {
-                return CalculaComisionesSobreRenglones();
+                return CalculaComisionesSobreRenglones() && !new clsLibSaw().EsFacturadorBasico();
             }
         }
 
@@ -1027,7 +1028,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         protected override void ExecuteAction() {
             if (Action == eAccionSR.Insertar || Action == eAccionSR.Modificar) {                
-                if (!UsaComisionPorVenta && !UsaComisionPorCobranza) {
+                if (!UsaComisionPorVenta && !UsaComisionPorCobranza && !new clsLibSaw().EsFacturadorBasico()) {
                     LibMessages.MessageBox.Alert(this, "Recuerde asignar Comisiones de Venta y/o Cobranza a este Vendedor.", ModuleName);
                 }
             }
