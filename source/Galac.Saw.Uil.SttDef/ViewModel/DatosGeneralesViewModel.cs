@@ -135,7 +135,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return LibEnumHelper<eFormaDeOrdenarCodigos>.GetValuesInArray();
             }
         }
-        //johana
+ 
         public bool IsVisibleNotaEntrega {
             get {
                 if (LibString.IsNullOrEmpty(AppMemoryInfo.GlobalValuesGetString("Parametros", "EsPilotoNotaEntrega"))|| mEsFacturadorBasico) {

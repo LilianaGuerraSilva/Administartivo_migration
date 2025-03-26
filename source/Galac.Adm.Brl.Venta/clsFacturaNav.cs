@@ -470,7 +470,7 @@ namespace Galac.Adm.Brl.Venta {
             vSql.AppendLine(" AND Fecha  >= " + insSql.ToSqlValue(vFechaDesde));
             vSql.AppendLine(" AND Fecha  <= " + insSql.ToSqlValue(vFechaHasta));
             vSql.AppendLine(" AND StatusFactura = " + insSql.EnumToSqlValue((int)eStatusFactura.Borrador));
-            vSql.AppendLine(" AND (TipoDeDocumento = " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "OR TipoDeDocumento = " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + ")");
+            vSql.AppendLine(" AND (TipoDeDocumento = " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + " OR TipoDeDocumento = " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + ")");
             vSql.AppendLine(" AND ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
             return vSql.ToString();
         }
