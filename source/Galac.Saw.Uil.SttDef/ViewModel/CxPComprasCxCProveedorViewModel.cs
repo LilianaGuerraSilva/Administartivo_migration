@@ -338,15 +338,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsVisibleRetieneImpuestoMunicipal {
             get {
-                if (mEsFacturadorBasico) {
-                    return false;
-                } else {
-                    string vNombreCiudad = AppMemoryInfo.GlobalValuesGetString("Parametros", "Ciudad");
-                    int vConsecutivoMunicipio = AppMemoryInfo.GlobalValuesGetInt("Parametros", "ConsecutivoMunicipio");
-                    string vCodigoMunicipio = AppMemoryInfo.GlobalValuesGetString("Parametros", "CodigoMunicipio");
-                    return clsUtilParameters.SePuedeRetenerParaEsteMunicipio(vNombreCiudad, vConsecutivoMunicipio) && clsUtilParameters.PuedeActivarModulo(vCodigoMunicipio);
+                string vNombreCiudad = AppMemoryInfo.GlobalValuesGetString("Parametros", "Ciudad");
+                int vConsecutivoMunicipio = AppMemoryInfo.GlobalValuesGetInt("Parametros", "ConsecutivoMunicipio");
+                string vCodigoMunicipio = AppMemoryInfo.GlobalValuesGetString("Parametros", "CodigoMunicipio");
+                return clsUtilParameters.SePuedeRetenerParaEsteMunicipio(vNombreCiudad, vConsecutivoMunicipio) && clsUtilParameters.PuedeActivarModulo(vCodigoMunicipio) && !mEsFacturadorBasico;
                 }
-            }
         }
         #endregion //Propiedades
         #region Constructores
