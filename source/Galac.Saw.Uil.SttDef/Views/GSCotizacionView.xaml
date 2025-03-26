@@ -7,7 +7,6 @@
              xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
              xmlns:nsVm="clr-namespace:Galac.Saw.Uil.SttDef.ViewModel">
     <UserControl.Resources>
-    
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
@@ -16,13 +15,11 @@
             <DataTemplate x:Key="GroupBoxHeaderTemplate">
                 <TextBlock Text="{Binding }" FontWeight="Bold" Foreground="Navy" />
             </DataTemplate>
-            <BooleanToVisibilityConverter x:Key="boolToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
-
     <Grid Name="GVMain"  FocusManager.FocusedElement="{Binding ElementName=txtNombrePlantillaCotizacion}">
-        <GroupBox Style="{StaticResource GroupBoxStyle}" Header="" Visibility="{Binding Path=IsEnabledCotizacion, Converter={StaticResource boolToVisibilityConverter}}">
-            <Grid>
+        <GroupBox Style="{StaticResource GroupBoxStyle}" >
+          <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -35,17 +32,17 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Row="0" Grid.Column="0" Name="lblNombrePlantillaCotizacion" Content="Plantilla de Impresión.................................." Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=IsEnabledCotizacion, Converter={StaticResource boolToVisibilityConverter}}"  />
+                <Label Grid.Row="0" Grid.Column="0" Name="lblNombrePlantillaCotizacion" Content="Plantilla de Impresión.................................." Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSTextBoxWpf Grid.Row="0" Grid.Column="1" Name="txtNombrePlantillaCotizacion" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="50" Width="200" IsEnabled="{Binding Path=IsEnabled}"
-                                            Text="{Binding Path=NombrePlantillaCotizacion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" Visibility="{Binding Path=IsEnabledCotizacion, Converter={StaticResource boolToVisibilityConverter}}"/>
+                                            Text="{Binding Path=NombrePlantillaCotizacion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
 
-                <Button Grid.Row="0" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="203,0,0,0" Name="btnTemplate" VerticalAlignment="Center" Width="30" IsEnabled="{Binding Path=IsEnabled}" Command="{Binding Path=ChooseTemplateCommand}" Visibility="{Binding Path=IsEnabledCotizacion, Converter={StaticResource boolToVisibilityConverter}}" >...</Button>
-                <Label Grid.Row="1" Grid.Column="0" Name="lblDetalleProdCompCotizacion" Content="Imprimir Detalle de Productos Compuestos" Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=IsEnabledCotizacion, Converter={StaticResource boolToVisibilityConverter}}" />
-                <CheckBox Grid.Row="1" Grid.Column="1" Name="chkDetalleProdCompCotizacion" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=DetalleProdCompCotizacion}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}" Visibility="{Binding Path=IsEnabledCotizacion, Converter={StaticResource boolToVisibilityConverter}}"/>
-                <Label Grid.Row="2" Grid.Column="0" Name="lblUsaControlDespacho" Content="Usa Control Despacho ...................................." Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=IsEnabledCotizacion, Converter={StaticResource boolToVisibilityConverter}}" />
-                <CheckBox Grid.Row="2" Grid.Column="1" Name="chkUsaControlDespacho" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=UsaControlDespacho}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}" Visibility="{Binding Path=IsEnabledCotizacion, Converter={StaticResource boolToVisibilityConverter}}"/>
+                <Button Grid.Row="0" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="203,0,0,0" Name="btnTemplate" VerticalAlignment="Center" Width="30" IsEnabled="{Binding Path=IsEnabled}" Command="{Binding Path=ChooseTemplateCommand}">...</Button>
+                <Label Grid.Row="1" Grid.Column="0" Name="lblDetalleProdCompCotizacion" Content="Imprimir Detalle de Productos Compuestos" Style="{StaticResource LabelPrompt}" />
+                <CheckBox Grid.Row="1" Grid.Column="1" Name="chkDetalleProdCompCotizacion" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=DetalleProdCompCotizacion}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
+                <Label Grid.Row="2" Grid.Column="0" Name="lblUsaControlDespacho" Content="Usa Control Despacho ...................................." Style="{StaticResource LabelPrompt}" />
+                <CheckBox Grid.Row="2" Grid.Column="1" Name="chkUsaControlDespacho" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=UsaControlDespacho}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
 
-                <GroupBox Style="{StaticResource GroupBoxStyle}" Header="Generación de Facturas desde Cotización" Margin="3" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3"  HeaderTemplate="{StaticResource GroupBoxHeaderTemplate}" Visibility="{Binding Path=IsEnabledCotizacion, Converter={StaticResource boolToVisibilityConverter}}">
+                <GroupBox Style="{StaticResource GroupBoxStyle}" Header="Generación de Facturas desde Cotización" Margin="3" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3"  HeaderTemplate="{StaticResource GroupBoxHeaderTemplate}" >
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -58,16 +55,16 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <Label Grid.Row="0" Grid.Column="0" Name="lblLimpiezaDeCotizacionXFactura" Content="Limpieza de Pedidos de Cotización por Emisión de Factura" Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=IsEnabledCotizacion, Converter={StaticResource boolToVisibilityConverter}}" />
-                        <CheckBox Grid.Row="0" Grid.Column="1" Name="chkLimpiezaDeCotizacionXFactura" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=LimpiezaDeCotizacionXFactura}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}" Visibility="{Binding Path=IsEnabledCotizacion, Converter={StaticResource boolToVisibilityConverter}}"/>
-                        <Label Grid.Row="1" Grid.Column="0" Name="lblValidarArticulosAlGenerarFactura" Content="Validar Artículos al Generar Factura desde Cotización........" Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=IsEnabledCotizacion, Converter={StaticResource boolToVisibilityConverter}}" />
-                        <CheckBox Grid.Row="1" Grid.Column="1" Name="chkValidarArticulosAlGenerarFactura" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=ValidarArticulosAlGenerarFactura}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}" Visibility="{Binding Path=IsEnabledCotizacion, Converter={StaticResource boolToVisibilityConverter}}"/>
-                        <Label Grid.Row="2" Grid.Column="0" Name="lblCampoCodigoAlternativoDeArticulo" Content="Campo Definible de Cod. Alterno de Artí­culo........................" Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=IsEnabledCotizacion, Converter={StaticResource boolToVisibilityConverter}}" />
+                        <Label Grid.Row="0" Grid.Column="0" Name="lblLimpiezaDeCotizacionXFactura" Content="Limpieza de Pedidos de Cotización por Emisión de Factura" Style="{StaticResource LabelPrompt}" />
+                        <CheckBox Grid.Row="0" Grid.Column="1" Name="chkLimpiezaDeCotizacionXFactura" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=LimpiezaDeCotizacionXFactura}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
+                        <Label Grid.Row="1" Grid.Column="0" Name="lblValidarArticulosAlGenerarFactura" Content="Validar Artículos al Generar Factura desde Cotización........" Style="{StaticResource LabelPrompt}" />
+                        <CheckBox Grid.Row="1" Grid.Column="1" Name="chkValidarArticulosAlGenerarFactura" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=ValidarArticulosAlGenerarFactura}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
+                        <Label Grid.Row="2" Grid.Column="0" Name="lblCampoCodigoAlternativoDeArticulo" Content="Campo Definible de Cod. Alterno de Artí­culo........................" Style="{StaticResource LabelPrompt}" />
                         <nsWpfControls:GSComboBoxWpf Grid.Row="2" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbCampoCodigoAlternativoDeArticulo" Width="180"
                                                      IsSynchronizedWithCurrentItem="True"
                                                      ItemsSource="{Binding Path=ArrayCampoCodigoAlternativoDeArticulo}"
                                                      SelectedItem="{Binding Path=CampoCodigoAlternativoDeArticulo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                                                     IsEnabled="{Binding Path=IsEnabled}" Visibility="{Binding Path=IsEnabledCotizacion, Converter={StaticResource boolToVisibilityConverter}}" />
+                                                     IsEnabled="{Binding Path=IsEnabled}" />
 
                     </Grid>
                 </GroupBox>

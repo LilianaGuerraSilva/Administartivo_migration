@@ -14,7 +14,6 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
-using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class InventarioMetodoCostoViewModel : LibInputViewModelMfc<MetododecostosStt> {
@@ -129,32 +128,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return LibEnumHelper<eTipoDeMetodoDeCosteo>.GetValuesInArray();
             }
         }
-        
-        public bool IsVisibleMetodoCosto {
-            get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return (MetodoDeCosteo == eTipoDeMetodoDeCosteo.CostoPromedio);
-                }
 
-            }
-        }
         public bool IsVisibleDetalleCosto {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return (MetodoDeCosteo == eTipoDeMetodoDeCosteo.CostoPromedio);
-                }
-                
-            }
-        }
-
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
+                return (MetodoDeCosteo == eTipoDeMetodoDeCosteo.CostoPromedio);
             }
         }
 

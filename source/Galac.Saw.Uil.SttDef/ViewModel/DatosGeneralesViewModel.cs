@@ -14,8 +14,6 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
-using Galac.Saw.Lib;
-using System.Windows;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class DatosGeneralesViewModel : LibInputViewModelMfc<GeneralStt> {
@@ -129,59 +127,22 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();      
-                return inslibsaw.EsVersionFacturadorBasico();
-            }
-        }
-
         public eFormaDeOrdenarCodigos[] ArrayFormaDeOrdenarCodigosString {
             get {
                 return LibEnumHelper<eFormaDeOrdenarCodigos>.GetValuesInArray();
             }
         }
-        //johana
+
         public bool IsVisibleNotaEntrega {
             get {
-                if(LibString.IsNullOrEmpty(AppMemoryInfo.GlobalValuesGetString("Parametros", "EsPilotoNotaEntrega"))|| EsFacturadorBasico) {
+                if(LibString.IsNullOrEmpty(AppMemoryInfo.GlobalValuesGetString("Parametros", "EsPilotoNotaEntrega"))) {
                     return false;
-                } 
-                else {
-                     return AppMemoryInfo.GlobalValuesGetBool("Parametros", "EsPilotoNotaEntrega");
+                } else {
+                    return AppMemoryInfo.GlobalValuesGetBool("Parametros", "EsPilotoNotaEntrega");
                 }
             }
         }
 
-        public bool IsVisibleEditarIVAenCxCCxP {
-            get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
-
-        public bool IsVisibleImprimirComprobanteCxC {
-            get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
-
-        public bool IsVisibleImprimirComprobanteDeCxP {
-            get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
         public string PromptIVA {
             get {
                 return string.Format("Permitir Editar {0} en CxC y CxP..........................................................", AppMemoryInfo.GlobalValuesGetString("Parametros", "PromptIVA"));
@@ -201,26 +162,16 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public bool isVisibleMultiplesAlicuotas {
+        public bool isVisibleParaPeru {
            get {
               bool vResult = true;
               if (LibDefGen.ProgramInfo.IsCountryPeru()) {
                  vResult = false;
               }
-                return vResult;
+              return vResult;
            }
         }
 
-
-        public bool isVisibleRifEnLaWeb{
-            get {
-                bool vResult = true;
-                if(LibDefGen.ProgramInfo.IsCountryPeru() || EsFacturadorBasico) {
-                    vResult = false;
-                }
-                return vResult;
-            }
-        }
         public string CaptionValidarRifEnLaWeb {
            get {
               return string.Format("Validar {0} en la Web..............................................................................", AppMemoryInfo.GlobalValuesGetString("Parametros", "PromptRIF"));

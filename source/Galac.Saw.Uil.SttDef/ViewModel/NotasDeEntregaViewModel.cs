@@ -14,7 +14,6 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
-using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class NotasDeEntregaViewModel : LibInputViewModelMfc<NotaEntregaStt> {
@@ -346,31 +345,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private bool UsaImprentaDigital() {
             return LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaImprentaDigital"));
-        }
-
-        public bool IsVisibleNotasDePago {
-            get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
-        public bool IsVisibleOrdenesDeDespacho {
-            get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
-            }
         }
         #endregion //Metodos Generados
 

@@ -14,7 +14,6 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
-using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class FacturaModeloFacturaViewModel : LibInputViewModelMfc<ModeloDeFacturaStt> {
@@ -278,13 +277,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
-            }
-        }
-
         public eTipoDePrefijo[] ArrayTipoDePrefijo {
             get {
                 return LibEnumHelper<eTipoDePrefijo>.GetValuesInArray();
@@ -343,8 +335,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         public bool IsEnabledPlantillaFacturaOyD {
-            get{                
-                    return (Action != eAccionSR.Consultar) && !UsaImprentaDigital();        
+            get {
+                return (Action != eAccionSR.Consultar) && !UsaImprentaDigital();
             }
         }
         public bool IsEnabledTipoPrefijo {
@@ -408,11 +400,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 		
         public bool IsVisibleUsarOtrosCargoDeFactura {
             get {
-                if(!EsFacturadorBasico) {
-                    return UsaOtrosCyD;
-                } else {
-                    return false;
-                }
+                return UsaOtrosCyD;
             }
         }
         public bool UsaOtrosCyD {
@@ -460,16 +448,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public bool IsEnabledModeloDeFacturaModoTexto2 {
             get {
                 return !UsaImprentaDigital();
-            }
-        }
-
-        public bool IsVisibleNombrePlantilla {
-            get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
             }
         }
 

@@ -17,7 +17,6 @@ using Galac.Saw.Ccl.SttDef;
 using System.Text;
 
 using System.Windows.Forms ;
-using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class CxPComprasRetIVAViewModel : LibInputViewModelMfc<RetencionIVAStt> {
@@ -412,22 +411,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public bool IsVisibleRetencionIVA {
-            get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
-
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
-            }
-        }
 
     } //End of class CxPComprasRetIVAViewModel
 

@@ -15,7 +15,6 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Uil;
-using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class CxPComprasCxCProveedorViewModel : LibInputViewModelMfc<CxPProveedorPagosStt> {
@@ -337,14 +336,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsVisibleRetieneImpuestoMunicipal {
             get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    string vNombreCiudad = AppMemoryInfo.GlobalValuesGetString("Parametros", "Ciudad");
-                    int vConsecutivoMunicipio = AppMemoryInfo.GlobalValuesGetInt("Parametros", "ConsecutivoMunicipio");
-                    string vCodigoMunicipio = AppMemoryInfo.GlobalValuesGetString("Parametros", "CodigoMunicipio");
-                    return clsUtilParameters.SePuedeRetenerParaEsteMunicipio(vNombreCiudad, vConsecutivoMunicipio) && clsUtilParameters.PuedeActivarModulo(vCodigoMunicipio);
-                }
+                string vNombreCiudad = AppMemoryInfo.GlobalValuesGetString("Parametros", "Ciudad");
+                int vConsecutivoMunicipio = AppMemoryInfo.GlobalValuesGetInt("Parametros", "ConsecutivoMunicipio");
+                string vCodigoMunicipio = AppMemoryInfo.GlobalValuesGetString("Parametros", "CodigoMunicipio");
+                return clsUtilParameters.SePuedeRetenerParaEsteMunicipio(vNombreCiudad, vConsecutivoMunicipio) && clsUtilParameters.PuedeActivarModulo(vCodigoMunicipio);
             }
         }
         #endregion //Propiedades
@@ -529,22 +524,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             return vResult;
         }
 
-        public bool IsVisibleCxPProveedorPagos {
-            get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
 
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
-            }
-        }
+        
+
+
 
     } //End of class CxPComprasCxCProveedorViewModel
 

@@ -217,8 +217,7 @@
                     Grid.Row="1"
                     Grid.Column="0"
                     Content="Nombre Plantilla......................."
-                    Style="{StaticResource LabelPrompt}"
-                    Visibility="{Binding Path=IsVisibleNombrePlantilla, Converter={StaticResource booleanToVisibilityConverter}}"/>
+                    Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSTextBoxWpf
                     Name="txtNombrePlantillaFacturaOyD"
                     Grid.Row="1"
@@ -233,8 +232,7 @@
                     IsEnabled="{Binding Path=IsEnabledPlantillaFacturaOyD}"
                     MaxLength="50"
                     Style="{StaticResource TextBoxInputStyle}"
-                    Text="{Binding Path=NombrePlantillaSubFacturaConOtrosCargos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                    Visibility="{Binding Path=IsVisibleNombrePlantilla, Converter={StaticResource booleanToVisibilityConverter}}"/>
+                    Text="{Binding Path=NombrePlantillaSubFacturaConOtrosCargos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <Button
                     Name="btnTemplateTalonarioOyD"
                     Grid.Row="1"
@@ -245,8 +243,7 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Command="{Binding Path=ChooseTemplateCommandOyD}"
-                    IsEnabled="{Binding Path=IsEnabledPlantillaFacturaOyD}"
-                    Visibility="{Binding Path=IsVisibleNombrePlantilla, Converter={StaticResource booleanToVisibilityConverter}}">
+                    IsEnabled="{Binding Path=IsEnabledPlantillaFacturaOyD}">
                     ...
                 </Button>
             </Grid>

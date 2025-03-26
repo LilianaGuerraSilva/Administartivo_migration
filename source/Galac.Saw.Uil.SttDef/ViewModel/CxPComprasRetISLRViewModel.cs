@@ -15,7 +15,6 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Uil;
-using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class CxPComprasRetISLRViewModel:LibInputViewModelMfc<RetencionISLRStt> {
@@ -412,33 +411,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 throw;
             } catch(System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx,ModuleName);
-            }
-        }
-
-        public bool IsVisibleRetencionISLR {
-            get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
-
-        public bool IsVisibleRepresentanteLegal {
-            get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
-        
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
             }
         }
 

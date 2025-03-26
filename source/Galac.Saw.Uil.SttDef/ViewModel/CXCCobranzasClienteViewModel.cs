@@ -15,7 +15,6 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Uil;
-using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class CXCCobranzasClienteViewModel : LibInputViewModelMfc<ClienteStt> {
@@ -259,23 +258,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public bool IsEnabledMontoApartirDelCualEnviarAvisoDeuda {
             get {
                 return IsEnabled && AvisoDeClienteConDeuda;
-            }
-        }
-
-        public bool IsVisibleAvisoDeClienteConDeuda {
-            get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
-
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
             }
         }
 

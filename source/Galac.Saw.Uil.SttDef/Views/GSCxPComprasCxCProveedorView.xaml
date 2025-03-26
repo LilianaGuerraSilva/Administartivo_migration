@@ -27,7 +27,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <GroupBox Style="{StaticResource GroupBoxStyle}" Header="Pagos / Orden de Pago" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Margin="3" Visibility="{Binding Path=IsVisibleCxPProveedorPagos, Converter={StaticResource booleanToVisibilityConverter}}" >
+        <GroupBox Style="{StaticResource GroupBoxStyle}" Header="Pagos / Orden de Pago" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Margin="3">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -76,7 +76,7 @@
             </Grid>
         </GroupBox>
 
-        <GroupBox Style="{StaticResource GroupBoxStyle}" Header="Cuentas por Pagar" Grid.Column="1" Grid.Row="1" Margin="3" Visibility="{Binding Path=IsVisibleCxPProveedorPagos, Converter={StaticResource booleanToVisibilityConverter}}">
+        <GroupBox Style="{StaticResource GroupBoxStyle}" Header="Cuentas por Pagar" Grid.Column="1" Grid.Row="1" Margin="3">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -97,7 +97,7 @@
             </Grid>
         </GroupBox>
 
-        <GroupBox Style="{StaticResource GroupBoxStyle}" Header="Proveedor" Grid.Column="0" Grid.Row="1" Margin="3" Visibility="{Binding Path=IsVisibleCxPProveedorPagos, Converter={StaticResource booleanToVisibilityConverter}}">
+        <GroupBox Style="{StaticResource GroupBoxStyle}" Header="Proveedor" Grid.Column="0" Grid.Row="1" Margin="3">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />

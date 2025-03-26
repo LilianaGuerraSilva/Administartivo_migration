@@ -15,7 +15,6 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Uil;
-using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class BancosViewModel : LibInputViewModelMfc<BancosStt> {
@@ -402,31 +401,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             return vResult;
         }
 
-        public bool IsVisibleBancos {
-            get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
-
-        public bool IsVisibleBancosIGTF {
-            get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        } 
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
-            }
-        }
     } //End of class BancosViewModel
 
 } //End of namespace Galac.Saw.Uil.SttDef

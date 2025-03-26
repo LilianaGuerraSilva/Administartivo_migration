@@ -12,7 +12,6 @@
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
                 <ResourceDictionary Source="/Galac.Saw.Uil.SttDef;component/Themes/rsdGroupBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     
@@ -27,7 +26,7 @@
             </Grid.RowDefinitions>
 
 
-        <GroupBox Grid.Row="0" Margin="3" Style="{StaticResource GroupBoxStyle}" Header="" Visibility="{Binding Path=IsVisibleBancosAnticipo, Converter={StaticResource booleanToVisibilityConverter}}">
+        <GroupBox Grid.Row="0" Margin="3" Style="{StaticResource GroupBoxStyle}" Header="">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -51,7 +50,7 @@
             </Grid>
         </GroupBox>
 
-        <GroupBox Grid.Row="1" Margin="3" Style="{StaticResource GroupBoxStyle}" Header="Anticipo Cobrado" Visibility="{Binding Path=IsVisibleBancosAnticipoCobrado, Converter={StaticResource booleanToVisibilityConverter}}">
+        <GroupBox Grid.Row="1" Margin="3" Style="{StaticResource GroupBoxStyle}" Header="Anticipo Cobrado">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -84,7 +83,7 @@
             </Grid>
         </GroupBox>
 
-        <GroupBox Grid.Row="2" Margin="3" Style="{StaticResource GroupBoxStyle}" Header="Anticipo Pagado" Visibility="{Binding Path=IsVisibleBancosAnticipoPagado, Converter={StaticResource booleanToVisibilityConverter}}">
+        <GroupBox Grid.Row="2" Margin="3" Style="{StaticResource GroupBoxStyle}" Header="Anticipo Pagado">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />

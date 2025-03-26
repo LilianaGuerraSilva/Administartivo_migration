@@ -7,7 +7,7 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Uil;
-using Galac.Saw.Lib;
+
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class InventarioViewModel : LibInputViewModelMfc<InventarioStt> {
@@ -507,42 +507,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             return vSePuedeModificarUsaLoteFechaDeVencimiento;
         }
 
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
-            }
-        }
-
-        public bool IsVisibleUsaLoteFechaDeVencimientCatDecimales {
-            get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
-
-        public bool IsVisibleSinonimos {
-            get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
-        
-        public bool IsVisibleBaseImpInsertarTrasnferencia {
-            get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
         #endregion //Metodos Generados
     } //End of class InventarioViewModel
 

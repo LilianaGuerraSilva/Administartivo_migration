@@ -13,10 +13,9 @@
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
                 <ResourceDictionary Source="/Galac.Saw.Uil.SttDef;component/Themes/rsdGroupBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
-    <GroupBox Header="" Style="{StaticResource GroupBoxStyle}" Visibility="{Binding Path=IsVisibleTransferenciaBancaria, Converter={StaticResource booleanToVisibilityConverter}}">
+    <GroupBox Header="" Style="{StaticResource GroupBoxStyle}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />

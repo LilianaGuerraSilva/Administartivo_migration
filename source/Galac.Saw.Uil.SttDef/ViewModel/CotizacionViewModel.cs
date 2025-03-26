@@ -14,7 +14,6 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
-using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class CotizacionViewModel : LibInputViewModelMfc<CotizacionStt> {
@@ -179,27 +178,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
             return vResult;
         }
-
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
-            }
-        }
-
-        public bool IsEnabledCotizacion {
-            get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
-
-
-
-
         #endregion //Metodos Generados
 
 

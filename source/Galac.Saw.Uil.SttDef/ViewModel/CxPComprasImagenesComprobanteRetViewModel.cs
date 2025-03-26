@@ -10,7 +10,6 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Ccl.SttDef;
 using Microsoft.Win32;
 using System.IO;
-using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class CxPComprasImagenesComprobanteRetViewModel:LibInputViewModelMfc<ImagenesComprobantesRetencionStt> {
@@ -268,23 +267,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 }
             }
             return vResult;
-        }
-        
-        public bool IsVisibleImagenesDeComprobantes {
-            get {
-                if(EsFacturadorBasico) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
-
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
-            }
         }
         #endregion //Metodos Generados        
     } //End of class ImagenesComprobantesRetencionStt
