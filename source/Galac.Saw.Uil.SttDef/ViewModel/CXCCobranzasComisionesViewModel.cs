@@ -80,7 +80,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public CXCCobranzasComisionesViewModel(ComisionesStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = FormaDeCalcularComisionesSobreCobranzaPropertyName;
-            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
             //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores

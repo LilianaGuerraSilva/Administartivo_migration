@@ -112,7 +112,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public CxPComprasPlanillaIVAViewModel(PlanillaDeIVAStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = CedulaContadorPropertyName;
-            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
             // Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores

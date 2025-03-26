@@ -58,7 +58,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public InventarioProduccionViewModel(ProduccionStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = CalcularCostoDelArticuloTerminadoAPartirDePropertyName;
-            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
         }
         #endregion //Constructores
         #region Metodos Generados

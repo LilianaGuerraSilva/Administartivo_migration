@@ -660,7 +660,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = UsarOtrosCargoDeFacturaPropertyName;
             LibMessages.Notification.Register<string>(this, OnStringParametrosComunesChanged);
-            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
         }
         #endregion //Constructores
 

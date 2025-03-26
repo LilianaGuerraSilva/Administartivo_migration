@@ -270,7 +270,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public BancosViewModel(BancosStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = RedondeaMontoCreditoBancarioPropertyName;
-            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
             //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores

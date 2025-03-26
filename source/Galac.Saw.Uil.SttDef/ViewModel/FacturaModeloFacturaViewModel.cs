@@ -452,7 +452,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public bool IsVisibleNombrePlantillaFormatoOtrosCargosYDescuentos {
+        public bool IsVisibleNombrePlantillaFacturaOyD {
             get {
                 return !mEsFacturadorBasico;
             }
@@ -465,7 +465,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public FacturaModeloFacturaViewModel(ModeloDeFacturaStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = UsarDosTalonariosPropertyName;
-            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
         }
         #endregion //Constructores
         #region Metodos Generados

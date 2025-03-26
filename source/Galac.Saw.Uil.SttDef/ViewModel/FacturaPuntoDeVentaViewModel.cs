@@ -37,6 +37,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         #region Variables
         private FkConceptoBancarioViewModel _ConexionConceptoBancarioCobroDirecto = null;
         private FkCuentaBancariaViewModel _ConexionCuentaBancariaCobroDirecto = null;
+        bool mEsFacturadorBasico;
         #endregion //Variables
         #region Propiedades
         public bool InitFirstTime { get; set; }        
@@ -256,7 +257,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             LibMessages.Notification.Register<bool>(this, OnBooleanParametrosComunesChanged);
             LibMessages.Notification.Register<eTipoDeNivelDePrecios>(this, OnTipoDeNivelDePreciosChanged);
             LibMessages.Notification.Register<string>(this, OnStringParametrosComunesChanged);
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
         }
+        
         #endregion //Constructores
         #region Metodos Generados
 
@@ -461,21 +464,15 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             return LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaImprentaDigital"));
         }
 
-        public bool EsFacturadorBasico {
-            get {
-                clsLibSaw inslibsaw = new clsLibSaw();
-                return inslibsaw.EsVersionFacturadorBasico();
-            }
-        }
         
         public bool IsVisibleCuentaBancariaCobroDirecto {
             get {
-                return !EsFacturadorBasico;
+                return !mEsFacturadorBasico;
             }
         }
         public bool IsVisibleConceptoBancarioCobroDirecto {
             get {
-                return !EsFacturadorBasico;
+                return !mEsFacturadorBasico;
             }
         }
         #endregion //Metodos Generados

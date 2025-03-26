@@ -444,7 +444,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = SinonimoColorPropertyName;
             LibMessages.Notification.Send<eCantidadDeDecimales>(Model.CantidadDeDecimalesAsEnum, CantidadDeDecimalesPropertyName);
-            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
             //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores

@@ -218,7 +218,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public DatosGeneralesViewModel(GeneralStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = UsaMultiplesAlicuotasPropertyName;
-            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
         }
         #endregion //Constructores
 

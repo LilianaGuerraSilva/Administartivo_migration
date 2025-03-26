@@ -119,7 +119,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public BancosTransferenciaViewModel(TransferenciaStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = ConceptoBancarioReversoTransfIngresoPropertyName;
-            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
         }
         #endregion //Constructores
         #region Metodos Generados

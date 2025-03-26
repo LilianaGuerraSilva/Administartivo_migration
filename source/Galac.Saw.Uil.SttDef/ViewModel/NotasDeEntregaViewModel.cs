@@ -270,7 +270,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public NotasDeEntregaViewModel(NotaEntregaStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = TipoPrefijoNotaEntregaPropertyName;
-            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
         }
         #endregion //Constructores
         #region Metodos Generados

@@ -188,7 +188,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = ImprimirOrdenDeCompraPropertyName;
             _GenerarCxPDesdeCompraOriginal = initModel.GenerarCxPdesdeCompraAsBool;
-            mEsFacturadorBasico = new clsLibSaw().EsVersionFacturadorBasico();
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
             //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
