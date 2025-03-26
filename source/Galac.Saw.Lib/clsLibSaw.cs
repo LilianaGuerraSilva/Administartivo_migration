@@ -464,9 +464,5 @@ namespace Galac.Saw.Lib {
             }
             return vResult;
         }
-
-        public bool EsVersionFacturadorBasico() {
-            return LibGalac.Aos.DefGen.LibDefGen.HasAccessTo(148);
-        }
     }
 }
