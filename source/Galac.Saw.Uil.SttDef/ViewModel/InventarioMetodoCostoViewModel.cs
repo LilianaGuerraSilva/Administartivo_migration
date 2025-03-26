@@ -143,7 +143,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsVisibleDetalleCosto {
             get {
-                return !mEsFacturadorBasico;
+                return (MetodoDeCosteo == eTipoDeMetodoDeCosteo.CostoPromedio) && !mEsFacturadorBasico;
             }
         }
 
