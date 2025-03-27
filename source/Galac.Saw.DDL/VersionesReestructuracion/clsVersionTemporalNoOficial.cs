@@ -19,6 +19,8 @@ using System.Data;
 using LibGalac.Aos.Cnf;
 using Galac.Saw.Lib;
 using LibGalac.Aos.DefGen;
+using Galac.Adm.Dal.Venta;
+using Galac.Saw.Dal.Inventario;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
 
@@ -39,6 +41,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             AgregaColumnasReglasDeContabilizacionCxCCreditoElectronico();
             AgregarDefaultValueOtrosCargos();
             CorrigeConstrainsGUIDNOtNullFactrua();
+            AgregarTablaExistenciaPorAlmacenDetLoteInv();
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -217,6 +220,35 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 
         private void CorrigeConstrainsGUIDNOtNullFactrua() {
             AddNotNullConstraint("factura", "ImprentaDigitalGUID", InsSql.VarCharTypeForDb(50));
+        }
+        private void AgregarTablaExistenciaPorAlmacenDetLoteInv() {
+            new clsExistenciaPorAlmacenDetLoteInvED().InstalarTabla();
+            if (TableExists("ExistenciaPorAlmacenDetLoteInv")) {
+                StringBuilder vSqlSb = new StringBuilder();
+                vSqlSb.AppendLine("INSERT INTO ExistenciaPorAlmacenDetLoteInv ");
+                vSqlSb.AppendLine("SELECT ");
+                vSqlSb.AppendLine("		ExistenciaPorAlmacen.ConsecutivoCompania AS ConsecutivoCompania,");
+                vSqlSb.AppendLine("		ExistenciaPorAlmacen.ConsecutivoAlmacen AS CosecutivoAlmacen,");
+                vSqlSb.AppendLine("		Saw.LoteDeInventario.CodigoArticulo AS CodigoArticulo,");
+                vSqlSb.AppendLine("		Saw.LoteDeInventario.Consecutivo AS ConsecutivoLoteInventario,");
+                vSqlSb.AppendLine("		SUM( Saw.LoteDeInventarioMovimiento.Cantidad) AS Cantidad,");
+                vSqlSb.AppendLine("		ExistenciaPorAlmacen.Ubicacion");
+                vSqlSb.AppendLine("	FROM");
+                vSqlSb.AppendLine("	Saw.LoteDeInventario");
+                vSqlSb.AppendLine("	INNER JOIN Saw.LoteDeInventarioMovimiento");
+                vSqlSb.AppendLine("		ON Saw.LoteDeInventario.ConsecutivoCompania = Saw.LoteDeInventarioMovimiento.ConsecutivoCompania");
+                vSqlSb.AppendLine("		AND Saw.LoteDeInventario.Consecutivo = Saw.LoteDeInventarioMovimiento.ConsecutivoLote");
+                vSqlSb.AppendLine("	INNER JOIN ExistenciaPorAlmacen");
+                vSqlSb.AppendLine("		ON ExistenciaPorAlmacen.ConsecutivoCompania  = Saw.LoteDeInventario.ConsecutivoCompania");
+                vSqlSb.AppendLine("		AND ExistenciaPorAlmacen.CodigoArticulo = Saw.LoteDeInventario.CodigoArticulo");
+                vSqlSb.AppendLine("		GROUP BY");
+                vSqlSb.AppendLine("			ExistenciaPorAlmacen.ConsecutivoCompania,");
+                vSqlSb.AppendLine("			ExistenciaPorAlmacen.ConsecutivoAlmacen,");
+                vSqlSb.AppendLine("			Saw.LoteDeInventario.CodigoArticulo ,");
+                vSqlSb.AppendLine("			Saw.LoteDeInventario.Consecutivo,");
+                vSqlSb.AppendLine("			ExistenciaPorAlmacen.Ubicacion");
+                Execute(vSqlSb.ToString(), 0);
+            }
         }
     }
 }
