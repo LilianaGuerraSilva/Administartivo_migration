@@ -19,7 +19,7 @@
     <UilComponent Name="UIMefInventarioLoteDeInventario" Module="Administrativo" SubModule="Inventario" />
     <UilComponent Name="UIMefAudiEnte" Module="Administrativo" SubModule="Auditoría SENIAT" />
 
-    <!--<UilComponent Name="UIMefCliente" Module="Administrativo" PathOfModuleImage="/Images/Saw.ico"/>
+    <!--<UilComponent Name="UIMefCliente" Module="Administrativo" PathOfModuleImage="/Images/Saw.ico"/>-->
 
     <UilComponent Name="UIMefTablasGenMoneda" Module="Administrativo" SubModule="Tablas Generales" />
     <UilComponent Name="UIMefTablasGenMonedaLocal" Module="Administrativo" SubModule="Tablas Generales" />
@@ -30,6 +30,9 @@
     <UilComponent Name="UIMefTablasGenMunicipio" Module="Administrativo" SubModule="Tablas Generales" />
     <UilComponent Name="UIMefTablasGenMunicipioCiudad" Module="Administrativo" SubModule="Tablas Generales" />
     <UilComponent Name="UIMefTablasGenCiudad" Module="Administrativo" SubModule="Tablas Generales" />
+    <UilComponent Name="UIMefTablasTipoProveedor" Module="Administrativo" SubModule="Tablas Generales"  />
+    <UilComponent Name="UIMefTablasPropAnalisisVenc" Module="Administrativo" SubModule="Tablas Generales"  />
+    
 
     <UilComponent Name="UIMefTablasLeyTarifaN2" Module="Administrativo" SubModule="Tablas de Ley" />
     <UilComponent Name="UIMefTablasLeyValorUT" Module="Administrativo" SubModule="Tablas de Ley" />
@@ -43,8 +46,6 @@
 
     <UilComponent Name="UIMefCajaChicaRendicion" Module="Administrativo" SubModule="Caja Chica" />
     <UilComponent Name="UIMefBancoCuentaBancaria" Module="Administrativo" SubModule="Caja Chica" />
-
-    <UilComponent Name="UIMefImpuestoFormatosImpMunicipales" Module="Administrativo" SubModule="Impuesto" />-->
 
     <UilComponent Name="UIMefImpuestoFormatosImpMunicipales" Module="Administrativo" SubModule="Impuesto" />
     
