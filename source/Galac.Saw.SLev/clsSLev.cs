@@ -63,10 +63,9 @@ namespace Galac.Saw.SLev {
             }
             vPermisos.Add(new CustomRole("Factura", "Informes Gerenciales", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Informes de Libros", "Principal", 1));
-            vPermisos.Add(new CustomRole("Factura", "Informes", "Principal", 1));
-            if (DisponibleParaFacturadorBasico) {
-                vPermisos.Add(new CustomRole("Factura", "Otorgar Descuento", "Principal", 1));
-            }
+            vPermisos.Add(new CustomRole("Factura", "Informes", "Principal", 1));            
+            vPermisos.Add(new CustomRole("Factura", "Otorgar Descuento", "Principal", 1));
+            
             vPermisos.Add(new CustomRole("Factura", "Cobro Directo", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Modificar Descripción y Precio de Doc. en Espera", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Modificar Precio de Doc. en Espera", "Principal", 1));
@@ -119,7 +118,7 @@ namespace Galac.Saw.SLev {
 
             #region Cliente
             var GroupNameCliente = "Cliente / CxC";
-            if (DisponibleParaFacturadorBasico) {
+            if (!DisponibleParaFacturadorBasico) {
                 GroupNameCliente = "Cliente";
             }
             vPermisos.Add(new CustomRole("Cliente", "Consultar", GroupNameCliente, 3));
@@ -239,7 +238,7 @@ namespace Galac.Saw.SLev {
 
             #region Vendedor
             var GroupNameVendedor = "CxP / Vendedor";
-            if (DisponibleParaFacturadorBasico) {
+            if (!DisponibleParaFacturadorBasico) {
                 GroupNameVendedor = "Vendedor";
             }            
             vPermisos.Add(new CustomRole("Vendedor", "Consultar", GroupNameVendedor, 5));
