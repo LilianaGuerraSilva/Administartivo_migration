@@ -145,7 +145,8 @@
                     Margin="3"
                     HorizontalAlignment="Left"
                     Content="{Binding LabelMontosDeComisiones}"
-                    Style="{StaticResource LabelSubTitle}" />
+                    Style="{StaticResource LabelSubTitle}"
+                    Visibility="{Binding Path=IsVisibleLabelMontosDeComisiones, Converter={StaticResource booleanToVisibilityConverter}}" />
             </Grid>
         </GroupBox>
         <TabControl

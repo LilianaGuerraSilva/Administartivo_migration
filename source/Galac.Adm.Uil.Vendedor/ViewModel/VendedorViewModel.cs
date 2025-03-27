@@ -922,6 +922,12 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         public RelayCommand<string> DeleteVendedorDetalleComisionesCommand {
             get { return DetailVendedorDetalleComisiones.DeleteCommand; }
         }
+
+        public bool IsVisibleLabelMontosDeComisiones {
+            get {
+                return !new clsLibSaw().EsFacturadorBasico();
+            }
+        }
         #endregion //Propiedades
         #region Constructores
         public VendedorViewModel()
