@@ -19,7 +19,6 @@ using System.Data;
 using LibGalac.Aos.Cnf;
 using Galac.Saw.Lib;
 using LibGalac.Aos.DefGen;
-using System.Data.Common;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
 
