@@ -524,6 +524,24 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return !mEsFacturadorBasico;
             }
         }
+
+        public bool IsVisibleUsaAlmacen {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+
+        public bool IsVisibleActivarFacturacionPorAlmacen {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+
+        public bool IsVisibleCodigoAlmacenGenerico {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
         #endregion //Metodos Generados
     } //End of class InventarioViewModel
 
