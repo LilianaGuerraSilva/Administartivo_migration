@@ -404,11 +404,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return !mEsFacturadorBasico;
 			}
         }
-        public bool UsaOtrosCyD {
-            get {
-                return true;
-            }
-        }
 
         public bool IsEnabledModeloDeFactura {
             get {

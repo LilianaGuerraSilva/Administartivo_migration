@@ -71,15 +71,19 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             var vResult = GetModuleList(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
             List<Module> vListResult = new List<Module>();
             foreach (var vModule in vResult) {
+                if (ModuloEsValidoParaVersion(vModule.DisplayName)) {
                 var vGroups = new GroupCollection();
                 foreach (var vGroup in vModule.Groups) {
-                    var vNewGroup = new Group(vGroup.DisplayName, ParseGroupContentToViewModel(vGroup.Content, initAccionSR));
-                    vGroups.Add(vNewGroup);
+                    if (ModuloEsValidoParaVersion(vGroup.DisplayName)) {
+                        var vNewGroup = new Group(vGroup.DisplayName, ParseGroupContentToViewModel(vGroup.Content, initAccionSR));
+                        vGroups.Add(vNewGroup);
+                    }
                 }
                 var vNewModule = new Module(vModule.DisplayName, vGroups);
                 vListResult.Add(vNewModule);
             }
             ModuleList = vListResult;
+            }
         }
 
         public ParametersViewModel(eAccionSR initAccionSR, bool firstTime) {
@@ -89,17 +93,17 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             List<Module> vListResult = new List<Module>();
             foreach(var vModule in vResult) {               
                 if(ModuloEsValidoParaVersion(vModule.DisplayName)) {
-                    var vGroups = new GroupCollection();
-                    foreach(var vGroup in vModule.Groups) {
-                        if(ModuloEsValidoParaVersion(vGroup.DisplayName)) {
-                            var vNewGroup = new Group(vGroup.DisplayName, ParseGroupContentToViewModel(vGroup.Content, initAccionSR));
-                            vGroups.Add(vNewGroup);
-                        }
+                var vGroups = new GroupCollection();
+                foreach(var vGroup in vModule.Groups) {
+                    if(ModuloEsValidoParaVersion(vGroup.DisplayName)) {
+                        var vNewGroup = new Group(vGroup.DisplayName, ParseGroupContentToViewModel(vGroup.Content, initAccionSR));
+                        vGroups.Add(vNewGroup);
                     }
-                    var vNewModule = new Module(vModule.DisplayName, vGroups);
-                    vListResult.Add(vNewModule);
-                }                
-                ModuleList = vListResult;
+                }
+                var vNewModule = new Module(vModule.DisplayName, vGroups);
+                vListResult.Add(vNewModule);
+            }                
+            ModuleList = vListResult;
             }
         }
 
