@@ -247,7 +247,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         [LibGridColum("Status", eGridColumType.Enum, PrintingMemberPath = "StatusLoteInvStr", DbMemberPath = "Saw.Gv_LoteDeInventario_B1.StatusLoteInv", Width = 75)]
         public eStatusLoteDeInventario StatusLoteInv { get; set; }
     }
-
     public class FkLoteDeInventarioConteoFisicoViewModel : IFkLoteDeInventarioViewModel
     {
         public int ConsecutivoCompania { get; set; }
@@ -328,4 +327,17 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
     //        }
     //    }
     //}
+
+    public class FkSerialRolloViewModel : IFkSerialRolloViewModel {
+        public int ConsecutivoCompania { get; set; }
+        public string CodigoAlmacen { get; set; }
+        public string CodigoArticulo { get; set; }
+        [LibGridColum("Serial")]
+        public string CodigoSerial { get; set; }
+        [LibGridColum("Rollo")]
+        public string CodigoRollo { get; set; }
+        [LibGridColum("Existencia", eGridColumType.Numeric, Alignment = eTextAlignment.Right)]
+        public decimal Cantidad { get; set; }
+        public int ConsecutivoAlmacen { get; set; }
+    }
 }
