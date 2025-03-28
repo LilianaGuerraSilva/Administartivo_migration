@@ -122,7 +122,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                         UsaMediosElectronicosDeCobro = false;
                         UsaCreditoElectronico = false;
                     }
-                    MostrarTotalesEnDivisas = Model.UsaCobroDirectoEnMultimonedaAsBool;
+                    if(Model.UsaCobroDirectoEnMultimonedaAsBool) {
+                        MostrarTotalesEnDivisas = true;
+                    }
                     RaisePropertyChanged(() => UsaCobroDirectoEnMultimoneda);
                     RaisePropertyChanged(() => ConceptoBancarioCobroMultimoneda);
                     RaisePropertyChanged(() => CuentaBancariaCobroMultimoneda);
