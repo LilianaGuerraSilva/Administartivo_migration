@@ -8,7 +8,7 @@ namespace Galac.Saw.Ccl.Inventario {
     public class ExistenciaPorAlmacenDetLoteInv: IEquatable<ExistenciaPorAlmacenDetLoteInv>, INotifyPropertyChanged, ICloneable {
         #region Variables
         private int _ConsecutivoCompania;
-        private int _CosecutivoAlmacen;
+        private int _ConsecutivoAlmacen;
         private string _CodigoArticulo;
         private int _ConsecutivoLoteInventario;
         private decimal _Cantidad;
@@ -21,9 +21,9 @@ namespace Galac.Saw.Ccl.Inventario {
             set { _ConsecutivoCompania = value; }
         }
 
-        public int CosecutivoAlmacen {
-            get { return _CosecutivoAlmacen; }
-            set { _CosecutivoAlmacen = value; }
+        public int ConsecutivoAlmacen {
+            get { return _ConsecutivoAlmacen; }
+            set { _ConsecutivoAlmacen = value; }
         }
 
         public string CodigoArticulo {
@@ -63,7 +63,7 @@ namespace Galac.Saw.Ccl.Inventario {
 
         public void Clear() {
             ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
-            CosecutivoAlmacen = 0;
+            ConsecutivoAlmacen = 0;
             CodigoArticulo = string.Empty;
             ConsecutivoLoteInventario = 0;
             Cantidad = 0;
@@ -73,7 +73,7 @@ namespace Galac.Saw.Ccl.Inventario {
         public ExistenciaPorAlmacenDetLoteInv Clone() {
             ExistenciaPorAlmacenDetLoteInv vResult = new ExistenciaPorAlmacenDetLoteInv();
             vResult.ConsecutivoCompania = _ConsecutivoCompania;
-            vResult.CosecutivoAlmacen = _CosecutivoAlmacen;
+            vResult.ConsecutivoAlmacen = _ConsecutivoAlmacen;
             vResult.CodigoArticulo = _CodigoArticulo;
             vResult.ConsecutivoLoteInventario = _ConsecutivoLoteInventario;
             vResult.Cantidad = _Cantidad;
@@ -83,7 +83,7 @@ namespace Galac.Saw.Ccl.Inventario {
 
         public override string ToString() {
            return "Consecutivo Compania = " + _ConsecutivoCompania.ToString() +
-               "\nCosecutivo Almacen = " + _CosecutivoAlmacen.ToString() +
+               "\nConsecutivo Almacen = " + _ConsecutivoAlmacen.ToString() +
                "\nCodigo Articulo = " + _CodigoArticulo +
                "\nConsecutivo Lote Inventario = " + _ConsecutivoLoteInventario.ToString() +
                "\nCantidad = " + _Cantidad.ToString() +
