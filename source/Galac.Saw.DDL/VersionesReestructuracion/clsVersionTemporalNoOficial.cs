@@ -38,7 +38,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             CamposCreditoElectronicoEnCajaApertura();
             AgregaColumnasReglasDeContabilizacionCxCCreditoElectronico();
             AgregarDefaultValueOtrosCargos();
-            CorrigeConstrainsGUIDNOtNullFactrua();
+            CorrigeConstrainsGUIDNOtNullFactura();
+            ActivaMostrarTotalEnDivisas();
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -215,8 +216,17 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             }
         }
 
-        private void CorrigeConstrainsGUIDNOtNullFactrua() {
+        private void CorrigeConstrainsGUIDNOtNullFactura() {
             AddNotNullConstraint("factura", "ImprentaDigitalGUID", InsSql.VarCharTypeForDb(50));
+        }
+
+        private void ActivaMostrarTotalEnDivisas() {
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("UPDATE Comun.SettvalueByCompany");
+            vSql.AppendLine("SET VALUE =" + InsSql.ToSqlValue(true));
+            vSql.AppendLine(" WHERE NameSettDefinition = " + InsSql.ToSqlValue("SeMuestraTotalEnDivisas"));
+            vSql.AppendLine(" AND ConsecutivoCompania IN (SELECT ConsecutivoCompania FROM Comun.SettvalueByCompany WHERE NameSettDefinition = " + InsSql.ToSqlValue("UsaCobroDirectoEnMultimoneda") + " AND Value = " + InsSql.ToSqlValue(true) + ")");
+            Execute(vSql.ToString());
         }
     }
 }

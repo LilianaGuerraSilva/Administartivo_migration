@@ -306,8 +306,7 @@
             Grid.Column="0"
             Margin="3"
             Header="Bloquear Emisión Al Perder Conexión con la Impresora Fiscal"
-            Style="{StaticResource GroupBoxStyle}"
-            Visibility="{Binding Path=isVisibleParaPeru, Converter={StaticResource booleanToVisibilityConverter}}">
+            Style="{StaticResource GroupBoxStyle}">
             <Grid Width="376">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -378,7 +377,7 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" MinWidth="30"/>
+                    <ColumnDefinition Width="*" MinWidth="30" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -424,7 +423,7 @@
                     Grid.Column="1"
                     HorizontalAlignment="Center"
                     IsChecked="{Binding SeMuestraTotalEnDivisas}"
-                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsEnabled="{Binding Path=IsEnabledSeMuestraTotalEnDivisas}"
                     Style="{StaticResource CheckBoxStyle}" />
                 <Label
                     Grid.Row="3"
