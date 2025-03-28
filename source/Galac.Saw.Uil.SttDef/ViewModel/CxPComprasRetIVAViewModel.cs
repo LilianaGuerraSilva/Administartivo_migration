@@ -360,7 +360,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                         vResult = new ValidationResult(ModuleName + "-> Debe seleccionar dónde efectuar la Retención del " + LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "PromptIVA"));
                     }
                 } else {
+                    if (!new clsLibSaw().EsFacturadorBasico()) {
                     EnDondeRetenerIVA = eDondeSeEfectuaLaRetencionIVA.NoRetenida;
+                    }
                     return ValidationResult.Success;
                 }
             }

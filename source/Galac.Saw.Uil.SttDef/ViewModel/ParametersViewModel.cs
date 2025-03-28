@@ -71,6 +71,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             var vResult = GetModuleList(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
             List<Module> vListResult = new List<Module>();
             foreach (var vModule in vResult) {
+                if (ModuloEsValidoParaVersion(vModule.DisplayName)) {
                 var vGroups = new GroupCollection();
                 foreach (var vGroup in vModule.Groups) {
                     var vNewGroup = new Group(vGroup.DisplayName, ParseGroupContentToViewModel(vGroup.Content, initAccionSR));
@@ -80,6 +81,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 vListResult.Add(vNewModule);
             }
             ModuleList = vListResult;
+            }
         }
 
         public ParametersViewModel(eAccionSR initAccionSR, bool firstTime) {
