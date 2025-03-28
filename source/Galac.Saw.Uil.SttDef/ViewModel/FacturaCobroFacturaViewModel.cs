@@ -122,6 +122,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                         UsaMediosElectronicosDeCobro = false;
                         UsaCreditoElectronico = false;
                     }
+                    if(Model.UsaCobroDirectoEnMultimonedaAsBool) {
+                        MostrarTotalesEnDivisas = true;
+                    }
                     RaisePropertyChanged(() => UsaCobroDirectoEnMultimoneda);
                     RaisePropertyChanged(() => ConceptoBancarioCobroMultimoneda);
                     RaisePropertyChanged(() => CuentaBancariaCobroMultimoneda);
@@ -251,7 +254,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     RaisePropertyChanged(() => IsEnabledCodigoClienteCreditoElectronico);
                     RaisePropertyChanged(() => IsEnabledGenerarUnaUnicaCuotaCreditoElectronico);
                     InicalizacionParametrosCreditoElectronico();
-                }
+                }                
             }
         }
 
@@ -368,6 +371,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     _ParametrosBancoMoneda = value;                    
                     RaisePropertyChanged("ParametrosBancoMoneda");
                 }
+            }
+        }
+
+        public bool MostrarTotalesEnDivisas {
+            set {
+                FacturaFacturacionContViewModel vFactContVM = ParametrosViewModel.ModuleList.Where(w => w.DisplayName == LibEnumHelper.GetDescription(eModulesLevelName.Factura)).FirstOrDefault().Groups.Where(y => y.DisplayName == new FacturaFacturacionContViewModel(null, eAccionSR.Consultar).ModuleName).FirstOrDefault().Content as FacturaFacturacionContViewModel;
+                vFactContVM.SeMuestraTotalEnDivisas = value;
             }
         }
 
