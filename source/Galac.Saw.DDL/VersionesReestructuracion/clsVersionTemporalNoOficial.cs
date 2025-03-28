@@ -223,9 +223,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         private void ActivaMostratTotalEnDivisas() {
             StringBuilder vSql = new StringBuilder();
             vSql.AppendLine("UPDATE Comun.SettvalueByCompany");
-            vSql.AppendLine("SET VALUE ='S'");
-            vSql.AppendLine("WHERE NameSettDefinition='SeMuestraTotalEnDivisas'");
-            vSql.AppendLine("AND ConsecutivoCompania IN (SELECT ConsecutivoCompania FROM Comun.SettvalueByCompany WHERE NameSettDefinition='UsaCobroDirectoEnMultimoneda' AND Value ='S')");
+            vSql.AppendLine("SET VALUE =" + InsSql.ToSqlValue(true));
+            vSql.AppendLine(" WHERE NameSettDefinition = " + InsSql.ToSqlValue("SeMuestraTotalEnDivisas"));
+            vSql.AppendLine(" AND ConsecutivoCompania IN (SELECT ConsecutivoCompania FROM Comun.SettvalueByCompany WHERE NameSettDefinition = " + InsSql.ToSqlValue("UsaCobroDirectoEnMultimoneda") + " AND Value = " + InsSql.ToSqlValue(true) + ")");
             Execute(vSql.ToString());
         }
     }
