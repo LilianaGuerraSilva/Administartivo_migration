@@ -15,7 +15,6 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
 using Galac.Saw.Lib;
-using System.Windows;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class DatosGeneralesViewModel : LibInputViewModelMfc<GeneralStt> {
@@ -129,7 +128,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-
         public eFormaDeOrdenarCodigos[] ArrayFormaDeOrdenarCodigosString {
             get {
                 return LibEnumHelper<eFormaDeOrdenarCodigos>.GetValuesInArray();
@@ -140,8 +138,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             get {
                 if (LibString.IsNullOrEmpty(AppMemoryInfo.GlobalValuesGetString("Parametros", "EsPilotoNotaEntrega"))|| mEsFacturadorBasico) {
                     return false;
-                } 
-                else {
+                } else {
                      return AppMemoryInfo.GlobalValuesGetBool("Parametros", "EsPilotoNotaEntrega");
                 }
             }

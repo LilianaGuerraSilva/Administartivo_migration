@@ -49,7 +49,6 @@
                 </StackPanel>
             </Border>
             <CheckBox Grid.Row="1" Grid.Column="1" Name="chkGenerarMovBancarioDesdeCobro" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=GenerarMovBancarioDesdeCobro}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
-
             <Label Grid.Row="3" Grid.Column="0" Name="lblUsaCodigoConceptoBancarioEnPantalla" Content="Usa Código Concepto Bancario en Pantalla..............................." Style="{StaticResource LabelPrompt}" />
             <CheckBox Grid.Row="3" Grid.Column="1" Name="chkUsaCodigoConceptoBancarioEnPantalla" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=UsaCodigoConceptoBancarioEnPantalla}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
 
@@ -93,8 +92,6 @@
 
             <Label Grid.Row="13" Grid.Column="0" Name="lblGenerarMovReversoSiAnulaPago" Content="Generar Movimiento Reverso Si Anula Pago..............................." Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=IsVisibleMovReversoSiAnulaPago, Converter={StaticResource booleanToVisibilityConverter}}" />
             <CheckBox Grid.Row="13" Grid.Column="1" Name="chkGenerarMovReversoSiAnulaPago" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=GenerarMovReversoSiAnulaPago}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}" Visibility="{Binding Path=IsVisibleMovReversoSiAnulaPago, Converter={StaticResource booleanToVisibilityConverter}}"/>
-
-
         </Grid>
     </GroupBox>
 </UserControl>

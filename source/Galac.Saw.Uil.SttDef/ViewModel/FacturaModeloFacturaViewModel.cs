@@ -401,10 +401,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 		
         public bool IsVisibleUsarOtrosCargoDeFactura {
             get {
-				return !mEsFacturadorBasico;
-				}
+                return !mEsFacturadorBasico;
+			}
         }
-        public bool UsaOtrosCyD { 
+        public bool UsaOtrosCyD {
             get {
                 return true;
             }
