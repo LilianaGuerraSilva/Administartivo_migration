@@ -226,6 +226,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             if (TableExists("ExistenciaPorAlmacenDetLoteInv")) {
                 StringBuilder vSqlSb = new StringBuilder();
                 vSqlSb.AppendLine("INSERT INTO ExistenciaPorAlmacenDetLoteInv ");
+                vSqlSb.AppendLine("      (ConsecutivoCompania, ConsecutivoAlmacen, CodigoArticulo, ConsecutivoLoteInventario, Cantidad, Ubicacion)");
                 vSqlSb.AppendLine("SELECT ");
                 vSqlSb.AppendLine("		ExistenciaPorAlmacen.ConsecutivoCompania AS ConsecutivoCompania,");
                 vSqlSb.AppendLine("		ExistenciaPorAlmacen.ConsecutivoAlmacen AS CosecutivoAlmacen,");
@@ -234,7 +235,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
                 vSqlSb.AppendLine("		SUM( Saw.LoteDeInventarioMovimiento.Cantidad) AS Cantidad,");
                 vSqlSb.AppendLine("		ExistenciaPorAlmacen.Ubicacion");
                 vSqlSb.AppendLine("	FROM");
-                vSqlSb.AppendLine("	Saw.LoteDeInventario");
+                vSqlSb.AppendLine("	    Saw.LoteDeInventario");
                 vSqlSb.AppendLine("	INNER JOIN Saw.LoteDeInventarioMovimiento");
                 vSqlSb.AppendLine("		ON Saw.LoteDeInventario.ConsecutivoCompania = Saw.LoteDeInventarioMovimiento.ConsecutivoCompania");
                 vSqlSb.AppendLine("		AND Saw.LoteDeInventario.Consecutivo = Saw.LoteDeInventarioMovimiento.ConsecutivoLote");
