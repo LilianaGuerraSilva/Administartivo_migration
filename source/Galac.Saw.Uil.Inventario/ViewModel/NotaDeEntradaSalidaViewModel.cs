@@ -743,6 +743,10 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public bool IsVisibleAlmacen {
             get { return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaAlmacen");}
         }
+        public bool IsEnabledCodigoAlmacen {
+            get { return NotaESIsEnabled; }
+        }
+        
     } //End of class NotaDeEntradaSalidaViewModel
 
 } //End of namespace Galac.Saw.Uil.Inventario

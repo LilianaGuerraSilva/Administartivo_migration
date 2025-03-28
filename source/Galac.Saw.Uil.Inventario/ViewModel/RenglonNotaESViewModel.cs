@@ -237,13 +237,12 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public bool IsVisibleRollo {
             get { return (ConexionCodigoArticulo != null) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.UsaSerialRollo); }
         }
-        public bool IsEnableSerial {
+        public bool IsEnabledSerial {
             get { return IsEnabled && (ConexionCodigoArticulo != null) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.UsaSerialRollo || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.UsaSerial); }
         }
-        public bool IsEnableRollo {
+        public bool IsEnabledRollo {
             get { return IsEnabled && (ConexionCodigoArticulo != null) && (Master.TipodeOperacion == eTipodeOperacion.EntradadeInventario) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.UsaSerialRollo); }
         }
-
         public eTipoArticuloInv[] ArrayTipoArticuloInv {
             get { return LibEnumHelper<eTipoArticuloInv>.GetValuesInArray(); }
         }
@@ -377,8 +376,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 RaisePropertyChanged(() => IsVisibleFechaDeVencimientoLoteDeInventario);
                 RaisePropertyChanged(() => IsVisibleSerial);
                 RaisePropertyChanged(() => IsVisibleRollo);
-                RaisePropertyChanged(() => IsEnableSerial);
-                RaisePropertyChanged(() => IsEnableRollo);
+                RaisePropertyChanged(() => IsEnabledSerial);
+                RaisePropertyChanged(() => IsEnabledRollo);
                 RaisePropertyChanged(() => SePuedeEditarCantidad);
             } catch (System.AccessViolationException) {
                 throw;
@@ -482,6 +481,9 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 return IsEnabled && Action != eAccionSR.Anular && Action != eAccionSR.ReImprimir && Action != eAccionSR.Reversar;
             }
         }
+        public bool IsEnabledCodigoArticulo {
+            get { return NotaESIsEnabled; }
+        }
         public bool SePuedeEditarCantidad {
             get { return IsEnabled && Action == eAccionSR.Insertar && ConexionCodigoArticulo != null && ConexionCodigoArticulo.TipoArticuloInv != eTipoArticuloInv.UsaSerial; }
         }
@@ -511,8 +513,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 }
                 RaisePropertyChanged(() => IsVisibleSerial);
                 RaisePropertyChanged(() => IsVisibleRollo);
-                RaisePropertyChanged(() => IsEnableSerial);
-                RaisePropertyChanged(() => IsEnableRollo);
+                RaisePropertyChanged(() => IsEnabledSerial);
+                RaisePropertyChanged(() => IsEnabledRollo);
                 RaisePropertyChanged(() => SePuedeEditarCantidad);
             } catch (System.AccessViolationException) {
                 throw;
@@ -525,7 +527,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else if (LibString.Len(LibString.Trim(Serial)) == 0 && (TipoArticuloInv == eTipoArticuloInv.UsaSerial || TipoArticuloInv == eTipoArticuloInv.UsaSerialRollo || TipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial )) {
-                vResult = new ValidationResult("Alguno de los valores de Serial no fue ingresado ( Artículo " + CodigoArticulo + ").  ");
+                vResult = new ValidationResult("Falta ingresar un valor de Serial ( Artículo " + CodigoArticulo + ").  ");
             }
             return vResult;
         }
@@ -534,7 +536,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else if (LibString.Len(LibString.Trim(Rollo)) == 0) {
-                vResult = new ValidationResult("Alguno de los valores de Rollo no fue ingresado ( Artículo " + CodigoArticulo + ").  ");
+                vResult = new ValidationResult("Falta ingresar un valor de Rollo ( Artículo " + CodigoArticulo + ").  ");
             }
             return vResult;
         }

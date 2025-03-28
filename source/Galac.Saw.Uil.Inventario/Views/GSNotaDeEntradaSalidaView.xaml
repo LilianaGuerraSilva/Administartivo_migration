@@ -131,7 +131,7 @@
             VerticalAlignment="Bottom"
             ConnectionValue="{Binding CodigoAlmacen, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             DisplayMemberPath="Codigo"
-            IsEnabled="{Binding NotaESIsEnabled}"
+            IsEnabled="{Binding IsEnabledCodigoAlmacen}"
             Model="{Binding ConexionCodigoAlmacen, Mode=TwoWay}"
             SearchCommand="{Binding ChooseCodigoAlmacenCommand}"
             Visibility="{Binding Path=IsVisibleAlmacen, Converter={StaticResource booleanToVisibilityConverter}}" />

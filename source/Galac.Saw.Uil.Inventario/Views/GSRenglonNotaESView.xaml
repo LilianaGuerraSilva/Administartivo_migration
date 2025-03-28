@@ -44,7 +44,7 @@
             Margin="3" 
             HorizontalAlignment="Left"
             VerticalContentAlignment="Center"
-            Width="250" IsEnabled="{Binding Path=NotaESIsEnabled}"
+            Width="250" IsEnabled="{Binding Path=IsEnabledCodigoArticulo}"
             DisplayMemberPath="Descripcion"
             Model="{Binding Path=ConexionCodigoArticulo, Mode=TwoWay}"
             ConnectionValue="{Binding Path=CodigoArticulo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
@@ -151,7 +151,7 @@
                 Style="{StaticResource LabelPrompt}" HorizontalAlignment="Left" Margin="3,3,0,0" />
             <nsWpfControls:GSSeekConnection 
                 Visibility="{Binding Path=IsVisibleSerial, Converter={StaticResource boolToVisibilityConverter}}" 
-                IsEnabled="{Binding Path=NotaESIsEnabled}"
+                IsEnabled="{Binding Path=IsEnabledSerial}"
                 Grid.Row="4" 
                 Grid.Column="1" 
                 x:Name="txtSerialChoose" 
@@ -184,7 +184,7 @@
                 nsWpf:LibFocusManager.IsFocused="True"
                 BorderThickness="1"
                 InputDataType="Alfanumeric"
-                IsEnabled="{Binding Path=IsEnableRollo}"
+                IsEnabled="{Binding Path=IsEnabledRollo}"
                 MaxLength="50"
                 VerticalContentAlignment="Center"
                 Style="{StaticResource TextBoxInputStyle}"
