@@ -15,7 +15,7 @@
             <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
-    <GroupBox Style="{StaticResource GroupBoxStyle}" Header="">
+    <GroupBox Style="{StaticResource GroupBoxStyle}" Header="" Visibility="{Binding Path=IsVisiblecmbFormaDeCalcularComisionesSobreCobranza, Converter={StaticResource booleanToVisibilityConverter}}">
         <Grid FocusManager.FocusedElement="{Binding ElementName=cmbFormaDeCalcularComisionesSobreCobranza}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />

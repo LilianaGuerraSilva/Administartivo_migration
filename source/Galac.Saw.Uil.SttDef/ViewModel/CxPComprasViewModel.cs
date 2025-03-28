@@ -15,7 +15,7 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
-
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class CxPComprasViewModel : LibInputViewModelMfc<ComprasStt> {
@@ -178,6 +178,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         #endregion //Propiedades
         #region Variables
         private bool _GenerarCxPDesdeCompraOriginal;
+        bool mEsFacturadorBasico;
         #endregion
         #region Constructores
         public CxPComprasViewModel()
@@ -187,6 +188,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = ImprimirOrdenDeCompraPropertyName;
             _GenerarCxPDesdeCompraOriginal = initModel.GenerarCxPdesdeCompraAsBool;
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
             //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
@@ -296,7 +298,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
             return vResult;
         }
-
         private void AdvertirQuePoseeCxPGeneradasDesdeCompra() {
             ISettValueByCompanyPdn insParametrosByCompany = new clsSettValueByCompanyNav();
             int vConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
@@ -318,6 +319,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 }
             }
         }
+        
+        public bool IsVisibleCompras {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+
     } //End of class CxPComprasViewModel
 
 } //End of namespace Galac.Saw.Uil.SttDef

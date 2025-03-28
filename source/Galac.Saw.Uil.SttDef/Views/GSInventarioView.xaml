@@ -13,6 +13,7 @@
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
                 <ResourceDictionary Source="/Galac.Saw.Uil.SttDef;component/Themes/rsdGroupBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid FocusManager.FocusedElement="{Binding ElementName=chkUsarBaseImponibleDiferenteA0Y100}">
@@ -34,7 +35,7 @@
             Grid.ColumnSpan="2"
             Margin="3"
             Header=""
-            Style="{StaticResource GroupBoxStyle}">
+            Style="{StaticResource GroupBoxStyle}" Visibility="{Binding Path=IsVisibleUsaLoteFechaDeVencimientCatDecimales, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" MinWidth="218" />
@@ -115,7 +116,8 @@
                     Grid.Column="0"
                     Content="Usa Almacén........"
                     IsEnabled="{Binding Path=IsEnabledUsalAlmacen}"
-                    Style="{StaticResource LabelPrompt}" />
+                    Style="{StaticResource LabelPrompt}"
+                    Visibility="{Binding Path=IsVisibleUsaAlmacen, Converter={StaticResource booleanToVisibilityConverter}}"/>
                 <CheckBox
                     Name="chkUsaAlmacen"
                     Grid.Row="0"
@@ -123,7 +125,8 @@
                     HorizontalAlignment="Left"
                     IsChecked="{Binding Path=UsaAlmacen}"
                     IsEnabled="{Binding Path=IsEnabledUsalAlmacen}"
-                    Style="{StaticResource CheckBoxStyle}" />
+                    Style="{StaticResource CheckBoxStyle}"
+                    Visibility="{Binding Path=IsVisibleUsaAlmacen, Converter={StaticResource booleanToVisibilityConverter}}"/>
 
 
                 <Label
@@ -133,7 +136,8 @@
                     Margin="3,3,16,0"
                     Content="Filtrar Inventario por Almacén al Facturar........................"
                     IsEnabled="{Binding Path=IsEnabledDatosAlmacen}"
-                    Style="{StaticResource LabelPrompt}" />
+                    Style="{StaticResource LabelPrompt}" 
+                    Visibility="{Binding Path=IsVisibleActivarFacturacionPorAlmacen, Converter={StaticResource booleanToVisibilityConverter}}"/>
                 <CheckBox
                     Name="chkActivarFacturacionPorAlmacen"
                     Grid.Row="1"
@@ -142,14 +146,16 @@
                     HorizontalAlignment="Left"
                     IsChecked="{Binding Path=ActivarFacturacionPorAlmacen}"
                     IsEnabled="{Binding Path=IsEnabledDatosAlmacen}"
-                    Style="{StaticResource CheckBoxStyle}" />
+                    Style="{StaticResource CheckBoxStyle}" 
+                    Visibility="{Binding Path=IsVisibleActivarFacturacionPorAlmacen, Converter={StaticResource booleanToVisibilityConverter}}"/>
 
                 <Label
                     Name="lblCodigoAlmacenGenerico"
                     Grid.Row="2"
                     Grid.Column="0"
                     Content="Almacén Genérico"
-                    Style="{StaticResource LabelPrompt}" />
+                    Style="{StaticResource LabelPrompt}"
+                    Visibility="{Binding Path=IsVisibleCodigoAlmacenGenerico, Converter={StaticResource booleanToVisibilityConverter}}"/>
                 <nsWpfControls:GSSeekConnection
                     Name="txtCodigoAlmacenGenerico"
                     Grid.Row="2"
@@ -162,7 +168,8 @@
                     DisplayMemberPath="Codigo"
                     IsEnabled="{Binding Path=IsEnabledDatosAlmacen}"
                     Model="{Binding Path=ConexionAlmacenGenerico, Mode=TwoWay}"
-                    SearchCommand="{Binding Path=ChooseAlmacenGenericoCommand}" />
+                    SearchCommand="{Binding Path=ChooseAlmacenGenericoCommand}" 
+                    Visibility="{Binding Path=IsVisibleCodigoAlmacenGenerico, Converter={StaticResource booleanToVisibilityConverter}}"/>
                 <Label
                     Name="lneNombreAlmacenGenerico"
                     Grid.Row="2"
@@ -171,7 +178,8 @@
                     Margin="3"
                     Content="{Binding Path=NombreAlmacenGenerico}"
                     IsEnabled="{Binding Path=IsEnabledDatosAlmacen}"
-                    Style="{StaticResource LabelCalculatedField}" />
+                    Style="{StaticResource LabelCalculatedField}"
+                    Visibility="{Binding Path=IsVisibleCodigoAlmacenGenerico, Converter={StaticResource booleanToVisibilityConverter}}"/>
 
 
                 <Label
@@ -199,7 +207,7 @@
             Grid.Column="0"
             Margin="3"
             Header="Sinónimos"
-            Style="{StaticResource GroupBoxStyle}">
+            Style="{StaticResource GroupBoxStyle}" Visibility="{Binding Path=IsVisibleSinonimos, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -419,7 +427,7 @@
             Grid.Column="1"
             Margin="3"
             Header=""
-            Style="{StaticResource GroupBoxStyle}">
+            Style="{StaticResource GroupBoxStyle}" Visibility="{Binding Path=IsVisibleSinonimos, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" MinWidth="195" />
@@ -502,7 +510,7 @@
             Grid.ColumnSpan="2"
             Margin="3"
             Header=""
-            Style="{StaticResource GroupBoxStyle}">
+            Style="{StaticResource GroupBoxStyle}" Visibility="{Binding Path=IsVisibleBaseImpInsertarTrasnferencia, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />

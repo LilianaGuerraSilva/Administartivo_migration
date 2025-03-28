@@ -4,12 +4,18 @@ using LibGalac.Aos.UI.Mvvm;
 using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.DefGen;
 using LibGalac.Aos.UI.Mvvm.Messaging;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class InventarioProduccionViewModel : LibInputViewModelMfc<ProduccionStt> {
         #region Constantes
         public const string CalcularCostoDelArticuloTerminadoAPartirDePropertyName = "CalcularCostoDelArticuloTerminadoAPartirDe";
         #endregion
+
+        #region Variables
+        bool mEsFacturadorBasico;
+        #endregion
+
         #region Propiedades
         public override string ModuleName {
             get { return "5.5.- Producción"; }
@@ -52,6 +58,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public InventarioProduccionViewModel(ProduccionStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = CalcularCostoDelArticuloTerminadoAPartirDePropertyName;
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -78,6 +85,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private bool UsaMonedaExtranjera() {
             return LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaMonedaExtranjera"));
         }
+
+        public bool IsVisibleCalculoCosto {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+        
         #endregion //Metodos Generados
     } //End of class InventarioProduccionViewModel
 } //End of namespace Galac.Comun.Uil.SttDef

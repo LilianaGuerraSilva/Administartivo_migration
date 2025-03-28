@@ -15,6 +15,7 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Uil;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class CXCCobranzasViewModel : LibInputViewModelMfc<CobranzasStt> {
@@ -30,6 +31,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         #endregion
         #region Variables
         private FkConceptoBancarioViewModel _ConexionConceptoReversoCobranza = null;
+        bool mEsFacturadorBasico;
         #endregion //Variables
         #region Propiedades
 
@@ -190,6 +192,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public CXCCobranzasViewModel(CobranzasStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = NombrePlantillaCompobanteCobranzaPropertyName;
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
             //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
@@ -270,6 +273,72 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                }
             }
             return vResult;
+        }
+
+        public bool IsVisibleUsarZonaCobranza {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+
+        public bool IsVisibleNombrePlantillaCompobanteCobranza {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+
+        public bool IsVisiblelAsignarComisionDeVendedorEnCobranza {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+
+        public bool IsVisibleIsSugerirConsecutivoEnCobranzaUsarZonaCobranza {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+
+        public bool IsVisibleBloquearNumeroCobranza {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+
+        public bool IsVisibleConceptoReversoCobranza {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+
+        public bool IsVisibleImprimirCombrobanteAlIngresarCobranza {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+
+        public bool IsVisibleAsignarComisionDeVendedorEnCobranza {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+
+        public bool IsVisibleTexto {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+
+        public bool IsVisibleCambiarCobradorVendedor {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+
+        public bool IsVisibleSugerirConsecutivoEnCobranza {
+            get {
+                return !mEsFacturadorBasico;
+            }
         }
 
         #endregion //Metodos Generados
