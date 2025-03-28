@@ -273,7 +273,7 @@ namespace Galac.Saw.Brl.Inventario {
                         IList<NotaDeEntradaSalida> vItemList = new List<NotaDeEntradaSalida>();
                         vItemList.Add(vItem);
                         if (vItem.TipodeOperacionAsEnum == eTipodeOperacion.EntradadeInventario) {
-                            if (ValidaRegistroDeSerial(vItem)) {
+                            if (ValidaRegistroDeSerial(vItem)) {    // Para validar que un serial se registre una única vez. Tenga una sola entrada para el tipo ->Serial
                                 vResult = base.InsertRecord(vItemList, valUseDetail);
                                 if (vResult.Success) {
                                     ActualizaExistenciaDeArticulos(vItem, eAccionSR.Insertar);
