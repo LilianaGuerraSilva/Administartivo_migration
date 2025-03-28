@@ -14,6 +14,7 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class CotizacionViewModel : LibInputViewModelMfc<CotizacionStt> {
@@ -24,6 +25,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string LimpiezaDeCotizacionXFacturaPropertyName = "LimpiezaDeCotizacionXFactura";
         public const string DetalleProdCompCotizacionPropertyName = "DetalleProdCompCotizacion";
         public const string CampoCodigoAlternativoDeArticuloPropertyName = "CampoCodigoAlternativoDeArticulo";
+        #endregion
+
+        #region Variables
+        bool mEsFacturadorBasico;
         #endregion
         #region Propiedades
 
@@ -128,6 +133,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public CotizacionViewModel(CotizacionStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = ValidarArticulosAlGenerarFacturaPropertyName;
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
             //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
@@ -178,8 +184,14 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
             return vResult;
         }
-        #endregion //Metodos Generados
 
+        public bool IsVisibleCotizacion {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+
+        #endregion //Metodos Generados
 
     } //End of class CotizacionViewModel
 

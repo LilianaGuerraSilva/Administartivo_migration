@@ -14,6 +14,7 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class DatosGeneralesViewModel : LibInputViewModelMfc<GeneralStt> {
@@ -132,17 +133,32 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return LibEnumHelper<eFormaDeOrdenarCodigos>.GetValuesInArray();
             }
         }
-
+ 
         public bool IsVisibleNotaEntrega {
             get {
-                if(LibString.IsNullOrEmpty(AppMemoryInfo.GlobalValuesGetString("Parametros", "EsPilotoNotaEntrega"))) {
+                if (LibString.IsNullOrEmpty(AppMemoryInfo.GlobalValuesGetString("Parametros", "EsPilotoNotaEntrega"))|| mEsFacturadorBasico) {
                     return false;
                 } else {
-                    return AppMemoryInfo.GlobalValuesGetBool("Parametros", "EsPilotoNotaEntrega");
+                     return AppMemoryInfo.GlobalValuesGetBool("Parametros", "EsPilotoNotaEntrega");
                 }
             }
         }
 
+        public bool IsVisibleEditarIVAenCxCCxP {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+        public bool IsVisibleImprimirComprobanteCxC {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+        public bool IsVisibleImprimirComprobanteDeCxP {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
         public string PromptIVA {
             get {
                 return string.Format("Permitir Editar {0} en CxC y CxP..........................................................", AppMemoryInfo.GlobalValuesGetString("Parametros", "PromptIVA"));
@@ -162,16 +178,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public bool isVisibleParaPeru {
-           get {
-              bool vResult = true;
-              if (LibDefGen.ProgramInfo.IsCountryPeru()) {
-                 vResult = false;
-              }
-              return vResult;
-           }
-        }
 
+        public bool isVisibleRifEnLaWeb{
+            get { return !mEsFacturadorBasico;
+            }
+        }
         public string CaptionValidarRifEnLaWeb {
            get {
               return string.Format("Validar {0} en la Web..............................................................................", AppMemoryInfo.GlobalValuesGetString("Parametros", "PromptRIF"));
@@ -189,8 +200,14 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public DatosGeneralesViewModel(GeneralStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = UsaMultiplesAlicuotasPropertyName;
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
         }
         #endregion //Constructores
+
+        #region Variables
+        bool mEsFacturadorBasico;
+        #endregion
+
         #region Metodos Generados
 
         protected override void InitializeLookAndFeel(GeneralStt valModel) {

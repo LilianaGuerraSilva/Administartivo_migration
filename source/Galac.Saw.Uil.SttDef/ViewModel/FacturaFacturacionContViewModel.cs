@@ -11,9 +11,10 @@ using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Uil;
 using Galac.Saw.Reconv;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
-    public class FacturaFacturacionContViewModel : LibInputViewModelMfc<FacturacionContinuacionStt> {
+    public class FacturaFacturacionContViewModel: LibInputViewModelMfc<FacturacionContinuacionStt> {
 
         #region Constantes
         public const string UsarOtrosCargoDeFacturaPropertyName = "UsarOtrosCargoDeFactura";
@@ -60,6 +61,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private FkConceptoBancarioViewModel _ConexionConceptoBancarioCobroMultimoneda = null;
         private FkCuentaBancariaViewModel _ConexionCuentaBancariaCobroMultimoneda = null;
         private DateTime _FechaInicioImprentaDigital;
+        bool mEsFacturadorBasico;
         #endregion //Variables
 
         #region Propiedades
@@ -72,7 +74,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.UsarOtrosCargoDeFacturaAsBool;
             }
             set {
-                if (Model.UsarOtrosCargoDeFacturaAsBool != value) {
+                if(Model.UsarOtrosCargoDeFacturaAsBool != value) {
                     Model.UsarOtrosCargoDeFacturaAsBool = value;
                     IsDirty = true;
                     RaisePropertyChanged(UsarOtrosCargoDeFacturaPropertyName);
@@ -86,7 +88,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.UltimaFechaDeFacturacionHistorica;
             }
             set {
-                if (Model.UltimaFechaDeFacturacionHistorica != value) {
+                if(Model.UltimaFechaDeFacturacionHistorica != value) {
                     Model.UltimaFechaDeFacturacionHistorica = value;
                     IsDirty = true;
                     RaisePropertyChanged(UltimaFechaDeFacturacionHistoricaPropertyName);
@@ -99,7 +101,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.UsaCamposExtrasEnRenglonFacturaAsBool;
             }
             set {
-                if (Model.UsaCamposExtrasEnRenglonFacturaAsBool != value) {
+                if(Model.UsaCamposExtrasEnRenglonFacturaAsBool != value) {
                     Model.UsaCamposExtrasEnRenglonFacturaAsBool = value;
                     IsDirty = true;
                     RaisePropertyChanged(UsaCamposExtrasEnRenglonFacturaPropertyName);
@@ -113,9 +115,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.UsaCobroDirectoAsBool;
             }
             set {
-                if (Model.UsaCobroDirectoAsBool != value) {
+                if(Model.UsaCobroDirectoAsBool != value) {
                     Model.UsaCobroDirectoAsBool = value;
-                    if (!Model.UsaCobroDirectoAsBool) {
+                    if(!Model.UsaCobroDirectoAsBool) {
                         CuentaBancariaCobroDirecto = string.Empty;
                         ConceptoBancarioCobroDirecto = string.Empty;
                         UsaCobroDirectoEnMultimoneda = false;
@@ -124,7 +126,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                         UsaMaquinaFiscal = false;
                     } else {
                         EmitirDirecto = true;
-                        if (LibString.IsNullOrEmpty(CuentaBancariaCobroDirecto)) {
+                        if(LibString.IsNullOrEmpty(CuentaBancariaCobroDirecto)) {
                             ReloadCodigoGenericoCuentaBancaria();
                         }
                     }
@@ -154,7 +156,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.PermitirIncluirFacturacionHistoricaAsBool;
             }
             set {
-                if (Model.PermitirIncluirFacturacionHistoricaAsBool != value) {
+                if(Model.PermitirIncluirFacturacionHistoricaAsBool != value) {
                     Model.PermitirIncluirFacturacionHistoricaAsBool = value;
                     IsDirty = true;
                     RaisePropertyChanged(PermitirIncluirFacturacionHistoricaPropertyName);
@@ -168,7 +170,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.PermitirDobleDescuentoEnFacturaAsBool;
             }
             set {
-                if (Model.PermitirDobleDescuentoEnFacturaAsBool != value) {
+                if(Model.PermitirDobleDescuentoEnFacturaAsBool != value) {
                     Model.PermitirDobleDescuentoEnFacturaAsBool = value;
                     IsDirty = true;
                     RaisePropertyChanged(PermitirDobleDescuentoEnFacturaPropertyName);
@@ -181,7 +183,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.ForzarFechaFacturaAmesEspecificoAsBool;
             }
             set {
-                if (Model.ForzarFechaFacturaAmesEspecificoAsBool != value) {
+                if(Model.ForzarFechaFacturaAmesEspecificoAsBool != value) {
                     Model.ForzarFechaFacturaAmesEspecificoAsBool = value;
                     IsDirty = true;
                     RaisePropertyChanged(ForzarFechaFacturaAmesEspecificoPropertyName);
@@ -195,7 +197,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.GenerarCxCalEmitirUnaFacturaHistoricaAsBool;
             }
             set {
-                if (Model.GenerarCxCalEmitirUnaFacturaHistoricaAsBool != value) {
+                if(Model.GenerarCxCalEmitirUnaFacturaHistoricaAsBool != value) {
                     Model.GenerarCxCalEmitirUnaFacturaHistoricaAsBool = value;
                     IsDirty = true;
                     RaisePropertyChanged(GenerarCxCalEmitirUnaFacturaHistoricaPropertyName);
@@ -209,7 +211,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.MaximoDescuentoEnFactura;
             }
             set {
-                if (Model.MaximoDescuentoEnFactura != value) {
+                if(Model.MaximoDescuentoEnFactura != value) {
                     Model.MaximoDescuentoEnFactura = value;
                     IsDirty = true;
                     RaisePropertyChanged(MaximoDescuentoEnFacturaPropertyName);
@@ -222,7 +224,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.MesFacturacionEnCursoAsEnum;
             }
             set {
-                if (Model.MesFacturacionEnCursoAsEnum != value) {
+                if(Model.MesFacturacionEnCursoAsEnum != value) {
                     Model.MesFacturacionEnCursoAsEnum = value;
                     IsDirty = true;
                     RaisePropertyChanged(MesFacturacionEnCursoPropertyName);
@@ -235,7 +237,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.AccionAlAnularFactDeMesesAntAsEnum;
             }
             set {
-                if (Model.AccionAlAnularFactDeMesesAntAsEnum != value) {
+                if(Model.AccionAlAnularFactDeMesesAntAsEnum != value) {
                     Model.AccionAlAnularFactDeMesesAntAsEnum = value;
                     IsDirty = true;
                     RaisePropertyChanged(AccionAlAnularFactDeMesesAntPropertyName);
@@ -248,9 +250,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.EmitirDirectoAsBool;
             }
             set {
-                if (Model.EmitirDirectoAsBool != value) {
+                if(Model.EmitirDirectoAsBool != value) {
                     Model.EmitirDirectoAsBool = value;
-                    if (!Model.EmitirDirectoAsBool) {
+                    if(!Model.EmitirDirectoAsBool) {
                         LibMessages.MessageBox.Warning(this, "Al no tener activado Emitir Directo, la opción de Cobro Directo será desactivada.", string.Empty);
                         CuentaBancariaCobroDirecto = string.Empty;
                         ConceptoBancarioCobroDirecto = string.Empty;
@@ -271,12 +273,12 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.ConceptoBancarioCobroDirecto;
             }
             set {
-                if (Model.ConceptoBancarioCobroDirecto != value) {
+                if(Model.ConceptoBancarioCobroDirecto != value) {
                     Model.ConceptoBancarioCobroDirecto = value;
                     IsDirty = true;
                     RaisePropertyChanged(ConceptoBancarioCobroDirectoPropertyName);
                     LibMessages.Notification.Send<string>(Model.ConceptoBancarioCobroDirecto, ConceptoBancarioCobroDirectoPropertyName);
-                    if (LibString.IsNullOrEmpty(ConceptoBancarioCobroDirecto, true)) {
+                    if(LibString.IsNullOrEmpty(ConceptoBancarioCobroDirecto, true)) {
                         ConexionConceptoBancarioCobroDirecto = null;
                     }
                 }
@@ -289,8 +291,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.CuentaBancariaCobroDirecto;
             }
             set {
-                if (Model.CuentaBancariaCobroDirecto != value) {
-                    if (UsaCobroDirecto && value == null) {
+                if(Model.CuentaBancariaCobroDirecto != value) {
+                    if(UsaCobroDirecto && value == null) {
                         ExecuteChooseCuentaBancariaCobroDirectoCommand(string.Empty);
                     } else {
                         Model.CuentaBancariaCobroDirecto = value;
@@ -298,7 +300,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     IsDirty = true;
                     RaisePropertyChanged(CuentaBancariaCobroDirectoPropertyName);
                     LibMessages.Notification.Send<string>(Model.CuentaBancariaCobroDirecto, CuentaBancariaCobroDirectoPropertyName);
-                    if (LibString.IsNullOrEmpty(CuentaBancariaCobroDirecto, true)) {
+                    if(LibString.IsNullOrEmpty(CuentaBancariaCobroDirecto, true)) {
                         ConexionCuentaBancariaCobroDirecto = null;
                     }
                 }
@@ -310,9 +312,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.UsaCobroDirectoEnMultimonedaAsBool;
             }
             set {
-                if (Model.UsaCobroDirectoEnMultimonedaAsBool != value) {
+                if(Model.UsaCobroDirectoEnMultimonedaAsBool != value) {
                     Model.UsaCobroDirectoEnMultimonedaAsBool = value;
-                    if (!Model.UsaCobroDirectoEnMultimonedaAsBool) {
+                    if(!Model.UsaCobroDirectoEnMultimonedaAsBool) {
                         CuentaBancariaCobroMultimoneda = string.Empty;
                         ConceptoBancarioCobroMultimoneda = string.Empty;
                         UsaMediosElectronicosDeCobro = false;
@@ -334,11 +336,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.ConceptoBancarioCobroMultimoneda;
             }
             set {
-                if (Model.ConceptoBancarioCobroMultimoneda != value) {
+                if(Model.ConceptoBancarioCobroMultimoneda != value) {
                     Model.ConceptoBancarioCobroMultimoneda = value;
                     RaisePropertyChanged(ConceptoBancarioCobroMultimonedaPropertyName);
                     LibMessages.Notification.Send<string>(Model.ConceptoBancarioCobroMultimoneda, ConceptoBancarioCobroMultimonedaPropertyName);
-                    if (LibString.IsNullOrEmpty(ConceptoBancarioCobroMultimoneda, true)) {
+                    if(LibString.IsNullOrEmpty(ConceptoBancarioCobroMultimoneda, true)) {
                         ConexionConceptoBancarioCobroMultimoneda = null;
                     }
                 }
@@ -351,15 +353,15 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.CuentaBancariaCobroMultimoneda;
             }
             set {
-                if (Model.CuentaBancariaCobroMultimoneda != value) {
-                    if (UsaCobroDirectoEnMultimoneda && value == null) {
+                if(Model.CuentaBancariaCobroMultimoneda != value) {
+                    if(UsaCobroDirectoEnMultimoneda && value == null) {
                         ExecuteChooseCuentaBancariaCobroMultimonedaCommand(string.Empty);
                     } else {
                         Model.CuentaBancariaCobroMultimoneda = value;
                     }
                     RaisePropertyChanged(CuentaBancariaCobroMultimonedaPropertyName);
                     LibMessages.Notification.Send<string>(Model.CuentaBancariaCobroMultimoneda, CuentaBancariaCobroMultimonedaPropertyName);
-                    if (LibString.IsNullOrEmpty(CuentaBancariaCobroMultimoneda, true)) {
+                    if(LibString.IsNullOrEmpty(CuentaBancariaCobroMultimoneda, true)) {
                         ConexionCuentaBancariaCobroMultimoneda = null;
                     }
                 }
@@ -371,7 +373,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.BloquearEmisionAsEnum;
             }
             set {
-                if (Model.BloquearEmisionAsEnum != value) {
+                if(Model.BloquearEmisionAsEnum != value) {
                     Model.BloquearEmisionAsEnum = value;
                     IsDirty = true;
                     RaisePropertyChanged(BloquearEmisionPropertyName);
@@ -384,7 +386,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.MostrarMtoTotalBsFEnObservacionesAsBool;
             }
             set {
-                if (Model.MostrarMtoTotalBsFEnObservacionesAsBool != value) {
+                if(Model.MostrarMtoTotalBsFEnObservacionesAsBool != value) {
                     Model.MostrarMtoTotalBsFEnObservacionesAsBool = value;
                     IsDirty = true;
                     RaisePropertyChanged(MostrarMtoTotalBsFEnObservacionesPropertyName);
@@ -392,19 +394,19 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public bool  UsaMediosElectronicosDeCobro {
+        public bool UsaMediosElectronicosDeCobro {
             get {
                 return Model.UsaMediosElectronicosDeCobroAsBool;
             }
             set {
-                if (Model.UsaMediosElectronicosDeCobroAsBool != value) {
+                if(Model.UsaMediosElectronicosDeCobroAsBool != value) {
                     Model.UsaMediosElectronicosDeCobroAsBool = value;
                     IsDirty = true;
                     RaisePropertyChanged(UsaMediosElectronicosDeCobroPropertyName);
                 }
             }
         }
-		
+
         public eMes[] ArrayMes {
             get {
                 return LibEnumHelper<eMes>.GetValuesInArray();
@@ -427,13 +429,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return _ConexionConceptoBancarioCobroDirecto;
             }
             set {
-                if (_ConexionConceptoBancarioCobroDirecto != value) {
+                if(_ConexionConceptoBancarioCobroDirecto != value) {
                     _ConexionConceptoBancarioCobroDirecto = value;
-                    if (_ConexionConceptoBancarioCobroDirecto != null) {
+                    if(_ConexionConceptoBancarioCobroDirecto != null) {
                         ConceptoBancarioCobroDirecto = _ConexionConceptoBancarioCobroDirecto.Codigo;
                     }
                 }
-                if (_ConexionConceptoBancarioCobroDirecto == null) {
+                if(_ConexionConceptoBancarioCobroDirecto == null) {
                     ConceptoBancarioCobroDirecto = string.Empty;
                 }
                 RaisePropertyChanged(ConceptoBancarioCobroDirectoPropertyName);
@@ -445,15 +447,15 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return _ConexionCuentaBancariaCobroDirecto;
             }
             set {
-                if (_ConexionCuentaBancariaCobroDirecto != value) {
+                if(_ConexionCuentaBancariaCobroDirecto != value) {
                     _ConexionCuentaBancariaCobroDirecto = value;
-                    if (_ConexionCuentaBancariaCobroDirecto != null) {
+                    if(_ConexionCuentaBancariaCobroDirecto != null) {
                         CuentaBancariaCobroDirecto = _ConexionCuentaBancariaCobroDirecto.Codigo;
-                    } else if (_ConexionCuentaBancariaCobroDirecto == null) {
+                    } else if(_ConexionCuentaBancariaCobroDirecto == null) {
                         CuentaBancariaCobroDirecto = string.Empty;
                     }
                 }
-                if (_ConexionCuentaBancariaCobroDirecto == null) {
+                if(_ConexionCuentaBancariaCobroDirecto == null) {
                     CuentaBancariaCobroDirecto = string.Empty;
                 }
                 RaisePropertyChanged(CuentaBancariaCobroDirectoPropertyName);
@@ -465,13 +467,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return _ConexionConceptoBancarioCobroMultimoneda;
             }
             set {
-                if (_ConexionConceptoBancarioCobroMultimoneda != value) {
+                if(_ConexionConceptoBancarioCobroMultimoneda != value) {
                     _ConexionConceptoBancarioCobroMultimoneda = value;
-                    if (_ConexionConceptoBancarioCobroMultimoneda != null) {
+                    if(_ConexionConceptoBancarioCobroMultimoneda != null) {
                         ConceptoBancarioCobroMultimoneda = _ConexionConceptoBancarioCobroMultimoneda.Codigo;
                     }
                 }
-                if (_ConexionConceptoBancarioCobroMultimoneda == null) {
+                if(_ConexionConceptoBancarioCobroMultimoneda == null) {
                     ConceptoBancarioCobroMultimoneda = string.Empty;
                 }
                 RaisePropertyChanged(ConceptoBancarioCobroMultimonedaPropertyName);
@@ -483,15 +485,15 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return _ConexionCuentaBancariaCobroMultimoneda;
             }
             set {
-                if (_ConexionCuentaBancariaCobroMultimoneda != value) {
+                if(_ConexionCuentaBancariaCobroMultimoneda != value) {
                     _ConexionCuentaBancariaCobroMultimoneda = value;
-                    if (_ConexionCuentaBancariaCobroMultimoneda != null) {
+                    if(_ConexionCuentaBancariaCobroMultimoneda != null) {
                         CuentaBancariaCobroMultimoneda = _ConexionCuentaBancariaCobroMultimoneda.Codigo;
-                    } else if (_ConexionCuentaBancariaCobroMultimoneda == null) {
+                    } else if(_ConexionCuentaBancariaCobroMultimoneda == null) {
                         CuentaBancariaCobroMultimoneda = string.Empty;
                     }
                 }
-                if (_ConexionCuentaBancariaCobroMultimoneda == null) {
+                if(_ConexionCuentaBancariaCobroMultimoneda == null) {
                     CuentaBancariaCobroMultimoneda = string.Empty;
                 }
                 RaisePropertyChanged(CuentaBancariaCobroMultimonedaPropertyName);
@@ -503,7 +505,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.SeMuestraTotalEnDivisasAsBool;
             }
             set {
-                if (Model.SeMuestraTotalEnDivisasAsBool != value) {
+                if(Model.SeMuestraTotalEnDivisasAsBool != value) {
                     Model.SeMuestraTotalEnDivisasAsBool = value;
                     RaisePropertyChanged(SeMuestraTotalEnDivisasPropertyName);
                 }
@@ -528,7 +530,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public RelayCommand<string> ChooseCuentaBancariaCobroMultimonedaCommand {
             get;
             private set;
-        }        
+        }
 
         public bool IsEnabledMesFacturacionEnCurso {
             get {
@@ -556,7 +558,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnabledCamposExtrasEnRenglonFactura {
             get {
-                if (UsaCamposExtrasEnRenglonFactura == true) {
+                if(UsaCamposExtrasEnRenglonFactura == true) {
                     return false;
                 } else {
                     return IsEnabled;
@@ -579,7 +581,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public bool isVisibleParaPeru {
             get {
                 bool vResult = true;
-                if (LibDefGen.ProgramInfo.IsCountryPeru()) {
+                if(LibDefGen.ProgramInfo.IsCountryPeru()) {
                     vResult = false;
                 }
                 return vResult;
@@ -591,7 +593,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.UsaListaDePrecioEnMonedaExtranjeraAsBool;
             }
             set {
-                if (Model.UsaListaDePrecioEnMonedaExtranjeraAsBool != value) {
+                if(Model.UsaListaDePrecioEnMonedaExtranjeraAsBool != value) {
                     Model.UsaListaDePrecioEnMonedaExtranjeraAsBool = value;
                     IsDirty = true;
                     RaisePropertyChanged(UsaListaDePrecioEnMonedaExtranjeraPropertyName);
@@ -605,7 +607,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.UsaListaDePrecioEnMonedaExtranjeraCXCAsBool;
             }
             set {
-                if (Model.UsaListaDePrecioEnMonedaExtranjeraCXCAsBool != value) {
+                if(Model.UsaListaDePrecioEnMonedaExtranjeraCXCAsBool != value) {
                     Model.UsaListaDePrecioEnMonedaExtranjeraCXCAsBool = value;
                     IsDirty = true;
                     RaisePropertyChanged(UsaListaDePrecioEnMonedaExtranjeraCXCPropertyName);
@@ -618,7 +620,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.NroDiasMantenerTasaCambio;
             }
             set {
-                if (Model.NroDiasMantenerTasaCambio != value) {
+                if(Model.NroDiasMantenerTasaCambio != value) {
                     Model.NroDiasMantenerTasaCambio = value;
                     IsDirty = true;
                     RaisePropertyChanged(NroDiasMantenerTasaCambioPropertyName);
@@ -630,7 +632,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public DateTime FechaInicioImprentaDigital {
             get { return UsaImprentaDigital() ? FechaInicioServicioImprentaDigital() : _FechaInicioImprentaDigital; }
             set {
-                if (_FechaInicioImprentaDigital != value) {
+                if(_FechaInicioImprentaDigital != value) {
                     _FechaInicioImprentaDigital = value;
                     RaisePropertyChanged(FechaInicioImprentaDigitalPropertyName);
                 }
@@ -642,7 +644,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.UsaMaquinaFiscalAsBool;
             }
             set {
-                if (Model.UsaMaquinaFiscalAsBool != value) {
+                if(Model.UsaMaquinaFiscalAsBool != value) {
                     Model.UsaMaquinaFiscalAsBool = value;
                     RaisePropertyChanged(UsaMaquinaFiscalPropertyName);
                 }
@@ -658,6 +660,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = UsarOtrosCargoDeFacturaPropertyName;
             LibMessages.Notification.Register<string>(this, OnStringParametrosComunesChanged);
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
         }
         #endregion //Constructores
 
@@ -668,7 +671,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         protected override FacturacionContinuacionStt FindCurrentRecord(FacturacionContinuacionStt valModel) {
-            if (valModel == null) {
+            if(valModel == null) {
                 return new FacturacionContinuacionStt();
             }
             //LibGpParams vParams = new LibGpParams();
@@ -700,7 +703,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private void ExecuteChooseConceptoBancarioCobroDirectoCommand(string valcodigo) {
             try {
-                if (valcodigo == null) {
+                if(valcodigo == null) {
                     valcodigo = string.Empty;
                 }
 
@@ -708,16 +711,16 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_ConceptoBancario_B1.Tipo", LibConvert.EnumToDbValue((int)eIngresoEgreso.Ingreso));
                 ConexionConceptoBancarioCobroDirecto = null;
                 ConexionConceptoBancarioCobroDirecto = LibFKRetrievalHelper.ChooseRecord<FkConceptoBancarioViewModel>("Concepto Bancario", vDefaultCriteria, vFixedCriteria, string.Empty);
-            } catch (System.AccessViolationException) {
+            } catch(System.AccessViolationException) {
                 throw;
-            } catch (System.Exception vEx) {
+            } catch(System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
 
         private void ExecuteChooseCuentaBancariaCobroDirectoCommand(string valCodigo) {
             try {
-                if (valCodigo == null) {
+                if(valCodigo == null) {
                     valCodigo = string.Empty;
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_CuentaBancaria_B1.Codigo", valCodigo);
@@ -725,14 +728,14 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("Gv_CuentaBancaria_B1.ConsecutivoCompania", Mfc.GetInt("Compania")), eLogicOperatorType.And);
                 ConexionCuentaBancariaCobroDirecto = null;
                 ConexionCuentaBancariaCobroDirecto = LibFKRetrievalHelper.ChooseRecord<FkCuentaBancariaViewModel>("Cuenta Bancaria", vDefaultCriteria, vFixedCriteria, string.Empty);
-                if (ConexionCuentaBancariaCobroDirecto != null) {
+                if(ConexionCuentaBancariaCobroDirecto != null) {
                     CuentaBancariaCobroDirecto = ConexionCuentaBancariaCobroDirecto.Codigo;
                 } else {
                     CuentaBancariaCobroDirecto = string.Empty;
                 }
-            } catch (System.AccessViolationException) {
+            } catch(System.AccessViolationException) {
                 throw;
-            } catch (System.Exception vEx) {
+            } catch(System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
@@ -747,7 +750,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private void ExecuteChooseConceptoBancarioCobroMultimonedaCommand(string valcodigo) {
             try {
-                if (valcodigo == null) {
+                if(valcodigo == null) {
                     valcodigo = string.Empty;
                 }
 
@@ -755,9 +758,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_ConceptoBancario_B1.Tipo", LibConvert.EnumToDbValue((int)eIngresoEgreso.Ingreso));
                 ConexionConceptoBancarioCobroMultimoneda = null;
                 ConexionConceptoBancarioCobroMultimoneda = LibFKRetrievalHelper.ChooseRecord<FkConceptoBancarioViewModel>("Concepto Bancario", vDefaultCriteria, vFixedCriteria, string.Empty);
-            } catch (System.AccessViolationException) {
+            } catch(System.AccessViolationException) {
                 throw;
-            } catch (System.Exception vEx) {
+            } catch(System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
@@ -766,7 +769,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             try {
                 string vCodigoMonedaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaCompania");
                 vCodigoMonedaLocal = (LibString.IsNullOrEmpty(vCodigoMonedaLocal) ? (LibDate.F1IsLessThanF2(LibDate.Today(), Galac.Saw.Reconv.clsUtilReconv.GetFechaReconversion()) ? "VES" : "VED") : vCodigoMonedaLocal);
-                if (valCodigo == null) {
+                if(valCodigo == null) {
                     valCodigo = string.Empty;
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_CuentaBancaria_B1.Codigo", valCodigo);
@@ -775,29 +778,29 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("Gv_CuentaBancaria_B1.ConsecutivoCompania", Mfc.GetInt("Compania")), eLogicOperatorType.And);
                 ConexionCuentaBancariaCobroMultimoneda = null;
                 ConexionCuentaBancariaCobroMultimoneda = LibFKRetrievalHelper.ChooseRecord<FkCuentaBancariaViewModel>("Cuenta Bancaria", vDefaultCriteria, vFixedCriteria, string.Empty);
-                if (ConexionCuentaBancariaCobroMultimoneda != null) {
+                if(ConexionCuentaBancariaCobroMultimoneda != null) {
                     CuentaBancariaCobroMultimoneda = ConexionCuentaBancariaCobroMultimoneda.Codigo;
                 } else {
                     CuentaBancariaCobroMultimoneda = string.Empty;
                 }
-            } catch (System.AccessViolationException) {
+            } catch(System.AccessViolationException) {
                 throw;
-            } catch (System.Exception vEx) {
+            } catch(System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
 
         private ValidationResult UltimaFechaDeFacturacionHistoricaValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if (PermitirIncluirFacturacionHistorica) {
-                    if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(UltimaFechaDeFacturacionHistorica, false, Action)) {
+                if(PermitirIncluirFacturacionHistorica) {
+                    if(LibDefGen.DateIsGreaterThanDateLimitForEnterData(UltimaFechaDeFacturacionHistorica, false, Action)) {
                         vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram(this.ModuleName + "-> Última Fecha de Facturación Histórica."));
-                    } else if (LibDate.DateIsGreaterThanToday(UltimaFechaDeFacturacionHistorica, false, string.Empty)) {
+                    } else if(LibDate.DateIsGreaterThanToday(UltimaFechaDeFacturacionHistorica, false, string.Empty)) {
                         vResult = new ValidationResult(this.ModuleName + "-> Última Fecha de Facturación Histórica debe ser menor a la fecha actual.");
-                    } else if (UsaImprentaDigital()) {
+                    } else if(UsaImprentaDigital()) {
                         FechaInicioImprentaDigital = UsaImprentaDigital() ? FechaInicioServicioImprentaDigital() : FechaInicioImprentaDigital;
                         RaisePropertyChanged(FechaInicioImprentaDigitalPropertyName);
                         vResult = (UltimaFechaDeFacturacionHistorica >= FechaInicioImprentaDigital) ?
@@ -811,10 +814,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private ValidationResult EmitirDirectoValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if (Model.UsaCobroDirectoAsBool) {
+                if(Model.UsaCobroDirectoAsBool) {
                     vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram(this.ModuleName + "-> Debe habilitar Emitir en Directo"));
                 }
             }
@@ -823,10 +826,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private ValidationResult MaximoDescuentoEnFacturaValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if (Model.MaximoDescuentoEnFactura > 100) {
+                if(Model.MaximoDescuentoEnFactura > 100) {
                     vResult = new ValidationResult(this.ModuleName + "-> Debe indicar un Porcentaje menor o igual a 100%.");
                 }
             }
@@ -842,10 +845,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private ValidationResult ConceptoBancarioCobroDirectoValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if (UsaCobroDirecto && LibString.IsNullOrEmpty(ConceptoBancarioCobroDirecto)) {
+                if(UsaCobroDirecto && LibString.IsNullOrEmpty(ConceptoBancarioCobroDirecto)) {
                     vResult = new ValidationResult(this.ModuleName + "-> Debe indicar un Concepto Bancario de Cobro Directo");
                 }
             }
@@ -854,10 +857,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private ValidationResult CuentaBancariaCobroDirectoValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if (UsaCobroDirecto && LibString.IsNullOrEmpty(CuentaBancariaCobroDirecto)) {
+                if(UsaCobroDirecto && LibString.IsNullOrEmpty(CuentaBancariaCobroDirecto)) {
                     vResult = new ValidationResult(this.ModuleName + "-> Debe indicar una cuenta bancaria cobro directo");
                 }
             }
@@ -866,10 +869,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private ValidationResult ConceptoBancarioCobroMultimonedaValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if (UsaCobroDirectoEnMultimoneda && LibString.IsNullOrEmpty(ConceptoBancarioCobroMultimoneda)) {
+                if(UsaCobroDirectoEnMultimoneda && LibString.IsNullOrEmpty(ConceptoBancarioCobroMultimoneda)) {
                     vResult = new ValidationResult(this.ModuleName + "-> Debe indicar un Concepto Bancario de Cobro en Multimoneda");
                 }
             }
@@ -878,10 +881,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private ValidationResult CuentaBancariaCobroMultimonedaValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if (UsaCobroDirectoEnMultimoneda && LibString.IsNullOrEmpty(CuentaBancariaCobroMultimoneda)) {
+                if(UsaCobroDirectoEnMultimoneda && LibString.IsNullOrEmpty(CuentaBancariaCobroMultimoneda)) {
                     vResult = new ValidationResult(this.ModuleName + "-> Debe indicar una cuenta bancaria en moneda extranjera para Cobro en Multimoneda");
                 }
             }
@@ -890,10 +893,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private ValidationResult CobroDirectoValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if (UsaCobroDirecto && UsaListaDePrecioEnMonedaExtranjeraCXC) {
+                if(UsaCobroDirecto && UsaListaDePrecioEnMonedaExtranjeraCXC) {
                     vResult = new ValidationResult($"No es posible activar los parámetros \"{this.ModuleName} - Generar CxC en Moneda Extranjera\" y \"{this.ModuleName} - Cobro Directo\" simultaneamente. Para hacer uso del parámetro \"Cobro Directo\", por favor desactive \"Generar CXC en Moneda Extranjera\".");
                 }
             }
@@ -926,14 +929,14 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private void OnStringParametrosComunesChanged(NotificationMessage<string> valMessage) {
             try {
-                if (LibString.S1IsEqualToS2(LibConvert.ToStr(valMessage.Notification), CuentaBancariaCobroDirectoPropertyName)) {
+                if(LibString.S1IsEqualToS2(LibConvert.ToStr(valMessage.Notification), CuentaBancariaCobroDirectoPropertyName)) {
                     CuentaBancariaCobroDirecto = valMessage.Content;
-                } else if (LibString.S1IsEqualToS2(LibConvert.ToStr(valMessage.Notification), ConceptoBancarioCobroDirectoPropertyName)) {
+                } else if(LibString.S1IsEqualToS2(LibConvert.ToStr(valMessage.Notification), ConceptoBancarioCobroDirectoPropertyName)) {
                     ConceptoBancarioCobroDirecto = valMessage.Content;
                 }
-            } catch (System.AccessViolationException) {
+            } catch(System.AccessViolationException) {
                 throw;
-            } catch (System.Exception vEx) {
+            } catch(System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
@@ -944,6 +947,22 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
+
+        public bool IsVisibleUsarCamposExtrasEnRenglonFactura {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+        public bool IsVisibleUsarOtrosCargoDeFactura {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+        public bool IsVisibleOtrosCargosCamposExtraEnDetalle {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
         public string PromptMostrarReconversionEnObservacion {
             get {
                 string vMensaje = "";

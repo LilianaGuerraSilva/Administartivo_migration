@@ -14,6 +14,8 @@ using Galac.Comun.Ccl.TablasGen;
 using System.Xml.Linq;
 using LibGalac.Aos.DefGen;
 using LibGalac.Ssm.U;
+using Galac.Saw.Lib;
+
 namespace Galac.Saw.Uil.SttDef.ViewModel {
 
     public class ParametersMngViewModel : LibGenericMngViewModel {

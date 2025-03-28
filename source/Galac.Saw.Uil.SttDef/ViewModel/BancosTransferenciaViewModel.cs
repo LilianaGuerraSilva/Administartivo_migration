@@ -15,6 +15,7 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Uil;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class BancosTransferenciaViewModel : LibInputViewModelMfc<TransferenciaStt> {
@@ -25,6 +26,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         #region Variables
         private FkConceptoBancarioViewModel _ConexionConceptoBancarioReversoTransfIngreso = null;
         private FkConceptoBancarioViewModel _ConexionConceptoBancarioReversoTransfEgreso = null;
+        bool mEsFacturadorBasico;
         #endregion //Variables
         #region Propiedades
 
@@ -117,6 +119,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public BancosTransferenciaViewModel(TransferenciaStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = ConceptoBancarioReversoTransfIngresoPropertyName;
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -191,6 +194,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
+
+        public bool IsVisibleTransferenciaBancaria {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+
         #endregion //Metodos Generados
 
 
