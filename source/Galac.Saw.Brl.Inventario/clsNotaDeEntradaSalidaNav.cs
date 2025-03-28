@@ -73,6 +73,10 @@ namespace Galac.Saw.Brl.Inventario {
                     vPdnModule = new Galac.Saw.Brl.Inventario.clsLoteDeInventarioNav();
                     vResult = vPdnModule.GetDataForList("Nota de Entrada/Salida", ref refXmlDocument, valXmlParamsExpression);
                     break;
+                case "Serial y Rollo":
+                    vPdnModule = new Galac.Saw.Brl.Inventario.clsRenglonExistenciaAlmacenNav();
+                    vResult = vPdnModule.GetDataForList("Nota de Entrada/Salida", ref refXmlDocument, valXmlParamsExpression);
+                    break;
                 default: throw new NotImplementedException();
             }
             return vResult;
@@ -265,19 +269,20 @@ namespace Galac.Saw.Brl.Inventario {
             LibResponse vResult = new LibResponse();            
             if (valUseDetail) {               
                 foreach (NotaDeEntradaSalida vItem in refRecord) {
-                    if (vItem != null) {                        
+                    if (vItem != null) {
                         IList<NotaDeEntradaSalida> vItemList = new List<NotaDeEntradaSalida>();
                         vItemList.Add(vItem);
-                        if (vItem.TipodeOperacionAsEnum == eTipodeOperacion.EntradadeInventario) {                            
-                            vResult = base.InsertRecord(vItemList, valUseDetail);
-                            if (vResult.Success) {
-                                ActualizaExistenciaDeArticulos(vItem, eAccionSR.Insertar);
+                        if (vItem.TipodeOperacionAsEnum == eTipodeOperacion.EntradadeInventario) {
+                            if (ValidaRegistroDeSerial(vItem)) {
+                                vResult = base.InsertRecord(vItemList, valUseDetail);
+                                if (vResult.Success) {
+                                    ActualizaExistenciaDeArticulos(vItem, eAccionSR.Insertar);
+                                }
                             }
                         } else {
                             string vCodigos;
                             if (!HayExistenciaParaNotaDeSalidaDeInventario(vItem, out vCodigos)) {
-                                vResult.AddError("No hay existencia suficiente de algunos ítems (" + vCodigos + ") en la Nota: " + vItem.NumeroDocumento + " para realizar la acción. El proceso será cancelado.");
-                                return vResult;
+                                throw new LibGalac.Aos.Catching.GalacValidationException("No hay existencia suficiente de algunos ítems (" + vCodigos + ") en la Nota: " + vItem.NumeroDocumento + " para realizar la acción. El proceso será cancelado.");
                             }
                             vResult = base.InsertRecord(vItemList, valUseDetail);
                             if (vResult.Success) {
@@ -444,14 +449,14 @@ namespace Galac.Saw.Brl.Inventario {
                 string vCodigos = string.Empty;
                 foreach (RenglonNotaES vItemRenglon in valItemNotaES.DetailRenglonNotaES) {
                     decimal vDisponibilidad = insArticuloInventarioNav.DisponibilidadDeArticulo(valItemNotaES.ConsecutivoCompania, valItemNotaES.CodigoAlmacen, vItemRenglon.CodigoArticulo, (int)eTipoDeArticulo.Mercancia, vItemRenglon.Serial, vItemRenglon.Rollo);
-                    bool vHayExistencia = vItemRenglon.Cantidad < vDisponibilidad;
+                    bool vHayExistencia = vItemRenglon.Cantidad <= vDisponibilidad;
                     if (!vHayExistencia) {
                         if (LibString.Len(vCodigos) > 0) vCodigos += ", ";
                         vCodigos += vItemRenglon.CodigoArticulo;
                     }
                 }
                 outCodigos = vCodigos;
-                return (LibString.Len(vCodigos) <= 0);
+                return (LibString.Len(vCodigos) == 0);
             }
         }	
        
@@ -490,7 +495,7 @@ namespace Galac.Saw.Brl.Inventario {
                 vResult.AddError("Esta Nota de E/S ya es un reverso y no puede ser reversada.");
                 return vResult;
             }
-            if (ExiteReversoParaEstaNota(valConsecutivoCompania, vComentario)) {
+            if (ExisteReversoParaEstaNota(valConsecutivoCompania, vComentario)) {
                 vResult.AddError("Ya existe un reverso para esta Nota de E/S");
                 return vResult;
             }
@@ -512,14 +517,13 @@ namespace Galac.Saw.Brl.Inventario {
             return vResult;
         }
 
-        private bool ExiteReversoParaEstaNota(int valConsecutivoCompania, string valComentario) {
+        private bool ExisteReversoParaEstaNota(int valConsecutivoCompania, string valComentario) {
             bool vResult = false;
             QAdvSql insSql = new QAdvSql("");
             StringBuilder vSql = new StringBuilder();
             vSql.AppendFormat("SELECT * FROM NotaDeEntradaSalida WHERE ");
             vSql.AppendFormat(" ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-            vSql.AppendFormat(" AND Comentarios LIKE " + insSql.ToSqlValue(valComentario + "%"));
-            
+            vSql.AppendFormat(" AND Comentarios LIKE " + insSql.ToSqlValue(valComentario + "%"));            
             vResult = (new LibDatabase().RecordCountOfSql(vSql.ToString()) > 0);
             return vResult;
         }
@@ -541,10 +545,22 @@ namespace Galac.Saw.Brl.Inventario {
                 Cantidad = vCantidad,
                 Ubicacion = "",
                 ConsecutivoAlmacen = valConsecutivoAlmacen
-
             };
             vResult.Add(vArticuloInventarioExistenciaSerial);
             return vResult;
+        }
+
+        private bool ValidaRegistroDeSerial(NotaDeEntradaSalida refRecord) {
+            XElement vData = new XElement("GpData");
+            foreach (RenglonNotaES item in refRecord.DetailRenglonNotaES) {
+                vData.Add(new XElement("GpResult",
+                   new XElement("CodigoArticulo", item.CodigoArticulo),
+                   new XElement("Serial", item.Serial),
+                   new XElement("Rollo", item.Rollo)));
+            }
+            Galac.Saw.Ccl.Inventario.IArticuloInventarioPdn vArticuloPdn = new Galac.Saw.Brl.Inventario.clsArticuloInventarioNav();
+            return vArticuloPdn.ValidaExistenciaDeArticuloSerial(refRecord.ConsecutivoCompania, vData);
+
         }
 
     } //End of class clsNotaDeEntradaSalidaNav

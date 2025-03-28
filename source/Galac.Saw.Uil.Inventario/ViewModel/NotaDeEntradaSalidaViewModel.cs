@@ -120,7 +120,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Código del Almacén", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoAlmacen", ConnectionSearchCommandName = "ChooseCodigoAlmacenCommand", MaxWidth=120)]
+        [LibGridColum("Código del Almacén", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoAlmacen", ConnectionSearchCommandName = "ChooseCodigoAlmacenCommand", Width=150)]
         public string  CodigoAlmacen {
             get {
                 return Model.CodigoAlmacen;

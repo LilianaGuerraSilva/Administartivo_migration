@@ -91,6 +91,7 @@
     <Compile Include="clsLoteDeInventarioMovimientoNav.cs" />
     <Compile Include="clsLoteDeInventarioNav.cs" />
     <Compile Include="clsNotaDeEntradaSalidaNav.cs" />
+    <Compile Include="clsRenglonExistenciaAlmacenNav.cs" />
     <Compile Include="clsRenglonNotaESNav.cs" />
     <Compile Include="clsTallaNav.cs" />
     <Compile Include="clsImportarPreciosDeArticuloNav.cs" />

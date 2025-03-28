@@ -80,6 +80,8 @@
     <Compile Include="clsLoteDeInventarioMovimientoED.cs" />
     <Compile Include="clsNotaDeEntradaSalidaDat.cs" />
     <Compile Include="clsNotaDeEntradaSalidaED.cs" />
+    <Compile Include="clsRenglonExistenciaAlmacenDat.cs" />
+    <Compile Include="clsRenglonExistenciaAlmacenED.cs" />
     <Compile Include="clsRenglonNotaESDat.cs" />
     <Compile Include="clsRenglonNotaESED.cs" />
     <Compile Include="clsTallaDat.cs" />

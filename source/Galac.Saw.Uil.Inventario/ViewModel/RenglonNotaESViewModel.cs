@@ -26,10 +26,12 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public const string LoteDeInventarioPropertyName = "LoteDeInventario";
         public const string FechaDeElaboracionPropertyName = "FechaDeElaboracion";
         public const string FechaDeVencimientoPropertyName = "FechaDeVencimiento";
+        public const string SerialRolloPropertyName = "Serial";
         #endregion
         #region Variables
         private FkArticuloInventarioViewModel _ConexionCodigoArticulo = null;
         private FkLoteDeInventarioViewModel _ConexionLoteDeInventario = null;
+        private FkSerialRolloViewModel _ConexionSerialRollo = null;
         #endregion //Variables
         #region Propiedades
         public override string ModuleName {
@@ -101,7 +103,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibCustomValidation("CantidadValidating")]
-        [LibGridColum("Cantidad", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 150)]
+        [LibGridColum("Cantidad", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 90)]
         public decimal Cantidad {
             get {
                 return Model.Cantidad;
@@ -130,18 +132,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public string TipoDeMercanciaStr {
             get { return Model.TipoArticuloInvAsString; }
         }
-
-        public string Serial {
-            get {
-                return Model.Serial;
-            }
-            set {
-                if (Model.Serial != value) {
-                    Model.Serial = value;
-                }
-            }
-        }
-
+        [LibCustomValidation("RolloValidating")]
         public string Rollo {
             get {
                 return Model.Rollo;
@@ -176,7 +167,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         [LibCustomValidation("LoteDeInventarioValidating")]
-        [LibGridColum("Lote de Inventario", Width = 300)]
+        [LibGridColum("Lote de Inventario", Width = 200)]
         public string LoteDeInventario {
             get {
                 return Model.LoteDeInventario;
@@ -215,7 +206,19 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 }
             }
         }
-
+        [LibCustomValidation("SerialValidating")]
+        [LibGridColum("Serial", Width = 170)]
+        public string Serial {
+            get {
+                return Model.Serial;
+            }
+            set {
+                if (Model.Serial != value) {
+                    Model.Serial = value;
+                    RaisePropertyChanged(SerialRolloPropertyName);
+                }
+            }
+        }
         public bool IsEnabledLoteDeInventario {
             get { return IsEnabled && SePuedeEditarLote(); }
         }
@@ -234,6 +237,13 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public bool IsVisibleRollo {
             get { return (ConexionCodigoArticulo != null) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.UsaSerialRollo); }
         }
+        public bool IsEnableSerial {
+            get { return IsEnabled && (ConexionCodigoArticulo != null) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.UsaSerialRollo || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.UsaSerial); }
+        }
+        public bool IsEnableRollo {
+            get { return IsEnabled && (ConexionCodigoArticulo != null) && (Master.TipodeOperacion == eTipodeOperacion.EntradadeInventario) && (ConexionCodigoArticulo.TipoDeArticulo == eTipoDeArticulo.Mercancia) && (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial || ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.UsaSerialRollo); }
+        }
+
         public eTipoArticuloInv[] ArrayTipoArticuloInv {
             get { return LibEnumHelper<eTipoArticuloInv>.GetValuesInArray(); }
         }
@@ -287,6 +297,21 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             get;
             private set;
         }
+        public RelayCommand<string> ChooseSerialRolloCommand {
+            get;
+            private set;
+        }
+        public FkSerialRolloViewModel ConexionSerialRollo {
+            get {
+                return _ConexionSerialRollo;
+            }
+            set {
+                if (_ConexionSerialRollo != value) {
+                    _ConexionSerialRollo = value;
+                    RaisePropertyChanged(SerialRolloPropertyName);
+                }
+            }
+        }
         #endregion //Propiedades
         #region Constructores
         public RenglonNotaESViewModel() : base(new RenglonNotaES(), eAccionSR.Insertar, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
@@ -308,6 +333,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             base.InitializeCommands();
             ChooseCodigoArticuloCommand = new RelayCommand<string>(ExecuteChooseCodigoArticuloCommand);
             ChooseLoteDeInventarioCommand = new RelayCommand<string>(ExecuteChooseLoteDeInventarioCommand);
+            ChooseSerialRolloCommand = new RelayCommand<string>(ExecuteChooseSerialRolloCommand);
         }
 
         protected override void ReloadRelatedConnections() {
@@ -318,6 +344,10 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             LibSearchCriteria vDefaultCriteriaLote = LibSearchCriteria.CreateCriteria("CodigoLote", LoteDeInventario);
             vDefaultCriteriaLote.Add(LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania")), eLogicOperatorType.And);
             ConexionLoteDeInventario = Master.FirstConnectionRecordOrDefault<FkLoteDeInventarioViewModel>("Lote de Inventario", vDefaultCriteriaLote);
+            LibSearchCriteria vDefaultCriteriaSerialRollo = LibSearchCriteria.CreateCriteria("CodigoSerial", Serial);
+            vDefaultCriteriaSerialRollo.Add(LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania")), eLogicOperatorType.And);
+            //vDefaultCriteriaSerialRollo.Add(LibSearchCriteria.CreateCriteria("CodigoAlmacen", ), eLogicOperatorType.And);
+            ConexionSerialRollo = Master.FirstConnectionRecordOrDefault<FkSerialRolloViewModel>("Serial y Rollo", vDefaultCriteriaSerialRollo);
         }
         private void ExecuteChooseCodigoArticuloCommand(string valCodigoArticulo) {
             try {
@@ -347,6 +377,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 RaisePropertyChanged(() => IsVisibleFechaDeVencimientoLoteDeInventario);
                 RaisePropertyChanged(() => IsVisibleSerial);
                 RaisePropertyChanged(() => IsVisibleRollo);
+                RaisePropertyChanged(() => IsEnableSerial);
+                RaisePropertyChanged(() => IsEnableRollo);
                 RaisePropertyChanged(() => SePuedeEditarCantidad);
             } catch (System.AccessViolationException) {
                 throw;
@@ -429,7 +461,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else if (Cantidad <= 0) {
-                vResult = new ValidationResult("El valor de Cantidad debe ser mayor a cero (0).");
+                vResult = new ValidationResult("El valor de Cantidad debe ser mayor a cero (0) Artículo " + CodigoArticulo + ".  ");
             }
             return vResult;
         }
@@ -452,6 +484,59 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
         public bool SePuedeEditarCantidad {
             get { return IsEnabled && Action == eAccionSR.Insertar && ConexionCodigoArticulo != null && ConexionCodigoArticulo.TipoArticuloInv != eTipoArticuloInv.UsaSerial; }
+        }
+        private void ExecuteChooseSerialRolloCommand(string valCodigoSerial) {
+            try {
+                if (valCodigoSerial == null) {
+                    valCodigoSerial = string.Empty;
+                }
+                if (Master.TipodeOperacion == eTipodeOperacion.EntradadeInventario) {
+                    Serial = LibString.Trim(valCodigoSerial);
+                } else {
+                    LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("CodigoSerial", valCodigoSerial);
+                    LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
+                    vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("CodigoArticulo", CodigoArticulo), eLogicOperatorType.And);
+                    ConexionSerialRollo = Master.ChooseRecord<FkSerialRolloViewModel>("Serial y Rollo", vDefaultCriteria, vFixedCriteria, "CodigoAlmacen, CodigoArticulo, CodigoSerial, CodigoRollo");
+
+                    if (ConexionSerialRollo == null) {
+                        Serial = string.Empty;
+                        Rollo = "0";
+                    } else {
+                        if (ConexionSerialRollo.Cantidad <= 0) {
+                            LibMessages.MessageBox.Information(this, $"El Serial {ConexionSerialRollo.CodigoSerial} no posee existencias. Por favor elija otro. ", ModuleName);
+                        }
+                        Serial = ConexionSerialRollo.CodigoSerial;
+                        Rollo = ConexionSerialRollo.CodigoRollo;
+                    }
+                }
+                RaisePropertyChanged(() => IsVisibleSerial);
+                RaisePropertyChanged(() => IsVisibleRollo);
+                RaisePropertyChanged(() => IsEnableSerial);
+                RaisePropertyChanged(() => IsEnableRollo);
+                RaisePropertyChanged(() => SePuedeEditarCantidad);
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
+        private ValidationResult SerialValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+                return ValidationResult.Success;
+            } else if (LibString.Len(LibString.Trim(Serial)) == 0 && (TipoArticuloInv == eTipoArticuloInv.UsaSerial || TipoArticuloInv == eTipoArticuloInv.UsaSerialRollo || TipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial )) {
+                vResult = new ValidationResult("Alguno de los valores de Serial no fue ingresado ( Artículo " + CodigoArticulo + ").  ");
+            }
+            return vResult;
+        }
+        private ValidationResult RolloValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+                return ValidationResult.Success;
+            } else if (LibString.Len(LibString.Trim(Rollo)) == 0) {
+                vResult = new ValidationResult("Alguno de los valores de Rollo no fue ingresado ( Artículo " + CodigoArticulo + ").  ");
+            }
+            return vResult;
         }
 
     } //End of class RenglonNotaESViewModel

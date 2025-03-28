@@ -242,8 +242,11 @@ namespace Galac.Saw.Brl.Inventario {
             string vTabla = string.Empty;
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             vParams.AddInString("CodigoArticulo", valCodigoArticulo, 30);
-            vParams.AddInInteger("TipoArticuloInv", 1);
-            ExisteArticuloPorGrupo(valConsecutivoCompania, valCodigoArticulo, valSerial, valRollo);
+            vParams.AddInInteger("TipoArticuloInv", 1); //  Excluye articulos de tipo talla/color
+            vParams.AddInString("Serial", valSerial, 50);
+            vParams.AddInString("Rollo", valRollo, 20);
+            // valTipoDeArticulo, valCodigoAlmacen - No se usa en esta función, pero es invocado desde Producción y Factura Rápida
+            ExisteArticuloPorGrupo(valConsecutivoCompania, valCodigoArticulo, valSerial, valRollo);     // valida que existió entrada del artículo, pero no tiene aplicación acá
 
             SQL.AppendLine(" SELECT Codigo, CASE WHEN ArticuloInventario.TipoArticuloInv <> '0' THEN ISNULL( ExistenciaPorGrupo.Existencia  - ExistenciaPorGrupo.CantReservada,0) ELSE ISNULL(ArticuloInventario.Existencia - ArticuloInventario.CantArtReservado,0) END AS ");
             SQL.AppendLine(" Disponibilidad FROM ArticuloInventario LEFT JOIN ExistenciaPorGrupo ");
@@ -252,7 +255,10 @@ namespace Galac.Saw.Brl.Inventario {
             SQL.AppendLine(" WHERE ArticuloInventario.codigo = @CodigoArticulo ");
             SQL.AppendLine(" AND ArticuloInventario.ConsecutivoCompania = @ConsecutivoCompania ");
             SQL.AppendLine(" AND ArticuloInventario.TipoArticuloInv <> @TipoArticuloInv ");
-
+            if (!LibString.IsNullOrEmpty (valSerial)) {
+                SQL.AppendLine(" AND ExistenciaPorGrupo.Serial = @Serial ");
+                SQL.AppendLine(" AND ExistenciaPorGrupo.Rollo = @Rollo ");
+            } 
             XElement xRecord = LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", 0);
             if (xRecord != null) {
                 vResult = LibImportData.ToDec(LibXml.GetPropertyString(xRecord, "Disponibilidad"), 3);
@@ -526,8 +532,6 @@ namespace Galac.Saw.Brl.Inventario {
             LibBusiness.ExecuteUpdateOrDelete(vSQL.ToString(), vParams.Get(), "", 0);
         }
 
-
-
         bool IArticuloInventarioPdn.ValidaExistenciaDeArticuloSerial(int valConsecutivoCompania, XElement valDataArticulo) {
             bool vResult = true;
             StringBuilder vSQL = new StringBuilder();
@@ -553,7 +557,7 @@ namespace Galac.Saw.Brl.Inventario {
                     var vArticulo = vDataArticulos.Where(p => p.CodigoArticuloCompuesto == item.CodigoArticulo || p.CodigoArticulo == item.CodigoArticulo).Select(p => p).FirstOrDefault();
                     if (!IsValidSerial(valConsecutivoCompania, vArticulo.CodigoArticulo, vArticulo.TipoArticuloInv, item.Serial, item.Rollo, vArticulo.CodigoColor, vArticulo.CodigoTalla)) {
                         if (vArticulo.TipoArticuloInv == eTipoArticuloInv.UsaSerial) {
-                            throw new LibGalac.Aos.Catching.GalacValidationException("El " + LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "SinonimoSerial") + " " + item.Serial + "   Existe En Inventario");
+                            throw new LibGalac.Aos.Catching.GalacValidationException("El " + LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "SinonimoSerial") + " " + item.Serial + " ya existe en el inventario ( Artículo " + item.CodigoArticulo + "). ");
                         }
                         /*else {
                             throw new LibGalac.Aos.Catching.GalacValidationException("El " + LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "SinonimoSerial") + " " + item.Serial + " y/o el " + LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "SinonimoRollo") + " " + item.Rollo + "   Existe En Inventario");
@@ -586,7 +590,6 @@ namespace Galac.Saw.Brl.Inventario {
             }
             return vResult;
         }
-
 
         bool IArticuloInventarioPdn.AjustaPreciosxCostos(bool valFormulaAlternativa, int valConsecutivoCia, string valMarca, string valDesde, string valHasta, eRedondearPrecio valRedondeo, ePrecioAjustar valPrecioConOSinIVA, bool valMargenesNuevos, string valLineaProducto, string valCategoria, bool valPrecio1, bool valPrecio2, bool valPrecio3, bool valPrecio4, decimal valMargen1, decimal valMargen2, decimal valMargen3, decimal valMargen4, bool valVieneDeCompras, DateTime valFechaOperacion, string valNumero, string valOperacion, bool valMonedaLocal) {
             bool vResult = false;

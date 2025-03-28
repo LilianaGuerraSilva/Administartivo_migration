@@ -146,7 +146,7 @@ namespace Galac.Saw.Ccl.Inventario {
             DescripcionArticulo = string.Empty;
             Cantidad = 0;
             TipoArticuloInvAsEnum = eTipoArticuloInv.Simple;
-            Serial = "0";
+            Serial = string.Empty;
             Rollo = "0";
             CostoUnitario = 0;
             CostoUnitarioME = 0;
