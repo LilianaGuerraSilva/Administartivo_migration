@@ -39,7 +39,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             AgregaColumnasReglasDeContabilizacionCxCCreditoElectronico();
             AgregarDefaultValueOtrosCargos();
             CorrigeConstrainsGUIDNOtNullFactura();
-            ActivaMostratTotalEnDivisas();
+            ActivaMostrarTotalEnDivisas();
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -220,7 +220,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             AddNotNullConstraint("factura", "ImprentaDigitalGUID", InsSql.VarCharTypeForDb(50));
         }
 
-        private void ActivaMostratTotalEnDivisas() {
+        private void ActivaMostrarTotalEnDivisas() {
             StringBuilder vSql = new StringBuilder();
             vSql.AppendLine("UPDATE Comun.SettvalueByCompany");
             vSql.AppendLine("SET VALUE =" + InsSql.ToSqlValue(true));
