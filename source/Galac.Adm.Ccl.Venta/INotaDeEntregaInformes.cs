@@ -11,5 +11,6 @@ namespace Galac.Adm.Ccl.Venta {
     public interface INotaDeEntregaInformes {
         System.Data.DataTable BuildNotaDeEntregaEntreFechasPorCliente(int valConsecutivoCompania, DateTime valtFechaDesde, DateTime valFechaHasta, bool valIncluirNotasDeEntregasAnuladas, eCantidadAImprimir valCantidadAImprimir, string valCodigoCliente);
         System.Data.DataTable BuildNotaDeEntregaEntreFechasPorClienteDetallado(int valConsecutivoCompania, DateTime valtFechaDesde, DateTime valFechaHasta, eCantidadAImprimir valCantidadAImprimir, string valCodigoCliente);
+		System.Data.DataTable BuildNotasDeEntregaNoFacturadas(int valConsecutivoCompania, DateTime valtFechaDesde, DateTime valFechaHasta);
     }
 } //End of namespace Galac..Ccl.ComponenteNoEspecificado

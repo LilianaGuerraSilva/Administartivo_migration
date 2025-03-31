@@ -9,6 +9,8 @@ using Galac.Comun.Ccl.TablasGen;
 using Galac.Comun.Brl.TablasGen;
 using LibGalac.Aos.DefGen;
 using Galac.Saw.Lib;
+using Galac.Adm.Ccl.Venta;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Brl.Venta.Reportes {
 
@@ -176,6 +178,30 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			vSql.AppendLine("   Factura.CodigoCliente,");
 			vSql.AppendLine("   Factura.Fecha,");
 			vSql.AppendLine("	Factura.Numero");
+			return vSql.ToString();
+		}
+		
+		public string SqlNotasDeEntregaNoFacturadas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta) {
+            StringBuilder vSql = new StringBuilder();
+            //'Notas de Entregas Emitidas y no Generadas
+            vSql.AppendLine("SELECT Factura.CodigoCliente, Cliente.Nombre, Factura.Fecha, Factura.Numero ");
+            vSql.AppendLine("FROM Factura inner join Cliente ON Cliente.ConsecutivoCompania = factura.ConsecutivoCompania AND Cliente.Codigo = factura.CodigoCliente");
+            vSql.AppendLine(" WHERE (Factura.EmitidaEnFacturaNumero = " + insUtilSql.ToSqlValue("") + " OR Factura.EmitidaEnFacturaNumero IS NULL)");
+            vSql.AppendLine(" AND Factura.Fecha  >= " + insUtilSql.ToSqlValue(valFechaDesde));
+            vSql.AppendLine(" AND Factura.Fecha  <= " + insUtilSql.ToSqlValue(valFechaHasta));
+            vSql.AppendLine(" AND Factura.StatusFactura = " + insUtilSql.EnumToSqlValue((int)eStatusFactura.Emitida));
+            vSql.AppendLine(" AND Factura.TipoDeDocumento = " + insUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaEntrega));
+            vSql.AppendLine(" AND Factura.ConsecutivoCompania = " + insUtilSql.ToSqlValue(valConsecutivoCompania));
+			//'Facturas Generadas desde Notas de Entrega y no Emitidas
+			vSql.AppendLine(" UNION SELECT Factura.CodigoCliente, Cliente.Nombre, Factura.Fecha, Factura.Numero ");
+            vSql.AppendLine("FROM Factura inner join Cliente ON Cliente.ConsecutivoCompania = factura.ConsecutivoCompania AND Cliente.Codigo = factura.CodigoCliente");
+            vSql.AppendLine(" WHERE Factura.GeneradaPorNotaEntrega = " + insUtilSql.EnumToSqlValue(1));//enum_FacturaGeneraNotaEntrega.eFGNE_Generada
+            vSql.AppendLine(" AND Factura.Fecha  >= " + insUtilSql.ToSqlValue(valFechaDesde));
+            vSql.AppendLine(" AND Factura.Fecha  <= " + insUtilSql.ToSqlValue(valFechaHasta));
+            vSql.AppendLine(" AND Factura.StatusFactura = " + insUtilSql.EnumToSqlValue((int)eStatusFactura.Borrador));
+            vSql.AppendLine(" AND (Factura.TipoDeDocumento = " + insUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "OR Factura.TipoDeDocumento = " + insUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + ")");
+            vSql.AppendLine(" AND Factura.ConsecutivoCompania = " + insUtilSql.ToSqlValue(valConsecutivoCompania));
+			vSql.AppendLine("ORDER BY Factura.Fecha, Factura.Numero");
 			return vSql.ToString();
 		}
 		#endregion //Metodos Generados

@@ -157,6 +157,9 @@ namespace Galac.Saw.DbMigrator {
             if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "otrosCargosDeFactura")) {
                 vResult = vResult && CrearOtrosCargosDeFactura();
             }
+            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "ExistenciaPorAlmacenDetLoteInv")) {
+                vResult = vResult && CrearExistenciaPorAlmacenDetLoteInv();
+            }
             CrearGVentasDefiniciones();
             return vResult;
         }

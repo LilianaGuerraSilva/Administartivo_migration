@@ -24,6 +24,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             AppMemoryInfo = initAppMemInfo;
             Mfc = initMfc;
             AvailableReports.Add(new clsNotaDeEntregaEntreFechasPorClienteViewModel());
+			AvailableReports.Add(new clsNotasDeEntregaNoFacturadasViewModel());
             Title = "Informes de Nota De Entrega";
         }
 
@@ -35,6 +36,8 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             ILibRpt vResult = null;
             if (SelectedReport is clsNotaDeEntregaEntreFechasPorClienteViewModel) {
                 vResult = ConfigReportNotaDeEntregaEntreFechasPorCliente(SelectedReport as clsNotaDeEntregaEntreFechasPorClienteViewModel);
+            }else if (SelectedReport is clsNotasDeEntregaNoFacturadasViewModel) {
+                vResult = ConfigReportNotasDeEntregaNoFacturadas(SelectedReport as clsNotasDeEntregaNoFacturadasViewModel);
             }
             return vResult;
         }
@@ -51,6 +54,16 @@ namespace Galac.Adm.Uil.Venta.Reportes {
                         Worker = Manager,
                     };
                 }
+            }
+            return vResult;
+        }
+		
+		private ILibRpt ConfigReportNotasDeEntregaNoFacturadas(clsNotasDeEntregaNoFacturadasViewModel valViewModel) {
+            ILibRpt vResult = null;
+            if (valViewModel != null) {
+                vResult = new Rpt.Venta.clsNotasDeEntregaNoFacturadas(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaDesde, valViewModel.FechaHasta) {
+                        Worker = Manager
+				};
             }
             return vResult;
         }
