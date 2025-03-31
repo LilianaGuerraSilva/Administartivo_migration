@@ -176,6 +176,7 @@ namespace Galac.Saw.DDL {
             vResult = vResult && new Galac.Saw.Dal.Inventario.clsLoteDeInventarioED().InstalarVistasYSps();
             vResult = vResult && new Galac.Saw.Dal.Tablas.clsOtrosCargosDeFacturaED().InstalarVistasYSps();
             vResult = vResult && new Galac.Saw.Dal.Tablas.clsAuditoriaConfiguracionED().InstalarVistasYSps();
+            vResult = vResult && new Galac.Saw.Dal.Inventario.clsExistenciaPorAlmacenDetLoteInvED().InstalarVistasYSps();
             vResult = vResult && CrearVistasDeCompatibilidad();
             return vResult;
         }
@@ -185,6 +186,7 @@ namespace Galac.Saw.DDL {
             vResult = vResult && BorrarVistasDeCompatibilidad();
             vResult = vResult && BorrarVistasDeContabilidad();
             //ORGANICEN EL ORDEN DE ELIMINACION DE VISTAS Y SPS POR DEPENDENCIAS, ESTA DESORDENADO
+            vResult = vResult && new Galac.Saw.Dal.Inventario.clsExistenciaPorAlmacenDetLoteInvED().BorrarVistasYSps();
             vResult = vResult && new Galac.Saw.Dal.Tablas.clsAuditoriaConfiguracionED().BorrarVistasYSps();
             vResult = vResult && new Galac.Saw.Dal.Tablas.clsOtrosCargosDeFacturaED().BorrarVistasYSps();
             vResult = vResult && new Galac.Saw.Dal.Inventario.clsLoteDeInventarioED().BorrarVistasYSps();

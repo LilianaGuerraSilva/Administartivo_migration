@@ -1294,16 +1294,18 @@ unStatusDocOrigenLoteInv = (Vigente, Anulado);//e,Componente=Inventario
 
 {@M}ExistenciaPorAlmacen =  record //Multiarchivo=Compania,
        ConsecutivoCompania	: Longint; //HIDE
+       ConsecutivoAlmacen   : LongInt; //o,HIDE,=Almacen.Consecutivo
        CodigoAlmacen : str5; //o,g,=Almacen.Codigo,search
        NombreAlmacen : Str40;//Logical,a,=Almacen.NombreAlmacen
        CodigoArticulo      : str15; //o,g,=ArticuloInventario.Codigo,"Código Inventario",search
        Descripcion         : textArea; //Logical,a,=ArticuloInventario.Descripcion,"Descripción"
        Cantidad : double; //g
        Ubicacion           : Str30;//"Ubicación"
-  @PrimaryKey=ConsecutivoCompania,CodigoAlmacen,CodigoArticulo
+  @PrimaryKey=ConsecutivoCompania,ConsecutivoAlmacen,CodigoArticulo
 }
 {@D ExistenciaPorAlmacen}RenglonExistenciaAlmacen = record //Multiarchivo=Compania;
        ConsecutivoCompania : Longint; //HIDE
+       ConsecutivoAlmacen   : LongInt; //o,HIDE,=Almacen.Consecutivo
        CodigoAlmacen       : str5; //o,HIDE
        CodigoArticulo      : str30;//o,HIDE
        ConsecutivoRenglon  : Longint;//o,HIDE
@@ -1311,7 +1313,16 @@ unStatusDocOrigenLoteInv = (Vigente, Anulado);//e,Componente=Inventario
        CodigoRollo         : str20; //o,g
        Cantidad            : Double; //o,g
        Ubicacion           : Str30;//"Ubicación"
-@PrimaryKey=ConsecutivoCompania,CodigoAlmacen,CodigoArticulo,ConsecutivoRenglon
+@PrimaryKey=ConsecutivoCompania,CosecutivoAlmacen,CodigoArticulo,ConsecutivoRenglon
+}
+{@D ExistenciaPorAlmacen}ExistenciaPorAlmacenDetLoteInv = record //Multiarchivo=Compania,GENERATE
+       ConsecutivoCompania : Longint; //HIDE,
+       ConsecutivoAlmacen   : Longint; //o,HIDE,
+       CodigoArticulo      : str30;//o,HIDE,
+       ConsecutivoLoteInventario  : Longint;//o,HIDE,= LoteDeInventario.Consecutivo
+       Cantidad            : Double; //o,g
+       Ubicacion           : Str100;//"Ubicación"
+@PrimaryKey=ConsecutivoCompania,ConsecutivoAlmacen,CodigoArticulo,ConsecutivoLoteInventario
 }
 
 {@M}NotaDeEntradaSalida =  record //"Nota de Entrada/Salida",Multiarchivo=Compania, Componente=Inventario,Esquema=dbo,GenerateRptConfigurar,GenerateFrmInforme,interop,GENERATE
