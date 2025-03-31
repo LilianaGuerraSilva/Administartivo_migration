@@ -243,6 +243,7 @@ Public Enum enum_SystemModules
    eSM_LoteDeInventario
    eSM_LoteDeInventarioMovimiento
    eSM_AuditoriaConfiguracion
+   eSM_ExistenciaPorAlmacenPorLoteDeInventario
 End Enum
 
 Public Enum enum_DiaDeLaSemana
