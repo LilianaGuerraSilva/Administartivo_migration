@@ -236,6 +236,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             new clsExistenciaPorAlmacenDetLoteInvED().InstalarTabla();
             if (TableExists("ExistenciaPorAlmacenDetLoteInv")) {
                 StringBuilder vSqlSb = new StringBuilder();
+                vSqlSb.AppendLine("DELETE FROM ExistenciaPorAlmacenDetLoteInv");
+                Execute(vSqlSb.ToString(), 0);
+                vSqlSb.Clear();
                 vSqlSb.AppendLine("INSERT INTO ExistenciaPorAlmacenDetLoteInv ");
                 vSqlSb.AppendLine("      (ConsecutivoCompania, ConsecutivoAlmacen, CodigoArticulo, ConsecutivoLoteInventario, Cantidad, Ubicacion)");
                 vSqlSb.AppendLine("SELECT ");

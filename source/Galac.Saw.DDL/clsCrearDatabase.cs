@@ -930,6 +930,9 @@ namespace Galac.Saw.DDL {
 			if (LibArray.Contains(valModulos, "AuditoriaConfiguracion")) {
                 vResult = vResult && new Galac.Saw.Dal.Tablas.clsAuditoriaConfiguracionED().InstalarVistasYSps();
             }
+            if (LibArray.Contains(valModulos, "ExistenciaPorAlmacenDetLoteInv")) {
+                vResult = vResult && new Galac.Saw.Dal.Inventario.clsExistenciaPorAlmacenDetLoteInvED().InstalarVistasYSps();
+            }
             return vResult;
         }
     }
