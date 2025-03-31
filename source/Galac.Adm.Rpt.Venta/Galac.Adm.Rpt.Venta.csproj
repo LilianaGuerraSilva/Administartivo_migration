@@ -110,6 +110,7 @@
     <Compile Include="clsFacturacionPorUsuario.cs" />
     <Compile Include="clsNotaDeEntregaEntreFechasPorClienteDetallado.cs" />
     <Compile Include="clsNotaDeEntregaEntreFechasPorCliente.cs" />
+    <Compile Include="clsNotasDeEntregaNoFacturadas.cs" />
     <Compile Include="clsResumenDiarioDeVentasEntreFechas.cs" />
     <Compile Include="dsrAuditoriaConfiguracionDeCaja.cs">
       <SubType>Component</SubType>
@@ -255,6 +256,12 @@
     <Compile Include="dsrFacturacionPorUsuarioResumido.Designer.cs">
       <DependentUpon>dsrFacturacionPorUsuarioResumido.cs</DependentUpon>
     </Compile>
+    <Compile Include="dsrNotaDeEntregaNoFacturadas.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrNotaDeEntregaNoFacturadas.Designer.cs">
+      <DependentUpon>dsrNotaDeEntregaNoFacturadas.cs</DependentUpon>
+    </Compile>
     <Compile Include="dsrNotaDeEntregaEntreFechasPorClienteDetallado.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -353,6 +360,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="dsrFacturacionPorUsuarioResumido.resx">
       <DependentUpon>dsrFacturacionPorUsuarioResumido.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dsrNotaDeEntregaNoFacturadas.resx">
+      <DependentUpon>dsrNotaDeEntregaNoFacturadas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="dsrNotaDeEntregaEntreFechasPorClienteDetallado.resx">
       <DependentUpon>dsrNotaDeEntregaEntreFechasPorClienteDetallado.cs</DependentUpon>

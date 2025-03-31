@@ -6,6 +6,7 @@ using LibGalac.Aos.Base.Report;
 using Galac.Adm.Ccl.Venta;
 using System.Data;
 using Galac.Saw.Lib;
+using LibGalac.Aos.Base;
 
 namespace Galac.Adm.Brl.Venta.Reportes {
 
@@ -48,11 +49,19 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             LibGalac.Aos.Base.ILibDataRpt insNotaDeEntregaEntreFechasPorCliente = new Galac.Adm.Dal.Venta.clsFacturaRapidaDat();
             vSql = insNotaDeEntregaSql.SqlNotaDeEntregaEntreFechasPorClienteDetallado(valConsecutivoCompania, valtFechaDesde, valFechaHasta, valCantidadAImprimir, valCodigoCliente);
             return insNotaDeEntregaEntreFechasPorCliente.GetDt(vSql, 0);
-        }        
+        }    
+		
+		DataTable INotaDeEntregaInformes.BuildNotasDeEntregaNoFacturadas(int valConsecutivoCompania, DateTime valtFechaDesde, DateTime valFechaHasta) {
+            string vSql = "";
+            clsNotaDeEntregaSql insNotaDeEntregaSql = new clsNotaDeEntregaSql();
+            LibGalac.Aos.Base.ILibDataRpt insNotasDeEntregaNoFacturadas = new Galac.Adm.Dal.Venta.clsFacturaRapidaDat();
+            vSql = insNotaDeEntregaSql.SqlNotasDeEntregaNoFacturadas(valConsecutivoCompania, valtFechaDesde, valFechaHasta);
+            return insNotasDeEntregaNoFacturadas.GetDt(vSql, 0);
+        }    
         #endregion //Metodos Generados
 
 
     } //End of class clsNotaDeEntregaRpt
 
-} //End of namespace Galac..Brl.ComponenteNoEspecificado
+} //End of namespace Galac.Adm.Brl.Venta
 

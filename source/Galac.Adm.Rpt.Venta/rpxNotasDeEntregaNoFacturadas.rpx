@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ActiveReportsLayout Version="3.1" PrintWidth="10935" DocumentName="ARNet Document" ScriptLang="C#" MasterReport="0">
+  <StyleSheet>
+    <Style Name="Normal" Value="font-family: Arial; font-style: normal; text-decoration: none; font-weight: normal; font-size: 10pt; color: Black" />
+    <Style Name="Heading1" Value="font-size: 16pt; font-weight: bold" />
+    <Style Name="Heading2" Value="font-family: Times New Roman; font-size: 14pt; font-weight: bold; font-style: italic" />
+    <Style Name="Heading3" Value="font-size: 13pt; font-weight: bold" />
+  </StyleSheet>
+  <Sections>
+    <Section Type="PageHeader" Name="PageHeader" Height="1440" BackColor="16777215">
+      <Control Type="AR.Field" Name="txtNombreCompania" Left="90" Top="180" Width="5895" Height="224.64" Text="txtNombreCompania" Style="text-align: center" />
+      <Control Type="AR.Field" Name="txtNroDePagina" Left="9405" Top="157.5" Width="1305" Height="224.64" Text="txtNroDePagina" Style="font-size: 8.25pt" />
+      <Control Type="AR.Label" Name="lblFechaYHoraDeEmision" Left="90" Top="945" Width="5895" Height="224.64" Caption="lblFechaYHoraDeEmision" Style="font-size: 8.25pt; text-align: center" />
+      <Control Type="AR.Label" Name="lblTituloInforme" Left="90" Top="472.5" Width="5895" Height="224.64" Caption="Notas de Entregas Emitidas y No Facturadas" Style="font-size: 8.25pt; text-align: center" />
+      <Control Type="AR.Label" Name="lblFechaInicialYFinal" Left="135" Top="675" Width="5895" Height="224.64" Caption="lblFechaInicialYFinal" Style="font-size: 8.25pt; text-align: center" />
+    </Section>
+    <Section Type="GroupHeader" Name="GHSecNotaDeEntrega" Height="900" BackColor="16777215">
+      <Control Type="AR.Label" Name="lblNumero" Left="0" Top="0" Width="3195" Height="225" Caption="Número Nota de Entrega" Style="font-size: 8.25pt; font-weight: bold; ddo-char-set: 0 " />
+      <Control Type="AR.Field" Name="txtNumero" Left="3195" Top="0" Width="3195" Height="225" Text="txtNumero" Style="font-size: 8pt; ddo-char-set: 1 " />
+      <Control Type="AR.Label" Name="lblFechaDesde" Left="0" Top="225" Width="3195" Height="225" Caption="Fecha Desde" Style="font-size: 8.25pt; font-weight: bold; ddo-char-set: 0 " />
+      <Control Type="AR.Field" Name="txtFechaDesde" Left="3195" Top="225" Width="3195" Height="225" Text="txtFechaDesde" Style="font-size: 8pt; ddo-char-set: 1 " />
+      <Control Type="AR.Label" Name="lblFechaHasta" Left="0" Top="450" Width="3195" Height="225" Caption="Fecha Hasta" Style="font-size: 8.25pt; font-weight: bold; ddo-char-set: 0 " />
+      <Control Type="AR.Field" Name="txtFechaHasta" Left="3195" Top="450" Width="3195" Height="225" Text="txtFechaHasta" Style="font-size: 8pt; ddo-char-set: 1 " />
+      <Control Type="AR.Label" Name="lblCodigoCliente" Left="0" Top="675" Width="3195" Height="225" Caption="Código de Cliente" Style="font-size: 8.25pt; font-weight: bold; ddo-char-set: 0 " />
+      <Control Type="AR.Field" Name="txtCodigoCliente" Left="3195" Top="675" Width="3195" Height="225" Text="txtCodigoCliente" Style="font-size: 8pt; ddo-char-set: 1 " />
+      <Control Type="AR.Label" Name="lblNombreCliente" Left="0" Top="900" Width="3195" Height="225" Caption="Nombre de Cliente" Style="font-size: 8.25pt; font-weight: bold; ddo-char-set: 0 " />
+      <Control Type="AR.Field" Name="txtNombreCliente" Left="3195" Top="900" Width="3195" Height="225" Text="txtNombreCliente" Style="font-size: 8pt; ddo-char-set: 1 " />
+      <Control Type="AR.Label" Name="lblStatusNotaDeEntrega" Left="0" Top="1125" Width="3195" Height="225" Caption="Status de Nota de Entrega" Style="font-size: 8.25pt; font-weight: bold; ddo-char-set: 0 " />
+      <Control Type="AR.Field" Name="txtStatusNotaDeEntrega" Left="3195" Top="1125" Width="3195" Height="225" Text="txtStatusNotaDeEntrega" Style="font-size: 8pt; ddo-char-set: 1 " />
+    </Section>
+    <Section Type="Detail" Name="Detail" Height="225" BackColor="16777215">
+    </Section>
+    <Section Type="GroupFooter" Name="GFSecNotaDeEntrega" Height="225" BackColor="16777215">
+    </Section>
+    <Section Type="PageFooter" Name="PageFooter" Height="0" BackColor="16777215"/>
+  </Sections>
+  <ReportComponentTray />
+  <PageSettings />
+  <Parameters />
+</ActiveReportsLayout>
