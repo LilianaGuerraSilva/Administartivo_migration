@@ -121,11 +121,15 @@
     <Compile Include="Reportes\clsAuditoriaConfiguracionDeCajaViewModel.cs" />
     <Compile Include="Reportes\clsEscaladaInformesViewModel.cs" />
     <Compile Include="Reportes\clsFacturacionEntreFechasVerificacionViewModel.cs" />
+    <Compile Include="Reportes\clsNotasDeEntregaNoFacturadasViewModel.cs" />
     <Compile Include="Reportes\GSAuditoriaConfiguracionDeCaja.xaml.cs">
       <DependentUpon>GSAuditoriaConfiguracionDeCaja.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reportes\GSFacturacionEntreFechasVerificacion.xaml.cs">
       <DependentUpon>GSFacturacionEntreFechasVerificacion.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSNotasDeEntregaNoFacturadas.xaml.cs">
+      <DependentUpon>GSNotasDeEntregaNoFacturadas.xaml</DependentUpon>
     </Compile>
     <Compile Include="UIMefAudiEnte.cs" />
     <Compile Include="VentaMessagesHandler.cs" />
@@ -403,6 +407,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Reportes\GSNotaDeEntregaEntreFechasPorClienteView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSNotasDeEntregaNoFacturadas.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
