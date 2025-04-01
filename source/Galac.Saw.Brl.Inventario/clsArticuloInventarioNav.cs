@@ -310,6 +310,12 @@ namespace Galac.Saw.Brl.Inventario {
                     if (item.TipoActualizacion == eTipoActualizacion.Existencia || item.TipoActualizacion == eTipoActualizacion.ExistenciayCosto) {
                         if (vArticulo.TipoArticulo != eTipoDeArticulo.Servicio) {
                             ActualizarExistenciaPorAlmacen(valConsecutivoCompania, item.CodigoAlmacen, item.CodigoArticulo, item.Cantidad, item.Ubicacion, item.ConsecutivoAlmacen);
+                            if (vArticulo.TipoArticuloInv == eTipoArticuloInv.Lote || vArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || vArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeElaboracion ) {
+                                foreach (var itemExistenciaPorLote in item.DetalleExistenciasPorAlmacenDetLoteInv) {
+                                    ActualizarExistenciaPorAlmacenPorLoteInv(valConsecutivoCompania, itemExistenciaPorLote.ConsecutivoAlmacen, itemExistenciaPorLote.CodigoArticulo, itemExistenciaPorLote.ConsecutivoLoteInventario, itemExistenciaPorLote.Cantidad, itemExistenciaPorLote.Ubicacion);
+                                } 
+                            }
+                            ActualizarExistenciaPorGrupoTallaColor(valConsecutivoCompania, vArticulo.CodigoArticulo, vArticulo.CodigoGrupo, vArticulo.CodigoTalla, vArticulo.CodigoColor, item.Cantidad);
                             if (vArticulo.TipoArticuloInv == eTipoArticuloInv.UsaTallaColor) {
                                 ActualizarExistenciaPorGrupoTallaColor(valConsecutivoCompania, vArticulo.CodigoArticulo, vArticulo.CodigoGrupo, vArticulo.CodigoTalla, vArticulo.CodigoColor, item.Cantidad);
                             }
@@ -416,6 +422,29 @@ namespace Galac.Saw.Brl.Inventario {
             vSQL.AppendLine(" IF @@ROWCOUNT = 0");
             vSQL.AppendLine(" INSERT INTO ExistenciaPorAlmacen(ConsecutivoCompania, CodigoAlmacen, CodigoArticulo, Cantidad, Ubicacion, ConsecutivoAlmacen)");
             vSQL.AppendLine(" VALUES( @ConsecutivoCompania, @CodigoAlmacen, @CodigoArticulo, @Cantidad, @Ubicacion, @ConsecutivoAlmacen)");
+
+            LibBusiness.ExecuteUpdateOrDelete(vSQL.ToString(), vParams.Get(), "", 0);
+        }
+
+        private static void ActualizarExistenciaPorAlmacenPorLoteInv(int valConsecutivoCompania
+            , int valConsecutivoAlmacen
+            , string valCodigoArticulo
+            , int valConsecutivoLoteInventario
+            , decimal valCantidad
+            , string valUbicacion) {
+            LibGpParams vParams = new LibGpParams();
+            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            vParams.AddInInteger("ConsecutivoAlmacen", valConsecutivoAlmacen);
+            vParams.AddInString("CodigoArticulo", valCodigoArticulo, 30);
+            vParams.AddInInteger("ConsecutivoLoteInventario", valConsecutivoLoteInventario);
+            vParams.AddInDecimal("Cantidad", valCantidad, 4);
+            vParams.AddInString("Ubicacion", valUbicacion, 100);
+        
+            StringBuilder vSQL = new StringBuilder();
+            vSQL.AppendLine("UPDATE  ExistenciaPorAlmacenDetLoteInv SET Cantidad = Cantidad + @Cantidad WHERE ConsecutivoCompania = @ConsecutivoCompania AND CodigoArticulo = @CodigoArticulo AND ConsecutivoAlmacen = @ConsecutivoAlmacen AND ConsecutivoLoteInventario = @ConsecutivoLoteInventario");
+            vSQL.AppendLine(" IF @@ROWCOUNT = 0");
+            vSQL.AppendLine(" INSERT INTO ExistenciaPorAlmacenDetLoteInv(ConsecutivoCompania, ConsecutivoAlmacen, CodigoArticulo, ConsecutivoLoteInventario, Cantidad, Ubicacion ) ");
+            vSQL.AppendLine(" VALUES( @ConsecutivoCompania, @ConsecutivoAlmacen, @CodigoArticulo, @ConsecutivoLoteInventario, @Cantidad, @Ubicacion)");
 
             LibBusiness.ExecuteUpdateOrDelete(vSQL.ToString(), vParams.Get(), "", 0);
         }
