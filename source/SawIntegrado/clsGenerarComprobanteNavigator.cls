@@ -1902,7 +1902,7 @@ Private Function fSQLFacturasEntreFechas(ByVal valFechaDesde As Date, ByVal valF
    vSQL = vSQL & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "SUM(" & gUtilSQL.fRoundNDecimales("((factura.TotalFactura - factura.TotalIVA) * " & vTasaDeCambio & ")", 2) & ")", vSqlCuentaFacturacionMontoTotalFactura, gProyReglasDeContabilizacion.getCuentaFacturacionMontoTotalFacturaUsaAuxiliares, vCodigoDelAuxiliar, vNumeroReferencia, valDescripcionDelAsiento, vCondicionDeStatusAnulado, vCodigoCentroDeCosto) & " ,"
    vSQL = vSQL & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "SUM(Factura.IGTFML)", vCodigoCuentaIGTF, False, "", vNumeroReferencia, valDescripcionDelAsiento, vCondicionDeStatusAnulado, "") & ", "
    If gProyParametrosCompania.GetUsaCreditoElectronico And gProyReglasDeContabilizacion.GetCuentaFacturacionCxCCreditoElectronico <> "" Then
-      vSQL = vSQL & fAgregaUnaCuentaAlSQL("DEBE", False, gUtilSQL.fNumToStrSQL(vMontoCxCCE), vCuentaContableCE, False, "", "", valDescripcionDelAsiento, "", vCodigoCentroDeCosto)
+      vSQL = vSQL & fAgregaUnaCuentaAlSQL("DEBE", False, gUtilSQL.fNumToStrSQL(vMontoCxCCE), vCuentaContableCE, False, "", vNumeroReferencia, valDescripcionDelAsiento, "", vCodigoCentroDeCosto)
    Else
       vSQL = vSQL & fAgregaUnaCuentaAlSQL("DEBE", False, "0", "", False, "", "", "", "", "")
    End If
@@ -2444,7 +2444,7 @@ Private Function fSQLFacturasEntreFechasPorArticulo(ByVal valFechaDesde As Date,
    vSQL = vSQL & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "SUM(" & gUtilSQL.fRoundNDecimales("factura.TotalIVA * " & vTasaDeCambio, 2) & ")", vCodigoCuentaIVA, vCodigoCuentaIVAUsaAuxiliar, vCodigoDelAuxiliar, vNumeroReferencia, valDescripcionDelAsiento, vCondicionDeStatusAnulado, vCodigoCentroDeCosto) & ", "
    vSQL = vSQL & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "SUM(Factura.IGTFML)", vCodigoCuentaIGTF, False, "", vNumeroReferencia, valDescripcionDelAsiento, vCondicionDeStatusAnulado, vCodigoCentroDeCosto) & ", "
    If gProyParametrosCompania.GetUsaCreditoElectronico And gProyReglasDeContabilizacion.GetCuentaFacturacionCxCCreditoElectronico <> "" Then
-      vSQL = vSQL & fAgregaUnaCuentaAlSQL("DEBE", False, gUtilSQL.fNumToStrSQL(vMontoCxCCE), vCuentaContableCE, False, "", "", valDescripcionDelAsiento, "", vCodigoCentroDeCosto)
+      vSQL = vSQL & fAgregaUnaCuentaAlSQL("DEBE", False, gUtilSQL.fNumToStrSQL(vMontoCxCCE), vCuentaContableCE, False, "", vNumeroReferencia, valDescripcionDelAsiento, "", vCodigoCentroDeCosto)
    Else
       vSQL = vSQL & fAgregaUnaCuentaAlSQL("", False, "0", "", "", "", "", "", "", "")
    End If
@@ -4215,7 +4215,7 @@ Private Function fMontoCxCCreditoElectronico(ByVal valUsaContabilizacionMensualP
    Else
       vSQL = vSQL & " AND " & fSqlCaseTipoDeTransaccionCxCToTipoDocumentoFactura("CxC.TipoCxc") & gUtilSQL.CharConcat & "'" & Trim(Chr(9)) & "'" & gUtilSQL.CharConcat & "CxC.NumeroDocumentoOrigen IN (" & valConjuntoDeFacturasSinContabilizar & ")"
    End If
-   vSQL = vSQL & " AND CxC.Origen = " & gUtilSQL.fSQLSimpleValueForEnum(enum_OrigenFacturacionOManual.eOF_FACTURA)
+   vSQL = vSQL & " AND (CxC.Origen = " & gUtilSQL.fSQLSimpleValueForEnum(enum_OrigenFacturacionOManual.eOF_FACTURA) & " OR CxC.Origen = '8')"
    vSQL = vSQL & " AND CxC.VieneDeCreditoElectronico = " & gUtilSQL.fBooleanToSqlValue(True)
 
    If gDbUtil.fOpenRecordset(vRs, vSQL, gDefDatabase.Conexion) Then
@@ -4242,7 +4242,7 @@ Private Function fMontoDocCobradoCreditoElectronico(ByVal valConjuntoDeFacturasS
    vSQL = vSQL & " WHERE DocumentoCobrado.ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
    vSQL = vSQL & " AND DocumentoCobrado.NumeroCobranza IN (" & valConjuntoDeFacturasSinContabilizar & ")"
    vSQL = vSQL & " AND CxC.VieneDeCreditoElectronico = " & gUtilSQL.fBooleanToSqlValue(True)
-   vSQL = vSQL & " AND CxC.Origen = " & gUtilSQL.fSQLSimpleValueForEnum(enum_OrigenFacturacionOManual.eOF_FACTURA)
+   vSQL = vSQL & " AND (CxC.Origen = " & gUtilSQL.fSQLSimpleValueForEnum(enum_OrigenFacturacionOManual.eOF_FACTURA) & " OR CxC.Origen = '8')"
 
    If gDbUtil.fOpenRecordset(vRs, vSQL, gDefDatabase.Conexion) Then
       If gDbUtil.fRecordCount(vRs) > 0 Then
