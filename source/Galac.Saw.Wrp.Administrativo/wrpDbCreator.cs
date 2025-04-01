@@ -263,7 +263,9 @@ namespace Galac.Saw.Wrp.DDL {
             } else if (valTableName.Equals("AuditoriaConfiguracion", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearAuditoriaConfiguracion();
             } else if (valTableName.Equals("ExistenciaPorAlmacenDetLoteInv", StringComparison.CurrentCultureIgnoreCase)) {
-                vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearExistenciaPorAlmacenDetLoteInv ();
+                vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearExistenciaPorAlmacenDetLoteInv();
+            } else if (valTableName.Equals("RenglonExistenciaAlmacen", StringComparison.CurrentCultureIgnoreCase)) {
+                vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearRenglonExistenciaAlmacen();
             } else {
                 throw new NotImplementedException("Aún no ha sido implementada la creación de la Tabla " + valTableName + " y sus objetos asociados.");
             }

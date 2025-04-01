@@ -160,6 +160,9 @@ namespace Galac.Saw.DbMigrator {
             if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "ExistenciaPorAlmacenDetLoteInv")) {
                 vResult = vResult && CrearExistenciaPorAlmacenDetLoteInv();
             }
+            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "RenglonExistenciaAlmacen")) {
+                vResult = vResult && CrearRenglonExistenciaAlmacen();
+            }
             CrearGVentasDefiniciones();
             return vResult;
         }
