@@ -345,20 +345,22 @@ namespace Galac.Saw.Brl.Inventario {
             return vResult;
         }
 
-        internal decimal DisponibilidadDeArticulo(int valConsecutivoCompania, string valCodigoArticulo, int valConsecutivoLoteDeInventario) {
+        internal decimal DisponibilidadDeArticulo(int valConsecutivoCompania, string valCodigoArticulo, int valConsecutivoLoteDeInventario,  int valConsecutivoAlmacen) {
             decimal vResult = 0;
             StringBuilder SQL = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             string vTabla = string.Empty;
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             vParams.AddInString("CodigoArticulo", valCodigoArticulo, 30);
-            vParams.AddInInteger("Consecutivo", valConsecutivoLoteDeInventario);
+            vParams.AddInInteger("ConsecutivoLoteInventario", valConsecutivoLoteDeInventario);
+            vParams.AddInInteger("ConsecutivoAlmacen", valConsecutivoAlmacen);
 
-            SQL.AppendLine(" SELECT CodigoArticulo, Existencia AS Disponibilidad");
-            SQL.AppendLine(" FROM Saw.LoteDeInventario ");
-            SQL.AppendLine(" WHERE Saw.LoteDeInventario.CodigoArticulo = @CodigoArticulo ");
-            SQL.AppendLine(" AND Saw.LoteDeInventario.ConsecutivoCompania = @ConsecutivoCompania ");
-            SQL.AppendLine(" AND Saw.LoteDeInventario.Consecutivo = @Consecutivo ");
+            SQL.AppendLine(" SELECT CodigoArticulo, Cantidad AS Disponibilidad");
+            SQL.AppendLine(" FROM dbo.ExistenciaPorAlmacenDetLoteInv ");
+            SQL.AppendLine(" WHERE dbo.ExistenciaPorAlmacenDetLoteInv.CodigoArticulo = @CodigoArticulo ");
+            SQL.AppendLine(" AND dbo.ExistenciaPorAlmacenDetLoteInv.ConsecutivoCompania = @ConsecutivoCompania ");
+            SQL.AppendLine(" AND dbo.ExistenciaPorAlmacenDetLoteInv.ConsecutivoLoteInventario = @ConsecutivoLoteInventario ");
+            SQL.AppendLine(" AND dbo.ExistenciaPorAlmacenDetLoteInv.ConsecutivoAlmacen = @ConsecutivoAlmacen ");
 
             XElement xRecord = LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", 0);
             if (xRecord != null) {
