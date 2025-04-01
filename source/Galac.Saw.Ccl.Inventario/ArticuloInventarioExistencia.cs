@@ -13,6 +13,7 @@ namespace Galac.Saw.Ccl.Inventario {
         private string _Ubicacion;
         private int _ConsecutivoAlmacen;
         private List<ArticuloInventarioExistenciaSerial> _DetalleArticuloInventarioExistenciaSerial;
+        private List<ExistenciaPorAlmacenDetLoteInv> _DetalleExistenciasPorAlmacenDetLoteInv;
 
         public ArticuloInventarioExistencia() {
             TipoActualizacion = eTipoActualizacion.Existencia;
@@ -57,5 +58,10 @@ namespace Galac.Saw.Ccl.Inventario {
         public decimal CostoUnitarioME { get; set; }
 
         public eTipoActualizacion TipoActualizacion { get; set; }
+        public List<ExistenciaPorAlmacenDetLoteInv> DetalleExistenciasPorAlmacenDetLoteInv
+        {
+            get { return _DetalleExistenciasPorAlmacenDetLoteInv; }
+            set { _DetalleExistenciasPorAlmacenDetLoteInv = value; }
+        }
     }
 }
