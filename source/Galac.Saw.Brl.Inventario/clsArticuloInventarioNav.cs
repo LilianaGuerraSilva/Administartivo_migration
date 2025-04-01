@@ -314,12 +314,9 @@ namespace Galac.Saw.Brl.Inventario {
                                 foreach (var itemExistenciaPorLote in item.DetalleExistenciasPorAlmacenDetLoteInv) {
                                     ActualizarExistenciaPorAlmacenPorLoteInv(valConsecutivoCompania, itemExistenciaPorLote.ConsecutivoAlmacen, itemExistenciaPorLote.CodigoArticulo, itemExistenciaPorLote.ConsecutivoLoteInventario, itemExistenciaPorLote.Cantidad, itemExistenciaPorLote.Ubicacion);
                                 } 
-                            }
-                            ActualizarExistenciaPorGrupoTallaColor(valConsecutivoCompania, vArticulo.CodigoArticulo, vArticulo.CodigoGrupo, vArticulo.CodigoTalla, vArticulo.CodigoColor, item.Cantidad);
-                            if (vArticulo.TipoArticuloInv == eTipoArticuloInv.UsaTallaColor) {
+                            } else if (vArticulo.TipoArticuloInv == eTipoArticuloInv.UsaTallaColor) {
                                 ActualizarExistenciaPorGrupoTallaColor(valConsecutivoCompania, vArticulo.CodigoArticulo, vArticulo.CodigoGrupo, vArticulo.CodigoTalla, vArticulo.CodigoColor, item.Cantidad);
-                            }
-                            if (vArticulo.TipoArticuloInv == eTipoArticuloInv.UsaSerial 
+                            } else if (vArticulo.TipoArticuloInv == eTipoArticuloInv.UsaSerial
                                 || vArticulo.TipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial
                                 || vArticulo.TipoArticuloInv == eTipoArticuloInv.UsaSerialRollo) {
                                 ActualizarExistenciaPorGrupoSerial(valConsecutivoCompania, vArticulo.CodigoArticulo, vArticulo.CodigoGrupo, vArticulo.CodigoTalla, vArticulo.CodigoColor, item.DetalleArticuloInventarioExistenciaSerial, vArticulo.TipoArticuloInv);
