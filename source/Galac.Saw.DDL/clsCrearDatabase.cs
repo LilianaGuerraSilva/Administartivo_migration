@@ -663,6 +663,9 @@ namespace Galac.Saw.DDL {
         public bool CrearExistenciaPorAlmacenDetLoteInv() {
             return new Galac.Saw.Dal.Inventario.clsExistenciaPorAlmacenDetLoteInvED().InstalarTabla();
         }
+        public bool CrearRenglonExistenciaAlmacen() {
+            return new Galac.Saw.Dal.Inventario.clsRenglonExistenciaAlmacenED().InstalarTabla();
+        }
         public bool CrearVistasYProcedimientos(string[] valModulos) {
             bool vResult = true;
             if (LibArray.Contains(valModulos, "Usuario")) {
@@ -932,6 +935,9 @@ namespace Galac.Saw.DDL {
             }
             if (LibArray.Contains(valModulos, "ExistenciaPorAlmacenDetLoteInv")) {
                 vResult = vResult && new Galac.Saw.Dal.Inventario.clsExistenciaPorAlmacenDetLoteInvED().InstalarVistasYSps();
+            }
+            if (LibArray.Contains(valModulos, "RenglonExistenciaAlmacen")) {
+                vResult = vResult && new Galac.Saw.Dal.Inventario.clsRenglonExistenciaAlmacenED().InstalarVistasYSps();
             }
             return vResult;
         }
