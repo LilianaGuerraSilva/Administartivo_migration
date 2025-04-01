@@ -150,11 +150,11 @@ namespace Galac.Saw.Dal.Inventario {
 
         public bool InstalarTabla() {
             bool vResult = false;
-            if (CrearTabla()) {
+            
                 CrearVistas();
                 CrearProcedimientos();
                 vResult = true;
-            }
+            
             return vResult;
         }
 
