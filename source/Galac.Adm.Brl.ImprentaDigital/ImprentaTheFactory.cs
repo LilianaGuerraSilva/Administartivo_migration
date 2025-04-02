@@ -93,7 +93,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             } finally {
                 CodigoRespuesta = vRespuestaConector.codigo ?? string.Empty;
-                if(!vRespuestaConector.Aprobado) {
+                if(vRespuestaConector.Aprobado) {
                     EstatusDocumento = vRespuestaConector.estado.estadoDocumento ?? string.Empty;
                     NumeroControl = vRespuestaConector.estado.numeroControl ?? string.Empty;
                     FechaAsignacion = LibString.IsNullOrEmpty(vRespuestaConector.estado.fechaAsignacion) ? LibDate.MinDateForDB() : LibConvert.ToDate(vRespuestaConector.estado.fechaAsignacion);
