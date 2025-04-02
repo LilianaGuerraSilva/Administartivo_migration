@@ -226,6 +226,38 @@ namespace Galac.Adm.Brl.Banco {
 			instanciaDal.Insert(vLista);
 		}
 
+		void ICuentaBancariaPdn.InsertaCuentaBancariaGenericaMonedaExtranjeraSiHaceFalta(int valConsecutivoCompania, int vCodigoBanco, string valCodigoMonedaExtranjera, string valNombreMonedaExtranjera) {
+			ILibDataComponent<IList<CuentaBancaria>, IList<CuentaBancaria>> instanciaDal = new Galac.Adm.Dal.Banco.clsCuentaBancariaDat();
+			IList<CuentaBancaria> vLista = new List<CuentaBancaria>();
+			CuentaBancaria vCurrentRecord = new CuentaBancaria();
+			XElement vParamResultAdm = GetPametrosAdministrativoCodigoMonedaLocal(valConsecutivoCompania, instanciaDal);
+			string vCodigoMonedaLocal = LibXml.GetPropertyString(vParamResultAdm, "CodigoMonedaLocal");
+			vParamResultAdm = GetPametrosAdministrativoNombreMonedaLocal(valConsecutivoCompania, instanciaDal);
+			string vNombreMonedaLocal = LibXml.GetPropertyString(vParamResultAdm, "NombreMonedaLocal");
+			if (vCodigoMonedaLocal == "") { vCodigoMonedaLocal = valCodigoMonedaExtranjera; }
+			if (vNombreMonedaLocal == "") { vNombreMonedaLocal = valNombreMonedaExtranjera; }
+			vCurrentRecord.ConsecutivoCompania = valConsecutivoCompania;
+			vCurrentRecord.Codigo = "10000";
+			vCurrentRecord.CodigoBanco = vCodigoBanco;
+			vCurrentRecord.StatusAsEnum = eStatusCtaBancaria.Activo;
+			vCurrentRecord.NumeroCuenta = "CUENTA BANCARIA GENÉRICA DÓLARES";
+			vCurrentRecord.NombreCuenta = "CAJA PRINCIPAL DÓLARES";
+			vCurrentRecord.NombreSucursal = "";
+			vCurrentRecord.TipoCtaBancariaAsEnum = eTipoDeCtaBancaria.Corriente;
+			vCurrentRecord.ManejaCreditoBancarioAsBool = false;
+			vCurrentRecord.ManejaDebitoBancarioAsBool = false;
+			vCurrentRecord.SaldoDisponible = 0;
+			vCurrentRecord.CodigoMoneda = vCodigoMonedaLocal;
+			vCurrentRecord.NombreDeLaMoneda = vNombreMonedaLocal;
+			vCurrentRecord.CuentaContable = "";
+			vCurrentRecord.NombrePlantillaCheque = "rpxChequeGenerico";
+			vCurrentRecord.TipoDeAlicuotaPorContribuyenteAsEnum = eTipoAlicPorContIGTF.NoAsignado;
+			vCurrentRecord.ExcluirDelInformeDeDeclaracionIGTF = LibConvert.BoolToSN(false);
+			vCurrentRecord.GeneraMovBancarioPorIGTF = LibConvert.BoolToSN(false);
+			vLista.Add(vCurrentRecord);
+			instanciaDal.Insert(vLista);
+		}
+
 		bool ICuentaBancariaPdn.ActualizaSaldoDisponibleEnCuenta(int valConsecutivoCompania, string valCodigoCuenta, string valMonto, string valIngresoEgreso, int valmAction, string valMontoOriginal, bool valSeModificoTipoConcepto) {
 			bool vResult;
 			vResult = false;
