@@ -145,6 +145,20 @@ namespace Galac.Saw.Wrp.Banco {
 			}
 		}
 
+		void IWrpCuentaBancariaVb.InsertaCuentaBancariaGenericaMonedaExtranjeraSiHaceFalta(int vfwConsecutivoCompania, int vfwCodigoBanco, string valCodigoMonedaExtranjera, string valNombreMonedaExtranjera) {
+			try {
+				ICuentaBancariaPdn insCuentaBancariaPdn = new clsCuentaBancariaNav();
+				insCuentaBancariaPdn.InsertaCuentaBancariaGenericaMonedaExtranjeraSiHaceFalta(vfwConsecutivoCompania, vfwCodigoBanco, valCodigoMonedaExtranjera, valNombreMonedaExtranjera);
+			} catch (GalacException gEx) {
+				LibExceptionDisplay.Show(gEx, null, Title + " - " + "Inserta Cuenta Bancaria Generica en moneda extranjera si hace falta");
+			} catch (Exception vEx) {
+				if (vEx is AccessViolationException) {
+					throw;
+				}
+				LibExceptionDisplay.Show(vEx);
+			}
+		}
+
 		bool IWrpCuentaBancariaVb.ActualizaSaldoDisponibleEnCuenta(int vfwConsecutivoCompania, string vfwCodigoCuenta, string vfwMonto, string vfwIngresoEgreso, string vfwmAction, string vfwMontoOriginal, bool vfwSeModificoTipoConcepto) {
 			try {
 				ICuentaBancariaPdn insCuentaBancariaPdn = new clsCuentaBancariaNav();
