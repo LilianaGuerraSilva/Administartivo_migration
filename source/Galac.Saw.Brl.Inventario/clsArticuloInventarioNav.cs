@@ -313,7 +313,7 @@ namespace Galac.Saw.Brl.Inventario {
                             if (vArticulo.TipoArticuloInv == eTipoArticuloInv.Lote || vArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || vArticulo.TipoArticuloInv == eTipoArticuloInv.LoteFechadeElaboracion ) {
                                 foreach (var itemExistenciaPorLote in item.DetalleExistenciasPorAlmacenDetLoteInv) {
                                     ActualizarExistenciaPorAlmacenPorLoteInv(valConsecutivoCompania, itemExistenciaPorLote.ConsecutivoAlmacen, itemExistenciaPorLote.CodigoArticulo, itemExistenciaPorLote.ConsecutivoLoteInventario, itemExistenciaPorLote.Cantidad, itemExistenciaPorLote.Ubicacion);
-                                } 
+                                }
                             } else if (vArticulo.TipoArticuloInv == eTipoArticuloInv.UsaTallaColor) {
                                 ActualizarExistenciaPorGrupoTallaColor(valConsecutivoCompania, vArticulo.CodigoArticulo, vArticulo.CodigoGrupo, vArticulo.CodigoTalla, vArticulo.CodigoColor, item.Cantidad);
                             } else if (vArticulo.TipoArticuloInv == eTipoArticuloInv.UsaSerial
@@ -2196,8 +2196,8 @@ namespace Galac.Saw.Brl.Inventario {
             return vResult;
         }
 
-        public decimal DisponibilidadDeArticulo(int valConsecutivoCompania, string valCodigoArticulo, int valConsecutivoLoteDeInventario) {
-            return new clsLoteDeInventarioNav().DisponibilidadDeArticulo(valConsecutivoCompania, valCodigoArticulo, valConsecutivoLoteDeInventario);
+        public decimal DisponibilidadDeArticulo(int valConsecutivoCompania, string valCodigoArticulo, int valConsecutivoLoteDeInventario, int valConsecutivoAlmacen) {
+            return new clsLoteDeInventarioNav().DisponibilidadDeArticulo(valConsecutivoCompania, valCodigoArticulo, valConsecutivoLoteDeInventario, valConsecutivoAlmacen);
         }
 
         public XElement DisponibilidadDeArticuloPorLote(int valConsecutivoCompania, XElement valDataArticulo) {
