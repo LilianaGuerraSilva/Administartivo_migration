@@ -114,9 +114,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     }
                 }
             }
-            if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaLoteFechaDeVencimiento")) {
-                VisibleColumns.RemoveAt(2);
-            }
         }
     } //End of class OrdenDeProduccionDetalleMaterialesMngViewModel
 
