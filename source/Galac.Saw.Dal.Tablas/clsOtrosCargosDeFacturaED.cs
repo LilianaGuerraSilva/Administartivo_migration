@@ -463,7 +463,7 @@ namespace Galac.Saw.Dal.Tablas {
         }
 
         public bool BorrarVistasYSps() {
-            bool vResult = false;
+            bool vResult = true;
             LibStoredProc insSp = new LibStoredProc();
             LibViews insVista = new LibViews();
             if (insDbo.Exists(DbSchema + ".Gp_OtrosCargosDeFacturaINS",eDboType.Procedimiento)) {
