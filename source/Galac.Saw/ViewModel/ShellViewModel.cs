@@ -416,7 +416,12 @@ namespace Galac.Saw.ViewModel {
         }
 
         protected override void ClearListOfComponentsNotAllowed() {
-
+            if (new Galac.Saw.Lib.clsLibSaw().EsFacturadorBasico()) {
+                DeleteComponentFromList("UIMefImpuestoFormatosImpMunicipales");
+                DeleteComponentFromList("UIMefTablasPropAnalisisVenc");
+                DeleteComponentFromList("UIMefTablasLeyTarifaN2");
+                DeleteComponentFromList("UIMefTablasTipoProveedor");
+            }
         }
     }
 }

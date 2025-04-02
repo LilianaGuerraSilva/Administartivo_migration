@@ -15,6 +15,7 @@ using LibGalac.Aos.Vbwa;
 using System.Reflection;
 using System.Xml;
 using LibGalac.Aos.DefGen;
+using Galac.Saw.Lib;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.MenuBar {
 #elif IsExeBsS​
@@ -96,6 +97,7 @@ namespace Galac.Saw.Wrp.MenuBar {
         }
 
         private XElement ComponentsNavigationTab() {
+            var EsVisible = !new clsLibSaw().EsFacturadorBasico();
             XElement vResult = new XElement("Components",
                   new XElement("UilComponents"
                       , new XElement("UilComponent", new XAttribute("Name", "UIMefImpuestoAlicuotaImpuestoEspecial"), new XAttribute("Module", "Tablas"))
@@ -107,8 +109,8 @@ namespace Galac.Saw.Wrp.MenuBar {
                       , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasGenCiudad"), new XAttribute("Module", "Tablas"))
                       , new XElement("UilComponent", new XAttribute("Name", "UIMefImpuestoClasificadorActividadEconomica"), new XAttribute("Module", "Tablas"))
                       , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasCondicionesDePago"), new XAttribute("Module", "Tablas"))
-                      , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasFormaDelCobro"), new XAttribute("Module", "Tablas"))
-                      , new XElement("UilComponent", new XAttribute("Name", "UIMefImpuestoFormatosImpMunicipales"), new XAttribute("Module", "Tablas"))
+                      , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasFormaDelCobro"), new XAttribute("Module", "Tablas"))                      
+                      , EsVisible ? new XElement("UilComponent", new XAttribute("Name", "UIMefImpuestoFormatosImpMunicipales"), new XAttribute("Module", "Tablas")): null
                       , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasLineaDeProducto"), new XAttribute("Module", "Tablas"))
                       , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasMaquinaFiscal"), new XAttribute("Module", "Tablas"))
                       , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasGenMoneda"), new XAttribute("Module", "Tablas"))
@@ -117,17 +119,17 @@ namespace Galac.Saw.Wrp.MenuBar {
                       , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasGenMunicipioCiudad"), new XAttribute("Module", "Tablas"))
                       , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasNotaFinal"), new XAttribute("Module", "Tablas"))
                       , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasGenPais"), new XAttribute("Module", "Tablas"))
-                      , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasPropAnalisisVenc"), new XAttribute("Module", "Tablas"))
+                      , EsVisible ? new XElement("UilComponent", new XAttribute("Name", "UIMefTablasPropAnalisisVenc"), new XAttribute("Module", "Tablas")): null
                       , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasRutaDeComercializacion"), new XAttribute("Module", "Tablas"))
                       , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasGenSectorDeNegocio"), new XAttribute("Module", "Tablas"))
-                      , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasLeyTarifaN2"), new XAttribute("Module", "Tablas"))
-                      , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasTipoProveedor"), new XAttribute("Module", "Tablas"))
+                      , EsVisible ? new XElement("UilComponent", new XAttribute("Name", "UIMefTablasLeyTarifaN2"), new XAttribute("Module", "Tablas")): null
+                      , EsVisible ? new XElement("UilComponent", new XAttribute("Name", "UIMefTablasTipoProveedor"), new XAttribute("Module", "Tablas")): null
                       , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasUrbanizacionZP"), new XAttribute("Module", "Tablas"))
                       , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasUnidadDeVenta"), new XAttribute("Module", "Tablas"))
                       , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasLeyValorUT"), new XAttribute("Module", "Tablas"))
                       , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasZonaCobranza"), new XAttribute("Module", "Tablas"))
                    ));
-            return vResult;
+            return vResult;       
         }
 
         private XElement ComponentsNavigationTabPeru() {
