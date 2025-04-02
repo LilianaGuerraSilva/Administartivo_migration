@@ -466,24 +466,20 @@ namespace Galac.Saw.Dal.Tablas {
             bool vResult = true;
             LibStoredProc insSp = new LibStoredProc();
             LibViews insVista = new LibViews();
-            if (insDbo.Exists(DbSchema + ".Gp_OtrosCargosDeFacturaINS",eDboType.Procedimiento)) {
+            if(insDbo.Exists(DbSchema + ".Gp_OtrosCargosDeFacturaINS", eDboType.Procedimiento)) {
                 vResult = insSp.Drop(DbSchema + ".Gp_OtrosCargosDeFacturaINS") && vResult;
                 vResult = insSp.Drop(DbSchema + ".Gp_OtrosCargosDeFacturaUPD") && vResult;
                 vResult = insSp.Drop(DbSchema + ".Gp_OtrosCargosDeFacturaDEL") && vResult;
                 vResult = insSp.Drop(DbSchema + ".Gp_OtrosCargosDeFacturaGET") && vResult;
                 vResult = insSp.Drop(DbSchema + ".Gp_OtrosCargosDeFacturaGetFk") && vResult;
                 vResult = insSp.Drop(DbSchema + ".Gp_OtrosCargosDeFacturaSCH") && vResult;
-            } else {
-                vResult=true;
             }
-            if (insDbo.Exists(DbSchema + ".Gv_OtrosCargosDeFactura_B1", eDboType.Vista)) {
+            if(insDbo.Exists(DbSchema + ".Gv_OtrosCargosDeFactura_B1", eDboType.Vista)) {
                 vResult = insVista.Drop(DbSchema + ".Gv_OtrosCargosDeFactura_B1") && vResult;
                 vResult = insVista.Drop(DbSchema + ".Gv_EnumStatusOtrosCargosyDescuentosDeFactura") && vResult;
                 vResult = insVista.Drop(DbSchema + ".Gv_EnumBaseCalculoOtrosCargosDeFactura") && vResult;
                 vResult = insVista.Drop(DbSchema + ".Gv_EnumBaseFormulaOtrosCargosDeFactura") && vResult;
                 vResult = insVista.Drop(DbSchema + ".Gv_EnumComoAplicaOtrosCargosDeFactura") && vResult;
-            } else {
-                vResult = true;
             }
             insSp.Dispose();
             insVista.Dispose();
