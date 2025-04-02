@@ -316,13 +316,44 @@ namespace Galac.Saw.Brl.Inventario {
                             Cantidad = vCantidad,
                             Ubicacion = "",
                             ConsecutivoAlmacen = valItemNotaES.ConsecutivoAlmacen,
-                            DetalleArticuloInventarioExistenciaSerial = GeneraDetalleArticuloInventarioSerial(valItemNotaES.ConsecutivoCompania, vItem.CodigoArticulo, valItemNotaES.CodigoAlmacen, valItemNotaES.ConsecutivoAlmacen, vCantidad, vItem.Serial, vItem.Rollo, true)
+                            DetalleArticuloInventarioExistenciaSerial = GeneraDetalleArticuloInventarioSerial(valItemNotaES.ConsecutivoCompania, vItem.CodigoArticulo, valItemNotaES.CodigoAlmacen, valItemNotaES.ConsecutivoAlmacen, vCantidad, vItem.Serial, vItem.Rollo, true),
+                            DetalleExistenciasPorAlmacenDetLoteInv = GeneraDetalleExistenciasPorAlmacenDetLoteInv(valItemNotaES.ConsecutivoCompania, vItem.CodigoArticulo, valItemNotaES.ConsecutivoAlmacen, vCantidad, vItem.LoteDeInventario)
                         });
                     }
                 }
                 IArticuloInventarioPdn vArticuloPdn = new clsArticuloInventarioNav();
                 vArticuloPdn.ActualizarExistencia(valItemNotaES.ConsecutivoCompania, vList);
             }
+        }
+
+        private List<ExistenciaPorAlmacenDetLoteInv> GeneraDetalleExistenciasPorAlmacenDetLoteInv(int valConsecutivoCompania, string valCodigoArticulo,  int valConsecutivoAlmacen, decimal valCantidad, string valCodigoLoteDeInventario) {
+            List<ExistenciaPorAlmacenDetLoteInv> vResult = new List<ExistenciaPorAlmacenDetLoteInv>();
+            ExistenciaPorAlmacenDetLoteInv vExistencia = new ExistenciaPorAlmacenDetLoteInv {
+                ConsecutivoCompania = valConsecutivoCompania,
+                CodigoArticulo = valCodigoArticulo,
+                ConsecutivoAlmacen = valConsecutivoAlmacen,
+                Cantidad = valCantidad,
+                ConsecutivoLoteInventario = BuscarConsecutivoDeLoteInventario(valConsecutivoCompania, valCodigoLoteDeInventario),
+                Ubicacion = string.Empty
+            };
+            vResult.Add(vExistencia);
+            return vResult;
+        }
+
+        private int BuscarConsecutivoDeLoteInventario(int valConsecutivoCompania, string valCodigoLoteDeInventario) {
+            int vConsecutivoLote = 0;
+            LibGpParams vParams = new LibGpParams();
+            vParams.AddInString("CodigoLote", valCodigoLoteDeInventario, 30);
+            vParams.AddInInteger("ConsecutivoCompania",valConsecutivoCompania);
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("SELECT Consecutivo FROM Saw.LoteDeInventario");
+            vSql.AppendLine("WHERE CodigoLote = @CodigoLote");
+            vSql.AppendLine("AND ConsecutivoCompania = @ConsecutivoCompania");
+            XElement vXElementLote = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", 0);
+            if (vXElementLote != null && vXElementLote.HasElements) {
+                vConsecutivoLote = LibConvert.ToInt(vXElementLote.Descendants("GpResult").FirstOrDefault().Element("Consecutivo").Value);
+            }
+            return vConsecutivoLote;
         }
 
         LibResponse INotaDeEntradaSalidaPdn.AnularRecord(IList<NotaDeEntradaSalida> refRecord) {
