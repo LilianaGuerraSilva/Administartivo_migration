@@ -51,14 +51,18 @@ namespace Galac.Saw.LibWebConnector {
                     vReqNV.messageNV = vReqNV.errorNV.Value.messageNV + ".\r\nPor favor verifique los datos de conexión\r\ncon su Imprenta Digital.";
                 } else if(LibString.S1IsEqualToS2(vReqNV.errorNV.Value.codeNV, "2")) {
                     vReqNV.messageNV = vReqNV.errorNV.Value.messageNV + ".\r\nPor favor verifique los datos del documento.";
+                    GeneraLogDeErrores(vReqNV.errorNV.Value.messageNV, valJsonStr);
                 } else if(LibString.S1IsEqualToS2(vReqNV.errorNV.Value.codeNV, "3")) {
                     vReqNV.messageNV = vReqNV.errorNV.Value.messageNV + ".\r\nPor favor verifique los datos de conexión\r\n con su Imprenta Digital.";
                 } else if(LibString.S1IsEqualToS2(vReqNV.errorNV.Value.codeNV, "4")) {
                     vReqNV.messageNV = vReqNV.errorNV.Value.messageNV + ".\r\nPor favor verifique los datos del documento.";
+                    GeneraLogDeErrores(vReqNV.errorNV.Value.messageNV, valJsonStr);
                 } else if(LibString.S1IsEqualToS2(vReqNV.errorNV.Value.codeNV, "5")) {
                     vReqNV.messageNV = vReqNV.errorNV.Value.messageNV + ".\r\nPor favor verifique los datos del documento.";
+                    GeneraLogDeErrores(vReqNV.errorNV.Value.messageNV, valJsonStr);
                 } else if(LibString.S1IsEqualToS2(vReqNV.errorNV.Value.codeNV, "11")) {
                     vReqNV.messageNV = vReqNV.errorNV.Value.messageNV + ".\r\nPor favor verifique los datos del documento.";
+                    GeneraLogDeErrores(vReqNV.errorNV.Value.messageNV, valJsonStr);
                 } else {
                     vReqNV.messageNV = vReqNV.errorNV.Value.messageNV;
                 }

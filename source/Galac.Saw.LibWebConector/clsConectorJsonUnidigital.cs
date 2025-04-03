@@ -61,6 +61,7 @@ namespace Galac.Saw.LibWebConnector {
                     if(infoReqs.hasErrors) {
                         infoReqs.hasErrors = true;
                         infoReqs.errorsUD = LoginReqs.errorsUD;
+                        GeneraLogDeErrores(LoginReqs.errorsUD[0].messageUD, valJsonStr);
                     } else {
                         infoReqs.StrongeID = LoginReqs.seriesUD.FirstOrDefault().strongId;
                         infoReqs.tokenUD = LoginReqs.accessToken;
@@ -80,6 +81,7 @@ namespace Galac.Saw.LibWebConnector {
                         } else {
                             infoReqs.MessageUD = infoErrorReqEnvio.resultsUD.errorsUD[0].ErroresInternos[0].errorMessage;
                         }
+                        GeneraLogDeErrores(infoReqs.MessageUD, valJsonStr);
                         infoReqs.Codigo = infoErrorReqEnvio.resultsUD.errorsUD[0].codeUD;
                         infoReqs.StrongeID = string.Empty;
                         return infoReqs;
@@ -96,6 +98,7 @@ namespace Galac.Saw.LibWebConnector {
                         infoReqs.MessageUD = infoReqStatus.errorsUD[0].messageUD;
                         infoReqs.Codigo = infoReqStatus.errorsUD[0].codeUD;
                         infoReqs.StrongeID = string.Empty;
+                        GeneraLogDeErrores(infoReqs.MessageUD, valJsonStr);
                         return infoReqs;
                     } else {
                         infoReqs.Exitoso = !infoReqStatus.hasErrors;
