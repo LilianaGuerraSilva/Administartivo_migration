@@ -73,10 +73,14 @@ namespace Galac.Adm.Rpt.Venta {
             WorkerReportProgress(90, "Configurando Informe...");
             Dictionary<string, string> vParams = GetConfigReportParameters();
             dsrNotaDeEntregaNoFacturadas vRpt = new dsrNotaDeEntregaNoFacturadas();
-            if (vRpt.ConfigReport(Data, vParams)) {
-                LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsNotasDeEntregaNoFacturadas.ReportName, true, ExportFileFormat, "", false);
+            if (Data.Rows.Count >= 1) {
+                if (vRpt.ConfigReport(Data, vParams)) {
+                    LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsNotasDeEntregaNoFacturadas.ReportName, true, ExportFileFormat, "", false);
+                }
+                WorkerReportProgress(100, "Finalizando...");
+            } else {
+                throw new GalacException("No se encontró información para imprimir", eExceptionManagementType.Alert);
             }
-            WorkerReportProgress(100, "Finalizando...");
         }
         #endregion //Metodos Generados
 
