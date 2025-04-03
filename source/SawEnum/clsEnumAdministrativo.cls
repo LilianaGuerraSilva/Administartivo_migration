@@ -4202,11 +4202,7 @@ Public Function enum_menusDelSistemaAdministrativoToStr(ByVal valMenu As menusDe
    Select Case valMenu
       Case me_PRINCIPALSAW: enum_menusDelSistemaAdministrativoToStr = "Principal"
       Case me_CXC:
-         If gDefGen.fHasAccessTo(148) Then
-            enum_menusDelSistemaAdministrativoToStr = "Cliente y Vendedor"
-         Else
-            enum_menusDelSistemaAdministrativoToStr = "CxC y Cobranza"
-         End If
+         enum_menusDelSistemaAdministrativoToStr = "CxC y Cobranza"
       Case me_COMPANIA: enum_menusDelSistemaAdministrativoToStr = "Empresa"
       Case me_TABLASSAW: enum_menusDelSistemaAdministrativoToStr = "Tablas"
       Case me_INVENTARIO: enum_menusDelSistemaAdministrativoToStr = "Inventario"
@@ -6441,11 +6437,7 @@ Public Function enum_menusDelSistemaAdministrativoToTitle(ByVal valMenu As menus
            enum_menusDelSistemaAdministrativoToTitle = "Menú Principal - Factura / Cotización / Contrato"
         End If
       Case me_CXC
-            If gDefGen.fHasAccessTo(148) Then
-               enum_menusDelSistemaAdministrativoToTitle = "Cliente / Vendedor"
-            Else
-               enum_menusDelSistemaAdministrativoToTitle = "CxC / Cobranzas / Vendedor"
-            End If
+            enum_menusDelSistemaAdministrativoToTitle = "CxC / Cobranzas / Vendedor"
       Case me_COMPANIA: enum_menusDelSistemaAdministrativoToTitle = "Empresa"
       Case me_TABLASSAW: enum_menusDelSistemaAdministrativoToTitle = "Mantenimiento de Tablas"
       Case me_INVENTARIO
