@@ -85,8 +85,11 @@ namespace Galac.Saw.LibWebConnector {
                 if(!LibDirectory.DirExists(vPath)) {
                     LibDirectory.CreateDir(vPath);
                 }
-                vPath = vPath + @"\ImprentaDigitalResult.txt";
-                LibFile.WriteLineInFile(vPath, valMensajeResultado + "\r\n" + valJSon, false);
+                JObject vLogError = new JObject();
+                vLogError.Add("error", valMensajeResultado);
+                vLogError.Add("document", JObject.Parse(valJSon));
+                vPath = vPath + @"\ImprentaDigitalResult.json";
+                LibFile.WriteLineInFile(vPath, vLogError.ToString(), false);
             } catch(Exception) {
                 throw;
             }
