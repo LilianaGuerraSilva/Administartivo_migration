@@ -405,9 +405,9 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("      ''COLPIVOTE'' AS ColControl,");
             SQL.AppendLine("      " + DbSchema + ".Gv_ExistenciaLoteDeInventario_B1.ConsecutivoCompania,");
             SQL.AppendLine("      " + DbSchema + ".Gv_ExistenciaLoteDeInventario_B1.Consecutivo,");
-            SQL.AppendLine("      " + DbSchema + ".Gv_ExistenciaLoteDeInventario_B1.StatusLoteInv");
-            SQL.AppendLine("      " + DbSchema + ".Gv_ExistenciaLoteDeInventario_B1.ConsecutivoAlmacen");
-            SQL.AppendLine("      " + DbSchema + ".Gv_ExistenciaLoteDeInventario_B1.CodigoAlmacen");
+            SQL.AppendLine("      " + DbSchema + ".Gv_ExistenciaLoteDeInventario_B1.StatusLoteInv,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_ExistenciaLoteDeInventario_B1.ConsecutivoAlmacen,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_ExistenciaLoteDeInventario_B1.CodigoAlmacen,");
             SQL.AppendLine("      " + DbSchema + ".Gv_ExistenciaLoteDeInventario_B1.NombreAlmacen");
             SQL.AppendLine("      FROM " + DbSchema + ".Gv_ExistenciaLoteDeInventario_B1");
             SQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
