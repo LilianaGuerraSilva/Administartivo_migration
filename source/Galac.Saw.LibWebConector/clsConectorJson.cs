@@ -15,6 +15,7 @@ using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using System.Reflection;
 using Castle.Windsor.Installer;
+using LibGalac.Aos.Cnf;
 
 namespace Galac.Saw.LibWebConnector {
     public abstract class clsConectorJson {
@@ -86,7 +87,9 @@ namespace Galac.Saw.LibWebConnector {
                     LibDirectory.CreateDir(vPath);
                 }
                 JObject vLogError = new JObject();
-                vLogError.Add("error", valMensajeResultado);
+                if(!LibString.IsNullOrEmpty(valMensajeResultado)) {
+                    vLogError.Add("error", valMensajeResultado);
+                }
                 vLogError.Add("document", JObject.Parse(valJSon));
                 vPath = vPath + @"\ImprentaDigitalResult.json";
                 LibFile.WriteLineInFile(vPath, vLogError.ToString(), false);
@@ -121,7 +124,7 @@ namespace Galac.Saw.LibWebConnector {
                 throw vEx;
             }
         }
-		
+
         public string ExecuteGetJson(string valContent, string valComandoApi, string valToken, string valNumeroDocumento = "", eTipoDocumentoFactura valTipoDocumento = eTipoDocumentoFactura.NoAsignado) {
             try {
                 string vResult = string.Empty;
@@ -135,8 +138,19 @@ namespace Galac.Saw.LibWebConnector {
             } catch(Exception vEx) {
                 throw vEx;
             }
-        }     
+        }
+
+        public void GenerarLogDeEnvioSiEstaDisponible(string valJson) {
+            string vDateLogID = LibAppSettings.ReadAppSettingsKey("DateLogID");
+            if(!LibString.IsNullOrEmpty(vDateLogID)) {
+                DateTime vDateLogIDdt = LibConvert.ToDate(vDateLogID);
+                if(LibDate.F1IsEqualToF2(vDateLogIDdt, LibDate.Today())) {
+                    GeneraLogDeErrores("", valJson);
+                }
+            }
+        }
     }
+    
 
     #region Clase de Inicializacion del Windsor No Borrar
     public class WindsorInstaller : IWindsorInstaller {

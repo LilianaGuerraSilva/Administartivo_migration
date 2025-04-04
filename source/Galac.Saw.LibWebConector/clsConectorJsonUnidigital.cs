@@ -68,8 +68,8 @@ namespace Galac.Saw.LibWebConnector {
                         infoReqs.SerieID = LoginReqs.seriesUD[0].nameUD;
                     }
                 } else if(LibString.S1IsEqualToS2(eComandosPostUnidigital.Emision.GetDescription(), valComandoApi)) {
-                    JObject vJObject = JObject.Parse(vPostRequest);                    
-                    bool vHasErrors = bool.Parse(vJObject["hasErrors"].ToString());                   
+                    JObject vJObject = JObject.Parse(vPostRequest);
+                    bool vHasErrors = bool.Parse(vJObject["hasErrors"].ToString());
                     if(vHasErrors) {
                         stRespuestaErrorEnvioUD infoErrorReqEnvio = JsonConvert.DeserializeObject<stRespuestaErrorEnvioUD>(vPostRequest);
                         infoReqs.Exitoso = false;
@@ -86,6 +86,7 @@ namespace Galac.Saw.LibWebConnector {
                         infoReqs.StrongeID = string.Empty;
                         return infoReqs;
                     } else {
+                        GenerarLogDeEnvioSiEstaDisponible(valJsonStr);
                         stRespuestaEnvioUD infoReqEnvio = JsonConvert.DeserializeObject<stRespuestaEnvioUD>(vPostRequest);
                         infoReqs.Exitoso = !infoReqEnvio.hasErrors;
                         infoReqs.information = infoReqEnvio.information;
@@ -103,6 +104,7 @@ namespace Galac.Saw.LibWebConnector {
                     } else {
                         infoReqs.Exitoso = !infoReqStatus.hasErrors;
                         if(infoReqStatus.resultUD != null && infoReqStatus.resultUD.Count() > 0) {
+                            GenerarLogDeEnvioSiEstaDisponible(valJsonStr);
                             infoReqs.StrongeID = infoReqStatus.resultUD[0].strongId;
                             infoReqs.NumeroControl = infoReqStatus.resultUD[0].controlUD;
                             infoReqs.TipoDocumento = infoReqStatus.resultUD[0].documentType;

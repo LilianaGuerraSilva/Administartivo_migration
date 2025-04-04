@@ -41,7 +41,10 @@ namespace Galac.Saw.LibWebConnector {
                 } else {
                     vReqNV = JsonConvert.DeserializeObject<stRespuestaNV>(vPostRequest);
                 }
-                if(vReqNV.success) {                    
+                if(vReqNV.success) {
+                    if(!LibString.S1IsEqualToS2(valComandoApi, eComandosPostNovus.Autenticacion.GetDescription())) {
+                        GenerarLogDeEnvioSiEstaDisponible(valJsonStr);
+                    }
                     return vReqNV;
                 } else if(vReqNV.errorNV.Value.codeNV == null && !LibString.IsNullOrEmpty(vReqNV.errorNV.Value.messageNV)) {
                     vReqNV.success = false;
