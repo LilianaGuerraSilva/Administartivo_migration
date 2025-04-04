@@ -41,7 +41,10 @@ namespace Galac.Saw.LibWebConnector {
                 } else {
                     vReqNV = JsonConvert.DeserializeObject<stRespuestaNV>(vPostRequest);
                 }
-                if(vReqNV.success) {                    
+                if(vReqNV.success) {
+                    if(!LibString.S1IsEqualToS2(valComandoApi, eComandosPostNovus.Autenticacion.GetDescription())) {
+                        GenerarLogDeEnvioSiEstaDisponible(valJsonStr);
+                    }
                     return vReqNV;
                 } else if(vReqNV.errorNV.Value.codeNV == null && !LibString.IsNullOrEmpty(vReqNV.errorNV.Value.messageNV)) {
                     vReqNV.success = false;
@@ -51,14 +54,18 @@ namespace Galac.Saw.LibWebConnector {
                     vReqNV.messageNV = vReqNV.errorNV.Value.messageNV + ".\r\nPor favor verifique los datos de conexión\r\ncon su Imprenta Digital.";
                 } else if(LibString.S1IsEqualToS2(vReqNV.errorNV.Value.codeNV, "2")) {
                     vReqNV.messageNV = vReqNV.errorNV.Value.messageNV + ".\r\nPor favor verifique los datos del documento.";
+                    GeneraLogDeErrores(vReqNV.errorNV.Value.messageNV, valJsonStr);
                 } else if(LibString.S1IsEqualToS2(vReqNV.errorNV.Value.codeNV, "3")) {
                     vReqNV.messageNV = vReqNV.errorNV.Value.messageNV + ".\r\nPor favor verifique los datos de conexión\r\n con su Imprenta Digital.";
                 } else if(LibString.S1IsEqualToS2(vReqNV.errorNV.Value.codeNV, "4")) {
                     vReqNV.messageNV = vReqNV.errorNV.Value.messageNV + ".\r\nPor favor verifique los datos del documento.";
+                    GeneraLogDeErrores(vReqNV.errorNV.Value.messageNV, valJsonStr);
                 } else if(LibString.S1IsEqualToS2(vReqNV.errorNV.Value.codeNV, "5")) {
                     vReqNV.messageNV = vReqNV.errorNV.Value.messageNV + ".\r\nPor favor verifique los datos del documento.";
+                    GeneraLogDeErrores(vReqNV.errorNV.Value.messageNV, valJsonStr);
                 } else if(LibString.S1IsEqualToS2(vReqNV.errorNV.Value.codeNV, "11")) {
                     vReqNV.messageNV = vReqNV.errorNV.Value.messageNV + ".\r\nPor favor verifique los datos del documento.";
+                    GeneraLogDeErrores(vReqNV.errorNV.Value.messageNV, valJsonStr);
                 } else {
                     vReqNV.messageNV = vReqNV.errorNV.Value.messageNV;
                 }

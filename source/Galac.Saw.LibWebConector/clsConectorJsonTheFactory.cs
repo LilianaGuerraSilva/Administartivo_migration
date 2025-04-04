@@ -11,6 +11,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using Galac.Saw.Ccl.SttDef;
+using Galac.Adm.Ccl.ImprentaDigital;
 
 namespace Galac.Saw.LibWebConnector {
     public class clsConectorJsonTheFactory : clsConectorJson {
@@ -43,29 +44,34 @@ namespace Galac.Saw.LibWebConnector {
             }
         }
 
-        public stRespuestaTF SendPostJsonTF(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", eTipoDocumentoFactura valTipoDocumento = eTipoDocumentoFactura.NoAsignado) {            
+        public stRespuestaTF SendPostJsonTF(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", eTipoDocumentoFactura valTipoDocumento = eTipoDocumentoFactura.NoAsignado) {
             try {
                 string vMensajeDeValidacion = string.Empty;
-                string vPostRequest =  ExecutePostJson(valJsonStr, valComandoApi, valToken, valNumeroDocumento, valTipoDocumento);
+                string vPostRequest = ExecutePostJson(valJsonStr, valComandoApi, valToken, valNumeroDocumento, valTipoDocumento);
                 stRespuestaTF infoReqs = JsonConvert.DeserializeObject<stRespuestaTF>(vPostRequest);
                 List<string> listValidaciones = infoReqs.validaciones;
-                if (listValidaciones != null) {
+                if(listValidaciones != null) {
                     vMensajeDeValidacion = string.Join(",", infoReqs.validaciones);
                 }
-                if (LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {
-                     infoReqs.Aprobado = true;
+                if(LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {
+                    if(!LibString.S1IsEqualToS2(valComandoApi, eComandosPostTheFactoryHKA.Autenticacion.GetDescription())) {
+                        GenerarLogDeEnvioSiEstaDisponible(valJsonStr);
+                    }
+                    infoReqs.Aprobado = true;
                     return infoReqs;
-                } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "403")) {
+                } else if(LibString.S1IsEqualToS2(infoReqs.codigo, "403")) {
                     infoReqs.mensaje = vMensajeDeValidacion + "\r\nUsuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.";
                     infoReqs.Aprobado = false;
-                } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "201")) {
+                } else if(LibString.S1IsEqualToS2(infoReqs.codigo, "201")) {
                     infoReqs.Aprobado = false;
                     infoReqs.mensaje = vMensajeDeValidacion + "\r\n" + strTipoDocumento + " ya existe en la Imprenta Digital.";
-                } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "203")) {
+                } else if(LibString.S1IsEqualToS2(infoReqs.codigo, "203")) {
                     infoReqs.Aprobado = false;
+                    GeneraLogDeErrores(vMensajeDeValidacion, valJsonStr);
                     infoReqs.mensaje = infoReqs.mensaje + ".\r\n" + vMensajeDeValidacion + ".\r\n" + strTipoDocumento + " no pudo ser enviada a la Imprenta Digital, debe sincronizar el documento.";
-                } else if (!LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {
+                } else if(!LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {
                     infoReqs.Aprobado = false;
+                    GeneraLogDeErrores(vMensajeDeValidacion, valJsonStr);
                     infoReqs.mensaje = vMensajeDeValidacion + "\r\n." + strTipoDocumento + " no pudo ser enviada a la Imprenta Digital, debe sincronizar el documento.";
                 }
                 return infoReqs;
@@ -73,7 +79,7 @@ namespace Galac.Saw.LibWebConnector {
                 string vMensaje = vEx.InnerException.InnerException.Message;
                 if(vEx.InnerException.InnerException.HResultPublic() == -2146233079) {
                     vMensaje = vMensaje + "\r\nRevise su conexión a Internet, Revise que la URL del servicio sea la correcta.\r\nDebe sincronizar el documento.";
-                }                
+                }
                 throw new Exception(vEx.InnerException.InnerException.Message);
             } catch(Exception vEx) {
                 throw vEx;
