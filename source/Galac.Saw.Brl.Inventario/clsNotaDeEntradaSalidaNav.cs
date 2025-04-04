@@ -12,6 +12,7 @@ using LibGalac.Aos.Base.Dal;
 using Galac.Saw.Ccl.Inventario;
 using System.Security.Policy;
 using LibGalac.Aos.Dal;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Saw.Brl.Inventario {
     public partial class clsNotaDeEntradaSalidaNav : LibBaseNavMaster<IList<NotaDeEntradaSalida>, IList<NotaDeEntradaSalida>>, INotaDeEntradaSalidaPdn {
@@ -270,6 +271,7 @@ namespace Galac.Saw.Brl.Inventario {
             if (valUseDetail) {               
                 foreach (NotaDeEntradaSalida vItem in refRecord) {
                     if (vItem != null) {
+                        string vCodigos;
                         IList<NotaDeEntradaSalida> vItemList = new List<NotaDeEntradaSalida>();
                         vItemList.Add(vItem);
                         if (vItem.TipodeOperacionAsEnum == eTipodeOperacion.EntradadeInventario) {
@@ -280,7 +282,10 @@ namespace Galac.Saw.Brl.Inventario {
                                 }
                             }
                         } else {
-                            string vCodigos;
+                            if (HayArticulosRepetidosEnLosRenglones(vItem, vItem.TipodeOperacionAsEnum, out vCodigos)) {
+                                throw new LibGalac.Aos.Catching.GalacValidationException("Existen artículos repetidos.\nDebe corregir la información antes de continuar.  \n" + vCodigos);
+                            }
+                            vCodigos = string.Empty;
                             if (!HayExistenciaParaNotaDeSalidaDeInventario(vItem, out vCodigos)) {
                                 throw new LibGalac.Aos.Catching.GalacValidationException("No hay existencia suficiente de algunos ítems (" + vCodigos + ") en la Nota: " + vItem.NumeroDocumento + " para realizar la acción. El proceso será cancelado.");
                             }
@@ -333,21 +338,23 @@ namespace Galac.Saw.Brl.Inventario {
                 CodigoArticulo = valCodigoArticulo,
                 ConsecutivoAlmacen = valConsecutivoAlmacen,
                 Cantidad = valCantidad,
-                ConsecutivoLoteInventario = BuscarConsecutivoDeLoteInventario(valConsecutivoCompania, valCodigoLoteDeInventario),
+                ConsecutivoLoteInventario = BuscarConsecutivoDeLoteInventario(valConsecutivoCompania, valCodigoArticulo, valCodigoLoteDeInventario),
                 Ubicacion = string.Empty
             };
             vResult.Add(vExistencia);
             return vResult;
         }
 
-        private int BuscarConsecutivoDeLoteInventario(int valConsecutivoCompania, string valCodigoLoteDeInventario) {
+        private int BuscarConsecutivoDeLoteInventario(int valConsecutivoCompania, string valCodigoArticulo, string valCodigoLoteDeInventario) {
             int vConsecutivoLote = 0;
             LibGpParams vParams = new LibGpParams();
+            vParams.AddInString("CodigoArticulo", valCodigoArticulo, 30);
             vParams.AddInString("CodigoLote", valCodigoLoteDeInventario, 30);
             vParams.AddInInteger("ConsecutivoCompania",valConsecutivoCompania);
             StringBuilder vSql = new StringBuilder();
             vSql.AppendLine("SELECT Consecutivo FROM Saw.LoteDeInventario");
             vSql.AppendLine("WHERE CodigoLote = @CodigoLote");
+            vSql.AppendLine("AND CodigoArticulo = @CodigoArticulo");
             vSql.AppendLine("AND ConsecutivoCompania = @ConsecutivoCompania");
             XElement vXElementLote = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", 0);
             if (vXElementLote != null && vXElementLote.HasElements) {
@@ -479,11 +486,21 @@ namespace Galac.Saw.Brl.Inventario {
                 IArticuloInventarioPdn insArticuloInventarioNav = new clsArticuloInventarioNav();
                 string vCodigos = string.Empty;
                 foreach (RenglonNotaES vItemRenglon in valItemNotaES.DetailRenglonNotaES) {
-                    decimal vDisponibilidad = insArticuloInventarioNav.DisponibilidadDeArticulo(valItemNotaES.ConsecutivoCompania, valItemNotaES.CodigoAlmacen, vItemRenglon.CodigoArticulo, (int)eTipoDeArticulo.Mercancia, vItemRenglon.Serial, vItemRenglon.Rollo);
+                    decimal vDisponibilidad = 0;
+                    bool vEsArticuloTipoLote = (vItemRenglon.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote || vItemRenglon.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento || vItemRenglon.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeElaboracion);
+                    if (vEsArticuloTipoLote) {
+                        vDisponibilidad = insArticuloInventarioNav.DisponibilidadDeArticulo(valItemNotaES.ConsecutivoCompania, vItemRenglon.CodigoArticulo, BuscarConsecutivoDeLoteInventario(valItemNotaES.ConsecutivoCompania, vItemRenglon.CodigoArticulo, vItemRenglon.LoteDeInventario), valItemNotaES.ConsecutivoAlmacen);
+                    } else {
+                        vDisponibilidad = insArticuloInventarioNav.DisponibilidadDeArticulo(valItemNotaES.ConsecutivoCompania, valItemNotaES.CodigoAlmacen, vItemRenglon.CodigoArticulo, (int)eTipoDeArticulo.Mercancia, vItemRenglon.Serial, vItemRenglon.Rollo);
+                    }
                     bool vHayExistencia = vItemRenglon.Cantidad <= vDisponibilidad;
                     if (!vHayExistencia) {
                         if (LibString.Len(vCodigos) > 0) vCodigos += ", ";
-                        vCodigos += vItemRenglon.CodigoArticulo;
+                        if (vEsArticuloTipoLote) {
+                            vCodigos += vItemRenglon.CodigoArticulo + " Lote:" + vItemRenglon.LoteDeInventario;
+                        } else {
+                            vCodigos += vItemRenglon.CodigoArticulo;
+                        }
                     }
                 }
                 outCodigos = vCodigos;
@@ -492,8 +509,7 @@ namespace Galac.Saw.Brl.Inventario {
         }	
        
         bool PermitirSobregiro() {
-            Ccl.SttDef.ePermitirSobregiro vParametroPermitirSobregiro = (Ccl.SttDef.ePermitirSobregiro)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetEnum("FacturaRapida", "PermitirSobregiro");
-            return vParametroPermitirSobregiro == Ccl.SttDef.ePermitirSobregiro.PermitirSobregiro || vParametroPermitirSobregiro == Ccl.SttDef.ePermitirSobregiro.NoChequearExistencia;
+            return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PermitirSobregiro");
         }
 
         [PrincipalPermission(SecurityAction.Demand, Role = "Nota de Entrada/Salida.Insertar")]
@@ -593,6 +609,33 @@ namespace Galac.Saw.Brl.Inventario {
             return vArticuloPdn.ValidaExistenciaDeArticuloSerial(refRecord.ConsecutivoCompania, vData);
 
         }
+        private bool HayArticulosRepetidosEnLosRenglones(NotaDeEntradaSalida refRecord, eTipodeOperacion vTipoDeOperacion, out string vArtDuplicados) {
+            LibResponse vResult = new LibResponse();
+            string vArticulo = string.Empty, vCodigos = string.Empty;
+            vArtDuplicados = string.Empty;
+            int vlinea = 1;
 
+            foreach (RenglonNotaES item in refRecord.DetailRenglonNotaES) {
+                if (item.TipoArticuloInvAsEnum == eTipoArticuloInv.Simple || item.TipoArticuloInvAsEnum == eTipoArticuloInv.UsaTallaColor) {
+                    vArticulo = item.CodigoArticulo; 
+                } else if (item.TipoArticuloInvAsEnum == eTipoArticuloInv.UsaSerial || item.TipoArticuloInvAsEnum == eTipoArticuloInv.UsaSerialRollo || item.TipoArticuloInvAsEnum == eTipoArticuloInv.UsaTallaColorySerial) {
+                    if (vTipoDeOperacion == eTipodeOperacion.EntradadeInventario) {
+                        vArticulo = item.CodigoArticulo + item.Serial + item.Rollo;
+                    }
+                } else if (item.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeVencimiento || item.TipoArticuloInvAsEnum == eTipoArticuloInv.Lote || item.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeElaboracion ) {
+                    vArticulo = item.CodigoArticulo + item.LoteDeInventario;
+                }
+                if (LibString.Len(vArticulo) > 0) {
+                    if (LibString.S1IsInS2(vArticulo, vCodigos)) {
+                        vArtDuplicados += item.CodigoArticulo + " Línea " + LibConvert.ToStr(vlinea) + "\n";
+                    } else {
+                        vCodigos += vArticulo + ", ";
+                    }
+                }
+                vArticulo = string.Empty;
+                vlinea += 1;
+            }
+            return (LibString.Len(vArtDuplicados) > 0);
+        }
     } //End of class clsNotaDeEntradaSalidaNav
 } //End of namespace Galac.Saw.Brl.Inventario

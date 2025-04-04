@@ -26,7 +26,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public const string LoteDeInventarioPropertyName = "LoteDeInventario";
         public const string FechaDeElaboracionPropertyName = "FechaDeElaboracion";
         public const string FechaDeVencimientoPropertyName = "FechaDeVencimiento";
-        public const string SerialRolloPropertyName = "Serial";
+        public const string SerialPropertyName = "Serial";
+        public const string RolloPropertyName = "Rollo";
         #endregion
         #region Variables
         private FkArticuloInventarioViewModel _ConexionCodigoArticulo = null;
@@ -140,6 +141,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             set {
                 if (Model.Rollo != value) {
                     Model.Rollo = value;
+                    RaisePropertyChanged(RolloPropertyName);
                 }
             }
         }
@@ -215,7 +217,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             set {
                 if (Model.Serial != value) {
                     Model.Serial = value;
-                    RaisePropertyChanged(SerialRolloPropertyName);
+                    RaisePropertyChanged(SerialPropertyName);
                 }
             }
         }
@@ -307,7 +309,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             set {
                 if (_ConexionSerialRollo != value) {
                     _ConexionSerialRollo = value;
-                    RaisePropertyChanged(SerialRolloPropertyName);
+                    RaisePropertyChanged(SerialPropertyName);
+                    RaisePropertyChanged(RolloPropertyName);
                 }
             }
         }
