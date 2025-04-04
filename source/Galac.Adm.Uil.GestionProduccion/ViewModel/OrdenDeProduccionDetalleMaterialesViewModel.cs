@@ -151,7 +151,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
             }
         }
-
+        [LibGridColum("Descrición", eGridColumType.Generic, MaxWidth = 220, Width=480, ColumnOrder = 1)]
         public string DescripcionArticulo {
             get {
                 return Model.DescripcionArticulo;
