@@ -509,7 +509,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             return vSePuedeModificarUsaLoteFechaDeVencimiento;
         }
 
-        public bool IsVisibleUsaLoteFechaDeVencimientCatDecimales {
+        public bool IsVisibleUsaLoteFechaDeVencimiento {
             get {
                 return !mEsFacturadorBasico;
             }
