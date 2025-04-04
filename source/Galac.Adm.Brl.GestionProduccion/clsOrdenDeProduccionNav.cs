@@ -110,7 +110,11 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 case "Lote de Inventario":
                     vPdnModule = new Galac.Saw.Brl.Inventario.clsLoteDeInventarioNav();
                     vResult = vPdnModule.GetDataForList("Orden de Producción", ref refXmlDocument, valXmlParamsExpression);
-                break;
+                    break;
+                case "Orden De Produccion Detalle Materiales":
+                    vPdnModule = new Galac.Saw.Brl.Inventario.clsLoteDeInventarioNav();
+                    vResult = vPdnModule.GetDataForList("Orden De Produccion Detalle Materiales", ref refXmlDocument, valXmlParamsExpression);
+                    break;
                 default: throw new NotImplementedException();
             }
             return vResult;

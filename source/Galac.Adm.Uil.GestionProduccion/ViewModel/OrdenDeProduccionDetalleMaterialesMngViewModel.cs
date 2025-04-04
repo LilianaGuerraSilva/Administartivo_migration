@@ -1,20 +1,7 @@
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using LibGalac.Aos.UI.Mvvm;
-using LibGalac.Aos.UI.Mvvm.Command;
-using LibGalac.Aos.UI.Mvvm.Messaging;
-using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Helpers;
-using LibGalac.Aos.Brl.Contracts;
 using LibGalac.Aos.Base;
-using LibGalac.Aos.Base.Report;
-using LibGalac.Aos.Catching;
-using LibGalac.Aos.ARRpt.Reports;
-using Galac.Adm.Brl.GestionProduccion;
-using Galac.Adm.Brl.GestionProduccion.Reportes;
 using Galac.Adm.Ccl.GestionProduccion;
 
 namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
