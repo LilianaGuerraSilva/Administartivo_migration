@@ -62,7 +62,11 @@ namespace Galac.Saw.Brl.Inventario {
 
         bool ILibPdn.GetDataForList(string valCallingModule, ref XmlDocument refXmlDocument, StringBuilder valXmlParamsExpression) {
             ILibDataFKSearch instanciaDal = new Galac.Saw.Dal.Inventario.clsLoteDeInventarioDat();
-            return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "Saw.Gp_LoteDeInventarioSCH", valXmlParamsExpression);
+            if (valCallingModule == "Orden De Produccion Detalle Materiales") { 
+                return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "Saw.Gp_LoteDeInventarioSCHExistencia", valXmlParamsExpression);
+            } else {
+                return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "Saw.Gp_LoteDeInventarioSCH", valXmlParamsExpression);
+            }
         }
 
         System.Xml.Linq.XElement ILibPdn.GetFk(string valCallingModule, StringBuilder valParameters) {

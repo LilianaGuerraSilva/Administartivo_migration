@@ -616,10 +616,11 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("CodigoLote", valCodigoLote);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
                 vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("CodigoArticulo", CodigoArticulo), eLogicOperatorType.And);
+                vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("CodigoAlmacen", CodigoAlmacen), eLogicOperatorType.And);
                 if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PermitirSobregiro")) {                    
                     vFixedCriteria.Add("Existencia", eBooleanOperatorType.GreaterThan, 0, eLogicOperatorType.And);
                 }                
-                var ConexionLoteDeInventarioTmp = Master.ChooseRecord<FkLoteDeInventarioViewModel>("Lote de Inventario", vDefaultCriteria, vFixedCriteria, "FechaDeVencimiento, FechaDeElaboracion, CodigoLote");
+                var ConexionLoteDeInventarioTmp = Master.ChooseRecord<FkLoteDeInventarioViewModel>("Orden De Produccion Detalle Materiales", vDefaultCriteria, vFixedCriteria, "FechaDeVencimiento, FechaDeElaboracion, CodigoLote");
                 if (ConexionLoteDeInventarioTmp == null) {
                     CodigoLote = string.Empty;
                     FechaDeElaboracion = LibDate.MinDateForDB();

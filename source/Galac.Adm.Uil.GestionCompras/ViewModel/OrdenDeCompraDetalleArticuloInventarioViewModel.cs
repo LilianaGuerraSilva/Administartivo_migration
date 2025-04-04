@@ -1,20 +1,13 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Xml.Linq;
 using LibGalac.Aos.Base;
-using LibGalac.Aos.Catching;
 using LibGalac.Aos.DefGen;
 using LibGalac.Aos.UI.Mvvm;
 using LibGalac.Aos.UI.Mvvm.Command;
 using LibGalac.Aos.UI.Mvvm.Helpers;
-using LibGalac.Aos.UI.Mvvm.Messaging;
-using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Adm.Brl.GestionCompras;
 using Galac.Adm.Ccl.GestionCompras;
-using System.Collections.ObjectModel;
 using Galac.Saw.Ccl.Inventario;
 
 namespace Galac.Adm.Uil.GestionCompras.ViewModel {
