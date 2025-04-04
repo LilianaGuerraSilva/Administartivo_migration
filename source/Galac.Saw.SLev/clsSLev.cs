@@ -116,26 +116,23 @@ namespace Galac.Saw.SLev {
             }
             #endregion
 
-            #region Cliente
-            var GroupNameCliente = "Cliente / CxC";
-            if (!DisponibleParaFacturadorBasico) {
-                GroupNameCliente = "Cliente";
-            }
-            vPermisos.Add(new CustomRole("Cliente", "Consultar", GroupNameCliente, 3));
-            vPermisos.Add(new CustomRole("Cliente", "Insertar", GroupNameCliente, 3));
-            vPermisos.Add(new CustomRole("Cliente", "Modificar", GroupNameCliente, 3));
-            vPermisos.Add(new CustomRole("Cliente", "Eliminar", GroupNameCliente, 3));
-            vPermisos.Add(new CustomRole("Cliente", "Informes", GroupNameCliente, 3));
-            vPermisos.Add(new CustomRole("Cliente", "Unificar", GroupNameCliente, 3));
-            vPermisos.Add(new CustomRole("Cliente", "Informes de Libros", GroupNameCliente, 3));
-            vPermisos.Add(new CustomRole("Cliente", "Importar", GroupNameCliente, 3));
-            vPermisos.Add(new CustomRole("Cliente", "Exportar", GroupNameCliente, 3));
-            vPermisos.Add(new CustomRole("Cliente", "Ingresar cliente por mostrador", GroupNameCliente, 3));
+            #region Cliente            
+            vPermisos.Add(new CustomRole("Cliente", "Consultar", "Cliente / CxC", 3));
+            vPermisos.Add(new CustomRole("Cliente", "Insertar", "Cliente / CxC", 3));
+            vPermisos.Add(new CustomRole("Cliente", "Modificar", "Cliente / CxC", 3));
+            vPermisos.Add(new CustomRole("Cliente", "Eliminar", "Cliente / CxC", 3));
+            vPermisos.Add(new CustomRole("Cliente", "Informes", "Cliente / CxC", 3));
+            vPermisos.Add(new CustomRole("Cliente", "Unificar", "Cliente / CxC", 3));
+            vPermisos.Add(new CustomRole("Cliente", "Informes de Libros", "Cliente / CxC", 3));
+            vPermisos.Add(new CustomRole("Cliente", "Importar", "Cliente / CxC", 3));
+            vPermisos.Add(new CustomRole("Cliente", "Exportar", "Cliente / CxC", 3));
+            vPermisos.Add(new CustomRole("Cliente", "Ingresar cliente por mostrador", "Cliente / CxC", 3));
             #endregion
 
             #region CxC
+           
+            vPermisos.Add(new CustomRole("CxC", "Consultar", "Cliente / CxC", 3));
             if (DisponibleParaFacturadorBasico) {
-                vPermisos.Add(new CustomRole("CxC", "Consultar", "Cliente / CxC", 3));
                 vPermisos.Add(new CustomRole("CxC", "Insertar", "Cliente / CxC", 3));
                 vPermisos.Add(new CustomRole("CxC", "Modificar", "Cliente / CxC", 3));
                 vPermisos.Add(new CustomRole("CxC", "Eliminar", "Cliente / CxC", 3));
@@ -151,12 +148,15 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Cobranza
+            
+            vPermisos.Add(new CustomRole("Cobranza", "Consultar", "Cliente / CxC", 3));
+            vPermisos.Add(new CustomRole("Cobranza", "Insertar", "Cliente / CxC", 3));
             if (DisponibleParaFacturadorBasico) {
-                vPermisos.Add(new CustomRole("Cobranza", "Consultar", "Cliente / CxC", 3));
-                vPermisos.Add(new CustomRole("Cobranza", "Insertar", "Cliente / CxC", 3));
                 vPermisos.Add(new CustomRole("Cobranza", "Modificar", "Cliente / CxC", 3));
-                vPermisos.Add(new CustomRole("Cobranza", "Anular", "Cliente / CxC", 3));
-                vPermisos.Add(new CustomRole("Cobranza", "Informes", "Cliente / CxC", 3));
+            }
+            vPermisos.Add(new CustomRole("Cobranza", "Anular", "Cliente / CxC", 3));
+            vPermisos.Add(new CustomRole("Cobranza", "Informes", "Cliente / CxC", 3));
+            if (DisponibleParaFacturadorBasico) {
                 vPermisos.Add(new CustomRole("Cobranza", "Distribuir Retención IVA", "Cliente / CxC", 3));
                 vPermisos.Add(new CustomRole("Cobranza", "Aplicar Ret. a Documento Cobrado", "Cliente / CxC", 3));
                 vPermisos.Add(new CustomRole("Cobranza", "Modificar Tasa de Cambio", "Cliente / CxC", 3));
