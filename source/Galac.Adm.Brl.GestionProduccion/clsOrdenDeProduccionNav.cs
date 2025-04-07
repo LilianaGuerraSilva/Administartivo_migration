@@ -681,8 +681,8 @@ namespace Galac.Adm.Brl.GestionProduccion {
             vNotaDeEntradaSalida.DetailRenglonNotaES = new ObservableCollection<RenglonNotaES>();
             int vIndex = 0;
             foreach (OrdenDeProduccionDetalleMateriales vOrdenDeProduccionDetalleMateriales in valOrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales.Where(x => x.TipoDeArticuloAsEnum == eTipoDeArticulo.Mercancia )) {
-                RenglonNotaES vRenglonNotaES = new RenglonNotaES();
                 vIndex++;
+                RenglonNotaES vRenglonNotaES = new RenglonNotaES();
                 vRenglonNotaES.ConsecutivoCompania = valOrdenDeProduccion.ConsecutivoCompania;                
                 vRenglonNotaES.ConsecutivoRenglon = vIndex;
                 vRenglonNotaES.CodigoArticulo = vOrdenDeProduccionDetalleMateriales.CodigoArticulo;
