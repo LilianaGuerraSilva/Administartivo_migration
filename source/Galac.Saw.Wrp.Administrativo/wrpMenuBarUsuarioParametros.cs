@@ -98,10 +98,11 @@ namespace Galac.Saw.Wrp.MenuBar {
             XElement vResult = new XElement("Components",
                 new XElement("UilComponents",
                     new XElement("UilComponent", new XAttribute("Name", "UIMefParameters"), new XAttribute("Group", "Parametros"))));
-
-            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaModuloDeContabilidad")) {
-                vResult.Element("UilComponents").Add(
-                    new XElement("UilComponent", new XAttribute("Name", "UIMefWinContParametrosContabilidad"), new XAttribute("Group", "Parametros")));
+            if (new Galac.Saw.Lib.clsLibSaw().EsFacturadorBasico()) {
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaModuloDeContabilidad")) {
+                    vResult.Element("UilComponents").Add(
+                        new XElement("UilComponent", new XAttribute("Name", "UIMefWinContParametrosContabilidad"), new XAttribute("Group", "Parametros")));
+                }
             }
             vResult.Element("UilComponents").Add(
                    new XElement("UilComponent", new XAttribute("Name", "UIMefUsalGUser")));
