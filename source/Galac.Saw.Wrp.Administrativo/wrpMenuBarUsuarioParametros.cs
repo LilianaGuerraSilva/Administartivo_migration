@@ -14,6 +14,7 @@ using LibGalac.Aos.UI.Mvvm.Messaging;
 using LibGalac.Aos.Vbwa;
 using System.Reflection;
 using System.Xml;
+using LibGalac.Aos.Ccl.Usal;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.MenuBar {
 #elif IsExeBsS​
@@ -38,6 +39,7 @@ namespace Galac.Saw.Wrp.MenuBar {
                 if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaModuloDeContabilidad")) {
                     LibGlobalValues.Instance.LoadMFCInfoFromAppMemInfo("Periodo", "ConsecutivoPeriodo");
                 }
+                PermisosUsuarioSeniat();
                 LibMefBootstrapperForInterop vBootstrapper = new LibMefBootstrapperForInterop(true);
                 LibInteropParameters vParams = new LibInteropParameters();
                 vParams.AdmittedComponents = ComponentsNavigationTab();
@@ -116,5 +118,21 @@ namespace Galac.Saw.Wrp.MenuBar {
             vResult.Add("LibGalac.Aos.Uil.Usal");
             return vResult;
         }
+
+        private void PermisosUsuarioSeniat() {
+            LibListVerificadorRol libListVerificadorRol = new LibListVerificadorRol();
+            libListVerificadorRol.AddVerificador(new LibVerificadorRol(s => s.Action.Equals("Consultar", StringComparison.CurrentCultureIgnoreCase)
+            && !(s.Module.Equals("Vehículo", StringComparison.CurrentCultureIgnoreCase) || s.Module.Equals("Modelo", StringComparison.CurrentCultureIgnoreCase) ||
+                s.Module.Equals("Marca", StringComparison.CurrentCultureIgnoreCase) || s.Module.Equals("Orden De Producción", StringComparison.CurrentCultureIgnoreCase) ||
+                s.Module.Equals("Lista de Materiales", StringComparison.CurrentCultureIgnoreCase) || s.Module.Equals("Compra", StringComparison.CurrentCultureIgnoreCase) ||
+                s.Module.Equals("Orden de Compra", StringComparison.CurrentCultureIgnoreCase) || s.Module.Equals("Contrato", StringComparison.CurrentCultureIgnoreCase) ||
+                s.Module.Equals("Cotización", StringComparison.CurrentCultureIgnoreCase) || s.Module.StartsWith("Anticipo", StringComparison.CurrentCultureIgnoreCase))
+            ));
+            libListVerificadorRol.AddVerificador(new LibVerificadorRol(s => s.Action.Equals("Usa Módulo de Contabilidad", StringComparison.CurrentCultureIgnoreCase)));
+            libListVerificadorRol.AddVerificador(new LibVerificadorRol(s => s.Action.Equals("Menú de Balances", StringComparison.CurrentCultureIgnoreCase)));
+            libListVerificadorRol.AddVerificador(new LibVerificadorRol(s => s.Action.Equals("Menú de Informes", StringComparison.CurrentCultureIgnoreCase)));
+            libListVerificadorRol.AddVerificador(new LibVerificadorRol(s => s.Action.StartsWith("Informe", StringComparison.CurrentCultureIgnoreCase)));
+        }
+
     }
 }
