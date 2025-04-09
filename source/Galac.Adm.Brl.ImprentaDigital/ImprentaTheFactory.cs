@@ -197,9 +197,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 { "TotalesOtraMoneda", GetTotalesME()}};
             JObject vEncabezado = new JObject { { "encabezado", vEncabezadoElements } };
             vDocumentoDigital.Add("documentoElectronico", vEncabezado);
-            vDocumentoDigital.Add("detallesItems", GetDetalleFactura());            
-            //var vObservaciones = GetDatosInfoAdicional().Descendants("InfoAdicional");                       
-            //vDocumentoDigital.Add(vObservaciones);           
+            vDocumentoDigital.Add("detallesItems", GetDetalleFactura());
+            vDocumentoDigital.Add("InfoAdicional", GetDatosInfoAdicional());            
         }
         #endregion Construye  Documento
         #region Identificacion de Documento
@@ -334,7 +333,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
 
         #region InfoAdicional
-        private XElement GetDatosInfoAdicional() {
+        private JObject GetDatosInfoAdicional() {
+            JObject vResult = new JObject();//"InfoAdicional", vInfoAdicional
             string vTextoColetilla = "Este pago estará sujeto al cobro adicional del 3% del Impuesto a las Grandes Transacciones Financieras (IGTF), de conformidad con la Providencia Administrativa SNAT/2022/000013 publicada en la G.O.N 42.339 del 17-03- 2022, en caso de ser cancelado en divisas. Este impuesto no aplica en pago en Bs.";
             string vTextoColetilla2 = "En los casos en que la base imponible de la venta o prestación de servicio estuviere expresada en moneda extranjera, se establecerá la equivalencia en moneda nacional, al tipo de cambio corriente en el mercado del día en que ocurra el hecho imponible, salvo que éste ocurra en un día hábil para el sector financiero, en cuyo caso se aplicará el vigente en el día hábil inmediatamente siguiente al de la operación. (art 25 Ley de IVA G.O 6.152 de fecha 18/11/2014).";
             if(_TipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito) {
@@ -375,7 +375,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vInfoAdicional.Add(new XElement("InfoAdicional", vCampoPdf, new XElement("Valor", vColetilla4)));
             vInfoAdicional.Add(new XElement("InfoAdicional", vCampoPdf, new XElement("Valor", vColetilla5)));
 
-            XElement vResult = new XElement("InfoAdicional", vInfoAdicional);
+            
             return vResult;           
         }
 
