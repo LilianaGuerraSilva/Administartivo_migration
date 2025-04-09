@@ -1,5 +1,6 @@
 ﻿using Galac.Saw.Properties;
 using LibGalac.Aos.Base;
+using LibGalac.Aos.Ccl.Usal;
 using LibGalac.Aos.Cib;
 using LibGalac.Aos.Dal;
 using LibGalac.Aos.DefGen;
@@ -60,6 +61,7 @@ namespace Galac.Saw.ViewModel {
                     RaisePropertyChanged(RibbonDataPropertyName);
                 }
             };
+            PermisosUsuarioSeniat();
         }
         #endregion
 
@@ -411,7 +413,7 @@ namespace Galac.Saw.ViewModel {
             new XElement("Compania",
                 new XElement("Nombre", "Informática Tributaria, S.A."),
                 new XElement("NumeroRif", "J305125439")));
-             LibGlobalValues.Instance.GetMfcInfo().Add("Compania", LibConvert.ToInt("6"));
+             LibGlobalValues.Instance.GetMfcInfo().Add("Compania", LibConvert.ToInt("1"));
             return base.AddEspecialGlobalValues(valGlobalValuesElement);
         }
 
@@ -422,6 +424,21 @@ namespace Galac.Saw.ViewModel {
                 DeleteComponentFromList("UIMefTablasLeyTarifaN2");
                 DeleteComponentFromList("UIMefTablasTipoProveedor");
             }
+        }
+
+        private void PermisosUsuarioSeniat() {
+            LibListVerificadorRol libListVerificadorRol = new LibListVerificadorRol();
+            libListVerificadorRol.AddVerificador(new LibVerificadorRol(s => s.Action.Equals("Consultar", StringComparison.CurrentCultureIgnoreCase)
+            && !(s.Module.Equals("Vehículo", StringComparison.CurrentCultureIgnoreCase) ||  s.Module.Equals("Modelo", StringComparison.CurrentCultureIgnoreCase) ||
+                s.Module.Equals("Marca", StringComparison.CurrentCultureIgnoreCase) || s.Module.Equals("Orden De Producción", StringComparison.CurrentCultureIgnoreCase) ||
+                s.Module.Equals("Lista de Materiales", StringComparison.CurrentCultureIgnoreCase) || s.Module.Equals("Compra", StringComparison.CurrentCultureIgnoreCase) ||
+                s.Module.Equals("Orden de Compra", StringComparison.CurrentCultureIgnoreCase) || s.Module.Equals("Contrato", StringComparison.CurrentCultureIgnoreCase) ||
+                s.Module.Equals("Cotización", StringComparison.CurrentCultureIgnoreCase) || s.Module.StartsWith("Anticipo", StringComparison.CurrentCultureIgnoreCase))
+            ));
+            libListVerificadorRol.AddVerificador(new LibVerificadorRol(s => s.Action.Equals("Usa Módulo de Contabilidad", StringComparison.CurrentCultureIgnoreCase)));
+            libListVerificadorRol.AddVerificador(new LibVerificadorRol(s => s.Action.Equals("Menú de Balances", StringComparison.CurrentCultureIgnoreCase)));
+            libListVerificadorRol.AddVerificador(new LibVerificadorRol(s => s.Action.Equals("Menú de Informes", StringComparison.CurrentCultureIgnoreCase)));
+            libListVerificadorRol.AddVerificador(new LibVerificadorRol(s => s.Action.StartsWith("Informe", StringComparison.CurrentCultureIgnoreCase)));
         }
     }
 }
