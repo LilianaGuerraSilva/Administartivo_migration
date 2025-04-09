@@ -221,10 +221,10 @@ namespace Galac.Saw.SLev {
             #endregion Lote de Inventario
 
             #region Exist x Almacen
-            if (DisponibleParaFacturadorBasico) {
-                vPermisos.Add(new CustomRole("Existencia por Almacén", "Consultar", "Inventario", 4));
-                vPermisos.Add(new CustomRole("Existencia por Almacén", "Informes", "Inventario", 4));
-            }
+            
+            vPermisos.Add(new CustomRole("Existencia por Almacén", "Consultar", "Inventario", 4));
+            vPermisos.Add(new CustomRole("Existencia por Almacén", "Informes", "Inventario", 4));
+            
             #endregion
 
             #region Transferencia
