@@ -35,20 +35,20 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             try {
                 bool vResult = false;
                 bool vDocumentoExiste = false;
-                if(LibString.IsNullOrEmpty(EstatusDocumento)) {
+                if (LibString.IsNullOrEmpty(EstatusDocumento)) {
                     vDocumentoExiste = EstadoDocumento();
                 }
-                if(vDocumentoExiste) { // Documento Existe en ID
+                if (vDocumentoExiste) { // Documento Existe en ID
                     vResult = base.SincronizarDocumento();
-                } else if(LibString.S1IsEqualToS2(CodigoRespuesta, "203")) { // Documento No Existe en ID
+                } else if (LibString.S1IsEqualToS2(CodigoRespuesta, "203")) { // Documento No Existe en ID
                     vResult = EnviarDocumento();
                 }
                 return vResult;
-            } catch(AggregateException gEx) {
+            } catch (AggregateException gEx) {
                 throw new GalacException(gEx.InnerException.Message, eExceptionManagementType.Controlled);
-            } catch(GalacException) {
+            } catch (GalacException) {
                 throw;
-            } catch(Exception vEx) {
+            } catch (Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
         }
@@ -57,9 +57,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             try {
                 bool vResult = false;
                 return vResult;
-            } catch(GalacException) {
+            } catch (GalacException) {
                 throw;
-            } catch(Exception vEx) {
+            } catch (Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
         }
@@ -70,7 +70,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             bool vChekConeccion;
             string vDocumentoJSON;
             try {
-                if(LibString.IsNullOrEmpty(_ConectorJson.Token)) {
+                if (LibString.IsNullOrEmpty(_ConectorJson.Token)) {
                     ObtenerDatosDocumentoEmitido();
                     vChekConeccion = _ConectorJson.CheckConnection(ref vMensaje, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion));
                 } else {
@@ -81,7 +81,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     TipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum),
                     NumeroDocumento = NumeroDocumento()
                 };
-                if(vChekConeccion) {
+                if (vChekConeccion) {
                     vDocumentoJSON = clsConectorJson.SerializeJSON(vJsonDeConsulta);//Construir XML o JSON Con datos                                                                                    
                     vRespuestaConector = ((clsConectorJsonTheFactory)_ConectorJson).SendPostJsonTF(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoDocumento), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
                     Mensaje = vRespuestaConector.mensaje;
@@ -89,13 +89,13 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     Mensaje = vMensaje;
                 }
                 return vRespuestaConector.Aprobado;
-            } catch(GalacException) {
+            } catch (GalacException) {
                 throw;
-            } catch(Exception vEx) {
+            } catch (Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             } finally {
                 CodigoRespuesta = vRespuestaConector.codigo ?? string.Empty;
-                if(vRespuestaConector.Aprobado) {
+                if (vRespuestaConector.Aprobado) {
                     EstatusDocumento = vRespuestaConector.estado.estadoDocumento ?? string.Empty;
                     NumeroControl = vRespuestaConector.estado.numeroControl ?? string.Empty;
                     FechaAsignacion = LibString.IsNullOrEmpty(vRespuestaConector.estado.fechaAsignacion) ? LibDate.MinDateForDB() : LibConvert.ToDate(vRespuestaConector.estado.fechaAsignacion);
@@ -109,11 +109,11 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 bool vResult = false;
                 stRespuestaTF vRespuestaConector = new stRespuestaTF();
                 bool vDocumentoExiste = EstadoDocumento();
-                if(LibString.IsNullOrEmpty(EstatusDocumento)) {
+                if (LibString.IsNullOrEmpty(EstatusDocumento)) {
                     vDocumentoExiste = EstadoDocumento();
                 }
-                if(vDocumentoExiste) {
-                    if(!LibString.S1IsEqualToS2(EstatusDocumento, "Anulada")) {
+                if (vDocumentoExiste) {
+                    if (!LibString.S1IsEqualToS2(EstatusDocumento, "Anulada")) {
                         stSolicitudDeAccion vSolicitudDeAnulacion = new stSolicitudDeAccion() {
                             Serie = SerieDocumento(),
                             TipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum),
@@ -128,16 +128,16 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                         Mensaje = $"No se pudo anular la {FacturaImprentaDigital.TipoDeDocumentoAsString} en la Imprenta Digital, debe sincronizar el documento.";
                     }
                 } else {
-                    if(!LibString.IsNullOrEmpty(Mensaje)) {
+                    if (!LibString.IsNullOrEmpty(Mensaje)) {
                         Mensaje = $"La {FacturaImprentaDigital.TipoDeDocumentoAsString} no pudo ser anulada.\r\n" + Mensaje;
                     }
                 }
                 return vResult;
-            } catch(AggregateException gEx) {
+            } catch (AggregateException gEx) {
                 throw new GalacException(gEx.InnerException.Message, eExceptionManagementType.Controlled);
-            } catch(GalacException) {
+            } catch (GalacException) {
                 throw;
-            } catch(Exception vEx) {
+            } catch (Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
         }
@@ -148,17 +148,17 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 string vMensaje = string.Empty;
                 stRespuestaTF vRespuestaConector;
                 bool vChekConeccion;
-                if(LibString.IsNullOrEmpty(_ConectorJson.Token)) {
+                if (LibString.IsNullOrEmpty(_ConectorJson.Token)) {
                     vChekConeccion = _ConectorJson.CheckConnection(ref vMensaje, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion));
                 } else {
                     vChekConeccion = true;
                 }
-                if(vChekConeccion) {
+                if (vChekConeccion) {
                     ConfigurarDocumento();
                     string vDocumentoJSON = vDocumentoDigital.ToString();
                     vRespuestaConector = ((clsConectorJsonTheFactory)_ConectorJson).SendPostJsonTF(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Emision), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
                     vResult = vRespuestaConector.Aprobado;
-                    if(vResult) {
+                    if (vResult) {
                         HoraAsignacion = vRespuestaConector.resultados.fechaAsignacionNumeroControl;
                         NumeroControl = vRespuestaConector.resultados.numeroControl;
                         ActualizaNroControlYProveedorImprentaDigital();
@@ -171,11 +171,11 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     throw new Exception(Mensaje);
                 }
                 return vResult;
-            } catch(AggregateException gEx) {
+            } catch (AggregateException gEx) {
                 throw new GalacException(gEx.InnerException.Message, eExceptionManagementType.Controlled);
-            } catch(GalacException) {
+            } catch (GalacException) {
                 throw;
-            } catch(Exception vEx) {
+            } catch (Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
         }
@@ -206,8 +206,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         private string NumeroDocumento() {
             string vResult = FacturaImprentaDigital.Numero;
-            if(FacturaImprentaDigital.TipoDeDocumentoAsEnum == eTipoDocumentoFactura.Factura) {
-                if(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios")) {
+            if (FacturaImprentaDigital.TipoDeDocumentoAsEnum == eTipoDocumentoFactura.Factura) {
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios")) {
                     vResult = LibString.SubString(vResult, LibString.IndexOf(vResult, '.') + 1);
                 }
             }
@@ -217,8 +217,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         private string SerieDocumento() {
             string vResult = string.Empty;
-            if(FacturaImprentaDigital.TipoDeDocumentoAsEnum == eTipoDocumentoFactura.Factura) {
-                if(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios")) {
+            if (FacturaImprentaDigital.TipoDeDocumentoAsEnum == eTipoDocumentoFactura.Factura) {
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios")) {
                     vResult = LibString.Left(FacturaImprentaDigital.Numero, LibString.IndexOf(FacturaImprentaDigital.Numero, '.'));
                 }
             }
@@ -227,10 +227,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         private string NumeroDocumentoFacturaAfectada() {
             string vResult = LibString.Replace(FacturaImprentaDigital.NumeroFacturaAfectada, "-", "");
-            if(FacturaImprentaDigital.TipoDeDocumentoAsEnum != eTipoDocumentoFactura.Factura) {
-                if(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios")) {
+            if (FacturaImprentaDigital.TipoDeDocumentoAsEnum != eTipoDocumentoFactura.Factura) {
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios")) {
                     int vPosPunto = LibString.IndexOf(vResult, '.');
-                    if(vPosPunto >= 0) {
+                    if (vPosPunto >= 0) {
                         vResult = LibString.SubString(vResult, vPosPunto + 1);
                     }
                 }
@@ -240,10 +240,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         private string SerieDocumentoFacturaAfectada() {
             string vResult = "";
-            if(FacturaImprentaDigital.TipoDeDocumentoAsEnum != eTipoDocumentoFactura.Factura) {
-                if(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios")) {
+            if (FacturaImprentaDigital.TipoDeDocumentoAsEnum != eTipoDocumentoFactura.Factura) {
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios")) {
                     int vPosPunto = LibString.IndexOf(FacturaImprentaDigital.NumeroFacturaAfectada, '.');
-                    if(vPosPunto >= 0) {
+                    if (vPosPunto >= 0) {
                         vResult = LibString.Left(FacturaImprentaDigital.NumeroFacturaAfectada, vPosPunto);
                     }
                 }
@@ -268,7 +268,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 {"sucursal", ""},
                 {"tipoDeVenta", LibEnumHelper.GetDescription(eTipoDeVenta.Interna)},
                 { "moneda", FacturaImprentaDigital.CodigoMoneda}};
-            if(_TipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito || _TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito) {
+            if (_TipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito || _TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito) {
                 vResult.Add("fechaFacturaAfectada", LibConvert.ToStr(FacturaImprentaDigital.FechaDeFacturaAfectada));
                 vResult.Add("numeroFacturaAfectada", NumeroDocumentoFacturaAfectada());
                 vResult.Add("serieFacturaAfectada", SerieDocumentoFacturaAfectada());
@@ -307,7 +307,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         private JArray ListaSimpleDeElementos(string[] valArrayElementos) {
             JArray vResult = new JArray();
-            foreach(string vElemento in valArrayElementos) {
+            foreach (string vElemento in valArrayElementos) {
                 vResult.Add(vElemento);
             }
             return vResult;
@@ -316,12 +316,12 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         private string DarFormatoYObtenerPrefijoRif(Cliente valCliente, ref string refPrefijoRif) {
             string vNumeroRif = "";
             string vPrefijo = LibString.Left(LibString.ToUpperWithoutAccents(valCliente.NumeroRIF), 1);
-            if(LibString.S1IsInS2(vPrefijo, "VJEPG")) {
+            if (LibString.S1IsInS2(vPrefijo, "VJEPG")) {
                 vNumeroRif = LibString.Right(valCliente.NumeroRIF, LibString.Len(valCliente.NumeroRIF) - 1);
                 vNumeroRif = LibString.Replace(vNumeroRif, "-", "");
             } else {
                 vNumeroRif = valCliente.NumeroRIF;
-                if(valCliente.EsExtranjeroAsBool) {
+                if (valCliente.EsExtranjeroAsBool) {
                     vPrefijo = "E";
                 } else {
                     vPrefijo = "V";
@@ -338,13 +338,13 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             JArray vResult = new JArray();//"InfoAdicional"
             string vTextoColetilla = "Este pago estará sujeto al cobro adicional del 3% del Impuesto a las Grandes Transacciones Financieras (IGTF), de conformidad con la Providencia Administrativa SNAT/2022/000013 publicada en la G.O.N 42.339 del 17-03- 2022, en caso de ser cancelado en divisas. Este impuesto no aplica en pago en Bs.";
             string vTextoColetilla2 = "En los casos en que la base imponible de la venta o prestación de servicio estuviere expresada en moneda extranjera, se establecerá la equivalencia en moneda nacional, al tipo de cambio corriente en el mercado del día en que ocurra el hecho imponible, salvo que éste ocurra en un día hábil para el sector financiero, en cuyo caso se aplicará el vigente en el día hábil inmediatamente siguiente al de la operación. (art 25 Ley de IVA G.O 6.152 de fecha 18/11/2014).";
-            if(_TipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito) {
+            if (_TipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito) {
                 vTextoColetilla = "";
             }
 
             string vObservaciones = string.Empty;
-            if(FacturaImprentaDigital.TipoDeDocumentoAsEnum == eTipoDocumentoFactura.NotaDeCredito || FacturaImprentaDigital.TipoDeDocumentoAsEnum == eTipoDocumentoFactura.NotaDeDebito) {
-                if(LibString.InStr(FacturaImprentaDigital.NumeroFacturaAfectada, "-") > 0) {
+            if (FacturaImprentaDigital.TipoDeDocumentoAsEnum == eTipoDocumentoFactura.NotaDeCredito || FacturaImprentaDigital.TipoDeDocumentoAsEnum == eTipoDocumentoFactura.NotaDeDebito) {
+                if (LibString.InStr(FacturaImprentaDigital.NumeroFacturaAfectada, "-") > 0) {
                     vObservaciones = "Nro.Fact.Afectada Original: " + FacturaImprentaDigital.NumeroFacturaAfectada + ". ";
                 }
             }
@@ -379,7 +379,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         static JObject CreateFieldAndValue(JObject valElement) {
             string vElementsStr = valElement.ToString();
-            vElementsStr=LibString.Replace(vElementsStr, "\r\n", "");
+            vElementsStr = LibString.Replace(vElementsStr, "\r\n", "");
             JObject vResult = new JObject {
                 {"Campo","PDF" },
                 {"Valor",vElementsStr}
@@ -392,7 +392,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         private JArray GetTotalImpuestosML() {
             decimal vCambio = 0;
             JArray vListaImpuesto = new JArray();
-            if(LibString.S1IsInS2(FacturaImprentaDigital.CodigoMoneda, CodigoMonedaLocal)) {
+            if (LibString.S1IsInS2(FacturaImprentaDigital.CodigoMoneda, CodigoMonedaLocal)) {
                 vCambio = 1;
             } else {
                 vCambio = CambioABolivares;
@@ -433,7 +433,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         private JArray GetTotalImpuestosME() {
             decimal vCambio = 0;
             JArray vListaImpuesto = new JArray();
-            if(LibString.S1IsInS2(FacturaImprentaDigital.CodigoMoneda, CodigoMonedaLocal)) {
+            if (LibString.S1IsInS2(FacturaImprentaDigital.CodigoMoneda, CodigoMonedaLocal)) {
                 vCambio = CambioABolivares;
             } else {
                 vCambio = 1;
@@ -481,7 +481,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             decimal vMonto;
             decimal vCambioBs;
             string vFormaDeCobro;
-            if(FacturaImprentaDigital.BaseImponibleIGTF > 0) { // Pagos en ML
+            if (FacturaImprentaDigital.BaseImponibleIGTF > 0) { // Pagos en ML
                 vFormaDeCobro = FacturaImprentaDigital.FormaDeCobroAsEnum == eTipoDeFormaDeCobro.Efectivo ? "09" : "99";
                 vCambioBs = LibMath.RoundToNDecimals(FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 4);
                 vCodigoMoneda = FacturaImprentaDigital.CodigoMonedaDeCobro == CodigoMonedaME ? FacturaImprentaDigital.CodigoMonedaDeCobro : CodigoMonedaME;
@@ -574,9 +574,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             // Revisar otros cargos y descuentos, revisar y Serial Rollo  
             JArray vResult = new JArray();
             JArray vResultInfoAdicional = new JArray();
-            if(DetalleFacturaImprentaDigital != null) {
-                if(DetalleFacturaImprentaDigital.Count > 0) {
-                    foreach(FacturaRapidaDetalle vDetalle in DetalleFacturaImprentaDigital) {
+            if (DetalleFacturaImprentaDigital != null) {
+                if (DetalleFacturaImprentaDigital.Count > 0) {
+                    foreach (FacturaRapidaDetalle vDetalle in DetalleFacturaImprentaDigital) {
                         string vSerial = LibString.S1IsEqualToS2(vDetalle.Serial, "0") ? "" : vDetalle.Serial;
                         string vRollo = LibString.S1IsEqualToS2(vDetalle.Rollo, "0") ? "" : vDetalle.Rollo;
                         decimal vCantidad = ((TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito || TipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito) && FacturaImprentaDigital.GeneradoPorAsEnum == eFacturaGeneradaPor.AjusteIGTF && vDetalle.Cantidad == 0) ? 1 : vDetalle.Cantidad;
@@ -621,7 +621,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }
         private string GetFormaDeCobro(eTipoDeFormaDeCobro valFormaDeCobro) {
             string vResult = string.Empty;
-            switch(valFormaDeCobro) {
+            switch (valFormaDeCobro) {
                 case eTipoDeFormaDeCobro.Efectivo:
                     vResult = "08";
                     break;
@@ -638,7 +638,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }
         private string GetTipoTransaccion(eTipoDeTransaccionDeLibrosFiscales valTipoTransaccion) {
             string vResult = "";
-            switch(valTipoTransaccion) {
+            switch (valTipoTransaccion) {
                 case eTipoDeTransaccionDeLibrosFiscales.Registro:
                     vResult = "01";
                     break;
@@ -660,7 +660,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         private string GetTipoDocumento(eTipoDocumentoFactura valTipoDocumento) {
             string vResult = "";
-            switch(valTipoDocumento) {
+            switch (valTipoDocumento) {
                 case eTipoDocumentoFactura.Factura:
                     vResult = "01";
                     break;
@@ -685,7 +685,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         private string GetTipoDePago(eFormadePago valTipoDePago) {
             string vResult = "";
-            switch(valTipoDePago) {
+            switch (valTipoDePago) {
                 case eFormadePago.Contado:
                     vResult = "Contado";
                     break;
