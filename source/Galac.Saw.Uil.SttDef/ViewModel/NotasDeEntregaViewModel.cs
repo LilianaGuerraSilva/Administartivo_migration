@@ -35,6 +35,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         #endregion
         #region Variables
         bool mEsFacturadorBasico;
+        ParametersViewModel _ParametrosViewModel;
         #endregion //Variables
         #region Propiedades
 
@@ -359,6 +360,18 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             get {
                 return !mEsFacturadorBasico;
             }
+        }
+
+        public bool IsEnabledNotasDePago {
+            get {
+                DatosGeneralesViewModel vDatosGeneralesViewModel = ParametrosViewModel.ModuleList[0].Groups[1].Content as DatosGeneralesViewModel;
+                return vDatosGeneralesViewModel.UsaNotaEntrega;
+            }
+        }
+
+        public ParametersViewModel ParametrosViewModel {
+            get { return _ParametrosViewModel; }
+            set { _ParametrosViewModel = value; }
         }
 
         #endregion //Metodos Generados
