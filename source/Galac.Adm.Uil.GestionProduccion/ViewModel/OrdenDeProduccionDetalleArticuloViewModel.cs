@@ -151,7 +151,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
             }
         }
-
         public string DescripcionArticulo {
             get {
                 return Model.DescripcionArticulo;

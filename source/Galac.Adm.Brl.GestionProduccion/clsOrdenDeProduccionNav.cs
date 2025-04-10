@@ -688,8 +688,8 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 vRenglonNotaES.CodigoArticulo = vOrdenDeProduccionDetalleMateriales.CodigoArticulo;
                 vRenglonNotaES.Cantidad = vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario;
                 vRenglonNotaES.TipoArticuloInvAsEnum = vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum;
-                vRenglonNotaES.Serial = "0";
-                vRenglonNotaES.Rollo = "0";
+                vRenglonNotaES.Serial = "";
+                vRenglonNotaES.Rollo = "";
                 vRenglonNotaES.CostoUnitario = vOrdenDeProduccionDetalleMateriales.CostoUnitarioArticuloInventario;
                 vRenglonNotaES.LoteDeInventario = vOrdenDeProduccionDetalleMateriales.CodigoLote;
                 vRenglonNotaES.TipoArticuloInvAsEnum = vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum;
@@ -749,7 +749,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
                     TipoArticuloInvAsEnum = vOrdenDeProduccionDetalleArticulo.TipoArticuloInvAsEnum
             });
             }
-            foreach (var vOrdenDeProduccionDetalleMateriales in valOrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales) {
+            foreach (var vOrdenDeProduccionDetalleMateriales in valOrdenDeProduccion.DetailOrdenDeProduccionDetalleMateriales.Where(art => art.TipoDeArticuloAsEnum == eTipoDeArticulo.Mercancia)) {
                 if (vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario < vOrdenDeProduccionDetalleMateriales.CantidadConsumida) {
                     vNotaDeSalida.DetailRenglonNotaES.Add(new RenglonNotaES() {
                         ConsecutivoCompania = valOrdenDeProduccion.ConsecutivoCompania,
