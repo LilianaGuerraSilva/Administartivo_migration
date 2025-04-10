@@ -942,6 +942,12 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             return vResult;
         }
 
+        public string GeneraTrackingId() {
+            int vSeed = DateTime.Now.Millisecond;
+            int vNumberRnd = new Random(vSeed).Next(1, 1000000000); // Random de 10 carácteres
+            return LibText.FillWithCharToLeft(LibConvert.ToStr(vNumberRnd), "0", 10);
+        }
+
 
         public abstract bool EnviarDocumento();
         public abstract bool EnviarDocumentoPorEmail(string valNumeroControl,string valEmail);

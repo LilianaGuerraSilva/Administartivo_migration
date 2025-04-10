@@ -240,13 +240,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 vResult = LibXml.GetPropertyString(vDataResult, "NumeroControl");
             }
             return vResult;
-        }
-
-        private string GeneraTrackingId() {
-            int vSeed = DateTime.Now.Millisecond;
-            int vNumberRnd = new Random(vSeed).Next(1, 1000000000); // Random de 10 carácteres
-            return LibText.FillWithCharToLeft(LibConvert.ToStr(vNumberRnd), "0", 10);
-        }
+        }       
 
         private string GetFechaHoraEmision(DateTime valFecha, string valHora) {
             string vDateFormat = "yyyy-MM-dd HH:mm:ss";

@@ -264,7 +264,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 {"serie", SerieDocumento()},
                 {"sucursal", ""},
                 {"tipoDeVenta", LibEnumHelper.GetDescription(eTipoDeVenta.Interna)},
-                { "moneda", FacturaImprentaDigital.CodigoMoneda}};
+                { "moneda", FacturaImprentaDigital.CodigoMoneda},
+                { "trackingid",  GeneraTrackingId() },};
             if (_TipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito || _TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito) {
                 vResult.Add("fechaFacturaAfectada", LibConvert.ToStr(FacturaImprentaDigital.FechaDeFacturaAfectada));
                 vResult.Add("numeroFacturaAfectada", NumeroDocumentoFacturaAfectada());
@@ -614,23 +615,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vAlicuota.Add(eTipoDeAlicuota.Exento, "E");
             return vAlicuota[valAlicuotaEnum];
         }
-        private string GetFormaDeCobro(eTipoDeFormaDeCobro valFormaDeCobro) {
-            string vResult = string.Empty;
-            switch (valFormaDeCobro) {
-                case eTipoDeFormaDeCobro.Efectivo:
-                    vResult = "08";
-                    break;
-                case eTipoDeFormaDeCobro.TarjetaDebito:
-                    vResult = "05";
-                    break;
-                case eTipoDeFormaDeCobro.TarjetaCredito:
-                case eTipoDeFormaDeCobro.Cheque:
-                case eTipoDeFormaDeCobro.Otros:
-                    vResult = "08";
-                    break;
-            }
-            return vResult;
-        }
+        
         private string GetTipoTransaccion(eTipoDeTransaccionDeLibrosFiscales valTipoTransaccion) {
             string vResult = "";
             switch (valTipoTransaccion) {

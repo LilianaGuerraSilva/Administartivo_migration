@@ -48,24 +48,7 @@ namespace Galac.Saw.LibWebConnector {
                 throw;
             }
         }
-
-        public static string LimpiaRegistrosTempralesEnJSON(string valDocJSon) {
-            string vResult = "";
-            JObject vResponse = JObject.Parse(valDocJSon);
-            RemoveItemArray(vResponse.SelectToken("documentoElectronico.encabezado.totales.formasPago"));
-            RemoveItemArray(vResponse.SelectToken("documentoElectronico.encabezado.comprador.correo"));
-            RemoveItemArray(vResponse.SelectToken("documentoElectronico.encabezado.comprador.telefono"));
-            RemoveItemArray(vResponse.SelectToken("documentoElectronico.detallesItems"));
-            RemoveItemArray(vResponse.SelectToken("documentoElectronico.InfoAdicional"));
-            vResult = vResponse.ToString(Formatting.Indented);
-            return vResult;
-        }
-
-        private static void RemoveItemArray(JToken valProperty) {
-            if(valProperty != null) {
-                valProperty.First().Remove();
-            }
-        }
+        
 
         public string GetJsonUser(ILoginUser valloginUser, eProveedorImprentaDigital valProveedorImprentaDigital) {
             string vResult = "";
