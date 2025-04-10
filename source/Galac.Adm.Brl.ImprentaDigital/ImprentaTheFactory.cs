@@ -154,8 +154,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 }
                 if(vChekConeccion) {
                     ConfigurarDocumento();
-                    string vDocumentoJSON = vDocumentoDigital.ToString();
-                    //vDocumentoJSON = clsConectorJson.LimpiaRegistrosTempralesEnJSON(vDocumentoJSON);
+                    string vDocumentoJSON = vDocumentoDigital.ToString();                    
                     vRespuestaConector = ((clsConectorJsonTheFactory)_ConectorJson).SendPostJsonTF(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Emision), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
                     vResult = vRespuestaConector.Aprobado;
                     if(vResult) {
@@ -333,8 +332,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
 
         #region InfoAdicional
-        private JObject GetDatosInfoAdicional() {
-            JObject vResult = new JObject();//"InfoAdicional", vInfoAdicional
+        private JArray GetDatosInfoAdicional() {
+            JArray vResult = new JArray();//"InfoAdicional"
             string vTextoColetilla = "Este pago estará sujeto al cobro adicional del 3% del Impuesto a las Grandes Transacciones Financieras (IGTF), de conformidad con la Providencia Administrativa SNAT/2022/000013 publicada en la G.O.N 42.339 del 17-03- 2022, en caso de ser cancelado en divisas. Este impuesto no aplica en pago en Bs.";
             string vTextoColetilla2 = "En los casos en que la base imponible de la venta o prestación de servicio estuviere expresada en moneda extranjera, se establecerá la equivalencia en moneda nacional, al tipo de cambio corriente en el mercado del día en que ocurra el hecho imponible, salvo que éste ocurra en un día hábil para el sector financiero, en cuyo caso se aplicará el vigente en el día hábil inmediatamente siguiente al de la operación. (art 25 Ley de IVA G.O 6.152 de fecha 18/11/2014).";
             if(_TipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito) {
@@ -349,39 +348,40 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             }
             vObservaciones += FacturaImprentaDigital.Observaciones;
 
-            XElement vVarios = new XElement("root",
-                        new XElement("Atencion", ClienteImprentaDigital.Contacto),
-                        new XElement("Ciudad", ClienteImprentaDigital.Ciudad),
-                        new XElement("Envia", ((CustomIdentity)Thread.CurrentPrincipal.Identity).Name
-                        ));
+            JObject vColetilla1 = new JObject { { "Coletilla",vTextoColetilla} };
+            JObject vFiled1 = CreateFieldAndValue(vColetilla1);                
 
+            JObject vColetilla2 = new JObject { { "Coletilla2", vTextoColetilla2 } };
+            JObject vFiled2 = CreateFieldAndValue(vColetilla2);
 
-            XElement vInfoAdicionalCliente = new XElement("root",
-                        new XElement("Ciudad", InfoAdicionalClienteImprentaDigital.Ciudad),
-                        new XElement("DireccionServicio", InfoAdicionalClienteImprentaDigital.Direccion));
+            JObject vColetilla3= new JObject { { "Coletilla3", vObservaciones } };
+            JObject vFiled3 = CreateFieldAndValue(vColetilla3);
 
-            XElement vCampoPdf = new XElement("Campo", "PDF");
+            JObject vReceptor = new JObject {
+                { "Atencion", ClienteImprentaDigital.Contacto },                
+                { "Ciudad", ClienteImprentaDigital.Ciudad },
+                { "Envia", ((CustomIdentity)Thread.CurrentPrincipal.Identity).Name }};
+            JObject vFiled4 = CreateFieldAndValue(vReceptor);
 
-            var vColetilla1 = XmlToJsonWithoutRoot(new XElement("root", new XElement("Coletilla", vTextoColetilla)).ToString());
-            var vColetilla2 = XmlToJsonWithoutRoot(new XElement("root", new XElement("Coletilla2", vTextoColetilla2)).ToString());
-            var vColetilla3 = XmlToJsonWithoutRoot(new XElement("root", new XElement("Coletilla3", LibString.Left(vObservaciones, 250))).ToString());
-            var vColetilla4 = XmlToJsonWithoutRoot(vVarios.ToString());
-            var vColetilla5 = XmlToJsonWithoutRoot(vInfoAdicionalCliente.ToString());
+            JObject vInfoAddCliente = new JObject {               
+                { "Ciudad", InfoAdicionalClienteImprentaDigital.Ciudad },
+                { "DireccionServicio", InfoAdicionalClienteImprentaDigital.Direccion}};
+            JObject vFiled5 = CreateFieldAndValue(vInfoAddCliente);
 
-            List<XElement> vInfoAdicional = new List<XElement>();
-            vInfoAdicional.Add(new XElement("InfoAdicional", vCampoPdf, new XElement("Valor", vColetilla1)));
-            vInfoAdicional.Add(new XElement("InfoAdicional", vCampoPdf, new XElement("Valor", vColetilla2)));
-            vInfoAdicional.Add(new XElement("InfoAdicional", vCampoPdf, new XElement("Valor", vColetilla3)));
-            vInfoAdicional.Add(new XElement("InfoAdicional", vCampoPdf, new XElement("Valor", vColetilla4)));
-            vInfoAdicional.Add(new XElement("InfoAdicional", vCampoPdf, new XElement("Valor", vColetilla5)));
-
-            
+            vResult.Add(vFiled1);
+            vResult.Add(vFiled2);
+            vResult.Add(vFiled3);
+            vResult.Add(vFiled4);
+            vResult.Add(vFiled5);
             return vResult;           
         }
 
-        static string XmlToJsonWithoutRoot(string xml) {
-            var doc = XDocument.Parse(xml);
-            return JsonConvert.SerializeXNode(doc, Newtonsoft.Json.Formatting.None, omitRootObject: true);
+        static JObject CreateFieldAndValue(JObject valElement) {
+            JObject vResult = new JObject {
+                {"Campo","PDF" },
+                {"Valor",valElement}
+            };
+            return vResult;
         }
         #endregion InfoAdicional
 
