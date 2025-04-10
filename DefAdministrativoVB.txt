@@ -2199,9 +2199,9 @@ MenuDeInformes : boolean;
     BaseImponibleIGTFML   	  : Currency;
     AlicuotaIGTFML	     	  : Currency;
     MontoIGTFML     		  : Currency;  
-    NumeroControlRetencionIvaImpDigital        : Str20; //"NumeroControlRet Iva ID" 
-    ProveedorImprentaDigital    : unProveedorImprentaDigital; //"Proveedor Imprenta Digital"
-    RetencionIvaEnviadaImpDigital : Boolean;
+    NumeroControlRetencionIvaImpDigital        : Str20; //dv='',"NumeroControlRet Iva ID" 
+    ProveedorImprentaDigital    : unProveedorImprentaDigital; //dv='0',"Proveedor Imprenta Digital"
+    RetencionIvaEnviadaImpDigital : Boolean;//dv='N'
     NombreOperador                	: Str10; //a 
     FechaUltimaModificacion       	: Date;//a
     @PrimaryKey=ConsecutivoCompania,ConsecutivoCxP

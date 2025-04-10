@@ -269,13 +269,13 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 
         private void CrearCamposIDEnCxP() {
             if(AddColumnString("CxP", "NumeroControlRetencionIvaImpDigital", 20, "", "")) {
-                AddDefaultConstraint("CxP", "NCTID", _insSql.ToSqlValue(""), "NumeroControlRetencionIvaImpDigital");
+                AddDefaultConstraint("CxP", "nCtID", _insSql.ToSqlValue(""), "NumeroControlRetencionIvaImpDigital");
             }
             if(AddColumnEnumerative("CxP", "ProveedorImprentaDigital", "", 0)) {
-                AddDefaultConstraint("CxP", "PRVID", _insSql.ToSqlValue("0"), "ProveedorImprentaDigital");
+                AddDefaultConstraint("CxP", "pRovID", _insSql.ToSqlValue("0"), "ProveedorImprentaDigital");
             }
             if(AddColumnBoolean("CxP", "RetencionIvaEnviadaImpDigital", "", false)) {
-                AddDefaultConstraint("CxP", "RTENID", _insSql.ToSqlValue("N"), "RetencionIvaEnviadaImpDigital");
+                AddDefaultConstraint("CxP", "rTEnID", _insSql.ToSqlValue("N"), "RetencionIvaEnviadaImpDigital");
             }
         }
     }
