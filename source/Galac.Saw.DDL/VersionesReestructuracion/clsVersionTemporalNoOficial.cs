@@ -43,6 +43,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             CorrigeConstrainsGUIDNOtNullFactura();
             ActivaMostrarTotalEnDivisas();
             AgregarTablaExistenciaPorAlmacenDetLoteInv();
+            CrearCamposIDEnCxP();
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -263,8 +264,19 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
                 vSqlSb.AppendLine("			Saw.LoteDeInventario.Consecutivo,");
                 vSqlSb.AppendLine("			ExistenciaPorAlmacen.Ubicacion");
                 Execute(vSqlSb.ToString(), 0);
-            }
+            }       
+        }
 
+        private void CrearCamposIDEnCxP() {
+            if(AddColumnString("CxP", "NumeroControlRetencionIvaImpDigital", 20, "", "")) {
+                AddDefaultConstraint("CxP", "nCtID", _insSql.ToSqlValue(""), "NumeroControlRetencionIvaImpDigital");
+            }
+            if(AddColumnEnumerative("CxP", "ProveedorImprentaDigital", "", 0)) {
+                AddDefaultConstraint("CxP", "pRovID", _insSql.ToSqlValue("0"), "ProveedorImprentaDigital");
+            }
+            if(AddColumnBoolean("CxP", "RetencionIvaEnviadaImpDigital", "", false)) {
+                AddDefaultConstraint("CxP", "rTEnID", _insSql.ToSqlValue("N"), "RetencionIvaEnviadaImpDigital");
+            }
         }
     }
 }
