@@ -29,7 +29,8 @@
             Grid.Column="0"
             Margin="3"
             Header=""
-            Style="{StaticResource GroupBoxStyle}" Visibility="{Binding Path=IsVisibleNotasDePago, Converter={StaticResource booleanToVisibilityConverter}}">
+            IsEnabled="{Binding Path=IsEnabledNotasDePago}"
+            Style="{StaticResource GroupBoxStyle}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -186,7 +187,8 @@
             Margin="3"
             Header="Ordenes de Despacho"
             IsEnabled="{Binding Path=IsEnabledOrdenDeDespacho}"
-            Style="{StaticResource GroupBoxStyle}" Visibility="{Binding Path=IsVisibleOrdenesDeDespacho, Converter={StaticResource booleanToVisibilityConverter}}">
+            Style="{StaticResource GroupBoxStyle}"
+            Visibility="{Binding Path=IsVisibleOrdenesDeDespacho, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
