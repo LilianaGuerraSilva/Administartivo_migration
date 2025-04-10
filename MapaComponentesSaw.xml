@@ -58,12 +58,12 @@
     <LibGalac.Aos.UI.WpfRD>5.24.2.1</LibGalac.Aos.UI.WpfRD>
     <LibGalac.Aos.UI.Mvvm>5.24.2.4</LibGalac.Aos.UI.Mvvm>
     <LibGalac.Aos.UI.WpfBN>5.24.0.0</LibGalac.Aos.UI.WpfBN>
-    <LibGalac.Aos.Uil>5.24.2.4</LibGalac.Aos.Uil>
+    <LibGalac.Aos.Uil>5.24.2.5</LibGalac.Aos.Uil>
     <LibGalac.Aos.Brl.Usal>5.24.2.4</LibGalac.Aos.Brl.Usal>
-    <LibGalac.Aos.Ccl.Usal>5.24.2.4</LibGalac.Aos.Ccl.Usal>
-    <LibGalac.Aos.Dal.Usal>5.24.2.4</LibGalac.Aos.Dal.Usal>
-    <LibGalac.Aos.Uil.Usal>5.24.2.4</LibGalac.Aos.Uil.Usal>
-    <LibGalac.Aos.ARRpt>5.24.1.0</LibGalac.Aos.ARRpt>
+    <LibGalac.Aos.Ccl.Usal>5.24.2.6</LibGalac.Aos.Ccl.Usal>
+    <LibGalac.Aos.Dal.Usal>5.24.2.6</LibGalac.Aos.Dal.Usal>
+    <LibGalac.Aos.Uil.Usal>5.24.2.6</LibGalac.Aos.Uil.Usal>
+    <LibGalac.Aos.ARRpt>5.24.2.5</LibGalac.Aos.ARRpt>
     <LibGalac.Aos.ObRpt>5.24.0.0</LibGalac.Aos.ObRpt>
     <LibGalac.Aos.OXml>5.24.0.0</LibGalac.Aos.OXml>
     <LibGalac.Aos.Cib>5.24.0.0</LibGalac.Aos.Cib>
