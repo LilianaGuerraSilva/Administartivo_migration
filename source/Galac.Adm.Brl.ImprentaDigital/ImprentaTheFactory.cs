@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Xml.Linq;
 using Galac.Adm.Ccl.ImprentaDigital;
 using Galac.Adm.Ccl.Venta;
 using Galac.Saw.Ccl.SttDef;
@@ -9,9 +8,7 @@ using System.Collections.Generic;
 using Galac.Saw.LibWebConnector;
 using Galac.Saw.Ccl.Cliente;
 using LibGalac.Aos.Catching;
-using LibGalac.Aos.Cnf;
 using System.Threading;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
 
@@ -82,7 +79,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     NumeroDocumento = NumeroDocumento()
                 };
                 if (vChekConeccion) {
-                    vDocumentoJSON = clsConectorJson.SerializeJSON(vJsonDeConsulta);//Construir XML o JSON Con datos                                                                                    
+                    vDocumentoJSON = clsConectorJson.SerializeJSON(vJsonDeConsulta);//Construir JSON Con datos                                                                                    
                     vRespuestaConector = ((clsConectorJsonTheFactory)_ConectorJson).SendPostJsonTF(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoDocumento), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
                     Mensaje = vRespuestaConector.mensaje;
                 } else {
@@ -120,7 +117,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                             NumeroDocumento = NumeroDocumento(),
                             MotivoAnulacion = FacturaImprentaDigital.MotivoDeAnulacion
                         };
-                        string vDocumentoJSON = clsConectorJson.SerializeJSON(vSolicitudDeAnulacion); //Construir XML o JSON Con datos                         
+                        string vDocumentoJSON = clsConectorJson.SerializeJSON(vSolicitudDeAnulacion); //Construir o JSON Con datos                         
                         vRespuestaConector = ((clsConectorJsonTheFactory)_ConectorJson).SendPostJsonTF(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Anular), _ConectorJson.Token);
                         vResult = vRespuestaConector.Aprobado;
                         Mensaje = vRespuestaConector.mensaje;
@@ -497,9 +494,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 vCambioBs = LibMath.RoundToNDecimals(FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 4);
                 //vCodigoMoneda = LibString.S1IsEqualToS2(FacturaImprentaDigital.CodigoMoneda, "VED") ? "VEF" : FacturaImprentaDigital.CodigoMoneda; // Según ISO 3166-1 | códigos de países | by mucattu.com (Código moneda VEF No esta actualizado)
                 vCodigoMoneda = FacturaImprentaDigital.CodigoMoneda;
-                vMonto = LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura, 2));
-                //vResult.Add(new XElement("forma", GetFormaDeCobro(FacturaImprentaDigital.FormaDeCobroAsEnum)),
-                // new XElement("formasPago",
+                vMonto = LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura, 2));               
                 vResult.Add(
                     new JObject { { "descripcion", LibEnumHelper.GetDescription(FacturaImprentaDigital.FormaDeCobroAsEnum) },
                     {"forma", vFormaDeCobro },
