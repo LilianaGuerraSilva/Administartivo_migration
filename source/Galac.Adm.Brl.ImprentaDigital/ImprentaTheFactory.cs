@@ -13,6 +13,7 @@ using LibGalac.Aos.Cnf;
 using System.Threading;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Globalization;
 
 namespace Galac.Adm.Brl.ImprentaDigital {
     public class ImprentaTheFactory : clsImprentaDigitalBase {
@@ -154,7 +155,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 }
                 if(vChekConeccion) {
                     ConfigurarDocumento();
-                    string vDocumentoJSON = vDocumentoDigital.ToString();                    
+                    string vDocumentoJSON = vDocumentoDigital.ToString();
                     vRespuestaConector = ((clsConectorJsonTheFactory)_ConectorJson).SendPostJsonTF(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Emision), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
                     vResult = vRespuestaConector.Aprobado;
                     if(vResult) {
@@ -194,10 +195,11 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 { "comprador", GetDatosComprador() },
                 { "totales",  GetTotales() },
                 { "TotalesOtraMoneda", GetTotalesME()}};
-            JObject vEncabezado = new JObject { { "encabezado", vEncabezadoElements } };
-            vDocumentoDigital.Add("documentoElectronico", vEncabezado);
-            vDocumentoDigital.Add("detallesItems", GetDetalleFactura());
-            vDocumentoDigital.Add("InfoAdicional", GetDatosInfoAdicional());            
+            JObject vDocumentoElectronicoElements = new JObject {
+                { "encabezado", vEncabezadoElements },
+                { "detallesItems", GetDetalleFactura() },
+                { "InfoAdicional", GetDatosInfoAdicional() } };
+            vDocumentoDigital.Add("documentoElectronico", vDocumentoElectronicoElements);
         }
         #endregion Construye  Documento
         #region Identificacion de Documento
@@ -297,9 +299,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                {"numeroIdentificacion", vNumeroRif },
                {"razonSocial", ClienteImprentaDigital.Nombre },
                {"direccion", ClienteImprentaDigital.Direccion },
-               {"pais", "VE" } };
-            vResult["correo"] = vListaCorreos;
-            vResult["telefono"] = vListaTelefonos;
+               {"pais", "VE" },
+               {"telefono", vListaTelefonos },
+               {"correo", vListaCorreos }};
             return vResult;
         }
 
@@ -348,38 +350,39 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             }
             vObservaciones += FacturaImprentaDigital.Observaciones;
 
-            JObject vColetilla1 = new JObject { { "Coletilla",vTextoColetilla} };
-            JObject vFiled1 = CreateFieldAndValue(vColetilla1);                
+            JObject vColetilla1 = new JObject { { "Coletilla", vTextoColetilla } };
+            JObject vFiled1 = CreateFieldAndValue(vColetilla1);
 
             JObject vColetilla2 = new JObject { { "Coletilla2", vTextoColetilla2 } };
             JObject vFiled2 = CreateFieldAndValue(vColetilla2);
 
-            JObject vColetilla3= new JObject { { "Coletilla3", vObservaciones } };
+            JObject vColetilla3 = new JObject { { "Coletilla3", vObservaciones } };
             JObject vFiled3 = CreateFieldAndValue(vColetilla3);
 
             JObject vReceptor = new JObject {
-                { "Atencion", ClienteImprentaDigital.Contacto },                
+                { "Atencion", ClienteImprentaDigital.Contacto },
                 { "Ciudad", ClienteImprentaDigital.Ciudad },
                 { "Envia", ((CustomIdentity)Thread.CurrentPrincipal.Identity).Name }};
             JObject vFiled4 = CreateFieldAndValue(vReceptor);
 
-            JObject vInfoAddCliente = new JObject {               
+            JObject vInfoAddCliente = new JObject {
                 { "Ciudad", InfoAdicionalClienteImprentaDigital.Ciudad },
                 { "DireccionServicio", InfoAdicionalClienteImprentaDigital.Direccion}};
             JObject vFiled5 = CreateFieldAndValue(vInfoAddCliente);
-
             vResult.Add(vFiled1);
             vResult.Add(vFiled2);
             vResult.Add(vFiled3);
             vResult.Add(vFiled4);
             vResult.Add(vFiled5);
-            return vResult;           
+            return vResult;
         }
 
         static JObject CreateFieldAndValue(JObject valElement) {
+            string vElementsStr = valElement.ToString();
+            vElementsStr=LibString.Replace(vElementsStr, "\r\n", "");
             JObject vResult = new JObject {
                 {"Campo","PDF" },
-                {"Valor",valElement}
+                {"Valor",vElementsStr}
             };
             return vResult;
         }
@@ -396,34 +399,34 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             }
             vListaImpuesto.Add(
                 new JObject {{ "CodigoTotalImp", GetAlicuota(eTipoDeAlicuota.Exento)},
-                {"AlicuotaImp", 0m },
-                {"BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalMontoExento * vCambio, 2)) },
-                { "ValorTotalImp", 0m} });
+                {"AlicuotaImp", (0m).ToString("0.00", CultureInfo.InvariantCulture) },
+                {"BaseImponibleImp",  LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalMontoExento * vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture) },
+                { "ValorTotalImp",  (0m).ToString("0.00", CultureInfo.InvariantCulture)} });
             vListaImpuesto.Add(
                 new JObject {{"CodigoTotalImp", GetAlicuota(eTipoDeAlicuota.AlicuotaGeneral) },
-                {"AlicuotaImp", LibMath.RoundToNDecimals(FacturaImprentaDigital.PorcentajeAlicuota1, 2)},
-                {"BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoGravableAlicuota1 * vCambio, 2))},
-                { "ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoIvaAlicuota1 * vCambio, 2)) } });
+                {"AlicuotaImp",  LibMath.RoundToNDecimals(FacturaImprentaDigital.PorcentajeAlicuota1, 2).ToString("0.00", CultureInfo.InvariantCulture)},
+                {"BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoGravableAlicuota1 * vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture)},
+                { "ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoIvaAlicuota1 * vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture) } });
             vListaImpuesto.Add(
                 new JObject{{"CodigoTotalImp", GetAlicuota(eTipoDeAlicuota.Alicuota2) },
-                {"AlicuotaImp", LibMath.RoundToNDecimals(FacturaImprentaDigital.PorcentajeAlicuota2, 2) },
-                {"BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoGravableAlicuota2 * vCambio, 2)) },
-                { "ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoIvaAlicuota2 * vCambio, 2)) } });
+                {"AlicuotaImp", LibMath.RoundToNDecimals(FacturaImprentaDigital.PorcentajeAlicuota2, 2).ToString("0.00", CultureInfo.InvariantCulture) },
+                {"BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoGravableAlicuota2 * vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture) },
+                { "ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoIvaAlicuota2 * vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture) } });
             vListaImpuesto.Add(
                 new JObject { { "CodigoTotalImp", GetAlicuota(eTipoDeAlicuota.Alicuota3) },
-                {"AlicuotaImp", LibMath.RoundToNDecimals(FacturaImprentaDigital.PorcentajeAlicuota3, 2) },
-                {"BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoGravableAlicuota3 * vCambio, 2)) },
-                { "ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoIvaAlicuota3 * vCambio, 2)) } });
+                {"AlicuotaImp", LibMath.RoundToNDecimals(FacturaImprentaDigital.PorcentajeAlicuota3, 2).ToString("0.00", CultureInfo.InvariantCulture) },
+                {"BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoGravableAlicuota3 * vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture) },
+                { "ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoIvaAlicuota3 * vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture) } });
             vListaImpuesto.Add(
                 new JObject { { "CodigoTotalImp", "P" }, // Percibido -> SAW No lo maneja pero JSON lo requiere
-                {"AlicuotaImp", 0m },
-                {"BaseImponibleImp", 0m },
-                { "ValorTotalImp", 0m} });
+                {"AlicuotaImp", (0m).ToString("0.00", CultureInfo.InvariantCulture) },
+                {"BaseImponibleImp", (0m).ToString("0.00", CultureInfo.InvariantCulture) },
+                { "ValorTotalImp", (0m).ToString("0.00", CultureInfo.InvariantCulture)} });
             vListaImpuesto.Add(
                 new JObject { { "CodigoTotalImp", "IGTF" },
-                { "AlicuotaImp", LibMath.RoundToNDecimals(FacturaImprentaDigital.AlicuotaIGTF, 2)},
-                { "BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.BaseImponibleIGTF * vCambio, 2))},
-                { "ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.IGTFML, 2))} });
+                { "AlicuotaImp", LibMath.RoundToNDecimals(FacturaImprentaDigital.AlicuotaIGTF, 2).ToString("0.00", CultureInfo.InvariantCulture)},
+                { "BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.BaseImponibleIGTF * vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture)},
+                { "ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.IGTFML, 2)).ToString("0.00", CultureInfo.InvariantCulture)}});
             return vListaImpuesto;
         }
 
@@ -437,34 +440,34 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             }
             vListaImpuesto.Add(
                 new JObject{{ "CodigoTotalImp", GetAlicuota(eTipoDeAlicuota.Exento) },
-                {"AlicuotaImp", 0m},
-                {"BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalMontoExento / vCambio, 2))},
-                { "ValorTotalImp", 0m} });
+                {"AlicuotaImp", (0m).ToString("0.00", CultureInfo.InvariantCulture)},
+                {"BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalMontoExento / vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture)},
+                { "ValorTotalImp", (0m).ToString("0.00", CultureInfo.InvariantCulture)} });
             vListaImpuesto.Add(
                 new JObject { { "CodigoTotalImp", GetAlicuota(eTipoDeAlicuota.AlicuotaGeneral) },
-                {"AlicuotaImp", LibMath.RoundToNDecimals(FacturaImprentaDigital.PorcentajeAlicuota1, 2) },
-                {"BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoGravableAlicuota1 / vCambio, 2)) },
-                { "ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoIvaAlicuota1 / vCambio, 2)) } });
+                {"AlicuotaImp", LibMath.RoundToNDecimals(FacturaImprentaDigital.PorcentajeAlicuota1, 2).ToString("0.00", CultureInfo.InvariantCulture) },
+                {"BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoGravableAlicuota1 / vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture) },
+                { "ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoIvaAlicuota1 / vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture) } });
             vListaImpuesto.Add(
                 new JObject { { "CodigoTotalImp", GetAlicuota(eTipoDeAlicuota.Alicuota2) },
-                { "AlicuotaImp", LibMath.RoundToNDecimals(FacturaImprentaDigital.PorcentajeAlicuota2, 2)},
-                {"BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoGravableAlicuota2 / vCambio, 2)) },
-                { "ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoIvaAlicuota2 / vCambio, 2)) } });
+                { "AlicuotaImp", LibMath.RoundToNDecimals(FacturaImprentaDigital.PorcentajeAlicuota2, 2).ToString("0.00", CultureInfo.InvariantCulture)},
+                {"BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoGravableAlicuota2 / vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture) },
+                { "ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoIvaAlicuota2 / vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture) } });
             vListaImpuesto.Add(
                 new JObject { { "CodigoTotalImp", GetAlicuota(eTipoDeAlicuota.Alicuota3) },
-                {"AlicuotaImp", LibMath.RoundToNDecimals(FacturaImprentaDigital.PorcentajeAlicuota3, 2)},
-                {"BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoGravableAlicuota3 / vCambio, 2))},
-                { "ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoIvaAlicuota3 / vCambio, 2)) }});
+                {"AlicuotaImp", LibMath.RoundToNDecimals(FacturaImprentaDigital.PorcentajeAlicuota3, 2).ToString("0.00", CultureInfo.InvariantCulture)},
+                {"BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoGravableAlicuota3 / vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture)},
+                { "ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoIvaAlicuota3 / vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture) }});
             vListaImpuesto.Add(
                 new JObject { { "CodigoTotalImp", "P" }, // Percibido -> SAW No lo maneja pero JSON lo requiere
-                {"AlicuotaImp", 0m},
-                {"BaseImponibleImp", 0m},
-                { "ValorTotalImp", 0m}});
+                {"AlicuotaImp", (0m).ToString("0.00", CultureInfo.InvariantCulture)},
+                {"BaseImponibleImp", (0m).ToString("0.00", CultureInfo.InvariantCulture)},
+                { "ValorTotalImp", (0m).ToString("0.00", CultureInfo.InvariantCulture)}});
             vListaImpuesto.Add(
                 new JObject { { "CodigoTotalImp", "IGTF" },
-                {"AlicuotaImp", LibMath.RoundToNDecimals(FacturaImprentaDigital.AlicuotaIGTF, 2) },
-                {"BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.BaseImponibleIGTF / vCambio, 2)) },
-                { "ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.IGTFME, 2))} });
+                {"AlicuotaImp", LibMath.RoundToNDecimals(FacturaImprentaDigital.AlicuotaIGTF, 2).ToString("0.00", CultureInfo.InvariantCulture) },
+                {"BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.BaseImponibleIGTF / vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture) },
+                { "ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.IGTFME, 2)).ToString("0.00", CultureInfo.InvariantCulture)} });
             return vListaImpuesto;
         }
 
@@ -486,9 +489,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 vResult.Add(
                     new JObject {{"descripcion", LibEnumHelper.GetDescription(FacturaImprentaDigital.FormaDeCobroAsEnum) + " Divisas" },
                     {"forma", vFormaDeCobro },
-                    {"monto", vMonto },
+                    {"monto", vMonto.ToString("0.00", CultureInfo.InvariantCulture) },
                     {"moneda", vCodigoMoneda },
-                    { "tipoCambio", vCambioBs } });
+                    { "tipoCambio", vCambioBs.ToString("0.0000", CultureInfo.InvariantCulture) } });
             } else {
                 vFormaDeCobro = FacturaImprentaDigital.FormaDeCobroAsEnum == eTipoDeFormaDeCobro.Efectivo ? "08" : "99";
                 vCambioBs = LibMath.RoundToNDecimals(FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 4);
@@ -500,9 +503,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 vResult.Add(
                     new JObject { { "descripcion", LibEnumHelper.GetDescription(FacturaImprentaDigital.FormaDeCobroAsEnum) },
                     {"forma", vFormaDeCobro },
-                    {"monto", vMonto },
+                    {"monto", vMonto.ToString("0.00", CultureInfo.InvariantCulture) },
                     {"moneda", vCodigoMoneda },
-                    { "tipoCambio", vCambioBs } });
+                    { "tipoCambio", vCambioBs.ToString("0.0000", CultureInfo.InvariantCulture) } });
             }
             return vResult;
         }
@@ -514,15 +517,15 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             decimal vTotalFacturaMasIGTF = (FacturaImprentaDigital.TotalFactura * vCambio) + FacturaImprentaDigital.IGTFML;
             string vMontoEnLetrasME = MontoEnLetras(vTotalFacturaMasIGTF, FacturaImprentaDigital.CodigoMoneda);
             JObject vResult = new JObject{
-                { "nroItems", DetalleFacturaImprentaDigital.Count},
-                { "montoGravadoTotal", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalBaseImponible * vCambio, 2))},
-                { "montoExentoTotal", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalMontoExento * vCambio, 2))},
-                { "subtotal", LibMath.Abs(LibMath.RoundToNDecimals((FacturaImprentaDigital.TotalBaseImponible + FacturaImprentaDigital.TotalMontoExento) * vCambio, 2))},
-                { "totalAPagar", LibMath.Abs(LibMath.RoundToNDecimals(vTotalFacturaMasIGTF, 2))},
-                { "totalIVA", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalIVA * vCambio, 2))},
-                { "montoTotalConIVA", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura * vCambio, 2))},
+                { "nroItems", DetalleFacturaImprentaDigital.Count.ToString()},
+                { "montoGravadoTotal", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalBaseImponible * vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture)},
+                { "montoExentoTotal", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalMontoExento * vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture)},
+                { "subtotal", LibMath.Abs(LibMath.RoundToNDecimals((FacturaImprentaDigital.TotalBaseImponible + FacturaImprentaDigital.TotalMontoExento) * vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture)},
+                { "totalAPagar", LibMath.Abs(LibMath.RoundToNDecimals(vTotalFacturaMasIGTF, 2)).ToString("0.00", CultureInfo.InvariantCulture)},
+                { "totalIVA", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalIVA * vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture)},
+                { "montoTotalConIVA", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura * vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture)},
                 { "montoEnLetras", vMontoEnLetrasME},
-                { "totalDescuento", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoDescuento1 * vCambio, 2))},
+                { "totalDescuento", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoDescuento1 * vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture)},
                 { "impuestosSubtotal",GetTotalImpuestosML()},
                 { "formasPago",GetFormasPago()} };
             return vResult;
@@ -535,15 +538,15 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             string vMontoEnLetrasME = MontoEnLetras(vTotalFacturaMasIGTF, "");
             JObject vResult = new JObject {
                 {"moneda", vCodigoMonedaLbl },
-                {"tipoCambio", LibMath.Abs(LibMath.RoundToNDecimals(CambioABolivares, 4)) },
-                {"montoGravadoTotal", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalBaseImponible / vCambio, 2)) },
-                {"montoExentoTotal", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalMontoExento / vCambio, 2)) },
-                {"subtotal", LibMath.Abs(LibMath.RoundToNDecimals((FacturaImprentaDigital.TotalBaseImponible + FacturaImprentaDigital.TotalMontoExento) / vCambio, 2)) },
-                {"totalAPagar", LibMath.Abs(LibMath.RoundToNDecimals(vTotalFacturaMasIGTF, 2)) },
-                {"totalIVA", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalIVA / vCambio, 2)) },
-                {"montoTotalConIVA", LibMath.Abs(LibMath.RoundToNDecimals((FacturaImprentaDigital.TotalFactura) / vCambio, 2)) },
+                {"tipoCambio", LibMath.Abs(LibMath.RoundToNDecimals(CambioABolivares, 4)).ToString("0.0000", CultureInfo.InvariantCulture) },
+                {"montoGravadoTotal", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalBaseImponible / vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture) },
+                {"montoExentoTotal", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalMontoExento / vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture) },
+                {"subtotal", LibMath.Abs(LibMath.RoundToNDecimals((FacturaImprentaDigital.TotalBaseImponible + FacturaImprentaDigital.TotalMontoExento) / vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture) },
+                {"totalAPagar", LibMath.Abs(LibMath.RoundToNDecimals(vTotalFacturaMasIGTF, 2)).ToString("0.00", CultureInfo.InvariantCulture) },
+                {"totalIVA", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalIVA / vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture) },
+                {"montoTotalConIVA", LibMath.Abs(LibMath.RoundToNDecimals((FacturaImprentaDigital.TotalFactura) / vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture) },
                 {"montoEnLetras", vMontoEnLetrasME },
-                {"totalDescuento", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoDescuento1 / vCambio, 2)) },
+                {"totalDescuento", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoDescuento1 / vCambio, 2)).ToString("0.00", CultureInfo.InvariantCulture) },
                 {"impuestosSubtotal", GetTotalImpuestosME()}};
             return vResult;
         }
@@ -582,21 +585,21 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                         vResultInfoAdicional.Add(new JObject { { "CampoExtraEnRenglonFactura1", vDetalle.CampoExtraEnRenglonFactura1 } });
                         vResultInfoAdicional.Add(new JObject { { "CampoExtraEnRenglonFactura2", vDetalle.CampoExtraEnRenglonFactura2 } });
                         JObject vElement = new JObject() {
-                                {"numeroLinea", vDetalle.ConsecutivoRenglon },
+                                {"numeroLinea", vDetalle.ConsecutivoRenglon.ToString() },
                                 {"codigoPLU", LibString.Left(vDetalle.Articulo, 20) },
                                 {"indicadorBienoServicio", vDetalle.TipoDeArticuloAsEnum == eTipoDeArticulo.Servicio ? "2" : "1" },
                                 {"descripcion", LibString.Left(vDetalle.Descripcion, 254) },
-                                {"cantidad", LibMath.Abs(LibMath.RoundToNDecimals(vCantidad, 2)) },
-                                {"precioUnitarioDescuento", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.PorcentajeDescuento, 2)) },
-                                {"descuentoMonto", LibMath.Abs(LibMath.RoundToNDecimals((vDetalle.Cantidad * vDetalle.PrecioSinIVA * vDetalle.PorcentajeDescuento) / 100, 2))},
+                                {"cantidad", LibMath.Abs(LibMath.RoundToNDecimals(vCantidad, 2)).ToString("0.00", CultureInfo.InvariantCulture) },
+                                {"precioUnitarioDescuento", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.PorcentajeDescuento, 2)).ToString("0.00", CultureInfo.InvariantCulture) },
+                                {"descuentoMonto", LibMath.Abs(LibMath.RoundToNDecimals((vDetalle.Cantidad * vDetalle.PrecioSinIVA * vDetalle.PorcentajeDescuento) / 100, 2)).ToString("0.00", CultureInfo.InvariantCulture)},
                                 {"unidadMedida", "NIU" },
-                                {"precioUnitario", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.PrecioSinIVA, 2)) },
-                                {"precioItem", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.TotalRenglon, 2)) },
+                                {"precioUnitario", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.PrecioSinIVA, 2)).ToString("0.00", CultureInfo.InvariantCulture) },
+                                {"precioItem", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.TotalRenglon, 2)).ToString("0.00", CultureInfo.InvariantCulture) },
                                 {"codigoImpuesto", GetAlicuota(vDetalle.AlicuotaIvaAsEnum) },
-                                {"tasaIVA", LibMath.RoundToNDecimals(vDetalle.PorcentajeAlicuota, 2) },
-                                {"valorIVA", LibMath.Abs(LibMath.RoundToNDecimals(LibMath.RoundToNDecimals((vDetalle.PorcentajeAlicuota * vDetalle.PrecioSinIVA * vDetalle.Cantidad) / 100, 2), 2)) },
-                                { "valorTotalItem", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.TotalRenglon, 2))  },
-                                {"infoAdicional",vResultInfoAdicional } };
+                                {"tasaIVA", LibMath.RoundToNDecimals(vDetalle.PorcentajeAlicuota, 2).ToString("0.00", CultureInfo.InvariantCulture) },
+                                {"valorIVA", LibMath.Abs(LibMath.RoundToNDecimals(LibMath.RoundToNDecimals((vDetalle.PorcentajeAlicuota * vDetalle.PrecioSinIVA * vDetalle.Cantidad) / 100, 2), 2)).ToString("0.00", CultureInfo.InvariantCulture) },
+                                { "valorTotalItem", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.TotalRenglon, 2)).ToString("0.00", CultureInfo.InvariantCulture)  },
+                                {"infoAdicionalItem",vResultInfoAdicional } };
                         vResult.Add(vElement);
                     }
                 }
@@ -618,7 +621,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }
         private string GetFormaDeCobro(eTipoDeFormaDeCobro valFormaDeCobro) {
             string vResult = string.Empty;
-            switch (valFormaDeCobro) {
+            switch(valFormaDeCobro) {
                 case eTipoDeFormaDeCobro.Efectivo:
                     vResult = "08";
                     break;
@@ -635,7 +638,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }
         private string GetTipoTransaccion(eTipoDeTransaccionDeLibrosFiscales valTipoTransaccion) {
             string vResult = "";
-            switch (valTipoTransaccion) {
+            switch(valTipoTransaccion) {
                 case eTipoDeTransaccionDeLibrosFiscales.Registro:
                     vResult = "01";
                     break;
@@ -657,7 +660,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         private string GetTipoDocumento(eTipoDocumentoFactura valTipoDocumento) {
             string vResult = "";
-            switch (valTipoDocumento) {
+            switch(valTipoDocumento) {
                 case eTipoDocumentoFactura.Factura:
                     vResult = "01";
                     break;
@@ -682,7 +685,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         private string GetTipoDePago(eFormadePago valTipoDePago) {
             string vResult = "";
-            switch (valTipoDePago) {
+            switch(valTipoDePago) {
                 case eFormadePago.Contado:
                     vResult = "Contado";
                     break;
