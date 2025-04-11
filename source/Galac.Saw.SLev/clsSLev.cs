@@ -79,16 +79,15 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Factura", "Sincronizar con Imprenta Digital", "Principal", 1));
             #endregion
 
-            #region Nota de Entrega
-            if (DisponibleParaFacturadorBasico) {
-                vPermisos.Add(new CustomRole("Nota de Entrega", "Consultar", "Principal", 1));
-                vPermisos.Add(new CustomRole("Nota de Entrega", "Insertar", "Principal", 1));
-                vPermisos.Add(new CustomRole("Nota de Entrega", "Modificar", "Principal", 1));
-                vPermisos.Add(new CustomRole("Nota de Entrega", "Eliminar", "Principal", 1));
-                vPermisos.Add(new CustomRole("Nota de Entrega", "Anular", "Principal", 1));
-                vPermisos.Add(new CustomRole("Nota de Entrega", "Emitir", "Principal", 1));
-                vPermisos.Add(new CustomRole("Nota de Entrega", "Reimprimir", "Principal", 1));
-            }
+            #region Nota de Entrega            
+            vPermisos.Add(new CustomRole("Nota de Entrega", "Consultar", "Principal", 1));
+            vPermisos.Add(new CustomRole("Nota de Entrega", "Insertar", "Principal", 1));
+            vPermisos.Add(new CustomRole("Nota de Entrega", "Modificar", "Principal", 1));
+            vPermisos.Add(new CustomRole("Nota de Entrega", "Eliminar", "Principal", 1));
+            vPermisos.Add(new CustomRole("Nota de Entrega", "Anular", "Principal", 1));
+            vPermisos.Add(new CustomRole("Nota de Entrega", "Emitir", "Principal", 1));
+            vPermisos.Add(new CustomRole("Nota de Entrega", "Reimprimir", "Principal", 1));
+            
             #endregion
 
             #region Cotizacion
