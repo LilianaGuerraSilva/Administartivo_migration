@@ -88,9 +88,9 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         private decimal _MePrecioConIva;
         public int ConsecutivoCompania { get; set; }
         public string CodigoCompuesto { get; set; }
-        [LibGridColum("Código del Artículo", DbMemberPath = "Gv_ArticuloInventario_B1.Codigo")]
+        [LibGridColum("Código del Artículo", DbMemberPath = "Codigo")]
         public string Codigo { get; set; }
-        [LibGridColum("Descripción", DbMemberPath = "Gv_ArticuloInventario_B1.Descripcion", Width = 400 )]
+        [LibGridColum("Descripción", DbMemberPath = "Descripcion", Width = 400 )]
         public string Descripcion { get; set; }
         [LibGridColum("Precio Sin IVA", Alignment = eTextAlignment.Right)]
         public decimal PrecioSinIVA {
