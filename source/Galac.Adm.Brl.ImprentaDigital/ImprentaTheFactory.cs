@@ -11,6 +11,7 @@ using LibGalac.Aos.Catching;
 using System.Threading;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
+using Galac.Adm.Ccl.GestionCompras;
 
 namespace Galac.Adm.Brl.ImprentaDigital {
     public class ImprentaTheFactory : clsImprentaDigitalBase {
@@ -21,7 +22,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         string _TipoDeProveedor;
         clsConectorJson _ConectorJson;
 
-        public ImprentaTheFactory(eTipoDocumentoFactura initTipoDeDocumento, string initNumeroFactura) : base(initTipoDeDocumento, initNumeroFactura) {
+        public ImprentaTheFactory(eTipoDocumentoFactura initTipoDeDocumento, string initNumeroFactura, eTipoComprobantedeRetencion initTipoComprobantedeRetencion) : base(initTipoDeDocumento, initNumeroFactura, initTipoComprobantedeRetencion) {
             _NumeroFactura = initNumeroFactura;
             _TipoDeDocumento = initTipoDeDocumento;
             _TipoDeProveedor = "";//NORMAL Según catalogo No 2 del layout
@@ -186,17 +187,21 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public override void ConfigurarDocumento() {
             base.ConfigurarDocumento();
             vDocumentoDigital = new JObject();
-            JObject vEncabezadoElements = new JObject {
+            if (TipoTransaccionID == eTipoTransaccionImprentaDigital.Facturacion) {
+                JObject vEncabezadoElements = new JObject {
                 { "identificacionDocumento", GetIdentificacionDocumento() },
                 { "vendedor", GetDatosVendedor() },
                 { "comprador", GetDatosComprador() },
                 { "totales",  GetTotales() },
                 { "TotalesOtraMoneda", GetTotalesME()}};
-            JObject vDocumentoElectronicoElements = new JObject {
+                JObject vDocumentoElectronicoElements = new JObject {
                 { "encabezado", vEncabezadoElements },
                 { "detallesItems", GetDetalleFactura() },
                 { "InfoAdicional", GetDatosInfoAdicional() } };
-            vDocumentoDigital.Add("documentoElectronico", vDocumentoElectronicoElements);
+                vDocumentoDigital.Add("documentoElectronico", vDocumentoElectronicoElements);
+            } else {
+
+            }
         }
         #endregion Construye  Documento
         #region Identificacion de Documento

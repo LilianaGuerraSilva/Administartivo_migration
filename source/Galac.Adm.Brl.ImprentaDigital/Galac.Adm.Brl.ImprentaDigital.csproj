@@ -72,6 +72,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Galac.Adm.Ccl.GestionCompras\Galac.Adm.Ccl.GestionCompras.csproj">
+      <Project>{c9e84c15-9dab-4e42-95a9-08c4b09e1f74}</Project>
+      <Name>Galac.Adm.Ccl.GestionCompras</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.LibWebConector\Galac.Saw.LibWebConnector.csproj">
       <Project>{08f52bb0-7708-4326-b74c-ac49629c8647}</Project>
       <Name>Galac.Saw.LibWebConnector</Name>

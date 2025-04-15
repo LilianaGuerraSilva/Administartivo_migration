@@ -1,7 +1,9 @@
 ﻿
+using Galac.Adm.Ccl.GestionCompras;
+
 namespace Galac.Saw.Wrp.ImprentaDigital {
     public interface IWrpImprentaDigitalVb {
-        bool EnviarDocumento(int vfwTipoDocumento, string vfwNumeroFactura, string vfwCurrentParameters, ref string vfwNumeroControl, ref string vfwMensaje);
+        bool EnviarDocumento(int vfwTipoDocumento, string vfwNumeroFactura, string vfwCurrentParameters, eTipoComprobantedeRetencion vfwTipoComprobantedeRetencion, ref string vfwNumeroControl, ref string vfwMensaje);
         bool AnularDocumento(int vfwTipoDocumento, string vfwNumeroFactura, string vfwCurrentParameters, ref string vMensaje);
         bool SincronizarDocumento(int vfwTipoDocumento, string vfwNumeroFactura, string vfwCurrentParameters, ref string vfwNumeroControl, ref string vfwMensaje);       
         void InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath);

@@ -17,7 +17,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
     }
 
     [TypeConverter(typeof(LibEnumTypeConverter))]
-    public enum eTipoDocumentoImprentaDigital {
+    public enum eTipodeTransaccionImprentaDigital {
         [LibEnumDescription("Facturación")]
         Facturacion = 0,
         [LibEnumDescription("Comprobantes de Retención")]

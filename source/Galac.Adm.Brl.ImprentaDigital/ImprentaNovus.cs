@@ -14,6 +14,7 @@ using System.Text;
 using LibGalac.Aos.Base.Dal;
 using LibGalac.Aos.Brl;
 using System.Globalization;
+using Galac.Adm.Ccl.GestionCompras;
 
 namespace Galac.Adm.Brl.ImprentaDigital {
     public class ImprentaNovus : clsImprentaDigitalBase {
@@ -24,7 +25,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         string _TipoDeProveedor;
         clsConectorJson _ConectorJson;
 
-        public ImprentaNovus(eTipoDocumentoFactura initTipoDeDocumento, string initNumeroFactura) : base(initTipoDeDocumento, initNumeroFactura) {
+        public ImprentaNovus(eTipoDocumentoFactura initTipoDeDocumento, string initNumeroFactura, eTipoComprobantedeRetencion initTipoComprobantedeRetencion) : base(initTipoDeDocumento, initNumeroFactura, initTipoComprobantedeRetencion) {
             _NumeroFactura = initNumeroFactura;
             _TipoDeDocumento = initTipoDeDocumento;
             _TipoDeProveedor = "";//NORMAL Según catalogo No 2 del layout
