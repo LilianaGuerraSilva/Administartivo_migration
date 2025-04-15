@@ -48,8 +48,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public string Mensaje { get; set; }
         public string NumeroCxP { get; set; }
         public Proveedor ProveedorComprobantesRetencion { get; set; }
-        public eTipoTransaccionImprentaDigital TipoTransaccionID { get; private set; }
+        public eTipodeTransaccionImprentaDigital TipoTransaccionID { get; private set; }
         public eTipoComprobantedeRetencion TipoComprobantedeRetencion { get; private set; }
+        public ComprobanteRetIVA ComprobanteRetIVAImpnretaDigital {  get; private set;  }
         #endregion Propiedades
         public clsImprentaDigitalBase() {
 
@@ -72,9 +73,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             FechaAsignacion = LibDate.MinDateForDB();
             HoraAsignacion = string.Empty;
             if (TipoComprobantedeRetencion == eTipoComprobantedeRetencion.NoRetiene) {
-                TipoTransaccionID = eTipoTransaccionImprentaDigital.Facturacion;
+                TipoTransaccionID = eTipodeTransaccionImprentaDigital.Facturacion;
             } else {
-                TipoTransaccionID = eTipoTransaccionImprentaDigital.ComprobantesDeRetencion;
+                TipoTransaccionID = eTipodeTransaccionImprentaDigital.ComprobantesDeRetencion;
             }
             switch (ProveedorImprentaDigital) {
                 case eProveedorImprentaDigital.TheFactoryHKA:
@@ -518,6 +519,53 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             return vSql.ToString();
         }
 
+        private void DatosComprobanteRetencionIVA() {
+            try {
+                StringBuilder vParam = new StringBuilder();
+                string vSql = SqlDatosComprobanteRetencionIVA(ref vParam);
+                XElement vResult = LibBusiness.ExecuteSelect(vSql, vParam, "", 0);
+                if (vResult != null && vResult.HasElements) {
+                    ComprobanteRetIVAImpnretaDigital = new ComprobanteRetIVA();
+                    ComprobanteRetIVAImpnretaDigital.TotalCXPComprobanteRetIva = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "TotalCXPComprobanteRetIva"), 2);
+                    ComprobanteRetIVAImpnretaDigital.Direccion = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "Direccion"));
+                    ComprobanteRetIVAImpnretaDigital.Telefonos = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "Telefonos"));
+                    ComprobanteRetIVAImpnretaDigital.NumeroRIF = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NumeroRIF"));
+                    ComprobanteRetIVAImpnretaDigital.NumeroNIT = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NumeroNIT"));
+                    ComprobanteRetIVAImpnretaDigital.NombreProveedor = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NombreProveedor"));
+                    ComprobanteRetIVAImpnretaDigital.CodigoProveedor = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "CodigoProveedor"));
+                    ComprobanteRetIVAImpnretaDigital.FechaAplicacionRetIVA = LibConvert.ToDate(LibXml.GetPropertyString(vResult, "FechaAplicacionRetIVA"));
+                    ComprobanteRetIVAImpnretaDigital.MesDeAplicacion = LibConvert.ToInt(LibXml.GetPropertyString(vResult, "MesDeAplicacion"));
+                    ComprobanteRetIVAImpnretaDigital.AnoDeAplicacion = LibConvert.ToInt(LibXml.GetPropertyString(vResult, "AnoDeAplicacion"));
+                    ComprobanteRetIVAImpnretaDigital.NumeroComprobanteRetencion = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NumeroComprobanteRetencion"));
+                    ComprobanteRetIVAImpnretaDigital.PorcentajeRetencionAplicado = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "PorcentajeRetencionAplicado"), 2);
+                    ComprobanteRetIVAImpnretaDigital.FechaDelDocOrigen = LibConvert.ToDate(LibXml.GetPropertyString(vResult, "FechaDelDocOrigen"));
+                    ComprobanteRetIVAImpnretaDigital.NumeroDeFactura = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NumeroDeFactura"));
+                    ComprobanteRetIVAImpnretaDigital.NumeroControl = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NumeroControl"));
+                    ComprobanteRetIVAImpnretaDigital.NumeroDeNotaDebito = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NumeroDeNotaDebito"));
+                    ComprobanteRetIVAImpnretaDigital.NumeroDeNotaCredito = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NumeroDeNotaCredito"));
+                    ComprobanteRetIVAImpnretaDigital.TipoDeTransaccion = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "TipoDeTransaccion"));
+                    ComprobanteRetIVAImpnretaDigital.NumeroDeFacturaAfectada = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NumeroDeFacturaAfectada"));
+                    ComprobanteRetIVAImpnretaDigital.MontoExento = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "MontoExento"), 2);
+                    ComprobanteRetIVAImpnretaDigital.MontoGravado = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "MontoGravado"), 2);
+                    ComprobanteRetIVAImpnretaDigital.MontoIva = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "MontoIva"), 2);
+                    ComprobanteRetIVAImpnretaDigital.MontoGravableAlicuotaGeneral = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "MontoGravableAlicuotaGeneral"), 2);
+                    ComprobanteRetIVAImpnretaDigital.MontoGravableAlicuota2 = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "MontoGravableAlicuota2"), 2);
+                    ComprobanteRetIVAImpnretaDigital.MontoGravableAlicuota3 = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "MontoGravableAlicuota3"), 2);
+                    ComprobanteRetIVAImpnretaDigital.AlicuotaG = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "AlicuotaG"), 2);
+                    ComprobanteRetIVAImpnretaDigital.Alicuota2 = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "Alicuota2"), 2);
+                    ComprobanteRetIVAImpnretaDigital.Alicuota3 = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "Alicuota2"), 3);
+                    ComprobanteRetIVAImpnretaDigital.MontoIVAAlicuotaGeneral = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "MontoIVAAlicuotaGeneral"), 2);
+                    ComprobanteRetIVAImpnretaDigital.MontoIVAAlicuota2 = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "MontoIVAAlicuota2"), 2);
+                    ComprobanteRetIVAImpnretaDigital.MontoIVAAlicuota3 = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "MontoIVAAlicuota3"), 2);
+                    ComprobanteRetIVAImpnretaDigital.MontoRetenido = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "MontoRetenido"), 2);
+                    ComprobanteRetIVAImpnretaDigital.AnoAplicRetIVA = LibConvert.ToInt(LibXml.GetPropertyString(vResult, "AnoAplicRetIVA"));
+                    ComprobanteRetIVAImpnretaDigital.MesAplicRetIVA = LibConvert.ToInt(LibXml.GetPropertyString(vResult, "MesAplicRetIVA"));    
+                }
+            } catch (GalacException) {
+                throw new GalacException("No existen datos de retencion de IVA para esta CxP, por favor revisar.", eExceptionManagementType.Controlled);
+            }
+        }
+
         private string SqlDatosComprobanteRetencionIVA(ref StringBuilder refParametros) {
             LibGpParams vParam = new LibGpParams();
             StringBuilder vSql = new StringBuilder();
@@ -526,7 +574,6 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vParam.AddInString("NumeroCxP", NumeroCxP, 20);
             vParam.AddInEnum("TipoDeDocumento", (int)TipoDeDocumento);
             refParametros = vParam.Get();
-
             vSql.AppendLine("SELECT");
             vSql.AppendLine("  ROUND(( cxP.MontoExento + cxP.MontoGravado + cxP.MontoIva  ) * cxP.CambioABolivares,2 ) AS TotalCXPComprobanteRetIva,");
             vSql.AppendLine("  proveedor.Direccion,");
@@ -590,10 +637,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine("  INNER JOIN cxP ON ( proveedor.CodigoProveedor = cxP.CodigoProveedor )");
             vSql.AppendLine("  AND ( proveedor.ConsecutivoCompania = cxP.ConsecutivoCompania )");
             vSql.AppendLine("WHERE");
-            vSql.AppendLine("  cxP.ConsecutivoCompania = 8");
-            vSql.AppendLine("  AND cxP.Numero = '00001'");
-            vSql.AppendLine("  AND cxP.CodigoProveedor = '0000000001'");
-            vSql.AppendLine("  AND cxP.SeHizoLaRetencionIVA = 'S'");
+            vSql.AppendLine($"  cxP.ConsecutivoCompania = {ConsecutivoCompania}");
+            vSql.AppendLine($"  AND cxP.Numero = {NumeroCxP}");            
+            vSql.AppendLine($"  AND cxP.SeHizoLaRetencionIVA = {vUtilSql.ToSqlValue(true)}");
             return vSql.ToString();
         }
 
@@ -610,13 +656,13 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }
 
         public virtual void ConfigurarDocumento() {
-            if (TipoTransaccionID == eTipoTransaccionImprentaDigital.Facturacion) {
+            if (TipoTransaccionID == eTipodeTransaccionImprentaDigital.Facturacion) {
                 BuscarDatosDeDocumentoParaEmitir();
                 BuscarDatosDeDetalleDocumento();
                 BuscarDatosDeCliente();
                 BuscarDatosDelVendedor();
             } else {
-
+                DatosComprobanteRetencionIVA();
             }
         }
 

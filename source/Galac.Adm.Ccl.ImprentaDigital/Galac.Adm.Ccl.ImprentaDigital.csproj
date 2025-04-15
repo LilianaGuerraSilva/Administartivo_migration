@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsEnumImprentaDigital.cs" />
+    <Compile Include="ComprobanteRetIVA.cs" />
     <Compile Include="IFkDocumentoDigitalViewModel.cs" />
     <Compile Include="ILibHttp.cs" />
     <Compile Include="InfoAdicionalCliente.cs" />

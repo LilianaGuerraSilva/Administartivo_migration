@@ -187,7 +187,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public override void ConfigurarDocumento() {
             base.ConfigurarDocumento();
             vDocumentoDigital = new JObject();
-            if (TipoTransaccionID == eTipoTransaccionImprentaDigital.Facturacion) {
+            if (TipoTransaccionID == eTipodeTransaccionImprentaDigital.Facturacion) {
                 JObject vEncabezadoElements = new JObject {
                 { "identificacionDocumento", GetIdentificacionDocumento() },
                 { "vendedor", GetDatosVendedor() },
