@@ -1,4 +1,6 @@
-﻿using LibGalac.Aos.Base;
+﻿using Galac.Adm.Ccl.GestionCompras;
+using LibGalac.Aos.Base;
+using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,27 +8,14 @@ using System.Text;
 
 namespace Galac.Adm.Ccl.ImprentaDigital {
     public class ComprobanteRetIVA {
-        public decimal TotalCXPComprobanteRetIva {
-            get; set;
-        }
-        public string Direccion {
-            get; set;
-        }
-        public string Telefonos {
-            get; set;
-        }
-        public string NumeroRIF {
-            get; set;
-        }
-        public string NumeroNIT {
-            get; set;
-        }
-        public string NombreProveedor {
-            get; set;
-        }
+        
         public string CodigoProveedor {
             get; set;
         }
+        public decimal TotalCXPComprobanteRetIva {
+            get; set;
+        }
+       
         public DateTime FechaAplicacionRetIVA {
             get; set;
         }
@@ -117,13 +106,12 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             get; set;
         }
 
+        public ComporbanteSujetoDeRetencion SujetoDeRetencion {
+            get; set;
+        }
+
         public ComprobanteRetIVA() {
-            TotalCXPComprobanteRetIva = 0m;
-            Direccion = string.Empty;
-            Telefonos = string.Empty;
-            NumeroRIF = string.Empty;
-            NumeroNIT = string.Empty;
-            NombreProveedor = string.Empty;
+            TotalCXPComprobanteRetIva = 0m;            
             CodigoProveedor = string.Empty;
             FechaAplicacionRetIVA = LibDate.MinDateForDB();
             MesDeAplicacion = 0;
@@ -154,6 +142,66 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             MesAplicRetIVA = 0;
             CodigoMoneda = string.Empty;
             FechaDeVencimiento = LibDate.MinDateForDB();
+            SujetoDeRetencion = new ComporbanteSujetoDeRetencion();
+        }
+		
+        public class ComporbanteSujetoDeRetencion {
+            private eTipoDeProveedorDeLibrosFiscales _TipoDeProveedorDeLibrosFiscalesAsEnum;
+            public string Codigo {
+                get; set;
+            }
+            public string Direccion {
+                get; set;
+            }
+            public string Telefono {
+                get; set;
+            }
+
+            public string Email {
+                get; set;
+            }
+
+            public string NumeroRIF {
+                get; set;
+            }
+            
+            public string NombreProveedor {
+                get; set;
+            }
+
+            public eTipoDeProveedorDeLibrosFiscales TipoDeProveedorDeLibrosFiscalesAsEnum {
+                get {
+                    return _TipoDeProveedorDeLibrosFiscalesAsEnum;
+                }
+                set {
+                    _TipoDeProveedorDeLibrosFiscalesAsEnum = value;
+                }
+            }
+
+            public string TipoDeProveedorDeLibrosFiscales {
+                set {
+                    _TipoDeProveedorDeLibrosFiscalesAsEnum = (eTipoDeProveedorDeLibrosFiscales)LibConvert.DbValueToEnum(value);
+                }
+            }
+
+            public string TipoDeProveedorDeLibrosFiscalesAsString {
+                get {
+                    return LibEnumHelper.GetDescription(_TipoDeProveedorDeLibrosFiscalesAsEnum);
+                }
+            }
+
+            public string CodigoProveedor {
+                get; set;
+            }
+            public ComporbanteSujetoDeRetencion() {
+                Codigo = string.Empty;
+                Email=string.Empty;
+                NombreProveedor = string.Empty;
+                NumeroRIF = string.Empty;
+                Direccion = string.Empty;
+                Telefono = string.Empty;
+                TipoDeProveedorDeLibrosFiscalesAsEnum = eTipoDeProveedorDeLibrosFiscales.ConRif;
+            }
         }
     }
 }

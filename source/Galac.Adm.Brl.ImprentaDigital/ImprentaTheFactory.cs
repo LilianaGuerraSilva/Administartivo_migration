@@ -341,6 +341,26 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             refPrefijoRif = vPrefijo;
             return vNumeroRif;
         }
+
+        private string DarFormatoYObtenerPrefijoRifSujetoRet(ComprobanteRetIVA.ComporbanteSujetoDeRetencion valSuejtoRetencion, ref string refPrefijoRif) {
+            string vNumeroRif = "";
+            string vPrefijo = LibString.Left(LibString.ToUpperWithoutAccents(valSuejtoRetencion.NumeroRIF), 1);
+            if (LibString.S1IsInS2(vPrefijo, "VJEPG")) {
+                vNumeroRif = LibString.Right(valSuejtoRetencion.NumeroRIF, LibString.Len(valSuejtoRetencion.NumeroRIF) - 1);
+                vNumeroRif = LibString.Replace(vNumeroRif, "-", "");
+            } else {
+                vNumeroRif = valSuejtoRetencion.NumeroRIF;
+                if (valSuejtoRetencion.TipoDeProveedorDeLibrosFiscalesAsEnum == eTipoDeProveedorDeLibrosFiscales.ConRif) {
+                    vPrefijo = "E";
+                } else {
+                    vPrefijo = "V";
+                }
+            }
+            refPrefijoRif = vPrefijo;
+            return vNumeroRif;
+        }
+
+
         #endregion clientes
         #region InfoAdicional
         private JArray GetDatosInfoAdicional() {
@@ -630,7 +650,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 {"TipoDocumento",GetTipoDocumentoComporbante(TipoComprobantedeRetencion) },
                 {"numeroDocumento", NumeroCxP},
                 {"tipoproveedor", null},
-                {"tipoTransaccion", GetTipoTransaccion(eTipoDeTransaccionDeLibrosFiscales.Registro)},
+                {"tipoTransaccion", "Innmediato"},
                 {"fechaEmision", LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaAplicacionRetIVA)},
                 {"FechaVencimiento", LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaDeVencimiento)},
                 {"horaEmision", LibDate.CurrentHourAsStr},
@@ -644,20 +664,19 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }
 
         private JObject GetComprobanteSujetoRetenido() {
+            string vPrefijo = string.Empty;//comprador
+            string vNumeroRif = DarFormatoYObtenerPrefijoRifSujetoRet(ComprobanteRetIVAImprentaDigital.SujetoDeRetencion, ref vPrefijo);
+            JArray vListaCorreos = ListaSimpleDeElementos(new string[] { ComprobanteRetIVAImprentaDigital.SujetoDeRetencion.Email });
+            JArray vListaTelefonos = ListaSimpleDeElementos(new string[] { ComprobanteRetIVAImprentaDigital.SujetoDeRetencion.Telefono });
             JObject vResult = new JObject {
-                {"TipoDocumento",GetTipoDocumentoComporbante(TipoComprobantedeRetencion) },
-                {"numeroDocumento", NumeroCxP},
-                {"tipoproveedor", null},
-                {"tipoTransaccion", GetTipoTransaccion(eTipoDeTransaccionDeLibrosFiscales.Registro)},
-                {"fechaEmision", LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaAplicacionRetIVA)},
-                {"FechaVencimiento", LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaDeVencimiento)},
-                {"horaEmision", LibDate.CurrentHourAsStr},
-                {"tipoDePago", GetTipoDePago(FacturaImprentaDigital.FormaDePagoAsEnum)},
-                {"serie", ""},
-                {"sucursal", ""},
-                {"tipoDeVenta", LibEnumHelper.GetDescription(eTipoDeVenta.Interna)},
-                {"moneda", ComprobanteRetIVAImprentaDigital.CodigoMoneda},
-                {"trackingid",  null}};
+               {"tipoIdentificacion", vPrefijo },
+               {"NumeroIdentificacion", vNumeroRif },
+               {"RazonSocial", ComprobanteRetIVAImprentaDigital.SujetoDeRetencion.NombreProveedor },
+               {"Direccion", ComprobanteRetIVAImprentaDigital.SujetoDeRetencion.Direccion },
+               {"Notificar", "Si" },
+               {"Pais", "VE" },
+               {"Telefono", vListaTelefonos },
+               {"Correo", vListaCorreos }};
             return vResult;
         }
 

@@ -3,18 +3,7 @@ using System.ComponentModel;
 using LibGalac.Aos.Base;
 
 namespace Galac.Adm.Ccl.ImprentaDigital {
-
-    [TypeConverter(typeof(LibEnumTypeConverter))]
-    public enum eTipoProveedorImprentaDigital {
-        [LibEnumDescription("Normal")]
-        Normal = 0,
-        [LibEnumDescription("Sin Rif")]
-        SinRif,
-        [LibEnumDescription("No Domiciliado")]
-        NoDomiciliado,
-        [LibEnumDescription("No Residenciado")]
-        NoResidenciado
-    }
+      
 
     [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eTipodeTransaccionImprentaDigital {
