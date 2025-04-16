@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LibGalac.Aos.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,6 +30,10 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         public DateTime FechaAplicacionRetIVA {
             get; set;
         }
+        public DateTime FechaDeVencimiento {
+            get; set;
+        }
+
         public int MesDeAplicacion {
             get; set;
         }
@@ -108,6 +113,10 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             get; set;
         }
 
+        public string CodigoMoneda {
+            get; set;
+        }
+
         public ComprobanteRetIVA() {
             TotalCXPComprobanteRetIva = 0m;
             Direccion = string.Empty;
@@ -116,12 +125,12 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             NumeroNIT = string.Empty;
             NombreProveedor = string.Empty;
             CodigoProveedor = string.Empty;
-            FechaAplicacionRetIVA = DateTime.MinValue;
+            FechaAplicacionRetIVA = LibDate.MinDateForDB();
             MesDeAplicacion = 0;
             AnoDeAplicacion = 0;
             NumeroComprobanteRetencion = string.Empty;
             PorcentajeRetencionAplicado = 0m;
-            FechaDelDocOrigen = DateTime.MinValue;
+            FechaDelDocOrigen = LibDate.MinDateForDB();
             NumeroDeFactura = string.Empty;
             NumeroControl = string.Empty;
             NumeroDeNotaDebito = string.Empty;
@@ -143,6 +152,8 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             MontoRetenido = 0m;
             AnoAplicRetIVA = 0;
             MesAplicRetIVA = 0;
+            CodigoMoneda = string.Empty;
+            FechaDeVencimiento = LibDate.MinDateForDB();
         }
     }
 }

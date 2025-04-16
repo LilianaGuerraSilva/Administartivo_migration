@@ -188,22 +188,20 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             base.ConfigurarDocumento();
             vDocumentoDigital = new JObject();
             if (TipoTransaccionID == eTipodeTransaccionImprentaDigital.Facturacion) {
-                JObject vEncabezadoElements = new JObject {
-                { "identificacionDocumento", GetIdentificacionDocumento() },
-                { "vendedor", GetDatosVendedor() },
-                { "comprador", GetDatosComprador() },
-                { "totales",  GetTotales() },
-                { "TotalesOtraMoneda", GetTotalesME()}};
                 JObject vDocumentoElectronicoElements = new JObject {
-                { "encabezado", vEncabezadoElements },
+                { "encabezado", GetDocumentoEncabezado() },
                 { "detallesItems", GetDetalleFactura() },
                 { "InfoAdicional", GetDatosInfoAdicional() } };
                 vDocumentoDigital.Add("documentoElectronico", vDocumentoElectronicoElements);
             } else {
-
+                JObject vComporbanteRetencionElements = new JObject {
+                { "encabezado", GetComprobanteRetEncabezado() },
+                { "DetallesRetencion", GetComprobanteRetDetalle() } };
+                vDocumentoDigital.Add("documentoElectronico", vComporbanteRetencionElements);
             }
         }
         #endregion Construye  Documento
+        #region Factura
         #region Identificacion de Documento
 
         private string NumeroDocumento() {
@@ -250,6 +248,16 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     }
                 }
             }
+            return vResult;
+        }
+
+        private JObject GetDocumentoEncabezado() {
+            JObject vResult = new JObject {
+                { "identificacionDocumento", GetIdentificacionDocumento() },
+                { "vendedor", GetDatosVendedor() },
+                { "comprador", GetDatosComprador() },
+                { "totales",  GetTotales() },
+                { "TotalesOtraMoneda", GetTotalesME()}};
             return vResult;
         }
 
@@ -334,8 +342,6 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             return vNumeroRif;
         }
         #endregion clientes
-
-
         #region InfoAdicional
         private JArray GetDatosInfoAdicional() {
             JArray vResult = new JArray();//"InfoAdicional"
@@ -390,7 +396,6 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             return vResult;
         }
         #endregion InfoAdicional
-
         #region Impuestos
         private JArray GetTotalImpuestosML() {
             decimal vCambio = 0;
@@ -500,7 +505,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 vCambioBs = LibMath.RoundToNDecimals(FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 4);
                 //vCodigoMoneda = LibString.S1IsEqualToS2(FacturaImprentaDigital.CodigoMoneda, "VED") ? "VEF" : FacturaImprentaDigital.CodigoMoneda; // Según ISO 3166-1 | códigos de países | by mucattu.com (Código moneda VEF No esta actualizado)
                 vCodigoMoneda = FacturaImprentaDigital.CodigoMoneda;
-                vMonto = LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura, 2));               
+                vMonto = LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura, 2));
                 vResult.Add(
                     new JObject { { "descripcion", LibEnumHelper.GetDescription(FacturaImprentaDigital.FormaDeCobroAsEnum) },
                     {"forma", vFormaDeCobro },
@@ -609,6 +614,92 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             return vResult;
         }
         #endregion Detalle RenglonFactura      
+        #endregion Factura
+        #region Comprobantes Retencion
+        private JObject GetComprobanteRetEncabezado() {
+            JObject vResult = new JObject {
+                { "identificacionDocumento", GetComprobanteRetIdentificacion() },
+                { "vendedor", null },
+                { "comprador", null},
+                { "SujetoRetenido", GetComprobanteSujetoRetenido()},
+                { "TotalesRetencion",  GetComprobanteRetTotales() } };
+            return vResult;
+        }
+        private JObject GetComprobanteRetIdentificacion() {
+            JObject vResult = new JObject {
+                {"TipoDocumento",GetTipoDocumentoComporbante(TipoComprobantedeRetencion) },
+                {"numeroDocumento", NumeroCxP},
+                {"tipoproveedor", null},
+                {"tipoTransaccion", GetTipoTransaccion(eTipoDeTransaccionDeLibrosFiscales.Registro)},
+                {"fechaEmision", LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaAplicacionRetIVA)},
+                {"FechaVencimiento", LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaDeVencimiento)},
+                {"horaEmision", LibDate.CurrentHourAsStr},
+                {"tipoDePago", GetTipoDePago(FacturaImprentaDigital.FormaDePagoAsEnum)},
+                {"serie", ""},
+                {"sucursal", ""},
+                {"tipoDeVenta", LibEnumHelper.GetDescription(eTipoDeVenta.Interna)},
+                {"moneda", ComprobanteRetIVAImprentaDigital.CodigoMoneda},
+                {"trackingid",  null}};
+            return vResult;
+        }
+
+        private JObject GetComprobanteSujetoRetenido() {
+            JObject vResult = new JObject {
+                {"TipoDocumento",GetTipoDocumentoComporbante(TipoComprobantedeRetencion) },
+                {"numeroDocumento", NumeroCxP},
+                {"tipoproveedor", null},
+                {"tipoTransaccion", GetTipoTransaccion(eTipoDeTransaccionDeLibrosFiscales.Registro)},
+                {"fechaEmision", LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaAplicacionRetIVA)},
+                {"FechaVencimiento", LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaDeVencimiento)},
+                {"horaEmision", LibDate.CurrentHourAsStr},
+                {"tipoDePago", GetTipoDePago(FacturaImprentaDigital.FormaDePagoAsEnum)},
+                {"serie", ""},
+                {"sucursal", ""},
+                {"tipoDeVenta", LibEnumHelper.GetDescription(eTipoDeVenta.Interna)},
+                {"moneda", ComprobanteRetIVAImprentaDigital.CodigoMoneda},
+                {"trackingid",  null}};
+            return vResult;
+        }
+
+        private JObject GetComprobanteRetTotales() {
+            JObject vResult = new JObject {
+                {"TipoDocumento",GetTipoDocumentoComporbante(TipoComprobantedeRetencion) },
+                {"numeroDocumento", NumeroCxP},
+                {"tipoproveedor", null},
+                {"tipoTransaccion", GetTipoTransaccion(eTipoDeTransaccionDeLibrosFiscales.Registro)},
+                {"fechaEmision", LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaAplicacionRetIVA)},
+                {"FechaVencimiento", LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaDeVencimiento)},
+                {"horaEmision", LibDate.CurrentHourAsStr},
+                {"tipoDePago", GetTipoDePago(FacturaImprentaDigital.FormaDePagoAsEnum)},
+                {"serie", ""},
+                {"sucursal", ""},
+                {"tipoDeVenta", LibEnumHelper.GetDescription(eTipoDeVenta.Interna)},
+                {"moneda", ComprobanteRetIVAImprentaDigital.CodigoMoneda},
+                {"trackingid",  null}};
+            return vResult;
+        }
+
+        private JArray GetComprobanteRetDetalle() {
+            JArray vResult = new JArray();
+            JObject vItem = new JObject {
+                {"TipoDocumento",GetTipoDocumentoComporbante(TipoComprobantedeRetencion) },
+                {"numeroDocumento", NumeroCxP},
+                {"tipoproveedor", null},
+                {"tipoTransaccion", GetTipoTransaccion(eTipoDeTransaccionDeLibrosFiscales.Registro)},
+                {"fechaEmision", LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaAplicacionRetIVA)},
+                {"FechaVencimiento", LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaDeVencimiento)},
+                {"horaEmision", LibDate.CurrentHourAsStr},
+                {"tipoDePago", GetTipoDePago(FacturaImprentaDigital.FormaDePagoAsEnum)},
+                {"serie", ""},
+                {"sucursal", ""},
+                {"tipoDeVenta", LibEnumHelper.GetDescription(eTipoDeVenta.Interna)},
+                {"moneda", ComprobanteRetIVAImprentaDigital.CodigoMoneda},
+                {"trackingid",  null}};
+            vResult.Add(vItem);
+            return vResult;
+        }
+
+        #endregion Comprobantes Retencion
         #endregion
         #region Conversion de Tipos
 
@@ -620,7 +711,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vAlicuota.Add(eTipoDeAlicuota.Exento, "E");
             return vAlicuota[valAlicuotaEnum];
         }
-        
+
         private string GetTipoTransaccion(eTipoDeTransaccionDeLibrosFiscales valTipoTransaccion) {
             string vResult = "";
             switch (valTipoTransaccion) {
@@ -664,6 +755,21 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 default:
                     vResult = "01";
                     break;
+            }
+            return vResult;
+        }
+
+        private string GetTipoDocumentoComporbante(eTipoComprobantedeRetencion valTipoDocumento) {
+            string vResult = "";
+            switch (valTipoDocumento) {
+                case eTipoComprobantedeRetencion.RetencionIVA:
+                    vResult = "05";
+                    break;
+                case eTipoComprobantedeRetencion.RetencionISLR:
+                    vResult = "06";
+                    break;
+                default:
+                    throw new GalacException("Tipo de Comprobante no admitido.", eExceptionManagementType.Controlled);
             }
             return vResult;
         }
