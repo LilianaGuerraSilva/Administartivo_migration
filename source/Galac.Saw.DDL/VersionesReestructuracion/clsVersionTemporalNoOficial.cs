@@ -18,9 +18,17 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
 		public override bool UpdateToVersion() {
 			StartConnectionNoTransaction();
+			QuitarUniqueCaja();
             DisposeConnectionNoTransaction();
 			return true;
 		}
 
+		private void QuitarUniqueCaja() {			
+			DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Adm.Caja", "Adm.CajaApertura");
+			DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Adm.Caja", "factura");
+			ExecuteDropConstraint("Adm.Caja", "u_CajConsecutivo", true);
+			AddForeignKey("Adm.Caja", "Adm.CajaApertura", new string[] { "ConsecutivoCompania,Consecutivo" }, new string[] { "ConsecutivoCompania,ConsecutivoCaja" }, false, true);
+			AddForeignKey("Adm.Caja", "factura", new string[] { "ConsecutivoCompania,Consecutivo" }, new string[] { "ConsecutivoCompania,ConsecutivoCaja" }, false, true);
+		}
     }
 }
