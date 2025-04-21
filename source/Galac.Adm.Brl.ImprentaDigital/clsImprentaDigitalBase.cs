@@ -99,6 +99,11 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public ComprobanteRetIVA ComprobanteRetIVAImprentaDigital {
             get; private set;
         }
+
+        public SujetoDeRetencion SujetoDeRetencionImpnretaDigital {
+            get; private set;
+        }
+
         #endregion Propiedades
         public clsImprentaDigitalBase() {
 
@@ -654,13 +659,13 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 if (vResult != null && vResult.HasElements) {
                     ComprobanteRetIVAImprentaDigital = new ComprobanteRetIVA();
                     ComprobanteRetIVAImprentaDigital.TotalCXPComprobanteRetIva = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "TotalCXPComprobanteRetIva"), 2);
-                    ComprobanteRetIVAImprentaDigital.SujetoDeRetencion.CodigoProveedor = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "CodigoProveedor"));
-                    ComprobanteRetIVAImprentaDigital.SujetoDeRetencion.Direccion = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "Direccion"));
-                    ComprobanteRetIVAImprentaDigital.SujetoDeRetencion.Telefono = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "Telefonos"));
-                    ComprobanteRetIVAImprentaDigital.SujetoDeRetencion.NumeroRIF = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NumeroRIF"));
-                    ComprobanteRetIVAImprentaDigital.SujetoDeRetencion.NombreProveedor = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NombreProveedor"));
-                    ComprobanteRetIVAImprentaDigital.SujetoDeRetencion.Email = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "Email"));
-                    ComprobanteRetIVAImprentaDigital.SujetoDeRetencion.TipoDeProveedorDeLibrosFiscales = LibXml.GetPropertyString(vResult, "TipoDeProveedorDeLibrosFiscales");
+                    SujetoDeRetencionImpnretaDigital.CodigoProveedor = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "CodigoProveedor"));
+                    SujetoDeRetencionImpnretaDigital.Direccion = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "Direccion"));
+                    SujetoDeRetencionImpnretaDigital.Telefono = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "Telefonos"));
+                    SujetoDeRetencionImpnretaDigital.NumeroRIF = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NumeroRIF"));
+                    SujetoDeRetencionImpnretaDigital.NombreProveedor = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NombreProveedor"));
+                    SujetoDeRetencionImpnretaDigital.Email = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "Email"));
+                    SujetoDeRetencionImpnretaDigital.TipoDeProveedorDeLibrosFiscales = LibXml.GetPropertyString(vResult, "TipoDeProveedorDeLibrosFiscales");
                     ComprobanteRetIVAImprentaDigital.CodigoProveedor = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "CodigoProveedor"));
                     ComprobanteRetIVAImprentaDigital.CodigoMoneda = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "CodigoMoneda"));
                     ComprobanteRetIVAImprentaDigital.FechaAplicacionRetIVA = LibConvert.ToDate(LibXml.GetPropertyString(vResult, "FechaAplicacionRetIVA"));

@@ -342,7 +342,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             return vNumeroRif;
         }
 
-        private string DarFormatoYObtenerPrefijoRifSujetoRet(ComprobanteRetIVA.ComporbanteSujetoDeRetencion valSuejtoRetencion, ref string refPrefijoRif) {
+        private string DarFormatoYObtenerPrefijoRifSujetoRet(SujetoDeRetencion valSuejtoRetencion, ref string refPrefijoRif) {
             string vNumeroRif = "";
             string vPrefijo = LibString.Left(LibString.ToUpperWithoutAccents(valSuejtoRetencion.NumeroRIF), 1);
             if (LibString.S1IsInS2(vPrefijo, "VJEPG")) {
@@ -663,14 +663,14 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         private JObject GetComprobanteSujetoRetenido() {
             string vPrefijo = string.Empty;//comprador
-            string vNumeroRif = DarFormatoYObtenerPrefijoRifSujetoRet(ComprobanteRetIVAImprentaDigital.SujetoDeRetencion, ref vPrefijo);
-            JArray vListaCorreos = ListaSimpleDeElementos(new string[] { ComprobanteRetIVAImprentaDigital.SujetoDeRetencion.Email });
-            JArray vListaTelefonos = ListaSimpleDeElementos(new string[] { ComprobanteRetIVAImprentaDigital.SujetoDeRetencion.Telefono });
+            string vNumeroRif = DarFormatoYObtenerPrefijoRifSujetoRet(SujetoDeRetencionImpnretaDigital, ref vPrefijo);
+            JArray vListaCorreos = ListaSimpleDeElementos(new string[] { SujetoDeRetencionImpnretaDigital.Email });
+            JArray vListaTelefonos = ListaSimpleDeElementos(new string[] { SujetoDeRetencionImpnretaDigital.Telefono });
             JObject vResult = new JObject {
                {"tipoIdentificacion", vPrefijo },
                {"NumeroIdentificacion", vNumeroRif },
-               {"RazonSocial", ComprobanteRetIVAImprentaDigital.SujetoDeRetencion.NombreProveedor },
-               {"Direccion", ComprobanteRetIVAImprentaDigital.SujetoDeRetencion.Direccion },
+               {"RazonSocial", SujetoDeRetencionImpnretaDigital.NombreProveedor },
+               {"Direccion", SujetoDeRetencionImpnretaDigital.Direccion },
                {"Notificar", "Si" },
                {"Pais", "VE" },
                {"Telefono", vListaTelefonos },
@@ -696,8 +696,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             {"Retenido", "8.48" },
             {"Percibido", "" },
             {"CodigoConcepto", "" },
-            {"Moneda", "USD" },
-            { "InfoAdicionalItem", null } };
+            {"Moneda", "USD" }};
             vResult.Add(vItem);
             return vResult;
         }
