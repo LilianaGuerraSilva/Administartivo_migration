@@ -708,11 +708,14 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 {"TotalBaseImponible", DecimalToStringFormat(ComprobanteRetIVAImprentaDigital.TotalCXPComprobanteRetIva)},
                 { "NumeroCompRetencion", ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion},
                 {"FechaEmisionCR",LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaAplicacionRetIVA,"dd/MM/yyyy")},
-                {"TotalIVA", "84.87"},
-                {"TotalRetenido", "8.48"},
-                {"TotalISRL", ""},
+                {"TotalRetenido", ComprobanteRetIVAImprentaDigital.MontoRetenido},
                 {"TotalIGTF", null },
                 { "TipoComprobante",TipoComprobantedeRetencion == eTipoComprobantedeRetencion.RetencionISLR? "6": ""}};
+            if (TipoComprobantedeRetencion == eTipoComprobantedeRetencion.RetencionISLR) {
+                vResult.Add("TotalISRL", "0.00");
+            } else {
+                vResult.Add("TotalIVA", ComprobanteRetIVAImprentaDigital.MontoIva);
+            }
             return vResult;
         }
 
