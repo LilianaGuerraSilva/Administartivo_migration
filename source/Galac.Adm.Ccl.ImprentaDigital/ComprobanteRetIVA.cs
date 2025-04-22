@@ -1,4 +1,5 @@
 ﻿using Galac.Adm.Ccl.GestionCompras;
+using Galac.Adm.Ccl.Venta;
 using LibGalac.Aos.Base;
 using Microsoft.Win32.SafeHandles;
 using System;
@@ -7,12 +8,17 @@ using System.Linq;
 using System.Text;
 
 namespace Galac.Adm.Ccl.ImprentaDigital {
-    public class ComprobanteRetIVA {
-
+    public class ComprobanteRetIVA {        
+        private eTipoDeTransaccion _TipoDeCxP;
+        private eTipoDeTransaccionDeLibrosFiscales _TipoDeTransaccion;
         public string CodigoProveedor {
             get; set;
         }
         public decimal TotalCXPComprobanteRetIva {
+            get; set;
+        }
+
+        public decimal TotalCXP {
             get; set;
         }
 
@@ -38,7 +44,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         public DateTime FechaDelDocOrigen {
             get; set;
         }
-        public string NumeroDeFactura {
+        public string NumeroDeDocumento {
             get; set;
         }
         public string NumeroControl {
@@ -50,9 +56,49 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         public string NumeroDeNotaCredito {
             get; set;
         }
-        public string TipoDeTransaccion {
-            get; set;
+
+        public eTipoDeTransaccionDeLibrosFiscales TipoDeTransaccionAsEnum {
+            get {
+                return _TipoDeTransaccion;
+            }
+            set {
+                _TipoDeTransaccion = value;
+            }
         }
+
+        public string TipoDeTransaccion {
+            set {
+                _TipoDeTransaccion = (eTipoDeTransaccionDeLibrosFiscales)LibConvert.DbValueToEnum(value);
+            }
+        }
+
+        public string TipoDeTransaccionAsString {
+            get {
+               return LibEnumHelper.GetDescription(_TipoDeTransaccion);
+            }
+        }
+
+        public eTipoDeTransaccion TipoDeCxPAsEnum {
+            get {
+                return _TipoDeCxP;
+            }
+            set {
+                _TipoDeCxP = value;
+            }
+        }
+
+        public string TipoDeCxP {
+            set {
+                _TipoDeCxP = (eTipoDeTransaccion)LibConvert.DbValueToEnum(value);
+            }
+        }
+
+        public string TipoDeCxPAsString {
+            get {
+                return LibEnumHelper.GetDescription(_TipoDeCxP);
+            }
+        }                        
+
         public string NumeroDeFacturaAfectada {
             get; set;
         }
@@ -108,6 +154,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
       
         public ComprobanteRetIVA() {
             TotalCXPComprobanteRetIva = 0m;
+            TotalCXP = 0m;
             CodigoProveedor = string.Empty;
             FechaAplicacionRetIVA = LibDate.MinDateForDB();
             MesDeAplicacion = 0;
@@ -115,11 +162,11 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             NumeroComprobanteRetencion = string.Empty;
             PorcentajeRetencionAplicado = 0m;
             FechaDelDocOrigen = LibDate.MinDateForDB();
-            NumeroDeFactura = string.Empty;
+            NumeroDeDocumento = string.Empty;
             NumeroControl = string.Empty;
             NumeroDeNotaDebito = string.Empty;
             NumeroDeNotaCredito = string.Empty;
-            TipoDeTransaccion = string.Empty;
+            TipoDeTransaccionAsEnum = eTipoDeTransaccionDeLibrosFiscales.Registro;
             NumeroDeFacturaAfectada = string.Empty;
             MontoExento = 0m;
             MontoGravado = 0m;
