@@ -215,7 +215,7 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
         public string SqlExistenciaDeLoteDeInventarioDeAlmacen(int valConsecutivoCompania, string valLoteDeInventario, string valCodigoArticulo, DateTime valFechaInicial, DateTime valFechaFinal,  string CodigoAlmacen) {
             StringBuilder vSql = new StringBuilder();
 
-            vSql.AppendLine("SELECT Alm.Codigo as Codigo ,Alm.NombreAlmacen as NombreAlmacen ,Exis.Cantidad as Existencia  from ExistenciaPorAlmacenDetLoteInv Exis");
+            vSql.AppendLine("SELECT Alm.Codigo as CodigoAlmacen ,Alm.NombreAlmacen as NombreAlmacen ,Exis.Cantidad as Existencia, ArtI.Codigo + ' - ' +  ArtI.Descripcion as Articulo, Lote.CodigoLote as Lote, Lote.FechaDeElaboracion as FechaElaboracion, lote.FechaDeVencimiento as FechaVencimiento  from ExistenciaPorAlmacenDetLoteInv Exis");
             vSql.AppendLine("inner join Almacen Alm on Alm.ConsecutivoCompania = Exis.ConsecutivoCompania");
             vSql.AppendLine("and Alm.Consecutivo = Exis.ConsecutivoAlmacen");
             vSql.AppendLine("inner join Saw.LoteDeInventario Lote on Lote.ConsecutivoCompania = Exis.ConsecutivoCompania");

@@ -52,13 +52,12 @@ namespace Galac.Saw.Rpt.Inventario {
 				LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "Articulo");
 				LibReport.ConfigFieldStr(this, "txtCodigoArticulo", string.Empty, "CodigoArticulo");
 				LibReport.ConfigFieldStr(this, "txtLote", string.Empty, "Lote");
-				LibReport.ConfigFieldStr(this, "txtCodigoAlmacen", string.Empty, "CodigoAlmacen");
-				LibReport.ConfigFieldStr(this, "txtNombreAlmacen", string.Empty, "NombreAlmacen");
+//				LibReport.ConfigFieldDate(this, "txtFechaVencimiento", string.Empty, "FechaVencimiento", LibGalac.Aos.Base.Report.eDateOutputFormat.DateShort); esta sobrecarga no está en versión 5.0.2.0 de lib, temporalmente pasar formato directo
 				LibReport.ConfigFieldDate(this, "txtFechaVencimiento", string.Empty, "FechaVencimiento", "dd/MM/yyyy");
 				LibReport.ConfigFieldDate(this, "txtFechaElaboracion", string.Empty, "FechaElaboracion", "dd/MM/yyyy");
-				LibReport.ConfigFieldStr(this, "txtCodAlmacen", string.Empty, "CodAlmacen");
+				LibReport.ConfigFieldStr(this, "txtCodigoAlmacen", string.Empty, "CodigoAlmacen");
 				LibReport.ConfigFieldStr(this, "txtNombreAlmacen", string.Empty, "NombreAlmacen");
-				LibReport.ConfigFieldDec(this, "txtEntrada", string.Empty, "Entrada");
+				LibReport.ConfigFieldDec(this, "txtEntrada", string.Empty, "Existencia");
 				LibReport.ConfigGroupHeader(this, "GHsecArticulo", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
 				LibReport.ConfigGroupHeader(this, "GHsecLote", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
@@ -67,5 +66,9 @@ namespace Galac.Saw.Rpt.Inventario {
             return false;
         }
         #endregion //Metodos Generados
+
+        private void Detail_Format(object sender, EventArgs e) {
+            //txtArticulo.Text = txtCodigoArticulo.Value + " - " + txtArticulo.Text;
+        }
     } //End of class dsrExistenciaDeLoteDeInventarioPorAlmacen
 } //End of namespace Galac.Saw.Rpt.Inventario
