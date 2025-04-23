@@ -10,7 +10,8 @@ using System.Text;
 namespace Galac.Adm.Ccl.ImprentaDigital {
     public class ComprobanteRetIVA {        
         private eTipoDeTransaccion _TipoDeCxP;
-        private eTipoDeTransaccionDeLibrosFiscales _TipoDeTransaccion;
+        private eTipoDeTransaccionDeLibrosFiscales _TipoDeTransaccion;              
+
         public string CodigoProveedor {
             get; set;
         }
@@ -152,7 +153,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             get; set;
         }
       
-        public ComprobanteRetIVA() {
+        public ComprobanteRetIVA() {          
             TotalCXPComprobanteRetIva = 0m;
             TotalCXP = 0m;
             CodigoProveedor = string.Empty;
