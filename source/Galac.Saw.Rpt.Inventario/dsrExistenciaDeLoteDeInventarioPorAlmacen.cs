@@ -33,6 +33,13 @@ namespace Galac.Saw.Rpt.Inventario {
         }
         #endregion //Constructores
         #region Metodos Generados
+
+        //private void GFSecArticulo_Format(object sender, EventArgs e) {
+        //    decimal Existencia = LibImportData.ToDec(txtEntrada.Value.ToString());
+        //    decimal ExistenciaInicial = 0.00M;
+        //    txtExistenciaFinal.Text = LibConvert.NumToString(ExistenciaInicial + Existencia, 2);
+        //}
+
         public string ReportTitle() {
             return "Existencia De Lote De Inventario Por Almacen";
     }
@@ -60,15 +67,12 @@ namespace Galac.Saw.Rpt.Inventario {
 				LibReport.ConfigFieldDec(this, "txtEntrada", string.Empty, "Existencia");
 				LibReport.ConfigGroupHeader(this, "GHsecArticulo", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
 				LibReport.ConfigGroupHeader(this, "GHsecLote", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+                LibReport.ConfigSummaryField(this, "txtExistenciaFinal", "Existencia", SummaryFunc.Sum, "GFsecArticulo", SummaryRunning.All, SummaryType.GrandTotal);
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 return true;
             }
             return false;
         }
         #endregion //Metodos Generados
-
-        private void Detail_Format(object sender, EventArgs e) {
-            //txtArticulo.Text = txtCodigoArticulo.Value + " - " + txtArticulo.Text;
-        }
     } //End of class dsrExistenciaDeLoteDeInventarioPorAlmacen
 } //End of namespace Galac.Saw.Rpt.Inventario
