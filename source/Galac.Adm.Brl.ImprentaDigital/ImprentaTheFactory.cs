@@ -282,8 +282,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 {"serie", SerieDocumento()},
                 {"sucursal", ""},
                 {"tipoDeVenta", LibEnumHelper.GetDescription(eTipoDeVenta.Interna)},
-                { "moneda", FacturaImprentaDigital.CodigoMoneda},
-                { "trackingid",  GeneraTrackingId() },};
+                { "moneda", FacturaImprentaDigital.CodigoMoneda}};
             if (_TipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito || _TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito) {
                 vResult.Add("fechaFacturaAfectada", LibConvert.ToStr(FacturaImprentaDigital.FechaDeFacturaAfectada));
                 vResult.Add("numeroFacturaAfectada", NumeroDocumentoFacturaAfectada());
@@ -434,7 +433,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 new JObject {{ "CodigoTotalImp", GetAlicuota(eTipoDeAlicuota.Exento)},
                 {"AlicuotaImp", DecimalToStringFormat(0m)},
                 {"BaseImponibleImp",  DecimalToStringFormat(LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalMontoExento * vCambio, 2))) },
-                { "ValorTotalImp",  DecimalToStringFormat(0)} });
+                { "ValorTotalImp",  DecimalToStringFormat(0m)} });
             vListaImpuesto.Add(
                 new JObject {{"CodigoTotalImp", GetAlicuota(eTipoDeAlicuota.AlicuotaGeneral) },
                 {"AlicuotaImp",  DecimalToStringFormat(LibMath.RoundToNDecimals(FacturaImprentaDigital.PorcentajeAlicuota1, 2))},
@@ -522,7 +521,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 vResult.Add(
                     new JObject {{"descripcion", LibEnumHelper.GetDescription(FacturaImprentaDigital.FormaDeCobroAsEnum) + " Divisas" },
                     {"forma", vFormaDeCobro },
-                    {"monto", DecimalToStringFormat(0m) },
+                    {"monto", DecimalToStringFormat(vMonto) },
                     {"moneda", vCodigoMoneda },
                     {"tipoCambio", vCambioBs.ToString("0.0000", CultureInfo.InvariantCulture) } });
             } else {
@@ -534,7 +533,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 vResult.Add(
                     new JObject { { "descripcion", LibEnumHelper.GetDescription(FacturaImprentaDigital.FormaDeCobroAsEnum) },
                     {"forma", vFormaDeCobro },
-                    {"monto", DecimalToStringFormat(0m) },
+                    {"monto", DecimalToStringFormat(vMonto) },
                     {"moneda", vCodigoMoneda },
                     {"tipoCambio", vCambioBs.ToString("0.0000", CultureInfo.InvariantCulture) } });
             }
