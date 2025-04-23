@@ -1,5 +1,6 @@
 ﻿using Galac.Adm.Ccl.GestionCompras;
 using Galac.Adm.Ccl.Venta;
+using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Base;
 using Microsoft.Win32.SafeHandles;
 using System;
@@ -10,8 +11,8 @@ using System.Text;
 namespace Galac.Adm.Ccl.ImprentaDigital {
     public class ComprobanteRetIVA {        
         private eTipoDeTransaccion _TipoDeCxP;
-        private eTipoDeTransaccionDeLibrosFiscales _TipoDeTransaccion;              
-
+        private eTipoDeTransaccionDeLibrosFiscales _TipoDeTransaccion;
+        private eProveedorImprentaDigital _ProveedorImprentaDigital;
         public string CodigoProveedor {
             get; set;
         }
@@ -98,7 +99,28 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             get {
                 return LibEnumHelper.GetDescription(_TipoDeCxP);
             }
-        }                        
+        }
+
+        public eProveedorImprentaDigital ProveedorImprentaDigitalAsEnum {
+            get {
+                return _ProveedorImprentaDigital;
+            }
+            set {
+                _ProveedorImprentaDigital = value;
+            }
+        }
+
+        public string ProveedorImprentaDigital {
+            set {
+                _ProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(value);
+            }
+        }
+
+        public string ProveedorImprentaDigitalAsString {
+            get {
+                return LibEnumHelper.GetDescription(_ProveedorImprentaDigital);
+            }
+        }
 
         public string NumeroDeFacturaAfectada {
             get; set;
@@ -152,7 +174,17 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         public string CodigoMoneda {
             get; set;
         }
-      
+		
+        public bool RetencionIvaEnviadaImpDigital {
+            get;
+            set;
+        }
+
+        public bool SeHizoLaRetencionIVA {
+            get;
+            set;
+        }
+
         public ComprobanteRetIVA() {          
             TotalCXPComprobanteRetIva = 0m;
             TotalCXP = 0m;
@@ -185,7 +217,10 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             AnoAplicRetIVA = 0;
             MesAplicRetIVA = 0;
             CodigoMoneda = string.Empty;
-            FechaDeVencimiento = LibDate.MinDateForDB();           
+            FechaDeVencimiento = LibDate.MinDateForDB();
+            RetencionIvaEnviadaImpDigital = false;
+            SeHizoLaRetencionIVA = false;
+            ProveedorImprentaDigitalAsEnum = eProveedorImprentaDigital.NoAplica;
         }
     }
 	

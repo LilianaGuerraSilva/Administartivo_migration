@@ -67,6 +67,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             string vMensaje = string.Empty;
             bool vChekConeccion;
             string vDocumentoJSON;
+            string vTipoDocumento = string.Empty;
             try {
                 if (LibString.IsNullOrEmpty(_ConectorJson.Token)) {
                     ObtenerDatosDocumentoEmitido();
@@ -74,9 +75,14 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 } else {
                     vChekConeccion = true;
                 }
-                stSolicitudDeConsulta vJsonDeConsulta = new stSolicitudDeConsulta() {
+                if (TipoTransaccionID == eTipodeTransaccionImprentaDigital.Facturacion) {
+                    vTipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum);
+                } else {
+                    vTipoDocumento = GetTipoDocumentoRetencion(ComprobanteRetIVAImprentaDigital.TipoDeCxPAsEnum);
+                }
+                stSolicitudDeConsulta vJsonDeConsulta = new stSolicitudDeConsulta() {                        
                     Serie = SerieDocumento(),
-                    TipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum),
+                    TipoDocumento = vTipoDocumento,
                     NumeroDocumento = NumeroDocumento()
                 };
                 if (vChekConeccion) {
@@ -222,9 +228,11 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         private string SerieDocumento() {
             string vResult = string.Empty;
-            if (FacturaImprentaDigital.TipoDeDocumentoAsEnum == eTipoDocumentoFactura.Factura) {
-                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios")) {
-                    vResult = LibString.Left(FacturaImprentaDigital.Numero, LibString.IndexOf(FacturaImprentaDigital.Numero, '.'));
+            if (TipoTransaccionID == eTipodeTransaccionImprentaDigital.Facturacion) {
+                if (FacturaImprentaDigital.TipoDeDocumentoAsEnum == eTipoDocumentoFactura.Factura) {
+                    if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios")) {
+                        vResult = LibString.Left(FacturaImprentaDigital.Numero, LibString.IndexOf(FacturaImprentaDigital.Numero, '.'));
+                    }
                 }
             }
             return vResult;

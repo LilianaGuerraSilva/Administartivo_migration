@@ -529,6 +529,14 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }
 
         public void ObtenerDatosDocumentoEmitido() {
+            if (TipoTransaccionID == eTipodeTransaccionImprentaDigital.Facturacion) {
+                ObtenerDatoFacturaEmitida();
+            } else {
+                ObtenerDatosComprobantRetEmitido();
+            }                      
+        }
+
+        public void ObtenerDatoFacturaEmitida() {
             try {
                 StringBuilder vParam = new StringBuilder();
                 string vSql = SqlDatosDocumentoEmitido(ref vParam);
@@ -555,6 +563,49 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 throw;
             }
         }
+
+        private string SqlDatosComprobanteRetEmitido(ref StringBuilder refParametros) {
+            LibGpParams vParam = new LibGpParams();
+            StringBuilder vSql = new StringBuilder();
+            vParam.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
+            vParam.AddInString("Numero", NumeroCxP, 11);           
+            refParametros = vParam.Get();
+            vSql.AppendLine(" SELECT"); 
+            vSql.AppendLine(" NumeroComprobanteRetencion,");
+            vSql.AppendLine(" CodigoProveedor, ");
+            vSql.AppendLine(" RetencionIvaEnviadaImpDigital,");
+            vSql.AppendLine(" TipodeCxP,");
+            vSql.AppendLine(" SeHizoLaRetencionIva,");
+            vSql.AppendLine(" ProveedorImprentaDigital");            
+            vSql.AppendLine(" FROM CxP");
+            vSql.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania ");
+            vSql.AppendLine(" AND factura.Numero = @Numero ");
+            vSql.AppendLine($" AND SeHizoLaRetencionIva ={insUtilSql.ToSqlValue(true)}");
+            return vSql.ToString();
+        }
+
+        public void ObtenerDatosComprobantRetEmitido() {
+            try {
+                StringBuilder vParam = new StringBuilder();
+                string vSql = SqlDatosComprobanteRetEmitido(ref vParam);
+                XElement vResult = LibBusiness.ExecuteSelect(vSql, vParam, "", 0);
+                if (vResult != null && vResult.HasElements) {
+                    ComprobanteRetIVAImprentaDigital = new ComprobanteRetIVA();
+                    ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion = LibXml.GetPropertyString(vResult, "NumeroComprobanteRetencion");
+                    ComprobanteRetIVAImprentaDigital.CodigoProveedor = LibXml.GetPropertyString(vResult, "CodigoProveedor");
+                    ComprobanteRetIVAImprentaDigital.RetencionIvaEnviadaImpDigital = LibConvert.ToBool(LibXml.GetPropertyString(vResult, "RetencionIvaEnviadaImpDigital"));
+                    ComprobanteRetIVAImprentaDigital.SeHizoLaRetencionIVA = LibConvert.ToBool(LibXml.GetPropertyString(vResult, "SeHizoLaRetencionIva"));
+                    ComprobanteRetIVAImprentaDigital.ProveedorImprentaDigital = LibXml.GetPropertyString(vResult, "ProveedorImprentaDigital");
+                    ComprobanteRetIVAImprentaDigital.TipoDeCxP = LibXml.GetPropertyString(vResult, "TipodeCxP");
+                } else {
+                    throw new GalacException("El Documento N° " + LibConvert.ToStr(NumeroCxP) + " no existe.", eExceptionManagementType.Controlled);
+                }
+            } catch (GalacException) {
+                throw;
+            }
+        }
+
+
         private string SqlLimpiarNroControl(ref StringBuilder refParametros) {
             DateTime vFechaInicioImprentaDigital = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Parametros", "FechaInicioImprentaDigital");
             LibGpParams vParam = new LibGpParams();
