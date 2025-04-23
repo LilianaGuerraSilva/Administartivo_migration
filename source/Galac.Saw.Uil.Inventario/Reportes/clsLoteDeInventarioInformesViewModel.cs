@@ -26,6 +26,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
             AvailableReports.Add(new clsArticulosPorVencerViewModel());
             AvailableReports.Add(new clsLoteDeInventarioVencidosViewModel());
 		    AvailableReports.Add(new clsMovimientoDeLoteInventarioViewModel());
+            AvailableReports.Add(new clsExistenciaDeLoteDeInventarioPorAlmacenViewModel() { Mfc = initMfc});
             Title = "Informes de Lote de Inventario";
         }
         #endregion //Constructores
@@ -40,6 +41,8 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
                 vResult = ConfigReportArticulosVencidos(SelectedReport as clsLoteDeInventarioVencidosViewModel);
             } else if (SelectedReport is clsMovimientoDeLoteInventarioViewModel) {
                 vResult = ConfigReportMovimientoDeLoteInventario(SelectedReport as clsMovimientoDeLoteInventarioViewModel);
+            } else if (SelectedReport is clsExistenciaDeLoteDeInventarioPorAlmacenViewModel) {
+                vResult = ConfigReportExistenciaDeLoteDeInventarioDeAlmacen(SelectedReport as clsExistenciaDeLoteDeInventarioPorAlmacenViewModel);
             }
             return vResult;
         }
@@ -72,7 +75,17 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
                 };
             }
             return vResult;
-        }				
+        }
+
+        private ILibRpt ConfigReportExistenciaDeLoteDeInventarioDeAlmacen(clsExistenciaDeLoteDeInventarioPorAlmacenViewModel valViewModel) {
+            ILibRpt vResult = null;
+            if (valViewModel != null) {
+                vResult = new Galac.Saw.Rpt.Inventario.clsExistenciaDeLoteDeInventarioPorAlmacen(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.CodigoArticulo, valViewModel.CodigoLote, valViewModel.FechaInicial, valViewModel.FechaFinal, valViewModel.CodigoAlmacenGenerico) {
+                    Worker = Manager
+                };
+            }
+            return vResult;
+        }
         #endregion //Metodos Generados
 
 
