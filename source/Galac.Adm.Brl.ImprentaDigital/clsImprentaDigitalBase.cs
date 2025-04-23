@@ -129,6 +129,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             FechaAsignacion = LibDate.MinDateForDB();
             HoraAsignacion = string.Empty;
             insUtilSql = new QAdvSql("");
+            FacturaImprentaDigital = new FacturaRapida();
+            ComprobanteRetIVAImprentaDigital = new ComprobanteRetIVA();
             if (TipoComprobantedeRetencion == eTipoComprobantedeRetencion.NoRetiene) {
                 TipoTransaccionID = eTipodeTransaccionImprentaDigital.Facturacion;
             } else {
@@ -531,7 +533,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public void ObtenerDatosDocumentoEmitido() {
             if (TipoTransaccionID == eTipodeTransaccionImprentaDigital.Facturacion) {
                 ObtenerDatoFacturaEmitida();
-            } else {
+            } else {                
                 ObtenerDatosComprobantRetEmitido();
             }                      
         }
@@ -576,10 +578,11 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" RetencionIvaEnviadaImpDigital,");
             vSql.AppendLine(" TipodeCxP,");
             vSql.AppendLine(" SeHizoLaRetencionIva,");
-            vSql.AppendLine(" ProveedorImprentaDigital");            
+            vSql.AppendLine(" ProveedorImprentaDigital,");
+            vSql.AppendLine(" NumeroControlRetencionIvaImpDigital");
             vSql.AppendLine(" FROM CxP");
             vSql.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania ");
-            vSql.AppendLine(" AND factura.Numero = @Numero ");
+            vSql.AppendLine(" AND Numero = @Numero ");
             vSql.AppendLine($" AND SeHizoLaRetencionIva ={insUtilSql.ToSqlValue(true)}");
             return vSql.ToString();
         }
@@ -593,10 +596,11 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     ComprobanteRetIVAImprentaDigital = new ComprobanteRetIVA();
                     ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion = LibXml.GetPropertyString(vResult, "NumeroComprobanteRetencion");
                     ComprobanteRetIVAImprentaDigital.CodigoProveedor = LibXml.GetPropertyString(vResult, "CodigoProveedor");
-                    ComprobanteRetIVAImprentaDigital.RetencionIvaEnviadaImpDigital = LibConvert.ToBool(LibXml.GetPropertyString(vResult, "RetencionIvaEnviadaImpDigital"));
-                    ComprobanteRetIVAImprentaDigital.SeHizoLaRetencionIVA = LibConvert.ToBool(LibXml.GetPropertyString(vResult, "SeHizoLaRetencionIva"));
+                    ComprobanteRetIVAImprentaDigital.RetencionIvaEnviadaImpDigital = LibConvert.SNToBool(LibXml.GetPropertyString(vResult, "RetencionIvaEnviadaImpDigital"));
+                    ComprobanteRetIVAImprentaDigital.SeHizoLaRetencionIVA = LibConvert.SNToBool(LibXml.GetPropertyString(vResult, "SeHizoLaRetencionIva"));
                     ComprobanteRetIVAImprentaDigital.ProveedorImprentaDigital = LibXml.GetPropertyString(vResult, "ProveedorImprentaDigital");
                     ComprobanteRetIVAImprentaDigital.TipoDeCxP = LibXml.GetPropertyString(vResult, "TipodeCxP");
+                    ComprobanteRetIVAImprentaDigital.NumeroControl = LibXml.GetPropertyString(vResult, "NumeroControlRetencionIvaImpDigital");
                 } else {
                     throw new GalacException("El Documento N° " + LibConvert.ToStr(NumeroCxP) + " no existe.", eExceptionManagementType.Controlled);
                 }
@@ -820,7 +824,12 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         public virtual bool SincronizarDocumento() {
             bool vResult = false;
-            if (!LibString.S1IsEqualToS2(NumeroControl, FacturaImprentaDigital.NumeroControl)) { //Emitida en ID, Emitida en SAW Sin Nro. Control
+            if (TipoTransaccionID == eTipodeTransaccionImprentaDigital.Facturacion) {
+                vResult = !LibString.S1IsEqualToS2(NumeroControl, FacturaImprentaDigital.NumeroControl);
+            } else {
+                vResult = !LibString.S1IsEqualToS2(NumeroControl, ComprobanteRetIVAImprentaDigital.NumeroControl);
+            }
+            if (vResult) { //Emitida en ID, Emitida en SAW Sin Nro. Control
                 vResult = ActualizaNroControlYProveedorImprentaDigital();
             } else if (LibString.S1IsEqualToS2(EstatusDocumento, "Enviada") && FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Anulada) { //Anulada en SAW, Emitida en ID
                 if (ExistenCxCPorCancelar()) {

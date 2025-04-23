@@ -66,7 +66,6 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             stRespuestaTF vRespuestaConector = new stRespuestaTF();
             string vMensaje = string.Empty;
             bool vChekConeccion;
-            string vDocumentoJSON;
             string vTipoDocumento = string.Empty;
             try {
                 if (LibString.IsNullOrEmpty(_ConectorJson.Token)) {
@@ -78,16 +77,14 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 if (TipoTransaccionID == eTipodeTransaccionImprentaDigital.Facturacion) {
                     vTipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum);
                 } else {
-                    vTipoDocumento = GetTipoDocumentoRetencion(ComprobanteRetIVAImprentaDigital.TipoDeCxPAsEnum);
+                    vTipoDocumento = GetTipoDocumentoComprobante(TipoComprobantedeRetencion);
                 }
-                stSolicitudDeConsulta vJsonDeConsulta = new stSolicitudDeConsulta() {                        
-                    Serie = SerieDocumento(),
-                    TipoDocumento = vTipoDocumento,
-                    NumeroDocumento = NumeroDocumento()
-                };
+                JObject vJsonDeConsulta = new JObject {
+                    {"Serie",SerieDocumento() },
+                    {"TipoDocumento",vTipoDocumento },
+                    { "NumeroDocumento",NumeroDocumento()} };
                 if (vChekConeccion) {
-                    vDocumentoJSON = clsConectorJson.SerializeJSON(vJsonDeConsulta);//Construir JSON Con datos                                                                                    
-                    vRespuestaConector = ((clsConectorJsonTheFactory)_ConectorJson).SendPostJsonTF(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoDocumento), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
+                    vRespuestaConector = ((clsConectorJsonTheFactory)_ConectorJson).SendPostJsonTF(vJsonDeConsulta.ToString(), LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoDocumento), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
                     Mensaje = vRespuestaConector.mensaje;
                 } else {
                     Mensaje = vMensaje;
