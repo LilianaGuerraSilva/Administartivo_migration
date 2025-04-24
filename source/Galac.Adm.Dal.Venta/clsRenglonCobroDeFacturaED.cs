@@ -47,6 +47,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("TipoDeDocumento" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnRenCobDeFacTipoDeDocu NOT NULL, ");
             SQL.AppendLine("ConsecutivoRenglon" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnRenCobDeFacConsecutiv NOT NULL, ");
             SQL.AppendLine("CodigoFormaDelCobro" + InsSql.VarCharTypeForDb(5) + " CONSTRAINT d_RenCobDeFacCoFoDeCo DEFAULT (''), ");
+            SQL.AppendLine("ConsecutivoFormaDelCobro" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT d_RenCobDeFacCoFoDeCo DEFAULT (0), ");
             SQL.AppendLine("NumeroDelDocumento" + InsSql.VarCharTypeForDb(30) + " CONSTRAINT d_RenCobDeFacNuDeDo DEFAULT (''), ");
             SQL.AppendLine("CodigoBanco" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT d_RenCobDeFacCoBa DEFAULT (0), ");
             SQL.AppendLine("Monto" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_RenCobDeFacMo DEFAULT (0), ");
@@ -62,8 +63,8 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("REFERENCES dbo.Factura(ConsecutivoCompania, Numero, TipoDeDocumento)");
             SQL.AppendLine("ON DELETE CASCADE");
             SQL.AppendLine("ON UPDATE CASCADE");
-            SQL.AppendLine(", CONSTRAINT fk_RenglonCobroDeFacturaFormaDelCobro FOREIGN KEY (CodigoFormaDelCobro)");
-            SQL.AppendLine("REFERENCES SAW.FormaDelCobro(Codigo)");
+            SQL.AppendLine(", CONSTRAINT fk_RenglonCobroDeFacturaFormaDelCobro FOREIGN KEY (ConsecutivoCompania, ConsecutivoFormaDelCobro)");
+            SQL.AppendLine("REFERENCES Adm.FormaDelCobro(ConsecutivoCompania, Consecutivo)");
             SQL.AppendLine("ON UPDATE CASCADE");
             SQL.AppendLine(", CONSTRAINT fk_RenglonCobroDeFacturaBanco FOREIGN KEY (CodigoBanco)");
             SQL.AppendLine("REFERENCES Comun.Banco(codigo)");
@@ -78,14 +79,14 @@ namespace Galac.Adm.Dal.Venta {
         private string SqlViewB1() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("SELECT RenglonCobroDeFactura.ConsecutivoCompania, RenglonCobroDeFactura.NumeroFactura, RenglonCobroDeFactura.TipoDeDocumento, " + DbSchema + ".Gv_EnumTipoDocumentoFactura.StrValue AS TipoDeDocumentoStr, RenglonCobroDeFactura.ConsecutivoRenglon");
-            SQL.AppendLine(", RenglonCobroDeFactura.CodigoFormaDelCobro, RenglonCobroDeFactura.NumeroDelDocumento, RenglonCobroDeFactura.CodigoBanco, RenglonCobroDeFactura.Monto");
+            SQL.AppendLine(", RenglonCobroDeFactura.CodigoFormaDelCobro, RenglonCobroDeFactura.ConsecutivoFormaDelCobro, RenglonCobroDeFactura.NumeroDelDocumento, RenglonCobroDeFactura.CodigoBanco, RenglonCobroDeFactura.Monto");
             SQL.AppendLine(", RenglonCobroDeFactura.CodigoPuntoDeVenta, RenglonCobroDeFactura.NumeroDocumentoAprobacion, RenglonCobroDeFactura.CodigoMoneda, RenglonCobroDeFactura.CambioAMonedaLocal, RenglonCobroDeFactura.InfoAdicional");
             SQL.AppendLine(", RenglonCobroDeFactura.fldTimeStamp, CAST(RenglonCobroDeFactura.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".RenglonCobroDeFactura");
             SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumTipoDocumentoFactura");
             SQL.AppendLine("ON " + DbSchema + ".RenglonCobroDeFactura.TipoDeDocumento COLLATE MODERN_SPANISH_CS_AS");
             SQL.AppendLine(" = " + DbSchema + ".Gv_EnumTipoDocumentoFactura.DbValue");
-            SQL.AppendLine("INNER JOIN SAW.FormaDelCobro ON  " + DbSchema + ".RenglonCobroDeFactura.CodigoFormaDelCobro = SAW.FormaDelCobro.Codigo");
+            SQL.AppendLine("INNER JOIN Adm.FormaDelCobro ON  " + DbSchema + ".RenglonCobroDeFactura.ConsecutivoFormaDelCobro = Adm.FormaDelCobro.Consecutivo AND " + DbSchema + ".RenglonCobroDeFactura.ConsecutivoCompania = Adm.FormaDelCobro.ConsecutivoCompania");
             //SQL.AppendLine("INNER JOIN Comun.Banco ON  " + DbSchema + ".RenglonCobroDeFactura.CodigoBanco = Comun.Banco.codigo");
             //SQL.AppendLine("INNER JOIN Comun.Banco ON  " + DbSchema + ".RenglonCobroDeFactura.CodigoPuntoDeVenta = Comun.Banco.codigo");
             return SQL.ToString();
@@ -98,6 +99,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@TipoDeDocumento" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@ConsecutivoRenglon" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@CodigoFormaDelCobro" + InsSql.VarCharTypeForDb(5) + ",");
+            SQL.AppendLine("@ConsecutivoFormaDelCobro" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@NumeroDelDocumento" + InsSql.VarCharTypeForDb(30) + " = '',");
             SQL.AppendLine("@CodigoBanco" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@Monto" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
@@ -123,6 +125,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            TipoDeDocumento,");
             SQL.AppendLine("            ConsecutivoRenglon,");
             SQL.AppendLine("            CodigoFormaDelCobro,");
+            SQL.AppendLine("            ConsecutivoFormaDelCobro,");
             SQL.AppendLine("            NumeroDelDocumento,");
             SQL.AppendLine("            CodigoBanco,");
             SQL.AppendLine("            Monto,");
@@ -137,6 +140,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            @TipoDeDocumento,");
             SQL.AppendLine("            @ConsecutivoRenglon,");
             SQL.AppendLine("            @CodigoFormaDelCobro,");
+            SQL.AppendLine("            @ConsecutivoFormaDelCobro,");
             SQL.AppendLine("            @NumeroDelDocumento,");
             SQL.AppendLine("            @CodigoBanco,");
             SQL.AppendLine("            @Monto,");
@@ -162,6 +166,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@TipoDeDocumento" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@ConsecutivoRenglon" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@CodigoFormaDelCobro" + InsSql.VarCharTypeForDb(5) + ",");
+            SQL.AppendLine("@ConsecutivoFormaDelCobro" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@NumeroDelDocumento" + InsSql.VarCharTypeForDb(30) + ",");
             SQL.AppendLine("@CodigoBanco" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@Monto" + InsSql.DecimalTypeForDb(25, 4) + ",");
@@ -195,6 +200,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("         BEGIN TRAN");
             SQL.AppendLine("         UPDATE " + DbSchema + ".RenglonCobroDeFactura");
             SQL.AppendLine("            SET CodigoFormaDelCobro = @CodigoFormaDelCobro,");
+            SQL.AppendLine("               ConsecutivoFormaDelCobro = @ConsecutivoFormaDelCobro,");
             SQL.AppendLine("               NumeroDelDocumento = @NumeroDelDocumento,");
             SQL.AppendLine("               CodigoBanco = @CodigoBanco,");
             SQL.AppendLine("               Monto = @Monto,");
@@ -318,6 +324,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("         TipoDeDocumento,");
             SQL.AppendLine("         ConsecutivoRenglon,");
             SQL.AppendLine("         CodigoFormaDelCobro,");
+            SQL.AppendLine("         ConsecutivoFormaDelCobro,");
             SQL.AppendLine("         NumeroDelDocumento,");
             SQL.AppendLine("         CodigoBanco,");
             SQL.AppendLine("         Monto,");
@@ -355,6 +362,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("        TipoDeDocumento,");
             SQL.AppendLine("        ConsecutivoRenglon,");
             SQL.AppendLine("        CodigoFormaDelCobro,");
+            SQL.AppendLine("        ConsecutivoFormaDelCobro,");
             SQL.AppendLine("        NumeroDelDocumento,");
             SQL.AppendLine("        CodigoBanco,");
             SQL.AppendLine("        Monto,");
@@ -418,6 +426,7 @@ namespace Galac.Adm.Dal.Venta {
 			SQL.AppendLine("	        TipoDeDocumento,");
 			SQL.AppendLine("	        ConsecutivoRenglon,");
 			SQL.AppendLine("	        CodigoFormaDelCobro,");
+			SQL.AppendLine("	        ConsecutivoFormaDelCobro,");
 			SQL.AppendLine("	        NumeroDelDocumento,");
 			SQL.AppendLine("	        CodigoBanco,");
 			SQL.AppendLine("	        Monto,");
@@ -432,6 +441,7 @@ namespace Galac.Adm.Dal.Venta {
 			SQL.AppendLine("	        TipoDeDocumento,");
 			SQL.AppendLine("	        ConsecutivoRenglon,");
 			SQL.AppendLine("	        CodigoFormaDelCobro,");
+			SQL.AppendLine("	        ConsecutivoFormaDelCobro,");
 			SQL.AppendLine("	        NumeroDelDocumento,");
 			SQL.AppendLine("	        CodigoBanco,");
 			SQL.AppendLine("	        Monto,");
@@ -445,6 +455,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("	        TipoDeDocumento " + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("	        ConsecutivoRenglon " + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("	        CodigoFormaDelCobro " + InsSql.VarCharTypeForDb(5) + ",");
+            SQL.AppendLine("	        ConsecutivoFormaDelCobro " + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("	        NumeroDelDocumento " + InsSql.VarCharTypeForDb(30) + ",");
             SQL.AppendLine("	        CodigoBanco " + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("	        Monto " + InsSql.DecimalTypeForDb(25, 4) + ",");

@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Galac.Saw.Uil.Tablas.Views {
+namespace Galac.Adm.Uil.Venta.Views {
     /// <summary>
     /// Interaction logic for GSFormaDelCobroView.xaml
     /// </summary>
@@ -27,5 +27,5 @@ namespace Galac.Saw.Uil.Tablas.Views {
 
     } //End of class GSFormaDelCobroView.xaml
 
-} //End of namespace Galac.Saw.Uil.Tablas
+} //End of namespace Galac.Adm.Uil.Venta
 

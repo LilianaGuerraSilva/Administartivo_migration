@@ -62,6 +62,7 @@
     <Compile Include="CxC.cs" />
     <Compile Include="Escalada.cs" />
     <Compile Include="Factura.cs" />
+    <Compile Include="FormaDelCobro.cs" />
     <Compile Include="IActualizarArticuloInventarioPdn.cs" />
     <Compile Include="IAuditoriaConfiguracionInformes.cs" />
     <Compile Include="ICajaAperturaPdn.cs" />
@@ -73,6 +74,8 @@
     <Compile Include="ICXCPdn.cs" />
     <Compile Include="IEscaladaInformes.cs" />
     <Compile Include="IFkContratoViewModel.cs" />
+    <Compile Include="IFkFormaDelCobroViewModel.cs" />
+    <Compile Include="IFormaDelCobroPdn.cs" />
     <Compile Include="IResumenDiarioDeVentasInformes.cs" />
     <Compile Include="IFacturaInformes.cs" />
     <Compile Include="IFacturaPdn.cs" />

@@ -85,7 +85,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="clsFormaDelCobroMenu.cs" />
     <Compile Include="clsImpuestoBancarioMenu.cs" />
     <Compile Include="clsLineaDeProductoMenu.cs" />
     <Compile Include="clsMaquinaFiscalMenu.cs" />
@@ -102,7 +101,6 @@
     </Compile>
     <AppDesigner Include="Properties\" />
     <Compile Include="UIMefTablasCondicionesDePago.cs" />
-    <Compile Include="UIMefTablasFormaDelCobro.cs" />
     <Compile Include="UIMefTablasImpuestoBancario.cs" />
     <Compile Include="UIMefTablasLineaDeProducto.cs" />
     <Compile Include="UIMefTablasMaquinaFiscal.cs" />
@@ -117,8 +115,6 @@
     <Compile Include="ViewModel\clsFKViewModelTablas.cs" />
     <Compile Include="ViewModel\CondicionesDePagoMngViewModel.cs" />
     <Compile Include="ViewModel\CondicionesDePagoViewModel.cs" />
-    <Compile Include="ViewModel\FormaDelCobroMngViewModel.cs" />
-    <Compile Include="ViewModel\FormaDelCobroViewModel.cs" />
     <Compile Include="ViewModel\ImpuestoBancarioMngViewModel.cs" />
     <Compile Include="ViewModel\ImpuestoBancarioViewModel.cs" />
     <Compile Include="ViewModel\LineaDeProductoMngViewModel.cs" />
@@ -143,9 +139,6 @@
     <Compile Include="ViewModel\ZonaCobranzaViewModel.cs" />
     <Compile Include="Views\GSCondicionesDePagoView.xaml.cs">
       <DependentUpon>GSCondicionesDePagoView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\GSFormaDelCobroView.xaml.cs">
-      <DependentUpon>GSFormaDelCobroView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GSImpuestoBancarioView.xaml.cs">
       <DependentUpon>GSImpuestoBancarioView.xaml</DependentUpon>
@@ -187,10 +180,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GSCondicionesDePagoView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\GSFormaDelCobroView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

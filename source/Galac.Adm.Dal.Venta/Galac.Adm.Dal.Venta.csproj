@@ -86,6 +86,8 @@
     <Compile Include="clsFacturaRapidaDetalleDat.cs" />
     <Compile Include="clsFacturaRapidaDetalleED.cs" />
     <Compile Include="clsFacturaRapidaED.cs" />
+    <Compile Include="clsFormaDelCobroDat.cs" />
+    <Compile Include="clsFormaDelCobroED.cs" />
     <Compile Include="clsRenglonCobroDeFacturaDat.cs" />
     <Compile Include="clsRenglonCobroDeFacturaED.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -118,6 +118,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsFormaDelCobroMenu.cs" />
     <Compile Include="Reportes\clsAuditoriaConfiguracionDeCajaViewModel.cs" />
     <Compile Include="Reportes\clsEscaladaInformesViewModel.cs" />
     <Compile Include="Reportes\clsFacturacionEntreFechasVerificacionViewModel.cs" />
@@ -132,6 +133,7 @@
       <DependentUpon>GSNotasDeEntregaNoFacturadas.xaml</DependentUpon>
     </Compile>
     <Compile Include="UIMefAudiEnte.cs" />
+    <Compile Include="UIMefVentaFormaDelCobro.cs" />
     <Compile Include="VentaMessagesHandler.cs" />
     <Compile Include="Reportes\clsCajaCerradaViewModel.cs" />
     <Compile Include="Reportes\clsCxCEntreFechasViewModel.cs" />
@@ -259,6 +261,8 @@
     <Compile Include="ViewModel\FacturaRapidaDetalleViewModel.cs" />
     <Compile Include="ViewModel\FacturaRapidaMngViewModel.cs" />
     <Compile Include="ViewModel\FacturaRapidaViewModel.cs" />
+    <Compile Include="ViewModel\FormaDelCobroMngViewModel.cs" />
+    <Compile Include="ViewModel\FormaDelCobroViewModel.cs" />
     <Compile Include="ViewModel\PagosElectronicosMngViewModel.cs" />
     <Compile Include="ViewModel\ValidacionZelleViewModel.cs" />
     <Compile Include="ViewModel\VueltoEfectivoViewModel.cs" />
@@ -320,6 +324,9 @@
       <DependentUpon>GSFacturaRapidaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reportes\clsCobranzaInformesViewModel.cs" />
+    <Compile Include="Views\GSFormaDelCobroView.xaml.cs">
+      <DependentUpon>GSFormaDelCobroView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GSValidacionZelleView.xaml.cs">
       <DependentUpon>GSValidacionZelleView.xaml</DependentUpon>
     </Compile>
@@ -499,6 +506,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GSFacturaRapidaView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSFormaDelCobroView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

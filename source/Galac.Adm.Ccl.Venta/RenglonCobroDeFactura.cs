@@ -17,6 +17,7 @@ namespace Galac.Adm.Ccl.Venta {
         private eTipoDocumentoFactura _TipoDeDocumento;
         private int _ConsecutivoRenglon;
         private string _CodigoFormaDelCobro;
+        private int _ConsecutivoFormaDelCobro;
         private string _NumeroDelDocumento;
         private int _CodigoBanco;
         private decimal _Monto;
@@ -65,6 +66,11 @@ namespace Galac.Adm.Ccl.Venta {
         public string CodigoFormaDelCobro {
             get { return _CodigoFormaDelCobro; }
             set { _CodigoFormaDelCobro = LibString.Mid(value, 0, 5); }
+        }
+
+        public int ConsecutivoFormaDelCobro {
+            get { return _ConsecutivoFormaDelCobro; }
+            set { _ConsecutivoFormaDelCobro = value; }
         }
 
         public string NumeroDelDocumento {
@@ -136,6 +142,7 @@ namespace Galac.Adm.Ccl.Venta {
             TipoDeDocumentoAsEnum = eTipoDocumentoFactura.Factura;
             ConsecutivoRenglon = 0;
             CodigoFormaDelCobro = string.Empty;
+            ConsecutivoFormaDelCobro = 0;
             NumeroDelDocumento = string.Empty;
             CodigoBanco = 0;
             Monto = 0;
@@ -155,6 +162,7 @@ namespace Galac.Adm.Ccl.Venta {
             vResult.TipoDeDocumentoAsEnum = _TipoDeDocumento;
             vResult.ConsecutivoRenglon = _ConsecutivoRenglon;
             vResult.CodigoFormaDelCobro = _CodigoFormaDelCobro;
+            vResult.ConsecutivoFormaDelCobro = _ConsecutivoFormaDelCobro;
             vResult.NumeroDelDocumento = _NumeroDelDocumento;
             vResult.CodigoBanco = _CodigoBanco;
             vResult.Monto = _Monto;
@@ -174,6 +182,7 @@ namespace Galac.Adm.Ccl.Venta {
                "\nTipo De Documento = " + _TipoDeDocumento.ToString() +
                "\nConsecutivo Renglon = " + _ConsecutivoRenglon.ToString() +
                "\nCodigo Forma Del Cobro = " + _CodigoFormaDelCobro +
+               "\nConsecutivo Forma Del Cobro = " + _ConsecutivoFormaDelCobro.ToString() +
                "\nNumero Del Documento = " + _NumeroDelDocumento +
                "\nCodigo Banco = " + _CodigoBanco.ToString() +
                "\nMonto = " + _Monto.ToString() +

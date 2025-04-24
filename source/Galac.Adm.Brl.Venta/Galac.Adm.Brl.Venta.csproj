@@ -107,6 +107,7 @@
     <Compile Include="clsFacturaNav.cs" />
     <Compile Include="clsFacturaRapidaDetalleNav.cs" />
     <Compile Include="clsFacturaRapidaNav.cs" />
+    <Compile Include="clsFormaDelCobroNav.cs" />
     <Compile Include="clsMovimientoBancarioPuntoDeVentaNav.cs" />
     <Compile Include="clsRenglonCobroDeFacturaNav.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="Reportes\clsCxCSql.cs" />
     <Compile Include="Reportes\clsEscaladaRpt.cs" />
     <Compile Include="Reportes\clsEscaladaSql.cs" />
+    <Compile Include="Reportes\clsFormaDelCobroRpt.cs" />
     <Compile Include="Reportes\clsResumenDiarioDeVentasRpt.cs" />
     <Compile Include="Reportes\clsFacturaRpt.cs" />
     <Compile Include="Reportes\clsResumenDiarioDeVentasSql.cs" />
@@ -213,6 +215,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

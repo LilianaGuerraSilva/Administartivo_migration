@@ -38,6 +38,7 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
       public eStatusMaquinaFiscal Status { get; set; }
       public int LongitudNumeroFiscal { get; set; }
    }
+	
    public class FkUnidadDeVentaViewModel : IFkUnidadDeVentaViewModel {
       [LibGridColum("Unidad de Venta")]
       public string Nombre { get; set; }
@@ -48,14 +49,6 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
       public int ConsecutivoCompania { get; set; }
       [LibGridColum("Nombre")]
       public string Nombre { get; set; }
-   }
-   public class FkFormaDelCobroViewModel : IFkFormaDelCobroViewModel {
-      [LibGridColum("Código")]
-      public string Codigo { get; set; }
-      [LibGridColum("Nombre")]
-      public string Nombre { get; set; }
-      [LibGridColum("TipoDePago")]
-      public eTipoDeFormaDePago TipoDePago { get; set; }
    }
 
    public class FkPropAnalisisVencViewModel : IFkPropAnalisisVencViewModel {

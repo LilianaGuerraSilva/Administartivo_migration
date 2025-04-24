@@ -66,8 +66,6 @@
     <Compile Include="clsAuditoriaConfiguracionED.cs" />
     <Compile Include="clsCondicionesDePagoDat.cs" />
     <Compile Include="clsCondicionesDePagoED.cs" />
-    <Compile Include="clsFormaDelCobroDat.cs" />
-    <Compile Include="clsFormaDelCobroED.cs" />
     <Compile Include="clsImpuestoBancarioDat.cs" />
     <Compile Include="clsImpuestoBancarioED.cs" />
     <Compile Include="clsLineaDeProductoDat.cs" />

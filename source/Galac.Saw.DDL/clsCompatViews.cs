@@ -83,7 +83,7 @@ namespace Galac.Saw.DDL {
             return LibViews.CreateCompatibilityView("TipoProveedor", "SELECT ConsecutivoCompania, Nombre FROM Saw.TipoProveedor", true);
         }
         public static bool CrearVistaDboFormaDelCobro() {
-            return LibViews.CreateCompatibilityView("FormaDelCobro", "SELECT Codigo, Nombre, TipoDePago FROM Saw.FormaDelCobro", true);
+            return LibViews.CreateCompatibilityView("FormaDelCobro", "SELECT ConsecutivoCompania, Consecutivo, Codigo, Nombre, TipoDePago, CodigoCuentaBancaria, CodigoTheFactory, Origen FROM Adm.FormaDelCobro", true);
         }
 
         public static bool CrearVistaDboCierreCostoDelPeriodo() {

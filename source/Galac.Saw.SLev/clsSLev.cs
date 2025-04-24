@@ -622,6 +622,12 @@ namespace Galac.Saw.SLev {
             }
             #endregion Dashboard
 
+            #region FormaDelCobro
+            vPermisos.Add(new CustomRole("FormaDelCobro", "Consultar", "Cliente / CxC", 5));
+            vPermisos.Add(new CustomRole("FormaDelCobro", "Modificar", "Cliente / CxC", 5));
+            vPermisos.Add(new CustomRole("FormaDelCobro", "Eliminar", "Cliente / CxC", 5));
+            #endregion
+
             return vPermisos;
         }
     }

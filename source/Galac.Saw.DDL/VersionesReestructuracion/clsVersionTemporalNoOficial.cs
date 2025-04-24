@@ -21,13 +21,17 @@ using Galac.Saw.Lib;
 using LibGalac.Aos.DefGen;
 using Galac.Adm.Dal.Venta;
 using Galac.Saw.Dal.Inventario;
+using Galac.Adm.Ccl.Venta;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
 
     class clsVersionTemporalNoOficial: clsVersionARestructurar {
+
+        IFormaDelCobroPdn _Reglas;
         public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
         public override bool UpdateToVersion() {
             StartConnectionNoTransaction();
+            CrearTabFormaDelCobro();
             CrearCampoManejaMerma();
             CrearCampoManejaMermaOP();
             AmpliarColumnaCompaniaImprentaDigitalClave();
@@ -132,7 +136,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
                 string vNextCodigo = "";
                 vNextCodigo = new LibGalac.Aos.Dal.LibDatabase("").NextStrConsecutive("SAW.FormaDelCobro", "Codigo", "", true, 5);
                 vSQL.Clear();
-                vSQL.AppendLine("INSERT INTO SAW.FormaDelCobro (Codigo, Nombre, TipoDePago) VALUES (" + InsSql.ToSqlValue(vNextCodigo) + ", " + InsSql.ToSqlValue("Crédito Electrónico") + ", " + _insSql.EnumToSqlValue((int)eTipoDeFormaDePago.CreditoElectronico) + ")");
+                vSQL.AppendLine("INSERT INTO SAW.FormaDelCobro (Codigo, Nombre, TipoDePago) VALUES (" + InsSql.ToSqlValue(vNextCodigo) + ", " + InsSql.ToSqlValue("Crédito Electrónico") + ", " + _insSql.EnumToSqlValue((int)eFormaDeCobro.CreditoElectronico) + ")");
                 Execute(vSQL.ToString(), 0);
             }
         }
@@ -159,7 +163,6 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             MoverGroupName("CuentaBancariaCobroMultimoneda", vGroupNameActual, vGroupNameNuevo, vLevelGroupNuevo);
             MoverGroupName("ConceptoBancarioCobroMultimoneda", vGroupNameActual, vGroupNameNuevo, vLevelGroupNuevo);
         }
-
 
         private void ActualizaArticulosLote_LoteFeVec() {
             StringBuilder vSql = new StringBuilder();
@@ -263,8 +266,40 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
                 vSqlSb.AppendLine("			Saw.LoteDeInventario.Consecutivo,");
                 vSqlSb.AppendLine("			ExistenciaPorAlmacen.Ubicacion");
                 Execute(vSqlSb.ToString(), 0);
-            }
+            }       
+        }
 
+        }
+
+        private void CrearTabFormaDelCobro() {
+            if (!TableExists("Adm.FormaDelCobro")) {
+                new clsFormaDelCobroED().InstalarTabla();
+                _Reglas.InsertDefaultRecord(LibConvert.ToInt(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania")));
+                try {
+                    DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "dbo.renglonCobroDeFactura", "Saw.FormaDelCobro");
+                    CrearColumnaConsecutivoFormaDelCobro("dbo.renglonCobroDeFactura", "ConsecutivoFormaDelCobro", " CONSTRAINT d_RenCobDeFacCoFoDeCo NOT NULL");
+                    LlenarColumnaConsecutivoFormaDelCobro("dbo.renglonCobroDeFactura", "ConsecutivoFormaDelCobro", "Codigo");
+                    AddForeignKey("Adm.FormaDelCobro", "dbo.renglonCobroDeFactura", new string[] { "ConsecutivoCompania", "Consecutivo" }, new string[] { "ConsecutivoCompania", "ConsecutivoFormaDelCobro" }, false, false);
+                    clsCompatViews.CrearVistaDboFormaDelCobro();
+                } catch (GalacException vEx) {
+                    throw vEx;
+                }
+            }
+        }
+        private void CrearColumnaConsecutivoFormaDelCobro(string valTabla, string valNombreColumna, string valConstraint) {
+            if (AddColumnInteger(valTabla, valNombreColumna, valConstraint, 0)) {
+                AddNotNullConstraint(valTabla, valNombreColumna, InsSql.NumericTypeForDb(10, 0));
+            }
+        }
+
+        private void LlenarColumnaConsecutivoFormaDelCobro(string valTabla, string valColumnaNueva, string valColumnaAnterior) {
+            StringBuilder vSQL = new StringBuilder();
+            LibDataScope vDb = new LibDataScope();
+            vSQL.AppendLine("UPDATE " + valTabla + " SET " + valTabla + "." + valColumnaNueva + " = Adm.FormaDelCobro.Consecutivo ");
+            vSQL.AppendLine("FROM " + valTabla);
+            vSQL.AppendLine("INNER JOIN Adm.FormaDelCobro ON " + valTabla + ".ConsecutivoCompania = Adm.FormaDelCobro.ConsecutivoCompania ");
+            vSQL.AppendLine("AND " + valTabla + "." + valColumnaAnterior + " = Adm.FormaDelCobro.Codigo");
+            vDb.ExecuteWithScope(vSQL.ToString());
         }
     }
 }

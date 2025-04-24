@@ -129,8 +129,6 @@ namespace Galac.Adm.Ccl.Venta {
         Distribuido
     }
 
-    //Este Enumerativo eFormaDeCobro se debe revisar, en muchos casos no aplica. porfavor no usar.
-
     [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eFormaDeCobro {
         [LibEnumDescription("Efectivo", Index = 0)]
@@ -157,19 +155,19 @@ namespace Galac.Adm.Ccl.Venta {
         [LibEnumDescription("Vuelto Pago Móvil", Index = 0)]
         [LibEnumDescription("00008", Index = 1)]
         VueltoPM,
-        [LibEnumDescription("Tarjeta Medios Electrónicos")]
+        [LibEnumDescription("Tarjeta Medios Electrónicos", Index = 0)]
         [LibEnumDescription("00009", Index = 1)]
         TarjetaMS,
-        [LibEnumDescription("Zelle")]
+        [LibEnumDescription("Zelle", Index = 0)]
         [LibEnumDescription("00010", Index = 1)]
         Zelle,
-        [LibEnumDescription("P2C")]
+        [LibEnumDescription("Pago Móvil P2C", Index = 0)]
         [LibEnumDescription("00011", Index = 1)]
         PagoMovil,
-        [LibEnumDescription("Transferencia Medios Electrónicos")]
+        [LibEnumDescription("Transferencia Medios Electrónicos", Index = 0)]
         [LibEnumDescription("00012", Index = 1)]
         TransferenciaMS,
-        [LibEnumDescription("C2P")]
+        [LibEnumDescription("Pago Móvil C2P", Index = 0)]
         [LibEnumDescription("00013", Index = 1)]
         C2P,
         [LibEnumDescription("Depósito Medios Electrónicos", Index = 0)]
@@ -177,7 +175,19 @@ namespace Galac.Adm.Ccl.Venta {
         DepositoMS,
         [LibEnumDescription("Crédito Electrónico", Index = 0)]
         [LibEnumDescription("00015", Index = 1)]
-        CreditoElectronico
+        CreditoElectronico,
+        [LibEnumDescription("Tarjeta de Crédito", Index = 0)]
+        [LibEnumDescription("00016", Index = 1)]
+        TarjetadeCredito,
+        [LibEnumDescription("Tarjeta de Débito", Index = 0)]
+        [LibEnumDescription("00017", Index = 1)]
+        TarjetadeDebito,
+        [LibEnumDescription("Efectivo Divisas", Index = 0)]
+        [LibEnumDescription("00018", Index = 1)]
+        EfectivoDivisas,
+        [LibEnumDescription("Transferencia Divisas", Index = 0)]
+        [LibEnumDescription("00019", Index = 1)]
+        TransferenciaDivisas
     }      
 
     [TypeConverter(typeof(LibEnumTypeConverter))]
@@ -314,6 +324,12 @@ namespace Galac.Adm.Ccl.Venta {
         [LibEnumDescription("0175 Banco Bicentenario del Pueblo Banco Universal C.A.")] Bco_0175,
         [LibEnumDescription("0177 Banco de la Fuerza Armada Nacional Bolivariana B.U.")] Bco_0177,
         [LibEnumDescription("0191 Banco Nacional de Crédito C.A. Banco Universal")] Bco_0191
+    }
+
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eOrigen {
+        [LibEnumDescription("Sistema")] Sistema = 0,
+        [LibEnumDescription("Usuario")] Usuario
     }
 
 } //End of namespace namespace Galac.Saw.Ccl.Venta
