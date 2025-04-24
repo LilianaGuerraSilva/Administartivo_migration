@@ -249,4 +249,10 @@ namespace Galac.Saw.Ccl.Inventario {
         [LibEnumDescription("Ascendente")] Ascendente = 0,
         [LibEnumDescription("Descendente")] Descendente,        
     }
+
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eSeleccionAlmacen {
+        [LibEnumDescription("Todos")] Todos = 0,
+        [LibEnumDescription("Un Almacén")] UnAlmacen,
+    }
 } //End of namespace namespace Galac.Saw.Ccl.Inventario

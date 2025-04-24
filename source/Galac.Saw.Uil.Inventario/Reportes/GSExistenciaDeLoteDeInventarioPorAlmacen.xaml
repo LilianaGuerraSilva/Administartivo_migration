@@ -5,11 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:nsARRpt="clr-namespace:LibGalac.Aos.ARRpt;assembly=LibGalac.Aos.ARRpt"
     xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
-    d:DesignHeight="130"
     d:DesignWidth="250"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Height="150">
     <UserControl.Resources>
         <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -27,23 +27,23 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Label
-            Name="lblCodigoAlmacen"
+            Name="lblSeleccionAlmacen"
             Grid.Row="1"
             Grid.Column="0"
-            Content="Almacén"
+            Content="Seleccione Almacén"
             Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSSeekConnection
-            Name="txtCodigoAlmacen"
+        <nsWpfControls:GSComboBoxWpf
+            Name="cmbSeleccionAlmacen"
             Grid.Row="1"
             Grid.Column="1"
             Width="120"
             Height="23"
             Margin="3"
-            HorizontalAlignment="Left"
-            ConnectionValue="{Binding Path=CodigoAlmacenGenerico, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             IsEnabled="{Binding Path=IsEnabled}"
-            Model="{Binding ConexionAlmacenGenerico, Mode=TwoWay}"
-            SearchCommand="{Binding Path=ChooseAlmacenGenericoCommand}" />
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding Path=ArraySeleccionAlmacen}"
+            SelectedItem="{Binding Path=SeleccionAlmacen, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            Style="{StaticResource ComboBoxStyle}" />
         <Label
             Name="lblCodigoArticulo"
             Grid.Row="2"
@@ -78,5 +78,25 @@
             ConnectionValue="{Binding Path=CodigoLote, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             IsEnabled="{Binding Path=IsEnabled}"
             SearchCommand="{Binding Path=ChooseCodigoLoteCommand}" />
+        <Label
+            Name="lblCodigoAlmacen"
+            Grid.Row="3"
+            Grid.Column="0"
+            Content="Almacén"
+            Visibility="{Binding Path=IsVisibleCodigoAlmacen, Converter={StaticResource booleanToVisibilityConverter}}" Grid.ColumnSpan="2" Margin="0,29,126,-29"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSSeekConnection
+            Name="txtCodigoAlmacen"
+            Grid.Row="3"
+            Grid.Column="1"
+            Width="120"
+            Height="23"
+            Margin="0,31,0,-25"
+            HorizontalAlignment="Center"
+            ConnectionValue="{Binding Path=CodigoAlmacenGenerico, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+            IsEnabled="{Binding Path=IsEnabled}"
+            Model="{Binding ConexionAlmacenGenerico, Mode=TwoWay}"
+            SearchCommand="{Binding Path=ChooseAlmacenGenericoCommand}" 
+            Visibility="{Binding Path=IsVisibleCodigoAlmacen, Converter={StaticResource booleanToVisibilityConverter}}"/>
     </Grid>
 </UserControl>
