@@ -28,7 +28,6 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 
     class clsVersionTemporalNoOficial: clsVersionARestructurar {
 
-        IFormaDelCobroPdn _Reglas;
         public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
         public override bool UpdateToVersion() {
             StartConnectionNoTransaction();
@@ -49,6 +48,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             ActivaMostrarTotalEnDivisas();
             AgregarTablaExistenciaPorAlmacenDetLoteInv();
             DisposeConnectionNoTransaction();
+            ElimiarCrearRelacion();
             return true;
         }
 
@@ -270,25 +270,33 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             }
         }
 
-
         private void CrearTabFormaDelCobro() {
             if (!TableExists("Adm.FormaDelCobro")) {
-                new clsFormaDelCobroED().InstalarTabla();
-                _Reglas.InsertDefaultRecord(LibConvert.ToInt(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania")));
                 try {
-                    DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "dbo.renglonCobroDeFactura", "Saw.FormaDelCobro");
-                    CrearColumnaConsecutivoFormaDelCobro("dbo.renglonCobroDeFactura", "ConsecutivoFormaDelCobro", " CONSTRAINT d_RenCobDeFacCoFoDeCo NOT NULL");
-                    LlenarColumnaConsecutivoFormaDelCobro("dbo.renglonCobroDeFactura", "ConsecutivoFormaDelCobro", "Codigo");
+                    new clsFormaDelCobroED().InstalarTabla();
+                    DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Saw.FormaDelCobro", "dbo.renglonCobroDeFactura");
+                    CrearColumnaConsecutivoFormaDelCobro();
                     AddForeignKey("Adm.FormaDelCobro", "dbo.renglonCobroDeFactura", new string[] { "ConsecutivoCompania", "Consecutivo" }, new string[] { "ConsecutivoCompania", "ConsecutivoFormaDelCobro" }, false, false);
                     clsCompatViews.CrearVistaDboFormaDelCobro();
+                    InsertDefaultRecord();
+                    LlenarColumnaConsecutivoFormaDelCobro("dbo.renglonCobroDeFactura", "ConsecutivoFormaDelCobro", "CodigoFormaDelCobro");
                 } catch (GalacException vEx) {
                     throw vEx;
                 }
             }
         }
-        private void CrearColumnaConsecutivoFormaDelCobro(string valTabla, string valNombreColumna, string valConstraint) {
-            if (AddColumnInteger(valTabla, valNombreColumna, valConstraint, 0)) {
-                AddNotNullConstraint(valTabla, valNombreColumna, InsSql.NumericTypeForDb(10, 0));
+
+        private void ElimiarCrearRelacion() {
+            try {
+                //InsertRecordTablaVieja();
+            } catch (GalacException vEx) {
+                throw vEx;
+            }
+        }
+
+        private void CrearColumnaConsecutivoFormaDelCobro() {
+            if (AddColumnInteger("dbo.renglonCobroDeFactura", "ConsecutivoFormaDelCobro", " CONSTRAINT d_RenCobDeFacCoFoDeCo NOT NULL", 0)) {
+                AddNotNullConstraint("dbo.renglonCobroDeFactura", "ConsecutivoFormaDelCobro", InsSql.NumericTypeForDb(10, 0));
             }
         }
 
@@ -300,6 +308,93 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             vSQL.AppendLine("INNER JOIN Adm.FormaDelCobro ON " + valTabla + ".ConsecutivoCompania = Adm.FormaDelCobro.ConsecutivoCompania ");
             vSQL.AppendLine("AND " + valTabla + "." + valColumnaAnterior + " = Adm.FormaDelCobro.Codigo");
             vDb.ExecuteWithScope(vSQL.ToString());
+        }
+
+        void InsertDefaultRecord() {
+            InsertFormaDelCobroPorDefecto(1, "00001", "Efectivo", eFormaDeCobro.Efectivo, CodigosTheFactory(eFormaDeCobro.Efectivo));
+            InsertFormaDelCobroPorDefecto(2, "00002", "Tarjeta", eFormaDeCobro.Tarjeta, CodigosTheFactory(eFormaDeCobro.Tarjeta));
+            InsertFormaDelCobroPorDefecto(3, "00003", "Cheque", eFormaDeCobro.Cheque, CodigosTheFactory(eFormaDeCobro.Cheque));
+            InsertFormaDelCobroPorDefecto(4, "00004", "Depósito", eFormaDeCobro.Deposito, CodigosTheFactory(eFormaDeCobro.Deposito));
+            InsertFormaDelCobroPorDefecto(5, "00005", "Anticipo", eFormaDeCobro.Anticipo, CodigosTheFactory(eFormaDeCobro.Anticipo));
+            InsertFormaDelCobroPorDefecto(6, "00006", "Transferencia", eFormaDeCobro.Transferencia, CodigosTheFactory(eFormaDeCobro.Transferencia));
+            InsertFormaDelCobroPorDefecto(7, "00007", "Vuelto Efectivo", eFormaDeCobro.VueltoEfectivo, CodigosTheFactory(eFormaDeCobro.VueltoEfectivo));
+            InsertFormaDelCobroPorDefecto(8, "00008", "Vuelto Pago Móvil", eFormaDeCobro.VueltoPM, CodigosTheFactory(eFormaDeCobro.VueltoPM));
+            InsertFormaDelCobroPorDefecto(9, "00009", "Tarjeta Medios Electrónicos", eFormaDeCobro.TarjetaMS, CodigosTheFactory(eFormaDeCobro.TarjetaMS));
+            InsertFormaDelCobroPorDefecto(10, "00010", "Zelle", eFormaDeCobro.Zelle, CodigosTheFactory(eFormaDeCobro.Zelle));
+            InsertFormaDelCobroPorDefecto(11, "00011", "Pago Móvil P2C", eFormaDeCobro.PagoMovil, CodigosTheFactory(eFormaDeCobro.PagoMovil));
+            InsertFormaDelCobroPorDefecto(12, "00012", "Transferencia Medios Electrónicos", eFormaDeCobro.TransferenciaMS, CodigosTheFactory(eFormaDeCobro.TransferenciaMS));
+            InsertFormaDelCobroPorDefecto(13, "00013", "Pago Móvil C2P", eFormaDeCobro.C2P, CodigosTheFactory(eFormaDeCobro.C2P));
+            InsertFormaDelCobroPorDefecto(14, "00014", "Depósito Medios Electrónicos", eFormaDeCobro.DepositoMS, CodigosTheFactory(eFormaDeCobro.DepositoMS));
+            InsertFormaDelCobroPorDefecto(15, "00015", "Crédito Electrónico", eFormaDeCobro.CreditoElectronico, CodigosTheFactory(eFormaDeCobro.CreditoElectronico));
+            InsertFormaDelCobroPorDefecto(16, "00016", "Tarjeta de Crédito", eFormaDeCobro.TarjetadeCredito, CodigosTheFactory(eFormaDeCobro.TarjetadeCredito));
+            InsertFormaDelCobroPorDefecto(17, "00017", "Tarjeta de Débito", eFormaDeCobro.TarjetadeDebito, CodigosTheFactory(eFormaDeCobro.TarjetadeDebito));
+            InsertFormaDelCobroPorDefecto(18, "00018", "Efectivo Divisas", eFormaDeCobro.EfectivoDivisas, CodigosTheFactory(eFormaDeCobro.EfectivoDivisas));
+            InsertFormaDelCobroPorDefecto(19, "00019", "Transferencia Divisas", eFormaDeCobro.TransferenciaDivisas, CodigosTheFactory(eFormaDeCobro.TransferenciaDivisas));
+        }
+
+        private string CodigosTheFactory(eFormaDeCobro valFormaDelCobro) {
+            string vResult = "01";
+            switch (valFormaDelCobro) {
+                case eFormaDeCobro.Cheque:
+                    vResult = "07";
+                    break;
+                case eFormaDeCobro.Tarjeta:
+                case eFormaDeCobro.TarjetadeCredito:
+                case eFormaDeCobro.TarjetadeDebito:
+                case eFormaDeCobro.TarjetaMS:
+                    vResult = "13";
+                    break;
+                case eFormaDeCobro.Transferencia:
+                case eFormaDeCobro.TransferenciaMS:
+                case eFormaDeCobro.TransferenciaDivisas:
+                    vResult = "06";
+                    break;
+                case eFormaDeCobro.CreditoElectronico:
+                    vResult = "15";
+                    break;
+            }
+
+            return vResult;
+        }
+
+        void InsertFormaDelCobroPorDefecto(int valConsecutivo, string valCodigo, string valNombre, eFormaDeCobro valFormaDelCobro, string valCodigoTheFactory) {
+            QAdvSql insUtilSql = new QAdvSql("");
+            StringBuilder vSQL = new StringBuilder();
+            vSQL.AppendLine(";WITH CTE_SettValueCtaBancaria AS (SELECT ConsecutivoCompania, Value AS CtaBancaria FROM Comun.SettValueByCompany WHERE NameSettDefinition = 'CodigoGenericoCuentaBancaria')");
+            vSQL.AppendLine("INSERT INTO Adm.FormaDelCobro (ConsecutivoCompania, Consecutivo, Codigo,Nombre, TipoDePago, CodigoCuentaBancaria,CodigoTheFactory,Origen)");
+            vSQL.AppendLine("SELECT ConsecutivoCompania, " + insUtilSql.ToSqlValue(valConsecutivo) + " , " + insUtilSql.ToSqlValue(valCodigo) + " , " + insUtilSql.ToSqlValue(valNombre) + ", " + insUtilSql.EnumToSqlValue((int)valFormaDelCobro) + ", CtaBancaria, " + insUtilSql.ToSqlValue(valCodigoTheFactory) + ", " + insUtilSql.EnumToSqlValue((int)eOrigen.Sistema) + " FROM CTE_SettValueCtaBancaria");
+            LibBusiness.ExecuteUpdateOrDelete(vSQL.ToString(), new StringBuilder(), string.Empty, 0);
+        }
+
+
+        void InsertRecordTablaVieja() {
+            InsertFormaDelCobroTablaVieja(1, CodigosTheFactory(eFormaDeCobro.Efectivo));
+            InsertFormaDelCobroTablaVieja(2, CodigosTheFactory(eFormaDeCobro.Tarjeta));
+            InsertFormaDelCobroTablaVieja(3, CodigosTheFactory(eFormaDeCobro.Cheque));
+            InsertFormaDelCobroTablaVieja(4, CodigosTheFactory(eFormaDeCobro.Deposito));
+            InsertFormaDelCobroTablaVieja(5, CodigosTheFactory(eFormaDeCobro.Anticipo));
+            InsertFormaDelCobroTablaVieja(6, CodigosTheFactory(eFormaDeCobro.Transferencia));
+            InsertFormaDelCobroTablaVieja(7, CodigosTheFactory(eFormaDeCobro.VueltoEfectivo));
+            InsertFormaDelCobroTablaVieja(8, CodigosTheFactory(eFormaDeCobro.VueltoPM));
+            InsertFormaDelCobroTablaVieja(9, CodigosTheFactory(eFormaDeCobro.TarjetaMS));
+            InsertFormaDelCobroTablaVieja(10, CodigosTheFactory(eFormaDeCobro.Zelle));
+            InsertFormaDelCobroTablaVieja(11, CodigosTheFactory(eFormaDeCobro.PagoMovil));
+            InsertFormaDelCobroTablaVieja(12, CodigosTheFactory(eFormaDeCobro.TransferenciaMS));
+            InsertFormaDelCobroTablaVieja(13, CodigosTheFactory(eFormaDeCobro.C2P));
+            InsertFormaDelCobroTablaVieja(14, CodigosTheFactory(eFormaDeCobro.DepositoMS));
+            InsertFormaDelCobroTablaVieja(15, CodigosTheFactory(eFormaDeCobro.CreditoElectronico));
+            InsertFormaDelCobroTablaVieja(16, CodigosTheFactory(eFormaDeCobro.TarjetadeCredito));
+            InsertFormaDelCobroTablaVieja(17, CodigosTheFactory(eFormaDeCobro.TarjetadeDebito));
+            InsertFormaDelCobroTablaVieja(18, CodigosTheFactory(eFormaDeCobro.EfectivoDivisas));
+            InsertFormaDelCobroTablaVieja(19, CodigosTheFactory(eFormaDeCobro.TransferenciaDivisas));
+        }
+        void InsertFormaDelCobroTablaVieja(int valConsecutivo, string valCodigoTheFactory) {
+            QAdvSql insUtilSql = new QAdvSql("");
+            StringBuilder vSQL = new StringBuilder();
+            vSQL.AppendLine(";WITH CTE_SettValueCtaBancaria AS (SELECT ConsecutivoCompania, Value AS CtaBancaria FROM Comun.SettValueByCompany WHERE NameSettDefinition = 'CodigoGenericoCuentaBancaria')");
+            vSQL.AppendLine("INSERT INTO Adm.FormaDelCobro (ConsecutivoCompania, Consecutivo, Codigo,Nombre, TipoDePago, CodigoCuentaBancaria,CodigoTheFactory,Origen)");
+            vSQL.AppendLine("SELECT ConsecutivoCompania, " + insUtilSql.ToSqlValue(valConsecutivo) + " , Codigo, Nombre, TipoDePago, CtaBancaria, " + insUtilSql.ToSqlValue(valCodigoTheFactory) + ", " + insUtilSql.EnumToSqlValue((int)eOrigen.Usuario) + " FROM CTE_SettValueCtaBancaria");
+            LibBusiness.ExecuteUpdateOrDelete(vSQL.ToString(), new StringBuilder(), string.Empty, 0);
         }
     }
 }
