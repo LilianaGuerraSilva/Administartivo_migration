@@ -248,9 +248,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 if (vResult != null && vResult.HasElements) {
                     FacturaImprentaDigital = new FacturaRapida();
                     FacturaImprentaDigital.Numero = LibXml.GetPropertyString(vResult, "Numero");
-                    FacturaImprentaDigital.Fecha = LibConvert.ToDate(LibXml.GetPropertyString(vResult, "Fecha"));
+                    FacturaImprentaDigital.Fecha = LibImportData.ToDate(LibXml.GetPropertyString(vResult, "Fecha"));
                     FacturaImprentaDigital.HoraModificacion = LibXml.GetPropertyString(vResult, "HoraModificacion");
-                    FacturaImprentaDigital.FechaDeFacturaAfectada = LibConvert.ToDate(LibXml.GetPropertyString(vResult, "FechaDeFacturaAfectada"));
+                    FacturaImprentaDigital.FechaDeFacturaAfectada = LibImportData.ToDate(LibXml.GetPropertyString(vResult, "FechaDeFacturaAfectada"));
                     FacturaImprentaDigital.Observaciones = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "Observaciones"));
                     FacturaImprentaDigital.CodigoMoneda = LibXml.GetPropertyString(vResult, "MonedaDelDocumento");
                     FacturaImprentaDigital.CodigoMonedaDeCobro = LibXml.GetPropertyString(vResult, "MonedaDelCobro");
@@ -274,7 +274,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     FacturaImprentaDigital.NumeroControl = LibXml.GetPropertyString(vResult, "NumeroControl");
                     FacturaImprentaDigital.NumeroDesde = LibXml.GetPropertyString(vResult, "NumeroDesde");
                     FacturaImprentaDigital.NumeroHasta = LibXml.GetPropertyString(vResult, "NumeroHasta");
-                    FacturaImprentaDigital.NumeroDeCuotas = LibConvert.ToInt(LibXml.GetPropertyString(vResult, "NumeroDeCuotas"));
+                    FacturaImprentaDigital.NumeroDeCuotas = LibImportData.ToInt(LibXml.GetPropertyString(vResult, "NumeroDeCuotas"));
                     FacturaImprentaDigital.FormaDeCobro = LibXml.GetPropertyString(vResult, "FormaDeCobro");
                     FacturaImprentaDigital.FormaDePago = LibXml.GetPropertyString(vResult, "FormaDePago");
                     FacturaImprentaDigital.CodigoVendedor = LibXml.GetPropertyString(vResult, "CodigoVendedor");
@@ -345,7 +345,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     DetalleFacturaImprentaDigital = new List<FacturaRapidaDetalle>();
                     foreach (XElement vRowDetaill in ListDetaill) {
                         FacturaRapidaDetalle insFacturaRapidaDetalle = new FacturaRapidaDetalle();
-                        insFacturaRapidaDetalle.ConsecutivoRenglon = LibConvert.ToInt(LibXml.GetElementValueOrEmpty(vRowDetaill, "ConsecutivoRenglon"));
+                        insFacturaRapidaDetalle.ConsecutivoRenglon = LibImportData.ToInt(LibXml.GetElementValueOrEmpty(vRowDetaill, "ConsecutivoRenglon"));
                         insFacturaRapidaDetalle.Articulo = LibXml.GetElementValueOrEmpty(vRowDetaill, "Articulo");
                         insFacturaRapidaDetalle.Descripcion = LimpiarCaracteresNoValidos(LibXml.GetElementValueOrEmpty(vRowDetaill, "Descripcion"));
                         insFacturaRapidaDetalle.Cantidad = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "Cantidad"));
@@ -551,8 +551,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     FacturaImprentaDigital.Numero = LibXml.GetPropertyString(vResult, "Numero");
                     FacturaImprentaDigital.MotivoDeAnulacion = LibXml.GetPropertyString(vResult, "MotivoDeAnulacion");
                     FacturaImprentaDigital.StatusFactura = LibXml.GetPropertyString(vResult, "StatusFactura");
-                    FacturaImprentaDigital.GeneradaPorNotaEntregaAsBool = LibConvert.ToInt(LibXml.GetPropertyString(vResult, "GeneradaPorNotaEntrega")) == 1; // Hay que corregir la clase base
-                    FacturaImprentaDigital.ReservarMercanciaAsBool = LibConvert.SNToBool(LibXml.GetPropertyString(vResult, "ReservarMercancia"));
+                    FacturaImprentaDigital.GeneradaPorNotaEntregaAsBool = LibImportData.ToInt(LibXml.GetPropertyString(vResult, "GeneradaPorNotaEntrega")) == 1; // Hay que corregir la clase base
+                    FacturaImprentaDigital.ReservarMercanciaAsBool = LibImportData.SNToBool(LibXml.GetPropertyString(vResult, "ReservarMercancia"));
                     FacturaImprentaDigital.CodigoAlmacen = LibXml.GetPropertyString(vResult, "CodigoAlmacen");
                     FacturaImprentaDigital.EmitidaEnFacturaNumero = LibXml.GetPropertyString(vResult, "EmitidaEnFacturaNumero");
                     FacturaImprentaDigital.CodigoCliente = LibXml.GetPropertyString(vResult, "CodigoCliente");
@@ -596,8 +596,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     ComprobanteRetIVAImprentaDigital = new ComprobanteRetIVA();
                     ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion = LibXml.GetPropertyString(vResult, "NumeroComprobanteRetencion");
                     ComprobanteRetIVAImprentaDigital.CodigoProveedor = LibXml.GetPropertyString(vResult, "CodigoProveedor");
-                    ComprobanteRetIVAImprentaDigital.RetencionIvaEnviadaImpDigital = LibConvert.SNToBool(LibXml.GetPropertyString(vResult, "RetencionIvaEnviadaImpDigital"));
-                    ComprobanteRetIVAImprentaDigital.SeHizoLaRetencionIVA = LibConvert.SNToBool(LibXml.GetPropertyString(vResult, "SeHizoLaRetencionIva"));
+                    ComprobanteRetIVAImprentaDigital.RetencionIvaEnviadaImpDigital = LibImportData.SNToBool(LibXml.GetPropertyString(vResult, "RetencionIvaEnviadaImpDigital"));
+                    ComprobanteRetIVAImprentaDigital.SeHizoLaRetencionIVA = LibImportData.SNToBool(LibXml.GetPropertyString(vResult, "SeHizoLaRetencionIva"));
                     ComprobanteRetIVAImprentaDigital.ProveedorImprentaDigital = LibXml.GetPropertyString(vResult, "ProveedorImprentaDigital");
                     ComprobanteRetIVAImprentaDigital.TipoDeCxP = LibXml.GetPropertyString(vResult, "TipodeCxP");
                     ComprobanteRetIVAImprentaDigital.NumeroControl = LibXml.GetPropertyString(vResult, "NumeroControlRetencionIvaImpDigital");
@@ -709,17 +709,17 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 XElement vResult = LibBusiness.ExecuteSelect(vSql, vParam, "", 0);
                 if (vResult != null && vResult.HasElements) {
                     ComprobanteRetIVAImprentaDigital = new ComprobanteRetIVA();
-                    ComprobanteRetIVAImprentaDigital.TotalCXPComprobanteRetIva = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "TotalCXPComprobanteRetIva"), 2);
-                    ComprobanteRetIVAImprentaDigital.TotalCXP = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "TotalCXP"), 2);
+                    ComprobanteRetIVAImprentaDigital.TotalCXPComprobanteRetIva = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "TotalCXPComprobanteRetIva"), 2);
+                    ComprobanteRetIVAImprentaDigital.TotalCXP = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "TotalCXP"), 2);
                     ComprobanteRetIVAImprentaDigital.CodigoProveedor = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "CodigoProveedor"));
                     ComprobanteRetIVAImprentaDigital.CodigoMoneda = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "CodigoMoneda"));
-                    ComprobanteRetIVAImprentaDigital.FechaAplicacionRetIVA = LibConvert.ToDate(LibXml.GetPropertyString(vResult, "FechaAplicacionRetIVA"));
-                    ComprobanteRetIVAImprentaDigital.FechaDeVencimiento = LibConvert.ToDate(LibXml.GetPropertyString(vResult, "FechaVencimiento"));
-                    ComprobanteRetIVAImprentaDigital.MesDeAplicacion = LibConvert.ToInt(LibXml.GetPropertyString(vResult, "MesDeAplicacion"));
-                    ComprobanteRetIVAImprentaDigital.AnoDeAplicacion = LibConvert.ToInt(LibXml.GetPropertyString(vResult, "AnoDeAplicacion"));
+                    ComprobanteRetIVAImprentaDigital.FechaAplicacionRetIVA = LibImportData.ToDate(LibXml.GetPropertyString(vResult, "FechaAplicacionRetIVA"));
+                    ComprobanteRetIVAImprentaDigital.FechaDeVencimiento = LibImportData.ToDate(LibXml.GetPropertyString(vResult, "FechaVencimiento"));
+                    ComprobanteRetIVAImprentaDigital.MesDeAplicacion = LibImportData.ToInt(LibXml.GetPropertyString(vResult, "MesDeAplicacion"));
+                    ComprobanteRetIVAImprentaDigital.AnoDeAplicacion = LibImportData.ToInt(LibXml.GetPropertyString(vResult, "AnoDeAplicacion"));
                     ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NumeroComprobanteRetencion"));
-                    ComprobanteRetIVAImprentaDigital.PorcentajeRetencionAplicado = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "PorcentajeRetencionAplicado"), 2);
-                    ComprobanteRetIVAImprentaDigital.FechaDelDocOrigen = LibConvert.ToDate(LibXml.GetPropertyString(vResult, "FechaDelDocOrigen"));
+                    ComprobanteRetIVAImprentaDigital.PorcentajeRetencionAplicado = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "PorcentajeRetencionAplicado"), 2);
+                    ComprobanteRetIVAImprentaDigital.FechaDelDocOrigen = LibImportData.ToDate(LibXml.GetPropertyString(vResult, "FechaDelDocOrigen"));
                     ComprobanteRetIVAImprentaDigital.NumeroDeDocumento = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NumeroDeDocumento"));
                     ComprobanteRetIVAImprentaDigital.NumeroControl = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NumeroControl"));
                     ComprobanteRetIVAImprentaDigital.NumeroDeNotaDebito = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NumeroDeNotaDebito"));
@@ -727,25 +727,32 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     ComprobanteRetIVAImprentaDigital.TipoDeTransaccion = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "TipoDeTransaccion"));
                     ComprobanteRetIVAImprentaDigital.TipoDeCxP = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "TipoDeCxP"));
                     ComprobanteRetIVAImprentaDigital.NumeroDeFacturaAfectada = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NumeroDeFacturaAfectada"));
-                    ComprobanteRetIVAImprentaDigital.MontoExento = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "MontoExento"), 2);
-                    ComprobanteRetIVAImprentaDigital.MontoGravado = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "MontoGravado"), 2);
-                    ComprobanteRetIVAImprentaDigital.MontoIva = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "MontoIva"), 2);
-                    ComprobanteRetIVAImprentaDigital.MontoGravableAlicuotaGeneral = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "MontoGravableAlicuotaGeneral"), 2);
-                    ComprobanteRetIVAImprentaDigital.MontoGravableAlicuota2 = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "MontoGravableAlicuota2"), 2);
-                    ComprobanteRetIVAImprentaDigital.MontoGravableAlicuota3 = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "MontoGravableAlicuota3"), 2);
-                    ComprobanteRetIVAImprentaDigital.AlicuotaG = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "AlicuotaG"), 2);
-                    ComprobanteRetIVAImprentaDigital.Alicuota2 = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "Alicuota2"), 2);
-                    ComprobanteRetIVAImprentaDigital.Alicuota3 = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "Alicuota2"), 3);
-                    ComprobanteRetIVAImprentaDigital.MontoIVAAlicuotaGeneral = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "MontoIVAAlicuotaGeneral"), 2);
-                    ComprobanteRetIVAImprentaDigital.MontoIVAAlicuota2 = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "MontoIVAAlicuota2"), 2);
-                    ComprobanteRetIVAImprentaDigital.MontoIVAAlicuota3 = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "MontoIVAAlicuota3"), 2);
-                    ComprobanteRetIVAImprentaDigital.MontoRetenido = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "MontoRetenido"), 2);
-                    ComprobanteRetIVAImprentaDigital.AnoAplicRetIVA = LibConvert.ToInt(LibXml.GetPropertyString(vResult, "AnoAplicRetIVA"));
-                    ComprobanteRetIVAImprentaDigital.MesAplicRetIVA = LibConvert.ToInt(LibXml.GetPropertyString(vResult, "MesAplicRetIVA"));
+                    ComprobanteRetIVAImprentaDigital.MontoExento = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "MontoExento"), 2);
+                    ComprobanteRetIVAImprentaDigital.MontoGravado = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "MontoGravado"), 2);
+                    ComprobanteRetIVAImprentaDigital.MontoIva = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "MontoIva"), 2);
+                    ComprobanteRetIVAImprentaDigital.MontoGravableAlicuotaGeneral = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "MontoGravableAlicuotaGeneral"), 2);
+                    ComprobanteRetIVAImprentaDigital.MontoGravableAlicuota2 = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "MontoGravableAlicuota2"), 2);
+                    ComprobanteRetIVAImprentaDigital.MontoGravableAlicuota3 = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "MontoGravableAlicuota3"), 2);
+                    ComprobanteRetIVAImprentaDigital.AlicuotaG = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "AlicuotaG"), 2);
+                    ComprobanteRetIVAImprentaDigital.Alicuota2 = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "Alicuota2"), 2);
+                    ComprobanteRetIVAImprentaDigital.Alicuota3 = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "Alicuota2"), 3);
+                    ComprobanteRetIVAImprentaDigital.MontoIVAAlicuotaGeneral = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "MontoIVAAlicuotaGeneral"), 2);
+                    ComprobanteRetIVAImprentaDigital.MontoIVAAlicuota2 = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "MontoIVAAlicuota2"), 2);
+                    ComprobanteRetIVAImprentaDigital.MontoIVAAlicuota3 = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "MontoIVAAlicuota3"), 2);
+                    ComprobanteRetIVAImprentaDigital.MontoRetenido = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "MontoRetenido"), 2);
+                    ComprobanteRetIVAImprentaDigital.AnoAplicRetIVA = LibImportData.ToInt(LibXml.GetPropertyString(vResult, "AnoAplicRetIVA"));
+                    ComprobanteRetIVAImprentaDigital.MesAplicRetIVA = LibImportData.ToInt(LibXml.GetPropertyString(vResult, "MesAplicRetIVA"));
+                    ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion = GetNumeroComprobanteCompleto(ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion, ComprobanteRetIVAImprentaDigital.AnoAplicRetIVA, ComprobanteRetIVAImprentaDigital.MesAplicRetIVA);
+                } else {
+                    throw new GalacException("No existen Datos de Retención de IVA para esta CxP, por favor revisar.", eExceptionManagementType.Controlled);
                 }
             } catch (GalacException) {
                 throw new GalacException("No existen Datos de Retención de IVA para esta CxP, por favor revisar.", eExceptionManagementType.Controlled);
             }
+        }
+
+        private string GetNumeroComprobanteCompleto(string valNumeroComprobante, int valAnoComprobante, int valMesComprobante) {
+            return LibConvert.ToStr(valAnoComprobante) + LibString.Left("00" + LibConvert.ToStr(valMesComprobante), 2) + LibString.Left("00000000" + valNumeroComprobante, 8);
         }
 
         private string SqlDatosSujetoRetencionIVA(ref StringBuilder refParametros) {
@@ -1078,7 +1085,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 string vSql = SqlBuscarCxC(valCanceladas, ref vParams);
                 XElement vData = LibBusiness.ExecuteSelect(vSql, vParams, "", 0);
                 if (vData != null && vData.HasElements) {
-                    vResult = LibConvert.ToInt(LibXml.GetPropertyString(vData, "CountCxC"));
+                    vResult = LibImportData.ToInt(LibXml.GetPropertyString(vData, "CountCxC"));
                 }
                 return vResult;
             } catch (Exception) {
