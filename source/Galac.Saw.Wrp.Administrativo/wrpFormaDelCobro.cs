@@ -18,6 +18,7 @@ using Galac.Saw.Ccl.SttDef;
 using Galac.Adm.Ccl.Venta;
 using LibGalac.Aos.Brl;
 using System.Xml.Linq;
+using Galac.Saw.Wrp.FormaDelCobro;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Tablas {
 #elif IsExeBsS​
@@ -28,7 +29,7 @@ namespace Galac.Saw.Wrp.FormaDelCobro {
 
     [ClassInterface(ClassInterfaceType.None)]
 
-    public class wrpFormaDelCobro: System.EnterpriseServices.ServicedComponent, IWrpVbFormaDelCobro {
+    public class wrpFormaDelCobro: System.EnterpriseServices.ServicedComponent, IWrpFormaDelCobroVb {
         #region Variables
         string _Title = "Forma Del Cobro";
         IFormaDelCobroPdn _Reglas;
@@ -47,7 +48,7 @@ namespace Galac.Saw.Wrp.FormaDelCobro {
         #region Metodos Generados
         #region Miembros de IWrpVb
 
-        void IWrpVbFormaDelCobro.Execute(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
+        void IWrpFormaDelCobroVb.Execute(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
             try {
                 LibGlobalValues insGV = CreateGlobalValues(vfwCurrentMfc, vfwCurrentParameters);
                 ILibMenu insMenu = new Galac.Adm.Uil.Venta.clsFormaDelCobroMenu();
@@ -62,7 +63,7 @@ namespace Galac.Saw.Wrp.FormaDelCobro {
             }
         }
 
-        string IWrpVbFormaDelCobro.Choose(string vfwParamInitializationList, string vfwParamFixedList) {
+        string IWrpFormaDelCobroVb.Choose(string vfwParamInitializationList, string vfwParamFixedList) {
             string vResult = "";
             LibSearch insLibSearch = new LibSearch();
             List<LibSearchDefaultValues> vSearchValues = new List<LibSearchDefaultValues>();
@@ -86,7 +87,7 @@ namespace Galac.Saw.Wrp.FormaDelCobro {
             return "";
         }
 
-        void IWrpVbFormaDelCobro.InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath) {
+        void IWrpFormaDelCobroVb.InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath) {
             try {
                 LibWrp.SetAppConfigToCurrentDomain(vfwPath);
                 LibWrpHelper.ConfigureRuntimeContext(vfwLogin, vfwPassword);
@@ -98,7 +99,7 @@ namespace Galac.Saw.Wrp.FormaDelCobro {
             }
         }
 
-        void IWrpVbFormaDelCobro.InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO, bool vfwUsePASOnLine) {
+        void IWrpFormaDelCobroVb.InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO, bool vfwUsePASOnLine) {
             try {
                 string vLogicUnitDir = LibGalac.Aos.Cnf.LibAppSettings.ULS;
                 LibGalac.Aos.DefGen.LibDefGen.InitializeProgramInfo(vfwProgramInitials, vfwProgramVersion, vfwDbVersion, LibConvert.ToDate(vfwStrDateOfVersion), vfwStrHourOfVersion, "", vfwCountry, LibConvert.ToInt(vfwCMTO));
@@ -111,7 +112,7 @@ namespace Galac.Saw.Wrp.FormaDelCobro {
             }
         }
 
-        void IWrpVbFormaDelCobro.InitializeContext(string vfwInfo) {
+        void IWrpFormaDelCobroVb.InitializeContext(string vfwInfo) {
             try {
                 LibGalac.Aos.DefGen.LibDefGen.Initialize(vfwInfo);
             } catch (Exception vEx) {
@@ -128,7 +129,7 @@ namespace Galac.Saw.Wrp.FormaDelCobro {
             return LibGlobalValues.Instance;
         }
 
-        void IWrpVbFormaDelCobro.InsertaValoresPorDefecto(string valCurrentMfc) {
+        void IWrpFormaDelCobroVb.InsertaValoresPorDefecto(string valCurrentMfc) {
             try {
                 LibGlobalValues insGV = CreateGlobalValues(valCurrentMfc, "");
                 RegistraCliente();
@@ -143,7 +144,7 @@ namespace Galac.Saw.Wrp.FormaDelCobro {
             }
         }
 
-        XElement IWrpVbFormaDelCobro.SearchByField(string valConsecutivoCompania, string valCodigo) {
+        XElement IWrpFormaDelCobroVb.SearchByField(string valConsecutivoCompania, string valCodigo) {
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("ConsecutivoCompania", LibConvert.ToInt(valConsecutivoCompania));
             vParams.AddInString("Codigo", valCodigo, 5);

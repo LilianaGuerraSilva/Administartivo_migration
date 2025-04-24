@@ -154,6 +154,7 @@
     <Compile Include="IWrpNotaDeEntradaSalida.cs" />
     <Compile Include="IWrpRutaDeComercializacionVb.cs" />
     <Compile Include="IWrpOrdenDeProduccionVb.cs" />
+    <Compile Include="IWrpFormaDelCobroVb.cs" />
     <Compile Include="IWrpTransferenciaEntreCuentasBancariasVb.cs" />
     <Compile Include="IWrpVendedorVb.cs" />
     <Compile Include="IWrpVenta.cs" />

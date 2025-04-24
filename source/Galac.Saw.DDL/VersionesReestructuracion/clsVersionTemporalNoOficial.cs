@@ -22,6 +22,7 @@ using LibGalac.Aos.DefGen;
 using Galac.Adm.Dal.Venta;
 using Galac.Saw.Dal.Inventario;
 using Galac.Adm.Ccl.Venta;
+using LibGalac.Aos.Catching;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
 
@@ -191,7 +192,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
                 AddDefaultConstraint("Saw.ReglasDeContabilizacion", "d_RegDeConCuFacCxCCreEle", _insSql.ToSqlValue(""), "CuentaFacturacionCxCCreditoElectronico");
             }
         }
-		
+
         private void AgregarDefaultValueOtrosCargos() {
             if (ColumnExists("dbo.otrosCargosDeFactura", "Status")) {
                 AddDefaultConstraint("dbo.otrosCargosDeFactura", "d_otrCarDeFacSt", "'0'", "Status");
@@ -266,10 +267,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
                 vSqlSb.AppendLine("			Saw.LoteDeInventario.Consecutivo,");
                 vSqlSb.AppendLine("			ExistenciaPorAlmacen.Ubicacion");
                 Execute(vSqlSb.ToString(), 0);
-            }       
+            }
         }
 
-        }
 
         private void CrearTabFormaDelCobro() {
             if (!TableExists("Adm.FormaDelCobro")) {
