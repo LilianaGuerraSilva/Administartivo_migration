@@ -362,6 +362,10 @@
     <Compile Include="clsBackupSettings.cs" />
     <Compile Include="clsDefProg.cs" />
     <Compile Include="clsRestoreSettings.cs" />
+    <Compile Include="NegocioTemporal\clsGVParametrosActivoTemporal.cs" />
+    <Compile Include="NegocioTemporal\clsGVParametrosCompaniaTemporal.cs" />
+    <Compile Include="NegocioTemporal\clsGVParametrosConciliacionTemporal.cs" />
+    <Compile Include="NegocioTemporal\clsGVParametrosGenTemporal.cs" />
     <Compile Include="ViewModel\ShellViewModel.cs" />
     <Compile Include="Views\ShellWindow.xaml.cs">
       <DependentUpon>ShellWindow.xaml</DependentUpon>
