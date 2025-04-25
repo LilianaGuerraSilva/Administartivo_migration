@@ -56,7 +56,6 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine(", CONSTRAINT fk_FormaDelCobroCuentaBancaria FOREIGN KEY (ConsecutivoCompania,CodigoCuentaBancaria)");
             SQL.AppendLine("REFERENCES Saw.CuentaBancaria(ConsecutivoCompania,Codigo)");
             SQL.AppendLine(",CONSTRAINT u_ForDelCobniaigo UNIQUE NONCLUSTERED (ConsecutivoCompania,Codigo)");
-            SQL.AppendLine(",CONSTRAINT u_ForDelCobniabre UNIQUE NONCLUSTERED (ConsecutivoCompania,Nombre)");
             SQL.AppendLine(")");
             return SQL.ToString();
         }
