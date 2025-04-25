@@ -277,60 +277,56 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
                     CrearColumnaConsecutivoFormaDelCobro();
                     InsertDefaultRecord();
                     InsertarFormasDeCobroCreadasPorUsuario();
-                    //InsertarFormasDeCobroModificadasPorUsuario();
-                    //ActualizarConsecutivoFormaDelCobro();
-                    //AddForeignKey("Adm.FormaDelCobro", "dbo.renglonCobroDeFactura", new string[] { "ConsecutivoCompania", "Consecutivo" }, new string[] { "ConsecutivoCompania", "ConsecutivoFormaDelCobro" }, false, false);
+                    InsertarFormasDeCobroModificadasPorUsuario();
+                    ActualizarConsecutivoFormaDelCobro();
+                    AddForeignKey("Adm.FormaDelCobro", "dbo.renglonCobroDeFactura", new string[] { "ConsecutivoCompania", "Consecutivo" }, new string[] { "ConsecutivoCompania", "ConsecutivoFormaDelCobro" }, false, false);
                 } catch (GalacException vEx) {
                     throw vEx;
                 }
             }
         }
+
         void InsertarFormasDeCobroCreadasPorUsuario() {
             LibTrn insTrn = new LibTrn();
             insTrn.StartConnectionNoTransaction();
             string vSqlCompanias = "SELECT ConsecutivoCompania, Value AS CtaBancaria FROM Comun.SettValueByCompany WHERE NameSettDefinition = 'CodigoGenericoCuentaBancaria'";
             string vSqlUpdatesCodigoFormasDeCobroInsertadas = SqlUpdatesCodigoFormasDeCobroInsertadas();
-            //DataTable vDtUpdates = new LibDataReport().GetDataTable(vSqlUpdatesCodigoFormasDeCobroInsertadas, 0);
-            //DataTable vDtCia = new LibDataReport().GetDataTableForReport(vSqlCompanias, 0);
             DataSet vDsUpdates = insTrn.ExecuteDataset(vSqlUpdatesCodigoFormasDeCobroInsertadas, 0);
             DataSet vDsCia = insTrn.ExecuteDataset(vSqlCompanias, 0);
-
             if (vDsCia != null && vDsCia.Tables != null && vDsCia.Tables.Count > 0 && vDsCia.Tables[0] != null && LibDataTable.DataTableHasRows(vDsCia.Tables[0])) {
                 if (vDsUpdates != null && vDsUpdates.Tables != null && vDsUpdates.Tables.Count > 0 && vDsUpdates.Tables[0] != null && LibDataTable.DataTableHasRows(vDsUpdates.Tables[0])) {
-                    LibIO.WriteLineInFile(@"C:\Temp\x.txt", vDsCia.Tables[0].Rows.Count.ToString(), true);
-                    LibIO.WriteLineInFile(@"C:\Temp\x.txt", "\n\n", true);
                     foreach (DataRow vRow in vDsCia.Tables[0].Rows) {
                         int vConsecutivoCompania = LibConvert.ToInt(vRow["ConsecutivoCompania"].ToString());
                         string vCodigoCtaBancaria = LibConvert.ToStr(vRow["CtaBancaria"].ToString());
                         string vSql = SqlInsertarFormasDeCobroInsertadas(vConsecutivoCompania, vCodigoCtaBancaria);
-                        LibIO.WriteLineInFile(@"C:\Temp\x.txt", vSql, true);
-                        LibBusiness.ExecuteSelect(vSql, new StringBuilder(), "", 0);
+                        LibBusiness.ExecuteUpdateOrDelete(vSql, new StringBuilder(), "", 0);
                     }
                     foreach (DataRow vRow in vDsUpdates.Tables[0].Rows) {
                         string vSql = LibConvert.ToStr(vRow["UpdateCambioCodigo"].ToString());
-                        LibBusiness.ExecuteSelect(vSql, new StringBuilder(), "", 0);
+                        LibBusiness.ExecuteUpdateOrDelete(vSql, new StringBuilder(), "", 0);
                     }
                 }
-
             }
         }
 
         void InsertarFormasDeCobroModificadasPorUsuario() {
+            LibTrn insTrn = new LibTrn();
+            insTrn.StartConnectionNoTransaction();
             string vSqlCompanias = "SELECT ConsecutivoCompania, Value AS CtaBancaria FROM Comun.SettValueByCompany WHERE NameSettDefinition = 'CodigoGenericoCuentaBancaria'";
             string vSqlUpdatesCodigoFormasDeCobroModificadas = SqlUpdatesCodigoFormasDeCobroModificadas();
-            DataTable vDtUpdates = new LibDataReport().GetDataTable(vSqlUpdatesCodigoFormasDeCobroModificadas, 0);
-            DataTable vDtCia = new LibDataReport().GetDataTableForReport(vSqlCompanias, 0);
-            if (LibDataTable.DataTableHasRows(vDtCia) && (LibDataTable.DataTableHasRows(vDtUpdates))) {
-                for (int i = 0; i < vDtCia.Rows.Count; i++) {
-                    int vConsecutivoCompania = LibConvert.ToInt(vDtCia.Rows[i]["ConsecutivoCompania"].ToString());
-                    string vCodigoCtaBancaria = LibConvert.ToStr(vDtCia.Rows[i]["CtaBancaria"].ToString());
-                    string vSql = SqlInsertarFormasDeCobroModificadas(vConsecutivoCompania, vCodigoCtaBancaria);
-                    LibBusiness.ExecuteSelect(vSql, new StringBuilder(), "", 0);
-                }
-                if (LibDataTable.DataTableHasRows(vDtUpdates)) {
-                    for (int i = 0; i < vDtUpdates.Rows.Count; i++) {
-                        string vSql = LibConvert.ToStr(vDtUpdates.Rows[i]["UpdateCambioCodigo"].ToString());
-                        LibBusiness.ExecuteSelect(vSql, new StringBuilder(), "", 0);
+            DataSet vDsUpdates = insTrn.ExecuteDataset(vSqlUpdatesCodigoFormasDeCobroModificadas, 0);
+            DataSet vDsCia = insTrn.ExecuteDataset(vSqlCompanias, 0);
+            if (vDsCia != null && vDsCia.Tables != null && vDsCia.Tables.Count > 0 && vDsCia.Tables[0] != null && LibDataTable.DataTableHasRows(vDsCia.Tables[0])) {
+                if (vDsUpdates != null && vDsUpdates.Tables != null && vDsUpdates.Tables.Count > 0 && vDsUpdates.Tables[0] != null && LibDataTable.DataTableHasRows(vDsUpdates.Tables[0])) {
+                    foreach (DataRow vRow in vDsCia.Tables[0].Rows) {
+                        int vConsecutivoCompania = LibConvert.ToInt(vRow["ConsecutivoCompania"].ToString());
+                        string vCodigoCtaBancaria = LibConvert.ToStr(vRow["CtaBancaria"].ToString());
+                        string vSql = SqlInsertarFormasDeCobroModificadas(vConsecutivoCompania, vCodigoCtaBancaria);
+                        LibBusiness.ExecuteUpdateOrDelete(vSql, new StringBuilder(), "", 0);
+                    }
+                    foreach (DataRow vRow in vDsUpdates.Tables[0].Rows) {
+                        string vSql = LibConvert.ToStr(vRow["UpdateCambioCodigo"].ToString());
+                        LibBusiness.ExecuteUpdateOrDelete(vSql, new StringBuilder(), "", 0);
                     }
                 }
             }
@@ -340,10 +336,10 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             StringBuilder vSql = new StringBuilder();
             vSql.AppendLine(";WITH ");
             vSql.AppendLine("CTE_FormasDelCobroModificadas AS (");
-            vSql.AppendLine("SELECT ROW_NUMBER() OVER(ORDER BY TablaNueva.Nombre ASC) + (SELECT DISTINCT COUNT(*) FROM Adm.FormaDelCobro GROUP BY ConsecutivoCompania) ConsecutivoNuevo,");
+            vSql.AppendLine("SELECT ROW_NUMBER() OVER(ORDER BY TablaNueva.Nombre ASC) + (SELECT DISTINCT COUNT(*) FROM Adm.FormaDelCobro WHERE ConsecutivoCompania = " + InsSql.ToSqlValue(valConsecutivoCompania) + " GROUP BY ConsecutivoCompania) ConsecutivoNuevo,");
             vSql.AppendLine("    TablaVieja.Nombre, TablaVieja.TipoDePago");
             vSql.AppendLine("FROM Saw.FormaDelCobro AS TablaVieja LEFT JOIN Adm.FormaDelCobro AS TablaNueva ");
-            vSql.AppendLine("    ON TablaVieja.Nombre = TablaNueva.Nombre ");
+            vSql.AppendLine("    ON TablaVieja.Nombre = TablaNueva.Nombre AND TablaNueva.ConsecutivoCompania = " + InsSql.ToSqlValue(valConsecutivoCompania));
             vSql.AppendLine("WHERE TablaNueva.Nombre IS NULL ");
             vSql.AppendLine(")");
             vSql.AppendLine("INSERT INTO Adm.FormaDelCobro (ConsecutivoCompania, Consecutivo, Codigo, Nombre, TipoDePago, CodigoCuentaBancaria, CodigoTheFactory, Origen)");
