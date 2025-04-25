@@ -1218,8 +1218,13 @@ namespace Galac.Saw.Brl.SttDef {
         private RetencionIVAStt RetencionIVAStttPorDefecto() {
             RetencionIVAStt insEntidad = new RetencionIVAStt();
             insEntidad.NumeroDeCopiasComprobanteRetencionIVA = 1;
-            insEntidad.EnDondeRetenerIVAAsEnum = eDondeSeEfectuaLaRetencionIVA.NoRetenida;
-            insEntidad.PrimerNumeroComprobanteRetIVA = 0;
+            if (new clsLibSaw().EsFacturadorBasico()) {
+                insEntidad.EnDondeRetenerIVAAsEnum = eDondeSeEfectuaLaRetencionIVA.CxP;
+                insEntidad.PrimerNumeroComprobanteRetIVA = 1;
+            } else {
+                insEntidad.EnDondeRetenerIVAAsEnum = eDondeSeEfectuaLaRetencionIVA.NoRetenida;
+                insEntidad.PrimerNumeroComprobanteRetIVA = 0;
+            }
             insEntidad.FormaDeReiniciarElNumeroDeComprobanteRetIVAAsEnum = eFormaDeReiniciarComprobanteRetIVA.AlCompletar;
             insEntidad.ImprimirComprobanteDeRetIVAAsBool = true;
             insEntidad.NombrePlantillaComprobanteDeRetIVA = "rpxComprobanteDeRetencionIVA";

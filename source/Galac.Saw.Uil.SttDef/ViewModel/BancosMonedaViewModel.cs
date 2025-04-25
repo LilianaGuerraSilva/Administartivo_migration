@@ -18,6 +18,7 @@ using LibGalac.Aos.Uil;
 using Galac.Comun.Ccl.TablasGen;
 using Galac.Comun.Brl.TablasGen;
 using System.Text;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class BancosMonedaViewModel:LibInputViewModelMfc<MonedaStt> {
@@ -405,7 +406,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private ValidationResult UsaDivisaComoMonedaPrincipalDeIngresoDeDatosValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
                 StringBuilder vResponse = new StringBuilder();
@@ -413,29 +414,34 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 vResponse.AppendLine($"Para usar el parámetro {this.ModuleName} - Usar Divisa como Moneda Principal de Ingreso de Datos, debe ajustar los siguientes parámetros previamente:");
                 vResponse.AppendLine();
                 FacturaFacturacionContViewModel vFacturaFacturacionContViewModel = ParametrosViewModel.ModuleList[1].Groups[1].Content as FacturaFacturacionContViewModel;
-                BancosAnticipoViewModel vBancosAnticipoViewModel = ParametrosViewModel.ModuleList[6].Groups[2].Content as BancosAnticipoViewModel;
+                FkCuentaBancariaViewModel vCuentaBancariaGenericaAnticipo = null;
+                BancosAnticipoViewModel vBancosAnticipoViewModel = null;
+                if (!new clsLibSaw().EsFacturadorBasico()) {
+                    vBancosAnticipoViewModel = ParametrosViewModel.ModuleList[6].Groups[2].Content as BancosAnticipoViewModel;
+                    vCuentaBancariaGenericaAnticipo = vBancosAnticipoViewModel.ConexionCuentaBancariaAnticipo;
+                }
                 bool vUsaCobroDirecto = vFacturaFacturacionContViewModel.UsaCobroDirecto;
                 bool vUsaCobroMultimoneda = vFacturaFacturacionContViewModel.UsaCobroDirectoEnMultimoneda;
                 bool vUsaListaDePrecioEnMonedaExtranjera = vFacturaFacturacionContViewModel.UsaListaDePrecioEnMonedaExtranjera;
                 bool vMostrarTotalEnDivisa = vFacturaFacturacionContViewModel.SeMuestraTotalEnDivisas;
-                FkCuentaBancariaViewModel vCuentaBancariaGenericaAnticipo = vBancosAnticipoViewModel.ConexionCuentaBancariaAnticipo;
-                if(vUsaCobroDirecto && !vUsaCobroMultimoneda) {
+
+                if (vUsaCobroDirecto && !vUsaCobroMultimoneda) {
                     vResponse.AppendLine($"- Activar {vFacturaFacturacionContViewModel.ModuleName} - Usa Cobro Directo en Multimoneda.");
                     vRequirementsAreMissing = true;
                 }
-                if(!vUsaListaDePrecioEnMonedaExtranjera) {
+                if (!vUsaListaDePrecioEnMonedaExtranjera) {
                     vResponse.AppendLine($"- Activar {vFacturaFacturacionContViewModel.ModuleName} - Usar Lista de Precios en Moneda Extranjera.");
                     vRequirementsAreMissing = true;
                 }
-                if(!vMostrarTotalEnDivisa) {
+                if (!vMostrarTotalEnDivisa) {
                     vResponse.AppendLine($"- Activar {vFacturaFacturacionContViewModel.ModuleName} - Mostrar Total en Divisas.");
                     vRequirementsAreMissing = true;
                 }
-                if(vCuentaBancariaGenericaAnticipo.CodigoMoneda != CodigoMonedaExtranjera) {
+                if (vCuentaBancariaGenericaAnticipo != null && vCuentaBancariaGenericaAnticipo.CodigoMoneda != CodigoMonedaExtranjera) {
                     vResponse.AppendLine($"- Asignar cuenta en moneda extranjera ({CodigoMonedaExtranjera} - {NombreMonedaExtranjera}) en {vBancosAnticipoViewModel.ModuleName} - Cuenta Bancaria Genérica.");
                     vRequirementsAreMissing = true;
                 }
-                if(UsaDivisaComoMonedaPrincipalDeIngresoDeDatos && vRequirementsAreMissing) {
+                if (UsaDivisaComoMonedaPrincipalDeIngresoDeDatos && vRequirementsAreMissing) {
                     vResult = new ValidationResult(vResponse.ToString());
                 }
             }

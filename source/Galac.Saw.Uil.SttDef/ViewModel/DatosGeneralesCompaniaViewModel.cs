@@ -14,9 +14,10 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
-    public class DatosGeneralesCompaniaViewModel:LibInputViewModelMfc<CompaniaStt> {
+    public class DatosGeneralesCompaniaViewModel: LibInputViewModelMfc<CompaniaStt> {
         #region Constantes
         public const string AutorellenaResumenDiarioPropertyName = "AutorellenaResumenDiario";
         public const string EsAsociadoEnCtaDeParticipacionPropertyName = "EsAsociadoEnCtaDeParticipacion";
@@ -43,6 +44,24 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string BaseDeCalculoParaAlicuotaEspecialPropertyName = "BaseDeCalculoParaAlicuotaEspecial";
 
         #endregion
+
+        #region Variables
+        bool mEsFacturadorBasico;
+        #endregion
+
+        #region Constructores
+        public DatosGeneralesCompaniaViewModel()
+           : this(new CompaniaStt(), eAccionSR.Insertar) {
+        }
+
+        public DatosGeneralesCompaniaViewModel(CompaniaStt initModel, eAccionSR initAction)
+           : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
+            DefaultFocusedPropertyName = AutorellenaResumenDiarioPropertyName;
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
+            //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
+        }
+        #endregion //Constructores
+
         #region Propiedades
 
         public override string ModuleName {
@@ -54,7 +73,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.AutorellenaResumenDiarioAsBool;
             }
             set {
-                if(Model.AutorellenaResumenDiarioAsBool != value) {
+                if (Model.AutorellenaResumenDiarioAsBool != value) {
                     Model.AutorellenaResumenDiarioAsBool = value;
                     IsDirty = true;
                     RaisePropertyChanged(AutorellenaResumenDiarioPropertyName);
@@ -67,7 +86,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.EsAsociadoEnCtaDeParticipacionAsBool;
             }
             set {
-                if(Model.EsAsociadoEnCtaDeParticipacionAsBool != value) {
+                if (Model.EsAsociadoEnCtaDeParticipacionAsBool != value) {
                     Model.EsAsociadoEnCtaDeParticipacionAsBool = value;
                     IsDirty = true;
                     RaisePropertyChanged(EsAsociadoEnCtaDeParticipacionPropertyName);
@@ -81,7 +100,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.FechaDeInicioContabilizacion;
             }
             set {
-                if(Model.FechaDeInicioContabilizacion != value) {
+                if (Model.FechaDeInicioContabilizacion != value) {
                     Model.FechaDeInicioContabilizacion = value;
                     IsDirty = true;
                     RaisePropertyChanged(FechaDeInicioContabilizacionPropertyName);
@@ -95,7 +114,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.FechaMinimaIngresarDatos;
             }
             set {
-                if(Model.FechaMinimaIngresarDatos != value) {
+                if (Model.FechaMinimaIngresarDatos != value) {
                     Model.FechaMinimaIngresarDatos = value;
                     IsDirty = true;
                     RaisePropertyChanged(FechaMinimaIngresarDatosPropertyName);
@@ -108,7 +127,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.IntegracionRISAsBool;
             }
             set {
-                if(Model.IntegracionRISAsBool != value) {
+                if (Model.IntegracionRISAsBool != value) {
                     Model.IntegracionRISAsBool = value;
                     IsDirty = true;
                     RaisePropertyChanged(IntegracionRISPropertyName);
@@ -121,10 +140,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.UsarVentasConIvaDiferidoAsBool;
             }
             set {
-                if(Model.UsarVentasConIvaDiferidoAsBool != value) {
+                if (Model.UsarVentasConIvaDiferidoAsBool != value) {
                     Model.UsarVentasConIvaDiferidoAsBool = value;
                     IsDirty = true;
-                    if(Model.UsarVentasConIvaDiferidoAsBool == false) {
+                    if (Model.UsarVentasConIvaDiferidoAsBool == false) {
                         Model.ImprimirVentasDiferidasAsBool = false;
                         RaisePropertyChanged(ImprimirVentasDiferidasPropertyName);
                     }
@@ -139,7 +158,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.ImprimirVentasDiferidasAsBool;
             }
             set {
-                if(Model.ImprimirVentasDiferidasAsBool != value) {
+                if (Model.ImprimirVentasDiferidasAsBool != value) {
                     Model.ImprimirVentasDiferidasAsBool = value;
                     IsDirty = true;
                     RaisePropertyChanged(ImprimirVentasDiferidasPropertyName);
@@ -153,10 +172,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.AplicarIVAEspecialAsBool;
             }
             set {
-                if(Model.AplicarIVAEspecialAsBool != value) {
+                if (Model.AplicarIVAEspecialAsBool != value) {
                     Model.AplicarIVAEspecialAsBool = value;
                     IsDirty = true;
-                    if(Model.AplicarIVAEspecialAsBool == false) {
+                    if (Model.AplicarIVAEspecialAsBool == false) {
                         Model.FacturarPorDefectoIvaEspecialAsBool = false;
                         AplicacionAlicuotaEspecial = eAplicacionAlicuota.No_Aplica;
                         BaseDeCalculoParaAlicuotaEspecial = eBaseCalculoParaAlicuotaEspecial.Solo_Base_Imponible_Alicuota_General;
@@ -181,7 +200,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.ImprimirMensajeAplicacionDecretoAsBool;
             }
             set {
-                if(Model.ImprimirMensajeAplicacionDecretoAsBool != value) {
+                if (Model.ImprimirMensajeAplicacionDecretoAsBool != value) {
                     Model.ImprimirMensajeAplicacionDecretoAsBool = value;
                     IsDirty = true;
                     RaisePropertyChanged(ImprimirMensajeAplicacionDecretoPropertyName);
@@ -194,7 +213,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.FacturarPorDefectoIvaEspecialAsBool;
             }
             set {
-                if(Model.FacturarPorDefectoIvaEspecialAsBool != value) {
+                if (Model.FacturarPorDefectoIvaEspecialAsBool != value) {
                     Model.FacturarPorDefectoIvaEspecialAsBool = value;
                     IsDirty = true;
                     RaisePropertyChanged(FacturarPorDefectoIvaEspecialPropertyName);
@@ -207,7 +226,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.TipoDeAgrupacionParaLibrosDeVentaAsEnum;
             }
             set {
-                if(Model.TipoDeAgrupacionParaLibrosDeVentaAsEnum != value) {
+                if (Model.TipoDeAgrupacionParaLibrosDeVentaAsEnum != value) {
                     Model.TipoDeAgrupacionParaLibrosDeVentaAsEnum = value;
                     IsDirty = true;
                     RaisePropertyChanged(TipoDeAgrupacionParaLibrosDeVentaPropertyName);
@@ -220,7 +239,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.TipoNegocioAsEnum;
             }
             set {
-                if(Model.TipoNegocioAsEnum != value) {
+                if (Model.TipoNegocioAsEnum != value) {
                     Model.TipoNegocioAsEnum = value;
                     IsDirty = true;
                     RaisePropertyChanged(TipoNegocioPropertyName);
@@ -233,7 +252,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.VerificarDocumentoSinContabilizarAsBool;
             }
             set {
-                if(Model.VerificarDocumentoSinContabilizarAsBool != value) {
+                if (Model.VerificarDocumentoSinContabilizarAsBool != value) {
                     Model.VerificarDocumentoSinContabilizarAsBool = value;
                     IsDirty = true;
                     RaisePropertyChanged(VerificarDocumentoSinContabilizarPropertyName);
@@ -246,7 +265,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.AplicacionAlicuotaEspecialAsEnum;
             }
             set {
-                if(Model.AplicacionAlicuotaEspecialAsEnum != value) {
+                if (Model.AplicacionAlicuotaEspecialAsEnum != value) {
                     Model.AplicacionAlicuotaEspecialAsEnum = value;
                     IsDirty = true;
                     RaisePropertyChanged(AplicacionAlicuotaEspecialPropertyName);
@@ -259,7 +278,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.BaseDeCalculoParaAlicuotaEspecialAsEnum;
             }
             set {
-                if(Model.BaseDeCalculoParaAlicuotaEspecialAsEnum != value) {
+                if (Model.BaseDeCalculoParaAlicuotaEspecialAsEnum != value) {
                     Model.BaseDeCalculoParaAlicuotaEspecialAsEnum = value;
                     IsDirty = true;
                     RaisePropertyChanged(BaseDeCalculoParaAlicuotaEspecialPropertyName);
@@ -274,7 +293,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.FechaInicioAlicuotaIva10Porciento;
             }
             set {
-                if(Model.FechaInicioAlicuotaIva10Porciento != value) {
+                if (Model.FechaInicioAlicuotaIva10Porciento != value) {
                     Model.FechaInicioAlicuotaIva10Porciento = value;
                     IsDirty = true;
                     RaisePropertyChanged(FechaInicioAlicuotaIva10PorcientoPropertyName);
@@ -288,7 +307,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return Model.FechaFinAlicuotaIva10Porciento;
             }
             set {
-                if(Model.FechaFinAlicuotaIva10Porciento != value) {
+                if (Model.FechaFinAlicuotaIva10Porciento != value) {
                     Model.FechaFinAlicuotaIva10Porciento = value;
                     IsDirty = true;
                     RaisePropertyChanged(FechaFinAlicuotaIva10PorcientoPropertyName);
@@ -322,20 +341,20 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsVisibleFechaContabilizacion {
             get {
-                if(LibString.IsNullOrEmpty(AppMemoryInfo.GlobalValuesGetString("Parametros","UsaModuloDeContabilidad"))) {
+                if (LibString.IsNullOrEmpty(AppMemoryInfo.GlobalValuesGetString("Parametros", "UsaModuloDeContabilidad"))) {
                     return false;
                 } else {
-                    return AppMemoryInfo.GlobalValuesGetBool("Parametros","UsaModuloDeContabilidad");
+                    return AppMemoryInfo.GlobalValuesGetBool("Parametros", "UsaModuloDeContabilidad");
                 }
             }
         }
 
         public bool IsVisibleTipoNegocio {
             get {
-                if(LibString.IsNullOrEmpty(AppMemoryInfo.GlobalValuesGetString("Parametros","PuedeUsarTallerMecanico"))) {
+                if (LibString.IsNullOrEmpty(AppMemoryInfo.GlobalValuesGetString("Parametros", "PuedeUsarTallerMecanico")) || mEsFacturadorBasico) {
                     return false;
                 } else {
-                    return AppMemoryInfo.GlobalValuesGetBool("Parametros","PuedeUsarTallerMecanico");
+                    return AppMemoryInfo.GlobalValuesGetBool("Parametros", "PuedeUsarTallerMecanico");
                 }
             }
         }
@@ -388,22 +407,12 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public bool isVisibleParaPeru {
-            get {
-                bool vResult = true;
-                if(LibDefGen.ProgramInfo.IsCountryPeru()) {
-                    vResult = false;
-                }
-                return vResult;
-            }
-        }
-
         public bool IsVisibleVerificarDocumentoSinContabilizar {
             get {
-                if(LibString.IsNullOrEmpty(AppMemoryInfo.GlobalValuesGetString("Parametros","UsaModuloDeContabilidad"))) {
+                if (LibString.IsNullOrEmpty(AppMemoryInfo.GlobalValuesGetString("Parametros", "UsaModuloDeContabilidad"))) {
                     return false;
                 } else {
-                    return AppMemoryInfo.GlobalValuesGetBool("Parametros","UsaModuloDeContabilidad");
+                    return AppMemoryInfo.GlobalValuesGetBool("Parametros", "UsaModuloDeContabilidad");
                 }
             }
         }
@@ -413,18 +422,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return false;
             }
         }
-
         #endregion //Propiedades
-        #region Constructores
-        public DatosGeneralesCompaniaViewModel()
-           : this(new CompaniaStt(),eAccionSR.Insertar) {
-        }
-        public DatosGeneralesCompaniaViewModel(CompaniaStt initModel,eAccionSR initAction)
-           : base(initModel,initAction,LibGlobalValues.Instance.GetAppMemInfo(),LibGlobalValues.Instance.GetMfcInfo()) {
-            DefaultFocusedPropertyName = AutorellenaResumenDiarioPropertyName;
-            //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
-        }
-        #endregion //Constructores
+
         #region Metodos Generados
 
         protected override void InitializeLookAndFeel(CompaniaStt valModel) {
@@ -432,7 +431,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         protected override CompaniaStt FindCurrentRecord(CompaniaStt valModel) {
-            if(valModel == null) {
+            if (valModel == null) {
                 return new CompaniaStt();
             }
             //LibGpParams vParams = new LibGpParams();
@@ -442,16 +441,16 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             return valModel;
         }
 
-        protected override ILibBusinessComponentWithSearch<IList<CompaniaStt>,IList<CompaniaStt>> GetBusinessComponent() {
+        protected override ILibBusinessComponentWithSearch<IList<CompaniaStt>, IList<CompaniaStt>> GetBusinessComponent() {
             return null;
         }
 
         private ValidationResult FechaDeInicioContabilizacionValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if(LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaDeInicioContabilizacion,false,Action)) {
+                if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaDeInicioContabilizacion, false, Action)) {
                     vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram(this.ModuleName + "-> Fecha de Inicio de Contabilizacion"));
                 }
                 return vResult;
@@ -460,10 +459,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private ValidationResult FechaMinimaIngresarDatosValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if(LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaMinimaIngresarDatos,false,Action)) {
+                if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaMinimaIngresarDatos, false, Action)) {
                     vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram(this.ModuleName + "-> Fecha Minima Ingresar Datos"));
                 }
             }
@@ -472,10 +471,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private ValidationResult FechaInicioAlicuotaIva10PorcientoValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if(LibDate.IsEmptyDate(FechaInicioAlicuotaIva10Porciento) && AplicarIVAEspecial) {
+                if (LibDate.IsEmptyDate(FechaInicioAlicuotaIva10Porciento) && AplicarIVAEspecial) {
                     vResult = new ValidationResult(this.ModuleName + "-> Debe ingresar una fecha de Inicio del decreto 2.602");
                 }
             }
@@ -484,12 +483,12 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private ValidationResult FechaFinAlicuotaIva10PorcientoValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if(LibDate.IsEmptyDate(FechaFinAlicuotaIva10Porciento) && AplicarIVAEspecial) {
+                if (LibDate.IsEmptyDate(FechaFinAlicuotaIva10Porciento) && AplicarIVAEspecial) {
                     vResult = new ValidationResult(this.ModuleName + "-> Debe ingresar una fecha de finalización del decreto 2.602");
-                } else if(LibDate.F1IsLessThanF2(FechaFinAlicuotaIva10Porciento,FechaInicioAlicuotaIva10Porciento)) {
+                } else if (LibDate.F1IsLessThanF2(FechaFinAlicuotaIva10Porciento, FechaInicioAlicuotaIva10Porciento)) {
                     vResult = new ValidationResult(this.ModuleName + "-> La fecha de Finalización del decreto 2.602 no puede ser menor a la fecha de inicio del mismo");
                 }
             }
@@ -502,4 +501,3 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
     } //End of class DatosGeneralesCompaniaViewModel
 
 } //End of namespace Galac.Saw.Uil.SttDef
-
