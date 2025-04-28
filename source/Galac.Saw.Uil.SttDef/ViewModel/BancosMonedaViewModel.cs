@@ -426,9 +426,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     vBancosAnticipoViewModel = ParametrosViewModel.ModuleList[6].Groups[2].Content as BancosAnticipoViewModel;
                     vCuentaBancariaGenericaAnticipo = vBancosAnticipoViewModel.ConexionCuentaBancariaAnticipo;
                 }
-                //bool vUsaCobroDirecto = vFacturaFacturacionContViewModel.UsaCobroDirecto;
                 bool vUsaCobroDirecto = vFacturaCobroFacturaViewModel.UsaCobroDirecto;
-                //bool vUsaCobroMultimoneda = vFacturaFacturacionContViewModel.UsaCobroDirectoEnMultimoneda;
                 bool vUsaCobroMultimoneda = vFacturaCobroFacturaViewModel.UsaCobroDirectoEnMultimoneda;
                 bool vUsaListaDePrecioEnMonedaExtranjera = vFacturaFacturacionContViewModel.UsaListaDePrecioEnMonedaExtranjera;
                 bool vMostrarTotalEnDivisa = vFacturaFacturacionContViewModel.SeMuestraTotalEnDivisas;

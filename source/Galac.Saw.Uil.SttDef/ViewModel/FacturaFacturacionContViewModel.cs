@@ -678,109 +678,12 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        protected override void InitializeCommands() {
-            base.InitializeCommands();
-            //ChooseConceptoBancarioCobroDirectoCommand = new RelayCommand<string>(ExecuteChooseConceptoBancarioCobroDirectoCommand);
-            //ChooseCuentaBancariaCobroDirectoCommand = new RelayCommand<string>(ExecuteChooseCuentaBancariaCobroDirectoCommand);
-            //ChooseConceptoBancarioCobroMultimonedaCommand = new RelayCommand<string>(ExecuteChooseConceptoBancarioCobroMultimonedaCommand);
-            //ChooseCuentaBancariaCobroMultimonedaCommand = new RelayCommand<string>(ExecuteChooseCuentaBancariaCobroMultimonedaCommand);
+        private bool UsaImprentaDigital() {
+            return LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaImprentaDigital"));
         }
 
-        protected override void ReloadRelatedConnections() {
-            base.ReloadRelatedConnections();
-            //ConexionConceptoBancarioCobroDirecto = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("codigo", ConceptoBancarioCobroDirecto), new clsSettValueByCompanyNav());
-            //ConexionCuentaBancariaCobroDirecto = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkCuentaBancariaViewModel>("Cuenta Bancaria", LibSearchCriteria.CreateCriteria("Gv_CuentaBancaria_B1.Codigo", CuentaBancariaCobroDirecto), new clsSettValueByCompanyNav());
-            //ConexionConceptoBancarioCobroMultimoneda = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("codigo", ConceptoBancarioCobroMultimoneda), new clsSettValueByCompanyNav());
-            //ConexionCuentaBancariaCobroMultimoneda = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkCuentaBancariaViewModel>("Cuenta Bancaria", LibSearchCriteria.CreateCriteria("Gv_CuentaBancaria_B1.Codigo", CuentaBancariaCobroMultimoneda), new clsSettValueByCompanyNav());
-        }
-
-        private void ExecuteChooseConceptoBancarioCobroDirectoCommand(string valcodigo) {
-            try {
-                //if(valcodigo == null) {
-                //    valcodigo = string.Empty;
-                //}
-
-                //LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valcodigo);
-                //LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_ConceptoBancario_B1.Tipo", LibConvert.EnumToDbValue((int)eIngresoEgreso.Ingreso));
-                //ConexionConceptoBancarioCobroDirecto = null;
-                //ConexionConceptoBancarioCobroDirecto = LibFKRetrievalHelper.ChooseRecord<FkConceptoBancarioViewModel>("Concepto Bancario", vDefaultCriteria, vFixedCriteria, string.Empty);
-            } catch(System.AccessViolationException) {
-                throw;
-            } catch(System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
-            }
-        }
-
-        private void ExecuteChooseCuentaBancariaCobroDirectoCommand(string valCodigo) {
-            try {
-                //if(valCodigo == null) {
-                //    valCodigo = string.Empty;
-                //}
-                //LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_CuentaBancaria_B1.Codigo", valCodigo);
-                //LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Gv_CuentaBancaria_B1.EsCajaChica", LibConvert.BoolToSN(false));
-                //vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("Gv_CuentaBancaria_B1.ConsecutivoCompania", Mfc.GetInt("Compania")), eLogicOperatorType.And);
-                //ConexionCuentaBancariaCobroDirecto = null;
-                //ConexionCuentaBancariaCobroDirecto = LibFKRetrievalHelper.ChooseRecord<FkCuentaBancariaViewModel>("Cuenta Bancaria", vDefaultCriteria, vFixedCriteria, string.Empty);
-                //if(ConexionCuentaBancariaCobroDirecto != null) {
-                //    CuentaBancariaCobroDirecto = ConexionCuentaBancariaCobroDirecto.Codigo;
-                //} else {
-                //    CuentaBancariaCobroDirecto = string.Empty;
-                //}
-            } catch(System.AccessViolationException) {
-                throw;
-            } catch(System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
-            }
-        }
-
-        private bool ExisteCajaRegistradoraConMaquinaFiscal() {
-            bool vResult = false;
-            int vConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
-            ISettValueByCompanyPdn insParametrosByCompany = new clsSettValueByCompanyNav();
-            vResult = insParametrosByCompany.ExisteCajaConMaquinaFiscal(vConsecutivoCompania);
-            return vResult;
-        }
-
-        private void ExecuteChooseConceptoBancarioCobroMultimonedaCommand(string valcodigo) {
-            try {
-                //if(valcodigo == null) {
-                //    valcodigo = string.Empty;
-                //}
-
-                //LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valcodigo);
-                //LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_ConceptoBancario_B1.Tipo", LibConvert.EnumToDbValue((int)eIngresoEgreso.Ingreso));
-                //ConexionConceptoBancarioCobroMultimoneda = null;
-                //ConexionConceptoBancarioCobroMultimoneda = LibFKRetrievalHelper.ChooseRecord<FkConceptoBancarioViewModel>("Concepto Bancario", vDefaultCriteria, vFixedCriteria, string.Empty);
-            } catch(System.AccessViolationException) {
-                throw;
-            } catch(System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
-            }
-        }
-
-        private void ExecuteChooseCuentaBancariaCobroMultimonedaCommand(string valCodigo) {
-            try {
-                //string vCodigoMonedaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaCompania");
-                //vCodigoMonedaLocal = (LibString.IsNullOrEmpty(vCodigoMonedaLocal) ? (LibDate.F1IsLessThanF2(LibDate.Today(), Galac.Saw.Reconv.clsUtilReconv.GetFechaReconversion()) ? "VES" : "VED") : vCodigoMonedaLocal);
-                //if(valCodigo == null) {
-                //    valCodigo = string.Empty;
-                //}
-                //LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_CuentaBancaria_B1.Codigo", valCodigo);
-                //LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Gv_CuentaBancaria_B1.EsCajaChica", LibConvert.BoolToSN(false));
-                //vFixedCriteria.Add("Gv_CuentaBancaria_B1.CodigoMoneda", eBooleanOperatorType.IdentityInequality, vCodigoMonedaLocal);
-                //vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("Gv_CuentaBancaria_B1.ConsecutivoCompania", Mfc.GetInt("Compania")), eLogicOperatorType.And);
-                //ConexionCuentaBancariaCobroMultimoneda = null;
-                //ConexionCuentaBancariaCobroMultimoneda = LibFKRetrievalHelper.ChooseRecord<FkCuentaBancariaViewModel>("Cuenta Bancaria", vDefaultCriteria, vFixedCriteria, string.Empty);
-                //if(ConexionCuentaBancariaCobroMultimoneda != null) {
-                //    CuentaBancariaCobroMultimoneda = ConexionCuentaBancariaCobroMultimoneda.Codigo;
-                //} else {
-                //    CuentaBancariaCobroMultimoneda = string.Empty;
-                //}
-            } catch(System.AccessViolationException) {
-                throw;
-            } catch(System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
-            }
+        private DateTime FechaInicioServicioImprentaDigital() {
+            return LibConvert.ToDate(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "FechaInicioImprentaDigital"));
         }
 
         #endregion //Metodos Generados
@@ -834,144 +737,65 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         #endregion //Validating
 
-        private ValidationResult ConceptoBancarioCobroDirectoValidating() {
-            ValidationResult vResult = ValidationResult.Success;
-            //if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
-            //    return ValidationResult.Success;
-            //} else {
-            //    if(UsaCobroDirecto && LibString.IsNullOrEmpty(ConceptoBancarioCobroDirecto)) {
-            //        vResult = new ValidationResult(this.ModuleName + "-> Debe indicar un Concepto Bancario de Cobro Directo");
-            //    }
-            //}
+        private bool ExisteCajaRegistradoraConMaquinaFiscal() {
+            bool vResult = false;
+            int vConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
+            ISettValueByCompanyPdn insParametrosByCompany = new clsSettValueByCompanyNav();
+            vResult = insParametrosByCompany.ExisteCajaConMaquinaFiscal(vConsecutivoCompania);
             return vResult;
         }
 
-        private ValidationResult CuentaBancariaCobroDirectoValidating() {
-            ValidationResult vResult = ValidationResult.Success;
-            //if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
-            //    return ValidationResult.Success;
-            //} else {
-            //    if(UsaCobroDirecto && LibString.IsNullOrEmpty(CuentaBancariaCobroDirecto)) {
-            //        vResult = new ValidationResult(this.ModuleName + "-> Debe indicar una cuenta bancaria cobro directo");
-            //    }
-            //}
-            return vResult;
-        }
 
-        private ValidationResult ConceptoBancarioCobroMultimonedaValidating() {
-            ValidationResult vResult = ValidationResult.Success;
-            //if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
-            //    return ValidationResult.Success;
-            //} else {
-            //    if(UsaCobroDirectoEnMultimoneda && LibString.IsNullOrEmpty(ConceptoBancarioCobroMultimoneda)) {
-            //        vResult = new ValidationResult(this.ModuleName + "-> Debe indicar un Concepto Bancario de Cobro en Multimoneda");
-            //    }
-            //}
-            return vResult;
-        }
-
-        private ValidationResult CuentaBancariaCobroMultimonedaValidating() {
-            ValidationResult vResult = ValidationResult.Success;
-            //if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
-            //    return ValidationResult.Success;
-            //} else {
-            //    if(UsaCobroDirectoEnMultimoneda && LibString.IsNullOrEmpty(CuentaBancariaCobroMultimoneda)) {
-            //        vResult = new ValidationResult(this.ModuleName + "-> Debe indicar una cuenta bancaria en moneda extranjera para Cobro en Multimoneda");
-            //    }
-            //}
-            return vResult;
-        }
-
-        private ValidationResult CobroDirectoValidating() {
-            ValidationResult vResult = ValidationResult.Success;
-            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
-                return ValidationResult.Success;
-            } else {
-                if(UsaCobroDirecto && UsaListaDePrecioEnMonedaExtranjeraCXC) {
-                    vResult = new ValidationResult($"No es posible activar los parámetros \"{this.ModuleName} - Generar CxC en Moneda Extranjera\" y \"{this.ModuleName} - Cobro Directo\" simultaneamente. Para hacer uso del parámetro \"Cobro Directo\", por favor desactive \"Generar CXC en Moneda Extranjera\".");
-                }
-            }
-            return vResult;
-        }
-
-        public bool IsEnabledCuentaBancariaCobroDirecto {
-            get {
-                return IsEnabled && UsaCobroDirecto;
-            }
-        }
-
-        public bool IsEnabledConceptoBancarioCobroDirecto {
-            get {
-                return IsEnabled && UsaCobroDirecto;
-            }
-        }
-
-        public bool IsEnabledCuentaBancariaCobroMultimoneda {
-            get {
-                return IsEnabled && UsaCobroDirectoEnMultimoneda;
-            }
-        }
-
-        public bool IsEnabledConceptoBancarioCobroMultimoneda {
-            get {
-                return IsEnabled && UsaCobroDirectoEnMultimoneda;
-            }
-        }
-
-        //private void OnStringParametrosComunesChanged(NotificationMessage<string> valMessage) {
-        //    try {
-        //        if(LibString.S1IsEqualToS2(LibConvert.ToStr(valMessage.Notification), CuentaBancariaCobroDirectoPropertyName)) {
-        //            CuentaBancariaCobroDirecto = valMessage.Content;
-        //        } else if(LibString.S1IsEqualToS2(LibConvert.ToStr(valMessage.Notification), ConceptoBancarioCobroDirectoPropertyName)) {
-        //            ConceptoBancarioCobroDirecto = valMessage.Content;
+        //private ValidationResult CobroDirectoValidating() {
+        //    ValidationResult vResult = ValidationResult.Success;
+        //    if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+        //        return ValidationResult.Success;
+        //    } else {
+        //        if(UsaCobroDirecto && UsaListaDePrecioEnMonedaExtranjeraCXC) {
+        //            vResult = new ValidationResult($"No es posible activar los parámetros \"{this.ModuleName} - Generar CxC en Moneda Extranjera\" y \"{this.ModuleName} - Cobro Directo\" simultaneamente. Para hacer uso del parámetro \"Cobro Directo\", por favor desactive \"Generar CXC en Moneda Extranjera\".");
         //        }
-        //    } catch(System.AccessViolationException) {
-        //        throw;
-        //    } catch(System.Exception vEx) {
-        //        LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
         //    }
+        //    return vResult;
         //}
 
-        //public bool IsVisibleIFFechaReconversion {
+        //public bool IsEnabledCuentaBancariaCobroDirecto {
         //    get {
-        //        return true;
+        //        return IsEnabled && UsaCobroDirecto;
         //    }
         //}
 
-
-        public bool IsVisibleUsarCamposExtrasEnRenglonFactura {
-            get {
-                return !mEsFacturadorBasico;
-            }
-        }
-        public bool IsVisibleUsarOtrosCargoDeFactura {
-            get {
-                return !mEsFacturadorBasico;
-            }
-        }
-        public bool IsVisibleOtrosCargosCamposExtraEnDetalle {
-            get {
-                return !mEsFacturadorBasico;
-            }
-        }
-        //public string PromptMostrarReconversionEnObservacion {
+        //public bool IsEnabledConceptoBancarioCobroDirecto {
         //    get {
-        //        string vMensaje = "";
-        //        if (LibDate.Today() >= clsUtilReconv.GetFechaReconversion()) {
-        //            vMensaje = "Mostrar Totales en Bolívares Soberanos";
-        //        } else {
-        //            vMensaje = "Mostrar Totales en Bolívares Digitales";
-        //        }
-        //        return vMensaje;
+        //        return IsEnabled && UsaCobroDirecto;
         //    }
         //}
 
-        private bool UsaImprentaDigital() {
-            return LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaImprentaDigital"));
-        }
+        //public bool IsEnabledCuentaBancariaCobroMultimoneda {
+        //    get {
+        //        return IsEnabled && UsaCobroDirectoEnMultimoneda;
+        //    }
+        //}
 
-        private DateTime FechaInicioServicioImprentaDigital() {
-            return LibConvert.ToDate(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "FechaInicioImprentaDigital"));
-        }
+        //public bool IsEnabledConceptoBancarioCobroMultimoneda {
+        //    get {
+        //        return IsEnabled && UsaCobroDirectoEnMultimoneda;
+        //    }
+        //}
+
+        //public bool IsVisibleUsarCamposExtrasEnRenglonFactura {
+        //    get {
+        //        return !mEsFacturadorBasico;
+        //    }
+        //}
+        //public bool IsVisibleUsarOtrosCargoDeFactura {
+        //    get {
+        //        return !mEsFacturadorBasico;
+        //    }
+        //}
+        //public bool IsVisibleOtrosCargosCamposExtraEnDetalle {
+        //    get {
+        //        return !mEsFacturadorBasico;
+        //    }
+        //}
     } //End of class FacturaFacturacionContViewModel
 } //End of namespace Galac.Saw.Uil.SttDef

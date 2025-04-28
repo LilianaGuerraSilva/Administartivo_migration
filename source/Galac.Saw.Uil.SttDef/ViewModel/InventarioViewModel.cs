@@ -471,16 +471,18 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
 
-        public bool IsVisibleUsaLoteFechaDeVencimiento {
-            get {
-                return !mEsFacturadorBasico;
-            }
-        }
+        //public bool IsVisibleUsaLoteFechaDeVencimiento {
+        //    get {
+        //        return !mEsFacturadorBasico;
+        //    }
+        //}
+
         public bool IsVisibleSinonimos {
             get {
                 return !mEsFacturadorBasico;
             }
         }
+
         public bool IsVisibleBaseImpInsertarTrasnferencia {
             get {
                 return !mEsFacturadorBasico;
