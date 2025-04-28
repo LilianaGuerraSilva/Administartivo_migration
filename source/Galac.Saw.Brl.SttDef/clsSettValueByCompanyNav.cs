@@ -125,7 +125,7 @@ namespace Galac.Saw.Brl.SttDef {
                 } else {
                     insSettValueByCompany.Value = LibConvert.ToStr(vItem.Element("value").Value);
                 }
-                vXElement = new XElement(LibString.LCase(insSettValueByCompany.NameSettDefinition), insSettValueByCompany.Value);
+                vXElement = new XElement(insSettValueByCompany.NameSettDefinition, insSettValueByCompany.Value);
                 vGpResult.Add(vXElement);
             }
             vResult.Add(vGpResult);
