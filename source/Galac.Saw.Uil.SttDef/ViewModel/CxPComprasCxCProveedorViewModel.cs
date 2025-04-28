@@ -15,6 +15,7 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Uil;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class CxPComprasCxCProveedorViewModel : LibInputViewModelMfc<CxPProveedorPagosStt> {
@@ -39,6 +40,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         #endregion
         #region Variables
         private FkConceptoBancarioViewModel _ConexionConceptoBancarioReversoDePago = null;
+        bool mEsFacturadorBasico;
         #endregion //Variables
         #region Propiedades
 
@@ -339,8 +341,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 string vNombreCiudad = AppMemoryInfo.GlobalValuesGetString("Parametros", "Ciudad");
                 int vConsecutivoMunicipio = AppMemoryInfo.GlobalValuesGetInt("Parametros", "ConsecutivoMunicipio");
                 string vCodigoMunicipio = AppMemoryInfo.GlobalValuesGetString("Parametros", "CodigoMunicipio");
-                return clsUtilParameters.SePuedeRetenerParaEsteMunicipio(vNombreCiudad, vConsecutivoMunicipio) && clsUtilParameters.PuedeActivarModulo(vCodigoMunicipio);
-            }
+                return clsUtilParameters.SePuedeRetenerParaEsteMunicipio(vNombreCiudad, vConsecutivoMunicipio) && clsUtilParameters.PuedeActivarModulo(vCodigoMunicipio) && !mEsFacturadorBasico;
+                }
         }
         #endregion //Propiedades
         #region Constructores
@@ -350,6 +352,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public CxPComprasCxCProveedorViewModel(CxPProveedorPagosStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = NombrePlantillaComprobanteDePagoPropertyName;
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
             //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
@@ -524,10 +527,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             return vResult;
         }
 
-
-        
-
-
+        public bool IsVisibleCxPProveedorPagos {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
 
     } //End of class CxPComprasCxCProveedorViewModel
 

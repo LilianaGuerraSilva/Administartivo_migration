@@ -880,6 +880,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+
 Option Explicit
 Private Const CM_FILE_NAME As String = "frmInformesDeCobranza"
 Private Const CM_MESSAGE_NAME As String = "Informes De Cobranza"
@@ -1550,7 +1552,14 @@ Private Sub sInitDefaultValues()
    cmbOpcionesComisionesSobreCobranza.Width = 2640
    optDetalladoResumido(CM_OPT_DETALLADO).Value = True
    optTasaDeCambio(CM_OPT_TASA_DEL_DIA).Value = True
-   optInformesDeCobranzas(CM_OPT_COMISION_DE_AGENTES).Visible = gProyParametros.GetEsSistemaParaIG
+   optInformesDeCobranzas(CM_OPT_COMISION_DE_AGENTES).Visible = gProyParametros.GetEsSistemaParaIG And Not gProyParametros.fEsFacturadorBasico
+   optInformesDeCobranzas(CM_OPT_COBRANZAS_POR_VENDEDOR).Visible = Not gProyParametros.fEsFacturadorBasico
+   optInformesDeCobranzas(CM_OPT_COBRANZAS_POR_DIA).Visible = Not gProyParametros.fEsFacturadorBasico
+   optInformesDeCobranzas(CM_OPT_COMISION_DE_VENDEDOR).Visible = Not gProyParametros.fEsFacturadorBasico
+   optInformesDeCobranzas(CM_OPT_COMPARATIVO_COBRANZA_POR_ANO).Visible = Not gProyParametros.fEsFacturadorBasico
+   optInformesDeCobranzas(CM_OPT_COBRANZAS_CON_RET_IVA_PENDIENTE_POR_DISTRIBUIR).Visible = Not gProyParametros.fEsFacturadorBasico
+   optInformesDeCobranzas(CM_OPT_DESGLOSE_DE_COBRANZAS).Visible = Not gProyParametros.fEsFacturadorBasico
+   optInformesDeCobranzas(CM_OPT_COBRANZA_POR_ZONA).Visible = Not gProyParametros.fEsFacturadorBasico
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInitDefaultValues", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)

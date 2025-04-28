@@ -15,11 +15,13 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Uil;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class CxPComprasRetISLRViewModel:LibInputViewModelMfc<RetencionISLRStt> {
         #region Variables
         private FkCiudadViewModel _ConexionCiudad = null;
+        bool mEsFacturadorBasico;
         #endregion //Variables
         #region Constantes
         public const string NumeroRifrPropertyName = "NumeroRifr";
@@ -303,6 +305,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public CxPComprasRetISLRViewModel(RetencionISLRStt initModel,eAccionSR initAction)
             : base(initModel,initAction,LibGlobalValues.Instance.GetAppMemInfo(),LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = NumeroRifrPropertyName;
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
             // Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
@@ -414,6 +417,16 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
+        public bool IsVisibleRetencionISLR {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+        public bool IsVisibleRepresentanteLegal {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
 
     } //End of class CxPComprasRetISLRViewModel
 

@@ -15,6 +15,7 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Ccl.SttDef;
 using System.Collections.ObjectModel;
 using Galac.Saw.Brl.SttDef;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class ParametersViewModel: LibGenericViewModel {
@@ -56,15 +57,19 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             var vResult = GetModuleList(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
             List<Module> vListResult = new List<Module>();
             foreach (var vModule in vResult) {
+                if (ModuloEsValidoParaVersion(vModule.DisplayName)) {
                 var vGroups = new GroupCollection();
                 foreach (var vGroup in vModule.Groups) {
-                    var vNewGroup = new Group(vGroup.DisplayName, ParseGroupContentToViewModel(vGroup.Content, initAccionSR));
-                    vGroups.Add(vNewGroup);
+                    if (ModuloEsValidoParaVersion(vGroup.DisplayName)) {
+                        var vNewGroup = new Group(vGroup.DisplayName, ParseGroupContentToViewModel(vGroup.Content, initAccionSR));
+                        vGroups.Add(vNewGroup);
+                    }
                 }
                 var vNewModule = new Module(vModule.DisplayName, vGroups);
                 vListResult.Add(vNewModule);
             }
             ModuleList = vListResult;
+            }
         }
 
         public ParametersViewModel(eAccionSR initAccionSR, bool firstTime) {
@@ -72,16 +77,20 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             Action = initAccionSR;
             var vResult = GetModuleList(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
             List<Module> vListResult = new List<Module>();
-            foreach (var vModule in vResult) {
+            foreach(var vModule in vResult) {               
+                if(ModuloEsValidoParaVersion(vModule.DisplayName)) {
                 var vGroups = new GroupCollection();
-                foreach (var vGroup in vModule.Groups) {
-                    var vNewGroup = new Group(vGroup.DisplayName, ParseGroupContentToViewModel(vGroup.Content, initAccionSR));
-                    vGroups.Add(vNewGroup);
+                foreach(var vGroup in vModule.Groups) {
+                    if(ModuloEsValidoParaVersion(vGroup.DisplayName)) {
+                        var vNewGroup = new Group(vGroup.DisplayName, ParseGroupContentToViewModel(vGroup.Content, initAccionSR));
+                        vGroups.Add(vNewGroup);
+                    }
                 }
                 var vNewModule = new Module(vModule.DisplayName, vGroups);
                 vListResult.Add(vNewModule);
-            }
+            }                
             ModuleList = vListResult;
+            }
         }
 
         #endregion //Constructores
@@ -364,6 +373,30 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             IsDirty = SeModificoAlgunValor();
             base.ExecuteCancel();
         }
+
+        private bool ModuloEsValidoParaVersion(string displayName) {
+
+            bool vResult = true;
+            List<string> vModulosNoVisibles = new List<string>() { "3.1.- Cotización", "4.2.- Cobranzas", "4.3.- Comisiones", "5.3.- Método  de costos", "5.5.- Producción", "6 - CxP/Compras", "6.1.- Compras", "6.2.- CxP / Proveedor / Pagos", "6.3.- Retención IVA", "6.4.- Retención ISLR", "6.5.- Planilla de IVA (Forma 30)", "6.6.- Imágenes para Comprobantes", "7.1.- Bancos" ,"7.3.- Anticipo", "7.4.- Movimiento Bancario", "7.5.- Transferencias Bancarias" };// Aqui colocar todos iten que no quieren que se muestren, es un poco manual
+            clsLibSaw insLibSaw = new clsLibSaw();
+            if(insLibSaw.EsFacturadorBasico()) {
+                vResult = vModulosNoVisibles.Count(p => p.Equals(displayName)) == 0;
+            }
+            return vResult;
+        }
+
+
+
+
+
         #endregion
+
+
+
+
     }
+
+
+
+
 }
