@@ -2,16 +2,58 @@ using System;
 using System.ComponentModel;
 using LibGalac.Aos.Base;
 
-namespace Galac.Adm.Ccl.ImprentaDigital {
-      
+namespace Galac.Adm.Ccl.ImprentaDigital {    
 
-    [TypeConverter(typeof(LibEnumTypeConverter))]
-    public enum eTipodeTransaccionImprentaDigital {
-        [LibEnumDescription("Facturación")]
-        Facturacion = 0,
-        [LibEnumDescription("Comprobantes de Retención")]
-        ComprobantesDeRetencion
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipoDocumentoImprentaDigital {
+        [LibEnumDescription("Facturación")] Facturacion = 0,
+        [LibEnumDescription("Retención IVA")] RetencionIVA,
+        [LibEnumDescription("Retención ISLR")] RetencionISLR
     }
+
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipoDeTransaccionID {
+        [LibEnumDescription("Factura")]
+        Factura = 0,
+        [LibEnumDescription("Giro")]
+        Giro,
+        [LibEnumDescription("Cheque Devuelto")]
+        ChequeDevuelto,
+        [LibEnumDescription("Nota De Crédito")]
+        NotaDeCredito,
+        [LibEnumDescription("Nota De Debito")]
+        NotaDeDebito,
+        [LibEnumDescription("Nota De Entrega")]
+        NotaDeEntrega,
+        [LibEnumDescription("No Asignado")]
+        NoAsignado,
+        [LibEnumDescription("Boleta De Venta")]
+        BoletaDeVenta,
+        [LibEnumDescription("Ticket Maquina Registradora")]
+        TicketMaquinaRegistradora,
+        [LibEnumDescription("Recibo Por Honorarios")]
+        ReciboPorHonorarios,
+        [LibEnumDescription("Liquidación De Compra")]
+        LiquidacionDeCompra,
+        [LibEnumDescription("Otros")]
+        NotaDeDebitoCompFiscal,
+        [LibEnumDescription("Nota De Crédito Comprobante Fiscal")]
+        NotaDeCreditoCompFiscal,
+        [LibEnumDescription("Guía de Remisión")]
+        GuiaDeRemision
+    }
+
+    public enum eTipoDeProveedorDeLibrosFiscalesID {
+        [LibEnumDescription("Con RIF")]
+        ConRif = 0,
+        [LibEnumDescription("Sin RIF")]
+        SinRif,
+        [LibEnumDescription("No Residenciado")]
+        NoResidenciado,
+        [LibEnumDescription("No Domiciliado")]
+        NoDomiciliado
+    }
+
     #region Comandos Thefactory HKA
 
     [TypeConverter(typeof(LibEnumTypeConverter))]

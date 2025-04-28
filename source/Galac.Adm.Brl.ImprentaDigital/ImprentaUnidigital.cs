@@ -14,7 +14,6 @@ using System.Text;
 using LibGalac.Aos.Base.Dal;
 using LibGalac.Aos.Brl;
 using System.Globalization;
-using Galac.Adm.Ccl.GestionCompras;
 
 namespace Galac.Adm.Brl.ImprentaDigital {
     public class ImprentaUnidigital : clsImprentaDigitalBase {
@@ -26,7 +25,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         clsConectorJson _ConectorJson;
         string _StrongeID = "";
         string _SerieID = "";
-        public ImprentaUnidigital(eTipoDocumentoFactura initTipoDeDocumento, string initNumeroFactura, eTipoComprobantedeRetencion initTipoComprobantedeRetencion) : base(initTipoDeDocumento, initNumeroFactura, initTipoComprobantedeRetencion) {
+        public ImprentaUnidigital(eTipoDocumentoFactura initTipoDeDocumento, string initNumeroFactura, eTipoDocumentoImprentaDigital initTipoComprobantedeRetencion) : base(initTipoDeDocumento, initNumeroFactura, initTipoComprobantedeRetencion) {
             _NumeroFactura = initNumeroFactura;
             _TipoDeDocumento = initTipoDeDocumento;
             _TipoDeProveedor = "";//NORMAL Según catalogo No 2 del layout

@@ -274,6 +274,10 @@
       <Project>{c9e84c15-9dab-4e42-95a9-08c4b09e1f74}</Project>
       <Name>Galac.Adm.Ccl.GestionCompras</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.ImprentaDigital\Galac.Adm.Ccl.ImprentaDigital.csproj">
+      <Project>{09e94989-2c8c-457a-b6af-1e529992f5ca}</Project>
+      <Name>Galac.Adm.Ccl.ImprentaDigital</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Adm.Ccl.Rendicion\Galac.Adm.Ccl.CajaChica.csproj">
       <Project>{69bb7951-c2ec-45b9-a344-cb91e87d516b}</Project>
       <Name>Galac.Adm.Ccl.CajaChica</Name>

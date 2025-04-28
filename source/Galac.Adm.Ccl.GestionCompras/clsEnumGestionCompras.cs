@@ -240,14 +240,5 @@ namespace Galac.Adm.Ccl.GestionCompras {
         [LibEnumDescription("Por Código")] PorCodigo = 0,
         [LibEnumDescription("Por Nombre")] PorNombre
     }
-
-    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-    public enum eTipoComprobantedeRetencion {
-        [LibEnumDescription("No Retiene")] NoRetiene = 0,
-        [LibEnumDescription("Retención IVA")] RetencionIVA,
-        [LibEnumDescription("Retención ISLR")] RetencionISLR,
-        [LibEnumDescription("Retención Municipal")] RetencionMunicipal
-    }
-
-
+    
 } //End of namespace namespace Galac.Adm.Ccl.GestionCompras

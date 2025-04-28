@@ -11,7 +11,6 @@ using LibGalac.Aos.Catching;
 using System.Threading;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
-using Galac.Adm.Ccl.GestionCompras;
 
 namespace Galac.Adm.Brl.ImprentaDigital {
     public class ImprentaTheFactory : clsImprentaDigitalBase {
@@ -22,7 +21,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         string _TipoDeProveedor;
         clsConectorJson _ConectorJson;
 
-        public ImprentaTheFactory(eTipoDocumentoFactura initTipoDeDocumento, string initNumeroFactura, eTipoComprobantedeRetencion initTipoComprobantedeRetencion) : base(initTipoDeDocumento, initNumeroFactura, initTipoComprobantedeRetencion) {
+        public ImprentaTheFactory(eTipoDocumentoFactura initTipoDeDocumento, string initNumeroFactura, eTipoDocumentoImprentaDigital initTipoComprobantedeRetencion) : base(initTipoDeDocumento, initNumeroFactura, initTipoComprobantedeRetencion) {
             _NumeroFactura = initNumeroFactura;
             _TipoDeDocumento = initTipoDeDocumento;
             _TipoDeProveedor = "";//NORMAL Según catalogo No 2 del layout
@@ -74,10 +73,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 } else {
                     vChekConeccion = true;
                 }
-                if (TipoTransaccionID == eTipodeTransaccionImprentaDigital.Facturacion) {
+                if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.Facturacion) {
                     vTipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum);
                 } else {
-                    vTipoDocumento = GetTipoDocumentoComprobante(TipoComprobantedeRetencion);
+                    vTipoDocumento = GetTipoDocumentoComprobante(TipoDocumentoImprentaDigital);
                 }
                 JObject vJsonDeConsulta = new JObject {
                     {"Serie",SerieDocumento() },
@@ -190,7 +189,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public override void ConfigurarDocumento() {
             base.ConfigurarDocumento();
             vDocumentoDigital = new JObject();
-            if (TipoTransaccionID == eTipodeTransaccionImprentaDigital.Facturacion) {
+            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.Facturacion) {
                 JObject vDocumentoElectronicoElements = new JObject {
                 { "encabezado", GetDocumentoEncabezado() },
                 { "detallesItems", GetDetalleFactura() },
@@ -209,7 +208,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         private string NumeroDocumento() {
             string vResult = string.Empty;
-            if (TipoTransaccionID == eTipodeTransaccionImprentaDigital.Facturacion) {
+            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.Facturacion) {
                 vResult = FacturaImprentaDigital.Numero;
                 if (FacturaImprentaDigital.TipoDeDocumentoAsEnum == eTipoDocumentoFactura.Factura) {
                     if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios")) {
@@ -225,7 +224,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         private string SerieDocumento() {
             string vResult = string.Empty;
-            if (TipoTransaccionID == eTipodeTransaccionImprentaDigital.Facturacion) {
+            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.Facturacion) {
                 if (FacturaImprentaDigital.TipoDeDocumentoAsEnum == eTipoDocumentoFactura.Factura) {
                     if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios")) {
                         vResult = LibString.Left(FacturaImprentaDigital.Numero, LibString.IndexOf(FacturaImprentaDigital.Numero, '.'));
@@ -359,7 +358,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 vNumeroRif = LibString.Replace(vNumeroRif, "-", "");
             } else {
                 vNumeroRif = valSuejtoRetencion.NumeroRIF;
-                if (valSuejtoRetencion.TipoDeProveedorDeLibrosFiscalesAsEnum == eTipoDeProveedorDeLibrosFiscales.ConRif) {
+                if (valSuejtoRetencion.TipoDeProveedorDeLibrosFiscalesAsEnum == eTipoDeProveedorDeLibrosFiscalesID.ConRif) {
                     vPrefijo = "E";
                 } else {
                     vPrefijo = "V";
@@ -653,11 +652,11 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 { "SujetoRetenido", GetComprobanteSujetoRetencion()},
                 { "TotalesRetencion",  GetComprobanteTotalesRet() } };
             return vResult;
-        }       
+        }
 
         private JObject GetComprobanteRetIdentificacion() {
             JObject vResult = new JObject {
-                {"TipoDocumento",GetTipoDocumentoComprobante(TipoComprobantedeRetencion) },
+                {"TipoDocumento",GetTipoDocumentoComprobante(TipoDocumentoImprentaDigital) },
                 {"numeroDocumento", ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion},
                 {"tipoTransaccion", "01"},
                 {"fechaEmision", LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaAplicacionRetIVA)},
@@ -705,7 +704,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             {"Retenido", DecimalToStringFormat(ComprobanteRetIVAImprentaDigital.TotalCXPComprobanteRetIva) },
             //{"Percibido", "" },            
             {"Moneda", ComprobanteRetIVAImprentaDigital.CodigoMoneda }};
-            if (TipoComprobantedeRetencion == eTipoComprobantedeRetencion.RetencionISLR) {
+            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionISLR) {
                 vItem.Add("CodigoConcepto", "000"); //temporalmente
             }
             vResult.Add(vItem);
@@ -719,8 +718,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 {"FechaEmisionCR",LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaAplicacionRetIVA,"dd/MM/yyyy")},
                 {"TotalRetenido", DecimalToStringFormat(ComprobanteRetIVAImprentaDigital.MontoRetenido)},
                 {"TotalIGTF", null },
-                { "TipoComprobante",TipoComprobantedeRetencion == eTipoComprobantedeRetencion.RetencionISLR? "6": ""}};
-            if (TipoComprobantedeRetencion == eTipoComprobantedeRetencion.RetencionISLR) {
+                { "TipoComprobante",TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionISLR? "6": ""}};
+            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionISLR) {
                 vResult.Add("TotalISRL", "0.00");
             } else {
                 vResult.Add("TotalIVA", DecimalToStringFormat(ComprobanteRetIVAImprentaDigital.MontoIva));
@@ -728,8 +727,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             return vResult;
         }
 
-#endregion Comprobantes Retencion
-#endregion
+        #endregion Comprobantes Retencion
+        #endregion
         #region Conversion de Tipos
 
         private string DecimalToStringFormat(decimal valDecimalValue) {
@@ -792,13 +791,13 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             return vResult;
         }
 
-        private string GetTipoDocumentoComprobante(eTipoComprobantedeRetencion valTipoDocumento) {
+        private string GetTipoDocumentoComprobante(eTipoDocumentoImprentaDigital valTipoDocumento) {
             string vResult = "";
             switch (valTipoDocumento) {
-                case eTipoComprobantedeRetencion.RetencionIVA:
+                case eTipoDocumentoImprentaDigital.RetencionIVA:
                     vResult = "05";
                     break;
-                case eTipoComprobantedeRetencion.RetencionISLR:
+                case eTipoDocumentoImprentaDigital.RetencionISLR:
                     vResult = "06";
                     break;
                 default:
@@ -807,24 +806,24 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             return vResult;
         }
 
-        private string GetTipoDocumentoRetencion(eTipoDeTransaccion valTipoDocumento) {
+        private string GetTipoDocumentoRetencion(eTipoDeTransaccionID valTipoDocumento) {
             string vResult = "";
             switch (valTipoDocumento) {
-                case eTipoDeTransaccion.Factura:
-                case eTipoDeTransaccion.TicketMaquinaRegistradora:
+                case eTipoDeTransaccionID.Factura:
+                case eTipoDeTransaccionID.TicketMaquinaRegistradora:
                     vResult = "01";
                     break;
-                case eTipoDeTransaccion.NotaDeCredito:
-                case eTipoDeTransaccion.NotaDeCreditoCompFiscal:
+                case eTipoDeTransaccionID.NotaDeCredito:
+                case eTipoDeTransaccionID.NotaDeCreditoCompFiscal:
                     vResult = "02";
                     break;
-                case eTipoDeTransaccion.NotaDeDebito:
-                case eTipoDeTransaccion.NotaDeDebitoCompFiscal:
+                case eTipoDeTransaccionID.NotaDeDebito:
+                case eTipoDeTransaccionID.NotaDeDebitoCompFiscal:
                     vResult = "03";
                     break;
-                case eTipoDeTransaccion.NotaDeEntrega:
+                case eTipoDeTransaccionID.NotaDeEntrega:
                     vResult = "04";
-                    break;               
+                    break;
                 default:
                     vResult = "01";
                     break;

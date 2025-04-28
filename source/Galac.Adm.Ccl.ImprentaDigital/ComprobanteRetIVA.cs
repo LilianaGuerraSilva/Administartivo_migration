@@ -1,5 +1,4 @@
-﻿using Galac.Adm.Ccl.GestionCompras;
-using Galac.Adm.Ccl.Venta;
+﻿using Galac.Adm.Ccl.Venta;
 using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Base;
 using Microsoft.Win32.SafeHandles;
@@ -10,7 +9,7 @@ using System.Text;
 
 namespace Galac.Adm.Ccl.ImprentaDigital {
     public class ComprobanteRetIVA {        
-        private eTipoDeTransaccion _TipoDeCxP;
+        private eTipoDeTransaccionID _TipoDeCxP;
         private eTipoDeTransaccionDeLibrosFiscales _TipoDeTransaccion;
         private eProveedorImprentaDigital _ProveedorImprentaDigital;
         public string CodigoProveedor {
@@ -80,7 +79,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             }
         }
 
-        public eTipoDeTransaccion TipoDeCxPAsEnum {
+        public eTipoDeTransaccionID TipoDeCxPAsEnum {
             get {
                 return _TipoDeCxP;
             }
@@ -91,7 +90,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
 
         public string TipoDeCxP {
             set {
-                _TipoDeCxP = (eTipoDeTransaccion)LibConvert.DbValueToEnum(value);
+                _TipoDeCxP = (eTipoDeTransaccionID)LibConvert.DbValueToEnum(value);
             }
         }
 
@@ -225,7 +224,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
     }
 	
     public class SujetoDeRetencion {
-        private eTipoDeProveedorDeLibrosFiscales _TipoDeProveedorDeLibrosFiscalesAsEnum;
+        private eTipoDeProveedorDeLibrosFiscalesID _TipoDeProveedorDeLibrosFiscalesAsEnum;
         public string Codigo {
             get; set;
         }
@@ -248,7 +247,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             get; set;
         }
 
-        public eTipoDeProveedorDeLibrosFiscales TipoDeProveedorDeLibrosFiscalesAsEnum {
+        public eTipoDeProveedorDeLibrosFiscalesID TipoDeProveedorDeLibrosFiscalesAsEnum {
             get {
                 return _TipoDeProveedorDeLibrosFiscalesAsEnum;
             }
@@ -259,7 +258,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
 
         public string TipoDeProveedorDeLibrosFiscales {
             set {
-                _TipoDeProveedorDeLibrosFiscalesAsEnum = (eTipoDeProveedorDeLibrosFiscales)LibConvert.DbValueToEnum(value);
+                _TipoDeProveedorDeLibrosFiscalesAsEnum = (eTipoDeProveedorDeLibrosFiscalesID)LibConvert.DbValueToEnum(value);
             }
         }
 
@@ -280,7 +279,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             NumeroRIF = string.Empty;
             Direccion = string.Empty;
             Telefono = string.Empty;
-            TipoDeProveedorDeLibrosFiscalesAsEnum = eTipoDeProveedorDeLibrosFiscales.ConRif;
+            //TipoDeProveedorDeLibrosFiscalesAsEnum = eTipoDeProveedorDeLibrosFiscales.ConRif;
         }
     }
 }

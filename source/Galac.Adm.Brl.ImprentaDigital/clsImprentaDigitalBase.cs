@@ -20,7 +20,6 @@ using Galac.Saw.Lib;
 using Galac.Adm.Ccl.ImprentaDigital;
 using LibGalac.Aos.DefGen;
 using System.IO;
-using Galac.Adm.Ccl.GestionCompras;
 
 namespace Galac.Adm.Brl.ImprentaDigital {
 
@@ -88,13 +87,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public string NumeroCxP {
             get; set;
         }
-        public Proveedor ProveedorComprobantesRetencion {
-            get; set;
-        }
-        public eTipodeTransaccionImprentaDigital TipoTransaccionID {
-            get; private set;
-        }
-        public eTipoComprobantedeRetencion TipoComprobantedeRetencion {
+              
+        public eTipoDocumentoImprentaDigital TipoDocumentoImprentaDigital {
             get; private set;
         }
         public ComprobanteRetIVA ComprobanteRetIVAImprentaDigital {
@@ -112,7 +106,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         }
 
-        public clsImprentaDigitalBase(eTipoDocumentoFactura initTipoDocumento, string initNumeroFactura, eTipoComprobantedeRetencion valTipoComprobantedeRetencion) {
+        public clsImprentaDigitalBase(eTipoDocumentoFactura initTipoDocumento, string initNumeroFactura, eTipoDocumentoImprentaDigital valTipoDocumentoImprentaDigital) {
             LoginUser = new clsLoginUser();
             NumeroFactura = initNumeroFactura;
             TipoDeDocumento = initTipoDocumento;
@@ -121,7 +115,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             CodigoMonedaME = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
             CodigoMonedaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaLocal");
             clsImprentaDigitalSettings vImprentaDigitalSettings = new clsImprentaDigitalSettings();
-            TipoComprobantedeRetencion = valTipoComprobantedeRetencion;
+            TipoDocumentoImprentaDigital = valTipoDocumentoImprentaDigital;
             NumeroControl = string.Empty;
             Mensaje = string.Empty;
             EstatusDocumento = string.Empty;
@@ -131,12 +125,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             insUtilSql = new QAdvSql("");
             FacturaImprentaDigital = new FacturaRapida();
             ComprobanteRetIVAImprentaDigital = new ComprobanteRetIVA();
-            if (TipoComprobantedeRetencion == eTipoComprobantedeRetencion.NoRetiene) {
-                TipoTransaccionID = eTipodeTransaccionImprentaDigital.Facturacion;
-            } else {
-                NumeroCxP = initNumeroFactura;
-                TipoTransaccionID = eTipodeTransaccionImprentaDigital.ComprobantesDeRetencion;
-            }
+            
             switch (ProveedorImprentaDigital) {
                 case eProveedorImprentaDigital.TheFactoryHKA:
                 case eProveedorImprentaDigital.Novus:
@@ -531,7 +520,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }
 
         public void ObtenerDatosDocumentoEmitido() {
-            if (TipoTransaccionID == eTipodeTransaccionImprentaDigital.Facturacion) {
+            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.Facturacion) {
                 ObtenerDatoFacturaEmitida();
             } else {                
                 ObtenerDatosComprobantRetEmitido();
@@ -752,7 +741,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }
 
         private string GetNumeroComprobanteCompleto(string valNumeroComprobante, int valAnoComprobante, int valMesComprobante) {
-            return LibConvert.ToStr(valAnoComprobante) + LibString.Left("00" + LibConvert.ToStr(valMesComprobante), 2) + LibString.Left("00000000" + valNumeroComprobante, 8);
+            return LibConvert.ToStr(valAnoComprobante) + LibString.Right("00" + LibConvert.ToStr(valMesComprobante), 2) + LibString.Right("00000000" + valNumeroComprobante, 8);
         }
 
         private string SqlDatosSujetoRetencionIVA(ref StringBuilder refParametros) {
@@ -808,7 +797,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }
 
         public virtual void ConfigurarDocumento() {
-            if (TipoTransaccionID == eTipodeTransaccionImprentaDigital.Facturacion) {
+            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.Facturacion) {
                 BuscarDatosDeDocumentoParaEmitir();
                 BuscarDatosDeDetalleDocumento();
                 BuscarDatosDeCliente();
@@ -831,7 +820,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         public virtual bool SincronizarDocumento() {
             bool vResult = false;
-            if (TipoTransaccionID == eTipodeTransaccionImprentaDigital.Facturacion) {
+            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.Facturacion) {
                 vResult = !LibString.S1IsEqualToS2(NumeroControl, FacturaImprentaDigital.NumeroControl);
             } else {
                 vResult = !LibString.S1IsEqualToS2(NumeroControl, ComprobanteRetIVAImprentaDigital.NumeroControl);
@@ -857,7 +846,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         public bool ActualizaNroControlYProveedorImprentaDigital() {
             bool vResult = false;
-            if (TipoTransaccionID == eTipodeTransaccionImprentaDigital.Facturacion) {
+            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.Facturacion) {
                 vResult = ActualizaNroControlEnCxC();
                 vResult = vResult & ActualizaNroControlEnFactura();
             } else {
