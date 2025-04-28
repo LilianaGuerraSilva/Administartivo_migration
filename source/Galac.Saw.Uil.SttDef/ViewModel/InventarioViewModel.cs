@@ -7,7 +7,7 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Uil;
-
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class InventarioViewModel : LibInputViewModelMfc<InventarioStt> {
@@ -40,6 +40,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         #endregion
         #region Variables
         private FkAlmacenViewModel _ConexionCodigoAlmacenGenerico = null;
+        bool mEsFacturadorBasico;
         #endregion //Variables
         #region Propiedades
 
@@ -417,6 +418,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = SinonimoColorPropertyName;
             LibMessages.Notification.Send<eCantidadDeDecimales>(Model.CantidadDeDecimalesAsEnum, CantidadDeDecimalesPropertyName);
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
             //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
@@ -469,6 +471,41 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
 
+        //public bool IsVisibleUsaLoteFechaDeVencimiento {
+        //    get {
+        //        return !mEsFacturadorBasico;
+        //    }
+        //}
+
+        public bool IsVisibleSinonimos {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+
+        public bool IsVisibleBaseImpInsertarTrasnferencia {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+
+        public bool IsVisibleUsaAlmacen {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+
+        public bool IsVisibleActivarFacturacionPorAlmacen {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+
+        public bool IsVisibleCodigoAlmacenGenerico {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
         #endregion //Metodos Generados
     } //End of class InventarioViewModel
 

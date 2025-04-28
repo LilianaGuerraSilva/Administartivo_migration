@@ -160,7 +160,7 @@ unFormaDeCalculoDePrecioRenglonFactura = (APartirDelPrecioSinIVA, APartirDelPrec
 unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", Cont5 "Contribuyente 5", Cont6 "Contribuyente 6");//e,Componente=Banco
 unFormaDeCalcularCostoTerminado = (APartirDeMonedaLocal, APartirDeMonedaExtranjera); //e,Componente=SttDef
 unRutaDeComercializacion = (No Asignado, Agentes, Asesores, Consultor, Gerente, Incobrable, Oficina, Vendedores); //e,Componente=Vendedor
-unProveedorImprentaDigital = (NoAplica,TheFactoryHKA); //e
+unProveedorImprentaDigital = (NoAplica,TheFactoryHKA,Novus,Unidigital); //e
 unStatusNotaEntradaSalida = (Vigente, Anulada);//e,Componente=Inventario
 unTipoGeneradoPorNotaDeEntradaSalida = (Usuario, OrdenDeProduccion);//e,Componente=Inventario
 unTipoNotaProduccion = (NoAplica, Abrir, Cerrar, Ajuste);//e,Componente=Inventario
@@ -2199,6 +2199,9 @@ MenuDeInformes : boolean;
     BaseImponibleIGTFML   	  : Currency;
     AlicuotaIGTFML	     	  : Currency;
     MontoIGTFML     		  : Currency;  
+    NumeroControlRetencionIvaImpDigital        : Str20; //dv='',"NumeroControlRet Iva ID" 
+    ProveedorImprentaDigital    : unProveedorImprentaDigital; //dv='0',"Proveedor Imprenta Digital"
+    RetencionIvaEnviadaImpDigital : Boolean;//dv='N'
     NombreOperador                	: Str10; //a 
     FechaUltimaModificacion       	: Date;//a
     @PrimaryKey=ConsecutivoCompania,ConsecutivoCxP

@@ -47,6 +47,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             CorrigeConstrainsGUIDNOtNullFactura();
             ActivaMostrarTotalEnDivisas();
             AgregarTablaExistenciaPorAlmacenDetLoteInv();
+            CrearCamposIDEnCxP();
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -480,6 +481,19 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             vSQL.AppendLine("INSERT INTO Adm.FormaDelCobro (ConsecutivoCompania, Consecutivo, Codigo,Nombre, TipoDePago, CodigoCuentaBancaria,CodigoTheFactory,Origen)");
             vSQL.AppendLine("SELECT ConsecutivoCompania, " + InsSql.ToSqlValue(valConsecutivo) + " , " + InsSql.ToSqlValue(valCodigo) + " , " + InsSql.ToSqlValue(valNombre) + ", " + InsSql.EnumToSqlValue((int)valFormaDelCobro) + ", CtaBancaria, " + InsSql.ToSqlValue(valCodigoTheFactory) + ", " + InsSql.EnumToSqlValue((int)eOrigen.Sistema) + " FROM CTE_SettValueCtaBancaria");
             LibBusiness.ExecuteUpdateOrDelete(vSQL.ToString(), new StringBuilder(), string.Empty, 0);
+            }       
+        }
+
+        private void CrearCamposIDEnCxP() {
+            if(AddColumnString("CxP", "NumeroControlRetencionIvaImpDigital", 20, "", "")) {
+                AddDefaultConstraint("CxP", "nCtID", _insSql.ToSqlValue(""), "NumeroControlRetencionIvaImpDigital");
+            }
+            if(AddColumnEnumerative("CxP", "ProveedorImprentaDigital", "", 0)) {
+                AddDefaultConstraint("CxP", "pRovID", _insSql.ToSqlValue("0"), "ProveedorImprentaDigital");
+            }
+            if(AddColumnBoolean("CxP", "RetencionIvaEnviadaImpDigital", "", false)) {
+                AddDefaultConstraint("CxP", "rTEnID", _insSql.ToSqlValue("N"), "RetencionIvaEnviadaImpDigital");
+            }
         }
     }
 }

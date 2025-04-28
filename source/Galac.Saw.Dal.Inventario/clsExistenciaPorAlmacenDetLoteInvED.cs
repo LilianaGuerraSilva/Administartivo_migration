@@ -69,6 +69,30 @@ namespace Galac.Saw.Dal.Inventario {
             return SQL.ToString();
         }
 
+        private string SqlViewExistenciaB1() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("SELECT Saw.LoteDeInventario.ConsecutivoCompania, Saw.LoteDeInventario.Consecutivo, Saw.LoteDeInventario.CodigoLote, Saw.LoteDeInventario.CodigoArticulo, dbo.ArticuloInventario.Descripcion As DescripcionArticulo");
+            SQL.AppendLine(", Saw.LoteDeInventario.FechaDeElaboracion, Saw.LoteDeInventario.FechaDeVencimiento, dbo.ExistenciaPorAlmacenDetLoteInv.Cantidad AS Existencia, Saw.LoteDeInventario.StatusLoteInv, Saw.Gv_EnumStatusLoteDeInventario.StrValue AS StatusLoteInvStr");
+            SQL.AppendLine(", Saw.Almacen.Consecutivo As ConsecutivoAlmacen");
+            SQL.AppendLine(", Saw.Almacen.Codigo AS CodigoAlmacen");
+            SQL.AppendLine(", Saw.Almacen.NombreAlmacen");
+            SQL.AppendLine("FROM Saw.LoteDeInventario");
+            SQL.AppendLine("INNER JOIN Saw.Gv_EnumStatusLoteDeInventario");
+            SQL.AppendLine("ON Saw.LoteDeInventario.StatusLoteInv COLLATE MODERN_SPANISH_CS_AS");
+            SQL.AppendLine(" = Saw.Gv_EnumStatusLoteDeInventario.DbValue");
+            SQL.AppendLine("INNER JOIN dbo.ArticuloInventario");
+            SQL.AppendLine("ON Saw.LoteDeInventario.CodigoArticulo = ArticuloInventario.Codigo");
+            SQL.AppendLine("AND Saw.LoteDeInventario.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania");
+            SQL.AppendLine("INNER JOIN dbo.ExistenciaPorAlmacenDetLoteInv");
+            SQL.AppendLine("ON Saw.LoteDeInventario.ConsecutivoCompania = dbo.ExistenciaPorAlmacenDetLoteInv.ConsecutivoCompania");
+            SQL.AppendLine("AND Saw.LoteDeInventario.CodigoArticulo = dbo.ExistenciaPorAlmacenDetLoteInv.CodigoArticulo");
+            SQL.AppendLine("AND Saw.LoteDeInventario.Consecutivo = dbo.ExistenciaPorAlmacenDetLoteInv.ConsecutivoLoteInventario");
+            SQL.AppendLine("INNER JOIN Saw.Almacen");
+            SQL.AppendLine("ON dbo.ExistenciaPorAlmacenDetLoteInv.ConsecutivoCompania = Saw.Almacen.ConsecutivoCompania");
+            SQL.AppendLine("AND dbo.ExistenciaPorAlmacenDetLoteInv.ConsecutivoAlmacen = Saw.Almacen.Consecutivo");
+            return SQL.ToString();
+        }
+
         private string SqlSpInsParameters() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
@@ -370,6 +394,52 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("END");
             return SQL.ToString();
         }
+
+        private string SqlSpSearchExistenciaParameters() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("@SQLWhere" + InsSql.VarCharTypeForDb(2000) + " = null,");
+            SQL.AppendLine("@SQLOrderBy" + InsSql.VarCharTypeForDb(500) + " = null,");
+            SQL.AppendLine("@DateFormat" + InsSql.VarCharTypeForDb(3) + " = null,");
+            SQL.AppendLine("@UseTopClausule" + InsSql.VarCharTypeForDb(1) + " = 'S'");
+            return SQL.ToString();
+        }
+        private string SqlSpSearchExistencia() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("BEGIN");
+            SQL.AppendLine("   SET NOCOUNT ON;");
+            SQL.AppendLine("   DECLARE @strSQL AS " + InsSql.VarCharTypeForDb(7000));
+            SQL.AppendLine("   DECLARE @TopClausule AS " + InsSql.VarCharTypeForDb(10));
+            SQL.AppendLine("   IF(@UseTopClausule = 'S') ");
+            SQL.AppendLine("    SET @TopClausule = 'TOP 500'");
+            SQL.AppendLine("   ELSE ");
+            SQL.AppendLine("    SET @TopClausule = ''");
+            SQL.AppendLine("   SET @strSQL = ");
+            SQL.AppendLine("    ' SET DateFormat ' + @DateFormat + ");
+            SQL.AppendLine("    ' SELECT ' + @TopClausule + '");
+            SQL.AppendLine("      Saw.Gv_ExistenciaLoteDeInventario_B1.CodigoLote,");
+            SQL.AppendLine("      Saw.Gv_ExistenciaLoteDeInventario_B1.CodigoArticulo,");
+            SQL.AppendLine("      Saw.Gv_ExistenciaLoteDeInventario_B1.DescripcionArticulo,");
+            SQL.AppendLine("      Saw.Gv_ExistenciaLoteDeInventario_B1.FechaDeElaboracion,");
+            SQL.AppendLine("      Saw.Gv_ExistenciaLoteDeInventario_B1.FechaDeVencimiento,");
+            SQL.AppendLine("      Saw.Gv_ExistenciaLoteDeInventario_B1.Existencia,");
+            SQL.AppendLine("      Saw.Gv_ExistenciaLoteDeInventario_B1.StatusLoteInvStr,");
+            SQL.AppendLine("      ''COLPIVOTE'' AS ColControl,");
+            SQL.AppendLine("      Saw.Gv_ExistenciaLoteDeInventario_B1.ConsecutivoCompania,");
+            SQL.AppendLine("      Saw.Gv_ExistenciaLoteDeInventario_B1.Consecutivo,");
+            SQL.AppendLine("      Saw.Gv_ExistenciaLoteDeInventario_B1.StatusLoteInv,");
+            SQL.AppendLine("      Saw.Gv_ExistenciaLoteDeInventario_B1.ConsecutivoAlmacen,");
+            SQL.AppendLine("      Saw.Gv_ExistenciaLoteDeInventario_B1.CodigoAlmacen,");
+            SQL.AppendLine("      Saw.Gv_ExistenciaLoteDeInventario_B1.NombreAlmacen");
+            SQL.AppendLine("      FROM Saw.Gv_ExistenciaLoteDeInventario_B1");
+            SQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
+            SQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE ' + @SQLWhere");
+            SQL.AppendLine("   IF (NOT @SQLOrderBy IS NULL) AND (@SQLOrderBy <> '')");
+            SQL.AppendLine("      SET @strSQL = @strSQL + ' ORDER BY ' + @SQLOrderBy");
+            SQL.AppendLine("   EXEC(@strSQL)");
+            SQL.AppendLine("END");
+            return SQL.ToString();
+        }
+
         #endregion //Queries
 
         bool CrearTabla() {
@@ -381,6 +451,7 @@ namespace Galac.Saw.Dal.Inventario {
             bool vResult = false;
             LibViews insVistas = new LibViews();
             vResult = insVistas.Create(DbSchema + ".Gv_ExistenciaPorAlmacenDetLoteInv_B1", SqlViewB1(), true);
+            vResult = insVistas.Create("Saw.Gv_ExistenciaLoteDeInventario_B1", SqlViewExistenciaB1(), true);
             insVistas.Dispose();
             return vResult;
         }
@@ -395,6 +466,7 @@ namespace Galac.Saw.Dal.Inventario {
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ExistenciaPorAlmacenDetLoteInvSelDet", SqlSpSelDetailParameters(), SqlSpSelDetail(), true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ExistenciaPorAlmacenDetLoteInvDelDet", SqlSpDelDetailParameters(), SqlSpDelDetail(), true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ExistenciaPorAlmacenDetLoteInvInsDet", SqlSpInsDetailParameters(), SqlSpInsDetail(), true) && vResult;
+            vResult = insSps.CreateStoredProcedure("Saw.Gp_LoteDeInventarioSCHExistencia", SqlSpSearchExistenciaParameters(), SqlSpSearchExistencia(), true) && vResult;
             insSps.Dispose();
             return vResult;
         }
@@ -430,7 +502,10 @@ namespace Galac.Saw.Dal.Inventario {
             vResult = insSp.Drop(DbSchema + ".Gp_ExistenciaPorAlmacenDetLoteInvInsDet") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_ExistenciaPorAlmacenDetLoteInvDelDet") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_ExistenciaPorAlmacenDetLoteInvSelDet") && vResult;
+            vResult = insSp.Drop("Saw.Gp_LoteDeInventarioSCHExistencia") && vResult;
             vResult = insVista.Drop(DbSchema + ".Gv_ExistenciaPorAlmacenDetLoteInv_B1") && vResult;
+            vResult = insVista.Drop("Saw.Gv_ExistenciaLoteDeInventario_B1") && vResult;
+
             insSp.Dispose();
             insVista.Dispose();
             return vResult;

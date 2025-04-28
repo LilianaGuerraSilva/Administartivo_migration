@@ -74,8 +74,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("FechaUltimaModificacion" + InsSql.DateTypeForDb() + ", ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
             SQL.AppendLine("CONSTRAINT p_Caja PRIMARY KEY CLUSTERED");
-            SQL.AppendLine("(ConsecutivoCompania ASC, Consecutivo ASC)");
-            SQL.AppendLine(",CONSTRAINT u_CajConsecutivo UNIQUE NONCLUSTERED (ConsecutivoCompania, Consecutivo))");
+            SQL.AppendLine("(ConsecutivoCompania ASC, Consecutivo ASC))");            
             return SQL.ToString();
         }
 

@@ -393,7 +393,8 @@ namespace Galac.Saw.Brl.Inventario {
                         }
                     }
                     if (vResult.Success) {
-                        ActualizaInformacionDeLoteDeInventario(vItem, true);
+                        ActualizaInformacionDeLoteDeInventario(vItem, false);   // Se debe pasar en falso el 2do argumento porque en el método ActualizaLoteDeInventarioInsertaMovimientoDeLoteDeInventario
+                                                                                // la cantidad se va a multiplicar por -1 dos veces 
                     }
                 }
             }
@@ -452,6 +453,7 @@ namespace Galac.Saw.Brl.Inventario {
                         vCant = vCant * -1;
                     }
                     vCant = (valAumentaCantidad) ? vCant : vCant * -1;
+
                     LoteDeInventarioMovimiento vLoteMov = new LoteDeInventarioMovimiento();
                     vLoteMov.ConsecutivoCompania = valItemRenglonNotaES.ConsecutivoCompania;
                     vLoteMov.ConsecutivoLote = vLote.Consecutivo;
@@ -491,7 +493,11 @@ namespace Galac.Saw.Brl.Inventario {
                     if (vEsArticuloTipoLote) {
                         vDisponibilidad = insArticuloInventarioNav.DisponibilidadDeArticulo(valItemNotaES.ConsecutivoCompania, vItemRenglon.CodigoArticulo, BuscarConsecutivoDeLoteInventario(valItemNotaES.ConsecutivoCompania, vItemRenglon.CodigoArticulo, vItemRenglon.LoteDeInventario), valItemNotaES.ConsecutivoAlmacen);
                     } else {
-                        vDisponibilidad = insArticuloInventarioNav.DisponibilidadDeArticulo(valItemNotaES.ConsecutivoCompania, valItemNotaES.CodigoAlmacen, vItemRenglon.CodigoArticulo, (int)eTipoDeArticulo.Mercancia, vItemRenglon.Serial, vItemRenglon.Rollo);
+                        if (vItemRenglon.TipoArticuloInvAsEnum == eTipoArticuloInv.UsaTallaColor) {
+                            vDisponibilidad = insArticuloInventarioNav.DisponibilidadDeArticuloTallaColor(valItemNotaES.ConsecutivoCompania, valItemNotaES.CodigoAlmacen, vItemRenglon.CodigoArticulo);
+                        } else {
+                            vDisponibilidad = insArticuloInventarioNav.DisponibilidadDeArticulo(valItemNotaES.ConsecutivoCompania, valItemNotaES.CodigoAlmacen, vItemRenglon.CodigoArticulo, (int)eTipoDeArticulo.Mercancia, vItemRenglon.Serial, vItemRenglon.Rollo);
+                        }
                     }
                     bool vHayExistencia = vItemRenglon.Cantidad <= vDisponibilidad;
                     if (!vHayExistencia) {

@@ -207,34 +207,6 @@ namespace Galac.Saw.Brl.Inventario {
             return vResult;
         }
 
-
-        bool ExisteArticuloPorGrupo(int valConsecutivoCompania, string valCodigoArticulo, string valSerial, string valRollo) {
-            bool vResult = false;
-            bool vFiltrarPorTipoArticuloInv = false;
-            StringBuilder SQL = new StringBuilder();
-            LibGpParams vParams = new LibGpParams();
-
-            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
-            vParams.AddInString("CodigoArticulo", valCodigoArticulo, 30);
-            if (vFiltrarPorTipoArticuloInv) {
-                vParams.AddInEnum("TipoArticuloInv", (int)eTipoArticuloInv.Simple);
-            }
-            SQL.AppendLine("SELECT Serial, Rollo FROM ExistenciaPorGrupo");
-            SQL.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania");
-            SQL.AppendLine(" AND (ExistenciaPorGrupo.CodigoArticulo + ExistenciaPorGrupo.CodigoColor + ExistenciaPorGrupo.CodigoTalla) = @CodigoArticulo");
-            if ((valSerial != "0") || (valRollo != "0")) {
-                vParams.AddInString("Serial", valSerial, 50);
-                vParams.AddInString("Rollo", valRollo, 30);
-                SQL.AppendLine("AND ExistenciaPorGrupo.Serial = @Serial");
-                SQL.AppendLine("AND ExistenciaPorGrupo.Rollo = @Rollo");
-            }
-            XElement xRecord = LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", 0);
-            if (xRecord != null) {
-                vResult = true;
-            }
-            return vResult;
-        }
-
         decimal IArticuloInventarioPdn.DisponibilidadDeArticulo(int valConsecutivoCompania, string valCodigoAlmacen, string valCodigoArticulo, int valTipoDeArticulo, string valSerial, string valRollo) {
             decimal vResult = 0;
             StringBuilder SQL = new StringBuilder();
@@ -246,7 +218,6 @@ namespace Galac.Saw.Brl.Inventario {
             vParams.AddInString("Serial", valSerial, 50);
             vParams.AddInString("Rollo", valRollo, 20);
             // valTipoDeArticulo, valCodigoAlmacen - No se usa en esta función, pero es invocado desde Producción y Factura Rápida
-            ExisteArticuloPorGrupo(valConsecutivoCompania, valCodigoArticulo, valSerial, valRollo);     // valida que existió entrada del artículo, pero no tiene aplicación acá
 
             SQL.AppendLine(" SELECT Codigo, CASE WHEN ArticuloInventario.TipoArticuloInv <> '0' THEN ISNULL( ExistenciaPorGrupo.Existencia  - ExistenciaPorGrupo.CantReservada,0) ELSE ISNULL(ArticuloInventario.Existencia - ArticuloInventario.CantArtReservado,0) END AS ");
             SQL.AppendLine(" Disponibilidad FROM ArticuloInventario LEFT JOIN ExistenciaPorGrupo ");
@@ -259,6 +230,25 @@ namespace Galac.Saw.Brl.Inventario {
                 SQL.AppendLine(" AND ExistenciaPorGrupo.Serial = @Serial ");
                 SQL.AppendLine(" AND ExistenciaPorGrupo.Rollo = @Rollo ");
             } 
+            XElement xRecord = LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", 0);
+            if (xRecord != null) {
+                vResult = LibImportData.ToDec(LibXml.GetPropertyString(xRecord, "Disponibilidad"), 3);
+            }
+            return vResult;
+        }
+
+        decimal IArticuloInventarioPdn.DisponibilidadDeArticuloTallaColor(int valConsecutivoCompania, string valCodigoAlmacen, string valCodigoArticulo) {
+            decimal vResult = 0;
+            StringBuilder SQL = new StringBuilder();
+            LibGpParams vParams = new LibGpParams();
+            string vTabla = string.Empty;
+            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            vParams.AddInString("CodigoArticulo", valCodigoArticulo, 30);
+
+            SQL.AppendLine(" SELECT CodigoArticulo, CodigoColor, CodigoTalla, (Existencia - CantReservada) AS Disponibilidad");
+            SQL.AppendLine(" FROM ExistenciaPorGrupo ");
+            SQL.AppendLine(" WHERE CodigoArticulo + CodigoColor + CodigoTalla = @CodigoArticulo ");
+            SQL.AppendLine(" AND ConsecutivoCompania = @ConsecutivoCompania ");
             XElement xRecord = LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", 0);
             if (xRecord != null) {
                 vResult = LibImportData.ToDec(LibXml.GetPropertyString(xRecord, "Disponibilidad"), 3);
@@ -508,7 +498,6 @@ namespace Galac.Saw.Brl.Inventario {
             }
             return vResult;
         }
-
 
         private XElement GenerarXmlArticulo(XElement valList) {
             XElement vResult = new XElement("GpData");
@@ -818,8 +807,6 @@ namespace Galac.Saw.Brl.Inventario {
             }
         }
 
-
-
         private decimal RedondearPrecio(eRedondearPrecio valRedondeo, decimal valPrecioAAjustar) {
             switch (valRedondeo) {
                 case eRedondearPrecio.ProximaCentena:
@@ -946,8 +933,6 @@ namespace Galac.Saw.Brl.Inventario {
             }
             return 0;
         }
-
-
 
         private void ActualizarPreciosSinMargenesNuevos(bool valUsarNuevaFormula, bool valUsaCostoPromedio, string valDesde, string valHasta, int valConsecutivoCia, string valMarca, bool valPrecio1, bool valPrecio2, bool valPrecio3, bool valPrecio4, string valLineaProducto, string valCategoria) {
             string SQLNameColum = "CostoUnitario";
@@ -1379,7 +1364,6 @@ namespace Galac.Saw.Brl.Inventario {
             }
             return vResult;
         }
-
 
         private void MarcaComoRecalcularSiEsElCaso(int valConsecutivoCompania, DateTime valFechaOperacion, string valDocumento, string valOperacion) {
             XElement vData = FechaCierresCostoPromedio(valConsecutivoCompania, valFechaOperacion);
