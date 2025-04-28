@@ -106,9 +106,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         }
 
-        public clsImprentaDigitalBase(eTipoDocumentoFactura initTipoDocumento, string initNumeroFactura, eTipoDocumentoImprentaDigital valTipoDocumentoImprentaDigital) {
+        public clsImprentaDigitalBase(eTipoDocumentoFactura initTipoDocumento, string initNumeroDocumento, eTipoDocumentoImprentaDigital valTipoDocumentoImprentaDigital) {
             LoginUser = new clsLoginUser();
-            NumeroFactura = initNumeroFactura;
             TipoDeDocumento = initTipoDocumento;
             ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
             ProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
@@ -125,7 +124,11 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             insUtilSql = new QAdvSql("");
             FacturaImprentaDigital = new FacturaRapida();
             ComprobanteRetIVAImprentaDigital = new ComprobanteRetIVA();
-            
+            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.Facturacion) {
+                NumeroFactura = initNumeroDocumento;
+            } else {
+                NumeroCxP = initNumeroDocumento;
+            }
             switch (ProveedorImprentaDigital) {
                 case eProveedorImprentaDigital.TheFactoryHKA:
                 case eProveedorImprentaDigital.Novus:
@@ -565,6 +568,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" NumeroComprobanteRetencion,");
             vSql.AppendLine(" CodigoProveedor, ");
             vSql.AppendLine(" RetencionIvaEnviadaImpDigital,");
+            vSql.AppendLine(" MesDeAplicacion,");
+            vSql.AppendLine(" AnoDeAplicacion,");
             vSql.AppendLine(" TipodeCxP,");
             vSql.AppendLine(" SeHizoLaRetencionIva,");
             vSql.AppendLine(" ProveedorImprentaDigital,");
@@ -590,6 +595,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     ComprobanteRetIVAImprentaDigital.ProveedorImprentaDigital = LibXml.GetPropertyString(vResult, "ProveedorImprentaDigital");
                     ComprobanteRetIVAImprentaDigital.TipoDeCxP = LibXml.GetPropertyString(vResult, "TipodeCxP");
                     ComprobanteRetIVAImprentaDigital.NumeroControl = LibXml.GetPropertyString(vResult, "NumeroControlRetencionIvaImpDigital");
+                    ComprobanteRetIVAImprentaDigital.AnoAplicRetIVA= LibImportData.ToInt(LibXml.GetPropertyString(vResult, "AnoDeAplicacion"));
+                    ComprobanteRetIVAImprentaDigital.MesAplicRetIVA = LibImportData.ToInt(LibXml.GetPropertyString(vResult, "MesDeAplicacion"));
+                    ComprobanteRetIVAImprentaDigital.NumeroDeDocumento = GetNumeroComprobanteCompleto(NumeroCxP, ComprobanteRetIVAImprentaDigital.AnoAplicRetIVA, ComprobanteRetIVAImprentaDigital.MesAplicRetIVA);
                 } else {
                     throw new GalacException("El Documento N° " + LibConvert.ToStr(NumeroCxP) + " no existe.", eExceptionManagementType.Controlled);
                 }
@@ -636,15 +644,15 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine("  cxp.CodigoMoneda,");
             vSql.AppendLine("  cxp.TipoDeCxP,");
             vSql.AppendLine("  cxp.CodigoProveedor,");
-            vSql.AppendLine("  ( CASE WHEN LEN( cxP.NumeroComprobanteRetencion) > 0 THEN cxP.NumeroComprobanteRetencion ELSE 'Sin N? Asignado' END ) AS NumeroComprobanteRetencion,");
+            vSql.AppendLine("  cxp.NumeroComprobanteRetencion,");
             vSql.AppendLine("  cxP.PorcentajeRetencionAplicado,");
             vSql.AppendLine("  cxP.Fecha AS FechaDelDocOrigen,");
             vSql.AppendLine("  ( CASE WHEN cxP.TipoDeCxP = '0' THEN (CASE WHEN cxP.UsaPrefijoSerie = 'S' THEN 'Serie ' + cxP.Numero ELSE cxP.Numero END ) ELSE '' END ) AS NumeroDeDocumento,");
             vSql.AppendLine("  cxP.NumeroControl,");
             vSql.AppendLine("  (  CASE WHEN cxP.TipoDeCxP = '4' THEN cxP.Numero ELSE '' END ) AS NumeroDeNotaDebito,");
-            vSql.AppendLine("  (  CASE WHEN cxP.TipoDeCxP = '3' THEN cxP.Numero ELSE '' END ) AS NumeroDeNotaCredito,");
-            //vSql.AppendLine("  (  CASE WHEN cxP.TipoDeTransaccion = '0' THEN '01 Registro' WHEN cxP.TipoDeTransaccion = '1' THEN '02 Complemento' WHEN cxP.TipoDeTransaccion = '2' THEN '03 Anulaci?n' WHEN cxP.TipoDeTransaccion = '3' THEN '04 Ajuste' END  ) AS TipoDeTransaccion,");
+            vSql.AppendLine("  (  CASE WHEN cxP.TipoDeCxP = '3' THEN cxP.Numero ELSE '' END ) AS NumeroDeNotaCredito,");            
             vSql.AppendLine("  cxP.TipoDeTransaccion,");
+            vSql.AppendLine("  cxP.MontoRetenido,");
             vSql.AppendLine("  cxP.NumeroDeFacturaAfectada,");
             vSql.AppendLine("  ROUND( cxP.MontoExento * cxP.CambioABolivares, 2) AS MontoExento,");
             vSql.AppendLine("  ROUND( cxP.MontoGravado * cxP.CambioABolivares,2 ) AS MontoGravado,");
@@ -677,11 +685,11 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine("      alicuotaIVA.FechaDeInicioDeVigencia <= cxP.Fecha");
             vSql.AppendLine("    ORDER BY");
             vSql.AppendLine("      alicuotaIVA.FechaDeInicioDeVigencia DESC ) AS Alicuota3,");
-            vSql.AppendLine("  ROUND(  cxP.MontoIva * cxP.CambioABolivares,2 ) AS MontoIva,");
+            vSql.AppendLine("  ROUND( cxP.MontoIva * cxP.CambioABolivares,2 ) AS MontoIva,");
             vSql.AppendLine("  ROUND( CASE WHEN cxP.MontoIVAAlicuotaGeneral <> 0 THEN cxP.MontoIVAAlicuotaGeneral ELSE CASE WHEN cxP.MontoIVAAlicuotaEspecial2 <> 0 THEN cxP.MontoIVAAlicuotaEspecial2 ELSE cxP.MontoIVAAlicuotaEspecial1 END END * cxP.CambioABolivares,2  ) AS MontoIVAAlicuotaGeneral,");
             vSql.AppendLine("  ROUND( cxP.MontoIVAAlicuota2 * cxP.CambioABolivares,2 ) AS MontoIVAAlicuota2,");
             vSql.AppendLine("  ROUND( cxP.MontoIVAAlicuota3 * cxP.CambioABolivares,2 ) AS MontoIVAAlicuota3,");
-            vSql.AppendLine("  cxP.MontoRetenido,");
+            vSql.AppendLine("  ROUND( cxP.MontoRetenido * cxP.CambioABolivares,2 ) AS MontoRetenido,");            
             vSql.AppendLine("  YEAR (cxP.FechaAplicacionRetIva) AS AnoAplicRetIVA,");
             vSql.AppendLine("  RIGHT( '0' + CAST( MONTH (cxP.FechaAplicacionRetIva) AS VARCHAR ), 2 ) AS MesAplicRetIVA");
             vSql.AppendLine(" FROM CxP");
@@ -729,8 +737,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     ComprobanteRetIVAImprentaDigital.MontoIVAAlicuota2 = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "MontoIVAAlicuota2"), 2);
                     ComprobanteRetIVAImprentaDigital.MontoIVAAlicuota3 = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "MontoIVAAlicuota3"), 2);
                     ComprobanteRetIVAImprentaDigital.MontoRetenido = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "MontoRetenido"), 2);
-                    ComprobanteRetIVAImprentaDigital.AnoAplicRetIVA = LibImportData.ToInt(LibXml.GetPropertyString(vResult, "AnoAplicRetIVA"));
-                    ComprobanteRetIVAImprentaDigital.MesAplicRetIVA = LibImportData.ToInt(LibXml.GetPropertyString(vResult, "MesAplicRetIVA"));
+                    ComprobanteRetIVAImprentaDigital.AnoAplicRetIVA = LibImportData.ToInt(LibXml.GetPropertyString(vResult, "AnoDeAplicacion"));
+                    ComprobanteRetIVAImprentaDigital.MesAplicRetIVA = LibImportData.ToInt(LibXml.GetPropertyString(vResult, "MesDeAplicacion"));
                     ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion = GetNumeroComprobanteCompleto(ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion, ComprobanteRetIVAImprentaDigital.AnoAplicRetIVA, ComprobanteRetIVAImprentaDigital.MesAplicRetIVA);
                 } else {
                     throw new GalacException("No existen Datos de Retención de IVA para esta CxP, por favor revisar.", eExceptionManagementType.Controlled);

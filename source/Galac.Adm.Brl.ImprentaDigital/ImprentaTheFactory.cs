@@ -701,7 +701,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             {"BaseImponible",DecimalToStringFormat(ComprobanteRetIVAImprentaDigital.MontoGravado) },
             {"Porcentaje", DecimalToStringFormat(ComprobanteRetIVAImprentaDigital.PorcentajeRetencionAplicado) },
             {"MontoIVA", DecimalToStringFormat(ComprobanteRetIVAImprentaDigital.MontoIva) },
-            {"Retenido", DecimalToStringFormat(ComprobanteRetIVAImprentaDigital.TotalCXPComprobanteRetIva) },
+            {"Retenido", DecimalToStringFormat(ComprobanteRetIVAImprentaDigital.MontoRetenido) },
             //{"Percibido", "" },            
             {"Moneda", ComprobanteRetIVAImprentaDigital.CodigoMoneda }};
             if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionISLR) {
@@ -713,7 +713,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         private JObject GetComprobanteTotalesRet() {
             JObject vResult = new JObject {
-                {"TotalBaseImponible", DecimalToStringFormat(ComprobanteRetIVAImprentaDigital.TotalCXPComprobanteRetIva)},
+                {"TotalBaseImponible", DecimalToStringFormat(ComprobanteRetIVAImprentaDigital.MontoGravado)},
                 { "NumeroCompRetencion", ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion},
                 {"FechaEmisionCR",LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaAplicacionRetIVA,"dd/MM/yyyy")},
                 {"TotalRetenido", DecimalToStringFormat(ComprobanteRetIVAImprentaDigital.MontoRetenido)},
