@@ -12,7 +12,7 @@
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
                 <ResourceDictionary Source="/Galac.Saw.Uil.SttDef;component/Themes/rsdGroupBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter"  />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -54,10 +54,10 @@
 
             <Label Grid.Row="2" Grid.Column="0" Name="lblRellenaCerosAlaIzquierda" Content="Rellena Ceros a la Izquierda..........................................................." Style="{StaticResource LabelPrompt}" />
             <CheckBox Grid.Row="2" Grid.Column="1" Name="chkRellenaCerosAlaIzquierda" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=RellenaCerosAlaIzquierda}" HorizontalAlignment="Left" IsEnabled="False"/>
-            <Label Grid.Row="3" Grid.Column="0" Name="lblAvisoDeClienteConDeuda" Content="Avisar si el Cliente Tiene una Deuda..............................................." Style="{StaticResource LabelPrompt}" />
-            <CheckBox Grid.Row="3" Grid.Column="1" Name="chkAvisoDeClienteConDeuda" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=AvisoDeClienteConDeuda}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
-            <Label Grid.Row="4" Grid.Column="0" Name="lblMontoApartirDelCualEnviarAvisoDeuda" Content="Monto a Partir del Cual Enviar Aviso de Deuda..............................." Style="{StaticResource LabelPrompt}" />
-            <nsWpfControls:GSNumericBoxWpf Grid.Row="4" Grid.Column="1" Name="txtMontoApartirDelCualEnviarAvisoDeuda" Style="{StaticResource TextBoxInputStyle}" InputDataType="Decimal" MaxLength="28" Width="120" IsEnabled="{Binding Path=IsEnabledMontoApartirDelCualEnviarAvisoDeuda}"
+            <Label Grid.Row="3" Grid.Column="0" Name="lblAvisoDeClienteConDeuda" Content="Avisar si el Cliente Tiene una Deuda..............................................." Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=IsVisibleAvisoDeClienteConDeuda, Converter={StaticResource booleanToVisibilityConverter}}"   />
+            <CheckBox Grid.Row="3" Grid.Column="1" Name="chkAvisoDeClienteConDeuda" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=AvisoDeClienteConDeuda}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}" Visibility="{Binding Path=IsVisibleAvisoDeClienteConDeuda, Converter={StaticResource booleanToVisibilityConverter}}" />
+            <Label Grid.Row="4" Grid.Column="0" Name="lblMontoApartirDelCualEnviarAvisoDeuda" Content="Monto a Partir del Cual Enviar Aviso de Deuda..............................." Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=IsVisibleAvisoDeClienteConDeuda, Converter={StaticResource booleanToVisibilityConverter}}"  />
+            <nsWpfControls:GSNumericBoxWpf Grid.Row="4" Grid.Column="1" Name="txtMontoApartirDelCualEnviarAvisoDeuda" Style="{StaticResource TextBoxInputStyle}" InputDataType="Decimal" MaxLength="28" Width="120" IsEnabled="{Binding Path=IsEnabledMontoApartirDelCualEnviarAvisoDeuda}" Visibility="{Binding Path=IsVisibleAvisoDeClienteConDeuda, Converter={StaticResource booleanToVisibilityConverter}}"
                                         Value="{Binding Path=MontoApartirDelCualEnviarAvisoDeuda, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
             <Label Grid.Row="5" Grid.Column="0" Name="lblUsaCodigoClienteEnPantalla" Content="Usar Código del Cliente al Realizar una Búsqueda........................." Style="{StaticResource LabelPrompt}" />
             <CheckBox Grid.Row="5" Grid.Column="1" Name="chkUsaCodigoClienteEnPantalla" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=UsaCodigoClienteEnPantalla}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabledUsaCodigoClienteEnPantalla}"/>
@@ -69,14 +69,14 @@
             <CheckBox Grid.Row="8" Grid.Column="1" Name="chkImprimirDatosClienteEnCompFiscal" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=ImprimirDatosClienteEnCompFiscal}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}" Visibility="{Binding Path=isVisibleParaPeru, Converter={StaticResource booleanToVisibilityConverter}}" />
             <Label Grid.Row="9" Grid.Column="0" Name="lblAvisoDeFacturacionMenor" Content="Aviso al Facturar al Mismo Cliente en un Periodo Menor a 30 Dí­as" Style="{StaticResource LabelPrompt}" />
             <CheckBox Grid.Row="9" Grid.Column="1" Name="chkAvisoDeFacturacionMenor" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=AvisoDeFacturacionMenor}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
-            <GroupBox Style="{StaticResource GroupBoxStyle}" Header="Cliente - Campos Definibles" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="3">
+            <GroupBox Style="{StaticResource GroupBoxStyle}" Header="Cliente - Campos Definibles" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="3" Visibility="{Binding Path=IsVisibleAvisoDeClienteConDeuda, Converter={StaticResource booleanToVisibilityConverter}}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" Name="lblNombreCampoDefinibleCliente1" Content="Campo Definible 1" Style="{StaticResource LabelPrompt}" />
-                    <nsWpfControls:GSTextBoxWpf Grid.Row="0" Grid.Column="1" Name="txtNombreCampoDefinibleCliente1" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="20" Width="180" IsEnabled="{Binding Path=IsEnabled}"
+                    <Label Grid.Row="0" Grid.Column="0" Name="lblNombreCampoDefinibleCliente1" Content="Campo Definible 1" Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=IsVisibleAvisoDeClienteConDeuda, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    <nsWpfControls:GSTextBoxWpf Grid.Row="0" Grid.Column="1" Name="txtNombreCampoDefinibleCliente1" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="20" Width="180" IsEnabled="{Binding Path=IsEnabled}" Visibility="{Binding Path=IsVisibleAvisoDeClienteConDeuda, Converter={StaticResource booleanToVisibilityConverter}}" 
                                         Text="{Binding Path=NombreCampoDefinibleCliente1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
                 </Grid>
             </GroupBox>

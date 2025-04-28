@@ -12,6 +12,7 @@
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
                 <ResourceDictionary Source="/Galac.Saw.Uil.SttDef;component/Themes/rsdGroupBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -28,7 +29,7 @@
 
 
 
-        <GroupBox Style="{StaticResource GroupBoxStyle}" Header="" Grid.Row="0" Grid.Column="0" Margin="3">
+        <GroupBox Style="{StaticResource GroupBoxStyle}" Header="" Grid.Row="0" Grid.Column="0" Margin="3"  Visibility="{Binding Path=IsVisiblePlanillaIVAForma30, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -52,7 +53,7 @@
 
 
 
-        <GroupBox Style="{StaticResource GroupBoxStyle}" Header="Contador" Grid.Row="1" Grid.Column="0" Margin="3">
+        <GroupBox Style="{StaticResource GroupBoxStyle}" Header="Contador" Grid.Row="1" Grid.Column="0" Margin="3"  Visibility="{Binding Path=IsVisiblePlanillaIVAContador, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />

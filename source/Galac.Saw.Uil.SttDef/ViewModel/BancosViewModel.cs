@@ -15,6 +15,7 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Uil;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class BancosViewModel : LibInputViewModelMfc<BancosStt> {
@@ -36,6 +37,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private FkCuentaBancariaViewModel _ConexionCodigoGenericoCuentaBancaria = null;
         private FkConceptoBancarioViewModel _ConexionConceptoDebitoBancario = null;
         private FkConceptoBancarioViewModel _ConexionConceptoCreditoBancario = null;
+        bool mEsFacturadorBasico;
         #endregion //Variables
         #region Propiedades
 
@@ -268,6 +270,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public BancosViewModel(BancosStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = RedondeaMontoCreditoBancarioPropertyName;
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
             //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
@@ -399,6 +402,18 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 }
             }
             return vResult;
+        }
+
+        public bool IsVisibleBancos {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+
+        public bool IsVisibleBancosIGTF {
+            get {
+                return !mEsFacturadorBasico;
+            }
         }
 
     } //End of class BancosViewModel

@@ -17,6 +17,7 @@ using Galac.Saw.Ccl.SttDef;
 using System.Text;
 
 using System.Windows.Forms ;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class CxPComprasRetIVAViewModel : LibInputViewModelMfc<RetencionIVAStt> {
@@ -277,10 +278,15 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public CxPComprasRetIVAViewModel()
             : this(new RetencionIVAStt(), eAccionSR.Insertar) {
         }
+        #region  Variables
+        bool mEsFacturadorBasico;
+        #endregion
+
         public CxPComprasRetIVAViewModel(RetencionIVAStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = EnDondeRetenerIVAPropertyName;
-           // Model.ConsecutivoCompania = Mfc.GetInt("Compania");
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
+            // Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -354,7 +360,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                         vResult = new ValidationResult(ModuleName + "-> Debe seleccionar dónde efectuar la Retención del " + LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "PromptIVA"));
                     }
                 } else {
+                    if (!new clsLibSaw().EsFacturadorBasico()) {
                     EnDondeRetenerIVA = eDondeSeEfectuaLaRetencionIVA.NoRetenida;
+                    }
                     return ValidationResult.Success;
                 }
             }
@@ -408,6 +416,12 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 vMessageBuilder.AppendLine("es diferente al momento en el cual se está contabilizando dicha retención");
                 vMessageBuilder.AppendLine("(Reglas de Contabilización -> Contabilizar la Retención de " + LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "PromptIVA") + " en: " + MsgDondeContabilizarRetIVA + ").");
                 LibMessages.MessageBox.Information(this, vMessageBuilder.ToString(), ModuleName);
+            }
+        }
+
+        public bool IsVisibleRetencionIVA {
+            get {
+                return !mEsFacturadorBasico;
             }
         }
 

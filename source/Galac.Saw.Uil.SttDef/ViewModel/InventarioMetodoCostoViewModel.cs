@@ -14,6 +14,7 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class InventarioMetodoCostoViewModel : LibInputViewModelMfc<MetododecostosStt> {
@@ -26,6 +27,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string CalculoAutomaticoDeCostoPropertyName = "CalculoAutomaticoDeCosto";
         public const string IsVisibleDetalleCostoPropertyName = "IsVisibleDetalleCosto";
         #endregion
+
+        #region Variables
+        bool mEsFacturadorBasico;
+        #endregion
+
         #region Propiedades
 
         public override string ModuleName {
@@ -128,10 +134,16 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return LibEnumHelper<eTipoDeMetodoDeCosteo>.GetValuesInArray();
             }
         }
+        
+        public bool IsVisibleMetodoCosto {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
 
         public bool IsVisibleDetalleCosto {
             get {
-                return (MetodoDeCosteo == eTipoDeMetodoDeCosteo.CostoPromedio);
+                return (MetodoDeCosteo == eTipoDeMetodoDeCosteo.CostoPromedio) && !mEsFacturadorBasico;
             }
         }
 
@@ -143,7 +155,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public InventarioMetodoCostoViewModel(MetododecostosStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = MetodoDeCosteoPropertyName;
-          // Model.ConsecutivoCompania = Mfc.GetInt("Compania");
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
+            // Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
         #region Metodos Generados
