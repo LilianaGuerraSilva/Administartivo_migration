@@ -79,7 +79,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             }
         }
 
-        public eTipoDeTransaccionID TipoDeCxPAsEnum {
+        public eTipoDeTransaccionID TipoDeDocumentoAsEnum {
             get {
                 return _TipoDeCxP;
             }
