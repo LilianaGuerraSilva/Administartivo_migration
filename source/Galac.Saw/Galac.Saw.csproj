@@ -54,9 +54,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Galac.Adm.Uil.Venta">
-      <HintPath>..\..\bin\Galac.Adm.Uil.Venta.dll</HintPath>
-    </Reference>
     <Reference Include="Galac.Comun.Brl.TablasGen">
       <HintPath>..\packages\Galac.Comun.Brl.TablasGen.2.61.0\lib\Galac.Comun.Brl.TablasGen.dll</HintPath>
     </Reference>
@@ -98,6 +95,9 @@
     </Reference>
     <Reference Include="LibGalac.Aos.Catching">
       <HintPath>..\packages\LibGalac.Aos.Catching.5.24.0\lib\LibGalac.Aos.Catching.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Ccl.Usal, Version=5.24.2.4, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.Ccl.Usal.5.24.2.4\lib\LibGalac.Aos.Ccl.Usal.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Cib">
       <HintPath>..\packages\LibGalac.Aos.Cib.5.24.0\lib\LibGalac.Aos.Cib.dll</HintPath>
@@ -277,6 +277,10 @@
       <Project>{9901afda-4f43-4d66-8773-343946f12e0d}</Project>
       <Name>Galac.Adm.Uil.GestionProduccion</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Uil.Venta\Galac.Adm.Uil.Venta.csproj">
+      <Project>{e8ac8d72-32b9-4e08-ae7f-9a248fd5b179}</Project>
+      <Name>Galac.Adm.Uil.Venta</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Ccl.Inventario\Galac.Saw.Ccl.Inventario.csproj">
       <Project>{a28fb32d-b951-4d64-8feb-74a261425585}</Project>
       <Name>Galac.Saw.Ccl.Inventario</Name>
@@ -288,6 +292,10 @@
     <ProjectReference Include="..\Galac.Saw.DDL\Galac.Saw.DDL.csproj">
       <Project>{9b7c2108-236b-4b69-849a-460f36b23363}</Project>
       <Name>Galac.Saw.DDL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Lib\Galac.Saw.Lib.csproj">
+      <Project>{b04e6942-e0b8-4ba2-90e7-fbf8a95ddc86}</Project>
+      <Name>Galac.Saw.Lib</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.SLev\Galac.Saw.SLev.csproj">
       <Project>{a84d308c-d997-4550-800b-7c46e8cb02e3}</Project>

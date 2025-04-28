@@ -7,8 +7,8 @@ namespace Galac.Saw.Wrp.Banco {
     public interface IWrpCuentaBancariaVb {
         void GeneraCuentaBancariaGenericaSiCiaNoGeneraMovimientosBancarios(int vfwConsecutivoCompania, int vfwCodigoBanco, string valCodigoMonedaLocal, string valNombreMonedaLocal);
         void InsertaCuentaBancariaGenericaSiHaceFalta(int vfwConsecutivoCompania, int vfwCodigoBanco, string valCodigoMonedaLocal, string valNombreMonedaLocal);
+        void InsertaCuentaBancariaGenericaMonedaExtranjeraSiHaceFalta(int vfwConsecutivoCompania, int vfwCodigoBanco, string valCodigoMonedaExtranjera, string valNombreMonedaExtranjera);
         bool ActualizaSaldoDisponibleEnCuenta(int vfwConsecutivoCompania, string vfwCodigoCuenta, string vfwMonto, string vfwIngresoEgreso, string vfwmAction, string vfwMontoOriginal, bool vfwSeModificoTipoConcepto);
-
         void Execute(string vfwAction, string vfwCurrentCompany, string vfwCurrentParameters);
         string Choose(string vfwParamInitializationList, string vfwParamFixedList);
         void InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath);

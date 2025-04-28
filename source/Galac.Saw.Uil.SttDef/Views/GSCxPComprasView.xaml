@@ -12,9 +12,10 @@
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
                 <ResourceDictionary Source="/Galac.Saw.Uil.SttDef;component/Themes/rsdGroupBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
-    <GroupBox Style="{StaticResource GroupBoxStyle}" Header="">
+    <GroupBox Style="{StaticResource GroupBoxStyle}" Header="" Visibility="{Binding Path=IsVisibleCompras, Converter={StaticResource booleanToVisibilityConverter}}" >
         <Grid FocusManager.FocusedElement="{Binding ElementName=chkGenerarCxpDesdeCompra}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />

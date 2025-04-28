@@ -14,6 +14,7 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class CxPComprasPlanillaIVAViewModel : LibInputViewModelMfc<PlanillaDeIVAStt> {
@@ -102,13 +103,17 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
         #endregion //Propiedades
         #region Constructores
+        #region Variables
+        bool mEsFacturadorBasico;
+        #endregion
         public CxPComprasPlanillaIVAViewModel()
             : this(new PlanillaDeIVAStt(), eAccionSR.Insertar) {
         }
         public CxPComprasPlanillaIVAViewModel(PlanillaDeIVAStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = CedulaContadorPropertyName;
-           // Model.ConsecutivoCompania = Mfc.GetInt("Compania");
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
+            // Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -130,6 +135,18 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         protected override ILibBusinessComponentWithSearch<IList<PlanillaDeIVAStt>, IList<PlanillaDeIVAStt>> GetBusinessComponent() {
             return null;
         }
+
+        public bool IsVisiblePlanillaIVAContador {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+        public bool IsVisiblePlanillaIVAForma30 {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+
         #endregion //Metodos Generados
 
 

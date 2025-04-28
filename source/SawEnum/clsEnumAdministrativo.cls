@@ -4210,7 +4210,8 @@ End Sub
 Public Function enum_menusDelSistemaAdministrativoToStr(ByVal valMenu As menusDelSistemaAdministrativo) As String
    Select Case valMenu
       Case me_PRINCIPALSAW: enum_menusDelSistemaAdministrativoToStr = "Principal"
-      Case me_CXC: enum_menusDelSistemaAdministrativoToStr = "CxC y Cobranza"
+      Case me_CXC:
+         enum_menusDelSistemaAdministrativoToStr = "CxC y Cobranza"
       Case me_COMPANIA: enum_menusDelSistemaAdministrativoToStr = "Empresa"
       Case me_TABLASSAW: enum_menusDelSistemaAdministrativoToStr = "Tablas"
       Case me_INVENTARIO: enum_menusDelSistemaAdministrativoToStr = "Inventario"
@@ -4232,6 +4233,12 @@ Public Function enum_menusDelSistemaAdministrativoToStr(ByVal valMenu As menusDe
       Case me_CONEXIONAXI: enum_menusDelSistemaAdministrativoToStr = "Ajuste por Inflación"
       Case me_CAJA_CHICA_RENDICION: enum_menusDelSistemaAdministrativoToStr = "Reposición de Caja Chica"
       Case me_ESTRUCTURA_COSTOS: enum_menusDelSistemaAdministrativoToStr = "Estructura de Costos"
+      Case me_CONVERSION_RESPALDO_LOTE:
+         If gDefGen.fHasAccessTo(148) Then
+            enum_menusDelSistemaAdministrativoToStr = "Respaldar y Lote"
+         Else
+            enum_menusDelSistemaAdministrativoToStr = "Conversión, Respaldar y Lote"
+         End If
       Case me_CONVERSION_RESPALDO_LOTE: enum_menusDelSistemaAdministrativoToStr = "Conversión, Respadar y Lote"
       Case me_TABLASSAW_CONT: enum_menusDelSistemaAdministrativoToStr = "Tablas Continuación"
       Case me_PRODUCCION: enum_menusDelSistemaAdministrativoToStr = "Producción"
@@ -6432,13 +6439,14 @@ End Sub
 
 Public Function enum_menusDelSistemaAdministrativoToTitle(ByVal valMenu As menusDelSistemaAdministrativo) As String
    Select Case valMenu
-      Case me_PRINCIPALSAW: enum_menusDelSistemaAdministrativoToTitle = "Menú Principal - Factura / Cotización / Contrato"
+      Case me_PRINCIPALSAW:
+        If gDefGen.fHasAccessTo(148) Then
+           enum_menusDelSistemaAdministrativoToTitle = "Menú Principal - Factura"
+        Else
+           enum_menusDelSistemaAdministrativoToTitle = "Menú Principal - Factura / Cotización / Contrato"
+        End If
       Case me_CXC
-            If GetEsSistemaAdmInterno Then
-               enum_menusDelSistemaAdministrativoToTitle = "CxC / Cobranzas / Vendedor / Orden de Servicio"
-            Else
-               enum_menusDelSistemaAdministrativoToTitle = "CxC / Cobranzas / Vendedor"
-            End If
+            enum_menusDelSistemaAdministrativoToTitle = "CxC / Cobranzas / Vendedor"
       Case me_COMPANIA: enum_menusDelSistemaAdministrativoToTitle = "Empresa"
       Case me_TABLASSAW: enum_menusDelSistemaAdministrativoToTitle = "Mantenimiento de Tablas"
       Case me_INVENTARIO
@@ -6481,7 +6489,12 @@ Public Function enum_menusDelSistemaAdministrativoToTitle(ByVal valMenu As menus
       Case me_CONEXIONAXI: enum_menusDelSistemaAdministrativoToTitle = "Ajuste por Inflación"
       Case me_CAJA_CHICA_RENDICION: enum_menusDelSistemaAdministrativoToTitle = "Reposición de Caja Chica"
       Case me_ESTRUCTURA_COSTOS: enum_menusDelSistemaAdministrativoToTitle = "Estructura de Costos"
-      Case me_CONVERSION_RESPALDO_LOTE: enum_menusDelSistemaAdministrativoToTitle = "Conversión / Respaldar / Lote"
+      Case me_CONVERSION_RESPALDO_LOTE
+         If gDefGen.fHasAccessTo(148) Then
+            enum_menusDelSistemaAdministrativoToTitle = "Respaldar / Lote"
+         Else
+            enum_menusDelSistemaAdministrativoToTitle = "Conversión / Respaldar / Lote"
+         End If
       Case me_TABLASSAW_CONT: enum_menusDelSistemaAdministrativoToTitle = "Mantenimiento de Tablas Continuación"
       Case me_PRODUCCION: enum_menusDelSistemaAdministrativoToTitle = "Producción"
       Case Else: enum_menusDelSistemaAdministrativoToTitle = enum_menusDelSistemaAdministrativoToTitle(0)

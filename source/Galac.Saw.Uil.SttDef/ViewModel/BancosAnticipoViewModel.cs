@@ -15,7 +15,7 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Uil;
-
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class BancosAnticipoViewModel : LibInputViewModelMfc<AnticipoStt> {
@@ -36,6 +36,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private FkConceptoBancarioViewModel _ConexionConceptoBancarioReversoAnticipoCobrado = null;
         private FkConceptoBancarioViewModel _ConexionConceptoBancarioReversoAnticipoPagado = null;
         private FkCuentaBancariaViewModel _ConexionCuentaBancariaAnticipo = null;
+        bool mEsFacturadorBasico;
         #endregion //Variables
         #region Propiedades
 
@@ -320,8 +321,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public BancosAnticipoViewModel(AnticipoStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = SugerirConsecutivoAnticipoPropertyName;
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
             //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
+
+        
         #endregion //Constructores
         #region Metodos Generados
 
@@ -574,9 +578,22 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
+        public bool IsVisibleBancosAnticipo {
+            get { 
+                return !mEsFacturadorBasico;
+            }
+        }
 
+        public bool IsVisibleBancosAnticipoCobrado {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
 
-
+        public bool IsVisibleBancosAnticipoPagado {
+            get { 
+                return !mEsFacturadorBasico; }
+        }
 
 
     } //End of class AnticipoSttViewModel

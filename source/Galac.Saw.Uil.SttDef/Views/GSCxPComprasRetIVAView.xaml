@@ -15,7 +15,7 @@
             <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
-    <GroupBox Style="{StaticResource GroupBoxStyle}" Header=" "  IsEnabled="{Binding Path=IsEnabledDatosRetIva}" >
+    <GroupBox Style="{StaticResource GroupBoxStyle}" Header=" "  IsEnabled="{Binding Path=IsEnabledDatosRetIva}"  Visibility="{Binding Path=IsVisibleRetencionIVA, Converter={StaticResource booleanToVisibilityConverter}}">
         <Grid FocusManager.FocusedElement="{Binding ElementName=cmbEnDondeRetenerIVA}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />

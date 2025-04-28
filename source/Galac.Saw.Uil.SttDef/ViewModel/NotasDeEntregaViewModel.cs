@@ -14,6 +14,7 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class NotasDeEntregaViewModel : LibInputViewModelMfc<NotaEntregaStt> {
@@ -33,6 +34,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string IsEnabledPrefijoNotaEntregaPropertyName = "IsEnabledPrefijoNotaEntrega";
         #endregion
         #region Variables
+        bool mEsFacturadorBasico;
+        ParametersViewModel _ParametrosViewModel;
         #endregion //Variables
         #region Propiedades
 
@@ -268,6 +271,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public NotasDeEntregaViewModel(NotaEntregaStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = TipoPrefijoNotaEntregaPropertyName;
+            mEsFacturadorBasico = new clsLibSaw().EsFacturadorBasico();
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -346,6 +350,30 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private bool UsaImprentaDigital() {
             return LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaImprentaDigital"));
         }
+
+        public bool IsVisibleNotasDePago {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+        public bool IsVisibleOrdenesDeDespacho {
+            get {
+                return !mEsFacturadorBasico;
+            }
+        }
+
+        public bool IsEnabledNotasDePago {
+            get {
+                DatosGeneralesViewModel vDatosGeneralesViewModel = ParametrosViewModel.ModuleList[0].Groups[1].Content as DatosGeneralesViewModel;
+                return vDatosGeneralesViewModel.UsaNotaEntrega;
+            }
+        }
+
+        public ParametersViewModel ParametrosViewModel {
+            get { return _ParametrosViewModel; }
+            set { _ParametrosViewModel = value; }
+        }
+
         #endregion //Metodos Generados
 
     } //End of class NotaEntregaSttViewModel

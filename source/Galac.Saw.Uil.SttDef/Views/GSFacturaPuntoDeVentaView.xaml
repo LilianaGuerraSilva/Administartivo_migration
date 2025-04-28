@@ -14,6 +14,7 @@
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
                 <ResourceDictionary Source="/Galac.Saw.Uil.SttDef;component/Themes/rsdGroupBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="boolToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -161,7 +162,8 @@
                     Grid.Row="4"
                     Margin="4,3,0,0"
                     Content="Concepto Bancario Para Cobro Directo................."
-                    Style="{StaticResource LabelPrompt}" />
+                    Style="{StaticResource LabelPrompt}"
+                    Visibility="{Binding Path=IsVisibleConceptoBancarioCobroDirecto, Converter={StaticResource boolToVisibilityConverter}}" />
                 <nsWpfControls:GSSeekConnection
                     Name="txtConceptoBancarioCobroDirecto"
                     Grid.Row="4"
@@ -174,13 +176,15 @@
                     DisplayMemberPath="codigo"
                     IsEnabled="{Binding Path=IsEnabledConceptoBancarioCobroDirecto}"
                     Model="{Binding Path=ConexionConceptoBancarioCobroDirecto, Mode=TwoWay}"
-                    SearchCommand="{Binding Path=ChooseConceptoBancarioCobroDirectoCommand}" />
+                    SearchCommand="{Binding Path=ChooseConceptoBancarioCobroDirectoCommand}"
+                    Visibility="{Binding Path=IsVisibleConceptoBancarioCobroDirecto, Converter={StaticResource boolToVisibilityConverter}}" />
                 <Label
                     Name="lblCuentaBancariaCobroDirecto"
                     Grid.Row="3"
                     Grid.Column="0"
                     Content="Cuenta Bancaria Para Cobro Directo....................."
-                    Style="{StaticResource LabelPrompt}" />
+                    Style="{StaticResource LabelPrompt}"
+                    Visibility="{Binding Path=IsVisibleCuentaBancariaCobroDirecto, Converter={StaticResource boolToVisibilityConverter}}" />
                 <nsWpfControls:GSSeekConnection
                     Name="txtCuentaBancariaCobroDirecto"
                     Grid.Row="3"
@@ -193,7 +197,8 @@
                     DisplayMemberPath="Codigo"
                     IsEnabled="{Binding Path=IsEnabledCuentaBancariaCobroDirecto}"
                     Model="{Binding Path=ConexionCuentaBancariaCobroDirecto, Mode=TwoWay}"
-                    SearchCommand="{Binding Path=ChooseCuentaBancariaCobroDirectoCommand}" />
+                    SearchCommand="{Binding Path=ChooseCuentaBancariaCobroDirectoCommand}" 
+                    Visibility="{Binding Path=IsVisibleCuentaBancariaCobroDirecto, Converter={StaticResource boolToVisibilityConverter}}" />
                 <Label
                     Name="lblImprimeDireccionAlFinalDelComprobanteFiscal"
                     Grid.Row="5"

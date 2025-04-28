@@ -1,4 +1,5 @@
-﻿using LibGalac.Aos.Base;
+﻿using Galac.Saw.Lib;
+using LibGalac.Aos.Base;
 using LibGalac.Aos.Cnf;
 using Newtonsoft.Json;
 using System.Net;
@@ -51,6 +52,9 @@ namespace Galac.Saw.LibWebConnector {
         }
         public string ObtenerVersion(string token) {
             var url = GetUrlApiVersion() + "/api/Version";
+            if (new clsLibSaw().EsFacturadorBasico()) {
+                url = url + "/FacturadorBasico";
+            }
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             try {
                 Task<HttpResponseMessage> responseTask = client.GetAsync(url);
