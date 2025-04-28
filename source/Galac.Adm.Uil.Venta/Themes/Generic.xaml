@@ -122,4 +122,7 @@
     <DataTemplate DataType="{x:Type nsReportesView:clsNotasDeEntregaNoFacturadasViewModel}">
         <nsReportesView:GSNotasDeEntregaNoFacturadas />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:FormaDelCobroViewModel}">
+        <nsCSV:GSFormaDelCobroView />
+    </DataTemplate>
 </ResourceDictionary>

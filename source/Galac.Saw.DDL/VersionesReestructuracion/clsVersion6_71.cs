@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Galac.Saw.Ccl.Tablas;
+using Galac.Adm.Ccl.Venta;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
     class clsVersion6_71: clsVersionARestructurar {
@@ -32,20 +33,20 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		private void AgregaNuevosRegistrosTipoFormaDelCobro() {
 			LibDatabase insDb = new LibDatabase();
 			string vNextCode = insDb.NextStrConsecutive("Saw.formaDelCobro", "Codigo", "", true, 5);
-			Execute(SqlInsertarFormaDeCobro(vNextCode, "Tarjeta Medios Electrónicos", eTipoDeFormaDePago.TarjetaMS));
+			Execute(SqlInsertarFormaDeCobro(vNextCode, "Tarjeta Medios Electrónicos", eFormaDeCobro.TarjetaMS));
 			vNextCode = insDb.NextStrConsecutive("Saw.formaDelCobro", "Codigo", "", true, 5);
-			Execute(SqlInsertarFormaDeCobro(vNextCode, "ZELLE", eTipoDeFormaDePago.Zelle));
+			Execute(SqlInsertarFormaDeCobro(vNextCode, "ZELLE", eFormaDeCobro.Zelle));
 			vNextCode = insDb.NextStrConsecutive("Saw.formaDelCobro", "Codigo", "", true, 5);
-			Execute(SqlInsertarFormaDeCobro(vNextCode, "Pago Móvil", eTipoDeFormaDePago.PagoMovil));
+			Execute(SqlInsertarFormaDeCobro(vNextCode, "Pago Móvil", eFormaDeCobro.PagoMovil));
 			vNextCode = insDb.NextStrConsecutive("Saw.formaDelCobro", "Codigo", "", true, 5);
-			Execute(SqlInsertarFormaDeCobro(vNextCode, "Transferencia Medios Electrónicos", eTipoDeFormaDePago.TransferenciaMS));
+			Execute(SqlInsertarFormaDeCobro(vNextCode, "Transferencia Medios Electrónicos", eFormaDeCobro.TransferenciaMS));
 			vNextCode = insDb.NextStrConsecutive("Saw.formaDelCobro", "Codigo", "", true, 5);
-			Execute(SqlInsertarFormaDeCobro(vNextCode, "C2P", eTipoDeFormaDePago.C2P));
+			Execute(SqlInsertarFormaDeCobro(vNextCode, "C2P", eFormaDeCobro.C2P));
 			vNextCode = insDb.NextStrConsecutive("Saw.formaDelCobro", "Codigo", "", true, 5);
-			Execute(SqlInsertarFormaDeCobro(vNextCode, "Depósito Medios Electrónicos", eTipoDeFormaDePago.DepositoMS));
+			Execute(SqlInsertarFormaDeCobro(vNextCode, "Depósito Medios Electrónicos", eFormaDeCobro.DepositoMS));
 		}
 
-		string SqlInsertarFormaDeCobro(string valCodigo, string valNombre, eTipoDeFormaDePago valTipoDePago) {
+		string SqlInsertarFormaDeCobro(string valCodigo, string valNombre, eFormaDeCobro valTipoDePago) {
 			StringBuilder vSql = new StringBuilder();
 			vSql.AppendLine("INSERT INTO Saw.FormaDelCobro (Codigo, Nombre, TipoDePago) VALUES (");
 			vSql.AppendLine(InsSql.ToSqlValue(valCodigo) + ", " + InsSql.ToSqlValue(valNombre) + ", " + InsSql.EnumToSqlValue((int)valTipoDePago) + ")");

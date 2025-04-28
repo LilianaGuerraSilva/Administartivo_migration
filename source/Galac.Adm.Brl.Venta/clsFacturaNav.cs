@@ -74,8 +74,8 @@ namespace Galac.Adm.Brl.Venta {
                     vPdnModule = new Galac.Saw.Brl.Tablas.clsMaquinaFiscalNav();
                     vResult = vPdnModule.GetDataForList("Factura", ref refXmlDocument, valXmlParamsExpression);
                     break;
-                case "Forma Del Cobro":
-                    vPdnModule = new Galac.Saw.Brl.Tablas.clsFormaDelCobroNav();
+                case "Forma del Cobro":
+                    vPdnModule = new clsFormaDelCobroNav();
                     vResult = vPdnModule.GetDataForList("Factura", ref refXmlDocument, valXmlParamsExpression);
                     break;
                 case "Banco":
@@ -355,7 +355,7 @@ namespace Galac.Adm.Brl.Venta {
             foreach (Factura vItem in valData) {
                 vXElement.Add(FilterRenglonCobroDeFacturaByDistinctFormaDelCobro(vItem).Descendants("GpResult"));
             }
-            ILibPdn insFormaDelCobro = new Galac.Saw.Brl.Tablas.clsFormaDelCobroNav();
+            ILibPdn insFormaDelCobro = new clsFormaDelCobroNav();
             XElement vXElementResult = insFormaDelCobro.GetFk("Factura", ParametersGetFKFormaDelCobroForXmlSubSet(vXElement));
             return vXElementResult;
         }

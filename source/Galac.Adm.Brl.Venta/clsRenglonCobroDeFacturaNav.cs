@@ -112,6 +112,7 @@ namespace Galac.Adm.Brl.Venta {
         //    vCurrentRecord.TipoDeDocumentoAsEnum = eTipoDocumentoFactura.Factura;
         //    vCurrentRecord.ConsecutivoRenglon = 0;
         //    vCurrentRecord.CodigoFormaDelCobro = "";
+        //    vCurrentRecord.ConsecutivoFormaDelCobro = 0;
         //    vCurrentRecord.NumeroDelDocumento = "";
         //    vCurrentRecord.CodigoBanco = 0;
         //    vCurrentRecord.Monto = 0;
@@ -144,6 +145,9 @@ namespace Galac.Adm.Brl.Venta {
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CodigoFormaDelCobro"), null))) {
                     vRecord.CodigoFormaDelCobro = vItem.Element("CodigoFormaDelCobro").Value;
                 }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("ConsecutivoFormaDelCobro"), null))) {
+                    vRecord.ConsecutivoFormaDelCobro = LibConvert.ToInt(vItem.Element("ConsecutivoFormaDelCobro"));
+                }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("NumeroDelDocumento"), null))) {
                     vRecord.NumeroDelDocumento = vItem.Element("NumeroDelDocumento").Value;
                 }
@@ -167,13 +171,41 @@ namespace Galac.Adm.Brl.Venta {
             return vResult;
         }
 
-        string IRenglonCobroDeFacturaPdn.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago valTipoDeFormaDePago) {
+        string IRenglonCobroDeFacturaPdn.BuscarCodigoFormaDelCobro(eFormaDeCobro valTipoDeFormaDePago) {
             try {
                 string vResult = "";
-                string vSql = "SELECT Codigo FROM Saw.FormaDelCobro WHERE TipoDePago = " + new QAdvSql("").EnumToSqlValue((int)valTipoDeFormaDePago);
+                string vSql = "SELECT Codigo FROM Adm.FormaDelCobro WHERE TipoDePago = " + new QAdvSql("").EnumToSqlValue((int)valTipoDeFormaDePago);
                 XElement vResultXml = LibBusiness.ExecuteSelect(vSql, null, "", 0);
                 if (vResultXml != null && vResultXml.HasElements) {
                     vResult = LibXml.GetPropertyString(vResultXml, "Codigo");
+                }
+                return vResult;
+            } catch (Exception) {
+                throw;
+            }
+        }
+
+        string IRenglonCobroDeFacturaPdn.BuscarConsecutivoFormaDelCobro(eFormaDeCobro valTipoDeFormaDePago) {
+            try {
+                string vResult = "";
+                string vSql = "SELECT Consecutivo FROM Adm.FormaDelCobro WHERE TipoDePago = " + new QAdvSql("").EnumToSqlValue((int)valTipoDeFormaDePago);
+                XElement vResultXml = LibBusiness.ExecuteSelect(vSql, null, "", 0);
+                if (vResultXml != null && vResultXml.HasElements) {
+                    vResult = LibXml.GetPropertyString(vResultXml, "Consecutivo");
+                }
+                return vResult;
+            } catch (Exception) {
+                throw;
+            }
+        }
+
+        string IRenglonCobroDeFacturaPdn.BuscarCodigoCtaBancariaFormaDelCobro(int ConsecutivoCompania, eFormaDeCobro valTipoDeFormaDePago) {
+            try {
+                string vResult = "";
+                string vSql = "SELECT Banco.Codigo AS CodigoBanco FROM Adm.FormaDelCobro INNER JOIN Saw.CuentaBancaria on Adm.FormaDelCobro.ConsecutivoCompania = Saw.CuentaBancaria.ConsecutivoCompania AND Adm.FormaDelCobro.CodigoCuentaBancaria = Saw.CuentaBancaria.Codigo INNER JOIN dbo.Banco on Saw.CuentaBancaria.CodigoBanco = dbo.Banco.Codigo WHERE Adm.FormaDelCobro.ConsecutivoCompania = " +ConsecutivoCompania + " AND Adm.FormaDelCobro.TipoDePago = " + new QAdvSql("").EnumToSqlValue((int)valTipoDeFormaDePago);
+                XElement vResultXml = LibBusiness.ExecuteSelect(vSql, null, "", 0);
+                if (vResultXml != null && vResultXml.HasElements) {
+                    vResult = LibXml.GetPropertyString(vResultXml, "CodigoBanco");
                 }
                 return vResult;
             } catch (Exception) {

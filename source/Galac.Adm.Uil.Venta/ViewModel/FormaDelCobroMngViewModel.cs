@@ -12,17 +12,17 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Base.Report;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.ARRpt.Reports;
-using Galac.Saw.Brl.Tablas;
-using Galac.Saw.Brl.Tablas.Reportes;
-using Galac.Saw.Ccl.Tablas;
+using Galac.Adm.Brl.Venta;
+using Galac.Adm.Brl.Venta.Reportes;
+using Galac.Adm.Ccl.Venta;
 
-namespace Galac.Saw.Uil.Tablas.ViewModel {
+namespace Galac.Adm.Uil.Venta.ViewModel {
 
     public class FormaDelCobroMngViewModel : LibMngViewModel<FormaDelCobroViewModel, FormaDelCobro> {
         #region Propiedades
 
         public override string ModuleName {
-            get { return "Forma Del Cobro"; }
+            get { return "Forma del Cobro"; }
         }
         #region Codigo Ejemplo
         /* Codigo de Ejemplo
@@ -35,7 +35,7 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
 
         public FormaDelCobroMngViewModel() {
             Title = "Buscar " + ModuleName;
-            OrderByMember = "Codigo";
+            OrderByMember = "ConsecutivoCompania, Consecutivo";
         #region Codigo Ejemplo
         /* Codigo de Ejemplo
             OrderByDirection = "DESC";
@@ -67,28 +67,24 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
         }
 
         // prueba
-        protected override bool CanExecuteCreateCommand() {
-            return LibSecurityManager.CurrentUserHasAccessTo("Tablas", "Insertar") && CurrentItem != null; ;
-        }
 
         protected override bool CanExecuteUpdateCommand() {
-            return LibSecurityManager.CurrentUserHasAccessTo("Tablas", "Modificar") && CurrentItem != null;
+            return LibSecurityManager.CurrentUserHasAccessTo("FormaDelCobro", "Modificar") && CurrentItem != null;
         }
 
         protected override bool CanExecuteDeleteCommand() {
-            return LibSecurityManager.CurrentUserHasAccessTo("Tablas", "Eliminar") && CurrentItem != null;
+            return LibSecurityManager.CurrentUserHasAccessTo("FormaDelCobro", "Eliminar") && CurrentItem != null;
         }
 
         protected override bool CanExecuteReadCommand() {
-            return LibSecurityManager.CurrentUserHasAccessTo("Tablas", "Consultar") && CurrentItem != null;
+            return LibSecurityManager.CurrentUserHasAccessTo("FormaDelCobro", "Consultar") && CurrentItem != null;
         }
         
         protected override bool HasAccessToModule() {
             bool vResult = false;
-            vResult = (LibSecurityManager.CurrentUserHasAccessTo("Tablas", "Insertar") ||
-                LibSecurityManager.CurrentUserHasAccessTo("Tablas", "Eliminar") ||
-                LibSecurityManager.CurrentUserHasAccessTo("Tablas", "Modificar") ||
-                LibSecurityManager.CurrentUserHasAccessTo("Tablas", "Consultar"));
+            vResult = (LibSecurityManager.CurrentUserHasAccessTo("FormaDelCobro", "Eliminar") ||
+                LibSecurityManager.CurrentUserHasAccessTo("FormaDelCobro", "Modificar") ||
+                LibSecurityManager.CurrentUserHasAccessTo("FormaDelCobro", "Consultar"));
             return vResult;
         }
         #endregion
@@ -107,6 +103,7 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
             base.InitializeRibbon();
             if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
                RibbonData.RemoveRibbonControl("Consultas", "Imprimir Lista");
+                RibbonData.RemoveRibbonControl("Adminstrar", "Insertar");
         #region Codigo Ejemplo
         /* Codigo de Ejemplo
                 RibbonData.TabDataCollection[0].AddTabGroupData(CreateSUPROCESOPARTICULARRibbonGroup());
@@ -114,11 +111,6 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
         #endregion //Codigo Ejemplo
             }
         }
-        //#endregion //Metodos Generados
-
-
-        
-
         #region Codigo Ejemplo
         /* Codigo de Ejemplo
         //para cambiar el mecanismo de activacion de los botones de operaciones CRUD, debes sobreescribirla y ajustarla las necesidades de tu negocio:
@@ -177,10 +169,7 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
             try {
                 ANYRELATEDViewModel vViewModel = CreateNewElementForSUPROCESOPARTICULAR(CurrentItem.GetModel(), eAccionSR.Cerrar);
                 vViewModel.InitializeViewModel(eAccionSR.SUACCION);
-                bool result = LibMessages.EditViewModel.ShowEditor(vViewModel);
-                if (result) {
-                    SearchItems();
-                }
+                LibMessages.EditViewModel.ShowEditor(vViewModel);
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
@@ -193,5 +182,5 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
 
     } //End of class FormaDelCobroMngViewModel
 
-} //End of namespace Galac.Saw.Uil.Tablas
+} //End of namespace Galac.Adm.Uil.Venta
 

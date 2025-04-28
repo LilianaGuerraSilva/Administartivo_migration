@@ -13,19 +13,26 @@ using LibGalac.Aos.Uil.Usal;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.Uil;
 using LibGalac.Aos.Vbwa;
+using Galac.Saw.Wrp.SttDef;
+using Galac.Saw.Ccl.SttDef;
+using Galac.Adm.Ccl.Venta;
+using LibGalac.Aos.Brl;
+using System.Xml.Linq;
+using Galac.Saw.Wrp.FormaDelCobro;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Tablas {
 #elif IsExeBsS​
 namespace Galac.SawBsS.Wrp.Tablas {
 #else
-namespace Galac.Saw.Wrp.Tablas {
+namespace Galac.Saw.Wrp.FormaDelCobro {
 #endif
 
     [ClassInterface(ClassInterfaceType.None)]
 
-    public class wrpFormaDelCobro: System.EnterpriseServices.ServicedComponent, IWrpVb {
+    public class wrpFormaDelCobro: System.EnterpriseServices.ServicedComponent, IWrpFormaDelCobroVb {
         #region Variables
         string _Title = "Forma Del Cobro";
+        IFormaDelCobroPdn _Reglas;
         #endregion //Variables
         #region Propiedades
 
@@ -34,13 +41,17 @@ namespace Galac.Saw.Wrp.Tablas {
         }
         #endregion //Propiedades
         #region Constructores
+        private void RegistraCliente() {
+            _Reglas = new Galac.Adm.Brl.Venta.clsFormaDelCobroNav();
+        }
         #endregion //Constructores
         #region Metodos Generados
         #region Miembros de IWrpVb
 
-        void IWrpVb.Execute(string vfwAction) {
+        void IWrpFormaDelCobroVb.Execute(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
             try {
-                ILibMenu insMenu = new Galac.Saw.Uil.Tablas.clsFormaDelCobroMenu();
+                LibGlobalValues insGV = CreateGlobalValues(vfwCurrentMfc, vfwCurrentParameters);
+                ILibMenu insMenu = new Galac.Adm.Uil.Venta.clsFormaDelCobroMenu();
                 insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1);
             } catch (GalacException gEx) {
                 LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
@@ -52,7 +63,7 @@ namespace Galac.Saw.Wrp.Tablas {
             }
         }
 
-        string IWrpVb.Choose(string vfwParamInitializationList, string vfwParamFixedList) {
+        string IWrpFormaDelCobroVb.Choose(string vfwParamInitializationList, string vfwParamFixedList) {
             string vResult = "";
             LibSearch insLibSearch = new LibSearch();
             List<LibSearchDefaultValues> vSearchValues = new List<LibSearchDefaultValues>();
@@ -61,7 +72,7 @@ namespace Galac.Saw.Wrp.Tablas {
                 vSearchValues = insLibSearch.CreateListOfParameter(vfwParamInitializationList);
                 vFixedValues = insLibSearch.CreateListOfParameter(vfwParamFixedList);
                 System.Xml.XmlDocument vXmlDocument = null;
-                if (Galac.Saw.Uil.Tablas.clsFormaDelCobroMenu.ChooseFromInterop(ref vXmlDocument, vSearchValues, vFixedValues)) {
+                if (Galac.Adm.Uil.Venta.clsFormaDelCobroMenu.ChooseFromInterop(ref vXmlDocument, vSearchValues, vFixedValues)) {
                     vResult = vXmlDocument.InnerXml;
                 }
                 return vResult;
@@ -76,7 +87,7 @@ namespace Galac.Saw.Wrp.Tablas {
             return "";
         }
 
-        void IWrpVb.InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath) {
+        void IWrpFormaDelCobroVb.InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath) {
             try {
                 LibWrp.SetAppConfigToCurrentDomain(vfwPath);
                 LibWrpHelper.ConfigureRuntimeContext(vfwLogin, vfwPassword);
@@ -88,7 +99,7 @@ namespace Galac.Saw.Wrp.Tablas {
             }
         }
 
-        void IWrpVb.InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO, bool vfwUsePASOnLine) {
+        void IWrpFormaDelCobroVb.InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO, bool vfwUsePASOnLine) {
             try {
                 string vLogicUnitDir = LibGalac.Aos.Cnf.LibAppSettings.ULS;
                 LibGalac.Aos.DefGen.LibDefGen.InitializeProgramInfo(vfwProgramInitials, vfwProgramVersion, vfwDbVersion, LibConvert.ToDate(vfwStrDateOfVersion), vfwStrHourOfVersion, "", vfwCountry, LibConvert.ToInt(vfwCMTO));
@@ -101,7 +112,7 @@ namespace Galac.Saw.Wrp.Tablas {
             }
         }
 
-        void IWrpVb.InitializeContext(string vfwInfo) {
+        void IWrpFormaDelCobroVb.InitializeContext(string vfwInfo) {
             try {
                 LibGalac.Aos.DefGen.LibDefGen.Initialize(vfwInfo);
             } catch (Exception vEx) {
@@ -110,6 +121,39 @@ namespace Galac.Saw.Wrp.Tablas {
                 }
                 throw new GalacWrapperException(Title + " - Inicialización", vEx);
             }
+        }
+
+        private LibGlobalValues CreateGlobalValues(string valCurrentMfc, string valCurrentParameters) {
+            LibGlobalValues.Instance.LoadCompleteAppMemInfo(valCurrentParameters);
+            LibGlobalValues.Instance.GetMfcInfo().Add("Compania", LibConvert.ToInt(valCurrentMfc));
+            return LibGlobalValues.Instance;
+        }
+
+        void IWrpFormaDelCobroVb.InsertaValoresPorDefecto(string valCurrentMfc) {
+            try {
+                LibGlobalValues insGV = CreateGlobalValues(valCurrentMfc, "");
+                RegistraCliente();
+                _Reglas.InsertDefaultRecord(LibConvert.ToInt(valCurrentMfc));
+            } catch (GalacException gEx) {
+                LibExceptionDisplay.Show(gEx, null, Title + " - " + "Inserta Valores Por Defecto");
+            } catch (Exception vEx) {
+                if (vEx is AccessViolationException) {
+                    throw;
+                }
+                LibExceptionDisplay.Show(vEx);
+            }
+        }
+
+        XElement IWrpFormaDelCobroVb.SearchByField(string valConsecutivoCompania, string valCodigo) {
+            LibGpParams vParams = new LibGpParams();
+            vParams.AddInInteger("ConsecutivoCompania", LibConvert.ToInt(valConsecutivoCompania));
+            vParams.AddInString("Codigo", valCodigo, 5);
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("SELECT * FROM Adm.FormaDelCobro");
+            SQL.AppendLine("WHERE ConsecutivoCompania = @ConsecutivoCompania");
+            SQL.AppendLine("AND Codigo = @Codigo");
+            SQL.AppendLine("ORDER BY Codigo");
+            return LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", -1);
         }
         #endregion //Miembros de IWrpVb
 

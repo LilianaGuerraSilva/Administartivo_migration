@@ -227,12 +227,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
     }
 
     public class FkFormaDelCobroViewModel : IFkFormaDelCobroViewModel {
+        public int ConsecutivoCompania { get; set; }
         [LibGridColum("Código")]
         public string Codigo { get; set; }
         [LibGridColum("Nombre")]
         public string Nombre { get; set; }
-        [LibGridColum("eTipoDeFormaDePago")]
-        public eTipoDeFormaDePago TipoDePago { get; set; }
+        [LibGridColum("eFormaDeCobro")]
+        public eFormaDeCobro TipoDeCobro { get; set; }
+        public int Consecutivo { get;  set; }
+        public string CodigoCuentaBancaria { get; set; }
     }
 
     public class FkCobroDeFacturaRapidaViewModel : IFkCobroDeFacturaRapidaViewModel {
@@ -384,4 +387,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         [LibGridColum("Fecha de Inicio", eGridColumType.DatePicker, Width = 100, BindingStringFormat = "dd/MM/yyyy", Alignment = eTextAlignment.Center)]
         public DateTime FechaDeInicio { get; set; }
     }
+
+    //public class FkFormaDelCobroViewModel: IFkFormaDelCobroViewModel {
+    //    public int ConsecutivoCompania { get; set; }
+    //    [LibGridColum("Código")]
+    //    public string Codigo { get; set; }
+    //    [LibGridColum("Nombre")]
+    //    public string Nombre { get; set; }
+    //    [LibGridColum("TipoDeCobro")]
+    //    public eFormaDeCobro TipoDeCobro { get; set; }
+    //}
 }

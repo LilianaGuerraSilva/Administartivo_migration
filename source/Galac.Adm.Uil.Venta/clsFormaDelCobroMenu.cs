@@ -5,11 +5,11 @@ using System.Xml;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.UI.Wpf;
 using LibGalac.Aos.Uil;
-using Galac.Saw.Ccl.Tablas;
-using Galac.Saw.Uil.Tablas.ViewModel;
-using Galac.Saw.Brl.Tablas;
+using Galac.Adm.Ccl.Venta;
+using Galac.Adm.Brl.Venta;
+using Galac.Adm.Uil.Venta.ViewModel;
 
-namespace Galac.Saw.Uil.Tablas {
+namespace Galac.Adm.Uil.Venta {
     public class clsFormaDelCobroMenu: ILibMenu {
         #region Metodos Generados
 
@@ -26,12 +26,12 @@ namespace Galac.Saw.Uil.Tablas {
         }
 
         public static bool ChooseFromInterop(ref XmlDocument refXmlDocument, List<LibSearchDefaultValues> valSearchCriteria, List<LibSearchDefaultValues> valFixedCriteria) {
-            return LibFKRetrievalHelper.ChooseRecord<FkFormaDelCobroViewModel>("Forma Del Cobro", ref refXmlDocument, valSearchCriteria, valFixedCriteria, new clsFormaDelCobroNav());
+            return LibFKRetrievalHelper.ChooseRecord<FkFormaDelCobroViewModel>("Forma del Cobro", ref refXmlDocument, valSearchCriteria, valFixedCriteria, new clsFormaDelCobroNav());
         }
         #endregion //Metodos Generados
 
 
     } //End of class clsFormaDelCobroMenu
 
-} //End of namespace Galac.Saw.Uil.Tablas
+} //End of namespace Galac.Adm.Uil.Venta
 

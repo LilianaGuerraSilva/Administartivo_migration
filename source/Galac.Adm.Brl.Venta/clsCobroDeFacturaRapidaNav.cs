@@ -68,7 +68,7 @@ namespace Galac.Adm.Brl.Venta {
                     vResult = ((ILibPdn)this).GetDataForList(valModule, ref refXmlDocument, valXmlParamsExpression);
                     break;
                 case "Forma Del Cobro":
-                    vPdnModule = new Galac.Saw.Brl.Tablas.clsFormaDelCobroNav();
+                    vPdnModule = new clsFormaDelCobroNav();
                     vResult = vPdnModule.GetDataForList("Forma de Cobro", ref refXmlDocument, valXmlParamsExpression);
                     break;
                 default: throw new NotImplementedException();
@@ -119,7 +119,7 @@ namespace Galac.Adm.Brl.Venta {
             foreach(CobroDeFacturaRapida vItem in valData) {
                 vXElement.Add(FilterCobroDeFacturaRapidaDetalleByDistinctFormaDelCobro(vItem).Descendants("GpResult"));
             }
-            ILibPdn insFormaDelCobro = new Galac.Saw.Brl.Tablas.clsFormaDelCobroNav();
+            ILibPdn insFormaDelCobro = new clsFormaDelCobroNav();
             XElement vXElementResult = insFormaDelCobro.GetFk("CobroDeFacturaRapida", ParametersGetFKFormaDelCobroForXmlSubSet(vXElement));
             return vXElementResult;
         }

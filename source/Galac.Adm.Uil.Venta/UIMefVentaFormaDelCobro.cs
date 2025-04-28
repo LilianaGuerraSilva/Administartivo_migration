@@ -8,11 +8,11 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.UI.Contracts;
 using LibGalac.Aos.UI.WpfControls;
 using LibGalac.Aos.UI.Mvvm.Ribbon;
-using Galac.Saw.Uil.Tablas.ViewModel;
+using Galac.Adm.Uil.Venta.ViewModel;
 
-namespace Galac.Saw.Uil.Tablas {
-    [LibMefUilComponentMetadata(typeof(UIMefTablasFormaDelCobro), "SAW")]
-    public class UIMefTablasFormaDelCobro : ILibMefUilComponent {
+namespace Galac.Adm.Uil.Venta {
+    [LibMefUilComponentMetadata(typeof(UIMefVentaFormaDelCobro), "Adm")]
+    public class UIMefVentaFormaDelCobro : ILibMefUilComponent {
         #region Variables
         private FormaDelCobroMngViewModel _ViewModel;
         private ContentControl _View;
@@ -20,7 +20,7 @@ namespace Galac.Saw.Uil.Tablas {
         #region Propiedades
 
         public string Name {
-            get { return "Forma Del Cobro"; }
+            get { return "Forma del Cobro"; }
         }
 
         public Uri Image {
@@ -59,7 +59,7 @@ namespace Galac.Saw.Uil.Tablas {
         #endregion //Propiedades
         #region Constructores
 
-        public UIMefTablasFormaDelCobro() {
+        public UIMefVentaFormaDelCobro() {
         #region Codigo Ejemplo
         /* Codigo de Ejemplo
             AppMemoryInfo = LibGlobalValues.Instance.GetAppMemInfo();
@@ -70,22 +70,34 @@ namespace Galac.Saw.Uil.Tablas {
         #region Metodos Generados
 
         public void InitializeIfNecessary() {
-            if(!IsInitialized) {
-                IsInitialized = true;
-                _ViewModel = new FormaDelCobroMngViewModel();
+            try {
+                if (!IsInitialized) {
+                    IsInitialized = true;
+                    _ViewModel = new FormaDelCobroMngViewModel();
+                }
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, Name);
             }
         }
 
         public void Reload() {
-            InitializeIfNecessary();
-            if (_ViewModel != null) {
-                _ViewModel.ExecuteSearchAndInitLookAndFeel();
+            try {
+                InitializeIfNecessary();
+                if (_ViewModel != null) {
+                    _ViewModel.ExecuteSearchAndInitLookAndFeel();
+                }
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, Name);
             }
         }
         #endregion //Metodos Generados
 
 
-    } //End of class UIMefTablasFormaDelCobro
+    } //End of class UIMefVentaFormaDelCobro
 
-} //End of namespace Galac.Saw.Uil.Tablas
+} //End of namespace Galac.Adm.Uil.Venta
 

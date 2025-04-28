@@ -62,7 +62,7 @@ namespace Galac.Adm.Brl.Venta {
                     vResult = ((ILibPdn)this).GetDataForList(valModule, ref refXmlDocument, valXmlParamsExpression);
                     break;
                 case "Forma Del Cobro":
-                    vPdnModule = new Galac.Saw.Brl.Tablas.clsFormaDelCobroNav();
+                    vPdnModule = new clsFormaDelCobroNav();
                     vResult = vPdnModule.GetDataForList("Cobro Tarjeta de Factura", ref refXmlDocument, valXmlParamsExpression);
                     break;
                 case "Banco":

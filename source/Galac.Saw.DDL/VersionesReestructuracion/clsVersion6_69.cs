@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Galac.Saw.Ccl.Tablas;
+using Galac.Adm.Ccl.Venta;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
     class clsVersion6_69: clsVersionARestructurar {
@@ -29,12 +30,12 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		private void AgregaNuevosRegistrosTipoFormaDelCobro() {
 			LibDatabase insDb = new LibDatabase();
 			string vNextCode = insDb.NextStrConsecutive("Saw.formaDelCobro", "Codigo", "", true, 5);
-			InsertFormaDelCobro(vNextCode, eTipoDeFormaDePago.VueltoEfectivo);
+			InsertFormaDelCobro(vNextCode, eFormaDeCobro.VueltoEfectivo);
 			vNextCode = insDb.NextStrConsecutive("Saw.formaDelCobro", "Codigo", "", true, 5);
-			InsertFormaDelCobro(vNextCode, eTipoDeFormaDePago.VueltoC2P);
+			InsertFormaDelCobro(vNextCode, eFormaDeCobro.VueltoPM);
 		}
 
-		private void InsertFormaDelCobro(string valCodigo, eTipoDeFormaDePago valFormaDelCobro) {
+		private void InsertFormaDelCobro(string valCodigo, eFormaDeCobro valFormaDelCobro) {
 			StringBuilder vSql = new StringBuilder();
 			vSql.AppendLine("INSERT INTO Saw.FormaDelCobro (Codigo, Nombre, TipoDePago) VALUES ");
 			vSql.AppendLine("(" + InsSql.ToSqlValue(valCodigo) + " , " + InsSql.ToSqlValue("VUELTO") + ", " + _insSql.EnumToSqlValue((int)valFormaDelCobro) + ")");

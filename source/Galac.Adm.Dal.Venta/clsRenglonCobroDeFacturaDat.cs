@@ -44,6 +44,7 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInEnum("TipoDeDocumento", valRecord.TipoDeDocumentoAsDB);
             vParams.AddInInteger("ConsecutivoRenglon", valRecord.ConsecutivoRenglon);
             vParams.AddInString("CodigoFormaDelCobro", valRecord.CodigoFormaDelCobro, 5);
+            vParams.AddInInteger("ConsecutivoFormaDelCobro", valRecord.ConsecutivoFormaDelCobro);
             vParams.AddInString("NumeroDelDocumento", valRecord.NumeroDelDocumento, 30);
             vParams.AddInInteger("CodigoBanco", valRecord.CodigoBanco);
             vParams.AddInDecimal("Monto", valRecord.Monto, 2);
@@ -115,6 +116,7 @@ namespace Galac.Adm.Dal.Venta {
                     new XElement("TipoDeDocumento", vEntity.TipoDeDocumentoAsDB),
                     new XElement("ConsecutivoRenglon", vEntity.ConsecutivoRenglon),
                     new XElement("CodigoFormaDelCobro", vEntity.CodigoFormaDelCobro),
+					new XElement("ConsecutivoFormaDelCobro", vEntity.ConsecutivoFormaDelCobro),
                     new XElement("NumeroDelDocumento", vEntity.NumeroDelDocumento),
                     new XElement("CodigoBanco", vEntity.CodigoBanco),
                     new XElement("Monto", vEntity.Monto),
@@ -135,6 +137,7 @@ namespace Galac.Adm.Dal.Venta {
                     new XElement("TipoDeDocumento", vEntity.TipoDeDocumentoAsDB),
                     new XElement("ConsecutivoRenglon", vEntity.ConsecutivoRenglon),
                     new XElement("CodigoFormaDelCobro", vEntity.CodigoFormaDelCobro),
+                    new XElement("ConsecutivoFormaDelCobro", vEntity.ConsecutivoFormaDelCobro),
                     new XElement("NumeroDelDocumento", vEntity.NumeroDelDocumento),
                     new XElement("CodigoBanco", vEntity.CodigoBanco),
                     new XElement("Monto", vEntity.Monto),
@@ -194,6 +197,7 @@ namespace Galac.Adm.Dal.Venta {
             bool vResult = true;
             ClearValidationInfo();
             vResult = IsValidCodigoFormaDelCobro(valAction, CurrentRecord.CodigoFormaDelCobro);
+            //vResult = IsValidConsecutivoFormaDelCobro(valAction, CurrentRecord.ConsecutivoFormaDelCobro) && vResult;
             vResult = IsValidCodigoBanco(valAction, CurrentRecord.CodigoBanco) && vResult;
             vResult = IsValidCodigoPuntoDeVenta(valAction, CurrentRecord.CodigoPuntoDeVenta) && vResult;
             outErrorMessage = Information.ToString();
@@ -211,7 +215,7 @@ namespace Galac.Adm.Dal.Venta {
                 vResult = false;
             } else {
                 LibDatabase insDb = new LibDatabase();
-                if (!insDb.ExistsValue("SAW.FormaDelCobro", "Codigo", insDb.InsSql.ToSqlValue(valCodigoFormaDelCobro), true)) {
+                if (!insDb.ExistsValue("Adm.FormaDelCobro", "Codigo", insDb.InsSql.ToSqlValue(valCodigoFormaDelCobro), true)) {
                     BuildValidationInfo("El valor asignado al campo Codigo Forma Del Cobro no existe, escoga nuevamente.");
                     vResult = false;
                 }

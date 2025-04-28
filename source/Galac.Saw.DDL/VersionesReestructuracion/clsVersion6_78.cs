@@ -29,12 +29,12 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             CorregirInconsistenciasEnCajasQueNoUtilizanMF();
             LimpiaParametroImprimirPrecioEnNotaES();
             CorreccionDeDatosNullEnCliente();
-            DisposeConnectionNoTransaction();
             CambiarPermisosUsuarioFactura();
             CrearEscalada();
             AgregarColumnaNDCaja();
             AmpliarColumnaCompaniaImprentaDigitalClave();
             AgregarColumnaImprentaGUIDFactura();
+            DisposeConnectionNoTransaction();
             return true;
         }
 

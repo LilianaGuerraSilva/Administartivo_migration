@@ -12,27 +12,23 @@ using LibGalac.Aos.Base.Dal;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.Dal;
 using LibGalac.Aos.DefGen;
-using Galac.Saw.Ccl.Tablas;
+using Galac.Adm.Ccl.Venta;
 
-namespace Galac.Saw.Dal.Tablas {
-    public class clsFormaDelCobroDat : LibData, ILibDataComponentWithSearch<IList<FormaDelCobro>, IList<FormaDelCobro>> {
+namespace Galac.Adm.Dal.Venta {
+    public class clsFormaDelCobroDat: LibData, ILibDataComponentWithSearch<IList<FormaDelCobro>, IList<FormaDelCobro>> {
         #region Variables
         FormaDelCobro _CurrentRecord;
         #endregion //Variables
         #region Propiedades
         private FormaDelCobro CurrentRecord {
-            get {
-                return _CurrentRecord;
-            }
-            set {
-                _CurrentRecord = value;
-            }
+            get { return _CurrentRecord; }
+            set { _CurrentRecord = value; }
         }
         #endregion //Propiedades
         #region Constructores
 
         public clsFormaDelCobroDat() {
-            DbSchema = "Saw";
+            DbSchema = "Adm";
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -41,9 +37,14 @@ namespace Galac.Saw.Dal.Tablas {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             vParams.AddReturn();
+            vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
+            vParams.AddInInteger("Consecutivo", valRecord.Consecutivo);
             vParams.AddInString("Codigo", valRecord.Codigo, 5);
             vParams.AddInString("Nombre", valRecord.Nombre, 50);
             vParams.AddInEnum("TipoDePago", valRecord.TipoDePagoAsDB);
+            vParams.AddInString("CodigoCuentaBancaria", valRecord.CodigoCuentaBancaria, 5);
+            vParams.AddInString("CodigoTheFactory", valRecord.CodigoTheFactory, 2);
+            vParams.AddInEnum("Origen", valRecord.OrigenAsDB);
             if (valAction == eAccionSR.Modificar) {
                 vParams.AddInTimestamp("TimeStampAsInt", valRecord.fldTimeStamp);
             }
@@ -57,7 +58,8 @@ namespace Galac.Saw.Dal.Tablas {
             if (valAddReturnParameter) {
                 vParams.AddReturn();
             }
-            vParams.AddInString("Codigo", valRecord.Codigo, 5);
+            vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
+            vParams.AddInInteger("Consecutivo", valRecord.Consecutivo);
             if (valIncludeTimestamp) {
                 vParams.AddInTimestamp("TimeStampAsInt", valRecord.fldTimeStamp);
             }
@@ -73,8 +75,14 @@ namespace Galac.Saw.Dal.Tablas {
             string vErrMsg = "";
             LibDatabase insDB = new LibDatabase();
             if (valAction == eAccionSR.Eliminar) {
-                if (insDB.ExistsValue("dbo.renglonCobroDeFactura", "CodigoFormaDelCobro", insDB.InsSql.ToSqlValue(vRecord.Codigo), true)) {
-                    vSbInfo.AppendLine("Renglon Cobro de Factura");
+                if (insDB.ExistsValue("dbo.DetalleDeCobranza", "CodigoFormaDelCobro", insDB.InsSql.ToSqlValue(vRecord.Codigo), true)) {
+                    vSbInfo.AppendLine("Detalle De Cobranza");
+                }
+                if (insDB.ExistsValue("dbo.RenglonCobroDeFactura", "CodigoFormaDelCobro", insDB.InsSql.ToSqlValue(vRecord.Codigo), true)) {
+                    vSbInfo.AppendLine("Renglon Cobro De Factura");
+                }
+                if (insDB.ExistsValue("dbo.RenglonCobroDeFactura", "ConsecutivoFormaDelCobro", insDB.InsSql.ToSqlValue(vRecord.Consecutivo), true)) {
+                    vSbInfo.AppendLine("Renglon Cobro De Factura");
                 }
                 if (vSbInfo.Length == 0) {
                     vResult.Success = true;
@@ -91,7 +99,7 @@ namespace Galac.Saw.Dal.Tablas {
             }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "Tablas.Eliminar")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Forma Del Cobro.Eliminar")]
         LibResponse ILibDataComponent<IList<FormaDelCobro>, IList<FormaDelCobro>>.Delete(IList<FormaDelCobro> refRecord) {
             LibResponse vResult = new LibResponse();
             string vErrMsg = "";
@@ -124,7 +132,7 @@ namespace Galac.Saw.Dal.Tablas {
             return vResult;
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "Tablas.Insertar")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Forma Del Cobro.Insertar")]
         LibResponse ILibDataComponent<IList<FormaDelCobro>, IList<FormaDelCobro>>.Insert(IList<FormaDelCobro> refRecord) {
             LibResponse vResult = new LibResponse();
             string vErrMsg = "";
@@ -145,11 +153,14 @@ namespace Galac.Saw.Dal.Tablas {
             XElement vResult = null;
             LibDatabase insDb = new LibDatabase();
             switch (valType) {
-                case eProcessMessageType.Message:
-                    if (valProcessMessage.Equals("ProximoCodigo")) {
-                        vResult = LibXml.ValueToXElement(insDb.NextStrConsecutive(DbSchema + ".FormaDelCobro", "Codigo", valParameters, true, 5), "Codigo");
-                    }
-                    break;
+                //case eProcessMessageType.Message:
+                //    if (valProcessMessage.Equals("ProximoConsecutivo")) {
+                //        vResult = LibXml.ValueToXElement(insDb.NextLngConsecutive(DbSchema + ".FormaDelCobro", "Consecutivo", valParameters), "Consecutivo");
+                //    }
+                //    else if (valProcessMessage.Equals("ProximoCodigo")) {
+                //        vResult = LibXml.ValueToXElement(insDb.NextStrConsecutive(DbSchema + ".FormaDelCobro", "Codigo", valParameters, true, 5), "Codigo");
+                //    }
+                //    break;
                 case eProcessMessageType.SpName:
                     vResult = LibXml.ToXElement(insDb.LoadFromSp(valProcessMessage, valParameters, CmdTimeOut));
                     break;
@@ -163,10 +174,10 @@ namespace Galac.Saw.Dal.Tablas {
             return vResult;
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "Tablas.Modificar")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Forma Del Cobro.Modificar")]
         LibResponse ILibDataComponent<IList<FormaDelCobro>, IList<FormaDelCobro>>.Update(IList<FormaDelCobro> refRecord) {
             LibResponse vResult = new LibResponse();
-            string vErrMsg = "";
+            string vErrMsg ="";
             CurrentRecord = refRecord[0];
             try {
                 if (ExecuteProcessBeforeUpdate()) {
@@ -208,12 +219,49 @@ namespace Galac.Saw.Dal.Tablas {
         protected override bool Validate(eAccionSR valAction, out string outErrorMessage) {
             bool vResult = true;
             ClearValidationInfo();
-            vResult = IsValidCodigo(valAction, CurrentRecord.Codigo);
+            vResult = IsValidConsecutivoCompania(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo);
+            vResult = IsValidConsecutivo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo) && vResult;
+            vResult = IsValidCodigo(valAction, CurrentRecord.Codigo, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo) && vResult;
+            vResult = IsValidCodigoCuentaBancaria(valAction, CurrentRecord.CodigoCuentaBancaria) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
         }
 
-        private bool IsValidCodigo(eAccionSR valAction, string valCodigo) {
+        private bool IsValidConsecutivoCompania(eAccionSR valAction, int valConsecutivoCompania, int valConsecutivo){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            if (valConsecutivoCompania == 0) {
+                BuildValidationInfo(MsgRequiredField("Consecutivo Compania"));
+                vResult = false;
+            } else if (valAction == eAccionSR.Insertar) {
+                if (KeyExists(valConsecutivoCompania, valConsecutivo)) {
+                    BuildValidationInfo(MsgFieldValueAlreadyExist("Consecutivo Compania", valConsecutivoCompania));
+                    vResult = false;
+                }
+            }
+            return vResult;
+        }
+
+        private bool IsValidConsecutivo(eAccionSR valAction, int valConsecutivoCompania, int valConsecutivo){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            if (valConsecutivo == 0) {
+                BuildValidationInfo(MsgRequiredField("Consecutivo"));
+                vResult = false;
+            } else if (valAction == eAccionSR.Insertar) {
+                if (KeyExists(valConsecutivoCompania, valConsecutivo)) {
+                    BuildValidationInfo(MsgFieldValueAlreadyExist("Consecutivo", valConsecutivo));
+                    vResult = false;
+                }
+            }
+            return vResult;
+        }
+
+        private bool IsValidCodigo(eAccionSR valAction, string valCodigo, int valConsecutivoCompania, int valConsecutivo) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
@@ -223,7 +271,7 @@ namespace Galac.Saw.Dal.Tablas {
                 BuildValidationInfo(MsgRequiredField("Código"));
                 vResult = false;
             } else if (valAction == eAccionSR.Insertar) {
-                if (KeyExists(valCodigo)) {
+                if (KeyExists(valConsecutivoCompania, valConsecutivo,valCodigo)) {
                     BuildValidationInfo(MsgFieldValueAlreadyExist("Código", valCodigo));
                     vResult = false;
                 }
@@ -231,12 +279,52 @@ namespace Galac.Saw.Dal.Tablas {
             return vResult;
         }
 
-        private bool KeyExists(string valCodigo) {
+        private bool IsValidCodigoCuentaBancaria(eAccionSR valAction, string valCodigoCuentaBancaria){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            valCodigoCuentaBancaria = LibString.Trim(valCodigoCuentaBancaria);
+            if (LibString.IsNullOrEmpty(valCodigoCuentaBancaria , true)) {
+                BuildValidationInfo(MsgRequiredField("Cuenta Bancaria"));
+                vResult = false;
+            } else {
+                LibDatabase insDb = new LibDatabase();
+                if (!insDb.ExistsValue("Saw.CuentaBancaria", "Codigo", insDb.InsSql.ToSqlValue(valCodigoCuentaBancaria), true)) {
+                    BuildValidationInfo("El valor asignado al campo Cuenta Bancaria no existe, escoga nuevamente.");
+                    vResult = false;
+                }
+            }
+            return vResult;
+        }
+
+        private bool KeyExists(int valConsecutivoCompania, int valConsecutivo) {
             bool vResult = false;
             FormaDelCobro vRecordBusqueda = new FormaDelCobro();
+            vRecordBusqueda.ConsecutivoCompania = valConsecutivoCompania;
+            vRecordBusqueda.Consecutivo = valConsecutivo;
+            LibDatabase insDb = new LibDatabase();
+            vResult = insDb.ExistsRecord(DbSchema + ".FormaDelCobro", "ConsecutivoCompania", ParametrosClave(vRecordBusqueda, false, false));
+            insDb.Dispose();
+            return vResult;
+        }
+
+        private bool KeyExists(FormaDelCobro valRecordBusqueda) {
+            bool vResult = false;
+            LibDatabase insDb = new LibDatabase();
+            vResult = insDb.ExistsRecord(DbSchema + ".FormaDelCobro", "ConsecutivoCompania", ParametrosClave(valRecordBusqueda, false, false));
+            insDb.Dispose();
+            return vResult;
+        }
+
+        private bool KeyExists(int valConsecutivoCompania, int valConsecutivo, string valCodigo) {
+            bool vResult = false;
+            FormaDelCobro vRecordBusqueda = new FormaDelCobro();
+            vRecordBusqueda.ConsecutivoCompania = valConsecutivoCompania;
+            vRecordBusqueda.Consecutivo = valConsecutivo;
             vRecordBusqueda.Codigo = valCodigo;
             LibDatabase insDb = new LibDatabase();
-            vResult = insDb.ExistsRecord(DbSchema + ".FormaDelCobro", "Codigo", ParametrosClave(vRecordBusqueda, false, false));
+            vResult = insDb.ExistsRecord(DbSchema + ".FormaDelCobro", "ConsecutivoCompania", ParametrosClave(vRecordBusqueda, false, false));
             insDb.Dispose();
             return vResult;
         }

@@ -1134,8 +1134,9 @@ Public Enum enum_TipoDeFormaDePago
    eTDA_CHEQUE
    eTDA_DEPOSITO
    eTDA_ANTICIPO
+   eTDA_TRANSFERENCIA
    eTDA_VUELTO_EFECTIVO
-   eTDA_VUELTO_C2P
+   eTDA_VUELTO_PM
    eTDA_TARJETA_MS
    eTDA_ZELLE
    eTDA_PAGO_MOVIL
@@ -1143,6 +1144,10 @@ Public Enum enum_TipoDeFormaDePago
    eTDA_C2P
    eTDA_DEPOSITOMS
    eTDA_CREDITO_ELECTRONICO
+   eTDA_TARJETA_DE_CREDITO
+   eTDA_TARJETA_DE_DEBITO
+   eTDA_EFECTIVO_DIVISAS
+   eTDA_TRANSFERENCIA_DIVISAS
 End Enum
 
 Public Enum enum_PuertoSerial
@@ -9257,8 +9262,9 @@ Public Function enumTipoDeFormaDePagoToString(tipoDeFormaDePago As enum_TipoDeFo
       Case eTDA_CHEQUE: enumTipoDeFormaDePagoToString = "Cheque"
       Case eTDA_DEPOSITO: enumTipoDeFormaDePagoToString = "Depósito"
       Case eTDA_ANTICIPO: enumTipoDeFormaDePagoToString = "Anticipo"
+      Case eTDA_TRANSFERENCIA: enumTipoDeFormaDePagoToString = "Transferencia"
       Case eTDA_VUELTO_EFECTIVO: enumTipoDeFormaDePagoToString = "Vuelto Efectivo"
-      Case eTDA_VUELTO_C2P: enumTipoDeFormaDePagoToString = "Vuelto C2P"
+      Case eTDA_VUELTO_PM: enumTipoDeFormaDePagoToString = "Vuelto PM"
       Case eTDA_TARJETA_MS: enumTipoDeFormaDePagoToString = "Tarjeta Medios Electrónicos"
       Case eTDA_ZELLE: enumTipoDeFormaDePagoToString = "Zelle"
       Case eTDA_PAGO_MOVIL: enumTipoDeFormaDePagoToString = "Pago Movil"
@@ -9266,6 +9272,10 @@ Public Function enumTipoDeFormaDePagoToString(tipoDeFormaDePago As enum_TipoDeFo
       Case eTDA_C2P: enumTipoDeFormaDePagoToString = "C2P"
       Case eTDA_DEPOSITOMS: enumTipoDeFormaDePagoToString = "Depósito Medios Electrónicos"
       Case eTDA_CREDITO_ELECTRONICO: enumTipoDeFormaDePagoToString = "Crédito Electrónico"
+      Case eTDA_TARJETA_DE_CREDITO: enumTipoDeFormaDePagoToString = "Tarjeta de Crédito"
+      Case eTDA_TARJETA_DE_DEBITO: enumTipoDeFormaDePagoToString = "Tarjeta de Débito"
+      Case eTDA_EFECTIVO_DIVISAS: enumTipoDeFormaDePagoToString = "Efectivo Divisas"
+      Case eTDA_TRANSFERENCIA_DIVISAS: enumTipoDeFormaDePagoToString = "Transferencia Divisas"
       Case Else: enumTipoDeFormaDePagoToString = enumTipoDeFormaDePagoToString(0)
    End Select
 End Function
@@ -9274,7 +9284,7 @@ Public Function strTipoDeFormaDePagoToNum(ByVal tipoDeFormaDePago As String, Opt
    Dim mEnum As enum_TipoDeFormaDePago
    Dim nCount As Integer
    nCount = 0
-   For mEnum = eTDA_EFECTIVO To eTDA_CREDITO_ELECTRONICO
+   For mEnum = eTDA_EFECTIVO To eTDA_TRANSFERENCIA_DIVISAS
       If UCase(tipoDeFormaDePago) = UCase(enumTipoDeFormaDePagoToString(mEnum)) Then
          strTipoDeFormaDePagoToNum = nCount
          GoTo h_EXIT
@@ -9310,9 +9320,11 @@ Public Sub FillComboBoxWithTipoDeFormaDePago(ByRef varComboBox As Object, Option
    nCount = nCount + 1
    varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_ANTICIPO)
    nCount = nCount + 1
+   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_TRANSFERENCIA)
+   nCount = nCount + 1
    varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_VUELTO_EFECTIVO)
    nCount = nCount + 1
-   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_VUELTO_C2P)
+   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_VUELTO_PM)
    nCount = nCount + 1
    varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_TARJETA_MS)
    nCount = nCount + 1
@@ -9327,6 +9339,14 @@ Public Sub FillComboBoxWithTipoDeFormaDePago(ByRef varComboBox As Object, Option
    varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_DEPOSITOMS)
    nCount = nCount + 1
    varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_CREDITO_ELECTRONICO)
+   nCount = nCount + 1
+   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_TARJETA_DE_CREDITO)
+   nCount = nCount + 1
+   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_TARJETA_DE_DEBITO)
+   nCount = nCount + 1
+   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_EFECTIVO_DIVISAS)
+   nCount = nCount + 1
+   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_TRANSFERENCIA_DIVISAS)
    varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
    varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
 End Sub
@@ -9768,8 +9788,9 @@ Public Function enumTipoDeFormaDePagoToStringSiglas(tipoDeFormaDePago As enum_Ti
       Case eTDA_CHEQUE: enumTipoDeFormaDePagoToStringSiglas = "CHE"
       Case eTDA_DEPOSITO: enumTipoDeFormaDePagoToStringSiglas = "DEP"
       Case eTDA_ANTICIPO: enumTipoDeFormaDePagoToStringSiglas = "ANT"
+      Case eTDA_TRANSFERENCIA: enumTipoDeFormaDePagoToStringSiglas = "TRANS"
       Case eTDA_VUELTO_EFECTIVO: enumTipoDeFormaDePagoToStringSiglas = "VTE"
-      Case eTDA_VUELTO_C2P: enumTipoDeFormaDePagoToStringSiglas = "VCP"
+      Case eTDA_VUELTO_PM: enumTipoDeFormaDePagoToStringSiglas = "VCP"
       Case eTDA_TARJETA_MS: enumTipoDeFormaDePagoToStringSiglas = "TMS"
       Case eTDA_ZELLE: enumTipoDeFormaDePagoToStringSiglas = "ZEL"
       Case eTDA_PAGO_MOVIL: enumTipoDeFormaDePagoToStringSiglas = "PM"
@@ -9777,6 +9798,10 @@ Public Function enumTipoDeFormaDePagoToStringSiglas(tipoDeFormaDePago As enum_Ti
       Case eTDA_C2P: enumTipoDeFormaDePagoToStringSiglas = "C2P"
       Case eTDA_DEPOSITOMS: enumTipoDeFormaDePagoToStringSiglas = "DMS"
       Case eTDA_CREDITO_ELECTRONICO: enumTipoDeFormaDePagoToStringSiglas = "CRE"
+      Case eTDA_TARJETA_DE_CREDITO: enumTipoDeFormaDePagoToStringSiglas = "TCR"
+      Case eTDA_TARJETA_DE_DEBITO: enumTipoDeFormaDePagoToStringSiglas = "TDB"
+      Case eTDA_EFECTIVO_DIVISAS: enumTipoDeFormaDePagoToStringSiglas = "EFEDIV"
+      Case eTDA_TRANSFERENCIA_DIVISAS: enumTipoDeFormaDePagoToStringSiglas = "TRANSDIV"
       Case Else: enumTipoDeFormaDePagoToStringSiglas = enumTipoDeFormaDePagoToStringSiglas(0)
    End Select
 End Function
@@ -9877,7 +9902,7 @@ Public Function fSiglasTipoDeFormaDePagoToEnum(ByVal tipoDeFormaDePago As String
    Dim mEnum As enum_TipoDeFormaDePago
    Dim nCount As Integer
    nCount = 0
-   For mEnum = eTDA_EFECTIVO To eTDA_CREDITO_ELECTRONICO
+   For mEnum = eTDA_EFECTIVO To eTDA_TRANSFERENCIA_DIVISAS
       If UCase(tipoDeFormaDePago) = UCase(enumTipoDeFormaDePagoToStringSiglas(mEnum)) Then
          fSiglasTipoDeFormaDePagoToEnum = nCount
          GoTo h_EXIT
@@ -10355,7 +10380,7 @@ Public Function fenumTipoFormaDePagoToStringInArray(Optional ByVal valPrepararPa
    If valPrepararParaSql Then
       varCaracterDelimitador = "'"
    End If
-   varLimiteSuperior = enum_TipoDeFormaDePago.eTDA_CREDITO_ELECTRONICO - enum_TipoDeFormaDePago.eTDA_EFECTIVO
+   varLimiteSuperior = enum_TipoDeFormaDePago.eTDA_TRANSFERENCIA_DIVISAS - enum_TipoDeFormaDePago.eTDA_EFECTIVO
    nCount = 0
    ReDim varArray(0 To varLimiteSuperior)
    For varEnum = eTDA_EFECTIVO To eTDA_CREDITO_ELECTRONICO

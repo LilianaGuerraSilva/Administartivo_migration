@@ -31,17 +31,17 @@ namespace Galac.Adm.Brl.Venta {
 
         public clsCobranzaNav() {
             insRenglonCobroDeFactura = new clsRenglonCobroDeFacturaNav();
-            _CodigoEfectivo = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.Efectivo);
-            _CodigoTarjeta = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.Tarjeta);
-            _CodigoTransferenciaManual = "00006";
-            _CodigoVueltoEfectivo = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoEfectivo);
-            _CodigoVueltoC2P = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoC2P);
-            _CodigoC2P = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.C2P);
-            _CodigoPagMovil = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.PagoMovil);
-            _CodigoTarjetaMS = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.TarjetaMS);
-            _CodigoTransferenciaMS = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.TransferenciaMS);
-            _CodigoDepositoMS = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.DepositoMS);
-            _CodigoZelle = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.Zelle);
+            _CodigoEfectivo = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.Efectivo);
+            _CodigoTarjeta = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.Tarjeta);
+            _CodigoTransferenciaManual = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.Transferencia);
+            _CodigoVueltoEfectivo = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.VueltoEfectivo);
+            _CodigoVueltoC2P = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.VueltoPM);
+            _CodigoC2P = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.C2P);
+            _CodigoPagMovil = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.PagoMovil);
+            _CodigoTarjetaMS = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.TarjetaMS);
+            _CodigoTransferenciaMS = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.TransferenciaMS);
+            _CodigoDepositoMS = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.DepositoMS);
+            _CodigoZelle = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.Zelle);
         }
 
         bool ICobranzaPdn.InsertarCobranzaDesdePuntoDeVenta(int valConsecutivoCompania, XElement valData, string valNumeroCobranza) {

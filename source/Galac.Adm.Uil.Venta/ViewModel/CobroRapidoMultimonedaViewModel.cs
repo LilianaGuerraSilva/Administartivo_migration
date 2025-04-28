@@ -40,6 +40,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         internal string NumReferencia { get; set; }
         internal int BancoTrans { get; set; }
         internal string CodigoFormaDelCobro { get; set; }
+        internal string ConsecutivoFormaDelCobro { get; set; }
         internal string MonedaTransaccion { get; set; }
     }
     public class CobroRapidoMultimonedaViewModel: CobroRapidoVzlaViewModelBase {
@@ -874,7 +875,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         string vPath = Path.Combine(new PagosElectronicosMngViewModel().RutaMegasoft, "vouchers");
                         DialogResult = vRenglonCobro.InsertChildRenglonCobroDeFactura(ConsecutivoCompania, NumeroFactura, eTipoDocumentoFactura.ComprobanteFiscal, vListaDecobro).Success;
                         if (DialogResult) {
-                            vListaDecobro.RemoveAll(x => x.CodigoFormaDelCobro == insRenglonCobroDeFacturaPdn.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoEfectivo) || x.CodigoFormaDelCobro == insRenglonCobroDeFacturaPdn.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoC2P));
+                            vListaDecobro.RemoveAll(x => x.CodigoFormaDelCobro == insRenglonCobroDeFacturaPdn.BuscarCodigoFormaDelCobro(eFormaDeCobro.VueltoEfectivo) || x.CodigoFormaDelCobro == insRenglonCobroDeFacturaPdn.BuscarCodigoFormaDelCobro(eFormaDeCobro.VueltoPM));
                             XElement vDatosCreditoElectronico = DatosCreditoElectronico();
                             SeImprimio = ImprimirFacturaFiscal(vListaDecobro, vDatosCreditoElectronico);
                             if (_ImprimirComprobante) {
@@ -1001,6 +1002,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                                 NumReferencia = LibString.IsNullOrEmpty(insMegasoft.numeroAutorizacion) ? insMegasoft.numeroReferencia : insMegasoft.numeroAutorizacion,
                                 InfoAdicional = insMegasoft.infoAdicional,
                                 CodigoFormaDelCobro = TipoDeTransaccionCobro(insMegasoft.tipoTransaccion),
+                                ConsecutivoFormaDelCobro = ConsecutivoTipoDeTransaccionCobro(insMegasoft.tipoTransaccion),
                                 MonedaTransaccion = vMonedaTransaccion
                             });
                             CantidadTarjetasProcesadas += 1;
@@ -1021,25 +1023,54 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             string vResult;
             switch (vTransaccion) {
                 case "137":
-                    vResult = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.PagoMovil);
+                    vResult = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.PagoMovil);
                     break;
                 case "138":
-                    vResult = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.C2P);
+                    vResult = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.C2P);
                     break;
                 case "164":
-                    vResult = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.Zelle);
+                    vResult = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.Zelle);
                     break;
                 case "191":
-                    vResult = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.TarjetaMS);
+                    vResult = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.TarjetaMS);
                     break;
                 case "128":
-                    vResult = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.TransferenciaMS);
+                    vResult = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.TransferenciaMS);
                     break;
                 case "129":
-                    vResult = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.DepositoMS);
+                    vResult = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.DepositoMS);
                     break;
                 default:
-                    vResult = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.PagoMovil);
+                    vResult = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.PagoMovil);
+                    break;
+            }
+            return vResult;
+        }
+
+        private string ConsecutivoTipoDeTransaccionCobro(string vTransaccion) {
+            IRenglonCobroDeFacturaPdn insRenglonCobroDeFactura = new clsRenglonCobroDeFacturaNav();
+            string vResult;
+            switch (vTransaccion) {
+                case "137":
+                    vResult = insRenglonCobroDeFactura.BuscarConsecutivoFormaDelCobro(eFormaDeCobro.PagoMovil);
+                    break;
+                case "138":
+                    vResult = insRenglonCobroDeFactura.BuscarConsecutivoFormaDelCobro(eFormaDeCobro.C2P);
+                    break;
+                case "164":
+                    vResult = insRenglonCobroDeFactura.BuscarConsecutivoFormaDelCobro(eFormaDeCobro.Zelle);
+                    break;
+                case "191":
+                    vResult = insRenglonCobroDeFactura.BuscarConsecutivoFormaDelCobro(eFormaDeCobro.TarjetaMS);
+                    break;
+                case "128":
+                    vResult = insRenglonCobroDeFactura.BuscarConsecutivoFormaDelCobro(eFormaDeCobro.TransferenciaMS);
+                    break;
+                case "129":
+                    vResult = insRenglonCobroDeFactura.BuscarConsecutivoFormaDelCobro(eFormaDeCobro.DepositoMS);
+                    break;
+                default:
+                    vResult = insRenglonCobroDeFactura.BuscarConsecutivoFormaDelCobro(eFormaDeCobro.PagoMovil);
                     break;
             }
             return vResult;
@@ -1185,7 +1216,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         NumeroFactura = NumeroFactura,
                         TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
                         ConsecutivoRenglon = vConsecutivoRenglon,
-                        CodigoFormaDelCobro = "00001",
+                        CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.EfectivoDivisas),
+                        ConsecutivoFormaDelCobro = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarConsecutivoFormaDelCobro(eFormaDeCobro.EfectivoDivisas)),
+                        CodigoBanco = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarCodigoCtaBancariaFormaDelCobro(ConsecutivoCompania, eFormaDeCobro.EfectivoDivisas)),
                         Monto = EfectivoEnDivisas,
                         CodigoMoneda = CodigoMonedaDivisa,
                         CambioAMonedaLocal = CambioAMonedaLocal
@@ -1199,8 +1232,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         NumeroFactura = NumeroFactura,
                         TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
                         ConsecutivoRenglon = vConsecutivoRenglon,
-                        CodigoFormaDelCobro = "00006",
-                        CodigoBanco = valCodigoBancoParaDivisa,
+                        CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.TransferenciaDivisas),
+                        ConsecutivoFormaDelCobro = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarConsecutivoFormaDelCobro(eFormaDeCobro.TransferenciaDivisas)),
+                        CodigoBanco = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarCodigoCtaBancariaFormaDelCobro(ConsecutivoCompania, eFormaDeCobro.TransferenciaDivisas)),
                         Monto = TransferenciaEnDivisas,
                         CodigoMoneda = CodigoMonedaDivisa,
                         CambioAMonedaLocal = CambioAMonedaLocal
@@ -1214,7 +1248,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         NumeroFactura = NumeroFactura,
                         TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
                         ConsecutivoRenglon = vConsecutivoRenglon,
-                        CodigoFormaDelCobro = "00015",
+                        CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.CreditoElectronico),
+                        ConsecutivoFormaDelCobro = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarConsecutivoFormaDelCobro(eFormaDeCobro.CreditoElectronico)),
+                        CodigoBanco = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarCodigoCtaBancariaFormaDelCobro(ConsecutivoCompania, eFormaDeCobro.CreditoElectronico)),
                         Monto = MontoCreditoElectronico,
                         CodigoMoneda = CodigoMonedaDivisa,
                         CambioAMonedaLocal = CambioAMonedaLocal,
@@ -1230,8 +1266,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         NumeroFactura = NumeroFactura,
                         TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
                         ConsecutivoRenglon = vConsecutivoRenglon,
-                        CodigoFormaDelCobro = "00001",
-                        CodigoBanco = valCodigoBancoParaDivisa,
+                        CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.EfectivoDivisas),
+                        ConsecutivoFormaDelCobro = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarConsecutivoFormaDelCobro(eFormaDeCobro.EfectivoDivisas)),
+                        CodigoBanco = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarCodigoCtaBancariaFormaDelCobro(ConsecutivoCompania, eFormaDeCobro.EfectivoDivisas)),
                         Monto = vDiferencia,
                         CodigoMoneda = vCodigoMonedaLocal,
                         CambioAMonedaLocal = 1
@@ -1245,7 +1282,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         NumeroFactura = NumeroFactura,
                         TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
                         ConsecutivoRenglon = vConsecutivoRenglon,
-                        CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.Efectivo),
+                        CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.Efectivo),
+                        ConsecutivoFormaDelCobro = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarConsecutivoFormaDelCobro(eFormaDeCobro.Efectivo)),
+                        CodigoBanco = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarCodigoCtaBancariaFormaDelCobro(ConsecutivoCompania, eFormaDeCobro.Efectivo)),
                         Monto = EfectivoEnMonedaLocal,
                         CodigoMoneda = vCodigoMonedaLocal,
                         CambioAMonedaLocal = 1
@@ -1258,7 +1297,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         NumeroFactura = NumeroFactura,
                         TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
                         ConsecutivoRenglon = vConsecutivoRenglon,
-                        CodigoFormaDelCobro = "00001",
+                        CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.EfectivoDivisas),
+                        ConsecutivoFormaDelCobro = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarConsecutivoFormaDelCobro(eFormaDeCobro.EfectivoDivisas)),
+                        CodigoBanco = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarCodigoCtaBancariaFormaDelCobro(ConsecutivoCompania, eFormaDeCobro.EfectivoDivisas)),
                         Monto = EfectivoEnDivisas,
                         CodigoMoneda = CodigoMonedaDivisa,
                         CambioAMonedaLocal = CambioAMonedaLocal
@@ -1271,7 +1312,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         NumeroFactura = NumeroFactura,
                         TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
                         ConsecutivoRenglon = vConsecutivoRenglon,
-                        CodigoFormaDelCobro = "00015",
+                        CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.CreditoElectronico),
+                        ConsecutivoFormaDelCobro = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarConsecutivoFormaDelCobro(eFormaDeCobro.CreditoElectronico)),
+                        CodigoBanco = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarCodigoCtaBancariaFormaDelCobro(ConsecutivoCompania, eFormaDeCobro.CreditoElectronico)),
                         Monto = MontoCreditoElectronico,
                         CodigoMoneda = CodigoMonedaDivisa,
                         CambioAMonedaLocal = CambioAMonedaLocal,
@@ -1285,8 +1328,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         NumeroFactura = NumeroFactura,
                         TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
                         ConsecutivoRenglon = vConsecutivoRenglon,
-                        CodigoFormaDelCobro = "00003",
-                        CodigoBanco = valCodigoBancoParaMonedaLocal,
+                        CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.Tarjeta),
+                        ConsecutivoFormaDelCobro = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarConsecutivoFormaDelCobro(eFormaDeCobro.Tarjeta)),
+                        CodigoBanco = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarCodigoCtaBancariaFormaDelCobro(ConsecutivoCompania, eFormaDeCobro.Tarjeta)),
                         Monto = TarjetaUno,
                         CodigoMoneda = vCodigoMonedaLocal,
                         CambioAMonedaLocal = 1
@@ -1299,8 +1343,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         NumeroFactura = NumeroFactura,
                         TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
                         ConsecutivoRenglon = vConsecutivoRenglon,
-                        CodigoFormaDelCobro = "00003",
-                        CodigoBanco = valCodigoBancoParaMonedaLocal,
+                        CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.Tarjeta),
+                        ConsecutivoFormaDelCobro = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarConsecutivoFormaDelCobro(eFormaDeCobro.Tarjeta)),
+                        CodigoBanco = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarCodigoCtaBancariaFormaDelCobro(ConsecutivoCompania, eFormaDeCobro.Tarjeta)),
                         Monto = TarjetaDos,
                         CodigoMoneda = vCodigoMonedaLocal,
                         CambioAMonedaLocal = 1
@@ -1313,8 +1358,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         NumeroFactura = NumeroFactura,
                         TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
                         ConsecutivoRenglon = vConsecutivoRenglon,
-                        CodigoFormaDelCobro = "00006",
-                        CodigoBanco = valCodigoBancoParaMonedaLocal,
+                        CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.Transferencia),
+                        ConsecutivoFormaDelCobro = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarConsecutivoFormaDelCobro(eFormaDeCobro.Transferencia)),
+                        CodigoBanco = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarCodigoCtaBancariaFormaDelCobro(ConsecutivoCompania, eFormaDeCobro.Transferencia)),
                         Monto = TransferenciaEnMonedaLocal,
                         CodigoMoneda = vCodigoMonedaLocal,
                         CambioAMonedaLocal = 1
@@ -1327,8 +1373,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         NumeroFactura = NumeroFactura,
                         TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
                         ConsecutivoRenglon = vConsecutivoRenglon,
-                        CodigoFormaDelCobro = "00006",
-                        CodigoBanco = valCodigoBancoParaDivisa,
+                        CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.TransferenciaDivisas),
+                        ConsecutivoFormaDelCobro = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarConsecutivoFormaDelCobro(eFormaDeCobro.TransferenciaDivisas)),
+                        CodigoBanco = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarCodigoCtaBancariaFormaDelCobro(ConsecutivoCompania, eFormaDeCobro.TransferenciaDivisas)),
                         Monto = TransferenciaEnDivisas,
                         CodigoMoneda = CodigoMonedaDivisa,
                         CambioAMonedaLocal = CambioAMonedaLocal
@@ -1342,8 +1389,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     NumeroFactura = NumeroFactura,
                     TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
                     ConsecutivoRenglon = vConsecutivoRenglon,
-                    CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoEfectivo),
-                    CodigoBanco = valCodigoBancoParaDivisa,
+                    CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.VueltoEfectivo),
+                    ConsecutivoFormaDelCobro = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarConsecutivoFormaDelCobro(eFormaDeCobro.VueltoEfectivo)),
+                    CodigoBanco = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarCodigoCtaBancariaFormaDelCobro(ConsecutivoCompania, eFormaDeCobro.VueltoEfectivo)),
                     Monto = LibMath.Abs(VueltoEnMonedaLocal),
                     CodigoMoneda = vCodigoMonedaLocal,
                     CambioAMonedaLocal = 1
@@ -1356,8 +1404,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     NumeroFactura = NumeroFactura,
                     TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
                     ConsecutivoRenglon = vConsecutivoRenglon,
-                    CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoC2P),
-                    CodigoBanco = valCodigoBancoParaMonedaLocal,
+                    CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.VueltoPM),
+                    ConsecutivoFormaDelCobro = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarConsecutivoFormaDelCobro(eFormaDeCobro.VueltoPM)),
+                    CodigoBanco = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarCodigoCtaBancariaFormaDelCobro(ConsecutivoCompania, eFormaDeCobro.VueltoPM)),
                     Monto = LibMath.Abs(VueltoC2p),
                     NumeroDocumentoAprobacion = numReferencia,
                     CodigoMoneda = vCodigoMonedaLocal,
@@ -1372,8 +1421,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     NumeroFactura = NumeroFactura,
                     TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
                     ConsecutivoRenglon = vConsecutivoRenglon,
-                    CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoEfectivo),
-                    CodigoBanco = valCodigoBancoParaDivisa,
+                    CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eFormaDeCobro.VueltoEfectivo),
+                    ConsecutivoFormaDelCobro = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarConsecutivoFormaDelCobro(eFormaDeCobro.VueltoEfectivo)),
+                    CodigoBanco = LibConvert.ToInt(insRenglonCobroDeFactura.BuscarCodigoCtaBancariaFormaDelCobro(ConsecutivoCompania, eFormaDeCobro.VueltoEfectivo)),
                     Monto = LibMath.Abs(VueltoEnDivisas),
                     CodigoMoneda = CodigoMonedaDivisa,
                     CambioAMonedaLocal = CambioAMonedaLocal
@@ -1387,6 +1437,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
                     ConsecutivoRenglon = vConsecutivoRenglon,
                     CodigoFormaDelCobro = vItem.CodigoFormaDelCobro,
+                    ConsecutivoFormaDelCobro = LibConvert.ToInt(vItem.ConsecutivoFormaDelCobro),
                     CodigoBanco = LibString.S1IsEqualToS2(vCodigoMonedaLocal, vItem.MonedaTransaccion) ? valCodigoBancoParaMonedaLocal : valCodigoBancoParaDivisa,
                     Monto = vItem.MontoTransaccion,
                     NumeroDocumentoAprobacion = LibString.IsNullOrEmpty(vItem.NumReferencia) ? "" : vItem.NumReferencia,
@@ -1407,6 +1458,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     new XElement("TipoDeDocumento", Cobro.TipoDeDocumentoAsString),
                     new XElement("ConsecutivoRenglon", Cobro.ConsecutivoRenglon),
                     new XElement("CodigoFormaDelCobro", Cobro.CodigoFormaDelCobro),
+                    new XElement("ConsecutivoFormaDelCobro", Cobro.ConsecutivoFormaDelCobro),
                     new XElement("CodigoBanco", Cobro.CodigoBanco),
                     new XElement("Monto", Cobro.Monto.ToString("#.##")),
                     new XElement("CodigoMoneda", Cobro.CodigoMoneda),

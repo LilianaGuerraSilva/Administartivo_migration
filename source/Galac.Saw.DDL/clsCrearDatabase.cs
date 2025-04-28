@@ -339,7 +339,7 @@ namespace Galac.Saw.DDL {
         //</summary>
         //<returns></returns>
         public bool CrearFormaDelCobro() {
-            bool vResult = new Galac.Saw.Dal.Tablas.clsFormaDelCobroED().InstalarTabla();
+            bool vResult = new Galac.Adm.Dal.Venta.clsFormaDelCobroED().InstalarTabla();
             if (CreateCompatibilityView) {
                 clsCompatViews.CrearVistaDboFormaDelCobro();
             }
@@ -744,7 +744,7 @@ namespace Galac.Saw.DDL {
                 vResult = vResult && new Galac.Contab.Dal.WinCont.clsCuentaED().InstalarVistasYSps();
             }
             if (LibArray.Contains(valModulos, "FormaDelCobro")) {
-                vResult = vResult && new Galac.Saw.Dal.Tablas.clsFormaDelCobroED().InstalarVistasYSps();
+                vResult = vResult && new Galac.Adm.Dal.Venta.clsFormaDelCobroED().InstalarVistasYSps();
             }
             if (LibArray.Contains(valModulos, "Vehiculo")) {
                 vResult = vResult && new Galac.Saw.Dal.Vehiculo.clsVehiculoED().InstalarVistasYSps();
