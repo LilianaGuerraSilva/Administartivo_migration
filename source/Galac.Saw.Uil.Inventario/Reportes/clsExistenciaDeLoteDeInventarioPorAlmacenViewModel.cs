@@ -23,8 +23,6 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         public const string FechaInicialPropertyName = "FechaInicial";
         public const string FechaFinalPropertyName = "FechaFinal";
         public const string CodigoAlmacenGenericoPropertyName = "CodigoAlmacenGenerico";
-        private const string SeleccionAlmacenPropertyName = "SeleccionAlmacen";
-        
 
         #endregion
         #region Variables
@@ -41,17 +39,14 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         #endregion //Variables
         #region Propiedades
         public override string DisplayName {
-            get { return "Movimientos de Lote de Inventario por Almacen";}
+            get { return "Existencia de Lote de Inventario por Almacén"; }
         }
-
         public LibXmlMemInfo AppMemoryInfo { get; set; }
 
         public LibXmlMFC Mfc { get; set; }
         #region Propiedades
 
         public override bool IsSSRS { get { return false; } }
-
-
 
         [LibRequired(ErrorMessage = "El Código del Artículo es requerido.")]
         public string CodigoArticulo {
@@ -108,8 +103,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
                 }
             }
         }
-
-        [LibRequired(ErrorMessage = "El Código del Almacén es requerido.")]
+		
         public string CodigoAlmacenGenerico {
             get {
                 return _CodigoAlmacen;
@@ -155,6 +149,8 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
                 }
                 if (_ConexionCodigoLote == null) {
                     CodigoLote = string.Empty;
+                } else {
+                    CodigoLote = ConexionCodigoLote.CodigoLote;  
                 }
             }
         }
@@ -170,6 +166,8 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
                 }
                 if (_ConexionCodigoArticulo == null) {
                     CodigoArticulo = string.Empty;
+                } else {
+                    CodigoArticulo = _ConexionCodigoArticulo.Codigo;
                 }
             }
         }
@@ -185,9 +183,10 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
                 }
                 if (_ConexionCodigoAlmacenGenerico == null) {
                     CodigoAlmacenGenerico = string.Empty;
-        }
-
-            }
+                } else {
+                    CodigoAlmacenGenerico = ConexionAlmacenGenerico.Codigo;
+                }
+             }
         }
 
         public RelayCommand<string> ChooseCodigoLoteCommand {
@@ -277,7 +276,6 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, DisplayName);
             }
         }
-
         private void ExecuteChooseCodigoAlmacenGenericoCommand(string valCodigo) {
             try {
                 if (valCodigo == null) {
@@ -305,11 +303,6 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
                 return SeleccionAlmacen == eSeleccionAlmacen.UnAlmacen;
             }
         }
-
-
-
-
-
 
         #endregion //Metodos Generados
 

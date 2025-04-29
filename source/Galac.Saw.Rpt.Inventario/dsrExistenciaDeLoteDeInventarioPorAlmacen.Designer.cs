@@ -165,7 +165,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblTituloInforme.Left = 0.0625F;
             this.lblTituloInforme.Name = "lblTituloInforme";
             this.lblTituloInforme.Style = "font-size: 8.25pt; text-align: center";
-            this.lblTituloInforme.Text = "Existencia De Lote De Inventario Por Almacen";
+            this.lblTituloInforme.Text = "Existencia de Lote de Inventario por Almacén";
             this.lblTituloInforme.Top = 0.328125F;
             this.lblTituloInforme.Width = 4.09375F;
             // 
@@ -221,7 +221,6 @@ namespace Galac.Saw.Rpt.Inventario
             this.txtExistenciaFinal});
             this.GFsecArticulo.Height = 0.21875F;
             this.GFsecArticulo.Name = "GFsecArticulo";
-            //this.GFsecArticulo.Format += new System.EventHandler(this.GFSecArticulo_Format);
             // 
             // lblExistenciaFinal
             // 
@@ -288,7 +287,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblFechaVencimiento.Name = "lblFechaVencimiento";
             this.lblFechaVencimiento.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.lblFechaVencimiento.Text = "Fecha de Vencimiento";
-            this.lblFechaVencimiento.Top = 0.1565F;
+            this.lblFechaVencimiento.Top = 0.313F;
             this.lblFechaVencimiento.Width = 1.78125F;
             // 
             // txtFechaVencimiento
@@ -298,7 +297,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.txtFechaVencimiento.Name = "txtFechaVencimiento";
             this.txtFechaVencimiento.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtFechaVencimiento.Text = "txtFechaVencimiento";
-            this.txtFechaVencimiento.Top = 0.1565F;
+            this.txtFechaVencimiento.Top = 0.313F;
             this.txtFechaVencimiento.Width = 1.78125F;
             // 
             // lblFechaElaboracion
@@ -309,7 +308,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblFechaElaboracion.Name = "lblFechaElaboracion";
             this.lblFechaElaboracion.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.lblFechaElaboracion.Text = "Fecha de Elaboracion";
-            this.lblFechaElaboracion.Top = 0.313F;
+            this.lblFechaElaboracion.Top = 0.156F;
             this.lblFechaElaboracion.Width = 1.78125F;
             // 
             // txtFechaElaboracion
@@ -319,7 +318,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.txtFechaElaboracion.Name = "txtFechaElaboracion";
             this.txtFechaElaboracion.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtFechaElaboracion.Text = "txtFechaElaboracion";
-            this.txtFechaElaboracion.Top = 0.31275F;
+            this.txtFechaElaboracion.Top = 0.15575F;
             this.txtFechaElaboracion.Width = 1.78125F;
             // 
             // lblCodigoAlmacen
@@ -342,7 +341,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblNombreAlmacen.Left = 1.781F;
             this.lblNombreAlmacen.Name = "lblNombreAlmacen";
             this.lblNombreAlmacen.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
-            this.lblNombreAlmacen.Text = "Nombre Almacen";
+            this.lblNombreAlmacen.Text = "Nombre Almacén";
             this.lblNombreAlmacen.Top = 0.469F;
             this.lblNombreAlmacen.Width = 1.781F;
             // 

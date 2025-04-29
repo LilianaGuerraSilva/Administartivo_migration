@@ -42,6 +42,7 @@ namespace Galac.Saw.Rpt.Inventario {
 
         public override Dictionary<string, string> GetConfigReportParameters() {
             string vTitulo = clsExistenciaDeLoteDeInventarioPorAlmacen.ReportName;
+            string vDecimalesparaReporte = (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CantidadDeDecimales"));
             if (UseExternalRpx) {
                 vTitulo += " - desde RPX externo.";
             }
@@ -49,6 +50,7 @@ namespace Galac.Saw.Rpt.Inventario {
             vParams.Add("NombreCompania", AppMemoryInfo.GlobalValuesGetString("Compania", "Nombre"));
             vParams.Add("TituloInforme", vTitulo);
             vParams.Add("FechaInicialYFinal", string.Format("{0} al {1}", LibConvert.ToStr(FechaInicial, "dd/MM/yyyy"), LibConvert.ToStr(FechaFinal, "dd/MM/yyyy")));
+            vParams.Add("DecimalesParaReporte", vDecimalesparaReporte);
             return vParams;
         }
 
@@ -65,9 +67,10 @@ namespace Galac.Saw.Rpt.Inventario {
             WorkerReportProgress(90, "Configurando Informe...");
             Dictionary<string, string> vParams = GetConfigReportParameters();
             dsrExistenciaDeLoteDeInventarioPorAlmacen vRpt = new dsrExistenciaDeLoteDeInventarioPorAlmacen();
+  
             if (Data.Rows.Count >= 1) {
                 if (vRpt.ConfigReport(Data, vParams)) {
-                    LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsMovimientoDeLoteInventario.ReportName, true, ExportFileFormat, "", false);
+                    LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsExistenciaDeLoteDeInventarioPorAlmacen.ReportName, true, ExportFileFormat, "", false);
                 }
                 WorkerReportProgress(100, "Finalizando...");
             } else {

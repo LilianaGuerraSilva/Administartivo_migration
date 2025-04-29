@@ -4,6 +4,7 @@ using LibGalac.Aos.Base.Dal;
 using LibGalac.Aos.Base;
 using Galac.Saw.Ccl.Inventario;
 
+
 namespace Galac.Saw.Brl.Inventario.Reportes {
     public class clsLoteDeInventarioSql {
         #region Metodos Generados
@@ -214,21 +215,26 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
         #region Info Existencia de Lote Por Almacen 
         public string SqlExistenciaDeLoteDeInventarioDeAlmacen(int valConsecutivoCompania, string valLoteDeInventario, string valCodigoArticulo, DateTime valFechaInicial, DateTime valFechaFinal,  string CodigoAlmacen) {
             StringBuilder vSql = new StringBuilder();
-
-            vSql.AppendLine("SELECT Alm.Codigo as CodigoAlmacen ,Alm.NombreAlmacen as NombreAlmacen ,Exis.Cantidad as Existencia, ArtI.Codigo + ' - ' +  ArtI.Descripcion as Articulo, Lote.CodigoLote as Lote, Lote.FechaDeElaboracion as FechaElaboracion, lote.FechaDeVencimiento as FechaVencimiento  from ExistenciaPorAlmacenDetLoteInv Exis");
-            vSql.AppendLine("inner join Almacen Alm on Alm.ConsecutivoCompania = Exis.ConsecutivoCompania");
-            vSql.AppendLine("and Alm.Consecutivo = Exis.ConsecutivoAlmacen");
-            vSql.AppendLine("inner join Saw.LoteDeInventario Lote on Lote.ConsecutivoCompania = Exis.ConsecutivoCompania");
-            vSql.AppendLine("and Lote.Consecutivo = Exis.ConsecutivoLoteInventario");
-            vSql.AppendLine("inner join ArticuloInventario ArtI On ArtI.ConsecutivoCompania = Exis.ConsecutivoCompania");
-            vSql.AppendLine("and ArtI.Codigo = Exis.CodigoArticulo where exis.ConsecutivoCompania = 1 and Alm.Codigo = 'UNICO' ");
-           
+            string vSQLWhere = "";
+            if (string.IsNullOrEmpty(CodigoAlmacen)) {
+                vSQLWhere = "";
+            } else {
+                vSQLWhere = " AND Almacen.Codigo = '" + CodigoAlmacen + "' ";
+            }
+            vSql.AppendLine(" SELECT Almacen.Codigo as CodigoAlmacen ,Almacen.NombreAlmacen as NombreAlmacen ,ExistenciaPorAlmacenDetLoteInv.Cantidad as Existencia, ArticuloInventario.Codigo + ' - ' +  ArticuloInventario.Descripcion as Articulo,");
+            vSql.AppendLine(" Lote.CodigoLote as Lote, Lote.FechaDeElaboracion as FechaElaboracion, Lote.FechaDeVencimiento as FechaVencimiento ,ArtI.TipoArticuloInv as TipoArticuloInv");
+            vSql.AppendLine(" FROM ExistenciaPorAlmacenDetLoteInv");
+            vSql.AppendLine(" INNER JOIN Almacen ON Almacen.ConsecutivoCompania = ExistenciaPorAlmacenDetLoteInv.ConsecutivoCompania");
+            vSql.AppendLine(" AND Almacen.Consecutivo = ExistenciaPorAlmacenDetLoteInv.ConsecutivoAlmacen");
+            vSql.AppendLine(" INNER JOIN Saw.LoteDeInventario Lote ON Lote.ConsecutivoCompania = ExistenciaPorAlmacenDetLoteInv.ConsecutivoCompania");
+            vSql.AppendLine(" AND Lote.Consecutivo = ExistenciaPorAlmacenDetLoteInv.ConsecutivoLoteInventario");
+            vSql.AppendLine(" INNER JOIN ArticuloInventario ON ArticuloInventario.ConsecutivoCompania = ExistenciaPorAlmacenDetLoteInv.ConsecutivoCompania");
+            vSql.AppendLine(" AND ArticuloInventario.Codigo = ExistenciaPorAlmacenDetLoteInv.CodigoArticulo");
+            vSql.AppendLine(" WHERE ExistenciaPorAlmacenDetLoteInv.ConsecutivoCompania = " + valConsecutivoCompania + "AND ArticuloInventario.Codigo = '" + valCodigoArticulo + "' AND Lote.CodigoLote = '" + valLoteDeInventario + "' "  + vSQLWhere );
             return vSql.ToString();
         }
         #endregion
-
         #endregion //Metodos Generados
-
     }
 } //End of namespace Galac.Saw.Brl.Inventario
 
