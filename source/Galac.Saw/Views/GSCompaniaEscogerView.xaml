@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="Galac.Saw.Views.GSCompaniaEscogerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/LibGalac.Aos.UI.WpfRD;component/rsdGroupBox.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="0" Content="Código" Style="{StaticResource LabelPrompt}" IsEnabled="{Binding Path=ChooseCompanyByCodigo}"/>
+        <nsWpfControls:GSSeekConnection Grid.Row="1" Grid.Column="0" Height="23" Margin="3" HorizontalAlignment="Left" Width="100"  IsEnabled="{Binding Path=ChooseCompanyByCodigo}"
+                                        DisplayMemberPath="Codigo" 
+                                        Model="{Binding Path=Pais, Mode=TwoWay}" 
+                                        ConnectionValue="{Binding Path=Codigo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" 
+                                        SearchCommand="{Binding Path=ChooseCompanyByCodigoCommand}" />
+
+
+        <Label Grid.Row="0" Grid.Column="1" Content="Nombre" Style="{StaticResource LabelPrompt}" IsEnabled="{Binding Path=ChooseCompanyByNombre}"/>
+        <nsWpfControls:GSSeekConnection Grid.Row="1" Grid.Column="1" Height="23" Margin="3" HorizontalAlignment="Left" Width="300" IsEnabled="{Binding Path=ChooseCompanyByNombre}"
+                                        DisplayMemberPath="Nombre"  
+                                        Model="{Binding Path=Pais, Mode=TwoWay}"
+                                        ConnectionValue="{Binding Path=Nombre, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" 
+                                        SearchCommand="{Binding Path=ChooseCompanyByNombreCommand}" />
+
+    </Grid>
+</UserControl>
