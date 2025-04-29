@@ -11,6 +11,7 @@ using LibGalac.Aos.UI.Wpf;
 using LibGalac.Aos.Uil.Usal;
 using System;
 using System.ComponentModel.Composition;
+using System.Text;
 using System.Xml.Linq;
 
 namespace Galac.Saw.ViewModel {
@@ -44,7 +45,11 @@ namespace Galac.Saw.ViewModel {
 
         #region Constructores
         public ShellViewModel() {
+            clsProcesosPostAccionCia.RegisterMessages(this);
+            clsProcesosPostAccionPeriodo.RegisterMessages(this);
             LibGalac.Aos.Brl.LibBusinessProcess.Register(this,"EscogerPeriodo",OnEscogerPeriodo);
+            IsVisibleUserStatusBarRegion = false;
+            IsVisibleProtectionStatusBarRegion = true;
             CanChooseMultiFileControllers = true;
             LoadProductAdmittedComponents(Resources.Components);
             MfcCompanyRecordName = "Compania";
@@ -77,10 +82,6 @@ namespace Galac.Saw.ViewModel {
             if(LibDefGen.ProgramInfo != null) {
                 DisplayName = LibDefGen.ProgramInfo.ProgramName;
             }
-            //LibGalac.Aos.Base.Dal.QAdvSql InsSql = new LibGalac.Aos.Base.Dal.QAdvSql(string.Empty);
-            //string vQuery = LibTpvCreator.SqlViewStandardEnum(typeof(Galac.Saw.Ccl.Inventario.eTipoDeArticulo), InsSql);
-            //string vQueryAli = LibTpvCreator.SqlViewStandardEnum(typeof(Galac.Saw.Ccl.Inventario.eTipoDeAlicuota), InsSql);
-            //string vQueryInv = LibTpvCreator.SqlViewStandardEnum(typeof(Galac.Saw.Ccl.Inventario.eTipoArticuloInv), InsSql);
         }
 
         protected override void InitializeCommands() {
@@ -92,21 +93,10 @@ namespace Galac.Saw.ViewModel {
 
         protected override void InitializeRibbonInternal() {
             base.InitializeRibbonInternal();
-            //RibbonData.ApplicationMenuData.ControlDataCollection.Insert(RibbonData.ApplicationMenuData.ControlDataCollection.Count - 1,
-            //    new LibRibbonApplicationMenuItemData() {
-            //        Command = TestInterop,
-            //        Label = "Prueba Main de Interop"
-            //    });
-
-            //RibbonData.ApplicationMenuData.ControlDataCollection.Insert(RibbonData.ApplicationMenuData.ControlDataCollection.Count - 1,
-            //    new LibRibbonApplicationMenuItemData() {
-            //        Command = CrearTablasCommand,
-            //        Label = "Crear Tablas"
-            //    });
             RibbonData.ApplicationMenuData.ControlDataCollection.Insert(RibbonData.ApplicationMenuData.ControlDataCollection.Count - 1,
                 new LibRibbonApplicationMenuItemData() {
-                    Command = CrearVistasYSpsCommand,
-                    Label = "Crear Vistas y Sps"
+                    Command = TestInterop,
+                    Label = "Ver Valores en Memoria"
                 });
         }
 
@@ -157,6 +147,7 @@ namespace Galac.Saw.ViewModel {
             try {
                 int vConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
                 if(vConsecutivoCompania > 0) {
+                    LoadGlobalValuesComponents();
                     //IPeriodoPdn vPdn = new clsPeriodoNav();
                     //if (vPdn.LaCompaniaTienePeriodos(vConsecutivoCompania)) {
                     //    bool vEsCatalogoGeneral = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Compania", "EsCatalogoGeneral");
@@ -174,7 +165,10 @@ namespace Galac.Saw.ViewModel {
                     //    LibMessages.EditViewModel.ShowEditor(vVieModel, true);
                     //}
                 }
-            } catch(Exception) {
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
             }
         }
 
@@ -255,6 +249,10 @@ namespace Galac.Saw.ViewModel {
                 //LibMefBootstrapperForInterop vBootstrapper = new LibMefBootstrapperForInterop();
                 //vBootstrapper.Run(ComponentesInterop(), CurrentUserName, CompanyName, new System.Uri("/Images/Fondo WinCont.jpg", System.UriKind.Relative));
 
+                string fileName = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ValoresGlobalesSAW.xml");
+                LibIO.DeleteFile(fileName);
+                LibGlobalValues.Instance.GetAppMemInfo().Save(fileName);
+                LibDiagnostics.Shell(fileName, string.Empty, false, -1);
             } catch(System.AccessViolationException) {
                 throw;
             } catch(System.Exception vEx) {
@@ -272,6 +270,7 @@ namespace Galac.Saw.ViewModel {
         #endregion
 
         protected override void CallInsertMultiFileController() {
+            /*
             if(LibSecurityManager.CurrentUserHasAccessToModule("Compañía")) {
                 LibMessages.MessageBox.Alert(null,"El primer paso para utilizar el sistema es incluir al menos una Empresa. A continuación se iniciará el proceso de Insertar una empresa.",LibDefGen.ProgramInfo.ProgramName);
                 //Galac.Contab.Uil.Empresa.ViewModel.CompaniaViewModel vViewModel = new Galac.Contab.Uil.Empresa.ViewModel.CompaniaViewModel();
@@ -280,148 +279,56 @@ namespace Galac.Saw.ViewModel {
             } else {
                 LibMessages.MessageBox.Alert(null,"El primer paso para utilizar el sistema es incluir al menos una Empresa.",LibDefGen.ProgramInfo.ProgramName);
             }
+            */
+            LibMessages.MessageBox.Alert(null, "El primer paso para utilizar el sistema es incluir al menos una Empresa.", LibDefGen.ProgramInfo.ProgramName);
         }
 
         private string ReadDataBaseCurrentVersion() {
             string vResult = "";
             QAdvDb insDb = new QAdvDb();
-            string vSql = "SELECT DataBaseCurrentVersion FROM Lib.Version WHERE InitialsOfProgram = " + insDb.InsSql.ToSqlValue(LibDefGen.ProgramInfo.ProgramInitials);
-            if(!new LibDbo().Exists("Lib.Version",eDboType.Tabla)) {
-                vSql = "SELECT fldVersionBDD FROM VersionContabil WHERE fldSiglasPrograma = " + insDb.InsSql.ToSqlValue(LibDefGen.ProgramInfo.ProgramInitials);
-            }
-            object vValue = insDb.ExecuteScalar(vSql,0,false);
-            if(vValue != null) {
+            string vSql = "SELECT fldVersionBDD FROM Version WHERE fldSiglasPrograma = " + insDb.InsSql.ToSqlValue(LibDefGen.ProgramInfo.ProgramInitials);
+            object vValue = insDb.ExecuteScalar(vSql, 0, false);
+            if (vValue != null) {
                 vResult = vValue.ToString();
             }
             return vResult;
         }
 
-        protected override XElement AddEspecialGlobalValues(XElement valGlobalValuesElement) {
-            valGlobalValuesElement = new XElement("GpData",
-            new XElement("FacturaRapida",
-                new XElement("BuscarClienteXRifAlFacturar","S"),
-                new XElement("CodigoGenericoVendedor","00001"),
-                new XElement("UsaMultiplesAlicuotas","N"),
-                new XElement("Ciudad","BARQUISIMETO"),
-                new XElement("PorcentajeAlicuota1","16"),
-                new XElement("PorcentajeAlicuota2","8"),
-                new XElement("PorcentajeAlicuota3","31"),
-                new XElement("PorcentajePasajeAereo","50"),
-                new XElement("UsaPrecioSinIva","S"),
-                new XElement("CodigoAlmacen","UNICO"),
-                new XElement("ConsecutivoAlmacenGenerico", "1"),
-                new XElement("UsaAlmacen", "S"),
-                
-                new XElement("AplicarIVAEspecial","1"),
-                new XElement("AcumularItemsEnRenglonesDeFactura","N"),
-                new XElement("TipoDeNivelDePrecios","1"),
-                new XElement("NroCerosAlaIzquiera","10"),
-                new XElement("CantidadDeDecimales","3"),
-                new XElement("RellenaCerosAlaIzquierda","N"),
-                new XElement("FechaInicioAlicuotaIva10Porciento","24/12/2016"),
-                new XElement("FechaFinAlicuotaIva10Porciento","23/03/2018"),
-                new XElement("CuentaBancariaCobroDirecto","00001"),
-                new XElement("ConceptoBancarioCobroDirecto","60340"),
-                new XElement("UsaClienteGenericoAlFacturar","S"),
-                new XElement("CodigoGenericoCliente","000000000A"),
-                new XElement("PermitirSobregiro","1")),
-            new XElement("DatosMoneda",
-                new XElement("Codigo","VES"),
-                new XElement("Nombre","Bolívar"),
-                new XElement("Cambio","1")),
-            new XElement("DatosRentencion",
-                new XElement("SeContabilRetIva","N"),
-                new XElement("DondeContabilRetIva","0"),
-                new XElement("OrigenDeLaRetencionISLR","0"),
-                new XElement("DondeContabilISLR","0"),
-                new XElement("ISLRAplicadaEnPago","N"),
-                new XElement("SeContabilISLR","N"),
-                new XElement("RetencionAplicadaEnPago","N")),
-            new XElement("DatosContabilidad",
-                new XElement("UsaContabilidad","S")),
-            new XElement("DatosDocumento",
-                new XElement("Consecutivo","1")),
-            new XElement("DatosDocumento",
-                new XElement("Consecutivo","1")),
-            new XElement("EnumComprobanteGeneradoPor",
-                new XElement("eCG_REPOSICION","1")),
-            new XElement("Periodo",
-                new XElement("Consecutivo","1"),
-                new XElement("FechaAperturaDelPeriodo","01/01/2021"),
-                new XElement("FechaCierreDelPeriodo","31/12/2021"),
-                new XElement("FechaDeCierre1","31/01/2021"),
-                new XElement("FechaDeCierre2","28/02/2021"),
-                new XElement("FechaDeCierre3","31/03/2021"),
-                new XElement("FechaDeCierre4","30/01/2021"),
-                new XElement("FechaDeCierre5","31/05/2021"),
-                new XElement("FechaDeCierre6","30/06/2021"),
-                new XElement("FechaDeCierre7","31/07/2021"),
-                new XElement("FechaDeCierre8","31/08/2021"),
-                new XElement("FechaDeCierre9","30/09/2021"),
-                new XElement("FechaDeCierre10","31/10/2021"),
-                new XElement("FechaDeCierre11","30/11/2021"),
-                new XElement("FechaDeCierre12","31/12/2021"),
-                new XElement("PeriodoCerrado","31/12/2021"),
-                new XElement("UsaCierreDeMes","S"),
-                new XElement("TipoDeNumeracion","0")),
-            new XElement("Parametros",
-                new XElement("ManejaDebitoBancario","N"),
-                new XElement("ManejaCreditoBancario","N"),
-                new XElement("ConceptoDebitoBancario","7"),
-                new XElement("Ciudad","BARQUISIMETO"),
-                new XElement("ConsecutivoMunicipio","160"),
-                new XElement("CodigoMunicipio","VENLAR0003"),
-                new XElement("ModelosPlanillas","0"),
-                new XElement("CodigoAlmacenGenerico", "UNICO"),
-                new XElement("ConsecutivoAlmacenGenerico", "1"),
-                new XElement("UsaAlmacen", "S"),
-                new XElement("CantidadDeDecimales","3"),
-                new XElement("SesionEspecialPrecioSinIva","S"),
-                new XElement("SugerirNumeroDeOrdenDeCompra","N"),
-                new XElement("SesionEspecialModificarNumeroDigitosEnFactura","N"),
-                new XElement("OrigenDeLaRetencionISLR","1"),
-                new XElement("GenerarCxPDesdeCompra","N"),
-                new XElement("ConsecutivoCaja","2"),
-                new XElement("PorcentajeAlicuota1","16"),
-                new XElement("PorcentajeAlicuota2","8"),
-                new XElement("PorcentajeAlicuota3","31"),
-                new XElement("SeMuestraTotalEnDivisas","S"),
-                new XElement("UsaListaDePrecioEnMonedaExtranjera","N"),
-                new XElement("UsaMonedaExtranjera","S"),
-                new XElement("UsaDivisaComoMonedaPrincipalDeIngresoDeDatos","N"),
-                new XElement("CodigoMonedaExtranjera","USD"),
-                new XElement("TipoContribuyenteIVA", "2"),                
-                new XElement("UsaListaDePrecioEnMonedaExtranjera","S"),
-                new XElement("UsaCobroDirectoEnMultimoneda","S"),
-                new XElement("CuentaBancariaCobroMultimoneda","00004"),
-                new XElement("ConceptoBancarioCobroMultimoneda","60340"),
-                new XElement("CuentaBancariaCobroDirecto", "00002"),
-                new XElement("ConceptoBancarioCobroDirecto", "60340"),
-                new XElement("EsModoAvanzado","N"),
-                new XElement("NombreCreditoElectronico", "CASHEA"),                
-                new XElement("UsarLimiteMaximoParaIngresoDeTasaDeCambio","S"),
-                new XElement("MaximoLimitePermitidoParaLaTasaDeCambio","30.35"),
-                new XElement("CostoTerminadoCalculadoAPartirDe","1"),
-                new XElement("CodigoGenericoCliente", "000000000A"),
-                new XElement("ConceptoBancarioReversoTransfIngreso", ""),
-                new XElement("ConceptoBancarioReversoTransfEgreso", ""),
-                new XElement("UsaImprentaDigital", "S"),
-                new XElement("FechaInicioImprentaDigital", "01/01/2000"),
-                new XElement("ProveedorImprentaDigital", "1"),
-                new XElement("UsaLoteFechaDeVencimiento", "S"),
-                new XElement("EsUsuarioSupervisor","S")),
-            new XElement("ReglasDeContabilizacion",
-                new XElement("MuestraTipoComprobante", "S"),
-                new XElement("EsModuloDeProduccion", "S")),
-            new XElement("Compania",
-                new XElement("Nombre", "Informática Tributaria, S.A."),
-                new XElement("NumeroRif", "J305125439")));
-             LibGlobalValues.Instance.GetMfcInfo().Add("Compania", LibConvert.ToInt("6"));
-            return base.AddEspecialGlobalValues(valGlobalValuesElement);
+        protected override bool AppMustBeClosedForBreakingDataRequirements(out string outMessage) {
+            bool vResult = false;
+            outMessage = string.Empty;
+            vResult = SeEstaEjecutandoRM(ref outMessage);
+            return vResult;
+        }
+
+        protected override void ChooseAllMultiFileControllers() {
+            base.ChooseAllMultiFileControllers();
+        }
+
+        protected override bool ReestructureDBIfNeccesary(string valProgramCurrentVersionInDb) {
+            return base.ReestructureDBIfNeccesary(valProgramCurrentVersionInDb);
         }
 
         protected override void ClearListOfComponentsNotAllowed() {
+            if (IsBsFExecutable()) {
+                DeleteComponentFromList("UIMefLibBackUpRestore");
+                DeleteComponentFromList("UIMefSettingsSendMailStt");
+                DeleteComponentFromList("UIMefSettingsNotificationStt");
+                DeleteComponentFromList("UIMefSettingsParametersLib");
+            }
+        }
 
+        bool SeEstaEjecutandoRM(ref string refMessage) {
+            bool vResult = false;
+            /*
+            refMessage = "Esta Compañía no pude ser escogida, ya que no ha sido reconvertida a bolívares soberanos";
+            string vCodigoMoneda = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "CodigoMoneda");
+            IMonedaLocalActual insMonedaLocalActual = new clsMonedaLocalActual();
+            if (!LibString.S1IsEqualToS2(vCodigoMoneda, insMonedaLocalActual.GetHoyCodigoMoneda())) {
+                vResult = true;
+            }
+            */
+            return vResult;
         }
     }
 }
