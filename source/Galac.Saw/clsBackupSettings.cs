@@ -36,8 +36,8 @@ namespace Galac.Saw {
             //Controlador Multiarchivo Principal
             ControllerSubFolderFieldName = "Codigo";
             Controller = new LibBackupMfcController();
-            if (vDbo.Exists("Emp.Compania", LibGalac.Aos.Dal.eDboType.Tabla)) {
-                Controller.TableName = "Emp.Compania";
+            if (vDbo.Exists("dbo.Compania", LibGalac.Aos.Dal.eDboType.Tabla)) {
+                Controller.TableName = "dbo.Compania";
             } else {
                 Controller.TableName = "Compania";
             }
@@ -45,7 +45,26 @@ namespace Galac.Saw {
             Controller.TypeFieldName = LibBackupMfcController.eTypeMfcControler.Numeric;
             Controller.CurrentValue = TryGetCurrentMfcValue("Compania");
 
+            //Controlador Multiarchivo secundario - Período
             OthersControllers = new List<LibBackupMfcController>();
+            LibBackupMfcController OtherController = new LibBackupMfcController();
+            if (vDbo.Exists("Contab.Periodo", LibGalac.Aos.Dal.eDboType.Tabla)) {
+                OtherController.TableName = "Contab.Periodo";
+            } else {
+                OtherController.TableName = "Periodo";
+            }
+            OtherController.FieldName = "ConsecutivoPeriodo";
+            OtherController.ParentFieldName = "ConsecutivoCompania";
+            OthersControllers.Add(OtherController);
+
+            //Controlador Multiarchivo secundario - Esquema de Balances
+            OtherController = new LibBackupMfcController();
+            OtherController.TableName = "EsquemaDeBalance";
+            OtherController.FieldName = "ConsecutivoMultiArchivo";
+            OtherController.ParentFieldName = "ConsecutivoCompania";
+            OtherController.ParentTableName = "COMPANIA";
+            OthersControllers.Add(OtherController);
+         
         }
 
         public void RefreshController(System.Data.DataRow valDataRow) {
