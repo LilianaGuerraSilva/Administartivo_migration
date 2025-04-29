@@ -1,6 +1,7 @@
 ﻿using LibGalac.Aos.Base;
 using LibGalac.Aos.Brl;
 using LibGalac.Aos.Brl.Contracts;
+using LibGalac.Aos.DefGen;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,10 @@ namespace Galac.Saw.NegocioTemporal {
 
         bool ILibMefGlobalValues.LoadCurrentValues() {
             int vConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
-            if (vConsecutivoCompania > 0) {
+            if (vConsecutivoCompania > 0
+                //&& LibDefGen.HasAccessTo(101) -- revisar despues, esta devolviendo falso
+                && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Compania", "UsaModuloDeContabilidad")
+                ) {
                 return ChooseCurrent();
             } else {
                 LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesAddOrReplace(new XElement("ParametrosConciliacion"), "ParametrosConciliacion");
