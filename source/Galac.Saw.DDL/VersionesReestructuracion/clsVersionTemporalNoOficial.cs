@@ -481,7 +481,6 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             vSQL.AppendLine("INSERT INTO Adm.FormaDelCobro (ConsecutivoCompania, Consecutivo, Codigo,Nombre, TipoDePago, CodigoCuentaBancaria,CodigoTheFactory,Origen)");
             vSQL.AppendLine("SELECT ConsecutivoCompania, " + InsSql.ToSqlValue(valConsecutivo) + " , " + InsSql.ToSqlValue(valCodigo) + " , " + InsSql.ToSqlValue(valNombre) + ", " + InsSql.EnumToSqlValue((int)valFormaDelCobro) + ", CtaBancaria, " + InsSql.ToSqlValue(valCodigoTheFactory) + ", " + InsSql.EnumToSqlValue((int)eOrigen.Sistema) + " FROM CTE_SettValueCtaBancaria");
             LibBusiness.ExecuteUpdateOrDelete(vSQL.ToString(), new StringBuilder(), string.Empty, 0);
-            }       
         }
 
         private void CrearCamposIDEnCxP() {
