@@ -12,6 +12,7 @@ using Galac.Adm.Brl.ImprentaDigital;
 using LibGalac.Aos.UI.Mvvm.Messaging;
 using System.Text.RegularExpressions;
 using Galac.Adm.Ccl.GestionCompras;
+using Galac.Adm.Ccl.ImprentaDigital;
 
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.ImprentaDigital {
@@ -41,8 +42,8 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
                 string vNumeroControl = "";
                 bool vResult = false;                
                 CreateGlobalValues(vfwCurrentParameters);                
-                eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)vfwTipoDocumento;                
-                eTipoComprobantedeRetencion vTipoComprobantedeRetencion = (eTipoComprobantedeRetencion)vfwTipoComprobantedeRetencion;                
+                eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)vfwTipoDocumento;
+                eTipoDocumentoImprentaDigital vTipoComprobantedeRetencion = (eTipoDocumentoImprentaDigital)vfwTipoComprobantedeRetencion;                
                 eProveedorImprentaDigital vProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
                 var _insImprentaDigital = ImprentaDigitalCreator.Create(vProveedorImprentaDigital, vTipoDeDocumento, vfwNumeroFactura, vTipoComprobantedeRetencion);
                 _insImprentaDigital.LimpiarNroControl();
@@ -100,7 +101,7 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
                 bool vResult = false;
                 CreateGlobalValues(vfwCurrentParameters);
                 eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)vfwTipoDocumento;
-                eTipoComprobantedeRetencion vTipoComprobantedeRetencion = (eTipoComprobantedeRetencion)vfwTipoComprobantedeRetencion;
+                eTipoDocumentoImprentaDigital vTipoComprobantedeRetencion = (eTipoDocumentoImprentaDigital)vfwTipoComprobantedeRetencion;
                 eProveedorImprentaDigital vProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
                 var _insImprentaDigital = ImprentaDigitalCreator.Create(vProveedorImprentaDigital, vTipoDeDocumento, vfwNumeroFactura, vTipoComprobantedeRetencion);
                 Task vTask = Task.Factory.StartNew(() => {
