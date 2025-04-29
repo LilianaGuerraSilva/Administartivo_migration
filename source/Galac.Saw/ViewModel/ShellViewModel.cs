@@ -66,7 +66,7 @@ namespace Galac.Saw.ViewModel {
                     RaisePropertyChanged(RibbonDataPropertyName);
                 }
             };
-            PermisosUsuarioSeniat();
+            //PermisosUsuarioSeniat();
         }
         #endregion
 
