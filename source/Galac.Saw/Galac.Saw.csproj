@@ -156,8 +156,8 @@
     <Reference Include="Galac.Ent.Ccl.Empresarial">
       <HintPath>..\packages\Galac.Ent.Ccl.Empresarial.2.61.0\lib\Galac.Ent.Ccl.Empresarial.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Ent.Dal.Empresarial">
-      <HintPath>..\packages\Galac.Ent.Dal.Empresarial.2.61.0\lib\Galac.Ent.Dal.Empresarial.dll</HintPath>
+    <Reference Include="Galac.Ent.Dal.Empresarial, Version=2.62.3.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Ent.Dal.Empresarial.2.62.3\lib\Galac.Ent.Dal.Empresarial.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Ent.Uil.Empresarial">
       <HintPath>..\packages\Galac.Ent.Uil.Empresarial.2.61.0\lib\Galac.Ent.Uil.Empresarial.dll</HintPath>
@@ -309,6 +309,9 @@
     <Reference Include="LibGalac.Ssm.U, Version=24.1.0.0, Culture=neutral, processorArchitecture=x86">
       <HintPath>..\packages\LibGalac.Ssm.U.24.1.0\lib\LibGalac.Ssm.U.dll</HintPath>
     </Reference>
+    <Reference Include="MaterialSkin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialSkin.Net4.1.0.0\lib\net40\MaterialSkin.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="RibbonControlsLibrary, Version=4.0.0.11019, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -350,6 +353,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\GSCompaniaEscogerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSPeriodoEscogerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\ShellWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -361,12 +372,22 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="clsBackupSettings.cs" />
     <Compile Include="clsDefProg.cs" />
+    <Compile Include="clsProcesosPostAccionCia.cs" />
+    <Compile Include="clsProcesosPostAccionPeriodo.cs" />
     <Compile Include="clsRestoreSettings.cs" />
     <Compile Include="NegocioTemporal\clsGVParametrosActivoTemporal.cs" />
     <Compile Include="NegocioTemporal\clsGVParametrosCompaniaTemporal.cs" />
     <Compile Include="NegocioTemporal\clsGVParametrosConciliacionTemporal.cs" />
     <Compile Include="NegocioTemporal\clsGVParametrosGenTemporal.cs" />
+    <Compile Include="ViewModel\EscogerCompaniaViewModel.cs" />
+    <Compile Include="ViewModel\EscogerPeriodoViewModel.cs" />
     <Compile Include="ViewModel\ShellViewModel.cs" />
+    <Compile Include="Views\GSCompaniaEscogerView.xaml.cs">
+      <DependentUpon>GSCompaniaEscogerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSPeriodoEscogerView.xaml.cs">
+      <DependentUpon>GSPeriodoEscogerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ShellWindow.xaml.cs">
       <DependentUpon>ShellWindow.xaml</DependentUpon>
     </Compile>
