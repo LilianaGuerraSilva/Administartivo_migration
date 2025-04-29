@@ -2,54 +2,90 @@
 <Components>
   <UilComponents>
     <!-- Colocar en el orden en el que se quieren listar los componente en el main -->
-    <UilComponent Name="UIMefVentaFacturaRapida" Module="Administrativo" PathOfModuleImage="/Images/Saw.ico" />
-    <UilComponent Name="UIMefVentaFacturaRapidaInformes" Module="Administrativo" />
-    <UilComponent Name="UIMefVentaCaja" Module="Administrativo" SubModule="Caja Registradora"/>
-    <UilComponent Name="UIMefVentaCajaApertura" Module="Administrativo" SubModule="Caja Registradora"/>    
-    <UilComponent Name="UIMefInventarioInformes" Module="Administrativo" SubModule="Inventario" />
-    <UilComponent Name="UIMefGestionProduccionListaDeMateriales" Module="Administrativo" SubModule="Produccion" />
-    <UilComponent Name="UIMefGestionProduccionOrdenDeProduccion" Module="Administrativo" SubModule="Produccion" />
-    <UilComponent Name="UIMefGestionComprasCompra" Module="Administrativo" SubModule="Compras" />
-    <UilComponent Name="UIMefGestionComprasImportacion" Module="Administrativo" SubModule="Compras" />
-    <UilComponent Name="UIMefGestionComprasOrdenDeCompra" Module="Administrativo" SubModule="Compras" />
-    <UilComponent Name="UIMefGestionComprasOrdenDeCompraImportacion" Module="Administrativo" SubModule="Compras" />
-    <UilComponent Name="UIMefGestionComprasProveedor" Module="Administrativo" SubModule="Compras" />
-    <UilComponent Name="UIMefCAnticipoAnticipo" Module="Administrativo" SubModule="Anticipo" />
-    <UilComponent Name="UIMefInventarioNotaDeEntradaSalida" Module="Administrativo" SubModule="Inventario" />
-    <UilComponent Name="UIMefInventarioLoteDeInventario" Module="Administrativo" SubModule="Inventario" />
-    <UilComponent Name="UIMefAudiEnte" Module="Administrativo" SubModule="Auditoría SENIAT" />
+    <UilComponent Name="UIMefVentaFacturaRapida" Module="Administrativo" SubModule="Factura / Cotización / Contrato" PathOfModuleImage="/Images/Saw.ico" />
+	<UilComponent Name="UIMefVentaFacturaRapidaInformes" Module="Administrativo" SubModule="Factura / Cotización / Contrato" />
+    <UilComponent Name="UIMefVentaCaja" Module="Administrativo" SubModule="Factura / Cotización / Contrato"/>
+	<UilComponent Name="UIMefVentaCajaApertura" Module="Administrativo" SubModule="Factura / Cotización / Contrato"/>
+	<UilComponent Name="UIMefVehiculoVehiculo" Module="Administrativo" SubModule="Factura / Cotización / Contrato"/>
+	  
 
-    <!--<UilComponent Name="UIMefCliente" Module="Administrativo" PathOfModuleImage="/Images/Saw.ico"/>
+	<UilComponent Name="UIMefVendedor" Module="Administrativo" SubModule="CxC / Cobranzas / Vendedor" />
+	<UilComponent Name="UIMefCAnticipoAnticipo" Module="Administrativo" SubModule="CxC / Cobranzas / Vendedor" />
 
-    <UilComponent Name="UIMefTablasGenMoneda" Module="Administrativo" SubModule="Tablas Generales" />
-    <UilComponent Name="UIMefTablasGenMonedaLocal" Module="Administrativo" SubModule="Tablas Generales" />
-    <UilComponent Name="UIMefTablasGenBanco" Module="Administrativo" SubModule="Tablas Generales" />
-    <UilComponent Name="UIMefTablasGenCIIU" Module="Administrativo" SubModule="Tablas Generales" />
-    <UilComponent Name="UIMefTablasGenSectorDeNegocio" Module="Administrativo" SubModule="Tablas Generales" />
-    <UilComponent Name="UIMefTablasGenPais" Module="Administrativo" SubModule="Tablas Generales" />
-    <UilComponent Name="UIMefTablasGenMunicipio" Module="Administrativo" SubModule="Tablas Generales" />
-    <UilComponent Name="UIMefTablasGenMunicipioCiudad" Module="Administrativo" SubModule="Tablas Generales" />
-    <UilComponent Name="UIMefTablasGenCiudad" Module="Administrativo" SubModule="Tablas Generales" />
+	<UilComponent Name="UIMefGestionComprasProveedor" Module="Administrativo" SubModule="CxP / Pagos / Proveedores"/>
+	  
+	<UilComponent Name="UIMefBancoCuentaBancaria" Module="Administrativo" SubModule="Bancos" />	  
+	<UilComponent Name="UIMefBancoTransferenciaEntreCuentasBancarias" Module="Administrativo" SubModule="Bancos" />
+	<UilComponent Name="UIMefBancoConceptoBancario" Module="Administrativo" SubModule="Bancos" />	  	  
+	<UilComponent Name="UIMefBancoBeneficiario" Module="Administrativo" SubModule="Bancos" />	  
+	
+	<UilComponent Name="UIMefInventarioAlmacen" Module="Administrativo" SubModule="Inventario" />
+	<UilComponent Name="UIMefInventarioCategoria" Module="Administrativo" SubModule="Inventario" />
+	<UilComponent Name="UIMefInventarioTalla" Module="Administrativo" SubModule="Inventario" />
+	<UilComponent Name="UIMefInventarioColor" Module="Administrativo" SubModule="Inventario" />
+	<UilComponent Name="UIMefInventarioInformes" Module="Administrativo" SubModule="Inventario" />
+	<UilComponent Name="UIMefInventarioLoteDeInventario" Module="Administrativo" SubModule="Inventario" />
+	<UilComponent Name="UIMefInventarioNotaDeEntradaSalida" Module="Administrativo" SubModule="Inventario" />
+	<UilComponent Name="UIMefInventarioVerificadorDePrecios" Module="Administrativo" SubModule="Inventario" />
 
-    <UilComponent Name="UIMefTablasLeyTarifaN2" Module="Administrativo" SubModule="Tablas de Ley" />
-    <UilComponent Name="UIMefTablasLeyValorUT" Module="Administrativo" SubModule="Tablas de Ley" />
+	<UilComponent Name="UIMefGestionComprasCompra" Module="Administrativo" SubModule="Compras" />
+	<UilComponent Name="UIMefGestionComprasImportacion" Module="Administrativo" SubModule="Compras" />
+	<UilComponent Name="UIMefGestionComprasOrdenDeCompra" Module="Administrativo" SubModule="Compras" />
+	<UilComponent Name="UIMefGestionComprasOrdenDeCompraImportacion" Module="Administrativo" SubModule="Compras" />
+	<UilComponent Name="UIMefGestionComprasProveedor" Module="Administrativo" SubModule="Compras" />
+	
 
-    <UilComponent Name="UIMefInventarioAlmacen" Module="Administrativo" SubModule="Inventario" />
-    <UilComponent Name="UIMefInventarioCategoria" Module="Administrativo" SubModule="Inventario" />
-    <UilComponent Name="UIMefInventarioColor" Module="Administrativo" SubModule="Inventario" />
-    <UilComponent Name="UIMefInventarioTalla" Module="Administrativo" SubModule="Inventario" />
+	<UilComponent Name="UIMefGestionProduccionListaDeMateriales" Module="Administrativo" SubModule="Producción" />
+	<UilComponent Name="UIMefGestionProduccionOrdenDeProduccion" Module="Administrativo" SubModule="Producción" />
 
-    <UilComponent Name="UIMefTablasGenLote" Module="Administrativo" SubModule="Importar / Exportar Datos"/>
+	<UilComponent Name="UIMefCajaChicaRendicion" Module="Administrativo" SubModule="Caja Chica" />
+	<UilComponent Name="UIMefCajaChicaCierre" Module="Administrativo" SubModule="Caja Chica" />
 
-    <UilComponent Name="UIMefCajaChicaRendicion" Module="Administrativo" SubModule="Caja Chica" />
-    <UilComponent Name="UIMefBancoCuentaBancaria" Module="Administrativo" SubModule="Caja Chica" />
+	<UilComponent Name="UIMefTablasTipoDeComprobante" Module="Contabilidad" SubModule="Tipo de Comprobante / Auxiliares / Centro de Costos" />
+	<UilComponent Name="UIMefWinContAuxiliar" Module="Contabilidad" SubModule="Tipo de Comprobante / Auxiliares / Centro de Costos" />
+	<UilComponent Name="UIMefWinContCentroDeCostos" Module="Contabilidad" SubModule="Tipo de Comprobante / Auxiliares / Centro de Costos" />
+	<UilComponent Name="UIMefContabilizacionReglasDeContabilizacion" Module="Contabilidad" SubModule="Contabilizar / Reglas de Contabilización" />
 
-    <UilComponent Name="UIMefImpuestoFormatosImpMunicipales" Module="Administrativo" SubModule="Impuesto" />-->
 
-    <UilComponent Name="UIMefImpuestoFormatosImpMunicipales" Module="Administrativo" SubModule="Impuesto" />
+	<UilComponent Name="UIMefImpuestoAlicuotaImpuestoEspecial" Module="Tablas"  />
+	<UilComponent Name="UIMefTablasImpuestoBancario" Module="Tablas"  />
+	<UilComponent Name="UIMefTablasGenBanco" Module="Tablas"  />
+    <UilComponent Name="UIMefTablasGenCambio" Module="Tablas"  />
+    <UilComponent Name="UIMefInventarioCategoria" Module="Tablas"  />
+    <UilComponent Name="UIMefTablasGenCIIU" Module="Tablas"  />
+    <UilComponent Name="UIMefTablasGenCiudad" Module="Tablas"  />
+    <UilComponent Name="UIMefImpuestoClasificadorActividadEconomica" Module="Tablas"  />
+    <UilComponent Name="UIMefTablasCondicionesDePago" Module="Tablas"  />
+    <UilComponent Name="UIMefTablasFormaDelCobro" Module="Tablas" />
+    <UilComponent Name="UIMefImpuestoFormatosImpMunicipales" Module="Tablas"  />
+    <UilComponent Name="UIMefTablasLineaDeProducto" Module="Tablas" />
+    <UilComponent Name="UIMefTablasMaquinaFiscal" Module="Tablas"  />
+	<UilComponent Name="UIMefTablasGenMoneda" Module="Tablas"  />
+	<UilComponent Name="UIMefTablasGenMonedaLocal" Module="Tablas"  />
+	<UilComponent Name="UIMefTablasGenMunicipio" Module="Tablas"  />
+	<UilComponent Name="UIMefTablasGenMunicipioCiudad" Module="Tablas"  />
+	<UilComponent Name="UIMefTablasNotaFinal" Module="Tablas"  />
+	<UilComponent Name="UIMefTablasGenPais" Module="Tablas"  />
+	<UilComponent Name="UIMefTablasPropAnalisisVenc" Module="Tablas"  />
+	<UilComponent Name="UIMefTablasRutaDeComercializacion" Module="Tablas"  />
+	<UilComponent Name="UIMefTablasGenSectorDeNegocio" Module="Tablas"  />
+	<UilComponent Name="UIMefTablasLeyTarifaN2" Module="Tablas"  />
+	<UilComponent Name="UIMefTablasTipoProveedor" Module="Tablas"  />
+	<UilComponent Name="UIMefTablasUrbanizacionZP" Module="Tablas"  />
+	<UilComponent Name="UIMefTablasUnidadDeVenta" Module="Tablas"  />
+	<UilComponent Name="UIMefTablasLeyValorUT" Module="Tablas"  />
+	<UilComponent Name="UIMefTablasZonaCobranza" Module="Tablas"  />
+	<UilComponent Name="UIMefTablasOtrosCargosDeFactura" Module="Tablas"  />
+
+
+
+	<UilComponent Name="UIMefTablasGenLote" Module="Mantenimiento de Tablas" SubModule="Importar / Exportar Datos"/>
+
     
+	<UilComponent Name="UIMefParameters"/>    
+    <UilComponent Name="UIMefAudiEnte" Module="SENIAT" SubModule="Auditoría" />
+        
     <UilComponent Name="UIMefLibBackUpRestore"/>
-    <UilComponent Name="UIMefParameters"/>    
     <UilComponent Name="UIMefSettingsParametersLib"/>
     <UilComponent Name="UIMefLibConfigPrnStt" />
     <UilComponent Name="UIMefSettingsSendMailStt" />
