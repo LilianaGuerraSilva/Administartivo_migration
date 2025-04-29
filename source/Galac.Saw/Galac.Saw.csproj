@@ -54,11 +54,71 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Galac.Axi.Ccl.Balances, Version=2.64.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Axi.Ccl.Balances.2.64.0\lib\Galac.Axi.Ccl.Balances.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Axi.Uil.Balances, Version=2.64.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Axi.Uil.Balances.2.64.0\lib\Galac.Axi.Uil.Balances.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Brl.Impuesto, Version=2.61.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Galac.Comun.Brl.Impuesto.2.61.0\lib\Galac.Comun.Brl.Impuesto.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Brl.LeyCosto, Version=2.61.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Comun.Brl.LeyCosto.2.61.0\lib\Galac.Comun.Brl.LeyCosto.dll</HintPath>
+    </Reference>
     <Reference Include="Galac.Comun.Brl.TablasGen">
       <HintPath>..\packages\Galac.Comun.Brl.TablasGen.2.61.0\lib\Galac.Comun.Brl.TablasGen.dll</HintPath>
     </Reference>
+    <Reference Include="Galac.Comun.Brl.TablasLey, Version=2.61.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Comun.Brl.TablasLey.2.61.0\lib\Galac.Comun.Brl.TablasLey.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Ccl.Impuesto, Version=2.61.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Galac.Comun.Ccl.Impuesto.2.61.0\lib\Galac.Comun.Ccl.Impuesto.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Ccl.LeyCosto, Version=2.61.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Comun.Ccl.LeyCosto.2.61.0\lib\Galac.Comun.Ccl.LeyCosto.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Ccl.TablasGen, Version=2.61.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Comun.Ccl.TablasGen.2.61.0\lib\Galac.Comun.Ccl.TablasGen.dll</HintPath>
+    </Reference>
     <Reference Include="Galac.Comun.Ccl.TablasLey">
       <HintPath>..\packages\Galac.Comun.Ccl.TablasLey.2.61.0\lib\Galac.Comun.Ccl.TablasLey.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Dal.Impuesto, Version=2.61.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Galac.Comun.Dal.Impuesto.2.61.0\lib\Galac.Comun.Dal.Impuesto.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Dal.LeyCosto, Version=2.61.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Comun.Dal.LeyCosto.2.61.0\lib\Galac.Comun.Dal.LeyCosto.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Dal.TablasGen, Version=2.61.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Comun.Dal.TablasGen.2.61.0\lib\Galac.Comun.Dal.TablasGen.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Dal.TablasLey, Version=2.61.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Comun.Dal.TablasLey.2.61.0\lib\Galac.Comun.Dal.TablasLey.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Rpt.LeyCosto, Version=2.61.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Comun.Rpt.LeyCosto.2.61.0\lib\Galac.Comun.Rpt.LeyCosto.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Uil.Dashboard, Version=2.62.2.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Galac.Comun.Uil.Dashboard.2.62.2.6\lib\Galac.Comun.Uil.Dashboard.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Uil.Impuesto, Version=2.61.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Galac.Comun.Uil.Impuesto.2.61.0\lib\Galac.Comun.Uil.Impuesto.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Uil.LeyCosto, Version=2.61.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Comun.Uil.LeyCosto.2.61.0\lib\Galac.Comun.Uil.LeyCosto.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Uil.TablasGen, Version=2.61.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Comun.Uil.TablasGen.2.61.0\lib\Galac.Comun.Uil.TablasGen.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Uil.TablasLey, Version=2.61.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Comun.Uil.TablasLey.2.61.0\lib\Galac.Comun.Uil.TablasLey.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Contab.Brl.Tablas, Version=2.61.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Contab.Brl.Tablas.2.61.0\lib\Galac.Contab.Brl.Tablas.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Contab.Brl.WinCont, Version=2.61.3.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Contab.Brl.WinCont.2.61.3\lib\Galac.Contab.Brl.WinCont.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Ccl.Tablas">
       <HintPath>..\packages\Galac.Contab.Ccl.Tablas.2.61.0\lib\Galac.Contab.Ccl.Tablas.dll</HintPath>
@@ -66,8 +126,29 @@
     <Reference Include="Galac.Contab.Ccl.WinCont">
       <HintPath>..\packages\Galac.Contab.Ccl.WinCont.2.61.3\lib\Galac.Contab.Ccl.WinCont.dll</HintPath>
     </Reference>
+    <Reference Include="Galac.Contab.Dal.Tablas, Version=2.61.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Contab.Dal.Tablas.2.61.0\lib\Galac.Contab.Dal.Tablas.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Contab.Dal.WinCont, Version=2.61.3.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Contab.Dal.WinCont.2.61.3\lib\Galac.Contab.Dal.WinCont.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Contab.Rpt.WinCont, Version=2.61.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Contab.Rpt.WinCont.2.61.0\lib\Galac.Contab.Rpt.WinCont.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Contab.RptOXml.Wincont, Version=2.61.1.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Contab.RptOXml.Wincont.2.61.1\lib\Galac.Contab.RptOXml.Wincont.dll</HintPath>
+    </Reference>
     <Reference Include="Galac.Contab.SLev">
       <HintPath>..\packages\Galac.Contab.SLev.2.61.0\lib\Galac.Contab.SLev.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Contab.TablasVbSinMigrar, Version=2.61.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Contab.TablasVbSinMigrar.2.61.0\lib\Galac.Contab.TablasVbSinMigrar.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Contab.Uil.Tablas, Version=2.61.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Contab.Uil.Tablas.2.61.0\lib\Galac.Contab.Uil.Tablas.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Contab.Uil.WinCont, Version=2.61.3.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Contab.Uil.WinCont.2.61.3\lib\Galac.Contab.Uil.WinCont.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Ent.Brl.Empresarial">
       <HintPath>..\packages\Galac.Ent.Brl.Empresarial.2.61.0\lib\Galac.Ent.Brl.Empresarial.dll</HintPath>
@@ -75,11 +156,14 @@
     <Reference Include="Galac.Ent.Ccl.Empresarial">
       <HintPath>..\packages\Galac.Ent.Ccl.Empresarial.2.61.0\lib\Galac.Ent.Ccl.Empresarial.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Ent.Dal.Empresarial">
-      <HintPath>..\packages\Galac.Ent.Dal.Empresarial.2.61.0\lib\Galac.Ent.Dal.Empresarial.dll</HintPath>
+    <Reference Include="Galac.Ent.Dal.Empresarial, Version=2.62.3.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Ent.Dal.Empresarial.2.62.3\lib\Galac.Ent.Dal.Empresarial.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Ent.Uil.Empresarial">
       <HintPath>..\packages\Galac.Ent.Uil.Empresarial.2.61.0\lib\Galac.Ent.Uil.Empresarial.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac, Version=5.24.3.8, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.5.24.3.8\lib\LibGalac.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.ARRpt">
       <HintPath>..\packages\LibGalac.Aos.ARRpt.5.24.1\lib\LibGalac.Aos.ARRpt.dll</HintPath>
@@ -90,11 +174,35 @@
     <Reference Include="LibGalac.Aos.Brl">
       <HintPath>..\packages\LibGalac.Aos.Brl.5.24.2.3\lib\LibGalac.Aos.Brl.dll</HintPath>
     </Reference>
+    <Reference Include="LibGalac.Aos.Brl.IdFiscal, Version=5.24.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.Brl.IdFiscal.5.24.0\lib\LibGalac.Aos.Brl.IdFiscal.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Brl.PASOnLine, Version=5.24.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.Brl.PASOnLine.5.24.0\lib\LibGalac.Aos.Brl.PASOnLine.dll</HintPath>
+    </Reference>
     <Reference Include="LibGalac.Aos.Brl.PrnStt">
       <HintPath>..\packages\LibGalac.Aos.Brl.PrnStt.5.24.0\lib\LibGalac.Aos.Brl.PrnStt.dll</HintPath>
     </Reference>
+    <Reference Include="LibGalac.Aos.Brl.Settings, Version=5.24.2.3, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.Brl.Settings.5.24.2.3\lib\LibGalac.Aos.Brl.Settings.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Brl.Usal, Version=5.24.2.4, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.Brl.Usal.5.24.2.4\lib\LibGalac.Aos.Brl.Usal.dll</HintPath>
+    </Reference>
     <Reference Include="LibGalac.Aos.Catching">
       <HintPath>..\packages\LibGalac.Aos.Catching.5.24.0\lib\LibGalac.Aos.Catching.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Ccl.IdFiscal, Version=5.24.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.Ccl.IdFiscal.5.24.0\lib\LibGalac.Aos.Ccl.IdFiscal.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Ccl.PASOnLine, Version=5.24.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.Ccl.PASOnLine.5.24.0\lib\LibGalac.Aos.Ccl.PASOnLine.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Ccl.PrnStt, Version=5.24.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.Ccl.PrnStt.5.24.0\lib\LibGalac.Aos.Ccl.PrnStt.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Ccl.Settings, Version=5.24.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.Ccl.Settings.5.24.0\lib\LibGalac.Aos.Ccl.Settings.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Ccl.Usal, Version=5.24.2.4, Culture=neutral, processorArchitecture=x86">
       <HintPath>..\packages\LibGalac.Aos.Ccl.Usal.5.24.2.4\lib\LibGalac.Aos.Ccl.Usal.dll</HintPath>
@@ -111,11 +219,29 @@
     <Reference Include="LibGalac.Aos.Dal">
       <HintPath>..\packages\LibGalac.Aos.Dal.5.24.1\lib\LibGalac.Aos.Dal.dll</HintPath>
     </Reference>
+    <Reference Include="LibGalac.Aos.Dal.IdFiscal, Version=5.24.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.Dal.IdFiscal.5.24.0\lib\LibGalac.Aos.Dal.IdFiscal.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Dal.PASOnLine, Version=5.24.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.Dal.PASOnLine.5.24.0\lib\LibGalac.Aos.Dal.PASOnLine.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Dal.PrnStt, Version=5.24.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.Dal.PrnStt.5.24.0\lib\LibGalac.Aos.Dal.PrnStt.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Dal.Settings, Version=5.24.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.Dal.Settings.5.24.0\lib\LibGalac.Aos.Dal.Settings.dll</HintPath>
+    </Reference>
     <Reference Include="LibGalac.Aos.Dal.Usal">
       <HintPath>..\packages\LibGalac.Aos.Dal.Usal.5.24.2.4\lib\LibGalac.Aos.Dal.Usal.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.DefGen">
       <HintPath>..\packages\LibGalac.Aos.DefGen.5.24.1\lib\LibGalac.Aos.DefGen.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.ObRpt, Version=5.24.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.ObRpt.5.24.0\lib\LibGalac.Aos.ObRpt.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.OXml, Version=5.24.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.OXml.5.24.0\lib\LibGalac.Aos.OXml.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.Cib">
       <HintPath>..\packages\LibGalac.Aos.UI.Cib.5.24.0\lib\LibGalac.Aos.UI.Cib.dll</HintPath>
@@ -141,6 +267,9 @@
     <Reference Include="LibGalac.Aos.Uil">
       <HintPath>..\packages\LibGalac.Aos.Uil.5.24.2.4\lib\LibGalac.Aos.Uil.dll</HintPath>
     </Reference>
+    <Reference Include="LibGalac.Aos.Uil.IdFiscal, Version=5.24.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.Uil.IdFiscal.5.24.0\lib\LibGalac.Aos.Uil.IdFiscal.dll</HintPath>
+    </Reference>
     <Reference Include="LibGalac.Aos.Uil.PASOnLine">
       <HintPath>..\packages\LibGalac.Aos.Uil.PASOnLine.5.24.2.4\lib\LibGalac.Aos.Uil.PASOnLine.dll</HintPath>
     </Reference>
@@ -152,6 +281,36 @@
     </Reference>
     <Reference Include="LibGalac.Aos.Uil.Usal">
       <HintPath>..\packages\LibGalac.Aos.Uil.Usal.5.24.2.5\lib\LibGalac.Aos.Uil.Usal.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Vbwa, Version=5.24.1.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Aos.Vbwa.5.24.1\lib\LibGalac.Aos.Vbwa.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Cswa, Version=5.14.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Cswa.5.14.0\lib\LibGalac.Cswa.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Ctrls, Version=5.24.3.8, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Ctrls.5.24.3.8\lib\LibGalac.Ctrls.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Mtu, Version=5.14.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LibGalac.Mtu.5.14.0\lib\LibGalac.Mtu.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Mtu.UI, Version=5.14.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LibGalac.Mtu.UI.5.14.0\lib\LibGalac.Mtu.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.OIM, Version=5.14.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LibGalac.OIM.5.14.0\lib\LibGalac.OIM.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Ssm, Version=24.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LibGalac.Ssm.24.4.0\lib\LibGalac.Ssm.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Ssm.IO, Version=24.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LibGalac.Ssm.IO.24.1.0\lib\LibGalac.Ssm.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Ssm.U, Version=24.1.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\LibGalac.Ssm.U.24.1.0\lib\LibGalac.Ssm.U.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialSkin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialSkin.Net4.1.0.0\lib\net40\MaterialSkin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="RibbonControlsLibrary, Version=4.0.0.11019, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -194,6 +353,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\GSCompaniaEscogerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSPeriodoEscogerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\ShellWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -205,8 +372,22 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="clsBackupSettings.cs" />
     <Compile Include="clsDefProg.cs" />
+    <Compile Include="clsProcesosPostAccionCia.cs" />
+    <Compile Include="clsProcesosPostAccionPeriodo.cs" />
     <Compile Include="clsRestoreSettings.cs" />
+    <Compile Include="NegocioTemporal\clsGVParametrosActivoTemporal.cs" />
+    <Compile Include="NegocioTemporal\clsGVParametrosCompaniaTemporal.cs" />
+    <Compile Include="NegocioTemporal\clsGVParametrosConciliacionTemporal.cs" />
+    <Compile Include="NegocioTemporal\clsGVParametrosGenTemporal.cs" />
+    <Compile Include="ViewModel\EscogerCompaniaViewModel.cs" />
+    <Compile Include="ViewModel\EscogerPeriodoViewModel.cs" />
     <Compile Include="ViewModel\ShellViewModel.cs" />
+    <Compile Include="Views\GSCompaniaEscogerView.xaml.cs">
+      <DependentUpon>GSCompaniaEscogerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSPeriodoEscogerView.xaml.cs">
+      <DependentUpon>GSPeriodoEscogerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ShellWindow.xaml.cs">
       <DependentUpon>ShellWindow.xaml</DependentUpon>
     </Compile>
@@ -273,13 +454,209 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Galac.Adm.Brl.Banco\Galac.Adm.Brl.Banco.csproj">
+      <Project>{a7b9fb1e-47a1-4a4f-aeb5-7aef55d39b11}</Project>
+      <Name>Galac.Adm.Brl.Banco</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Brl.CAnticipo\Galac.Adm.Brl.CAnticipo.csproj">
+      <Project>{74d3e1bd-b636-4640-8fc5-e943935a708a}</Project>
+      <Name>Galac.Adm.Brl.CAnticipo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Brl.DispositivosExternos\Galac.Adm.Brl.DispositivosExternos.csproj">
+      <Project>{ccdf88d8-37dd-4e46-aead-350bd211bd75}</Project>
+      <Name>Galac.Adm.Brl.DispositivosExternos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Brl.GestionCompras\Galac.Adm.Brl.GestionCompras.csproj">
+      <Project>{624fa464-54be-4395-b969-536c0a4de820}</Project>
+      <Name>Galac.Adm.Brl.GestionCompras</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Brl.GestionProduccion\Galac.Adm.Brl.GestionProduccion.csproj">
+      <Project>{d42e386c-a71c-45cd-95f4-41a820faaff4}</Project>
+      <Name>Galac.Adm.Brl.GestionProduccion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Brl.ImprentaDigital\Galac.Adm.Brl.ImprentaDigital.csproj">
+      <Project>{115bd8b4-4d9b-4b9f-9e29-9f1bbdf20b2f}</Project>
+      <Name>Galac.Adm.Brl.ImprentaDigital</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Brl.Rendicion\Galac.Adm.Brl.CajaChica.csproj">
+      <Project>{58cefb81-7d8c-4039-84af-80eebe9f2f28}</Project>
+      <Name>Galac.Adm.Brl.CajaChica</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Brl.Vendedor\Galac.Adm.Brl.Vendedor.csproj">
+      <Project>{4144723b-6f39-4deb-a594-eba4116642fb}</Project>
+      <Name>Galac.Adm.Brl.Vendedor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Brl.Venta\Galac.Adm.Brl.Venta.csproj">
+      <Project>{ae95f4aa-3119-4d39-96fb-95a53b7abb65}</Project>
+      <Name>Galac.Adm.Brl.Venta</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.Banco\Galac.Adm.Ccl.Banco.csproj">
+      <Project>{295d5b19-4600-48c4-9da1-879a1875fbb9}</Project>
+      <Name>Galac.Adm.Ccl.Banco</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.CAnticipo\Galac.Adm.Ccl.CAnticipo.csproj">
+      <Project>{002d527c-ec0e-4817-955f-538d36e16885}</Project>
+      <Name>Galac.Adm.Ccl.CAnticipo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.DispositivosExternos\Galac.Adm.Ccl.DispositivosExternos.csproj">
+      <Project>{eea8e05e-9a11-4d51-aa9c-aacd7245952f}</Project>
+      <Name>Galac.Adm.Ccl.DispositivosExternos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.GestionCompras\Galac.Adm.Ccl.GestionCompras.csproj">
+      <Project>{c9e84c15-9dab-4e42-95a9-08c4b09e1f74}</Project>
+      <Name>Galac.Adm.Ccl.GestionCompras</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.GestionProduccion\Galac.Adm.Ccl.GestionProduccion.csproj">
+      <Project>{67b40f04-aebb-4db9-bd11-feabcfc4c02d}</Project>
+      <Name>Galac.Adm.Ccl.GestionProduccion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.ImprentaDigital\Galac.Adm.Ccl.ImprentaDigital.csproj">
+      <Project>{09e94989-2c8c-457a-b6af-1e529992f5ca}</Project>
+      <Name>Galac.Adm.Ccl.ImprentaDigital</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.Rendicion\Galac.Adm.Ccl.CajaChica.csproj">
+      <Project>{69bb7951-c2ec-45b9-a344-cb91e87d516b}</Project>
+      <Name>Galac.Adm.Ccl.CajaChica</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.Vendedor\Galac.Adm.Ccl.Vendedor.csproj">
+      <Project>{57734928-dfdd-4e96-af01-a818bcd85e4e}</Project>
+      <Name>Galac.Adm.Ccl.Vendedor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.Venta\Galac.Adm.Ccl.Venta.csproj">
+      <Project>{f6be19ab-c04f-44fe-b68f-62bc8cc4cdb0}</Project>
+      <Name>Galac.Adm.Ccl.Venta</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Dal.Banco\Galac.Adm.Dal.Banco.csproj">
+      <Project>{d0277dda-3eab-41b6-b6c0-a23c6bfb4306}</Project>
+      <Name>Galac.Adm.Dal.Banco</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Dal.CAnticipo\Galac.Adm.Dal.CAnticipo.csproj">
+      <Project>{8d2d8050-8576-48df-98b1-46e383d1c929}</Project>
+      <Name>Galac.Adm.Dal.CAnticipo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Dal.DispositivosExternos\Galac.Adm.Dal.DispositivosExternos.csproj">
+      <Project>{3fbaca54-7fc5-4af8-a087-13ebbba543df}</Project>
+      <Name>Galac.Adm.Dal.DispositivosExternos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Dal.GestionCompras\Galac.Adm.Dal.GestionCompras.csproj">
+      <Project>{06669565-4466-4b48-8890-0179143f9b8b}</Project>
+      <Name>Galac.Adm.Dal.GestionCompras</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Dal.GestionProduccion\Galac.Adm.Dal.GestionProduccion.csproj">
+      <Project>{03af24e0-ccd8-42c4-a6af-34d0e1139746}</Project>
+      <Name>Galac.Adm.Dal.GestionProduccion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Dal.Rendicion\Galac.Adm.Dal.CajaChica.csproj">
+      <Project>{107e9af9-6b99-4340-8f06-579732bcb132}</Project>
+      <Name>Galac.Adm.Dal.CajaChica</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Dal.Vendedor\Galac.Adm.Dal.Vendedor.csproj">
+      <Project>{c97096c2-6491-48ba-a7bc-a9cce5b101b5}</Project>
+      <Name>Galac.Adm.Dal.Vendedor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Dal.Venta\Galac.Adm.Dal.Venta.csproj">
+      <Project>{91e8ebac-7e53-48eb-9220-f5d2397c9446}</Project>
+      <Name>Galac.Adm.Dal.Venta</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.IntegracionMS.Venta\Galac.Adm.IntegracionMS.Venta.csproj">
+      <Project>{d56c88dc-317e-400a-a687-338091b0204d}</Project>
+      <Name>Galac.Adm.IntegracionMS.Venta</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Rpt.Banco\Galac.Adm.Rpt.Banco.csproj">
+      <Project>{7c840128-8d1e-4664-b272-a454eb8b4d1d}</Project>
+      <Name>Galac.Adm.Rpt.Banco</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Rpt.CAnticipo\Galac.Adm.Rpt.CAnticipo.csproj">
+      <Project>{f563ea73-6e10-409a-8754-35cad6130055}</Project>
+      <Name>Galac.Adm.Rpt.CAnticipo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Rpt.GestionCompras\Galac.Adm.Rpt.GestionCompras.csproj">
+      <Project>{8924eb1e-dba4-49d5-9999-2ca4b205d1d8}</Project>
+      <Name>Galac.Adm.Rpt.GestionCompras</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Rpt.GestionProduccion\Galac.Adm.Rpt.GestionProduccion.csproj">
+      <Project>{cc1bc3eb-53ea-484c-a5fc-bfb46db1f403}</Project>
+      <Name>Galac.Adm.Rpt.GestionProduccion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Rpt.Rendicion\Galac.Adm.Rpt.CajaChica.csproj">
+      <Project>{8a6d5c31-030f-4568-a572-4c7b69d19034}</Project>
+      <Name>Galac.Adm.Rpt.CajaChica</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Rpt.Venta\Galac.Adm.Rpt.Venta.csproj">
+      <Project>{f8e98879-0458-41b6-b914-5f2c5cc28351}</Project>
+      <Name>Galac.Adm.Rpt.Venta</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Uil.Banco\Galac.Adm.Uil.Banco.csproj">
+      <Project>{cea20080-8bbe-4562-b30c-88a9b1e0218c}</Project>
+      <Name>Galac.Adm.Uil.Banco</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Uil.CAnticipo\Galac.Adm.Uil.CAnticipo.csproj">
+      <Project>{ddec809b-30b5-4d19-af03-9dbad96594f4}</Project>
+      <Name>Galac.Adm.Uil.CAnticipo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Uil.DispositivosExternos\Galac.Adm.Uil.DispositivosExternos.csproj">
+      <Project>{2844e837-4a95-4eb6-b663-fba990615ba3}</Project>
+      <Name>Galac.Adm.Uil.DispositivosExternos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Uil.GestionCompras\Galac.Adm.Uil.GestionCompras.csproj">
+      <Project>{706f412d-f9e1-4e0b-a740-9ca195272ab8}</Project>
+      <Name>Galac.Adm.Uil.GestionCompras</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Adm.Uil.GestionProduccion\Galac.Adm.Uil.GestionProduccion.csproj">
       <Project>{9901afda-4f43-4d66-8773-343946f12e0d}</Project>
       <Name>Galac.Adm.Uil.GestionProduccion</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Uil.Rendicion\Galac.Adm.Uil.CajaChica.csproj">
+      <Project>{be671f9e-6c42-4d7a-a932-e2fa823e3a20}</Project>
+      <Name>Galac.Adm.Uil.CajaChica</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Uil.Vendedor\Galac.Adm.Uil.Vendedor.csproj">
+      <Project>{f5813ca0-d3ff-4637-9c71-bd9b3d68bc9c}</Project>
+      <Name>Galac.Adm.Uil.Vendedor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Adm.Uil.Venta\Galac.Adm.Uil.Venta.csproj">
       <Project>{e8ac8d72-32b9-4e08-ae7f-9a248fd5b179}</Project>
       <Name>Galac.Adm.Uil.Venta</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.Cliente\Galac.Saw.Brl.Cliente.csproj">
+      <Project>{78d48369-e4e8-4c92-8f1d-ce3369911509}</Project>
+      <Name>Galac.Saw.Brl.Cliente</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.Contabilizacion\Galac.Saw.Brl.Contabilizacion.csproj">
+      <Project>{54c04b57-b724-4112-9529-3ce7294597a1}</Project>
+      <Name>Galac.Saw.Brl.Contabilizacion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.Integracion\Galac.Saw.Brl.Integracion.csproj">
+      <Project>{d88aebaa-f8cb-46fe-b89a-2bbefd99d0aa}</Project>
+      <Name>Galac.Saw.Brl.Integracion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.Inventario\Galac.Saw.Brl.Inventario.csproj">
+      <Project>{bbb05009-adca-47a1-9a3f-49421928f380}</Project>
+      <Name>Galac.Saw.Brl.Inventario</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.SttDef\Galac.Saw.Brl.SttDef.csproj">
+      <Project>{d018cc29-3ff6-445d-9672-e12bddd873ac}</Project>
+      <Name>Galac.Saw.Brl.SttDef</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.Tablas\Galac.Saw.Brl.Tablas.csproj">
+      <Project>{893120cf-ed36-4227-bbfc-ef9e534b7f50}</Project>
+      <Name>Galac.Saw.Brl.Tablas</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.Vehiculo\Galac.Saw.Brl.Vehiculo.csproj">
+      <Project>{ebe0f0a8-cd61-4625-8786-d8c8c4d08551}</Project>
+      <Name>Galac.Saw.Brl.Vehiculo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Cliente\Galac.Saw.Ccl.Cliente.csproj">
+      <Project>{186abef1-b1c6-4b23-a072-1b6d9bc633e8}</Project>
+      <Name>Galac.Saw.Ccl.Cliente</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Contabilizacion\Galac.Saw.Ccl.Contabilizacion.csproj">
+      <Project>{8e983401-52bc-4828-838c-01585fe3a8e7}</Project>
+      <Name>Galac.Saw.Ccl.Contabilizacion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Integracion\Galac.Saw.Ccl.Integracion.csproj">
+      <Project>{6ccb893a-b5c6-48f7-95b5-d9f456e4938a}</Project>
+      <Name>Galac.Saw.Ccl.Integracion</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Ccl.Inventario\Galac.Saw.Ccl.Inventario.csproj">
       <Project>{a28fb32d-b951-4d64-8feb-74a261425585}</Project>
@@ -289,25 +666,105 @@
       <Project>{82c458b1-c93b-46a9-b58c-63ecd3633861}</Project>
       <Name>Galac.Saw.Ccl.SttDef</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Tablas\Galac.Saw.Ccl.Tablas.csproj">
+      <Project>{5bbc6220-f35e-4b5a-826e-cfece2eb3364}</Project>
+      <Name>Galac.Saw.Ccl.Tablas</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Vehiculo\Galac.Saw.Ccl.Vehiculo.csproj">
+      <Project>{5b2a6b9e-8a4f-4c8d-b7b6-072aad2fd261}</Project>
+      <Name>Galac.Saw.Ccl.Vehiculo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Dal.Cliente\Galac.Saw.Dal.Cliente.csproj">
+      <Project>{97ebd59c-47ce-4886-85b4-f3cf2551b63c}</Project>
+      <Name>Galac.Saw.Dal.Cliente</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Dal.Contabilizacion\Galac.Saw.Dal.Contabilizacion.csproj">
+      <Project>{cf9436b4-345e-439f-98e9-0721f5c591a8}</Project>
+      <Name>Galac.Saw.Dal.Contabilizacion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Dal.Integracion\Galac.Saw.Dal.Integracion.csproj">
+      <Project>{7ce635e3-e3f5-4390-9f85-c817c8e733d4}</Project>
+      <Name>Galac.Saw.Dal.Integracion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Dal.Inventario\Galac.Saw.Dal.Inventario.csproj">
+      <Project>{cfea97d4-b3bd-4a5d-b129-be81d7b096b6}</Project>
+      <Name>Galac.Saw.Dal.Inventario</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Dal.SttDef\Galac.Saw.Dal.SttDef.csproj">
+      <Project>{5b6c365d-a26f-428c-b7d4-8536ed0b38cb}</Project>
+      <Name>Galac.Saw.Dal.SttDef</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Dal.Tablas\Galac.Saw.Dal.Tablas.csproj">
+      <Project>{9e67e076-0e4b-43b0-be51-c58e9f819150}</Project>
+      <Name>Galac.Saw.Dal.Tablas</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Dal.Vehiculo\Galac.Saw.Dal.Vehiculo.csproj">
+      <Project>{229d4734-87dc-46f1-a2f2-fc1cc0d849fb}</Project>
+      <Name>Galac.Saw.Dal.Vehiculo</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.DDL\Galac.Saw.DDL.csproj">
       <Project>{9b7c2108-236b-4b69-849a-460f36b23363}</Project>
       <Name>Galac.Saw.DDL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Lib.Uil\Galac.Saw.Lib.Uil.csproj">
+      <Project>{ae2fdf07-4a14-48bd-ba32-d1701f5514d0}</Project>
+      <Name>Galac.Saw.Lib.Uil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.LibHttp\Galac.Saw.LibHttp.csproj">
+      <Project>{8756de3e-5706-47e0-af3f-7d019d11d603}</Project>
+      <Name>Galac.Saw.LibHttp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.LibWebConector\Galac.Saw.LibWebConnector.csproj">
+      <Project>{08f52bb0-7708-4326-b74c-ac49629c8647}</Project>
+      <Name>Galac.Saw.LibWebConnector</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Lib\Galac.Saw.Lib.csproj">
       <Project>{b04e6942-e0b8-4ba2-90e7-fbf8a95ddc86}</Project>
       <Name>Galac.Saw.Lib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Reconvert\Galac.Saw.Reconv.csproj">
+      <Project>{bf877c20-f113-46f1-b3f5-42cbbd123908}</Project>
+      <Name>Galac.Saw.Reconv</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Rpt.Cliente\Galac.Saw.Rpt.Cliente.csproj">
+      <Project>{117a5b08-8156-4724-a03f-e9b5fefb7de7}</Project>
+      <Name>Galac.Saw.Rpt.Cliente</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Rpt.Inventario\Galac.Saw.Rpt.Inventario.csproj">
+      <Project>{ad96dfba-cca7-445b-822e-d40c2fd13a48}</Project>
+      <Name>Galac.Saw.Rpt.Inventario</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.SLev\Galac.Saw.SLev.csproj">
       <Project>{a84d308c-d997-4550-800b-7c46e8cb02e3}</Project>
       <Name>Galac.Saw.SLev</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Uil.Cliente\Galac.Saw.Uil.Cliente.csproj">
+      <Project>{6adab614-4a1c-45df-9fd2-174416742b76}</Project>
+      <Name>Galac.Saw.Uil.Cliente</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Uil.Contabilizacion\Galac.Saw.Uil.Contabilizacion.csproj">
+      <Project>{3361eca9-4ad8-4c3b-aa47-4703b4bdf1c2}</Project>
+      <Name>Galac.Saw.Uil.Contabilizacion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Uil.Integracion\Galac.Saw.Uil.Integracion.csproj">
+      <Project>{1335ced1-4d85-4a21-9047-b619e4590436}</Project>
+      <Name>Galac.Saw.Uil.Integracion</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Uil.Inventario\Galac.Saw.Uil.Inventario.csproj">
       <Project>{73fa7756-3070-4e0a-ad4e-1141f4f04696}</Project>
       <Name>Galac.Saw.Uil.Inventario</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Uil.SttDef\Galac.Saw.Uil.SttDef.csproj">
+      <Project>{2b1fa9b0-ad50-4c75-805f-d9efc6b236ab}</Project>
+      <Name>Galac.Saw.Uil.SttDef</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Uil.Tablas\Galac.Saw.Uil.Tablas.csproj">
       <Project>{005fabdf-508b-4757-8a54-be3603405283}</Project>
       <Name>Galac.Saw.Uil.Tablas</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Uil.Vehiculo\Galac.Saw.Uil.Vehiculo.csproj">
+      <Project>{642d2a6f-fd80-4b82-a703-3ad41faf615e}</Project>
+      <Name>Galac.Saw.Uil.Vehiculo</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

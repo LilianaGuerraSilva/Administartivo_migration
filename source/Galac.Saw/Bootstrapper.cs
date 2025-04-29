@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Text;
 using System.Windows;
 using Galac.Adm.Uil.GestionProduccion;
 using Galac.Adm.Uil.Venta;
@@ -30,17 +31,14 @@ namespace Galac.Saw {
 
         public Bootstrapper()
             : base() {
-            AddPathOfCatalogsForMefFromIDE(@"binLibAos", "LibGalac.Aos*.*");
-            AddPathOfCatalogsForMefFromIDE(@"binAdministrativoAos", "Galac*.Venta*.dll;Galac*.Inventario*.dll;Galac*.GestionCompras*.dll;Galac*.GestionProduccion*.dll;Galac*.Vendedor*.dll");
-            AddPathOfCatalogsForMefFromIDE(@"\binComunAos", "Galac.Comun*.*");
-            AddPathOfCatalogsForMefFromIDE(@"\..\..\bin\Empresarial\", "Galac.Ent.*");
+            AddPathOfCatalogsForMefFromIDE(@"bin\", "*.dll");
         }
 
         protected override void ConfigureContainer() {
             base.ConfigureContainer();
             this.Container.ComposeExportedValue<Galac.Saw.DDL.clsCreateDb>(_DbCreator);
             this.Container.ComposeExportedValue<Galac.Saw.DDL.clsDbDefaultValues>(_DbDefaultValues);
-            var a = base.AggregateCatalog;
+            //var a = base.AggregateCatalog;
         }
 
         protected override DependencyObject CreateShell() {
@@ -150,10 +148,73 @@ namespace Galac.Saw {
         }
 
         protected override void InitializeBackupSettingsForAutomaricBackup() {
+            clsBackupSettings vBackupSettings = new clsBackupSettings();
+            vBackupSettings.Initialize();
+            LibGlobalValues.Instance.BackupSettings = vBackupSettings;
         }
 
-        protected override void AllowUseOfPASOnLineByProgram() {
+        protected override void SetProgramType() {
+            string vProgramType = string.Empty;//ejemplo:
+            if (LibDefGen.HasAccessTo(144)) {
+                vProgramType = "Pyme";
+            } else if (LibDefGen.HasAccessTo(102)) {
+                vProgramType = "Emprendedor";
+            } else if (LibDefGen.HasAccessTo(148)) {
+                vProgramType = "G-Factura";
+            }
+            if (LibDefGen.HasAccessTo(101)) {
+                vProgramType += " Integrado con Contabilidad";
+            }
+            LibDefGen.ProgramInfo.ProgramType = vProgramType;
+        }
+		
+		protected override void AllowUseOfPASOnLineByProgram() {
+            LibDefGen.UsePASOnLine = true;
+        }
+
+        protected override bool IsAllowedToConnectWithDB() {
+            bool vResult = base.IsAllowedToConnectWithDB();
+            if (vResult) {
+                object vValue = new LibGalac.Aos.Dal.QAdvDb("").ExecuteScalar("SELECT fldVersionPrograma FROM Version WHERE fldSiglasPrograma = " + new LibGalac.Aos.Base.Dal.QAdvSql("").ToSqlValue(clsDefProg.SiglasDelPrograma), 0, false);
+                string vProgramCurrentVersionInDb = (vValue != null ? vValue.ToString() : string.Empty);
+                if (LibVersionApp.VersionAIsGreaterThanVersionB(vProgramCurrentVersionInDb, clsDefProg.VersionDelPrograma)) {
+                    LibMessages.MessageBox.Error(this, "Usted está ejecutando la versión " + clsDefProg.VersionDelPrograma + " del programa. Debe actualizarlo a la versión " + vProgramCurrentVersionInDb, clsDefProg.SiglasDelPrograma + " - Versión desactualizada");
+                    return false;
+                }
+                AgregaRegistrosDeLasTablasDeVersionDelSchemaLib();
+            }
+            return vResult;
+        }
+
+        void AgregaRegistrosDeLasTablasDeVersionDelSchemaLib() {
+            new LibGalac.Aos.Dal.QAdvDb("").Execute("DELETE FROM Lib.Version", 0, false);
+            new LibGalac.Aos.Dal.QAdvDb("").Execute("DELETE FROM Lib.VersionLib", 0, false);
+            //codigo provisional porque estas tablas no se estan llenando en productos hibridos.
+            StringBuilder vSqlSb = new StringBuilder();
+            vSqlSb.AppendLine("     INSERT INTO [Lib].[Version]");
+            vSqlSb.AppendLine("           ([InitialsOfProgram]");
+            vSqlSb.AppendLine("           ,[DataBaseCurrentVersion]");
+            vSqlSb.AppendLine("           ,[ProgramCurrentVersion]");
+            vSqlSb.AppendLine("           ,[ProgramOldVersion])");
+            vSqlSb.AppendLine("     SELECT fldSiglasPrograma");
+            vSqlSb.AppendLine("	 , fldVersionBDD");
+            vSqlSb.AppendLine("	 , fldVersionPrograma");
+            vSqlSb.AppendLine("	 , fldVersionPrograma");
+            vSqlSb.AppendLine("	 FROM dbo.[Version]");
+            vSqlSb.AppendLine("	 GO");
             
+            vSqlSb.AppendLine("	INSERT INTO [Lib].[VersionLib]");
+            vSqlSb.AppendLine("           ([InitialsOfProgram]");
+            vSqlSb.AppendLine("           ,[CurrentVersion]");
+            vSqlSb.AppendLine("           ,[OldVersion])");
+            vSqlSb.AppendLine(" SELECT");
+            vSqlSb.AppendLine("	InitialsOfProgram");
+            vSqlSb.AppendLine("	, CurrentVersion");
+            vSqlSb.AppendLine("	, OldVersion");
+            vSqlSb.AppendLine("	FROM dbo.versionLib");
+            vSqlSb.AppendLine("	GO");
+            new LibGalac.Aos.Dal.QAdvDb("").Execute(vSqlSb.ToString(), 0, false);
+        
         }
     }
 }

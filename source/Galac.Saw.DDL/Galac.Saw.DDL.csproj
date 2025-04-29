@@ -71,11 +71,11 @@
     <Reference Include="Galac.Contab.TablasVbSinMigrar">
       <HintPath>..\packages\Galac.Contab.TablasVbSinMigrar.2.61.0\lib\Galac.Contab.TablasVbSinMigrar.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Ent.Dal.Empresarial">
-      <HintPath>..\packages\Galac.Ent.Dal.Empresarial.2.61.0\lib\Galac.Ent.Dal.Empresarial.dll</HintPath>
-    </Reference>
     <Reference Include="Galac.Contab.Dal.Tablas">
       <HintPath>..\packages\Galac.Contab.Dal.Tablas.2.61.0\lib\Galac.Contab.Dal.Tablas.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Ent.Dal.Empresarial, Version=2.62.3.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Ent.Dal.Empresarial.2.62.3\lib\Galac.Ent.Dal.Empresarial.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Base">
       <HintPath>..\packages\LibGalac.Aos.Base.5.24.0\lib\LibGalac.Aos.Base.dll</HintPath>
