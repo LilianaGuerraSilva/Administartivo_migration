@@ -13,7 +13,7 @@ using Galac.Saw.Brl.Inventario;
 using Galac.Saw.Uil.Inventario.ViewModel;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using LibGalac.Aos.Uil;
-using Galac.Adm.Ccl.GestionCompras;
+using LibGalac.Aos.Base.Report;
 
 namespace Galac.Saw.Uil.Inventario.Reportes {
 
@@ -30,7 +30,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         private FkLoteDeInventarioViewModel _ConexionCodigoLote = null;
         private FkArticuloInventarioRptViewModel _ConexionCodigoArticulo = null;
         private FkAlmacenViewModel _ConexionCodigoAlmacenGenerico = null;
-        private eBuscarPor _SeleccionAlmacen;
+        private eCantidadAImprimir _SeleccionAlmacen;
         private string _CodigoLote;
         private DateTime _FechaInicial;
         private DateTime _FechaFinal;
@@ -121,16 +121,16 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         }
 
         [LibRequired(ErrorMessage = "Debe seleccionar el Almacén.")]
-        public eBuscarPor SeleccionAlmacen {
+        public eCantidadAImprimir SeleccionAlmacen {
             get {
                 return _SeleccionAlmacen;
             }
             set {
                 if (_SeleccionAlmacen != value) {
                     _SeleccionAlmacen = value;
-                    if (_SeleccionAlmacen == eBuscarPor.Todas) {
+                    if (_SeleccionAlmacen == eCantidadAImprimir.All) {
                         CodigoAlmacenGenerico = string.Empty;
-                    } else if (_SeleccionAlmacen == eBuscarPor.Una) {
+                    } else if (_SeleccionAlmacen == eCantidadAImprimir.One) {
                         CodigoAlmacenGenerico = string.Empty;
                     }
                     RaisePropertyChanged(CodigoAlmacenGenericoPropertyName);
@@ -205,9 +205,9 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
             private set;
         }
 
-        public eBuscarPor[] ArraySeleccionAlmacen {
+        public eCantidadAImprimir[] ArraySeleccionAlmacen {
             get {
-                return LibEnumHelper<eBuscarPor>.GetValuesInArray();
+                return LibEnumHelper<eCantidadAImprimir>.GetValuesInArray();
             }
         }
         #endregion //Propiedades
@@ -296,12 +296,12 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
                 throw;
             } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, DisplayName);
-            }
+            }           
         }
 
         public bool IsVisibleCodigoAlmacen {
             get {
-                return SeleccionAlmacen == eBuscarPor.Una;
+                return SeleccionAlmacen == eCantidadAImprimir.One;
             }
         }
 
