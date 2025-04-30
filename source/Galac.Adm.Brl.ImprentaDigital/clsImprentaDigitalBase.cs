@@ -26,78 +26,32 @@ namespace Galac.Adm.Brl.ImprentaDigital {
     public abstract class clsImprentaDigitalBase {
 
         #region Propiedades   
-        public int ConsecutivoCompania {
-            get; set;
-        }
-        public string NumeroFactura {
-            get; set;
-        }
+        public int ConsecutivoCompania { get; set; }
+        public string NumeroFactura { get; set; }
 
-        public string NumeroControl {
-            get; set;
-        }
-        public eTipoDocumentoFactura TipoDeDocumento {
-            get; set;
-        }
-        public string CodigoRespuesta {
-            get; set;
-        }
-        public string EstatusDocumento {
-            get; set;
-        }
-        public clsLoginUser LoginUser {
-            get; set;
-        }
-        public string HoraAsignacion {
-            get; set;
-        }
-        public DateTime FechaAsignacion {
-            get; set;
-        }
-        public Cliente ClienteImprentaDigital {
-            get; set;
-        }
-        public InfoAdicionalCliente InfoAdicionalClienteImprentaDigital {
-            get; set;
-        }
-        public Vendedor VendedorImprentaDigital {
-            get; set;
-        }
-        public FacturaRapida FacturaImprentaDigital {
-            get; set;
-        }
-        public List<FacturaRapidaDetalle> DetalleFacturaImprentaDigital {
-            get; set;
-        }
-        public eProveedorImprentaDigital ProveedorImprentaDigital {
-            get; set;
-        }
-        public string CodigoMonedaME {
-            get; private set;
-        }
-        public string CodigoMonedaLocal {
-            get; private set;
-        }
-        public decimal CambioABolivares {
-            get; private set;
-        }
-        public string Mensaje {
-            get; set;
-        }
-        public string NumeroCxP {
-            get; set;
-        }
+        public string NumeroControl { get; set; }
+        public eTipoDocumentoFactura TipoDeDocumento { get; set; }
+        public string CodigoRespuesta { get; set; }
+        public string EstatusDocumento { get; set; }
+        public clsLoginUser LoginUser { get; set; }
+        public string HoraAsignacion { get; set; }
+        public DateTime FechaAsignacion { get; set; }
+        public Cliente ClienteImprentaDigital { get; set; }
+        public InfoAdicionalCliente InfoAdicionalClienteImprentaDigital { get; set; }
+        public Vendedor VendedorImprentaDigital { get; set; }
+        public FacturaRapida FacturaImprentaDigital { get; set; }
+        public List<FacturaRapidaDetalle> DetalleFacturaImprentaDigital { get; set; }
+        public eProveedorImprentaDigital ProveedorImprentaDigital { get; set; }
+        public string CodigoMonedaME { get; private set; }
+        public string CodigoMonedaLocal { get; private set; }
+        public decimal CambioABolivares { get; private set; }
+        public string Mensaje { get; set; }
+        public string NumeroCxP { get; set; }
               
-        public eTipoDocumentoImprentaDigital TipoDocumentoImprentaDigital {
-            get; private set;
-        }
-        public ComprobanteRetIVA ComprobanteRetIVAImprentaDigital {
-            get; private set;
-        }
+        public eTipoDocumentoImprentaDigital TipoDocumentoImprentaDigital { get; private set; }
+        public ComprobanteRetIVA ComprobanteRetIVAImprentaDigital { get; private set; }
 
-        public SujetoDeRetencion SujetoDeRetencionImpnretaDigital {
-            get; private set;
-        }
+        public SujetoDeRetencion SujetoDeRetencionImpnretaDigital { get; private set; }
 
         QAdvSql insUtilSql;
 
@@ -240,9 +194,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 if (vResult != null && vResult.HasElements) {
                     FacturaImprentaDigital = new FacturaRapida();
                     FacturaImprentaDigital.Numero = LibXml.GetPropertyString(vResult, "Numero");
-                    FacturaImprentaDigital.Fecha = LibImportData.ToDate(LibXml.GetPropertyString(vResult, "Fecha"));
+                    FacturaImprentaDigital.Fecha = LibConvert.ToDate(LibXml.GetPropertyString(vResult, "Fecha"));
                     FacturaImprentaDigital.HoraModificacion = LibXml.GetPropertyString(vResult, "HoraModificacion");
-                    FacturaImprentaDigital.FechaDeFacturaAfectada = LibImportData.ToDate(LibXml.GetPropertyString(vResult, "FechaDeFacturaAfectada"));
+                    FacturaImprentaDigital.FechaDeFacturaAfectada = LibConvert.ToDate(LibXml.GetPropertyString(vResult, "FechaDeFacturaAfectada"));
                     FacturaImprentaDigital.Observaciones = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "Observaciones"));
                     FacturaImprentaDigital.CodigoMoneda = LibXml.GetPropertyString(vResult, "MonedaDelDocumento");
                     FacturaImprentaDigital.CodigoMonedaDeCobro = LibXml.GetPropertyString(vResult, "MonedaDelCobro");
@@ -266,7 +220,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     FacturaImprentaDigital.NumeroControl = LibXml.GetPropertyString(vResult, "NumeroControl");
                     FacturaImprentaDigital.NumeroDesde = LibXml.GetPropertyString(vResult, "NumeroDesde");
                     FacturaImprentaDigital.NumeroHasta = LibXml.GetPropertyString(vResult, "NumeroHasta");
-                    FacturaImprentaDigital.NumeroDeCuotas = LibImportData.ToInt(LibXml.GetPropertyString(vResult, "NumeroDeCuotas"));
+                    FacturaImprentaDigital.NumeroDeCuotas = LibConvert.ToInt(LibXml.GetPropertyString(vResult, "NumeroDeCuotas"));
                     FacturaImprentaDigital.FormaDeCobro = LibXml.GetPropertyString(vResult, "FormaDeCobro");
                     FacturaImprentaDigital.FormaDePago = LibXml.GetPropertyString(vResult, "FormaDePago");
                     FacturaImprentaDigital.CodigoVendedor = LibXml.GetPropertyString(vResult, "CodigoVendedor");
@@ -337,7 +291,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     DetalleFacturaImprentaDigital = new List<FacturaRapidaDetalle>();
                     foreach (XElement vRowDetaill in ListDetaill) {
                         FacturaRapidaDetalle insFacturaRapidaDetalle = new FacturaRapidaDetalle();
-                        insFacturaRapidaDetalle.ConsecutivoRenglon = LibImportData.ToInt(LibXml.GetElementValueOrEmpty(vRowDetaill, "ConsecutivoRenglon"));
+                        insFacturaRapidaDetalle.ConsecutivoRenglon = LibConvert.ToInt(LibXml.GetElementValueOrEmpty(vRowDetaill, "ConsecutivoRenglon"));
                         insFacturaRapidaDetalle.Articulo = LibXml.GetElementValueOrEmpty(vRowDetaill, "Articulo");
                         insFacturaRapidaDetalle.Descripcion = LimpiarCaracteresNoValidos(LibXml.GetElementValueOrEmpty(vRowDetaill, "Descripcion"));
                         insFacturaRapidaDetalle.Cantidad = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "Cantidad"));
