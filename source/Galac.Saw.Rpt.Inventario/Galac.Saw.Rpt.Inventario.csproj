@@ -59,6 +59,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -69,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsArticulosPorVencer.cs" />
+    <Compile Include="clsExistenciaDeLoteDeInventarioPorAlmacen.cs" />
     <Compile Include="clsListadoDePrecios.cs" />
     <Compile Include="clsListdoDeArticulosBalanza.cs" />
     <Compile Include="clsLoteDeInventarioVencidos.cs" />
@@ -117,11 +119,20 @@
     <Compile Include="dsrValoracionDeInventario.Designer.cs">
       <DependentUpon>dsrValoracionDeInventario.cs</DependentUpon>
     </Compile>
+    <Compile Include="dsrExistenciaDeLoteDeInventarioPorAlmacen.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrExistenciaDeLoteDeInventarioPorAlmacen.Designer.cs">
+      <DependentUpon>dsrExistenciaDeLoteDeInventarioPorAlmacen.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="dsrArticulosPorVencer.resx">
       <DependentUpon>dsrArticulosPorVencer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dsrExistenciaDeLoteDeInventarioPorAlmacen.resx">
+      <DependentUpon>dsrExistenciaDeLoteDeInventarioPorAlmacen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="dsrListadoDePrecios.resx">
       <DependentUpon>dsrListadoDePrecios.cs</DependentUpon>
