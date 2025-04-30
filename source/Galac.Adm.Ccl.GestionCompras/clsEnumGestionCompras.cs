@@ -240,5 +240,5 @@ namespace Galac.Adm.Ccl.GestionCompras {
         [LibEnumDescription("Por Código")] PorCodigo = 0,
         [LibEnumDescription("Por Nombre")] PorNombre
     }
-    
+
 } //End of namespace namespace Galac.Adm.Ccl.GestionCompras
