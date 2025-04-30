@@ -78,10 +78,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             insUtilSql = new QAdvSql("");
             FacturaImprentaDigital = new FacturaRapida();
             ComprobanteRetIVAImprentaDigital = new ComprobanteRetIVA();
-            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.Facturacion) {
-                NumeroFactura = initNumeroDocumento;
-            } else {
+            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionIVA) {
                 NumeroCxP = initNumeroDocumento;
+            } else {
+                NumeroFactura = initNumeroDocumento;
             }
             switch (ProveedorImprentaDigital) {
                 case eProveedorImprentaDigital.TheFactoryHKA:
@@ -477,10 +477,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }
 
         public void ObtenerDatosDocumentoEmitido() {
-            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.Facturacion) {
-                ObtenerDatoFacturaEmitida();
-            } else {                
+            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionIVA) {
                 ObtenerDatosComprobantRetEmitido();
+            } else {                
+                ObtenerDatoFacturaEmitida();
             }                      
         }
 
@@ -759,14 +759,14 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }
 
         public virtual void ConfigurarDocumento() {
-            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.Facturacion) {
+            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionIVA) {
+                BuscarDatosComprobanteRetencionIVA();
+                BuscarDatosSujetoDeRetencionIVA();
+            } else {
                 BuscarDatosDeDocumentoParaEmitir();
                 BuscarDatosDeDetalleDocumento();
                 BuscarDatosDeCliente();
                 BuscarDatosDelVendedor();
-            } else {
-                BuscarDatosComprobanteRetencionIVA();
-                BuscarDatosSujetoDeRetencionIVA();
             }
         }
 
@@ -782,10 +782,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         public virtual bool SincronizarDocumento() {
             bool vResult = false;
-            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.Facturacion) {
-                vResult = !LibString.S1IsEqualToS2(NumeroControl, FacturaImprentaDigital.NumeroControl);
-            } else {
+            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionIVA) {
                 vResult = !LibString.S1IsEqualToS2(NumeroControl, ComprobanteRetIVAImprentaDigital.NumeroControl);
+            } else {
+                vResult = !LibString.S1IsEqualToS2(NumeroControl, FacturaImprentaDigital.NumeroControl);
             }
             if (vResult) { //Emitida en ID, Emitida en SAW Sin Nro. Control
                 vResult = ActualizaNroControlYProveedorImprentaDigital();
@@ -808,11 +808,11 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         public bool ActualizaNroControlYProveedorImprentaDigital() {
             bool vResult = false;
-            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.Facturacion) {
+            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionIVA) {
+                ActualizaNroControYComprobantelEnCxP();
+            } else {
                 vResult = ActualizaNroControlEnCxC();
                 vResult = vResult & ActualizaNroControlEnFactura();
-            } else {
-                ActualizaNroControYComprobantelEnCxP();
             }
             return vResult;
         }

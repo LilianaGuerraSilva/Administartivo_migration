@@ -73,10 +73,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 } else {
                     vChekConeccion = true;
                 }
-                if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.Facturacion) {
-                    vTipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum);
-                } else {
+                if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionIVA) {
                     vTipoDocumento = GetTipoDocumentoComprobante(TipoDocumentoImprentaDigital);
+                } else {
+                    vTipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum);
                 }
                 JObject vJsonDeConsulta = new JObject {
                     {"Serie",SerieDocumento() },
@@ -189,17 +189,17 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public override void ConfigurarDocumento() {
             base.ConfigurarDocumento();
             vDocumentoDigital = new JObject();
-            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.Facturacion) {
+            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionIVA) {
+                JObject vComporbanteRetencionElements = new JObject {
+                { "encabezado", GetComprobanteRetEncabezado() },
+                { "DetallesRetencion", GetComprobanteRetDetalle() } };
+                vDocumentoDigital.Add("documentoElectronico", vComporbanteRetencionElements);                
+            } else {
                 JObject vDocumentoElectronicoElements = new JObject {
                 { "encabezado", GetDocumentoEncabezado() },
                 { "detallesItems", GetDetalleFactura() },
                 { "InfoAdicional", GetDatosInfoAdicional() } };
                 vDocumentoDigital.Add("documentoElectronico", vDocumentoElectronicoElements);
-            } else {
-                JObject vComporbanteRetencionElements = new JObject {
-                { "encabezado", GetComprobanteRetEncabezado() },
-                { "DetallesRetencion", GetComprobanteRetDetalle() } };
-                vDocumentoDigital.Add("documentoElectronico", vComporbanteRetencionElements);
             }
         }
         #endregion Construye  Documento
@@ -208,15 +208,15 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         private string NumeroDocumento() {
             string vResult = string.Empty;
-            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.Facturacion) {
+            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionIVA) {
+                vResult = ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion;
+            } else {
                 vResult = FacturaImprentaDigital.Numero;
                 if (FacturaImprentaDigital.TipoDeDocumentoAsEnum == eTipoDocumentoFactura.Factura) {
                     if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarDosTalonarios")) {
                         vResult = LibString.SubString(vResult, LibString.IndexOf(vResult, '.') + 1);
                     }
                 }
-            } else {
-                vResult = ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion;
             }
             return vResult;
         }
