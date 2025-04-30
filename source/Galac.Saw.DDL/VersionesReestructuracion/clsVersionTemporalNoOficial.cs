@@ -43,6 +43,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             CorrigeConstrainsGUIDNOtNullFactura();
             ActivaMostrarTotalEnDivisas();
             AgregarTablaExistenciaPorAlmacenDetLoteInv();
+			QuitarUniqueCaja()
             CrearCamposIDEnCxP();
             DisposeConnectionNoTransaction();
             return true;
@@ -278,5 +279,14 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
                 AddDefaultConstraint("CxP", "rTEnID", _insSql.ToSqlValue("N"), "RetencionIvaEnviadaImpDigital");
             }
         }
+		
+		private void QuitarUniqueCaja() {			
+			DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Adm.Caja", "Adm.CajaApertura");
+			DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Adm.Caja", "factura");
+			ExecuteDropConstraint("Adm.Caja", "u_CajConsecutivo", true);
+			AddForeignKey("Adm.Caja", "Adm.CajaApertura", new string[] { "ConsecutivoCompania,Consecutivo" }, new string[] { "ConsecutivoCompania,ConsecutivoCaja" }, false, true);
+			AddForeignKey("Adm.Caja", "factura", new string[] { "ConsecutivoCompania,Consecutivo" }, new string[] { "ConsecutivoCompania,ConsecutivoCaja" }, false, true);
+		}
+		
     }
 }
