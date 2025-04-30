@@ -497,8 +497,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     FacturaImprentaDigital.Numero = LibXml.GetPropertyString(vResult, "Numero");
                     FacturaImprentaDigital.MotivoDeAnulacion = LibXml.GetPropertyString(vResult, "MotivoDeAnulacion");
                     FacturaImprentaDigital.StatusFactura = LibXml.GetPropertyString(vResult, "StatusFactura");
-                    FacturaImprentaDigital.GeneradaPorNotaEntregaAsBool = LibImportData.ToInt(LibXml.GetPropertyString(vResult, "GeneradaPorNotaEntrega")) == 1; // Hay que corregir la clase base
-                    FacturaImprentaDigital.ReservarMercanciaAsBool = LibImportData.SNToBool(LibXml.GetPropertyString(vResult, "ReservarMercancia"));
+                    FacturaImprentaDigital.GeneradaPorNotaEntregaAsBool = LibConvert.ToInt(LibXml.GetPropertyString(vResult, "GeneradaPorNotaEntrega")) == 1; // Hay que corregir la clase base
+                    FacturaImprentaDigital.ReservarMercanciaAsBool = LibConvert.SNToBool(LibXml.GetPropertyString(vResult, "ReservarMercancia"));
                     FacturaImprentaDigital.CodigoAlmacen = LibXml.GetPropertyString(vResult, "CodigoAlmacen");
                     FacturaImprentaDigital.EmitidaEnFacturaNumero = LibXml.GetPropertyString(vResult, "EmitidaEnFacturaNumero");
                     FacturaImprentaDigital.CodigoCliente = LibXml.GetPropertyString(vResult, "CodigoCliente");
@@ -821,7 +821,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             bool vResult = false;
             LibGpParams vParams = new LibGpParams();
             StringBuilder vSql = new StringBuilder();
-            Galac.Saw.Lib.eTipoDeTransaccion vTipoCxC = TipoDocumentoFacturaToTipoTransaccionCxC(TipoDeDocumento);
+            eTipoDeTransaccion vTipoCxC = TipoDocumentoFacturaToTipoTransaccionCxC(TipoDeDocumento);
             vParams.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
             vParams.AddInString("NumeroFactura", NumeroFactura, 11);
             vParams.AddInEnum("TipoCxc", (int)vTipoCxC);
@@ -1036,7 +1036,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 string vSql = SqlBuscarCxC(valCanceladas, ref vParams);
                 XElement vData = LibBusiness.ExecuteSelect(vSql, vParams, "", 0);
                 if (vData != null && vData.HasElements) {
-                    vResult = LibImportData.ToInt(LibXml.GetPropertyString(vData, "CountCxC"));
+                    vResult = LibConvert.ToInt(LibXml.GetPropertyString(vData, "CountCxC"));
                 }
                 return vResult;
             } catch (Exception) {
@@ -1099,25 +1099,25 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }
 
         private Galac.Saw.Lib.eTipoDeTransaccion TipoDocumentoFacturaToTipoTransaccionCxC(eTipoDocumentoFactura valTipoDocumentoFactura) {
-            Galac.Saw.Lib.eTipoDeTransaccion vTipoCxc = Galac.Saw.Lib.eTipoDeTransaccion.FACTURA;
+            eTipoDeTransaccion vTipoCxc = eTipoDeTransaccion.FACTURA;
             switch (valTipoDocumentoFactura) {
                 case eTipoDocumentoFactura.Factura:
-                    vTipoCxc = Galac.Saw.Lib.eTipoDeTransaccion.FACTURA;
+                    vTipoCxc = eTipoDeTransaccion.FACTURA;
                     break;
                 case eTipoDocumentoFactura.NotaDeCredito:
-                    vTipoCxc = Galac.Saw.Lib.eTipoDeTransaccion.NOTADECREDITO;
+                    vTipoCxc = eTipoDeTransaccion.NOTADECREDITO;
                     break;
                 case eTipoDocumentoFactura.NotaDeDebito:
-                    vTipoCxc = Galac.Saw.Lib.eTipoDeTransaccion.NOTADEDEBITO;
+                    vTipoCxc = eTipoDeTransaccion.NOTADEDEBITO;
                     break;
                 case eTipoDocumentoFactura.ComprobanteFiscal:
-                    vTipoCxc = Galac.Saw.Lib.eTipoDeTransaccion.TICKETMAQUINAREGISTRADORA;
+                    vTipoCxc = eTipoDeTransaccion.TICKETMAQUINAREGISTRADORA;
                     break;
                 case eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal:
-                    vTipoCxc = Galac.Saw.Lib.eTipoDeTransaccion.NOTADECREDITOCOMPROBANTEFISCAL;
+                    vTipoCxc = eTipoDeTransaccion.NOTADECREDITOCOMPROBANTEFISCAL;
                     break;
                 default:
-                    vTipoCxc = Galac.Saw.Lib.eTipoDeTransaccion.NOASIGNADO;
+                    vTipoCxc = eTipoDeTransaccion.NOASIGNADO;
                     break;
             }
             return vTipoCxc;

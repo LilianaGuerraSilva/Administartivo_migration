@@ -12,51 +12,23 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         private eTipoDeTransaccionID _TipoDeCxP;
         private eTipoDeTransaccionDeLibrosFiscales _TipoDeTransaccion;
         private eProveedorImprentaDigital _ProveedorImprentaDigital;
-        public string CodigoProveedor {
-            get; set;
-        }
-        public decimal TotalCXPComprobanteRetIva {
-            get; set;
-        }
+        public string CodigoProveedor { get; set; }
+        public decimal TotalCXPComprobanteRetIva { get; set; }
 
-        public decimal TotalCXP {
-            get; set;
-        }
+        public decimal TotalCXP { get; set; }
 
-        public DateTime FechaAplicacionRetIVA {
-            get; set;
-        }
-        public DateTime FechaDeVencimiento {
-            get; set;
-        }
+        public DateTime FechaAplicacionRetIVA { get; set; }
+        public DateTime FechaDeVencimiento { get; set; }
 
-        public int MesDeAplicacion {
-            get; set;
-        }
-        public int AnoDeAplicacion {
-            get; set;
-        }
-        public string NumeroComprobanteRetencion {
-            get; set;
-        }
-        public decimal PorcentajeRetencionAplicado {
-            get; set;
-        }
-        public DateTime FechaDelDocOrigen {
-            get; set;
-        }
-        public string NumeroDeDocumento {
-            get; set;
-        }
-        public string NumeroControl {
-            get; set;
-        }
-        public string NumeroDeNotaDebito {
-            get; set;
-        }
-        public string NumeroDeNotaCredito {
-            get; set;
-        }
+        public int MesDeAplicacion { get; set; }
+        public int AnoDeAplicacion { get; set; }
+        public string NumeroComprobanteRetencion { get; set; }
+        public decimal PorcentajeRetencionAplicado { get; set; }
+        public DateTime FechaDelDocOrigen { get; set; }
+        public string NumeroDeDocumento { get; set; }
+        public string NumeroControl { get; set; }
+        public string NumeroDeNotaDebito { get; set; }
+        public string NumeroDeNotaCredito { get; set; }
 
         public eTipoDeTransaccionDeLibrosFiscales TipoDeTransaccionAsEnum {
             get {
@@ -121,68 +93,25 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             }
         }
 
-        public string NumeroDeFacturaAfectada {
-            get; set;
-        }
-        public decimal MontoExento {
-            get; set;
-        }
-        public decimal MontoGravado {
-            get; set;
-        }
-        public decimal MontoGravableAlicuotaGeneral {
-            get; set;
-        }
-        public decimal MontoGravableAlicuota2 {
-            get; set;
-        }
-        public decimal MontoGravableAlicuota3 {
-            get; set;
-        }
-        public decimal AlicuotaG {
-            get; set;
-        }
-        public decimal Alicuota2 {
-            get; set;
-        }
-        public decimal Alicuota3 {
-            get; set;
-        }
-        public decimal MontoIva {
-            get; set;
-        }
-        public decimal MontoIVAAlicuotaGeneral {
-            get; set;
-        }
-        public decimal MontoIVAAlicuota2 {
-            get; set;
-        }
-        public decimal MontoIVAAlicuota3 {
-            get; set;
-        }
-        public decimal MontoRetenido {
-            get; set;
-        }
-        public int AnoAplicRetIVA {
-            get; set;
-        }
-        public int MesAplicRetIVA {
-            get; set;
-        }
-
-        public string CodigoMoneda {
-            get; set;
-        }
-		
-        public bool RetencionIvaEnviadaImpDigital {
-            get;
-            set;
-        }
-
-        public bool SeHizoLaRetencionIVA {
-            get;
-            set;
-        }
+        public string NumeroDeFacturaAfectada { get; set; }
+        public decimal MontoExento { get; set; }
+        public decimal MontoGravado { get; set; }
+        public decimal MontoGravableAlicuotaGeneral { get; set; }
+        public decimal MontoGravableAlicuota2 { get; set; }
+        public decimal MontoGravableAlicuota3 { get; set; }
+        public decimal AlicuotaG { get; set; }
+        public decimal Alicuota2 { get; set; }
+        public decimal Alicuota3 { get; set; }
+        public decimal MontoIva { get; set; }
+        public decimal MontoIVAAlicuotaGeneral { get; set; }
+        public decimal MontoIVAAlicuota2 { get; set; }
+        public decimal MontoIVAAlicuota3 { get; set; }
+        public decimal MontoRetenido { get; set; }
+        public int AnoAplicRetIVA { get; set; }
+        public int MesAplicRetIVA { get; set; }
+        public string CodigoMoneda { get; set; }		
+        public bool RetencionIvaEnviadaImpDigital { get; set; }
+        public bool SeHizoLaRetencionIVA { get; set; }
 
         public ComprobanteRetIVA() {          
             TotalCXPComprobanteRetIva = 0m;
@@ -225,27 +154,13 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
 	
     public class SujetoDeRetencion {
         private eTipoDeProveedorDeLibrosFiscalesID _TipoDeProveedorDeLibrosFiscalesAsEnum;
-        public string Codigo {
-            get; set;
-        }
-        public string Direccion {
-            get; set;
-        }
-        public string Telefono {
-            get; set;
-        }
-
-        public string Email {
-            get; set;
-        }
-
-        public string NumeroRIF {
-            get; set;
-        }
-
-        public string NombreProveedor {
-            get; set;
-        }
+        public string Codigo { get; set; }
+        public string Direccion { get; set; }
+        public string Telefono { get; set; }
+        public string Email { get; set; }
+        public string NumeroRIF { get; set; }
+        public string NombreProveedor { get; set; }
+        public string CodigoProveedor { get; set; }
 
         public eTipoDeProveedorDeLibrosFiscalesID TipoDeProveedorDeLibrosFiscalesAsEnum {
             get {
@@ -266,11 +181,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             get {
                 return LibEnumHelper.GetDescription(_TipoDeProveedorDeLibrosFiscalesAsEnum);
             }
-        }
-
-        public string CodigoProveedor {
-            get; set;
-        }
+        }        
 		
         public SujetoDeRetencion() {
             Codigo = string.Empty;
@@ -279,7 +190,8 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             NumeroRIF = string.Empty;
             Direccion = string.Empty;
             Telefono = string.Empty;
-            //TipoDeProveedorDeLibrosFiscalesAsEnum = eTipoDeProveedorDeLibrosFiscales.ConRif;
+            TipoDeProveedorDeLibrosFiscalesAsEnum = eTipoDeProveedorDeLibrosFiscalesID.ConRif;
+            CodigoProveedor = string.Empty;
         }
     }
 }
