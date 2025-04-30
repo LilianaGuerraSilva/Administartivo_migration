@@ -13,6 +13,7 @@ using Galac.Saw.Brl.Inventario;
 using Galac.Saw.Uil.Inventario.ViewModel;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using LibGalac.Aos.Uil;
+using Galac.Adm.Ccl.GestionCompras;
 
 namespace Galac.Saw.Uil.Inventario.Reportes {
 
@@ -29,7 +30,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         private FkLoteDeInventarioViewModel _ConexionCodigoLote = null;
         private FkArticuloInventarioRptViewModel _ConexionCodigoArticulo = null;
         private FkAlmacenViewModel _ConexionCodigoAlmacenGenerico = null;
-        private eSeleccionAlmacen _SeleccionAlmacen;
+        private eBuscarPor _SeleccionAlmacen;
         private string _CodigoLote;
         private DateTime _FechaInicial;
         private DateTime _FechaFinal;
@@ -120,16 +121,16 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         }
 
         [LibRequired(ErrorMessage = "Debe seleccionar el Almacén.")]
-        public eSeleccionAlmacen SeleccionAlmacen {
+        public eBuscarPor SeleccionAlmacen {
             get {
                 return _SeleccionAlmacen;
             }
             set {
                 if (_SeleccionAlmacen != value) {
                     _SeleccionAlmacen = value;
-                    if (_SeleccionAlmacen == eSeleccionAlmacen.Todos) {
+                    if (_SeleccionAlmacen == eBuscarPor.Todas) {
                         CodigoAlmacenGenerico = string.Empty;
-                    } else if (_SeleccionAlmacen == eSeleccionAlmacen.UnAlmacen) {
+                    } else if (_SeleccionAlmacen == eBuscarPor.Una) {
                         CodigoAlmacenGenerico = string.Empty;
                     }
                     RaisePropertyChanged(CodigoAlmacenGenericoPropertyName);
@@ -204,9 +205,9 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
             private set;
         }
 
-        public eSeleccionAlmacen[] ArraySeleccionAlmacen {
+        public eBuscarPor[] ArraySeleccionAlmacen {
             get {
-                return LibEnumHelper<eSeleccionAlmacen>.GetValuesInArray();
+                return LibEnumHelper<eBuscarPor>.GetValuesInArray();
             }
         }
         #endregion //Propiedades
@@ -300,7 +301,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
 
         public bool IsVisibleCodigoAlmacen {
             get {
-                return SeleccionAlmacen == eSeleccionAlmacen.UnAlmacen;
+                return SeleccionAlmacen == eBuscarPor.Una;
             }
         }
 

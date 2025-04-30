@@ -216,13 +216,9 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
         public string SqlExistenciaDeLoteDeInventarioDeAlmacen(int valConsecutivoCompania, string valLoteDeInventario, string valCodigoArticulo, DateTime valFechaInicial, DateTime valFechaFinal,  string CodigoAlmacen) {
             StringBuilder vSql = new StringBuilder();
             string vSQLWhere = "";
-            if (string.IsNullOrEmpty(CodigoAlmacen)) {
-                vSQLWhere = "";
-            } else {
-                vSQLWhere = " AND Almacen.Codigo = '" + CodigoAlmacen + "' ";
-            }
+
             vSql.AppendLine(" SELECT Almacen.Codigo as CodigoAlmacen ,Almacen.NombreAlmacen as NombreAlmacen ,ExistenciaPorAlmacenDetLoteInv.Cantidad as Existencia, ArticuloInventario.Codigo + ' - ' +  ArticuloInventario.Descripcion as Articulo,");
-            vSql.AppendLine(" Lote.CodigoLote as Lote, Lote.FechaDeElaboracion as FechaElaboracion, Lote.FechaDeVencimiento as FechaVencimiento ,ArtI.TipoArticuloInv as TipoArticuloInv");
+            vSql.AppendLine(" Lote.CodigoLote as Lote, Lote.FechaDeElaboracion as FechaElaboracion, Lote.FechaDeVencimiento as FechaVencimiento ,ArticuloInventario.TipoArticuloInv as TipoArticuloInv");
             vSql.AppendLine(" FROM ExistenciaPorAlmacenDetLoteInv");
             vSql.AppendLine(" INNER JOIN Almacen ON Almacen.ConsecutivoCompania = ExistenciaPorAlmacenDetLoteInv.ConsecutivoCompania");
             vSql.AppendLine(" AND Almacen.Consecutivo = ExistenciaPorAlmacenDetLoteInv.ConsecutivoAlmacen");
@@ -230,7 +226,13 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
             vSql.AppendLine(" AND Lote.Consecutivo = ExistenciaPorAlmacenDetLoteInv.ConsecutivoLoteInventario");
             vSql.AppendLine(" INNER JOIN ArticuloInventario ON ArticuloInventario.ConsecutivoCompania = ExistenciaPorAlmacenDetLoteInv.ConsecutivoCompania");
             vSql.AppendLine(" AND ArticuloInventario.Codigo = ExistenciaPorAlmacenDetLoteInv.CodigoArticulo");
-            vSql.AppendLine(" WHERE ExistenciaPorAlmacenDetLoteInv.ConsecutivoCompania = " + valConsecutivoCompania + "AND ArticuloInventario.Codigo = '" + valCodigoArticulo + "' AND Lote.CodigoLote = '" + valLoteDeInventario + "' "  + vSQLWhere );
+            vSQLWhere = insUtilSql.SqlIntValueWithAnd(vSQLWhere, "ExistenciaPorAlmacenDetLoteInv.ConsecutivoCompania", valConsecutivoCompania);
+            vSQLWhere = insUtilSql.SqlValueWithAnd(vSQLWhere, "ArticuloInventario.Codigo", valCodigoArticulo);
+            vSQLWhere = insUtilSql.SqlValueWithAnd(vSQLWhere, "Lote.CodigoLote", valLoteDeInventario);
+            if (!string.IsNullOrEmpty(CodigoAlmacen)) {
+                vSQLWhere = insUtilSql.SqlValueWithAnd(vSQLWhere, "Almacen.Codigo", CodigoAlmacen);
+            } 
+            vSql.AppendLine(insUtilSql.WhereSql(vSQLWhere));
             return vSql.ToString();
         }
         #endregion
