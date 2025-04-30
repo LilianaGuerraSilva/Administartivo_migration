@@ -837,10 +837,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 case eTipoDeTransaccionID.NotaDeDebito:
                 case eTipoDeTransaccionID.NotaDeDebitoCompFiscal:
                     vResult = "03";
-                    break;
-                case eTipoDeTransaccionID.NotaDeEntrega:
-                    vResult = "04";
-                    break;
+                    break;                
                 default:
                     vResult = "01";
                     break;
