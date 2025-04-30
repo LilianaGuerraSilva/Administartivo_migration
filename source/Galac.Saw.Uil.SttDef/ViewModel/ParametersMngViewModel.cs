@@ -144,7 +144,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private void ExecuteActivarImprentaDigitalCommand() {
             try {
                 bool vPuedeEjecutar = !LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaImprentaDigital");
-                bool vClaveEspecialValida = vPuedeEjecutar; // && new LibGalac.Ssm.U.LibRequestAdvancedOperation().AuthorizeProcess("Activar Imprenta Digital", "VE");
+                bool vClaveEspecialValida = vPuedeEjecutar && new LibGalac.Ssm.U.LibRequestAdvancedOperation().AuthorizeProcess("Activar Imprenta Digital", "VE");
                 if (vClaveEspecialValida) {
                     ImprentaDigitalActivacionViewModel vViewModel = new ImprentaDigitalActivacionViewModel();
                     LibMessages.EditViewModel.ShowEditor(vViewModel, true);
@@ -161,7 +161,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private void ExecuteActualizarDatosDeConexionImprentaDigitalCommand() {
             try {
                 bool vPuedeEjecutar = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaImprentaDigital");
-                bool vClaveEspecialValida = vPuedeEjecutar; // && new LibGalac.Ssm.U.LibRequestAdvancedOperation().AuthorizeProcess("Actualizar Datos de Conexión de Imprenta Digital", "VE");
+                bool vClaveEspecialValida = vPuedeEjecutar && new LibGalac.Ssm.U.LibRequestAdvancedOperation().AuthorizeProcess("Actualizar Datos de Conexión de Imprenta Digital", "VE");
                 if (vClaveEspecialValida) {
                     ImprentaDigitalDatosDeConexionViewModel vViewModel = new ImprentaDigitalDatosDeConexionViewModel();
                     LibMessages.EditViewModel.ShowEditor(vViewModel, true);
