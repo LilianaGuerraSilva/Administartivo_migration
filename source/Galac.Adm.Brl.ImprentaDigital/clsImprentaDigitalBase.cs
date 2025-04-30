@@ -1098,7 +1098,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             return vResult;
         }
 
-        private Galac.Saw.Lib.eTipoDeTransaccion TipoDocumentoFacturaToTipoTransaccionCxC(eTipoDocumentoFactura valTipoDocumentoFactura) {
+        private eTipoDeTransaccion TipoDocumentoFacturaToTipoTransaccionCxC(eTipoDocumentoFactura valTipoDocumentoFactura) {
             eTipoDeTransaccion vTipoCxc = eTipoDeTransaccion.FACTURA;
             switch (valTipoDocumentoFactura) {
                 case eTipoDocumentoFactura.Factura:
