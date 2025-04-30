@@ -1,6 +1,4 @@
 ﻿
-using Galac.Adm.Ccl.GestionCompras;
-
 namespace Galac.Saw.Wrp.ImprentaDigital {
     public interface IWrpImprentaDigitalVb {
         bool EnviarDocumento(int vfwTipoDocumento, string vfwNumeroFactura, string vfwCurrentParameters, int vfwvTipoDocumentoImprentaDigital, ref string vfwNumeroControl, ref string vfwMensaje);

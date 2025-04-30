@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using Galac.Adm.Brl.ImprentaDigital;
 using LibGalac.Aos.UI.Mvvm.Messaging;
 using System.Text.RegularExpressions;
-using Galac.Adm.Ccl.GestionCompras;
 using Galac.Adm.Ccl.ImprentaDigital;
 
 #if IsExeBsF
