@@ -249,4 +249,5 @@ namespace Galac.Saw.Ccl.Inventario {
         [LibEnumDescription("Ascendente")] Ascendente = 0,
         [LibEnumDescription("Descendente")] Descendente,        
     }
+
 } //End of namespace namespace Galac.Saw.Ccl.Inventario
