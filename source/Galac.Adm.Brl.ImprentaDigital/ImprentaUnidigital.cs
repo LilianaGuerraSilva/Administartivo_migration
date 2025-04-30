@@ -25,7 +25,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         clsConectorJson _ConectorJson;
         string _StrongeID = "";
         string _SerieID = "";
-        public ImprentaUnidigital(eTipoDocumentoFactura initTipoDeDocumento, string initNumeroFactura) : base(initTipoDeDocumento, initNumeroFactura) {
+        public ImprentaUnidigital(eTipoDocumentoFactura initTipoDeDocumento, string initNumeroFactura, eTipoDocumentoImprentaDigital initTipoComprobantedeRetencion) : base(initTipoDeDocumento, initNumeroFactura, initTipoComprobantedeRetencion) {
             _NumeroFactura = initNumeroFactura;
             _TipoDeDocumento = initTipoDeDocumento;
             _TipoDeProveedor = "";//NORMAL Según catalogo No 2 del layout
