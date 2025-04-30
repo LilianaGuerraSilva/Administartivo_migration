@@ -43,8 +43,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             CorrigeConstrainsGUIDNOtNullFactura();
             ActivaMostrarTotalEnDivisas();
             AgregarTablaExistenciaPorAlmacenDetLoteInv();
-			QuitarUniqueCaja()
             CrearCamposIDEnCxP();
+            QuitarUniqueCaja();
             DisposeConnectionNoTransaction();
             return true;
         }
