@@ -24,6 +24,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         public const string FechaInicialPropertyName = "FechaInicial";
         public const string FechaFinalPropertyName = "FechaFinal";
         public const string CodigoAlmacenGenericoPropertyName = "CodigoAlmacenGenerico";
+        public const string CodigoLoteGenericoPropertyName = "CodigoLote";
 
         #endregion
         #region Variables
@@ -31,6 +32,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         private FkArticuloInventarioRptViewModel _ConexionCodigoArticulo = null;
         private FkAlmacenViewModel _ConexionCodigoAlmacenGenerico = null;
         private eCantidadAImprimir _SeleccionAlmacen;
+        private eCantidadAImprimir _SeleccionLote;
         private string _CodigoLote;
         private DateTime _FechaInicial;
         private DateTime _FechaFinal;
@@ -139,6 +141,25 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
             }
         }
 
+        [LibRequired(ErrorMessage = "Debe seleccionar el Lote.")]
+        public eCantidadAImprimir SeleccionLote {
+            get {
+                return _SeleccionLote;
+            }
+            set {
+                if (_SeleccionLote != value) {
+                    _SeleccionLote = value;
+                    if (_SeleccionLote == eCantidadAImprimir.All) {
+                        CodigoLote = string.Empty;
+                    } else if (_SeleccionLote == eCantidadAImprimir.One) {
+                        CodigoLote = string.Empty;
+                    }
+                    RaisePropertyChanged(CodigoLoteGenericoPropertyName);
+                    RaisePropertyChanged("IsVisibleCodigoLote");
+                }
+            }
+        }
+
         public FkLoteDeInventarioViewModel ConexionCodigoLote {
             get {
                 return _ConexionCodigoLote;
@@ -206,6 +227,11 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         }
 
         public eCantidadAImprimir[] ArraySeleccionAlmacen {
+            get {
+                return LibEnumHelper<eCantidadAImprimir>.GetValuesInArray();
+            }
+        }
+        public eCantidadAImprimir[] ArraySeleccionLote {
             get {
                 return LibEnumHelper<eCantidadAImprimir>.GetValuesInArray();
             }
@@ -302,6 +328,12 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         public bool IsVisibleCodigoAlmacen {
             get {
                 return SeleccionAlmacen == eCantidadAImprimir.One;
+            }
+        }
+
+        public bool IsVisibleCodigoLote {
+            get {
+                return SeleccionLote == eCantidadAImprimir.One;
             }
         }
 

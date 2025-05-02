@@ -6,7 +6,7 @@
              xmlns:nsARRpt="clr-namespace:LibGalac.Aos.ARRpt;assembly=LibGalac.Aos.ARRpt"
     xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
     d:DesignWidth="250"
-    mc:Ignorable="d" Height="150">
+    mc:Ignorable="d" Height="155">
     <UserControl.Resources>
         <ResourceDictionary>
             <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
@@ -25,78 +25,95 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Label
-            Name="lblSeleccionAlmacen"
-            Grid.Row="1"
-            Grid.Column="0"
-            Content="Seleccione Almacén"
-            Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSComboBoxWpf
-            Name="cmbSeleccionAlmacen"
-            Grid.Row="1"
-            Grid.Column="1"
-            Width="120"
-            Height="23"
-            Margin="3"
-            IsEnabled="{Binding Path=IsEnabled}"
-            IsSynchronizedWithCurrentItem="True"
-            ItemsSource="{Binding Path=ArraySeleccionAlmacen}"
-            SelectedItem="{Binding Path=SeleccionAlmacen, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-            Style="{StaticResource ComboBoxStyle}" />
+            <RowDefinition Height="29"/>
+            <RowDefinition Height="29"/>
+        </Grid.RowDefinitions> 
         <Label
             Name="lblCodigoArticulo"
-            Grid.Row="2"
+            Grid.Row="1"
             Grid.Column="0"
             Content="Código Artículo"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSSeekConnection
             Name="txtCodigoArticulo"
-            Grid.Row="2"
+            Grid.Row="1"
             Grid.Column="1"
             Width="120"
             Height="23"
-            Margin="3"
-            HorizontalAlignment="Left"
+            HorizontalAlignment="Center"
             ConnectionValue="{Binding Path=CodigoArticulo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             IsEnabled="{Binding Path=IsEnabled}"
             SearchCommand="{Binding Path=ChooseCodigoArticuloCommand}" />
         <Label
+            x:Name="lblLote"
+            Grid.Row="2"
+            Grid.Column="0"
+            Content="Lote"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf
+            Name="cmbSeleccionLote"
+            Grid.Row="2"
+            Grid.Column="1"
+            Width="120"
+            Height="23"
+            IsEnabled="{Binding Path=IsEnabled}"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding Path=ArraySeleccionLote}"
+            SelectedItem="{Binding Path=SeleccionLote, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            Style="{StaticResource ComboBoxStyle}" />
+        <Label
             Name="lblCodigoLote"
             Grid.Row="3"
             Grid.Column="0"
-            Content="Código Lote"
-            Style="{StaticResource LabelPrompt}" />
+            Content="Seleccione Lote"
+            Visibility="{Binding Path=IsVisibleCodigoLote, Converter={StaticResource booleanToVisibilityConverter}}"
+            Style="{StaticResource LabelPrompt}"  />
         <nsWpfControls:GSSeekConnection
             Name="txtCodigoLote"
             Grid.Row="3"
             Grid.Column="1"
             Width="120"
             Height="23"
-            Margin="3"
-            HorizontalAlignment="Left"
+            HorizontalAlignment="Center"
             ConnectionValue="{Binding Path=CodigoLote, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             IsEnabled="{Binding Path=IsEnabled}"
+            Visibility="{Binding Path=IsVisibleCodigoLote, Converter={StaticResource booleanToVisibilityConverter}}"
             SearchCommand="{Binding Path=ChooseCodigoLoteCommand}" />
         <Label
-            Name="lblCodigoAlmacen"
-            Grid.Row="3"
+            Name="lblSeleccionAlmacen"
+            Grid.Row="4"
             Grid.Column="0"
             Content="Almacén"
-            Visibility="{Binding Path=IsVisibleCodigoAlmacen, Converter={StaticResource booleanToVisibilityConverter}}" Grid.ColumnSpan="2" Margin="0,29,126,-29"
             Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSSeekConnection
-            Name="txtCodigoAlmacen"
-            Grid.Row="3"
+        <nsWpfControls:GSComboBoxWpf
+            Name="cmbSeleccionAlmacen"
+            Grid.Row="4"
             Grid.Column="1"
             Width="120"
             Height="23"
-            Margin="0,31,0,-25"
-            HorizontalAlignment="Center"
+            IsEnabled="{Binding Path=IsEnabled}"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding Path=ArraySeleccionAlmacen}"
+            SelectedItem="{Binding Path=SeleccionAlmacen, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            Style="{StaticResource ComboBoxStyle}" />
+        <Label
+            Name="lblCodigoAlmacen"
+            Grid.Row="5"
+            Grid.Column="0"
+            Content="Seleccione Almacén"
+            Visibility="{Binding Path=IsVisibleCodigoAlmacen, Converter={StaticResource booleanToVisibilityConverter}}"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSSeekConnection
+            Name="txtCodigoAlmacen"
+            Grid.Row="5"
+            Grid.Column="1"
+            Width="120"
+            Height="23"
             ConnectionValue="{Binding Path=CodigoAlmacenGenerico, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             IsEnabled="{Binding Path=IsEnabled}"
             Model="{Binding ConexionAlmacenGenerico, Mode=TwoWay}"
             SearchCommand="{Binding Path=ChooseAlmacenGenericoCommand}" 
             Visibility="{Binding Path=IsVisibleCodigoAlmacen, Converter={StaticResource booleanToVisibilityConverter}}"/>
+
     </Grid>
 </UserControl>
