@@ -61,7 +61,7 @@
     <Reference Include="LibGalac.Aos.Catching">
       <HintPath>..\packages\LibGalac.Aos.Catching.5.24.0\lib\LibGalac.Aos.Catching.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.Ccl.Usal, Version=5.24.2.6, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="LibGalac.Aos.Ccl.Usal">
       <HintPath>..\packages\LibGalac.Aos.Ccl.Usal.5.24.2.6\lib\LibGalac.Aos.Ccl.Usal.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Cib">
@@ -101,7 +101,7 @@
       <HintPath>..\packages\LibGalac.Aos.Uil.5.24.2.4\lib\LibGalac.Aos.Uil.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Uil.Usal">
-      <HintPath>..\packages\LibGalac.Aos.Uil.Usal.5.24.2.5\lib\LibGalac.Aos.Uil.Usal.dll</HintPath>
+      <HintPath>..\packages\LibGalac.Aos.Uil.Usal.5.24.2.6\lib\LibGalac.Aos.Uil.Usal.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Vbwa">
       <HintPath>..\packages\LibGalac.Aos.Vbwa.5.24.1\lib\LibGalac.Aos.Vbwa.dll</HintPath>
@@ -273,6 +273,10 @@
     <ProjectReference Include="..\Galac.Adm.Ccl.DispositivosExternos\Galac.Adm.Ccl.DispositivosExternos.csproj">
       <Project>{eea8e05e-9a11-4d51-aa9c-aacd7245952f}</Project>
       <Name>Galac.Adm.Ccl.DispositivosExternos</Name>
+    </ProjectReference>   
+    <ProjectReference Include="..\Galac.Adm.Ccl.ImprentaDigital\Galac.Adm.Ccl.ImprentaDigital.csproj">
+      <Project>{09e94989-2c8c-457a-b6af-1e529992f5ca}</Project>
+      <Name>Galac.Adm.Ccl.ImprentaDigital</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Adm.Ccl.Rendicion\Galac.Adm.Ccl.CajaChica.csproj">
       <Project>{69bb7951-c2ec-45b9-a344-cb91e87d516b}</Project>

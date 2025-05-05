@@ -64,6 +64,8 @@ namespace Galac.Saw.Rpt.Inventario
 				LibReport.ConfigFieldStr(this, "txtCodigoArticulo", string.Empty, "CodigoArticulo");
 				LibReport.ConfigFieldStr(this, "txtDescripcionArticulo", string.Empty, "DescripcionArticulo");
 				LibReport.ConfigFieldDec(this, "txtCantidad", string.Empty, "Cantidad");
+                LibReport.ConfigFieldStr(this, "txtRollo", string.Empty, "Rollo");
+                LibReport.ConfigFieldStr(this, "txtSerial", string.Empty, "Serial");
                 LibReport.ConfigFieldStr(this, "txtTipoArticuloInv", string.Empty, "TipoArticuloInv");
                 LibReport.ConfigFieldStr(this, "txtLoteDeInventario", string.Empty, "LoteDeInventario");
 				LibReport.ConfigFieldDate(this, "txtFechaDeElaboracion", string.Empty, "FechaDeElaboracion", eDateOutputFormat.DateShort); 

@@ -167,6 +167,7 @@ unTipoNotaProduccion = (NoAplica, Abrir, Cerrar, Ajuste);//e,Componente=Inventar
 unStatusLoteDeInventario = (Vigente, Consumido, Anulado);//e,Componente=Inventario
 unOrigenLoteInv = (Factura, NotaDeCredito, NotaDeDebito, NotaDeEntrega, Produccion, NotaEntradaSalida, Compra, ConteoFisico);//e,Componente=Inventario
 unStatusDocOrigenLoteInv = (Vigente, Anulado);//e,Componente=Inventario
+unTipoDocumentoImprentaDigital = (Facturacion, RetencionIVA, RetencionISLR);//
 
 {@S}UrbanizacionZP = record //"Urbanización - Zona Postal",
    Urbanización: str30; //o,g,SEARCH

@@ -275,16 +275,16 @@ namespace Galac.Saw.Brl.Inventario {
                         IList<NotaDeEntradaSalida> vItemList = new List<NotaDeEntradaSalida>();
                         vItemList.Add(vItem);
                         if (vItem.TipodeOperacionAsEnum == eTipodeOperacion.EntradadeInventario) {
+                            if (HayArticulosRepetidosEnLosRenglones(vItem, vItem.TipodeOperacionAsEnum, out vCodigos)) {
+                                throw new LibGalac.Aos.Catching.GalacValidationException("Existen artículos repetidos.\nDebe corregir la información antes de continuar.  \n" + vCodigos);
+                            }
                             if (ValidaRegistroDeSerial(vItem)) {    // Para validar que un serial se registre una única vez. Tenga una sola entrada para el tipo ->Serial
                                 vResult = base.InsertRecord(vItemList, valUseDetail);
                                 if (vResult.Success) {
                                     ActualizaExistenciaDeArticulos(vItem, eAccionSR.Insertar);
                                 }
                             }
-                        } else {
-                            if (HayArticulosRepetidosEnLosRenglones(vItem, vItem.TipodeOperacionAsEnum, out vCodigos)) {
-                                throw new LibGalac.Aos.Catching.GalacValidationException("Existen artículos repetidos.\nDebe corregir la información antes de continuar.  \n" + vCodigos);
-                            }
+                        } else {                           
                             vCodigos = string.Empty;
                             if (!HayExistenciaParaNotaDeSalidaDeInventario(vItem, out vCodigos)) {
                                 throw new LibGalac.Aos.Catching.GalacValidationException("No hay existencia suficiente de algunos ítems (" + vCodigos + ") en la Nota: " + vItem.NumeroDocumento + " para realizar la acción. El proceso será cancelado.");

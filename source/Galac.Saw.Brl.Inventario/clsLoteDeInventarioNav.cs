@@ -90,6 +90,10 @@ namespace Galac.Saw.Brl.Inventario {
                     vPdnModule = new Galac.Saw.Brl.Tablas.clsLineaDeProductoNav();
                     vResult = vPdnModule.GetDataForList(valModule, ref refXmlDocument, valXmlParamsExpression);
                     break;
+                case "Almacén":
+                    vPdnModule = new Galac.Saw.Brl.Inventario.clsAlmacenNav();
+                    vResult = vPdnModule.GetDataForList(valModule, ref refXmlDocument, valXmlParamsExpression);
+                    break;
                 default: throw new NotImplementedException();
             }
             return vResult;

@@ -226,6 +226,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
+        public bool IsEnabledDatosRetIvaWithoutImprentaDigital {
+            get {
+
+                return IsEnabledDatosRetIva && !LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaImprentaDigital");
+            }
+        }
+
         public string CaptionImprimirComprobanteDeRetIVA {
             get {
                 return "Primer Número de Comprobante de Retención de " + LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "PromptIVA") + " ...";

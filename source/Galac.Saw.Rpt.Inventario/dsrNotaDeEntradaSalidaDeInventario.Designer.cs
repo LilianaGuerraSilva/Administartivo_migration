@@ -60,6 +60,10 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblFechaDeElaboracion = new DataDynamics.ActiveReports.Label();
             this.lblFechaDeVencimiento = new DataDynamics.ActiveReports.Label();
             this.GFSecNota = new DataDynamics.ActiveReports.GroupFooter();
+            this.lblSerial = new DataDynamics.ActiveReports.Label();
+            this.lblRollo = new DataDynamics.ActiveReports.Label();
+            this.txtRollo = new DataDynamics.ActiveReports.TextBox();
+            this.txtSerial = new DataDynamics.ActiveReports.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.txtCodigoArticulo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDescripcionArticulo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCantidad)).BeginInit();
@@ -90,6 +94,10 @@ namespace Galac.Saw.Rpt.Inventario
             ((System.ComponentModel.ISupportInitialize)(this.lblLoteDeInventario)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaDeElaboracion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaDeVencimiento)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblSerial)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblRollo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtRollo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSerial)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
@@ -102,8 +110,10 @@ namespace Galac.Saw.Rpt.Inventario
             this.txtLoteDeInventario,
             this.txtFechaDeElaboracion,
             this.txtFechaDeVencimiento,
-            this.txtTipoArticuloInv});
-            this.Detail.Height = 0.15625F;
+            this.txtTipoArticuloInv,
+            this.txtRollo,
+            this.txtSerial});
+            this.Detail.Height = 0.1979167F;
             this.Detail.Name = "Detail";
             this.Detail.Format += new System.EventHandler(this.Detail_Format);
             // 
@@ -128,32 +138,32 @@ namespace Galac.Saw.Rpt.Inventario
             this.txtDescripcionArticulo.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtDescripcionArticulo.Text = "txtDescripcionArticulo";
             this.txtDescripcionArticulo.Top = 0F;
-            this.txtDescripcionArticulo.Width = 2.75F;
+            this.txtDescripcionArticulo.Width = 2.59F;
             // 
             // txtCantidad
             // 
             this.txtCantidad.Height = 0.15625F;
-            this.txtCantidad.Left = 6.25F;
+            this.txtCantidad.Left = 6.812F;
             this.txtCantidad.Name = "txtCantidad";
             this.txtCantidad.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtCantidad.Text = "txtCantidad";
             this.txtCantidad.Top = 0F;
-            this.txtCantidad.Width = 1.25F;
+            this.txtCantidad.Width = 0.6879997F;
             // 
             // txtLoteDeInventario
             // 
             this.txtLoteDeInventario.Height = 0.15625F;
-            this.txtLoteDeInventario.Left = 3.75F;
+            this.txtLoteDeInventario.Left = 5.06F;
             this.txtLoteDeInventario.Name = "txtLoteDeInventario";
             this.txtLoteDeInventario.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtLoteDeInventario.Text = "txtLoteDeInventario";
             this.txtLoteDeInventario.Top = 0F;
-            this.txtLoteDeInventario.Width = 1.5F;
+            this.txtLoteDeInventario.Width = 0.73F;
             // 
             // txtFechaDeElaboracion
             // 
             this.txtFechaDeElaboracion.Height = 0.15625F;
-            this.txtFechaDeElaboracion.Left = 5.25F;
+            this.txtFechaDeElaboracion.Left = 5.8F;
             this.txtFechaDeElaboracion.Name = "txtFechaDeElaboracion";
             this.txtFechaDeElaboracion.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtFechaDeElaboracion.Text = "txtFechaDeElaboracion";
@@ -163,7 +173,7 @@ namespace Galac.Saw.Rpt.Inventario
             // txtFechaDeVencimiento
             // 
             this.txtFechaDeVencimiento.Height = 0.15625F;
-            this.txtFechaDeVencimiento.Left = 5.75F;
+            this.txtFechaDeVencimiento.Left = 6.3F;
             this.txtFechaDeVencimiento.Name = "txtFechaDeVencimiento";
             this.txtFechaDeVencimiento.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtFechaDeVencimiento.Text = "txtFechaDeVencimiento";
@@ -269,8 +279,10 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblCantidad,
             this.lblLoteDeInventario,
             this.lblFechaDeElaboracion,
-            this.lblFechaDeVencimiento});
-            this.GHSecNota.Height = 1.00025F;
+            this.lblFechaDeVencimiento,
+            this.lblSerial,
+            this.lblRollo});
+            this.GHSecNota.Height = 1.011083F;
             this.GHSecNota.Name = "GHSecNota";
             // 
             // lblNumeroDocumento
@@ -421,38 +433,38 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblDescripcionArticulo.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.lblDescripcionArticulo.Text = "Descripción";
             this.lblDescripcionArticulo.Top = 0.8340001F;
-            this.lblDescripcionArticulo.Width = 2.75F;
+            this.lblDescripcionArticulo.Width = 2.59F;
             // 
             // lblCantidad
             // 
             this.lblCantidad.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblCantidad.Height = 0.15625F;
             this.lblCantidad.HyperLink = null;
-            this.lblCantidad.Left = 6.25F;
+            this.lblCantidad.Left = 6.812F;
             this.lblCantidad.Name = "lblCantidad";
             this.lblCantidad.Style = "font-size: 8.25pt; font-weight: bold; text-align: right; ddo-char-set: 0";
             this.lblCantidad.Text = "Cantidad";
             this.lblCantidad.Top = 0.8340001F;
-            this.lblCantidad.Width = 1.25F;
+            this.lblCantidad.Width = 0.6879997F;
             // 
             // lblLoteDeInventario
             // 
             this.lblLoteDeInventario.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblLoteDeInventario.Height = 0.15625F;
             this.lblLoteDeInventario.HyperLink = null;
-            this.lblLoteDeInventario.Left = 3.75F;
+            this.lblLoteDeInventario.Left = 5.06F;
             this.lblLoteDeInventario.Name = "lblLoteDeInventario";
             this.lblLoteDeInventario.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
-            this.lblLoteDeInventario.Text = "Lote de Inventario";
+            this.lblLoteDeInventario.Text = "Lote Invent.";
             this.lblLoteDeInventario.Top = 0.8340001F;
-            this.lblLoteDeInventario.Width = 1.5F;
+            this.lblLoteDeInventario.Width = 0.73F;
             // 
             // lblFechaDeElaboracion
             // 
             this.lblFechaDeElaboracion.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblFechaDeElaboracion.Height = 0.15625F;
             this.lblFechaDeElaboracion.HyperLink = null;
-            this.lblFechaDeElaboracion.Left = 5.25F;
+            this.lblFechaDeElaboracion.Left = 5.8F;
             this.lblFechaDeElaboracion.Name = "lblFechaDeElaboracion";
             this.lblFechaDeElaboracion.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.lblFechaDeElaboracion.Text = "F. Elab.";
@@ -464,7 +476,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblFechaDeVencimiento.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblFechaDeVencimiento.Height = 0.15625F;
             this.lblFechaDeVencimiento.HyperLink = null;
-            this.lblFechaDeVencimiento.Left = 5.75F;
+            this.lblFechaDeVencimiento.Left = 6.3F;
             this.lblFechaDeVencimiento.Name = "lblFechaDeVencimiento";
             this.lblFechaDeVencimiento.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.lblFechaDeVencimiento.Text = "F. Vcto.";
@@ -475,6 +487,50 @@ namespace Galac.Saw.Rpt.Inventario
             // 
             this.GFSecNota.Height = 0F;
             this.GFSecNota.Name = "GFSecNota";
+            // 
+            // lblSerial
+            // 
+            this.lblSerial.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.lblSerial.Height = 0.15625F;
+            this.lblSerial.HyperLink = null;
+            this.lblSerial.Left = 4.32F;
+            this.lblSerial.Name = "lblSerial";
+            this.lblSerial.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
+            this.lblSerial.Text = "Serial";
+            this.lblSerial.Top = 0.8340001F;
+            this.lblSerial.Width = 0.73F;
+            // 
+            // lblRollo
+            // 
+            this.lblRollo.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.lblRollo.Height = 0.15625F;
+            this.lblRollo.HyperLink = null;
+            this.lblRollo.Left = 3.59F;
+            this.lblRollo.Name = "lblRollo";
+            this.lblRollo.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
+            this.lblRollo.Text = "Rollo";
+            this.lblRollo.Top = 0.8340001F;
+            this.lblRollo.Width = 0.73F;
+            // 
+            // txtRollo
+            // 
+            this.txtRollo.Height = 0.15625F;
+            this.txtRollo.Left = 3.59F;
+            this.txtRollo.Name = "txtRollo";
+            this.txtRollo.Style = "font-size: 8pt; ddo-char-set: 1";
+            this.txtRollo.Text = "txtRollo";
+            this.txtRollo.Top = 0F;
+            this.txtRollo.Width = 0.73F;
+            // 
+            // txtSerial
+            // 
+            this.txtSerial.Height = 0.15625F;
+            this.txtSerial.Left = 4.32F;
+            this.txtSerial.Name = "txtSerial";
+            this.txtSerial.Style = "font-size: 8pt; ddo-char-set: 1";
+            this.txtSerial.Text = "txtSerial";
+            this.txtSerial.Top = 0F;
+            this.txtSerial.Width = 0.73F;
             // 
             // dsrNotaDeEntradaSalidaDeInventario
             // 
@@ -523,6 +579,10 @@ namespace Galac.Saw.Rpt.Inventario
             ((System.ComponentModel.ISupportInitialize)(this.lblLoteDeInventario)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaDeElaboracion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblFechaDeVencimiento)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblSerial)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblRollo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtRollo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSerial)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -563,5 +623,9 @@ namespace Galac.Saw.Rpt.Inventario
         private DataDynamics.ActiveReports.TextBox txtFechaDeVencimiento;
         private DataDynamics.ActiveReports.Label lblCodigoAlmacen;
         private DataDynamics.ActiveReports.TextBox txtTipoArticuloInv;
+        private DataDynamics.ActiveReports.Label lblSerial;
+        private DataDynamics.ActiveReports.Label lblRollo;
+        private DataDynamics.ActiveReports.TextBox txtRollo;
+        private DataDynamics.ActiveReports.TextBox txtSerial;
     }
 }

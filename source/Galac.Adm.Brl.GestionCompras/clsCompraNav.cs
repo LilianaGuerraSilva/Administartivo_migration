@@ -391,8 +391,8 @@ namespace Galac.Adm.Brl.GestionCompras {
                     Cantidad = vCantidad,
                     Ubicacion = "",
                     ConsecutivoAlmacen = valCompra.ConsecutivoAlmacen,
-                    DetalleArticuloInventarioExistenciaSerial = GeneraDetalleArticuloInventarioSerial(item.CodigoArticulo, item.CodigoArticuloInv, valCompra.CodigoAlmacen, valCompra.ConsecutivoAlmacen, valCompra.DetailCompraDetalleSerialRollo, valAumentaCantidad)
-
+                    DetalleArticuloInventarioExistenciaSerial = GeneraDetalleArticuloInventarioSerial(item.CodigoArticulo, item.CodigoArticuloInv, valCompra.CodigoAlmacen, valCompra.ConsecutivoAlmacen, valCompra.DetailCompraDetalleSerialRollo, valAumentaCantidad),
+                    DetalleExistenciasPorAlmacenDetLoteInv = GeneraDetalleExistenciasPorAlmacenDetLoteInv(item.ConsecutivoCompania, item.CodigoArticulo, valCompra.ConsecutivoAlmacen, vCantidad, item.ConsecutivoLoteDeInventario)
                 });
             }
 
@@ -400,7 +400,20 @@ namespace Galac.Adm.Brl.GestionCompras {
             return vResult;
         }
 
-      
+        private List<ExistenciaPorAlmacenDetLoteInv> GeneraDetalleExistenciasPorAlmacenDetLoteInv(int valConsecutivoCompania, string valCodigoArticulo, int valConsecutivoAlmacen, decimal valCantidad, int valConsecutivoLoteDeInventario) {
+            List<ExistenciaPorAlmacenDetLoteInv> vResult = new List<ExistenciaPorAlmacenDetLoteInv>();
+            ExistenciaPorAlmacenDetLoteInv vExistencia = new ExistenciaPorAlmacenDetLoteInv {
+                ConsecutivoCompania = valConsecutivoCompania,
+                CodigoArticulo = valCodigoArticulo,
+                ConsecutivoAlmacen = valConsecutivoAlmacen,
+                Cantidad = valCantidad,
+                ConsecutivoLoteInventario = valConsecutivoLoteDeInventario,
+                Ubicacion = string.Empty
+            };
+            vResult.Add(vExistencia);
+            return vResult;
+        }
+
         private bool ValidaExistenciaSerialRollo(Compra refRecord) {
              XElement vData = new XElement("GpData");
              foreach (CompraDetalleSerialRollo item in refRecord.DetailCompraDetalleSerialRollo) {

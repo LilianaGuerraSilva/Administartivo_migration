@@ -1751,6 +1751,12 @@ Public Enum enum_OrigenLoteInv
    eOLI_ConteoFisico
 End Enum
 
+Public Enum enum_TipoDocumentoImprentaDigital
+   eTDID_Facturacion = 0
+   eTDID_RetencionIVA
+   eTDID_RetencionISLR
+End Enum
+
 Public Function me_saw() As Long
    me_saw = 1
 End Function
@@ -14233,4 +14239,33 @@ Public Function fStatusDocOrigenLoteInvPorStatusFactura(ByVal valStatusDoc As en
    End If
    fStatusDocOrigenLoteInvPorStatusFactura = vResult
    On Error GoTo 0
+End Function
+
+Public Function enumTipoDocumentoImprentaDigitalToString(TipoDocumentoImprentaDigital As enum_TipoDocumentoImprentaDigital) As String
+   Select Case TipoDocumentoImprentaDigital
+      Case eTDID_Facturacion: enumTipoDocumentoImprentaDigitalToString = "Facturacion"
+      Case eTDID_RetencionIVA: enumTipoDocumentoImprentaDigitalToString = "Retencion IVA"
+      Case eTDID_RetencionISLR: enumTipoDocumentoImprentaDigitalToString = "Retencion ISLR"
+      Case Else
+         enumTipoDocumentoImprentaDigitalToString = enumTipoDocumentoImprentaDigitalToString(0)
+   End Select
+End Function
+
+Public Function strTipoDocumentoImprentaDigitalToNum(ByVal TipoDocumentoImprentaDigital As String, Optional ByVal showMessage As Boolean = True) As Integer
+   Dim mEnum As enum_TipoDocumentoImprentaDigital
+   Dim nCount As Integer
+   nCount = 0
+   For mEnum = eTDID_Facturacion To eTDID_RetencionISLR
+      If UCase(TipoDocumentoImprentaDigital) = UCase(enumTipoDocumentoImprentaDigitalToString(mEnum)) Then
+         strTipoDocumentoImprentaDigitalToNum = nCount
+         GoTo h_EXIT
+      End If
+      nCount = nCount + 1
+   Next
+   strTipoDocumentoImprentaDigitalToNum = 0
+   If showMessage Then
+      gMessage.ProgrammerMessage "Valor " & TipoDocumentoImprentaDigital & " no existe en tipo enumerado TipoDocumentoImprentaDigital"
+   End If
+h_EXIT:
+   Exit Function
 End Function
