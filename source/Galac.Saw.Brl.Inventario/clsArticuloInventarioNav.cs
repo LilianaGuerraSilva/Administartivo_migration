@@ -223,12 +223,14 @@ namespace Galac.Saw.Brl.Inventario {
             SQL.AppendLine(" Disponibilidad FROM ArticuloInventario LEFT JOIN ExistenciaPorGrupo ");
             SQL.AppendLine(" ON ArticuloInventario.ConsecutivoCompania = ExistenciaPorGrupo.ConsecutivoCompania ");
             SQL.AppendLine(" AND ArticuloInventario.Codigo = ExistenciaPorGrupo.CodigoArticulo ");
-            SQL.AppendLine(" WHERE ArticuloInventario.codigo = @CodigoArticulo ");
-            SQL.AppendLine(" AND ArticuloInventario.ConsecutivoCompania = @ConsecutivoCompania ");
+            SQL.AppendLine(" WHERE ArticuloInventario.ConsecutivoCompania = @ConsecutivoCompania ");            
             SQL.AppendLine(" AND ArticuloInventario.TipoArticuloInv <> @TipoArticuloInv ");
             if (!LibString.IsNullOrEmpty (valSerial)) {
                 SQL.AppendLine(" AND ExistenciaPorGrupo.Serial = @Serial ");
                 SQL.AppendLine(" AND ExistenciaPorGrupo.Rollo = @Rollo ");
+                SQL.AppendLine(" AND CodigoArticulo + CodigoColor + CodigoTalla  = @CodigoArticulo ");
+            } else {
+                SQL.AppendLine(" AND ArticuloInventario.codigo = @CodigoArticulo ");
             } 
             XElement xRecord = LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", 0);
             if (xRecord != null) {
