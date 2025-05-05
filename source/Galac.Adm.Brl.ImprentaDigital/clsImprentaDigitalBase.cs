@@ -1142,12 +1142,15 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         public string GetFormatoDeHoraSimple(string valHora) {
             string vResult = string.Empty;
+            int vPos = 0;
             if (LibString.S1IsInS2("a.", valHora)) {
-                vResult = LibString.Replace(valHora, " a. m.", ":00 am"); //Windows 10
-                vResult = LibString.Replace(valHora, " a.m.", ":00 am"); //Windows 7
+                vPos = LibString.IndexOf(valHora, "a.") - 1;
+                vResult = LibString.Left(valHora, vPos);
+                vResult += ":00 am";
             } else if (LibString.S1IsInS2("p.", valHora)) {
-                vResult = LibString.Replace(valHora, " p. m.", ":00 pm"); //Windows 10
-                vResult = LibString.Replace(valHora, " p.m.", ":00 pm"); //Windows 7
+                vPos = LibString.IndexOf(valHora, "p.") - 1;
+                vResult = LibString.Left(valHora, vPos);
+                vResult += ":00 pm";
             }
             return vResult;
         }
