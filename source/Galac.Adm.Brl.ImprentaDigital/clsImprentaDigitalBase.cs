@@ -601,7 +601,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine("  cxp.NumeroComprobanteRetencion,");
             vSql.AppendLine("  cxP.PorcentajeRetencionAplicado,");
             vSql.AppendLine("  cxP.Fecha AS FechaDelDocOrigen,");
-            vSql.AppendLine("  ( CASE WHEN cxP.TipoDeCxP = '0' THEN (CASE WHEN cxP.UsaPrefijoSerie = 'S' THEN 'Serie ' + cxP.Numero ELSE cxP.Numero END ) ELSE '' END ) AS NumeroDeDocumento,");
+            vSql.AppendLine("  cxP.Numero AS NumeroDeDocumento,");
             vSql.AppendLine("  cxP.NumeroControl,");
             vSql.AppendLine("  (  CASE WHEN cxP.TipoDeCxP = '4' THEN cxP.Numero ELSE '' END ) AS NumeroDeNotaDebito,");
             vSql.AppendLine("  (  CASE WHEN cxP.TipoDeCxP = '3' THEN cxP.Numero ELSE '' END ) AS NumeroDeNotaCredito,");            
@@ -672,9 +672,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     ComprobanteRetIVAImprentaDigital.PorcentajeRetencionAplicado = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "PorcentajeRetencionAplicado"), 2);
                     ComprobanteRetIVAImprentaDigital.FechaDelDocOrigen = LibImportData.ToDate(LibXml.GetPropertyString(vResult, "FechaDelDocOrigen"));
                     ComprobanteRetIVAImprentaDigital.NumeroDeDocumento = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NumeroDeDocumento"));
-                    ComprobanteRetIVAImprentaDigital.NumeroControl = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NumeroControl"));
                     ComprobanteRetIVAImprentaDigital.NumeroDeNotaDebito = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NumeroDeNotaDebito"));
                     ComprobanteRetIVAImprentaDigital.NumeroDeNotaCredito = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NumeroDeNotaCredito"));
+                    ComprobanteRetIVAImprentaDigital.NumeroControl = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NumeroControl"));
                     ComprobanteRetIVAImprentaDigital.TipoDeTransaccion = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "TipoDeTransaccion"));
                     ComprobanteRetIVAImprentaDigital.TipoDeCxP = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "TipoDeCxP"));
                     ComprobanteRetIVAImprentaDigital.NumeroDeFacturaAfectada = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NumeroDeFacturaAfectada"));

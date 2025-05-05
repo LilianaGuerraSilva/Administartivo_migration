@@ -724,6 +724,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 case eTipoDeTransaccionID.NotaDeDebito:
                     vResult = ComprobanteRetIVAImprentaDigital.NumeroDeNotaDebito;
                     break;
+                default:
+                    vResult = ComprobanteRetIVAImprentaDigital.NumeroDeDocumento;
+                    break;
             }
             return vResult;
         }
