@@ -50,6 +50,7 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
 			vSql.AppendLine("WHERE ");
 			vSql.AppendLine("	NES.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
 			vSql.AppendLine("	AND NES.NumeroDocumento = " + insSql.ToSqlValue(valNumeroDocumento));
+            vSql.AppendLine("	AND (AI.TipoArticuloInv = '0' OR AI.TipoArticuloInv = '5' OR AI.TipoArticuloInv = '6' OR AI.TipoArticuloInv = '7')");
 
 			vSql.AppendLine("UNION SELECT ");
             vSql.AppendLine("	NES.NumeroDocumento,");
