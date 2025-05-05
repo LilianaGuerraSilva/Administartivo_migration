@@ -129,8 +129,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 if (Model.CodigoAlmacen != value) {
                     Model.CodigoAlmacen = value;
                     IsDirty = true;
-                    RaisePropertyChanged(CodigoAlmacenPropertyName);
-                    ExecuteChooseCodigoAlmacenCommand(CodigoAlmacen);
+                    RaisePropertyChanged(CodigoAlmacenPropertyName);                    
                     RaisePropertyChanged(NombreAlmacenPropertyName);
                     if (LibString.IsNullOrEmpty(CodigoAlmacen, true)) {
                         ConexionCodigoAlmacen = null;
@@ -421,7 +420,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 NumeroDocumento = GenerarProximoNumeroDocumento();
             }
             if (Action == eAccionSR.Insertar) {//FASE 1 Lote/FdV: No se maneja almacén
-                CodigoAlmacen = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoAlmacenGenerico");
+                ExecuteChooseCodigoAlmacenCommand(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoAlmacenGenerico"));
             }
             CodigoCliente = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoGenericoCliente");
         }
