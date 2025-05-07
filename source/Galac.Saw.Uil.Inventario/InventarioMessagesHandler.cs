@@ -30,7 +30,7 @@ namespace Galac.Saw.Uil.Inventario {
 
         private static void EjecutarMenjajeSobregiroConExistenciaNegativa(LibBusinessProcessMessage valMessage) {            
             string valCodigosArticulo = valMessage.Content.ToString();
-            valMessage.Result = LibMessages.MessageBox.YesNo(null, $"El resultado de la operación actual generará una existencia negativa para el articulos: {valCodigosArticulo}. ¿Desea Continuar con el proceso? ", "Nota de Entrada/Salida");
+            valMessage.Result = LibMessages.MessageBox.YesNo(null, $"El resultado de la operación actual generará una existencia negativa para el articulo: {valCodigosArticulo}. ¿Desea continuar con el proceso? ", "Nota de Entrada/Salida");
         }
     }
 }
