@@ -530,8 +530,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" NumeroControlRetencionIvaImpDigital");
             vSql.AppendLine(" FROM CxP");
             vSql.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania ");
-            vSql.AppendLine(" AND Numero = @Numero ");
-            vSql.AppendLine($" AND SeHizoLaRetencionIva ={insUtilSql.ToSqlValue(true)}");
+            vSql.AppendLine(" AND Numero = @Numero ");            
             return vSql.ToString();
         }
 
@@ -648,8 +647,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine("  RIGHT( '0' + CAST( MONTH (cxP.FechaAplicacionRetIva) AS VARCHAR ), 2 ) AS MesAplicRetIVA");
             vSql.AppendLine(" FROM CxP");
             vSql.AppendLine("WHERE cxP.ConsecutivoCompania = @ConsecutivoCompania");
-            vSql.AppendLine(" AND cxP.Numero = @NumeroCxP");
-            vSql.AppendLine($" AND cxP.SeHizoLaRetencionIVA = {insUtilSql.ToSqlValue(true)}");
+            vSql.AppendLine(" AND cxP.Numero = @NumeroCxP");            
             return vSql.ToString();
         }
 
