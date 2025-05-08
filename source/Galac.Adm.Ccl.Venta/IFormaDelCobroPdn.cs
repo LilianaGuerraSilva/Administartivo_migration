@@ -10,7 +10,7 @@ namespace Galac.Adm.Ccl.Venta {
         #region Metodos Generados
         XElement FindByConsecutivoCompaniaCodigo(int valConsecutivoCompania, string valCodigo);
         XElement FindByConsecutivoCompaniaNombre(int valConsecutivoCompania, string valNombre);
-        void InsertDefaultRecord(int valConsecutivoCompania);
+        void InsertDefaultRecord(int valConsecutivoCompania, string valCodigoMonedaLocal, string valCodigoMonedaExtranjera);
         #endregion //Metodos Generados
 
 

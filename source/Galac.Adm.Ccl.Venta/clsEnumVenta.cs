@@ -187,7 +187,10 @@ namespace Galac.Adm.Ccl.Venta {
         EfectivoDivisas,
         [LibEnumDescription("Transferencia Divisas", Index = 0)]
         [LibEnumDescription("00019", Index = 1)]
-        TransferenciaDivisas
+        TransferenciaDivisas,
+        [LibEnumDescription("Vuelto Efectivo Divisas", Index = 0)]
+        [LibEnumDescription("00020", Index = 1)]
+        VueltoEfectivoDivisas
     }      
 
     [TypeConverter(typeof(LibEnumTypeConverter))]

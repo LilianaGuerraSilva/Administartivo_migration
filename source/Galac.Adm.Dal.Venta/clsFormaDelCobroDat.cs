@@ -43,6 +43,7 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInString("Nombre", valRecord.Nombre, 50);
             vParams.AddInEnum("TipoDePago", valRecord.TipoDePagoAsDB);
             vParams.AddInString("CodigoCuentaBancaria", valRecord.CodigoCuentaBancaria, 5);
+            vParams.AddInString("CodigoMoneda", valRecord.CodigoMoneda, 4);
             vParams.AddInString("CodigoTheFactory", valRecord.CodigoTheFactory, 2);
             vParams.AddInEnum("Origen", valRecord.OrigenAsDB);
             if (valAction == eAccionSR.Modificar) {
@@ -99,7 +100,7 @@ namespace Galac.Adm.Dal.Venta {
             }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "Forma Del Cobro.Eliminar")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Forma de Cobro.Eliminar")]
         LibResponse ILibDataComponent<IList<FormaDelCobro>, IList<FormaDelCobro>>.Delete(IList<FormaDelCobro> refRecord) {
             LibResponse vResult = new LibResponse();
             string vErrMsg = "";
@@ -132,7 +133,7 @@ namespace Galac.Adm.Dal.Venta {
             return vResult;
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "Forma Del Cobro.Insertar")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Forma de Cobro.Insertar")]
         LibResponse ILibDataComponent<IList<FormaDelCobro>, IList<FormaDelCobro>>.Insert(IList<FormaDelCobro> refRecord) {
             LibResponse vResult = new LibResponse();
             string vErrMsg = "";
@@ -153,14 +154,6 @@ namespace Galac.Adm.Dal.Venta {
             XElement vResult = null;
             LibDatabase insDb = new LibDatabase();
             switch (valType) {
-                //case eProcessMessageType.Message:
-                //    if (valProcessMessage.Equals("ProximoConsecutivo")) {
-                //        vResult = LibXml.ValueToXElement(insDb.NextLngConsecutive(DbSchema + ".FormaDelCobro", "Consecutivo", valParameters), "Consecutivo");
-                //    }
-                //    else if (valProcessMessage.Equals("ProximoCodigo")) {
-                //        vResult = LibXml.ValueToXElement(insDb.NextStrConsecutive(DbSchema + ".FormaDelCobro", "Codigo", valParameters, true, 5), "Codigo");
-                //    }
-                //    break;
                 case eProcessMessageType.SpName:
                     vResult = LibXml.ToXElement(insDb.LoadFromSp(valProcessMessage, valParameters, CmdTimeOut));
                     break;
@@ -174,7 +167,7 @@ namespace Galac.Adm.Dal.Venta {
             return vResult;
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "Forma Del Cobro.Modificar")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Forma de Cobro.Modificar")]
         LibResponse ILibDataComponent<IList<FormaDelCobro>, IList<FormaDelCobro>>.Update(IList<FormaDelCobro> refRecord) {
             LibResponse vResult = new LibResponse();
             string vErrMsg ="";
@@ -223,6 +216,7 @@ namespace Galac.Adm.Dal.Venta {
             vResult = IsValidConsecutivo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo) && vResult;
             vResult = IsValidCodigo(valAction, CurrentRecord.Codigo, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo) && vResult;
             vResult = IsValidCodigoCuentaBancaria(valAction, CurrentRecord.CodigoCuentaBancaria) && vResult;
+            vResult = IsValidCodigoMoneda(valAction, CurrentRecord.CodigoMoneda) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
         }
@@ -292,6 +286,25 @@ namespace Galac.Adm.Dal.Venta {
                 LibDatabase insDb = new LibDatabase();
                 if (!insDb.ExistsValue("Saw.CuentaBancaria", "Codigo", insDb.InsSql.ToSqlValue(valCodigoCuentaBancaria), true)) {
                     BuildValidationInfo("El valor asignado al campo Cuenta Bancaria no existe, escoga nuevamente.");
+                    vResult = false;
+                }
+            }
+            return vResult;
+        }
+
+        private bool IsValidCodigoMoneda(eAccionSR valAction, string valCodigoMoneda){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            valCodigoMoneda = LibString.Trim(valCodigoMoneda);
+            if (LibString.IsNullOrEmpty(valCodigoMoneda , true)) {
+                BuildValidationInfo(MsgRequiredField("Codigo Moneda"));
+                vResult = false;
+            } else {
+                LibDatabase insDb = new LibDatabase();
+                if (!insDb.ExistsValue("dbo.Moneda", "Codigo", insDb.InsSql.ToSqlValue(valCodigoMoneda), true)) {
+                    BuildValidationInfo("El valor asignado al campo Codigo Moneda no existe, escoga nuevamente.");
                     vResult = false;
                 }
             }

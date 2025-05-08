@@ -14,6 +14,7 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Adm.Brl.Venta;
 using Galac.Adm.Ccl.Venta;
+using Galac.Adm.Ccl.Banco;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
     public class FormaDelCobroViewModel : LibInputViewModelMfc<FormaDelCobro> {
@@ -23,12 +24,17 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public const string TipoDePagoPropertyName = "TipoDePago";
         public const string CodigoCuentaBancariaPropertyName = "CodigoCuentaBancaria";
         public const string NombreCuentaBancariaPropertyName = "NombreCuentaBancaria";
+        public const string CodigoMonedaPropertyName = "CodigoMoneda";
+        public const string NombreMonedaPropertyName = "MombreMoneda";
         public const string CodigoTheFactoryPropertyName = "CodigoTheFactory";
         public const string OrigenPropertyName = "Origen";
         #endregion
         #region Variables
         private FkCuentaBancariaViewModel _ConexionCodigoCuentaBancaria = null;
         private FkCuentaBancariaViewModel _ConexionNombreCuentaBancaria = null;
+        private FkMonedaViewModel _ConexionCodigoMoneda = null;
+        private string valCodigo;
+        private string valMoneda;
         #endregion //Variables
         #region Propiedades
 
@@ -57,7 +63,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 }
             }
         }
-        [LibGridColum("Codigo", Width = 80)]
+        [LibGridColum("Código", Width = 80, ColumnOrder = 0)]
         public string  Codigo {
             get {
                 return Model.Codigo;
@@ -72,7 +78,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
         
         [LibRequired(ErrorMessage = "El campo Nombre es requerido.")]
-        [LibGridColum("Nombre",Width = 350)]
+        [LibGridColum("Nombre",Width = 350, ColumnOrder = 1)]
         public string  Nombre {
             get {
                 return Model.Nombre;
@@ -86,7 +92,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        [LibGridColum("TipoDePago", eGridColumType.Enum, PrintingMemberPath = "TipoDePagoStr", Width = 180)]
+        [LibGridColum("Tipo de Cobro", eGridColumType.Enum, PrintingMemberPath = "TipoDePagoStr", Width = 250, ColumnOrder = 2)]
         public eFormaDeCobro TipoDePago {
             get {
                 return Model.TipoDePagoAsEnum;
@@ -98,8 +104,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 }
             }
         }
-
-        [LibRequired(ErrorMessage = "El campo Cuenta Bancaria es requerido.")]
+        [LibGridColum("Código Cuenta Bancaria", Width = 180, ColumnOrder = 4)]
         public string  CodigoCuentaBancaria {
             get {
                 return Model.CodigoCuentaBancaria;
@@ -129,6 +134,33 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     if (LibString.IsNullOrEmpty(NombreCuentaBancaria, true)) {
                         
                     }
+                }
+            }
+        }
+        [LibGridColum("Moneda", Width = 100, ColumnOrder = 3)]
+        public string  CodigoMoneda {
+            get {
+                return Model.CodigoMoneda;
+            }
+            set {
+                if (Model.CodigoMoneda != value) {
+                    Model.CodigoMoneda = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(CodigoMonedaPropertyName);
+                    if (LibString.IsNullOrEmpty(CodigoCuentaBancaria, true)) {
+                        ConexionCodigoCuentaBancaria = null;
+                    }
+                }
+            }
+        }
+        
+        public string  NombreMoneda {
+            get {
+                return Model.NombreMoneda;
+            }
+            set {
+                if (Model.NombreMoneda != value) {
+                    Model.NombreMoneda = value;
                 }
             }
         }
@@ -209,6 +241,23 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        public FkMonedaViewModel ConexionCodigoMoneda {
+            get {
+                return _ConexionCodigoMoneda;
+            }
+            set {
+                if (_ConexionCodigoMoneda != value) {
+                    _ConexionCodigoMoneda = value;
+                    RaisePropertyChanged(CodigoMonedaPropertyName);
+                    RaisePropertyChanged(NombreMonedaPropertyName);
+                }
+                if (_ConexionCodigoMoneda == null) {
+                    CodigoMoneda = string.Empty;
+                    NombreMoneda = string.Empty;
+                }
+            }
+        }
+
         public RelayCommand<string> ChooseCodigoCuentaBancariaCommand {
             get;
             private set;
@@ -245,12 +294,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             return new clsFormaDelCobroNav();
         }
 
-        //private int GenerarProximoConsecutivo() {
-        //    int vResult = 0;
-        //    XElement vResulset = GetBusinessComponent().QueryInfo(eProcessMessageType.Message, "ProximoConsecutivo", null);
-        //    vResult = LibXml.GetPropertyString(vResulset, "Consecutivo");
-        //    return vResult;
-        //}
         protected override void InitializeCommands() {
             base.InitializeCommands();
             ChooseCodigoCuentaBancariaCommand = new RelayCommand<string>(ExecuteChooseCodigoCuentaBancariaCommand);
@@ -258,12 +301,20 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
-            LibSearchCriteria vCuentaBancariaCriteria = LibSearchCriteria.CreateCriteria("Gv_CuentaBancaria_B1.ConsecutivoCompania", Model.ConsecutivoCompania);
-            vCuentaBancariaCriteria.Add("Gv_CuentaBancaria_B1.Codigo", CodigoCuentaBancaria);
-            ConexionCodigoCuentaBancaria = FirstConnectionRecordOrDefault<FkCuentaBancariaViewModel>("Cuenta Bancaria", vCuentaBancariaCriteria);
-            if (ConexionCodigoCuentaBancaria != null) {
-                CodigoCuentaBancaria = ConexionCodigoCuentaBancaria.Codigo;
-                NombreCuentaBancaria = ConexionCodigoCuentaBancaria.NombreCuenta;
+            if (Model.CodigoCuentaBancaria != null && Model.CodigoCuentaBancaria != string.Empty) {
+                LibSearchCriteria vCuentaBancariaCriteria = LibSearchCriteria.CreateCriteria("Gv_CuentaBancaria_B1.ConsecutivoCompania", Model.ConsecutivoCompania);
+                vCuentaBancariaCriteria.Add("Gv_CuentaBancaria_B1.Codigo", Model.CodigoCuentaBancaria);
+                ConexionCodigoCuentaBancaria = FirstConnectionRecordOrDefault<FkCuentaBancariaViewModel>("Cuenta Bancaria", vCuentaBancariaCriteria);
+                if (ConexionCodigoCuentaBancaria != null) {
+                    CodigoCuentaBancaria = ConexionCodigoCuentaBancaria.Codigo;
+                    NombreCuentaBancaria = ConexionCodigoCuentaBancaria.NombreCuenta;
+                }
+            }
+            LibSearchCriteria vCodigoMoneda = LibSearchCriteria.CreateCriteria("dbo.Gv_Moneda_B1.Codigo", Model.CodigoMoneda);
+            ConexionCodigoMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", vCodigoMoneda);
+            if (ConexionCodigoMoneda != null) {
+                CodigoMoneda = ConexionCodigoMoneda.Codigo;
+                NombreMoneda = ConexionCodigoMoneda.Nombre;
             }
         }
 
@@ -273,6 +324,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     valCodigo = string.Empty;
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_CuentaBancaria_B1.Codigo", valCodigo);
+                vDefaultCriteria.Add("Gv_CuentaBancaria_B1.CodigoMoneda", Model.CodigoMoneda);
+                vDefaultCriteria.Add("Gv_CuentaBancaria_B1.Status", Ccl.Banco.eStatusCtaBancaria.Activo);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Gv_CuentaBancaria_B1.ConsecutivoCompania", Model.ConsecutivoCompania);
                 ConexionCodigoCuentaBancaria = ChooseRecord<FkCuentaBancariaViewModel>("Cuenta Bancaria", vDefaultCriteria, vFixedCriteria, string.Empty);
                 if (ConexionCodigoCuentaBancaria != null) {

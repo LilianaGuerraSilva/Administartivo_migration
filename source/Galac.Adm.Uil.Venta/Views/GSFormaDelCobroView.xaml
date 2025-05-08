@@ -6,8 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:nsVm="clr-namespace:Galac.Adm.Uil.Venta.ViewModel"
     xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
-    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
-    Width="422">
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -15,14 +14,17 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Margin="8,0,0,0" FocusManager.FocusedElement="{Binding ElementName=txtCodigo}">
+    <Grid FocusManager.FocusedElement="{Binding ElementName=txtCodigo}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" MinWidth="126" />
-            <ColumnDefinition Width="Auto" MinWidth="89" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -34,8 +36,8 @@
         <Label
             Name="lblCodigo"
             Grid.Column="0"
-            Width="48"
-            Height="24"
+            Width="115"
+            Height="26"
             Margin="3,0,0,0"
             VerticalAlignment="Center"
             Content="Código"
@@ -45,8 +47,7 @@
             Grid.Row="0"
             Grid.Column="1"
             Width="120"
-            Margin="0,3,0,4"
-            HorizontalAlignment="Center"
+            Margin="3,3,3,3"
             nsWpf:LibFocusManager.FocusedPropertyName="Codigo"
             nsWpf:LibFocusManager.IsFocused="True"
             BorderThickness="1"
@@ -59,8 +60,8 @@
             Name="lblNombre"
             Grid.Row="1"
             Grid.Column="0"
-            Width="53"
-            Height="23"
+            Width="115"
+            Height="26"
             Margin="3,0,0,0"
             VerticalAlignment="Center"
             Content="Nombre"
@@ -69,7 +70,7 @@
             Name="txtNombre"
             Grid.Row="1"
             Grid.Column="1"
-            Grid.ColumnSpan="3"
+            Grid.ColumnSpan="5"
             Margin="3,3,3,3"
             HorizontalAlignment="Stretch"
             BorderThickness="1"
@@ -82,11 +83,11 @@
             Name="lblTipoDePago"
             Grid.Row="2"
             Grid.Column="0"
-            Width="77"
-            Height="24"
+            Width="115"
+            Height="26"
             Margin="3,0,0,0"
             VerticalAlignment="Center"
-            Content="TipoDePago"
+            Content="Tipo de Cobro"
             Style="{StaticResource LabelPrompt}" />
         <Label
             Name="lneTipoDePago"
@@ -97,15 +98,49 @@
             Margin="3,3,3,3"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
-            BorderThickness="0.5,0.5,0.5,0.5"
+            BorderThickness="0.2,0.2,0.2,0.2"
             Content="{Binding Path=TipoDePago}"
             Style="{StaticResource LabelCalculatedField}" />
+        <Label
+            Name="lblCodigoMoneda"
+            Grid.Row="2"
+            Grid.Column="4"
+            Width="115"
+            Height="26"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            HorizontalContentAlignment="Right"
+            Content="Moneda"
+            Style="{StaticResource LabelPrompt}" />
+        <Label
+            Name="lneCodigoMoneda"
+            Grid.Row="2"
+            Grid.Column="4"
+            Width="70"
+            Height="25"
+            Margin="3,0,0,0"
+            VerticalAlignment="Center"
+            BorderThickness="0.2,0.2,0.2,0.2"
+            Content="{Binding Path=CodigoMoneda}"
+            Style="{StaticResource LabelCalculatedField}"
+            Visibility="Collapsed" />
+        <Label
+            Name="lblNombreMoneda"
+            Grid.Row="2"
+            Grid.Column="5"
+            Height="23"
+            Margin="3,3,3,3"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            Content="{Binding Path=NombreMoneda}"
+            Style="{StaticResource LabelPrompt}" />
         <Label
             Name="lblCodigoCuentaBancaria"
             Grid.Row="3"
             Grid.Column="0"
-            Width="99"
-            Height="23"
+            Grid.ColumnSpan="2"
+            Width="115"
+            Height="26"
             Margin="3,0,0,0"
             VerticalAlignment="Center"
             Content="Cuenta Bancaria"
@@ -115,7 +150,7 @@
             Grid.Row="3"
             Grid.Column="1"
             Grid.ColumnSpan="2"
-            Width="166"
+            Width="191"
             Margin="3,3,0,3"
             HorizontalAlignment="Left"
             ConnectionValue="{Binding Path=CodigoCuentaBancaria, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
@@ -125,40 +160,39 @@
             SearchCommand="{Binding Path=ChooseCodigoCuentaBancariaCommand}" />
         <Label
             Name="lblNombreCuentaBancaria"
-            Grid.Row="4"
-            Grid.Column="1"
+            Grid.Row="3"
+            Grid.Column="3"
             Grid.ColumnSpan="3"
-            Height="23"
-            Margin="3,0,3,0"
+            Height="25"
+            Margin="3,3,3,3"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
             Content="{Binding Path=NombreCuentaBancaria}"
             Style="{StaticResource LabelPrompt}" />
         <Label
             Name="lblCodigoTheFactory"
-            Grid.Row="5"
+            Grid.Column="4"
             Width="115"
-            Height="24"
+            Height="26"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Content="Codigo The Factory"
+            Content="Código The Factory"
             Style="{StaticResource LabelPrompt}" />
         <Label
             Name="lneCodigoTheFactory"
-            Grid.Row="5"
-            Grid.Column="1"
-            Width="40"
+            Grid.Column="5"
+            Width="70"
             Height="25"
-            Margin="3,0,0,0"
+            Margin="3,3,3,3"
             VerticalAlignment="Center"
-            BorderThickness="0.5,0.5,0.5,0.5"
+            BorderThickness="0.2,0.2,0.2,0.2"
             Content="{Binding Path=CodigoTheFactory}"
             Style="{StaticResource LabelCalculatedField}" />
         <Label
             Name="lblOrigen"
             Grid.Column="2"
             Width="46"
-            Height="24"
+            Height="26"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
             Content="Origen"
@@ -166,11 +200,11 @@
         <Label
             Name="lneOrigen"
             Grid.Column="3"
-            Width="70"
+            Width="60"
             Height="25"
-            HorizontalAlignment="Center"
+            HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
-            BorderThickness="0.5,0.5,0.5,0.5"
+            BorderThickness="0.2,0.2,0.2,0.2"
             Content="{Binding Path=Origen}"
             Style="{StaticResource LabelCalculatedField}" />
     </Grid>

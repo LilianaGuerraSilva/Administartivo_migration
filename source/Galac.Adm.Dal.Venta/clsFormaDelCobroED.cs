@@ -48,13 +48,14 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("Nombre" + InsSql.VarCharTypeForDb(50) + " CONSTRAINT d_ForDelCobNo DEFAULT (''), ");
             SQL.AppendLine("TipoDePago" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_ForDelCobTiDePa DEFAULT ('1'), ");
             SQL.AppendLine("CodigoCuentaBancaria" + InsSql.VarCharTypeForDb(5) + " CONSTRAINT d_ForDelCobCoCuBa DEFAULT (''), ");
+            SQL.AppendLine("CodigoMoneda" + InsSql.VarCharTypeForDb(4) + " CONSTRAINT d_ForDelCobCoMo DEFAULT (''), ");
             SQL.AppendLine("CodigoTheFactory" + InsSql.VarCharTypeForDb(2) + " CONSTRAINT d_ForDelCobCoThFa DEFAULT ('01'), ");
             SQL.AppendLine("Origen" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_ForDelCobOr DEFAULT ('0'), ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
             SQL.AppendLine("CONSTRAINT p_FormaDelCobro PRIMARY KEY CLUSTERED");
             SQL.AppendLine("(ConsecutivoCompania ASC, Consecutivo ASC)");
-            SQL.AppendLine(", CONSTRAINT fk_FormaDelCobroCuentaBancaria FOREIGN KEY (ConsecutivoCompania,CodigoCuentaBancaria)");
-            SQL.AppendLine("REFERENCES Saw.CuentaBancaria(ConsecutivoCompania,Codigo)");
+            SQL.AppendLine(", CONSTRAINT fk_FormaDelCobroMoneda FOREIGN KEY (CodigoMoneda)");
+            SQL.AppendLine("REFERENCES dbo.Moneda(Codigo)");
             SQL.AppendLine(",CONSTRAINT u_ForDelCobniaigo UNIQUE NONCLUSTERED (ConsecutivoCompania,Codigo)");
             SQL.AppendLine(")");
             return SQL.ToString();
@@ -63,7 +64,7 @@ namespace Galac.Adm.Dal.Venta {
         private string SqlViewB1() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("SELECT FormaDelCobro.ConsecutivoCompania, FormaDelCobro.Consecutivo, FormaDelCobro.Codigo, FormaDelCobro.Nombre");
-            SQL.AppendLine(", FormaDelCobro.TipoDePago, " + DbSchema + ".Gv_EnumTipoDeFormaDePago.StrValue AS TipoDePagoStr, FormaDelCobro.CodigoCuentaBancaria, FormaDelCobro.CodigoTheFactory, FormaDelCobro.Origen, " + DbSchema + ".Gv_EnumOrigen.StrValue AS OrigenStr");
+            SQL.AppendLine(", FormaDelCobro.TipoDePago, " + DbSchema + ".Gv_EnumTipoDeFormaDePago.StrValue AS TipoDePagoStr, FormaDelCobro.CodigoCuentaBancaria, FormaDelCobro.CodigoMoneda, FormaDelCobro.CodigoTheFactory, FormaDelCobro.Origen, " + DbSchema + ".Gv_EnumOrigen.StrValue AS OrigenStr");
             SQL.AppendLine(", FormaDelCobro.fldTimeStamp, CAST(FormaDelCobro.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".FormaDelCobro");
             SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumTipoDeFormaDePago");
@@ -72,7 +73,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumOrigen");
             SQL.AppendLine("ON " + DbSchema + ".FormaDelCobro.Origen COLLATE MODERN_SPANISH_CS_AS");
             SQL.AppendLine(" = " + DbSchema + ".Gv_EnumOrigen.DbValue");
-            SQL.AppendLine("INNER JOIN Saw.CuentaBancaria ON  " + DbSchema + ".FormaDelCobro.CodigoCuentaBancaria = Saw.CuentaBancaria.Codigo");
+            SQL.AppendLine("INNER JOIN dbo.Moneda ON  " + DbSchema + ".FormaDelCobro.CodigoMoneda = dbo.Moneda.Codigo");
             return SQL.ToString();
         }
 
@@ -84,6 +85,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@Nombre" + InsSql.VarCharTypeForDb(50) + " = '',");
             SQL.AppendLine("@TipoDePago" + InsSql.CharTypeForDb(1) + " = '0',");
             SQL.AppendLine("@CodigoCuentaBancaria" + InsSql.VarCharTypeForDb(5) + "= '',");
+            SQL.AppendLine("@CodigoMoneda" + InsSql.VarCharTypeForDb(4) + ",");
             SQL.AppendLine("@CodigoTheFactory" + InsSql.VarCharTypeForDb(2) + " = '01',");
             SQL.AppendLine("@Origen" + InsSql.CharTypeForDb(1) + " = '0'");
             return SQL.ToString();
@@ -102,6 +104,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            Nombre,");
             SQL.AppendLine("            TipoDePago,");
             SQL.AppendLine("            CodigoCuentaBancaria,");
+            SQL.AppendLine("            CodigoMoneda,");
             SQL.AppendLine("            CodigoTheFactory,");
             SQL.AppendLine("            Origen)");
             SQL.AppendLine("            VALUES(");
@@ -111,6 +114,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            @Nombre,");
             SQL.AppendLine("            @TipoDePago,");
             SQL.AppendLine("            @CodigoCuentaBancaria,");
+            SQL.AppendLine("            @CodigoMoneda,");
             SQL.AppendLine("            @CodigoTheFactory,");
             SQL.AppendLine("            @Origen)");
             SQL.AppendLine("            SET @ReturnValue = @@ROWCOUNT");
@@ -128,6 +132,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@Nombre" + InsSql.VarCharTypeForDb(50) + ",");
             SQL.AppendLine("@TipoDePago" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@CodigoCuentaBancaria" + InsSql.VarCharTypeForDb(5) + ",");
+            SQL.AppendLine("@CodigoMoneda" + InsSql.VarCharTypeForDb(4) + ",");
             SQL.AppendLine("@CodigoTheFactory" + InsSql.VarCharTypeForDb(2) + ",");
             SQL.AppendLine("@Origen" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
@@ -158,6 +163,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("               Nombre = @Nombre,");
             SQL.AppendLine("               TipoDePago = @TipoDePago,");
             SQL.AppendLine("               CodigoCuentaBancaria = @CodigoCuentaBancaria,");
+            SQL.AppendLine("               CodigoMoneda = @CodigoMoneda,");
             SQL.AppendLine("               CodigoTheFactory = @CodigoTheFactory,");
             SQL.AppendLine("               Origen = @Origen");
             SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
@@ -268,12 +274,13 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("         FormaDelCobro.Nombre,");
             SQL.AppendLine("         FormaDelCobro.TipoDePago,");
             SQL.AppendLine("         FormaDelCobro.CodigoCuentaBancaria,");
+            SQL.AppendLine("         FormaDelCobro.CodigoMoneda,");
             SQL.AppendLine("         FormaDelCobro.CodigoTheFactory,");
             SQL.AppendLine("         FormaDelCobro.Origen,");
             SQL.AppendLine("         CAST(FormaDelCobro.fldTimeStamp AS bigint) AS fldTimeStampBigint,");
             SQL.AppendLine("         FormaDelCobro.fldTimeStamp");
             SQL.AppendLine("      FROM " + DbSchema + ".FormaDelCobro");
-            SQL.AppendLine("             INNER JOIN Saw.Gv_CuentaBancaria_B1 ON " + DbSchema + ".FormaDelCobro.CodigoCuentaBancaria = Saw.Gv_CuentaBancaria_B1.Codigo");
+            SQL.AppendLine("             INNER JOIN dbo.Gv_Moneda_B1 ON " + DbSchema + ".FormaDelCobro.CodigoMoneda = dbo.Gv_Moneda_B1.Codigo");
             SQL.AppendLine("      WHERE FormaDelCobro.ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("         AND FormaDelCobro.Consecutivo = @Consecutivo");
             SQL.AppendLine("   RETURN @@ROWCOUNT");
@@ -309,9 +316,11 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("      " + DbSchema + ".Gv_FormaDelCobro_B1.Consecutivo,");
             SQL.AppendLine("      " + DbSchema + ".Gv_FormaDelCobro_B1.Nombre,");
             SQL.AppendLine("      " + DbSchema + ".Gv_FormaDelCobro_B1.TipoDePago,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_FormaDelCobro_B1.CodigoCuentaBancaria,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_FormaDelCobro_B1.CodigoMoneda,");
             SQL.AppendLine("      " + DbSchema + ".Gv_FormaDelCobro_B1.CodigoTheFactory");
             SQL.AppendLine("      FROM " + DbSchema + ".Gv_FormaDelCobro_B1");
-            SQL.AppendLine("      INNER JOIN Saw.Gv_CuentaBancaria_B1 ON  " + DbSchema + ".Gv_FormaDelCobro_B1.CodigoCuentaBancaria = Saw.Gv_CuentaBancaria_B1.Codigo");
+            SQL.AppendLine("      INNER JOIN dbo.Gv_Moneda_B1 ON  " + DbSchema + ".Gv_FormaDelCobro_B1.CodigoMoneda = dbo.Gv_Moneda_B1.Codigo");
             SQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
             SQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE ' + @SQLWhere");
             SQL.AppendLine("   IF (NOT @SQLOrderBy IS NULL) AND (@SQLOrderBy <> '')");
@@ -338,7 +347,8 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("      " + DbSchema + ".FormaDelCobro.Consecutivo,");
             SQL.AppendLine("      " + DbSchema + ".FormaDelCobro.Codigo,");
             SQL.AppendLine("      " + DbSchema + ".FormaDelCobro.Nombre,");
-            SQL.AppendLine("      " + DbSchema + ".FormaDelCobro.CodigoCuentaBancaria");
+            SQL.AppendLine("      " + DbSchema + ".FormaDelCobro.CodigoCuentaBancaria,");
+            SQL.AppendLine("      " + DbSchema + ".FormaDelCobro.CodigoMoneda");
             //SQL.AppendLine("      ," + DbSchema + ".FormaDelCobro.[Programador - personaliza este sp y coloca solo los campos que te interesa exponer a quienes lo consumen]");
             SQL.AppendLine("      FROM " + DbSchema + ".FormaDelCobro");
             SQL.AppendLine("      WHERE ");

@@ -19,6 +19,8 @@ namespace Galac.Adm.Ccl.Venta {
         private eFormaDeCobro _TipoDeCobro;
         private string _CodigoCuentaBancaria;
         private string _NombreCuentaBancaria;
+        private string _CodigoMoneda;
+        private string _NombreMoneda;
         private string _CodigoTheFactory;
         private eOrigen _Origen;
         private long _fldTimeStamp;
@@ -73,6 +75,16 @@ namespace Galac.Adm.Ccl.Venta {
             set { _NombreCuentaBancaria = LibString.Mid(value, 0, 40); }
         }
 
+        public string CodigoMoneda {
+            get { return _CodigoMoneda; }
+            set { _CodigoMoneda = LibString.Mid(value, 0, 4); }
+        }
+
+        public string NombreMoneda {
+            get { return _NombreMoneda; }
+            set { _NombreMoneda = LibString.Mid(value, 0, 80); }
+        }
+
         public string CodigoTheFactory {
             get { return _CodigoTheFactory; }
             set { _CodigoTheFactory = LibString.Mid(value, 0, 2); }
@@ -125,6 +137,8 @@ namespace Galac.Adm.Ccl.Venta {
             TipoDePagoAsEnum = eFormaDeCobro.Efectivo;
             CodigoCuentaBancaria = string.Empty;
             NombreCuentaBancaria = string.Empty;
+            CodigoMoneda = string.Empty;
+            NombreMoneda = string.Empty;
             CodigoTheFactory = string.Empty;
             OrigenAsEnum = eOrigen.Sistema;
             fldTimeStamp = 0;
@@ -139,6 +153,8 @@ namespace Galac.Adm.Ccl.Venta {
             vResult.TipoDePagoAsEnum = _TipoDeCobro;
             vResult.CodigoCuentaBancaria = _CodigoCuentaBancaria;
             vResult.NombreCuentaBancaria = _NombreCuentaBancaria;
+            vResult.CodigoMoneda = _CodigoMoneda;
+            vResult.NombreMoneda = _NombreMoneda;
             vResult.CodigoTheFactory = _CodigoTheFactory;
             vResult.OrigenAsEnum = _Origen;
             vResult.fldTimeStamp = _fldTimeStamp;
@@ -152,7 +168,8 @@ namespace Galac.Adm.Ccl.Venta {
                "\nNombre = " + _Nombre +
                "\nTipo De Pago = " + _TipoDeCobro.ToString() +
                "\nCuenta Bancaria = " + _CodigoCuentaBancaria +
-               "\nCodigo The Factory = " + _CodigoTheFactory +
+               "\nCodigo Moneda = " + _CodigoMoneda +
+               "\nCódigo The Factory = " + _CodigoTheFactory +
                "\nOrigen = " + _Origen.ToString();
         }
         #endregion //Metodos Generados

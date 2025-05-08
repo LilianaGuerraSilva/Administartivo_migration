@@ -129,11 +129,11 @@ namespace Galac.Saw.Wrp.FormaDelCobro {
             return LibGlobalValues.Instance;
         }
 
-        void IWrpFormaDelCobroVb.InsertaValoresPorDefecto(string valCurrentMfc) {
+        void IWrpFormaDelCobroVb.InsertaValoresPorDefecto(string valCurrentMfc, string valCodigoMonedaLocal, string valCodigoMonedaExtranjera) {
             try {
                 LibGlobalValues insGV = CreateGlobalValues(valCurrentMfc, "");
                 RegistraCliente();
-                _Reglas.InsertDefaultRecord(LibConvert.ToInt(valCurrentMfc));
+                _Reglas.InsertDefaultRecord(LibConvert.ToInt(valCurrentMfc), valCodigoMonedaLocal, valCodigoMonedaExtranjera);
             } catch (GalacException gEx) {
                 LibExceptionDisplay.Show(gEx, null, Title + " - " + "Inserta Valores Por Defecto");
             } catch (Exception vEx) {
