@@ -23,6 +23,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("Factura.Fecha,");
             vSql.AppendLine("Factura.NumeroDesde,");
             vSql.AppendLine("Factura.NumeroHasta,");
+            vSql.AppendLine("Factura.NumeroResumenDiario,");
             vSql.AppendLine(GetCadenaCampoMontoSql("TotalBaseImponible") + " AS TotalBaseImponible,");
             vSql.AppendLine(GetCadenaCampoMontoSql("TotalMontoExento") + " AS TotalMontoExento,");
             vSql.AppendLine(GetCadenaCampoMontoSql("TotalIVA") + " AS TotalIVA,");
