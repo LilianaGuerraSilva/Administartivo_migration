@@ -235,8 +235,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         }
 
         private void AgregarTablaExistenciaPorAlmacenDetLoteInv() {
-            new clsExistenciaPorAlmacenDetLoteInvED().InstalarTabla();
-            if (TableExists("ExistenciaPorAlmacenDetLoteInv")) {
+            if (!TableExists("ExistenciaPorAlmacenDetLoteInv")) {
+                new clsExistenciaPorAlmacenDetLoteInvED().InstalarTabla();
                 StringBuilder vSqlSb = new StringBuilder();
                 vSqlSb.AppendLine("DELETE FROM ExistenciaPorAlmacenDetLoteInv");
                 Execute(vSqlSb.ToString(), 0);
@@ -265,17 +265,17 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
                 vSqlSb.AppendLine("			Saw.LoteDeInventario.Consecutivo,");
                 vSqlSb.AppendLine("			ExistenciaPorAlmacen.Ubicacion");
                 Execute(vSqlSb.ToString(), 0);
-            }       
+            }
         }
 
         private void CrearCamposIDEnCxP() {
-            if(AddColumnString("CxP", "NumeroControlRetencionIvaImpDigital", 20, "", "")) {
+            if (AddColumnString("CxP", "NumeroControlRetencionIvaImpDigital", 20, "", LibString.NCar("0", 20))) {
                 AddDefaultConstraint("CxP", "nCtID", _insSql.ToSqlValue(""), "NumeroControlRetencionIvaImpDigital");
             }
-            if(AddColumnEnumerative("CxP", "ProveedorImprentaDigital", "", 0)) {
+            if (AddColumnEnumerative("CxP", "ProveedorImprentaDigital", "", 0)) {
                 AddDefaultConstraint("CxP", "pRovID", _insSql.ToSqlValue("0"), "ProveedorImprentaDigital");
             }
-            if(AddColumnBoolean("CxP", "RetencionIvaEnviadaImpDigital", "", false)) {
+            if (AddColumnBoolean("CxP", "RetencionIvaEnviadaImpDigital", "", false)) {
                 AddDefaultConstraint("CxP", "rTEnID", _insSql.ToSqlValue("N"), "RetencionIvaEnviadaImpDigital");
             }
         }
