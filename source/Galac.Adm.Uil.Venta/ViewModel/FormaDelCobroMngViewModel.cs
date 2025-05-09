@@ -72,18 +72,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             return LibSecurityManager.CurrentUserHasAccessTo("Forma de Cobro", "Modificar") && CurrentItem != null;
         }
 
-        protected override bool CanExecuteDeleteCommand() {
-            return LibSecurityManager.CurrentUserHasAccessTo("Forma de Cobro", "Eliminar") && CurrentItem != null;
-        }
-
         protected override bool CanExecuteReadCommand() {
             return LibSecurityManager.CurrentUserHasAccessTo("Forma de Cobro", "Consultar") && CurrentItem != null;
         }
         
         protected override bool HasAccessToModule() {
             bool vResult = false;
-            vResult = (LibSecurityManager.CurrentUserHasAccessTo("Forma de Cobro", "Eliminar") ||
-                LibSecurityManager.CurrentUserHasAccessTo("Forma de Cobro", "Modificar") ||
+            vResult = (LibSecurityManager.CurrentUserHasAccessTo("Forma de Cobro", "Modificar") ||
                 LibSecurityManager.CurrentUserHasAccessTo("Forma de Cobro", "Consultar"));
             return vResult;
         }
@@ -104,6 +99,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
                 RibbonData.RemoveRibbonControl("Consultas", "Imprimir Lista");
                 RibbonData.RemoveRibbonControl("Adminstrar", "Insertar");
+                RibbonData.RemoveRibbonControl("Adminstrar", "Eliminar");
         #region Codigo Ejemplo
         /* Codigo de Ejemplo
                 RibbonData.TabDataCollection[0].AddTabGroupData(CreateSUPROCESOPARTICULARRibbonGroup());

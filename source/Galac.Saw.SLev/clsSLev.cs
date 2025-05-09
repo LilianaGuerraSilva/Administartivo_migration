@@ -742,7 +742,6 @@ namespace Galac.Saw.SLev {
             #region Forma de Cobro
             vPermisos.Add(new CustomRole("Forma de Cobro", "Consultar", "Cliente / CxC", 5));
             vPermisos.Add(new CustomRole("Forma de Cobro", "Modificar", "Cliente / CxC", 5));
-            vPermisos.Add(new CustomRole("Forma de Cobro", "Eliminar", "Cliente / CxC", 5));
             #endregion
 
             return vPermisos;
