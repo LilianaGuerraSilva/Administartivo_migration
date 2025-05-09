@@ -73,7 +73,6 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumOrigen");
             SQL.AppendLine("ON " + DbSchema + ".FormaDelCobro.Origen COLLATE MODERN_SPANISH_CS_AS");
             SQL.AppendLine(" = " + DbSchema + ".Gv_EnumOrigen.DbValue");
-            SQL.AppendLine("INNER JOIN dbo.Moneda ON  " + DbSchema + ".FormaDelCobro.CodigoMoneda = dbo.Moneda.Codigo");
             return SQL.ToString();
         }
 
