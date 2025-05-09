@@ -18,6 +18,7 @@ using Galac.Comun.Ccl.TablasLey;
 using System.Xml;
 using LibGalac.Aos.UI.Wpf;
 using Galac.Adm.Uil.GestionCompras.Properties;
+using Galac.Saw.Lib;
 
 namespace Galac.Adm.Uil.GestionCompras.ViewModel {
     public class ProveedorViewModel : LibInputViewModelMfc<Proveedor> {
@@ -215,6 +216,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
+        [LibCustomValidation("TelefonolValidating")]
         public string Telefonos {
             get {
                 return Model.Telefonos;
@@ -228,6 +230,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
+        [LibCustomValidation("DireccionValidating")]
         public string Direccion {
             get {
                 return Model.Direccion;
@@ -254,6 +257,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
+        [LibCustomValidation("EmailValidating")]
         public string Email {
             get {
                 return Model.Email;
@@ -950,6 +954,38 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                     return vResult;
                 } else {
                     vResult = new ValidationResult("El país convenio es requerido.");
+                }
+            }
+            return vResult;
+        }
+
+        private ValidationResult EmailValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaImprentaDigital")) {
+                if (LibString.IsNullOrEmpty(Email)) {
+                    vResult = new ValidationResult("El email es requerido.");
+                } else if (!new clsLibSaw().EsUnEmailValido(Email)) {
+                    vResult = new ValidationResult("El email no tiene el formato correcto.");
+                }
+            }
+            return vResult;
+        }
+
+        private ValidationResult TelefonolValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaImprentaDigital")) {
+                if (LibString.IsNullOrEmpty(Telefonos)) {
+                    vResult = new ValidationResult("El teléfono es requerido.");
+                }
+            }
+            return vResult;
+        }
+
+        private ValidationResult DireccionValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaImprentaDigital")) {
+                if (LibString.IsNullOrEmpty(Direccion)) {
+                    vResult = new ValidationResult("La dirección es requerida.");
                 }
             }
             return vResult;
