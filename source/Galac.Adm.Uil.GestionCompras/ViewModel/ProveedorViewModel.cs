@@ -975,7 +975,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             ValidationResult vResult = ValidationResult.Success;
             if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaImprentaDigital")) {
                 if (LibString.IsNullOrEmpty(Telefonos)) {
-                    vResult = new ValidationResult("El Teléfono es requerido.");
+                    vResult = new ValidationResult("El teléfono es requerido.");
                 }
             }
             return vResult;
