@@ -468,6 +468,17 @@ namespace Galac.Saw.Lib {
         public bool EsFacturadorBasico() {
             return LibDefGen.HasAccessTo(148);
         }
-     
+
+        public bool EsUnEmailValido(string valEmailAddress) {
+            try {               
+                if (LibString.IsNullOrEmpty(valEmailAddress)) {
+                    throw new GalacException("El email no puede estar nulo o vacío", eExceptionManagementType.Controlled);
+                } else {
+                    return Regex.IsMatch(valEmailAddress, @"^(([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?))*$", RegexOptions.IgnoreCase);
+                }                
+            } catch (GalacException vEx) {
+                throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
+            }
+        }
     }
 }
