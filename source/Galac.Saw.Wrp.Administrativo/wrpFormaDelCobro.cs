@@ -31,7 +31,7 @@ namespace Galac.Saw.Wrp.FormaDelCobro {
 
     public class wrpFormaDelCobro: System.EnterpriseServices.ServicedComponent, IWrpFormaDelCobroVb {
         #region Variables
-        string _Title = "Forma Del Cobro";
+        string _Title = "Forma de Cobro";
         IFormaDelCobroPdn _Reglas;
         #endregion //Variables
         #region Propiedades
