@@ -12,7 +12,7 @@ namespace Galac.Saw.Wrp.FormaDelCobro {
         void InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath);
         void InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO, bool vfwUsePASOnLine);
         void InitializeContext(string vfwInfo);
-        void InsertaValoresPorDefecto(string valCurrentMfc);
+        void InsertaValoresPorDefecto(string valCurrentMfc, string valCodigoMonedaLocal, string valCodigoMonedaExtranjera);
         XElement SearchByField(string valConsecutivoCompania, string valCodigo);
     }
 }

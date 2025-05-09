@@ -22,7 +22,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Propiedades
 
         public override string ModuleName {
-            get { return "Forma del Cobro"; }
+            get { return "Forma de Cobro"; }
         }
         #region Codigo Ejemplo
         /* Codigo de Ejemplo
@@ -69,22 +69,22 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         // prueba
 
         protected override bool CanExecuteUpdateCommand() {
-            return LibSecurityManager.CurrentUserHasAccessTo("FormaDelCobro", "Modificar") && CurrentItem != null;
+            return LibSecurityManager.CurrentUserHasAccessTo("Forma de Cobro", "Modificar") && CurrentItem != null;
         }
 
         protected override bool CanExecuteDeleteCommand() {
-            return LibSecurityManager.CurrentUserHasAccessTo("FormaDelCobro", "Eliminar") && CurrentItem != null;
+            return LibSecurityManager.CurrentUserHasAccessTo("Forma de Cobro", "Eliminar") && CurrentItem != null;
         }
 
         protected override bool CanExecuteReadCommand() {
-            return LibSecurityManager.CurrentUserHasAccessTo("FormaDelCobro", "Consultar") && CurrentItem != null;
+            return LibSecurityManager.CurrentUserHasAccessTo("Forma de Cobro", "Consultar") && CurrentItem != null;
         }
         
         protected override bool HasAccessToModule() {
             bool vResult = false;
-            vResult = (LibSecurityManager.CurrentUserHasAccessTo("FormaDelCobro", "Eliminar") ||
-                LibSecurityManager.CurrentUserHasAccessTo("FormaDelCobro", "Modificar") ||
-                LibSecurityManager.CurrentUserHasAccessTo("FormaDelCobro", "Consultar"));
+            vResult = (LibSecurityManager.CurrentUserHasAccessTo("Forma de Cobro", "Eliminar") ||
+                LibSecurityManager.CurrentUserHasAccessTo("Forma de Cobro", "Modificar") ||
+                LibSecurityManager.CurrentUserHasAccessTo("Forma de Cobro", "Consultar"));
             return vResult;
         }
         #endregion
@@ -102,7 +102,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         protected override void InitializeRibbon() {
             base.InitializeRibbon();
             if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
-               RibbonData.RemoveRibbonControl("Consultas", "Imprimir Lista");
+                RibbonData.RemoveRibbonControl("Consultas", "Imprimir Lista");
                 RibbonData.RemoveRibbonControl("Adminstrar", "Insertar");
         #region Codigo Ejemplo
         /* Codigo de Ejemplo

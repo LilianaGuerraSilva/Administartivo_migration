@@ -12,6 +12,7 @@ namespace Galac.Adm.Ccl.Venta {
           string Nombre { get; set; }
           eFormaDeCobro TipoDeCobro { get; set; }
 		  string CodigoCuentaBancaria {get; set;}
+		  string CodigoMoneda { get; set;}
         #endregion //Propiedades
 
 

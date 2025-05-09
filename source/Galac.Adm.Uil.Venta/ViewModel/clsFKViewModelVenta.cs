@@ -236,6 +236,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public eFormaDeCobro TipoDeCobro { get; set; }
         public int Consecutivo { get;  set; }
         public string CodigoCuentaBancaria { get; set; }
+        public string CodigoMoneda {  get; set; }
     }
 
     public class FkCobroDeFacturaRapidaViewModel : IFkCobroDeFacturaRapidaViewModel {

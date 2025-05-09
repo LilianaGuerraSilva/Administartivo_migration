@@ -26,7 +26,7 @@ namespace Galac.Adm.Uil.Venta {
         }
 
         public static bool ChooseFromInterop(ref XmlDocument refXmlDocument, List<LibSearchDefaultValues> valSearchCriteria, List<LibSearchDefaultValues> valFixedCriteria) {
-            return LibFKRetrievalHelper.ChooseRecord<FkFormaDelCobroViewModel>("Forma del Cobro", ref refXmlDocument, valSearchCriteria, valFixedCriteria, new clsFormaDelCobroNav());
+            return LibFKRetrievalHelper.ChooseRecord<FkFormaDelCobroViewModel>("Forma de Cobro", ref refXmlDocument, valSearchCriteria, valFixedCriteria, new clsFormaDelCobroNav());
         }
         #endregion //Metodos Generados
 

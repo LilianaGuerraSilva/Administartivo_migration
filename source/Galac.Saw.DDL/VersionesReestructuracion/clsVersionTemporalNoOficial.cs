@@ -238,36 +238,37 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         }
 
         private void AgregarTablaExistenciaPorAlmacenDetLoteInv() {
-            new clsExistenciaPorAlmacenDetLoteInvED().InstalarTabla();
-            if (TableExists("ExistenciaPorAlmacenDetLoteInv")) {
-                StringBuilder vSqlSb = new StringBuilder();
-                vSqlSb.AppendLine("DELETE FROM ExistenciaPorAlmacenDetLoteInv");
-                Execute(vSqlSb.ToString(), 0);
-                vSqlSb.Clear();
-                vSqlSb.AppendLine("INSERT INTO ExistenciaPorAlmacenDetLoteInv ");
-                vSqlSb.AppendLine("      (ConsecutivoCompania, ConsecutivoAlmacen, CodigoArticulo, ConsecutivoLoteInventario, Cantidad, Ubicacion)");
-                vSqlSb.AppendLine("SELECT ");
-                vSqlSb.AppendLine("		ExistenciaPorAlmacen.ConsecutivoCompania AS ConsecutivoCompania,");
-                vSqlSb.AppendLine("		ExistenciaPorAlmacen.ConsecutivoAlmacen AS CosecutivoAlmacen,");
-                vSqlSb.AppendLine("		Saw.LoteDeInventario.CodigoArticulo AS CodigoArticulo,");
-                vSqlSb.AppendLine("		Saw.LoteDeInventario.Consecutivo AS ConsecutivoLoteInventario,");
-                vSqlSb.AppendLine("		SUM( Saw.LoteDeInventarioMovimiento.Cantidad) AS Cantidad,");
-                vSqlSb.AppendLine("		ExistenciaPorAlmacen.Ubicacion");
-                vSqlSb.AppendLine("	FROM");
-                vSqlSb.AppendLine("	    Saw.LoteDeInventario");
-                vSqlSb.AppendLine("	INNER JOIN Saw.LoteDeInventarioMovimiento");
-                vSqlSb.AppendLine("		ON Saw.LoteDeInventario.ConsecutivoCompania = Saw.LoteDeInventarioMovimiento.ConsecutivoCompania");
-                vSqlSb.AppendLine("		AND Saw.LoteDeInventario.Consecutivo = Saw.LoteDeInventarioMovimiento.ConsecutivoLote");
-                vSqlSb.AppendLine("	INNER JOIN ExistenciaPorAlmacen");
-                vSqlSb.AppendLine("		ON ExistenciaPorAlmacen.ConsecutivoCompania  = Saw.LoteDeInventario.ConsecutivoCompania");
-                vSqlSb.AppendLine("		AND ExistenciaPorAlmacen.CodigoArticulo = Saw.LoteDeInventario.CodigoArticulo");
-                vSqlSb.AppendLine("		GROUP BY");
-                vSqlSb.AppendLine("			ExistenciaPorAlmacen.ConsecutivoCompania,");
-                vSqlSb.AppendLine("			ExistenciaPorAlmacen.ConsecutivoAlmacen,");
-                vSqlSb.AppendLine("			Saw.LoteDeInventario.CodigoArticulo ,");
-                vSqlSb.AppendLine("			Saw.LoteDeInventario.Consecutivo,");
-                vSqlSb.AppendLine("			ExistenciaPorAlmacen.Ubicacion");
-                Execute(vSqlSb.ToString(), 0);
+            if (!TableExists("ExistenciaPorAlmacenDetLoteInv")) {
+                if (new clsExistenciaPorAlmacenDetLoteInvED().InstalarTabla()) {
+                    StringBuilder vSqlSb = new StringBuilder();
+                    vSqlSb.AppendLine("DELETE FROM ExistenciaPorAlmacenDetLoteInv");
+                    Execute(vSqlSb.ToString(), 0);
+                    vSqlSb.Clear();
+                    vSqlSb.AppendLine("INSERT INTO ExistenciaPorAlmacenDetLoteInv ");
+                    vSqlSb.AppendLine("      (ConsecutivoCompania, ConsecutivoAlmacen, CodigoArticulo, ConsecutivoLoteInventario, Cantidad, Ubicacion)");
+                    vSqlSb.AppendLine("SELECT ");
+                    vSqlSb.AppendLine("		ExistenciaPorAlmacen.ConsecutivoCompania AS ConsecutivoCompania,");
+                    vSqlSb.AppendLine("		ExistenciaPorAlmacen.ConsecutivoAlmacen AS CosecutivoAlmacen,");
+                    vSqlSb.AppendLine("		Saw.LoteDeInventario.CodigoArticulo AS CodigoArticulo,");
+                    vSqlSb.AppendLine("		Saw.LoteDeInventario.Consecutivo AS ConsecutivoLoteInventario,");
+                    vSqlSb.AppendLine("		SUM( Saw.LoteDeInventarioMovimiento.Cantidad) AS Cantidad,");
+                    vSqlSb.AppendLine("		ExistenciaPorAlmacen.Ubicacion");
+                    vSqlSb.AppendLine("	FROM");
+                    vSqlSb.AppendLine("	    Saw.LoteDeInventario");
+                    vSqlSb.AppendLine("	INNER JOIN Saw.LoteDeInventarioMovimiento");
+                    vSqlSb.AppendLine("		ON Saw.LoteDeInventario.ConsecutivoCompania = Saw.LoteDeInventarioMovimiento.ConsecutivoCompania");
+                    vSqlSb.AppendLine("		AND Saw.LoteDeInventario.Consecutivo = Saw.LoteDeInventarioMovimiento.ConsecutivoLote");
+                    vSqlSb.AppendLine("	INNER JOIN ExistenciaPorAlmacen");
+                    vSqlSb.AppendLine("		ON ExistenciaPorAlmacen.ConsecutivoCompania  = Saw.LoteDeInventario.ConsecutivoCompania");
+                    vSqlSb.AppendLine("		AND ExistenciaPorAlmacen.CodigoArticulo = Saw.LoteDeInventario.CodigoArticulo");
+                    vSqlSb.AppendLine("		GROUP BY");
+                    vSqlSb.AppendLine("			ExistenciaPorAlmacen.ConsecutivoCompania,");
+                    vSqlSb.AppendLine("			ExistenciaPorAlmacen.ConsecutivoAlmacen,");
+                    vSqlSb.AppendLine("			Saw.LoteDeInventario.CodigoArticulo ,");
+                    vSqlSb.AppendLine("			Saw.LoteDeInventario.Consecutivo,");
+                    vSqlSb.AppendLine("			ExistenciaPorAlmacen.Ubicacion");
+                    Execute(vSqlSb.ToString(), 0);
+                }
             }
         }
 
@@ -333,7 +334,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
                 }
             }
         }
-
+// Solo para las formas de Cobro que fueron Modificadas e Ingresadas se Agrega temporalmente Codigo de Cuenta según parametro "CodigoGenericoCuentaBancaria" y Moneda "VED"
         string SqlInsertarFormasDeCobroModificadas(int valConsecutivoCompania, string valCodigoCuentaBancaria) {
             StringBuilder vSql = new StringBuilder();
             vSql.AppendLine(";WITH ");
@@ -344,14 +345,14 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             vSql.AppendLine("    ON TablaVieja.Nombre = TablaNueva.Nombre AND TablaNueva.ConsecutivoCompania = " + InsSql.ToSqlValue(valConsecutivoCompania));
             vSql.AppendLine("WHERE TablaNueva.Nombre IS NULL ");
             vSql.AppendLine(")");
-            vSql.AppendLine("INSERT INTO Adm.FormaDelCobro (ConsecutivoCompania, Consecutivo, Codigo, Nombre, TipoDePago, CodigoCuentaBancaria, CodigoTheFactory, Origen)");
+            vSql.AppendLine("INSERT INTO Adm.FormaDelCobro (ConsecutivoCompania, Consecutivo, Codigo, Nombre, TipoDePago, CodigoCuentaBancaria, CodigoMoneda, CodigoTheFactory, Origen)");
             vSql.AppendLine("SELECT");
             vSql.AppendLine("    " + InsSql.ToSqlValue(valConsecutivoCompania));
             vSql.AppendLine("    , ConsecutivoNuevo,");
             vSql.AppendLine("    'Z' + RIGHT('0000' + CAST(CTE_FormasDelCobroModificadas.ConsecutivoNuevo as varchar), 4),");
             vSql.AppendLine("    Nombre, TipoDePago,");
             vSql.AppendLine("    " + InsSql.ToSqlValue(valCodigoCuentaBancaria));
-            vSql.AppendLine("    ,'01', '1'");
+            vSql.AppendLine("    ,'VED','01', '1'");
             vSql.AppendLine("FROM CTE_FormasDelCobroModificadas ");
 
             return vSql.ToString();
@@ -367,14 +368,14 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             vSql.AppendLine("    ON TablaVieja.Codigo = TablaNueva.Codigo ");
             vSql.AppendLine("WHERE TablaNueva.Codigo IS NULL ");
             vSql.AppendLine(")");
-            vSql.AppendLine("INSERT INTO Adm.FormaDelCobro (ConsecutivoCompania, Consecutivo, Codigo, Nombre, TipoDePago, CodigoCuentaBancaria, CodigoTheFactory, Origen)");
+            vSql.AppendLine("INSERT INTO Adm.FormaDelCobro (ConsecutivoCompania, Consecutivo, Codigo, Nombre, TipoDePago, CodigoCuentaBancaria, CodigoMoneda, CodigoTheFactory, Origen)");
             vSql.AppendLine("SELECT");
             vSql.AppendLine("    " + InsSql.ToSqlValue(valConsecutivoCompania));
             vSql.AppendLine("    , ConsecutivoNuevo,");
             vSql.AppendLine("    'Z' + RIGHT('0000' + CAST(CTE_FormasDelCobroInsertadas.ConsecutivoNuevo as varchar), 4),");
             vSql.AppendLine("    Nombre, TipoDePago,");
             vSql.AppendLine("    " + InsSql.ToSqlValue(valCodigoCuentaBancaria));
-            vSql.AppendLine("    ,'01', '1'");
+            vSql.AppendLine("    ,'VED','01', '1'");
             vSql.AppendLine("FROM CTE_FormasDelCobroInsertadas ");
             vSql.AppendLine();
             vSql.AppendLine();
@@ -430,25 +431,26 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         }
 
         void InsertDefaultRecord() {
-            InsertFormaDelCobroPorDefecto(1, "00001", "Efectivo", eFormaDeCobro.Efectivo, CodigosTheFactory(eFormaDeCobro.Efectivo));
-            InsertFormaDelCobroPorDefecto(2, "00002", "Tarjeta", eFormaDeCobro.Tarjeta, CodigosTheFactory(eFormaDeCobro.Tarjeta));
-            InsertFormaDelCobroPorDefecto(3, "00003", "Cheque", eFormaDeCobro.Cheque, CodigosTheFactory(eFormaDeCobro.Cheque));
-            InsertFormaDelCobroPorDefecto(4, "00004", "Depósito", eFormaDeCobro.Deposito, CodigosTheFactory(eFormaDeCobro.Deposito));
-            InsertFormaDelCobroPorDefecto(5, "00005", "Anticipo", eFormaDeCobro.Anticipo, CodigosTheFactory(eFormaDeCobro.Anticipo));
-            InsertFormaDelCobroPorDefecto(6, "00006", "Transferencia", eFormaDeCobro.Transferencia, CodigosTheFactory(eFormaDeCobro.Transferencia));
-            InsertFormaDelCobroPorDefecto(7, "00007", "Vuelto Efectivo", eFormaDeCobro.VueltoEfectivo, CodigosTheFactory(eFormaDeCobro.VueltoEfectivo));
-            InsertFormaDelCobroPorDefecto(8, "00008", "Vuelto Pago Móvil", eFormaDeCobro.VueltoPM, CodigosTheFactory(eFormaDeCobro.VueltoPM));
-            InsertFormaDelCobroPorDefecto(9, "00009", "Tarjeta Medios Electrónicos", eFormaDeCobro.TarjetaMS, CodigosTheFactory(eFormaDeCobro.TarjetaMS));
-            InsertFormaDelCobroPorDefecto(10, "00010", "Zelle", eFormaDeCobro.Zelle, CodigosTheFactory(eFormaDeCobro.Zelle));
-            InsertFormaDelCobroPorDefecto(11, "00011", "Pago Móvil P2C", eFormaDeCobro.PagoMovil, CodigosTheFactory(eFormaDeCobro.PagoMovil));
-            InsertFormaDelCobroPorDefecto(12, "00012", "Transferencia Medios Electrónicos", eFormaDeCobro.TransferenciaMS, CodigosTheFactory(eFormaDeCobro.TransferenciaMS));
-            InsertFormaDelCobroPorDefecto(13, "00013", "Pago Móvil C2P", eFormaDeCobro.C2P, CodigosTheFactory(eFormaDeCobro.C2P));
-            InsertFormaDelCobroPorDefecto(14, "00014", "Depósito Medios Electrónicos", eFormaDeCobro.DepositoMS, CodigosTheFactory(eFormaDeCobro.DepositoMS));
-            InsertFormaDelCobroPorDefecto(15, "00015", "Crédito Electrónico", eFormaDeCobro.CreditoElectronico, CodigosTheFactory(eFormaDeCobro.CreditoElectronico));
-            InsertFormaDelCobroPorDefecto(16, "00016", "Tarjeta de Crédito", eFormaDeCobro.TarjetadeCredito, CodigosTheFactory(eFormaDeCobro.TarjetadeCredito));
-            InsertFormaDelCobroPorDefecto(17, "00017", "Tarjeta de Débito", eFormaDeCobro.TarjetadeDebito, CodigosTheFactory(eFormaDeCobro.TarjetadeDebito));
-            InsertFormaDelCobroPorDefecto(18, "00018", "Efectivo Divisas", eFormaDeCobro.EfectivoDivisas, CodigosTheFactory(eFormaDeCobro.EfectivoDivisas));
-            InsertFormaDelCobroPorDefecto(19, "00019", "Transferencia Divisas", eFormaDeCobro.TransferenciaDivisas, CodigosTheFactory(eFormaDeCobro.TransferenciaDivisas));
+            InsertFormaDelCobroPorDefecto(1, "00001", "Efectivo", eFormaDeCobro.Efectivo, "VED", CodigosTheFactory(eFormaDeCobro.Efectivo));
+            InsertFormaDelCobroPorDefecto(2, "00002", "Tarjeta", eFormaDeCobro.Tarjeta, "VED", CodigosTheFactory(eFormaDeCobro.Tarjeta));
+            InsertFormaDelCobroPorDefecto(3, "00003", "Cheque", eFormaDeCobro.Cheque, "VED", CodigosTheFactory(eFormaDeCobro.Cheque));
+            InsertFormaDelCobroPorDefecto(4, "00004", "Depósito", eFormaDeCobro.Deposito, "VED", CodigosTheFactory(eFormaDeCobro.Deposito));
+            InsertFormaDelCobroPorDefecto(5, "00005", "Anticipo", eFormaDeCobro.Anticipo, "VED", CodigosTheFactory(eFormaDeCobro.Anticipo));
+            InsertFormaDelCobroPorDefecto(6, "00006", "Transferencia", eFormaDeCobro.Transferencia, "VED", CodigosTheFactory(eFormaDeCobro.Transferencia));
+            InsertFormaDelCobroPorDefecto(7, "00007", "Vuelto Efectivo", eFormaDeCobro.VueltoEfectivo, "VED", CodigosTheFactory(eFormaDeCobro.VueltoEfectivo));
+            InsertFormaDelCobroPorDefecto(8, "00008", "Vuelto Pago Móvil", eFormaDeCobro.VueltoPM, "VED", CodigosTheFactory(eFormaDeCobro.VueltoPM));
+            InsertFormaDelCobroPorDefecto(9, "00009", "Tarjeta Medios Electrónicos", eFormaDeCobro.TarjetaMS, "VED", CodigosTheFactory(eFormaDeCobro.TarjetaMS));
+            InsertFormaDelCobroPorDefecto(10, "00010", "Zelle", eFormaDeCobro.Zelle, "USD", CodigosTheFactory(eFormaDeCobro.Zelle));
+            InsertFormaDelCobroPorDefecto(11, "00011", "Pago Móvil P2C", eFormaDeCobro.PagoMovil, "VED", CodigosTheFactory(eFormaDeCobro.PagoMovil));
+            InsertFormaDelCobroPorDefecto(12, "00012", "Transferencia Medios Electrónicos", eFormaDeCobro.TransferenciaMS, "VED", CodigosTheFactory(eFormaDeCobro.TransferenciaMS));
+            InsertFormaDelCobroPorDefecto(13, "00013", "Pago Móvil C2P", eFormaDeCobro.C2P, "VED", CodigosTheFactory(eFormaDeCobro.C2P));
+            InsertFormaDelCobroPorDefecto(14, "00014", "Depósito Medios Electrónicos", eFormaDeCobro.DepositoMS, "VED", CodigosTheFactory(eFormaDeCobro.DepositoMS));
+            InsertFormaDelCobroPorDefecto(15, "00015", "Crédito Electrónico", eFormaDeCobro.CreditoElectronico, "USD", CodigosTheFactory(eFormaDeCobro.CreditoElectronico));
+            InsertFormaDelCobroPorDefecto(16, "00016", "Tarjeta de Crédito", eFormaDeCobro.TarjetadeCredito, "VED", CodigosTheFactory(eFormaDeCobro.TarjetadeCredito));
+            InsertFormaDelCobroPorDefecto(17, "00017", "Tarjeta de Débito", eFormaDeCobro.TarjetadeDebito, "VED", CodigosTheFactory(eFormaDeCobro.TarjetadeDebito));
+            InsertFormaDelCobroPorDefecto(18, "00018", "Efectivo Divisas", eFormaDeCobro.EfectivoDivisas, "USD", CodigosTheFactory(eFormaDeCobro.EfectivoDivisas));
+            InsertFormaDelCobroPorDefecto(19, "00019", "Transferencia Divisas", eFormaDeCobro.TransferenciaDivisas, "USD", CodigosTheFactory(eFormaDeCobro.TransferenciaDivisas));
+            InsertFormaDelCobroPorDefecto(20, "00020", "Vuelto Efectivo Divisas", eFormaDeCobro.VueltoEfectivoDivisas, "USD", CodigosTheFactory(eFormaDeCobro.VueltoEfectivoDivisas));
         }
 
         private string CodigosTheFactory(eFormaDeCobro valFormaDelCobro) {
@@ -476,11 +478,13 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             return vResult;
         }
 
-        void InsertFormaDelCobroPorDefecto(int valConsecutivo, string valCodigo, string valNombre, eFormaDeCobro valFormaDelCobro, string valCodigoTheFactory) {
+        void InsertFormaDelCobroPorDefecto(int valConsecutivo, string valCodigo, string valNombre, eFormaDeCobro valFormaDelCobro, string valCodigoMoneda, string valCodigoTheFactory) {
             StringBuilder vSQL = new StringBuilder();
             vSQL.AppendLine(";WITH CTE_SettValueCtaBancaria AS (SELECT ConsecutivoCompania, Value AS CtaBancaria FROM Comun.SettValueByCompany WHERE NameSettDefinition = 'CodigoGenericoCuentaBancaria')");
-            vSQL.AppendLine("INSERT INTO Adm.FormaDelCobro (ConsecutivoCompania, Consecutivo, Codigo,Nombre, TipoDePago, CodigoCuentaBancaria,CodigoTheFactory,Origen)");
-            vSQL.AppendLine("SELECT ConsecutivoCompania, " + InsSql.ToSqlValue(valConsecutivo) + " , " + InsSql.ToSqlValue(valCodigo) + " , " + InsSql.ToSqlValue(valNombre) + ", " + InsSql.EnumToSqlValue((int)valFormaDelCobro) + ", CtaBancaria, " + InsSql.ToSqlValue(valCodigoTheFactory) + ", " + InsSql.EnumToSqlValue((int)eOrigen.Sistema) + " FROM CTE_SettValueCtaBancaria");
+            vSQL.AppendLine("INSERT INTO Adm.FormaDelCobro (ConsecutivoCompania, Consecutivo, Codigo,Nombre, TipoDePago, CodigoCuentaBancaria,CodigoMoneda ,CodigoTheFactory,Origen)");
+            vSQL.AppendLine("SELECT ConsecutivoCompania, " + InsSql.ToSqlValue(valConsecutivo) + " , " + InsSql.ToSqlValue(valCodigo) + " , " + InsSql.ToSqlValue(valNombre) + ", ");
+            vSQL.AppendLine(InsSql.EnumToSqlValue((int)valFormaDelCobro) + ", " + InsSql.ToSqlValue(string.Empty) + " , " + InsSql.ToSqlValue(valCodigoMoneda) + ", " + InsSql.ToSqlValue(valCodigoTheFactory));
+            vSQL.AppendLine(", " + InsSql.EnumToSqlValue((int)eOrigen.Sistema) + " FROM CTE_SettValueCtaBancaria");
             LibBusiness.ExecuteUpdateOrDelete(vSQL.ToString(), new StringBuilder(), string.Empty, 0);
         }
 
