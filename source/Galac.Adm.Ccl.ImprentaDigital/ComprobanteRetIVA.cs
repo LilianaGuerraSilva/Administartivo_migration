@@ -29,6 +29,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         public string NumeroControl { get; set; }
         public string NumeroDeNotaDebito { get; set; }
         public string NumeroDeNotaCredito { get; set; }
+        public string NumeroControlRetencionIvaImpDigital { get; set; }
 
         public eTipoDeTransaccionDeLibrosFiscales TipoDeTransaccionAsEnum {
             get {

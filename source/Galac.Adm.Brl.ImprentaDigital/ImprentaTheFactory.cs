@@ -155,7 +155,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 }
                 if (vChekConeccion) {
                     ConfigurarDocumento();
-                    string vDocumentoJSON = vDocumentoDigital.ToString();
+                    string vDocumentoJSON = vDocumentoDigital.ToString();                    
                     vRespuestaConector = ((clsConectorJsonTheFactory)_ConectorJson).SendPostJsonTF(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Emision), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
                     vResult = vRespuestaConector.Aprobado;
                     if (vResult) {
@@ -209,7 +209,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         private string NumeroDocumento() {
             string vResult = string.Empty;
             if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionIVA) {
-                vResult = ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion;
+                vResult = ComprobanteRetIVAImprentaDigital.NumeroDeDocumento;                
             } else {
                 vResult = FacturaImprentaDigital.Numero;
                 if (FacturaImprentaDigital.TipoDeDocumentoAsEnum == eTipoDocumentoFactura.Factura) {
