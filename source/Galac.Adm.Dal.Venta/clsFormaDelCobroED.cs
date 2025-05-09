@@ -280,7 +280,6 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("         CAST(FormaDelCobro.fldTimeStamp AS bigint) AS fldTimeStampBigint,");
             SQL.AppendLine("         FormaDelCobro.fldTimeStamp");
             SQL.AppendLine("      FROM " + DbSchema + ".FormaDelCobro");
-            SQL.AppendLine("             INNER JOIN dbo.Gv_Moneda_B1 ON " + DbSchema + ".FormaDelCobro.CodigoMoneda = dbo.Gv_Moneda_B1.Codigo");
             SQL.AppendLine("      WHERE FormaDelCobro.ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("         AND FormaDelCobro.Consecutivo = @Consecutivo");
             SQL.AppendLine("   RETURN @@ROWCOUNT");
@@ -320,7 +319,6 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("      " + DbSchema + ".Gv_FormaDelCobro_B1.CodigoMoneda,");
             SQL.AppendLine("      " + DbSchema + ".Gv_FormaDelCobro_B1.CodigoTheFactory");
             SQL.AppendLine("      FROM " + DbSchema + ".Gv_FormaDelCobro_B1");
-            SQL.AppendLine("      INNER JOIN dbo.Gv_Moneda_B1 ON  " + DbSchema + ".Gv_FormaDelCobro_B1.CodigoMoneda = dbo.Gv_Moneda_B1.Codigo");
             SQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
             SQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE ' + @SQLWhere");
             SQL.AppendLine("   IF (NOT @SQLOrderBy IS NULL) AND (@SQLOrderBy <> '')");

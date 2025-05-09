@@ -239,35 +239,36 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 
         private void AgregarTablaExistenciaPorAlmacenDetLoteInv() {
             if (!TableExists("ExistenciaPorAlmacenDetLoteInv")) {
-                new clsExistenciaPorAlmacenDetLoteInvED().InstalarTabla();
-                StringBuilder vSqlSb = new StringBuilder();
-                vSqlSb.AppendLine("DELETE FROM ExistenciaPorAlmacenDetLoteInv");
-                Execute(vSqlSb.ToString(), 0);
-                vSqlSb.Clear();
-                vSqlSb.AppendLine("INSERT INTO ExistenciaPorAlmacenDetLoteInv ");
-                vSqlSb.AppendLine("      (ConsecutivoCompania, ConsecutivoAlmacen, CodigoArticulo, ConsecutivoLoteInventario, Cantidad, Ubicacion)");
-                vSqlSb.AppendLine("SELECT ");
-                vSqlSb.AppendLine("		ExistenciaPorAlmacen.ConsecutivoCompania AS ConsecutivoCompania,");
-                vSqlSb.AppendLine("		ExistenciaPorAlmacen.ConsecutivoAlmacen AS CosecutivoAlmacen,");
-                vSqlSb.AppendLine("		Saw.LoteDeInventario.CodigoArticulo AS CodigoArticulo,");
-                vSqlSb.AppendLine("		Saw.LoteDeInventario.Consecutivo AS ConsecutivoLoteInventario,");
-                vSqlSb.AppendLine("		SUM( Saw.LoteDeInventarioMovimiento.Cantidad) AS Cantidad,");
-                vSqlSb.AppendLine("		ExistenciaPorAlmacen.Ubicacion");
-                vSqlSb.AppendLine("	FROM");
-                vSqlSb.AppendLine("	    Saw.LoteDeInventario");
-                vSqlSb.AppendLine("	INNER JOIN Saw.LoteDeInventarioMovimiento");
-                vSqlSb.AppendLine("		ON Saw.LoteDeInventario.ConsecutivoCompania = Saw.LoteDeInventarioMovimiento.ConsecutivoCompania");
-                vSqlSb.AppendLine("		AND Saw.LoteDeInventario.Consecutivo = Saw.LoteDeInventarioMovimiento.ConsecutivoLote");
-                vSqlSb.AppendLine("	INNER JOIN ExistenciaPorAlmacen");
-                vSqlSb.AppendLine("		ON ExistenciaPorAlmacen.ConsecutivoCompania  = Saw.LoteDeInventario.ConsecutivoCompania");
-                vSqlSb.AppendLine("		AND ExistenciaPorAlmacen.CodigoArticulo = Saw.LoteDeInventario.CodigoArticulo");
-                vSqlSb.AppendLine("		GROUP BY");
-                vSqlSb.AppendLine("			ExistenciaPorAlmacen.ConsecutivoCompania,");
-                vSqlSb.AppendLine("			ExistenciaPorAlmacen.ConsecutivoAlmacen,");
-                vSqlSb.AppendLine("			Saw.LoteDeInventario.CodigoArticulo ,");
-                vSqlSb.AppendLine("			Saw.LoteDeInventario.Consecutivo,");
-                vSqlSb.AppendLine("			ExistenciaPorAlmacen.Ubicacion");
-                Execute(vSqlSb.ToString(), 0);
+                if (new clsExistenciaPorAlmacenDetLoteInvED().InstalarTabla()) {
+                    StringBuilder vSqlSb = new StringBuilder();
+                    vSqlSb.AppendLine("DELETE FROM ExistenciaPorAlmacenDetLoteInv");
+                    Execute(vSqlSb.ToString(), 0);
+                    vSqlSb.Clear();
+                    vSqlSb.AppendLine("INSERT INTO ExistenciaPorAlmacenDetLoteInv ");
+                    vSqlSb.AppendLine("      (ConsecutivoCompania, ConsecutivoAlmacen, CodigoArticulo, ConsecutivoLoteInventario, Cantidad, Ubicacion)");
+                    vSqlSb.AppendLine("SELECT ");
+                    vSqlSb.AppendLine("		ExistenciaPorAlmacen.ConsecutivoCompania AS ConsecutivoCompania,");
+                    vSqlSb.AppendLine("		ExistenciaPorAlmacen.ConsecutivoAlmacen AS CosecutivoAlmacen,");
+                    vSqlSb.AppendLine("		Saw.LoteDeInventario.CodigoArticulo AS CodigoArticulo,");
+                    vSqlSb.AppendLine("		Saw.LoteDeInventario.Consecutivo AS ConsecutivoLoteInventario,");
+                    vSqlSb.AppendLine("		SUM( Saw.LoteDeInventarioMovimiento.Cantidad) AS Cantidad,");
+                    vSqlSb.AppendLine("		ExistenciaPorAlmacen.Ubicacion");
+                    vSqlSb.AppendLine("	FROM");
+                    vSqlSb.AppendLine("	    Saw.LoteDeInventario");
+                    vSqlSb.AppendLine("	INNER JOIN Saw.LoteDeInventarioMovimiento");
+                    vSqlSb.AppendLine("		ON Saw.LoteDeInventario.ConsecutivoCompania = Saw.LoteDeInventarioMovimiento.ConsecutivoCompania");
+                    vSqlSb.AppendLine("		AND Saw.LoteDeInventario.Consecutivo = Saw.LoteDeInventarioMovimiento.ConsecutivoLote");
+                    vSqlSb.AppendLine("	INNER JOIN ExistenciaPorAlmacen");
+                    vSqlSb.AppendLine("		ON ExistenciaPorAlmacen.ConsecutivoCompania  = Saw.LoteDeInventario.ConsecutivoCompania");
+                    vSqlSb.AppendLine("		AND ExistenciaPorAlmacen.CodigoArticulo = Saw.LoteDeInventario.CodigoArticulo");
+                    vSqlSb.AppendLine("		GROUP BY");
+                    vSqlSb.AppendLine("			ExistenciaPorAlmacen.ConsecutivoCompania,");
+                    vSqlSb.AppendLine("			ExistenciaPorAlmacen.ConsecutivoAlmacen,");
+                    vSqlSb.AppendLine("			Saw.LoteDeInventario.CodigoArticulo ,");
+                    vSqlSb.AppendLine("			Saw.LoteDeInventario.Consecutivo,");
+                    vSqlSb.AppendLine("			ExistenciaPorAlmacen.Ubicacion");
+                    Execute(vSqlSb.ToString(), 0);
+                }
             }
         }
 
@@ -481,7 +482,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             StringBuilder vSQL = new StringBuilder();
             vSQL.AppendLine(";WITH CTE_SettValueCtaBancaria AS (SELECT ConsecutivoCompania, Value AS CtaBancaria FROM Comun.SettValueByCompany WHERE NameSettDefinition = 'CodigoGenericoCuentaBancaria')");
             vSQL.AppendLine("INSERT INTO Adm.FormaDelCobro (ConsecutivoCompania, Consecutivo, Codigo,Nombre, TipoDePago, CodigoCuentaBancaria,CodigoMoneda ,CodigoTheFactory,Origen)");
-            vSQL.AppendLine("SELECT ConsecutivoCompania, " + InsSql.ToSqlValue(valConsecutivo) + " , " + InsSql.ToSqlValue(valCodigo) + " , " + InsSql.ToSqlValue(valNombre) + ", " + InsSql.EnumToSqlValue((int)valFormaDelCobro) + ", " + InsSql.ToSqlValue(string.Empty) + " , " +  InsSql.ToSqlValue(valCodigoMoneda) +  ", " + InsSql.ToSqlValue(valCodigoTheFactory) + ", " + InsSql.EnumToSqlValue((int)eOrigen.Sistema) + " FROM CTE_SettValueCtaBancaria");
+            vSQL.AppendLine("SELECT ConsecutivoCompania, " + InsSql.ToSqlValue(valConsecutivo) + " , " + InsSql.ToSqlValue(valCodigo) + " , " + InsSql.ToSqlValue(valNombre) + ", ");
+            vSQL.AppendLine(InsSql.EnumToSqlValue((int)valFormaDelCobro) + ", " + InsSql.ToSqlValue(string.Empty) + " , " + InsSql.ToSqlValue(valCodigoMoneda) + ", " + InsSql.ToSqlValue(valCodigoTheFactory));
+            vSQL.AppendLine(", " + InsSql.EnumToSqlValue((int)eOrigen.Sistema) + " FROM CTE_SettValueCtaBancaria");
             LibBusiness.ExecuteUpdateOrDelete(vSQL.ToString(), new StringBuilder(), string.Empty, 0);
         }
 

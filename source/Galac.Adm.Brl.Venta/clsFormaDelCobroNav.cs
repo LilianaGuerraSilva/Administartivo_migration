@@ -59,7 +59,7 @@ namespace Galac.Adm.Brl.Venta {
             bool vResult = false;
             ILibPdn vPdnModule;
             switch (valModule) {
-                case "Forma del Cobro":
+                case "Forma de Cobro":
                     vResult = ((ILibPdn)this).GetDataForList(valModule, ref refXmlDocument, valXmlParamsExpression);
                     break;
                 case "Cuenta Bancaria":

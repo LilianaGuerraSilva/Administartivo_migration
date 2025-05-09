@@ -87,7 +87,7 @@
             Height="26"
             Margin="3,0,0,0"
             VerticalAlignment="Center"
-            Content="Tipo de Cobro"
+            Content="Tipo"
             Style="{StaticResource LabelPrompt}" />
         <Label
             Name="lneTipoDePago"

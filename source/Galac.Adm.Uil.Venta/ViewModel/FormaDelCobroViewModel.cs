@@ -39,7 +39,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Propiedades
 
         public override string ModuleName {
-            get { return "Forma del Cobro"; }
+            get { return "Forma de Cobro"; }
         }
 
         public int  ConsecutivoCompania {
@@ -92,7 +92,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        [LibGridColum("Tipo de Cobro", eGridColumType.Enum, PrintingMemberPath = "TipoDePagoStr", Width = 250, ColumnOrder = 2)]
+        [LibGridColum("Tipo", eGridColumType.Enum, PrintingMemberPath = "TipoDePagoStr", Width = 250, ColumnOrder = 2)]
         public eFormaDeCobro TipoDePago {
             get {
                 return Model.TipoDePagoAsEnum;

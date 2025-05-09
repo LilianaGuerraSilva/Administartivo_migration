@@ -22,7 +22,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Propiedades
 
         public override string ModuleName {
-            get { return "Forma del Cobro"; }
+            get { return "Forma de Cobro"; }
         }
         #region Codigo Ejemplo
         /* Codigo de Ejemplo
