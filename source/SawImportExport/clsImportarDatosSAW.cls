@@ -2523,7 +2523,7 @@ Private Function fDistribuyeLaLineaDeLaCxP(ByRef refLineaActual As String, ByVal
    insCxP.SetAlicuotaIGTFML gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insCxP.SetMontoIGTFML gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxP.SetNumeroControlRetencionIvaImpDigital gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-   insCxP.SetProveedorImprentaDigital gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   insCxP.SetProveedorImprentaDigitalStr gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    vRetencionIvaEnviadaImpDigital = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    If gTexto.DfLen(CStr(vAplicaIvaAlicuotaEspecial)) > 0 And (gConvert.ConvertBooleanToString(True) = gConvert.ConvertBooleanToString(vRetencionIvaEnviadaImpDigital) Or gConvert.ConvertBooleanToString(False) = gConvert.ConvertBooleanToString(vRetencionIvaEnviadaImpDigital)) Then
       insCxP.SetRetencionIvaEnviadaImpDigital gConvert.ConvertStringToBoolean(gConvert.ConvertBooleanToString(vRetencionIvaEnviadaImpDigital))
