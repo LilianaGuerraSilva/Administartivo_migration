@@ -14,6 +14,7 @@ using LibGalac.Aos.Base.Dal;
 using System.Xml.Schema;
 using System.Data.SqlTypes;
 using LibGalac.Aos.Catching;
+using System.Reflection;
 
 namespace Galac.Saw.Brl.Inventario {
     public partial class clsArticuloInventarioNav: LibBaseNavMaster<IList<ArticuloInventario>, IList<ArticuloInventario>>, ILibPdn, IArticuloInventarioPdn, ILookupDataService {
@@ -207,55 +208,59 @@ namespace Galac.Saw.Brl.Inventario {
             return vResult;
         }
 
-        decimal IArticuloInventarioPdn.DisponibilidadDeArticulo(int valConsecutivoCompania, string valCodigoAlmacen, string valCodigoArticulo, int valTipoDeArticulo, string valSerial, string valRollo) {
-            decimal vResult = 0;
+        decimal IArticuloInventarioPdn.DisponibilidadDeArticulo(int valConsecutivoCompania, string valCodigoAlmacen, string valCodigoArticulo, int valTipoDeArticulo, string valSerial, string valRollo) {            
+            decimal Existencia = 0;
+            decimal CantReservada = 0;
             StringBuilder SQL = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
-            string vTabla = string.Empty;
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             vParams.AddInString("CodigoArticulo", valCodigoArticulo, 30);
-            vParams.AddInInteger("TipoArticuloInv", 1); //  Excluye articulos de tipo talla/color
-            vParams.AddInString("Serial", valSerial, 50);
-            vParams.AddInString("Rollo", valRollo, 20);
-            // valTipoDeArticulo, valCodigoAlmacen - No se usa en esta función, pero es invocado desde Producción y Factura Rápida
-
-            SQL.AppendLine(" SELECT Codigo, CASE WHEN ArticuloInventario.TipoArticuloInv <> '0' THEN ISNULL( ExistenciaPorGrupo.Existencia  - ExistenciaPorGrupo.CantReservada,0) ELSE ISNULL(ArticuloInventario.Existencia - ArticuloInventario.CantArtReservado,0) END AS ");
-            SQL.AppendLine(" Disponibilidad FROM ArticuloInventario LEFT JOIN ExistenciaPorGrupo ");
-            SQL.AppendLine(" ON ArticuloInventario.ConsecutivoCompania = ExistenciaPorGrupo.ConsecutivoCompania ");
-            SQL.AppendLine(" AND ArticuloInventario.Codigo = ExistenciaPorGrupo.CodigoArticulo ");
-            SQL.AppendLine(" WHERE ArticuloInventario.ConsecutivoCompania = @ConsecutivoCompania ");            
-            SQL.AppendLine(" AND ArticuloInventario.TipoArticuloInv <> @TipoArticuloInv ");
-            if (!LibString.IsNullOrEmpty (valSerial)) {
-                SQL.AppendLine(" AND ExistenciaPorGrupo.Serial = @Serial ");
-                SQL.AppendLine(" AND ExistenciaPorGrupo.Rollo = @Rollo ");
-                SQL.AppendLine(" AND CodigoArticulo + CodigoColor + CodigoTalla  = @CodigoArticulo ");
+            vParams.AddInString("CodigoAlmacen", valCodigoAlmacen, 5);        
+            if (valTipoDeArticulo == (int)eTipoArticuloInv.UsaSerial || valTipoDeArticulo == (int)eTipoArticuloInv.UsaTallaColorySerial || valTipoDeArticulo == (int)eTipoArticuloInv.UsaSerialRollo) {
+                vParams.AddInString("CodigoSerial", valSerial, 50);
+                vParams.AddInString("CodigoRollo", valRollo, 20);
+                SQL.AppendLine(" SELECT Cantidad FROM RenglonExistenciaAlmacen ");
+                SQL.AppendLine(" WHERE ConsecutivoCompania =  @ConsecutivoCompania");
+                SQL.AppendLine(" AND CodigoArticulo =  @CodigoArticulo");
+                SQL.AppendLine(" AND CodigoAlmacen = @CodigoAlmacen");
+                SQL.AppendLine(" AND CodigoSerial = @CodigoSerial");
+                SQL.AppendLine(" AND CodigoRollo = @CodigoRollo");
+            } else {                
+                SQL.AppendLine(" SELECT Cantidad FROM ExistenciaPorAlmacen ");
+                SQL.AppendLine(" WHERE ConsecutivoCompania =  @ConsecutivoCompania");
+                SQL.AppendLine(" AND CodigoArticulo =  @CodigoArticulo");
+                SQL.AppendLine(" AND CodigoAlmacen = @CodigoAlmacen");
+            }
+            XElement xRecord = LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", 0);
+            if (xRecord != null) {
+                Existencia = LibImportData.ToDec(LibXml.GetPropertyString(xRecord, "Cantidad"), 3);
+            }
+            SQL = new StringBuilder();
+            vParams = new LibGpParams();
+            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            vParams.AddInString("CodigoArticulo", valCodigoArticulo, 30);
+            if (valTipoDeArticulo != (int)eTipoArticuloInv.Simple) { 
+                SQL.AppendLine(" SELECT CantReservada FROM ExistenciaPorGrupo ");
+                SQL.AppendLine(" WHERE ConsecutivoCompania =  @ConsecutivoCompania");
+                SQL.AppendLine(" AND CodigoArticulo + CodigoColor + CodigoTalla  = @CodigoArticulo ");            
+                if (LibString.Len(valSerial) > 0 && !LibString.S1IsEqualToS2(valSerial, "0")) {
+                    vParams.AddInString("CodigoSerial", valSerial, 50);
+                    SQL.AppendLine(" AND Serial = @CodigoSerial");
+                }
+                if (LibString.Len(valRollo) > 0 && !LibString.S1IsEqualToS2(valRollo, "0")) {
+                    vParams.AddInString("CodigoRollo", valRollo, 20);
+                    SQL.AppendLine(" AND Rollo = @CodigoRollo");
+                }
             } else {
-                SQL.AppendLine(" AND ArticuloInventario.codigo = @CodigoArticulo ");
-            } 
-            XElement xRecord = LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", 0);
-            if (xRecord != null) {
-                vResult = LibImportData.ToDec(LibXml.GetPropertyString(xRecord, "Disponibilidad"), 3);
+                SQL.AppendLine(" SELECT CantReservada = CantArtReservado FROM ArticuloInventario ");
+                SQL.AppendLine(" WHERE ConsecutivoCompania =  @ConsecutivoCompania");
+                SQL.AppendLine(" AND Codigo =  @CodigoArticulo");
             }
-            return vResult;
-        }
-
-        decimal IArticuloInventarioPdn.DisponibilidadDeArticuloTallaColor(int valConsecutivoCompania, string valCodigoAlmacen, string valCodigoArticulo) {
-            decimal vResult = 0;
-            StringBuilder SQL = new StringBuilder();
-            LibGpParams vParams = new LibGpParams();
-            string vTabla = string.Empty;
-            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
-            vParams.AddInString("CodigoArticulo", valCodigoArticulo, 30);
-
-            SQL.AppendLine(" SELECT CodigoArticulo, CodigoColor, CodigoTalla, (Existencia - CantReservada) AS Disponibilidad");
-            SQL.AppendLine(" FROM ExistenciaPorGrupo ");
-            SQL.AppendLine(" WHERE CodigoArticulo + CodigoColor + CodigoTalla = @CodigoArticulo ");
-            SQL.AppendLine(" AND ConsecutivoCompania = @ConsecutivoCompania ");
-            XElement xRecord = LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", 0);
+            xRecord = LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", 0);
             if (xRecord != null) {
-                vResult = LibImportData.ToDec(LibXml.GetPropertyString(xRecord, "Disponibilidad"), 3);
+                CantReservada = LibImportData.ToDec(LibXml.GetPropertyString(xRecord, "CantReservada"), 3);
             }
-            return vResult;
+            return Existencia - CantReservada;
         }
 
         XElement IArticuloInventarioPdn.BuscarDetalleArticuloCompuesto(int valConsecutivoCompania, string valCodigoArticulo) {
