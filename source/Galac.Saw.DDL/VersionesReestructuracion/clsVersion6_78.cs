@@ -38,26 +38,26 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             return true;
         }
 
-        private void CrearAuditoriaConfiguracion() {            
-            new clsAuditoriaConfiguracionED().InstalarTabla();
+        private void CrearAuditoriaConfiguracion() {
+            if (!TableExists("Adm.AuditoriaConfiguracion")) {
+                    new clsAuditoriaConfiguracionED().InstalarTabla();
+            }
         }
         private void CrearParametroUsaMaquinaFiscal() {
-            StringBuilder vSql = new StringBuilder();            
-
-            AgregarNuevoParametro("UsaMaquinaFiscal", "Factura", 2, "2.2.- Facturación (Continuación)", 1, "", eTipoDeDatoParametros.String, "", 'N', "N");
-
-            vSql.AppendLine("UPDATE Comun.SettValueByCompany");
-            vSql.AppendLine(" SET Value = " + InsSql.ToSqlValue("S"));
-            vSql.AppendLine(" WHERE NameSettDefinition = " + InsSql.ToSqlValue("UsaMaquinaFiscal"));
-            vSql.AppendLine(" AND ConsecutivoCompania IN ");
-            vSql.AppendLine(" (SELECT DISTINCT ConsecutivoCompania FROM Adm.Caja ");
-            vSql.AppendLine(" WHERE UsaMaquinaFiscal = " + InsSql.ToSqlValue("S") + ")");
-            Execute(vSql.ToString(), 0);
+            StringBuilder vSql = new StringBuilder();
+            if (AgregarNuevoParametro("UsaMaquinaFiscal", "Factura", 2, "2.2.- Facturación (Continuación)", 1, "", eTipoDeDatoParametros.String, "", 'N', "N")) {
+                vSql.AppendLine("UPDATE Comun.SettValueByCompany");
+                vSql.AppendLine(" SET Value = " + InsSql.ToSqlValue("S"));
+                vSql.AppendLine(" WHERE NameSettDefinition = " + InsSql.ToSqlValue("UsaMaquinaFiscal"));
+                vSql.AppendLine(" AND ConsecutivoCompania IN ");
+                vSql.AppendLine(" (SELECT DISTINCT ConsecutivoCompania FROM Adm.Caja ");
+                vSql.AppendLine(" WHERE UsaMaquinaFiscal = " + InsSql.ToSqlValue("S") + ")");
+                Execute(vSql.ToString(), 0);
+            }
         }
 
         private void AjustarParametroUsaCobroDirecto() {
             StringBuilder vSql = new StringBuilder();
-            
             vSql.AppendLine("UPDATE Comun.SettValueByCompany");
             vSql.AppendLine(" SET Value = " + InsSql.ToSqlValue("S"));
             vSql.AppendLine(" WHERE NameSettDefinition = " + InsSql.ToSqlValue("UsaCobroDirecto"));
@@ -66,9 +66,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             vSql.AppendLine(" WHERE UsaMaquinaFiscal = " + InsSql.ToSqlValue("S") + ")");
             Execute(vSql.ToString(), 0);
         }
+
         private void LimpiaParametroAccionAlAnularFactDeMesesAnt() {
             StringBuilder vSql = new StringBuilder();            
-
             vSql.AppendLine("UPDATE Comun.SettValueByCompany");
             vSql.AppendLine(" SET Value = " + InsSql.ToSqlValue("2"));
             vSql.AppendLine(" WHERE NameSettDefinition = " + InsSql.ToSqlValue("AccionAlAnularFactDeMesesAnt"));
@@ -115,7 +115,6 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 
         private void LimpiaParametroImprimirPrecioEnNotaES() {
             StringBuilder vSql = new StringBuilder();
-
             vSql.AppendLine("UPDATE Comun.SettValueByCompany SET Value = " + InsSql.ToSqlValue(false));
             vSql.AppendLine(" WHERE NameSettDefinition  = " + InsSql.ToSqlValue("ImprimirNotaESconPrecio"));
             Execute(vSql.ToString(), 0);
@@ -151,12 +150,16 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             return vSql;
         }
         private void CrearEscalada() {
-            new clsEscaladaED().InstalarTabla();
+            if (!TableExists("Escalada")) {
+                new clsEscaladaED().InstalarTabla();
+            }
         }
 
         private void AgregarColumnaNDCaja() {
-            if (AddColumnString("Adm.Caja", "UltimoNumeroNDFiscal", 12, "", "")) {
-                AddDefaultConstraint("Adm.Caja", "d_CajUlNuND", "''", "UltimoNumeroNDFiscal");
+            if (!ColumnExists("Adm.Caja", "UltimoNumeroNDFiscal")) {
+                if (AddColumnString("Adm.Caja", "UltimoNumeroNDFiscal", 12, "", "")) {
+                    AddDefaultConstraint("Adm.Caja", "d_CajUlNuND", "''", "UltimoNumeroNDFiscal");
+                }
             }
         }
 
@@ -164,9 +167,11 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             ModifyLengthOfColumnString("Compania", "ImprentaDigitalClave", 1000, "");
         }
 
-        private void AgregarColumnaImprentaGUIDFactura() {           
-            if (AddColumnString("factura", "ImprentaDigitalGUID", 50, "", "")) {
-                AddDefaultConstraint("factura", "ImDigGuid", "''", "ImprentaDigitalGUID");                  
+        private void AgregarColumnaImprentaGUIDFactura() {
+            if (!ColumnExists("Adm.Caja", "UltimoNumeroNDFiscal")) {
+                if (AddColumnString("factura", "ImprentaDigitalGUID", 50, "", "")) {
+                    AddDefaultConstraint("factura", "ImDigGuid", "''", "ImprentaDigitalGUID");
+                }
             }
         }
     }
