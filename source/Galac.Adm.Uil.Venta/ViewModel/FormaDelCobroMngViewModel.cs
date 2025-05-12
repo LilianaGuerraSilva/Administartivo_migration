@@ -18,7 +18,7 @@ using Galac.Adm.Ccl.Venta;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
 
-    public class FormaDelCobroMngViewModel : LibMngViewModel<FormaDelCobroViewModel, FormaDelCobro> {
+    public class FormaDelCobroMngViewModel: LibMngViewModel<FormaDelCobroViewModel, FormaDelCobro> {
         #region Propiedades
 
         public override string ModuleName {
@@ -36,12 +36,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public FormaDelCobroMngViewModel() {
             Title = "Buscar " + ModuleName;
             OrderByMember = "ConsecutivoCompania, Consecutivo";
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-            OrderByDirection = "DESC";
-            AppMemoryInfo = LibGlobalValues.Instance.GetAppMemInfo();
-        */
-        #endregion //Codigo Ejemplo
+            #region Codigo Ejemplo
+            /* Codigo de Ejemplo
+                OrderByDirection = "DESC";
+                AppMemoryInfo = LibGlobalValues.Instance.GetAppMemInfo();
+            */
+            #endregion //Codigo Ejemplo
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -75,7 +75,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         protected override bool CanExecuteReadCommand() {
             return LibSecurityManager.CurrentUserHasAccessTo("Forma de Cobro", "Consultar") && CurrentItem != null;
         }
-        
+
         protected override bool HasAccessToModule() {
             bool vResult = false;
             vResult = (LibSecurityManager.CurrentUserHasAccessTo("Forma de Cobro", "Modificar") ||
@@ -87,24 +87,19 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         protected override void InitializeCommands() {
             base.InitializeCommands();
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-            SUPROCESOPARTICULARCommand = new RelayCommand(ExecuteSUPROCESOPARTICULARCommand, CanExecuteSUPROCESOPARTICULARCommand);
-        */
-        #endregion //Codigo Ejemplo
+            #region Codigo Ejemplo
+            /* Codigo de Ejemplo
+                SUPROCESOPARTICULARCommand = new RelayCommand(ExecuteSUPROCESOPARTICULARCommand, CanExecuteSUPROCESOPARTICULARCommand);
+            */
+            #endregion //Codigo Ejemplo
         }
 
         protected override void InitializeRibbon() {
             base.InitializeRibbon();
             if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
+                RibbonData.RemoveRibbonControl("Administrar", "Insertar");
+                RibbonData.RemoveRibbonControl("Administrar", "Eliminar");
                 RibbonData.RemoveRibbonControl("Consultas", "Imprimir Lista");
-                RibbonData.RemoveRibbonControl("Adminstrar", "Insertar");
-                RibbonData.RemoveRibbonControl("Adminstrar", "Eliminar");
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-                RibbonData.TabDataCollection[0].AddTabGroupData(CreateSUPROCESOPARTICULARRibbonGroup());
-        */
-        #endregion //Codigo Ejemplo
             }
         }
         #region Codigo Ejemplo
@@ -175,8 +170,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         */
         #endregion //Codigo Ejemplo
 
-
     } //End of class FormaDelCobroMngViewModel
 
-} //End of namespace Galac.Adm.Uil.Venta
+}//End of namespace Galac.Adm.Uil.Venta
 
