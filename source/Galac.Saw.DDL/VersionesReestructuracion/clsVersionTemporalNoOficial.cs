@@ -285,18 +285,14 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 
         private void CrearTabFormaDelCobro() {
             if (!TableExists("Adm.FormaDelCobro")) {
-                try {
-                    new clsFormaDelCobroED().InstalarTabla();
-                    DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Saw.FormaDelCobro", "dbo.renglonCobroDeFactura");
-                    CrearColumnaConsecutivoFormaDelCobro();
-                    InsertDefaultRecord();
-                    InsertarFormasDeCobroCreadasPorUsuario();
-                    InsertarFormasDeCobroModificadasPorUsuario();
-                    ActualizarConsecutivoFormaDelCobro();
-                    AddForeignKey("Adm.FormaDelCobro", "dbo.renglonCobroDeFactura", new string[] { "ConsecutivoCompania", "Consecutivo" }, new string[] { "ConsecutivoCompania", "ConsecutivoFormaDelCobro" }, false, false);
-                } catch (GalacException vEx) {
-                    throw vEx;
-                }
+                new clsFormaDelCobroED().InstalarTabla();
+                DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Saw.FormaDelCobro", "dbo.renglonCobroDeFactura");
+                CrearColumnaConsecutivoFormaDelCobro();
+                InsertDefaultRecord();
+                InsertarFormasDeCobroCreadasPorUsuario();
+                InsertarFormasDeCobroModificadasPorUsuario();
+                ActualizarConsecutivoFormaDelCobro();
+                AddForeignKey("Adm.FormaDelCobro", "dbo.renglonCobroDeFactura", new string[] { "ConsecutivoCompania", "Consecutivo" }, new string[] { "ConsecutivoCompania", "ConsecutivoFormaDelCobro" }, false, false);
             }
         }
 
@@ -504,9 +500,13 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
                 if (AddColumnString("CxP", "NumeroControlRetencionIvaImpDigital", 20, "", "")) {
                     AddDefaultConstraint("CxP", "nCtID", _insSql.ToSqlValue(""), "NumeroControlRetencionIvaImpDigital");
                 }
+            }
+            if (!ColumnExists("CxP", "ProveedorImprentaDigital")) {
                 if (AddColumnEnumerative("CxP", "ProveedorImprentaDigital", "", 0)) {
                     AddDefaultConstraint("CxP", "pRovID", _insSql.ToSqlValue("0"), "ProveedorImprentaDigital");
                 }
+            }
+            if (!ColumnExists("CxP", "RetencionIvaEnviadaImpDigital")) {
                 if (AddColumnBoolean("CxP", "RetencionIvaEnviadaImpDigital", "", false)) {
                     AddDefaultConstraint("CxP", "rTEnID", _insSql.ToSqlValue("N"), "RetencionIvaEnviadaImpDigital");
                 }

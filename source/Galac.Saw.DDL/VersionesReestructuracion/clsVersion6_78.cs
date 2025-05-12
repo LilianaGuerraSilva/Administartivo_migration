@@ -40,13 +40,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 
         private void CrearAuditoriaConfiguracion() {
             if (!TableExists("Adm.AuditoriaConfiguracion")) {
-                try {
                     new clsAuditoriaConfiguracionED().InstalarTabla();
-                } catch (GalacException vEx) {
-                    throw vEx;
-                }
             }
-            
         }
         private void CrearParametroUsaMaquinaFiscal() {
             StringBuilder vSql = new StringBuilder();
@@ -156,11 +151,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         }
         private void CrearEscalada() {
             if (!TableExists("Escalada")) {
-                try {
-                    new clsEscaladaED().InstalarTabla();
-                } catch (GalacException vEx) {
-                    throw vEx;
-                }
+                new clsEscaladaED().InstalarTabla();
             }
         }
 
