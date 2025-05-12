@@ -503,11 +503,7 @@ namespace Galac.Saw.Brl.Inventario {
                 if (vEsArticuloTipoLote) {
                     vDisponibilidad = insArticuloInventarioNav.DisponibilidadDeArticulo(valItemNotaES.ConsecutivoCompania, vItemRenglon.CodigoArticulo, BuscarConsecutivoDeLoteInventario(valItemNotaES.ConsecutivoCompania, vItemRenglon.CodigoArticulo, vItemRenglon.LoteDeInventario), valItemNotaES.ConsecutivoAlmacen);
                 } else {
-                    if (vItemRenglon.TipoArticuloInvAsEnum == eTipoArticuloInv.UsaTallaColor) {
-                        vDisponibilidad = insArticuloInventarioNav.DisponibilidadDeArticuloTallaColor(valItemNotaES.ConsecutivoCompania, valItemNotaES.CodigoAlmacen, vItemRenglon.CodigoArticulo);
-                    } else {
-                        vDisponibilidad = insArticuloInventarioNav.DisponibilidadDeArticulo(valItemNotaES.ConsecutivoCompania, valItemNotaES.CodigoAlmacen, vItemRenglon.CodigoArticulo, (int)eTipoDeArticulo.Mercancia, vItemRenglon.Serial, vItemRenglon.Rollo);
-                    }
+                    vDisponibilidad = insArticuloInventarioNav.DisponibilidadDeArticulo(valItemNotaES.ConsecutivoCompania, valItemNotaES.CodigoAlmacen, vItemRenglon.CodigoArticulo, (int)vItemRenglon.TipoArticuloInvAsEnum, vItemRenglon.Serial, vItemRenglon.Rollo);
                 }
                 bool vHayExistencia = vItemRenglon.Cantidad <= vDisponibilidad;
                 if (!vHayExistencia) {
