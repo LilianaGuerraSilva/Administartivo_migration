@@ -54,81 +54,88 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         }
 
         private void CrearCampoManejaMerma() {
-            AddColumnBoolean("Adm.ListaDeMateriales", "ManejaMerma", "CONSTRAINT nnLisDeMatManejaMerm NOT NULL", false);
+            if (!ColumnExists("Adm.ListaDeMateriales", "ManejaMerma")) {
+                AddColumnBoolean("Adm.ListaDeMateriales", "ManejaMerma", "CONSTRAINT nnLisDeMatManejaMerm NOT NULL", false);
+                if (AddColumnNumeric("Adm.ListaDeMaterialesDetalleArticulo", "MermaNormal", 25, 8, "", 0)) {
+                    AddDefaultConstraint("Adm.ListaDeMaterialesDetalleArticulo", "d_LisDeMatDetArtMeNo", "0", "MermaNormal");
+                }
 
-            if (AddColumnNumeric("Adm.ListaDeMaterialesDetalleArticulo", "MermaNormal", 25, 8, "", 0)) {
-                AddDefaultConstraint("Adm.ListaDeMaterialesDetalleArticulo", "d_LisDeMatDetArtMeNo", "0", "MermaNormal");
-            }
+                if (AddColumnNumeric("Adm.ListaDeMaterialesDetalleArticulo", "PorcentajeMermaNormal", 25, 8, "", 0)) {
+                    AddDefaultConstraint("Adm.ListaDeMaterialesDetalleArticulo", "d_LisDeMatDetArtPoMeNo", "0", "PorcentajeMermaNormal");
+                }
 
-            if (AddColumnNumeric("Adm.ListaDeMaterialesDetalleArticulo", "PorcentajeMermaNormal", 25, 8, "", 0)) {
-                AddDefaultConstraint("Adm.ListaDeMaterialesDetalleArticulo", "d_LisDeMatDetArtPoMeNo", "0", "PorcentajeMermaNormal");
-            }
+                if (AddColumnNumeric("Adm.ListaDeMaterialesDetalleSalidas", "MermaNormal", 25, 8, "", 0)) {
+                    AddDefaultConstraint("Adm.ListaDeMaterialesDetalleSalidas", "d_LisDeMatDetSalMeNo", "0", "MermaNormal");
+                }
 
-            if (AddColumnNumeric("Adm.ListaDeMaterialesDetalleSalidas", "MermaNormal", 25, 8, "", 0)) {
-                AddDefaultConstraint("Adm.ListaDeMaterialesDetalleSalidas", "d_LisDeMatDetSalMeNo", "0", "MermaNormal");
-            }
-
-            if (AddColumnNumeric("Adm.ListaDeMaterialesDetalleSalidas", "PorcentajeMermaNormal", 25, 8, "", 0)) {
-                AddDefaultConstraint("Adm.ListaDeMaterialesDetalleSalidas", "d_LisDeMatDetSalPoMeNo", "0", "PorcentajeMermaNormal");
+                if (AddColumnNumeric("Adm.ListaDeMaterialesDetalleSalidas", "PorcentajeMermaNormal", 25, 8, "", 0)) {
+                    AddDefaultConstraint("Adm.ListaDeMaterialesDetalleSalidas", "d_LisDeMatDetSalPoMeNo", "0", "PorcentajeMermaNormal");
+                }
             }
         }
 
         private void CrearCampoManejaMermaOP() {
-            AddColumnBoolean("Adm.OrdenDeProduccion", "ListaUsaMerma", "CONSTRAINT nnOrdDeProListaUsaMer NOT NULL", false);
+            if (!ColumnExists("Adm.OrdenDeProduccion", "ListaUsaMerma")) {
+                AddColumnBoolean("Adm.OrdenDeProduccion", "ListaUsaMerma", "CONSTRAINT nnOrdDeProListaUsaMer NOT NULL", false);
+                if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleArticulo", "PorcentajeMermaNormalOriginal", 25, 8, "", 0)) {
+                    AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtPoMeNoOr", "0", "PorcentajeMermaNormalOriginal");
+                }
 
-            if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleArticulo", "PorcentajeMermaNormalOriginal", 25, 8, "", 0)) {
-                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtPoMeNoOr", "0", "PorcentajeMermaNormalOriginal");
-            }
+                if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleArticulo", "CantidadMermaNormal", 25, 8, "", 0)) {
+                    AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtCaMeNo", "0", "CantidadMermaNormal");
+                }
 
-            if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleArticulo", "CantidadMermaNormal", 25, 8, "", 0)) {
-                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtCaMeNo", "0", "CantidadMermaNormal");
-            }
+                if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleArticulo", "PorcentajeMermaNormal", 25, 8, "", 0)) {
+                    AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtPoMeNo", "0", "PorcentajeMermaNormal");
+                }
 
-            if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleArticulo", "PorcentajeMermaNormal", 25, 8, "", 0)) {
-                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtPoMeNo", "0", "PorcentajeMermaNormal");
-            }
+                if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleArticulo", "CantidadMermaAnormal", 25, 8, "", 0)) {
+                    AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtCaMeAn", "0", "CantidadMermaAnormal");
+                }
 
-            if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleArticulo", "CantidadMermaAnormal", 25, 8, "", 0)) {
-                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtCaMeAn", "0", "CantidadMermaAnormal");
-            }
+                if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleArticulo", "PorcentajeMermaAnormal", 25, 8, "", 0)) {
+                    AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtPoMeAn", "0", "PorcentajeMermaAnormal");
+                }
 
-            if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleArticulo", "PorcentajeMermaAnormal", 25, 8, "", 0)) {
-                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleArticulo", "d_OrdDeProDetArtPoMeAn", "0", "PorcentajeMermaAnormal");
-            }
+                if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleMateriales", "PorcentajeMermaNormalOriginal", 25, 8, "", 0)) {
+                    AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "d_OrdDeProDetMatPoMeNoOr", "0", "PorcentajeMermaNormalOriginal");
+                }
 
-            if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleMateriales", "PorcentajeMermaNormalOriginal", 25, 8, "", 0)) {
-                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "d_OrdDeProDetMatPoMeNoOr", "0", "PorcentajeMermaNormalOriginal");
-            }
+                if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleMateriales", "CantidadMermaNormal", 25, 8, "", 0)) {
+                    AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "d_OrdDeProDetMatCaMeNo", "0", "CantidadMermaNormal");
+                }
 
-            if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleMateriales", "CantidadMermaNormal", 25, 8, "", 0)) {
-                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "d_OrdDeProDetMatCaMeNo", "0", "CantidadMermaNormal");
-            }
+                if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleMateriales", "PorcentajeMermaNormal", 25, 8, "", 0)) {
+                    AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "d_OrdDeProDetMatPoMeNo", "0", "PorcentajeMermaNormal");
+                }
 
-            if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleMateriales", "PorcentajeMermaNormal", 25, 8, "", 0)) {
-                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "d_OrdDeProDetMatPoMeNo", "0", "PorcentajeMermaNormal");
-            }
+                if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleMateriales", "CantidadMermaAnormal", 25, 8, "", 0)) {
+                    AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "d_OrdDeProDetMatCaMeAn", "0", "CantidadMermaAnormal");
+                }
 
-            if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleMateriales", "CantidadMermaAnormal", 25, 8, "", 0)) {
-                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "d_OrdDeProDetMatCaMeAn", "0", "CantidadMermaAnormal");
-            }
-
-            if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleMateriales", "PorcentajeMermaAnormal", 25, 8, "", 0)) {
-                AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "d_OrdDeProDetMatPoMeAn", "0", "PorcentajeMermaAnormal");
+                if (AddColumnNumeric("Adm.OrdenDeProduccionDetalleMateriales", "PorcentajeMermaAnormal", 25, 8, "", 0)) {
+                    AddDefaultConstraint("Adm.OrdenDeProduccionDetalleMateriales", "d_OrdDeProDetMatPoMeAn", "0", "PorcentajeMermaAnormal");
+                }
             }
         }
+
 
         private void AmpliarColumnaCompaniaImprentaDigitalClave() {
             ModifyLengthOfColumnString("Compania", "ImprentaDigitalClave", 1000, "");
         }
 
         private void AgregarReglaContabilizacionProduccionMermaAnormal() {
-            if (AddColumnString("Saw.ReglasDeContabilizacion", "CuentaMermaAnormal", 30, "", "")) {
-                AddDefaultConstraint("Saw.ReglasDeContabilizacion", "d_RegDeConCuMeAn", _insSql.ToSqlValue(""), "CuentaMermaAnormal");
+            if (!ColumnExists("Saw.ReglasDeContabilizacion", "CuentaMermaAnormal")) {
+                if (AddColumnString("Saw.ReglasDeContabilizacion", "CuentaMermaAnormal", 30, "", "")) {
+                    AddDefaultConstraint("Saw.ReglasDeContabilizacion", "d_RegDeConCuMeAn", _insSql.ToSqlValue(""), "CuentaMermaAnormal");
+                }
             }
         }
 
         private void CxC() {
-            AddColumnBoolean("CxC", "VieneDeCreditoElectronico", "CONSTRAINT nnCxCVieneDeCre NOT NULL", false);
+            if (!ColumnExists("CxC", "VieneDeCreditoElectronico")) {
+                AddColumnBoolean("CxC", "VieneDeCreditoElectronico", "CONSTRAINT nnCxCVieneDeCre NOT NULL", false);
+            }
         }
 
         private void FormaDelCobro() {
@@ -183,14 +190,18 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         }
 
         private void CamposCreditoElectronicoEnCajaApertura() {
-            if (AddColumnDecimal("Adm.CajaApertura", "MontoCreditoElectronico", 25, 4, "", 0)) {
-                AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoCrEl", "0", "MontoCreditoElectronico");
+            if (!ColumnExists("Adm.CajaApertura", "MontoCreditoElectronico")) {
+                if (AddColumnDecimal("Adm.CajaApertura", "MontoCreditoElectronico", 25, 4, "", 0)) {
+                    AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoCrEl", "0", "MontoCreditoElectronico");
+                }
             }
         }
 
         private void AgregaColumnasReglasDeContabilizacionCxCCreditoElectronico() {
-            if (AddColumnString("Saw.ReglasDeContabilizacion", "CuentaFacturacionCxCCreditoElectronico", 30, "", "")) {
-                AddDefaultConstraint("Saw.ReglasDeContabilizacion", "d_RegDeConCuFacCxCCreEle", _insSql.ToSqlValue(""), "CuentaFacturacionCxCCreditoElectronico");
+            if (!ColumnExists("Saw.ReglasDeContabilizacion", "CuentaFacturacionCxCCreditoElectronico")) {
+                if (AddColumnString("Saw.ReglasDeContabilizacion", "CuentaFacturacionCxCCreditoElectronico", 30, "", "")) {
+                    AddDefaultConstraint("Saw.ReglasDeContabilizacion", "d_RegDeConCuFacCxCCreEle", _insSql.ToSqlValue(""), "CuentaFacturacionCxCCreditoElectronico");
+                }
             }
         }
 
@@ -273,7 +284,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         }
 
         private void CrearTabFormaDelCobro() {
-            if (!TableExists("FormaDelCobro")) {
+            if (!TableExists("Adm.FormaDelCobro")) {
                 try {
                     new clsFormaDelCobroED().InstalarTabla();
                     DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Saw.FormaDelCobro", "dbo.renglonCobroDeFactura");
@@ -489,14 +500,16 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         }
 
         private void CrearCamposIDEnCxP() {
-            if(AddColumnString("CxP", "NumeroControlRetencionIvaImpDigital", 20, "", "")) {
-                AddDefaultConstraint("CxP", "nCtID", _insSql.ToSqlValue(""), "NumeroControlRetencionIvaImpDigital");
-            }
-            if(AddColumnEnumerative("CxP", "ProveedorImprentaDigital", "", 0)) {
-                AddDefaultConstraint("CxP", "pRovID", _insSql.ToSqlValue("0"), "ProveedorImprentaDigital");
-            }
-            if(AddColumnBoolean("CxP", "RetencionIvaEnviadaImpDigital", "", false)) {
-                AddDefaultConstraint("CxP", "rTEnID", _insSql.ToSqlValue("N"), "RetencionIvaEnviadaImpDigital");
+            if (!ColumnExists("CxP", "NumeroControlRetencionIvaImpDigital")) {
+                if (AddColumnString("CxP", "NumeroControlRetencionIvaImpDigital", 20, "", "")) {
+                    AddDefaultConstraint("CxP", "nCtID", _insSql.ToSqlValue(""), "NumeroControlRetencionIvaImpDigital");
+                }
+                if (AddColumnEnumerative("CxP", "ProveedorImprentaDigital", "", 0)) {
+                    AddDefaultConstraint("CxP", "pRovID", _insSql.ToSqlValue("0"), "ProveedorImprentaDigital");
+                }
+                if (AddColumnBoolean("CxP", "RetencionIvaEnviadaImpDigital", "", false)) {
+                    AddDefaultConstraint("CxP", "rTEnID", _insSql.ToSqlValue("N"), "RetencionIvaEnviadaImpDigital");
+                }
             }
         }
 		
