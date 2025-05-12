@@ -461,7 +461,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
                         || vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum == eTipoArticuloInv.LoteFechadeElaboracion) {
                         vDisponibilidad = vArticuloPdn.DisponibilidadDeArticulo(vOrdenDeProduccionDetalleMateriales.ConsecutivoCompania, vOrdenDeProduccionDetalleMateriales.CodigoArticulo, vOrdenDeProduccionDetalleMateriales.ConsecutivoLoteDeInventario, valOrdenDeProduccion.ConsecutivoAlmacenMateriales);
                     } else {
-                        vDisponibilidad = vArticuloPdn.DisponibilidadDeArticulo(vOrdenDeProduccionDetalleMateriales.ConsecutivoCompania, vOrdenDeProduccionDetalleMateriales.CodigoAlmacen, vOrdenDeProduccionDetalleMateriales.CodigoArticulo, 1, "", "");
+                        vDisponibilidad = vArticuloPdn.DisponibilidadDeArticulo(vOrdenDeProduccionDetalleMateriales.ConsecutivoCompania, vOrdenDeProduccionDetalleMateriales.CodigoAlmacen, vOrdenDeProduccionDetalleMateriales.CodigoArticulo,(int) vOrdenDeProduccionDetalleMateriales.TipoArticuloInvAsEnum , "", "");
                     }
                     if (vDisponibilidad < vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario &&
                             (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PermitirSobregiro"))) {

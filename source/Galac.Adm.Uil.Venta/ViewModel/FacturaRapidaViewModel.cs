@@ -3213,7 +3213,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             if (valTipoDeArticulo == (int)eTipoDeArticulo.Servicio) {
                 vResult = true;
             } else {
-                decimal vDisponibilidad = insArticuloInventarioNav.DisponibilidadDeArticulo(ConsecutivoCompania, CodigoAlmacen, valCodigoArticulo, valTipoDeArticulo, valSerial, valRollo);
+                decimal vDisponibilidad = insArticuloInventarioNav.DisponibilidadDeArticulo(ConsecutivoCompania, CodigoAlmacen, valCodigoArticulo, valTipoDeArticuloInv, valSerial, valRollo);
                 if (valCantidadArticulo > vDisponibilidad) {
                     if (vPermitirSobregiro == (int)ePermitirSobregiro.NoChequearExistencia) {
                         vResult = true;
