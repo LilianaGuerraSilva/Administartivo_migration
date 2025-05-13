@@ -168,7 +168,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         }
 
         private void AgregarColumnaImprentaGUIDFactura() {
-            if (!ColumnExists("Adm.Caja", "UltimoNumeroNDFiscal")) {
+            if (!ColumnExists("factura", "ImprentaDigitalGUID")) {
                 if (AddColumnString("factura", "ImprentaDigitalGUID", 50, "", "")) {
                     AddDefaultConstraint("factura", "ImDigGuid", "''", "ImprentaDigitalGUID");
                 }
