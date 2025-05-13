@@ -271,6 +271,10 @@ namespace Galac.Saw.Brl.Inventario {
             if (valUseDetail) {               
                 foreach (NotaDeEntradaSalida vItem in refRecord) {
                     if (vItem != null) {
+                        bool vEsReverso = false;
+                        LibXmlDataParse vDataParse = new LibXmlDataParse(vItem.Datos);
+                        vEsReverso = LibString.S1IsEqualToS2(vDataParse.GetString("Accion", 0, "Valor", ""), "Reversar");
+                        
                         string vCodigos;
                         IList<NotaDeEntradaSalida> vItemList = new List<NotaDeEntradaSalida>();
                         vItemList.Add(vItem);
@@ -278,7 +282,7 @@ namespace Galac.Saw.Brl.Inventario {
                             if (HayArticulosRepetidosEnLosRenglones(vItem, vItem.TipodeOperacionAsEnum, out vCodigos)) {
                                 throw new LibGalac.Aos.Catching.GalacValidationException("Existen artículos repetidos.\nDebe corregir la información antes de continuar.  \n" + vCodigos);
                             }
-                            if (ValidaRegistroDeSerial(vItem)) {    // Para validar que un serial se registre una única vez. Tenga una sola entrada para el tipo ->Serial
+                            if (vEsReverso || ValidaRegistroDeSerial(vItem)) { 
                                 vResult = base.InsertRecord(vItemList, valUseDetail);
                                 if (vResult.Success) {
                                     ActualizaExistenciaDeArticulos(vItem, eAccionSR.Insertar);
@@ -461,13 +465,8 @@ namespace Galac.Saw.Brl.Inventario {
                 LoteDeInventario vLote = new clsLoteDeInventarioNav().ParseToListEntity(vLoteXElement)[0];
                 if (vLote != null) {
                     decimal vCant = (valItemNotaES.TipodeOperacionAsEnum == eTipodeOperacion.EntradadeInventario) ? valItemRenglonNotaES.Cantidad : valItemRenglonNotaES.Cantidad * -1;                    
-                    eStatusDocOrigenLoteInv vStatusDocOrigen = (valItemNotaES.StatusNotaEntradaSalidaAsEnum == eStatusNotaEntradaSalida.Vigente) ? eStatusDocOrigenLoteInv.Vigente : eStatusDocOrigenLoteInv.Anulado;
-                    if (vStatusDocOrigen == eStatusDocOrigenLoteInv.Anulado &&
-                        valItemNotaES.GeneradoPorAsEnum == eTipoGeneradoPorNotaDeEntradaSalida.OrdenDeProduccion) {
-                        vCant = vCant * -1;
-                    }
+                    eStatusDocOrigenLoteInv vStatusDocOrigen = (valItemNotaES.StatusNotaEntradaSalidaAsEnum == eStatusNotaEntradaSalida.Vigente) ? eStatusDocOrigenLoteInv.Vigente : eStatusDocOrigenLoteInv.Anulado;                   
                     vCant = (valAumentaCantidad) ? vCant : vCant * -1;
-
                     LoteDeInventarioMovimiento vLoteMov = new LoteDeInventarioMovimiento();
                     vLoteMov.ConsecutivoCompania = valItemRenglonNotaES.ConsecutivoCompania;
                     vLoteMov.ConsecutivoLote = vLote.Consecutivo;
@@ -531,8 +530,7 @@ namespace Galac.Saw.Brl.Inventario {
             RegisterClient();
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             vParams.AddInString("NumeroDocumento", valNumeroDocumento, 11);
-            ILibBusinessMasterComponent<IList<NotaDeEntradaSalida>, IList<NotaDeEntradaSalida>> insNotaES = new clsNotaDeEntradaSalidaNav();
-            NotaDeEntradaSalida vNotaES = insNotaES.GetData(eProcessMessageType.SpName, "NotaDeEntradaSalidaGET", vParams.Get(), true).FirstOrDefault();
+            NotaDeEntradaSalida vNotaES = _Db.GetData(eProcessMessageType.SpName, "NotaDeEntradaSalidaGET", vParams.Get(), true).FirstOrDefault();
             if (vNotaES == null) {
                 vResult.AddError("No se encontró la información para la Nota de E/S: " + valNumeroDocumento);
                 return vResult;
@@ -568,9 +566,10 @@ namespace Galac.Saw.Brl.Inventario {
             vNotaES.TipodeOperacionAsEnum = vNotaES.TipodeOperacionAsEnum == eTipodeOperacion.EntradadeInventario ? eTipodeOperacion.SalidadeInventario : eTipodeOperacion.EntradadeInventario;
             vNotaES.Fecha = LibDate.Today();
 
+            vNotaES.Datos = LibXml.CreateXmlDocument(LibXml.CreateExtendedAction("Reversar"));
             List<NotaDeEntradaSalida> vListaNotaES = new List<NotaDeEntradaSalida>() { vNotaES };
 
-            vResult = insNotaES.DoAction(vListaNotaES, eAccionSR.Insertar, null, true);
+            vResult = InsertRecord(vListaNotaES, true);
 
             return vResult;
         }
