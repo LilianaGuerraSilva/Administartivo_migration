@@ -644,7 +644,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine("  ROUND( cxP.MontoIVAAlicuota3 * cxP.CambioABolivares,2 ) AS MontoIVAAlicuota3,");
             vSql.AppendLine("  ROUND( cxP.MontoRetenido * cxP.CambioABolivares,2 ) AS MontoRetenido,");            
             vSql.AppendLine("  YEAR (cxP.FechaAplicacionRetIva) AS AnoAplicRetIVA,");
-            vSql.AppendLine("  RIGHT( '0' + CAST( MONTH (cxP.FechaAplicacionRetIva) AS VARCHAR ), 2 ) AS MesAplicRetIVA");
+            vSql.AppendLine("  RIGHT( '0' + CAST( MONTH (cxP.FechaAplicacionRetIva) AS VARCHAR ), 2 ) AS MesAplicRetIVA,");
+            vSql.AppendLine("  EsUnaCuentaATerceros,");
+            vSql.AppendLine("  CodigoProveedorOriginalServicio");
             vSql.AppendLine(" FROM CxP");
             vSql.AppendLine("WHERE cxP.ConsecutivoCompania = @ConsecutivoCompania");
             vSql.AppendLine(" AND cxP.Numero = @NumeroCxP");            
@@ -691,6 +693,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     ComprobanteRetIVAImprentaDigital.MontoRetenido = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "MontoRetenido"), 2);
                     ComprobanteRetIVAImprentaDigital.AnoAplicRetIVA = LibImportData.ToInt(LibXml.GetPropertyString(vResult, "AnoDeAplicacion"));
                     ComprobanteRetIVAImprentaDigital.MesAplicRetIVA = LibImportData.ToInt(LibXml.GetPropertyString(vResult, "MesDeAplicacion"));
+                    ComprobanteRetIVAImprentaDigital.EsUnacuentaDeTerceros = LibImportData.SNToBool(LibXml.GetPropertyString(vResult, "EsUnaCuentaATerceros"));
+                    if (ComprobanteRetIVAImprentaDigital.EsUnacuentaDeTerceros) {
+                        ComprobanteRetIVAImprentaDigital.CodigoProveedor = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "CodigoProveedorOriginalServicio"));
+                    }
                     ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion = GetNumeroComprobanteCompleto(ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion, ComprobanteRetIVAImprentaDigital.AnoAplicRetIVA, ComprobanteRetIVAImprentaDigital.MesAplicRetIVA);
                 } else {
                     throw new GalacException("No existen Datos de Retención de IVA para esta CxP, por favor revisar.", eExceptionManagementType.Controlled);
