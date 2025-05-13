@@ -88,11 +88,11 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         private decimal _MePrecioConIva;
         public int ConsecutivoCompania { get; set; }
         public string CodigoCompuesto { get; set; }
-        [LibGridColum("Código del Artículo", DbMemberPath = "Codigo")]
+        [LibGridColum("Código del Artículo", DbMemberPath = "Codigo", ColumnOrder = 1)]
         public string Codigo { get; set; }
-        [LibGridColum("Descripción", DbMemberPath = "Descripcion", Width = 400 )]
+        [LibGridColum("Descripción", DbMemberPath = "Descripcion", Width = 400, ColumnOrder = 2)]
         public string Descripcion { get; set; }
-        [LibGridColum("Precio Sin IVA", Alignment = eTextAlignment.Right)]
+        [LibGridColum("Precio Sin IVA", Alignment = eTextAlignment.Right, ColumnOrder = 3)]
         public decimal PrecioSinIVA {
             get { return _PrecioSinIVA; }
             set {
@@ -103,7 +103,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public decimal PrecioSinIVA2 { get; set; }
         public decimal PrecioSinIVA3 { get; set; }
         public decimal PrecioSinIVA4 { get; set; }
-        [LibGridColum("Precio Con IVA", Alignment = eTextAlignment.Right)]
+        [LibGridColum("Precio Con IVA", Alignment = eTextAlignment.Right, ColumnOrder = 4)]
         public decimal PrecioConIVA {
             get { return _PrecioConIVA; }
             set {
@@ -132,7 +132,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             Impuesto = PrecioConIVA - PrecioSinIVA;
         }
 
-        [LibGridColum("Precio Sin IVA (ME)", Alignment = eTextAlignment.Right)]
+        [LibGridColum("Precio Sin IVA (ME)", Alignment = eTextAlignment.Right, ColumnOrder = 5)]
         public decimal MePrecioSinIva {
             get { return _MePrecioSinIva; }
             set {
@@ -143,7 +143,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public decimal MePrecioSinIva2 { get; set; }
         public decimal MePrecioSinIva3 { get; set; }
         public decimal MePrecioSinIva4 { get; set; }
-        [LibGridColum("Precio Con IVA (ME)", Alignment = eTextAlignment.Right)]
+        [LibGridColum("Precio Con IVA (ME)", Alignment = eTextAlignment.Right, ColumnOrder = 6)]
         public decimal MePrecioConIva {
             get { return _MePrecioConIva; }
             set {
@@ -157,15 +157,15 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         private void UpdateImpuestoMe() {
             ImpuestoMe = MePrecioConIva - MePrecioSinIva;
         }
-        [ArtInvCamposDefiniblesGridColumnAttribute("", 1)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 1, ColumnOrder = 7)]
         public string CampoDefinible1 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribute("", 2)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 2, ColumnOrder = 8)]
         public string CampoDefinible2 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribute("", 3)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 3, ColumnOrder = 9)]
         public string CampoDefinible3 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribute("", 4)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 4, ColumnOrder = 10)]
         public string CampoDefinible4 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribute("", 5)]
+        [ArtInvCamposDefiniblesGridColumnAttribute("", 5, ColumnOrder = 11)]
         public string CampoDefinible5 { get; set; }
         //[ArtInvCamposLoteFechaDeVencimientoGridColumn("Lote Inv.", "CodigoLote", 11)]
         //public string CodigoLote { get; set; }

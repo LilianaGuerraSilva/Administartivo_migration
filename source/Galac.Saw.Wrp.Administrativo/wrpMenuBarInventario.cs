@@ -12,6 +12,7 @@ using LibGalac.Aos.UI.Mvvm.Messaging;
 using LibGalac.Aos.Vbwa;
 using System.Reflection;
 using Galac.Adm.Uil.GestionProduccion;
+using Galac.Saw.Uil.Inventario;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.MenuBar {
 #elif IsExeBsS​
@@ -48,6 +49,7 @@ namespace Galac.Saw.Wrp.MenuBar {
                 }
                 vBootstrapper.Components = ComponentsList();
                 OrdenDeProduccionMessagesHandler.RegisterMessages();
+                InventarioMessagesHandler.RegisterMessages();
                 vBootstrapper.Run(vParams);
             } catch (AccessViolationException) {
                 throw;

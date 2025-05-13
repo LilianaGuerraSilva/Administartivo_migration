@@ -16,6 +16,7 @@ using Galac.Adm.Uil.GestionProduccion;
 using Galac.Saw.Wrp.Administrativo;
 using Galac.Saw.Ccl.Inventario;
 using Galac.Saw.Brl.Inventario;
+using Galac.Saw.Uil.Inventario;
 
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Inventario {
@@ -85,6 +86,7 @@ namespace Galac.Saw.Wrp.Inventario {
                 LibWrp.SetAppConfigToCurrentDomain(vfwPath);
                 LibGalac.Aos.Vbwa.LibWrpHelper.ConfigureRuntimeContext(vfwLogin, vfwPassword);
                 OrdenDeProduccionMessagesHandler.RegisterMessages();
+                InventarioMessagesHandler.RegisterMessages();
             } catch (Exception vEx) {
                 if (vEx is AccessViolationException) {
                     throw;
