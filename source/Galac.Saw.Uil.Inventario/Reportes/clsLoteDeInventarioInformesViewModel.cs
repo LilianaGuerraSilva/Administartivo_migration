@@ -80,7 +80,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         private ILibRpt ConfigReportExistenciaDeLoteDeInventarioDeAlmacen(clsExistenciaDeLoteDeInventarioPorAlmacenViewModel valViewModel) {
             ILibRpt vResult = null;
             if (valViewModel != null) {
-                vResult = new Galac.Saw.Rpt.Inventario.clsExistenciaDeLoteDeInventarioPorAlmacen(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.CodigoArticulo, valViewModel.CodigoLote, valViewModel.FechaInicial, valViewModel.FechaFinal, valViewModel.CodigoAlmacenGenerico) {
+                vResult = new Galac.Saw.Rpt.Inventario.clsExistenciaDeLoteDeInventarioPorAlmacen(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.CodigoArticulo, valViewModel.CodigoLote, valViewModel.FechaInicial, valViewModel.FechaFinal, valViewModel.CodigoAlmacenGenerico,valViewModel.IsVisibleCodigoLote) {
                     Worker = Manager
                 };
             }

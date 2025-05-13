@@ -13,7 +13,6 @@ using Galac.Saw.Brl.Inventario;
 using Galac.Saw.Uil.Inventario.ViewModel;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using LibGalac.Aos.Uil;
-using LibGalac.Aos.Base.Report;
 
 namespace Galac.Saw.Uil.Inventario.Reportes {
 
@@ -67,7 +66,6 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
             }
         }
 
-        [LibRequired(ErrorMessage = "El Lote es requerido.")]
         public string CodigoLote {
             get {
                 return _CodigoLote;
@@ -122,7 +120,6 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
             }
         }
 
-        [LibRequired(ErrorMessage = "Debe seleccionar el Almacén.")]
         public eCantidadAImprimir SeleccionAlmacen {
             get {
                 return _SeleccionAlmacen;
@@ -141,7 +138,6 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
             }
         }
 
-        [LibRequired(ErrorMessage = "Debe seleccionar el Lote.")]
         public eCantidadAImprimir SeleccionLote {
             get {
                 return _SeleccionLote;
@@ -243,6 +239,8 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         public clsExistenciaDeLoteDeInventarioPorAlmacenViewModel() {
             FechaInicial = LibDate.Today();
             FechaFinal = LibDate.AddDays(LibDate.Today(), 30);
+            SeleccionLote = eCantidadAImprimir.All;
+            SeleccionAlmacen = eCantidadAImprimir.All;
         }
 
         #endregion //Constructores
@@ -309,7 +307,6 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
                     valCodigo = string.Empty;
 
                 }
-
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Saw.Gv_Almacen_B1.Codigo", valCodigo);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Saw.Gv_Almacen_B1.ConsecutivoCompania", Mfc.GetInt("Compania"));
                 ConexionAlmacenGenerico = ChooseRecord<FkAlmacenViewModel>("Almacén", vDefaultCriteria, vFixedCriteria, "Codigo");

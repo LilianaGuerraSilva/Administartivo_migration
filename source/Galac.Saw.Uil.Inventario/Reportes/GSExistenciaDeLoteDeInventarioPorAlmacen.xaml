@@ -5,8 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:nsARRpt="clr-namespace:LibGalac.Aos.ARRpt;assembly=LibGalac.Aos.ARRpt"
     xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
-    d:DesignWidth="250"
-    mc:Ignorable="d" Height="155">
+    mc:Ignorable="d" Height="155" Width="Auto">
     <UserControl.Resources>
         <ResourceDictionary>
             <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
@@ -19,24 +18,25 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="29"/>
-            <RowDefinition Height="29"/>
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions> 
         <Label
             Name="lblCodigoArticulo"
-            Grid.Row="1"
+            Grid.Row="0"
             Grid.Column="0"
             Content="Código Artículo"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSSeekConnection
             Name="txtCodigoArticulo"
-            Grid.Row="1"
+            Grid.Row="0"
             Grid.Column="1"
             Width="120"
             Height="23"
@@ -46,13 +46,13 @@
             SearchCommand="{Binding Path=ChooseCodigoArticuloCommand}" />
         <Label
             x:Name="lblLote"
-            Grid.Row="2"
+            Grid.Row="1"
             Grid.Column="0"
             Content="Lote"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf
             Name="cmbSeleccionLote"
-            Grid.Row="2"
+            Grid.Row="1"
             Grid.Column="1"
             Width="120"
             Height="23"
@@ -61,17 +61,10 @@
             ItemsSource="{Binding Path=ArraySeleccionLote}"
             SelectedItem="{Binding Path=SeleccionLote, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource ComboBoxStyle}" />
-        <Label
-            Name="lblCodigoLote"
-            Grid.Row="3"
-            Grid.Column="0"
-            Content="Seleccione Lote"
-            Visibility="{Binding Path=IsVisibleCodigoLote, Converter={StaticResource booleanToVisibilityConverter}}"
-            Style="{StaticResource LabelPrompt}"  />
         <nsWpfControls:GSSeekConnection
             Name="txtCodigoLote"
-            Grid.Row="3"
-            Grid.Column="1"
+            Grid.Row="1"
+            Grid.Column="2"
             Width="120"
             Height="23"
             HorizontalAlignment="Center"
@@ -81,13 +74,13 @@
             SearchCommand="{Binding Path=ChooseCodigoLoteCommand}" />
         <Label
             Name="lblSeleccionAlmacen"
-            Grid.Row="4"
+            Grid.Row="2"
             Grid.Column="0"
             Content="Almacén"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf
             Name="cmbSeleccionAlmacen"
-            Grid.Row="4"
+            Grid.Row="2"
             Grid.Column="1"
             Width="120"
             Height="23"
@@ -96,17 +89,10 @@
             ItemsSource="{Binding Path=ArraySeleccionAlmacen}"
             SelectedItem="{Binding Path=SeleccionAlmacen, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource ComboBoxStyle}" />
-        <Label
-            Name="lblCodigoAlmacen"
-            Grid.Row="5"
-            Grid.Column="0"
-            Content="Seleccione Almacén"
-            Visibility="{Binding Path=IsVisibleCodigoAlmacen, Converter={StaticResource booleanToVisibilityConverter}}"
-            Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSSeekConnection
             Name="txtCodigoAlmacen"
-            Grid.Row="5"
-            Grid.Column="1"
+            Grid.Row="2"
+            Grid.Column="2"
             Width="120"
             Height="23"
             ConnectionValue="{Binding Path=CodigoAlmacenGenerico, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"

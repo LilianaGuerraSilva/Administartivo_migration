@@ -53,6 +53,8 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblNombreAlmacen = new DataDynamics.ActiveReports.Label();
             this.lblEntrada = new DataDynamics.ActiveReports.Label();
             this.GFsecLote = new DataDynamics.ActiveReports.GroupFooter();
+            this.lblNombreLote = new DataDynamics.ActiveReports.Label();
+            this.txtNombreLote = new DataDynamics.ActiveReports.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.txtCodigoAlmacen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreAlmacen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtEntrada)).BeginInit();
@@ -74,6 +76,8 @@ namespace Galac.Saw.Rpt.Inventario
             ((System.ComponentModel.ISupportInitialize)(this.lblCodigoAlmacen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblNombreAlmacen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblEntrada)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblNombreLote)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNombreLote)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
@@ -82,8 +86,9 @@ namespace Galac.Saw.Rpt.Inventario
             this.Detail.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
             this.txtCodigoAlmacen,
             this.txtNombreAlmacen,
-            this.txtEntrada});
-            this.Detail.Height = 0.15625F;
+            this.txtEntrada,
+            this.txtNombreLote});
+            this.Detail.Height = 0.1458333F;
             this.Detail.Name = "Detail";
             // 
             // txtCodigoAlmacen
@@ -109,7 +114,7 @@ namespace Galac.Saw.Rpt.Inventario
             // txtEntrada
             // 
             this.txtEntrada.Height = 0.15625F;
-            this.txtEntrada.Left = 3.562F;
+            this.txtEntrada.Left = 4.718F;
             this.txtEntrada.Name = "txtEntrada";
             this.txtEntrada.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtEntrada.Text = "txtEntrada";
@@ -190,7 +195,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.GHsecArticulo.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
             this.lblArticulo,
             this.txtArticulo});
-            this.GHsecArticulo.Height = 0.1770834F;
+            this.GHsecArticulo.Height = 0.1250001F;
             this.GHsecArticulo.Name = "GHsecArticulo";
             // 
             // lblArticulo
@@ -226,19 +231,19 @@ namespace Galac.Saw.Rpt.Inventario
             // 
             this.lblExistenciaFinal.Height = 0.15625F;
             this.lblExistenciaFinal.HyperLink = null;
-            this.lblExistenciaFinal.Left = 1.781F;
+            this.lblExistenciaFinal.Left = 3.562F;
             this.lblExistenciaFinal.Name = "lblExistenciaFinal";
-            this.lblExistenciaFinal.Style = "font-size: 8pt; font-weight: bold; text-align: left; ddo-char-set: 1";
+            this.lblExistenciaFinal.Style = "font-size: 8pt; font-weight: bold; text-align: center; ddo-char-set: 1";
             this.lblExistenciaFinal.Text = "Existencia Final";
             this.lblExistenciaFinal.Top = 0F;
-            this.lblExistenciaFinal.Width = 1.781F;
+            this.lblExistenciaFinal.Width = 1.156F;
             // 
             // txtExistenciaFinal
             // 
             this.txtExistenciaFinal.Height = 0.15625F;
-            this.txtExistenciaFinal.Left = 3.562F;
+            this.txtExistenciaFinal.Left = 4.718F;
             this.txtExistenciaFinal.Name = "txtExistenciaFinal";
-            this.txtExistenciaFinal.Style = "font-size: 8pt; text-align: left; ddo-char-set: 1";
+            this.txtExistenciaFinal.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtExistenciaFinal.Text = "txtExistenciaFinal";
             this.txtExistenciaFinal.Top = 0F;
             this.txtExistenciaFinal.Width = 1.156F;
@@ -254,8 +259,9 @@ namespace Galac.Saw.Rpt.Inventario
             this.txtFechaElaboracion,
             this.lblCodigoAlmacen,
             this.lblNombreAlmacen,
-            this.lblEntrada});
-            this.GHsecLote.Height = 0.68775F;
+            this.lblEntrada,
+            this.lblNombreLote});
+            this.GHsecLote.Height = 0.6669167F;
             this.GHsecLote.Name = "GHsecLote";
             // 
             // lblLote
@@ -328,7 +334,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblCodigoAlmacen.HyperLink = null;
             this.lblCodigoAlmacen.Left = 0F;
             this.lblCodigoAlmacen.Name = "lblCodigoAlmacen";
-            this.lblCodigoAlmacen.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
+            this.lblCodigoAlmacen.Style = "font-size: 8pt; font-weight: bold; text-align: left; ddo-char-set: 1";
             this.lblCodigoAlmacen.Text = "Código Almacén";
             this.lblCodigoAlmacen.Top = 0.469F;
             this.lblCodigoAlmacen.Width = 1.781F;
@@ -340,7 +346,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblNombreAlmacen.HyperLink = null;
             this.lblNombreAlmacen.Left = 1.781F;
             this.lblNombreAlmacen.Name = "lblNombreAlmacen";
-            this.lblNombreAlmacen.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
+            this.lblNombreAlmacen.Style = "font-size: 8pt; font-weight: bold; text-align: left; ddo-char-set: 1";
             this.lblNombreAlmacen.Text = "Nombre Almacén";
             this.lblNombreAlmacen.Top = 0.469F;
             this.lblNombreAlmacen.Width = 1.781F;
@@ -350,7 +356,7 @@ namespace Galac.Saw.Rpt.Inventario
             this.lblEntrada.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblEntrada.Height = 0.15625F;
             this.lblEntrada.HyperLink = null;
-            this.lblEntrada.Left = 3.562F;
+            this.lblEntrada.Left = 4.718F;
             this.lblEntrada.Name = "lblEntrada";
             this.lblEntrada.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblEntrada.Text = "Existencia";
@@ -361,6 +367,28 @@ namespace Galac.Saw.Rpt.Inventario
             // 
             this.GFsecLote.Height = 0.08333334F;
             this.GFsecLote.Name = "GFsecLote";
+            // 
+            // lblNombreLote
+            // 
+            this.lblNombreLote.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+            this.lblNombreLote.Height = 0.15625F;
+            this.lblNombreLote.HyperLink = null;
+            this.lblNombreLote.Left = 3.562F;
+            this.lblNombreLote.Name = "lblNombreLote";
+            this.lblNombreLote.Style = "font-size: 8pt; font-weight: bold; text-align: left; ddo-char-set: 1";
+            this.lblNombreLote.Text = "Lote";
+            this.lblNombreLote.Top = 0.469F;
+            this.lblNombreLote.Width = 1.15625F;
+            // 
+            // txtNombreLote
+            // 
+            this.txtNombreLote.Height = 0.15625F;
+            this.txtNombreLote.Left = 3.562F;
+            this.txtNombreLote.Name = "txtNombreLote";
+            this.txtNombreLote.Style = "font-size: 8pt; ddo-char-set: 1";
+            this.txtNombreLote.Text = "txtNombreLote";
+            this.txtNombreLote.Top = 0F;
+            this.txtNombreLote.Width = 1.156F;
             // 
             // dsrExistenciaDeLoteDeInventarioPorAlmacen
             // 
@@ -402,6 +430,8 @@ namespace Galac.Saw.Rpt.Inventario
             ((System.ComponentModel.ISupportInitialize)(this.lblCodigoAlmacen)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblNombreAlmacen)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblEntrada)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblNombreLote)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNombreLote)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -435,5 +465,7 @@ namespace Galac.Saw.Rpt.Inventario
         private DataDynamics.ActiveReports.GroupFooter GFsecLote;
         private DataDynamics.ActiveReports.Label lblExistenciaFinal;
         private DataDynamics.ActiveReports.TextBox txtExistenciaFinal;
+        private DataDynamics.ActiveReports.TextBox txtNombreLote;
+        private DataDynamics.ActiveReports.Label lblNombreLote;
     }
 }

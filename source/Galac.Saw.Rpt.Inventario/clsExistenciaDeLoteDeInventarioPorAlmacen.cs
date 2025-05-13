@@ -22,16 +22,18 @@ namespace Galac.Saw.Rpt.Inventario {
         private DateTime FechaInicial { get; set; }
         private DateTime FechaFinal { get; set; }
         private string CodigoAlmacen { get; set; }
+        private bool IsVisibleCodigoLote { get; set; }
 
         #endregion //Propiedades
         #region Constructores
-        public clsExistenciaDeLoteDeInventarioPorAlmacen(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, string initCodigoArticulo, string initCodigoLote, DateTime initFechaInicial, DateTime initFechaFinal, string initCodigoAlmacenGenerico)
+        public clsExistenciaDeLoteDeInventarioPorAlmacen(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, string initCodigoArticulo, string initCodigoLote, DateTime initFechaInicial, DateTime initFechaFinal, string initCodigoAlmacenGenerico,bool initTodosLosLotes)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
             CodigoArticulo = initCodigoArticulo;
             CodigoLote = initCodigoLote;
             FechaInicial = initFechaInicial;
             FechaFinal = initFechaFinal;
             CodigoAlmacen = initCodigoAlmacenGenerico;
+            IsVisibleCodigoLote = initTodosLosLotes;
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -58,7 +60,7 @@ namespace Galac.Saw.Rpt.Inventario {
             if (WorkerCancellPending()) {
                 return;
             }
-            WorkerReportProgress(30, "Obteniendo datos...");
+            WorkerReportProgress(30, "Obteniendo datos...");            
             ILoteDeInventarioInformes vRpt = new Galac.Saw.Brl.Inventario.Reportes.clsLoteDeInventarioRpt() as ILoteDeInventarioInformes;
             Data = vRpt.BuildExistenciaDeLoteDeInventarioPorAlmacen(Mfc.GetInt("Compania"), CodigoLote, CodigoArticulo, FechaInicial, FechaFinal,CodigoAlmacen);
         }
@@ -67,9 +69,10 @@ namespace Galac.Saw.Rpt.Inventario {
             WorkerReportProgress(90, "Configurando Informe...");
             Dictionary<string, string> vParams = GetConfigReportParameters();
             dsrExistenciaDeLoteDeInventarioPorAlmacen vRpt = new dsrExistenciaDeLoteDeInventarioPorAlmacen();
-  
+
+
             if (Data.Rows.Count >= 1) {
-                if (vRpt.ConfigReport(Data, vParams)) {
+                if (vRpt.ConfigReport(Data, vParams, IsVisibleCodigoLote)) {
                     LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsExistenciaDeLoteDeInventarioPorAlmacen.ReportName, true, ExportFileFormat, "", false);
                 }
                 WorkerReportProgress(100, "Finalizando...");
