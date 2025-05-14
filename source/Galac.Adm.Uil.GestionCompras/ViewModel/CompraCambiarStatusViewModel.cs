@@ -429,20 +429,27 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         protected override void InitializeDetails() {            
         }
 
-        protected override void ExecuteSpecialAction(eAccionSR valAction) { 
-        if ((valAction == eAccionSR.Anular) || (valAction == eAccionSR.Abrir)) {
+        protected override void ExecuteSpecialAction(eAccionSR valAction) {
+            bool vResult = false;
+            bool vSePeude = false;            
+            ICompraPdn insCompra = new Brl.GestionCompras.clsCompraNav();
+            if ((valAction == eAccionSR.Anular) || (valAction == eAccionSR.Abrir)) {                
                 string vConfirmMsgFormat = string.Format("¿Está seguro de que desea {0} la Compra?", LibString.LCase(valAction.GetDescription()));
                 if (LibMessages.MessageBox.YesNo(this, vConfirmMsgFormat, ModuleName)) {
                     ChangeStatus();
+                    vSePeude = ((valAction == eAccionSR.Anular || valAction == eAccionSR.Abrir) && Model.GenerarCXPAsBool);
                     UseDetail = false;
-                    bool vResult = ((Ccl.GestionCompras.ICompraPdn)BusinessComponent).CambiarStatusCompra(Model, valAction);
-                    if (valAction == eAccionSR.Anular && vResult && Model.GenerarCXPAsBool) {
-                        LibMessages.MessageBox.Alert(this, "Debido a que la anulación de la compra no necesariamente implica  la anulación de la CxP dicho proceso no se ejecutara en línea. Si desea anular el documento generado a partir de la compra, por favor diríjase al módulo CxP y ejecute allí la opción", ModuleName);
+                    if (vSePeude && insCompra.VerificaSiDocumentoAsociadoEstaAnulado(Model.ConsecutivoCompania, Model.Numero, Model.CodigoProveedor)) {
+                        LibMessages.MessageBox.Alert(this, $"No se puede {LibEnumHelper.GetDescription(valAction)} una Compra si su CxP asociada fue anulada.", ModuleName);
+                    } else {
+                        vResult = insCompra.CambiarStatusCompra(Model, valAction);
+                        if (vSePeude && vResult) {
+                            LibMessages.MessageBox.Alert(this, "La anulación de la Compra no implica automáticamente la anulación de la CxP, por lo que este proceso no se ejecutará en línea.\r\nSi desea anular el documento generado a partir de la Compra, diríjase al módulo de CxP y seleccione la opción \"Anular\".", ModuleName);
+                        }
+                        DialogResult = vResult;
+                        CloseOnActionComplete = vResult;
+                        LibMessages.RefreshList.Send(ModuleName);
                     }
-                    DialogResult = vResult;
-                    CloseOnActionComplete = vResult;
-                    LibMessages.RefreshList.Send(ModuleName);
-
                 } else {
                     IsDirty = false;
                     DialogResult = false;
@@ -451,7 +458,6 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             } else {
                 base.ExecuteSpecialAction(valAction);
             }
-        
         }
 
         void ChangeStatus()

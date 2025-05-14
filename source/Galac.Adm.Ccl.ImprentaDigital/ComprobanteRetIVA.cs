@@ -155,7 +155,46 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             EsUnacuentaDeTerceros = false;
         }
     }
-	
+
+    public class ComprobanteRetIVADetalle {
+        public string NumeroDocumento { get; set; }
+        public DateTime FechaDelDocumento { get; set; }
+        public string TipoDeDocumento { get; set; }
+        public string SerieDocumento { get; set; }
+        public string NumeroControlDocumento { get; set; }
+        public string TipoDeTransaccion { get; set; }
+        public decimal BaseImponible { get; set; }   
+        public decimal PorcentajeIVA { get; set;  }
+        public decimal MontoExento { get; set; }
+        public decimal MontoIVA { get; set; }
+        public decimal MontoTotal { get; set; }
+        public decimal MontoRetenido { get; set; }
+        public decimal MontoPercibido { get; set; }
+        public string CodigoMoneda { get; set;  }
+        public string CodigoConcepto { get; set;  }
+        public List<ComprobanteRetIVADetalle> DetalleRetencion { get; set; }
+
+        public  ComprobanteRetIVADetalle() {
+            NumeroDocumento = string.Empty;
+            FechaDelDocumento = LibDate.MinDateForDB();
+            TipoDeDocumento = string.Empty;
+            SerieDocumento = string.Empty;
+            NumeroControlDocumento = string.Empty;
+            TipoDeTransaccion = string.Empty;
+            BaseImponible = 0m;
+            PorcentajeIVA = 0m;
+            MontoExento = 0m;
+            MontoIVA = 0m;
+            MontoTotal = 0m;
+            MontoRetenido = 0m;
+            MontoPercibido = 0m;
+            CodigoMoneda = string.Empty;
+            CodigoConcepto = string.Empty;
+            DetalleRetencion =new List<ComprobanteRetIVADetalle>();
+        }
+     }
+
+
     public class SujetoDeRetencion {
         private eTipoDeProveedorDeLibrosFiscalesID _TipoDeProveedorDeLibrosFiscalesAsEnum;
         public string Codigo { get; set; }
