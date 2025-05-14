@@ -31,6 +31,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         public string NumeroDeNotaCredito { get; set; }
         public bool EsUnacuentaDeTerceros { get; set; }
         public string NumeroControlRetencionIvaImpDigital { get; set; }
+        public string MotivoDeAnulacion { get; set; }
 
         public eTipoDeTransaccionDeLibrosFiscales TipoDeTransaccionAsEnum {
             get {
@@ -153,6 +154,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             ProveedorImprentaDigitalAsEnum = eProveedorImprentaDigital.NoAplica;
             NumeroControlRetencionIvaImpDigital = string.Empty;
             EsUnacuentaDeTerceros = false;
+            MotivoDeAnulacion= string.Empty;
         }
     }
 

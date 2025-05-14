@@ -70,13 +70,14 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
             }
         }
 
-        bool IWrpImprentaDigitalVb.AnularDocumento(int vfwTipoDocumento, string vfwNumeroFactura, string vfwCurrentParameters, ref string vfwMensaje) {
+        bool IWrpImprentaDigitalVb.AnularDocumento(int vfwTipoDocumento, string vfwNumeroFactura, int vfwvTipoDocumentoImprentaDigital, string vfwCurrentParameters, ref string vfwMensaje) {
             try {
                 bool vResult = false;
                 CreateGlobalValues(vfwCurrentParameters);
                 eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)vfwTipoDocumento;
+                eTipoDocumentoImprentaDigital vTipoComprobantedeRetencion = (eTipoDocumentoImprentaDigital)vfwvTipoDocumentoImprentaDigital;
                 eProveedorImprentaDigital vProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
-                var _insImprentaDigital = ImprentaDigitalCreator.Create(vProveedorImprentaDigital, vTipoDeDocumento, vfwNumeroFactura,0);
+                var _insImprentaDigital = ImprentaDigitalCreator.Create(vProveedorImprentaDigital, vTipoDeDocumento, vfwNumeroFactura, vTipoComprobantedeRetencion);
                 Task vTask = Task.Factory.StartNew(() => {
                     vResult = _insImprentaDigital.AnularDocumento();
                 });

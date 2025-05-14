@@ -108,28 +108,30 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             try {
                 bool vResult = false;
                 stRespuestaTF vRespuestaConector = new stRespuestaTF();
-                bool vDocumentoExiste = EstadoDocumento();
+                bool vDocumentoExiste = false;
+                if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.Facturacion) {
+                    throw new GalacException("Los Documentos Fiscales Factura, Nota de Crédito, Nota de Débito no pueden ser anulados por normativa del SENIAT", eExceptionManagementType.Controlled);
+                }
                 if (LibString.IsNullOrEmpty(EstatusDocumento)) {
                     vDocumentoExiste = EstadoDocumento();
                 }
                 if (vDocumentoExiste) {
                     if (!LibString.S1IsEqualToS2(EstatusDocumento, "Anulada")) {
-                        stSolicitudDeAccion vSolicitudDeAnulacion = new stSolicitudDeAccion() {
-                            Serie = SerieDocumento(),
-                            TipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum),
-                            NumeroDocumento = NumeroDocumento(),
-                            MotivoAnulacion = FacturaImprentaDigital.MotivoDeAnulacion
-                        };
-                        string vDocumentoJSON = clsConectorJson.SerializeJSON(vSolicitudDeAnulacion); //Construir o JSON Con datos                         
+                        JObject vJDoc = new JObject {
+                            {"Serie",SerieDocumento() },
+                            {"TipoDocumento", GetTipoDocumentoComprobante(TipoDocumentoImprentaDigital) },
+                            {"NumeroDocumento",NumeroDocumento() },
+                            {"MotivoAnulacion",ComprobanteRetIVAImprentaDigital.MotivoDeAnulacion } };
+                        string vDocumentoJSON = vJDoc.ToString(); //Construir o JSON Con datos                         
                         vRespuestaConector = ((clsConectorJsonTheFactory)_ConectorJson).SendPostJsonTF(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Anular), _ConectorJson.Token);
                         vResult = vRespuestaConector.Aprobado;
                         Mensaje = vRespuestaConector.mensaje;
                     } else {
-                        Mensaje = $"No se pudo anular la {FacturaImprentaDigital.TipoDeDocumentoAsString} en la Imprenta Digital, debe sincronizar el documento.";
+                        Mensaje = $"No se pudo anular el Comprobante {ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion} en la Imprenta Digital, debe sincronizar el documento.";
                     }
                 } else {
                     if (!LibString.IsNullOrEmpty(Mensaje)) {
-                        Mensaje = $"La {FacturaImprentaDigital.TipoDeDocumentoAsString} no pudo ser anulada.\r\n" + Mensaje;
+                        Mensaje = $"El Comprobante {ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion} no pudo ser anulado.\r\n" + Mensaje;
                     }
                 }
                 return vResult;
