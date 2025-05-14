@@ -18,7 +18,7 @@ using Galac.Adm.Ccl.Venta;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
 
-    public class FormaDelCobroMngViewModel: LibMngViewModel<FormaDelCobroViewModel, FormaDelCobro> {
+    public class FormaDelCobroMngViewModel: LibMngViewModelMfc<FormaDelCobroViewModel, FormaDelCobro> {
         #region Propiedades
 
         public override string ModuleName {
@@ -33,7 +33,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #endregion //Propiedades
         #region Constructores
 
-        public FormaDelCobroMngViewModel() {
+        public FormaDelCobroMngViewModel()
+            : base(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             Title = "Buscar " + ModuleName;
             OrderByMember = "ConsecutivoCompania, Consecutivo";
             #region Codigo Ejemplo
@@ -52,6 +53,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 vNewModel = new FormaDelCobro();
             }
             return new FormaDelCobroViewModel(vNewModel, valAction);
+        }
+
+        protected override LibSearchCriteria GetMFCCriteria() {
+            return LibSearchCriteria.CreateCriteria("Gv_FormaDelCobro_B1.ConsecutivoCompania", Mfc.GetInt("Compania"));
         }
 
         protected override ILibBusinessComponentWithSearch<IList<FormaDelCobro>, IList<FormaDelCobro>> GetBusinessComponent() {

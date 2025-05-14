@@ -130,7 +130,7 @@ namespace Galac.Adm.Ccl.Venta {
         }
 
         public void Clear() {
-            ConsecutivoCompania = 0;
+            ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
             Consecutivo = 0;
             Codigo = string.Empty;
             Nombre = string.Empty;

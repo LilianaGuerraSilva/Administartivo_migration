@@ -271,6 +271,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public FormaDelCobroViewModel(FormaDelCobro initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()){
             DefaultFocusedPropertyName = CodigoPropertyName;
+            Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
         #region Metodos Generados
