@@ -31,7 +31,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         public string NumeroDeNotaCredito { get; set; }
         public bool EsUnacuentaDeTerceros { get; set; }
         public string NumeroControlRetencionIvaImpDigital { get; set; }
-        public string MotivoDeAnulacion { get; set; }
+        public string MotivoDeAnulacionDeComprobante { get; set; }
 
         public eTipoDeTransaccionDeLibrosFiscales TipoDeTransaccionAsEnum {
             get {
@@ -116,7 +116,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         public bool RetencionIvaEnviadaImpDigital { get; set; }
         public bool SeHizoLaRetencionIVA { get; set; }
 
-        public ComprobanteRetIVA() {          
+        public ComprobanteRetIVA() {
             TotalCXPComprobanteRetIva = 0m;
             TotalCXP = 0m;
             CodigoProveedor = string.Empty;
@@ -154,7 +154,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             ProveedorImprentaDigitalAsEnum = eProveedorImprentaDigital.NoAplica;
             NumeroControlRetencionIvaImpDigital = string.Empty;
             EsUnacuentaDeTerceros = false;
-            MotivoDeAnulacion= string.Empty;
+            MotivoDeAnulacionDeComprobante = string.Empty;
         }
     }
 

@@ -279,8 +279,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             if (AddColumnBoolean("CxP", "RetencionIvaEnviadaImpDigital", "", false)) {
                 AddDefaultConstraint("CxP", "rTEnID", _insSql.ToSqlValue("N"), "RetencionIvaEnviadaImpDigital");
             }
-            if (AddColumnString("CxP", "MotivoDeAnulacion", 150, "", "")) {
-                AddDefaultConstraint("CxP", "RTMoAID", _insSql.ToSqlValue(""), "MotivoDeAnulacion");
+            if (AddColumnString("CxP", "MotivoDeAnulacionDeComprobante", 150, "", "")) {
+                AddDefaultConstraint("CxP", "RTMoAID", _insSql.ToSqlValue(""), "MotivoDeAnulacionDeComprobante");
             }
         }
 		

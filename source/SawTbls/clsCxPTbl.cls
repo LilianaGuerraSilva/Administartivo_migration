@@ -177,7 +177,7 @@ Public Function fCreateTable(ByVal valShowMessage As Boolean) As Boolean
    SQL = SQL & "NumeroControlRetencionIvaImpDigital" & gUtilSQL.getVarCharTypeForDB(20) & "Constraint nCtID Default '', "
    SQL = SQL & "ProveedorImprentaDigital" & gUtilSQL.getCharTypeForDB(1) & "Constraint pRovID Default '0', "
    SQL = SQL & "RetencionIvaEnviadaImpDigital" & gUtilSQL.getCharTypeForDB(1) & " Constraint rTEnID Default 'N', "
-   SQL = SQL & "MotivoDeAnulacion" & gUtilSQL.getVarCharTypeForDB(150) & "Constraint RTMoAID Default '', "
+   SQL = SQL & "MotivoDeAnulacionDeComprobante" & gUtilSQL.getVarCharTypeForDB(150) & "Constraint RTMoAID Default '', "
    SQL = SQL & "NombreOperador" & gUtilSQL.getVarCharTypeForDB(10) & ", "
    SQL = SQL & "FechaUltimaModificacion" & gUtilSQL.getDateTypeForDB() & ", "
    SQL = SQL & gDefDatabase.getFN_TIMESTAMP() & " timestamp )"

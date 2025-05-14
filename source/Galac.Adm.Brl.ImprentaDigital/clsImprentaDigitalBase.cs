@@ -525,7 +525,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" MesDeAplicacion,");
             vSql.AppendLine(" AnoDeAplicacion,");
             vSql.AppendLine(" TipodeCxP,");
-            vSql.AppendLine(" MotivoDeAnulacion,");
+            vSql.AppendLine(" MotivoDeAnulacionDeComprobante,");
             vSql.AppendLine(" SeHizoLaRetencionIva,");
             vSql.AppendLine(" ProveedorImprentaDigital,");
             vSql.AppendLine(" NumeroControlRetencionIvaImpDigital");
@@ -552,7 +552,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     ComprobanteRetIVAImprentaDigital.AnoAplicRetIVA= LibImportData.ToInt(LibXml.GetPropertyString(vResult, "AnoDeAplicacion"));
                     ComprobanteRetIVAImprentaDigital.MesAplicRetIVA = LibImportData.ToInt(LibXml.GetPropertyString(vResult, "MesDeAplicacion"));
                     ComprobanteRetIVAImprentaDigital.NumeroDeDocumento = GetNumeroComprobanteCompleto(ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion, ComprobanteRetIVAImprentaDigital.AnoAplicRetIVA, ComprobanteRetIVAImprentaDigital.MesAplicRetIVA);
-                    ComprobanteRetIVAImprentaDigital.MotivoDeAnulacion = LibXml.GetPropertyString(vResult, "MotivoDeAnulacion");
+                    ComprobanteRetIVAImprentaDigital.MotivoDeAnulacionDeComprobante = LibXml.GetPropertyString(vResult, "MotivoDeAnulacionDeComprobante");
                 } else {
                     throw new GalacException("El Documento N° " + LibConvert.ToStr(NumeroCxP) + " no existe.", eExceptionManagementType.Controlled);
                 }

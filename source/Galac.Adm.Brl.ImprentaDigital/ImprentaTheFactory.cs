@@ -121,7 +121,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                             {"Serie",SerieDocumento() },
                             {"TipoDocumento", GetTipoDocumentoComprobante(TipoDocumentoImprentaDigital) },
                             {"NumeroDocumento",NumeroDocumento() },
-                            {"MotivoAnulacion",ComprobanteRetIVAImprentaDigital.MotivoDeAnulacion } };
+                            {"MotivoAnulacion",ComprobanteRetIVAImprentaDigital.MotivoDeAnulacionDeComprobante } };
                         string vDocumentoJSON = vJDoc.ToString(); //Construir o JSON Con datos                         
                         vRespuestaConector = ((clsConectorJsonTheFactory)_ConectorJson).SendPostJsonTF(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Anular), _ConectorJson.Token);
                         vResult = vRespuestaConector.Aprobado;
