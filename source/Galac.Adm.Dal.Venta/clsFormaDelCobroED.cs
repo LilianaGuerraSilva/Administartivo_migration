@@ -95,6 +95,8 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("BEGIN");
             SQL.AppendLine("   SET NOCOUNT ON;");
             SQL.AppendLine("   DECLARE @ReturnValue " + InsSql.NumericTypeForDb(10, 0) + "");
+            SQL.AppendLine("	IF EXISTS(SELECT ConsecutivoCompania FROM Dbo.Compania WHERE ConsecutivoCompania = @ConsecutivoCompania)");
+            SQL.AppendLine("	BEGIN");
             SQL.AppendLine("        BEGIN TRAN");
             SQL.AppendLine("            INSERT INTO " + DbSchema + ".FormaDelCobro(");
             SQL.AppendLine("            ConsecutivoCompania,");
@@ -119,6 +121,9 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            SET @ReturnValue = @@ROWCOUNT");
             SQL.AppendLine("        COMMIT TRAN");
             SQL.AppendLine("        RETURN @ReturnValue ");
+            SQL.AppendLine("	END");
+            SQL.AppendLine("	ELSE");
+            SQL.AppendLine("		RETURN -1");
             SQL.AppendLine("END");
             return SQL.ToString();
         }
@@ -291,7 +296,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@SQLWhere" + InsSql.VarCharTypeForDb(2000) + " = null,");
             SQL.AppendLine("@SQLOrderBy" + InsSql.VarCharTypeForDb(500) + " = null,");
             SQL.AppendLine("@DateFormat" + InsSql.VarCharTypeForDb(3) + " = null,");
-            SQL.AppendLine("@UseTopClausule" + InsSql.VarCharTypeForDb(1) + " = 'N'");
+            SQL.AppendLine("@UseTopClausule" + InsSql.VarCharTypeForDb(1) + " = 'S'");
             return SQL.ToString();
         }
 
@@ -329,6 +334,7 @@ namespace Galac.Adm.Dal.Venta {
 
         private string SqlSpGetFKParameters() {
             StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@XmlData" + InsSql.XmlTypeForDb());
             return SQL.ToString();
         }
@@ -348,8 +354,8 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("      " + DbSchema + ".FormaDelCobro.CodigoMoneda");
             //SQL.AppendLine("      ," + DbSchema + ".FormaDelCobro.[Programador - personaliza este sp y coloca solo los campos que te interesa exponer a quienes lo consumen]");
             SQL.AppendLine("      FROM " + DbSchema + ".FormaDelCobro");
-            SQL.AppendLine("      WHERE ");
-            SQL.AppendLine("         Consecutivo IN (");
+            SQL.AppendLine("      WHERE ConsecutivoCompania = @ConsecutivoCompania");
+            SQL.AppendLine("          AND Consecutivo IN (");
             SQL.AppendLine("            SELECT  Consecutivo ");
             SQL.AppendLine("            FROM OPENXML( @hdoc, 'GpData/GpResult',2) ");
             SQL.AppendLine("            WITH (Consecutivo int) AS XmlFKTmp) ");
