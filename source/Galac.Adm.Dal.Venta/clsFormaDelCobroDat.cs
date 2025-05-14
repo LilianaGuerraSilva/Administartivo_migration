@@ -76,13 +76,13 @@ namespace Galac.Adm.Dal.Venta {
             string vErrMsg = "";
             LibDatabase insDB = new LibDatabase();
             if (valAction == eAccionSR.Eliminar) {
-                if (insDB.ExistsValue("dbo.DetalleDeCobranza", "CodigoFormaDelCobro", insDB.InsSql.ToSqlValue(vRecord.Codigo), true)) {
+                if (insDB.ExistsValueOnMultifile("dbo.DetalleDeCobranza", "CodigoFormaDelCobro", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Codigo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
                     vSbInfo.AppendLine("Detalle De Cobranza");
                 }
-                if (insDB.ExistsValue("dbo.RenglonCobroDeFactura", "CodigoFormaDelCobro", insDB.InsSql.ToSqlValue(vRecord.Codigo), true)) {
+                if (insDB.ExistsValueOnMultifile("dbo.RenglonCobroDeFactura", "CodigoFormaDelCobro", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Codigo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
                     vSbInfo.AppendLine("Renglon Cobro De Factura");
                 }
-                if (insDB.ExistsValue("dbo.RenglonCobroDeFactura", "ConsecutivoFormaDelCobro", insDB.InsSql.ToSqlValue(vRecord.Consecutivo), true)) {
+                if (insDB.ExistsValueOnMultifile("dbo.RenglonCobroDeFactura", "ConsecutivoFormaDelCobro", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Consecutivo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
                     vSbInfo.AppendLine("Renglon Cobro De Factura");
                 }
                 if (vSbInfo.Length == 0) {
@@ -226,7 +226,7 @@ namespace Galac.Adm.Dal.Venta {
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
-            if (valConsecutivoCompania == 0) {
+            if (valConsecutivoCompania <= 0) {
                 BuildValidationInfo(MsgRequiredField("Consecutivo Compania"));
                 vResult = false;
             } else if (valAction == eAccionSR.Insertar) {
@@ -322,8 +322,9 @@ namespace Galac.Adm.Dal.Venta {
             return vResult;
         }
 
-        private bool KeyExists(FormaDelCobro valRecordBusqueda) {
+        private bool KeyExists(int valConsecutivoCompania, FormaDelCobro valRecordBusqueda) {
             bool vResult = false;
+            valRecordBusqueda.ConsecutivoCompania = valConsecutivoCompania;
             LibDatabase insDb = new LibDatabase();
             vResult = insDb.ExistsRecord(DbSchema + ".FormaDelCobro", "ConsecutivoCompania", ParametrosClave(valRecordBusqueda, false, false));
             insDb.Dispose();
