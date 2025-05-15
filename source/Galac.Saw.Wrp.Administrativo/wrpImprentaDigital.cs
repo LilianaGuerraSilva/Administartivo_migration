@@ -12,6 +12,7 @@ using Galac.Adm.Brl.ImprentaDigital;
 using LibGalac.Aos.UI.Mvvm.Messaging;
 using System.Text.RegularExpressions;
 using Galac.Adm.Ccl.ImprentaDigital;
+using Galac.Saw.Lib;
 
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.ImprentaDigital {
@@ -164,11 +165,7 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
 
         bool IWrpImprentaDigitalVb.ValidarEmail(string vfwEmmailAddress) {
             try {
-                if (!LibString.IsNullOrEmpty(vfwEmmailAddress)) {
-                    return Regex.IsMatch(vfwEmmailAddress, @"^(([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?))*$", RegexOptions.IgnoreCase);
-                } else {
-                    return false;
-                }
+                return new clsLibSaw().EsUnEmailValido(vfwEmmailAddress);
             } catch (GalacException vEx) {
                 throw new GalacWrapperException(Title, vEx);
             }

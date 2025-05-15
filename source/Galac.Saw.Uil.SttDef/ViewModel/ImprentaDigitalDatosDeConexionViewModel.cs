@@ -126,6 +126,27 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             get { return _ProveedorImprentaDigital == eProveedorImprentaDigital.TheFactoryHKA || _ProveedorImprentaDigital == eProveedorImprentaDigital.Unidigital; }
         }
 
+        private void CamposIDPorDefecto(eProveedorImprentaDigital valProveedor) {
+            switch (valProveedor) {
+                case eProveedorImprentaDigital.TheFactoryHKA:
+                    _CampoClave = "clave";
+                    _CampoUsuario = "usuario";
+                    break;
+                case eProveedorImprentaDigital.Novus:
+                    _CampoClave = "token";
+                    _CampoUsuario = "rif";                    
+                    break;
+                case eProveedorImprentaDigital.Unidigital:
+                    _CampoClave = "Password";
+                    _CampoUsuario = "UserName";                    
+                    break;
+                default:
+                    _CampoClave = "clave";
+                    _CampoUsuario = "usuario";                    
+                    break;
+            }
+        }
+
         private void ExecuteProbarConexionCommand() {
             string vMensaje = string.Empty;
             string vCommand = string.Empty;
@@ -186,13 +207,16 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         private void InicializaValores() {
-            _ProveedorImprentaDigital = (eProveedorImprentaDigital)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ProveedorImprentaDigital");                        
+            _ProveedorImprentaDigital = (eProveedorImprentaDigital)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ProveedorImprentaDigital");
             clsImprentaDigitalSettings _clsImprentaDigitalSettings = new clsImprentaDigitalSettings();
             _Url = _clsImprentaDigitalSettings.DireccionURL;
             _Usuario = _clsImprentaDigitalSettings.Usuario;
             _Clave = _clsImprentaDigitalSettings.Clave;
             _CampoUsuario = _clsImprentaDigitalSettings.CampoUsuario;
-            _CampoClave = _clsImprentaDigitalSettings.CampoClave;            
+            _CampoClave = _clsImprentaDigitalSettings.CampoClave;
+            if (LibString.IsNullOrEmpty(_CampoUsuario) || LibString.IsNullOrEmpty(_CampoClave)) {
+                CamposIDPorDefecto(_ProveedorImprentaDigital);
+            }
         }
 
         #endregion //Metodos Generados

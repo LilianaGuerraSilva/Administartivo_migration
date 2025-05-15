@@ -62,6 +62,7 @@ namespace Galac.Adm.Rpt.Venta
                 LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", LibGalac.Aos.Base.Report.eDateOutputFormat.DateShort);
                 LibReport.ConfigFieldStr(this, "txtNumeroDesde", string.Empty, "NumeroDesde");
                 LibReport.ConfigFieldStr(this, "txtNumeroHasta", string.Empty, "NumeroHasta");
+                LibReport.ConfigFieldStr(this, "txtNumeroResumenDiario", string.Empty, "NumeroResumenDiario");
                 LibReport.ConfigFieldStr(this, "txtDescripcion", string.Empty, "Descripcion");
                 LibReport.ConfigFieldStr(this, "txtConsecutivoMaquinaFiscal", string.Empty, "ConsecutivoMaquinaFiscal");
                 LibReport.ConfigFieldDec(this, "txtBaseImponible", string.Empty, "TotalBaseImponible");

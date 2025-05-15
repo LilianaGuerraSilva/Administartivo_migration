@@ -691,14 +691,14 @@ MenuDeInformes : boolean;
    NombreUbigeo             :str40//"Ubigeo", logical,=Ubigeo.Nombre
    CodigoMoneda             : str4;"=Moneda.Codigo","Código Moneda"
    StatusCompania           :unStatusCompania;//o
-   StatusMonetaryReconversionProcess: str01;//o
-   NombreOperador                    : Str10; //a
-   FechaUltimaModificacion           : date;//a
+   StatusMonetaryReconversionProcess: str01;//o   
    ImprentaDigitalUrl	: Str500;//Hide
    ImprentaDigitalNombreCampoUsuario	: Str50;//Hide
    ImprentaDigitalNombreCampoClave	: Str50;//Hide
    ImprentaDigitalUsuario	:Str100,//Hide
    ImprentaDigitalClave	: Str500;//Hide
+   NombreOperador                    : Str10; //a
+   FechaUltimaModificacion           : date;//a
    @PrimaryKey=ConsecutivoCompania
 }
 

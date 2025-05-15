@@ -2,6 +2,7 @@
 using Galac.Saw.Uil.Inventario.ViewModel;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Brl;
+using LibGalac.Aos.UI.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace Galac.Saw.Uil.Inventario {
 
         public static void RegisterMessages() {
             LibBusinessProcess.Register(_Default, "InsertarLoteInventarioDesdeModuloExterno", EjecutarInsertarLoteInventarioDesdeModuloExterno);
+            LibBusinessProcess.Register(_Default, "MenjajeSobregiroConExistenciaNegativa", EjecutarMenjajeSobregiroConExistenciaNegativa);
 
         }
 
@@ -24,6 +26,11 @@ namespace Galac.Saw.Uil.Inventario {
             eTipoArticuloInv TipoArticuloInv = (eTipoArticuloInv)LibConvert.ToInt(vMessage[2]);
             new LoteDeInventarioMngViewModel().ExecuteCreateCommandEspecial(ref valCodigoLote, CodigoArticulo, TipoArticuloInv);
             valMessage.Result = valCodigoLote;
+        }
+
+        private static void EjecutarMenjajeSobregiroConExistenciaNegativa(LibBusinessProcessMessage valMessage) {            
+            string valCodigosArticulo = valMessage.Content.ToString();
+            valMessage.Result = LibMessages.MessageBox.YesNo(null, $"El resultado de la operación actual generará una existencia negativa para el artículo: {valCodigosArticulo}. ¿Desea continuar con el proceso? ", "Nota de Entrada/Salida");
         }
     }
 }

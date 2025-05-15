@@ -371,6 +371,8 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                     TipoArticuloInv = ConexionCodigoArticulo.TipoArticuloInv;
                     if (ConexionCodigoArticulo.TipoArticuloInv == eTipoArticuloInv.UsaSerial) {
                         Cantidad = 1;
+                    } else {
+                        Serial = string.Empty;
                     }
                 }
                 RaisePropertyChanged(() => IsVisbleLoteDeInventario);

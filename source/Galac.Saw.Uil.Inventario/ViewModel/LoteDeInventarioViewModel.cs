@@ -136,7 +136,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        [LibGridColum("Existencia", eGridColumType.Numeric, Width = 75, Alignment = eTextAlignment.Right, WidthForPrinting = 10, ColumnOrder = 6)]
+        [LibGridColum("Existencia", eGridColumType.Numeric, Width = 75, Alignment = eTextAlignment.Right, WidthForPrinting = 10, ColumnOrder = 6, ConditionalPropertyDecimalDigits = "DecimalDigitsMng")]
         public decimal Existencia {
             get {
                 return Model.Existencia;
@@ -272,6 +272,18 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 return IsEnabled && Action != eAccionSR.Modificar;
             }
         }
+
+        public int DecimalDigitsMng {
+            get {
+                return 4;
+            }
+        }
+        public int DecimalDigits {
+            get {
+                return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "CantidadDeDecimales");
+            }
+        }
+
         #endregion //Propiedades
         #region Constructores
         public LoteDeInventarioViewModel()

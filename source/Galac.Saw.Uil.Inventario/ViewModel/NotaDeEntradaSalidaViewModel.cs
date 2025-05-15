@@ -455,57 +455,65 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         protected override void ExecuteAction() {
-            if (Action.Equals(eAccionSR.Anular)) {
-                CloseOnActionComplete = true;
-                if (Model.TipodeOperacionAsEnum == eTipodeOperacion.Retiro) {
-                    if (LibMessages.MessageBox.YesNo(this, "¿Está seguro que desea Anular esta Nota de Retiro de Inventario?", ModuleName)) {
-                        INotaDeEntradaSalidaPdn vNotaDeEntradaSalidaNav = new clsNotaDeEntradaSalidaNav();
-                        IList<NotaDeEntradaSalida> vNotaDeEntradaSalida = new List<NotaDeEntradaSalida>();
-                        vNotaDeEntradaSalida.Add(Model);
-                        LibResponse vDialgoResult = vNotaDeEntradaSalidaNav.AnularRecord(vNotaDeEntradaSalida);
-                        if (vDialgoResult.Success) {
-                            LibMessages.MessageBox.Information(this, String.Format("La Nota de Entrada {0} se anuló correctamente.", Model.NumeroDocumento), "Información");
-                        } else {
-                            LibMessages.MessageBox.Information(this, vDialgoResult.GetInformation(), ModuleName);
-                        }
-                    }
-                } else {
-                    LibMessages.MessageBox.Information(this, "Sólo se pueden Anular las Notas de Retiro de Inventario.", ModuleName);
-                }
-                RaiseRequestCloseEvent();
-            } else if (Action.Equals(eAccionSR.Reversar)) {
-                CloseOnActionComplete = true;
-                if (Model.TipodeOperacionAsEnum != eTipodeOperacion.Retiro) {
-                    if (Model.GeneradoPorAsEnum == eTipoGeneradoPorNotaDeEntradaSalida.Usuario) {
-                        if (LibString.S1StartsWithS2(Model.Comentarios, "Reverso de la Nota E/S:")) {
-                            LibMessages.MessageBox.Information(this, "Esta Nota de E/S ya es un reverso y no puede ser reversada.", ModuleName);
-                        } else {
-                            if (LibMessages.MessageBox.YesNo(this, "¿Está seguro que desea reversar esta Nota de Entrada/Salida de Inventario?", ModuleName)) {
-                                INotaDeEntradaSalidaPdn vNotaDeEntradaSalidaNav = new clsNotaDeEntradaSalidaNav();
-                                IList<NotaDeEntradaSalida> vNotaDeEntradaSalida = new List<NotaDeEntradaSalida>();
-                                vNotaDeEntradaSalida.Add(Model);
-                                LibResponse vDialgoResult = vNotaDeEntradaSalidaNav.ReversarNotaES(Model.ConsecutivoCompania, Model.NumeroDocumento);
-                                if (vDialgoResult.Success) {
-                                    LibMessages.MessageBox.Information(this, String.Format("La Nota de Entrada/Salida de Inventario {0} se reversó correctamente.", Model.NumeroDocumento), "Información");
-                                } else {
-                                    LibMessages.MessageBox.Information(this, vDialgoResult.GetInformation(), ModuleName);
-                                }
+            try {
+
+
+                if (Action.Equals(eAccionSR.Anular)) {
+                    CloseOnActionComplete = true;
+                    if (Model.TipodeOperacionAsEnum == eTipodeOperacion.Retiro) {
+                        if (LibMessages.MessageBox.YesNo(this, "¿Está seguro que desea Anular esta Nota de Retiro de Inventario?", ModuleName)) {
+                            INotaDeEntradaSalidaPdn vNotaDeEntradaSalidaNav = new clsNotaDeEntradaSalidaNav();
+                            IList<NotaDeEntradaSalida> vNotaDeEntradaSalida = new List<NotaDeEntradaSalida>();
+                            vNotaDeEntradaSalida.Add(Model);
+                            LibResponse vDialgoResult = vNotaDeEntradaSalidaNav.AnularRecord(vNotaDeEntradaSalida);
+                            if (vDialgoResult.Success) {
+                                LibMessages.MessageBox.Information(this, String.Format("La Nota de Entrada {0} se anuló correctamente.", Model.NumeroDocumento), "Información");
+                            } else {
+                                LibMessages.MessageBox.Information(this, vDialgoResult.GetInformation(), ModuleName);
                             }
                         }
                     } else {
-                        LibMessages.MessageBox.Information(this, "Solo se pueden reversar las Notas de E/S ingresadas por Usuarios.", ModuleName);
+                        LibMessages.MessageBox.Information(this, "Sólo se pueden Anular las Notas de Retiro de Inventario.", ModuleName);
                     }
+                    RaiseRequestCloseEvent();
+                } else if (Action.Equals(eAccionSR.Reversar)) {
+                    CloseOnActionComplete = true;
+                    if (Model.TipodeOperacionAsEnum != eTipodeOperacion.Retiro) {
+                        if (Model.GeneradoPorAsEnum == eTipoGeneradoPorNotaDeEntradaSalida.Usuario) {
+                            if (LibString.S1StartsWithS2(Model.Comentarios, "Reverso de la Nota E/S:")) {
+                                LibMessages.MessageBox.Information(this, "Esta Nota de E/S ya es un reverso y no puede ser reversada.", ModuleName);
+                            } else {
+                                if (LibMessages.MessageBox.YesNo(this, "¿Está seguro que desea reversar esta Nota de Entrada/Salida de Inventario?", ModuleName)) {
+                                    INotaDeEntradaSalidaPdn vNotaDeEntradaSalidaNav = new clsNotaDeEntradaSalidaNav();
+                                    IList<NotaDeEntradaSalida> vNotaDeEntradaSalida = new List<NotaDeEntradaSalida>();
+                                    vNotaDeEntradaSalida.Add(Model);
+                                    LibResponse vDialgoResult = vNotaDeEntradaSalidaNav.ReversarNotaES(Model.ConsecutivoCompania, Model.NumeroDocumento);
+                                    if (vDialgoResult.Success) {
+                                        LibMessages.MessageBox.Information(this, String.Format("La Nota de Entrada/Salida de Inventario {0} se reversó correctamente.", Model.NumeroDocumento), "Información");
+                                    } else {
+                                        LibMessages.MessageBox.Information(this, vDialgoResult.GetInformation(), ModuleName);
+                                    }
+                                }
+                            }
+                        } else {
+                            LibMessages.MessageBox.Information(this, "Solo se pueden reversar las Notas de E/S ingresadas por Usuarios.", ModuleName);
+                        }
+                    } else {
+                        LibMessages.MessageBox.Information(this, "El tipo de operación Retiro no puede ser reversado.", ModuleName);
+                    }
+                    RaiseRequestCloseEvent();
+                } else if (Action == eAccionSR.ReImprimir) {
+                    CloseOnActionComplete = true;
+                    DialogResult = true;
+                    clsNotaDeEntradaSalidaInformesViewModel insViewModel = new clsNotaDeEntradaSalidaInformesViewModel();
+                    insViewModel.ConfigReportNotaEntradaSalida(NumeroDocumento);
                 } else {
-                    LibMessages.MessageBox.Information(this, "El tipo de operación Retiro no puede ser reversado.", ModuleName);
+                    base.ExecuteAction();
                 }
-                RaiseRequestCloseEvent();
-            } else if (Action == eAccionSR.ReImprimir) {
-                CloseOnActionComplete = true;
-                DialogResult = true;
-                clsNotaDeEntradaSalidaInformesViewModel insViewModel = new clsNotaDeEntradaSalidaInformesViewModel();
-                insViewModel.ConfigReportNotaEntradaSalida(NumeroDocumento);
-            } else {
-                base.ExecuteAction();
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
 
