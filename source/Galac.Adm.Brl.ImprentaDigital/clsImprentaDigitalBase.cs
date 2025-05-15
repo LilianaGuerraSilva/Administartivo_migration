@@ -528,7 +528,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" MotivoDeAnulacionDeComprobante,");
             vSql.AppendLine(" SeHizoLaRetencionIva,");
             vSql.AppendLine(" ProveedorImprentaDigital,");
-            vSql.AppendLine(" NumeroControlRetencionIvaImpDigital");
+            vSql.AppendLine(" NumeroControlRetencionIvaImpDigital,");
+            vSql.AppendLine(" Status AS StatusCxP ");
             vSql.AppendLine(" FROM CxP");
             vSql.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania ");
             vSql.AppendLine(" AND Numero = @Numero ");            
@@ -553,6 +554,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     ComprobanteRetIVAImprentaDigital.MesAplicRetIVA = LibImportData.ToInt(LibXml.GetPropertyString(vResult, "MesDeAplicacion"));
                     ComprobanteRetIVAImprentaDigital.NumeroDeDocumento = GetNumeroComprobanteCompleto(ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion, ComprobanteRetIVAImprentaDigital.AnoAplicRetIVA, ComprobanteRetIVAImprentaDigital.MesAplicRetIVA);
                     ComprobanteRetIVAImprentaDigital.MotivoDeAnulacionDeComprobante = LibXml.GetPropertyString(vResult, "MotivoDeAnulacionDeComprobante");
+                    ComprobanteRetIVAImprentaDigital.StatusCxP = LibXml.GetPropertyString(vResult, "StatusCxP");
                 } else {
                     throw new GalacException("El Documento N° " + LibConvert.ToStr(NumeroCxP) + " no existe.", eExceptionManagementType.Controlled);
                 }

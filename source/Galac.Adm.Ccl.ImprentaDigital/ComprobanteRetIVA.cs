@@ -12,6 +12,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         private eTipoDeTransaccionID _TipoDeCxP;
         private eTipoDeTransaccionDeLibrosFiscales _TipoDeTransaccion;
         private eProveedorImprentaDigital _ProveedorImprentaDigital;
+        private eStatusDocumentoCxP _StatusCxP;
         public string CodigoProveedor { get; set; }
         public decimal TotalCXPComprobanteRetIva { get; set; }
 
@@ -32,6 +33,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         public bool EsUnacuentaDeTerceros { get; set; }
         public string NumeroControlRetencionIvaImpDigital { get; set; }
         public string MotivoDeAnulacionDeComprobante { get; set; }
+                
 
         public eTipoDeTransaccionDeLibrosFiscales TipoDeTransaccionAsEnum {
             get {
@@ -96,6 +98,27 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             }
         }
 
+        public eStatusDocumentoCxP StatusCxPAsEnum {
+            get {
+                return _StatusCxP;
+            }
+            set {
+                _StatusCxP = value;
+            }
+        }
+
+        public string StatusCxP {
+            set {
+                _StatusCxP = (eStatusDocumentoCxP)LibConvert.DbValueToEnum(value);
+            }
+        }
+
+        public string StatusCxPAsString {
+            get {
+                return LibEnumHelper.GetDescription(_StatusCxP);
+            }
+        }
+
         public string NumeroDeFacturaAfectada { get; set; }
         public decimal MontoExento { get; set; }
         public decimal MontoGravado { get; set; }
@@ -155,6 +178,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             NumeroControlRetencionIvaImpDigital = string.Empty;
             EsUnacuentaDeTerceros = false;
             MotivoDeAnulacionDeComprobante = string.Empty;
+            StatusCxPAsEnum= eStatusDocumentoCxP.PorCancelar;
         }
     }
 

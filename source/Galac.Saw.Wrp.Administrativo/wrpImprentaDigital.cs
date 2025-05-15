@@ -70,7 +70,7 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
             }
         }
 
-        bool IWrpImprentaDigitalVb.AnularDocumento(int vfwTipoDocumento, string vfwNumeroFactura, int vfwvTipoDocumentoImprentaDigital, string vfwCurrentParameters, ref string vfwMensaje) {
+        bool IWrpImprentaDigitalVb.AnularDocumento(int vfwTipoDocumento, string vfwNumeroFactura, string vfwCurrentParameters, int vfwvTipoDocumentoImprentaDigital, ref string vfwMensaje) {
             try {
                 bool vResult = false;
                 CreateGlobalValues(vfwCurrentParameters);
