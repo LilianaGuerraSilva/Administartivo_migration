@@ -735,11 +735,7 @@ namespace Galac.Adm.Brl.GestionCompras {
 
         bool ICompraPdn.VerificaExistenciaEnOrdenDeCompra(int valConsecutivoCompania, int valConsecutivoOrdenDeCompra) {
             return new clsOrdenDeCompraNav().VerificaExistenciaEnOrdenDeCompra(valConsecutivoCompania, valConsecutivoOrdenDeCompra);
-        }
-
-        bool ICompraPdn.VerificaSiDocumentoAsociadoEstaAnulado(int valConsecutivoCompania, string valCompraNumero, string valCodigoProveedor) {
-            return (new clsCxPNav().VerficaSiCxPFueAnulada(valConsecutivoCompania, valCompraNumero, valCodigoProveedor));
-        }
+        }       
 
         protected override bool CanBeChoosenForAction(IList<Compra> refRecord, eAccionSR valAction) {
             bool vResult = true;
@@ -856,6 +852,11 @@ namespace Galac.Adm.Brl.GestionCompras {
             vListLote.Add(vLote);
             vLotePnd.ActualizarLoteYReversarMov(vListLote,eOrigenLoteInv.Compra, valItemCompra.Consecutivo, "", vSoloAnulados);
         }
+
+        bool ICompraPdn.VerificaSiDocumentoAsociadoEstaAnulado(int valConsecutivoCompania, string valCompraNumero, string valCodigoProveedor) {
+            return (new clsCxPNav().VerficaSiCxPFueAnulada(valConsecutivoCompania, valCompraNumero, valCodigoProveedor));
+        }
+
     } //End of class clsCompraNav
 
 
