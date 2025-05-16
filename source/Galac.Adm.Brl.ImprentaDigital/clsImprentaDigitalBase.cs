@@ -20,6 +20,7 @@ using Galac.Saw.Lib;
 using Galac.Adm.Ccl.ImprentaDigital;
 using LibGalac.Aos.DefGen;
 using System.IO;
+using System.Diagnostics.SymbolStore;
 
 namespace Galac.Adm.Brl.ImprentaDigital {
 
@@ -795,8 +796,12 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             } else {
                 vResult = !LibString.S1IsEqualToS2(NumeroControl, FacturaImprentaDigital.NumeroControl);
             }
-            if (vResult) { //Emitida en ID, Emitida en SAW Sin Nro. Control
-                vResult = ActualizaNroControlYProveedorImprentaDigital();
+            if (vResult) { //Emitida en ID, Emitida en SAW Sin Nro. Control                
+                if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionIVA) {
+                    vResult = ActualizaNroControYComprobantelEnCxP(vResult);
+                } else {                   
+                    vResult = ActualizaNroControlEnFactura();
+                }
             } else if (LibString.S1IsEqualToS2(EstatusDocumento, "Enviada") && FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Anulada) { //Anulada en SAW, Emitida en ID
                 if (ExistenCxCPorCancelar()) {
                     Mensaje = "No se puede anular una CxC que esté Cancelada.";
@@ -812,18 +817,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 vResult = true; // Todo al día
             }
             return vResult;
-        }
-
-        public bool ActualizaNroControlYProveedorImprentaDigital() {
-            bool vResult = false;
-            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionIVA) {
-                vResult = ActualizaNroControYComprobantelEnCxP();
-            } else {
-                vResult = ActualizaNroControlEnCxC();
-                vResult = vResult & ActualizaNroControlEnFactura();
-            }
-            return vResult;
-        }
+        }      
 
         private bool ActualizaNroControlEnCxC() {
             bool vResult = false;
@@ -842,7 +836,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             return vResult;
         }
 
-        private bool ActualizaNroControlEnFactura() {
+        public bool ActualizaNroControlEnFactura() {
             bool vResult = false;
             LibGpParams vParams = new LibGpParams();
             StringBuilder vSql = new StringBuilder();
@@ -858,20 +852,22 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" AND Numero = @NumeroFactura");
             vSql.AppendLine(" AND TipoDeDocumento = @TipoDeDocumento ");
             vResult = LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParams.Get(), "", 0) >= 0;
+            vResult &= ActualizaNroControlEnCxC();
             return vResult;
         }
 
-        private bool ActualizaNroControYComprobantelEnCxP() {
+        public bool ActualizaNroControYComprobantelEnCxP(bool valTodosLosValoresDeID ) {
             bool vResult = false;
             LibGpParams vParams = new LibGpParams();
-            StringBuilder vSql = new StringBuilder();
-            Galac.Saw.Lib.eTipoDeTransaccion vTipoCxC = TipoDocumentoFacturaToTipoTransaccionCxC(TipoDeDocumento);
+            StringBuilder vSql = new StringBuilder();            
             vParams.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
             vParams.AddInString("Numero", NumeroCxP, 11);
             vSql.AppendLine("UPDATE CxP ");
-            vSql.AppendLine("SET NumeroControlRetencionIvaImpDigital = " + insUtilSql.ToSqlValue(NumeroControl));
-            vSql.AppendLine("   ,ProveedorImprentaDigital = " + insUtilSql.EnumToSqlValue((int)ProveedorImprentaDigital));
-            vSql.AppendLine("   ,RetencionIvaEnviadaImpDigital = " + insUtilSql.ToSqlValue(true));
+            vSql.AppendLine("SET RetencionIvaEnviadaImpDigital = " + insUtilSql.ToSqlValue(valTodosLosValoresDeID));
+            if (valTodosLosValoresDeID) {
+                vSql.AppendLine("   ,NumeroControlRetencionIvaImpDigital = " + insUtilSql.ToSqlValue(NumeroControl));
+                vSql.AppendLine("   ,ProveedorImprentaDigital = " + insUtilSql.EnumToSqlValue((int)ProveedorImprentaDigital));
+            }
             vSql.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania");
             vSql.AppendLine(" AND Numero = @Numero");
             vResult = LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParams.Get(), "", 0) >= 0;

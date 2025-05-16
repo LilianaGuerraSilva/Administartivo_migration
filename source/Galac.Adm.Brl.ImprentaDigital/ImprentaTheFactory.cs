@@ -157,14 +157,21 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 }
                 if (vChekConeccion) {
                     ConfigurarDocumento();
-                    string vDocumentoJSON = vDocumentoDigital.ToString();                    
+                    string vDocumentoJSON = vDocumentoDigital.ToString();
                     vRespuestaConector = ((clsConectorJsonTheFactory)_ConectorJson).SendPostJsonTF(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Emision), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
                     vResult = vRespuestaConector.Aprobado;
                     if (vResult) {
                         HoraAsignacion = vRespuestaConector.resultados.fechaAsignacionNumeroControl;
                         NumeroControl = vRespuestaConector.resultados.numeroControl;
-                        ActualizaNroControlYProveedorImprentaDigital();
+                        if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionIVA) {
+                            ActualizaNroControYComprobantelEnCxP(vResult);
+                        } else {
+                            vResult = ActualizaNroControlEnFactura();
+                        }
                     } else {
+                        if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionIVA) {
+                            ActualizaNroControYComprobantelEnCxP(false);
+                        }
                         Mensaje = vRespuestaConector.mensaje;
                         throw new Exception(Mensaje);
                     }
