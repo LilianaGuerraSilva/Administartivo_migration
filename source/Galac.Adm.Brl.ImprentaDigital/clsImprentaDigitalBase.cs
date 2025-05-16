@@ -799,20 +799,11 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             if (vResult) { //Emitida en ID, Emitida en SAW Sin Nro. Control                
                 if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionIVA) {
                     vResult = ActualizaNroControYComprobantelEnCxP(vResult);
-                } else {                   
+                } else {
                     vResult = ActualizaNroControlEnFactura();
                 }
-            } else if (LibString.S1IsEqualToS2(EstatusDocumento, "Enviada") && FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Anulada) { //Anulada en SAW, Emitida en ID
-                if (ExistenCxCPorCancelar()) {
-                    Mensaje = "No se puede anular una CxC que esté Cancelada.";
-                } else {
-                    vResult = true;
-                }
-            } else if (LibString.S1IsEqualToS2(EstatusDocumento, "Anulada") && FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Emitida) { //Anulada en ID, Emitida en SAW
-                vResult = true;
-                if (!vResult) {
-                    Mensaje = "No se puede anular una CxC que esté Cancelada.";
-                }
+            } else if (LibString.S1IsEqualToS2(EstatusDocumento, "Enviada") && ComprobanteRetIVAImprentaDigital.StatusCxPAsEnum == eStatusDocumentoCxP.Anulado) { //Anulada en SAW, Emitida en ID                
+                vResult = AnularDocumento();
             } else {
                 vResult = true; // Todo al día
             }
