@@ -1023,6 +1023,7 @@ namespace Galac.Adm.Brl.GestionCompras {
             vSQL.AppendLine("   AND cxP.Numero = " + insSqlUtil.ToSqlValue(valNumeroCxP));
             vSQL.AppendLine("   AND cxP.ConsecutivoCompania = " + valConsecutivoCompania);
             vSQL.AppendLine("   AND cxP.NumeroControlRetencionIvaImpDigital <> " + insSqlUtil.ToSqlValue(""));
+            vSQL.AppendLine("	AND cxP.NumeroControlRetencionIvaImpDigital <> " + insSqlUtil.ToSqlValue(LibString.NCar("0", 20)));
             vSQL.AppendLine("	AND cxP.RetencionIvaEnviadaImpDigital = " + insSqlUtil.ToSqlValue(true));
             return vSQL.ToString();
         }

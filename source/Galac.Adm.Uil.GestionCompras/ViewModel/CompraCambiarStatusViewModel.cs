@@ -437,7 +437,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 string vConfirmMsgFormat = string.Format("¿Está seguro de que desea {0} la Compra?", LibString.LCase(valAction.GetDescription()));
                 if (LibMessages.MessageBox.YesNo(this, vConfirmMsgFormat, ModuleName)) {
                     ChangeStatus();
-                    vSePeude = ((valAction == eAccionSR.Anular || valAction == eAccionSR.Abrir) && Model.GenerarCXPAsBool);
+                    vSePeude = (valAction == eAccionSR.Abrir && Model.GenerarCXPAsBool);
                     UseDetail = false;
                     if (vSePeude && insCompra.VerificaSiDocumentoAsociadoEstaAnulado(Model.ConsecutivoCompania, Model.Numero, Model.CodigoProveedor)) {
                         LibMessages.MessageBox.Alert(this, $"No se puede {LibEnumHelper.GetDescription(valAction)} una Compra si su CxP asociada fue anulada.", ModuleName);
