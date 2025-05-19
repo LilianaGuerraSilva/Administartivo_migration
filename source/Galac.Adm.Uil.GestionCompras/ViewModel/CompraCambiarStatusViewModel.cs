@@ -454,7 +454,6 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                     DialogResult = vResult;
                     CloseOnActionComplete = vResult;
                     LibMessages.RefreshList.Send(ModuleName);
-
                 } else {
                     IsDirty = false;
                     DialogResult = false;
