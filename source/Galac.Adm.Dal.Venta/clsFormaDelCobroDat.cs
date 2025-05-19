@@ -279,10 +279,7 @@ namespace Galac.Adm.Dal.Venta {
                 return true;
             }
             valCodigoCuentaBancaria = LibString.Trim(valCodigoCuentaBancaria);
-            if (LibString.IsNullOrEmpty(valCodigoCuentaBancaria , true)) {
-                BuildValidationInfo(MsgRequiredField("Cuenta Bancaria"));
-                vResult = false;
-            } else {
+            if (!LibString.IsNullOrEmpty(valCodigoCuentaBancaria , true)) {
                 LibDatabase insDb = new LibDatabase();
                 if (!insDb.ExistsValue("Saw.CuentaBancaria", "Codigo", insDb.InsSql.ToSqlValue(valCodigoCuentaBancaria), true)) {
                     BuildValidationInfo("El valor asignado al campo Cuenta Bancaria no existe, escoga nuevamente.");
