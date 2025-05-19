@@ -21,9 +21,9 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         #region Constantes
         public const string SeriePropertyName = "Serie";
         public const string NumeroPropertyName = "Numero";
-        public const string FechaPropertyName = "Fecha";        
+        public const string FechaPropertyName = "Fecha";
         public const string CodigoProveedorPropertyName = "CodigoProveedor";
-        public const string NombreProveedorPropertyName = "NombreProveedor";        
+        public const string NombreProveedorPropertyName = "NombreProveedor";
         public const string CodigoAlmacenPropertyName = "CodigoAlmacen";
         public const string NombreAlmacenPropertyName = "NombreAlmacen";
         public const string MonedaPropertyName = "Moneda";
@@ -58,14 +58,14 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
-       
+
         public string Serie {
             get {
                 return Model.Serie;
             }
             set {
                 if (Model.Serie != value) {
-                    Model.Serie = value;                
+                    Model.Serie = value;
                 }
             }
         }
@@ -76,7 +76,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
             set {
                 if (Model.Numero != value) {
-                    Model.Numero = value;        
+                    Model.Numero = value;
                 }
             }
         }
@@ -289,7 +289,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 if (Model.NombreOperador != value) {
                     Model.NombreOperador = value;
                     IsDirty = true;
-                   // RaisePropertyChanged(NombreOperadorPropertyName);
+                    // RaisePropertyChanged(NombreOperadorPropertyName);
                 }
             }
         }
@@ -302,7 +302,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 if (Model.FechaUltimaModificacion != value) {
                     Model.FechaUltimaModificacion = value;
                     IsDirty = true;
-                   /// RaisePropertyChanged(FechaUltimaModificacionPropertyName);
+                    /// RaisePropertyChanged(FechaUltimaModificacionPropertyName);
                 }
             }
         }
@@ -331,7 +331,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
-        
+
 
         public bool IsVisibleUsaSeguro {
             get {
@@ -342,19 +342,17 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         bool _IsEnabledTipoDistribucion;
         public bool IsEnabledTipoDistribucion {
             get {
-                return IsEnabled &&  _IsEnabledTipoDistribucion;
+                return IsEnabled && _IsEnabledTipoDistribucion;
             }
             set {
                 if (_IsEnabledTipoDistribucion != value) {
-                    _IsEnabledTipoDistribucion = value;                    
+                    _IsEnabledTipoDistribucion = value;
                 }
             }
         }
 
-        public bool IsVisibleDiferenciaDistribucion
-        {
-            get
-            {
+        public bool IsVisibleDiferenciaDistribucion {
+            get {
                 return TipoDeDistribucion == eTipoDeDistribucion.ManualPorMonto;
             }
         }
@@ -372,14 +370,14 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         }
         #endregion //Constructores
         #region Metodos Generados
-        
+
         protected override void InitializeLookAndFeel(Compra valModel) {
-            base.InitializeLookAndFeel(valModel);            
+            base.InitializeLookAndFeel(valModel);
             _clsNoComun.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
             TipoDeCompra = TipoModulo;
             if (Action == eAccionSR.Insertar) {
                 IsEnabledTipoDistribucion = true;
-            }else {
+            } else {
                 IsEnabledTipoDistribucion = false;
             }
         }
@@ -398,14 +396,14 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             return new clsCompraNav();
         }
 
-      
-      
-     
+
+
+
         protected override void InitializeCommands() {
             base.InitializeCommands();
-      
+
         }
-        
+
         private ValidationResult FechaDeAnulacionValidating() {
             ValidationResult vResult = ValidationResult.Success;
             if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
@@ -418,38 +416,45 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             return vResult;
         }
         #endregion //Metodos Generados
-        bool Continue = true;      
-            
+        bool Continue = true;
+
 
         protected override void ExecuteAction() {
             base.ExecuteAction();
-            TipoDeCompra = TipoModulo;           
+            TipoDeCompra = TipoModulo;
         }
 
-        protected override void InitializeDetails() {            
+        protected override void InitializeDetails() {
         }
 
         protected override void ExecuteSpecialAction(eAccionSR valAction) {
-            bool vResult = false;
-            bool vSePeude = false;            
+            bool vResult = true;            
+            UseDetail = false;
             ICompraPdn insCompra = new Brl.GestionCompras.clsCompraNav();
-            if ((valAction == eAccionSR.Anular) || (valAction == eAccionSR.Abrir)) {                
+            if ((valAction == eAccionSR.Anular) || (valAction == eAccionSR.Abrir)) {
                 string vConfirmMsgFormat = string.Format("¿Está seguro de que desea {0} la Compra?", LibString.LCase(valAction.GetDescription()));
                 if (LibMessages.MessageBox.YesNo(this, vConfirmMsgFormat, ModuleName)) {
                     ChangeStatus();
-                    vSePeude = (valAction == eAccionSR.Abrir && Model.GenerarCXPAsBool);
-                    UseDetail = false;
-                    if (vSePeude && insCompra.VerificaSiDocumentoAsociadoEstaAnulado(Model.ConsecutivoCompania, Model.Numero, Model.CodigoProveedor)) {
-                        LibMessages.MessageBox.Alert(this, $"No se puede {LibEnumHelper.GetDescription(valAction)} una Compra si su CxP asociada fue anulada.", ModuleName);
-                    } else {
+                    if (valAction == eAccionSR.Abrir) {
+                        if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaImprentaDigital") && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PuedoUsarOpcionesDeContribuyenteEspecial")) {
+                            if (!insCompra.VerificaSiDocumentoAsociadoEstaAnulado(Model.ConsecutivoCompania, Model.Numero, Model.CodigoProveedor)) {
+                                if (new clsCxPNav().VerficaSiRetencionDeIVACxPFueEnviadaAImpDigital(Model.ConsecutivoCompania, Model.Numero, Model.CodigoProveedor)) {                                                               
+                                    LibMessages.MessageBox.Alert(this, $"No se puede Abrir una Compra si su CxP asociada fue anulada.", ModuleName);
+                                } else {
+                                    vResult = insCompra.CambiarStatusCompra(Model, valAction);
+                                }
+                            }
+                        }
+                    } else if (valAction == eAccionSR.Anular) {
                         vResult = insCompra.CambiarStatusCompra(Model, valAction);
-                        if (vSePeude && vResult) {
+                        if (vResult) {
                             LibMessages.MessageBox.Alert(this, "La anulación de la Compra no implica automáticamente la anulación de la CxP, por lo que este proceso no se ejecutará en línea.\r\nSi desea anular el documento generado a partir de la Compra, diríjase al módulo de CxP y seleccione la opción \"Anular\".", ModuleName);
                         }
-                        DialogResult = vResult;
-                        CloseOnActionComplete = vResult;
-                        LibMessages.RefreshList.Send(ModuleName);
                     }
+                    DialogResult = vResult;
+                    CloseOnActionComplete = vResult;
+                    LibMessages.RefreshList.Send(ModuleName);
+
                 } else {
                     IsDirty = false;
                     DialogResult = false;
@@ -460,15 +465,11 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
-        void ChangeStatus()
-        {
-            if (Action == eAccionSR.Abrir )
-            {
+        void ChangeStatus() {
+            if (Action == eAccionSR.Abrir) {
                 Model.StatusCompraAsEnum = eStatusCompra.Vigente;
-            }
-            else
-            {
-                Model.StatusCompraAsEnum = eStatusCompra.Anulada ;
+            } else {
+                Model.StatusCompraAsEnum = eStatusCompra.Anulada;
             }
         }
     } //End of class CompraViewModel

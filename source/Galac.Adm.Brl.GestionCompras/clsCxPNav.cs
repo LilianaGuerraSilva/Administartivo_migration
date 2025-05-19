@@ -1013,9 +1013,9 @@ namespace Galac.Adm.Brl.GestionCompras {
             vSQL.Append(" AND Numero = @NumeroCxP");
             vSQL.Append(" AND ConsecutivoCompania = @ConsecutivoCompania");
             return vSQL.ToString();
-        }
+        }       
 
-        private string SQLBuscaSiExisteCxPComprobanteRet(int valConsecutivoCompania, string valNumeroCxP, string valCodigoProveedor) {
+        public bool VerficaSiRetencionDeIVACxPFueEnviadaAImpDigital(int valConsecutivoCompania, string valNumeroCxP, string valCodigoProveedor) {
             StringBuilder vSQL = new StringBuilder();
             vSQL.AppendLine("SELECT ConsecutivoCxp");
             vSQL.AppendLine("	FROM cxP");
@@ -1025,14 +1025,10 @@ namespace Galac.Adm.Brl.GestionCompras {
             vSQL.AppendLine("   AND cxP.NumeroControlRetencionIvaImpDigital <> " + insSqlUtil.ToSqlValue(""));
             vSQL.AppendLine("	AND cxP.NumeroControlRetencionIvaImpDigital <> " + insSqlUtil.ToSqlValue(LibString.NCar("0", 20)));
             vSQL.AppendLine("	AND cxP.RetencionIvaEnviadaImpDigital = " + insSqlUtil.ToSqlValue(true));
-            return vSQL.ToString();
+            return new LibDatabase().RecordCountOfSql(vSQL.ToString()) > 0;            
         }
 
-        internal bool VerficaSiRetencionDeIVACxPFueEnviadaAImpDigital(int valConsecutivoCompania, string valNumeroCxP, string valCodigoProveedor) {            
-            return new LibDatabase().RecordCountOfSql(SQLBuscaSiExisteCxPComprobanteRet(valConsecutivoCompania, valNumeroCxP, valCodigoProveedor).ToString()) > 0;            
-        }
-
-        private string SQLBuscaCxPComprobanteRetAnulada(int valConsecutivoCompania, string valNumeroCxP, string valCodigoProveedor) {
+        internal bool VerficaSiCxPFueAnulada(int valConsecutivoCompania, string valNumeroCxP, string valCodigoProveedor) {
             StringBuilder vSQL = new StringBuilder();
             vSQL.AppendLine("SELECT ConsecutivoCxp");
             vSQL.AppendLine("	FROM cxP");
@@ -1040,14 +1036,8 @@ namespace Galac.Adm.Brl.GestionCompras {
             vSQL.AppendLine("   AND cxP.CodigoProveedor = " + insSqlUtil.ToSqlValue(valCodigoProveedor));
             vSQL.AppendLine("   AND cxP.Numero = " + insSqlUtil.ToSqlValue(valNumeroCxP));
             vSQL.AppendLine("   AND cxP.ConsecutivoCompania = " + valConsecutivoCompania);
-            return vSQL.ToString();
+            return new LibDatabase().RecordCountOfSql(vSQL.ToString()) > 0;
         }
-
-        internal bool VerficaSiCxPFueAnulada(int valConsecutivoCompania, string valNumeroCxP, string valCodigoProveedor) {
-            return new LibDatabase().RecordCountOfSql(SQLBuscaCxPComprobanteRetAnulada(valConsecutivoCompania, valNumeroCxP, valCodigoProveedor).ToString()) > 0;
-        }
-
-
     }
     //End of class clsCxPNav
 } //End of namespace Galac..Brl.ComponenteNoEspecificado
