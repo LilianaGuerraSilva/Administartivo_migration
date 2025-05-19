@@ -763,6 +763,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vSeparador = new string('\u007c', 2);
             int vReintentos = 0;
             bool vParar = false;
+            S2PrinterData vS2Result = _TfhkPrinter.GetS2PrinterData();
+            PrinterStatus vPStatus = _TfhkPrinter.GetPrinterStatus();
             _TfhkPrinter.SendCmdRetryAttempts = 3; // Reintentos de Envio
             if (_ModeloSoportaComandosGenerales) {////////////////////////// Usa Nuevos Comandos Generales ////////////////////////////////////
                 valCantidad = DarFormatoNumericoParaComandosGenerales(valCantidad, _EnterosParaCantidad);
@@ -784,13 +786,14 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 while (!vParar) {
                     vParar = _TfhkPrinter.SendCmd(vCmd);
                     Thread.Sleep(1);
-                    S2PrinterData vS2Result = _TfhkPrinter.GetS2PrinterData();
-                    PrinterStatus vPStatus = _TfhkPrinter.GetPrinterStatus();
-                    if ((vPStatus.PrinterStatusCode == 5 && vPStatus.PrinterErrorCode == 0) || vS2Result.QuantityArticles == valCantidadItemsLeidos) {
+                    if (vParar) {
+                        vResult = vParar;
+                        break;
+                    } else if (vPStatus.PrinterStatusCode == 5 || vPStatus.PrinterStatusCode == 4 || vPStatus.PrinterErrorCode == 0) {
                         vParar = true;
                         vResult = vParar;
                         break;
-                    } else if (vPStatus.PrinterStatusCode != 5 || vPStatus.PrinterErrorCode != 0 || vReintentos < 3) {
+                    } else if (vReintentos < 3) {
                         if (vS2Result.QuantityArticles < valCantidadItemsLeidos) {
                             vReintentos++;
                             vParar = false;
@@ -827,13 +830,14 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 while (!vParar) {
                     vParar = _TfhkPrinter.SendCmd(vCmd);
                     Thread.Sleep(1);
-                    S2PrinterData vS2Result = _TfhkPrinter.GetS2PrinterData();
-                    PrinterStatus vPStatus = _TfhkPrinter.GetPrinterStatus();
-                    if ((vPStatus.PrinterStatusCode == 5 && vPStatus.PrinterErrorCode == 0) || vS2Result.QuantityArticles == valCantidadItemsLeidos) {
+                    if (vParar) {
+                        vResult = vParar;
+                        break;
+                    } else if (vPStatus.PrinterStatusCode == 5 || vPStatus.PrinterStatusCode == 4 || vPStatus.PrinterErrorCode == 0) {
                         vParar = true;
                         vResult = vParar;
                         break;
-                    } else if (vPStatus.PrinterStatusCode != 5 || vPStatus.PrinterErrorCode != 0 || vReintentos < 3) {
+                    } else if (vReintentos < 3) {
                         if (vS2Result.QuantityArticles < valCantidadItemsLeidos) {
                             vReintentos++;
                             vParar = false;
