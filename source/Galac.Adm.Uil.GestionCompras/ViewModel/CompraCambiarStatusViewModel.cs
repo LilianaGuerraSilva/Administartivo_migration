@@ -436,7 +436,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 if (LibMessages.MessageBox.YesNo(this, vConfirmMsgFormat, ModuleName)) {
                     ChangeStatus();
                     if (valAction == eAccionSR.Abrir) {
-                        if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaImprentaDigital") && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PuedoUsarOpcionesDeContribuyenteEspecial")) {
+                        if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CompRetIVAPorImpDigital") && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PuedoUsarOpcionesDeContribuyenteEspecial")) {
                             if (!insCompra.VerificaSiDocumentoAsociadoEstaAnulado(Model.ConsecutivoCompania, Model.Numero, Model.CodigoProveedor)) {
                                 if (new clsCxPNav().VerficaSiRetencionDeIVACxPFueEnviadaAImpDigital(Model.ConsecutivoCompania, Model.Numero, Model.CodigoProveedor)) {                                                               
                                     LibMessages.MessageBox.Alert(this, $"No se puede Abrir una Compra si su CxP asociada fue Enviada a Imprenta Digital.", ModuleName);
@@ -445,6 +445,10 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                                 }
                             }
                         }
+
+
+
+
                     } else if (valAction == eAccionSR.Anular) {
                         vResult = insCompra.CambiarStatusCompra(Model, valAction);
                         if (vResult) {

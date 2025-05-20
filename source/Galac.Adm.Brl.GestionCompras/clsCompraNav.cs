@@ -749,7 +749,7 @@ namespace Galac.Adm.Brl.GestionCompras {
             }
             if (valAction == eAccionSR.Modificar || valAction == eAccionSR.Eliminar) {
                 if (vResult) {
-                    if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaImprentaDigital")) {
+                    if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CompRetIVAPorImpDigital")) {
                         if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PuedoUsarOpcionesDeContribuyenteEspecial")) {
                             foreach (Compra vCompra in refRecord) {
                                 vResult = !(new clsCxPNav().VerficaSiRetencionDeIVACxPFueEnviadaAImpDigital(vCompra.ConsecutivoCompania, vCompra.Numero, vCompra.CodigoProveedor));
@@ -763,7 +763,7 @@ namespace Galac.Adm.Brl.GestionCompras {
             }
             if (valAction == eAccionSR.Anular) {
                 if (vResult) {
-                    if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaImprentaDigital")) {
+                    if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CompRetIVAPorImpDigital")) {
                         if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PuedoUsarOpcionesDeContribuyenteEspecial")) {
                             foreach (Compra vCompra in refRecord) {
                                 vResult = !(new clsCxPNav().VerficaSiCxPFueAnulada(vCompra.ConsecutivoCompania, vCompra.Numero, vCompra.CodigoProveedor));
