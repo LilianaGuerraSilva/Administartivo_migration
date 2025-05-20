@@ -667,8 +667,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             JObject vResult = new JObject {
                 {"TipoDocumento",GetTipoDocumentoComprobante(TipoDocumentoImprentaDigital) },
                 {"numeroDocumento", ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion},
-                {"tipoTransaccion", "01"},
-                {"fechaEmision", LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaAplicacionRetIVA)},
+                {"tipoTransaccion",GetTipoTransaccion(ComprobanteRetIVAImprentaDigital.TipoDeTransaccionAsEnum)},
+                {"fechaEmision", LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaEmision)},
                 {"FechaVencimiento", LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaDeVencimiento)},
                 {"horaEmision", GetFormatoDeHoraSimple(LibDate.CurrentHourAsStr)},
                 {"serie", ""},
@@ -697,54 +697,38 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         private JArray GetComprobanteRetDetalle() {
             JArray vResult = new JArray();
-            string vNumeroDocumento = GetNumeroDocumentoDetalle(ComprobanteRetIVAImprentaDigital.TipoDeDocumentoAsEnum);
-            JObject vItem = new JObject {
-            {"NumeroLinea","1" },
-            {"FechaDocumento", LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaDelDocOrigen,"dd/MM/yyyy")},
-            {"SerieDocumento", null},
-            {"TipoDocumento", GetTipoDocumentoRetencion(ComprobanteRetIVAImprentaDigital.TipoDeDocumentoAsEnum) }, // Ajustar segun lo que corresponda
-            {"NumeroDocumento",vNumeroDocumento },
-            {"NumeroControl", ComprobanteRetIVAImprentaDigital.NumeroControl },
-            {"TipoTransaccion", GetTipoTransaccion(ComprobanteRetIVAImprentaDigital.TipoDeTransaccionAsEnum) },
-            {"MontoTotal", DecimalToStringFormat(LibMath.Abs(ComprobanteRetIVAImprentaDigital.TotalCXP)) },
-            {"MontoExento",DecimalToStringFormat(LibMath.Abs(ComprobanteRetIVAImprentaDigital.MontoExento)) },
-            {"BaseImponible",DecimalToStringFormat(LibMath.Abs(ComprobanteRetIVAImprentaDigital.MontoGravado)) },
-            {"Porcentaje", DecimalToStringFormat(LibMath.Abs(ComprobanteRetIVAImprentaDigital.PorcentajeRetencionAplicado)) },
-            {"MontoIVA", DecimalToStringFormat(LibMath.Abs(ComprobanteRetIVAImprentaDigital.MontoIva)) },
-            {"Retenido", DecimalToStringFormat(LibMath.Abs(ComprobanteRetIVAImprentaDigital.MontoRetenido)) },
-            //{"Percibido", "" },            
-            {"Moneda", ComprobanteRetIVAImprentaDigital.CodigoMoneda }};           
-            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionISLR) {
-                vItem.Add("CodigoConcepto", "000"); //temporalmente
-            }
-            vResult.Add(vItem);
-            return vResult;
-        }
-
-        private string GetNumeroDocumentoDetalle(eTipoDeTransaccionID valTipoDocumento) {
-            string vResult = "";
-            switch (valTipoDocumento) {
-                case eTipoDeTransaccionID.Factura:
-                    vResult = ComprobanteRetIVAImprentaDigital.NumeroDeDocumento;
-                    break;
-                case eTipoDeTransaccionID.NotaDeCredito:
-                    vResult = ComprobanteRetIVAImprentaDigital.NumeroDeNotaCredito;
-                    break;
-                case eTipoDeTransaccionID.NotaDeDebito:
-                    vResult = ComprobanteRetIVAImprentaDigital.NumeroDeNotaDebito;
-                    break;
-                default:
-                    vResult = ComprobanteRetIVAImprentaDigital.NumeroDeDocumento;
-                    break;
+            int vNumeroLinea = 1;
+            foreach (ComprobanteRetIVADetalle vDetalle in DetalleComprobanteRetencion) {
+                JObject vItem = new JObject {
+                {"NumeroLinea", string.Format("{0:D4}",vNumeroLinea) },
+                {"FechaDocumento", LibConvert.ToStr(vDetalle.FechaDelDocumento)},
+                {"SerieDocumento", null},
+                {"TipoDocumento", GetTipoDocumentoRetencion(vDetalle.TipoDeDocumentoAsEnum) }, // Ajustar segun lo que corresponda
+                {"NumeroDocumento",vDetalle.NumeroDocumento },
+                {"NumeroControl", vDetalle.NumeroControlDocumento },
+                {"TipoTransaccion", GetTipoTransaccion(vDetalle.TipoDeTransaccionAsEnum) },
+                {"MontoTotal", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoTotal)) },
+                {"MontoExento",DecimalToStringFormat(LibMath.Abs(vDetalle.MontoExento)) },
+                {"BaseImponible",DecimalToStringFormat(LibMath.Abs(vDetalle.BaseImponible)) },
+                {"Porcentaje", DecimalToStringFormat(LibMath.Abs(vDetalle.PorcentajeIVA)) },
+                {"MontoIVA", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoIVA)) },
+                {"Retenido", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoRetenido)) },
+                {"Percibido", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoPercibido)) },
+                {"Moneda", vDetalle.CodigoMoneda }};
+                if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionISLR) {
+                    vItem.Add("CodigoConcepto", "000"); //temporalmente
+                }
+                vNumeroLinea++;
+                vResult.Add(vItem);
             }
             return vResult;
-        }
+        }        
 
         private JObject GetComprobanteTotalesRet() {
             JObject vResult = new JObject {
                 {"TotalBaseImponible", DecimalToStringFormat(LibMath.Abs(ComprobanteRetIVAImprentaDigital.MontoGravado))},
-                { "NumeroCompRetencion", ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion},
-                {"FechaEmisionCR",LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaAplicacionRetIVA,"dd/MM/yyyy")},
+                {"NumeroCompRetencion", ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion},
+                {"FechaEmisionCR",LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaEmision,"dd/MM/yyyy")},
                 {"TotalRetenido", DecimalToStringFormat(LibMath.Abs(ComprobanteRetIVAImprentaDigital.MontoRetenido))},
                 {"TotalIGTF", null },
                 { "TipoComprobante",TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionISLR? "6": ""}};
