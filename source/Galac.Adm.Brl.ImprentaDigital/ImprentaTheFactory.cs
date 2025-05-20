@@ -671,6 +671,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 {"fechaEmision", LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaEmision)},
                 {"FechaVencimiento", LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaDeVencimiento)},
                 {"horaEmision", GetFormatoDeHoraSimple(LibDate.CurrentHourAsStr)},
+                {"NumeroFacturaAfectada", ComprobanteRetIVAImprentaDigital.NumeroDeFacturaAfectada},
                 {"serie", ""},
                 {"sucursal", ""},
                 {"tipoDeVenta", LibEnumHelper.GetDescription(eTipoDeVenta.Interna)},
@@ -698,12 +699,12 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         private JArray GetComprobanteRetDetalle() {
             JArray vResult = new JArray();
             int vNumeroLinea = 1;
-            foreach (ComprobanteRetIVADetalle vDetalle in DetalleComprobanteRetencion) {
+            foreach (ComprobanteRetIVADetalle vDetalle in DetalleComprobanteRetencion) {                
                 JObject vItem = new JObject {
                 {"NumeroLinea", string.Format("{0:D4}",vNumeroLinea) },
                 {"FechaDocumento", LibConvert.ToStr(vDetalle.FechaDelDocumento)},
                 {"SerieDocumento", null},
-                {"TipoDocumento", GetTipoDocumentoRetencion(vDetalle.TipoDeDocumentoAsEnum) }, // Ajustar segun lo que corresponda
+                {"TipoDocumento", GetTipoDocumentoRetencion(vDetalle.TipoDeCxPAsEnum) }, // Ajustar segun lo que corresponda
                 {"NumeroDocumento",vDetalle.NumeroDocumento },
                 {"NumeroControl", vDetalle.NumeroControlDocumento },
                 {"TipoTransaccion", GetTipoTransaccion(vDetalle.TipoDeTransaccionAsEnum) },

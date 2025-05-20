@@ -731,19 +731,19 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                         ComprobanteRetIVADetalle insComprobanteRetIVADetalle = new ComprobanteRetIVADetalle();
                         insComprobanteRetIVADetalle.BaseImponible = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "BaseImponible"), 2);
                         insComprobanteRetIVADetalle.PorcentajeIVA = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "PorcentajeAlicuota"), 2);
-                        insComprobanteRetIVADetalle.MontoIVA= LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "MontoIVA"), 2);
-                        insComprobanteRetIVADetalle.MontoExento= LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "MontoExento"), 2);
+                        insComprobanteRetIVADetalle.MontoIVA = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "MontoIVA"), 2);
+                        insComprobanteRetIVADetalle.MontoExento = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "MontoExento"), 2);
                         insComprobanteRetIVADetalle.MontoTotal = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "MontoTotal"), 2);
                         insComprobanteRetIVADetalle.MontoRetenido = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "MontoRetenido"), 2);
-                        insComprobanteRetIVADetalle.MontoPercibido= LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "MontoRetenido"), 2);
-                        insComprobanteRetIVADetalle.FechaDelDocumento= LibImportData.ToDate(LibXml.GetElementValueOrEmpty(vRowDetaill, "FechaDelDocumento"));
-                        insComprobanteRetIVADetalle.TipoDeTransaccion = LimpiarCaracteresNoValidos(LibXml.GetElementValueOrEmpty(vRowDetaill, "TipoDeTransaccion"));
-                        insComprobanteRetIVADetalle.TipoDeDocumento = LimpiarCaracteresNoValidos(LibXml.GetElementValueOrEmpty(vResult, "TipoDeCxP"));                        
-                        insComprobanteRetIVADetalle.NumeroDocumento = LimpiarCaracteresNoValidos(LibXml.GetElementValueOrEmpty(vRowDetaill, "NumeroDeDocumento"));                         
-                        insComprobanteRetIVADetalle.NumeroControlDocumento = LimpiarCaracteresNoValidos(LibXml.GetElementValueOrEmpty(vRowDetaill, "NumeroControl"));  
+                        insComprobanteRetIVADetalle.MontoPercibido = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "MontoRetenido"), 2);
+                        insComprobanteRetIVADetalle.FechaDelDocumento = LibImportData.ToDate(LibXml.GetElementValueOrEmpty(vRowDetaill, "FechaDelDocumento"));
+                        insComprobanteRetIVADetalle.TipoDeTransaccion = LibXml.GetPropertyString(vRowDetaill, "TipoDeTransaccion");
+                        insComprobanteRetIVADetalle.TipoDeCxP = LibXml.GetPropertyString(vResult, "TipoDeCxP");
+                        insComprobanteRetIVADetalle.NumeroDocumento = LimpiarCaracteresNoValidos(LibXml.GetElementValueOrEmpty(vRowDetaill, "NumeroDeDocumento"));
+                        insComprobanteRetIVADetalle.NumeroControlDocumento = LimpiarCaracteresNoValidos(LibXml.GetElementValueOrEmpty(vRowDetaill, "NumeroControl"));
                         insComprobanteRetIVADetalle.CodigoMoneda = LimpiarCaracteresNoValidos(LibXml.GetElementValueOrEmpty(vRowDetaill, "CodigoMoneda"));
                         DetalleComprobanteRetencion.Add(insComprobanteRetIVADetalle);
-                    }                    
+                    }
                 }
             } catch (GalacException) {
                 throw new GalacException("No existen Datos del detalle de Retención de IVA para esta CxP, por favor revisar.", eExceptionManagementType.Controlled);

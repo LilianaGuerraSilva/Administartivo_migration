@@ -130,8 +130,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         private eTipoDeTransaccionID _TipoDeCxP;
         private eTipoDeTransaccionDeLibrosFiscales _TipoDeTransaccion;
         public string NumeroDocumento { get; set; }
-        public DateTime FechaDelDocumento { get; set; }
-        public string TipoDeDocumento { get; set; }
+        public DateTime FechaDelDocumento { get; set; }     
         public string SerieDocumento { get; set; }
         public string NumeroControlDocumento { get; set; }      
         public decimal BaseImponible { get; set; }   
@@ -165,7 +164,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             }
         }
 
-        public eTipoDeTransaccionID TipoDeDocumentoAsEnum {
+        public eTipoDeTransaccionID TipoDeCxPAsEnum {
             get {
                 return _TipoDeCxP;
             }
@@ -188,12 +187,11 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
        
         public  ComprobanteRetIVADetalle() {
             NumeroDocumento = string.Empty;
-            FechaDelDocumento = LibDate.MinDateForDB();
-            TipoDeDocumento = string.Empty;
+            FechaDelDocumento = LibDate.MinDateForDB();           
             SerieDocumento = string.Empty;
             NumeroControlDocumento = string.Empty;
             TipoDeTransaccionAsEnum = eTipoDeTransaccionDeLibrosFiscales.Registro;
-            TipoDeDocumentoAsEnum= eTipoDeTransaccionID.Factura;
+            TipoDeCxPAsEnum = eTipoDeTransaccionID.Factura;
             BaseImponible = 0m;
             PorcentajeIVA = 0m;
             MontoExento = 0m;
