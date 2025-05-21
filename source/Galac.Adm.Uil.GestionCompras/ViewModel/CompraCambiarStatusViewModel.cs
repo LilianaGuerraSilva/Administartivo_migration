@@ -428,7 +428,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         }
 
         protected override void ExecuteSpecialAction(eAccionSR valAction) {
-            bool vResult = true;            
+            bool vContinuar = true;            
             UseDetail = false;
             ICompraPdn insCompra = new Brl.GestionCompras.clsCompraNav();
             if ((valAction == eAccionSR.Anular) || (valAction == eAccionSR.Abrir)) {
@@ -437,26 +437,28 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                     ChangeStatus();
                     if (valAction == eAccionSR.Abrir) {
                         if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CompRetIVAPorImpDigital") && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PuedoUsarOpcionesDeContribuyenteEspecial")) {
-                            if (!insCompra.VerificaSiDocumentoAsociadoEstaAnulado(Model.ConsecutivoCompania, Model.Numero, Model.CodigoProveedor)) {
-                                if (new clsCxPNav().VerficaSiRetencionDeIVACxPFueEnviadaAImpDigital(Model.ConsecutivoCompania, Model.Numero, Model.CodigoProveedor)) {                                                               
-                                    LibMessages.MessageBox.Alert(this, $"No se puede Abrir una Compra si su CxP asociada fue Enviada a Imprenta Digital.", ModuleName);
+                            if (insCompra.VerificaSiDocumentoAsociadoEstaAnulado(Model.ConsecutivoCompania, Model.Numero, Model.CodigoProveedor)) {
+                                LibMessages.MessageBox.Alert(this, $"No se puede Abrir una Compra si su CxP asociada fue Anulada.", ModuleName);
+                                vContinuar = false;                                
+                            } else {
+                                if (new clsCxPNav().VerficaSiRetencionDeIVACxPFueEnviadaAImpDigital(Model.ConsecutivoCompania, Model.Numero, Model.CodigoProveedor)) {
+                                    vContinuar = false;
+                                    LibMessages.MessageBox.Alert(this, $"No es posible abrir la Compra porque el Comprobante de Retención de la CxP asociada ya se envió a la Imprenta Digital.\r\nPara proceder, debe anular la CxP", ModuleName);
                                 } else {
-                                    vResult = insCompra.CambiarStatusCompra(Model, valAction);
+                                    vContinuar = insCompra.CambiarStatusCompra(Model, valAction);                                    
                                 }
                             }
+                        } else {
+                            vContinuar = insCompra.CambiarStatusCompra(Model, valAction);                            
                         }
-
-
-
-
                     } else if (valAction == eAccionSR.Anular) {
-                        vResult = insCompra.CambiarStatusCompra(Model, valAction);
-                        if (vResult) {
+                        vContinuar = insCompra.CambiarStatusCompra(Model, valAction);
+                        if (vContinuar) {
                             LibMessages.MessageBox.Alert(this, "La anulación de la Compra no implica automáticamente la anulación de la CxP, por lo que este proceso no se ejecutará en línea.\r\nSi desea anular el documento generado a partir de la Compra, diríjase al módulo de CxP y seleccione la opción \"Anular\".", ModuleName);
                         }
                     }
-                    DialogResult = vResult;
-                    CloseOnActionComplete = vResult;
+                    DialogResult = vContinuar;
+                    CloseOnActionComplete = vContinuar;
                     LibMessages.RefreshList.Send(ModuleName);
                 } else {
                     IsDirty = false;
