@@ -443,7 +443,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                             } else {
                                 if (new clsCxPNav().VerficaSiRetencionDeIVACxPFueEnviadaAImpDigital(Model.ConsecutivoCompania, Model.Numero, Model.CodigoProveedor)) {
                                     vContinuar = false;
-                                    LibMessages.MessageBox.Alert(this, $"No es posible abrir la Compra porque el Comprobante de Retención de la CxP asociada ya se envió a la Imprenta Digital.\r\nPara proceder, debe anular la CxP", ModuleName);
+                                    LibMessages.MessageBox.Alert(this, $"No es posible abrir la Compra porque el Comprobante de Retención de la CxP asociada ya se envió a la Imprenta Digital.\r\nDebe anular la CxP", ModuleName);
                                 } else {
                                     vContinuar = insCompra.CambiarStatusCompra(Model, valAction);                                    
                                 }
