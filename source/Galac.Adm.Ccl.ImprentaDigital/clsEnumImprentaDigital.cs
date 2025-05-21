@@ -70,6 +70,22 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         Refinanciado
     }
 
+    [TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipodePersonaRetencionID {
+        [LibEnumDescription("Jurídica Domiciliada", Index = 0)]
+        [LibEnumDescription("PJD", Index = 1)]
+        JuridicaDomiciliada,
+        [LibEnumDescription("PJND", Index = 1)]
+        [LibEnumDescription("Jurídica No Domiciliada", Index = 0)]
+        JuridicaNoDomiciliada,
+        [LibEnumDescription("PNR", Index = 1)]
+        [LibEnumDescription("Natural Residente", Index = 0)]
+        NaturalResidente,
+        [LibEnumDescription("Natural No Residente", Index = 0)]
+        [LibEnumDescription("PNNR", Index = 1)]
+        NaturalNoResidente
+    }
+
     #region Comandos Thefactory HKA
 
     [TypeConverter(typeof(LibEnumTypeConverter))]

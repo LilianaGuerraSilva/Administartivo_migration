@@ -367,7 +367,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 vNumeroRif = LibString.Replace(vNumeroRif, "-", "");
             } else {
                 vNumeroRif = valSuejtoRetencion.NumeroRIF;
-                if (valSuejtoRetencion.TipoDeProveedorDeLibrosFiscalesAsEnum == eTipoDeProveedorDeLibrosFiscalesID.ConRif) {
+                if (valSuejtoRetencion.TipoDePersonaRetencionAsEnum == eTipodePersonaRetencionID.JuridicaDomiciliada || valSuejtoRetencion.TipoDePersonaRetencionAsEnum == eTipodePersonaRetencionID.JuridicaNoDomiciliada) {
+                    vPrefijo = "J";
+                } else if (LibString.S1IsInS2("E", valSuejtoRetencion.TipoDeProveedor)) {
                     vPrefijo = "E";
                 } else {
                     vPrefijo = "V";
@@ -699,7 +701,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         private JArray GetComprobanteRetDetalle() {
             JArray vResult = new JArray();
             int vNumeroLinea = 1;
-            foreach (ComprobanteRetIVADetalle vDetalle in DetalleComprobanteRetencion) {                
+            foreach (ComprobanteRetDetalle vDetalle in DetalleComprobanteRetencion) {                
                 JObject vItem = new JObject {
                 {"NumeroLinea", string.Format("{0:D4}",vNumeroLinea) },
                 {"FechaDocumento", LibConvert.ToStr(vDetalle.FechaDelDocumento)},
@@ -711,13 +713,13 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 {"MontoTotal", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoTotal)) },
                 {"MontoExento",DecimalToStringFormat(LibMath.Abs(vDetalle.MontoExento)) },
                 {"BaseImponible",DecimalToStringFormat(LibMath.Abs(vDetalle.BaseImponible)) },
-                {"Porcentaje", DecimalToStringFormat(LibMath.Abs(vDetalle.PorcentajeIVA)) },
+                {"Porcentaje", DecimalToStringFormat(LibMath.Abs(vDetalle.PorcentajeRetencion)) },
                 {"MontoIVA", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoIVA)) },
                 {"Retenido", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoRetenido)) },
                 {"Percibido", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoPercibido)) },
                 {"Moneda", vDetalle.CodigoMoneda }};
                 if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionISLR) {
-                    vItem.Add("CodigoConcepto", "000"); //temporalmente
+                    vItem.Add("CodigoConcepto", vDetalle.CodigoConcepto); //temporalmente
                 }
                 vNumeroLinea++;
                 vResult.Add(vItem);
