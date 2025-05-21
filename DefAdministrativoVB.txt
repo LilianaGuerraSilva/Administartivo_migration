@@ -2203,7 +2203,8 @@ MenuDeInformes : boolean;
     NumeroControlRetencionIvaImpDigital        : Str20; //dv='',"NumeroControlRet Iva ID" 
     ProveedorImprentaDigital    : unProveedorImprentaDigital; //dv='0',"Proveedor Imprenta Digital"
     RetencionIvaEnviadaImpDigital : Boolean;//dv='N'
-    NombreOperador                	: Str10; //a 
+    MotivoDeAnulacionDeComprobante  : Str150;//dv="",Motivo de Anulación"
+	NombreOperador                	: Str10; //a 
     FechaUltimaModificacion       	: Date;//a
     @PrimaryKey=ConsecutivoCompania,ConsecutivoCxP
 }

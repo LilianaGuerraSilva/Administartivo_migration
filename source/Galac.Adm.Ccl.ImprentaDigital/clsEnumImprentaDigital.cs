@@ -54,6 +54,22 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         NoDomiciliado
     }
 
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eStatusDocumentoCxP {
+        [LibEnumDescription("Por Cancelar")]
+        PorCancelar = 0,
+        [LibEnumDescription("Cancelado")]
+        Cancelado,
+        [LibEnumDescription("Cheque Devuelto")]
+        ChequeDevuelto,
+        [LibEnumDescription("Abonado")]
+        Abonado,
+        [LibEnumDescription("Anulado")]
+        Anulado,
+        [LibEnumDescription("Refinanciado")]
+        Refinanciado
+    }
+
     #region Comandos Thefactory HKA
 
     [TypeConverter(typeof(LibEnumTypeConverter))]

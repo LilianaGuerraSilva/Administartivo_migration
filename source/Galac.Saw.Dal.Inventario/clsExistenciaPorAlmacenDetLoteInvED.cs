@@ -72,15 +72,11 @@ namespace Galac.Saw.Dal.Inventario {
         private string SqlViewExistenciaB1() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("SELECT Saw.LoteDeInventario.ConsecutivoCompania, Saw.LoteDeInventario.Consecutivo, Saw.LoteDeInventario.CodigoLote, Saw.LoteDeInventario.CodigoArticulo, dbo.ArticuloInventario.Descripcion As DescripcionArticulo");
-            //SQL.AppendLine(", Saw.LoteDeInventario.FechaDeElaboracion, Saw.LoteDeInventario.FechaDeVencimiento, dbo.ExistenciaPorAlmacenDetLoteInv.Cantidad AS Existencia, Saw.LoteDeInventario.StatusLoteInv, Saw.Gv_EnumStatusLoteDeInventario.StrValue AS StatusLoteInvStr");
             SQL.AppendLine(", Saw.LoteDeInventario.FechaDeElaboracion, Saw.LoteDeInventario.FechaDeVencimiento, dbo.ExistenciaPorAlmacenDetLoteInv.Cantidad AS Existencia, Saw.LoteDeInventario.StatusLoteInv");
             SQL.AppendLine(", Saw.Almacen.Consecutivo As ConsecutivoAlmacen");
             SQL.AppendLine(", Saw.Almacen.Codigo AS CodigoAlmacen");
             SQL.AppendLine(", Saw.Almacen.NombreAlmacen");
             SQL.AppendLine("FROM Saw.LoteDeInventario");
-            //SQL.AppendLine("INNER JOIN Saw.Gv_EnumStatusLoteDeInventario");
-            //SQL.AppendLine("ON Saw.LoteDeInventario.StatusLoteInv COLLATE MODERN_SPANISH_CS_AS");
-            //SQL.AppendLine(" = Saw.Gv_EnumStatusLoteDeInventario.DbValue");
             SQL.AppendLine("INNER JOIN dbo.ArticuloInventario");
             SQL.AppendLine("ON Saw.LoteDeInventario.CodigoArticulo = ArticuloInventario.Codigo");
             SQL.AppendLine("AND Saw.LoteDeInventario.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania");

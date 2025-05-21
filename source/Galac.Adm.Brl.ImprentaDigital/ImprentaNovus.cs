@@ -167,7 +167,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     if(vResult) {
                         NumeroControl = vRespuestaConector.dataNV.Value.numerodocumento;
                         HoraAsignacion = vRespuestaConector.dataNV.Value.hora;
-                        ActualizaNroControlYProveedorImprentaDigital();
+                        ActualizaNroControlEnFactura();
                     } else {
                         Mensaje = vRespuestaConector.messageNV;
                         throw new Exception(Mensaje);
