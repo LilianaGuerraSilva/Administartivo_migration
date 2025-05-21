@@ -735,17 +735,45 @@ namespace Galac.Adm.Brl.GestionCompras {
 
         bool ICompraPdn.VerificaExistenciaEnOrdenDeCompra(int valConsecutivoCompania, int valConsecutivoOrdenDeCompra) {
             return new clsOrdenDeCompraNav().VerificaExistenciaEnOrdenDeCompra(valConsecutivoCompania, valConsecutivoOrdenDeCompra);
-        }
+        }       
 
-        protected override bool CanBeChoosenForAction(IList<Compra> refRecord,eAccionSR valAction) {
+        protected override bool CanBeChoosenForAction(IList<Compra> refRecord, eAccionSR valAction) {
             bool vResult = true;
             if (valAction == eAccionSR.Modificar || valAction == eAccionSR.Anular || valAction == eAccionSR.Eliminar) {
                 foreach (Compra vCompra in refRecord) {
-                    vResult = !(new clsCxPNav().VerificaSiCxPEstaPorCancelar(vCompra.ConsecutivoCompania,vCompra.Numero,vCompra.CodigoProveedor));
+                    vResult = !(new clsCxPNav().VerificaSiCxPEstaPorCancelar(vCompra.ConsecutivoCompania, vCompra.Numero, vCompra.CodigoProveedor));
+                }
+                if (!vResult) {
+                    throw new GalacAlertException("No se puede " + valAction.ToString() + " una Compra, cuya CxP tenga Pagos asociados.");
                 }
             }
-            if (!vResult) {
-                throw new GalacAlertException("No se puede " + valAction.ToString() + " una Compra, cuya CxP tenga Pagos asociados.");
+            if (valAction == eAccionSR.Modificar || valAction == eAccionSR.Eliminar) {
+                if (vResult) {
+                    if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CompRetIVAPorImpDigital")) {
+                        if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PuedoUsarOpcionesDeContribuyenteEspecial")) {
+                            foreach (Compra vCompra in refRecord) {
+                                vResult = !(new clsCxPNav().VerficaSiRetencionDeIVACxPFueEnviadaAImpDigital(vCompra.ConsecutivoCompania, vCompra.Numero, vCompra.CodigoProveedor));
+                            }
+                        }
+                    }
+                }
+                if (!vResult) {
+                    throw new GalacAlertException("No se puede " + valAction.ToString() + " una Compra, cuyo Comprobante de Retención haya sido enviado a la Imprenta Digital.");
+                }
+            }
+            if (valAction == eAccionSR.Anular) {
+                if (vResult) {
+                    if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CompRetIVAPorImpDigital")) {
+                        if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PuedoUsarOpcionesDeContribuyenteEspecial")) {
+                            foreach (Compra vCompra in refRecord) {
+                                vResult = !(new clsCxPNav().VerficaSiCxPFueAnulada(vCompra.ConsecutivoCompania, vCompra.Numero, vCompra.CodigoProveedor));
+                            }
+                        }
+                    }
+                }
+                if (!vResult) {
+                    throw new GalacAlertException("No se puede " + valAction.ToString() + " una Compra, cuyo Comprobante de Retención aún no ha sido anulado.");
+                }
             }
             return vResult;
         }
@@ -824,6 +852,11 @@ namespace Galac.Adm.Brl.GestionCompras {
             vListLote.Add(vLote);
             vLotePnd.ActualizarLoteYReversarMov(vListLote,eOrigenLoteInv.Compra, valItemCompra.Consecutivo, "", vSoloAnulados);
         }
+
+        bool ICompraPdn.VerificaSiDocumentoAsociadoEstaAnulado(int valConsecutivoCompania, string valCompraNumero, string valCodigoProveedor) {
+            return (new clsCxPNav().VerficaSiCxPFueAnulada(valConsecutivoCompania, valCompraNumero, valCodigoProveedor));
+        }
+
     } //End of class clsCompraNav
 
 

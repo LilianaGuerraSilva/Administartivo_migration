@@ -108,28 +108,30 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             try {
                 bool vResult = false;
                 stRespuestaTF vRespuestaConector = new stRespuestaTF();
-                bool vDocumentoExiste = EstadoDocumento();
+                bool vDocumentoExiste = false;
+                if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.Facturacion) {
+                    throw new GalacException("Los Documentos Fiscales Factura, Nota de Crédito, Nota de Débito no pueden ser anulados por normativa del SENIAT", eExceptionManagementType.Controlled);
+                }
                 if (LibString.IsNullOrEmpty(EstatusDocumento)) {
                     vDocumentoExiste = EstadoDocumento();
                 }
                 if (vDocumentoExiste) {
                     if (!LibString.S1IsEqualToS2(EstatusDocumento, "Anulada")) {
-                        stSolicitudDeAccion vSolicitudDeAnulacion = new stSolicitudDeAccion() {
-                            Serie = SerieDocumento(),
-                            TipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum),
-                            NumeroDocumento = NumeroDocumento(),
-                            MotivoAnulacion = FacturaImprentaDigital.MotivoDeAnulacion
-                        };
-                        string vDocumentoJSON = clsConectorJson.SerializeJSON(vSolicitudDeAnulacion); //Construir o JSON Con datos                         
+                        JObject vJDoc = new JObject {
+                            {"Serie",SerieDocumento() },
+                            {"TipoDocumento", GetTipoDocumentoComprobante(TipoDocumentoImprentaDigital) },
+                            {"NumeroDocumento",NumeroDocumento() },
+                            {"MotivoAnulacion",ComprobanteRetIVAImprentaDigital.MotivoDeAnulacionDeComprobante } };
+                        string vDocumentoJSON = vJDoc.ToString(); //Construir o JSON Con datos                         
                         vRespuestaConector = ((clsConectorJsonTheFactory)_ConectorJson).SendPostJsonTF(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Anular), _ConectorJson.Token);
                         vResult = vRespuestaConector.Aprobado;
                         Mensaje = vRespuestaConector.mensaje;
                     } else {
-                        Mensaje = $"No se pudo anular la {FacturaImprentaDigital.TipoDeDocumentoAsString} en la Imprenta Digital, debe sincronizar el documento.";
+                        Mensaje = $"No se pudo anular el Comprobante {ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion} en la Imprenta Digital, debe sincronizar el documento.";
                     }
                 } else {
                     if (!LibString.IsNullOrEmpty(Mensaje)) {
-                        Mensaje = $"La {FacturaImprentaDigital.TipoDeDocumentoAsString} no pudo ser anulada.\r\n" + Mensaje;
+                        Mensaje = $"El Comprobante {ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion} no pudo ser anulado.\r\n" + Mensaje;
                     }
                 }
                 return vResult;
@@ -155,14 +157,21 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 }
                 if (vChekConeccion) {
                     ConfigurarDocumento();
-                    string vDocumentoJSON = vDocumentoDigital.ToString();                    
+                    string vDocumentoJSON = vDocumentoDigital.ToString();
                     vRespuestaConector = ((clsConectorJsonTheFactory)_ConectorJson).SendPostJsonTF(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Emision), _ConectorJson.Token, NumeroDocumento(), TipoDeDocumento);
                     vResult = vRespuestaConector.Aprobado;
                     if (vResult) {
                         HoraAsignacion = vRespuestaConector.resultados.fechaAsignacionNumeroControl;
                         NumeroControl = vRespuestaConector.resultados.numeroControl;
-                        ActualizaNroControlYProveedorImprentaDigital();
+                        if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionIVA) {
+                            ActualizaNroControYComprobantelEnCxP(vResult);
+                        } else {
+                            vResult = ActualizaNroControlEnFactura();
+                        }
                     } else {
+                        if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionIVA) {
+                            ActualizaNroControYComprobantelEnCxP(false);
+                        }
                         Mensaje = vRespuestaConector.mensaje;
                         throw new Exception(Mensaje);
                     }
@@ -658,10 +667,11 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             JObject vResult = new JObject {
                 {"TipoDocumento",GetTipoDocumentoComprobante(TipoDocumentoImprentaDigital) },
                 {"numeroDocumento", ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion},
-                {"tipoTransaccion", "01"},
-                {"fechaEmision", LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaAplicacionRetIVA)},
+                {"tipoTransaccion",GetTipoTransaccion(ComprobanteRetIVAImprentaDigital.TipoDeTransaccionAsEnum)},
+                {"fechaEmision", LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaEmision)},
                 {"FechaVencimiento", LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaDeVencimiento)},
                 {"horaEmision", GetFormatoDeHoraSimple(LibDate.CurrentHourAsStr)},
+                {"NumeroFacturaAfectada", ComprobanteRetIVAImprentaDigital.NumeroDeFacturaAfectada},
                 {"serie", ""},
                 {"sucursal", ""},
                 {"tipoDeVenta", LibEnumHelper.GetDescription(eTipoDeVenta.Interna)},
@@ -688,54 +698,38 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         private JArray GetComprobanteRetDetalle() {
             JArray vResult = new JArray();
-            string vNumeroDocumento = GetNumeroDocumentoDetalle(ComprobanteRetIVAImprentaDigital.TipoDeDocumentoAsEnum);
-            JObject vItem = new JObject {
-            {"NumeroLinea","1" },
-            {"FechaDocumento", LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaDelDocOrigen,"dd/MM/yyyy")},
-            {"SerieDocumento", null},
-            {"TipoDocumento", GetTipoDocumentoRetencion(ComprobanteRetIVAImprentaDigital.TipoDeDocumentoAsEnum) }, // Ajustar segun lo que corresponda
-            {"NumeroDocumento",vNumeroDocumento },
-            {"NumeroControl", ComprobanteRetIVAImprentaDigital.NumeroControl },
-            {"TipoTransaccion", GetTipoTransaccion(ComprobanteRetIVAImprentaDigital.TipoDeTransaccionAsEnum) },
-            {"MontoTotal", DecimalToStringFormat(LibMath.Abs(ComprobanteRetIVAImprentaDigital.TotalCXP)) },
-            {"MontoExento",DecimalToStringFormat(LibMath.Abs(ComprobanteRetIVAImprentaDigital.MontoExento)) },
-            {"BaseImponible",DecimalToStringFormat(LibMath.Abs(ComprobanteRetIVAImprentaDigital.MontoGravado)) },
-            {"Porcentaje", DecimalToStringFormat(LibMath.Abs(ComprobanteRetIVAImprentaDigital.PorcentajeRetencionAplicado)) },
-            {"MontoIVA", DecimalToStringFormat(LibMath.Abs(ComprobanteRetIVAImprentaDigital.MontoIva)) },
-            {"Retenido", DecimalToStringFormat(LibMath.Abs(ComprobanteRetIVAImprentaDigital.MontoRetenido)) },
-            //{"Percibido", "" },            
-            {"Moneda", ComprobanteRetIVAImprentaDigital.CodigoMoneda }};           
-            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionISLR) {
-                vItem.Add("CodigoConcepto", "000"); //temporalmente
-            }
-            vResult.Add(vItem);
-            return vResult;
-        }
-
-        private string GetNumeroDocumentoDetalle(eTipoDeTransaccionID valTipoDocumento) {
-            string vResult = "";
-            switch (valTipoDocumento) {
-                case eTipoDeTransaccionID.Factura:
-                    vResult = ComprobanteRetIVAImprentaDigital.NumeroDeDocumento;
-                    break;
-                case eTipoDeTransaccionID.NotaDeCredito:
-                    vResult = ComprobanteRetIVAImprentaDigital.NumeroDeNotaCredito;
-                    break;
-                case eTipoDeTransaccionID.NotaDeDebito:
-                    vResult = ComprobanteRetIVAImprentaDigital.NumeroDeNotaDebito;
-                    break;
-                default:
-                    vResult = ComprobanteRetIVAImprentaDigital.NumeroDeDocumento;
-                    break;
+            int vNumeroLinea = 1;
+            foreach (ComprobanteRetIVADetalle vDetalle in DetalleComprobanteRetencion) {                
+                JObject vItem = new JObject {
+                {"NumeroLinea", string.Format("{0:D4}",vNumeroLinea) },
+                {"FechaDocumento", LibConvert.ToStr(vDetalle.FechaDelDocumento)},
+                {"SerieDocumento", null},
+                {"TipoDocumento", GetTipoDocumentoRetencion(vDetalle.TipoDeCxPAsEnum) }, // Ajustar segun lo que corresponda
+                {"NumeroDocumento",vDetalle.NumeroDocumento },
+                {"NumeroControl", vDetalle.NumeroControlDocumento },
+                {"TipoTransaccion", GetTipoTransaccion(vDetalle.TipoDeTransaccionAsEnum) },
+                {"MontoTotal", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoTotal)) },
+                {"MontoExento",DecimalToStringFormat(LibMath.Abs(vDetalle.MontoExento)) },
+                {"BaseImponible",DecimalToStringFormat(LibMath.Abs(vDetalle.BaseImponible)) },
+                {"Porcentaje", DecimalToStringFormat(LibMath.Abs(vDetalle.PorcentajeIVA)) },
+                {"MontoIVA", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoIVA)) },
+                {"Retenido", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoRetenido)) },
+                {"Percibido", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoPercibido)) },
+                {"Moneda", vDetalle.CodigoMoneda }};
+                if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionISLR) {
+                    vItem.Add("CodigoConcepto", "000"); //temporalmente
+                }
+                vNumeroLinea++;
+                vResult.Add(vItem);
             }
             return vResult;
-        }
+        }        
 
         private JObject GetComprobanteTotalesRet() {
             JObject vResult = new JObject {
                 {"TotalBaseImponible", DecimalToStringFormat(LibMath.Abs(ComprobanteRetIVAImprentaDigital.MontoGravado))},
-                { "NumeroCompRetencion", ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion},
-                {"FechaEmisionCR",LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaAplicacionRetIVA,"dd/MM/yyyy")},
+                {"NumeroCompRetencion", ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion},
+                {"FechaEmisionCR",LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaEmision,"dd/MM/yyyy")},
                 {"TotalRetenido", DecimalToStringFormat(LibMath.Abs(ComprobanteRetIVAImprentaDigital.MontoRetenido))},
                 {"TotalIGTF", null },
                 { "TipoComprobante",TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionISLR? "6": ""}};

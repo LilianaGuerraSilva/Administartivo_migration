@@ -8,72 +8,33 @@ using System.Linq;
 using System.Text;
 
 namespace Galac.Adm.Ccl.ImprentaDigital {
-    public class ComprobanteRetIVA {        
-        private eTipoDeTransaccionID _TipoDeCxP;
-        private eTipoDeTransaccionDeLibrosFiscales _TipoDeTransaccion;
+    public class ComprobanteRetIVA {
+        #region Variables
         private eProveedorImprentaDigital _ProveedorImprentaDigital;
+        private eStatusDocumentoCxP _StatusCxP;
+        public eTipoDeTransaccionDeLibrosFiscales _TipoDeTransaccion;     
+        #endregion Variables
+        #region Propiedades
         public string CodigoProveedor { get; set; }
-        public decimal TotalCXPComprobanteRetIva { get; set; }
-
-        public decimal TotalCXP { get; set; }
-
-        public DateTime FechaAplicacionRetIVA { get; set; }
+        public decimal TotalDocumentoCXP { get; set; }        
+        public DateTime FechaEmision { get; set; }
         public DateTime FechaDeVencimiento { get; set; }
-
-        public int MesDeAplicacion { get; set; }
-        public int AnoDeAplicacion { get; set; }
-        public string NumeroComprobanteRetencion { get; set; }
-        public decimal PorcentajeRetencionAplicado { get; set; }
-        public DateTime FechaDelDocOrigen { get; set; }
+        public int MesAplicRetIVA { get; set; }
+        public int AnoAplicRetIVA { get; set; }
+        public string NumeroComprobanteRetencion { get; set; }        
         public string NumeroDeDocumento { get; set; }
-        public string NumeroControl { get; set; }
-        public string NumeroDeNotaDebito { get; set; }
-        public string NumeroDeNotaCredito { get; set; }
+        public string NumeroControl { get; set; }        
         public bool EsUnacuentaDeTerceros { get; set; }
         public string NumeroControlRetencionIvaImpDigital { get; set; }
-
-        public eTipoDeTransaccionDeLibrosFiscales TipoDeTransaccionAsEnum {
-            get {
-                return _TipoDeTransaccion;
-            }
-            set {
-                _TipoDeTransaccion = value;
-            }
-        }
-
-        public string TipoDeTransaccion {
-            set {
-                _TipoDeTransaccion = (eTipoDeTransaccionDeLibrosFiscales)LibConvert.DbValueToEnum(value);
-            }
-        }
-
-        public string TipoDeTransaccionAsString {
-            get {
-               return LibEnumHelper.GetDescription(_TipoDeTransaccion);
-            }
-        }
-
-        public eTipoDeTransaccionID TipoDeDocumentoAsEnum {
-            get {
-                return _TipoDeCxP;
-            }
-            set {
-                _TipoDeCxP = value;
-            }
-        }
-
-        public string TipoDeCxP {
-            set {
-                _TipoDeCxP = (eTipoDeTransaccionID)LibConvert.DbValueToEnum(value);
-            }
-        }
-
-        public string TipoDeCxPAsString {
-            get {
-                return LibEnumHelper.GetDescription(_TipoDeCxP);
-            }
-        }
-
+        public string MotivoDeAnulacionDeComprobante { get; set; }
+        public string NumeroDeFacturaAfectada { get; set; }
+        public decimal MontoExento { get; set; }
+        public decimal MontoGravado { get; set; }
+        public decimal MontoIva { get; set; }
+        public decimal MontoRetenido { get; set; }          
+        public string CodigoMoneda { get; set; }
+        public bool RetencionIvaEnviadaImpDigital { get; set; }
+        public bool SeHizoLaRetencionIVA { get; set; }		
         public eProveedorImprentaDigital ProveedorImprentaDigitalAsEnum {
             get {
                 return _ProveedorImprentaDigital;
@@ -95,67 +56,155 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             }
         }
 
-        public string NumeroDeFacturaAfectada { get; set; }
-        public decimal MontoExento { get; set; }
-        public decimal MontoGravado { get; set; }
-        public decimal MontoGravableAlicuotaGeneral { get; set; }
-        public decimal MontoGravableAlicuota2 { get; set; }
-        public decimal MontoGravableAlicuota3 { get; set; }
-        public decimal AlicuotaG { get; set; }
-        public decimal Alicuota2 { get; set; }
-        public decimal Alicuota3 { get; set; }
-        public decimal MontoIva { get; set; }
-        public decimal MontoIVAAlicuotaGeneral { get; set; }
-        public decimal MontoIVAAlicuota2 { get; set; }
-        public decimal MontoIVAAlicuota3 { get; set; }
-        public decimal MontoRetenido { get; set; }
-        public int AnoAplicRetIVA { get; set; }
-        public int MesAplicRetIVA { get; set; }
-        public string CodigoMoneda { get; set; }		
-        public bool RetencionIvaEnviadaImpDigital { get; set; }
-        public bool SeHizoLaRetencionIVA { get; set; }
+        public eStatusDocumentoCxP StatusCxPAsEnum {
+            get {
+                return _StatusCxP;
+            }
+            set {
+                _StatusCxP = value;
+            }
+        }
 
-        public ComprobanteRetIVA() {          
-            TotalCXPComprobanteRetIva = 0m;
-            TotalCXP = 0m;
+        public string StatusCxP {
+            set {
+                _StatusCxP = (eStatusDocumentoCxP)LibConvert.DbValueToEnum(value);
+            }
+        }
+
+        public string StatusCxPAsString {
+            get {
+                return LibEnumHelper.GetDescription(_StatusCxP);
+            }
+        }
+
+        public eTipoDeTransaccionDeLibrosFiscales TipoDeTransaccionAsEnum {
+            get {
+                return _TipoDeTransaccion;
+            }
+            set {
+                _TipoDeTransaccion = value;
+            }
+        }
+
+        public string TipoDeTransaccion {
+            set {
+                _TipoDeTransaccion = (eTipoDeTransaccionDeLibrosFiscales)LibConvert.DbValueToEnum(value);
+            }
+        }
+
+        public string TipoDeTransaccionAsString {
+            get {
+                return LibEnumHelper.GetDescription(_TipoDeTransaccion);
+            }
+        }
+
+        public ComprobanteRetIVA() {
+            TotalDocumentoCXP = 0m;
             CodigoProveedor = string.Empty;
-            FechaAplicacionRetIVA = LibDate.MinDateForDB();
-            MesDeAplicacion = 0;
-            AnoDeAplicacion = 0;
+            FechaEmision = LibDate.MinDateForDB();
             NumeroComprobanteRetencion = string.Empty;
-            PorcentajeRetencionAplicado = 0m;
-            FechaDelDocOrigen = LibDate.MinDateForDB();
             NumeroDeDocumento = string.Empty;
             NumeroControl = string.Empty;
-            NumeroDeNotaDebito = string.Empty;
-            NumeroDeNotaCredito = string.Empty;
-            TipoDeTransaccionAsEnum = eTipoDeTransaccionDeLibrosFiscales.Registro;
             NumeroDeFacturaAfectada = string.Empty;
-            MontoExento = 0m;
             MontoGravado = 0m;
-            MontoGravableAlicuotaGeneral = 0m;
-            MontoGravableAlicuota2 = 0m;
-            MontoGravableAlicuota3 = 0m;
-            AlicuotaG = 0m;
-            Alicuota2 = 0m;
-            Alicuota3 = 0m;
             MontoIva = 0m;
-            MontoIVAAlicuotaGeneral = 0m;
-            MontoIVAAlicuota2 = 0m;
-            MontoIVAAlicuota3 = 0m;
+            MontoExento = 0m;
             MontoRetenido = 0m;
-            AnoAplicRetIVA = 0;
-            MesAplicRetIVA = 0;
-            CodigoMoneda = string.Empty;
+            AnoAplicRetIVA = LibDate.MinDateForDB().Year;
+            MesAplicRetIVA = LibDate.MinDateForDB().Month;
             FechaDeVencimiento = LibDate.MinDateForDB();
+            CodigoMoneda = string.Empty;
             RetencionIvaEnviadaImpDigital = false;
             SeHizoLaRetencionIVA = false;
-            ProveedorImprentaDigitalAsEnum = eProveedorImprentaDigital.NoAplica;
             NumeroControlRetencionIvaImpDigital = string.Empty;
             EsUnacuentaDeTerceros = false;
+            MotivoDeAnulacionDeComprobante = string.Empty;
+            StatusCxPAsEnum = eStatusDocumentoCxP.PorCancelar;
+            ProveedorImprentaDigitalAsEnum = eProveedorImprentaDigital.NoAplica; 
+            TipoDeTransaccionAsEnum = eTipoDeTransaccionDeLibrosFiscales.Registro;
         }
+        #endregion Propiedades
     }
-	
+
+    public class ComprobanteRetIVADetalle {
+        private eTipoDeTransaccionID _TipoDeCxP;
+        private eTipoDeTransaccionDeLibrosFiscales _TipoDeTransaccion;
+        public string NumeroDocumento { get; set; }
+        public DateTime FechaDelDocumento { get; set; }     
+        public string SerieDocumento { get; set; }
+        public string NumeroControlDocumento { get; set; }      
+        public decimal BaseImponible { get; set; }   
+        public decimal PorcentajeIVA { get; set;  }
+        public decimal MontoExento { get; set; }
+        public decimal MontoIVA { get; set; }
+        public decimal MontoTotal { get; set; }
+        public decimal MontoRetenido { get; set; }
+        public decimal MontoPercibido { get; set; }
+        public string CodigoMoneda { get; set;  }
+        public string CodigoConcepto { get; set;  }        
+		
+        public eTipoDeTransaccionDeLibrosFiscales TipoDeTransaccionAsEnum {
+            get {
+                return _TipoDeTransaccion;
+            }
+            set {
+                _TipoDeTransaccion = value;
+            }
+        }
+
+        public string TipoDeTransaccion {
+            set {
+                _TipoDeTransaccion = (eTipoDeTransaccionDeLibrosFiscales)LibConvert.DbValueToEnum(value);
+            }
+        }
+
+        public string TipoDeTransaccionAsString {
+            get {
+                return LibEnumHelper.GetDescription(_TipoDeTransaccion);
+            }
+        }
+
+        public eTipoDeTransaccionID TipoDeCxPAsEnum {
+            get {
+                return _TipoDeCxP;
+            }
+            set {
+                _TipoDeCxP = value;
+            }
+        }
+
+        public string TipoDeCxP {
+            set {
+                _TipoDeCxP = (eTipoDeTransaccionID)LibConvert.DbValueToEnum(value);
+            }
+        }
+
+        public string TipoDeCxPAsString {
+            get {
+                return LibEnumHelper.GetDescription(_TipoDeCxP);
+            }
+        }
+       
+        public  ComprobanteRetIVADetalle() {
+            NumeroDocumento = string.Empty;
+            FechaDelDocumento = LibDate.MinDateForDB();           
+            SerieDocumento = string.Empty;
+            NumeroControlDocumento = string.Empty;
+            TipoDeTransaccionAsEnum = eTipoDeTransaccionDeLibrosFiscales.Registro;
+            TipoDeCxPAsEnum = eTipoDeTransaccionID.Factura;
+            BaseImponible = 0m;
+            PorcentajeIVA = 0m;
+            MontoExento = 0m;
+            MontoIVA = 0m;
+            MontoTotal = 0m;
+            MontoRetenido = 0m;
+            MontoPercibido = 0m;
+            CodigoMoneda = string.Empty;
+            CodigoConcepto = string.Empty;            
+        }
+     }
+
+
     public class SujetoDeRetencion {
         private eTipoDeProveedorDeLibrosFiscalesID _TipoDeProveedorDeLibrosFiscalesAsEnum;
         public string Codigo { get; set; }

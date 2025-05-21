@@ -17,6 +17,7 @@ namespace Galac.Adm.Ccl.GestionCompras {
         bool  AjustaPreciosxCostos(bool valUsaFormulaAlterna, int valConsecutivoCompania, eRedondearPrecio valRedondearPrecio, ePrecioAjustar valPrecioAjustar, bool valEstablecerMargen, bool valPrecio1, bool valPrecio2, bool valPrecio3, bool valPrecio4, decimal valMargen1, decimal valMargen2, decimal valMargen3, decimal valMargen4, DateTime valFechaOperacion, string valNumeroOperacion,bool esMonedaLocal);
         void AsignarDetalleArticuloInventarioDesdeOrdenDeCompra(int valConsecutivoCompania, Compra valCompra, int valConsecutivoOrdenDeCompra);
         bool VerificaExistenciaEnOrdenDeCompra(int valConsecutivoCompania, int valConsecutivoOrdenDeCompra);
+        bool VerificaSiDocumentoAsociadoEstaAnulado(int valConsecutivoCompania, string valNumeroCxP,string valCodigoProveedor);
     }
 }
    
