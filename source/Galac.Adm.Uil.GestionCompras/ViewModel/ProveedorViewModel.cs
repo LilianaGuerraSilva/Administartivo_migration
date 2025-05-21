@@ -961,7 +961,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         private ValidationResult EmailValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CompRetIVAPorImpDigital")) {
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CompRetIVAPorImpDigital") || LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CompRetISLRPorImpDigital")) {
                 if (LibString.IsNullOrEmpty(Email)) {
                     vResult = new ValidationResult("El email es requerido.");
                 } else if (!new clsLibSaw().EsUnEmailValido(Email)) {
@@ -973,7 +973,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         private ValidationResult TelefonolValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CompRetIVAPorImpDigital")) {
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CompRetIVAPorImpDigital") || LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CompRetISLRPorImpDigital")) {
                 if (LibString.IsNullOrEmpty(Telefonos)) {
                     vResult = new ValidationResult("El teléfono es requerido.");
                 }
@@ -983,7 +983,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         private ValidationResult DireccionValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CompRetIVAPorImpDigital")) {
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CompRetIVAPorImpDigital") || LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CompRetISLRPorImpDigital")) {
                 if (LibString.IsNullOrEmpty(Direccion)) {
                     vResult = new ValidationResult("La dirección es requerida.");
                 }
