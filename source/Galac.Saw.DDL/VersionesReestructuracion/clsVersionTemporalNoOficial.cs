@@ -273,6 +273,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             if (AddColumnString("CxP", "NumeroControlRetencionIvaImpDigital", 20, "", LibString.NCar("0", 20))) {
                 AddDefaultConstraint("CxP", "nCtID", _insSql.ToSqlValue(""), "NumeroControlRetencionIvaImpDigital");
             }
+            if (AddColumnString("CxP", "NumeroControlRetencionISLRImpDigital", 20, "", LibString.NCar("0", 20))) {
+                AddDefaultConstraint("CxP", "nCrID", _insSql.ToSqlValue(""), "NumeroControlRetencionISLRImpDigital");
+            }
             if (AddColumnEnumerative("CxP", "ProveedorImprentaDigital", "", 0)) {
                 AddDefaultConstraint("CxP", "pRovID", _insSql.ToSqlValue("0"), "ProveedorImprentaDigital");
             }
