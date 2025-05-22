@@ -228,10 +228,12 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
             vSql.AppendLine(" AND ArticuloInventario.Codigo = ExistenciaPorAlmacenDetLoteInv.CodigoArticulo");
             vSQLWhere = insUtilSql.SqlIntValueWithAnd(vSQLWhere, "ExistenciaPorAlmacenDetLoteInv.ConsecutivoCompania", valConsecutivoCompania);
             vSQLWhere = insUtilSql.SqlValueWithAnd(vSQLWhere, "ArticuloInventario.Codigo", valCodigoArticulo);
-            vSQLWhere = insUtilSql.SqlValueWithAnd(vSQLWhere, "Lote.CodigoLote", valLoteDeInventario);
+            if (!string.IsNullOrEmpty(valLoteDeInventario)) {
+                vSQLWhere = insUtilSql.SqlValueWithAnd(vSQLWhere, "Lote.CodigoLote", valLoteDeInventario);
+            }
             if (!string.IsNullOrEmpty(CodigoAlmacen)) {
                 vSQLWhere = insUtilSql.SqlValueWithAnd(vSQLWhere, "Almacen.Codigo", CodigoAlmacen);
-            } 
+            }
             vSql.AppendLine(insUtilSql.WhereSql(vSQLWhere));
             return vSql.ToString();
         }
