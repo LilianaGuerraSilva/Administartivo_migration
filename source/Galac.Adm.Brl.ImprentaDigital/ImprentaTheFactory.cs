@@ -363,18 +363,11 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         private string DarFormatoYObtenerPrefijoRifSujetoRet(SujetoDeRetencion valSuejtoRetencion, ref string refPrefijoRif) {
             string vNumeroRif = "";
             string vPrefijo = LibString.Left(LibString.ToUpperWithoutAccents(valSuejtoRetencion.NumeroRIF), 1);
-            if (LibString.S1IsInS2(vPrefijo, "VJEPG")) {
+            if (LibString.S1IsInS2(vPrefijo, "JVPGZNEC")) {
                 vNumeroRif = LibString.Right(valSuejtoRetencion.NumeroRIF, LibString.Len(valSuejtoRetencion.NumeroRIF) - 1);
                 vNumeroRif = LibString.Replace(vNumeroRif, "-", "");
             } else {
-                vNumeroRif = valSuejtoRetencion.NumeroRIF;
-                if (valSuejtoRetencion.TipoDePersonaRetencionAsEnum == eTipodePersonaRetencionID.JuridicaDomiciliada || valSuejtoRetencion.TipoDePersonaRetencionAsEnum == eTipodePersonaRetencionID.JuridicaNoDomiciliada) {
-                    vPrefijo = "J";
-                } else if (LibString.S1IsInS2("E", valSuejtoRetencion.TipoDeProveedor)) {
-                    vPrefijo = "E";
-                } else {
-                    vPrefijo = "V";
-                }
+                throw new GalacException("El RIF del Sujeto de Retención no es válido, debe iniciar con J, V, P, G, Z, N, E o C", eExceptionManagementType.Controlled);
             }
             refPrefijoRif = vPrefijo;
             return vNumeroRif;
