@@ -11,6 +11,7 @@ using LibGalac.Aos.Catching;
 using System.Threading;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
+using System.Linq;
 
 namespace Galac.Adm.Brl.ImprentaDigital {
     public class ImprentaTheFactory : clsImprentaDigitalBase {
@@ -198,7 +199,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public override void ConfigurarDocumento() {
             base.ConfigurarDocumento();
             vDocumentoDigital = new JObject();
-            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionIVA) {
+            if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionIVA || TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionISLR) {
                 JObject vComporbanteRetencionElements = new JObject {
                 { "encabezado", GetComprobanteRetEncabezado() },
                 { "DetallesRetencion", GetComprobanteRetDetalle() } };
@@ -701,7 +702,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         private JArray GetComprobanteRetDetalle() {
             JArray vResult = new JArray();
             int vNumeroLinea = 1;
-            foreach (ComprobanteRetDetalle vDetalle in DetalleComprobanteRetencion) {                
+            foreach (ComprobanteRetDetalle vDetalle in DetalleComprobanteRetencion) {
                 JObject vItem = new JObject {
                 {"NumeroLinea", string.Format("{0:D4}",vNumeroLinea) },
                 {"FechaDocumento", LibConvert.ToStr(vDetalle.FechaDelDocumento)},
@@ -711,38 +712,43 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 {"NumeroControl", vDetalle.NumeroControlDocumento },
                 {"TipoTransaccion", GetTipoTransaccion(vDetalle.TipoDeTransaccionAsEnum) },
                 {"MontoTotal", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoTotal)) },
-                {"MontoExento",DecimalToStringFormat(LibMath.Abs(vDetalle.MontoExento)) },
                 {"BaseImponible",DecimalToStringFormat(LibMath.Abs(vDetalle.BaseImponible)) },
-                {"Porcentaje", DecimalToStringFormat(LibMath.Abs(vDetalle.PorcentajeRetencion)) },
-                {"MontoIVA", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoIVA)) },
+                {"Porcentaje", DecimalToStringFormat(LibMath.Abs(vDetalle.PorcentajeRetencion)) },                
                 {"Retenido", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoRetenido)) },
                 {"Percibido", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoPercibido)) },
                 {"Moneda", vDetalle.CodigoMoneda }};
-                if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionISLR) {
-                    vItem.Add("CodigoConcepto", vDetalle.CodigoConcepto); //temporalmente
+                if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionIVA) {
+                    vItem.Add(new JObject { "MontoExento", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoExento)) });
+                    vItem.Add(new JObject { "MontoIVA", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoIVA)) });                    
+                } else if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionISLR) {
+                    vItem.Add("CodigoConcepto", vDetalle.CodigoConcepto);
+                    JArray vListInfoAdicional = new JArray(
+                     new JObject { { "Campo", "SustraendoPN" },
+                                 { "Valor", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoSustraendo)) } });
+                    vItem.Add("InfoAdicionalItem", vListInfoAdicional);
                 }
                 vNumeroLinea++;
                 vResult.Add(vItem);
             }
             return vResult;
-        }        
+        }
 
         private JObject GetComprobanteTotalesRet() {
             JObject vResult = new JObject {
-                {"TotalBaseImponible", DecimalToStringFormat(LibMath.Abs(ComprobanteRetIVAImprentaDigital.MontoGravado))},
                 {"NumeroCompRetencion", ComprobanteRetIVAImprentaDigital.NumeroComprobanteRetencion},
                 {"FechaEmisionCR",LibConvert.ToStr(ComprobanteRetIVAImprentaDigital.FechaEmision,"dd/MM/yyyy")},
-                {"TotalRetenido", DecimalToStringFormat(LibMath.Abs(ComprobanteRetIVAImprentaDigital.MontoRetenido))},
                 {"TotalIGTF", null },
                 { "TipoComprobante",TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionISLR? "6": ""}};
             if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionISLR) {
-                vResult.Add("TotalISRL", "0.00");
+                vResult.Add("TotalBaseImponible", DecimalToStringFormat(LibMath.Abs(DetalleComprobanteRetencion.Sum(x => x.BaseImponible))));
+                vResult.Add("TotalISRL", DecimalToStringFormat(LibMath.Abs(ComprobanteRetIVAImprentaDigital.MontoISLR)));
             } else {
+                vResult.Add("TotalBaseImponible", DecimalToStringFormat(LibMath.Abs(ComprobanteRetIVAImprentaDigital.MontoGravado)));
+                vResult.Add("TotalRetenido", DecimalToStringFormat(LibMath.Abs(ComprobanteRetIVAImprentaDigital.MontoRetenido)));
                 vResult.Add("TotalIVA", DecimalToStringFormat(LibMath.Abs(ComprobanteRetIVAImprentaDigital.MontoIva)));
             }
             return vResult;
         }
-
         #endregion Comprobantes Retencion
         #endregion
         #region Conversion de Tipos

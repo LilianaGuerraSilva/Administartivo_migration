@@ -33,7 +33,8 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         public decimal MontoExento { get; set; }
         public decimal MontoGravado { get; set; }
         public decimal MontoIva { get; set; }
-        public decimal MontoRetenido { get; set; }          
+        public decimal MontoRetenido { get; set; }
+        public decimal MontoISLR { get; set; }
         public string CodigoMoneda { get; set; }
         public bool RetencionIvaEnviadaImpDigital { get; set; }
         public bool SeHizoLaRetencionIVA { get; set; }		
@@ -112,6 +113,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             MontoIva = 0m;
             MontoExento = 0m;
             MontoRetenido = 0m;
+            MontoISLR = 0m;
             AnoAplicRetIVA = LibDate.MinDateForDB().Year;
             MesAplicRetIVA = LibDate.MinDateForDB().Month;
             FechaDeVencimiento = LibDate.MinDateForDB();
@@ -144,9 +146,11 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         public decimal MontoTotal { get; set; }
         public decimal MontoRetenido { get; set; }
         public decimal MontoPercibido { get; set; }
+        public decimal MontoSustraendo { get; set; }
         public string CodigoMoneda { get; set;  }
-        public string CodigoConcepto { get; set;  }        
-		
+        public string CodigoConcepto { get; set;  }
+        public string DescripcionConcepto { get; set; }
+
         public eTipoDeTransaccionDeLibrosFiscales TipoDeTransaccionAsEnum {
             get {
                 return _TipoDeTransaccion;
@@ -203,8 +207,10 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             MontoTotal = 0m;
             MontoRetenido = 0m;
             MontoPercibido = 0m;
+            MontoSustraendo= 0m;    
             CodigoMoneda = string.Empty;
-            CodigoConcepto = string.Empty;            
+            CodigoConcepto = string.Empty;
+            DescripcionConcepto = string.Empty;
         }
      }
 
