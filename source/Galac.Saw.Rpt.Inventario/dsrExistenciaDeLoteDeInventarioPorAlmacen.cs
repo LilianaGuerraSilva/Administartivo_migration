@@ -60,45 +60,62 @@ namespace Galac.Saw.Rpt.Inventario {
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
                 LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "Articulo");
                 LibReport.ConfigFieldStr(this, "txtCodigoArticulo", string.Empty, "CodigoArticulo");
-                LibReport.ChangeControlVisibility(this, "lblLote", false);
-                LibReport.ChangeControlVisibility(this, "txtLote", false);
                 LibReport.ConfigFieldStr(this, "txtCodigoAlmacen", string.Empty, "CodigoAlmacen");
                 LibReport.ConfigFieldStr(this, "txtNombreAlmacen", string.Empty, "NombreAlmacen");
                 LibReport.ConfigFieldDec(this, "txtEntrada", string.Empty, "Existencia");
                 LibReport.ConfigFieldDecWithNDecimal(this, "txtEntrada", string.Empty, "Existencia", vDecimalDigits);
                 LibReport.ConfigGroupHeader(this, "GHsecArticulo", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
-                LibReport.ConfigFieldStr(this, "txtNombreLote", string.Empty, "Lote");
                 if (valEsSoloUnLote) {
+                    LibReport.ConfigFieldStr(this, "txtLote", string.Empty, "Lote");
                     if ((eTipoArticuloInv)LibConvert.DbValueToEnum(TipoArticuloInv) == eTipoArticuloInv.Lote) {
-                        LibReport.ConfigLabel(this, "lblFechaElaboracion", "");
-                        LibReport.ConfigFieldDate(this, "txtFechaElaboracion", string.Empty, "", "");
-                        LibReport.ConfigLabel(this, "lblFechaVencimiento", "");
-                        LibReport.ConfigFieldDate(this, "txtFechaVencimiento", string.Empty, "", "");
+                        LibReport.ChangeControlVisibility(this, "lblFechaElaboracion", false);
+                        LibReport.ChangeControlVisibility(this, "txtFechaElaboracion", false);
+                        LibReport.ChangeControlVisibility(this, "lblFechaVencimiento", false);
+                        LibReport.ChangeControlVisibility(this, "txtFechaVencimiento", false);
                     } else if ((eTipoArticuloInv)LibConvert.DbValueToEnum(TipoArticuloInv) == eTipoArticuloInv.LoteFechadeElaboracion) {
-                        LibReport.ConfigLabel(this, "lblFechaVencimiento", "");
-                        LibReport.ConfigFieldDate(this, "txtFechaVencimiento", string.Empty, "", "");
-                        LibReport.ConfigLabel(this, "lblFechaElaboracion", "Fecha de Elaboración");
+                        LibReport.ChangeControlVisibility(this, "lblFechaVencimiento", false);
+                        LibReport.ChangeControlVisibility(this, "txtFechaVencimiento", false);
                         LibReport.ConfigFieldDate(this, "txtFechaElaboracion", string.Empty, "FechaElaboracion", "dd/MM/yyyy");
                     } else if ((eTipoArticuloInv)LibConvert.DbValueToEnum(TipoArticuloInv) == eTipoArticuloInv.LoteFechadeVencimiento) {
-                        LibReport.ConfigLabel(this, "lblFechaElaboracion", "Fecha de Elaboración");
-                        LibReport.ConfigLabel(this, "lblFechaVencimiento", "Fecha de Vencimiento");
                         LibReport.ConfigFieldDate(this, "txtFechaVencimiento", string.Empty, "FechaVencimiento", "dd/MM/yyyy");
                         LibReport.ConfigFieldDate(this, "txtFechaElaboracion", string.Empty, "FechaElaboracion", "dd/MM/yyyy");
                     }
-                    LibReport.ChangeControlVisibility(this, "lblLote", true);
-                    LibReport.ChangeControlVisibility(this, "txtLote", true);
-                    LibReport.ConfigFieldStr(this, "txtLote", string.Empty, "Lote");
+                    lblNombreAlmacen.Width += lblNombreLote.Width + lblFechaElab.Width + lblFechaVenc.Width;
+                    txtNombreAlmacen.Width += txtNombreLote.Width + txtFechaElab.Width + txtFechaVenc.Width;
                     LibReport.ChangeControlVisibility(this, "lblNombreLote", false);
+                    LibReport.ChangeControlVisibility(this, "lblFechaElab", false);
+                    LibReport.ChangeControlVisibility(this, "lblFechaVenc", false);
                     LibReport.ChangeControlVisibility(this, "txtNombreLote", false);
-                    LibReport.ChangeControlLocation(this, "lblEntrada", 3.56f, 0.47f);
-                    LibReport.ChangeControlLocation(this, "txtEntrada", 3.56f, 0f);
-                    LibReport.ChangeControlLocation(this, "txtExistenciaFinal", 3.56f, 0f);
-                    LibReport.ChangeControlLocation(this, "lblExistenciaFinal", 1.78f, 0f);
+                    LibReport.ChangeControlVisibility(this, "txtFechaElab", false);
+                    LibReport.ChangeControlVisibility(this, "txtFechaVenc", false);
                 } else {
-                    LibReport.ChangeControlVisibility(this, "lblFechaVencimiento", false);
-                    LibReport.ChangeControlVisibility(this, "txtFechaVencimiento", false);
+                    LibReport.ChangeControlVisibility(this, "lblLote", false);
                     LibReport.ChangeControlVisibility(this, "lblFechaElaboracion", false);
+                    LibReport.ChangeControlVisibility(this, "lblFechaVencimiento", false);
+                    LibReport.ChangeControlVisibility(this, "txtLote", false);
                     LibReport.ChangeControlVisibility(this, "txtFechaElaboracion", false);
+                    LibReport.ChangeControlVisibility(this, "txtFechaVencimiento", false);
+                    LibReport.ConfigFieldStr(this, "txtNombreLote", string.Empty, "Lote");
+                    if ((eTipoArticuloInv)LibConvert.DbValueToEnum(TipoArticuloInv) == eTipoArticuloInv.Lote) {
+                        LibReport.ChangeControlVisibility(this, "lblFechaElab", false);
+                        LibReport.ChangeControlVisibility(this, "lblFechaVenc", false);
+                        LibReport.ChangeControlVisibility(this, "txtFechaElab", false);
+                        LibReport.ChangeControlVisibility(this, "txtFechaVenc", false);
+                        lblNombreLote.Width += lblFechaElab.Width + lblFechaVenc.Width;
+                        txtNombreLote.Width += txtFechaElab.Width + txtFechaVenc.Width;
+                    } else if ((eTipoArticuloInv)LibConvert.DbValueToEnum(TipoArticuloInv) == eTipoArticuloInv.LoteFechadeElaboracion) {
+                        LibReport.ConfigFieldDate(this, "txtFechaElab", string.Empty, "FechaElaboracion", "dd/MM/yyyy");
+                        LibReport.ChangeControlVisibility(this, "lblFechaVenc", false);
+                        LibReport.ChangeControlVisibility(this, "txtFechaVenc", false);
+                        LibReport.ConfigFieldDate(this, "txtFechaElab", string.Empty, "FechaElaboracion", "dd/MM/yyyy");
+                        lblNombreLote.Width += lblFechaElab.Width;
+                        lblFechaElab.Left = lblFechaVenc.Left;
+                        txtNombreLote.Width += txtFechaElab.Width;
+                        txtFechaElab.Left = txtFechaVenc.Left;
+                    } else if ((eTipoArticuloInv)LibConvert.DbValueToEnum(TipoArticuloInv) == eTipoArticuloInv.LoteFechadeVencimiento) {
+                        LibReport.ConfigFieldDate(this, "txtFechaElab", string.Empty, "FechaElaboracion", "dd/MM/yyyy");
+                        LibReport.ConfigFieldDate(this, "txtFechaVenc", string.Empty, "FechaVencimiento", "dd/MM/yyyy");
+                    }
                 }
                 LibReport.ConfigGroupHeader(this, "GHsecLote", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.After);
                 LibReport.ConfigSummaryField(this, "txtExistenciaFinal", "Existencia", SummaryFunc.Sum, "GFsecArticulo", SummaryRunning.Group, SummaryType.GrandTotal);
