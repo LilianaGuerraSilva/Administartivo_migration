@@ -41,18 +41,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         NotaDeCreditoCompFiscal,
         [LibEnumDescription("Guía de Remisión")]
         GuiaDeRemision
-    }
-
-    public enum eTipoDeProveedorDeLibrosFiscalesID {
-        [LibEnumDescription("Con RIF")]
-        ConRif = 0,
-        [LibEnumDescription("Sin RIF")]
-        SinRif,
-        [LibEnumDescription("No Residenciado")]
-        NoResidenciado,
-        [LibEnumDescription("No Domiciliado")]
-        NoDomiciliado
-    }
+    }    
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eStatusDocumentoCxP {
