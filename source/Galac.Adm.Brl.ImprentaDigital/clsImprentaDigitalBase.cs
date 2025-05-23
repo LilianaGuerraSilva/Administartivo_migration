@@ -885,9 +885,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine("  proveedor.NumeroRIF,");
             vSql.AppendLine("  proveedor.NombreProveedor,");
             vSql.AppendLine("  proveedor.CodigoProveedor,");
-            vSql.AppendLine("  proveedor.Email,");
-            vSql.AppendLine("  proveedor.TipodePersona, ");
-            vSql.AppendLine("  LEFT(proveedor.TipodeProveedor,1) AS TipoDeProveedor ");
+            vSql.AppendLine("  proveedor.Email");                        
+            vSql.AppendLine("  proveedor.TipoDePersona ");
             vSql.AppendLine("FROM Adm.Proveedor");
             vSql.AppendLine("WHERE  Proveedor.ConsecutivoCompania = @ConsecutivoCompania");
             vSql.AppendLine($"  AND Proveedor.CodigoProveedor = @CodigoProveedor");
@@ -907,8 +906,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     SujetoDeRetencionImpnretaDigital.NumeroRIF = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NumeroRIF"));
                     SujetoDeRetencionImpnretaDigital.NombreProveedor = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NombreProveedor"));
                     SujetoDeRetencionImpnretaDigital.Email = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "Email"));
-                    SujetoDeRetencionImpnretaDigital.TipoDePersonaRetencion = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "TipoPersona"));
-                    SujetoDeRetencionImpnretaDigital.TipoDeProveedor = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "TipoDeProveedor"));
+                    SujetoDeRetencionImpnretaDigital.TipoDePersonaRetencion = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "TipoDePersona"));                    
                 }
             } catch (GalacException) {
                 throw new GalacException("No existen datos del Sujeto de Retención de IVA para esta CxP, por favor revisar.", eExceptionManagementType.Controlled);

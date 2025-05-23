@@ -225,8 +225,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         public string NumeroRIF { get; set; }
         public string NombreProveedor { get; set; }
         public string CodigoProveedor { get; set; }
-        public string TipoDeProveedor { get; set; }
-
+        
         public eTipodePersonaRetencionID TipoDePersonaRetencionAsEnum {
             get {
                 return _TipoDePersonaRetencionAsEnum;
@@ -255,7 +254,6 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             NumeroRIF = string.Empty;
             Direccion = string.Empty;
             Telefono = string.Empty;
-            TipoDeProveedor = string.Empty;
             CodigoProveedor = string.Empty;
             TipoDePersonaRetencionAsEnum= eTipodePersonaRetencionID.JuridicaDomiciliada;
         }
