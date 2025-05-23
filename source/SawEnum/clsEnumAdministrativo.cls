@@ -1688,6 +1688,7 @@ End Enum
 Public Enum enum_TipoGeneradoPorNotaDeEntradaSalida
    eTGPNDES_Usuario = 0
    eTGPNDES_OrdenDeProduccion
+   eTGPNDES_Importacion
 End Enum
 
 Public Enum enum_TipoNotaProduccion
@@ -13912,6 +13913,7 @@ Public Function enumTipoGeneradoPorNotaDeEntradaSalidaToString(TipoGeneradoPorNo
    Select Case TipoGeneradoPorNotaDeEntradaSalida
       Case eTGPNDES_Usuario: enumTipoGeneradoPorNotaDeEntradaSalidaToString = "Usuario"
       Case eTGPNDES_OrdenDeProduccion: enumTipoGeneradoPorNotaDeEntradaSalidaToString = "Orden De Produccion"
+      Case eTGPNDES_Importacion: enumTipoGeneradoPorNotaDeEntradaSalidaToString = "Importacion"
       Case Else
          enumTipoGeneradoPorNotaDeEntradaSalidaToString = enumTipoGeneradoPorNotaDeEntradaSalidaToString(0)
    End Select
@@ -13921,7 +13923,7 @@ Public Function strTipoGeneradoPorNotaDeEntradaSalidaToNum(ByVal TipoGeneradoPor
    Dim mEnum As enum_TipoGeneradoPorNotaDeEntradaSalida
    Dim nCount As Integer
    nCount = 0
-   For mEnum = eTGPNDES_Usuario To eTGPNDES_OrdenDeProduccion
+   For mEnum = eTGPNDES_Usuario To eTGPNDES_Importacion
       If UCase(TipoGeneradoPorNotaDeEntradaSalida) = UCase(enumTipoGeneradoPorNotaDeEntradaSalidaToString(mEnum)) Then
          strTipoGeneradoPorNotaDeEntradaSalidaToNum = nCount
          GoTo h_EXIT
@@ -13950,6 +13952,8 @@ Public Sub FillComboBoxWithTipoGeneradoPorNotaDeEntradaSalida(ByRef varComboBox 
    varComboBox.List(nCount) = enumTipoGeneradoPorNotaDeEntradaSalidaToString(enum_TipoGeneradoPorNotaDeEntradaSalida.eTGPNDES_Usuario)
    nCount = nCount + 1
    varComboBox.List(nCount) = enumTipoGeneradoPorNotaDeEntradaSalidaToString(enum_TipoGeneradoPorNotaDeEntradaSalida.eTGPNDES_OrdenDeProduccion)
+   nCount = nCount + 1
+   varComboBox.List(nCount) = enumTipoGeneradoPorNotaDeEntradaSalidaToString(enum_TipoGeneradoPorNotaDeEntradaSalida.eTGPNDES_Importacion)
    varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
    varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
 End Sub
