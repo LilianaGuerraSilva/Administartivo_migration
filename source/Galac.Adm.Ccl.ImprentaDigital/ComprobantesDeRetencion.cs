@@ -27,7 +27,8 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         public string NumeroDeDocumento { get; set; }
         public string NumeroControl { get; set; }        
         public bool EsUnacuentaDeTerceros { get; set; }
-        public string NumeroControlRetencionIvaImpDigital { get; set; }
+        public string NumeroControlRetencionIVAImpDigital { get; set; }
+        public string NumeroControlRetencionISLRImpDigital { get; set; }
         public string MotivoDeAnulacionDeComprobante { get; set; }
         public string NumeroDeFacturaAfectada { get; set; }
         public decimal MontoExento { get; set; }
@@ -120,7 +121,8 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             CodigoMoneda = string.Empty;
             RetencionIvaEnviadaImpDigital = false;
             SeHizoLaRetencionIVA = false;
-            NumeroControlRetencionIvaImpDigital = string.Empty;
+            NumeroControlRetencionIVAImpDigital = string.Empty;
+            NumeroControlRetencionISLRImpDigital = string.Empty;
             EsUnacuentaDeTerceros = false;
             MotivoDeAnulacionDeComprobante = string.Empty;
             StatusCxPAsEnum = eStatusDocumentoCxP.PorCancelar;
