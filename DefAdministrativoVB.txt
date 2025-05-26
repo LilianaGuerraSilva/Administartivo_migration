@@ -2200,9 +2200,11 @@ MenuDeInformes : boolean;
     BaseImponibleIGTFML   	  : Currency;
     AlicuotaIGTFML	     	  : Currency;
     MontoIGTFML     		  : Currency;  
-    NumeroControlRetencionIvaImpDigital        : Str20; //dv='',"NumeroControlRet Iva ID" 
+    NumeroControlRetencionIvaImpDigital         : Str20; //dv='',"NumeroControlRet IVA ID" 
+    NumeroControlRetencionISLRImpDigital        : Str20; //dv='',"NumeroControlRet ISLR ID" 
     ProveedorImprentaDigital    : unProveedorImprentaDigital; //dv='0',"Proveedor Imprenta Digital"
     RetencionIvaEnviadaImpDigital : Boolean;//dv='N'
+    RetencionISLREnviadaImpDigital : Boolean;//dv='N'
     MotivoDeAnulacionDeComprobante  : Str150;//dv="",Motivo de Anulación"
 	NombreOperador                	: Str10; //a 
     FechaUltimaModificacion       	: Date;//a
