@@ -763,8 +763,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vParam.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
             vParam.AddInInteger("NumeroComprobanteRet", vNumeroComprobante);
             vParam.AddInEnum("TipoDePersona", (int)SujetoDeRetencionImpnretaDigital.TipoDePersonaRetencionAsEnum);
-            refParametros = vParam.Get();
-            vSql.AppendLine("SET DATEFORMAT dmy");
+            refParametros = vParam.Get();            
             vSql.AppendLine("SELECT retDocumentoPagado.SecuencialDocPagado,");
             vSql.AppendLine("  RetPago.NroComprobanteRetISLR AS NumeroComprobante,");
             vSql.AppendLine("  cxP.Numero AS NumeroDelDocumento,");
