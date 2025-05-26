@@ -273,11 +273,17 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             if (AddColumnString("CxP", "NumeroControlRetencionIvaImpDigital", 20, "", LibString.NCar("0", 20))) {
                 AddDefaultConstraint("CxP", "nCtID", _insSql.ToSqlValue(""), "NumeroControlRetencionIvaImpDigital");
             }
+            if (AddColumnString("CxP", "NumeroControlRetencionISLRImpDigital", 20, "", LibString.NCar("0", 20))) {
+                AddDefaultConstraint("CxP", "nCrID", _insSql.ToSqlValue(""), "NumeroControlRetencionISLRImpDigital");
+            }
             if (AddColumnEnumerative("CxP", "ProveedorImprentaDigital", "", 0)) {
                 AddDefaultConstraint("CxP", "pRovID", _insSql.ToSqlValue("0"), "ProveedorImprentaDigital");
             }
             if (AddColumnBoolean("CxP", "RetencionIvaEnviadaImpDigital", "", false)) {
                 AddDefaultConstraint("CxP", "rTEnID", _insSql.ToSqlValue("N"), "RetencionIvaEnviadaImpDigital");
+            }
+            if (AddColumnBoolean("CxP", "RetencionISLREnviadaImpDigital", "", false)) {
+                AddDefaultConstraint("CxP", "rTEsID", _insSql.ToSqlValue("N"), "RetencionISLREnviadaImpDigital");
             }
             if (AddColumnString("CxP", "MotivoDeAnulacionDeComprobante", 150, "", "")) {
                 AddDefaultConstraint("CxP", "RTMoAID", _insSql.ToSqlValue(""), "MotivoDeAnulacionDeComprobante");

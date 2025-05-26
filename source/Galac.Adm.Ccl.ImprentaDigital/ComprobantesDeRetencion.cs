@@ -8,7 +8,9 @@ using System.Linq;
 using System.Text;
 
 namespace Galac.Adm.Ccl.ImprentaDigital {
-    public class ComprobanteRetIVA {
+
+    #region ComprobantesDeRetencion
+    public class ComprobantesDeRetencion {
         #region Variables
         private eProveedorImprentaDigital _ProveedorImprentaDigital;
         private eStatusDocumentoCxP _StatusCxP;
@@ -25,13 +27,15 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         public string NumeroDeDocumento { get; set; }
         public string NumeroControl { get; set; }        
         public bool EsUnacuentaDeTerceros { get; set; }
-        public string NumeroControlRetencionIvaImpDigital { get; set; }
+        public string NumeroControlRetencionIVAImpDigital { get; set; }
+        public string NumeroControlRetencionISLRImpDigital { get; set; }
         public string MotivoDeAnulacionDeComprobante { get; set; }
         public string NumeroDeFacturaAfectada { get; set; }
         public decimal MontoExento { get; set; }
         public decimal MontoGravado { get; set; }
         public decimal MontoIva { get; set; }
-        public decimal MontoRetenido { get; set; }          
+        public decimal MontoRetenido { get; set; }
+        public decimal MontoISLR { get; set; }
         public string CodigoMoneda { get; set; }
         public bool RetencionIvaEnviadaImpDigital { get; set; }
         public bool SeHizoLaRetencionIVA { get; set; }		
@@ -98,7 +102,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             }
         }
 
-        public ComprobanteRetIVA() {
+        public ComprobantesDeRetencion() {
             TotalDocumentoCXP = 0m;
             CodigoProveedor = string.Empty;
             FechaEmision = LibDate.MinDateForDB();
@@ -110,13 +114,15 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             MontoIva = 0m;
             MontoExento = 0m;
             MontoRetenido = 0m;
+            MontoISLR = 0m;
             AnoAplicRetIVA = LibDate.MinDateForDB().Year;
             MesAplicRetIVA = LibDate.MinDateForDB().Month;
             FechaDeVencimiento = LibDate.MinDateForDB();
             CodigoMoneda = string.Empty;
             RetencionIvaEnviadaImpDigital = false;
             SeHizoLaRetencionIVA = false;
-            NumeroControlRetencionIvaImpDigital = string.Empty;
+            NumeroControlRetencionIVAImpDigital = string.Empty;
+            NumeroControlRetencionISLRImpDigital = string.Empty;
             EsUnacuentaDeTerceros = false;
             MotivoDeAnulacionDeComprobante = string.Empty;
             StatusCxPAsEnum = eStatusDocumentoCxP.PorCancelar;
@@ -125,8 +131,10 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         }
         #endregion Propiedades
     }
+    #endregion ComprobantesDeRetencion
+    #region DetalleComprobantesDeRetencionIVA
 
-    public class ComprobanteRetIVADetalle {
+    public class ComprobanteRetDetalle {
         private eTipoDeTransaccionID _TipoDeCxP;
         private eTipoDeTransaccionDeLibrosFiscales _TipoDeTransaccion;
         public string NumeroDocumento { get; set; }
@@ -134,15 +142,17 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         public string SerieDocumento { get; set; }
         public string NumeroControlDocumento { get; set; }      
         public decimal BaseImponible { get; set; }   
-        public decimal PorcentajeIVA { get; set;  }
+        public decimal PorcentajeRetencion { get; set;  }
         public decimal MontoExento { get; set; }
         public decimal MontoIVA { get; set; }
         public decimal MontoTotal { get; set; }
         public decimal MontoRetenido { get; set; }
         public decimal MontoPercibido { get; set; }
+        public decimal MontoSustraendo { get; set; }
         public string CodigoMoneda { get; set;  }
-        public string CodigoConcepto { get; set;  }        
-		
+        public string CodigoConcepto { get; set;  }
+        public string DescripcionConcepto { get; set; }
+
         public eTipoDeTransaccionDeLibrosFiscales TipoDeTransaccionAsEnum {
             get {
                 return _TipoDeTransaccion;
@@ -185,7 +195,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             }
         }
        
-        public  ComprobanteRetIVADetalle() {
+        public ComprobanteRetDetalle() {
             NumeroDocumento = string.Empty;
             FechaDelDocumento = LibDate.MinDateForDB();           
             SerieDocumento = string.Empty;
@@ -193,20 +203,23 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             TipoDeTransaccionAsEnum = eTipoDeTransaccionDeLibrosFiscales.Registro;
             TipoDeCxPAsEnum = eTipoDeTransaccionID.Factura;
             BaseImponible = 0m;
-            PorcentajeIVA = 0m;
+            PorcentajeRetencion = 0m;
             MontoExento = 0m;
             MontoIVA = 0m;
             MontoTotal = 0m;
             MontoRetenido = 0m;
             MontoPercibido = 0m;
+            MontoSustraendo= 0m;    
             CodigoMoneda = string.Empty;
-            CodigoConcepto = string.Empty;            
+            CodigoConcepto = string.Empty;
+            DescripcionConcepto = string.Empty;
         }
      }
 
-
-    public class SujetoDeRetencion {
-        private eTipoDeProveedorDeLibrosFiscalesID _TipoDeProveedorDeLibrosFiscalesAsEnum;
+    #endregion DetalleComprobantesDeRetencionIVA
+    #region SujetoDeRetencion
+    public class SujetoDeRetencion {        
+        private eTipodePersonaRetencionID _TipoDePersonaRetencionAsEnum;
         public string Codigo { get; set; }
         public string Direccion { get; set; }
         public string Telefono { get; set; }
@@ -214,28 +227,28 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         public string NumeroRIF { get; set; }
         public string NombreProveedor { get; set; }
         public string CodigoProveedor { get; set; }
-
-        public eTipoDeProveedorDeLibrosFiscalesID TipoDeProveedorDeLibrosFiscalesAsEnum {
+        
+        public eTipodePersonaRetencionID TipoDePersonaRetencionAsEnum {
             get {
-                return _TipoDeProveedorDeLibrosFiscalesAsEnum;
+                return _TipoDePersonaRetencionAsEnum;
             }
             set {
-                _TipoDeProveedorDeLibrosFiscalesAsEnum = value;
+                _TipoDePersonaRetencionAsEnum = value;
             }
         }
 
-        public string TipoDeProveedorDeLibrosFiscales {
+        public string TipoDePersonaRetencion {
             set {
-                _TipoDeProveedorDeLibrosFiscalesAsEnum = (eTipoDeProveedorDeLibrosFiscalesID)LibConvert.DbValueToEnum(value);
+                _TipoDePersonaRetencionAsEnum = (eTipodePersonaRetencionID)LibConvert.DbValueToEnum(value);
             }
         }
 
-        public string TipoDeProveedorDeLibrosFiscalesAsString {
+        public string TipoDePersonaRetencionAsString {
             get {
-                return LibEnumHelper.GetDescription(_TipoDeProveedorDeLibrosFiscalesAsEnum);
+                return LibEnumHelper.GetDescription(_TipoDePersonaRetencionAsEnum);
             }
-        }        
-		
+        }
+
         public SujetoDeRetencion() {
             Codigo = string.Empty;
             Email = string.Empty;
@@ -243,8 +256,9 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             NumeroRIF = string.Empty;
             Direccion = string.Empty;
             Telefono = string.Empty;
-            TipoDeProveedorDeLibrosFiscalesAsEnum = eTipoDeProveedorDeLibrosFiscalesID.ConRif;
             CodigoProveedor = string.Empty;
+            TipoDePersonaRetencionAsEnum= eTipodePersonaRetencionID.JuridicaDomiciliada;
         }
     }
+    #endregion SujetoDeRetencion
 }

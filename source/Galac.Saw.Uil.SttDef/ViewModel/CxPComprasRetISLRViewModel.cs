@@ -297,6 +297,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             private set;
         }
 
+        public bool IsEnabledDatosRetISLRWithoutImprentaDigital {
+            get {
+
+                return IsEnabledDatosRetencion && !LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CompRetISLRPorImpDigital");
+            }
+        }
+
         #endregion //Propiedades
         #region Constructores
         public CxPComprasRetISLRViewModel()
