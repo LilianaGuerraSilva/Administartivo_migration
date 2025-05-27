@@ -61,4 +61,10 @@
     <DataTemplate DataType="{x:Type nsCSVM:RecalcularMovimientosDeInventarioViewModel}">
         <nsCSV:GSRecalcularMovimientosDeInventarioView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:ArticuloInventarioRecalcularExistenciaViewModel}">
+        <nsCSV:GSArticuloInventarioRecalcularExistenciaView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:ArticuloInventarioCostoPromedioViewModel}">
+        <nsCSV:GSArticuloInventarioCostoPromedioView />
+    </DataTemplate>
 </ResourceDictionary>

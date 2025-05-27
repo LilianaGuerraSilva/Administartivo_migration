@@ -16,6 +16,8 @@ using LibGalac.Aos.Vbwa;
 using Galac.Saw.Ccl.Inventario;
 using Galac.Saw.Wrp.Administrativo;
 using Galac.Saw.Uil.Inventario;
+using Galac.Saw.Brl.Inventario;
+using LibGalac.Aos.Base.Report;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Inventario {
 #elif IsExeBsS​
@@ -112,6 +114,25 @@ namespace Galac.Saw.Wrp.Inventario {
             CreateGlobalValues(valfwCurrentMfc, vfwCurrentParameters);
             clsArticuloInventarioMenu vArticuloInventarioMenu = new clsArticuloInventarioMenu();
             vArticuloInventarioMenu.MostrarPantallaDeImportarPreciosDesdeArchivo();
+        }
+
+        void IWrpArticuloInventario.RecalcularInventario(string valfwCurrentMfc, string vfwCurrentParameters) {
+            CreateGlobalValues(valfwCurrentMfc, vfwCurrentParameters);
+            clsArticuloInventarioMenu vArticuloInventarioMenu = new clsArticuloInventarioMenu();
+            vArticuloInventarioMenu.MostrarPantallaDeRecalcularInventario();
+        }
+
+        void IWrpArticuloInventario.RecalcularInventarioProceso(string valfwCurrentMfc, string vfwCurrentParameters) {
+            CreateGlobalValues(valfwCurrentMfc, vfwCurrentParameters);
+            IArticuloInventarioPdn vArticuloInventario = new clsArticuloInventarioNav();
+            //Se debe Ajustar
+            vArticuloInventario.RecalcularExistencia(LibConvert.ToInt(valfwCurrentMfc), eCantidadAImprimir.All, "", eCantidadAImprimir.All, "");
+        }
+
+        void IWrpArticuloInventario.CalcularCosto(string valfwCurrentMfc, string vfwCurrentParameters) {
+            CreateGlobalValues(valfwCurrentMfc, vfwCurrentParameters);
+            clsArticuloInventarioMenu vArticuloInventarioMenu = new clsArticuloInventarioMenu();
+            vArticuloInventarioMenu.MostrarPantallaDeCalcularCosto();
         }
 
         #endregion //Miembros de IWrpArticuloInventario

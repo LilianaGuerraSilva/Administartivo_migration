@@ -49,8 +49,10 @@
   <ItemGroup>
     <Compile Include="Almacen.cs" />
     <Compile Include="ArticuloInventario.cs" />
+    <Compile Include="ArticuloInventarioCostoPromedio.cs" />
     <Compile Include="ArticuloInventarioExistencia.cs" />
     <Compile Include="ArticuloInventarioExistenciaSerial.cs" />
+    <Compile Include="ArticuloInventarioRecalcularExistencia.cs" />
     <Compile Include="Categoria.cs" />
     <Compile Include="clsEnumInventario.cs" />
     <Compile Include="Color.cs" />
