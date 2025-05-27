@@ -48,7 +48,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public string Mensaje { get; set; }
         public string NumeroCxP { get; set; }              
         public eTipoDocumentoImprentaDigital TipoDocumentoImprentaDigital { get; private set; }
-        public ComprobantesDeRetencion ComprobanteRetIVAImprentaDigital { get; private set; }
+        public ComprobantesDeRetencion ComprobanteRetImprentaDigital { get; private set; }
         public List<ComprobanteRetDetalle> DetalleComprobanteRetencion { get; private set; }
         public SujetoDeRetencion SujetoDeRetencionImpnretaDigital { get; private set; }
 
