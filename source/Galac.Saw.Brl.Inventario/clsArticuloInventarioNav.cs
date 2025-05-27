@@ -2265,13 +2265,13 @@ namespace Galac.Saw.Brl.Inventario {
 
                 } else {
                     vSql.AppendLine(" SELECT Saw.Almacen.ConsecutivoCompania, Saw.Almacen.Codigo AS CodigoAlmacen, Saw.Almacen.Consecutivo AS ConsecutivoAlmacen,");
-                    if (valCodigoArticulo != null && valCodigoArticulo != string.Empty) {
+                    if (LibString.IsNullOrEmpty(valCodigoArticulo)) {
                         vSql.AppendLine(" ExistenciaPorGrupo.CodigoArticulo + ExistenciaPorGrupo.CodigoColor + ExistenciaPorGrupo.CodigoTalla AS CodigoArticulo,");
                     }
                     vSql.AppendLine(" ExistenciaPorGrupo.Serial As CodigoSerial, ExistenciaPorGrupo.Rollo AS CodigoRollo");
                     vSql.AppendLine(" FROM Saw.Almacen INNER JOIN ExistenciaPorGrupo ON Saw.Almacen.ConsecutivoCompania = ExistenciaPorGrupo.ConsecutivoCompania");
                     vSql.AppendLine(" WHERE Saw.Almacen.ConsecutivoCompania = " + valConsecutivoCompania);
-                    if (valCodigoArticulo != null && valCodigoArticulo != string.Empty) {
+                    if (LibString.IsNullOrEmpty(valCodigoArticulo)) {
                         vSql.AppendLine(" AND ExistenciaPorGrupo.CodigoArticulo + ExistenciaPorGrupo.CodigoColor + ExistenciaPorGrupo.CodigoTalla = " + valCodigoArticulo);
                         vSql.AppendLine(" GROUP BY Saw.Almacen.ConsecutivoCompania, Saw.Almacen.Codigo, Saw.Almacen.Consecutivo, ExistenciaPorGrupo.CodigoArticulo + CodigoColor + CodigoTalla, Serial, Rollo");
                     } else {
