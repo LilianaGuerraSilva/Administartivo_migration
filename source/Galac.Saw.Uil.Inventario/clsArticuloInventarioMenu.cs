@@ -46,6 +46,16 @@ namespace Galac.Saw.Uil.Inventario {
             LibMessages.EditViewModel.ShowEditor(vViewModel, true);
         }
 
+        public void MostrarPantallaDeRecalcularInventario() {
+            ArticuloInventarioRecalcularExistenciaViewModel vViewModel = new ArticuloInventarioRecalcularExistenciaViewModel();
+            LibMessages.EditViewModel.ShowEditor(vViewModel, true);
+        }
+
+        public void MostrarPantallaDeCalcularCosto() {
+            ArticuloInventarioCostoPromedioViewModel vViewModel = new ArticuloInventarioCostoPromedioViewModel();
+            LibMessages.EditViewModel.ShowEditor(vViewModel, true);
+        }
+
         #endregion //Metodos Generados
 
 

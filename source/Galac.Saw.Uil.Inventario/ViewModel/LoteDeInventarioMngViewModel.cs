@@ -25,10 +25,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             private set;
         }
 
-        public RelayCommand RecalcularCommand {
-            get;
-            private set;
-        }
         #endregion //Propiedades
         #region Constructores
 
@@ -79,7 +75,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         protected override void InitializeCommands() {
             base.InitializeCommands();
             InformesCommand = new RelayCommand(ExecuteInformesCommand, CanExecuteInformesCommand);
-            RecalcularCommand = new RelayCommand(ExecuteRecalcularCommand, CanExecuteRecalcularCommand);
         }
 
 
@@ -114,13 +109,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/report.png", UriKind.Relative),
                 ToolTipDescription = "Informes",
                 ToolTipTitle = "Informes"
-            });
-            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
-                Label = "Recalcular Existencia de Lote",
-                Command = RecalcularCommand,
-                LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/refresh.png", UriKind.Relative),
-                ToolTipDescription = "Recalcular Existencia de Lote",
-                ToolTipTitle = "Recalcular Existencia de Lote"
             });
             return vResult;
         }
@@ -170,10 +158,6 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             return LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 18), "Informes");
         }
 
-        private bool CanExecuteRecalcularCommand() {
-            return LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 18), "Recalcular");
-        }
-
         private void ExecuteInformesCommand() {
             try {
                 if (LibMessages.ReportsView.ShowReportsView(new Galac.Saw.Uil.Inventario.Reportes.clsLoteDeInventarioInformesViewModel(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()))) {
@@ -186,18 +170,5 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             }
         }
 
-        private void ExecuteRecalcularCommand() {
-            try {
-                RecalcularMovimientosDeInventarioViewModel vViewModel = new RecalcularMovimientosDeInventarioViewModel();
-                bool vResult = LibMessages.EditViewModel.ShowEditor(vViewModel, true);
-                if (vResult) {
-                    SearchItems();
-                }
-            } catch (System.AccessViolationException) {
-                throw;
-            } catch (Exception vEx) {
-                LibMessages.RaiseError.ShowError(vEx);
-            }
-        }
     } //End of class LoteDeInventarioMngViewModel
 } //End of namespace Galac.Saw.Uil.Inventario
