@@ -1694,6 +1694,7 @@ namespace Galac.Saw.Brl.Inventario {
                             vSerial = LibXml.GetElementValueOrEmpty(vXmlExistenciaPorAlmacen, "Serial");
                             vRollo = LibXml.GetElementValueOrEmpty(vXmlExistenciaPorAlmacen, "Rollo");
                             vCodigoAlmacen = LibXml.GetElementValueOrEmpty(vArticuloAlmacen, "CodigoAlmacen");
+                            vConsecutivoAlmacen = LibConvert.ToInt(LibXml.GetElementValueOrEmpty(vArticuloAlmacen, "ConsecutivoAlmacen"));
                             var ListGrupoArticulo = BuscarArticuloPorGrupo(valConsecutivoCompania, vCodigoArticulo, true);
                             vCodigoCompuestoPorGrupo = LibXml.GetElementValueOrEmpty(ListGrupoArticulo, "CodigoCompuesto");
                             ActualizaCantidades(valConsecutivoCompania, vCodigoAlmacen, vNuevaCantidad, vCodigoArticulo, vSerial, vRollo, vCodigoCompuestoPorGrupo, vTipoArticuloInv,true);
@@ -1735,6 +1736,7 @@ namespace Galac.Saw.Brl.Inventario {
         }
 
         private string SqlInsertarEnExistencia(int valConsecutivoCompania, int vConsecutivoAlmacen, string valCodigoAlmacen, string vCodigoArticulo, ref StringBuilder refParams) {
+            LibDatabase insDb = new LibDatabase();
             QAdvSql insUtilSql = new QAdvSql("");
             StringBuilder vSql = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
@@ -1743,8 +1745,8 @@ namespace Galac.Saw.Brl.Inventario {
             vParams.AddInString("CodigoArticulo", vCodigoArticulo, 30);
             vParams.AddInInteger("ConsecutivoAlmacen", vConsecutivoAlmacen);
             refParams = vParams.Get();
-            vSql.AppendLine("INSERT INTO ExistenciaPorAlmacen (ConsecutivoCompania, CodigoAlmacen, ConsecutivoAlmacen,CodigoArticulo, Cantidad, Ubicacion) ");
-            vSql.AppendLine($"VALUES (@ConsecutivoCompania, @CodigoAlmacen, @CodigoArticulo,@ConsecutivoAlmacen, {insUtilSql.ToSqlValue(0m)}, {insUtilSql.ToSqlValue("")}) ");
+            vSql.AppendLine("INSERT INTO ExistenciaPorAlmacen (ConsecutivoCompania, CodigoAlmacen, CodigoArticulo, ConsecutivoAlmacen, Cantidad, Ubicacion) ");
+            vSql.AppendLine("VALUES (" + insDb.InsSql.ToSqlValue(valConsecutivoCompania) + ", " + insDb.InsSql.ToSqlValue(valCodigoAlmacen) + ", " + insDb.InsSql.ToSqlValue(vCodigoArticulo) + " , " + insDb.InsSql.ToSqlValue(vConsecutivoAlmacen) + ", " + insUtilSql.ToSqlValue(0m) + ", "+ insUtilSql.ToSqlValue("") +" ) ");
             return vSql.ToString();
         }
 
@@ -2265,13 +2267,13 @@ namespace Galac.Saw.Brl.Inventario {
 
                 } else {
                     vSql.AppendLine(" SELECT Saw.Almacen.ConsecutivoCompania, Saw.Almacen.Codigo AS CodigoAlmacen, Saw.Almacen.Consecutivo AS ConsecutivoAlmacen,");
-                    if (LibString.IsNullOrEmpty(valCodigoArticulo)) {
+                    if (!LibString.IsNullOrEmpty(valCodigoArticulo)) {
                         vSql.AppendLine(" ExistenciaPorGrupo.CodigoArticulo + ExistenciaPorGrupo.CodigoColor + ExistenciaPorGrupo.CodigoTalla AS CodigoArticulo,");
                     }
                     vSql.AppendLine(" ExistenciaPorGrupo.Serial As CodigoSerial, ExistenciaPorGrupo.Rollo AS CodigoRollo");
                     vSql.AppendLine(" FROM Saw.Almacen INNER JOIN ExistenciaPorGrupo ON Saw.Almacen.ConsecutivoCompania = ExistenciaPorGrupo.ConsecutivoCompania");
                     vSql.AppendLine(" WHERE Saw.Almacen.ConsecutivoCompania = " + valConsecutivoCompania);
-                    if (LibString.IsNullOrEmpty(valCodigoArticulo)) {
+                    if (!LibString.IsNullOrEmpty(valCodigoArticulo)) {
                         vSql.AppendLine(" AND ExistenciaPorGrupo.CodigoArticulo + ExistenciaPorGrupo.CodigoColor + ExistenciaPorGrupo.CodigoTalla = " + valCodigoArticulo);
                         vSql.AppendLine(" GROUP BY Saw.Almacen.ConsecutivoCompania, Saw.Almacen.Codigo, Saw.Almacen.Consecutivo, ExistenciaPorGrupo.CodigoArticulo + CodigoColor + CodigoTalla, Serial, Rollo");
                     } else {

@@ -17,7 +17,7 @@
     <SawSP>2501</SawSP>
     <SawTbls>2501</SawTbls>
     <SawVista>2502</SawVista>    
-    <ContabRpt>2405</ContabRpt>
+    <ContabRpt>2501</ContabRpt>
     <VMAX type="ocx" LiteralName="VMAX">4.00.0008</VMAX>
     <vmax3fpi LiteralName="vmax3fpi">1.0.0.8</vmax3fpi>
   </ComponentesCOM>

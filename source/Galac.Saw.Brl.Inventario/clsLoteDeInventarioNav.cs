@@ -957,14 +957,15 @@ namespace Galac.Saw.Brl.Inventario {
         }
 
         String ExisteArticuloEnAlmacen(int valConsecutivoCompania, string valCodigoArticulo) {
+            LibDatabase insDb = new LibDatabase();
             StringBuilder vSql = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             XElement vData = new XElement("GpData");
             try {
-                vSql.AppendLine(" SELECT ExistenciaPorAlmacen.CodigoAlmacen,");               
+                vSql.AppendLine(" SELECT ExistenciaPorAlmacen.CodigoAlmacen");               
                 vSql.AppendLine(" FROM ExistenciaPorAlmacen");
                 vSql.AppendLine(" WHERE ExistenciaPorAlmacen.ConsecutivoCompania = " + valConsecutivoCompania);
-                vSql.AppendLine(" AND CodigoArticulo = " + valCodigoArticulo);
+                vSql.AppendLine(" AND CodigoArticulo = " + insDb.InsSql.ToSqlValue(valCodigoArticulo));
                 vSql.AppendLine(" GROUP BY CodigoAlmacen, CodigoArticulo");
                 return vSql.ToString();
             } catch (GalacException) {
@@ -976,7 +977,7 @@ namespace Galac.Saw.Brl.Inventario {
             LibDatabase insDb = new LibDatabase();
             StringBuilder vSqlActualizaExistencia = new StringBuilder();
             StringBuilder vSqlSelectSum = new StringBuilder();
-            vSqlSelectSum.AppendLine("SELECT SUM(Cantidad) FROM Saw.ExistenciaPorAlmacenDetLoteInv");
+            vSqlSelectSum.AppendLine("SELECT SUM(Cantidad) FROM ExistenciaPorAlmacenDetLoteInv");
             vSqlSelectSum.AppendLine("WHERE ExistenciaPorAlmacenDetLoteInv.ConsecutivoCompania = ExistenciaPorAlmacen.ConsecutivoCompania");
             vSqlSelectSum.AppendLine("AND ExistenciaPorAlmacenDetLoteInv.CodigoArticulo = ExistenciaPorAlmacen.CodigoArticulo");
             vSqlSelectSum.AppendLine("AND ExistenciaPorAlmacenDetLoteInv.ConsecutivoAlmacen = ExistenciaPorAlmacen.ConsecutivoAlmacen");

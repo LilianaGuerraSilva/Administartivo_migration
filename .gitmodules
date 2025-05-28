@@ -34,10 +34,6 @@
 	path = bin/binLibProtec
 	url = https://github.com/GalacSoftware/BinLibProtec.git
 	branch = release/V24.4.0.0
-[submodule "bin/binContabilidadVb"]
-	path = bin/binContabilidadVb
-	url = https://github.com/GalacSoftware/BinContabilidadVb.git
-	branch = release/V2405
 [submodule "source/ContabiWrp"]
 	path = source/ContabiWrp
 	url = https://github.com/GalacSoftware/ContabiWrp.git
@@ -69,4 +65,8 @@
 [submodule "source/ContabilidadVb"]
 	path = source/ContabilidadVb
 	url = https://github.com/GalacSoftware/ContabilidadVb.git
-	branch = release/SawV30.1.0.0
+	branch = master
+[submodule "bin/binContabilidadVb"]
+	path = bin/binContabilidadVb
+	url = https://github.com/GalacSoftware/BinContabilidadVb.git
+	branch = release/V2501
