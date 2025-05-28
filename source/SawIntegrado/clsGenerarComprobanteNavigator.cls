@@ -2386,7 +2386,6 @@ Private Function fSQLFacturasEntreFechasPorArticulo(ByVal valFechaDesde As Date,
    Set insFactura = New clsFacturaNavigator
    insFactura.setClaseDeTrabajo eCTFC_Factura
    vCodigoCuentaIVA = ""
-   vCodigoCentroDeCosto = ""
    vCodigoCliente = fBuscaCodClienteSegunModulo(valNoDocumentoOrigen, eCG_FACTURA, valTipoDocumento)
    vAuxiliarCxC = fElClienteManejaAuxiliar(vCodigoCliente, eCG_FACTURA, gProyReglasDeContabilizacion.eTC_ReglaCliCxC, valTipoDocumento)
    vCondicionDeStatusAnulado = gUtilSQL.fFirst("factura.StatusFactura", "NONE") & " = " & gUtilSQL.fSimpleSqlValue(gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA))
@@ -2399,8 +2398,9 @@ Private Function fSQLFacturasEntreFechasPorArticulo(ByVal valFechaDesde As Date,
    vCuentaContableCliente = gUtilSQL.getIIF(gUtilSQL.fFirst("cliente.CuentaContableCxC", "NONE") & " <> ''", gUtilSQL.fFirst("cliente.CuentaContableCxC", "NONE"), gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaFacturacionCxCClientes))
    vCodigoDelAuxiliar = "factura.CodigoCliente"
    
-   If (gProyCompaniaActual.GetUsaCentroDeCostos And gProyParametrosCompania.GetAsociarCentroDeCostos = eFDACDC_PorAlmacen) Then
-      vCodigoCentroDeCosto = "Almacen.CodigoCc"
+   vCodigoCentroDeCosto = "Almacen.CodigoCc"
+   If (gProyCompaniaActual.GetUsaCentroDeCostos And gProyParametrosCompania.GetAsociarCentroDeCostos = eFDACDC_PorLineaDeProducto) Then
+      vCodigoCentroDeCosto = ""
    End If
    vCuentaContaDescFac = gProyReglasDeContabilizacion.GetCuentaFacturacionDescuentos
    vCodigoCuentaIGTF = gProyReglasDeContabilizacion.GetCuentaCreditoBancarioGasto
@@ -2446,7 +2446,7 @@ Private Function fSQLFacturasEntreFechasPorArticulo(ByVal valFechaDesde As Date,
    If gProyParametrosCompania.GetUsaCreditoElectronico And gProyReglasDeContabilizacion.GetCuentaFacturacionCxCCreditoElectronico <> "" Then
       vSQL = vSQL & fAgregaUnaCuentaAlSQL("DEBE", False, gUtilSQL.fNumToStrSQL(vMontoCxCCE), vCuentaContableCE, False, "", vNumeroReferencia, valDescripcionDelAsiento, "", vCodigoCentroDeCosto)
    Else
-      vSQL = vSQL & fAgregaUnaCuentaAlSQL("", False, "0", "", "", "", "", "", "", "")
+      vSQL = vSQL & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
    End If
    
    vSQL = vSQL & " FROM factura INNER JOIN cliente"
