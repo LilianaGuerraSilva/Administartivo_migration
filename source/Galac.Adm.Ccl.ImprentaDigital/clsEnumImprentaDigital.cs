@@ -41,18 +41,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         NotaDeCreditoCompFiscal,
         [LibEnumDescription("Guía de Remisión")]
         GuiaDeRemision
-    }
-
-    public enum eTipoDeProveedorDeLibrosFiscalesID {
-        [LibEnumDescription("Con RIF")]
-        ConRif = 0,
-        [LibEnumDescription("Sin RIF")]
-        SinRif,
-        [LibEnumDescription("No Residenciado")]
-        NoResidenciado,
-        [LibEnumDescription("No Domiciliado")]
-        NoDomiciliado
-    }
+    }    
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eStatusDocumentoCxP {
@@ -68,6 +57,22 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         Anulado,
         [LibEnumDescription("Refinanciado")]
         Refinanciado
+    }
+
+    [TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipodePersonaRetencionID {
+        [LibEnumDescription("Jurídica Domiciliada", Index = 0)]
+        [LibEnumDescription("PJD", Index = 1)]
+        JuridicaDomiciliada,
+        [LibEnumDescription("PJND", Index = 1)]
+        [LibEnumDescription("Jurídica No Domiciliada", Index = 0)]
+        JuridicaNoDomiciliada,
+        [LibEnumDescription("PNR", Index = 1)]
+        [LibEnumDescription("Natural Residente", Index = 0)]
+        NaturalResidente,
+        [LibEnumDescription("Natural No Residente", Index = 0)]
+        [LibEnumDescription("PNNR", Index = 1)]
+        NaturalNoResidente
     }
 
     #region Comandos Thefactory HKA

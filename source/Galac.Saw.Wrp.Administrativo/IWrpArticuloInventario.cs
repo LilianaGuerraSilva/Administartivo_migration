@@ -12,6 +12,8 @@ namespace Galac.Saw.Wrp.Administrativo {
         void InitializeContext(string vfwInfo);
         void InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO, bool vfwUsePASOnLine);
         void ImportarPreciosDesdeArchivo(string valfwCurrentMfc, string vfwCurrentParameters);
-
+        void RecalcularInventario(string valfwCurrentMfc, string vfwCurrentParameters);
+        void RecalcularInventarioProceso(string valfwCurrentMfc, string vfwCurrentParameters);
+        void CalcularCosto(string valfwCurrentMfc, string vfwCurrentParameters);
     }
 }

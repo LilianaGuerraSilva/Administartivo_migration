@@ -4855,3 +4855,21 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	ConfiguracionNueva	:	Str500;//"Configuración Nueva"
 	NombreOperador : Str10;//"NombreOperador"	
 }
+
+
+{@F}ArticuloInventarioRecalcularExistencia = Record //"Recalcular Existencia",Multiarchivo=Compania, Componente=Inventario,Esquema=Saw
+	CantidadLineaDeProducto		: unCantidadAImprimir;//"Líneas de Producto",logical
+	LineaDeProducto 			: Str20;//"Linea de Producto",=LineaDeProducto.Nombre,logical
+	CantidadArtInv				: unCantidadAImprimir;//"Artículos de Inventario",logical	
+	CodigoArticulo				: Str15;//"Código",=ArticuloInventario.Codigo,logical
+	DescripcionArticulo			: Str255;//logical
+	
+}
+
+{@F}ArticuloInventarioCostoPromedio = Record //"Calcular Costo",Multiarchivo=Compania, Componente=Inventario,Esquema=Saw, GENERATE
+	CantidadArtInv				: unCantidadAImprimir;//"Artículos de Inventario",logical	
+	CodigoArticulo				: Str15;//"Código",=ArticuloInventario.Codigo,logical
+	DescripcionArticulo			: Str255;//logical
+	
+}
+

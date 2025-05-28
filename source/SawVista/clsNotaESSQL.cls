@@ -34,11 +34,8 @@ Public Function fSQLDelReporteNotasDeESEntreFechas(ByVal valConsecutivoCompania 
    Sql = "SELECT "
    Sql = Sql & "notaDeEntradaSalida.Fecha, "
    Sql = Sql & gUtilSQL.DfSQLCaseIfForEnum("notaDeEntradaSalida.TipoDeOperacion", enum_TipodeOperacion.eTO_ENTRADA_DE_INVENTARIO, gEnumProyecto.fEnumTipodeOperacionToStringInArray(True), "") & " AS TipodeOperacion, "
-   Sql = Sql & "notaDeEntradaSalida.NumeroDocumento, "
-   Sql = Sql & "notaDeEntradaSalida.CodigoAlmacen, "
-   Sql = Sql & "almacen.NombreAlmacen, "
-   Sql = Sql & "renglonNotaES.CodigoArticulo, "
-   Sql = Sql & "renglonNotaES.Cantidad, "
+   Sql = Sql & "notaDeEntradaSalida.NumeroDocumento, notaDeEntradaSalida.CodigoAlmacen, "
+   Sql = Sql & "almacen.NombreAlmacen, renglonNotaES.CodigoArticulo, renglonNotaES.Cantidad, "
    Sql = Sql & insArticuloVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Descripcion"
    Sql = Sql & " FROM almacen INNER JOIN ("
    Sql = Sql & "notaDeEntradaSalida INNER JOIN ("
@@ -109,81 +106,7 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fsqlListaDePreciosME", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fsqlReporteNotaEntradaSalida(ByVal valConsecutivoCompania As Long, ByVal valNumeroDocumento As String) As String
-   Dim Sql As String
-   On Error GoTo h_ERROR
-   Sql = "SELECT NotaDeEntradaSalida.NumeroDocumento, "
-   Sql = Sql & "NotaDeEntradaSalida.Fecha, "
-   Sql = Sql & "NotaDeEntradaSalida.CodigoAlmacen, "
-   Sql = Sql & "NotaDeEntradaSalida.CodigoCliente, "
-   Sql = Sql & "NotaDeEntradaSalida.TipodeOperacion, "
-   Sql = Sql & "NotaDeEntradaSalida.Comentarios, "
-   Sql = Sql & "renglonNotaES.CodigoArticulo, "
-   Sql = Sql & "renglonNotaES.Cantidad, "
-   Sql = Sql & "articuloInventario.Descripcion, "
-   Sql = Sql & "renglonNotaES.TipoArticuloInv, "
-   Sql = Sql & "renglonNotaES.Serial, "
-   Sql = Sql & "RenglonNotaES.Rollo, "
-   Sql = Sql & "renglonNotaES.ConsecutivoRenglon "
-   
-   Sql = Sql & " FROM NotaDeEntradaSalida INNER JOIN RenglonNotaES "
-   Sql = Sql & "  ON NotaDeEntradaSalida.ConsecutivoCompania = RenglonNotaES.ConsecutivoCompania "
-   Sql = Sql & "  AND NotaDeEntradaSalida.NumeroDocumento = RenglonNotaES.NumeroDocumento "
-   Sql = Sql & "  INNER JOIN ArticuloInventario "
-   Sql = Sql & "  ON RenglonNotaES.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania "
-   Sql = Sql & "  AND RenglonNotaES.CodigoArticulo = ArticuloInventario.Codigo "
-   Sql = Sql & "  LEFT JOIN CamposMonedaExtranjera "
-   Sql = Sql & "  ON CamposMonedaExtranjera.Codigo = ArticuloInventario.Codigo "
-   Sql = Sql & "  AND CamposMonedaExtranjera.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania"
-   
-   
-   Sql = Sql & " WHERE NotaDeEntradaSalida.ConsecutivoCompania = " & valConsecutivoCompania
-   Sql = Sql & " AND NotaDeEntradaSalida.NumeroDocumento = " & gUtilSQL.fSimpleSqlValue(valNumeroDocumento)
-   Sql = Sql & " AND NotaDeEntradaSalida.NumeroDocumento = renglonNotaES.NumeroDocumento"
 
-   Sql = Sql & " UNION"
-   Sql = Sql & " SELECT NotaDeEntradaSalida.NumeroDocumento, "
-   Sql = Sql & "NotaDeEntradaSalida.Fecha, "
-   Sql = Sql & "NotaDeEntradaSalida.CodigoAlmacen, "
-   Sql = Sql & "NotaDeEntradaSalida.CodigoCliente, "
-   Sql = Sql & "NotaDeEntradaSalida.TipodeOperacion, "
-   Sql = Sql & "NotaDeEntradaSalida.Comentarios, "
-   Sql = Sql & "renglonNotaES.CodigoArticulo, "
-   Sql = Sql & "renglonNotaES.Cantidad, "
-   Sql = Sql & "(ArticuloInventario.Descripcion + " & gUtilSQL.fSimpleSqlValue(" ") & "+ ISNULL(Color.DescripcionColor,'')+" & gUtilSQL.fSimpleSqlValue(" ") & "+ ISNULL(Talla.DescripcionTalla,'')) AS Descripcion, "
-   Sql = Sql & "renglonNotaES.TipoArticuloInv, "
-   Sql = Sql & "renglonNotaES.Serial, "
-   Sql = Sql & "RenglonNotaES.Rollo, "
-   Sql = Sql & "renglonNotaES.consecutivorenglon "
-   
-   Sql = Sql & " FROM NotaDeEntradaSalida INNER JOIN RenglonNotaES INNER JOIN ExistenciaPorGrupo LEFT JOIN Saw.Talla "
-   Sql = Sql & "  ON ExistenciaPorGrupo.ConsecutivoCompania = Saw.Talla.ConsecutivoCompania "
-   Sql = Sql & "  AND ExistenciaPorGrupo.CodigoTalla = Saw.Talla.CodigoTalla "
-   Sql = Sql & "  LEFT JOIN Saw.Color "
-   Sql = Sql & "  ON ExistenciaPorGrupo.CodigoColor = Saw.Color.CodigoColor "
-   Sql = Sql & "  AND ExistenciaPorGrupo.ConsecutivoCompania = Saw.Color.ConsecutivoCompania "
-   Sql = Sql & "  ON RenglonNotaES.ConsecutivoCompania = ExistenciaPorGrupo.ConsecutivoCompania "
-   Sql = Sql & "  AND RenglonNotaES.CodigoArticulo = ExistenciaPorGrupo.CodigoArticulo + ExistenciaPorGrupo.CodigoColor + ExistenciaPorGrupo.CodigoTalla "
-   Sql = Sql & "  ON NotaDeEntradaSalida.NumeroDocumento = RenglonNotaES.NumeroDocumento "
-   Sql = Sql & "  AND NotaDeEntradaSalida.ConsecutivoCompania = RenglonNotaES.ConsecutivoCompania "
-   Sql = Sql & "  AND NotaDeEntradaSalida.NumeroDocumento = RenglonNotaES.NumeroDocumento "
-   Sql = Sql & "  LEFT JOIN ArticuloInventario "
-   Sql = Sql & "  ON ExistenciaPorGrupo.CodigoArticulo = ArticuloInventario.Codigo "
-   Sql = Sql & "  AND ExistenciaPorGrupo.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania "
-   Sql = Sql & "  LEFT JOIN CamposMonedaExtranjera "
-   Sql = Sql & "  ON CamposMonedaExtranjera.Codigo = ArticuloInventario.Codigo "
-   Sql = Sql & "  AND CamposMonedaExtranjera.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania"
-   
-   Sql = Sql & " WHERE NotaDeEntradaSalida.ConsecutivoCompania = " & valConsecutivoCompania
-   Sql = Sql & " AND NotaDeEntradaSalida.NumeroDocumento = " & gUtilSQL.fSimpleSqlValue(valNumeroDocumento)
-   Sql = Sql & " AND NotaDeEntradaSalida.NumeroDocumento = renglonNotaES.NumeroDocumento"
-   
-   Sql = Sql & " ORDER BY  NotaDeEntradaSalida.NumeroDocumento, renglonNotaES.CodigoArticulo"
-h_EXIT: On Error GoTo 0
-   fsqlReporteNotaEntradaSalida = Sql
-   Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLReporteNotaEntradaSalida", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Function
 
 Public Function fQueryNotaES(ByVal valTipoOperacion As enum_TipodeOperacion, ByVal valCodigoArticulo As String, ByVal valCodigoAlmacen As String, ByVal valConsecutivoCompania As Long) As String
    Dim Sql As String

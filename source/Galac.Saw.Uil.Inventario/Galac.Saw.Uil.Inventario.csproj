@@ -148,6 +148,8 @@
     <Compile Include="UIMefInventarioNotaDeEntradaSalida.cs" />
     <Compile Include="UIMefInventarioTalla.cs" />
     <Compile Include="UIMefInventarioVerificadorDePrecios.cs" />
+    <Compile Include="ViewModel\ArticuloInventarioCostoPromedioViewModel.cs" />
+    <Compile Include="ViewModel\ArticuloInventarioRecalcularExistenciaViewModel.cs" />
     <Compile Include="ViewModel\ImportarPreciosDeArticuloViewModel.cs" />
     <Compile Include="ViewModel\AlmacenMngViewModel.cs" />
     <Compile Include="ViewModel\AlmacenViewModel.cs" />
@@ -177,6 +179,12 @@
     <Compile Include="ViewModel\VerificadorDePreciosViewModel.cs" />
     <Compile Include="Views\GSAlmacenView.xaml.cs">
       <DependentUpon>GSAlmacenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSArticuloInventarioCostoPromedioView.xaml.cs">
+      <DependentUpon>GSArticuloInventarioCostoPromedioView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSArticuloInventarioRecalcularExistenciaView.xaml.cs">
+      <DependentUpon>GSArticuloInventarioRecalcularExistenciaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GSCategoriaView.xaml.cs">
       <DependentUpon>GSCategoriaView.xaml</DependentUpon>
@@ -249,6 +257,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GSAlmacenView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSArticuloInventarioCostoPromedioView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSArticuloInventarioRecalcularExistenciaView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

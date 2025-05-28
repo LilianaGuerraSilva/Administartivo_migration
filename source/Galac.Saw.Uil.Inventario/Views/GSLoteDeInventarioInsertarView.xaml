@@ -74,9 +74,8 @@
             Grid.Column="1"
             Width="250"
             Height="35"
-            Style="{StaticResource LabelCalculatedField}"
             Content="{Binding Path=CodigoArticulo, UpdateSourceTrigger=PropertyChanged}"
-            />
+            Style="{StaticResource LabelCalculatedField}" />
         <Label
             Name="lblFechaDeElaboracion"
             Grid.Row="2"

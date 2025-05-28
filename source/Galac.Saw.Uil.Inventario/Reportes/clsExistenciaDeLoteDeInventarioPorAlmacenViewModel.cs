@@ -13,7 +13,6 @@ using Galac.Saw.Brl.Inventario;
 using Galac.Saw.Uil.Inventario.ViewModel;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using LibGalac.Aos.Uil;
-using LibGalac.Aos.Base.Report;
 
 namespace Galac.Saw.Uil.Inventario.Reportes {
 
@@ -24,6 +23,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         public const string FechaInicialPropertyName = "FechaInicial";
         public const string FechaFinalPropertyName = "FechaFinal";
         public const string CodigoAlmacenGenericoPropertyName = "CodigoAlmacenGenerico";
+        public const string CodigoLoteGenericoPropertyName = "CodigoLote";
 
         #endregion
         #region Variables
@@ -31,6 +31,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         private FkArticuloInventarioRptViewModel _ConexionCodigoArticulo = null;
         private FkAlmacenViewModel _ConexionCodigoAlmacenGenerico = null;
         private eCantidadAImprimir _SeleccionAlmacen;
+        private eCantidadAImprimir _SeleccionLote;
         private string _CodigoLote;
         private DateTime _FechaInicial;
         private DateTime _FechaFinal;
@@ -65,7 +66,6 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
             }
         }
 
-        [LibRequired(ErrorMessage = "El Lote es requerido.")]
         public string CodigoLote {
             get {
                 return _CodigoLote;
@@ -120,7 +120,6 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
             }
         }
 
-        [LibRequired(ErrorMessage = "Debe seleccionar el Almacén.")]
         public eCantidadAImprimir SeleccionAlmacen {
             get {
                 return _SeleccionAlmacen;
@@ -135,6 +134,24 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
                     }
                     RaisePropertyChanged(CodigoAlmacenGenericoPropertyName);
                     RaisePropertyChanged("IsVisibleCodigoAlmacen");
+                }
+            }
+        }
+
+        public eCantidadAImprimir SeleccionLote {
+            get {
+                return _SeleccionLote;
+            }
+            set {
+                if (_SeleccionLote != value) {
+                    _SeleccionLote = value;
+                    if (_SeleccionLote == eCantidadAImprimir.All) {
+                        CodigoLote = string.Empty;
+                    } else if (_SeleccionLote == eCantidadAImprimir.One) {
+                        CodigoLote = string.Empty;
+                    }
+                    RaisePropertyChanged(CodigoLoteGenericoPropertyName);
+                    RaisePropertyChanged("IsVisibleCodigoLote");
                 }
             }
         }
@@ -210,6 +227,11 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
                 return LibEnumHelper<eCantidadAImprimir>.GetValuesInArray();
             }
         }
+        public eCantidadAImprimir[] ArraySeleccionLote {
+            get {
+                return LibEnumHelper<eCantidadAImprimir>.GetValuesInArray();
+            }
+        }
         #endregion //Propiedades
         #endregion //Propiedades
         #region Constructores
@@ -217,6 +239,8 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         public clsExistenciaDeLoteDeInventarioPorAlmacenViewModel() {
             FechaInicial = LibDate.Today();
             FechaFinal = LibDate.AddDays(LibDate.Today(), 30);
+            SeleccionLote = eCantidadAImprimir.All;
+            SeleccionAlmacen = eCantidadAImprimir.All;
         }
 
         #endregion //Constructores
@@ -283,7 +307,6 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
                     valCodigo = string.Empty;
 
                 }
-
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Saw.Gv_Almacen_B1.Codigo", valCodigo);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Saw.Gv_Almacen_B1.ConsecutivoCompania", Mfc.GetInt("Compania"));
                 ConexionAlmacenGenerico = ChooseRecord<FkAlmacenViewModel>("Almacén", vDefaultCriteria, vFixedCriteria, "Codigo");
@@ -302,6 +325,12 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         public bool IsVisibleCodigoAlmacen {
             get {
                 return SeleccionAlmacen == eCantidadAImprimir.One;
+            }
+        }
+
+        public bool IsVisibleCodigoLote {
+            get {
+                return SeleccionLote == eCantidadAImprimir.One;
             }
         }
 
