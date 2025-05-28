@@ -1746,7 +1746,7 @@ namespace Galac.Saw.Brl.Inventario {
             vParams.AddInInteger("ConsecutivoAlmacen", vConsecutivoAlmacen);
             refParams = vParams.Get();
             vSql.AppendLine("INSERT INTO ExistenciaPorAlmacen (ConsecutivoCompania, CodigoAlmacen, CodigoArticulo, ConsecutivoAlmacen, Cantidad, Ubicacion) ");
-            vSql.AppendLine("VALUES (" + valConsecutivoCompania + ", " + insDb.InsSql.ToSqlValue(valCodigoAlmacen) + ", " + insDb.InsSql.ToSqlValue(vCodigoArticulo) + " , " + vConsecutivoAlmacen + ", " + insUtilSql.ToSqlValue(0m) + ", "+ insUtilSql.ToSqlValue("") +" ) ");
+            vSql.AppendLine("VALUES (" + insDb.InsSql.ToSqlValue(valConsecutivoCompania) + ", " + insDb.InsSql.ToSqlValue(valCodigoAlmacen) + ", " + insDb.InsSql.ToSqlValue(vCodigoArticulo) + " , " + insDb.InsSql.ToSqlValue(vConsecutivoAlmacen) + ", " + insUtilSql.ToSqlValue(0m) + ", "+ insUtilSql.ToSqlValue("") +" ) ");
             return vSql.ToString();
         }
 
