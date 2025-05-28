@@ -14222,9 +14222,9 @@ End Function
 
 Public Function enumTipoDocumentoImprentaDigitalToString(TipoDocumentoImprentaDigital As enum_TipoDocumentoImprentaDigital) As String
    Select Case TipoDocumentoImprentaDigital
-      Case eTDID_Facturacion: enumTipoDocumentoImprentaDigitalToString = "Facturacion"
-      Case eTDID_RetencionIVA: enumTipoDocumentoImprentaDigitalToString = "Retencion IVA"
-      Case eTDID_RetencionISLR: enumTipoDocumentoImprentaDigitalToString = "Retencion ISLR"
+      Case eTDID_Facturacion: enumTipoDocumentoImprentaDigitalToString = "Facturación"
+      Case eTDID_RetencionIVA: enumTipoDocumentoImprentaDigitalToString = "Retención IVA"
+      Case eTDID_RetencionISLR: enumTipoDocumentoImprentaDigitalToString = "Retención ISLR"
       Case Else
          enumTipoDocumentoImprentaDigitalToString = enumTipoDocumentoImprentaDigitalToString(0)
    End Select
