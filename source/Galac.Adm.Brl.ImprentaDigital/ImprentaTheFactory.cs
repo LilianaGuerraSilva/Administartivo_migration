@@ -703,8 +703,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 {"Percibido", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoPercibido)) },
                 {"Moneda", vDetalle.CodigoMoneda }};
                 if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionIVA) {
-                    vItem.Add(new JObject { "MontoExento", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoExento)) });
-                    vItem.Add(new JObject { "MontoIVA", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoIVA)) });
+                    vItem.Add("MontoExento", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoExento)));
+                    vItem.Add("MontoIVA", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoIVA)));
                 } else if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionISLR) {
                     vItem.Add("CodigoConcepto", vDetalle.CodigoConcepto);
                     JArray vListInfoAdicional = new JArray(
