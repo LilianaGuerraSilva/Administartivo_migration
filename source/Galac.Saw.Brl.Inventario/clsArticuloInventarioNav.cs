@@ -1651,16 +1651,16 @@ namespace Galac.Saw.Brl.Inventario {
         }
 
         bool IArticuloInventarioPdn.RecalcularExistencia(int valConsecutivoCompania, eCantidadAImprimir valCantidadArticulos, string valCodigoArticulo, eCantidadAImprimir valCantidadLineas, string valLineaDeProducto) {
-            string vCodigoArticulo = "";
+            string vCodigoArticulo;
             StringBuilder vParams = new StringBuilder();
-            decimal vNuevaCantidad = 0;
-            string vSqlCantidad = string.Empty;
+            decimal vNuevaCantidad;
+            string vSqlCantidad;
             eTipoArticuloInv vTipoArticuloInv;
             string vCodigoCompuestoPorGrupo;
             string vSerial;
             string vRollo;
             string vCodigoAlmacen;
-            int vConsecutivoAlmacen = 0;
+            int vConsecutivoAlmacen;
             XElement vXmlExistenciaPorAlmacen;
             XElement vXmlResult;
             List<XElement> vXmlResultList = new List<XElement>();
@@ -1690,7 +1690,7 @@ namespace Galac.Saw.Brl.Inventario {
                         vPdn.RecalcularMovimientosDeLoteDeInventario(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), valCantidadArticulos, valCodigoArticulo, valCantidadLineas, valLineaDeProducto);
 
                     } else {
-                        ActualizaCantidadACero(valConsecutivoCompania, vTipoArticuloInv, vXmlResultListAlmacen, vXmlExistenciaPorAlmacen);
+                        ActualizaCantidadACero(valConsecutivoCompania, vCodigoArticulo, vTipoArticuloInv, vXmlResultListAlmacen, vXmlExistenciaPorAlmacen);
                         foreach (XElement vArticuloAlmacen in vXmlResultListAlmacen) {
                             vSerial = LibXml.GetElementValueOrEmpty(vXmlExistenciaPorAlmacen, "Serial");
                             vRollo = LibXml.GetElementValueOrEmpty(vXmlExistenciaPorAlmacen, "Rollo");
@@ -2395,8 +2395,7 @@ namespace Galac.Saw.Brl.Inventario {
             return vSql.ToString();
         }
 
-        void ActualizaCantidadACero(int valConsecutivoCompania, eTipoArticuloInv vTipoArticuloInv, List<XElement> vXmlResultListAlmacen, XElement vXmlExistenciaPorAlmacen) {
-            string vCodigoArticulo = "";
+        void ActualizaCantidadACero(int valConsecutivoCompania, string vCodigoArticulo, eTipoArticuloInv vTipoArticuloInv, List<XElement> vXmlResultListAlmacen, XElement vXmlExistenciaPorAlmacen) {
             decimal vNuevaCantidad = 0;
             string vCodigoCompuestoPorGrupo;
             string vSerial;
