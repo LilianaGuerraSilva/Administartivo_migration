@@ -962,11 +962,11 @@ namespace Galac.Saw.Brl.Inventario {
             LibGpParams vParams = new LibGpParams();
             XElement vData = new XElement("GpData");
             try {
-                vSql.AppendLine(" SELECT ExistenciaPorAlmacen.CodigoAlmacen");               
+                vSql.AppendLine(" SELECT ExistenciaPorAlmacen.CodigoAlmacen, ExistenciaPorAlmacen.ConsecutivoAlmacen");               
                 vSql.AppendLine(" FROM ExistenciaPorAlmacen");
                 vSql.AppendLine(" WHERE ExistenciaPorAlmacen.ConsecutivoCompania = " + valConsecutivoCompania);
                 vSql.AppendLine(" AND CodigoArticulo = " + insDb.InsSql.ToSqlValue(valCodigoArticulo));
-                vSql.AppendLine(" GROUP BY CodigoAlmacen, CodigoArticulo");
+                vSql.AppendLine(" GROUP BY CodigoAlmacen, ConsecutivoAlmacen");
                 return vSql.ToString();
             } catch (GalacException) {
                 throw;
