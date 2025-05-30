@@ -2407,6 +2407,8 @@ namespace Galac.Saw.Brl.Inventario {
                 var ListGrupoArticulo = BuscarArticuloPorGrupo(valConsecutivoCompania, vCodigoArticulo, true);
                 vCodigoCompuestoPorGrupo = LibXml.GetElementValueOrEmpty(ListGrupoArticulo, "CodigoCompuesto");
                 ActualizaCantidades(valConsecutivoCompania, vCodigoAlmacen, vNuevaCantidad, vCodigoArticulo, vSerial, vRollo, vCodigoCompuestoPorGrupo, vTipoArticuloInv, true);
+            }
+        }
 
         public void ActualizarExistencia(int valConsecutivoCompania, List<ExistenciaPorAlmacenDetLoteInv> valList) {
             foreach (var item in valList) {
