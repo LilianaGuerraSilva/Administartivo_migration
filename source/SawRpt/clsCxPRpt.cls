@@ -1067,7 +1067,8 @@ Public Function fConfigurarDatosDelReporteComprobanteDeRetencionDeActividadesEco
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtDescripcionActividad", "", "DescripcionActividad"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNroComprobante", "", "NroComprobanteCxp"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtTelefonoAgenteSujetoRetenido", "", "TelefonoAgenteSujetoRetenido"
-         
+         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtCambioABolivares", "", "CambioABolivares"
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtMonedaDocumento", "", "MonedaDocumento"
          gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtT_TotalComprasSinIVABaseImponible_SecAgenteRetencion", "TotalComprasSinIVABaseImponible", eSF_SUM, "GHSecAgenteRetencion", eSR_GROUP, eST_SUB_TOTAL
          gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtT_ALICUOTA_SecAgenteRetencion", "ALICUOTA", eSF_SUM, "GHSecAgenteRetencion", eSR_GROUP, eST_SUB_TOTAL
          gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtT_ImpuestoMunicipalRetenido_SecAgenteRetencion", "ImpuestoMunicipalRetenido", eSF_SUM, "GHSecAgenteRetencion", eSR_GROUP, eST_SUB_TOTAL
