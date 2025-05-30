@@ -15,5 +15,6 @@ namespace Galac.Saw.Wrp.Administrativo {
         void RecalcularInventario(string valfwCurrentMfc, string vfwCurrentParameters);
         void RecalcularInventarioProceso(string valfwCurrentMfc, string vfwCurrentParameters);
         void CalcularCosto(string valfwCurrentMfc, string vfwCurrentParameters);
+        decimal DisponibilidadDeArticulo(int valConsecutivoCompania, string valCodigoArticulo, string valLoteDeInventario, int valConsecutivoAlmacen);
     }
 }

@@ -227,7 +227,8 @@ namespace Galac.Saw.Ccl.Inventario {
         [LibEnumDescription("Producción")] Produccion,
         [LibEnumDescription("Nota de Entrada/Salida")] NotaEntradaSalida,
         [LibEnumDescription("Compra")] Compra,
-        [LibEnumDescription("Conteo Físico")] ConteoFisico
+        [LibEnumDescription("Conteo Físico")] ConteoFisico,
+        [LibEnumDescription("Transferencia")] Transferencia
     }
 
 

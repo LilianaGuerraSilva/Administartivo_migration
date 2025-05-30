@@ -146,6 +146,15 @@ namespace Galac.Saw.Wrp.Inventario {
             return LibGlobalValues.Instance;
         }
 
+        decimal IWrpArticuloInventario.DisponibilidadDeArticulo(int valConsecutivoCompania, string valCodigoArticulo, string valLoteDeInventario, int valConsecutivoAlmacen) {
+            ILoteDeInventarioPdn insLoteDeInventarioNav = new clsLoteDeInventarioNav();
+            var XmlData = insLoteDeInventarioNav.FindByConsecutivoCompaniaCodigoLoteCodigoArticulo(valConsecutivoCompania, valLoteDeInventario, valCodigoArticulo);
+            var vLoteInvertario = LibParserHelper.ParseToList<LoteDeInventario>(XmlData);
+            IArticuloInventarioPdn insArticuloInventarioNav = new clsArticuloInventarioNav();
+            var vDisponibilidad = insArticuloInventarioNav.DisponibilidadDeArticulo(valConsecutivoCompania, valCodigoArticulo, vLoteInvertario[0].Consecutivo , valConsecutivoAlmacen);
+            return vDisponibilidad;
+        }
+
         #endregion
 
     } //End of class wrpArticuloInventario
